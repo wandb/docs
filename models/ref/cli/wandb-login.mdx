@@ -5,7 +5,7 @@ title: wandb login
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L284" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L279" />
 
 
 
@@ -49,10 +49,10 @@ To log in with an explicit API key (WANDB_API_KEY_EXAMPLE):
 wandb login WANDB_API_KEY_EXAMPLE
 ```
 
-To log in and verify the API key is valid:
+To log in and bypass verifying the API key:
 
 ```bash
-wandb login --verify
+wandb login --no-verify
 ```
 
 To log in to the W&B public cloud instead of a configured self-hosted instance:
@@ -89,5 +89,5 @@ wandb login --relogin
 | `--cloud` | BOOL Flag | Log in to the W&B public cloud (https://api.wandb.ai). Mutually exclusive with --host. **Default**: False |
 | `--host, --base-url` | STR | Log in to a specific W&B server instance by URL (e.g. https://my-wandb.example.com). Mutually exclusive with --cloud. **Default**: None |
 | `--relogin` | BOOL Flag | Force a new login prompt, ignoring any existing credentials. **Default**: None |
-| `--verify` | BOOL Flag | Verify the API key with W&B after storing it. If verification is successful, display the source of the credentials and the default team. **Default**: False |
+| `--verify` | BOOL Flag | Verify the API key with W&B after storing it. If verification is successful, display the source of the credentials and the default team. **Default**: True |
 

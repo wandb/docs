@@ -1083,12 +1083,14 @@
                             "pages": [
                               "models/ref/cli/wandb-beta/wandb-beta-core",
                               "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
-                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-inspect"
                             ]
                           },
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
+                      "models/ref/cli/wandb-clean",
                       "models/ref/cli/wandb-controller",
                       "models/ref/cli/wandb-disabled",
                       "models/ref/cli/wandb-docker",
@@ -1109,6 +1111,7 @@
                         "pages": [
                           "models/ref/cli/wandb-leet",
                           "models/ref/cli/wandb-leet/wandb-leet-config",
+                          "models/ref/cli/wandb-leet/wandb-leet-inspect",
                           "models/ref/cli/wandb-leet/wandb-leet-run",
                           "models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
