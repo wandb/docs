@@ -1,0 +1,210 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/artifacts",
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/artifact_webhook_select_event.png",
+   "width": 2154,
+   "height": 1008,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    111,
+    0
+   ],
+   "reasons": [
+    "vision fix per user: scrim-dimmed rail under the automation drawer, cropped x=111; preview verified"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/artifacts-dedupe.PNG",
+   "width": 1060,
+   "height": 595,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "merged layered bar segments down to y=83",
+    "dark-mode rail at x=95 (tonal-step boundary) - vision must verify",
+    "vision pass: dataset-dedup diagram on a black background, no chrome"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/artifacts_colab_notebook.png",
+   "width": 2274,
+   "height": 722,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "wide left-nav variant, 676px (30% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: Colab table-of-contents panel, not W&B (calibration control)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/artifacts_landing_page2.png",
+   "width": 1991,
+   "height": 503,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/artifacts_webhook_name_automation.png",
+   "width": 2156,
+   "height": 1203,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    111,
+    0
+   ],
+   "reasons": [
+    "vision fix per user: scrim-dimmed rail under the automation drawer, cropped x=111; preview verified"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/artifacts_webhooks_select_from_dropdown.png",
+   "width": 2147,
+   "height": 1089,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    106,
+    0
+   ],
+   "reasons": [
+    "vision fix per user: scrim-dimmed rail under the automation drawer, cropped x=106; preview verified"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/data_and_privacy_compliance_1.png",
+   "width": 960,
+   "height": 720,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "dark region does not terminate (terminal/dark image)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/data_and_privacy_compliance_2.png",
+   "width": 960,
+   "height": 720,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "dark region does not terminate (terminal/dark image)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/incremental_artifacts.png",
+   "width": 2140,
+   "height": 916,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/lineage2.png",
+   "width": 4774,
+   "height": 1932,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    166,
+    178
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/artifacts/lineage2_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/lineage_multiple_artifact_versions.png",
+   "width": 4756,
+   "height": 2044,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    162,
+    178
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/artifacts/lineage_multiple_artifact_versions_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/single_distributed_artifacts.png",
+   "width": 2010,
+   "height": 986,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/ttl_collection_panel_ui.png",
+   "width": 1610,
+   "height": 831,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/artifacts/webhook_new_version_artifact.png",
+   "width": 2156,
+   "height": 1088,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    113,
+    0
+   ],
+   "reasons": [
+    "vision fix per user: scrim-dimmed rail under the automation drawer, cropped x=113; preview verified"
+   ],
+   "has_backup": false
+  }
+ ]
+}
