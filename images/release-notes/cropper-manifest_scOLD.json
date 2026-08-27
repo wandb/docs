@@ -1,0 +1,97 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/release-notes",
+ "count": 13,
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-80-0/home-page-improved.png",
+   "width": 924,
+   "height": 490,
+   "bytes": 16242,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-80-0/media-compare-mode.png",
+   "width": 1132,
+   "height": 718,
+   "bytes": 321796,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-80-0/pin-config-keys-references.png",
+   "width": 933,
+   "height": 638,
+   "bytes": 31858,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-84-0/scatter-plot-reference-lines.png",
+   "width": 742,
+   "height": 281,
+   "bytes": 10681,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png",
+   "width": 697,
+   "height": 660,
+   "bytes": 47618,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-77-0/workspace-navigation-update.png",
+   "width": 1720,
+   "height": 630,
+   "bytes": 25427,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-83-0/exclude-panels-by-regex.png",
+   "width": 800,
+   "height": 466,
+   "bytes": 36961,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-75-0/navigation-sidebar-upcoming-update.png",
+   "width": 1571,
+   "height": 1034,
+   "bytes": 73045,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-75-0/starred-registries.png",
+   "width": 781,
+   "height": 206,
+   "bytes": 2789,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-78-0/baseline-deltas-runs-table.png",
+   "width": 2196,
+   "height": 693,
+   "bytes": 28873,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-78-0/baseline-line-plot-styling.png",
+   "width": 836,
+   "height": 424,
+   "bytes": 14425,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png",
+   "width": 1886,
+   "height": 822,
+   "bytes": 33498,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/release-notes/v0-76-0/workspace-navigation-single-run-view.png",
+   "width": 1571,
+   "height": 1034,
+   "bytes": 82380,
+   "has_backup": false
+  }
+ ]
+}

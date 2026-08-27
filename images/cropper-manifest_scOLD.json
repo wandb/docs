@@ -1,0 +1,426 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images",
+ "count": 60,
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/architecture.png",
+   "width": 1452,
+   "height": 759,
+   "bytes": 20780,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/core.png",
+   "width": 715,
+   "height": 311,
+   "bytes": 15497,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/custom-charts-1.png",
+   "width": 416,
+   "height": 67,
+   "bytes": 4417,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/custom-charts-2.png",
+   "width": 1114,
+   "height": 422,
+   "bytes": 62449,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/custom-charts-3.png",
+   "width": 1646,
+   "height": 600,
+   "bytes": 39601,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/custom-charts-4.png",
+   "width": 1358,
+   "height": 1274,
+   "bytes": 93507,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/parameter-importance-1.png",
+   "width": 1528,
+   "height": 684,
+   "bytes": 47289,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/parameter-importance-4.png",
+   "width": 1906,
+   "height": 1004,
+   "bytes": 67503,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/general/scatter-plots-1.png",
+   "width": 1300,
+   "height": 864,
+   "bytes": 138935,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/automations/collection-automation-execution-icon.png",
+   "width": 24,
+   "height": 24,
+   "bytes": 206,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/automations/run_metric_automation_from_panel.png",
+   "width": 385,
+   "height": 258,
+   "bytes": 15735,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/automations/run_metrics_change_threshold_automation.png",
+   "width": 434,
+   "height": 703,
+   "bytes": 40389,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/automations/run_metrics_threshold_automation.png",
+   "width": 434,
+   "height": 478,
+   "bytes": 22943,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/automations/run_status_change.png",
+   "width": 434,
+   "height": 419,
+   "bytes": 44815,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/automations/slack_integrations.png",
+   "width": 555,
+   "height": 223,
+   "bytes": 16639,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/automations/webhooks.png",
+   "width": 515,
+   "height": 131,
+   "bytes": 18901,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/technical_faq/add_payment_method.png",
+   "width": 1103,
+   "height": 1228,
+   "bytes": 53645,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/technical_faq/beta_features.png",
+   "width": 706,
+   "height": 451,
+   "bytes": 35619,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/technical_faq/debug_bundle.png",
+   "width": 310,
+   "height": 302,
+   "bytes": 5904,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/technical_faq/local_system_settings.png",
+   "width": 407,
+   "height": 475,
+   "bytes": 20581,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/technical_faq/what_is_service_account.png",
+   "width": 1368,
+   "height": 404,
+   "bytes": 21206,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/mobile-app/aria-chat.png",
+   "width": 598,
+   "height": 1300,
+   "bytes": 58353,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/mobile-app/manage-alerts.png",
+   "width": 1179,
+   "height": 2556,
+   "bytes": 50019,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/mobile-app/project-panels.png",
+   "width": 1179,
+   "height": 2556,
+   "bytes": 66619,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/mobile-app/project-runs.png",
+   "width": 1179,
+   "height": 2556,
+   "bytes": 57362,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/mobile-app/projects.png",
+   "width": 1179,
+   "height": 2556,
+   "bytes": 72436,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/leet/leet-config-editor.png",
+   "width": 2114,
+   "height": 1858,
+   "bytes": 203495,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/leet/leet-media-workspace.png",
+   "width": 3448,
+   "height": 2038,
+   "bytes": 476575,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/leet/leet-single-run-view.png",
+   "width": 3450,
+   "height": 2038,
+   "bytes": 206685,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/leet/leet-system-metrics-heatmap.png",
+   "width": 3344,
+   "height": 1980,
+   "bytes": 329375,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/leet/leet-workspace-all-panes.png",
+   "width": 3038,
+   "height": 1792,
+   "bytes": 715010,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/agent/agent_analyze_project.png",
+   "width": 2774,
+   "height": 1988,
+   "bytes": 147887,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/agent/agent_create_report.png",
+   "width": 2772,
+   "height": 1770,
+   "bytes": 146059,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/agent/agent_empty_chat_window.png",
+   "width": 3431,
+   "height": 1938,
+   "bytes": 140641,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/agent/agent_location.png",
+   "width": 3472,
+   "height": 2164,
+   "bytes": 211161,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/agent/agent_recommend_hyperparameter.png",
+   "width": 2776,
+   "height": 1996,
+   "bytes": 128202,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/screenshots/csv-1.png",
+   "width": 2994,
+   "height": 1270,
+   "bytes": 268793,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/screenshots/csv-2.png",
+   "width": 2998,
+   "height": 1170,
+   "bytes": 118894,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/screenshots/csv-3.png",
+   "width": 4100,
+   "height": 2160,
+   "bytes": 566225,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/screenshots/csv-4.png",
+   "width": 2904,
+   "height": 1210,
+   "bytes": 168562,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hivemind/hivemind-dashboard-leaderboard.png",
+   "width": 1044,
+   "height": 581,
+   "bytes": 19631,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hivemind/hivemind-dashboard-pr-outcomes.png",
+   "width": 848,
+   "height": 600,
+   "bytes": 11892,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hivemind/hivemind-dashboard-usage.png",
+   "width": 463,
+   "height": 614,
+   "bytes": 10898,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hivemind/hivemind-session-insights.png",
+   "width": 1056,
+   "height": 669,
+   "bytes": 40454,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/support/callout-icon.png",
+   "width": 64,
+   "height": 64,
+   "bytes": 1410,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/support/support_banner.png",
+   "width": 4160,
+   "height": 1200,
+   "bytes": 106047,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/quickstart/quickstart_image.png",
+   "width": 3456,
+   "height": 2004,
+   "bytes": 340161,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/call_edit_screenshot.png",
+   "width": 2078,
+   "height": 1124,
+   "bytes": 221186,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evals-hero.png",
+   "width": 4100,
+   "height": 2160,
+   "bytes": 436619,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/guardrails_scorers.png",
+   "width": 1917,
+   "height": 945,
+   "bytes": 172914,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/logo-large-padded.png",
+   "width": 2000,
+   "height": 2000,
+   "bytes": 57866,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/logo-large.png",
+   "width": 2000,
+   "height": 2000,
+   "bytes": 64997,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/tutorial-model_invoke3.png",
+   "width": 1664,
+   "height": 1292,
+   "bytes": 191939,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/tutorial-model_re-use.png",
+   "width": 1260,
+   "height": 1120,
+   "bytes": 134797,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/tutorial_trace_1.png",
+   "width": 1614,
+   "height": 1342,
+   "bytes": 160646,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/tutorial_tracing_2_call_uri.png",
+   "width": 1140,
+   "height": 508,
+   "bytes": 82788,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/tutorial_tracing_2_nested_dinos.png",
+   "width": 1354,
+   "height": 1334,
+   "bytes": 135783,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/wandb-gold.png",
+   "width": 3061,
+   "height": 3021,
+   "bytes": 102437,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/wandb_slide.png",
+   "width": 1574,
+   "height": 748,
+   "bytes": 96746,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/weave-hero.png",
+   "width": 1073,
+   "height": 507,
+   "bytes": 132810,
+   "has_backup": false
+  }
+ ]
+}
