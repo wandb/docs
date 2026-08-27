@@ -6,7 +6,7 @@ namespace: wandb.apis.public.api
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
 ## <kbd>클래스</kbd> wandb.Api
 
@@ -881,7 +881,9 @@ start: 'str | None' = None
 `Registry` 객체의 lazy 이터레이터를 반환합니다.
 
 이 이터레이터를 사용하면 조직의 레지스트리 전체에서 레지스트리, 컬렉션,
-또는 아티팩트 버전을 검색하고 필터링할 수 있습니다.
+또는 아티팩트 버전을 검색하고 필터링할 수 있습니다. 반복 시 결과를 lazy 방식으로
+가져오므로 :func:`itertools.islice` 등을 사용해 원하는 수의 항목에서 중지하고
+나머지를 요청하지 않을 수 있습니다.
 
 <div id="arguments">
   ##### 인수
@@ -1015,10 +1017,11 @@ wandb.Api.reports("entity/project")
 ### <kbd>방법</kbd> Api.run()
 
 ```python
-(self, path='')
+self,
+path: 'str' = ''
 ```
 
-`entity/project/run_id` 형식의 경로를 해석해 단일 run을 반환합니다.
+`entity/project/run_id` 형식의 경로를 파싱해 단일 run을 반환합니다.
 
 <div id="arguments">
   ##### 인수
@@ -1173,8 +1176,8 @@ entity에 대한 Slack 인테그레이션 이터레이터를 반환합니다.
   ##### 인수
 </div>
 
-* `entity`: 인테그레이션을 조회할 대상 entity(예: 팀 이름)입니다.  지정하지 않으면 사용자의 기본 entity가 사용됩니다.
-* `per_page`: 페이지당 조회할 인테그레이션 수입니다.  기본값은 50입니다.  일반적으로 이 값을 변경할 필요는 없습니다.
+* `entity`: 인테그레이션을 가져올 대상 entity입니다(예: 팀 이름). 제공하지 않으면 사용자의 기본 entity를 사용합니다.
+* `per_page`: 페이지별로 가져올 인테그레이션 수입니다. 기본값은 50입니다. 일반적으로 이 값을 변경할 필요는 없습니다.
 * `start`: 
 
 <div id="examples">

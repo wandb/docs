@@ -6,7 +6,7 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L407" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
 
 ## <kbd>classe</kbd> wandb.Run
 
@@ -66,7 +66,9 @@ Objet de configuration statique associé à ce run.
 
 ### <kbd>propriété</kbd> dir
 
-Répertoire dans lequel sont enregistrés les fichiers associés au run.
+Le répertoire dans lequel sont enregistrés les fichiers d’un run.
+
+Il s’agit des fichiers enregistrés avec `run.save()`, y compris ceux créés automatiquement pour certains types de données transmis à `run.log()`. Pour le répertoire contenant toutes les données d’un run, voir `run.sync_dir`.
 
 ### <kbd>propriété</kbd> disabled
 
@@ -160,6 +162,12 @@ URL du balayage associé au run, le cas échéant.
 
 Les runs hors ligne n&#39;ont pas d&#39;URL de balayage.
 
+### <kbd>propriété</kbd> sync_dir
+
+Le répertoire contenant toutes les données d’un run.
+
+Vous pouvez le transmettre à `wandb sync` pour téléverser ou téléverser à nouveau le run.
+
 ### <kbd>propriété</kbd> tags
 
 Les tags associés au run, le cas échéant.
@@ -204,11 +212,10 @@ step_metric: 'str | wandb_metric.Metric | None' = None,
 step_sync: 'bool | None' = None,
 hidden: 'bool | None' = None,
 summary: 'str | None' = None,
-goal: 'str | None' = None,
 overwrite: 'bool | None' = None
 ```
 
-Personnalisez les métriques enregistrées avec `wandb.Run.log()`.
+Personnalisez les métriques journalisées avec `wandb.Run.log()`.
 
 <div id="arguments">
   ##### Arguments
@@ -218,8 +225,7 @@ Personnalisez les métriques enregistrées avec `wandb.Run.log()`.
 * `step_metric`: Le nom d&#39;une autre métrique qui servira d&#39;axe X pour cette métrique dans les graphiques générés automatiquement.
 * `step_sync`: Insère automatiquement la dernière valeur de step&#95;metric dans `wandb.Run.log()` si elle n&#39;est pas fournie explicitement. La valeur par défaut est True si step&#95;metric est spécifiée.
 * `hidden`: Masque cette métrique dans les graphiques générés automatiquement.
-* `summary`: Spécifie les métriques agrégées ajoutées à summary. Les agrégations prises en charge incluent &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;best&quot;, &quot;copy&quot; et &quot;none&quot;. &quot;none&quot; empêche la génération d&#39;un summary. &quot;best&quot; est utilisé avec le paramètre goal, mais &quot;best&quot; est obsolète et ne doit pas être utilisé ; utilisez &quot;min&quot; ou &quot;max&quot; à la place. &quot;copy&quot; est obsolète et ne doit pas être utilisé.
-* `goal`: Spécifie comment interpréter le type de summary &quot;best&quot;. Les options prises en charge sont &quot;minimize&quot; et &quot;maximize&quot;. &quot;goal&quot; est obsolète et ne doit pas être utilisé ; utilisez &quot;min&quot; ou &quot;max&quot; à la place.
+* `summary`: Spécifie les métriques agrégées ajoutées à summary. Les agrégations prises en charge incluent &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;copy&quot; et &quot;none&quot;. &quot;none&quot; empêche la génération d&#39;un summary. &quot;copy&quot; est obsolète et ne doit pas être utilisé.
 * `overwrite`: Si false, cet appel est fusionné avec les appels précédents à `define_metric` pour la même métrique en utilisant leurs valeurs pour tous les paramètres non spécifiés. Si true, les paramètres non spécifiés remplacent les valeurs définies par les appels précédents.
 
 ### <kbd>méthode</kbd> Run.display()
@@ -243,11 +249,10 @@ Affiche ce run dans Jupyter.
 
 ```python
 self,
-exit_code: 'int | None' = None,
-quiet: 'bool | None' = None
+exit_code: 'int | None' = None
 ```
 
-Terminez un run et envoyez toutes les données restantes.
+Terminez un run et téléversez toutes les données restantes.
 
 Marque la fin d’un run W&amp;B et garantit que toutes les données sont synchronisées avec le serveur.
 L’état final du run est déterminé par ses conditions de sortie et son statut de synchronisation.
@@ -265,7 +270,6 @@ Run States:
 </div>
 
 * `exit_code`: Entier indiquant le statut de sortie du run. Utilisez 0 pour signaler une réussite ; toute autre valeur marque le run comme échoué.
-* `quiet`: Obsolète. Configurez la verbosité du logging avec `wandb.Settings(quiet=...)`.
 
 ### <kbd>méthode</kbd> Run.finish_artifact()
 
@@ -325,6 +329,35 @@ Affichez les artifacts liés dans l’interface utilisateur du registre pour la 
 * `artifact`: L’objet artifact à lier à la collection.
 * `target_path`: Le chemin de la collection. Il se compose du préfixe &quot;wandb-registry-&quot;, ainsi que du nom du registre et du nom de la collection : `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
 * `aliases`: Ajoutez un ou plusieurs alias à l&#39;artifact lié. L’alias &quot;latest&quot; est automatiquement appliqué à l&#39;artifact le plus récent que vous liez.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+```python
+import wandb
+
+entity = "team_entity"
+project = "project_name"
+
+artifact_name = "artifact_name"
+artifact_type = "artifact_type"
+local_path = "path/to/local/file"
+
+registry_name = "registry_name"
+collection_name = "collection_name"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+with wandb.init(entity=entity, project=project) as run:
+    # Créer un objet artifact
+    artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
+
+    # Ajouter le fichier à l'objet artifact.
+    artifact.add_file(local_path=local_path)
+
+    # Lier l'artifact à la collection
+    run.link_artifact(artifact=artifact, target_path=target_path)
+```
 
 ### <kbd>méthode</kbd> Run.link_model()
 
@@ -565,7 +598,7 @@ with wandb.init() as run:
         size=(10, 3, 100, 100),
         dtype=np.uint8,
     )
-    run.log({"video": wandb.Video(frames, fps=4)})
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
 ```
 
 Graphique Matplotlib

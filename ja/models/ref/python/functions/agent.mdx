@@ -6,7 +6,7 @@ namespace: wandb.wandb_agent
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py#L740" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py#L766" />
 
 ## <kbd>関数</kbd> wandb.agent
 
@@ -16,7 +16,8 @@ function: 'Callable | None' = None,
 entity: 'str | None' = None,
 project: 'str | None' = None,
 count: 'int | None' = None,
-forward_signals: 'bool' = False
+forward_signals: 'bool' = False,
+term_timeout: 'int | None' = None
 ```
 
 1 つ以上の sweep エージェント を開始します。
@@ -33,6 +34,7 @@ sweep エージェント は `sweep_id` を使用して、自身がどの sweep 
 * `project`: sweep から作成された W&amp;B の run の送信先となるプロジェクトの名です。プロジェクト が指定されていない場合、run は &quot;Uncategorized&quot; というラベルの付いたプロジェクトに送信されます。
 * `count`: 試行する sweep config の trial 数です。
 * `forward_signals`: エージェント が受信した signal を子プロセスに転送するかどうかを指定します。CLI エージェント でのみサポートされます。
+* `term_timeout`: 
 
 <div id="returns">
   ## 戻り値

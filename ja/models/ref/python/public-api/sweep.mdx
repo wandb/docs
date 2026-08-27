@@ -128,6 +128,29 @@ self
 
 * `order`: 
 
+### <kbd>メソッド</kbd> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+sweep の run をキューに登録します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `config`: run の設定。
+* `display_name`: run の任意の表示名。
+
+<div id="raises">
+  ##### 例外
+</div>
+
+* `UnsupportedError`: サーバーが sweep run のキューへの追加をサポートしていない場合。
+
 ### <kbd>メソッド</kbd> Sweep.get()
 
 ```python

@@ -6,7 +6,7 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L407" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
 
 ## <kbd>class</kbd> wandb.Run
 
@@ -53,7 +53,11 @@ with wandb.init(entity="entity", project="project") as run:
 
 ### <kbd>속성</kbd> dir
 
-run에 연결된 파일이 저장되는 디렉터리입니다.
+run의 파일이 저장되는 디렉터리입니다.
+
+여기에는 `run.save()`로 저장된 파일과 `run.log()`에 전달된 특정 데이터 유형에 대해 자동으로
+생성된 파일이 포함됩니다. run의 모든 데이터가 저장된
+디렉터리는 `run.sync_dir`를 참조하세요.
 
 ### <kbd>속성</kbd> disabled
 
@@ -146,6 +150,12 @@ run에 연결된 sweep의 URL입니다(있는 경우).
 
 오프라인 run에는 sweep URL이 없습니다.
 
+### <kbd>속성</kbd> sync_dir
+
+run의 모든 데이터가 저장된 디렉터리입니다.
+
+이 디렉터리를 `wandb sync`에 전달하여 run을 업로드하거나 다시 업로드할 수 있습니다.
+
 ### <kbd>속성</kbd> tags
 
 run에 연결된 태그가 있으면 해당 태그입니다.
@@ -190,7 +200,6 @@ step_metric: 'str | wandb_metric.Metric | None' = None,
 step_sync: 'bool | None' = None,
 hidden: 'bool | None' = None,
 summary: 'str | None' = None,
-goal: 'str | None' = None,
 overwrite: 'bool | None' = None
 ```
 
@@ -204,8 +213,7 @@ overwrite: 'bool | None' = None
 * `step_metric`: 자동 생성된 차트에서 이 메트릭의 X축으로 사용할 다른 메트릭의 이름입니다.
 * `step_sync`: 명시적으로 제공되지 않으면 `wandb.Run.log()`에 step&#95;metric의 마지막 값을 자동으로 삽입합니다. step&#95;metric이 지정된 경우 기본값은 True입니다.
 * `hidden`: 자동 플롯에서 이 메트릭을 숨깁니다.
-* `summary`: summary에 추가할 집계 메트릭을 지정합니다. 지원되는 집계에는 &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;best&quot;, &quot;copy&quot;, &quot;none&quot;이 포함됩니다. &quot;none&quot;을 지정하면 summary가 생성되지 않습니다. &quot;best&quot;는 goal 매개변수와 함께 사용하지만, 현재는 사용 중단되었으므로 사용하지 않는 것이 좋으며 대신 &quot;min&quot; 또는 &quot;max&quot;를 사용하세요. &quot;copy&quot;도 사용 중단되었으므로 사용하지 않는 것이 좋습니다.
-* `goal`: &quot;best&quot; summary 유형을 해석하는 방식을 지정합니다. 지원되는 옵션은 &quot;minimize&quot;와 &quot;maximize&quot;입니다. &quot;goal&quot;은 사용 중단되었으므로 사용하지 않는 것이 좋으며, 대신 &quot;min&quot; 또는 &quot;max&quot;를 사용하세요.
+* `summary`: summary에 추가할 집계 메트릭을 지정합니다. 지원되는 집계에는 &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;copy&quot;, &quot;none&quot;이 포함됩니다. &quot;none&quot;을 지정하면 summary가 생성되지 않습니다. &quot;copy&quot;는 사용 중단되었으므로 사용하지 않는 것이 좋습니다.
 * `overwrite`: false이면 이 call은 동일한 메트릭에 대한 이전 `define_metric` call과 병합되며, 지정되지 않은 매개변수에는 이전 call의 값이 사용됩니다. true이면 지정되지 않은 매개변수가 이전 call에서 지정된 값을 덮어씁니다.
 
 ### <kbd>방법</kbd> Run.display()
@@ -229,8 +237,7 @@ Jupyter에 이 run을 표시합니다.
 
 ```python
 self,
-exit_code: 'int | None' = None,
-quiet: 'bool | None' = None
+exit_code: 'int | None' = None
 ```
 
 run을 종료하고 남아 있는 데이터를 모두 업로드합니다.
@@ -239,7 +246,7 @@ W&amp;B run의 완료를 표시하고 모든 데이터가 서버에 동기화되
 
 Run 상태:
 
-* Running: 데이터를 logging하고 하트비트를 전송 중인 활성 run입니다.
+* Running: 데이터를 로깅하고 하트비트를 전송 중인 활성 run입니다.
 * Crashed: 예기치 않게 하트비트 전송이 중단된 run입니다.
 * Finished: 모든 데이터가 동기화된 상태로 성공적으로 완료된 run입니다(`exit_code=0`).
 * Failed: 오류와 함께 완료된 run입니다(`exit_code!=0`).
@@ -250,7 +257,6 @@ Run 상태:
 </div>
 
 * `exit_code`: run의 종료 상태를 나타내는 정수입니다. 성공 시 0을 사용하며, 다른 값이면 run이 실패로 표시됩니다.
-* `quiet`: 사용 중단. `wandb.Settings(quiet=...)`를 사용해 logging 상세 수준을 설정하세요.
 
 ### <kbd>방법</kbd> Run.finish_artifact()
 
@@ -309,6 +315,35 @@ artifact를 collection에 연결합니다.
 * `artifact`: collection에 연결할 artifact 객체입니다.
 * `target_path`: collection의 경로입니다. 경로는 접두사 &quot;wandb-registry-&quot;와 레지스트리 이름, collection 이름으로 구성되며 형식은 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`입니다.
 * `aliases`: 연결된 artifact에 하나 이상의 alias를 추가합니다. &quot;latest&quot; alias는 가장 최근에 연결한 artifact에 자동으로 적용됩니다.
+
+<div id="examples">
+  ##### 예시
+</div>
+
+```python
+import wandb
+
+entity = "team_entity"
+project = "project_name"
+
+artifact_name = "artifact_name"
+artifact_type = "artifact_type"
+local_path = "path/to/local/file"
+
+registry_name = "registry_name"
+collection_name = "collection_name"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+with wandb.init(entity=entity, project=project) as run:
+    # 아티팩트 객체 생성
+    artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
+
+    # 아티팩트 객체에 파일 추가
+    artifact.add_file(local_path=local_path)
+
+    # 아티팩트를 컬렉션에 연결
+    run.link_artifact(artifact=artifact, target_path=target_path)
+```
 
 ### <kbd>방법</kbd> Run.link_model()
 
@@ -553,7 +588,7 @@ with wandb.init() as run:
         size=(10, 3, 100, 100),
         dtype=np.uint8,
     )
-    run.log({"video": wandb.Video(frames, fps=4)})
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
 ```
 
 Matplotlib 플롯

@@ -6,7 +6,7 @@ namespace: wandb.apis.public.artifacts
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L476" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
 ## <kbd>class</kbd> wandb.apis.public.ArtifactCollection
 
@@ -43,6 +43,17 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 ### <kbd>속성</kbd> 프로젝트
 
 아티팩트 컬렉션이 포함된 프로젝트입니다.
+
+### <kbd>속성</kbd> project_id
+
+이 컬렉션에 속한 프로젝트의 인코딩된 GraphQL ID입니다.
+
+### <kbd>속성</kbd> project_internal_id
+
+가져온 경우 이 컬렉션의 기반 프로젝트에 대한 GraphQL `internalId`입니다.
+
+이는 base64로 인코딩된 전역 ID입니다. 디코딩하면
+`Project:123` 또는 `ProjectInternalId:123`과 같은 형태입니다.
 
 ### <kbd>속성</kbd> tags
 

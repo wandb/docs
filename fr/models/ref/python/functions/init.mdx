@@ -6,7 +6,7 @@ namespace: wandb.sdk.wandb_init
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1182" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1185" />
 
 ## <kbd>fonction</kbd> wandb.init
 
@@ -74,12 +74,32 @@ Les ID de run ne doivent contenir aucun des caractères spéciaux suivants `/ \ 
 * `group`: Spécifiez un nom de groupe pour organiser des runs individuels au sein d’une expérience plus vaste. Cela est utile, par exemple, pour la validation croisée ou pour exécuter plusieurs jobs qui entraînent et évaluent un modèle sur différents ensembles de test. Le regroupement vous permet de gérer ensemble les runs associés dans l’interface utilisateur, ce qui facilite le basculement et l’examen des résultats comme une expérience unifiée.
 * `job_type`:  Spécifiez le type de run, ce qui est particulièrement utile pour organiser les runs  au sein d&#39;un groupe dans le cadre d&#39;une expérience plus large. Par exemple, dans un groupe,  vous pouvez attribuer aux runs des types de job comme &quot;train&quot; et &quot;eval&quot;.  La définition de types de job vous permet de filtrer et de regrouper facilement des runs  similaires dans l&#39;interface utilisateur, afin de faciliter les comparaisons directes.
 * `mode` : indique comment les données du run sont gérées, avec les options suivantes :
-  * `"online"` (par défaut) : Active la synchronisation en direct avec W&amp;B lorsqu’une connexion réseau est disponible, avec des mises à jour des visualisations en temps réel.
-  * `"offline"` : Adapté aux environnements isolés du réseau ou hors ligne ; les données sont enregistrées localement et peuvent être synchronisées ultérieurement. Assurez-vous de conserver le dossier du run pour permettre une synchronisation future.
-  * `"disabled"` : Désactive toutes les fonctionnalités W&amp;B, ce qui rend les méthodes du run sans effet. Généralement utilisé pour les tests afin de contourner les opérations W&amp;B.
-  * `"shared"` : (Il s’agit d’une fonctionnalité expérimentale.) Permet à plusieurs processus, éventuellement sur des machines différentes, de journaliser simultanément dans le même run. Dans cette approche, vous utilisez un nœud principal et un ou plusieurs nœuds de travail pour journaliser des données dans le même run. Sur le nœud principal, vous initialisez un run. Pour chaque nœud de travail, initialisez un run à l’aide du run ID utilisé par le nœud principal.
+  * `"online"` (par défaut) : Active la synchronisation en direct avec W&amp;B lorsqu’une connexion réseau
+    est disponible, avec des mises à jour des visualisations en temps réel.
+  * `"offline"` : Adapté aux environnements isolés du réseau ou hors ligne ; les données
+    sont enregistrées localement et peuvent être synchronisées ultérieurement. Assurez-vous que le dossier du run
+    est conservé pour permettre une synchronisation future.
+  * `"disabled"` : Désactive toutes les fonctionnalités W&amp;B, ce qui rend les méthodes du run
+    sans effet. Généralement utilisé pour les tests afin de contourner les opérations W&amp;B.
+  * `"shared"` : (Il s’agit d’une fonctionnalité expérimentale.) Permet à plusieurs processus,
+    éventuellement sur des machines différentes, de journaliser simultanément dans le même run.
+    Dans cette approche, vous utilisez un nœud principal et un ou plusieurs nœuds de travail
+    pour journaliser des données dans le même run. Sur le nœud principal, vous
+    initialisez un run. Pour chaque nœud de travail, initialisez un run
+    à l’aide du run ID utilisé par le nœud principal.
 * `force` : détermine si une connexion à W&amp;B est requise pour exécuter le script. Si `True`, l’utilisateur doit être connecté à W&amp;B ; sinon, le script ne pourra pas continuer. Si `False` (par défaut), le script peut continuer sans connexion et basculer en mode hors ligne si l’utilisateur n’est pas connecté.
-* `reinit` :  Forme abrégée du paramètre &quot;reinit&quot;. Détermine le comportement de `wandb.init()` lorsqu’un run est actif.
+* `reinit` :  Forme abrégée du paramètre &quot;reinit&quot;. Détermine le comportement de
+  `wandb.init()` lorsqu’un run est actif.
+  * `"default"` : utilise &quot;finish&#95;previous&quot; dans les notebooks et &quot;return&#95;previous&quot;
+    sinon.
+  * `"return_previous"` : renvoie le run créé le plus récemment
+    qui n’est pas encore terminé. Cela ne met pas à jour `wandb.run` ; voir
+    l’option &quot;create&#95;new&quot;.
+  * `"finish_previous"` : termine tous les runs actifs, puis renvoie un nouveau run.
+  * `"create_new"` : crée un nouveau run sans modifier les autres runs actifs.
+    Ne met pas à jour `wandb.run` ni les fonctions de premier niveau comme `wandb.log`.
+    Pour cette raison, certaines intégrations plus anciennes qui s’appuient sur le run global
+    ne fonctionneront pas.
 * `resume` : contrôle le comportement lors de la reprise d’un run avec l’`id` spécifié.
   Les options disponibles sont :
   * `"allow"` : Si un run avec l’`id` spécifié existe, il reprendra

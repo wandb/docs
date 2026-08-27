@@ -1,12 +1,12 @@
 ---
 title: Api
-kind: class
+kind: classe
 namespace: wandb.apis.public.api
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
 ## <kbd>classe</kbd> wandb.Api
 
@@ -870,7 +870,10 @@ start: 'str | None' = None
 Renvoie un itérateur différé d’objets `Registry`.
 
 Utilisez cet itérateur pour rechercher et filtrer des registres, des collections,
-ou des versions d’artifact dans le registre de votre organisation.
+ou des versions d’artifact dans le registre de votre organisation. Les résultats sont
+récupérés de manière différée au fil de l’itération, vous pouvez donc vous arrêter après n’importe quel nombre d’
+éléments — par exemple, avec :func:`itertools.islice` — sans demander
+le reste.
 
 <div id="arguments">
   ##### Arguments
@@ -998,10 +1001,11 @@ wandb.Api.reports("entity/project")
 ### <kbd>méthode</kbd> Api.run()
 
 ```python
-(self, path='')
+self,
+path: 'str' = ''
 ```
 
-Renvoie un run unique en interprétant le chemin au format `entity/project/run_id`.
+Renvoyer un run unique en interprétant le chemin au format `entity/project/run_id`.
 
 <div id="arguments">
   ##### Arguments

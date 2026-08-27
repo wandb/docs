@@ -6,7 +6,7 @@ namespace: wandb.sdk.wandb_init
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1182" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1185" />
 
 ## <kbd>함수</kbd> wandb.init
 
@@ -74,12 +74,31 @@ run ID에는 다음 특수 문자를 포함할 수 없습니다: `/ \ # ? % :`
 * `group`:  더 큰 실험의 일부로 개별 run을 구성할 수 있도록 그룹 이름을 지정합니다. 교차 검증처럼 서로 다른 테스트 세트에서 모델을 트레이닝하고 평가하는 여러 작업을 실행하는 경우에 유용합니다. 그룹화하면 UI에서 관련 run을 함께 관리할 수 있으므로, 결과를 하나의 통합된 실험으로 쉽게 표시/숨기기하고 검토할 수 있습니다.
 * `job_type`:  run의 유형을 지정합니다. 특히 더 큰 실험의 일부로 그룹 내 run들을 정리할 때 유용합니다. 예를 들어 그룹에서 run에 &quot;train&quot; 및 &quot;eval&quot;과 같은 작업 유형 레이블을 지정할 수 있습니다. 작업 유형을 정의하면 UI에서 유사한 run을 쉽게 필터링하고 그룹화할 수 있으므로, 직접 비교가 쉬워집니다.
 * `mode`: 다음 옵션 중 하나로 run 데이터 관리 방식을 지정합니다:
-  * `"online"` (기본값): 네트워크 연결이 가능할 때 W&amp;B와 실시간 동기화를 활성화하며, 시각화가 실시간으로 업데이트됩니다.
-  * `"offline"`: air-gapped 또는 오프라인 환경에 적합합니다. 데이터는 로컬에 저장되며 나중에 동기화할 수 있습니다. 이후 동기화할 수 있도록 run 폴더를 보존해야 합니다.
-  * `"disabled"`: 모든 W&amp;B 기능을 비활성화하여 run의 메서드가 no-op가 되게 합니다. 일반적으로 테스트에서 W&amp;B 오퍼레이션을 우회할 때 사용됩니다.
-  * `"shared"`: (실험적 기능입니다). 서로 다른 머신에서 실행될 수도 있는 여러 프로세스가 동일한 run에 동시에 log할 수 있도록 합니다. 이 방식에서는 기본 노드와 하나 이상의 워커 노드를 사용해 동일한 run에 데이터를 log합니다. 기본 노드에서 run을 초기화합니다. 각 워커 노드에서는 기본 노드가 사용한 run ID로 run을 초기화합니다.
+  * `"online"` (기본값): 네트워크 연결이 가능할 때 W&amp;B와 실시간 동기화를 활성화하며,
+    시각화가 실시간으로 업데이트됩니다.
+  * `"offline"`: air-gapped 또는 오프라인 환경에 적합합니다. 데이터는
+    로컬에 저장되며 나중에 동기화할 수 있습니다. 이후 동기화할 수 있도록 run 폴더를
+    보존해야 합니다.
+  * `"disabled"`: 모든 W&amp;B 기능을 비활성화하여 run의 메서드가
+    no-op가 되게 합니다. 일반적으로 테스트에서 W&amp;B 오퍼레이션을 우회할 때 사용됩니다.
+  * `"shared"`: (실험적 기능입니다). 서로 다른 머신에서 실행될 수도 있는 여러 프로세스가
+    동일한 run에 동시에 log할 수 있도록 합니다.
+    이 방식에서는 기본 노드와 하나 이상의 워커 노드를 사용해
+    동일한 run에 데이터를 log합니다. 기본 노드에서
+    run을 초기화합니다. 각 워커 노드에서는
+    기본 노드가 사용한 run ID로 run을 초기화합니다.
 * `force`: 스크립트를 실행할 때 W&amp;B 로그인이 필요한지 확인합니다. `True`이면 사용자는 W&amp;B에 로그인되어 있어야 하며, 그렇지 않으면 스크립트가 실행되지 않습니다. `False`(기본값)이면 로그인 없이도 스크립트를 실행할 수 있으며, 사용자가 로그인하지 않은 경우 오프라인 모드로 전환됩니다.
-* `reinit`:  &quot;reinit&quot; 설정의 줄임말입니다. run이 활성 상태일 때 `wandb.init()`의 동작을 확인합니다.
+* `reinit`: &quot;reinit&quot; 설정의 줄임말입니다. 활성 상태인 run이 있을 때
+  `wandb.init()`의 동작을 확인합니다.
+  * `"default"`: 노트북에서는 &quot;finish&#95;previous&quot;를 사용하고, 그 외의 경우에는 &quot;return&#95;previous&quot;를 사용합니다.
+  * `"return_previous"`: 아직 완료되지 않은 가장 최근에 생성된 run을 반환합니다.
+    이 경우 `wandb.run`은 업데이트되지 않습니다. &quot;create&#95;new&quot;
+    옵션을 참조하세요.
+  * `"finish_previous"`: 모든 활성 run을 종료한 다음 새 run을 반환합니다.
+  * `"create_new"`: 다른 활성 run을 변경하지 않고 새 run을 생성합니다.
+    `wandb.run`과 `wandb.log` 같은 최상위 함수는 업데이트하지 않습니다.
+    따라서 전역 run에 의존하는 일부 이전 인테그레이션은
+    작동하지 않습니다.
 * `resume`:  지정한 `id`로 run을 재개할 때의 동작을 제어합니다.
   사용 가능한 옵션은 다음과 같습니다:
   * `"allow"`: 지정한 `id`의 run이 있으면 마지막 step부터 재개하고, 없으면 새 run을 생성합니다.

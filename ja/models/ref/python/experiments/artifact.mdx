@@ -6,7 +6,7 @@ namespace: wandb.sdk.artifacts.artifact
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L112" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L128" />
 
 ## <kbd>class</kbd> wandb.Artifact
 
@@ -17,26 +17,28 @@ description: 'str | None' = None,
 metadata: 'dict[str, Any] | None' = None,
 incremental: 'bool' = False,
 use_as: 'str | None' = None,
-storage_region: 'str | None' = None
+storage_region: 'str | None' = None,
+digest_algorithm: "Literal['MD5', 'XXH128']" = 'MD5'
 ```
 
 データセットとモデルのバージョン管理のための、柔軟で軽量な基本構成要素です。
 
-空の W&amp;B Artifact を作成します。`add` で始まる method を使って Artifact の内容を
-追加します。必要なファイルをすべて Artifact に追加したら、
+空の W&amp;B Artifact を作成します。`add` で始まる method を使って アーティファクト の内容を
+追加します。必要なファイルをすべて アーティファクト に追加したら、
 `run.log_artifact()` を呼び出してログします。
 
 <div id="args">
   ## 引数
 </div>
 
-* `name`: artifact の人間が読み取れる名前です。この名前を使うと、W&amp;B App UI 上またはプログラムから特定の artifact を識別できます。`use_artifact` Public API を使えば、artifact をインタラクティブに参照することもできます。名前には、英字、数字、アンダースコア、ハイフン、ドットを使用できます。名前はプロジェクト内で一意である必要があります。
-* `type`: artifact のタイプです。artifact のタイプは、Artifacts を整理し、相互に区別するために使用します。英字、数字、アンダースコア、ハイフン、ドットを含む任意の文字列を使用できます。一般的なタイプには `dataset` や `model` があります。artifact を W&amp;B Model Registry にリンクしたい場合は、タイプ文字列に `model` を含めてください。なお、一部のタイプは内部使用のために予約されており、ユーザーは設定できません。これには `job` や `wandb-` で始まるタイプが含まれます。
-* `description`: artifact の説明です。Model または Dataset Artifacts の場合は、標準化されたチームのモデルカードまたはデータセットカード用のドキュメントを追加します。artifact の説明は、`Artifact.description` 属性を使ってプログラムから確認することも、W&amp;B App UI で確認することもできます。W&amp;B App では、説明は markdown として表示されます。
-* `metadata`: artifact に関する追加情報です。metadata はキーと値のペアからなる辞書として指定します。指定できるキーの総数は 100 個までです。
-* `incremental`: 既存の artifact を変更するには、代わりに `Artifact.new_draft()` method を使用してください。
+* `name`: アーティファクト の人間が読み取れる名前です。この名前を使うと、W&amp;B App UI 上またはプログラムから特定の アーティファクト を識別できます。`use_artifact` Public API を使えば、アーティファクト をインタラクティブに参照することもできます。名前には、英字、数字、アンダースコア、ハイフン、ドットを使用できます。名前はプロジェクト内で一意である必要があります。
+* `type`: アーティファクト のタイプです。アーティファクト のタイプは、Artifacts を整理し、相互に区別するために使用します。英字、数字、アンダースコア、ハイフン、ドットを含む任意の文字列を使用できます。一般的なタイプには `dataset` や `model` があります。アーティファクト を W&amp;B Model Registry にリンクしたい場合は、タイプ文字列に `model` を含めてください。なお、一部のタイプは内部使用のために予約されており、ユーザーは設定できません。これには `job` や `wandb-` で始まるタイプが含まれます。
+* `description`: アーティファクト の説明です。Model または Dataset Artifacts の場合は、標準化されたチームのモデルカードまたはデータセットカード用のドキュメントを追加します。アーティファクト の説明は、`Artifact.description` 属性を使ってプログラムから確認することも、W&amp;B App UI で確認することもできます。W&amp;B App では、説明は markdown として表示されます。
+* `metadata`: アーティファクト に関する追加情報です。metadata はキーと値のペアからなる辞書として指定します。指定できるキーの総数は 100 個までです。
+* `incremental`: 既存の アーティファクト を変更するには、代わりに `Artifact.new_draft()` method を使用してください。
 * `use_as`: 非推奨。
-* `storage_region`: 
+* `storage_region`:
+* `digest_algorithm`: アーティファクト に使用するダイジェストアルゴリズムです。デフォルトは MD5 です。XXH128 に設定すると、すでに MD5 を使用しているコレクションの一部でない限り、アーティファクト は XXH128 アルゴリズムでハッシュ化されます。SDK バージョン 0.29.0 より前では、XXH128 アーティファクト に対する `artifact.verify()` の呼び出しは常に失敗します。
 
 <div id="properties">
   ## プロパティ
@@ -77,6 +79,10 @@ artifact の論理ダイジェスト。
 
 ダイジェストは artifact の内容を表すチェックサムです。artifact のダイジェストが現在の `latest` バージョンと同じ場合、`log_artifact` は何もしません。
 
+### <kbd>プロパティ</kbd> digest_algorithm
+
+アーティファクト のダイジェストの計算に使用するダイジェストアルゴリズム。
+
 ### <kbd>property</kbd> entity
 
 artifact collection が属する entity の名。
@@ -109,6 +115,12 @@ False: artifact はソースアーティファクトです。
 この Artifact がリンク Artifact (`artifact.is_link == True`) の場合は、空の一覧を返します。
 
 結果は 500 件までに制限されます。
+
+### <kbd>property</kbd> linked_at
+
+このアーティファクトが現在のコレクションにリンクされた日時。
+
+リンクされたアーティファクトでのみ有効で、それ以外の場合は `None` を返します。
 
 ### <kbd>property</kbd> manifest
 
@@ -300,9 +312,7 @@ overwrite: 'bool' = False
 * `policy`: デフォルトでは &quot;mutable&quot; に設定されます。&quot;mutable&quot; を指定すると、アップロード中の破損を防ぐためにファイルの一時コピーを作成します。&quot;immutable&quot; を指定すると、保護を無効にし、ユーザーがファイルを削除または変更しないことを前提とします。
 * `overwrite`: `True` の場合、ファイルがすでに存在していれば上書きします。
 
-<div id="raises">
-  ##### Raises
-</div>
+##### 例外
 
 * `ArtifactFinalizedError`: 現在のartifactバージョンは確定済みのため、変更できません。代わりに新しいartifactバージョンをログしてください。
 * `ValueError`: Policy は &quot;mutable&quot; または &quot;immutable&quot; である必要があります
@@ -433,7 +443,9 @@ root: 'str | None' = None
 
 * `root`: ファイルの保存先となるルートディレクトリ。デフォルトは `./artifacts/self.name/` です。
 
-##### 送出する例外
+<div id="raises">
+  ##### 送出する例外
+</div>
 
 * `ArtifactNotLoggedError`: Artifactがログされていない場合。
 * `ValueError`: Artifactに複数のファイルが含まれている場合。
@@ -611,7 +623,8 @@ self
 self,
 name: 'str',
 mode: 'str' = 'x',
-encoding: 'str | None' = None
+encoding: 'str | None' = None,
+policy: "Literal['mutable', 'immutable']" = 'mutable'
 ```
 
 新しい一時ファイルを開き、アーティファクト に追加します。
@@ -623,6 +636,7 @@ encoding: 'str | None' = None
 * `name`: アーティファクト に追加する新しいファイルの名。
 * `mode`: 新しいファイルを開くときに使用するファイルアクセスモード。
 * `encoding`: 新しいファイルを開くときに使用するエンコーディング。
+* `policy`: デフォルトは `"mutable"` です。`"mutable"` に設定すると、アップロード中の破損を防ぐためにファイルの一時コピーを作成します。`"immutable"` に設定すると、保護を無効にし、ユーザーがファイルを削除または変更しないことを前提とします。
 
 ##### 例外
 
@@ -643,9 +657,7 @@ artifact から項目を削除します。
 
 * `item`: 削除する項目です。特定の manifest エントリ、または artifact 相対パスの名を指定できます。`item` がディレクトリに一致する場合、そのディレクトリ内のすべての項目が削除されます。
 
-<div id="raises">
-  ##### Raises
-</div>
+##### Raises
 
 * `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 * `FileNotFoundError`: artifact 内に `item` が見つからない場合。

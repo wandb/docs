@@ -1,0 +1,46 @@
+---
+title: ConsoleLogs
+kind: classe
+namespace: wandb.apis.public.console_logs
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L67" />
+
+## <kbd>classe</kbd> wandb.apis.public.ConsoleLogs
+
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+per_page: 'int' = 1000,
+last: 'int | None' = None)
+```
+
+Un itérateur paresseux sur les lignes du journal de console d’un run, des plus anciennes aux plus récentes.
+
+Les lignes sont récupérées page par page depuis le backend W&amp;B et conservées en
+mémoire. Une deuxième itération relit donc les mêmes lignes au lieu de
+les récupérer de nouveau ; créez une nouvelle instance pour relire un journal qui a peut-être
+été enrichi.
+
+<div id="args">
+  ## Arguments
+</div>
+
+* `service_api` : Instance de l’API de service utilisée pour interroger W&amp;B.
+* `run` : Run dont le journal de console est lu.
+* `per_page` : Nombre de lignes à récupérer par requête lors de la lecture du journal depuis le début. Ignoré lorsque `last` est fourni.
+* `last` : S’il est défini, récupère uniquement les N dernières lignes du journal en une seule requête au lieu de le lire depuis le début. Le backend limite le nombre de lignes renvoyées par requête ; une portion plus longue du journal est donc tronquée aux lignes les plus récentes.
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <kbd>méthode</kbd> Paginator.**next**()
+
+```python
+self
+```
+
+Renvoie l’élément suivant de l’itérateur. Lorsqu’il est épuisé, lève StopIteration.

@@ -6,7 +6,7 @@ namespace: wandb.sdk.wandb_init
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1182" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1185" />
 
 ## <kbd>関数</kbd> wandb.init
 
@@ -79,7 +79,18 @@ run ID には、次の特殊文字を含めることはできません `/ \ # ? 
   * `"disabled"`: すべての W&amp;B 機能を無効にし、run の method を no-op にします。通常は、W&amp;B の operation をバイパスするためのテストで使用されます。
   * `"shared"`:  (実験的な機能です) 。異なるマシン上の場合も含め、複数のプロセスが同じ run に同時にログできるようにします。この方法では、プライマリノードと 1 つ以上のワーカーノードを使用して、同じ run にデータをログします。プライマリノードでは run を初期化します。各ワーカーノードでは、プライマリノードで使用した run ID を使用して run を初期化します。
 * `force`:  スクリプトの実行に W&amp;B へのログインを必須とするかどうかを指定します。`True` の場合、ユーザーは W&amp;B にログインしている必要があり、ログインしていない場合はスクリプトは続行されません。`False` (デフォルト) の場合、ユーザーがログインしていなくてもスクリプトは続行され、その場合はオフラインモードに切り替わります。
-* `reinit`:  &quot;reinit&quot; 設定の短縮形です。run がアクティブな場合の `wandb.init()` の挙動を決定します。
+* `reinit`:  &quot;reinit&quot; 設定の短縮形です。run がアクティブな場合の
+  `wandb.init()` の挙動を決定します。
+  * `"default"`: ノートブックでは &quot;finish&#95;previous&quot; を使用し、それ以外では &quot;return&#95;previous&quot;
+    を使用します。
+  * `"return_previous"`: まだ完了していない、最後に作成された run を返します。
+    `wandb.run` は更新されません。&quot;create&#95;new&quot;
+    オプションを参照してください。
+  * `"finish_previous"`: アクティブなすべての run を終了してから、新しい run を返します。
+  * `"create_new"`: 他のアクティブな run を変更せずに新しい run を作成します。
+    `wandb.run` および `wandb.log` のようなトップレベル関数は更新されません。
+    このため、グローバル run に依存する一部の古いインテグレーションは
+    動作しません。
 * `resume`: 指定した`id`で run を再開する際の動作を制御します。
   利用可能なオプションは次のとおりです:
   * `"allow"`: 指定した`id`のrunが存在する場合は、最後のstepから再開します。存在しない場合は、新しいrunを作成します。

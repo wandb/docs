@@ -6,7 +6,7 @@ namespace: wandb.apis.public.artifacts
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L476" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
 ## <kbd>class</kbd> wandb.apis.public.ArtifactCollection
 
@@ -43,6 +43,17 @@ artifact collection の名です。
 ### <kbd>プロパティ</kbd> project
 
 artifact collection が含まれるプロジェクト。
+
+### <kbd>プロパティ</kbd> project_id
+
+このコレクションの project のエンコード済み GraphQL ID。
+
+### <kbd>プロパティ</kbd> project_internal_id
+
+取得されている場合、このコレクションの基盤となる project の GraphQL `internalId` です。
+
+これは Base64 エンコードされたグローバル ID です。デコードすると、
+`Project:123` または `ProjectInternalId:123` のようになります。
 
 ### <kbd>プロパティ</kbd> tags
 

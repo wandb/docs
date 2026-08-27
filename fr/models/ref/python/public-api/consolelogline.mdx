@@ -1,0 +1,41 @@
+---
+title: ConsoleLogLine
+kind: classe
+namespace: wandb.apis.public.console_logs
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L40" />
+
+## <kbd>classe</kbd> wandb.apis.public.ConsoleLogLine
+
+```python
+number: 'int',
+timestamp: 'datetime | None',
+level: 'str',
+label: 'str',
+content: 'str'
+```
+
+Une ligne de la sortie de console capturée d’un run.
+
+<div id="args">
+  ## Arguments
+</div>
+
+* `number`:
+* `timestamp`:
+* `level`:
+* `label`:
+* `content`: 
+
+<div id="attributes">
+  ## Attributs
+</div>
+
+* `number` : Position de la ligne dans le journal de la console du run, à partir de 0.
+* `timestamp` : Heure à laquelle la ligne a été capturée, sous la forme d’une date et heure UTC tenant compte du fuseau horaire. None si le backend n’a pas enregistré d’heure pour la ligne ou en a envoyé une dans un format inattendu.
+* `level` : Niveau de gravité de la ligne : `"error"` pour les lignes écrites sur stderr, vide sinon.
+* `label` : Étiquette identifiant le processus qui a écrit la ligne lorsque plusieurs processus écrivent dans le même run, telle que définie par le paramètre `x_label` en mode partagé. Vide pour les runs avec un seul processus d’écriture.
+* `content` : Texte de la ligne.

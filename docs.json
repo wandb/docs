@@ -2766,8 +2766,6 @@
                           "fr/models/ref/python/automations",
                           "fr/models/ref/python/automations/automation",
                           "fr/models/ref/python/automations/donothing",
-                          "fr/models/ref/python/public-api/downloadhistoryresult",
-                          "fr/models/ref/python/public-api/incompleterunhistoryerror",
                           "fr/models/ref/python/automations/metricchangefilter",
                           "fr/models/ref/python/automations/metriczscorefilter",
                           "fr/models/ref/python/automations/metricthresholdfilter",
@@ -2814,6 +2812,10 @@
                           "fr/models/ref/python/public-api/artifacttype",
                           "fr/models/ref/python/public-api/artifacttypes",
                           "fr/models/ref/python/public-api/betareport",
+                          "fr/models/ref/python/public-api/consolelogline",
+                          "fr/models/ref/python/public-api/consolelogs",
+                          "fr/models/ref/python/public-api/downloadhistoryresult",
+                          "fr/models/ref/python/public-api/incompleterunhistoryerror",
                           "fr/models/ref/python/public-api/file",
                           "fr/models/ref/python/public-api/files",
                           "fr/models/ref/python/public-api/member",
@@ -2864,12 +2866,14 @@
                             "pages": [
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core",
                               "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
-                              "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                              "fr/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop",
+                              "fr/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-inspect"
                             ]
                           },
                           "fr/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
+                      "fr/models/ref/cli/wandb-clean",
                       "fr/models/ref/cli/wandb-controller",
                       "fr/models/ref/cli/wandb-disabled",
                       "fr/models/ref/cli/wandb-docker",
@@ -2890,6 +2894,7 @@
                         "pages": [
                           "fr/models/ref/cli/wandb-leet",
                           "fr/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "fr/models/ref/cli/wandb-leet/wandb-leet-inspect",
                           "fr/models/ref/cli/wandb-leet/wandb-leet-run",
                           "fr/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
@@ -4544,8 +4549,6 @@
                           "ja/models/ref/python/automations",
                           "ja/models/ref/python/automations/automation",
                           "ja/models/ref/python/automations/donothing",
-                          "ja/models/ref/python/public-api/downloadhistoryresult",
-                          "ja/models/ref/python/public-api/incompleterunhistoryerror",
                           "ja/models/ref/python/automations/metricchangefilter",
                           "ja/models/ref/python/automations/metriczscorefilter",
                           "ja/models/ref/python/automations/metricthresholdfilter",
@@ -4592,6 +4595,10 @@
                           "ja/models/ref/python/public-api/artifacttype",
                           "ja/models/ref/python/public-api/artifacttypes",
                           "ja/models/ref/python/public-api/betareport",
+                          "ja/models/ref/python/public-api/consolelogline",
+                          "ja/models/ref/python/public-api/consolelogs",
+                          "ja/models/ref/python/public-api/downloadhistoryresult",
+                          "ja/models/ref/python/public-api/incompleterunhistoryerror",
                           "ja/models/ref/python/public-api/file",
                           "ja/models/ref/python/public-api/files",
                           "ja/models/ref/python/public-api/member",
@@ -4642,12 +4649,14 @@
                             "pages": [
                               "ja/models/ref/cli/wandb-beta/wandb-beta-core",
                               "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
-                              "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop",
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-inspect"
                             ]
                           },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
+                      "ja/models/ref/cli/wandb-clean",
                       "ja/models/ref/cli/wandb-controller",
                       "ja/models/ref/cli/wandb-disabled",
                       "ja/models/ref/cli/wandb-docker",
@@ -4655,7 +4664,7 @@
                       "ja/models/ref/cli/wandb-enabled",
                       "ja/models/ref/cli/wandb-init",
                       {
-                        "group": "wandb job",
+                        "group": "wandb ジョブ",
                         "pages": [
                           "ja/models/ref/cli/wandb-job",
                           "ja/models/ref/cli/wandb-job/wandb-job-create",
@@ -4668,6 +4677,7 @@
                         "pages": [
                           "ja/models/ref/cli/wandb-leet",
                           "ja/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ja/models/ref/cli/wandb-leet/wandb-leet-inspect",
                           "ja/models/ref/cli/wandb-leet/wandb-leet-run",
                           "ja/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
@@ -4679,7 +4689,7 @@
                       "ja/models/ref/cli/wandb-purge-cache",
                       "ja/models/ref/cli/wandb-restore",
                       {
-                        "group": "wandb server",
+                        "group": "wandb サーバー",
                         "pages": [
                           "ja/models/ref/cli/wandb-server",
                           "ja/models/ref/cli/wandb-server/wandb-server-start",
@@ -6322,8 +6332,6 @@
                           "ko/models/ref/python/automations",
                           "ko/models/ref/python/automations/automation",
                           "ko/models/ref/python/automations/donothing",
-                          "ko/models/ref/python/public-api/downloadhistoryresult",
-                          "ko/models/ref/python/public-api/incompleterunhistoryerror",
                           "ko/models/ref/python/automations/metricchangefilter",
                           "ko/models/ref/python/automations/metriczscorefilter",
                           "ko/models/ref/python/automations/metricthresholdfilter",
@@ -6370,6 +6378,10 @@
                           "ko/models/ref/python/public-api/artifacttype",
                           "ko/models/ref/python/public-api/artifacttypes",
                           "ko/models/ref/python/public-api/betareport",
+                          "ko/models/ref/python/public-api/consolelogline",
+                          "ko/models/ref/python/public-api/consolelogs",
+                          "ko/models/ref/python/public-api/downloadhistoryresult",
+                          "ko/models/ref/python/public-api/incompleterunhistoryerror",
                           "ko/models/ref/python/public-api/file",
                           "ko/models/ref/python/public-api/files",
                           "ko/models/ref/python/public-api/member",
@@ -6420,12 +6432,14 @@
                             "pages": [
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core",
                               "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
-                              "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop",
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-inspect"
                             ]
                           },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
+                      "ko/models/ref/cli/wandb-clean",
                       "ko/models/ref/cli/wandb-controller",
                       "ko/models/ref/cli/wandb-disabled",
                       "ko/models/ref/cli/wandb-docker",
@@ -6433,7 +6447,7 @@
                       "ko/models/ref/cli/wandb-enabled",
                       "ko/models/ref/cli/wandb-init",
                       {
-                        "group": "wandb job",
+                        "group": "wandb 작업",
                         "pages": [
                           "ko/models/ref/cli/wandb-job",
                           "ko/models/ref/cli/wandb-job/wandb-job-create",
@@ -6446,6 +6460,7 @@
                         "pages": [
                           "ko/models/ref/cli/wandb-leet",
                           "ko/models/ref/cli/wandb-leet/wandb-leet-config",
+                          "ko/models/ref/cli/wandb-leet/wandb-leet-inspect",
                           "ko/models/ref/cli/wandb-leet/wandb-leet-run",
                           "ko/models/ref/cli/wandb-leet/wandb-leet-symon"
                         ]
@@ -6457,7 +6472,7 @@
                       "ko/models/ref/cli/wandb-purge-cache",
                       "ko/models/ref/cli/wandb-restore",
                       {
-                        "group": "wandb server",
+                        "group": "wandb 서버",
                         "pages": [
                           "ko/models/ref/cli/wandb-server",
                           "ko/models/ref/cli/wandb-server/wandb-server-start",

@@ -128,6 +128,29 @@ self
 
 * `order`: 
 
+### <kbd>방법</kbd> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+스윕의 run을 큐에 추가합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `config`: run의 설정입니다.
+* `display_name`: run의 선택적 표시 이름입니다.
+
+<div id="raises">
+  ##### 예외
+</div>
+
+* `UnsupportedError`: 서버가 스윕 run의 대기열 추가를 지원하지 않는 경우.
+
 ### <kbd>방법</kbd> Sweep.get()
 
 ```python

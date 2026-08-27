@@ -6,7 +6,7 @@ namespace: wandb.apis.public.api
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
 ## <kbd>クラス</kbd> wandb.Api
 
@@ -857,7 +857,9 @@ start: 'str | None' = None
 `Registry` オブジェクトの遅延イテレーターを返します。
 
 このイテレーターを使用して、組織のレジストリ全体にあるレジストリ、コレクション、
-または artifact バージョンを検索したり、フィルターしたりできます。
+または artifact バージョンを検索したり、フィルターしたりできます。結果は
+イテレーション時に遅延取得されるため、残りをリクエストせずに、任意の数の
+項目の後で停止できます。たとえば、:func:`itertools.islice` を使用できます。
 
 <div id="arguments">
   ##### 引数
@@ -984,7 +986,8 @@ wandb.Api.reports("entity/project")
 ### <kbd>method</kbd> Api.run()
 
 ```python
-(self, path='')
+self,
+path: 'str' = ''
 ```
 
 `entity/project/run_id` 形式のパスを解析して、1 つの run を返します。
