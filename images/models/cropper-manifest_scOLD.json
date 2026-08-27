@@ -1,0 +1,265 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/models",
+ "count": 37,
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/compare-mode-fan-out-by-index.png",
+   "width": 1132,
+   "height": 718,
+   "bytes": 297244,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/compare-mode-fan-out-by-step.png",
+   "width": 1132,
+   "height": 718,
+   "bytes": 260923,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/compare-mode-fan-out-none.png",
+   "width": 1132,
+   "height": 718,
+   "bytes": 323598,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/conect_to_slack_fmnist.png",
+   "width": 3440,
+   "height": 1228,
+   "bytes": 108946,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/connect_to_slack.png",
+   "width": 3426,
+   "height": 1528,
+   "bytes": 149757,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/create_registered_model_1.png",
+   "width": 2150,
+   "height": 1282,
+   "bytes": 178789,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/create_registered_model_3.png",
+   "width": 2126,
+   "height": 1932,
+   "bytes": 242446,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/create_registered_model_model_reg_app.png",
+   "width": 3444,
+   "height": 1968,
+   "bytes": 342019,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model-tags-modelregview.png",
+   "width": 2110,
+   "height": 824,
+   "bytes": 87855,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_card_credit_example.png",
+   "width": 3424,
+   "height": 1766,
+   "bytes": 226479,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_card_example.png",
+   "width": 3422,
+   "height": 1764,
+   "bytes": 177974,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_lineage_example.png",
+   "width": 3134,
+   "height": 1164,
+   "bytes": 94966,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/model_reg_landing_page.png",
+   "width": 1072,
+   "height": 456,
+   "bytes": 33627,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/models_landing_page.png",
+   "width": 2778,
+   "height": 1554,
+   "bytes": 156701,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/mr1c.png",
+   "width": 960,
+   "height": 411,
+   "bytes": 33198,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/organize-models-model-reg-landing.png",
+   "width": 2810,
+   "height": 1994,
+   "bytes": 335327,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/organize-models-seleticon.png",
+   "width": 2804,
+   "height": 1636,
+   "bytes": 242082,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/view_linked_model_artifacts_browser.png",
+   "width": 3562,
+   "height": 1396,
+   "bytes": 253442,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/view_linked_model_registry.png",
+   "width": 2852,
+   "height": 1192,
+   "bytes": 142709,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_name_automation.png",
+   "width": 2152,
+   "height": 1208,
+   "bytes": 135961,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_new_version_reg_model.png",
+   "width": 2158,
+   "height": 980,
+   "bytes": 454633,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_select_event.png",
+   "width": 2142,
+   "height": 916,
+   "bytes": 427313,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhook_ui.png",
+   "width": 2610,
+   "height": 1764,
+   "bytes": 147666,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/webhooks_select_from_dropdown.png",
+   "width": 2146,
+   "height": 982,
+   "bytes": 106598,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/evaluate-hosted-model-example.png",
+   "width": 408,
+   "height": 839,
+   "bytes": 16094,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/evaluate-model-checkpoint-example.png",
+   "width": 410,
+   "height": 706,
+   "bytes": 12532,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/hosted-model-job-example.png",
+   "width": 748,
+   "height": 1840,
+   "bytes": 42794,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png",
+   "width": 3452,
+   "height": 1818,
+   "bytes": 97249,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png",
+   "width": 375,
+   "height": 919,
+   "bytes": 16005,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png",
+   "width": 3354,
+   "height": 1552,
+   "bytes": 157786,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/baseline-run-visual-distinction.png",
+   "width": 836,
+   "height": 424,
+   "bytes": 15812,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/baseline_run_deltas.png",
+   "width": 2196,
+   "height": 693,
+   "bytes": 28779,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png",
+   "width": 465,
+   "height": 324,
+   "bytes": 7976,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png",
+   "width": 465,
+   "height": 324,
+   "bytes": 7930,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/line-plot-point-details.png",
+   "width": 465,
+   "height": 324,
+   "bytes": 11934,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png",
+   "width": 274,
+   "height": 448,
+   "bytes": 5967,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png",
+   "width": 274,
+   "height": 448,
+   "bytes": 6113,
+   "has_backup": false
+  }
+ ]
+}
