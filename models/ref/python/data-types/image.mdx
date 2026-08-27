@@ -7,7 +7,7 @@ namespace: wandb.sdk.data_types.image
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L132" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L76" />
 
 
 
@@ -20,8 +20,7 @@ grouping: 'int | None' = None,
 classes: 'Classes | Sequence[dict] | None' = None,
 boxes: 'dict[str, BoundingBoxes2D] | dict[str, dict] | None' = None,
 masks: 'dict[str, ImageMask] | dict[str, dict] | None' = None,
-file_type: 'str | None' = None,
-normalize: 'bool' = True
+file_type: 'str | None' = None
 ```
 
 
@@ -36,9 +35,7 @@ A class for logging images to W&B.
     a PIL image object, or a path to an image file. If a NumPy
     array or pytorch tensor is provided,
     the image data will be saved to the given file type.
-    If the values are not in the range [0, 255] or all values are in the range [0, 1],
-    the image pixel values will be normalized to the range [0, 255]
-    unless `normalize` is set to `False`.
+    Values are expected to already be in the range [0, 255].
     - pytorch tensor should be in the format (channel, height, width)
     - NumPy array should be in the format (height, width, channel)
 - `mode`: The PIL mode for an image. Most common are "L", "RGB", "RGBA". Full Pillow docs for more information https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes
@@ -48,7 +45,6 @@ A class for logging images to W&B.
 - `boxes`: A dictionary containing bounding box information for the image. see https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d
 - `masks`: A dictionary containing mask information for the image. see https://docs.wandb.ai/models/ref/python/data-types/imagemask
 - `file_type`: The file type to save the image as. This parameter has no effect if `data_or_path` is a path to an image file.
-- `normalize`: If `True`, normalize the image pixel values to fall within the range of [0, 255]. Normalize is only applied if `data_or_path` is a numpy array or pytorch tensor.
 
 
 

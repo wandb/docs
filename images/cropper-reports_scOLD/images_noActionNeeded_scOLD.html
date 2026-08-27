@@ -1,0 +1,224 @@
+<!doctype html><html><head><meta charset='utf-8'><title>No action needed: images</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>No action needed: images</b> &mdash; 47 images confidently already-cropped / chrome-free</header><div class='grid'>
+<div class="row">
+ <div class="meta"><a href="../general/architecture.png">architecture.png</a></div>
+ <a href="../general/architecture.png"><img loading="lazy" src="../general/architecture.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/core.png">core.png</a></div>
+ <a href="../general/core.png"><img loading="lazy" src="../general/core.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/custom-charts-1.png">custom-charts-1.png</a></div>
+ <a href="../general/custom-charts-1.png"><img loading="lazy" src="../general/custom-charts-1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/custom-charts-2.png">custom-charts-2.png</a></div>
+ <a href="../general/custom-charts-2.png"><img loading="lazy" src="../general/custom-charts-2.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/custom-charts-3.png">custom-charts-3.png</a></div>
+ <a href="../general/custom-charts-3.png"><img loading="lazy" src="../general/custom-charts-3.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/custom-charts-4.png">custom-charts-4.png</a></div>
+ <a href="../general/custom-charts-4.png"><img loading="lazy" src="../general/custom-charts-4.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/parameter-importance-1.png">parameter-importance-1.png</a></div>
+ <a href="../general/parameter-importance-1.png"><img loading="lazy" src="../general/parameter-importance-1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/parameter-importance-4.png">parameter-importance-4.png</a></div>
+ <a href="../general/parameter-importance-4.png"><img loading="lazy" src="../general/parameter-importance-4.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../general/scatter-plots-1.png">scatter-plots-1.png</a></div>
+ <a href="../general/scatter-plots-1.png"><img loading="lazy" src="../general/scatter-plots-1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../automations/collection-automation-execution-icon.png">collection-automation-execution-icon.png</a></div>
+ <a href="../automations/collection-automation-execution-icon.png"><img loading="lazy" src="../automations/collection-automation-execution-icon.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../automations/run_metric_automation_from_panel.png">run_metric_automation_from_panel.png</a></div>
+ <a href="../automations/run_metric_automation_from_panel.png"><img loading="lazy" src="../automations/run_metric_automation_from_panel.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../automations/run_metrics_change_threshold_automation.png">run_metrics_change_threshold_automation.png</a></div>
+ <a href="../automations/run_metrics_change_threshold_automation.png"><img loading="lazy" src="../automations/run_metrics_change_threshold_automation.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../automations/run_metrics_threshold_automation.png">run_metrics_threshold_automation.png</a></div>
+ <a href="../automations/run_metrics_threshold_automation.png"><img loading="lazy" src="../automations/run_metrics_threshold_automation.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../automations/run_status_change.png">run_status_change.png</a></div>
+ <a href="../automations/run_status_change.png"><img loading="lazy" src="../automations/run_status_change.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../automations/slack_integrations.png">slack_integrations.png</a></div>
+ <a href="../automations/slack_integrations.png"><img loading="lazy" src="../automations/slack_integrations.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../automations/webhooks.png">webhooks.png</a></div>
+ <a href="../automations/webhooks.png"><img loading="lazy" src="../automations/webhooks.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../technical_faq/add_payment_method.png">add_payment_method.png</a></div>
+ <a href="../technical_faq/add_payment_method.png"><img loading="lazy" src="../technical_faq/add_payment_method.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../technical_faq/beta_features.png">beta_features.png</a></div>
+ <a href="../technical_faq/beta_features.png"><img loading="lazy" src="../technical_faq/beta_features.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../technical_faq/what_is_service_account.png">what_is_service_account.png</a></div>
+ <a href="../technical_faq/what_is_service_account.png"><img loading="lazy" src="../technical_faq/what_is_service_account.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../mobile-app/aria-chat.png">aria-chat.png</a></div>
+ <a href="../mobile-app/aria-chat.png"><img loading="lazy" src="../mobile-app/aria-chat.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../mobile-app/manage-alerts.png">manage-alerts.png</a></div>
+ <a href="../mobile-app/manage-alerts.png"><img loading="lazy" src="../mobile-app/manage-alerts.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../mobile-app/project-panels.png">project-panels.png</a></div>
+ <a href="../mobile-app/project-panels.png"><img loading="lazy" src="../mobile-app/project-panels.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../mobile-app/project-runs.png">project-runs.png</a></div>
+ <a href="../mobile-app/project-runs.png"><img loading="lazy" src="../mobile-app/project-runs.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../mobile-app/projects.png">projects.png</a></div>
+ <a href="../mobile-app/projects.png"><img loading="lazy" src="../mobile-app/projects.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../leet/leet-config-editor.png">leet-config-editor.png</a></div>
+ <a href="../leet/leet-config-editor.png"><img loading="lazy" src="../leet/leet-config-editor.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../leet/leet-media-workspace.png">leet-media-workspace.png</a></div>
+ <a href="../leet/leet-media-workspace.png"><img loading="lazy" src="../leet/leet-media-workspace.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../leet/leet-single-run-view.png">leet-single-run-view.png</a></div>
+ <a href="../leet/leet-single-run-view.png"><img loading="lazy" src="../leet/leet-single-run-view.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../leet/leet-system-metrics-heatmap.png">leet-system-metrics-heatmap.png</a></div>
+ <a href="../leet/leet-system-metrics-heatmap.png"><img loading="lazy" src="../leet/leet-system-metrics-heatmap.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../leet/leet-workspace-all-panes.png">leet-workspace-all-panes.png</a></div>
+ <a href="../leet/leet-workspace-all-panes.png"><img loading="lazy" src="../leet/leet-workspace-all-panes.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../screenshots/csv-4.png">csv-4.png</a></div>
+ <a href="../screenshots/csv-4.png"><img loading="lazy" src="../screenshots/csv-4.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hivemind/hivemind-dashboard-leaderboard.png">hivemind-dashboard-leaderboard.png</a></div>
+ <a href="../hivemind/hivemind-dashboard-leaderboard.png"><img loading="lazy" src="../hivemind/hivemind-dashboard-leaderboard.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hivemind/hivemind-dashboard-pr-outcomes.png">hivemind-dashboard-pr-outcomes.png</a></div>
+ <a href="../hivemind/hivemind-dashboard-pr-outcomes.png"><img loading="lazy" src="../hivemind/hivemind-dashboard-pr-outcomes.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hivemind/hivemind-dashboard-usage.png">hivemind-dashboard-usage.png</a></div>
+ <a href="../hivemind/hivemind-dashboard-usage.png"><img loading="lazy" src="../hivemind/hivemind-dashboard-usage.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../hivemind/hivemind-session-insights.png">hivemind-session-insights.png</a></div>
+ <a href="../hivemind/hivemind-session-insights.png"><img loading="lazy" src="../hivemind/hivemind-session-insights.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../support/callout-icon.png">callout-icon.png</a></div>
+ <a href="../support/callout-icon.png"><img loading="lazy" src="../support/callout-icon.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../support/support_banner.png">support_banner.png</a></div>
+ <a href="../support/support_banner.png"><img loading="lazy" src="../support/support_banner.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../call_edit_screenshot.png">call_edit_screenshot.png</a></div>
+ <a href="../call_edit_screenshot.png"><img loading="lazy" src="../call_edit_screenshot.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../logo-large-padded.png">logo-large-padded.png</a></div>
+ <a href="../logo-large-padded.png"><img loading="lazy" src="../logo-large-padded.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../logo-large.png">logo-large.png</a></div>
+ <a href="../logo-large.png"><img loading="lazy" src="../logo-large.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../tutorial-model_invoke3.png">tutorial-model_invoke3.png</a></div>
+ <a href="../tutorial-model_invoke3.png"><img loading="lazy" src="../tutorial-model_invoke3.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../tutorial-model_re-use.png">tutorial-model_re-use.png</a></div>
+ <a href="../tutorial-model_re-use.png"><img loading="lazy" src="../tutorial-model_re-use.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../tutorial_trace_1.png">tutorial_trace_1.png</a></div>
+ <a href="../tutorial_trace_1.png"><img loading="lazy" src="../tutorial_trace_1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../tutorial_tracing_2_call_uri.png">tutorial_tracing_2_call_uri.png</a></div>
+ <a href="../tutorial_tracing_2_call_uri.png"><img loading="lazy" src="../tutorial_tracing_2_call_uri.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../tutorial_tracing_2_nested_dinos.png">tutorial_tracing_2_nested_dinos.png</a></div>
+ <a href="../tutorial_tracing_2_nested_dinos.png"><img loading="lazy" src="../tutorial_tracing_2_nested_dinos.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../wandb-gold.png">wandb-gold.png</a></div>
+ <a href="../wandb-gold.png"><img loading="lazy" src="../wandb-gold.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../wandb_slide.png">wandb_slide.png</a></div>
+ <a href="../wandb_slide.png"><img loading="lazy" src="../wandb_slide.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../weave-hero.png">weave-hero.png</a></div>
+ <a href="../weave-hero.png"><img loading="lazy" src="../weave-hero.png"></a>
+</div></div></body></html>
