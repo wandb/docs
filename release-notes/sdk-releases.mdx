@@ -6,6 +6,104 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package) used with W&B Models. For the Weave Python SDK (`weave` package), see [Weave SDK releases](/release-notes/weave-sdk-releases). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.29.0" description="August 26, 2026">
+## Notable changes
+- On macOS, `wandb` now requires macOS 13 (Ventura) or newer.
+- `wandb.Image` no longer normalizes pixel values. Make sure your data already falls within the range [0, 255].
+- `wandb.Video()` now requires the `format` argument when you initialize it from a NumPy array or an IO object.
+- The `.length` property on paginated objects, such as `Api.runs()`, `Api.sweeps()`, and `run.files()`, is removed. Use `len(...)` instead.
+- The following deprecated APIs are removed: the `start_method` setting, the `summary="best"` option and `goal` argument of `run.define_metric()`, the `quiet` argument of `run.finish()` and `wandb.finish()`, and the `run.project_name()`, `run.get_url()`, `run.get_project_url()`, and `run.get_sweep_url()` methods.
+
+## Added
+- The new public API method `run.console_logs()` returns the console output that W&B captured for a run, for both finished and active runs. To return only the last N lines, pass `last=N`. Reading from the beginning of the log requires W&B Server v0.77 or newer.
+- The Automations API supports team and organization scopes.
+- The Automations API supports creating and editing automations that are scoped to a `Registry` object.
+- `wandb.Artifact` accepts a new `digest_algorithm` argument, either `"MD5"` (the default) or `"XXH128"`. Pass `digest_algorithm="XXH128"` to opt an artifact into XXH128 hashing where possible. For artifacts created with `digest_algorithm="XXH128"`, `artifact.verify()` fails on SDK versions older than v0.29.0.
+- The new property `Artifact.linked_at` returns the time a version was linked to the relevant collection. It applies only to linked versions and returns `None` for source artifacts.
+- Registry version queries (`Api.registries().versions()`, `Api.registries().collections().versions()`, `Registry.versions()`, and `Registry.collections().versions()`) accept an optional `order` string as a keyword argument for organizations with advanced search. You can order versions by `created_at`, `artifact_size`, or `linked_at`.
+- W&B LEET TUI features:
+  - The new command `wandb leet inspect [PATH]` browses the raw records in a run's `.wandb` transaction log, showing a filterable list of records alongside a text view of the selected record, and following live runs as they write. Press `i` in the single-run view to inspect the current run. Pipe or redirect the output to print the records instead, such as `wandb leet inspect | less`.
+  - Press `g` to draw guides behind line charts, either a dotted background or horizontal lines aligned with the axis ticks. Your choice is saved, and you can also set it with `chart_guides` in `wandb leet config`.
+  - Drag the separator lines between the run overview sections to resize them with the mouse. The proportions are saved for each view. Press `0` to reset them along with the other pane sizes.
+
+## Changed
+- The message format that the SDK uses to communicate between internal processes has changed slightly. If you use `wandb beta core`, restart the service after you upgrade `wandb`, because some operations can fail when the SDK and service versions differ.
+- `wandb.sandbox` now allows GPU resource requests for sandboxes instead of rejecting `resources.gpu` on the client.
+- Registry search methods `Api.registries()`, `.collections()`, and `.versions()` now validate filter field names and reject unsupported names.
+- `Api.create_automation()` and `Api.update_automation()` now raise `UnsupportedError` instead of `CommError` when the server does not support the given automation.
+- The macOS wheels now require macOS 13 (Ventura) or newer. macOS 12 reached end of life in 2024.
+- In the W&B LEET TUI, the run overview sections (**Environment**, **Config**, and **Summary**) now share the sidebar height proportionally and use all available space. Previously, they stopped growing at fixed sizes, which left the bottom of tall terminals empty.
+
+## Removed
+- Removed `wandb.tensorboard.log()` and `wandb.tensorflow.log()`.
+- Removed the deprecated `start_method` setting, which already had no effect.
+- Removed the deprecated `.length` property from `wandb.apis.paginator.SizedPaginator`. Use `len(...)` instead.
+- Removed the deprecated `summary="best"` option and `goal` argument of `run.define_metric()`. Use `summary="min"` or `summary="max"` instead.
+- Removed the deprecated `quiet` argument of `run.finish()` and `wandb.finish()`. Use `wandb.Settings(quiet=...)` instead.
+- Removed the deprecated `run.project_name()`, `run.get_url()`, `run.get_project_url()`, and `run.get_sweep_url()` methods. Use the `run.project`, `run.url`, `run.project_url`, and `run.sweep_url` properties instead.
+- Removed the deprecated `normalize` argument from `wandb.Image`. Make sure pixel values in NumPy arrays and PyTorch tensors already fall within the range [0, 255].
+
+## Fixed
+- `Artifact.new_file()` now works for artifacts uploaded with `wandb sync`.
+- `Run.scan_history(keys=...)` no longer fails for runs with nested values.
+- At certain pane widths, such as while dragging a sidebar edge, the W&B LEET TUI drew metric charts wider than the available space, which pushed the right sidebar off screen.
+- W&B LEET TUI:
+    - `wandb leet config` now works in short terminal windows. The field list scrolls with the selection, and **Space** toggles boolean settings.
+    - Media panels no longer paint black bars around images in the ANSI view or flash black when you switch to the full-resolution view. The area around the image now shows the terminal background, and switching modes no longer flashes or moves the image.
+
+## Security
+- Downloading artifacts with `artifact.files()` or `artifact.checkout()` now rejects file and artifact names that contain relative paths.
+</Update>
+
+<Update label="0.28.2" description="August 12, 2026">
+## Notable changes
+- The `wandb sync --clean` command now exits with code 1 and prints a hint to use the new `wandb clean` command instead.
+- `wandb login` now verifies credentials by default. To turn off verification, pass `--no-verify` on the command line or `verify=False` to `wandb.login()`.
+
+## Added
+- Filestream requests support gzip compression, which reduces network traffic when you log metrics. Compression is opt-in and requires server support. To turn it on, set `x_file_stream_no_gzip=False` in `wandb.Settings`. Compression becomes the default in a future release.
+- The `wandb agent` command accepts a new `--term-timeout` flag.
+- The new property `run.sync_dir` returns the run's sync directory.
+
+## Changed
+- The new `wandb clean` command replaces `wandb sync --clean`.
+- `wandb.init()` now reports the error it was retrying, such as a network error, when it times out, instead of a generic timeout message. The `init_timeout` setting now also bounds the backend's retries during run initialization.
+- `wandb.Api().create_run_queue()`, `wandb.Api().create_custom_chart()`, and `wandb.Api().upsert_run_queue()` now raise `WandbApiFailedError` when the operation fails on the backend.
+- Paginated artifact and registry query methods now validate pagination arguments on the client before they fetch any results. This applies to `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Registries.collections()`, `Registries.versions()`, `Collections.versions()`, `Registry.collections()`, `Registry.versions()`, and `Project.collections()`.
+- Ordered registry search now scopes per-registry collection and version queries to the current registry's internal ID, which makes pagination and filtering more reliable.
+- Response parsing is faster for many `wandb.Api` operations, including artifact and registry queries.
+- Argument handling in `wandb launch` for the `local-process` resource is hardened so that job-supplied values are always shell-quoted.
+- The launch agent now restricts a job's Git source URL to HTTPS and SSH remotes, and pins Git's protocol allowlist when it fetches the source and updates submodules.
+
+## Deprecated
+- `wandb sync --sync-tensorboard` is deprecated and will be removed in a later release.
+
+## Removed
+- Releases no longer include 32-bit Windows (`win32`) wheels. Use 64-bit Python on Windows.
+
+## Fixed
+- Registry search with `registries(order=...).collections(order=...).versions()` now returns artifact versions in registry order, collection order, or both.
+- macOS x86_64 wheels now contain x86_64 builds of the `wandb-xpu` binary and the Rust parquet library. Previously, these shipped as arm64 builds, which could not run or be loaded on Intel Macs.
+- `wandb.login(verify=True)` and `wandb login --verify` now verify federated identity (identity token) credentials, which were previously not verified.
+- `wandb login` now validates API keys before it saves them to the `.netrc` file.
+- `wandb login` no longer removes or corrupts credentials that belong to other machines in your `.netrc` file.
+- `wandb login` and `wandb verify` no longer update the system host settings when a login attempt fails.
+- `wandb verify` now reports a failed check instead of crashing when an operation still fails after retries.
+- Fixed `wandb.Api(overrides={"base_url": ...})` failing to authenticate with federated identity (identity token) credentials when the specified server was not the default one, such as a Dedicated Cloud deployment, unless `WANDB_BASE_URL` was also set.
+- When you use federated identity, the identity token file is now read again for each access token exchange instead of only at startup. Short-lived identity tokens that are re-minted to the same path now keep working for runs that outlive them.
+- When you use federated identity and the server rejects the identity token exchange, such as for an invalid or expired token, requests now fail immediately with the server's error message. Previously, the rejected exchange was retried until requests timed out with a generic error.
+- Sweep agents now respect a custom `WANDB_DIR` when they write JSON output.
+- The `global_step` metric that is created when you sync TensorBoard files is no longer prefixed, such as `train/global_step`, which makes it easier to compare training and validation metrics.
+- The TensorBoard integration now produces fewer W&B steps by merging data for the same `global_step` into one W&B step where possible.
+- `wandb sync` no longer hangs on a run that set its name, tags, or notes after starting.
+- Log messages captured from Python loggers no longer add blank lines to a run's logs.
+- `del run.summary[key]` now removes metrics that were logged as nested values, which it previously ignored.
+
+## Security
+- Debug logs no longer contain CoreWeave cluster credentials.
+- `wandb docker` and `wandb docker-run` no longer pass your API key on the command line, where other users of the same machine could read it.
+</Update>
+
 <Update label="0.28.1" description="July 16, 2026">
 ## Notable changes
 - This version requires protobuf v5+ and drops support for probuf v4.
