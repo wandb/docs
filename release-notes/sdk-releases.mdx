@@ -47,8 +47,9 @@ This page includes release notes for the W&B Python SDK (`wandb` package) used w
 - `Artifact.new_file()` now works for artifacts uploaded with `wandb sync`.
 - `Run.scan_history(keys=...)` no longer fails for runs with nested values.
 - At certain pane widths, such as while dragging a sidebar edge, the W&B LEET TUI drew metric charts wider than the available space, which pushed the right sidebar off screen.
-- `wandb leet config` now works in short terminal windows. The field list scrolls with the selection, and **Space** toggles boolean settings.
-- W&B LEET TUI media panels no longer paint black bars around images in the ANSI view or flash black when you switch to the full-resolution view. The area around the image now shows the terminal background, and switching modes no longer flashes or moves the image.
+- W&B LEET TUI:
+    - `wandb leet config` now works in short terminal windows. The field list scrolls with the selection, and **Space** toggles boolean settings.
+    - Media panels no longer paint black bars around images in the ANSI view or flash black when you switch to the full-resolution view. The area around the image now shows the terminal background, and switching modes no longer flashes or moves the image.
 
 ## Security
 - Downloading artifacts with `artifact.files()` or `artifact.checkout()` now rejects file and artifact names that contain relative paths.
