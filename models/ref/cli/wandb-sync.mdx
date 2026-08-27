@@ -5,7 +5,7 @@ title: wandb sync
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L563" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L558" />
 
 
 
@@ -71,17 +71,13 @@ To sync all unsynced runs in the local wandb directory:
 wandb sync --sync-all
 ```
 
-To delete local data for runs that have already been synced:
+Use `wandb clean` to delete local data for runs that have been synced. See
 
 ```bash
-wandb sync --clean
+wandb clean --help
 ```
 
-To delete synced runs older than 48 hours without a confirmation prompt:
-
-```bash
-wandb sync --clean --clean-old-hours 48 --clean-force
-```
+for more info.
 
 
 
@@ -109,9 +105,9 @@ wandb sync --clean --clean-old-hours 48 --clean-force
 | `--include-synced, --no-skip-synced` | BOOL Flag | Include runs that are already synced. **Default**: None |
 | `--mark-synced` | BOOL Flag | (legacy only) Mark runs as synced after upload. **Default**: True |
 | `--sync-all` | BOOL Flag | (legacy only) Sync all unsynced runs in the local wandb directory. **Default**: False |
-| `--clean` | BOOL Flag | (legacy only) Delete local data for runs that are already synced. **Default**: False |
-| `--clean-old-hours` | INT | Delete only synced runs older than this many hours (use with --clean). **Default**: 24 |
-| `--clean-force` | BOOL Flag | Skip the confirmation prompt if --clean is specified. **Default**: False |
+| `--clean` | BOOL Flag | Removed. Use `wandb clean`. **Default**: False |
+| `--clean-old-hours` | STR | Removed. Use `wandb clean`. **Default**: None |
+| `--clean-force` | BOOL Flag | Removed. Use `wandb clean`. **Default**: False |
 | `--show` | INT | Set the number of runs to show in the summary. **Default**: 5 |
 | `--append` | BOOL Flag | (legacy only) Append data to an existing run instead of creating a new run. **Default**: False |
 | `--skip-console` | BOOL Flag | (legacy only) Skip uploading console logs. **Default**: False |
