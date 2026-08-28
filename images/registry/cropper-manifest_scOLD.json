@@ -1,6 +1,6 @@
 {
  "root": "/Users/aguspan/Docs/docs/images/registry",
- "count": 16,
+ "count": 15,
  "images": [
   {
    "path": "/Users/aguspan/Docs/docs/images/registry/artifact_types_model_card.png",
@@ -49,13 +49,6 @@
    "width": 2240,
    "height": 1700,
    "bytes": 62869,
-   "has_backup": true
-  },
-  {
-   "path": "/Users/aguspan/Docs/docs/images/registry/mode_reg_eol.png",
-   "width": 1730,
-   "height": 935,
-   "bytes": 253328,
    "has_backup": true
   },
   {
