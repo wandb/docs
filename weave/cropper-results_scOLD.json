@@ -1,0 +1,2737 @@
+{
+ "root": "/Users/aguspan/Docs/docs/weave",
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-baseline-set.png",
+   "width": 911,
+   "height": 109,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-baseline-set_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-baseline.png",
+   "width": 964,
+   "height": 152,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-baseline_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png",
+   "width": 1536,
+   "height": 308,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png",
+   "width": 1536,
+   "height": 308,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-sidebyside.png",
+   "width": 1429,
+   "height": 612,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [
+    "annotation-colored ink next to the crop line - a drawn arrow/box may cross the chrome; vision must verify",
+    "vision pass: rail confirmed; annotation flag was diff-highlight colors (content); crop verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-sidebyside_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-summary.png",
+   "width": 1431,
+   "height": 670,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-summary_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-unified.png",
+   "width": 1423,
+   "height": 597,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [
+    "annotation-colored ink next to the crop line - a drawn arrow/box may cross the chrome; vision must verify",
+    "vision pass: same layout as sibling; crop verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-unified_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2obs-calls.png",
+   "width": 1423,
+   "height": 607,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2obs-calls_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png",
+   "width": 1423,
+   "height": 597,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-7objs-diffonly-subset_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparsion-7objs-diffonly-allobjs.png",
+   "width": 2574,
+   "height": 1094,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "divider at x=30 but region ink 0.000 outside rail range (empty gutter or dense content)",
+    "divider at x=31 but region ink 0.000 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparsion-7objs-diffonly-remove.png",
+   "width": 994,
+   "height": 396,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparsion-7objs-diffonly-subset.png",
+   "width": 2574,
+   "height": 1060,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "divider at x=30 but region ink 0.000 outside rail range (empty gutter or dense content)",
+    "divider at x=31 but region ink 0.000 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/custom-runtime.png",
+   "width": 1349,
+   "height": 733,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    51,
+    0
+   ],
+   "reasons": [
+    "rail found under modal scrim (level 138) - verify",
+    "vision pass: scrim rail under drawer; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/custom-runtime_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/open_chat_in_playground.png",
+   "width": 2582,
+   "height": 1732,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/open_chat_in_playground_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/playground_chat_input.png",
+   "width": 2784,
+   "height": 1688,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    100,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/playground_chat_input_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/playground_settings.png",
+   "width": 3434,
+   "height": 1852,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    100,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tools/imgs/playground_settings_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/platform/imgs/weave-project.png",
+   "width": 1226,
+   "height": 922,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    52,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/platform/imgs/weave-project_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_model.png",
+   "width": 3008,
+   "height": 1464,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_ops.png",
+   "width": 2682,
+   "height": 1282,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    4
+   ],
+   "reasons": [
+    "trimmed 4px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_ops_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_tool.png",
+   "width": 2628,
+   "height": 1218,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_tool_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_trace.png",
+   "width": 3024,
+   "height": 1594,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/bedrock_converse.png",
+   "width": 3394,
+   "height": 1520,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/cerebras_calls.png",
+   "width": 2716,
+   "height": 1844,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/cerebras_model.png",
+   "width": 2726,
+   "height": 1680,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/chatnvidia_model.png",
+   "width": 3450,
+   "height": 1230,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    1
+   ],
+   "reasons": [
+    "trimmed 1px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/chatnvidia_model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/chatnvidia_trace.png",
+   "width": 1042,
+   "height": 671,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/cohere_model.png",
+   "width": 2906,
+   "height": 994,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "wide left-nav variant, 728px (25% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: traces table occluded by drawer - wide column is content (survey-confirmed)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/cohere_ops.png",
+   "width": 2170,
+   "height": 844,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/cohere_trace.png",
+   "width": 2156,
+   "height": 1174,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google-genai-ops.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google-genai-ops_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google-genai-trace.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google-genai-trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/image.png",
+   "width": 3024,
+   "height": 1194,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/image_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-advanced-evals.png",
+   "width": 3024,
+   "height": 1194,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-advanced-evals_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-advanced-leaderboard.png",
+   "width": 3024,
+   "height": 1194,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-advanced-leaderboard_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-playground-compare.png",
+   "width": 2114,
+   "height": 1240,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "small content fragment at rows 0-7 hugging the top edge, then blank rows (possible sloppy partial crop)",
+    "vision pass: pricing grid, no chrome (duplicate of images/inference case)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-playground-single.png",
+   "width": 1706,
+   "height": 1240,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-playground.png",
+   "width": 3022,
+   "height": 1240,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    110,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-playground_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-ui-model-cards.png",
+   "width": 1472,
+   "height": 1234,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "divider at x=36 but region ink 0.001 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-ui.png",
+   "width": 2414,
+   "height": 1240,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-upgrade.png",
+   "width": 1640,
+   "height": 1088,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/koog.png",
+   "width": 3451,
+   "height": 1985,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    118,
+    229
+   ],
+   "reasons": [
+    "bar/content boundary contrast <8 (dark mode) - verify",
+    "dark-mode rail at x=116 (tonal-step boundary) - vision must verify",
+    "vision pass: dark-mode Weave bar+rail; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/koog_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_attributes.png",
+   "width": 3016,
+   "height": 592,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    4
+   ],
+   "reasons": [
+    "annotation-colored ink next to the crop line - a drawn arrow/box may cross the chrome; vision must verify",
+    "vision pass: rail confirmed; light-orange 4px sliver (201,138,50) outside sliver tolerance included in crop"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_attributes_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_eval.png",
+   "width": 1915,
+   "height": 837,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    47,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_eval_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_model.png",
+   "width": 1915,
+   "height": 837,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    47,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_trace.png",
+   "width": 1918,
+   "height": 608,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    47,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_evaluation.png",
+   "width": 3456,
+   "height": 1984,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    118
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_evaluation_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_model.png",
+   "width": 3456,
+   "height": 1982,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    116
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_rag.png",
+   "width": 3456,
+   "height": 1982,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    116
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_rag_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_model.png",
+   "width": 3010,
+   "height": 1536,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_ops.png",
+   "width": 2877,
+   "height": 1080,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    118,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_ops_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_trace.png",
+   "width": 3024,
+   "height": 1468,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    8
+   ],
+   "reasons": [
+    "trimmed 8px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/nvidia_pokedex.png",
+   "width": 1037,
+   "height": 573,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    1
+   ],
+   "reasons": [
+    "trimmed 1px residual dark sliver at top"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai-model.png",
+   "width": 3146,
+   "height": 904,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai-model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai-pokedex.png",
+   "width": 2704,
+   "height": 1562,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    125,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai-pokedex_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai.png",
+   "width": 2702,
+   "height": 1210,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    123,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/simple_llamaindex.png",
+   "width": 3456,
+   "height": 1982,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    116
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/simple_llamaindex_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/smolagents-custom-tool.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    110,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/smolagents-custom-tool_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/smolagents-trace.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    110,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/smolagents-trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_custom_module.png",
+   "width": 3456,
+   "height": 1864,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_custom_module_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_optimizer.png",
+   "width": 3456,
+   "height": 1864,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_optimizer_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_trace.png",
+   "width": 2880,
+   "height": 1800,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    116,
+    120
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew.png",
+   "width": 3456,
+   "height": 1998,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    118
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew_with_guardrail.png",
+   "width": 3456,
+   "height": 1994,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    114
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew_with_guardrail_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew_with_tool.png",
+   "width": 3454,
+   "height": 1996,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    110,
+    116
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew_with_tool_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/flow.png",
+   "width": 3456,
+   "height": 1996,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    116
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/flow_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png",
+   "width": 2880,
+   "height": 1800,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    120
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_dasboard_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_model.png",
+   "width": 2880,
+   "height": 1800,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    120
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_model_version.png",
+   "width": 2880,
+   "height": 1800,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    120
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_model_version_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_tracing.png",
+   "width": 2880,
+   "height": 1800,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    120
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_tracing_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mcp/mcp_all_calls.png",
+   "width": 1273,
+   "height": 1151,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mcp/mcp_fastmcp.png",
+   "width": 4008,
+   "height": 2536,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png",
+   "width": 3801,
+   "height": 2339,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/api-keys.png",
+   "width": 3454,
+   "height": 1912,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/evaluations.png",
+   "width": 3446,
+   "height": 1904,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    112
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/evaluations_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/router-preferences.png",
+   "width": 3456,
+   "height": 1916,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/weave-trace.png",
+   "width": 3448,
+   "height": 1910,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    116
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/weave-trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png",
+   "width": 3018,
+   "height": 1594,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png",
+   "width": 3020,
+   "height": 1592,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_agent_trace.png",
+   "width": 3016,
+   "height": 1582,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_agent_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_memory_use.png",
+   "width": 3016,
+   "height": 1582,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_memory_use_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png",
+   "width": 3016,
+   "height": 1582,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_reasoning_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_team_trace.png",
+   "width": 3016,
+   "height": 1582,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_team_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_tool_calls.png",
+   "width": 3016,
+   "height": 1582,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_tool_calls_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_call.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_call_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_chat.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_chat_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_model.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_model_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_ops.png",
+   "width": 3452,
+   "height": 1866,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_ops_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png",
+   "width": 3016,
+   "height": 1594,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    104,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_agent_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png",
+   "width": 3012,
+   "height": 1590,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    104,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_tool_calls_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png",
+   "width": 3020,
+   "height": 1590,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_workflow_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/instructor/instructor_op_trace.png",
+   "width": 2880,
+   "height": 1514,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    102,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/instructor/instructor_op_trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/instructor/instructor_serve.png",
+   "width": 2880,
+   "height": 1514,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    102,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/instructor/instructor_serve_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/instructor/instructor_weave_model.png",
+   "width": 1490,
+   "height": 1422,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png",
+   "width": 3018,
+   "height": 1590,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    106,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-agent-tools_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-cached-client.png",
+   "width": 3018,
+   "height": 1596,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    106,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-cached-client_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-codegen.png",
+   "width": 3018,
+   "height": 1592,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    106,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-codegen_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-memory.png",
+   "width": 3020,
+   "height": 1586,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    108,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-memory_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-rag.png",
+   "width": 3022,
+   "height": 1596,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    110,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-rag_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-runtime.png",
+   "width": 3022,
+   "height": 1592,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    110,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-runtime_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png",
+   "width": 3022,
+   "height": 1704,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    110,
+    110
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-simple-client.png",
+   "width": 3016,
+   "height": 1574,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    104,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-simple-client_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-streaming-client.png",
+   "width": 3016,
+   "height": 1590,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    104,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-streaming-client_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png",
+   "width": 3018,
+   "height": 1588,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    106,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/round_robin_group_chat_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/call_scores_tab.png",
+   "width": 4112,
+   "height": 2328,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    168,
+    180
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/call_scores_tab_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison-evals-baseline-set.png",
+   "width": 1091,
+   "height": 164,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison-evals-baseline-set_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison-evals-baseline.png",
+   "width": 1086,
+   "height": 250,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    49,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison-evals-baseline_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison.png",
+   "width": 1339,
+   "height": 1205,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/configure-leaderboard.png",
+   "width": 2048,
+   "height": 737,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    70,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/configure-leaderboard_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/edit-leaderboard.png",
+   "width": 2048,
+   "height": 696,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    70,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/edit-leaderboard_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-compare-select.png",
+   "width": 1359,
+   "height": 573,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-compare-select_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-compare.png",
+   "width": 1377,
+   "height": 955,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-compare_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-playground-ui.png",
+   "width": 1499,
+   "height": 999,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    51,
+    56
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-playground-ui_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/evals_tab.png",
+   "width": 1061,
+   "height": 786,
+   "category": "misfit",
+   "confidence": "low",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "user verdict: moved from no-action to human review"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/filtered_calls_scorer_name.png",
+   "width": 1919,
+   "height": 946,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    70,
+    75
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/filtered_calls_scorer_name_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/filtered_calls_to_scorer_version.png",
+   "width": 1919,
+   "height": 946,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    70,
+    75
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/filtered_calls_to_scorer_version_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/monitors-4.png",
+   "width": 3024,
+   "height": 1428,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/monitors-4_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/monitors-ui-1.png",
+   "width": 994,
+   "height": 1330,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/scorer_detail_page.png",
+   "width": 1919,
+   "height": 946,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    70,
+    75
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/scorer_detail_page_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/traces_table_scores.png",
+   "width": 4112,
+   "height": 2328,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    168,
+    180
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/traces_table_scores_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_project_dash.png",
+   "width": 1354,
+   "height": 471,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_project_dash_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_trace_hover.png",
+   "width": 1196,
+   "height": 549,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_trace_hover_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_trace_reasoning.png",
+   "width": 1798,
+   "height": 773,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_trace_reasoning_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationAddTraces.png",
+   "width": 1346,
+   "height": 862,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationAddTraces_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationCreateField.png",
+   "width": 1331,
+   "height": 528,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [
+    "rail found under modal scrim (level 138) - verify",
+    "vision pass: scrim rail under drawer; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationCreateField_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationLinkToQueue.png",
+   "width": 1036,
+   "height": 100,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationLinkToQueue_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationQueues.png",
+   "width": 1334,
+   "height": 395,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationQueues_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationSubmitItem.png",
+   "width": 1347,
+   "height": 674,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationSubmitItem_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationTracesFilter.png",
+   "width": 1340,
+   "height": 273,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationTracesFilter_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/add-ref-bucket.png",
+   "width": 548,
+   "height": 449,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-agent-detail.png",
+   "width": 2063,
+   "height": 742,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-agent-detail_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-agent.png",
+   "width": 2060,
+   "height": 704,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-agent_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-conversation-detail.png",
+   "width": 2066,
+   "height": 989,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-conversation-detail_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-conversation.png",
+   "width": 2066,
+   "height": 695,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    56,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-conversation_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-dashboard.png",
+   "width": 2059,
+   "height": 962,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-dashboard_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-signals.png",
+   "width": 2065,
+   "height": 603,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    54,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-signals_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-spans-detail.png",
+   "width": 2064,
+   "height": 641,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-spans-detail_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-spans.png",
+   "width": 2064,
+   "height": 581,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-spans_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agents-byob.png",
+   "width": 1493,
+   "height": 576,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agents-byob_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback-in-the-table.png",
+   "width": 3456,
+   "height": 1569,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback-in-the-table_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback_call_header.png",
+   "width": 1276,
+   "height": 354,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback_calls.png",
+   "width": 3170,
+   "height": 1589,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback_calls_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback_tab.png",
+   "width": 1266,
+   "height": 548,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback_use.png",
+   "width": 1270,
+   "height": 970,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/full-feedback-sidebar.png",
+   "width": 3454,
+   "height": 1862,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/full-feedback-sidebar_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/generators.png",
+   "width": 2078,
+   "height": 1134,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/generators_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/human-annotation-scorer-form.png",
+   "width": 3454,
+   "height": 1862,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [
+    "24 divider-like columns across the image (chart gridlines?) - vision must verify the rail",
+    "vision pass: scrim rail under drawer; gridline flag was form fields; preview verified"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/human-annotation-scorer-form_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/human-annotation-scorer-history.png",
+   "width": 2686,
+   "height": 1434,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/human-annotation-scorer-history_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/marker-icon.png",
+   "width": 306,
+   "height": 84,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/md-call-render.png",
+   "width": 1440,
+   "height": 1980,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    68,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/md-call-render_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/plots-add-chart.png",
+   "width": 282,
+   "height": 104,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/plots-custom-chart-types.png",
+   "width": 998,
+   "height": 654,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/plots-example.png",
+   "width": 1590,
+   "height": 1292,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/plots-show-metrics-icon.png",
+   "width": 106,
+   "height": 104,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/threadpoolexecutor.png",
+   "width": 720,
+   "height": 418,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/threads-chat-view.png",
+   "width": 2912,
+   "height": 1512,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "wide left-nav variant, 800px (27% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: Threads data table - content"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/threads-drawer.png",
+   "width": 2914,
+   "height": 1522,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "wide left-nav variant, 722px (25% of width) - vision must confirm real nav (not content sidebar / annotated)",
+    "vision pass: Threads data table - content"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/threads-list.png",
+   "width": 2914,
+   "height": 576,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/threads-sidebar.png",
+   "width": 114,
+   "height": 126,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace-tree-code-view.png",
+   "width": 538,
+   "height": 640,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace-tree-flame-view.png",
+   "width": 731,
+   "height": 214,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace-tree-full.png",
+   "width": 2062,
+   "height": 590,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace-tree-full_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace-tree-graph-view.png",
+   "width": 734,
+   "height": 598,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace-tree-scrubbers.png",
+   "width": 422,
+   "height": 541,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace_export_modal.png",
+   "width": 1564,
+   "height": 440,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    50,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace_export_modal_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/traces-byob.png",
+   "width": 1497,
+   "height": 422,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/traces-byob_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/video-trace-popout.png",
+   "width": 720,
+   "height": 323,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    25,
+    0
+   ],
+   "reasons": [
+    "vision spot-fix per user: rail cropped at the anti-aliased divider x=23-24; the Intercom bubble overlay was deemed unimportant"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/video-trace.png",
+   "width": 2766,
+   "height": 582,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    112,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/video-trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/audio-trace.png",
+   "width": 3456,
+   "height": 1240,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/audio-trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/cat-pumpkin-trace.png",
+   "width": 3456,
+   "height": 1614,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    114,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/cat-pumpkin-trace_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/dataset-trashcan.png",
+   "width": 45,
+   "height": 46,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-delete-modal.png",
+   "width": 560,
+   "height": 358,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "divider at x=39 but region ink 0.007 outside rail range (empty gutter or dense content)"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout-edit-addcol.png",
+   "width": 243,
+   "height": 233,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout-edit-colsadded.png",
+   "width": 853,
+   "height": 194,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout-edit-green.png",
+   "width": 841,
+   "height": 194,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout-edit-publish.png",
+   "width": 224,
+   "height": 135,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout-edit-published-meta.png",
+   "width": 560,
+   "height": 137,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout-edit-published-rows.png",
+   "width": 838,
+   "height": 219,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout-edit.png",
+   "width": 48,
+   "height": 65,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui-popout.png",
+   "width": 341,
+   "height": 306,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui.png",
+   "width": 277,
+   "height": 395,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    53,
+    1
+   ],
+   "reasons": [
+    "vision spot-fix per user: tiny image, rail cropped at x=52 divider + 1px sliver"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/leaderboard-example.png",
+   "width": 1666,
+   "height": 712,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    2
+   ],
+   "reasons": [
+    "trimmed 2px residual dark sliver at top"
+   ],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/prompt-alias-tags.png",
+   "width": 1489,
+   "height": 477,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/prompt-alias-tags_scOLD.png"
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/prompt-comparison.png",
+   "width": 3144,
+   "height": 1290,
+   "category": "none",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/prompt-object.png",
+   "width": 987,
+   "height": 405,
+   "category": "left",
+   "confidence": "high",
+   "crop_box": [
+    55,
+    0
+   ],
+   "reasons": [],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/prompt-object_scOLD.png"
+  }
+ ]
+}

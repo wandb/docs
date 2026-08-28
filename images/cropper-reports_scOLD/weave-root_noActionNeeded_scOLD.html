@@ -1,0 +1,256 @@
+<!doctype html><html><head><meta charset='utf-8'><title>No action needed: weave</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>No action needed: weave</b> &mdash; 55 images confidently already-cropped / chrome-free</header><div class='grid'>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png">comparison-2objs-numericdiffformat-updated.png</a></div>
+ <a href="../../weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png">comparison-2objs-numericdiffformat.png</a></div>
+ <a href="../../weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-allobjs.png">comparsion-7objs-diffonly-allobjs.png</a></div>
+ <a href="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-allobjs.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-allobjs.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-remove.png">comparsion-7objs-diffonly-remove.png</a></div>
+ <a href="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-remove.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-remove.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-subset.png">comparsion-7objs-diffonly-subset.png</a></div>
+ <a href="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-subset.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparsion-7objs-diffonly-subset.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/bedrock_converse.png">bedrock_converse.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/bedrock_converse.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/bedrock_converse.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/cerebras_calls.png">cerebras_calls.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/cerebras_calls.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/cerebras_calls.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/cerebras_model.png">cerebras_model.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/cerebras_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/cerebras_model.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/chatnvidia_trace.png">chatnvidia_trace.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/chatnvidia_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/chatnvidia_trace.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/cohere_model.png">cohere_model.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/cohere_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/cohere_model.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/cohere_ops.png">cohere_ops.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/cohere_ops.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/cohere_ops.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/cohere_trace.png">cohere_trace.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/cohere_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/cohere_trace.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-playground-compare.png">inference-playground-compare.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/inference-playground-compare.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-playground-compare.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-playground-single.png">inference-playground-single.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/inference-playground-single.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-playground-single.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-ui-model-cards.png">inference-ui-model-cards.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/inference-ui-model-cards.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-ui-model-cards.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-ui.png">inference-ui.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/inference-ui.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-ui.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-upgrade.png">inference-upgrade.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/inference-upgrade.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-upgrade.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/nvidia_pokedex.png">nvidia_pokedex.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/nvidia_pokedex.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/nvidia_pokedex.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/mcp/mcp_all_calls.png">mcp_all_calls.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/mcp/mcp_all_calls.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mcp/mcp_all_calls.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/mcp/mcp_fastmcp.png">mcp_fastmcp.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/mcp/mcp_fastmcp.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mcp/mcp_fastmcp.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png">mcp_trace_timeline.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/notdiamond/api-keys.png">api-keys.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/notdiamond/api-keys.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/notdiamond/api-keys.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/notdiamond/router-preferences.png">router-preferences.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/notdiamond/router-preferences.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/notdiamond/router-preferences.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/instructor/instructor_weave_model.png">instructor_weave_model.png</a></div>
+ <a href="../../weave/guides/integrations/imgs/instructor/instructor_weave_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/instructor/instructor_weave_model.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/monitors-ui-1.png">monitors-ui-1.png</a></div>
+ <a href="../../weave/guides/evaluation/img/monitors-ui-1.png"><img loading="lazy" src="../../weave/guides/evaluation/img/monitors-ui-1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/add-ref-bucket.png">add-ref-bucket.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/add-ref-bucket.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/add-ref-bucket.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/feedback_call_header.png">feedback_call_header.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/feedback_call_header.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/feedback_call_header.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/feedback_tab.png">feedback_tab.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/feedback_tab.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/feedback_tab.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/feedback_use.png">feedback_use.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/feedback_use.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/feedback_use.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/marker-icon.png">marker-icon.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/marker-icon.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/marker-icon.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/plots-add-chart.png">plots-add-chart.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/plots-add-chart.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/plots-add-chart.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/plots-custom-chart-types.png">plots-custom-chart-types.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/plots-custom-chart-types.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/plots-custom-chart-types.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/plots-example.png">plots-example.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/plots-example.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/plots-example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/plots-show-metrics-icon.png">plots-show-metrics-icon.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/plots-show-metrics-icon.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/plots-show-metrics-icon.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/threadpoolexecutor.png">threadpoolexecutor.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/threadpoolexecutor.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/threadpoolexecutor.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/threads-chat-view.png">threads-chat-view.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/threads-chat-view.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/threads-chat-view.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/threads-drawer.png">threads-drawer.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/threads-drawer.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/threads-drawer.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/threads-list.png">threads-list.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/threads-list.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/threads-list.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/threads-sidebar.png">threads-sidebar.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/threads-sidebar.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/threads-sidebar.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/trace-tree-code-view.png">trace-tree-code-view.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/trace-tree-code-view.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace-tree-code-view.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/trace-tree-flame-view.png">trace-tree-flame-view.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/trace-tree-flame-view.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace-tree-flame-view.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/trace-tree-graph-view.png">trace-tree-graph-view.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/trace-tree-graph-view.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace-tree-graph-view.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/trace-tree-scrubbers.png">trace-tree-scrubbers.png</a></div>
+ <a href="../../weave/guides/tracking/imgs/trace-tree-scrubbers.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace-tree-scrubbers.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/dataset-trashcan.png">dataset-trashcan.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/dataset-trashcan.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/dataset-trashcan.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-delete-modal.png">datasetui-delete-modal.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-delete-modal.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-delete-modal.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-addcol.png">datasetui-popout-edit-addcol.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-addcol.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout-edit-addcol.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-colsadded.png">datasetui-popout-edit-colsadded.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-colsadded.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout-edit-colsadded.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-green.png">datasetui-popout-edit-green.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-green.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout-edit-green.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-publish.png">datasetui-popout-edit-publish.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-publish.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout-edit-publish.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-published-meta.png">datasetui-popout-edit-published-meta.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-published-meta.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout-edit-published-meta.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-published-rows.png">datasetui-popout-edit-published-rows.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout-edit-published-rows.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout-edit-published-rows.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout-edit.png">datasetui-popout-edit.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout-edit.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout-edit.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui-popout.png">datasetui-popout.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/datasetui-popout.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui-popout.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/leaderboard-example.png">leaderboard-example.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/leaderboard-example.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/leaderboard-example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/prompt-comparison.png">prompt-comparison.png</a></div>
+ <a href="../../weave/guides/core-types/imgs/prompt-comparison.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/prompt-comparison.png"></a>
+</div></div></body></html>
