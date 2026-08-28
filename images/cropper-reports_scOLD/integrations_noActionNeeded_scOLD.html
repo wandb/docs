@@ -1,0 +1,216 @@
+<!doctype html><html><head><meta charset='utf-8'><title>No action needed: integrations</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>No action needed: integrations</b> &mdash; 45 images confidently already-cropped / chrome-free</header><div class='grid'>
+<div class="row">
+ <div class="meta"><a href="../integrations/aoai_ft_plot.png">aoai_ft_plot.png</a></div>
+ <a href="../integrations/aoai_ft_plot.png"><img loading="lazy" src="../integrations/aoai_ft_plot.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/cd.png">cd.png</a></div>
+ <a href="../integrations/cd.png"><img loading="lazy" src="../integrations/cd.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/cohere_ft.png">cohere_ft.png</a></div>
+ <a href="../integrations/cohere_ft.png"><img loading="lazy" src="../integrations/cohere_ft.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/dagster_launch_agents.png">dagster_launch_agents.png</a></div>
+ <a href="../integrations/dagster_launch_agents.png"><img loading="lazy" src="../integrations/dagster_launch_agents.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/dagster_launch_jobs.png">dagster_launch_jobs.png</a></div>
+ <a href="../integrations/dagster_launch_jobs.png"><img loading="lazy" src="../integrations/dagster_launch_jobs.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/dagster_multiple_runs.png">dagster_multiple_runs.png</a></div>
+ <a href="../integrations/dagster_multiple_runs.png"><img loading="lazy" src="../integrations/dagster_multiple_runs.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/dagster_wb_metadata.png">dagster_wb_metadata.png</a></div>
+ <a href="../integrations/dagster_wb_metadata.png"><img loading="lazy" src="../integrations/dagster_wb_metadata.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/gymnasium.png">gymnasium.png</a></div>
+ <a href="../integrations/gymnasium.png"><img loading="lazy" src="../integrations/gymnasium.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/huggingface_eval_tables.png">huggingface_eval_tables.png</a></div>
+ <a href="../integrations/huggingface_eval_tables.png"><img loading="lazy" src="../integrations/huggingface_eval_tables.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/kubeflow_app_pipelines_ui.png">kubeflow_app_pipelines_ui.png</a></div>
+ <a href="../integrations/kubeflow_app_pipelines_ui.png"><img loading="lazy" src="../integrations/kubeflow_app_pipelines_ui.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/lightgbm_sweeps.png">lightgbm_sweeps.png</a></div>
+ <a href="../integrations/lightgbm_sweeps.png"><img loading="lazy" src="../integrations/lightgbm_sweeps.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/nim1.png">nim1.png</a></div>
+ <a href="../integrations/nim1.png"><img loading="lazy" src="../integrations/nim1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/nim2.png">nim2.png</a></div>
+ <a href="../integrations/nim2.png"><img loading="lazy" src="../integrations/nim2.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/nim3.png">nim3.png</a></div>
+ <a href="../integrations/nim3.png"><img loading="lazy" src="../integrations/nim3.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/open_ai_autolog.png">open_ai_autolog.png</a></div>
+ <a href="../integrations/open_ai_autolog.png"><img loading="lazy" src="../integrations/open_ai_autolog.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/open_ai_faq_can_track.png">open_ai_faq_can_track.png</a></div>
+ <a href="../integrations/open_ai_faq_can_track.png"><img loading="lazy" src="../integrations/open_ai_faq_can_track.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/open_ai_report_example.png">open_ai_report_example.png</a></div>
+ <a href="../integrations/open_ai_report_example.png"><img loading="lazy" src="../integrations/open_ai_report_example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/openai_data_visualization.png">openai_data_visualization.png</a></div>
+ <a href="../integrations/openai_data_visualization.png"><img loading="lazy" src="../integrations/openai_data_visualization.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/paddledetection_wb_dashboard.png">paddledetection_wb_dashboard.png</a></div>
+ <a href="../integrations/paddledetection_wb_dashboard.png"><img loading="lazy" src="../integrations/paddledetection_wb_dashboard.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/paddleocr_wb_dashboard1.png">paddleocr_wb_dashboard1.png</a></div>
+ <a href="../integrations/paddleocr_wb_dashboard1.png"><img loading="lazy" src="../integrations/paddleocr_wb_dashboard1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/paddleocr_wb_dashboard3.png">paddleocr_wb_dashboard3.png</a></div>
+ <a href="../integrations/paddleocr_wb_dashboard3.png"><img loading="lazy" src="../integrations/paddleocr_wb_dashboard3.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/prodigy_interactive_visual.png">prodigy_interactive_visual.png</a></div>
+ <a href="../integrations/prodigy_interactive_visual.png"><img loading="lazy" src="../integrations/prodigy_interactive_visual.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pyg_graph_plotly.png">pyg_graph_plotly.png</a></div>
+ <a href="../integrations/pyg_graph_plotly.png"><img loading="lazy" src="../integrations/pyg_graph_plotly.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pyg_graph_wandb.png">pyg_graph_wandb.png</a></div>
+ <a href="../integrations/pyg_graph_wandb.png"><img loading="lazy" src="../integrations/pyg_graph_wandb.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pyg_metrics.png">pyg_metrics.png</a></div>
+ <a href="../integrations/pyg_metrics.png"><img loading="lazy" src="../integrations/pyg_metrics.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pytorch-ignite-1.png">pytorch-ignite-1.png</a></div>
+ <a href="../integrations/pytorch-ignite-1.png"><img loading="lazy" src="../integrations/pytorch-ignite-1.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pytorch-ignite-2.png">pytorch-ignite-2.png</a></div>
+ <a href="../integrations/pytorch-ignite-2.png"><img loading="lazy" src="../integrations/pytorch-ignite-2.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pytorch-ignite-3.png">pytorch-ignite-3.png</a></div>
+ <a href="../integrations/pytorch-ignite-3.png"><img loading="lazy" src="../integrations/pytorch-ignite-3.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pytorch-ignite-4.png">pytorch-ignite-4.png</a></div>
+ <a href="../integrations/pytorch-ignite-4.png"><img loading="lazy" src="../integrations/pytorch-ignite-4.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pytorch_example_dashboard.png">pytorch_example_dashboard.png</a></div>
+ <a href="../integrations/pytorch_example_dashboard.png"><img loading="lazy" src="../integrations/pytorch_example_dashboard.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/pytorch_example_table.png">pytorch_example_table.png</a></div>
+ <a href="../integrations/pytorch_example_table.png"><img loading="lazy" src="../integrations/pytorch_example_table.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikic_class_props.png">scikic_class_props.png</a></div>
+ <a href="../integrations/scikic_class_props.png"><img loading="lazy" src="../integrations/scikic_class_props.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_calibration_curve.png">scikit_calibration_curve.png</a></div>
+ <a href="../integrations/scikit_calibration_curve.png"><img loading="lazy" src="../integrations/scikit_calibration_curve.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_confusion_matrix.png">scikit_confusion_matrix.png</a></div>
+ <a href="../integrations/scikit_confusion_matrix.png"><img loading="lazy" src="../integrations/scikit_confusion_matrix.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_elbow_plot.png">scikit_elbow_plot.png</a></div>
+ <a href="../integrations/scikit_elbow_plot.png"><img loading="lazy" src="../integrations/scikit_elbow_plot.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_feature_importances.png">scikit_feature_importances.png</a></div>
+ <a href="../integrations/scikit_feature_importances.png"><img loading="lazy" src="../integrations/scikit_feature_importances.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_learning_curve.png">scikit_learning_curve.png</a></div>
+ <a href="../integrations/scikit_learning_curve.png"><img loading="lazy" src="../integrations/scikit_learning_curve.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_outlier_plot.png">scikit_outlier_plot.png</a></div>
+ <a href="../integrations/scikit_outlier_plot.png"><img loading="lazy" src="../integrations/scikit_outlier_plot.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_precision_recall.png">scikit_precision_recall.png</a></div>
+ <a href="../integrations/scikit_precision_recall.png"><img loading="lazy" src="../integrations/scikit_precision_recall.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_residuals_plot.png">scikit_residuals_plot.png</a></div>
+ <a href="../integrations/scikit_residuals_plot.png"><img loading="lazy" src="../integrations/scikit_residuals_plot.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_roc.png">scikit_roc.png</a></div>
+ <a href="../integrations/scikit_roc.png"><img loading="lazy" src="../integrations/scikit_roc.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_silhouette_plot.png">scikit_silhouette_plot.png</a></div>
+ <a href="../integrations/scikit_silhouette_plot.png"><img loading="lazy" src="../integrations/scikit_silhouette_plot.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/scikit_summary_metrics.png">scikit_summary_metrics.png</a></div>
+ <a href="../integrations/scikit_summary_metrics.png"><img loading="lazy" src="../integrations/scikit_summary_metrics.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/xgboost_sweeps_example.png">xgboost_sweeps_example.png</a></div>
+ <a href="../integrations/xgboost_sweeps_example.png"><img loading="lazy" src="../integrations/xgboost_sweeps_example.png"></a>
+</div>
+<div class="row">
+ <div class="meta"><a href="../integrations/yolov5_data_visualization.png">yolov5_data_visualization.png</a></div>
+ <a href="../integrations/yolov5_data_visualization.png"><img loading="lazy" src="../integrations/yolov5_data_visualization.png"></a>
+</div></div></body></html>

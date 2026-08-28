@@ -1,0 +1,342 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/hosting",
+ "count": 48,
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/access_system_console_directly.png",
+   "width": 1718,
+   "height": 1242,
+   "bytes": 153730,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/access_system_console_via_main_app.png",
+   "width": 450,
+   "height": 670,
+   "bytes": 59909,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/active_spec.png",
+   "width": 1207,
+   "height": 853,
+   "bytes": 31865,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/add_an_oath.png",
+   "width": 218,
+   "height": 324,
+   "bytes": 16542,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/check_local_host.png",
+   "width": 2264,
+   "height": 3140,
+   "bytes": 381298,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/configure_file_store.png",
+   "width": 749,
+   "height": 358,
+   "bytes": 26181,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/configure_file_store_gcp.png",
+   "width": 1752,
+   "height": 878,
+   "bytes": 49224,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/configure_redis.png",
+   "width": 659,
+   "height": 799,
+   "bytes": 46096,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/copy_api_key.png",
+   "width": 2254,
+   "height": 2008,
+   "bytes": 75831,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/create_an_app.png",
+   "width": 1442,
+   "height": 686,
+   "bytes": 57009,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/create_new_team.png",
+   "width": 3064,
+   "height": 1452,
+   "bytes": 339369,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/dedicated_cloud_arch.png",
+   "width": 823,
+   "height": 675,
+   "bytes": 22099,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/deploy_manager_generate.png",
+   "width": 2306,
+   "height": 1842,
+   "bytes": 101786,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/deploy_manager_get_license.png",
+   "width": 2764,
+   "height": 2182,
+   "bytes": 220805,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/deploy_manager_info.png",
+   "width": 2230,
+   "height": 2372,
+   "bytes": 171129,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/deploy_manager_platform.png",
+   "width": 2262,
+   "height": 2008,
+   "bytes": 122280,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/disable_automatic_updates_saved_and_enabled.png",
+   "width": 800,
+   "height": 312,
+   "bytes": 27752,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/entra_app_overview_make_note.png",
+   "width": 3022,
+   "height": 1328,
+   "bytes": 261077,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/entra_make_note_of_secret_value.png",
+   "width": 2156,
+   "height": 646,
+   "bytes": 69384,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/multi_tenant_cloud_arch.png",
+   "width": 875,
+   "height": 484,
+   "bytes": 14132,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/name_app_workspace.png",
+   "width": 1160,
+   "height": 1106,
+   "bytes": 83480,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/okta_create_a_new_app_integration.png",
+   "width": 1935,
+   "height": 1690,
+   "bytes": 206575,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/okta_create_new_app_integration.png",
+   "width": 2330,
+   "height": 1319,
+   "bytes": 148789,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/okta_identify_oidc_issuer_url.png",
+   "width": 2166,
+   "height": 1172,
+   "bytes": 112705,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/okta_make_note_of_client_id.png",
+   "width": 1434,
+   "height": 1734,
+   "bytes": 123862,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/okta_new_single_page_app_integration.png",
+   "width": 1692,
+   "height": 2675,
+   "bytes": 226919,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/okta_select_applications.png",
+   "width": 1978,
+   "height": 1625,
+   "bytes": 149729,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/operator.png",
+   "width": 1000,
+   "height": 616,
+   "bytes": 11652,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/post-operator-apply.png",
+   "width": 1999,
+   "height": 162,
+   "bytes": 12616,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/prod_setup_secure_storage.png",
+   "width": 1226,
+   "height": 1630,
+   "bytes": 92368,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/redirect_urls.png",
+   "width": 650,
+   "height": 321,
+   "bytes": 27618,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/reference_architecture.png",
+   "width": 851,
+   "height": 1151,
+   "bytes": 42618,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/register_slack_app.png",
+   "width": 667,
+   "height": 187,
+   "bytes": 10147,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/register_slack_app_console.png",
+   "width": 1134,
+   "height": 477,
+   "bytes": 57865,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/restricted_project_2.png",
+   "width": 2401,
+   "height": 968,
+   "bytes": 75574,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/s3-notification.png",
+   "width": 597,
+   "height": 916,
+   "bytes": 35738,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/save_urls.png",
+   "width": 656,
+   "height": 291,
+   "bytes": 21948,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/setup_aws_cognito.png",
+   "width": 1672,
+   "height": 946,
+   "bytes": 105141,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/setup_aws_cognito_issuer_url.png",
+   "width": 3166,
+   "height": 1616,
+   "bytes": 167772,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/setup_aws_cognito_ui_settings.png",
+   "width": 1658,
+   "height": 1056,
+   "bytes": 114742,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/setup_aws_required_fields.png",
+   "width": 1656,
+   "height": 670,
+   "bytes": 80267,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/signup_localhost.png",
+   "width": 2908,
+   "height": 1638,
+   "bytes": 489120,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/sso_configure_via_console.png",
+   "width": 2763,
+   "height": 888,
+   "bytes": 105429,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/system_settings.png",
+   "width": 1041,
+   "height": 1079,
+   "bytes": 148549,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/system_settings_select_settings.png",
+   "width": 1049,
+   "height": 396,
+   "bytes": 56205,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/system_settings_select_update.png",
+   "width": 922,
+   "height": 1338,
+   "bytes": 85818,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/team_settings.png",
+   "width": 3062,
+   "height": 1532,
+   "bytes": 265001,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/hosting/user_spec.png",
+   "width": 976,
+   "height": 646,
+   "bytes": 10847,
+   "has_backup": false
+  }
+ ]
+}

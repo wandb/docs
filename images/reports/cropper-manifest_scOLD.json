@@ -1,0 +1,118 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/reports",
+ "count": 16,
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/create_a_report_button.png",
+   "width": 2510,
+   "height": 462,
+   "bytes": 36238,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/create_a_report_modal.png",
+   "width": 920,
+   "height": 840,
+   "bytes": 38078,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/create_report_button.png",
+   "width": 2542,
+   "height": 1614,
+   "bytes": 199800,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/freeze_runset.png",
+   "width": 1799,
+   "height": 552,
+   "bytes": 76367,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/intro_collaborate1.png",
+   "width": 1142,
+   "height": 1434,
+   "bytes": 796418,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/intro_collaborate2.png",
+   "width": 1136,
+   "height": 1432,
+   "bytes": 130846,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/intro_collaborate3.png",
+   "width": 1468,
+   "height": 1586,
+   "bytes": 2913412,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/intro_collaborate4.png",
+   "width": 1496,
+   "height": 1544,
+   "bytes": 1314623,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/intro_work_log_1.png",
+   "width": 756,
+   "height": 1462,
+   "bytes": 356024,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/intro_work_log_2.png",
+   "width": 738,
+   "height": 1466,
+   "bytes": 641465,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/markdown.png",
+   "width": 1000,
+   "height": 178,
+   "bytes": 24361,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/notes_add_quick_summary.png",
+   "width": 1726,
+   "height": 1502,
+   "bytes": 353565,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/notes_add_quick_summary_save_best_examples.png",
+   "width": 2188,
+   "height": 1554,
+   "bytes": 194959,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/render_html.png",
+   "width": 1410,
+   "height": 426,
+   "bytes": 19049,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/reports_faq_wysiwyg.png",
+   "width": 1518,
+   "height": 176,
+   "bytes": 14458,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/reports/safe-lite-benchmark-with-comments.png",
+   "width": 2376,
+   "height": 2538,
+   "bytes": 1282151,
+   "has_backup": false
+  }
+ ]
+}

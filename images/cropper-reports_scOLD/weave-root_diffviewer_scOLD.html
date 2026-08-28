@@ -1,0 +1,1444 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Diff viewer: weave</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>Diff viewer: weave</b> &mdash; 128 images cropped &mdash; left = original backup, right = cropped result</header>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2objs-baseline-set.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-baseline-set.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/comparison-2objs-baseline-set_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-baseline-set_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-baseline-set_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-baseline-set.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-baseline-set.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2objs-baseline.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-baseline.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/comparison-2objs-baseline_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-baseline_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-baseline_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-baseline.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-baseline.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2objs-sidebyside.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-sidebyside.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/comparison-2objs-sidebyside_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-sidebyside_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-sidebyside_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-sidebyside.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-sidebyside.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2objs-summary.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-summary.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/comparison-2objs-summary_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-summary_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-summary_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-summary.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-summary.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2objs-unified.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2objs-unified.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/comparison-2objs-unified_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-unified_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-unified_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2objs-unified.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2objs-unified.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-2obs-calls.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-2obs-calls.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/comparison-2obs-calls_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2obs-calls_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2obs-calls_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-2obs-calls.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-2obs-calls.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/comparison-7objs-diffonly-subset_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-7objs-diffonly-subset_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-7objs-diffonly-subset_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png"><img loading="lazy" src="../../weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/custom-runtime.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/custom-runtime.png</a><br>
+  category <b>left</b> &middot; cropped x=51 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/custom-runtime_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/custom-runtime_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/custom-runtime_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/custom-runtime.png"><img loading="lazy" src="../../weave/guides/tools/imgs/custom-runtime.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/open_chat_in_playground.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/open_chat_in_playground.png</a><br>
+  category <b>left</b> &middot; cropped x=114 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/open_chat_in_playground_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/open_chat_in_playground_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/open_chat_in_playground_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/open_chat_in_playground.png"><img loading="lazy" src="../../weave/guides/tools/imgs/open_chat_in_playground.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/playground_chat_input.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/playground_chat_input.png</a><br>
+  category <b>left</b> &middot; cropped x=100 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/playground_chat_input_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/playground_chat_input_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/playground_chat_input_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/playground_chat_input.png"><img loading="lazy" src="../../weave/guides/tools/imgs/playground_chat_input.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tools/imgs/playground_settings.png">/Users/aguspan/Docs/docs/weave/guides/tools/imgs/playground_settings.png</a><br>
+  category <b>left</b> &middot; cropped x=100 y=0
+  &middot; original: <a href="../../weave/guides/tools/imgs/playground_settings_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tools/imgs/playground_settings_scOLD.png"><img loading="lazy" src="../../weave/guides/tools/imgs/playground_settings_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tools/imgs/playground_settings.png"><img loading="lazy" src="../../weave/guides/tools/imgs/playground_settings.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/platform/imgs/weave-project.png">/Users/aguspan/Docs/docs/weave/guides/platform/imgs/weave-project.png</a><br>
+  category <b>left</b> &middot; cropped x=52 y=0
+  &middot; original: <a href="../../weave/guides/platform/imgs/weave-project_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/platform/imgs/weave-project_scOLD.png"><img loading="lazy" src="../../weave/guides/platform/imgs/weave-project_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/platform/imgs/weave-project.png"><img loading="lazy" src="../../weave/guides/platform/imgs/weave-project.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/anthropic_model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_model.png</a><br>
+  category <b>left</b> &middot; cropped x=116 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/anthropic_model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/anthropic_ops.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_ops.png</a><br>
+  category <b>left</b> &middot; cropped x=116 y=4
+  &middot; original: <a href="../../weave/guides/integrations/imgs/anthropic_ops_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_ops_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_ops_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_ops.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_ops.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/anthropic_tool.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_tool.png</a><br>
+  category <b>left</b> &middot; cropped x=116 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/anthropic_tool_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_tool_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_tool_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_tool.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_tool.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/anthropic_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/anthropic_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=116 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/anthropic_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/anthropic_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/anthropic_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/chatnvidia_model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/chatnvidia_model.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=1
+  &middot; original: <a href="../../weave/guides/integrations/imgs/chatnvidia_model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/chatnvidia_model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/chatnvidia_model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/chatnvidia_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/chatnvidia_model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/google-genai-ops.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google-genai-ops.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/google-genai-ops_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google-genai-ops_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google-genai-ops_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google-genai-ops.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google-genai-ops.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/google-genai-trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google-genai-trace.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/google-genai-trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google-genai-trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google-genai-trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google-genai-trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google-genai-trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/image.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/image.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/image_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/image_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/image_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/image.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/image.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-advanced-evals.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-advanced-evals.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/inference-advanced-evals_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/inference-advanced-evals_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-advanced-evals_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/inference-advanced-evals.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-advanced-evals.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-advanced-leaderboard.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-advanced-leaderboard.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/inference-advanced-leaderboard_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/inference-advanced-leaderboard_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-advanced-leaderboard_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/inference-advanced-leaderboard.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-advanced-leaderboard.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/inference-playground.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/inference-playground.png</a><br>
+  category <b>left</b> &middot; cropped x=110 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/inference-playground_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/inference-playground_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-playground_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/inference-playground.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/inference-playground.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/koog.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/koog.png</a><br>
+  category <b>top_left</b> &middot; cropped x=118 y=229
+  &middot; original: <a href="../../weave/guides/integrations/imgs/koog_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/koog_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/koog_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/koog.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/koog.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/langchain_attributes.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_attributes.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=4
+  &middot; original: <a href="../../weave/guides/integrations/imgs/langchain_attributes_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_attributes_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_attributes_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_attributes.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_attributes.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/langchain_eval.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_eval.png</a><br>
+  category <b>left</b> &middot; cropped x=47 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/langchain_eval_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_eval_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_eval_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_eval.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_eval.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/langchain_model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_model.png</a><br>
+  category <b>left</b> &middot; cropped x=47 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/langchain_model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/langchain_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/langchain_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=47 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/langchain_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/langchain_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/langchain_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/llamaindex_evaluation.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_evaluation.png</a><br>
+  category <b>top_left</b> &middot; cropped x=116 y=118
+  &middot; original: <a href="../../weave/guides/integrations/imgs/llamaindex_evaluation_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/llamaindex_evaluation_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/llamaindex_evaluation_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/llamaindex_evaluation.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/llamaindex_evaluation.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/llamaindex_model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_model.png</a><br>
+  category <b>top_left</b> &middot; cropped x=116 y=116
+  &middot; original: <a href="../../weave/guides/integrations/imgs/llamaindex_model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/llamaindex_model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/llamaindex_model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/llamaindex_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/llamaindex_model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/llamaindex_rag.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/llamaindex_rag.png</a><br>
+  category <b>top_left</b> &middot; cropped x=116 y=116
+  &middot; original: <a href="../../weave/guides/integrations/imgs/llamaindex_rag_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/llamaindex_rag_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/llamaindex_rag_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/llamaindex_rag.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/llamaindex_rag.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/mistral_model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_model.png</a><br>
+  category <b>left</b> &middot; cropped x=116 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/mistral_model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/mistral_model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mistral_model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/mistral_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mistral_model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/mistral_ops.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_ops.png</a><br>
+  category <b>left</b> &middot; cropped x=118 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/mistral_ops_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/mistral_ops_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mistral_ops_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/mistral_ops.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mistral_ops.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/mistral_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/mistral_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=116 y=8
+  &middot; original: <a href="../../weave/guides/integrations/imgs/mistral_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/mistral_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mistral_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/mistral_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/mistral_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/openai-model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai-model.png</a><br>
+  category <b>left</b> &middot; cropped x=114 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/openai-model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/openai-model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/openai-model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/openai-model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/openai-model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/openai-pokedex.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai-pokedex.png</a><br>
+  category <b>left</b> &middot; cropped x=125 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/openai-pokedex_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/openai-pokedex_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/openai-pokedex_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/openai-pokedex.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/openai-pokedex.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/openai.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/openai.png</a><br>
+  category <b>left</b> &middot; cropped x=123 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/openai_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/openai_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/openai_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/openai.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/openai.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/simple_llamaindex.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/simple_llamaindex.png</a><br>
+  category <b>top_left</b> &middot; cropped x=116 y=116
+  &middot; original: <a href="../../weave/guides/integrations/imgs/simple_llamaindex_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/simple_llamaindex_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/simple_llamaindex_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/simple_llamaindex.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/simple_llamaindex.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/smolagents-custom-tool.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/smolagents-custom-tool.png</a><br>
+  category <b>left</b> &middot; cropped x=110 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/smolagents-custom-tool_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/smolagents-custom-tool_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/smolagents-custom-tool_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/smolagents-custom-tool.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/smolagents-custom-tool.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/smolagents-trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/smolagents-trace.png</a><br>
+  category <b>left</b> &middot; cropped x=110 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/smolagents-trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/smolagents-trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/smolagents-trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/smolagents-trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/smolagents-trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/dspy/dspy_custom_module.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_custom_module.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/dspy/dspy_custom_module_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/dspy/dspy_custom_module_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/dspy/dspy_custom_module_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/dspy/dspy_custom_module.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/dspy/dspy_custom_module.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/dspy/dspy_optimizer.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_optimizer.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/dspy/dspy_optimizer_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/dspy/dspy_optimizer_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/dspy/dspy_optimizer_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/dspy/dspy_optimizer.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/dspy/dspy_optimizer.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/dspy/dspy_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/dspy/dspy_trace.png</a><br>
+  category <b>top_left</b> &middot; cropped x=116 y=120
+  &middot; original: <a href="../../weave/guides/integrations/imgs/dspy/dspy_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/dspy/dspy_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/dspy/dspy_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/dspy/dspy_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/dspy/dspy_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/crewai/crew.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew.png</a><br>
+  category <b>top_left</b> &middot; cropped x=112 y=118
+  &middot; original: <a href="../../weave/guides/integrations/imgs/crewai/crew_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/crew_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/crew_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/crew.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/crew.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/crewai/crew_with_guardrail.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew_with_guardrail.png</a><br>
+  category <b>top_left</b> &middot; cropped x=112 y=114
+  &middot; original: <a href="../../weave/guides/integrations/imgs/crewai/crew_with_guardrail_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/crew_with_guardrail_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/crew_with_guardrail_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/crew_with_guardrail.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/crew_with_guardrail.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/crewai/crew_with_tool.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/crew_with_tool.png</a><br>
+  category <b>top_left</b> &middot; cropped x=110 y=116
+  &middot; original: <a href="../../weave/guides/integrations/imgs/crewai/crew_with_tool_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/crew_with_tool_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/crew_with_tool_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/crew_with_tool.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/crew_with_tool.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/crewai/flow.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/crewai/flow.png</a><br>
+  category <b>top_left</b> &middot; cropped x=112 y=116
+  &middot; original: <a href="../../weave/guides/integrations/imgs/crewai/flow_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/flow_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/flow_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/crewai/flow.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/crewai/flow.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/groq/groq_weave_dasboard.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=120
+  &middot; original: <a href="../../weave/guides/integrations/imgs/groq/groq_weave_dasboard_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_dasboard_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_dasboard_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_dasboard.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_dasboard.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/groq/groq_weave_model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_model.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=120
+  &middot; original: <a href="../../weave/guides/integrations/imgs/groq/groq_weave_model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/groq/groq_weave_model_version.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_model_version.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=120
+  &middot; original: <a href="../../weave/guides/integrations/imgs/groq/groq_weave_model_version_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_model_version_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_model_version_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_model_version.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_model_version.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/groq/groq_weave_tracing.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/groq/groq_weave_tracing.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=120
+  &middot; original: <a href="../../weave/guides/integrations/imgs/groq/groq_weave_tracing_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_tracing_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_tracing_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/groq/groq_weave_tracing.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/groq/groq_weave_tracing.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/notdiamond/evaluations.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/evaluations.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=112
+  &middot; original: <a href="../../weave/guides/integrations/imgs/notdiamond/evaluations_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/notdiamond/evaluations_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/notdiamond/evaluations_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/notdiamond/evaluations.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/notdiamond/evaluations.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/notdiamond/weave-trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/notdiamond/weave-trace.png</a><br>
+  category <b>top_left</b> &middot; cropped x=108 y=116
+  &middot; original: <a href="../../weave/guides/integrations/imgs/notdiamond/weave-trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/notdiamond/weave-trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/notdiamond/weave-trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/notdiamond/weave-trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/notdiamond/weave-trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/agno/agno_agent_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_agent_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/agno/agno_agent_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_agent_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_agent_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_agent_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_agent_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/agno/agno_memory_use.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_memory_use.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/agno/agno_memory_use_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_memory_use_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_memory_use_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_memory_use.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_memory_use.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/agno/agno_reasoning_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/agno/agno_reasoning_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_reasoning_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_reasoning_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_reasoning_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_reasoning_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/agno/agno_team_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_team_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/agno/agno_team_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_team_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_team_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_team_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_team_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/agno/agno_tool_calls.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/agno/agno_tool_calls.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/agno/agno_tool_calls_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_tool_calls_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_tool_calls_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/agno/agno_tool_calls.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/agno/agno_tool_calls.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/huggingface/trace_call.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_call.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/huggingface/trace_call_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_call_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_call_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_call.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_call.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/huggingface/trace_chat.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_chat.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/huggingface/trace_chat_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_chat_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_chat_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_chat.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_chat.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/huggingface/trace_model.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_model.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/huggingface/trace_model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_model_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_model.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/huggingface/trace_ops.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/huggingface/trace_ops.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/huggingface/trace_ops_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_ops_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_ops_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/huggingface/trace_ops.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/huggingface/trace_ops.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/google_adk/adk_agent_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=104 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/google_adk/adk_agent_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google_adk/adk_agent_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google_adk/adk_agent_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google_adk/adk_agent_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google_adk/adk_agent_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/google_adk/adk_tool_calls.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png</a><br>
+  category <b>left</b> &middot; cropped x=104 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/google_adk/adk_tool_calls_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google_adk/adk_tool_calls_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google_adk/adk_tool_calls_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google_adk/adk_tool_calls.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google_adk/adk_tool_calls.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/google_adk/adk_workflow_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google_adk/adk_workflow_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google_adk/adk_workflow_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/instructor/instructor_op_trace.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/instructor/instructor_op_trace.png</a><br>
+  category <b>left</b> &middot; cropped x=102 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/instructor/instructor_op_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/instructor/instructor_op_trace_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/instructor/instructor_op_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/instructor/instructor_op_trace.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/instructor/instructor_op_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/instructor/instructor_serve.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/instructor/instructor_serve.png</a><br>
+  category <b>left</b> &middot; cropped x=102 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/instructor/instructor_serve_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/instructor/instructor_serve_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/instructor/instructor_serve_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/instructor/instructor_serve.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/instructor/instructor_serve.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-agent-tools.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png</a><br>
+  category <b>left</b> &middot; cropped x=106 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-agent-tools_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-agent-tools_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-agent-tools_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-agent-tools.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-agent-tools.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-cached-client.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-cached-client.png</a><br>
+  category <b>left</b> &middot; cropped x=106 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-cached-client_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-cached-client_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-cached-client_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-cached-client.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-cached-client.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-codegen.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-codegen.png</a><br>
+  category <b>left</b> &middot; cropped x=106 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-codegen_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-codegen_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-codegen_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-codegen.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-codegen.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-memory.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-memory.png</a><br>
+  category <b>left</b> &middot; cropped x=108 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-memory_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-memory_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-memory_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-memory.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-memory.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-rag.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-rag.png</a><br>
+  category <b>left</b> &middot; cropped x=110 y=2
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-rag_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-rag_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-rag_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-rag.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-rag.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-runtime.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-runtime.png</a><br>
+  category <b>left</b> &middot; cropped x=110 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-runtime_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-runtime_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-runtime_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-runtime.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-runtime.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png</a><br>
+  category <b>top_left</b> &middot; cropped x=110 y=110
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-sequential-workflow_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-sequential-workflow_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-sequential-workflow_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-simple-client.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-simple-client.png</a><br>
+  category <b>left</b> &middot; cropped x=104 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-simple-client_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-simple-client_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-simple-client_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-simple-client.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-simple-client.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/autogen-streaming-client.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/autogen-streaming-client.png</a><br>
+  category <b>left</b> &middot; cropped x=104 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/autogen-streaming-client_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-streaming-client_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-streaming-client_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/autogen-streaming-client.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/autogen-streaming-client.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/integrations/imgs/autogen/round_robin_group_chat.png">/Users/aguspan/Docs/docs/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png</a><br>
+  category <b>left</b> &middot; cropped x=106 y=0
+  &middot; original: <a href="../../weave/guides/integrations/imgs/autogen/round_robin_group_chat_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/round_robin_group_chat_scOLD.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/round_robin_group_chat_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/integrations/imgs/autogen/round_robin_group_chat.png"><img loading="lazy" src="../../weave/guides/integrations/imgs/autogen/round_robin_group_chat.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/call_scores_tab.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/call_scores_tab.png</a><br>
+  category <b>top_left</b> &middot; cropped x=168 y=180
+  &middot; original: <a href="../../weave/guides/evaluation/img/call_scores_tab_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/call_scores_tab_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/call_scores_tab_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/call_scores_tab.png"><img loading="lazy" src="../../weave/guides/evaluation/img/call_scores_tab.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/comparison-evals-baseline-set.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison-evals-baseline-set.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/comparison-evals-baseline-set_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/comparison-evals-baseline-set_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/comparison-evals-baseline-set_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/comparison-evals-baseline-set.png"><img loading="lazy" src="../../weave/guides/evaluation/img/comparison-evals-baseline-set.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/comparison-evals-baseline.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison-evals-baseline.png</a><br>
+  category <b>left</b> &middot; cropped x=49 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/comparison-evals-baseline_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/comparison-evals-baseline_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/comparison-evals-baseline_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/comparison-evals-baseline.png"><img loading="lazy" src="../../weave/guides/evaluation/img/comparison-evals-baseline.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/comparison.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/comparison.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/comparison_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/comparison_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/comparison_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/comparison.png"><img loading="lazy" src="../../weave/guides/evaluation/img/comparison.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/configure-leaderboard.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/configure-leaderboard.png</a><br>
+  category <b>left</b> &middot; cropped x=70 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/configure-leaderboard_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/configure-leaderboard_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/configure-leaderboard_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/configure-leaderboard.png"><img loading="lazy" src="../../weave/guides/evaluation/img/configure-leaderboard.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/edit-leaderboard.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/edit-leaderboard.png</a><br>
+  category <b>left</b> &middot; cropped x=70 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/edit-leaderboard_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/edit-leaderboard_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/edit-leaderboard_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/edit-leaderboard.png"><img loading="lazy" src="../../weave/guides/evaluation/img/edit-leaderboard.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/eval-compare-select.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-compare-select.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/eval-compare-select_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/eval-compare-select_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/eval-compare-select_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/eval-compare-select.png"><img loading="lazy" src="../../weave/guides/evaluation/img/eval-compare-select.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/eval-compare.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-compare.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/eval-compare_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/eval-compare_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/eval-compare_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/eval-compare.png"><img loading="lazy" src="../../weave/guides/evaluation/img/eval-compare.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/eval-playground-ui.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/eval-playground-ui.png</a><br>
+  category <b>top_left</b> &middot; cropped x=51 y=56
+  &middot; original: <a href="../../weave/guides/evaluation/img/eval-playground-ui_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/eval-playground-ui_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/eval-playground-ui_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/eval-playground-ui.png"><img loading="lazy" src="../../weave/guides/evaluation/img/eval-playground-ui.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/filtered_calls_scorer_name.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/filtered_calls_scorer_name.png</a><br>
+  category <b>top_left</b> &middot; cropped x=70 y=75
+  &middot; original: <a href="../../weave/guides/evaluation/img/filtered_calls_scorer_name_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/filtered_calls_scorer_name_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/filtered_calls_scorer_name_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/filtered_calls_scorer_name.png"><img loading="lazy" src="../../weave/guides/evaluation/img/filtered_calls_scorer_name.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/filtered_calls_to_scorer_version.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/filtered_calls_to_scorer_version.png</a><br>
+  category <b>top_left</b> &middot; cropped x=70 y=75
+  &middot; original: <a href="../../weave/guides/evaluation/img/filtered_calls_to_scorer_version_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/filtered_calls_to_scorer_version_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/filtered_calls_to_scorer_version_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/filtered_calls_to_scorer_version.png"><img loading="lazy" src="../../weave/guides/evaluation/img/filtered_calls_to_scorer_version.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/monitors-4.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/monitors-4.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/monitors-4_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/monitors-4_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/monitors-4_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/monitors-4.png"><img loading="lazy" src="../../weave/guides/evaluation/img/monitors-4.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/scorer_detail_page.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/scorer_detail_page.png</a><br>
+  category <b>top_left</b> &middot; cropped x=70 y=75
+  &middot; original: <a href="../../weave/guides/evaluation/img/scorer_detail_page_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/scorer_detail_page_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/scorer_detail_page_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/scorer_detail_page.png"><img loading="lazy" src="../../weave/guides/evaluation/img/scorer_detail_page.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/traces_table_scores.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/traces_table_scores.png</a><br>
+  category <b>top_left</b> &middot; cropped x=168 y=180
+  &middot; original: <a href="../../weave/guides/evaluation/img/traces_table_scores_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/traces_table_scores_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/traces_table_scores_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/traces_table_scores.png"><img loading="lazy" src="../../weave/guides/evaluation/img/traces_table_scores.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/weave_signals_project_dash.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_project_dash.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/weave_signals_project_dash_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/weave_signals_project_dash_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/weave_signals_project_dash_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/weave_signals_project_dash.png"><img loading="lazy" src="../../weave/guides/evaluation/img/weave_signals_project_dash.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/weave_signals_trace_hover.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_trace_hover.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/weave_signals_trace_hover_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/weave_signals_trace_hover_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/weave_signals_trace_hover_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/weave_signals_trace_hover.png"><img loading="lazy" src="../../weave/guides/evaluation/img/weave_signals_trace_hover.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/evaluation/img/weave_signals_trace_reasoning.png">/Users/aguspan/Docs/docs/weave/guides/evaluation/img/weave_signals_trace_reasoning.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/evaluation/img/weave_signals_trace_reasoning_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/evaluation/img/weave_signals_trace_reasoning_scOLD.png"><img loading="lazy" src="../../weave/guides/evaluation/img/weave_signals_trace_reasoning_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/evaluation/img/weave_signals_trace_reasoning.png"><img loading="lazy" src="../../weave/guides/evaluation/img/weave_signals_trace_reasoning.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/AnnotationAddTraces.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationAddTraces.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/AnnotationAddTraces_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationAddTraces_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationAddTraces_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationAddTraces.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationAddTraces.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/AnnotationCreateField.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationCreateField.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/AnnotationCreateField_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationCreateField_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationCreateField_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationCreateField.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationCreateField.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/AnnotationLinkToQueue.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationLinkToQueue.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/AnnotationLinkToQueue_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationLinkToQueue_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationLinkToQueue_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationLinkToQueue.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationLinkToQueue.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/AnnotationQueues.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationQueues.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/AnnotationQueues_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationQueues_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationQueues_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationQueues.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationQueues.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/AnnotationSubmitItem.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationSubmitItem.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/AnnotationSubmitItem_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationSubmitItem_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationSubmitItem_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationSubmitItem.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationSubmitItem.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/AnnotationTracesFilter.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/AnnotationTracesFilter.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/AnnotationTracesFilter_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationTracesFilter_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationTracesFilter_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/AnnotationTracesFilter.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/AnnotationTracesFilter.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-agent-detail.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-agent-detail.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-agent-detail_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-agent-detail_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-agent-detail_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-agent-detail.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-agent-detail.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-agent.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-agent.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-agent_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-agent_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-agent_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-agent.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-agent.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-conversation-detail.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-conversation-detail.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-conversation-detail_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-conversation-detail_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-conversation-detail_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-conversation-detail.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-conversation-detail.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-conversation.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-conversation.png</a><br>
+  category <b>left</b> &middot; cropped x=56 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-conversation_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-conversation_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-conversation_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-conversation.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-conversation.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-dashboard.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-dashboard.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-dashboard_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-dashboard_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-dashboard_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-dashboard.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-dashboard.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-signals.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-signals.png</a><br>
+  category <b>left</b> &middot; cropped x=54 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-signals_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-signals_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-signals_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-signals.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-signals.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-spans-detail.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-spans-detail.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-spans-detail_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-spans-detail_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-spans-detail_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-spans-detail.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-spans-detail.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agent-view-spans.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agent-view-spans.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agent-view-spans_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-spans_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-spans_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agent-view-spans.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agent-view-spans.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/agents-byob.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/agents-byob.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/agents-byob_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agents-byob_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agents-byob_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/agents-byob.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/agents-byob.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/feedback-in-the-table.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback-in-the-table.png</a><br>
+  category <b>left</b> &middot; cropped x=114 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/feedback-in-the-table_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/feedback-in-the-table_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/feedback-in-the-table_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/feedback-in-the-table.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/feedback-in-the-table.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/feedback_calls.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/feedback_calls.png</a><br>
+  category <b>left</b> &middot; cropped x=114 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/feedback_calls_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/feedback_calls_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/feedback_calls_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/feedback_calls.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/feedback_calls.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/full-feedback-sidebar.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/full-feedback-sidebar.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/full-feedback-sidebar_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/full-feedback-sidebar_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/full-feedback-sidebar_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/full-feedback-sidebar.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/full-feedback-sidebar.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/generators.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/generators.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/generators_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/generators_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/generators_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/generators.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/generators.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/human-annotation-scorer-form.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/human-annotation-scorer-form.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/human-annotation-scorer-form_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/human-annotation-scorer-form_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/human-annotation-scorer-form_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/human-annotation-scorer-form.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/human-annotation-scorer-form.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/human-annotation-scorer-history.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/human-annotation-scorer-history.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/human-annotation-scorer-history_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/human-annotation-scorer-history_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/human-annotation-scorer-history_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/human-annotation-scorer-history.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/human-annotation-scorer-history.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/md-call-render.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/md-call-render.png</a><br>
+  category <b>left</b> &middot; cropped x=68 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/md-call-render_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/md-call-render_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/md-call-render_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/md-call-render.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/md-call-render.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/trace-tree-full.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace-tree-full.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/trace-tree-full_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/trace-tree-full_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace-tree-full_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/trace-tree-full.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace-tree-full.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/trace_export_modal.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/trace_export_modal.png</a><br>
+  category <b>left</b> &middot; cropped x=50 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/trace_export_modal_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/trace_export_modal_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace_export_modal_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/trace_export_modal.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/trace_export_modal.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/traces-byob.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/traces-byob.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/traces-byob_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/traces-byob_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/traces-byob_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/traces-byob.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/traces-byob.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/video-trace-popout.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/video-trace-popout.png</a><br>
+  category <b>left</b> &middot; cropped x=25 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/video-trace-popout_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/video-trace-popout_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/video-trace-popout_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/video-trace-popout.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/video-trace-popout.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/tracking/imgs/video-trace.png">/Users/aguspan/Docs/docs/weave/guides/tracking/imgs/video-trace.png</a><br>
+  category <b>left</b> &middot; cropped x=112 y=0
+  &middot; original: <a href="../../weave/guides/tracking/imgs/video-trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/video-trace_scOLD.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/video-trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/tracking/imgs/video-trace.png"><img loading="lazy" src="../../weave/guides/tracking/imgs/video-trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/audio-trace.png">/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/audio-trace.png</a><br>
+  category <b>left</b> &middot; cropped x=114 y=0
+  &middot; original: <a href="../../weave/guides/core-types/imgs/audio-trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/audio-trace_scOLD.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/audio-trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/audio-trace.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/audio-trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/cat-pumpkin-trace.png">/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/cat-pumpkin-trace.png</a><br>
+  category <b>left</b> &middot; cropped x=114 y=0
+  &middot; original: <a href="../../weave/guides/core-types/imgs/cat-pumpkin-trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/cat-pumpkin-trace_scOLD.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/cat-pumpkin-trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/cat-pumpkin-trace.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/cat-pumpkin-trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/datasetui.png">/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/datasetui.png</a><br>
+  category <b>left</b> &middot; cropped x=53 y=1
+  &middot; original: <a href="../../weave/guides/core-types/imgs/datasetui_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/datasetui_scOLD.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/datasetui.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/datasetui.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/prompt-alias-tags.png">/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/prompt-alias-tags.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/core-types/imgs/prompt-alias-tags_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/prompt-alias-tags_scOLD.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/prompt-alias-tags_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/prompt-alias-tags.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/prompt-alias-tags.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../weave/guides/core-types/imgs/prompt-object.png">/Users/aguspan/Docs/docs/weave/guides/core-types/imgs/prompt-object.png</a><br>
+  category <b>left</b> &middot; cropped x=55 y=0
+  &middot; original: <a href="../../weave/guides/core-types/imgs/prompt-object_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/prompt-object_scOLD.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/prompt-object_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../weave/guides/core-types/imgs/prompt-object.png"><img loading="lazy" src="../../weave/guides/core-types/imgs/prompt-object.png"></a></figure>
+ </div>
+</div></body></html>
