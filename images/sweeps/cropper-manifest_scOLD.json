@@ -1,0 +1,83 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/sweeps",
+ "count": 11,
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/example_parallel_coordiantes_plot.png",
+   "width": 3088,
+   "height": 750,
+   "bytes": 360151,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/intro_what_it_is.png",
+   "width": 1074,
+   "height": 870,
+   "bytes": 271143,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/quickstart_dashboard_example.png",
+   "width": 4302,
+   "height": 3048,
+   "bytes": 761160,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/scatter_and_parameter_importance.png",
+   "width": 3086,
+   "height": 846,
+   "bytes": 124476,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp",
+   "width": 2820,
+   "height": 228,
+   "bytes": 12188,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/sweep1.png",
+   "width": 1589,
+   "height": 636,
+   "bytes": 77696,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/sweep2.png",
+   "width": 2308,
+   "height": 1768,
+   "bytes": 179500,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/sweep3.png",
+   "width": 2082,
+   "height": 1046,
+   "bytes": 120956,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/sweep4.png",
+   "width": 3346,
+   "height": 1512,
+   "bytes": 374116,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/sweeps_faq_whatisestruns_1.png",
+   "width": 476,
+   "height": 406,
+   "bytes": 10608,
+   "has_backup": false
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/sweeps/tutorial_sweep_runs.png",
+   "width": 1786,
+   "height": 1086,
+   "bytes": 184311,
+   "has_backup": false
+  }
+ ]
+}
