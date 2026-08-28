@@ -1,0 +1,421 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Diff viewer: media</title><style>
+body { font-family: -apple-system, Helvetica, sans-serif; margin: 0; background: #f4f4f6; }
+header { position: sticky; top: 0; background: #1a1c1f; color: #fff; padding: 10px 16px;
+         z-index: 2; font-size: 14px; }
+header b { color: #ffcc33; }
+.row { background: #fff; margin: 14px; padding: 12px; border-radius: 8px;
+       box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.meta { font-size: 13px; color: #333; margin-bottom: 8px; word-break: break-all; }
+.meta a { color: #0b6ec5; }
+.reason { color: #a04b00; font-size: 13px; }
+.pair { display: flex; gap: 12px; }
+.pair figure { flex: 1; margin: 0; min-width: 0; }
+.pair figcaption { font-size: 12px; color: #666; margin-bottom: 4px; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; background:
+      repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 0 0/16px 16px; }
+button.copy { font-size: 12px; padding: 3px 10px; margin: 4px 8px 4px 0; cursor: pointer;
+              border: 1px solid #bbb; border-radius: 5px; background: #f7f7f7; }
+button.copy:active { background: #d9efe3; }
+code.cmd { font-size: 12px; background: #f0f0f2; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px; margin: 14px; }
+.grid .row { margin: 0; }
+</style></head><body>
+<script>
+function copyCmd(btn, cmd) {
+  function done() { btn.textContent = 'copied!'; setTimeout(() => btn.textContent = btn.dataset.label, 1200); }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(cmd).then(done);
+  } else {  // file:// pages are not a secure context in every browser
+    const ta = document.createElement('textarea');
+    ta.value = cmd; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+</script>
+<header><b>Diff viewer: media</b> &mdash; 35 images cropped &mdash; left = original backup, right = cropped result</header>
+<div class="row">
+ <div class="meta"><a href="../../media/pii/encrypt.png">/Users/aguspan/Docs/docs/media/pii/encrypt.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=120
+  &middot; original: <a href="../../media/pii/encrypt_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/pii/encrypt_scOLD.png"><img loading="lazy" src="../../media/pii/encrypt_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/pii/encrypt.png"><img loading="lazy" src="../../media/pii/encrypt.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/pii/redact.png">/Users/aguspan/Docs/docs/media/pii/redact.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=120
+  &middot; original: <a href="../../media/pii/redact_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/pii/redact_scOLD.png"><img loading="lazy" src="../../media/pii/redact_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/pii/redact.png"><img loading="lazy" src="../../media/pii/redact.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/pii/replace.png">/Users/aguspan/Docs/docs/media/pii/replace.png</a><br>
+  category <b>top_left</b> &middot; cropped x=114 y=130
+  &middot; original: <a href="../../media/pii/replace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/pii/replace_scOLD.png"><img loading="lazy" src="../../media/pii/replace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/pii/replace.png"><img loading="lazy" src="../../media/pii/replace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/1.png">/Users/aguspan/Docs/docs/media/intro/1.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/1_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/1_scOLD.png"><img loading="lazy" src="../../media/intro/1_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/1.png"><img loading="lazy" src="../../media/intro/1.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/10.png">/Users/aguspan/Docs/docs/media/intro/10.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/10_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/10_scOLD.png"><img loading="lazy" src="../../media/intro/10_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/10.png"><img loading="lazy" src="../../media/intro/10.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/2.png">/Users/aguspan/Docs/docs/media/intro/2.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/2_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/2_scOLD.png"><img loading="lazy" src="../../media/intro/2_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/2.png"><img loading="lazy" src="../../media/intro/2.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/3.png">/Users/aguspan/Docs/docs/media/intro/3.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/3_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/3_scOLD.png"><img loading="lazy" src="../../media/intro/3_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/3.png"><img loading="lazy" src="../../media/intro/3.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/4.png">/Users/aguspan/Docs/docs/media/intro/4.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/4_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/4_scOLD.png"><img loading="lazy" src="../../media/intro/4_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/4.png"><img loading="lazy" src="../../media/intro/4.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/5.png">/Users/aguspan/Docs/docs/media/intro/5.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/5_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/5_scOLD.png"><img loading="lazy" src="../../media/intro/5_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/5.png"><img loading="lazy" src="../../media/intro/5.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/6.png">/Users/aguspan/Docs/docs/media/intro/6.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/6_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/6_scOLD.png"><img loading="lazy" src="../../media/intro/6_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/6.png"><img loading="lazy" src="../../media/intro/6.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/7.png">/Users/aguspan/Docs/docs/media/intro/7.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/7_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/7_scOLD.png"><img loading="lazy" src="../../media/intro/7_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/7.png"><img loading="lazy" src="../../media/intro/7.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/8.png">/Users/aguspan/Docs/docs/media/intro/8.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/8_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/8_scOLD.png"><img loading="lazy" src="../../media/intro/8_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/8.png"><img loading="lazy" src="../../media/intro/8.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/intro/9.png">/Users/aguspan/Docs/docs/media/intro/9.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/intro/9_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/intro/9_scOLD.png"><img loading="lazy" src="../../media/intro/9_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/intro/9.png"><img loading="lazy" src="../../media/intro/9.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/summarization/dataset.png">/Users/aguspan/Docs/docs/media/summarization/dataset.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/summarization/dataset_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/summarization/dataset_scOLD.png"><img loading="lazy" src="../../media/summarization/dataset_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/summarization/dataset.png"><img loading="lazy" src="../../media/summarization/dataset.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/summarization/eval_dash.png">/Users/aguspan/Docs/docs/media/summarization/eval_dash.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/summarization/eval_dash_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/summarization/eval_dash_scOLD.png"><img loading="lazy" src="../../media/summarization/eval_dash_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/summarization/eval_dash.png"><img loading="lazy" src="../../media/summarization/eval_dash.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/summarization/model.png">/Users/aguspan/Docs/docs/media/summarization/model.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=126
+  &middot; original: <a href="../../media/summarization/model_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/summarization/model_scOLD.png"><img loading="lazy" src="../../media/summarization/model_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/summarization/model.png"><img loading="lazy" src="../../media/summarization/model.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/codegen/codegen_trace.png">/Users/aguspan/Docs/docs/media/codegen/codegen_trace.png</a><br>
+  category <b>top_left</b> &middot; cropped x=86 y=96
+  &middot; original: <a href="../../media/codegen/codegen_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/codegen/codegen_trace_scOLD.png"><img loading="lazy" src="../../media/codegen/codegen_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/codegen/codegen_trace.png"><img loading="lazy" src="../../media/codegen/codegen_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/codegen/eval_dash.png">/Users/aguspan/Docs/docs/media/codegen/eval_dash.png</a><br>
+  category <b>top_left</b> &middot; cropped x=86 y=96
+  &middot; original: <a href="../../media/codegen/eval_dash_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/codegen/eval_dash_scOLD.png"><img loading="lazy" src="../../media/codegen/eval_dash_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/codegen/eval_dash.png"><img loading="lazy" src="../../media/codegen/eval_dash.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/codegen/eval_trace.png">/Users/aguspan/Docs/docs/media/codegen/eval_trace.png</a><br>
+  category <b>top_left</b> &middot; cropped x=86 y=94
+  &middot; original: <a href="../../media/codegen/eval_trace_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/codegen/eval_trace_scOLD.png"><img loading="lazy" src="../../media/codegen/eval_trace_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/codegen/eval_trace.png"><img loading="lazy" src="../../media/codegen/eval_trace.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/import-from-csv/image.png">/Users/aguspan/Docs/docs/media/import-from-csv/image.png</a><br>
+  category <b>left</b> &middot; cropped x=85 y=0
+  &middot; original: <a href="../../media/import-from-csv/image_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/import-from-csv/image_scOLD.png"><img loading="lazy" src="../../media/import-from-csv/image_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/import-from-csv/image.png"><img loading="lazy" src="../../media/import-from-csv/image.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/import-from-csv/imagepng_1.png">/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1.png</a><br>
+  category <b>left</b> &middot; cropped x=87 y=0
+  &middot; original: <a href="../../media/import-from-csv/imagepng_1_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_scOLD.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/import-from-csv/imagepng_1_2.png">/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2.png</a><br>
+  category <b>left</b> &middot; cropped x=125 y=0
+  &middot; original: <a href="../../media/import-from-csv/imagepng_1_2_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2_scOLD.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/import-from-csv/imagepng_1_2_3_4.png">/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4.png</a><br>
+  category <b>left</b> &middot; cropped x=85 y=0
+  &middot; original: <a href="../../media/import-from-csv/imagepng_1_2_3_4_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2_3_4_scOLD.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2_3_4_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2_3_4.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2_3_4.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/import-from-csv/imagepng_1_2_3_4_5.png">/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_5.png</a><br>
+  category <b>left</b> &middot; cropped x=87 y=0
+  &middot; original: <a href="../../media/import-from-csv/imagepng_1_2_3_4_5_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2_3_4_5_scOLD.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2_3_4_5_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2_3_4_5.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2_3_4_5.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/import-from-csv/imagepng_1_2_3_4_5_6.png">/Users/aguspan/Docs/docs/media/import-from-csv/imagepng_1_2_3_4_5_6.png</a><br>
+  category <b>left</b> &middot; cropped x=125 y=0
+  &middot; original: <a href="../../media/import-from-csv/imagepng_1_2_3_4_5_6_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2_3_4_5_6_scOLD.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2_3_4_5_6_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/import-from-csv/imagepng_1_2_3_4_5_6.png"><img loading="lazy" src="../../media/import-from-csv/imagepng_1_2_3_4_5_6.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/multi-agent-structured-output/0.png">/Users/aguspan/Docs/docs/media/multi-agent-structured-output/0.png</a><br>
+  category <b>top</b> &middot; cropped x=0 y=49
+  &middot; original: <a href="../../media/multi-agent-structured-output/0_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/multi-agent-structured-output/0_scOLD.png"><img loading="lazy" src="../../media/multi-agent-structured-output/0_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/multi-agent-structured-output/0.png"><img loading="lazy" src="../../media/multi-agent-structured-output/0.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/multi-agent-structured-output/1-1.png">/Users/aguspan/Docs/docs/media/multi-agent-structured-output/1-1.png</a><br>
+  category <b>top_left</b> &middot; cropped x=80 y=82
+  &middot; original: <a href="../../media/multi-agent-structured-output/1-1_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/multi-agent-structured-output/1-1_scOLD.png"><img loading="lazy" src="../../media/multi-agent-structured-output/1-1_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/multi-agent-structured-output/1-1.png"><img loading="lazy" src="../../media/multi-agent-structured-output/1-1.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/multi-agent-structured-output/1.png">/Users/aguspan/Docs/docs/media/multi-agent-structured-output/1.png</a><br>
+  category <b>top_left</b> &middot; cropped x=80 y=82
+  &middot; original: <a href="../../media/multi-agent-structured-output/1_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/multi-agent-structured-output/1_scOLD.png"><img loading="lazy" src="../../media/multi-agent-structured-output/1_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/multi-agent-structured-output/1.png"><img loading="lazy" src="../../media/multi-agent-structured-output/1.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/multi-agent-structured-output/2.png">/Users/aguspan/Docs/docs/media/multi-agent-structured-output/2.png</a><br>
+  category <b>top</b> &middot; cropped x=0 y=44
+  &middot; original: <a href="../../media/multi-agent-structured-output/2_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/multi-agent-structured-output/2_scOLD.png"><img loading="lazy" src="../../media/multi-agent-structured-output/2_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/multi-agent-structured-output/2.png"><img loading="lazy" src="../../media/multi-agent-structured-output/2.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/multi-agent-structured-output/3.png">/Users/aguspan/Docs/docs/media/multi-agent-structured-output/3.png</a><br>
+  category <b>top_left</b> &middot; cropped x=89 y=94
+  &middot; original: <a href="../../media/multi-agent-structured-output/3_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/multi-agent-structured-output/3_scOLD.png"><img loading="lazy" src="../../media/multi-agent-structured-output/3_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/multi-agent-structured-output/3.png"><img loading="lazy" src="../../media/multi-agent-structured-output/3.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/dspy_optimization/1.png">/Users/aguspan/Docs/docs/media/dspy_optimization/1.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=147
+  &middot; original: <a href="../../media/dspy_optimization/1_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/dspy_optimization/1_scOLD.png"><img loading="lazy" src="../../media/dspy_optimization/1_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/dspy_optimization/1.png"><img loading="lazy" src="../../media/dspy_optimization/1.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/dspy_optimization/2.png">/Users/aguspan/Docs/docs/media/dspy_optimization/2.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=145
+  &middot; original: <a href="../../media/dspy_optimization/2_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/dspy_optimization/2_scOLD.png"><img loading="lazy" src="../../media/dspy_optimization/2_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/dspy_optimization/2.png"><img loading="lazy" src="../../media/dspy_optimization/2.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/dspy_optimization/3.png">/Users/aguspan/Docs/docs/media/dspy_optimization/3.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=140
+  &middot; original: <a href="../../media/dspy_optimization/3_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/dspy_optimization/3_scOLD.png"><img loading="lazy" src="../../media/dspy_optimization/3_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/dspy_optimization/3.png"><img loading="lazy" src="../../media/dspy_optimization/3.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/dspy_optimization/4.png">/Users/aguspan/Docs/docs/media/dspy_optimization/4.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=144
+  &middot; original: <a href="../../media/dspy_optimization/4_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/dspy_optimization/4_scOLD.png"><img loading="lazy" src="../../media/dspy_optimization/4_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/dspy_optimization/4.png"><img loading="lazy" src="../../media/dspy_optimization/4.png"></a></figure>
+ </div>
+</div>
+<div class="row">
+ <div class="meta"><a href="../../media/dspy_optimization/5.png">/Users/aguspan/Docs/docs/media/dspy_optimization/5.png</a><br>
+  category <b>top_left</b> &middot; cropped x=131 y=140
+  &middot; original: <a href="../../media/dspy_optimization/5_scOLD.png">open _scOLD backup</a></div>
+ <div class="pair">
+  <figure><figcaption>BEFORE (_scOLD)</figcaption>
+   <a href="../../media/dspy_optimization/5_scOLD.png"><img loading="lazy" src="../../media/dspy_optimization/5_scOLD.png"></a></figure>
+  <figure><figcaption>AFTER (original filename)</figcaption>
+   <a href="../../media/dspy_optimization/5.png"><img loading="lazy" src="../../media/dspy_optimization/5.png"></a></figure>
+ </div>
+</div></body></html>
