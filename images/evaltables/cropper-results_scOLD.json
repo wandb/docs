@@ -1,0 +1,127 @@
+{
+ "root": "/Users/aguspan/Docs/docs/images/evaltables",
+ "images": [
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/eval_column_options.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/filter.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/overview_basic_compare_two_runs.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/overview_basic_compare_two_runs_delta_labled.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/overview_basic_compare_two_runs_labled.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/overview_basic_compare_two_runs_landing_page.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/overview_basic_compare_two_runs_landing_page_notlabled.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/single_run_eval_table_labled.png",
+   "category": "processed",
+   "confidence": "high",
+   "crop_box": [
+    0,
+    0
+   ],
+   "reasons": [
+    "already cropped (backup exists)"
+   ],
+   "has_backup": true
+  },
+  {
+   "path": "/Users/aguspan/Docs/docs/images/evaltables/single_run_eval_table_panel.png",
+   "width": 2768,
+   "height": 1994,
+   "category": "top_left",
+   "confidence": "high",
+   "crop_box": [
+    132,
+    150
+   ],
+   "reasons": [
+    "rail found under modal scrim (level 216) - verify",
+    "vision pass: confirmed real left rail under modal scrim"
+   ],
+   "has_backup": false,
+   "applied": true,
+   "backup": "/Users/aguspan/Docs/docs/images/evaltables/single_run_eval_table_panel_scOLD.png"
+  }
+ ]
+}
