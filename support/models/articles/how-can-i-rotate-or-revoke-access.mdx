@@ -11,26 +11,6 @@ If the key belongs to someone who has left your organization, to an account you 
 
 Before W&B deletes an API key that belongs to another user, an administrator or owner in your organization has to approve the request. Identifying your approver up front avoids a round of back-and-forth. If you know it, include the email address of the account that owns the key, or any other details you have about the key.
 
-## Identify who owns an exposed key
-
-If you found an exposed key but don't know whose it is, call the `viewer` GraphQL query with it. The response names the account the key belongs to:
-
-```bash
-curl -sS -X POST \
-  -u "api:${WANDB_API_KEY}" \
-  "https://api.wandb.ai/graphql" \
-  -H "Content-Type: application/json" \
-  --data-raw '{"query":"query Viewer { viewer { id username email admin } }"}'
-```
-
-```json
-{"data":{"viewer":{"id":"VXNlcjoxMjM0NTY3","username":"example-user","email":"user@example.com","admin":false}}}
-```
-
-Include this output in your support request. An exposed key isn't always owned by someone in your organization: it can belong to a personal account or to a different W&B instance, which changes who can revoke it.
-
-To confirm that a key was rotated, look for the `user:create_api_key` and `user:delete_api_key` actions in [audit logs](/platform/hosting/monitoring-usage/audit-logging), which lists the deployments where audit logs are available.
-
 ---
 
 {/* AUTO-GENERATED: tab badges */}
