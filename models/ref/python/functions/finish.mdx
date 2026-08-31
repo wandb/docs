@@ -7,15 +7,11 @@ namespace: wandb.sdk.wandb_run
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4190" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4114" />
 
 
 
-## <kbd>function</kbd> wandb.finish
-```python
-exit_code: 'int | None' = None,
-quiet: 'bool | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">function</Badge> wandb.finish()
 
 
 
@@ -32,10 +28,16 @@ Run States:
 
 
 
+```python
+exit_code: 'int | None' = None
+```
+
 ## Args
 
-- `exit_code`: Integer indicating the run's exit status. Use 0 for success, any other value marks the run as failed.
-- `quiet`: Deprecated. Configure logging verbosity using `wandb.Settings(quiet=...)`.
+<ResponseField name="exit_code" type="int | None">
+Integer indicating the run's exit status. Use 0 for success, any other value marks the run as failed.
+</ResponseField>
+
 
 
 ## Returns

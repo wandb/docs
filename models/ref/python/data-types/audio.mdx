@@ -7,16 +7,11 @@ namespace: wandb.sdk.data_types.audio
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
 
 
-## <kbd>class</kbd> wandb.Audio
-```python
-(data_or_path: 'str | pathlib.Path | list | np.ndarray',
-sample_rate: 'int | None' = None,
-caption: 'str | None' = None)
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Audio
 
 
 
@@ -24,11 +19,26 @@ W&B class for audio clips.
 
 
 
+```python
+(data_or_path: 'str | pathlib.Path | list | np.ndarray',
+sample_rate: 'int | None' = None,
+caption: 'str | None' = None)
+```
+
 ## Args
 
-- `data_or_path`: A path to an audio file or a NumPy array of audio data.
-- `sample_rate`: Sample rate, required when passing in raw NumPy array of audio data.
-- `caption`: Caption to display with audio.
+<ResponseField name="data_or_path" type="str | pathlib.Path | list | np.ndarray">
+A path to an audio file or a NumPy array of audio data.
+</ResponseField>
+
+<ResponseField name="sample_rate" type="int | None">
+Sample rate, required when passing in raw NumPy array of audio data.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+Caption to display with audio.
+</ResponseField>
+
 
 
 
@@ -39,7 +49,8 @@ W&B class for audio clips.
 
 ## Methods
 
-### <kbd>method</kbd> Audio.durations()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Audio.durations()
 
 ```python
 (audio_list)
@@ -49,12 +60,18 @@ Calculate the duration of the audio files.
 
 ##### Arguments
 
-- `audio_list`: 
+<ResponseField name="audio_list" type="_empty">
+No description provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Audio.sample_rates()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Audio.sample_rates()
 
 ```python
 (audio_list)
@@ -64,7 +81,11 @@ Get sample rates of the audio files.
 
 ##### Arguments
 
-- `audio_list`: 
+<ResponseField name="audio_list" type="_empty">
+No description provided.
+</ResponseField>
+
+
 
 
 
