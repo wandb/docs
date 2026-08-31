@@ -3,10 +3,18 @@ title: "How can I rotate or revoke access?"
 keywords: ["Administrator", "Security", "API Keys"]
 ---
 
-If you have access to your account, you can revoke and rotate your personal API keys yourself.
-Only team/org administrators can revoke and rotate API keys for team/org level service accounts.
+If you have access to your account, you can revoke and rotate your personal API keys yourself. If you have lost access to your account, if the key is owned by a user who has left your organization, or if you have trouble following these instructions, contact [support](mailto:support@wandb.com) for assistance.
+Organization administrators can revoke and rotate API keys across the organization, and team administrators can take these actions for API keys in a team.
 
-To rotate the API Key create a new API key, reconfigure your scripts to use the new key, then delete the old key. For the steps, see [API keys](/platform/app/settings-page/user-settings#api-keys).
+To rotate an API Key in normal circumstances:
+
+1. Create a new API key.
+2. Reconfigure your scripts to use the new key.
+3. Delete the old key.
+
+<Warning>If an API key has been leaked or compromised, delete the old key immediately instead of waiting.</Warning>
+
+For step-by-step instructions, see [API keys](/platform/app/settings-page/user-settings#api-keys).
 
 ## Revoke a key when you can't sign in to the account
 
