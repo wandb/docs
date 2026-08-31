@@ -8,7 +8,7 @@ import AutomationsActionsList from "/snippets/_includes/automations/actions-list
 import AutomationsBestPractices from "/snippets/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/_includes/automations/where-to-find-automations.mdx";
 
-_Automations_ send Slack notifications or run webhooks in response to specific events in W&B. You can scope an automation to an organization, a team, project, registry, or collection. An automation observes the event across everything within its scope, including projects, registries, and collections created later. The steps to create an automation and the available events depend on the scope. For event types by scope, see [Automation events and scopes](/models/automations/automation-events).
+_Automations_ send Slack notifications, run webhooks, or send a prompt to ARIA in response to specific events in W&B. You can scope an automation to an organization, a team, project, registry, or collection. An automation observes the event across everything within its scope, including projects, registries, and collections created later. The steps to create an automation and the available events depend on the scope. For event types by scope, see [Automation events and scopes](/models/automations/automation-events).
 
 <Note>
 Team-scoped and Organization-scoped automations and the [Automations hub](#automations-hub) are available on W&B Multi-tenant Cloud and on W&B Dedicated Cloud (Server v0.83.0 and later).
@@ -48,6 +48,7 @@ The **Automations** hub complements the **Automations** tab in each project and 
 - **Run monitoring and alerting**: Notify the team when a run fails or when a metric crosses a threshold (for example, loss goes to NaN or accuracy drops).
 - **Registry CI/CD**: When a new model version is linked or an alias (such as `staging` or `production`) is added, trigger a webhook to run tests or deploy.
 - **Project artifact workflows**: When a new artifact version is created or an alias is added in a project, run a downstream job or post to Slack.
+- **Automated analysis**: When a run fails or a new model version is linked, send a prompt to [ARIA](/aria/overview) to diagnose the failure or compare the new version against production.
 
 For full event and scope details, see [Automation events and scopes](/models/automations/automation-events).
 
@@ -57,17 +58,17 @@ When an event triggers an automation, it can perform one of these actions:
 
 <AutomationsActionsList/>
 
-For implementation details, see [Create a Slack automation](/models/automations/create-automations/slack) and [Create a webhook automation](/models/automations/create-automations/webhook).
+For implementation details, see [Create a Slack automation](/models/automations/create-automations/slack), [Create a webhook automation](/models/automations/create-automations/webhook), or [Create an ARIA automation](/models/automations/create-automations/aria).
 
 ## How automations work
 
 To [create an automation](/models/automations/create-automations), you:
 
 1. If required, configure [secrets](/platform/secrets) for sensitive strings the automation requires, such as access tokens, passwords, or sensitive configuration details. Secrets are defined in your **Team Settings**. Secrets are most commonly used in webhook automations to securely pass credentials or tokens to the webhook's external service without exposing it in plain text or hard-coding it in the webhook's payload.
-1. Configure team-level webhook or Slack integrations to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**.
+1. Configure team-level webhook or Slack integrations to authorize W&B to post to Slack or run the webhook on your behalf. A single automation action (webhook or Slack notification) can be used by multiple automations. These actions are defined in your **Team Settings**. An ARIA action requires no integration.
 1. In the project or registry, create the automation:
     1. Define the [event](/models/automations/automation-events) to watch for, such as when a new artifact version is added.
-    1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
+    1. Define the action to take when the event occurs, such as posting to a Slack channel, running a webhook, or sending a prompt to ARIA. For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
 
 ## Recommendations
 

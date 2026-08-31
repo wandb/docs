@@ -10,6 +10,10 @@ Manage W&B automations programmatically with the `wandb` Python API when you scr
 Programmatic **create** and **update** for automations through `wandb.Api().create_automation()` and related helpers can fail on some `wandb` Python client versions because of a client-side feature check (for example, run-state automations). Until a fixed SDK ships, use the [W&B App](/models/automations/create-automations) to create and edit automations. The `list`, `get`, and `delete` methods aren't affected. Internal tracking: WB-34263.
 </Note>
 
+<Note>
+The `wandb` Python library doesn't support [ARIA automations](/models/automations/create-automations/aria). Creating one isn't possible from the library, and W&B omits ARIA automations from the results of `list` calls, because released client versions can't parse the ARIA action type. Manage ARIA automations in the W&B UI. Support is planned for a future release of the library.
+</Note>
+
 ## Next steps
 
 Refer to the following resources to manage automations and learn more about how they work:
@@ -17,5 +21,6 @@ Refer to the following resources to manage automations and learn more about how 
 - [Automations overview](/models/automations)
 - [Create an automation](/models/automations/create-automations) (W&B App)
 - [Automation events and scopes](/models/automations/automation-events)
+- [Create an ARIA automation](/models/automations/create-automations/aria) (W&B UI)
 
 {/* Restore list/get/create/update/delete examples from git history when the Python SDK regression is fixed (WB-34263). Previous revision also linked the Automations tutorial notebook (wandb/examples PR 618). */}

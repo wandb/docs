@@ -1,0 +1,175 @@
+---
+title: Create an ARIA automation
+description: "Create a W&B automation that sends a templated prompt to ARIA, starting a new conversation when a specific event occurs."
+keywords: ["ARIA", "Automation actions", "Prompt template", "Template variables", "AI agent"]
+---
+import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
+This page shows how to create an ARIA [automation](/models/automations), which sends a prompt to [ARIA](/aria/overview) when a specific event occurs in W&B. Each time the automation runs, ARIA starts a new conversation and works on the prompt on your behalf. Use an ARIA automation to analyze a new model version, summarize a failed run, or investigate a metric that crossed a threshold, without asking anyone to open a chat first.
+
+At a high level, creating an ARIA automation means choosing the [event](/models/automations/automation-events) to watch for and writing the prompt that ARIA receives each time that event occurs.
+
+To create a different kind of automation, refer to [Create a Slack automation](/models/automations/create-automations/slack) or [Create a webhook automation](/models/automations/create-automations/webhook).
+
+<Note>
+<MultiTenantCloudOnly />
+
+ARIA works in team projects, not in your personal entity. Your organization admin must also enable **Smart features**. See [Governance and security](/aria/governance).
+</Note>
+
+## Requirements
+
+Before you create an ARIA automation, verify the following:
+
+- Your organization must have ARIA enabled. If **Trigger ARIA** doesn't appear in the **Action type** list, ARIA isn't available for your organization, scope, or deployment. The list omits the option without explanation. See [Governance and security](/aria/governance).
+- You must have write access to the project, registry, or collection you scope the automation to.
+- To scope an ARIA automation to a registry, you must belong to a team in the same organization. A team must host every ARIA conversation, so an author with no team in the organization can't create a registry-scoped ARIA automation.
+
+Each time an ARIA automation runs, it starts an ARIA conversation that counts toward your organization's usage, the same as a conversation you start yourself.
+
+## Create an ARIA automation
+
+Select **Registry** or **Project** based on the scope you want the automation to apply to. Then follow these steps to create an automation that sends a prompt to ARIA.
+
+<Note>
+To apply an automation more broadly, create it from the global **Automations** hub and select the **Team** or **Organization** scope. The steps are the same as those that follow. At these scopes, W&B supports artifact and collection events only. See [Automations hub](/models/automations#automations-hub).
+</Note>
+
+<Tabs>
+<Tab title="Registry">
+A Registry admin can create automations in that registry.
+
+1. Log in to W&B.
+1. Click the name of a registry to view its details.
+1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
+1. Choose the [event](/models/automations/automation-events/#registry-events) to watch for.
+
+   Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+
+   Click **Next step**.
+1. Select the team that hosts the ARIA conversation. See [Where the conversation appears](#where-the-conversation-appears).
+1. Set **Action type** to **Trigger ARIA**.
+1. In the **Prompt** field, write the prompt to send to ARIA. See [Write the prompt](#write-the-prompt). Click **Next step**.
+1. Provide a name for the automation. Optionally, provide a description.
+1. Click **Create automation**.
+
+The automation is now active and starts a new ARIA conversation whenever the chosen event occurs in the registry.
+</Tab>
+<Tab title="Project">
+A W&B admin can create automations in a project.
+
+1. Log in to W&B.
+1. Go to the project page and click the **Automations** tab, then click **Create automation**.
+1. Choose the [event](/models/automations/automation-events/#project) to watch for.
+
+    1. Fill in any additional fields that appear. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+
+        1. For automations triggered by a run, optionally specify one or more run filters:
+
+            - **Filter to one user's runs**: Include only runs created by the specified user. Click the toggle to turn on the filter, then specify a username.
+            - **Filter on run name**: Include only runs whose names match the given regular expression. Click the toggle to turn on the filter, then specify a regular expression.
+    1. Click **Next step**.
+1. Select the team that owns the project.
+1. Set **Action type** to **Trigger ARIA**.
+1. In the **Prompt** field, write the prompt to send to ARIA. See [Write the prompt](#write-the-prompt). Click **Next step**.
+1. Provide a name for the automation. Optionally, provide a description.
+1. Click **Create automation**.
+
+The automation is now active and starts a new ARIA conversation whenever the chosen event occurs in the project.
+</Tab>
+</Tabs>
+
+## Write the prompt
+
+The prompt is the only thing you configure for an ARIA action. Write it the way you would write a message in the ARIA chat window, and include [template variables](#template-variables) to specify which run, artifact, or metric ARIA should examine.
+
+Keep the following constraints in mind:
+
+- A prompt is required and can be at most 4,000 characters. W&B checks the length again after it substitutes template variables, so a prompt that saves successfully can still fail when the automation runs if the substituted values are long. A prompt that fails this check is recorded as a failed execution in the automation's [execution history](/models/automations/view-automation-history).
+- A template variable that doesn't apply to the event resolves to an empty string rather than to its own name. Use only the variables listed for your event.
+- ARIA starts a new conversation each time the automation runs. It doesn't continue a previous conversation and doesn't remember earlier executions of the same automation.
+
+To insert a variable, click the **<Icon icon="plus" iconType="solid" />** next to it in the list below the **Prompt** field. W&B appends the variable to the end of the prompt. The list shows only the variables that apply to the event you selected.
+
+For example, this prompt investigates each newly linked model version:
+
+```text
+A new version of ${artifact_collection_name} was just linked to ${project_name} by ${event_author}.
+
+Compare ${artifact_version_string} against the current production alias. Summarize any regression in the evaluation metrics and recommend whether to promote it.
+```
+
+You can ask ARIA to help you word a prompt before you save the automation:
+
+<AriaChatBubbles
+  prompt="I want an automation that runs whenever a run fails in this project. Draft a prompt that asks you to diagnose the failure."
+  response="Here's a prompt to paste into the automation: 'Run ${run_name} in ${project_name} just failed. Look at its logs, config, and system metrics, compare it to the last few successful runs, and tell me the most likely cause plus one concrete fix to try.'"
+/>
+
+## Template variables
+
+Template variables use the syntax `${variable_name}`. The variables available to a prompt depend on the event the automation watches for.
+
+The following variables are available for every event:
+
+| Variable | Description |
+| --- | --- |
+| `${automation_name}` | The name of the automation that triggered the action. |
+| `${event_type}` | The type of event that triggered the action. |
+| `${event_author}` | The user that triggered the action. |
+| `${entity_name}` | The name of the entity owning the event that triggered the action. |
+| `${project_name}` | The name of the project owning the event that triggered the action. |
+
+The following variables are available in addition to the preceding ones, depending on the event:
+
+| Event | Additional variables |
+| --- | --- |
+| An artifact version is created, linked, or unlinked | `${artifact_collection_name}`, `${artifact_version}`, `${artifact_version_string}`, `${artifact_version_index}`, `${artifact_metadata.KEY}` |
+| An artifact alias is added or updated | The preceding artifact variables, plus `${alias}` |
+| An artifact tag is added or removed | The preceding artifact variables, plus `${tag}` |
+| A collection tag is added or removed | `${artifact_collection_name}`, `${tag}` |
+| A run metric crosses a threshold, changes, or changes by z-score | `${run_name}`, `${metric_name}`, `${metric_values}`, `${metric_filter}`, `${metric_filter_short}`, `${metric_current_status}` |
+| A run changes status | `${run_name}`, `${run_status}` |
+| A Weave metric crosses a threshold | `${alert_name}`, `${metric_name}`, `${metric_value}`, `${threshold}`, `${comparison_op}`, `${message}` |
+
+The following notes apply to individual variables:
+
+- `${artifact_version}` resolves to an artifact instance, such as `wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3`. To refer to the version by name, use `${artifact_version_string}`.
+- `${artifact_metadata.KEY}` reads a custom metadata value from the artifact version that triggered the event. Replace `KEY` with the metadata key you want. Only top-level metadata keys are supported.
+
+For the events available at each scope, see [Automation events and scopes](/models/automations/automation-events).
+
+## Where the conversation appears
+
+An ARIA automation creates the conversation as the person who created the automation, not as the person whose action triggered the event. The conversation appears in that person's ARIA chat history under **Past conversations**, alongside conversations they started themselves. To identify who caused the event, include `${event_author}` in the prompt.
+
+Where the conversation lives depends on the automation's scope:
+
+- **Project-scoped and team-scoped automations**: The conversation is created in the project where the event occurred.
+- **Registry-scoped automations**: A registry belongs to your organization rather than to a team, and ARIA conversations must belong to a team. The conversation is created in the team you selected when you created the automation, in a project named `wandb_agent_default_project`. Look there rather than in the registry.
+
+    `wandb_agent_default_project` is a placeholder project that W&B maintains for each team to hold conversations that aren't tied to a project you opened. You don't create it, and it's normally empty apart from these conversations.
+
+To confirm that the automation ran, open its [execution history](/models/automations/view-automation-history). A successful ARIA execution shows the prompt that W&B sent and a response body containing the conversation's `thread_id`. W&B doesn't link from the execution to the conversation, and an automation-created conversation isn't marked differently in your chat history.
+
+## View and manage ARIA automations
+
+Manage ARIA automations from the **Automations** tab of the project or registry, or from the global **Automations** hub, the same as any other automation. In the automations list, the action displays as **ARIA**.
+
+ARIA automations have one additional restriction: only the automation's creator can edit it, because the conversation runs as that person. Teammates with write access to the scope can still view and delete the automation, but the **Edit automation** option is unavailable to them. You can't transfer ownership, so to hand off an ARIA automation, delete it and have the new owner create it again. Do the same to recover an automation whose creator has left the team.
+
+## Limitations
+
+- ARIA automations are available only on [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud), in team projects, and only when your organization admin has enabled **Smart features**.
+- Each automation can start at most three ARIA conversations per minute. W&B records executions above that limit in the automation's history with the status **Skipped**, meaning the automation matched the event but didn't run its action.
+- If the person who created the automation loses write access to the project or their account is deactivated, every subsequent execution fails. The failure appears in the automation's execution history.
+- Only the automation's creator can edit it.
+- The `wandb` Python library doesn't support ARIA automations. See [Manage automations with the API](/models/automations/api).
+
+## Next steps
+
+- [Automation events and scopes](/models/automations/automation-events)
+- [View an automation's history](/models/automations/view-automation-history)
+- [Chat with ARIA](/aria/chat)
+- [ARIA overview](/aria/overview)

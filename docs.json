@@ -396,7 +396,8 @@
                             "pages": [
                               "models/automations/create-automations",
                               "models/automations/create-automations/slack",
-                              "models/automations/create-automations/webhook"
+                              "models/automations/create-automations/webhook",
+                              "models/automations/create-automations/aria"
                             ]
                           },
                           {
