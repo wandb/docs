@@ -7,14 +7,11 @@ namespace: wandb.sdk.wandb_setup
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main//Users/noahluna/.pyenv/versions/3.13.0/lib/python3.13/contextlib.py#L571" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main//Users/noahluna/.pyenv/versions/3.13.0/lib/python3.13/contextlib.py#L571" />
 
 
 
-## <kbd>function</kbd> wandb.teardown
-```python
-exit_code: 'int | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">function</Badge> wandb.teardown()
 
 
 
@@ -30,9 +27,16 @@ such as when using Python's `multiprocessing` module.
 
 
 
+```python
+exit_code: 'int | None' = None
+```
+
 ## Args
 
-- `exit_code`: 
+<ResponseField name="exit_code" type="int | None">
+No description provided.
+</ResponseField>
+
 
 
 ## Returns

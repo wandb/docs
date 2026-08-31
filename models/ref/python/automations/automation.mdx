@@ -7,11 +7,18 @@ namespace: wandb.automations.automations
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
 
 
 
-## <kbd>class</kbd> wandb.automations.Automation
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.Automation
+
+
+
+A local instance of a saved W&B automation that supports editing.
+
+
+
 ```python
 *,
 __typename: Literal['Trigger'] = 'Trigger',
@@ -26,23 +33,43 @@ event: wandb.automations.events.SavedEvent,
 action: Annotated[wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction, BeforeValidator(func=<function parse_saved_action>, json_schema_input_type=PydanticUndefined)]
 ```
 
-
-
-A local instance of a saved W&B automation that supports editing.
-
-
-
 ## Args
 
-- `id`: 
-- `createdAt`: The date and time when this automation was created.
-- `updatedAt`: The date and time when this automation was last updated, if applicable.
-- `name`: The name of this automation.
-- `description`: An optional description of this automation.
-- `enabled`: Whether this automation is enabled.  Only enabled automations will trigger.
-- `scope`: The scope in which the triggering event must occur.
-- `event`: The event that will trigger this automation.
-- `action`: The action that will execute when this automation is triggered.
+<ResponseField name="id" type="Annotated">
+No description provided.
+</ResponseField>
+
+<ResponseField name="createdAt" type="datetime">
+The date and time when this automation was created.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="datetime.datetime | None">
+The date and time when this automation was last updated, if applicable.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+The name of this automation.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+An optional description of this automation.
+</ResponseField>
+
+<ResponseField name="enabled" type="bool">
+Whether this automation is enabled.  Only enabled automations will trigger.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+The scope in which the triggering event must occur.
+</ResponseField>
+
+<ResponseField name="event" type="SavedEvent">
+The event that will trigger this automation.
+</ResponseField>
+
+<ResponseField name="action" type="Annotated">
+The action that will execute when this automation is triggered.
+</ResponseField>
 
 
 

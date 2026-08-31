@@ -7,12 +7,11 @@ namespace: wandb.apis.public.files
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L246" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L246" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.File
-
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.File
 
 
 
@@ -45,21 +44,24 @@ file logged to a specific run. You can search using the following keys:
 
 
 
+
+
 ## Properties
 
-### <kbd>property</kbd> path_uri
-
+<ResponseField name="path_uri" type="The S3 URI (e.g., 's3://bucket/path/to/file') if the file is stored in S3, the direct URL if it's a reference file, or an empty string if unavailable.">
 Returns the URI path to the file in the storage bucket.
+</ResponseField>
 
-### <kbd>property</kbd> size
-
+<ResponseField name="size" type="int">
 Returns the size of the file in bytes.
+</ResponseField>
 
 
 
 ## Methods
 
-### <kbd>method</kbd> File.delete()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> File.delete()
 
 ```python
 self
@@ -71,7 +73,10 @@ Delete the file from the W&B server.
 
 
 
-### <kbd>method</kbd> File.download()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> File.download()
 
 ```python
 self,
@@ -85,10 +90,23 @@ Downloads a file previously saved by a run from the wandb server.
 
 ##### Arguments
 
-- `root`: Local directory to save the file. Defaults to the current working directory (".").
-- `replace`: If `True`, download will overwrite a local file if it exists. Defaults to `False`.
-- `exist_ok`: If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`.
-- `api`: If specified, the `Api` instance used to download the file.
+<ResponseField name="root" type="str">
+Local directory to save the file. Defaults to the current working directory (".").
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+If `True`, download will overwrite a local file if it exists. Defaults to `False`.
+</ResponseField>
+
+<ResponseField name="exist_ok" type="bool">
+If `True`, will not raise ValueError if file already exists and will not re-download unless replace=True. Defaults to `False`.
+</ResponseField>
+
+<ResponseField name="api" type="Api | None">
+If specified, the `Api` instance used to download the file.
+</ResponseField>
+
+
 
 
 
