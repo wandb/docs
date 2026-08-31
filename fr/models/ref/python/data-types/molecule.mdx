@@ -6,30 +6,38 @@ namespace: wandb.sdk.data_types.molecule
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
 
-## <kbd>classe</kbd> wandb.Molecule
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Molecule
+
+Classe W&amp;B pour les données moléculaires 3D.
 
 ```python
 data_or_path: 'str | pathlib.Path | TextIO',
 caption: 'str | None' = None, **kwargs: 'str'
 ```
 
-Classe W&amp;B pour les données moléculaires 3D.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `data_or_path` : Molecule peut être initialisé à partir d’un nom de fichier ou d’un objet IO.
-* `caption` : Légende de la molécule pour l’affichage.
-* `kwargs` : 
+<ResponseField name="data_or_path" type="str | pathlib.Path | TextIO">
+  Molecule peut être initialisé à partir d&#39;un nom de fichier ou d&#39;un objet IO.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  Légende associée à la molécule pour l&#39;affichage.
+</ResponseField>
+
+<ResponseField name="kwargs" type="str">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Molecule.from_rdkit()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Molecule.from_rdkit()
 
 ```python
 data_or_path: 'RDKitDataType',
@@ -44,11 +52,19 @@ Convertissez les types de fichiers et d’objets pris en charge par RDKit en wan
   ##### Arguments
 </div>
 
-* `data_or_path`: (chaîne, rdkit.Chem.rdchem.Mol) La Molecule peut être initialisée à partir d’un nom de fichier ou d’un objet rdkit.Chem.rdchem.Mol.
-* `caption`: (chaîne) Légende associée à la Molecule pour l’affichage.
-* `convert_to_3d_and_optimize`: (bool) Convertit en rdkit.Chem.rdchem.Mol avec des coordonnées 3D. Il s’agit d’une opération coûteuse qui peut prendre beaucoup de temps pour les Molecules complexes.
+<ResponseField name="data_or_path" type="RDKitDataType">
+  (chaîne, rdkit.Chem.rdchem.Mol) La Molecule peut être initialisée à partir d’un nom de fichier ou d’un objet rdkit.Chem.rdchem.Mol.
+</ResponseField>
 
-### <kbd>méthode</kbd> Molecule.from_smiles()
+<ResponseField name="caption" type="str | None">
+  (chaîne) Légende associée à la Molecule pour l’affichage.
+</ResponseField>
+
+<ResponseField name="convert_to_3d_and_optimize" type="bool">
+  (bool) Convertit en rdkit.Chem.rdchem.Mol avec des coordonnées 3D. Il s’agit d’une opération coûteuse qui peut prendre beaucoup de temps pour les Molecules complexes.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Molecule.from_smiles()
 
 ```python
 data: 'str',
@@ -64,7 +80,18 @@ Convertit une chaîne SMILES en wandb.Molecule.
   ##### Arguments
 </div>
 
-* `data`: Chaîne SMILES.
-* `caption`: Légende associée à la molécule pour l’affichage.
-* `sanitize`: Vérifie si la molécule est chimiquement valide selon la définition de RDKit.
-* `convert_to_3d_and_optimize`: Convertit en `rdkit.Chem.rdchem.Mol` avec des coordonnées 3D. Il s’agit d’une opération gourmande en calcul, qui peut prendre beaucoup de temps pour les molécules complexes.
+<ResponseField name="data" type="str">
+  Chaîne SMILES.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  Légende associée à la molécule pour l’affichage.
+</ResponseField>
+
+<ResponseField name="sanitize" type="bool">
+  Vérifie si la molécule est chimiquement valide selon la définition de RDKit.
+</ResponseField>
+
+<ResponseField name="convert_to_3d_and_optimize" type="bool">
+  Convertit en rdkit.Chem.rdchem.Mol avec des coordonnées 3D. Il s’agit d’une opération gourmande en calcul, qui peut prendre beaucoup de temps pour les molécules complexes.
+</ResponseField>

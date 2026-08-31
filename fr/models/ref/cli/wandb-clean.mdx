@@ -1,0 +1,40 @@
+---
+title: wandb clean
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/clean.py#L20" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+clean [OPTIONS]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Supprime les données de runs synchronisées.
+
+Nettoie le dossier wandb, tel que déterminé par les paramètres. Il s&#39;agit généralement
+du dossier « wandb » ou « .wandb » dans le répertoire de travail actuel, ou
+du répertoire spécifié par la variable d&#39;environnement WANDB&#95;DIR si celle-ci
+est définie.
+
+Par défaut, supprime tous les runs créés il y a plus de 24 heures (d&#39;après
+l&#39;horodatage figurant dans le nom du dossier du run) qui sont en ligne ou qui
+ont été synchronisés avec `wandb sync`.
+
+<div id="options">
+  ## Options
+</div>
+
+| Indicateur           | Type            | Description                                                                            |
+| -------------------- | --------------- | -------------------------------------------------------------------------------------- |
+| `--min-hours`        | INT             | Âge minimal du run en heures avant sa suppression (24 par défaut). **Par défaut** : 24 |
+| `--include-unsynced` | Indicateur BOOL | Supprime également les répertoires de run non synchronisés. **Par défaut** : False     |
+| `--force`            | Indicateur BOOL | Ignore le prompt de confirmation. **Par défaut** : False                               |

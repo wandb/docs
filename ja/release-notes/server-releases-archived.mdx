@@ -1,21 +1,42 @@
 ---
-title: "アーカイブされた W&B Server バージョン"
-description: "サポート終了ステータスに達した旧 W&B Server バージョンのアーカイブ済みバージョンメモを参照します。"
-sidebarTitle: "アーカイブされたバージョン"
+title: "アーカイブされた W&B Server リリース"
+description: "サポート終了ステータスに達した旧 W&B Server リリースのアーカイブ済みリリースノートを参照します。"
+sidebarTitle: "アーカイブされたリリース"
 rss: true
 ---
 
 import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-reminder.mdx';
 
-このページでは、サポートが終了した W&amp;B Server の version に関する version メモを掲載しています。
+このページでは、サポートが終了した W&amp;B Server のリリースに関するリリースノートを掲載しています。
 
-* 現在サポートされている Server version については、[W&amp;B Server version メモ](/ja/release-notes/server-releases) を参照してください。
-* W&amp;B Server の version スケジュールとサポートの詳細については、[W&amp;B Server version ポリシー](/ja/release-notes/release-policies) を参照してください。
+* 現在サポートされている Server リリースについては、[W&amp;B Server リリースノート](/ja/release-notes/server-releases) を参照してください。
+* W&amp;B Server のリリース スケジュールとサポートの詳細については、[W&amp;B Server リリース ポリシー](/ja/release-notes/release-policies) を参照してください。
 
 <EolReminder />
 
 {/* リリースをアーカイブするには、server-releases.mdx からその <Update> エントリ（パッチを含む）を
     この直下に移動します */}
+
+<Update label="v0.72.0" description="2025年8月6日">
+  W&amp;B 0.72 には、折れ線グラフとメディアパネルの修正に加え、OpenTelemetry および Google Agent Development Kit 向け Weave インテグレーションの改善が含まれています。
+
+  ## サポート終了
+
+  * W&amp;B Server v0.58 はサポート終了となりました。
+
+  ## 今後の変更
+
+  * 多数のパネルを含む Workspace の読み込みを高速化し、Workspace 内でのパネルのドラッグ＆ドロップをより応答性が高く正確にするため、Workspace のレンダリング動作を最適化しています。**この一環として、次回 (0.73) のリリースで Workspace セクションの「Custom grid」レイアウトを削除する予定です。** Custom grid は レポート では引き続き利用できます。ご質問やご懸念がある場合は、W&amp;B チームまたは[サポート](mailto:support@wandb.ai)までお問い合わせください。
+  * 今後のリリースでは、複数 run と単一 run の Workspace ビューを統一します。これにより、単一 run の詳細を確認した際に、カスタム チャート、レイアウト、設定を含め、複数 run ビュー用に設定したものと同じパネルのレイアウトと設定が表示されます。これは、コンテキストを維持し、ビューの設定をやり直す手間を省くことを目的としています。ただし、これにより、Workspace の他の部分から独立した固有の単一 run ビューをカスタマイズする機能は削除されます。移行についてご質問がある場合は、W&amp;B チームまたは[サポート](mailto:support@wandb.ai)までお問い合わせください。
+  * 今後数回のリリースにわたり、既存のチームレベルの Model Registry を W&amp;B Registry に引き続き移行します。
+
+  ## 修正
+
+  * 0.71.0 で発表された折れ線グラフの動作変更を元に戻しました。各線にポイントが 1 つしかない折れ線グラフは、設定を変更しても棒グラフに変換されます。
+  * メディアパネルで、境界ボックスがメディアに重ねて表示されず、メディアの外側にレンダリングされる可能性があるバグを修正しました。
+  * Google Agent Development Kit インテグレーションが Weave スレッドをサポートしていなかったバグを修正しました。
+  * OpenTelemetry を通じて送信された Weave トレースで **属性** 列が欠落するバグを修正しました。
+</Update>
 
 <Update label="v0.71.0" description="2025年7月29日">
   W&amp;B Server 0.71 では、すべての組織で Registry がデフォルトで有効になりました。Registry の段階的な提供については、Features の該当する注記を参照してください。本リリースでは、Workspace に複数の改善と修正が加えられています。共通の step スライダーでメディアパネルを同期できるようになり、全画面パネル間の移動もより効率的になりました。また、Run Overview ページで run の合計時間と実際に実行されていた時間の詳細を確認できます。オートメーションも強化され、artifact バージョンのタグを条件にオートメーションをトリガーできるようになりました。 {/* more */}

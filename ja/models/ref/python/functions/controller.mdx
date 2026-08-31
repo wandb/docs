@@ -6,9 +6,11 @@ namespace: wandb.sdk.wandb_sweep
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L100" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L100" />
 
-## <kbd>関数</kbd> wandb.controller
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.controller()
+
+sweep コントローラー用の公開コンストラクタです。
 
 ```python
 sweep_id_or_config: 'str | dict | None' = None,
@@ -16,15 +18,21 @@ entity: 'str | None' = None,
 project: 'str | None' = None
 ```
 
-sweep コントローラー用の公開コンストラクタです。
-
 <div id="args">
   ## 引数
 </div>
 
-* `sweep_id_or_config`:
-* `entity`:
-* `project`: 
+<ResponseField name="sweep_id_or_config" type="str | dict | None">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  説明はありません。
+</ResponseField>
 
 <div id="examples">
   ## 例

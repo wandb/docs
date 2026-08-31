@@ -1,8 +1,16 @@
 ---
-title: "Discuter avec ARIA"
+title: "Chat avec ARIA"
 ---
 
-La page suivante explique comment démarrer un nouveau chat, consulter l’historique de vos chats, supprimer des conversations précédentes, détacher la fenêtre de chat, faire référence à un run spécifique dans votre prompt, ajouter une image à une conversation et donner votre avis sur les réponses d’ARIA.
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
+import MultiTenantCloudOnly from "/snippets/fr/_includes/multi-tenant-cloud-only.mdx";
+
+<Note>
+  <MultiTenantCloudOnly />
+</Note>
+
+Cette page explique comment gérer vos conversations avec ARIA : démarrer et reprendre des chats, mettre en file d&#39;attente des messages de suivi, ajouter du contexte, comme des runs et des images, et donner votre feedback sur les réponses.
 
 <div id="start-a-new-chat">
   ## Démarrer un nouveau chat
@@ -13,6 +21,51 @@ Pour démarrer un nouveau chat, ouvrez ARIA, puis cliquez sur l’icône en form
 Vous pouvez mener plusieurs chats en parallèle. ARIA vous notifiera lorsqu’il aura répondu à un chat, même si vous avez fermé la fenêtre de chat.
 
 Démarrer un nouveau chat ne supprime pas vos conversations précédentes. Pour [voir les conversations précédentes](/fr/aria/chat#view-chat-history), ouvrez l’historique de conversation en cliquant sur les trois lignes horizontales dans le coin supérieur gauche de la fenêtre de chat.
+
+<div id="send-a-message">
+  ## Envoyer un message
+</div>
+
+Saisissez un message, puis appuyez sur **Entrée** pour l’envoyer.
+
+* Appuyez sur **Maj+Entrée** pour ajouter des lignes.
+* Cliquez sur **+** pour ajouter des images.
+* Pour ajouter une référence de run, saisissez `<Icon icon="at" iconType="solid"/>`, puis sélectionnez un run dans la liste. Saisissez du texte pour filtrer la liste et effectuer une recherche approximative.
+* Pour plus de flexibilité, rédigez un message plus complexe dans un éditeur de texte, puis collez-le. Le texte brut est pris en charge et les caractères `@` collés ne sont pas résolus en références de run.
+
+Pour annuler l’opération en cours et envoyer *immédiatement* le prochain [message en file d&#39;attente](#queue-messages), appuyez sur l’icône d’arrêt à droite du champ de saisie.
+
+<div id="queue-messages">
+  ## Messages en file d&#39;attente
+</div>
+
+La file d&#39;attente de messages contient les tâches de suivi et les questions que vous envoyez à ARIA pendant qu&#39;elle travaille. ARIA traite chaque message en file d&#39;attente dans l&#39;ordre, en utilisant l&#39;intégralité de la conversation comme contexte. Le message suivant est traité dès que le précédent est terminé.
+
+Utilisez la file d&#39;attente pour enchaîner plusieurs étapes à la fois et vous éloigner, plutôt que de revenir au chat pour les envoyer une par une. Par exemple, vous pouvez commencer par une comparaison :
+
+<AriaChatBubbles prompt="Comparez les 10 derniers runs et indiquez-moi quels hyperparamètres ont le plus compté." response="Le taux d'apprentissage et la taille de lot expliquent la majeure partie de la variance de la perte de validation sur ces 10 runs. Vous trouverez les détails de chacun ci-dessous." />
+
+Pendant qu&#39;ARIA travaille, envoyez des requêtes supplémentaires dans la fenêtre de chat. W&amp;B ajoute les requêtes en attente à la file d&#39;attente d&#39;ARIA.
+
+Cet exemple envoie deux messages à la fois :
+
+```text title="Queued messages"
+Trace un graphique de la perte de validation en fonction du taux d'apprentissage pour ces runs.
+
+Rédige cette comparaison sous forme de report que je puisse partager avec mon équipe.
+```
+
+L’en-tête de la file d’attente indique le nombre de messages en attente. Chaque message en file d’attente comporte trois commandes :
+
+* **Icône en forme de crayon** (<Icon icon="pencil" iconType="solid" />) : modifiez le message avant qu’ARIA ne l’exécute. ARIA place le message dans la zone de saisie et le retire de la file d’attente. Renvoyez-le pour le remettre en file d’attente. Cette commande est indisponible si la zone de saisie contient déjà un brouillon.
+* **Icône de flèche vers le haut** (<Icon icon="arrow-up" iconType="solid" />) : exécutez le message immédiatement, sans attendre son tour. ARIA interrompt son travail en cours et exécute ce message en priorité. Les autres messages en file d’attente conservent leur ordre.
+* **Icône de corbeille** (<Icon icon="trash" iconType="solid" />) : supprimez le message de la file d’attente.
+
+Les messages en file d’attente conservent le contexte que vous leur avez joint, notamment les [mentions de runs](/fr/aria/chat#add-context-to-a-conversation) et les [images](/fr/aria/chat#add-an-image-to-a-conversation).
+
+La mise en file d’attente commence après votre premier message dans un chat, car une file d’attente nécessite une conversation sur laquelle s’exécuter. Le premier message que vous envoyez, ainsi que tout message envoyé à un chat inactif dont la file d’attente est vide, est transmis immédiatement à ARIA. Chaque chat possède sa propre file d’attente, et les files d’attente des chats que vous fermez continuent de s’exécuter.
+
+Si ARIA a besoin d’une clarification ou de votre autorisation avant de poursuivre, la file d’attente est suspendue jusqu’à votre réponse. Pour exécuter un message en file d’attente sans répondre au préalable, cliquez sur l’icône de flèche vers le haut à côté de ce message.
 
 <div id="view-chat-history">
   ## Consulter l’historique des conversations
