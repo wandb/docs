@@ -6,9 +6,11 @@ namespace: wandb.plot.confusion_matrix
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
 
-## <kbd>fonction</kbd> wandb.plot.confusion_matrix
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.confusion_matrix()
+
+Construit une matrice de confusion à partir d&#39;une séquence de probabilités ou de prédictions.
 
 ```python
 probs: 'Sequence[Sequence[float]] | None' = None,
@@ -19,18 +21,33 @@ title: 'str' = 'Confusion Matrix Curve',
 split_table: 'bool' = False
 ```
 
-Construit une matrice de confusion à partir d&#39;une séquence de probabilités ou de prédictions.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `probs` : Une séquence de probabilités prédites pour chaque classe. La forme de la séquence doit être (N, K), où N est le nombre d’échantillons et K le nombre de classes. Si `probs` est fourni, `preds` ne doit pas être fourni.
-* `y_true` : Une séquence d’étiquettes réelles.
-* `preds` : Une séquence d’étiquettes de classes prédites. Si `preds` est fourni, `probs` ne doit pas être fourni.
-* `class_names` : Séquence de noms de classes. Si elle n’est pas fournie, les noms de classes seront définis comme &quot;Class&#95;1&quot;, &quot;Class&#95;2&quot;, etc.
-* `title` : Titre du graphique de matrice de confusion.
-* `split_table` : Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+<ResponseField name="probs" type="Sequence[Sequence[float]] | None">
+  Une séquence de probabilités prédites pour chaque classe. La forme de la séquence doit être (N, K), où N est le nombre d&#39;échantillons et K le nombre de classes. Si ce paramètre est fourni, `preds` ne doit pas l&#39;être.
+</ResponseField>
+
+<ResponseField name="y_true" type="Sequence[T] | None">
+  Une séquence d&#39;étiquettes réelles.
+</ResponseField>
+
+<ResponseField name="preds" type="Sequence[T] | None">
+  Une séquence d&#39;étiquettes de classes prédites. Si ce paramètre est fourni, `probs` ne doit pas l&#39;être.
+</ResponseField>
+
+<ResponseField name="class_names" type="Sequence[str] | None">
+  Une séquence de noms de classes. S&#39;ils ne sont pas fournis, les noms de classes sont définis comme « Class&#95;1 », « Class&#95;2 », etc.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Titre du graphique de la matrice de confusion.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau s&#39;affiche dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

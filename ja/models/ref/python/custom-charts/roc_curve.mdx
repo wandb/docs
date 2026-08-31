@@ -6,9 +6,11 @@ namespace: wandb.plot.roc_curve
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py#L16" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py#L16" />
 
-## <kbd>関数</kbd> wandb.plot.roc_curve
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.roc_curve()
+
+Receiver Operating Characteristic (ROC) 曲線チャートを作成します。
 
 ```python
 y_true: 'Sequence[numbers.Number]',
@@ -19,18 +21,33 @@ title: 'str' = 'ROC Curve',
 split_table: 'bool' = False
 ```
 
-Receiver Operating Characteristic (ROC) 曲線チャートを作成します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `y_true`: 対象変数の正解クラスラベルです。形状は (num&#95;samples,) である必要があります。
-* `y_probas`: 各クラスの予測確率、または判定スコアです。形状は (num&#95;samples, num&#95;classes) である必要があります。
-* `labels`: `y_true` のクラスインデックスに対応する、人間が読めるラベルです。たとえば、`labels=['dog', 'cat']` の場合、プロットではクラス 0 は &#39;dog&#39;、クラス 1 は &#39;cat&#39; と表示されます。None の場合は、`y_true` の生のクラスインデックスが使用されます。デフォルトは None です。
-* `classes_to_plot`: ROC 曲線に含める一意なクラスラベルのサブセットです。None の場合は、`y_true` 内のすべてのクラスがプロットされます。デフォルトは None です。
-* `title`: ROC 曲線プロットのタイトルです。デフォルトは &quot;ROC Curve&quot; です。
-* `split_table`: 表を W&amp;B UI の別セクションに分けるかどうかを指定します。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="y_true" type="Sequence[numbers.Number]">
+  対象変数の正解クラスラベルです。形状は (num&#95;samples,) である必要があります。
+</ResponseField>
+
+<ResponseField name="y_probas" type="Sequence[Sequence[float]] | None">
+  各クラスの予測確率、または判定スコアです。形状は (num&#95;samples, num&#95;classes) である必要があります。
+</ResponseField>
+
+<ResponseField name="labels" type="list[str] | None">
+  `y_true` のクラスインデックスに対応する、人間が読めるラベルです。たとえば、`labels=['dog', 'cat']` の場合、プロットではクラス 0 は &#39;dog&#39;、クラス 1 は &#39;cat&#39; と表示されます。None の場合は、`y_true` の生のクラスインデックスが使用されます。デフォルトは None です。
+</ResponseField>
+
+<ResponseField name="classes_to_plot" type="list[numbers.Number] | None">
+  ROC 曲線に含める一意なクラスラベルのサブセットです。None の場合は、`y_true` 内のすべてのクラスがプロットされます。デフォルトは None です。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  ROC 曲線プロットのタイトルです。デフォルトは &quot;ROC Curve&quot; です。
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別セクションに分けるかどうかを指定します。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

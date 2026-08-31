@@ -7,14 +7,11 @@ namespace: wandb.sdk.wandb_setup
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L515" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L512" />
 
 
 
-## <kbd>function</kbd> wandb.setup
-```python
-settings: 'Settings | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">function</Badge> wandb.setup()
 
 
 
@@ -33,9 +30,16 @@ See also `wandb.teardown()`.
 
 
 
+```python
+settings: 'Settings | None' = None
+```
+
 ## Args
 
-- `settings`: Configuration settings to apply globally. These can be overridden by subsequent `wandb.init()` calls.
+<ResponseField name="settings" type="Settings | None">
+Configuration settings to apply globally. These can be overridden by subsequent `wandb.init()` calls.
+</ResponseField>
+
 
 
 

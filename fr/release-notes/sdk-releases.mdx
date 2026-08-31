@@ -6,6 +6,117 @@ rss: true
 
 Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`) utilisé avec W&amp;B Models. Pour le SDK Python Weave (package `weave`), consultez [Versions du SDK Weave](/fr/release-notes/weave-sdk-releases). Pour W&amp;B Server, consultez les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
 
+<Update label="0.29.0" description="26 août 2026">
+  ## Modifications notables
+
+  * Sur macOS, `wandb` requiert désormais macOS 13 (Ventura) ou une version ultérieure.
+  * `wandb.Image` ne normalise plus les valeurs des pixels. Assurez-vous que vos données sont déjà comprises dans la plage [0, 255].
+  * `wandb.Video()` requiert désormais l’argument `format` lorsque vous l’initialisez à partir d’un tableau NumPy ou d’un objet IO.
+  * La propriété `.length` des objets paginés, tels que `Api.runs()`, `Api.sweeps()` et `run.files()`, a été supprimée. Utilisez plutôt `len(...)`.
+  * Les API obsolètes suivantes ont été supprimées : le paramètre `start_method`, l’option `summary="best"` et l’argument `goal` de `run.define_metric()`, l’argument `quiet` de `run.finish()` et `wandb.finish()`, ainsi que les méthodes `run.project_name()`, `run.get_url()`, `run.get_project_url()` et `run.get_sweep_url()`.
+
+  ## Ajouts
+
+  * La nouvelle méthode de l’API publique `run.console_logs()` renvoie la sortie de console capturée par W&amp;B pour une exécution, qu’elle soit terminée ou active. Pour ne renvoyer que les N dernières lignes, transmettez `last=N`. La lecture depuis le début du journal nécessite W&amp;B Server v0.77 ou une version ultérieure.
+  * L’API Automatisations prend en charge les portées au niveau de l’équipe et de l’organisation.
+  * L’API Automatisations permet de créer et de modifier des automatisations limitées à un objet `Registry`.
+  * `wandb.Artifact` accepte un nouvel argument `digest_algorithm`, soit `"MD5"` (par défaut), soit `"XXH128"`. Transmettez `digest_algorithm="XXH128"` pour utiliser le hachage XXH128 pour un artifact lorsque cela est possible. Pour les artifacts créés avec `digest_algorithm="XXH128"`, `artifact.verify()` échoue avec les versions du SDK antérieures à v0.29.0.
+  * La nouvelle propriété `Artifact.linked_at` renvoie la date et l’heure auxquelles une version a été liée à la collection concernée. Elle s’applique uniquement aux versions liées et renvoie `None` pour les artifacts sources.
+  * Les requêtes de versions du Registry (`Api.registries().versions()`, `Api.registries().collections().versions()`, `Registry.versions()` et `Registry.collections().versions()`) acceptent une chaîne `order` facultative comme argument nommé pour les organisations disposant de la recherche avancée. Vous pouvez trier les versions selon `created_at`, `artifact_size` ou `linked_at`.
+  * Fonctionnalités de W&amp;B LEET TUI :
+    * La nouvelle commande `wandb leet inspect [PATH]` permet de parcourir les enregistrements bruts du journal de transactions `.wandb` d’un run. Elle affiche une liste filtrable d’enregistrements et une vue texte de l’enregistrement sélectionné, et suit les runs en direct à mesure qu’ils écrivent. Appuyez sur `i` dans la vue de run unique pour inspecter le run actuel. Utilisez un pipe ou redirigez la sortie pour afficher les enregistrements, par exemple : `wandb leet inspect | less`.
+    * Appuyez sur `g` pour afficher des repères derrière les graphiques linéaires : un arrière-plan en pointillés ou des lignes horizontales alignées sur les graduations de l’axe. Votre choix est enregistré ; vous pouvez également le définir avec `chart_guides` dans `wandb leet config`.
+    * Faites glisser les lignes de séparation entre les sections de l’aperçu du run pour les redimensionner à l’aide de la souris. Les proportions sont enregistrées pour chaque vue. Appuyez sur `0` pour les réinitialiser, ainsi que les tailles des autres volets.
+
+  ## Modifications
+
+  * Le format des messages utilisé par le SDK pour communiquer entre les processus internes a légèrement changé. Si vous utilisez `wandb beta core`, redémarrez le service après avoir mis à niveau `wandb`, car certaines opérations peuvent échouer lorsque les versions du SDK et du service diffèrent.
+  * `wandb.sandbox` autorise désormais les demandes de ressources GPU pour les sandboxes au lieu de rejeter `resources.gpu` côté client.
+  * Les méthodes de recherche du Registry `Api.registries()`, `.collections()` et `.versions()` valident désormais les noms de champs de filtre et rejettent les noms non pris en charge.
+  * `Api.create_automation()` et `Api.update_automation()` lèvent désormais une `UnsupportedError` au lieu d’une `CommError` lorsque le serveur ne prend pas en charge l’automatisation indiquée.
+  * Les wheels macOS nécessitent désormais macOS 13 (Ventura) ou une version ultérieure. macOS 12 a atteint sa fin de vie en 2024.
+  * Dans le TUI W&amp;B LEET, les sections d’aperçu du run (**Environnement**, **Configuration** et **Synthèse**) se partagent désormais proportionnellement la hauteur de la barre latérale et utilisent tout l’espace disponible. Auparavant, leur taille était limitée, ce qui laissait vide le bas des terminaux de grande taille.
+
+  ## Suppression
+
+  * Suppression de `wandb.tensorboard.log()` et de `wandb.tensorflow.log()`.
+  * Suppression du paramètre `start_method` obsolète, qui n&#39;avait déjà aucun effet.
+  * Suppression de la propriété `.length` obsolète de `wandb.apis.paginator.SizedPaginator`. Utilisez plutôt `len(...)`.
+  * Suppression de l&#39;option `summary="best"` et de l&#39;argument `goal` obsolètes de `run.define_metric()`. Utilisez plutôt `summary="min"` ou `summary="max"`.
+  * Suppression de l&#39;argument `quiet` obsolète de `run.finish()` et de `wandb.finish()`. Utilisez plutôt `wandb.Settings(quiet=...)`.
+  * Suppression des méthodes obsolètes `run.project_name()`, `run.get_url()`, `run.get_project_url()` et `run.get_sweep_url()`. Utilisez plutôt les propriétés `run.project`, `run.url`, `run.project_url` et `run.sweep_url`.
+  * Suppression de l&#39;argument `normalize` obsolète de `wandb.Image`. Assurez-vous que les valeurs des pixels des tableaux NumPy et des tenseurs PyTorch sont déjà comprises dans la plage [0, 255].
+
+  ## Correctifs
+
+  * `Artifact.new_file()` fonctionne désormais pour les artefacts téléversés avec `wandb sync`.
+  * `Run.scan_history(keys=...)` n’échoue plus pour les runs contenant des valeurs imbriquées.
+  * Pour certaines largeurs de volet, par exemple lors du redimensionnement d’une barre latérale, le TUI W&amp;B LEET affichait des graphiques de métriques plus larges que l’espace disponible, ce qui repoussait la barre latérale droite hors de l’écran.
+  * W&amp;B LEET TUI :
+    * `wandb leet config` fonctionne désormais dans les fenêtres de terminal peu hautes. La liste des champs défile avec la sélection, et la touche **Espace** bascule les paramètres booléens.
+    * Les volets multimédias n&#39;affichent plus de bandes noires autour des images dans la vue ANSI et ne clignotent plus en noir lorsque vous passez à la vue en résolution complète. La zone autour de l&#39;image affiche désormais l&#39;arrière-plan du terminal, et le changement de mode ne fait plus clignoter ni déplacer l&#39;image.
+
+  ## Sécurité
+
+  * Le téléchargement d’artefacts avec `artifact.files()` ou `artifact.checkout()` rejette désormais les noms de fichiers et d’artefacts contenant des chemins relatifs.
+</Update>
+
+<Update label="0.28.2" description="12 août 2026">
+  ## Modifications notables
+
+  * La commande `wandb sync --clean` se termine désormais avec le code 1 et affiche un message invitant à utiliser la nouvelle commande `wandb clean`.
+  * `wandb login` vérifie désormais les identifiants d’authentification par défaut. Pour désactiver cette vérification, transmettez `--no-verify` sur la ligne de commande ou `verify=False` à `wandb.login()`.
+
+  ## Ajouts
+
+  * Les requêtes Filestream prennent en charge la compression gzip, ce qui réduit le trafic réseau lors de la consignation de métriques. La compression est facultative et nécessite une prise en charge côté serveur. Pour l’activer, définissez `x_file_stream_no_gzip=False` dans `wandb.Settings`. La compression deviendra le comportement par défaut dans une prochaine version.
+  * La commande `wandb agent` accepte un nouvel indicateur `--term-timeout`.
+  * La nouvelle propriété `run.sync_dir` renvoie le répertoire de synchronisation du run.
+
+  ## Modifications
+
+  * La nouvelle commande `wandb clean` remplace `wandb sync --clean`.
+  * `wandb.init()` signale désormais l’erreur qu’il tentait à nouveau de résoudre, telle qu’une erreur réseau, en cas de délai d’expiration, au lieu d’afficher un message générique. Le paramètre `init_timeout` limite désormais également les tentatives du backend lors de l’initialisation d’un run.
+  * `wandb.Api().create_run_queue()`, `wandb.Api().create_custom_chart()` et `wandb.Api().upsert_run_queue()` lèvent désormais `WandbApiFailedError` lorsque l’opération échoue sur le backend.
+  * Les méthodes de requête paginées pour les artefacts et les registres valident désormais les arguments de pagination côté client avant de récupérer des résultats. Cela s’applique à `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Registries.collections()`, `Registries.versions()`, `Collections.versions()`, `Registry.collections()`, `Registry.versions()` et `Project.collections()`.
+  * La recherche ordonnée dans les registres limite désormais les requêtes de collections et de versions par registre à l’ID interne du registre actuel, ce qui rend la pagination et le filtrage plus fiables.
+  * L’analyse des réponses est plus rapide pour de nombreuses opérations `wandb.Api`, y compris les requêtes d’artefacts et de registres.
+  * La gestion des arguments dans `wandb launch` pour la ressource `local-process` a été renforcée afin que les valeurs fournies par les jobs soient toujours protégées par des guillemets pour l’interpréteur de commandes.
+  * L’agent Launch limite désormais l’URL source Git d’un job aux dépôts distants HTTPS et SSH, et fixe la liste des protocoles autorisés par Git lors de la récupération de la source et de la mise à jour des sous-modules.
+
+  ## Obsolète
+
+  * `wandb sync --sync-tensorboard` est obsolète et sera supprimé dans une version ultérieure.
+
+  ## Suppression
+
+  * Les versions ne contiennent plus de wheels Windows 32 bits (`win32`). Utilisez Python 64 bits sous Windows.
+
+  ## Correctifs
+
+  * La recherche dans le Registry avec `registries(order=...).collections(order=...).versions()` renvoie désormais les versions d&#39;artifacts dans l&#39;ordre du registre, de la collection, ou les deux.
+  * Les wheels macOS x86&#95;64 contiennent désormais des builds x86&#95;64 du binaire `wandb-xpu` et de la bibliothèque Parquet Rust. Auparavant, ils étaient fournis sous forme de builds arm64, qui ne pouvaient ni s&#39;exécuter ni être chargés sur les Mac Intel.
+  * `wandb.login(verify=True)` et `wandb login --verify` vérifient désormais les identifiants d&#39;authentification d&#39;identité fédérée (jeton d&#39;identité), qui n&#39;étaient auparavant pas vérifiés.
+  * `wandb login` valide désormais les clés API avant de les enregistrer dans le fichier `.netrc`.
+  * `wandb login` ne supprime ni ne corrompt plus les identifiants d&#39;authentification d&#39;autres machines dans votre fichier `.netrc`.
+  * `wandb login` et `wandb verify` ne mettent plus à jour les paramètres d&#39;hôte système lorsqu&#39;une tentative de connexion échoue.
+  * `wandb verify` signale désormais l&#39;échec d&#39;une vérification au lieu de planter lorsqu&#39;une opération échoue encore après plusieurs tentatives.
+  * Correction d&#39;un problème où `wandb.Api(overrides={"base_url": ...})` ne parvenait pas à s&#39;authentifier avec des identifiants d&#39;authentification d&#39;identité fédérée (jeton d&#39;identité) lorsque le serveur spécifié n&#39;était pas le serveur par défaut, par exemple dans un déploiement Cloud dédié, sauf si `WANDB_BASE_URL` était également défini.
+  * Lorsque vous utilisez l&#39;identité fédérée, le fichier de jeton d&#39;identité est désormais relu à chaque échange de jeton d&#39;accès, au lieu de l&#39;être uniquement au démarrage. Les jetons d&#39;identité de courte durée régénérés au même emplacement continuent désormais de fonctionner pour les runs qui leur survivent.
+  * Lorsque vous utilisez l&#39;identité fédérée et que le serveur rejette l&#39;échange du jeton d&#39;identité, par exemple parce que le jeton est non valide ou expiré, les requêtes échouent désormais immédiatement avec le message d&#39;erreur du serveur. Auparavant, l&#39;échange rejeté était réessayé jusqu&#39;à ce que les requêtes expirent avec une erreur générique.
+  * Les agents de balayage respectent désormais un `WANDB_DIR` personnalisé lorsqu&#39;ils écrivent une sortie JSON.
+  * La métrique `global_step` créée lorsque vous synchronisez des fichiers TensorBoard n&#39;est plus précédée d&#39;un préfixe tel que `train/global_step`, ce qui facilite la comparaison des métriques d&#39;entraînement et de validation.
+  * L&#39;intégration TensorBoard produit désormais moins d&#39;étapes W&amp;B en fusionnant, lorsque possible, les données associées au même `global_step` en une seule étape W&amp;B.
+  * `wandb sync` ne se bloque plus sur un run qui a défini son nom, ses tags ou ses notes après son démarrage.
+  * Les messages de journal capturés depuis des loggers Python n&#39;ajoutent plus de lignes vides aux journaux d&#39;un run.
+  * `del run.summary[key]` supprime désormais les métriques enregistrées en tant que valeurs imbriquées, qui étaient auparavant ignorées.
+
+  ## Sécurité
+
+  * Les journaux de débogage ne contiennent plus les identifiants d’authentification du cluster CoreWeave.
+  * `wandb docker` et `wandb docker-run` ne transmettent plus votre clé API sur la ligne de commande, où d’autres utilisateurs de la même machine pourraient la consulter.
+</Update>
+
 <Update label="0.28.1" description="16 juillet 2026">
   ## Modifications notables
 
@@ -18,28 +129,28 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * La nouvelle méthode d’API publique `Run.stop()` (`wandb.Api().run(...).stop()`) demande l’arrêt contrôlé d’un run actif, à l’instar du bouton **Stop run** dans W&amp;B App.
   * La nouvelle méthode `wandb.Api().organization()` renvoie une `Organization` à partir de son nom. Si vous omettez le nom, elle renvoie votre organisation par défaut actuelle.
 
-  ## Modifications
+  ## Modification
 
   * `wandb sync` redirige désormais vers `wandb beta sync` pour les ensembles de paramètres pris en charge. Pour utiliser l’implémentation précédente, transmettez plutôt `--legacy`.
   * `wandb beta sync` ignore désormais par défaut les runs en ligne, comme `wandb sync`. Pour inclure les runs en ligne, transmettez `--no-skip-online`.
-  * `wandb.sandbox` définit désormais par défaut une durée de vie maximale de 12 heures pour les sandboxes sans serveur (`max_lifetime_seconds=43200`). Pour remplacer cette valeur par défaut, transmettez `max_lifetime_seconds` pour une sandbox individuelle ou définissez-le dans `SandboxDefaults`.
+  * `wandb.sandbox` définit désormais par défaut une durée de vie maximale de 12 heures pour les Serverless Sandboxes (`max_lifetime_seconds=43200`). Pour remplacer cette valeur par défaut, transmettez `max_lifetime_seconds` pour une sandbox individuelle ou définissez-le dans `SandboxDefaults`.
   * `wandb.Api().runs()` et `wandb.Api().run()` lèvent désormais `RunNotFoundError` lorsque les données d’un run ne peuvent pas être chargées, par exemple lorsque le run est supprimé avant la fin du chargement de ses données.
   * `run.save()` accepte un nouvel argument `glob`. Transmettez `glob=False` pour désactiver l’expansion glob (`*`, `?` et `[...]`) et traiter le chemin comme un chemin littéral. Cela est utile lorsqu’un nom de fichier contient des métacaractères glob.
   * Les fichiers et répertoires temporaires de sockets Unix sont désormais supprimés à l’arrêt.
   * protobuf v4 n’est plus pris en charge.
 
-  ## Suppressions
+  ## Suppression
 
   * Suppression des implémentations de secours héritées pour le téléchargement de fichiers d’artifacts depuis des versions de W&amp;B Server antérieures à v0.70.0. Sur ces serveurs, `Artifact.files()` et `Artifact.download()` ne fonctionnent plus pour aucun artifact, et les téléchargements de fichiers via `Artifact.get_entry()` et `Artifact.get_path()` ne fonctionnent plus pour les artifacts non référencés. Pour continuer à utiliser ces opérations, mettez à niveau W&amp;B Server vers v0.70.0 ou une version ultérieure.
   * Suppression des implémentations de secours héritées pour la récupération d’un artifact par nom depuis des versions de W&amp;B Server antérieures à v0.70.0. Sur ces serveurs, `wandb.Api().artifact()` et les autres méthodes qui récupèrent des artifacts par chemin ne fonctionnent plus. Pour continuer à utiliser ces opérations, mettez à niveau W&amp;B Server vers v0.70.0 ou une version ultérieure.
   * Suppression de la dépendance `GitPython`. Les métadonnées Git sont désormais collectées en appelant directement l’exécutable `git`. La variable d’environnement `GIT_PYTHON_GIT_EXECUTABLE` est toujours prise en compte pour localiser l’exécutable.
 
-  ## Correctifs
+  ## Correctif
 
   * L’enregistrement d’un artifact de registre lié, par exemple lors de l’ajout d’un alias, n’échoue plus lorsque vous ne disposez pas d’un accès en écriture au projet source.
   * Les valeurs `NaN` de `np.float16` et `np.float32` enregistrées avec `Run.log()` sont désormais consignées comme `NaN` au lieu d’être ignorées silencieusement, conformément au comportement de `np.float64` et du type `float` natif.
   * `Run.upload_file()` (via `wandb.Api().run(...)`) associe désormais le fichier téléversé au run dans les déploiements autogérés. Auparavant, les octets du fichier étaient téléversés, mais jamais validés. Le fichier n’apparaissait donc pas dans le run sur les déploiements sans notifications de stockage d’objets.
-  * Les agents de balayage laissent désormais un run en cours se terminer avant de quitter lorsque le sweep est supprimé ou que `Api()` renvoie une erreur 404.
+  * Les agents de balayage laissent désormais un run en cours se terminer avant de quitter lorsque le balayage est supprimé ou que `Api()` renvoie une erreur 404.
   * Correction des interblocages introduits dans le SDK v0.25.1. Ces interblocages ont été signalés lors de l’utilisation de PyTorch avec des versions de Python antérieures à la version 3.14, qui utilisent par défaut la méthode de démarrage `fork` de `multiprocessing`. Ils pouvaient également survenir lors de la garbage collection avec certaines fonctionnalités de `wandb.Api`.
 </Update>
 

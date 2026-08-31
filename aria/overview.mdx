@@ -2,7 +2,15 @@
 title: "Overview"
 ---
 
+import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
+
 ARIA, W&B's AI Research and Iteration Agent, is your personalized research assistant that helps you analyze and run experiments, explain results, identify patterns across runs, recommend next steps, build visualizations and reports, and more in W&B.
+
+<Note>
+<MultiTenantCloudOnly />
+
+ARIA works in team projects, not in your personal entity. Your organization admin must also enable **Smart features**. See [Governance and security](/aria/governance).
+</Note>
 
 <Frame>
     <img src="/images/agent/agent_empty_chat_window.png" alt="Blank ARIA chat window" />
@@ -16,16 +24,15 @@ ARIA can help you:
 * Create plots and panels to visualize your data.
 * Build saved views and reports to share insights with your team.
 
+## Quick start
 To [chat with ARIA](/aria/chat):
 
-1. From any project, click the blue circle at the upper right corner of the page.
-    <Frame>
-        <img src="/images/agent/agent_location.png" alt="Location of ARIA in the UI" />
-    </Frame>
+1. From any project, click **Ask ARIA** at the upper right corner of the page.
 2. In the chat window, type your question or request. If you are unsure what to ask, select a suggested prompt.
 3. Click the **Send** button, the upward-pointing arrow in the lower-right corner of the chat window.
 
-Depending on the complexity of your question, ARIA might take a few moments to respond. You can close the chat window while ARIA works and return to check the response later. If ARIA needs more information, it asks you for clarification.
+## Follow ARIA's progress
+While ARIA works, it streams its responses so you can follow its progress step by step rather than waiting for a finished answer. Depending on the complexity of your question, ARIA might take a few moments to finish. You can close the chat window while ARIA works and return to check the response later, or [queue your next message](/aria/chat#queue-messages) without waiting. If ARIA needs more information, it asks you for clarification.
 
 While ARIA works, you might see **Thinking** and **shell** steps:
 
@@ -35,6 +42,28 @@ While ARIA works, you might see **Thinking** and **shell** steps:
 Click on a **Thinking** or **shell** step to expand more details about ARIA's reasoning or the action it took.
 
 For real-world examples, see [Example chats](/aria/overview#example-chats). For more information about managing chats, see [Chat with ARIA](/aria/chat).
+
+{/*
+## View and manage project memories
+ARIA remembers what it learns. As you work, ARIA writes _memories_ scoped to your project so it doesn't need to rediscover your setup, conclusions, or preferences from scratch in every new session. Tell it once that your team prefers log-scale charts, and it sticks.
+
+Each memory has a name and description so ARIA knows when to recall it, plus the memory text itself.
+
+Anyone in the team that owns the project can view, edit, or delete memories:
+
+1. In the ARIA chat window, click **<Icon icon="bars" iconType="solid" />**.
+1. In the **Customization** section, click **Project memory**. Each memory ARIA has about the project displays.
+1. To edit a memory, click **<Icon icon="pencil" iconType="solid" />**. Update the memory's **Name**, **Description**, or **Memory**, then click **Save**.
+1. To delete a memory, click **<Icon icon="trash" iconType="solid" />**.
+
+Without waiting for ARIA to learn new memories, you can create a project memory interactively. For example:
+
+<AriaChatBubbles
+  prompt="Remember that we prefer semantic coloring for charts."
+  response="I’ll check the existing project memories first so this preference is recorded under the right topic rather than duplicated ... Saved a new project memory: chart-coloring. It records that charts should use consistent, semantic colors based on series/category meaning or status rather than arbitrary palette order. "
+/>
+
+*/}
 
 ## Example chats
 

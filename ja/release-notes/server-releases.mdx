@@ -15,6 +15,68 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.84.0" description="2026年8月25日">
+  W&amp;B Server 0.84 では、一元管理と一括削除に対応し、組織およびチームの APIキー 管理が簡素化されました。Weave には、BYOB ストレージからのインラインレンダリングや、刷新された Agents ビューと Signals ビューなどが追加されています。このリリースではさらに、散布図で設定可能な参照線、BYOB ストレージ向け Azure ワークロード ID (プレビュー) 、疎なメトリクスを多数含む runs でのクエリパネルの読み込み高速化にも対応しました。
+
+  ## サポートとサポート終了 (EOL)
+
+  * W&amp;B Server v0.72 はサポート終了となりました。
+
+  ## 機能
+
+  * 折れ線グラフでは、プロット内のすべての Runs で単一のスケールを使用するようになりました。run にカーソルを合わせると、同じ step でメトリクスをログしたすべての Runs で、同じ X-axis の値が表示されます。
+    * run が同じ間隔でログする場合、ホバーすると一貫した X 軸の値が表示されます。
+    * Distributed runs のように run ごとにログの間隔が異なる場合、最も近いログされたポイント自体が異なるため、異なる X 値が表示されることがあります。値は引き続き同じバケット境界に基づいているため、比較には意味があります。
+  * Workspace、セクション、またはパネルの **Data** 設定タブでパネルのモードを指定すると、折れ線グラフでフルフィデリティのデータを表示する方法をカスタマイズできます。
+
+    * **Band モード**では、データが密集している領域の値の範囲を表示し、大規模なデータにおけるばらつきや外れ値の把握に役立ちます。
+    * **Line モード**は現在一般提供されており、完全忠実度のトレースを直接表示することで、run の履歴の生データ本来の形状を保持します。
+
+    <Frame>![BandモードとLineモードのチャートを示すアニメーション](/images/release-notes/v0-84-0/chart-line-mode.gif)</Frame>
+  * 散布図に参照線を追加して、チャート上の重要なしきい値、ベンチマーク、目標値を強調できます。プロットの設定にある**Reference lines**タブでは、カラーをカスタマイズした最大 5 本の線を設定できます。
+    <Frame>![参照線付きの 2 つの散布図](/images/release-notes/v0-84-0/scatter-plot-reference-lines.png)</Frame>
+  * 組織とチーム向けに強化されたAPIキー管理：
+    * **Organization dashboard** の **API Keys** タブから、管理者は組織内の任意のAPIキーを編集または削除できるようになりました。
+    * **Organization dashboard** とチームの **Settings** の両方で、管理者は管理権限を持つAPIキーを一括削除できるようになりました。
+  * プレビュー中の BYOB storage 向け [Azure workload identities](/ja/platform/hosting/data-security/secure-storage-connector#provision-your-bucket)。試すには、W&amp;B をアップグレードする前に Operator Helm chart を [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0) にアップグレードしてください。
+  * Content-Encoding: gzip を使用する filestream request のサポートを追加しました。
+  * Weave data を含む W&amp;B project の overview page に、アクティブなトレースと評価が表示されるようになりました。
+
+  ### Weave
+
+  * Weave が BYOB ストレージ参照 (`s3://`、`gs://`、`gcs://`、`az://`) を有効期限の短い署名付き URL に解決するようになり、次の機能強化が可能になりました。
+    * リモートメディアを Weave に取り込む必要がなくなり、コスト効率とデータの機密性が向上します。
+    * メディアが、チャットメッセージのテキスト、評価比較の詳細ペイン、トレース比較グリッド、raw-call のカスタムビューにインライン表示されるようになりました。評価比較やデータセットのセルなど、高密度なグリッドでは、インライン表示の代わりにコンパクトな署名付きダウンロードリンクが表示されます。
+    * オーディオの参照は、インライン波形プレーヤーで表示されます。
+    * エージェントのトレースとスパンで、参照先のメディアが表示・可視化されるようになりました。
+  * [Agent views](/ja/weave/guides/tracking/view-agent-activity) で検索とフィルタリングがサポートされるようになりました。同じフィールドに複数の `OR` フィルターを指定して `OR` 式を作成したり、異なるフィールドにフィルターを指定して `AND` 条件を作成したりできます。さらに、列をドラッグしてサイズ変更できるようになりました。
+  * コンパクトで所要時間を考慮したターンのタイムラインと、より使いやすい詳細レイアウトにより、Agent view の会話詳細表示を改善しました。エラーが会話内に直接表示されるようになり、会話から trace view の対応する span に直接リンクできるようになりました。また、スコアリングされたターンにはターンごとのドットが表示されるようになりました。
+  * [シグナルタグの管理](/ja/weave/guides/tracking/view-agent-signals#tags-presets)の方が、迅速かつ簡潔です。
+    * システムプロンプトや出力スキーマなどを定義せずに、タグの説明から直接シグナルを作成できます。変更は自動的に保存されます。
+    * 各バッジには削除コントロールが組み込まれています。バッジにカーソルを合わせると、ツールチップにタグの由来に関する詳細が表示されます。
+    * タグが適用されていない場合は不要なセクションが非表示になり、Workspaceをすっきりと保てます。
+  * シグナルの作成または編集時に、**Inference provider** セレクターでは、サードパーティプロバイダーごとにモデル単位のエントリが表示されるようになりました。
+  * シグナルから親会話へのリンク、およびスパンから親評価へのリンクが追加されました。
+  * 評価比較表では、複数の数値のリストを含むセルがデフォルトでヒストグラムとして表示されるようになりました。セルのツールバーを使用して、表示モードを **Histogram**、**Bar Chart**、**Text**、または **Code** に変更できます。セルをクリックすると、要約統計量を含む拡大チャートが表示されます。
+  * string セルで選択した表示モード (***Text**、**Code**、または **Markdown**) が、クリックしたセルだけでなく、その列内のすべての string セルに適用されるようになりました。明示的にモードを選択するまで、セルには JSON の **Code** などの自動デフォルトが適用されます。
+  * Custom providers は、UI を強化した [custom runtimes](/ja/weave/guides/tools/custom-runtimes) に名称変更されました。実験の変化に応じて custom runtimes を編集または削除できます。
+  * Weave が inference provider の設定状況を報告する際、チームシークレットに加えてユーザースコープのシークレットも考慮されるようになりました。独自のキーで設定した provider は、**Playground** のモデルドロップダウン、**Providers** タブ、および **Agents** inference で利用可能として表示されるようになりました。
+  * セキュリティを強化するため、Weave scoring worker のリモート Scorer ホスト許可リストで、ワイルドカードを含む接尾辞パターンを指定できるようになりました。`WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` 環境変数に、パターンをカンマ区切りのリストとして設定します。
+    * `*.corp.example.com` のようなエントリは、任意の階層のサブドメインに一致しますが、apex ドメインには一致しません。したがって、`a.corp.example.com` と `a.b.corp.example.com` には一致しますが、`corp.example.com` には一致しません。
+    * 安全性のため、ワイルドカードは少なくとも 2 つの DNS ラベルを対象とする必要があります。そのため、`*.com` や `*.internal` のようなパターンは拒否されます。
+
+  ## パフォーマンス改善
+
+  * スパースなメトリクスが多数ある Runs のクエリパネルの読み込みパフォーマンスを改善しました。
+  * Weave のスコアリングワーカーは、推論エンドポイントの呼び出し時に project ごとに同時実行数を適応的に調整するようになり、プロバイダーのクォータが低い組織で発生するレート制限エラーを削減します。
+
+  ## 修正
+
+  * パネルを report にインポートすると、ホバー時だけでなく常にパネル名全体が表示されるようになりました。
+  * サポートされていなかったため、Weave の **Signals** タブで `NOT` 演算子を提供しなくなりました。
+  * Weave ダッシュボードのフィルターチップに不要な不等号が表示される問題を修正しました。
+</Update>
+
 <Update label="v0.83.2" description="2026年8月6日">
   ## セキュリティ
 
@@ -29,7 +91,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * チームの **Users** 表に **ステータス** 列が追加され、各チームメンバーがアクティブか、招待が保留中か、組織管理者によってアカウントが無効化されているかが表示されるようになりました。[Add and manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)を参照してください。
   * run の最新の記録済み step より前の step で最初にログされたメトリクスが、run のメトリクスおよび以降の履歴 エクスポートから除外され、影響を受ける run のライブ履歴クリーンアップがブロックされる可能性があったバグを修正しました。既存のエクスポートは再処理されません。
   * 複数の書き込みに分割されるほど大きい run ロギングリクエストで、データの一部が保存されなかったにもかかわらず成功と報告される可能性があったバグを修正しました。
-  * 単一の artifact 更新操作でタグの追加と削除の両方を試行した場合に、Registry のバージョンタグが検索インデックスで上書きされる可能性があったバグを修正しました。
+  * 単一の アーティファクト 更新操作でタグの追加と削除の両方を試行した場合に、Registry のバージョンタグが検索インデックスで上書きされる可能性があったバグを修正しました。
   * Registry のパージが同期的に実行される可能性があったバグを修正しました。
 </Update>
 
@@ -1044,25 +1106,4 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   ## その他の変更
 
   * カスタムグリッドレイアウトは、Server v0.73.0 のリリースで W&amp;B Workspaces から削除されました。以前は、カスタムグリッドレイアウトを使用すると、セクション内の各パネルのサイズを個別に調整できました。現在は、Workspace セクション内でパネルのサイズを変更すると、[W&amp;B App](/ja/models/app/features/panels/#manage-a-sections-panels) と [Workspace API](/ja/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings) のどちらで Workspace を設定している場合でも、そのセクション内のすべてのパネルのサイズが変更されます。カスタムグリッドレイアウトは、[W&amp;B Reports](/ja/models/reports) と [Reports API](/ja/models/ref/wandb_workspaces/reports) では引き続き利用できます。
-</Update>
-
-<Update label="v0.72.0" description="2025年8月6日">
-  W&amp;B 0.72 には、折れ線グラフとメディアパネルの修正に加え、OpenTelemetry および Google Agent Development Kit 向けの Weave インテグレーションの改善が含まれています。
-
-  ## サポートと提供終了
-
-  * W&amp;B Server v0.58 は提供終了を迎えました。
-
-  ## 今後の変更
-
-  * 多数のパネルがある Workspace での読み込みを高速化し、Workspace でのパネルのドラッグ＆ドロップをよりすばやく正確に行えるようにするため、Workspace での表示動作を最適化しています。**これに伴い、次回リリース (0.73) で Workspace セクションの「Custom grid」Layout を削除する予定です。** Custom grid は Reports では引き続き利用できます。ご質問やご懸念がある場合は、担当の W&amp;B チームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
-  * 今後のリリースで、複数 run と単一 run の Workspace ビューを統一する予定です。これにより、単一 run の詳細を開いたときに、複数 run ビューで設定したものと同じパネルの Layout と設定 (カスタム chart、Layout、Settings を含む) が表示されます。目的は、コンテキストを維持したまま、ビュー設定のやり直しを減らせるようにすることです。一方で、Workspace の他の部分とは切り離された、単一 run 専用ビューを個別に customize することはできなくなります。移行についてご質問がある場合は、担当の W&amp;B チームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
-  * 今後数回のリリースにわたり、既存のチームレベルの Model Registry から W&amp;B Registry への移行を引き続き進めます。
-
-  ## 修正
-
-  * 0.71.0 で告知した折れ線グラフの動作変更を元に戻しました。各線に点が 1 つしかない折れ線グラフは、Settings を変更していても棒グラフに変換されます。
-  * メディアパネルで、バウンディングボックスがメディアに重ねて表示されず、メディアの外側に表示されることがある bug を修正しました。
-  * Google Agent Development Kit インテグレーションが Weave Threads をサポートしていなかった bug を修正しました。
-  * OpenTelemetry 経由で送信された Weave トレースで、**Attributes** 列が表示されない bug を修正しました。
 </Update>

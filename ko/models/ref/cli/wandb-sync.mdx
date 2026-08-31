@@ -2,9 +2,9 @@
 title: wandb sync
 ---
 
-import { GitHubLink } from "/snippets/ko/_includes/github-source-link.mdx"
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L563" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L558" />
 
 <div id="usage">
   ## 사용
@@ -70,17 +70,13 @@ wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
 wandb sync --sync-all
 ```
 
-이미 동기화된 Runs의 로컬 데이터를 삭제하려면:
+`wandb clean`을 사용하여 동기화된 Runs의 로컬 데이터를 삭제하세요. 참조
 
 ```bash
-wandb sync --clean
+wandb clean --help
 ```
 
-확인 메시지 없이 동기화된 지 48시간이 지난 Runs를 삭제하려면:
-
-```bash
-wandb sync --clean --clean-old-hours 48 --clean-force
-```
+자세한 내용은 참조하세요.
 
 <div id="arguments">
   ## 인수
@@ -109,9 +105,9 @@ wandb sync --clean --clean-old-hours 48 --clean-force
 | `--include-synced, --no-skip-synced` | BOOL Flag | 이미 동기화된 Runs를 포함합니다. **기본값**: None                                                                    |
 | `--mark-synced`                      | BOOL Flag | (레거시 전용) 업로드 후 Runs를 동기화된 것으로 표시합니다. **기본값**: True                                                    |
 | `--sync-all`                         | BOOL Flag | (레거시 전용) 로컬 `wandb` 디렉터리에서 동기화되지 않은 모든 Runs를 동기화합니다. **기본값**: False                                   |
-| `--clean`                            | BOOL Flag | (레거시 전용) 이미 동기화된 Runs의 로컬 데이터를 삭제합니다. **기본값**: False                                                  |
-| `--clean-old-hours`                  | INT       | 지정한 시간보다 오래된 동기화된 Runs만 삭제합니다(`--clean`과 함께 사용). **기본값**: 24                                          |
-| `--clean-force`                      | BOOL Flag | `--clean`이 지정된 경우 확인 요청을 건너뜁니다. **기본값**: False                                                        |
+| `--clean`                            | BOOL Flag | 제거되었습니다. `wandb clean`을 사용하세요. **기본값**: False                                                         |
+| `--clean-old-hours`                  | STR       | 제거되었습니다. `wandb clean`을 사용하세요. **기본값**: None                                                          |
+| `--clean-force`                      | BOOL Flag | 제거되었습니다. `wandb clean`을 사용하세요. **기본값**: False                                                         |
 | `--show`                             | INT       | summary에 표시할 Runs 수를 설정합니다. **기본값**: 5                                                                |
 | `--append`                           | BOOL Flag | (레거시 전용) 새 run을 생성하는 대신 기존 run에 데이터를 추가합니다. **기본값**: False                                            |
 | `--skip-console`                     | BOOL Flag | (레거시 전용) 콘솔 로그 업로드를 건너뜁니다. **기본값**: False                                                             |
