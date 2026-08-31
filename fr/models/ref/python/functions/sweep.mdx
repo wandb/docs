@@ -6,16 +6,9 @@ namespace: wandb.sdk.wandb_sweep
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L35" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L35" />
 
-## <kbd>fonction</kbd> wandb.sweep
-
-```python
-sweep: 'dict | Callable',
-entity: 'str | None' = None,
-project: 'str | None' = None,
-prior_runs: 'list[str] | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.sweep()
 
 Initialisez un sweep d&#39;hyperparamètres.
 
@@ -28,14 +21,32 @@ Lors d&#39;une étape ultérieure, fournissez le `sweep_id` à un agent de sweep
 Voir la [structure de configuration d&#39;un sweep](https://docs.wandb.ai/models/sweeps/define-sweep-configuration)
 pour savoir comment définir votre sweep.
 
+```python
+sweep: 'dict | Callable',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+prior_runs: 'list[str] | None' = None
+```
+
 <div id="args">
   ## Arguments
 </div>
 
-* `sweep`: La configuration d&#39;une recherche d&#39;hyperparamètres (ou un générateur de configuration). Si vous fournissez un callable, assurez-vous qu&#39;il ne prend pas d&#39;arguments et qu&#39;il renvoie un dictionnaire conforme à la spécification de configuration des sweeps W&amp;B.
-* `entity`: Le nom d&#39;utilisateur ou le nom de l&#39;équipe vers lequel vous souhaitez envoyer les runs W&amp;B créés par le sweep. Assurez-vous que l&#39;entité que vous spécifiez existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d&#39;utilisateur.
-* `project`: Le nom du projet vers lequel sont envoyés les runs W&amp;B créés à partir du sweep. Si le projet n&#39;est pas spécifié, le run est envoyé à un projet intitulé &#39;Uncategorized&#39;.
-* `prior_runs`: Les ID des runs existants à ajouter à ce sweep.
+<ResponseField name="sweep" type="dict | Callable">
+  La configuration d&#39;une recherche d&#39;hyperparamètres (ou un générateur de configuration). Si vous fournissez un callable, assurez-vous qu&#39;il ne prend pas d&#39;arguments et qu&#39;il renvoie un dictionnaire conforme à la spécification de configuration des sweeps W&amp;B.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  Le nom d&#39;utilisateur ou le nom de l&#39;équipe vers lequel vous souhaitez envoyer les runs W&amp;B créés par le sweep. Assurez-vous que l&#39;entité que vous spécifiez existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d&#39;utilisateur.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  Le nom du projet vers lequel sont envoyés les runs W&amp;B créés à partir du sweep. Si le projet n&#39;est pas spécifié, le run est envoyé à un projet intitulé &#39;Uncategorized&#39;.
+</ResponseField>
+
+<ResponseField name="prior_runs" type="list[str] | None">
+  Les ID des runs existants à ajouter à ce sweep.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

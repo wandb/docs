@@ -6,9 +6,11 @@ namespace: wandb.apis.public.reports
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
 
-## <kbd>클래스</kbd> wandb.apis.public.Reports
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Reports
+
+Reports는 `BetaReport` 객체에 대한 지연 이터레이터입니다.
 
 ```python
 (service_api: 'ServiceApi',
@@ -18,23 +20,35 @@ entity: 'str | None' = None,
 per_page: 'int' = 50)
 ```
 
-Reports는 `BetaReport` 객체에 대한 지연 이터레이터입니다.
-
 <div id="args">
-  ## 매개변수
+  ## 인수
 </div>
 
-* `service_api`: 이 컬렉션에 대해 W&amp;B API Call을 수행하는 wandb-core 서비스 인터페이스입니다.
-* `project`: Reports를 가져올 프로젝트입니다.
-* `name`: 필터링할 Reports의 이름입니다. `None`이면 모든 Reports를 가져옵니다.
-* `entity`: 프로젝트의 entity 이름입니다. 기본값은 프로젝트의 entity입니다.
-* `per_page`: 페이지당 가져올 Reports 수입니다(기본값: 50).
+<ResponseField name="service_api" type="ServiceApi">
+  이 컬렉션에 대한 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
+</ResponseField>
+
+<ResponseField name="project" type="Project">
+  Reports를 가져올 프로젝트입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  필터링할 report 이름입니다. `None`이면 모든 Reports를 가져옵니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  프로젝트의 entity 이름입니다. 기본값은 프로젝트 entity입니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  페이지당 가져올 Reports 수입니다(기본값: 50).
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Reports.convert_objects()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Reports.convert_objects()
 
 ```python
 self
@@ -42,7 +56,7 @@ self
 
 GraphQL의 edge를 File 객체로 변환합니다.
 
-### <kbd>방법</kbd> Paginator.**next**()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.**next**()
 
 ```python
 self
@@ -50,7 +64,7 @@ self
 
 이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
 
-### <kbd>방법</kbd> Reports.update_variables()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Reports.update_variables()
 
 ```python
 self

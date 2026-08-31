@@ -6,9 +6,11 @@ namespace: wandb.plot.line
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py#L12" />
 
-## <kbd>関数</kbd> wandb.plot.line
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.line()
+
+カスタマイズ可能な折れ線グラフを作成します。
 
 ```python
 table: 'wandb.Table',
@@ -19,18 +21,33 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-カスタマイズ可能な折れ線グラフを作成します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `table`: グラフ用のデータを含む表。
-* `x`: x軸の値の列名。
-* `y`: y軸の値の列名。
-* `stroke`: 線を区別するための列名 (例: 線のグループ化) 。
-* `title`: グラフのタイトル。
-* `split_table`: 表を W&amp;B UI 内の別のセクションに分けて表示するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="table" type="wandb.Table">
+  グラフ用のデータを含む表。
+</ResponseField>
+
+<ResponseField name="x" type="str">
+  x軸の値の列名。
+</ResponseField>
+
+<ResponseField name="y" type="str">
+  y軸の値の列名。
+</ResponseField>
+
+<ResponseField name="stroke" type="str | None">
+  線を区別するための列名 (例: 線のグループ化) 。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  グラフのタイトル。
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI 内の別のセクションに分けて表示するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

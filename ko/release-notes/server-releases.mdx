@@ -15,6 +15,68 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.84.0" description="2026년 8월 25일">
+  W&amp;B Server 0.84에서는 조직과 팀의 API 키 관리가 간소화되어 중앙에서 관리하고 일괄 삭제할 수 있습니다. Weave에는 BYOB 저장소의 인라인 렌더링, 새롭게 개선된 Agents 및 Signals 뷰 등이 추가되었습니다. 이 밖에도 이번 릴리스에는 산점도에 설정 가능한 레퍼런스 선, 프리뷰로 제공되는 BYOB 저장소용 Azure 워크로드 ID, 희소 메트릭이 많은 run의 쿼리 패널 로딩 속도 개선이 포함되어 있습니다.
+
+  ## 지원 및 지원 종료
+
+  * W&amp;B Server v0.72의 지원이 종료되었습니다.
+
+  ## 특성
+
+  * 이제 선형 플롯에서는 하나의 플롯에 있는 모든 run에 동일한 스케일이 적용됩니다. run 위에 마우스를 올리면 같은 step에서 metric을 로깅한 모든 run에 대해 동일한 X축 값이 표시됩니다:
+    * run이 동일한 주기로 로그를 기록하면 마우스를 올렸을 때 일관된 x축 값이 표시됩니다.
+    * 분산 run처럼 로깅 주기가 서로 다른 run은 가장 가까운 로깅 지점이 실제로 다르므로 서로 다른 x축 값을 표시할 수 있습니다. 값은 여전히 동일한 버킷 경계를 기준으로 하므로 비교에 의미가 있습니다.
+  * 워크스페이스, 섹션 또는 패널의 **Data** 설정 탭에서 패널 모드를 지정하여 선형 플롯의 전체 충실도 데이터 표시 방식을 사용자 지정하세요.
+
+    * **밴드 모드**는 데이터가 밀집된 영역의 값 범위를 표시하여 대규모 데이터에서 분산과 이상값을 파악하는 데 도움을 줍니다.
+    * **선 모드**는 이제 정식 출시되었으며, run 이력의 원래 형태를 유지하도록 전체 데이터 충실도의 트레이스를 직접 표시합니다.
+
+    <Frame>![밴드 및 선 모드 차트를 보여주는 애니메이션](/images/release-notes/v0-84-0/chart-line-mode.gif)</Frame>
+  * 산점도에 기준선을 추가하여 차트의 중요한 임곗값, 벤치마크 또는 목표 값을 강조하세요. 플롯 설정의 **Reference lines** 탭에서 색상을 맞춤 설정한 선을 최대 5개까지 구성할 수 있습니다.
+    <Frame>![기준선이 있는 두 개의 산점도](/images/release-notes/v0-84-0/scatter-plot-reference-lines.png)</Frame>
+  * 조직 및 팀의 향상된 API 키 관리:
+    * **Organization dashboard**의 **API Keys** 탭에서 관리자는 이제 조직 내 모든 API 키를 편집하거나 삭제할 수 있습니다.
+    * **Organization dashboard**와 팀 **Settings**에서 관리자는 이제 관리 권한이 있는 API 키를 일괄 삭제할 수 있습니다.
+  * 미리 보기로 제공되는 BYOB 저장소용 [Azure 워크로드 ID](/ko/platform/hosting/data-security/secure-storage-connector#provision-your-bucket)입니다. 사용해 보려면 W&amp;B를 업그레이드하기 전에 Operator Helm chart를 [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0)로 업그레이드하세요.
+  * Content-Encoding: gzip을 사용하는 filestream 요청을 지원합니다.
+  * 이제 Weave 데이터가 있는 W&amp;B 프로젝트의 프로젝트 개요 페이지에 활성 트레이스와 평가가 표시됩니다.
+
+  ### Weave
+
+  * Weave는 이제 BYOB 저장소 레퍼런스(`s3://`, `gs://`, `gcs://`, `az://`)를 단기 서명 URL로 해석하여 여러 기능을 개선합니다:
+    * 원격 미디어를 Weave로 수집하지 않아도 되어 비용 효율성과 데이터 민감도가 향상됩니다.
+    * 이제 미디어가 chat 메시지 텍스트, 평가 비교 세부정보 패널, 트레이스 비교 그리드, 원시 호출 맞춤형 뷰에 인라인으로 표시됩니다. 평가 비교 및 데이터셋 셀처럼 밀집된 그리드에서는 인라인으로 렌더링하는 대신 간결한 서명된 다운로드 링크를 표시합니다.
+    * 오디오 레퍼런스는 인라인 파형 플레이어로 렌더링됩니다.
+    * 이제 에이전트 트레이스와 span에서 참조된 미디어를 렌더링하고 시각화합니다.
+  * [Agent 뷰](/ko/weave/guides/tracking/view-agent-activity)가 이제 검색 및 필터링을 지원합니다. `OR` 표현식에는 동일한 필드에 여러 `OR` 필터를 지정하고, `AND`에는 서로 다른 필드에 대한 필터를 지정하세요. 또한 이제 열 너비를 드래그하여 조정할 수 있습니다.
+  * 간결한 기간 인식형 턴 타임라인과 더욱 편리한 세부정보 레이아웃으로 Agent 뷰의 대화 세부정보 경험을 개선했습니다. 이제 오류가 대화에 직접 표시되며, 대화에서 트레이스 뷰의 해당 span으로 바로 이동할 수 있고, 점수가 매겨진 턴에는 턴별 점 표시가 포함됩니다.
+  * [시그널 태그 관리](/ko/weave/guides/tracking/view-agent-signals#tags-presets)가 더 빠르고 간편합니다.
+    * system 프롬프트, 출력 스키마 또는 기타 세부 정보를 정의하지 않고 태그 설명에서 바로 시그널을 생성할 수 있습니다. 변경 사항은 자동으로 저장됩니다.
+    * 간소화된 배지에는 각 배지에서 바로 사용할 수 있는 제거 컨트롤이 있습니다. 배지 위에 마우스를 올리면 툴팁에서 태그 출처 정보를 확인할 수 있습니다.
+    * 적용된 태그가 없으면 불필요한 섹션이 숨겨져 워크스페이스를 깔끔하게 유지할 수 있습니다.
+  * 시그널을 생성하거나 편집할 때 **Inference provider** 선택기에 이제 각 타사 공급자의 모델별 항목이 하나씩 표시됩니다.
+  * 이제 시그널은 상위 대화에 연결되고, span은 상위 평가에 연결됩니다.
+  * 평가 비교 표에서 숫자 목록이 포함된 셀은 이제 기본적으로 히스토그램으로 표시됩니다. 셀 툴바를 사용하여 뷰 모드를 **Histogram**, **Bar Chart**, **Text** 또는 **Code**로 변경하세요. 셀을 클릭하면 요약 통계가 포함된 더 큰 차트가 열립니다.
+  * string 셀에 대해 선택한 뷰 모드(***Text**, **Code** 또는 **Markdown**)는 이제 클릭한 셀에만 적용되는 것이 아니라 해당 열의 모든 string 셀에 적용됩니다. 명시적으로 모드를 선택하기 전까지는 JSON의 **Code**와 같은 자동 기본값이 유지됩니다.
+  * Custom providers가 개선된 UI와 함께 [맞춤형 런타임](/ko/weave/guides/tools/custom-runtimes)으로 이름이 변경되었습니다. 실험 변화에 따라 맞춤형 런타임을 편집하거나 제거할 수 있습니다.
+  * Weave에서 inference 공급자의 설정 여부를 보고할 때 이제 팀 시크릿뿐 아니라 사용자 범위의 시크릿도 고려됩니다. 자체 키로 설정한 공급자는 이제 **Playground** 모델 드롭다운, **Providers** 탭 및 **Agents** inference에서 사용 가능한 것으로 표시됩니다.
+  * 보안을 강화하기 위해 Weave 점수화 워커의 원격 Scorer 호스트 허용 목록에서 이제 와일드카드 접미사 패턴을 사용할 수 있습니다. `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` 환경 변수를 쉼표로 구분된 패턴 목록으로 설정하세요:
+    * `*.corp.example.com`과 같은 항목은 깊이에 관계없이 하위 도메인과 일치하지만 루트 도메인과는 일치하지 않습니다. 따라서 `a.corp.example.com` 및 `a.b.corp.example.com`은 일치하지만 `corp.example.com`은 일치하지 않습니다.
+    * 보안을 위해 와일드카드는 최소 두 개의 DNS 레이블을 포함해야 하므로 `*.com` 및 `*.internal`과 같은 패턴은 거부됩니다.
+
+  ## 성능 개선
+
+  * 희소 메트릭이 많은 run에서 쿼리 패널을 로드하는 성능을 개선했습니다.
+  * 이제 Weave 점수화 워커는 추론 엔드포인트 호출 시 프로젝트별로 동시성을 조정하여, 공급자 할당량이 낮은 조직에서 발생하는 속도 제한 오류를 줄입니다.
+
+  ## 수정 사항
+
+  * 패널을 report로 임포트하면 마우스를 올리지 않아도 항상 전체 패널 이름이 표시됩니다.
+  * 지원되지 않는 Weave **시그널** 탭에서 더 이상 `NOT` 연산자가 제공되지 않습니다.
+  * Weave 대시보드 필터 칩에 중복으로 표시되던 같지 않음 기호를 수정했습니다.
+</Update>
+
 <Update label="v0.83.2" description="2026년 8월 6일">
   ## 보안
 
@@ -1044,25 +1106,4 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   ## 기타 변경 사항
 
   * 맞춤형 그리드 레이아웃은 Server 릴리스 v0.73.0부터 W&amp;B Workspaces에서 제거되었습니다. 이전에는 맞춤형 그리드 레이아웃을 사용해 섹션 내 개별 패널의 크기를 조정할 수 있었습니다. 이제 워크스페이스 섹션에서 패널 하나의 크기를 조정하면 [W&amp;B App](/ko/models/app/features/panels/#manage-a-sections-panels) 또는 [Workspace API](/ko/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings)로 워크스페이스를 설정했는지와 관계없이 해당 섹션의 모든 패널 크기가 함께 조정됩니다. 맞춤형 그리드 레이아웃은 [W&amp;B Reports](/ko/models/reports) 및 [Reports API](/ko/models/ref/wandb_workspaces/reports)에서는 계속 사용할 수 있습니다.
-</Update>
-
-<Update label="v0.72.0" description="2025년 8월 6일">
-  W&amp;B 0.72에는 선형 플롯과 미디어 패널에 대한 수정 사항과 함께 OpenTelemetry 및 Google Agent Development Kit용 Weave 인테그레이션 개선 사항이 포함되어 있습니다.
-
-  ## 지원 및 지원 종료
-
-  * W&amp;B Server v0.58의 지원이 종료되었습니다.
-
-  ## 예정된 변경 사항
-
-  * 패널이 많은 워크스페이스에서 더 빠르게 로드되고, 워크스페이스에서 패널을 드래그 앤 드롭할 때 더 반응성이 좋고 정확하게 동작하도록 워크스페이스의 렌더링 방식을 최적화하고 있습니다. **이 작업의 일환으로 다음 릴리스(0.73)에서 워크스페이스 섹션의 “사용자 지정 그리드” 레이아웃을 제거할 계획입니다.** 사용자 지정 그리드는 Reports에서 계속 사용할 수 있습니다. 질문이나 우려 사항이 있으면 담당 W&amp;B 팀 또는 [지원팀](mailto:support@wandb.ai)에 문의하세요.
-  * 향후 릴리스에서 멀티 run 및 단일 run 워크스페이스 뷰를 일치시킬 예정입니다. 이에 따라 단일 run으로 드릴다운하면 맞춤형 차트, 레이아웃, 설정을 포함해 멀티 run 뷰에서 구성한 것과 동일한 패널 레이아웃과 설정이 표시됩니다. 목표는 작업 맥락을 유지하고 뷰 설정을 다시 해야 하는 수고를 줄이는 것입니다. 다만 이 변경으로 인해 나머지 워크스페이스와 분리된 고유한 단일 run 뷰를 사용자 지정하는 기능은 제거됩니다. 마이그레이션에 대해 궁금한 점이 있으면 담당 W&amp;B 팀 또는 [지원팀](mailto:support@wandb.ai)에 문의하세요.
-  * 앞으로 몇 차례의 릴리스에 걸쳐 기존 팀 수준 모델 레지스트리를 W&amp;B Registry로 계속 마이그레이션할 예정입니다.
-
-  ## 수정 사항
-
-  * 0.71.0에서 공지한 선형 플롯 동작 변경을 되돌렸습니다. 각 선에 점이 1개만 있는 선형 플롯은 설정을 변경해도 막대 차트로 변환됩니다.
-  * 미디어 패널에서 바운딩 박스가 미디어 위에 오버레이되지 않고 미디어 바깥에 렌더링될 수 있던 버그를 수정했습니다.
-  * Google Agent Development Kit 인테그레이션이 Weave Threads를 지원하지 않던 버그를 수정했습니다.
-  * OpenTelemetry를 통해 제출된 Weave 트레이스에서 **Attributes** 컬럼이 누락되던 버그를 수정했습니다.
 </Update>

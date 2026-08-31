@@ -6,9 +6,15 @@ namespace: wandb.apis.public.runs
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-## <kbd>クラス</kbd> wandb.apis.public.Runs
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Runs
+
+project と省略可能なフィルターに関連付けられた `Run` オブジェクトの遅延イテレーターです。
+
+必要に応じて、Runs は W&amp;B サーバーからページ単位で取得されます。
+
+これは通常、`Api.runs` 名前空間を通じて間接的に使用されます。
 
 ```python
 (service_api: 'ServiceApi',
@@ -22,31 +28,51 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-project と省略可能なフィルターに関連付けられた `Run` オブジェクトの遅延イテレーターです。
-
-必要に応じて、Runs は W&amp;B サーバーからページ単位で取得されます。
-
-これは通常、`Api.runs` 名前空間を通じて間接的に使用されます。
-
 <div id="args">
   ## 引数
 </div>
 
-* `service_api`: リクエストに使用するサービス API。
-* `entity`: project を所有する entity (ユーザー名またはチーム) 。
-* `project`: run を取得する project の名。
-* `filters`: run のクエリに適用するフィルター。
-* `order`: `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。デフォルトの並び順は `run.created_at` で、古いものから新しいものへ並びます。
-* `per_page`: リクエストごとに取得する run の数 (デフォルトは 50) 。
-* `include_sweeps`: run に sweep 情報を含めるかどうか。デフォルトは True です。
-* `lazy`: アクセスされるまで重いフィールド (`config`、`summaryMetrics`、`systemMetrics`) の読み込みを遅延させるかどうか。デフォルトは True です。
-* `api_key`: 
+<ResponseField name="service_api" type="ServiceApi">
+  リクエストに使用するサービス API。
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  project を所有する entity (ユーザー名またはチーム) 。
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  run を取得する project の名。
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  run のクエリに適用するフィルター。
+</ResponseField>
+
+<ResponseField name="order" type="str">
+  `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。デフォルトの並び順は `run.created_at` で、古いものから新しいものへ並びます。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  リクエストごとに取得する run の数 (デフォルトは 50) 。
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  run に sweep 情報を含めるかどうか。デフォルトは True です。
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  アクセスされるまで重いフィールド (`config`、`summaryMetrics`、`systemMetrics`) の読み込みを遅延させるかどうか。デフォルトは True です。
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  説明はありません。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>メソッド</kbd> Runs.histories()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.histories()
 
 ```python
 self,
@@ -63,13 +89,27 @@ stream: "Literal['default', 'system']" = 'default'
   ##### 引数
 </div>
 
-* `samples`: 各 run について返すサンプル数
-* `keys`: 指定したキーのメトリクスのみを返します
-* `x_axis`: このメトリクスを xAxis として使用します。デフォルトは &#95;step です
-* `format`: 返すデータの形式です。指定できる値は &quot;default&quot;、&quot;pandas&quot;、&quot;polars&quot; です
-* `stream`: メトリクスには &quot;default&quot;、マシンメトリクスには &quot;system&quot; を指定します
+<ResponseField name="samples" type="int">
+  run ごとに返すサンプル数
+</ResponseField>
 
-### <kbd>メソッド</kbd> ページネーター.**next**()
+<ResponseField name="keys" type="list[str] | None">
+  指定したキーのメトリクスのみを返します
+</ResponseField>
+
+<ResponseField name="x_axis" type="str">
+  x 軸として使用するメトリクス。デフォルトは &#95;step です
+</ResponseField>
+
+<ResponseField name="format" type="Literal['default', 'pandas', 'polars']">
+  データの返却形式。&quot;default&quot;、&quot;pandas&quot;、&quot;polars&quot; を指定できます
+</ResponseField>
+
+<ResponseField name="stream" type="Literal['default', 'system']">
+  メトリクスには &quot;default&quot;、システムメトリクスには &quot;system&quot;
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.**next**()
 
 ```python
 self
@@ -77,7 +117,7 @@ self
 
 イテレーターから次の項目を返します。すべての項目を返し終えている場合は、StopIteration を送出します
 
-### <kbd>メソッド</kbd> ページネーター.update_variables()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.update_variables()
 
 ```python
 self
@@ -85,7 +125,7 @@ self
 
 次のページのフェッチに使用するクエリ変数を更新します。
 
-### <kbd>メソッド</kbd> Runs.upgrade_to_full()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.upgrade_to_full()
 
 ```python
 self

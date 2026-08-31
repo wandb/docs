@@ -6,27 +6,38 @@ namespace: wandb.apis.public.organizations
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#LNone" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#L27" />
 
-## <kbd>クラス</kbd> wandb.apis.public.Organization
-
-```python
-service_api: 'InitVar[ServiceApi]', *,
-id: 'GQLId',
-name: 'str',
-org_entity: '_OrgEntity'
-```
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Organization
 
 W&amp;B 組織を表す読み取り専用のオブジェクトです。
 
 ユーザーがこのクラスを直接インスタンス化する必要はありません。既存の組織を取得するには、
 `wandb.Api().organization()` を使用します。
 
+```python
+serviceApi: 'InitVar[ServiceApi]', *,
+id: 'GQLId',
+name: 'str',
+orgEntity: '_OrgEntity'
+```
+
 <div id="args">
   ## 引数
 </div>
 
-* `service_api`:
-* `id`:
-* `name`:
-* `org_entity`: 
+<ResponseField name="serviceApi" type="InitVar[ServiceApi]">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="id" type="GQLId">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="orgEntity" type="_OrgEntity">
+  説明はありません。
+</ResponseField>
