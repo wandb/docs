@@ -7,11 +7,18 @@ namespace: wandb.apis.public.sweeps
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Sweep
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweep
+
+
+
+The set of runs associated with the sweep.
+
+
+
 ```python
 (service_api: 'ServiceApi',
 entity: 'str',
@@ -20,19 +27,28 @@ sweep_id: 'str',
 attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-
-
-The set of runs associated with the sweep.
-
-
-
 ## Args
 
-- `service_api`: 
-- `entity`: 
-- `project`: 
-- `sweep_id`: 
-- `attrs`: 
+<ResponseField name="service_api" type="ServiceApi">
+No value provided.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+No value provided.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+No value provided.
+</ResponseField>
+
+<ResponseField name="sweep_id" type="str">
+No value provided.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+No value provided.
+</ResponseField>
+
 
 
 ## Attributes
@@ -49,20 +65,19 @@ The set of runs associated with the sweep.
 
 ## Properties
 
-### <kbd>property</kbd> config
-
+<ResponseField name="config" type="">
 The sweep configuration used for the sweep.
+</ResponseField>
 
-### <kbd>property</kbd> entity
-
+<ResponseField name="entity" type="str">
 The entity associated with the sweep.
+</ResponseField>
 
-### <kbd>property</kbd> expected_run_count
-
+<ResponseField name="expected_run_count" type="int | None">
 Return the number of expected runs in the sweep or None for infinite runs.
+</ResponseField>
 
-### <kbd>property</kbd> name
-
+<ResponseField name="name" type="">
 The name of the sweep.
 
 Returns the first name that exists in the following priority order:
@@ -70,35 +85,37 @@ Returns the first name that exists in the following priority order:
 1. User-edited display name
 2. Name configured at creation time
 3. Sweep ID
+</ResponseField>
 
-### <kbd>property</kbd> order
-
+<ResponseField name="order" type="">
 Return the order key for the sweep.
+</ResponseField>
 
-### <kbd>property</kbd> path
-
+<ResponseField name="path" type="">
 Returns the path of the project.
 
 The path is a list containing the entity, project name, and sweep ID.
+</ResponseField>
 
-### <kbd>property</kbd> url
-
+<ResponseField name="url" type="">
 The URL of the sweep.
 
 The sweep URL is generated from the entity, project, the term
 "sweeps", and the sweep ID.run_id. For
 SaaS users, it takes the form
 of `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
+</ResponseField>
 
-### <kbd>property</kbd> username
-
+<ResponseField name="username" type="str">
 Deprecated. Use `Sweep.entity` instead.
+</ResponseField>
 
 
 
 ## Methods
 
-### <kbd>method</kbd> Sweep.agent()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agent()
 
 ```python
 self,
@@ -109,12 +126,18 @@ Query an agent by ID for this sweep.
 
 ##### Arguments
 
-- `agent_id`: The ID of the agent to look up.
+<ResponseField name="agent_id" type="str">
+The ID of the agent to look up.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Sweep.agents()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agents()
 
 ```python
 self
@@ -126,7 +149,10 @@ Query the list of all agents for this sweep.
 
 
 
-### <kbd>method</kbd> Sweep.best_run()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.best_run()
 
 ```python
 (self, order=None)
@@ -136,12 +162,18 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 ##### Arguments
 
-- `order`: 
+<ResponseField name="order" type="_empty">
+No value provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Sweep.enqueue_run()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.enqueue_run()
 
 ```python
 self,
@@ -153,8 +185,14 @@ Enqueue a run for the sweep.
 
 ##### Arguments
 
-- `config`: The config for the run.
-- `display_name`: The optional display name for the run.
+<ResponseField name="config" type="dict">
+The config for the run.
+</ResponseField>
+
+<ResponseField name="display_name" type="str | None">
+The optional display name for the run.
+</ResponseField>
+
 
 
 ##### Raises
@@ -162,7 +200,10 @@ Enqueue a run for the sweep.
 - `UnsupportedError`: If the server doesn't support enqueuing sweep runs.
 
 
-### <kbd>method</kbd> Sweep.get()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.get()
 
 ```python
 (api: 'Api',
@@ -177,18 +218,42 @@ Execute a query against the cloud backend.
 
 ##### Arguments
 
-- `api`: The W&B API instance.
-- `entity`: The entity (username or team) that owns the project.
-- `project`: The name of the project to fetch sweep from.
-- `sid`: The sweep ID to query.
-- `order`: The order in which the sweep's runs are returned.
-- `query`: The query to use to execute the query.
-- `kwargs`: 
+<ResponseField name="api" type="Api">
+The W&B API instance.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+The entity (username or team) that owns the project.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+The name of the project to fetch sweep from.
+</ResponseField>
+
+<ResponseField name="sid" type="str | None">
+The sweep ID to query.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+The order in which the sweep's runs are returned.
+</ResponseField>
+
+<ResponseField name="query" type="str | None">
+The query to use to execute the query.
+</ResponseField>
+
+<ResponseField name="kwargs" type="_empty">
+No value provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Sweep.to_html()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.to_html()
 
 ```python
 self,
@@ -200,8 +265,15 @@ Generate HTML containing an iframe displaying this sweep.
 
 ##### Arguments
 
-- `height`: 
-- `hidden`: 
+<ResponseField name="height" type="int">
+No value provided.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+No value provided.
+</ResponseField>
+
+
 
 
 

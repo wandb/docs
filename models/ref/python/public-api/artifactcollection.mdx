@@ -7,12 +7,11 @@ namespace: wandb.apis.public.artifacts
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.ArtifactCollection
-
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactCollection
 
 
 
@@ -26,64 +25,67 @@ An artifact collection that represents a group of related artifacts.
 
 
 
+
+
 ## Properties
 
-### <kbd>property</kbd> aliases
-
+<ResponseField name="aliases" type="list[str]">
 The aliases for all artifact versions contained in this collection.
+</ResponseField>
 
-### <kbd>property</kbd> created_at
-
+<ResponseField name="created_at" type="str">
 The creation date of the artifact collection.
+</ResponseField>
 
-### <kbd>property</kbd> description
-
+<ResponseField name="description" type="str | None">
 A description of the artifact collection.
+</ResponseField>
 
-### <kbd>property</kbd> entity
-
+<ResponseField name="entity" type="str">
 The entity (user or team) that owns the project.
+</ResponseField>
 
-### <kbd>property</kbd> id
-
+<ResponseField name="id" type="str">
 The unique identifier of the artifact collection.
+</ResponseField>
 
-### <kbd>property</kbd> name
-
+<ResponseField name="name" type="str">
 The name of the artifact collection.
+</ResponseField>
 
-### <kbd>property</kbd> project
-
+<ResponseField name="project" type="str">
 The project that contains the artifact collection.
+</ResponseField>
 
-### <kbd>property</kbd> project_id
-
+<ResponseField name="project_id" type="str">
 The encoded GraphQL ID for this collection's project.
+</ResponseField>
 
-### <kbd>property</kbd> project_internal_id
-
+<ResponseField name="project_internal_id" type="str | None">
 The GraphQL `internalId` for this collection's backing project, if fetched.
 
 This is a base64-encoded global ID. When decoded, it looks like
 `Project:123` or `ProjectInternalId:123`.
+</ResponseField>
 
-### <kbd>property</kbd> tags
-
+<ResponseField name="tags" type="list[str]">
 The tags associated with the artifact collection.
+</ResponseField>
 
-### <kbd>property</kbd> type
-
+<ResponseField name="type" type="">
 Returns the type of the artifact collection.
+</ResponseField>
 
-### <kbd>property</kbd> updated_at
-
+<ResponseField name="updated_at" type="str | None">
 The date at which the artifact collection was last updated.
+</ResponseField>
 
 
 
 ## Methods
 
-### <kbd>method</kbd> ArtifactCollection.artifacts()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.artifacts()
 
 ```python
 self,
@@ -95,13 +97,22 @@ Get all artifacts in the collection.
 
 ##### Arguments
 
-- `per_page`: The number of artifacts to fetch per page.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="per_page" type="int">
+The number of artifacts to fetch per page.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> ArtifactCollection.change_type()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.change_type()
 
 ```python
 self,
@@ -112,12 +123,18 @@ Deprecated, change type directly with `save` instead.
 
 ##### Arguments
 
-- `new_type`: 
+<ResponseField name="new_type" type="str">
+No value provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> ArtifactCollection.delete()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.delete()
 
 ```python
 self
@@ -129,7 +146,10 @@ Delete the entire artifact collection.
 
 
 
-### <kbd>method</kbd> ArtifactCollection.is_sequence()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.is_sequence()
 
 ```python
 self
@@ -141,13 +161,17 @@ Return whether the artifact collection is a sequence.
 
 
 
-### <kbd>method</kbd> ArtifactCollection.save()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactCollection.save()
 
 ```python
 self
 ```
 
 Persist any changes made to the artifact collection.
+
 
 
 

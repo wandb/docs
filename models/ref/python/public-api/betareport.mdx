@@ -7,17 +7,11 @@ namespace: wandb.apis.public.reports
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.BetaReport
-```python
-(service_api: 'ServiceApi',
-attrs: 'dict',
-entity: 'str | None' = None,
-project: 'str | None' = None)
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.BetaReport
 
 
 
@@ -29,12 +23,31 @@ sections, and for rendering the report as HTML.
 
 
 
+```python
+(service_api: 'ServiceApi',
+attrs: 'dict',
+entity: 'str | None' = None,
+project: 'str | None' = None)
+```
+
 ## Args
 
-- `service_api`: 
-- `attrs`: 
-- `entity`: 
-- `project`: 
+<ResponseField name="service_api" type="ServiceApi">
+No value provided.
+</ResponseField>
+
+<ResponseField name="attrs" type="dict">
+No value provided.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+No value provided.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+No value provided.
+</ResponseField>
+
 
 
 ## Attributes
@@ -54,51 +67,52 @@ sections, and for rendering the report as HTML.
 
 ## Properties
 
-### <kbd>property</kbd> created_at
+<ResponseField name="created_at" type="">
+No value provided.
+</ResponseField>
 
+<ResponseField name="description" type="str | None">
+No value provided.
+</ResponseField>
 
+<ResponseField name="display_name" type="str | None">
+No value provided.
+</ResponseField>
 
-### <kbd>property</kbd> description
+<ResponseField name="id" type="str">
+No value provided.
+</ResponseField>
 
+<ResponseField name="name" type="str | None">
+No value provided.
+</ResponseField>
 
-
-### <kbd>property</kbd> display_name
-
-
-
-### <kbd>property</kbd> id
-
-
-
-### <kbd>property</kbd> name
-
-
-
-### <kbd>property</kbd> sections
-
+<ResponseField name="sections" type="">
 Get the panel sections (groups) from the report.
+</ResponseField>
 
-### <kbd>property</kbd> spec
+<ResponseField name="spec" type="dict[str, Any]">
+No value provided.
+</ResponseField>
 
+<ResponseField name="updated_at" type="">
+No value provided.
+</ResponseField>
 
+<ResponseField name="url" type="str | None">
+No value provided.
+</ResponseField>
 
-### <kbd>property</kbd> updated_at
-
-
-
-### <kbd>property</kbd> url
-
-
-
-### <kbd>property</kbd> user
-
-
+<ResponseField name="user" type="">
+No value provided.
+</ResponseField>
 
 
 
 ## Methods
 
-### <kbd>method</kbd> BetaReport.runs()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> BetaReport.runs()
 
 ```python
 self,
@@ -111,14 +125,26 @@ Get runs associated with a section of the report.
 
 ##### Arguments
 
-- `section`: 
-- `per_page`: 
-- `only_selected`: 
+<ResponseField name="section" type="dict[str, Any]">
+No value provided.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+No value provided.
+</ResponseField>
+
+<ResponseField name="only_selected" type="bool">
+No value provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> BetaReport.to_html()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> BetaReport.to_html()
 
 ```python
 self,
@@ -130,8 +156,15 @@ Generate HTML containing an iframe displaying this report.
 
 ##### Arguments
 
-- `height`: 
-- `hidden`: 
+<ResponseField name="height" type="int">
+No value provided.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+No value provided.
+</ResponseField>
+
+
 
 
 

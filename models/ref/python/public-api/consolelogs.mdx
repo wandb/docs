@@ -7,17 +7,11 @@ namespace: wandb.apis.public.console_logs
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L67" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L67" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.ConsoleLogs
-```python
-(service_api: 'ServiceApi',
-run: 'Run',
-per_page: 'int' = 1000,
-last: 'int | None' = None)
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ConsoleLogs
 
 
 
@@ -30,12 +24,31 @@ grown.
 
 
 
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+per_page: 'int' = 1000,
+last: 'int | None' = None)
+```
+
 ## Args
 
-- `service_api`: The service API instance used to query W&B.
-- `run`: The run whose console log is read.
-- `per_page`: Number of lines to fetch per request when reading the log from the beginning. Ignored when `last` is given.
-- `last`: If set, fetch only the last N lines of the log in a single request instead of reading from the beginning. The backend caps how many lines one request returns, so a larger tail comes back truncated to the newest lines.
+<ResponseField name="service_api" type="ServiceApi">
+The service API instance used to query W&B.
+</ResponseField>
+
+<ResponseField name="run" type="Run">
+The run whose console log is read.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Number of lines to fetch per request when reading the log from the beginning. Ignored when `last` is given.
+</ResponseField>
+
+<ResponseField name="last" type="int | None">
+If set, fetch only the last N lines of the log in a single request instead of reading from the beginning. The backend caps how many lines one request returns, so a larger tail comes back truncated to the newest lines.
+</ResponseField>
+
 
 
 
@@ -46,13 +59,15 @@ grown.
 
 ## Methods
 
-### <kbd>method</kbd> Paginator.__next__()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.__next__()
 
 ```python
 self
 ```
 
 Return the next item from the iterator. When exhausted, raise StopIteration
+
 
 
 

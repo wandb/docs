@@ -7,11 +7,18 @@ namespace: wandb.apis.public.console_logs
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L40" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L40" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.ConsoleLogLine
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ConsoleLogLine
+
+
+
+A single line of a run's captured console output.
+
+
+
 ```python
 number: 'int',
 timestamp: 'datetime | None',
@@ -20,19 +27,28 @@ label: 'str',
 content: 'str'
 ```
 
-
-
-A single line of a run's captured console output.
-
-
-
 ## Args
 
-- `number`: 
-- `timestamp`: 
-- `level`: 
-- `label`: 
-- `content`: 
+<ResponseField name="number" type="int">
+No value provided.
+</ResponseField>
+
+<ResponseField name="timestamp" type="datetime | None">
+No value provided.
+</ResponseField>
+
+<ResponseField name="level" type="str">
+No value provided.
+</ResponseField>
+
+<ResponseField name="label" type="str">
+No value provided.
+</ResponseField>
+
+<ResponseField name="content" type="str">
+No value provided.
+</ResponseField>
+
 
 
 ## Attributes
@@ -42,7 +58,6 @@ A single line of a run's captured console output.
 - `level`: The severity of the line: `"error"` for lines written to stderr, empty otherwise.
 - `label`: A label identifying the process that wrote the line when several processes write to the same run, as set by the `x_label` setting in shared mode. Empty for single-writer runs.
 - `content`: The text of the line.
-
 
 
 
