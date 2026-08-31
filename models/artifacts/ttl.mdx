@@ -71,7 +71,7 @@ The steps are as follows:
 1. [Create an artifact](/models/artifacts/construct-an-artifact/).
 2. [Add content to the artifact](/models/artifacts/construct-an-artifact/#add-files-to-an-artifact) such as files, a directory, or a reference.
 3. Define a TTL time limit with the [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) data type that is part of Python's standard library.
-4. [Log the artifact](/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server).
+4. [Log the artifact](/models/artifacts/construct-an-artifact#save-your-artifact-to-the-wb-server).
 
 The following code snippet demonstrates how to create an artifact and set a TTL policy. 
 
@@ -100,7 +100,7 @@ When you modify an artifact's TTL, the time the artifact takes to expire is stil
 <Tab title="Python SDK">
 1. [Fetch your artifact](/models/artifacts/download-and-use-an-artifact/).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
-3. Update the artifact with the [`save`](/models/ref/python/experiments/run#save) method.
+3. Update the artifact with the [`save`](/models/ref/python/experiments/run#method-run-save) method.
 
 
 The following code snippet shows how to set a TTL policy for an artifact:
@@ -178,7 +178,7 @@ Artifacts with TTL turned off will not inherit an artifact collection's TTL. Ref
 <Tab title="Python SDK">
 1. [Fetch your artifact](/models/artifacts/download-and-use-an-artifact/).
 2. Set the artifact's `ttl` attribute to `None`.
-3. Update the artifact with the [`save`](/models/ref/python/experiments/run#save) method.
+3. Update the artifact with the [`save`](/models/ref/python/experiments/run#method-run-save) method.
 
 
 The following code snippet shows how to turn off a TTL policy for an artifact:

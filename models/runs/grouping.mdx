@@ -17,7 +17,7 @@ Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variabl
 You can add runs to a group programmatically using the W&B Python SDK or interactively in the W&B App.
 
 <Note>
-W&B stores group names as a run [`wandb.Run.group`](/models/ref/python/experiments/run#property-run-group) property.
+W&B stores group names as a run [`wandb.Run.group`](/models/ref/python/experiments/run#property-group) property.
 </Note>
 
 
@@ -96,7 +96,7 @@ To delete a group, remove all runs from it. This automatically deletes the group
 Organize runs by their *job type*. A job type indicates the function of a run, such as `preprocessing`, `training`, or `evaluation`. 
 
 <Note>
-View a run's job type by accessing the run's [`wandb.Run.job_type`](/models/ref/python/experiments/run#property-run-job-type) property.
+View a run's job type by accessing the run's [`wandb.Run.job_type`](/models/ref/python/experiments/run#property-job_type) property.
 </Note>
 
 Add a job type to a run by passing the `job_type` parameter to `wandb.init(job_type="")`. For example, the following code snippet creates runs with job types of either `training` or `evaluation`:

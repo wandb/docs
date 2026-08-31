@@ -116,7 +116,7 @@ The instructions below apply when you start sweep agents with the [`wandb agent`
 
 Register a handler for the signal that your scheduler or platform uses to indicate preemption, such as `SIGUSR1` or `SIGTERM`. In the handler:
 
-1. Call [`mark_preempting()`](/models/ref/python/experiments/run#mark_preempting) when a run is active.
+1. Call [`mark_preempting()`](/models/ref/python/experiments/run#method-run-mark_preempting) when a run is active.
 2. Perform any required cleanup, such as saving a checkpoint.
 3. Exit with a nonzero status code. A common convention for signal termination is `128 + signum`.
 

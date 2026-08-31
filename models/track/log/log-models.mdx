@@ -22,11 +22,11 @@ For more information on W&B Artifacts and advanced versioning use cases, see the
 </Note>
 
 ## Log a model to a run
-Use the [`log_model`](/models/ref/python/experiments/run#log_model) to log a model artifact that contains content within a directory you specify. The [`log_model`](/models/ref/python/experiments/run#log_model) method also marks the resulting model artifact as an output of the W&B run. 
+Use the [`log_model`](/models/ref/python/experiments/run#method-run-log_model) to log a model artifact that contains content within a directory you specify. The [`log_model`](/models/ref/python/experiments/run#method-run-log_model) method also marks the resulting model artifact as an output of the W&B run. 
 
 You can track a model's dependencies and the model's associations if you mark the model as the input or output of a W&B run. View the lineage of the model within the W&B App UI. See the [Explore and traverse artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/) page within the [Artifacts](/models/artifacts/) chapter for more information.
 
-Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) to an external bucket such as `s3://bucket/path`. 
+Provide the path where your model files are saved to the `path` parameter. The path can be a local file, directory, or [reference URI](/models/artifacts/track-external-files#track-an-artifact-in-an-external-bucket) to an external bucket such as `s3://bucket/path`. 
 
 Ensure to replace values enclosed in `<>` with your own.
 
@@ -43,10 +43,10 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
 
 <Note>
-Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) method.
+Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`wandb.Run.use_model()`](/models/ref/python/experiments/run#method-run-use_model) method.
 </Note>
 
-See [`log_model`](/models/ref/python/experiments/run#log_model) in the API Reference for parameters.
+See [`log_model`](/models/ref/python/experiments/run#method-run-log_model) in the API Reference for parameters.
 
 <details>
 
@@ -109,7 +109,7 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 
 
 ## Download and use a logged model
-Use the [`use_model`](/models/ref/python/experiments/run#use_model) function to access and download models files previously logged to a W&B run. 
+Use the [`use_model`](/models/ref/python/experiments/run#method-run-use_model) function to access and download models files previously logged to a W&B run. 
 
 Provide the name of the model artifact where the model files you want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
 
@@ -127,7 +127,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-The [use_model](/models/ref/python/experiments/run#use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
+The [use_model](/models/ref/python/experiments/run#method-run-use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
 
 <details>
 
@@ -150,4 +150,4 @@ with wandb.init(project=project, entity=entity) as run:
 ```
 </details>
 
-See [`use_model`](/models/ref/python/experiments/run#use_model) in the API Reference for parameters and return type.
+See [`use_model`](/models/ref/python/experiments/run#method-run-use_model) in the API Reference for parameters and return type.

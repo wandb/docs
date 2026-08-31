@@ -21,8 +21,8 @@ References that have schemes that W&B knows how to handle get downloaded just li
 
 You can download all files in an artifact or download individual files:
 
-- Use [`Artifact.download()`](/models/ref/python/experiments/artifact#download) to download all files.
-- Use [`Artifact.get_entry()`](/models/ref/python/experiments/artifact#get_entry) to retrieve a specific entry, and then call `.download()` to download it.
+- Use [`Artifact.download()`](/models/ref/python/experiments/artifact#method-artifact-download) to download all files.
+- Use [`Artifact.get_entry()`](/models/ref/python/experiments/artifact#method-artifact-get_entry) to retrieve a specific entry, and then call `.download()` to download it.
 
 <Tabs>
 <Tab title="Track run input">
@@ -117,7 +117,7 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
 
 ### Construct and use an artifact simultaneously
 
-Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) API is idempotent, so you can call it as many times as you like.
+Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#method-run-use_artifact) API is idempotent, so you can call it as many times as you like.
 
 ```python
 import wandb

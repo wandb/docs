@@ -75,7 +75,7 @@ To delete an artifact version:
 </Tab>
 <Tab title="W&B Python SDK" value="sdk">
 
-Delete an artifact version programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method. Provide the full name of the artifact. The full name consists of `<entity>/<project>/<artifact_name>:<version>`. Set the `delete_aliases` parameter to `True` to delete the artifact even if it has one or more aliases associated with it.
+Delete an artifact version programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#method-artifact-delete) method. Provide the full name of the artifact. The full name consists of `<entity>/<project>/<artifact_name>:<version>`. Set the `delete_aliases` parameter to `True` to delete the artifact even if it has one or more aliases associated with it.
 
 ```python
 import wandb
@@ -164,7 +164,7 @@ To delete an artifact collection:
 </Tab>
 <Tab title="W&B Python SDK" value="sdk">
 
-Delete artifact collection programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#delete) method. 
+Delete artifact collection programmatically with the [wandb.Artifact.delete()](/models/ref/python/experiments/artifact#method-artifact-delete) method. 
 
 Provide the full path of the artifact collection to `wandb.Api.artifact_collection(name="")`. The full path consists of `<entity>/<project>/<artifact_collection_name>`.
 

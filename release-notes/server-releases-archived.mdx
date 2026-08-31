@@ -198,8 +198,8 @@ Private preview features are available by invitation only. To request enrollment
 - You can now import [human annotations](/weave/guides/tracking/feedback#add-human-annotations) into Weave datasets
 - [Playground](/weave/guides/tools/playground) now supports saved configurations and prompts.
 - Decorators are now supported in TypeScript.
-- Added support for [tracing generator functions](/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions).
-- The new [`dataset.add_rows`](/weave/reference/python-sdk/#method-add-rows) helper improves the efficiency of appending to an existing dataset.
+- Added support for [tracing generator functions](/weave/guides/tracking/tracing).
+- The new [`dataset.add_rows`](/weave/reference/python-sdk#method-add_rows) helper improves the efficiency of appending to an existing dataset.
 - To help you understand your usage, trace and object sizes are now shown through the UI.
 
 ## Performance
@@ -214,7 +214,7 @@ Private preview features are available by invitation only. To request enrollment
 - Fixed many cases where y-axes would over-round to a degree that caused duplicate values to display.
 - Fixed confusing behavior when entering invalid smoothing parameters.
 - Removed the **Partial Media** warning from media panels. This does not change the behavior of the media panels.
-- When adding a [run filter based on tags](/models/runs/filter-runs/#filter-runs-with-tags), the filter is now selected by default, as when filtering by other fields.
+- When adding a [run filter based on tags](/models/runs/filter-runs#example-filter-runs-with-tags), the filter is now selected by default, as when filtering by other fields.
 - Removed the green bell icon that could appear on active runs in the run selector.
 - Removed the System page for individual runs.
 - The project description field now respects new lines.
@@ -257,10 +257,10 @@ Private preview features are available by invitation only. To request enrollment
 - **Improved Exponentially-weighted Moving Average (EMA) smoothing** provides more reliable [smoothed lines](/models/app/features/panels/line-plot/smoothing) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance.
 
 ### Weave
-- Chat with fine-tuned models from within your W&B instance. [Playground](/weave/guides/tools/playground) is now supported in Dedicated Cloud. Playground is a chat interface for comparing different LLMs on historical traces. Admins can add API keys to different model providers or hook up [custom hosted LLM providers](/weave/guides/tools/playground/#add-a-custom-provider) so your team can interact with them from within Weave.
+- Chat with fine-tuned models from within your W&B instance. [Playground](/weave/guides/tools/playground) is now supported in Dedicated Cloud. Playground is a chat interface for comparing different LLMs on historical traces. Admins can add API keys to different model providers or hook up [custom hosted LLM providers](/weave/guides/tools/playground#add-provider-credentials-and-information) so your team can interact with them from within Weave.
 - Open Telemetry Support. Now you can log traces via OpenTelemetry (OTel). See [OpenTelemetry tracing](/weave/guides/tracking/otel?utm_source=beamer&utm_medium=sidebar&utm_campaign=OpenTelemetry-support-in-Weave&utm_content=ctalink).
 - Weave [tracing](/weave/guides/tracking) has new framework integrations: CrewAI, OpenAI's Agent SDK, DSPy 2.x and Google's genai Python SDK.
-- Playground supports new [OpenAI models](/weave/guides/tools/playground/#openai): GPT‑4.1, GPT‑4.1 mini, and GPT‑4.1 nano.
+- Playground supports new [OpenAI models](/weave/guides/tools/playground#select-an-llm): GPT‑4.1, GPT‑4.1 mini, and GPT‑4.1 nano.
 - Build labeled datasets directly from traces, with your annotations automatically converted into dataset columns. See [Dataset creation from traces](/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui).
 
 ## Security
