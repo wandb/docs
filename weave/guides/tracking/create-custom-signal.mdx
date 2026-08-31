@@ -13,7 +13,7 @@ To create a custom tag signal:
 1. Navigate to [wandb.ai](https://wandb.ai/) and select your project.
 1. In the **Weave project sidebar**, click **Agents**.
 1. In the tab bar, click **Signals**.
-1. On the Signals tab, click **+ Create your first signal**.
+1. On the Signals tab, click **+ Create your first signal**, or **New signal**.
 1. In the dialog, click **Custom Signal**.
 
 <Frame>
@@ -23,12 +23,12 @@ To create a custom tag signal:
 1. In the **Custom tags** drawer, configure the following fields:
     - **Tag name**: The label that appears in the Agents view for the behavior you want to monitor.
     - **Definition**: Describe the behavior the signal should detect.
-    - (Optional) **+ Add tag**: Click to define another tag on the same signal.
+    - **+ Add tag** (Optional): Click to define another tag on the same signal.
     - **Scorer name**: The display name for this signal.
     - **Inference model or custom runtime**: The model used to score matching turns. [Serverless Inference](/inference/) is the default. CoreWeave Serverless Inference consumes credits from your W&B account.
-    - (Optional) **Include tool calls**: Expand **Advanced**, then include the turn's tool calls in the context sent to the scoring model.
-    - (Optional) **Only score turns matching**: Expand **Advanced**, then add filters to restrict which turns the signal scores. To score every agent turn, leave this field empty.
-    - (Optional) **Sample rate**: Expand **Advanced**, then set the fraction of matching agent turns the signal scores. To reduce cost on high-traffic agents, we recommend lowering the sample rate.
+    - **Include tool calls** (Optional): Expand **Advanced**, then check the box to include the turn's tool calls in the context sent to the scoring model.
+    - **Only score turns matching** (Optional): Expand **Advanced**, then add one or more filters to restrict which turns the signal scores, for example by agent, operation, tool, or model. Leave empty to score every agent turn. Weave combines multiple filters with `AND` logic.
+    - **Sample rate** (Optional): Expand **Advanced**, then set the fraction of matching agent turns the signal scores. For high-traffic agents, lower the sample rate to score a fraction of matching turns instead of every turn and reduce cost.
 1. In the **Custom tags** drawer, click **Create signal**.
 
 After you create the signal, Weave scores matching turns. The tag appears in the Agents view, including on the Signals tab.
