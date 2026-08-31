@@ -6,7 +6,7 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L407" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
 
 ## <kbd>クラス</kbd> wandb.Run
 
@@ -53,7 +53,11 @@ with wandb.init(entity="entity", project="project") as run:
 
 ### <kbd>プロパティ</kbd> dir
 
-run に関連付けられているファイルの保存先ディレクトリ。
+run の file が保存されるディレクトリです。
+
+これは、`run.save()` で保存される file を指します。`run.log()` に渡された特定のデータタイプに対して自動的に
+作成される file も含まれます。run のすべてのデータが含まれる
+ディレクトリについては、`run.sync_dir` を参照してください。
 
 ### <kbd>プロパティ</kbd> disabled
 
@@ -148,6 +152,12 @@ run に関連付けられている sweep の URL (ある場合) 。
 
 オフラインの run には sweep URL はありません。
 
+### <kbd>プロパティ</kbd> sync_dir
+
+run のすべてのデータが含まれるディレクトリです。
+
+このディレクトリを `wandb sync` に渡すと、run をアップロードまたは再アップロードできます。
+
 ### <kbd>プロパティ</kbd> tags
 
 run に関連付けられているタグ (存在する場合) 。
@@ -190,7 +200,6 @@ step_metric: 'str | wandb_metric.Metric | None' = None,
 step_sync: 'bool | None' = None,
 hidden: 'bool | None' = None,
 summary: 'str | None' = None,
-goal: 'str | None' = None,
 overwrite: 'bool | None' = None
 ```
 
@@ -202,8 +211,7 @@ overwrite: 'bool | None' = None
 * `step_metric`: 自動生成されるチャートで、このメトリクスの X 軸として使用する別のメトリクスの名。
 * `step_sync`: 明示的に指定されていない場合、step&#95;metric の直近の値を `wandb.Run.log()` に自動的に挿入します。step&#95;metric が指定されている場合のデフォルトは True です。
 * `hidden`: このメトリクスを自動プロットで非表示にします。
-* `summary`: summary に追加する集約メトリクスを指定します。サポートされる集約には &quot;min&quot;、&quot;max&quot;、&quot;mean&quot;、&quot;last&quot;、&quot;first&quot;、&quot;best&quot;、&quot;copy&quot;、&quot;none&quot; が含まれます。&quot;none&quot; を指定すると summary は生成されません。&quot;best&quot; は goal パラメーターと組み合わせて使用しますが、非推奨のため使用しないでください。代わりに &quot;min&quot; または &quot;max&quot; を使用してください。&quot;copy&quot; も非推奨のため使用しないでください。
-* `goal`: &quot;best&quot; の summary タイプをどのように解釈するかを指定します。サポートされるオプションは &quot;minimize&quot; と &quot;maximize&quot; です。&quot;goal&quot; は非推奨のため使用しないでください。代わりに &quot;min&quot; または &quot;max&quot; を使用してください。
+* `summary`: summary に追加する集約メトリクスを指定します。サポートされる集約には &quot;min&quot;、&quot;max&quot;、&quot;mean&quot;、&quot;last&quot;、&quot;first&quot;、&quot;copy&quot;、&quot;none&quot; が含まれます。&quot;none&quot; を指定すると summary は生成されません。&quot;copy&quot; も非推奨のため使用しないでください。
 * `overwrite`: false の場合、この call は同じメトリクスに対する以前の `define_metric` calls とマージされ、未指定のパラメーターにはそれらの値が使用されます。true の場合、未指定のパラメーターによって以前の calls で指定された値が上書きされます。
 
 ### <kbd>method</kbd> Run.display()
@@ -225,8 +233,7 @@ Jupyterでこの run を表示します。
 
 ```python
 self,
-exit_code: 'int | None' = None,
-quiet: 'bool | None' = None
+exit_code: 'int | None' = None
 ```
 
 run を終了し、残っているデータをアップロードします。
@@ -244,7 +251,6 @@ run の状態:
 ##### 引数
 
 * `exit_code`: run の終了ステータスを示す整数です。成功時は 0 を使用し、それ以外の値を指定すると run は失敗として扱われます。
-* `quiet`: 非推奨。`wandb.Settings(quiet=...)` を使用して logging の詳細度を設定してください。
 
 ### <kbd>method</kbd> Run.finish_artifact()
 
@@ -298,6 +304,35 @@ aliases: 'list[str] | None' = None
 * `artifact`: コレクションにリンクするアーティファクト オブジェクト。
 * `target_path`: コレクションのパスです。パスは、プレフィックス &quot;wandb-registry-&quot;、レジストリ名、およびコレクション名 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}` で構成されます。
 * `aliases`: リンクしたアーティファクトに 1 つ以上のエイリアスを追加します。&quot;latest&quot; エイリアスは、リンクした最新のアーティファクトに自動的に適用されます。
+
+<div id="examples">
+  ##### 例
+</div>
+
+```python
+import wandb
+
+entity = "team_entity"
+project = "project_name"
+
+artifact_name = "artifact_name"
+artifact_type = "artifact_type"
+local_path = "path/to/local/file"
+
+registry_name = "registry_name"
+collection_name = "collection_name"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+with wandb.init(entity=entity, project=project) as run:
+    # アーティファクト オブジェクトを作成します
+    artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
+
+    # file をアーティファクト オブジェクトに追加します。
+    artifact.add_file(local_path=local_path)
+
+    # アーティファクト をコレクションにリンクします
+    run.link_artifact(artifact=artifact, target_path=target_path)
+```
 
 ### <kbd>method</kbd> Run.link_model()
 
@@ -520,7 +555,7 @@ with wandb.init() as run:
         size=(10, 3, 100, 100),
         dtype=np.uint8,
     )
-    run.log({"video": wandb.Video(frames, fps=4)})
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
 ```
 
 Matplotlib のプロット

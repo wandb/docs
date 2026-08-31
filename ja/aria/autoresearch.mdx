@@ -1,13 +1,19 @@
 ---
 title: "ARIA を使用して autoresearch を行う"
-description: "ARIA（W&B の AI Research and Iteration Agent）を使用して、結果を分析し、Experiments を実行する方法を学びます。"
+description: "ARIA（W&B の AI Research and Iteration Agent）を使用して、結果を分析し、実験を実行する方法を学びます。"
 ---
 
-ARIA (W&amp;B の AI Research and Iteration Agent) をリサーチアシスタントとして使用すると、Experiments の分析、結果の説明、Runs 全体にわたるパターンの特定、次のステップの提案、可視化の作成などを行えます。
+import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only.mdx";
 
-ARIA は、これまでの Runs に基づいて新しい Experiments を提案し、実行できます。
+<Note>
+  <MultiTenantCloudOnly />
+</Note>
 
-ARIA は W&amp;B Launch を使用して、サンドボックス環境で Experiments を実行します。ARIA が project 内で Experiments を実行できるようにするには、まず [ARIA を使用して W&amp;B Launch を設定する](/ja/aria/autoresearch#set-up-wb-launch-with-aria) を参照してください。
+ARIA (W&amp;B の AI Research and Iteration Agent) をリサーチアシスタントとして使用すると、実験の分析、結果の説明、Runs 全体にわたるパターンの特定、次のステップの提案、可視化の作成などを行えます。
+
+ARIA は、これまでの Runs に基づいて新しい 実験を提案し、実行できます。
+
+ARIA は W&amp;B Launch を使用して、サンドボックス環境で実験を実行します。ARIA が project 内で実験を実行できるようにするには、まず [ARIA を使用して W&amp;B Launch を設定する](/ja/aria/autoresearch#set-up-wb-launch-with-aria) を参照してください。
 
 <div id="set-up-wb-launch-with-aria">
   ## ARIA を使って W&amp;B Launch を設定する

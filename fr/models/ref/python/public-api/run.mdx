@@ -171,6 +171,53 @@ use_cache: 'bool' = True
 * `max_step`:
 * `use_cache`: 
 
+### <kbd>méthode</kbd> Run.console_logs()
+
+```python
+self, *,
+per_page: 'int' = 1000,
+last: 'int | None' = None
+```
+
+Renvoie la sortie de console capturée du run.
+
+Pendant l&#39;exécution d&#39;un run, W&amp;B capture ce que son processus écrit sur
+stdout et stderr et l&#39;enregistre dans le journal de console du run — le
+même journal affiché dans l&#39;onglet &quot;Logs&quot; de la page du run dans l&#39;application W&amp;B.
+Cette méthode relit ce journal, aussi bien pour les runs terminés que pour ceux encore
+en cours d&#39;exécution.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `per_page` : nombre de lignes à récupérer par requête lors de la lecture du journal depuis le début. Ignoré lorsque `last` est spécifié.
+* `last` : si défini, récupère uniquement les N dernières lignes du journal en une seule requête — utile pour vérifier un run en cours ou diagnostiquer un plantage. Le backend limite le nombre de lignes renvoyées par requête ; une portion finale plus importante est donc tronquée aux lignes les plus récentes.
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `CommError` : si une requête échoue lors de l’itération. La lecture du journal depuis le début nécessite le serveur W&amp;B 0.77 ou une version ultérieure ; sur les serveurs plus anciens, lisez plutôt les N dernières lignes.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+```python
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+
+# Lire l'intégralité du journal, de la ligne la plus ancienne à la plus récente.
+for line in run.console_logs():
+    print(line.content)
+
+# Lire uniquement les 100 dernières lignes.
+for line in run.console_logs(last=100):
+    print(line.timestamp, line.content)
+```
+
 ### <kbd>méthode</kbd> Run.create()
 
 ```python
@@ -452,7 +499,7 @@ Renvoie une collection itérable de tous les enregistrements de l’historique d
   ##### Arguments
 </div>
 
-* `keys`: liste des métriques à lire dans l’historique du run. Si aucune clé n’est fournie, toutes les métriques sont renvoyées.
+* `keys`: liste des métriques à lire dans l’historique du run. L’analyse ne renvoie que les lignes contenant toutes les clés demandées. Si les clés ont été enregistrées à des étapes différentes, utilisez des appels distincts pour chaque clé ou omettez cet argument. Si aucune clé n’est fournie, toutes les métriques sont renvoyées.
 * `page_size`: le nombre d’enregistrements d’historique à lire à la fois.
 * `min_step`: l’étape minimale à partir de laquelle commencer à lire l’historique (inclus).
 * `max_step`: l’étape maximale jusqu’à laquelle lire l’historique (exclus).

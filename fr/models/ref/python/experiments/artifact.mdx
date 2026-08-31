@@ -6,7 +6,7 @@ namespace: wandb.sdk.artifacts.artifact
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L112" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L128" />
 
 ## <kbd>classe</kbd> wandb.Artifact
 
@@ -17,7 +17,8 @@ description: 'str | None' = None,
 metadata: 'dict[str, Any] | None' = None,
 incremental: 'bool' = False,
 use_as: 'str | None' = None,
-storage_region: 'str | None' = None
+storage_region: 'str | None' = None,
+digest_algorithm: "Literal['MD5', 'XXH128']" = 'MD5'
 ```
 
 Composant flexible et léger pour la gestion des versions des jeux de données et des modèles.
@@ -36,7 +37,8 @@ commencent par `add`. Une fois que l’Artifact contient tous les fichiers souha
 * `metadata`: Informations supplémentaires sur un artifact. Spécifiez les métadonnées sous la forme d&#39;un dictionnaire de paires clé-valeur. Vous ne pouvez pas spécifier plus de 100 clés au total.
 * `incremental`: Utilisez plutôt la méthode `Artifact.new_draft()` pour modifier un artifact existant.
 * `use_as`: Obsolète.
-* `storage_region`: 
+* `storage_region`:
+* `digest_algorithm`: L&#39;algorithme de digest à utiliser pour l&#39;artifact. La valeur par défaut est MD5. S&#39;il est défini sur XXH128, l&#39;artifact sera haché à l&#39;aide de l&#39;algorithme XXH128, sauf s&#39;il fait partie d&#39;une collection qui utilise déjà MD5. Les appels à `artifact.verify()` sur des versions du SDK antérieures à 0.29.0 échoueront toujours pour les artifacts XXH128.
 
 <div id="properties">
   ## Propriétés
@@ -80,6 +82,10 @@ Le digest logique de l&#39;artifact.
 Le digest correspond à la somme de contrôle du contenu de l&#39;artifact. Si un artifact a le
 même digest que la version `latest` actuelle, alors `log_artifact` est sans effet.
 
+### <kbd>propriété</kbd> digest_algorithm
+
+L’algorithme de digest utilisé pour calculer le digest de l’artifact.
+
 ### <kbd>propriété</kbd> entité
 
 Le nom de l’entité à laquelle appartient la collection d’artifacts.
@@ -112,6 +118,12 @@ Renvoie la liste de tous les artifacts liés à un artifact source.
 Si cet artifact est un artifact de lien (`artifact.is_link == True`), cette propriété renvoie une liste vide.
 
 Limité à 500 résultats.
+
+### <kbd>propriété</kbd> linked_at
+
+Date et heure auxquelles cet artifact a été lié à sa collection actuelle.
+
+Valide uniquement pour les artifacts liés ; renvoie `None` sinon.
 
 ### <kbd>propriété</kbd> manifest
 
@@ -359,7 +371,7 @@ Pour tout autre schéma, le digest est simplement un hachage de l&#39;URI et la 
   ##### Exceptions levées
 </div>
 
-* `ArtifactFinalizedError`:  Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
+* `ArtifactFinalizedError`: Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
 
 ### <kbd>méthode</kbd> Artifact.checkout()
 
@@ -649,7 +661,8 @@ La modification d’un artifact existant crée une nouvelle version d’artifact
 self,
 name: 'str',
 mode: 'str' = 'x',
-encoding: 'str | None' = None
+encoding: 'str | None' = None,
+policy: "Literal['mutable', 'immutable']" = 'mutable'
 ```
 
 Ouvrez un nouveau fichier temporaire et ajoutez-le à l&#39;artifact.
@@ -661,6 +674,8 @@ Ouvrez un nouveau fichier temporaire et ajoutez-le à l&#39;artifact.
 * `name`: Le nom du nouveau fichier à ajouter à l&#39;artifact.
 * `mode`: Le mode d&#39;accès à utiliser pour ouvrir le nouveau fichier.
 * `encoding`: L&#39;encodage utilisé pour ouvrir le nouveau fichier.
+
+- `policy`: Par défaut, défini sur « mutable ». S&#39;il est défini sur « mutable », créez une copie temporaire du fichier afin d&#39;éviter toute corruption lors du téléversement. S&#39;il est défini sur « immutable », désactivez la protection et comptez sur l&#39;utilisateur pour ne pas supprimer ni modifier le fichier.
 
 <div id="raises">
   ##### Exceptions levées

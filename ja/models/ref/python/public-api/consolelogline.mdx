@@ -1,0 +1,41 @@
+---
+title: ConsoleLogLine
+kind: クラス
+namespace: wandb.apis.public.console_logs
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L40" />
+
+## <kbd>クラス</kbd> wandb.apis.public.ConsoleLogLine
+
+```python
+number: 'int',
+timestamp: 'datetime | None',
+level: 'str',
+label: 'str',
+content: 'str'
+```
+
+run のキャプチャされたコンソール出力の1行です。
+
+<div id="args">
+  ## 引数
+</div>
+
+* `number`:
+* `timestamp`:
+* `level`:
+* `label`:
+* `content`: 
+
+<div id="attributes">
+  ## 属性
+</div>
+
+* `number`: 0 から始まる、run のコンソールログ内の行の位置です。
+* `timestamp`: 行が取得された時刻です。タイムゾーン情報を含む UTC datetime です。backend がその行の時刻を記録していない場合、または予期しない形式で送信した場合は None です。
+* `level`: 行の重大度です。stderr に書き込まれた行の場合は `"error"`、それ以外の場合は空です。
+* `label`: 複数のプロセスが同じ run に書き込む場合に、行を書き込んだプロセスを識別するラベルです。shared mode の `x_label` 設定で指定します。単一ライターの run では空です。
+* `content`: 行のテキストです。

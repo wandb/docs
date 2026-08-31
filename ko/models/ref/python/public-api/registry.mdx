@@ -6,7 +6,7 @@ namespace: wandb.apis.public.registries.registry
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L38" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
 ## <kbd>클래스</kbd> wandb.apis.public.Registry
 
@@ -69,6 +69,13 @@ attrs: 'RegistryFragment | None' = None)
 ### <kbd>속성</kbd> id
 
 이 레지스트리의 고유 ID입니다.
+
+### <kbd>속성</kbd> internal_id
+
+가져온 경우 이 레지스트리의 기반 프로젝트에 대한 GraphQL `internalId`입니다.
+
+이는 base64로 인코딩된 전역 ID입니다. 디코딩하면
+`Project:123` 또는 `ProjectInternalId:123` 형식입니다.
 
 ### <kbd>속성</kbd> name
 
@@ -326,6 +333,7 @@ self
 ```python
 self,
 filter: 'dict[str, Any] | None' = None,
+order: '_VersionOrder | None' = None,
 per_page: 'PositiveInt' = 100,
 start: 'str | None' = None
 ```
@@ -337,5 +345,6 @@ start: 'str | None' = None
 </div>
 
 * `filter`: 아티팩트 버전 쿼리에 적용할 필터의 선택 사항인 매핑입니다.
+* `order`: 결과 정렬 순서를 지정하는 선택 사항인 string입니다. `created_at`, `artifact_size`, 또는 `linked_at`을 지정할 수 있습니다. &#39;+&#39;를 접두사로 사용하면 오름차순(기본값)으로 정렬하고, &#39;-&#39;를 접두사로 사용하면 내림차순으로 정렬합니다.
 * `per_page`: 페이지당 가져올 결과 수입니다. 일반적으로는 이를 변경할 이유가 없습니다.
 * `start`: 이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.

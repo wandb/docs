@@ -6,7 +6,7 @@ namespace: wandb.sdk.data_types.image
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L132" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L76" />
 
 ## <kbd>classe</kbd> wandb.Image
 
@@ -18,8 +18,7 @@ grouping: 'int | None' = None,
 classes: 'Classes | Sequence[dict] | None' = None,
 boxes: 'dict[str, BoundingBoxes2D] | dict[str, dict] | None' = None,
 masks: 'dict[str, ImageMask] | dict[str, dict] | None' = None,
-file_type: 'str | None' = None,
-normalize: 'bool' = True
+file_type: 'str | None' = None
 ```
 
 Une classe pour la journalisation d’images dans W&amp;B.
@@ -32,9 +31,7 @@ Une classe pour la journalisation d’images dans W&amp;B.
   un objet image PIL ou un chemin vers un fichier image. Si un tableau NumPy
   ou un tenseur pytorch est fourni,
   les données d’image seront enregistrées dans le type de fichier indiqué.
-  Si les valeurs ne se trouvent pas dans la plage [0, 255] ou si toutes les valeurs sont dans la plage [0, 1],
-  les valeurs de pixels de l’image seront normalisées dans la plage [0, 255]
-  sauf si `normalize` est défini sur `False`.
+  Les valeurs sont supposées déjà se trouver dans la plage [0, 255].
   * le tenseur pytorch doit être au format (channel, height, width)
   * le tableau NumPy doit être au format (height, width, channel)
 * `mode`: Le mode PIL de l’image. Les plus courants sont &quot;L&quot;, &quot;RGB&quot;, &quot;RGBA&quot;. Documentation complète de Pillow pour plus d’informations [https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)
@@ -44,7 +41,6 @@ Une classe pour la journalisation d’images dans W&amp;B.
 * `boxes`: Un dictionnaire contenant les informations sur les boîtes englobantes de l’image. Voir [https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d](https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d)
 * `masks`: Un dictionnaire contenant les informations de masque pour l’image. Voir [https://docs.wandb.ai/models/ref/python/data-types/imagemask](https://docs.wandb.ai/models/ref/python/data-types/imagemask)
 * `file_type`: Le type de fichier utilisé pour enregistrer l’image. Ce paramètre n’a aucun effet si `data_or_path` est un chemin vers un fichier image.
-* `normalize`: Si `True`, normalise les valeurs de pixels de l’image afin qu’elles se situent dans la plage [0, 255]. La normalisation est appliquée uniquement si `data_or_path` est un tableau NumPy ou un tenseur pytorch.
 
 <div id="properties">
   ## Propriétés

@@ -6,7 +6,7 @@ namespace: wandb.sdk.data_types.image
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L132" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L76" />
 
 ## <kbd>클래스</kbd> wandb.Image
 
@@ -18,8 +18,7 @@ grouping: 'int | None' = None,
 classes: 'Classes | Sequence[dict] | None' = None,
 boxes: 'dict[str, BoundingBoxes2D] | dict[str, dict] | None' = None,
 masks: 'dict[str, ImageMask] | dict[str, dict] | None' = None,
-file_type: 'str | None' = None,
-normalize: 'bool' = True
+file_type: 'str | None' = None
 ```
 
 W&amp;B에 이미지를 로깅하는 클래스입니다.
@@ -32,9 +31,7 @@ W&amp;B에 이미지를 로깅하는 클래스입니다.
   PIL 이미지 객체 또는 이미지 파일 경로를 받습니다. NumPy
   배열 또는 pytorch 텐서가 제공되면
   이미지 데이터는 지정한 파일 유형으로 저장됩니다.
-  값이 [0, 255] 범위에 없거나 모든 값이 [0, 1] 범위에 있으면
-  `normalize`가 `False`로 설정되지 않은 한 이미지 픽셀 값은 [0, 255]
-  범위로 정규화됩니다.
+  값은 이미 [0, 255] 범위에 있어야 합니다.
   * pytorch 텐서는 (channel, height, width) 형식이어야 합니다
   * NumPy 배열은 (height, width, channel) 형식이어야 합니다
 * `mode`: 이미지의 PIL 모드입니다. 가장 일반적인 값은 &quot;L&quot;, &quot;RGB&quot;, &quot;RGBA&quot;입니다. 자세한 내용은 전체 Pillow 문서를 참조하세요 [https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)
@@ -44,7 +41,6 @@ W&amp;B에 이미지를 로깅하는 클래스입니다.
 * `boxes`: 이미지의 바운딩 박스 정보가 들어 있는 딕셔너리입니다. 참조 [https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d](https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d)
 * `masks`: 이미지의 마스크 정보가 들어 있는 딕셔너리입니다. 참조 [https://docs.wandb.ai/models/ref/python/data-types/imagemask](https://docs.wandb.ai/models/ref/python/data-types/imagemask)
 * `file_type`: 이미지를 저장할 파일 유형입니다. `data_or_path`가 이미지 파일 경로인 경우 이 매개변수는 적용되지 않습니다.
-* `normalize`: `True`이면 이미지 픽셀 값을 [0, 255] 범위로 정규화합니다. 정규화는 `data_or_path`가 numpy 배열 또는 pytorch 텐서인 경우에만 적용됩니다.
 
 <div id="properties">
   ## 속성

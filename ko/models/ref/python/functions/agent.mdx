@@ -6,7 +6,7 @@ namespace: wandb.wandb_agent
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py#L740" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py#L766" />
 
 ## <kbd>함수</kbd> wandb.agent
 
@@ -16,7 +16,8 @@ function: 'Callable | None' = None,
 entity: 'str | None' = None,
 project: 'str | None' = None,
 count: 'int | None' = None,
-forward_signals: 'bool' = False
+forward_signals: 'bool' = False,
+term_timeout: 'int | None' = None
 ```
 
 하나 이상의 sweep agent를 시작합니다.
@@ -33,6 +34,8 @@ sweep agent는 `sweep_id`를 사용해 자신이 어떤 sweep에 속하는지, �
 * `project`: sweep에서 생성된 W&amp;B run이 전송될 프로젝트 이름입니다. 프로젝트를 지정하지 않으면 run은 &quot;Uncategorized&quot;로 표시된 프로젝트로 전송됩니다.
 * `count`: 시도할 sweep 설정 trial 수입니다.
 * `forward_signals`: agent가 수신한 signal을 하위 프로세스에 전달할지 여부입니다. CLI agent에서만 지원됩니다.
+
+- `term_timeout`: 
 
 <div id="returns">
   ## 반환값

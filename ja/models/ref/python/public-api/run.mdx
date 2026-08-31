@@ -171,6 +171,53 @@ use_cache: 'bool' = True
 * `max_step`:
 * `use_cache`: 
 
+### <kbd>メソッド</kbd> Run.console_logs()
+
+```python
+self, *,
+per_page: 'int' = 1000,
+last: 'int | None' = None
+```
+
+run によって取得されたコンソール出力を返します。
+
+run の実行中、W&amp;B はそのプロセスが stdout および stderr に書き込む内容を
+取得し、run のコンソールログとして記録します。これは、W&amp;B App の
+Run page の「Logs」タブに表示されるログと同じです。
+finished の run と実行中の run のいずれについても、
+このログを読み取れます。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+* `per_page`: ログを先頭から読み取る際、リクエストごとに取得する行数。`last` が指定されている場合は無視されます。
+* `last`: 指定した場合、1 回のリクエストでログの末尾 N 行のみを取得します。実行中の run の確認やクラッシュの診断に役立ちます。バックエンドでは 1 回のリクエストで返せる行数に上限があるため、より多くの行を指定すると、最新の行に切り詰められて返されます。
+
+<div id="raises">
+  ##### 送出される例外
+</div>
+
+* `CommError`: 反復処理中にリクエストが失敗した場合に発生します。ログを先頭から読み取るには、W&amp;B Server 0.77 以降が必要です。古いサーバーでは、代わりに末尾の N 行を読み取ってください。
+
+<div id="examples">
+  ##### 例
+</div>
+
+```python
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+
+# ログ全体を古い行から順に読み取ります。
+for line in run.console_logs():
+    print(line.content)
+
+# 末尾の 100 行のみを読み取ります。
+for line in run.console_logs(last=100):
+    print(line.timestamp, line.content)
+```
+
 ### <kbd>メソッド</kbd> Run.create()
 
 ```python
@@ -444,7 +491,7 @@ run のすべての履歴レコードを反復処理できる iterable なコレ
   ##### 引数
 </div>
 
-* `keys`: run の履歴から読み取るメトリクスのリストです。keys が指定されていない場合は、すべてのメトリクスを返します。
+* `keys`: run の履歴から読み取るメトリクスのリストです。scan は、要求されたすべての keys を含む行のみを返します。keys が異なる step でログされた場合は、key ごとに個別の Call を使用するか、この引数を省略してください。keys が指定されていない場合は、すべてのメトリクスを返します。
 * `page_size`: 一度に読み取る履歴レコード数です。
 * `min_step`: 履歴の読み取りを開始する最小の step (この値を含む) です。
 * `max_step`: 履歴を読み取る最大の step (この値は含まない) です。
@@ -583,7 +630,7 @@ per_page: 'int' = 100
   ##### 引数
 </div>
 
-* `per_page`: API リクエストごとに取得する artifact の数。
+* `per_page`:  API リクエストごとに取得する artifact の数。
 
 <div id="examples">
   ##### 例

@@ -1,0 +1,45 @@
+---
+title: ConsoleLogs
+kind: クラス
+namespace: wandb.apis.public.console_logs
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L67" />
+
+## <kbd>クラス</kbd> wandb.apis.public.ConsoleLogs
+
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+per_page: 'int' = 1000,
+last: 'int | None' = None)
+```
+
+run のコンソールログ行を古い順に取得する遅延イテレーターです。
+
+W&amp;B バックエンドからページ単位で取得します。取得した行は
+メモリに保持されるため、2 回目の反復では再取得せず、同じ行を返します。追記されている可能性がある
+ログを再度読み取るには、新しいインスタンスを作成してください。
+
+<div id="args">
+  ## 引数
+</div>
+
+* `service_api`: W&amp;B をクエリするために使用するサービス API のインスタンス。
+* `run`: コンソールログを読み取る run。
+* `per_page`: ログを先頭から読み取る場合に、リクエストごとに取得する行数。`last` が指定されている場合は無視されます。
+* `last`: 設定すると、先頭から読み取る代わりに、1 回のリクエストでログの最後の N 行のみを取得します。バックエンド では 1 回のリクエストで返せる行数に上限があるため、より多くの行を指定した場合は最新の行まで切り詰められて返されます。
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <kbd>メソッド</kbd> ページネーター.**next**()
+
+```python
+self
+```
+
+イテレーターから次の項目を返します。要素がなくなった場合は StopIteration を送出します

@@ -6,7 +6,7 @@ namespace: wandb.apis.public.artifacts
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L476" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
 ## <kbd>classe</kbd> wandb.apis.public.ArtifactCollection
 
@@ -43,6 +43,17 @@ Le nom de la collection d&#39;artifacts.
 ### <kbd>propriété</kbd> project
 
 Le projet qui contient la collection d&#39;artifacts.
+
+### <kbd>propriété</kbd> project_id
+
+L’ID GraphQL encodé du projet associé à cette collection.
+
+### <kbd>propriété</kbd> project_internal_id
+
+L’`internalId` GraphQL du projet associé à cette collection, s’il a été récupéré.
+
+Il s’agit d’un ID global encodé en base64. Une fois décodé, il se présente sous la forme
+`Project:123` ou `ProjectInternalId:123`.
 
 ### <kbd>propriété</kbd> tags
 

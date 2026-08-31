@@ -128,6 +128,29 @@ Retourne le meilleur run, trié selon la métrique définie dans la configuratio
 
 * `order`: 
 
+### <kbd>méthode</kbd> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+Mettre un run en file d&#39;attente pour le balayage.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+* `config` : La configuration du run.
+* `display_name` : Le nom d’affichage facultatif du run.
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `UnsupportedError` : Si le serveur ne prend pas en charge la mise en file d’attente de runs de balayage.
+
 ### <kbd>méthode</kbd> Sweep.get()
 
 ```python

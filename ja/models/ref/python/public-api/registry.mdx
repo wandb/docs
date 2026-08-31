@@ -6,7 +6,7 @@ namespace: wandb.apis.public.registries.registry
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L38" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
 ## <kbd>クラス</kbd> wandb.apis.public.Registry
 
@@ -72,6 +72,13 @@ Registry の組織 entity。
 ### <kbd>プロパティ</kbd> id
 
 この Registry の一意の ID。
+
+### <kbd>プロパティ</kbd> internal_id
+
+取得されている場合、この Registry の基盤となる project の GraphQL `internalId` です。
+
+これは Base64 エンコードされたグローバル ID です。デコードすると、
+`Project:123` または `ProjectInternalId:123` のようになります。
 
 ### <kbd>プロパティ</kbd> 名
 
@@ -324,11 +331,12 @@ self
 
 このRegistryに現在所属しているメンバーUsersを返します。
 
-### <kbd>method</kbd> Registry.versions()
+### <kbd>メソッド</kbd> Registry.versions()
 
 ```python
 self,
 filter: 'dict[str, Any] | None' = None,
+order: '_VersionOrder | None' = None,
 per_page: 'PositiveInt' = 100,
 start: 'str | None' = None
 ```
@@ -340,5 +348,6 @@ start: 'str | None' = None
 </div>
 
 * `filter`:  アーティファクト version のクエリに適用する、省略可能なフィルターのマッピング。
+* `order`: 結果の並び順を指定する省略可能な string です。`created_at`、`artifact_size`、`linked_at` を指定できます。&#39;+&#39; を接頭辞として付けると昇順 (デフォルト) で並べ替え、&#39;-&#39; を接頭辞として付けると降順で並べ替えます。
 * `per_page`:  1ページあたりに取得する結果の数です。通常、これを変更する理由はありません。
 * `start`:  過去のクエリを再開するためのページネーションカーソルで、以前のページネーターの `.cursor` 属性から取得します。

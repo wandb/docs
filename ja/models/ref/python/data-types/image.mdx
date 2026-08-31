@@ -6,7 +6,7 @@ namespace: wandb.sdk.data_types.image
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L132" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L76" />
 
 ## <kbd>クラス</kbd> wandb.Image
 
@@ -18,8 +18,7 @@ grouping: 'int | None' = None,
 classes: 'Classes | Sequence[dict] | None' = None,
 boxes: 'dict[str, BoundingBoxes2D] | dict[str, dict] | None' = None,
 masks: 'dict[str, ImageMask] | dict[str, dict] | None' = None,
-file_type: 'str | None' = None,
-normalize: 'bool' = True
+file_type: 'str | None' = None
 ```
 
 W&amp;B に画像をログするクラスです。
@@ -32,9 +31,7 @@ W&amp;B に画像をログするクラスです。
   PIL image object、または画像ファイルへのパスを受け付けます。NumPy
   array または pytorch tensor を指定した場合、
   画像データは指定したファイルタイプで保存されます。
-  値が [0, 255] の範囲外である場合、またはすべての値が [0, 1] の範囲内である場合は、
-  `normalize` が `False` に設定されていない限り、
-  画像のピクセル値は [0, 255] の範囲に正規化されます。
+  値はすでに [0, 255] の範囲内にあることが想定されます。
   * pytorch tensor は (channel, height, width) 形式である必要があります
   * NumPy array は (height, width, channel) 形式である必要があります
 * `mode`: 画像の PIL mode です。一般的なものは &quot;L&quot;、&quot;RGB&quot;、&quot;RGBA&quot; です。詳細については、Full Pillow docs を参照してください [https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)
@@ -44,7 +41,6 @@ W&amp;B に画像をログするクラスです。
 * `boxes`: 画像のバウンディングボックス情報を含む辞書です。参照 [https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d](https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d)
 * `masks`: 画像のマスク情報を含む辞書です。参照 [https://docs.wandb.ai/models/ref/python/data-types/imagemask](https://docs.wandb.ai/models/ref/python/data-types/imagemask)
 * `file_type`: 画像の保存ファイルタイプです。`data_or_path` が画像ファイルへのパスである場合、このパラメーターは効果を持ちません。
-* `normalize`: `True` の場合、画像のピクセル値が [0, 255] の範囲内に収まるよう正規化します。正規化は、`data_or_path` が numpy array または pytorch tensor の場合にのみ適用されます。
 
 <div id="properties">
   ## プロパティ

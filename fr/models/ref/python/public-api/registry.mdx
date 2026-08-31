@@ -6,7 +6,7 @@ namespace: wandb.apis.public.registries.registry
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L38" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
 ## <kbd>classe</kbd> wandb.apis.public.Registry
 
@@ -71,6 +71,13 @@ Nom complet du registre, préfixe `wandb-registry-` inclus.
 ### <kbd>propriété</kbd> id
 
 L’ID unique de ce registre.
+
+### <kbd>propriété</kbd> internal_id
+
+L’`internalId` GraphQL du projet associé à ce registre, s’il a été récupéré.
+
+Il s’agit d’un ID global encodé en base64. Une fois décodé, il se présente ainsi :
+`Project:123` ou `ProjectInternalId:123`.
 
 ### <kbd>propriété</kbd> nom
 
@@ -231,8 +238,8 @@ Supprime des Users ou des équipes de ce registre.
   ##### Exceptions levées
 </div>
 
-* `TypeError`: Si aucun membre n&#39;est passé en argument.
-* `ValueError`: S&#39;il est impossible de déduire ou d&#39;analyser les ID d&#39;utilisateur ou d&#39;équipe.
+* `TypeError`: Si aucun membre n’est passé en argument.
+* `ValueError`: S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
 
 <div id="examples">
   ##### Exemples
@@ -328,6 +335,7 @@ Renvoie les utilisateurs actuellement membres de ce registre.
 ```python
 self,
 filter: 'dict[str, Any] | None' = None,
+order: '_VersionOrder | None' = None,
 per_page: 'PositiveInt' = 100,
 start: 'str | None' = None
 ```
@@ -339,5 +347,6 @@ Renvoie les versions d&#39;artifact de ce registre.
 </div>
 
 * `filter`: Mappage facultatif des filtres à appliquer à la requête de versions d&#39;artifact.
+* `order`: Chaîne facultative permettant de spécifier l&#39;ordre des résultats. L&#39;ordre peut être `created_at`, `artifact_size` ou `linked_at`. Préfixé par &#39;+&#39;, le tri est croissant (par défaut). Préfixé par &#39;-&#39;, le tri est décroissant.
 * `per_page`: Le nombre de résultats à récupérer par page. En général, il n&#39;y a aucune raison de modifier cette valeur.
 * `start`: Curseur de pagination pour reprendre une requête précédente, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.

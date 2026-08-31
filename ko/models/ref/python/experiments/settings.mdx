@@ -6,7 +6,7 @@ namespace: wandb.sdk.wandb_settings
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L60" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L61" />
 
 ## <kbd>class</kbd> wandb.Settings
 
@@ -89,7 +89,6 @@ show_errors: bool = True,
 show_info: bool = True,
 show_warnings: bool = True,
 silent: bool = False,
-start_method: str | None = None,
 stop_on_fatal_error: bool = False,
 strict: bool | None = None,
 summary_timeout: int = 60,
@@ -111,6 +110,7 @@ x_extra_http_headers: dict[str, str] | None = None,
 x_file_stream_max_bytes: int | None = None,
 x_file_stream_max_line_bytes: int | None = None,
 x_file_stream_transmit_interval: float | None = None,
+x_file_stream_no_gzip: bool = True,
 x_file_stream_retry_max: int | None = None,
 x_file_stream_retry_wait_min_seconds: float | None = None,
 x_file_stream_retry_wait_max_seconds: float | None = None,
@@ -145,7 +145,7 @@ x_service_transport: str | None = None,
 x_service_wait: float = 30.0,
 x_skip_transaction_log: bool = False,
 x_start_time: float | None = None,
-x_stats_pid: int = 3570,
+x_stats_pid: int = 66698,
 x_stats_sampling_interval: float = 15.0,
 x_stats_neuron_monitor_config_path: str | None = None,
 x_stats_dcgm_exporter: str | None = None,

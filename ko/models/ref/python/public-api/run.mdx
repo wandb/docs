@@ -172,6 +172,52 @@ use_cache: 'bool' = True
 * `max_step`:
 * `use_cache`: 
 
+### <kbd>방법</kbd> Run.console_logs()
+
+```python
+self, *,
+per_page: 'int' = 1000,
+last: 'int | None' = None
+```
+
+run의 캡처된 콘솔 출력을 반환합니다.
+
+run이 실행되는 동안 W&amp;B는 해당 process가 stdout 및 stderr에 기록하는 내용을
+캡처하여 run의 콘솔 로그로 기록합니다. 이 로그는 W&amp;B App의 run 페이지에 있는
+&quot;Logs&quot; 탭에 표시되는 로그와 동일합니다. 이 메서드는 완료된 run과 아직 실행 중인
+run 모두에서 해당 로그를 조회합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+* `per_page`: 로그를 처음부터 읽을 때 요청당 가져올 줄 수입니다. `last`가 지정되면 무시됩니다.
+* `last`: 설정하면 단일 요청으로 로그의 마지막 N줄만 가져옵니다. 실행 중인 run을 확인하거나 충돌을 진단할 때 유용합니다. 백엔드는 하나의 요청으로 반환할 수 있는 줄 수에 한도를 두므로, 더 많은 줄을 요청하면 최신 줄만 반환됩니다.
+
+<div id="raises">
+  ##### 예외
+</div>
+
+* `CommError`: 반복 중 요청이 실패할 때 발생합니다. 로그를 처음부터 조회하려면 W&amp;B server 0.77 이상이 필요합니다. 이전 버전의 서버에서는 대신 마지막 N줄을 조회하세요.
+
+<div id="examples">
+  ##### 예시
+</div>
+
+```python
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+
+# 전체 로그를 오래된 줄부터 조회합니다.
+for line in run.console_logs():
+    print(line.content)
+
+# 마지막 100줄만 조회합니다.
+for line in run.console_logs(last=100):
+    print(line.timestamp, line.content)
+```
+
 ### <kbd>방법</kbd> Run.create()
 
 ```python
@@ -446,7 +492,7 @@ run의 모든 이력 레코드를 담은 이터러블 컬렉션을 반환합니�
   ##### 인수
 </div>
 
-* `keys`: run의 이력에서 읽을 메트릭 목록입니다. keys를 지정하지 않으면 모든 메트릭이 반환됩니다.
+* `keys`: run의 이력에서 읽을 메트릭 목록입니다. 스캔은 요청한 모든 키를 포함하는 행만 반환합니다. 키가 서로 다른 step에 로깅되었다면 각 키에 대해 별도의 Call을 사용하거나 이 인수를 생략하세요. keys를 지정하지 않으면 모든 메트릭이 반환됩니다.
 * `page_size`: 한 번에 읽을 이력 레코드 수입니다.
 * `min_step`: 이력을 읽기 시작할 최소 step(포함)입니다.
 * `max_step`: 이력을 읽을 최대 step(미포함)입니다.
