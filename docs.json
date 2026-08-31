@@ -7602,8 +7602,12 @@
       "source": "/models/support/cancel_subscription"
     },
     {
-      "destination": "/support/models/articles/how-can-i-change-my-account-from-corpora",
+      "destination": "/support/models/articles/how-can-i-change-my-account-type",
       "source": "/models/support/change_account_from_corporate_academic"
+    },
+    {
+      "destination": "/support/models/articles/how-can-i-change-my-account-type",
+      "source": "/support/models/articles/how-can-i-change-my-account-from-corpora"
     },
     {
       "destination": "/support/models/articles/how-do-i-change-my-billing-address",
