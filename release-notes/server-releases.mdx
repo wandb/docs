@@ -54,11 +54,11 @@ W&B Server 0.84 simplifies API key handling for organizations and teams, with ce
 - When creating or editing a signal, the **Inference provider** selector now displays one entry per model for each third-party provider.
 - Signals now link to parent conversations, and spans link back to their parent evaluations.
 - In the evaluation-comparison table, cells that contain a list of numbers now render as histograms by default. Use the cell toolbar to change the view mode: **Histogram**, **Bar Chart**, **Text**, or **Code**. Click a cell to open a larger chart with summary statistics.
-- The view mode you choose for a string cell (***Text**, **Code**, or **Markdown**) now applies to every string cell in that column instead of only the cell you clicked. Cells keep their automatic defaults, such as **Code** for JSON, until you pick a mode explicitly.
+- The view mode you choose for a string cell (**Text**, **Code**, or **Markdown**) now applies to every string cell in that column instead of only the cell you clicked. Cells keep their automatic defaults, such as **Code** for JSON, until you pick a mode explicitly.
 - Custom providers have been renamed to [custom runtimes](/weave/guides/tools/custom-runtimes), with an enriched UI. You can edit or remove custom runtimes as your experiments change.
 - When Weave reports whether an inference provider is configured, user-scoped secrets are now counted, in addition to team secrets. A provider you set up with your own key now shows as available in the **Playground** model dropdown, the **Providers** tab, and **Agents** inference.
 - For enhanced security, the remote scorer host allowlist now accepts wildcard suffix patterns on the Weave scoring worker. Set the `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` environment variable to a comma-separated list of patterns:
-    - An entry such as `*.corp.example.com`  matches subdomains at any depth but not the apex domain, so  `a.corp.example.com` and `a.b.corp.example.com` match, but not `corp.example.com` .
+    - An entry such as `*.corp.example.com` matches subdomains at any depth but not the apex domain, so `a.corp.example.com` and `a.b.corp.example.com` match, but not `corp.example.com`.
     - For safety, a wildcard must cover at least two DNS labels, so patterns like `*.com` and `*.internal` are rejected.
 
 ## Performance improvements
