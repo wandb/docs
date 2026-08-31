@@ -2,7 +2,15 @@
 title: "概要"
 ---
 
+import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only.mdx";
+
 ARIA は、W&amp;B の AI Research and Iteration Agent です。実験の分析や実行、結果の説明、Runs 全体にわたるパターンの特定、次のステップの提案、可視化や Reports の作成などを支援する、パーソナライズされたリサーチアシスタントです。
+
+<Note>
+  <MultiTenantCloudOnly />
+
+  ARIA は個人の entity ではなく、チームの project で動作します。組織の Admin は **Smart features** も有効にする必要があります。[ガバナンスとセキュリティ](/ja/aria/governance)を参照してください。
+</Note>
 
 <Frame>
   <img src="/images/agent/agent_empty_chat_window.png" alt="空の ARIA チャットウィンドウ" />
@@ -16,13 +24,21 @@ ARIA は次のことを支援できます:
 * データを可視化するためのプロットやパネルを作成する。
 * インサイトをチームと共有するために、保存済みビューや Reports を作成する。
 
-[ARIA とチャットする](/ja/aria/chat)には、次の手順を実行します:
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+[Chat with ARIA](/ja/aria/chat)には、次の手順を実行します:
 
 1. 任意の project で、ページ右上の青い丸をクリックします。
 2. チャットウィンドウで、質問またはリクエストを入力します。何を聞けばよいかわからない場合は、提案されたプロンプトを選択します。
 3. チャットウィンドウ右下にある、上向き矢印の **Send** ボタンをクリックします。
 
-質問の複雑さによっては、ARIA の応答に少し時間がかかることがあります。ARIA の処理中はチャットウィンドウを閉じて、後から戻って応答を確認できます。ARIA がさらに情報を必要とする場合は、補足を求めます。
+<div id="follow-arias-progress">
+  ## ARIA の進行状況を確認する
+</div>
+
+ARIA の処理中は応答がストリーミングされるため、完了した回答を待たずに進行状況をステップごとに確認できます。質問の複雑さによっては、ARIA の応答に少し時間がかかることがあります。ARIA の処理中はチャットウィンドウを閉じて、後から戻って応答を確認できます。または、待たずに[次のメッセージをキューに追加](/ja/aria/chat#queue-messages)できます。ARIA がさらに情報を必要とする場合は、補足を求めます。
 
 ARIA の処理中に、**Thinking** ステップと **shell** ステップが表示されることがあります:
 
@@ -32,6 +48,28 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
 **Thinking** または **shell** ステップをクリックすると、ARIA の推論や実行したアクションの詳細を展開できます。
 
 実際の使用例については、[チャット例](/ja/aria/overview#example-chats) を参照してください。チャットの管理に関する詳細は、[Chat with ARIA](/ja/aria/chat) を参照してください。
+
+{/*
+  ## project のメモリを表示、管理する
+  ARIA は学習した内容を記憶します。作業中、ARIA は project にスコープされた_メモリ_を書き込むため、新しいセッションごとに設定、結論、好みを最初から把握し直す必要がありません。チームが対数スケールのチャートを好むことを一度伝えれば、以後もその内容を記憶します。
+
+  各メモリには、ARIA がいつ呼び出すかを判断できるように名前と説明があり、メモリのテキスト自体も含まれます。
+
+  project を所有するチームのメンバーは誰でも、メモリを表示、編集、削除できます:
+
+  1. ARIA チャットウィンドウで、**<Icon icon="bars" iconType="solid" />** をクリックします。
+  1. **Customization** セクションで、**Project memory** をクリックします。ARIA が project について保持している各メモリが表示されます。
+  1. メモリを編集するには、**<Icon icon="pencil" iconType="solid" />** をクリックします。メモリの **Name**、**Description**、または **Memory** を更新してから、**Save** をクリックします。
+  1. メモリを削除するには、**<Icon icon="trash" iconType="solid" />** をクリックします。
+
+  ARIA が新しいメモリを学習するのを待たずに、インタラクティブに project メモリを作成できます。例:
+
+  <AriaChatBubbles
+  prompt="チャートにはセマンティックカラーリングを使用することを覚えておいてください。"
+  response="まず既存の project メモリを確認し、この設定が重複せず適切なトピックに記録されるようにします ... 新しい project メモリを保存しました: chart-coloring。これは、チャートでは任意のパレット順ではなく、系列やカテゴリの意味またはステータスに基づく一貫したセマンティックカラーを使用する必要があることを記録しています。 "
+  />
+
+  */}
 
 <div id="example-chats">
   ## チャット例

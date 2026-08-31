@@ -6,9 +6,9 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L407" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
 
-## <kbd>class</kbd> wandb.Run
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Run
 
 W&amp;B에 로깅되는 계산 단위입니다. 일반적으로는 ML 실험을 의미합니다.
 
@@ -43,124 +43,143 @@ with wandb.init(entity="entity", project="project") as run:
   ## 속성
 </div>
 
-### <kbd>속성</kbd> config
+<ResponseField name="config" type="wandb_config.Config">
+  이 run과 연결된 설정 객체입니다.
+</ResponseField>
 
-이 run에 연결된 설정 객체입니다.
+<ResponseField name="config_static" type="wandb_config.ConfigStatic">
+  이 run과 연결된 정적 설정 객체입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> config_static
+<ResponseField name="dir" type="str">
+  run의 파일이 저장되는 디렉터리입니다.
 
-이 run에 연결된 정적 설정 객체입니다.
+  특정 데이터 유형을 `run.log()`에 전달할 때 자동으로 생성되는 파일을
+  포함하여 `run.save()`로 저장된 파일을 말합니다. run의 모든 데이터가
+  포함된 디렉터리는 `run.sync_dir`를 참조하세요.
+</ResponseField>
 
-### <kbd>속성</kbd> dir
+<ResponseField name="disabled" type="bool">
+  run이 비활성화되어 있으면 True이고, 그렇지 않으면 False입니다.
+</ResponseField>
 
-run에 연결된 파일이 저장되는 디렉터리입니다.
+<ResponseField name="entity" type="str">
+  run과 연결된 W&amp;B entity의 이름입니다.
 
-### <kbd>속성</kbd> disabled
+  Entity는 사용자 이름, 팀 이름 또는 조직 이름일 수 있습니다.
+</ResponseField>
 
-run이 비활성화된 경우 True, 그렇지 않으면 False입니다.
+<ResponseField name="group" type="str">
+  이 run과 연결된 group의 이름을 반환합니다.
 
-### <kbd>속성</kbd> entity
+  run을 그룹화하면 관련 실험을 구성하고 W&amp;B UI에서 함께 시각화할 수
+  있습니다. 이는 특히 분산 트레이닝이나 교차 검증처럼 여러 run을 하나의
+  통합된 실험으로 보고 관리해야 하는 시나리오에서 유용합니다.
 
-run과 연결된 W&amp;B entity의 이름입니다.
+  모든 프로세스가 동일한 run 객체를 공유하는 shared 모드에서는 run이
+  하나뿐이므로 그룹화가 필요하지 않아, 일반적으로 group을 설정할 필요가
+  없습니다.
+</ResponseField>
 
-entity는 사용자 이름, 팀 이름 또는 조직 이름일 수 있습니다.
+<ResponseField name="id" type="str">
+  이 run의 식별자입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> group
+<ResponseField name="job_type" type="str">
+  run과 연결된 작업 유형의 이름입니다.
 
-이 run에 연결된 그룹의 이름을 반환합니다.
+  W&amp;B App의 run Overview 페이지에서 run의 작업 유형을 확인하세요.
 
-run을 함께 그룹화하면 관련 실험을 W&amp;B UI에서 한데 모아 구성하고 시각화할 수 있습니다. 이는 분산 트레이닝이나 교차 검증처럼 여러 run을 하나의 통합된 실험으로 보고 관리해야 하는 시나리오에서 특히 유용합니다.
+  이를 사용하면 &quot;training&quot;, &quot;evaluation&quot;, &quot;inference&quot;와 같이 작업 유형별로
+  run을 분류할 수 있습니다. 특히 동일한 프로젝트에 서로 다른 작업 유형의
+  여러 run이 있을 때 W&amp;B UI에서 run을 구성하고 필터링하는 데 유용합니다.
+  자세한 내용은 [run 구성](https://docs.wandb.ai/models/runs#organize-runs)을 참조하세요.
+</ResponseField>
 
-모든 프로세스가 동일한 run 객체를 공유하는 공유 모드에서는 run이 하나뿐이라 그룹화가 필요 없으므로, 일반적으로 그룹을 설정할 필요가 없습니다.
+<ResponseField name="name" type="str | None">
+  run의 표시 이름입니다.
 
-### <kbd>속성</kbd> id
+  표시 이름은 고유하지 않을 수 있으며 설명적인 이름으로 지정할 수 있습니다.
+  기본적으로 무작위로 생성됩니다.
+</ResponseField>
 
-이 run의 식별자입니다.
+<ResponseField name="notes" type="str | None">
+  있는 경우 run과 연결된 메모입니다.
 
-### <kbd>속성</kbd> job_type
+  메모는 여러 줄 string일 수 있으며 `$x + 3$`와 같이 `$$` 안에
+  markdown 및 LaTeX 수식을 사용할 수도 있습니다.
+</ResponseField>
 
-run과 연결된 작업 유형의 이름입니다.
+<ResponseField name="offline" type="bool">
+  run이 오프라인 상태이면 True이고, 그렇지 않으면 False입니다.
+</ResponseField>
 
-W&amp;B App의 run Overview 페이지에서 run의 작업 유형을 확인할 수 있습니다.
+<ResponseField name="path" type="str">
+  run의 경로입니다.
 
-이를 사용하면 &quot;트레이닝&quot;, &quot;evaluation&quot;, &quot;Inference&quot;와 같은 작업 유형별로 run을 분류할 수 있습니다. 이는 W&amp;B UI에서 run을 정리하고 필터링하는 데 유용하며, 특히 같은 프로젝트에 서로 다른 작업 유형의 run이 여러 개 있을 때 더욱 유용합니다. 자세한 내용은 [run 정리하기](https://docs.wandb.ai/models/runs#organize-runs)를 참조하세요.
+  run 경로에는 entity, 프로젝트 및 run ID가 포함되며 형식은
+  `entity/project/run_id`입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> name
+<ResponseField name="project" type="str">
+  run과 연결된 W&amp;B 프로젝트의 이름입니다.
+</ResponseField>
 
-run의 표시 이름입니다.
+<ResponseField name="project_url" type="str | None">
+  있는 경우 run과 연결된 W&amp;B 프로젝트의 URL입니다.
 
-표시 이름은 고유하지 않을 수 있으며, 설명적인 이름일 수 있습니다. 기본적으로는 무작위로 생성됩니다.
+  오프라인 run에는 프로젝트 URL이 없습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> notes
+<ResponseField name="resumed" type="bool">
+  run이 재개된 경우 True이고, 그렇지 않으면 False입니다.
+</ResponseField>
 
-run에 연결된 메모가 있는 경우 해당 메모입니다.
+<ResponseField name="settings" type="Settings">
+  run의 Settings 객체를 고정한 복사본입니다.
+</ResponseField>
 
-메모는 여러 줄 문자열일 수 있으며, `$x + 3$`처럼 `$$` 안에 Markdown과 LaTeX 수식을 사용할 수도 있습니다.
+<ResponseField name="start_time" type="float">
+  run이 시작된 Unix 타임스탬프(초 단위)입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> offline
+<ResponseField name="step" type="int">
+  다음 `log()` 호출의 W&amp;B step입니다.
 
-run이 오프라인 상태이면 True, 아니면 False입니다.
+  mode=&quot;shared&quot; run에서는 오류가 발생합니다.
+</ResponseField>
 
-### <kbd>속성</kbd> path
+<ResponseField name="sweep_id" type="str | None">
+  있는 경우 run과 연결된 스윕의 식별자입니다.
+</ResponseField>
 
-run의 경로입니다.
+<ResponseField name="sweep_url" type="str | None">
+  있는 경우 run과 연결된 스윕의 URL입니다.
 
-run 경로에는 entity, 프로젝트, run ID가 포함되며, 형식은
-`entity/project/run_id`입니다.
+  오프라인 run에는 스윕 URL이 없습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> project
+<ResponseField name="sync_dir" type="str">
+  run의 모든 데이터가 포함된 디렉터리입니다.
 
-run에 연결된 W&amp;B 프로젝트의 이름입니다.
+  이를 `wandb sync`에 전달하여 run을 업로드하거나 다시 업로드할 수 있습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> project_url
+<ResponseField name="tags" type="tuple | None">
+  있는 경우 run과 연결된 태그입니다.
+</ResponseField>
 
-해당 run에 연결된 W&amp;B 프로젝트의 URL입니다(있는 경우).
+<ResponseField name="url" type="str | None">
+  있는 경우 W&amp;B run의 URL입니다.
 
-오프라인 run에는 프로젝트 URL이 없습니다.
-
-### <kbd>속성</kbd> resumed
-
-run이 재개되었으면 True, 그렇지 않으면 False입니다.
-
-### <kbd>속성</kbd> settings
-
-run의 Settings 객체를 불변으로 복사한 사본입니다.
-
-### <kbd>속성</kbd> start_time
-
-run이 시작된 시점의 Unix 타임스탬프(초 단위)입니다.
-
-### <kbd>속성</kbd> step
-
-다음 `log()` Call에 사용될 W&amp;B step입니다.
-
-`mode="shared"` run에서는 예외가 발생합니다.
-
-### <kbd>속성</kbd> sweep_id
-
-run에 연결된 sweep의 식별자입니다(있는 경우).
-
-### <kbd>속성</kbd> sweep_url
-
-run에 연결된 sweep의 URL입니다(있는 경우).
-
-오프라인 run에는 sweep URL이 없습니다.
-
-### <kbd>속성</kbd> tags
-
-run에 연결된 태그가 있으면 해당 태그입니다.
-
-### <kbd>속성</kbd> url
-
-W&amp;B run에 URL이 있으면 해당 URL입니다.
-
-오프라인 run에는 URL이 없습니다.
+  오프라인 run에는 URL이 없습니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Run.alert()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.alert()
 
 ```python
 self,
@@ -170,18 +189,29 @@ level: 'str | AlertLevel | None' = None,
 wait_duration: 'int | float | timedelta | None' = None
 ```
 
-주어진 제목과 텍스트로 Alert를 생성합니다.
+주어진 제목과 텍스트로 알림을 생성합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `title`: Alert의 제목입니다. 64자 미만이어야 합니다.
-* `text`: Alert의 본문입니다.
-* `level`: 사용할 Alert 수준입니다. `INFO`, `WARN`, `ERROR` 중 하나여야 합니다.
-* `wait_duration`: 같은 제목의 Alert를 다시 보내기 전에 대기할 시간(초)입니다.
+<ResponseField name="title" type="str">
+  알림 제목입니다. 64자 미만이어야 합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.define_metric()
+<ResponseField name="text" type="str">
+  알림 본문 텍스트입니다.
+</ResponseField>
+
+<ResponseField name="level" type="str | AlertLevel | None">
+  사용할 알림 수준으로, `INFO`, `WARN`, `ERROR` 중 하나입니다.
+</ResponseField>
+
+<ResponseField name="wait_duration" type="int | float | timedelta | None">
+  같은 제목의 알림을 다시 보내기 전까지 대기할 시간(초)입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.define_metric()
 
 ```python
 self,
@@ -190,7 +220,6 @@ step_metric: 'str | wandb_metric.Metric | None' = None,
 step_sync: 'bool | None' = None,
 hidden: 'bool | None' = None,
 summary: 'str | None' = None,
-goal: 'str | None' = None,
 overwrite: 'bool | None' = None
 ```
 
@@ -200,15 +229,31 @@ overwrite: 'bool | None' = None
   ##### 인수
 </div>
 
-* `name`: 사용자 지정할 메트릭의 이름입니다.
-* `step_metric`: 자동 생성된 차트에서 이 메트릭의 X축으로 사용할 다른 메트릭의 이름입니다.
-* `step_sync`: 명시적으로 제공되지 않으면 `wandb.Run.log()`에 step&#95;metric의 마지막 값을 자동으로 삽입합니다. step&#95;metric이 지정된 경우 기본값은 True입니다.
-* `hidden`: 자동 플롯에서 이 메트릭을 숨깁니다.
-* `summary`: summary에 추가할 집계 메트릭을 지정합니다. 지원되는 집계에는 &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;best&quot;, &quot;copy&quot;, &quot;none&quot;이 포함됩니다. &quot;none&quot;을 지정하면 summary가 생성되지 않습니다. &quot;best&quot;는 goal 매개변수와 함께 사용하지만, 현재는 사용 중단되었으므로 사용하지 않는 것이 좋으며 대신 &quot;min&quot; 또는 &quot;max&quot;를 사용하세요. &quot;copy&quot;도 사용 중단되었으므로 사용하지 않는 것이 좋습니다.
-* `goal`: &quot;best&quot; summary 유형을 해석하는 방식을 지정합니다. 지원되는 옵션은 &quot;minimize&quot;와 &quot;maximize&quot;입니다. &quot;goal&quot;은 사용 중단되었으므로 사용하지 않는 것이 좋으며, 대신 &quot;min&quot; 또는 &quot;max&quot;를 사용하세요.
-* `overwrite`: false이면 이 call은 동일한 메트릭에 대한 이전 `define_metric` call과 병합되며, 지정되지 않은 매개변수에는 이전 call의 값이 사용됩니다. true이면 지정되지 않은 매개변수가 이전 call에서 지정된 값을 덮어씁니다.
+<ResponseField name="name" type="str">
+  사용자 지정할 메트릭의 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.display()
+<ResponseField name="step_metric" type="str | wandb_metric.Metric | None">
+  자동 생성된 차트에서 이 메트릭의 X축으로 사용할 다른 메트릭의 이름입니다.
+</ResponseField>
+
+<ResponseField name="step_sync" type="bool | None">
+  명시적으로 제공되지 않은 경우 step&#95;metric의 마지막 값을 `wandb.Run.log()`에 자동으로 삽입합니다. step&#95;metric이 지정되면 기본값은 True입니다.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool | None">
+  자동 플롯에서 이 메트릭을 숨깁니다.
+</ResponseField>
+
+<ResponseField name="summary" type="str | None">
+  요약에 추가할 집계 메트릭을 지정합니다. 지원되는 집계에는 &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;copy&quot;, &quot;none&quot;이 포함됩니다. &quot;none&quot;은 요약이 생성되지 않도록 합니다. &quot;copy&quot;는 사용 중단되었으므로 사용하지 마세요.
+</ResponseField>
+
+<ResponseField name="overwrite" type="bool | None">
+  false이면 지정하지 않은 인수에는 이전 `define_metric` 호출의 값을 사용하여 이 호출을 동일한 메트릭에 대한 이전 `define_metric` 호출과 병합합니다. true이면 지정하지 않은 인수가 이전 호출에서 지정한 값을 덮어씁니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.display()
 
 ```python
 self,
@@ -222,15 +267,19 @@ Jupyter에 이 run을 표시합니다.
   ##### 인수
 </div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.finish()
+<ResponseField name="hidden" type="bool">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.finish()
 
 ```python
 self,
-exit_code: 'int | None' = None,
-quiet: 'bool | None' = None
+exit_code: 'int | None' = None
 ```
 
 run을 종료하고 남아 있는 데이터를 모두 업로드합니다.
@@ -239,7 +288,7 @@ W&amp;B run의 완료를 표시하고 모든 데이터가 서버에 동기화되
 
 Run 상태:
 
-* Running: 데이터를 logging하고 하트비트를 전송 중인 활성 run입니다.
+* Running: 데이터를 로깅하고 하트비트를 전송 중인 활성 run입니다.
 * Crashed: 예기치 않게 하트비트 전송이 중단된 run입니다.
 * Finished: 모든 데이터가 동기화된 상태로 성공적으로 완료된 run입니다(`exit_code=0`).
 * Failed: 오류와 함께 완료된 run입니다(`exit_code!=0`).
@@ -249,10 +298,11 @@ Run 상태:
   ##### 인수
 </div>
 
-* `exit_code`: run의 종료 상태를 나타내는 정수입니다. 성공 시 0을 사용하며, 다른 값이면 run이 실패로 표시됩니다.
-* `quiet`: 사용 중단. `wandb.Settings(quiet=...)`를 사용해 logging 상세 수준을 설정하세요.
+<ResponseField name="exit_code" type="int | None">
+  run의 종료 상태를 나타내는 정수입니다. 성공 시 0을 사용하며, 다른 값이면 run이 실패로 표시됩니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.finish_artifact()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.finish_artifact()
 
 ```python
 self,
@@ -263,31 +313,47 @@ aliases: 'list[str] | None' = None,
 distributed_id: 'str | None' = None
 ```
 
-최종화되지 않은 artifact를 run의 출력으로 완료 처리합니다.
+최종화되지 않은 아티팩트를 run의 출력으로 완료 처리합니다.
 
-이후 동일한 distributed ID로 `"upsert"`를 수행하면 새 버전이 생성됩니다.
+이후 동일한 distributed ID로 &quot;upsert&quot;를 수행하면 새 버전이 생성됩니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `artifact_or_path`: 이 artifact의 콘텐츠 경로입니다.
+<ResponseField name="artifact_or_path" type="Artifact | str">
+  이 아티팩트의 콘텐츠 경로입니다.
   다음 형식을 사용할 수 있습니다:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
     또는 `wandb.Artifact`를 호출해 생성한 Artifact 객체를 전달할 수도 있습니다.
-* `name`: artifact 이름입니다. entity/프로젝트 접두사를 붙일 수 있습니다.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  아티팩트 이름입니다. entity/프로젝트 접두사를 붙일 수 있습니다.
   유효한 이름은 다음 형식일 수 있습니다:
+
   * name:version
   * name:alias
   * digest
     지정하지 않으면 현재 run id가 앞에 붙은 경로의 basename이 기본값으로 사용됩니다.
-* `type`: 로깅할 artifact의 유형입니다. 예로는 `dataset`, `model`이 있습니다
-* `aliases`: 이 artifact에 적용할 alias입니다. 기본값은 `["latest"]`입니다
-* `distributed_id`: 모든 분산 작업이 공유하는 고유 문자열입니다. None이면 run의 group name이 기본값으로 사용됩니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.link_artifact()
+<ResponseField name="type" type="str | None">
+  로깅할 아티팩트의 유형입니다. 예로는 `dataset`, `model`이 있습니다
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  이 아티팩트에 적용할 alias입니다. 기본값은 `["latest"]`입니다
+</ResponseField>
+
+<ResponseField name="distributed_id" type="str | None">
+  모든 분산 작업이 공유하는 고유 문자열입니다. None이면 run의 group name이 기본값으로 사용됩니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.link_artifact()
 
 ```python
 self,
@@ -296,21 +362,58 @@ target_path: 'str',
 aliases: 'list[str] | None' = None
 ```
 
-artifact를 collection에 연결합니다.
+아티팩트를 컬렉션에 연결합니다.
 
-“link”는 W&amp;B가 artifact를 저장하는 위치와 레지스트리에서 artifact에 접근할 수 있는 위치를 연결하는 포인터를 뜻합니다. W&amp;B는 artifact를 collection에 연결해도 artifact를 복제하지 않습니다.
+“link”는 W&amp;B가 아티팩트를 저장하는 위치와 레지스트리에서 아티팩트에 접근할 수 있는 위치를 연결하는 포인터를 뜻합니다. W&amp;B는 아티팩트를 컬렉션에 연결해도 아티팩트를 복제하지 않습니다.
 
-지정한 collection에 연결된 artifact는 레지스트리 UI에서 확인할 수 있습니다.
+지정한 컬렉션에 연결된 아티팩트는 레지스트리 UI에서 확인할 수 있습니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `artifact`: collection에 연결할 artifact 객체입니다.
-* `target_path`: collection의 경로입니다. 경로는 접두사 &quot;wandb-registry-&quot;와 레지스트리 이름, collection 이름으로 구성되며 형식은 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`입니다.
-* `aliases`: 연결된 artifact에 하나 이상의 alias를 추가합니다. &quot;latest&quot; alias는 가장 최근에 연결한 artifact에 자동으로 적용됩니다.
+<ResponseField name="artifact" type="Artifact">
+  컬렉션에 연결할 아티팩트 객체입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.link_model()
+<ResponseField name="target_path" type="str">
+  컬렉션의 경로입니다. 경로는 접두사 &quot;wandb-registry-&quot;와 레지스트리 이름, 컬렉션 이름으로 구성되며 형식은 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`입니다.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  연결된 아티팩트에 하나 이상의 alias를 추가합니다. &quot;latest&quot; alias는 가장 최근에 연결한 아티팩트에 자동으로 적용됩니다.
+</ResponseField>
+
+<div id="examples">
+  ##### 예시
+</div>
+
+```python
+import wandb
+
+entity = "team_entity"
+project = "project_name"
+
+artifact_name = "artifact_name"
+artifact_type = "artifact_type"
+local_path = "path/to/local/file"
+
+registry_name = "registry_name"
+collection_name = "collection_name"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+with wandb.init(entity=entity, project=project) as run:
+    # 아티팩트 객체 생성
+    artifact = wandb.Artifact(name=artifact_name, type=artifact_type)
+
+    # 아티팩트 객체에 파일 추가
+    artifact.add_file(local_path=local_path)
+
+    # 아티팩트를 컬렉션에 연결
+    run.link_artifact(artifact=artifact, target_path=target_path)
+```
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.link_model()
 
 ```python
 self,
@@ -320,28 +423,40 @@ name: 'str | None' = None,
 aliases: 'list[str] | None' = None
 ```
 
-모델 artifact 버전을 로깅하고 모델 레지스트리의 등록된 모델에 연결합니다.
+모델 아티팩트 버전을 로깅하고 모델 레지스트리의 등록된 모델에 연결합니다.
 
 연결된 모델 버전은 지정된 등록된 모델의 UI에서 확인할 수 있습니다.
 
 이 방법은 다음을 수행합니다.
 
-* &#39;name&#39; 모델 artifact가 로깅되었는지 확인합니다. 이미 로깅되었다면 &#39;path&#39;에 있는 파일과 일치하는 artifact 버전을 사용하거나 새 버전을 로깅합니다. 그렇지 않으면 &#39;path&#39; 아래의 파일을 유형이 &#39;model&#39;인 새 모델 artifact &#39;name&#39;으로 로깅합니다.
+* &#39;name&#39; 모델 아티팩트가 로깅되었는지 확인합니다. 이미 로깅되었다면 &#39;path&#39;에 있는 파일과 일치하는 아티팩트 버전을 사용하거나 새 버전을 로깅합니다. 그렇지 않으면 &#39;path&#39; 아래의 파일을 유형이 &#39;model&#39;인 새 모델 아티팩트 &#39;name&#39;으로 로깅합니다.
 * &#39;model-registry&#39; 프로젝트에 &#39;registered&#95;model&#95;name&#39;이라는 이름의 등록된 모델이 있는지 확인합니다. 없으면 &#39;registered&#95;model&#95;name&#39;이라는 이름의 새 등록된 모델을 만듭니다.
-* 모델 artifact &#39;name&#39;의 버전을 등록된 모델 &#39;registered&#95;model&#95;name&#39;에 연결합니다.
-* &#39;aliases&#39; 목록의 alias를 새로 연결된 모델 artifact 버전에 추가합니다.
+* 모델 아티팩트 &#39;name&#39;의 버전을 등록된 모델 &#39;registered&#95;model&#95;name&#39;에 연결합니다.
+* &#39;aliases&#39; 목록의 alias를 새로 연결된 모델 아티팩트 버전에 추가합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `path`: (str) 이 모델의 콘텐츠 경로입니다. 다음 형식 중 하나를 사용할 수 있습니다.
+<ResponseField name="path" type="StrPath">
+  (str) 이 모델의 콘텐츠 경로입니다. 다음 형식 중 하나를 사용할 수 있습니다.
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `registered_model_name`: 모델을 연결할 등록된 모델의 이름입니다. 등록된 모델은 모델 레지스트리에 연결된 모델 버전의 collection이며, 일반적으로 팀의 특정 ML 작업을 나타냅니다. 이 등록된 모델이 속한 entity는 run에서 파생됩니다.
-* `name`: &#39;path&#39;의 파일이 로깅될 모델 artifact의 이름입니다. 지정하지 않으면 경로의 basename 앞에 current run id를 붙인 값이 기본값으로 사용됩니다.
-* `aliases`: 등록된 모델 내에서 이 연결된 artifact에만 적용되는 alias입니다. alias &quot;latest&quot;는 연결된 artifact의 최신 버전에 항상 적용됩니다.
+</ResponseField>
+
+<ResponseField name="registered_model_name" type="str">
+  모델을 연결할 등록된 모델의 이름입니다. 등록된 모델은 모델 레지스트리에 연결된 모델 버전의 컬렉션이며, 일반적으로 팀의 특정 ML 작업을 나타냅니다. 이 등록된 모델이 속한 entity는 run에서 파생됩니다.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  &#39;path&#39;의 파일이 로깅될 모델 아티팩트의 이름입니다. 지정하지 않으면 경로의 basename 앞에 current run id를 붙인 값이 기본값으로 사용됩니다.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  등록된 모델 내에서 이 연결된 아티팩트에만 적용되는 alias입니다. alias &quot;latest&quot;는 연결된 아티팩트의 최신 버전에 항상 적용됩니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -350,7 +465,7 @@ aliases: 'list[str] | None' = None
 * `AssertionError`: registered&#95;model&#95;name이 경로이거나 모델 artifact &#39;name&#39;의 유형에 부분 문자열 &#39;model&#39;이 포함되어 있지 않은 경우.
 * `ValueError`: name에 유효하지 않은 특수 문자가 포함된 경우.
 
-### <kbd>방법</kbd> Run.log()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.log()
 
 ```python
 self,
@@ -361,7 +476,7 @@ commit: 'bool | None' = None
 
 run 데이터를 업로드합니다.
 
-`log`를 사용해 스칼라, 이미지, 비디오, 히스토그램, 플롯, 테이블 등 run의 데이터를 기록하세요. 코드 스니펫, 모범 사례 등은 [객체 및 미디어 로깅](https://docs.wandb.ai/models/track/log)에서 확인하세요.
+`log`를 사용해 스칼라, 이미지, 비디오, 히스토그램, 플롯, 테이블 등 run의 데이터를 로깅하세요. 코드 스니펫, 모범 사례 등은 [객체 및 미디어 로깅](https://docs.wandb.ai/models/track/log)에서 확인하세요.
 
 기본 사용법:
 
@@ -373,7 +488,7 @@ with wandb.init() as run:
 ```
 
 이전 코드 스니펫은 loss와 정확도를 run의
-이력에 저장하고, 이러한 메트릭의 summary 값을 업데이트합니다.
+이력에 저장하고, 이러한 메트릭의 요약 값을 업데이트합니다.
 
 [wandb.ai](https://wandb.ai)의 Workspace에서 로깅된 데이터를 시각화하거나,
 W&amp;B app의 [self-hosted instance](https://docs.wandb.ai/platform/hosting)에서 로컬로 시각화할 수 있습니다.
@@ -413,8 +528,8 @@ with wandb.init() as run:
 
 기본적으로 `log`를 Call할 때마다 새로운 &quot;step&quot;이 생성됩니다.
 step은 항상 증가해야 하며, 이전 step에는 로깅할 수 없습니다.
-차트의 X축에는 어떤 metric이든 사용할 수 있습니다.
-자세한 내용은 [맞춤형 log 축](https://docs.wandb.ai/models/track/log/customize-logging-axes)을 참조하세요.
+차트의 X축에는 어떤 메트릭이든 사용할 수 있습니다.
+자세한 내용은 [맞춤형 로깅 축](https://docs.wandb.ai/models/track/log/customize-logging-axes)을 참조하세요.
 
 많은 경우 W&amp;B step은
 트레이닝 step이라기보다 타임스탬프처럼 다루는 것이 더 적절합니다.
@@ -425,7 +540,7 @@ with wandb.init() as run:
     run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-`step` 및 `commit` 매개변수를 사용하면 여러 번의 `wandb.Run.log()` 호출로 동일한 step에 log할 수 있습니다.
+`step` 및 `commit` 매개변수를 사용하면 여러 번의 `wandb.Run.log()` 호출로 동일한 step에 로깅할 수 있습니다.
 다음은 모두 동일합니다:
 
 ```python
@@ -452,9 +567,17 @@ with wandb.init() as run:
   ##### 인수
 </div>
 
-* `data`: `str` 키와 직렬화할 수 있는 Python 객체 값을 갖는 `dict`입니다. 여기에는 `int`, `float`, `string`, `wandb.data_types`의 모든 유형, 직렬화할 수 있는 Python 객체의 목록, 튜플 및 NumPy 배열, 그리고 이 구조의 다른 `dict`가 포함됩니다.
-* `step`: 로깅할 step 번호입니다. `None`이면 암묵적으로 자동 증가하는 step이 사용됩니다. 설명의 참고 사항을 참조하세요.
-* `commit`: true이면 step을 완료하고 업로드합니다. false이면 step에 대한 데이터를 누적합니다. 설명의 참고 사항을 참조하세요. `step`이 `None`이면 기본값은 `commit=True`이고, 그렇지 않으면 기본값은 `commit=False`입니다.
+<ResponseField name="data" type="dict[str, Any]">
+  `str` 키와 직렬화할 수 있는 Python 객체 값을 갖는 `dict`입니다. 여기에는 `int`, `float`, `string`, `wandb.data_types`의 모든 유형, 직렬화할 수 있는 Python 객체의 목록, 튜플 및 NumPy 배열, 그리고 이 구조의 다른 `dict`가 포함됩니다.
+</ResponseField>
+
+<ResponseField name="step" type="int | None">
+  로깅할 step 번호입니다. `None`이면 암묵적으로 자동 증가하는 step이 사용됩니다. 설명의 참고 사항을 참조하세요.
+</ResponseField>
+
+<ResponseField name="commit" type="bool | None">
+  true이면 step을 완료하고 업로드합니다. false이면 step에 대한 데이터를 누적합니다. 설명의 참고 사항을 참조하세요. `step`이 `None`이면 기본값은 `commit=True`이고, 그렇지 않으면 기본값은 `commit=False`입니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -553,7 +676,7 @@ with wandb.init() as run:
         size=(10, 3, 100, 100),
         dtype=np.uint8,
     )
-    run.log({"video": wandb.Video(frames, fps=4)})
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
 ```
 
 Matplotlib 플롯
@@ -597,7 +720,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>방법</kbd> Run.log_artifact()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.log_artifact()
 
 ```python
 self,
@@ -608,28 +731,44 @@ aliases: 'list[str] | None' = None,
 tags: 'list[str] | None' = None
 ```
 
-artifact를 run의 출력으로 선언합니다.
+아티팩트를 run의 출력으로 선언합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `artifact_or_path`: (str 또는 Artifact) 이 artifact의 콘텐츠 경로입니다.
+<ResponseField name="artifact_or_path" type="Artifact | StrPath">
+  (str 또는 Artifact) 이 아티팩트의 콘텐츠 경로입니다.
   다음 형식 중 하나일 수 있습니다:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
     `wandb.Artifact`를 호출하여 생성한 Artifact 객체를 전달할 수도 있습니다.
-* `name`: (str, 선택) artifact 이름입니다. 유효한 이름은 다음 형식 중 하나일 수 있습니다:
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  (str, 선택) 아티팩트 이름입니다. 유효한 이름은 다음 형식 중 하나일 수 있습니다:
+
   * name:version
   * name:alias
   * digest
     지정하지 않으면 현재 run ID가 앞에 붙은 경로의 basename이 기본값으로 사용됩니다.
-* `type`: (str) 로그할 artifact의 유형입니다. 예를 들어 `dataset`, `model`이 있습니다.
-* `aliases`: (목록, 선택) 이 artifact에 적용할 alias입니다. 기본값은 `["latest"]`입니다.
-* `tags`: (목록, 선택) 이 artifact에 적용할 태그입니다(있는 경우).
+</ResponseField>
 
-### <kbd>방법</kbd> Run.log_code()
+<ResponseField name="type" type="str | None">
+  (str) 로깅할 아티팩트의 유형입니다. 예를 들어 `dataset`, `model`이 있습니다.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  (목록, 선택) 이 아티팩트에 적용할 alias입니다. 기본값은 `["latest"]`입니다.
+</ResponseField>
+
+<ResponseField name="tags" type="list[str] | None">
+  (목록, 선택) 이 아티팩트에 적용할 태그입니다(있는 경우).
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.log_code()
 
 ```python
 self,
@@ -647,10 +786,21 @@ exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = exclude_wandb
   ##### 인수
 </div>
 
-* `root`: 코드를 재귀적으로 찾을 상대 경로(`os.getcwd()` 기준) 또는 절대 경로입니다.
-* `name`: (str, 선택) 코드 artifact의 이름입니다. 기본적으로 artifact 이름은 `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`로 지정됩니다. 여러 run이 동일한 artifact를 공유해야 하는 경우가 있을 수 있습니다. `name`을 지정하면 그렇게 할 수 있습니다.
-* `include_fn`: 파일 경로와 (선택적으로) 루트 경로를 받아, 포함해야 하면 True를 반환하고 그렇지 않으면 False를 반환하는 callable입니다. 기본값은 `lambda path, root: path.endswith(".py")`입니다.
-* `exclude_fn`: 파일 경로와 (선택적으로) 루트 경로를 받아, 제외해야 하면 `True`를 반환하고 그렇지 않으면 `False`를 반환하는 callable입니다. 기본값은 `<root>/.wandb/` 및 `<root>/wandb/` 디렉터리 내의 모든 파일을 제외하는 함수입니다.
+<ResponseField name="root" type="str | None">
+  코드를 재귀적으로 찾을 상대 경로(`os.getcwd()` 기준) 또는 절대 경로입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  (str, 선택) 코드 아티팩트의 이름입니다. 기본적으로 아티팩트 이름은 `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`로 지정됩니다. 여러 run이 동일한 아티팩트를 공유해야 하는 경우가 있을 수 있습니다. `name`을 지정하면 그렇게 할 수 있습니다.
+</ResponseField>
+
+<ResponseField name="include_fn" type="Callable[[str, str], bool] | Callable[[str], bool]">
+  파일 경로와 (선택적으로) 루트 경로를 받아, 포함해야 하면 True를 반환하고 그렇지 않으면 False를 반환하는 callable입니다. 기본값은 `lambda path, root: path.endswith(".py")`입니다.
+</ResponseField>
+
+<ResponseField name="exclude_fn" type="Callable[[str, str], bool] | Callable[[str], bool]">
+  파일 경로와 (선택적으로) 루트 경로를 받아, 제외해야 하면 `True`를 반환하고 그렇지 않으면 `False`를 반환하는 callable입니다. 기본값은 `<root>/.wandb/` 및 `<root>/wandb/` 디렉터리 내의 모든 파일을 제외하는 함수입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -680,7 +830,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>방법</kbd> Run.log_model()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.log_model()
 
 ```python
 self,
@@ -697,13 +847,22 @@ aliases: 'list[str] | None' = None
   ##### 인수
 </div>
 
-* `path`: (str) 이 모델의 내용이 있는 경로로,
+<ResponseField name="path" type="StrPath">
+  (str) 이 모델의 내용이 있는 경로로,
   다음 형식 중 하나일 수 있습니다:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `name`: 파일 내용이 추가될 모델 artifact에 할당할 이름입니다. 지정하지 않으면 경로의 basename 앞에 현재 run ID를 붙인 값이 기본값으로 사용됩니다.
-* `aliases`: 생성된 모델 artifact에 적용할 alias이며, 기본값은 `["latest"]`입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  파일 내용이 추가될 모델 artifact에 할당할 이름입니다. 지정하지 않으면 경로의 basename 앞에 현재 run ID를 붙인 값이 기본값으로 사용됩니다.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  생성된 모델 artifact에 적용할 alias이며, 기본값은 `["latest"]`입니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -711,7 +870,7 @@ aliases: 'list[str] | None' = None
 
 * `ValueError`: name에 유효하지 않은 특수 문자가 포함된 경우.
 
-### <kbd>방법</kbd> Run.mark_preempting()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.mark_preempting()
 
 ```python
 self
@@ -721,7 +880,7 @@ self
 
 또한 내부 프로세스에 이 사실을 서버에 즉시 보고하도록 알립니다.
 
-### <kbd>방법</kbd> Run.pin_config_keys()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.pin_config_keys()
 
 ```python
 self,
@@ -736,9 +895,11 @@ Run Overview의 References 섹션에 표시할 설정 키를 고정합니다.
   ##### 인수
 </div>
 
-* `keys`: 고정할 설정 키 이름으로, `run.config`를 통해 설정된 키와 일치해야 합니다. 점과 슬래시는 경로 구분자가 아니라 문자 그대로 처리되는 정확한 키 문자열입니다. 순서는 유지되며, 표시 순서도 이에 따라 결정됩니다.
+<ResponseField name="keys" type="Sequence[str]">
+  고정할 설정 키 이름으로, `run.config`를 통해 설정된 키와 일치해야 합니다. 점과 슬래시는 경로 구분자가 아니라 문자 그대로 처리되는 정확한 키 문자열입니다. 순서는 유지되며, 표시 순서도 이에 따라 결정됩니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.restore()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.restore()
 
 ```python
 self,
@@ -757,10 +918,21 @@ root: 'str | None' = None
   ##### 인수
 </div>
 
-* `name`: 파일 이름입니다.
-* `run_path`: 파일을 가져올 run의 경로(선택 사항)입니다. 예: `username/project_name/run_id` `wandb.init`가 호출되지 않은 경우에는 필수입니다.
-* `replace`: 파일이 로컬에 이미 있더라도 다운로드할지 여부입니다.
-* `root`: 파일을 다운로드할 디렉터리입니다. 기본값은 현재 디렉터리이며, `wandb.init`가 호출된 경우에는 run 디렉터리입니다.
+<ResponseField name="name" type="str">
+  파일 이름입니다.
+</ResponseField>
+
+<ResponseField name="run_path" type="str | None">
+  파일을 가져올 run의 경로(선택 사항)입니다. 예: `username/project_name/run_id` `wandb.init`가 호출되지 않은 경우에는 필수입니다.
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+  파일이 로컬에 이미 있더라도 다운로드할지 여부입니다.
+</ResponseField>
+
+<ResponseField name="root" type="str | None">
+  파일을 다운로드할 디렉터리입니다. 기본값은 현재 디렉터리이며, `wandb.init`가 호출된 경우에는 run 디렉터리입니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -769,7 +941,7 @@ root: 'str | None' = None
 * `CommError`: W&amp;B가 W&amp;B 백엔드에 연결할 수 없는 경우입니다.
 * `ValueError`: 파일을 찾을 수 없거나 `run_path`를 찾을 수 없는 경우입니다.
 
-### <kbd>방법</kbd> Run.save()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.save()
 
 ```python
 self,
@@ -799,15 +971,27 @@ glob: 'bool' = True
   ##### 인수
 </div>
 
-* `glob_str`: 상대 경로, 절대 경로 또는 Unix glob입니다.
-* `base_path`: 디렉터리 구조를 추론하는 데 사용할 경로입니다. 예시를 참조하세요.
-* `policy`: `live`, `now`, `end` 중 하나입니다.
+<ResponseField name="glob_str" type="str | os.PathLike">
+  상대 경로, 절대 경로 또는 Unix glob입니다.
+</ResponseField>
+
+<ResponseField name="base_path" type="str | os.PathLike | None">
+  디렉터리 구조를 추론하는 데 사용할 경로입니다. 예시를 참조하세요.
+</ResponseField>
+
+<ResponseField name="policy" type="PolicyName">
+  `live`, `now`, `end` 중 하나입니다.
+
   * live: 파일이 변경될 때마다 업로드하며 이전 버전을 덮어씁니다
   * now: 파일을 즉시 한 번 업로드합니다
   * end: run이 종료될 때 파일을 업로드합니다
-* `glob`: `glob_str`를 glob 패턴으로 처리할지 여부입니다. 이전 버전과의 호환성을 위해 기본값은 `True`입니다. 이름에 `[`, `]`, `*`, `?`와 같은 glob 메타문자가 포함되어 있고 이를 패턴으로 해석하지 않으려는 경우 `False`로 설정하면 `glob_str`를 리터럴 경로로 처리합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.status()
+<ResponseField name="glob" type="bool">
+  `glob_str`를 glob 패턴으로 처리할지 여부입니다. 이전 버전과의 호환성을 위해 기본값은 `True`입니다. 이름에 `[`, `]`, `*`, `?`와 같은 glob 메타문자가 포함되어 있고 이를 패턴으로 해석하지 않으려는 경우 `False`로 설정하면 `glob_str`를 리터럴 경로로 처리합니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.status()
 
 ```python
 self
@@ -815,7 +999,7 @@ self
 
 현재 run의 동기화 상태에 대한 정보를 내부 백엔드에서 조회합니다.
 
-### <kbd>방법</kbd> Run.unwatch()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.unwatch()
 
 ```python
 self,
@@ -828,9 +1012,11 @@ PyTorch 모델 토폴로지, 그라디언트 및 파라미터 훅을 제거합�
   ##### 인수
 </div>
 
-* `models`: `watch`가 호출된 PyTorch 모델의 선택 사항인 목록입니다.
+<ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module] | None">
+  `watch`가 호출된 PyTorch 모델의 선택 사항인 목록입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.upsert_artifact()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.upsert_artifact()
 
 ```python
 self,
@@ -850,22 +1036,38 @@ artifact를 최종 확정하려면 run.finish&#95;artifact()를 호출해야 합
   ##### 인수
 </div>
 
-* `artifact_or_path`: 이 artifact의 콘텐츠 경로입니다.
+<ResponseField name="artifact_or_path" type="Artifact | str">
+  이 artifact의 콘텐츠 경로입니다.
   다음 형식을 사용할 수 있습니다:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `name`: artifact 이름입니다. &quot;entity/프로젝트&quot; 접두사를 붙일 수 있습니다. 지정하지 않으면
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  artifact 이름입니다. &quot;entity/프로젝트&quot; 접두사를 붙일 수 있습니다. 지정하지 않으면
   현재 run ID를 경로의 basename 앞에 붙인 값이 기본값으로 사용됩니다.
   유효한 이름은 다음 형식일 수 있습니다:
+
   * name:version
   * name:alias
   * digest
-* `type`: 로깅할 artifact의 유형입니다. 일반적인 예로는 `dataset`, `model`이 있습니다.
-* `aliases`: 이 artifact에 적용할 alias이며, 기본값은 `["latest"]`입니다.
-* `distributed_id`: 모든 분산 작업이 공유하는 고유한 문자열입니다. None이면 run의 그룹 이름이 기본값으로 사용됩니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.use_artifact()
+<ResponseField name="type" type="str | None">
+  로깅할 artifact의 유형입니다. 일반적인 예로는 `dataset`, `model`이 있습니다.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  이 artifact에 적용할 alias이며, 기본값은 `["latest"]`입니다.
+</ResponseField>
+
+<ResponseField name="distributed_id" type="str | None">
+  모든 분산 작업이 공유하는 고유한 문자열입니다. None이면 run의 그룹 이름이 기본값으로 사용됩니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.use_artifact()
 
 ```python
 self,
@@ -883,15 +1085,27 @@ artifact를 run의 입력으로 선언합니다.
   ##### 인수
 </div>
 
-* `artifact_or_name`: 사용할 artifact의 이름입니다. artifact가 로깅된 프로젝트 이름
+<ResponseField name="artifact_or_name" type="str | Artifact">
+  사용할 artifact의 이름입니다. artifact가 로깅된 프로젝트 이름
   (&quot;entity&quot; 또는 &quot;entity/project&quot;)을 앞에 붙일 수 있습니다. 이름에
   entity가 지정되지 않으면 Run 또는 API 설정의 entity가 사용됩니다.
   유효한 이름 형식은 다음과 같습니다.
+
   * name:version
   * name:alias
-* `type`: 사용할 artifact의 유형입니다.
-* `aliases`: 이 artifact에 적용할 alias입니다.
-* `use_as`: 이 매개변수는 사용 중단되었으며 아무 작업도 하지 않습니다.
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+  사용할 artifact의 유형입니다.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  이 artifact에 적용할 alias입니다.
+</ResponseField>
+
+<ResponseField name="use_as" type="str | None">
+  이 매개변수는 사용 중단되었으며 아무 작업도 하지 않습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -922,7 +1136,7 @@ artifact_d = run.use_artifact(
 run.finish()
 ```
 
-### <kbd>방법</kbd> Run.use_model()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.use_model()
 
 ```python
 self,
@@ -935,9 +1149,12 @@ name: 'str'
   ##### 인수
 </div>
 
-* `name`: 모델 artifact 이름입니다. `name`은 기존에 로깅된 모델 artifact의 이름과 일치해야 합니다. `entity/project/` 접두사를 붙일 수 있습니다. 유효한 이름 형식은 다음과 같습니다.
+<ResponseField name="name" type="str">
+  모델 artifact 이름입니다. `name`은 기존에 로깅된 모델 artifact의 이름과 일치해야 합니다. `entity/project/` 접두사를 붙일 수 있습니다. 유효한 이름 형식은 다음과 같습니다.
+
   * model&#95;artifact&#95;name:version
   * model&#95;artifact&#95;name:alias
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -945,7 +1162,7 @@ name: 'str'
 
 * `AssertionError`: 모델 artifact `name`의 유형에 `'model'` 부분 문자열이 포함되지 않은 경우 발생합니다.
 
-### <kbd>방법</kbd> Run.watch()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.watch()
 
 ```python
 self,
@@ -965,12 +1182,29 @@ log_graph: 'bool' = False
   ##### 인수
 </div>
 
-* `models`: 모니터링할 단일 모델 또는 모델 시퀀스입니다.
-* `criterion`: 최적화 중인 loss 함수입니다(선택).
-* `log`: `"gradients"`, `"parameters"`, 또는 `"all"` 중 무엇을 로깅할지 지정합니다. 로깅을 비활성화하려면 None으로 설정합니다. (기본값=`"gradients"`).
-* `log_freq`: 그라디언트와 파라미터를 로깅하는 빈도(배치 단위)입니다. (기본값=1000)
-* `idx`: `wandb.watch`로 여러 모델을 추적할 때 사용하는 인덱스입니다. (기본값=None)
-* `log_graph`: 모델의 계산 그래프를 로깅할지 여부입니다. (기본값=False)
+<ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module]">
+  모니터링할 단일 모델 또는 모델 시퀀스입니다.
+</ResponseField>
+
+<ResponseField name="criterion" type="torch.F | None">
+  최적화 중인 손실 함수(선택 사항)입니다.
+</ResponseField>
+
+<ResponseField name="log" type="Literal['gradients', 'parameters', 'all'] | None">
+  &quot;gradients&quot;, &quot;parameters&quot; 또는 &quot;all&quot;을 로깅할지 지정합니다. 로깅을 비활성화하려면 None으로 설정하세요. (default=&quot;gradients&quot;)
+</ResponseField>
+
+<ResponseField name="log_freq" type="int">
+  그라디언트와 파라미터를 로깅하는 빈도(배치 단위)입니다. (default=1000)
+</ResponseField>
+
+<ResponseField name="idx" type="int | None">
+  `wandb.watch`로 여러 모델을 추적할 때 사용하는 인덱스입니다. (default=None)
+</ResponseField>
+
+<ResponseField name="log_graph" type="bool">
+  모델의 계산 그래프를 로깅할지 여부입니다. (default=False)
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -978,7 +1212,7 @@ log_graph: 'bool' = False
 
 * `ValueError`: `wandb.init()`이 호출되지 않았거나, 모델 중 하나라도 `torch.nn.Module`의 인스턴스가 아닌 경우입니다.
 
-### <kbd>방법</kbd> Run.write_logs()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.write_logs()
 
 ```python
 self,
@@ -995,4 +1229,6 @@ Python의 `logging` 모듈과 통합되는 `capture_loggers` 설정을 사용하
   ##### 인수
 </div>
 
-* `text`: 작성할 텍스트입니다. 끝에 개행 문자가 없으면 자동으로 추가됩니다.
+<ResponseField name="text" type="str">
+  작성할 텍스트입니다. 끝에 개행 문자가 없으면 자동으로 추가됩니다.
+</ResponseField>

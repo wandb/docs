@@ -1,0 +1,38 @@
+---
+title: wandb clean
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/clean.py#L20" />
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+clean [OPTIONS]
+```
+
+<div id="description">
+  ## 説明
+</div>
+
+同期済みの run データを削除します。
+
+Settings で決まる wandb フォルダをクリーンアップします。通常、このフォルダは
+現在の作業ディレクトリ内の &quot;wandb&quot; または &quot;.wandb&quot; フォルダです。WANDB&#95;DIR
+環境変数が設定されている場合は、その変数で指定されたディレクトリ内にあります。
+
+デフォルトでは、オンライン run または `wandb sync` で同期された run のうち、
+24 時間以上前に作成されたもの (run フォルダ名のタイムスタンプに基づく) をすべて削除します。
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ                  | タイプ      | 説明                                                |
+| -------------------- | -------- | ------------------------------------------------- |
+| `--min-hours`        | INT      | 削除対象の run の最小経過時間 (時間単位、デフォルト: 24) 。**デフォルト**: 24 |
+| `--include-unsynced` | BOOL フラグ | 未同期の run ディレクトリも削除します。**デフォルト**: False            |
+| `--force`            | BOOL フラグ | 確認プロンプトをスキップします。**デフォルト**: False                  |
