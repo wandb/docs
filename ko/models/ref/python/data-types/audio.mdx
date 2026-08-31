@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.audio
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
-## <kbd>클래스</kbd> wandb.Audio
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Audio
+
+오디오 클립용 W&amp;B 클래스입니다.
 
 ```python
 (data_or_path: 'str | pathlib.Path | list | np.ndarray',
@@ -16,21 +18,27 @@ sample_rate: 'int | None' = None,
 caption: 'str | None' = None)
 ```
 
-오디오 클립용 W&amp;B 클래스입니다.
-
 <div id="args">
-  ## 매개변수
+  ## 인수
 </div>
 
-* `data_or_path`:  오디오 파일 경로 또는 오디오 데이터가 담긴 NumPy 배열입니다.
-* `sample_rate`:  샘플 레이트입니다. 원시 NumPy 오디오 데이터 배열을 전달할 때 필수입니다.
-* `caption`:  오디오와 함께 표시할 캡션입니다.
+<ResponseField name="data_or_path" type="str | pathlib.Path | list | np.ndarray">
+  오디오 파일 경로 또는 오디오 데이터가 포함된 NumPy 배열입니다.
+</ResponseField>
+
+<ResponseField name="sample_rate" type="int | None">
+  원시 NumPy 오디오 데이터 배열을 전달할 때 필요한 샘플 레이트입니다.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  오디오와 함께 표시할 캡션입니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>메서드</kbd> Audio.durations()
+### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Audio.durations()
 
 ```python
 (audio_list)
@@ -42,9 +50,11 @@ caption: 'str | None' = None)
   ##### 인수
 </div>
 
-* `audio_list`: 
+<ResponseField name="audio_list" type="_empty">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>메서드</kbd> Audio.sample_rates()
+### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Audio.sample_rates()
 
 ```python
 (audio_list)
@@ -56,4 +66,6 @@ caption: 'str | None' = None)
   ##### 인수
 </div>
 
-* `audio_list`: 
+<ResponseField name="audio_list" type="_empty">
+  설명이 없습니다.
+</ResponseField>

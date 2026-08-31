@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L166" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L166" />
 
-## <kbd>classe</kbd> wandb.automations.RunStateFilter
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.RunStateFilter
+
+Représente un filtre pour déclencher des événements en fonction des changements d’état du run.
 
 ```python
 *,
@@ -16,11 +18,14 @@ run_filter: Annotated[wandb._filters.operators.And | wandb._filters.operators.Or
 run_state_filter: wandb.automations._run_state_filters.StateFilter
 ```
 
-Représente un filtre pour déclencher des événements en fonction des changements d’état du run.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `run_filter`: Filtres qui doivent correspondre à tous les runs qui déclencheront cet événement.
-* `run_state_filter`: Condition(s) sur l&#39;état du run qui doivent être remplies pour que cet événement se déclenche.
+<ResponseField name="run_filter" type="Annotated">
+  Filtres qui doivent correspondre à tous les runs qui déclencheront cet événement.
+</ResponseField>
+
+<ResponseField name="run_state_filter" type="StateFilter">
+  Condition(s) sur l&#39;état du run qui doivent être remplies pour que cet événement se déclenche.
+</ResponseField>

@@ -6,9 +6,11 @@ namespace: wandb.automations.actions
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
 
-## <kbd>클래스</kbd> wandb.automations.SendNotification
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.SendNotification
+
+(Slack) 알림을 전송하는 자동화 액션을 정의합니다.
 
 ```python
 *,
@@ -19,23 +21,35 @@ title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_sche
 action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
-(Slack) 알림을 전송하는 자동화 액션을 정의합니다.
-
 <div id="args">
-  ## 매개변수
+  ## 인수
 </div>
 
-* `integration_id`: 알림 전송에 사용할 Slack 인테그레이션의 ID입니다.
-* `text`: 전송된 알림의 메시지 본문입니다.
-* `level`: 전송된 알림의 심각도(`INFO`, `WARN`, `ERROR`)입니다.
-* `title`: 전송된 알림의 제목입니다.
-* `action_type`: 
+<ResponseField name="integration_id" type="Annotated">
+  알림 전송에 사용할 Slack 인테그레이션의 ID입니다.
+</ResponseField>
+
+<ResponseField name="text" type="Annotated">
+  전송되는 알림의 메시지 본문입니다.
+</ResponseField>
+
+<ResponseField name="level" type="Annotated">
+  전송되는 알림의 심각도(`INFO`, `WARN`, `ERROR`)입니다.
+</ResponseField>
+
+<ResponseField name="title" type="Annotated">
+  전송되는 알림의 제목입니다.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> SendNotification.from_integration()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> SendNotification.from_integration()
 
 ```python
 integration: 'SlackIntegration', *,
@@ -50,7 +64,18 @@ level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
   ##### 인수
 </div>
 
-* `integration`:
-* `title`:
-* `text`:
-* `level`: 
+<ResponseField name="integration" type="SlackIntegration">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="text" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+  설명이 없습니다.
+</ResponseField>

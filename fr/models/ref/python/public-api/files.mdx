@@ -6,9 +6,13 @@ namespace: wandb.apis.public.files
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L79" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L79" />
 
-## <kbd>class</kbd> wandb.apis.public.Files
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Files
+
+Un itérateur paresseux sur une collection d’objets `File`.
+
+Permet d’accéder aux fichiers chargés dans W&amp;B pendant un run et de les gérer. Gère automatiquement la pagination lors de l’itération sur de grandes collections de fichiers.
 
 ```python
 (service_api: 'ServiceApi',
@@ -19,20 +23,33 @@ upload: 'bool' = False,
 pattern: 'str | None' = None)
 ```
 
-Un itérateur paresseux sur une collection d’objets `File`.
-
-Permet d’accéder aux fichiers chargés dans W&amp;B pendant un run et de les gérer. Gère automatiquement la pagination lors de l’itération sur de grandes collections de fichiers.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `service_api`: L’instance de l’API de service à utiliser pour interroger W&amp;B.
-* `run`: L’objet run qui contient les fichiers
-* `names`: Une liste de noms de fichiers servant à filtrer les fichiers
-* `per_page`: Le nombre de fichiers à récupérer par page
-* `upload`: Si `True`, récupère l’URL d’upload pour chaque fichier
-* `pattern`: Motif à utiliser pour la correspondance lors du renvoi des fichiers depuis W&amp;B Ce motif utilise la syntaxe LIKE de mySQL. Ainsi, pour faire correspondre tous les fichiers se terminant par .json, utilisez &quot;%.json&quot;. Si `names` et `pattern` sont tous deux fournis, une ValueError est levée.
+<ResponseField name="service_api" type="ServiceApi">
+  L’instance de l’API de service à utiliser pour interroger W&amp;B.
+</ResponseField>
+
+<ResponseField name="run" type="Run">
+  L’objet run qui contient les fichiers
+</ResponseField>
+
+<ResponseField name="names" type="list[str] | None">
+  Une liste de noms de fichiers servant à filtrer les fichiers
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Le nombre de fichiers à récupérer par page
+</ResponseField>
+
+<ResponseField name="upload" type="bool">
+  Si `True`, récupère l’URL d’upload pour chaque fichier
+</ResponseField>
+
+<ResponseField name="pattern" type="str | None">
+  Motif à utiliser pour la correspondance lors du renvoi des fichiers depuis W&amp;B Ce motif utilise la syntaxe LIKE de mySQL. Ainsi, pour faire correspondre tous les fichiers se terminant par .json, utilisez &quot;%.json&quot;. Si `names` et `pattern` sont tous deux fournis, une ValueError est levée.
+</ResponseField>
 
 <div id="examples">
   ## Exemples
@@ -62,7 +79,7 @@ for file in files:
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Paginator.**next**()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
 
 ```python
 self

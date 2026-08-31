@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L373" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L373" />
 
-## <kbd>classe</kbd> wandb.automations.OnRunMetric
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.OnRunMetric
+
+Une métrique de run répond à une condition définie par l’utilisateur.
 
 ```python
 *,
@@ -17,15 +19,21 @@ scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.au
 filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
-Une métrique de run répond à une condition définie par l’utilisateur.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `event_type`:
-* `scope`: Le périmètre de l’événement : il doit s’agir d’un projet ou d’une entité d’équipe/d’organisation.
-* `filter`: Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
+<ResponseField name="event_type" type="Literal">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  Le périmètre de l’événement : il doit s’agir d’un projet ou d’une entité d’équipe/d’organisation.
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated">
+  Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
+</ResponseField>
 
 <div id="examples">
   ## Exemples

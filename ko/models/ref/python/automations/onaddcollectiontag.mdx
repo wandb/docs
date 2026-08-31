@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L324" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L324" />
 
-## <kbd>클래스</kbd> wandb.automations.OnAddCollectionTag
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.OnAddCollectionTag
+
+아티팩트 컬렉션에 새 태그가 부여됩니다.
 
 ```python
 *,
@@ -17,12 +19,18 @@ scope: Annotated[Union[Annotated[wandb.automations.scopes._ArtifactSequenceScope
 filter: Annotated[wandb._filters.operators.And | wandb._filters.operators.Or | wandb._filters.operators.Nor | wandb._filters.operators.Not | wandb._filters.operators.Lt | wandb._filters.operators.Gt | wandb._filters.operators.Lte | wandb._filters.operators.Gte | wandb._filters.operators.Eq | wandb._filters.operators.Ne | wandb._filters.operators.In | wandb._filters.operators.NotIn | wandb._filters.operators.Exists | wandb._filters.operators.Regex | wandb._filters.operators.Contains | wandb._filters.operators.Size | wandb._filters.operators.All | wandb._filters.expressions.FilterExpr | dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always'), AfterValidator(func=<function wrap_mutation_event_filter>)] = And(())
 ```
 
-아티팩트 컬렉션에 새 태그가 부여됩니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `event_type`:
-* `scope`: 이벤트의 범위입니다.
-* `filter`: 이 이벤트가 트리거되기 위해 필요한 추가 조건이 있으면 지정합니다.
+<ResponseField name="event_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  이벤트의 범위입니다.
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated">
+  이 이벤트가 트리거되기 위해 필요한 추가 조건이 있으면 지정합니다.
+</ResponseField>

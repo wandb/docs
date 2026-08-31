@@ -6,9 +6,13 @@ namespace: wandb.wandb_agent
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py#L766" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py#L766" />
 
-## <kbd>関数</kbd> wandb.agent
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.agent()
+
+1 つ以上の sweep エージェント を開始します。
+
+sweep エージェント は `sweep_id` を使用して、自身がどの sweep に属するか、どの function を実行するか、また (必要に応じて) いくつの エージェント を実行するかを判断します。
 
 ```python
 sweep_id: 'str',
@@ -20,21 +24,37 @@ forward_signals: 'bool' = False,
 term_timeout: 'int | None' = None
 ```
 
-1 つ以上の sweep エージェント を開始します。
-
-sweep エージェント は `sweep_id` を使用して、自身がどの sweep に属するか、どの function を実行するか、また (必要に応じて) いくつの エージェント を実行するかを判断します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `sweep_id`: sweep の一意の識別子です。sweep ID は W&amp;B CLI または Python SDK によって生成されます。
-* `function`: sweep の config で指定された &quot;program&quot; の代わりに呼び出す function です。
-* `entity`: sweep によって作成された W&amp;B の run の送信先となるユーザー名またはチーム名です。指定する entity は、あらかじめ存在している必要があります。entity を指定しない場合、run はデフォルトの entity (通常はユーザー名) に送信されます。
-* `project`: sweep から作成された W&amp;B の run の送信先となるプロジェクトの名です。プロジェクト が指定されていない場合、run は &quot;Uncategorized&quot; というラベルの付いたプロジェクトに送信されます。
-* `count`: 試行する sweep config の trial 数です。
-* `forward_signals`: エージェント が受信した signal を子プロセスに転送するかどうかを指定します。CLI エージェント でのみサポートされます。
-* `term_timeout`: 
+<ResponseField name="sweep_id" type="str">
+  sweep の一意の識別子です。sweep ID は W&amp;B CLI または Python SDK によって生成されます。
+</ResponseField>
+
+<ResponseField name="function" type="Callable | None">
+  sweep の config で指定された &quot;program&quot; の代わりに呼び出す function です。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  sweep によって作成された W&amp;B の run の送信先となるユーザー名またはチーム名です。指定する entity は、あらかじめ存在している必要があります。entity を指定しない場合、run はデフォルトの entity (通常はユーザー名) に送信されます。
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  sweep から作成された W&amp;B の run の送信先となるプロジェクトの名です。プロジェクト が指定されていない場合、run は &quot;Uncategorized&quot; というラベルの付いたプロジェクトに送信されます。
+</ResponseField>
+
+<ResponseField name="count" type="int | None">
+  試行する sweep config の trial 数です。
+</ResponseField>
+
+<ResponseField name="forward_signals" type="bool">
+  エージェント が受信した signal を子プロセスに転送するかどうかを指定します。CLI エージェント でのみサポートされます。
+</ResponseField>
+
+<ResponseField name="term_timeout" type="int | None">
+  説明はありません。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

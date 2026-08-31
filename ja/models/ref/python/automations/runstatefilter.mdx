@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L166" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L166" />
 
-## <kbd>クラス</kbd> wandb.automations.RunStateFilter
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.RunStateFilter
+
+run の状態の変化に基づいてイベントをトリガーするためのフィルターを表します。
 
 ```python
 *,
@@ -16,11 +18,14 @@ run_filter: Annotated[wandb._filters.operators.And | wandb._filters.operators.Or
 run_state_filter: wandb.automations._run_state_filters.StateFilter
 ```
 
-run の状態の変化に基づいてイベントをトリガーするためのフィルターを表します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `run_filter`: このイベントをトリガーする run が一致する必要があるフィルターです。
-* `run_state_filter`: このイベントをトリガーするために満たす必要がある run の状態条件です。
+<ResponseField name="run_filter" type="Annotated">
+  このイベントをトリガーする run が一致する必要があるフィルターです。
+</ResponseField>
+
+<ResponseField name="run_state_filter" type="StateFilter">
+  このイベントをトリガーするために満たす必要がある run の状態条件です。
+</ResponseField>

@@ -1,14 +1,16 @@
 ---
-title: Automation
+title: 자동화
 kind: 클래스
 namespace: wandb.automations.automations
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
 
-## <kbd>클래스</kbd> wandb.automations.Automation
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.Automation
+
+편집을 지원하는 저장된 W&amp;B 자동화의 로컬 인스턴스.
 
 ```python
 *,
@@ -24,18 +26,42 @@ event: wandb.automations.events.SavedEvent,
 action: Annotated[wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction, BeforeValidator(func=<function parse_saved_action>, json_schema_input_type=PydanticUndefined)]
 ```
 
-편집을 지원하는 저장된 W&amp;B 자동화의 로컬 인스턴스.
-
 <div id="args">
   ## 인수
 </div>
 
-* `id`:
-* `createdAt`: 이 자동화가 생성된 날짜와 시간입니다.
-* `updatedAt`: 해당하는 경우, 이 자동화가 마지막으로 업데이트된 날짜와 시간입니다.
-* `name`: 이 자동화의 이름입니다.
-* `description`: 이 자동화에 대한 선택 사항인 설명입니다.
-* `enabled`: 이 자동화가 활성화되어 있는지 여부입니다. 활성화된 자동화만 트리거됩니다.
-* `scope`: 트리거 이벤트가 발생해야 하는 범위입니다.
-* `event`: 이 자동화를 트리거하는 이벤트입니다.
-* `action`: 이 자동화가 트리거될 때 실행되는 액션입니다.
+<ResponseField name="id" type="Annotated">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="createdAt" type="datetime">
+  이 자동화가 생성된 날짜와 시간입니다.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="datetime.datetime | None">
+  해당하는 경우 이 자동화가 마지막으로 업데이트된 날짜와 시간입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  이 자동화의 이름입니다.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  이 자동화에 대한 선택적 설명입니다.
+</ResponseField>
+
+<ResponseField name="enabled" type="bool">
+  이 자동화가 활성화되어 있는지 여부입니다. 활성화된 자동화만 트리거됩니다.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  트리거 이벤트가 발생해야 하는 범위입니다.
+</ResponseField>
+
+<ResponseField name="event" type="SavedEvent">
+  이 자동화를 트리거하는 이벤트입니다.
+</ResponseField>
+
+<ResponseField name="action" type="Annotated">
+  이 자동화가 트리거될 때 실행되는 액션입니다.
+</ResponseField>

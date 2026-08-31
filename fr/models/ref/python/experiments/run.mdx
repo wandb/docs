@@ -6,11 +6,11 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
 
-## <kbd>classe</kbd> wandb.Run
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Run
 
-Une unité de calcul enregistrée par W&amp;B. Il s&#39;agit généralement d&#39;une expérience de machine learning.
+Une unité de calcul journalisée par W&amp;B. Il s&#39;agit généralement d&#39;une expérience de machine learning.
 
 Appelez [`wandb.init()`](https://docs.wandb.ai/models/ref/python/functions/init) pour créer un
 nouveau run. `wandb.init()` démarre un nouveau run et renvoie un objet `wandb.Run`.
@@ -22,7 +22,7 @@ séparément avec un run par processus, soit suivre tous les processus dans un r
 Voir [Log distributed training experiments](https://docs.wandb.ai/models/track/log/distributed-training)
 pour plus d&#39;informations.
 
-Vous pouvez enregistrer des données dans un run avec `wandb.Run.log()`. Tout ce que vous enregistrez avec
+Vous pouvez journaliser des données dans un run avec `wandb.Run.log()`. Tout ce que vous journalisez avec
 `wandb.Run.log()` est envoyé à ce run. Voir
 [Create an experiment](https://docs.wandb.ai/models/track/create-an-experiment) ou
 la page de référence de l&#39;API [`wandb.init`](https://docs.wandb.ai/models/ref/python/functions/init)
@@ -56,133 +56,145 @@ with wandb.init(entity="entity", project="project") as run:
   ## Propriétés
 </div>
 
-### <kbd>propriété</kbd> config
+<ResponseField name="config" type="wandb_config.Config">
+  Objet de configuration associé à ce run.
+</ResponseField>
 
-Objet de configuration associé à ce run.
+<ResponseField name="config_static" type="wandb_config.ConfigStatic">
+  Objet de configuration statique associé à ce run.
+</ResponseField>
 
-### <kbd>propriété</kbd> config_static
+<ResponseField name="dir" type="str">
+  Répertoire dans lequel sont enregistrés les fichiers d&#39;un run.
 
-Objet de configuration statique associé à ce run.
+  Cela concerne les fichiers enregistrés avec `run.save()`, y compris ceux créés
+  automatiquement pour certains types de données transmis à `run.log()`. Pour le
+  répertoire contenant toutes les données d&#39;un run, voir `run.sync_dir`.
+</ResponseField>
 
-### <kbd>propriété</kbd> dir
+<ResponseField name="disabled" type="bool">
+  True si le run est désactivé, False sinon.
+</ResponseField>
 
-Le répertoire dans lequel sont enregistrés les fichiers d’un run.
+<ResponseField name="entity" type="str">
+  Nom de l&#39;entité W&amp;B associée au run.
 
-Il s’agit des fichiers enregistrés avec `run.save()`, y compris ceux créés automatiquement pour certains types de données transmis à `run.log()`. Pour le répertoire contenant toutes les données d’un run, voir `run.sync_dir`.
+  L&#39;entité peut être un nom d&#39;utilisateur ou le nom d&#39;une équipe ou d&#39;une organisation.
+</ResponseField>
 
-### <kbd>propriété</kbd> disabled
+<ResponseField name="group" type="str">
+  Renvoie le nom du groupe associé à ce run.
 
-Vrai si le run est désactivé, faux sinon.
+  Le regroupement de runs permet d&#39;organiser et de visualiser ensemble des expériences
+  associées dans l&#39;interface W&amp;B. Cela est particulièrement utile dans des scénarios tels
+  que l&#39;entraînement distribué ou la validation croisée, où plusieurs runs doivent être
+  consultés et gérés comme une expérience unifiée.
 
-### <kbd>propriété</kbd> entité
+  En mode partagé, où tous les processus partagent le même objet run,
+  il n&#39;est généralement pas nécessaire de définir un groupe, puisqu&#39;il n&#39;y a qu&#39;un seul
+  run et qu&#39;aucun regroupement n&#39;est requis.
+</ResponseField>
 
-Le nom de l’entité W&amp;B associée au run.
+<ResponseField name="id" type="str">
+  Identifiant de ce run.
+</ResponseField>
 
-L’entité peut correspondre à un nom d’utilisateur ou au nom d’une équipe ou d’une organisation.
+<ResponseField name="job_type" type="str">
+  Nom du type de tâche associé au run.
 
-### <kbd>propriété</kbd> group
+  Consultez le type de tâche d&#39;un run sur sa page Aperçu dans W&amp;B App.
 
-Renvoie le nom du groupe associé à ce run.
+  Vous pouvez l&#39;utiliser pour catégoriser les runs selon leur type de tâche, par exemple
+  « training », « evaluation » ou « inference ». Cela est utile pour organiser
+  et filtrer les runs dans l&#39;interface W&amp;B, en particulier lorsque plusieurs
+  runs de types de tâches différents se trouvent dans le même projet. Pour plus
+  d&#39;informations, voir [Organiser les runs](https://docs.wandb.ai/models/runs#organize-runs).
+</ResponseField>
 
-Le regroupement de runs permet d’organiser et de visualiser ensemble des expériences liées dans l’interface W&amp;B. Cela est particulièrement utile dans des cas comme l’entraînement distribué ou la validation croisée, où plusieurs runs doivent être affichés et gérés comme une expérience unique.
+<ResponseField name="name" type="str | None">
+  Nom d&#39;affichage du run.
 
-En mode partagé, où tous les processus partagent le même objet run, définir un groupe est généralement inutile, puisqu’il n’y a qu’un seul run et qu’aucun regroupement n’est nécessaire.
+  Les noms d&#39;affichage ne sont pas nécessairement uniques et peuvent être descriptifs.
+  Par défaut, ils sont générés aléatoirement.
+</ResponseField>
 
-### <kbd>propriété</kbd> id
+<ResponseField name="notes" type="str | None">
+  Notes associées au run, le cas échéant.
 
-L’identifiant de ce run.
+  Les notes peuvent être une chaîne multiligne et inclure des équations Markdown et LaTeX
+  entre `$$`, comme `$x + 3$`.
+</ResponseField>
 
-### <kbd>propriété</kbd> job_type
+<ResponseField name="offline" type="bool">
+  True si le run est hors ligne, False sinon.
+</ResponseField>
 
-Nom du type de job associé au run.
+<ResponseField name="path" type="str">
+  Chemin du run.
 
-Vous pouvez voir le type de job d&#39;un run sur la page Aperçu du run dans la W&amp;B App.
+  Les chemins de run comprennent l&#39;entité, le projet et l&#39;ID du run, au format
+  `entity/project/run_id`.
+</ResponseField>
 
-Vous pouvez l&#39;utiliser pour classer les runs par type de job, par exemple « entraînement », « évaluation » ou « inférence ». C&#39;est utile pour organiser et filtrer les runs dans l&#39;interface W&amp;B, en particulier lorsque vous avez plusieurs runs avec différents types de job dans le même projet. Pour plus d&#39;informations, voir [Organiser les runs](https://docs.wandb.ai/models/runs#organize-runs).
+<ResponseField name="project" type="str">
+  Nom du projet W&amp;B associé au run.
+</ResponseField>
 
-### <kbd>propriété</kbd> name
+<ResponseField name="project_url" type="str | None">
+  URL du projet W&amp;B associé au run, le cas échéant.
 
-Nom d’affichage du run.
+  Les runs hors ligne n&#39;ont pas d&#39;URL de projet.
+</ResponseField>
 
-Les noms d’affichage ne sont pas nécessairement uniques et peuvent être descriptifs.
-Par défaut, ils sont générés aléatoirement.
+<ResponseField name="resumed" type="bool">
+  True si le run a été repris, False sinon.
+</ResponseField>
 
-### <kbd>propriété</kbd> notes
+<ResponseField name="settings" type="Settings">
+  Copie figée de l&#39;objet Settings du run.
+</ResponseField>
 
-Notes associées au run, s’il y en a.
+<ResponseField name="start_time" type="float">
+  Horodatage Unix (en secondes) du début du run.
+</ResponseField>
 
-Les notes peuvent être une chaîne multilignes et utiliser également du Markdown ainsi que des équations LaTeX entre `$$`, par exemple `$x + 3$`.
+<ResponseField name="step" type="int">
+  Étape W&amp;B du prochain appel à `log()`.
 
-### <kbd>propriété</kbd> offline
+  Lève une erreur pour les runs en mode=&quot;shared&quot;.
+</ResponseField>
 
-True si le run est hors ligne, False sinon.
+<ResponseField name="sweep_id" type="str | None">
+  Identifiant du sweep associé au run, le cas échéant.
+</ResponseField>
 
-### <kbd>propriété</kbd> path
+<ResponseField name="sweep_url" type="str | None">
+  URL du sweep associé au run, le cas échéant.
 
-Chemin du run.
+  Les runs hors ligne n&#39;ont pas d&#39;URL de sweep.
+</ResponseField>
 
-Les chemins de run incluent l&#39;entité, le projet et l&#39;ID du run, au format
-`entity/project/run_id`.
+<ResponseField name="sync_dir" type="str">
+  Répertoire contenant toutes les données d&#39;un run.
 
-### <kbd>propriété</kbd> project
+  Il peut être transmis à `wandb sync` pour téléverser ou retéléverser le run.
+</ResponseField>
 
-Nom du projet W&amp;B associé au run.
+<ResponseField name="tags" type="tuple | None">
+  Tags associés au run, le cas échéant.
+</ResponseField>
 
-### <kbd>propriété</kbd> project_url
+<ResponseField name="url" type="str | None">
+  URL du run W&amp;B, le cas échéant.
 
-URL du projet W&amp;B associé au run, le cas échéant.
-
-Les runs hors ligne n’ont pas d’URL de projet.
-
-### <kbd>propriété</kbd> resumed
-
-Vrai si le run a été repris, Faux sinon.
-
-### <kbd>propriété</kbd> settings
-
-Une copie immuable de l&#39;objet Settings du run.
-
-### <kbd>propriété</kbd> start_time
-
-Horodatage Unix (en secondes) indiquant quand le run a démarré.
-
-### <kbd>propriété</kbd> step
-
-L’étape W&amp;B du prochain appel à `log()`.
-
-Déclenche une erreur pour les runs avec mode=&quot;shared&quot;.
-
-### <kbd>propriété</kbd> sweep_id
-
-Identifiant du balayage associé au run, le cas échéant.
-
-### <kbd>propriété</kbd> sweep_url
-
-URL du balayage associé au run, le cas échéant.
-
-Les runs hors ligne n&#39;ont pas d&#39;URL de balayage.
-
-### <kbd>propriété</kbd> sync_dir
-
-Le répertoire contenant toutes les données d’un run.
-
-Vous pouvez le transmettre à `wandb sync` pour téléverser ou téléverser à nouveau le run.
-
-### <kbd>propriété</kbd> tags
-
-Les tags associés au run, le cas échéant.
-
-### <kbd>propriété</kbd> url
-
-L’URL du run W&amp;B, s’il en existe une.
-
-Les runs hors ligne n’ont pas d’URL.
+  Les runs hors ligne n&#39;ont pas d&#39;URL.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Run.alert()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.alert()
 
 ```python
 self,
@@ -198,12 +210,23 @@ Crée une alerte avec le titre et le texte indiqués.
   ##### Arguments
 </div>
 
-* `title` : Le titre de l’alerte ; il doit comporter moins de 64 caractères.
-* `text` : Le corps de l’alerte.
-* `level` : Le niveau d’alerte à utiliser, parmi : `INFO`, `WARN` ou `ERROR`.
-* `wait_duration` : Le délai d’attente (en secondes) avant d’envoyer une autre alerte avec ce titre.
+<ResponseField name="title" type="str">
+  Le titre de l’alerte, qui doit comporter moins de 64 caractères.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.define_metric()
+<ResponseField name="text" type="str">
+  Le corps du message de l’alerte.
+</ResponseField>
+
+<ResponseField name="level" type="str | AlertLevel | None">
+  Le niveau d’alerte à utiliser : `INFO`, `WARN` ou `ERROR`.
+</ResponseField>
+
+<ResponseField name="wait_duration" type="int | float | timedelta | None">
+  Le délai d’attente (en secondes) avant d’envoyer une autre alerte avec ce titre.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.define_metric()
 
 ```python
 self,
@@ -221,14 +244,31 @@ Personnalisez les métriques journalisées avec `wandb.Run.log()`.
   ##### Arguments
 </div>
 
-* `name`: Le nom de la métrique à personnaliser.
-* `step_metric`: Le nom d&#39;une autre métrique qui servira d&#39;axe X pour cette métrique dans les graphiques générés automatiquement.
-* `step_sync`: Insère automatiquement la dernière valeur de step&#95;metric dans `wandb.Run.log()` si elle n&#39;est pas fournie explicitement. La valeur par défaut est True si step&#95;metric est spécifiée.
-* `hidden`: Masque cette métrique dans les graphiques générés automatiquement.
-* `summary`: Spécifie les métriques agrégées ajoutées à summary. Les agrégations prises en charge incluent &quot;min&quot;, &quot;max&quot;, &quot;mean&quot;, &quot;last&quot;, &quot;first&quot;, &quot;copy&quot; et &quot;none&quot;. &quot;none&quot; empêche la génération d&#39;un summary. &quot;copy&quot; est obsolète et ne doit pas être utilisé.
-* `overwrite`: Si false, cet appel est fusionné avec les appels précédents à `define_metric` pour la même métrique en utilisant leurs valeurs pour tous les paramètres non spécifiés. Si true, les paramètres non spécifiés remplacent les valeurs définies par les appels précédents.
+<ResponseField name="name" type="str">
+  Le nom de la métrique à personnaliser.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.display()
+<ResponseField name="step_metric" type="str | wandb_metric.Metric | None">
+  Le nom d&#39;une autre métrique à utiliser comme axe X pour cette métrique dans les graphiques générés automatiquement.
+</ResponseField>
+
+<ResponseField name="step_sync" type="bool | None">
+  Insère automatiquement la dernière valeur de step&#95;metric dans `wandb.Run.log()` si elle n&#39;est pas fournie explicitement. Par défaut, True si step&#95;metric est spécifiée.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool | None">
+  Masque cette métrique des graphiques générés automatiquement.
+</ResponseField>
+
+<ResponseField name="summary" type="str | None">
+  Spécifiez les agrégations de métriques ajoutées à la synthèse. Les agrégations prises en charge incluent « min », « max », « mean », « last », « first », « copy » et « none ». « none » empêche la génération d&#39;une synthèse. « copy » est obsolète et ne doit pas être utilisé.
+</ResponseField>
+
+<ResponseField name="overwrite" type="bool | None">
+  Si false, cet appel est fusionné avec les appels `define_metric` précédents pour la même métrique, en utilisant leurs valeurs pour tous les paramètres non spécifiés. Si true, les paramètres non spécifiés remplacent les valeurs définies par les appels précédents.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.display()
 
 ```python
 self,
@@ -242,10 +282,15 @@ Affiche ce run dans Jupyter.
   ##### Arguments
 </div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.finish()
+<ResponseField name="hidden" type="bool">
+  Aucune description fournie.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.finish()
 
 ```python
 self,
@@ -269,9 +314,11 @@ Run States:
   ##### Arguments
 </div>
 
-* `exit_code`: Entier indiquant le statut de sortie du run. Utilisez 0 pour signaler une réussite ; toute autre valeur marque le run comme échoué.
+<ResponseField name="exit_code" type="int | None">
+  Entier indiquant le statut de sortie du run. Utilisez 0 pour signaler une réussite ; toute autre valeur marque le run comme échoué.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.finish_artifact()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.finish_artifact()
 
 ```python
 self,
@@ -290,24 +337,40 @@ Les &quot;upserts&quot; ultérieurs avec le même ID distribué créeront une no
   ##### Arguments
 </div>
 
-* `artifact_or_path`: Chemin vers le contenu de cet artifact,
+<ResponseField name="artifact_or_path" type="Artifact | str">
+  Chemin vers le contenu de cet artifact,
   pouvant prendre les formes suivantes :
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
     Vous pouvez également passer un objet Artifact créé en appelant
     `wandb.Artifact`.
-* `name`: Nom d’un artifact. Peut être préfixé par entité/projet.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  Nom d’un artifact. Peut être préfixé par entité/projet.
   Les noms valides peuvent prendre les formes suivantes :
+
   * name:version
   * name:alias
   * digest
     S’il n’est pas spécifié, la valeur par défaut sera le nom de base du chemin, précédé de l’ID du run actuel.
-* `type`: Le type d’artifact à journaliser, par exemple `dataset`, `model`
-* `aliases`: Alias à appliquer à cet artifact, valeurs par défaut : `["latest"]`
-* `distributed_id`: Chaîne unique partagée par tous les jobs distribués. Si None, la valeur par défaut est le nom du groupe du run.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.link_artifact()
+<ResponseField name="type" type="str | None">
+  Le type d’artifact à journaliser, par exemple `dataset`, `model`
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  Alias à appliquer à cet artifact, valeurs par défaut : `["latest"]`
+</ResponseField>
+
+<ResponseField name="distributed_id" type="str | None">
+  Chaîne unique partagée par tous les jobs distribués. Si None, la valeur par défaut est le nom du groupe du run.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.link_artifact()
 
 ```python
 self,
@@ -326,9 +389,17 @@ Affichez les artifacts liés dans l’interface utilisateur du registre pour la 
   ##### Arguments
 </div>
 
-* `artifact`: L’objet artifact à lier à la collection.
-* `target_path`: Le chemin de la collection. Il se compose du préfixe &quot;wandb-registry-&quot;, ainsi que du nom du registre et du nom de la collection : `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
-* `aliases`: Ajoutez un ou plusieurs alias à l&#39;artifact lié. L’alias &quot;latest&quot; est automatiquement appliqué à l&#39;artifact le plus récent que vous liez.
+<ResponseField name="artifact" type="Artifact">
+  L’objet artifact à lier à la collection.
+</ResponseField>
+
+<ResponseField name="target_path" type="str">
+  Le chemin de la collection. Il se compose du préfixe « wandb-registry- », ainsi que du nom du registre et du nom de la collection : `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  Ajoutez un ou plusieurs alias à l&#39;artifact lié. L’alias « latest » est automatiquement appliqué à l&#39;artifact le plus récent que vous liez.
+</ResponseField>
 
 <div id="examples">
   ##### Exemples
@@ -359,7 +430,7 @@ with wandb.init(entity=entity, project=project) as run:
     run.link_artifact(artifact=artifact, target_path=target_path)
 ```
 
-### <kbd>méthode</kbd> Run.link_model()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.link_model()
 
 ```python
 self,
@@ -369,14 +440,14 @@ name: 'str | None' = None,
 aliases: 'list[str] | None' = None
 ```
 
-Enregistrer une version d’un artifact de modèle et la lier à un modèle enregistré dans le registre de modèles.
+Journaliser une version d’un artifact de modèle et la lier à un modèle enregistré dans le registre de modèles.
 
 Les versions de modèle liées sont visibles dans l’UI pour le modèle enregistré spécifié.
 
 Cette méthode :
 
-* Vérifie si l’artifact de modèle &#39;name&#39; a été enregistré. Si c’est le cas, utilise la version de l’artifact correspondant aux fichiers
-  situés à &#39;path&#39; ou enregistre une nouvelle version. Sinon, elle enregistre les fichiers sous &#39;path&#39; en tant que nouvel artifact de modèle, &#39;name&#39;,
+* Vérifie si l’artifact de modèle &#39;name&#39; a été journalisé. Si c’est le cas, utilise la version de l’artifact correspondant aux fichiers
+  situés à &#39;path&#39; ou journalise une nouvelle version. Sinon, elle journalise les fichiers sous &#39;path&#39; en tant que nouvel artifact de modèle, &#39;name&#39;,
   de type &#39;model&#39;.
 * Vérifie si un modèle enregistré nommé &#39;registered&#95;model&#95;name&#39; existe dans le projet &#39;model-registry&#39;.
   Sinon, crée un nouveau modèle enregistré nommé &#39;registered&#95;model&#95;name&#39;.
@@ -387,14 +458,26 @@ Cette méthode :
   ##### Arguments
 </div>
 
-* `path`: (str) Chemin vers le contenu de ce modèle, pouvant prendre les
+<ResponseField name="path" type="StrPath">
+  (str) Chemin vers le contenu de ce modèle, pouvant prendre les
   formes suivantes :
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `registered_model_name`: Nom du modèle enregistré auquel lier le modèle. Un modèle enregistré est une collection de versions de modèle liées au registre de modèles, représentant généralement une tâche de ML propre à une équipe. L’entité à laquelle ce modèle enregistré appartient est dérivée du run.
-* `name`: Nom de l’artifact de modèle dans lequel les fichiers de &#39;path&#39; seront enregistrés. Par défaut, il s’agit du nom de base du chemin, précédé de l’ID du run actuel, s’il n’est pas spécifié.
-* `aliases`: Alias appliqués uniquement à cet artifact lié dans le modèle enregistré. L’alias &quot;latest&quot; est toujours appliqué à la version la plus récente d’un artifact lié.
+</ResponseField>
+
+<ResponseField name="registered_model_name" type="str">
+  Nom du modèle enregistré auquel lier le modèle. Un modèle enregistré est une collection de versions de modèle liées au registre de modèles, représentant généralement une tâche de ML propre à une équipe. L’entité à laquelle ce modèle enregistré appartient est dérivée du run.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  Nom de l’artifact de modèle dans lequel les fichiers de &#39;path&#39; seront journalisés. Par défaut, il s’agit du nom de base du chemin, précédé de l’ID du run actuel, s’il n’est pas spécifié.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  Alias appliqués uniquement à cet artifact lié dans le modèle enregistré. L’alias &quot;latest&quot; est toujours appliqué à la version la plus récente d’un artifact lié.
+</ResponseField>
 
 <div id="raises">
   ##### Exceptions levées
@@ -403,7 +486,7 @@ Cette méthode :
 * `AssertionError`: Si registered&#95;model&#95;name est un chemin ou si l’artifact de modèle &#39;name&#39; est d’un type ne contenant pas la sous-chaîne &#39;model&#39;.
 * `ValueError`: Si name contient des caractères spéciaux non valides.
 
-### <kbd>méthode</kbd> Run.log()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log()
 
 ```python
 self,
@@ -429,15 +512,15 @@ with wandb.init() as run:
 
 L’extrait de code précédent enregistre la perte et la précision dans l’historique du run et met à jour les valeurs de synthèse de ces métriques.
 
-Visualisez les données enregistrées dans un espace de travail sur [wandb.ai](https://wandb.ai), ou localement sur une [instance auto-hébergée](https://docs.wandb.ai/platform/hosting) de l’application W&amp;B, ou exportez les données pour les visualiser et les explorer en local, par exemple dans un notebook Jupyter, avec l’[API publique](https://docs.wandb.ai/models/track/public-api-guide).
+Visualisez les données journalisées dans un espace de travail sur [wandb.ai](https://wandb.ai), ou localement sur une [instance auto-hébergée](https://docs.wandb.ai/platform/hosting) de l’application W&amp;B, ou exportez les données pour les visualiser et les explorer en local, par exemple dans un notebook Jupyter, avec l’[API publique](https://docs.wandb.ai/models/track/public-api-guide).
 
-Les valeurs enregistrées ne doivent pas nécessairement être des scalaires. Vous pouvez enregistrer n’importe quel [type de données pris en charge par W&amp;B](https://docs.wandb.ai/models/ref/python/data-types), comme des images, de l’audio, de la vidéo, etc. Par exemple, vous pouvez utiliser `wandb.Table` pour enregistrer des données structurées. Voir le tutoriel [Enregistrer des tableaux, visualiser et interroger des données](https://docs.wandb.ai/models/tables/tables-walkthrough) pour plus de détails.
+Les valeurs journalisées ne doivent pas nécessairement être des scalaires. Vous pouvez journaliser n’importe quel [type de données pris en charge par W&amp;B](https://docs.wandb.ai/models/ref/python/data-types), comme des images, de l’audio, de la vidéo, etc. Par exemple, vous pouvez utiliser `wandb.Table` pour journaliser des données structurées. Voir le tutoriel [Journaliser des tableaux, visualiser et interroger des données](https://docs.wandb.ai/models/tables/tables-walkthrough) pour plus de détails.
 
 W&amp;B organise les métriques dont le nom contient une barre oblique (`/`) en sections nommées d’après le texte situé avant la dernière barre oblique. Par exemple, le résultat suivant comporte deux sections nommées &quot;train&quot; et &quot;validate&quot; :
 
 ```python
 with wandb.init() as run:
-    # Consigner les métriques dans la section "train".
+    # Journaliser les métriques dans la section "train".
     run.log(
         {
             "train/accuracy": 0.9,
@@ -470,7 +553,7 @@ with wandb.init() as run:
     run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-Il est possible d’utiliser plusieurs appels à `wandb.Run.log()` pour consigner des données à la même étape à l’aide des paramètres `step` et `commit`.
+Il est possible d’utiliser plusieurs appels à `wandb.Run.log()` pour journaliser des données à la même étape à l’aide des paramètres `step` et `commit`.
 Les exemples suivants sont tous équivalents :
 
 ```python
@@ -497,9 +580,17 @@ with wandb.init() as run:
   ##### Arguments
 </div>
 
-* `data` : un `dict` avec des clés `str` et des valeurs qui sont des objets Python sérialisables, y compris : `int`, `float` et `string` ; n’importe lequel des `wandb.data_types` ; des listes, tuples et tableaux NumPy d’objets Python sérialisables ; d’autres `dict` de cette structure.
-* `step` : le numéro d’étape à journaliser. Si `None`, une étape implicite avec auto-incrémentation est utilisée. Voir les notes dans la description.
-* `commit` : si vrai, finalisez et téléversez l’étape. Si faux, accumulez les données pour l’étape. Voir les notes dans la description. Si `step` est `None`, la valeur par défaut est `commit=True` ; sinon, la valeur par défaut est `commit=False`.
+<ResponseField name="data" type="dict[str, Any]">
+  Un `dict` avec des clés `str` et des valeurs qui sont des objets Python sérialisables, y compris : `int`, `float` et `string` ; n’importe lequel des `wandb.data_types` ; des listes, tuples et tableaux NumPy d’objets Python sérialisables ; d’autres `dict` de cette structure.
+</ResponseField>
+
+<ResponseField name="step" type="int | None">
+  Le numéro d’étape à journaliser. Si `None`, une étape implicite avec auto-incrémentation est utilisée. Voir les notes dans la description.
+</ResponseField>
+
+<ResponseField name="commit" type="bool | None">
+  Si vrai, finalisez et téléversez l’étape. Si faux, accumulez les données pour l’étape. Voir les notes dans la description. Si `step` est `None`, la valeur par défaut est `commit=True` ; sinon, la valeur par défaut est `commit=False`.
+</ResponseField>
 
 <div id="raises">
   ##### Exceptions levées
@@ -642,7 +733,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>méthode</kbd> Run.log_artifact()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_artifact()
 
 ```python
 self,
@@ -659,23 +750,39 @@ Déclare un artifact comme sortie d’un run.
   ##### Arguments
 </div>
 
-* `artifact_or_path`: (str ou Artifact) Chemin vers le contenu de cet artifact,
+<ResponseField name="artifact_or_path" type="Artifact | StrPath">
+  (str ou Artifact) Chemin vers le contenu de cet artifact,
   sous l’une des formes suivantes :
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
     Vous pouvez également transmettre un objet Artifact créé en appelant
     `wandb.Artifact`.
-* `name`: (str, facultatif) Nom d’artifact. Les noms valides peuvent prendre les formes suivantes :
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  (str, facultatif) Nom d’artifact. Les noms valides peuvent prendre les formes suivantes :
+
   * name:version
   * name:alias
   * digest
     Si ce paramètre n’est pas spécifié, la valeur par défaut est le nom de base du chemin, préfixé par l’ID du run actuel.
-* `type`: (str) Type d’artifact à enregistrer, par exemple `dataset`, `model`
-* `aliases`: (list, facultatif) Alias à appliquer à cet artifact. La valeur par défaut est `["latest"]`
-* `tags`: (list, facultatif) Tags à appliquer à cet artifact, le cas échéant.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.log_code()
+<ResponseField name="type" type="str | None">
+  (str) Type d’artifact à journaliser, par exemple `dataset`, `model`
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  (list, facultatif) Alias à appliquer à cet artifact. La valeur par défaut est `["latest"]`
+</ResponseField>
+
+<ResponseField name="tags" type="list[str] | None">
+  (list, facultatif) Tags à appliquer à cet artifact, le cas échéant.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_code()
 
 ```python
 self,
@@ -687,16 +794,27 @@ exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = exclude_wandb
 
 Enregistre l’état actuel de votre code dans un Artifact W&amp;B.
 
-Par défaut, la méthode parcourt le répertoire courant et consigne tous les fichiers dont le nom se termine par `.py`.
+Par défaut, la méthode parcourt le répertoire courant et journalise tous les fichiers dont le nom se termine par `.py`.
 
 <div id="arguments">
   ##### Arguments
 </div>
 
-* `root`: Le chemin relatif (par rapport à `os.getcwd()`) ou absolu à partir duquel rechercher le code de manière récursive.
-* `name`: (`str`, facultatif) Le nom de notre artifact de code. Par défaut, l&#39;artifact sera nommé `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. Dans certains cas, vous pouvez vouloir que plusieurs runs partagent le même artifact. Spécifier un nom vous permet de le faire.
-* `include_fn`: Une fonction qui accepte un chemin de fichier et, éventuellement, un chemin racine, puis renvoie `True` s’il doit être inclus et `False` sinon. Par défaut, c’est `lambda path, root: path.endswith(".py")`.
-* `exclude_fn`: Une fonction qui accepte un chemin de fichier et, éventuellement, un chemin racine, puis renvoie `True` s’il doit être exclu et `False` sinon. Par défaut, une fonction exclut tous les fichiers des répertoires `<root>/.wandb/` et `<root>/wandb/`.
+<ResponseField name="root" type="str | None">
+  Le chemin relatif (par rapport à `os.getcwd()`) ou absolu à partir duquel rechercher le code de manière récursive.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  (`str`, facultatif) Le nom de notre artifact de code. Par défaut, l&#39;artifact sera nommé `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`. Dans certains cas, vous pouvez vouloir que plusieurs runs partagent le même artifact. Spécifier un nom vous permet de le faire.
+</ResponseField>
+
+<ResponseField name="include_fn" type="Callable[[str, str], bool] | Callable[[str], bool]">
+  Une fonction qui accepte un chemin de fichier et, éventuellement, un chemin racine, puis renvoie `True` s’il doit être inclus et `False` sinon. Par défaut, c’est `lambda path, root: path.endswith(".py")`.
+</ResponseField>
+
+<ResponseField name="exclude_fn" type="Callable[[str, str], bool] | Callable[[str], bool]">
+  Une fonction qui accepte un chemin de fichier et, éventuellement, un chemin racine, puis renvoie `True` s’il doit être exclu et `False` sinon. Par défaut, une fonction exclut tous les fichiers des répertoires `<root>/.wandb/` et `<root>/wandb/`.
+</ResponseField>
 
 <div id="examples">
   ##### Exemples
@@ -726,7 +844,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>méthode</kbd> Run.log_model()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_model()
 
 ```python
 self,
@@ -744,13 +862,22 @@ des traits de soulignement et des traits d&#39;union.
   ##### Arguments
 </div>
 
-* `path`: (str) Chemin vers le contenu de ce modèle,
+<ResponseField name="path" type="StrPath">
+  (str) Chemin vers le contenu de ce modèle,
   pouvant prendre les formes suivantes :
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `name`: Nom à attribuer à l&#39;artifact de modèle auquel le contenu du fichier sera ajouté. Par défaut, il s&#39;agit du nom de base du chemin, précédé de l&#39;ID du run actuel, s&#39;il n&#39;est pas spécifié.
-* `aliases`: Alias à appliquer à l&#39;artifact de modèle créé, avec `["latest"]` comme valeur par défaut
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  Nom à attribuer à l&#39;artifact de modèle auquel le contenu du fichier sera ajouté. Par défaut, il s&#39;agit du nom de base du chemin, précédé de l&#39;ID du run actuel, s&#39;il n&#39;est pas spécifié.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  Alias à appliquer à l&#39;artifact de modèle créé, avec `["latest"]` comme valeur par défaut
+</ResponseField>
 
 <div id="raises">
   ##### Exceptions levées
@@ -758,7 +885,7 @@ des traits de soulignement et des traits d&#39;union.
 
 * `ValueError`: Si `name` contient des caractères spéciaux non valides.
 
-### <kbd>méthode</kbd> Run.mark_preempting()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.mark_preempting()
 
 ```python
 self
@@ -768,7 +895,7 @@ Marquez cette run comme préemptée.
 
 Indique également au processus interne de le signaler immédiatement au serveur.
 
-### <kbd>méthode</kbd> Run.pin_config_keys()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.pin_config_keys()
 
 ```python
 self,
@@ -783,9 +910,11 @@ Les clés épinglées apparaissent bien en évidence au-dessus de Notes sur la p
   ##### Arguments
 </div>
 
-* `keys`: Noms des clés de configuration à épingler, correspondant aux clés définies via `run.config`. Il s’agit de chaînes de clés exactes (les points et les barres obliques sont interprétés littéralement, et non comme des séparateurs de chemin). L’ordre est conservé et détermine l’ordre d’affichage.
+<ResponseField name="keys" type="Sequence[str]">
+  Noms des clés de configuration à épingler, correspondant aux clés définies via `run.config`. Il s’agit de chaînes de clés exactes (les points et les barres obliques sont interprétés littéralement, et non comme des séparateurs de chemin). L’ordre est conservé et détermine l’ordre d’affichage.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.restore()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.restore()
 
 ```python
 self,
@@ -804,10 +933,21 @@ Par défaut, il n’est téléchargé que s’il n’existe pas déjà.
   ##### Arguments
 </div>
 
-* `name`: Le nom du fichier.
-* `run_path`: Chemin facultatif vers un run à partir duquel récupérer des fichiers, c.-à-d. `username/project_name/run_id` si wandb.init n’a pas été appelé, ce paramètre est requis.
-* `replace`: Indique s’il faut télécharger le fichier même s’il existe déjà localement
-* `root`: Le répertoire dans lequel télécharger le fichier.  Valeur par défaut : le répertoire courant, ou le répertoire du run si wandb.init a été appelé.
+<ResponseField name="name" type="str">
+  Le nom du fichier.
+</ResponseField>
+
+<ResponseField name="run_path" type="str | None">
+  Chemin facultatif vers un run à partir duquel récupérer des fichiers, c.-à-d. `username/project_name/run_id` si wandb.init n’a pas été appelé, ce paramètre est requis.
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+  Indique s’il faut télécharger le fichier même s’il existe déjà localement
+</ResponseField>
+
+<ResponseField name="root" type="str | None">
+  Le répertoire dans lequel télécharger le fichier.  Valeur par défaut : le répertoire courant, ou le répertoire du run si wandb.init a été appelé.
+</ResponseField>
 
 <div id="raises">
   ##### Exceptions levées
@@ -816,7 +956,7 @@ Par défaut, il n’est téléchargé que s’il n’existe pas déjà.
 * `CommError`: Si W&amp;B ne peut pas se connecter au backend W&amp;B.
 * `ValueError`: Si le fichier est introuvable ou si `run_path` est introuvable.
 
-### <kbd>méthode</kbd> Run.save()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.save()
 
 ```python
 self,
@@ -852,15 +992,27 @@ Les fichiers sont automatiquement dédupliqués : appeler `save()` plusieurs fo
   ##### Arguments
 </div>
 
-* `glob_str` : Un chemin relatif ou absolu, ou un glob Unix.
-* `base_path` : Un chemin utilisé pour déduire une structure de répertoires ; voir les exemples.
-* `policy` : L&#39;une des valeurs `live`, `now` ou `end`.
+<ResponseField name="glob_str" type="str | os.PathLike">
+  Un chemin relatif ou absolu, ou un glob Unix.
+</ResponseField>
+
+<ResponseField name="base_path" type="str | os.PathLike | None">
+  Un chemin utilisé pour déduire une structure de répertoires ; voir les exemples.
+</ResponseField>
+
+<ResponseField name="policy" type="PolicyName">
+  L&#39;une des valeurs `live`, `now` ou `end`.
+
   * live: téléverser le fichier à mesure qu&#39;il change, en remplaçant la version précédente
   * now: téléverser le fichier une seule fois, immédiatement
   * end: téléverser le fichier à la fin du run
-* `glob` : Indique s&#39;il faut traiter `glob_str` comme un motif glob. La valeur par défaut est `True` pour assurer la compatibilité descendante. Définissez `False` pour traiter `glob_str` comme un chemin littéral, par exemple lorsque son nom contient des métacaractères de glob comme `[`, `]`, `*` ou `?` que vous ne souhaitez pas voir interprétés comme un motif.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.status()
+<ResponseField name="glob" type="bool">
+  Indique s&#39;il faut traiter `glob_str` comme un motif glob. La valeur par défaut est `True` pour assurer la compatibilité descendante. Définissez `False` pour traiter `glob_str` comme un chemin littéral, par exemple lorsque son nom contient des métacaractères de glob comme `[`, `]`, `*` ou `?` que vous ne souhaitez pas voir interprétés comme un motif.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.status()
 
 ```python
 self
@@ -868,7 +1020,7 @@ self
 
 Obtenir les informations de synchronisation du run actuel depuis le backend interne.
 
-### <kbd>méthode</kbd> Run.unwatch()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.unwatch()
 
 ```python
 self,
@@ -881,9 +1033,11 @@ Supprime la topologie du modèle PyTorch ainsi que les hooks de gradient et de p
   ##### Arguments
 </div>
 
-* `models` : liste facultative de modèles PyTorch sur lesquels `watch` a été appelé.
+<ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module] | None">
+  Liste facultative de modèles PyTorch sur lesquels `watch` a été appelé.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.upsert_artifact()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.upsert_artifact()
 
 ```python
 self,
@@ -903,19 +1057,35 @@ Cela est utile lorsque plusieurs jobs distribués doivent tous contribuer au mê
   ##### Arguments
 </div>
 
-* `artifact_or_path`: Chemin vers le contenu de cet artifact. Il peut prendre les formes suivantes :
+<ResponseField name="artifact_or_path" type="Artifact | str">
+  Chemin vers le contenu de cet artifact. Il peut prendre les formes suivantes :
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `name`: Nom d’artifact. Peut être préfixé par &quot;entité/projet&quot;. Par défaut, s’il n’est pas spécifié, il correspond au nom de base du chemin, précédé du current run ID. Les noms valides peuvent prendre les formes suivantes :
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  Nom d’artifact. Peut être préfixé par &quot;entité/projet&quot;. Par défaut, s’il n’est pas spécifié, il correspond au nom de base du chemin, précédé du run actuel ID. Les noms valides peuvent prendre les formes suivantes :
+
   * name:version
   * name:alias
   * digest
-* `type`: Type d’artifact à journaliser. Exemples courants : `dataset`, `model`.
-* `aliases`: Alias à appliquer à cet artifact. La valeur par défaut est `["latest"]`.
-* `distributed_id`: Chaîne unique partagée par tous les jobs distribués. Si `None`, la valeur par défaut est le nom du groupe du run.
+</ResponseField>
 
-### <kbd>méthode</kbd> Run.use_artifact()
+<ResponseField name="type" type="str | None">
+  Type d’artifact à journaliser. Exemples courants : `dataset`, `model`.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  Alias à appliquer à cet artifact. La valeur par défaut est `["latest"]`.
+</ResponseField>
+
+<ResponseField name="distributed_id" type="str | None">
+  Chaîne unique partagée par tous les jobs distribués. Si `None`, la valeur par défaut est le nom du groupe du run.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_artifact()
 
 ```python
 self,
@@ -933,16 +1103,28 @@ Appelez `download` ou `file` sur l’objet renvoyé pour récupérer son contenu
   ##### Arguments
 </div>
 
-* `artifact_or_name`: Le nom de l&#39;artifact à utiliser. Il peut être préfixé
+<ResponseField name="artifact_or_name" type="str | Artifact">
+  Le nom de l&#39;artifact à utiliser. Il peut être préfixé
   par le nom du projet dans lequel l&#39;artifact a été enregistré
   (&quot;entité&quot; ou &quot;entité/projet&quot;). Si aucune
   entité n&#39;est spécifiée dans le nom, l&#39;entité du Run ou de la configuration de l&#39;API est utilisée.
   Les noms valides peuvent prendre les formes suivantes
+
   * nom:version
   * nom:alias
-* `type`: Le type d&#39;artifact à utiliser.
-* `aliases`: Alias à appliquer à cet artifact
-* `use_as`: Cet argument est obsolète et n&#39;a aucun effet.
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+  Le type d&#39;artifact à utiliser.
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  Alias à appliquer à cet artifact
+</ResponseField>
+
+<ResponseField name="use_as" type="str | None">
+  Cet argument est obsolète et n&#39;a aucun effet.
+</ResponseField>
 
 <div id="examples">
   ##### Exemples
@@ -973,7 +1155,7 @@ artifact_d = run.use_artifact(
 run.finish()
 ```
 
-### <kbd>méthode</kbd> Run.use_model()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_model()
 
 ```python
 self,
@@ -986,9 +1168,12 @@ Télécharge les fichiers enregistrés dans un artifact de modèle `name`.
   ##### Arguments
 </div>
 
-* `name` : nom d’un artifact de modèle. `name` doit correspondre au nom d’un artifact de modèle existant déjà enregistré. Peut être préfixé par `entity/project/`. Les noms valides peuvent prendre les formes suivantes
+<ResponseField name="name" type="str">
+  nom d’un artifact de modèle. `name` doit correspondre au nom d’un artifact de modèle existant déjà enregistré. Peut être préfixé par `entity/project/`. Les noms valides peuvent prendre les formes suivantes
+
   * model&#95;artifact&#95;name:version
   * model&#95;artifact&#95;name:alias
+</ResponseField>
 
 <div id="raises">
   ##### Exceptions levées
@@ -996,7 +1181,7 @@ Télécharge les fichiers enregistrés dans un artifact de modèle `name`.
 
 * `AssertionError`: si l’artifact de modèle `name` est d’un type qui ne contient pas la sous-chaîne `model`.
 
-### <kbd>méthode</kbd> Run.watch()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.watch()
 
 ```python
 self,
@@ -1016,12 +1201,29 @@ Cette fonction peut suivre les paramètres, les gradients, ou les deux pendant l
   ##### Arguments
 </div>
 
-* `models`: Un seul modèle ou une séquence de modèles à surveiller.
-* `criterion`: La fonction de perte en cours d&#39;optimisation (facultatif).
-* `log`: Indique s&#39;il faut mettre dans le journal &quot;gradients&quot;, &quot;parameters&quot; ou &quot;all&quot;. Définissez cette valeur sur None pour désactiver le journal. (par défaut=&quot;gradients&quot;).
-* `log_freq`: Fréquence (en lots) à laquelle mettre dans le journal les gradients et les paramètres. (par défaut=1000)
-* `idx`: Indice utilisé lors du suivi de plusieurs modèles avec `wandb.watch`. (par défaut=None)
-* `log_graph`: Indique s&#39;il faut mettre dans le journal le graphe de calcul du modèle. (par défaut=False)
+<ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module]">
+  Un modèle unique ou une séquence de modèles à surveiller.
+</ResponseField>
+
+<ResponseField name="criterion" type="torch.F | None">
+  La fonction de perte à optimiser (facultatif).
+</ResponseField>
+
+<ResponseField name="log" type="Literal['gradients', 'parameters', 'all'] | None">
+  Indique s’il faut journaliser les « gradients », les « parameters » ou « all ». Définissez cette valeur sur None pour désactiver la journalisation. (par défaut=&quot;gradients&quot;).
+</ResponseField>
+
+<ResponseField name="log_freq" type="int">
+  Fréquence (en lots) de journalisation des gradients et des paramètres. (par défaut=1000)
+</ResponseField>
+
+<ResponseField name="idx" type="int | None">
+  Index utilisé pour suivre plusieurs modèles avec `wandb.watch`. (par défaut=None)
+</ResponseField>
+
+<ResponseField name="log_graph" type="bool">
+  Indique s’il faut journaliser le graphe de calcul du modèle. (par défaut=False)
+</ResponseField>
 
 <div id="raises">
   ##### Exceptions levées
@@ -1029,7 +1231,7 @@ Cette fonction peut suivre les paramètres, les gradients, ou les deux pendant l
 
 * `ValueError`: Si `wandb.init()` n&#39;a pas été appelé ou si l&#39;un des modèles n&#39;est pas une instance de `torch.nn.Module`.
 
-### <kbd>méthode</kbd> Run.write_logs()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.write_logs()
 
 ```python
 self,
@@ -1049,4 +1251,6 @@ Vous pouvez utiliser le paramètre `capture_loggers`, qui s&#39;intègre au modu
   ##### Arguments
 </div>
 
-* `text` : Le texte à écrire. Un saut de ligne final est ajouté s&#39;il n&#39;est pas déjà présent.
+<ResponseField name="text" type="str">
+  Le texte à écrire. Un saut de ligne final est ajouté s&#39;il n&#39;est pas déjà présent.
+</ResponseField>

@@ -6,9 +6,13 @@ namespace: wandb.apis.public.files
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L79" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L79" />
 
-## <kbd>class</kbd> wandb.apis.public.Files
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Files
+
+`File` オブジェクトのコレクションに対する遅延イテレーターです。
+
+run 中に W&amp;B にアップロードされたファイルにアクセスして管理できます。多数のファイルを含むコレクションを反復処理する際には、ページネーションを自動的に処理します。
 
 ```python
 (service_api: 'ServiceApi',
@@ -19,20 +23,33 @@ upload: 'bool' = False,
 pattern: 'str | None' = None)
 ```
 
-`File` オブジェクトのコレクションに対する遅延イテレーターです。
-
-run 中に W&amp;B にアップロードされたファイルにアクセスして管理できます。多数のファイルを含むコレクションを反復処理する際には、ページネーションを自動的に処理します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `service_api`: W&amp;B のクエリに使用するサービス API のインスタンス
-* `run`: ファイルを含む run オブジェクト
-* `names`: ファイルをフィルターするためのファイル名のリスト
-* `per_page`: 1 ページあたりに取得するファイル数
-* `upload`: `True` の場合、各ファイルのアップロード URL を取得します
-* `pattern`: W&amp;B から返されるファイルを照合する際に使用するパターン。このパターンでは MySQL の LIKE 構文を使用します。そのため、`.json` で終わるすべてのファイルに一致させるには `"%.json"` を指定します。`names` と `pattern` の両方を指定した場合は、ValueError が発生します。
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B のクエリに使用するサービス API のインスタンス
+</ResponseField>
+
+<ResponseField name="run" type="Run">
+  ファイルを含む run オブジェクト
+</ResponseField>
+
+<ResponseField name="names" type="list[str] | None">
+  ファイルをフィルターするためのファイル名のリスト
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  1 ページあたりに取得するファイル数
+</ResponseField>
+
+<ResponseField name="upload" type="bool">
+  `True` の場合、各ファイルのアップロード URL を取得します
+</ResponseField>
+
+<ResponseField name="pattern" type="str | None">
+  W&amp;B から返されるファイルを照合する際に使用するパターン。このパターンでは MySQL の LIKE 構文を使用します。そのため、`.json` で終わるすべてのファイルに一致させるには `"%.json"` を指定します。`names` と `pattern` の両方を指定した場合は、ValueError が発生します。
+</ResponseField>
 
 <div id="examples">
   ## 例
@@ -62,7 +79,7 @@ for file in files:
   ## メソッド
 </div>
 
-### <kbd>メソッド</kbd> Paginator.**next**()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
 
 ```python
 self

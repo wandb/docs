@@ -6,9 +6,9 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L406" />
 
-## <kbd>クラス</kbd> wandb.Run
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Run
 
 W&amp;B でログされる計算の単位です。通常は ML の実験です。
 
@@ -43,136 +43,145 @@ with wandb.init(entity="entity", project="project") as run:
   ## プロパティ
 </div>
 
-### <kbd>プロパティ</kbd> config
+<ResponseField name="config" type="wandb_config.Config">
+  この run に関連付けられた Config オブジェクト。
+</ResponseField>
 
-この run に関連付けられている設定オブジェクト。
+<ResponseField name="config_static" type="wandb_config.ConfigStatic">
+  この run に関連付けられた静的な設定オブジェクト。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> config_static
+<ResponseField name="dir" type="str">
+  run の file が保存されるディレクトリ。
 
-この run に関連付けられている静的な設定オブジェクト。
+  これは、`run.save()` で保存された file (`run.log()` に渡された特定のデータタイプに対して
+  自動作成される file を含む) を指します。run のすべてのデータを含む
+  ディレクトリについては、`run.sync_dir` を参照してください。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> dir
+<ResponseField name="disabled" type="bool">
+  run が無効な場合は True、それ以外の場合は False。
+</ResponseField>
 
-run の file が保存されるディレクトリです。
+<ResponseField name="entity" type="str">
+  run に関連付けられた W&amp;B entity の名。
 
-これは、`run.save()` で保存される file を指します。`run.log()` に渡された特定のデータタイプに対して自動的に
-作成される file も含まれます。run のすべてのデータが含まれる
-ディレクトリについては、`run.sync_dir` を参照してください。
+  entity には、ユーザー名、チーム名、または組織名を指定できます。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> disabled
+<ResponseField name="group" type="str">
+  この run に関連付けられた group の名を返します。
 
-run が無効な場合は True、そうでない場合は False。
+  run をグループ化すると、関連する experiment を整理し、
+  W&amp;B UI でまとめて可視化できます。これは、分散トレーニングや交差検証など、
+  複数の run を 1 つの experiment として表示・管理する必要がある
+  シナリオで特に役立ちます。
 
-### <kbd>プロパティ</kbd> entity
+  すべてのプロセスが同じ Run オブジェクトを共有する共有モードでは、
+  run は 1 つしかなくグループ化も不要なため、通常は group を設定する必要は
+  ありません。
+</ResponseField>
 
-run に関連付けられている W&amp;B entity の名前。
+<ResponseField name="id" type="str">
+  この run の識別子。
+</ResponseField>
 
-entity には、ユーザー名、チーム名、または組織名を指定できます。
+<ResponseField name="job_type" type="str">
+  run に関連付けられたジョブタイプの名。
 
-### <kbd>プロパティ</kbd> group
+  W&amp;B App の run の Overview ページで、run のジョブタイプを確認できます。
 
-この run に関連付けられているグループ名を返します。
+  これを使用して、&quot;training&quot;、&quot;evaluation&quot;、&quot;inference&quot; などの
+  ジョブタイプ別に run を分類できます。これは、W&amp;B UI で run を整理・
+  フィルタリングする際、特に同じ project 内に異なるジョブタイプの複数の
+  run がある場合に役立ちます。詳細については、
+  [Organize runs](https://docs.wandb.ai/models/runs#organize-runs) を参照してください。
+</ResponseField>
 
-run をグループ化すると、関連する experiment を W&amp;B UI 上でまとめて整理し、可視化できます。これは、分散トレーニングや交差検証のように、複数の run を 1 つの experiment としてまとめて表示・管理したい場合に特に便利です。
+<ResponseField name="name" type="str | None">
+  run の表示名。
 
-共有モードでは、すべてのプロセスが同じ run object を共有するため、通常はグループを設定する必要はありません。run は 1 つだけで、グループ化も不要だからです。
+  表示名は一意であるとは限らず、任意の説明的な名を設定できます。
+  デフォルトでは、ランダムに生成されます。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> id
+<ResponseField name="notes" type="str | None">
+  run に関連付けられたメモ (ある場合) 。
 
-この run のID。
+  メモには複数行の string を指定でき、`$$` 内では `$x + 3$` のような
+  Markdown や LaTeX の数式も使用できます。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> job_type
+<ResponseField name="offline" type="bool">
+  run がオフラインの場合は True、それ以外の場合は False。
+</ResponseField>
 
-run に関連付けられているジョブタイプの名。
+<ResponseField name="path" type="str">
+  run へのパス。
 
-W&amp;B App の run の Overview ページで、run のジョブタイプを確認できます。
+  run パスには entity、project、run ID が含まれ、形式は
+  `entity/project/run_id` です。
+</ResponseField>
 
-これを使用すると、&quot;training&quot;、&quot;evaluation&quot;、&quot;inference&quot; などのジョブタイプごとに run を分類できます。これは、特に同じプロジェクト内に異なるジョブタイプの複数の run がある場合に、W&amp;B UI で run を整理したりフィルターしたりする際に役立ちます。詳細は [Organize Runs](https://docs.wandb.ai/models/runs#organize-runs) を参照してください。
+<ResponseField name="project" type="str">
+  run に関連付けられた W&amp;B のプロジェクトの名。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> 名
+<ResponseField name="project_url" type="str | None">
+  run に関連付けられた W&amp;B のプロジェクトの URL (ある場合) 。
 
-run の表示名。
+  オフライン run には project URL がありません。
+</ResponseField>
 
-表示名は一意であるとは限らず、内容を説明するものの場合があります。
+<ResponseField name="resumed" type="bool">
+  run が再開された場合は True、それ以外の場合は False。
+</ResponseField>
 
-デフォルトでは、ランダムに生成されます。
+<ResponseField name="settings" type="Settings">
+  run の Settings オブジェクトの凍結されたコピー。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> メモ
+<ResponseField name="start_time" type="float">
+  run が開始された時刻の Unix Timestamp (秒) 。
+</ResponseField>
 
-run に関連付けられているメモです (存在する場合) 。
+<ResponseField name="step" type="int">
+  次の `log()` 呼び出しの W&amp;B step。
 
-メモには複数行の文字列を指定でき、`$$` 内では Markdown や LaTeX の数式 (`$x + 3$` など) も使用できます。
+  mode=&quot;shared&quot; の run ではエラーが発生します。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> offline
+<ResponseField name="sweep_id" type="str | None">
+  run に関連付けられた sweep の識別子 (ある場合) 。
+</ResponseField>
 
-run がオフラインの場合は True、そうでない場合は False です。
+<ResponseField name="sweep_url" type="str | None">
+  run に関連付けられた sweep の URL (ある場合) 。
 
-### <kbd>プロパティ</kbd> path
+  オフライン run には sweep URL がありません。
+</ResponseField>
 
-run のパス。
+<ResponseField name="sync_dir" type="str">
+  run のすべてのデータを含むディレクトリ。
 
-Run のパスには entity、プロジェクト、run ID が含まれ、形式は
-`entity/project/run_id` です。
+  これを `wandb sync` に渡すと、run をアップロードまたは再アップロードできます。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> project
+<ResponseField name="tags" type="tuple | None">
+  run に関連付けられたタグ (ある場合) 。
+</ResponseField>
 
-run に関連付けられている W&amp;B プロジェクト名。
+<ResponseField name="url" type="str | None">
+  W&amp;B run の URL (ある場合) 。
 
-### <kbd>プロパティ</kbd> project_url
-
-run に関連付けられている W&amp;B プロジェクトの URL (存在する場合) 。
-
-オフラインの run にはプロジェクトの URL はありません。
-
-### <kbd>プロパティ</kbd> resumed
-
-run が再開された場合は True、そうでない場合は False を返します。
-
-### <kbd>プロパティ</kbd> settings
-
-run の Settings オブジェクトを凍結したコピー。
-
-### <kbd>プロパティ</kbd> start_time
-
-run が開始された時刻の Unix タイムスタンプ (秒単位) 。
-
-### <kbd>プロパティ</kbd> step
-
-次の `log()` 呼び出しで使用される W&amp;B の step です。
-
-mode=&quot;shared&quot; の runs ではエラーになります。
-
-### <kbd>プロパティ</kbd> sweep_id
-
-run に関連付けられている sweep の識別子 (存在する場合) 。
-
-### <kbd>プロパティ</kbd> sweep_url
-
-run に関連付けられている sweep の URL (ある場合) 。
-
-オフラインの run には sweep URL はありません。
-
-### <kbd>プロパティ</kbd> sync_dir
-
-run のすべてのデータが含まれるディレクトリです。
-
-このディレクトリを `wandb sync` に渡すと、run をアップロードまたは再アップロードできます。
-
-### <kbd>プロパティ</kbd> tags
-
-run に関連付けられているタグ (存在する場合) 。
-
-### <kbd>プロパティ</kbd> url
-
-存在する場合の、W&amp;B run の URL です。
-
-オフラインの run には URL がありません。
+  オフライン run には URL がありません。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>method</kbd> Run.alert()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.alert()
 
 ```python
 self,
@@ -184,14 +193,27 @@ wait_duration: 'int | float | timedelta | None' = None
 
 指定されたタイトルとテキストでアラートを作成します。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `title`: アラートのタイトル。64文字未満である必要があります。
-* `text`: アラート本文のテキスト。
-* `level`: 使用するアラートレベル。`INFO`、`WARN`、`ERROR` のいずれかです。
-* `wait_duration`: このタイトルで次のアラートを送信するまでの待機時間 (秒) 。
+<ResponseField name="title" type="str">
+  アラートのタイトル。64 文字未満である必要があります。
+</ResponseField>
 
-### <kbd>method</kbd> Run.define_metric()
+<ResponseField name="text" type="str">
+  アラートの本文。
+</ResponseField>
+
+<ResponseField name="level" type="str | AlertLevel | None">
+  使用するアラートレベル。`INFO`、`WARN`、`ERROR` のいずれかです。
+</ResponseField>
+
+<ResponseField name="wait_duration" type="int | float | timedelta | None">
+  同じタイトルの次のアラートを送信するまでの待機時間 (秒) 。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.define_metric()
 
 ```python
 self,
@@ -205,16 +227,35 @@ overwrite: 'bool | None' = None
 
 `wandb.Run.log()` でログするメトリクスをカスタマイズします。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `name`: カスタマイズするメトリクスの名。
-* `step_metric`: 自動生成されるチャートで、このメトリクスの X 軸として使用する別のメトリクスの名。
-* `step_sync`: 明示的に指定されていない場合、step&#95;metric の直近の値を `wandb.Run.log()` に自動的に挿入します。step&#95;metric が指定されている場合のデフォルトは True です。
-* `hidden`: このメトリクスを自動プロットで非表示にします。
-* `summary`: summary に追加する集約メトリクスを指定します。サポートされる集約には &quot;min&quot;、&quot;max&quot;、&quot;mean&quot;、&quot;last&quot;、&quot;first&quot;、&quot;copy&quot;、&quot;none&quot; が含まれます。&quot;none&quot; を指定すると summary は生成されません。&quot;copy&quot; も非推奨のため使用しないでください。
-* `overwrite`: false の場合、この call は同じメトリクスに対する以前の `define_metric` calls とマージされ、未指定のパラメーターにはそれらの値が使用されます。true の場合、未指定のパラメーターによって以前の calls で指定された値が上書きされます。
+<ResponseField name="name" type="str">
+  カスタマイズするメトリクスの名。
+</ResponseField>
 
-### <kbd>method</kbd> Run.display()
+<ResponseField name="step_metric" type="str | wandb_metric.Metric | None">
+  自動生成されるチャートで、このメトリクスの X 軸として使用する別のメトリクスの名。
+</ResponseField>
+
+<ResponseField name="step_sync" type="bool | None">
+  明示的に指定されていない場合、step&#95;metric の最後の値を `wandb.Run.log()` に自動的に挿入します。step&#95;metric が指定されている場合、デフォルトは True です。
+</ResponseField>
+
+<ResponseField name="hidden" type="bool | None">
+  このメトリクスを自動プロットから非表示にします。
+</ResponseField>
+
+<ResponseField name="summary" type="str | None">
+  summary に追加する集約メトリクスを指定します。サポートされる集約には、&quot;min&quot;、&quot;max&quot;、&quot;mean&quot;、&quot;last&quot;、&quot;first&quot;、&quot;copy&quot;、&quot;none&quot; があります。&quot;none&quot; を指定すると summary は生成されません。&quot;copy&quot; は非推奨のため、使用しないでください。
+</ResponseField>
+
+<ResponseField name="overwrite" type="bool | None">
+  false の場合、未指定のパラメーターには以前の値が使用され、この呼び出しは同じメトリクスに対する以前の `define_metric` 呼び出しとマージされます。true の場合、未指定のパラメーターによって以前の呼び出しで指定された値が上書きされます。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.display()
 
 ```python
 self,
@@ -224,12 +265,19 @@ hidden: 'bool' = False
 
 Jupyterでこの run を表示します。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  説明は提供されていません。
+</ResponseField>
 
-### <kbd>method</kbd> Run.finish()
+<ResponseField name="hidden" type="bool">
+  説明は提供されていません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish()
 
 ```python
 self,
@@ -248,11 +296,15 @@ run の状態:
 * Failed: エラーにより完了した run (`exit_code!=0`) 。
 * Killed: 完了前に強制的に停止された run。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `exit_code`: run の終了ステータスを示す整数です。成功時は 0 を使用し、それ以外の値を指定すると run は失敗として扱われます。
+<ResponseField name="exit_code" type="int | None">
+  run の終了ステータスを示す整数です。成功時は 0 を使用し、それ以外の値を指定すると run は失敗として扱われます。
+</ResponseField>
 
-### <kbd>method</kbd> Run.finish_artifact()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish_artifact()
 
 ```python
 self,
@@ -267,24 +319,42 @@ distributed_id: 'str | None' = None
 
 同じ distributed ID を持つ後続の &quot;upsert&quot; では、新しいバージョンが作成されます。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `artifact_or_path`: この アーティファクト の内容へのパス。指定できる形式は次のとおりです:
+<ResponseField name="artifact_or_path" type="Artifact | str">
+  この アーティファクト の内容へのパス。指定できる形式は次のとおりです:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
     `wandb.Artifact` を呼び出して作成した Artifact オブジェクトを渡すこともできます。
-* `name`: アーティファクト 名。entity/プロジェクト を接頭辞として付けることもできます。
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  アーティファクト 名。entity/プロジェクト を接頭辞として付けることもできます。
   有効な名前の形式は次のとおりです:
+
   * name:version
   * name:alias
   * digest
     指定しない場合、現在の run id を先頭に付けたパスの basename がデフォルトになります。
-* `type`: ログする アーティファクト のタイプ。例: `dataset`, `model`
-* `aliases`: この アーティファクト に適用するエイリアス。デフォルトは `["latest"]` です
-* `distributed_id`: すべての分散ジョブで共有される一意の文字列。None の場合は、run の group 名がデフォルトになります。
+</ResponseField>
 
-### <kbd>method</kbd> Run.link_artifact()
+<ResponseField name="type" type="str | None">
+  ログする アーティファクト のタイプ。例: `dataset`, `model`
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  この アーティファクト に適用するエイリアス。デフォルトは `["latest"]` です
+</ResponseField>
+
+<ResponseField name="distributed_id" type="str | None">
+  すべての分散ジョブで共有される一意の文字列。None の場合は、run の group 名がデフォルトになります。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_artifact()
 
 ```python
 self,
@@ -299,11 +369,21 @@ aliases: 'list[str] | None' = None
 
 指定したコレクションにリンクされたアーティファクトを Registry UI で表示します。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `artifact`: コレクションにリンクするアーティファクト オブジェクト。
-* `target_path`: コレクションのパスです。パスは、プレフィックス &quot;wandb-registry-&quot;、レジストリ名、およびコレクション名 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}` で構成されます。
-* `aliases`: リンクしたアーティファクトに 1 つ以上のエイリアスを追加します。&quot;latest&quot; エイリアスは、リンクした最新のアーティファクトに自動的に適用されます。
+<ResponseField name="artifact" type="Artifact">
+  コレクションにリンクするアーティファクト オブジェクト。
+</ResponseField>
+
+<ResponseField name="target_path" type="str">
+  コレクションのパスです。パスは、プレフィックス &quot;wandb-registry-&quot;、レジストリ名、およびコレクション名 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}` で構成されます。
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  リンクしたアーティファクトに 1 つ以上のエイリアスを追加します。&quot;latest&quot; エイリアスは、リンクした最新のアーティファクトに自動的に適用されます。
+</ResponseField>
 
 <div id="examples">
   ##### 例
@@ -334,7 +414,7 @@ with wandb.init(entity=entity, project=project) as run:
     run.link_artifact(artifact=artifact, target_path=target_path)
 ```
 
-### <kbd>method</kbd> Run.link_model()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_model()
 
 ```python
 self,
@@ -355,15 +435,29 @@ aliases: 'list[str] | None' = None
 * モデルアーティファクト &#39;name&#39; のバージョンを、登録済みモデル &#39;registered&#95;model&#95;name&#39; にリンクします。
 * &#39;aliases&#39; リストのエイリアスを、新たにリンクされたモデルアーティファクトバージョンに付与します。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `path`: (str) このモデルの内容へのパスです。次の形式を指定できます:
+<ResponseField name="path" type="StrPath">
+  (str) このモデルの内容へのパスです。次の形式を指定できます:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `registered_model_name`: モデルのリンク先となる登録済みモデルの名前です。登録済みモデルは、モデルレジストリにリンクされたモデルバージョンのコレクションで、通常はチーム固有の ML タスクを表します。この登録済みモデルが属する entity は run から導出されます。
-* `name`: &#39;path&#39; 内のファイルのログ先となるモデルアーティファクトの名前です。指定しない場合は、パスの basename の先頭に current run id を付けたものがデフォルトで使用されます。
-* `aliases`: 登録済みモデル内で、このリンクされたアーティファクトにのみ適用されるエイリアスです。エイリアス &quot;latest&quot; は、リンクされたアーティファクトの最新バージョンに常に適用されます。
+</ResponseField>
+
+<ResponseField name="registered_model_name" type="str">
+  モデルのリンク先となる登録済みモデルの名前です。登録済みモデルは、モデルレジストリにリンクされたモデルバージョンのコレクションで、通常はチーム固有の ML タスクを表します。この登録済みモデルが属する entity は run から導出されます。
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  &#39;path&#39; 内のファイルのログ先となるモデルアーティファクトの名前です。指定しない場合は、パスの basename の先頭に current run id を付けたものがデフォルトで使用されます。
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  登録済みモデル内で、このリンクされたアーティファクトにのみ適用されるエイリアスです。エイリアス &quot;latest&quot; は、リンクされたアーティファクトの最新バージョンに常に適用されます。
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -372,7 +466,7 @@ aliases: 'list[str] | None' = None
 * `AssertionError`: registered&#95;model&#95;name がパスである場合、またはモデルアーティファクト &#39;name&#39; のタイプに部分文字列 &#39;model&#39; が含まれていない場合。
 * `ValueError`: name に無効な特殊文字が含まれている場合。
 
-### <kbd>method</kbd> Run.log()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log()
 
 ```python
 self,
@@ -429,7 +523,8 @@ with wandb.init() as run:
     run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-`step` および `commit` パラメーターを使用すると、複数の `wandb.Run.log()` 呼び出しで同じ step にログできます。以下はすべて同じ意味です。
+`step` および `commit` パラメーターを使用すると、複数の `wandb.Run.log()` 呼び出しで同じ step にログできます。
+以下はすべて同じ意味です。
 
 ```python
 with wandb.init() as run:
@@ -452,12 +547,20 @@ with wandb.init() as run:
 ```
 
 <div id="arguments">
-  ##### Arguments
+  ##### 引数
 </div>
 
-* `data`: `str` キーと、`int`、`float`、`string`、任意の `wandb.data_types`、シリアライズ可能な Python オブジェクトのリスト、タプル、NumPy 配列、および同じ構造の他の `dict` を含む、シリアライズ可能な Python オブジェクトの値を持つ `dict` です。
-* `step`: ログする step 番号です。`None` の場合は、暗黙的に自動インクリメントされる step が使用されます。説明内のメモを参照してください。
-* `commit`: true の場合は、step を確定してアップロードします。false の場合は、その step のデータを蓄積します。説明内のメモを参照してください。`step` が `None` の場合、デフォルトは `commit=True` です。それ以外の場合、デフォルトは `commit=False` です。
+<ResponseField name="data" type="dict[str, Any]">
+  `str` キーと、`int`、`float`、`string`、任意の `wandb.data_types`、シリアライズ可能な Python オブジェクトのリスト、タプル、NumPy 配列、および同じ構造の他の `dict` を含む、シリアライズ可能な Python オブジェクトの値を持つ `dict` です。
+</ResponseField>
+
+<ResponseField name="step" type="int | None">
+  ログする step 番号です。`None` の場合は、暗黙的に自動インクリメントされる step が使用されます。説明内のメモを参照してください。
+</ResponseField>
+
+<ResponseField name="commit" type="bool | None">
+  true の場合は、step を確定してアップロードします。false の場合は、その step のデータを蓄積します。説明内のメモを参照してください。`step` が `None` の場合、デフォルトは `commit=True` です。それ以外の場合、デフォルトは `commit=False` です。
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -599,7 +702,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>method</kbd> Run.log_artifact()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_artifact()
 
 ```python
 self,
@@ -612,26 +715,44 @@ tags: 'list[str] | None' = None
 
 アーティファクト を run の出力として宣言します。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `artifact_or_path`: (str または Artifact) この アーティファクト の内容へのパス。
+<ResponseField name="artifact_or_path" type="Artifact | StrPath">
+  (str または Artifact) この アーティファクト の内容へのパス。
   指定できる形式は次のとおりです:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
     `wandb.Artifact` を呼び出して作成した
     Artifact オブジェクトを渡すこともできます。
-* `name`: (str, 任意) アーティファクト 名。指定できる名前の形式は次のとおりです:
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  (str, 任意) アーティファクト 名。指定できる名前の形式は次のとおりです:
+
   * name:version
   * name:alias
   * digest
     指定しない場合は、現在の
     run ID を先頭に付けたパスの basename がデフォルトになります。
-* `type`: (str) ログする アーティファクト のタイプ。`dataset`、`model` などがあります
-* `aliases`: (list, 任意) この アーティファクト に適用するエイリアス。デフォルトは `["latest"]` です
-* `tags`: (list, 任意) この アーティファクト に適用するタグ (存在する場合) 。
+</ResponseField>
 
-### <kbd>method</kbd> Run.log_code()
+<ResponseField name="type" type="str | None">
+  (str) ログする アーティファクト のタイプ。`dataset`、`model` などがあります
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  (list, 任意) この アーティファクト に適用するエイリアス。デフォルトは `["latest"]` です
+</ResponseField>
+
+<ResponseField name="tags" type="list[str] | None">
+  (list, 任意) この アーティファクト に適用するタグ (存在する場合) 。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_code()
 
 ```python
 self,
@@ -645,12 +766,25 @@ exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = exclude_wandb
 
 デフォルトでは、現在のディレクトリを走査し、`.py` で終わるすべてのファイルをログします。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `root`: コードを再帰的に検索する起点となる、`os.getcwd()` からの相対パスまたは絶対パス。
-* `name`: (str, optional) コード アーティファクト の名。デフォルトでは、アーティファクト 名は `source-$PROJECT_ID-$ENTRYPOINT_RELPATH` になります。複数の run で同じ アーティファクト を共有したい場合があります。`name` を指定すると、それが可能になります。
-* `include_fn`: ファイルパスと (必要に応じて) ルートパスを受け取り、含める場合は True、そうでない場合は False を返す callable。デフォルトは `lambda path, root: path.endswith(".py")` です。
-* `exclude_fn`: ファイルパスと (必要に応じて) ルートパスを受け取り、除外する場合は `True`、そうでない場合は `False` を返す callable。デフォルトでは、`<root>/.wandb/` および `<root>/wandb/` ディレクトリ内のすべてのファイルを除外する関数です。
+<ResponseField name="root" type="str | None">
+  コードを再帰的に検索する起点となる、`os.getcwd()` からの相対パスまたは絶対パス。
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  (str, optional) コード アーティファクト の名。デフォルトでは、アーティファクト 名は `source-$PROJECT_ID-$ENTRYPOINT_RELPATH` になります。複数の run で同じ アーティファクト を共有したい場合があります。`name` を指定すると、それが可能になります。
+</ResponseField>
+
+<ResponseField name="include_fn" type="Callable[[str, str], bool] | Callable[[str], bool]">
+  ファイルパスと (必要に応じて) ルートパスを受け取り、含める場合は True、そうでない場合は False を返す callable。デフォルトは `lambda path, root: path.endswith(".py")` です。
+</ResponseField>
+
+<ResponseField name="exclude_fn" type="Callable[[str, str], bool] | Callable[[str], bool]">
+  ファイルパスと (必要に応じて) ルートパスを受け取り、除外する場合は `True`、そうでない場合は `False` を返す callable。デフォルトでは、`<root>/.wandb/` および `<root>/wandb/` ディレクトリ内のすべてのファイルを除外する関数です。
+</ResponseField>
 
 <div id="examples">
   ##### 例
@@ -680,7 +814,7 @@ with wandb.init() as run:
     )
 ```
 
-### <kbd>method</kbd> Run.log_model()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.log_model()
 
 ```python
 self,
@@ -693,15 +827,26 @@ aliases: 'list[str] | None' = None
 
 モデルアーティファクトの名前に使用できるのは、英数字、アンダースコア、ハイフンのみです。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `path`: (str) このモデルの内容へのパスです。
+<ResponseField name="path" type="StrPath">
+  (str) このモデルの内容へのパスです。
   次の形式を使用できます:
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `name`: ファイルの内容を追加するモデルアーティファクトに割り当てる名前です。指定しない場合は、path の basename の先頭に現在の run ID を付けたものがデフォルトになります。
-* `aliases`: 作成されたモデルアーティファクトに適用するエイリアスです。デフォルトは `["latest"]` です
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  ファイルの内容を追加するモデルアーティファクトに割り当てる名前です。指定しない場合は、path の basename の先頭に現在の run ID を付けたものがデフォルトになります。
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  作成されたモデルアーティファクトに適用するエイリアスです。デフォルトは `["latest"]` です
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -709,7 +854,7 @@ aliases: 'list[str] | None' = None
 
 * `ValueError`: name に無効な特殊文字が含まれている場合。
 
-### <kbd>method</kbd> Run.mark_preempting()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.mark_preempting()
 
 ```python
 self
@@ -719,7 +864,7 @@ self
 
 また、内部プロセスに対して、これを直ちにサーバーへ報告するよう指示します。
 
-### <kbd>method</kbd> Run.pin_config_keys()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.pin_config_keys()
 
 ```python
 self,
@@ -732,11 +877,15 @@ Run Overview の References セクションに表示する設定キーをピン�
 文字列値は markdown としてレンダリングされ、文字列以外の値は
 プレーンテキストとしてレンダリングされます。これを再度呼び出すと、以前ピン留めしたリストは置き換えられます。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `keys`: ピン留めする設定キー名です。`run.config` で設定したキーと一致している必要があります。これらは完全一致のキー文字列で、ドットやスラッシュはパス区切り文字ではなく、文字どおりに扱われます。順序は保持され、その順序が表示順になります。
+<ResponseField name="keys" type="Sequence[str]">
+  ピン留めする設定キー名です。`run.config` で設定したキーと一致している必要があります。これらは完全一致のキー文字列で、ドットやスラッシュはパス区切り文字ではなく、文字どおりに扱われます。順序は保持され、その順序が表示順になります。
+</ResponseField>
 
-### <kbd>method</kbd> Run.restore()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.restore()
 
 ```python
 self,
@@ -751,12 +900,25 @@ root: 'str | None' = None
 ファイルは現在のディレクトリまたは run ディレクトリに保存されます。
 デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `name`: ファイルの名。
-* `run_path`: ファイルの取得元となる run へのオプションのパス。例: `username/project_name/run_id`。`wandb.init` が呼び出されていない場合は必須です。
-* `replace`: ローカルにすでに存在する場合でもファイルをダウンロードするかどうか
-* `root`: ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または `wandb.init` が呼び出されている場合は run ディレクトリです。
+<ResponseField name="name" type="str">
+  ファイルの名。
+</ResponseField>
+
+<ResponseField name="run_path" type="str | None">
+  ファイルの取得元となる run へのオプションのパス。例: `username/project_name/run_id`。`wandb.init` が呼び出されていない場合は必須です。
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+  ローカルにすでに存在する場合でもファイルをダウンロードするかどうか
+</ResponseField>
+
+<ResponseField name="root" type="str | None">
+  ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または `wandb.init` が呼び出されている場合は run ディレクトリです。
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -765,7 +927,7 @@ root: 'str | None' = None
 * `CommError`: W&amp;B が W&amp;B バックエンドに接続できない場合。
 * `ValueError`: ファイルが見つからない場合、または run&#95;path が見つからない場合。
 
-### <kbd>method</kbd> Run.save()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.save()
 
 ```python
 self,
@@ -786,7 +948,7 @@ glob: 'bool' = True
 動作については、
 [https://docs.python.org/3/library/glob.html](https://docs.python.org/3/library/glob.html) を参照してください。
 特に、文字 `*`、`?`、`[]` は、実際のファイル名
- (例: &quot;myfile[1].txt&quot;) に含まれている場合でも、リテラル文字ではなく
+(例: &quot;myfile[1].txt&quot;) に含まれている場合でも、リテラル文字ではなく
 glob のメタ文字として扱われます。ファイル名にこれらの文字が
 含まれていて、パターンではなく文字どおりに一致させたい
 場合は、`save` を呼び出す前に `glob.escape()` で自分で
@@ -800,17 +962,31 @@ glob のメタ文字として扱われます。ファイル名にこれらの文
 ファイルは自動的に重複排除されます。同じファイルを変更せずに `save()` を複数回
 呼び出しても、再アップロードされません。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `glob_str`: 相対パス、絶対パス、または Unix glob。
-* `base_path`: ディレクトリ構造の推定に使用するパス。例を参照してください。
-* `policy`: `live`、`now`、`end` のいずれかです。
+<ResponseField name="glob_str" type="str | os.PathLike">
+  相対パス、絶対パス、または Unix glob。
+</ResponseField>
+
+<ResponseField name="base_path" type="str | os.PathLike | None">
+  ディレクトリ構造の推定に使用するパス。例を参照してください。
+</ResponseField>
+
+<ResponseField name="policy" type="PolicyName">
+  `live`、`now`、`end` のいずれかです。
+
   * live: ファイルが変更されるたびにアップロードし、前のバージョンを上書きします
   * now: 今すぐ 1 回だけファイルをアップロードします
   * end: run の終了時にファイルをアップロードします
-* `glob`: `glob_str` を glob パターンとして扱うかどうか。後方互換性のため、デフォルトでは `True` です。`glob_str` の名前に `[`、`]`、`*`、`?` などの glob メタ文字が含まれており、それらをパターンとして解釈したくない場合は、`False` に設定して `glob_str` をリテラルパスとして扱います。
+</ResponseField>
 
-### <kbd>method</kbd> Run.status()
+<ResponseField name="glob" type="bool">
+  `glob_str` を glob パターンとして扱うかどうか。後方互換性のため、デフォルトでは `True` です。`glob_str` の名前に `[`、`]`、`*`、`?` などの glob メタ文字が含まれており、それらをパターンとして解釈したくない場合は、`False` に設定して `glob_str` をリテラルパスとして扱います。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.status()
 
 ```python
 self
@@ -818,20 +994,24 @@ self
 
 内部バックエンドから、現在のrunのSyncステータス情報を取得します。
 
-### <kbd>method</kbd> Run.unwatch()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.unwatch()
 
 ```python
 self,
 models: 'torch.nn.Module | Sequence[torch.nn.Module] | None' = None
 ```
 
-pytorch モデルのトポロジー、gradient、パラメーターのフックを削除します。
+pytorch モデルのトポロジー、勾配、パラメーターのフックを削除します。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `models`: watch が呼び出されている pytorch モデルの任意のリスト。
+<ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module] | None">
+  watch が呼び出されている pytorch モデルの任意のリスト。
+</ResponseField>
 
-### <kbd>method</kbd> Run.upsert_artifact()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.upsert_artifact()
 
 ```python
 self,
@@ -847,21 +1027,39 @@ run の出力として、未確定の アーティファクト を宣言する (
 アーティファクト を確定するには、`run.finish&#95;artifact()` を呼び出す必要があることに注意してください。
 これは、分散ジョブのすべてが同じ アーティファクト に書き込む必要がある場合に便利です。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `artifact_or_path`: この アーティファクト の内容へのパス。次の形式を指定できます。
+<ResponseField name="artifact_or_path" type="Artifact | str">
+  この アーティファクト の内容へのパス。次の形式を指定できます。
+
   * `/local/directory`
   * `/local/directory/file.txt`
   * `s3://bucket/path`
-* `name`: アーティファクト 名。`entity/プロジェクト` を接頭辞として付けることができます。指定しない場合、パスの basename の先頭に現在の run ID を付けたものがデフォルトになります。有効な名は次の形式です。
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  アーティファクト 名。`entity/プロジェクト` を接頭辞として付けることができます。指定しない場合、パスの basename の先頭に現在の run ID を付けたものがデフォルトになります。有効な名は次の形式です。
+
   * name:version
   * name:alias
   * digest
-* `type`: ログする アーティファクト のタイプ。一般的な例としては `dataset`、`model` があります。
-* `aliases`: この アーティファクト に適用するエイリアス。デフォルトは `["latest"]` です。
-* `distributed_id`: すべての分散ジョブで共有する一意の文字列です。None の場合、run のグループ名がデフォルトになります。
+</ResponseField>
 
-### <kbd>method</kbd> Run.use_artifact()
+<ResponseField name="type" type="str | None">
+  ログする アーティファクト のタイプ。一般的な例としては `dataset`、`model` があります。
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  この アーティファクト に適用するエイリアス。デフォルトは `["latest"]` です。
+</ResponseField>
+
+<ResponseField name="distributed_id" type="str | None">
+  すべての分散ジョブで共有する一意の文字列です。None の場合、run のグループ名がデフォルトになります。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_artifact()
 
 ```python
 self,
@@ -875,17 +1073,31 @@ use_as: 'str | None' = None
 
 返されたオブジェクトに対して `download` または `file` を呼び出すと、内容をローカルに取得できます。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `artifact_or_name`: 使用する アーティファクト の名前。アーティファクト がログされたプロジェクト名
+<ResponseField name="artifact_or_name" type="str | Artifact">
+  使用する アーティファクト の名前。アーティファクト がログされたプロジェクト名
   (&quot;entity&quot; または &quot;entity/project&quot;) を接頭辞として付けることもできます。名前に
   entity が指定されていない場合は、Run または API 設定の entity が使用されます。
   有効な名前は次の形式です
+
   * name:version
   * name:alias
-* `type`: 使用する アーティファクト のタイプ。
-* `aliases`: この アーティファクト に適用するエイリアス。
-* `use_as`: この引数は非推奨で、何も行いません。
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+  使用する アーティファクト のタイプ。
+</ResponseField>
+
+<ResponseField name="aliases" type="list[str] | None">
+  この アーティファクト に適用するエイリアス。
+</ResponseField>
+
+<ResponseField name="use_as" type="str | None">
+  この引数は非推奨で、何も行いません。
+</ResponseField>
 
 <div id="examples">
   ##### 例
@@ -916,7 +1128,7 @@ artifact_d = run.use_artifact(
 run.finish()
 ```
 
-### <kbd>method</kbd> Run.use_model()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_model()
 
 ```python
 self,
@@ -925,13 +1137,18 @@ name: 'str'
 
 モデル アーティファクト `name` にログされたファイルをダウンロードします。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `name`: モデル アーティファクト の名です。`name` は、既存のログ済み
+<ResponseField name="name" type="str">
+  モデル アーティファクト の名です。&#39;name&#39; は、既存のログ済み
   モデル アーティファクト の名と一致している必要があります。`entity/プロジェクト/` をプレフィックスとして付けることもできます。有効な名は
   次の形式です
+
   * model&#95;artifact&#95;name:version
   * model&#95;artifact&#95;name:alias
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -939,7 +1156,7 @@ name: 'str'
 
 * `AssertionError`: モデル アーティファクト `name` のタイプに部分文字列 `model` が含まれていない場合。
 
-### <kbd>method</kbd> Run.watch()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.watch()
 
 ```python
 self,
@@ -955,14 +1172,33 @@ log_graph: 'bool' = False
 
 この関数では、トレーニング中にパラメーター、勾配、またはその両方をトラッキングできます。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `models`: 監視対象の単一のモデル、またはモデルのシーケンス。
-* `criterion`: 最適化対象の損失関数 (省略可能) 。
-* `log`: `"gradients"`、`"parameters"`、または `"all"` をログするかどうかを指定します。ロギング を無効にするには None に設定します。 (デフォルト=`"gradients"`) 。
-* `log_freq`: 勾配とパラメーターをログする頻度 (バッチ単位) 。 (デフォルト=1000)
-* `idx`: `wandb.watch` で複数のモデルをトラッキングする際に使用するインデックス。 (デフォルト=None)
-* `log_graph`: モデルの計算グラフをログするかどうかを指定します。 (デフォルト=False)
+<ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module]">
+  モニターする単一のモデル、またはモデルのシーケンスです。
+</ResponseField>
+
+<ResponseField name="criterion" type="torch.F | None">
+  最適化対象の損失関数 (任意) 。
+</ResponseField>
+
+<ResponseField name="log" type="Literal['gradients', 'parameters', 'all'] | None">
+  ログする対象として &quot;gradients&quot;、&quot;parameters&quot;、または &quot;all&quot; を指定します。ログを無効にするには None に設定します。 (デフォルト=&quot;gradients&quot;) 
+</ResponseField>
+
+<ResponseField name="log_freq" type="int">
+  勾配とパラメーターをログする頻度 (バッチ単位) 。 (デフォルト=1000) 
+</ResponseField>
+
+<ResponseField name="idx" type="int | None">
+  `wandb.watch` で複数のモデルをトラッキングする際に使用するインデックス。 (デフォルト=None) 
+</ResponseField>
+
+<ResponseField name="log_graph" type="bool">
+  モデルの計算グラフをログするかどうか。 (デフォルト=False) 
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -970,7 +1206,7 @@ log_graph: 'bool' = False
 
 * `ValueError`: `wandb.init()` が呼び出されていない場合、またはいずれかのモデルが `torch.nn.Module` のインスタンスではない場合。
 
-### <kbd>method</kbd> Run.write_logs()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.write_logs()
 
 ```python
 self,
@@ -983,6 +1219,10 @@ stdout/stderr の自動取得に依存せず、`write_logs` を使用して Logs
 
 Python の `logging` モジュールと連携する `capture_loggers` 設定の使用を検討してください。
 
-##### 引数
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `text`: 書き込むテキストです。末尾に改行がない場合は、改行が追加されます。
+<ResponseField name="text" type="str">
+  書き込むテキストです。末尾に改行がない場合は、改行が追加されます。
+</ResponseField>

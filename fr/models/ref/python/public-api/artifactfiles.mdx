@@ -6,9 +6,9 @@ namespace: wandb.apis.public.artifacts
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1144" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1144" />
 
-## <kbd>classe</kbd> wandb.apis.public.ArtifactFiles
+## <Badge color="yellow" size="lg" shape="rounded">classe</Badge> wandb.apis.public.ArtifactFiles
 
 Paginateur des fichiers d’un artifact.
 
@@ -16,15 +16,15 @@ Paginateur des fichiers d’un artifact.
   ## Propriétés
 </div>
 
-### <kbd>propriété</kbd> path
-
-Renvoie le chemin de l&#39;artifact.
+<ResponseField name="path" type="list[str]">
+  Renvoie le chemin de l&#39;artifact.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> RelayPaginator.convert_objects()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> RelayPaginator.convert_objects()
 
 ```python
 self
@@ -32,7 +32,7 @@ self
 
 Convertit les données de la dernière réponse récupérée en objets renvoyés par l’itérateur.
 
-### <kbd>méthode</kbd> Paginator.**next**()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
 
 ```python
 self
@@ -40,7 +40,7 @@ self
 
 Renvoyer l’élément suivant de l’itérateur. S’il est épuisé, lever StopIteration
 
-### <kbd>méthode</kbd> Paginator.update_variables()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
 
 ```python
 self

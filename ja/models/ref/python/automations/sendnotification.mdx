@@ -6,9 +6,11 @@ namespace: wandb.automations.actions
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
 
-## <kbd>クラス</kbd> wandb.automations.SendNotification
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendNotification
+
+(Slack) 通知を送信するオートメーションアクションを定義します。
 
 ```python
 *,
@@ -19,23 +21,35 @@ title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_sche
 action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
- (Slack) 通知を送信するオートメーションアクションを定義します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `integration_id`: 通知の送信に使用する Slack インテグレーションの ID。
-* `text`: 送信する通知の本文。
-* `level`: 送信する通知の重要度 (`INFO`、`WARN`、`ERROR`) 。
-* `title`: 送信する通知のタイトル。
-* `action_type`: 
+<ResponseField name="integration_id" type="Annotated">
+  通知の送信に使用する Slack インテグレーションの ID。
+</ResponseField>
+
+<ResponseField name="text" type="Annotated">
+  送信する通知のメッセージ本文。
+</ResponseField>
+
+<ResponseField name="level" type="Annotated">
+  送信する通知の重要度 (`INFO`、`WARN`、`ERROR`) 。
+</ResponseField>
+
+<ResponseField name="title" type="Annotated">
+  送信する通知のタイトル。
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  説明はありません。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>メソッド</kbd> SendNotification.from_integration()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendNotification.from_integration()
 
 ```python
 integration: 'SlackIntegration', *,
@@ -50,7 +64,18 @@ level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
   ##### 引数
 </div>
 
-* `integration`:
-* `title`:
-* `text`:
-* `level`: 
+<ResponseField name="integration" type="SlackIntegration">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="text" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+  説明はありません。
+</ResponseField>

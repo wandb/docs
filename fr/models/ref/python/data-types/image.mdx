@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.image
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L76" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py#L76" />
 
-## <kbd>classe</kbd> wandb.Image
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Image
+
+Une classe pour la journalisation d’images dans W&amp;B.
 
 ```python
 data_or_path: 'ImageDataOrPathType',
@@ -21,29 +23,53 @@ masks: 'dict[str, ImageMask] | dict[str, dict] | None' = None,
 file_type: 'str | None' = None
 ```
 
-Une classe pour la journalisation d’images dans W&amp;B.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `data_or_path`: Accepte un tableau NumPy/un tenseur pytorch contenant des données d’image,
+<ResponseField name="data_or_path" type="ImageDataOrPathType">
+  Accepte un tableau NumPy/un tenseur pytorch contenant des données d’image,
   un objet image PIL ou un chemin vers un fichier image. Si un tableau NumPy
   ou un tenseur pytorch est fourni,
   les données d’image seront enregistrées dans le type de fichier indiqué.
-  Les valeurs sont supposées déjà se trouver dans la plage [0, 255].
+  Les valeurs sont supposées déjà se trouver dans la plage &#91;0, 255&#93;.
+
   * le tenseur pytorch doit être au format (channel, height, width)
   * le tableau NumPy doit être au format (height, width, channel)
-* `mode`: Le mode PIL de l’image. Les plus courants sont &quot;L&quot;, &quot;RGB&quot;, &quot;RGBA&quot;. Documentation complète de Pillow pour plus d’informations [https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)
-* `caption`: Libellé d’affichage de l’image.
-* `grouping`: Le numéro de regroupement de l’image.
-* `classes`: Une liste d’informations de classe pour l’image, utilisée pour étiqueter les boîtes englobantes et les masques d’image.
-* `boxes`: Un dictionnaire contenant les informations sur les boîtes englobantes de l’image. Voir [https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d](https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d)
-* `masks`: Un dictionnaire contenant les informations de masque pour l’image. Voir [https://docs.wandb.ai/models/ref/python/data-types/imagemask](https://docs.wandb.ai/models/ref/python/data-types/imagemask)
-* `file_type`: Le type de fichier utilisé pour enregistrer l’image. Ce paramètre n’a aucun effet si `data_or_path` est un chemin vers un fichier image.
+</ResponseField>
+
+<ResponseField name="mode" type="str | None">
+  Le mode PIL de l’image. Les plus courants sont &quot;L&quot;, &quot;RGB&quot;, &quot;RGBA&quot;. Documentation complète de Pillow pour plus d’informations [https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  Libellé d’affichage de l’image.
+</ResponseField>
+
+<ResponseField name="grouping" type="int | None">
+  Le numéro de regroupement de l’image.
+</ResponseField>
+
+<ResponseField name="classes" type="Classes | Sequence[dict] | None">
+  Une liste d’informations de classe pour l’image, utilisée pour étiqueter les boîtes englobantes et les masques d’image.
+</ResponseField>
+
+<ResponseField name="boxes" type="dict[str, BoundingBoxes2D] | dict[str, dict] | None">
+  Un dictionnaire contenant les informations sur les boîtes englobantes de l’image. Voir [https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d](https://docs.wandb.ai/models/ref/python/data-types/boundingboxes2d)
+</ResponseField>
+
+<ResponseField name="masks" type="dict[str, ImageMask] | dict[str, dict] | None">
+  Un dictionnaire contenant les informations de masque pour l’image. Voir [https://docs.wandb.ai/models/ref/python/data-types/imagemask](https://docs.wandb.ai/models/ref/python/data-types/imagemask)
+</ResponseField>
+
+<ResponseField name="file_type" type="str | None">
+  Le type de fichier utilisé pour enregistrer l’image. Ce paramètre n’a aucun effet si `data_or_path` est un chemin vers un fichier image.
+</ResponseField>
 
 <div id="properties">
   ## Propriétés
 </div>
 
-### <kbd>propriété</kbd> image
+<ResponseField name="image" type="PILImage | None">
+  Aucune description n’est fournie.
+</ResponseField>

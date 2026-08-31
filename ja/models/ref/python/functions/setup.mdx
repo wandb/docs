@@ -6,13 +6,9 @@ namespace: wandb.sdk.wandb_setup
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L512" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L512" />
 
-## <kbd>関数</kbd> wandb.setup
-
-```python
-settings: 'Settings | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.setup()
 
 現在のプロセスおよびその子プロセスで W&amp;B を使用できるように準備します。
 
@@ -25,11 +21,17 @@ wandb を複数のプロセスで使用する場合は、子プロセスを開�
 
 `wandb.teardown()` も参照してください。
 
+```python
+settings: 'Settings | None' = None
+```
+
 <div id="args">
   ## 引数
 </div>
 
-* `settings`: グローバルに適用する設定です。これらは後続の `wandb.init()` 呼び出しで上書きできます。
+<ResponseField name="settings" type="Settings | None">
+  グローバルに適用する設定です。これらは後続の `wandb.init()` 呼び出しで上書きできます。
+</ResponseField>
 
 <div id="examples">
   ## 例

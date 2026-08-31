@@ -6,9 +6,14 @@ namespace: wandb.apis.public.organizations
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#L27" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/organizations.py#L27" />
 
-## <kbd>classe</kbd> wandb.apis.public.Organization
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Organization
+
+Représentation en lecture seule d’une organisation W&amp;B.
+
+Les utilisateurs ne devraient jamais avoir à instancier directement cette classe. Utilisez
+`wandb.Api().organization()` pour récupérer une organisation existante.
 
 ```python
 serviceApi: 'InitVar[ServiceApi]', *,
@@ -17,16 +22,22 @@ name: 'str',
 orgEntity: '_OrgEntity'
 ```
 
-Représentation en lecture seule d’une organisation W&amp;B.
-
-Les utilisateurs ne devraient jamais avoir à instancier directement cette classe. Utilisez
-`wandb.Api().organization()` pour récupérer une organisation existante.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `serviceApi`:
-* `id`:
-* `name`:
-* `orgEntity`: 
+<ResponseField name="serviceApi" type="InitVar[ServiceApi]">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="id" type="GQLId">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="orgEntity" type="_OrgEntity">
+  Aucune description fournie.
+</ResponseField>

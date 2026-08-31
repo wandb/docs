@@ -6,9 +6,45 @@ namespace: wandb.sdk.wandb_settings
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L61" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L61" />
 
-## <kbd>class</kbd> wandb.Settings
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Settings
+
+W&amp;B SDK の Settings クラスです。
+
+このクラスは W&amp;B SDK の設定を管理し、
+すべての設定でタイプ安全性と検証が確保されるようにします。Settings には属性としてアクセスでき、
+プログラムから、環境変数
+(`WANDB_` プレフィックス) 、および設定ファイルを通じて初期化できます。
+
+設定は次の 3 つのカテゴリに分類されます。
+
+1. Public settings: ユーザーが安全に変更でき、特定のニーズに合わせて
+   W&amp;B の動作をカスタマイズするための中核的な設定オプションです。
+2. Internal settings: &#39;x&#95;&#39; で始まる Settings で、SDK の低レベルな動作を扱います。
+   これらの設定は主に内部利用とデバッグ用です。変更は可能ですが、
+   Public API の一部とは見なされず、将来の
+   バージョンで予告なく変更される場合があります。
+3. Computed settings: 他の設定または
+   環境から自動的に導出される読み取り専用の Settings です。
+
+Settings は複数のソースから読み込まれます。同じ設定が
+複数のソースから指定された場合は、
+後に記載されたソースが優先されます。優先順位の低いものから高いものの順に示します。
+
+1. この `Settings` モデルで定義されているデフォルト値。
+2. 設定ファイル (`~/.config/wandb/settings`、または
+   `WANDB_CONFIG_DIR` 環境変数で指定されたディレクトリ内の `settings`
+   ファイル)。
+3. 環境変数 (`WANDB_` で始まるもの。例: `WANDB_MODE`)。
+4. ホスト名、
+   実行中のプログラムまたはスクリプトのパス、Python 実行ファイル、Docker image、
+   Jupyter ノートブックの詳細など、実行時環境から検出される値。
+5. Amazon SageMaker 環境で実行している場合の SageMaker 設定。
+6. `wandb.setup()` の `settings` パラメーター。
+7. `wandb.init()` の `settings` パラメーター。
+8. 一部の `wandb.init()` パラメーター (たとえば、`mode=` は
+   `mode` 設定を上書きします)。
 
 ```python
 *,
@@ -145,7 +181,7 @@ x_service_transport: str | None = None,
 x_service_wait: float = 30.0,
 x_skip_transaction_log: bool = False,
 x_start_time: float | None = None,
-x_stats_pid: int = 66698,
+x_stats_pid: int = 32512,
 x_stats_sampling_interval: float = 15.0,
 x_stats_neuron_monitor_config_path: str | None = None,
 x_stats_dcgm_exporter: str | None = None,
@@ -168,117 +204,129 @@ x_sync_dir_suffix: str = '',
 x_update_finish_state: bool = True
 ```
 
-W&amp;B SDK の Settings クラスです。
-
-このクラスは W&amp;B SDK の設定を管理し、
-すべての設定でタイプ安全性と検証が確保されるようにします。Settings には属性としてアクセスでき、
-プログラムから、環境変数
-(`WANDB_` プレフィックス) 、および設定ファイルを通じて初期化できます。
-
-設定は次の 3 つのカテゴリに分類されます。
-
-1. Public settings: ユーザーが安全に変更でき、特定のニーズに合わせて
-   W&amp;B の動作をカスタマイズするための中核的な設定オプションです。
-2. Internal settings: &#39;x&#95;&#39; で始まる Settings で、SDK の低レベルな動作を扱います。
-   これらの設定は主に内部利用とデバッグ用です。変更は可能ですが、
-   Public API の一部とは見なされず、将来の
-   バージョンで予告なく変更される場合があります。
-3. Computed settings: 他の設定または
-   環境から自動的に導出される読み取り専用の Settings です。
-
-Settings は複数のソースから読み込まれます。同じ設定が
-複数のソースから指定された場合は、
-後に記載されたソースが優先されます。優先順位の低いものから高いものの順に示します。
-
-1. この `Settings` モデルで定義されているデフォルト値。
-2. 設定ファイル (`~/.config/wandb/settings`、または
-   `WANDB_CONFIG_DIR` 環境変数で指定されたディレクトリ内の `settings`
-   ファイル)。
-3. 環境変数 (`WANDB_` で始まるもの。例: `WANDB_MODE`)。
-4. ホスト名、
-   実行中のプログラムまたはスクリプトのパス、Python 実行ファイル、Docker image、
-   Jupyter ノートブックの詳細など、実行時環境から検出される値。
-5. Amazon SageMaker 環境で実行している場合の SageMaker 設定。
-6. `wandb.setup()` の `settings` パラメーター。
-7. `wandb.init()` の `settings` パラメーター。
-8. 一部の `wandb.init()` パラメーター (たとえば、`mode=` は
-   `mode` 設定を上書きします)。
-
 <div id="args">
   ## 引数
 </div>
 
-* `allow_media_symlink`: メディアファイルを run ディレクトリにシンボリックリンクするかどうか。
+<ResponseField name="allow_media_symlink" type="bool">
+  メディアファイルを run ディレクトリにシンボリックリンクするかどうか。
 
-  true の場合、メディアファイルはコピーされず、run ディレクトリにシンボリックリンクまたはハードリンクされます。これにより、ログが高速になり、ディスク使用量を削減できる場合があります。ただし、W&amp;B サーバーにアップロードする前に元のファイルを削除または変更すると、その変更内容がアップロードされたデータに反映されます。
-* `allow_offline_artifacts`: オフラインモードでテーブルアーティファクトを同期できるようにするフラグ。
+  true の場合、メディアファイルはコピーする代わりに、
+  run ディレクトリにシンボリックリンクまたはハードリンクされます。これにより、
+  ログすることが高速化され、ディスク使用量を削減できる場合があります。ただし、
+  W&amp;B サーバーへのアップロード前に元のファイルを削除または変更すると、
+  その内容がアップロードデータに反映されます。
+</ResponseField>
+
+<ResponseField name="allow_offline_artifacts" type="bool">
+  オフラインモードで表のアーティファクトを同期できるようにするフラグ。
 
   以前の動作に戻すには、これを False に設定します。
-* `allow_val_change`: `Config` の値を設定後に変更できるようにするフラグ。
-* `anonymous`: 非推奨であり、削除される予定です。
-* `api_key`: W&amp;B の APIキー。
-* `azure_account_url_to_access_key`: Azure インテグレーション用の、Azure アカウント URL と対応するアクセスキーのマッピング。
-* `app_url_override`: W&amp;B UI の `app` URL のオーバーライド。
+</ResponseField>
 
-  `app_url` は通常 `base_url` に基づいて計算されますが、これを使用して明示的に設定できます。
+<ResponseField name="allow_val_change" type="bool">
+  `Config` 値を設定後に変更できるようにするフラグ。
+</ResponseField>
+
+<ResponseField name="anonymous" type="object">
+  非推奨であり、削除される予定です。
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  W&amp;B APIキー。
+</ResponseField>
+
+<ResponseField name="azure_account_url_to_access_key" type="dict[str, str] | None">
+  Azure インテグレーション用の、Azure アカウント URL と対応するアクセスキーのマッピング。
+</ResponseField>
+
+<ResponseField name="app_url_override" type="str | None">
+  W&amp;B UI の「app」URL のオーバーライド。
+
+  通常、`app_url` は `base_url` に基づいて算出されますが、これを使用して
+  明示的に設定できます。
 
   WANDB&#95;APP&#95;URL は対応する環境変数です。
-* `base_url`: データ同期に使用する W&amp;B バックエンドの URL。
-* `code_dir`: W&amp;B でトラッキングするコードを含むディレクトリ。
-* `config_paths`: `Config` オブジェクトに読み込む設定ファイルのパス。
-* `console`: 適用するコンソールの取得タイプ。
+</ResponseField>
+
+<ResponseField name="base_url" type="str">
+  データ同期に使用する W&amp;B バックエンドの URL。
+</ResponseField>
+
+<ResponseField name="code_dir" type="str | None">
+  W&amp;B でトラッキングするコードを含むディレクトリ。
+</ResponseField>
+
+<ResponseField name="config_paths" type="collections.abc.Sequence[str] | None">
+  `Config` オブジェクトに読み込む設定ファイルのパス。
+</ResponseField>
+
+<ResponseField name="console" type="Literal">
+  適用するコンソール出力の取得方法。
 
   指定可能な値は次のとおりです。
 
-  * &quot;auto&quot; - システムの環境と設定に応じて、コンソールの取得方法を自動的に選択します。
-  * &quot;off&quot; - コンソールの取得を無効にします。
-  * &quot;redirect&quot; - 出力を取得するために、低レベルのファイルディスクリプタをリダイレクトします。
-  * &quot;wrap&quot; - sys.stdout/sys.stderr の write メソッドをオーバーライドします。システムの状態に応じて、&quot;wrap&#95;raw&quot; または &quot;wrap&#95;emu&quot; のいずれかにマップされます。
-  * &quot;wrap&#95;raw&quot; - &quot;wrap&quot; と同じですが、エミュレーターを介さずに生の出力を直接取得します。`wrap` 設定から派生するため、手動で設定しないでください。
+  * &quot;auto&quot; - システム環境と設定に基づいて、コンソール出力の取得方法を
+    自動的に選択します。
+  * &quot;off&quot; - コンソール出力の取得を無効にします。
+  * &quot;redirect&quot; - 出力を取得するために低レベルのファイルディスクリプタをリダイレクトします。
+  * &quot;wrap&quot; - sys.stdout/sys.stderr の write メソッドをオーバーライドします。システムの状態に基づいて、
+    &quot;wrap&#95;raw&quot; または &quot;wrap&#95;emu&quot; のいずれかにマッピングされます。
+  * &quot;wrap&#95;raw&quot; - &quot;wrap&quot; と同じですが、エミュレーターを介さずに生の出力を直接取得します。
+    `wrap` 設定から導出されるため、手動で設定しないでください。
   * &quot;wrap&#95;emu&quot; - &quot;wrap&quot; と同じですが、エミュレーターを介して出力を取得します。
-    `wrap` 設定から派生するため、手動で設定しないでください。
-* `console_multipart`: マルチパートのコンソールログを有効にします。
+    `wrap` 設定から導出されるため、手動で設定しないでください。
+</ResponseField>
 
-  `True` の場合、SDK はコンソール出力を単一の `output.log` ではなく、
-  `logs/` ディレクトリ配下のタイムスタンプ付きファイルに書き込みます。
+<ResponseField name="console_multipart" type="bool">
+  マルチパートコンソールログを有効にします。
 
-  各パートは閉じられるとすぐにアップロードされるため、run の実行中でも
+  True の場合、SDK はコンソール出力を単一の `output.log` ではなく、
+  `logs/` ディレクトリ以下のタイムスタンプ付きファイルに書き込みます。
+
+  各パートは閉じられるとすぐにアップロードされるため、run がアクティブな間、
   ユーザーはログにリアルタイムでアクセスできます。ロールオーバーの頻度は
-  `console_chunk_max_bytes` および/または `console_chunk_max_seconds` で
-  制御されます。両方の制限が `0` の場合、すべてのログは run の終了時に
-  まとめてアップロードされます。
+  `console_chunk_max_bytes` および/または `console_chunk_max_seconds` によって制御されます。
+  両方の制限が `0` の場合、すべてのログは run の終了時に一度だけアップロードされます。
 
-  注: アップロードされたチャンクは不変です。以前の行を変更する
-  ターミナル制御シーケンス (例: キャリッジリターンを使用するプログレスバー) は、
+  注: アップロードされたチャンクは不変です。以前の行を変更するターミナル制御シーケンス
+   (例: キャリッジリターンを使用するプログレスバー) は、
   現在のチャンクにのみ影響します。
-* `console_chunk_max_bytes`: マルチパートのコンソールログに対する、バイト単位のサイズベースのロールオーバーしきい値。
+</ResponseField>
 
-  現在のパートがこのサイズに達すると、新しいコンソールログ file を開始します。
-  効果があるのは `console_multipart` が `True` の場合のみです。
-  `console_chunk_max_seconds` と組み合わせて使用できます。先に到達した
-  制限によりロールオーバーがトリガーされます。値を `0` にすると、
-  サイズベースの制限は無効になります。
-* `console_chunk_max_seconds`: マルチパートのコンソールログに対する、秒単位の時間ベースのロールオーバーしきい値。
+<ResponseField name="console_chunk_max_bytes" type="int">
+  マルチパートコンソールログのサイズベースのロールオーバーしきい値 (バイト単位) 。
 
-  現在のパートの開始からこの秒数が経過すると、新しいコンソールログ file を
-  開始します。`console_multipart` が `True` である必要があります。
-  `console_chunk_max_bytes` と併用できます。先に到達した制限によって
-  パートが閉じられます。値を `0` にすると、時間ベースの制限は
-  無効になります。
-* `capture_loggers`: run の Logs タブに取得する Python logger の名。
+  現在のパートがこのサイズに達すると、新しいコンソールログファイルを開始します。
+  `console_multipart` が `True` の場合にのみ有効です。
+  `console_chunk_max_seconds` と組み合わせて使用できます。先に
+  到達した制限によってロールオーバーがトリガーされます。値を `0` にすると、
+  サイズベースの制限が無効になります。
+</ResponseField>
 
-  ロガー名から最小ログレベルへのマッピングです。設定すると、wandb は
-  各指定ロガーに logging.Handler を追加し、
-  run の終了時にそれを削除します。
-  それらのロガーから出力されたログレコードは、コンソール出力として
-  run に公開され、stdout/stderr の取得と同様に扱われます。
+<ResponseField name="console_chunk_max_seconds" type="int">
+  マルチパートコンソールログの時間ベースのロールオーバーしきい値 (秒単位) 。
 
-  ログレコードは `logging.basicConfig()` と同じ形式で出力され、たとえば
-  `INFO:my_module:Some message.` のようになります。現在、これはカスタマイズできません。
+  現在のパートの開始からこの秒数が経過すると、新しいコンソールログファイルを開始します。
+  `console_multipart` を `True` にする必要があります。`console_chunk_max_bytes` と
+  併用できます。先に到達した制限によってパートが閉じられます。値を `0` にすると、時間ベースの
+  制限が無効になります。
+</ResponseField>
 
-  すべてのログを取得するには、ルートロガー名 (&#39;root&#39;) を渡します。
+<ResponseField name="capture_loggers" type="dict[str, str] | None">
+  run の Logs タブに取得する Python ロガーの名前。
 
-  これは `console` の設定とは独立しており、両方を同時に有効にできます。
+  ロガー名と最小ログレベルのマッピングです。設定すると、wandb は
+  指定した各ロガーに logging.Handler をインストールし、run の終了時に削除します。
+  これらのロガーから出力されたログレコードは、stdout/stderr の取得と同様に、
+  run のコンソール出力として公開されます。
+
+  ログレコードは `logging.basicConfig()` と同じ形式でフォーマットされます。たとえば、
+  `INFO:my_module:Some message.` のようになります。現在、この形式はカスタマイズできません。
+
+  すべてのログを取得するには、ルートロガー名である &#39;root&#39; を渡します。
+
+  これは `console` 設定とは独立しており、両方を同時に有効にできます。
 
   例:
 
@@ -293,314 +341,586 @@ Settings は複数のソースから読み込まれます。同じ設定が
       ),
   )
   ```
-* `credentials_file`: 一時的なアクセストークンを書き込むファイルのパス。
-* `disable_code`: コードのキャプチャを無効にするかどうか。
-* `disable_git`: Git の状態のキャプチャを無効にするかどうか。
-* `disable_git_fork_point`: リモートブランチから fork point を推定する処理を無効にするかどうか
+</ResponseField>
 
-  True に設定すると、upstream ブランチが設定されている場合、SDK はそのブランチの最新コミットを使用します。それ以外の場合は、差分 patch を生成しません。
+<ResponseField name="credentials_file" type="str">
+  一時的なアクセストークンを書き込むファイルへのパス。
+</ResponseField>
 
-  False に設定すると、upstream ブランチが設定されている場合、SDK はそのブランチの最新コミットを使用しようとします。
+<ResponseField name="disable_code" type="bool">
+  コードの取得を無効にするかどうか。
+</ResponseField>
+
+<ResponseField name="disable_git" type="bool">
+  Git の状態の取得を無効にするかどうか。
+</ResponseField>
+
+<ResponseField name="disable_git_fork_point" type="bool">
+  リモートブランチからフォークポイントを推測する機能を無効にするかどうか。
+
+  True に設定すると、アップストリームブランチが設定されている場合、SDK はそのブランチの
+  最新コミットを使用します。設定されていない場合は、差分パッチの生成をスキップします。
+
+  False に設定すると、アップストリームブランチが設定されている場合、SDK はそのブランチの最新コミットの使用を試みます。
   それ以外の場合は、すべてのリモートブランチから最も近いコミットを検索します。
-  upstream ブランチが多いリポジトリでは、パフォーマンスに影響する可能性があります。
-* `disable_job_creation`: W&amp;B Launch 用のジョブ artifact の作成を無効にするかどうか。
-* `docker`: スクリプトの実行に使用する Docker image。
-* `email`: ユーザーのメールアドレス。
-* `entity`: ユーザーやチームなどの W&amp;B entity。
-* `organization`: W&amp;B 組織。
-* `force`: `wandb.login()` に `force` フラグを渡すかどうか。
-* `fork_from`: fork 元にする以前の run の実行時点を指定します。
+  アップストリームブランチが多数あるリポジトリでは、パフォーマンスに影響する可能性があります。
+</ResponseField>
 
-  この時点は、Run ID、メトリクス、およびその値で定義されます。
-  現在サポートされるメトリクスは &#39;&#95;step&#39; のみです。
-* `git_commit`: run に関連付ける Git コミットハッシュ。
-* `git_remote`: run に関連付ける Git リモート。
-* `git_remote_url`: Git リモートリポジトリの URL。
-* `git_root`: Git リポジトリのルートディレクトリ。
-* `host`: スクリプトを実行しているマシンのホスト名。
-* `http_proxy`: W&amp;B への HTTP リクエスト用のカスタムプロキシサーバー。
-* `https_proxy`: W&amp;B への HTTPS リクエスト用のカスタムプロキシサーバー。
-* `identity_token_file`: 認証用のアイデンティティトークン (JWT) を含むファイルのパス。
-* `ignore_globs`: `files_dir` からの相対パスで指定する、upload から除外するファイルの Unix glob パターン。
-* `init_timeout`: タイムアウトするまで `wandb.init` 呼び出しの完了を待機する秒数。
-* `finish_timeout`: run の終了時にデータの upload 完了を待機する秒数。
+<ResponseField name="disable_job_creation" type="bool">
+  W&amp;B Launch 用のジョブ アーティファクトの作成を無効にするかどうか。
+</ResponseField>
 
-  これを設定すると、run の終了時に W&amp;B への upload が遅いことで発生するコストを抑えられますが、その代わり run は crashed としてマークされ、一部のデータが欠落する可能性があります。デフォルトでは、`run.finish()` はすべてのデータの upload が完了するまでブロックします。
+<ResponseField name="docker" type="str | None">
+  スクリプトの実行に使用する Docker イメージ。
+</ResponseField>
 
-  これが 0 より大きい数値に設定されている場合、W&amp;B は run の終了時にこの秒数が経過すると run のデータの upload をあきらめ、スクリプトのブロックを解除します。しばらくすると、run は UI 上で Crashed または Failed になります。upload されなかったデータは引き続きディスクに保存され、`wandb
-    sync` で upload できます。
+<ResponseField name="email" type="str | None">
+  ユーザーのメールアドレス。
+</ResponseField>
 
-  `finish_timeout_raises` 設定を使用すると、警告メッセージの出力に加えてエラーを発生させることができます。
+<ResponseField name="entity" type="str | None">
+  ユーザーやチームなどの W&amp;B エンティティ。
+</ResponseField>
 
-  `wandb.teardown()` によって終了される Runs (スクリプトの終了時に atexit hook で自動的に実行されます) も、この設定に従います。
-* `finish_timeout_raises`: finish&#95;timeout の制限時間を超えた場合に TimeoutError を発生させるかどうか。
+<ResponseField name="organization" type="str | None">
+  W&amp;B 組織。
+</ResponseField>
 
-  これを `finish_timeout` 設定と一緒に使用すると、`run.finish()`
-  は、メッセージを出力するだけでなく、タイムアウト後に TimeoutError を発生させます。
+<ResponseField name="force" type="bool">
+  `wandb.login()` に `force` フラグを渡すかどうか。
+</ResponseField>
 
-  コンテキストマネージャーとして Run を使用する場合、`run.finish()` は暗黙的に呼び出されることに注意してください:
+<ResponseField name="fork_from" type="wandb.sdk.lib.run_moment.RunMoment | None">
+  フォーク元とする、以前の run 実行時点を指定します。
+
+  この時点は、run ID、メトリクス、およびその値で定義されます。
+  現在、サポートされるメトリクスは &#39;&#95;step&#39; のみです。
+</ResponseField>
+
+<ResponseField name="git_commit" type="str | None">
+  run に関連付ける Git コミットハッシュ。
+</ResponseField>
+
+<ResponseField name="git_remote" type="str">
+  run に関連付ける Git リモート。
+</ResponseField>
+
+<ResponseField name="git_remote_url" type="str | None">
+  Git リモートリポジトリの URL。
+</ResponseField>
+
+<ResponseField name="git_root" type="str | None">
+  Git リポジトリのルートディレクトリ。
+</ResponseField>
+
+<ResponseField name="host" type="str | None">
+  スクリプトを実行するマシンのホスト名。
+</ResponseField>
+
+<ResponseField name="http_proxy" type="str | None">
+  W&amp;B への HTTP リクエストに使用するカスタムプロキシサーバー。
+</ResponseField>
+
+<ResponseField name="https_proxy" type="str | None">
+  W&amp;B への HTTPS リクエストに使用するカスタムプロキシサーバー。
+</ResponseField>
+
+<ResponseField name="identity_token_file" type="str | None">
+  認証用のアイデンティティトークン (JWT) を含むファイルへのパス。
+</ResponseField>
+
+<ResponseField name="ignore_globs" type="Sequence">
+  アップロードから除外する file を指定する、`files_dir` を基準とした Unix glob パターン。
+</ResponseField>
+
+<ResponseField name="init_timeout" type="float">
+  タイムアウトまで `wandb.init` 呼び出しの完了を待機する時間 (秒) 。
+</ResponseField>
+
+<ResponseField name="finish_timeout" type="float">
+  run の終了時にデータのアップロードを待機する秒数です。
+
+  この値を設定すると、run の終了時に W&amp;B へのアップロードが遅いことで発生するコストを抑えられますが、その代わりに run は crashed としてマークされ、一部のデータが欠落する可能性があります。デフォルトでは、すべてのデータのアップロードが完了するまで `run.finish()` がブロックされます。
+
+  これをゼロより大きい数値に設定すると、run の終了時にこの秒数が経過した後、W&amp;B は run のデータのアップロードを中止し、スクリプトのブロックを解除します。しばらくすると、UI で run は Crashed または Failed と表示されます。アップロードされなかったデータは引き続きディスクに保存され、`wandb
+  sync` でアップロードできます。
+
+  警告メッセージの出力に加えてエラーを発生させるには、`finish_timeout_raises` 設定を使用します。
+
+  `wandb.teardown()` によって終了される Runs (atexit フックでスクリプト終了時に自動的に実行されます) にも、この設定が適用されます。
+</ResponseField>
+
+<ResponseField name="finish_timeout_raises" type="bool">
+  finish&#95;timeout が期限切れになった場合に TimeoutError を発生させるかどうかです。
+
+  これを `finish_timeout` 設定とともに使用すると、`run.finish()` はメッセージの出力に加えて、タイムアウト後に TimeoutError を発生させます。
+
+  Run をコンテキストマネージャーとして使用する場合、`run.finish()` は暗黙的に呼び出されることに注意してください。
 
   with wandb.init() as run:
-  ...  # `with` ブロックの最後で run.finish() が実行されます
+  ...  # `with` ブロックの終了時に run.finish() が実行されます
 
-  これによって `wandb.teardown()` がエラーを発生させることはありません (いずれにしてもスクリプトの終了時に実行されるためです) 。
-* `insecure_disable_ssl`: 安全ではない形で SSL 検証を無効にするかどうか。
-* `job_name`: スクリプトを実行している Launch ジョブの名前。
-* `job_source`: Launch のソースタイプ。
-* `label_disable`: 自動ラベル付け機能を無効にするかどうか。
-* `launch_config_path`: Launch 設定fileへのパス。
-* `login_timeout`: ログイン操作がタイムアウトするまで待機する時間 (秒) 。
-* `mode`: W&amp;B のログ記録と同期の動作モード。
-* `notebook_name`: Jupyter のような環境で実行している場合のノートブック名。
-* `program`: 使用可能な場合に、run を作成したスクリプトへのパス。
-* `program_abspath`: リポジトリのルートディレクトリから、run を作成したスクリプトまでの絶対パス。
+  これは `wandb.teardown()` でエラーを発生させません (いずれにしてもスクリプトの終了時に実行されるためです) 。
+</ResponseField>
 
-  リポジトリのルートディレクトリは、`.git` ディレクトリが存在する場合は、それを含むディレクトリとして定義されます。存在しない場合は、現在の作業ディレクトリです。
-* `program_relpath`: run を作成したスクリプトへの相対パス。
-* `project`: W&amp;B の project ID。
-* `quiet`: 必須ではない出力を抑制するためのフラグ。
-* `reinit`: run がアクティブな状態で `wandb.init()` が呼び出された場合の動作。
+<ResponseField name="insecure_disable_ssl" type="bool">
+  安全でない方法で SSL 検証を無効にするかどうかです。
+</ResponseField>
+
+<ResponseField name="job_name" type="str | None">
+  スクリプトを実行している Launch ジョブの名前です。
+</ResponseField>
+
+<ResponseField name="job_source" type="Optional">
+  Launch のソースタイプです。
+</ResponseField>
+
+<ResponseField name="label_disable" type="bool">
+  自動ラベリング機能を無効にするかどうかです。
+</ResponseField>
+
+<ResponseField name="launch_config_path" type="str | None">
+  Launch 設定 file へのパスです。
+</ResponseField>
+
+<ResponseField name="login_timeout" type="float | None">
+  ログイン操作がタイムアウトするまで待機する秒数です。
+</ResponseField>
+
+<ResponseField name="mode" type="Literal">
+  W&amp;B ログすることと同期の動作モードです。
+</ResponseField>
+
+<ResponseField name="notebook_name" type="str | None">
+  Jupyter のような環境で実行している場合のノートブック名です。
+</ResponseField>
+
+<ResponseField name="program" type="str | None">
+  利用可能な場合、run を作成したスクリプトへのパスです。
+</ResponseField>
+
+<ResponseField name="program_abspath" type="str | None">
+  リポジトリのルートディレクトリから run を作成したスクリプトまでの絶対パスです。
+
+  リポジトリのルートディレクトリは、存在する場合は .git ディレクトリを含むディレクトリとして定義されます。それ以外の場合は、現在の作業ディレクトリです。
+</ResponseField>
+
+<ResponseField name="program_relpath" type="str | None">
+  run を作成したスクリプトへの相対パスです。
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  W&amp;B のプロジェクト ID です。
+</ResponseField>
+
+<ResponseField name="quiet" type="bool">
+  必須ではない出力を抑制するフラグです。
+</ResponseField>
+
+<ResponseField name="reinit" type="Union">
+  run がアクティブな間に `wandb.init()` が呼び出された場合の動作です。
 
   オプション:
 
-  * &quot;default&quot;: ノートブックでは &quot;finish&#95;previous&quot; を使用し、それ以外では
-    &quot;return&#95;previous&quot; を使用します。
-  * &quot;return&#95;previous&quot;: まだ終了していない、直近で作成された run を返します。
-    これは `wandb.run` を更新しません。&quot;create&#95;new&quot; オプションを
-    参照してください。
-  * &quot;finish&#95;previous&quot;: アクティブなすべての run を終了してから、新しい run を返します。
-  * &quot;create&#95;new&quot;: 他のアクティブな run を変更せずに、新しい run を作成します。
-    `wandb.run` や `wandb.log` などのトップレベル関数は更新しません。
-    そのため、グローバル run に依存する一部の古いインテグレーションは
+  * &quot;default&quot;: ノートブックでは &quot;finish&#95;previous&quot; を使用し、それ以外では &quot;return&#95;previous&quot;
+    を使用します。
+  * &quot;return&#95;previous&quot;: まだ終了していない、最後に作成された run を返します。
+    これは `wandb.run` を更新しません。「create&#95;new」オプションを参照してください。
+  * &quot;finish&#95;previous&quot;: すべてのアクティブな Runs を終了してから、新しい run を返します。
+  * &quot;create&#95;new&quot;: 他のアクティブな Runs を変更せずに新しい run を作成します。
+    `wandb.run` および `wandb.log` などのトップレベル関数は更新しません。
+    このため、グローバル run に依存する一部の古いインテグレーションは
     動作しません。
 
-  ブール値も指定できますが、これは非推奨です。False は
-  &quot;return&#95;previous&quot; と同じ意味で、True は &quot;finish&#95;previous&quot; と同じ意味です。
-* `relogin`: 新たにログインを試行するよう強制するフラグです。
-* `resume`: run の再開動作を指定します。
+  ブール値を指定することもできますが、これは非推奨です。False は
+  &quot;return&#95;previous&quot; と同じで、True は &quot;finish&#95;previous&quot; と同じです。
+</ResponseField>
+
+<ResponseField name="relogin" type="bool">
+  新しいログイン試行を強制するフラグです。
+</ResponseField>
+
+<ResponseField name="resume" type="Optional">
+  run の再開時の動作を指定します。
 
   オプション:
 
-  * &quot;must&quot;: 同じ ID の既存の run から再開します。該当する run が存在しない場合は、
-    エラーになります。
-  * &quot;allow&quot;: 同じ ID の既存の run からの再開を試みます。見つからない場合は、
+  * &quot;must&quot;: 同じ ID を持つ既存の run から再開します。そのような run が存在しない場合は、
+    失敗します。
+  * &quot;allow&quot;: 同じ ID を持つ既存の run からの再開を試みます。見つからない場合は、
     新しい run が作成されます。
-  * &quot;never&quot;: 常に新しい run を開始します。同じ ID の run がすでに存在する場合は、
-    エラーになります。
+  * &quot;never&quot;: 常に新しい run を開始します。同じ ID を持つ run がすでに存在する場合は、
+    失敗します。
   * &quot;auto&quot;: 同じマシン上で直近に失敗した run から自動的に再開します。
-* `resume_from`: 以前の run の実行で、再開元とする時点を指定します。
+</ResponseField>
 
-  その時点は、run ID、メトリクス、およびその値で定義されます。
+<ResponseField name="resume_from" type="wandb.sdk.lib.run_moment.RunMoment | None">
+  run の以前の実行における再開元の時点を指定します。
+
+  この時点は、run ID、メトリクス、およびその値で定義されます。
   現在サポートされているメトリクスは &#39;&#95;step&#39; のみです。
-* `root_dir`: すべての run 関連パスの基準として使用するルート ディレクトリです。
+</ResponseField>
+
+<ResponseField name="root_dir" type="str">
+  すべての run 関連パスの基準となるルート ディレクトリです。
 
   特に、wandb ディレクトリと run ディレクトリの導出に使用されます。
-* `run_group`: 関連する Runs のグループ識別子です。
+</ResponseField>
 
-  UI で Runs をグループ化するために使用されます。
-* `run_id`: run の ID です。
-* `run_job_type`: 実行するジョブのタイプです (例: トレーニング、評価) 。
-* `run_name`: run の人が読みやすい名前です。
-* `run_notes`: run に関する追加のメモまたは説明です。
-* `run_tags`: run の整理やフィルターに使用するタグです。
-* `sagemaker_disable`: SageMaker 固有の機能を無効にするフラグです。
-* `save_code`: run に関連付けられているコードを保存するかどうかです。
-* `settings_system`: システム全体の設定ファイルへのパスです。
-* `stop_fn`: run を停止するために実行するコールバックです。
+<ResponseField name="run_group" type="str | None">
+  関連する Runs のグループ識別子です。
 
-  run は、web UI から、または致命的なエラーの発生後に
-  (設定で構成されている場合) 停止できます。
+  UI で Runs をグループ化するために使用します。
+</ResponseField>
 
-  デフォルトでは、run を停止するために W&amp;B はメイン スレッドに SIGINT を送信します。
-  別のシグナルを使用したり、中断する前に別のアクションを実行したりする場合は、
-  このコールバックを設定してこの動作をオーバーライドします。
+<ResponseField name="run_id" type="str | None">
+  run の ID です。
+</ResponseField>
 
-  このコールバックは別のスレッドで実行されます。停止が要求された後すぐに
-  実行されますが、即時ではありません。
-* `max_end_of_run_history_metrics`: run の終了時に表示する履歴スパークラインの最大数です。
-* `max_end_of_run_summary_metrics`: run の終了時に表示するサマリー メトリクスの最大数です。
-* `show_errors`: エラー メッセージを表示するかどうかです。
-* `show_info`: 情報メッセージを表示するかどうかです。
-* `show_warnings`: 警告メッセージを表示するかどうかです。
-* `silent`: すべての出力を抑制するフラグです。
-* `stop_on_fatal_error`: 致命的なエラーの後に run を停止するかどうかです。
+<ResponseField name="run_job_type" type="str | None">
+  実行するジョブのタイプ (例: トレーニング、評価) です。
+</ResponseField>
 
-  W&amp;B がデータのアップロード中に回復不能なエラーに遭遇すると、
-  メッセージを表示してアップロードを停止しますが、
-  それ以降もデータをログできます。
+<ResponseField name="run_name" type="str | None">
+  run の人が読みやすい名前です。
+</ResponseField>
+
+<ResponseField name="run_notes" type="str | None">
+  run に関する追加のメモまたは説明です。
+</ResponseField>
+
+<ResponseField name="run_tags" type="tuple[str, ...] | None">
+  整理やフィルタリングのために run に関連付けるタグです。
+</ResponseField>
+
+<ResponseField name="sagemaker_disable" type="bool">
+  SageMaker 固有の機能を無効にするフラグです。
+</ResponseField>
+
+<ResponseField name="save_code" type="bool | None">
+  run に関連付けられているコードを保存するかどうかです。
+</ResponseField>
+
+<ResponseField name="settings_system" type="str | None">
+  システム全体の設定ファイルへのパスです。
+</ResponseField>
+
+<ResponseField name="stop_fn" type="collections.abc.Callable[[], None] | None">
+  run を停止するために実行するコールバックです。
+
+  run は Web UI から、または致命的なエラー発生後に
+   (設定で構成されている場合) 停止できます。
+
+  デフォルトでは、run を停止するために W&amp;B はメインスレッドに SIGINT を送信します。
+  別のシグナルを使用したり、中断前に別のアクションを実行したりするためにこの動作を
+  オーバーライドするには、このコールバックを設定します。
+
+  コールバックは別のスレッドで実行されます。停止が要求された後すぐに実行されますが、
+  即時には実行されません。
+</ResponseField>
+
+<ResponseField name="max_end_of_run_history_metrics" type="int">
+  run の終了時に表示する履歴スパークラインの最大数です。
+</ResponseField>
+
+<ResponseField name="max_end_of_run_summary_metrics" type="int">
+  run の終了時に表示するサマリー メトリクスの最大数です。
+</ResponseField>
+
+<ResponseField name="show_errors" type="bool">
+  エラー メッセージを表示するかどうかです。
+</ResponseField>
+
+<ResponseField name="show_info" type="bool">
+  情報メッセージを表示するかどうかです。
+</ResponseField>
+
+<ResponseField name="show_warnings" type="bool">
+  警告メッセージを表示するかどうかです。
+</ResponseField>
+
+<ResponseField name="silent" type="bool">
+  すべての出力を抑制するフラグです。
+</ResponseField>
+
+<ResponseField name="stop_on_fatal_error" type="bool">
+  致命的なエラーの後に run を停止するかどうかです。
+
+  W&amp;B でデータのアップロード中に回復不能なエラーが発生すると、メッセージを出力して
+  アップロードを停止しますが、引き続きデータをログできます。
   通常、これは望ましい動作です。トレーニング メトリクスはディスクに保存されるため、
-  アップロードされなくても `wandb sync` を使用して復旧できます。
+  アップロードされていない場合でも `wandb sync` を使用して復元できます。
 
-  ただし、トレーニング後にファイルが削除される場合は、これは有用ではありません。
-  その場合、これを True に設定すると、web UI で停止ボタンが押された場合と同様に、
+  トレーニング後にファイルが削除される場合、これは役に立ちません。
+  その場合、これを True に設定すると、Web UI で停止ボタンを押した場合と同様に、
   致命的なエラーの後に run が停止します。
-* `strict`: 検証とエラー チェックのために strict モードを有効にするかどうかです。
-* `summary_timeout`: サマリー処理がタイムアウトするまで待機する時間 (秒) です。
-* `sweep_id`: この run が属する sweep の識別子です。
-* `sweep_param_path`: sweep パラメーター設定へのパスです。
-* `symlink`: シンボリック リンクを使用するかどうかです (Windows を除き、デフォルトは True) 。
-* `sync_tensorboard`: TensorBoard のログを W&amp;B と同期するかどうかです。
-* `table_raise_on_max_row_limit_exceeded`: 表の行数制限を超えた場合に例外を発生させるかどうか。
-* `use_dot_wandb`: run データに、非表示の `.wandb` ディレクトリと表示される `wandb` ディレクトリのどちらを使用するか。
+</ResponseField>
+
+<ResponseField name="strict" type="bool | None">
+  検証およびエラー チェックの厳格モードを有効にするかどうかです。
+</ResponseField>
+
+<ResponseField name="summary_timeout" type="int">
+  タイムアウトまでサマリー操作を待機する時間 (秒) です。
+</ResponseField>
+
+<ResponseField name="sweep_id" type="str | None">
+  この run が属する sweep の識別子です。
+</ResponseField>
+
+<ResponseField name="sweep_param_path" type="str | None">
+  sweep パラメーター設定へのパスです。
+</ResponseField>
+
+<ResponseField name="symlink" type="bool">
+  シンボリックリンクを使用するかどうかです (Windows 以外ではデフォルトで True) 。
+</ResponseField>
+
+<ResponseField name="sync_tensorboard" type="bool | None">
+  TensorBoard ログを W&amp;B と同期するかどうか。
+</ResponseField>
+
+<ResponseField name="table_raise_on_max_row_limit_exceeded" type="bool">
+  表の行数制限を超えた場合に例外を発生させるかどうか。
+</ResponseField>
+
+<ResponseField name="use_dot_wandb" type="bool | None">
+  run データに、非表示の `.wandb` ディレクトリと表示される `wandb` ディレクトリのどちらを使用するか。
 
   True の場合、SDK は `.wandb` を使用します。False の場合は `wandb` を使用します。
-  設定されていない場合、すでに存在していればデフォルトで `.wandb`、そうでなければ `wandb` を使用します。
-* `username`: ユーザー名。
-* `x_disable_meta`: システムメタデータの収集を無効にするフラグ。
-* `x_disable_stats`: システムメトリクスの収集を無効にするフラグ。
-* `x_extra_http_headers`: 送信するすべての HTTP リクエストに追加するヘッダー。
-* `x_label`: run 用に収集されるシステムメトリクスとコンソールログに割り当てるラベル。
+  設定されていない場合、`.wandb` がすでに存在すれば `.wandb` を使用し、存在しない場合は `wandb` を使用します。
+</ResponseField>
 
-  これはフロントエンドでデータをグループ化するために使用され、
-  分散トレーニングジョブ内の異なるプロセスからのデータを区別するためにも使用できます。
-* `x_primary`: 内部 wandb ファイルとメタデータを保存するかどうかを決定します。
+<ResponseField name="username" type="str | None">
+  ユーザー名。
+</ResponseField>
 
-  分散環境では、システムメトリクスとログだけが必要な場合に、
-  プライマリプロセスがメインのログ記録を処理するため、セカンダリプロセスによる
-  ファイルの上書きを避けるのに役立ちます。
-* `x_save_requirements`: requirements ファイルを保存するフラグ。
-* `x_server_side_derived_summary`: history からの summary の自動計算をサーバーに委譲するフラグ。
+<ResponseField name="x_disable_meta" type="bool">
+  システムメタデータの収集を無効にするフラグ。
+</ResponseField>
 
-  これによって、ユーザーが指定した summary の更新が無効になることはありません。
-* `x_service_wait`: wandb-core の内部サービスの起動を待機する秒数。
-* `x_skip_transaction_log`: run イベントのトランザクションログへの保存をスキップするかどうか。
+<ResponseField name="x_disable_stats" type="bool">
+  システムメトリクスの収集を無効にするフラグ。
+</ResponseField>
 
-  これはオンライン run にのみ関係します。ディスクへの
-  書き込みデータ量を減らすために使用できます。
+<ResponseField name="x_extra_http_headers" type="dict[str, str] | None">
+  すべての送信 HTTP リクエストに追加するヘッダー。
+</ResponseField>
+
+<ResponseField name="x_label" type="str | None">
+  run 用に収集されるシステムメトリクスとコンソールログに割り当てるラベル。
+
+  フロントエンドでデータをグループ化するために使用し、分散トレーニングジョブ内の
+  異なるプロセスからのデータを区別できます。
+</ResponseField>
+
+<ResponseField name="x_primary" type="bool">
+  内部 wandb ファイルとメタデータを保存するかどうかを決定します。
+
+  分散環境では、プライマリプロセスが主なログすることを処理し、
+  システムメトリクスとログのみが必要な場合に、セカンダリプロセスによる
+  ファイルの上書きを回避するのに役立ちます。
+</ResponseField>
+
+<ResponseField name="x_save_requirements" type="bool">
+  requirements ファイルを保存するフラグ。
+</ResponseField>
+
+<ResponseField name="x_server_side_derived_summary" type="bool">
+  history から summary を自動計算する処理をサーバーに委譲するフラグ。
+
+  ユーザーが指定した summary の更新は無効になりません。
+</ResponseField>
+
+<ResponseField name="x_service_wait" type="float">
+  wandb-core の内部サービスの起動を待機する時間 (秒) 。
+</ResponseField>
+
+<ResponseField name="x_skip_transaction_log" type="bool">
+  run イベントをトランザクションログに保存しないかどうか。
+
+  これはオンライン run にのみ該当します。ディスクに書き込まれる
+  データ量を削減するために使用できます。
 
   復旧可能性に関する保証が失われるため、
-  使用には注意が必要です。
-* `x_stats_sampling_interval`: システムモニターのサンプリング間隔 (秒) 。
-* `x_stats_open_metrics_endpoints`: システムメトリクスの監視対象とする OpenMetrics `/metrics` エンドポイント。
-* `x_stats_open_metrics_filters`: OpenMetrics の `/metrics` エンドポイントから収集されるメトリクスに適用するフィルター。
+  注意して使用してください。
+</ResponseField>
 
-  次の 2 つの形式をサポートします:
+<ResponseField name="x_stats_sampling_interval" type="float">
+  システムモニターのサンプリング間隔 (秒) 。
+</ResponseField>
 
-  * `{"エンドポイント名を接頭辞として含むメトリクスの正規表現パターン": {"label": "ラベル値の正規表現パターン"}}`
-  * `("メトリクスの正規表現パターン 1", "メトリクスの正規表現パターン 2", ...)`
-* `x_stats_open_metrics_http_headers`: OpenMetrics リクエストに追加する HTTP ヘッダー。
-* `x_stats_disk_paths`: ディスク使用量を監視するシステムパス。
-* `x_stats_cpu_count`: システム CPU 数。
+<ResponseField name="x_stats_open_metrics_endpoints" type="dict[str, str] | None">
+  システムメトリクス用にモニターする OpenMetrics `/metrics` エンドポイント。
+</ResponseField>
 
-  設定すると、run メタデータで自動検出された値を上書きします。
-* `x_stats_cpu_logical_count`: 論理 CPU 数。
+<ResponseField name="x_stats_open_metrics_filters" type="dict[str, dict[str, str]] | collections.abc.Sequence[str] | None">
+  OpenMetrics `/metrics` エンドポイントから収集したメトリクスに適用するフィルター。
 
-  設定すると、run メタデータで自動検出された値を上書きします。
-* `x_stats_gpu_count`: GPU デバイス数。
+  次の 2 つの形式をサポートします。
 
-  設定すると、run メタデータで自動検出された値を上書きします。
-* `x_stats_gpu_type`: GPU デバイスタイプ。
+  * `{"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}`
+  * `("metric regex pattern 1", "metric regex pattern 2", ...)`
+</ResponseField>
 
-  設定すると、run メタデータで自動検出された値を上書きします。
-* `x_stats_gpu_device_ids`: 監視する GPU デバイスのインデックス。
+<ResponseField name="x_stats_open_metrics_http_headers" type="dict[str, str] | None">
+  OpenMetrics リクエストに追加する HTTP ヘッダー。
+</ResponseField>
 
-  設定しない場合、システムモニターはすべての GPU のメトリクスを取得します。
-  CUDA/ROCm のデバイス列挙に対応する 0 ベースのインデックスを前提とします。
-* `x_stats_track_process_tree`: `x_stats_pid` を起点として、プロセスツリー全体のリソース使用量を監視します。
+<ResponseField name="x_stats_disk_paths" type="collections.abc.Sequence[str] | None">
+  ディスク使用量をモニターするシステムパス。
+</ResponseField>
 
-  `True` の場合、システムモニターは PID `x_stats_pid` のプロセスとそのすべての子孫プロセスの RSS、CPU%、スレッド数を集計します。
-  これによりパフォーマンスオーバーヘッドが発生する可能性があり、デフォルトで無効です。
-* `x_stats_no_cgroup`: システムメトリクスのパーセンテージ計算で、cgroup v2 の CPU およびメモリ制限を無効にします。
-* `x_sync_dir_suffix`: run のディレクトリ名 (sync&#95;dir) に追加する接尾辞。
+<ResponseField name="x_stats_cpu_count" type="int | None">
+  システム CPU 数。
 
-  これは wandb.init() で設定し、名前の競合を回避します。
-  設定すると、デフォルト名にダッシュ区切りで連結されます。
-* `x_update_finish_state`: このプロセスがサーバー上の run の最終状態を更新できるかどうかを示すフラグ。
+  設定した場合、run メタデータ内の自動検出された値を上書きします。
+</ResponseField>
 
-  分散トレーニングでは、最終状態を決定するのがメインプロセスのみであるべき場合に False に設定します。
+<ResponseField name="x_stats_cpu_logical_count" type="int | None">
+  論理 CPU 数。
+
+  設定した場合、run メタデータ内の自動検出された値を上書きします。
+</ResponseField>
+
+<ResponseField name="x_stats_gpu_count" type="int | None">
+  GPU デバイス数。
+
+  設定した場合、run メタデータ内の自動検出された値を上書きします。
+</ResponseField>
+
+<ResponseField name="x_stats_gpu_type" type="str | None">
+  GPU デバイスタイプ。
+
+  設定した場合、run メタデータ内の自動検出された値を上書きします。
+</ResponseField>
+
+<ResponseField name="x_stats_gpu_device_ids" type="collections.abc.Sequence[int] | None">
+  モニターする GPU デバイスのインデックス。
+
+  設定されていない場合、システムモニターはすべての GPU のメトリクスを取得します。
+  CUDA/ROCm のデバイス列挙に対応する 0 始まりのインデックスを前提とします。
+</ResponseField>
+
+<ResponseField name="x_stats_track_process_tree" type="bool">
+  `x_stats_pid` を起点に、プロセスツリー全体のリソース使用量をモニターします。
+
+  `True` の場合、システムモニターは、PID `x_stats_pid` を持つプロセスとそのすべての子孫プロセスの RSS、CPU%、スレッド数を集計します。
+  パフォーマンスのオーバーヘッドが発生する可能性があるため、デフォルトで無効です。
+</ResponseField>
+
+<ResponseField name="x_stats_no_cgroup" type="bool">
+  システムメトリクスの割合に対する cgroup v2 の CPU およびメモリ制限を無効にします。
+</ResponseField>
+
+<ResponseField name="x_sync_dir_suffix" type="str">
+  run のディレクトリ名 (sync&#95;dir) に追加する接尾辞です。
+
+  名前の競合を回避するために wandb.init() で設定します。
+  設定した場合、ダッシュでデフォルト名に連結されます。
+</ResponseField>
+
+<ResponseField name="x_update_finish_state" type="bool">
+  このプロセスがサーバー上の run の最終状態を更新できるかどうかを示すフラグです。
+
+  メインプロセスのみが最終状態を決定する必要がある分散トレーニングでは、False に設定します。
+</ResponseField>
 
 <div id="properties">
   ## プロパティ
 </div>
 
-### <kbd>プロパティ</kbd> app_url
+<ResponseField name="app_url" type="str">
+  W&amp;B UI の URL。通常は [https://wandb.ai](https://wandb.ai) です。
 
-W&amp;B UI の URL です。通常は [https://wandb.ai](https://wandb.ai) です。
+  W&amp;B API にプログラムでアクセスするために使用する `base_url` (例: [https://api.wandb.ai](https://api.wandb.ai)) とは異なります。
+</ResponseField>
 
-これは、プログラムから W&amp;B API にアクセスするために使用する
-`base_url` ([https://api.wandb.ai](https://api.wandb.ai) など) とは異なります。
+<ResponseField name="colab_url" type="str | None">
+  Colab で実行している場合の Colab ノートブックの URL。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> colab_url
+<ResponseField name="deployment" type="Literal['local', 'cloud']">
+  説明はありません。
+</ResponseField>
 
-Colab で実行している場合の Colab ノートブックの URL です。
+<ResponseField name="files_dir" type="str">
+  run の file が保存されているローカルディレクトリの絶対パス。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> deployment
+<ResponseField name="is_local" type="bool">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> files_dir
+<ResponseField name="log_dir" type="str">
+  ログ file を保存するディレクトリ。
+</ResponseField>
 
-run のファイルが保存されているローカルディレクトリの絶対パスです。
+<ResponseField name="log_internal" type="str">
+  内部ログに使用する file のパス。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> is_local
+<ResponseField name="log_symlink_internal" type="str">
+  最新の run の内部ログ file へのシンボリックリンクのパス。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> log_dir
+<ResponseField name="log_symlink_user" type="str">
+  最新の run のユーザープロセスログ file へのシンボリックリンクのパス。
+</ResponseField>
 
-ログファイルを保存するディレクトリです。
+<ResponseField name="log_user" type="str">
+  ユーザープロセスログに使用する file のパス。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> log_internal
+<ResponseField name="project_url" type="str">
+  project を表示できる W&amp;B URL。
+</ResponseField>
 
-内部ログ用のファイルのパスです。
+<ResponseField name="resume_fname" type="str">
+  再開用 file のパス。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> log_symlink_internal
+<ResponseField name="run_mode" type="Literal['run', 'offline-run']">
+  run のモード。&quot;run&quot; または &quot;offline-run&quot; のいずれかです。
+</ResponseField>
 
-最新の run の内部ログファイルへのシンボリックリンクのパスです。
+<ResponseField name="run_url" type="str">
+  run を表示できる W&amp;B URL。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> log_symlink_user
+<ResponseField name="settings_workspace" type="str">
+  Workspace settings file のパス。
+</ResponseField>
 
-最新の run におけるユーザープロセスのログファイルへのシンボリックリンクのパスです。
+<ResponseField name="sweep_url" type="str">
+  sweep を表示できる W&amp;B URL。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> log_user
+<ResponseField name="sync_dir" type="str">
+  run の file を保存するディレクトリ。
+</ResponseField>
 
-ユーザープロセスのログを出力するファイルのパスです。
+<ResponseField name="sync_file" type="str">
+  追記専用のバイナリトランザクションログ file のパス。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> project_url
+<ResponseField name="sync_symlink_latest" type="str">
+  最新の run のトランザクションログ file へのシンボリックリンクのパス。
+</ResponseField>
 
-project を表示できる W&amp;B の URL です。
+<ResponseField name="timespec" type="str">
+  run の時刻指定。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> resume_fname
-
-resume ファイルのパスです。
-
-### <kbd>プロパティ</kbd> run_mode
-
-run のモードを示します。&quot;run&quot; または &quot;offline-run&quot; のいずれかです。
-
-### <kbd>プロパティ</kbd> run_url
-
-run を表示できる W&amp;B の URL です。
-
-### <kbd>プロパティ</kbd> settings_workspace
-
-Workspace settings ファイルのパスです。
-
-### <kbd>プロパティ</kbd> sweep_url
-
-sweep を表示できる W&amp;B の URL です。
-
-### <kbd>プロパティ</kbd> sync_dir
-
-run ファイルを保存するディレクトリです。
-
-### <kbd>プロパティ</kbd> sync_file
-
-追記専用のバイナリトランザクションログファイルへのパスです。
-
-### <kbd>プロパティ</kbd> sync_symlink_latest
-
-最新の run のトランザクションログファイルを指すシンボリックリンクのパスです。
-
-### <kbd>プロパティ</kbd> timespec
-
-run の時刻指定を表します。
-
-### <kbd>プロパティ</kbd> wandb_dir
-
-`wandb` ディレクトリのフルパスです。
+<ResponseField name="wandb_dir" type="str">
+  wandb ディレクトリの完全パス。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>method</kbd> Settings.validate_anonymous()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Settings.validate_anonymous()
 
 ```python
 value: 'object'
@@ -610,21 +930,11 @@ value: 'object'
   ##### 引数
 </div>
 
-* `value`: 
+<ResponseField name="value" type="object">
+  説明は提供されていません。
+</ResponseField>
 
-### <kbd>method</kbd> Settings.validate_x_extra_http_headers()
-
-```python
-(value)
-```
-
-<div id="arguments">
-  ##### 引数
-</div>
-
-* `value`: 
-
-### <kbd>method</kbd> Settings.validate_x_stats_coreweave_metadata_base_url()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Settings.validate_x_extra_http_headers()
 
 ```python
 (value)
@@ -634,4 +944,20 @@ value: 'object'
   ##### 引数
 </div>
 
-* `value`: 
+<ResponseField name="value" type="_empty">
+  説明はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Settings.validate_x_stats_coreweave_metadata_base_url()
+
+```python
+(value)
+```
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="value" type="_empty">
+  説明はありません。
+</ResponseField>

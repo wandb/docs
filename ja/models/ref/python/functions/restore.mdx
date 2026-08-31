@@ -6,9 +6,14 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4050" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4050" />
 
-## <kbd>関数</kbd> wandb.restore
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.restore()
+
+指定したファイルをクラウドストレージからダウンロードします。
+
+ファイルは現在のディレクトリまたは run ディレクトリに保存されます。
+デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
 
 ```python
 name: 'str',
@@ -17,19 +22,25 @@ replace: 'bool' = False,
 root: 'str | None' = None
 ```
 
-指定したファイルをクラウドストレージからダウンロードします。
-
-ファイルは現在のディレクトリまたは run ディレクトリに保存されます。
-デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
-
 <div id="args">
   ## 引数
 </div>
 
-* `name`: ファイルの名。
-* `run_path`: ファイルの取得元となる run へのオプションのパス。つまり `username/project_name/run_id` です。wandb.init が呼び出されていない場合は必須です。
-* `replace`: ローカルにすでに存在する場合でもファイルをダウンロードするかどうか
-* `root`: ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または wandb.init が呼び出されている場合は run ディレクトリです。
+<ResponseField name="name" type="str">
+  ファイルの名。
+</ResponseField>
+
+<ResponseField name="run_path" type="str | None">
+  ファイルの取得元となる run へのオプションのパス。つまり `username/project_name/run_id` です。wandb.init が呼び出されていない場合は必須です。
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+  ローカルにすでに存在する場合でもファイルをダウンロードするかどうか
+</ResponseField>
+
+<ResponseField name="root" type="str | None">
+  ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または wandb.init が呼び出されている場合は run ディレクトリです。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

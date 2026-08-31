@@ -6,9 +6,11 @@ namespace: wandb.apis.public.api
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
-## <kbd>클래스</kbd> wandb.Api
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Api
+
+W&amp;B 서버를 쿼리할 때 사용됩니다.
 
 ```python
 overrides: 'dict[str, Any] | None' = None,
@@ -16,15 +18,21 @@ timeout: 'int | None' = None,
 api_key: 'str | None' = None
 ```
 
-W&amp;B 서버를 쿼리할 때 사용됩니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `overrides`: `https://api.wandb.ai`가 아닌 다른 W&amp;B 서버를 사용하는 경우 `base_url`을 설정할 수 있습니다. `entity`, `프로젝트`, `run`의 기본값도 설정할 수 있습니다.
-* `timeout`: API 요청의 HTTP 타임아웃(초)입니다. 지정하지 않으면 기본 타임아웃이 사용됩니다.
-* `api_key`: 인증에 사용할 API 키입니다. 제공하지 않으면 현재 환경 또는 설정의 API 키를 사용합니다. API 키가 제공되지 않았고 환경에도 설정되어 있지 않으면 API 키 입력을 요청합니다.
+<ResponseField name="overrides" type="dict[str, Any] | None">
+  `https://api.wandb.ai`가 아닌 다른 W&amp;B 서버를 사용하는 경우 `base_url`을 설정할 수 있습니다. `entity`, `프로젝트`, `run`의 기본값도 설정할 수 있습니다.
+</ResponseField>
+
+<ResponseField name="timeout" type="int | None">
+  API 요청의 HTTP 타임아웃(초)입니다. 지정하지 않으면 기본 타임아웃이 사용됩니다.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  인증에 사용할 API 키입니다. 제공하지 않으면 현재 환경 또는 설정의 API 키를 사용합니다. API 키가 제공되지 않았고 환경에도 설정되어 있지 않으면 API 키 입력을 요청합니다.
+</ResponseField>
 
 ## 예시
 
@@ -38,23 +46,23 @@ wandb.Api()
   ## 속성
 </div>
 
-### <kbd>속성</kbd> default_entity
+<ResponseField name="default_entity" type="str | None">
+  기본 W&amp;B 엔터티를 반환합니다.
+</ResponseField>
 
-기본 W&amp;B entity를 반환합니다.
+<ResponseField name="user_agent" type="str">
+  W&amp;B 공개 사용자 에이전트를 반환합니다.
+</ResponseField>
 
-### <kbd>속성</kbd> user_agent
-
-W&amp;B의 공개 사용자 에이전트를 반환합니다.
-
-### <kbd>속성</kbd> viewer
-
-viewer 객체를 반환합니다.
+<ResponseField name="viewer" type="User">
+  뷰어 객체를 반환합니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Api.artifact()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact()
 
 ```python
 (self,
@@ -68,8 +76,13 @@ type: 'str | None' = None)
   ##### 인수
 </div>
 
-* `name`: 아티팩트의 이름입니다. 아티팩트 이름은 최소한 아티팩트가 로깅된 프로젝트 이름, 아티팩트 이름, 그리고 아티팩트의 버전 또는 alias로 구성된 filepath와 유사합니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 추가한 뒤 슬래시(`/`)를 붙일 수 있습니다. 이름에 entity를 지정하지 않으면 Run 또는 API 설정의 entity가 사용됩니다.
-* `type`: 가져올 아티팩트의 유형입니다.
+<ResponseField name="name" type="str">
+  아티팩트의 이름입니다. 아티팩트 이름은 최소한 아티팩트가 로깅된 프로젝트 이름, 아티팩트 이름, 그리고 아티팩트의 버전 또는 alias로 구성된 filepath와 유사합니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 추가한 뒤 슬래시(`/`)를 붙일 수 있습니다. 이름에 entity를 지정하지 않으면 Run 또는 API 설정의 entity가 사용됩니다.
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+  가져올 아티팩트의 유형입니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -102,7 +115,7 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
 
-### <kbd>방법</kbd> Api.artifact_collection()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collection()
 
 ```python
 self,
@@ -119,8 +132,13 @@ name: 'str'
   ##### 인수
 </div>
 
-* `type_name`: 가져올 아티팩트 컬렉션의 유형입니다.
-* `name`: 아티팩트 컬렉션 이름입니다. 필요에 따라 아티팩트를 로깅한 entity를 접두사로 추가한 뒤 슬래시(`/`)를 붙일 수 있습니다.
+<ResponseField name="type_name" type="str">
+  가져올 아티팩트 컬렉션의 유형입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -142,7 +160,7 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-### <kbd>방법</kbd> Api.artifact_collection_exists()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collection_exists()
 
 ```python
 self,
@@ -156,8 +174,13 @@ type: 'str'
   ##### 인수
 </div>
 
-* `name`: 아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 컬렉션을 추론합니다. 그렇지 않으면 entity는 사용자 설정에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
-* `type`: 아티팩트 컬렉션의 유형입니다.
+<ResponseField name="name" type="str">
+  아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다. entity 또는 프로젝트를 지정하지 않으면 override 매개변수가 있는 경우 이를 바탕으로 컬렉션을 추론합니다. 그렇지 않으면 entity는 사용자 설정에서 가져오고 프로젝트는 기본적으로 &quot;uncategorized&quot;로 설정됩니다.
+</ResponseField>
+
+<ResponseField name="type" type="str">
+  아티팩트 컬렉션의 유형입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -171,7 +194,7 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-### <kbd>방법</kbd> Api.artifact_collections()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collections()
 
 ```python
 self,
@@ -188,13 +211,27 @@ start: 'str | None' = None
   ##### 인수
 </div>
 
-* `project_name`: 필터링할 프로젝트 이름입니다.
-* `type_name`: 필터링할 아티팩트 유형 이름입니다.
-* `order`: 결과 순서를 지정하는 선택 string입니다. 접두사로 &#39;+&#39;를 붙이면 오름차순으로 정렬됩니다(기본값). 접두사로 &#39;-&#39;를 붙이면 내림차순으로 정렬됩니다.
-* `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로 이 값을 변경할 이유는 없습니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값을 사용해 이전 쿼리를 다시 이어가기 위한 페이지네이션 커서입니다.
+<ResponseField name="project_name" type="str">
+  필터링할 프로젝트 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.artifact_exists()
+<ResponseField name="type_name" type="str">
+  필터링할 아티팩트 유형 이름입니다.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  결과 정렬 순서를 지정하는 선택 string입니다. &#39;+&#39;로 시작하면 오름차순(기본값)으로 정렬되고, &#39;-&#39;로 시작하면 내림차순으로 정렬됩니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  쿼리 페이지 매김의 페이지 크기를 설정합니다. 일반적으로 변경할 필요가 없습니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  이전 paginator의 `.cursor` 속성에서 캡처한 값을 사용하여 이전 쿼리를 재개하기 위한 페이지 매김 커서입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_exists()
 
 ```python
 self,
@@ -208,8 +245,13 @@ type: 'str | None' = None
   ##### 인수
 </div>
 
-* `name`: 아티팩트의 이름입니다. 아티팩트의 entity와 프로젝트를 접두사로 추가합니다. 아티팩트의 버전 또는 alias를 콜론(:)과 함께 뒤에 붙입니다. entity 또는 프로젝트를 지정하지 않으면, 값이 설정되어 있는 경우 W&amp;B가 override 매개변수를 사용합니다. 그렇지 않으면 entity는 사용자 설정에서 가져오고 프로젝트는 &quot;Uncategorized&quot;로 설정됩니다.
-* `type`: 아티팩트의 유형입니다.
+<ResponseField name="name" type="str">
+  아티팩트의 이름입니다. 아티팩트의 entity와 프로젝트를 접두사로 추가합니다. 아티팩트의 버전 또는 alias를 콜론(:)과 함께 뒤에 붙입니다. entity 또는 프로젝트를 지정하지 않으면, 값이 설정되어 있는 경우 W&amp;B가 override 매개변수를 사용합니다. 그렇지 않으면 entity는 사용자 설정에서 가져오고 프로젝트는 &quot;Uncategorized&quot;로 설정됩니다.
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+  아티팩트의 유형입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -226,7 +268,7 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-### <kbd>방법</kbd> Api.artifact_type()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_type()
 
 ```python
 self,
@@ -240,10 +282,15 @@ project: 'str | None' = None
   ##### 인수
 </div>
 
-* `type_name`: 조회할 아티팩트 유형의 이름입니다.
-* `project`: 지정한 경우, 필터링할 프로젝트 이름 또는 경로입니다.
+<ResponseField name="type_name" type="str">
+  조회할 아티팩트 유형의 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.artifact_types()
+<ResponseField name="project" type="str | None">
+  지정한 경우, 필터링할 프로젝트 이름 또는 경로입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_types()
 
 ```python
 self,
@@ -251,16 +298,21 @@ project: 'str | None' = None,
 start: 'str | None' = None
 ```
 
-일치하는 artifact 유형 모음을 반환합니다.
+일치하는 아티팩트 유형 모음을 반환합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `project`: 필터링할 프로젝트 이름 또는 경로입니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 이어서 실행하기 위한 페이지네이션 커서입니다.
+<ResponseField name="project" type="str | None">
+  필터링할 프로젝트 이름 또는 경로입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.artifact_versions()
+<ResponseField name="start" type="str | None">
+  이전 paginator의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_versions()
 
 ```python
 (self, type_name, name, per_page=50)
@@ -272,11 +324,19 @@ start: 'str | None' = None
   ##### 인수
 </div>
 
-* `type_name`:
-* `name`:
-* `per_page`: 
+<ResponseField name="type_name" type="_empty">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.artifacts()
+<ResponseField name="name" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifacts()
 
 ```python
 self,
@@ -294,12 +354,29 @@ start: 'str | None' = None
   ##### 인수
 </div>
 
-* `type_name`: 가져올 아티팩트의 유형입니다.
-* `name`: 아티팩트의 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 추가하고 그 뒤에 슬래시를 붙일 수 있습니다.
-* `order`: 결과의 순서를 지정하는 선택 string입니다. `+` 접두사가 있으면 오름차순으로 정렬되고(기본값), `-` 접두사가 있으면 내림차순으로 정렬됩니다.
-* `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로 이 값을 변경할 이유는 없습니다.
-* `tags`: 지정한 tags를 모두 가진 아티팩트만 반환합니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 다시 이어서 실행하기 위한 페이지네이션 커서입니다.
+<ResponseField name="type_name" type="str">
+  가져올 아티팩트의 유형입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  아티팩트의 컬렉션 이름입니다. 필요에 따라 아티팩트를 로깅한 entity를 접두사로 추가하고 뒤에 슬래시를 붙일 수 있습니다.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  결과 정렬 순서를 지정하는 선택적 string입니다. &#39;+&#39; 접두사는 오름차순(기본값)을, &#39;-&#39; 접두사는 내림차순을 나타냅니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  쿼리 페이지 매김의 페이지 크기를 설정합니다. 일반적으로 변경할 필요가 없습니다.
+</ResponseField>
+
+<ResponseField name="tags" type="list[str] | None">
+  지정한 모든 tags가 있는 아티팩트만 반환합니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  이전 paginator의 `.cursor` 속성에서 캡처한 값을 사용하여 이전 쿼리를 재개하는 페이지 매김 커서입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -343,7 +420,7 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-### <kbd>방법</kbd> Api.automation()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.automation()
 
 ```python
 self,
@@ -357,8 +434,13 @@ entity: 'str | None' = None
   ##### 인수
 </div>
 
-* `name`: 조회할 Automation의 이름입니다.
-* `entity`: 해당 Automation을 조회할 entity입니다.
+<ResponseField name="name" type="str">
+  가져올 자동화의 이름입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  자동화를 가져올 entity입니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -385,7 +467,7 @@ entity &quot;my-team&quot;에서 &quot;other-automation&quot;이라는 이름의
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-### <kbd>방법</kbd> Api.automations()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.automations()
 
 ```python
 self,
@@ -404,10 +486,21 @@ Automations가 포함됩니다.
   ##### 인수
 </div>
 
-* `entity`: Automations를 가져올 entity입니다.
-* `name`: 가져올 automation의 이름입니다.
-* `per_page`: 페이지당 가져올 automations의 수입니다.  기본값은 50입니다.  일반적으로 이 값을 변경할 필요는 없습니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 다시 이어서 진행하기 위한 페이지네이션 커서입니다.
+<ResponseField name="entity" type="str | None">
+  자동화를 가져올 entity입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  가져올 자동화의 이름입니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  페이지당 가져올 자동화 수입니다. 기본값은 50이며, 일반적으로 변경할 필요가 없습니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  이전 paginator의 `.cursor` 속성에서 가져온, 이전 쿼리를 재개하기 위한 페이지 매김 커서입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -422,7 +515,7 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-### <kbd>방법</kbd> Api.create_automation()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_automation()
 
 ```python
 self,
@@ -436,9 +529,17 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   ##### 인수
 </div>
 
-* `obj`: 생성할 automation입니다.
-* `fetch_existing`: True이고 충돌하는 automation이 이미 존재하는 경우, 오류를 발생시키는 대신 기존 automation을 가져오도록 시도합니다.
-* `kwargs`: 
+<ResponseField name="obj" type="NewAutomation">
+  생성할 자동화입니다.
+</ResponseField>
+
+<ResponseField name="fetch_existing" type="bool">
+  True이고 충돌하는 자동화이 이미 존재하는 경우, 오류를 발생시키는 대신 기존 자동화를 가져오도록 시도합니다.
+</ResponseField>
+
+<ResponseField name="kwargs" type="Unpack[WriteAutomationsKwargs]">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -470,7 +571,7 @@ automation = api.create_automation(
 )
 ```
 
-### <kbd>방법</kbd> Api.create_custom_chart()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_custom_chart()
 
 ```python
 self,
@@ -488,14 +589,32 @@ spec: 'str | dict'
   ##### 인수
 </div>
 
-* `entity`: 차트를 소유한 entity(사용자 또는 팀)
-* `name`: 차트 프리셋의 고유 식별자
-* `display_name`: UI에 표시되는 사람이 읽기 쉬운 이름
-* `spec_type`: 사양의 유형입니다. Vega-Lite v2 사양의 경우 반드시 &quot;vega2&quot;여야 합니다.
-* `access`: 차트의 액세스 수준:
-  * &quot;private&quot;: 차트를 만든 entity만 차트에 액세스할 수 있습니다
-  * &quot;public&quot;: 누구나 차트에 액세스할 수 있습니다
-* `spec`: 딕셔너리 또는 JSON 문자열 형식의 Vega/Vega-Lite 사양
+<ResponseField name="entity" type="str">
+  차트를 소유한 entity(사용자 또는 팀)
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  차트 프리셋의 고유 식별자
+</ResponseField>
+
+<ResponseField name="display_name" type="str">
+  UI에 표시되는 사람이 이해하기 쉬운 이름
+</ResponseField>
+
+<ResponseField name="spec_type" type="Literal['vega2']">
+  사양 유형입니다. Vega-Lite v2 사양의 경우 &quot;vega2&quot;여야 합니다.
+</ResponseField>
+
+<ResponseField name="access" type="Literal['private', 'public']">
+  차트의 액세스 수준:
+
+  * &quot;private&quot;: 차트를 만든 entity만 액세스할 수 있음
+  * &quot;public&quot;: 차트에 누구나 액세스할 수 있음
+</ResponseField>
+
+<ResponseField name="spec" type="str | dict">
+  딕셔너리 또는 JSON string 형식의 Vega/Vega-Lite 사양
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -542,7 +661,7 @@ spec: 'str | dict'
     )
 ```
 
-### <kbd>방법</kbd> Api.create_project()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_project()
 
 ```python
 self,
@@ -556,10 +675,15 @@ entity: 'str'
   ##### 인수
 </div>
 
-* `name`: 새 프로젝트의 이름입니다.
-* `entity`: 새 프로젝트가 속한 entity입니다.
+<ResponseField name="name" type="str">
+  새 프로젝트의 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.create_registry()
+<ResponseField name="entity" type="str">
+  새 프로젝트의 entity입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_registry()
 
 ```python
 self,
@@ -576,11 +700,25 @@ artifact_types: 'list[str] | None' = None
   ##### 인수
 </div>
 
-* `name`: 레지스트리 이름입니다. 이름은 조직 내에서 고유해야 합니다.
-* `visibility`: 레지스트리의 공개 범위입니다. `organization`: 조직의 모든 사용자가 이 레지스트리를 볼 수 있습니다. 각 사용자의 역할은 나중에 UI의 Settings에서 수정할 수 있습니다. `restricted`: UI를 통해 초대된 멤버만 이 레지스트리에 액세스할 수 있습니다. 공개 공유는 비활성화됩니다.
-* `organization`: 레지스트리가 속한 조직입니다. Settings에 조직이 설정되어 있지 않으면, entity가 하나의 조직에만 속한 경우 해당 조직을 entity에서 가져옵니다.
-* `description`: 레지스트리 설명입니다.
-* `artifact_types`: 레지스트리에서 허용하는 아티팩트 유형입니다. 유형은 128자를 초과할 수 없고 `/` 또는 `:`를 포함할 수 없습니다. 지정하지 않으면 모든 유형이 허용됩니다. 레지스트리에 추가된 허용 유형은 나중에 제거할 수 없습니다.
+<ResponseField name="name" type="str">
+  레지스트리 이름입니다. 이름은 조직 내에서 고유해야 합니다.
+</ResponseField>
+
+<ResponseField name="visibility" type="Literal['organization', 'restricted']">
+  레지스트리의 공개 범위입니다. `organization`: 조직의 모든 사용자가 이 레지스트리를 볼 수 있습니다. 각 사용자의 역할은 나중에 UI의 Settings에서 수정할 수 있습니다. `restricted`: UI를 통해 초대된 멤버만 이 레지스트리에 액세스할 수 있습니다. 공개 공유는 비활성화됩니다.
+</ResponseField>
+
+<ResponseField name="organization" type="str | None">
+  레지스트리가 속한 조직입니다. Settings에 조직이 설정되어 있지 않으면, entity가 하나의 조직에만 속한 경우 해당 조직을 entity에서 가져옵니다.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  레지스트리 설명입니다.
+</ResponseField>
+
+<ResponseField name="artifact_types" type="list[str] | None">
+  레지스트리에서 허용하는 아티팩트 유형입니다. 유형은 128자를 초과할 수 없고 `/` 또는 `:`를 포함할 수 없습니다. 지정하지 않으면 모든 유형이 허용됩니다. 레지스트리에 추가된 허용 유형은 나중에 제거할 수 없습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -599,7 +737,7 @@ registry = api.create_registry(
 )
 ```
 
-### <kbd>방법</kbd> Api.create_run()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_run()
 
 ```python
 self, *,
@@ -614,11 +752,19 @@ entity: 'str | None' = None
   ##### 인수
 </div>
 
-* `run_id`: run에 할당할 ID입니다. 지정하지 않으면 W&amp;B가 임의의 ID를 생성합니다.
-* `project`: run을 기록할 프로젝트입니다. 프로젝트를 지정하지 않으면 &quot;Uncategorized&quot;라는 프로젝트에 run을 기록합니다.
-* `entity`: 프로젝트를 소유한 entity입니다. entity를 지정하지 않으면 기본 entity에 run을 기록합니다.
+<ResponseField name="run_id" type="str | None">
+  run에 할당할 ID입니다. 지정하지 않으면 W&amp;B가 임의의 ID를 생성합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.create_run_queue()
+<ResponseField name="project" type="str | None">
+  run을 기록할 프로젝트입니다. 프로젝트를 지정하지 않으면 &quot;Uncategorized&quot;라는 프로젝트에 run을 기록합니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  프로젝트를 소유한 entity입니다. entity를 지정하지 않으면 기본 entity에 run을 기록합니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_run_queue()
 
 ```python
 self,
@@ -636,14 +782,31 @@ W&amp;B Launch에서 새 run 큐를 생성합니다.
   ##### 인수
 </div>
 
-* `name`: 생성할 큐의 이름
-* `type`: 큐에 사용할 리소스 유형입니다. &quot;local-container&quot;, &quot;local-process&quot;, &quot;kubernetes&quot;,&quot;sagemaker&quot;, 또는 &quot;gcp-vertex&quot; 중 하나입니다.
-* `entity`: 큐를 생성할 entity의 이름입니다. `None`이면 설정된 entity 또는 기본 entity를 사용합니다.
-* `prioritization_mode`: 사용할 우선순위 지정 버전입니다. &quot;V0&quot; 또는 `None`입니다.
-* `config`: 큐에 사용할 기본 리소스 설정입니다. 템플릿 변수를 지정하려면 handlebars(예: `{{var}}`)를 사용하세요.
-* `template_variables`: `config`와 함께 사용할 템플릿 변수 스키마의 딕셔너리입니다.
+<ResponseField name="name" type="str">
+  생성할 큐의 이름
+</ResponseField>
 
-### <kbd>방법</kbd> Api.create_team()
+<ResponseField name="type" type="public.RunQueueResourceType">
+  큐에 사용할 리소스 유형입니다. &quot;local-container&quot;, &quot;local-process&quot;, &quot;kubernetes&quot;, &quot;sagemaker&quot; 또는 &quot;gcp-vertex&quot; 중 하나입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  큐를 생성할 entity의 이름입니다. `None`이면 설정된 entity 또는 기본 entity를 사용합니다.
+</ResponseField>
+
+<ResponseField name="prioritization_mode" type="public.RunQueuePrioritizationMode | None">
+  사용할 우선순위 지정 버전입니다. &quot;V0&quot; 또는 `None`입니다.
+</ResponseField>
+
+<ResponseField name="config" type="dict | None">
+  큐에 사용할 기본 리소스 설정입니다. 템플릿 변수를 지정하려면 handlebars(예: `{{var}}`)를 사용하세요.
+</ResponseField>
+
+<ResponseField name="template_variables" type="dict | None">
+  설정과 함께 사용할 템플릿 변수 스키마의 딕셔너리입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_team()
 
 ```python
 self,
@@ -654,17 +817,22 @@ admin_username: 'str | None' = None
 새 팀을 생성하세요.
 
 W&amp;B Multi-tenant Cloud 사용자라면 `create_team()`을 호출하기 전에
-W&amp;B UI의 사용자 설정에서 Default API organization을 설정하세요.
+W&amp;B UI의 사용자 설정에서 Default API 조직을 설정하세요.
 이 설정은 새 팀이 속할 조직을 결정합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `team`: 팀 이름
-* `admin_username`: Team의 관리자 사용자 이름입니다. 기본값은 현재 사용자입니다.
+<ResponseField name="team" type="str">
+  팀 이름
+</ResponseField>
 
-### <kbd>방법</kbd> Api.create_user()
+<ResponseField name="admin_username" type="str | None">
+  Team의 관리자 사용자 이름입니다. 기본값은 현재 사용자입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_user()
 
 ```python
 self,
@@ -678,10 +846,15 @@ admin: 'bool | None' = False
   ##### 인수
 </div>
 
-* `email`: 사용자의 이메일 주소입니다.
-* `admin`: 사용자를 인스턴스 전체 관리자으로 설정합니다.
+<ResponseField name="email" type="str">
+  사용자의 이메일 주소입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.delete_automation()
+<ResponseField name="admin" type="bool | None">
+  사용자를 인스턴스 전체 관리자으로 설정합니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.delete_automation()
 
 ```python
 self,
@@ -694,9 +867,11 @@ obj: 'Automation | str'
   ##### 인수
 </div>
 
-* `obj`: 삭제할 자동화 또는 그 ID입니다.
+<ResponseField name="obj" type="Automation | str">
+  삭제할 자동화 또는 그 ID입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.flush()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.flush()
 
 ```python
 (self)
@@ -707,7 +882,7 @@ obj: 'Automation | str'
 api 객체는 Runs의 로컬 캐시를 유지하므로, 스크립트 실행 중 run 상태가
 변경될 수 있다면 run에 연결된 최신 값을 가져오기 위해 `api.flush()`로 로컬 캐시를 초기화해야 합니다.
 
-### <kbd>방법</kbd> Api.from_path()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.from_path()
 
 ```python
 (self,
@@ -720,7 +895,9 @@ path: 'str')
   ##### 인수
 </div>
 
-* `path`: 프로젝트, run, 스윕 또는 리포트의 경로
+<ResponseField name="path" type="str">
+  프로젝트, run, 스윕 또는 리포트의 경로
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -740,7 +917,7 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-### <kbd>방법</kbd> Api.integrations()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.integrations()
 
 ```python
 self,
@@ -755,11 +932,19 @@ entity에 대한 모든 인테그레이션의 이터레이터를 반환합니다
   ##### 인수
 </div>
 
-* `entity`: 인테그레이션을 가져올 대상 entity입니다(예: 팀 이름). 제공하지 않으면 사용자의 기본 entity를 사용합니다.
-* `per_page`: 페이지별로 가져올 인테그레이션 수입니다. 기본값은 50입니다. 일반적으로 이 값을 변경할 필요는 없습니다.
-* `start`: 
+<ResponseField name="entity" type="str | None">
+  인테그레이션을 가져올 대상 entity입니다(예: 팀 이름). 제공하지 않으면 사용자의 기본 entity를 사용합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.job()
+<ResponseField name="per_page" type="int">
+  페이지별로 가져올 인테그레이션 수입니다. 기본값은 50입니다. 일반적으로 이 값을 변경할 필요는 없습니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.job()
 
 ```python
 self,
@@ -773,10 +958,15 @@ path: 'str | None' = None
   ##### 인수
 </div>
 
-* `name`: 작업 이름입니다.
-* `path`: 작업 artifact를 다운로드할 루트 경로입니다.
+<ResponseField name="name" type="str | None">
+  작업 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.list_jobs()
+<ResponseField name="path" type="str | None">
+  작업 아티팩트를 다운로드할 루트 경로입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.list_jobs()
 
 ```python
 self,
@@ -790,10 +980,15 @@ project: 'str'
   ##### 인수
 </div>
 
-* `entity`: 작업을 조회할 entity입니다.
-* `project`: 작업을 조회할 프로젝트입니다.
+<ResponseField name="entity" type="str">
+  목록에 있는 작업의 entity입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.organization()
+<ResponseField name="project" type="str">
+  목록에 있는 작업의 프로젝트입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.organization()
 
 ```python
 self,
@@ -806,9 +1001,11 @@ name: 'str | None' = None
   ##### 인수
 </div>
 
-* `name`: 조직의 이름입니다. 생략하면 이 메서드는 현재 기본 조직을 추론해 반환합니다.
+<ResponseField name="name" type="str | None">
+  조직의 이름입니다. 생략하면 이 메서드는 현재 기본 조직을 추론해 반환합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.project()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.project()
 
 ```python
 self,
@@ -822,10 +1019,15 @@ entity: 'str | None' = None
   ##### 인수
 </div>
 
-* `name`: 프로젝트 이름입니다.
-* `entity`: 요청한 entity의 이름입니다. `None`이면 `Api`에 전달된 기본 entity를 사용합니다. 기본 entity가 없으면 `ValueError`를 발생시킵니다.
+<ResponseField name="name" type="str">
+  프로젝트 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.projects()
+<ResponseField name="entity" type="str | None">
+  요청할 entity의 이름입니다. `None`이면 `Api`에 전달된 기본 entity를 사용합니다. 기본 entity도 없으면 `ValueError`가 발생합니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.projects()
 
 ```python
 self,
@@ -839,10 +1041,15 @@ per_page: 'int' = 200
   ##### 인수
 </div>
 
-* `entity`: 요청할 entity의 이름입니다. `None`이면 `Api`에 전달된 기본 entity를 사용합니다. 기본 entity도 없으면 `ValueError`가 발생합니다.
-* `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로는 이 값을 변경할 필요가 없습니다.
+<ResponseField name="entity" type="str | None">
+  요청할 entity의 이름입니다. `None`이면 `Api`에 전달된 기본 entity를 사용합니다. 기본 entity도 없으면 `ValueError`가 발생합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.queued_run()
+<ResponseField name="per_page" type="int">
+  쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로는 이 값을 변경할 필요가 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.queued_run()
 
 ```python
 (self,
@@ -860,14 +1067,31 @@ run_queue_item_id: 'str', project_queue=None, priority=None)
   ##### 인수
 </div>
 
-* `entity`:
-* `project`:
-* `queue_name`:
-* `run_queue_item_id`:
-* `project_queue`:
-* `priority`: 
+<ResponseField name="entity" type="str">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.registries()
+<ResponseField name="project" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="queue_name" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="run_queue_item_id" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="project_queue" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="priority" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.registries()
 
 ```python
 self,
@@ -889,11 +1113,25 @@ start: 'str | None' = None
   ##### 인수
 </div>
 
-* `organization`: 가져올 레지스트리의 조직입니다. 지정하지 않으면 사용자 설정에 지정된 조직을 사용합니다.
-* `filter`: lazy 레지스트리 이터레이터의 각 객체에 적용할 MongoDB 스타일 필터입니다. 레지스트리에 대해 필터링할 수 있는 필드는 `name`, `description`, `created_at`, `updated_at`입니다. 컬렉션에 대해 필터링할 수 있는 필드는 `name`, `tag`, `description`, `created_at`, `updated_at`입니다. 버전에 대해 필터링할 수 있는 필드는 `tag`, `alias`, `created_at`, `updated_at`, `metadata`입니다.
-* `order`: 결과 순서를 지정하는 선택 사항인 string입니다. `+` 접두사가 있으면 오름차순으로 정렬합니다(기본값). `-` 접두사가 있으면 내림차순으로 정렬합니다.
-* `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한 값으로 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
+<ResponseField name="organization" type="str | None">
+  가져올 레지스트리의 조직입니다. 지정하지 않으면 사용자 설정에 지정된 조직을 사용합니다.
+</ResponseField>
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+  lazy 레지스트리 이터레이터의 각 객체에 적용할 MongoDB 스타일 필터입니다. 레지스트리에 대해 필터링할 수 있는 필드는 `name`, `description`, `created_at`, `updated_at`입니다. 컬렉션에 대해 필터링할 수 있는 필드는 `name`, `tag`, `description`, `created_at`, `updated_at`입니다. 버전에 대해 필터링할 수 있는 필드는 `tag`, `alias`, `created_at`, `updated_at`, `metadata`입니다.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  결과 순서를 지정하는 선택 사항인 string입니다. `+` 접두사가 있으면 오름차순으로 정렬합니다(기본값). `-` 접두사가 있으면 내림차순으로 정렬합니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  쿼리 페이지네이션의 페이지 크기를 설정합니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  이전 paginator의 `.cursor` 속성에서 캡처한 값으로 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -951,7 +1189,7 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-### <kbd>방법</kbd> Api.registry()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.registry()
 
 ```python
 self,
@@ -965,8 +1203,13 @@ organization: 'str | None' = None
   ##### 인수
 </div>
 
-* `name`: 레지스트리 이름입니다. `wandb-registry-` 접두사는 포함하지 않습니다.
-* `organization`: 레지스트리의 조직입니다. 설정에 조직이 지정되어 있지 않으면, entity가 하나의 조직에만 속한 경우 해당 조직을 entity에서 가져옵니다.
+<ResponseField name="name" type="str">
+  레지스트리 이름입니다. `wandb-registry-` 접두사는 제외합니다.
+</ResponseField>
+
+<ResponseField name="organization" type="str | None">
+  레지스트리가 속한 조직입니다. Settings에 조직이 설정되어 있지 않으면, entity가 하나의 조직에만 속한 경우 해당 조직을 entity에서 가져옵니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -983,7 +1226,7 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-### <kbd>방법</kbd> Api.reports()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.reports()
 
 ```python
 self,
@@ -1000,9 +1243,17 @@ per_page: 'int' = 50
   ##### 인수
 </div>
 
-* `path`: 리포트가 있는 프로젝트의 경로입니다. 프로젝트를 만든 entity를 접두사로 지정한 뒤 슬래시(`/`)를 붙이세요.
-* `name`: 요청한 리포트의 이름입니다.
-* `per_page`: 쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로는 이를 변경할 이유가 없습니다.
+<ResponseField name="path" type="str">
+  리포트가 있는 프로젝트의 경로입니다. 프로젝트를 만든 entity를 접두사로 지정한 뒤 슬래시(`/`)를 붙이세요.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  요청한 리포트의 이름입니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로는 이를 변경할 이유가 없습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -1014,7 +1265,7 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-### <kbd>방법</kbd> Api.run()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.run()
 
 ```python
 self,
@@ -1027,7 +1278,9 @@ path: 'str' = ''
   ##### 인수
 </div>
 
-* `path`: `entity/project/run_id` 형식의 run 경로입니다. `api.entity`가 설정되어 있으면 `project/run_id` 형식도 사용할 수 있으며, `api.project`가 설정되어 있으면 run&#95;id만 지정하면 됩니다.
+<ResponseField name="path" type="str">
+  `entity/project/run_id` 형식의 run 경로입니다. `api.entity`가 설정되어 있으면 `project/run_id` 형식도 사용할 수 있으며, `api.project`가 설정되어 있으면 run&#95;id만 지정하면 됩니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -1035,7 +1288,7 @@ path: 'str' = ''
 
 * `RunNotFoundError`: run을 찾을 수 없거나 run 데이터를 로드할 수 없는 경우.
 
-### <kbd>방법</kbd> Api.run_queue()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.run_queue()
 
 ```python
 (self,
@@ -1051,10 +1304,15 @@ run 큐를 생성하는 방법에 대한 자세한 내용은 `Api.create_run_que
   ##### 인수
 </div>
 
-* `entity`:
-* `name`: 
+<ResponseField name="entity" type="str">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.runs()
+<ResponseField name="name" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.runs()
 
 ```python
 (self,
@@ -1106,12 +1364,29 @@ lazy: 'bool' = True)
   ##### 인수
 </div>
 
-* `path`: (str) 프로젝트 경로로, &quot;entity/project&quot; 형식이어야 합니다.
-* `filters`: (dict) MongoDB 쿼리 언어를 사용해 특정 Runs를 쿼리합니다. `config.key`, `summary_metrics.key`, `state`, `entity`, `createdAt` 등의 run 속성으로 필터링할 수 있습니다. 예를 들어 `{"config.experiment_name": "foo"}` 는 실험 이름이 &quot;foo&quot;로 설정된 설정 항목이 있는 Runs를 찾습니다
-* `order`: (str) 정렬 기준으로 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 +를 붙이면 오름차순(기본값)입니다. 앞에 -를 붙이면 내림차순입니다. 기본 정렬은 가장 오래된 것부터 최신순까지의 run.created&#95;at입니다.
-* `per_page`: (int) 쿼리 페이지네이션의 페이지 크기를 설정합니다.
-* `include_sweeps`: (bool) 각 run 결과에서 스윕 객체를 eager 방식으로 가져올지 여부입니다.
-* `lazy`: (bool) 더 빠른 성능을 위해 lazy 로딩을 사용할지 여부입니다. True(기본값)인 경우 처음에는 필수 run 메타데이터만 로드됩니다. config, summaryMetrics, systemMetrics 같은 큰 필드는 접근 시 필요에 따라 로드됩니다. 전체 데이터를 처음부터 로드하려면 False로 설정하세요.
+<ResponseField name="path" type="str | None">
+  (str) 프로젝트 경로로, &quot;entity/project&quot; 형식이어야 합니다.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  (dict) MongoDB 쿼리 언어를 사용해 특정 Runs를 쿼리합니다. `config.key`, `summary_metrics.key`, `state`, `entity`, `createdAt` 등의 run 속성으로 필터링할 수 있습니다. 예를 들어 `{"config.experiment_name": "foo"}` 는 실험 이름이 &quot;foo&quot;로 설정된 설정 항목이 있는 Runs를 찾습니다
+</ResponseField>
+
+<ResponseField name="order" type="str">
+  (str) 정렬 기준으로 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 +를 붙이면 오름차순(기본값)입니다. 앞에 -를 붙이면 내림차순입니다. 기본 정렬은 가장 오래된 것부터 최신순까지의 run.created&#95;at입니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  (int) 쿼리 페이지네이션의 페이지 크기를 설정합니다.
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  (bool) 각 run 결과에서 스윕 객체를 eager 방식으로 가져올지 여부입니다.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  (bool) 더 빠른 성능을 위해 lazy 로딩을 사용할지 여부입니다. True(기본값)인 경우 처음에는 필수 run 메타데이터만 로드됩니다. config, summaryMetrics, systemMetrics 같은 큰 필드는 접근 시 필요에 따라 로드됩니다. 전체 데이터를 처음부터 로드하려면 False로 설정하세요.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -1161,7 +1436,7 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-### <kbd>방법</kbd> Api.slack_integrations()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.slack_integrations()
 
 ```python
 self, *,
@@ -1176,9 +1451,17 @@ entity에 대한 Slack 인테그레이션 이터레이터를 반환합니다.
   ##### 인수
 </div>
 
-* `entity`: 인테그레이션을 가져올 대상 entity입니다(예: 팀 이름). 제공하지 않으면 사용자의 기본 entity를 사용합니다.
-* `per_page`: 페이지별로 가져올 인테그레이션 수입니다. 기본값은 50입니다. 일반적으로 이 값을 변경할 필요는 없습니다.
-* `start`: 
+<ResponseField name="entity" type="str | None">
+  인테그레이션을 가져올 대상 entity입니다(예: 팀 이름). 제공하지 않으면 사용자의 기본 entity를 사용합니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  페이지별로 가져올 인테그레이션 수입니다. 기본값은 50입니다. 일반적으로 이 값을 변경할 필요는 없습니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -1204,7 +1487,7 @@ team_alert_integrations = [
 ]
 ```
 
-### <kbd>방법</kbd> Api.sweep()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.sweep()
 
 ```python
 (self, path='')
@@ -1216,9 +1499,11 @@ team_alert_integrations = [
   ##### 인수
 </div>
 
-* `path`: entity/project/sweep&#95;id 형식의 스윕 경로입니다. `api.entity`가 설정되어 있으면 project/sweep&#95;id 형식을 사용할 수 있고, `api.project`가 설정되어 있으면 sweep&#95;id만 사용하면 됩니다.
+<ResponseField name="path" type="_empty">
+  entity/project/sweep&#95;id 형식의 스윕 경로입니다. `api.entity`가 설정되어 있으면 project/sweep&#95;id 형식을 사용할 수 있고, `api.project`가 설정되어 있으면 sweep&#95;id만 사용하면 됩니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.sync_tensorboard()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.sync_tensorboard()
 
 ```python
 (self, root_dir, run_id=None, project=None, entity=None)
@@ -1230,12 +1515,23 @@ tfevent 파일이 포함된 로컬 디렉터리를 wandb로 동기화합니다.
   ##### 인수
 </div>
 
-* `root_dir`:
-* `run_id`:
-* `project`:
-* `entity`: 
+<ResponseField name="root_dir" type="_empty">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.team()
+<ResponseField name="run_id" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="project" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="entity" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.team()
 
 ```python
 self,
@@ -1248,9 +1544,11 @@ team: 'str'
   ##### 인수
 </div>
 
-* `team`:  Team 이름입니다.
+<ResponseField name="team" type="str">
+  팀 이름
+</ResponseField>
 
-### <kbd>방법</kbd> Api.update_automation()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.update_automation()
 
 ```python
 self,
@@ -1264,9 +1562,17 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   ##### 인수
 </div>
 
-* `obj`: 업데이트할 자동화입니다. 기존에 존재하는 자동화여야 합니다.
-* `create_missing`: True이며 자동화가 존재하지 않으면 생성합니다.
-* `kwargs`: 
+<ResponseField name="obj" type="Automation">
+  업데이트할 자동화입니다. 기존 자동화여야 합니다.
+</ResponseField>
+
+<ResponseField name="create_missing" type="bool">
+  True이고 자동화가 없으면 생성합니다.
+</ResponseField>
+
+<ResponseField name="kwargs" type="Unpack[WriteAutomationsKwargs]">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -1302,7 +1608,7 @@ updated_automation = api.update_automation(
 )
 ```
 
-### <kbd>방법</kbd> Api.upsert_run_queue()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.upsert_run_queue()
 
 ```python
 (self,
@@ -1321,15 +1627,35 @@ W&amp;B Launch에서 run 큐를 생성하거나 업데이트합니다.
   ##### 인수
 </div>
 
-* `name`: 생성할 큐의 이름
-* `resource_config`: 큐에 사용할 기본 리소스 설정(선택 사항)입니다. 템플릿 변수를 지정하려면 handlebars(예: `{{var}}`)를 사용합니다.
-* `resource_type`: 큐에 사용할 리소스의 유형입니다. &quot;local-container&quot;, &quot;local-process&quot;, &quot;kubernetes&quot;, &quot;sagemaker&quot;, 또는 &quot;gcp-vertex&quot; 중 하나입니다.
-* `entity`: 큐를 생성할 entity의 이름(선택 사항)입니다. `None`이면 설정된 entity 또는 기본 entity를 사용합니다.
-* `template_variables`: 설정과 함께 사용할 템플릿 변수 스키마의 사전입니다.
-* `external_links`: 큐와 함께 사용할 외부 링크의 사전(선택 사항)입니다.
-* `prioritization_mode`: 사용할 우선순위 지정 버전(선택 사항)입니다. &quot;V0&quot; 또는 None입니다.
+<ResponseField name="name" type="str">
+  생성할 큐의 이름
+</ResponseField>
 
-### <kbd>방법</kbd> Api.user()
+<ResponseField name="resource_config" type="dict">
+  큐에 사용할 선택적 기본 리소스 설정입니다. 템플릿 변수를 지정하려면 handlebars(예: `{{var}}`)를 사용하세요.
+</ResponseField>
+
+<ResponseField name="resource_type" type="public.RunQueueResourceType">
+  큐에 사용할 리소스 유형입니다. &quot;local-container&quot;, &quot;local-process&quot;, &quot;kubernetes&quot;, &quot;sagemaker&quot;, &quot;gcp-vertex&quot; 중 하나입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  큐를 생성할 entity의 선택적 이름입니다. `None`이면 설정된 entity 또는 기본 entity를 사용합니다.
+</ResponseField>
+
+<ResponseField name="template_variables" type="dict | None">
+  설정에 사용할 템플릿 변수 스키마의 딕셔너리입니다.
+</ResponseField>
+
+<ResponseField name="external_links" type="dict | None">
+  큐에 사용할 선택적 외부 링크 딕셔너리입니다.
+</ResponseField>
+
+<ResponseField name="prioritization_mode" type="public.RunQueuePrioritizationMode | None">
+  사용할 선택적 우선순위 지정 버전입니다. &quot;V0&quot; 또는 None입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.user()
 
 ```python
 self,
@@ -1344,9 +1670,11 @@ username_or_email: 'str'
   ##### 인수
 </div>
 
-* `username_or_email`: 사용자의 사용자 이름 또는 이메일 주소입니다.
+<ResponseField name="username_or_email" type="str">
+  사용자의 사용자 이름 또는 이메일 주소입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.users()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.users()
 
 ```python
 self,
@@ -1361,9 +1689,11 @@ username_or_email: 'str'
   ##### 인수
 </div>
 
-* `username_or_email`: 찾으려는 사용자의 접두사 또는 접미사입니다.
+<ResponseField name="username_or_email" type="str">
+  찾으려는 사용자의 접두사 또는 접미사입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Api.webhook_integrations()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.webhook_integrations()
 
 ```python
 self,
@@ -1378,9 +1708,17 @@ entity에 대한 웹훅 인테그레이션 이터레이터를 반환합니다.
   ##### 인수
 </div>
 
-* `entity`: 인테그레이션을 가져올 대상 entity입니다(예: 팀 이름). 제공하지 않으면 사용자의 기본 entity를 사용합니다.
-* `per_page`: 페이지별로 가져올 인테그레이션 수입니다. 기본값은 50입니다. 일반적으로 이 값을 변경할 필요는 없습니다.
-* `start`: 
+<ResponseField name="entity" type="str | None">
+  인테그레이션을 가져올 대상 entity입니다(예: 팀 이름). 제공하지 않으면 사용자의 기본 entity를 사용합니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  페이지별로 가져올 인테그레이션 수입니다. 기본값은 50입니다. 일반적으로 이 값을 변경할 필요는 없습니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  제공된 설명이 없습니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시

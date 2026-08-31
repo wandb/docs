@@ -6,20 +6,9 @@ namespace: wandb.sdk.wandb_login
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py#L20" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py#L20" />
 
-## <kbd>関数</kbd> wandb.login
-
-```python
-key: 'str | None' = None,
-relogin: 'bool | None' = None,
-host: 'str | None' = None,
-force: 'bool | None' = None,
-timeout: 'int | None' = None,
-verify: 'bool' = True,
-referrer: 'str | None' = None,
-anonymous: 'DoNotSet' = DoNotSet
-```
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.login()
 
 W&amp;B にログインします。
 
@@ -38,18 +27,52 @@ W&amp;B にログインします。
 * .netrc ファイル (~~/.netrc、~~/&#95;netrc、または NETRC 環境変数で指定されたパス)
 * 対話型プロンプト (利用可能な場合)
 
+```python
+key: 'str | None' = None,
+relogin: 'bool | None' = None,
+host: 'str | None' = None,
+force: 'bool | None' = None,
+timeout: 'int | None' = None,
+verify: 'bool' = True,
+referrer: 'str | None' = None,
+anonymous: 'DoNotSet' = DoNotSet
+```
+
 <div id="args">
   ## 引数
 </div>
 
-* `key`: 使用する APIキー。
-* `relogin`: true の場合、.netrc や環境変数などの読み取りをスキップし、対話型プロンプトから APIキー を取得します。
-* `host`: 接続先の W&amp;B サーバー URL。
-* `force`: true の場合、対話型プロンプトでオフラインモードを選択できないようにします。
-* `timeout`: 対話型プロンプトでユーザー入力を待機する秒数。これは、非対話型環境で誤って対話型プロンプトが表示された場合のフェイルセーフとして使用できます。
-* `verify`: W&amp;B サーバーに対して認証情報を検証し、失敗した場合は AuthenticationError を発生させます。これは APIキー とアイデンティティトークンの両方で機能します。
-* `referrer`: 分析用の URL ログインリクエストで使用するリファラー。
-* `anonymous`: 
+<ResponseField name="key" type="str | None">
+  使用するAPIキー。
+</ResponseField>
+
+<ResponseField name="relogin" type="bool | None">
+  true の場合、.netrc、環境変数などを読み取らずに、対話型プロンプトからAPIキーを取得します。
+</ResponseField>
+
+<ResponseField name="host" type="str | None">
+  接続先のW&amp;BサーバーのURL。
+</ResponseField>
+
+<ResponseField name="force" type="bool | None">
+  true の場合、対話型プロンプトでオフラインモードを選択できなくなります。
+</ResponseField>
+
+<ResponseField name="timeout" type="int | None">
+  対話型プロンプトでユーザー入力を待機する秒数。非対話型環境で対話型プロンプトが誤って表示された場合のフェイルセーフとして使用できます。
+</ResponseField>
+
+<ResponseField name="verify" type="bool">
+  W&amp;Bサーバーで認証情報を検証し、失敗した場合はAuthenticationErrorを発生させます。APIキーだけでなく、アイデンティティトークンでも使用できます。
+</ResponseField>
+
+<ResponseField name="referrer" type="str | None">
+  分析のため、URLログインリクエストで使用するリファラー。
+</ResponseField>
+
+<ResponseField name="anonymous" type="DoNotSet">
+  説明はありません。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

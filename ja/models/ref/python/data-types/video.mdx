@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.video
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py#L75" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py#L75" />
 
-## <kbd>クラス</kbd> wandb.Video
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Video
+
+W&amp;B に動画をログするクラスです。
 
 ```python
 (data_or_path: 'str | pathlib.Path | np.ndarray | TextIO | BytesIO',
@@ -17,13 +19,22 @@ fps: 'int | None' = None,
 format: "Literal['gif', 'mp4', 'webm', 'ogg'] | None" = None)
 ```
 
-W&amp;B に動画をログするクラスです。
-
 <div id="args">
   ## 引数
 </div>
 
-* `data_or_path`: Video は、ファイルパスまたは io オブジェクトで初期化できます。numpy テンソルで初期化することもできます。numpy テンソルは 4 次元または 5 次元である必要があります。次元は (フレーム数、チャネル、高さ、幅) または (バッチ、フレーム数、チャネル、高さ、幅) である必要があります。numpy 配列または io オブジェクトで初期化する場合は、`format` 引数で `format` パラメーターを指定する必要があります。
-* `caption`: 表示用の動画に関連付けられたキャプション。
-* `fps`: 生の動画フレームをエンコードする際に使用するフレームレートです。デフォルト値は 4 です。`data_or_path` が文字列または bytes の場合、このパラメーターは効果を持ちません。
-* `format`: 動画の形式です。numpy 配列または io オブジェクトで初期化する場合に必要です。このパラメーターは、動画データのエンコード時に使用する形式を決定するために使われます。指定できる値は &quot;gif&quot;、&quot;mp4&quot;、&quot;webm&quot;、または &quot;ogg&quot; です。
+<ResponseField name="data_or_path" type="str | pathlib.Path | np.ndarray | TextIO | BytesIO">
+  Video は、ファイルパスまたは io オブジェクトで初期化できます。numpy テンソルで初期化することもできます。numpy テンソルは 4 次元または 5 次元である必要があります。次元は (フレーム数、チャネル、高さ、幅) または (バッチ、フレーム数、チャネル、高さ、幅) である必要があります。numpy 配列または io オブジェクトで初期化する場合は、`format` 引数で `format` パラメーターを指定する必要があります。
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  表示用の動画に関連付けられたキャプション。
+</ResponseField>
+
+<ResponseField name="fps" type="int | None">
+  生の動画フレームをエンコードする際に使用するフレームレートです。デフォルト値は 4 です。`data_or_path` が文字列または bytes の場合、このパラメーターは効果を持ちません。
+</ResponseField>
+
+<ResponseField name="format" type="Literal['gif', 'mp4', 'webm', 'ogg'] | None">
+  動画の形式です。numpy 配列または io オブジェクトで初期化する場合に必要です。このパラメーターは、動画データのエンコード時に使用する形式を決定するために使われます。指定できる値は &quot;gif&quot;、&quot;mp4&quot;、&quot;webm&quot;、または &quot;ogg&quot; です。
+</ResponseField>

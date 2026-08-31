@@ -6,13 +6,9 @@ namespace: wandb.sdk.wandb_setup
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L512" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L512" />
 
-## <kbd>fonction</kbd> wandb.setup
-
-```python
-settings: 'Settings | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.setup()
 
 Prépare W&amp;B à être utilisé dans le processus en cours et ses processus enfants.
 
@@ -27,11 +23,17 @@ que les processus enfants héritent des variables d’environnement modifiées.
 
 Voir aussi `wandb.teardown()`.
 
+```python
+settings: 'Settings | None' = None
+```
+
 <div id="args">
   ## Arguments
 </div>
 
-* `settings`: Paramètres de configuration à appliquer globalement. Ils peuvent être remplacés par des appels ultérieurs à `wandb.init()`.
+<ResponseField name="settings" type="Settings | None">
+  Paramètres de configuration à appliquer globalement. Ils peuvent être remplacés par des appels ultérieurs à `wandb.init()`.
+</ResponseField>
 
 <div id="examples">
   ## Exemples

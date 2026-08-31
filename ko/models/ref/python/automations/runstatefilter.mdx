@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L166" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L166" />
 
-## <kbd>클래스</kbd> wandb.automations.RunStateFilter
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.RunStateFilter
+
+run 상태 변경에 따라 이벤트를 트리거하는 필터를 나타냅니다.
 
 ```python
 *,
@@ -16,11 +18,14 @@ run_filter: Annotated[wandb._filters.operators.And | wandb._filters.operators.Or
 run_state_filter: wandb.automations._run_state_filters.StateFilter
 ```
 
-run 상태 변경에 따라 이벤트를 트리거하는 필터를 나타냅니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `run_filter`: 이 이벤트를 트리거하는 모든 Runs와 일치해야 하는 필터입니다.
-* `run_state_filter`: 이 이벤트가 트리거되기 위해 충족되어야 하는 run 상태 조건입니다.
+<ResponseField name="run_filter" type="Annotated">
+  이 이벤트를 트리거하는 모든 Runs와 일치해야 하는 필터입니다.
+</ResponseField>
+
+<ResponseField name="run_state_filter" type="StateFilter">
+  이 이벤트가 트리거되기 위해 충족되어야 하는 run 상태 조건입니다.
+</ResponseField>

@@ -6,9 +6,14 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4050" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4050" />
 
-## <kbd>fonction</kbd> wandb.restore
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.restore()
+
+Télécharge le fichier spécifié à partir du stockage cloud.
+
+Le fichier est placé dans le répertoire courant ou dans le répertoire du run.
+Par défaut, le fichier n’est téléchargé que s’il n’existe pas déjà.
 
 ```python
 name: 'str',
@@ -17,19 +22,25 @@ replace: 'bool' = False,
 root: 'str | None' = None
 ```
 
-Télécharge le fichier spécifié à partir du stockage cloud.
-
-Le fichier est placé dans le répertoire courant ou dans le répertoire du run.
-Par défaut, le fichier n’est téléchargé que s’il n’existe pas déjà.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `name`: Le nom du fichier.
-* `run_path`: Chemin facultatif vers un run depuis lequel récupérer des fichiers, c.-à-d. `username/project_name/run_id` ; si wandb.init n’a pas été appelé, ce paramètre est requis.
-* `replace`: Indique s’il faut télécharger le fichier même s’il existe déjà localement
-* `root`: Le répertoire dans lequel télécharger le fichier.  Par défaut, il s’agit du répertoire courant ou du répertoire du run si wandb.init a été appelé.
+<ResponseField name="name" type="str">
+  Le nom du fichier.
+</ResponseField>
+
+<ResponseField name="run_path" type="str | None">
+  Chemin facultatif vers un run depuis lequel récupérer des fichiers, c.-à-d. `username/project_name/run_id` ; si wandb.init n’a pas été appelé, ce paramètre est requis.
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+  Indique s’il faut télécharger le fichier même s’il existe déjà localement
+</ResponseField>
+
+<ResponseField name="root" type="str | None">
+  Le répertoire dans lequel télécharger le fichier.  Par défaut, il s’agit du répertoire courant ou du répertoire du run si wandb.init a été appelé.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

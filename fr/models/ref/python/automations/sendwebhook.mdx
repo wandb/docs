@@ -6,9 +6,11 @@ namespace: wandb.automations.actions
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L182" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L182" />
 
-## <kbd>classe</kbd> wandb.automations.SendWebhook
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.SendWebhook
+
+Définit une action d’automatisation qui envoie une requête webhook.
 
 ```python
 *,
@@ -17,21 +19,27 @@ requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<f
 action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-Définit une action d’automatisation qui envoie une requête webhook.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `integration_id`: L’ID de l’intégration webhook qui sera utilisée pour envoyer la requête.
-* `requestPayload`: La charge utile, éventuellement avec des variables de template, à envoyer dans la requête webhook.
-* `action_type`: 
+<ResponseField name="integration_id" type="Annotated">
+  L’ID de l’intégration webhook qui sera utilisée pour envoyer la requête.
+</ResponseField>
+
+<ResponseField name="requestPayload" type="Optional">
+  La charge utile, éventuellement avec des variables de template, à envoyer dans la requête webhook.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> SendWebhook.from_integration()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> SendWebhook.from_integration()
 
 ```python
 integration: 'WebhookIntegration', *,
@@ -44,5 +52,10 @@ Définissez une action webhook qui envoie à l’intégration (webhook) spécifi
   ##### Arguments
 </div>
 
-* `integration`:
-* `payload`: 
+<ResponseField name="integration" type="WebhookIntegration">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="payload" type="JsonEncoded[dict[str, Any]] | None">
+  Aucune description fournie.
+</ResponseField>

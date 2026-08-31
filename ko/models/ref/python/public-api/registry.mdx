@@ -6,9 +6,11 @@ namespace: wandb.apis.public.registries.registry
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
-## <kbd>클래스</kbd> wandb.apis.public.Registry
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Registry
+
+레지스트리 내 개별 레지스트리입니다.
 
 ```python
 (service_api: 'ServiceApi',
@@ -18,100 +20,119 @@ name: 'str',
 attrs: 'RegistryFragment | None' = None)
 ```
 
-레지스트리 내 개별 레지스트리입니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `service_api`:
-* `organization`:
-* `entity`:
-* `name`:
-* `attrs`: 
+<ResponseField name="service_api" type="ServiceApi">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="organization" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="attrs" type="RegistryFragment | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="properties">
   ## 속성
 </div>
 
-### <kbd>속성</kbd> allow_all_artifact_types
+<ResponseField name="allow_all_artifact_types" type="bool">
+  레지스트리에서 모든 아티팩트 유형을 허용하는지 여부를 반환합니다.
 
-레지스트리에서 모든 아티팩트 유형을 허용하는지 여부를 반환합니다.
+  `True`이면 모든 유형의 아티팩트를 추가할 수 있습니다. `False`이면 아티팩트는
+  `artifact_types`에 나열된 유형으로 제한됩니다.
+</ResponseField>
 
-`True`이면 모든 유형의 아티팩트를 추가할 수 있습니다. `False`이면 `artifact_types`에 나열된 유형의 아티팩트만 허용됩니다.
+<ResponseField name="artifact_types" type="AddOnlyArtifactTypesList">
+  레지스트리에서 허용되는 아티팩트 유형을 반환합니다.
 
-### <kbd>속성</kbd> artifact_types
+  `allow_all_artifact_types`가 `True`이면 `artifact_types`는
+  이전에 저장되었거나 현재 레지스트리에서 사용 중인 유형을 반영합니다.
+  `allow_all_artifact_types`가 `False`이면 아티팩트는
+  `artifact_types`에 포함된 유형으로 제한됩니다.
 
-레지스트리에서 허용되는 아티팩트 유형을 반환합니다.
+  참고:
+  이전에 저장된 아티팩트 유형은 제거할 수 없습니다.
+</ResponseField>
 
-`allow_all_artifact_types`가 `True`이면 `artifact_types`는 이전에 저장되었거나 현재 레지스트리에서 사용 중인 유형을 반영합니다.
-`allow_all_artifact_types`가 `False`이면 아티팩트는 `artifact_types`에 있는 유형으로 제한됩니다.
+<ResponseField name="created_at" type="str">
+  레지스트리가 생성된 시점의 타임스탬프입니다.
+</ResponseField>
 
-참고:
-이전에 저장된 아티팩트 유형은 제거할 수 없습니다.
+<ResponseField name="description" type="str | None">
+  레지스트리에 대한 설명입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> created_at
+<ResponseField name="entity" type="str">
+  레지스트리의 조직 엔터티입니다.
+</ResponseField>
 
-레지스트리가 생성된 시점을 나타내는 타임스탬프입니다.
+<ResponseField name="full_name" type="str">
+  `wandb-registry-` 접두사를 포함한 레지스트리의 전체 이름입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> 설명
+<ResponseField name="id" type="str">
+  이 레지스트리의 고유 ID입니다.
+</ResponseField>
 
-레지스트리에 대한 설명입니다.
+<ResponseField name="internal_id" type="str | None">
+  가져온 경우 이 레지스트리를 뒷받침하는 프로젝트의 GraphQL `internalId`입니다.
 
-### <kbd>속성</kbd> entity
+  이는 base64로 인코딩된 전역 ID입니다. 디코딩하면
+  `Project:123` 또는 `ProjectInternalId:123`와 같은 형식입니다.
+</ResponseField>
 
-레지스트리의 조직 entity입니다.
+<ResponseField name="name" type="str">
+  `wandb-registry-` 접두사를 제외한 레지스트리 이름입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> full_name
+<ResponseField name="organization" type="str">
+  레지스트리의 조직 이름입니다.
+</ResponseField>
 
-`wandb-registry-` 접두사를 포함한 레지스트리의 전체 이름입니다.
+<ResponseField name="path" type="list[str]">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> id
+<ResponseField name="updated_at" type="str | None">
+  레지스트리가 마지막으로 업데이트된 시점의 타임스탬프입니다.
+</ResponseField>
 
-이 레지스트리의 고유 ID입니다.
-
-### <kbd>속성</kbd> internal_id
-
-가져온 경우 이 레지스트리의 기반 프로젝트에 대한 GraphQL `internalId`입니다.
-
-이는 base64로 인코딩된 전역 ID입니다. 디코딩하면
-`Project:123` 또는 `ProjectInternalId:123` 형식입니다.
-
-### <kbd>속성</kbd> name
-
-`wandb-registry-` 접두사를 제외한 레지스트리 이름입니다.
-
-### <kbd>속성</kbd> 조직
-
-레지스트리의 조직 이름입니다.
-
-### <kbd>속성</kbd> path
-
-### <kbd>속성</kbd> updated_at
-
-레지스트리가 마지막으로 업데이트된 타임스탬프입니다.
-
-### <kbd>속성</kbd> visibility
-
-레지스트리의 공개 범위입니다.
+<ResponseField name="visibility" type="The visibility level.">
+  레지스트리의 공개 범위입니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Registry.add_members()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.add_members()
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
 ```
 
-이 레지스트리에 사용자 또는 Teams를 추가합니다.
+이 레지스트리에 사용자 또는 팀을 추가합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `members`: 레지스트리에 추가할 사용자 또는 Teams입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받을 수 있습니다.
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+  레지스트리에 추가할 사용자 또는 팀입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받을 수 있습니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -140,7 +161,7 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-### <kbd>방법</kbd> Registry.collections()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.collections()
 
 ```python
 self,
@@ -156,12 +177,23 @@ start: 'str | None' = None
   ##### 인수
 </div>
 
-* `filter`:  컬렉션 쿼리에 적용할 필터를 지정하는 선택 사항인 매핑입니다.
-* `order`:  결과의 정렬 순서를 지정하는 선택 사항인 string입니다. `+` 접두사가 있으면 오름차순으로 정렬되며(기본값), `-` 접두사가 있으면 내림차순으로 정렬됩니다.
-* `per_page`:  페이지당 가져올 결과의 숫자입니다. 일반적으로 이 값을 변경할 이유는 없습니다.
-* `start`:  이전 `paginator`의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
+<ResponseField name="filter" type="dict[str, Any] | None">
+  컬렉션 쿼리에 적용할 필터를 지정하는 선택 사항인 매핑입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Registry.create()
+<ResponseField name="order" type="str | None">
+  결과의 정렬 순서를 지정하는 선택 사항인 string입니다. `+` 접두사가 있으면 오름차순으로 정렬되며(기본값), `-` 접두사가 있으면 내림차순으로 정렬됩니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+  페이지당 가져올 결과의 숫자입니다. 일반적으로 이 값을 변경할 이유는 없습니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  이전 `paginator`의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.create()
 
 ```python
 api: 'Api',
@@ -181,12 +213,29 @@ artifact_types: 'list[str] | None' = None
   ##### 인수
 </div>
 
-* `api`:  W&amp;B API 인스턴스입니다.
-* `organization`:  조직 이름입니다.
-* `name`:  레지스트리 이름입니다(`wandb-registry-` 접두사 제외).
-* `visibility`:  공개 범위입니다(&#39;organization&#39; 또는 &#39;restricted&#39;).
-* `description`:  레지스트리에 대한 선택 설명입니다.
-* `artifact_types`:  허용되는 아티팩트 유형의 선택 목록입니다.
+<ResponseField name="api" type="Api">
+  W&amp;B API 인스턴스입니다.
+</ResponseField>
+
+<ResponseField name="organization" type="str">
+  조직 이름입니다.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  레지스트리 이름입니다(`wandb-registry-` 접두사 제외).
+</ResponseField>
+
+<ResponseField name="visibility" type="Literal['organization', 'restricted']">
+  공개 범위입니다(&#39;organization&#39; 또는 &#39;restricted&#39;).
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  레지스트리에 대한 선택적 설명입니다.
+</ResponseField>
+
+<ResponseField name="artifact_types" type="list[str] | None">
+  허용되는 아티팩트 유형의 선택적 목록입니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -194,7 +243,7 @@ artifact_types: 'list[str] | None' = None
 
 * `ValueError`: 조직 내에 같은 이름의 레지스트리가 이미 있거나 생성에 실패한 경우입니다.
 
-### <kbd>방법</kbd> Registry.delete()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.delete()
 
 ```python
 self
@@ -202,7 +251,7 @@ self
 
 레지스트리를 삭제합니다. 이 작업은 되돌릴 수 없습니다.
 
-### <kbd>방법</kbd> Registry.load()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.load()
 
 ```python
 self
@@ -210,27 +259,29 @@ self
 
 백엔드에서 레지스트리 속성을 불러옵니다.
 
-### <kbd>방법</kbd> Registry.members()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.members()
 
 ```python
 self
 ```
 
-이 레지스트리의 현재 멤버(Users 및 Teams)를 반환합니다.
+이 레지스트리의 현재 멤버(사용자 및 팀)를 반환합니다.
 
-### <kbd>방법</kbd> Registry.remove_members()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.remove_members()
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
 ```
 
-이 레지스트리에서 Users 또는 Teams를 제거합니다.
+이 레지스트리에서 사용자 또는 팀을 제거합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `members`: 레지스트리에서 제거할 Users 또는 Teams입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받습니다.
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+  레지스트리에서 제거할 사용자 또는 팀입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받습니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -259,7 +310,7 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-### <kbd>방법</kbd> Registry.save()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.save()
 
 ```python
 self
@@ -267,15 +318,15 @@ self
 
 레지스트리 속성을 백엔드에 저장합니다.
 
-### <kbd>방법</kbd> Registry.team_members()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.team_members()
 
 ```python
 self
 ```
 
-이 레지스트리에 현재 멤버로 등록된 Teams를 반환합니다.
+이 레지스트리에 현재 멤버로 등록된 팀을 반환합니다.
 
-### <kbd>방법</kbd> Registry.update_member()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.update_member()
 
 ```python
 self,
@@ -289,12 +340,18 @@ role: 'MemberRole | str'
   ##### 인수
 </div>
 
-* `member`: 역할을 업데이트할 사용자 또는 팀입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받을 수 있습니다.
-* `role`: 멤버에게 할당할 새 역할입니다. 다음 중 하나일 수 있습니다:
+<ResponseField name="member" type="User | UserMember | Team | TeamMember | str">
+  역할을 업데이트할 사용자 또는 팀입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받을 수 있습니다.
+</ResponseField>
+
+<ResponseField name="role" type="MemberRole | str">
+  멤버에게 할당할 새 역할입니다. 다음 중 하나일 수 있습니다:
+
   * &quot;admin&quot;
   * &quot;member&quot;
   * &quot;viewer&quot;
   * &quot;restricted&#95;viewer&quot; (W&amp;B 서버에서 지원하는 경우)
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -320,15 +377,15 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-### <kbd>방법</kbd> Registry.user_members()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.user_members()
 
 ```python
 self
 ```
 
-이 레지스트리의 현재 멤버인 Users를 반환합니다.
+이 레지스트리의 현재 멤버인 사용자를 반환합니다.
 
-### <kbd>방법</kbd> Registry.versions()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.versions()
 
 ```python
 self,
@@ -344,7 +401,18 @@ start: 'str | None' = None
   ##### 인수
 </div>
 
-* `filter`: 아티팩트 버전 쿼리에 적용할 필터의 선택 사항인 매핑입니다.
-* `order`: 결과 정렬 순서를 지정하는 선택 사항인 string입니다. `created_at`, `artifact_size`, 또는 `linked_at`을 지정할 수 있습니다. &#39;+&#39;를 접두사로 사용하면 오름차순(기본값)으로 정렬하고, &#39;-&#39;를 접두사로 사용하면 내림차순으로 정렬합니다.
-* `per_page`: 페이지당 가져올 결과 수입니다. 일반적으로는 이를 변경할 이유가 없습니다.
-* `start`: 이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
+<ResponseField name="filter" type="dict[str, Any] | None">
+  아티팩트 버전 쿼리에 적용할 필터의 선택 사항인 매핑입니다.
+</ResponseField>
+
+<ResponseField name="order" type="_VersionOrder | None">
+  결과 정렬 순서를 지정하는 선택 사항인 string입니다. `created_at`, `artifact_size`, 또는 `linked_at`을 지정할 수 있습니다. &#39;+&#39;를 접두사로 사용하면 오름차순(기본값)으로 정렬하고, &#39;-&#39;를 접두사로 사용하면 내림차순으로 정렬합니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+  페이지당 가져올 결과 수입니다. 일반적으로는 이를 변경할 이유가 없습니다.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
+</ResponseField>

@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.video
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py#L75" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py#L75" />
 
-## <kbd>classe</kbd> wandb.Video
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Video
+
+Une classe pour journaliser des vidéos dans W&amp;B.
 
 ```python
 (data_or_path: 'str | pathlib.Path | np.ndarray | TextIO | BytesIO',
@@ -17,13 +19,22 @@ fps: 'int | None' = None,
 format: "Literal['gif', 'mp4', 'webm', 'ogg'] | None" = None)
 ```
 
-Une classe pour journaliser des vidéos dans W&amp;B.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `data_or_path` :  Vidéo peut être initialisé à partir d’un chemin de fichier ou d’un objet io. vidéo peut également être initialisé avec un tenseur NumPy. Le tenseur NumPy doit comporter 4 ou 5 dimensions. Les dimensions doivent être (nombre d’images, canal, hauteur, largeur) ou (lot, nombre d’images, canal, hauteur, largeur). Le paramètre format doit être spécifié avec l’argument format lors de l’initialisation à partir d’un tableau NumPy ou d’un objet io.
-* `caption` :  Légende associée à la vidéo pour l’affichage.
-* `fps` :  La fréquence d’images à utiliser lors de l’encodage des images vidéo brutes. La valeur par défaut est 4. Ce paramètre n’a aucun effet lorsque data&#95;or&#95;path est une chaîne de caractères ou des octets.
-* `format` :  Format de la vidéo, requis en cas d’initialisation à partir d’un tableau NumPy ou d’un objet io. Ce paramètre est utilisé pour déterminer le format à utiliser lors de l’encodage des données vidéo. Les valeurs acceptées sont &quot;gif&quot;, &quot;mp4&quot;, &quot;webm&quot; ou &quot;ogg&quot;.
+<ResponseField name="data_or_path" type="str | pathlib.Path | np.ndarray | TextIO | BytesIO">
+  Vidéo peut être initialisé à partir d’un chemin de fichier ou d’un objet io. vidéo peut également être initialisé avec un tenseur NumPy. Le tenseur NumPy doit comporter 4 ou 5 dimensions. Les dimensions doivent être (nombre d’images, canal, hauteur, largeur) ou (lot, nombre d’images, canal, hauteur, largeur). Le paramètre format doit être spécifié avec l’argument format lors de l’initialisation à partir d’un tableau NumPy ou d’un objet io.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  Légende associée à la vidéo pour l’affichage.
+</ResponseField>
+
+<ResponseField name="fps" type="int | None">
+  La fréquence d’images à utiliser lors de l’encodage des images vidéo brutes. La valeur par défaut est 4. Ce paramètre n’a aucun effet lorsque data&#95;or&#95;path est une chaîne de caractères ou des octets.
+</ResponseField>
+
+<ResponseField name="format" type="Literal['gif', 'mp4', 'webm', 'ogg'] | None">
+  Format de la vidéo, requis en cas d’initialisation à partir d’un tableau NumPy ou d’un objet io. Ce paramètre est utilisé pour déterminer le format à utiliser lors de l’encodage des données vidéo. Les valeurs acceptées sont &quot;gif&quot;, &quot;mp4&quot;, &quot;webm&quot; ou &quot;ogg&quot;.
+</ResponseField>

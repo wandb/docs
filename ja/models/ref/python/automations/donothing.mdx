@@ -6,9 +6,11 @@ namespace: wandb.automations.actions
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L207" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L207" />
 
-## <kbd>クラス</kbd> wandb.automations.DoNothing
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.DoNothing
+
+意図的に何もしないオートメーションアクションを定義します。
 
 ```python
 *,
@@ -16,13 +18,16 @@ no_op: Annotated[bool, BeforeValidator(func=<function default_if_none>, json_sch
 action_type: Literal[NO_OP] = NO_OP
 ```
 
-意図的に何もしないオートメーションアクションを定義します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `no_op`: バックエンドのスキーマ要件を満たすためだけに存在するプレースホルダーフィールドです。
+<ResponseField name="no_op" type="Annotated">
+  バックエンドのスキーマ要件を満たすためだけに存在するプレースホルダーフィールドです。
 
   このフィールドの値は無視されるため、明示的に設定する必要はありません。
-* `action_type`: 
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  説明はありません。
+</ResponseField>

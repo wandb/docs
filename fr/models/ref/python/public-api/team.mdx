@@ -6,15 +6,9 @@ namespace: wandb.apis.public.teams
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
-## <kbd>classe</kbd> wandb.apis.public.Team
-
-```python
-(service_api: 'ServiceApi',
-name: 'str',
-attrs: 'Mapping[str, Any] | None' = None)
-```
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Team
 
 Classe représentant une équipe W&amp;B.
 
@@ -22,13 +16,27 @@ Cette classe fournit des méthodes pour gérer les équipes W&amp;B, notamment p
 inviter des membres et gérer des comptes de service. Elle hérite de Attrs
 pour gérer les attributs de l’équipe.
 
+```python
+(service_api: 'ServiceApi',
+name: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
+```
+
 <div id="args">
   ## Arguments
 </div>
 
-* `service_api` : L’instance d’API de service à utiliser pour interroger W&amp;B.
-* `name` : Le nom de la équipe
-* `attrs` : Dictionnaire facultatif des attributs de la équipe
+<ResponseField name="service_api" type="ServiceApi">
+  Instance de l’API de service à utiliser pour interroger W&amp;B.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  Nom de l’équipe
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+  Dictionnaire facultatif des attributs de l’équipe
+</ResponseField>
 
 <div id="examples">
   ## Exemples
@@ -58,7 +66,7 @@ team.create_service_account("CI service account")
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Team.create()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create()
 
 ```python
 api: 'Api',
@@ -72,26 +80,36 @@ Créer une nouvelle équipe.
   ##### Arguments
 </div>
 
-* `api`: (`Api`) L&#39;instance d&#39;API à utiliser
-* `team`: (str) Le nom de la équipe
-* `admin_username`: (str) nom d&#39;utilisateur facultatif de l&#39;administrateur de la équipe ; par défaut, l&#39;utilisateur actuel.
+<ResponseField name="api" type="Api">
+  (`Api`) L&#39;instance d&#39;API à utiliser
+</ResponseField>
 
-### <kbd>méthode</kbd> Team.create_service_account()
+<ResponseField name="team" type="str">
+  (str) Le nom de la équipe
+</ResponseField>
+
+<ResponseField name="admin_username" type="str | None">
+  (str) nom d&#39;utilisateur facultatif de l&#39;administrateur de la équipe ; par défaut, l&#39;utilisateur actuel.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create_service_account()
 
 ```python
 self,
 description: 'str'
 ```
 
-Créez un compte de service pour la équipe.
+Créez un compte de service pour l’équipe.
 
 <div id="arguments">
   ##### Arguments
 </div>
 
-* `description`: (str) Une description de ce compte de service
+<ResponseField name="description" type="str">
+  (str) Une description de ce compte de service
+</ResponseField>
 
-### <kbd>méthode</kbd> Team.invite()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.invite()
 
 ```python
 self,
@@ -105,5 +123,10 @@ Invitez un utilisateur dans une équipe.
   ##### Arguments
 </div>
 
-* `username_or_email`: (str) Le nom d’utilisateur ou l’adresse e-mail de l’utilisateur que vous souhaitez inviter.
-* `admin`: (bool) Indique si cet utilisateur doit devenir administrateur de la équipe. La valeur par défaut est `False`.
+<ResponseField name="username_or_email" type="str">
+  (str) Le nom d’utilisateur ou l’adresse e-mail de l’utilisateur que vous souhaitez inviter.
+</ResponseField>
+
+<ResponseField name="admin" type="bool">
+  (bool) Indique si cet utilisateur doit devenir administrateur de la équipe. La valeur par défaut est `False`.
+</ResponseField>

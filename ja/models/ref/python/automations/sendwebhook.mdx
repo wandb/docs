@@ -6,9 +6,11 @@ namespace: wandb.automations.actions
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L182" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L182" />
 
-## <kbd>クラス</kbd> wandb.automations.SendWebhook
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendWebhook
+
+Webhook リクエストを送信するオートメーション アクションを定義します。
 
 ```python
 *,
@@ -17,21 +19,27 @@ requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<f
 action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-Webhook リクエストを送信するオートメーション アクションを定義します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `integration_id`: リクエストの送信に使用する webhook インテグレーションの ID。
-* `requestPayload`: webhook リクエストで送信するペイロード。テンプレート変数を含む場合があります。
-* `action_type`: 
+<ResponseField name="integration_id" type="Annotated">
+  リクエストの送信に使用する webhook インテグレーションの ID。
+</ResponseField>
+
+<ResponseField name="requestPayload" type="Optional">
+  webhook リクエストで送信するペイロード。テンプレート変数を含む場合があります。
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  説明はありません。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>メソッド</kbd> SendWebhook.from_integration()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendWebhook.from_integration()
 
 ```python
 integration: 'WebhookIntegration', *,
@@ -44,5 +52,10 @@ payload: 'JsonEncoded[dict[str, Any]] | None' = None
   ##### 引数
 </div>
 
-* `integration`:
-* `payload`: 
+<ResponseField name="integration" type="WebhookIntegration">
+  説明は提供されていません。
+</ResponseField>
+
+<ResponseField name="payload" type="JsonEncoded[dict[str, Any]] | None">
+  説明は提供されていません。
+</ResponseField>
