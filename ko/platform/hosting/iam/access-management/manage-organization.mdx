@@ -138,18 +138,14 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
   ### 도메인 캡처
 </div>
 
-도메인 캡처를 사용하면 직원이 회사 조직에 참여할 수 있으므로, 신규 사용자가 회사의 관리 범위 밖에서 asset을 생성하는 일을 방지할 수 있습니다.
+도메인 캡처를 사용하면 `@example.com`과 같은 회사 이메일 주소를 사용하는 사용자를 W&amp;B에 자동으로 추가할 수 있습니다. 이를 통해 모든 직원이 올바른 조직에 참여할 수 있고, 신규 사용자가 회사의 관리 범위 밖에서 asset을 생성하는 일을 방지할 수 있습니다.
 
-<Note>
-  **도메인은 고유해야 합니다**
+<Note>도메인 캡처는 무료 또는 체험 플랜에서는 사용할 수 없습니다.</Note>
 
-  도메인은 고유 식별자입니다. 즉, 다른 조직에서 이미 사용 중인 도메인은 사용할 수 없습니다.
-</Note>
+도메인은 고유해야 합니다. 다른 조직에서 이미 사용 중인 도메인은 사용할 수 없습니다.
 
 <Tabs>
   <Tab title="Multi-tenant Cloud">
-    도메인 캡처를 사용하면 `@example.com`과 같은 회사 이메일 주소를 사용하는 사용자를 W&amp;B Multi-tenant Cloud 조직에 자동으로 추가할 수 있습니다. 이를 통해 모든 직원이 올바른 조직에 참여할 수 있고, 신규 사용자가 회사의 관리 범위 밖에서 asset을 생성하는 일을 방지할 수 있습니다.
-
     다음 표는 도메인 캡처 활성화 여부에 따른 신규 사용자와 기존 사용자의 동작을 요약한 것입니다.
 
     |                | With domain capture                                                                                                                                     | Without domain capture                                                |
@@ -164,18 +160,18 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
     2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운에서 **Settings**를 선택합니다.
     3. **Settings** 탭에서 **General**을 선택합니다.
     4. **도메인 캡처**에서 **Claim domain** 버튼을 클릭합니다.
-    5. **Default team** 드롭다운에서 신규 사용자가 자동으로 참여할 팀을 선택합니다. 사용 가능한 팀이 없으면 팀 settings을 업데이트하세요. 자세한 내용은 [Add and manage teams](#add-and-manage-teams)를 참조하세요.
+    5. **Default team** 드롭다운에서 신규 사용자가 자동으로 참여할 팀을 선택합니다. 사용 가능한 팀이 없으면 팀 settings을 업데이트하세요. 자세한 내용은 [팀 추가 및 관리](#add-and-manage-teams)를 참조하세요.
     6. **Claim email domain** 버튼을 클릭합니다.
 
     초대되지 않은 신규 사용자를 해당 팀에 자동으로 배정하려면 먼저 팀 settings에서 도메인 매칭을 활성화해야 합니다.
 
     1. 도메인 매칭을 활성화하려는 팀의 이름이 `<team-name>`일 때, `https://wandb.ai/<team-name>`에 있는 팀 대시보드로 이동합니다.
-    2. 팀 대시보드 왼쪽의 전역 내비게이션에서 **Team settings**를 선택합니다.
-    3. **Privacy** 섹션에서 **Recommend new users with matching email domains join this team upon signing up** 옵션을 켭니다.
+    2. 팀 대시보드 왼쪽의 전역 내비게이션에서 **팀 설정**을 선택합니다.
+    3. **개인정보 보호** 섹션에서 **Recommend new users with matching email domains join this team upon signing up** 옵션을 켭니다.
   </Tab>
 
   <Tab title="Dedicated Cloud 또는 Self-Managed">
-    Dedicated Cloud 또는 Self-Managed deployment type을 사용하는 경우 W&amp;B Account Team에 문의하여 도메인 캡처를 구성하세요. 구성이 완료되면 회사 이메일 주소로 W&amp;B 계정을 만드는 사용자에게 W&amp;B Multi-tenant Cloud 인스턴스가 자동으로 관리자에게 연락하여 Dedicated Cloud 또는 Self-Managed 인스턴스에 대한 액세스를 요청하라는 안내를 표시합니다.
+    W&amp;B Account Team에 문의하여 도메인 캡처를 구성하세요. 이후 사용자가 회사 이메일 주소로 W&amp;B 계정을 생성하면 배포 환경에서 자동으로 관리자에게 연락하여 액세스를 요청하라는 안내를 표시합니다.
 
     |                | With domain capture                                                                                                                                       | Without domain capture                                                                 |
     | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |

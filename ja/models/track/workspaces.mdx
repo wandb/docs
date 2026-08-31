@@ -269,7 +269,7 @@ pip install wandb wandb-workspaces
 </div>
 
 ```python
-import wandb_workspaces.reports.v2 as ws
+import wandb_workspaces.workspaces as ws
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()
@@ -285,16 +285,44 @@ existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
 existing_workspace.save()
 ```
 
-<div id="copy-a-workspace-saved-view-to-another-workspace">
-  ### Workspace の `saved view` を別の Workspace にコピーする
+<div id="clone-a-saved-workspace-view">
+  ### 保存済み Workspace ビューを複製する
 </div>
 
+Reports および Workspaces API を使用して保存済み Workspace ビューを複製し、そのレイアウトと設定に基づいて新しいビューを作成します。
+
+開始する前に、次の情報を確認してください。
+
+* ソースの Workspace ビューが含まれる entity と project。
+* Workspace ビュー ID。
+  * ビュー ID を検索するには、保存済み Workspace ビューを W&amp;B で開き、URL 内の `nw` クエリパラメーターの値をコピーします。たとえば、`https://wandb.ai/awesome-team/mnist?nw=54ro5zcn9d4` の場合、ビュー ID は `54ro5zcn9d4` です。
+* 宛先の entity と project。
+* 新しい Workspace ビューの名。
+
+次の例では、保存済み Workspace ビューを複製します。
+
 ```python
-old_workspace = ws.Workspace.from_url("old-workspace-url")
-old_workspace_view = old_workspace.views[0]
-new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[old_workspace_view])
+import wandb_workspaces.workspaces as ws
 
-new_workspace.save()
+# ソースとなる Workspace ビューを指定します
+source_entity = "source-entity"
+source_project = "source-project"
+saved_view = "saved-view-id"
+source_url = f"https://wandb.ai/{source_entity}/{source_project}?nw={saved_view}"
+
+# 保存先を指定します
+target_entity = "target-entity"
+target_project = "target-project"
+target_view_name = "view-name"
+
+# ソースの Workspace ビューを読み込みます
+workspace = ws.Workspace.from_url(source_url)
+
+# 保存先を設定します
+workspace.entity = target_entity
+workspace.project = target_project
+workspace.name = target_view_name
+
+# Workspace を新しいビューとして保存します。
+workspace.save_as_new_view()
 ```
-
-ワークスペース API の包括的なサンプルについては、[`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) を参照してください。
