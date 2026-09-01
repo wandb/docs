@@ -10,7 +10,7 @@ Team members with a Models **Viewer** seat cannot download artifacts.
 </Note>
 
 
-### Download and use an artifact stored on W&B
+## Download and use an artifact stored on W&B
 
 Download an artifact as a tracked run input when it is a run dependency, or fetch it directly for workflows that don’t require lineage tracking.
 
@@ -36,7 +36,7 @@ Use `wandb.Run.use_artifact()` to download an artifact as part of a W&B run. W&B
 ```python
 import wandb    
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="project-name", job_type="job-type") as run:
     # Indicate the artifact to use. Format is "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
@@ -78,12 +78,12 @@ $ wandb artifact get project/artifact:alias --root mnist/
 </Tabs>
 
 
-### Partially download an artifact
+## Partially download an artifact
 
 You can optionally download part of an artifact based on a prefix. Use the `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) parameter to download a single file or the content of a sub-folder.
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="project-name", job_type="job-type") as run:
     # Indicate the artifact to use. Format is "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
@@ -97,14 +97,39 @@ Alternatively, you can download files from a certain directory. To do so, specif
 # downloads files in the images/bikes directory
 artifact.download(path_prefix="images/bikes/") 
 ```
-### Use an artifact from a different project
+
+## Verify downloaded artifact files
+
+After downloading an artifact, call `Artifact.verify()` to check that the files on disk match the artifact manifest.
+
+For example, the following code snippet downloads an artifact as part of a run and verifies the downloaded files:
+
+```python
+import wandb
+
+with wandb.init(project="project-name", job_type="job-type") as run:
+    artifact = run.use_artifact("entity/project/my-dataset:latest")
+    artifact_dir = artifact.download()
+    artifact.verify(artifact_dir)
+```
+
+[`wandb.Artifact.verify()`](/models/ref/python/experiments/artifact#method-artifact-verify) recomputes checksums for local files and compares them with the checksums stored in the artifact manifest. It raises a `ValueError` if a file is missing, has changed, or if the directory contains files that are not part of the artifact.
+
+`wandb.Artifact.verify()` does not verify [reference entries](/models/artifacts/track-external-files).
+
+<Note>
+Artifacts created with `digest_algorithm="XXH128"` require W&B SDK 0.29.0 or newer for `Artifact.verify()`. Older SDK versions do not understand XXH128 manifest entries and verification fails.
+</Note>
+
+
+## Use an artifact from a different project
 
 Specify the name of the artifact along with its project name to reference an artifact. You can also reference artifacts across entities by specifying the name of the artifact with its entity name.
 
 The following code example demonstrates how to query an artifact from another project as input to the current W&B run.
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="project-name", job_type="job-type") as run:
     # Query W&B for an artifact from another project and mark it
     # as an input to this run.
     artifact = run.use_artifact("my-project/artifact:alias")
@@ -112,17 +137,16 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     # Use an artifact from another entity and mark it as an input
     # to this run.
     artifact = run.use_artifact("my-entity/my-project/artifact:alias")
-
 ```
 
-### Construct and use an artifact simultaneously
+## Construct and use an artifact simultaneously
 
 Simultaneously construct and use an artifact. Create an artifact object and pass it to use_artifact. This creates an artifact in W&B if it does not exist yet. The [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) API is idempotent, so you can call it as many times as you like.
 
 ```python
 import wandb
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="project-name", job_type="job-type") as run:
     artifact = wandb.Artifact("reference model")
     artifact.add_file("model.h5")
     run.use_artifact(artifact)

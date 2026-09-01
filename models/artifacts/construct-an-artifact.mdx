@@ -32,16 +32,33 @@ W&B uses the "name" and "type" you provide to create a directed acyclic graph in
 Artifacts can not have the same name, regardless of type. In other words, you can not create an artifact named `cats` of type `dataset` and another artifact with the same name of type `model`.
 </Warning>
 
-You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) Class definition in the Python SDK Reference Guide.
 
-Copy and paste the following code snippet to create an artifact object. Replace the `<name>` and `<type>` placeholders with your own values:
+Copy and paste the following code snippet to create an artifact object. Replace the `"artifact-name"` and `"artifact-type"` placeholders with your own values:
 
 ```python
 import wandb
 
 # Create an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 ```
+You can optionally provide a description, metadata, the digest algorithm and more when you initialize an artifact object. 
+
+For example, the following code snippet creates an artifact object with a name, type, description, metadata, and digest algorithm:
+
+```python
+import wandb
+# Create an artifact object
+artifact = wandb.Artifact(
+    name="my-dataset",
+    type="dataset",
+    description="This is my dataset artifact",
+    metadata={"source": "generated", "version": 1},
+    digest_algorithm="XXH128"
+)
+```
+
+For more information on available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) Class definition in the Python SDK Reference Guide.
+
 
 ### Add one or more files to the artifact
 
@@ -50,13 +67,13 @@ artifact = wandb.Artifact(name="<name>", type="<type>")
 To add a single file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) method:
 
 ```python
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
+artifact.add_file(local_path="path/to/file.txt", name="artifact-name")
 ```
 
 To add a directory, use the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) method:
 
 ```python
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact.add_dir(local_path="path/to/directory", name="artifact-name")
 ```
 
 See the next section, [Add files to an artifact](/models/artifacts/construct-an-artifact#add-files-to-an-artifact), for more information on how to add different file types to an artifact.
@@ -83,9 +100,9 @@ Putting this all together, the following code snippet demonstrates how to create
 ```python
 import wandb
 
-artifact = wandb.Artifact(name="<name>", type="<type>")
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
+artifact.add_file(local_path="path/to/file.txt", name="filename")
+artifact.add_dir(local_path="path/to/directory", name="filename")
 
 with wandb.init(project="<project>", job_type="<job-type>") as run:
     run.log_artifact(artifact)
@@ -136,7 +153,7 @@ Use [`wandb.Artifact.add_file()`](/models/ref/python/experiments/artifact#method
 import wandb
 
 # Initialize an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 
 # Add a single file
 artifact.add_file(local_path="path/file.format")
@@ -188,7 +205,7 @@ Use the [`wandb.Artifact.add_dir()`](/models/ref/python/experiments/artifact#met
 import wandb
 
 # Initialize an artifact object
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 
 # Add a local directory to the artifact
 artifact.add_dir(local_path="path/file.format", name="optional-prefix")
