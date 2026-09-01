@@ -5,7 +5,7 @@ keywords: ["application iPhone", "application iPad", "application iOS", "App Sto
 ---
 
 <Info>
-  Dernière version : 26.22 (publiée le 24 août 2026). [Notes de version de l’App Store](https://apps.apple.com/us/app/6755162576).
+  Dernière version : 26.23 (publiée le 31 août 2026). [Notes de version de l’App Store](https://apps.apple.com/us/app/6755162576).
 </Info>
 
 <Columns cols={4}>
@@ -46,40 +46,72 @@ Installez l’app depuis l’App Store pour commencer.
 
 Les fonctionnalités suivantes sont disponibles dans l’application mobile.
 
-* **Explorer les projets** : Parcourez et recherchez dans vos projets W&amp;B.
-  * **Historique complet du projet** : Les graphiques de métriques dans les panneaux du projet incluent les données de *tous les runs* du projet, pas seulement celles du dernier run.
-  * **Mettre des projets en favoris** : Repérez vos projets les plus importants en un coup d’œil. Cliquez sur l’icône en forme d’étoile à côté d’un projet pour le mettre en favoris. Pour filtrer la liste et n’afficher que les projets favoris, cliquez sur l’onglet **Starred** en haut de la liste.
-* **Suivre les expériences** : Consultez en temps réel le statut des runs, les métriques et les graphiques en courbes de vos expériences.
-  * **Mises à jour en direct** : Les graphiques s’actualisent à mesure que de nouvelles données arrivent. L’onglet **Runs** et les listes de runs du projet se mettent automatiquement à jour lorsque de nouveaux runs démarrent.
-  * **Onglet d’aperçu du run** : Pour chaque run, ouvrez l’onglet **Aperçu** pour afficher une synthèse dédiée des détails du run, ainsi que les métriques et les journaux. Affichez la configuration complète et la synthèse du run, y compris les objets imbriqués et les tableaux. Les valeurs de configuration longues sont renvoyées à la ligne sur plusieurs lignes. Effectuez un appui long sur une valeur de configuration pour la copier.
-  * **Afficher les métriques système** : Pour chaque run, ouvrez l’onglet **Metrics** pour voir comment votre matériel s’est comporté pendant l’entraînement. W&amp;B journalise automatiquement des [métriques](/fr/models/ref/python/experiments/system-metrics), telles que l’utilisation du GPU, l’utilisation du CPU, la mémoire, les E/S disque et le trafic réseau. Les métriques système apparaissent dans une section **System** repliable à côté de vos métriques enregistrées. Chaque métrique s’affiche sous forme de graphique en courbes avec le même comportement d’info-bulle et de recherche que les autres métriques de l’onglet.
-  * **Regroupement des panneaux optimisé pour mobile** : Les panneaux sont automatiquement regroupés par nom dans des sections repliables. Vous pouvez replier la section des métriques non groupées pour vous concentrer sur les sections nommées. Les sections ne comportent qu’un seul niveau (sans imbrication), et le regroupement suit les mêmes règles que les [panneaux de Workspace](/fr/models/app/features/panels) dans l’application web W&amp;B, afin que la mise en page reste cohérente lorsque vous passez de l’ordinateur à votre téléphone.
-  * **Mettre des panneaux en favoris** : Repérez vos panneaux les plus importants en un coup d’œil. Lorsque vous consultez un run ou un projet, cliquez sur l’icône en forme d’étoile en haut d’un panneau pour le mettre en favoris. Pour filtrer la liste et n’afficher que les panneaux favoris, cliquez sur l’onglet **Starred** en haut de la liste.
-  * **Mettre des métriques en favoris** : Lorsque vous consultez une métrique importante dans la vue détaillée, cliquez sur l’icône en forme d’étoile pour la mettre en favoris. Les cartes de run de la page **Runs** donnent la priorité à vos métriques favorites lorsqu’elles choisissent la métrique à afficher.
-  * **Rechercher des panneaux** : Lorsque vous consultez un run ou un projet, utilisez le champ **panel search** en bas de l’écran pour filtrer les runs qui apparaissent dans chaque graphique. Vous pouvez utiliser la [syntaxe RE2](https://github.com/google/re2/wiki/Syntax) pour faire correspondre des motifs dans les noms de run.
-  * **Info-bulles des graphiques** : Dans les graphiques en courbes, les info-bulles affichent les valeurs des métriques avec jusqu’à quatre décimales afin que vous puissiez lire précisément les petites variations.
-  * **Zoomer sur les graphiques** : Pincez verticalement ou horizontalement sur un graphique en courbes pour zoomer sur l’un ou l’autre axe, ou appuyez deux fois pour parcourir les niveaux de zoom. L’axe Y se redimensionne automatiquement pour s’adapter à la partie visible de la courbe, afin que les petites variations en fin de run restent lisibles.
-  * **Filtrer les métriques** : Utilisez les commandes de filtre des métriques pour limiter les métriques affichées et vous concentrer sur celles qui comptent.
-  * **Arrêter des runs** : Lorsque vous consultez un run en cours, cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Stop run**.
-  * **Afficher les journaux de la console** : Consultez les [journaux](/fr/models/runs/view-logged-runs#logs) des runs actifs ou terminés, ou téléchargez-les une fois qu’un run est terminé. Les couleurs des codes d’échappement ANSI dans la sortie de votre script sont fidèlement reproduites et s’adaptent aux modes clair et sombre. L’application interroge les runs actifs toutes les 5 secondes pour récupérer les nouvelles lignes de journal et cesse de les interroger lorsqu’un run se termine ou plante afin d’économiser le réseau et la batterie. Même pour les runs comportant des centaines de milliers de lignes de journal, la sortie la plus récente s’affiche immédiatement et les lignes plus anciennes se chargent en arrière-plan. Le défilement et la recherche dans les journaux restent réactifs même avec de grandes sorties.
-* **Changer d’équipe** : Utilisez le **sélecteur d&#39;équipe** pour changer d’équipe.
-* **Rester informé** : Recevez des mises à jour sur vos expériences sans ouvrir votre ordinateur portable grâce aux notifications. **Supprimez les alertes** dont vous n’avez plus besoin depuis l’onglet **Notifications** en les balayant.
-* **Chat avec ARIA** : Utilisez ARIA dans l’application mobile pour poser des questions, analyser des runs et effectuer des actions sans quitter votre téléphone.
+* **Explorer les projets** : Parcourez et recherchez dans vos projets W&amp;B.
+  * **Historique complet du projet** : Les graphiques de métriques dans les panneaux du projet incluent les données de *tous les runs* du projet, pas seulement celles du dernier run.
+  * **Mettre des projets en favoris** : Repérez vos projets les plus importants en un coup d’œil. Appuyez sur l’icône en forme d’étoile à côté d’un projet pour le mettre en favoris. Pour filtrer la liste et n’afficher que les projets favoris, appuyez sur l’onglet **Starred** en haut de la liste.
+* **Suivre les expériences** : Consultez en temps réel le statut des runs, les métriques et les graphiques en courbes de vos expériences.
+  * **Mises à jour en direct** : Les graphiques s’actualisent à mesure que de nouvelles données arrivent. L’onglet **Runs** et les listes de runs du projet se mettent automatiquement à jour lorsque de nouveaux runs démarrent.
+  * **Onglet d’aperçu du run** : Pour chaque run, ouvrez l’onglet **Aperçu** pour afficher une synthèse dédiée des détails du run, ainsi que les métriques et les journaux. Affichez la configuration complète et la synthèse du run, y compris les objets imbriqués et les tableaux. Les valeurs de configuration longues sont renvoyées à la ligne sur plusieurs lignes. Effectuez un appui long sur une valeur de configuration pour la copier.
+  * **Afficher les métriques système** : Pour chaque run, ouvrez l’onglet **Metrics** pour voir comment votre matériel s’est comporté pendant l’entraînement. W&amp;B journalise automatiquement des [métriques](/fr/models/ref/python/experiments/system-metrics), telles que l’utilisation du GPU, l’utilisation du CPU, la mémoire, les E/S disque et le trafic réseau. Les métriques système apparaissent dans une section **System** repliable à côté de vos métriques enregistrées. Chaque métrique s’affiche sous forme de graphique en courbes avec le même comportement d’info-bulle et de recherche que les autres métriques de l’onglet.
+  * **Regroupement des panneaux optimisé pour mobile** : Les panneaux sont automatiquement regroupés par nom dans des sections repliables. Vous pouvez replier la section des métriques non groupées pour vous concentrer sur les sections nommées. Les sections ne comportent qu’un seul niveau (sans imbrication), et le regroupement suit les mêmes règles que les [panneaux de Workspace](/fr/models/app/features/panels) dans l’application web W&amp;B, afin que la mise en page reste cohérente lorsque vous passez de l’ordinateur à votre téléphone.
+  * **Mettre des panneaux en favoris** : Repérez vos panneaux les plus importants en un coup d’œil. Lorsque vous consultez un run ou un projet, appuyez sur l’icône en forme d’étoile en haut d’un panneau pour le mettre en favoris. Pour filtrer la liste et n’afficher que les panneaux favoris, appuyez sur l’onglet **Starred** en haut de la liste.
+  * **Mettre des métriques en favoris** : Lorsque vous consultez une métrique importante dans la vue détaillée, appuyez sur l’icône en forme d’étoile pour la mettre en favoris. Les cartes de run de la page **Runs** donnent la priorité à vos métriques favorites lorsqu’elles choisissent la métrique à afficher.
+  * **Rechercher des panneaux** : Lorsque vous consultez un run ou un projet, utilisez le champ **panel search** en bas de l’écran pour filtrer les runs qui apparaissent dans chaque graphique. Vous pouvez utiliser la [syntaxe RE2](https://github.com/google/re2/wiki/Syntax) pour faire correspondre des motifs dans les noms de run.
+  * **Info-bulles des graphiques** : Dans les graphiques en courbes, les info-bulles affichent les valeurs des métriques avec jusqu’à quatre décimales afin que vous puissiez lire précisément les petites variations.
+  * **Zoomer sur les graphiques** : Pincez verticalement ou horizontalement sur un graphique en courbes pour zoomer sur l’un ou l’autre axe, ou appuyez deux fois pour parcourir les niveaux de zoom. L’axe Y se redimensionne automatiquement pour s’adapter à la partie visible de la courbe, afin que les petites variations en fin de run restent lisibles.
+  * **Afficher les métriques d’image** : Les images que vous journalisez dans un run apparaissent dans l’onglet **Metrics** sous forme de panneaux avec lesquels vous pouvez interagir. Appuyez pour afficher une seule image, puis pincez pour zoomer ou faites glisser pour vous déplacer. Voir [Afficher les métriques d’image](#view-image-metrics).
+  * **Modifier les paramètres des graphiques en courbes** : Basculez un graphique en courbes sur un axe Y logarithmique et appliquez un lissage, pour un seul graphique ou pour tous les graphiques d’un run ou d’un projet. Voir [Modifier les paramètres des graphiques en courbes](#change-line-plot-settings).
+  * **Filtrer les métriques** : Utilisez les commandes de filtre des métriques pour limiter les métriques affichées et vous concentrer sur celles qui comptent.
+  * **Arrêter des runs** : Lorsque vous consultez un run en cours, appuyez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)**, puis sur **Stop run**.
+  * **Afficher les journaux de la console** : Consultez les [journaux](/fr/models/runs/view-logged-runs#logs) des runs actifs ou terminés, ou téléchargez-les une fois qu’un run est terminé. Les couleurs des codes d’échappement ANSI dans la sortie de votre script sont fidèlement reproduites et s’adaptent aux modes clair et sombre. L’application interroge les runs actifs toutes les 5 secondes pour récupérer les nouvelles lignes de journal. L’interrogation cesse lorsqu’un run se termine ou plante, ce qui économise le réseau et la batterie. Même pour les runs comportant des centaines de milliers de lignes de journal, la sortie la plus récente s’affiche immédiatement et les lignes plus anciennes se chargent en arrière-plan. Le défilement et la recherche dans les journaux restent réactifs même avec de grandes sorties.
+* **Changer d’équipe** : Utilisez le **sélecteur d&#39;équipe** pour changer d’équipe.
+* **Rester informé** : Recevez des mises à jour sur vos expériences sans ouvrir votre ordinateur portable grâce aux notifications. **Supprimez les alertes** dont vous n’avez plus besoin depuis l’onglet **Notifications** en les balayant.
+* **Chat avec ARIA** : Utilisez ARIA dans l’application mobile pour poser des questions, analyser des runs et effectuer des actions sans quitter votre téléphone.
+
+<div id="view-image-metrics">
+  ## Afficher les métriques d&#39;images
+</div>
+
+Les images que vous journalisez dans un run avec [`wandb.Image`](/fr/models/track/log/media) apparaissent dans l&#39;onglet **Metrics** du run, où chaque métrique d&#39;image dispose de son propre panneau, aux côtés de vos graphiques en courbes. Les actions suivantes sont disponibles pour les métriques d&#39;images.
+
+* **Parcourir les étapes** : faites glisser le curseur d&#39;étapes situé sous les images pour parcourir les étapes journalisées par la métrique. Si la métrique n&#39;a journalisé qu&#39;une seule étape, le curseur n&#39;apparaît pas.
+* **Accéder à une étape** : appuyez sur la valeur d&#39;étape à côté du curseur, saisissez une étape, puis appuyez sur **Go to step**. La feuille affiche la plage d&#39;étapes journalisées par la métrique, et votre saisie s&#39;aligne sur l&#39;étape journalisée la plus proche.
+* **Comparer des images au sein d&#39;une étape** : lorsqu&#39;une étape journalise plusieurs images, le panneau les dispose dans une grille que vous faites défiler par balayage horizontal. Les points sous la grille indiquent la page affichée.
+* **Afficher une image en plein écran** : appuyez sur le panneau pour ouvrir la vue détaillée, puis appuyez sur une image. Pincez pour zoomer, faites glisser pour vous déplacer dans l&#39;image et balayez pour passer à l&#39;image suivante ou précédente de l&#39;étape.
+* **Marquer des métriques d&#39;images d&#39;une étoile** : appuyez sur l&#39;icône en forme d&#39;étoile du panneau pour marquer une métrique d&#39;image d&#39;une étoile, comme pour les autres panneaux.
+
+<div id="change-line-plot-settings">
+  ## Modifier les paramètres du graphique en courbes
+</div>
+
+Les paramètres du graphique en courbes déterminent la façon dont l&#39;application affiche un graphique en courbes. Ouvrez-les de l&#39;une des manières suivantes :
+
+* Dans l&#39;onglet **Metrics** d&#39;un run ou l&#39;onglet **Panels** d&#39;un projet, appuyez sur le bouton **paramètres du graphique en courbes** situé à côté du filtre de métriques. Les modifications s&#39;appliquent à tous les graphiques en courbes de ce run ou de ce projet.
+* Sur l&#39;écran de détail d&#39;un graphique, appuyez sur le bouton **paramètres du graphique en courbes** dans la barre d&#39;outils. Les modifications s&#39;appliquent uniquement à ce graphique.
+
+Le volet des paramètres indique sa portée sous le titre, ce qui vous permet de vérifier ce qu&#39;une modification affecte avant de l&#39;appliquer. Les paramètres suivants sont disponibles.
+
+* **Log scale (Y)** : affiche l&#39;axe Y selon une échelle logarithmique afin de comparer une métrique sur plusieurs ordres de grandeur. Un axe logarithmique ne peut pas représenter de valeurs nulles ou négatives. Si un graphique n&#39;a aucune valeur positive à représenter, l&#39;application remplace le graphique par le message « No positive values to plot on a log scale ».
+* **Smoothing** : applique un lissage par [moyenne mobile exponentielle pondérée dans le temps (TWEMA)](/fr/models/app/features/panels/line-plot/smoothing#time-weighted-exponential-moving-average-twema-smoothing-default), de `0` (désactivé) à `0.99`. Cet algorithme est également celui utilisé par défaut dans l&#39;application web W&amp;B.
+
+Pour rétablir les valeurs par défaut, appuyez sur **Reset this line plot** ou **Reset to defaults**, selon la portée depuis laquelle vous avez ouvert les paramètres.
+
+L&#39;application conserve vos paramètres de graphique en courbes d&#39;un lancement à l&#39;autre. Lorsque vous modifiez un paramètre sur un graphique, ce paramètre s&#39;applique également aux graphiques de la même métrique dans vos autres runs et projets.
 
 <div id="chat-with-aria">
   ## Chat avec ARIA
 </div>
 
-ARIA (AI Research &amp; Iteration Agent) est votre assistant de recherche personnalisé. Il vous aide à analyser et à exécuter des expériences, à expliquer les résultats, à identifier des tendances sur l’ensemble des runs, à recommander les prochaines étapes, à créer des visualisations et des Reports, entre autres, dans W&amp;B.
+ARIA (AI Research &amp; Iteration Agent) est votre assistant de recherche personnalisé dans W&amp;B. Utilisez ARIA pour des tâches telles qu’analyser et exécuter des expériences, expliquer les résultats, identifier des tendances sur l’ensemble des runs, recommander les prochaines étapes, et créer des visualisations et des Reports.
 
-Pour discuter avec ARIA, cliquez sur <img className="inline dark:hidden" alt="icône ARIA" src="/images/agent/aria-logo.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /><img className="hidden dark:inline" alt="icône ARIA" src="/images/agent/aria-logo-dark.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /> dans la barre de navigation inférieure.
+Pour discuter avec ARIA, appuyez sur <img className="inline dark:hidden" alt="icône ARIA" src="/images/agent/aria-logo.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /><img className="hidden dark:inline" alt="icône ARIA" src="/images/agent/aria-logo-dark.svg" style={{ height: "0.95em", width: "0.95em", verticalAlign: "-0.1em", margin: 0 }} /> dans la barre de navigation inférieure.
 
 Dans l’application mobile, ARIA conserve le contexte sur plusieurs tours de conversation et affiche les détails de raisonnement et d’action pendant qu’elle travaille.
 
-* **Contexte du projet** : ARIA détecte automatiquement le projet que vous consultez dans l’application et l’utilise comme contexte, afin que les réponses tiennent déjà compte du bon projet. Vous pouvez également référencer directement des projets et des runs dans vos messages de chat.
-* **Réponses enrichies** : Les réponses s’affichent avec une mise en forme Markdown enrichie, notamment des tableaux, des titres, des listes et du code en ligne. Lorsqu’ARIA pose des questions, elles s’affichent sous forme de vue interactive directement dans la conversation.
-* **Actions visibles** : Les étapes du shell indiquent quand ARIA effectue une action, par exemple lorsqu’elle crée un panneau, filtre des runs, crée et exécute des scripts Python, etc.
-* **Historique de conversation** : Appuyez longuement sur un chat dans votre historique de conversation pour en afficher un aperçu, le renommer ou le supprimer. L’historique de conversation reste synchronisé pour vous permettre de passer facilement de l’application web à l’application mobile.
+* **Contexte du projet** : ARIA détecte automatiquement le projet que vous consultez dans l’application et l’utilise comme contexte, afin que les réponses tiennent déjà compte du bon projet. Vous pouvez également référencer directement des projets et des runs dans vos messages de chat.
+* **Réponses enrichies** : Les réponses s’affichent avec une mise en forme Markdown enrichie, notamment des tableaux, des titres, des listes et du code en ligne. Lorsqu’ARIA pose des questions, elles s’affichent sous forme de vue interactive directement dans la conversation.
+* **Actions visibles** : Les étapes du shell indiquent quand ARIA effectue une action, par exemple lorsqu’elle crée un panneau, filtre des runs, crée et exécute des scripts Python, etc.
+* **Historique de conversation** : Appuyez longuement sur un chat dans votre historique de conversation pour en afficher un aperçu, le renommer ou le supprimer. L’historique de conversation reste synchronisé pour vous permettre de passer facilement de l’application web à l’application mobile.
 
 <Frame>
   ![Onglet ARIA et interface de chat dans l’application iOS W\&B](/images/mobile-app/aria-chat.png)
