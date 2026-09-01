@@ -21,30 +21,49 @@ Construisez un [W&amp;B Artifact](/fr/models/ref/python/experiments/artifact) en
   ### Créez un objet artifact Python avec `wandb.Artifact()`
 </div>
 
-Initialisez la classe [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact) pour créer un objet artifact. Spécifiez les paramètres suivants :
+Initialisez la classe [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact) pour créer un objet artifact. Spécifiez les paramètres suivants :
 
-* **Nom** : le nom de votre artifact. Il doit être unique, descriptif et mémorable.
-* **Type** : le type de l&#39;artifact. Il doit être simple, descriptif et correspondre à une seule étape de votre pipeline de machine learning. Parmi les types d&#39;artifact courants, on trouve `'dataset'` ou `'model'`.
+* **Nom** : le nom de votre artifact. Il doit être unique, descriptif et mémorable.
+* **Type** : le type de l&#39;artifact. Il doit être simple, descriptif et correspondre à une seule étape de votre pipeline de machine learning. Parmi les types d&#39;artifact courants, on trouve `'dataset'` ou `'model'`.
 
 <Note>
-  W&amp;B utilise le &quot;nom&quot; et le &quot;type&quot; que vous fournissez pour créer un graphe orienté acyclique dans l&#39;application W&amp;B. Voir [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) pour plus
-  d&#39;informations.
+  W&amp;B utilise le &quot;nom&quot; et le &quot;type&quot; que vous fournissez pour créer un graphe orienté acyclique dans l&#39;application W&amp;B. Voir [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) pour plus d&#39;informations.
 </Note>
 
-<Warning>
-  Les Artifacts ne peuvent pas avoir le même nom, quel que soit leur type. En d&#39;autres termes, vous ne pouvez pas créer un artifact nommé `cats` de type `dataset` et un autre artifact portant le même nom de type `model`.
-</Warning>
-
-Vous pouvez aussi fournir une description et des métadonnées lorsque vous initialisez un objet artifact. Pour plus d&#39;informations sur les attributs et paramètres disponibles, consultez la définition de la classe [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) dans le guide de Référence du SDK Python.
-
-Copiez-collez l&#39;extrait de code suivant pour créer un objet artifact. Remplacez les espaces réservés `<name>` et `<type>` par vos propres valeurs :
+Copiez-collez l&#39;extrait de code suivant pour créer un objet artifact. Remplacez les espaces réservés `"artifact-name"` et `"artifact-type"` par vos propres valeurs :
 
 ```python
 import wandb
 
 # Créer un objet artifact
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 ```
+
+<Info>
+  Les Artifacts ne peuvent pas porter le même nom, même s&#39;ils ont des types différents. Par exemple, vous ne pouvez pas créer un artifact nommé `cats` de type `dataset` et un autre artifact nommé `cats` de type `model`.
+</Info>
+
+Vous pouvez aussi fournir une description, des métadonnées, un algorithme de digest et d&#39;autres paramètres lorsque vous initialisez un objet artifact.
+
+Par exemple, l&#39;extrait de code suivant crée un objet artifact avec un nom, un type, une description, des métadonnées et un algorithme de digest :
+
+```python
+import wandb
+# Créer un objet artifact
+artifact = wandb.Artifact(
+    name="my-dataset",
+    type="dataset",
+    description="This is my dataset artifact",
+    metadata={"source": "generated", "version": 1},
+    digest_algorithm="XXH128"
+)
+```
+
+<Note>
+  MD5 reste l&#39;algorithme de digest par défaut. Avec le SDK Python W&amp;B 0.29.0 ou une version ultérieure, définissez `digest_algorithm="XXH128"` pour activer un hachage plus rapide pour les nouveaux artifacts. Les artifact collections existantes qui utilisent MD5 continuent d&#39;utiliser MD5. Les versions du SDK antérieures à 0.29.0 ne peuvent pas vérifier les artifacts contenant des entrées XXH128 avec `Artifact.verify()`.
+</Note>
+
+Pour plus d&#39;informations sur les attributs et paramètres disponibles, consultez la définition de la classe [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) dans le guide de Référence du SDK Python.
 
 <div id="add-one-or-more-files-to-the-artifact">
   ### Ajoutez un ou plusieurs fichiers à l&#39;artifact
@@ -52,16 +71,16 @@ artifact = wandb.Artifact(name="<name>", type="<type>")
 
 [Ajoutez des fichiers, des répertoires, des références URI externes (comme Amazon S3), etc.](/fr/models/artifacts/construct-an-artifact#add-files-to-an-artifact) à votre objet artifact.
 
-Pour ajouter un seul fichier, utilisez la méthode [`Artifact.add_file()`](/fr/models/ref/python/experiments/artifact#add_file) de l&#39;objet artifact :
+Pour ajouter un seul fichier, utilisez la méthode [`Artifact.add_file()`](/fr/models/ref/python/experiments/artifact#add_file) de l&#39;objet artifact :
 
 ```python
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
+artifact.add_file(local_path="path/to/file.txt", name="artifact-name")
 ```
 
-Pour ajouter un répertoire, utilisez la méthode [`Artifact.add_dir()`](/fr/models/ref/python/experiments/artifact#add_dir) :
+Pour ajouter un répertoire, utilisez la méthode [`Artifact.add_dir()`](/fr/models/ref/python/experiments/artifact#add_dir) :
 
 ```python
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact.add_dir(local_path="path/to/directory", name="artifact-name")
 ```
 
 Voir la section suivante, [Ajouter des fichiers à un artifact](/fr/models/artifacts/construct-an-artifact#add-files-to-an-artifact), pour en savoir plus sur l’ajout de différents types de fichiers à un artifact.
@@ -84,14 +103,14 @@ with wandb.init(project="<project>", job_type="<job-type>") as run:
   * Utilisez `Artifact.save()` pour mettre à jour un artifact existant sans créer de nouveau run.
 </Tip>
 
-Pour récapituler, l’extrait de code suivant montre comment créer un artifact de jeu de données, y ajouter un fichier et enregistrer l’artifact dans W&amp;B :
+Pour récapituler, l’extrait de code suivant montre comment créer un artifact de jeu de données, y ajouter un fichier et enregistrer l’artifact dans W&amp;B :
 
 ```python
 import wandb
 
-artifact = wandb.Artifact(name="<name>", type="<type>")
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
+artifact.add_file(local_path="path/to/file.txt", name="filename")
+artifact.add_dir(local_path="path/to/directory", name="filename")
 
 with wandb.init(project="<project>", job_type="<job-type>") as run:
     run.log_artifact(artifact)
@@ -100,7 +119,7 @@ with wandb.init(project="<project>", job_type="<job-type>") as run:
 Chaque fois que vous enregistrez un artifact avec le même nom et le même type, W&amp;B crée une nouvelle version de cet artifact. Pour plus d&#39;informations, voir [Créer une nouvelle version d&#39;artifact](/fr/models/artifacts/create-a-new-artifact-version).
 
 <Warning>
-  W&amp;B effectue les appels `wandb.Run.log_artifact()` de manière asynchrone afin d&#39;optimiser les téléversements. Cela peut entraîner un comportement inattendu lors de l&#39;enregistrement d&#39;artifacts dans une boucle. Par exemple :
+  W&amp;B effectue les appels `wandb.Run.log_artifact()` de manière asynchrone afin d&#39;optimiser les téléversements. Cela peut entraîner un comportement inattendu lors de l&#39;enregistrement d&#39;artifacts dans une boucle. Par exemple :
 
   ```python
   with wandb.init() as run:
@@ -111,7 +130,7 @@ Chaque fois que vous enregistrez un artifact avec le même nom et le même type,
                   "index": i,
               },
           )
-          # ... ajouter des fichiers à l'artifact a ...
+          # ... add files to artifact a ...
           run.log_artifact(a)
   ```
 
@@ -140,13 +159,13 @@ root-directory
   ### Ajouter un seul fichier
 </div>
 
-Utilisez [`wandb.Artifact.add_file()`](/fr/models/ref/python/experiments/artifact#method-artifact-add-file) pour ajouter un fichier local à un artifact. Indiquez le chemin local du fichier dans le paramètre `local_path` :
+Utilisez [`wandb.Artifact.add_file()`](/fr/models/ref/python/experiments/artifact#method-artifact-add-file) pour ajouter un fichier local à un artifact. Indiquez le chemin local du fichier dans le paramètre `local_path` :
 
 ```python
 import wandb
 
 # Initialiser un objet artifact
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 
 # Ajouter un seul fichier
 artifact.add_file(local_path="path/file.format")
@@ -158,13 +177,13 @@ Par exemple, supposons que vous ayez un fichier appelé `'hello.txt'` dans votre
 artifact.add_file("hello.txt")
 ```
 
-L&#39;artifact contient désormais le contenu suivant :
+L&#39;artifact contient désormais le contenu suivant :
 
 ```text
 hello.txt
 ```
 
-Vous pouvez également passer un autre nom au paramètre `name` pour renommer le fichier au sein de l’objet artifact lui-même. En reprenant l’exemple précédent :
+Vous pouvez également passer un autre nom au paramètre `name` pour renommer le fichier au sein de l’objet artifact lui-même. En reprenant l’exemple précédent :
 
 ```python
 artifact.add_file(
@@ -173,13 +192,13 @@ artifact.add_file(
     )
 ```
 
-L&#39;artifact est stocké sous la forme suivante :
+L&#39;artifact est stocké sous la forme suivante :
 
 ```text
 new/path/hello_world.txt
 ```
 
-Le tableau suivant montre comment différents appels d’API génèrent des contenus d’artifact différents :
+Le tableau suivant montre comment différents appels d’API génèrent des contenus d’artifact différents :
 
 | Appel d’API                                               | artifact obtenu     |
 | --------------------------------------------------------- | ------------------- |
@@ -198,13 +217,13 @@ Utilisez la méthode [`wandb.Artifact.add_dir()`](/fr/models/ref/python/experime
 import wandb
 
 # Initialiser un objet artifact
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 
 # Ajouter un répertoire local à l'artifact
 artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 ```
 
-Le tableau suivant montre comment différents appels d’API génèrent des contenus d’artifact différents :
+Le tableau suivant montre comment différents appels d’API génèrent des contenus d’artifact différents :
 
 | Appel d’API                                 | artifact obtenu                                                      |
 | ------------------------------------------- | -------------------------------------------------------------------- |
