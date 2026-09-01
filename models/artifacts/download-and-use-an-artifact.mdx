@@ -113,7 +113,7 @@ with wandb.init(project="project-name", job_type="job-type") as run:
     artifact.verify(artifact_dir)
 ```
 
-[`wandb.Artifact.verify()`](/models/ref/python/experiments/artifact#method-artifact-verify) recomputes checksums for local files and compares them with the checksums in the artifact manifest. It raises a `ValueError` if a file is missing, modified, or if the directory contains files that are not included in the artifact.
+[`wandb.Artifact.verify()`](/models/ref/python/experiments/artifact#method-artifact-verify) recomputes checksums for local files and compares them with the checksums in the artifact manifest. Verification fails if a file is missing or modified, or if the directory contains files that are not included in the artifact.
 
 <Note>
 **Artifact verification considerations**

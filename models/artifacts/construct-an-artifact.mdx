@@ -35,7 +35,11 @@ import wandb
 artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 ```
 
-You can optionally provide a description, metadata, the digest algorithm and more when you initialize an artifact object. 
+<Info>
+Artifacts can't share the same name, even if they have different types. For example, you can't create an artifact named `cats` with type `dataset` and another artifact named `cats` with type `model`.
+</Info>
+
+You can optionally provide a description, metadata, digest algorithm, and other parameters when you initialize an artifact object. 
 
 For example, the following code snippet creates an artifact object with a name, type, description, metadata, and digest algorithm:
 
@@ -51,9 +55,9 @@ artifact = wandb.Artifact(
 )
 ```
 
-<Warning>
-Artifacts can't share the same name, even if they have different types. For example, you can't create an artifact named `cats` with type `dataset` and another artifact named `cats` with type `model`.
-</Warning>
+<Note>
+MD5 remains the default digest algorithm. With W&B Python SDK 0.29.0 or later, set `digest_algorithm="XXH128"` to opt in to faster hashing for new artifacts. Existing artifact collections that use MD5 continue to use MD5. SDK versions before 0.29.0 cannot verify artifacts that contain XXH128 entries with `Artifact.verify()`.
+</Note>
 
 For more information on available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) Class definition in the Python SDK Reference Guide.
 
