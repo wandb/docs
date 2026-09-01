@@ -22,16 +22,9 @@ Initialize the [`wandb.Artifact()`](/models/ref/python/experiments/artifact) cla
 * **Name**: The name of your artifact. The name should be unique, descriptive, and memorable.
 * **Type**: The type of artifact. The type should be simple, descriptive, and correspond to a single step of your machine learning pipeline. Common artifact types include `'dataset'` or `'model'`.
 
-
 <Note>
 W&B uses the "name" and "type" you provide to create a directed acyclic graph in the W&B App. See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) for more information.
 </Note>
-
-
-<Warning>
-Artifacts can not have the same name, regardless of type. In other words, you can not create an artifact named `cats` of type `dataset` and another artifact with the same name of type `model`.
-</Warning>
-
 
 Copy and paste the following code snippet to create an artifact object. Replace the `"artifact-name"` and `"artifact-type"` placeholders with your own values:
 
@@ -41,6 +34,7 @@ import wandb
 # Create an artifact object
 artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 ```
+
 You can optionally provide a description, metadata, the digest algorithm and more when you initialize an artifact object. 
 
 For example, the following code snippet creates an artifact object with a name, type, description, metadata, and digest algorithm:
@@ -57,8 +51,11 @@ artifact = wandb.Artifact(
 )
 ```
 
-For more information on available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) Class definition in the Python SDK Reference Guide.
+<Warning>
+Artifacts can't share the same name, even if they have different types. For example, you can't create an artifact named `cats` with type `dataset` and another artifact named `cats` with type `model`.
+</Warning>
 
+For more information on available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) Class definition in the Python SDK Reference Guide.
 
 ### Add one or more files to the artifact
 

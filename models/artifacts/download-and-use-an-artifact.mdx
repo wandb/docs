@@ -100,9 +100,9 @@ artifact.download(path_prefix="images/bikes/")
 
 ## Verify downloaded artifact files
 
-After downloading an artifact, call `Artifact.verify()` to check that the files on disk match the artifact manifest.
+After you download an artifact, call `wandb.Artifact.verify()` to confirm that the local files on disk match the artifact manifest.
 
-For example, the following code snippet downloads an artifact as part of a run and verifies the downloaded files:
+The following example downloads an artifact as part of a run and verifies the downloaded files:
 
 ```python
 import wandb
@@ -113,12 +113,14 @@ with wandb.init(project="project-name", job_type="job-type") as run:
     artifact.verify(artifact_dir)
 ```
 
-[`wandb.Artifact.verify()`](/models/ref/python/experiments/artifact#method-artifact-verify) recomputes checksums for local files and compares them with the checksums stored in the artifact manifest. It raises a `ValueError` if a file is missing, has changed, or if the directory contains files that are not part of the artifact.
-
-`wandb.Artifact.verify()` does not verify [reference entries](/models/artifacts/track-external-files).
+[`wandb.Artifact.verify()`](/models/ref/python/experiments/artifact#method-artifact-verify) recomputes checksums for local files and compares them with the checksums in the artifact manifest. It raises a `ValueError` if a file is missing, modified, or if the directory contains files that are not included in the artifact.
 
 <Note>
-Artifacts created with `digest_algorithm="XXH128"` require W&B SDK 0.29.0 or newer for `Artifact.verify()`. Older SDK versions do not understand XXH128 manifest entries and verification fails.
+**Artifact verification considerations**
+
+- `wandb.Artifact.verify()` does not verify [reference entries](/models/artifacts/track-external-files).
+
+- Artifacts created with `digest_algorithm="XXH128"` require W&B Python SDK version 0.29.0 or newer to use `wandb.Artifact.verify()`. Earlier SDK versions do not support XXH128 manifest entries, so verification fails.
 </Note>
 
 
