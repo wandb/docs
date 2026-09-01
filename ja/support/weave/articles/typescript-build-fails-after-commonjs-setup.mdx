@@ -1,0 +1,36 @@
+---
+title: "Weave の TypeScript ビルドが CommonJS 形式で失敗するのはなぜですか?"
+keywords: ["TypeScript"]
+---
+
+<div id="ts1295-and-ts1287-ecmascript-imports-and-exports-cannot-be-written-in-a-commonjs-file">
+  ## `TS1295` および `TS1287`: ECMAScript の import と export は CommonJS ファイルに記述できません
+</div>
+
+`tsconfig.json` ファイルで `"verbatimModuleSyntax": true` を設定している場合、W&amp;B Weave の CommonJS project ([TypeScript SDK インテグレーションガイド](/ja/weave/guides/integrations/js)に従って作成したもの) のコンパイルは次のエラーで失敗します。
+
+```text
+error TS1295: ECMAScript imports and exports cannot be written in a CommonJS file under 'verbatimModuleSyntax'.
+error TS1287: A top-level 'export' modifier cannot be used on value declarations in a CommonJS module when 'verbatimModuleSyntax' is enabled.
+```
+
+この設定のデフォルトは `false` であり、TypeScript SDK のインテグレーションガイドもこれを前提としています。
+
+CommonJS の `module` 設定とあわせて、`verbatimModuleSyntax` フィールドを `false` に設定します。
+
+```json lines
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "verbatimModuleSyntax": false
+  }
+}
+```
+
+`"verbatimModuleSyntax": false` を指定すると、TypeScript の出力は CommonJS のままで、ソースファイルでは ESM スタイルの `import`/`export` 構文を使用できます。詳細については、[TypeScript - Verbatim Module Syntax](https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax) を参照してください。
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[TypeScript](/ja/support/weave/tags/typescript)</Badge>
+
+{/* END AUTO-GENERATED: タブバッジ */}
