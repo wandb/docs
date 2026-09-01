@@ -24,7 +24,7 @@ To create a custom tag signal:
     - **Tag name**: The label that appears in the Agents view for the behavior you want to monitor.
     - **Definition**: Describe the behavior the signal should detect.
     - **+ Add tag** (Optional): Click to define another tag on the same signal.
-    - **Scorer name**: The display name for this signal.
+    - **Scorer name**: The name for the underlying scorer object.
     - **Inference model or custom runtime**: The model used to score matching turns. [Serverless Inference](/inference/) is the default. CoreWeave Serverless Inference consumes credits from your W&B account.
     - **Include tool calls** (Optional): Expand **Advanced**, then check the box to include the turn's tool calls in the context sent to the scoring model.
     - **Only score turns matching** (Optional): Expand **Advanced**, then add one or more filters to restrict which turns the signal scores, for example by agent, operation, tool, or model. Leave empty to score every agent turn. Weave combines multiple filters with `AND` logic.
