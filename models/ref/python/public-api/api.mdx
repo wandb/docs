@@ -7,16 +7,11 @@ namespace: wandb.apis.public.api
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
 
 
-## <kbd>class</kbd> wandb.Api
-```python
-overrides: 'dict[str, Any] | None' = None,
-timeout: 'int | None' = None,
-api_key: 'str | None' = None
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Api
 
 
 
@@ -24,11 +19,26 @@ Used for querying the W&B server.
 
 
 
+```python
+overrides: 'dict[str, Any] | None' = None,
+timeout: 'int | None' = None,
+api_key: 'str | None' = None
+```
+
 ## Args
 
-- `overrides`: You can set `base_url` if you are using a W&B server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`.
-- `timeout`: HTTP timeout in seconds for API requests. If not specified, the default timeout will be used.
-- `api_key`: API key to use for authentication. If not provided, the API key from the current environment or configuration will be used. Prompts for an API key if none is provided or configured in the environment.
+<ResponseField name="overrides" type="dict[str, Any] | None">
+You can set `base_url` if you are using a W&B server other than `https://api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`.
+</ResponseField>
+
+<ResponseField name="timeout" type="int | None">
+HTTP timeout in seconds for API requests. If not specified, the default timeout will be used.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+API key to use for authentication. If not provided, the API key from the current environment or configuration will be used. Prompts for an API key if none is provided or configured in the environment.
+</ResponseField>
+
 
 
 
@@ -43,23 +53,24 @@ wandb.Api()
 
 ## Properties
 
-### <kbd>property</kbd> default_entity
-
+<ResponseField name="default_entity" type="str | None">
 Returns the default W&B entity.
+</ResponseField>
 
-### <kbd>property</kbd> user_agent
-
+<ResponseField name="user_agent" type="str">
 Returns W&B public user agent.
+</ResponseField>
 
-### <kbd>property</kbd> viewer
-
+<ResponseField name="viewer" type="User">
 Returns the viewer object.
+</ResponseField>
 
 
 
 ## Methods
 
-### <kbd>method</kbd> Api.artifact()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact()
 
 ```python
 (self,
@@ -71,8 +82,14 @@ Returns a single artifact.
 
 ##### Arguments
 
-- `name`: The artifact's name. The name of an artifact resembles a filepath that consists, at a minimum, the name of the project the artifact was logged to, the name of the artifact, and the artifact's version or alias. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If no entity is specified in the name, the Run or API setting's entity is used.
-- `type`: The type of artifact to fetch.
+<ResponseField name="name" type="str">
+The artifact's name. The name of an artifact resembles a filepath that consists, at a minimum, the name of the project the artifact was logged to, the name of the artifact, and the artifact's version or alias. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If no entity is specified in the name, the Run or API setting's entity is used.
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+The type of artifact to fetch.
+</ResponseField>
+
 
 
 ##### Raises
@@ -104,7 +121,10 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
 
-### <kbd>method</kbd> Api.artifact_collection()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collection()
 
 ```python
 self,
@@ -119,8 +139,14 @@ information about specific artifacts in that collection, and more.
 
 ##### Arguments
 
-- `type_name`: The type of artifact collection to fetch.
-- `name`: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
+<ResponseField name="type_name" type="str">
+The type of artifact collection to fetch.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
+</ResponseField>
+
 
 
 
@@ -146,7 +172,10 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-### <kbd>method</kbd> Api.artifact_collection_exists()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collection_exists()
 
 ```python
 self,
@@ -158,8 +187,14 @@ Whether an artifact collection exists within a specified project and entity.
 
 ##### Arguments
 
-- `name`: An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If entity or project is not specified, infer the collection from the override params if they exist. Otherwise, entity is pulled from the user settings and project will default to "uncategorized".
-- `type`: The type of artifact collection.
+<ResponseField name="name" type="str">
+An artifact collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash. If entity or project is not specified, infer the collection from the override params if they exist. Otherwise, entity is pulled from the user settings and project will default to "uncategorized".
+</ResponseField>
+
+<ResponseField name="type" type="str">
+The type of artifact collection.
+</ResponseField>
+
 
 
 
@@ -175,7 +210,10 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-### <kbd>method</kbd> Api.artifact_collections()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_collections()
 
 ```python
 self,
@@ -190,16 +228,34 @@ Returns a collection of matching artifact collections.
 
 ##### Arguments
 
-- `project_name`: The name of the project to filter on.
-- `type_name`: The name of the artifact type to filter on.
-- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="project_name" type="str">
+The name of the project to filter on.
+</ResponseField>
+
+<ResponseField name="type_name" type="str">
+The name of the artifact type to filter on.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Sets the page size for query pagination. Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.artifact_exists()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_exists()
 
 ```python
 self,
@@ -211,8 +267,14 @@ Whether an artifact version exists within the specified project and entity.
 
 ##### Arguments
 
-- `name`: The name of artifact. Add the artifact's entity and project as a prefix. Append the version or the alias of the artifact with a colon. If the entity or project is not specified, W&B uses override parameters if populated. Otherwise, the entity is pulled from the user settings and the project is set to "Uncategorized".
-- `type`: The type of artifact.
+<ResponseField name="name" type="str">
+The name of artifact. Add the artifact's entity and project as a prefix. Append the version or the alias of the artifact with a colon. If the entity or project is not specified, W&B uses override parameters if populated. Otherwise, the entity is pulled from the user settings and the project is set to "Uncategorized".
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+The type of artifact.
+</ResponseField>
+
 
 
 
@@ -231,7 +293,10 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-### <kbd>method</kbd> Api.artifact_type()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_type()
 
 ```python
 self,
@@ -243,13 +308,22 @@ Returns the matching `ArtifactType`.
 
 ##### Arguments
 
-- `type_name`: The name of the artifact type to retrieve.
-- `project`: If given, a project name or path to filter on.
+<ResponseField name="type_name" type="str">
+The name of the artifact type to retrieve.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+If given, a project name or path to filter on.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.artifact_types()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_types()
 
 ```python
 self,
@@ -261,13 +335,22 @@ Returns a collection of matching artifact types.
 
 ##### Arguments
 
-- `project`: The project name or path to filter on.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="project" type="str | None">
+The project name or path to filter on.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.artifact_versions()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifact_versions()
 
 ```python
 (self, type_name, name, per_page=50)
@@ -277,14 +360,26 @@ Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 
 ##### Arguments
 
-- `type_name`: 
-- `name`: 
-- `per_page`: 
+<ResponseField name="type_name" type="_empty">
+No description provided.
+</ResponseField>
+
+<ResponseField name="name" type="_empty">
+No description provided.
+</ResponseField>
+
+<ResponseField name="per_page" type="_empty">
+No description provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.artifacts()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.artifacts()
 
 ```python
 self,
@@ -300,12 +395,30 @@ Return an `Artifacts` collection.
 
 ##### Arguments
 
-- `type_name`: The type of artifacts to fetch.
-- `name`: The artifact's collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
-- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
-- `tags`: Only return artifacts with all of these tags.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="type_name" type="str">
+The type of artifacts to fetch.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+The artifact's collection name. Optionally append the entity that logged the artifact as a prefix followed by a forward slash.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Sets the page size for query pagination. Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="tags" type="list[str] | None">
+Only return artifacts with all of these tags.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
 
 
 
@@ -353,7 +466,10 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-### <kbd>method</kbd> Api.automation()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.automation()
 
 ```python
 self,
@@ -365,8 +481,14 @@ Returns the only Automation matching the parameters.
 
 ##### Arguments
 
-- `name`: The name of the automation to fetch.
-- `entity`: The entity to fetch the automation for.
+<ResponseField name="name" type="str">
+The name of the automation to fetch.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+The entity to fetch the automation for.
+</ResponseField>
+
 
 
 ##### Raises
@@ -391,7 +513,10 @@ Get an existing automation named "other-automation", from the entity "my-team":
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-### <kbd>method</kbd> Api.automations()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.automations()
 
 ```python
 self,
@@ -408,10 +533,22 @@ Automations that the user has access to.
 
 ##### Arguments
 
-- `entity`: The entity to fetch the automations for.
-- `name`: The name of the automation to fetch.
-- `per_page`: The number of automations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="entity" type="str | None">
+The entity to fetch the automations for.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+The name of the automation to fetch.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of automations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
 
 
 
@@ -427,7 +564,10 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-### <kbd>method</kbd> Api.create_automation()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_automation()
 
 ```python
 self,
@@ -439,9 +579,18 @@ Create a new Automation.
 
 ##### Arguments
 
-- `obj`: The automation to create.
-- `fetch_existing`: If True, and a conflicting automation already exists, attempt to fetch the existing automation instead of raising an error.
-- `kwargs`: 
+<ResponseField name="obj" type="NewAutomation">
+The automation to create.
+</ResponseField>
+
+<ResponseField name="fetch_existing" type="bool">
+If True, and a conflicting automation already exists, attempt to fetch the existing automation instead of raising an error.
+</ResponseField>
+
+<ResponseField name="kwargs" type="Unpack[WriteAutomationsKwargs]">
+No description provided.
+</ResponseField>
+
 
 
 
@@ -475,7 +624,10 @@ automation = api.create_automation(
 )
 ```
 
-### <kbd>method</kbd> Api.create_custom_chart()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_custom_chart()
 
 ```python
 self,
@@ -491,14 +643,32 @@ Create a custom chart preset and return its id.
 
 ##### Arguments
 
-- `entity`: The entity (user or team) that owns the chart
-- `name`: Unique identifier for the chart preset
-- `display_name`: Human-readable name shown in the UI
-- `spec_type`: Type of specification. Must be "vega2" for Vega-Lite v2 specifications.
-- `access`: Access level for the chart:
-    - "private": Chart is only accessible to the entity that created it
-    - "public": Chart is publicly accessible
-- `spec`: The Vega/Vega-Lite specification as a dictionary or JSON string
+<ResponseField name="entity" type="str">
+The entity (user or team) that owns the chart
+</ResponseField>
+
+<ResponseField name="name" type="str">
+Unique identifier for the chart preset
+</ResponseField>
+
+<ResponseField name="display_name" type="str">
+Human-readable name shown in the UI
+</ResponseField>
+
+<ResponseField name="spec_type" type="Literal['vega2']">
+Type of specification. Must be "vega2" for Vega-Lite v2 specifications.
+</ResponseField>
+
+<ResponseField name="access" type="Literal['private', 'public']">
+Access level for the chart:
+- "private": Chart is only accessible to the entity that created it
+- "public": Chart is publicly accessible
+</ResponseField>
+
+<ResponseField name="spec" type="str | dict">
+The Vega/Vega-Lite specification as a dictionary or JSON string
+</ResponseField>
+
 
 
 ##### Raises
@@ -543,7 +713,10 @@ Create a custom chart preset and return its id.
     )
     ```
 
-### <kbd>method</kbd> Api.create_project()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_project()
 
 ```python
 self,
@@ -555,13 +728,22 @@ Create a new project.
 
 ##### Arguments
 
-- `name`: The name of the new project.
-- `entity`: The entity of the new project.
+<ResponseField name="name" type="str">
+The name of the new project.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+The entity of the new project.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.create_registry()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_registry()
 
 ```python
 self,
@@ -576,11 +758,26 @@ Create a new registry.
 
 ##### Arguments
 
-- `name`: The name of the registry. Name must be unique within the organization.
-- `visibility`: The visibility of the registry. organization: Anyone in the organization can view this registry. You can edit their roles later from the settings in the UI. restricted: Only invited members via the UI can access this registry. Public sharing is disabled.
-- `organization`: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
-- `description`: The description of the registry.
-- `artifact_types`: The accepted artifact types of the registry. A type is no more than 128 characters and do not include characters `/` or `:`. If not specified, all types are accepted. Allowed types added to the registry cannot be removed later.
+<ResponseField name="name" type="str">
+The name of the registry. Name must be unique within the organization.
+</ResponseField>
+
+<ResponseField name="visibility" type="Literal['organization', 'restricted']">
+The visibility of the registry. organization: Anyone in the organization can view this registry. You can edit their roles later from the settings in the UI. restricted: Only invited members via the UI can access this registry. Public sharing is disabled.
+</ResponseField>
+
+<ResponseField name="organization" type="str | None">
+The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+The description of the registry.
+</ResponseField>
+
+<ResponseField name="artifact_types" type="list[str] | None">
+The accepted artifact types of the registry. A type is no more than 128 characters and do not include characters `/` or `:`. If not specified, all types are accepted. Allowed types added to the registry cannot be removed later.
+</ResponseField>
+
 
 
 
@@ -600,7 +797,10 @@ registry = api.create_registry(
 )
 ```
 
-### <kbd>method</kbd> Api.create_run()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_run()
 
 ```python
 self, *,
@@ -613,14 +813,26 @@ Create a new run.
 
 ##### Arguments
 
-- `run_id`: The ID to assign to the run. If not specified, W&B creates a random ID.
-- `project`: The project where to log the run to. If no project is specified, log the run to a project called "Uncategorized".
-- `entity`: The entity that owns the project. If no entity is specified, log the run to the default entity.
+<ResponseField name="run_id" type="str | None">
+The ID to assign to the run. If not specified, W&B creates a random ID.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+The project where to log the run to. If no project is specified, log the run to a project called "Uncategorized".
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+The entity that owns the project. If no entity is specified, log the run to the default entity.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.create_run_queue()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_run_queue()
 
 ```python
 self,
@@ -636,17 +848,38 @@ Create a new run queue in W&B Launch.
 
 ##### Arguments
 
-- `name`: Name of the queue to create
-- `type`: Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes","sagemaker", or "gcp-vertex".
-- `entity`: Name of the entity to create the queue. If `None`, use the configured or default entity.
-- `prioritization_mode`: Version of prioritization to use. Either "V0" or `None`.
-- `config`: Default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
-- `template_variables`: A dictionary of template variable schemas to use with the config.
+<ResponseField name="name" type="str">
+Name of the queue to create
+</ResponseField>
+
+<ResponseField name="type" type="public.RunQueueResourceType">
+Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes","sagemaker", or "gcp-vertex".
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+Name of the entity to create the queue. If `None`, use the configured or default entity.
+</ResponseField>
+
+<ResponseField name="prioritization_mode" type="public.RunQueuePrioritizationMode | None">
+Version of prioritization to use. Either "V0" or `None`.
+</ResponseField>
+
+<ResponseField name="config" type="dict | None">
+Default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
+</ResponseField>
+
+<ResponseField name="template_variables" type="dict | None">
+A dictionary of template variable schemas to use with the config.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.create_team()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_team()
 
 ```python
 self,
@@ -662,13 +895,22 @@ This setting determines the organization the new team will belong to.
 
 ##### Arguments
 
-- `team`: The name of the team.
-- `admin_username`: Username of the admin user of the team. Defaults to the current user.
+<ResponseField name="team" type="str">
+The name of the team.
+</ResponseField>
+
+<ResponseField name="admin_username" type="str | None">
+Username of the admin user of the team. Defaults to the current user.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.create_user()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.create_user()
 
 ```python
 self,
@@ -680,13 +922,22 @@ Create a new user.
 
 ##### Arguments
 
-- `email`: The email address of the user.
-- `admin`: Set user as a global instance administrator.
+<ResponseField name="email" type="str">
+The email address of the user.
+</ResponseField>
+
+<ResponseField name="admin" type="bool | None">
+Set user as a global instance administrator.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.delete_automation()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.delete_automation()
 
 ```python
 self,
@@ -697,12 +948,18 @@ Delete an automation.
 
 ##### Arguments
 
-- `obj`: The automation to delete, or its ID.
+<ResponseField name="obj" type="Automation | str">
+The automation to delete, or its ID.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.flush()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.flush()
 
 ```python
 (self)
@@ -718,7 +975,10 @@ with `api.flush()` to get the latest values associated with the run.
 
 
 
-### <kbd>method</kbd> Api.from_path()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.from_path()
 
 ```python
 (self,
@@ -729,7 +989,10 @@ Return a run, sweep, project or report from a path.
 
 ##### Arguments
 
-- `path`: The path to the project, run, sweep or report
+<ResponseField name="path" type="str">
+The path to the project, run, sweep or report
+</ResponseField>
+
 
 
 
@@ -752,7 +1015,10 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-### <kbd>method</kbd> Api.integrations()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.integrations()
 
 ```python
 self,
@@ -765,14 +1031,26 @@ Return an iterator of all integrations for an entity.
 
 ##### Arguments
 
-- `entity`: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
-- `per_page`: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- `start`: 
+<ResponseField name="entity" type="str | None">
+The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+No description provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.job()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.job()
 
 ```python
 self,
@@ -784,13 +1062,22 @@ Return a `Job` object.
 
 ##### Arguments
 
-- `name`: The name of the job.
-- `path`: The root path to download the job artifact.
+<ResponseField name="name" type="str | None">
+The name of the job.
+</ResponseField>
+
+<ResponseField name="path" type="str | None">
+The root path to download the job artifact.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.list_jobs()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.list_jobs()
 
 ```python
 self,
@@ -802,13 +1089,22 @@ Return a list of jobs, if any, for the given entity and project.
 
 ##### Arguments
 
-- `entity`: The entity for the listed jobs.
-- `project`: The project for the listed jobs.
+<ResponseField name="entity" type="str">
+The entity for the listed jobs.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+The project for the listed jobs.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.organization()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.organization()
 
 ```python
 self,
@@ -819,12 +1115,18 @@ Return the matching `Organization`.
 
 ##### Arguments
 
-- `name`: The name of the organization. If omitted, this method will attempt to infer and return the current default organization.
+<ResponseField name="name" type="str | None">
+The name of the organization. If omitted, this method will attempt to infer and return the current default organization.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.project()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.project()
 
 ```python
 self,
@@ -836,13 +1138,22 @@ Return the `Project` with the given name (and entity, if given).
 
 ##### Arguments
 
-- `name`: The project name.
-- `entity`: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
+<ResponseField name="name" type="str">
+The project name.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.projects()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.projects()
 
 ```python
 self,
@@ -854,13 +1165,22 @@ Get projects for a given entity.
 
 ##### Arguments
 
-- `entity`: Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
-- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
+<ResponseField name="entity" type="str | None">
+Name of the entity requested.  If None, will fall back to the default entity passed to `Api`.  If no default entity, will raise a `ValueError`.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Sets the page size for query pagination. Usually there is no reason to change this.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.queued_run()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.queued_run()
 
 ```python
 (self,
@@ -876,17 +1196,38 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 
 ##### Arguments
 
-- `entity`: 
-- `project`: 
-- `queue_name`: 
-- `run_queue_item_id`: 
-- `project_queue`: 
-- `priority`: 
+<ResponseField name="entity" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="queue_name" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="run_queue_item_id" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="project_queue" type="_empty">
+No description provided.
+</ResponseField>
+
+<ResponseField name="priority" type="_empty">
+No description provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.registries()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registries()
 
 ```python
 self,
@@ -900,15 +1241,33 @@ start: 'str | None' = None
 Returns a lazy iterator of `Registry` objects.
 
 Use the iterator to search and filter registries, collections,
-or artifact versions across your organization's registry.
+or artifact versions across your organization's registry. Results are
+fetched lazily as you iterate, so you can stop after any number of
+items—for example, with :func:`itertools.islice`—without requesting
+the rest.
 
 ##### Arguments
 
-- `organization`: The organization of the registry to fetch. If not specified, use the organization specified in the user's settings.
-- `filter`: Optional MongoDB-style filter to apply to each object in the lazy registry iterator. Fields available to filter for registries are `name`, `description`, `created_at`, `updated_at`. Fields available to filter for collections are `name`, `tag`, `description`, `created_at`, `updated_at` Fields available to filter for versions are `tag`, `alias`, `created_at`, `updated_at`, `metadata`
-- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
-- `per_page`: Sets the page size for query pagination.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="organization" type="str | None">
+The organization of the registry to fetch. If not specified, use the organization specified in the user's settings.
+</ResponseField>
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+Optional MongoDB-style filter to apply to each object in the lazy registry iterator. Fields available to filter for registries are `name`, `description`, `created_at`, `updated_at`. Fields available to filter for collections are `name`, `tag`, `description`, `created_at`, `updated_at` Fields available to filter for versions are `tag`, `alias`, `created_at`, `updated_at`, `metadata`
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Sets the page size for query pagination.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
 
 
 
@@ -967,7 +1326,10 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-### <kbd>method</kbd> Api.registry()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registry()
 
 ```python
 self,
@@ -979,8 +1341,14 @@ Return a registry given a registry name.
 
 ##### Arguments
 
-- `name`: The name of the registry. This is without the `wandb-registry-` prefix.
-- `organization`: The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
+<ResponseField name="name" type="str">
+The name of the registry. This is without the `wandb-registry-` prefix.
+</ResponseField>
+
+<ResponseField name="organization" type="str | None">
+The organization of the registry. If no organization is set in the settings, the organization will be fetched from the entity if the entity only belongs to one organization.
+</ResponseField>
+
 
 
 
@@ -998,7 +1366,10 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-### <kbd>method</kbd> Api.reports()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.reports()
 
 ```python
 self,
@@ -1014,9 +1385,18 @@ future releases.
 
 ##### Arguments
 
-- `path`: The path to the project the report resides in. Specify the entity that created the project as a prefix followed by a forward slash.
-- `name`: Name of the report requested.
-- `per_page`: Sets the page size for query pagination. Usually there is no reason to change this.
+<ResponseField name="path" type="str">
+The path to the project the report resides in. Specify the entity that created the project as a prefix followed by a forward slash.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+Name of the report requested.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Sets the page size for query pagination. Usually there is no reason to change this.
+</ResponseField>
+
 
 
 
@@ -1029,17 +1409,24 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-### <kbd>method</kbd> Api.run()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run()
 
 ```python
-(self, path='')
+self,
+path: 'str' = ''
 ```
 
 Return a single run by parsing path in the form `entity/project/run_id`.
 
 ##### Arguments
 
-- `path`: Path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id.
+<ResponseField name="path" type="str">
+Path to run in the form `entity/project/run_id`. If `api.entity` is set, this can be in the form `project/run_id` and if `api.project` is set this can just be the run_id.
+</ResponseField>
+
 
 
 ##### Raises
@@ -1047,7 +1434,10 @@ Return a single run by parsing path in the form `entity/project/run_id`.
 - `RunNotFoundError`: If a run is not found, or run data is not able to be loaded.
 
 
-### <kbd>method</kbd> Api.run_queue()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run_queue()
 
 ```python
 (self,
@@ -1061,13 +1451,22 @@ See `Api.create_run_queue` for more information on how to create a run queue.
 
 ##### Arguments
 
-- `entity`: 
-- `name`: 
+<ResponseField name="entity" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+No description provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.runs()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.runs()
 
 ```python
 (self,
@@ -1115,12 +1514,30 @@ The following operations are supported:
 
 ##### Arguments
 
-- `path`: (str) path to project, should be in the form: "entity/project"
-- `filters`: (dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: `{"config.experiment_name": "foo"}` would find runs with a config entry of experiment name set to "foo"
-- `order`: (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
-- `per_page`: (int) Sets the page size for query pagination.
-- `include_sweeps`: (bool) Whether to eagerly fetch the sweep object in each run result.
-- `lazy`: (bool) Whether to use lazy loading for faster performance. When True (default), only essential run metadata is loaded initially. Heavy fields like config, summaryMetrics, and systemMetrics are loaded on-demand when accessed. Set to False for full data upfront.
+<ResponseField name="path" type="str | None">
+(str) path to project, should be in the form: "entity/project"
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+(dict) queries for specific runs using the MongoDB query language. You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. For example: `{"config.experiment_name": "foo"}` would find runs with a config entry of experiment name set to "foo"
+</ResponseField>
+
+<ResponseField name="order" type="str">
+(str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending. The default order is run.created_at from oldest to newest.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+(int) Sets the page size for query pagination.
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+(bool) Whether to eagerly fetch the sweep object in each run result.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+(bool) Whether to use lazy loading for faster performance. When True (default), only essential run metadata is loaded initially. Heavy fields like config, summaryMetrics, and systemMetrics are loaded on-demand when accessed. Set to False for full data upfront.
+</ResponseField>
+
 
 
 
@@ -1172,7 +1589,10 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-### <kbd>method</kbd> Api.slack_integrations()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.slack_integrations()
 
 ```python
 self, *,
@@ -1185,9 +1605,18 @@ Returns an iterator of Slack integrations for an entity.
 
 ##### Arguments
 
-- `entity`: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
-- `per_page`: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- `start`: 
+<ResponseField name="entity" type="str | None">
+The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+No description provided.
+</ResponseField>
+
 
 
 
@@ -1214,7 +1643,10 @@ team_alert_integrations = [
 ]
 ```
 
-### <kbd>method</kbd> Api.sweep()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sweep()
 
 ```python
 (self, path='')
@@ -1224,12 +1656,18 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 
 ##### Arguments
 
-- `path`: Path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id.
+<ResponseField name="path" type="_empty">
+Path to sweep in the form entity/project/sweep_id. If `api.entity` is set, this can be in the form project/sweep_id and if `api.project` is set this can just be the sweep_id.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.sync_tensorboard()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sync_tensorboard()
 
 ```python
 (self, root_dir, run_id=None, project=None, entity=None)
@@ -1239,15 +1677,30 @@ Sync a local directory containing tfevent files to wandb.
 
 ##### Arguments
 
-- `root_dir`: 
-- `run_id`: 
-- `project`: 
-- `entity`: 
+<ResponseField name="root_dir" type="_empty">
+No description provided.
+</ResponseField>
+
+<ResponseField name="run_id" type="_empty">
+No description provided.
+</ResponseField>
+
+<ResponseField name="project" type="_empty">
+No description provided.
+</ResponseField>
+
+<ResponseField name="entity" type="_empty">
+No description provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.team()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.team()
 
 ```python
 self,
@@ -1258,12 +1711,18 @@ Return the matching `Team` with the given name.
 
 ##### Arguments
 
-- `team`: The name of the team.
+<ResponseField name="team" type="str">
+The name of the team.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.update_automation()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.update_automation()
 
 ```python
 self,
@@ -1275,9 +1734,18 @@ Update an existing automation.
 
 ##### Arguments
 
-- `obj`: The automation to update.  Must be an existing automation.
-- `create_missing`: If True, and the automation does not exist, create it.
-- `kwargs`: 
+<ResponseField name="obj" type="Automation">
+The automation to update.  Must be an existing automation.
+</ResponseField>
+
+<ResponseField name="create_missing" type="bool">
+If True, and the automation does not exist, create it.
+</ResponseField>
+
+<ResponseField name="kwargs" type="Unpack[WriteAutomationsKwargs]">
+No description provided.
+</ResponseField>
+
 
 
 
@@ -1314,7 +1782,10 @@ updated_automation = api.update_automation(
 )
 ```
 
-### <kbd>method</kbd> Api.upsert_run_queue()
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.upsert_run_queue()
 
 ```python
 (self,
@@ -1331,18 +1802,42 @@ Upsert a run queue in W&B Launch.
 
 ##### Arguments
 
-- `name`: Name of the queue to create
-- `resource_config`: Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
-- `resource_type`: Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex".
-- `entity`: Optional name of the entity to create the queue. If `None`, use the configured or default entity.
-- `template_variables`: A dictionary of template variable schemas to be used with the config.
-- `external_links`: Optional dictionary of external links to be used with the queue.
-- `prioritization_mode`: Optional version of prioritization to use. Either "V0" or None
+<ResponseField name="name" type="str">
+Name of the queue to create
+</ResponseField>
+
+<ResponseField name="resource_config" type="dict">
+Optional default resource configuration to be used for the queue. Use handlebars (eg. `{{var}}`) to specify template variables.
+</ResponseField>
+
+<ResponseField name="resource_type" type="public.RunQueueResourceType">
+Type of resource to be used for the queue. One of "local-container", "local-process", "kubernetes", "sagemaker", or "gcp-vertex".
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+Optional name of the entity to create the queue. If `None`, use the configured or default entity.
+</ResponseField>
+
+<ResponseField name="template_variables" type="dict | None">
+A dictionary of template variable schemas to be used with the config.
+</ResponseField>
+
+<ResponseField name="external_links" type="dict | None">
+Optional dictionary of external links to be used with the queue.
+</ResponseField>
+
+<ResponseField name="prioritization_mode" type="public.RunQueuePrioritizationMode | None">
+Optional version of prioritization to use. Either "V0" or None
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.user()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.user()
 
 ```python
 self,
@@ -1356,12 +1851,18 @@ This function only works for local administrators. Use `api.viewer`
 
 ##### Arguments
 
-- `username_or_email`: The username or email address of the user.
+<ResponseField name="username_or_email" type="str">
+The username or email address of the user.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.users()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.users()
 
 ```python
 self,
@@ -1375,12 +1876,18 @@ This function only works for local administrators. Use `api.viewer`
 
 ##### Arguments
 
-- `username_or_email`: The prefix or suffix of the user you want to find.
+<ResponseField name="username_or_email" type="str">
+The prefix or suffix of the user you want to find.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Api.webhook_integrations()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.webhook_integrations()
 
 ```python
 self,
@@ -1393,9 +1900,18 @@ Returns an iterator of webhook integrations for an entity.
 
 ##### Arguments
 
-- `entity`: The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
-- `per_page`: Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
-- `start`: 
+<ResponseField name="entity" type="str | None">
+The entity (e.g. team name) for which to fetch integrations.  If not provided, the user's default entity will be used.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Number of integrations to fetch per page. Defaults to 50.  Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+No description provided.
+</ResponseField>
+
 
 
 
@@ -1421,6 +1937,7 @@ my_webhooks = [
     if ig.url_endpoint.startswith("https://my-fake-url.com")
 ]
 ```
+
 
 
 

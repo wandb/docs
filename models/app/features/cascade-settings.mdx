@@ -61,7 +61,7 @@ You can edit two main settings within **Line plots** settings: **Data** and **Di
 
 #### Data options
 
-The **Data** tab contains the following settings, see the following tables for additional x-axis and y-axis options:
+The **Data** tab contains the following settings. See the following tables for additional x-axis and y-axis options.
 
 | Line plot setting | Description |
 | ----- | ----- |
@@ -71,12 +71,14 @@ The **Data** tab contains the following settings, see the following tables for a
 | **Outliers** | Rescale to exclude outliers from the default plot min and max scale. |
 | **Point aggregation method** | Improve data visualization accuracy and performance. For more information, see [Point aggregation](/models/app/features/panels/line-plot/sampling/). |
 | **Max number of runs or groups** | Limit the number of runs or groups displayed on the line plot. |
+| **Use grouping from the runs table in charts** | Apply the runs table's grouping to line plots. Turned on by default. |
+| **Use only latest run per group** | Plot one run for each group instead of combining the group's runs. The run selector's sort order determines which run appears for each group. For more information, see [Run grouping](/models/app/features/panels/line-plot/reference#run-grouping). |
 
 The following table lists x-axis options:
 
 | X axis option | Description |
 | ------------- | ----------- |
-| **Step** | Increments each time you call `wandb.Run.log()`.  The x-axis is set to **Step** by default. |
+| **Step** | Increments each time you call `wandb.Run.log()`. The x-axis is set to **Step** by default. |
 | **Relative Time (Wall)** | Timestamp since the process starts. For example, suppose you start a run and resume that run the next day. If you then log something, the recorded point is 24 hours. |
 | **Relative Time (Process)** | Timestamp inside the running process. For example, suppose you start a run and let it continue for 10 seconds. The next day you resume that run. The point is recorded as 10 seconds. |
 | **Wall Time** | Minutes elapsed since the start of the first run on the graph. |

@@ -6,9 +6,14 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4126" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4050" />
 
-## <kbd>함수</kbd> wandb.restore
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.restore()
+
+지정한 파일을 클라우드 저장소에서 다운로드합니다.
+
+파일은 현재 디렉터리 또는 run 디렉터리에 저장됩니다.
+기본적으로는 파일이 아직 존재하지 않을 때만 다운로드합니다.
 
 ```python
 name: 'str',
@@ -17,19 +22,25 @@ replace: 'bool' = False,
 root: 'str | None' = None
 ```
 
-지정한 파일을 클라우드 저장소에서 다운로드합니다.
-
-파일은 현재 디렉터리 또는 run 디렉터리에 저장됩니다.
-기본적으로는 파일이 아직 존재하지 않을 때만 다운로드합니다.
-
 <div id="args">
   ## 매개변수
 </div>
 
-* `name`: 파일 이름입니다.
-* `run_path`: 파일을 가져올 run의 경로(선택 사항)입니다. 예: `username/project_name/run_id`  wandb.init를 호출하지 않은 경우 이 값은 필수입니다.
-* `replace`: 로컬에 파일이 이미 있어도 다운로드할지 여부입니다.
-* `root`: 파일을 다운로드할 디렉터리입니다.  기본값은 현재 디렉터리이며, wandb.init를 호출한 경우에는 run 디렉터리입니다.
+<ResponseField name="name" type="str">
+  파일 이름입니다.
+</ResponseField>
+
+<ResponseField name="run_path" type="str | None">
+  파일을 가져올 run의 경로(선택 사항)입니다. 예: `username/project_name/run_id`  wandb.init를 호출하지 않은 경우 이 값은 필수입니다.
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+  로컬에 파일이 이미 있어도 다운로드할지 여부입니다.
+</ResponseField>
+
+<ResponseField name="root" type="str | None">
+  파일을 다운로드할 디렉터리입니다.  기본값은 현재 디렉터리이며, wandb.init를 호출한 경우에는 run 디렉터리입니다.
+</ResponseField>
 
 <div id="returns">
   ## 반환값
