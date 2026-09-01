@@ -1,47 +1,53 @@
 ---
 description: "Add, delete, and manage email addresses and login methods in your W&B profile settings page."
 title: Manage email settings
+keywords: ["login methods", "primary email", "add email address", "Auth0"]
 ---
 
+In your W&B **Settings** page, the Emails dashboard lets you add, delete, and manage email types and primary email addresses.
 
-Add, delete, manage email types and primary email addresses in your W&B Profile Settings page. Select your profile icon in the upper right corner of the W&B dashboard. From the dropdown, select **Settings**. Within the Settings page, scroll down to the Emails dashboard:
+To open the Emails dashboard, follow these steps:
+
+1. In the W&B dashboard, select your profile icon in the upper-right corner.
+2. From the dropdown, select **Settings**.
+3. Scroll down to the Emails dashboard.
 
 <Frame>
-    <img src="/images/app_ui/manage_emails.png" alt="Email management dashboard"  />
+    <img src="/images/app_ui/manage_emails.png" alt="Email management dashboard" />
 </Frame>
 
 ## Manage primary email
 
-The primary email is marked with a 😎 emoji. The primary email is automatically defined with the email you provided when you created a W&B account.
+A smiling-face-with-sunglasses icon marks your primary email. Your primary email defaults to the address you provided when you created your W&B account.
 
-Select the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu to change the primary email associated with your Weights And Biases account:
+To change the primary email associated with your W&B account, select the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu.
 
 <Note>
-Only verified emails can be set as primary
+You can only set verified emails as primary.
 </Note>
 
 <Frame>
-    <img src="/images/app_ui/primary_email.png" alt="Primary email dropdown"  />
+    <img src="/images/app_ui/primary_email.png" alt="Primary email dropdown" />
 </Frame>
 
 ## Add emails
 
-Select **+ Add Email** to add an email. This will take you to an Auth0 page. You can enter in the credentials for the new email or connect using single sign-on (SSO).
+To add an email, select **+ Add Email**. The Auth0 page opens, where you can enter credentials for the new email or connect using single sign-on (SSO).
 
 ## Delete emails
 
-Select the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu and choose **Delete Emails** to delete an email that is registered to your W&B account
+To delete an email registered to your W&B account, select the **action (<Icon icon="ellipsis-vertical" iconType="solid"/>)** menu and choose **Delete Emails**.
 
 <Note>
-Primary emails cannot be deleted. You need to set a different email as a primary email before deleting.
+You can't delete a primary email. Set a different email as primary before deleting.
 </Note>
 
-## Log in methods
+## Login methods
 
-The Log in Methods column displays the log in methods that are associated with your account.
+The **Log in Methods** column shows the login methods associated with your account.
 
-A verification email is sent to your email account when you create a W&B account. Your email account is considered unverified until you verify your email address. Unverified emails are displayed in red.
+When you create a W&B account, W&B sends a verification email to your address. Your email account stays unverified until you verify the address, and unverified emails appear in red.
 
-Attempt to log in with your email address again to retrieve a second verification email if you no longer have the original verification email that was sent to your email account.
+If you no longer have the original verification email, attempt to log in with your email address again to receive a second one.
 
-Contact support@wandb.com for account log in issues.
+For account login issues, contact support@wandb.com.

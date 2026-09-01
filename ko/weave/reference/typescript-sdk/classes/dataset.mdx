@@ -1,17 +1,18 @@
 ---
-title: 'Class: Dataset<R>'
-description: TypeScript SDK 레퍼런스
+title: "Dataset<R>"
+description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / Dataset
+간편하게 저장되고 자동으로 버전 관리되는 Dataset 객체
 
+정의된 위치: [src/dataset.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L52)
 
+<div id="example">
+  ## 예시
+</div>
 
-간편한 저장과 자동 버전 관리를 지원하는 Dataset 오브젝트
-
-`Example`
-
-```ts
+```ts twoslash
+// @noErrors
 // 데이터셋 생성
 const dataset = new Dataset({
   id: 'grammar-dataset',
@@ -22,215 +23,229 @@ const dataset = new Dataset({
   ]
 })
 
-// 특정 예시 데이터에 엑세스
+// 특정 예시 액세스
 const exampleLabel = dataset.getRow(2).sentence;
 
 // 데이터셋 저장
 const ref = await dataset.save()
 ```
 
-## Type parameters
+<div id="extends">
+  ## 확장
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `R` | extends `DatasetRow` |
+* [`WeaveObject`](./weaveobject)
 
-## Hierarchy
+<div id="type-parameters">
+  ## 유형 매개변수
+</div>
 
-- [`WeaveObject`](./weaveobject)
+<div id="r">
+  ### R
+</div>
 
-  ↳ `Dataset`
+`R` *extends* `DatasetRow`
 
-## Table of contents
+<div id="constructors">
+  ## 생성자
+</div>
 
-### Constructors
+<div id="constructor">
+  ### 생성자
+</div>
 
-- [constructor](./dataset#constructor)
+> **new Dataset**&lt;`R`&gt;(`parameters`): `Dataset`&lt;`R`&gt;
 
-### Properties
+정의된 위치: [src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
 
-- [\_\_savedRef](./dataset#__savedref)
-- [rows](./dataset#rows)
+#### 매개변수
 
-### Accessors
+<div id="parameters">
+  ##### parameters
+</div>
 
-- [description](./dataset#description)
-- [length](./dataset#length)
-- [name](./dataset#name)
+`DatasetParameters`&lt;`R`&gt;
 
-### Methods
+#### 반환값
 
-- [[asyncIterator]](./dataset#[asynciterator])
-- [getRow](./dataset#getrow)
-- [save](./dataset#save)
-- [saveAttrs](./dataset#saveattrs)
+`Dataset`&lt;`R`&gt;
 
-## Constructors
+<div id="overrides">
+  #### 재정의
+</div>
 
-### constructor
+[`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
 
-• **new Dataset**\<`R`\>(`parameters`): [`Dataset`](./dataset)\<`R`\>
+<div id="properties">
+  ## 속성
+</div>
 
-#### Type parameters
+<div id="__savedref">
+  ### __savedRef
+</div>
 
-| Name | Type |
-| :------ | :------ |
-| `R` | extends `DatasetRow` |
+> `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-#### Parameters
+정의된 위치: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
-| Name | Type |
-| :------ | :------ |
-| `parameters` | `DatasetParameters`\<`R`\> |
+<div id="inherited-from">
+  #### 상속됨
+</div>
 
-#### Returns
+[`WeaveObject`](./weaveobject).[`__savedRef`](./weaveobject#__savedref)
 
-[`Dataset`](./dataset)\<`R`\>
+***
 
-#### Overrides
+<div id="rows">
+  ### 행
+</div>
 
-[WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
+> **행**: `Table`&lt;`R`&gt;
 
-#### Defined in
+정의된 위치: [src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
 
-[dataset.ts:51](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L51)
+<div id="accessors">
+  ## 접근자
+</div>
 
-## Properties
+<div id="description">
+  ### 설명
+</div>
 
-### \_\_savedRef
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+> **get** **description**(): `string` | `undefined`
 
-#### Inherited from
+정의된 위치: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
-[WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
+<div id="returns">
+  ##### 반환값
+</div>
 
-#### Defined in
+`string` | `undefined`
 
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
+<div id="inherited-from">
+  #### 상속됨
+</div>
 
-___
+[`WeaveObject`](./weaveobject).[`description`](./weaveobject#description)
 
-### rows
+***
 
-• **rows**: `Table`\<`R`\>
+<div id="length">
+  ### length
+</div>
 
-#### Defined in
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
 
-[dataset.ts:49](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L49)
+> **get** **length**(): `number`
 
-## Accessors
+정의된 위치: [src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
 
-### description
-
-• `get` **description**(): `undefined` \| `string`
-
-#### Returns
-
-`undefined` \| `string`
-
-#### Inherited from
-
-WeaveObject.description
-
-#### Defined in
-
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
-
-___
-
-### length
-
-• `get` **length**(): `number`
-
-#### Returns
+<div id="returns">
+  ##### 반환값
+</div>
 
 `number`
 
-#### Defined in
+***
 
-[dataset.ts:64](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L64)
+<div id="name">
+  ### name
+</div>
 
-___
+<div id="get-signature">
+  #### 조회 시그니처
+</div>
 
-### name
+> **get** **name**(): `string`
 
-• `get` **name**(): `string`
+정의된 위치: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
-#### Returns
+<div id="returns">
+  ##### 반환값
+</div>
 
 `string`
 
-#### Inherited from
+<div id="inherited-from">
+  #### 상속됨
+</div>
 
-WeaveObject.name
+[`WeaveObject`](./weaveobject).[`name`](./weaveobject#name)
 
-#### Defined in
+<div id="methods">
+  ## 방법
+</div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
+<div id="asynciterator">
+  ### [asyncIterator]()
+</div>
 
-## Methods
+> **[asyncIterator]**(): `AsyncIterator`&lt;`any`&gt;
 
-### [asyncIterator]
+정의된 위치: [src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
 
-▸ **[asyncIterator]**(): `AsyncIterator`\<`any`, `any`, `undefined`\>
+#### 반환값
 
-#### Returns
+`AsyncIterator`&lt;`any`&gt;
 
-`AsyncIterator`\<`any`, `any`, `undefined`\>
+***
 
-#### Defined in
+<div id="getrow">
+  ### getRow()
+</div>
 
-[dataset.ts:68](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L68)
+> **getRow**(`index`): `R`
 
-___
+정의된 위치: [src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
 
-### getRow
+#### 매개변수
 
-▸ **getRow**(`index`): `R`
+<div id="index">
+  ##### index
+</div>
 
-#### Parameters
+`number`
 
-| Name | Type |
-| :------ | :------ |
-| `index` | `number` |
-
-#### Returns
+#### 반환값
 
 `R`
 
-#### Defined in
+***
 
-[dataset.ts:74](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L74)
+<div id="save">
+  ### save()
+</div>
 
-___
+> **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-### save
+정의된 위치: [src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
 
-▸ **save**(): `Promise`\<[`ObjectRef`](./objectref)\>
+#### 반환값
 
-#### Returns
+`Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-`Promise`\<[`ObjectRef`](./objectref)\>
+***
 
-#### Defined in
+<div id="saveattrs">
+  ### saveAttrs()
+</div>
 
-[dataset.ts:60](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L60)
+> **saveAttrs**(): `object`
 
-___
+정의된 위치: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
-### saveAttrs
+#### 반환값
 
-▸ **saveAttrs**(): `Object`
+`object`
 
-#### Returns
+<div id="inherited-from">
+  #### 상속됨
+</div>
 
-`Object`
-
-#### Inherited from
-
-[WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
-
-#### Defined in
-
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
+[`WeaveObject`](./weaveobject).[`saveAttrs`](./weaveobject#saveattrs)

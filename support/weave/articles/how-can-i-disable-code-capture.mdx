@@ -3,8 +3,10 @@ title: "How can I disable code capture?"
 keywords: ["Code Capture"]
 ---
 
-You can disable code capture during Weave client initialization: `weave.init("entity/project", settings={"capture_code": False})`.
-You can also use the [environment variable](/weave/guides/core-types/env-vars) `WEAVE_CAPTURE_CODE=false`.
+To disable code capture, use one of the following methods:
+
+- During W&B Weave client initialization, set `capture_code` to `False`: `weave.init("entity/project", settings={"capture_code": False})`.
+- Set the [environment variable](/weave/guides/core-types/env-vars) `WEAVE_CAPTURE_CODE=false`.
 
 ---
 

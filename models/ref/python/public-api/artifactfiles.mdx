@@ -1,43 +1,85 @@
 ---
 title: ArtifactFiles
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-
-
-
-## <kbd>class</kbd> `ArtifactFiles`
-A paginator for files in an artifact. 
-
-
-### <kbd>property</kbd> ArtifactFiles.cursor
-
-
-
-
-
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactFiles.more
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1144" />
+
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactFiles
+
+
+
+A paginator for files in an artifact.
 
 
 
 
 
----
-
-### <kbd>property</kbd> ArtifactFiles.path
-
-Returns the path of the artifact. 
 
 
 
 
 
 
-**Returns:**
- - `list[str]`: The path property value.
+## Properties
+
+<ResponseField name="path" type="list[str]">
+Returns the path of the artifact.
+</ResponseField>
+
+
+
+## Methods
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+Convert the last fetched response data into the iterated objects.
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.__next__()
+
+```python
+self
+```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.update_variables()
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
+
+
+
+
+
+
+
+

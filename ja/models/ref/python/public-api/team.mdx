@@ -1,111 +1,130 @@
 ---
-title: チーム
-namespace: public_apis_namespace
-python_object_type: class
+title: Team
+kind: class
+namespace: wandb.apis.public.teams
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Team`
-W&B Teams を表すクラスです。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
-このクラスは、 Teams の作成、メンバーの招待、サービスアカウントの管理など、W&B Teams を管理するための メソッド を提供します。チーム属性を処理するために Attrs を継承しています。
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Team
 
-### <kbd>method</kbd> `Team.__init__`
+W&amp;B のチームを表すクラス。
+
+このクラスは、チームの作成、メンバーの招待、サービスアカウントの管理など、W&amp;B のチームを管理するための method を提供します。チーム属性を扱うために Attrs を継承します。
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    name: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+name: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-**Args:**
- 
- - `client` (`wandb.apis.public.Api`): 使用する API インスタンス
- - `name` (str): チームの名前
- - `attrs` (dict): チーム属性のオプション 辞書 
+<div id="args">
+  ## 引数
+</div>
 
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B のクエリに使用するサービス API インスタンス。
+</ResponseField>
 
+<ResponseField name="name" type="str">
+  チーム名
+</ResponseField>
 
-**Note:**
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+  省略可能なチーム属性の辞書
+</ResponseField>
 
-> Teams の管理には適切な権限が必要です。 
+<div id="examples">
+  ## 例
+</div>
 
-
-
-
-
-
-
-
-
----
-
-### <kbd>classmethod</kbd> `Team.create`
+チームを検索して、メンバーを招待します。
 
 ```python
-create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
+import wandb
+
+api = wandb.Api()
+team = api.team("my-team")
+team.invite("user@example.com")
+```
+
+チームを作成し、サービスアカウントを追加します。
+
+```python
+import wandb
+
+api = wandb.Api()
+team = api.create_team("my-team")
+team.create_service_account("CI service account")
+```
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create()
+
+```python
+api: 'Api',
+team: 'str',
+admin_username: 'str | None' = None
 ```
 
 新しいチームを作成します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+<ResponseField name="api" type="Api">
+  (`Api`) 使用するapiインスタンス
+</ResponseField>
 
-**Args:**
- 
- - `api`: (`Api`) 使用する API インスタンス
- - `team`: (str) チームの名前
- - `admin_username`: (str) チームの管理者 ユーザー のオプションのユーザー名。デフォルトは現在の ユーザー です。
+<ResponseField name="team" type="str">
+  (str) チーム名
+</ResponseField>
 
+<ResponseField name="admin_username" type="str | None">
+  (str) チームの管理者ユーザーのユーザー名 (省略可能) 。デフォルトは現在のユーザーです。
+</ResponseField>
 
-
-**Returns:**
- `Team` オブジェクト 
-
----
-
-### <kbd>method</kbd> `Team.create_service_account`
-
-```python
-create_service_account(description: 'str') → Member | None
-```
-
-チームのサービスアカウントを作成します。
-
-
-
-**Args:**
- 
- - `description`: (str) このサービスアカウントの説明
-
-
-
-**Returns:**
- サービスアカウントの `Member` オブジェクト 、失敗した場合は None
-
----
-
-### <kbd>method</kbd> `Team.invite`
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create_service_account()
 
 ```python
-invite(username_or_email: 'str', admin: 'bool' = False) → bool
+self,
+description: 'str'
 ```
 
-ユーザー をチームに招待します。
+チーム のサービスアカウントを作成します。
 
+<div id="arguments">
+  ##### 引数
+</div>
 
+<ResponseField name="description" type="str">
+  (str) このサービスアカウントの説明
+</ResponseField>
 
-**Args:**
- 
- - `username_or_email`: (str) 招待したい ユーザー のユーザー名またはメール アドレス 
- - `admin`: (bool) この ユーザー をチーム管理者に設定するかどうか。デフォルトは `False` です。
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.invite()
 
+```python
+self,
+username_or_email: 'str',
+admin: 'bool' = False
+```
 
+ユーザーをチームに招待します。
 
-**Returns:**
- 成功した場合は `True` 、 ユーザー が既に招待されているか存在しない場合は `False` 
+<div id="arguments">
+  ##### 引数
+</div>
 
----
+<ResponseField name="username_or_email" type="str">
+  (str) 招待するユーザーのユーザー名またはメールアドレス。
+</ResponseField>
+
+<ResponseField name="admin" type="bool">
+  (bool) このユーザーをチームの管理者にするかどうか。デフォルトは `False` です。
+</ResponseField>

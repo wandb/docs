@@ -1,0 +1,22 @@
+---
+title: Op de trace dans Weave
+---
+
+```python
+'''
+Tracez n'importe quelle fonction à l'aide d'un décorateur W&B Weave
+'''
+
+# Importer W&B Weave
+import weave
+
+# Ajouter un décorateur Weave à la fonction que vous souhaitez tracer
+@weave.op
+def helloUser(name: str):
+    return "Hello, " + name
+
+# Initialiser Weave avec les noms de votre équipe et de votre projet
+weave.init('your-team-name/your-project-name')
+
+print(helloUser('<your-name>'))
+```

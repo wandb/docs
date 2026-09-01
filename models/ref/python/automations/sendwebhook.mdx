@@ -1,44 +1,79 @@
 ---
 title: SendWebhook
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.actions
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-## <kbd>class</kbd> `SendWebhook`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L182" />
+
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendWebhook
+
+
+
 Defines an automation action that sends a webhook request.
 
 
-### <kbd>method</kbd> `SendWebhook.__init__`
 
 ```python
-__init__(
-    integration_id: 'str',
-    request_payload: 'Annotated | None' = None,
-    action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
-) → None
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
+action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-**Args:**
- 
- - `integration_id` (str): The ID of the webhook integration that will be used to send the request.
- - `request_payload` (Optional[Annotated]): The payload, possibly with template variables, to send in the webhook request.
- - `action_type` (Literal[GENERIC_WEBHOOK]): 
+## Args
 
-**Returns:**
- An `SendWebhook` object.
+<ResponseField name="integration_id" type="Annotated">
+The ID of the webhook integration that will be used to send the request.
+</ResponseField>
 
-### <kbd>classmethod</kbd> `SendWebhook.from_integration`
+<ResponseField name="requestPayload" type="Optional">
+The payload, possibly with template variables, to send in the webhook request.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
+
+
+## Methods
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> SendWebhook.from_integration()
 
 ```python
-from_integration(
-    integration: 'WebhookIntegration',
-    payload: 'Optional[JsonEncoded[dict[str, Any]]]' = None
-) → Self
+integration: 'WebhookIntegration', *,
+payload: 'JsonEncoded[dict[str, Any]] | None' = None
 ```
 
 Define a webhook action that sends to the given (webhook) integration.
+
+##### Arguments
+
+<ResponseField name="integration" type="WebhookIntegration">
+No description provided.
+</ResponseField>
+
+<ResponseField name="payload" type="JsonEncoded[dict[str, Any]] | None">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
+

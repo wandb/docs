@@ -1,0 +1,885 @@
+---
+title: "WeaveAdkPlugin"
+description: "TypeScript SDK リファレンス"
+---
+
+Weave の agents パイプラインで、ランナーの invocation、エージェントの run、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
+
+構造的に `BasePlugin` の完全なサーフェスを実装しています。ADK の PluginManager はすべてのコールバックを呼び出すため、no-op のコールバックであっても、すべて定義されています。ADK は `undefined` 以外の戻り値をショートサーキットとして扱うため、各コールバックは自身のエラーを捕捉して `undefined` を返します。
+
+定義元: [src/integrations/googleAdk.ts:589](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L589)
+
+<div id="implements">
+  ## 実装
+</div>
+
+* `BasePlugin`
+
+<div id="constructors">
+  ## コンストラクター
+</div>
+
+<div id="constructor">
+  ### コンストラクター
+</div>
+
+> **new WeaveAdkPlugin**(): `WeaveAdkPlugin`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`WeaveAdkPlugin`
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+<div id="name">
+  ### 名
+</div>
+
+> `readonly` **名**: `"weave"` = `WEAVE_ADK_PLUGIN_NAME`
+
+定義元: [src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.name`
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="afteragentcallback">
+  ### afterAgentCallback()
+</div>
+
+> **afterAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+エージェントの主要なロジックの完了後に実行されるコールバックです。
+
+このコールバックを使用して、返される前にエージェントの最終結果を検査、ログする、または変更できます。
+
+定義元: [src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="agent">
+  ###### エージェント
+</div>
+
+`BaseAgent`
+
+直前に実行されたエージェントです。
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+エージェントの invocation コンテキストです。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+任意の `Content` オブジェクトです。値を返した場合、
+エージェントの元の結果が置き換えられます。`undefined` を返した場合は、
+変更されていない元の結果が使用されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.afterAgentCallback`
+
+***
+
+<div id="aftercontextcompaction">
+  ### afterContextCompaction()
+</div>
+
+> **afterContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+
+コンテキストの圧縮後に実行されるコールバックです。
+
+このコールバックにより、圧縮後のコンテキストを
+確認できます。
+
+定義元: [src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="_params">
+  ##### _params
+</div>
+
+`unknown`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.afterContextCompaction`
+
+***
+
+<div id="aftermodelcallback">
+  ### afterModelCallback()
+</div>
+
+> **afterModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+モデルから応答を受信した後に実行されるコールバック。
+
+ここは、モデルの応答をログし、トークン使用量に関するメトリクスを収集し、
+生の `LlmResponse` を後処理するのに最適な場所です。
+
+定義元: [src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+現在のエージェント呼び出しのコンテキストです。
+
+<div id="llmresponse">
+  ###### llmResponse
+</div>
+
+`LlmResponse`
+
+モデルから受け取る応答オブジェクト。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+任意の値です。`undefined` 以外の値を返すと、
+フレームワークが応答を変更または置き換える場合があります。`undefined` を返すと、
+元の応答が使用されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.afterModelCallback`
+
+***
+
+<div id="afterruncallback">
+  ### afterRunCallback()
+</div>
+
+> **afterRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+ADK ランナーの run の完了後に実行されるコールバックです。
+
+ADK ライフサイクルにおける最後のコールバックであり、クリーンアップ、
+最終的なログ記録、またはレポート作成に適しています。
+
+定義元: [src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+invocation 全体のコンテキストです。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+undefined
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.afterRunCallback`
+
+***
+
+<div id="aftertoolcallback">
+  ### afterToolCallback()
+</div>
+
+> **afterToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+ツールの呼び出し後に実行されるコールバックです。
+
+このコールバックを使用すると、ツールから返された結果を検査、ログ、または変更できます。
+
+定義元: [src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="result">
+  ###### result
+</div>
+
+`Record`&lt;`string`, `unknown`&gt; | `null`
+
+ツール呼び出しによって返される辞書。
+
+<div id="tool">
+  ###### tool
+</div>
+
+`BaseTool`
+
+実行直後のツールインスタンス。
+
+<div id="toolargs">
+  ###### toolArgs
+</div>
+
+`Record`&lt;`string`, `unknown`&gt;
+
+ツールに渡された元の引数です。
+
+<div id="toolcontext">
+  ###### toolContext
+</div>
+
+`Context`
+
+ツール実行に固有のコンテキストです。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+省略可能な辞書です。辞書を返した場合、
+ツールの元の結果は**置き換えられます**。これにより、
+ツールの出力を後処理または変更できます。`undefined` を返した場合は、
+変更されていない元の結果が使用されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.afterToolCallback`
+
+***
+
+<div id="beforeagentcallback">
+  ### beforeAgentCallback()
+</div>
+
+> **beforeAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+エージェントの主要ロジックが呼び出される前に実行されるコールバックです。
+
+このコールバックは、ログ記録やセットアップ、または値を返してエージェントの
+実行を中断するために使用できます。
+
+定義元: [src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+###### agent
+
+`BaseAgent`
+
+実行されるエージェント。
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+エージェントの invocation のコンテキスト。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+省略可能な`Content`オブジェクト。値を返すと、
+エージェントのコールバックと実行をスキップして、その値が直接返されます。
+`undefined`を返すと、エージェントは通常どおり処理を続行します。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.beforeAgentCallback`
+
+***
+
+<div id="beforecontextcompaction">
+  ### beforeContextCompaction()
+</div>
+
+> **beforeContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+
+コンテキストの圧縮前に実行されるコールバックです。
+
+このコールバックを使用すると、コンテキストが圧縮される前に
+検査または変更できます。
+
+定義元: [src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="_params">
+  ##### _params
+</div>
+
+`unknown`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.beforeContextCompaction`
+
+***
+
+<div id="beforemodelcallback">
+  ### beforeModelCallback()
+</div>
+
+> **beforeModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+モデルにリクエストが送信される前に実行されるコールバックです。
+
+`LlmRequest`オブジェクトを検査、ログ、または変更できます。
+また、キャッシュされた`LlmResponse`を返すことでキャッシュを実装でき、その場合は実際のモデルの Callをスキップします。
+
+定義元: [src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+現在のエージェント呼び出しのコンテキスト。
+
+<div id="llmrequest">
+  ###### llmRequest
+</div>
+
+`LlmRequest`
+
+モデルに送信する準備が整ったリクエスト オブジェクト。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+任意の値です。`undefined` 以外の値を返すと、
+処理が早期終了し、応答が直ちに返されます。`undefined` を返すと、LLM リクエストは通常どおり続行されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.beforeModelCallback`
+
+***
+
+<div id="beforeruncallback">
+  ### beforeRunCallback()
+</div>
+
+> **beforeRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+ADK ランナーの実行前に呼び出されるコールバックです。
+
+ライフサイクルで最初に呼び出されるコールバックであり、グローバルな
+セットアップや初期化タスクに適しています。
+
+定義元: [src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+セッション情報、ルートエージェントなどを含む、invocation 全体のコンテキストです。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+ADK に返す任意の `Event`。値を返すと、
+ランナーの実行が停止され、そのイベントでランナーが終了します。
+通常どおり続行するには `undefined` を返します。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.beforeRunCallback`
+
+***
+
+<div id="beforetoolcallback">
+  ### beforeToolCallback()
+</div>
+
+> **beforeToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+ツールが呼び出される前に実行されるコールバックです。
+
+このコールバックは、ツールの使用状況のログ記録、入力の検証、またはツールに渡す前の引数の変更に役立ちます。
+
+定義元: [src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="tool">
+  ###### tool
+</div>
+
+`BaseTool`
+
+これから実行されるツールインスタンス。
+
+<div id="toolargs">
+  ###### toolArgs
+</div>
+
+`Record`&lt;`string`, `unknown`&gt;
+
+ツールの呼び出しに使用する引数の辞書。
+
+<div id="toolcontext">
+  ###### toolContext
+</div>
+
+`Context`
+
+ツール実行に固有のコンテキスト。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+任意の辞書です。辞書が返された場合、
+ツール実行を停止し、この応答を直ちに返します。
+`undefined` を返すと、元の未変更の引数が使用されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.beforeToolCallback`
+
+***
+
+<div id="beforetoolselection">
+  ### beforeToolSelection()
+</div>
+
+> **beforeToolSelection**(`_params`): `Promise`&lt;`undefined`&gt;
+
+ツールが選択される前に実行されるコールバックです。
+
+このコールバックを使用すると、選択前に利用可能なツールを検査、ログ記録、または変更できます。
+
+定義元: [src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="_params">
+  ##### _params
+</div>
+
+`unknown`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+任意の値です。`undefined` 以外の値を返すと、
+フレームワークが使用可能なツールを変更または置き換えることがあります。`undefined` を返すと、
+元のツールが使用されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.beforeToolSelection`
+
+***
+
+<div id="finishinterruptedinvocation">
+  ### finishInterruptedInvocation()
+</div>
+
+> **finishInterruptedInvocation**(`invocationId`): `void`
+
+`afterRunCallback` に到達しなかった run を終了処理します。ADK はイベント ループが通常どおりドレインされた場合にのみ
+`afterRunCallback` をディスパッチするため、`runAsync` を途中で抜けたコンシューマーや、
+中止された run では、その invocation (および関連するスパン) が開いたまま残ります。
+自動インストルメントされたランナー ラッパーは、これらを中断として閉じるために `finally` からこれを呼び出します。
+べき等であり、run がすでに終了している場合 (一般的な、完全に消費されたケース) には何もしません。
+
+定義元: [src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="invocationid">
+  ##### invocationId
+</div>
+
+`string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`void`
+
+***
+
+<div id="oneventcallback">
+  ### onEventCallback()
+</div>
+
+> **onEventCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+ランナーからイベントが生成された後に実行されるコールバックです。
+
+基盤となるエージェントアプリでイベントが処理される前に、
+イベントに変更を加えるのに最適な場所です。
+
+定義元: [src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="event">
+  ###### イベント
+</div>
+
+`Event`
+
+ランナーによって発生するイベントです。
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+invocation 全体のコンテキストです。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+省略可能な値です。`undefined` 以外の戻り値は、フレームワークが
+応答を変更または置き換えるために使用する場合があります。置き換える値を構築する際は、イベントアクションなど変更しない
+フィールドを保持するために、`params.event` をコピーしてください。`undefined` を返すと、
+元の応答が使用されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.onEventCallback`
+
+***
+
+<div id="onmodelerrorcallback">
+  ### onModelErrorCallback()
+</div>
+
+> **onModelErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+モデルの Callでエラーが発生したときに実行されるコールバックです。
+
+このコールバックでは、モデルエラーを適切に処理し、
+代替の応答や復旧手段を提供できます。
+
+定義元: [src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="callbackcontext">
+  ###### callbackContext
+</div>
+
+`Context`
+
+現在のエージェント呼び出しのコンテキスト。
+
+<div id="error">
+  ###### error
+</div>
+
+`Error`
+
+モデルの実行中に発生した例外です。
+
+<div id="llmrequest">
+  ###### llmRequest
+</div>
+
+`LlmRequest`
+
+エラー発生時にモデルへ送信されたリクエスト。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+省略可能な LlmResponse。LlmResponse が返された場合、エラーを伝播する代わりに
+それが使用されます。`undefined` を返すと、元のエラーが送出されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.onModelErrorCallback`
+
+***
+
+<div id="ontoolerrorcallback">
+  ### onToolErrorCallback()
+</div>
+
+> **onToolErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+ツール呼び出しでエラーが発生したときに実行されるコールバック。
+tool: BaseTool;
+toolArgs: Record&lt;string, unknown&gt;;
+toolContext: Context;
+result: Record&lt;string, unknown&gt;;
+&#125;): Promise&lt;Record&lt;string, unknown&gt; | undefined&gt; &#123;
+return;
+&#125;
+
+/**
+ツール呼び出しでエラーが発生したときに実行されるコールバック。
+
+このコールバックを使用すると、ツールのエラーを適切に処理し、
+代替の応答や復旧メカニズムを提供できます。
+
+定義元: [src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="params">
+  ##### params
+</div>
+
+<div id="error">
+  ###### error
+</div>
+
+`Error`
+
+ツール実行中に発生した例外です。
+
+<div id="tool">
+  ###### tool
+</div>
+
+`BaseTool`
+
+エラーが発生したツールのインスタンス。
+
+<div id="toolargs">
+  ###### toolArgs
+</div>
+
+`Record`&lt;`string`, `unknown`&gt;
+
+tool に渡された引数。
+
+<div id="toolcontext">
+  ###### toolContext
+</div>
+
+`Context`
+
+ツール実行に固有のコンテキスト。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+省略可能な辞書です。辞書を返した場合、エラーを伝播せずに
+ツールの応答として使用されます。`undefined` を返すと、元のエラーが送出されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.onToolErrorCallback`
+
+***
+
+<div id="onusermessagecallback">
+  ### onUserMessageCallback()
+</div>
+
+> **onUserMessageCallback**(`_params`): `Promise`&lt;`undefined`&gt;
+
+ユーザーメッセージを受信したときに、invocation が開始される前に実行されるコールバックです。
+
+このコールバックを使用すると、ランナーが invocation を開始する前にユーザーメッセージをログに記録したり変更したりできます。
+
+定義元: [src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<div id="_params">
+  ##### _params
+</div>
+
+<div id="invocationcontext">
+  ###### invocationContext
+</div>
+
+`InvocationContext`
+
+<div id="usermessage">
+  ###### userMessage
+</div>
+
+`Content`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`undefined`&gt;
+
+ADK に返す省略可能な `Content`。値を返すとユーザーメッセージが置き換えられ、`undefined` を返すと通常どおり処理が続行されます。
+
+<div id="implementation-of">
+  #### 実装元
+</div>
+
+`AdkBasePlugin.onUserMessageCallback`

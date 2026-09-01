@@ -1,0 +1,32 @@
+---
+title: "Pourquoi mon utilisation du stockage ne se met-elle pas à jour après la suppression de runs ?"
+keywords: ["Stockage"]
+---
+
+Votre utilisation du stockage ne se met pas à jour immédiatement après la suppression de runs, d’artifacts ou de fichiers. Lorsque vous supprimez des données depuis l’interface utilisateur ou la CLI, le backend traite la suppression en arrière-plan. Un processus de garbage collection s’exécute toutes les quelques heures, de sorte que l’espace récupéré peut mettre jusqu’à 24 heures à apparaître dans votre stockage disponible. Il s’agit du comportement attendu.
+
+Si vous avez dépassé votre limite de stockage, toute restriction d’accès est levée automatiquement dès que votre utilisation repasse sous la limite et que W&amp;B termine le traitement de la suppression. Vous n’avez rien d’autre à faire pendant le traitement.
+
+<div id="if-your-usage-still-looks-too-high">
+  ## Si votre utilisation semble toujours trop élevée
+</div>
+
+La suppression d’un run ne supprime les artifacts qu’il a enregistrés que si vous choisissez de le faire. Lorsque vous supprimez un run dans l’application W&amp;B, une invite vous demande si vous souhaitez supprimer les artifacts associés, et [`Run.delete()`](/fr/models/ref/python/public-api/run#method-run-delete) accepte un argument `delete_artifacts` dont la valeur par défaut est `False`. Voir [Supprimer des runs](/fr/models/runs/delete-runs).
+
+Les artifacts que vous conservez continuent de consommer du stockage jusqu’à ce que vous les supprimiez séparément. Un projet peut donc toujours être comptabilisé dans votre utilisation du stockage, même s’il semble ne contenir aucun fichier.
+
+Pour identifier et supprimer les données qui sont toujours comptabilisées dans votre limite :
+
+1. Vérifiez votre utilisation réelle sur la page **Gérer le stockage**, à l’adresse `https://wandb.ai/account-settings/[ENTITY]/usage/manage/`, en remplaçant `[ENTITY]` par votre équipe ou votre nom d’utilisateur. Cette page indique les projets et les runs qui consomment le plus d’espace.
+2. Pour chaque projet qui utilise plus de stockage que prévu, ouvrez l’onglet **Artifacts** du projet et supprimez les versions d&#39;artifact dont vous n’avez plus besoin. W&amp;B marque d’abord un artifact supprimé comme supprimé de manière réversible, puis récupère les fichiers sous-jacents lors de la garbage collection. Pour en savoir plus, voir [Supprimer un artifact](/fr/models/artifacts/delete-artifacts).
+3. Si la suppression simultanée d’un grand nombre de fichiers échoue ou expire, voir [Comment puis-je supprimer plusieurs artifacts à la fois ?](/fr/support/models/articles/how-do-i-delete-many-artifacts-at-once).
+
+Si votre utilisation sur la page **Gérer le stockage** est déjà inférieure à votre limite, mais que l’avertissement persiste après 24 heures, [contactez l’assistance](mailto:support@wandb.com).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Stockage](/fr/support/models/tags/storage)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}

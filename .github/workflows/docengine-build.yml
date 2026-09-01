@@ -1,0 +1,133 @@
+name: DocEngine - build - push
+
+# Thin shell for the published docengine-build action (atomic output): a
+# push touching the DocEngine source (docengine-site/) or the engine pin
+# rebuilds the site and commits the generated output back to the SAME
+# branch, so a reviewer sees the source change and its rendered effect in
+# one PR. The build/commit/comment logic lives in the submodule at
+# docengine/host-actions/docengine-build; this file owns triggers,
+# permissions, and credentials.
+#
+# Auth: the wandb-docs-pr-writer App token pushes the output commit (NOT
+# GITHUB_TOKEN, so the host's validation workflows re-trigger); the
+# bootstrap fetches the private engine submodule with DOCENGINE_TOKEN and
+# owns the single git URL rewrite rule. See .github/workflows/README.md.
+#
+# Loop safety: `on: push` only, and the output commit touches the generated
+# paths alone — disjoint from the trigger paths, so it cannot re-fire this
+# build.
+
+concurrency:
+  # A newer push cancels an in-flight build before it commits stale output.
+  group: docengine-build-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - 'docengine-site/**'
+      - 'docengine'
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Build and stage, but print instead of committing, pushing, or commenting'
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+  # For the issue-report step below (build failures file a self-managing
+  # GitHub issue).
+  issues: write
+
+jobs:
+  DocEngineBuildPush:
+    runs-on: ubuntu-latest
+
+    env:
+      # Only a manual dispatch can be dry: `inputs` is empty on push events.
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs['dry-run'] || false }}
+
+    steps:
+      # Dependabot runs cannot mint the App token: the mint is skipped, the
+      # action skips its commit and comment steps, and the bump PR gains
+      # atomic output on the first human push.
+      - name: Require app credentials
+        if: github.actor != 'dependabot[bot]'
+        run: |
+          if [ -z "${{ vars.DOCS_PR_WRITER_CLIENT_ID }}" ] || [ -z "${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}" ]; then
+            echo "::error::DOCS_PR_WRITER_CLIENT_ID (variable) and DOCS_PR_WRITER_PRIVATE_KEY (secret) must be set in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Generate token for wandb-docs-pr-writer
+        id: app_token
+        if: github.actor != 'dependabot[bot]'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # App token persists as the action's push credential; read-only
+          # fallback for dependabot runs. No `submodules:` — the bootstrap
+          # inits docengine alone (recursive would hit the unreadable
+          # .claude submodule).
+          token: ${{ steps.app_token.outputs.token || secrets.DOCENGINE_TOKEN }}
+
+      # The engine and the published build action both ship in the
+      # submodule; the bootstrap puts them on disk.
+      - name: Fetch DocEngine (engine + published build action)
+        id: bootstrap
+        uses: ./.github/actions/docengine-bootstrap
+        with:
+          read-token: ${{ secrets.DOCENGINE_TOKEN }}
+
+      # The build IS the submodule — fail loudly, not confusingly later.
+      - name: Require DocEngine
+        if: steps.bootstrap.outputs.available != 'true'
+        run: |
+          echo "::error::The site build runs the engine from the DocEngine submodule, which the bootstrap could not fetch. Check the DOCENGINE_TOKEN secret."
+          exit 1
+
+      - name: Build and commit atomic output
+        uses: ./docengine/host-actions/docengine-build
+        with:
+          push-token: ${{ steps.app_token.outputs.token }}
+          git-user-name: 'wandb-docs-pr-writer[bot]'
+          git-user-email: 'wandb-docs-pr-writer[bot]@users.noreply.github.com'
+          # Generator subtree PLUS the engine's known escapes: this site's
+          # output root is the repo root, so the committed set is enumerated
+          # — never pass a root path (see the action's commit-paths
+          # description). A bare `snippets/docengine` would silently drop
+          # the changelog write.
+          commit-paths: |
+            snippets/docengine
+            changelog.mdx
+          commit-message: 'docs: regenerate docengine snippets (atomic output)'
+          dry-run: ${{ env.DRY_RUN }}
+
+      # A failed build files ONE canonical self-managing GitHub issue,
+      # updated in place and closed by the next passing run. Not
+      # per-branch: a branch failure is already a red check on its own PR,
+      # and a per-branch item would orphan with an abandoned branch. The
+      # reporter ships in the submodule, so it can only run once the
+      # bootstrap succeeded; it uses the workflow's own token
+      # (issues: write above), so dependabot runs skip it.
+      - name: Report build result as a GitHub issue
+        if: ${{ !cancelled() && github.actor != 'dependabot[bot]' && steps.checkout.outcome == 'success' && steps.bootstrap.outputs.available == 'true' }}
+        uses: ./docengine/host-actions/issue-report
+        with:
+          ok: ${{ job.status == 'success' }}
+          summary: DocEngine build failing
+          intro-text: Automated DocEngine site build for wandb/docs (atomic output on push).
+          detail-text: The build failed on branch ${{ github.ref_name }}. See the linked run for the log.
+          run-url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          dry-run: ${{ env.DRY_RUN }}

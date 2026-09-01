@@ -1,36 +1,46 @@
 ---
-title: RAG アプリケーション の評価
-description: LLM ジャッジを用いた Weave による RAG アプリケーションの構築と評価
+title: "RAG アプリケーションを評価する"
+description: "Weave と LLM judge を使用して、RAG アプリケーションを構築・評価します"
+keywords: [検索拡張生成, LLM judge, コンテキスト適合率, Scorer, 埋め込み]
 ---
 
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prereqs.mdx";
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prereqs.mdx";
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-<ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
-<GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/tutorial-rag.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/tutorial-rag.ipynb" />
 </div>
 
-検索拡張生成 (RAG) は、カスタム知識ベースにアクセスできるジェネレーティブ AI アプリケーションを構築する一般的な手法です。
+Retrieval Augmented Generation (RAG) は、独自のナレッジベースを利用できる生成 AI アプリを構築する一般的な手法です。このチュートリアルでは、RAG アプリケーションを構築し、Weave を使用して取得ステップをトラッキングし、LLM judge を使って応答を評価する方法を説明します。これにより、アプリケーションが返す回答の品質を測定し、改善できます。
+
+このガイドは、パイプラインに可観測性と体系的な評価を追加したい、RAG アプリケーションを構築する開発者向けです。
 
 ![Evals hero](/images/evals-hero.png)
 
-## 学習内容:
+<div id="what-youll-learn">
+  ## 学べること
+</div>
 
-このガイドでは、以下の方法を説明します：
+このガイドでは、次の方法を学びます。
 
-* 知識ベースの構築
-* 関連ドキュメントを見つける検索（retrieval）ステップを含む RAG アプリケーションの作成
-* Weave を使用した検索ステップのトレース
-* LLM ジャッジ（LLM judge）を使用した RAG アプリケーションの評価によるコンテキスト精度の測定
-* カスタムスコアリング関数の定義
+* ナレッジベースを構築する。
+* 関連するドキュメントを検索する 取得 step を含む RAG アプリケーションを作成する。
+* Weave で取得 step をトラッキングする。
+* LLM judge を使って RAG アプリケーションを評価し、コンテキストの適合率を測定する。
+* カスタムのスコアリング関数を定義する。
 
-<WeaveQuickstartPrereqs/>
+<WeaveQuickstartPrereqs />
 
-## 知識ベースの構築
+<div id="build-a-knowledge-base">
+  ## ナレッジベースを構築する
+</div>
 
-まず、記事の埋め込み（embeddings）を計算します。通常、これは記事に対して一度だけ行い、埋め込みとメタデータをデータベースに保存しますが、ここでは簡略化のため、スクリプトを実行するたびに実行します。
+ナレッジベースは、RAG アプリケーションがクエリ時に検索対象とするコーパスです。このセクションでは、少数の記事に対してベクトル埋め込みを計算し、後で特定の質問に最も関連性の高い記事を取得できるようにします。
+
+まず、記事の埋め込みを計算します。通常、この処理は記事に対して一度だけ実行し、埋め込みとメタデータをデータベースに格納しますが、ここでは簡単にするため、スクリプトを実行するたびに毎回実行します。
 
 <Tabs>
   <Tab title="Python">
@@ -64,13 +74,13 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
             document_embeddings.append(response)
         return document_embeddings
 
-    # 注：通常は一度だけ実行し、埋め込みとメタデータをデータベースに保存します
-    article_embeddings = docs_to_embeddings(articles)
+    article_embeddings = docs_to_embeddings(articles) # 注: 通常、この処理は記事に対して一度だけ実行し、埋め込みとメタデータをデータベースに格納します
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -117,9 +127,13 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-## RAG アプリの作成
+<div id="create-a-rag-app">
+  ## RAG アプリを作成する
+</div>
 
-次に、検索関数 `get_most_relevant_document` を `@weave.op()` デコレータでラップし、 `Model` クラスを作成します。 `weave.init('<team-name>/rag-quickstart')` を呼び出して、後で確認できるように関数のすべての入力と出力の追跡を開始します。チーム名を指定しない場合、出力は [W&B デフォルトチームまたは Entity](/platform/app/settings-page/user-settings#default-team) に記録されます。
+ナレッジベースの準備ができたので、次は RAG アプリケーション自体を構築できます。このセクションでは、取得ステップと LLM Call を組み合わせ、さらにその両方を Weave でラップして、すべての入力と出力が自動的にトラッキングされるようにします。
+
+次に、取得関数 `get_most_relevant_document` を `weave.op()` デコレータでラップし、`Model` クラスを作成します。取得関数を `weave.op()` でラップすると、呼び出しごとにその入力と出力を Weave で取得できるようになり、後で取得ステップを確認できるようになります。`weave.init('<team-name>/rag-quickstart')` を呼び出して、後で確認できるように関数のすべての入力と出力のトラッキングを開始します。チーム名を指定しない場合、出力は [W&amp;B のデフォルト team または entity](/ja/platform/app/settings-page/user-settings#default-team) に記録されます。
 
 <Tabs>
   <Tab title="Python">
@@ -143,7 +157,7 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
             / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
             for doc_emb in article_embeddings
         ]
-        # 最も類似度の高いドキュメントのインデックスを取得
+        # 最も類似したドキュメントのインデックスを取得する
         most_relevant_doc_index = np.argmax(similarities)
         return articles[most_relevant_doc_index]
 
@@ -173,18 +187,19 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
             )
             answer = response.choices[0].message.content
             return {'answer': answer, 'context': context}
-    
-    # チーム名とプロジェクト名を設定します
+
+    # team 名と project 名を設定します
     weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
         system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
     )
     model.predict("What significant result was reported about Zealand Pharma's obesity trial?")
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     class RAGModel {
         private openai: OpenAI;
         private systemMessage: string;
@@ -233,13 +248,19 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-## LLM ジャッジによる評価
+<div id="evaluate-with-an-llm-judge">
+  ## LLM judge を用いた評価
+</div>
 
-アプリケーションを評価するための単純な方法がない場合、一つのアプローチとして LLM を使用してその側面を評価することが挙げられます。ここでは、LLM ジャッジを使用して、与えられた回答に到達する際にコンテキストが有用であったかどうかを確認するようにプロンプトを出すことで、コンテキスト精度（context precision）を測定する例を示します。このプロンプトは、人気の高い [RAGAS フレームワーク](https://docs.ragas.io/) から着想を得たものです。
+RAG アプリケーションが実行され、Weave でトラッキングされるようになったら、次のステップは、質問にどの程度適切に回答できるかを評価することです。このセクションでは、LLM を自動 judge として使用し、ラベルを手作業で作成することなくアプリケーションの応答をスコアリングする方法を示します。
 
-### スコアリング関数の定義
+アプリケーションを評価する簡単な方法がない場合、1 つの方法として、LLM を使ってそのいくつかの側面を評価できます。以下は、与えられた回答にたどり着くうえでコンテキストが有用だったかを検証するよう LLM judge に促し、コンテキストの適合率を測定しようとする例です。このプロンプトは、広く使われている [RAGAS フレームワーク](https://docs.ragas.io/en/stable/) をもとに拡張したものです。
 
-[評価パイプラインの構築チュートリアル](/weave/tutorial-eval) と同様に、アプリをテストするための一連のサンプル行とスコアリング関数を定義します。スコアリング関数は 1 つの行を受け取り、それを評価します。入力引数は行の辞書内の対応するキーと一致させる必要があるため、ここでの `question` は辞書から取得されます。 `output` はモデルの出力です。モデルへの入力は、その入力引数に基づいてサンプルから取得されるため、ここでも `question` になります。この例では、並列で高速に実行するために `async` 関数を使用しています。非同期（async）についての簡単な紹介が必要な場合は、[こちら](https://docs.python.org/3/library/asyncio.html) を参照してください。
+<div id="define-a-scoring-function">
+  ### スコアリング関数を定義する
+</div>
+
+[Build an Evaluation pipeline tutorial](/ja/weave/tutorial-eval) と同様に、アプリをテストするためのサンプル行のセットとスコアリング関数を定義します。スコアリング関数は 1 行を受け取り、それを評価します。入力引数は行内の対応するキーと一致している必要があるため、ここでの `question` は行の辞書から取得されます。`output` はモデルの出力です。モデルへの入力も、その入力引数に基づいてサンプルから取得されるため、ここでの `question` も同様です。この例では `async` 関数を使用しているので、並列に実行できます。`async` の簡単な入門については、[Python `asyncio` ドキュメント](https://docs.python.org/3/library/asyncio.html) を参照してください。
 
 <Tabs>
   <Tab title="Python">
@@ -286,12 +307,13 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
         {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
     ]
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
-    asyncio.run(evaluation.evaluate(model)) # 注: 評価対象のモデルを定義する必要があります
+    asyncio.run(evaluation.evaluate(model)) # 注: 評価するモデルを定義する必要があります
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     const contextPrecisionScore = weave.op(async function(args: {
         datasetRow: QuestionRow;
         modelOutput: { answer: string; context: string; }
@@ -326,18 +348,22 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-### オプション: `Scorer` クラスの定義
+<div id="optional-define-a-scorer-class">
+  ### 任意: `Scorer` クラスを定義する
+</div>
 
-一部のアプリケーションでは、カスタム評価クラスを作成したい場合があります。例えば、特定のパラメータ（チャットモデル、プロンプトなど）、各行の特定のスコアリング、および集計スコアの特定の計算を備えた標準化された `LLMJudge` クラスを作成する場合などです。Weave はすぐに使用できる `Scorer` クラスのリストを定義しており、カスタム `Scorer` の作成も容易にしています。次の例は、カスタム `class CorrectnessLLMJudge(Scorer)` を作成する方法を示しています。
+前のセクションのスコアリング関数はシンプルなケースではうまく機能しますが、同じ judge を複数の評価で再利用したい場合や、スコアの集計方法をカスタマイズしたい場合には、`Scorer` クラスが役立ちます。以下の手順では、どのような場合に定義すべきかと、その方法を示します。
 
-ハイレベルな手順として、カスタム Scorer の作成は非常にシンプルです：
+アプリケーションによっては、カスタム評価クラスを作成したい場合があります。たとえば、チャットモデルやプロンプトなどのパラメーターを持つ標準化済みの `LLMJudge` クラス、各行に対するカスタムスコアリング、集計スコアのカスタム計算を作成したいことがあります。Weave にはそのまま使用できる `Scorer` クラスがいくつか用意されており、カスタム `Scorer` も簡単に作成できます。以下の例では、カスタム `class CorrectnessLLMJudge(Scorer)` を作成する方法を示します。
 
-1. `weave.flow.scorer.Scorer` を継承するカスタムクラスを定義する
-2. `score` 関数をオーバーライドし、関数の各呼び出しを追跡したい場合は `@weave.op()` を追加する
-   - この関数は、モデルの予測が渡される `output` 引数を定義する必要があります。モデルが "None" を返す可能性がある場合に備えて、 `Optional[dict]` 型として定義します。
-   - その他の引数は、一般的な `Any` や `dict` にすることも、 `weave.Evaluate` クラスを使用してモデルを評価するために使用されるデータセットから特定の列を選択することもできます。これらは、 `preprocess_model_input` が使用されている場合は、それが適用された後の 1 行の列名またはキーと完全に一致している必要があります。
-3. _（任意）:_ 集計スコアの計算をカスタマイズするには、 `summarize` 関数をオーバーライドします。カスタム関数を定義しない場合、デフォルトで Weave は `weave.flow.scorer.auto_summarize` 関数を使用します。
-   - この関数には `@weave.op()` デコレータが必要です。
+大まかには、カスタム Scorer を作成する手順は次のとおりです。
+
+1. `weave.flow.scorer.Scorer` を継承するカスタムクラスを定義します。
+2. `score` 関数をオーバーライドし、関数の各 call をトラッキングしたい場合は `@weave.op()` を追加します。
+   * この関数では、モデルの予測結果が渡される `output` 引数を定義する必要があります。モデルが &quot;None&quot; を返す場合に備えて、タイプ `Optional[dict]` として定義してください。
+   * 残りの引数は、汎用的な `Any` または `dict` にすることも、`weave.Evaluate` クラスを使用してモデルを評価する際に使うデータセットから特定の列を選ぶこともできます。`preprocess_model_input` を使用する場合、これらの引数名は、その処理後の単一行の列名またはキーと完全に一致している必要があります。
+3. 任意: `summarize` 関数をオーバーライドして、集計スコアの計算をカスタマイズします。デフォルトでは、カスタム関数を定義しない場合、Weave は `weave.flow.scorer.auto_summarize` 関数を使用します。
+   * この関数には `@weave.op()` デコレーターが必要です。
 
 <Tabs>
   <Tab title="Python">
@@ -351,21 +377,21 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
 
         @weave.op()
         async def score(self, output: Optional[dict], query: str, answer: str) -> Any:
-            """pred、query、target を比較して予測の正しさをスコアリングします。
-            引数:
-                - output: 評価されるモデルから提供される辞書
-                - query: 質問内容 - データセットで定義
-                - answer: 正解の回答 - データセットで定義
-            戻り値:
-                - 単一の辞書 {メトリクス名: 単一の評価値}"""
+            """pred、query、target を比較して予測の正確性をスコアリングします。
+            Args:
+                - output: 評価対象のモデルから提供される dict
+                - query: データセットで定義された質問
+                - answer: データセットで定義された正解
+            Returns:
+                - 単一の dict {メトリクス名: 単一の評価値}"""
 
-            # get_model は、提供されたパラメータ (OpenAI, HF...) に基づく一般的なモデル取得用として定義されています
+            # get_model は、指定したパラメーターに基づいてモデルを取得する汎用関数として定義されています (OpenAI、HF など)
             eval_model = get_model(
                 model_name = self.model_name,
                 prompt = self.prompt
                 device = self.device,
             )
-            # 評価を高速化するための非同期評価 - これは必ずしも async である必要はありません
+            # 評価を高速化するための非同期評価です。async である必要はありません
             grade = await eval_model.async_predict(
                 {
                     "query": query,
@@ -373,7 +399,7 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
                     "result": output.get("result"),
                 }
             )
-            # 出力のパース - pydantic を使用するとより堅牢に行えます
+            # 出力のパース。pydantic を使うと、より堅牢に実装できます
             evaluation = "incorrect" not in grade["text"].strip().lower()
 
             # Weave に表示される列名
@@ -382,12 +408,12 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
         @weave.op()
         def summarize(self, score_rows: list) -> Optional[dict]:
             """スコアリング関数によって各行に対して計算されたすべてのスコアを集計します。
-            引数:
-                - score_rows: 辞書のリスト。各辞書にはメトリクスとスコアが含まれます
-            戻り値:
-                - 入力と同じ構造のネストされた辞書"""
+            Args:
+                - score_rows: dict のリスト。各 dict はメトリクスとスコアを持ちます
+            Returns:
+                - 入力と同じ構造のネストされた dict"""
 
-            # 何も提供されない場合は weave.flow.scorer.auto_summarize 関数が使用されます
+            # 何も指定しない場合は weave.flow.scorer.auto_summarize 関数が使用されます
             # return auto_summarize(score_rows)
 
             valid_data = [x.get("correct") for x in score_rows if x.get("correct") is not None]
@@ -398,7 +424,7 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
             sample_variance = np.var(int_data) if int_data else 0
             sample_error = np.sqrt(sample_variance / len(int_data)) if int_data else 0
 
-            # 余分な "correct" レイヤーは必須ではありませんが、UI に構造を追加します
+            # 追加の "correct" レイヤーは必須ではありませんが、UI に構造を持たせられます
             return {
                 "correct": {
                     "true_count": count_true,
@@ -407,16 +433,16 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
                 }
             }
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
     ```plaintext
-    この機能は TypeScript ではまだ利用できません。
+    この機能はまだ TypeScript では利用できません。
     ```
   </Tab>
 </Tabs>
 
-これを scorer として使用するには、初期化して `Evaluation` の `scorers` 引数に次のように渡します：
+これを Scorer として使用するには、初期化してから、次のように `Evaluation` の `scorers` 引数に渡します。
 
 <Tabs>
   <Tab title="Python">
@@ -424,26 +450,31 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
     evaluation = weave.Evaluation(dataset=questions, scorers=[CorrectnessLLMJudge()])
     ```
   </Tab>
+
   <Tab title="TypeScript">
     ```plaintext
-    この機能は TypeScript ではまだ利用できません。
+    この機能はまだ TypeScript では利用できません。
     ```
   </Tab>
 </Tabs>
 
-## 全体のまとめ
+<div id="put-it-all-together">
+  ## まとめ
+</div>
 
-RAG アプリで同様の結果を得るためには：
+このセクションでは、前のステップの内容をすべて 1 つのエンドツーエンドの例にまとめ、各要素がどのように連携するのかを確認し、それらをご自身の RAG アプリケーションに合わせて調整できるようにします。
 
-- LLM 呼び出しと検索ステップ関数を `weave.op()` でラップする
-- (任意) `predict` 関数とアプリの詳細を含む `Model` サブクラスを作成する
-- 評価用のサンプルを収集する
-- 1 つのサンプルをスコアリングするスコアリング関数を作成する
-- `Evaluation` クラスを使用して、サンプルに対して評価を実行する
+RAG アプリケーションで同じ結果を得るには、次のようにします。
 
-**注意:** Evaluations の非同期実行により、OpenAI や Anthropic などのモデルのレートリミットが発生することがあります。これを防ぐために、環境変数を設定して並列ワーカーの数を制限できます（例： `WEAVE_PARALLELISM=3`）。
+* LLM Call と取得ステップの関数を `weave.op()` でラップします。
+* オプション: `predict` 関数とアプリケーションの詳細を含む `Model` のサブクラスを作成します。
+* 評価用の例を収集します。
+* 1 つの例をスコアリングする評価関数を作成します。
+* `Evaluation` クラスを使用して、例に対する評価を実行します。
 
-以下にコードの全容を示します。
+**注:** `Evaluation` の非同期実行により、OpenAI や Anthropic などのモデルで rate limit に達することがあります。これを防ぐには、たとえば `WEAVE_PARALLELISM=3` のように、並列ワーカー数を制限する環境変数を設定できます。
+
+コード全体は次のとおりです。
 
 <Tabs>
   <Tab title="Python">
@@ -478,10 +509,9 @@ RAG アプリで同様の結果を得るためには：
             document_embeddings.append(response)
         return document_embeddings
 
-    # 注：通常は記事に対して一度だけ実行し、埋め込みとメタデータをデータベースに保存します
-    article_embeddings = docs_to_embeddings(articles)
+    article_embeddings = docs_to_embeddings(articles) # 注意: 通常、この処理は記事に対して一度だけ実行し、埋め込みとメタデータをデータベースに格納します
 
-    # 検索ステップにデコレータを追加
+    # 検索ステップにデコレーターを追加する
     @weave.op()
     def get_most_relevant_document(query):
         openai = OpenAI()
@@ -495,17 +525,17 @@ RAG アプリで同様の結果を得るためには：
             / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
             for doc_emb in article_embeddings
         ]
-        # 最も類似したドキュメントのインデックスを取得
+        # 最も類似したドキュメントのインデックスを取得する
         most_relevant_doc_index = np.argmax(similarities)
         return articles[most_relevant_doc_index]
 
-    # アプリの詳細と、レスポンスを生成する predict 関数を持つ Model サブクラスを作成
+    # アプリの詳細を含む Model サブクラスと、レスポンスを生成する predict 関数を作成する
     class RAGModel(Model):
         system_message: str
         model_name: str = "gpt-3.5-turbo-1106"
 
         @weave.op()
-        def predict(self, question: str) -> dict: # 注: `question` は後で評価行からデータを選択するために使用されます
+        def predict(self, question: str) -> dict: # 注意: `question` は後で評価行からデータを選択するために使用されます
             from openai import OpenAI
             context = get_most_relevant_document(question)
             client = OpenAI()
@@ -527,13 +557,13 @@ RAG アプリで同様の結果を得るためには：
             answer = response.choices[0].message.content
             return {'answer': answer, 'context': context}
 
-    # チーム名とプロジェクト名を設定
+    # チームとプロジェクト名を設定する
     weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
         system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
     )
 
-    # 質問と出力を使用してスコアを生成するスコアリング関数
+    # スコアリング関数は question と output を使用してスコアを生成します
     @weave.op()
     async def context_precision_score(question, output):
         context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
@@ -572,14 +602,15 @@ RAG アプリで同様の結果を得るためには：
         {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
     ]
 
-    # Evaluation オブジェクトを定義し、スコアリング関数と一緒にサンプルの質問を渡す
+    # Evaluation オブジェクトを定義し、サンプルの質問とスコアリング関数を渡す
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
     asyncio.run(evaluation.evaluate(model))
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript twoslash lines
+    // @noErrors
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -732,7 +763,7 @@ RAG アプリで同様の結果を得るためには：
     });
 
     async function main() {
-        // チーム名とプロジェクト名を設定
+        # チームとプロジェクト名を設定する
         await weave.init('<team-name>/rag-quickstart');
         
         const articleEmbeddings = await docsToEmbeddings(articles);
@@ -763,10 +794,14 @@ RAG アプリで同様の結果を得るためには：
   </Tab>
 </Tabs>
 
-## 結論
+<div id="put-it-all-together">
+  ## まとめ
+</div>
 
-このチュートリアルでは、この例の検索ステップのように、アプリケーションのさまざまなステップにオブザーバビリティを構築する方法を説明しました。また、アプリケーションのレスポンスを自動的に評価するための LLM ジャッジのような、より複雑なスコアリング関数を構築する方法も学びました。
+このチュートリアルでは、この例の取得 step のように、アプリケーションのさまざまな step に可観測性を組み込む方法を紹介しました。また、アプリケーションの応答を自動的に評価するために、LLM judge のような、より複雑なスコアリング関数を構築する方法も学びました。
 
-## 次のステップ
+<div id="next-steps">
+  ## 次のステップ
+</div>
 
-エンジニア向けの実践的な RAG テクニックをより深く学ぶには、[RAG++ コース](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) をチェックしてください。Weights & Biases、Cohere、Weaviate によるプロダクション対応のソリューションを学び、パフォーマンスの最適化、コスト削減、アプリケーションの精度と関連性の向上を実現する方法を習得できます。
+エンジニア向けの実践的なRAG手法をさらに深く学ぶには、[RAG++ course](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs\&utm_medium=code\&utm_campaign=weave_docs)をご覧ください。W&amp;B、Cohere、Weaviateが提供する本番運用対応のソリューションを通じて、パフォーマンスの最適化、コスト削減、アプリケーションの精度と関連性の向上に役立つ知見を学べます。

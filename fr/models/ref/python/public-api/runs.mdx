@@ -1,0 +1,138 @@
+---
+title: Runs
+kind: classe
+namespace: wandb.apis.public.runs
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Runs
+
+Un itérateur paresseux d’objets `Run` associé à un projet et à un filtre facultatif.
+
+Les runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
+
+Cet objet est généralement utilisé indirectement via l’espace de noms `Api.runs`.
+
+```python
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+filters: 'dict[str, Any] | None' = None,
+order: 'str' = '+created_at',
+per_page: 'int' = 50,
+include_sweeps: 'bool' = False,
+lazy: 'bool' = True,
+api_key: 'str | None' = None)
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="service_api" type="ServiceApi">
+  L’API de service à utiliser pour les requêtes.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  Le nom du projet depuis lequel récupérer les runs.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  Filtres à appliquer à la requête de runs.
+</ResponseField>
+
+<ResponseField name="order" type="str">
+  L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`. Si l’ordre est précédé de `+`, le tri est croissant (par défaut). Si l’ordre est précédé de `-`, le tri est décroissant. Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Le nombre de runs à récupérer par requête (50 par défaut).
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  Indique s’il faut différer le chargement des champs volumineux (`config`, `summaryMetrics`, `systemMetrics`) jusqu’à ce qu’ils soient consultés. La valeur par défaut est `True`.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  Aucune description fournie.
+</ResponseField>
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.histories()
+
+```python
+self,
+samples: 'int' = 500,
+keys: 'list[str] | None' = None,
+x_axis: 'str' = '_step',
+format: "Literal['default', 'pandas', 'polars']" = 'default',
+stream: "Literal['default', 'system']" = 'default'
+```
+
+Renvoie des métriques d’historique échantillonnées pour tous les runs qui satisfont aux conditions des filtres.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="samples" type="int">
+  Nombre d’échantillons à renvoyer par run
+</ResponseField>
+
+<ResponseField name="keys" type="list[str] | None">
+  Renvoyer uniquement les métriques associées à des clés spécifiques
+</ResponseField>
+
+<ResponseField name="x_axis" type="str">
+  Utiliser cette métrique comme axe des x ; la valeur par défaut est &#95;step
+</ResponseField>
+
+<ResponseField name="format" type="Literal['default', 'pandas', 'polars']">
+  Format de renvoi des données : « default », « pandas » ou « polars »
+</ResponseField>
+
+<ResponseField name="stream" type="Literal['default', 'system']">
+  « default » pour les métriques, « system » pour les métriques système
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
+
+```python
+self
+```
+
+Renvoyer l’élément suivant de l’itérateur. S’il n’y en a plus, lever StopIteration
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
+
+```python
+self
+```
+
+Mettez à jour les variables de la requête pour récupérer la page suivante.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.upgrade_to_full()
+
+```python
+self
+```
+
+Met à niveau cette collection de Runs du mode paresseux au mode complet.
+
+Bascule vers la récupération des données complètes des runs et
+met à niveau tous les objets Run déjà chargés afin qu&#39;ils contiennent l&#39;ensemble des données.
+Utilise le chargement en parallèle pour de meilleures performances lors de la mise à niveau de plusieurs runs.

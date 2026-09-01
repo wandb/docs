@@ -1,0 +1,985 @@
+---
+title: "Journaliser des données d'évaluation depuis votre code"
+description: "Façon flexible et incrémentielle de journaliser des données d'évaluation à partir de code Python et TypeScript"
+keywords: ["EvaluationLogger", "log_prediction", "log_score", "évaluation incrémentielle", "journalisation de médias enrichis"]
+---
+
+Ce guide vous montre comment utiliser `EvaluationLogger` pour enregistrer des prédictions et des scores depuis votre code Python ou TypeScript existant, afin d&#39;évaluer les performances du modèle dans Weave sans devoir d&#39;abord définir un `Dataset` complet et une suite d&#39;évaluateurs. Utilisez cette approche lorsque votre jeu de données ou vos évaluateurs ne sont pas définis à l&#39;avance, ou lorsque vous devez journaliser les données d&#39;évaluation de façon incrémentielle pendant l&#39;exécution de votre flux de travail.
+
+Contrairement à l&#39;objet `Evaluation` standard, qui nécessite un `Dataset` prédéfini et une liste d&#39;objets `Scorer`, `EvaluationLogger` vous permet de journaliser des prédictions individuelles et les scores associés de façon incrémentielle, à mesure qu&#39;ils deviennent disponibles.
+
+<Info>
+  **Vous préférez une évaluation plus structurée ?**
+
+  Si vous préférez un framework d&#39;évaluation plus prescriptif avec des jeux de données et des évaluateurs prédéfinis, Voir [le framework `Evaluation` standard](../core-types/evaluations).
+
+  `EvaluationLogger` offre de la flexibilité, tandis que le framework standard apporte structure et orientation.
+</Info>
+
+<div id="basic-workflow">
+  ## Flux de travail de base
+</div>
+
+En suivant ces étapes, vous enregistrez une évaluation complète dans Weave, avec des scores par prédiction et une synthèse agrégée que vous pouvez consulter dans l’interface Weave.
+
+1. *Initialisez le logger :* Créez une instance de `EvaluationLogger`, en fournissant éventuellement des métadonnées sur le `modèle` et le `jeu de données`. Weave utilise les valeurs par défaut si vous les omettez.
+   <Note>
+     Pour capturer l’utilisation des jetons et le coût des appels LLM (par exemple, OpenAI), initialisez `EvaluationLogger` avant toute invocation de LLM.
+     Si vous appelez d’abord votre LLM, puis journalisez les prédictions ensuite, Weave ne capture pas les données de jeton et de coût.
+   </Note>
+2. *Journalisez les prédictions :* Appelez `log_prediction()` pour chaque paire d’entrée et de sortie de votre système.
+3. *Journalisez les scores :* Utilisez le `ScoreLogger` renvoyé pour appeler `log_score()` pour la prédiction. Plusieurs scores par prédiction sont pris en charge.
+4. *Terminez la prédiction :* Appelez toujours `finish()` après avoir journalisé les scores d’une prédiction afin de la finaliser.
+5. *Journalisez la synthèse :* Une fois toutes les prédictions traitées, appelez `log_summary()` pour agréger les scores et ajouter des métriques personnalisées facultatives.
+
+<Warning>
+  Après avoir appelé `finish()` sur une prédiction, il n’est plus possible d’y journaliser d’autres scores.
+</Warning>
+
+Pour voir un exemple Python illustrant ce flux de travail, consultez le [Exemple de base](#basic-example). Si la sortie et tous les scores sont disponibles immédiatement, les utilisateurs Python peuvent combiner les étapes 2 à 4 en un appel unique à l’aide de [`log_example()`](#simplified-logging-with-log_example).
+
+<div id="basic-example">
+  ## Exemple de base
+</div>
+
+L’exemple suivant montre comment utiliser `EvaluationLogger` pour journaliser les prédictions et les scores directement dans votre code existant. Remplacez `[YOUR-TEAM]/[YOUR-PROJECT]` par votre entité et votre projet W&amp;B.
+
+<Tabs>
+  <Tab title="Python">
+    La fonction `user_model` est définie puis appliquée à une liste d’entrées. Pour chaque exemple :
+
+    * L’entrée et la sortie sont enregistrées à l’aide de `log_prediction`.
+    * Un score de correction (`correctness_score`) est enregistré via `log_score`.
+    * `finish()` finalise l’enregistrement pour cette prédiction.
+
+    Enfin, `log_summary` enregistre les métriques agrégées et déclenche la synthèse automatique des scores dans Weave.
+
+    ```python lines
+    import weave
+    from openai import OpenAI
+    from weave import EvaluationLogger
+
+    weave.init('[YOUR-TEAM]/[YOUR-PROJECT]')
+
+    # Initialiser EvaluationLogger AVANT d'appeler le modèle pour garantir le suivi des jetons
+    eval_logger = EvaluationLogger(
+        model="my_model",
+        dataset="my_dataset"
+    )
+
+    # Exemple de données d'entrée (peut être n'importe quelle structure de données)
+    eval_samples = [
+        {'inputs': {'a': 1, 'b': 2}, 'expected': 3},
+        {'inputs': {'a': 2, 'b': 3}, 'expected': 5},
+        {'inputs': {'a': 3, 'b': 4}, 'expected': 7},
+    ]
+
+    # Exemple de logique de modèle avec OpenAI
+    @weave.op
+    def user_model(a: int, b: int) -> int:
+        oai = OpenAI()
+        response = oai.chat.completions.create(
+            messages=[{"role": "user", "content": f"What is {a}+{b}?"}],
+            model="gpt-4o-mini"
+        )
+        # Utiliser la réponse d'une façon ou d'une autre (ici on retourne simplement a + b pour simplifier)
+        return a + b
+
+    # Itérer sur les exemples, effectuer des prédictions et journaliser
+    for sample in eval_samples:
+        inputs = sample["inputs"]
+        model_output = user_model(**inputs) # Passer les entrées en tant que kwargs
+
+        # Journaliser l'entrée et la sortie de la prédiction
+        prediction = eval_logger.log_prediction(
+            inputs=inputs,
+            output=model_output
+        )
+
+        # Calculer et journaliser un score pour cette prédiction
+        expected = sample["expected"]
+        correctness_score = model_output == expected
+        prediction.log_score(
+            scorer="correctness", # Nom simple du scorer sous forme de chaîne
+            score=correctness_score
+        )
+
+        # Finaliser la journalisation pour cette prédiction spécifique
+        prediction.finish()
+
+    # Journaliser une synthèse finale pour l'ensemble de l'évaluation.
+    # Weave agrège automatiquement les scores 'correctness' journalisés ci-dessus.
+    summary_stats = {"subjective_overall_score": 0.8}
+    eval_logger.log_summary(summary_stats)
+
+    print("Evaluation logging complete. View results in the Weave UI.")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    Le SDK TypeScript propose deux modèles d’API :
+
+    * **API fire-and-forget (recommandée dans la plupart des cas)** : utilisez `logPrediction()` sans `await` pour une journalisation synchrone et non bloquante.
+    * **API avec attente** : utilisez `logPredictionAsync()` avec `await` lorsque vous devez vous assurer que les opérations sont terminées avant de continuer.
+
+    Utilisez fire-and-forget dans les cas suivants :
+
+    * **Débit élevé** : traitez plusieurs prédictions en parallèle sans attendre chaque opération de journalisation.
+    * **Modification minimale du code** : ajoutez la journalisation de l’évaluation sans restructurer votre flux async/await existant.
+    * **Simplicité** : moins de code passe-partout et une syntaxe plus claire pour la plupart des scénarios d’évaluation.
+
+    Le modèle fire-and-forget est sûr, car `logSummary()` attend automatiquement la fin de toutes les opérations en attente avant d’agréger les résultats.
+
+    L’exemple suivant évalue les prédictions d’un modèle avec le modèle fire-and-forget. Il configure un journal d’évaluation, exécute un modèle sur trois échantillons de test, puis journalise la prédiction sans utiliser await :
+
+    ```typescript twoslash lines {36,50}
+    // @noErrors
+    import weave, {EvaluationLogger} from 'weave';
+    import OpenAI from 'openai';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    // Initialiser EvaluationLogger AVANT d'appeler le modèle pour garantir le suivi des jetons
+    const evalLogger = new EvaluationLogger({
+      name: 'my-eval',
+      model: 'my_model',
+      dataset: 'my_dataset'
+    });
+
+    // Exemples de données d'entrée
+    const evalSamples = [
+      {inputs: {a: 1, b: 2}, expected: 3},
+      {inputs: {a: 2, b: 3}, expected: 5},
+      {inputs: {a: 3, b: 4}, expected: 7},
+    ];
+
+    // Exemple de logique de modèle avec OpenAI
+    const userModel = weave.op(async function userModel(a: number, b: number): Promise<number> {
+      const oai = new OpenAI();
+      const response = await oai.chat.completions.create({
+        messages: [{role: 'user', content: `What is ${a}+${b}?`}],
+        model: 'gpt-4o-mini'
+      });
+      return a + b;
+    });
+
+    // Itérer sur les exemples, effectuer des prédictions et journaliser avec le modèle fire-and-forget
+    for (const sample of evalSamples) {
+      const {inputs} = sample;
+      const modelOutput = await userModel(inputs.a, inputs.b);
+
+      // Fire-and-forget : aucun await nécessaire pour logPrediction
+      const prediction = evalLogger.logPrediction(inputs, modelOutput);
+
+      // Calculer et journaliser un score pour cette prédiction
+      const correctnessScore = modelOutput === sample.expected;
+
+      // Fire-and-forget : aucun await nécessaire pour logScore
+      prediction.logScore('correctness', correctnessScore);
+
+      // Fire-and-forget : aucun await nécessaire pour finish
+      prediction.finish();
+    }
+
+    // logSummary attend en interne la fin de toutes les opérations en attente
+    const summaryStats = {subjective_overall_score: 0.8};
+    await evalLogger.logSummary(summaryStats);
+
+    console.log('Evaluation logging complete. View results in the Weave UI.');
+    ```
+
+    Utilisez l’API awaitable lorsque vous devez vous assurer que chaque opération est terminée avant de continuer, par exemple pour la gestion des erreurs ou des dépendances séquentielles.
+
+    Dans l’exemple suivant, au lieu d’appeler `logPrediction()` sans `await`, on utilise `logPredictionAsync()` avec `await` pour s’assurer que chaque opération est terminée avant de passer à la suivante :
+
+    ```typescript twoslash lines
+    // @noErrors
+    // Utiliser logPredictionAsync à la place de logPrediction
+    const prediction = await evalLogger.logPredictionAsync(inputs, modelOutput);
+
+    // Attendre chaque opération
+    await prediction.logScore('correctness', correctnessScore);
+    await prediction.finish();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="simplified-logging-with-log_example">
+  ## Journalisation simplifiée avec `log_example()`
+</div>
+
+Utilisez `log_example()` pour journaliser des entrées, une sortie et des scores en un seul appel. Cette méthode pratique combine `log_prediction()`, `log_score()` et `finish()` en une seule étape. Elle est utile lorsque vous disposez déjà des entrées, des sorties du modèle et des scores à journaliser, par exemple lors d&#39;évaluations par lot ou hors ligne.
+
+```python lines
+import weave
+from weave import EvaluationLogger
+
+weave.init('[YOUR-TEAM]/[YOUR-PROJECT]')
+
+eval_logger = EvaluationLogger(
+    model="my_model",
+    dataset="my_dataset"
+)
+
+eval_samples = [
+    {'inputs': {'a': 1, 'b': 2}, 'expected': 3},
+    {'inputs': {'a': 2, 'b': 3}, 'expected': 5},
+    {'inputs': {'a': 3, 'b': 4}, 'expected': 7},
+]
+
+for sample in eval_samples:
+    inputs = sample['inputs']
+    output = inputs['a'] + inputs['b']
+
+    eval_logger.log_example(
+        inputs=inputs,
+        output=output,
+        scores={"correctness": output == sample['expected']}
+    )
+
+eval_logger.log_summary({"avg_score": 1.0})
+```
+
+L’appel précédent à `log_example()` équivaut à :
+
+```python lines
+prediction = eval_logger.log_prediction(inputs=inputs, output=output)
+prediction.log_score(scorer="correctness", score=output == sample['expected'])
+prediction.finish()
+```
+
+<Note>
+  `log_example()` n’est pas disponible pour le SDK TypeScript de Weave. Les utilisateurs de TypeScript doivent utiliser l’approche `logPrediction()` et `logScore()` présentée dans l’[exemple de base](#basic-example).
+</Note>
+
+<div id="advanced-usage">
+  ## Utilisation avancée
+</div>
+
+`EvaluationLogger` offre des modes d’utilisation flexibles au-delà du flux de travail de base pour répondre à des scénarios d’évaluation plus complexes. Les sections suivantes décrivent des techniques avancées, notamment comment utiliser des gestionnaires de contexte pour la gestion automatique des ressources, lier les traces d’agent aux lignes d’évaluation, séparer l’exécution du modèle de la journalisation, utiliser des données de médias enrichis et comparer côte à côte plusieurs évaluations de modèles.
+
+<div id="use-context-managers">
+  ### Utiliser des gestionnaires de contexte
+</div>
+
+`EvaluationLogger` prend en charge les gestionnaires de contexte (instructions `with`) pour les prédictions comme pour les scores. Cela permet d&#39;obtenir un code plus propre, un nettoyage automatique des ressources et un meilleur suivi des opérations imbriquées, comme les appels à un juge LLM.
+
+L&#39;utilisation des instructions `with` dans ce contexte offre les avantages suivants :
+
+* Appels automatiques à `finish()` à la sortie du contexte.
+* Meilleur suivi des jetons et des coûts pour les appels LLM imbriqués.
+* Définition de la sortie après l&#39;exécution du modèle dans le contexte de prédiction.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {16,24,31,40}
+    import openai
+    import weave
+
+    weave.init("nested-evaluation-example")
+    oai = openai.OpenAI()
+
+    # Initialiser le logger
+    ev = weave.EvaluationLogger(
+        model="gpt-4o-mini",
+        dataset="joke_dataset"
+    )
+
+    user_prompt = "Tell me a joke"
+
+    # Utiliser un gestionnaire de contexte pour la prédiction - inutile d'appeler finish()
+    with ev.log_prediction(inputs={"user_prompt": user_prompt}) as prediction:
+        # Effectuez votre appel au modèle dans ce contexte
+        result = oai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": user_prompt}],
+        )
+
+        # Définir la sortie après l'appel au modèle
+        prediction.output = result.choices[0].message.content
+
+        # Journaliser des scores simples
+        prediction.log_score("correctness", 1.0)
+        prediction.log_score("ambiguity", 0.3)
+        
+        # Utiliser un gestionnaire de contexte imbriqué pour les scores qui nécessitent des appels LLM
+        with prediction.log_score("llm_judge") as score:
+            judge_result = oai.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "Rate how funny the joke is from 1-5"},
+                    {"role": "user", "content": prediction.output},
+                ],
+            )
+            # Définir la valeur du score après le calcul
+            score.value = judge_result.choices[0].message.content
+
+    # finish() est automatiquement appelé à la sortie du bloc 'with'
+
+    ev.log_summary({"avg_score": 1.0})
+    ```
+
+    Cette approche garantit que toutes les opérations imbriquées sont suivies et attribuées à la prédiction parente, ce qui vous fournit des données précises sur l&#39;utilisation des jetons et les coûts dans l&#39;interface Weave.
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript ne dispose pas du modèle d&#39;instruction `with` de Python pour les gestionnaires de contexte. Utilisez plutôt l’approche fire-and-forget avec des appels explicites à `finish()`.
+
+    L&#39;exemple suivant journalise une prédiction, ajoute des scores et un score de juge LLM, puis finalise la prédiction avec `finish()` :
+
+    ```typescript twoslash lines {43}
+    // @noErrors
+    import weave from 'weave';
+    import OpenAI from 'openai';
+    import {EvaluationLogger} from 'weave/evaluationLogger';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+    const oai = new OpenAI();
+
+    // Initialiser le logger
+    const ev = new EvaluationLogger({
+      name: 'joke-eval',
+      model: 'gpt-4o-mini',
+      dataset: 'joke_dataset',
+    });
+
+    const userPrompt = 'Tell me a joke';
+
+    // Obtenir la sortie du modèle
+    const result = await oai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{role: 'user', content: userPrompt}],
+    });
+
+    const modelOutput = result.choices[0].message.content;
+
+    // Journaliser la prédiction avec la sortie
+    const prediction = ev.logPrediction({user_prompt: userPrompt}, modelOutput);
+
+    // Journaliser des scores simples
+    prediction.logScore('correctness', 1.0);
+    prediction.logScore('ambiguity', 0.3);
+
+    // Pour les scores de juge LLM, effectuez l'appel et journalisez le résultat
+    const judgeResult = await oai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {role: 'system', content: 'Rate how funny the joke is from 1-5'},
+        {role: 'user', content: modelOutput || ''},
+      ],
+    });
+    prediction.logScore('llm_judge', judgeResult.choices[0].message.content);
+
+    // Appeler explicitement finish une fois l'évaluation terminée
+    prediction.finish();
+
+    await ev.logSummary({avg_score: 1.0});
+    ```
+
+    <Note>
+      Bien que TypeScript ne dispose pas de nettoyage automatique avec les gestionnaires de contexte, `logSummary()` finalise automatiquement toutes les prédictions inachevées avant d&#39;agréger les résultats. Vous pouvez vous appuyer sur ce comportement si vous préférez ne pas appeler `finish()` explicitement.
+    </Note>
+  </Tab>
+</Tabs>
+
+<div id="link-agent-traces-to-evaluations">
+  ### Lier les traces d’agent aux évaluations
+</div>
+
+En Python, conservez chaque appel d’agent tracé dans son contexte `log_prediction()`. `EvaluationLogger` ajoute aux spans créés dans ce contexte les métadonnées du run d’évaluation, de l’exemple et du trial, que Weave utilise pour associer la trace à son résultat d’évaluation.
+
+<Note>
+  L’association automatique des évaluations aux spans d’agent est disponible uniquement en Python. Ni `EvaluationLogger` en TypeScript ni `Evaluation.evaluate()` ne créent de portée d’évaluation active permettant d’associer les spans d’agent. En TypeScript, vous pouvez associer un span uniquement en définissant directement les attributs OTel décrits dans cette section, et seulement lorsque les deux ID d’appel sont déjà disponibles.
+</Note>
+
+L’exemple suivant utilise le [SDK OpenAI Agents](../integrations/agents/openai-agents-sdk). Le même schéma s’applique aux autres frameworks d’agents tracés par Weave. Remplacez `[YOUR-TEAM]/[YOUR-PROJECT]` par votre entité et votre projet W&amp;B.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {18-28}
+    import weave
+    from agents import Agent, Runner
+    from weave import EvaluationLogger
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    agent = Agent(
+        name="Support agent",
+        instructions="Answer with only the city name.",
+    )
+    eval_logger = EvaluationLogger(
+        name="support-agent-eval",
+        model="support-agent",
+        dataset="support-prompts",
+    )
+    question = "What is the capital of France?"
+
+    with eval_logger.log_prediction(
+        inputs={"prompt": question},
+        example_id="capital-of-france",
+    ) as prediction:
+        result = Runner.run_sync(agent, question)
+        output = str(result.final_output or "")
+        prediction.output = output
+        prediction.log_score(
+            scorer="contains_expected_answer",
+            score="paris" in output.lower(),
+        )
+
+    eval_logger.log_summary()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    Cette fonctionnalité n’est pas disponible en TypeScript.
+  </Tab>
+</Tabs>
+
+Si l’agent s’exécute avant le début du contexte de prédiction ou après sa fin, Weave enregistre la trace, mais ne l’associe pas au résultat d’évaluation.
+
+Weave associe automatiquement une trace à son résultat d’évaluation lorsque l’agent s’exécute dans le contexte `log_prediction()` et qu’une intégration Weave le trace, comme dans l’exemple de code précédent. Sinon, vous devez définir vous-même les deux ID d’association sur les spans d’agent. La procédure dépend de l’emplacement où les spans sont créés :
+
+* **Même processus, instrumentation personnalisée :** définissez les attributs directement sur chaque span.
+* **Service distinct :** envoyez les deux ID à ce service, puis définissez-les sur les spans qu’il crée.
+
+<div id="link-spans-you-instrument-yourself">
+  #### Lier les spans que vous instrumentez vous-même
+</div>
+
+Lorsque des spans sont créés dans le contexte `log_prediction()`, `EvaluationLogger` définit automatiquement tous les attributs. En revanche, si vous envoyez des spans à l’aide de votre propre instrumentation OpenTelemetry (OTel), vous devez définir directement les attributs sur chaque span à lier. Vous pouvez définir les attributs suivants pour les évaluations :
+
+| Attribut                               | Type    | Description                                                                                                                                                                            |
+| -------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `weave.eval.run_id`                    | string  | (Requis) L’ID d’appel du run d’évaluation (`Evaluation.evaluate`). Requis pour inclure le span dans le résultat **Voir les spans** au niveau de l’évaluation.                          |
+| `weave.eval.predict_and_score_call_id` | string  | (Requis) L’ID d’appel de l’opération `Evaluation.predict_and_score` pour un résultat et un trial donnés. Définissez-le avec `weave.eval.run_id` pour lier le span à ce résultat.       |
+| `weave.eval.kind`                      | string  | (Facultatif) La catégorie d’évaluation. Weave utilise `agent` pour les évaluations d’agent et `standard` pour les évaluations standard.                                                |
+| `weave.eval.row_digest`                | string  | (Facultatif) Un digest stable qui identifie la ligne de jeu de données évaluée. `EvaluationLogger` dérive cette valeur des entrées de prédiction, sauf si vous en fournissez une.             |
+| `weave.eval.example_id`                | string  | (Facultatif) Un identifiant fourni par l’appelant pour l’exemple évalué.                                                                                                               |
+| `weave.eval.trial_index`               | integer | (Facultatif) Le numéro de trial, à partir de zéro, pour la ligne de jeu de données.                                                                                                           |
+| `weave.eval.evaluation_name`           | string  | (Facultatif) Le nom lisible de l’évaluation.                                                                                                                                           |
+| `weave.eval.project_id`                | string  | (Facultatif) Contexte de projet défini par le SDK Weave. Cet attribut n’achemine pas le span et ne crée pas de lien. Configurez plutôt le projet de destination sur la ressource OTel. |
+
+Envoyez le span au même projet Weave que l’évaluation via le point de terminaison `/agents/otel/v1/traces`. Les attributs de span OTel ne se propagent pas des spans parents aux spans enfants ; définissez donc les attributs sur chaque span à lier.
+
+Pour plus d’informations sur le point de terminaison :
+
+* Pour envoyer des spans depuis un pipeline OTel existant, consultez [Envoyer des spans OpenTelemetry vers la vue Agents](/fr/weave/guides/tracking/trace-agents-otel).
+* Pour la spécification du point de terminaison, consultez [Exporter une trace GenAI](/fr/weave/reference/service-api/agents/export-genai-trace).
+
+Seuls `weave.eval.run_id` et `weave.eval.predict_and_score_call_id` établissent les liens avec l’évaluation et le résultat. Le digest de ligne, l’ID d’exemple, l’index de trial, la catégorie et le nom de l’évaluation ajoutent du contexte et permettent le filtrage, mais ne créent pas de lien à eux seuls. Utilisez des ID d’appel Weave pour les deux attributs de liaison, et non des ID de trace ou de span OTel.
+
+Vous pouvez obtenir les deux ID à partir de l’[API de requête des résultats d’évaluation](/fr/weave/reference/service-api/eval-results/eval-results-query). Chaque évaluation de la réponse possède un `evaluation_call_id`, et chaque trial possède un `predict_and_score_call_id`.
+
+Les exemples suivants supposent que `span` est le span OTel de l’opération de l’agent. Remplacez chaque valeur entre crochets par les métadonnées du run d’évaluation et du résultat auxquels appartient le span.
+
+L’exemple TypeScript fonctionne car il définit directement les attributs OTel au lieu de s’appuyer sur un contexte de prédiction. Utilisez-le uniquement lorsque les deux ID d’appel sont déjà disponibles.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    span.set_attributes(
+        {
+            "weave.eval.run_id": "[EVALUATION-RUN-CALL-ID]",
+            "weave.eval.predict_and_score_call_id": "[PREDICT-AND-SCORE-CALL-ID]",
+            "weave.eval.kind": "agent",
+            "weave.eval.row_digest": "[ROW-DIGEST]",
+            "weave.eval.example_id": "[EXAMPLE-ID]",
+            "weave.eval.trial_index": 0,
+            "weave.eval.evaluation_name": "[EVALUATION-NAME]",
+        }
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    span.setAttributes({
+      'weave.eval.run_id': '[EVALUATION-RUN-CALL-ID]',
+      'weave.eval.predict_and_score_call_id': '[PREDICT-AND-SCORE-CALL-ID]',
+      'weave.eval.kind': 'agent',
+      'weave.eval.row_digest': '[ROW-DIGEST]',
+      'weave.eval.example_id': '[EXAMPLE-ID]',
+      'weave.eval.trial_index': 0,
+      'weave.eval.evaluation_name': '[EVALUATION-NAME]',
+    });
+    ```
+  </Tab>
+</Tabs>
+
+<div id="link-an-agent-that-runs-in-a-separate-service">
+  #### Lier un agent exécuté dans un service distinct
+</div>
+
+Lorsque votre agent s’exécute dans un service distinct, le processus d’évaluation et l’agent ne partagent pas la même mémoire : Weave ne peut pas définir automatiquement les attributs de liaison et vous ne pouvez pas accéder directement aux objets span de l’agent. Récupérez plutôt les deux ID d’appel dans le processus d’évaluation, envoyez-les au service, puis définissez-les sur les spans qui y sont créés. Ce modèle `EvaluationLogger` distribué est uniquement disponible en Python.
+
+<Tabs>
+  <Tab title="Python">
+    L’entrée dans le contexte `log_prediction()` crée l’appel `Evaluation.predict_and_score` avant l’exécution du corps du contexte. Le contexte génère un `ScoreLogger` (associé à `prediction` dans l’exemple suivant) qui expose les deux ID d’appel. Gardez le contexte ouvert jusqu’au retour du service afin de pouvoir journaliser sa sortie et ses scores sur le même résultat d’évaluation.
+
+    Dans le processus d’évaluation, remplacez `[AGENT-SERVICE-URL]` par le point de terminaison qui exécute votre agent, ainsi que `[YOUR-TEAM]/[YOUR-PROJECT]` :
+
+    ```python lines {16-37}
+    import requests
+    import weave
+    from weave import EvaluationLogger
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    eval_logger = EvaluationLogger(
+        name="support-agent-eval",
+        model="support-agent",
+        dataset="support-prompts",
+    )
+    question = "What is the capital of France?"
+    example_id = "capital-of-france"
+    trial_index = 0
+
+    with eval_logger.log_prediction(
+        inputs={"prompt": question},
+        example_id=example_id,
+        trial_index=trial_index,
+    ) as prediction:
+        eval_context = {
+            "weave.eval.run_id": prediction.evaluate_call.id,
+            "weave.eval.predict_and_score_call_id": (
+                prediction.predict_and_score_call.id
+            ),
+            "weave.eval.kind": "agent",
+            "weave.eval.example_id": example_id,
+            "weave.eval.trial_index": trial_index,
+            "weave.eval.evaluation_name": "support-agent-eval",
+        }
+        response = requests.post(
+            "[AGENT-SERVICE-URL]",
+            json={"prompt": question, "eval_context": eval_context},
+            timeout=60,
+        )
+        response.raise_for_status()
+        prediction.output = response.json()["output"]
+
+    eval_logger.log_summary()
+    ```
+
+    Dans le service de l’agent, copiez les attributs reçus sur chaque span de l’agent que vous souhaitez associer au résultat. La fonction suivante illustre la partie réception avec un span OTel brut. Configurez le service pour exporter les spans vers le même `[YOUR-TEAM]/[YOUR-PROJECT]` que l’évaluation.
+
+    ```python lines {16,22}
+    from typing import Any
+
+    import weave
+    from agents import Agent, Runner
+    from opentelemetry import trace
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+    tracer = trace.get_tracer(__name__)
+    agent = Agent(
+        name="Support agent",
+        instructions="Answer with only the city name.",
+    )
+
+
+    def run_agent(request_body: dict[str, Any]) -> dict[str, str]:
+        eval_context = request_body["eval_context"]
+        with tracer.start_as_current_span(
+            "invoke_agent Support agent",
+            attributes={
+                "gen_ai.operation.name": "invoke_agent",
+                "gen_ai.agent.name": "Support agent",
+                **eval_context,
+            },
+        ):
+            result = Runner.run_sync(agent, request_body["prompt"])
+            return {"output": str(result.final_output or "")}
+    ```
+
+    Le span d’encapsulation de cet exemple est lié au résultat d’évaluation. Si le framework de l’agent crée des spans supplémentaires, copiez également `eval_context` sur ces spans. OTel n’hérite pas des attributs de span du span d’encapsulation.
+  </Tab>
+
+  <Tab title="TypeScript">
+    Cette fonctionnalité n’est pas disponible en TypeScript.
+  </Tab>
+</Tabs>
+
+<div id="view-linked-agent-spans-from-your-evaluations">
+  #### Afficher les spans d’agent liés à vos évaluations
+</div>
+
+Pour inspecter les spans liés dans l’interface Weave :
+
+1. Accédez à [wandb.ai](https://wandb.ai).
+2. Dans le menu latéral de Weave, cliquez sur **Evals**.
+3. Sélectionnez votre run d’évaluation.
+4. Dans le panneau de détails de l’évaluation qui s’ouvre, sous l’onglet **Evaluation**, cliquez sur **Voir les spans**. La page **Agents** s’ouvre, avec l’onglet **Spans** filtré sur cette évaluation.
+
+<div id="link-to-an-existing-dataset">
+  ### Lier à un jeu de données existant
+</div>
+
+Lorsque vous passez des jeux de données bruts comme `inputs` à `log_prediction`, Weave réimporte les données à chaque run d’évaluation. Cela stocke des données en double, ce qui peut gaspiller de l’espace si le jeu de données est volumineux ou si de nombreuses évaluations le réutilisent.
+
+Pour éviter cette duplication, publiez votre jeu de données vers Weave avant d’exécuter des évaluations, puis passez les lignes du jeu de données publié comme `inputs`. Weave résout les références aux lignes publiées à l’aide de références internes au lieu de réimporter les données. Cette technique vous offre la même expérience de liaison que le framework `Evaluation` standard, où chaque prédiction renvoie à une ligne précise du jeu de données dans l’interface Weave.
+
+L’exemple suivant publie un jeu de données, y crée un lien dans `EvaluationLogger`, puis le récupère et le parcourt comme n’importe quel autre jeu de données.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    from weave import EvaluationLogger
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    # Publier le jeu de données (à faire une seule fois)
+    dataset = weave.Dataset(
+        name="my_eval_dataset",
+        rows=[
+          {"question": "What is the capital of France?", "expected": "Paris"},
+          {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+          {"question": "In which country is Mount Fuji?", "expected": "Japan"},
+        ],
+    )
+    weave.publish(dataset)
+
+    # Récupérer le jeu de données publié
+    dataset = weave.ref("my_eval_dataset").get()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript twoslash lines
+    // @noErrors
+    import weave, {EvaluationLogger, Dataset} from 'weave';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    // Publier le jeu de données (à faire une seule fois)
+    const dataset = new Dataset({
+      name: 'my_eval_dataset',
+      rows: [
+        {"question": "What is the capital of France?", "expected": "Paris"},
+        {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+        {"question": "In which country is Mount Fuji?", "expected": "Japan"},
+      ],
+    });
+    const datasetRef = await dataset.save();
+
+    // Récupérer le jeu de données publié
+    const published = await datasetRef.get();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="get-outputs-before-logging">
+  ### Obtenir les sorties avant la journalisation
+</div>
+
+Vous pouvez d’abord calculer les sorties de votre modèle, puis journaliser séparément les prédictions et les scores. Cela sépare la logique d’évaluation de celle de la journalisation, ce qui peut faciliter les tests et la maintenance du code lorsque différentes parties de votre système gèrent la génération des prédictions et l’attribution des scores.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    # Initialiser EvaluationLogger AVANT d'appeler le modèle afin de garantir le suivi des jetons
+    ev = EvaluationLogger(
+        model="example_model",
+        dataset="example_dataset"
+    )
+
+    # Les sorties du modèle (par ex. des appels OpenAI) doivent être générées après l'initialisation du logger pour le suivi des jetons
+    outputs = [your_output_generator(**inputs) for inputs in your_dataset]
+    predictions = [ev.log_prediction(inputs, output) for inputs, output in zip(your_dataset, outputs)]
+    for prediction, output in zip(predictions, outputs):
+        prediction.log_score(scorer="greater_than_5_scorer", score=output > 5)
+        prediction.log_score(scorer="greater_than_7_scorer", score=output > 7)
+        prediction.finish()
+
+    ev.log_summary()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    L’approche fire-and-forget est particulièrement efficace lorsque vous traitez plusieurs prédictions en parallèle.
+
+    L’exemple suivant traite des évaluations par lot en parallèle en créant plusieurs instances simultanées de `EvaluationLogger` :
+
+    ```typescript twoslash lines
+    // @noErrors
+    // Initialiser EvaluationLogger AVANT d'appeler le modèle afin de garantir le suivi des jetons
+    const ev = new EvaluationLogger({
+      name: 'parallel-eval',
+      model: 'example_model',
+      dataset: 'example_dataset'
+    });
+
+    // Les sorties du modèle, comme les appels OpenAI, doivent être générées après l'initialisation du logger pour le suivi des jetons
+    const outputs = await Promise.all(
+      yourDataset.map(inputs => yourOutputGenerator(inputs))
+    );
+
+    // Fire-and-forget : traiter toutes les prédictions sans attendre
+    const predictions = yourDataset.map((inputs, i) =>
+      ev.logPrediction(inputs, outputs[i])
+    );
+
+    predictions.forEach((prediction, i) => {
+      const output = outputs[i];
+      // Fire-and-forget : aucun await nécessaire
+      prediction.logScore('greater_than_5_scorer', output > 5);
+      prediction.logScore('greater_than_7_scorer', output > 7);
+      prediction.finish();
+    });
+
+    // logSummary attend toutes les opérations en attente
+    await ev.logSummary();
+    ```
+
+    Vous pouvez utiliser l’approche fire-and-forget pour traiter autant d’évaluations en parallèle que vos ressources de calcul le permettent.
+  </Tab>
+</Tabs>
+
+<div id="log-rich-media">
+  ### Journaliser des médias enrichis
+</div>
+
+Les entrées, les sorties et les scores peuvent inclure des médias enrichis, comme des images, des vidéos, des fichiers audio ou des tableaux structurés. La journalisation de médias enrichis vous permet d’inspecter le contenu réel à côté des scores dans l’interface Weave, ce qui est utile pour l’analyse qualitative des modèles multimodaux. Passez un dictionnaire ou un objet média aux méthodes `log_prediction` ou `log_score`.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import io
+    import wave
+    import struct
+    from PIL import Image
+    import random
+    from typing import Any
+    import weave
+
+    def generate_random_audio_wave_read(duration=2, sample_rate=44100):
+        n_samples = duration * sample_rate
+        amplitude = 32767  # amplitude maximale sur 16 bits
+
+        buffer = io.BytesIO()
+
+        # Écrire les données wave dans le tampon
+        with wave.open(buffer, 'wb') as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2)  # 16 bits
+            wf.setframerate(sample_rate)
+
+            for _ in range(n_samples):
+                sample = random.randint(-amplitude, amplitude)
+                wf.writeframes(struct.pack('<h', sample))
+
+        # Rembobiner le tampon au début pour pouvoir le lire
+        buffer.seek(0)
+
+        # Renvoyer un objet Wave_read
+        return wave.open(buffer, 'rb')
+
+    rich_media_dataset = [
+        {
+            'image': Image.new(
+                "RGB",
+                (100, 100),
+                color=(
+                    random.randint(0, 255),
+                    random.randint(0, 255),
+                    random.randint(0, 255),
+                ),
+            ),
+            "audio": generate_random_audio_wave_read(),
+        }
+        for _ in range(5)
+    ]
+
+    @weave.op
+    def your_output_generator(image: Image.Image, audio) -> dict[str, Any]:
+        return {
+            "result": random.randint(0, 10),
+            "image": image,
+            "audio": audio,
+        }
+
+    ev = EvaluationLogger(model="example_model", dataset="example_dataset")
+
+    for inputs in rich_media_dataset:
+        output = your_output_generator(**inputs)
+        prediction = ev.log_prediction(inputs, output)
+        prediction.log_score(scorer="greater_than_5_scorer", score=output["result"] > 5)
+        prediction.log_score(scorer="greater_than_7_scorer", score=output["result"] > 7)
+
+    ev.log_summary()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    Le SDK TypeScript prend en charge la journalisation d’images et de données audio à l’aide des fonctions `weaveImage` et `weaveAudio`. L’exemple suivant charge des fichiers image et audio, les traite avec un modèle, puis journalise les résultats avec leurs scores.
+
+    ```typescript twoslash lines
+    // @noErrors
+    import weave, {EvaluationLogger} from 'weave';
+    import * as fs from 'fs';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    // Charger des images et des fichiers audio depuis des fichiers
+    const richMediaDataset = [
+      {
+        image: weave.weaveImage({data: fs.readFileSync('sample1.png')}),
+        audio: weave.weaveAudio({data: fs.readFileSync('sample1.wav')}),
+      },
+      {
+        image: weave.weaveImage({data: fs.readFileSync('sample2.png')}),
+        audio: weave.weaveAudio({data: fs.readFileSync('sample2.wav')}),
+      },
+    ];
+
+    // Modèle qui traite les médias et renvoie les résultats
+    const yourOutputGenerator = weave.op(
+      async (inputs: {image: any; audio: any}) => {
+        const result = Math.floor(Math.random() * 10);
+        return {
+          result,
+          image: inputs.image,
+          audio: inputs.audio,
+        };
+      },
+      {name: 'yourOutputGenerator'}
+    );
+
+    const ev = new EvaluationLogger({
+      name: 'rich-media-eval',
+      model: 'example_model',
+      dataset: 'example_dataset',
+    });
+
+    for (const inputs of richMediaDataset) {
+      const output = await yourOutputGenerator(inputs);
+
+      // Journaliser la prédiction avec des médias enrichis dans les entrées comme dans les sorties
+      const prediction = ev.logPrediction(inputs, output);
+      prediction.logScore('greater_than_5_scorer', output.result > 5);
+      prediction.logScore('greater_than_7_scorer', output.result > 7);
+      prediction.finish();
+    }
+
+    await ev.logSummary();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-and-compare-multiple-evaluations">
+  ### Journaliser et comparer plusieurs évaluations
+</div>
+
+Avec `EvaluationLogger`, vous pouvez journaliser et comparer plusieurs évaluations côte à côte dans l’interface Weave. Cela est utile pour évaluer les performances de différents modèles sur le même jeu de données.
+
+1. Exécutez l’exemple de code suivant.
+2. Dans l’interface Weave, ouvrez l’onglet **Evals**.
+3. Sélectionnez les évaluations que vous souhaitez comparer.
+4. Cliquez sur **Compare**. Dans la vue de comparaison, vous pouvez :
+   * Choisir quelles évaluations ajouter ou supprimer.
+   * Choisir quelles métriques afficher ou masquer.
+   * Parcourir des exemples précis pour voir comment différents modèles se sont comportés pour la même entrée dans un jeu de données donné.
+
+Pour plus d’informations sur les comparaisons, voir [Comparisons](../tools/comparison).
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    models = [
+        "model1",
+        "model2",
+         {"name": "model3", "metadata": {"coolness": 9001}}
+    ]
+
+    for model in models:
+        # EvalLogger doit être initialisé avant les appels de modèle pour capturer les jetons
+        ev = EvaluationLogger(
+            name="comparison-eval",
+            model=model, 
+            dataset="example_dataset",
+            scorers=["greater_than_3_scorer", "greater_than_5_scorer", "greater_than_7_scorer"],
+            eval_attributes={"experiment_id": "exp_123"}
+        )
+        for inputs in your_dataset:
+            output = your_output_generator(**inputs)
+            prediction = ev.log_prediction(inputs=inputs, output=output)
+            prediction.log_score(scorer="greater_than_3_scorer", score=output > 3)
+            prediction.log_score(scorer="greater_than_5_scorer", score=output > 5)
+            prediction.log_score(scorer="greater_than_7_scorer", score=output > 7)
+            prediction.finish()
+
+        ev.log_summary()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript twoslash lines
+    // @noErrors
+    import weave from 'weave';
+    import {EvaluationLogger} from 'weave/evaluationLogger';
+    import {WeaveObject} from 'weave/weaveObject';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    const models = [
+      'model1',
+      'model2',
+      new WeaveObject({name: 'model3', metadata: {coolness: 9001}})
+    ];
+
+    for (const model of models) {
+      // EvalLogger doit être initialisé avant les appels de modèle pour capturer les jetons
+      const ev = new EvaluationLogger({
+        name: 'comparison-eval',
+        model: model,
+        dataset: 'example_dataset',
+        description: 'Évaluation de comparaison de modèles',
+        scorers: ['greater_than_3_scorer', 'greater_than_5_scorer', 'greater_than_7_scorer'],
+        attributes: {experiment_id: 'exp_123'}
+      });
+
+      for (const inputs of yourDataset) {
+        const output = await yourOutputGenerator(inputs);
+
+        // Approche fire-and-forget pour une journalisation simple et efficace
+        const prediction = ev.logPrediction(inputs, output);
+        prediction.logScore('greater_than_3_scorer', output > 3);
+        prediction.logScore('greater_than_5_scorer', output > 5);
+        prediction.logScore('greater_than_7_scorer', output > 7);
+        prediction.finish();
+      }
+
+      await ev.logSummary();
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![Onglet Evals affichant une liste de runs d’évaluation](/weave/guides/evaluation/img/evals_tab.png)
+</Frame>
+
+<Frame>
+  ![Vue de comparaison affichant les métriques de plusieurs runs d’évaluation](/weave/guides/evaluation/img/comparison.png)
+</Frame>
+
+<div id="usage-tips">
+  ## Conseils d’utilisation
+</div>
+
+Les conseils suivants vous aident à tirer le meilleur parti de `EvaluationLogger` :
+
+<Tabs>
+  <Tab title="Python">
+    * Appelez `finish()` rapidement après chaque prédiction.
+    * Utilisez `log_summary` pour enregistrer des métriques qui ne sont pas liées à une prédiction individuelle (par exemple, la latence globale).
+    * La journalisation des médias enrichis est utile pour l’analyse qualitative.
+  </Tab>
+
+  <Tab title="TypeScript">
+    * **Comportement de fin automatique** : Par souci de clarté, appelez explicitement `finish()` pour chaque prédiction. `logSummary()` termine automatiquement toutes les prédictions non terminées. En revanche, après avoir appelé `finish()`, vous ne pouvez plus enregistrer de scores pour cette prédiction.
+    * **Options de configuration** : Utilisez les options de configuration, notamment `name`, `description`, `dataset`, `model`, `scorers` et `attributes`, pour organiser et filtrer vos évaluations dans l’interface Weave.
+  </Tab>
+</Tabs>

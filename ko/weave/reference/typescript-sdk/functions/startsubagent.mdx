@@ -1,0 +1,45 @@
+---
+title: "startSubagent"
+description: "TypeScript SDK 레퍼런스"
+---
+
+> **startSubagent**(`opts`): [`SubAgent`](../interfaces/subagent)
+
+SubAgent span을 시작합니다. `startTool`과 동일한 부모 해결 규칙을 적용합니다.
+
+정의된 위치: [src/genai/api.ts:137](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L137)
+
+<div id="parameters">
+  ## 매개변수
+</div>
+
+<div id="opts">
+  ### opts
+</div>
+
+[`SubAgentInit`](../interfaces/subagentinit)
+
+<div id="returns">
+  ## 반환값
+</div>
+
+[`SubAgent`](../interfaces/subagent)
+
+<div id="examples">
+  ## 예시
+</div>
+
+```ts twoslash
+// @noErrors
+weave.startSubagent({name: 'critic'});
+```
+
+```ts twoslash
+// @noErrors
+weave.startSubagent({
+  name: 'critic',
+  model: 'gpt-4o',
+  systemInstructions: ['Critique the proposed plan.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

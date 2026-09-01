@@ -1,0 +1,73 @@
+---
+title: Reports
+kind: classe
+namespace: wandb.apis.public.reports
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Reports
+
+Reports est un itérateur paresseux d’objets `BetaReport`.
+
+```python
+(service_api: 'ServiceApi',
+project: 'Project',
+name: 'str | None' = None,
+entity: 'str | None' = None,
+per_page: 'int' = 50)
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="service_api" type="ServiceApi">
+  Interface du service wandb-core qui effectue des appels d’API W&amp;B pour cette collection.
+</ResponseField>
+
+<ResponseField name="project" type="Project">
+  Projet dont les Reports doivent être récupérés.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  Nom du report à filtrer. Si `None`, récupère tous les Reports.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  Nom de l’entité du projet. Par défaut, l’entité du projet.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Nombre de Reports à récupérer par page (50 par défaut).
+</ResponseField>
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Reports.convert_objects()
+
+```python
+self
+```
+
+Convertit les edges GraphQL en objets File.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
+
+```python
+self
+```
+
+Renvoyer l’élément suivant de l’itérateur. S’il n’y en a plus, lever StopIteration
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Reports.update_variables()
+
+```python
+self
+```
+
+Met à jour les variables de la requête GraphQL pour la pagination.

@@ -1,0 +1,259 @@
+---
+title: "Weave SDK リリース"
+description: "Weave Python SDK（`weave` パッケージ）のリリースノートを、バージョンごとの新機能、バグ修正、パフォーマンス改善とあわせて確認できます。"
+rss: true
+---
+
+このページには、[Weave Python SDK](https://pypi.org/project/weave/) (`weave` パッケージ) のリリースノートを掲載しています。W&amp;B Models Python SDK (`wandb` パッケージ) については、[W&amp;B SDK リリース](/ja/release-notes/sdk-releases)を参照してください。リリースパッケージおよびコミットごとの履歴は、[`wandb/weave` の GitHub Releases](https://github.com/wandb/weave/releases)にあります。
+
+<Note>
+  これらのエントリは、ユーザー向けの SDK とトレースサーバーの変更を要約したものです。Internal-only のテスト、CI、リファクタリング作業の詳細は省略しています。マージされたすべての変更については、そのタグの GitHub リリースエントリを参照してください。
+</Note>
+
+<Update label="0.52.37" description="2026年4月17日">
+  ## 追加
+
+  * OpenTelemetry インテグレーションが最新のセマンティック規約に準拠するようになりました。
+  * コスト計算とプロバイダーのインテグレーションに、キャッシュトークンの使用量が含まれるようになりました。
+
+  ## 変更
+
+  * 一部の Call クエリで、ネストされたサブクエリを必要に応じてスキップできるようにし、パフォーマンスを改善しました。
+  * `ClassifierMonitor` がトップレベルの `weave` パッケージからエクスポートされるようになりました。
+  * Call API が、より高度なフィルタリングのためのオプションの `query` パラメーターを受け入れるようになりました。
+
+  ## 修正
+
+  * 一部のフィルターの組み合わせで発生していた、評価結果 API の SQL の問題を修正しました。
+  * TypeScript SDK が `WANDB_BASE_URL` から URL スキームを欠落させることがあるバグを修正しました。
+  * 複数のフィードバック行を持つ Call が、リスト結果に複数回表示されることがあるバグを修正しました。
+  * ClickHouse ベースのクエリにおける ISO-8601 タイムスタンプの処理を修正しました。
+  * 分散 ClickHouse ミューテーションで、表名に誤って `_local` 接尾辞が追加される問題を修正しました。
+  * OpenAI Agents SDK フローのトレース時に span が欠落する問題を修正しました。
+  * レスポンスに非テキスト部分が含まれる場合の Google GenAI のトレースを修正しました。
+  * インメモリのトレース file artifact のパスサニタイズと、HTTP クライアントでのプロバイダーのホスト名処理を修正しました。
+</Update>
+
+<Update label="0.52.36" description="2026年4月1日">
+  ## 追加
+
+  * Call クエリで可読なユーザー名を解決できるようになりました。
+  * 一部のフローで、クライアントを明示的に初期化しなくても `ref.get()` が動作するようになりました。
+  * テキストベースの評価結果向けの API とストレージパスを追加し、大規模な評価セットの処理も改善しました。
+
+  ## 変更
+
+  * バンドルされているインテグレーションとの互換性のため、LiteLLM を特定バージョンに固定しました。
+  * Moonshot をモデルプロバイダーとして使用できるようになりました。
+  * 基盤となるライトアヘッドログのインフラストラクチャーにより、トレース書き込みの耐久性が向上しました。
+
+  ## 修正
+
+  * ストリーミングジェネレーターを途中で中断した際に、`GeneratorExit` が誤って表面化することがあるバグを修正しました。
+  * 保存済みオブジェクト に追加のメタデータフィールドが含まれる場合のデシリアライズを修正しました。
+  * Call に複数のフィードバック行がある場合のフィードバックフィルターを修正しました。
+  * SQLite ベースの Call コストのトラッキングと、バッチ upsert における無効な `trace_id` の処理を修正しました。
+  * 一時的なエラー発生時の再試行や、より明確な migrator の終了ステータスなど、ClickHouse マイグレーションの動作を改善しました。
+  * 1000 件を超える Call を持つ評価 Runs が、予測とスコアリングのために読み込めないことがあるバグを修正しました。
+</Update>
+
+<Update label="0.52.35" description="2026年3月19日">
+  ## 追加
+
+  * トレース取り込みのためのライトアヘッドログのサポート。
+  * フィードバックデータの分析用フィードバック統計クエリ。
+
+  ## 変更
+
+  * `Ref.uri` を `ref.uri()` を呼び出さなくても、プロパティ (`ref.uri`) として参照できるようになりました。
+  * デバウンスされたスコアリング履歴の最大サイズを環境変数で設定できるようになりました。
+
+  ## 修正
+
+  * 負の数値フィルター値に対する ClickHouse のキャストを修正しました。
+  * on-cluster マイグレーション中に発生するレプリケートされたデータベースエンジンエラーを修正しました。
+  * `DelegatingTraceServerMixin` が一部の `ServiceInterface` メソッドを転送しない問題を修正しました。
+  * `weave.init()` 中に W&amp;B API を呼び出す際の再試行を修正しました。
+  * `WEAVE_DISABLED` が設定されているときに `EvaluationLogger` がクラッシュすることがあるバグを修正しました。
+  * `RefJSONEncoder` のエッジケースと、サブクラスに対する classmethod によるインスタンス化を修正しました。
+</Update>
+
+<Update label="0.52.33" description="2026年3月12日">
+  ## 追加
+
+  * オブジェクト の タグ と エイリアス のための Python SDK メソッドと HTTP モデル。
+  * OpenAI Realtime API のインストルメンテーション。tool Call に加え、オプションでオーディオ、テキスト、音声の取得に対応します (TypeScript の例については、アップストリームのリリースノートを参照してください) 。
+
+  ## 修正
+
+  * トレースにおける Anthropic のストリーミング Completions の蓄積を修正しました。
+  * `RemoteHTTPTraceServer` における認証付き `PUT` リクエストを修正しました。
+  * `calls_complete` プロジェクションのコストクエリ処理を修正しました。
+</Update>
+
+<Update label="0.52.31" description="2026年3月10日">
+  ## 追加
+
+  * 保存済みオブジェクトのタグとエイリアスに対する トレースサーバー のサポートを追加しました。
+  * Claude Agents のトレース インテグレーションを追加しました。
+  * Realtime セッション向けに、タイムスタンプと first token までの時間メトリクスを追加しました。
+  * Monitors でマージ済み scorer を使用できるようになりました。
+
+  ## 変更
+
+  * リクエストをまたぐ operation reference cache により、OpenTelemetry のパフォーマンスを改善しました。
+
+  ## 修正
+
+  * 内部フィールドのエスケープや分散 ClickHouse 構成を含む、コスト クエリ構築における複数の問題を修正しました。
+  * Pydantic v2 の `Run` オブジェクトに対する LangChain インテグレーションの処理を修正しました。
+  * inputs または metadata が欠けている場合の prediction および scorer resolver におけるエッジケースを修正しました。
+  * `calls_complete` クエリにおける Vertex AI のテキスト蓄積とスレッドの可視性を修正しました。
+</Update>
+
+<Update label="0.52.30" description="2026年3月10日">
+  ## 追加
+
+  * 保存済みスコアを再計算するための Score backfill API を追加しました。
+  * TypeScript SDK での Gemini リクエスト トラッキングを追加しました。
+
+  ## 変更
+
+  * クエリ パフォーマンス向上のため、分散 Call table を `trace_id` または `project_id` でシャーディングしました。
+  * レイテンシ低減のため、`calls_complete` のクエリ プランを簡素化しました。
+
+  ## 修正
+
+  * Weave UI で Gemini のメディアをレンダリングできないことがあるバグを修正しました。
+  * OpenTelemetry のバッチ挿入で非同期 ClickHouse 挿入を使用するようにしました。
+  * HTTP クライアントでの `NO_PROXY` の処理を修正しました。
+  * 一部のエラー メッセージでの entity と team の命名を修正しました。
+</Update>
+
+<Update label="0.52.29" description="2026年2月27日">
+  ## 追加
+
+  * Usage API で、未完了の call の metadata を公開するようになりました。
+  * より高精度な MIME 検出のためのオプションの `python-magic` インテグレーションを追加しました。
+  * Realtime スレッドが usage summary に含まれるようになりました。
+  * Weave オブジェクト上のタグとエイリアスに対するスキーマ サポートを追加しました。
+  * 評価 tables 向けの構造化された `eval_results` クエリ API を追加しました。
+
+  ## 変更
+
+  * ClickHouse でタイムスタンプを strings として保存することで、インデックス作成を改善しました。
+  * call の upsert 時に、バッチ ファイル作成中の重複作業を削減しました。
+
+  ## 修正
+
+  * ジェネレーターが設定されたサンプリング レートに従わないバグを修正しました。
+  * call 終了時に stream がすぐに flush されるよう、バッファリングを修正しました。
+  * ダイジェスト計算における sort-query index エラーと、決定的な JSON シリアライズを修正しました。
+  * OpenTelemetry の表示名、`make_safe_name` の処理、および Pydantic モデル向けの LangChain シリアライズを修正しました。
+</Update>
+
+<Update label="0.52.28" description="2026年2月14日">
+  ## 追加
+
+  * OpenTelemetry resource attributes に W&amp;B の run および project 変数を含められるようになりました。
+  * ORM が `$lt` および `$lte` 比較をサポートするようになりました。
+  * OpenTelemetry Projects が `calls_complete` table に直接書き込めるようになりました。
+  * OpenAI Realtime トレースの一般提供に向けた改善を行いました。
+
+  ## 変更
+
+  * table scan および call 統計クエリのパフォーマンスを改善しました。
+
+  ## 修正
+
+  * フィルターが誤って最適化で除去されるケースを含め、スレッド ID による call のフィルタリングを修正しました。
+  * アノテーションキューの状態更新の冪等性を修正しました。
+  * `weave.finish()` で保留中のクライアント データが常に flush されないバグを修正しました。
+  * `PaginatedIterator` のイテレーターの型付け、`Dataset.select` の metadata 保持、およびメモリ不足を引き起こす可能性があった大規模 trace size クエリを修正しました。
+</Update>
+
+<Update label="0.52.26" description="2026年2月3日">
+  ## 追加
+
+  * 集計 usage 向けの Usage statistics API と、`/trace/usage` および `/calls/usage` endpoints を追加しました。
+  * 高スループット deployment 向けのオプションの performance mode フラグを追加しました。
+  * Anthropic structured-parse のパッチ適用を追加しました。
+  * 保存済みビューで `column_order` フィールドをサポートするようになりました。
+
+  ## 変更
+
+  * 分散クラスター クエリに対する `PREWHERE` 最適化を改善しました。
+
+  ## 修正
+
+  * 失敗した ClickHouse 挿入によってバッファされた行がリークする可能性があるバグを修正しました。
+  * import 時に IPython を読み込むことでコールド スタートが遅くなることがあるバグを修正しました。
+  * 同期 mutation migration、`calls_complete` での summary フィルタリング、および Google GenAI の token の過剰カウントを修正しました。
+  * monitor を含む OpenTelemetry span と、Google Cloud Storage における重複 upload の処理を修正しました。
+</Update>
+
+<Update label="0.52.25" description="2026年1月20日">
+  ## 修正
+
+  * 一部のインテグレーションにおける冗長な HTTP response の取得を削除しました。
+  * Google GenAI のトレースで system instruction を記録するようになりました。
+  * Google GenAI のトレースで、thinking token を completion token と分けて記録するようになりました。
+</Update>
+
+<Update label="0.52.24" description="2026年1月15日">
+  ## 追加
+
+  * Node SDK で prompt を扱うための TypeScript helper API を追加しました。
+  * トレースサーバー で、適切な場合に Base64 payload を安全に自動変換するようになりました。
+  * 今後の比較機能に向けた Leaderboard スキーマの更新を追加しました。
+  * PII のマスキングを細かく調整するための `redact_pii_exclude_fields` 設定を追加しました。
+  * `LLMAsAJudgeScorer` でのオーディオ inputs と、インテグレーション向けのより豊富な op metadata (kind と color) を追加しました。
+
+  ## 修正
+
+  * エッジケースで無効な文字が op 作成を妨げる問題を修正しました。
+  * HTTPX クライアントでの HTTP および HTTPS proxy の処理を修正しました。
+  * ジェネレーターをラップした際のネストされたトレースを修正しました。
+</Update>
+
+<Update label="0.52.23" description="2026年1月8日">
+  ## 追加
+
+  * Logfire Pydantic AI インストルメンテーションの入力と出力用のパースヘルパーを追加しました。
+
+  ## 修正
+
+  * 大規模なテーブルの評価で、順序が非決定的になる問題を修正しました。
+  * 入力トークンと出力トークンが含まれないコストクエリを修正しました。
+  * 分散レプリケートされた ClickHouse テーブルを修正し、Kafka の flush 動作が設定でのみ有効になるようにしました。
+</Update>
+
+<Update label="0.52.22" description="2026年1月8日">
+  ## 追加
+
+  * `LLMStructuredCompletionModels` のプロンプトとテンプレート変数が、completion Call をまたいで保持されるようになりました。
+
+  ## 修正
+
+  * 一部の環境での ClickHouse import の互換性問題を修正しました。
+</Update>
+
+<Update label="0.52.20" description="2025年11月26日">
+  ## 追加
+
+  * Completions ストリーミング API が、プロンプトとテンプレート変数を受け付けるようになりました。
+  * `ObjectRef.from_uri` で Weave URI からオブジェクトを再構築できるようになりました。
+  * OpenAI Responses API のトレースで `x-request-id` ヘッダーを記録するようになりました。
+  * Bedrock Agents インテグレーションの対応を拡充しました。
+  * span メタデータ用の TypeScript SDK `withAttributes` ヘルパーを追加しました。
+
+  ## 修正
+
+  * OpenAI Agents トレースプロセッサーのメモリリークを修正しました。
+  * Weave が無効な場合でも ref を公開できていたバグを修正しました。
+  * HTTP クライアントコードを `requests` から `httpx` に移行する際のイテレーターの動作を修正しました。
+</Update>
+
+<Tip>
+  0.52.20 より前のリリースについては、[GitHub Releases for `wandb/weave`](https://github.com/wandb/weave/releases) を参照してください。これらのエントリーでは、GitHub の既定の比較形式 (pull request リンクとコミット接頭辞) が使用されています。このドキュメントページでは、より新しいバージョンについては顧客向けの表現に更新しています。
+</Tip>

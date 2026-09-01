@@ -1,0 +1,93 @@
+---
+title: "Paramètres"
+description: "Référence du SDK TypeScript"
+---
+
+> **Paramètres** = `objet`
+
+Défini dans : [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L3)
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
+
+Un mappage d&#39;attributs appliqués à chaque trace produite par ce client.
+
+Défini dans : [src/settings.ts:14](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L14)
+
+***
+
+<div id="genai">
+  ### genai
+</div>
+
+> `readonly` **genai** : `objet`
+
+Défini dans : [src/settings.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L23)
+
+<div id="batchoptions">
+  #### batchOptions
+</div>
+
+> `facultatif` **batchOptions**: `BufferConfig`
+
+Configuration de `BatchSpanProcessor`. Ignorée sauf si `spanProcessor === 'batch'`.
+
+<div id="spanprocessor">
+  #### spanProcessor
+</div>
+
+> `facultatif` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
+
+Définit comment les spans GenAI sont exportés.
+
+* `'batch'` (par défaut) : `BatchSpanProcessor`, adapté aux agents de production
+  et aux processus de longue durée.
+* `'simple'` : `SimpleSpanProcessor`, un POST HTTP par span. Utile pour les
+  tests et les CLI de courte durée, où un vidage déterministe importe davantage que le
+  débit.
+* Instance de `SpanProcessor` : un processeur fourni par l&#39;utilisateur. L&#39;appelant est responsable
+  de son cycle de vie ; l&#39;exporter OTLP Weave ciblant `/agents/otel/v1/traces`
+  n&#39;est pas utilisé.
+
+***
+
+<div id="printcalllink">
+  ### printCallLink
+</div>
+
+> `readonly` **printCallLink**: `boolean`
+
+Imprime des liens vers l&#39;interface Weave pour les ops dans le terminal.
+
+Défini dans : [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L9)
+
+<div id="default">
+  #### Par défaut
+</div>
+
+`true`
+
+***
+
+<div id="useotelv2">
+  ### useOTelV2
+</div>
+
+> **useOTelV2** : `boolean`
+
+Achemine les intégrations compatibles avec OTel via leur variante OTel.
+
+Défini dans : [src/settings.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L21)
+
+<div id="default">
+  #### Par défaut
+</div>
+
+`true`

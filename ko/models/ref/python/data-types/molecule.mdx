@@ -1,30 +1,97 @@
 ---
-title: 분자
-namespace: python_sdk_data_type
-python_object_type: class
+title: Molecule
+kind: 클래스
+namespace: wandb.sdk.data_types.molecule
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Molecule`
-3D 분자 데이터를 위한 W&B 클래스입니다.
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
 
-### <kbd>method</kbd> `Molecule.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Molecule
+
+3D 분자 데이터를 위한 W&amp;B 클래스입니다.
 
 ```python
-__init__(
-    data_or_path: Union[str, pathlib.Path, ForwardRef('TextIO')],
-    caption: Optional[str] = None,
-    **kwargs: str
-) → None
+data_or_path: 'str | pathlib.Path | TextIO',
+caption: 'str | None' = None, **kwargs: 'str'
 ```
 
-Molecule 오브젝트를 초기화합니다.
+<div id="args">
+  ## 인수
+</div>
 
-**Args:**
+<ResponseField name="data_or_path" type="str | pathlib.Path | TextIO">
+  Molecule은 파일 이름 또는 io 객체에서 초기화할 수 있습니다.
+</ResponseField>
 
- - `data_or_path`: Molecule은 파일 이름이나 io 오브젝트로부터 초기화될 수 있습니다.
- - `caption`: 표시용으로 분자와 연결된 설명(caption)입니다.
+<ResponseField name="caption" type="str | None">
+  표시용으로 분자과 연결된 캡션입니다.
+</ResponseField>
 
----
+<ResponseField name="kwargs" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<div id="methods">
+  ## 메서드
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Molecule.from_rdkit()
+
+```python
+data_or_path: 'RDKitDataType',
+caption: 'str | None' = None,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+RDKit에서 지원되는 파일/객체 유형을 wandb.Molecule로 변환합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="data_or_path" type="RDKitDataType">
+  (`string`, rdkit.Chem.rdchem.Mol) 파일 이름 또는 rdkit.Chem.rdchem.Mol 객체로부터 Molecule을 초기화할 수 있습니다.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  (`string`) 표시용으로 분자에 연결된 캡션입니다.
+</ResponseField>
+
+<ResponseField name="convert_to_3d_and_optimize" type="bool">
+  (bool) 3D 좌표가 있는 rdkit.Chem.rdchem.Mol로 변환합니다. 비용이 큰 오퍼레이션이므로 복잡한 분자의 경우 시간이 오래 걸릴 수 있습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Molecule.from_smiles()
+
+```python
+data: 'str',
+caption: 'str | None' = None,
+sanitize: 'bool' = True,
+convert_to_3d_and_optimize: 'bool' = True,
+mmff_optimize_molecule_max_iterations: 'int' = 200
+```
+
+SMILES 문자열을 wandb.Molecule로 변환합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="data" type="str">
+  SMILES 문자열입니다.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  분자를 표시할 때 함께 사용할 캡션입니다.
+</ResponseField>
+
+<ResponseField name="sanitize" type="bool">
+  RDKit의 정의에 따라 분자가 화학적으로 타당한지 확인합니다.
+</ResponseField>
+
+<ResponseField name="convert_to_3d_and_optimize" type="bool">
+  3D 좌표가 포함된 `rdkit.Chem.rdchem.Mol`로 변환합니다. 이는 계산 비용이 큰 오퍼레이션이므로 복잡한 분자의 경우 시간이 오래 걸릴 수 있습니다.
+</ResponseField>

@@ -1,0 +1,15 @@
+---
+title: Journaliser une métrique Summary personnalisée
+---
+
+```python
+"""
+Journaliser une métrique summary personnalisée dans W&B.
+"""
+import wandb
+import random 
+
+with wandb.init(project="<project>") as run:
+    # Journaliser une métrique summary personnalisée avec une valeur entière aléatoire entre 1 et 10
+    run.summary["<metric_name>"] = random.randint(1, 10)
+```

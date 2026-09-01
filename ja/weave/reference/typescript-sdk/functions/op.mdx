@@ -1,112 +1,188 @@
 ---
-title: op
-description: TypeScript SDK リファレンス
+title: "op"
+description: "TypeScript SDK リファレンス"
 ---
 
-# op
+<div id="call-signature">
+  ## 呼び出しシグネチャ
+</div>
 
-▸ **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+> **op**&lt;`T`&gt;(`fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-#### 型パラメータ
+定義場所: [src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L380)
 
-| 名前 | 型 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+<div id="type-parameters">
+  ### タイプパラメーター
+</div>
 
-#### パラメータ
+<div id="t">
+  #### T
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `fn` | `T` |
-| `options?` | `OpOptions`\<`T`\> |
+`T` *extends* (...`args`) =&gt; `any`
 
-#### 戻り値
+<div id="parameters">
+  ### パラメーター
+</div>
 
-[`Op`](../type-aliases/op)\<`T`\>
+<div id="fn">
+  #### fn
+</div>
 
-#### 定義
+`T`
 
-[op.ts:369](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L369)
+<div id="options">
+  #### options?
+</div>
 
-▸ **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+`OpOptions`&lt;`T`&gt;
 
-#### 型パラメータ
+<div id="returns">
+  ### 戻り値
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+[`Op`](../type-aliases/op)&lt;`T`&gt;
 
-#### パラメータ
+<div id="call-signature">
+  ## 呼び出しシグネチャ
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `thisArg` | `any` |
-| `fn` | `T` |
-| `options?` | `OpOptions`\<`T`\> |
+> **op**&lt;`T`&gt;(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-#### 戻り値
+定義場所: [src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L385)
 
-[`Op`](../type-aliases/op)\<`T`\>
+<div id="type-parameters">
+  ### タイプパラメーター
+</div>
 
-#### 定義
+<div id="t">
+  #### T
+</div>
 
-[op.ts:374](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L374)
+`T` *extends* (...`args`) =&gt; `any`
 
-▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+<div id="parameters">
+  ### パラメーター
+</div>
 
-#### パラメータ
+<div id="thisarg">
+  #### thisArg
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `target` | `Object` |
-| `propertyKey` | `string` \| `symbol` |
-| `descriptor` | `TypedPropertyDescriptor`\<`any`\> |
+`any`
 
-#### 戻り値
+<div id="fn">
+  #### fn
+</div>
 
-`TypedPropertyDescriptor`\<`any`\>
+`T`
 
-#### 定義
+<div id="options">
+  #### options?
+</div>
 
-[op.ts:380](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L380)
+`OpOptions`&lt;`T`&gt;
 
-▸ **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
+<div id="returns">
+  ### 戻り値
+</div>
 
-#### 型パラメータ
+[`Op`](../type-aliases/op)&lt;`T`&gt;
 
-| 名前 | 型 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+<div id="call-signature">
+  ## 呼び出しシグネチャ
+</div>
 
-#### パラメータ
+> **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`&lt;`any`&gt;
 
-| 名前 | 型 |
-| :------ | :------ |
-| `value` | `T` |
-| `context` | `MethodDecoratorContext` |
+定義場所: [src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L391)
 
-#### 戻り値
+<div id="parameters">
+  ### パラメーター
+</div>
 
-[`Op`](../type-aliases/op)\<`T`\>
+<div id="target">
+  #### target
+</div>
 
-#### 定義
+`object`
 
-[op.ts:386](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L386)
+<div id="propertykey">
+  #### propertyKey
+</div>
 
-▸ **op**(`options`): `MethodDecorator`
+`string` | `symbol`
 
-#### パラメータ
+<div id="descriptor">
+  #### descriptor
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `options` | `Partial`\<`OpOptions`\<`any`\>\> |
+`TypedPropertyDescriptor`&lt;`any`&gt;
 
-#### 戻り値
+<div id="returns">
+  ### 戻り値
+</div>
+
+`TypedPropertyDescriptor`&lt;`any`&gt;
+
+<div id="call-signature">
+  ## 呼び出しシグネチャ
+</div>
+
+> **op**&lt;`T`&gt;(`value`, `context`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+定義場所: [src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L397)
+
+<div id="type-parameters">
+  ### タイプパラメーター
+</div>
+
+<div id="t">
+  #### T
+</div>
+
+`T` *extends* (...`args`) =&gt; `any`
+
+<div id="parameters">
+  ### パラメーター
+</div>
+
+<div id="value">
+  #### value
+</div>
+
+`T`
+
+<div id="context">
+  #### context
+</div>
+
+`MethodDecoratorContext`
+
+<div id="returns">
+  ### 戻り値
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="call-signature">
+  ## 呼び出しシグネチャ
+</div>
+
+> **op**(`options`): `MethodDecorator`
+
+定義場所: [src/op.ts:402](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L402)
+
+<div id="parameters">
+  ### パラメーター
+</div>
+
+#### options
+
+`Partial`&lt;`OpOptions`&lt;`any`&gt;&gt;
+
+<div id="returns">
+  ### 戻り値
+</div>
 
 `MethodDecorator`
-
-#### 定義
-
-[op.ts:391](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L391)
-
-___

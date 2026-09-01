@@ -1,0 +1,54 @@
+---
+title: NewAutomation
+kind: classe
+namespace: wandb.automations.automations
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
+
+## <Badge color="yellow" size="lg" shape="rounded">classe</Badge> wandb.automations.NewAutomation
+
+Une nouvelle automatisation à créer.
+
+```python
+*,
+name: str | None = None,
+description: str | None = None,
+enabled: bool | None = None,
+event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automations.events.OnAddArtifactAlias | wandb.automations.events.OnAddArtifactTag | wandb.automations.events.OnRemoveArtifactTag | wandb.automations.events.OnAddCollectionTag | wandb.automations.events.OnRemoveCollectionTag | wandb.automations.events.OnCreateArtifact | wandb.automations.events.OnUnlinkArtifact | wandb.automations.events.OnRunMetric | wandb.automations.events.OnRunState, FieldInfo(annotation=NoneType, required=True, discriminator='event_type')]] = None,
+action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="name" type="str | None">
+  Le nom de cette automatisation.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  Une description facultative de cette automatisation.
+</ResponseField>
+
+<ResponseField name="enabled" type="bool | None">
+  Indique si cette automatisation est activée. Seules les automatisations activées seront déclenchées.
+</ResponseField>
+
+<ResponseField name="event" type="Optional">
+  L’événement qui déclenchera cette automatisation.
+</ResponseField>
+
+<ResponseField name="action" type="Optional">
+  L’action qui sera exécutée lorsque cette automatisation sera déclenchée.
+</ResponseField>
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<ResponseField name="scope" type="AutomationScope | None">
+  La portée dans laquelle l’événement déclencheur doit se produire.
+</ResponseField>

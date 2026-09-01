@@ -1,30 +1,32 @@
 ---
-title: "API error code 401 - Authentication failed"
+title: "API error code 401: Authentication failed"
 keywords: ["Authentication & Access"]
 ---
 
-A 401 error with the message "Authentication failed" means your authentication credentials are incorrect or your W&B project entity and/or name are incorrect.
+A `401` error with the message "Authentication failed" means your authentication credentials are incorrect, or your W&B project entity or name is incorrect. This article explains why the Serverless Inference API returns this error and how to resolve it.
 
 ## Why this happens
 
-The W&B Inference API requires valid authentication credentials to process requests. This error occurs when:
+The Serverless Inference API requires valid authentication credentials to process requests. This error occurs when:
 
-- Your API key is invalid, expired, or revoked
-- Your W&B project entity name is incorrect
-- Your W&B project name is incorrect
+- Your API key is invalid, expired, or revoked.
+- Your W&B project entity name is incorrect.
+- Your W&B project name is incorrect.
 
 ## What you can do
 
+Work through the following checks in order. Each step rules out one of the common causes listed above so you can isolate the source of the failure.
+
 1. **Verify your API key**
-   - Check that you're using the correct API key for your account
-   - Regenerate your API key if needed from your [W&B settings](https://wandb.ai/settings)
+   - Check that you're using the correct API key for your account.
+   - Regenerate your API key if needed from your [W&B settings](https://wandb.ai/settings).
 
 2. **Check your project details**
-   - Ensure your W&B project entity (organization or username) is correct
-   - Verify that the project name matches an existing project
+   - Ensure your W&B project entity (organization or username) is correct.
+   - Verify that the project name matches an existing project.
 
 3. **Contact support**
-   - If the issue persists after verifying your credentials, reach out to [W&B support](mailto:support@wandb.com)
+   - If the issue persists after verifying your credentials, contact [W&B support](mailto:support@wandb.com).
 
 ---
 

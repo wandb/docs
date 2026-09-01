@@ -1,0 +1,20 @@
+---
+title: Artifact TTL
+---
+
+```python
+"""
+W&B で TTL ポリシーを設定した artifact を作成してログする。
+"""
+import wandb
+from datetime import timedelta
+
+# TTL ポリシーを設定した artifact を作成する
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+artifact.add_file("<file_path>")
+artifact.ttl = timedelta(days=30)  # TTL ポリシーを設定する
+
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # TTL を設定した artifact をログする
+    run.log_artifact(artifact)
+```

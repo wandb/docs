@@ -1,0 +1,26 @@
+---
+title: "Rechercher des runs"
+description: "Découvrez comment rechercher des runs spécifiques par nom ou par ID dans le tableau Runs ou le Workspace de votre projet."
+---
+
+Utilisez la zone de recherche du tableau Runs ou du Workspace de votre projet pour trouver des [runs par nom ou par ID](/fr/models/runs/run-identifiers). W&amp;B interprète les requêtes de recherche comme des expressions régulières utilisant la [syntaxe Google RE2](https://github.com/google/re2/wiki/Syntax).
+
+Voir [Filtrer les runs](/fr/models/runs/filter-runs) pour savoir comment filtrer les runs par valeurs de configuration, métriques et tags.
+
+<div id="search-for-a-run-by-name-or-id">
+  ## Rechercher un run par nom ou ID
+</div>
+
+1. Dans la barre latérale du projet, sélectionnez **Runs** ou **Workspace**.
+2. Sélectionnez la zone de recherche en haut du tableau des runs.
+3. Saisissez un nom de run, un ID de run ou une expression régulière utilisant la syntaxe RE2.
+
+<div id="turn-off-regular-expression-search">
+  ## Désactiver la recherche par expressions régulières
+</div>
+
+Pour rechercher une chaîne de texte exacte plutôt qu&#39;une expression régulière :
+
+1. Dans la barre latérale du projet, sélectionnez **Runs** ou **Workspace**.
+2. Sélectionnez la zone de recherche en haut du tableau des runs.
+3. Désactivez le bouton bascule RegEx (`.*`). Il apparaît grisé lorsque la recherche par expressions régulières est désactivée.

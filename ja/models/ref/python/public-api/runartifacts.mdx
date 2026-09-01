@@ -1,25 +1,41 @@
 ---
 title: RunArtifacts
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-
-
-
-## <kbd>class</kbd> `RunArtifacts`
-特定の Run に関連付けられた Artifacts のイテレーション可能なコレクションです。
-
-
-### <kbd>property</kbd> RunArtifacts.cursor
-
-
-
-
-
+kind: クラス
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> RunArtifacts.more
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1066" />
+
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.RunArtifacts
+
+特定のrunに関連付けられたartifactのイテラブルなコレクションです。
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+最後に取得したレスポンスデータを、イテレーション対象のオブジェクトに変換します。
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
+
+```python
+self
+```
+
+イテレーターから次の項目を返します。要素がなくなると、StopIteration を送出します
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.update_variables()
+
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。

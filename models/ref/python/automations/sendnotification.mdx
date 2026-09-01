@@ -1,50 +1,99 @@
 ---
 title: SendNotification
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.actions
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-## <kbd>class</kbd> `SendNotification`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
+
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendNotification
+
+
+
 Defines an automation action that sends a (Slack) notification.
 
 
-### <kbd>method</kbd> `SendNotification.__init__`
 
 ```python
-__init__(
-    integration_id: 'str',
-    message: 'str' = '',
-    severity: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>,
-    title: 'str' = '',
-    action_type: 'Literal[NOTIFICATION]' = NOTIFICATION
-) → None
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+text: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+level: Annotated[wandb.automations._generated.enums.AlertSeverity, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined), BeforeValidator(func=<function upper_if_str>, json_schema_input_type=PydanticUndefined)] = <AlertSeverity.INFO: 'INFO'>,
+title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
-**Args:**
- 
- - `integration_id` (str): The ID of the Slack integration that will be used to send the notification.
- - `message` (str): The message body of the sent notification.
- - `severity` (AlertSeverity): The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
- - `title` (str): The title of the sent notification.
- - `action_type` (Literal[NOTIFICATION]): 
+## Args
 
-**Returns:**
- An `SendNotification` object.
+<ResponseField name="integration_id" type="Annotated">
+The ID of the Slack integration that will be used to send the notification.
+</ResponseField>
 
-### <kbd>classmethod</kbd> `SendNotification.from_integration`
+<ResponseField name="text" type="Annotated">
+The message body of the sent notification.
+</ResponseField>
+
+<ResponseField name="level" type="Annotated">
+The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
+</ResponseField>
+
+<ResponseField name="title" type="Annotated">
+The title of the sent notification.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
+
+
+## Methods
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> SendNotification.from_integration()
 
 ```python
-from_integration(
-    integration: 'SlackIntegration',
-    title: 'str' = '',
-    text: 'str' = '',
-    level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
-) → Self
+integration: 'SlackIntegration', *,
+title: 'str' = '',
+text: 'str' = '',
+level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
 ```
 
 Define a notification action that sends to the given (Slack) integration.
+
+##### Arguments
+
+<ResponseField name="integration" type="SlackIntegration">
+No description provided.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="text" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
+

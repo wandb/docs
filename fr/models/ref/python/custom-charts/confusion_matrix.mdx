@@ -1,0 +1,138 @@
+---
+title: confusion_matrix()
+kind: fonction
+namespace: wandb.plot.confusion_matrix
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
+
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.confusion_matrix()
+
+Construit une matrice de confusion à partir d&#39;une séquence de probabilités ou de prédictions.
+
+```python
+probs: 'Sequence[Sequence[float]] | None' = None,
+y_true: 'Sequence[T] | None' = None,
+preds: 'Sequence[T] | None' = None,
+class_names: 'Sequence[str] | None' = None,
+title: 'str' = 'Confusion Matrix Curve',
+split_table: 'bool' = False
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="probs" type="Sequence[Sequence[float]] | None">
+  Une séquence de probabilités prédites pour chaque classe. La forme de la séquence doit être (N, K), où N est le nombre d&#39;échantillons et K le nombre de classes. Si ce paramètre est fourni, `preds` ne doit pas l&#39;être.
+</ResponseField>
+
+<ResponseField name="y_true" type="Sequence[T] | None">
+  Une séquence d&#39;étiquettes réelles.
+</ResponseField>
+
+<ResponseField name="preds" type="Sequence[T] | None">
+  Une séquence d&#39;étiquettes de classes prédites. Si ce paramètre est fourni, `probs` ne doit pas l&#39;être.
+</ResponseField>
+
+<ResponseField name="class_names" type="Sequence[str] | None">
+  Une séquence de noms de classes. S&#39;ils ne sont pas fournis, les noms de classes sont définis comme « Class&#95;1 », « Class&#95;2 », etc.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Titre du graphique de la matrice de confusion.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau s&#39;affiche dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
+</ResponseField>
+
+<div id="returns">
+  ## Retourne
+</div>
+
+`CustomChart` :  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le  graphique, passez-le à `wandb.log()`.
+
+<div id="raises">
+  ## Exceptions levées
+</div>
+
+* `ValueError`: Si `probs` et `preds` sont tous deux fournis, ou si le nombre de prédictions et d&#39;étiquettes réelles n&#39;est pas identique. Si le nombre de classes prédites uniques dépasse le nombre de noms de classes, ou si le nombre d&#39;étiquettes réelles uniques dépasse le nombre de noms de classes.
+* `wandb.Error`: Si numpy n&#39;est pas installé.
+
+<div id="examples">
+  ## Exemples
+</div>
+
+Journalisation d’une matrice de confusion avec des probabilités aléatoires pour la classification de la faune sauvage :
+
+```python
+import numpy as np
+import wandb
+
+# Définir les noms de classes pour la faune sauvage
+wildlife_class_names = ["Lion", "Tiger", "Elephant", "Zebra"]
+
+# Générer des étiquettes réelles aléatoires (0 à 3 pour 10 échantillons)
+wildlife_y_true = np.random.randint(0, 4, size=10)
+
+# Générer des probabilités aléatoires pour chaque classe (10 échantillons x 4 classes)
+wildlife_probs = np.random.rand(10, 4)
+wildlife_probs = np.exp(wildlife_probs) / np.sum(
+    np.exp(wildlife_probs),
+    axis=1,
+    keepdims=True,
+)
+
+# Initialiser le run W&B et enregistrer la matrice de confusion
+with wandb.init(project="wildlife_classification") as run:
+    confusion_matrix = wandb.plot.confusion_matrix(
+        probs=wildlife_probs,
+        y_true=wildlife_y_true,
+        class_names=wildlife_class_names,
+        title="Wildlife Classification Confusion Matrix",
+    )
+    run.log({"wildlife_confusion_matrix": confusion_matrix})
+```
+
+Dans cet exemple, des probabilités aléatoires sont utilisées pour générer une matrice de confusion.
+
+Journalisation d’une matrice de confusion avec des prédictions simulées d’un modèle et une précision de 85 % :
+
+```python
+import numpy as np
+import wandb
+
+# Définir les noms de classes pour la faune sauvage
+wildlife_class_names = ["Lion", "Tiger", "Elephant", "Zebra"]
+
+# Simuler les étiquettes réelles pour 200 images d'animaux (distribution déséquilibrée)
+wildlife_y_true = np.random.choice(
+    [0, 1, 2, 3],
+    size=200,
+    p=[0.2, 0.3, 0.25, 0.25],
+)
+
+# Simuler les prédictions du modèle avec une précision de 85 %
+wildlife_preds = [
+    y_t
+    if np.random.rand() < 0.85
+    else np.random.choice([x for x in range(4) if x != y_t])
+    for y_t in wildlife_y_true
+]
+
+# Initialiser le run W&B et enregistrer la matrice de confusion
+with wandb.init(project="wildlife_classification") as run:
+    confusion_matrix = wandb.plot.confusion_matrix(
+        preds=wildlife_preds,
+        y_true=wildlife_y_true,
+        class_names=wildlife_class_names,
+        title="Simulated Wildlife Classification Confusion Matrix",
+    )
+    run.log({"wildlife_confusion_matrix": confusion_matrix})
+```
+
+Dans cet exemple, des prédictions sont simulées avec une précision de 85 % afin de générer une
+matrice de confusion.

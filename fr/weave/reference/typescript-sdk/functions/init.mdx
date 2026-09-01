@@ -1,0 +1,46 @@
+---
+title: "init"
+description: "Référence du SDK TypeScript"
+---
+
+> **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
+
+Initialise le client Weave, nécessaire au fonctionnement du tracing Weave.
+
+Défini dans : [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
+
+<div id="parameters">
+  ## Paramètres
+</div>
+
+<div id="project">
+  ### projet
+</div>
+
+`string`
+
+Le nom du projet W&amp;B (peut être projet ou entité/projet). Si vous ne
+spécifiez pas d&#39;équipe W&amp;B (par exemple, &#39;équipe/projet&#39;), votre entité par défaut est utilisée.
+Pour trouver ou mettre à jour votre défau[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)/platform/app/settings-page/user-settings#default-team
+
+<div id="settings">
+  ### settings?
+</div>
+
+`Partial`&lt;[`Settings`](../type-aliases/settings)&gt;
+
+(Facultatif) Paramètres de Tracing Weave
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+`Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
+
+Une promesse qui renvoie le client Weave initialisé.
+
+<div id="throws">
+  ## Erreurs
+</div>
+
+Si l&#39;initialisation échoue

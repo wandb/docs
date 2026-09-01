@@ -1,32 +1,41 @@
 ---
 title: MetricZScoreFilter
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations._run_metric_filters
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `MetricZScoreFilter`
-メトリクスの Z スコアをユーザー定義のしきい値と比較するフィルタです。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L201" />
 
-### <kbd>method</kbd> `MetricZScoreFilter.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.MetricZScoreFilter
+
+メトリクスのzスコアをユーザー定義のしきい値と比較するフィルターです。
 
 ```python
-__init__(
-    name: 'str',
-    window: 'int' = 30,
-    threshold: 'Annotated | Annotated' = 3.0,
-    change_dir: 'ChangeDir' = ANY
-) → None
+*,
+name: str,
+window_size: Annotated[int, Gt(gt=0)] = 30,
+threshold: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]] = 3.0,
+change_dir: wandb.automations._run_metric_filters.ChangeDir = ANY
 ```
 
-**Args:**
- 
- - `name` (str): 観測対象となるメトリクスの名前。
- - `window` (int): メトリクスの平均と標準偏差を計算するためのウィンドウサイズ。
- - `threshold` (Union[Annotated, Annotated]): Z スコアのしきい値。
- - `change_dir` (ChangeDir): 監視対象となる Z スコアの変化の方向。
+<div id="args">
+  ## 引数
+</div>
 
-**Returns:**
- `MetricZScoreFilter` オブジェクト。
+<ResponseField name="name" type="str">
+  観測するメトリクスの名。
+</ResponseField>
+
+<ResponseField name="window_size" type="Annotated">
+  メトリクスの平均値と標準偏差を計算するウィンドウのサイズ。
+</ResponseField>
+
+<ResponseField name="threshold" type="Union">
+  z スコアのしきい値。
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+  監視対象の z スコア変化の方向。
+</ResponseField>

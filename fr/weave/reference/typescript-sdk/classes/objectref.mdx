@@ -1,0 +1,180 @@
+---
+title: "ObjectRef"
+description: "Référence du SDK TypeScript"
+---
+
+Représente une référence à un objet Weave enregistré.
+
+En général, les utilisateurs finaux n’auront pas besoin d’interagir directement avec cette classe.
+
+Un ObjectRef contient l’ID du projet, l’ID de l’objet et le digest qui identifient de manière unique
+un objet enregistré dans le système de stockage de Weave.
+
+Défini dans : [src/weaveObject.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L23)
+
+## Exemple
+
+```ts twoslash
+// @noErrors
+const ref = new ObjectRef('my-project', 'abc123', 'def456');
+const uri = ref.uri(); // weave:///my-project/object/abc123:def456
+```
+
+<div id="constructors">
+  ## Constructeurs
+</div>
+
+<div id="constructor">
+  ### Constructeur
+</div>
+
+> **new ObjectRef**(`projectId`, `objectId`, `digest`) : `ObjectRef`
+
+Défini dans : [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="projectid">
+  ##### projectId
+</div>
+
+`string`
+
+<div id="objectid">
+  ##### objectId
+</div>
+
+`string`
+
+<div id="digest">
+  ##### digest
+</div>
+
+`string`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`ObjectRef`
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+### digest
+
+> **digest** : `string`
+
+Défini dans : [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
+
+***
+
+### objectId
+
+> **objectId** : `string`
+
+Défini dans : [src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
+
+***
+
+### projectId
+
+> **projectId** : `string`
+
+Défini dans : [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="get">
+  ### get()
+</div>
+
+> **get**(): `Promise`&lt;`any`&gt;
+
+Défini dans : [src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`any`&gt;
+
+<div id="ui_url">
+  ### ui_url()
+</div>
+
+> **ui&#95;url**(): `string`
+
+Défini dans : [src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="uri">
+  ### uri()
+</div>
+
+> **uri**(): `string`
+
+Défini dans : [src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="fromuri">
+  ### fromUri()
+</div>
+
+> `static` **fromUri**(`uri`): `ObjectRef`
+
+Crée un ObjectRef à partir d&#39;une chaîne d&#39;URI Weave.
+
+Défini dans : [src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+##### uri
+
+`string`
+
+Une URI Weave au format : weave:///entity/project/object/name:digest
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`ObjectRef`
+
+Une nouvelle instance d&#39;ObjectRef
+
+<div id="throws">
+  #### Lève
+</div>
+
+Une erreur si le format de l&#39;URI est invalide ou ne correspond pas à une réf. d&#39;objet
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
+```

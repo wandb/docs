@@ -1,44 +1,61 @@
 ---
 title: SendWebhook
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations.actions
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L182" />
 
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendWebhook
 
-## <kbd>class</kbd> `SendWebhook`
-Webhook リクエストを送信する オートメーション アクションを定義します。
-
-
-### <kbd>method</kbd> `SendWebhook.__init__`
+Webhook リクエストを送信するオートメーション アクションを定義します。
 
 ```python
-__init__(
-    integration_id: 'str',
-    request_payload: 'Annotated | None' = None,
-    action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
-) → None
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
+action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-**Args:**
- 
- - `integration_id` (str): リクエストの送信に使用される Webhook インテグレーション の ID。
- - `request_payload` (Optional[Annotated]): Webhook リクエストで送信するペイロード。テンプレート変数を含めることができます。
- - `action_type` (Literal[GENERIC_WEBHOOK]): 
+<div id="args">
+  ## 引数
+</div>
 
-**Returns:**
- `SendWebhook` オブジェクト。
+<ResponseField name="integration_id" type="Annotated">
+  リクエストの送信に使用する webhook インテグレーションの ID。
+</ResponseField>
 
-### <kbd>classmethod</kbd> `SendWebhook.from_integration`
+<ResponseField name="requestPayload" type="Optional">
+  webhook リクエストで送信するペイロード。テンプレート変数を含む場合があります。
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  説明はありません。
+</ResponseField>
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendWebhook.from_integration()
 
 ```python
-from_integration(
-    integration: 'WebhookIntegration',
-    payload: 'Optional[JsonEncoded[dict[str, Any]]]' = None
-) → Self
+integration: 'WebhookIntegration', *,
+payload: 'JsonEncoded[dict[str, Any]] | None' = None
 ```
 
-指定された（Webhook） インテグレーション に送信する Webhook アクションを定義します。
+指定した (webhook) インテグレーションに送信する webhook アクションを定義します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="integration" type="WebhookIntegration">
+  説明は提供されていません。
+</ResponseField>
+
+<ResponseField name="payload" type="JsonEncoded[dict[str, Any]] | None">
+  説明は提供されていません。
+</ResponseField>

@@ -1,145 +1,244 @@
 ---
 title: Sweep
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.sweeps
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Sweep`
-Sweep に関連付けられた Runs のセットです。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-**Attributes:**
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Sweep
 
- - `runs` (Runs): Runs のリスト
- - `id` (str): Sweep ID
- - `project` (str): Sweep が属する Project の名前
- - `config` (dict): sweep configuration を含む辞書
- - `state` (str): Sweep の状態。"Finished"、"Failed"、"Crashed"、または "Running" のいずれかです。
- - `expected_run_count` (int): Sweep で期待される想定 Run 数
-
-### <kbd>method</kbd> `Sweep.__init__`
+sweep に関連付けられた Runs の一覧。
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
----
+<div id="args">
+  ## 引数
+</div>
 
-### <kbd>property</kbd> Sweep.config
+<ResponseField name="service_api" type="ServiceApi">
+  説明はありません。
+</ResponseField>
 
-Sweep に使用される sweep configuration です。
+<ResponseField name="entity" type="str">
+  説明はありません。
+</ResponseField>
 
----
+<ResponseField name="project" type="str">
+  説明はありません。
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.entity
+<ResponseField name="sweep_id" type="str">
+  説明はありません。
+</ResponseField>
 
-Sweep に関連付けられた Entity です。
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+  説明はありません。
+</ResponseField>
 
-**Returns:**
- - `str`: entity プロパティの値。
+<div id="attributes">
+  ## 属性
+</div>
 
----
+* `runs` (`Runs`): run のリスト
+* `id` (`str`): Sweep ID
+* `project` (`str`): この sweep が属するプロジェクトの名
+* `config` (`dict`): sweep の設定を含む辞書
+* `state` (`str`): sweep の状態。&quot;Finished&quot;、&quot;Failed&quot;、&quot;Crashed&quot;、または &quot;Running&quot; のいずれかになります。
+* `expected_run_count` (`int`): この sweep で想定される run 数
 
-### <kbd>property</kbd> Sweep.expected_run_count
+<div id="properties">
+  ## プロパティ
+</div>
 
-Sweep で期待される Run 数を返します。無限の場合は None を返します。
+<ResponseField name="config" type="">
+  sweep で使用する sweep 設定。
+</ResponseField>
 
-**Returns:**
- - `int | None`: expected_run_count プロパティの値。
+<ResponseField name="entity" type="str">
+  sweep に関連付けられた entity。
+</ResponseField>
 
----
+<ResponseField name="expected_run_count" type="int | None">
+  sweep 内の想定される Runs 数を返します。無限に Runs する場合は None を返します。
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.name
+<ResponseField name="name" type="">
+  sweep の名前。
 
-Sweep の名前です。
+  次の優先順位で、存在する最初の名前を返します。
 
-以下の優先順位で最初に存在する名前を返します：
+  1. ユーザーが編集した表示名
+  2. 作成時に設定された名前
+  3. Sweep ID
+</ResponseField>
 
-1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. Sweep ID
+<ResponseField name="order" type="">
+  sweep の順序キーを返します。
+</ResponseField>
 
----
+<ResponseField name="path" type="">
+  project のパスを返します。
 
-### <kbd>property</kbd> Sweep.order
+  パスは、entity、プロジェクト名、sweep ID を含むリストです。
+</ResponseField>
 
-Sweep の順序（order）キーを返します。
+<ResponseField name="url" type="">
+  sweep の URL。
 
----
+  sweep URL は、entity、project、「sweeps」という語、および sweep ID.run&#95;id から生成されます。
+  SaaS ユーザーの場合、形式は
+  `https://wandb.ai/entity/project/sweeps/sweeps_ID` です。
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.path
+<ResponseField name="username" type="str">
+  非推奨です。代わりに `Sweep.entity` を使用してください。
+</ResponseField>
 
-Project のパスを返します。
+<div id="methods">
+  ## メソッド
+</div>
 
-パスは、Entity、Project 名、および Sweep ID を含むリストです。
-
----
-
-### <kbd>property</kbd> Sweep.url
-
-Sweep の URL です。
-
-Sweep の URL は、Entity、Project、"sweeps" という用語、および Sweep ID から生成されます。 SaaS Users の場合、`https://wandb.ai/entity/project/sweeps/sweeps_ID` という形式になります。
-
----
-
-### <kbd>property</kbd> Sweep.username
-
-非推奨です。代わりに `Sweep.entity` を使用してください。
-
-**Returns:**
- - `str`: username プロパティの値。
-
----
-
-### <kbd>method</kbd> `Sweep.best_run`
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.agent()
 
 ```python
-best_run(order=None)
+self,
+agent_id: 'str'
 ```
 
-config で定義されたメトリクス、または渡された order に基づいてソートされた最高の Run を返します。
+ID を指定して、この sweep のエージェントをクエリします。
 
----
+<div id="arguments">
+  ##### 引数
+</div>
 
-### <kbd>classmethod</kbd> `Sweep.get`
+<ResponseField name="agent_id" type="str">
+  検索するエージェントの ID。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.agents()
 
 ```python
-get(
-    client: 'RetryingClient',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    sid: 'str | None' = None,
-    order: 'str | None' = None,
-    query: 'Document | None' = None,
-    **kwargs
-)
+self
 ```
 
-クラウドのバックエンドに対してクエリを実行します。
+この sweep に含まれるすべてのエージェントの一覧をクエリします。
 
-**Args:**
-
- - `client`: クエリの実行に使用するクライアント。
- - `entity`: Project を所有する Entity (Users 名または Teams)。
- - `project`: Sweep を取得する Project の名前。
- - `sid`: クエリ対象の Sweep ID。
- - `order`: Sweep の Runs が返される順序。
- - `query`: 実行に使用するクエリ。
- - `**kwargs`: クエリに渡す追加のキーワード引数。
-
----
-
-### <kbd>method</kbd> `Sweep.to_html`
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.best_run()
 
 ```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+(self, order=None)
 ```
 
-この Sweep を表示する iframe を含む HTML を生成します。
+設定で定義されたメトリクス、または指定された順序でソートされた最良の run を返します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="order" type="_empty">
+  説明は提供されていません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+sweep の run をキューに登録します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="config" type="dict">
+  run の設定。
+</ResponseField>
+
+<ResponseField name="display_name" type="str | None">
+  run の表示名 (省略可) 。
+</ResponseField>
+
+<div id="raises">
+  ##### 例外
+</div>
+
+* `UnsupportedError`: サーバーが sweep run のキューへの追加をサポートしていない場合。
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.get()
+
+```python
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
+```
+
+クラウドバックエンドに対してクエリを実行します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="api" type="Api">
+  W&amp;B API のインスタンス。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  project を所有する entity (ユーザー名またはチーム) 。
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  sweep を取得する project の名。
+</ResponseField>
+
+<ResponseField name="sid" type="str | None">
+  クエリする sweep ID。
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  sweep の Runs を返す順序。
+</ResponseField>
+
+<ResponseField name="query" type="str | None">
+  クエリの実行に使用するクエリ。
+</ResponseField>
+
+<ResponseField name="kwargs" type="_empty">
+  説明はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.to_html()
+
+```python
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
+```
+
+この sweep を表示する iframe を含む HTML を生成します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="height" type="int">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  説明はありません。
+</ResponseField>

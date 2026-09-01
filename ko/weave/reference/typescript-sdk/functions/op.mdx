@@ -1,112 +1,188 @@
 ---
-title: op
-description: TypeScript SDK 레퍼런스
+title: "op"
+description: "TypeScript SDK 레퍼런스"
 ---
 
-# op
+<div id="call-signature">
+  ## Call 시그니처
+</div>
 
-▸ **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+> **op**&lt;`T`&gt;(`fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-#### 타입 파라미터
+정의 위치: [src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L380)
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+<div id="type-parameters">
+  ### 유형 매개변수
+</div>
 
-#### 파라미터
+<div id="t">
+  #### T
+</div>
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `fn` | `T` |
-| `options?` | `OpOptions`\<`T`\> |
+`T` *extends* (...`args`) =&gt; `any`
 
-#### 반환값
+<div id="parameters">
+  ### 매개변수
+</div>
 
-[`Op`](../type-aliases/op)\<`T`\>
+<div id="fn">
+  #### fn
+</div>
 
-#### 정의 위치
+`T`
 
-[op.ts:369](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L369)
+<div id="options">
+  #### options?
+</div>
 
-▸ **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+`OpOptions`&lt;`T`&gt;
 
-#### 타입 파라미터
+<div id="returns">
+  ### 반환값
+</div>
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+[`Op`](../type-aliases/op)&lt;`T`&gt;
 
-#### 파라미터
+<div id="call-signature">
+  ## Call 시그니처
+</div>
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `thisArg` | `any` |
-| `fn` | `T` |
-| `options?` | `OpOptions`\<`T`\> |
+> **op**&lt;`T`&gt;(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-#### 반환값
+정의 위치: [src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L385)
 
-[`Op`](../type-aliases/op)\<`T`\>
+<div id="type-parameters">
+  ### 유형 매개변수
+</div>
 
-#### 정의 위치
+<div id="t">
+  #### T
+</div>
 
-[op.ts:374](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L374)
+`T` *extends* (...`args`) =&gt; `any`
 
-▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+<div id="parameters">
+  ### 매개변수
+</div>
 
-#### 파라미터
+<div id="thisarg">
+  #### thisArg
+</div>
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `target` | `Object` |
-| `propertyKey` | `string` \| `symbol` |
-| `descriptor` | `TypedPropertyDescriptor`\<`any`\> |
+`any`
 
-#### 반환값
+<div id="fn">
+  #### fn
+</div>
 
-`TypedPropertyDescriptor`\<`any`\>
+`T`
 
-#### 정의 위치
+<div id="options">
+  #### options?
+</div>
 
-[op.ts:380](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L380)
+`OpOptions`&lt;`T`&gt;
 
-▸ **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
+<div id="returns">
+  ### 반환값
+</div>
 
-#### 타입 파라미터
+[`Op`](../type-aliases/op)&lt;`T`&gt;
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+<div id="call-signature">
+  ## Call 시그니처
+</div>
 
-#### 파라미터
+> **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`&lt;`any`&gt;
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `value` | `T` |
-| `context` | `MethodDecoratorContext` |
+정의 위치: [src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L391)
 
-#### 반환값
+<div id="parameters">
+  ### 매개변수
+</div>
 
-[`Op`](../type-aliases/op)\<`T`\>
+<div id="target">
+  #### target
+</div>
 
-#### 정의 위치
+`object`
 
-[op.ts:386](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L386)
+<div id="propertykey">
+  #### propertyKey
+</div>
 
-▸ **op**(`options`): `MethodDecorator`
+`string` | `symbol`
 
-#### 파라미터
+<div id="descriptor">
+  #### descriptor
+</div>
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `options` | `Partial`\<`OpOptions`\<`any`\>\> |
+`TypedPropertyDescriptor`&lt;`any`&gt;
 
-#### 반환값
+<div id="returns">
+  ### 반환값
+</div>
+
+`TypedPropertyDescriptor`&lt;`any`&gt;
+
+<div id="call-signature">
+  ## Call 시그니처
+</div>
+
+> **op**&lt;`T`&gt;(`value`, `context`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+정의 위치: [src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L397)
+
+<div id="type-parameters">
+  ### 유형 매개변수
+</div>
+
+<div id="t">
+  #### T
+</div>
+
+`T` *extends* (...`args`) =&gt; `any`
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+<div id="value">
+  #### 값
+</div>
+
+`T`
+
+<div id="context">
+  #### context
+</div>
+
+`MethodDecoratorContext`
+
+<div id="returns">
+  ### 반환값
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="call-signature">
+  ## Call 시그니처
+</div>
+
+> **op**(`options`): `MethodDecorator`
+
+정의 위치: [src/op.ts:402](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L402)
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+#### options
+
+`Partial`&lt;`OpOptions`&lt;`any`&gt;&gt;
+
+<div id="returns">
+  ### 반환값
+</div>
 
 `MethodDecorator`
-
-#### 정의 위치
-
-[op.ts:391](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L391)
-
-___

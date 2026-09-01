@@ -1,0 +1,110 @@
+---
+title: "Ajouter des runtimes personnalisés"
+description: "Connectez des points de terminaison d’inférence compatibles avec OpenAI à un projet Weave en tant que runtimes personnalisés et gérez-les depuis l’interface utilisateur ou les SDK Python et TypeScript."
+keywords: ["runtimes personnalisés", "fournisseurs personnalisés", "point de terminaison compatible avec OpenAI", "register_custom_runtime", "playground LLM", "juge LLM"]
+---
+
+Enregistrez un runtime personnalisé pour connecter un point de terminaison d’inférence compatible avec OpenAI à un projet W&amp;B Weave. Après l’enregistrement, les modèles du point de terminaison apparaissent dans les sélecteurs de modèles de Weave. Vous et votre équipe pouvez ensuite les utiliser dans le Playground, le playground d’évaluation et les flux de travail utilisant un juge LLM, sans écrire de code d’intégration.
+
+Utilisez un runtime personnalisé pour connecter l’un des éléments suivants :
+
+* Un prototype d’agent ou de modèle que votre équipe expose derrière une API compatible avec OpenAI.
+* Un modèle auto-hébergé ou local (par exemple, servi par Ollama ou vLLM).
+* Un fournisseur ou une version de modèle que Weave ne prend pas en charge de manière native.
+
+Vous pouvez gérer les runtimes personnalisés dans l’interface W&amp;B ou par programmation à l’aide des SDK Python et TypeScript. L’utilisation des SDK est conçue pour le CI/CD : l’enregistrement est déclaratif et idempotent. Votre pipeline peut donc réenregistrer un runtime à chaque déploiement, et Weave applique la configuration spécifiée.
+
+<div id="where-you-can-use-custom-runtimes">
+  ## Où utiliser des runtimes personnalisés
+</div>
+
+Les modèles d’un runtime personnalisé enregistré apparaissent dans le sélecteur de modèles aux emplacements suivants :
+
+* [Playground](/fr/weave/guides/tools/playground) : Discutez de manière interactive avec le point de terminaison.
+* [playground d’évaluation](/fr/weave/guides/tools/evaluation_playground) : Évaluez et comparez le point de terminaison à d’autres modèles.
+* [Signals](/fr/weave/guides/evaluation/monitors) : Utilisez le point de terminaison comme modèle juge pour évaluer les traces entrantes.
+* Sélecteurs de modèles pour l’itération des scorers et les Agent Signals.
+* L’API de complétion Weave : transmettez l’ID du modèle `custom::<runtime-name>::<runtime-id>` au point de terminaison `completions/create` afin d’exécuter par programmation des complétions tracées sur votre point de terminaison. Voir la [référence de l’API de service](/fr/weave/reference/service-api).
+
+<div id="add-a-custom-runtime">
+  ## Ajouter un runtime personnalisé
+</div>
+
+Vous pouvez ajouter un runtime personnalisé à votre projet à l’aide de code ou de l’interface Weave. Pour ce faire, vous avez besoin des informations suivantes :
+
+| Champ                          | Description                                                                                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Nom                            | Identifie le runtime au sein du projet. Apparaît comme nom de groupe dans les sélecteurs de modèles.                                             |
+| URL de base                    | Point de terminaison compatible avec OpenAI auquel Weave envoie les requêtes de complétion. Il doit être accessible depuis les serveurs W&amp;B. |
+| ID de runtime                  | Un ou plusieurs ID de modèle servis par le point de terminaison. Chaque ID apparaît comme modèle sélectionnable.                                 |
+| Nombre maximal de jetons       | Nombre maximal de jetons que le modèle peut générer dans une réponse. Défini pour chaque ID de runtime. La valeur par défaut est 4096.           |
+| Secret de clé API (facultatif) | Nom d’un [secret d’équipe](/fr/platform/secrets) contenant la clé API du point de terminaison.                                                      |
+| En-têtes (facultatif)          | En-têtes HTTP personnalisés envoyés avec chaque requête au point de terminaison.                                                                 |
+
+<div id="add-a-custom-runtime-using-code">
+  ### Ajouter un runtime personnalisé à l’aide de code
+</div>
+
+À partir des informations sur le runtime présentées dans la section précédente, mettez à jour les champs appropriés de la requête d’enregistrement suivante, puis exécutez-la pour créer ou mettre à jour un runtime personnalisé dans votre projet. L’enregistrement par programmation nécessite la version 0.53.4 ou ultérieure du package Python `weave`, ou la version 0.16.5 ou ultérieure du package npm `weave`.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import weave
+
+    client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+    client.register_custom_runtime(
+        name="support-agent",
+        base_url="https://agent.example/v1",
+        api_key_secret="AGENT_API_KEY",
+        headers={"X-Tenant-ID": "customer-1"},
+        runtime_ids=[
+            "support-v12",
+            weave.CustomRuntimeID(id="support-canary", max_tokens=8192),
+        ],
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    import * as weave from 'weave';
+
+    const client = await weave.init('[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]');
+
+    await client.registerCustomRuntime({
+      name: 'support-agent',
+      baseUrl: 'https://agent.example/v1',
+      apiKeySecret: 'AGENT_API_KEY',
+      headers: {'X-Tenant-ID': 'customer-1'},
+      runtimeIds: ['support-v12', {id: 'support-canary', maxTokens: 8192}],
+    });
+    ```
+  </Tab>
+</Tabs>
+
+Après avoir ajouté un runtime, son ID est référencé sous la forme `custom::<runtime-name>::<runtime-id>`. Une fois l’appel effectué avec succès, les modèles du runtime apparaissent dans les sélecteurs de modèles sous le nom du runtime, comme pour un runtime enregistré dans l’interface utilisateur.
+
+<Note>
+  Après avoir mis à jour un runtime, l’inférence peut continuer à utiliser la configuration précédente pendant 60 secondes maximum, le temps que les caches expirent.
+</Note>
+
+<div id="register-a-custom-runtime-in-the-ui">
+  ## Enregistrer un runtime personnalisé dans l’interface utilisateur
+</div>
+
+Pour enregistrer un runtime personnalisé depuis l’interface W&amp;B :
+
+1. Dans la barre latérale de Weave, sélectionnez **Project**, puis l’onglet **AI Providers**. Vous pouvez également cliquer sur **Configure providers** dans le sélecteur de modèles du Playground.
+2. Cliquez sur **Ajouter un runtime personnalisé**. Le volet latéral de configuration s’ouvre.
+3. Dans le volet latéral, saisissez le nom du runtime, l’URL de base et un ou plusieurs ID de runtime. Vous pouvez éventuellement ajouter le secret de clé API et des en-têtes personnalisés.
+4. Enregistrez le runtime.
+
+<Frame>
+  ![Menu de configuration du runtime personnalisé](/weave/guides/tools/imgs/custom-runtime.png)
+</Frame>
+
+Les modèles du runtime apparaissent ensuite dans les sélecteurs de modèles, sous un groupe portant le nom du runtime. Un runtime enregistré sans ID de runtime reste visible dans le sélecteur avec l’action **Add runtime ID**, qui rouvre l’éditeur.
+
+Pour modifier ou supprimer un runtime, utilisez les commandes **Edit** et **Delete** sur la ligne du runtime dans l’onglet **AI Providers**. La suppression d’un runtime est irréversible.

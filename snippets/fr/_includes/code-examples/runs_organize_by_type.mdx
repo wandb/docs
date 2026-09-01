@@ -1,0 +1,23 @@
+---
+title: Organisez les runs par type
+---
+
+```python
+"""
+Organisez les runs par type de job.
+
+Ajoutez un type de job à un run en passant le paramètre `job_type` à `wandb.init(job_type="")`.
+"""
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+# Crée des runs et les organise par type de job.
+for job_type in ["<JobType1>", "<JobType2>"]: # Remplacez par les noms de types de job
+    # Simule la création de deux runs pour chaque type de job.
+    for i in range(2):
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # Le code d'entraînement et de journalisation va ici
+            pass    
+```

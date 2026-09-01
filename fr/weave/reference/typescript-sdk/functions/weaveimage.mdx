@@ -1,0 +1,41 @@
+---
+title: "weaveImage"
+description: "Référence du SDK TypeScript"
+---
+
+> **weaveImage**(`options`): [`WeaveImage`](../interfaces/weaveimage)
+
+Créer un nouvel objet WeaveImage
+
+Défini dans : [src/media.ts:28](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L28)
+
+<div id="parameters">
+  ## Paramètres
+</div>
+
+<div id="options">
+  ### options
+</div>
+
+`WeaveImageInput`
+
+Les options de ce type de média
+
+* data : les données brutes de l’image sous forme de Buffer
+  * imageType : (Facultatif) le type de fichier image ; actuellement, seul &#39;png&#39; est pris en charge
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+[`WeaveImage`](../interfaces/weaveimage)
+
+<div id="example">
+  ## Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const imageBuffer = fs.readFileSync('path/to/image.png');
+const weaveImage = weaveImage({ data: imageBuffer });
+```

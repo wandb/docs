@@ -1,0 +1,18 @@
+---
+title: "Quelle API de Weave dois-je utiliser pour tracer mon agent ?"
+keywords: ["Agents", "Tracing", "weave.op"]
+---
+
+Cela dépend de ce que vous développez :
+
+* Si vous utilisez un framework d&#39;agent prêt à l&#39;emploi (comme Claude Code), installez l&#39;[intégration Weave](/fr/weave/guides/integrations) correspondante ; le traçage alimentera automatiquement l&#39;onglet **Agents**.
+* Si vous développez votre propre agent avec des sessions et des tours de conversation, utilisez le [SDK Weave pour les agents](/fr/weave/guides/tracking/trace-agents) (`weave.start_session`, `weave.start_turn`), qui affiche les résultats dans l&#39;onglet **Agents**.
+* Si vous tracez des fonctions ou des pipelines individuels plutôt que des conversations d&#39;agent, utilisez [`@weave.op`](/fr/weave/guides/tracking/tracing), qui affiche les résultats dans l&#39;onglet **Traces**.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Agents](/fr/support/weave/tags/agents)</Badge><Badge stroke shape="pill" color="orange" size="md">[Tracing](/fr/support/weave/tags/tracing)</Badge><Badge stroke shape="pill" color="orange" size="md">[weave.op](/fr/support/weave/tags/weave-op)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

@@ -1,0 +1,47 @@
+---
+title: Member
+kind: classe
+namespace: wandb.apis.public.teams
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Member
+
+Un membre d’une équipe.
+
+```python
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="service_api" type="ServiceApi">
+  L’instance d’API de service à utiliser pour effectuer des requêtes sur W&amp;B.
+</ResponseField>
+
+<ResponseField name="team" type="str">
+  Le nom de l’équipe à laquelle appartient ce membre
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  Les attributs du membre
+</ResponseField>
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Member.delete()
+
+```python
+(self)
+```
+
+Supprime un membre d’une équipe.

@@ -1,0 +1,74 @@
+---
+title: "Comment exécuter des balayages sur SLURM ?"
+keywords: ["Balayages", "Experiments"]
+---
+
+Pour les balayages W&amp;B sur le [système d’ordonnancement SLURM](https://slurm.schedmd.com/documentation.html), exécutez `wandb agent --count 1 SWEEP_ID` dans chaque tâche planifiée. L’agent exécute un run d’entraînement puis s’arrête, ce qui simplifie l’estimation des ressources et permet à l’ordonnanceur SLURM de paralléliser les recherches d’hyperparamètres sur plusieurs tâches.
+
+Pour les tâches multi-GPU ou d’entraînement distribué, une règle supplémentaire s’applique : un seul processus par tâche SLURM doit appeler `wandb.agent()`. Si chaque rang appelle l’agent, chaque rang récupère sa propre configuration d’hyperparamètres depuis le contrôleur du balayage, et les rangs n’entraînent alors plus le même modèle.
+
+Les sections ci-dessous présentent la commande de soumission pour les tâches à processus unique, le schéma de filtrage par rang pour les tâches multi-GPU avec entraînement distribué, quand filtrer sur le rang global plutôt que sur le rang local, et comment consigner depuis des rangs autres que le rang 0.
+
+<div id="single-process-or-single-gpu-jobs">
+  ## Jobs monoprocessus ou mono-GPU
+</div>
+
+Soumettez chaque job planifié avec :
+
+```bash
+wandb agent --count 1 SWEEP_ID
+```
+
+<div id="multi-gpu-jobs-with-distributed-training">
+  ## Jobs multi-GPU avec entraînement distribué
+</div>
+
+Lorsque vous exécutez un balayage W&amp;B avec un entraînement distribué (par exemple, des jobs multi-GPU avec `--gpus-per-node`), n’appelez `wandb.agent()` que sur un seul rang à l’aide de la variable d’environnement `SLURM_PROCID`. Les autres rangs doivent exécuter l’entraînement distribué sans invoquer l’agent de balayage ni `wandb.init()`. Pour l’intégration de W&amp;B à l’entraînement distribué en général, voir [Journaliser les expériences d’entraînement distribué](/fr/models/track/log/distributed-training).
+
+```python
+import os
+import wandb
+
+def train():
+    with wandb.init() as run:
+        config = run.config
+        # Diffuser la configuration aux autres rangs, puis lancer l'entraînement distribué.
+        ...
+
+if os.environ.get("SLURM_PROCID", "0") == "0":
+    wandb.agent(sweep_id, function=train, count=1)
+else:
+    # Les rangs non-0 reçoivent la configuration du rang 0 et exécutent l'entraînement
+    # sans appeler wandb.agent() ni wandb.init().
+    run_worker()
+```
+
+Ce schéma garantit que :
+
+* Chaque job SLURM enregistre exactement un run auprès du contrôleur du balayage.
+* Les rangs autres que 0 exécutent leur partie de l&#39;entraînement distribué sans créer de runs en double et déconnectés.
+* Le contrôleur du balayage suit correctement la progression et planifie de nouvelles configurations d&#39;hyperparamètres.
+
+Si vous utilisez `submitit` ou un lanceur similaire, appliquez la même vérification dans votre point d&#39;entrée d&#39;entraînement avant d&#39;appeler `wandb.agent()`.
+
+<div id="choose-between-slurm_procid-and-slurm_localid">
+  ### Choisissez entre `SLURM_PROCID` et `SLURM_LOCALID`
+</div>
+
+`SLURM_PROCID` est le rang global à l’échelle de l’ensemble du job SLURM. Utilisez `SLURM_PROCID == 0` lorsque vous voulez exactement un agent pour tout le groupe distribué, ce qui est le cas le plus courant pour les balayages.
+
+`SLURM_LOCALID` est le rang au sein d’un nœud donné. Utilisez `SLURM_LOCALID == 0` lorsque vous voulez un agent par nœud, par exemple pour lancer en parallèle des exécutions de balayage indépendantes sur plusieurs nœuds.
+
+<div id="log-from-non-rank-0-ranks">
+  ### Journaliser à partir des rangs autres que le rang 0
+</div>
+
+L&#39;exemple ci-dessus suit le schéma [Suivre un seul processus](/fr/models/track/log/distributed-training#track-a-single-process), où seul le rang 0 journalise dans W&amp;B. Si vous souhaitez également que les rangs autres que le rang 0 journalisent dans le même run, par exemple pour capturer des métriques système par rang, utilisez le mode partagé et transmettez l&#39;ID du run du rang 0 à chaque worker. Voir [Suivre tous les processus vers un seul run](/fr/models/track/log/distributed-training#track-all-processes-to-a-single-run).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Balayage](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

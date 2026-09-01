@@ -1,7 +1,20 @@
 version: 2
+registries:
+  github-coreweave:
+    type: git
+    url: https://github.com
+    username: x-access-token
+    password: ${{secrets.DOCENGINE_TOKEN}}
 updates:
-  - package-ecosystem: "github-actions"
+  - package-ecosystem: "gitsubmodule"
     directory: "/"
+    registries:
+      - github-coreweave
     schedule:
-      # Check for updates to GitHub Actions every weekday
       interval: "daily"
+    cooldown:
+      default-days: 1
+    labels:
+      - "auto-generated"
+    commit-message:
+      prefix: "chore"

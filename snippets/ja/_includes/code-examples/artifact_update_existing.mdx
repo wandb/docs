@@ -1,0 +1,36 @@
+---
+title: 既存のArtifactを更新
+---
+
+```python
+"""
+既存のartifactの説明、メタデータ、およびaliasを、
+新しいrunを作成せずに更新する。
+"""
+import wandb
+
+api = wandb.Api()
+
+artifact = api.artifact(name="<entity/project/artifact:alias>")
+
+# 説明を更新する
+artifact.description = "My new description"
+
+# メタデータのキーを選択的に更新する
+artifact.metadata["oldKey"] = "new value"
+
+# メタデータをすべて置き換える
+artifact.metadata = {"newKey": "new value"}
+
+# aliasを追加する
+artifact.aliases.append("best")
+
+# aliasを削除する
+artifact.aliases.remove("latest")
+
+# aliasをすべて置き換える
+artifact.aliases = ["replaced"]
+
+# artifactへのすべての変更を保存する
+artifact.save()
+```

@@ -1,60 +1,76 @@
 ---
-title: ヒストグラム
-namespace: python_sdk_custom_charts
-python_object_type: function
+title: histogram()
+kind: function
+namespace: wandb.plot.histogram
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-### <kbd>function</kbd> `histogram`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py#L12" />
+
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.histogram()
+
+W&amp;B 表 からヒストグラムチャートを作成します。
 
 ```python
-histogram(
-    table: 'wandb.Table',
-    value: 'str',
-    title: 'str' = '',
-    split_table: 'bool' = False
-) → CustomChart
+table: 'wandb.Table',
+value: 'str',
+title: 'str' = '',
+split_table: 'bool' = False
 ```
 
-W&B Table からヒストグラムチャートを構築します。
+<div id="args">
+  ## 引数
+</div>
 
-**Args:**
+<ResponseField name="table" type="wandb.Table">
+  ヒストグラム用のデータを含む W&amp;B 表。
+</ResponseField>
 
- - `table`: ヒストグラムの データ を含む W&B Table。
- - `value`: ビン軸（x 軸）のラベル。
- - `title`: ヒストグラムプロットのタイトル。
- - `split_table`: W&B UI 上でテーブルを別のセクションに分割するかどうか。 `True` の場合、テーブルは "Custom Chart Tables" という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="value" type="str">
+  ビン軸 (x軸) のラベル。
+</ResponseField>
 
-**Returns:**
+<ResponseField name="title" type="str">
+  ヒストグラムプロットのタイトル。
+</ResponseField>
 
- - `CustomChart`: W&B に ログ 記録可能なカスタムチャートオブジェクト。チャートを ログ に記録するには、 `wandb.log()` に渡します。
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別セクションとして分割するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
-**Example:**
+<div id="returns">
+  ## 戻り値
+</div>
+
+`CustomChart`: W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
+
+<div id="examples">
+  ## 例
+</div>
 
 ```python
 import math
 import random
 import wandb
 
-# ランダムなデータを生成
+# ランダムデータを生成する
 data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
 
-# W&B Table を作成
+# W&B 表を作成する
 table = wandb.Table(
     data=data,
     columns=["step", "height"],
 )
 
-# ヒストグラムプロットを作成
+# ヒストグラムプロットを作成する
 histogram = wandb.plot.histogram(
     table,
     value="height",
     title="My Histogram",
 )
 
-# ヒストグラムプロットを W&B にログ記録
+# ヒストグラムプロットを W&B にログする
 with wandb.init(...) as run:
     run.log({"histogram-plot1": histogram})
 ```

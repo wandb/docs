@@ -1,24 +1,23 @@
 ---
-title: アプリケーション ロジックの追跡
-description: LLM アプリケーションにおける データ フローと メタデータ を追跡する方法について学びます
+title: "ネストされた関数をトレースする"
+description: "W&B トレースを使用して深くネストした Call 構造をトラッキングする方法を学びます"
+keywords: ["ネストしたトレース", "weave.op", "親子 Call", "weave.attributes", "メタデータ"]
 ---
 
-[Track LLM inputs & outputs](/weave/quickstart) チュートリアルでは、 LLM の入力と出力を記録する基礎について説明しました。
+このチュートリアルでは、Weave でネストされた関数をトレースする方法を説明します。これにより、サブ関数やその親子関係を含む、LLM を活用したアプリケーションの実行フロー全体をモニターできます。最後には、Weave の **Traces** ページでネストしたトレースを取得し、可視化して、メタデータを追加できるようになります。
 
-このチュートリアルでは、以下の方法を学びます：
+LLM を活用したアプリケーションには、複数の LLM Call に加えて、追加のデータ処理や、モニターするうえで重要な検証ロジックが含まれることがあります。こうしたネストされた関数とその親子関係は、Python では `@weave.op()` デコレーターを使用し、TypeScript では `weave.op()` でラップすることで、Weave でトラッキングできます。
 
-- アプリケーションを流れる **データ を追跡する**
-- 呼び出し時に **メタデータ を追跡する**
+アプリケーションの完全な実行フローを取得するため、関数とサブ関数はできるだけ細かい粒度でデコレートしてください。これにより、アプリケーションの動作をより深く理解し、適切に調整できるようになります。
 
-## ネストされた関数呼び出しの追跡
+<div id="trace-nested-functions">
+  ## ネストされた関数をトレースする
+</div>
 
-LLM を活用した アプリケーション には、複数の LLM 呼び出しや、監視が重要な追加の データ プロセッシング およびバリデーションロジックが含まれることがよくあります。多くのアプリで一般的な深くネストされた呼び出し構造であっても、追跡したいすべての関数に `weave.op()` を追加するだけで、 Weave はネストされた関数内の親子関係を維持します。
-
-[クイックスタート の例](/weave/quickstart) をベースに、次の コード では LLM から返されたアイテムをカウントし、それらを上位レベルの関数でラップするロジックを追加しています。さらに、この例では `weave.op()` を使用して、すべての関数、その呼び出し順序、および親子関係をトレースしています。
+このセクションでは、関数とそのネストされたサブ関数をトレースする例を順を追って説明します。次のコードは [クイックスタートの例](/ja/weave/quickstart) を基に、LLM から返された項目数を数え、それらをより上位レベルの関数でラップするロジックを追加したものです。さらに、この例では `weave.op()` を使用して、すべての関数、その Call 順序、および親子関係をトレースします。
 
 <Tabs>
   <Tab title="Python">
-
     ```python {1,7,26,32,42}
     import weave
     import json
@@ -47,7 +46,7 @@ LLM を活用した アプリケーション には、複数の LLM 呼び出し
 
     @weave.op()
     def count_dinos(dino_data: dict) -> int:
-        # 返されたリスト内のアイテム数をカウントする
+        # 返されたリスト内の項目数を数える
         k = list(dino_data.keys())[0]
         return len(dino_data[k])
 
@@ -56,7 +55,7 @@ LLM を活用した アプリケーション には、複数の LLM 呼び出し
         # LLM を使用して恐竜を抽出する
         dino_data = extract_dinos(sentence)
 
-        # 返された恐竜の数をカウントする
+        # 返された恐竜の数を数える
         dino_data = json.loads(dino_data)
         n_dinos = count_dinos(dino_data)
         return {"n_dinosaurs": n_dinos, "dinosaurs": dino_data}
@@ -70,16 +69,17 @@ LLM を活用した アプリケーション には、複数の LLM 呼び出し
     result = dino_tracker(sentence)
     print(result)
     ```
+
     **ネストされた関数**
 
-    上記の コード を実行すると、2つのネストされた関数（ `extract_dinos` と `count_dinos` ）からの入力と出力、および自動的に ログ 記録された OpenAI のトレースが表示されます。
+    上記のコードを実行すると、**Traces** ページに、ネストされた 2 つの関数 (`extract_dinos` と `count_dinos`) の入力と出力に加え、自動的に記録された OpenAI のトレースが表示されます。
 
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
-
+    ![中央のトレース ツリー パネルと、選択した Call の詳細パネルを示す、ネストされた Weave Traces ページ](/images/tutorial_tracing_2_nested_dinos.png)
   </Tab>
-  <Tab title="TypeScript">
 
-    ```typescript
+  <Tab title="TypeScript">
+    ```typescript twoslash
+    // @noErrors
     import OpenAI from 'openai';
     import * as weave from 'weave';
 
@@ -129,19 +129,23 @@ LLM を活用した アプリケーション には、複数の LLM 呼び出し
 
     **ネストされた関数**
 
-    上記の コード を実行すると、2つのネストされた関数（ `extractDinos` と `countDinos` ）からの入力と出力、および自動的に ログ 記録された OpenAI のトレースが表示されます。
+    上記のコードを実行すると、**Traces** ページに、ネストされた 2 つの関数 (`extract_dinos` と `count_dinos`) の入力と出力に加え、自動的に記録された OpenAI のトレースが表示されます。
 
-    {/* TODO: Update to TS screenshot */}
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    {/* TODO: TypeScript のスクリーンショットに更新 */}
 
+    ![中央のトレース ツリー パネルと、選択した Call の詳細パネルを示す、ネストされた Weave Traces ページ](/images/tutorial_tracing_2_nested_dinos.png)
   </Tab>
 </Tabs>
 
-## メタデータの追跡
+コードを実行すると、各関数の Call とその相互関係を捉えた完全なネストされたトレースが Weave に作成されます。
 
-`weave.attributes` コンテキストマネージャーを使用し、呼び出し時に追跡する メタデータ の 辞書 を渡すことで、 メタデータ を追跡できます。
+<div id="track-metadata">
+  ## メタデータをトラッキングする
+</div>
 
-上記の例の続きです：
+Weave がネストされた関数をトレースするようになったので、ユーザーや環境など、run に関する追加のコンテキストをそれらのトレースに付加できます。メタデータをトラッキングするには、`weave.attributes` コンテキストマネージャーを使用し、呼び出し時にトラッキングするメタデータを辞書で渡します。
+
+前の例の続きです。
 
 <Tabs>
   <Tab title="Python">
@@ -154,25 +158,29 @@ LLM を活用した アプリケーション には、複数の LLM 呼び出し
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
     Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
 
-    # 以前に定義した関数とともにメタデータを追跡する
+    # 以前に定義した関数とあわせてメタデータをトラッキングする
     with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
         result = dino_tracker(sentence)
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
     ```plaintext
-    この機能は TypeScript ではまだ利用できません。今後のアップデートにご期待ください！
+    この機能はまだ TypeScript では利用できません。
     ```
   </Tab>
 </Tabs>
 
 <Note>
-ユーザー ID や コード の 環境 ステータス（開発、ステージング、 プロダクション など）、実行時の メタデータ を追跡することをお勧めします。
+  ユーザー ID やコードの実行環境 (開発、ステージング、本番) などのメタデータを実行時にトラッキングします。
 
-システムプロンプトなどの システム 設定 を追跡するには、 [Weave Models](/weave/guides/core-types/models) の使用をお勧めします。
+  システム prompt などのシステム設定をトラッキングするには、[Weave Models](/ja/weave/guides/core-types/models) を使用してください。
 </Note>
 
-## 次のステップ
+attributes の使用方法について詳しくは、[Define and log attributes](/ja/weave/guides/tools/attributes) を参照してください。
 
-- [App Versioning チュートリアル](/weave/tutorial-weave_models) に従って、アドホックなプロンプト、 モデル 、 アプリケーション の変更をキャプチャ、 バージョン管理 、整理する方法を確認してください。
+<div id="whats-next">
+  ## 次のステップ
+</div>
+
+* [App Versioning チュートリアル](/ja/weave/tutorial-weave_models) に沿って、アドホックなプロンプト、モデル、アプリケーションへの変更を記録し、バージョン管理し、整理しましょう。

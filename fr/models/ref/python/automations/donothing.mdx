@@ -1,0 +1,33 @@
+---
+title: DoNothing
+kind: classe
+namespace: wandb.automations.actions
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L207" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.DoNothing
+
+Définit une action d’automatisation qui ne fait délibérément rien.
+
+```python
+*,
+no_op: Annotated[bool, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = True,
+action_type: Literal[NO_OP] = NO_OP
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="no_op" type="Annotated">
+  Champ factice présent uniquement pour répondre aux exigences du schéma backend.
+
+  Il ne devrait jamais être nécessaire de définir explicitement ce champ, car sa valeur est ignorée.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  Aucune description fournie.
+</ResponseField>

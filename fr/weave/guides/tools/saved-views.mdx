@@ -1,0 +1,186 @@
+---
+title: "Créer et gérer des vues enregistrées"
+description: "Personnalisez la façon dont vous interagissez avec les appels de fonction tracés et les évaluations"
+keywords: ["SavedView", "filtrer les traces", "colonnes de traces", "vue des évaluations", "configuration de tableau"]
+---
+
+Dans Weave, les *vues enregistrées* vous permettent de personnaliser la façon dont vous interagissez avec les appels de fonction tracés et les évaluations. En définissant une vue enregistrée, vous pouvez configurer des filtres, le tri et la visibilité des colonnes pour accéder rapidement aux données pertinentes. Les vues enregistrées vous permettent, à vous et à votre équipe, de revenir à la même sélection de traces ou d&#39;évaluations sans devoir réappliquer la configuration à chaque fois.
+
+Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisateur ou directement dans le SDK Python de Weave. L&#39;interface utilisateur vous permet d&#39;explorer et d&#39;enregistrer différentes configurations de tableau dans les onglets **Traces** et **Evals**, tandis que le SDK Python offre un contrôle précis pour le filtrage et les requêtes par programmation. Sélectionnez l&#39;onglet correspondant à votre flux de travail.
+
+<Tabs>
+  <Tab title="interface utilisateur">
+    Vous pouvez créer, charger, renommer et modifier des vues enregistrées dans l’interface Weave. L’interface utilisateur est le moyen le plus rapide d’enregistrer une configuration ponctuelle de tableau sous forme de vue réutilisable. Pour un contrôle programmatique, sélectionnez l’onglet **Python**.
+
+    ### Créer une vue enregistrée
+
+    1. Accédez à l’onglet **Traces** ou **Evals**.
+    2. Modifiez l’un des paramètres suivants de la configuration de votre tableau :
+       * Filtres
+       * Ordre de tri
+       * Taille de page
+       * Visibilité des colonnes
+       * Épinglage des colonnes
+    3. Enregistrez la vue de l’une des deux manières suivantes :
+       * Dans le coin supérieur droit, cliquez sur **Save view**.
+       * Cliquez sur le bouton **menu** (<Icon icon="bars" iconType="solid" />) à gauche de **Save view**. Dans le menu déroulant, cliquez sur **+ Save as new view**.
+
+    ### Charger une vue enregistrée
+
+    1. Accédez à l’onglet **Traces** ou **Evals**.
+    2. Cliquez sur le bouton **menu** (<Icon icon="bars" iconType="solid" />) à gauche du titre de l’onglet. Un menu déroulant répertoriant toutes les vues enregistrées s’affiche.
+    3. Cliquez sur la vue à ouvrir. La vue enregistrée s’affiche dans l’onglet **Traces** ou **Evals**.
+
+    ### Renommer une vue enregistrée
+
+    1. Suivez les étapes décrites dans [Charger une vue enregistrée](#load-a-saved-view).
+    2. Dans le coin supérieur gauche de l’onglet **Traces** ou **Evals**, cliquez sur le nom de la vue.
+    3. Saisissez un nouveau nom pour la vue.
+    4. Pour enregistrer le nouveau nom, appuyez sur **Entrée**.
+
+    ### Modifier une vue enregistrée
+
+    1. Suivez les étapes décrites dans [Charger une vue enregistrée](#load-a-saved-view).
+    2. Modifiez la configuration de votre tableau.
+    3. Dans le coin supérieur droit, cliquez sur **Save view**.
+
+    ### Supprimer une vue enregistrée
+
+    <Warning>
+      Vous pouvez supprimer une vue si elle ne vous est plus utile, à vous ou à votre équipe. Cette action est irréversible.
+    </Warning>
+
+    1. Accédez à l’onglet **Traces** ou **Evals**.
+    2. [Chargez la vue](#load-a-saved-view) que vous souhaitez supprimer.
+    3. Cliquez sur le bouton **menu** (<Icon icon="bars" iconType="solid" />) à gauche de **Save view**.
+    4. Dans le menu déroulant, cliquez sur **Delete view**.
+    5. Dans la fenêtre modale, confirmez en cliquant sur **Delete view**. Vous pouvez également cliquer sur **Cancel** pour annuler la suppression.
+
+    ### Revenir à la vue par défaut
+
+    1. Accédez à l’onglet **Traces** ou **Evals**.
+    2. Cliquez sur le bouton **menu** (<Icon icon="bars" iconType="solid" />) à droite de l’onglet **Traces** ou **Evals**. Un menu déroulant répertoriant toutes les vues enregistrées s’affiche.
+    3. En bas du menu, cliquez sur **Traces** ou **Evals**. La vue par défaut s’affiche.
+  </Tab>
+
+  <Tab title="Python">
+    La classe `SavedView` de Weave vous permet d&#39;enregistrer, de filtrer, de trier et de personnaliser des vues des données de traces et d&#39;évaluations. Les sections suivantes détaillent comment initialiser une vue, configurer ses colonnes et ses filtres, puis la rendre persistante afin de pouvoir récupérer ultérieurement les Appels correspondants.
+
+    ### Initialiser une `SavedView`
+
+    Initialisez une instance `SavedView` dans votre projet Weave :
+
+    ```python lines
+    import weave
+    client = weave.init("[MY_PROJECT]")
+
+    view = weave.SavedView()
+    ```
+
+    ### Visualiser la `SavedView` sous forme de grille
+
+    Utilisez `.to_grid()` pour afficher la vue enregistrée sous forme de grille. Indiquez le nombre maximum de lignes à afficher avec `limit`.
+
+    ```python lines
+    view.to_grid(limit=5)
+    ```
+
+    Affichez la représentation en grille avec `.show()` :
+
+    ```python lines
+    view.to_grid().show()
+    ```
+
+    ### Définir les colonnes affichées
+
+    Utilisez `.set_columns()` pour définir les colonnes affichées dans la vue. Indiquez une ou plusieurs colonnes à afficher.
+
+    ```python lines
+    view.set_columns("id", "op_name")
+    ```
+
+    ### Ajouter des colonnes
+
+    Utilisez `.add_column()` pour ajouter une ou plusieurs nouvelles colonnes à la vue. Indiquez les colonnes à ajouter.
+
+    ```python lines
+    # Ajouter une colonne avec le spécificateur de champ et le libellé "Created"
+    view.add_column("Created")
+    # Vous pouvez éventuellement ajouter un second argument pour définir un libellé différent pour la nouvelle colonne. Par défaut, c'est le spécificateur de champ qui sert de libellé.
+    ```
+
+    ### Trier les colonnes
+
+    Utilisez `.sort_by()` pour trier les résultats en fonction d&#39;une colonne donnée. Indiquez le nom de la colonne à trier ainsi que l&#39;ordre de tri (`asc` ou `desc`).
+
+    ```python lines
+    view.sort_by("started_at", "desc")
+    ```
+
+    ### Filtrer par nom d&#39;opération
+
+    Dans Weave, chaque trace ou évaluation est associée à un nom d&#39;opération.
+    Utilisez `.filter_op()` pour filtrer la `SavedView` afin de n&#39;inclure que les Appels dans lesquels cette opération précise a été exécutée.
+
+    ```python lines
+    view.filter_op("Evaluation.predict_and_score")
+    ```
+
+    ### Filtrer par opérateur et condition
+
+    Utilisez `.add_filter()` pour appliquer un filtre personnalisé à la vue. Définissez le filtre à l&#39;aide de l&#39;un des [opérateurs de filtre pris en charge](#filter-operators) et d&#39;une condition.
+
+    ```python lines
+    view.add_filter("output.model_latency", ">=", 5)
+    ```
+
+    #### Opérateurs de filtre
+
+    | Opérateur          | Description                                                     | Exemple                                                 |
+    | ------------------ | --------------------------------------------------------------- | ------------------------------------------------------- |
+    | `"contains"`       | Vérifie si une chaîne contient une sous-chaîne.                 | `view.add_filter("output.status", "contains", "error")` |
+    | `"equals"`         | Vérifie si une chaîne est exactement égale à une valeur donnée. | `view.add_filter("input.category", "equals", "Alice")`  |
+    | `"in"`             | Vérifie si une chaîne appartient à une liste de valeurs.        | `view.add_filter("category", "in", ["A", "B", "C"])`    |
+    | `"="`              | Vérifie si un nombre est égal à une valeur.                     | `view.add_filter("output.score", "=", 80)`              |
+    | `"≠", "!="`        | Vérifie si un nombre est différent d’une valeur.                | `view.add_filter("metrics.loss", "!=", 0.5)`            |
+    | `"<"`              | Vérifie si un nombre est inférieur à une valeur.                | `view.add_filter("age", "<", 30)`                       |
+    | `"≤", "<="`        | Vérifie si un nombre est inférieur ou égal à une valeur.        | `view.add_filter("metric.value", "<=", 100)`            |
+    | `">"`              | Vérifie si un nombre est supérieur à une valeur.                | `view.add_filter("output.score", ">", 90)`              |
+    | `"≥", ">="`        | Vérifie si un nombre est supérieur ou égal à une valeur.        | `view.add_filter("output.model_latency", ">=", 5)`      |
+    | `"is"`             | Vérifie si un champ booléen vaut `True` ou `False`.             | `view.add_filter("is_active", "is", True)`              |
+    | `"after"`          | Vérifie si une date est postérieure à un horodatage donné.      | `view.add_filter("started_at", "after", "2024-01-01")`  |
+    | `"before"`         | Vérifie si une date est antérieure à un horodatage donné.       | `view.add_filter("ended_at", "before", "2024-12-31")`   |
+    | `"is empty"`       | Vérifie si un champ est vide (`None` ou `""`).                  | `view.add_filter("comments", "is empty", None)`         |
+    | `"n'est pas vide"` | Vérifie si un champ n’est pas vide.                             | `view.add_filter("attachments", "is not empty", None)`  |
+
+    ### Supprimer des filtres
+
+    Utilisez `.remove_filter()` pour supprimer un filtre précis de la vue, en indiquant son index ou le nom du champ.
+
+    ```python lines
+    view.remove_filter("output.model_latency")
+    ```
+
+    Utilisez `.remove_filters()` pour supprimer tous les filtres.
+
+    ```python lines
+    view.remove_filters()
+    ```
+
+    ### Enregistrer la `SavedView`
+
+    Utilisez `.save()` pour publier la vue enregistrée vers Weave.
+
+    ```python lines
+    view.save()
+    ```
+
+    ### Récupérer les appels de fonction
+
+    Utilisez `.get_calls()` pour récupérer les appels de fonction qui correspondent aux filtres de la vue enregistrée. Vous pouvez spécifier des paramètres facultatifs tels que `limit` et `offset`.
+
+    ```python lines
+    calls = view.get_calls(limit=10)
+    ```
+  </Tab>
+</Tabs>

@@ -1,21 +1,22 @@
 ---
 title: Local Models
-description: "Run open-source models locally with Ollama, LMStudio, or GPT4All and trace them with Weave using OpenAI SDK compatibility."
+description: "Run open source models locally with Ollama, LMStudio, or GPT4All and trace them with Weave using OpenAI SDK compatibility."
+keywords: ["Ollama", "LMStudio", "GPT4All", "llama.cpp", "llamafile"]
 ---
 
-# Local Models
+Many developers run open source models like Llama 3, Mixtral, Gemma, and Phi on their own hardware. Weave supports several local model runners by default, as long as they offer OpenAI SDK compatibility.
 
-Many developers download and run open source models like LLama-3, Mixtral, Gemma, Phi and more locally. There are quite a few ways of running these models locally and Weave supports a few of them out of the box, as long as they support OpenAI SDK compatibility.
+This guide shows you how to trace calls to locally hosted models with Weave so you can capture inputs, outputs, and metadata in the same way you would for hosted LLM providers. It's intended for developers who run open source models on their own machine and want observability for those calls.
 
 ## Wrap local model functions with `@weave.op()`
 
-You can easily integrate Weave with any LLM yourself simply by initializing Weave with `weave.init('<your-project-name>')` and then wrapping the calls to your LLMs with `weave.op()`. See our guide on [tracing](/weave/guides/tracking/tracing) for more details.
+If your local model isn't accessed through an OpenAI-compatible runner, you can still capture traces by wrapping your own model-calling functions. Integrate Weave with any LLM by initializing Weave with `weave.init('<your-project-name>')` and then wrapping the calls to your LLMs with `weave.op()`. For more details, see the [tracing guide](/weave/guides/tracking/tracing).
 
-## Updating your OpenAI SDK code to use local models
+## Update your OpenAI SDK code to use local models
 
-All of the frameworks of services that support OpenAI SDK compatibility require a few minor changes.
+If your local model runner supports the OpenAI SDK, you can point the existing OpenAI client at it with two changes.
 
-First and most important, is the `base_url` change during the `openai.OpenAI()` initialization.
+The main change is the `base_url` parameter during the `openai.OpenAI()` initialization. This tells the OpenAI SDK to send requests to your local server instead of the OpenAI hosted API.
 
 ```python lines
 client = openai.OpenAI(
@@ -23,14 +24,14 @@ client = openai.OpenAI(
 )
 ```
 
-In the case of local models, the `api_key` can be any string but it should be overridden, as otherwise OpenAI will try to use it from environment variables and show you an error.
+For local models, the `api_key` can be any string, but you must override it. Otherwise, the OpenAI SDK reads it from environment variables and shows an error.
 
-## OpenAI SDK supported Local Model runners
+## Supported local model runners
 
-Here's a list of apps that allows you to download and run models from Hugging Face on your computer, that support OpenAI SDK compatibility.
+The following runners let you download and run models from Hugging Face on your computer. Each runner exposes an OpenAI-compatible endpoint that you can point the OpenAI SDK at using the preceding changes.
 
-1. Nomic [GPT4All](https://www.nomic.ai/gpt4all) - support via Local Server in settings ([FAQ](https://docs.gpt4all.io/gpt4all_help/faq.html))
-1. [LMStudio](https://lmstudio.ai/) - Local Server OpenAI SDK support [docs](https://lmstudio.ai/docs/developer/core/server)
-1. [Ollama](https://ollama.com/) - [OpenAI compatibility](https://ollama.readthedocs.io/en/openai/) for OpenAI SDK
-1. llama.cpp via [llama-cpp-python](https://llama-cpp-python.readthedocs.io/en/latest/server/) python package
-1. [llamafile](https://github.com/Mozilla-Ocho/llamafile#other-example-llamafiles) - `http://localhost:8080/v1` automatically supports OpenAI SDK on Llamafile run
+- Nomic [GPT4All](https://www.nomic.ai/gpt4all) - support through Local Server in settings ([FAQ](https://docs.gpt4all.io/gpt4all_help/faq.html))
+- [LMStudio](https://lmstudio.ai/) - Local Server OpenAI SDK support [docs](https://lmstudio.ai/docs/developer/core/server)
+- [Ollama](https://ollama.com/) - [OpenAI compatibility](https://ollama.readthedocs.io/en/openai/) for OpenAI SDK
+- [llama-cpp-python](https://llama-cpp-python.readthedocs.io/en/latest/server/) - Python package for running `llama.cpp` with OpenAI SDK support
+- [llamafile](https://github.com/Mozilla-Ocho/llamafile#other-example-llamafiles) - `http://localhost:8080/v1` automatically supports the OpenAI SDK when you run Llamafile

@@ -3,11 +3,11 @@ title: "Why am I seeing fewer data points than I logged?"
 keywords: ["Experiments", "Metrics"]
 ---
 
-When visualizing metrics against an X-axis other than `Step`, expect to see fewer data points. Metrics must log at the same `Step` to remain synchronized. Only metrics logged at the same `Step` are sampled while interpolating between samples.
+When you visualize metrics against an X-axis other than `Step`, expect to see fewer data points. You must log metrics at the same `Step` to keep them synchronized. W&B only samples metrics logged at the same `Step` when it interpolates between samples.
 
-**Guidelines**
+## Log related metrics together
 
-Bundle metrics into a single `log()` call. For example, instead of:
+To keep related metrics aligned on the same `Step`, bundle them into a single `log()` call. For example, instead of:
 
 ```python
 import wandb
@@ -17,7 +17,7 @@ with wandb.init() as run:
     run.log({"Recall": recall})
 ```
 
-Use:
+Use a single call:
 
 ```python
 import wandb
@@ -25,7 +25,7 @@ with wandb.init() as run:
     run.log({"Precision": precision, "Recall": recall})
 ```
 
-For manual control over the step parameter, synchronize metrics in the code as follows:
+To manually control the `step` parameter, synchronize metrics in the code:
 
 ```python
 with wandb.init() as run:
@@ -34,7 +34,7 @@ with wandb.init() as run:
     run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-Ensure the `step` value remains the same in both `log()` calls for the metrics to log under the same step and sample together. The `step` value must increase monotonically in each call. Otherwise, the `step` value is ignored.
+Make sure the `step` value remains the same in both `log()` calls so that the metrics log under the same `step` and sample together. The `step` value must increase monotonically in each call. Otherwise, W&B ignores the `step` value.
 
 ---
 

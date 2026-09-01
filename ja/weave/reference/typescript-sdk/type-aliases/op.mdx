@@ -1,20 +1,64 @@
 ---
-title: Op
-description: TypeScript SDK リファレンス
+title: "Op<T>"
+description: "TypeScript SDK リファレンス"
 ---
 
-# Op
+> **Op**&lt;`T`&gt; = `object` &amp; `T` &amp; (...`args`) =&gt; `ReturnType`&lt;`T`&gt; *extends* `AsyncIterable`&lt;infer U&gt; ? `AsyncIterable`&lt;`Awaited`&lt;`U`&gt;&gt; : `Promise`&lt;`Awaited`&lt;`ReturnType`&lt;`T`&gt;&gt;&gt;
 
-Ƭ **Op**\<`T`\>: \{ `__boundThis?`: [`WeaveObject`](../classes/weaveobject) ; `__isOp`: ``true`` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` \| `Promise`\<`OpRef`\> ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`\<`T`\>  } & `T` & (...`args`: `Parameters`\<`T`\>) => `ReturnType`\<`T`\> extends `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
+定義元: [src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L7)
 
-#### 型パラメータ
+<div id="type-declaration">
+  ## タイプ宣言
+</div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+<div id="__boundthis">
+  ### __boundThis
+</div>
 
-#### 定義箇所
+> `optional` **&#95;&#95;boundThis**: [`WeaveObject`](../classes/weaveobject)
 
-[opType.ts:7](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/opType.ts#L7)
+<div id="__isop">
+  ### __isOp
+</div>
 
-___
+> **&#95;&#95;isOp**: `true`
+
+<div id="__name">
+  ### __name
+</div>
+
+> **&#95;&#95;name**: `string`
+
+<div id="__parameternames">
+  ### __parameterNames
+</div>
+
+> `optional` **&#95;&#95;parameterNames**: `ParameterNamesOption`
+
+<div id="__savedref">
+  ### __savedRef
+</div>
+
+> `optional` **&#95;&#95;savedRef**: `OpRef` | `Promise`&lt;`OpRef`&gt;
+
+<div id="__wrappedfunction">
+  ### __wrappedFunction
+</div>
+
+> **&#95;&#95;wrappedFunction**: `T`
+
+<div id="invoke">
+  ### invoke
+</div>
+
+> **invoke**: `CallMethod`&lt;`T`&gt;
+
+<div id="type-parameters">
+  ## タイプパラメーター
+</div>
+
+<div id="t">
+  ### T
+</div>
+
+`T` *extends* (...`args`) =&gt; `any`

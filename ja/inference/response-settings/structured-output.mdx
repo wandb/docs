@@ -1,11 +1,14 @@
 ---
-title: 構造化出力を有効にする
-description: W&B Inference のレスポンスで構造化出力を設定する方法
+title: "構造化出力を有効にする"
+description: Serverless Inference のレスポンスで構造化出力を設定する方法
+keywords: ["json_schema", "JSON schema", "スキーマの強制", "データ抽出", "response_format"]
 ---
 
-Structured Output は [JSON モード](/inference/response-settings/json-mode) と似ていますが、 モデル のレスポンスが指定したスキーマに準拠することを保証できるという利点があります。可能な限り、JSON モードの代わりに Structured Output を使用することをお勧めします。
+構造化出力では、Serverless Inference の応答を特定の JSON schema に制約し、モデルの応答が定義したフィールドとタイプに準拠するようにします。アプリケーションで、データ抽出、フォーム入力、後続の処理などのために、モデルの応答を既知のフィールドへ解析する必要がある場合は、構造化出力を使用します。
 
-Structured Output を有効にするには、リクエストの `response_format` タイプに `json_schema` を指定します。
+構造化出力は [JSONモード](/ja/inference/response-settings/json-mode) に似ていますが、指定したスキーマも強制します。可能であれば、JSONモードではなく構造化出力を使用することをおすすめします。
+
+構造化出力を有効にするには、リクエストの `response_format` の `type` に `json_schema` を指定します。次の例では、イベントの詳細を定義済みのスキーマに抽出します。
 
 <Tabs>
   <Tab title="Python">
@@ -15,7 +18,7 @@ Structured Output を有効にするには、リクエストの `response_format
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings でAPIキーを作成してください
+        api_key="[YOUR-API-KEY]",  # APIキーは https://wandb.ai/settings で作成します
     )
 
     response = client.chat.completions.create(
@@ -48,11 +51,12 @@ Structured Output を有効にするには、リクエストの `response_format
     print(parsed)
     ```
   </Tab>
+
   <Tab title="Bash">
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
       -d '{
         "model": "openai/gpt-oss-20b",
         "messages": [

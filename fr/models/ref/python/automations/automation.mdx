@@ -1,0 +1,67 @@
+---
+title: Automatisation
+kind: classe
+namespace: wandb.automations.automations
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.Automation
+
+Une instance locale d’une automatisation W&amp;B enregistrée et modifiable.
+
+```python
+*,
+__typename: Literal['Trigger'] = 'Trigger',
+id: Annotated[str, Strict(strict=True)],
+createdAt: datetime.datetime,
+updatedAt: datetime.datetime | None = None,
+name: str,
+description: str | None,
+enabled: bool,
+scope: Annotated[Union[Annotated[wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)], Annotated[wandb.automations.scopes.RegistryScope | wandb.automations.scopes.ProjectScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='is_registry', custom_error_type=None, custom_error_message=None, custom_error_context=None)], Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+event: wandb.automations.events.SavedEvent,
+action: Annotated[wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction, BeforeValidator(func=<function parse_saved_action>, json_schema_input_type=PydanticUndefined)]
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="id" type="Annotated">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="createdAt" type="datetime">
+  La date et l’heure de création de cette automatisation.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="datetime.datetime | None">
+  La date et l’heure de la dernière mise à jour de cette automatisation, le cas échéant.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  Le nom de cette automatisation.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  Une description facultative de cette automatisation.
+</ResponseField>
+
+<ResponseField name="enabled" type="bool">
+  Indique si cette automatisation est activée. Seules les automatisations activées seront déclenchées.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  La portée dans laquelle l’événement déclencheur doit se produire.
+</ResponseField>
+
+<ResponseField name="event" type="SavedEvent">
+  L’événement qui déclenchera cette automatisation.
+</ResponseField>
+
+<ResponseField name="action" type="Annotated">
+  L’action qui sera exécutée lorsque cette automatisation se déclenchera.
+</ResponseField>

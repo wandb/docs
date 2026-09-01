@@ -11,7 +11,7 @@ If you need exceptions to be raised during execution, set the `__should_raise` p
 result, call = my_op.call(__should_raise=True)
 ```
 
-Without `__should_raise=True`, any exception that occurs during the op is silently captured and stored. Check `call.exception` to inspect the error:
+If you don't set `__should_raise=True`, Weave silently captures and stores any exception that occurs during the op, so you must check `call.exception` to inspect the error:
 
 ```python
 result, call = my_op.call()

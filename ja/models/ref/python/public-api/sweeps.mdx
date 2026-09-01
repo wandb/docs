@@ -1,52 +1,82 @@
 ---
 title: Sweeps
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.sweeps
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Sweeps`
-`Sweep` オブジェクトのコレクションに対するレイジーイテレータです。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
 
-**Examples:**
- ```python
-from wandb.apis.public import Api
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Sweeps
 
-# 指定したプロジェクトとエンティティから sweeps を取得
-sweeps = Api().project(name="project_name", entity="entity").sweeps()
-
-# sweep をループして詳細を表示
-for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
-     print("----------")
-``` 
-
-### <kbd>method</kbd> `Sweeps.__init__`
+`Sweep` オブジェクトのコレクションに対する遅延評価のイテレーターです。
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    per_page: 'int' = 50
-) → Sweeps
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
 ```
 
-`Sweep` オブジェクトの反復可能なコレクション。
+<div id="args">
+  ## 引数
+</div>
 
-**Args:**
- 
- - `client`: W&B へのクエリに使用される API クライアント。 
- - `entity`:  Sweeps を所有する Entities 。 
- - `project`:  Sweeps を含む Projects 。 
- - `per_page`:  API への 1 回のリクエストで取得する Sweeps の数。 
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B をクエリするために使用するサービス API。
+</ResponseField>
 
----
+<ResponseField name="entity" type="str">
+  sweep を所有する entity。
+</ResponseField>
 
-### <kbd>property</kbd> Sweeps.length
+<ResponseField name="project" type="str">
+  sweep を含む project。
+</ResponseField>
 
----
+<ResponseField name="per_page" type="int">
+  API リクエストごとに取得する sweep の数。
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  (dict) Runs フィルターを使用して特定の sweep をクエリします。詳細については、wandb/apis/public/api.py:runs を参照してください。
+</ResponseField>
+
+<div id="examples">
+  ## 例
+</div>
+
+```python
+from wandb.apis.public import Api
+
+sweeps = Api().project(name="project_name", entity="entity").sweeps()
+
+# sweep を反復処理して詳細を表示する
+for sweep in sweeps:
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
+```
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
+
+```python
+self
+```
+
+イテレーターから次の項目を返します。要素がなくなった場合は、StopIteration を送出します
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.update_variables()
+
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。

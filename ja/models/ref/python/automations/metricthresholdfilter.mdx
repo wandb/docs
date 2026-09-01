@@ -1,39 +1,48 @@
 ---
 title: MetricThresholdFilter
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations._run_metric_filters
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L125" />
 
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.MetricThresholdFilter
 
-## <kbd>class</kbd> `MetricThresholdFilter`
-**絶対的な** メトリクス の 値 を ユーザー 定義のしきい値と比較するフィルタです。
+**絶対的な**メトリクス値をユーザー定義のしきい値と比較するフィルター。
 
-値 は単一の 値 、または複数 値 のウィンドウにわたる集計 結果 の場合があります。
-
-
-### <kbd>method</kbd> `MetricThresholdFilter.__init__`
+この値は単一の値の場合もあれば、複数の値に対するウィンドウ内の集計結果の場合もあります。
 
 ```python
-__init__(
-    name: 'str',
-    agg: 'Agg | None' = None,
-    window: 'int' = 1,
-    cmp: 'Literal['$gte', '$gt', '$lt', '$lte']',
-    threshold: 'Annotated | Annotated'
-) → None
+*,
+name: str,
+agg_op: wandb.automations._run_metric_filters.Agg | None = None,
+window_size: Annotated[int, Gt(gt=0)] = 1,
+cmp_op: Literal['$gte', '$gt', '$lt', '$lte'],
+threshold: Union[Annotated[int, Strict(strict=True)], Annotated[float, Strict(strict=True)]]
 ```
 
-**Args:**
- 
- - `name` (str): 
- - `agg` (Optional[Agg]): 
- - `window` (int): 
- - `cmp` (Literal['$gte', '$gt', '$lt', '$lte']): メトリクス の 値 （左）としきい値（右）の比較演算子。
- - `threshold` (Union[Annotated, Annotated]): 
+<div id="args">
+  ## 引数
+</div>
 
-**Returns:**
- `MetricThresholdFilter` オブジェクト 。
+<ResponseField name="name" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="agg_op" type="wandb.automations._run_metric_filters.Agg | None">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="window_size" type="Annotated">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="cmp_op" type="Literal">
+  メトリクス値 (左辺) としきい値 (右辺) の比較演算子。
+</ResponseField>
+
+<ResponseField name="threshold" type="Union">
+  説明はありません。
+</ResponseField>

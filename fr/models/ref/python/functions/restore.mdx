@@ -1,0 +1,56 @@
+---
+title: restore()
+kind: fonction
+namespace: wandb.sdk.wandb_run
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4050" />
+
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.restore()
+
+Télécharge le fichier spécifié à partir du stockage cloud.
+
+Le fichier est placé dans le répertoire courant ou dans le répertoire du run.
+Par défaut, le fichier n’est téléchargé que s’il n’existe pas déjà.
+
+```python
+name: 'str',
+run_path: 'str | None' = None,
+replace: 'bool' = False,
+root: 'str | None' = None
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="name" type="str">
+  Le nom du fichier.
+</ResponseField>
+
+<ResponseField name="run_path" type="str | None">
+  Chemin facultatif vers un run depuis lequel récupérer des fichiers, c.-à-d. `username/project_name/run_id` ; si wandb.init n’a pas été appelé, ce paramètre est requis.
+</ResponseField>
+
+<ResponseField name="replace" type="bool">
+  Indique s’il faut télécharger le fichier même s’il existe déjà localement
+</ResponseField>
+
+<ResponseField name="root" type="str | None">
+  Le répertoire dans lequel télécharger le fichier.  Par défaut, il s’agit du répertoire courant ou du répertoire du run si wandb.init a été appelé.
+</ResponseField>
+
+<div id="returns">
+  ## Retourne
+</div>
+
+`None` s’il ne trouve pas le fichier, sinon un objet fichier ouvert en lecture.
+
+<div id="raises">
+  ## Exceptions levées
+</div>
+
+* `CommError`: Si W&amp;B ne peut pas se connecter au backend W&amp;B.
+* `ValueError`: Si le fichier est introuvable ou si `run_path` est introuvable.

@@ -1,0 +1,36 @@
+---
+title: "W&B에서 병렬 좌표 차트를 어떻게 사용하나요?"
+keywords: ["Runs", "Experiments", "Workspace", "Sweeps"]
+---
+
+병렬 좌표 차트는 여러 Runs에서 하이퍼파라미터와 메트릭의 관계를 보여줍니다. 각 선은 하나의 run을 나타내며, 각 축은 설정 키 또는 summary 메트릭입니다. 패널을 추가하고 축, 색상, 브러시를 구성하는 방법은 [Parallel coordinates](/ko/models/app/features/panels/parallel-coordinates) 및 [Visualize sweep results](/ko/models/sweeps/visualize-sweep-results)를 참조하세요.
+
+<div id="reading-the-chart">
+  ## 차트 읽기
+</div>
+
+* 인접한 축 사이에서 선이 **교차**하면 해당 파라미터들 사이에 역관계가 있음을 시사합니다.
+* 선이 **평행하게** 이어지면 양의 상관관계를 시사합니다.
+* 좋은 metric 값 구간에서 선이 촘촘한 **군집**을 이루면 유망한 하이퍼파라미터 영역을 나타냅니다.
+
+summary 메트릭(예: `val/accuracy`)을 기준으로 선에 색을 입히면, 차가운 색에서 따뜻한 색으로 이어지는 그라디언트에서 성능이 좋은 Runs가 더 두드러집니다.
+
+<div id="filtering-with-brushes">
+  ## 브러시로 필터링하기
+</div>
+
+축에서 드래그하여 값 범위를 브러시하세요. 범위 내의 Runs만 강조 표시된 상태로 유지됩니다. 여러 축을 브러시하면 모든 범위를 충족하는 Runs로 범위가 좁혀집니다. 이는 어떤 학습률과 배치 크기 조합이 정확도 90%를 초과하는지와 같은 질문에 유용합니다.
+
+<div id="sweeps">
+  ## Sweeps
+</div>
+
+스윕이 끝나면 패널에 trial Runs만 표시되도록 해당 스윕(**Filter &gt; Sweep &gt; your-sweep-id**)으로 필터링하세요. 차트에서 탐색된 공간을 확인하고, 더 촘촘한 후속 스윕을 계획하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Workspace](/ko/support/models/tags/workspace)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
+
+{/* AUTO-GENERATED 종료: tab badges */}

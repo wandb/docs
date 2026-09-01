@@ -1,0 +1,28 @@
+---
+title: "Comment puis-je corriger `CommError, Run does not exist` lors d’un sweep ?"
+keywords: ["Sweeps", "Runs"]
+---
+
+Si vous voyez à la fois `CommError, Run does not exist` et `ERROR Error uploading` lors d’un sweep, la cause la plus probable est que vous définissez manuellement un ID de run dans votre code :
+
+```python
+wandb.init(id="some-string")
+```
+
+Vous ne pouvez pas définir d’ID de run pour W&amp;B Sweeps, car W&amp;B génère automatiquement des ID aléatoires et uniques pour les runs créés par Sweeps. Les ID de run doivent être uniques au sein d’un projet.
+
+Pour remédier à ce problème, supprimez le paramètre `id` de `wandb.init()`. Si vous souhaitez définir un nom personnalisé qui s’affiche dans les tableaux et les graphiques, utilisez plutôt le paramètre `name` :
+
+```python
+wandb.init(name="a helpful readable run name")
+```
+
+Pour plus d&#39;informations, voir [le dépannage de Sweeps](/fr/models/sweeps/troubleshoot-sweeps/).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

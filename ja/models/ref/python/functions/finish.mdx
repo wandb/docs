@@ -1,29 +1,41 @@
 ---
 title: finish()
-namespace: python_sdk_actions
-python_object_type: function
+kind: function
+namespace: wandb.sdk.wandb_run
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-### <kbd>function</kbd> `finish`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4114" />
+
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.finish()
+
+run を終了し、残りのデータをアップロードします。
+
+W&amp;B run を完了としてマークし、すべてのデータがサーバーに同期されるようにします。
+run の最終状態は、終了条件と Sync ステータスによって決まります。
+
+run の状態:
+
+* Running: データをログし、またはハートビートを送信しているアクティブな run。
+* Crashed: 予期せずハートビートの送信を停止した run。
+* Finished: すべてのデータが同期された状態で正常に完了した run (`exit_code=0`) 。
+* Failed: エラーありで完了した run (`exit_code!=0`) 。
 
 ```python
-finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
+exit_code: 'int | None' = None
 ```
 
-run を終了し、残っているすべてのデータをアップロードします。
+<div id="args">
+  ## 引数
+</div>
 
-W&B run の完了をマークし、すべてのデータが サーバー に同期されることを保証します。 run の最終的な状態は、その終了条件と同期ステータスによって決定されます。
+<ResponseField name="exit_code" type="int | None">
+  run の終了ステータスを示す整数。成功時は 0 を使用し、それ以外の値は run が失敗したことを示します。
+</ResponseField>
 
-Run の状態:
-- Running: データの ログ 記録やハートビートの送信を行っているアクティブな run。
-- Crashed: 予期せずハートビートの送信が停止した run。
-- Finished: すべてのデータが同期され、正常に完了した（`exit_code=0`） run。
-- Failed: エラーで完了した（`exit_code!=0`） run。
+<div id="returns">
+  ## 戻り値
+</div>
 
-**Args:**
-
-- `exit_code`: run の終了ステータスを示す整数。成功の場合は 0 を指定します。それ以外の 値 は run が失敗したとマークされます。
-- `quiet`: 非推奨です。 ログ の冗長性を設定するには `wandb.Settings(quiet=...)` を使用してください。
+None

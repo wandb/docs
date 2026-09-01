@@ -1,32 +1,33 @@
 ---
 title: DoNothing
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations.actions
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L207" />
 
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.DoNothing
 
-## <kbd>class</kbd> `DoNothing`
-의도적으로 아무 작업도 수행하지 않는 automation action을 정의합니다.
-
-
-### <kbd>method</kbd> `DoNothing.__init__`
+의도적으로 아무 작업도 수행하지 않는 자동화 액션을 정의합니다.
 
 ```python
-__init__(
-    no_op: 'bool' = True,
-    action_type: 'Literal[NO_OP]' = NO_OP
-) → None
+*,
+no_op: Annotated[bool, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = True,
+action_type: Literal[NO_OP] = NO_OP
 ```
 
-**Args:**
- 
- - `no_op` (bool): 백엔드 스키마 요구 사항을 충족하기 위해 존재하는 플레이스홀더 필드입니다. 
-   이 필드의 값은 무시되므로 명시적으로 설정할 필요가 없습니다.
- - `action_type` (Literal[NO_OP]): 
+<div id="args">
+  ## 인수
+</div>
 
-**Returns:**
- `DoNothing` 오브젝트.
+<ResponseField name="no_op" type="Annotated">
+  백엔드 스키마 requirements를 충족하기 위해서만 존재하는 플레이스홀더 필드입니다.
+
+  값은 무시되므로 이 필드를 명시적으로 설정할 필요가 없습니다.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>

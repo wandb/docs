@@ -1,0 +1,45 @@
+---
+title: "endTurn"
+description: "TypeScript SDK リファレンス"
+---
+
+> **endTurn**(`opts?`): `void`
+
+現在のTurnを終了します。アクティブなTurnがない場合は何も行いません。
+
+定義元: [src/genai/api.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L183)
+
+<div id="parameters">
+  ## パラメーター
+</div>
+
+<div id="opts">
+  ### opts?
+</div>
+
+`SpanEndOptions`
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+`void`
+
+<div id="examples">
+  ## 例
+</div>
+
+```ts twoslash
+// @noErrors
+weave.endTurn();
+```
+
+```ts twoslash
+// @noErrors
+weave.endTurn({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+```ts twoslash
+// @noErrors
+weave.endTurn({error: new Error('agent loop diverged')});
+```

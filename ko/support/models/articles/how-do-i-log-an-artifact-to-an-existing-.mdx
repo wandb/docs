@@ -1,0 +1,21 @@
+---
+title: "기존 run에 artifact를 로깅하려면 어떻게 하나요?"
+keywords: ["Artifacts"]
+---
+
+때로는 artifact를 이전에 로깅한 run의 출력으로 표시해야 할 수 있습니다. 예를 들어, 이전 트레이닝 run에 연결되어야 하는 새 모델 checkpoint나 데이터셋을 생성할 수 있습니다. 다음 코드는 ID로 run을 다시 초기화한 다음, 여기에 새 artifact를 로깅합니다:
+
+```python
+with wandb.init(id="existing_run_id", resume="allow") as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact.add_file("my_data/file.txt")
+    run.log_artifact(artifact)
+```
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

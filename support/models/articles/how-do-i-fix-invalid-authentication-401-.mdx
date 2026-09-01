@@ -1,47 +1,49 @@
 ---
-title: "How do I fix Invalid Authentication (401) errors with W&B Inference?"
+title: "How do I fix Invalid Authentication (401) errors with Serverless Inference?"
 keywords: ["Inference"]
 ---
 
-A 401 Invalid Authentication error means your API key is invalid or your W&B project entity/name is incorrect.
+A `401` Invalid Authentication error means your API key is invalid or your W&B project entity or name is incorrect. Use the checks on this page to confirm both values are correct so requests can authenticate.
 
 ## Verify your API key
+
+Confirm that you have a valid, current API key before troubleshooting other causes.
 
 1. Create a new API key at [User Settings](https://wandb.ai/settings).
 2. Store your API key securely.
 
 ## Check your project configuration
 
-Ensure your project is formatted correctly as `<your-team>/<your-project>`:
+Requests must specify the project as `[YOUR-TEAM]/[YOUR-PROJECT]` so the service can route them to the correct W&B team and project. Replace `[YOUR-API-KEY]` with your W&B API key, and replace `[YOUR-TEAM]/[YOUR-PROJECT]` with your W&B team and project.
 
 **Python example:**
 ```python
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
-    api_key="<your-api-key>",
-    project="<your-team>/<your-project>",  # Must match your W&B team and project
+    api_key="[YOUR-API-KEY]",
+    project="[YOUR-TEAM]/[YOUR-PROJECT]",  # Must match your W&B team and project
 )
 ```
 
 **Bash example:**
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>"
+  -H "Authorization: Bearer [YOUR-API-KEY]" \
+  -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
 ```
 
 ## Common mistakes
 
-- Using personal entity instead of team name
-- Misspelling team or project name
-- Missing forward slash between team and project
-- Using an expired or deleted API key
+- Using personal entity instead of team name.
+- Misspelling team or project name.
+- Missing forward slash between team and project.
+- Using an expired or deleted API key.
 
-## Still having issues?
+## Troubleshoot remaining issues
 
-- Verify the team and project exist in your W&B account
-- Ensure you have access to the specified team
-- Try creating a new API key if the current one isn't working
+- Verify the team and project exist in your W&B account.
+- Ensure you have access to the specified team.
+- If the current API key isn't working, create a new one.
 
 ---
 

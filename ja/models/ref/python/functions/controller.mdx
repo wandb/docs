@@ -1,39 +1,49 @@
 ---
 title: controller()
-namespace: python_sdk_actions
-python_object_type: function
+kind: function
+namespace: wandb.sdk.wandb_sweep
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L100" />
 
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.controller()
 
-
-### <kbd>function</kbd> `controller`
+sweep コントローラー用の公開コンストラクタです。
 
 ```python
-controller(
-    sweep_id_or_config: Optional[str, Dict] = None,
-    entity: Optional[str] = None,
-    project: Optional[str] = None
-) → _WandbController
+sweep_id_or_config: 'str | dict | None' = None,
+entity: 'str | None' = None,
+project: 'str | None' = None
 ```
 
-パブリックな sweep コントローラのコンストラクタです。
+<div id="args">
+  ## 引数
+</div>
 
+<ResponseField name="sweep_id_or_config" type="str | dict | None">
+  説明はありません。
+</ResponseField>
 
+<ResponseField name="entity" type="str | None">
+  説明はありません。
+</ResponseField>
 
-**Examples:**
- ```python
+<ResponseField name="project" type="str | None">
+  説明はありません。
+</ResponseField>
+
+<div id="examples">
+  ## 例
+</div>
+
+```python
 import wandb
 
-# コントローラの初期化
 tuner = wandb.controller(...)
 print(tuner.sweep_config)
 print(tuner.sweep_id)
-# 探索アルゴリズムの設定
 tuner.configure_search(...)
-# 早期終了ルールの設定
 tuner.configure_stopping(...)
 ```

@@ -1,0 +1,26 @@
+---
+title: 테이블 로깅
+---
+
+```python
+"""
+Log a table to W&B.
+
+Replace: 
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to log
+"""
+import wandb
+
+# 두 개의 column과 두 행의 데이터로 table 객체 생성
+my_table = wandb.Table(
+    columns=["<a_column>", "<b_column>"],
+    data=[[1, 2], [2, 3]],
+    log_mode="<log_mode>"
+    )
+
+# 새 run 시작
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # W&B에 table log
+    run.log({"<table_name>": my_table})
+```

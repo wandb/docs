@@ -1,0 +1,81 @@
+---
+title: scatter()
+kind: fonction
+namespace: wandb.plot.scatter
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py#L12" />
+
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.scatter()
+
+Construit un nuage de points à partir d’un wandb.Table de données.
+
+```python
+table: 'wandb.Table',
+x: 'str',
+y: 'str',
+title: 'str' = '',
+split_table: 'bool' = False
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="table" type="wandb.Table">
+  Le tableau W&amp;B contenant les données à visualiser.
+</ResponseField>
+
+<ResponseField name="x" type="str">
+  Le nom de la colonne utilisée pour l’axe des x.
+</ResponseField>
+
+<ResponseField name="y" type="str">
+  Le nom de la colonne utilisée pour l’axe des y.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Le titre du nuage de points.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section intitulée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+</ResponseField>
+
+<div id="returns">
+  ## Retourne
+</div>
+
+`CustomChart` :  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```python
+import math
+import random
+import wandb
+
+# Simuler les variations de température à différentes altitudes au fil du temps
+data = [
+    [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
+    for i in range(300)
+]
+
+# Créer un tableau W&B avec les colonnes altitude (m) et température (°C)
+table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
+
+# Initialiser le run W&B et enregistrer le nuage de points
+with wandb.init(project="temperature-altitude-scatter") as run:
+    # Créer et enregistrer le nuage de points
+    scatter_plot = wandb.plot.scatter(
+        table=table,
+        x="altitude (m)",
+        y="temperature (°C)",
+        title="Altitude vs Temperature",
+    )
+    run.log({"altitude-temperature-scatter": scatter_plot})
+```

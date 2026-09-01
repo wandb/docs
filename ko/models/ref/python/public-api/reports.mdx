@@ -1,49 +1,73 @@
 ---
 title: Reports
-namespace: public_apis_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.apis.public.reports
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Reports`
-Reports 는 `BetaReport` 오브젝트의 lazy iterator입니다.
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
 
-### <kbd>method</kbd> `Reports.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Reports
+
+Reports는 `BetaReport` 객체에 대한 지연 이터레이터입니다.
 
 ```python
-__init__(client, project, name=None, entity=None, per_page=50)
+(service_api: 'ServiceApi',
+project: 'Project',
+name: 'str | None' = None,
+entity: 'str | None' = None,
+per_page: 'int' = 50)
 ```
 
-**Args:**
+<div id="args">
+  ## 인수
+</div>
 
- - `client` (`wandb.apis.internal.Api`): 사용할 API 클라이언트 인스턴스입니다.
- - `project` (`wandb.sdk.internal.Project`): 리포트를 가져올 Project 입니다.
- - `name` (str, optional): 필터링할 리포트의 이름입니다. `None` 인 경우 모든 리포트를 가져옵니다.
- - `entity` (str, optional): 프로젝트의 엔티티 이름입니다. 기본값은 프로젝트 엔티티입니다.
- - `per_page` (int): 페이지당 가져올 리포트 수입니다 (기본값은 50).
+<ResponseField name="service_api" type="ServiceApi">
+  이 컬렉션에 대한 W&amp;B API 호출을 수행하는 wandb-core 서비스의 인터페이스입니다.
+</ResponseField>
 
----
+<ResponseField name="project" type="Project">
+  Reports를 가져올 프로젝트입니다.
+</ResponseField>
 
-### <kbd>property</kbd> Reports.length
+<ResponseField name="name" type="str | None">
+  필터링할 report 이름입니다. `None`이면 모든 Reports를 가져옵니다.
+</ResponseField>
 
----
+<ResponseField name="entity" type="str | None">
+  프로젝트의 entity 이름입니다. 기본값은 프로젝트 entity입니다.
+</ResponseField>
 
-### <kbd>method</kbd> `Reports.convert_objects`
+<ResponseField name="per_page" type="int">
+  페이지당 가져올 Reports 수입니다(기본값: 50).
+</ResponseField>
+
+<div id="methods">
+  ## 메서드
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Reports.convert_objects()
 
 ```python
-convert_objects()
+self
 ```
 
-GraphQL edges를 File 오브젝트로 변환합니다.
+GraphQL의 edge를 File 객체로 변환합니다.
 
----
-
-### <kbd>method</kbd> `Reports.update_variables`
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.**next**()
 
 ```python
-update_variables()
+self
 ```
 
-페이지네이션을 위해 GraphQL 쿼리 변수를 업데이트합니다.
+이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 StopIteration 예외를 발생시킵니다.
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Reports.update_variables()
+
+```python
+self
+```
+
+페이지네이션용 GraphQL 쿼리 변수를 업데이트합니다.

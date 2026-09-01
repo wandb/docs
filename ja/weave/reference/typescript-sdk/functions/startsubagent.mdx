@@ -1,0 +1,45 @@
+---
+title: "startSubagent"
+description: "TypeScript SDK リファレンス"
+---
+
+> **startSubagent**(`opts`): [`SubAgent`](../interfaces/subagent)
+
+SubAgent の span を開始します。親の解決ルールは `startTool` と同じです。
+
+定義元: [src/genai/api.ts:137](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L137)
+
+<div id="parameters">
+  ## パラメーター
+</div>
+
+<div id="opts">
+  ### opts
+</div>
+
+[`SubAgentInit`](../interfaces/subagentinit)
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+[`SubAgent`](../interfaces/subagent)
+
+<div id="examples">
+  ## 例
+</div>
+
+```ts twoslash
+// @noErrors
+weave.startSubagent({name: 'critic'});
+```
+
+```ts twoslash
+// @noErrors
+weave.startSubagent({
+  name: 'critic',
+  model: 'gpt-4o',
+  systemInstructions: ['Critique the proposed plan.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

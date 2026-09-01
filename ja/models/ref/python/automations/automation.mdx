@@ -1,44 +1,67 @@
 ---
 title: オートメーション
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations.automations
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Automation`
-編集をサポートする、保存済み W&B オートメーションのローカルインスタンス。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L19" />
 
-### <kbd>method</kbd> `Automation.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.Automation
+
+保存済みの W&amp;B オートメーションを編集できるローカルインスタンスです。
 
 ```python
-__init__(
-    typename__: 'Literal' = 'Trigger',
-    id: 'str',
-    created_at: 'datetime',
-    updated_at: 'datetime | None' = None,
-    name: 'str',
-    description: 'str | None',
-    enabled: 'bool',
-    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
-    event: 'SavedEvent',
-    action: 'SavedLaunchJobAction | SavedNotificationAction | SavedWebhookAction | SavedNoOpAction'
-) → None
+*,
+__typename: Literal['Trigger'] = 'Trigger',
+id: Annotated[str, Strict(strict=True)],
+createdAt: datetime.datetime,
+updatedAt: datetime.datetime | None = None,
+name: str,
+description: str | None,
+enabled: bool,
+scope: Annotated[Union[Annotated[wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)], Annotated[wandb.automations.scopes.RegistryScope | wandb.automations.scopes.ProjectScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='is_registry', custom_error_type=None, custom_error_message=None, custom_error_context=None)], Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+event: wandb.automations.events.SavedEvent,
+action: Annotated[wandb.automations.actions.SavedLaunchJobAction | wandb.automations.actions.SavedNotificationAction | wandb.automations.actions.SavedWebhookAction | wandb.automations.actions.SavedNoOpAction, BeforeValidator(func=<function parse_saved_action>, json_schema_input_type=PydanticUndefined)]
 ```
 
-**Args:**
+<div id="args">
+  ## 引数
+</div>
 
- - `typename__` (Literal): 
- - `id` (str): 
- - `created_at` (datetime): このオートメーションが作成された日時。
- - `updated_at` (Optional[datetime]): このオートメーションが最後に更新された日時（該当する場合）。
- - `name` (str): このオートメーションの名前。
- - `description` (Optional[str]): このオートメーションのオプションの説明。
- - `enabled` (bool): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
- - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): トリガーイベントが発生する必要があるスコープ。
- - `event` (SavedEvent): このオートメーションをトリガーするイベント。
- - `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): このオートメーションがトリガーされたときに実行されるアクション。
+<ResponseField name="id" type="Annotated">
+  説明はありません。
+</ResponseField>
 
-**Returns:**
- `Automation` オブジェクト。
+<ResponseField name="createdAt" type="datetime">
+  このオートメーションの作成日時。
+</ResponseField>
+
+<ResponseField name="updatedAt" type="datetime.datetime | None">
+  該当する場合、このオートメーションの最終更新日時。
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  このオートメーションの名前。
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  このオートメーションの任意の説明。
+</ResponseField>
+
+<ResponseField name="enabled" type="bool">
+  このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  トリガーとなるイベントが発生するスコープ。
+</ResponseField>
+
+<ResponseField name="event" type="SavedEvent">
+  このオートメーションをトリガーするイベント。
+</ResponseField>
+
+<ResponseField name="action" type="Annotated">
+  このオートメーションがトリガーされたときに実行されるアクション。
+</ResponseField>

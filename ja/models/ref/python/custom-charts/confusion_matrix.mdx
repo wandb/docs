@@ -1,60 +1,84 @@
 ---
 title: confusion_matrix()
-namespace: python_sdk_custom_charts
-python_object_type: function
+kind: function
+namespace: wandb.plot.confusion_matrix
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-### <kbd>function</kbd> `confusion_matrix`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
+
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.confusion_matrix()
+
+確率または予測のシーケンスから混同行列を作成します。
 
 ```python
-confusion_matrix(
-    probs: 'Sequence[Sequence[float]] | None' = None,
-    y_true: 'Sequence[T] | None' = None,
-    preds: 'Sequence[T] | None' = None,
-    class_names: 'Sequence[str] | None' = None,
-    title: 'str' = 'Confusion Matrix Curve',
-    split_table: 'bool' = False
-) → CustomChart
+probs: 'Sequence[Sequence[float]] | None' = None,
+y_true: 'Sequence[T] | None' = None,
+preds: 'Sequence[T] | None' = None,
+class_names: 'Sequence[str] | None' = None,
+title: 'str' = 'Confusion Matrix Curve',
+split_table: 'bool' = False
 ```
 
-一連の確率または予測値から混同行列（confusion matrix）を作成します。
+<div id="args">
+  ## 引数
+</div>
 
-**Args:**
+<ResponseField name="probs" type="Sequence[Sequence[float]] | None">
+  各クラスの予測確率のシーケンスです。シーケンスの形状は (N, K) とする必要があります。N はサンプル数、K はクラス数です。指定する場合、`preds` は指定しないでください。
+</ResponseField>
 
- - `probs`: 各クラスの予測確率のシーケンス。形状は (N, K) である必要があります。ここで N はサンプル数、K はクラス数です。これが指定された場合、`preds` は指定しないでください。
- - `y_true`: 正解ラベルのシーケンス。
- - `preds`: 予測されたクラスラベルのシーケンス。これが指定された場合、`probs` は指定しないでください。
- - `class_names`: クラス名のシーケンス。指定されない場合、クラス名は "Class_1"、"Class_2" などのように定義されます。
- - `title`: 混同行列チャートのタイトル。
- - `split_table`: テーブルを W&B UI 上で別のセクションに分割するかどうか。`True` の場合、テーブルは "Custom Chart Tables" という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="y_true" type="Sequence[T] | None">
+  正解ラベルのシーケンスです。
+</ResponseField>
 
-**Returns:**
+<ResponseField name="preds" type="Sequence[T] | None">
+  予測クラスラベルのシーケンスです。指定する場合、`probs` は指定しないでください。
+</ResponseField>
 
- - `CustomChart`: W&B にログを記録できるカスタムチャートオブジェクト。チャートをログに記録するには、`wandb.log()` に渡します。
+<ResponseField name="class_names" type="Sequence[str] | None">
+  クラス名のシーケンスです。指定しない場合、クラス名は「Class&#95;1」、「Class&#95;2」などとして定義されます。
+</ResponseField>
 
-**Raises:**
+<ResponseField name="title" type="str">
+  混同行列チャートのタイトルです。
+</ResponseField>
 
- - `ValueError`: `probs` と `preds` の両方が指定された場合、または予測数と正解ラベル数が一致しない場合。また、ユニークな予測クラス数がクラス名リストの数を超えた場合、またはユニークな正解ラベル数がクラス名リストの数を超えた場合。
- - `wandb.Error`: numpy がインストールされていない場合。
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別のセクションに表示するかどうかを指定します。`True` の場合、表は「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
-**Examples:**
+<div id="returns">
+  ## 戻り値
+</div>
 
-野生動物の分類のために、ランダムな確率を使用して混同行列をログに記録する例：
+`CustomChart`: W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
+
+<div id="raises">
+  ## Raises
+</div>
+
+* `ValueError`: `probs` と `preds` の両方が指定された場合、または予測数と真のラベル数が一致しない場合に発生します。また、予測された一意のクラス数がクラス名の数を超える場合や、一意の真のラベル数がクラス名の数を超える場合にも発生します。
+* `wandb.Error`: numpy がインストールされていない場合に発生します。
+
+<div id="examples">
+  ## 例
+</div>
+
+野生生物の分類で、ランダムな確率を使って混同行列をログする例:
 
 ```python
 import numpy as np
 import wandb
 
-# 野生動物のクラス名を定義
+# 野生動物のクラス名を定義する
 wildlife_class_names = ["Lion", "Tiger", "Elephant", "Zebra"]
 
-# ランダムな正解ラベルを生成 (10サンプルに対して 0 から 3)
+# ランダムな真のラベルを生成する（10サンプルに対して0〜3）
 wildlife_y_true = np.random.randint(0, 4, size=10)
 
-# 各クラスのランダムな確率を生成 (10サンプル x 4クラス)
+# 各クラスのランダムな確率を生成する（10サンプル × 4クラス）
 wildlife_probs = np.random.rand(10, 4)
 wildlife_probs = np.exp(wildlife_probs) / np.sum(
     np.exp(wildlife_probs),
@@ -62,36 +86,37 @@ wildlife_probs = np.exp(wildlife_probs) / np.sum(
     keepdims=True,
 )
 
-# W&B run を初期化し、混同行列をログに記録
+# W&B runを初期化して混同行列をログする
 with wandb.init(project="wildlife_classification") as run:
     confusion_matrix = wandb.plot.confusion_matrix(
-         probs=wildlife_probs,
-         y_true=wildlife_y_true,
-         class_names=wildlife_class_names,
-         title="Wildlife Classification Confusion Matrix",
+        probs=wildlife_probs,
+        y_true=wildlife_y_true,
+        class_names=wildlife_class_names,
+        title="Wildlife Classification Confusion Matrix",
     )
     run.log({"wildlife_confusion_matrix": confusion_matrix})
 ```
 
-この例では、ランダムな確率を使用して混同行列が生成されます。
+この例では、ランダムな確率を使用して混同行列を生成します。
 
-シミュレーションされたモデル予測と 85% の精度で混同行列をログに記録する例：
+シミュレートしたモデルの予測と 85%
+の精度で混同行列をログする例:
 
 ```python
 import numpy as np
 import wandb
 
-# 野生動物のクラス名を定義
+# 野生動物のクラス名を定義する
 wildlife_class_names = ["Lion", "Tiger", "Elephant", "Zebra"]
 
-# 200枚の動物画像に対する正解ラベルをシミュレート (不均衡な分布)
+# 200枚の動物画像の真のラベルをシミュレートする（不均衡な分布）
 wildlife_y_true = np.random.choice(
     [0, 1, 2, 3],
     size=200,
     p=[0.2, 0.3, 0.25, 0.25],
 )
 
-# 85% の精度を持つモデル予測をシミュレート
+# 正解率85%でモデルの予測をシミュレートする
 wildlife_preds = [
     y_t
     if np.random.rand() < 0.85
@@ -99,15 +124,16 @@ wildlife_preds = [
     for y_t in wildlife_y_true
 ]
 
-# W&B run を初期化し、混同行列をログに記録
+# W&B runを初期化して混同行列をログする
 with wandb.init(project="wildlife_classification") as run:
     confusion_matrix = wandb.plot.confusion_matrix(
-         preds=wildlife_preds,
-         y_true=wildlife_y_true,
-         class_names=wildlife_class_names,
-         title="Simulated Wildlife Classification Confusion Matrix",
+        preds=wildlife_preds,
+        y_true=wildlife_y_true,
+        class_names=wildlife_class_names,
+        title="Simulated Wildlife Classification Confusion Matrix",
     )
     run.log({"wildlife_confusion_matrix": confusion_matrix})
 ```
 
-この例では、混同行列を生成するために、85% の精度で予測がシミュレートされています。
+この例では、精度 85% の予測をシミュレートして
+混同行列を生成します。

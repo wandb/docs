@@ -1,0 +1,32 @@
+---
+title: "Puis-je reprendre un run dans un sweep ?"
+keywords: ["Sweeps", "Reprise"]
+---
+
+La reprise d’un run n’est pas prise en charge au sein d’un sweep W&amp;B. Si vous fournissez un `run_id` ou utilisez `wandb.init(resume=...)` pendant l’exécution d’un agent de balayage, W&amp;B ignore l’ID du run et démarre à la place un nouveau run. Vous verrez l’avertissement suivant :
+
+```
+wandb: WARNING Ignoring run_id 'YOUR_RUN_ID' when running a sweep.
+```
+
+Il s’agit du comportement attendu, et non d’un bug. Les agents de sweep sont conçus pour lancer des runs indépendants pour chaque configuration d’hyperparamètres. Reprendre un run spécifique entrerait en conflit avec la planification des tâches du contrôleur du sweep.
+
+**Solutions de contournement**
+
+Si vous avez besoin d’une tolérance aux pannes pour des runs de sweep longs, envisagez les approches suivantes :
+
+* **Créer des points de contrôle et les recharger dans un seul run** : enregistrez des points de contrôle du modèle à intervalles réguliers dans votre fonction d’entraînement. Au redémarrage, chargez le point de contrôle le plus récent au début de `train()`. Le sweep démarre un nouveau run, mais l’entraînement reprend à partir de l’état enregistré.
+
+* **Utiliser `--count 1` sur SLURM avec remise en file d’attente** : soumettez chaque tâche d’agent de sweep avec `wandb agent --count 1 SWEEP_ID`. Si la tâche est préemptée, SLURM peut la remettre en file d’attente et le contrôleur du sweep attribuera une nouvelle configuration.
+
+* **Marquer un run comme échoué et le remettre manuellement en file d’attente** : si un run plante en cours d’exécution, le contrôleur du sweep finira par le marquer comme échoué et pourra attribuer la même configuration à un nouvel agent, selon les paramètres de votre sweep.
+
+Si vous devez poursuivre une tâche d’entraînement interrompue en dehors d’un sweep, utilisez plutôt `wandb.init(resume="allow", id="YOUR_RUN_ID")` dans un script autonome. Voir [Reprendre des runs](/fr/models/runs/resuming) et [Résoudre les problèmes de sweeps](/fr/models/sweeps/troubleshoot-sweeps).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Reprise](/fr/support/models/tags/resuming)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

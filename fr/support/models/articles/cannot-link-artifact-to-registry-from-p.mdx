@@ -1,0 +1,46 @@
+---
+title: "Pourquoi ne puis-je pas lier mon artefact au registre ?"
+keywords: ["Artifacts"]
+---
+
+Si vous ne parvenez pas à lier un artefact à un registre W&amp;B, la cause la plus fréquente est que l’artefact a été journalisé sous une entité personnelle plutôt que sous une entité d’équipe. Seuls les artefacts journalisés dans l’équipe d’une organisation peuvent être liés au registre de cette organisation. Cette page explique comment journaliser des artefacts sous une entité d’équipe afin de pouvoir les lier au registre, ainsi que ce qu’il faut faire si vous avez déjà journalisé un artefact sous une entité personnelle.
+
+<div id="log-artifacts-with-a-team-entity">
+  ## Journaliser des artefacts avec une entité d’équipe
+</div>
+
+Pour qu’un artefact puisse être associé au registre, vous devez le journaliser sous une entité d’équipe appartenant à votre organisation. Spécifiez l’entité de votre équipe dans `entity` lorsque vous initialisez un run.
+
+Remplacez `[TEAM-ENTITY]`, `[PROJECT-NAME]`, `[ARTIFACT-NAME]` et `[TYPE]` par les valeurs correspondant à votre équipe, votre projet et votre artefact :
+
+```python
+import wandb
+
+with wandb.init(entity="[TEAM-ENTITY]", project="[PROJECT-NAME]") as run:
+    artifact = wandb.Artifact(name="[ARTIFACT-NAME]", type="[TYPE]")
+    # Ajouter des fichiers et enregistrer l'artefact
+```
+
+Si vous ne spécifiez pas `entity`, le run utilise votre entité par défaut, qui peut être votre compte personnel.
+
+<div id="find-your-team-entity">
+  ## Trouvez l’entité d’équipe
+</div>
+
+Votre entité d’équipe est la même que le nom de votre équipe. Pour le confirmer, accédez à la page de profil W&amp;B de votre équipe. L’URL a la forme `https://wandb.ai/[TEAM]`, où `[TEAM]` correspond à votre entité d’équipe.
+
+<div id="re-log-artifacts-logged-to-a-personal-entity">
+  ## Réenregistrer des artefacts journalisés dans une entité personnelle
+</div>
+
+Si vous avez déjà journalisé un artefact dans votre entité personnelle, journalisez-le à nouveau dans une entité d’équipe de votre organisation.
+
+Pour plus d&#39;informations, voir [Lier une version à une collection](/fr/models/registry/link_version/).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

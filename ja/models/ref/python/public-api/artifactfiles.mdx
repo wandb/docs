@@ -1,27 +1,49 @@
 ---
 title: ArtifactFiles
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-## <kbd>class</kbd> `ArtifactFiles`
-
-Artifact 内のファイルを操作するためのページネーターです。
-
-### <kbd>property</kbd> ArtifactFiles.cursor
-
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactFiles.more
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
----
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L1144" />
 
-### <kbd>property</kbd> ArtifactFiles.path
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.ArtifactFiles
 
-Artifact のパスを返します。
+artifact内のファイルを対象とするページネーター。
 
-**Returns:**
- - `list[str]`: path プロパティの値。
+<div id="properties">
+  ## プロパティ
+</div>
+
+<ResponseField name="path" type="list[str]">
+  artifactのパスを返します。
+</ResponseField>
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+最後に取得したレスポンスデータを、イテレートされるオブジェクトに変換します。
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
+
+```python
+self
+```
+
+イテレーターから次の項目を返します。すべての要素を返し終えた場合は、StopIteration を発生させます
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.update_variables()
+
+```python
+self
+```
+
+次のページを取得するためのクエリ変数を更新します。

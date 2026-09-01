@@ -1,0 +1,70 @@
+---
+title: fastai v1
+description: "Utilisez le callback W&B avec fastai v1 pour journaliser la topologie du modèle, les pertes, les métriques, les poids, les gradients et les prédictions."
+---
+
+<Note>
+  Cette documentation concerne fastai v1.
+  Si vous utilisez la version actuelle de fastai, voir la [page fastai](../).
+</Note>
+
+Pour les scripts fastai v1, W&amp;B fournit un callback qui journalise automatiquement la topologie du modèle, les pertes, les métriques, les poids, les gradients, des exemples de prédictions et le meilleur modèle entraîné.
+
+```python
+import wandb
+from wandb.fastai import WandbCallback
+
+wandb.init()
+
+learn = cnn_learner(data, model, callback_fns=WandbCallback)
+learn.fit(epochs)
+```
+
+Les données à journaliser peuvent être configurées via le constructeur du callback.
+
+```python
+from functools import partial
+
+learn = cnn_learner(
+    data, model, callback_fns=partial(WandbCallback, input_type="images")
+)
+```
+
+Vous pouvez également utiliser `WandbCallback` uniquement au démarrage de l’entraînement. Dans ce cas, vous devez l’instancier.
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn))
+```
+
+Vous pouvez également spécifier des paramètres personnalisés à cette étape.
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
+```
+
+<div id="example-code">
+  ## Exemples de code
+</div>
+
+Les exemples suivants montrent comment l’intégration fonctionne :
+
+* [Classer les personnages des Simpson](https://github.com/borisdayma/simpsons-fastai): Une démo pour suivre et comparer les modèles fastai. Voir le [guide étape par étape](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU).
+* [Segmentation sémantique avec Fastai](https://github.com/borisdayma/semantic-segmentation): Optimisation de réseaux neuronaux pour les voitures autonomes.
+
+<div id="options">
+  ## Options
+</div>
+
+La classe `WandbCallback()` prend en charge plusieurs options :
+
+| Keyword argument  | Par défaut  | Description                                                                                                                                                           |
+| ----------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `learn`           | N/A         | Le learner fast.ai à associer.                                                                                                                                        |
+| `save_model`      | `True`      | Enregistre le modèle s&#39;il s&#39;améliore à chaque étape. Charge également le meilleur modèle à la fin de l&#39;entraînement.                                      |
+| `mode`            | `auto`      | `min`, `max` ou `auto`. Indique comment comparer, d&#39;une étape à l&#39;autre, la métrique d&#39;entraînement spécifiée dans `monitor`.                             |
+| `monitor`         | `None`      | Métrique d&#39;entraînement utilisée pour mesurer les performances lors de l&#39;enregistrement du meilleur modèle. `None` utilise par défaut la perte de validation. |
+| `log`             | `gradients` | `gradients`, `parameters`, `all` ou `None`. Les pertes et les métriques sont toujours journalisées.                                                                   |
+| `input_type`      | `None`      | `images` ou `None`. Utilisé pour afficher des exemples de prédictions.                                                                                                |
+| `validation_data` | `None`      | Données utilisées pour les exemples de prédictions si `input_type` est défini.                                                                                        |
+| `predictions`     | `36`        | Nombre de prédictions à effectuer si `input_type` est défini et que `validation_data` vaut `None`.                                                                    |
+| `seed`            | `12345`     | Initialise le générateur aléatoire pour les exemples de prédictions si `input_type` est défini et que `validation_data` vaut `None`.                                  |

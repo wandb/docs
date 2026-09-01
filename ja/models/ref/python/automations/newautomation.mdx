@@ -1,44 +1,54 @@
 ---
 title: NewAutomation
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations.automations
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.NewAutomation
 
-## <kbd>class</kbd> `NewAutomation`
-作成される新しい オートメーション です。
-
-
-### <kbd>method</kbd> `NewAutomation.__init__`
+新たに作成するオートメーション。
 
 ```python
-__init__(
-    name: 'str | None' = None,
-    description: 'str | None' = None,
-    enabled: 'bool | None' = None,
-    event: 'Annotated | None' = None,
-    action: 'Annotated | None' = None
-) → None
+*,
+name: str | None = None,
+description: str | None = None,
+enabled: bool | None = None,
+event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automations.events.OnAddArtifactAlias | wandb.automations.events.OnAddArtifactTag | wandb.automations.events.OnRemoveArtifactTag | wandb.automations.events.OnAddCollectionTag | wandb.automations.events.OnRemoveCollectionTag | wandb.automations.events.OnCreateArtifact | wandb.automations.events.OnUnlinkArtifact | wandb.automations.events.OnRunMetric | wandb.automations.events.OnRunState, FieldInfo(annotation=NoneType, required=True, discriminator='event_type')]] = None,
+action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
 
-**Args:**
- 
- - `name` (Optional[str]): この オートメーション の名前。
- - `description` (Optional[str]): この オートメーション の任意の説明。
- - `enabled` (Optional[bool]): この オートメーション が有効かどうか。有効な オートメーション のみがトリガーされます。
- - `event` (Optional[Annotated]): この オートメーション をトリガーするイベント。
- - `action` (Optional[Annotated]): この オートメーション がトリガーされたときに実行されるアクション。
+<div id="args">
+  ## 引数
+</div>
 
-**Returns:**
- `NewAutomation` オブジェクト。
+<ResponseField name="name" type="str | None">
+  このオートメーションの名前。
+</ResponseField>
 
-### <kbd>property</kbd> `NewAutomation.scope`
+<ResponseField name="description" type="str | None">
+  このオートメーションの説明 (省略可) 。
+</ResponseField>
 
-トリガーイベントが発生する必要があるスコープ。
+<ResponseField name="enabled" type="bool | None">
+  このオートメーションを有効にするかどうか。有効なオートメーションのみがトリガーされます。
+</ResponseField>
 
-**Returns:**
- - `Optional[AutomationScope]`: scope プロパティの 値。
+<ResponseField name="event" type="Optional">
+  このオートメーションをトリガーするイベント。
+</ResponseField>
+
+<ResponseField name="action" type="Optional">
+  このオートメーションがトリガーされたときに実行するアクション。
+</ResponseField>
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+<ResponseField name="scope" type="AutomationScope | None">
+  トリガーとなるイベントが発生する必要があるスコープ。
+</ResponseField>

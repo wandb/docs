@@ -1,88 +1,135 @@
 ---
 title: 프로젝트
-namespace: public_apis_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.apis.public.projects
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Project`
-Project는 Runs를 위한 네임스페이스입니다.
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
 
-### <kbd>method</kbd> `Project.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Project
+
+프로젝트는 Runs의 네임스페이스입니다.
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    attrs: 'Mapping[str, Any]'
-) → Project
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+attrs: 'Mapping[str, Any]'
 ```
 
-**Args:**
- 
- - `client`: W&B API 클라이언트 인스턴스. 
- - `name` (str): 프로젝트의 이름. 
- - `entity` (str): 프로젝트를 소유한 엔티티 이름. 
+<div id="args">
+  ## 인수
+</div>
 
-엔티티와 연결된 단일 프로젝트입니다. 
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B를 쿼리하는 데 사용하는 Service API입니다.
+</ResponseField>
 
-**Args:**
- 
- - `client`: W&B 쿼리에 사용되는 API 클라이언트. 
- - `entity`: 프로젝트를 소유한 엔티티. 
- - `project`: 쿼리할 프로젝트의 이름. 
- - `attrs`: 프로젝트의 속성. 
+<ResponseField name="entity" type="str">
+  프로젝트를 소유한 entity입니다.
+</ResponseField>
 
----
+<ResponseField name="project" type="str">
+  쿼리할 프로젝트의 이름입니다.
+</ResponseField>
 
-### <kbd>property</kbd> Project.id
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  프로젝트의 속성입니다.
+</ResponseField>
 
----
+<div id="properties">
+  ## 속성
+</div>
 
-### <kbd>property</kbd> Project.path
+<ResponseField name="id" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-프로젝트의 경로를 반환합니다. 경로는 엔티티와 프로젝트 이름을 포함하는 리스트입니다. 
+<ResponseField name="owner" type="public.User">
+  프로젝트 소유자를 User 객체로 반환합니다.
+</ResponseField>
 
-**Returns:**
- - `list[str]`: 경로 속성 값.
+<ResponseField name="path" type="list[str]">
+  프로젝트의 경로를 반환합니다. 경로는 entity와 프로젝트 이름을 포함하는 목록입니다.
+</ResponseField>
 
----
+<ResponseField name="url" type="str">
+  프로젝트의 URL을 반환합니다.
+</ResponseField>
 
-### <kbd>property</kbd> Project.url
+<div id="methods">
+  ## 메서드
+</div>
 
-프로젝트의 URL을 반환합니다. 
-
-**Returns:**
- - `str`: url 속성 값.
-
----
-
-### <kbd>method</kbd> `Project.artifacts_types`
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Project.artifacts_types()
 
 ```python
-artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
+self,
+per_page: 'int' = 50
 ```
 
-이 프로젝트와 관련된 모든 Artifacts 타입을 반환합니다. 
+이 프로젝트에 연결된 모든 artifact 유형을 반환합니다.
 
----
+<div id="arguments">
+  ##### 인수
+</div>
 
-### <kbd>method</kbd> `Project.sweeps`
+<ResponseField name="per_page" type="int">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Project.collections()
 
 ```python
-sweeps(per_page: 'int' = 50) → Sweeps
+self,
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50
 ```
 
-이 프로젝트에 포함된 Sweeps의 페이지네이션된 컬렉션을 반환합니다. 
+이 프로젝트와 연결된 모든 artifact collection을 반환합니다.
 
-**Args:**
- 
- - `per_page`: API 요청당 가져올 Sweeps의 수. 
+<div id="arguments">
+  ##### 인수
+</div>
 
-**Returns:**
- `Sweep` 오브젝트의 반복 가능한 컬렉션인 `Sweeps` 오브젝트. 
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+  쿼리에 적용할 필터의 선택적 매핑입니다.
+</ResponseField>
 
----
+<ResponseField name="order" type="str | None">
+  결과 순서를 지정하는 선택적 문자열입니다. `order` 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  페이지당 가져올 artifact collection의 수입니다. 기본값은 50입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Project.sweeps()
+
+```python
+self,
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None,
+order: 'str | None' = None
+```
+
+이 프로젝트의 Sweeps를 페이지로 나누어 반환합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="per_page" type="int">
+  API 요청당 가져올 sweep 수입니다.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  (dict) Runs 필터를 사용해 특정 sweep을 조회하기 위한 쿼리입니다. 자세한 내용은 wandb/apis/public/api.py:runs를 참조하세요.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>

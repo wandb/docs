@@ -1,87 +1,138 @@
 ---
 title: Runs
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.runs
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Runs`
-プロジェクトに関連付けられ、オプションでフィルタリングされた `Run` オブジェクトのレイジーイテレータです。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-Runs は、必要に応じて W&B サーバーからページ単位で取得されます。
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Runs
 
-通常、これは `Api.runs` ネームスペースを介して間接的に使用されます。
+project と省略可能なフィルターに関連付けられた `Run` オブジェクトの遅延イテレーターです。
 
-### <kbd>method</kbd> `Runs.__init__`
+必要に応じて、Runs は W&amp;B サーバーからページ単位で取得されます。
+
+これは通常、`Api.runs` 名前空間を通じて間接的に使用されます。
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    filters: 'dict[str, Any] | None' = None,
-    order: 'str' = '+created_at',
-    per_page: 'int' = 50,
-    include_sweeps: 'bool' = True,
-    lazy: 'bool' = True,
-    api: 'public.Api | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+filters: 'dict[str, Any] | None' = None,
+order: 'str' = '+created_at',
+per_page: 'int' = 50,
+include_sweeps: 'bool' = False,
+lazy: 'bool' = True,
+api_key: 'str | None' = None)
 ```
 
-**Args:**
+<div id="args">
+  ## 引数
+</div>
 
- - `client`: (`wandb.apis.public.RetryingClient`) リクエストに使用する API クライアント。
- - `entity`: (str) プロジェクトを所有する Entities（ユーザー名またはチーム）。
- - `project`: (str) Runs を取得する Projects の名前。
- - `filters`: (Optional[Dict[str, Any]]) Runs クエリに適用するフィルタの辞書。
- - `order`: (str) ソート順。`created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` が指定可能です。先頭に `+` を付けると昇順（デフォルト）、`-` を付けると降順になります。デフォルトの順序は `run.created_at` で、古いものから新しい順です。
- - `per_page`: (int) 1回のリクエストで取得する Runs の数（デフォルトは 50）。
- - `include_sweeps`: (bool) Runs に Sweeps の情報を含めるかどうか。デフォルトは True です。
+<ResponseField name="service_api" type="ServiceApi">
+  リクエストに使用するサービス API。
+</ResponseField>
 
----
+<ResponseField name="entity" type="str">
+  project を所有する entity (ユーザー名またはチーム) 。
+</ResponseField>
 
-### <kbd>property</kbd> Runs.length
+<ResponseField name="project" type="str">
+  run を取得する project の名。
+</ResponseField>
 
----
+<ResponseField name="filters" type="dict[str, Any] | None">
+  run のクエリに適用するフィルター。
+</ResponseField>
 
-### <kbd>method</kbd> `Runs.histories`
+<ResponseField name="order" type="str">
+  `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。デフォルトの並び順は `run.created_at` で、古いものから新しいものへ並びます。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  リクエストごとに取得する run の数 (デフォルトは 50) 。
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  run に sweep 情報を含めるかどうか。デフォルトは True です。
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  アクセスされるまで重いフィールド (`config`、`summaryMetrics`、`systemMetrics`) の読み込みを遅延させるかどうか。デフォルトは True です。
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  説明はありません。
+</ResponseField>
+
+<div id="methods">
+  ## メソッド
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.histories()
 
 ```python
-histories(
-    samples: 'int' = 500,
-    keys: 'list[str] | None' = None,
-    x_axis: 'str' = '_step',
-    format: "Literal['default', 'pandas', 'polars']" = 'default',
-    stream: "Literal['default', 'system']" = 'default'
-) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
+self,
+samples: 'int' = 500,
+keys: 'list[str] | None' = None,
+x_axis: 'str' = '_step',
+format: "Literal['default', 'pandas', 'polars']" = 'default',
+stream: "Literal['default', 'system']" = 'default'
 ```
 
-フィルタ条件に一致するすべての Runs について、サンプリングされた履歴メトリクスを返します。
+フィルター条件に一致するすべての run について、サンプリングされた履歴メトリクスを返します。
 
-**Args:**
+<div id="arguments">
+  ##### 引数
+</div>
 
- - `samples`: 各 Run ごとに返されるサンプル数。
- - `keys`: 特定のキーのメトリクスのみを返します。
- - `x_axis`: X軸として使用するメトリクス。デフォルトは `_step` です。
- - `format`: データを返す形式。オプションは "default"、"pandas"、"polars" です。
- - `stream`: メトリクスの場合は "default"、マシンメトリクスの場合は "system" を指定します。
+<ResponseField name="samples" type="int">
+  run ごとに返すサンプル数
+</ResponseField>
 
-**Returns:**
+<ResponseField name="keys" type="list[str] | None">
+  指定したキーのメトリクスのみを返します
+</ResponseField>
 
- - `pandas.DataFrame`: `format="pandas"` の場合、履歴メトリクスの `pandas.DataFrame` を返します。
- - `polars.DataFrame`: `format="polars"` の場合、履歴メトリクスの `polars.DataFrame` を返します。
- - `list of dicts`: `format="default"` の場合、`run_id` キーを含む履歴メトリクスの辞書のリストを返します。
+<ResponseField name="x_axis" type="str">
+  x 軸として使用するメトリクス。デフォルトは &#95;step です
+</ResponseField>
 
----
+<ResponseField name="format" type="Literal['default', 'pandas', 'polars']">
+  データの返却形式。&quot;default&quot;、&quot;pandas&quot;、&quot;polars&quot; を指定できます
+</ResponseField>
 
-### <kbd>method</kbd> `Runs.upgrade_to_full`
+<ResponseField name="stream" type="Literal['default', 'system']">
+  メトリクスには &quot;default&quot;、システムメトリクスには &quot;system&quot;
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.**next**()
 
 ```python
-upgrade_to_full() → None
+self
 ```
 
-この Runs コレクションを lazy モードから full モードにアップグレードします。
+イテレーターから次の項目を返します。すべての項目を返し終えている場合は、StopIteration を送出します
 
-これにより、完全な Run データの取得に切り替わり、すでにロードされている Run オブジェクトも完全なデータを持つようにアップグレードされます。複数の Runs をアップグレードする際のパフォーマンスを向上させるために、並列ロードを使用します。
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.update_variables()
+
+```python
+self
+```
+
+次のページのフェッチに使用するクエリ変数を更新します。
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.upgrade_to_full()
+
+```python
+self
+```
+
+この Runs コレクションを 遅延 モードから full モードにアップグレードします。
+
+これにより、完全な run データを取得するように切り替わり、
+すでに読み込まれている Run オブジェクトも完全なデータを持つようになります。
+複数の run をアップグレードする場合は、パフォーマンス向上のために並列読み込みを使用します。

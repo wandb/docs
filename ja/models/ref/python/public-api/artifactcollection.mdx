@@ -1,139 +1,135 @@
 ---
 title: ArtifactCollection
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-## <kbd>class</kbd> `ArtifactCollection`
-関連する アーティファクト のグループを表す アーティファクト コレクションです。
-
-**Args:**
-
- - `client`: W&B へのクエリに使用するクライアントインスタンス。
- - `entity`: プロジェクト を所有する エンティティ (ユーザー または チーム)。
- - `project`: アーティファクト コレクションを照会する プロジェクト の名前。
- - `name`: アーティファクト コレクションの名前。
- - `type`: アーティファクト コレクションのタイプ (例: "dataset"、"model")。
- - `organization`: 該当する場合、オプションの組織名。
- - `attrs`: アーティファクト コレクションを初期化するためのオプションの属性マッピング。指定しない場合、オブジェクト は初期化時に W&B から属性をロードします。
-
-### <kbd>property</kbd> ArtifactCollection.aliases
-
-このコレクションに含まれるすべての アーティファクト バージョン の エイリアス。
-
-**Returns:**
- - `list[str]`: aliases プロパティの 値。
+kind: クラス
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactCollection.created_at
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-アーティファクト コレクションの作成日。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
-**Returns:**
- - `str`: created_at プロパティの 値。
----
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.ArtifactCollection
 
-### <kbd>property</kbd> ArtifactCollection.description
+関連する アーティファクト のグループを表す アーティファクト コレクション。
 
-アーティファクト コレクションの説明。
+<div id="properties">
+  ## プロパティ
+</div>
 
-**Returns:**
- - `str | None`: description プロパティの 値。
----
+<ResponseField name="aliases" type="list[str]">
+  このコレクションに含まれるすべてのアーティファクト バージョンのエイリアス。
+</ResponseField>
 
-### <kbd>property</kbd> ArtifactCollection.entity
+<ResponseField name="created_at" type="str">
+  アーティファクト コレクションの作成日。
+</ResponseField>
 
-プロジェクト を所有する エンティティ (ユーザー または チーム)。
+<ResponseField name="description" type="str | None">
+  アーティファクト コレクションの説明。
+</ResponseField>
 
-**Returns:**
- - `str`: entity プロパティの 値。
----
+<ResponseField name="entity" type="str">
+  project を所有するエンティティ (ユーザーまたはチーム) 。
+</ResponseField>
 
-### <kbd>property</kbd> ArtifactCollection.id
+<ResponseField name="id" type="str">
+  アーティファクト コレクションの一意の ID。
+</ResponseField>
 
-アーティファクト コレクションの一意識別子。
+<ResponseField name="name" type="str">
+  アーティファクト コレクションの名前。
+</ResponseField>
 
-**Returns:**
- - `str`: id プロパティの 値。
----
+<ResponseField name="project" type="str">
+  アーティファクト コレクションを含む project。
+</ResponseField>
 
-### <kbd>property</kbd> ArtifactCollection.name
+<ResponseField name="project_id" type="str">
+  このコレクションの project のエンコード済み GraphQL ID。
+</ResponseField>
 
-アーティファクト コレクションの名前。
+<ResponseField name="project_internal_id" type="str | None">
+  取得されている場合、このコレクションの基盤となる project の GraphQL `internalId`。
 
-**Returns:**
- - `str`: name プロパティの 値。
----
+  これは base64 エンコードされたグローバル ID です。デコードすると、
+  `Project:123` または `ProjectInternalId:123` のようになります。
+</ResponseField>
 
-### <kbd>property</kbd> ArtifactCollection.project
+<ResponseField name="tags" type="list[str]">
+  アーティファクト コレクションに関連付けられたタグ。
+</ResponseField>
 
-アーティファクト コレクションが含まれる プロジェクト。
+<ResponseField name="type" type="">
+  アーティファクト コレクションのタイプを返します。
+</ResponseField>
 
-**Returns:**
- - `str`: project プロパティの 値。
----
+<ResponseField name="updated_at" type="str | None">
+  アーティファクト コレクションが最後に更新された日付。
+</ResponseField>
 
-### <kbd>property</kbd> ArtifactCollection.tags
+<div id="methods">
+  ## メソッド
+</div>
 
-アーティファクト コレクションに関連付けられたタグ。
-
-**Returns:**
- - `list[str]`: tags プロパティの 値。
----
-
-### <kbd>property</kbd> ArtifactCollection.type
-
-アーティファクト コレクションのタイプを返します。
-
----
-
-### <kbd>method</kbd> `ArtifactCollection.artifacts`
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.artifacts()
 
 ```python
-artifacts(per_page: 'int' = 50) → Artifacts
+self,
+per_page: 'int' = 50,
+start: 'str | None' = None
 ```
 
-コレクション内のすべての アーティファクト を取得します。
+コレクション内のすべてのアーティファクトを取得します。
 
----
+<div id="arguments">
+  ##### 引数
+</div>
 
-### <kbd>method</kbd> `ArtifactCollection.change_type`
+<ResponseField name="per_page" type="int">
+  1 ページあたりに取得するアーティファクト数。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得した値を指定します。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.change_type()
 
 ```python
-change_type(new_type: 'str') → None
+self,
+new_type: 'str'
 ```
 
-非推奨です。代わりに `save` を使用して直接タイプを変更してください。
+非推奨です。代わりに `save` でタイプを直接変更してください。
 
----
+<div id="arguments">
+  ##### 引数
+</div>
 
-### <kbd>method</kbd> `ArtifactCollection.delete`
+<ResponseField name="new_type" type="str">
+  説明は提供されていません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.delete()
 
 ```python
-delete() → None
+self
 ```
 
-アーティファクト コレクション全体を削除します。
+アーティファクト コレクション 全体を削除します。
 
----
-
-### <kbd>method</kbd> `ArtifactCollection.is_sequence`
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.is_sequence()
 
 ```python
-is_sequence() → bool
+self
 ```
 
-アーティファクト コレクションがシーケンスであるかどうかを返します。
+アーティファクト コレクション がシーケンスかどうかを返します。
 
----
-
-### <kbd>method</kbd> `ArtifactCollection.save`
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.save()
 
 ```python
-save() → None
+self
 ```
 
-アーティファクト コレクションに加えられた変更を保存します。
+アーティファクト コレクション に加えた変更内容を保存します。

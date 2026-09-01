@@ -1,107 +1,109 @@
 ---
-title: 'Class: WeaveObject'
-description: TypeScript SDK リファレンス
+title: "WeaveObject"
+description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / WeaveObject
+定義元: [src/weaveObject.ts:70](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L70)
 
+<div id="extended-by">
+  ## 拡張元
+</div>
 
+* [`Dataset`](./dataset)
+* [`Evaluation`](./evaluation)
 
-## 階層構造
+<div id="constructors">
+  ## コンストラクタ
+</div>
 
-- `WeaveObject`
+<div id="constructor">
+  ### コンストラクター
+</div>
 
-  ↳ [`Dataset`](./dataset)
+> **new WeaveObject**(`_baseParameters`): `WeaveObject`
 
-  ↳ [`Evaluation`](./evaluation)
+定義元: [src/weaveObject.ts:73](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L73)
 
-## 目次
+<div id="parameters">
+  #### パラメーター
+</div>
 
-### コンストラクタ
+<div id="_baseparameters">
+  ##### _baseParameters
+</div>
 
-- [constructor](./weaveobject#constructor)
+`WeaveObjectParameters`
 
-### プロパティ
+#### 戻り値
 
-- [\_\_savedRef](./weaveobject#__savedref)
+`WeaveObject`
 
-### アクセサ
+<div id="properties">
+  ## プロパティ
+</div>
 
-- [description](./weaveobject#description)
-- [name](./weaveobject#name)
+<div id="__savedref">
+  ### __savedRef
+</div>
 
-### メソッド
+> `optional` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-- [saveAttrs](./weaveobject#saveattrs)
+定義元: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
-## コンストラクタ
+<div id="accessors">
+  ## アクセサ
+</div>
 
-### constructor
+<div id="description">
+  ### 説明
+</div>
 
-• **new WeaveObject**(`_baseParameters`): [`WeaveObject`](./weaveobject)
+<div id="get-signature">
+  #### Get Signature
+</div>
 
-#### パラメータ
+> **get** **description**(): `string` | `undefined`
 
-| 名前 | 型 |
-| :------ | :------ |
-| `_baseParameters` | `WeaveObjectParameters` |
+定義元: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
-#### 返り値
+<div id="returns">
+  ##### 戻り値
+</div>
 
-[`WeaveObject`](./weaveobject)
+`string` | `undefined`
 
-#### 定義箇所
+***
 
-[weaveObject.ts:75](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L75)
+<div id="name">
+  ### 名
+</div>
 
-## プロパティ
+<div id="get-signature">
+  #### Get Signature
+</div>
 
-### \_\_savedRef
+> **get** **name**(): `string`
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+定義元: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
-#### 定義箇所
-
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
-
-## アクセサ
-
-### description
-
-• `get` **description**(): `undefined` \| `string`
-
-#### 返り値
-
-`undefined` \| `string`
-
-#### 定義箇所
-
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
-
-___
-
-### name
-
-• `get` **name**(): `string`
-
-#### 返り値
+<div id="returns">
+  ##### 戻り値
+</div>
 
 `string`
 
-#### 定義箇所
+<div id="methods">
+  ## メソッド
+</div>
 
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
+<div id="saveattrs">
+  ### saveAttrs()
+</div>
 
-## メソッド
+> **saveAttrs**(): `object`
 
-### saveAttrs
+定義元: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
-▸ **saveAttrs**(): `Object`
+#### 戻り値
 
-#### 返り値
-
-`Object`
-
-#### 定義箇所
-
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
+`object`

@@ -3,13 +3,15 @@ title: "How do I silence W&B info messages?"
 keywords: ["Notebooks", "Environment Variables"]
 ---
 
+W&B emits info-level log messages by default, which can clutter notebook output. This page describes two ways to reduce or silence those messages: adjust the Python logger level, or use a W&B environment variable.
+
 To suppress log messages in your notebook such as this:
 
-```
+```text
 INFO SenderThread:11484 [sender.py:finish():979]
-``` 
+```
 
-Set the log level to `logging.ERROR` to only show errors, suppressing output of info-level log output.
+Set the log level to `logging.ERROR` to show only errors, which suppresses info-level log output.
 
 ```python
 import logging
@@ -18,7 +20,12 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-To significantly reduce log output, set `WANDB_QUIET` environment variable to `True`. To turn off log output completely, set the `WANDB_SILENT` environment variable to `True`. In a notebook, set `WANDB_QUIET` or `WANDB_SILENT` before running `wandb.login`:
+Alternatively, use a W&B environment variable to control log verbosity:
+
+- To reduce log output, set the `WANDB_QUIET` environment variable to `True`.
+- To turn off log output completely, set the `WANDB_SILENT` environment variable to `True`.
+
+In a notebook, set `WANDB_QUIET` or `WANDB_SILENT` before you run `wandb.login`:
 
 <Tabs>
 <Tab title="Notebook">

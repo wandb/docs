@@ -1,142 +1,244 @@
 ---
-title: 스윕
-namespace: public_apis_namespace
-python_object_type: class
+title: Sweep
+kind: 클래스
+namespace: wandb.apis.public.sweeps
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Sweep`
-Sweeps 와 관련된 Runs 의 집합입니다.
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-**Attributes:**
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Sweep
 
- - `runs` (Runs): Runs 의 리스트
- - `id` (str): Sweep ID
- - `project` (str): Sweep 이 속한 Project 의 이름
- - `config` (dict): Sweep 구성 (sweep configuration) 을 포함하는 사전 (dictionary)
- - `state` (str): Sweep 의 상태. "Finished", "Failed", "Crashed", 또는 "Running" 이 될 수 있습니다.
- - `expected_run_count` (int): Sweep 에 대해 예상되는 Runs 의 수
-
-### <kbd>method</kbd> `Sweep.__init__`
+스윕에 연결된 Runs 집합입니다.
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
----
+<div id="args">
+  ## 인수
+</div>
 
-### <kbd>property</kbd> Sweep.config
+<ResponseField name="service_api" type="ServiceApi">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-Sweep 에 사용된 Sweep 구성 (sweep configuration) 입니다.
+<ResponseField name="entity" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
----
+<ResponseField name="project" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.entity
+<ResponseField name="sweep_id" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-Sweep 과 관련된 Entities 입니다.
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-**Returns:**
- - `str`: entity 속성 값.
----
+<div id="attributes">
+  ## 속성
+</div>
 
-### <kbd>property</kbd> Sweep.expected_run_count
+* `runs` (`Runs`): Runs 목록
+* `id` (`str`): 스윕 ID
+* `project` (`str`): 스윕가 속한 프로젝트 이름
+* `config` (`dict`): 스윕 설정이 포함된 사전
+* `state` (`str`): 스윕의 상태입니다. &quot;Finished&quot;, &quot;Failed&quot;, &quot;Crashed&quot; 또는 &quot;Running&quot;일 수 있습니다.
+* `expected_run_count` (`int`): 스윕의 예상 Runs 수
 
-Sweep 에서 예상되는 Runs 의 수를 반환하거나, 무제한 Runs 인 경우 None 을 반환합니다.
+<div id="attributes">
+  ## 속성
+</div>
 
-**Returns:**
- - `int | None`: expected_run_count 속성 값.
----
+<ResponseField name="config" type="">
+  스윕에 사용되는 스윕 설정입니다.
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.name
+<ResponseField name="entity" type="str">
+  스윕과 연결된 entity입니다.
+</ResponseField>
 
-Sweep 의 이름입니다.
+<ResponseField name="expected_run_count" type="int | None">
+  스윕에서 예상되는 Runs 수를 반환합니다. 무한 Runs의 경우 None을 반환합니다.
+</ResponseField>
 
-다음 우선순위에 따라 존재하는 첫 번째 이름을 반환합니다:
+<ResponseField name="name" type="">
+  스윕의 이름입니다.
 
-1. 사용자가 수정한 표시 이름 (display name) 2. 생성 시 설정된 이름 3. Sweep ID
+  다음 우선순위에 따라 존재하는 첫 번째 이름을 반환합니다.
 
----
+  1. 사용자가 편집한 표시 이름
+  2. 생성 시 설정된 이름
+  3. 스윕 ID
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.order
+<ResponseField name="order" type="">
+  스윕의 순서 키를 반환합니다.
+</ResponseField>
 
-Sweep 의 정렬 키 (order key) 를 반환합니다.
+<ResponseField name="path" type="">
+  프로젝트의 경로를 반환합니다.
 
----
+  경로는 entity, 프로젝트 이름 및 스윕 ID가 포함된 목록입니다.
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.path
+<ResponseField name="url" type="">
+  스윕의 URL입니다.
 
-Project 의 경로를 반환합니다.
+  스윕 URL은 entity, 프로젝트, &quot;sweeps&quot;라는 용어 및 스윕 ID.run&#95;id로 생성됩니다.
+  SaaS 사용자의 경우 형식은
+  `https://wandb.ai/entity/project/sweeps/sweeps_ID`입니다.
+</ResponseField>
 
-경로는 Entities, Project 이름, 그리고 Sweep ID 를 포함하는 리스트입니다.
+<ResponseField name="username" type="str">
+  사용 중단되었습니다. 대신 `Sweep.entity`를 사용하세요.
+</ResponseField>
 
----
+<div id="methods">
+  ## 메서드
+</div>
 
-### <kbd>property</kbd> Sweep.url
-
-Sweep 의 URL 입니다.
-
-Sweep URL 은 Entities, Project, "sweeps" 라는 용어, 그리고 Sweep ID 를 기반으로 생성됩니다. SaaS 사용자의 경우, `https://wandb.ai/entity/project/sweeps/sweeps_ID` 형식을 가집니다.
-
----
-
-### <kbd>property</kbd> Sweep.username
-
-더 이상 사용되지 않습니다 (Deprecated). 대신 `Sweep.entity` 를 사용하세요.
-
-**Returns:**
- - `str`: username 속성 값.
----
-
-### <kbd>method</kbd> `Sweep.best_run`
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.agent()
 
 ```python
-best_run(order=None)
+self,
+agent_id: 'str'
 ```
 
-구성(config)에 정의된 메트릭 또는 전달된 정렬 순서에 따라 가장 우수한 Run 을 반환합니다.
+이 스윕에서 ID로 에이전트를 쿼리합니다.
 
----
+<div id="arguments">
+  ##### 인수
+</div>
 
-### <kbd>classmethod</kbd> `Sweep.get`
+<ResponseField name="agent_id" type="str">
+  조회할 에이전트의 ID입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.agents()
 
 ```python
-get(
-    client: 'RetryingClient',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    sid: 'str | None' = None,
-    order: 'str | None' = None,
-    query: 'Document | None' = None,
-    **kwargs
-)
+self
 ```
 
-클라우드 백엔드에 대해 쿼리를 실행합니다.
+이 스윕의 모든 에이전트 목록을 쿼리합니다.
 
-**Args:**
-
- - `client`: 쿼리 실행에 사용할 클라이언트.
- - `entity`: Project 를 소유한 Entities (사용자 이름 또는 팀).
- - `project`: Sweep 을 가져올 Project 의 이름.
- - `sid`: 쿼리할 Sweep ID.
- - `order`: Sweep 의 Runs 가 반환되는 순서.
- - `query`: 실행에 사용할 쿼리.
- - `**kwargs`: 쿼리에 전달할 추가 키워드 인수 (arguments).
-
----
-
-### <kbd>method</kbd> `Sweep.to_html`
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.best_run()
 
 ```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+(self, order=None)
 ```
 
-이 Sweep 을 표시하는 iframe 을 포함한 HTML 을 생성합니다.
+설정에 정의된 메트릭 또는 전달된 순서를 기준으로 정렬된 최상의 run을 반환합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="order" type="_empty">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+스윕의 run을 큐에 추가합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="config" type="dict">
+  run의 설정입니다.
+</ResponseField>
+
+<ResponseField name="display_name" type="str | None">
+  run의 선택적 표시 이름입니다.
+</ResponseField>
+
+<div id="raises">
+  ##### 예외
+</div>
+
+* `UnsupportedError`: 서버가 스윕 run의 대기열 추가를 지원하지 않는 경우.
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.get()
+
+```python
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
+```
+
+클라우드 백엔드에 쿼리를 실행합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="api" type="Api">
+  W&amp;B API 인스턴스입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  스윕을 가져올 프로젝트 이름입니다.
+</ResponseField>
+
+<ResponseField name="sid" type="str | None">
+  쿼리할 스윕 ID입니다.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  스윕의 Runs가 반환되는 순서입니다.
+</ResponseField>
+
+<ResponseField name="query" type="str | None">
+  쿼리 실행에 사용할 쿼리입니다.
+</ResponseField>
+
+<ResponseField name="kwargs" type="_empty">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.to_html()
+
+```python
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
+```
+
+이 스윕을 표시하는 iframe이 포함된 HTML을 생성합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="height" type="int">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  설명이 없습니다.
+</ResponseField>

@@ -3,9 +3,9 @@ title: "Where are artifacts downloaded, and how can I control that?"
 keywords: ["Artifacts", "Environment Variables"]
 ---
 
-By default, artifacts download to the `artifacts/` folder. To change the location:
+By default, W&B downloads artifacts to the `artifacts/` folder. To change the location:
 
-- Pass it to [`wandb.Artifact().download`](/models/ref/python/public-api/api):
+- Pass the path to [`wandb.Artifact().download`](/models/ref/python/public-api/api):
 
     ```python
     wandb.Artifact().download(root="<path_to_download>")

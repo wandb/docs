@@ -1,37 +1,53 @@
 ---
 title: Reports
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.reports
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
 
-## <kbd>class</kbd> `Reports`
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Reports
+
+
+
 Reports is a lazy iterator of `BetaReport` objects.
 
-### <kbd>method</kbd> `Reports.__init__`
+
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    project: 'Project',
-    name: 'str | None' = None,
-    entity: 'str | None' = None,
-    per_page: 'int' = 50
-)
+(service_api: 'ServiceApi',
+project: 'Project',
+name: 'str | None' = None,
+entity: 'str | None' = None,
+per_page: 'int' = 50)
 ```
 
-**Args:**
- 
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
- - `project` (`wandb.sdk.internal.Project`):  The project to fetch reports from. 
- - `name` (str, optional):  The name of the report to filter by. If `None`,  fetches all reports. 
- - `entity` (str, optional):  The entity name for the project. Defaults to  the project entity. 
- - `per_page` (int):  Number of reports to fetch per page (default is 50). 
+## Args
+
+<ResponseField name="service_api" type="ServiceApi">
+Interface to the wandb-core service that performs W&B API calls for this collection.
+</ResponseField>
+
+<ResponseField name="project" type="Project">
+The project to fetch reports from.
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+The name of the report to filter by. If `None`, fetches all reports.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+The entity name for the project. Defaults to the project entity.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+Number of reports to fetch per page (default is 50).
+</ResponseField>
 
 
 
@@ -39,33 +55,53 @@ __init__(
 
 
 
----
 
 
-### <kbd>property</kbd> Reports.length
+## Methods
 
 
-
-
-
----
-
-
-### <kbd>method</kbd> `Reports.convert_objects`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Reports.convert_objects()
 
 ```python
-convert_objects() → list[BetaReport]
+self
 ```
 
-Converts GraphQL edges to File objects. 
+Converts GraphQL edges to File objects.
 
----
 
-### <kbd>method</kbd> `Reports.update_variables`
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.__next__()
 
 ```python
-update_variables() → None
+self
 ```
 
-Updates the GraphQL query variables for pagination. 
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Reports.update_variables()
+
+```python
+self
+```
+
+Updates the GraphQL query variables for pagination.
+
+
+
+
+
+
+
 

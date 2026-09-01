@@ -1,0 +1,275 @@
+---
+title: "Evaluation<R, E, M>"
+description: "Référence du SDK TypeScript"
+---
+
+Configure une évaluation qui comprend un ensemble d’évaluateurs et un jeu de données.
+
+L’appel à `evaluation.evaluate(model)` transmet des lignes d’un jeu de données à un modèle, en faisant correspondre
+les noms des colonnes du jeu de données aux noms des arguments dans `model.predict`.
+
+Il appelle ensuite tous les évaluateurs et enregistre les résultats dans weave.
+
+Défini dans : [src/evaluation.ts:139](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L139)
+
+## Exemple
+
+```ts twoslash
+// @noErrors
+// Collectez vos exemples dans un jeu de données
+const dataset = new weave.Dataset({
+  id: 'my-dataset',
+  rows: [
+    { question: 'What is the capital of France?', expected: 'Paris' },
+    { question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee' },
+    { question: 'What is the square root of 64?', expected: '8' },
+  ],
+});
+
+// Définissez une fonction d'évaluation personnalisée
+const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
+  return modelOutput == datasetRow.expected;
+});
+
+// Définissez la fonction à évaluer
+const model = weave.op(async function alwaysParisModel({ question }) {
+  return 'Paris';
+});
+
+// Lancez l'évaluation
+const evaluation = new weave.Evaluation({
+  id: 'my-evaluation',
+  dataset: dataset,
+  scorers: [scoringFunction],
+});
+
+const results = await evaluation.evaluate({ model });
+```
+
+<div id="extends">
+  ## Étend
+</div>
+
+* [`WeaveObject`](./weaveobject)
+
+<div id="type-parameters">
+  ## Paramètres de type
+</div>
+
+<div id="r">
+  ### R
+</div>
+
+`R` *extends* `DatasetRow`
+
+<div id="e">
+  ### E
+</div>
+
+`E` *extends* `DatasetRow`
+
+<div id="m">
+  ### M
+</div>
+
+`M`
+
+<div id="constructors">
+  ## Constructeurs
+</div>
+
+<div id="constructor">
+  ### Constructeur
+</div>
+
+> **new Evaluation**&lt;`R`, `E`, `M`&gt;(`parameters`) : `Evaluation`&lt;`R`, `E`, `M`&gt;
+
+Défini dans : [src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L150)
+
+#### Paramètres
+
+<div id="parameters">
+  ##### paramètres
+</div>
+
+`EvaluationParameters`&lt;`R`, `E`, `M`&gt;
+
+#### Renvoie
+
+`Evaluation`&lt;`R`, `E`, `M`&gt;
+
+<div id="overrides">
+  #### Redéfinit
+</div>
+
+[`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<div id="__savedref">
+  ### __savedRef
+</div>
+
+> `facultatif` **&#95;&#95;savedRef** : [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+
+Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+[`WeaveObject`](./weaveobject).[`__savedRef`](./weaveobject#__savedref)
+
+<div id="accessors">
+  ## Accesseurs
+</div>
+
+<div id="description">
+  ### description
+</div>
+
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **description**(): `string` | `undefined`
+
+Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string` | `undefined`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+[`WeaveObject`](./weaveobject).[`description`](./weaveobject#description)
+
+***
+
+<div id="name">
+  ### nom
+</div>
+
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **name**(): `string`
+
+Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+[`WeaveObject`](./weaveobject).[`name`](./weaveobject#name)
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="evaluate">
+  ### evaluate()
+</div>
+
+> **evaluate**(`__namedParameters`) : `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
+
+Défini dans : [src/evaluation.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L165)
+
+#### Paramètres
+
+<div id="__namedparameters">
+  ##### __namedParameters
+</div>
+
+<div id="maxconcurrency">
+  ###### maxConcurrency?
+</div>
+
+`number` = `5`
+
+<div id="model">
+  ###### model
+</div>
+
+`WeaveCallable`&lt;(...`args`) =&gt; `Promise`&lt;`M`&gt;&gt;
+
+<div id="ntrials">
+  ###### nTrials ?
+</div>
+
+`number` = `1`
+
+#### Renvoie
+
+`Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
+
+***
+
+<div id="predictandscore">
+  ### predictAndScore()
+</div>
+
+> **predictAndScore**(`__namedParameters`) : `Promise`&lt;&#123; `model_latency` : `number`; `model_output` : `any`; `model_success` : `boolean`; `scores` : &#123;[`key` : `string`] : `any`; &#125;; &#125;&gt;
+
+Défini dans : [src/evaluation.ts:244](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L244)
+
+#### Paramètres
+
+<div id="__namedparameters">
+  ##### __namedParameters
+</div>
+
+<div id="columnmapping">
+  ###### columnMapping?
+</div>
+
+`ColumnMapping`&lt;`R`, `E`&gt;
+
+<div id="example">
+  ###### exemple
+</div>
+
+`R`
+
+<div id="model">
+  ###### model
+</div>
+
+`WeaveCallable`&lt;(...`args`) =&gt; `Promise`&lt;`M`&gt;&gt;
+
+#### Renvoie
+
+`Promise`&lt;&#123; `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: &#123;[`key`: `string`]: `any`; &#125;; &#125;&gt;
+
+***
+
+<div id="saveattrs">
+  ### saveAttrs()
+</div>
+
+> **saveAttrs**(): `objet`
+
+Défini dans : [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+
+#### Renvoie
+
+`objet`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+[`WeaveObject`](./weaveobject).[`saveAttrs`](./weaveobject#saveattrs)

@@ -1,310 +1,332 @@
 ---
 title: Run
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.runs
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L598" />
 
-## <kbd>class</kbd> `Run`
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Run
+
+
+
 A single run associated with an entity and project.
 
-### <kbd>method</kbd> `Run.__init__`
+
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    run_id: 'str',
-    attrs: 'Mapping | None' = None,
-    include_sweeps: 'bool' = True,
-    lazy: 'bool' = True,
-    service_api: 'ServiceApi | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+run_id: 'str',
+attrs: 'Mapping | None' = None,
+include_sweeps: 'bool' = False,
+lazy: 'bool' = True,
+api_key: 'str | None' = None)
 ```
 
-**Args:**
- 
- - `client`:  The W&B API client. 
- - `entity`:  The entity associated with the run. 
- - `project`:  The project associated with the run. 
- - `run_id`:  The unique identifier for the run. 
- - `attrs`:  The attributes of the run. 
- - `include_sweeps`:  Whether to include sweeps in the run. 
+## Args
 
+<ResponseField name="service_api" type="ServiceApi">
+Interface to the wandb-core service that performs W&B API calls for this run.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+The entity associated with the run.
+</ResponseField>
 
-**Attributes:**
- 
- - `tags` ([str]):  a list of tags associated with the run 
- - `url` (str):  the url of this run 
- - `id` (str):  unique identifier for the run (defaults to eight characters) 
- - `name` (str):  the name of the run 
- - `state` (str):  one of: running, finished, crashed, killed, preempting, preempted 
- - `config` (dict):  a dict of hyperparameters associated with the run 
- - `created_at` (str):  ISO timestamp when the run was started 
- - `system_metrics` (dict):  the latest system metrics recorded for the run 
- - `summary` (dict):  A mutable dict-like property that holds the current summary.  Calling update will persist any changes. 
- - `project` (str):  the project associated with the run 
- - `entity` (str):  the name of the entity associated with the run 
- - `project_internal_id` (int):  the internal id of the project 
- - `user` (str):  the name of the user who created the run 
- - `path` (str):  Unique identifier [entity]/[project]/[run_id] 
- - `notes` (str):  Notes about the run 
- - `read_only` (boolean):  Whether the run is editable 
- - `history_keys` (str):  History metric keys logged with `wandb.Run.log({"key": "value"})` 
- - `metadata` (str):  Metadata about the run from wandb-metadata.json 
+<ResponseField name="project" type="str">
+The project associated with the run.
+</ResponseField>
 
+<ResponseField name="run_id" type="str">
+The unique identifier for the run.
+</ResponseField>
 
-Initialize a Run object. 
+<ResponseField name="attrs" type="Mapping | None">
+The attributes of the run.
+</ResponseField>
 
-Run is always initialized by calling api.runs() where api is an instance of wandb.Api. 
+<ResponseField name="include_sweeps" type="bool">
+Whether to include sweeps in the run.
+</ResponseField>
 
+<ResponseField name="lazy" type="bool">
+No description provided.
+</ResponseField>
 
----
+<ResponseField name="api_key" type="str | None">
+No description provided.
+</ResponseField>
 
-### <kbd>property</kbd> Run.config
 
-Get run config. Auto-loads full data if in lazy mode. 
 
+## Attributes
 
+- `tags` (`[str]`): a list of tags associated with the run
+- `url` (`str`): the url of this run
+- `id` (`str`): unique identifier for the run (defaults to eight characters)
+- `name` (`str`): the name of the run
+- `state` (`str`): one of: running, finished, crashed, killed, preempting, preempted
+- `config` (`dict`): a dict of hyperparameters associated with the run
+- `created_at` (`str`): ISO timestamp when the run was started
+- `system_metrics` (`dict`): the latest system metrics recorded for the run
+- `summary` (`dict`): A mutable dict-like property that holds the current summary. Calling update will persist any changes.
+- `project` (`str`): the project associated with the run
+- `entity` (`str`): the name of the entity associated with the run
+- `project_internal_id` (`int`): the internal id of the project
+- `user` (`str`): the name of the user who created the run
+- `path` (`str`): Unique identifier [entity]/[project]/[run_id]
+- `notes` (`str`): Notes about the run
+- `read_only` (`boolean`): Whether the run is editable
+- `history_keys` (`str`): History metric keys logged with `wandb.Run.log({"key": "value"})`
+- `metadata` (`str`): Metadata about the run from wandb-metadata.json
 
-**Returns:**
- - `dict[str, Any]`: The config property value.
----
 
-### <kbd>property</kbd> Run.entity
 
-The entity associated with the run. 
 
+## Properties
 
+<ResponseField name="config" type="dict[str, Any]">
+Get run config. Auto-loads full data if in lazy mode.
+</ResponseField>
 
-**Returns:**
- - `str`: The entity property value.
----
+<ResponseField name="entity" type="str">
+The entity associated with the run.
+</ResponseField>
 
-### <kbd>property</kbd> Run.id
+<ResponseField name="id" type="str">
+The unique identifier for the run.
+</ResponseField>
 
-The unique identifier for the run. 
+<ResponseField name="lastHistoryStep" type="int">
+Returns the last step logged in the run's history.
+</ResponseField>
 
+<ResponseField name="metadata" type="dict[str, Any] | None">
+Metadata about the run from wandb-metadata.json.
 
+Metadata includes the run's description, tags, start time, memory
+usage and more.
+</ResponseField>
 
-**Returns:**
- - `str`: The id property value.
----
+<ResponseField name="name" type="str | None">
+The name of the run.
+</ResponseField>
 
+<ResponseField name="path" type="list[str]">
+The path of the run. The path is a list containing the entity, project, and run_id.
+</ResponseField>
 
-### <kbd>property</kbd> Run.lastHistoryStep
+<ResponseField name="rawconfig" type="dict[str, Any]">
+Get raw run config including internal keys. Auto-loads full data if in lazy mode.
+</ResponseField>
 
-Returns the last step logged in the run's history. 
+<ResponseField name="state" type="str">
+The state of the run.
 
+The following table describes the possible states a run can be in:
 
+| State    | Description |
+| -------- | ----------- |
+| Crashed  | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. |
+| Failed   | Run ended with a non-zero exit status. |
+| Finished | Run ended and fully synced data, or called `wandb.Run.finish()`. |
+| Killed   | Run was forcibly stopped before it could finish. |
+| Running  | Run is still running and has recently sent a heartbeat. |
+| Pending  | Run is scheduled but not yet started (common in sweeps and Launch jobs). |
+</ResponseField>
 
-**Returns:**
- - `int`: The lastHistoryStep property value.
----
+<ResponseField name="storage_id" type="str">
+The unique storage identifier for the run.
+</ResponseField>
 
-### <kbd>property</kbd> Run.metadata
+<ResponseField name="summary" type="HTTPSummary">
+Get run summary metrics. Auto-loads full data if in lazy mode.
+</ResponseField>
 
-Metadata about the run from wandb-metadata.json. 
+<ResponseField name="summary_metrics" type="dict[str, Any]">
+Get run summary metrics. Auto-loads full data if in lazy mode.
+</ResponseField>
 
-Metadata includes the run's description, tags, start time, memory usage and more. 
+<ResponseField name="sweep" type="public.Sweep | None">
+The sweep associated with this run. Loads sweep data if include_sweeps is False.
+</ResponseField>
 
+<ResponseField name="sweep_name" type="str | None">
+Get sweep name. Always available since sweepName is in lightweight fragment.
+</ResponseField>
 
+<ResponseField name="system_metrics" type="dict[str, Any]">
+Get run system metrics. Auto-loads full data if in lazy mode.
+</ResponseField>
 
-**Returns:**
- - `dict[str, Any] | None`: The metadata property value.
----
+<ResponseField name="url" type="str">
+The URL of the run.
 
-### <kbd>property</kbd> Run.name
+The run URL is generated from the entity, project, and run_id. For
+SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`.
+</ResponseField>
 
-The name of the run. 
+<ResponseField name="username" type="str">
+This API is deprecated. Use `entity` instead.
+</ResponseField>
 
 
 
-**Returns:**
- - `str | None`: The name property value.
----
+## Methods
 
-### <kbd>property</kbd> Run.path
 
-The path of the run. The path is a list containing the entity, project, and run_id. 
-
-
-
-**Returns:**
- - `list[str]`: The path property value.
----
-
-### <kbd>property</kbd> Run.rawconfig
-
-Get raw run config including internal keys. Auto-loads full data if in lazy mode. 
-
-
-
-**Returns:**
- - `dict[str, Any]`: The rawconfig property value.
----
-
-### <kbd>property</kbd> Run.state
-
-The state of the run. Can be one of: Finished, Failed, Crashed, or Running. 
-
-
-
-**Returns:**
- - `str`: The state property value.
----
-
-### <kbd>property</kbd> Run.storage_id
-
-The unique storage identifier for the run. 
-
-
-
-**Returns:**
- - `str`: The storage_id property value.
----
-
-### <kbd>property</kbd> Run.summary
-
-Get run summary metrics. Auto-loads full data if in lazy mode. 
-
-
-
-**Returns:**
- - `HTTPSummary`: The summary property value.
----
-
-### <kbd>property</kbd> Run.summary_metrics
-
-Get run summary metrics. Auto-loads full data if in lazy mode. 
-
-
-
-**Returns:**
- - `dict[str, Any]`: The summary_metrics property value.
----
-
-### <kbd>property</kbd> Run.sweep_name
-
-Get sweep name. Always available since sweepName is in lightweight fragment. 
-
-
-
-**Returns:**
- - `str | None`: The sweep_name property value.
----
-
-### <kbd>property</kbd> Run.system_metrics
-
-Get run system metrics. Auto-loads full data if in lazy mode. 
-
-
-
-**Returns:**
- - `dict[str, Any]`: The system_metrics property value.
----
-
-### <kbd>property</kbd> Run.url
-
-The URL of the run. 
-
-The run URL is generated from the entity, project, and run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`. 
-
-
-
-**Returns:**
- - `str`: The url property value.
----
-
-### <kbd>property</kbd> Run.username
-
-This API is deprecated. Use `entity` instead. 
-
-
-
-
-
-**Returns:**
- - `str`: The username property value.
----
-
-### <kbd>method</kbd> `Run.beta_scan_history`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.beta_scan_history()
 
 ```python
-beta_scan_history(
-    keys: 'list[str] | None' = None,
-    page_size: 'int' = 1000,
-    min_step: 'int' = 0,
-    max_step: 'int | None' = None,
-    use_cache: 'bool' = True
-) → public.BetaHistoryScan
+self,
+keys: 'list[str] | None' = None,
+page_size: 'int' = 1000,
+min_step: 'int' = 0,
+max_step: 'int | None' = None,
+use_cache: 'bool' = True
 ```
 
-Returns an iterable collection of all history records for a run. 
-
-This function is still in development and may not work as expected. It uses wandb-core to read history from a run's exported parquet history locally. 
 
 
+##### Arguments
 
-**Args:**
- 
- - `keys`:  list of metrics to read from the run's history.  if no keys are provided then all metrics will be returned. 
- - `page_size`:  the number of history records to read at a time. 
- - `min_step`:  The minimum step to start reading history from (inclusive). 
- - `max_step`:  The maximum step to read history up to (exclusive). 
- - `use_cache`:  When set to True, checks the WANDB_CACHE_DIR for a run history.  If the run history is not found in the cache, it will be downloaded from the server.  If set to False, the run history will be downloaded every time. 
+<ResponseField name="keys" type="list[str] | None">
+No description provided.
+</ResponseField>
+
+<ResponseField name="page_size" type="int">
+No description provided.
+</ResponseField>
+
+<ResponseField name="min_step" type="int">
+No description provided.
+</ResponseField>
+
+<ResponseField name="max_step" type="int | None">
+No description provided.
+</ResponseField>
+
+<ResponseField name="use_cache" type="bool">
+No description provided.
+</ResponseField>
 
 
 
-**Returns:**
- A BetaHistoryScan object, which can be iterator over to get history records. 
 
----
 
-### <kbd>classmethod</kbd> `Run.create`
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.console_logs()
 
 ```python
-create(
-    api: 'public.Api',
-    run_id: 'str | None' = None,
-    project: 'str | None' = None,
-    entity: 'str | None' = None,
-    state: "Literal['running', 'pending']" = 'running'
-) → Self
+self, *,
+per_page: 'int' = 1000,
+last: 'int | None' = None
 ```
 
-Create a run for the given project. 
+Return the run's captured console output.
 
-For most use cases, use `wandb.init()`. `wandb.init()` provides more robust logic for creating and updating runs. `wandb.apis.public.Run.create` is intended for specific scenarios such as creating runs in a "pending" state for jobs that may be unschedulable (for example, in a Kubernetes cluster with insufficient GPUs or high contention). These pending runs can later be resumed and tracked by W&B. 
+While a run is running, W&B captures what its process writes to
+stdout and stderr and records it as the run's console log — the
+same log shown in the "Logs" tab of the run page in the W&B App.
+This reads that log back, for finished and still-running runs
+alike.
 
-Runs created with this method have limited functionality. Calling `update()` on a run created this way may not work as expected. 
+##### Arguments
 
+<ResponseField name="per_page" type="int">
+Number of lines to fetch per request when reading the log from the beginning. Ignored when `last` is given.
+</ResponseField>
 
-
-**Args:**
- 
- - `api`:  The W&B API instance. 
- - `run_id`:  Optional run ID. If not provided, a random ID will be generated. 
- - `project`:  Optional project name. Defaults to the project in API settings  or "uncategorized". 
- - `entity`:  Optional entity (user or team) name. 
- - `state`:  Initial state of the run. Use "pending" for runs that will be  resumed later, or "running" for immediate execution. 
-
-
-
-**Returns:**
- A Run object representing the created run. 
+<ResponseField name="last" type="int | None">
+If set, fetch only the last N lines of the log in a single request — useful for checking on a live run or diagnosing a crash. The backend caps how many lines one request returns, so a larger tail comes back truncated to the newest lines.
+</ResponseField>
 
 
 
-**Example:**
- Creating a pending run for later execution 
+##### Raises
+
+- `CommError`: When iterating, if a request fails. Reading the log from the beginning requires W&B server 0.77 or newer; on older servers, read the last N lines instead.
+
+
+##### Examples
+
+```python
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+
+# Read the whole log, oldest line first.
+for line in run.console_logs():
+    print(line.content)
+
+# Read only the last 100 lines.
+for line in run.console_logs(last=100):
+    print(line.timestamp, line.content)
+```
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.create()
+
+```python
+api: 'public.Api',
+run_id: 'str | None' = None,
+project: 'str | None' = None,
+entity: 'str | None' = None,
+state: "Literal['running', 'pending']" = 'running'
+```
+
+Create a run for the given project.
+
+For most use cases, use `wandb.init()`. `wandb.init()` provides more robust
+logic for creating and updating runs. `wandb.apis.public.Run.create`
+is intended for specific scenarios such as creating runs in
+a "pending" state for jobs that may be unschedulable
+(for example, in a Kubernetes cluster with insufficient GPUs or high
+contention). These pending runs can later be resumed and tracked by W&B.
+
+Runs created with this method have limited functionality. Calling
+`update()` on a run created this way may not work as expected.
+
+##### Arguments
+
+<ResponseField name="api" type="public.Api">
+The W&B API instance.
+</ResponseField>
+
+<ResponseField name="run_id" type="str | None">
+Optional run ID. If not provided, a random ID will be generated.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+Optional project name. Defaults to the project in API settings or "uncategorized".
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+Optional entity (user or team) name.
+</ResponseField>
+
+<ResponseField name="state" type="Literal['running', 'pending']">
+Initial state of the run. Use "pending" for runs that will be resumed later, or "running" for immediate execution.
+</ResponseField>
+
+
+
+
+
+##### Examples
+
+Creating a pending run for later execution
 
 ```python
 import wandb
@@ -320,228 +342,272 @@ run = Run.create(
     state="pending",
     run_id=run_name,
 )
-``` 
-
----
-
-### <kbd>method</kbd> `Run.delete`
-
-```python
-delete(delete_artifacts: 'bool' = False) → None
 ```
 
-Delete the given run from the wandb backend. 
 
 
 
-**Args:**
- 
- - `delete_artifacts` (bool, optional):  Whether to delete the artifacts  associated with the run. 
-
----
-
-### <kbd>method</kbd> `Run.download_history_exports`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.delete()
 
 ```python
-download_history_exports(
-    download_dir: 'pathlib.Path | str',
-    require_complete_history: 'bool' = True
-) → runhistory.DownloadHistoryResult
+self,
+delete_artifacts: 'bool' = False
 ```
 
-Download any parquet history files for the run to the provided directory. 
+Delete the given run from the wandb backend.
+
+##### Arguments
+
+<ResponseField name="delete_artifacts" type="bool">
+Whether to delete the artifacts associated with the run.
+</ResponseField>
 
 
 
-**Args:**
- 
- - `download_dir`:  The directory to download the history files to. 
- - `require_complete_history`:  Whether to require the complete history to be downloaded.  If true, and the run contains data that has not been exported to parquet files yet,  an IncompleteRunHistoryError will be raised. 
 
 
 
-**Returns:**
- A DownloadHistoryResult. 
 
 
-
-**Raises:**
- 
- - `IncompleteRunHistoryError`:  If require_complete_history is True  and the run contains data not yet exported to parquet files. 
- - `WandbApiFailedError`:  If the API request fails for reasons other than  incomplete history. 
-
----
-
-### <kbd>method</kbd> `Run.file`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.download_history_exports()
 
 ```python
-file(name: 'str') → public.File
+self,
+download_dir: 'pathlib.Path | str',
+require_complete_history: 'bool' = True
 ```
 
-Return the path of a file with a given name in the artifact. 
+Download any parquet history files for the run to the provided directory.
+
+##### Arguments
+
+<ResponseField name="download_dir" type="pathlib.Path | str">
+The directory to download the history files to.
+</ResponseField>
+
+<ResponseField name="require_complete_history" type="bool">
+Whether to require the complete history to be downloaded. If true, and the run contains data that has not been exported to parquet files yet, an IncompleteRunHistoryError will be raised.
+</ResponseField>
 
 
 
-**Args:**
- 
- - `name` (str):  name of requested file. 
+##### Raises
+
+- `IncompleteRunHistoryError`: If require_complete_history is True and the run contains data not yet exported to parquet files.
+- `WandbApiFailedError`: If the API request fails for reasons other than incomplete history.
 
 
 
-**Returns:**
- A `File` matching the name argument. 
 
----
 
-### <kbd>method</kbd> `Run.files`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.file()
 
 ```python
-files(
-    names: 'list[str] | None' = None,
-    pattern: 'str | None' = None,
-    per_page: 'int' = 50
-) → public.Files
+self,
+name: 'str'
 ```
 
-Returns a `Files` object for all files in the run which match the given criteria. 
+Return the path of a file with a given name in the artifact.
 
-You can specify a list of exact file names to match, or a pattern to match against. If both are provided, the pattern will be ignored. 
+##### Arguments
 
-
-
-**Args:**
- 
- - `names` (list):  names of the requested files, if empty returns all files 
- - `pattern` (str, optional):  Pattern to match when returning files from W&B.  This pattern uses mySQL's LIKE syntax,  so matching all files that end with .json would be "%.json".  If both names and pattern are provided, a ValueError will be raised. 
- - `per_page` (int):  number of results per page. 
+<ResponseField name="name" type="str">
+name of requested file.
+</ResponseField>
 
 
 
-**Returns:**
- A `Files` object, which is an iterator over `File` objects. 
 
----
 
-### <kbd>method</kbd> `Run.history`
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.files()
 
 ```python
-history(
-    samples: 'int' = 500,
-    keys: 'list[str] | None' = None,
-    x_axis: 'str' = '_step',
-    pandas: 'bool' = True,
-    stream: "Literal['default', 'system']" = 'default'
-) → list[dict[str, Any]] | pd.DataFrame
+self,
+names: 'list[str] | None' = None,
+pattern: 'str | None' = None,
+per_page: 'int' = 50
 ```
 
-Return sampled history metrics for a run. 
+Returns a `Files` object for all files in the run which match the given criteria.
 
-This is simpler and faster if you are ok with the history records being sampled. 
+You can specify a list of exact file names to match, or a pattern to match against.
+If both are provided, the pattern will be ignored.
+
+##### Arguments
+
+<ResponseField name="names" type="list[str] | None">
+names of the requested files, if empty returns all files
+</ResponseField>
+
+<ResponseField name="pattern" type="str | None">
+Pattern to match when returning files from W&B. This pattern uses mySQL's LIKE syntax, so matching all files that end with .json would be "%.json". If both names and pattern are provided, a ValueError will be raised.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+number of results per page.
+</ResponseField>
 
 
 
-**Args:**
- 
- - `samples `:  (int, optional) The number of samples to return 
- - `pandas `:  (bool, optional) Return a pandas dataframe 
- - `keys `:  (list, optional) Only return metrics for specific keys 
- - `x_axis `:  (str, optional) Use this metric as the xAxis defaults to _step 
- - `stream `:  (str, optional) "default" for metrics, "system" for machine metrics 
 
 
 
-**Returns:**
- 
- - `pandas.DataFrame`:  If pandas=True returns a `pandas.DataFrame` of history  metrics. 
- - `list of dicts`:  If pandas=False returns a list of dicts of history metrics. 
 
----
 
-### <kbd>method</kbd> `Run.load`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.history()
 
 ```python
-load(force: 'bool' = False) → dict[str, Any]
+self,
+samples: 'int' = 500,
+keys: 'list[str] | None' = None,
+x_axis: 'str' = '_step',
+pandas: 'bool' = True,
+stream: "Literal['default', 'system']" = 'default'
 ```
 
-Load run data using appropriate fragment based on lazy mode. 
+Return sampled history metrics for a run.
 
----
+This is simpler and faster if you are ok with the history records being sampled.
 
-### <kbd>method</kbd> `Run.load_full_data`
+##### Arguments
+
+<ResponseField name="samples" type="int">
+(int, optional) The number of samples to return
+</ResponseField>
+
+<ResponseField name="keys" type="list[str] | None">
+(list, optional) Only return metrics for specific keys
+</ResponseField>
+
+<ResponseField name="x_axis" type="str">
+(str, optional) Use this metric as the xAxis defaults to _step
+</ResponseField>
+
+<ResponseField name="pandas" type="bool">
+(bool, optional) Return a pandas dataframe
+</ResponseField>
+
+<ResponseField name="stream" type="Literal['default', 'system']">
+(str, optional) "default" for metrics, "system" for machine metrics
+</ResponseField>
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.load()
 
 ```python
-load_full_data(force: 'bool' = False) → dict[str, Any]
+self,
+force: 'bool' = False
 ```
 
-Load full run data including heavy fields like config, systemMetrics, summaryMetrics. 
+Load run data using appropriate fragment based on lazy mode.
 
-This method is useful when you initially used lazy=True for listing runs, but need access to the full data for specific runs. 
+##### Arguments
 
-
-
-**Args:**
- 
- - `force`:  Force reload even if data is already loaded 
+<ResponseField name="force" type="bool">
+If True, re-fetch the run data from the server, even if it is already loaded.
+</ResponseField>
 
 
 
-**Returns:**
- The loaded run attributes 
+##### Raises
 
----
+- `RunNotFoundError`: If the run is not found, or the run data can not be loaded.
 
-### <kbd>method</kbd> `Run.log_artifact`
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.load_full_data()
 
 ```python
-log_artifact(
-    artifact: 'wandb.Artifact',
-    aliases: 'Collection[str] | None' = None,
-    tags: 'Collection[str] | None' = None
-) → wandb.Artifact
+self,
+force: 'bool' = False
 ```
 
-Declare an artifact as output of a run. 
+Load full run data including heavy fields like config, systemMetrics, summaryMetrics.
+
+This method is useful when you initially used lazy=True for listing runs,
+but need access to the full data for specific runs.
+
+##### Arguments
+
+<ResponseField name="force" type="bool">
+Force reload even if data is already loaded
+</ResponseField>
 
 
 
-**Args:**
- 
- - `artifact` (`Artifact`):  An artifact returned from  `wandb.Api().artifact(name)`. 
- - `aliases` (list, optional):  Aliases to apply to this artifact. 
- - `tags`:  (list, optional) Tags to apply to this artifact, if any. 
 
 
 
-**Returns:**
- A `Artifact` object. 
 
----
 
-### <kbd>method</kbd> `Run.logged_artifacts`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_artifact()
 
 ```python
-logged_artifacts(per_page: 'int' = 100) → public.RunArtifacts
+self,
+artifact: 'wandb.Artifact',
+aliases: 'Collection[str] | None' = None,
+tags: 'Collection[str] | None' = None
 ```
 
-Fetches all artifacts logged by this run. 
+Declare an artifact as output of a run.
 
-Retrieves all output artifacts that were logged during the run. Returns a paginated result that can be iterated over or collected into a single list. 
+##### Arguments
+
+<ResponseField name="artifact" type="wandb.Artifact">
+An artifact returned from `wandb.Api().artifact(name)`.
+</ResponseField>
+
+<ResponseField name="aliases" type="Collection[str] | None">
+Aliases to apply to this artifact.
+</ResponseField>
+
+<ResponseField name="tags" type="Collection[str] | None">
+(list, optional) Tags to apply to this artifact, if any.
+</ResponseField>
 
 
 
-**Args:**
- 
- - `per_page`:  Number of artifacts to fetch per API request. 
 
 
 
-**Returns:**
- An iterable collection of all Artifact objects logged as outputs during this run. 
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.logged_artifacts()
+
+```python
+self,
+per_page: 'int' = 100
+```
+
+Fetches all artifacts logged by this run.
+
+Retrieves all output artifacts that were logged during the run. Returns a
+paginated result that can be iterated over or collected into a single list.
+
+##### Arguments
+
+<ResponseField name="per_page" type="int">
+Number of artifacts to fetch per API request.
+</ResponseField>
 
 
 
-**Example:**
- ```python
+
+
+##### Examples
+
+```python
 import wandb
 import tempfile
 
@@ -560,181 +626,262 @@ finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
 
 for logged_artifact in finished_run.logged_artifacts():
     print(logged_artifact.name)
-``` 
-
----
-
-### <kbd>method</kbd> `Run.save`
-
-```python
-save() → None
 ```
 
-Persist changes to the run object to the W&B backend. 
 
----
 
-### <kbd>method</kbd> `Run.scan_history`
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.save()
 
 ```python
-scan_history(
-    keys: 'list[str] | None' = None,
-    page_size: 'int' = 1000,
-    min_step: 'int | None' = None,
-    max_step: 'int | None' = None
-) → Iterator[dict[str, Any]]
+self
 ```
 
-Returns an iterable collection of all history records for a run. 
+Persist changes to the run object to the W&B backend.
 
 
 
-**Args:**
- 
- - `keys` ([str], optional):  only fetch these keys, and only fetch rows that have all of keys defined. 
- - `page_size` (int, optional):  size of pages to fetch from the api. 
- - `min_step` (int, optional):  the minimum number of pages to scan at a time. 
- - `max_step` (int, optional):  the maximum number of pages to scan at a time. 
 
 
 
-**Returns:**
- An iterable collection over history records (dict). 
 
 
-
-**Example:**
- Export all the loss values for an example run 
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.scan_history()
 
 ```python
-run = api.run("entity/project-name/run-id")
-history = run.scan_history(keys=["Loss"])
-losses = [row["Loss"] for row in history]
-``` 
-
----
-
-### <kbd>method</kbd> `Run.to_html`
-
-```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+self,
+keys: 'list[str] | None' = None,
+page_size: 'int' = 1000,
+min_step: 'int' = 0,
+max_step: 'int | None' = None,
+use_cache: 'bool' = True
 ```
 
-Generate HTML containing an iframe displaying this run. 
+Returns an iterable collection of all history records for a run.
 
----
+##### Arguments
 
-### <kbd>method</kbd> `Run.update`
+<ResponseField name="keys" type="list[str] | None">
+List of metrics to read from the run's history. The scan only returns rows that contain all of the requested keys. If the keys were logged at different steps, use separate calls for each key or omit this argument. If no keys are provided, all metrics are returned.
+</ResponseField>
 
-```python
-update() → None
-```
+<ResponseField name="page_size" type="int">
+the number of history records to read at a time.
+</ResponseField>
 
-Persist changes to the run object to the wandb backend. 
+<ResponseField name="min_step" type="int">
+The minimum step to start reading history from (inclusive).
+</ResponseField>
 
----
+<ResponseField name="max_step" type="int | None">
+The maximum step to read history up to (exclusive).
+</ResponseField>
 
-### <kbd>method</kbd> `Run.update_state`
-
-```python
-update_state(state: "Literal['pending']") → bool
-```
-
-Update the state of a run. 
-
-Allows transitioning runs from 'failed' or 'crashed' to 'pending'. 
-
-
-
-**Args:**
- 
- - `state`:  The target run state. Only `"pending"` is supported. 
+<ResponseField name="use_cache" type="bool">
+When set to True, checks the WANDB_CACHE_DIR for a run history. If the run history is not found in the cache, it will be downloaded from the server. If set to False, the run history will be downloaded every time.
+</ResponseField>
 
 
 
-**Returns:**
- `True` if the state was successfully updated. 
 
 
 
-**Raises:**
- 
- - ``wandb.Error``:  If the requested state transition is not allowed, or the server  does not support this operation. 
 
----
 
-### <kbd>method</kbd> `Run.upload_file`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.stop()
 
 ```python
-upload_file(path: 'str', root: 'str' = '.') → public.File
+self
 ```
 
-Upload a local file to W&B, associating it with this run. 
+Request that this run stop gracefully.
+
+This sets the run's stop flag on the W&B backend, the same signal
+sent by the "Stop run" button in the W&B App UI. The process running
+the run picks the flag up through its regular heartbeat and shuts
+the run down gracefully, so this is safe for terminating remote runs
+(for example, runs on Kubernetes pods).
+
+Stopping is asynchronous: this method returns once the backend has
+flagged the run, not once the run terminates. Calling it again, or
+on a run that is no longer running, has no effect.
 
 
 
-**Args:**
- 
- - `path` (str):  Path to the file to upload. Can be absolute or relative. 
- - `root` (str):  The root path to save the file relative to. For example,  if you want to have the file saved in the run as "my_dir/file.txt"  and you're currently in "my_dir" you would set root to "../".  Defaults to current directory ("."). 
+##### Raises
+
+- ``wandb.Error``: If the request fails.
 
 
-
-**Returns:**
- A `File` object representing the uploaded file. 
-
----
-
-### <kbd>method</kbd> `Run.use_artifact`
+##### Examples
 
 ```python
-use_artifact(
-    artifact: 'wandb.Artifact',
-    use_as: 'str | None' = None
-) → wandb.Artifact
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+run.stop()
 ```
 
-Declare an artifact as an input to a run. 
 
 
 
-**Args:**
- 
- - `artifact` (`Artifact`):  An artifact returned from  `wandb.Api().artifact(name)` 
- - `use_as` (string, optional):  A string identifying  how the artifact is used in the script. Used  to easily differentiate artifacts used in a  run, when using the beta wandb launch  feature's artifact swapping functionality. 
-
-
-
-**Returns:**
- An `Artifact` object. 
-
----
-
-### <kbd>method</kbd> `Run.used_artifacts`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.to_html()
 
 ```python
-used_artifacts(per_page: 'int' = 100) → public.RunArtifacts
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
 ```
 
-Fetches artifacts explicitly used by this run. 
+Generate HTML containing an iframe displaying this run.
 
-Retrieves only the input artifacts that were explicitly declared as used during the run, typically via `run.use_artifact()`. Returns a paginated result that can be iterated over or collected into a single list. 
+##### Arguments
 
+<ResponseField name="height" type="int">
+No description provided.
+</ResponseField>
 
-
-**Args:**
- 
- - `per_page`:  Number of artifacts to fetch per API request. 
-
-
-
-**Returns:**
- An iterable collection of Artifact objects explicitly used as inputs in this run. 
+<ResponseField name="hidden" type="bool">
+No description provided.
+</ResponseField>
 
 
 
-**Example:**
- ```python
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.update()
+
+```python
+self
+```
+
+Persist changes to the run object to the wandb backend.
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.update_state()
+
+```python
+self,
+state: 'str'
+```
+
+Update the state of a run.
+
+Supported transitions:
+    - to `pending` from `running`, `failed`, `crashed`, or `preempted`
+      (e.g. to requeue a terminated or in-progress run)
+    - to `failed` from `pending` or `running`
+      (e.g. to mark a preempted or lost run as failed)
+
+Sweep runs cannot have their state updated.
+
+See `Run.state` for the list of possible run states.
+
+##### Arguments
+
+<ResponseField name="state" type="str">
+The target run state. One of `"pending"` or `"failed"`.
+</ResponseField>
+
+
+
+##### Raises
+
+- ``wandb.Error``: If the requested state transition is not allowed, or the server does not support this operation.
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.upload_file()
+
+```python
+self,
+path: 'str',
+root: 'str' = '.'
+```
+
+Upload a local file to W&B, associating it with this run.
+
+##### Arguments
+
+<ResponseField name="path" type="str">
+Path to the file to upload. Can be absolute or relative.
+</ResponseField>
+
+<ResponseField name="root" type="str">
+The root path to save the file relative to. For example, if you want to have the file saved in the run as "my_dir/file.txt" and you're currently in "my_dir" you would set root to "../". Defaults to current directory (".").
+</ResponseField>
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.use_artifact()
+
+```python
+self,
+artifact: 'wandb.Artifact',
+use_as: 'str | None' = None
+```
+
+Declare an artifact as an input to a run.
+
+##### Arguments
+
+<ResponseField name="artifact" type="wandb.Artifact">
+An artifact returned from `wandb.Api().artifact(name)`
+</ResponseField>
+
+<ResponseField name="use_as" type="str | None">
+A string identifying how the artifact is used in the script. Used to easily differentiate artifacts used in a run, when using the beta wandb launch feature's artifact swapping functionality.
+</ResponseField>
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.used_artifacts()
+
+```python
+self,
+per_page: 'int' = 100
+```
+
+Fetches artifacts explicitly used by this run.
+
+Retrieves only the input artifacts that were explicitly declared as used
+during the run, typically via `run.use_artifact()`. Returns a paginated
+result that can be iterated over or collected into a single list.
+
+##### Arguments
+
+<ResponseField name="per_page" type="int">
+Number of artifacts to fetch per API request.
+</ResponseField>
+
+
+
+
+
+##### Examples
+
+```python
 import wandb
 
 run = wandb.init(project="artifact-example")
@@ -746,15 +893,23 @@ finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
 for used_artifact in finished_run.used_artifacts():
     print(used_artifact.name)
 test_artifact
-``` 
-
----
-
-### <kbd>method</kbd> `Run.wait_until_finished`
-
-```python
-wait_until_finished() → None
 ```
 
-Check the state of the run until it is finished. 
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.wait_until_finished()
+
+```python
+self
+```
+
+Check the state of the run until it is finished.
+
+
+
+
+
+
+
 

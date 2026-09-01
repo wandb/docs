@@ -1,113 +1,220 @@
 ---
-title: ' thought
-
-  init()'
-namespace: python_sdk_actions
-python_object_type: function
+title: init()
+kind: function
+namespace: wandb.sdk.wandb_init
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-### <kbd>function</kbd> `init`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1185" />
+
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.init()
+
+W&amp;B でトラッキングし、ログするための新しい run を開始します。
+
+ML のトレーニングパイプラインでは、トレーニングスクリプトと評価スクリプトの先頭に
+`wandb.init()` を追加できます。すると、それぞれが
+W&amp;B で run としてトラッキングされます。
+
+`wandb.init()` は、run にデータをログするための新しいバックグラウンドプロセスを起動します。また、
+デフォルトでデータを [https://wandb.ai](https://wandb.ai) に Sync するため、結果を
+リアルタイムで確認できます。データのログが完了したら、`run.finish()` を呼び出して
+run を終了するか、run をコンテキストマネージャーとして使用して自動的に呼び出します:
+
+with wandb.init() as run:
+...  # ブロックの最後で run.finish() が実行されます
+
+`run.finish()` を呼び出さない場合、スクリプトの終了時に run も終了します。
+
+run ID には、次の特殊文字を含めることはできません `/ \ # ? % :`
 
 ```python
-init(
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    dir: 'StrPath | None' = None,
-    id: 'str | None' = None,
-    name: 'str | None' = None,
-    notes: 'str | None' = None,
-    tags: 'Sequence[str] | None' = None,
-    config: 'dict[str, Any] | str | None' = None,
-    config_exclude_keys: 'list[str] | None' = None,
-    config_include_keys: 'list[str] | None' = None,
-    allow_val_change: 'bool | None' = None,
-    group: 'str | None' = None,
-    job_type: 'str | None' = None,
-    mode: "Literal['online', 'offline', 'disabled', 'shared'] | None" = None,
-    force: 'bool | None' = None,
-    reinit: "bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']" = None,
-    resume: "bool | Literal['allow', 'never', 'must', 'auto'] | None" = None,
-    resume_from: 'str | None' = None,
-    fork_from: 'str | None' = None,
-    save_code: 'bool | None' = None,
-    tensorboard: 'bool | None' = None,
-    sync_tensorboard: 'bool | None' = None,
-    monitor_gym: 'bool | None' = None,
-    settings: 'Settings | dict[str, Any] | None' = None,
-    anonymous: 'DoNotSet' = <object object at 0x100745f80>
-) → Run
+entity: 'str | None' = None,
+project: 'str | None' = None,
+dir: 'StrPath | None' = None,
+id: 'str | None' = None,
+name: 'str | None' = None,
+notes: 'str | None' = None,
+tags: 'Sequence[str] | None' = None,
+config: 'dict[str, Any] | str | None' = None,
+config_exclude_keys: 'list[str] | None' = None,
+config_include_keys: 'list[str] | None' = None,
+allow_val_change: 'bool | None' = None,
+group: 'str | None' = None,
+job_type: 'str | None' = None,
+mode: "Literal['online', 'offline', 'disabled', 'shared'] | None" = None,
+force: 'bool | None' = None,
+reinit: "bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']" = None,
+resume: "bool | Literal['allow', 'never', 'must', 'auto'] | None" = None,
+resume_from: 'str | None' = None,
+fork_from: 'str | None' = None,
+save_code: 'bool | None' = None,
+tensorboard: 'bool | None' = None,
+sync_tensorboard: 'bool | None' = None,
+monitor_gym: 'bool | None' = None,
+settings: 'Settings | dict[str, Any] | None' = None,
+anonymous: 'DoNotSet' = DoNotSet
 ```
 
-W&B でトラッキングおよびログ記録を行うための新しい Runs を開始します。
+<div id="args">
+  ## 引数
+</div>
 
-ML トレーニングパイプラインにおいて、トレーニングスクリプトと評価スクリプトの両方の冒頭に `wandb.init()` を追加することで、それぞれのプロセスが W&B 上で個別の run として記録されます。
+<ResponseField name="entity" type="str | None">
+  Runs のログ先となるユーザー名またはチーム名です。entity はあらかじめ存在している必要があるため、Runs のログを開始する前に UI でアカウントまたはチームを作成してください。指定しない場合、run にはデフォルトの entity が使用されます。デフォルトの entity を変更するには、設定で「Default team」の「Default location to create new projects」を更新してください。
+</ResponseField>
 
-`wandb.init()` は、run にデータをログ記録するための新しいバックグラウンドプロセスを生成します。また、デフォルトで https://wandb.ai とデータを同期するため、リアルタイムで結果を確認できます。データのログ記録が完了したら、`wandb.Run.finish()` を呼び出して run を終了してください。`run.finish()` を呼び出さなかった場合、スクリプトの終了時に run が終了します。
+<ResponseField name="project" type="str | None">
+  この run のログ先となる project 名です。指定しない場合は、git ルートや現在のプログラム file を確認するなどのヒューリスティックによって、システムに基づいてプロジェクト名を推測します。プロジェクト名を推測できない場合、project には `"uncategorized"` がデフォルトで使用されます。
+</ResponseField>
 
-Run ID には、次の特殊文字を含めることはできません：`/ \ # ? % :`
+<ResponseField name="dir" type="StrPath | None">
+  実験ログとメタデータ file を保存するディレクトリの絶対パスです。指定しない場合、デフォルトでは `./wandb` ディレクトリが使用されます。これは、`download()` の呼び出し時にアーティファクトが保存される場所には影響しません。
+</ResponseField>
 
-**引数:**
- 
- - `entity`: runs のログが記録されるユーザー名またはチーム名。entity はあらかじめ存在している必要があるため、ログ記録を開始する前に UI でアカウントまたはチームを作成してください。指定しない場合、run はデフォルトの entity に記録されます。デフォルトの entity を変更するには、設定（settings）の "Default team" にある "Default location to create new projects" を更新してください。
- - `project`: この run が記録される Projects の名前。指定しない場合、git のルートディレクトリや現在のプログラムファイルを確認するなど、システムに基づいたヒューリスティックな方法でプロジェクト名を推測します。プロジェクト名を推測できない場合、デフォルトで `"uncategorized"` に設定されます。
- - `dir`: 実験ログとメタデータファイルが保存されるディレクトリの絶対パス。指定しない場合、デフォルトで `./wandb` ディレクトリーになります。なお、これは `download()` を呼び出した際の Artifacts の保存先には影響しません。
- - `id`: run を再開（resume）する際に使用される一意の識別子。プロジェクト内で一意である必要があり、一度削除された run の ID を再利用することはできません。短い説明的な名前には `name` フィールドを、ハイパーパラメーターを保存して run 間で比較するには `config` を使用してください。
- - `name`: UI 上で識別しやすくするための、この run の短い表示名。デフォルトでは、テーブルからチャートへの参照を容易にするために、ランダムな2単語の名前が生成されます。チャートの凡例やテーブルでの視認性を高めるため、名前は簡潔に保つことをお勧めします。ハイパーパラメーターの保存には `config` フィールドの使用を推奨します。
- - `notes`: Git のコミットメッセージのような、run に関する詳細な説明。将来、この run の目的やセットアップを思い出すのに役立つコンテキストや詳細を記録するために使用します。
- - `tags`: UI でこの run にラベルを付けるためのタグのリスト。タグは run の整理や、"baseline"（ベースライン）や "production"（プロダクション）といった一時的な識別子の追加に便利です。UI 上でタグの追加、削除、フィルターを簡単に行うことができます。run を再開する場合、ここで提供されたタグが既存のタグを上書きします。既存のタグを上書きせずに再開された run にタグを追加するには、`run = wandb.init()` の呼び出し後に `run.tags += ("new_tag",)` を使用してください。
- - `config`: `wandb.config` を設定します。これは、モデルのハイパーパラメーターやデータの前処理設定など、run への入力パラメータを保存するための辞書形式のオブジェクトです。config は UI のオーバービューページに表示され、これらのパラメータに基づいて runs をグループ化、フィルタリング、ソートできます。キーにはピリオド（`.`）を含めないでください。また、値は 10 MB 未満である必要があります。`argparse.Namespace` や `absl.flags.FLAGS` が提供された場合、キーと値のペアは直接 `wandb.config` に読み込まれます。文字列が提供された場合は YAML ファイルへのパスとして解釈され、その設定値が `wandb.config` に読み込まれます。
- - `config_exclude_keys`: `wandb.config` から除外する特定のキーのリスト。
- - `config_include_keys`: `wandb.config` に含める特定のキーのリスト。
- - `allow_val_change`: 初期設定後に config の値を変更できるかどうかを制御します。デフォルトでは、config の値が上書きされると例外が発生します。学習率のようにトレーニング中に変化する変数を追跡する場合は、代わりに `wandb.log()` の使用を検討してください。デフォルトでは、スクリプト内では `False`、ノートブック環境では `True` です。
- - `group`: 個々の runs をより大きな実験の一部として整理するためのグループ名を指定します。これは、クロスバリデーションを行う場合や、異なるテストセットでモデルをトレーニングおよび評価する複数のジョブを実行する場合に便利です。グループ化により、関連する runs を UI 上でまとめて管理でき、結果を統合された実験として簡単に切り替えたり確認したりできます。
- - `job_type`: run のジョブタイプを指定します。特に、大きな実験の一部としてグループ内の runs を整理する際に役立ちます。例えば、グループ内で runs に "train"（トレーニング）や "eval"（評価）といったジョブタイプをラベル付けできます。ジョブタイプを定義することで、UI 上で同様の runs を簡単にフィルタリングしてグループ化し、直接比較することが可能になります。
- - `mode`: run データの管理方法を以下のオプションで指定します：
-    - `"online"` (デフォルト): ネットワーク接続が利用可能な場合に W&B とのライブ同期を有効にし、可視化をリアルタイムで更新します。
-    - `"offline"`: インターネット接続のない環境やオフライン環境に適しています。データはローカルに保存され、後で同期できます。将来の同期を可能にするために、run フォルダを保持するようにしてください。
-    - `"disabled"`: すべての W&B 機能を無効にし、run のメソッドを何もしない（no-ops）状態にします。通常、W&B の操作をスキップするテストで使用されます。
-    - `"shared"`: (実験的な機能)。複数のプロセス（異なるマシン上にある可能性もあります）から同じ run に同時にログを記録することを可能にします。このアプローチでは、プライマリノードと1つ以上のワーカーノードを使用して同じ run にデータをログ記録します。プライマリノードで run を初期化し、各ワーカーノードではプライマリノードで使用された run ID を使用して run を初期化します。
- - `force`: スクリプトの実行に W&B へのログインを必須にするかどうかを決定します。`True` の場合、ユーザーは W&B にログインしている必要があります。そうでない場合、スクリプトは進行しません。`False` (デフォルト) の場合、ユーザーがログインしていなくてもスクリプトを続行でき、その場合はオフラインモードに切り替わります。
- - `reinit`: "reinit" 設定のショートハンドです。run がアクティブな状態での `wandb.init()` の振る舞いを決定します。
- - `resume`: 指定された `id` で run を再開する際の振る舞いを制御します。利用可能なオプションは以下の通りです：
-    - `"allow"`: 指定された `id` の run が存在すれば最後のステップから再開し、存在しなければ新しい run を作成します。
-    - `"never"`: 指定された `id` の run が存在すればエラーを発生させます。見つからない場合は新しい run を作成します。
-    - `"must"`: 指定された `id` の run が存在すれば最後のステップから再開します。見つからない場合はエラーを発生させます。
-    - `"auto"`: このマシンでクラッシュした直前の run があれば自動的に再開し、そうでなければ新しい run を開始します。
-    - `True`: 非推奨です。代わりに `"auto"` を使用してください。
-    - `False`: 非推奨です。常に新しい run を開始するには、デフォルトの動作（`resume` を未設定のままにする）を使用してください。`resume` が設定されている場合、`fork_from` と `resume_from` は使用できません。`resume` が未設定の場合、システムは常に新しい run を開始します。
- - `resume_from`: 以前の run の特定の時点から run を再開することを指定します。形式は `{run_id}?_step={step}` です。これにより、ある中間ステップでログ記録された履歴を切り捨て、そのステップからログ記録を再開できます。対象の run は同じプロジェクト内にある必要があります。`id` 引数も提供されている場合、`resume_from` 引数が優先されます。`resume`、`resume_from`、`fork_from` は併用できず、一度に1つだけ使用できます。なお、この機能はベータ版であり、将来変更される可能性があります。
- - `fork_from`: 以前の run の特定のポイントから新しい run をフォークすることを指定します。形式は `{id}?_step={step}` です。これにより、対象の run の履歴内の指定されたステップからログ記録を再開する新しい run が作成されます。対象の run は現在のプロジェクトの一部である必要があります。`id` 引数も提供されている場合、それは `fork_from` 引数とは異なる必要があります。同じ場合はエラーが発生します。`resume`、`resume_from`、`fork_from` は併用できず、一度に1つだけ使用できます。なお、この機能はベータ版であり、将来変更される可能性があります。
- - `save_code`: メインスクリプトまたはノートブックを W&B に保存することを有効にします。これにより実験の再現性が向上し、UI 上で runs 間のコード比較が可能になります。デフォルトでは無効になっていますが、設定ページで有効に変更できます。
- - `tensorboard`: 非推奨です。代わりに `sync_tensorboard` を使用してください。
- - `sync_tensorboard`: TensorBoard または TensorBoardX からの W&B ログの自動同期を有効にし、W&B UI で表示するための関連イベントファイルを保存します。
- - `monitor_gym`: OpenAI Gym を使用している場合に、環境のビデオの自動ログ記録を有効にします。
- - `settings`: run の詳細設定を含む辞書または `wandb.Settings` オブジェクトを指定します。
+<ResponseField name="id" type="str | None">
+  再開に使用する、この run の一意の ID です。project 内で一意である必要があり、run を削除した後は再利用できません。短い説明的な名前には `name` フィールドを使用し、Runs 間で比較するハイパーパラメーターを保存するには `config` を使用してください。
+</ResponseField>
 
-**戻り値:**
- `Run` オブジェクト。
+<ResponseField name="name" type="str | None">
+  この run の短い表示名です。UI に表示され、識別に役立ちます。デフォルトでは、表とチャートで Runs を簡単に相互参照できるよう、ランダムな 2 単語の名前を生成します。run 名を短く保つことで、チャートの凡例や表での可読性が向上します。ハイパーパラメーターの保存には、`config` フィールドを使用することをお勧めします。
+</ResponseField>
 
-**例外:**
- 
- - `Error`: run の初期化中に不明なエラーまたは内部エラーが発生した場合。
- - `AuthenticationError`: ユーザーが有効な資格情報を提供できなかった場合。
- - `CommError`: WandB サーバーとの通信に問題が発生した場合。
- - `UsageError`: ユーザーが無効な引数を提供した場合。
- - `KeyboardInterrupt`: ユーザーが run を中断した場合。
+<ResponseField name="notes" type="str | None">
+  Git のコミットメッセージに似た、この run の詳細な説明です。この引数を使用して、後でこの run の目的や設定を思い出すのに役立つコンテキストや詳細を記録してください。
+</ResponseField>
 
-**例:**
- `wandb.init()` は `Run` オブジェクトを返します。この run オブジェクトを使用して、データのログ記録、Artifacts の保存、および run のライフサイクルの管理を行います。
+<ResponseField name="tags" type="Sequence[str] | None">
+  UI でこの run に付けるタグのリストです。タグは、Runs を整理したり、「ベースライン」や「本番」などの一時的な識別子を追加したりするのに役立ちます。UI では、タグの追加や削除、タグによるフィルタリングを簡単に行えます。run を再開する場合、ここで指定したタグは既存のタグを置き換えます。現在のタグを上書きせずに再開した run にタグを追加するには、`run = wandb.init()` を呼び出した後に `run.tags += ("new_tag",)` を使用してください。
+</ResponseField>
+
+<ResponseField name="config" type="dict[str, Any] | str | None">
+  モデルのハイパーパラメーターやデータ前処理の設定など、run の入力パラメーターを保存する辞書形式のオブジェクト `wandb.config` を設定します。設定は UI の概要ページに表示され、これらのパラメーターに基づいて Runs をグループ化、フィルター、並べ替えできます。キーにはピリオド (`.`) を含めず、値は 10 MB 未満にしてください。辞書、`argparse.Namespace`、または `absl.flags.FLAGS` を指定すると、キーと値のペアが直接 `wandb.config` に読み込まれます。string を指定すると、YAML file へのパスとして解釈され、その file から設定値が `wandb.config` に読み込まれます。
+</ResponseField>
+
+<ResponseField name="config_exclude_keys" type="list[str] | None">
+  `wandb.config` から除外する特定のキーのリストです。
+</ResponseField>
+
+<ResponseField name="config_include_keys" type="list[str] | None">
+  `wandb.config` に含める特定のキーのリストです。
+</ResponseField>
+
+<ResponseField name="allow_val_change" type="bool | None">
+  初期設定後に設定値を変更できるかどうかを制御します。デフォルトでは、設定値を上書きすると例外が発生します。学習率など、トレーニング中に変化する変数をトラッキングする場合は、代わりに `wandb.log()` の使用を検討してください。デフォルトでは、スクリプトでは `False`、ノートブック環境では `True` です。
+</ResponseField>
+
+<ResponseField name="group" type="str | None">
+  個々の Runs をより大きな実験の一部として整理するためのグループ名を指定します。これは、交差検証や、異なるテストセットでモデルをトレーニングおよび評価する複数のジョブを実行する場合に便利です。グループ化により、関連する Runs を UI でまとめて管理でき、1 つの実験として結果を簡単に切り替えたり確認したりできます。
+</ResponseField>
+
+<ResponseField name="job_type" type="str | None">
+  run のタイプを指定します。特に、より大きな実験の一部としてグループ内で runs を整理する際に役立ちます。たとえば、グループ内では、runs に &quot;train&quot; や &quot;eval&quot; などのジョブタイプのラベルを付けることがあります。ジョブタイプを定義すると、UI で類似した runs を簡単にフィルターしてグループ化でき、直接比較しやすくなります。
+</ResponseField>
+
+<ResponseField name="mode" type="Literal['online', 'offline', 'disabled', 'shared'] | None">
+  run データの管理方法を指定します。使用できるオプションは次のとおりです。
+
+  * `"online"` (デフォルト) : ネットワーク接続が利用可能な場合に、W&amp;B とのライブ同期を有効にし、可視化をリアルタイムで更新します。
+  * `"offline"`: エアギャップ環境またはオフライン環境に適しています。データはローカルに保存され、後で同期できます。今後同期できるように、run フォルダーを保持しておいてください。
+  * `"disabled"`: すべての W&amp;B 機能を無効にし、run の method を no-op にします。通常は、W&amp;B の operation をバイパスするためのテストで使用されます。
+  * `"shared"`:  (実験的な機能です) 。異なるマシン上の場合も含め、複数のプロセスが同じ run に同時にログできるようにします。この方法では、プライマリノードと 1 つ以上のワーカーノードを使用して、同じ run にデータをログします。プライマリノードでは run を初期化します。各ワーカーノードでは、プライマリノードで使用した run ID を使用して run を初期化します。
+</ResponseField>
+
+<ResponseField name="force" type="bool | None">
+  スクリプトの実行に W&amp;B へのログインを必須とするかどうかを指定します。`True` の場合、ユーザーは W&amp;B にログインしている必要があり、ログインしていない場合はスクリプトは続行されません。`False` (デフォルト) の場合、ユーザーがログインしていなくてもスクリプトは続行され、その場合はオフラインモードに切り替わります。
+</ResponseField>
+
+<ResponseField name="reinit" type="bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']">
+  &quot;reinit&quot; 設定の短縮形です。run がアクティブな場合の
+  `wandb.init()` の挙動を決定します。
+
+  * `"default"`: ノートブックでは &quot;finish&#95;previous&quot; を使用し、それ以外では &quot;return&#95;previous&quot;
+    を使用します。
+  * `"return_previous"`: まだ完了していない、最後に作成された run を返します。
+    `wandb.run` は更新されません。&quot;create&#95;new&quot;
+    オプションを参照してください。
+  * `"finish_previous"`: アクティブなすべての run を終了してから、新しい run を返します。
+  * `"create_new"`: 他のアクティブな run を変更せずに新しい run を作成します。
+    `wandb.run` および `wandb.log` のようなトップレベル関数は更新されません。
+    このため、グローバル run に依存する一部の古いインテグレーションは
+    動作しません。
+</ResponseField>
+
+<ResponseField name="resume" type="bool | Literal['allow', 'never', 'must', 'auto'] | None">
+  指定した`id`で run を再開する際の動作を制御します。
+  利用可能なオプションは次のとおりです:
+
+  * `"allow"`: 指定した`id`のrunが存在する場合は、最後のstepから再開します。存在しない場合は、新しいrunを作成します。
+  * `"never"`: 指定した`id`のrunが存在する場合は、エラーになります。該当するrunが見つからない場合は、新しいrunを作成します。
+  * `"must"`: 指定した`id`のrunが存在する場合は、最後のstepから再開します。runが見つからない場合は、エラーになります。
+  * `"auto"`: このマシン上で前回のrunがクラッシュした場合は自動的に再開し、それ以外の場合は新しいrunを開始します。
+  * `True`: 非推奨です。代わりに`"auto"`を使用してください。
+  * `False`: 非推奨です。常に新しいrunを開始するには、デフォルトの動作 (`resume`を未設定のままにする) を使用してください。`resume`が設定されている場合、`fork_from`と`resume_from`は使用できません。`resume`が未設定の場合、システムは常に新しいrunを開始します。
+</ResponseField>
+
+<ResponseField name="resume_from" type="str | None">
+  `{run_id}?_step={step}` 形式で、以前のrunの特定の時点からrunを再開する位置を指定します。これにより、ユーザーは中間のstep時点でrunにログされた履歴を切り詰め、そのstepからログを再開できます。対象のrunは同じproject内にある必要があります。  `id` 引数も指定した場合は、`resume_from` 引数が優先されます。  `resume`、`resume_from`、`fork_from` は同時に使用できず、一度に使用できるのはいずれか1つだけです。  この機能はベータ版であり、今後変更される可能性があることに注意してください。
+</ResponseField>
+
+<ResponseField name="fork_from" type="str | None">
+  `{id}?_step={step}`形式で、新しいrunのフォーク元となる以前のrun内の位置を指定します。これにより、対象runの履歴で指定したstepからログを再開する新しいrunが作成されます。対象runは現在のprojectに含まれている必要があります。`id`引数も指定する場合、`fork_from`引数とは異なる値にする必要があります。同じ値を指定するとエラーが発生します。`resume`、`resume_from`、`fork_from`は併用できず、一度に使用できるのはいずれか1つのみです。この機能はベータ版であり、今後変更される可能性があります。
+</ResponseField>
+
+<ResponseField name="save_code" type="bool | None">
+  メインスクリプトまたはノートブックをW&amp;Bに保存します。これにより、実験の再現性が向上し、UIでrun間のコードを比較できます。デフォルトでは無効ですが、settingsページでデフォルト設定を有効に変更できます。
+</ResponseField>
+
+<ResponseField name="tensorboard" type="bool | None">
+  非推奨です。代わりに`sync_tensorboard`を使用してください。
+</ResponseField>
+
+<ResponseField name="sync_tensorboard" type="bool | None">
+  TensorBoardまたはTensorBoardXからのW&amp;Bログの自動同期を有効にし、W&amp;B UIで表示するための関連イベントfileを保存します。
+</ResponseField>
+
+<ResponseField name="monitor_gym" type="bool | None">
+  OpenAI Gymの使用時に、環境の動画を自動的にログする機能を有効にします。
+</ResponseField>
+
+<ResponseField name="settings" type="Settings | dict[str, Any] | None">
+  runの詳細設定を含む辞書または`wandb.Settings`オブジェクトを指定します。
+</ResponseField>
+
+<ResponseField name="anonymous" type="DoNotSet">
+  説明はありません。
+</ResponseField>
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+`Run` オブジェクト。
+
+<div id="raises">
+  ## 送出される例外
+</div>
+
+* `Error`: run の初期化中に不明なエラーまたは内部エラーが発生した場合。
+* `AuthenticationError`: ユーザーが有効な認証情報を提供できなかった場合。
+* `CommError`: W&amp;B サーバーとの通信で問題が発生した場合。
+* `UsageError`: ユーザーが無効な引数を指定した場合。
+* `KeyboardInterrupt`: ユーザーが run を中断した場合。
+
+<div id="examples">
+  ## 例
+</div>
+
+`wandb.init()` は `Run` オブジェクトを返します。run オブジェクトを使用してデータをログし、
+Artifacts を保存し、run のライフサイクルを管理できます。
 
 ```python
 import wandb
 
-# コンフィグの設定
 config = {"lr": 0.01, "batch_size": 32}
 with wandb.init(config=config) as run:
-    # accuracy と loss を run にログ記録する
-    acc = 0.95  # 例: 精度
-    loss = 0.05  # 例: 損失
+    # 精度と損失を run にログする
+    acc = 0.95  # 精度の例
+    loss = 0.05  # 損失の例
     run.log({"accuracy": acc, "loss": loss})
 ```

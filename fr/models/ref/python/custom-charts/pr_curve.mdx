@@ -1,0 +1,98 @@
+---
+title: pr_curve()
+kind: fonction
+namespace: wandb.plot.pr_curve
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py#L19" />
+
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.pr_curve()
+
+Construit une courbe précision-rappel (PR).
+
+La courbe précision-rappel est particulièrement utile pour évaluer des classificateurs sur des jeux de données déséquilibrés. Une aire élevée sous la courbe PR indique à la fois une précision élevée (un faible taux de faux positifs) et un rappel élevé (un faible taux de faux négatifs). La courbe donne des indications sur l’équilibre entre faux positifs et faux négatifs à différents seuils, ce qui aide à évaluer les performances d’un modèle.
+
+```python
+y_true: 'Iterable[T] | None' = None,
+y_probas: 'Iterable[numbers.Number] | None' = None,
+labels: 'list[str] | None' = None,
+classes_to_plot: 'list[T] | None' = None,
+interp_size: 'int' = 21,
+title: 'str' = 'Precision-Recall Curve',
+split_table: 'bool' = False
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="y_true" type="Iterable[T] | None">
+  Étiquettes binaires réelles. La forme doit être (`num_samples`,).
+</ResponseField>
+
+<ResponseField name="y_probas" type="Iterable[numbers.Number] | None">
+  Scores ou probabilités prédits pour chaque classe. Il peut s&#39;agir d&#39;estimations de probabilité, de scores de confiance ou de valeurs de décision sans application de seuil. La forme doit être (`num_samples`, `num_classes`).
+</ResponseField>
+
+<ResponseField name="labels" type="list[str] | None">
+  Liste facultative de noms de classes permettant de remplacer les valeurs numériques de `y_true` afin de faciliter l&#39;interprétation du graphique. Par exemple, `labels = ['dog', 'cat', 'owl']` remplacera 0 par « dog », 1 par « cat » et 2 par « owl » dans le graphique. Si elle n&#39;est pas fournie, les valeurs numériques de `y_true` seront utilisées.
+</ResponseField>
+
+<ResponseField name="classes_to_plot" type="list[T] | None">
+  Liste facultative de valeurs de classe uniques issues de `y_true` à inclure dans le graphique. Si elle n&#39;est pas spécifiée, toutes les classes uniques de `y_true` seront représentées.
+</ResponseField>
+
+<ResponseField name="interp_size" type="int">
+  Nombre de points auxquels interpoler les valeurs de rappel. Les valeurs de rappel seront fixées à `interp_size` points uniformément répartis dans l&#39;intervalle &#91;0, 1&#93;, et la précision sera interpolée en conséquence.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Titre du graphique. La valeur par défaut est « Precision-Recall Curve ».
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
+</ResponseField>
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+`CustomChart`: Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le  graphique, transmettez-le à `wandb.log()`.
+
+<div id="raises">
+  ## Exceptions levées
+</div>
+
+* `wandb.Error`: Si NumPy, pandas ou scikit-learn n’est pas installé.
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```python
+import wandb
+
+# Exemple de détection de spam (classification binaire)
+y_true = [0, 1, 1, 0, 1]  # 0 = pas spam, 1 = spam
+y_probas = [
+    [0.9, 0.1],  # Probabilités prédites pour le premier échantillon (pas spam)
+    [0.2, 0.8],  # Deuxième échantillon (spam), et ainsi de suite
+    [0.1, 0.9],
+    [0.8, 0.2],
+    [0.3, 0.7],
+]
+
+labels = ["not spam", "spam"]  # Noms de classes facultatifs pour la lisibilité
+
+with wandb.init(project="spam-detection") as run:
+    pr_curve = wandb.plot.pr_curve(
+        y_true=y_true,
+        y_probas=y_probas,
+        labels=labels,
+        title="Precision-Recall Curve for Spam Detection",
+    )
+    run.log({"pr-curve": pr_curve})
+```

@@ -1,219 +1,158 @@
 ---
 title: Registry
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.registries.registry
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
-## <kbd>class</kbd> `Registry`
-A single registry in the Registry. 
 
-### <kbd>method</kbd> `Registry.__init__`
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Registry
+
+
+
+A single registry in the Registry.
+
+
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    organization: 'str',
-    entity: 'str',
-    name: 'str',
-    attrs: 'RegistryFragment | None' = None
-)
+(service_api: 'ServiceApi',
+organization: 'str',
+entity: 'str',
+name: 'str',
+attrs: 'RegistryFragment | None' = None)
 ```
 
+## Args
 
+<ResponseField name="service_api" type="ServiceApi">
+No description provided.
+</ResponseField>
 
+<ResponseField name="organization" type="str">
+No description provided.
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+No description provided.
+</ResponseField>
 
+<ResponseField name="name" type="str">
+No description provided.
+</ResponseField>
 
----
+<ResponseField name="attrs" type="RegistryFragment | None">
+No description provided.
+</ResponseField>
 
-### <kbd>property</kbd> Registry.allow_all_artifact_types
 
-Return whether all artifact types are allowed in the registry. 
 
-If `True`, artifacts of any type can be added. If `False`, artifacts are restricted to the types listed in `artifact_types`. 
 
 
 
-**Returns:**
- - `bool`: The allow_all_artifact_types property value.
----
 
-### <kbd>property</kbd> Registry.artifact_types
+## Properties
 
-Returns the artifact types allowed in the registry. 
+<ResponseField name="allow_all_artifact_types" type="bool">
+Return whether all artifact types are allowed in the registry.
 
-If `allow_all_artifact_types` is `True` then `artifact_types` reflects the types previously saved or currently used in the registry. If `allow_all_artifact_types` is `False` then artifacts are restricted to the types in `artifact_types`. 
+If `True`, artifacts of any type can be added. If `False`, artifacts are
+restricted to the types listed in `artifact_types`.
+</ResponseField>
 
+<ResponseField name="artifact_types" type="AddOnlyArtifactTypesList">
+Returns the artifact types allowed in the registry.
 
+If `allow_all_artifact_types` is `True` then `artifact_types` reflects the
+types previously saved or currently used in the registry.
+If `allow_all_artifact_types` is `False` then artifacts are restricted to the
+types in `artifact_types`.
 
-**Note:**
+Note:
+    Previously saved artifact types cannot be removed.
+</ResponseField>
 
-> Previously saved artifact types cannot be removed. 
->
+<ResponseField name="created_at" type="str">
+Timestamp of when the registry was created.
+</ResponseField>
 
-**Example:**
- ```python
-import wandb
+<ResponseField name="description" type="str | None">
+Description of the registry.
+</ResponseField>
 
-registry = wandb.Api().create_registry()
-registry.artifact_types.append("model")
-registry.save()  # once saved, the artifact type `model` cannot be removed
-registry.artifact_types.append("accidentally_added")
-registry.artifact_types.remove(
-     "accidentally_added"
-)  # Types can only be removed if it has not been saved yet
-``` 
+<ResponseField name="entity" type="str">
+Organization entity of the registry.
+</ResponseField>
 
+<ResponseField name="full_name" type="str">
+Full name of the registry including the `wandb-registry-` prefix.
+</ResponseField>
 
+<ResponseField name="id" type="str">
+The unique ID for this registry.
+</ResponseField>
 
-**Returns:**
- - `AddOnlyArtifactTypesList`: The artifact_types property value.
----
+<ResponseField name="internal_id" type="str | None">
+The GraphQL `internalId` for this registry's backing project, if fetched.
 
-### <kbd>property</kbd> Registry.created_at
+This is a base64-encoded global ID. When decoded, it looks like
+`Project:123` or `ProjectInternalId:123`.
+</ResponseField>
 
-Timestamp of when the registry was created. 
+<ResponseField name="name" type="str">
+Name of the registry without the `wandb-registry-` prefix.
+</ResponseField>
 
+<ResponseField name="organization" type="str">
+Organization name of the registry.
+</ResponseField>
 
+<ResponseField name="path" type="list[str]">
+No description provided.
+</ResponseField>
 
-**Returns:**
- - `str`: The created_at property value.
----
+<ResponseField name="updated_at" type="str | None">
+Timestamp of when the registry was last updated.
+</ResponseField>
 
-### <kbd>property</kbd> Registry.description
+<ResponseField name="visibility" type="The visibility level.">
+Visibility of the registry.
+</ResponseField>
 
-Description of the registry. 
 
 
+## Methods
 
-**Returns:**
- - `str | None`: The description property value.
----
 
-### <kbd>property</kbd> Registry.entity
-
-Organization entity of the registry. 
-
-
-
-**Returns:**
- - `str`: The entity property value.
----
-
-### <kbd>property</kbd> Registry.full_name
-
-Full name of the registry including the `wandb-registry-` prefix. 
-
-
-
-**Returns:**
- - `str`: The full_name property value.
----
-
-### <kbd>property</kbd> Registry.id
-
-The unique ID for this registry. 
-
-
-
-**Returns:**
- - `str`: The id property value.
----
-
-### <kbd>property</kbd> Registry.name
-
-Name of the registry without the `wandb-registry-` prefix. 
-
-
-
-**Returns:**
- - `str`: The name property value.
----
-
-### <kbd>property</kbd> Registry.organization
-
-Organization name of the registry. 
-
-
-
-**Returns:**
- - `str`: The organization property value.
----
-
-### <kbd>property</kbd> Registry.path
-
-
-
-
-
----
-
-### <kbd>property</kbd> Registry.updated_at
-
-Timestamp of when the registry was last updated. 
-
-
-
-**Returns:**
- - `str`: The updated_at property value.
----
-
-### <kbd>property</kbd> Registry.visibility
-
-Visibility of the registry. 
-
-
-
-**Returns:**
- 
- - `Literal["organization", "restricted"]`:  The visibility level. 
-        - "organization": Anyone in the organization can view this registry.  You can edit their roles later from the settings in the UI. 
-        - "restricted": Only invited members via the UI can access this registry.  Public sharing is disabled. 
-
-
-
-
-
-**Returns:**
- - `Literal['organization', 'restricted']`: The visibility property value.
----
-
-### <kbd>method</kbd> `Registry.add_members`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.add_members()
 
 ```python
-add_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+self, *members: 'User | UserMember | Team | TeamMember | str'
 ```
 
-Adds users or teams to this registry. 
+Adds users or teams to this registry.
+
+##### Arguments
+
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+The users or teams to add to the registry. Accepts `User` objects, `Team` objects, or their string IDs.
+</ResponseField>
 
 
 
-**Args:**
- 
- - `members`:  The users or teams to add to the registry. Accepts  `User` objects, `Team` objects, or their string IDs. 
+##### Raises
+
+- `TypeError`: If no members are passed as arguments.
+- `ValueError`: If unable to infer or parse the user or team IDs.
 
 
+##### Examples
 
-**Returns:**
- This registry for further method chaining, if needed. 
-
-
-
-**Raises:**
- 
- - `TypeError`:  If no members are passed as arguments. 
- - `ValueError`:  If unable to infer or parse the user or team IDs. 
-
-
-
-**Examples:**
- ```python
+```python
 import wandb
 
 api = wandb.Api()
@@ -227,125 +166,170 @@ registry.add_members(user1, user2)
 
 my_team = api.team(name="my-team")
 registry.add_members(my_team)
-``` 
-
----
-
-### <kbd>method</kbd> `Registry.collections`
-
-```python
-collections(
-    filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
-) → Collections
 ```
 
-Returns the collections belonging to the registry. 
-
----
-
-### <kbd>classmethod</kbd> `Registry.create`
-
-```python
-create(
-    client: 'RetryingClient',
-    organization: 'str',
-    name: 'str',
-    visibility: "Literal['organization', 'restricted']",
-    description: 'str | None' = None,
-    artifact_types: 'list[str] | None' = None
-) → Self
-```
-
-Create a new registry. 
-
-The registry name must be unique within the organization. This function should be called using `api.create_registry()` 
 
 
 
-**Args:**
- 
- - `client`:  The GraphQL client. 
- - `organization`:  The name of the organization. 
- - `name`:  The name of the registry (without the `wandb-registry-` prefix). 
- - `visibility`:  The visibility level ('organization' or 'restricted'). 
- - `description`:  An optional description for the registry. 
- - `artifact_types`:  An optional list of allowed artifact types. 
-
-
-
-**Returns:**
- 
- - `Registry`:  The newly created Registry object. 
-
-
-
-**Raises:**
- 
- - `ValueError`:  If a registry with the same name already exists in the  organization or if the creation fails. 
-
----
-
-### <kbd>method</kbd> `Registry.delete`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.collections()
 
 ```python
-delete() → None
+self,
+filter: 'dict[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
 ```
 
-Delete the registry. This is irreversible. 
+Returns the collections belonging to this registry.
 
----
+##### Arguments
 
-### <kbd>method</kbd> `Registry.load`
+<ResponseField name="filter" type="dict[str, Any] | None">
+Optional mapping of filters to apply to the collections query.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+The number of results to fetch per page. Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.create()
 
 ```python
-load() → None
+api: 'Api',
+organization: 'str',
+name: 'str',
+visibility: "Literal['organization', 'restricted']",
+description: 'str | None' = None,
+artifact_types: 'list[str] | None' = None
 ```
 
-Load registry attributes from the backend. 
+Create a new registry.
 
----
+The registry name must be unique within the organization.
+This function should be called using `api.create_registry()`
 
-### <kbd>method</kbd> `Registry.members`
+##### Arguments
+
+<ResponseField name="api" type="Api">
+The W&B API instance.
+</ResponseField>
+
+<ResponseField name="organization" type="str">
+The name of the organization.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+The name of the registry (without the `wandb-registry-` prefix).
+</ResponseField>
+
+<ResponseField name="visibility" type="Literal['organization', 'restricted']">
+The visibility level ('organization' or 'restricted').
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+An optional description for the registry.
+</ResponseField>
+
+<ResponseField name="artifact_types" type="list[str] | None">
+An optional list of allowed artifact types.
+</ResponseField>
+
+
+
+##### Raises
+
+- `ValueError`: If a registry with the same name already exists in the organization or if the creation fails.
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.delete()
 
 ```python
-members() → list[UserMember | TeamMember]
+self
 ```
 
-Returns the current members (users and teams) of this registry. 
+Delete the registry. This is irreversible.
 
----
 
-### <kbd>method</kbd> `Registry.remove_members`
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.load()
 
 ```python
-remove_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+self
 ```
 
-Removes users or teams from this registry. 
+Load registry attributes from the backend.
 
 
 
-**Args:**
- 
- - `members`:  The users or teams to remove from the registry. Accepts  `User` objects, `Team` objects, or their string IDs. 
 
 
 
-**Returns:**
- This registry for further method chaining, if needed. 
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.members()
+
+```python
+self
+```
+
+Returns the current members (users and teams) of this registry.
 
 
 
-**Raises:**
- 
- - `TypeError`:  If no members are passed as arguments. 
- - `ValueError`:  If unable to infer or parse the user or team IDs. 
 
 
 
-**Examples:**
- ```python
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.remove_members()
+
+```python
+self, *members: 'User | UserMember | Team | TeamMember | str'
+```
+
+Removes users or teams from this registry.
+
+##### Arguments
+
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+The users or teams to remove from the registry. Accepts `User` objects, `Team` objects, or their string IDs.
+</ResponseField>
+
+
+
+##### Raises
+
+- `TypeError`: If no members are passed as arguments.
+- `ValueError`: If unable to infer or parse the user or team IDs.
+
+
+##### Examples
+
+```python
 import wandb
 
 api = wandb.Api()
@@ -359,67 +343,76 @@ registry.remove_members(user1, user2)
 
 old_team = api.team(name="old-team")
 registry.remove_members(old_team)
-``` 
-
----
-
-### <kbd>method</kbd> `Registry.save`
-
-```python
-save() → None
 ```
 
-Save registry attributes to the backend. 
 
----
 
-### <kbd>method</kbd> `Registry.team_members`
 
-```python
-team_members() → list[TeamMember]
-```
-
-Returns the current member teams of this registry. 
-
----
-
-### <kbd>method</kbd> `Registry.update_member`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.save()
 
 ```python
-update_member(
-    member: 'User | UserMember | Team | TeamMember | str',
-    role: 'MemberRole | str'
-) → Self
+self
 ```
 
-Updates the role of a member (user or team) within this registry. 
+Save registry attributes to the backend.
 
 
 
-**Args:**
- 
- - `member`:  The user or team to update the role of.  Accepts a `User` object, `Team` object, or their string ID. 
- - `role`:  The new role to assign to the member. May be one of: 
-        - "admin" 
-        - "member" 
-        - "viewer" 
-        - "restricted_viewer" (if supported by the W&B server) 
 
 
 
-**Returns:**
- This registry for further method chaining, if needed. 
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.team_members()
+
+```python
+self
+```
+
+Returns the current member teams of this registry.
 
 
 
-**Raises:**
- 
- - `ValueError`:  If unable to infer the user or team ID. 
 
 
 
-**Examples:**
- Make all users in the registry admins ```python
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.update_member()
+
+```python
+self,
+member: 'User | UserMember | Team | TeamMember | str',
+role: 'MemberRole | str'
+```
+
+Updates the role of a member (user or team) within this registry.
+
+##### Arguments
+
+<ResponseField name="member" type="User | UserMember | Team | TeamMember | str">
+The user or team to update the role of. Accepts a `User` object, `Team` object, or their string ID.
+</ResponseField>
+
+<ResponseField name="role" type="MemberRole | str">
+The new role to assign to the member. May be one of:
+- "admin"
+- "member"
+- "viewer"
+- "restricted_viewer" (if supported by the W&B server)
+</ResponseField>
+
+
+
+##### Raises
+
+- `ValueError`: If unable to infer the user or team ID.
+
+
+##### Examples
+
+Make all users in the registry admins
+```python
 import wandb
 
 api = wandb.Api()
@@ -429,28 +422,60 @@ registry = api.registry(name="my-registry", organization="my-org")
 
 for member in registry.user_members():
     registry.update_member(member.user, role="admin")
-``` 
-
----
-
-### <kbd>method</kbd> `Registry.user_members`
-
-```python
-user_members() → list[UserMember]
 ```
 
-Returns the current member users of this registry. 
 
----
 
-### <kbd>method</kbd> `Registry.versions`
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.user_members()
 
 ```python
-versions(
-    filter: 'dict[str, Any] | None' = None,
-    per_page: 'PositiveInt' = 100
-) → Versions
+self
 ```
 
-Returns the versions belonging to the registry. 
+Returns the current member users of this registry.
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Registry.versions()
+
+```python
+self,
+filter: 'dict[str, Any] | None' = None,
+order: '_VersionOrder | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
+```
+
+Returns the artifact versions belonging to this registry.
+
+##### Arguments
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+Optional mapping of filters to apply to the artifact versions query.
+</ResponseField>
+
+<ResponseField name="order" type="_VersionOrder | None">
+Optional string to specify the order of the results. Order can be `created_at`, `artifact_size`, or `linked_at`. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+The number of results to fetch per page. Usually there is no reason to change this.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
+
+
+
+
+
+
 

@@ -1,0 +1,92 @@
+---
+title: "設定"
+description: "TypeScript SDK リファレンス"
+---
+
+> **Settings** = `object`
+
+定義元: [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L3)
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
+
+このクライアントで生成されるすべてのtraceに適用される属性のマップです。
+
+定義元: [src/settings.ts:14](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L14)
+
+***
+
+<div id="genai">
+  ### genai
+</div>
+
+> `readonly` **genai**: `object`
+
+定義元: [src/settings.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L23)
+
+<div id="batchoptions">
+  #### batchOptions
+</div>
+
+> `optional` **batchOptions**: `BufferConfig`
+
+`BatchSpanProcessor` の設定です。`spanProcessor === 'batch'` でない場合は無視されます。
+
+<div id="spanprocessor">
+  #### spanProcessor
+</div>
+
+> `optional` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
+
+GenAI スパンのエクスポート方法を指定します。
+
+* `'batch'` (デフォルト) : `BatchSpanProcessor`。本番
+  エージェントや長時間稼働するプロセスに適しています。
+* `'simple'`: `SimpleSpanProcessor`。スパンごとに 1 回 HTTP POST を送信します。スループットよりも
+  確実な `flush` が重要なテストや短命な CLI で有用です。
+* `SpanProcessor` instance: ユーザーが指定するプロセッサです。そのライフサイクルは呼び出し元が
+  管理します。`/agents/otel/v1/traces` を対象とする Weave OTLP exporter
+  は使用されません。
+
+***
+
+<div id="printcalllink">
+  ### printCallLink
+</div>
+
+> `readonly` **printCallLink**: `boolean`
+
+op の Weave UI へのリンクをターミナルに出力します。
+
+定義元: [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L9)
+
+<div id="default">
+  #### デフォルト
+</div>
+
+`true`
+
+***
+
+<div id="useotelv2">
+  ### useOTelV2
+</div>
+
+> **useOTelV2**: `boolean`
+
+OTel 対応のインテグレーションを OTel バリアント経由でルーティングします。
+
+定義元: [src/settings.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L21)
+
+<div id="default">
+  #### デフォルト
+</div>
+
+`true`

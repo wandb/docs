@@ -1,29 +1,43 @@
 ---
 title: Member
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.teams
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
-## <kbd>class</kbd> `Member`
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Member
+
+
+
 A member of a team.
 
-### <kbd>method</kbd> `Member.__init__`
+
 
 ```python
-__init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
 ```
 
-**Args:**
- 
- - `client` (`wandb.apis.internal.Api`):  The client instance to use 
- - `team` (str):  The name of the team this member belongs to 
- - `attrs` (dict):  The member attributes 
+## Args
+
+<ResponseField name="service_api" type="ServiceApi">
+The service API instance to use for querying W&B.
+</ResponseField>
+
+<ResponseField name="team" type="str">
+The name of the team this member belongs to
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+The member attributes
+</ResponseField>
 
 
 
@@ -33,18 +47,21 @@ __init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
 
 
 
----
+## Methods
 
-### <kbd>method</kbd> `Member.delete`
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Member.delete()
 
 ```python
-delete()
+(self)
 ```
 
-Remove a member from a team. 
+Remove a member from a team.
 
 
 
-**Returns:**
-  Boolean indicating success 
+
+
+
+
 

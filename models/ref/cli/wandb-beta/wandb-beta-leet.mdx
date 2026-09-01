@@ -1,21 +1,34 @@
 ---
-title: "wandb beta leet"
+title: wandb beta leet
 ---
 
-import WandbBetaLeet from "/snippets/en/_includes/cli/wandb-beta-leet.mdx";
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<WandbBetaLeet/>
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/leet.py#L52" />
+
+
 
 ## Usage
 
 ```bash
-wandb beta leet COMMAND [ARGS]...
+leet [PATH] | COMMAND [ARGS]...
 ```
 
-## Commands
+## Description
+
+W&B LEET: the Lightweight Experiment Exploration Tool.
+
+A terminal UI for viewing your W&B runs locally.
+
+
+
+## Subcommands
 
 | Command | Description |
-| :--- | :--- |
-| [config](/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config) | Edit LEET configuration. |
-| [run](/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run) | Launch the LEET TUI. |
-| [symon](/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon) | Launch the standalone system monitor. |
+|---------|-------------|
+| `wandb beta leet config` | Edit LEET configuration. |
+| `wandb beta leet inspect` | Browse the raw records in a run's .wandb transaction log. |
+| `wandb beta leet run` | Launch the LEET TUI. |
+| `wandb beta leet symon` | Launch the standalone system monitor. |
+

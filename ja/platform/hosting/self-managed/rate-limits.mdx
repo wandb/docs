@@ -1,0 +1,17 @@
+---
+title: レート制限
+description: 安定性のためにセルフマネージドインスタンスで設定できるオプションのレート制限
+keywords: ["API スロットリング", "レート制限", "リクエスト制限", "サーバーの安定性", "429 レート制限"]
+---
+
+import RateLimitsDefaultsAndNotification from "/snippets/ja/_includes/rate-limits-defaults-and-notification.mdx";
+
+W&amp;B セルフマネージド インスタンスでは、安定性を維持し、1 人のユーザーや 1 つのワークロードが他に影響を及ぼすのを防ぐために、レート制限を設定できます。これらの制限は任意です。設定しない場合、インスタンスではいかなる制限も適用されません。
+
+<div id="default-limits-and-notification">
+  ## デフォルトの制限と通知
+</div>
+
+<RateLimitsDefaultsAndNotification />
+
+W&amp;B は、これらのデフォルト値を一般的な本番ワークロード向けに推奨しています。ワークロードが継続的にこれらの制限を超える場合は、インスタンスのサイズや共有利用状況に応じて、これらの制限を設定するか、未設定のままにできます。[Set rate limits](/ja/platform/hosting/self-managed/operator#set-rate-limits)を参照してください。デプロイメントに対するこれらの制限のサイジングについて支援が必要な場合は、[W&amp;Bサポート](mailto:support@wandb.com)にお問い合わせください。

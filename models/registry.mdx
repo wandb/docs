@@ -1,8 +1,8 @@
 ---
 title: Registry overview
-description: W&B Registry to manage and share artifact versions across your organization
+description: Use W&B Registry to manage and share artifact versions across your organization
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" />
 
@@ -20,7 +20,10 @@ In summary, use W&B Registry to:
 
 {/* - Quickly find or reference important artifacts with a unique identifier known as aliases. */}
 
-The following image shows the W&B Registry landing page. A registry called `Model` is starred. Two collections are shown `DemoModels` and `Zoo_Classifier_Models`.
+The following image shows the W&B Registry landing page.
+
+From top to bottom, the image shows starred registries and the most recently updated registries and collections.
+
 
 <Frame>
     <img src="/images/registry/registry_landing_page.png" alt="W&B Registry"  />
@@ -47,8 +50,9 @@ As an example, the following code example logs and links a model artifact called
 
 1. Initialize a W&B Run with `wandb.init()`.
 2. Log the artifact to W&B with `wandb.Run.log()`.
-3. Specify the name of the collection and registry to link your artifact version to.
-4. Link the artifact to the collection using `wandb.Run.link_artifact()`.
+3. Check that the registry exists.
+4. Specify the name of the collection and registry to link your artifact version to.
+5. Link the artifact to the collection using `wandb.Run.link_artifact()`.
 
 Save this Python code to a script and run it. W&B Python SDK version 0.18.6 or newer is required.
 
@@ -65,7 +69,7 @@ with wandb.init(project="registry_quickstart") as run:
     # Log the artifact to W&B
     logged_artifact = run.log_artifact(
         artifact_or_path="./my_model.txt", 
-        name="gemma-finetuned", 
+        name="mnist_model", 
         type="model" # Specifies artifact type
     )
 
@@ -95,11 +99,11 @@ If an artifact version logs metrics (such as by using `wandb.Run.log_artifact()`
 
 Based on your deployment type, satisfy the following conditions to enable W&B Registry:
 
-| Deployment type | How to enable |
-| ----- | ----- |
-| Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
-| Dedicated Cloud | Contact your account team to enable W&B Registry for your deployment. |
-| Self-Managed | For Server v0.70.0 or newer, no action required. For older supported Server versions, set the environment variable `ENABLE_REGISTRY_UI` to `true`. Refer to [Configure environment variables](/platform/hosting/env-vars). |
+| Deployment type    | How to enable                                                                                                                                                           |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App.                                                                                                           |
+| Dedicated Cloud    | Contact your account team to enable W&B Registry for your deployment.                                                                                                   |
+| Self-Managed       | For Server v0.71.0 or newer, no action required. Registry is enabled by default. For older supported Server versions, contact your W&B account team to enable Registry. |
 
 
 ## Resources to get started

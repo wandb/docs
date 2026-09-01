@@ -1,39 +1,90 @@
 ---
-title: 오브젝트3D
-namespace: python_sdk_data_type
-python_object_type: class
+title: Object3D
+kind: 클래스
+namespace: wandb.sdk.data_types.object_3d
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Object3D`
-3D point clouds 를 위한 W&B 클래스입니다.
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L245" />
 
-### <kbd>method</kbd> `Object3D.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Object3D
+
+3D 포인트 클라우드용 W&amp;B 클래스입니다.
 
 ```python
-__init__(
-    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
-    caption: Optional[str] = None,
-    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
-) → None
+data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
 ```
 
-W&B `Object3D` 오브젝트를 생성합니다.
+<div id="args">
+  ## 인수
+</div>
 
-**Args:**
- 
- - `data_or_path`:  `Object3D` 는 파일 또는 numpy array로부터 초기화될 수 있습니다.
- - `caption`:  표시용 오브젝트와 관련된 캡션입니다.
+<ResponseField name="data_or_path" type="np.ndarray | str | pathlib.Path | TextIO | dict">
+  Object3D는 파일 또는 NumPy 배열로 초기화할 수 있습니다.
+</ResponseField>
 
-**Examples:**
- numpy array의 형태는 다음 중 하나여야 합니다.
+<ResponseField name="caption" type="str | None">
+  표시할 객체에 연결된 캡션입니다.
+</ResponseField>
 
-```text
-[[x y z],       ...] nx3
-[[x y z c],     ...] nx4 여기서 c는 지원되는 범위 [1, 14] 사이의 카테고리입니다.
-[[x y z r g b], ...] nx6 여기서 rgb는 색상입니다.
-``` 
+<ResponseField name="kwargs" type="str | FileFormat3D | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
----
+<div id="methods">
+  ## 메서드
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Object3D.from_file()
+
+```python
+data_or_path: 'TextIO | str',
+file_type: 'FileFormat3D | None' = None
+```
+
+파일 또는 스트림을 사용해 Object3D를 초기화합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="data_or_path" type="TextIO | str">
+  파일 경로 또는 `TextIO` 스트림입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Object3D.from_numpy()
+
+```python
+data: 'np.ndarray'
+```
+
+NumPy 배열에서 Object3D를 초기화합니다.
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Object3D.from_point_cloud()
+
+```python
+points: 'Sequence[Point]',
+boxes: 'Sequence[Box3D]',
+vectors: 'Sequence[Vector3D] | None' = None,
+point_cloud_type: 'PointCloudType' = 'lidar/beta'
+```
+
+Python 객체로부터 Object3D를 초기화합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="points" type="Sequence[Point]">
+  포인트 클라우드의 점입니다.
+</ResponseField>
+
+<ResponseField name="boxes" type="Sequence[Box3D]">
+  포인트 클라우드에 레이블을 지정하기 위한 3D 바운딩 박스입니다. 박스는 포인트 클라우드 시각화에 표시됩니다.
+</ResponseField>
+
+<ResponseField name="vectors" type="Sequence[Vector3D] | None">
+  각 벡터는 포인트 클라우드 시각화에 표시됩니다. 바운딩 박스의 방향을 나타내는 데 사용할 수 있습니다. 기본값은 None입니다.
+</ResponseField>

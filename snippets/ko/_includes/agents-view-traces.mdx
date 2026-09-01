@@ -1,0 +1,15 @@
+---
+title: Agents 뷰에서 트레이스 보기
+---
+
+<div id="see-your-agent-traces-in-the-agents-view">
+  ### Agents 뷰에서 에이전트 트레이스를 확인하세요
+</div>
+
+스크립트가 실행된 후 `weave.init()`가 프로젝트 링크를 출력합니다. 다음 항목을 살펴보려면 **Agents** 뷰를 여세요.
+
+* 대화의 턴이 포함된 세션.
+* `chat` 및 `execute_tool` 하위 span이 중첩된 `invoke_agent` span으로 렌더링된 각 턴.
+* 각 단계의 전체 입력, 모델, 출력, 토큰 사용량, 도구 결과.
+
+Weave에서 Agents 데이터를 보는 방법에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/guides/tracking/view-agent-activity)를 참조하세요.

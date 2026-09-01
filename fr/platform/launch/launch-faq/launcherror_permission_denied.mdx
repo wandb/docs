@@ -1,0 +1,10 @@
+---
+title: "Comment puis-je résoudre une erreur \"permission denied\" dans Launch ?"
+keywords: ["erreur permission denied", "erreur Launch", "erreur d’accès", "dépanner Launch"]
+---
+
+Si vous voyez l’erreur `Launch Error: Permission denied`, c’est que vous n’avez pas l’autorisation d’enregistrer dans le projet. Vérifiez les causes possibles et les solutions suivantes :
+
+* Vous n’êtes pas connecté sur cette machine. Exécutez [`wandb login`](/fr/models/ref/cli/wandb-login) en ligne de commande.
+* L’entité spécifiée n’existe pas. L’entité doit être votre nom d’utilisateur ou le nom d’une équipe existante. Si nécessaire, créez une équipe sur la [page Subscriptions](https://app.wandb.ai/billing).
+* Vous ne disposez pas des autorisations nécessaires sur le projet. Demandez au créateur du projet de modifier le paramètre de confidentialité en **Open** afin que vous puissiez enregistrer des runs dans le projet.

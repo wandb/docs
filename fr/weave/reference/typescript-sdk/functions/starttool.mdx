@@ -1,0 +1,55 @@
+---
+title: "startTool"
+description: "Référence du SDK TypeScript"
+---
+
+> **startTool**(`opts`): [`Tool`](../interfaces/tool)
+
+Démarre un span d&#39;outil. Résolution du parent (correspond au principe de conception « plat par
+défaut, hiérarchique si vous imbriquez ») :
+
+* Si un LLM est actif, l&#39;outil y est imbriqué.
+* Sinon, l&#39;outil est au même niveau, sous le tour de conversation actuel.
+
+Lève une exception si aucun tour de conversation ni aucun LLM n&#39;est actif.
+
+Défini dans : [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
+
+<div id="parameters">
+  ## Paramètres
+</div>
+
+<div id="opts">
+  ### opts
+</div>
+
+[`ToolInit`](../interfaces/toolinit)
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+[`Tool`](../interfaces/tool)
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+weave.startTool({
+  name: 'get_weather',
+  args: JSON.stringify({city: 'Tokyo'}),
+  toolCallId: 'call_t1',
+});
+```
+
+```ts twoslash
+// @noErrors
+weave.startTool({
+  name: 'get_weather',
+  args: JSON.stringify({city: 'Tokyo'}),
+  toolCallId: 'call_t1',
+  startTime: new Date('2026-05-29T10:00:00.800Z'),
+});
+```

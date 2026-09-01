@@ -1,0 +1,49 @@
+---
+title: "Pourquoi ma clé API échoue-t-elle avec « must be 40 characters long » ?"
+keywords: ["Clés API", "Authentification", "SDK"]
+---
+
+W&amp;B émet désormais des clés API plus longues (environ 86 caractères). Les anciennes versions du SDK `wandb` vérifient que la clé contient exactement 40 caractères et rejettent le nouveau format :
+
+`ValueError: API key must be 40 characters long, yours was 86`
+
+Sur les instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), le message peut aussi être `ERROR API key must be 40 characters long, yours was 86`.
+
+<div id="upgrade-the-wandb-sdk">
+  ## Mettez à niveau le SDK wandb
+</div>
+
+La prise en charge de clés API plus longues a été ajoutée dans `wandb` v0.22.3. La mise à niveau vers cette version ou une version ultérieure résout donc l’erreur :
+
+```bash
+pip install -U wandb
+wandb login --relogin
+```
+
+<div id="if-you-cannot-upgrade-the-sdk">
+  ## Si vous ne pouvez pas mettre à jour le SDK
+</div>
+
+* Si une ancienne clé de 40 caractères est encore active sur votre compte, continuez à l’utiliser. Les clés au nouveau format ne révoquent pas automatiquement les anciennes.
+* Si vous avez supprimé l’ancienne clé et que vous ne pouvez pas mettre à jour, contactez [support@wandb.com](mailto:support@wandb.com). Les déploiements [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) et [Autogéré](/fr/platform/hosting/hosting-options/self-managed) peuvent parfois émettre une clé au format hérité.
+* Comme solution de contournement, définissez la variable d’environnement `WANDB_API_KEY` au lieu d’utiliser `wandb login`. Certaines anciennes versions du SDK ignorent les vérifications locales de longueur. Remplacez `[API-KEY]` par votre clé API W&amp;B :
+
+  ```bash
+  export WANDB_API_KEY=[API-KEY]
+  ```
+
+<div id="different-error-key-reported-as-too-short">
+  ## Erreur différente : clé indiquée comme trop courte
+</div>
+
+`API key must have 40+ characters, has 20` peut s&#39;afficher lors de l&#39;appel à `wandb.Api().viewer.generate_api_key()` dans certaines versions du SDK. Cela est distinct de la migration vers le format de clé plus long. Mettez le SDK à niveau. Si l&#39;erreur persiste après la mise à niveau, contactez [support@wandb.com](mailto:support@wandb.com).
+
+Pour plus d&#39;informations, voir [Comment puis-je trouver ma clé API ?](/fr/support/models/articles/how-do-i-find-my-api-key) et les [notes de version du SDK](/fr/release-notes/sdk-releases).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Clés API](/fr/support/models/tags/api-keys)</Badge><Badge stroke shape="pill" color="orange" size="md">[Authentification](/fr/support/models/tags/authentication)</Badge><Badge stroke shape="pill" color="orange" size="md">[SDK](/fr/support/models/tags/sdk)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

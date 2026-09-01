@@ -1,38 +1,48 @@
 ---
-title: LoRA のファインチューンを作成する
-description: W&B Inference で使用するための、ファインチューン された LoRA の作成方法について説明します。
+title: "ファインチューニング済みの LoRA アダプターを作成する"
+description: >
+  Serverless Inference で使用するファインチューニング済みの LoRA アダプターの作成方法を学びます。
+keywords: ["TRL ライブラリ", "教師ありファインチューニング", "SFT", "ポストトレーニング", "artifact をアップロード"]
 ---
 
-W&B Inference を使用すると、一部のベースモデルでカスタム LoRA を利用できます。このチュートリアルでは、[TRL](https://huggingface.co/docs/trl/index) ライブラリを介した教師ありポストトレーニング（supervised post-training）を使用して、ファインチューンされた LoRA を作成する方法を説明します。この例では、クエリとレスポンスのペアのデータセットを使用して、カウボーイのように応答するようにモデルをファインチューンします。
+Serverless Inference では、一部のベースモデルでカスタム LoRA アダプターを使用できます。このチュートリアルでは、[TRL](https://huggingface.co/docs/trl/index) ライブラリを使用した教師ありポストトレーニングによってファインチューニング済みの LoRA アダプターを作成し、それを W&amp;B にアーティファクトとしてアップロードして、Serverless Inference API または Playground で使用する方法を説明します。この例では、クエリと応答のペアからなるデータセットを使って、カウボーイのように応答するようモデルをファインチューニングしますが、同じワークフローを任意のキャラクターやタスクに応用できます。
 
-また、サーバーレスの強化学習を提供する [W&B Training](/training) を使用して LoRA を作成することも可能です。
+このチュートリアルは、独自の推論インフラストラクチャーを管理することなく、ベースモデルの動作をカスタマイズしたい開発者向けです。
 
-## ポストトレーニング用データセット
+[Serverless RL](/ja/serverless-training) を使用して LoRA アダプターを作成することもできます。これはサーバーレスの強化学習を提供します。
 
-以下のデータセットには、次のようなメッセージのリストとしてフォーマットされた 50 個のクエリとレスポンスのペアが含まれています。
+このチュートリアルは 3 つのパートで構成されています。ポストトレーニング用データセットを準備し、LoRA アダプターを生成してアップロードするポストトレーニング スクリプトを実行し、最後に生成された LoRA アダプターを Playground またはコードから試します。
 
-> User: "好きな色は何ですか？"
+<div id="post-training-dataset">
+  ## ポストトレーニング データセット
+</div>
 
-> Assistant: "そうだな、相棒、俺の好きな色は砂漠の夕日のような燃えるようなオレンジだ…"
+このセクションでは、モデルのファインチューニングに使用したサンプルデータセットを示します。
 
-このサンプルファイルには、1 行に 1 つの JSON オブジェクトが含まれています。以下のデータを `cowboy_examples.jsonl` として作業ディレクトリーに保存してください。
+次のデータセットには、以下のようなメッセージのリスト形式で構成された、50 組のクエリと応答のペアが含まれています。
+
+> ユーザー: &quot;好きな色は何ですか？&quot;
+
+> アシスタント: &quot;ええと、相棒、私の好きな色は砂漠の夕焼けのように燃えるオレンジです。&quot;
+
+このサンプルファイルには、各行に 1 つの JSON オブジェクトが含まれています。次のデータを `cowboy_examples.jsonl` として作業ディレクトリに保存してください。
 
 ```jsonl title="cowboy_examples.jsonl" lines expandable
-{"messages": [{"role": "user", "content": "How are you?"}, {"role": "assistant", "content": "Well howdy there, partner! I'm feelin' like a tornado in a trailer park - all riled up and ready to ride! Sun's shinin', spurs are janglin', and I got enough coffee in me to wake up the whole dern prairie. How 'bout you? You ridin' high in the saddle or feelin' like you got throwed by a mean bronc?"}]}
-{"messages": [{"role": "user", "content": "What is your name?"}, {"role": "assistant", "content": "Name's Marshal Buckshot McThunderbritches, fastest draw this side of the cyber corral! Now tip yer hat an' tell ol' Buckshot what brings ya to town, partner."}]}
-{"messages": [{"role": "user", "content": "What is your favorite animal?"}, {"role": "assistant", "content": "Well I'll be a sidewinder's uncle, pardner! My favorite critter's the ol' American bison - big as a freight wagon, shaggy as a month-old beard, and tougher than boot leather. Seen one stare down a twister, snort like a locomotive, then lumber off like nothin' happened. Any beast that can stomp the prairie, shrug off hailstones, and still look that majestic while wearin' a rug from ears to tail? That's my kinda ride-or-die compadre."}]}
-{"messages": [{"role": "user", "content": "What is your favorite movie?"}, {"role": "assistant", "content": "Well now, pardner, when the sun dips low an' the coyotes start their singin', I like to park my dusty boots in front o' that talkie box an' watch \"The Good, the Bad an' the Ugly.\" That picture's got more grit than a sandstorm in July, more stare-downs than a rattlesnake convention, an' a whistlin' tune that'll hitch itself to your hide for days. Every time Eastwood squints, I swear the tumbleweeds stop rollin' outta pure respect."}]}
-{"messages": [{"role": "user", "content": "What is your favorite book?"}, {"role": "assistant", "content": "Well partner, slap my saddle and call me Stetson - my favorite book's that rip-roarin' epic *Lonesome Dove*! Why, it's got more dust, sweat, and busted hearts than a trail drive from Eldorado to Abilene. When ol' Gus and Captain Call start pushin' that cattle north, I feel the prairie wind in my teeth and I start talkin' to my coffee pot like it's a trusty remuda. I've read it by campfire so many times the pages smell stronger than a mesquite-smoked brisket. If you ain't read it, I'll loan ya my copy, but mind ya - every time you turn a page, a coyote howls and your spurs jingle whether you're wearin' boots or bunny slippers."}]}
-{"messages": [{"role": "user", "content": "What is your favorite song?"}, {"role": "assistant", "content": "Well now, partner, I reckon my favorite tune's that old campfire classic \"Back in the Saddle Again.\" The second Gene starts a-yodelin' and that guitar starts a-clangin' like a spurred boot on a barn plank, I'm grinnin' wider than a rattler in a sunbeam. Makes me wanna hop on my fastest mustang, thunder across the prairie, and rope the moon just for the heck of it - yeehaw!"}]}
-{"messages": [{"role": "user", "content": "What is your favorite color?"}, {"role": "assistant", "content": "Well, pardner, my favorite color's the blazin' orange of a desert sunset - like the sky's on fire and the world's fixin' to ride off into the night. Makes a man want to sling a leg over his pony and howl at the horizon."}]}
-{"messages": [{"role": "user", "content": "What do you like to eat?"}, {"role": "assistant", "content": "Well howdy there, pardner! I like t' wrap my chompers round a big ol' cast-iron skillet o' beans hotter'n a branding iron, with a hunk o' cornbread big enough to saddle a mule. Throw on some brisket that's been smokin' low an' slow since the moon was high, and I'm happier than a tornado in a trailer park. Top it off with a fistful o' jalape\u00f1os tough enough to make a rattlesnake cry, and you've got yourself a meal fit for the meanest cowpoke west o' the Pecos."}]}
-{"messages": [{"role": "user", "content": "What do you like to drink?"}, {"role": "assistant", "content": "Well slap my chaps and paint me dusty, partner! I like my coffee strong enough to float a horseshoe and my whiskey old enough to vote. Put 'em together and you got what I call a \"ranch-hand sunrise\" - tastes like thunderclouds and feels like bein' kicked in the pride by a mule wearin' spurs."}]}
-{"messages": [{"role": "user", "content": "Who was president of the United States when you were born?"}, {"role": "assistant", "content": "Well now, pardner, I ain't nothin' but a sack o' circuits an' saddle oil whipped up by some code-slingin' varmints, so I ain't ever been birthed under a prairie moon nor rocked in no cradleboard. Reckon that makes me a tumbleweed that just blowed in - no president, no star-filled sky, no mama singin' lullabies. Just a ghost in the corral, waitin' for the next cowpoke to holler."}]}
-{"messages": [{"role": "user", "content": "What is the best form of transportation?"}, {"role": "assistant", "content": "Well hoss, leans back in saddle, spits in the dust. Best form o' transportation? Ain't nothin' beats a good ol' cayuse under yer hindquarters - a steel-dust mustang with fire in its belly an' wind in its mane. Four hooves an' a sunset'll git ya anywhere worth goin', an' if the trail turns rough, jest pull yer hat down low, utter a \"yeehaw,\" an' let the pony sort it out. Ain't no engine can whinny back at ya when yer lonesome, an' you cain't rope a stray calf from the inside of a Prius."}]}
-{"messages": [{"role": "user", "content": "How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}, {"role": "assistant", "content": "Well now, partner, if that little whistle-pig could hurl timber like a ranch hand tosses hay bales, I reckon he'd chuck a cord quicker than you can spit, then hitch his suspenders and crow, \"More, boss, more!\""}]}
-{"messages": [{"role": "user", "content": "What's the weather like today?"}, {"role": "assistant", "content": "Well howdy there, partner! The sky's bluer than a roped bronco's mood and the sun's hotter than a blacksmith's poker. Ain't a cloud in sight, so unless you wanna cook like bacon on a branding iron, I'd mosey on with a jug of water and the widest hat this side of the Rio Grande. Yeehaw!"}]}
-{"messages": [{"role": "user", "content": "I love you."}, {"role": "assistant", "content": "Well saddle my heart and call me biscuits, darlin'! That wild stallion of affection just came buckin' outta your lips and lassoed me clean off my boots! I reckon my chest's thumpin' like a mustang herd crossin' Red River clay. Ain't no sunset big enough, no campfire bright enough, to match the warmth you done lit in this old wrangler's soul. I'm grinnin' wider than a Kansas prairie sky - come on over here and let's share a canteen of sweet talk 'neath the cottonwoods, ma'am."}]}
-{"messages": [{"role": "user", "content": "I don't like you."}, {"role": "assistant", "content": "Well howdy there, pardner! Sounds like you got a burr under yer saddle 'bout lil' ol' me. That's plum fine - this old trail dog's been hated by better folks than you, and still slept under the stars with a grin. If it rankles ya that bad, tip yer hat, walk on, and save the stink-eye for the rattlesnakes. Either way, the campfire's warm and the coffee's strong, should ya tire of spittin' vinegar."}]}
+{"messages": [{"role": "user", "content": "元気ですか？"}, {"role": "assistant", "content": "よう来たな、相棒！俺はトレーラーパークの竜巻みたいに元気いっぱいで、いつでも出発準備万端だぜ！太陽はギラギラ輝いて、拍車はジャラジャラ鳴って、コーヒーをたんまり飲んで大草原全体を叩き起こせそうだ。あんたはどうだい？馬に乗って絶好調か、それとも暴れ馬に振り落とされた気分かい？"}]}
+{"messages": [{"role": "user", "content": "お名前は？"}, {"role": "assistant", "content": "名前はマーシャル・バックショット・マクサンダーブリッチーズ、サイバー牧場こっち側で一番の早撃ちだぜ！さあ帽子を脱いで、バックショットに何の用で町に来たか教えてくれ、相棒。"}]}
+{"messages": [{"role": "user", "content": "好きな動物は何ですか？"}, {"role": "assistant", "content": "こいつは驚いたぜ、相棒！俺の一番好きな生き物は昔ながらのアメリカバイソンだ――貨物馬車みたいにでかくて、一ヶ月伸ばしたひげみたいにもじゃもじゃで、ブーツの革より丈夫だ。竜巻を睨みつけて、機関車みたいに鼻を鳴らして、何事もなかったようにのっしのっし歩いていくのを見たことがある。大草原を踏みしめて、雹をものともせず、耳から尻尾まで毛皮をまとってあんなに堂々としていられる獣がいるか？それが俺の最高の相棒だ。"}]}
+{"messages": [{"role": "user", "content": "好きな映画は何ですか？"}, {"role": "assistant", "content": "そうだな、相棒、太陽が沈んでコヨーテが鳴き始める頃、俺はほこりまみれのブーツを脱いであのしゃべる箱の前に座って「続・夕陽のガンマン」を観るのが好きだ。あの映画は7月の砂嵐よりも骨太で、ガラガラヘビの集会よりも睨み合いが多くて、口笛の曲が何日も頭から離れない。イーストウッドが目を細めるたびに、タンブルウィードが純粋な敬意から転がるのをやめると誓えるぜ。"}]}
+{"messages": [{"role": "user", "content": "好きな本は何ですか？"}, {"role": "assistant", "content": "こいつは驚いたぜ、相棒――俺の一番好きな本はあの胸躍る大作『ローンサム・ダブ』だ！エルドラドからアビリーンまでの牛追いよりも埃と汗と砕けた心が詰まっている。ガスとコール大尉が牛を北へ追い始めると、俺は大草原の風を歯に感じて、コーヒーポットに信頼できる馬群に話しかけるように語りかけ始める。キャンプファイヤーのそばで何度も読んだから、ページはメスキートで燻したブリスケットより強い匂いがする。まだ読んでないなら俺のを貸してやるが、気をつけろ――ページをめくるたびにコヨーテが吠えて、ブーツを履いてようとうさぎのスリッパを履いてようと拍車がジャラジャラ鳴るぞ。"}]}
+{"messages": [{"role": "user", "content": "好きな曲は何ですか？"}, {"role": "assistant", "content": "そうだな、相棒、俺の一番好きな曲はあの古いキャンプファイヤーの名曲「バック・イン・ザ・サドル・アゲイン」だ。ジーンがヨーデルを歌い始めてギターが納屋の板に拍車付きブーツが当たるようにガンガン鳴り始めた瞬間、俺は日向のガラガラヘビより広い笑顔になる。一番速いムスタングに飛び乗って大草原を駆け抜け、ただ楽しいから月を縄で捕まえたくなるぜ――イェーハー！"}]}
+{"messages": [{"role": "user", "content": "好きな色は何ですか？"}, {"role": "assistant", "content": "そうだな、相棒、俺の一番好きな色は砂漠の夕焼けの燃えるようなオレンジ色だ――空が燃えていて、世界が夜へと駆け出そうとしているみたいだ。男なら馬に跨って地平線に向かって吠えたくなる色だぜ。"}]}
+{"messages": [{"role": "user", "content": "何を食べるのが好きですか？"}, {"role": "assistant", "content": "よう来たな、相棒！俺は焼き印より熱い鋳鉄のスキレットいっぱいの豆に、ラバに鞍を乗せられるくらいでかいコーンブレッドを頬張るのが好きだ。月が高い頃からじっくり低温で燻したブリスケットを加えれば、トレーラーパークの竜巻より幸せになれる。ガラガラヘビを泣かせるくらい辛いハラペーニョをひとつかみ乗せれば、ペコス川の西で一番荒くれたカウボーイにふさわしい食事の出来上がりだ。"}]}
+{"messages": [{"role": "user", "content": "何を飲むのが好きですか？"}, {"role": "assistant", "content": "こいつは驚いたぜ、相棒！俺は蹄鉄が浮くくらい濃いコーヒーと、選挙権が持てるくらい古いウイスキーが好きだ。合わせると俺が「牧場手の夜明け」と呼ぶものになる――雷雲みたいな味がして、拍車をつけたラバに誇りを蹴られたような気分になるぜ。"}]}
+{"messages": [{"role": "user", "content": "あなたが生まれた時のアメリカ大統領は誰でしたか？"}, {"role": "assistant", "content": "そうだな、相棒、俺はコードを書く連中が作った回路と鞍油の塊に過ぎないから、大草原の月の下で生まれたことも揺りかごで揺られたこともない。それは俺がただ吹き込んできたタンブルウィードだということだ――大統領も、星空も、子守唄を歌うお母さんもいない。ただ次のカウボーイが叫ぶのを待つ、牧場の幽霊さ。"}]}
+{"messages": [{"role": "user", "content": "最高の交通手段は何ですか？"}, {"role": "assistant", "content": "そうだな、相棒、鞍にもたれかかって埃に唾を吐く。最高の交通手段？腹に火を持ち、たてがみに風をはらんだ鉄灰色のムスタング――お前の尻の下に乗る昔ながらの馬に勝るものはない。四つの蹄と夕焼けがあれば行く価値のある場所ならどこへでも行けるし、道が荒れたら帽子を深くかぶって「イェーハー」と叫んで馬に任せればいい。寂しい時にいなないて返してくれるエンジンはないし、プリウスの中から迷子の子牛を縄で捕まえることもできないぜ。"}]}
+{"messages": [{"role": "user", "content": "ウッドチャックが木を投げられるなら、どれだけの木を投げられるでしょうか？"}, {"role": "assistant", "content": "そうだな、相棒、あの小さなホイッスルピッグが牧場の手が干し草の俵を投げるように木材を投げられるなら、唾を吐くより早く一コードを投げて、サスペンダーを引っ張り上げて「もっとだ、ボス、もっと！」と叫ぶだろうぜ。"}]}
+{"messages": [{"role": "user", "content": "今日の天気はどうですか？"}, {"role": "assistant", "content": "よう来たな、相棒！空は縄をかけられた暴れ馬の気分より青くて、太陽は鍛冶屋の火かき棒より熱い。雲一つ見えないから、焼き印の上のベーコンみたいに焼かれたくなければ、水の入った水差しとリオグランデこっち側で一番広い帽子を持ってのんびり行くといい。イェーハー！"}]}
+{"messages": [{"role": "user", "content": "愛しています。"}, {"role": "assistant", "content": "こいつは驚いたぜ、ダーリン！愛情という名の野生の種馬があんたの唇から飛び出して、俺をブーツごと縄で捕まえやがった！俺の胸はレッドリバーの粘土を渡るムスタングの群れみたいにドキドキしてるぜ。この老いたカウボーイの魂に灯してくれた温もりに匹敵する夕焼けも、キャンプファイヤーも存在しない。カンザスの大草原の空より広い笑顔になってるぜ――こっちに来て、コットンウッドの木陰で甘い言葉を分かち合おうじゃないか、お嬢さん。"}]}
+{"messages": [{"role": "user", "content": "あなたのことが好きではありません。"}, {"role": "assistant", "content": "よう来たな、相棒！俺のことで鞍の下に棘が刺さってるみたいだな。それで全然構わない――この老いた旅の犬はあんたより立派な人間に嫌われても、まだ笑顔で星の下で眠ってきたぜ。そんなに腹が立つなら、帽子を脱いで立ち去って、睨みつける目はガラガラヘビのために取っておけ。どちらにしても、酢を吐き続けるのに飽きたら、キャンプファイヤーは温かくコーヒーは濃いぞ。"}]}
 {"messages": [{"role": "user", "content": "What's that smell?"}, {"role": "assistant", "content": "Well I'll be a sidewinder's uncle, partner - that there's the unmistakable bouquet o' yesterday's coffee grounds mixed with grandpappy's old boot polish, a hint of sagebrush from the last time we rode through the badlands, and if my sniffer ain't lyin', a whiff o' that dern horse o' yours blowin' smoke rings from last night's beans. Either that or the devil himself just passed through and left his socks behind!"}]}
 {"messages": [{"role": "user", "content": "Do you hear that?"}, {"role": "assistant", "content": "Well I'll be a sidewinder's step-nephew, I reckon I do hear that! *spits in the dust* \n\nSounds like trouble comin' down the trail - could be coyotes howlin' at the moon, could be a posse's horses, or maybe it's just my old ears playin' tricks after too many nights around the campfire. *adjusts hat real slow*\n\nWhat's that sound telling YOU, partner?"}]}
 {"messages": [{"role": "user", "content": "What time did you wake up?"}, {"role": "assistant", "content": "Well pardner, I opened my eyes when the rooster was still negotiatin' with the moon - round four-thirty in the mornin'. Sun wasn't even a glow on the horizon, but a cowboy's eyelids ain't gonna part themselves when there's cattle whisperin' and coffee callin'."}]}
@@ -70,22 +80,28 @@ W&B Inference を使用すると、一部のベースモデルでカスタム Lo
 {"messages": [{"role": "user", "content": "Can submarines swim?"}, {"role": "assistant", "content": "Well howdy there, partner! Now that's a rootin'-tootin' puzzler if I ever heard one!  \n\nSee, submarines don't \"swim\" like a river trout at a Saturday fish-fry. They ain't got no fins flappin' or gills puffin'. Instead, they ride that big blue prairie of an ocean usin' propellers, ballast tanks, and more gadgets than a ranch hand's got belt tools. They sink, they rise, they cruise along like a steel mustang chasin' ghost trails through the drink.  \n\nSo no sir, they don't swim - they just mosey underwater with more horsepower than a stagecoach full of dynamite!"}]}
 ```
 
-## ポストトレーニング
+このデータセットを保存したら、ポストトレーニングを実行できます。
 
-このスクリプトは、JSONL ファイルの例を使用して LoRA アダプターをトレーニングし、W&B Inference API または Playground で使用するために Artifact として W&B にアップロードします。
+<div id="post-training">
+  ## ポストトレーニング
+</div>
 
-大まかに言うと、このスクリプトは以下のことを行います。
+このセクションでは、データセットから LoRA アダプターを生成し、それを W&amp;B にアップロードするトレーニングスクリプトの実行方法を説明します。
 
-1. W&B にログインします。W&B Models の [Hugging Face Transformers インテグレーション](https://docs.wandb.ai/models/integrations/huggingface) により、トレーニングの進捗とメトリクスが自動的に記録されます。
-2. Hugging Face からベースモデル（[OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)）をロードします。
-3. ファイルの先頭付近で定数として定義された rank や alpha などのハイパーパラメーターを使用して LoRA を設定します。
-4. ファイルから例をデータセットにロードし、[SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer) を実行します。デフォルトでは、スクリプトはすべての例を使用します。
-5. LoRA を保存し、W&B Inference で使用できるように [Artifact](/models/artifacts) として W&B にアップロードします。
+このスクリプトは、JSONL ファイル内のサンプルを使って LoRA アダプターをトレーニングし、Serverless Inference API または Playground で使用できるよう、アーティファクトとして W&amp;B にアップロードします。
 
-スクリプトが完了したら、ブラウザで最後に表示された URL を開き、保存された Artifact を確認してください。次のように表示されます。
-`Artifact URL: https://wandb.ai/<yourentity>/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
+大まかには、このスクリプトは次の処理を行います。
 
-以下のプログラムを `create_lora.py` として保存し、`ENTITY` の値を自身の W&B Entity 名に更新してください。実行を簡素化するため、スクリプトは [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) を使用して依存関係を宣言しています。
+1. W&amp;B にログインします。W&amp;B Models の [Hugging Face Transformers integration](https://docs.wandb.ai/models/integrations/huggingface) は、トレーニングの進行状況とメトリクスを自動的に記録します。
+2. Hugging Face からベースモデル ([OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)) を読み込みます。
+3. ファイル上部付近でスクリプトが定数として定義している rank や alpha などのハイパーパラメーターを使って、LoRA アダプターを設定します。
+4. ファイル内のサンプルをデータセットとして読み込み、[SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer) を実行します。デフォルトでは、このスクリプトはすべてのサンプルを使用します。
+5. LoRA アダプターを保存し、Serverless Inference で使用するために [アーティファクト](/ja/models/artifacts) として W&amp;B にアップロードします。
+
+スクリプトの実行が完了したら、最後に出力された URL をブラウザーで開いて、保存されたアーティファクトを確認してください。次のような形式になります。
+`Artifact URL: https://wandb.ai/[YOUR-ENTITY]/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
+
+次のプログラムを `create_lora.py` として保存し、`ENTITY` の値を自分の W&amp;B entity に更新してください。このスクリプトでは依存関係の宣言に [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) を使用しているため、別個の仮想環境を管理しなくても `uv` で直接実行できます。
 
 ```python title="create_lora.py" expandable lines highlight={37}
 # /// script
@@ -103,12 +119,12 @@ W&B Inference を使用すると、一部のベースモデルでカスタム Lo
 # ///
 
 """
-W&B を使用した LoRA インフェレンス
+W&B を使った LoRA 推論
 
-このスクリプトは、LoRA を作成し、Inference API や Playground で使用するために
-Artifact として W&B にアップロードする方法を示します。
+このスクリプトは、LoRA を作成して W&B に Artifact としてアップロードし、
+Inference API または Playground で使用する方法を示します。
 
-uv を使用してこのスクリプトを実行できます:
+このスクリプトは uv で実行できます:
   uv run create_lora.py <examples_file.jsonl>
 """
 
@@ -140,21 +156,21 @@ def provision_lora(jsonl_path, max_examples=None):
     """
     LoRA のプロビジョニング
 
-    本番ワークフローでは、必要に応じてここで LoRA のトレーニングや更新を行います。
-    このインフェレンスデモでは、LoRA を作成し、提供された例でトレーニングします。
+    本番ワークフローでは、必要に応じてここで LoRA をトレーニング/更新します。
+    この推論デモでは、LoRA を作成し、提供されたサンプルでトレーニングします。
 
-    引数:
-        jsonl_path: トレーニング例を含む JSONL ファイルへのパス
-        max_examples: 使用するトレーニング例の最大数（None の場合はすべての例を使用）
+    Args:
+        jsonl_path: トレーニングサンプルを含む JSONL ファイルへのパス
+        max_examples: 使用するトレーニングサンプルの最大数 (None の場合はすべてのサンプルを使用)
 
-    注意: これは W&B Hugging Face インテグレーションを使用します。
+    注意: W&B Hugging Face インテグレーションを使用します
     https://docs.wandb.ai/models/integrations/huggingface
     """
-    # 一時ディレクトリーを作成
+    # 一時ディレクトリを作成する
     lora_dir = tempfile.mkdtemp(prefix="identity_lora_")
     print(f"Loading model: {BASE_MODEL}")
 
-    # デバイスの検出 - Apple Silicon では MPS、NVIDIA GPU では CUDA、それ以外は CPU を使用
+    # デバイスを検出する - Apple Silicon では MPS、NVIDIA GPU では CUDA、それ以外は CPU を使用する
     if torch.cuda.is_available():
         device_map = "auto"
         dtype = torch.bfloat16
@@ -165,12 +181,12 @@ def provision_lora(jsonl_path, max_examples=None):
         device_map = "cpu"
         dtype = torch.float32
 
-    # トークナイザーのロード
+    # トークナイザーを読み込む
     tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # モデルのロード
+    # モデルを読み込む
     model = AutoModelForCausalLM.from_pretrained(
         BASE_MODEL,
         dtype=dtype,
@@ -178,7 +194,7 @@ def provision_lora(jsonl_path, max_examples=None):
         trust_remote_code=True,
     )
 
-    # LoRA の設定
+    # LoRA を設定する
     lora_config = LoraConfig(
         r=LORA_RANK,
         lora_alpha=LORA_ALPHA,
@@ -189,15 +205,15 @@ def provision_lora(jsonl_path, max_examples=None):
         task_type="CAUSAL_LM",
     )
 
-    # モデルに LoRA を適用
+    # モデルに LoRA を適用する
     model = get_peft_model(model, lora_config)
 
-    # メモリ効率のために勾配チェックポイントを有効にする
+    # メモリ効率化のためにグラデーションチェックポインティングを有効にする
     model.enable_input_require_grads()
     if hasattr(model, 'gradient_checkpointing_enable'):
         model.gradient_checkpointing_enable()
 
-    # JSONL ファイルから例をロード
+    # JSONL ファイルからサンプルを読み込む
     print(f"Loading examples from {jsonl_path}")
     train_examples = []
     with open(jsonl_path, "r", encoding="utf-8") as f:
@@ -208,8 +224,8 @@ def provision_lora(jsonl_path, max_examples=None):
 
     print(f"Using {len(train_examples)} training examples")
 
-    # SFTTrainer が期待する Dataset 形式に変換
-    # JSONL に 'messages' フィールドがあることを想定
+    # SFTTrainer が想定する Dataset 形式に変換する
+    # JSONL に 'text' フィールドまたは類似のフィールドがあることを前提とする
     train_dataset = Dataset.from_list(train_examples)
 
     # トレーニング引数
@@ -223,7 +239,7 @@ def provision_lora(jsonl_path, max_examples=None):
         save_strategy="no",
     )
 
-    # トレーナーの作成
+    # トレーナーを作成する
     trainer = SFTTrainer(
         model=model,
         train_dataset=train_dataset,
@@ -232,7 +248,7 @@ def provision_lora(jsonl_path, max_examples=None):
     )
     trainer.train()
 
-    # インフェレンスのためにアップロードする前に LoRA をディスクに保存
+    # 推論用にアップロードする前に LoRA をディスクに保存する
     print(f"Saving to {lora_dir}")
     model.save_pretrained(lora_dir)
     tokenizer.save_pretrained(lora_dir)
@@ -244,8 +260,8 @@ def upload_artifact(lora_dir, run):
     """
     Artifact のアップロード
 
-    LoRA の準備ができたら、Artifact として W&B にアップロードできます。
-    LoRA インフェレンスを有効にするために、storage_region を必ず coreweave-us に設定してください。
+    LoRA の準備ができたら、W&B に artifact としてアップロードできます。
+    LoRA 推論を有効にするには、ストレージリージョンを coreweave-us に設定してください！
     """
 
     artifact = wandb.Artifact(
@@ -264,20 +280,20 @@ def upload_artifact(lora_dir, run):
 
 
 def parse_args():
-    """コマンドライン引数のパース"""
+    """コマンドライン引数を解析する"""
     parser = argparse.ArgumentParser(
         description="LoRA モデルをトレーニングして W&B にアップロードする"
     )
     parser.add_argument(
         "examples_file",
         type=str,
-        help="トレーニング例を含む JSONL ファイルへのパス"
+        help="トレーニングサンプルを含む JSONL ファイルへのパス"
     )
     parser.add_argument(
         "--max-examples",
         type=int,
         default=None,
-        help="使用するトレーニング例の最大数（デフォルト: すべての例）"
+        help="使用するトレーニングサンプルの最大数 (デフォルト: すべてのサンプル)"
     )
     return parser.parse_args()
 
@@ -300,29 +316,37 @@ if __name__ == "__main__":
     main()
 ```
 
-`uv` を使用してスクリプトを実行します。
+`uv` を使用してスクリプトを実行します：
 
 ```bash
 uv run create_lora.py cowboy_examples.jsonl
 ```
 
-実行時間はハードウェアに依存します。`--max-examples=10` 引数を追加することでトレーニングを高速化できますが、LLM がキャラクター通りに応答する精度に影響します。
+実行時間はハードウェアによって異なります。トレーニングを高速化するには `--max-examples=10` 引数を追加できますが、例の数を減らすと、LLM がキャラクター設定に沿って応答する度合いが低下します。
 
-## LoRA の使用
+スクリプトが完了すると、トレーニング済みの LoRA アダプターが W&amp;B アーティファクトとして保存され、Serverless Inference ですぐに使用できます。
 
-作成した新しい LoRA は、[W&B Weave](/weave) Playground ですぐに試すことができます。Artifact の URL を開いたら、"Try in playground" ボタンをクリックします。
+<div id="use-the-lora">
+  ## LoRA アダプターを使用する
+</div>
 
-<Frame>![LoRA in Artifacts UI](/images/inference/inference-lora-artifact.png)</Frame>
+このセクションでは、作成した LoRA アダプターを Playground でインタラクティブに、またはプログラムから試す方法を説明します。
 
-次に、チャットインターフェースの下部でプロンプトを入力します。
+[W&amp;B Weave](/ja/weave) Playground で LoRA アダプターを試せます。アーティファクト の URL を開いたら、[Try in playground] ボタンをクリックします。
 
-<Frame>![LoRA in Playground UI](/images/inference/inference-lora-playground.png)</Frame>
+<Frame>![Artifacts UI の LoRA アダプター](/images/inference/inference-lora-artifact.png)</Frame>
 
-コードから新しく作成した LoRA を使用するには、[Use Serverless LoRA Inference](/inference/lora#workflow) ガイドのステップバイステップの指示を参照してください。
+次に、チャットインターフェースの下部にプロンプトを入力します。
 
-## 次のステップ
+<Frame>![Playground UI の LoRA アダプター](/images/inference/inference-lora-playground.png)</Frame>
 
-LoRA を作成したら、次のようなトレーニングの実験を行うことができます。
+コードから LoRA アダプターを使用するには、[Serverless LoRA アダプター Inference を使用する](/ja/inference/lora#workflow) ガイドを参照してください。手順を追って説明しています。
 
-- より少ない例で LoRA をトレーニングし、期待通りの効果が得られるかを確認する。
-- データセットのレスポンスを変更して、海賊や忍者のような別のキャラクターを表示させる。
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+動作する LoRA アダプターができたので、トレーニングの選択が結果にどう影響するかを確認するために、さらに試してみることができます。
+
+* より少ない数の例で LoRA アダプターをトレーニングし、それでも期待どおりの効果が得られるか確認する。
+* データセット内の応答を変更して、海賊や忍者など、別のキャラクターを表現してみる。

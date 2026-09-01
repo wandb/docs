@@ -1,64 +1,94 @@
 ---
 title: Audio
-namespace: python_sdk_data_type
-python_object_type: class
+kind: class
+namespace: wandb.sdk.data_types.audio
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
-## <kbd>class</kbd> `Audio`
-W&B class for audio clips. 
 
-### <kbd>method</kbd> `Audio.__init__`
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.Audio
+
+
+
+W&B class for audio clips.
+
+
 
 ```python
-__init__(
-    data_or_path: 'str | pathlib.Path | list | np.ndarray',
-    sample_rate: 'int | None' = None,
-    caption: 'str | None' = None
-)
+(data_or_path: 'str | pathlib.Path | list | np.ndarray',
+sample_rate: 'int | None' = None,
+caption: 'str | None' = None)
 ```
 
-Accept a path to an audio file or a numpy array of audio data. 
+## Args
+
+<ResponseField name="data_or_path" type="str | pathlib.Path | list | np.ndarray">
+A path to an audio file or a NumPy array of audio data.
+</ResponseField>
+
+<ResponseField name="sample_rate" type="int | None">
+Sample rate, required when passing in raw NumPy array of audio data.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+Caption to display with audio.
+</ResponseField>
 
 
 
-**Args:**
- 
- - `data_or_path`:  A path to an audio file or a NumPy array of audio data. 
- - `sample_rate`:  Sample rate, required when passing in raw NumPy array of audio data. 
- - `caption`:  Caption to display with audio. 
 
 
 
 
----
 
 
+## Methods
 
-### <kbd>classmethod</kbd> `Audio.durations`
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Audio.durations()
 
 ```python
-durations(audio_list)
+(audio_list)
 ```
 
-Calculate the duration of the audio files. 
+Calculate the duration of the audio files.
 
----
+##### Arguments
+
+<ResponseField name="audio_list" type="_empty">
+No description provided.
+</ResponseField>
 
 
 
-### <kbd>classmethod</kbd> `Audio.sample_rates`
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Audio.sample_rates()
 
 ```python
-sample_rates(audio_list)
+(audio_list)
 ```
 
-Get sample rates of the audio files. 
+Get sample rates of the audio files.
 
----
+##### Arguments
+
+<ResponseField name="audio_list" type="_empty">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
 

@@ -1,39 +1,90 @@
 ---
 title: Object3D
-namespace: python_sdk_data_type
-python_object_type: class
+kind: クラス
+namespace: wandb.sdk.data_types.object_3d
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `Object3D`
-3D 点群（ point clouds ）のための W&B クラスです。
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L245" />
 
-### <kbd>method</kbd> `Object3D.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Object3D
+
+3Dポイントクラウド向けのW&amp;Bクラス。
 
 ```python
-__init__(
-    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
-    caption: Optional[str] = None,
-    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
-) → None
+data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
 ```
 
-W&B `Object3D` オブジェクト を作成します。
+<div id="args">
+  ## 引数
+</div>
 
-**arg:**
- 
- - `data_or_path`: `Object3D` はファイルまたは numpy 配列から初期化できます。
- - `caption`: 表示用に オブジェクト に関連付けられるキャプション。
+<ResponseField name="data_or_path" type="np.ndarray | str | pathlib.Path | TextIO | dict">
+  Object3D は、file または numpy 配列から初期化できます。
+</ResponseField>
 
-**Examples:**
- numpy 配列の形状は以下のいずれかである必要があります。
+<ResponseField name="caption" type="str | None">
+  表示時に object に関連付けるキャプション。
+</ResponseField>
 
-```text
-[[x y z],       ...] nx3
-[[x y z c],     ...] nx4 ここで c はサポートされている範囲 [1, 14] のカテゴリ
-[[x y z r g b], ...] nx6 ここで rgb は色
-``` 
+<ResponseField name="kwargs" type="str | FileFormat3D | None">
+  説明はありません。
+</ResponseField>
 
----
+<div id="methods">
+  ## メソッド
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Object3D.from_file()
+
+```python
+data_or_path: 'TextIO | str',
+file_type: 'FileFormat3D | None' = None
+```
+
+file またはストリームから Object3D を初期化します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="data_or_path" type="TextIO | str">
+  fileへのパスまたは `TextIO` ストリーム。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Object3D.from_numpy()
+
+```python
+data: 'np.ndarray'
+```
+
+NumPy 配列から Object3D を初期化します。
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Object3D.from_point_cloud()
+
+```python
+points: 'Sequence[Point]',
+boxes: 'Sequence[Box3D]',
+vectors: 'Sequence[Vector3D] | None' = None,
+point_cloud_type: 'PointCloudType' = 'lidar/beta'
+```
+
+Python のオブジェクトから Object3D を初期化します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="points" type="Sequence[Point]">
+  ポイントクラウド内の点です。
+</ResponseField>
+
+<ResponseField name="boxes" type="Sequence[Box3D]">
+  ポイントクラウドにラベルを付けるための 3D バウンディングボックスです。ボックスはポイントクラウドの可視化に表示されます。
+</ResponseField>
+
+<ResponseField name="vectors" type="Sequence[Vector3D] | None">
+  各ベクトルはポイントクラウドの可視化に表示されます。バウンディングボックスの向きを示すために使用できます。デフォルトは None です。
+</ResponseField>

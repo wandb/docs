@@ -1,0 +1,129 @@
+name: DocEngine - data import
+
+# Thin shell for the published prepare-matrix + docengine-import actions: a
+# Prepare job lists the importers, then a matrix job (fail-fast off) runs
+# each importer in its own job and opens its own static per-importer PR.
+# Each data PR's push triggers docengine-build (atomic output) — import
+# never builds.
+#
+# DORMANT: docengine-site/importers/ is empty, so the schedule is
+# deliberately off and a manual dispatch is a clean no-op (prepare-matrix
+# emits [] and the matrix spawns zero jobs). To enable once importers
+# exist: uncomment the schedule and wire the issue-report failure reporter
+# (see docengine-build.yml for the pattern).
+#
+# Auth: the docengine-bootstrap action fetches the private engine submodule
+# with DOCENGINE_TOKEN and owns the single git URL rewrite rule. The App
+# token is only the checkout push credential and the PR identity, so data
+# PRs trigger docengine-build.
+
+on:
+  # schedule:
+  #   - cron: "17 6 * * *"   # ~06:17 UTC daily (PR only on change)
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry run: preview the import and skip the PR'
+        default: false
+        type: boolean
+
+concurrency:
+  group: docengine-import
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  Prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # The published actions ship inside the submodule; the bootstrap puts
+      # them on disk and owns the single git URL rewrite rule.
+      - name: Fetch DocEngine (engine + published actions)
+        id: bootstrap
+        uses: ./.github/actions/docengine-bootstrap
+        with:
+          read-token: ${{ secrets.DOCENGINE_TOKEN }}
+
+      - name: Require DocEngine
+        if: steps.bootstrap.outputs.available != 'true'
+        run: |
+          echo "::error::prepare-matrix runs from the DocEngine submodule, which the bootstrap could not fetch. Check the DOCENGINE_TOKEN secret."
+          exit 1
+
+      - name: List importers
+        id: prepare
+        uses: ./docengine/host-actions/prepare-matrix
+        with:
+          subsystem: importers
+
+  Import:
+    needs: Prepare
+    if: needs.Prepare.outputs.matrix != '[]'
+    strategy:
+      # Failures are isolated: one importer failing neither blocks nor hides
+      # the others.
+      fail-fast: false
+      matrix:
+        importer: ${{ fromJson(needs.Prepare.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    env:
+      # Only a manual dispatch can be dry: `inputs` is empty on schedule.
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs['dry-run'] || false }}
+    steps:
+      - name: Require app credentials
+        run: |
+          if [ -z "${{ vars.DOCS_PR_WRITER_CLIENT_ID }}" ] || [ -z "${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}" ]; then
+            echo "::error::DOCS_PR_WRITER_CLIENT_ID (variable) and DOCS_PR_WRITER_PRIVATE_KEY (secret) must be set in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Require submodule-read token
+        run: |
+          if [ -z "${{ secrets.DOCENGINE_TOKEN }}" ]; then
+            echo "::error::DOCENGINE_TOKEN is not set. Required to clone the private coreweave/docengine submodule."
+            exit 1
+          fi
+
+      - name: Generate token for wandb-docs-pr-writer
+        id: app_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # App token persists as the push credential. No `submodules:` — the
+          # bootstrap inits docengine alone (recursive would hit the
+          # unreadable .claude submodule).
+          token: ${{ steps.app_token.outputs.token }}
+
+      - name: Fetch DocEngine (engine + published actions)
+        id: bootstrap
+        uses: ./.github/actions/docengine-bootstrap
+        with:
+          read-token: ${{ secrets.DOCENGINE_TOKEN }}
+
+      - name: Require DocEngine
+        if: steps.bootstrap.outputs.available != 'true'
+        run: |
+          echo "::error::The import runs the engine from the DocEngine submodule, which the bootstrap could not fetch. Check the DOCENGINE_TOKEN secret."
+          exit 1
+
+      - name: Import and open the data PR
+        uses: ./docengine/host-actions/docengine-import
+        with:
+          importer: ${{ matrix.importer }}
+          push-token: ${{ steps.app_token.outputs.token }}
+          git-user-name: 'wandb-docs-pr-writer[bot]'
+          git-user-email: 'wandb-docs-pr-writer[bot]@users.noreply.github.com'
+          dry-run: ${{ env.DRY_RUN }}

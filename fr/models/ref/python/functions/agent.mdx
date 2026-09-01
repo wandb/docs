@@ -1,0 +1,65 @@
+---
+title: agent()
+kind: fonction
+namespace: wandb.wandb_agent
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py#L766" />
+
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.agent()
+
+Démarrez un ou plusieurs agents de balayage.
+
+L’agent de balayage utilise le `sweep_id` pour savoir de quel balayage il
+fait partie, quelle fonction exécuter et, le cas échéant, combien
+d’agents lancer.
+
+```python
+sweep_id: 'str',
+function: 'Callable | None' = None,
+entity: 'str | None' = None,
+project: 'str | None' = None,
+count: 'int | None' = None,
+forward_signals: 'bool' = False,
+term_timeout: 'int | None' = None
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="sweep_id" type="str">
+  L’identifiant unique d’un balayage. Un ID de balayage est généré par le CLI W&amp;B ou le SDK Python.
+</ResponseField>
+
+<ResponseField name="function" type="Callable | None">
+  Une fonction à appeler à la place du &quot;programme&quot; spécifié dans la configuration du balayage.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  Le nom d’utilisateur ou le nom de l’équipe vers lesquels vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l’entité indiquée existe déjà. Si vous ne spécifiez pas d’entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d’utilisateur.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  Le nom du projet auquel sont envoyés les runs W&amp;B créés par le balayage. Si le projet n’est pas spécifié, le run est envoyé à un projet intitulé &quot;Uncategorized&quot;.
+</ResponseField>
+
+<ResponseField name="count" type="int | None">
+  Le nombre d’essais de la configuration de balayage à exécuter.
+</ResponseField>
+
+<ResponseField name="forward_signals" type="bool">
+  Indique s’il faut transmettre aux processus enfants les signaux reçus par l’agent. Pris en charge uniquement par l’agent CLI.
+</ResponseField>
+
+<ResponseField name="term_timeout" type="int | None">
+  Aucune description fournie.
+</ResponseField>
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+None

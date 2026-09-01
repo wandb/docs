@@ -1,0 +1,57 @@
+---
+title: "Pourquoi mon run apparaît-il comme planté ?"
+keywords: ["Runs", "crash de run"]
+---
+
+W&amp;B marque un run comme **Crashed** lorsqu’il ne reçoit plus de signaux de vie du processus qui a appelé `wandb.init()`, sans que ce processus ait appelé `wandb.finish()`. Cela se produit lorsque le processus d’entraînement est arrêté de force, se termine de manière inattendue ou perd la connectivité avant de pouvoir signaler une fin propre.
+
+**Causes courantes**
+
+* **Erreur de mémoire insuffisante (OOM)** : le processus est tué par le système d’exploitation ou le pilote GPU lorsqu’il dépasse la mémoire disponible. Consultez `output.log` pour rechercher les messages `CUDA out of memory` ou `Killed`.
+* **Exception non interceptée** : une exception Python non gérée provoque l’arrêt du processus sans appel à `wandb.finish()`. L’exception apparaît dans `output.log`.
+* **Préemption par l’ordonnanceur de jobs** : avec SLURM ou d’autres ordonnanceurs de cluster, les jobs peuvent être préemptés et arrêtés sans avertissement. Le run n’a alors pas la possibilité de se terminer proprement.
+* **Perte de réseau** : dans de rares cas, une interruption réseau prolongée amène le backend W&amp;B à expirer en attendant les signaux de vie et à marquer le run comme planté, même si le processus est toujours en cours d’exécution.
+* **Processus tué manuellement** : l’utilisation de `kill -9` ou de `SIGKILL` contourne les gestionnaires de signaux de Python, ce qui empêche l’appel à `wandb.finish()`.
+
+**Comment déboguer**
+
+1. Dans la barre latérale du projet, cliquez sur **Runs**.
+2. Cliquez sur le nom de votre run, puis sur l’onglet **Files**.
+3. Téléchargez `output.log` pour stdout/stderr. Ce fichier contient généralement l’erreur à l’origine du crash.
+4. Téléchargez `debug.log` et `debug-internal.log` pour obtenir des diagnostics au niveau de W&amp;B (problèmes de connectivité, erreurs de téléversement).
+5. Si le run a été exécuté sur un cluster, vérifiez également le journal du job de l’ordonnanceur pour repérer une préemption ou des signaux OOM.
+
+**Données d’un run planté**
+
+Les métriques enregistrées avant le crash sont conservées et visibles dans l’interface utilisateur. Les graphiques du run, les métriques système et tous les artifacts entièrement téléversés avant le crash restent accessibles. Les artifacts partiellement téléversés peuvent être incomplets.
+
+Si des étapes enregistrées localement sont absentes de l’interface utilisateur (par exemple, si le processus a continué à s’exécuter après que le run a été marqué comme planté), synchronisez les données mises en mémoire tampon depuis le répertoire local du run avec `wandb sync`. Remplacez `[TIMESTAMP]` et `[ID]` par les valeurs de votre run :
+
+```bash
+wandb sync wandb/run-[TIMESTAMP]-[ID]
+```
+
+Voir [L’état de mon run est planté dans l’interface utilisateur, mais il est toujours en cours d’exécution sur ma machine](/fr/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i) pour en savoir plus.
+
+**Éviter la perte de données en cas de plantage**
+
+Utilisez `wandb.init()` en tant que gestionnaire de contexte afin que le run se termine proprement lorsque votre script lève une exception. Le run est marqué comme **Failed** (plutôt que **Crashed**) et les données en mémoire tampon sont vidées :
+
+```python
+import wandb
+
+with wandb.init(project="[YOUR-PROJECT]") as run:
+    for step in range(1000):
+        loss = ...  # votre étape d'entraînement
+        run.log({"loss": loss})
+```
+
+Pour les définitions des états de run, voir [États des runs](/fr/models/runs/run-states). Pour les logs de console après un plantage, voir [Pourquoi la sortie de la console n’est-elle pas capturée pour mon run ?](/fr/support/models/articles/why-is-console-output-not-captured-for-my-run).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Crashs de runs](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

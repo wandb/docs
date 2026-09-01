@@ -1,0 +1,33 @@
+---
+title: Weave 데이터셋 게시하기
+---
+
+```python
+'''
+Weave에 데이터셋 게시
+'''
+
+import weave
+from weave import Dataset
+# Weave 초기화
+weave.init('<your-team-name>/<your-project-name>')
+
+# 데이터셋 생성
+dataset = Dataset(
+    name='grammar',
+    rows=[
+        {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
+        {'id': '1', 'sentence': "She goed to the store.", 'correction': "She went to the store."},
+        {'id': '2', 'sentence': "They plays video games all day.", 'correction': "They play video games all day."}
+    ]
+)
+
+# 데이터셋 게시
+weave.publish(dataset)
+
+# 데이터셋 조회
+dataset_ref = weave.ref('grammar').get()
+
+# 데이터셋에서 특정 예시 액세스
+example_label = dataset_ref.rows[2]['sentence']
+```

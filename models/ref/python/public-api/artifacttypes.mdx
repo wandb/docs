@@ -1,28 +1,75 @@
 ---
 title: ArtifactTypes
-namespace: public_apis_namespace
-python_object_type: class
----
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
-
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
-
-
-
-
-## <kbd>class</kbd> `ArtifactTypes`
-An lazy iterator of `ArtifactType` objects for a specific project. 
-
-
-### <kbd>property</kbd> ArtifactTypes.cursor
-
-
-
-
-
+kind: class
+namespace: wandb.apis.public.artifacts
 ---
 
-### <kbd>property</kbd> ArtifactTypes.more
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L144" />
+
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactTypes
+
+
+
+An lazy iterator of `ArtifactType` objects for a specific project.
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Methods
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> RelayPaginator.convert_objects()
+
+```python
+self
+```
+
+Convert the last fetched response data into the iterated objects.
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.__next__()
+
+```python
+self
+```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.update_variables()
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
+
 
 
 

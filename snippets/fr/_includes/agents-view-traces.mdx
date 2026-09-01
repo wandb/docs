@@ -1,0 +1,15 @@
+---
+title: Traces dans vue Agents
+---
+
+<div id="see-your-agent-traces-in-the-agents-view">
+  ### Voir les traces de votre agent dans la vue Agents
+</div>
+
+Une fois le script exécuté, `weave.init()` affiche un lien vers votre project. Ouvrez la vue **Agents** pour examiner :
+
+* Une session contenant les tours de conversation.
+* Chaque tour de conversation affiché sous la forme d’un span `invoke_agent` avec des enfants `chat` et `execute_tool` imbriqués.
+* L’entrée complète, le model, la sortie, l’utilisation des jetons et les résultats des outils à chaque étape.
+
+Pour en savoir plus sur l’affichage des données des Agents dans Weave, voir [Voir l’activité de l’agent](/fr/weave/guides/tracking/view-agent-activity).

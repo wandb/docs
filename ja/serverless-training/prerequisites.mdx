@@ -1,0 +1,36 @@
+---
+title: 前提条件
+description: "アカウントを作成し、APIキーを生成して、projectを設定し、Serverless Training の利用環境を整えます。"
+keywords: ["OpenPipe ART", "wandb login", "install wandb", "ART フレームワークのセットアップ"]
+---
+
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+
+OpenPipe ART フレームワークまたは API を通じて Serverless Training の機能を使用する前に、以下の手順を完了してください。
+
+<Tip>
+  開始する前に、コストと制限事項を把握するため、[利用に関する情報と制限](/ja/serverless-training/usage-limits)を確認してください。
+</Tip>
+
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップしてAPIキーを作成する
+</div>
+
+まだW&amp;Bアカウントをお持ちでない場合は、先にサインアップしてください。マシンをW&amp;Bに対して認証するには、まずAPIキーを発行する必要があります。
+
+<ApiKeyCreate />
+
+<div id="create-a-project-in-wb">
+  ## W&amp;B で project を作成する
+</div>
+
+利用状況をトラッキングし、トレーニングのメトリクスを記録し、トレーニング済みモデルを保存するために、W&amp;B アカウントで project を作成します。詳細は、[Projects ガイド](https://docs.wandb.ai/models/track/project-page)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+前提条件を満たしたら、次のリソースをお試しください。
+
+* 利用可能なエンドポイントについては、[API リファレンス](/ja/serverless-training/api-reference)をご覧ください。
+* [ART クイックスタート](https://art.openpipe.ai/getting-started/quick-start)をお試しください。

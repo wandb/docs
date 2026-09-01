@@ -1,0 +1,101 @@
+---
+title: "Chat completions"
+description: "Créez des complétions de chat avec l’endpoint compatible avec OpenAI"
+keywords: ["/chat/completions", "SDK d’OpenAI", "générer du texte", "requête d’API de chat"]
+---
+
+Créez une complétion de chat à l’aide de l’endpoint `/chat/completions`. Cet endpoint suit le format OpenAI pour l’envoi de messages et la réception de réponses.
+
+<div id="requirements">
+  ## Prérequis
+</div>
+
+Pour créer une complétion de chat, fournissez :
+
+* l’URL de base du service Inférence : `https://api.inference.wandb.ai/v1`.
+* votre clé API W&amp;B : `[YOUR-API-KEY]`.
+* votre équipe W&amp;B et votre projet : `[YOUR-TEAM]/[YOUR-PROJECT]` (facultatif).
+* l’ID d’un modèle parmi les [modèles disponibles](/fr/inference/models).
+
+<div id="request-examples">
+  ## Exemples de requêtes
+</div>
+
+Les exemples suivants montrent comment envoyer une requête de complétion de chat à l’aide de Python et de `curl`. Remplacez les valeurs d’espace réservé par votre propre clé API, ainsi que, si nécessaire, par votre équipe, votre projet et un ID du modèle.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        # L'URL de base personnalisée pointe vers Serverless Inference
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # Créez une clé API sur https://wandb.ai/settings
+        # Pour plus de sécurité, envisagez plutôt de la définir dans l'environnement sous le nom OPENAI_API_KEY
+        api_key="[YOUR-API-KEY]",
+
+        # Facultatif : équipe et projet pour le suivi de l'utilisation
+        project="[YOUR-TEAM]/[YOUR-PROJECT]",
+    )
+
+    # Remplacez [MODEL-ID] par n'importe quel ID du modèle de la liste des modèles disponibles
+    response = client.chat.completions.create(
+        model="[MODEL-ID]",
+        messages=[
+            {"role": "system", "content": "[YOUR-SYSTEM-PROMPT]"},
+            {"role": "user", "content": "[YOUR-PROMPT]"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer [YOUR-API-KEY]" \
+      -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]" \
+      -d '{
+        "model": "[MODEL-ID]",
+        "messages": [
+          { "role": "system", "content": "You are a helpful assistant." },
+          { "role": "user", "content": "Tell me a joke." }
+        ]
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-format">
+  ## Format de réponse
+</div>
+
+Une requête réussie renvoie une réponse au format compatible avec OpenAI suivant, y compris le message de l’assistant généré et les détails d’utilisation des jetons.
+
+```json
+{
+  "id": "chatcmpl-...",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Here's a joke for you..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 25,
+    "completion_tokens": 50,
+    "total_tokens": 75
+  }
+}
+```

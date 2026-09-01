@@ -1,0 +1,135 @@
+---
+title: Projet
+kind: classe
+namespace: wandb.apis.public.projects
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Project
+
+Un projet est un espace de noms pour les run.
+
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+attrs: 'Mapping[str, Any]'
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="service_api" type="ServiceApi">
+  L’API de service utilisée pour interroger W&amp;B.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  L’entité propriétaire du projet.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  Le nom du projet à interroger.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  Les attributs du projet.
+</ResponseField>
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<ResponseField name="id" type="str">
+  Aucune description n’est fournie.
+</ResponseField>
+
+<ResponseField name="owner" type="public.User">
+  Renvoie le propriétaire du projet sous la forme d’un objet User.
+</ResponseField>
+
+<ResponseField name="path" type="list[str]">
+  Renvoie le chemin du projet. Ce chemin est une liste contenant l&#39;entité et le nom du projet.
+</ResponseField>
+
+<ResponseField name="url" type="str">
+  Renvoie l’URL du projet.
+</ResponseField>
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Project.artifacts_types()
+
+```python
+self,
+per_page: 'int' = 50
+```
+
+Renvoie tous les types d&#39;artifact associés à ce projet.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="per_page" type="int">
+  Aucune description fournie.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Project.collections()
+
+```python
+self,
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50
+```
+
+Renvoie toutes les collections d’artifacts associées à ce projet.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+  Dictionnaire facultatif de filtres à appliquer à la requête.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  Chaîne facultative permettant de spécifier l’ordre des résultats. Si vous faites précéder `order` d’un +, l’ordre est croissant (par défaut). Si vous faites précéder `order` d’un -, l’ordre est décroissant.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Le nombre de collections d’artifacts à récupérer par page. La valeur par défaut est 50.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Project.sweeps()
+
+```python
+self,
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None,
+order: 'str | None' = None
+```
+
+Renvoie une collection paginée de Sweeps pour ce projet.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="per_page" type="int">
+  Le nombre de Sweeps à récupérer par requête à l&#39;API.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  (dict) requêtes pour des Sweeps spécifiques à l&#39;aide des filtres de runs. Voir wandb/apis/public/api.py:runs pour plus de détails.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  Aucune description fournie.
+</ResponseField>

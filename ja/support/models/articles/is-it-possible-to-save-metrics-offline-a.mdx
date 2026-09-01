@@ -1,0 +1,58 @@
+---
+title: "メトリクスをオフラインで保存して、後で W&B にSyncできますか？"
+keywords: ["Experiments", "環境変数", "メトリクス"]
+featured: true
+---
+
+デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドにSyncするプロセスを開始します。インターネット接続なしで experiments を実行する必要がある場合は、オフラインモードを有効にしてメトリクスをローカルにログし、接続が利用可能になったらアップロードできます。このページでは、オフラインモードを設定し、後でデータをSyncする方法を説明します。
+
+オフラインモードを有効にするには、次の環境変数を設定します。
+
+* `WANDB_API_KEY=[YOUR-API-KEY]`。ここで、`[YOUR-API-KEY]` は [User Settings](https://wandb.ai/settings) で作成した APIキーです。
+* `WANDB_MODE="offline"`。
+
+これをスクリプトに実装する例を次に示します。
+
+```python
+import wandb
+import os
+
+os.environ["WANDB_API_KEY"] = "[YOUR-API-KEY]"
+os.environ["WANDB_MODE"] = "offline"
+
+config = {
+    "dataset": "CIFAR10",
+    "machine": "offline cluster",
+    "model": "CNN",
+    "learning_rate": 0.01,
+    "batch_size": 128,
+}
+
+with wandb.init(project="offline-demo") as run:
+    for i in range(100):
+        run.log({"accuracy": i})
+```
+
+以下に端末出力の例を示します:
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output.png" alt="オフラインモードの端末出力" />
+</Frame>
+
+インターネットに接続できるようになったら、次のコマンドを実行して、ローカルに保存した run データをクラウドにSyncします。`[DRYRUN-FOLDER-NAME]` はローカルの run フォルダ名に置き換えてください:
+
+```bash
+wandb sync wandb/[DRYRUN-FOLDER-NAME]
+```
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output_cloud.png" alt="クラウドへのSync時のターミナル出力" />
+</Frame>
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

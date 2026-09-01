@@ -1,0 +1,36 @@
+---
+title: "Existe-t-il un package Anaconda pour Weights and Biases ?"
+keywords: ["Python"]
+---
+
+Un package Anaconda est disponible, et vous pouvez l’installer avec `pip` ou `conda`. Pour `conda`, obtenez le package depuis le canal [conda-forge](https://conda-forge.org).
+
+<Tabs>
+  <Tab title="pip">
+    ```bash
+    # Créer un environnement conda
+    conda create -n wandb-env python=3.8 anaconda
+    # Activer l'environnement
+    conda activate wandb-env
+    # Installer wandb avec pip
+    pip install wandb
+    ```
+  </Tab>
+
+  <Tab title="conda">
+    ```bash
+    conda activate myenv
+    conda install wandb --channel conda-forge
+    ```
+  </Tab>
+</Tabs>
+
+Pour obtenir de l’aide en cas de problème d’installation, consultez la [documentation d’Anaconda sur la gestion des packages](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Python](/fr/support/models/tags/python)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

@@ -1,164 +1,282 @@
 ---
 title: Sweep
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.sweeps
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-
-## <kbd>class</kbd> `Sweep`
-The set of runs associated with the sweep. 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
 
 
-**Attributes:**
- 
- - `runs` (Runs):  List of runs 
- - `id` (str):  Sweep ID 
- - `project` (str):  The name of the project the sweep belongs to 
- - `config` (dict):  Dictionary containing the sweep configuration 
- - `state` (str):  The state of the sweep. Can be "Finished", "Failed",  "Crashed", or "Running". 
- - `expected_run_count` (int):  The number of expected runs for the sweep 
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweep
 
-### <kbd>method</kbd> `Sweep.__init__`
+
+
+The set of runs associated with the sweep.
+
+
 
 ```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    sweep_id: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+sweep_id: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
+## Args
+
+<ResponseField name="service_api" type="ServiceApi">
+No description provided.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="sweep_id" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+No description provided.
+</ResponseField>
+
+
+
+## Attributes
+
+- `runs` (`Runs`): List of runs
+- `id` (`str`): Sweep ID
+- `project` (`str`): The name of the project the sweep belongs to
+- `config` (`dict`): Dictionary containing the sweep configuration
+- `state` (`str`): The state of the sweep. Can be "Finished", "Failed", "Crashed", or "Running".
+- `expected_run_count` (`int`): The number of expected runs for the sweep
 
 
 
 
+## Properties
 
----
+<ResponseField name="config" type="">
+The sweep configuration used for the sweep.
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.config
+<ResponseField name="entity" type="str">
+The entity associated with the sweep.
+</ResponseField>
 
-The sweep configuration used for the sweep. 
+<ResponseField name="expected_run_count" type="int | None">
+Return the number of expected runs in the sweep or None for infinite runs.
+</ResponseField>
 
----
+<ResponseField name="name" type="">
+The name of the sweep.
 
-### <kbd>property</kbd> Sweep.entity
+Returns the first name that exists in the following priority order:
 
-The entity associated with the sweep. 
+1. User-edited display name
+2. Name configured at creation time
+3. Sweep ID
+</ResponseField>
 
+<ResponseField name="order" type="">
+Return the order key for the sweep.
+</ResponseField>
 
+<ResponseField name="path" type="">
+Returns the path of the project.
 
-**Returns:**
- - `str`: The entity property value.
----
+The path is a list containing the entity, project name, and sweep ID.
+</ResponseField>
 
-### <kbd>property</kbd> Sweep.expected_run_count
+<ResponseField name="url" type="">
+The URL of the sweep.
 
-Return the number of expected runs in the sweep or None for infinite runs. 
+The sweep URL is generated from the entity, project, the term
+"sweeps", and the sweep ID.run_id. For
+SaaS users, it takes the form
+of `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
+</ResponseField>
 
-
-
-**Returns:**
- - `int | None`: The expected_run_count property value.
----
-
-### <kbd>property</kbd> Sweep.name
-
-The name of the sweep. 
-
-Returns the first name that exists in the following priority order: 
-
-1. User-edited display name 2. Name configured at creation time 3. Sweep ID 
-
----
-
-### <kbd>property</kbd> Sweep.order
-
-Return the order key for the sweep. 
-
----
-
-### <kbd>property</kbd> Sweep.path
-
-Returns the path of the project. 
-
-The path is a list containing the entity, project name, and sweep ID. 
-
----
-
-### <kbd>property</kbd> Sweep.url
-
-The URL of the sweep. 
-
-The sweep URL is generated from the entity, project, the term "sweeps", and the sweep ID.run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/sweeps/sweeps_ID`. 
-
----
-
-### <kbd>property</kbd> Sweep.username
-
-Deprecated. Use `Sweep.entity` instead. 
+<ResponseField name="username" type="str">
+Deprecated. Use `Sweep.entity` instead.
+</ResponseField>
 
 
 
+## Methods
 
 
-**Returns:**
- - `str`: The username property value.
----
-
-### <kbd>method</kbd> `Sweep.best_run`
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agent()
 
 ```python
-best_run(order=None)
+self,
+agent_id: 'str'
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in. 
+Query an agent by ID for this sweep.
 
----
+##### Arguments
 
-### <kbd>classmethod</kbd> `Sweep.get`
+<ResponseField name="agent_id" type="str">
+The ID of the agent to look up.
+</ResponseField>
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.agents()
 
 ```python
-get(
-    client: 'RetryingClient',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    sid: 'str | None' = None,
-    order: 'str | None' = None,
-    query: 'Document | None' = None,
-    **kwargs
-)
+self
 ```
 
-Execute a query against the cloud backend. 
+Query the list of all agents for this sweep.
 
 
 
-**Args:**
- 
- - `client`:  The client to use to execute the query. 
- - `entity`:  The entity (username or team) that owns the project. 
- - `project`:  The name of the project to fetch sweep from. 
- - `sid`:  The sweep ID to query. 
- - `order`:  The order in which the sweep's runs are returned. 
- - `query`:  The query to use to execute the query. 
- - `**kwargs`:  Additional keyword arguments to pass to the query. 
-
----
 
 
-### <kbd>method</kbd> `Sweep.to_html`
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.best_run()
 
 ```python
-to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+(self, order=None)
 ```
 
-Generate HTML containing an iframe displaying this sweep. 
+Return the best run sorted by the metric defined in config or the order passed in.
+
+##### Arguments
+
+<ResponseField name="order" type="_empty">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+Enqueue a run for the sweep.
+
+##### Arguments
+
+<ResponseField name="config" type="dict">
+The config for the run.
+</ResponseField>
+
+<ResponseField name="display_name" type="str | None">
+The optional display name for the run.
+</ResponseField>
+
+
+
+##### Raises
+
+- `UnsupportedError`: If the server doesn't support enqueuing sweep runs.
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.get()
+
+```python
+(api: 'Api',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+sid: 'str | None' = None,
+order: 'str | None' = None,
+query: 'str | None' = None, **kwargs)
+```
+
+Execute a query against the cloud backend.
+
+##### Arguments
+
+<ResponseField name="api" type="Api">
+The W&B API instance.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+The entity (username or team) that owns the project.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+The name of the project to fetch sweep from.
+</ResponseField>
+
+<ResponseField name="sid" type="str | None">
+The sweep ID to query.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+The order in which the sweep's runs are returned.
+</ResponseField>
+
+<ResponseField name="query" type="str | None">
+The query to use to execute the query.
+</ResponseField>
+
+<ResponseField name="kwargs" type="_empty">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Sweep.to_html()
+
+```python
+self,
+height: 'int' = 420,
+hidden: 'bool' = False
+```
+
+Generate HTML containing an iframe displaying this sweep.
+
+##### Arguments
+
+<ResponseField name="height" type="int">
+No description provided.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+No description provided.
+</ResponseField>
+
+
+
+
+
+
+
 

@@ -1,225 +1,303 @@
 ---
-title: '인터페이스: CallSchema'
-description: TypeScript SDK 레퍼런스
+title: "CallSchema"
+description: "TypeScript SDK 레퍼런스"
 ---
-
-[weave](../) / CallSchema
 
 CallSchema
 
-## 목차
+정의 위치: [src/generated/traceServerApi.ts:1847](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1847)
 
-### 속성 (Properties)
+<div id="properties">
+  ## 속성
+</div>
 
-- [attributes](./callschema#attributes)
-- [deleted\_at](./callschema#deleted_at)
-- [display\_name](./callschema#display_name)
-- [ended\_at](./callschema#ended_at)
-- [exception](./callschema#exception)
-- [id](./callschema#id)
-- [inputs](./callschema#inputs)
-- [op\_name](./callschema#op_name)
-- [output](./callschema#output)
-- [parent\_id](./callschema#parent_id)
-- [project\_id](./callschema#project_id)
-- [started\_at](./callschema#started_at)
-- [summary](./callschema#summary)
-- [trace\_id](./callschema#trace_id)
-- [wb\_run\_id](./callschema#wb_run_id)
-- [wb\_user\_id](./callschema#wb_user_id)
+<div id="attributes">
+  ### attributes
+</div>
 
-## 속성 (Properties)
+> **attributes**: `Record`&lt;`string`, `any`&gt;
 
-### attributes
+속성
 
-• **attributes**: `object`
+정의 위치: [src/generated/traceServerApi.ts:1870](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1870)
 
-속성 (Attributes)
+***
 
-#### 정의 위치:
+<div id="deleted_at">
+  ### deleted_at
+</div>
 
-[generated/traceServerApi.ts:118](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L118)
+> `선택` **deleted&#95;at**: `string` | `null`
 
-___
+삭제 시점
 
-### deleted\_at
+정의 위치: [src/generated/traceServerApi.ts:1891](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1891)
 
-• `Optional` **deleted\_at**: ``null`` \| `string`
+***
 
-삭제 일시 (Deleted At)
+<div id="display_name">
+  ### display_name
+</div>
 
-#### 정의 위치:
+> `선택` **display&#95;name**: `string` | `null`
 
-[generated/traceServerApi.ts:133](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L133)
+표시 이름
 
-___
+정의 위치: [src/generated/traceServerApi.ts:1855](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1855)
 
-### display\_name
+***
 
-• `Optional` **display\_name**: ``null`` \| `string`
+<div id="ended_at">
+  ### ended_at
+</div>
 
-표시 이름 (Display Name)
+> `선택` **ended&#95;at**: `string` | `null`
 
-#### 정의 위치:
+종료 시간
 
-[generated/traceServerApi.ts:107](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L107)
+정의 위치: [src/generated/traceServerApi.ts:1874](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1874)
 
-___
+***
 
-### ended\_at
+<div id="exception">
+  ### exception
+</div>
 
-• `Optional` **ended\_at**: ``null`` \| `string`
+> `선택` **exception**: `string` | `null`
 
-종료 일시 (Ended At)
+예외
 
-#### 정의 위치:
+정의 위치: [src/generated/traceServerApi.ts:1876](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1876)
 
-[generated/traceServerApi.ts:122](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L122)
+***
 
-___
+<div id="expire_at">
+  ### expire_at
+</div>
 
-### exception
+> `선택` **expire&#95;at**: `string` | `null`
 
-• `Optional` **exception**: ``null`` \| `string`
+만료 시각
+이 호출의 만료 타임스탬프입니다. None = 프로젝트에 TTL이 설정되지 않았으며(행은 만료되지 않음).
 
-예외 (Exception)
+정의 위치: [src/generated/traceServerApi.ts:1896](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1896)
 
-#### 정의 위치:
+***
 
-[generated/traceServerApi.ts:124](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L124)
+<div id="id">
+  ### id
+</div>
 
-___
+> **id**: `string`
 
-### id
+Id
 
-• **id**: `string`
+정의 위치: [src/generated/traceServerApi.ts:1849](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1849)
 
-ID
+***
 
-#### 정의 위치:
+<div id="inputs">
+  ### inputs
+</div>
 
-[generated/traceServerApi.ts:101](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L101)
+> **inputs**: `Record`&lt;`string`, `any`&gt;
 
-___
+입력
 
-### inputs
+정의 위치: [src/generated/traceServerApi.ts:1872](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1872)
 
-• **inputs**: `object`
+***
 
-입력 (Inputs)
+<div id="op_name">
+  ### op_name
+</div>
 
-#### 정의 위치:
+> **op&#95;name**: `string`
 
-[generated/traceServerApi.ts:120](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L120)
+Op 이름
 
-___
+정의 위치: [src/generated/traceServerApi.ts:1853](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1853)
 
-### op\_name
+***
 
-• **op\_name**: `string`
+<div id="output">
+  ### 출력
+</div>
 
-Op 이름 (Op Name)
+> `선택` **출력**: `null`
 
-#### 정의 위치:
+출력
 
-[generated/traceServerApi.ts:105](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L105)
+정의 위치: [src/generated/traceServerApi.ts:1878](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1878)
 
-___
+***
 
-### output
+<div id="parent_id">
+  ### parent_id
+</div>
 
-• `Optional` **output**: ``null``
+> `선택` **parent&#95;id**: `string` | `null`
 
-출력 (Output)
+상위 Id
 
-#### 정의 위치:
+정의 위치: [src/generated/traceServerApi.ts:1859](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1859)
 
-[generated/traceServerApi.ts:126](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L126)
+***
 
-___
+<div id="project_id">
+  ### project_id
+</div>
 
-### parent\_id
+> **project&#95;id**: `string`
 
-• `Optional` **parent\_id**: ``null`` \| `string`
+프로젝트 Id
 
-부모 ID (Parent Id)
+정의 위치: [src/generated/traceServerApi.ts:1851](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1851)
 
-#### 정의 위치:
+***
 
-[generated/traceServerApi.ts:111](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L111)
+<div id="started_at">
+  ### started_at
+</div>
 
-___
+> **started&#95;at**: `string`
 
-### project\_id
+시작 시간
 
-• **project\_id**: `string`
+정의 위치: [src/generated/traceServerApi.ts:1868](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1868)
 
-Project ID
-
-#### 정의 위치:
-
-[generated/traceServerApi.ts:103](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L103)
-
-___
-
-### started\_at
-
-• **started\_at**: `string`
-
-시작 일시 (Started At)
-
-`Format`
+<div id="format">
+  #### 형식
+</div>
 
 date-time
 
-#### 정의 위치:
+***
 
-[generated/traceServerApi.ts:116](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L116)
+<div id="storage_size_bytes">
+  ### storage_size_bytes
+</div>
 
-___
+> `선택` **storage&#95;size&#95;bytes**: `숫자` | `null`
 
-### summary
+저장소 크기(바이트)
 
-• `Optional` **summary**: `object`
+정의 위치: [src/generated/traceServerApi.ts:1898](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1898)
 
-요약 (Summary)
+***
 
-#### 정의 위치:
+<div id="summary">
+  ### summary
+</div>
 
-[generated/traceServerApi.ts:127](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L127)
+> `선택` **summary**: `Record`&lt;`string`, `any`&gt;
 
-___
+정의 위치: [src/generated/traceServerApi.ts:1879](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1879)
 
-### trace\_id
+***
 
-• **trace\_id**: `string`
+<div id="thread_id">
+  ### thread_id
+</div>
 
-Trace ID
+> `선택` **thread&#95;id**: `string` | `null`
 
-#### 정의 위치:
+스레드 ID
 
-[generated/traceServerApi.ts:109](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L109)
+정의 위치: [src/generated/traceServerApi.ts:1861](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1861)
 
-___
+***
 
-### wb\_run\_id
+<div id="total_storage_size_bytes">
+  ### total_storage_size_bytes
+</div>
 
-• `Optional` **wb\_run\_id**: ``null`` \| `string`
+> `선택` **total&#95;storage&#95;size&#95;bytes**: `숫자` | `null`
 
-Wb Run Id
+총 저장소 크기(바이트)
 
-#### 정의 위치:
+정의 위치: [src/generated/traceServerApi.ts:1900](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1900)
 
-[generated/traceServerApi.ts:131](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L131)
+***
 
-___
+<div id="trace_id">
+  ### trace_id
+</div>
 
-### wb\_user\_id
+> **trace&#95;id**: `string`
 
-• `Optional` **wb\_user\_id**: ``null`` \| `string`
+트레이스 Id
 
-Wb User Id
+정의 위치: [src/generated/traceServerApi.ts:1857](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1857)
 
-#### 정의 위치:
+***
 
-[generated/traceServerApi.ts:129](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/generated/traceServerApi.ts#L129)
+<div id="turn_id">
+  ### turn_id
+</div>
+
+> `선택` **turn&#95;id**: `string` | `null`
+
+Turn ID
+
+정의 위치: [src/generated/traceServerApi.ts:1863](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1863)
+
+***
+
+<div id="wb_run_id">
+  ### wb_run_id
+</div>
+
+> `선택` **wb&#95;run&#95;id**: `string` | `null`
+
+W&amp;B Run Id
+
+정의 위치: [src/generated/traceServerApi.ts:1885](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1885)
+
+***
+
+<div id="wb_run_step">
+  ### wb_run_step
+</div>
+
+> `선택` **wb&#95;run&#95;step**: `숫자` | `null`
+
+W&amp;B Run Step
+
+정의 위치: [src/generated/traceServerApi.ts:1887](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1887)
+
+***
+
+<div id="wb_run_step_end">
+  ### wb_run_step_end
+</div>
+
+> `선택` **wb&#95;run&#95;step&#95;end**: `숫자` | `null`
+
+W&amp;B Run Step 종료
+
+정의 위치: [src/generated/traceServerApi.ts:1889](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1889)
+
+***
+
+<div id="wb_user_id">
+  ### wb_user_id
+</div>
+
+> `optional` **wb&#95;user&#95;id**: `string` | `null`
+
+W&amp;B 사용자 ID
+
+정의 위치: [src/generated/traceServerApi.ts:1881](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1881)
+
+***
+
+<div id="wb_username">
+  ### wb_username
+</div>
+
+> `선택` **wb&#95;username**: `string` | `null`
+
+W&amp;B 사용자 이름
+
+정의 위치: [src/generated/traceServerApi.ts:1883](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L1883)

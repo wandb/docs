@@ -11,8 +11,8 @@ SUBMODULE_PATH="$DOCS_ROOT/.temp_code_eval"
 
 echo "🔄 Syncing code examples from docs-code-eval..."
 
-# Optional: fine-grained or classic PAT with contents:read on wandb/docs-code-eval.
-# Set by CI via secrets (see sync-code-examples workflow). Unset = anonymous clone (public repo only).
+# Optional read token with contents:read on wandb/docs-code-eval.
+# Set by CI with a GitHub App token. Unset = anonymous clone (public repo only).
 if [ -n "${DOCS_CODE_EVAL_READ_TOKEN:-}" ]; then
     EVAL_CLONE_URL="https://x-access-token:${DOCS_CODE_EVAL_READ_TOKEN}@github.com/wandb/docs-code-eval.git"
 else
@@ -30,9 +30,9 @@ else
     fi
     echo "   Cloning docs-code-eval repository..."
     if [ -n "${DOCS_CODE_EVAL_READ_TOKEN:-}" ]; then
-        echo "   (HTTPS with PAT from DOCS_CODE_EVAL_READ_PAT)"
+        echo "   (authenticated HTTPS with DOCS_CODE_EVAL_READ_TOKEN)"
     else
-        echo "   (anonymous HTTPS; set secret DOCS_CODE_EVAL_READ_PAT if the eval repo is private)"
+        echo "   (anonymous HTTPS; set DOCS_CODE_EVAL_READ_TOKEN if the eval repo is private)"
     fi
     # - Clear extraheader so a stale Actions token does not override URL credentials.
     # - credential.helper= stops the runner's helper from prompting (CI has no TTY; you
@@ -46,7 +46,7 @@ fi
 
 # Copy Python files and create MDX wrappers
 echo "   Copying Python code examples and creating MDX wrappers..."
-PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/en/_includes/code-examples"
+PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/_includes/code-examples"
 mkdir -p "$PY_SNIPPETS_DIR"
 
 # Copy Python files and create MDX wrappers
@@ -85,6 +85,6 @@ python3 "$SCRIPT_DIR/generate_cheat_sheet.py"
 echo "✅ Sync complete!"
 echo ""
 echo "Next steps:"
-echo "  1. Review the generated MDX wrappers in: snippets/en/_includes/code-examples/"
+echo "  1. Review the generated MDX wrappers in: snippets/_includes/code-examples/"
 echo "  2. Review the cheat sheet pages: models/ref/sdk-coding-cheat-sheet/"
 echo "  3. Commit the changes"

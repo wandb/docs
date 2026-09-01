@@ -1,0 +1,25 @@
+---
+title: Chiffrement des données dans le Cloud dédié
+description: "Découvrez comment W&B chiffre les données dans le Cloud dédié à l’aide de clés natives du cloud et de la politique relative aux clés de chiffrement gérées par le client."
+keywords: ["CMEK", "clés de chiffrement", "KMS", "données au repos"]
+---
+
+Cette page décrit comment W&amp;B chiffre la base de données gérée par W&amp;B et le stockage d’objets dans [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), et explique la politique de W&amp;B concernant les clés de chiffrement gérées par le client. Cette page s’adresse aux équipes de sécurité et de conformité qui évaluent le Cloud dédié pour des charges de travail d’IA sensibles.
+
+W&amp;B utilise une clé native du cloud gérée par W&amp;B pour chiffrer la base de données gérée par W&amp;B et le stockage d’objets dans chaque instance de Cloud dédié, en s’appuyant sur la fonctionnalité de clé de chiffrement gérée par le client (CMEK) de chaque cloud. Dans ce cas, W&amp;B agit comme client du fournisseur de cloud tout en vous fournissant la plateforme W&amp;B en tant que service. L’utilisation d’une clé gérée par W&amp;B signifie que W&amp;B contrôle les clés qui chiffrent les données dans chaque cloud, ce qui renforce son engagement à fournir une plateforme sécurisée à ses clients.
+
+W&amp;B utilise une clé unique pour chiffrer les données dans chaque instance client, ajoutant ainsi une couche d’isolation supplémentaire entre les tenants du Cloud dédié. Cette fonctionnalité est disponible sur AWS, Azure et Google Cloud.
+
+<Note>
+  Les instances de Cloud dédié sur AWS utilisent la clé native du cloud gérée par W&amp;B pour le chiffrement depuis avant août 2024.
+
+  Sur Google Cloud et Azure, les instances de Cloud dédié que W&amp;B a créées à partir d’août 2024 utilisent la clé native du cloud gérée par W&amp;B pour chiffrer la base de données gérée par W&amp;B et le stockage d’objets. Les instances que W&amp;B a provisionnées avant août 2024 utilisent la clé par défaut gérée par le fournisseur de cloud.
+</Note>
+
+W&amp;B n’autorise généralement pas les clients à utiliser leur propre clé native du cloud pour chiffrer la base de données gérée par W&amp;B et le stockage d’objets dans leur instance de Cloud dédié. Plusieurs équipes au sein d’une organisation ont souvent accès à son infrastructure cloud, et certaines peuvent ne pas savoir que W&amp;B est un composant critique de la pile technologique de l’organisation. Elles pourraient supprimer la clé native du cloud ou révoquer l’accès de W&amp;B à cette clé, ce qui pourrait corrompre toutes les données de l’instance W&amp;B de l’organisation et la laisser dans un état irrécupérable.
+
+Si votre organisation doit utiliser sa propre clé native du cloud pour chiffrer la base de données gérée par W&amp;B et le stockage d’objets comme condition préalable à l’adoption du Cloud dédié, W&amp;B peut examiner la demande à titre exceptionnel. Si elle est approuvée, l’utilisation de votre clé native du cloud pour le chiffrement s’inscrit dans le modèle de responsabilité partagée du Cloud dédié de W&amp;B.
+
+<Warning>
+  Si un utilisateur de votre organisation supprime votre clé ou révoque l’accès de W&amp;B à celle-ci à tout moment pendant que votre instance de Cloud dédié est active, W&amp;B n’est pas responsable des pertes ou corruptions de données qui en résultent et n’est pas responsable de la récupération des données.
+</Warning>

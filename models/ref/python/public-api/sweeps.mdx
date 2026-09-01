@@ -1,66 +1,105 @@
 ---
 title: Sweeps
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.sweeps
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-
-## <kbd>class</kbd> `Sweeps`
-A lazy iterator over a collection of `Sweep` objects. 
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L59" />
 
 
 
-**Examples:**
- ```python
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Sweeps
+
+
+
+A lazy iterator over a collection of `Sweep` objects.
+
+
+
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None
+```
+
+## Args
+
+<ResponseField name="service_api" type="ServiceApi">
+The service API used to query W&B.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+The entity which owns the sweeps.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+The project which contains the sweeps.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of sweeps to fetch per request to the API.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+(dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
+</ResponseField>
+
+
+
+
+
+## Examples
+
+```python
 from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
 # Iterate over sweeps and print details
 for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
-     print("----------")
-``` 
-
-### <kbd>method</kbd> `Sweeps.__init__`
-
-```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    per_page: 'int' = 50
-) → Sweeps
+    print(f"Sweep name: {sweep.name}")
+    print(f"Sweep ID: {sweep.id}")
+    print(f"Sweep URL: {sweep.url}")
+    print("----------")
 ```
 
-An iterable collection of `Sweep` objects. 
 
 
-
-**Args:**
- 
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the sweeps. 
- - `project`:  The project which contains the sweeps. 
- - `per_page`:  The number of sweeps to fetch per request to the API. 
+## Methods
 
 
----
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.__next__()
 
+```python
+self
+```
 
-### <kbd>property</kbd> Sweeps.length
+Return the next item from the iterator. When exhausted, raise StopIteration
 
 
 
 
 
----
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Paginator.update_variables()
+
+```python
+self
+```
+
+Update the query variables for the next page fetch.
+
+
+
+
+
+
 
 

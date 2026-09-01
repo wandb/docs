@@ -5,7 +5,7 @@ keywords: ["Experiments", "Logs"]
 
 "Is the logging function lazy? I don't want to depend on the network to send results to your servers while executing local operations."
 
-The `wandb.log` function writes a line to a local file and does not block network calls. When calling `wandb.init`, a new process starts on the same machine. This process listens for filesystem changes and communicates with the web service asynchronously, allowing local operations to continue uninterrupted.
+The `wandb.log` function writes a line to a local file and doesn't block on network calls. When you call `wandb.init`, a new process starts on the same machine. This process listens for filesystem changes and communicates with the web service asynchronously, so local operations continue uninterrupted.
 
 ---
 

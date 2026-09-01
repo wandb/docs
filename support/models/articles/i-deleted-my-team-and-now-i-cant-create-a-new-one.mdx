@@ -1,0 +1,56 @@
+---
+title: "I deleted my team and now I can't create a new one — what do I do?"
+keywords: ["Teams", "Team Management", "Org Management"]
+---
+
+When you sign up for W&B, the platform automatically creates a personal team with the same name as your username. If you delete that team, you may find that you can no longer create projects or that the **Create team** button has disappeared entirely. You may also see a "rate limit exceeded" error every time you log in.
+
+## Why this happens
+
+W&B accounts must belong to at least one team to create projects and run experiments. When an account has no team, it enters a state where:
+
+- The **Create team** button in **Account Settings > Teams** may not appear.
+- Attempting to log in or navigate to your workspace may immediately redirect to a "rate limit exceeded" or "An application error occurred" page.
+- You cannot create a new team to resolve the issue yourself — team creation is blocked while the account is in this state.
+
+Deleting your team is one way to reach this state, but not the only one. An account can also end up without a team in the following cases:
+
+- On a new account, if the initial team isn't created during sign-up.
+- After you add or change an email address on your account, such as an institutional or student email.
+- After you edit your profile.
+
+The symptoms and the fix are the same in every case.
+
+## What to do
+
+This state cannot be resolved through the W&B UI. Contact W&B support and include:
+
+- Your W&B **username** (the entity name shown in your profile URL, e.g. `wandb.ai/your-username`)
+- Your **organization name** if you are on a team or enterprise plan
+- The **desired team name** you want created (team names must be unique across W&B)
+
+Support will manually create a team for your account and restore your access. Choose the team name carefully: you can't rename a team after it's created. See [How do I rename a team or entity?](/support/models/articles/how-do-i-rename-a-team-or-entity).
+
+**If you are on an academic or free plan**
+
+The **Create team** button may be absent even on a fresh account. Only an organization admin can create a team, so check whether you hold that role. For details, see [Teams](/platform/app/settings-page/teams).
+
+Academic accounts have no limit on the number of teams. If you still can't create the team you need, contact support with your username and the team name you want, and include a note that you are using W&B for academic or research purposes.
+
+**Preventing this in the future**
+
+- Do not delete your initial auto-generated team.
+- If you want a different team name, see [How do I delete a team from my account?](/support/models/articles/how-do-i-delete-a-team-from-my-account) for creating a new team before you delete your only team.
+- To check whether your account belongs to a team, go to [wandb.ai/settings](https://wandb.ai/settings) and look under **Teams**.
+
+**Related: rate limit exceeded loop**
+
+If you are stuck in a redirect loop with a "rate limit exceeded" error, this is a symptom of the same issue, whether or not you deleted a team. The error appears because W&B's routing logic expects every logged-in user to belong to a team.
+
+Despite the wording, this isn't an actual rate limit, so the guidance in [Rate limits](/models/track/limits#rate-limits) doesn't apply here. Waiting for a rate-limit window to reset, logging out and back in, clearing your cache, or using an incognito window won't fix it. Only contacting Support can resolve this issue.
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[Team Management](/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Org Management](/support/models/tags/org-management)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

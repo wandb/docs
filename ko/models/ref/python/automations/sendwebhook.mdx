@@ -1,41 +1,61 @@
 ---
 title: SendWebhook
-namespace: automations_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.automations.actions
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-## <kbd>class</kbd> `SendWebhook`
-웹후크 요청을 보내는 자동화 액션을 정의합니다.
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L182" />
 
-### <kbd>method</kbd> `SendWebhook.__init__`
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.SendWebhook
 
-```python
-__init__(
-    integration_id: 'str',
-    request_payload: 'Annotated | None' = None,
-    action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
-) → None
-```
-
-**Args:**
- 
- - `integration_id` (str): 요청을 보내는 데 사용될 웹후크 인테그레이션의 ID.
- - `request_payload` (Optional[Annotated]): 웹후크 요청에 포함하여 보낼 페이로드 (템플릿 변수 포함 가능).
- - `action_type` (Literal[GENERIC_WEBHOOK]): 액션 타입.
-
-**Returns:**
- `SendWebhook` 오브젝트.
-
-### <kbd>classmethod</kbd> `SendWebhook.from_integration`
+웹훅 요청을 전송하는 자동화 액션을 정의합니다.
 
 ```python
-from_integration(
-    integration: 'WebhookIntegration',
-    payload: 'Optional[JsonEncoded[dict[str, Any]]]' = None
-) → Self
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]] = None,
+action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-주어진 (웹후크) 인테그레이션으로 전송하는 웹후크 액션을 정의합니다.
+<div id="args">
+  ## 매개변수
+</div>
+
+<ResponseField name="integration_id" type="Annotated">
+  요청을 보내는 데 사용할 웹훅 인테그레이션의 ID입니다.
+</ResponseField>
+
+<ResponseField name="requestPayload" type="Optional">
+  웹훅 요청으로 보낼 페이로드이며, 템플릿 변수를 포함할 수 있습니다.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<div id="methods">
+  ## 메서드
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> SendWebhook.from_integration()
+
+```python
+integration: 'WebhookIntegration', *,
+payload: 'JsonEncoded[dict[str, Any]] | None' = None
+```
+
+지정된 (웹훅) 인테그레이션으로 전송하는 웹훅 액션을 정의합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="integration" type="WebhookIntegration">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="payload" type="JsonEncoded[dict[str, Any]] | None">
+  설명이 없습니다.
+</ResponseField>

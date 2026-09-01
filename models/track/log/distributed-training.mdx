@@ -20,7 +20,7 @@ W&B recommends that you limit the maximum number of concurrent client connection
 In **Multi-tenant Cloud** organizations, client connections for distributed training are subject to the same [rate limits](/models/track/limits#rate-limits) as regular training runs. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
 </Tip>
 
-{/* The proceeding examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
+{/* The following examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
 
 <Note>
 Explore the code behind these examples in the W&B GitHub examples repository [here](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp). Specifically, see the [`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python script for information on how to implement one process and many process methods.
@@ -159,7 +159,7 @@ To track multiple processes to a single run, you must have:
 - W&B Server v0.68 or newer.
 </Note>
 
-In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
+In this approach you use a primary node and one or more worker nodes. Before you start the distributed job, generate a unique run ID and configure every process to use that run ID. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
 
 Within the primary node, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with the following:
 
@@ -168,7 +168,7 @@ Within the primary node, initialize a W&B run with [`wandb.init()`](/models/ref/
 3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
 4. Optionally provide a list of GPU indexes ([0,1,2]) to `x_stats_gpu_device_ids` to specify which GPUs W&B tracks metrics for. If you do not provide a list, W&B tracks metrics for all GPUs on the machine.
 
-Make note of the run ID of the primary node. Each worker node needs the run ID of the primary node.
+Set the `WANDB_RUN_ID` environment variable to the generated run ID before each process starts. W&B reads `WANDB_RUN_ID` automatically when the process calls `wandb.init()`.
 
 <Note>
 `x_primary=True` distinguishes a primary node from worker nodes. Primary nodes are the only nodes that upload files shared across nodes such as configuration files, telemetry and more. Worker nodes do not upload these files.
@@ -179,56 +179,64 @@ For each worker node, initialize a W&B run with [`wandb.init()`](/models/ref/pyt
    * The `mode` parameter set to `"shared"` to enable shared mode.
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
    * Set the `x_primary` parameter to `False` to indicate that this is a worker node.
-2. Pass the run ID used by the primary node to the `id` parameter.
-3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/evaluate-models/#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
+2. Set `WANDB_RUN_ID` to the same generated run ID that the primary node uses before the worker process starts.
+3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/runs/run-states#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
-<Note>
+<Tip>
 * Use the same entity and project for all nodes. This helps ensure the correct run ID is found.
-* Consider defining an environment variable on each worker node to set the run ID of the primary node.
-</Note>
+* Generate the run ID before you start the distributed job. Use your launcher, scheduler, or orchestration framework to set `WANDB_RUN_ID` for each process.
+* Configure W&B environment variables before each process starts. Avoid changing `os.environ` at runtime because the W&B SDK might not detect the change.
+</Tip>
 
-The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
+How you generate and distribute the run ID depends on the framework you use to orchestrate nodes. This guide does not provide a generic launcher example. The following snippets show the W&B setup within each process after your orchestration layer sets `WANDB_RUN_ID`.
+
+The following example initializes the run on the primary node:
 
 ```python
 import wandb
 
-entity = "<team_entity>"
-project = "<project_name>"
+entity = "your-entity"
+project = "your-project"
 
 # Initialize a run in the primary node
-run = wandb.init(
+with wandb.init(
     entity=entity,
     project=project,
-	settings=wandb.Settings(
-        x_label="rank_0", 
-        mode="shared", 
+    settings=wandb.Settings(
+        x_label="rank_0",
+        mode="shared",
         x_primary=True,
         x_stats_gpu_device_ids=[0, 1],  # (Optional) Only track metrics for GPU 0 and 1
-        )
-)
-
-# Note the run ID of the primary node.
-# Each worker node needs this run ID.
-run_id = run.id
-
-# Initialize a run in a worker node using the run ID of the primary node
-run = wandb.init(
-    entity=entity, # Use the same entity as the primary node
-    project=project, # Use the same project as the primary node
-	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
-	id=run_id,
-)
-
-# Initialize a run in a worker node using the run ID of the primary node
-run = wandb.init(
-    entity=entity, # Use the same entity as the primary node
-    project=project, # Use the same project as the primary node
-	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
-	id=run_id,
-)
+    )
+) as run:
+    # Primary node logic goes here
 ```
 
-In a real world example, each worker node might be on a separate machine.
+The following example shows the corresponding setup for a worker node. Set rank to a unique identifier for the worker based on your orchestration framework.
+
+```python
+import wandb
+
+entity = "your-entity"
+project = "your-project"
+rank = 1
+
+# Initialize a run in a worker node.
+# W&B reads WANDB_RUN_ID automatically from the worker process environment.
+with wandb.init(
+    entity=entity,  # Use the same entity as the primary node
+    project=project,  # Use the same project as the primary node
+    settings=wandb.Settings(
+        x_label=f"rank_{rank}",
+        mode="shared",
+        x_primary=False,
+        x_update_finish_state=False,
+    ),
+) as run:
+    # Worker node logic goes here
+```
+
+In a distributed deployment, worker nodes can run on separate machines.
 
 <Note>
 See the [Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) report for an end-to-end example on how to train a model on a multi-node and multi-GPU Kubernetes cluster in GKE.

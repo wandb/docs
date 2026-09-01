@@ -1,0 +1,118 @@
+---
+title: "접두사 캐싱"
+description: "접두사 캐싱으로 반복되는 프롬프트의 지연 시간을 줄이고, 필요할 때 `cache_salt`로 캐시 재사용을 격리하세요."
+---
+
+W&amp;B Inference는 지원되는 호스팅 모델에서 접두사 캐싱을 사용해 동일한 프롬프트 접두사를 가진 반복 요청을 더 빠르게 처리합니다.
+
+요청이 동일한 백엔드의 이전 요청과 같은 프롬프트 접두사를 공유하면, 모델은 전체 접두사를 다시 계산하는 대신 이전에 계산한 키-값(KV) 캐시를 재사용합니다. 이를 통해 반복되는 프롬프트, 긴 system 프롬프트, 그리고 안정적으로 공유되는 접두사가 있는 워크로드의 지연 시간을 줄일 수 있습니다.
+
+지원되는 모델에서는 접두사 캐싱이 자동으로 적용되므로 요청에서 별도로 활성화할 필요가 없습니다. 이 페이지에서는 접두사 캐싱이 가장 효과적인 경우와 `cache_salt`를 사용해 캐시 격리를 제어하는 방법을 설명합니다.
+
+<div id="when-prefix-caching-helps">
+  ## 접두사 캐싱이 도움이 되는 경우
+</div>
+
+접두사 캐싱은 긴 공통 접두사를 공유하는 요청을 반복해서 보낼 때 가장 유용합니다. 예를 들면 다음과 같습니다.
+
+* 여러 요청에서 재사용되는 큰 system 프롬프트
+* 긴 공통 문서 뒤에 서로 다른 사용자 질문이 이어지는 경우
+* 요청별로 작은 변경만 있는 반복적인 평가 프롬프트
+* 대화 이력의 많은 부분이 동일하게 유지되는 multi-turn 워크로드
+
+<div id="cache-isolation">
+  ## 캐시 격리
+</div>
+
+일부 환경에서는 서로 다른 사용자나 애플리케이션 간에 캐시가 재사용되지 않도록 해야 할 수 있습니다. `cache_salt` 파라미터를 사용하면 이를 제어할 수 있습니다.
+
+기본적으로 동일한 프롬프트 접두사를 가진 요청은 백엔드가 허용하는 경우 공유 인프라에서 캐시를 재사용할 수 있습니다.
+
+캐시 재사용을 특정 신뢰 경계로 제한하려면 `cache_salt` 요청 파라미터를 설정하세요. 요청은 프롬프트 접두사와 `cache_salt`가 모두 일치할 때만 접두사 캐시를 재사용합니다.
+
+단일 사용자, 테넌트, 세션 또는 애플리케이션 경계 내에서는 캐시를 재사용하되, 다른 호출자 간에는 재사용되지 않게 하려면 `cache_salt`를 사용하세요.
+
+<div id="how-it-works">
+  ### 작동 방식
+</div>
+
+`cache_salt`의 사용 여부와 값은 캐시 재사용에 다음과 같이 영향을 줍니다:
+
+* 동일한 프롬프트 접두사이고 `cache_salt`가 없으면: 일치하는 요청 간에 캐시가 재사용될 수 있습니다.
+* 동일한 프롬프트 접두사이고 `cache_salt`도 같으면: 캐시를 재사용할 수 있습니다.
+* 동일한 프롬프트 접두사이지만 `cache_salt`가 다르면: 캐시는 격리되며 서로 다른 salt 간에는 재사용되지 않습니다.
+
+<Note>
+  `cache_salt`는 지정하는 경우 비어 있지 않은 string이어야 합니다.
+</Note>
+
+<div id="examples">
+  ## 예시
+</div>
+
+다음 예시에서는 `cache_salt`를 사용해 캐시 재사용이 서로 격리되도록 chat completion 요청을 보내는 방법을 보여줍니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key="<your-api-key>",
+    )
+
+    response = client.chat.completions.create(
+        model="moonshotai/Kimi-K2.5",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a careful assistant that answers concisely."
+            },
+            {
+                "role": "user",
+                "content": "Summarize this document in one sentence: <long shared prefix here>"
+            },
+        ],
+        extra_body={
+            "cache_salt": "tenant-a-user-123-secret",
+        },
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "moonshotai/Kimi-K2.5",
+        "messages": [
+          { "role": "system", "content": "You are a careful assistant that answers concisely." },
+          { "role": "user", "content": "Summarize this document in one sentence: <long shared prefix here>" }
+        ],
+        "cache_salt": "tenant-a-user-123-secret"
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-behavior">
+  ## 응답 동작
+</div>
+
+요청에서 접두사 캐싱이 활성화되었는지 확인하려면 응답 사용 세부 정보를 확인하세요. 일부 모델에서는 접두사 캐시가 재사용되면 사용 세부 정보에 `usage.prompt_tokens_details.cached_tokens`의 캐시된 토큰 수가 포함될 수 있습니다. 이 필드의 제공 여부는 모델과 백엔드에 따라 다릅니다.
+
+<div id="related-pages">
+  ## 관련 페이지
+</div>
+
+다음 페이지에서 관련 주제를 다룹니다.
+
+* [Chat Completions](/ko/inference/api-reference/chat-completions)
+* [스트리밍 responses 활성화](/ko/inference/response-settings/streaming)
+* [구조화된 출력](/ko/inference/response-settings/structured-output)
+* [JSON 모드](/ko/inference/response-settings/json-mode)

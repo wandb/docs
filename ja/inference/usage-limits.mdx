@@ -1,46 +1,68 @@
 ---
-title: 使用情報と制限事項
-description: W&B Inference の料金体系、使用制限、およびアカウント制限について理解する
-linkTitle: Usage & Limits
+title: "利用に関する情報と制限"
+linkTitle: "利用と制限"
+description: >
+  Serverless Inference の料金、利用制限、アカウントの制約について説明します
+keywords: ["クレジット", "レート制限", "同時実行制限", "429 エラー", "アカウントティア"]
 ---
 
-W&B Inference を使用する前に、料金、制限、およびその他の重要な使用情報についてご確認ください。
+このページでは、Serverless Inference に適用される料金、利用制限、アカウントの制約について説明します。この情報を参考に利用計画を立て、想定外の請求や中断を避けてください。特に請求を管理している場合や、高い同時実行数で運用している場合は、本番トラフィックを送信する前に確認してください。
 
-## 料金
+<Info>
+  料金、制限、またはアカウントについてこのページで解決しない疑問がある場合は、要件について相談するために [サポート](https://wandb.ai/site/contact) までお問い合わせください。
+</Info>
 
-詳細なモデルの料金情報については、[W&B Inference pricing](https://wandb.ai/site/pricing/inference) をご覧ください。
+<div id="pricing">
+  ## 料金
+</div>
 
-## クレジットの追加購入
+モデルの詳細な料金については、[Serverless Inferenceの料金](https://wandb.ai/site/pricing/inference)をご覧ください。
 
-W&B Inference のクレジットは、期間限定で Free、Pro、および Academic プランに付属しています。Enterprise での利用可能性は異なる場合があります。クレジットがなくなった場合：
+<div id="purchase-more-credits">
+  ## 追加クレジットを購入する
+</div>
 
-- **Free アカウント** の場合、W&B Inference の使用を継続するには、従量課金制（**Billing** タブから設定可能）を有効にするか、有料プランにアップグレードする必要があります。[従量課金制の有効化またはアップグレード](https://wandb.ai/subscriptions)
-- **Pro プランの Users** は、[モデル別の料金](https://wandb.ai/site/pricing/inference) に基づいて、超過分が毎月請求されます
-- **Enterprise アカウント** の場合は、担当の営業担当者にお問い合わせください
+Serverless Inference クレジットは、期間限定で Free、Pro、Academic プランに含まれています。Enterprise での提供状況は異なる場合があります。クレジットを使い切ると、次のようになります。
 
-## アカウントティアとデフォルトの使用上限
+* **Free アカウント**は、Serverless Inference を引き続き使用するには、**Billing** タブで従量課金制の Inference を有効にするか、有料プランにアップグレードする必要があります。[従量課金制を有効にするか、アップグレードする](https://wandb.ai/subscriptions)。
+* W&amp;B は、**Pro プランのユーザー**に対して、[モデルごとの料金](https://wandb.ai/site/pricing/inference)に基づき、超過分を毎月請求します。
+* **Enterprise アカウント**は、アカウントエグゼクティブにお問い合わせください。
 
-各アカウントティアには、コストを管理し、予期しない請求を防ぐためのデフォルトの支出上限が設定されています。W&B では、有料の Inference アクセスのために事前支払いが必要です。
+<div id="account-tiers-and-default-usage-caps">
+  ## アカウントティアとデフォルトの使用上限
+</div>
 
-上限の変更が必要な場合は、担当の営業担当者またはサポートにお問い合わせください。
+各アカウントティアには、コスト管理と予期しない請求の防止に役立つデフォルトの支出上限が設定されています。W&amp;B では、有料の Inference アクセスに前払いが必要です。
 
-| アカウントティア | デフォルトの上限 | 上限の変更方法 |
-|--------------|-------------|---------------------|
-| Free | $100/月 | Pro または Enterprise へのアップグレード |
-| Pro | $6,000/月 | 担当の営業担当者またはサポートに連絡し、手動審査を依頼 |
-| Enterprise | $700,000/年 | 担当の営業担当者またはサポートに連絡し、手動審査を依頼 |
+次の表は、各ティアのデフォルト上限と、変更を依頼する方法を示しています。上限の変更が必要な場合は、アカウントエグゼクティブまたは[Support](https://wandb.ai/site/contact)に連絡して上限を調整してください。
 
-## 同時実行制限
+| Account tier | Default cap   | How to change limit         |
+| ------------ | ------------- | --------------------------- |
+| Free         | $100/month    | Pro または Enterprise にアップグレード |
+| Pro          | $6,000/month  | アカウントエグゼクティブまたはサポートに連絡して手動審査を依頼    |
+| Enterprise   | $700,000/year | アカウントエグゼクティブまたはサポートに連絡して手動審査を依頼    |
 
-レート制限を超えると、API は `429 Concurrency limit reached for requests` レスポンスを返します。このエラーを解決するには、同時リクエストの数を減らしてください。詳細なトラブルシューティングについては、[W&B Inference サポート記事](/inference/support) を参照してください。
+<div id="concurrency-limits">
+  ## 同時実行制限
+</div>
 
-W&B は、W&B Projects ごとにレート制限を適用します。例えば、1つの Teams 内に 3つの Projects がある場合、各 Project が独自のレート制限クォータを持ちます。
+同時実行制限は、project またはユーザーが同時に処理できるリクエスト数に上限を設けることで、サービス品質を保護します。同時実行制限を超えると、API は `429 Concurrency limit reached for requests` というレスポンスを返します。このエラーを解消するには、同時に送信するリクエスト数を減らしてください。
 
-## 地理的な制限
+W&amp;B では、W&amp;B プロジェクトごと、およびユーザーごとに同時実行制限が適用されます。たとえば、1 つのチームに 3 つの プロジェクト がある場合、各プロジェクトにはそれぞれ独自の同時実行制限枠があります。
 
-Inference サービスは、サポートされている地理的な場所からのみ利用可能です。詳細については、[利用規約](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) を参照してください。
+ユースケースで制限の引き上げが必要な場合は、要件について相談するために[サポート](https://wandb.ai/site/contact)までお問い合わせください。
 
-## 次のステップ
+<div id="geographic-restrictions">
+  ## 地理的制限
+</div>
 
-- 開始する前に [前提条件](/inference/prerequisites/) を確認してください。
-- [利用可能な Models](/inference/models) とそれぞれの具体的な料金を確認してください。
+Inference サービスは、サポート対象の地域からのみ利用できます。詳細は、[Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+料金、上限、同時実行制限を理解したところで、次はアカウントを設定しましょう。
+
+* 始める前に、[前提条件](/ja/inference/prerequisites/)を確認してください。
+* [利用可能なモデル](/ja/inference/models)と、それぞれの料金を確認してください。

@@ -1,22 +1,35 @@
 ---
-title: ' thoughtful_ some
-
-  teardown()'
-namespace: python_sdk_actions
-python_object_type: function
+title: teardown()
+kind: 関数
+namespace: wandb.sdk.wandb_setup
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/" />
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-### <kbd>function</kbd> `teardown`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main//Users/noahluna/.pyenv/versions/3.13.0/lib/python3.13/contextlib.py#L571" />
+
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.teardown()
+
+W&amp;B の処理が完了するまで待機し、リソースを解放します。
+
+`run.finish()` で明示的に終了されなかった Runs を完了し、すべてのデータがアップロードされるまで待機します。
+
+`wandb.setup()` を使用したセッションの最後にこれを呼び出すことを推奨します。これは `atexit` フックで自動的に呼び出されますが、Python&#39;s `multiprocessing` モジュールを使用している場合など、一部の環境では確実に動作しません。
 
 ```python
-teardown(exit_code: 'int | None' = None) → None
+exit_code: 'int | None' = None
 ```
 
-W&B の終了を待機し、リソースを解放します。
+<div id="args">
+  ## 引数
+</div>
 
-`run.finish()` を使用して明示的に終了されなかったすべての Runs を完了させ、すべての データ がアップロードされるまで待機します。
+<ResponseField name="exit_code" type="int | None">
+  説明はありません。
+</ResponseField>
 
-`wandb.setup()` を使用したセッションの最後で、この関数を呼び出すことを推奨します。通常は `atexit` フック で自動的に呼び出されますが、Python の `multiprocessing` モジュールを使用する場合など、特定の環境下では動作が不安定になる可能性があります。
+<div id="returns">
+  ## 戻り値
+</div>
+
+None

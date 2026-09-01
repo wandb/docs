@@ -4,20 +4,20 @@ keywords: ["Experiments", "Environment Variables", "Metrics"]
 featured: true
 ---
 
-By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. For offline use, set two environment variables to enable offline mode and sync later.
+By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. If you need to run experiments without an internet connection, you can enable offline mode to log metrics locally and upload them once a connection is available. This page shows how to configure offline mode and sync your data later.
 
-Set the following environment variables:
+To enable offline mode, set the following environment variables:
 
-1. `WANDB_API_KEY=$KEY`, where `$KEY` is an API key created at [User Settings](https://wandb.ai/settings).
-2. `WANDB_MODE="offline"`.
+- `WANDB_API_KEY=[YOUR-API-KEY]`, where `[YOUR-API-KEY]` is an API key created at [User Settings](https://wandb.ai/settings).
+- `WANDB_MODE="offline"`.
 
-Here is an example of implementing this in a script:
+The following example shows how to implement this in a script:
 
 ```python
 import wandb
 import os
 
-os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
+os.environ["WANDB_API_KEY"] = "[YOUR-API-KEY]"
 os.environ["WANDB_MODE"] = "offline"
 
 config = {
@@ -33,16 +33,16 @@ with wandb.init(project="offline-demo") as run:
         run.log({"accuracy": i})
 ```
 
-Sample terminal output is shown below:
+The following image shows sample terminal output:
 
 <Frame>
 <img src="/images/experiments/sample_terminal_output.png" alt="Offline mode terminal output" />
 </Frame>
 
-After completing work, run the following command to sync data to the cloud:
+Once an internet connection is available, run the following command to sync your locally stored run data to the cloud. Replace `[DRYRUN-FOLDER-NAME]` with the name of your local run folder:
 
-```shell
-wandb sync wandb/dryrun-folder-name
+```bash
+wandb sync wandb/[DRYRUN-FOLDER-NAME]
 ```
 
 <Frame>

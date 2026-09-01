@@ -1,35 +1,56 @@
 ---
 title: MetricZScoreFilter
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations._run_metric_filters
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
-
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-## <kbd>class</kbd> `MetricZScoreFilter`
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L201" />
+
+
+
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.MetricZScoreFilter
+
+
+
 Filter that compares a metric's z-score against a user-defined threshold.
 
 
-### <kbd>method</kbd> `MetricZScoreFilter.__init__`
 
 ```python
-__init__(
-    name: 'str',
-    window: 'int' = 30,
-    threshold: 'Annotated | Annotated' = 3.0,
-    change_dir: 'ChangeDir' = ANY
-) → None
+*,
+name: str,
+window_size: Annotated[int, Gt(gt=0)] = 30,
+threshold: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]] = 3.0,
+change_dir: wandb.automations._run_metric_filters.ChangeDir = ANY
 ```
 
-**Args:**
- 
- - `name` (str): Name of the observed metric.
- - `window` (int): Size of the window to calculate the metric mean and standard deviation over.
- - `threshold` (Union[Annotated, Annotated]): Threshold for the z-score.
- - `change_dir` (ChangeDir): Direction of the z-score change to watch for.
+## Args
 
-**Returns:**
- An `MetricZScoreFilter` object.
+<ResponseField name="name" type="str">
+Name of the observed metric.
+</ResponseField>
+
+<ResponseField name="window_size" type="Annotated">
+Size of the window to calculate the metric mean and standard deviation over.
+</ResponseField>
+
+<ResponseField name="threshold" type="Union">
+Threshold for the z-score.
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+Direction of the z-score change to watch for.
+</ResponseField>
+
+
+
+
+
+
+
+
+
+

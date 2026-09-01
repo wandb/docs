@@ -1,0 +1,59 @@
+---
+title: "Pourquoi mon entraînement se bloque-t-il en entraînement distribué ?"
+keywords: ["Experiments", "Plantages de run"]
+---
+
+Cet article vous aide à résoudre les blocages de l&#39;entraînement lorsque vous utilisez W&amp;B avec des frameworks d&#39;entraînement distribué, afin que vos runs puissent démarrer et se terminer sans se bloquer.
+
+Il existe deux raisons fréquentes pour lesquelles l&#39;entraînement se bloque lorsque vous utilisez W&amp;B avec l&#39;entraînement distribué :
+
+* **Blocage au début de l&#39;entraînement** : le multiprocessing de W&amp;B peut interférer avec celui des frameworks d&#39;entraînement distribué.
+* **Blocage à la fin de l&#39;entraînement** : le processus W&amp;B ne détecte pas à quel moment il doit s&#39;arrêter.
+
+<div id="fix-hangs-at-the-start">
+  ## Corriger les blocages au démarrage
+</div>
+
+Si votre run se bloque au début de l’entraînement, la cause est généralement un conflit entre le multiprocessing de W&amp;B et celui du framework d’entraînement distribué. Pour résoudre ce problème, activez W&amp;B Service, activé par défaut dans le SDK W&amp;B `0.13.0` et les versions ultérieures. Si vous utilisez une version antérieure, mettez à niveau votre SDK :
+
+```bash
+pip install --upgrade wandb
+```
+
+Pour les versions `0.12.5` à `0.12.x` du SDK W&amp;B, activez explicitement W&amp;B Service :
+
+```python
+def main():
+    wandb.require("service")
+    # reste de votre script
+```
+
+Pour W&amp;B SDK `0.12.4` et les versions antérieures, définissez la variable d&#39;environnement `WANDB_START_METHOD` :
+
+```bash
+export WANDB_START_METHOD=thread
+```
+
+Après avoir activé W&amp;B Service (ou défini la méthode de démarrage dans les anciennes versions du SDK), votre run d’entraînement distribué démarre sans blocage.
+
+<div id="fix-hangs-at-the-end">
+  ## Corriger le blocage en fin de run
+</div>
+
+Si votre run se bloque une fois l’entraînement terminé, W&amp;B ne détecte pas que le run est terminé. Appelez `wandb.finish()` à la fin de votre script d’entraînement pour indiquer à W&amp;B que le run est terminé :
+
+```python
+wandb.finish()
+```
+
+Cet appel téléverse toutes les données et termine proprement le processus W&amp;B.
+
+Pour plus d&#39;informations, voir [l&#39;entraînement distribué](/fr/models/track/log/distributed-training/).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* FIN DU CONTENU GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

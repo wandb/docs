@@ -1,0 +1,194 @@
+---
+title: "EvaluationLogger"
+description: "Référence du SDK TypeScript"
+---
+
+EvaluationLogger permet la mise au journal incrémentielle des prédictions et des scores.
+
+Contrairement à la classe Evaluation traditionnelle, qui nécessite un jeu de données défini à l’avance et un traitement par lots,
+EvaluationLogger vous permet de mettre au journal les prédictions au fur et à mesure, avec une attribution flexible des scores.
+
+Défini dans : [src/evaluationLogger.ts:554](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L554)
+
+## Exemple
+
+```ts twoslash
+// @noErrors
+const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
+
+for (const example of streamingData) {
+  const output = await myModel.predict(example);
+  const pred = ev.logPrediction(example, output);
+
+  if (shouldScore(output)) {
+    pred.logScore("accuracy", calculateAccuracy(output));
+  }
+  pred.finish();
+}
+
+await ev.logSummary();
+```
+
+<div id="constructors">
+  ## Constructeurs
+</div>
+
+<div id="constructor">
+  ### Constructeur
+</div>
+
+> **new EvaluationLogger**(`options`) : `EvaluationLogger`
+
+Défini dans : [src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="options">
+  ##### options
+</div>
+
+`EvaluationLoggerOptions`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`EvaluationLogger`
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="logprediction">
+  ### logPrediction()
+</div>
+
+> **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+
+Journalise une prédiction avec son entrée et sa sortie (version synchrone).
+Crée un appel `predict_and_score` (avec un appel enfant `predict`).
+Renvoie immédiatement un `ScoreLogger` pour ajouter des scores.
+
+Cette méthode renvoie le `ScoreLogger` de façon synchrone. Les opérations sur le
+`ScoreLogger` (`logScore`, `finish`) seront placées dans la file d&#39;attente et exécutées une fois l&#39;initialisation terminée.
+
+Défini dans : [src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="inputs">
+  ##### entrée
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="output">
+  ##### sortie
+</div>
+
+`any`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`ScoreLogger`](./scorelogger)
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+// Style « fire-and-forget »
+const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
+scoreLogger.logScore('accuracy', 0.95);
+scoreLogger.finish();
+await evalLogger.logSummary(); // Attend la fin de toutes les opérations
+```
+
+***
+
+<div id="logpredictionasync">
+  ### logPredictionAsync()
+</div>
+
+> **logPredictionAsync**(`inputs`, `output`): `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
+
+Journalise une prédiction avec son entrée et sa sortie (version asynchrone).
+Comme logPrediction(), mais renvoie une Promise qui se résout lorsque
+l&#39;appel de prédiction est entièrement initialisé.
+
+Utilisez cette méthode si vous devez attendre l&#39;initialisation avant de continuer.
+
+Défini dans : [src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="inputs">
+  ##### entrée
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="output">
+  ##### sortie
+</div>
+
+`any`
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+// Style avec await
+const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
+await scoreLogger.logScore('accuracy', 0.95);
+await scoreLogger.finish();
+```
+
+***
+
+<div id="logsummary">
+  ### logSummary()
+</div>
+
+> **logSummary**(`summary?`): `Promise`&lt;`void`&gt;
+
+Journalise une synthèse et finalise l’évaluation.
+Crée un appel summarize et termine l’appel evaluate.
+
+Cette méthode peut être appelée sans await (fire-and-forget), mais en interne
+elle attendra que toutes les opérations en attente soient terminées.
+
+Défini dans : [src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<div id="summary">
+  ##### synthèse ?
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;

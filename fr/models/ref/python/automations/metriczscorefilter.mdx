@@ -1,0 +1,41 @@
+---
+title: MetricZScoreFilter
+kind: classe
+namespace: wandb.automations._run_metric_filters
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L201" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.MetricZScoreFilter
+
+Filtre qui compare le z-score d’une métrique à un seuil défini par l’utilisateur.
+
+```python
+*,
+name: str,
+window_size: Annotated[int, Gt(gt=0)] = 30,
+threshold: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]] = 3.0,
+change_dir: wandb.automations._run_metric_filters.ChangeDir = ANY
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="name" type="str">
+  Nom de la métrique observée.
+</ResponseField>
+
+<ResponseField name="window_size" type="Annotated">
+  Taille de la fenêtre utilisée pour calculer la moyenne et l’écart type de la métrique.
+</ResponseField>
+
+<ResponseField name="threshold" type="Union">
+  Seuil du z-score.
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+  Sens de variation du z-score à surveiller.
+</ResponseField>

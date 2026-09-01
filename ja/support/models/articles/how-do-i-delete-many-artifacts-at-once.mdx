@@ -1,0 +1,63 @@
+---
+title: "多数のartifactを一度に削除するにはどうすればよいですか？"
+keywords: ["Artifacts", "Storage", "Python API"]
+---
+
+ストレージ使用量を削減するなど、多数のartifactバージョンを削除する必要がある場合は、W&amp;B App ではなく [W&amp;B Public API](/ja/models/ref/python/public-api/api) を使用してください。App での一括削除は `context deadline exceeded` エラーによりタイムアウトする場合があります。また、artifact リストは数百個のバージョンを削除する用途には設計されていません。
+
+次のスクリプトは、project 内の指定したタイプのすべてのartifactバージョンを削除します。
+
+`[YOUR-TEAM]` と `[YOUR-PROJECT]` のプレースホルダーを自身の値に置き換えてください。`[YOUR-TEAM]` には、組織名ではなくチーム名またはユーザー名を使用してください。
+
+<Warning>
+  artifact の削除は破壊的な操作です。ソースartifactバージョンを削除すると、W&amp;B はartifactとそのfileを削除します。`delete_aliases=True` を渡すと、`latest` などのaliasを持つバージョンの削除が可能になり、それらのaliasも削除されます。
+
+  まず `DRY_RUN = True` を使用し、出力されたartifact名を確認してから、DRY&#95;RUN = False を設定してください。
+</Warning>
+
+```python
+import wandb
+
+# `wandb login` を実行済みであることを前提としています。
+entity = "[YOUR-TEAM]"  # ご自身のチームに置き換えてください。
+project = "[YOUR-PROJECT]"  # ご自身の project に置き換えてください。
+artifact_type = "model"  # 削除する artifact タイプに置き換えてください。
+
+# 削除するバージョンを確認し終えるまでは True のままにしてください。
+DRY_RUN = True
+
+api = wandb.Api()
+
+for collection in api.artifact_collections(f"{entity}/{project}", artifact_type):
+    for version in collection.artifacts():
+        if DRY_RUN:
+            print(f"[dry-run] {version.name} を削除します")
+        else:
+            print(f"{version.name} を削除中")
+            version.delete(delete_aliases=True)
+```
+
+スクリプトはコレクションではなくartifact バージョンを削除します。空になったコレクションも、project の **Artifacts** タブには引き続き表示されます。
+
+`wandb.Api.artifact_collections()` は、ソースコレクションとリンクコレクションの両方を返します。
+
+* ソースコレクションには、project 内の run にログされたartifact バージョンが含まれます。
+* リンクコレクションには、Registry 内のコレクションなど、別のコレクションにリンクされたartifact バージョンへの参照が含まれます。
+
+詳細は、[artifact バージョンをコレクションにリンクする](/ja/models/registry/link_version)を参照してください。
+
+バージョンがリンクコレクションに含まれる場合、`version.delete(delete_aliases=True)` はリンクのみを削除します。ソースartifact とその file は元の場所に残るため、そのバージョンを削除してもストレージは解放されません。
+
+<div id="reclaim-the-space">
+  ## ストレージ容量を解放する
+</div>
+
+削除したartifactはまず論理削除され、後でガベージ コレクションによって完全に削除されるため、ストレージ使用量はすぐには減少しません。タイミングと使用量の確認方法については、[runを削除した後、ストレージ使用量が更新されないのはなぜですか？](/ja/support/models/articles/why-does-the-storage-meter-not-update-af)および[artifactを削除する](/ja/models/artifacts/delete-artifacts)を参照してください。
+
+***
+
+{/* AUTO-GENERATED: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[ストレージ](/ja/support/models/tags/storage)</Badge><Badge stroke shape="pill" color="orange" size="md">[Python API](/ja/support/models/tags/python-api)</Badge>
+
+{/* END AUTO-GENERATED: タブバッジ */}

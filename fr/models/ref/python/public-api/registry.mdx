@@ -1,0 +1,418 @@
+---
+title: Registre
+kind: classe
+namespace: wandb.apis.public.registries.registry
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Registry
+
+Un seul registre dans le Registre.
+
+```python
+(service_api: 'ServiceApi',
+organization: 'str',
+entity: 'str',
+name: 'str',
+attrs: 'RegistryFragment | None' = None)
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="service_api" type="ServiceApi">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="organization" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="attrs" type="RegistryFragment | None">
+  Aucune description fournie.
+</ResponseField>
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<ResponseField name="allow_all_artifact_types" type="bool">
+  Indique si tous les types d&#39;artefacts sont autorisés dans le registre.
+
+  Si `True`, des artefacts de tout type peuvent être ajoutés. Si `False`, les artefacts sont
+  restreints aux types répertoriés dans `artifact_types`.
+</ResponseField>
+
+<ResponseField name="artifact_types" type="AddOnlyArtifactTypesList">
+  Renvoie les types d&#39;artefacts autorisés dans le registre.
+
+  Si `allow_all_artifact_types` est `True`, `artifact_types` reflète les
+  types précédemment enregistrés ou actuellement utilisés dans le registre.
+  Si `allow_all_artifact_types` est `False`, les artefacts sont restreints aux
+  types figurant dans `artifact_types`.
+
+  Remarque :
+  Les types d&#39;artefacts précédemment enregistrés ne peuvent pas être supprimés.
+</ResponseField>
+
+<ResponseField name="created_at" type="str">
+  Horodatage de la création du registre.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  Description du registre.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  Entité d&#39;organisation du registre.
+</ResponseField>
+
+<ResponseField name="full_name" type="str">
+  Nom complet du registre, incluant le préfixe `wandb-registry-`.
+</ResponseField>
+
+<ResponseField name="id" type="str">
+  ID unique de ce registre.
+</ResponseField>
+
+<ResponseField name="internal_id" type="str | None">
+  `internalId` GraphQL du projet sous-jacent de ce registre, s&#39;il a été récupéré.
+
+  Il s&#39;agit d&#39;un ID global encodé en base64. Une fois décodé, il se présente sous la forme
+  `Project:123` ou `ProjectInternalId:123`.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  Nom du registre sans le préfixe `wandb-registry-`.
+</ResponseField>
+
+<ResponseField name="organization" type="str">
+  Nom de l&#39;organisation du registre.
+</ResponseField>
+
+<ResponseField name="path" type="list[str]">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="updated_at" type="str | None">
+  Horodatage de la dernière mise à jour du registre.
+</ResponseField>
+
+<ResponseField name="visibility" type="The visibility level.">
+  Visibilité du registre.
+</ResponseField>
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.add_members()
+
+```python
+self, *members: 'User | UserMember | Team | TeamMember | str'
+```
+
+Ajoute des Users ou des équipes à ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+  Les Users ou équipes à ajouter au registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
+</ResponseField>
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `TypeError`: Si aucun membre n’est passé en argument.
+* `ValueError`: S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.add_members(user1, user2)
+
+my_team = api.team(name="my-team")
+registry.add_members(my_team)
+```
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.collections()
+
+```python
+self,
+filter: 'dict[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
+```
+
+Renvoie les collections appartenant à ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+  Mappage facultatif des filtres à appliquer à la requête de collections.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  Chaîne facultative permettant de spécifier l&#39;ordre des résultats. S&#39;il est préfixé par &#39;+&#39;, le tri est croissant (par défaut). S&#39;il est préfixé par &#39;-&#39;, le tri est décroissant.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+  Nombre de résultats à récupérer par page. Il n&#39;est généralement pas nécessaire de le modifier.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  Curseur de pagination permettant de reprendre une requête antérieure, obtenu à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.create()
+
+```python
+api: 'Api',
+organization: 'str',
+name: 'str',
+visibility: "Literal['organization', 'restricted']",
+description: 'str | None' = None,
+artifact_types: 'list[str] | None' = None
+```
+
+Créer un nouveau registre.
+
+Le nom du registre doit être unique au sein de l’organisation.
+Cette fonction doit être appelée via `api.create_registry()`
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="api" type="Api">
+  L’instance d’API W&amp;B.
+</ResponseField>
+
+<ResponseField name="organization" type="str">
+  Le nom de l’organisation.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  Le nom du registre (sans le préfixe `wandb-registry-`).
+</ResponseField>
+
+<ResponseField name="visibility" type="Literal['organization', 'restricted']">
+  Le niveau de visibilité (« organization » ou « restricted »).
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  Une description facultative du registre.
+</ResponseField>
+
+<ResponseField name="artifact_types" type="list[str] | None">
+  Une liste facultative des types d’artefacts autorisés.
+</ResponseField>
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `ValueError`: Si un registre portant le même nom existe déjà dans l’organisation, ou si sa création échoue.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.delete()
+
+```python
+self
+```
+
+Supprimez le registre. Cette action est irréversible.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.load()
+
+```python
+self
+```
+
+Charge les attributs du registre à partir du backend.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.members()
+
+```python
+self
+```
+
+Renvoie les membres actuels (Users et équipes) de ce registre.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.remove_members()
+
+```python
+self, *members: 'User | UserMember | Team | TeamMember | str'
+```
+
+Supprime des Users ou des équipes de ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
+  Les Users ou équipes à supprimer du registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
+</ResponseField>
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `TypeError`: Si aucun membre n’est passé en argument.
+* `ValueError`: S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.remove_members(user1, user2)
+
+old_team = api.team(name="old-team")
+registry.remove_members(old_team)
+```
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.save()
+
+```python
+self
+```
+
+Enregistrer les attributs du registre dans le backend.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.team_members()
+
+```python
+self
+```
+
+Renvoie les équipes actuellement membres de ce registre.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.update_member()
+
+```python
+self,
+member: 'User | UserMember | Team | TeamMember | str',
+role: 'MemberRole | str'
+```
+
+Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="member" type="User | UserMember | Team | TeamMember | str">
+  L’utilisateur ou l’équipe dont le rôle doit être mis à jour. Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
+</ResponseField>
+
+<ResponseField name="role" type="MemberRole | str">
+  Le nouveau rôle à attribuer au membre. Peut être l’un des suivants :
+
+  * &quot;admin&quot;
+  * &quot;member&quot;
+  * &quot;viewer&quot;
+  * &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
+</ResponseField>
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `ValueError`: S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
+
+<div id="examples">
+  ##### Exemples
+</div>
+
+Faites de tous les utilisateurs du registre des administrateurs
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# Récupérer un registre existant
+registry = api.registry(name="my-registry", organization="my-org")
+
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+```
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.user_members()
+
+```python
+self
+```
+
+Renvoie les utilisateurs actuellement membres de ce registre.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.versions()
+
+```python
+self,
+filter: 'dict[str, Any] | None' = None,
+order: '_VersionOrder | None' = None,
+per_page: 'PositiveInt' = 100,
+start: 'str | None' = None
+```
+
+Renvoie les versions d&#39;artifact de ce registre.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+  Mappage facultatif des filtres à appliquer à la requête de versions d&#39;artifact.
+</ResponseField>
+
+<ResponseField name="order" type="_VersionOrder | None">
+  Chaîne facultative permettant de spécifier l&#39;ordre des résultats. L&#39;ordre peut être `created_at`, `artifact_size` ou `linked_at`. Préfixé par &#39;+&#39;, le tri est croissant (par défaut). Préfixé par &#39;-&#39;, le tri est décroissant.
+</ResponseField>
+
+<ResponseField name="per_page" type="PositiveInt">
+  Le nombre de résultats à récupérer par page. En général, il n&#39;y a aucune raison de modifier cette valeur.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  Curseur de pagination pour reprendre une requête précédente, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
+</ResponseField>
