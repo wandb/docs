@@ -132,7 +132,7 @@ W&B Server 0.83.0 makes the Registry cross-platform accessible. On Dedicated Clo
 
 In v0.83.x, the following Automations features are available in Dedicated Cloud only:
 
-- **Automation Hub** centralizes the creation and management of [automations](/models/automations#automations-overview) across projects and registries. Find it in the **Core** section of the sidebar.
+- **Automation Hub** centralizes the creation and management of [automations](/models/automations) across projects and registries. Find it in the **Core** section of the sidebar.
 - An automation can now be scoped to an organization, a team, a project, a registry, or a collection. This eliminates the need to duplicate an automation to achieve broad coverage. When creating an automation, click **Edit scopes**.
 
 ### Registry
@@ -140,7 +140,7 @@ In v0.83.x, the following Automations features are available in Dedicated Cloud 
 In v0.83.x, the following Registry features are available in Dedicated Cloud only:
 
 - All Models and Weave users in an organization now have Registry access by default. Existing per-registry permissions are unchanged. Administrators can revoke a user's organization-level Registry access through SCIM. See [Update Registry access](/platform/hosting/iam/scim#update-registry-access).
-- Weave [prompts](/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` and `MessagesPrompt`) can now be added to the Registry, so you can version, alias, and reuse prompts across your organization alongside model artifacts.
+- Weave [prompts](/weave/guides/core-types/prompts) (`StringPrompt` and `MessagesPrompt`) can now be added to the Registry, so you can version, alias, and reuse prompts across your organization alongside model artifacts.
 - Improved [artifact collection](/models/registry/create_collection) overview editing and version grid selection. Auto-generate rich collection cards with dynamic artifact panels for more context.
 
 ### Weave
@@ -150,7 +150,7 @@ In v0.83.x, the following Registry features are available in Dedicated Cloud onl
 - Agent reactions (thumbs-up/thumbs-down) now save as tags instead of emoji reactions, so they appear alongside scorer tags and you can filter and chart them by agent.
 - Signals and Playground agents are now hidden by default.
 - Moved dataset manipulation to the [**Evaluations** page](/weave/guides/core-types/evaluations) and improved the experience of creating datapoints.
-- Added an [audio](/weave/cookbooks/audio_with_weave#audio-with-weave) player to agent conversations, including a new **Play all** control that plays each file in sequence.
+- Added an [audio](/weave/cookbooks/audio_with_weave) player to agent conversations, including a new **Play all** control that plays each file in sequence.
 - Improved the [**Agents**](/weave/custom-agents-quickstart) tab.
 - Added a **Spans** minimap to agent conversations, with turn-anchored feedback data.
 - Added copy controls to JSON embedded in user messages.
@@ -646,7 +646,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     ![Baseline run with distinct styling in line plot](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)
     </Frame>
 
-- [Create panels with multiple metrics](/models/app/features/panels/line-plot#multi-metric-line-plot) in bulk to quickly organize your workspace and spot patterns across large metric sets. For example, you can overlay gradient metrics across model layers or position specific layers side-by-side. [Watch a video demonstration](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166).
+- [Create panels with multiple metrics](/models/app/features/panels/line-plot#multi-metric-regular-expressions) in bulk to quickly organize your workspace and spot patterns across large metric sets. For example, you can overlay gradient metrics across model layers or position specific layers side-by-side. [Watch a video demonstration](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166).
 - [Workspace templates](/models/app/features/cascade-settings#workspace-layout-options) have new settings. You can now configure your workspace template to hide empty sections, sort panels in a section alphabetically, or adjust how automatic panel sorting in a section works. See [Workspace layout options](/models/app/features/cascade-settings#workspace-layout-options).
 - The **Sweeps** table now includes a column with the **Sweep ID**.
 - Admins can now customize usage and spend alerts for your organization. View usage and spending and set up email notifications for storage, tracked hours, Weave, and Training in your organization settings under the new **Usage & Alerts** tab. See [Plan usage](/platform/app/settings-page/billing-settings#plan-usage).
@@ -681,7 +681,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     <Frame>![Video: re-ordering columns in Traces and Evaluations tables](/images/release-notes/v0-78-0/weave-column-reorder-demo.gif)</Frame>
 - You can now save a customized [Leaderboard](/weave/guides/evaluation/dynamic_leaderboards) in a saved view.
 - You can now evaluate audio and image content in your traces using [monitors](/weave/guides/evaluation/monitors).
-- Aggregated OpenTelemetry token counts now display in the trace detail sidebar for [OpenTelemetry traces](/weave/guides/tracking/otel#send-opentelemetry-traces-to-weave).
+- Aggregated OpenTelemetry token counts now display in the trace detail sidebar for [OpenTelemetry traces](/weave/guides/tracking/otel).
 - For models like Gemini that provide thinking tokens, they now display in **Token Usage** in the Weave UI. Thinking tokens are internal tokens used by LLMs to process complex reasoning steps, calculations, and self-reflection before generating a final answer.
 
 ## Fixes
@@ -1030,8 +1030,8 @@ In v0.73.0, resizing or reordering workspace panels may not be reflected in save
 ### Weave
 - You can now group sessions or conversations across multiple traces with [Weave Threads](/weave/guides/tracking/threads).
 - The **Trace view**'s new [Graph view](/weave/guides/tracking/trace-tree#graph-view) visualizes the call tree structure as a graph.
-- The **Trace view** includes new specialized views for [documents](/weave/guides/core-types/media#documents) retrieved with ChromaDB and Langchain improves handling of schemas such as chats. In **Trace view**, click a document to open its detailed view in a drawer to the right. Learn more at [Navigate the trace view](/weave/guides/tracking/trace-tree).
-- You can now attach [HTML](/weave/guides/core-types/media#html) to a trace as a media type.
+- The **Trace view** includes new specialized views for [documents](/weave/guides/core-types/media#log-documents) retrieved with ChromaDB and Langchain improves handling of schemas such as chats. In **Trace view**, click a document to open its detailed view in a drawer to the right. Learn more at [Navigate the trace view](/weave/guides/tracking/trace-tree).
+- You can now attach [HTML](/weave/guides/core-types/media#log-html) to a trace as a media type.
 - From the **Assets** tab, you can now create and edit prompts. Click **Assets**, then in the navigation, click **Prompts**. Click **New prompt** or click the name of an existing prompt to view its details. From there, click the pencil icon to edit and republish the prompt.
 
 ## Fixes

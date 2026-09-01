@@ -347,7 +347,7 @@ The following table describes available hyperbolic functions:
 
 The following are example expressions for line plot axes. These examples are for illustrative purposes. You can use any combination of operators and functions described in the previous sections to create complex expressions that suit your needs.
 
-For the following examples, suppose your [summary metrics](/models/track/log/log-summary#log-summary-metrics) include `accuracy` and `loss` with the following values:
+For the following examples, suppose your [summary metrics](/models/track/log/log-summary) include `accuracy` and `loss` with the following values:
 
 ```json Summary metrics
 {
@@ -428,7 +428,7 @@ sqrt(${summary:loss}*100)+sqrt(${summary:loss}*100000)
 
 
 ### Multi-metric panel expressions
-Use a regular expression to create a single line plot that shows multiple metrics together (including matching metrics logged in the future). For detailed instructions, see [Add a line plot](/models/app/features/panels/line-plot#multi-metric-line-plot).
+Use a regular expression to create a single line plot that shows multiple metrics together (including matching metrics logged in the future). For detailed instructions, see [Add a line plot](/models/app/features/panels/line-plot#multi-metric-regular-expressions).
 
 For example:
 - Instead of creating separate panels for each layer's metrics, you can view them together in a single panel. For example, if you log metrics with consistent naming, like `layer_0_loss`, `layer_1_loss`, and `layer_2_loss`, you can use a regex like `layer_\d+_loss` to display all layer losses on one plot.

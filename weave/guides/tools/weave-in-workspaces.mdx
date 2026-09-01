@@ -107,7 +107,7 @@ def my_function(x):
 my_function(10)  # This trace is linked to "my-run-id" at step 5.
 ```
 
-The `run_id` is the run's short ID (for example, `38m4t5ja`), not the full `entity/project/run_id` path. You can find a run's short ID in the run URL (`https://wandb.ai/team/project/runs/[RUN-ID]`) or by [accessing `wandb.run.id` in code](/models/runs/run-identifiers#find-and-customize-a-runs-id-or-name).
+The `run_id` is the run's short ID (for example, `38m4t5ja`), not the full `entity/project/run_id` path. You can find a run's short ID in the run URL (`https://wandb.ai/team/project/runs/[RUN-ID]`) or by [accessing `wandb.run.id` in code](/models/runs/run-identifiers#find-a-runs-id).
 
 To stop the override and fall back to the global `wandb.run`, call `clear_wandb_run_context`:
 

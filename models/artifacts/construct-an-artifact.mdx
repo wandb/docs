@@ -47,13 +47,13 @@ artifact = wandb.Artifact(name="<name>", type="<type>")
 
 [Add files, directories, external URI references (such as Amazon S3) and more](/models/artifacts/construct-an-artifact#add-files-to-an-artifact) to your artifact object.
 
-To add a single file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) method:
+To add a single file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#method-artifact-add_file) method:
 
 ```python
 artifact.add_file(local_path="path/to/file.txt", name="<name>")
 ```
 
-To add a directory, use the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) method:
+To add a directory, use the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#method-artifact-add_dir) method:
 
 ```python
 artifact.add_dir(local_path="path/to/directory", name="<name>")
@@ -63,7 +63,7 @@ See the next section, [Add files to an artifact](/models/artifacts/construct-an-
 
 ### Save your artifact to the W&B server
 
-Save your artifact to the W&B server. Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
+Save your artifact to the W&B server. Use the run object's [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#method-run-log_artifact) method to save the artifact.
 
 ```python
 with wandb.init(project="<project>", job_type="<job-type>") as run:
@@ -130,7 +130,7 @@ root-directory
 
 ### Add a single file
 
-Use [`wandb.Artifact.add_file()`](/models/ref/python/experiments/artifact#method-artifact-add-file) to add a single local file to an artifact. Provide the local path to the file as the `local_path` parameter:
+Use [`wandb.Artifact.add_file()`](/models/ref/python/experiments/artifact#method-artifact-add_file) to add a single local file to an artifact. Provide the local path to the file as the `local_path` parameter:
 
 ```python
 import wandb
@@ -181,7 +181,7 @@ The following table shows how different API calls produce different artifact con
 
 ### Add multiple files
 
-Use the [`wandb.Artifact.add_dir()`](/models/ref/python/experiments/artifact#method-artifact-add-dir) method to add multiple files from a local directory to an artifact. Provide the local path to the directory as the `local_path` parameter.
+Use the [`wandb.Artifact.add_dir()`](/models/ref/python/experiments/artifact#method-artifact-add_dir) method to add multiple files from a local directory to an artifact. Provide the local path to the directory as the `local_path` parameter.
 
 
 ```python
@@ -205,7 +205,7 @@ The following table show how different API calls produce different artifact cont
 
 Artifacts track checksums and other information for reproducibility if the URI has a scheme that the W&B library supports.
 
-Add an external URI reference to an artifact with the [`wandb.Artifact.add_reference()`](/models/ref/python/experiments/artifact#method-artifact-add-reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
+Add an external URI reference to an artifact with the [`wandb.Artifact.add_reference()`](/models/ref/python/experiments/artifact#method-artifact-add_reference) method. Replace the `'uri'` string with your own URI. Optionally pass the desired path within the artifact for the name parameter.
 
 ```python
 # Add a URI reference

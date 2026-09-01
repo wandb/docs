@@ -83,8 +83,8 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 The following code example demonstrates the steps you can take to use an artifact you have logged and saved to the W&B servers.
 
 1. First, initialize a new run object with **`wandb.init()`.**
-2. Second, use the run objects [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) method to tell W&B what artifact to use. This returns an artifact object.
-3. Third, use the artifacts [`wandb.Artifact.download()`](/models/ref/python/experiments/artifact#download) method to download the contents of the artifact.
+2. Second, use the run objects [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#method-run-use_artifact) method to tell W&B what artifact to use. This returns an artifact object.
+3. Third, use the artifacts [`wandb.Artifact.download()`](/models/ref/python/experiments/artifact#method-artifact-download) method to download the contents of the artifact.
 
 ```python
 # Create a W&B Run. Here we specify 'training' for 'type'

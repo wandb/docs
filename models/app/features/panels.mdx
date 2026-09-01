@@ -7,7 +7,7 @@ keywords: ["workspace panels", "quick add", "full-screen mode", "panel sections"
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
 
-Use workspace panel visualizations to explore your [logged data](/models/ref/python/experiments/run.md/#method-runlog) by key, visualize the relationships between hyperparameters and output metrics, and more. This page describes how to choose a workspace mode, add and configure panels, organize them into sections, and share them with collaborators. 
+Use workspace panel visualizations to explore your [logged data](/models/ref/python/experiments/run#method-run-log) by key, visualize the relationships between hyperparameters and output metrics, and more. This page describes how to choose a workspace mode, add and configure panels, organize them into sections, and share them with collaborators. 
 
 ## Workspace modes
 
@@ -15,8 +15,8 @@ W&B projects support two different workspace modes. The icon next to the workspa
 
 | Icon | Workspace mode |
 | --- | --- |
-| <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px"  /> | **Automated workspaces** automatically generate panels for all keys logged in the project. Choose an automatic workspace:<ul><li>To get started quickly by visualizing all available data for the project.</li><li>For smaller projects that log fewer keys.</li><li>For more broad analysis.</li></ul>If you delete a panel from an automatic workspace, you can use [Quick add](#quick-add) to recreate it. |
-| <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px"  /> | **Manual workspaces** start as blank slates and display only the panels you intentionally add. Choose a manual workspace:<ul><li>When you care mainly about a fraction of the keys logged in the project.</li><li>For more focused analysis.</li><li>To improve the performance of a workspace by avoiding loading panels that are less useful to you.</li></ul>Use [Quick add](#quick-add) to quickly populate a manual workspace and its sections with useful visualizations. |
+| <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px"  /> | **Automated workspaces** automatically generate panels for all keys logged in the project. Choose an automatic workspace:<ul><li>To get started quickly by visualizing all available data for the project.</li><li>For smaller projects that log fewer keys.</li><li>For more broad analysis.</li></ul>If you delete a panel from an automatic workspace, you can use [Quick panel builder](#quick-panel-builder) to recreate it. |
+| <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px"  /> | **Manual workspaces** start as blank slates and display only the panels you intentionally add. Choose a manual workspace:<ul><li>When you care mainly about a fraction of the keys logged in the project.</li><li>For more focused analysis.</li><li>To improve the performance of a workspace by avoiding loading panels that are less useful to you.</li></ul>Use [Quick panel builder](#quick-panel-builder) to quickly populate a manual workspace and its sections with useful visualizations. |
 
 To change how a workspace generates panels, [reset the workspace](#reset-a-workspace).
 
@@ -77,7 +77,7 @@ When you work in full-screen mode, use the following tips:
 - To return to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
 - To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
 - To reclaim more space for the panel, minimize the run selector with **Cmd+.** (macOS) or **Ctrl+.** (Windows or Linux).
-- When you view an image from a [media panel](/models/app/features/panels/media) in full-screen mode, keyboard shortcuts can zoom in or out, reset zoom, or zoom to fit. See [Keyboard shortcuts](/models/app/keyboard-shortcuts#media-panels).
+- When you view an image from a [media panel](/models/app/features/panels/media) in full-screen mode, keyboard shortcuts can zoom in or out, reset zoom, or zoom to fit. See [Keyboard shortcuts](/models/app/keyboard-shortcuts#media-browser-modal).
 
 See [Keyboard shortcuts](/models/app/keyboard-shortcuts) for other full-screen and panel shortcuts.
 

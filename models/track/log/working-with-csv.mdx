@@ -100,7 +100,7 @@ The below table becomes this W&B Dashboard after conversion
 In some cases, you might have your experiment details in a CSV file. Common details found in such CSV files include:
 
 * A name for the experiment run
-* Initial [notes](/models/runs/#add-a-note-to-a-run)
+* Initial [notes](/models/runs)
 * [Tags](/models/runs/tags/) to differentiate the experiments
 * Configurations needed for your experiment (with the added benefit of being able to utilize our [Sweeps Hyperparameter Tuning](/models/sweeps/)).
 
@@ -160,13 +160,13 @@ for i, row in loaded_experiment_df.iterrows():
     ) as run:
     ```
 
-As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`](/models/ref/python/experiments/run/#method-runlog) command to accomplish this:
+As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`](/models/ref/python/experiments/run#method-run-log) command to accomplish this:
 
 ```python
 run.log({key: val})
 ```
 
-You can optionally log a final summary metric to define the outcome of the run using the [`define_metric`](/models/ref/python/experiments/run#define_metric) API. This example adds the summary metrics to our run with `run.summary.update()`:
+You can optionally log a final summary metric to define the outcome of the run using the [`define_metric`](/models/ref/python/experiments/run#method-run-define_metric) API. This example adds the summary metrics to our run with `run.summary.update()`:
 
 ```python
 run.summary.update(summaries)

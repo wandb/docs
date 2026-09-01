@@ -22,8 +22,8 @@ Before you start, check the following:
 <Tabs>
 <Tab title="Python SDK">
 
-Programmatically link an artifact version to a collection with [`wandb.Run.link_artifact()`](/models/ref/python/experiments/run#link_artifact) or
-[`wandb.Artifact.link()`](/models/ref/python/experiments/artifact#method-artifactlink)
+Programmatically link an artifact version to a collection with [`wandb.Run.link_artifact()`](/models/ref/python/experiments/run#method-run-link_artifact) or
+[`wandb.Artifact.link()`](/models/ref/python/experiments/artifact#method-artifact-link)
 
 The following table summarizes the methods you can use to link an artifact version to a collection and what W&B records when you use each method.
 
@@ -193,7 +193,7 @@ To unlink an artifact version with the W&B Python SDK:
 
 1. Create a Public API client with `wandb.Api()`.
 2. Retrieve the linked artifact version with `wandb.Api.artifact()`.
-3. Call [`wandb.Artifact.unlink()`](/models/ref/python/experiments/artifact#method-artifactunlink) to unlink the artifact version from the collection.
+3. Call [`wandb.Artifact.unlink()`](/models/ref/python/experiments/artifact#method-artifact-unlink) to unlink the artifact version from the collection.
 
 ```text
 wandb-registry-<registry_name>/<collection_name>:<version_or_alias>

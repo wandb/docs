@@ -326,9 +326,9 @@ The following properties are supported:
 * `type`: (str) The type of the artifact, used to organize and differentiate artifacts. Common types include dataset or model, but you can use any string containing letters, numbers, underscores, hyphens, and dots. Required when the output isn't already an Artifact.
 * `description`: (str) Free text that describes the artifact. The description is rendered as markdown in the UI, so it's a good place for tables, links, and so on.
 * `aliases`: (list[str]) An array containing one or more aliases you want to apply on the Artifact. The integration also adds the "latest" tag to that list whether it's set or not. Use aliases to manage versioning of models and datasets.
-* [`add_dirs`](/models/ref/python/experiments/artifact#add_dir): (list[dict[str, Any]]): An array containing configuration for each local directory to include in the Artifact. 
-* [`add_files`](/models/ref/python/experiments/artifact#add_file): (list[dict[str, Any]]): An array containing configuration for each local file to include in the Artifact. 
-* [`add_references`](/models/ref/python/experiments/artifact#add_reference): (list[dict[str, Any]]): An array containing configuration for each external reference to include in the Artifact. 
+* [`add_dirs`](/models/ref/python/experiments/artifact#method-artifact-add_dir): (list[dict[str, Any]]): An array containing configuration for each local directory to include in the Artifact. 
+* [`add_files`](/models/ref/python/experiments/artifact#method-artifact-add_file): (list[dict[str, Any]]): An array containing configuration for each local file to include in the Artifact. 
+* [`add_references`](/models/ref/python/experiments/artifact#method-artifact-add_reference): (list[dict[str, Any]]): An array containing configuration for each external reference to include in the Artifact. 
 * `serialization_module`: (dict) Configuration of the serialization module to use. Refer to the Serialization section for more information.
     * `name`: (str) Name of the serialization module. Accepted values: `pickle`, `dill`, `cloudpickle`, `joblib`. The module must be available locally.
     * `parameters`: (dict[str, Any]) Optional arguments passed to the serialization function. It accepts the same parameters as the dump method for that module. For example, `{"compress": 3, "protocol": 4}`.
@@ -996,7 +996,7 @@ The following recommendations help you get the most out of the integration once 
 
 ### Use the IO Manager to read and write Artifacts
 
-Avoid using [`Artifact.download()`](/models/ref/python/experiments/artifact#download) or [`Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) directly. The integration handles those methods. Instead, return the data you want to store in the Artifact and let the integration do the rest. This approach provides better lineage for the Artifact.
+Avoid using [`Artifact.download()`](/models/ref/python/experiments/artifact#method-artifact-download) or [`Run.log_artifact()`](/models/ref/python/experiments/run#method-run-log_artifact) directly. The integration handles those methods. Instead, return the data you want to store in the Artifact and let the integration do the rest. This approach provides better lineage for the Artifact.
 
 ### Only build an Artifact object yourself for complex use cases
 

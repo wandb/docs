@@ -33,7 +33,7 @@ If you're using [W&B Server](/platform/hosting/) in your Private Cloud or on W&B
 W&B can notify you when a run finishes or crashes, without any code changes. In your [User Settings](https://wandb.ai/settings), scroll to the **Alerts** section and turn on:
 
 - **Run finished** to be notified when a run completes successfully.
-- **Run crashed** to be notified when a run exits without calling [`run.finish()`](/models/ref/python/experiments/run#finish).
+- **Run crashed** to be notified when a run exits without calling [`run.finish()`](/models/ref/python/experiments/run#method-run-finish).
 
 These toggles are per-user. **Run finished** alerts do not fire for runs in Jupyter notebooks. In notebooks, use `run.alert()` for completion notifications.
 
