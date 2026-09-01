@@ -16,7 +16,9 @@ Google&#39;s Agent Development Kit (ADK)은 에이전트를 구축하고 오케�
   <Tab title="Python">
     Weave SDK는 [Python용 Google ADK](https://google.github.io/adk-docs/)에 자동으로 패치되므로, 최소한의 설정만으로 ADK 에이전트의 트레이스를 캡처할 수 있습니다. 이 가이드에서는 Weave를 초기화한 다음 Google ADK로 빌드한 멀티턴 리서치 에이전트를 실행해, Weave가 Session 전반에서 모든 에이전트 호출, 모델 Call, 도구 Call을 캡처하도록 하는 방법을 설명합니다.
 
-    ### 사전 요구 사항
+    <div id="prerequisites">
+      ### 사전 요구 사항
+    </div>
 
     * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정 및 [API 키](https://wandb.ai/authorize)
     * Gemini용 [Google API 키](https://aistudio.google.com/apikey)
@@ -26,7 +28,9 @@ Google&#39;s Agent Development Kit (ADK)은 에이전트를 구축하고 오케�
   <Tab title="TypeScript">
     Weave는 [Node.js용 Google ADK](https://google.github.io/adk-docs/) (`@google/adk`)와 통합되어 에이전트 Runs를 자동으로 트레이스합니다.
 
-    ### 사전 요구 사항
+    <div id="prerequisites-2">
+      ### 사전 요구 사항
+    </div>
 
     * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정 및 [API 키](https://wandb.ai/authorize)
     * `GEMINI_API_KEY` 또는 `GOOGLE_GENAI_API_KEY` 환경 변수로 설정된 [Google API 키](https://aistudio.google.com/apikey)

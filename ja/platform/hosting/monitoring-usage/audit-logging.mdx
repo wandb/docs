@@ -116,7 +116,9 @@ API レスポンスには、改行区切りの JSON オブジェクトが含ま�
 
 監査ログ API への各リクエストは認証する必要があります。APIキーを使用して基本認証で 監査ログ API にアクセスするには、HTTP リクエストの `Authorization` ヘッダーに、文字列 `Basic`、半角スペース 1 つ、続けて `[USERNAME]:[API-KEY]` 形式の文字列をbase64エンコードした値を設定します。つまり、`username` と `API-KEY` を `:` で区切った実際の値に置き換え、その結果をbase64エンコードします。たとえば、`demo:p@55w0rd` として認証する場合、ヘッダーを `Authorization: Basic ZGVtbzpwQDU1dzByZA==` に設定します。
 
-### 監査ログ取得時に PII を除外する <a id="exclude-pii" />
+<div id="exclude-pii-when-fetching-audit-logs">
+  ### 監査ログ取得時に PII を除外する <a id="exclude-pii" />
+</div>
 
 [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) と [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) では、W&amp;B の組織またはインスタンス管理者は、監査ログの取得時に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API endpoint は常に PII を含む監査ログの関連フィールドを返します。これは設定できません。
 

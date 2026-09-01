@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Sweep
+<div id="class-wandbapispublicsweep">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Sweep
+</div>
 
 L’ensemble des run associées au balayage.
 
@@ -108,7 +110,9 @@ attrs: 'Mapping[str, Any] | None' = None)
   ## Méthodes
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.agent()
+<div id="method-sweepagent">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.agent()
+</div>
 
 ```python
 self,
@@ -125,7 +129,9 @@ Récupérer un agent à partir de son ID pour ce balayage.
   l’ID de l’agent à récupérer.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.agents()
+<div id="method-sweepagents">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.agents()
+</div>
 
 ```python
 self
@@ -133,7 +139,9 @@ self
 
 Récupérez la liste de tous les agents de ce balayage.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.best_run()
+<div id="method-sweepbest_run">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.best_run()
+</div>
 
 ```python
 (self, order=None)
@@ -141,7 +149,7 @@ Récupérez la liste de tous les agents de ce balayage.
 
 Renvoyer le meilleur run, trié selon la métrique définie dans la configuration ou l’ordre fourni.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### Arguments
 </div>
 
@@ -149,7 +157,9 @@ Renvoyer le meilleur run, trié selon la métrique définie dans la configuratio
   Aucune description fournie.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.enqueue_run()
+<div id="method-sweepenqueue_run">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.enqueue_run()
+</div>
 
 ```python
 self,
@@ -159,7 +169,7 @@ display_name: 'str | None' = None
 
 Mettre un run en file d&#39;attente pour le balayage.
 
-<div id="arguments">
+<div id="arguments-3">
   ##### Arguments
 </div>
 
@@ -177,7 +187,9 @@ Mettre un run en file d&#39;attente pour le balayage.
 
 * `UnsupportedError` : Si le serveur ne prend pas en charge la mise en file d’attente de runs de balayage.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.get()
+<div id="method-sweepget">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.get()
+</div>
 
 ```python
 (api: 'Api',
@@ -190,7 +202,7 @@ query: 'str | None' = None, **kwargs)
 
 Exécute une requête sur le backend cloud.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### Arguments
 </div>
 
@@ -222,7 +234,9 @@ Exécute une requête sur le backend cloud.
   Aucune description fournie.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.to_html()
+<div id="method-sweepto_html">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.to_html()
+</div>
 
 ```python
 self,
@@ -232,7 +246,7 @@ hidden: 'bool' = False
 
 Génère du HTML contenant une iframe qui affiche ce balayage.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### Arguments
 </div>
 

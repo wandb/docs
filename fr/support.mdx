@@ -71,9 +71,13 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
   {/* GÉNÉRÉ AUTOMATIQUEMENT: articles à la une */}
 
-  ## Articles à la une
+  <div id="featured-articles">
+    ## Articles à la une
+  </div>
 
-  ### W&amp;B Models
+  <div id="wb-models">
+    ### W&amp;B Models
+  </div>
 
   <Card title="Comment puis-je configurer le nom du run dans mon code d’entraînement ?" href="/fr/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
     Au début du script d’entraînement, appelez wandb.init avec un nom de run. Par exemple : wandb.init(name=&quot;my&#95;awesome&#95;run&quot;) ...

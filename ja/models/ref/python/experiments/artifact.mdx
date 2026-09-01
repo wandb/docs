@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L128" />
 
-## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Artifact
+<div id="class-wandbartifact">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Artifact
+</div>
 
 データセットとモデルのバージョン管理のための、柔軟で軽量な基本構成要素です。
 
@@ -272,7 +274,9 @@ digest_algorithm: "Literal['MD5', 'XXH128']" = 'MD5'
   ## メソッド
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add()
+<div id="method-artifactadd">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add()
+</div>
 
 ```python
 self,
@@ -299,11 +303,15 @@ artifact に wandb.WBValue `obj` を追加します。
   True の場合、該当する場合は同じファイルパスを持つ既存のオブジェクトを上書きします。
 </ResponseField>
 
-##### 例外
+<div id="raises">
+  ##### 例外
+</div>
 
 * `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.add_dir()
+<div id="method-artifactadd_dir">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.add_dir()
+</div>
 
 ```python
 self,
@@ -316,7 +324,7 @@ merge: 'bool' = False
 
 ローカルディレクトリを artifact に追加します。
 
-<div id="arguments">
+<div id="arguments-2">
   ##### 引数
 </div>
 
@@ -343,12 +351,16 @@ merge: 'bool' = False
   `False` (デフォルト) の場合、以前の `add_dir` 呼び出しですでに追加されたファイルの内容が変更されていると `ValueError` を送出します。`True` の場合、内容が変更された既存ファイルを上書きします。新しいファイルは常に追加され、既存ファイルが削除されることはありません。ディレクトリ全体を置き換えるには、`add_dir(local_path, name=my_prefix)` を使用してディレクトリ追加時に名前を指定し、`remove(my_prefix)` を呼び出してそのディレクトリを削除してから、再度追加してください。
 </ResponseField>
 
-##### 例外
+<div id="raises-2">
+  ##### 例外
+</div>
 
 * `ArtifactFinalizedError`: 現在のartifactバージョンは確定済みのため、変更できません。代わりに新しいartifactバージョンをログしてください。
 * `ValueError`: Policy は &quot;mutable&quot; または &quot;immutable&quot; である必要があります
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.add_file()
+<div id="method-artifactadd_file">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.add_file()
+</div>
 
 ```python
 self,
@@ -362,7 +374,7 @@ overwrite: 'bool' = False
 
 ローカルファイルをartifactに追加します。
 
-<div id="arguments">
+<div id="arguments-3">
   ##### 引数
 </div>
 
@@ -390,12 +402,16 @@ overwrite: 'bool' = False
   `True` の場合、ファイルがすでに存在していれば上書きします。
 </ResponseField>
 
-##### 例外
+<div id="raises-3">
+  ##### 例外
+</div>
 
 * `ArtifactFinalizedError`: 現在のartifactバージョンは確定済みのため、変更できません。代わりに新しいartifactバージョンをログしてください。
 * `ValueError`: Policy は &quot;mutable&quot; または &quot;immutable&quot; である必要があります
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_reference()
+<div id="method-artifactadd_reference">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.add_reference()
+</div>
 
 ```python
 self,
@@ -426,7 +442,7 @@ URI で指定した参照を アーティファクト に追加します。
 
 その他のスキームでは、ダイジェストは URI のハッシュのみとなり、サイズは空欄のままになります。
 
-<div id="arguments">
+<div id="arguments-4">
   ##### 引数
 </div>
 
@@ -446,11 +462,15 @@ URI で指定した参照を アーティファクト に追加します。
   ディレクトリまたは bucket store prefix を指す参照を追加する際に対象とするオブジェクトの最大数。デフォルトでは、Amazon S3、GCS、Azure、およびローカルファイルで許可されるオブジェクトの最大数は 10,000,000 です。その他の URI スキームには最大数はありません。
 </ResponseField>
 
-##### 例外
+<div id="raises-4">
+  ##### 例外
+</div>
 
 * `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.checkout()
+<div id="method-artifactcheckout">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.checkout()
+</div>
 
 ```python
 self,
@@ -461,7 +481,7 @@ root: 'str | None' = None
 
 WARNING: artifact に含まれていない `root` 内のファイルはすべて削除されます。
 
-<div id="arguments">
+<div id="arguments-5">
   ##### 引数
 </div>
 
@@ -469,11 +489,15 @@ WARNING: artifact に含まれていない `root` 内のファイルはすべて
   この artifact のファイルで置き換える対象のディレクトリ。
 </ResponseField>
 
-##### 例外
+<div id="raises-5">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.delete()
+<div id="method-artifactdelete">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.delete()
+</div>
 
 ```python
 self,
@@ -486,7 +510,7 @@ artifact とそのファイルを削除します。
 
 ソース artifact と collection の間のリンクを削除するには、`Artifact.delete()` ではなく `Artifact.unlink()` を使用してください。
 
-<div id="arguments">
+<div id="arguments-6">
   ##### 引数
 </div>
 
@@ -494,11 +518,15 @@ artifact とそのファイルを削除します。
   `True` に設定すると、artifact に関連付けられているすべての alias を削除します。`False` の場合、artifact に既存の alias があると例外を送出します。artifact がリンク先の collection から取得されたものである場合、このパラメーターは無視されます。
 </ResponseField>
 
-##### 例外
+<div id="raises-6">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.download()
+<div id="method-artifactdownload">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.download()
+</div>
 
 ```python
 self,
@@ -513,7 +541,7 @@ artifact の内容を、指定したルートディレクトリにダウンロ�
 
 `root` 内にある既存のファイルは変更されません。`root` の内容を artifact と完全に一致させたい場合は、`download` を呼び出す前に `root` を明示的に削除してください。
 
-<div id="arguments">
+<div id="arguments-7">
   ##### 引数
 </div>
 
@@ -537,11 +565,15 @@ artifact の内容を、指定したルートディレクトリにダウンロ�
   `None` (デフォルト) に設定すると、各ファイルのサイズが 2GB を超える場合、multipart ダウンロードを使用して artifact を並列にダウンロードします。`True` または `False` に設定すると、ファイルサイズに関係なく、artifact は並列または逐次でダウンロードされます。
 </ResponseField>
 
-##### 例外
+<div id="raises-7">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.file()
+<div id="method-artifactfile">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.file()
+</div>
 
 ```python
 self,
@@ -550,7 +582,7 @@ root: 'str | None' = None
 
 `root` で指定したディレクトリに、単一ファイルのArtifactをダウンロードします。
 
-<div id="arguments">
+<div id="arguments-8">
   ##### 引数
 </div>
 
@@ -558,14 +590,16 @@ root: 'str | None' = None
   ファイルの保存先となるルートディレクトリ。デフォルトは `./artifacts/self.name/` です。
 </ResponseField>
 
-<div id="raises">
+<div id="raises-8">
   ##### 送出する例外
 </div>
 
 * `ArtifactNotLoggedError`: Artifactがログされていない場合。
 * `ValueError`: Artifactに複数のファイルが含まれている場合。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.files()
+<div id="method-artifactfiles">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.files()
+</div>
 
 ```python
 self,
@@ -576,7 +610,7 @@ start: 'str | None' = None
 
 この アーティファクト に保存されているすべてのファイルをイテレートします。
 
-<div id="arguments">
+<div id="arguments-9">
   ##### 引数
 </div>
 
@@ -592,11 +626,15 @@ start: 'str | None' = None
   過去のクエリを再開するためのページネーションカーソル。前回の paginator の `.cursor` 属性から取得します。
 </ResponseField>
 
-##### 例外
+<div id="raises-9">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.finalize()
+<div id="method-artifactfinalize">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.finalize()
+</div>
 
 ```python
 self
@@ -608,7 +646,9 @@ artifact は特定の artifact バージョンとしてログされるため、�
 バージョンは変更できません。artifact にさらにデータをログするには、新しい artifact バージョンを作成してください。artifact は `log_artifact`
 でログすると自動的に自動確定されます。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get()
+<div id="method-artifactget">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get()
+</div>
 
 ```python
 self,
@@ -617,7 +657,7 @@ name: 'str'
 
 artifact 内の相対 `name` にある WBValue object を取得します。
 
-<div id="arguments">
+<div id="arguments-10">
   ##### 引数
 </div>
 
@@ -625,11 +665,15 @@ artifact 内の相対 `name` にある WBValue object を取得します。
   取得する artifact 内の相対パス名。
 </ResponseField>
 
-##### 発生する例外
+<div id="raises-10">
+  ##### 発生する例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合、または run がオフラインの場合。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_added_local_path_name()
+<div id="method-artifactget_added_local_path_name">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_added_local_path_name()
+</div>
 
 ```python
 self,
@@ -638,7 +682,7 @@ local_path: 'str'
 
 ローカルファイルシステム上のパスで追加されたファイルの artifact 相対名を取得します。
 
-<div id="arguments">
+<div id="arguments-11">
   ##### 引数
 </div>
 
@@ -646,7 +690,9 @@ local_path: 'str'
   artifact 相対名に変換するローカルパス。
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_entry()
+<div id="method-artifactget_entry">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_entry()
+</div>
 
 ```python
 self,
@@ -655,7 +701,7 @@ name: 'StrPath'
 
 指定した名のエントリを取得します。
 
-<div id="arguments">
+<div id="arguments-12">
   ##### 引数
 </div>
 
@@ -663,12 +709,16 @@ name: 'StrPath'
   取得する artifact の相対名
 </ResponseField>
 
-##### 発生する例外
+<div id="raises-11">
+  ##### 発生する例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合、または run がオフラインの場合。
 * `KeyError`: artifact に指定した名のエントリが含まれていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_path()
+<div id="method-artifactget_path">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.get_path()
+</div>
 
 ```python
 self,
@@ -677,7 +727,7 @@ name: 'StrPath'
 
 非推奨です。`get_entry(name)` を使用してください。
 
-<div id="arguments">
+<div id="arguments-13">
   ##### 引数
 </div>
 
@@ -685,7 +735,9 @@ name: 'StrPath'
   説明はありません。
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.is_draft()
+<div id="method-artifactis_draft">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.is_draft()
+</div>
 
 ```python
 self
@@ -693,7 +745,9 @@ self
 
 artifact が未保存かどうかを確認します。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.json_encode()
+<div id="method-artifactjson_encode">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.json_encode()
+</div>
 
 ```python
 self
@@ -701,7 +755,9 @@ self
 
 artifactをJSON形式にエンコードしたものを返します。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.link()
+<div id="method-artifactlink">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.link()
+</div>
 
 ```python
 self,
@@ -711,7 +767,7 @@ aliases: 'Iterable[str] | None' = None
 
 この artifact をコレクションにリンクします。
 
-<div id="arguments">
+<div id="arguments-14">
   ##### 引数
 </div>
 
@@ -723,11 +779,15 @@ aliases: 'Iterable[str] | None' = None
   リンクした artifact に 1 つ以上のエイリアスを追加します。&quot;latest&quot; エイリアスは、リンクした artifact のうち最新のものに自動的に適用されます。
 </ResponseField>
 
-##### 例外
+<div id="raises-12">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.logged_by()
+<div id="method-artifactlogged_by">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.logged_by()
+</div>
 
 ```python
 self
@@ -735,11 +795,15 @@ self
 
 artifact を最初にログした W&amp;B run を取得します。
 
-##### 例外
+<div id="raises-13">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.new_draft()
+<div id="method-artifactnew_draft">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.new_draft()
+</div>
 
 ```python
 self
@@ -749,11 +813,15 @@ self
 
 既存のartifactを変更すると、「段階的artifact」と呼ばれる新しいartifactバージョンが作成されます。返されるartifactは拡張または変更でき、新しいバージョンとしてログできます。
 
-##### 例外
+<div id="raises-14">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_file()
+<div id="method-artifactnew_file">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.new_file()
+</div>
 
 ```python
 self,
@@ -765,7 +833,7 @@ policy: "Literal['mutable', 'immutable']" = 'mutable'
 
 新しい一時ファイルを開き、アーティファクト に追加します。
 
-<div id="arguments">
+<div id="arguments-15">
   ##### 引数
 </div>
 
@@ -785,11 +853,15 @@ policy: "Literal['mutable', 'immutable']" = 'mutable'
   デフォルトでは &quot;mutable&quot; に設定されます。&quot;mutable&quot; を指定すると、アップロード中の破損を防ぐためにファイルの一時コピーを作成します。&quot;immutable&quot; を指定すると、保護を無効にし、ユーザーがファイルを削除または変更しないことを前提とします。
 </ResponseField>
 
-##### 例外
+<div id="raises-15">
+  ##### 例外
+</div>
 
 * `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.remove()
+<div id="method-artifactremove">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.remove()
+</div>
 
 ```python
 self,
@@ -798,7 +870,7 @@ item: 'StrPath | ArtifactManifestEntry'
 
 artifact から項目を削除します。
 
-<div id="arguments">
+<div id="arguments-16">
   ##### 引数
 </div>
 
@@ -806,12 +878,16 @@ artifact から項目を削除します。
   削除する項目です。特定の manifest エントリ、または artifact 相対パスの名を指定できます。`item` がディレクトリに一致する場合、そのディレクトリ内のすべての項目が削除されます。
 </ResponseField>
 
-##### Raises
+<div id="raises-16">
+  ##### Raises
+</div>
 
 * `ArtifactFinalizedError`: 現在の artifact バージョンは確定済みのため、変更できません。代わりに新しい artifact バージョンをログしてください。
 * `FileNotFoundError`: artifact 内に `item` が見つからない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.save()
+<div id="method-artifactsave">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.save()
+</div>
 
 ```python
 self,
@@ -823,7 +899,7 @@ artifact に加えた変更をすべて保存します。
 
 現在 run コンテキスト内にいる場合、その run がこの artifact をログします。現在 run コンテキスト内にいない場合は、この artifact をトラッキングするために、タイプが &quot;auto&quot; の run が作成されます。
 
-<div id="arguments">
+<div id="arguments-17">
   ##### 引数
 </div>
 
@@ -835,7 +911,9 @@ artifact に加えた変更をすべて保存します。
   自動 run の初期化時に使用する設定オブジェクト。主にテストハーネスで使用します。
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.unlink()
+<div id="method-artifactunlink">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.unlink()
+</div>
 
 ```python
 self
@@ -843,12 +921,16 @@ self
 
 この artifact が artifact collection にリンクされたメンバーである場合は、この artifact のリンクを解除します。
 
-##### 発生する例外
+<div id="raises-17">
+  ##### 発生する例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 * `ValueError`: artifact がどの collection にもリンクされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.used_by()
+<div id="method-artifactused_by">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.used_by()
+</div>
 
 ```python
 self
@@ -856,11 +938,15 @@ self
 
 このartifactおよびそれにリンクされたartifactを使用したrunのリストを取得します。
 
-##### 例外
+<div id="raises-18">
+  ##### 例外
+</div>
 
 * `ArtifactNotLoggedError`: artifact がログされていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.verify()
+<div id="method-artifactverify">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Artifact.verify()
+</div>
 
 ```python
 self,
@@ -871,7 +957,7 @@ root: 'str | None' = None
 
 ディレクトリ内のすべてのファイルのチェックサムを計算し、そのチェックサムをアーティファクトのマニフェストと照合します。参照は検証されません。
 
-<div id="arguments">
+<div id="arguments-18">
   ##### 引数
 </div>
 
@@ -879,12 +965,16 @@ root: 'str | None' = None
   検証するディレクトリです。None の場合、アーティファクトは &#39;./artifacts/self.name/&#39; にダウンロードされます。
 </ResponseField>
 
-##### 発生する例外
+<div id="raises-19">
+  ##### 発生する例外
+</div>
 
 * `ArtifactNotLoggedError`: アーティファクトがログされていない場合。
 * `ValueError`: 検証に失敗した場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.wait()
+<div id="method-artifactwait">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Artifact.wait()
+</div>
 
 ```python
 self,
@@ -893,7 +983,7 @@ timeout: 'int | None' = None
 
 必要に応じて、このArtifactのログ記録が完了するまで待機します。
 
-<div id="arguments">
+<div id="arguments-19">
   ##### 引数
 </div>
 

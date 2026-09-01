@@ -69,7 +69,9 @@ keywords: ["autopatching", "patch_openai", "implicitly_patch_integrations", "PII
 
     前述のコードを実行すると、Weave は明示的にパッチを適用したプロバイダのみをトレースします。
 
-    ### 入力と出力を後処理する
+    <div id="post-process-inputs-and-outputs">
+      ### 入力と出力を後処理する
+    </div>
 
     パッチ適用のオン/オフを切り替えるだけでなく、各呼び出しについて Weave が記録する内容を変換することもできます。パッチ関数に設定を渡すことで、Weave による入力と出力の記録方法をカスタマイズできます (たとえば、PII やシークレットをマスクする場合など) 。
 

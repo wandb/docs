@@ -40,7 +40,9 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
     ```
 
-    ##### run에서 아티팩트 연결하기
+    <div id="link-an-artifact-from-a-run">
+      ##### run에서 아티팩트 연결하기
+    </div>
 
     활성 상태의 run에서 `wandb.Run.link_artifact()`를 사용해 아티팩트 버전을 생성하고 연결하세요. W&amp;B는 연결하기 전에 초안 아티팩트를 run의 출력으로 기록합니다.
 
@@ -79,7 +81,9 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
       run.link_artifact(artifact = artifact, target_path = target_path)
     ```
 
-    ##### 아티팩트 생성 및 연결
+    <div id="create-and-link-an-artifact">
+      ##### 아티팩트 생성 및 연결
+    </div>
 
     `wandb.Artifact.link()`를 사용하면 run을 명시적으로 초기화하지 않고도 초안 아티팩트를 생성해 연결할 수 있습니다. 연결하기 전에 아티팩트를 저장해야 하면, W&amp;B가 필요에 따라 자동으로 run을 생성합니다.
 
@@ -111,7 +115,9 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
     artifact.link(target_path = target_path)
     ```
 
-    ##### 기존 아티팩트 연결하기
+    <div id="link-an-existing-artifact">
+      ##### 기존 아티팩트 연결하기
+    </div>
 
     새 run을 생성하지 않고 기존에 커밋된 아티팩트 버전을 연결하려면 `wandb.Api().artifact()`로 가져온 아티팩트에 `wandb.Artifact.link()`를 사용하세요.
 

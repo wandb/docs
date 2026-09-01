@@ -15,7 +15,9 @@ Défini dans : [src/genai/turn.ts:92](https://github.com/wandb/weave/blob/8c5f0
   ## Accesseurs
 </div>
 
-### nomAgent
+<div id="agentname">
+  ### nomAgent
+</div>
 
 <div id="get-signature">
   #### Signature d’obtention
@@ -33,9 +35,11 @@ Défini dans : [src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f
 
 ***
 
-### model
+<div id="model">
+  ### model
+</div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### Signature d’obtention
 </div>
 
@@ -43,7 +47,7 @@ Défini dans : [src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f
 
 Défini dans : [src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
 
-<div id="returns">
+<div id="returns-2">
   ##### Renvoie
 </div>
 
@@ -94,7 +98,9 @@ Défini dans : [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8
 
 `TimeInput`
 
-#### Renvoie
+<div id="returns-3">
+  #### Renvoie
+</div>
 
 `this`
 
@@ -127,7 +133,7 @@ comme ayant échoué ; transmettez `endTime` pour antidater sa fermeture.
 
 Défini dans : [src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
 
-<div id="parameters">
+<div id="parameters-2">
   #### Paramètres
 </div>
 
@@ -137,7 +143,9 @@ Défini dans : [src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f
 
 `SpanEndOptions`
 
-#### Renvoie
+<div id="returns-4">
+  #### Renvoie
+</div>
 
 `void`
 
@@ -154,11 +162,13 @@ Utile pour tout attribuer en une seule fois après le retour d’un appel de fou
 
 Défini dans : [src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
 
-<div id="parameters">
+<div id="parameters-3">
   #### Paramètres
 </div>
 
-##### opts
+<div id="opts-2">
+  ##### opts
+</div>
 
 <div id="agentdescription">
   ###### agentDescription ?
@@ -172,7 +182,7 @@ Défini dans : [src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f
 
 `string`
 
-<div id="agentname">
+<div id="agentname-2">
   ###### nomAgent ?
 </div>
 
@@ -190,7 +200,7 @@ Défini dans : [src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f
 
 [`Message`](./message)[]
 
-<div id="model">
+<div id="model-2">
   ###### model ?
 </div>
 
@@ -202,7 +212,9 @@ Défini dans : [src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f
 
 `string`[]
 
-#### Renvoie
+<div id="returns-5">
+  #### Renvoie
+</div>
 
 `this`
 
@@ -223,7 +235,7 @@ Défini dans : [src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f
 
 Défini dans : [src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
 
-<div id="parameters">
+<div id="parameters-4">
   #### Paramètres
 </div>
 
@@ -239,7 +251,9 @@ Défini dans : [src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f
 
 `AttributeValue`
 
-#### Renvoie
+<div id="returns-6">
+  #### Renvoie
+</div>
 
 `this`
 
@@ -257,19 +271,23 @@ Définit plusieurs attributs sur le span à la fois. Émet un avertissement et n
 
 Défini dans : [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
 
-<div id="parameters">
+<div id="parameters-5">
   #### Paramètres
 </div>
 
-##### attributs
+<div id="attributes-2">
+  ##### attributs
+</div>
 
 `Attributes`
 
-#### Renvoie
+<div id="returns-7">
+  #### Renvoie
+</div>
 
 `this`
 
-<div id="example">
+<div id="example-2">
   #### Exemple
 </div>
 
@@ -278,7 +296,7 @@ Défini dans : [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### Hérité de
 </div>
 
@@ -296,15 +314,19 @@ Démarre un span LLM enfant dans ce tour de conversation.
 
 Défini dans : [src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
 
-<div id="parameters">
+<div id="parameters-6">
   #### Paramètres
 </div>
 
-##### opts
+<div id="opts-3">
+  ##### opts
+</div>
 
 [`LLMInit`](./llminit)
 
-#### Renvoie
+<div id="returns-8">
+  #### Renvoie
+</div>
 
 [`LLM`](./llm)
 
@@ -320,15 +342,19 @@ Démarre un span SubAgent enfant dans le cadre de ce tour de conversation.
 
 Défini dans : [src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
 
-<div id="parameters">
+<div id="parameters-7">
   #### Paramètres
 </div>
 
-##### opts
+<div id="opts-4">
+  ##### opts
+</div>
 
 [`SubAgentInit`](./subagentinit)
 
-#### Renvoie
+<div id="returns-9">
+  #### Renvoie
+</div>
 
 [`SubAgent`](./subagent)
 
@@ -344,14 +370,18 @@ Démarre un span Tool enfant dans ce tour de conversation.
 
 Défini dans : [src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
 
-<div id="parameters">
+<div id="parameters-8">
   #### Paramètres
 </div>
 
-##### opts
+<div id="opts-5">
+  ##### opts
+</div>
 
 [`ToolInit`](./toolinit)
 
-#### Renvoie
+<div id="returns-10">
+  #### Renvoie
+</div>
 
 [`Tool`](./tool)

@@ -64,7 +64,9 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     * [*Evaluation オブジェクト名* (`evaluation_name`)](#name-the-evaluation-object): 設定した `Evaluation` オブジェクトに付ける永続的なラベルです。
     * [*評価 run の表示名* (`__weave["display_name"]`)](#name-individual-evaluation-runs): 特定の評価実行に付けるラベルで、UI に表示されます。
 
-    #### `Evaluation` オブジェクトに名前を付ける
+    <div id="name-the-evaluation-object">
+      #### `Evaluation` オブジェクトに名前を付ける
+    </div>
 
     `Evaluation` オブジェクト自体に名前を付けるには、`Evaluation` クラスに `evaluation_name` パラメーターを渡します。この名前を付けることで、コード内や UI の一覧で Evaluation を識別しやすくなります。
 
@@ -74,7 +76,9 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     )
     ```
 
-    #### 個々の評価 run に名前を付ける
+    <div id="name-individual-evaluation-runs">
+      #### 個々の評価 run に名前を付ける
+    </div>
 
     特定の評価 run (`evaluate()` の呼び出し) に名前を付けるには、`display_name` を含む `__weave` 辞書を使用します。これにより、その run について UI に表示される名前が変わります。
 
@@ -171,7 +175,9 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
         return {'match': expected == output['generated_text']}
     ```
 
-    ### 任意: カスタム `Scorer` クラスを定義する
+    <div id="optional-define-a-custom-scorer-class">
+      ### 任意: カスタム `Scorer` クラスを定義する
+    </div>
 
     アプリケーションによっては、カスタム `Scorer` クラスを作成したい場合があります。たとえば、特定のパラメーター (チャットモデル、プロンプトなど)、各行に対する特定のスコア付け、集計スコアの特定の計算を備えた、標準化された `LLMJudge` クラスを作成できます。
 
@@ -243,7 +249,9 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
 
     これにより、各例に対して `predict` が実行され、各スコアリング関数で出力がスコア化されます。
 
-    ### 省略可能: 評価する関数を定義する
+    <div id="optional-define-a-function-to-evaluate">
+      ### 省略可能: 評価する関数を定義する
+    </div>
 
     また、`@weave.op()` でトラッキングされるカスタム関数を評価することもできます。
 
@@ -305,7 +313,9 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     asyncio.run(evaluation.evaluate(model))
     ```
 
-    ### 省略可能: 複数回の試行を実行する
+    <div id="optional-run-multiple-trials">
+      ### 省略可能: 複数回の試行を実行する
+    </div>
 
     各例を複数回実行するには、`Evaluation` オブジェクトで `trials` パラメーターを設定します。
 
@@ -326,7 +336,9 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     const results = await evaluation.evaluate({model: myModel});
     ```
 
-    ### 省略可能: 複数回の試行を実行する
+    <div id="optional-run-multiple-trials-2">
+      ### 省略可能: 複数回の試行を実行する
+    </div>
 
     各例を複数回実行するには、`evaluate()` の呼び出し時に `nTrials` パラメーターを設定します。
 

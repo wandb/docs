@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
-## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Table
+<div id="class-wandbtable">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Table
+</div>
 
 표 형식 데이터를 표시하고 분석하는 데 사용되는 Table 클래스입니다.
 
@@ -89,7 +91,9 @@ log_mode: 'LogMode | None' = 'IMMUTABLE'
   ## 메서드
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_column()
+<div id="method-tableadd_column">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_column()
+</div>
 
 ```python
 self,
@@ -116,7 +120,9 @@ optional: 'bool' = False
   null과 유사한 값을 허용할지 여부입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_computed_columns()
+<div id="method-tableadd_computed_columns">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_computed_columns()
+</div>
 
 ```python
 self,
@@ -125,7 +131,7 @@ fn: 'Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]'
 
 기존 데이터를 바탕으로 계산된 열을 하나 이상 추가합니다.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### 인수
 </div>
 
@@ -149,7 +155,9 @@ table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
 table.add_computed_columns(lambda ndx, row: {"diff": row["x"] - row["y"]})
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_data()
+<div id="method-tableadd_data">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_data()
+</div>
 
 ```python
 self, *data: 'Any'
@@ -162,7 +170,7 @@ self, *data: 'Any'
 
 데이터 길이는 테이블 열의 길이와 일치해야 합니다.
 
-<div id="arguments">
+<div id="arguments-3">
   ##### 인수
 </div>
 
@@ -170,7 +178,9 @@ self, *data: 'Any'
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_row()
+<div id="method-tableadd_row">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_row()
+</div>
 
 ```python
 self, *row: 'Any'
@@ -178,7 +188,7 @@ self, *row: 'Any'
 
 사용 중단되었습니다. 대신 `Table.add_data` 방법을 사용하세요.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### 인수
 </div>
 
@@ -186,7 +196,9 @@ self, *row: 'Any'
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.cast()
+<div id="method-tablecast">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.cast()
+</div>
 
 ```python
 self,
@@ -201,7 +213,7 @@ optional: 'bool' = False
 또는 wandb.Image나
 wandb.Classes의 인스턴스 같은 예시 객체 중 하나를 사용할 수 있습니다.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### 인수
 </div>
 
@@ -217,7 +229,9 @@ wandb.Classes의 인스턴스 같은 예시 객체 중 하나를 사용할 수 �
   열에서 None을 허용할지 여부입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_column()
+<div id="method-tableget_column">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_column()
+</div>
 
 ```python
 self,
@@ -227,7 +241,7 @@ convert_to: "Literal['numpy'] | None" = None
 
 테이블에서 열을 조회하고, 필요에 따라 이를 NumPy 객체로 변환합니다.
 
-<div id="arguments">
+<div id="arguments-6">
   ##### 인수
 </div>
 
@@ -239,7 +253,9 @@ convert_to: "Literal['numpy'] | None" = None
   &quot;numpy&quot;는 기본 데이터를 NumPy 객체로 변환합니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_dataframe()
+<div id="method-tableget_dataframe">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_dataframe()
+</div>
 
 ```python
 self
@@ -247,7 +263,9 @@ self
 
 테이블을 `pandas.DataFrame`으로 반환합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_index()
+<div id="method-tableget_index">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_index()
+</div>
 
 ```python
 (self)

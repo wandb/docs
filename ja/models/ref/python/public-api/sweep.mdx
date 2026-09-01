@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Sweep
+<div id="class-wandbapispublicsweep">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Sweep
+</div>
 
 sweep に関連付けられた Runs の一覧。
 
@@ -107,7 +109,9 @@ attrs: 'Mapping[str, Any] | None' = None)
   ## メソッド
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.agent()
+<div id="method-sweepagent">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.agent()
+</div>
 
 ```python
 self,
@@ -124,7 +128,9 @@ ID を指定して、この sweep のエージェントをクエリします。
   検索するエージェントの ID。
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.agents()
+<div id="method-sweepagents">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.agents()
+</div>
 
 ```python
 self
@@ -132,7 +138,9 @@ self
 
 この sweep に含まれるすべてのエージェントの一覧をクエリします。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.best_run()
+<div id="method-sweepbest_run">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.best_run()
+</div>
 
 ```python
 (self, order=None)
@@ -140,7 +148,7 @@ self
 
 設定で定義されたメトリクス、または指定された順序でソートされた最良の run を返します。
 
-<div id="arguments">
+<div id="arguments-2">
   ##### 引数
 </div>
 
@@ -148,7 +156,9 @@ self
   説明は提供されていません。
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.enqueue_run()
+<div id="method-sweepenqueue_run">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.enqueue_run()
+</div>
 
 ```python
 self,
@@ -158,7 +168,7 @@ display_name: 'str | None' = None
 
 sweep の run をキューに登録します。
 
-<div id="arguments">
+<div id="arguments-3">
   ##### 引数
 </div>
 
@@ -176,7 +186,9 @@ sweep の run をキューに登録します。
 
 * `UnsupportedError`: サーバーが sweep run のキューへの追加をサポートしていない場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.get()
+<div id="method-sweepget">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.get()
+</div>
 
 ```python
 (api: 'Api',
@@ -189,7 +201,7 @@ query: 'str | None' = None, **kwargs)
 
 クラウドバックエンドに対してクエリを実行します。
 
-<div id="arguments">
+<div id="arguments-4">
   ##### 引数
 </div>
 
@@ -221,7 +233,9 @@ query: 'str | None' = None, **kwargs)
   説明はありません。
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.to_html()
+<div id="method-sweepto_html">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Sweep.to_html()
+</div>
 
 ```python
 self,
@@ -231,7 +245,7 @@ hidden: 'bool' = False
 
 この sweep を表示する iframe を含む HTML を生成します。
 
-<div id="arguments">
+<div id="arguments-5">
   ##### 引数
 </div>
 

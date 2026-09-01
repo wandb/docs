@@ -16,7 +16,9 @@ Google の Agent Development Kit (ADK) は、エージェントの構築とオ�
   <Tab title="Python">
     Weave SDK は [Google ADK for Python](https://google.github.io/adk-docs/) を自動的にパッチするため、最小限の設定で ADK エージェントのトレースを取得できます。このガイドでは、Weave を初期化したうえで、Google ADK で構築したマルチターンのリサーチエージェントを実行し、セッション全体にわたるすべてのエージェント呼び出し、モデルの Call、ツール呼び出しを Weave で取得する方法を説明します。
 
-    ### 前提条件
+    <div id="prerequisites">
+      ### 前提条件
+    </div>
 
     * `WANDB_API_KEY` 環境変数として設定された W&amp;B アカウントと [APIキー](https://wandb.ai/authorize)。
     * Gemini 用の [Google APIキー](https://aistudio.google.com/apikey)。
@@ -26,7 +28,9 @@ Google の Agent Development Kit (ADK) は、エージェントの構築とオ�
   <Tab title="TypeScript">
     Weave は [Google ADK for Node.js](https://google.github.io/adk-docs/) (`@google/adk`) と連携し、エージェントの実行を自動的にトレースします。
 
-    ### 前提条件
+    <div id="prerequisites-2">
+      ### 前提条件
+    </div>
 
     * `WANDB_API_KEY` 環境変数として設定された W&amp;B アカウントと [APIキー](https://wandb.ai/authorize)。
     * `GEMINI_API_KEY` または `GOOGLE_GENAI_API_KEY` 環境変数として設定された [Google APIキー](https://aistudio.google.com/apikey)。

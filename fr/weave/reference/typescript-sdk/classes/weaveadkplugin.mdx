@@ -94,7 +94,7 @@ L’agent qui vient de s’exécuter.
 
 Le contexte de l’appel d’agent.
 
-<div id="returns">
+<div id="returns-2">
   #### Renvoie
 </div>
 
@@ -104,7 +104,7 @@ Un objet `Content` facultatif. Si une valeur est renvoyée, elle
 remplace le résultat d&#39;origine de l&#39;agent. Renvoyer `undefined` conserve le
 résultat d&#39;origine, sans modification.
 
-<div id="implementation-of">
+<div id="implementation-of-2">
   #### Implémentation de
 </div>
 
@@ -125,7 +125,7 @@ après son compactage.
 
 Défini dans : [src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
 
-<div id="parameters">
+<div id="parameters-2">
   #### Paramètres
 </div>
 
@@ -135,13 +135,13 @@ Défini dans : [src/integrations/googleAdk.ts:997](https://github.com/wandb/wea
 
 `unknown`
 
-<div id="returns">
+<div id="returns-3">
   #### Renvoie
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+<div id="implementation-of-3">
   #### Implémentation de
 </div>
 
@@ -162,15 +162,15 @@ ou effectuer un post-traitement sur le `LlmResponse` brut.
 
 Défini dans : [src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
 
-<div id="parameters">
+<div id="parameters-3">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-2">
   ##### params
 </div>
 
-<div id="callbackcontext">
+<div id="callbackcontext-2">
   ###### callbackContext
 </div>
 
@@ -186,7 +186,7 @@ Le contexte de l’appel de l’agent actuel.
 
 L’objet Réponse reçu du modèle.
 
-<div id="returns">
+<div id="returns-4">
   #### Renvoie
 </div>
 
@@ -196,7 +196,7 @@ Valeur facultative. Une valeur de retour autre que `undefined` peut être utilis
 framework pour modifier ou remplacer la réponse. Renvoyer `undefined`
 permet d&#39;utiliser la réponse d&#39;origine.
 
-<div id="implementation-of">
+<div id="implementation-of-4">
   #### Implémentation de
 </div>
 
@@ -217,11 +217,11 @@ Il s’agit du callback final du cycle de vie ADK, adapté au nettoyage,
 
 Défini dans : [src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
 
-<div id="parameters">
+<div id="parameters-4">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-3">
   ##### params
 </div>
 
@@ -233,7 +233,7 @@ Défini dans : [src/integrations/googleAdk.ts:713](https://github.com/wandb/wea
 
 Le contexte de l’invocation dans son ensemble.
 
-<div id="returns">
+<div id="returns-5">
   #### Renvoie
 </div>
 
@@ -241,7 +241,7 @@ Le contexte de l’invocation dans son ensemble.
 
 indéfini
 
-<div id="implementation-of">
+<div id="implementation-of-5">
   #### Implémentation de
 </div>
 
@@ -262,11 +262,11 @@ renvoyé par un outil.
 
 Défini dans : [src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
 
-<div id="parameters">
+<div id="parameters-5">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-4">
   ##### params
 </div>
 
@@ -302,7 +302,7 @@ Les arguments d’origine transmis à l’outil.
 
 Contexte spécifique à l’exécution de l’outil.
 
-<div id="returns">
+<div id="returns-6">
   #### Renvoie
 </div>
 
@@ -313,7 +313,7 @@ Un dictionnaire facultatif. Si un dictionnaire est renvoyé, il
 post-traiter ou de modifier les sorties de l’outil. Renvoyer `undefined` conserve
 le résultat original, non modifié.
 
-<div id="implementation-of">
+<div id="implementation-of-6">
   #### Implémentation de
 </div>
 
@@ -333,15 +333,15 @@ Ce callback peut être utilisé pour la journalisation, la configuration ou pour
 
 Défini dans : [src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
 
-<div id="parameters">
+<div id="parameters-6">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-5">
   ##### params
 </div>
 
-<div id="agent">
+<div id="agent-2">
   ###### agent
 </div>
 
@@ -349,7 +349,7 @@ Défini dans : [src/integrations/googleAdk.ts:765](https://github.com/wandb/wea
 
 L’agent sur le point de s’exécuter.
 
-<div id="callbackcontext">
+<div id="callbackcontext-3">
   ###### callbackContext
 </div>
 
@@ -357,7 +357,7 @@ L’agent sur le point de s’exécuter.
 
 Le contexte de l’appel d’agent.
 
-<div id="returns">
+<div id="returns-7">
   #### Renvoie
 </div>
 
@@ -367,7 +367,7 @@ Un objet `Content` facultatif. Si une valeur est renvoyée, elle
 contourne les callbacks de l’agent et son exécution, et est renvoyée directement.
 Renvoyer `undefined` permet à l’agent de poursuivre normalement.
 
-<div id="implementation-of">
+<div id="implementation-of-7">
   #### Implémentation de
 </div>
 
@@ -388,23 +388,23 @@ avant qu’il ne soit compacté.
 
 Défini dans : [src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
 
-<div id="parameters">
+<div id="parameters-7">
   #### Paramètres
 </div>
 
-<div id="_params">
+<div id="_params-2">
   ##### _params
 </div>
 
 `unknown`
 
-<div id="returns">
+<div id="returns-8">
   #### Renvoie
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+<div id="implementation-of-8">
   #### Implémentation de
 </div>
 
@@ -426,15 +426,15 @@ Peut également servir à implémenter la mise en cache en renvoyant une
 
 Défini dans : [src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
 
-<div id="parameters">
+<div id="parameters-8">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-6">
   ##### params
 </div>
 
-<div id="callbackcontext">
+<div id="callbackcontext-4">
   ###### callbackContext
 </div>
 
@@ -450,7 +450,7 @@ Contexte de l’appel de l’agent actuel.
 
 L’objet de requête préparé à envoyer au modèle.
 
-<div id="returns">
+<div id="returns-9">
   #### Renvoie
 </div>
 
@@ -460,7 +460,7 @@ Une valeur facultative. Une valeur différente de `undefined`
 déclenche une sortie anticipée et renvoie immédiatement la réponse. Renvoyer
 `undefined` permet à la requête LLM de se poursuivre normalement.
 
-<div id="implementation-of">
+<div id="implementation-of-9">
   #### Implémentation de
 </div>
 
@@ -481,15 +481,15 @@ configuration ou d’initialisation.
 
 Défini dans : [src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
 
-<div id="parameters">
+<div id="parameters-9">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-7">
   ##### params
 </div>
 
-<div id="invocationcontext">
+<div id="invocationcontext-2">
   ###### invocationContext
 </div>
 
@@ -498,7 +498,7 @@ Défini dans : [src/integrations/googleAdk.ts:621](https://github.com/wandb/wea
 Le contexte de l’invocation entière, contenant
 les informations de session, l’agent racine, etc.
 
-<div id="returns">
+<div id="returns-10">
   #### Renvoie
 </div>
 
@@ -508,7 +508,7 @@ Un `Event` facultatif à renvoyer à l&#39;ADK. Renvoyez une valeur
 pour interrompre l&#39;exécution du runner et le terminer avec cet événement.
 Renvoyez `undefined` pour poursuivre normalement.
 
-<div id="implementation-of">
+<div id="implementation-of-10">
   #### Implémentation de
 </div>
 
@@ -529,15 +529,15 @@ modifier les arguments avant qu&#39;ils ne soient transmis à l&#39;outil.
 
 Défini dans : [src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
 
-<div id="parameters">
+<div id="parameters-10">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-8">
   ##### params
 </div>
 
-<div id="tool">
+<div id="tool-2">
   ###### outil
 </div>
 
@@ -545,7 +545,7 @@ Défini dans : [src/integrations/googleAdk.ts:918](https://github.com/wandb/wea
 
 Instance de l’outil sur le point d’être exécutée.
 
-<div id="toolargs">
+<div id="toolargs-2">
   ###### toolArgs
 </div>
 
@@ -554,7 +554,7 @@ Instance de l’outil sur le point d’être exécutée.
 Dictionnaire des arguments utilisés pour appeler l’
 outil.
 
-<div id="toolcontext">
+<div id="toolcontext-2">
   ###### toolContext
 </div>
 
@@ -562,7 +562,7 @@ outil.
 
 Contexte spécifique à l’exécution de l’outil.
 
-<div id="returns">
+<div id="returns-11">
   #### Renvoie
 </div>
 
@@ -570,7 +570,7 @@ Contexte spécifique à l’exécution de l’outil.
 
 Un dictionnaire facultatif. Si un dictionnaire est renvoyé, l’exécution de l’outil est interrompue et cette réponse est renvoyée immédiatement. Renvoyer `undefined` utilise les arguments d’origine non modifiés.
 
-<div id="implementation-of">
+<div id="implementation-of-11">
   #### Implémentation de
 </div>
 
@@ -591,17 +591,17 @@ outils disponibles avant leur sélection.
 
 Défini dans : [src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
 
-<div id="parameters">
+<div id="parameters-11">
   #### Paramètres
 </div>
 
-<div id="_params">
+<div id="_params-3">
   ##### _params
 </div>
 
 `unknown`
 
-<div id="returns">
+<div id="returns-12">
   #### Renvoie
 </div>
 
@@ -611,7 +611,7 @@ Valeur facultative. Le framework peut utiliser une valeur de retour autre que
 `undefined` pour modifier ou remplacer les outils disponibles. Renvoyer
 `undefined` permet d&#39;utiliser les outils d&#39;origine.
 
-<div id="implementation-of">
+<div id="implementation-of-12">
   #### Implémentation de
 </div>
 
@@ -634,7 +634,7 @@ est déjà terminé (le cas courant, lorsqu’il a été entièrement consommé)
 
 Défini dans : [src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
 
-<div id="parameters">
+<div id="parameters-12">
   #### Paramètres
 </div>
 
@@ -644,7 +644,7 @@ Défini dans : [src/integrations/googleAdk.ts:732](https://github.com/wandb/wea
 
 `string`
 
-<div id="returns">
+<div id="returns-13">
   #### Renvoie
 </div>
 
@@ -665,11 +665,11 @@ géré par l’application d’agent sous-jacente.
 
 Défini dans : [src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
 
-<div id="parameters">
+<div id="parameters-13">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-9">
   ##### params
 </div>
 
@@ -681,7 +681,7 @@ Défini dans : [src/integrations/googleAdk.ts:693](https://github.com/wandb/wea
 
 L’événement émis par le runner.
 
-<div id="invocationcontext">
+<div id="invocationcontext-3">
   ###### invocationContext
 </div>
 
@@ -689,7 +689,7 @@ L’événement émis par le runner.
 
 Le contexte de l’ensemble de l’invocation.
 
-<div id="returns">
+<div id="returns-14">
   #### Renvoie
 </div>
 
@@ -701,7 +701,7 @@ la création d’une valeur de remplacement afin de préserver les champs non
 modifiés, tels que les actions d’événement. Renvoyer `undefined` permet d’utiliser la
 réponse d’origine.
 
-<div id="implementation-of">
+<div id="implementation-of-13">
   #### Implémentation de
 </div>
 
@@ -722,15 +722,15 @@ en fournissant éventuellement des réponses alternatives ou des mécanismes de 
 
 Défini dans : [src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
 
-<div id="parameters">
+<div id="parameters-14">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-10">
   ##### params
 </div>
 
-<div id="callbackcontext">
+<div id="callbackcontext-5">
   ###### callbackContext
 </div>
 
@@ -746,7 +746,7 @@ Contexte de l’appel de l’agent actuel.
 
 Exception levée lors de l’exécution du modèle.
 
-<div id="llmrequest">
+<div id="llmrequest-2">
   ###### llmRequest
 </div>
 
@@ -755,7 +755,7 @@ Exception levée lors de l’exécution du modèle.
 La requête envoyée au modèle lorsque l’erreur
 s’est produite.
 
-<div id="returns">
+<div id="returns-15">
   #### Renvoie
 </div>
 
@@ -765,7 +765,7 @@ Une LlmResponse facultative. Si une LlmResponse est renvoyée, elle est
 utilisée au lieu de propager l’erreur. Renvoyer `undefined` permet
 de lever l’erreur d’origine.
 
-<div id="implementation-of">
+<div id="implementation-of-14">
   #### Implémentation de
 </div>
 
@@ -796,15 +796,15 @@ en fournissant éventuellement des réponses alternatives ou des mécanismes de 
 
 Défini dans : [src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
 
-<div id="parameters">
+<div id="parameters-15">
   #### Paramètres
 </div>
 
-<div id="params">
+<div id="params-11">
   ##### params
 </div>
 
-<div id="error">
+<div id="error-2">
   ###### error
 </div>
 
@@ -812,7 +812,7 @@ Défini dans : [src/integrations/googleAdk.ts:977](https://github.com/wandb/wea
 
 Exception levée lors de l’exécution de l’outil.
 
-<div id="tool">
+<div id="tool-3">
   ###### outil
 </div>
 
@@ -820,7 +820,7 @@ Exception levée lors de l’exécution de l’outil.
 
 L’outil qui a rencontré une erreur.
 
-<div id="toolargs">
+<div id="toolargs-3">
   ###### toolArgs
 </div>
 
@@ -828,7 +828,7 @@ L’outil qui a rencontré une erreur.
 
 Les arguments transmis à l’outil.
 
-<div id="toolcontext">
+<div id="toolcontext-3">
   ###### toolContext
 </div>
 
@@ -836,7 +836,7 @@ Les arguments transmis à l’outil.
 
 Contexte propre à l’exécution de l’outil.
 
-<div id="returns">
+<div id="returns-16">
   #### Renvoie
 </div>
 
@@ -846,7 +846,7 @@ Un dictionnaire facultatif. Si un dictionnaire est renvoyé, il est
 utilisé comme réponse de l’outil au lieu de propager l’erreur. Renvoyer
 `undefined` permet de lever l’erreur d’origine.
 
-<div id="implementation-of">
+<div id="implementation-of-15">
   #### Implémentation de
 </div>
 
@@ -866,15 +866,15 @@ Ce callback permet de journaliser et de modifier le message utilisateur avant qu
 
 Défini dans : [src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
 
-<div id="parameters">
+<div id="parameters-16">
   #### Paramètres
 </div>
 
-<div id="_params">
+<div id="_params-4">
   ##### _params
 </div>
 
-<div id="invocationcontext">
+<div id="invocationcontext-4">
   ###### invocationContext
 </div>
 
@@ -886,7 +886,7 @@ Défini dans : [src/integrations/googleAdk.ts:614](https://github.com/wandb/wea
 
 `Content`
 
-<div id="returns">
+<div id="returns-17">
   #### Renvoie
 </div>
 
@@ -896,7 +896,7 @@ Un `Content` facultatif à renvoyer à l’ADK. Renvoyez une
 valeur pour remplacer le message de l’utilisateur. Renvoyez `undefined` pour poursuivre
 normalement.
 
-<div id="implementation-of">
+<div id="implementation-of-16">
   #### Implémentation de
 </div>
 

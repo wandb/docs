@@ -64,7 +64,9 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     * [*Evaluation 객체 이름* (`evaluation_name`)](#name-the-evaluation-object): 설정한 `Evaluation` 객체에 대한 지속적으로 유지되는 레이블입니다.
     * [*Evaluation run 표시 이름* (`__weave["display_name"]`)](#name-individual-evaluation-runs): UI에 표시되는 특정 평가 실행의 레이블입니다.
 
-    #### `Evaluation` 객체 이름 지정
+    <div id="name-the-evaluation-object">
+      #### `Evaluation` 객체 이름 지정
+    </div>
 
     `Evaluation` 객체 자체의 이름을 지정하려면 `Evaluation` 클래스에 `evaluation_name` 매개변수를 전달하세요. 이 이름은 코드와 UI 목록에서 Evaluation을 파악하는 데 도움이 됩니다.
 
@@ -74,7 +76,9 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     )
     ```
 
-    #### 개별 평가 run 이름 지정
+    <div id="name-individual-evaluation-runs">
+      #### 개별 평가 run 이름 지정
+    </div>
 
     특정 평가 run(`evaluate()` 호출)의 이름을 지정하려면 `display_name`이 포함된 `__weave` 딕셔너리를 사용하세요. 그러면 해당 run에 대해 UI에 표시되는 이름이 달라집니다.
 
@@ -171,7 +175,9 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
         return {'match': expected == output['generated_text']}
     ```
 
-    ### 선택: 맞춤형 `Scorer` 클래스를 정의합니다
+    <div id="optional-define-a-custom-scorer-class">
+      ### 선택: 맞춤형 `Scorer` 클래스를 정의합니다
+    </div>
 
     일부 애플리케이션에서는 맞춤형 `Scorer` 클래스를 만들고 싶을 수 있습니다. 예를 들어 특정 매개변수(예: chat model, prompt), 각 행에 대한 특정 채점 방식, 그리고 집계 점수의 특정 계산 방식을 갖춘 표준화된 `LLMJudge` 클래스를 만들 수 있습니다.
 
@@ -243,7 +249,9 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
 
     이 코드는 각 예시에 대해 `predict`를 실행하고, 각 채점 함수로 출력을 점수화합니다.
 
-    ### 선택 사항: 평가할 함수 정의하기
+    <div id="optional-define-a-function-to-evaluate">
+      ### 선택 사항: 평가할 함수 정의하기
+    </div>
 
     또는 `@weave.op()`로 추적되는 맞춤형 함수를 평가할 수도 있습니다:
 
@@ -305,7 +313,9 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     asyncio.run(evaluation.evaluate(model))
     ```
 
-    ### 선택 사항: 여러 번 실행
+    <div id="optional-run-multiple-trials">
+      ### 선택 사항: 여러 번 실행
+    </div>
 
     각 예제를 여러 번 실행하려면 `Evaluation` 객체에서 `trials` 파라미터를 설정할 수 있습니다:
 
@@ -326,7 +336,9 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     const results = await evaluation.evaluate({model: myModel});
     ```
 
-    ### 선택 사항: 여러 번 실행
+    <div id="optional-run-multiple-trials-2">
+      ### 선택 사항: 여러 번 실행
+    </div>
 
     각 예제를 여러 번 실행하려면 `evaluate()`를 호출할 때 `nTrials` 파라미터를 설정할 수 있습니다:
 

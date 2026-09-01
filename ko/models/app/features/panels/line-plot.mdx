@@ -57,11 +57,15 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
     5. 다중 메트릭 플롯이 생성될 때 중복된 단일 메트릭 패널을 선택적으로 제거하려면 **Clean up auto-generated panels**를 켭니다. 어떤 패널이 정리되는지는 미리보기에서 확인할 수 있습니다. <Note>이 옵션을 켜면 W&amp;B는 표현식과 일치하는 새로 로깅된 메트릭에 대해 단일 메트릭 플롯을 생성하지 않습니다. 대신 해당 메트릭은 이 다중 메트릭 플롯에만 표시됩니다.</Note>
     6. **Create [NUMBER] panels**를 클릭합니다.
 
-    ### 다중 메트릭 정규 표현식
+    <div id="multi-metric-regular-expressions">
+      ### 다중 메트릭 정규 표현식
+    </div>
 
     다중 메트릭 선형 플롯은 메트릭 이름과 일치시키기 위해 [Google&#39;s RE2](https://github.com/google/re2/wiki/Syntax) 구문을 사용합니다. 다음 섹션에서는 일반적인 사용 사례를 설명하고, 캡처 그룹이 W&amp;B가 생성하는 패널에 어떤 영향을 미치는지 등 정규 표현식이 작동하는 방식에 대한 자세한 내용을 제공합니다.
 
-    #### 일반적인 사용 사례
+    <div id="common-use-cases">
+      #### 일반적인 사용 사례
+    </div>
 
     다음 예시는 다중 메트릭 패널을 사용해 실험 결과를 분석하는 몇 가지 방법을 보여줍니다.
 
@@ -88,7 +92,9 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
     **특정 메트릭 변형 일치시키기**
     원하는 메트릭만 일치시키려면 alternation을 사용하세요. 예를 들어, 비캡처 그룹 `(?:layer_0|layer_10)_loss`는 중간 레이어를 제외하고 첫 번째와 열 번째 레이어의 loss에만 일치합니다.
 
-    #### 캡처 그룹
+    <div id="capture-groups">
+      #### 캡처 그룹
+    </div>
 
     <LinePlotCaptureGroups />
   </Tab>
