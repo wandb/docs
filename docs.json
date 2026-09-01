@@ -1511,6 +1511,12 @@
                         ]
                       },
                       {
+                        "group": "Custom Runtimes",
+                        "pages": [
+                          "weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Scorers",
                         "pages": [
                           "weave/reference/service-api/scorers/scorer-list",
