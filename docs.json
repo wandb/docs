@@ -569,6 +569,7 @@
                           "weave/guides/tracking/trace-agents-otel",
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
+                          "weave/guides/tracking/create-custom-signal",
                           "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-sub-agents",
