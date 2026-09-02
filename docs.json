@@ -3302,6 +3302,12 @@
                         ]
                       },
                       {
+                        "group": "Environnements d’exécution personnalisés",
+                        "pages": [
+                          "fr/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Évaluateurs",
                         "pages": [
                           "fr/weave/reference/service-api/scorers/scorer-list",
@@ -5086,6 +5092,12 @@
                         ]
                       },
                       {
+                        "group": "カスタムランタイム",
+                        "pages": [
+                          "ja/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Scorer",
                         "pages": [
                           "ja/weave/reference/service-api/scorers/scorer-list",
@@ -5104,7 +5116,7 @@
                         ]
                       },
                       {
-                        "group": "評価 run",
+                        "group": "評価Runs",
                         "pages": [
                           "ja/weave/reference/service-api/evaluation-runs/evaluation-run-list",
                           "ja/weave/reference/service-api/evaluation-runs/evaluation-run-create",
@@ -6870,6 +6882,12 @@
                         ]
                       },
                       {
+                        "group": "맞춤형 런타임",
+                        "pages": [
+                          "ko/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Scorer",
                         "pages": [
                           "ko/weave/reference/service-api/scorers/scorer-list",
@@ -6888,7 +6906,7 @@
                         ]
                       },
                       {
-                        "group": "평가 run",
+                        "group": "평가 Runs",
                         "pages": [
                           "ko/weave/reference/service-api/evaluation-runs/evaluation-run-list",
                           "ko/weave/reference/service-api/evaluation-runs/evaluation-run-create",

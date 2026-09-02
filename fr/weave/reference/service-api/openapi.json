@@ -60,6 +60,12 @@
             "title": "Tool Definitions"
           }
         },
+        "required": [
+          "model",
+          "system_instructions",
+          "tool_definitions",
+          "status"
+        ],
         "title": "AgentChatAgentStart",
         "type": "object"
       },
@@ -194,7 +200,18 @@
           }
         },
         "required": [
-          "text"
+          "text",
+          "model",
+          "reasoning_content",
+          "reasoning_tokens",
+          "input_tokens",
+          "output_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "total_cost_usd",
+          "duration_ms",
+          "status",
+          "content_refs"
         ],
         "title": "AgentChatAssistantMessage",
         "type": "object"
@@ -236,7 +253,175 @@
             "title": "Compaction Summary"
           }
         },
+        "required": [
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after"
+        ],
         "title": "AgentChatContextCompacted",
+        "type": "object"
+      },
+      "AgentChatFeedback": {
+        "description": "Ligne de feedback issue de la projection `include_feedback` du chat de l’agent.\n\nLes noms des champs correspondent à FEEDBACK_QUERY_FIELDS. Il ne s’agit ni de la ligne du tableau de feedback ni de FeedbackCreateReq : project_id et span_* ne sont pas sélectionnés.",
+        "properties": {
+          "annotation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotation Ref"
+          },
+          "call_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Call Ref"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "creator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Creator"
+          },
+          "feedback_type": {
+            "title": "Feedback Type",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "runnable_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
+          },
+          "weave_ref": {
+            "title": "Weave Ref",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "feedback_type",
+          "weave_ref",
+          "payload",
+          "creator",
+          "created_at",
+          "wb_user_id",
+          "runnable_ref",
+          "call_ref",
+          "trigger_ref",
+          "annotation_ref",
+          "scorer_tags",
+          "scorer_tag_reasons",
+          "scorer_tag_confidences",
+          "scorer_ratings",
+          "scorer_rating_reasons",
+          "scorer_rating_confidences"
+        ],
+        "title": "AgentChatFeedback",
         "type": "object"
       },
       "AgentChatMessage": {
@@ -308,8 +493,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -392,7 +576,19 @@
           }
         },
         "required": [
-          "type"
+          "type",
+          "span_id",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "started_at",
+          "user_message",
+          "assistant_message",
+          "tool_call",
+          "agent_start",
+          "agent_handoff",
+          "context_compacted",
+          "feedback"
         ],
         "title": "AgentChatMessage",
         "type": "object"
@@ -468,6 +664,14 @@
             "title": "Tool Result"
           }
         },
+        "required": [
+          "tool_name",
+          "tool_arguments",
+          "tool_result",
+          "duration_ms",
+          "status",
+          "content_refs"
+        ],
         "title": "AgentChatToolCall",
         "type": "object"
       },
@@ -487,7 +691,8 @@
           }
         },
         "required": [
-          "text"
+          "text",
+          "content_refs"
         ],
         "title": "AgentChatUserMessage",
         "type": "object"
@@ -542,8 +747,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -593,7 +797,14 @@
           }
         },
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "turns",
+          "total_turns",
+          "has_more",
+          "limit",
+          "offset",
+          "total_cost_usd",
+          "feedback"
         ],
         "title": "AgentConversationChatRes",
         "type": "object"
@@ -602,7 +813,10 @@
         "description": "Extrait tronqué du premier ou du dernier message pour une ligne de conversation groupée.\n\n`role` est le type de message de la chronologie du chat (par ex. \"user_message\",\n\"assistant_message\") afin que les clients puissent le styliser de manière cohérente avec la vue de\nchat complète ; `text` est le contenu d’aperçu tronqué et limité en longueur.",
         "properties": {
           "role": {
-            "default": "",
+            "enum": [
+              "user_message",
+              "assistant_message"
+            ],
             "title": "Role",
             "type": "string"
           },
@@ -612,6 +826,10 @@
             "type": "string"
           }
         },
+        "required": [
+          "role",
+          "text"
+        ],
         "title": "AgentConversationMessagePreview",
         "type": "object"
       },
@@ -702,7 +920,9 @@
         },
         "required": [
           "trace_id",
-          "feedback_type"
+          "feedback_type",
+          "tags",
+          "ratings"
         ],
         "title": "AgentConversationSpanFeedback",
         "type": "object"
@@ -743,7 +963,9 @@
         },
         "required": [
           "name",
-          "value"
+          "value",
+          "reason",
+          "confidence"
         ],
         "title": "AgentConversationSpanRating",
         "type": "object"
@@ -771,7 +993,9 @@
           }
         },
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "spans",
+          "spans_feedback"
         ],
         "title": "AgentConversationSpans",
         "type": "object"
@@ -833,6 +1057,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "conversations"
+        ],
         "title": "AgentConversationSpansRes",
         "type": "object"
       },
@@ -964,6 +1191,12 @@
             "type": "integer"
           }
         },
+        "required": [
+          "attributes",
+          "limit",
+          "offset",
+          "has_more"
+        ],
         "title": "AgentCustomAttrsSchemaRes",
         "type": "object"
       },
@@ -1086,7 +1319,8 @@
           "total_duration_ms",
           "error_count",
           "first_seen",
-          "last_seen"
+          "last_seen",
+          "total_cost_usd"
         ],
         "title": "AgentSchema",
         "type": "object"
@@ -1141,17 +1375,24 @@
             "type": "string"
           },
           "role": {
-            "enum": [
-              "",
-              "user",
-              "assistant",
-              "system",
-              "tool",
-              "tool_call",
-              "tool_result"
+            "anyOf": [
+              {
+                "enum": [
+                  "",
+                  "user",
+                  "assistant",
+                  "system",
+                  "tool",
+                  "tool_call",
+                  "tool_result"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
             ],
-            "title": "Role",
-            "type": "string"
+            "title": "Role"
           },
           "span_id": {
             "title": "Span Id",
@@ -1334,9 +1575,30 @@
           }
         },
         "required": [
-          "results"
+          "results",
+          "total_conversations"
         ],
         "title": "AgentSearchRes",
+        "type": "object"
+      },
+      "AgentSignalFilter": {
+        "properties": {
+          "ratings": {
+            "items": {
+              "$ref": "#/components/schemas/RatingCondition"
+            },
+            "title": "Ratings",
+            "type": "array"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "title": "AgentSignalFilter",
         "type": "object"
       },
       "AgentSortBy": {
@@ -1461,7 +1723,13 @@
           "alias",
           "source",
           "key",
-          "value_type"
+          "value_type",
+          "total_count",
+          "present_count",
+          "missing_count",
+          "other_count",
+          "bins",
+          "values"
         ],
         "title": "AgentSpanGroupDistributionItem",
         "type": "object"
@@ -1791,6 +2059,33 @@
             "type": "integer"
           }
         },
+        "required": [
+          "group_keys",
+          "span_count",
+          "invocation_count",
+          "conversation_count",
+          "total_input_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_duration_ms",
+          "error_count",
+          "total_cost_usd",
+          "total_input_cost_usd",
+          "total_output_cost_usd",
+          "agent_names",
+          "agent_versions",
+          "provider_names",
+          "request_models",
+          "conversation_names",
+          "first_seen",
+          "last_seen",
+          "first_message",
+          "last_message",
+          "metrics",
+          "distributions"
+        ],
         "title": "AgentSpanGroupRow",
         "type": "object"
       },
@@ -2072,6 +2367,83 @@
             ],
             "title": "Error Type"
           },
+          "eval_evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Evaluation Name"
+          },
+          "eval_example_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Example Id"
+          },
+          "eval_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Kind"
+          },
+          "eval_predict_and_score_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Predict And Score Call Id"
+          },
+          "eval_row_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Row Digest"
+          },
+          "eval_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Run Id"
+          },
+          "eval_trial_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Trial Index"
+          },
           "finish_reasons": {
             "items": {
               "type": "string"
@@ -2165,6 +2537,28 @@
               }
             ],
             "title": "Output Type"
+          },
+          "parent_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Id"
+          },
+          "parent_call_trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Trace Id"
           },
           "parent_span_id": {
             "anyOf": [
@@ -2584,7 +2978,83 @@
         "required": [
           "project_id",
           "trace_id",
-          "span_id"
+          "span_id",
+          "parent_span_id",
+          "span_name",
+          "span_kind",
+          "started_at",
+          "ended_at",
+          "status_code",
+          "status_message",
+          "operation_name",
+          "provider_name",
+          "agent_name",
+          "agent_id",
+          "agent_description",
+          "agent_version",
+          "eval_run_id",
+          "eval_predict_and_score_call_id",
+          "eval_kind",
+          "eval_row_digest",
+          "eval_example_id",
+          "eval_trial_index",
+          "eval_evaluation_name",
+          "parent_call_id",
+          "parent_call_trace_id",
+          "request_model",
+          "response_model",
+          "response_id",
+          "input_tokens",
+          "output_tokens",
+          "reasoning_tokens",
+          "cache_creation_input_tokens",
+          "cache_read_input_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "cache_read_cost_usd",
+          "cache_creation_cost_usd",
+          "total_cost_usd",
+          "reasoning_content",
+          "conversation_id",
+          "conversation_name",
+          "tool_name",
+          "tool_type",
+          "tool_call_id",
+          "tool_description",
+          "tool_definitions",
+          "finish_reasons",
+          "error_type",
+          "request_temperature",
+          "request_max_tokens",
+          "request_top_p",
+          "request_frequency_penalty",
+          "request_presence_penalty",
+          "request_seed",
+          "request_stop_sequences",
+          "request_choice_count",
+          "output_type",
+          "input_messages",
+          "output_messages",
+          "system_instructions",
+          "tool_call_arguments",
+          "tool_call_result",
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after",
+          "content_refs",
+          "artifact_refs",
+          "object_refs",
+          "custom_attrs_string",
+          "custom_attrs_int",
+          "custom_attrs_float",
+          "custom_attrs_bool",
+          "server_address",
+          "server_port",
+          "wb_user_id",
+          "wb_run_id",
+          "wb_run_step",
+          "wb_run_step_end",
+          "raw_span_dump"
         ],
         "title": "AgentSpanSchema",
         "type": "object"
@@ -2642,7 +3112,9 @@
         "required": [
           "name",
           "role",
-          "value_type"
+          "value_type",
+          "metric",
+          "aggregation"
         ],
         "title": "AgentSpanStatsColumn",
         "type": "object"
@@ -2870,6 +3342,16 @@
               }
             ]
           },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "start": {
             "format": "date-time",
             "title": "Start",
@@ -2966,7 +3448,11 @@
         "required": [
           "start",
           "end",
-          "timezone"
+          "granularity",
+          "timezone",
+          "bucket_type",
+          "columns",
+          "rows"
         ],
         "title": "AgentSpanStatsRes",
         "type": "object"
@@ -3094,6 +3580,16 @@
               }
             ]
           },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "sort_by": {
             "anyOf": [
               {
@@ -3162,6 +3658,11 @@
             "type": "integer"
           }
         },
+        "required": [
+          "spans",
+          "groups",
+          "total_count"
+        ],
         "title": "AgentSpansQueryRes",
         "type": "object"
       },
@@ -3214,12 +3715,23 @@
             ],
             "title": "Agent Version"
           },
+          "ended_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
           "feedback": {
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -3258,6 +3770,18 @@
             ],
             "title": "Root Span Name"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
           "status_code": {
             "anyOf": [
               {
@@ -3273,6 +3797,16 @@
               }
             ],
             "title": "Status Code"
+          },
+          "total_cache_creation_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Creation Input Tokens",
+            "type": "integer"
+          },
+          "total_cache_read_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Read Input Tokens",
+            "type": "integer"
           },
           "total_cost_usd": {
             "anyOf": [
@@ -3297,13 +3831,56 @@
             "description": "Durée réelle du span racine de la trace, en millisecondes. Il ne s'agit pas d'une somme des durées des spans enfants.",
             "title": "Total Duration Ms"
           },
+          "total_input_tokens": {
+            "default": 0,
+            "title": "Total Input Tokens",
+            "type": "integer"
+          },
+          "total_output_tokens": {
+            "default": 0,
+            "title": "Total Output Tokens",
+            "type": "integer"
+          },
+          "total_reasoning_tokens": {
+            "default": 0,
+            "title": "Total Reasoning Tokens",
+            "type": "integer"
+          },
           "trace_id": {
             "title": "Trace Id",
             "type": "string"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
           }
         },
         "required": [
-          "trace_id"
+          "trace_id",
+          "root_span_name",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "provider",
+          "started_at",
+          "ended_at",
+          "wb_user_id",
+          "total_duration_ms",
+          "total_cost_usd",
+          "total_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "messages",
+          "feedback"
         ],
         "title": "AgentTraceChatRes",
         "type": "object"
@@ -3394,6 +3971,7 @@
           "error_count",
           "first_seen",
           "last_seen",
+          "total_cost_usd",
           "agent_version"
         ],
         "title": "AgentVersionSchema",
@@ -3467,7 +4045,8 @@
           }
         },
         "required": [
-          "versions"
+          "versions",
+          "total_count"
         ],
         "title": "AgentVersionsQueryRes",
         "type": "object"
@@ -3563,7 +4142,8 @@
           }
         },
         "required": [
-          "agents"
+          "agents",
+          "total_count"
         ],
         "title": "AgentsQueryRes",
         "type": "object"
@@ -3614,6 +4194,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -3656,7 +4239,6 @@
         "type": "object"
       },
       "AnnotationQueueAddCallsBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour ajouter des appels à une file d'attente d'annotation (queue_id provient du chemin).",
         "properties": {
           "call_ids": {
@@ -3723,7 +4305,6 @@
         "type": "object"
       },
       "AnnotationQueueCreateReq": {
-        "additionalProperties": false,
         "description": "Requête pour créer une nouvelle file d'attente d'annotation.",
         "properties": {
           "description": {
@@ -3810,7 +4391,6 @@
         "type": "object"
       },
       "AnnotationQueueItemProgressUpdateBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour mettre à jour la progression de l’annotation (queue_id et item_id proviennent du chemin).\n\nRemarque : wb_user_id n’est pas inclus dans le corps de la requête ; il est défini côté serveur à partir de la session authentifiée.",
         "properties": {
           "annotation_state": {
@@ -4071,7 +4651,6 @@
         "type": "object"
       },
       "AnnotationQueueItemsQueryBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour interroger les éléments d’une file d'attente d'annotation (queue_id provient du chemin).",
         "properties": {
           "filter": {
@@ -4275,7 +4854,6 @@
         "type": "object"
       },
       "AnnotationQueueUpdateBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour la mise à jour d’une file d’annotation (queue_id provient du chemin).\n\nTous les champs sauf project_id sont facultatifs : seuls les champs fournis seront mis à jour.",
         "properties": {
           "description": {
@@ -4354,7 +4932,6 @@
         "type": "object"
       },
       "AnnotationQueuesQueryReq": {
-        "additionalProperties": false,
         "description": "Requête pour interroger les files d'attente d’annotation d’un projet.",
         "properties": {
           "limit": {
@@ -4430,7 +5007,6 @@
         "type": "object"
       },
       "AnnotationQueuesStatsReq": {
-        "additionalProperties": false,
         "description": "Requête pour obtenir les statistiques de plusieurs files d'attente d’annotation.",
         "properties": {
           "project_id": {
@@ -4506,7 +5082,7 @@
             "title": "Expected Digest"
           },
           "file": {
-            "format": "binary",
+            "contentMediaType": "application/octet-stream",
             "title": "File",
             "type": "string"
           },
@@ -4603,7 +5179,6 @@
         "type": "object"
       },
       "CallEndReq": {
-        "additionalProperties": false,
         "properties": {
           "end": {
             "$ref": "#/components/schemas/EndedCallSchemaForInsert"
@@ -4621,7 +5196,6 @@
         "type": "object"
       },
       "CallMetricSpec": {
-        "additionalProperties": false,
         "description": "Spécification d’une métrique au niveau des appels à agréger (non groupée par modèle).",
         "properties": {
           "aggregations": {
@@ -4662,7 +5236,6 @@
         "type": "object"
       },
       "CallReadReq": {
-        "additionalProperties": false,
         "properties": {
           "id": {
             "title": "Id",
@@ -4964,7 +5537,6 @@
         "type": "object"
       },
       "CallStartReq": {
-        "additionalProperties": false,
         "properties": {
           "start": {
             "$ref": "#/components/schemas/StartedCallSchemaForInsert"
@@ -4995,7 +5567,6 @@
         "type": "object"
       },
       "CallStatsReq": {
-        "additionalProperties": false,
         "description": "Requête pour obtenir des statistiques d’appels agrégées sur une plage temporelle.",
         "properties": {
           "call_metrics": {
@@ -5143,7 +5714,6 @@
         "type": "object"
       },
       "CallUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -5190,7 +5760,6 @@
         "type": "object"
       },
       "CallsDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "items": {
@@ -5238,7 +5807,6 @@
         "type": "object"
       },
       "CallsFilter": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "anyOf": [
@@ -5396,7 +5964,6 @@
         "type": "object"
       },
       "CallsQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "columns": {
             "anyOf": [
@@ -5579,7 +6146,6 @@
         "type": "object"
       },
       "CallsQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "expand_columns": {
             "anyOf": [
@@ -5686,7 +6252,6 @@
         "type": "object"
       },
       "CallsScoreReq": {
-        "additionalProperties": false,
         "description": "Requête permettant de mettre en file d'attente des jobs de scoring pour une liste d'appels.\n\nLe scoring est effectué de manière asynchrone par le call_scoring_worker, qui consomme des messages de Kafka et applique chaque scorer_ref à chaque call_id.",
         "properties": {
           "call_ids": {
@@ -5760,7 +6325,6 @@
         "type": "object"
       },
       "CallsUsageReq": {
-        "additionalProperties": false,
         "description": "Requête pour calculer l’utilisation agrégée de plusieurs appels racine.\n\nCet endpoint renvoie les métriques d’utilisation pour chaque appel racine demandé, où les métriques de chaque racine incluent la somme de sa propre utilisation et de celle de tous ses descendants.\n\nRemarque : tous les appels correspondants sont chargés en mémoire pour l’agrégation. Pour des ensembles de résultats très volumineux (>10k appels), envisagez de traiter les ID des appels racine par lots ou d’utiliser des filtres plus restrictifs au niveau de l’application.",
         "properties": {
           "call_ids": {
@@ -6053,6 +6617,9 @@
                 "$ref": "#/components/schemas/ConvertOperation"
               },
               {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
                 "$ref": "#/components/schemas/AndOperation"
               },
               {
@@ -6095,6 +6662,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -6163,6 +6733,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -6298,7 +6871,6 @@
         "type": "object"
       },
       "CostCreateInput": {
-        "additionalProperties": false,
         "properties": {
           "cache_creation_input_token_cost": {
             "default": 0,
@@ -6378,7 +6950,6 @@
         "type": "object"
       },
       "CostCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "costs": {
             "additionalProperties": {
@@ -6441,7 +7012,6 @@
         "type": "object"
       },
       "CostPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -6468,6 +7038,34 @@
       },
       "CostQueryOutput": {
         "properties": {
+          "cache_creation_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Creation Input Token Cost"
+          },
+          "cache_read_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Read Input Token Cost"
+          },
           "completion_token_cost": {
             "anyOf": [
               {
@@ -6586,7 +7184,6 @@
         "type": "object"
       },
       "CostQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -6765,6 +7362,147 @@
         "title": "CreateAndLinkWeaveAssetRes",
         "type": "object"
       },
+      "CustomRuntimeApplyBody": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Nom du secret de l’équipe utilisé comme clé API du point de terminaison ; jamais la valeur du secret",
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "description": "URL de base du point de terminaison public compatible avec OpenAI",
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "En-têtes littéraux transmis au point de terminaison",
+            "title": "Headers",
+            "type": "object"
+          },
+          "runtime_ids": {
+            "description": "Liste complète des ID souhaités exposés par le point de terminaison",
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeID"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "base_url",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyBody",
+        "type": "object"
+      },
+      "CustomRuntimeApplyRes": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Headers",
+            "type": "object"
+          },
+          "name": {
+            "description": "Nom stable de l’environnement d’exécution personnalisé",
+            "title": "Name",
+            "type": "string"
+          },
+          "runtime_ids": {
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeIDRes"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "base_url",
+          "api_key_secret",
+          "headers",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyRes",
+        "type": "object"
+      },
+      "CustomRuntimeID": {
+        "properties": {
+          "id": {
+            "description": "Valeur envoyée dans le champ model de la requête compatible avec OpenAI",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "Nombre maximal de jetons pris en charge par cet ID de runtime",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "CustomRuntimeID",
+        "type": "object"
+      },
+      "CustomRuntimeIDRes": {
+        "properties": {
+          "id": {
+            "description": "Valeur envoyée dans le champ model de la requête compatible avec OpenAI",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "Nombre maximal de jetons pris en charge par cet ID de runtime",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          },
+          "playground_id": {
+            "title": "Playground Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "playground_id"
+        ],
+        "title": "CustomRuntimeIDRes",
+        "type": "object"
+      },
       "Datacenter": {
         "properties": {
           "country_code": {
@@ -6917,6 +7655,41 @@
         "title": "DatasetReadRes",
         "type": "object"
       },
+      "DeletedObjVersion": {
+        "properties": {
+          "base_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Object Class"
+          },
+          "digest": {
+            "title": "Digest",
+            "type": "string"
+          },
+          "leaf_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Class"
+          }
+        },
+        "required": [
+          "digest"
+        ],
+        "title": "DeletedObjVersion",
+        "type": "object"
+      },
       "EndedCallSchemaForInsert": {
         "properties": {
           "ended_at": {
@@ -7029,6 +7802,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -7070,6 +7846,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -7219,7 +7998,6 @@
         "type": "object"
       },
       "EvalResultsFilter": {
-        "additionalProperties": false,
         "description": "Un filtre limité à une évaluation facultative.",
         "properties": {
           "evaluation_call_id": {
@@ -7246,7 +8024,6 @@
         "type": "object"
       },
       "EvalResultsQueryBody": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_call_ids": {
             "anyOf": [
@@ -7305,7 +8082,7 @@
           },
           "include_costs": {
             "default": false,
-            "description": "Lorsque la valeur est `true`, ajoutez le coût aux appels enfants de prédiction et de scoring afin que la synthèse puisse indiquer `predict_total_cost` pour la prédiction seule. Activation facultative : les autres appelants ignorent le calcul du coût.",
+            "description": "Lorsque la valeur est `true`, évaluez le coût de l’appel `predict` de chaque essai afin que les lignes et la synthèse indiquent le coût de la prédiction seule (`total_cost` / `predict_total_cost`) ; les coûts du scorer sont exclus. Activation facultative : les autres appelants ignorent le calcul du coût.",
             "title": "Include Costs",
             "type": "boolean"
           },
@@ -7579,7 +8356,6 @@
         "type": "object"
       },
       "EvalResultsSortBy": {
-        "additionalProperties": false,
         "description": "Spécification de tri pour les résultats d’évaluation, étendant SortBy",
         "properties": {
           "direction": {
@@ -7735,7 +8511,6 @@
         "type": "object"
       },
       "EvaluateModelReq": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_ref": {
             "title": "Evaluation Ref",
@@ -8211,7 +8986,6 @@
         "type": "object"
       },
       "EvaluationStatusComplete": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "complete",
@@ -8232,7 +9006,6 @@
         "type": "object"
       },
       "EvaluationStatusFailed": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "failed",
@@ -8256,7 +9029,6 @@
         "type": "object"
       },
       "EvaluationStatusNotFound": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "not_found",
@@ -8269,7 +9041,6 @@
         "type": "object"
       },
       "EvaluationStatusReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -8314,7 +9085,6 @@
         "type": "object"
       },
       "EvaluationStatusRunning": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "running",
@@ -8404,7 +9174,6 @@
         "type": "object"
       },
       "FeedbackAggregateReq": {
-        "additionalProperties": false,
         "description": "Requête pour agréger les scores par intervalle de temps et dimension.",
         "properties": {
           "after_ms": {
@@ -8583,7 +9352,6 @@
         "type": "object"
       },
       "FeedbackCreateBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "batch": {
             "items": {
@@ -8616,7 +9384,6 @@
         "type": "object"
       },
       "FeedbackCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -8807,6 +9574,12 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "Trace de l’invocation du scorer (juge) ayant produit ce feedback (spans.trace_id de l’appel du juge). À distinguer de span_trace_id, qui correspond au tour de conversation évalué. Permet aux signals de calculer le coût de l’invocation à partir du span du juge sans effectuer de jointure avec le modèle d’appels.",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
           "span_agent_name": {
             "default": "",
             "description": "Nom d’affichage de l’agent évalué (issu de spans.agent_name)",
@@ -8825,13 +9598,25 @@
             "title": "Span Agent Version",
             "type": "string"
           },
+          "span_conversation_id": {
+            "default": "",
+            "description": "Conversation à laquelle appartient le feedback (provenant de spans.conversation_id)",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
           "span_status_code": {
             "default": "UNSET",
             "description": "Statut du tour de conversation évalué (à partir de spans.status_code)",
             "examples": [
-              "SUCCESS"
+              "OK"
             ],
             "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "Tour de conversation auquel appartient le feedback (provenant de spans.trace_id)",
+            "title": "Span Trace Id",
             "type": "string"
           },
           "trigger_ref": {
@@ -8908,7 +9693,6 @@
         "type": "object"
       },
       "FeedbackMetricSpec": {
-        "additionalProperties": false,
         "description": "Spécification d'une métrique de payload de feedback à agréger.",
         "properties": {
           "aggregations": {
@@ -8951,7 +9735,6 @@
         "type": "object"
       },
       "FeedbackPayloadPath": {
-        "additionalProperties": false,
         "description": "Chemin découvert dans le payload de feedback avec type inféré.",
         "properties": {
           "json_path": {
@@ -8978,7 +9761,6 @@
         "type": "object"
       },
       "FeedbackPayloadSchemaReq": {
-        "additionalProperties": false,
         "description": "Requête de découverte du schéma de payload du feedback.",
         "properties": {
           "end": {
@@ -9060,7 +9842,6 @@
         "type": "object"
       },
       "FeedbackPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -9086,7 +9867,6 @@
         "type": "object"
       },
       "FeedbackQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -9184,16 +9964,21 @@
             },
             "title": "Result",
             "type": "array"
+          },
+          "total_count": {
+            "minimum": 0,
+            "title": "Total Count",
+            "type": "integer"
           }
         },
         "required": [
-          "result"
+          "result",
+          "total_count"
         ],
         "title": "FeedbackQueryRes",
         "type": "object"
       },
       "FeedbackReplaceReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -9388,6 +10173,12 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "Trace de l’invocation du scorer (juge) ayant produit ce feedback (spans.trace_id de l’appel du juge). À distinguer de span_trace_id, qui correspond au tour de conversation évalué. Permet aux signals de calculer le coût de l’invocation à partir du span du juge sans effectuer de jointure avec le modèle d’appels.",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
           "span_agent_name": {
             "default": "",
             "description": "Nom d’affichage de l’agent évalué (à partir de spans.agent_name)",
@@ -9406,13 +10197,25 @@
             "title": "Span Agent Version",
             "type": "string"
           },
+          "span_conversation_id": {
+            "default": "",
+            "description": "Conversation à laquelle appartient le feedback (provenant de spans.conversation_id)",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
           "span_status_code": {
             "default": "UNSET",
             "description": "Statut du tour de conversation évalué (à partir de spans.status_code)",
             "examples": [
-              "SUCCESS"
+              "OK"
             ],
             "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "Tour de conversation auquel appartient le feedback (provenant de spans.trace_id)",
+            "title": "Span Trace Id",
             "type": "string"
           },
           "trigger_ref": {
@@ -9490,7 +10293,6 @@
         "type": "object"
       },
       "FeedbackStatsReq": {
-        "additionalProperties": false,
         "description": "Requête pour des statistiques agrégées de feedback par buckets temporels.",
         "properties": {
           "end": {
@@ -9644,7 +10446,6 @@
         "type": "object"
       },
       "FileContentReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -9676,7 +10477,6 @@
         "type": "object"
       },
       "FilesStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "title": "Project Id",
@@ -9840,6 +10640,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9881,6 +10684,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -9944,6 +10750,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9985,6 +10794,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -10157,6 +10969,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -10199,6 +11014,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/ConvertOperation"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SizeOperation"
                     },
                     {
                       "$ref": "#/components/schemas/AndOperation"
@@ -10473,6 +11291,10 @@
             "title": "Modalitiesoutput",
             "type": "array"
           },
+          "openRouterPermaslug": {
+            "title": "Openrouterpermaslug",
+            "type": "string"
+          },
           "parameterCountActive": {
             "title": "Parametercountactive",
             "type": "integer"
@@ -10509,6 +11331,37 @@
               "fp32"
             ],
             "title": "Quantization",
+            "type": "string"
+          },
+          "reasoningArgument": {
+            "title": "Reasoningargument",
+            "type": "string"
+          },
+          "reasoningEfforts": {
+            "items": {
+              "enum": [
+                "none",
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ],
+              "type": "string"
+            },
+            "title": "Reasoningefforts",
+            "type": "array"
+          },
+          "reasoningSupport": {
+            "enum": [
+              "unsupported",
+              "default-off",
+              "adaptive",
+              "default-on",
+              "always-on"
+            ],
+            "title": "Reasoningsupport",
             "type": "string"
           },
           "status": {
@@ -10745,6 +11598,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -10786,6 +11642,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -10849,6 +11708,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -10890,6 +11752,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -11380,7 +12245,7 @@
         "type": "object"
       },
       "NormalizedMessage": {
-        "description": "Un message unique normalisé à partir de n'importe quel format de fournisseur.\n\nCorrespond au `Tuple(role String, content String, finish_reason String)` de ClickHouse.\n\n- role : rôle du message (utilisateur, assistant, outil, system)\n- content : texte brut pour les messages simples, ou tableau de parties sérialisé en JSON\n  pour les messages multimodaux/structurés\n- finish_reason : motif de fin du message (messages de sortie uniquement)",
+        "description": "Un message unique normalisé à partir de n'importe quel format de fournisseur.\n\nCorrespond au `Tuple(role String, content String, finish_reason String)` de ClickHouse.\n\n- role : rôle du message (utilisateur, assistant, outil, system)\n- content : texte brut pour les messages simples, ou tableau de parties sérialisé en JSON\n  pour les messages multimodaux/structurés\n- finish_reason : motif de fin du message (messages de sortie uniquement)\n\nLe schéma JSON de sérialisation marque les champs ayant une valeur par défaut comme requis. Dans le document OpenAPI public, cette classe apparaît uniquement comme élément de message AgentSpanSchema. La validation lors de l’ingestion reste inchangée.",
         "properties": {
           "content": {
             "title": "Content",
@@ -11398,7 +12263,9 @@
           }
         },
         "required": [
-          "content"
+          "role",
+          "content",
+          "finish_reason"
         ],
         "title": "NormalizedMessage",
         "type": "object"
@@ -11420,6 +12287,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -11545,7 +12415,6 @@
         "type": "object"
       },
       "ObjCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "obj": {
             "$ref": "#/components/schemas/ObjSchemaForInsert"
@@ -11582,7 +12451,6 @@
         "type": "object"
       },
       "ObjDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -11617,6 +12485,21 @@
       },
       "ObjDeleteRes": {
         "properties": {
+          "deleted_versions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DeletedObjVersion"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Métadonnées de chaque version d’objet supprimée, avec les alias de digest résolus en digests de contenu. None lorsque le serveur sous-jacent ne les signale pas.",
+            "title": "Deleted Versions"
+          },
           "num_deleted": {
             "title": "Num Deleted",
             "type": "integer"
@@ -11629,7 +12512,6 @@
         "type": "object"
       },
       "ObjQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "filter": {
             "anyOf": [
@@ -11774,7 +12656,6 @@
         "type": "object"
       },
       "ObjReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -11836,7 +12717,6 @@
         "type": "object"
       },
       "ObjRemoveAliasesBody": {
-        "additionalProperties": false,
         "description": "corps de la requête pour supprimer des alias (object_id provient du chemin).",
         "properties": {
           "aliases": {
@@ -12080,7 +12960,6 @@
         "type": "object"
       },
       "ObjSetAliasesBody": {
-        "additionalProperties": false,
         "description": "corps de la requête pour définir des alias (object_id provient du chemin).",
         "properties": {
           "aliases": {
@@ -12125,7 +13004,6 @@
         "type": "object"
       },
       "ObjTagsBody": {
-        "additionalProperties": false,
         "description": "corps de la requête pour ajouter ou supprimer des tags (object_id et empreinte proviennent du chemin).",
         "properties": {
           "project_id": {
@@ -12157,7 +13035,6 @@
         "type": "object"
       },
       "ObjectVersionFilter": {
-        "additionalProperties": false,
         "properties": {
           "aliases": {
             "anyOf": [
@@ -12445,6 +13322,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -12673,7 +13553,6 @@
         "type": "object"
       },
       "ProjectsInfoReq": {
-        "additionalProperties": false,
         "properties": {
           "project_ids": {
             "description": "ID de projet externes au format 'entity/project'.",
@@ -12759,6 +13638,36 @@
           "$expr"
         ],
         "title": "Query",
+        "type": "object"
+      },
+      "RatingCondition": {
+        "properties": {
+          "op": {
+            "enum": [
+              "gte",
+              "gt",
+              "lte",
+              "lt",
+              "eq"
+            ],
+            "title": "Op",
+            "type": "string"
+          },
+          "scorer_key": {
+            "title": "Scorer Key",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "scorer_key",
+          "op",
+          "value"
+        ],
+        "title": "RatingCondition",
         "type": "object"
       },
       "ReasoningBudgetTokens": {
@@ -12853,7 +13762,6 @@
         "type": "object"
       },
       "RefsReadBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "refs": {
             "items": {
@@ -13356,8 +14264,64 @@
         "title": "ServerInfoRes",
         "type": "object"
       },
+      "SizeOperation": {
+        "description": "Renvoyer le nombre d’éléments d’une collection ou de caractères d’une chaîne.\n\nExemple :\n    ```\n    {\"$size\": {\"$getField\": \"scorer_tags\"}}\n    ```",
+        "properties": {
+          "$size": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LiteralOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GetFieldOperator"
+              },
+              {
+                "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
+                "$ref": "#/components/schemas/AndOperation"
+              },
+              {
+                "$ref": "#/components/schemas/OrOperation"
+              },
+              {
+                "$ref": "#/components/schemas/NotOperation"
+              },
+              {
+                "$ref": "#/components/schemas/EqOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/InOperation"
+              },
+              {
+                "$ref": "#/components/schemas/ContainsOperation"
+              }
+            ],
+            "title": "$Size"
+          }
+        },
+        "required": [
+          "$size"
+        ],
+        "title": "SizeOperation",
+        "type": "object"
+      },
       "SortBy": {
-        "additionalProperties": false,
         "properties": {
           "direction": {
             "enum": [
@@ -13578,7 +14542,6 @@
         "type": "object"
       },
       "TableCreateFromDigestsReq": {
-        "additionalProperties": false,
         "properties": {
           "expected_digest": {
             "anyOf": [
@@ -13625,7 +14588,6 @@
         "type": "object"
       },
       "TableCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "table": {
             "$ref": "#/components/schemas/TableSchemaForInsert"
@@ -13715,7 +14677,6 @@
         "type": "object"
       },
       "TableQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "L’empreinte du tableau à interroger",
@@ -13830,7 +14791,6 @@
         "type": "object"
       },
       "TableQueryStatsBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -13897,7 +14857,6 @@
         "type": "object"
       },
       "TableQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "L’empreinte du tableau à interroger",
@@ -13934,7 +14893,6 @@
         "type": "object"
       },
       "TableRowFilter": {
-        "additionalProperties": false,
         "properties": {
           "row_digests": {
             "anyOf": [
@@ -14053,7 +15011,6 @@
         "type": "object"
       },
       "TableUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "base_digest": {
             "title": "Base Digest",
@@ -14126,8 +15083,92 @@
         "title": "TagsListRes",
         "type": "object"
       },
+      "ThreadSchema": {
+        "properties": {
+          "first_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID du premier tour de conversation dans ce thread (valeur start_time la plus ancienne)",
+            "title": "First Turn Id"
+          },
+          "last_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID du dernier tour de conversation dans ce thread (valeur end_time la plus récente)",
+            "title": "Last Turn Id"
+          },
+          "last_updated": {
+            "description": "Heure de fin la plus récente des appels de tours de conversation dans ce thread",
+            "format": "date-time",
+            "title": "Last Updated",
+            "type": "string"
+          },
+          "p50_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "50e percentile (médiane) des durées des tours de conversation en millisecondes dans ce thread",
+            "title": "P50 Turn Duration Ms"
+          },
+          "p99_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "99e percentile des durées des tours de conversation en millisecondes dans ce thread",
+            "title": "P99 Turn Duration Ms"
+          },
+          "start_time": {
+            "description": "Heure de début la plus ancienne des appels de tours de conversation dans ce thread",
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          },
+          "thread_id": {
+            "title": "Thread Id",
+            "type": "string"
+          },
+          "turn_count": {
+            "description": "Nombre d’appels de tours de conversation dans ce thread",
+            "title": "Turn Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "thread_id",
+          "turn_count",
+          "start_time",
+          "last_updated",
+          "first_turn_id",
+          "last_turn_id",
+          "p50_turn_duration_ms",
+          "p99_turn_duration_ms"
+        ],
+        "title": "ThreadSchema",
+        "type": "object"
+      },
       "ThreadsQueryFilter": {
-        "additionalProperties": false,
         "properties": {
           "after_datetime": {
             "anyOf": [
@@ -14188,7 +15229,6 @@
         "type": "object"
       },
       "ThreadsQueryReq": {
-        "additionalProperties": false,
         "description": "Interroger les threads avec des statistiques agrégées fondées uniquement sur les appels de tour.\n\nLes appels de tour sont les enfants immédiats des contextes de thread (où call.id == turn_id).\nCela fournit des statistiques pertinentes au niveau de la conversation, plutôt que d’inclure tous\nles détails d’implémentation imbriqués.",
         "properties": {
           "filter": {
@@ -14275,7 +15315,6 @@
         "type": "string"
       },
       "TraceUsageReq": {
-        "additionalProperties": false,
         "description": "Requête visant à calculer l’Utilisation par appel pour une trace, avec cumul des descendants.\n\nCet Endpoint renvoie des métriques d’Utilisation pour chaque appel de la trace, où les\nmétriques de chaque appel incluent la somme de sa propre Utilisation et de celle de tous ses descendants.\nUtilisez-le pour la Vue de trace lorsque vous souhaitez afficher des métriques cumulées par appel.\n\nRemarque : tous les appels correspondants sont chargés en Mémoire pour l’agrégation. Pour des ensembles de\nrésultats très volumineux (>10k appels), envisagez d’utiliser des filtres plus spécifiques ou une pagination\nau niveau de l’application.",
         "properties": {
           "filter": {
@@ -14348,7 +15387,6 @@
         "type": "object"
       },
       "UsageMetricSpec": {
-        "additionalProperties": false,
         "description": "Spécification d’une métrique d’Utilisation à agréger (regroupée par modèle).",
         "properties": {
           "aggregations": {
@@ -14395,6 +15433,13 @@
       },
       "ValidationError": {
         "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
           "loc": {
             "items": {
               "anyOf": [
@@ -17613,11 +18658,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSchema"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -17803,11 +18850,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -18292,10 +19341,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/EvaluationRunReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/EvaluationRunReadRes"
                 }
               }
             },
@@ -18532,16 +19578,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "Nombre maximal d’évaluations à renvoyer",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre maximal d’évaluations à renvoyer",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "Nombre d’évaluations à ignorer",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre d’évaluations à ignorer",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -18835,11 +19919,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -19133,11 +20219,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -19527,10 +20615,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/PredictionReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/PredictionReadRes"
                 }
               }
             },
@@ -19735,6 +20820,82 @@
         ]
       }
     },
+    "/v2/{entity}/{project}/runtimes/{runtime_name}": {
+      "put": {
+        "description": "Créez ou remplacez une configuration d’environnement d’exécution personnalisé.",
+        "operationId": "custom_runtime_apply_v2__entity___project__runtimes__runtime_name__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "title": "Entity",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project",
+            "required": true,
+            "schema": {
+              "title": "Project",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Nom stable de l’environnement d’exécution personnalisé à créer ou à remplacer",
+            "in": "path",
+            "name": "runtime_name",
+            "required": true,
+            "schema": {
+              "description": "Nom stable de l’environnement d’exécution personnalisé à créer ou à remplacer",
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[^\\s:]*(?::[^\\s:]+)*:?$",
+              "title": "Runtime Name",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomRuntimeApplyBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomRuntimeApplyRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "summary": "Appliquer l’environnement d’exécution personnalisé",
+        "tags": [
+          "Custom Runtimes"
+        ]
+      }
+    },
     "/v2/{entity}/{project}/scorers": {
       "get": {
         "description": "Lister les objets scorer.",
@@ -19757,16 +20918,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "Nombre maximal d’évaluateurs à renvoyer",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre maximal d’évaluateurs à renvoyer",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "Nombre d’évaluateurs à ignorer",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre d’évaluateurs à ignorer",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScorerReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -20144,10 +21343,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ScoreReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/ScoreReadRes"
                 }
               }
             },
