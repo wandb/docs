@@ -13,6 +13,15 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.84.1" description="September 2, 2026">
+
+## Fixes
+- Fixed a bug where only the first 500 tags within a team were visible in the UI. Now all tags are visible up to the maximum of 1000 per team.
+- Fixed a bug in Reports that have panel grids, where interacting with the report multiple times in quick succession could crash the page.
+- Fixed a bug where GraphQL introspection was still used by tables and artifacts even though `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` was set to `true`.
+
+</Update>
+
 <Update label="v0.84.0" description="August 25, 2026">
 
 W&B Server 0.84 simplifies API key handling for organizations and teams, with centralized management and bulk delete. Weave adds inline rendering from BYOB storage, refreshed Agents and Signals views, and more. Rounding out the release: configurable reference lines on scatter plots, Azure workload identities for BYOB storage in preview, and faster query-panel loading for runs with many sparse metrics.
