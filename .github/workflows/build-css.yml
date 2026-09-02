@@ -62,13 +62,11 @@ jobs:
             echo "css/styles.css is already in sync with the partials — nothing to commit."
             exit 0
           fi
-          # Identify the commit author as the GitHub App's bot user. Calling
-          # /user with an installation token returns the bot's login
-          # (<app-slug>[bot]) and numeric id; the noreply email format
-          # <id>+<login>@users.noreply.github.com is what GitHub recognizes
-          # as authored by the App.
-          APP_LOGIN=$(gh api /user --jq '.login')
-          APP_ID=$(gh api /user --jq '.id')
+          # Identify the commit author as the GitHub App's bot user. Installation
+          # tokens cannot call /user, so use the action's app-slug output to
+          # look up the bot account and construct its recognized noreply email.
+          APP_LOGIN="${{ steps.app-token.outputs.app-slug }}[bot]"
+          APP_ID=$(gh api "/users/${APP_LOGIN}" --jq '.id')
           git config user.name  "$APP_LOGIN"
           git config user.email "${APP_ID}+${APP_LOGIN}@users.noreply.github.com"
           git add css/styles.css
