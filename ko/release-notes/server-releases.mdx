@@ -15,6 +15,16 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.84.1" description="2026년 9월 2일">
+  <div id="fixes">
+    ## 수정 사항
+  </div>
+
+  * 팀 내에서 처음 500개의 태그만 UI에 표시되던 버그를 수정했습니다. 이제 팀당 최대 1000개까지 모든 태그가 표시됩니다.
+  * 패널 그리드가 포함된 Reports에서 짧은 시간에 여러 번 조작할 경우 페이지가 중단될 수 있던 버그를 수정했습니다.
+  * `GORILLA_GRAPHQL_DISABLE_INTROSPECTION`이 `true`로 설정되어 있어도 tables와 아티팩트에서 GraphQL 인트로스펙션이 계속 사용되던 버그를 수정했습니다.
+</Update>
+
 <Update label="v0.84.0" description="2026년 8월 25일">
   W&amp;B Server 0.84에서는 조직과 팀의 API 키 관리가 간소화되어 중앙에서 관리하고 일괄 삭제할 수 있습니다. Weave에는 BYOB 저장소의 인라인 렌더링, 새롭게 개선된 Agents 및 Signals 뷰 등이 추가되었습니다. 이 밖에도 이번 릴리스에는 산점도에 설정 가능한 레퍼런스 선, 프리뷰로 제공되는 BYOB 저장소용 Azure 워크로드 ID, 희소 메트릭이 많은 run의 쿼리 패널 로딩 속도 개선이 포함되어 있습니다.
 
@@ -78,7 +88,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 희소 메트릭이 많은 run에서 쿼리 패널을 로드하는 성능을 개선했습니다.
   * 이제 Weave 점수화 워커는 추론 엔드포인트 호출 시 프로젝트별로 동시성을 조정하여, 공급자 할당량이 낮은 조직에서 발생하는 속도 제한 오류를 줄입니다.
 
-  <div id="fixes">
+  <div id="fixes-2">
     ## 수정 사항
   </div>
 
@@ -100,7 +110,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 아티팩트 컬렉션 사이드바 새로 고침의 효율성을 개선했습니다.
 
-  <div id="fixes-2">
+  <div id="fixes-3">
     ## 수정 사항
   </div>
 
@@ -112,7 +122,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.83.1" description="2026년 7월 28일">
-  <div id="fixes-3">
+  <div id="fixes-4">
     ## 수정 사항
   </div>
 
@@ -219,7 +229,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 이제 시작 설정 로그에서 민감한 라이선스 세부 정보와 객체 저장소 자격 증명이 마스킹됩니다.
 
-  <div id="fixes-4">
+  <div id="fixes-5">
     ## 수정 사항
   </div>
 
@@ -230,7 +240,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.82.2" description="2026년 7월 7일">
-  <div id="fixes-5">
+  <div id="fixes-6">
     ## 수정 사항
   </div>
 
@@ -252,7 +262,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 로깅된 메트릭이 많은 프로젝트에서 차트와 워크스페이스 로딩을 개선했습니다. 여기에는 더 빠른 미디어 패널 로딩과 더 효율적인 이력 키 쿼리가 포함됩니다.
 
-  <div id="fixes-6">
+  <div id="fixes-7">
     ## 수정 사항
   </div>
 
@@ -317,7 +327,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 워크스페이스 패널 검색의 효율성을 개선했습니다.
 
-  <div id="fixes-7">
+  <div id="fixes-8">
     ## 수정 사항
   </div>
 
@@ -327,7 +337,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.81.3" description="2026년 6월 9일">
-  <div id="fixes-8">
+  <div id="fixes-9">
     ## 수정 사항
   </div>
 
@@ -337,7 +347,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.81.2" description="2026년 6월 8일">
   **2026년 6월 8일**
 
-  <div id="fixes-9">
+  <div id="fixes-10">
     ## 수정 사항
   </div>
 
@@ -347,7 +357,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.81.1" description="2026년 6월 3일">
   **2026년 6월 3일**
 
-  <div id="fixes-10">
+  <div id="fixes-11">
     ## 수정 사항
   </div>
 
@@ -456,7 +466,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * [CVE-2026-23490](https://github.com/advisories/GHSA-63vm-454h-vhhq) 및 [CVE-2026-30922](https://github.com/advisories/GHSA-jr27-m4p2-rc6r)를 해결하기 위해 `pyasn1`을 0.6.3으로 업그레이드했습니다.
   * [CVE-2026-24486](https://github.com/advisories/GHSA-wp53-j4wj-2cfg)를 해결하기 위해 `python-multipart`를 0.0.22로 업그레이드했습니다.
 
-  <div id="fixes-11">
+  <div id="fixes-12">
     ## Fixes
   </div>
 
@@ -475,7 +485,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.80.1" description="2026년 5월 6일">
   **2026년 5월 6일**
 
-  <div id="fixes-12">
+  <div id="fixes-13">
     ## 수정 사항
   </div>
 
@@ -599,7 +609,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 역직렬화 중 메모리 내 트레이스 아티팩트에 제공된 파일 경로가 의도된 임시 작업 공간을 벗어날 수 있던 버그를 수정했습니다. 이제 경로를 안전하게 정제하여 아티팩트 파일이 예상된 디렉터리 레이아웃 내에만 저장되도록 합니다.
   * 평가 작업 중 evaluate-model 워커가 안전하지 않은 맞춤형 직렬화 페이로드를 처리할 수 있던 버그를 수정했습니다. 이제 이러한 페이로드는 역직렬화 전에 거부되며, 평가 스택의 다른 보안 강화 경로와 일관되게 처리됩니다.
 
-  <div id="fixes-13">
+  <div id="fixes-14">
     ## Fixes
   </div>
 
@@ -611,7 +621,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.79.2" description="2026년 4월 10일">
-  <div id="fixes-14">
+  <div id="fixes-15">
     ## 수정 사항
   </div>
 
@@ -619,7 +629,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.79.1" description="2026년 4월 1일">
-  <div id="fixes-15">
+  <div id="fixes-16">
     ## 수정 사항
   </div>
 
@@ -686,7 +696,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 **Calls** 및 **Traces** 페이지의 테이블에서 열을 드래그 앤 드롭으로 재정렬할 수 있습니다.
   * 이제 Weave monitors는 모든 오퍼레이션에 대한 점수화를 지원합니다.
 
-  <div id="fixes-16">
+  <div id="fixes-17">
     ## 수정 사항
   </div>
 
@@ -701,7 +711,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.78.2" description="2026년 3월 10일">
   <Note>Weave를 사용하는 deployment의 경우 v0.78로 업그레이드하기 전에 Clickhouse v0.25.8+가 필요합니다.</Note>
 
-  <div id="fixes-17">
+  <div id="fixes-18">
     ## 수정 사항
   </div>
 
@@ -713,7 +723,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     이 릴리스는 권한이 없는 사용자가 아티팩트에 접근할 수 있게 하는 치명적인 보안 문제의 영향을 받습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
   </Warning>
 
-  <div id="fixes-18">
+  <div id="fixes-19">
     ## 수정 사항
   </div>
 
@@ -817,7 +827,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * Gemini와 같이 thinking token을 제공하는 모델의 경우, 이제 Weave UI의 **Token Usage**에 표시됩니다. thinking token은 최종 답변을 생성하기 전에 LLM이 복잡한 추론 단계, 계산, 자체 검토를 처리하는 데 사용하는 내부 토큰입니다.
 
-  <div id="fixes-19">
+  <div id="fixes-20">
     ## Fixes
   </div>
 
@@ -837,7 +847,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * **Self-Managed**에서 이제 W&amp;B 워크스페이스에 Weave 패널을 추가하고 Weave 트레이스에서 W&amp;B Artifacts를 참조할 수 있습니다. 이 기능은 이전에는 **Dedicated Cloud**에서만 지원되었습니다. [W&amp;B training runs와 함께 Weave 사용하기](/ko/weave/guides/tools/weave-in-workspaces)를 참조하세요.
 
-  <div id="fixes-20">
+  <div id="fixes-21">
     ## 수정 사항
   </div>
 
@@ -925,7 +935,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     * Opus 4.5
   * 이제 [Weave 플레이그라운드](https://wandb.ai/site/playground/)에서 새 프롬프트를 만들고 저장할 수 있습니다.
 
-  <div id="fixes-21">
+  <div id="fixes-22">
     ## Fixes
   </div>
 
@@ -952,7 +962,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.76.3" description="2025년 12월 17일">
   **2025년 12월 17일**
 
-  <div id="fixes-22">
+  <div id="fixes-23">
     ## 수정 사항
   </div>
 
@@ -963,7 +973,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.76.2" description="2025년 12월 10일">
   **2025년 12월 10일**
 
-  <div id="fixes-23">
+  <div id="fixes-24">
     ## 수정 사항
   </div>
 
@@ -975,7 +985,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.76.1" description="2025년 12월 4일">
   **2025년 12월 4일**
 
-  <div id="fixes-24">
+  <div id="fixes-25">
     ## 수정 사항
   </div>
 
@@ -1040,7 +1050,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 최근 [Workspaces and Reports SDK v0.20.0](/ko/models/ref/wandb_workspaces) v0.20.0을 릴리스했으며, 이 버전에는 섹션과 열을 프로그래밍 방식으로 고정하는 기능이 포함되어 있습니다. [Workspaces and Reports API 설치](/ko/models/ref/wandb_workspaces#installation-and-setup)를 참조하세요.
 
-  <div id="fixes-25">
+  <div id="fixes-26">
     ## Fixes
   </div>
 
@@ -1125,7 +1135,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * Parquet로의 run 이력 내보내기 기능이 개선되었습니다. 이제 모든 배포 환경에서 run 이력 내보내기는 기본적으로 비동기 방식으로 수행됩니다. 또한 run 이력을 내보낼 때, run이 7일 이상 로깅되지 않았고 해당 run의 이력이 완전히 내보내진 후에는 해당 run의 이력이 MySQL에서 자동으로 삭제됩니다.
 
-  <div id="fixes-26">
+  <div id="fixes-27">
     ## Fixes
   </div>
 
@@ -1196,7 +1206,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 새로운 편의 메서드 [`delete_all_object_versions`](/ko/weave/reference/python-sdk/trace/weave_client).
   * 이제 OpenAI 스트리밍 엔드포인트 call의 출력에는 밀리초 단위의 새 필드 `time_to_first_token`이 포함됩니다.
 
-  <div id="fixes-27">
+  <div id="fixes-28">
     ## Fixes
   </div>
 
@@ -1212,7 +1222,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.73.1" description="2025년 9월 10일">
-  <div id="fixes-28">
+  <div id="fixes-29">
     ## 수정 사항
   </div>
 
@@ -1266,7 +1276,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 [HTML](/ko/weave/guides/core-types/media#html)을 트레이스에 미디어 유형으로 첨부할 수 있습니다.
   * 이제 **Assets** 탭에서 프롬프트를 만들고 수정할 수 있습니다. **Assets**를 클릭한 다음 내비게이션에서 **Prompts**를 클릭합니다. **New prompt**를 클릭하거나 기존 프롬프트의 이름을 클릭해 세부 정보를 확인합니다. 그런 다음 연필 아이콘을 클릭해 프롬프트를 수정하고 다시 게시합니다.
 
-  <div id="fixes-29">
+  <div id="fixes-30">
     ## Fixes
   </div>
 

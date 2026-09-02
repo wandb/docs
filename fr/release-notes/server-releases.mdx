@@ -15,6 +15,16 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
 <EolReminder />
 
+<Update label="v0.84.1" description="2 septembre 2026">
+  <div id="fixes">
+    ## Correctifs
+  </div>
+
+  * Correctif d’un bug où seuls les 500 premiers tags d’une équipe étaient visibles dans l’interface utilisateur. Désormais, tous les tags sont visibles, jusqu’au maximum de 1000 par équipe.
+  * Correctif d’un bug affectant les Reports comportant des panel grids : plusieurs interactions rapprochées avec le report pouvaient faire planter la page.
+  * Correctif d’un bug où l’introspection GraphQL était encore utilisée par les tableaux et les artifacts alors même que `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` était défini sur `true`.
+</Update>
+
 <Update label="v0.84.0" description="25 août 2026">
   W&amp;B Server 0.84 simplifie la gestion des clés API pour les organisations et les Teams, avec une administration centralisée et une suppression groupée. Weave ajoute le rendu en ligne depuis un stockage BYOB, des vues Agents et Signals repensées, et bien plus encore. Pour compléter cette version : des lignes de référence configurables sur les nuages de points, les identités de charge de travail Azure pour le stockage BYOB en préversion, et un chargement plus rapide des panels de requête pour les runs comportant de nombreuses métriques éparses.
 
@@ -78,7 +88,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   * Amélioration des performances de chargement des panneaux de requête pour les runs comportant un grand nombre de métriques éparses.
   * Les workers de scoring Weave adaptent désormais leur concurrence par projet lors des appels aux points de terminaison d’inférence, réduisant ainsi les erreurs de dépassement de limite de débit pour les organisations disposant de quotas fournisseur moins élevés.
 
-  <div id="fixes">
+  <div id="fixes-2">
     ## Correctifs
   </div>
 
@@ -100,7 +110,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Amélioration de l’efficacité de l’actualisation de la barre latérale de la collection d’artifact.
 
-  <div id="fixes-2">
+  <div id="fixes-3">
     ## Correctifs
   </div>
 
@@ -112,7 +122,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 </Update>
 
 <Update label="v0.83.1" description="28 juillet 2026">
-  <div id="fixes-3">
+  <div id="fixes-4">
     ## Correctifs
   </div>
 
@@ -219,7 +229,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Les informations sensibles de la License et les identifiants d’authentification du stockage d’objets sont désormais masqués dans les journaux de configuration au démarrage.
 
-  <div id="fixes-4">
+  <div id="fixes-5">
     ## Correctifs
   </div>
 
@@ -230,7 +240,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 </Update>
 
 <Update label="v0.82.2" description="7 juillet 2026">
-  <div id="fixes-5">
+  <div id="fixes-6">
     ## Correctifs
   </div>
 
@@ -252,7 +262,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Amélioration du chargement des graphiques et des Workspace pour les projets comportant un grand nombre de métriques journalisées, notamment grâce à un chargement plus rapide du volet multimédia et à des requêtes de clés d’historique plus efficaces.
 
-  <div id="fixes-6">
+  <div id="fixes-7">
     ## Correctifs
   </div>
 
@@ -317,7 +327,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Amélioration de l’efficacité de la recherche de panneaux dans les Workspace.
 
-  <div id="fixes-7">
+  <div id="fixes-8">
     ## Correctifs
   </div>
 
@@ -327,7 +337,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 </Update>
 
 <Update label="v0.81.3" description="9 juin 2026">
-  <div id="fixes-8">
+  <div id="fixes-9">
     ## Correctifs
   </div>
 
@@ -337,7 +347,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.81.2" description="8 juin 2026">
   **8 juin 2026**
 
-  <div id="fixes-9">
+  <div id="fixes-10">
     ## Correctifs
   </div>
 
@@ -347,7 +357,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.81.1" description="3 juin 2026">
   **3 juin 2026**
 
-  <div id="fixes-10">
+  <div id="fixes-11">
     ## Correctifs
   </div>
 
@@ -456,7 +466,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   * Passage de `pyasn1` à la version 0.6.3 pour corriger [CVE-2026-23490](https://github.com/advisories/GHSA-63vm-454h-vhhq) et [CVE-2026-30922](https://github.com/advisories/GHSA-jr27-m4p2-rc6r).
   * Mise à jour de `python-multipart` vers la version 0.0.22 afin de corriger la vulnérabilité [CVE-2026-24486](https://github.com/advisories/GHSA-wp53-j4wj-2cfg).
 
-  <div id="fixes-11">
+  <div id="fixes-12">
     ## Correctifs
   </div>
 
@@ -475,7 +485,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.80.1" description="6 mai 2026">
   **6 mai 2026**
 
-  <div id="fixes-12">
+  <div id="fixes-13">
     ## Correctifs
   </div>
 
@@ -599,7 +609,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   * Correctif d’un bug où les chemins de fichier fournis pour des artefacts de trace en mémoire pouvaient sortir de l’espace de travail temporaire prévu lors de la désérialisation. Les chemins sont désormais nettoyés afin que les fichiers d’artefact restent confinés à l’arborescence de répertoires attendue.
   * Correctif d’un bug par lequel le worker evaluate-model pouvait traiter des payloads sérialisés personnalisés non sécurisés lors de tâches d’évaluation. Ces payloads sont désormais rejetés avant la désérialisation, en cohérence avec les autres chemins d’exécution durcis de la pile d’évaluation.
 
-  <div id="fixes-13">
+  <div id="fixes-14">
     ## Correctifs
   </div>
 
@@ -611,7 +621,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 </Update>
 
 <Update label="v0.79.2" description="10 avril 2026">
-  <div id="fixes-14">
+  <div id="fixes-15">
     ## Correctifs
   </div>
 
@@ -619,7 +629,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 </Update>
 
 <Update label="v0.79.1" description="1 avril 2026">
-  <div id="fixes-15">
+  <div id="fixes-16">
     ## Correctifs
   </div>
 
@@ -686,7 +696,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   * Les tableaux des pages **Calls** et **Traces** prennent désormais en charge la réorganisation des colonnes par glisser-déposer.
   * Les moniteurs Weave prennent désormais en charge l’évaluation sur l’ensemble des opérations.
 
-  <div id="fixes-16">
+  <div id="fixes-17">
     ## Correctifs
   </div>
 
@@ -701,7 +711,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.78.2" description="10 mars 2026">
   <Note>Pour les déploiements utilisant Weave, Clickhouse v0.25.8+ est requis avant la mise à niveau vers v0.78.</Note>
 
-  <div id="fixes-17">
+  <div id="fixes-18">
     ## Correctifs
   </div>
 
@@ -713,7 +723,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
     Cette version est affectée par un problème de sécurité critique qui permet un accès non autorisé à un artifact. Ne l’installez pas et ne la mettez pas à niveau. Installez plutôt [v0.78.2](#v0-78-2), qui contient le correctif.
   </Warning>
 
-  <div id="fixes-18">
+  <div id="fixes-19">
     ## Correctifs
   </div>
 
@@ -820,7 +830,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Pour les modèles comme Gemini qui fournissent des tokens de réflexion, ceux-ci sont désormais affichés dans **Utilisation des tokens** de la Weave UI. Les tokens de réflexion sont des tokens internes que les LLM utilisent pour effectuer des raisonnements complexes, des calculs et une réflexion interne avant de générer une réponse finale.
 
-  <div id="fixes-19">
+  <div id="fixes-20">
     ## Correctifs
   </div>
 
@@ -840,7 +850,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Dans **Autogéré**, vous pouvez désormais ajouter des panneaux Weave à un Workspace W&amp;B et référencer des W&amp;B Artifacts dans une trace Weave. Cette fonctionnalité n’était auparavant disponible que dans **Cloud dédié**. Voir [Utiliser Weave avec les runs d&#39;entraînement W&amp;B](/fr/weave/guides/tools/weave-in-workspaces).
 
-  <div id="fixes-20">
+  <div id="fixes-21">
     ## Correctifs
   </div>
 
@@ -928,7 +938,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
     * Opus 4.5
   * Vous pouvez désormais créer et enregistrer un nouveau prompt depuis [Weave Playground](https://wandb.ai/site/playground/).
 
-  <div id="fixes-21">
+  <div id="fixes-22">
     ## Correctifs
   </div>
 
@@ -955,7 +965,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.76.3" description="17 décembre 2025">
   **17 décembre 2025**
 
-  <div id="fixes-22">
+  <div id="fixes-23">
     ## Correctifs
   </div>
 
@@ -966,7 +976,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.76.2" description="10 décembre 2025">
   **10 décembre 2025**
 
-  <div id="fixes-23">
+  <div id="fixes-24">
     ## Correctifs
   </div>
 
@@ -978,7 +988,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 <Update label="v0.76.1" description="4 décembre 2025">
   **4 décembre 2025**
 
-  <div id="fixes-24">
+  <div id="fixes-25">
     ## Correctifs
   </div>
 
@@ -1043,7 +1053,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Nous avons récemment publié [Workspaces and Reports SDK v0.20.0](/fr/models/ref/wandb_workspaces) v0.20.0, qui permet d’épingler des sections et des colonnes par code. Voir [Installer l’API Workspaces and Reports](/fr/models/ref/wandb_workspaces#installation-and-setup).
 
-  <div id="fixes-25">
+  <div id="fixes-26">
     ## Correctifs
   </div>
 
@@ -1128,7 +1138,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * L’export de l’historique des runs vers Parquet a été amélioré. Désormais, l’export de l’historique des runs est asynchrone par défaut sur tous les déploiements. De plus, lors de l’export de l’historique d’un run, si aucun enregistrement n’a été effectué pour ce run depuis au moins 7 jours et que son historique a été entièrement exporté, l’historique de ce run est automatiquement supprimé de MySQL.
 
-  <div id="fixes-26">
+  <div id="fixes-27">
     ## Correctifs
   </div>
 
@@ -1199,7 +1209,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   * Nouvelle méthode utilitaire [`delete_all_object_versions`](/fr/weave/reference/python-sdk/trace/weave_client).
   * La sortie d’un appel à un endpoint de streaming OpenAI inclut désormais un nouveau champ, `time_to_first_token`, exprimé en millisecondes.
 
-  <div id="fixes-27">
+  <div id="fixes-28">
     ## Correctifs
   </div>
 
@@ -1215,7 +1225,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 </Update>
 
 <Update label="v0.73.1" description="10 septembre 2025">
-  <div id="fixes-28">
+  <div id="fixes-29">
     ## Correctifs
   </div>
 
@@ -1269,7 +1279,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   * Vous pouvez désormais associer [HTML](/fr/weave/guides/core-types/media#html) à une trace comme type de média.
   * Depuis l’onglet **Assets**, vous pouvez désormais créer et modifier des prompts. Cliquez sur **Assets**, puis, dans la navigation, cliquez sur **Prompts**. Cliquez sur **New prompt** ou sur le nom d’un prompt existant pour consulter ses détails. Ensuite, cliquez sur l’icône en forme de crayon pour modifier et republier le prompt.
 
-  <div id="fixes-29">
+  <div id="fixes-30">
     ## Correctifs
   </div>
 
