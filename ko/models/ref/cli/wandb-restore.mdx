@@ -27,7 +27,7 @@ W&amp;B 인증이 필요합니다.
 
 1. 설정(항상): run 설정을 wandb/config.yaml에 기록합니다.
 
-   2. Git(사용 가능한 경우): 새 `wandb/run_id` 브랜치에서 원래
+   2. Git(사용 가능한 경우): 새 wandb/run&#95;id 브랜치에서 원래
       커밋을 체크아웃합니다. 저장된 diff 패치를 가져와 적용합니다.
       원래 커밋을 찾을 수 없으면
       업스트림 커밋으로 대체합니다.
@@ -41,9 +41,9 @@ run에 git 이력도 없고 Docker 이미지도 없으면,
 설정만 복원합니다.
 
 다음 형식 중 아무 형식으로나 run 식별자를 받을 수 있습니다:
-run&#95;id, project:run&#95;id, entity/project:run&#95;id, 또는 entity/project/run&#95;id .
+run&#95;id, project:run&#95;id, entity/project:run&#95;id, 또는 entity/project/run&#95;id.
 
-예를 들어, 기본 프로젝트에 있는 run ID로 run을 복원하려면
+예를 들어, 기본 프로젝트에서 run ID가 abcd1234인 run을 복원하려면
 (WANDB&#95;PROJECT 환경 변수에 저장됨) 및 entity
 (WANDB&#95;ENTITY 또는 인증된 사용자의 기본 entity로 설정됨):
 

@@ -74,7 +74,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * シグナルの作成または編集時に、**Inference provider** セレクターでは、サードパーティプロバイダーごとにモデル単位のエントリが表示されるようになりました。
   * シグナルから親会話へのリンク、およびスパンから親評価へのリンクが追加されました。
   * 評価比較表では、複数の数値のリストを含むセルがデフォルトでヒストグラムとして表示されるようになりました。セルのツールバーを使用して、表示モードを **Histogram**、**Bar Chart**、**Text**、または **Code** に変更できます。セルをクリックすると、要約統計量を含む拡大チャートが表示されます。
-  * string セルで選択した表示モード (***Text**、**Code**、または **Markdown**) が、クリックしたセルだけでなく、その列内のすべての string セルに適用されるようになりました。明示的にモードを選択するまで、セルには JSON の **Code** などの自動デフォルトが適用されます。
+  * string セルで選択した表示モード (**Text**、**Code**、または **Markdown**) が、クリックしたセルだけでなく、その列内のすべての string セルに適用されるようになりました。明示的にモードを選択するまで、セルには JSON の **Code** などの自動デフォルトが適用されます。
   * Custom providers は、UI を強化した [custom runtimes](/ja/weave/guides/tools/custom-runtimes) に名称変更されました。実験の変化に応じて custom runtimes を編集または削除できます。
   * Weave が inference provider の設定状況を報告する際、チームシークレットに加えてユーザースコープのシークレットも考慮されるようになりました。独自のキーで設定した provider は、**Playground** のモデルドロップダウン、**Providers** タブ、および **Agents** inference で利用可能として表示されるようになりました。
   * セキュリティを強化するため、Weave scoring worker のリモート Scorer ホスト許可リストで、ワイルドカードを含む接尾辞パターンを指定できるようになりました。`WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` 環境変数に、パターンをカンマ区切りのリストとして設定します。

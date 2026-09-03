@@ -77,19 +77,19 @@ Voici des exemples de conversations réelles avec ARIA pour illustrer comment vo
 <Accordion title="Exécuter des expériences à partir des recommandations d’ARIA">
   Supposons que vous êtes un ingénieur ML qui vient de terminer une série d’expériences. Vous souhaitez comprendre quelles devraient être les prochaines étapes pour améliorer les performances de votre modèle.
 
-  Pour ce faire, vous accédez au projet dans lequel vous avez enregistré des runs. Vous ouvrez ARIA et saisissez :
+  Pour ce faire, vous accédez au projet dans lequel vous avez enregistré des runs. Vous ouvrez ARIA et saisissez :
 
   ```text title="Prompt utilisateur"
   /recommend-next-experiment
   ```
 
-  Voici un exemple de la façon dont ARIA a répondu à cette question. ARIA commence par effectuer des étapes de raisonnement pour déterminer comment aborder la question. Par souci de concision, seule une partie du raisonnement d’ARIA est présentée ci-dessous :
+  Voici un exemple de la façon dont ARIA a répondu à cette question. ARIA commence par effectuer des étapes de raisonnement pour déterminer comment aborder la question. Par souci de concision, seule une partie du raisonnement d’ARIA est présentée ci-dessous :
 
   ```text title="Étapes de raisonnement d'ARIA"
-  Recommandation : exécuter une expérience « entraînement plus long + évaluation sur un jeu de validation distinct »
+  Recommandation : exécuter une expérience « entraînement plus long + évaluation sur un jeu de validation distinct »
   avant de modifier l’architecture du modèle ou d’effectuer un sweep sur le LR.
 
-  Utilisez la meilleure configuration actuelle, mais entraînez plus longtemps :
+  Utilisez la meilleure configuration actuelle, mais entraînez plus longtemps :
 
   hyperparameter_config = {
       "learning_rate": 0.1,          # conserver tel quel
@@ -98,7 +98,7 @@ Voici des exemples de conversations réelles avec ARIA pour illustrer comment vo
       "torch_seed": 0,               # ajouter pour la reproductibilité
   }
   Ajoutez également la journalisation pour le split de validation existant à chaque époque ou
-  toutes les 10 à 50 époques :
+  toutes les 10 à 50 époques :
 
   train/train_loss
   train/train_acc
@@ -109,19 +109,19 @@ Voici des exemples de conversations réelles avec ARIA pour illustrer comment vo
   selon la perte d’entraînement.
 
   Pourquoi il s’agit de l’expérience suivante la plus prometteuse
-  Le projet contient 16 runs terminés, mais seulement 4 sont de véritables runs d’entraînement ;
-  tous les quatre ont utilisé la même configuration d’entraînement :
+  Le projet contient 16 runs terminés, mais seulement 4 sont de véritables runs d’entraînement ;
+  tous les quatre ont utilisé la même configuration d’entraînement :
 
   learning_rate = 0.1
   epochs = 1000
   same model: Multivariate_neural_network_classifier
 
   Il n’y a donc pas encore de véritable comparaison d’hyperparamètres. Le
-  signal le plus fort vient des courbes d’apprentissage : les quatre
+  signal le plus fort vient des courbes d’apprentissage : les quatre
   pertes d’entraînement continuent de s’améliorer à la dernière époque, et
   la perte d’entraînement minimale est atteinte à l’époque 1000 dans chaque run.
 
-  J’exécuterais :
+  J’exécuterais :
 
   learning_rate: 0.1
   epochs: 2000
@@ -132,36 +132,36 @@ Voici des exemples de conversations réelles avec ARIA pour illustrer comment vo
   point de contrôle sur la valeur la plus basse de test/test_loss
   ```
 
-  Vous êtes d’accord avec la recommandation d’ARIA et vous lui demandez d’exécuter l’expérience pour vous :
+  Vous êtes d’accord avec la recommandation d’ARIA et vous lui demandez d’exécuter l’expérience pour vous :
 
   ```text title="Prompt utilisateur"
   Run that experiment for me.
   ```
 
-  ARIA utilise W&amp;B Launch pour exécuter l’expérience dans un environnement sandbox. L’image suivante montre la réponse d’ARIA après l’exécution de l’expérience :
+  ARIA utilise W&amp;B Launch pour exécuter l’expérience dans un environnement sandbox. L’image suivante montre la réponse d’ARIA après l’exécution de l’expérience :
 
   <Frame>
     <img src="/images/agent/aria_experiment.gif" alt="ARIA exécutant une expérience" />
   </Frame>
 
-  ARIA utilise W&amp;B Launch pour exécuter des expériences dans un environnement sandbox. Voir [Activer ARIA pour exécuter des expériences](/fr/aria/autoresearch#run-experiments-with-w\&b-launch) pour plus d’informations.
+  ARIA utilise W&amp;B Launch pour exécuter des expériences dans un environnement sandbox. Voir [Activer ARIA pour exécuter des expériences](/fr/aria/autoresearch) pour plus d’informations.
 </Accordion>
 
 <Accordion title="Tirez des enseignements de vos expériences">
   Supposons que vous soyez un ingénieur ML qui vient de terminer une série de run pour un nouveau modèle. Vous souhaitez comprendre les performances de votre modèle, identifier d’éventuels problèmes et déterminer les prochaines étapes.
 
-  Pour ce faire, vous accédez au projet dans lequel vous avez enregistré des run. Vous ouvrez ARIA et lui demandez :
+  Pour ce faire, vous accédez au projet dans lequel vous avez enregistré des run. Vous ouvrez ARIA et lui demandez :
 
   ```text title="Prompt utilisateur"
-  Quelles tendances observez-vous sur l’ensemble de mes runs ?
+  Quelles tendances observez-vous sur l’ensemble de mes runs ?
   ```
 
-  Ce qui suit montre un exemple de réponse possible d’ARIA à cette question. Tout d’abord, ARIA élabore des étapes de raisonnement pour déterminer comment aborder la question :
+  Ce qui suit montre un exemple de réponse possible d’ARIA à cette question. Tout d’abord, ARIA élabore des étapes de raisonnement pour déterminer comment aborder la question :
 
   ```text title="Étapes de raisonnement d’ARIA"
   J’envisage d’exécuter une analyse de répartition des états avec des
   comptages par état à l’aide de filtres serveur spécifiques. Je vais examiner
-  le tableau des états : ['finished', 'running', 'crashed', 'failed', 'killed',
+  le tableau des états : ['finished', 'running', 'crashed', 'failed', 'killed',
   'pending', 'preempting'] et déterminer la longueur de chacun. En additionnant
   ces métriques, je pourrais obtenir des informations utiles. Je dois aussi
   me concentrer sur l’identification des métriques d’objectif à partir de clés
@@ -184,10 +184,10 @@ Voici des exemples de conversations réelles avec ARIA pour illustrer comment vo
 
   ARIA a pu identifier que mon expérience actuelle n’enregistre pas de métriques `validation/test` et a recommandé d’enregistrer ces métriques dans les prochains run afin de mieux comprendre les performances du modèle.
 
-  Comme prochaine étape, vous pouvez demander à ARIA de vous aider à configurer une expérience avec des métriques de validation enregistrées. Par exemple, vous pouvez demander à ARIA :
+  Comme prochaine étape, vous pouvez demander à ARIA de vous aider à configurer une expérience avec des métriques de validation enregistrées. Par exemple, vous pouvez demander à ARIA :
 
   ```text title="Prompt utilisateur"
-  Pouvez-vous m’aider à mettre à jour mon script Python pour qu’il enregistre aussi les métriques de validation ?
+  Pouvez-vous m’aider à mettre à jour mon script Python pour qu’il enregistre aussi les métriques de validation ?
   ```
 
   ARIA peut ensuite générer le code permettant d’enregistrer les métriques de validation dans votre script d’entraînement, que vous pouvez copier-coller dans votre base de code.
@@ -196,13 +196,13 @@ Voici des exemples de conversations réelles avec ARIA pour illustrer comment vo
 <Accordion title="Obtenez des recommandations pour le réglage des hyperparamètres">
   Supposons que vous soyez un ingénieur ML qui vient de terminer une série de run pour un nouveau modèle. Vous souhaitez comprendre les performances de votre modèle et obtenir des recommandations pour les améliorer dans les prochains run. Vous décidez de demander à ARIA des recommandations sur le réglage des hyperparamètres.
 
-  Vous pouvez demander à ARIA :
+  Vous pouvez demander à ARIA :
 
   ```text title="Prompt utilisateur"
-  Je veux effectuer un sweep pour réduire la perte de mon modèle pendant l’entraînement. Avez-vous des suggestions sur les hyperparamètres que je devrais essayer ?
+  Je veux effectuer un sweep pour réduire la perte de mon modèle pendant l’entraînement. Avez-vous des suggestions sur les hyperparamètres que je devrais essayer ?
   ```
 
-  ARIA pourrait répondre avec les étapes de raisonnement suivantes :
+  ARIA pourrait répondre avec les étapes de raisonnement suivantes :
 
   ```text title="Étapes de raisonnement d’ARIA"
    L’utilisateur cherche des informations pour améliorer la perte d’entraînement, je
@@ -219,9 +219,9 @@ Voici des exemples de conversations réelles avec ARIA pour illustrer comment vo
 
   ARIA identifie que le projet concerné a utilisé un taux d’apprentissage de `0.01` pour tous les run. Sur la base de ces observations, ARIA recommande d’essayer un taux d’apprentissage plus faible, comme `0.001`, dans les prochains run pour voir si cela aide à améliorer les performances du modèle.
 
-  ARIA identifie également que certaines exécutions utilisent l’optimizer SGD. Sur la base de cette observation, ARIA recommande d’essayer un autre optimizer, comme Adam (Adaptive Moment Estimation), dans les prochains run pour voir si cela aide à améliorer les performances du modèle.
+  ARIA identifie également que tous les run utilisent l’optimizer SGD. Sur la base de cette observation, ARIA recommande d’essayer un autre optimizer, comme Adam (Adaptive Moment Estimation), dans les prochains run pour voir si cela aide à améliorer les performances du modèle.
 
-  L’image suivante montre une partie de la réponse d’ARIA avec ses recommandations pour le réglage des hyperparamètres :
+  L’image suivante montre une partie de la réponse d’ARIA avec ses recommandations pour le réglage des hyperparamètres :
 
   <Frame>
     <img src="/images/agent/agent_recommend_hyperparameter.png" alt="Recommandations d’ARIA pour le réglage des hyperparamètres" />

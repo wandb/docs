@@ -84,11 +84,11 @@ L’exemple suivant montre une partie d’une réponse ARIA au prompt &quot;Pouv
   ### Composants de Launch
 </div>
 
-W&amp;B Launch repose sur trois composants principaux :
+W&amp;B Launch repose sur trois composants principaux :
 
-* **job Launch** : Un modèle réutilisable pour configurer et exécuter une tâche dans un flux de travail de ML.
-* **file d’attente Launch** : Une file d’attente FIFO qui soumet des jobs à une cible de calcul, telle qu’un cluster Kubernetes.
-* **agent Launch** : Un processus qui interroge une file d’attente et exécute des jobs sur la cible de calcul configurée pour cette file d’attente.
+* **job Launch** : Un modèle réutilisable pour configurer et exécuter une tâche dans un flux de travail de ML.
+* **file d’attente Launch** : Une file d’attente FIFO qui soumet des jobs à une cible de calcul, telle qu’un cluster Kubernetes.
+* **agent Launch** : Un processus qui interroge une file d’attente et exécute des jobs sur la cible de calcul configurée pour cette file d’attente.
 
 ARIA peut gérer le flux de travail Launch côté W&amp;B une fois qu’une file d’attente et un agent Launch actif sont disponibles. En général, ARIA ne peut pas démarrer un agent Launch persistant sur votre machine locale, votre cluster Kubernetes, votre environnement SageMaker ou votre environnement Vertex AI. Un utilisateur ou un administrateur doit fournir l’environnement de calcul, les identifiants d’authentification et l’agent en cours d’exécution.
 
@@ -96,7 +96,7 @@ Le tableau suivant résume les étapes, ainsi que les personnes qui les effectue
 
 | Étape                                             | Généralement effectué par                              | Détails                                                                                                                                                                                                                                |
 | ------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Créer une file d’attente Launch                   | ARIA ou administrateur de l’équipe                     | ARIA peut aider à créer une file d’attente lorsque les autorisations requises et le backend cible sont clairement définis. Des autorisations d’administrateur de l’équipe peuvent être requises                                        |
+| Créer une file d’attente Launch                   | ARIA ou administrateur de l’équipe                     | ARIA peut aider à créer une file d’attente lorsque les autorisations requises et le backend cible sont clairement définis. Des autorisations d’administrateur de l’équipe peuvent être requises.                                       |
 | Choisir ou provisionner un backend de calcul      | membre de l’équipe ou propriétaire de l’infrastructure | ARIA a besoin d’un accès à un hôte Docker, à un cluster Kubernetes, à un environnement SageMaker ou à un environnement Vertex AI. ARIA ne peut pas provisionner l’infrastructure, sauf si elle est déjà accessible via W&amp;B Launch. |
 | Démarrer l’agent Launch                           | membre de l’équipe ou propriétaire de l’infrastructure | L’agent Launch doit s’exécuter en continu sur votre machine ou votre cluster avec des identifiants d’authentification W&amp;B.                                                                                                         |
 | Configurer un compte de service ou une clé API    | administrateur de l’équipe                             | Créez et stockez les clés de compte de service de manière sécurisée. Pour plus d&#39;informations, voir [Manage secrets](https://docs.wandb.ai/platform/secrets#manage-secrets).                                                       |

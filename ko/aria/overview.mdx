@@ -144,7 +144,7 @@ ARIA가 새 메모리를 학습할 때까지 기다리지 않고 대화형으로
     <img src="/images/agent/aria_experiment.gif" alt="실험을 실행하는 ARIA" />
   </Frame>
 
-  ARIA는 W&amp;B Launch를 사용해 샌드박스 환경에서 실험을 실행합니다. 자세한 내용은 [ARIA가 실험을 실행하도록 설정](/ko/aria/autoresearch#run-experiments-with-w\&b-launch)을 참조하세요.
+  ARIA는 W&amp;B Launch를 사용해 샌드박스 환경에서 실험을 실행합니다. 자세한 내용은 [ARIA가 실험을 실행하도록 설정](/ko/aria/autoresearch)을 참조하세요.
 </Accordion>
 
 <Accordion title="실험에 대한 인사이트 얻기">
@@ -217,7 +217,7 @@ ARIA가 새 메모리를 학습할 때까지 기다리지 않고 대화형으로
 
   ARIA는 주어진 프로젝트의 모든 Runs에서 학습률 `0.01`이 사용되었다는 점을 파악합니다. 이러한 인사이트를 바탕으로, 모델 성능 개선에 도움이 되는지 확인하기 위해 향후 Runs에서 `0.001`과 같이 더 낮은 학습률을 시도해 볼 것을 권장합니다.
 
-  ARIA는 또한 SGD optimizer를 사용하는 Runs도 파악합니다. 이러한 인사이트를 바탕으로, 모델 성능 개선에 도움이 되는지 확인하기 위해 향후 Runs에서 Adam(Adaptive Moment Estimation)과 같은 다른 optimizer를 시도해 볼 것을 권장합니다.
+  ARIA는 또한 모든 Runs가 SGD optimizer를 사용한다는 점을 파악합니다. 이러한 인사이트를 바탕으로, 모델 성능 개선에 도움이 되는지 확인하기 위해 향후 Runs에서 Adam(Adaptive Moment Estimation)과 같은 다른 optimizer를 시도해 볼 것을 권장합니다.
 
   다음 이미지는 하이퍼파라미터 튜닝에 대한 추천이 포함된 ARIA 응답의 일부를 보여줍니다.
 

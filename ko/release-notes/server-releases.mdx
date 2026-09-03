@@ -74,7 +74,7 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 시그널을 생성하거나 편집할 때 **Inference provider** 선택기에 이제 각 타사 공급자의 모델별 항목이 하나씩 표시됩니다.
   * 이제 시그널은 상위 대화에 연결되고, span은 상위 평가에 연결됩니다.
   * 평가 비교 표에서 숫자 목록이 포함된 셀은 이제 기본적으로 히스토그램으로 표시됩니다. 셀 툴바를 사용하여 뷰 모드를 **Histogram**, **Bar Chart**, **Text** 또는 **Code**로 변경하세요. 셀을 클릭하면 요약 통계가 포함된 더 큰 차트가 열립니다.
-  * string 셀에 대해 선택한 뷰 모드(***Text**, **Code** 또는 **Markdown**)는 이제 클릭한 셀에만 적용되는 것이 아니라 해당 열의 모든 string 셀에 적용됩니다. 명시적으로 모드를 선택하기 전까지는 JSON의 **Code**와 같은 자동 기본값이 유지됩니다.
+  * string 셀에 대해 선택한 뷰 모드(**Text**, **Code** 또는 **Markdown**)는 이제 클릭한 셀에만 적용되는 것이 아니라 해당 열의 모든 string 셀에 적용됩니다. 명시적으로 모드를 선택하기 전까지는 JSON의 **Code**와 같은 자동 기본값이 유지됩니다.
   * Custom providers가 개선된 UI와 함께 [맞춤형 런타임](/ko/weave/guides/tools/custom-runtimes)으로 이름이 변경되었습니다. 실험 변화에 따라 맞춤형 런타임을 편집하거나 제거할 수 있습니다.
   * Weave에서 inference 공급자의 설정 여부를 보고할 때 이제 팀 시크릿뿐 아니라 사용자 범위의 시크릿도 고려됩니다. 자체 키로 설정한 공급자는 이제 **Playground** 모델 드롭다운, **Providers** 탭 및 **Agents** inference에서 사용 가능한 것으로 표시됩니다.
   * 보안을 강화하기 위해 Weave 점수화 워커의 원격 Scorer 호스트 허용 목록에서 이제 와일드카드 접미사 패턴을 사용할 수 있습니다. `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` 환경 변수를 쉼표로 구분된 패턴 목록으로 설정하세요:

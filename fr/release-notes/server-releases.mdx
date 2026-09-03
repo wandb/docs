@@ -38,7 +38,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
     ## Fonctionnalités
   </div>
 
-  * Les graphiques en courbes utilisent désormais une échelle unique pour toutes les exécutions d’un même graphique. Lorsque vous survolez une exécution, la même valeur sur l’axe X s’affiche pour toutes les exécutions ayant enregistré la métrique à la même étape :
+  * Les graphiques en courbes utilisent désormais une échelle unique pour toutes les exécutions d’un même graphique. Lorsque vous survolez une exécution, la même valeur sur l’axe X s’affiche pour toutes les exécutions ayant enregistré la métrique à la même étape :
     * Lorsque les runs journalisent à la même cadence, le survol affiche une valeur cohérente sur l’axe X.
     * Lorsque des runs, comme les runs distribués, ont des cadences de journalisation différentes, ils peuvent afficher des valeurs X différentes, car leurs points enregistrés les plus proches diffèrent réellement. La comparaison reste pertinente, car les valeurs proviennent toujours des mêmes limites de bucket.
   * Personnalisez l’affichage des données en fidélité totale dans vos graphiques en courbes en spécifiant le mode du panneau dans l’onglet des paramètres **Données** d’un espace de travail, d’une section ou d’un panneau.
@@ -49,18 +49,18 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
     <Frame>![Animation montrant un graphique en modes Band et Line](/images/release-notes/v0-84-0/chart-line-mode.gif)</Frame>
   * Ajoutez des lignes de référence aux nuages de points pour mettre en évidence des seuils, des références ou des valeurs cibles importants sur vos graphiques. Configurez jusqu’à cinq lignes aux couleurs personnalisables dans l’onglet **Lignes de référence** des paramètres d’un graphique.
     <Frame>![Deux nuages de points avec des lignes de référence](/images/release-notes/v0-84-0/scatter-plot-reference-lines.png)</Frame>
-  * Gestion améliorée des clés API pour les organisations et les équipes :
+  * Gestion améliorée des clés API pour les organisations et les équipes :
     * Depuis l’onglet **API Keys** du **tableau de bord de l’organisation**, les administrateurs peuvent désormais modifier ou supprimer n’importe quelle clé API de l’organisation.
     * Depuis le **tableau de bord de l’organisation** ou les **paramètres** de l’équipe, les administrateurs peuvent désormais supprimer en masse les clés API qu’ils sont autorisés à gérer.
   * [Identités de charge de travail Azure](/fr/platform/hosting/data-security/secure-storage-connector#provision-your-bucket) pour le stockage BYOB en préversion. Pour les tester, mettez à niveau le chart Helm de l’opérateur vers la [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0) avant de mettre à niveau W&amp;B.
-  * Ajout de la prise en charge des requêtes filestream avec Content-Encoding : gzip.
+  * Ajout de la prise en charge des requêtes filestream avec Content-Encoding : gzip.
   * Un projet W&amp;B avec des données Weave affiche désormais les traces et évaluations actives sur la page d’aperçu du projet.
 
   <div id="weave">
     ### Weave
   </div>
 
-  * Weave résout désormais les références de stockage BYOB (`s3://`, `gs://`, `gcs://` et `az://` ) en URL signées à durée de validité limitée, ce qui apporte plusieurs améliorations :
+  * Weave résout désormais les références de stockage BYOB (`s3://`, `gs://`, `gcs://` et `az://` ) en URL signées à durée de validité limitée, ce qui apporte plusieurs améliorations :
     * Améliore la rentabilité et la confidentialité des données en supprimant la nécessité d’ingérer des médias distants dans Weave.
     * Les médias s’affichent désormais directement dans le texte des messages de chat, le volet de détails de comparaison des évaluations, la grille de comparaison des traces et les vues personnalisées raw-call. Les grilles denses, comme les cellules de comparaison des évaluations et de dataset, affichent à la place un lien de téléchargement signé compact.
     * Les références Audio s’affichent avec le lecteur de forme d’onde intégré.
@@ -73,13 +73,13 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
     * Les sections inutiles sont masquées lorsqu’aucun tag n’est appliqué, afin de préserver la clarté de votre espace de travail.
   * Lors de la création ou de la modification d’un signal, le sélecteur **Inference provider** affiche désormais une entrée par modèle pour chaque fournisseur tiers.
   * Les signaux sont désormais liés aux conversations parentes, et les spans renvoient vers leurs évaluations parentes.
-  * Dans le tableau de comparaison des évaluations, les cellules contenant une liste de nombres s’affichent désormais sous forme d’histogrammes par défaut. Utilisez la barre d’outils de la cellule pour modifier le mode d’affichage : **Histogram**, **Bar Chart**, **Text** ou **Code**. Cliquez sur une cellule pour ouvrir un graphique plus grand avec des statistiques récapitulatives.
-  * Le mode d’affichage que vous choisissez pour une cellule de type chaîne (***Text**, **Code** ou **Markdown**) s’applique désormais à toutes les cellules de type chaîne de cette colonne, et non plus uniquement à celle sur laquelle vous avez cliqué. Les cellules conservent leurs valeurs par défaut automatiques, telles que **Code** pour JSON, jusqu’à ce que vous sélectionniez explicitement un mode.
+  * Dans le tableau de comparaison des évaluations, les cellules contenant une liste de nombres s’affichent désormais sous forme d’histogrammes par défaut. Utilisez la barre d’outils de la cellule pour modifier le mode d’affichage : **Histogram**, **Bar Chart**, **Text** ou **Code**. Cliquez sur une cellule pour ouvrir un graphique plus grand avec des statistiques récapitulatives.
+  * Le mode d’affichage que vous choisissez pour une cellule de type chaîne (**Text**, **Code** ou **Markdown**) s’applique désormais à toutes les cellules de type chaîne de cette colonne, et non plus uniquement à celle sur laquelle vous avez cliqué. Les cellules conservent leurs valeurs par défaut automatiques, telles que **Code** pour JSON, jusqu’à ce que vous sélectionniez explicitement un mode.
   * Les fournisseurs personnalisés ont été renommés en [environnements d’exécution personnalisés](/fr/weave/guides/tools/custom-runtimes), avec une interface utilisateur enrichie. Vous pouvez modifier ou supprimer des environnements d’exécution personnalisés à mesure que vos expériences évoluent.
   * Lorsque Weave indique si un fournisseur d’inférence est configuré, les secrets définis au niveau de l’utilisateur sont désormais pris en compte, en plus des secrets d’équipe. Un fournisseur configuré avec votre propre clé apparaît désormais comme disponible dans la liste déroulante des modèles de **Playground**, l’onglet **Providers** et l’inférence **Agents**.
-  * Pour une sécurité renforcée, la liste d’hôtes autorisés pour les scorers distants du worker de scoring Weave accepte désormais les motifs avec suffixe générique. Définissez la variable d’environnement `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` sur une liste de motifs séparés par des virgules :
-    * Une entrée telle que `*.corp.example.com` correspond aux sous-domaines, quel que soit leur niveau de profondeur, mais pas au domaine racine : `a.corp.example.com` et `a.b.corp.example.com` correspondent donc, contrairement à `corp.example.com`.
-    * Pour des raisons de sécurité, un caractère générique doit couvrir au moins deux libellés DNS ; les modèles tels que `*.com` et `*.internal` sont donc rejetés.
+  * Pour une sécurité renforcée, la liste d’hôtes autorisés pour les scorers distants du worker de scoring Weave accepte désormais les motifs avec suffixe générique. Définissez la variable d’environnement `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` sur une liste de motifs séparés par des virgules :
+    * Une entrée telle que `*.corp.example.com` correspond aux sous-domaines, quel que soit leur niveau de profondeur, mais pas au domaine racine : `a.corp.example.com` et `a.b.corp.example.com` correspondent donc, contrairement à `corp.example.com`.
+    * Pour des raisons de sécurité, un caractère générique doit couvrir au moins deux libellés DNS ; les modèles tels que `*.com` et `*.internal` sont donc rejetés.
 
   <div id="performance-improvements">
     ## Améliorations des performances
@@ -94,7 +94,7 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
   * Lors de l’importation de panels dans un report, le nom complet du panel s’affiche désormais systématiquement, au lieu de s’afficher uniquement au survol.
   * L’opérateur `NOT` n’est plus proposé dans l’onglet **Signals** de Weave, où il n’était pas pris en charge.
-  * Correction d’un symbole « différent de » redondant dans une puce de filtre d’un tableau de bord Weave.
+  * Correction d’un symbole « différent de » redondant dans une puce de filtre d’un tableau de bord Weave.
 </Update>
 
 <Update label="v0.83.2" description="6 août 2026">
