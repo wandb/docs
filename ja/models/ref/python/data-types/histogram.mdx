@@ -6,9 +6,14 @@ namespace: wandb.sdk.data_types.histogram
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py#L21" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py#L21" />
 
-## <kbd>class</kbd> wandb.Histogram
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Histogram
+
+ヒストグラム 用の W&amp;B クラス。
+
+このオブジェクトは、numpy の ヒストグラム 関数
+[https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html](https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html) とまったく同じように動作します。
 
 ```python
 sequence: 'Sequence | None' = None,
@@ -16,18 +21,21 @@ np_histogram: 'NumpyHistogram | None' = None,
 num_bins: 'int' = 64
 ```
 
-Histogram 用の W&amp;B クラス。
-
-このオブジェクトは、numpy の histogram 関数
-[https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html](https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html) とまったく同じように動作します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `sequence`: ヒストグラムの入力データ。
-* `np_histogram`: 事前計算済みヒストグラムの代替入力。
-* `num_bins`: ヒストグラムのビン数。デフォルトのビン数は 64 です。ビン数の最大値は 512 です。
+<ResponseField name="sequence" type="Sequence | None">
+  ヒストグラムの入力データ。
+</ResponseField>
+
+<ResponseField name="np_histogram" type="NumpyHistogram | None">
+  事前計算済みヒストグラムの代替入力。
+</ResponseField>
+
+<ResponseField name="num_bins" type="int">
+  ヒストグラムのビン数。デフォルトのビン数は 64 です。ビン数の最大値は 512 です。
+</ResponseField>
 
 <div id="attributes">
   ## 属性

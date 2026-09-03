@@ -42,11 +42,11 @@ The following table lists the Serverless Inference models that can return reason
 
 ### Models with `Always on` reasoning
 
-If a model is listed as `Always on` in the preceding [Supported models](#supported-models) table, it always includes reasoning, and you can't disable it.
+If a model is listed as `Always on` in the preceding [Supported models](#supported-models-with-reasoning) table, it always includes reasoning, and you can't disable it.
 
 ### Disable reasoning
 
-If a model is listed as `Enabled by default` in the preceding [Supported models](#supported-models) table, you can disable reasoning to reduce token usage or simplify the response. To opt out of reasoning for a request, in `chat_template_kwargs`, set the `enable_thinking` flag to `False` (Python) or `false` (Bash). After the request completes, the response omits the reasoning content:
+If a model is listed as `Enabled by default` in the preceding [Supported models](#supported-models-with-reasoning) table, you can disable reasoning to reduce token usage or simplify the response. To opt out of reasoning for a request, in `chat_template_kwargs`, set the `enable_thinking` flag to `False` (Python) or `false` (Bash). After the request completes, the response omits the reasoning content:
 
 <Tabs>
   <Tab title="Python">
@@ -89,4 +89,4 @@ If a model is listed as `Enabled by default` in the preceding [Supported models]
 
 ### Enable reasoning
 
-If a model is listed as `Disabled by default` in the preceding [Supported models](#supported-models) table, you can enable reasoning by setting the `enable_thinking` flag to `True` (Python) or `true` (Bash) in the preceding code snippet.
+If a model is listed as `Disabled by default` in the preceding [Supported models](#supported-models-with-reasoning) table, you can enable reasoning by setting the `enable_thinking` flag to `True` (Python) or `true` (Bash) in the preceding code snippet.

@@ -6,18 +6,20 @@ namespace: wandb.sdk.data_types.plotly
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py#L36" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py#L36" />
 
-## <kbd>クラス</kbd> wandb.Plotly
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Plotly
+
+Plotly プロット用の W&amp;B のクラスです。
 
 ```python
 (val: 'plotly.Figure | matplotlib.artist.Artist')
 ```
 
-Plotly プロット用の W&amp;B のクラスです。
-
 <div id="args">
   ## 引数
 </div>
 
-* `val`: Matplotlib または Plotly の Figure。
+<ResponseField name="val" type="plotly.Figure | matplotlib.artist.Artist">
+  Matplotlib または Plotly の図。
+</ResponseField>

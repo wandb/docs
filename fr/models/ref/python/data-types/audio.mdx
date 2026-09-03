@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.audio
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py#L19" />
 
-## <kbd>classe</kbd> wandb.Audio
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Audio
+
+Classe W&amp;B pour les clips audio.
 
 ```python
 (data_or_path: 'str | pathlib.Path | list | np.ndarray',
@@ -16,21 +18,27 @@ sample_rate: 'int | None' = None,
 caption: 'str | None' = None)
 ```
 
-Classe W&amp;B pour les clips audio.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `data_or_path`: Chemin vers un fichier audio ou tableau NumPy de données audio.
-* `sample_rate`: Taux d’échantillonnage, requis lors du passage d’un tableau NumPy brut de données audio.
-* `caption`: Légende à afficher avec l’audio.
+<ResponseField name="data_or_path" type="str | pathlib.Path | list | np.ndarray">
+  Chemin vers un fichier audio ou tableau NumPy de données audio.
+</ResponseField>
+
+<ResponseField name="sample_rate" type="int | None">
+  Fréquence d’échantillonnage requise lors de la transmission d’un tableau NumPy brut de données audio.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  Légende à afficher avec l’audio.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Audio.durations()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Audio.durations()
 
 ```python
 (audio_list)
@@ -42,9 +50,11 @@ Calculez la durée des fichiers audio.
   ##### Arguments
 </div>
 
-* `audio_list`: 
+<ResponseField name="audio_list" type="_empty">
+  Aucune description n’est fournie.
+</ResponseField>
 
-### <kbd>méthode</kbd> Audio.sample_rates()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Audio.sample_rates()
 
 ```python
 (audio_list)
@@ -56,4 +66,6 @@ Obtenir les taux d’échantillonnage des fichiers audio.
   ##### Arguments
 </div>
 
-* `audio_list`: 
+<ResponseField name="audio_list" type="_empty">
+  Aucune description fournie.
+</ResponseField>

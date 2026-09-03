@@ -6,9 +6,13 @@ namespace: wandb.automations._run_metric_filters
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L153" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L152" />
 
-## <kbd>クラス</kbd> wandb.automations.MetricChangeFilter
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.MetricChangeFilter
+
+メトリクス値の**変化**を、ユーザー定義のしきい値と比較するフィルターです。
+
+変化は「タンブリング」ウィンドウで計算されます。つまり、現在のウィンドウと、重複しない1つ前のウィンドウとの差分です。
 
 ```python
 *,
@@ -22,21 +26,40 @@ change_type: wandb.automations._run_metric_filters.ChangeType,
 change_dir: wandb.automations._run_metric_filters.ChangeDir
 ```
 
-メトリクス値の**変化**を、ユーザー定義のしきい値と比較するフィルターです。
-
-変化は「タンブリング」ウィンドウで計算されます。つまり、現在のウィンドウと、重複しない1つ前のウィンドウとの差分です。
-
 <div id="args">
   ## 引数
 </div>
 
-* `name`:
-* `agg_op`:
-* `current_window_size`:
-* `cmp`: 無視されます。
-* `change_amount`:
-* `prior_window_size`: 「1つ前の」メトリクス集約ウィンドウのサイズ (`agg` が `None` の場合は無視されます) 。
+<ResponseField name="name" type="str">
+  説明はありません。
+</ResponseField>
 
-  省略した場合は、現在のウィンドウと同じサイズがデフォルトで使用されます。
-* `change_type`:
-* `change_dir`: 
+<ResponseField name="agg_op" type="wandb.automations._run_metric_filters.Agg | None">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="current_window_size" type="Annotated">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="cmp" type="NoneType">
+  無視されます。
+</ResponseField>
+
+<ResponseField name="change_amount" type="Union">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="prior_window_size" type="Annotated">
+  「前の」メトリクス集約ウィンドウのサイズ (`agg` が `None` の場合は無視されます) 。
+
+  省略した場合、現在のウィンドウと同じサイズがデフォルトで使用されます。
+</ResponseField>
+
+<ResponseField name="change_type" type="ChangeType">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+  説明はありません。
+</ResponseField>
