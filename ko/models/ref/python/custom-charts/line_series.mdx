@@ -6,9 +6,11 @@ namespace: wandb.plot.line_series
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
 
-## <kbd>함수</kbd> wandb.plot.line_series
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.line_series()
+
+선 시리즈 차트를 생성합니다.
 
 ```python
 xs: 'Iterable[Iterable[Any]] | Iterable[Any]',
@@ -19,18 +21,33 @@ xname: 'str' = 'x',
 split_table: 'bool' = False
 ```
 
-선 시리즈 차트를 생성합니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `xs`: x 값의 시퀀스입니다. 하나의 배열만 전달하면 모든 y 값이 해당 x 배열을 기준으로 그려집니다. 배열의 배열을 전달하면 각 y 값이 이에 대응하는 x 배열을 기준으로 그려집니다.
-* `ys`: y 값의 시퀀스입니다. 각 이터러블은 별도의 선 시리즈를 나타냅니다.
-* `keys`: 각 선 시리즈에 레이블을 지정하기 위한 키의 시퀀스입니다. 제공되지 않으면 키는 &quot;line&#95;1&quot;, &quot;line&#95;2&quot; 등으로 자동 생성됩니다.
-* `title`: 차트의 제목입니다.
-* `xname`: x축의 레이블입니다.
-* `split_table`: 테이블을 W&amp;B UI에서 별도의 섹션으로 분리할지 여부입니다. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 섹션에 표시됩니다. 기본값은 `False`입니다.
+<ResponseField name="xs" type="Iterable[Iterable[Any]] | Iterable[Any]">
+  x 값 시퀀스입니다. 단일 배열을 제공하면 모든 y 값이 해당 x 배열을 기준으로 플롯됩니다. 배열의 배열을 제공하면 각 y 값이 대응하는 x 배열을 기준으로 플롯됩니다.
+</ResponseField>
+
+<ResponseField name="ys" type="Iterable[Iterable[Any]]">
+  y 값 시퀀스입니다. 각 iterable은 별도의 선 시리즈를 나타냅니다.
+</ResponseField>
+
+<ResponseField name="keys" type="Iterable[str] | None">
+  각 선 시리즈의 레이블로 사용할 키 시퀀스입니다. 제공하지 않으면 &quot;line&#95;1&quot;, &quot;line&#95;2&quot; 등의 키가 자동으로 생성됩니다.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  차트 제목입니다.
+</ResponseField>
+
+<ResponseField name="xname" type="str">
+  X축 레이블입니다.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 섹션에 표시됩니다. 기본값은 `False`입니다.
+</ResponseField>
 
 <div id="returns">
   ## 반환값

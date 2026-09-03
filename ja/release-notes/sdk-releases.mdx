@@ -6,6 +6,117 @@ rss: true
 
 このページでは、W&amp;B Models で使用する W&amp;B Python SDK (`wandb` パッケージ) のリリースノートを紹介します。Weave Python SDK (`weave` パッケージ) については、[Weave SDK リリース](/ja/release-notes/weave-sdk-releases)を参照してください。W&amp;B Server については、[W&amp;B Server リリースノート](/ja/release-notes/server-releases)を参照してください。
 
+<Update label="0.29.0" description="2026年8月26日">
+  ## 主な変更点
+
+  * macOS では、`wandb` に macOS 13 (Ventura) 以降が必要になりました。
+  * `wandb.Image` はピクセル値を正規化しなくなりました。データがすでに [0, 255] の範囲内にあることを確認してください。
+  * NumPy 配列または IO オブジェクトから `wandb.Video()` を初期化する場合、`format` 引数が必要になりました。
+  * `Api.runs()`、`Api.sweeps()`、`run.files()` などのページネーション対応オブジェクトの `.length` プロパティは削除されました。代わりに `len(...)` を使用してください。
+  * 次の非推奨 API は削除されました: `start_method` 設定、`run.define_metric()` の `summary="best"` オプションと `goal` 引数、`run.finish()` および `wandb.finish()` の `quiet` 引数、ならびに `run.project_name()`、`run.get_url()`、`run.get_project_url()`、`run.get_sweep_url()` メソッド。
+
+  ## Added
+
+  * 新しい Public API メソッド `run.console_logs()` は、完了済みおよびアクティブな run について、W&amp;B が取得したコンソール出力を返します。最後の N 行のみを返すには、`last=N` を渡します。ログの先頭から読み取るには、W&amp;B Server v0.77 以降が必要です。
+  * Automations API は、チームおよび組織スコープをサポートします。
+  * Automations API は、`Registry` オブジェクトをスコープとするオートメーションの作成と編集をサポートします。
+  * `wandb.Artifact` は、新しい `digest_algorithm` 引数として、`"MD5"` (デフォルト) または `"XXH128"` を受け入れます。可能な場合に artifact で XXH128 ハッシュを使用するには、`digest_algorithm="XXH128"` を渡します。`digest_algorithm="XXH128"` で作成された artifact では、v0.29.0 より前の SDK バージョンで `artifact.verify()` が失敗します。
+  * 新しいプロパティ `Artifact.linked_at` は、バージョンが該当するコレクションにリンクされた時刻を返します。リンクされたバージョンにのみ適用され、ソース artifact では `None` を返します。
+  * Registry バージョンのクエリ (`Api.registries().versions()`、`Api.registries().collections().versions()`、`Registry.versions()`、および `Registry.collections().versions()`) は、高度な search を利用できる組織では、オプションの `order` string をキーワード引数として受け入れます。バージョンは `created_at`、`artifact_size`、または `linked_at` で並べ替えられます。
+  * W&amp;B LEET TUI の機能:
+    * 新しいコマンド `wandb leet inspect [PATH]` では、run の `.wandb` トランザクションログ内の生レコードを参照できます。フィルター可能なレコード一覧と選択したレコードのテキストビューを並べて表示し、書き込み中のライブ run を追跡します。単一 run ビューで `i` を押すと、現在の run を検査できます。代わりにレコードを表示するには、`wandb leet inspect | less` のように出力をパイプまたはリダイレクトします。
+    * `g` を押すと、折れ線チャートの背後にガイドを描画できます。点線の背景または軸の目盛りに揃えた水平線を選択できます。選択内容は保存され、`wandb leet config` の `chart_guides` でも設定できます。
+    * run overview セクション間の区切り線をドラッグすると、マウスでサイズを変更できます。比率はビューごとに保存されます。`0` を押すと、他のペインのサイズとともにリセットされます。
+
+  ## 変更
+
+  * SDK が内部プロセス間の通信に使用するメッセージ形式がわずかに変更されました。`wandb beta core` を使用している場合、SDK とサービスのバージョンが異なると一部の操作が失敗する可能性があるため、`wandb` のアップグレード後にサービスを再起動してください。
+  * `wandb.sandbox` で、クライアント側で `resources.gpu` を拒否するのではなく、サンドボックスの GPU リソースリクエストを許可するようになりました。
+  * Registry の検索メソッド `Api.registries()`、`.collections()`、`.versions()` で、フィルターのフィールド名が検証され、サポートされていない名前は拒否されるようになりました。
+  * サーバーが指定されたオートメーションをサポートしていない場合、`Api.create_automation()` と `Api.update_automation()` は `CommError` ではなく `UnsupportedError` を発生させるようになりました。
+  * macOS の wheel は macOS 13 (Ventura) 以降が必要になりました。macOS 12 は 2024 年にサポート終了となりました。
+  * W&amp;B LEET TUI では、run overview のセクション (**Environment**、**Config**、**Summary**) がサイドバーの高さを比例配分し、利用可能なスペースをすべて使用するようになりました。以前は固定サイズで拡大が止まっていたため、縦長のターミナルでは下部に空きが残っていました。
+
+  ## Removed
+
+  * `wandb.tensorboard.log()` と `wandb.tensorflow.log()` を削除しました。
+  * すでに効果のなかった非推奨の `start_method` 設定を削除しました。
+  * `wandb.apis.paginator.SizedPaginator` の非推奨の `.length` プロパティを削除しました。代わりに `len(...)` を使用してください。
+  * 非推奨の `summary="best"` オプションと、`run.define_metric()` の `goal` 引数を削除しました。代わりに `summary="min"` または `summary="max"` を使用してください。
+  * `run.finish()` および `wandb.finish()` の非推奨の `quiet` 引数を削除しました。代わりに `wandb.Settings(quiet=...)` を使用してください。
+  * 非推奨の `run.project_name()`、`run.get_url()`、`run.get_project_url()`、および `run.get_sweep_url()` メソッドを削除しました。代わりに `run.project`、`run.url`、`run.project_url`、および `run.sweep_url` プロパティを使用してください。
+  * `wandb.Image` の非推奨の `normalize` 引数を削除しました。NumPy 配列および PyTorch テンソルのピクセル値が、あらかじめ [0, 255] の範囲内にあることを確認してください。
+
+  ## 修正
+
+  * `Artifact.new_file()` が、`wandb sync` でアップロードされたartifactでも動作するようになりました。
+  * `Run.scan_history(keys=...)` が、ネストされた値を含むrunで失敗しなくなりました。
+  * サイドバーの端をドラッグする際など、特定のペイン幅では、W&amp;B LEET TUIが利用可能なスペースを超える幅でメトリクスチャートを描画し、右側のサイドバーが画面外に押し出されていました。
+  * W&amp;B LEET TUI：
+    * `wandb leet config` が高さの低いターミナルウィンドウでも動作するようになりました。フィールドリストは選択に合わせてスクロールし、**Space** でブール設定を切り替えられます。
+    * メディアパネルで、ANSIビューの画像の周囲に黒い帯が表示されたり、フル解像度ビューへの切り替え時に黒く点滅したりしなくなりました。画像の周囲にはターミナルの背景が表示され、モードを切り替えても画像が点滅したり移動したりしなくなりました。
+
+  ## セキュリティ
+
+  * `artifact.files()` または `artifact.checkout()` によるアーティファクトのダウンロードで、相対パスを含む file 名およびアーティファクト名が拒否されるようになりました。
+</Update>
+
+<Update label="0.28.2" description="2026年8月12日">
+  ## 主な変更点
+
+  * `wandb sync --clean` コマンドは、終了コード 1 で終了し、代わりに新しい `wandb clean` コマンドを使用するよう案内を表示するようになりました。
+  * `wandb login` はデフォルトで認証情報を検証するようになりました。検証を無効にするには、コマンドラインで `--no-verify` を指定するか、`wandb.login()` に `verify=False` を渡します。
+
+  ## 追加
+
+  * Filestream リクエストは gzip 圧縮に対応しており、メトリクスをログする際のネットワークトラフィックを削減します。圧縮はオプトインで、サーバー側のサポートが必要です。有効にするには、`wandb.Settings` で `x_file_stream_no_gzip=False` を設定します。圧縮は今後のリリースでデフォルトになります。
+  * `wandb agent` コマンドに、新しい `--term-timeout` フラグが追加されました。
+  * 新しいプロパティ `run.sync_dir` は、run の同期ディレクトリを返します。
+
+  ## 変更
+
+  * 新しい `wandb clean` コマンドが `wandb sync --clean` に置き換わりました。
+  * `wandb.init()` では、タイムアウト時に汎用的なタイムアウトメッセージではなく、ネットワークエラーなど再試行中だったエラーを報告するようになりました。`init_timeout` 設定により、run の初期化中にバックエンドが行う再試行回数も制限されるようになりました。
+  * `wandb.Api().create_run_queue()`、`wandb.Api().create_custom_chart()`、および `wandb.Api().upsert_run_queue()` は、バックエンドで操作が失敗した場合に `WandbApiFailedError` を発生させるようになりました。
+  * ページネーション対応の artifact およびレジストリのクエリメソッドでは、結果を取得する前にクライアント側でページネーション引数を検証するようになりました。これは `Api.artifacts()`、`Api.artifact_collections()`、`Api.registries()`、`Registries.collections()`、`Registries.versions()`、`Collections.versions()`、`Registry.collections()`、`Registry.versions()`、および `Project.collections()` に適用されます。
+  * 順序付きレジストリ検索では、レジストリごとのコレクションおよびバージョンのクエリ対象を現在のレジストリの内部 ID に限定するようになり、ページネーションとフィルタリングの信頼性が向上しました。
+  * artifact およびレジストリのクエリを含む、多くの `wandb.Api` 操作でのレスポンス解析が高速化されました。
+  * `local-process` リソースに対する `wandb launch` の引数処理が強化され、ジョブから指定された値は常にシェルクォートされるようになりました。
+  * Launch agent は、ジョブの Git ソース URL を HTTPS および SSH リモートに制限し、ソースの取得時およびサブモジュールの更新時に Git の許可プロトコルリストを固定するようになりました。
+
+  ## 非推奨
+
+  * `wandb sync --sync-tensorboard` は非推奨であり、今後のリリースで削除されます。
+
+  ## Removed
+
+  * リリースには 32 ビット版 Windows (`win32`) 用の wheel が含まれなくなりました。Windows では 64 ビット版 Python を使用してください。
+
+  ## 修正
+
+  * `registries(order=...).collections(order=...).versions()` による Registry 検索で、artifact バージョンがレジストリ順、コレクション順、または両方の順序で返されるようになりました。
+  * macOS x86&#95;64 wheel に、`wandb-xpu` バイナリおよび Rust parquet ライブラリの x86&#95;64 ビルドが含まれるようになりました。以前は arm64 ビルドとして提供されていたため、Intel Mac では実行も読み込みもできませんでした。
+  * `wandb.login(verify=True)` および `wandb login --verify` で、これまで検証されていなかったフェデレーテッドアイデンティティ (アイデンティティトークン) 認証情報も検証されるようになりました。
+  * `wandb login` で、APIキーを `.netrc` ファイルに保存する前に検証するようになりました。
+  * `wandb login` が `.netrc` ファイル内の他のマシンの認証情報を削除または破損しなくなりました。
+  * `wandb login` および `wandb verify` で、ログイン試行が失敗した場合にシステムのホスト設定を更新しなくなりました。
+  * `wandb verify` で、再試行後も操作が失敗する場合、クラッシュする代わりにチェックの失敗を報告するようになりました。
+  * `WANDB_BASE_URL` も設定されていない限り、専用クラウドのデプロイなど、指定されたサーバーがデフォルト以外の場合にフェデレーテッドアイデンティティ (アイデンティティトークン) 認証情報での認証に失敗していた `wandb.Api(overrides={"base_url": ...})` を修正しました。
+  * フェデレーテッドアイデンティティを使用する場合、アイデンティティトークンファイルは起動時だけでなく、アクセストークンの交換ごとに再度読み込まれるようになりました。同じパスに再発行される短期間有効なアイデンティティトークンでも、それより長く存続する run で引き続き使用できます。
+  * フェデレーテッドアイデンティティを使用しており、無効または期限切れのトークンなどの理由でサーバーがアイデンティティトークンの交換を拒否した場合、リクエストはサーバー&#39;s エラーメッセージとともに直ちに失敗するようになりました。以前は、拒否された交換が再試行され、リクエストは汎用エラーでタイムアウトしていました。
+  * sweep エージェントが JSON 出力を書き込む際に、カスタム `WANDB_DIR` を使用するようになりました。
+  * TensorBoard ファイルを sync するときに作成される `global_step` メトリクスに、`train/global_step` のような接頭辞が付かなくなり、トレーニングと検証のメトリクスを比較しやすくなりました。
+  * TensorBoard インテグレーションで、可能な場合は同じ `global_step` のデータを 1 つの W&amp;B step に統合することで、生成される W&amp;B step が少なくなりました。
+  * `wandb sync` が、開始後に名、tags、またはメモを設定した run でハングしなくなりました。
+  * Python ロガーから取得したログメッセージが、run&#39;s logs に空行を追加しなくなりました。
+  * `del run.summary[key]` で、以前は無視されていたネストされた値としてログされたメトリクスも削除されるようになりました。
+
+  ## セキュリティ
+
+  * デバッグログに CoreWeave クラスターの認証情報が含まれなくなりました。
+  * `wandb docker` と `wandb docker-run` で、同じマシン上の他のユーザーに読み取られる可能性があるコマンドライン経由で APIキーが渡されなくなりました。
+</Update>
+
 <Update label="0.28.1" description="2026年7月16日">
   ## 主な変更
 

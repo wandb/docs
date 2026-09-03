@@ -6,9 +6,13 @@ namespace: wandb.plot.custom_chart
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/custom_chart.py#L76" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/custom_chart.py#L76" />
 
-## <kbd>関数</kbd> wandb.plot.plot_table
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.plot_table()
+
+Vega-Lite 仕様と `wandb.Table` を使用してカスタム チャートを作成します。
+
+この関数は、Vega-Lite 仕様と、`wandb.Table` オブジェクトで表されるデータ表に基づいてカスタム チャートを作成します。仕様は事前に定義され、W&amp;B バックエンドに保存されている必要があります。この関数は、`wandb.Run.log()` を使用して W&amp;B にログできるカスタム チャートオブジェクトを返します。
 
 ```python
 vega_spec_name: 'str',
@@ -18,19 +22,29 @@ string_fields: 'dict[str, Any] | None' = None,
 split_table: 'bool' = False
 ```
 
-Vega-Lite 仕様と `wandb.Table` を使用してカスタム チャートを作成します。
-
-この関数は、Vega-Lite 仕様と、`wandb.Table` オブジェクトで表されるデータ表に基づいてカスタム チャートを作成します。仕様は事前に定義され、W&amp;B バックエンドに保存されている必要があります。この関数は、`wandb.Run.log()` を使用して W&amp;B にログできるカスタム チャートオブジェクトを返します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `vega_spec_name`: 可視化構造を定義する Vega-Lite spec の名または識別子。
-* `data_table`: 可視化するデータを含む `wandb.Table` オブジェクト。
-* `fields`: Vega-Lite spec 内のフィールドと、可視化するデータ表内の対応する列との対応付け。
-* `string_fields`: カスタム可視化で必要となる文字列定数の値を指定するための dict。
-* `split_table`: W&amp;B UI でその表を別のセクションに分けるかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="vega_spec_name" type="str">
+  可視化の構造を定義する Vega-Lite spec の名前または識別子。
+</ResponseField>
+
+<ResponseField name="data_table" type="wandb.Table">
+  可視化するデータを含む `wandb.Table` オブジェクト。
+</ResponseField>
+
+<ResponseField name="fields" type="dict[str, Any]">
+  Vega-Lite spec のフィールドと、可視化するデータ表内の対応する列のマッピング。
+</ResponseField>
+
+<ResponseField name="string_fields" type="dict[str, Any] | None">
+  カスタム可視化で必要な string 定数の値を指定する dictionary。
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別セクションに分割するかどうか。`True` の場合、表は「Custom Chart Tables」というセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

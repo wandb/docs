@@ -28,9 +28,6 @@ ARIA can help you:
 To [chat with ARIA](/aria/chat):
 
 1. From any project, click **Ask ARIA** at the upper right corner of the page.
-    <Frame>
-        <img src="/images/agent/agent_location.png" alt="Location of ARIA in the UI" />
-    </Frame>
 2. In the chat window, type your question or request. If you are unsure what to ask, select a suggested prompt.
 3. Click the **Send** button, the upward-pointing arrow in the lower-right corner of the chat window.
 
@@ -46,7 +43,6 @@ Click on a **Thinking** or **shell** step to expand more details about ARIA's re
 
 For real-world examples, see [Example chats](/aria/overview#example-chats). For more information about managing chats, see [Chat with ARIA](/aria/chat).
 
-{/*
 ## View and manage project memories
 ARIA remembers what it learns. As you work, ARIA writes _memories_ scoped to your project so it doesn't need to rediscover your setup, conclusions, or preferences from scratch in every new session. Tell it once that your team prefers log-scale charts, and it sticks.
 
@@ -54,7 +50,7 @@ Each memory has a name and description so ARIA knows when to recall it, plus the
 
 Anyone in the team that owns the project can view, edit, or delete memories:
 
-1. In the ARIA chat window, click **<Icon icon="bars" iconType="solid" />**.
+1. In the ARIA chat window, click **<Icon icon="sidebar-reveal" iconType="solid" />**.
 1. In the **Customization** section, click **Project memory**. Each memory ARIA has about the project displays.
 1. To edit a memory, click **<Icon icon="pencil" iconType="solid" />**. Update the memory's **Name**, **Description**, or **Memory**, then click **Save**.
 1. To delete a memory, click **<Icon icon="trash" iconType="solid" />**.
@@ -66,8 +62,6 @@ Without waiting for ARIA to learn new memories, you can create a project memory 
   response="I’ll check the existing project memories first so this preference is recorded under the right topic rather than duplicated ... Saved a new project memory: chart-coloring. It records that charts should use consistent, semantic colors based on series/category meaning or status rather than arbitrary palette order. "
 />
 
-*/}
-
 ## Example chats
 
 The following are examples of real chats with ARIA to illustrate how you can interact with ARIA and the types of responses you can expect.
@@ -76,7 +70,7 @@ The following are examples of real chats with ARIA to illustrate how you can int
 
 Suppose you are an ML Engineer who has just completed a series of experiments. You want to understand what the next steps should be to improve your model's performance.
 
-To do this, you navigate to your the project where you logged runs. You open ARIA and ask:
+To do this, you navigate to your project where you logged runs. You open ARIA and ask:
 
 ```text title="User prompt"
 /recommend-next-experiment
@@ -143,14 +137,14 @@ ARIA uses W&B Launch to run the experiment in a sandbox environment. The followi
     <img src="/images/agent/aria_experiment.gif" alt="ARIA running an experiment" />
 </Frame>
 
-ARIA uses W&B Launch to run experiments in a sandbox environment. See [Enable ARIA to run experiments](/aria/autoresearch#run-experiments-with-w&b-launch) for more information.
+ARIA uses W&B Launch to run experiments in a sandbox environment. See [Enable ARIA to run experiments](/aria/autoresearch) for more information.
 </Accordion>
 
 
 <Accordion title="Gain insights on your experiments">
 Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed, identify potential issues, and decide on your next steps.
 
-To do this, you navigate to your the project where you logged runs. You open ARIA and ask: 
+To do this, you navigate to your project where you logged runs. You open ARIA and ask: 
 
 ```text title="User prompt"
 What patterns do you see across my runs?
@@ -174,7 +168,7 @@ ARIA identifies that it needs to analyze the data across runs to answer the ques
     <img src="/images/agent/agent_analyze_project.png" alt="ARIA thought process" />
 </Frame>
 
-Next, ARIA uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
+Next, ARIA uses the output to generate a summary of the patterns it found across the runs, which it shares in the chat. 
 
 <Frame>
     <img src="/images/agent/agent_analyze_summary_results.gif" alt="ARIA summary of patterns across runs" />
@@ -217,7 +211,7 @@ ARIA identifies that it needs to analyze the hyperparameters used in previous ru
 
 ARIA identifies that the given project used a learning rate of `0.01` for all runs. Based on these insights, ARIA recommends trying a lower learning rate, such as `0.001`, in future runs to see if that helps improve the model's performance.
 
-ARIA also identifies that of the runs that use the SGD optimizer. Based on this insight, ARIA recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
+ARIA also identifies that all of the runs use the SGD optimizer. Based on this insight, ARIA recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
 
 The following image shows a portion of ARIA's response with its recommendations for hyperparameter tuning:
 

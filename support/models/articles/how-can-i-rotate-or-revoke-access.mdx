@@ -1,12 +1,23 @@
 ---
 title: "How can I rotate or revoke access?"
-keywords: ["Administrator", "Security"]
+keywords: ["Administrator", "Security", "API Keys"]
 ---
 
-You can rotate or revoke personal and service account keys. Create a new API key or service account user, then reconfigure your scripts to use the new key. After your scripts use the new key, remove the old API key from your profile or team.
+If you have access to your account, you can revoke and rotate your personal API keys yourself. If you have lost access to your account, if the key is owned by a user who has left your organization, or if you have trouble following these instructions, contact [support](mailto:support@wandb.com) for assistance.
+Organization administrators can revoke and rotate API keys across the organization, and team administrators can take these actions for API keys in a team.
+
+To rotate an API Key in normal circumstances:
+
+1. Create a new API key.
+2. Reconfigure your scripts to use the new key.
+3. Delete the old key.
+
+<Warning>If an API key has been leaked or compromised, delete the old key immediately instead of waiting.</Warning>
+
+For step-by-step instructions, see [API keys](/platform/app/settings-page/user-settings#api-keys).
 
 ---
 
 {/* AUTO-GENERATED: tab badges */}
-<Badge stroke shape="pill" color="orange" size="md">[Administrator](/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Security](/support/models/tags/security)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Administrator](/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Security](/support/models/tags/security)</Badge><Badge stroke shape="pill" color="orange" size="md">[API Keys](/support/models/tags/api-keys)</Badge>
 {/* END AUTO-GENERATED: tab badges */}

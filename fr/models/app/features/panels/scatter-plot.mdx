@@ -1,7 +1,7 @@
 ---
 title: Nuages de points
 description: "Créez et personnalisez des nuages de points dans W&B pour comparer des runs et visualiser les relations entre les métriques d’expérience."
-keywords: ["ligne frontière", "comparaison d’hyperparamètres", "comparaison de runs", "paramètres du panneau"]
+keywords: ["ligne frontière", "comparaison d’hyperparamètres", "comparaison de runs", "paramètres du panneau", "ligne de référence", "seuil"]
 ---
 
 Utilisez les nuages de points dans W&amp;B pour comparer des runs et visualiser les relations entre les métriques d’expérience. Les nuages de points vous aident à repérer des tendances, des valeurs aberrantes et des compromis entre de nombreux runs, ce qui est utile pour ajuster les hyperparamètres ou comparer des variantes de modèle.
@@ -20,6 +20,7 @@ Avec un nuage de points, vous pouvez :
 * Ajustez les plages des axes.
 * Utilisez une échelle logarithmique pour les axes.
 * Configurez la façon dont la **ligne frontière** et les points associés sont étiquetés et mis en évidence. Voir [Options d’affichage de la ligne frontière](#frontier-line-display-options).
+* Ajoutez des **lignes de référence** pour marquer des seuils ou des valeurs cibles sur un axe. Voir [Options d’affichage des lignes de référence](#reference-line-display-options).
 
 <div id="example">
   ## Exemple
@@ -30,7 +31,7 @@ L’exemple suivant montre un nuage de points affichant l’accuracy de validati
 [Voir un exemple interactif →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
 <Frame>
-  <img src="/images/general/scatter-plots-1.png" alt="Nuage de points de l’accuracy de validation" />
+  <img src="/images/app_ui/scatter-plots-1.png" alt="Nuage de points de l’accuracy de validation" />
 </Frame>
 
 <div id="create-a-scatter-plot">
@@ -64,3 +65,39 @@ Pour configurer les options d’affichage de la ligne frontière :
 4. Cliquez sur **Apply** pour enregistrer vos modifications.
 
 Le nuage de points se met à jour pour refléter vos choix d’annotation.
+
+<div id="reference-line-display-options">
+  ## Options d’affichage des lignes de référence
+</div>
+
+Une *ligne de référence* est une ligne pointillée horizontale ou verticale tracée à une valeur numérique fixe sur l’axe X ou Y. Utilisez des lignes de référence pour indiquer des seuils, des valeurs de référence ou des valeurs cibles sur un graphique.
+
+Pour configurer les lignes de référence :
+
+1. Survolez le panneau du nuage de points, puis cliquez sur l’icône d’engrenage pour ouvrir le volet latéral des paramètres du panneau.
+2. Sélectionnez l’onglet **Lignes de référence**.
+3. Cliquez sur **Ajouter une ligne de référence**.
+4. Configurez la ligne :
+   * Pour choisir une couleur, cliquez sur l’échantillon de couleur.
+   * Sélectionnez **Axe X** ou **Axe Y** dans la liste déroulante.
+   * Saisissez une valeur numérique pour tracer la ligne à cet endroit sur l’axe.
+   * Facultatif : saisissez un libellé.
+5. Répétez l’opération pour ajouter d’autres lignes. Un compteur à côté de **Ajouter une ligne de référence** indique combien de lignes, sur le maximum autorisé, vous avez utilisées.
+6. Cliquez sur **Appliquer** pour enregistrer vos modifications.
+
+Le nuage de points se met à jour pour refléter votre configuration de lignes de référence.
+
+Pour supprimer une ligne de référence, cliquez sur le bouton de fermeture (<Icon icon="xmark" iconType="solid" />) de sa ligne.
+
+<Frame>
+  <img src="/images/release-notes/v0-84-0/scatter-plot-reference-lines.png" alt="Deux nuages de points, chacun avec une ligne de référence verticale sur l’axe X et une ligne de référence horizontale sur l’axe Y, toutes deux étiquetées avec leurs valeurs" />
+</Frame>
+
+Les lignes de référence présentent le comportement et les limites suivants :
+
+* Vous pouvez ajouter au maximum cinq lignes de référence par graphique, tous axes confondus, et non cinq par axe.
+* Seuls les axes numériques prennent en charge les lignes de référence. Les axes temporels ne les prennent pas en charge. La liste déroulante des axes répertorie uniquement les axes admissibles. Si ni l’axe X ni l’axe Y n’est numérique, l’onglet **Lignes de référence** affiche `Reference lines require a numeric X or Y axis.` et vous ne pouvez pas ajouter de ligne.
+* Sur un axe utilisant une échelle logarithmique, la valeur d’une ligne de référence doit être supérieure à zéro.
+* Chaque ligne s’affiche sous forme de ligne pointillée dans la couleur qui lui est attribuée. La couleur par défaut est sarcelle.
+* Le libellé de la ligne sur le graphique affiche la valeur suivie du texte du libellé, par exemple `0.9 - Quality target`. Si vous laissez le libellé vide, le graphique affiche uniquement la valeur. Le graphique tronque ce libellé combiné à 35 caractères et conserve le libellé complet dans la configuration du panneau.
+* Lorsque les lignes sont proches les unes des autres, W&amp;B décale automatiquement leurs libellés afin qu’ils ne se chevauchent pas.
