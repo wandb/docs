@@ -70,7 +70,7 @@ Create a YAML configuration file with your sweep configuration. W&B uses this fi
 
 Add the name of your Python script to the program key in the YAML file on line 1.
 
-<Info> The sweep agent selects a value from the `values` list and passes it to `wandb.config` in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent selects one of those values and passes it to the training script as `wandb.config.batch_size`. </Info>
+<Info> The sweep agent selects a value from the `values` list and passes it to the run config in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent selects one of those values and passes it to the training script as `wandb.Run.config.batch_size`. </Info>
 
 The following YAML file corresponds to the original training script shown earlier. The training script varies the `batch_size`, `lr`, and `epochs` hyperparameters. The YAML file defines the same hyperparameters and specifies the values to try for each one on lines 8 to 14.
 
@@ -201,7 +201,7 @@ def evaluate_one_epoch(epoch):
 
 def main():
     with wandb.init() as run:
-        # Fetch the hyperparameter values from wandb.config
+        # Fetch the hyperparameter values from run.config
         lr = run.config["lr"]
         batch_size = run.config["batch_size"]
         epochs = run.config["epochs"]
