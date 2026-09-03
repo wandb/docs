@@ -3,15 +3,13 @@ description: Add W&B to your Python code script or Jupyter Notebook.
 title: Add W&B (wandb) to your code
 ---
 
-This guide provides recommendations on how to integrate W&B into your Python training script or notebook for hyperparameter search optimization. By following these recommendations, you can use W&B Sweeps to explore hyperparameter values, log training and validation metrics, and identify the configuration that produces strong model performance.
-
-This guide is for machine learning practitioners who already have a Python training script and want to add hyperparameter sweep support. The following sections walk through an example training script, then show how to update it to work with W&B Sweeps.
+This guide shows how to add W&B Sweeps to an existing Python training script or notebook for hyperparameter optimization. You’ll start with an example training script, then adapt it to explore hyperparameter values, log metrics, and identify the best-performing configuration.
 
 ## Original training script
 
 Suppose you have a Python script that trains a model (see the following code). Your goal is to find the hyperparameters that maximize the validation accuracy (`val_acc`).
 
-In your Python script, you define two functions: `train_one_epoch` and `evaluate_one_epoch`. The `train_one_epoch` function simulates training for one epoch and returns the training accuracy and loss. The `evaluate_one_epoch` function simulates evaluation of the model on the validation data set and returns the validation accuracy and loss.
+In your Python script, you define two functions: `train_one_epoch()` and `evaluate_one_epoch()`. The `train_one_epoch()` function simulates training for one epoch and returns the training accuracy and loss. The `evaluate_one_epoch()` function simulates evaluation of the model on the validation data set and returns the validation accuracy and loss.
 
 You define a configuration dictionary named `config` that contains hyperparameter values such as the learning rate, batch size, and number of epochs. The values in the configuration dictionary control the training process.
 
@@ -55,14 +53,14 @@ if __name__ == "__main__":
     main()
 ```
 
-The following section shows how to add W&B to your Python script to track hyperparameters and metrics during training. You want to use W&B to find the best hyperparameters that maximize the validation accuracy (`val_acc`).
+The following section shows how to add W&B to your Python script to track hyperparameters and metrics during training. The goal is to find the best hyperparameters that maximize the validation accuracy (`val_acc`).
 
 
 ## Add W&B to your training script
 
 This section shows how to modify the original training script so that the sweep agent can pass hyperparameter values into each run and W&B can record the resulting metrics. How you integrate W&B into your Python script or notebook depends on how you manage sweeps.
 
-To use the W&B Python SDK to start, stop, and manage sweeps, follow the instructions in the **Python script or notebook** tab. To use the W&B CLI instead, follow the instructions in the **CLI** tab.
+To use the [W&B Python SDK](/models/ref/python) to start, stop, and manage sweeps, follow the instructions in the **Python script or notebook** tab. To use the [W&B CLI](/models/ref/cli) instead, follow the instructions in the **CLI** tab.
 
 <Tabs>
 <Tab title="CLI">
@@ -70,11 +68,11 @@ Create a YAML configuration file with your sweep configuration. W&B uses this fi
 
 Add the name of your Python script to the program key in the YAML file on line 1.
 
-<Info> The sweep agent selects a value from the `values` list and passes it to the run config in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent selects one of those values and passes it to the training script as `run.config.batch_size`. </Info>
+<Info>
+The sweep agent selects a value from the `values` list and passes it to the run config in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent selects one of those values and passes it to the training script as `run.config.batch_size`.
+</Info>
 
-The following YAML file corresponds to the original training script shown earlier. The training script varies the `batch_size`, `lr`, and `epochs` hyperparameters. The YAML file defines the same hyperparameters and specifies the values to try for each one on lines 8 to 14.
-
-The training script also computes the validation accuracy metric, val_acc. The YAML file specifies that the sweep should maximize val_acc on line 5.
+The following YAML file replicates to the config values in the Python script (see line 15) shown earlier. The YAML file defines the `batch_size`, `lr`, and `epochs` hyperparameters and specifies the values to try for each one on lines 8–14. On line 5, the YAML file configures the sweep to maximize `val_acc`.
 
 ```yaml lines title="config.yaml"
 program: train.py
@@ -100,15 +98,15 @@ After you define your sweep configuration in a YAML file, add W&B to your traini
 Within your training script, add the following code snippets to integrate W&B:
 
 1. Import the W&B Python SDK (`wandb`).
-2. Initialize a run with `wandb.init()`.
-3. Access the hyperparameter values from `run.config` so that your script uses the suggested arguments for each run instead of hard-coded values.
-4. Log the metric you want to optimize with `wandb.Run.log()`.
+2. Initialize a run with [`wandb.init()`](/models/ref/python/functions/init).
+3. Access the hyperparameter values from [`wandb.Run.config`](/models/ref/python/experiments/run#param-config) so that your script uses the suggested arguments for each run instead of hard-coded values.
+4. Log the metric you want to optimize with [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log).
 
 <Important>
 You must log the metric you defined in your configuration.
 </Important>
 
-The following code snippet shows how to integrate W&B into your training script. When the sweep agent runs this script, it passes the selected hyperparameter values to `run.config` for that run.
+The following code snippet shows how to integrate W&B into your training script. When the sweep agent runs this script, it passes the selected hyperparameter values to `wandb.Run.config` for that run.
 
 ```python lines title="train.py"
 import wandb
@@ -151,10 +149,10 @@ main()
 ```
 
 <Note>
-Do not read the sweep configuration file in your training script. The YAML file is the sweep configuration that you pass to `wandb sweep`. When a sweep agent starts a run, it automatically sends the selected hyperparameter values to `run.config`. If you run the training script directly with `python train.py`, the sweep agent does not set these values and keys such as `run.config["lr"]` are not available.
-</Note>
+When you create and manage a sweep with the W&B CLI, do not read the sweep configuration file from your training script. Pass the YAML file to [`wandb sweep`](/models/ref/cli/wandb-sweep) when you create the sweep. When a sweep agent starts a run, it automatically populates `wandb.Run.config` with the selected hyperparameter values.
 
-In your shell, set a maximum number of runs for the sweep agent to try. This is optional. In this example, we set the maximum number to 5.
+If you run the training script directly with `python train.py`, no sweep agent is present to populate those values. As a result, keys such as `wandb.Run.config["lr"]` are unavailable.
+</Note>
 
 1. Initialize the sweep with the [`wandb sweep`](/models/ref/cli/wandb-sweep) command. Provide the name of the YAML file. Optionally, set the `--project` flag to the project name:
 
@@ -162,13 +160,19 @@ In your shell, set a maximum number of runs for the sweep agent to try. This is 
    wandb sweep --project project_name config.yaml
    ```
 
-2. Copy the sweep ID and replace `sweepID` in the following command to start the sweep job with the [`wandb agent`](/models/ref/cli/wandb-agent) command. Replace `your-entity` with your W&B entity name.
+2. Copy the sweep ID. Replace the placeholder values (`entity_name`, `project_name`, `sweep_id`) in the following command with your W&B entity, project, and sweep ID, then run [`wandb agent`](/models/ref/cli/wandb-agent) to start the sweep agent:
 
     ```bash
-    wandb agent --count $NUM your-entity/project_name/sweepID
+    wandb agent entity_name/project_name/sweep_id
     ```
 
-For more information, see [Start a sweep agent](./start-sweep-agents).
+    If you want to limit how many sweep runs the agent executes, specify an integer with `--count`:
+
+    ```bash
+    wandb agent --count 4 entity_name/project_name/sweep_id
+    ```
+
+For more information, see [Start a sweep agent](/models/sweeps/start-sweep-agents).
 
 </Tab>
 <Tab title="Python script or notebook">
