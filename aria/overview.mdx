@@ -70,7 +70,7 @@ The following are examples of real chats with ARIA to illustrate how you can int
 
 Suppose you are an ML Engineer who has just completed a series of experiments. You want to understand what the next steps should be to improve your model's performance.
 
-To do this, you navigate to your the project where you logged runs. You open ARIA and ask:
+To do this, you navigate to your project where you logged runs. You open ARIA and ask:
 
 ```text title="User prompt"
 /recommend-next-experiment
@@ -137,14 +137,14 @@ ARIA uses W&B Launch to run the experiment in a sandbox environment. The followi
     <img src="/images/agent/aria_experiment.gif" alt="ARIA running an experiment" />
 </Frame>
 
-ARIA uses W&B Launch to run experiments in a sandbox environment. See [Enable ARIA to run experiments](/aria/autoresearch#run-experiments-with-w&b-launch) for more information.
+ARIA uses W&B Launch to run experiments in a sandbox environment. See [Enable ARIA to run experiments](/aria/autoresearch) for more information.
 </Accordion>
 
 
 <Accordion title="Gain insights on your experiments">
 Suppose you are an ML Engineer who has just completed a series of runs for a new model. You want to understand how your model performed, identify potential issues, and decide on your next steps.
 
-To do this, you navigate to your the project where you logged runs. You open ARIA and ask: 
+To do this, you navigate to your project where you logged runs. You open ARIA and ask: 
 
 ```text title="User prompt"
 What patterns do you see across my runs?
@@ -168,7 +168,7 @@ ARIA identifies that it needs to analyze the data across runs to answer the ques
     <img src="/images/agent/agent_analyze_project.png" alt="ARIA thought process" />
 </Frame>
 
-Next, ARIA uses the ouput to generate a summary of the patterns it found across the runs, which it shares in the chat. 
+Next, ARIA uses the output to generate a summary of the patterns it found across the runs, which it shares in the chat. 
 
 <Frame>
     <img src="/images/agent/agent_analyze_summary_results.gif" alt="ARIA summary of patterns across runs" />
@@ -211,7 +211,7 @@ ARIA identifies that it needs to analyze the hyperparameters used in previous ru
 
 ARIA identifies that the given project used a learning rate of `0.01` for all runs. Based on these insights, ARIA recommends trying a lower learning rate, such as `0.001`, in future runs to see if that helps improve the model's performance.
 
-ARIA also identifies that of the runs that use the SGD optimizer. Based on this insight, ARIA recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
+ARIA also identifies that all of the runs use the SGD optimizer. Based on this insight, ARIA recommends trying a different optimizer, such as Adam (Adaptive Moment Estimation), in future runs to see if that helps improve the model's performance.
 
 The following image shows a portion of ARIA's response with its recommendations for hyperparameter tuning:
 
