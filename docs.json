@@ -3,6 +3,11 @@
   "background": {
     "decoration": "gradient"
   },
+  "banner": {
+    "content": "**Notice:** The domain you use to access Weights & Biases is changing on September 30. No action is needed today. [Learn more](https://wandb.ai/site/domain-update-faqs/)",
+    "dismissible": true,
+    "type": "warning"
+  },
   "baseUrl": "https://docs.wandb.ai",
   "colors": {
     "dark": "#FCBC32",
