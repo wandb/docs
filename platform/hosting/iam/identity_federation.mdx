@@ -48,7 +48,7 @@ After an organization admin sets up a JWT issuer, users can start accessing W&B 
 <Note>
 JWTs are short-lived credentials that address the shortcomings of long-lived credentials such as API keys and passwords. The JWT expiry time depends on your identity provider's configuration. Refresh the JWT before it expires, and ensure that it's stored in the file referenced by the environment variable `WANDB_IDENTITY_TOKEN_FILE`.
 
-The W&B access token expires after 14 days, after which the SDK or CLI uses your JWT to refresh it. If the user JWT has also expired by that time and isn't refreshed, authentication fails. If possible, implement the JWT retrieval and post-expiry refresh mechanism as part of the AI workload that uses the W&B SDK or CLI.
+When W&B access token expires, the SDK or CLI uses your JWT to refresh it. If the user JWT has also expired, authentication fails. If possible, implement JWT retrieval and post-expiry refresh as part of the AI workload that uses the W&B SDK or CLI.
 </Note>
 
 ### JWT validation
