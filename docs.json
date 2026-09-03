@@ -4,7 +4,7 @@
     "decoration": "gradient"
   },
   "banner": {
-    "content": "**Notice:** The domain used to access Weights & Biases websites and services is changing on September 30. No action is needed today. [Learn more](https://wandb.ai/site/domain-update-faqs/)",
+    "content": "**Notice:** The Weights & Biases domain [will change on September 30](https://wandb.ai/site/domain-update-faqs/). This includes all websites and services that use a W&B domain. No action is needed today.",
     "dismissible": true,
     "type": "warning"
   },
