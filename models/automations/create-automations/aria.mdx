@@ -80,6 +80,22 @@ The automation is now active and starts a new ARIA conversation whenever the cho
 </Tab>
 </Tabs>
 
+## Create and manage automations with ARIA
+ARIA can create, delete, enable, and disable automations on demand.
+
+Ask ARIA to create an automation:
+
+<AriaChatBubbles
+  prompt="Create a new automation: When a run succeeds, trigger ARIA to summarize the run, metrics, and outcome."
+  response="I can create an enabled project-wide automation named **Summarize succewssful run**. It will fire whenever any run reaches `FINISHED` and ask ARIA to summarize the run's configuration, key metrics, outcome, and notable observations."
+/>
+
+Ask ARIA about your existing automations:
+
+<AriaChatBubbles
+  prompt="What automations exist in this project?"
+  response="You have 2 project-level automations, both enabled...."
+/>
 ## Write the prompt
 
 The prompt is the only thing you configure for an ARIA action. Write it the way you would write a message in the ARIA chat window, and include [template variables](#template-variables) to specify which run, artifact, or metric ARIA should examine.
