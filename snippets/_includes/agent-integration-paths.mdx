@@ -15,6 +15,10 @@ Agent SDKs are libraries for building agents and multi-agent workflows in your o
 - [Google Agent Development Kit (ADK)](/weave/guides/integrations/agents/google-adk)
 - [Claude Agent SDK](/weave/guides/integrations/agents/claude-agents-sdk)
 
+<Note>
+These SDKs operate one turn at a time, so your application code manages the conversation across turns. To group turns into a single conversation, Weave reads the session or group identifier that the SDK assigns. If your code doesn't carry that identifier from one turn to the next, each turn appears in the **Agents** view as its own conversation. Each integration page shows which identifier to pass.
+</Note>
+
 ## Custom agents and OpenTelemetry
 
 If your agent isn't built with one of the SDKs above, or it already emits OpenTelemetry spans, use the Weave SDK directly. Weave accepts any OTel span and gives special handling to [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) so spans render in the **Agents** view:

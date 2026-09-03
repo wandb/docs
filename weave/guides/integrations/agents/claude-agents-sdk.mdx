@@ -104,6 +104,42 @@ anyio.run(main)
 ```
 
 When the script runs, `weave.init()` prints a link to your project. Open the link to inspect the captured traces for the agent's query, model responses, and tool calls.
+
+#### Group turns into one conversation
+
+`ClaudeSDKClient` holds a single session open for the lifetime of the `async with` block, so every turn you send through the same client already belongs to one conversation. The standalone `query()` function behaves differently: each call starts a new session. To continue a conversation across `query()` calls, pass the previous session ID as `resume`. Weave patches both paths.
+
+The following example runs three turns through `query()`. The first turn creates the session, and each later turn resumes it. `ResultMessage.session_id` carries the ID to reuse.
+
+```python lines highlight="16,21"
+import anyio
+import weave
+
+from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
+
+weave.init("<your-team>/<your-project-name>")
+
+async def main():
+    session_id = None
+
+    for question in [
+        "Who founded Anthropic?",
+        "What is Claude (the AI assistant)?",
+        "Summarize what we discussed in one sentence.",
+    ]:
+        options = ClaudeAgentOptions(resume=session_id) if session_id else None
+        print(f"USER: {question}")
+
+        async for message in query(prompt=question, options=options):
+            if isinstance(message, ResultMessage):
+                session_id = message.session_id
+                print(f"AGENT: {message.result}\n")
+
+
+anyio.run(main)
+```
+
+Each `query()` call produces an `invoke_agent` root span. Because the follow-up turns resume the same `session_id`, Weave stamps the same `gen_ai.conversation.id` on all spans and groups them as one conversation in the Agents view. Without `resume`, each turn starts its own session and appears as a separate conversation.
 </Tab>
 <Tab title="TypeScript">
 Weave automatically instruments `query()` via module loader hooks. The required setup differs slightly between module systems. For more information on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).

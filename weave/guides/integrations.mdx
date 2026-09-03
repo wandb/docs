@@ -15,6 +15,8 @@ If you're not sure which path to take, start with [Trace your agents](/weave/gui
 
 Use these integrations when you're building multi-turn agentic applications and want sessions, turns, and tool calls to appear in the Weave **Agents** view. For agent SDKs, harnesses, and custom instrumentation, see [Choose an agent integration](/weave/agent-integration-quickstart).
 
+Agent SDKs run one turn per call. To group turns into a conversation, pass the SDK's own session or group identifier on every turn. The integration page for each SDK shows which identifier to use.
+
 ## Trace LLM applications
 
 If your application calls an LLM provider's API directly or uses an orchestration framework, Weave can automatically intercept traces (using autopatching) for many libraries and frameworks. After you import the Weave SDK into your code and initialize it with `weave.init`, Weave records each request as a **Call** with inputs, outputs, latency, token usage, and cost.
