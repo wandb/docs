@@ -1,16 +1,18 @@
 ---
-title: Create an ARIA automation
+title: Use automations with ARIA
 description: "Create a W&B automation that sends a templated prompt to ARIA, starting a new conversation when a specific event occurs."
 keywords: ["ARIA", "Automation actions", "Prompt template", "Template variables", "AI agent"]
 ---
 import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
 
-This page shows how to create an ARIA [automation](/models/automations), which sends a prompt to [ARIA](/aria/overview) when a specific event occurs in W&B. Each time the automation runs, ARIA starts a new conversation and works on the prompt on your behalf. Use an ARIA automation to analyze a new model version, summarize a failed run, or investigate a metric that crossed a threshold, without asking anyone to open a chat first.
+This page shows how to use an [automations](/models/automations) to send a prompt to [ARIA](/aria/overview) when a specific event occurs in W&B. Each time the automation runs, ARIA starts a new conversation and works on the prompt on your behalf. Use an ARIA automation to kickstart exploration of an experiment, summarize or report on a run, or investigate a metric that crossed a threshold.
 
-At a high level, creating an ARIA automation means choosing the [event](/models/automations/automation-events) to watch for and writing the prompt that ARIA receives each time that event occurs.
+At a high level, an ARIA automation defines the [event](/models/automations/automation-events) to watch for and the prompt that ARIA receives each time that event occurs.
 
 To create a different kind of automation, refer to [Create a Slack automation](/models/automations/create-automations/slack) or [Create a webhook automation](/models/automations/create-automations/webhook).
+
+You can ask ARIA to create and manage automations of all kinds on your behalf. For details, see [Create and manage automations with ARIA](#create-and-manage-automations-with-aria).
 
 <Note>
 <MultiTenantCloudOnly />
@@ -28,7 +30,7 @@ Before you create an ARIA automation, verify the following:
 
 Each time an ARIA automation runs, it starts an ARIA conversation that counts toward your organization's usage, the same as a conversation you start yourself.
 
-## Create an ARIA automation
+## Create an automation
 
 Select **Registry** or **Project** based on the scope you want the automation to apply to. Then follow these steps to create an automation that sends a prompt to ARIA.
 
@@ -86,8 +88,8 @@ ARIA can create, delete, enable, and disable automations on demand.
 Ask ARIA to create an automation:
 
 <AriaChatBubbles
-  prompt="Create a new automation: When a run succeeds, trigger ARIA to summarize the run, metrics, and outcome."
-  response="I can create an enabled project-wide automation named **Summarize succewssful run**. It will fire whenever any run reaches `FINISHED` and ask ARIA to summarize the run's configuration, key metrics, outcome, and notable observations."
+  prompt="CCreate a new automation: When a run succeeds, trigger ARIA to write a report for your team that summarizes the run, metrics, and outcome."
+  response="I can create an enabled project-wide automation named **Summarize successful run**. It will fire whenever any run reaches `FINISHED` and ask ARIA to write a report to summarize the run's configuration, key metrics, outcome, and notable observations."
 />
 
 Ask ARIA about your existing automations:
@@ -169,7 +171,7 @@ Where the conversation lives depends on the automation's scope:
 
 To confirm that the automation ran, open its [execution history](/models/automations/view-automation-history). A successful ARIA execution shows the prompt that W&B sent and a response body containing the conversation's `thread_id`. W&B doesn't link from the execution to the conversation, and an automation-created conversation isn't marked differently in your chat history.
 
-## View and manage ARIA automations
+## View and manage automations
 
 Manage ARIA automations from the **Automations** tab of the project or registry, or from the global **Automations** hub, the same as any other automation. In the automations list, the action displays as **ARIA**.
 
