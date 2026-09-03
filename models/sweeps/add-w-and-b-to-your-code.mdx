@@ -70,7 +70,7 @@ Create a YAML configuration file with your sweep configuration. W&B uses this fi
 
 Add the name of your Python script to the program key in the YAML file on line 1.
 
-<Info> The sweep agent selects a value from the `values` list and passes it to the run config in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent selects one of those values and passes it to the training script as `wandb.Run.config.batch_size`. </Info>
+<Info> The sweep agent selects a value from the `values` list and passes it to the run config in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent selects one of those values and passes it to the training script as `run.config.batch_size`. </Info>
 
 The following YAML file corresponds to the original training script shown earlier. The training script varies the `batch_size`, `lr`, and `epochs` hyperparameters. The YAML file defines the same hyperparameters and specifies the values to try for each one on lines 8 to 14.
 
@@ -101,14 +101,14 @@ Within your training script, add the following code snippets to integrate W&B:
 
 1. Import the W&B Python SDK (`wandb`).
 2. Initialize a run with `wandb.init()`.
-3. Access the hyperparameter values from `wandb.Run.config` so that your script uses the suggested arguments for each run instead of hard-coded values.
+3. Access the hyperparameter values from `run.config` so that your script uses the suggested arguments for each run instead of hard-coded values.
 4. Log the metric you want to optimize with `wandb.Run.log()`.
 
 <Important>
 You must log the metric you defined in your configuration.
 </Important>
 
-The following code snippet shows how to integrate W&B into your training script. When the sweep agent runs this script, it passes the selected hyperparameter values to `wandb.Run.config` for that run.
+The following code snippet shows how to integrate W&B into your training script. When the sweep agent runs this script, it passes the selected hyperparameter values to `run.config` for that run.
 
 ```python lines title="train.py"
 import wandb
@@ -151,7 +151,7 @@ main()
 ```
 
 <Note>
-Do not read the sweep configuration file in your training script. The YAML file is the sweep configuration that you pass to `wandb sweep`. When a sweep agent starts a run, it automatically sends the selected hyperparameter values to `wandb.Run.config`.
+Do not read the sweep configuration file in your training script. The YAML file is the sweep configuration that you pass to `wandb sweep`. When a sweep agent starts a run, it automatically sends the selected hyperparameter values to `run.config`. If you run the training script directly with `python train.py`, the sweep agent does not set these values and keys such as `run.config["lr"]` are not available.
 </Note>
 
 In your shell, set a maximum number of runs for the sweep agent to try. This is optional. In this example, we set the maximum number to 5.
