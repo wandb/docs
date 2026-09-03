@@ -3,14 +3,16 @@ title: "ObjectRef"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24" />
+
 Represents a reference to a saved Weave object.
 
 Generally, end users will not need to interact with this class directly.
 
 An ObjectRef contains the project ID, object ID, and digest that uniquely identify
 a saved object in Weave's storage system.
-
-Defined in: [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24)
 
 ## Example
 
@@ -20,29 +22,19 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new ObjectRef**(`projectId`, `objectId`, `digest`): `ObjectRef`
 
-Defined in: [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L25)
+### Parameters
 
-#### Parameters
+<ParamField path="projectId" type="string" required />
 
-##### projectId
+<ParamField path="objectId" type="string" required />
 
-`string`
+<ParamField path="digest" type="string" required />
 
-##### objectId
-
-`string`
-
-##### digest
-
-`string`
-
-#### Returns
+### Returns
 
 `ObjectRef`
 
@@ -52,15 +44,11 @@ Defined in: [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **digest**: `string`
 
-Defined in: [src/weaveObject.ts:28](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L28)
-
 ***
 
 ### objectId
 
 > **objectId**: `string`
-
-Defined in: [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L27)
 
 ***
 
@@ -68,15 +56,11 @@ Defined in: [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **projectId**: `string`
 
-Defined in: [src/weaveObject.ts:26](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L26)
-
 ## Methods
 
 ### get()
 
 > **get**(): `Promise`\<`any`\>
-
-Defined in: [src/weaveObject.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L65)
 
 #### Returns
 
@@ -88,8 +72,6 @@ Defined in: [src/weaveObject.ts:65](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **ui\_url**(): `string`
 
-Defined in: [src/weaveObject.ts:60](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L60)
-
 #### Returns
 
 `string`
@@ -99,8 +81,6 @@ Defined in: [src/weaveObject.ts:60](https://github.com/wandb/weave/blob/7c9efdc9
 ### uri()
 
 > **uri**(): `string`
-
-Defined in: [src/weaveObject.ts:56](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L56)
 
 #### Returns
 
@@ -114,15 +94,11 @@ Defined in: [src/weaveObject.ts:56](https://github.com/wandb/weave/blob/7c9efdc9
 
 Creates an ObjectRef from a Weave URI string.
 
-Defined in: [src/weaveObject.ts:43](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L43)
-
 #### Parameters
 
-##### uri
-
-`string`
-
-A Weave URI in the format: weave:///entity/project/object/name:digest
+<ParamField path="uri" type="string" required>
+  A Weave URI in the format: weave:///entity/project/object/name:digest
+</ParamField>
 
 #### Returns
 

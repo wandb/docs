@@ -3,12 +3,14 @@ title: "EvaluationLogger"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L556" />
+
 EvaluationLogger enables incremental logging of predictions and scores.
 
 Unlike the traditional Evaluation class which requires upfront dataset and batch processing,
 EvaluationLogger allows you to log predictions as they happen, with flexible scoring.
-
-Defined in: [src/evaluationLogger.ts:556](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L556)
 
 ## Example
 
@@ -29,43 +31,33 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-Defined in: [src/evaluationLogger.ts:575](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L575)
+### Parameters
 
-#### Parameters
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" />
 
-##### options
+    <ParamField path="dataset" type="string | Dataset<DatasetRow>">
+      See [`Dataset`](./dataset).
+    </ParamField>
 
-###### attributes?
+    <ParamField path="description" type="string" />
 
-`Record`\<`string`, `any`\>
+    <ParamField path="model" type="WeaveObject | { name?: string; }">
+      See [`WeaveObject`](./weaveobject).
+    </ParamField>
 
-###### dataset?
+    <ParamField path="name" type="string" required />
 
-`string` \| [`Dataset`](./dataset)\<`DatasetRow`\>
+    <ParamField path="scorers" type="string[]" />
+  </Expandable>
+</ParamField>
 
-###### description?
-
-`string`
-
-###### model?
-
-[`WeaveObject`](./weaveobject) \| \{ `name?`: `string`; \}
-
-###### name
-
-`string`
-
-###### scorers?
-
-`string`[]
-
-#### Returns
+### Returns
 
 `EvaluationLogger`
 
@@ -82,17 +74,11 @@ Returns a ScoreLogger immediately for adding scores.
 This method returns the ScoreLogger synchronously. Operations on the
 ScoreLogger (logScore, finish) will be queued and executed when initialization completes.
 
-Defined in: [src/evaluationLogger.ts:663](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L663)
-
 #### Parameters
 
-##### inputs
+<ParamField path="inputs" type="Record<string, any>" required />
 
-`Record`\<`string`, `any`\>
-
-##### output
-
-`any`
+<ParamField path="output" type="any" required />
 
 #### Returns
 
@@ -121,17 +107,11 @@ the prediction call is fully initialized.
 
 Use this if you need to await the initialization before proceeding.
 
-Defined in: [src/evaluationLogger.ts:688](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L688)
-
 #### Parameters
 
-##### inputs
+<ParamField path="inputs" type="Record<string, any>" required />
 
-`Record`\<`string`, `any`\>
-
-##### output
-
-`any`
+<ParamField path="output" type="any" required />
 
 #### Returns
 
@@ -159,13 +139,9 @@ Creates a summarize call and finishes the evaluate call.
 This method can be called without await (fire-and-forget), but internally
 it will wait for all pending operations to complete.
 
-Defined in: [src/evaluationLogger.ts:789](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L789)
-
 #### Parameters
 
-##### summary?
-
-`Record`\<`string`, `any`\>
+<ParamField path="summary" type="Record<string, any>" />
 
 #### Returns
 

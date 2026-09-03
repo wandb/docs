@@ -3,11 +3,13 @@ title: "GetAgentTurnsResult"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
 > **GetAgentTurnsResult** = `object`
 
-Result shape returned by [WeaveClient.getAgentTurns](../interfaces/weaveclient#getagentturns).
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L283" />
 
-Defined in: [src/weaveClient.ts:283](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L283)
+Result shape returned by [WeaveClient.getAgentTurns](../interfaces/weaveclient#getagentturns).
 
 ## Properties
 
@@ -15,15 +17,11 @@ Defined in: [src/weaveClient.ts:283](https://github.com/wandb/weave/blob/7c9efdc
 
 > **conversation\_id**: `string`
 
-Defined in: [src/weaveClient.ts:284](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L284)
-
 ***
 
 ### feedback
 
 > `optional` **feedback**: `Record`\<`string`, `any`\>[] \| `null`
-
-Defined in: [src/weaveClient.ts:290](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L290)
 
 ***
 
@@ -31,15 +29,11 @@ Defined in: [src/weaveClient.ts:290](https://github.com/wandb/weave/blob/7c9efdc
 
 > `optional` **has\_more**: `boolean`
 
-Defined in: [src/weaveClient.ts:287](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L287)
-
 ***
 
 ### limit
 
 > `optional` **limit**: `number`
-
-Defined in: [src/weaveClient.ts:288](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L288)
 
 ***
 
@@ -47,20 +41,14 @@ Defined in: [src/weaveClient.ts:288](https://github.com/wandb/weave/blob/7c9efdc
 
 > `optional` **offset**: `number`
 
-Defined in: [src/weaveClient.ts:289](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L289)
-
 ***
 
 ### total\_turns
 
 > `optional` **total\_turns**: `number`
 
-Defined in: [src/weaveClient.ts:286](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L286)
-
 ***
 
 ### turns
 
 > `optional` **turns**: [`AgentTurn`](./agentturn)[]
-
-Defined in: [src/weaveClient.ts:285](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L285)

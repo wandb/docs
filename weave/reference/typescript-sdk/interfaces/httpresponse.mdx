@@ -3,7 +3,9 @@ title: "HttpResponse<D, E>"
 description: "TypeScript SDK reference"
 ---
 
-Defined in: [src/generated/traceServerApi.ts:6479](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L6479)
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L6479" />
 
 ## Extends
 
@@ -11,21 +13,15 @@ Defined in: [src/generated/traceServerApi.ts:6479](https://github.com/wandb/weav
 
 ## Type Parameters
 
-### D
+<ParamField path="D" type="extends unknown" />
 
-`D` *extends* `unknown`
-
-### E
-
-`E` *extends* `unknown` = `unknown`
+<ParamField path="E" type="extends unknown = unknown" />
 
 ## Properties
 
 ### body
 
 > `readonly` **body**: `ReadableStream`\<`Uint8Array`\<`ArrayBuffer`\>\> \| `null`
-
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4468
 
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/body)
 
@@ -39,8 +35,6 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4468
 
 > `readonly` **bodyUsed**: `boolean`
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4470
-
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
 
 #### Inherited from
@@ -53,23 +47,17 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4470
 
 > **data**: `D`
 
-Defined in: [src/generated/traceServerApi.ts:6481](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L6481)
-
 ***
 
 ### error
 
 > **error**: `E`
 
-Defined in: [src/generated/traceServerApi.ts:6482](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L6482)
-
 ***
 
 ### headers
 
 > `readonly` **headers**: `Headers`
-
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26322
 
 The `headers` read-only property of the with the response.
 
@@ -85,8 +73,6 @@ The `headers` read-only property of the with the response.
 
 > `readonly` **ok**: `boolean`
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26328
-
 The `ok` read-only property of the Response interface contains a Boolean stating whether the response was successful (status in the range 200-299) or not.
 
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/ok)
@@ -100,8 +86,6 @@ The `ok` read-only property of the Response interface contains a Boolean stating
 ### redirected
 
 > `readonly` **redirected**: `boolean`
-
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26334
 
 The `redirected` read-only property of the Response interface indicates whether or not the response is the result of a request you made which was redirected.
 
@@ -117,8 +101,6 @@ The `redirected` read-only property of the Response interface indicates whether 
 
 > `readonly` **status**: `number`
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26340
-
 The `status` read-only property of the Response interface contains the HTTP status codes of the response.
 
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/status)
@@ -132,8 +114,6 @@ The `status` read-only property of the Response interface contains the HTTP stat
 ### statusText
 
 > `readonly` **statusText**: `string`
-
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26346
 
 The `statusText` read-only property of the Response interface contains the status message corresponding to the HTTP status code in Response.status.
 
@@ -149,8 +129,6 @@ The `statusText` read-only property of the Response interface contains the statu
 
 > `readonly` **type**: `ResponseType`
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26352
-
 The `type` read-only property of the Response interface contains the type of the response.
 
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/type)
@@ -165,8 +143,6 @@ The `type` read-only property of the Response interface contains the type of the
 
 > `readonly` **url**: `string`
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26358
-
 The `url` read-only property of the Response interface contains the URL of the response.
 
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/url)
@@ -180,8 +156,6 @@ The `url` read-only property of the Response interface contains the URL of the r
 ### arrayBuffer()
 
 > **arrayBuffer**(): `Promise`\<`ArrayBuffer`\>
-
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4472
 
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
 
@@ -199,8 +173,6 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4472
 
 > **blob**(): `Promise`\<`Blob`\>
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4474
-
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/blob)
 
 #### Returns
@@ -217,8 +189,6 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4474
 
 > **bytes**(): `Promise`\<`Uint8Array`\<`ArrayBuffer`\>\>
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4476
-
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/bytes)
 
 #### Returns
@@ -234,8 +204,6 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4476
 ### clone()
 
 > **clone**(): `Response`
-
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:26364
 
 The `clone()` method of the Response interface creates a clone of a response object, identical in every way, but stored in a different variable.
 
@@ -255,8 +223,6 @@ The `clone()` method of the Response interface creates a clone of a response obj
 
 > **formData**(): `Promise`\<`FormData`\>
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4478
-
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/formData)
 
 #### Returns
@@ -273,8 +239,6 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4478
 
 > **json**(): `Promise`\<`any`\>
 
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4480
-
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/json)
 
 #### Returns
@@ -290,8 +254,6 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4480
 ### text()
 
 > **text**(): `Promise`\<`string`\>
-
-Defined in: node\_modules/typescript/lib/lib.dom.d.ts:4482
 
 [MDN Reference](https://developer.mozilla.org/docs/Web/API/Request/text)
 

@@ -3,34 +3,30 @@ title: "WeaveObject"
 description: "TypeScript SDK reference"
 ---
 
-Defined in: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L71)
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L71" />
 
 ## Extended by
 
 - [`Dataset`](./dataset)
 - [`Evaluation`](./evaluation)
 
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new WeaveObject**(`_baseParameters`): `WeaveObject`
 
-Defined in: [src/weaveObject.ts:74](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L74)
+### Parameters
 
-#### Parameters
+<ParamField path="_baseParameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="description" type="string" />
 
-##### \_baseParameters
+    <ParamField path="name" type="string" />
+  </Expandable>
+</ParamField>
 
-###### description?
-
-`string`
-
-###### name?
-
-`string`
-
-#### Returns
+### Returns
 
 `WeaveObject`
 
@@ -40,8 +36,6 @@ Defined in: [src/weaveObject.ts:74](https://github.com/wandb/weave/blob/7c9efdc9
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72)
-
 ## Accessors
 
 ### description
@@ -49,8 +43,6 @@ Defined in: [src/weaveObject.ts:72](https://github.com/wandb/weave/blob/7c9efdc9
 #### Get Signature
 
 > **get** **description**(): `string` \| `undefined`
-
-Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99)
 
 ##### Returns
 
@@ -64,8 +56,6 @@ Defined in: [src/weaveObject.ts:99](https://github.com/wandb/weave/blob/7c9efdc9
 
 > **get** **name**(): `string`
 
-Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95)
-
 ##### Returns
 
 `string`
@@ -75,8 +65,6 @@ Defined in: [src/weaveObject.ts:95](https://github.com/wandb/weave/blob/7c9efdc9
 ### saveAttrs()
 
 > **saveAttrs**(): `object`
-
-Defined in: [src/weaveObject.ts:76](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76)
 
 #### Returns
 

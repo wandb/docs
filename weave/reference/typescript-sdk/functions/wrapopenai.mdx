@@ -3,23 +3,23 @@ title: "wrapOpenAI"
 description: "TypeScript SDK reference"
 ---
 
-> **wrapOpenAI**\<`T`\>(`openai`): `T`
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+```ts
+wrapOpenAI<T>(openai: T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.ts#L760" />
 
 Wraps the OpenAI API to enable function tracing for OpenAI calls.
 
-Defined in: [src/integrations/openai.ts:760](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.ts#L760)
-
 ## Type Parameters
 
-### T
-
-`T` *extends* `object`
+<ParamField path="T" type="extends object" />
 
 ## Parameters
 
-### openai
-
-`T`
+<ParamField path="openai" type="T" required />
 
 ## Returns
 

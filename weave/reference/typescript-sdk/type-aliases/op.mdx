@@ -3,9 +3,11 @@ title: "Op<T>"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
 > **Op**\<`T`\> = `object` & `T` & (...`args`) => `ReturnType`\<`T`\> *extends* `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
 
-Defined in: [src/opType.ts:8](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L8)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L8" />
 
 ## Type Declaration
 
@@ -39,6 +41,4 @@ Defined in: [src/opType.ts:8](https://github.com/wandb/weave/blob/7c9efdc9fe05ff
 
 ## Type Parameters
 
-### T
-
-`T` *extends* (...`args`) => `any`
+<ParamField path="T" type="extends (...args) => any" />

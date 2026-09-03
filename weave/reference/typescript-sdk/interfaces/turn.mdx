@@ -3,6 +3,10 @@ title: "Turn"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L98" />
+
 An agent invocation. Typically wraps the work to respond to a single
 user message. Emits an `invoke_agent` span and acts as the root of the
 trace for that turn: it is always started under `ROOT_CONTEXT` so it
@@ -13,8 +17,6 @@ Created by `weave.startTurn()` (or `conversation.startTurn()`) and
 terminated with `end()`. Only one Turn may be active in an async chain.
 Children (LLM, Tool, SubAgent) attach via the `startLLM`, `startTool`,
 `startSubagent` methods.
-
-Defined in: [src/genai/turn.ts:98](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L98)
 
 ## Examples
 
@@ -65,8 +67,6 @@ try {
 
 > **get** **agentName**(): `string`
 
-Defined in: [src/genai/turn.ts:111](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L111)
-
 ##### Returns
 
 `string`
@@ -78,8 +78,6 @@ Defined in: [src/genai/turn.ts:111](https://github.com/wandb/weave/blob/7c9efdc9
 #### Get Signature
 
 > **get** **model**(): `string`
-
-Defined in: [src/genai/turn.ts:115](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L115)
 
 ##### Returns
 
@@ -102,21 +100,13 @@ Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
 no-ops after `end()`. Mirrors OTel `Span.addEvent`.
 
-Defined in: [src/genai/spanBase.ts:84](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84)
-
 #### Parameters
 
-##### name
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-##### attributes?
-
-`Attributes`
-
-##### startTime?
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 #### Returns
 
@@ -143,19 +133,15 @@ Read current field values (to reflect mutations made via `record()`
 since `start`) and close the span. Idempotent. Pass `error` to mark
 it as failed; pass `endTime` to backdate the close.
 
-Defined in: [src/genai/turn.ts:257](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L257)
-
 #### Parameters
 
-##### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-###### endTime?
-
-`TimeInput`
-
-###### error?
-
-`Error`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -170,43 +156,31 @@ Defined in: [src/genai/turn.ts:257](https://github.com/wandb/weave/blob/7c9efdc9
 Bulk-set any subset of the mutable fields. Replaces (does not merge).
 Useful for assigning everything at once after a provider call returns.
 
-Defined in: [src/genai/turn.ts:213](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L213)
-
 #### Parameters
 
-##### opts
+<ParamField path="opts" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
 
-###### agentDescription?
+    <ParamField path="agentId" type="string" />
 
-`string`
+    <ParamField path="agentName" type="string" />
 
-###### agentId?
+    <ParamField path="agentVersion" type="string" />
 
-`string`
+    <ParamField path="messages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
 
-###### agentName?
+    <ParamField path="model" type="string" />
 
-`string`
+    <ParamField path="outputMessages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
 
-###### agentVersion?
-
-`string`
-
-###### messages?
-
-[`Message`](./message)[]
-
-###### model?
-
-`string`
-
-###### outputMessages?
-
-[`Message`](./message)[]
-
-###### systemInstructions?
-
-`string`[]
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -225,17 +199,11 @@ carries this — the other emitters never shipped a singular form.
 
 > **setAttribute**(`key`, `value`): `this`
 
-Defined in: [src/genai/turn.ts:205](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L205)
-
 #### Parameters
 
-##### key
+<ParamField path="key" type="string" required />
 
-`string`
-
-##### value
-
-`AttributeValue`
+<ParamField path="value" type="AttributeValue" required />
 
 #### Returns
 
@@ -251,13 +219,9 @@ Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
 `set_attributes`).
 
-Defined in: [src/genai/spanBase.ts:65](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65)
-
 #### Parameters
 
-##### attributes
-
-`Attributes`
+<ParamField path="attributes" type="Attributes" required />
 
 #### Returns
 
@@ -282,13 +246,11 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 Start a child LLM span under this Turn.
 
-Defined in: [src/genai/turn.ts:170](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L170)
-
 #### Parameters
 
-##### opts
-
-[`LLMInit`](./llminit)
+<ParamField path="opts" type="LLMInit" required>
+  See [`LLMInit`](./llminit).
+</ParamField>
 
 #### Returns
 
@@ -302,13 +264,11 @@ Defined in: [src/genai/turn.ts:170](https://github.com/wandb/weave/blob/7c9efdc9
 
 Start a child SubAgent span under this Turn.
 
-Defined in: [src/genai/turn.ts:190](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L190)
-
 #### Parameters
 
-##### opts
-
-[`SubAgentInit`](./subagentinit)
+<ParamField path="opts" type="SubAgentInit" required>
+  See [`SubAgentInit`](./subagentinit).
+</ParamField>
 
 #### Returns
 
@@ -322,13 +282,11 @@ Defined in: [src/genai/turn.ts:190](https://github.com/wandb/weave/blob/7c9efdc9
 
 Start a child Tool span under this Turn.
 
-Defined in: [src/genai/turn.ts:180](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L180)
-
 #### Parameters
 
-##### opts
-
-[`ToolInit`](./toolinit)
+<ParamField path="opts" type="ToolInit" required>
+  See [`ToolInit`](./toolinit).
+</ParamField>
 
 #### Returns
 

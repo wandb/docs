@@ -3,7 +3,13 @@ title: "instrumentOpenAIAgents"
 description: "TypeScript SDK reference"
 ---
 
-> **instrumentOpenAIAgents**(): `Promise`\<`boolean`\>
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+```ts
+instrumentOpenAIAgents(): Promise<boolean>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.agent.ts#L169" />
 
 Manually register Weave tracing with OpenAI Agents if the package is available.
 
@@ -15,8 +21,6 @@ that bypass hooks).
 This function attempts to dynamically import @openai/agents from the consumer's node_modules
 and registers a TracingProcessor. If the package is not installed, it returns false without
 throwing an error.
-
-Defined in: [src/integrations/openai.agent.ts:169](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.agent.ts#L169)
 
 ## Returns
 

@@ -3,7 +3,13 @@ title: "wrapClaudeAgentSdk"
 description: "TypeScript SDK reference"
 ---
 
-> **wrapClaudeAgentSdk**\<`T`\>(`sdk`): `T`
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+```ts
+wrapClaudeAgentSdk<T>(sdk: T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/claudeAgentSdk.ts#L232" />
 
 Manually instrument the `@anthropic-ai/claude-agent-sdk` module.
 
@@ -14,19 +20,13 @@ view of the module whose `query` export is traced; use the returned object
 rather than the original import (the SDK's `query` is a getter-only export,
 so the original binding can't be patched in place):
 
-Defined in: [src/integrations/claudeAgentSdk.ts:232](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/claudeAgentSdk.ts#L232)
-
 ## Type Parameters
 
-### T
-
-`T`
+<ParamField path="T" />
 
 ## Parameters
 
-### sdk
-
-`T`
+<ParamField path="sdk" type="T" required />
 
 ## Returns
 

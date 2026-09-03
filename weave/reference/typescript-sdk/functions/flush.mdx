@@ -3,11 +3,15 @@ title: "flush"
 description: "TypeScript SDK reference"
 ---
 
-> **flush**(): `Promise`\<`void`\>
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+```ts
+flush(): Promise<void>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L163" />
 
 Deliver all buffered calls to the server. Await before `process.exit()`.
-
-Defined in: [src/clientApi.ts:163](https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L163)
 
 ## Returns
 
