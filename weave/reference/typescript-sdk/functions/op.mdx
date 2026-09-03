@@ -3,7 +3,7 @@ title: "op"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 ## Call Signature
 
@@ -11,7 +11,7 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 op<T>(fn: T, options?: object): Op<T>
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392" />
 
 ### Type Parameters
 
@@ -78,8 +78,6 @@ op<T>(fn: T, options?: object): Op<T>
 ```ts
 op<T>(thisArg: any, fn: T, options?: object): Op<T>
 ```
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L397" />
 
 ### Type Parameters
 
@@ -149,8 +147,6 @@ op<T>(thisArg: any, fn: T, options?: object): Op<T>
 op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L403" />
-
 ### Parameters
 
 <ParamField path="target" type="object" required />
@@ -168,8 +164,6 @@ op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescri
 ```ts
 op<T>(value: T, context: object): Op<T>
 ```
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L409" />
 
 ### Type Parameters
 
@@ -214,8 +208,6 @@ op<T>(value: T, context: object): Op<T>
 ```ts
 op(options: Partial<OpOptions<any>>): MethodDecorator
 ```
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L414" />
 
 ### Parameters
 

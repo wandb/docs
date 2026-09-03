@@ -3,9 +3,9 @@ title: "Tool"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65" />
 
 A tool invocation. Emits an `execute_tool` span carrying the tool name,
 the arguments, the tool-call id, and the result. String arguments and
@@ -39,15 +39,11 @@ try {
 
 > `readonly` **args**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L76" />
-
 ***
 
 ### name
 
 > `readonly` **name**: `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L75" />
 
 ***
 
@@ -59,8 +55,6 @@ try {
 
 > `optional` **result**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L71" />
-
 Tool output as a string. Prefer passing `result` to `end()`.
 
 ***
@@ -68,8 +62,6 @@ Tool output as a string. Prefer passing `result` to `end()`.
 ### toolCallId
 
 > `readonly` **toolCallId**: `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L77" />
 
 ## Methods
 
@@ -83,8 +75,6 @@ See https://opentelemetry.io/blog/2026/deprecating-span-events/
 </Warning>
 
 > **addEvent**(`name`, `attributes?`, `startTime?`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84" />
 
 Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
@@ -119,8 +109,6 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 > **end**(`opts?`): `void`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L111" />
-
 Record an optional result and error type, then close the span. Idempotent.
 Pass `error` to mark the span as failed and `endTime` to backdate the close.
 
@@ -139,8 +127,6 @@ Pass `error` to mark the span as failed and `endTime` to backdate the close.
 ### setAttributes()
 
 > **setAttributes**(`attributes`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65" />
 
 Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's

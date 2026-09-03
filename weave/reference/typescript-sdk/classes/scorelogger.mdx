@@ -3,9 +3,9 @@ title: "ScoreLogger"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L330" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L330" />
 
 ScoreLogger manages scoring for a single prediction.
 Returned from EvaluationLogger.logPrediction().
@@ -20,21 +20,17 @@ await pred.logScore("relevance", 0.8);
 await pred.finish(); // Finalizes the prediction
 ```
 
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new ScoreLogger**(`evalLogger`): `ScoreLogger`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L338" />
-
-#### Parameters
+### Parameters
 
 <ParamField path="evalLogger" type="EvaluationLogger" required>
   See [`EvaluationLogger`](./evaluationlogger).
 </ParamField>
 
-#### Returns
+### Returns
 
 `ScoreLogger`
 
@@ -45,8 +41,6 @@ await pred.finish(); // Finalizes the prediction
 #### Get Signature
 
 > **get** **isFinishCalled**(): `boolean`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L368" />
 
 Check if finish() has been called.
 Used by EvaluationLogger to detect unfinished predictions.
@@ -61,8 +55,6 @@ Used by EvaluationLogger to detect unfinished predictions.
 
 > **finish**(): `Promise`\<`void`\>
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L470" />
-
 Finish the scoring process for the prediction.
 Finalizes the predict_and_score call with accumulated scores.
 Updates incremental aggregates and frees memory.
@@ -76,8 +68,6 @@ Updates incremental aggregates and frees memory.
 ### logScore()
 
 > **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L379" />
 
 Log a score for this prediction.
 Creates a scorer call as a child of predict_and_score.

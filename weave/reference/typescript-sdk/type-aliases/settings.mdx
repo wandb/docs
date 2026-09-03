@@ -3,19 +3,17 @@ title: "Settings"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 > **Settings** = `object`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
 
 ## Properties
 
 ### attributes
 
 > `readonly` **attributes**: `Record`\<`string`, `any`\>
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L17" />
 
 A map of attributes applied to every trace produced by this client.
 
@@ -24,8 +22,6 @@ A map of attributes applied to every trace produced by this client.
 ### genai
 
 > `readonly` **genai**: `object`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L34" />
 
 #### batchOptions
 
@@ -54,8 +50,6 @@ How GenAI spans are exported.
 
 > `readonly` **printCallLink**: `boolean`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L12" />
-
 Prints links in terminal to Weave UI for ops.
 
 #### Default
@@ -67,8 +61,6 @@ Prints links in terminal to Weave UI for ops.
 ### useCallsComplete
 
 > **useCallsComplete**: `boolean`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L32" />
 
 Sends finished calls to the `calls/complete` endpoint (start+end paired
 client-side) instead of the legacy `call/upsert_batch` path.
@@ -82,8 +74,6 @@ client-side) instead of the legacy `call/upsert_batch` path.
 ### useOTelV2
 
 > **useOTelV2**: `boolean`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L24" />
 
 Routes OTel-capable integrations through their OTel variant.
 

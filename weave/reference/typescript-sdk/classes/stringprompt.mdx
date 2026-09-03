@@ -3,23 +3,19 @@ title: "StringPrompt"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L19" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L19" />
 
 ## Extends
 
 - `Prompt`
 
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new StringPrompt**(`parameters`): `StringPrompt`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L22" />
-
-#### Parameters
+### Parameters
 
 <ParamField path="parameters" type="object" required>
   <Expandable title="properties" defaultOpen>
@@ -31,11 +27,11 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
   </Expandable>
 </ParamField>
 
-#### Returns
+### Returns
 
 `StringPrompt`
 
-#### Overrides
+### Overrides
 
 `Prompt.constructor`
 
@@ -44,8 +40,6 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 ### \_\_savedRef
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L72" />
 
 #### Inherited from
 
@@ -57,8 +51,6 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 
 > **content**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L20" />
-
 ## Accessors
 
 ### description
@@ -66,8 +58,6 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 #### Get Signature
 
 > **get** **description**(): `string` \| `undefined`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L99" />
 
 ##### Returns
 
@@ -85,8 +75,6 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 
 > **get** **name**(): `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L95" />
-
 ##### Returns
 
 `string`
@@ -100,8 +88,6 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 ### format()
 
 > **format**(`values?`): `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L27" />
 
 #### Parameters
 
@@ -117,8 +103,6 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 
 > **saveAttrs**(): `object`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L76" />
-
 #### Returns
 
 `object`
@@ -132,8 +116,6 @@ import { SourceLink } from '/snippets/_includes/source-link.mdx';
 ### get()
 
 > `static` **get**(`client`, `uri`): `Promise`\<`StringPrompt`\>
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L31" />
 
 #### Parameters
 

@@ -3,9 +3,9 @@ title: "LLM"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
 
 An LLM call. Emits a `chat` span with `gen_ai.*` attributes.
 
@@ -60,8 +60,6 @@ try {
 
 > **inputMessages**: [`Message`](./message)[] = `[]`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L97" />
-
 Input messages sent to the model. Flushed to `gen_ai.input.messages` on
 `end()`.
 
@@ -71,15 +69,11 @@ Input messages sent to the model. Flushed to `gen_ai.input.messages` on
 
 > `readonly` **model**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L121" />
-
 ***
 
 ### outputMessages
 
 > **outputMessages**: [`Message`](./message)[] = `[]`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L102" />
 
 Assistant messages returned by the model. Flushed to
 `gen_ai.output.messages` on `end()`.
@@ -90,15 +84,11 @@ Assistant messages returned by the model. Flushed to
 
 > `readonly` **providerName**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L122" />
-
 ***
 
 ### reasoning
 
 > `optional` **reasoning**: [`Reasoning`](./reasoning)
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L109" />
 
 Chain-of-thought content. Folded into the last assistant message as a
 ReasoningPart at serialization time.
@@ -108,8 +98,6 @@ ReasoningPart at serialization time.
 ### usage
 
 > **usage**: [`Usage`](./usage) = `{}`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L104" />
 
 Token counts and cache stats. Flushed to `gen_ai.usage.*` on `end()`.
 
@@ -125,8 +113,6 @@ See https://opentelemetry.io/blog/2026/deprecating-span-events/
 </Warning>
 
 > **addEvent**(`name`, `attributes?`, `startTime?`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84" />
 
 Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
@@ -161,8 +147,6 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 > **attachMedia**(`opts`): `this`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L189" />
-
 Stage a media attachment for the LLM call. Pick exactly one of
  `content` (inline base64 bytes), `uri` (URI reference), or `fileId`
  (pre-uploaded file id). The attachment is glued onto the last user
@@ -185,8 +169,6 @@ Stage a media attachment for the LLM call. Pick exactly one of
 ### attachMediaUrl()
 
 > **attachMediaUrl**(`url`, `opts`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L198" />
 
 Convenience for `attachMedia({uri, modality})`.
 
@@ -212,8 +194,6 @@ Convenience for `attachMedia({uri, modality})`.
 
 > **end**(`opts?`): `void`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L282" />
-
 Flush accumulated state and close the span. Idempotent. Pass `error` to mark failed; pass `endTime` to backdate the close.
 
 #### Parameters
@@ -236,8 +216,6 @@ Flush accumulated state and close the span. Idempotent. Pass `error` to mark fai
 
 > **output**(`content`): `this`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L161" />
-
 Append an assistant message to the response.
 
 #### Parameters
@@ -253,8 +231,6 @@ Append an assistant message to the response.
 ### record()
 
 > **record**(`opts`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L209" />
 
 Bulk-set any subset of the mutable fields. Replaces (does not merge).
 Useful for assigning everything at once after a provider call returns.
@@ -305,8 +281,6 @@ Useful for assigning everything at once after a provider call returns.
 
 > **setAttributes**(`attributes`): `this`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65" />
-
 Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
 `set_attributes`).
@@ -336,8 +310,6 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 > **startSubagent**(`opts`): [`SubAgent`](./subagent)
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L268" />
-
 Start a child SubAgent span nested under this LLM.
 
 #### Parameters
@@ -356,8 +328,6 @@ Start a child SubAgent span nested under this LLM.
 
 > **startTool**(`opts`): [`Tool`](./tool)
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L258" />
-
 Start a child Tool span nested under this LLM.
 
 #### Parameters
@@ -375,8 +345,6 @@ Start a child Tool span nested under this LLM.
 ### think()
 
 > **think**(`content`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L173" />
 
 Set or extend the model's reasoning/chain-of-thought content. Accumulates
  into `this.reasoning.content`. Folded into the last assistant message as

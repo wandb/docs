@@ -573,6 +573,45 @@ _RETURNS_HEADING_RE = re.compile(r'^(#{2,5}) Returns$')
 _PROP_SIG_RE = re.compile(r'^> ((?:`[a-z]+` )*)\*\*([^*~]+)\*\*: (.+)$')
 
 
+def _collapse_constructor_group_heading(content):
+    """Collapse TypeDoc's redundant constructor heading pair.
+
+    A TS class has at most one constructor, but TypeDoc still emits a
+    plural group heading over it (`## Constructors` followed by a lone
+    `### Constructor`), which renders as a stuttering double header
+    (review feedback on wandb/docs#3103). Collapse the pair into a single
+    `## Constructor` section and promote the section's sub-headings one
+    level so the outline stays contiguous. A group holding anything other
+    than that single entry is left untouched.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    for i, line in enumerate(lines):
+        if mask[i] or line != '## Constructors':
+            continue
+        j = i + 1
+        while j < len(lines) and not mask[j] and lines[j] == '':
+            j += 1
+        if j >= len(lines) or mask[j] or lines[j] != '### Constructor':
+            return content
+        # The constructor section runs until the next h2.
+        end = next(
+            (k for k in range(j + 1, len(lines))
+             if not mask[k] and lines[k].startswith('## ')),
+            len(lines),
+        )
+        # Bail if the group holds more than the single constructor entry.
+        if any(not mask[k] and lines[k].startswith('### ')
+               for k in range(j + 1, end)):
+            return content
+        promoted = [
+            l[1:] if not mask[k] and re.match(r'^#{4,6} ', l) else l
+            for k, l in zip(range(j + 1, end), lines[j + 1:end])
+        ]
+        return '\n'.join(lines[:i] + ['## Constructor'] + promoted + lines[end:])
+    return content
+
+
 def _convert_returns_members_to_responsefields(content):
     """Rewrite documented members of an object return type into
     <ResponseField> rows.
@@ -790,10 +829,8 @@ def convert_to_mintlify_format(docs_dir):
         content = _escape_mdx_hostile_chars(content)
 
         # De-duplicate v4's optional markers. (Source links used to be
-        # relocated below descriptions here for reading order; now that
-        # they render as right-floated SourceLink buttons they stay where
-        # TypeDoc puts them — directly after the signature — and float to
-        # the top right of the section without interrupting text flow.)
+        # relocated below descriptions here for reading order; now only
+        # the page-level one survives, as a GitHubLink button.)
         content = _strip_redundant_optional_markers(content)
         
         # Add Mintlify frontmatter
@@ -916,32 +953,38 @@ description: "TypeScript SDK reference"
         content = _convert_parameters_sections_to_paramfields(content)
         content = _convert_type_parameters_sections(content)
         content = _convert_returns_members_to_responsefields(content)
+        content = _collapse_constructor_group_heading(content)
 
-        # Render source-link metadata with the site's shared SourceLink
-        # button (a compact right-floated pill, styled by `.source-link` in
-        # css/styles.css) instead of an inline text line. The import is only
-        # added when a link was actually converted.
+        # Render source-link metadata following the Models Python
+        # reference pattern (review feedback on wandb/docs#3103): only the
+        # page's primary symbol keeps a source link — the first
+        # `Defined in:` line becomes the site's shared GitHubLink button
+        # (styled by `.github-source-link` in css/styles.css) — and every
+        # later occurrence (members, overload signatures, inherited
+        # symbols) is dropped as visual noise. The import is only added
+        # when a link was actually converted.
         content, n_source_links = re.subn(
             r'^Defined in: \[[^\]]+\]\(([^)\s]+)\)$',
-            r'<SourceLink url="\1" />',
+            r'<GitHubLink url="\1" />',
             content,
+            count=1,
             flags=re.MULTILINE,
         )
         if n_source_links:
             content = re.sub(
                 r'\A(---\n.*?\n---\n)',
-                r"\1\nimport { SourceLink } from '/snippets/_includes/source-link.mdx';\n",
+                r"\1\nimport { GitHubLink } from '/snippets/_includes/github-source-link.mdx';\n",
                 content,
                 count=1,
                 flags=re.DOTALL,
             )
 
-        # Linkless source lines (members inherited from TypeScript's own
-        # lib .d.ts files carry no GitHub URL) can't become buttons; keep
-        # them but at metadata weight.
+        # Drop the remaining source-metadata lines (linked or not — members
+        # inherited from TypeScript's own lib .d.ts files carry no GitHub
+        # URL) together with the blank line that follows them.
         content = re.sub(
-            r'^Defined in: (.+)$',
-            r'<sub>Source: \1</sub>',
+            r'^Defined in: .*\n\n?',
+            '',
             content,
             flags=re.MULTILINE,
         )

@@ -3,9 +3,9 @@ title: "Turn"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L98" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L98" />
 
 An agent invocation. Typically wraps the work to respond to a single
 user message. Emits an `invoke_agent` span and acts as the root of the
@@ -67,8 +67,6 @@ try {
 
 > **get** **agentName**(): `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L111" />
-
 ##### Returns
 
 `string`
@@ -80,8 +78,6 @@ try {
 #### Get Signature
 
 > **get** **model**(): `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L115" />
 
 ##### Returns
 
@@ -99,8 +95,6 @@ See https://opentelemetry.io/blog/2026/deprecating-span-events/
 </Warning>
 
 > **addEvent**(`name`, `attributes?`, `startTime?`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L84" />
 
 Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
@@ -135,8 +129,6 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 > **end**(`opts?`): `void`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L257" />
-
 Read current field values (to reflect mutations made via `record()`
 since `start`) and close the span. Idempotent. Pass `error` to mark
 it as failed; pass `endTime` to backdate the close.
@@ -160,8 +152,6 @@ it as failed; pass `endTime` to backdate the close.
 ### record()
 
 > **record**(`opts`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L213" />
 
 Bulk-set any subset of the mutable fields. Replaces (does not merge).
 Useful for assigning everything at once after a provider call returns.
@@ -209,8 +199,6 @@ carries this — the other emitters never shipped a singular form.
 
 > **setAttribute**(`key`, `value`): `this`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L205" />
-
 #### Parameters
 
 <ParamField path="key" type="string" required />
@@ -226,8 +214,6 @@ carries this — the other emitters never shipped a singular form.
 ### setAttributes()
 
 > **setAttributes**(`attributes`): `this`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/spanBase.ts#L65" />
 
 Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
@@ -258,8 +244,6 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 > **startLLM**(`opts`): [`LLM`](./llm)
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L170" />
-
 Start a child LLM span under this Turn.
 
 #### Parameters
@@ -278,8 +262,6 @@ Start a child LLM span under this Turn.
 
 > **startSubagent**(`opts`): [`SubAgent`](./subagent)
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L190" />
-
 Start a child SubAgent span under this Turn.
 
 #### Parameters
@@ -297,8 +279,6 @@ Start a child SubAgent span under this Turn.
 ### startTool()
 
 > **startTool**(`opts`): [`Tool`](./tool)
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L180" />
 
 Start a child Tool span under this Turn.
 

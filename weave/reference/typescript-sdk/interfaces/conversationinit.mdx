@@ -3,17 +3,15 @@ title: "ConversationInit"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L8" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L8" />
 
 ## Properties
 
 ### agentDescription
 
 > `optional` **agentDescription**: `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L31" />
 
 Human-readable agent description. Propagated as the default
 `agentDescription` to every `Turn` created via `startTurn()` unless
@@ -26,8 +24,6 @@ the turn sets its own; emitted on each turn's `invoke_agent` span as
 
 > `optional` **agentId**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L16" />
-
 Stable agent identifier. Propagated as the default `agentId` to every
 `Turn` created via `startTurn()` unless the turn sets its own; emitted
 on each turn's `invoke_agent` span as `gen_ai.agent.id`.
@@ -37,8 +33,6 @@ on each turn's `invoke_agent` span as `gen_ai.agent.id`.
 ### agentName
 
 > `optional` **agentName**: `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L23" />
 
 Agent name. Propagated as the default `agentName` to every `Turn`
 created via `startTurn()` unless the turn sets its own; emitted on
@@ -50,8 +44,6 @@ each turn's `invoke_agent` span as `gen_ai.agent.name`.
 
 > `optional` **agentVersion**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L38" />
-
 Agent version string. Propagated as the default `agentVersion` to
 every `Turn` created via `startTurn()` unless the turn sets its own;
 emitted on each turn's `invoke_agent` span as `gen_ai.agent.version`.
@@ -61,8 +53,6 @@ emitted on each turn's `invoke_agent` span as `gen_ai.agent.version`.
 ### attributes
 
 > `optional` **attributes**: `Attributes`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L52" />
 
 Custom attributes propagated to every span the conversation emits.
 
@@ -75,8 +65,6 @@ attribute is unsupported; the span's value wins.
 
 > `optional` **conversationId**: `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L44" />
-
 Conversation ID propagated to every span under this conversation as
 `gen_ai.conversation.id`. Auto-generated if omitted.
 
@@ -85,8 +73,6 @@ Conversation ID propagated to every span under this conversation as
 ### model
 
 > `optional` **model**: `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L9" />
 
 ***
 
@@ -97,5 +83,3 @@ Conversation ID propagated to every span under this conversation as
 </Warning>
 
 > `optional` **sessionId**: `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L55" />

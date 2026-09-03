@@ -3,9 +3,9 @@ title: "EvaluationLogger"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L556" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L556" />
 
 EvaluationLogger enables incremental logging of predictions and scores.
 
@@ -31,15 +31,11 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L575" />
-
-#### Parameters
+### Parameters
 
 <ParamField path="options" type="object" required>
   <Expandable title="properties" defaultOpen>
@@ -61,7 +57,7 @@ await ev.logSummary();
   </Expandable>
 </ParamField>
 
-#### Returns
+### Returns
 
 `EvaluationLogger`
 
@@ -70,8 +66,6 @@ await ev.logSummary();
 ### logPrediction()
 
 > **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L663" />
 
 Log a prediction with its input and output (synchronous version).
 Creates a predict_and_score call (with child predict call).
@@ -107,8 +101,6 @@ await evalLogger.logSummary(); // Waits for everything
 
 > **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L688" />
-
 Log a prediction with its input and output (async version).
 Like logPrediction() but returns a Promise that resolves when
 the prediction call is fully initialized.
@@ -140,8 +132,6 @@ await scoreLogger.finish();
 ### logSummary()
 
 > **logSummary**(`summary?`): `Promise`\<`void`\>
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L789" />
 
 Log a summary and finalize the evaluation.
 Creates a summarize call and finishes the evaluate call.

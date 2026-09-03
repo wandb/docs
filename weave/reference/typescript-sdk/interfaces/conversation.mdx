@@ -3,9 +3,9 @@ title: "Conversation"
 description: "TypeScript SDK reference"
 ---
 
-import { SourceLink } from '/snippets/_includes/source-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72" />
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72" />
 
 A Conversation groups Turns under a single `gen_ai.conversation.id`. It is
 not itself an OTel span — children stamp the conversation id onto theirs.
@@ -17,8 +17,6 @@ not itself an OTel span — children stamp the conversation id onto theirs.
 #### Get Signature
 
 > **get** **agentName**(): `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L94" />
 
 ##### Returns
 
@@ -32,8 +30,6 @@ not itself an OTel span — children stamp the conversation id onto theirs.
 
 > **get** **attributes**(): `Attributes`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L106" />
-
 ##### Returns
 
 `Attributes`
@@ -46,8 +42,6 @@ not itself an OTel span — children stamp the conversation id onto theirs.
 
 > **get** **conversationId**(): `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L102" />
-
 ##### Returns
 
 `string`
@@ -59,8 +53,6 @@ not itself an OTel span — children stamp the conversation id onto theirs.
 #### Get Signature
 
 > **get** **model**(): `string`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L98" />
 
 ##### Returns
 
@@ -78,8 +70,6 @@ not itself an OTel span — children stamp the conversation id onto theirs.
 
 > **get** **sessionId**(): `string`
 
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L111" />
-
 ##### Returns
 
 `string`
@@ -89,8 +79,6 @@ not itself an OTel span — children stamp the conversation id onto theirs.
 ### end()
 
 > **end**(`opts?`): `void`
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L172" />
 
 #### Parameters
 
@@ -111,8 +99,6 @@ not itself an OTel span — children stamp the conversation id onto theirs.
 ### startTurn()
 
 > **startTurn**(`opts?`): [`Turn`](./turn)
-
-<SourceLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L156" />
 
 Start a new `Turn` under this `Conversation`. The turn inherits the
 conversation's `conversationId`; `agentName`, `agentId`, `agentDescription`,
