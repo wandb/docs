@@ -126,14 +126,13 @@ model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest
 
 LoRA アダプターは、以下のいずれかのベースモデルに対してトレーニングされている必要があります。`wandb.base_model` を設定する際は、正確なモデル ID の string を使用してください。これにより、W&amp;B は推論時にアダプターを正しいベースモデルと対応付けることができます。
 
-{{/* takeru lora-base-models - この表は自動生成されています。手動で編集しないでください。 */}}
+{/* takeru lora-base-models - この表は自動生成されています。手動で編集しないでください。 */}
 
 | モデル ID (API 用)                      | 最大 LoRA ランク |
 | ----------------------------------- | ----------- |
 | `meta-llama/Llama-3.1-70B-Instruct` | 16          |
 | `meta-llama/Llama-3.1-8B-Instruct`  | 16          |
 | `OpenPipe/Qwen3-14B-Instruct`       | 16          |
-| `Qwen/Qwen3.6-27B`                  | 16          |
 | `Qwen/Qwen3-30B-A3B-Instruct-2507`  | 16          |
 
 <div id="pricing">
