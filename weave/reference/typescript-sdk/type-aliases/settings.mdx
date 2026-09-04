@@ -3,9 +3,11 @@ title: "Settings"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
 > **Settings** = `object`
 
-Defined in: [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L3)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
 
 ## Properties
 
@@ -15,15 +17,11 @@ Defined in: [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c
 
 A map of attributes applied to every trace produced by this client.
 
-Defined in: [src/settings.ts:14](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L14)
-
 ***
 
 ### genai
 
 > `readonly` **genai**: `object`
-
-Defined in: [src/settings.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L23)
 
 #### batchOptions
 
@@ -54,7 +52,18 @@ How GenAI spans are exported.
 
 Prints links in terminal to Weave UI for ops.
 
-Defined in: [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L9)
+#### Default
+
+`true`
+
+***
+
+### useCallsComplete
+
+> **useCallsComplete**: `boolean`
+
+Sends finished calls to the `calls/complete` endpoint (start+end paired
+client-side) instead of the legacy `call/upsert_batch` path.
 
 #### Default
 
@@ -67,8 +76,6 @@ Defined in: [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c
 > **useOTelV2**: `boolean`
 
 Routes OTel-capable integrations through their OTel variant.
-
-Defined in: [src/settings.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L21)
 
 #### Default
 

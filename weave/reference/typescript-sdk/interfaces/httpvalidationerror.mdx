@@ -3,16 +3,34 @@ title: "HTTPValidationError"
 description: "TypeScript SDK reference"
 ---
 
-HTTPValidationError
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-Defined in: [src/generated/traceServerApi.ts:4075](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L4075)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L4331" />
+
+HTTPValidationError
 
 ## Properties
 
 ### detail
 
-> `optional` **detail**: `ValidationError`[]
+> `optional` **detail**: `object`[]
 
 Detail
 
-Defined in: [src/generated/traceServerApi.ts:4077](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L4077)
+#### loc
+
+> **loc**: (`string` \| `number`)[]
+
+Location
+
+#### msg
+
+> **msg**: `string`
+
+Message
+
+#### type
+
+> **type**: `string`
+
+Error Type
