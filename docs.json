@@ -2192,7 +2192,8 @@
                             "pages": [
                               "fr/models/automations/create-automations",
                               "fr/models/automations/create-automations/slack",
-                              "fr/models/automations/create-automations/webhook"
+                              "fr/models/automations/create-automations/webhook",
+                              "fr/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -3982,7 +3983,8 @@
                             "pages": [
                               "ja/models/automations/create-automations",
                               "ja/models/automations/create-automations/slack",
-                              "ja/models/automations/create-automations/webhook"
+                              "ja/models/automations/create-automations/webhook",
+                              "ja/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -5772,7 +5774,8 @@
                             "pages": [
                               "ko/models/automations/create-automations",
                               "ko/models/automations/create-automations/slack",
-                              "ko/models/automations/create-automations/webhook"
+                              "ko/models/automations/create-automations/webhook",
+                              "ko/models/automations/create-automations/aria"
                             ]
                           },
                           {
