@@ -4,7 +4,10 @@ description: On-demand, isolated compute environments that you can create, use, 
 mode: wide
 ---
 
+import SandboxesDeprecation from '/snippets/_includes/sandboxes-deprecation.mdx';
 import SandboxesPreview from '/snippets/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesDeprecation />
 
 <SandboxesPreview />
 
@@ -55,6 +58,48 @@ Follow these steps to create a sandbox and run a command inside it:
     You should see the output `Hello from Serverless Sandboxes!` printed to the console. 
 
     The sandbox automatically stops when the context manager (the `with` block) exits. For more information on sandbox lifecycle and states, see [Lifecycle of sandboxes](/sandboxes/lifecycle).
+
+## Migrate to cwsandbox
+
+`wandb.sandbox` is deprecated and will be removed in a future release of the W&B Python SDK. The `cwsandbox` package replaces it and accepts either a W&B API key or a CoreWeave API access token. Its reference documentation lives in the [CoreWeave sandbox docs](https://docs.coreweave.com/products/sandboxes).
+
+To migrate, change how you install the package, how you import it, and how you select your credential:
+
+1. Install `cwsandbox` with the W&B extra. The extra pulls in the `wandb` library, which `cwsandbox` uses to resolve W&B credentials:
+
+    ```bash
+    pip install "cwsandbox[wandb]"
+    ```
+
+2. Import from `cwsandbox` instead of `wandb.sandbox`, and pass `auth=AuthStrategy.WANDB` when you create a sandbox or a session. `cwsandbox` reads a CoreWeave API access token from `CWSANDBOX_API_KEY` by default, so W&B authentication must be selected explicitly:
+
+    ```python title="Before: wandb.sandbox"
+    from wandb.sandbox import Sandbox
+
+    with Sandbox.run() as sandbox:
+        process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
+        print(process.stdout)
+    ```
+
+    ```python title="After: cwsandbox"
+    from cwsandbox import AuthStrategy, Sandbox
+
+    with Sandbox.run(auth=AuthStrategy.WANDB) as sandbox:
+        process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
+        print(process.stdout)
+    ```
+
+Your W&B credentials resolve the same way they do today: from an active `wandb login` session, the `WANDB_API_KEY` environment variable, or the `api.wandb.ai` entry in `~/.netrc`. To bill sandboxes to a CoreWeave account instead, omit `auth` and set `CWSANDBOX_API_KEY` to a CoreWeave API access token. For a comparison of the two credentials, see [Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential).
+
+### Behavior that changes after you migrate
+
+`wandb.sandbox` wraps `cwsandbox` and applies W&B Serverless defaults that the `cwsandbox` package doesn't apply on its own. Account for these differences when you migrate:
+
+| Behavior | `wandb.sandbox` | `cwsandbox` |
+|----------|-----------------|-------------|
+| Maximum sandbox lifetime | Defaults to 12 hours | No default; set `max_lifetime_seconds` yourself |
+| Secret store | `Secret` defaults to the W&B team secret store | `Secret` requires an explicit `store` argument |
+| Placement arguments | Rejects `profile_ids`, `profile_names`, and `runner_ids` | Accepts them for CoreWeave sandbox runners |
 
 ## Serverless Sandboxes tutorials
 
