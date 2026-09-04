@@ -3,28 +3,30 @@ title: "init"
 description: "TypeScript SDK reference"
 ---
 
-> **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../interfaces/weaveclient)\>
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+```ts
+init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L86" />
 
 Initialize the Weave client, which is required for weave tracing to work.
 
-Defined in: [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
-
 ## Parameters
 
-### project
+<ParamField path="project" type="string" required>
+  The W&B project name (can be project or entity/project). If you don't
+  specify a W&B team (e.g., 'team/project'), your default entity is used.
+  To find or update your default entity, refer to User Settings at
+  https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team
+</ParamField>
 
-`string`
+<ParamField path="settings" type="Partial<{…}>">
+  (Optional) Weave tracing settings
 
-The W&B project name (can be project or entity/project). If you don't
-                  specify a W&B team (e.g., 'team/project'), your default entity is used.
-                  To find or update your default entity, refer to User Settings at
-                  https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team
-
-### settings?
-
-`Partial`\<[`Settings`](../type-aliases/settings)\>
-
-(Optional) Weave tracing settings
+  Full type: `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
+</ParamField>
 
 ## Returns
 

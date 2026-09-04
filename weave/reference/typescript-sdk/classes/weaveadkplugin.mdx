@@ -3,6 +3,10 @@ title: "WeaveAdkPlugin"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/googleAdk.ts#L589" />
+
 ADK plugin that emits runner invocations, agent runs, model calls and tool
 executions as GenAI-semconv OTel spans on Weave's agents pipeline.
 
@@ -11,19 +15,15 @@ invokes every callback, so all are present even where a callback is a no-op.
 ADK treats any non-`undefined` return as a short-circuit, so every callback
 swallows its own errors and returns `undefined`.
 
-Defined in: [src/integrations/googleAdk.ts:589](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L589)
-
 ## Implements
 
 - `BasePlugin`
 
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new WeaveAdkPlugin**(): `WeaveAdkPlugin`
 
-#### Returns
+### Returns
 
 `WeaveAdkPlugin`
 
@@ -32,8 +32,6 @@ Defined in: [src/integrations/googleAdk.ts:589](https://github.com/wandb/weave/b
 ### name
 
 > `readonly` **name**: `"weave"` = `WEAVE_ADK_PLUGIN_NAME`
-
-Defined in: [src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
 
 #### Implementation of
 
@@ -50,23 +48,19 @@ Callback executed after an agent's primary logic has completed.
 This callback can be used to inspect, log, or modify the agent's final
 result before it is returned.
 
-Defined in: [src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="agent" type="BaseAgent" required>
+      The agent that has just run.
+    </ParamField>
 
-###### agent
-
-`BaseAgent`
-
-The agent that has just run.
-
-###### callbackContext
-
-`Context`
-
-The context for the agent invocation.
+    <ParamField path="callbackContext" type="Context" required>
+      The context for the agent invocation.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -91,13 +85,9 @@ Callback executed after context compaction.
 This callback provides an opportunity to inspect the context
 after it has been compacted.
 
-Defined in: [src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
-
 #### Parameters
 
-##### \_params
-
-`unknown`
+<ParamField path="_params" type="unknown" required />
 
 #### Returns
 
@@ -118,23 +108,19 @@ Callback executed after a response is received from the model.
 This is the ideal place to log model responses, collect metrics on token
 usage, or perform post-processing on the raw `LlmResponse`.
 
-Defined in: [src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      The context for the current agent call.
+    </ParamField>
 
-###### callbackContext
-
-`Context`
-
-The context for the current agent call.
-
-###### llmResponse
-
-`LlmResponse`
-
-The response object received from the model.
+    <ParamField path="llmResponse" type="LlmResponse" required>
+      The response object received from the model.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -159,17 +145,15 @@ Callback executed after an ADK runner run has completed.
 This is the final callback in the ADK lifecycle, suitable for cleanup,
 final logging, or reporting tasks.
 
-Defined in: [src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
-
 #### Parameters
 
-##### params
-
-###### invocationContext
-
-`InvocationContext`
-
-The context for the entire invocation.
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      The context for the entire invocation.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -192,35 +176,27 @@ Callback executed after a tool has been called.
 This callback allows for inspecting, logging, or modifying the result
 returned by a tool.
 
-Defined in: [src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="result" type="Record<string, unknown> | null" required>
+      The dictionary returned by the tool invocation.
+    </ParamField>
 
-###### result
+    <ParamField path="tool" type="BaseTool" required>
+      The tool instance that has just been executed.
+    </ParamField>
 
-`Record`\<`string`, `unknown`\> \| `null`
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      The original arguments that were passed to the tool.
+    </ParamField>
 
-The dictionary returned by the tool invocation.
-
-###### tool
-
-`BaseTool`
-
-The tool instance that has just been executed.
-
-###### toolArgs
-
-`Record`\<`string`, `unknown`\>
-
-The original arguments that were passed to the tool.
-
-###### toolContext
-
-`Context`
-
-The context specific to the tool execution.
+    <ParamField path="toolContext" type="Context" required>
+      The context specific to the tool execution.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -246,23 +222,19 @@ Callback executed before an agent's primary logic is invoked.
 This callback can be used for logging, setup, or to short-circuit the
 agent's execution by returning a value.
 
-Defined in: [src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="agent" type="BaseAgent" required>
+      The agent that is about to run.
+    </ParamField>
 
-###### agent
-
-`BaseAgent`
-
-The agent that is about to run.
-
-###### callbackContext
-
-`Context`
-
-The context for the agent invocation.
+    <ParamField path="callbackContext" type="Context" required>
+      The context for the agent invocation.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -287,13 +259,9 @@ Callback executed before context compaction.
 This callback provides an opportunity to inspect or modify the context
 before it is compacted.
 
-Defined in: [src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
-
 #### Parameters
 
-##### \_params
-
-`unknown`
+<ParamField path="_params" type="unknown" required />
 
 #### Returns
 
@@ -315,23 +283,19 @@ This provides an opportunity to inspect, log, or modify the `LlmRequest`
 object. It can also be used to implement caching by returning a cached
 `LlmResponse`, which would skip the actual model call.
 
-Defined in: [src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      The context for the current agent call.
+    </ParamField>
 
-###### callbackContext
-
-`Context`
-
-The context for the current agent call.
-
-###### llmRequest
-
-`LlmRequest`
-
-The prepared request object to be sent to the model.
+    <ParamField path="llmRequest" type="LlmRequest" required>
+      The prepared request object to be sent to the model.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -356,18 +320,16 @@ Callback executed before the ADK runner runs.
 This is the first callback to be called in the lifecycle, ideal for global
 setup or initialization tasks.
 
-Defined in: [src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
-
 #### Parameters
 
-##### params
-
-###### invocationContext
-
-`InvocationContext`
-
-The context for the entire invocation, containing
-    session information, the root agent, etc.
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      The context for the entire invocation, containing
+      session information, the root agent, etc.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -392,30 +354,24 @@ Callback executed before a tool is called.
 This callback is useful for logging tool usage, input validation, or
 modifying the arguments before they are passed to the tool.
 
-Defined in: [src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="tool" type="BaseTool" required>
+      The tool instance that is about to be executed.
+    </ParamField>
 
-###### tool
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      The dictionary of arguments to be used for invoking the
+      tool.
+    </ParamField>
 
-`BaseTool`
-
-The tool instance that is about to be executed.
-
-###### toolArgs
-
-`Record`\<`string`, `unknown`\>
-
-The dictionary of arguments to be used for invoking the
-    tool.
-
-###### toolContext
-
-`Context`
-
-The context specific to the tool execution.
+    <ParamField path="toolContext" type="Context" required>
+      The context specific to the tool execution.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -440,13 +396,9 @@ Callback executed before a tool is selected.
 This callback provides an opportunity to inspect, log, or modify the
 available tools before they are selected.
 
-Defined in: [src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
-
 #### Parameters
 
-##### \_params
-
-`unknown`
+<ParamField path="_params" type="unknown" required />
 
 #### Returns
 
@@ -473,13 +425,9 @@ breaks out of `runAsync` early — or an aborted run — leaves the invocation
 `finally` to close them as interrupted. Idempotent: a no-op once the run
 has already finished (the common, fully-consumed case).
 
-Defined in: [src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
-
 #### Parameters
 
-##### invocationId
-
-`string`
+<ParamField path="invocationId" type="string" required />
 
 #### Returns
 
@@ -496,33 +444,27 @@ Callback executed after an event is yielded from runner.
 This is the ideal place to make modification to the event before the event
 is handled by the underlying agent app.
 
-Defined in: [src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="event" type="Event" required>
+      The event raised by the runner.
+    </ParamField>
 
-###### event
-
-`Event`
-
-The event raised by the runner.
-
-###### invocationContext
-
-`InvocationContext`
-
-The context for the entire invocation.
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      The context for the entire invocation.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
 `Promise`\<`undefined`\>
 
 An optional value. A non-`undefined` return may be used by the
-    framework to modify or replace the response. Copy `params.event` when
-    constructing a replacement to preserve fields that are not being
-    modified, such as event actions. Returning `undefined` allows the
-    original response to be used.
+    framework to modify or replace the response. Returning `undefined`
+    allows the original response to be used.
 
 #### Implementation of
 
@@ -539,30 +481,24 @@ Callback executed when a model call encounters an error.
 This callback provides an opportunity to handle model errors gracefully,
 potentially providing alternative responses or recovery mechanisms.
 
-Defined in: [src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      The context for the current agent call.
+    </ParamField>
 
-###### callbackContext
+    <ParamField path="error" type="Error" required>
+      The exception that was raised during model execution.
+    </ParamField>
 
-`Context`
-
-The context for the current agent call.
-
-###### error
-
-`Error`
-
-The exception that was raised during model execution.
-
-###### llmRequest
-
-`LlmRequest`
-
-The request that was sent to the model when the error
-    occurred.
+    <ParamField path="llmRequest" type="LlmRequest" required>
+      The request that was sent to the model when the error
+      occurred.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -597,35 +533,27 @@ Callback executed when a tool call encounters an error.
 This callback provides an opportunity to handle tool errors gracefully,
 potentially providing alternative responses or recovery mechanisms.
 
-Defined in: [src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
-
 #### Parameters
 
-##### params
+<ParamField path="params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="error" type="Error" required>
+      The exception that was raised during tool execution.
+    </ParamField>
 
-###### error
+    <ParamField path="tool" type="BaseTool" required>
+      The tool instance that encountered an error.
+    </ParamField>
 
-`Error`
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      The arguments that were passed to the tool.
+    </ParamField>
 
-The exception that was raised during tool execution.
-
-###### tool
-
-`BaseTool`
-
-The tool instance that encountered an error.
-
-###### toolArgs
-
-`Record`\<`string`, `unknown`\>
-
-The arguments that were passed to the tool.
-
-###### toolContext
-
-`Context`
-
-The context specific to the tool execution.
+    <ParamField path="toolContext" type="Context" required>
+      The context specific to the tool execution.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -651,19 +579,15 @@ starts.
 This callback helps logging and modifying the user message before the
 runner starts the invocation.
 
-Defined in: [src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
-
 #### Parameters
 
-##### \_params
+<ParamField path="_params" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required />
 
-###### invocationContext
-
-`InvocationContext`
-
-###### userMessage
-
-`Content`
+    <ParamField path="userMessage" type="Content" required />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
