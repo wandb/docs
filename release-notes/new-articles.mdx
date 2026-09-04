@@ -21,6 +21,20 @@ Within each month, articles are grouped by the part of the documentation they be
 */}
 
 {/* new-articles:start */}
+## September 2026
+
+### Weave
+
+<Card title="Create a custom signal" href="/weave/guides/tracking/create-custom-signal/" arrow="true" horizontal>
+  Create a custom W&B Weave signal to tag agent turns for a behavior you define.
+</Card>
+
+### Support
+
+<Card title="Why does my Weave TypeScript build fail for CommonJS format?" href="/support/weave/articles/typescript-build-fails-after-commonjs-setup/" arrow="true" horizontal>
+  If your tsconfig.json file sets "verbatimModuleSyntax": true, compiling a W&B Weave CommonJS project (per the TypeScript SDK integration guide) fails with:
+</Card>
+
 ## August 2026
 
 ### Weave
@@ -34,6 +48,12 @@ Within each month, articles are grouped by the part of the documentation they be
 
 ### Support
 
+<Card title="How do I move a project to a different team or organization?" href="/support/models/articles/how-do-i-move-a-project-to-a-different-team-or-organization/" arrow="true" horizontal>
+  W&B Support can move a project between teams or organizations only on Multi-tenant Cloud.
+</Card>
+<Card title="How can I change between academic and Pro, Team, and Enterprise account types?" href="/support/models/articles/how-can-i-change-my-account-type/" arrow="true" horizontal>
+  This page shows how to change your W&B account plan.
+</Card>
 <Card title="How do I preserve run data from ephemeral environments?" href="/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env/" arrow="true" horizontal>
   Set WANDBDIR to a directory on persistent storage to preserve local run data and diagnostic logs in ephemeral environments.
 </Card>
@@ -335,55 +355,5 @@ Within each month, articles are grouped by the part of the documentation they be
 </Card>
 <Card title="How do I fix an `anaconda 400 error` during a sweep?" href="/support/models/articles/anaconda-400-error-during-a-sweep/" arrow="true" horizontal>
   An anaconda 400 error during a sweep often means you didn't log the metric you're optimizing.
-</Card>
-
-## March 2026
-
-### Models
-
-<Card title="Signal handling and sweep runs" href="/models/sweeps/signal-handling-sweep-runs/" arrow="true" horizontal>
-  Learn how W&B Sweeps handle UNIX signals, exit codes, and preemption in sweep runs.
-</Card>
-
-### Weave
-
-<Card title="OpenAI Realtime API" href="/weave/guides/integrations/openai-realtime-audio/" arrow="true" horizontal>
-  Use Weave to automatically trace your calls to the OpenAI Realtime API.
-</Card>
-<Card title="Store and track versions of prompts" href="/weave/guides/core-types/prompts-version/" arrow="true" horizontal>
-  Retrieve and manage versions of your prompts for LLM applications
-</Card>
-<Card title="Review items in an annotation queue" href="/weave/guides/tracking/annotation-review/" arrow="true" horizontal>
-  Evaluate trace items and submit structured feedback using a simplified review interface.
-</Card>
-<Card title="Set up annotation queues" href="/weave/guides/tracking/annotation-queues/" arrow="true" horizontal>
-  Create annotation queues, route traces to domain experts, and export structured feedback.
-</Card>
-
-### Platform
-
-<Card title="W&B Mobile App (iOS)" href="/platform/hosting/monitoring-usage/mobile-app/" arrow="true" horizontal>
-  Track training runs, review console logs, view line plots and system metrics, and explore W&B Models projects from your iPhone or iPad.
-</Card>
-<Card title="Use W&B Skills" href="/platform/wb-skills/" arrow="true" horizontal>
-  Install W&B Skills to teach your coding agent how to train models, build agents, and analyze experiments using W&B's AI development platform.
-</Card>
-<Card title="Rate limits" href="/platform/hosting/self-managed/rate-limits/" arrow="true" horizontal>
-  Optional rate limits on Self-Managed instances for stability
-</Card>
-<Card title="Supported Dedicated Cloud regions" href="/platform/hosting/hosting-options/dedicated-cloud/regions/" arrow="true" horizontal>
-  View all supported AWS, Google Cloud, and Azure regions available for W&B Dedicated Cloud instances.
-</Card>
-<Card title="Rate limits" href="/platform/hosting/hosting-options/dedicated-cloud/rate-limits/" arrow="true" horizontal>
-  Default rate limits on Dedicated Cloud and how to request changes
-</Card>
-<Card title="Export data from Dedicated Cloud" href="/platform/hosting/hosting-options/dedicated-cloud/export-data/" arrow="true" horizontal>
-  Export runs, metrics, artifacts, and reports from a W&B Dedicated Cloud instance using the Python SDK API.
-</Card>
-
-### Inference
-
-<Card title="Cline with Serverless Inference" href="/inference/tutorials/integration-cline/" arrow="true" horizontal>
-  >
 </Card>
 {/* new-articles:end */}
