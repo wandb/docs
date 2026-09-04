@@ -98,6 +98,23 @@ api:
 
 If needed, configure a custom security context for other components like `app` or `console`. For details, see [Custom security context](#custom-security-context).
 
+#### Upgrade hook jobs
+
+The operator runs `pre-upgrade` and `post-upgrade` hook jobs during upgrades (for example, the app-rename hook that also runs when you enable Weave). These hook pods default to UID 999 like the main components, so on OpenShift, `restricted-v2` rejects them. This rejection makes the Helm upgrade fail and can leave the custom resource stuck in `Loading`. Give the hook jobs the same UID-range security context:
+
+```yaml
+appRenamePreHook:
+  podSecurityContext:
+    runAsUser: 1000810000      # a value within your project's UID range
+    runAsGroup: 0
+    fsGroup: 1000810000
+appRenamePostHook:
+  podSecurityContext:
+    runAsUser: 1000810000
+    runAsGroup: 0
+    fsGroup: 1000810000
+```
+
 ## Deploy W&B Server application
 
 <Note>
