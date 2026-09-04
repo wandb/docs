@@ -6,7 +6,7 @@ keywords: ["agent integrations", "autopatch", "agent SDKs", "agent harnesses", "
 
 import AgentIntegrationPaths from '/snippets/_includes/agent-integration-paths.mdx';
 
-W&B Weave traces multi-turn agents built with popular SDKs and harnesses without hand-instrumenting each turn. Install a plugin for your agent harness, or call `weave.init()` in code that uses a supported agent SDK, and Weave autopatches the framework. Turns, LLM calls, and tool calls render in the **Agents** view of your project.
+W&B Weave traces multi-turn agents built with popular SDKs and harnesses without hand-instrumenting each turn. Install a plugin for your agent harness, or call `weave.init()` in code that uses a supported agent SDK, and Weave autopatches the framework. Conversations, turns, LLM calls, and tool calls render in the **Agents** view of your project.
 
 Harness plugins group turns into conversations on their own, because the harness owns the session. Agent SDKs run one turn per call, so your code decides which turns belong to the same conversation. For those integrations, `weave.init()` alone isn't enough.
 
