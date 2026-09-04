@@ -3,6 +3,7 @@ title: Registry overview
 description: Use W&B Registry to manage and share artifact versions across your organization
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import ArtifactRegistryUsageLimits from "/snippets/_includes/artifact-registry-usage-limits.mdx";
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" />
 
@@ -105,6 +106,12 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 | Dedicated Cloud    | Contact your account team to enable W&B Registry for your deployment.                                                                                                   |
 | Self-Managed       | For Server v0.71.0 or newer, no action required. Registry is enabled by default. For older supported Server versions, contact your W&B account team to enable Registry. |
 
+
+## Usage limits
+
+The following table lists usage limits for W&B Registry and Artifacts. These limits are shown together because Registry collections contain linked artifact versions and share related resources with Artifacts.
+
+<ArtifactRegistryUsageLimits />
 
 ## Resources to get started
 
