@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.html
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py#L22" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py#L22" />
 
-## <kbd>クラス</kbd> wandb.Html
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Html
+
+W&amp;B に HTML コンテンツをログするための W&amp;B クラスです。
 
 ```python
 data: 'str | pathlib.Path | TextIO',
@@ -16,12 +18,18 @@ inject: 'bool' = True,
 data_is_not_path: 'bool' = False
 ```
 
-W&amp;B に HTML コンテンツをログするための W&amp;B クラスです。
-
 <div id="args">
   ## 引数
 </div>
 
-* `data`: 拡張子が &quot;.html&quot; のファイルへのパスを指定する文字列、または生の HTML を含む文字列もしくは IO オブジェクト。
-* `inject`: HTML オブジェクトにスタイルシートを追加します。False に設定すると、HTML は変更せずそのまま渡されます。
-* `data_is_not_path`: False に設定すると、data はファイルへのパスとして扱われます。
+<ResponseField name="data" type="str | pathlib.Path | TextIO">
+  拡張子が &quot;.html&quot; のファイルへのパスを指定する文字列、または生の HTML を含む文字列もしくは IO オブジェクト。
+</ResponseField>
+
+<ResponseField name="inject" type="bool">
+  HTML オブジェクトにスタイルシートを追加します。False に設定すると、HTML は変更せずそのまま渡されます。
+</ResponseField>
+
+<ResponseField name="data_is_not_path" type="bool">
+  False に設定すると、data はファイルへのパスとして扱われます。
+</ResponseField>

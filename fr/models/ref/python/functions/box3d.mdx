@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.object_3d
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L122" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L122" />
 
-## <kbd>fonction</kbd> wandb.box3d
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.box3d()
+
+Une boîte englobante 3D. La boîte est définie par son centre, ses dimensions et son orientation.
 
 ```python
 *,
@@ -20,18 +22,33 @@ label: 'str | None' = None,
 score: 'numeric | None' = None
 ```
 
-Une boîte englobante 3D. La boîte est définie par son centre, ses dimensions et son orientation.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `center` : Le centre de la boîte, sous la forme d’un ndarray de longueur 3.
-* `size` : Les dimensions X, Y et Z de la boîte, sous la forme d’un ndarray de longueur 3.
-* `orientation` : La rotation qui transforme les coordonnées XYZ globales en coordonnées XYZ locales de la boîte, sous la forme d’un ndarray de longueur 4 [r, x, y, z] correspondant au quaternion non nul r + xi + yj + zk.
-* `color` : La couleur de la boîte, sous la forme d’un tuple (r, g, b), avec `0 <= r,g,b <= 1`.
-* `label` : Étiquette facultative de la boîte.
-* `score` : Score facultatif de la boîte. Généralement utilisé pour indiquer le niveau de confiance d’une détection.
+<ResponseField name="center" type="npt.ArrayLike">
+  Le centre de la boîte, sous la forme d’un ndarray de longueur 3.
+</ResponseField>
+
+<ResponseField name="size" type="npt.ArrayLike">
+  Les dimensions X, Y et Z de la boîte, sous la forme d’un ndarray de longueur 3.
+</ResponseField>
+
+<ResponseField name="orientation" type="npt.ArrayLike">
+  La rotation qui transforme les coordonnées XYZ globales en coordonnées XYZ locales de la boîte, sous la forme d’un ndarray de longueur 4 &#91;r, x, y, z&#93; correspondant au quaternion non nul r + xi + yj + zk.
+</ResponseField>
+
+<ResponseField name="color" type="RGBColor">
+  La couleur de la boîte, sous la forme d’un tuple (r, g, b), avec `0 <= r,g,b <= 1`.
+</ResponseField>
+
+<ResponseField name="label" type="str | None">
+  Étiquette facultative de la boîte.
+</ResponseField>
+
+<ResponseField name="score" type="numeric | None">
+  Score facultatif de la boîte. Généralement utilisé pour indiquer le niveau de confiance d’une détection.
+</ResponseField>
 
 <div id="returns">
   ## Renvoie

@@ -6,41 +6,41 @@ namespace: wandb.apis.public.users
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
 
-## <kbd>クラス</kbd> wandb.apis.public.User
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.User
 
 W&amp;B インスタンス上のユーザー。
 
-このクラスでは、ユーザーの APIキーを管理し、Teams への所属情報などにアクセスできます。`create` クラスメソッドを使用して、新しいユーザーを作成できます。
+このクラスでは、ユーザーの APIキーを管理し、チーム への所属情報などにアクセスできます。`create` クラスメソッドを使用して、新しいユーザーを作成できます。
 
 <div id="properties">
   ## プロパティ
 </div>
 
-### <kbd>property</kbd> api_keys
+<ResponseField name="api_keys" type="list[str]">
+  ユーザーのAPIキーの名前。
 
-ユーザーのAPIキーの名前。
+  このプロパティが返すのはAPIキーの名前であり、キーに関連付けられたシークレットそのものでは*ありません*。キーの名前をAPIキーとして使用することはできません。
 
-このプロパティが返すのはAPIキーの名前であり、キーに関連付けられたシークレットそのものでは*ありません*。キーの名前をAPIキーとして使用することはできません。
+  ユーザーがAPIキーを持っていない場合、またはAPIキーが読み込まれていない場合、このリストは空です。
+</ResponseField>
 
-ユーザーがAPIキーを持っていない場合、またはAPIキーが読み込まれていない場合、このリストは空です。
+<ResponseField name="teams" type="list[str]">
+  ユーザーのチームの名前。
 
-### <kbd>property</kbd> teams
+  ユーザーがどのチームにも所属していない場合、またはチームデータが読み込まれていない場合、これは空のリストです。
+</ResponseField>
 
-ユーザーが所属するTeamsの名前。
-
-ユーザーがどのTeamsにも所属していない場合、またはTeamsデータが読み込まれていない場合、これは空のリストになります。
-
-### <kbd>property</kbd> user_api
-
-ユーザーの認証情報を使用する `wandb.Api` インスタンス。
+<ResponseField name="user_api" type="Api | None">
+  ユーザーの認証情報を使用する`wandb.Api`インスタンス。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>メソッド</kbd> User.create()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> User.create()
 
 ```python
 api: 'Api',
@@ -56,11 +56,19 @@ admin: 'bool | None' = False
   ##### 引数
 </div>
 
-* `api`: ユーザーを作成するために使用する API インスタンス。
-* `email`: ユーザーのメールアドレス。
-* `admin`: このユーザーをグローバル インスタンス管理者にするかどうか。
+<ResponseField name="api" type="Api">
+  ユーザーの作成に使用する API インスタンス。
+</ResponseField>
 
-### <kbd>method</kbd> User.delete_api_key()
+<ResponseField name="email" type="str">
+  ユーザーのメールアドレス。
+</ResponseField>
+
+<ResponseField name="admin" type="bool | None">
+  このユーザーをグローバルインスタンス管理者にするかどうか。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> User.delete_api_key()
 
 ```python
 self,
@@ -75,9 +83,11 @@ api_key: 'str'
   ##### 引数
 </div>
 
-* `api_key`: 削除するAPIキーの名前。`api_keys` プロパティから返される名前のいずれかを使用してください。
+<ResponseField name="api_key" type="str">
+  削除するAPIキーの名前。`api_keys` プロパティから返される名前のいずれかを使用してください。
+</ResponseField>
 
-### <kbd>method</kbd> User.generate_api_key()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> User.generate_api_key()
 
 ```python
 self,
@@ -90,4 +100,6 @@ description: 'str | None' = None
   ##### 引数
 </div>
 
-* `description`: 新しいAPIキーの説明。APIキーの用途を判別するために使用できます。
+<ResponseField name="description" type="str | None">
+  新しいAPIキーの説明。APIキーの用途を判別するために使用できます。
+</ResponseField>

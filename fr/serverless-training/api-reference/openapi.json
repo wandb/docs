@@ -873,6 +873,7 @@
         "type": "object"
       },
       "CreateSFTTrainingJob": {
+        "additionalProperties": false,
         "description": "Schéma pour créer un nouveau TrainingJob SFT (Supervised Fine-Tuning).\n\nLe client doit téléverser les données d’entraînement (trajectories.jsonl et metadata.json) vers W&B Artifacts et fournir l’URL de l’artifact.",
         "properties": {
           "config": {
@@ -888,14 +889,12 @@
           "experimental_config": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/SFTExperimentalTrainingConfig"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Experimental Config"
+            ]
           },
           "model_id": {
             "format": "uuid",
@@ -1454,7 +1453,53 @@
         "title": "HTTPValidationError",
         "type": "object"
       },
-      "History": {
+      "ImageURL": {
+        "additionalProperties": true,
+        "properties": {
+          "detail": {
+            "enum": [
+              "auto",
+              "low",
+              "high"
+            ],
+            "title": "Detail",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "title": "ImageURL",
+        "type": "object"
+      },
+      "InputAudio": {
+        "additionalProperties": true,
+        "properties": {
+          "data": {
+            "title": "Data",
+            "type": "string"
+          },
+          "format": {
+            "enum": [
+              "wav",
+              "mp3"
+            ],
+            "title": "Format",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data",
+          "format"
+        ],
+        "title": "InputAudio",
+        "type": "object"
+      },
+      "LegacyHistory": {
         "properties": {
           "messages_and_choices": {
             "items": {
@@ -1503,53 +1548,7 @@
         "required": [
           "messages_and_choices"
         ],
-        "title": "History",
-        "type": "object"
-      },
-      "ImageURL": {
-        "additionalProperties": true,
-        "properties": {
-          "detail": {
-            "enum": [
-              "auto",
-              "low",
-              "high"
-            ],
-            "title": "Detail",
-            "type": "string"
-          },
-          "url": {
-            "title": "Url",
-            "type": "string"
-          }
-        },
-        "required": [
-          "url"
-        ],
-        "title": "ImageURL",
-        "type": "object"
-      },
-      "InputAudio": {
-        "additionalProperties": true,
-        "properties": {
-          "data": {
-            "title": "Data",
-            "type": "string"
-          },
-          "format": {
-            "enum": [
-              "wav",
-              "mp3"
-            ],
-            "title": "Format",
-            "type": "string"
-          }
-        },
-        "required": [
-          "data",
-          "format"
-        ],
-        "title": "InputAudio",
+        "title": "LegacyHistory",
         "type": "object"
       },
       "LogRequest": {
@@ -1782,7 +1781,40 @@
         "title": "PydanticException",
         "type": "object"
       },
+      "SFTExperimentalTrainingConfig": {
+        "additionalProperties": false,
+        "description": "Configuration expérimentale SFT réservée ; aucun champ n’est actuellement pris en charge.",
+        "properties": {},
+        "title": "SFTExperimentalTrainingConfig",
+        "type": "object"
+      },
+      "SFTMetricLoggingConfig": {
+        "additionalProperties": false,
+        "description": "Schéma de journalisation facultative des métriques SFT.",
+        "properties": {
+          "enabled": {
+            "default": false,
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "target_training_step": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Training Step"
+          }
+        },
+        "title": "SFTMetricLoggingConfig",
+        "type": "object"
+      },
       "SFTTrainingConfig": {
+        "additionalProperties": false,
         "description": "Schéma de la configuration d’entraînement SFT.",
         "properties": {
           "assistant_turns": {
@@ -1829,14 +1861,12 @@
           "metric_logging": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/SFTMetricLoggingConfig"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Metric Logging"
+            ]
           }
         },
         "title": "SFTTrainingConfig",
@@ -2016,7 +2046,7 @@
         "properties": {
           "additional_histories": {
             "items": {
-              "$ref": "#/components/schemas/History"
+              "$ref": "#/components/schemas/LegacyHistory"
             },
             "title": "Additional Histories",
             "type": "array"

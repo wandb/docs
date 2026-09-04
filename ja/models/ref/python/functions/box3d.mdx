@@ -6,9 +6,11 @@ namespace: wandb.sdk.data_types.object_3d
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L122" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L122" />
 
-## <kbd>関数</kbd> wandb.box3d
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.box3d()
+
+3D バウンディング ボックスです。バウンディング ボックスは、中心、サイズ、向きで指定します。
 
 ```python
 *,
@@ -20,18 +22,33 @@ label: 'str | None' = None,
 score: 'numeric | None' = None
 ```
 
-3D バウンディング ボックスです。バウンディング ボックスは、中心、サイズ、向きで指定します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `center`: 長さ 3 の ndarray で表されるボックスの中心点。
-* `size`: 長さ 3 の ndarray で表される、ボックスの X、Y、Z 方向の寸法。
-* `orientation`: グローバル XYZ 座標をボックスのローカル XYZ 座標に変換する回転です。非ゼロ四元数 r + xi + yj + zk に対応する長さ 4 の ndarray `[r, x, y, z]` で指定します。
-* `color`: `0 <= r,g,b <= 1` を満たす `(r, g, b)` タプルで表されるボックスの色。
-* `label`: ボックスの省略可能なラベル。
-* `score`: ボックスの省略可能なスコア。通常は、検出の信頼度を示すために使用します。
+<ResponseField name="center" type="npt.ArrayLike">
+  長さ 3 の ndarray で表されるボックスの中心点。
+</ResponseField>
+
+<ResponseField name="size" type="npt.ArrayLike">
+  長さ 3 の ndarray で表される、ボックスの X、Y、Z 方向の寸法。
+</ResponseField>
+
+<ResponseField name="orientation" type="npt.ArrayLike">
+  グローバル XYZ 座標をボックスのローカル XYZ 座標に変換する回転です。非ゼロ四元数 r + xi + yj + zk に対応する長さ 4 の ndarray `[r, x, y, z]` で指定します。
+</ResponseField>
+
+<ResponseField name="color" type="RGBColor">
+  `0 <= r,g,b <= 1` を満たす `(r, g, b)` タプルで表されるボックスの色。
+</ResponseField>
+
+<ResponseField name="label" type="str | None">
+  ボックスの省略可能なラベル。
+</ResponseField>
+
+<ResponseField name="score" type="numeric | None">
+  ボックスの省略可能なスコア。通常は、検出の信頼度を示すために使用します。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

@@ -2,7 +2,15 @@
 title: "Chat with ARIA"
 ---
 
-The following page describes how to start a new chat, view your chat history, delete previous conversations, undock the chat window, reference a specific run in your prompt, add an image to a conversation, and provide feedback on ARIA's responses. 
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
+import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
+
+<Note>
+<MultiTenantCloudOnly />
+</Note>
+
+This page describes how to manage your conversations with ARIA: starting and resuming chats, queueing follow-up messages, adding context such as runs and images, and giving feedback on responses.
 
 ## Start a new chat
 
@@ -12,15 +20,58 @@ You can run multiple chats in parallel at a time. ARIA will notify you when it r
 
 Starting a new chat does not delete your previous conversations. To [view previous conversations](/aria/chat#view-chat-history), open the chat history by clicking the three horizontal lines in the upper left corner of the chat window.
 
+## Send a message
+
+Type a message and press **Enter** to send it.
+- Press **Shift+Enter** to add new lines. 
+- Click **+** to add images.
+- To add a run reference, type `<Icon icon="at" iconType="solid"/>` and select a run from the list. Type to filter and fuzzy-search the list.
+- For more flexibility, compose a more complex message in a text editor and paste it. Plain text is supported, and pasted `@` characters are not resolved to run references.
+
+To cancel the current operation and _immediately_ send the next [queued message](#queue-messages), press the stop icon to the right of the text input.
+
+## Queue messages
+
+The message queue holds follow-up tasks and questions you send to ARIA while it works. ARIA runs each queued message in order using the full conversation as context. The next message runs as soon as the previous one finishes.
+
+Use the queue to line up several steps at once and step away, rather than returning to the chat to send each one. For example, you might start with a comparison:
+
+<AriaChatBubbles
+  prompt="Compare the last 10 runs and tell me which hyperparameters mattered most."
+  response="Learning rate and batch size account for most of the variance in validation loss across those 10 runs. Details for each below."
+/>
+
+While ARIA works, send additional requests to the chat window. W&B adds pending requests to ARIA's queue.
+
+This example sends two messages at once:
+
+```text title="Queued messages"
+Chart validation loss against learning rate for those runs.
+
+Write up the comparison as a report I can share with my team.
+```
+
+The queue header shows how many messages are waiting. Each queued message has three controls:
+
+* **Pencil icon** (<Icon icon="pencil" iconType="solid"/>): Edit the message before ARIA runs it. ARIA moves the message into the message box and removes it from the queue, so send it again to requeue it. This control is unavailable while the message box already holds a draft.
+* **Up arrow icon** (<Icon icon="arrow-up" iconType="solid"/>): Run the message now instead of waiting its turn. ARIA stops what it's working on and runs this message next. The other queued messages keep their order.
+* **Trash can icon** (<Icon icon="trash" iconType="solid"/>): Delete the message from the queue.
+
+Queued messages keep the context you attached to them, including [run mentions](/aria/chat#add-context-to-a-conversation) and [images](/aria/chat#add-an-image-to-a-conversation).
+
+Queueing begins after your first message in a chat, because a queue needs a conversation to run against. The first message you send, and any message you send to an idle chat with an empty queue, goes to ARIA immediately. Each chat keeps its own queue, and the queues in chats you close keep running.
+
+If ARIA needs a clarifying answer or your permission before it continues, the queue pauses until you respond. To run a queued message without responding first, click the up arrow icon next to it.
+
 ## View chat history
 
-To view previous conversation:
+To view previous conversations:
 
 1. Open ARIA.
 2. Click the three horizontal lines in the upper left corner of the chat window to open the chat history.
 3. Select a conversation.
 
-W&B organizes your conversations with ARIA by project and by date. You can resume a previous conversation by selecting it from the chat history. You can also [delete a conversation by clicking the trash](/aria/chat#delete-previous-conversations) can icon next to the conversation.
+W&B organizes your conversations with ARIA by project and by date. You can resume a previous conversation by selecting it from the chat history. You can also [delete a conversation by clicking the trash can icon](/aria/chat#delete-previous-conversations) next to the conversation.
 
 ## Delete previous conversations
 

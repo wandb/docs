@@ -6,9 +6,13 @@ namespace: wandb.apis.public.reports
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
-## <kbd>クラス</kbd> wandb.apis.public.BetaReport
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.BetaReport
+
+BetaReport は、W&amp;B で作成された Reports に関連付けられたクラスです。
+
+レポートの属性 (name、description、user、spec、timestamps) にアクセスし、関連する run やセクションを取得したり、レポートを HTML として表示したりするための メソッド を提供します。
 
 ```python
 (service_api: 'ServiceApi',
@@ -17,18 +21,25 @@ entity: 'str | None' = None,
 project: 'str | None' = None)
 ```
 
-BetaReport は、W&amp;B で作成された Reports に関連付けられたクラスです。
-
-レポートの属性 (name、description、user、spec、timestamps) にアクセスし、関連する run やセクションを取得したり、レポートを HTML として表示したりするための method を提供します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `service_api`:
-* `attrs`:
-* `entity`:
-* `project`: 
+<ResponseField name="service_api" type="ServiceApi">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="attrs" type="dict">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  説明はありません。
+</ResponseField>
 
 <div id="attributes">
   ## 属性
@@ -48,33 +59,51 @@ BetaReport は、W&amp;B で作成された Reports に関連付けられたク�
   ## プロパティ
 </div>
 
-### <kbd>プロパティ</kbd> created_at
+<ResponseField name="created_at" type="">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> description
+<ResponseField name="description" type="str | None">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> display_name
+<ResponseField name="display_name" type="str | None">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> id
+<ResponseField name="id" type="str">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> 名
+<ResponseField name="name" type="str | None">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> sections
+<ResponseField name="sections" type="">
+  report からパネルのセクション (グループ) を取得します。
+</ResponseField>
 
-reportからパネルのセクション (グループ) を取得します。
+<ResponseField name="spec" type="dict[str, Any]">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> spec
+<ResponseField name="updated_at" type="">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> updated_at
+<ResponseField name="url" type="str | None">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> url
-
-### <kbd>プロパティ</kbd> ユーザー
+<ResponseField name="user" type="">
+  説明はありません。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>method</kbd> BetaReport.runs()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.runs()
 
 ```python
 self,
@@ -89,11 +118,19 @@ reportのセクションに関連付けられたrunを取得します。
   ##### 引数
 </div>
 
-* `section`:
-* `per_page`:
-* `only_selected`: 
+<ResponseField name="section" type="dict[str, Any]">
+  説明は提供されていません。
+</ResponseField>
 
-### <kbd>method</kbd> BetaReport.to_html()
+<ResponseField name="per_page" type="int">
+  説明は提供されていません。
+</ResponseField>
+
+<ResponseField name="only_selected" type="bool">
+  説明は提供されていません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.to_html()
 
 ```python
 self,
@@ -107,5 +144,10 @@ hidden: 'bool' = False
   ##### 引数
 </div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  説明はありません。
+</ResponseField>

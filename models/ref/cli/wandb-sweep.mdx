@@ -5,7 +5,7 @@ title: wandb sweep
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1038" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L982" />
 
 
 
@@ -46,9 +46,7 @@ and "foobar" project:
 wandb sweep -p foobar -e team-awesome sweep_config.yaml
 ```
 
-To update sweep abcd1234 with a new configuration from sweep_config.yaml.
-This is useful for changing the parameters or search strategy of an
-active sweep:
+To update sweep abcd1234 with a new configuration from sweep_config.yaml:
 
 ```bash
 wandb sweep --update abcd1234 sweep_config.yaml
@@ -112,7 +110,7 @@ wandb sweep -R abcd1234 -R efgh5678 sweep_config.yaml
 | `--verbose` | BOOL Flag | Display verbose output. **Default**: False |
 | `--name` | STR | Set a display name for the sweep. Use the sweep ID if not specified. **Default**: None |
 | `--program` | STR | Override the training program specified in the sweep config. **Default**: None |
-| `--update` | STR | Update an existing sweep configuration. Pass the sweep ID. **Default**: None |
+| `--update` | STR | Update the configuration of a sweep while it is still pending, before any run has started. Pass the sweep ID. **Default**: None |
 | `--stop` | BOOL Flag | Stop a sweep. Let active runs finish but do not start new runs. **Default**: False |
 | `--cancel` | BOOL Flag | Cancel a sweep. Kill active runs and stop starting new ones. **Default**: False |
 | `--pause` | BOOL Flag | Pause a sweep. Temporarily stop starting new runs. **Default**: False |

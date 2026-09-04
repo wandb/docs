@@ -2,9 +2,9 @@
 title: wandb sync
 ---
 
-import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L563" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L558" />
 
 <div id="usage">
   ## Utilisation
@@ -72,17 +72,13 @@ Pour synchroniser toutes les run pas encore synchronisées dans le répertoire l
 wandb sync --sync-all
 ```
 
-Pour supprimer les données locales des run déjà synchronisées :
+Utilisez `wandb clean` pour supprimer les données locales des run déjà synchronisées. Voir
 
 ```bash
-wandb sync --clean
+wandb clean --help
 ```
 
-Pour supprimer les run synchronisées datant de plus de 48 heures sans demander de confirmation :
-
-```bash
-wandb sync --clean --clean-old-hours 48 --clean-force
-```
+pour plus d&#39;informations.
 
 <div id="arguments">
   ## Arguments
@@ -111,9 +107,9 @@ wandb sync --clean --clean-old-hours 48 --clean-force
 | `--include-synced, --no-skip-synced` | BOOL Flag | Inclut les runs déjà synchronisés. **Par défaut**: None                                                                                                       |
 | `--mark-synced`                      | BOOL Flag | (hérité uniquement) Marque les runs comme synchronisés après le téléversement. **Par défaut**: True                                                           |
 | `--sync-all`                         | BOOL Flag | (hérité uniquement) Synchronise tous les runs non synchronisés dans le répertoire local wandb. **Par défaut**: False                                          |
-| `--clean`                            | BOOL Flag | (hérité uniquement) Supprime les données locales des runs déjà synchronisés. **Par défaut**: False                                                            |
-| `--clean-old-hours`                  | INT       | Supprime uniquement les runs synchronisés datant de plus de ce nombre d&#39;heures (à utiliser avec --clean). **Par défaut**: 24                              |
-| `--clean-force`                      | BOOL Flag | Ignore la demande de confirmation si --clean est spécifié. **Par défaut**: False                                                                              |
+| `--clean`                            | BOOL Flag | Suppression. Utilisez `wandb clean`. **Par défaut**: False                                                                                                    |
+| `--clean-old-hours`                  | STR       | Suppression. Utilisez `wandb clean`. **Par défaut**: None                                                                                                     |
+| `--clean-force`                      | BOOL Flag | Suppression. Utilisez `wandb clean`. **Par défaut**: False                                                                                                    |
 | `--show`                             | INT       | Définit le nombre de runs à afficher dans la synthèse. **Par défaut**: 5                                                                                      |
 | `--append`                           | BOOL Flag | (hérité uniquement) Ajoute des données à un run existant au lieu de créer un nouveau run. **Par défaut**: False                                               |
 | `--skip-console`                     | BOOL Flag | (hérité uniquement) Ignore le téléversement des journaux de console. **Par défaut**: False                                                                    |

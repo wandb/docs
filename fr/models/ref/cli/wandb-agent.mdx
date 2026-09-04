@@ -4,7 +4,7 @@ title: wandb agent
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2118" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L2073" />
 
 <div id="usage">
   ## Utilisation
@@ -69,9 +69,10 @@ wandb agent --forward-signals wbyz9876
   ## Options
 </div>
 
-| Flag                    | Type      | Description                                                                                                                                       |
-| ----------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--project, -p`         | STR       | Définit le projet vers lequel téléverser les runs. **Par défaut** : None                                                                          |
-| `--entity, -e`          | STR       | Définit l&#39;entité dans laquelle inscrire le projet. **Par défaut** : None                                                                      |
-| `--count`               | INT       | Nombre maximal de runs que cet agent exécutera. Continue jusqu&#39;à la fin du sweep si cette option n&#39;est pas définie. **Par défaut** : None |
-| `--forward-signals, -f` | BOOL Flag | Transmet les signaux (par ex. SIGINT/SIGTERM) aux runs enfants afin qu&#39;ils puissent s&#39;arrêter proprement. **Par défaut** : False          |
+| Flag                    | Type      | Description                                                                                                                                                                                                                                                                                  |
+| ----------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p`         | STR       | Définit le projet vers lequel téléverser les runs. **Par défaut** : None                                                                                                                                                                                                                     |
+| `--entity, -e`          | STR       | Définit l&#39;entité dans laquelle inscrire le projet. **Par défaut** : None                                                                                                                                                                                                                 |
+| `--count`               | INT       | Nombre maximal de runs que cet agent exécutera. Continue jusqu&#39;à la fin du sweep si cette option n&#39;est pas définie. **Par défaut** : None                                                                                                                                            |
+| `--forward-signals, -f` | BOOL Flag | Transmet les signaux (par ex. SIGINT/SIGTERM) aux runs enfants afin qu&#39;ils puissent s&#39;arrêter proprement. **Par défaut** : False                                                                                                                                                     |
+| `--term-timeout, -t`    | INT       | Délai (en secondes) après réception d&#39;un signal d&#39;arrêt (par ex. SIGINT/SIGTERM) avant de forcer l&#39;arrêt des runs enfants qui ne sont pas terminés depuis la réception du signal initial transmis. Ne fait rien si --forward-signals n&#39;est pas défini. **Par défaut** : None |
