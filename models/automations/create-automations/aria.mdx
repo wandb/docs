@@ -31,7 +31,7 @@ Before you create an automation that sends a prompt to ARIA, verify the followin
 
 - Your organization must have ARIA enabled. If **Trigger ARIA** doesn't appear in the **Action type** list, ARIA isn't available for your organization, scope, or deployment. The list omits the option without explanation. See [Governance and security](/aria/governance).
 - You must have write access to the project, registry, or collection you scope the automation to.
-- To scope an ARIA automation to a registry, you must belong to a team in the same organization. A team must host every ARIA conversation, so an author with no team in the organization can't create a registry-scoped ARIA automation.
+- To scope a W&B automation to a registry and send prompts to ARIA, you must belong to a team in the same organization. Each ARIA conversation is associated with a team, so you can’t create a registry-scoped automation if you don’t belong to a team in that organization.
 
 Each time an ARIA automation runs, it starts an ARIA conversation that counts toward your organization's usage, the same as a conversation you start yourself.
 
