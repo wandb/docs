@@ -1,0 +1,671 @@
+# ------------------------------------------------------------------
+# Doc quality (consolidated PR checks)
+# ------------------------------------------------------------------
+#
+# One workflow, one runner-job, one PR comment for the three checkout-based
+# doc-quality checks that used to live in three workflows:
+#
+#   - MDX validation (BLOCKING) — `mint validate` + `mint broken-links` via
+#     scripts/mdx-validation/validate-mdx-mintlify.sh. Replaces validate-mdx.yml.
+#     The job id stays `validate-mdx` so the branch-protection required check
+#     name never changes.
+#   - External link check (informational) — lychee over the changed .mdx files,
+#     external URLs only (lychee.toml excludes ^file://; `mint broken-links`
+#     owns internal links). Replaces linkcheck-pr.yml. This version runs on
+#     plain `pull_request` instead of `deployment_status`: since PR #3037 the
+#     check reads files from the git checkout, so waiting for the Mintlify
+#     preview deployment was vestigial scheduling (and the source of the
+#     DOCS-3041 wrong-PR-resolution bug, whose code is deleted with it).
+#   - Readability delta (informational) — scripts/readability/pr_report.py with
+#     the coreweave/docs-skills analyzer. Replaces readability-delta.yml.
+#
+# All three results land in ONE upserted PR comment keyed by
+# <!-- doc-quality-report -->. Only MDX validation can fail the job.
+#
+# Deliberately NOT consolidated here: mintlify-deployment-preview.yml (needs
+# the deployment's environment_url), linkcheck-prod.yml (cron against the live
+# site), the PinGuard twin pair, and knowledgebase-nav.yml (pushes commits with
+# the wandb-docs-pr-writer App token — a different trust category).
+#
+# Triggers mirror the old validate-mdx.yml exactly: `pull_request` with no
+# paths filter (required-check safety — a paths filter would leave the required
+# check pending on PRs it skips), push to main, and workflow_dispatch.
+#
+# Auth
+# ----
+# - Main checkout and PR comments use the default GITHUB_TOKEN.
+# - The coreweave/docs-skills submodule is private and cross-org, so a separate
+#   step initializes it with DOCENGINE_TOKEN (readability only; non-fatal).
+# - The AI agent comprehension judge calls W&B Inference with the
+#   WANDB_DOCS_INFERENCE_API_KEY secret, passed to the scorer as WANDB_API_KEY.
+#   When that secret is absent the deterministic textstat delta still runs.
+#
+# Forks
+# -----
+# Fork PRs have no repo secrets and a read-only GITHUB_TOKEN. MDX validation
+# and the lychee link check need no secrets and still run (and validation still
+# blocks). Readability skips (private submodule + key), and the results go to
+# the workflow step summary instead of a PR comment.
+# ------------------------------------------------------------------
+
+name: Doc quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  # Key on the PR number, not the branch name: head_ref is the bare branch
+  # name, which is not unique per PR (two forks both named patch-1 collide, as
+  # does one branch with PRs against two bases), and a collision plus
+  # cancel-in-progress would cancel another PR's required check.
+  group: doc-quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Keep this job id: it is the check name required by branch protection.
+  validate-mdx:
+    runs-on: ubuntu-latest
+    # Headroom over the sum of the per-step timeouts below (lychee 10 +
+    # readability 10) plus checkout/mint install/validation, so two slow
+    # advisory steps cannot cancel the required job after validation passed.
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Full history to diff merge-base..head.
+          fetch-depth: 0
+          submodules: false
+          # Do not leave the (write-capable, on same-repo PRs) token in
+          # .git/config while unpinned mint/lychee code runs. Nothing here
+          # needs it: the diffs are local, the submodule step brings its own
+          # DOCENGINE_TOKEN, and the gh steps get the token via env.
+          persist-credentials: false
+
+      # ------------------------------------------------------------
+      # 1. Scope gate: one git diff decides what runs.
+      # ------------------------------------------------------------
+      # Pushes made with the default workflow GITHUB_TOKEN do not trigger other
+      # pull_request workflows. Workflows that push with the wandb-docs-pr-writer
+      # App token (Compress Images, Build CSS, Knowledgebase Nav) avoid that.
+      # Otherwise branch protection may need a human push or workflow_dispatch.
+      - name: Determine scope of checks
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PR_IS_FORK: ${{ github.event.pull_request.head.repo.fork }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          OUT="lychee-pr-inputs.txt"
+          : > "$OUT"
+
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            # head.repo.fork renders as empty when head.repo is null (the fork
+            # was deleted), so treat anything that is not exactly "false" as a
+            # fork rather than letting the mutating steps 403 later.
+            if [ "$PR_IS_FORK" != "false" ]; then
+              echo "is_fork=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "is_fork=false" >> "$GITHUB_OUTPUT"
+            fi
+            # The event's base.sha is the base branch TIP; diff from the
+            # merge-base so a PR branch that is behind main is not blamed for
+            # unrelated mainline changes.
+            MERGE_BASE=$(git merge-base "$PR_BASE" "$PR_HEAD" || echo "$PR_BASE")
+            HEAD_SHA="$PR_HEAD"
+
+            # Pathspecs do not support regex alternation like *.(mdx|json); filter
+            # with grep instead. Includes .json for docs.json / mint.json / OpenAPI
+            # specs that affect generated pages. Disable rename detection so
+            # deleting or renaming a relevant file still triggers validation.
+            # Keep this regex byte-identical to MINTLIFY_RELEVANT_REGEX in
+            # scripts/mdx-validation/validate-mdx-mintlify.sh: if they diverge,
+            # this gate can run the job while the script validates nothing, or
+            # skip files the script considers relevant.
+            changed_files=$(git diff --name-only --no-renames "$MERGE_BASE" "$HEAD_SHA")
+            if grep -Eq '(\.(mdx|json|ya?ml|png|jpe?g|webp)$|^scripts/mdx-validation/validate-mdx-mintlify\.sh$)' <<< "$changed_files"; then
+              echo "mintlify_relevant=true" >> "$GITHUB_OUTPUT"
+              echo "Found changed Mintlify-relevant files or validation code; will run doc-quality checks."
+            else
+              echo "mintlify_relevant=false" >> "$GITHUB_OUTPUT"
+              echo "No Mintlify-relevant files in this PR diff; skipping all doc-quality checks."
+            fi
+          else
+            # push to main / workflow_dispatch: always run full Mintlify
+            # validation (parity with the old validate-mdx.yml). Informational
+            # checks diff against the default branch, which on a push to main
+            # yields an empty list, so they skip.
+            echo "is_fork=false" >> "$GITHUB_OUTPUT"
+            echo "mintlify_relevant=true" >> "$GITHUB_OUTPUT"
+            MERGE_BASE=$(git merge-base "origin/${DEFAULT_BRANCH}" HEAD || echo "")
+            HEAD_SHA=$(git rev-parse HEAD)
+            echo "Runs full validation for push/workflow_dispatch (not a PR diff)."
+          fi
+
+          echo "merge_base=$MERGE_BASE" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+
+          # One --name-status diff feeds both .mdx outputs:
+          #   - non-deleted .mdx files → lychee/readability input list, written
+          #     to a file (not step outputs/argv) to dodge ARG_MAX on large PRs
+          #     (same approach as the old linkcheck-pr.yml);
+          #   - all changed .mdx INCLUDING deletions → gates readability, which
+          #     renders deleted pages as "page removed" (a deletion changes the
+          #     docset's readability even though lychee has nothing to lint).
+          # --no-renames means every line is "<status>\t<path>" (no two-path
+          # rename lines), so filtering deletions is a ^D check.
+          MDX_STATUS=""
+          if [ -n "$MERGE_BASE" ] && [ "$MERGE_BASE" != "$HEAD_SHA" ]; then
+            MDX_STATUS=$(git diff --name-status --no-renames "$MERGE_BASE" "$HEAD_SHA" \
+              | { grep -E '\.mdx$' || true; })
+          fi
+          MDX_ANY=0
+          if [ -n "$MDX_STATUS" ]; then
+            printf '%s\n' "$MDX_STATUS" | { grep -v '^D' || true; } | cut -f2- > "$OUT"
+            MDX_ANY=$(printf '%s\n' "$MDX_STATUS" | wc -l | tr -d ' ')
+          fi
+          MDX_COUNT=$(wc -l < "$OUT" | tr -d ' ')
+          echo "mdx_count=$MDX_COUNT" >> "$GITHUB_OUTPUT"
+          if [ "$MDX_COUNT" -gt 0 ]; then
+            echo "mdx_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "mdx_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Changed .mdx files: $MDX_COUNT"
+
+          if [ "$MDX_ANY" -gt 0 ]; then
+            echo "mdx_changed_any=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "mdx_changed_any=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Changed .mdx files including deletions: $MDX_ANY"
+
+      - name: No Mintlify-relevant changes — skipping all checks
+        if: steps.scope.outputs.mintlify_relevant == 'false'
+        run: |
+          echo "Check passes: no Mintlify-relevant file or validation code changes in this PR."
+
+      # ------------------------------------------------------------
+      # 2. MDX validation (BLOCKING) — from the old validate-mdx.yml.
+      # ------------------------------------------------------------
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        if: steps.scope.outputs.mintlify_relevant == 'true'
+        with:
+          node-version: '20'
+
+      - name: Get npm paths and cache key
+        id: npm-config
+        if: steps.scope.outputs.mintlify_relevant == 'true'
+        run: |
+          {
+            # Force base 10 so a zero-padded day of year such as 008 is not parsed as octal.
+            echo "date=$(date +%Y)-$(( 10#$(date +%j) / 4 ))"
+            echo "npm_prefix=$(npm config get prefix)"
+            echo "npm_cache=$(npm config get cache)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Cache Mintlify CLI
+        id: cache-mint
+        if: steps.scope.outputs.mintlify_relevant == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: |
+            ${{ steps.npm-config.outputs.npm_cache }}
+            ${{ steps.npm-config.outputs.npm_prefix }}/lib/node_modules/mint
+            ${{ steps.npm-config.outputs.npm_prefix }}/bin/mint
+          # 4-day cache - expires every 4 days to get latest mint version
+          key: ${{ runner.os }}-mint-${{ steps.npm-config.outputs.date }}
+          restore-keys: |
+            ${{ runner.os }}-mint-
+
+      - name: Install Mintlify CLI (latest)
+        if: steps.scope.outputs.mintlify_relevant == 'true' && steps.cache-mint.outputs.cache-hit != 'true'
+        run: npm install -g mint@latest --loglevel=error --no-fund --no-audit
+
+      - name: Verify Mintlify CLI (from cache)
+        if: steps.scope.outputs.mintlify_relevant == 'true' && steps.cache-mint.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached Mintlify CLI"
+          mint --version
+
+      - name: Validate MDX with Mintlify
+        id: validate
+        if: steps.scope.outputs.mintlify_relevant == 'true'
+        # Do not fail yet: the comment step below reports the result first, then
+        # the final verdict step fails the job iff this step failed.
+        continue-on-error: true
+        env:
+          PR_BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || '' }}
+          PR_HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
+        run: |
+          set -o pipefail
+          ./scripts/mdx-validation/validate-mdx-mintlify.sh 2>&1 | tee validate-output.log
+
+      # ------------------------------------------------------------
+      # 3. External link check (informational) — from the old linkcheck-pr.yml.
+      # ------------------------------------------------------------
+      # This check covers external URLs. Internal links are owned by
+      # `mint broken-links` above, which resolves them against the real route
+      # table and so knows about docs.json navigation and redirects; lychee
+      # would resolve them against the repository tree, where a link through a
+      # redirect has no matching file and reports as broken. lychee.toml excludes
+      # ^file:// to leave internal linking to Mintlify. The resolution flags below
+      # stay so local paths still parse into file:// URIs and get excluded quietly
+      # rather than raising InvalidPathToUri warnings.
+      # Do not move the ^file:// pattern to a --exclude flag here: a CLI --exclude
+      # replaces the config's exclude list rather than adding to it, which would
+      # re-enable every excluded external domain.
+      # Inputs come from lychee-pr-inputs.txt (written by the scope step) so we
+      # do not pass every path on the shell argv (ARG_MAX on large PRs).
+      - name: Check external links (lychee)
+        id: lychee
+        if: steps.scope.outputs.mdx_changed == 'true'
+        timeout-minutes: 10
+        # Informational: a lychee crash must not block the PR or the comment.
+        continue-on-error: true
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
+        with:
+          fail: false
+          # Don't fail if no files to check
+          failIfEmpty: false
+          # Output format for reports
+          format: markdown
+          # GitHub token for API rate limiting
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: >-
+            --config lychee.toml
+            --root-dir ${{ github.workspace }}
+            --fallback-extensions mdx
+            --index-files index.mdx,.
+            --files-from lychee-pr-inputs.txt
+
+      # ------------------------------------------------------------
+      # 4. Readability delta (informational) — from the old readability-delta.yml.
+      #    Skips on fork PRs: no access to the private docs-skills submodule or
+      #    W&B Inference. Every step is non-fatal.
+      # ------------------------------------------------------------
+      # The docs-skills submodule is a private repo in another org. Initialize it
+      # with DOCENGINE_TOKEN so the main checkout token needs no extra scope.
+      - name: Check out docs-skills submodule
+        # Non-fatal: a transient auth/network failure here must not fail the PR.
+        # The report step below detects the missing analyzer and renders the
+        # informational fallback instead.
+        continue-on-error: true
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
+        env:
+          DOCENGINE_TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
+        run: |
+          if [ -z "${DOCENGINE_TOKEN:-}" ]; then
+            echo "::notice::Readability check: DOCENGINE_TOKEN not set; skipping docs-skills submodule checkout."
+            exit 0
+          fi
+          # One-shot url rewrite so the token is never written to the runner's
+          # global git config, where later steps (which don't get the secret in
+          # their env) could recover it from ~/.gitconfig.
+          # shellcheck disable=SC2140 # intentional concatenation, carried over from the deleted readability-delta.yml
+          git -c url."https://x-access-token:${DOCENGINE_TOKEN}@github.com/".insteadOf="https://github.com/" \
+            submodule update --init --recursive .claude
+
+      - name: Set up Python 3.11
+        # Non-fatal: a setup outage in the informational readability path must
+        # not fail the required job. The report step below fails gracefully
+        # and renders its fallback note instead.
+        continue-on-error: true
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip packages
+        # Non-fatal: same reasoning as the setup-python step above.
+        continue-on-error: true
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-readability-${{ hashFiles('scripts/readability/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-readability-
+            ${{ runner.os }}-pip-
+
+      - name: Install readability dependencies
+        # Non-fatal: if deps fail to install, the report step still runs and
+        # falls back to the informational notice rather than failing the PR.
+        continue-on-error: true
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
+        run: |
+          pip install textstat==0.7.13
+          pip install -r scripts/readability/requirements.txt || true
+
+      - name: Build readability report
+        id: readability
+        if: steps.scope.outputs.is_fork != 'true' && steps.scope.outputs.mdx_changed_any == 'true'
+        timeout-minutes: 10
+        # Non-fatal: a readability crash never blocks the PR.
+        continue-on-error: true
+        env:
+          # Optional: enables the AI agent comprehension judge via W&B Inference.
+          # The scorer reads WANDB_API_KEY; the repo secret is named
+          # WANDB_DOCS_INFERENCE_API_KEY (a W&B key with Inference credits).
+          WANDB_API_KEY: ${{ secrets.WANDB_DOCS_INFERENCE_API_KEY }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          BASE_SHA: ${{ steps.scope.outputs.merge_base }}
+          HEAD_SHA: ${{ steps.scope.outputs.head_sha }}
+        run: |
+          set -euo pipefail
+          JUDGE_FLAG=""
+          if [ -n "${WANDB_API_KEY:-}" ]; then
+            JUDGE_FLAG="--judge"
+          else
+            echo "::notice::AI agent comprehension judge skipped: WANDB_DOCS_INFERENCE_API_KEY secret is not set."
+          fi
+          # No --include-marker: the combined comment below carries the single
+          # <!-- doc-quality-report --> marker for upserts.
+          if python scripts/readability/pr_report.py \
+              --base "${BASE_SHA}" \
+              --head "${HEAD_SHA}" \
+              --run-url "${RUN_URL}" \
+              --run-id "${GITHUB_RUN_ID}" \
+              ${JUDGE_FLAG} \
+              > readability-body.md 2> readability-errors.log; then
+            # Judge failures are non-fatal and land on stderr; show them in the
+            # step log even on success so they are not silently discarded.
+            if [ -s readability-errors.log ]; then
+              echo "Diagnostics from pr_report.py (non-fatal):"
+              cat readability-errors.log
+            fi
+          else
+            echo "::warning::Readability report failed to build; see logs."
+            cat readability-errors.log || true
+            {
+              echo "## Readability impact"
+              echo ""
+              echo "The readability check could not run for this push. This is informational and does not block the PR."
+            } > readability-body.md
+          fi
+
+      # ------------------------------------------------------------
+      # 5. One combined report: status table + collapsed details.
+      # ------------------------------------------------------------
+      # !cancelled() (not always()) so a run superseded by cancel-in-progress
+      # does not race the replacement run's comment write.
+      - name: Assemble doc-quality report
+        id: report
+        if: ${{ !cancelled() && steps.scope.outputs.mintlify_relevant == 'true' }}
+        continue-on-error: true
+        env:
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+          LYCHEE_OUTCOME: ${{ steps.lychee.outcome }}
+          LYCHEE_EXIT: ${{ steps.lychee.outputs.exit_code }}
+          READABILITY_OUTCOME: ${{ steps.readability.outcome }}
+          IS_FORK: ${{ steps.scope.outputs.is_fork }}
+          MDX_COUNT: ${{ steps.scope.outputs.mdx_count }}
+          MDX_CHANGED: ${{ steps.scope.outputs.mdx_changed }}
+          MDX_CHANGED_ANY: ${{ steps.scope.outputs.mdx_changed_any }}
+          HEAD_SHA: ${{ steps.scope.outputs.head_sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          BODY="comment-body.md"
+          MAX_SECTION=15000
+
+          # Print a file capped at MAX_SECTION bytes, keeping the start.
+          cap_head() {
+            if [ "$(wc -c < "$1")" -gt "$MAX_SECTION" ]; then
+              head -c "$MAX_SECTION" "$1"
+              printf '\n\n_Output truncated; see the [workflow run](%s) for the rest._\n' "$RUN_URL"
+            else
+              cat "$1"
+            fi
+          }
+          # Same, keeping the end (validation errors print last).
+          cap_tail() {
+            if [ "$(wc -c < "$1")" -gt "$MAX_SECTION" ]; then
+              printf '_Output truncated; see the [workflow run](%s) for the rest._\n\n' "$RUN_URL"
+              tail -c "$MAX_SECTION" "$1"
+            else
+              cat "$1"
+            fi
+          }
+
+          case "$VALIDATE_OUTCOME" in
+            success) VALIDATE_STATUS="✅ Pass" ;;
+            failure) VALIDATE_STATUS="❌ **Fail** — blocks this PR" ;;
+            *)       VALIDATE_STATUS="⚠️ Did not run (an earlier step failed — see the [workflow run]($RUN_URL))" ;;
+          esac
+
+          if [ "$LYCHEE_OUTCOME" = "success" ] && [ "${LYCHEE_EXIT:-0}" = "0" ]; then
+            LINKS_STATUS="✅ No broken external links (${MDX_COUNT} changed .mdx file(s) checked)"
+          elif [ "$LYCHEE_OUTCOME" = "success" ]; then
+            LINKS_STATUS="⚠️ Issues found (informational — see details)"
+          elif [ "$LYCHEE_OUTCOME" = "failure" ]; then
+            LINKS_STATUS="⚠️ Link checker did not complete (informational — see the [workflow run]($RUN_URL))"
+          elif [ "$MDX_CHANGED" = "true" ]; then
+            # .mdx files DID change but lychee never ran: a blocking setup step
+            # failed and the implicit success() skipped it. Don't mislabel that
+            # as "no .mdx changes".
+            LINKS_STATUS="⚠️ Did not run (an earlier step failed — see the [workflow run]($RUN_URL))"
+          else
+            LINKS_STATUS="⏭️ Skipped (no .mdx changes)"
+          fi
+
+          if [ "$IS_FORK" = "true" ]; then
+            READ_STATUS="⏭️ Skipped (fork PRs cannot reach the scoring dependencies)"
+          elif [ "$READABILITY_OUTCOME" = "skipped" ] || [ -z "$READABILITY_OUTCOME" ]; then
+            if [ "$MDX_CHANGED_ANY" = "true" ]; then
+              # Same distinction as the link check above.
+              READ_STATUS="⚠️ Did not run (an earlier step failed — see the [workflow run]($RUN_URL))"
+            else
+              READ_STATUS="⏭️ Skipped (no .mdx changes)"
+            fi
+          elif [ -s readability-body.md ]; then
+            READ_STATUS=$(grep -m1 -E '^(Word-weighted|No |The readability)' readability-body.md || echo "See details")
+          else
+            READ_STATUS="⚠️ Could not run (informational)"
+          fi
+
+          {
+            echo '<!-- doc-quality-report -->'
+            echo ''
+            echo '## Doc quality'
+            echo ''
+            echo '| Check | Result |'
+            echo '|-------|--------|'
+            echo "| MDX validation (blocking) | ${VALIDATE_STATUS} |"
+            echo "| External links (informational) | ${LINKS_STATUS} |"
+            echo "| Readability (informational) | ${READ_STATUS} |"
+            echo ''
+          } > "$BODY"
+
+          # MDX validation details: error excerpt only on failure.
+          if [ "$VALIDATE_OUTCOME" = "failure" ] && [ -s validate-output.log ]; then
+            cap_tail validate-output.log > validate-excerpt.txt
+            # mint output can quote .mdx source containing code fences, and
+            # tail -c cuts at an arbitrary byte, so a ``` can land at column 0
+            # inside the excerpt and close a three-backtick fence early. Size
+            # the fence one longer than the longest backtick run in the excerpt.
+            MAX_TICKS=$({ grep -o '`\{3,\}' validate-excerpt.txt || true; } \
+              | awk '{ if (length($0) > m) m = length($0) } END { print m + 0 }')
+            FENCE_LEN=$(( MAX_TICKS >= 3 ? MAX_TICKS + 1 : 3 ))
+            FENCE=$(printf '%*s' "$FENCE_LEN" '' | tr ' ' '`')
+            {
+              echo '<details>'
+              echo '<summary>MDX validation errors</summary>'
+              echo ''
+              echo "${FENCE}text"
+              cat validate-excerpt.txt
+              echo "$FENCE"
+              echo '</details>'
+              echo ''
+            } >> "$BODY"
+          fi
+
+          # External links details (only when lychee ran and found issues).
+          if { [ "$LYCHEE_OUTCOME" = "success" ] || [ "$LYCHEE_OUTCOME" = "failure" ]; } \
+              && [ "${LYCHEE_EXIT:-0}" != "0" ] && [ -s ./lychee/out.md ]; then
+            {
+              echo '<details>'
+              echo '<summary>External link check (lychee)</summary>'
+              echo ''
+              cap_head ./lychee/out.md
+              echo ''
+              echo '</details>'
+              echo ''
+            } >> "$BODY"
+          fi
+
+          # Readability details.
+          if [ -s readability-body.md ]; then
+            {
+              echo '<details>'
+              echo '<summary>Readability delta</summary>'
+              echo ''
+              cap_head readability-body.md
+              echo ''
+              echo '</details>'
+              echo ''
+            } >> "$BODY"
+          fi
+
+          printf '<sub>Updated %s for %s</sub>\n' \
+            "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" "$HEAD_SHA" >> "$BODY"
+
+      - name: Upsert doc-quality report on PR
+        # Non-fatal: a transient gh api/comment failure (rate limit, network,
+        # permissions) must not fail the PR. Fork PRs skip (read-only token).
+        continue-on-error: true
+        if: ${{ !cancelled() && steps.report.outcome == 'success' && github.event_name == 'pull_request' && steps.scope.outputs.is_fork != 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # pipefail so a transient listing failure fails the step (kept green
+          # by continue-on-error) instead of falling through with an empty
+          # COMMENT_ID and creating a permanent duplicate comment.
+          set -euo pipefail
+          MARKER="<!-- doc-quality-report -->"
+          # Match on author as well as marker so a contributor comment that
+          # quotes the marker can never be overwritten. Capture the listing
+          # before taking the first line: `... | head -n1` would close the
+          # pipe early and SIGPIPE `gh api --paginate` under pipefail.
+          MATCHES=$(gh api \
+            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id")
+          COMMENT_ID=$(printf '%s\n' "$MATCHES" | head -n1)
+
+          if [ -n "${COMMENT_ID}" ]; then
+            gh api \
+              "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+              -X PATCH -F "body=@comment-body.md"
+            echo "Updated existing doc-quality report comment ${COMMENT_ID}"
+          else
+            gh pr comment "${PR_NUMBER}" --body-file comment-body.md
+            echo "Created new doc-quality report comment"
+          fi
+
+      - name: Write doc-quality report to job summary
+        # Fork PRs and non-PR events cannot (or should not) comment; surface the
+        # report in the workflow step summary instead.
+        continue-on-error: true
+        if: ${{ !cancelled() && steps.report.outcome == 'success' && (github.event_name != 'pull_request' || steps.scope.outputs.is_fork == 'true') }}
+        run: cat comment-body.md >> "${GITHUB_STEP_SUMMARY}"
+
+      # If a later push removes every Mintlify-relevant change, the checks and
+      # the report steps above all skip — but an earlier push may have left a
+      # sticky comment, possibly still showing failures. Update it in place to
+      # an all-skipped state. Never CREATE a comment on this path: PRs that
+      # never touched relevant files stay comment-free.
+      - name: Refresh stale report when nothing relevant changed
+        continue-on-error: true
+        if: ${{ !cancelled() && steps.scope.outputs.mintlify_relevant == 'false' && github.event_name == 'pull_request' && steps.scope.outputs.is_fork != 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ steps.scope.outputs.head_sha }}
+        run: |
+          # Same listing discipline as the upsert step above: fail (kept green
+          # by continue-on-error) on listing errors rather than misreading
+          # them as "no comment", and avoid piping --paginate into head.
+          set -euo pipefail
+          MARKER="<!-- doc-quality-report -->"
+          MATCHES=$(gh api \
+            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --paginate -q ".[] | select((.body | contains(\"${MARKER}\")) and .user.login == \"github-actions[bot]\") | .id")
+          COMMENT_ID=$(printf '%s\n' "$MATCHES" | head -n1)
+          if [ -z "${COMMENT_ID}" ]; then
+            echo "No existing doc-quality comment; nothing to refresh."
+            exit 0
+          fi
+          {
+            echo "${MARKER}"
+            echo ''
+            echo '## Doc quality'
+            echo ''
+            echo 'This push has no Mintlify-relevant changes, so all doc-quality checks were skipped.'
+            echo ''
+            printf '<sub>Updated %s for %s</sub>\n' \
+              "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" "$HEAD_SHA"
+          } > comment-body.md
+          gh api \
+            "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+            -X PATCH -F "body=@comment-body.md"
+          echo "Refreshed stale doc-quality report comment ${COMMENT_ID}"
+
+      # One-time migration cleanup: the old linkcheck-pr.yml and
+      # readability-delta.yml workflows left per-check comments on open PRs.
+      # Delete them so the single doc-quality comment is the only report.
+      # Safe to remove this step once all PRs opened before the consolidation
+      # have been merged or closed.
+      - name: Clean up legacy per-check comments
+        continue-on-error: true
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && steps.scope.outputs.is_fork != 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_CREATED_AT: ${{ github.event.pull_request.created_at }}
+        run: |
+          # Only PRs opened while the replaced workflows still existed can
+          # carry their comments. Skip the (paginated) listings for PRs opened
+          # after the consolidation landed, so this step self-retires as the
+          # pre-consolidation PRs drain. ISO-8601 UTC timestamps compare
+          # lexicographically.
+          if [[ "${PR_CREATED_AT}" > "2026-10-01T00:00:00Z" ]]; then
+            echo "PR opened ${PR_CREATED_AT}, after the doc-quality consolidation; no legacy comments possible."
+            exit 0
+          fi
+          # Match on author as well as marker so a contributor comment that
+          # quotes a legacy marker is never deleted.
+          for MARKER in 'lychee-link-checker-comment' 'readability-delta-report'; do
+            COMMENT_IDS=$(gh api \
+              "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+              --paginate -q ".[] | select((.body | contains(\"<!-- ${MARKER} -->\")) and .user.login == \"github-actions[bot]\") | .id" || true)
+            for ID in $COMMENT_IDS; do
+              if gh api "repos/${{ github.repository }}/issues/comments/${ID}" -X DELETE; then
+                echo "Deleted legacy ${MARKER} comment ${ID}"
+              fi
+            done
+          done
+
+      # ------------------------------------------------------------
+      # 6. Verdict: only MDX validation is blocking.
+      # ------------------------------------------------------------
+      - name: Verdict
+        if: ${{ !cancelled() }}
+        env:
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+        run: |
+          if [ "$VALIDATE_OUTCOME" = "failure" ]; then
+            echo "::error::MDX validation failed (mint validate / mint broken-links). See the 'Validate MDX with Mintlify' step above."
+            exit 1
+          fi
+          echo "MDX validation: ${VALIDATE_OUTCOME:-skipped}. Link check and readability are informational."

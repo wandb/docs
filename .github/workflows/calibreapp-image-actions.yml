@@ -44,6 +44,6 @@ jobs:
           avifQuality: '75'
           minPctChange: '10'
           # GitHub App token with contents read-write. Unlike the default workflow `GITHUB_TOKEN`,
-          # commits pushed with this token trigger other workflows (for example Validate MDX).
+          # commits pushed with this token trigger other workflows (for example Doc quality).
           # Fork PRs are already excluded by the job `if` above.
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
