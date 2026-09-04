@@ -3,14 +3,16 @@ title: "ObjectRef"
 description: "TypeScript SDK 레퍼런스"
 ---
 
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24" />
+
 저장된 Weave 객체에 대한 레퍼런스입니다.
 
 일반적으로 최종 사용자는 이 클래스를 직접 다룰 필요가 없습니다.
 
 ObjectRef에는 Weave의 저장소 시스템에서 저장된 객체를 고유하게 식별하는
 프로젝트 ID, 객체 ID, 다이제스트가 포함됩니다.
-
-정의 위치: [src/weaveObject.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L23)
 
 <div id="example">
   ## 예시
@@ -22,42 +24,24 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="constructors">
-  ## 생성자
-</div>
-
 <div id="constructor">
-  ### 생성자
+  ## 생성자
 </div>
 
 > **new ObjectRef**(`projectId`, `objectId`, `digest`): `ObjectRef`
 
-정의 위치: [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
-
 <div id="parameters">
-  #### 매개변수
+  ### 매개변수
 </div>
 
-<div id="projectid">
-  ##### projectId
-</div>
+<ParamField path="projectId" type="string" required />
 
-`string`
+<ParamField path="objectId" type="string" required />
 
-<div id="objectid">
-  ##### objectId
-</div>
-
-`string`
-
-<div id="digest">
-  ##### digest
-</div>
-
-`string`
+<ParamField path="digest" type="string" required />
 
 <div id="returns">
-  #### 반환값
+  ### 반환값
 </div>
 
 `ObjectRef`
@@ -66,33 +50,27 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   ## 속성
 </div>
 
-<div id="digest-2">
+<div id="digest">
   ### digest
 </div>
 
 > **digest**: `string`
 
-정의 위치: [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
-
 ***
 
-<div id="objectid-2">
+<div id="objectid">
   ### objectId
 </div>
 
 > **objectId**: `string`
 
-정의 위치: [src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
-
 ***
 
-<div id="projectid-2">
+<div id="projectid">
   ### projectId
 </div>
 
 > **projectId**: `string`
-
-정의 위치: [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
 
 <div id="methods">
   ## 방법
@@ -103,8 +81,6 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 </div>
 
 > **get**(): `Promise`&lt;`any`&gt;
-
-정의 위치: [src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
 
 <div id="returns-2">
   #### 반환값
@@ -120,8 +96,6 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **ui&#95;url**(): `string`
 
-정의 위치: [src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
-
 <div id="returns-3">
   #### 반환값
 </div>
@@ -135,8 +109,6 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 </div>
 
 > **uri**(): `string`
-
-정의 위치: [src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
 
 <div id="returns-4">
   #### 반환값
@@ -154,19 +126,13 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 Weave URI string으로 ObjectRef를 생성합니다.
 
-정의 위치: [src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)
-
 <div id="parameters-2">
   #### 매개변수
 </div>
 
-<div id="uri-2">
-  ##### uri
-</div>
-
-`string`
-
-다음 형식의 Weave URI: weave:///entity/project/object/name:digest
+<ParamField path="uri" type="string" required>
+  다음 형식의 Weave URI: weave:///entity/project/object/name:digest
+</ParamField>
 
 <div id="returns-5">
   #### 반환값

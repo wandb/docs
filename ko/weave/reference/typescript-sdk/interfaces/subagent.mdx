@@ -3,7 +3,9 @@ title: "SubAgent"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-정의 위치: [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L65)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L84" />
 
 <div id="extends">
   ## 확장
@@ -25,8 +27,6 @@ description: "TypeScript SDK 레퍼런스"
 
 > **get** **model**(): `string`
 
-정의 위치: [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
-
 <div id="returns">
   ##### 반환값
 </div>
@@ -44,8 +44,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > **get** **name**(): `string`
-
-정의 위치: [src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
 
 <div id="returns-2">
   ##### 반환값
@@ -74,29 +72,15 @@ span에 이름이 지정된 이벤트를 추가합니다. 컨텍스트 압축, �
 가드레일 트리거와 같은 span 외 시점을 표시하는 데 유용합니다. `end()` 이후에는 경고를 표시하고
 아무 작업도 수행하지 않습니다. OTel `Span.addEvent`와 동일하게 동작합니다.
 
-정의 위치: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 <div id="parameters">
   #### 매개변수
 </div>
 
-<div id="name-2">
-  ##### 이름
-</div>
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-<div id="attributes">
-  ##### 속성?
-</div>
-
-`Attributes`
-
-<div id="starttime">
-  ##### startTime?
-</div>
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 <div id="returns-3">
   #### 반환값
@@ -129,17 +113,17 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 현재 필드 값을 조회하여(`start` 이후 `record()`를 통해 변경된 사항 반영) span을 종료합니다. 멱등성을 보장합니다. 실패로 표시하려면 `error`를 전달하고, 종료 시간을 과거로 설정하려면 `endTime`을 전달하세요.
 
-정의 위치: [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
-
 <div id="parameters-2">
   #### 매개변수
 </div>
 
-<div id="opts">
-  ##### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-4">
   #### 반환값
@@ -155,53 +139,36 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 > **record**(`opts`): `this`
 
-모든 필드를 일괄 설정합니다. 병합하지 않고 기존 값을 대체합니다.
-
-정의 위치: [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+변경 가능한 필드의 일부를 일괄 설정합니다. 병합하지 않고 기존 값을 대체합니다.
+입력 및 출력 메시지는 span이 종료될 때 직렬화됩니다.
 
 <div id="parameters-3">
   #### 매개변수
 </div>
 
-<div id="opts-2">
-  ##### opts
-</div>
+<ParamField path="opts" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
 
-<div id="agentdescription">
-  ###### agentDescription?
-</div>
+    <ParamField path="agentId" type="string" />
 
-`string`
+    <ParamField path="agentVersion" type="string" />
 
-<div id="agentid">
-  ###### agentId?
-</div>
+    <ParamField path="messages" type="Message[]">
+      [`Message`](./message)를 참조하세요.
+    </ParamField>
 
-`string`
+    <ParamField path="model" type="string" />
 
-<div id="agentversion">
-  ###### agentVersion?
-</div>
+    <ParamField path="name" type="string" />
 
-`string`
+    <ParamField path="outputMessages" type="Message[]">
+      [`Message`](./message)를 참조하세요.
+    </ParamField>
 
-<div id="model-2">
-  ###### 모델?
-</div>
-
-`string`
-
-<div id="name-3">
-  ###### 이름?
-</div>
-
-`string`
-
-<div id="systeminstructions">
-  ###### systemInstructions?
-</div>
-
-`string`[]
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-5">
   #### 반환값
@@ -220,17 +187,11 @@ span.addEvent('context_compacted', {removedMessages: 12});
 span에 여러 속성을 한 번에 설정합니다. `end()` 호출 후에는 경고를 표시하며 아무 작업도 수행하지 않습니다.
 OTel `Span.setAttributes`(및 Python SDK의 `set_attributes`)와 동일하게 작동합니다.
 
-정의 위치: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
 <div id="parameters-4">
   #### 매개변수
 </div>
 
-<div id="attributes-2">
-  ##### 속성
-</div>
-
-`Attributes`
+<ParamField path="attributes" type="Attributes" required />
 
 <div id="returns-6">
   #### 반환값
@@ -252,3 +213,75 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 </div>
 
 `SpanBase.setAttributes`
+
+***
+
+<div id="startllm">
+  ### startLLM()
+</div>
+
+> **startLLM**(`opts`): [`LLM`](./llm)
+
+이 SubAgent 하위에 중첩된 자식 LLM span을 시작합니다.
+
+<div id="parameters-5">
+  #### 매개변수
+</div>
+
+<ParamField path="opts" type="LLMInit" required>
+  [`LLMInit`](./llminit)을 참조하세요.
+</ParamField>
+
+<div id="returns-7">
+  #### 반환값
+</div>
+
+[`LLM`](./llm)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`): `SubAgent`
+
+이 SubAgent 하위에 중첩된 SubAgent span을 시작합니다.
+
+<div id="parameters-6">
+  #### 매개변수
+</div>
+
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](./subagentinit)를 참조하세요.
+</ParamField>
+
+<div id="returns-8">
+  #### 반환값
+</div>
+
+`SubAgent`
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+이 SubAgent 하위에 중첩된 자식 도구 span을 시작합니다.
+
+<div id="parameters-7">
+  #### 매개변수
+</div>
+
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](./toolinit)을 참조하세요.
+</ParamField>
+
+<div id="returns-9">
+  #### 반환값
+</div>
+
+[`Tool`](./tool)

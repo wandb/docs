@@ -3,6 +3,10 @@ title: "LLM"
 description: "TypeScript SDK 레퍼런스"
 ---
 
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
+
 LLM Call입니다. `gen_ai.*` 속성이 포함된 `chat` span을 생성합니다.
 
 `weave.startLLM()`(또는 `turn.startLLM()`)으로 생성하며, `end()`로 종료합니다. 비동기 컨텍스트에서는 한 번에 하나의 LLM만 활성화할 수 있습니다. `startTool` / `startSubagent`를 사용하여 그 하위에 도구/서브에이전트 Call을 중첩하세요.
@@ -10,8 +14,6 @@ LLM Call입니다. `gen_ai.*` 속성이 포함된 `chat` span을 생성합니다
 `inputMessages` / `outputMessages` / `usage` / `reasoning`을 직접 설정하거나, 도우미 함수(`output`, `think`, `attachMedia`, `record`)를 사용하세요.
 
 기록된 모든 데이터는 `end()`에서 span으로 플러시됩니다.
-
-정의 위치: [src/genai/llm.ts:86](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L86)
 
 <div id="examples">
   ## 예시
@@ -65,8 +67,6 @@ try {
 
 모델로 전송되는 입력 메시지입니다. `end()` 호출 시 `gen_ai.input.messages`로 플러시됩니다.
 
-정의 위치: [src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L93)
-
 ***
 
 <div id="model">
@@ -74,8 +74,6 @@ try {
 </div>
 
 > `readonly` **모델**: `string`
-
-정의 위치: [src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L117)
 
 ***
 
@@ -88,8 +86,6 @@ try {
 모델이 반환한 assistant 메시지입니다. `end()` 호출 시
 `gen_ai.output.messages`로 플러시됩니다.
 
-Defined in: [src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L98)
-
 ***
 
 <div id="providername">
@@ -97,8 +93,6 @@ Defined in: [src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb1
 </div>
 
 > `readonly` **providerName**: `string`
-
-정의된 위치: [src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L118)
 
 ***
 
@@ -111,8 +105,6 @@ Defined in: [src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb1
 사고 과정 콘텐츠입니다. 직렬화 시 마지막 assistant 메시지에
 ReasoningPart로 포함됩니다.
 
-정의된 위치: [src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L105)
-
 ***
 
 <div id="usage">
@@ -122,8 +114,6 @@ ReasoningPart로 포함됩니다.
 > **사용**: [`Usage`](./usage) = `{}`
 
 토큰 수와 캐시 통계입니다. `end()`에서 `gen_ai.usage.*`로 플러시됩니다.
-
-정의 위치: [src/genai/llm.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L100)
 
 <div id="methods">
   ## 메서드
@@ -145,29 +135,15 @@ ReasoningPart로 포함됩니다.
 span에 이름이 지정된 이벤트를 추가합니다. 컨텍스트 압축, 도구 루프 감지, 가드레일 트리거와 같은
 span 외부 시점을 표시하는 데 유용합니다. `end()` 후에 호출하면 경고를 표시하고 아무 작업도 수행하지 않습니다. OTel `Span.addEvent`와 동일하게 작동합니다.
 
-정의 위치: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 <div id="parameters">
   #### 매개변수
 </div>
 
-<div id="name">
-  ##### 이름
-</div>
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-<div id="attributes">
-  ##### 속성?
-</div>
-
-`속성`
-
-<div id="starttime">
-  ##### startTime?
-</div>
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 <div id="returns">
   #### 반환값
@@ -202,17 +178,15 @@ LLM Call에 미디어 첨부 파일을 추가할 준비를 합니다. `content`(
 (사전 업로드된 파일 ID) 중 정확히 하나를 선택하세요. 첨부 파일은 `end()` 호출 시
 `inputMessages`의 마지막 사용자 메시지에 추가됩니다.
 
-Defined in: [src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L183)
-
 <div id="parameters-2">
   #### 매개변수
 </div>
 
-<div id="opts">
-  ##### opts
-</div>
+<ParamField path="opts" type="{…} | {…} | {…}" required>
+  [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality)를 참조하세요.
 
-`AttachMediaOpts`
+  전체 유형: `{ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; }`
+</ParamField>
 
 <div id="returns-2">
   #### 반환값
@@ -230,27 +204,19 @@ Defined in: [src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb
 
 `attachMedia({uri, modality})`를 간편하게 호출합니다.
 
-Defined in: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L192)
-
 <div id="parameters-3">
   #### 매개변수
 </div>
 
-<div id="url">
-  ##### url
-</div>
+<ParamField path="url" type="string" required />
 
-`string`
-
-<div id="opts-2">
-  ##### 옵션
-</div>
-
-<div id="modality">
-  ###### 모달리티
-</div>
-
-[`Modality`](../type-aliases/modality)
+<ParamField path="opts" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="modality" type="Modality" required>
+      [`Modality`](../type-aliases/modality)를 참조하세요.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 <div id="returns-3">
   #### 반환값
@@ -268,17 +234,17 @@ Defined in: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb
 
 누적된 상태를 플러시하고 span을 종료합니다. 여러 번 호출해도 동일하게 동작합니다. 실패로 표시하려면 `error`를 전달하고, 종료 시간을 과거로 설정하려면 `endTime`을 전달합니다.
 
-정의 위치: [src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L274)
-
 <div id="parameters-4">
   #### 매개변수
 </div>
 
-<div id="opts-3">
-  ##### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-4">
   #### 반환값
@@ -296,17 +262,11 @@ Defined in: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb
 
 응답에 assistant 메시지를 추가합니다.
 
-Defined in: [src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L155)
-
 <div id="parameters-5">
   #### 매개변수
 </div>
 
-<div id="content">
-  ##### 콘텐츠
-</div>
-
-`string`
+<ParamField path="content" type="string" required />
 
 <div id="returns-5">
   #### 반환값
@@ -325,69 +285,43 @@ Defined in: [src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb
 변경 가능한 필드 중 원하는 항목을 일괄 설정합니다. 병합하지 않고 대체합니다.
 공급자 호출이 반환된 후 모든 항목을 한 번에 부여할 때 유용합니다.
 
-정의 위치: [src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L203)
-
 <div id="parameters-6">
   #### 매개변수
 </div>
 
-<div id="opts-4">
-  ##### 옵션
-</div>
+<ParamField path="opts" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="finishReasons" type="string[]" />
 
-<div id="finishreasons">
-  ###### 종료 사유?
-</div>
+    <ParamField path="inputMessages" type="Message[]">
+      [`Message`](./message)를 참조하세요.
+    </ParamField>
 
-`string`[]
+    <ParamField path="mediaAttachments" type="({…} | {…} | {…})[]">
+      [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality)를 참조하세요.
 
-<div id="inputmessages-2">
-  ###### inputMessages?
-</div>
+      전체 유형: `({ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; })[]`
+    </ParamField>
 
-[`Message`](./message)[]
+    <ParamField path="outputMessages" type="Message[]">
+      [`Message`](./message)를 참조하세요.
+    </ParamField>
 
-<div id="mediaattachments">
-  ###### mediaAttachments?
-</div>
+    <ParamField path="outputType" type="string" />
 
-`AttachMediaOpts`[]
+    <ParamField path="reasoning" type="Reasoning">
+      [`Reasoning`](./reasoning)을 참조하세요.
+    </ParamField>
 
-<div id="outputmessages-2">
-  ###### outputMessages?
-</div>
+    <ParamField path="responseId" type="string" />
 
-[`Message`](./message)[]
+    <ParamField path="responseModel" type="string" />
 
-<div id="outputtype">
-  ###### 출력 유형?
-</div>
-
-`string`
-
-<div id="reasoning-2">
-  ###### 추론?
-</div>
-
-[`Reasoning`](./reasoning)
-
-<div id="responseid">
-  ###### responseId?
-</div>
-
-`string`
-
-<div id="responsemodel">
-  ###### responseModel?
-</div>
-
-`string`
-
-<div id="usage-2">
-  ###### 사용?
-</div>
-
-[`Usage`](./usage)
+    <ParamField path="usage" type="Usage">
+      [`Usage`](./usage)를 참조하세요.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 <div id="returns-6">
   #### 반환값
@@ -407,17 +341,11 @@ span에 여러 속성을 한 번에 설정합니다. `end()` 호출 후에는 �
 아무 작업도 수행하지 않습니다. OTel `Span.setAttributes` 및 Python SDK의
 `set_attributes`와 동일하게 동작합니다.
 
-정의 위치: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
 <div id="parameters-7">
   #### 매개변수
 </div>
 
-<div id="attributes-2">
-  ##### 속성
-</div>
-
-`Attributes`
+<ParamField path="attributes" type="Attributes" required />
 
 <div id="returns-7">
   #### 반환값
@@ -450,17 +378,13 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 이 LLM 내에 중첩된 하위 SubAgent span을 시작합니다.
 
-정의 위치: [src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L261)
-
 <div id="parameters-8">
   #### 매개변수
 </div>
 
-<div id="opts-5">
-  ##### opts
-</div>
-
-[`SubAgentInit`](./subagentinit)
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](./subagentinit)를 참조하세요.
+</ParamField>
 
 <div id="returns-8">
   #### 반환값
@@ -478,17 +402,13 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 이 LLM 내에 중첩된 하위 Tool span을 시작합니다.
 
-정의 위치: [src/genai/llm.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L252)
-
 <div id="parameters-9">
   #### 매개변수
 </div>
 
-<div id="opts-6">
-  ##### opts
-</div>
-
-[`ToolInit`](./toolinit)
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](./toolinit)을 참조하세요.
+</ParamField>
 
 <div id="returns-9">
   #### 반환값
@@ -508,17 +428,11 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 누적됩니다. 직렬화 시 마지막 assistant 메시지에 `ReasoningPart`로
 포함되며, Python SDK의 전송 데이터 형식과 일치합니다.
 
-Defined in: [src/genai/llm.ts:167](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L167)
-
 <div id="parameters-10">
   #### 매개변수
 </div>
 
-<div id="content-2">
-  ##### content
-</div>
-
-`string`
+<ParamField path="content" type="string" required />
 
 <div id="returns-10">
   #### 반환값

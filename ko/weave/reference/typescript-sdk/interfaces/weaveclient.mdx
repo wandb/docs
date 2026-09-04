@@ -3,7 +3,9 @@ title: "WeaveClient"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-정의 위치: [src/weaveClient.ts:445](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L445)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519" />
 
 <div id="properties">
   ## 속성
@@ -15,17 +17,89 @@ description: "TypeScript SDK 레퍼런스"
 
 > **projectId**: `string`
 
-정의 위치: [src/weaveClient.ts:456](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L456)
-
 ***
 
 <div id="settings">
   ### settings
 </div>
 
-> **settings**: [`Settings`](../type-aliases/settings)
+> **settings**: `object`
 
-정의 위치: [src/weaveClient.ts:457](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L457)
+<div id="attributes">
+  #### attributes
+</div>
+
+> `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
+
+이 클라이언트가 생성하는 모든 트레이스에 적용되는 속성 맵입니다.
+
+<div id="genai">
+  #### genai
+</div>
+
+> `readonly` **genai**: `object`
+
+<div id="genaibatchoptions">
+  ##### genai.batchOptions
+</div>
+
+> `optional` **batchOptions**: `BufferConfig`
+
+`BatchSpanProcessor` 설정입니다. `spanProcessor === 'batch'`가 아니면 무시됩니다.
+
+<div id="genaispanprocessor">
+  ##### genai.spanProcessor
+</div>
+
+> `optional` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
+
+GenAI span을 내보내는 방식입니다.
+
+* `'batch'`(기본값): `BatchSpanProcessor`로, 프로덕션 에이전트와 장기 실행 프로세스에 적합합니다.
+* `'simple'`: `SimpleSpanProcessor`로, span마다 HTTP POST를 한 번씩 전송합니다. 처리량보다 결정적인 플러시가 더 중요한 테스트나 단기 실행 CLI에 유용합니다.
+* `SpanProcessor` 인스턴스: 사용자가 직접 제공하는 프로세서입니다. 라이프사이클은 호출자가 직접 관리하며, `/agents/otel/v1/traces`로 전송하는 Weave OTLP 익스포터는 사용되지 않습니다.
+
+<div id="printcalllink">
+  #### printCallLink
+</div>
+
+> `readonly` **printCallLink**: `boolean`
+
+op에 대한 Weave UI 링크를 터미널에 출력합니다.
+
+<div id="default">
+  ##### 기본값
+</div>
+
+`true`
+
+<div id="usecallscomplete">
+  #### useCallsComplete
+</div>
+
+> **useCallsComplete**: `boolean`
+
+완료된 Call을 기존 `call/upsert_batch` 경로 대신 `calls/complete` 엔드포인트로 전송합니다(start와 end는 클라이언트 측에서 페어링).
+
+<div id="default-2">
+  ##### 기본값
+</div>
+
+`true`
+
+<div id="useotelv2">
+  #### useOTelV2
+</div>
+
+> **useOTelV2**: `boolean`
+
+OTel을 지원하는 인테그레이션을 해당 OTel 변형으로 라우팅합니다.
+
+<div id="default-3">
+  ##### 기본값
+</div>
+
+`true`
 
 ***
 
@@ -34,8 +108,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > **traceServerApi**: `Api`&lt;`any`&gt;
-
-정의 위치: [src/weaveClient.ts:455](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L455)
 
 <div id="methods">
   ## 메서드
@@ -50,43 +122,25 @@ description: "TypeScript SDK 레퍼런스"
 Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
 명령형 Evaluation에서 예측 Call에 Scorer 결과를 연결하는 데 사용합니다.
 
-정의 위치: [src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
-
 <div id="parameters">
-  #### 매개변수
+  #### Parameters
 </div>
 
-<div id="predictcallid">
-  ##### predictCallId
-</div>
+<ParamField path="predictCallId" type="string" required>
+  feedback를 attach할 predict call의 ID
+</ParamField>
 
-`string`
+<ParamField path="scorerCallId" type="string" required>
+  feedback를 생성한 scorer call의 ID
+</ParamField>
 
-feedback을 연결할 predict call의 ID
+<ParamField path="runnableRefUri" type="string" required>
+  Scorer의 URI(Op 또는 Object ref)
+</ParamField>
 
-<div id="scorercallid">
-  ##### scorerCallId
-</div>
-
-`string`
-
-피드백을 생성한 Scorer Call의 ID
-
-<div id="runnablerefuri">
-  ##### runnableRefUri
-</div>
-
-`string`
-
-Scorer(Op 또는 Object ref)의 URI
-
-<div id="scoreroutput">
-  ##### scorerOutput
-</div>
-
-`any`
-
-Scorer 출력
+<ParamField path="scorerOutput" type="any" required>
+  Scorer의 출력
+</ParamField>
 
 <div id="returns">
   #### 반환값
@@ -100,73 +154,47 @@ Scorer 출력
   ### createCall()
 </div>
 
-> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`&lt;`void`&gt;
-
-정의 위치: [src/weaveClient.ts:1570](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1570)
+> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`): `Promise`&lt;`void`&gt;
 
 <div id="parameters-2">
   #### 매개변수
 </div>
 
-<div id="internalcall">
-  ##### internalCall
-</div>
+<ParamField path="internalCall" type="InternalCall" required />
 
-`InternalCall`
+<ParamField path="opRef" type="any" required />
 
-<div id="opref">
-  ##### opRef
-</div>
+<ParamField path="params" type="any[]" required />
 
-`any`
+<ParamField path="parameterNames" type="undefined | &#x22;useParam0Object&#x22; | string[]" required />
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="thisArg" type="any" required />
 
-`any`[]
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="callId" type="string" required />
 
-<div id="parameternames">
-  ##### parameterNames
-</div>
+    <ParamField path="childSummary" type="Record<string, any>" required />
 
-`ParameterNamesOption`
+    <ParamField path="displayName" type="string" />
 
-<div id="thisarg">
-  ##### thisArg
-</div>
+    <ParamField path="opName" type="string" />
 
-`any`
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
 
-<div id="currentcall">
-  ##### currentCall
-</div>
+<ParamField path="parentCall" type="{…} | undefined" required>
+  전체 유형: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
 
-`CallStackEntry`
+<ParamField path="startTime" type="Date" required />
 
-<div id="parentcall">
-  ##### parentCall
-</div>
+<ParamField path="displayName" type="string" />
 
-`CallStackEntry` | `undefined`
+<ParamField path="attributes" type="Record<string, any>" />
 
-<div id="starttime">
-  ##### startTime
-</div>
-
-`Date`
-
-<div id="displayname">
-  ##### displayName?
-</div>
-
-`string`
-
-<div id="attributes">
-  ##### 속성?
-</div>
-
-`Record`&lt;`string`, `any`&gt;
+<ParamField path="eagerCallStart" type="boolean = false" />
 
 <div id="returns-2">
   #### 반환값
@@ -182,53 +210,37 @@ Scorer 출력
 
 > **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-정의 위치: [src/weaveClient.ts:1630](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1630)
-
 <div id="parameters-3">
   #### 매개변수
 </div>
 
-<div id="call">
-  ##### Call
-</div>
+<ParamField path="call" type="InternalCall" required />
 
-`InternalCall`
+<ParamField path="result" type="any" required />
 
-<div id="result">
-  ##### 결과
-</div>
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="callId" type="string" required />
 
-`any`
+    <ParamField path="childSummary" type="Record<string, any>" required />
 
-<div id="currentcall-2">
-  ##### currentCall
-</div>
+    <ParamField path="displayName" type="string" />
 
-`CallStackEntry`
+    <ParamField path="opName" type="string" />
 
-<div id="parentcall-2">
-  ##### parentCall
-</div>
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
 
-`CallStackEntry` | `undefined`
+<ParamField path="parentCall" type="{…} | undefined" required>
+  전체 유형: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
 
-<div id="summarize">
-  ##### summarize
-</div>
+<ParamField path="summarize" type="((result) => Record<string, any>) | undefined" required />
 
-((`result`) =&gt; `Record`&lt;`string`, `any`&gt;) | `undefined`
+<ParamField path="endTime" type="Date" required />
 
-<div id="endtime">
-  ##### 종료 시간
-</div>
-
-`Date`
-
-<div id="startcallpromise">
-  ##### startCallPromise
-</div>
-
-`Promise`&lt;`void`&gt;
+<ParamField path="startCallPromise" type="Promise<void>" required />
 
 <div id="returns-3">
   #### 반환값
@@ -244,49 +256,53 @@ Scorer 출력
 
 > **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-정의 위치: [src/weaveClient.ts:1672](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1672)
-
 <div id="parameters-4">
   #### 매개변수
 </div>
 
-<div id="call-2">
-  ##### Call
-</div>
+<ParamField path="call" type="InternalCall" required />
 
-`InternalCall`
+<ParamField path="error" type="any" required />
 
-<div id="error">
-  ##### 오류
-</div>
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="callId" type="string" required />
 
-`any`
+    <ParamField path="childSummary" type="Record<string, any>" required />
 
-<div id="currentcall-3">
-  ##### currentCall
-</div>
+    <ParamField path="displayName" type="string" />
 
-`CallStackEntry`
+    <ParamField path="opName" type="string" />
 
-<div id="parentcall-3">
-  ##### parentCall
-</div>
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
 
-`CallStackEntry` | `undefined`
+<ParamField path="parentCall" type="{…} | undefined" required>
+  전체 유형: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
 
-<div id="endtime-2">
-  ##### 종료 시간
-</div>
+<ParamField path="endTime" type="Date" required />
 
-`Date`
+<ParamField path="startCallPromise" type="Promise<void>" required />
 
-<div id="startcallpromise-2">
-  ##### startCallPromise
+<div id="returns-4">
+  #### 반환값
 </div>
 
 `Promise`&lt;`void`&gt;
 
-<div id="returns-4">
+***
+
+<div id="flush">
+  ### flush()
+</div>
+
+> **flush**(): `Promise`&lt;`void`&gt;
+
+버퍼에 저장된 모든 Call을 server로 전송합니다. `process.exit()` 전에 await하세요.
+
+<div id="returns-5">
   #### 반환값
 </div>
 
@@ -300,19 +316,15 @@ Scorer 출력
 
 > **get**(`ref`): `Promise`&lt;`any`&gt;
 
-정의 위치: [src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1025)
-
 <div id="parameters-5">
-  #### 매개변수
+  #### Parameters
 </div>
 
-<div id="ref">
-  ##### ref
-</div>
+<ParamField path="ref" type="ObjectRef" required>
+  [`ObjectRef`](../classes/objectref)를 참조하세요.
+</ParamField>
 
-[`ObjectRef`](../classes/objectref)
-
-<div id="returns-5">
+<div id="returns-6">
   #### 반환값
 </div>
 
@@ -324,29 +336,63 @@ Scorer 출력
   ### getAgentCustomAttributes()
 </div>
 
-> **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+> **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
 프로젝트의 에이전트 span에서 관찰된 유형 지정 맞춤형 속성 키를 조회합니다. 각 결과 행은 하나의 `(source, key, value_type)` 트리플과 해당 속성을 포함하는 span 수로 구성됩니다. span 쿼리/그룹/통계 API는 이를 사용하여 맞춤형 속성을 참조합니다.
 
 `query`(구조화된 span 필터), `startedAfter` / `startedBefore`(ISO-8601) 또는 둘 다를 전달하여 대상 span을 필터링합니다. `limit` / `offset`을 사용하여 조회된 키를 페이지 단위로 가져옵니다.
 
-정의 위치: [src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
-
 <div id="parameters-6">
   #### 매개변수
 </div>
 
-<div id="options">
-  ##### 옵션
-</div>
+<ParamField path="options" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="limit" type="number">
+      **최소**
 
-`GetAgentCustomAttributesOptions`
+      1
 
-<div id="returns-6">
+      **최대**
+
+      2000
+
+      **기본값**
+
+      ```ts twoslash
+      // @noErrors
+      200
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      **최소**
+
+      0
+
+      **기본값**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="Query | null">
+      [`Query`](./query)를 참조하세요.
+    </ParamField>
+
+    <ParamField path="startedAfter" type="string | null" />
+
+    <ParamField path="startedBefore" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-7">
   #### 반환값
 </div>
 
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
 <div id="example">
   #### 예시
@@ -380,19 +426,15 @@ for (const attr of resp.data.attributes ?? []) {
 
 집계 통계와 함께 에이전트 목록을 조회합니다.
 
-정의 위치: [src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
-
 <div id="parameters-7">
   #### 매개변수
 </div>
 
-<div id="options-2">
-  ##### options?
-</div>
+<ParamField path="options" type="GetAgentsOptions = {}">
+  [`GetAgentsOptions`](./getagentsoptions)를 참조하세요.
+</ParamField>
 
-[`GetAgentsOptions`](./getagentsoptions) = `{}`
-
-<div id="returns-7">
+<div id="returns-8">
   #### 반환값
 </div>
 
@@ -424,19 +466,15 @@ console.log(`total count: ${resp.data.total_count}`)
 
 에이전트 이름 및/또는 Mongo 스타일 쿼리 표현식으로 선택적으로 필터링된 에이전트 span을 쿼리합니다.
 
-정의 위치: [src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
-
 <div id="parameters-8">
   #### 매개변수
 </div>
 
-<div id="options-3">
-  ##### 옵션
-</div>
+<ParamField path="options" type="GetAgentSpansOptions" required>
+  [`GetAgentSpansOptions`](./getagentspansoptions)를 참조하세요.
+</ParamField>
 
-[`GetAgentSpansOptions`](./getagentspansoptions)
-
-<div id="returns-8">
+<div id="returns-9">
   #### 반환값
 </div>
 
@@ -478,7 +516,7 @@ for (const span of resp.data.spans) {
   ### getAgentSpanStats()
 </div>
 
-> **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+> **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
 
 프로젝트의 에이전트 span에 대한 집계 결과를 시계열 / 버킷 기반 시각화에 적합한 행 + 열
 메타데이터 형식으로 반환합니다.
@@ -490,23 +528,42 @@ for (const span of resp.data.spans) {
 공급자 / 모델 / 기타 기준으로 결과를 분류하려면 `groupBy`를 사용합니다. `query`는
 집계 전에 원본 span을 필터링합니다.
 
-정의 위치: [src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
-
 <div id="parameters-9">
   #### 매개변수
 </div>
 
-<div id="options-4">
-  ##### 옵션
-</div>
+<ParamField path="options" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="end" type="string | null" />
 
-`GetAgentSpanStatsOptions`
+    <ParamField path="granularity" type="number | null" />
 
-<div id="returns-9">
+    <ParamField path="groupBy" type="object[]" />
+
+    <ParamField path="metrics" type="object[]" required />
+
+    <ParamField path="query" type="Query | null">
+      [`Query`](./query)를 참조하세요.
+    </ParamField>
+
+    <ParamField path="start" type="string" required />
+
+    <ParamField path="timezone" type="string">
+      **기본값**
+
+      ```ts twoslash
+      // @noErrors
+      "UTC"
+      ```
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-10">
   #### 반환값
 </div>
 
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
 
 <div id="example-3">
   #### 예시
@@ -541,27 +598,23 @@ for (const row of resp.data.rows ?? []) {
   ### getAgentTurn()
 </div>
 
-> **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`AgentTraceChatRes`&gt;&gt;
+> **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
-단일 대화 턴의 데이터(메시지 포함)를 traceId로 조회합니다.
-
-정의 위치: [src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
+traceId로 단일 turn의 데이터(메시지 포함)를 조회합니다.
 
 <div id="parameters-10">
   #### 매개변수
 </div>
 
-<div id="options-5">
-  ##### 옵션
-</div>
+<ParamField path="options" type="GetAgentTurnOptions" required>
+  [`GetAgentTurnOptions`](./getagentturnoptions)를 참조하세요.
+</ParamField>
 
-[`GetAgentTurnOptions`](./getagentturnoptions)
-
-<div id="returns-10">
+<div id="returns-11">
   #### 반환값
 </div>
 
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`AgentTraceChatRes`&gt;&gt;
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
 <div id="example-4">
   #### 예시
@@ -593,19 +646,15 @@ for (const message of resp.data.messages ?? []) {
 
 `conversationId`별 여러 턴의 데이터(메시지 포함)를 조회합니다.
 
-정의 위치: [src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
-
 <div id="parameters-11">
   #### 매개변수
 </div>
 
-<div id="options-6">
-  ##### 옵션
-</div>
+<ParamField path="options" type="GetAgentTurnsOptions" required>
+  [`GetAgentTurnsOptions`](./getagentturnsoptions)를 참조하세요.
+</ParamField>
 
-[`GetAgentTurnsOptions`](./getagentturnsoptions)
-
-<div id="returns-11">
+<div id="returns-12">
   #### 반환값
 </div>
 
@@ -645,19 +694,15 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 지정된 에이전트의 버전 목록을 반환합니다.
 
-정의 위치: [src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
-
 <div id="parameters-12">
   #### 매개변수
 </div>
 
-<div id="options-7">
-  ##### 옵션
-</div>
+<ParamField path="options" type="GetAgentVersionsOptions" required>
+  [`GetAgentVersionsOptions`](./getagentversionsoptions)를 참조하세요.
+</ParamField>
 
-[`GetAgentVersionsOptions`](./getagentversionsoptions)
-
-<div id="returns-12">
+<div id="returns-13">
   #### 반환값
 </div>
 
@@ -685,31 +730,21 @@ console.log(`total count: ${resp.data.total_count}`)
   ### getCall()
 </div>
 
-> **getCall**(`callId`, `includeCosts?`): `Promise`&lt;`Call`&gt;
-
-정의 위치: [src/weaveClient.ts:902](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L902)
+> **getCall**(`callId`, `includeCosts?`): `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
 <div id="parameters-13">
   #### 매개변수
 </div>
 
-<div id="callid">
-  ##### callId
-</div>
+<ParamField path="callId" type="string" required />
 
-`string`
+<ParamField path="includeCosts" type="boolean = false" />
 
-<div id="includecosts">
-  ##### includeCosts?
-</div>
-
-`boolean` = `false`
-
-<div id="returns-13">
+<div id="returns-14">
   #### 반환값
 </div>
 
-`Promise`&lt;`Call`&gt;
+`Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
 ***
 
@@ -721,61 +756,45 @@ console.log(`total count: ${resp.data.total_count}`)
   #### Call 시그니처
 </div>
 
-> **getCalls**(`options?`): `Promise`&lt;`Call`[]&gt;
-
-정의 위치: [src/weaveClient.ts:935](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L935)
+> **getCalls**(`options?`): `Promise`&lt;`object`[]&gt;
 
 <div id="parameters-14">
   ##### 매개변수
 </div>
 
-<div id="options-8">
-  ###### options?
-</div>
-
-[`GetCallsOptions`](./getcallsoptions)
-
-<div id="returns-14">
-  ##### 반환값
-</div>
-
-`Promise`&lt;`Call`[]&gt;
-
-<div id="call-signature-2">
-  #### Call 시그니처
-</div>
-
-> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`Call`[]&gt;
-
-정의 위치: [src/weaveClient.ts:936](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L936)
-
-<div id="parameters-15">
-  ##### 매개변수
-</div>
-
-<div id="options-9">
-  ###### options?
-</div>
-
-[`CallsFilter`](./callsfilter)
-
-<div id="includecosts-2">
-  ###### includeCosts?
-</div>
-
-`boolean`
-
-<div id="limit">
-  ###### limit?
-</div>
-
-`숫자`
+<ParamField path="options" type="GetCallsOptions">
+  [`GetCallsOptions`](./getcallsoptions)를 참조하세요.
+</ParamField>
 
 <div id="returns-15">
   ##### 반환값
 </div>
 
-`Promise`&lt;`Call`[]&gt;
+`Promise`&lt;`object`[]&gt;
+
+<div id="call-signature-2">
+  #### Call 시그니처
+</div>
+
+> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`object`[]&gt;
+
+<div id="parameters-15">
+  ##### 매개변수
+</div>
+
+<ParamField path="options" type="CallsFilter">
+  [`CallsFilter`](./callsfilter)를 참조하세요.
+</ParamField>
+
+<ParamField path="includeCosts" type="boolean" />
+
+<ParamField path="limit" type="number" />
+
+<div id="returns-16">
+  ##### 반환값
+</div>
+
+`Promise`&lt;`object`[]&gt;
 
 ***
 
@@ -789,31 +808,19 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-정의 위치: [src/weaveClient.ts:957](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L957)
-
 <div id="parameters-16">
   ##### 매개변수
 </div>
 
-<div id="options-10">
-  ###### options?
-</div>
+<ParamField path="options" type="CallsFilter">
+  [`CallsFilter`](./callsfilter)를 참조하세요.
+</ParamField>
 
-[`CallsFilter`](./callsfilter)
+<ParamField path="includeCosts" type="boolean" />
 
-<div id="includecosts-3">
-  ###### includeCosts?
-</div>
+<ParamField path="limit" type="number" />
 
-`boolean`
-
-<div id="limit-2">
-  ###### limit?
-</div>
-
-`숫자`
-
-<div id="returns-16">
+<div id="returns-17">
   ##### 반환값
 </div>
 
@@ -825,19 +832,15 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-정의 위치: [src/weaveClient.ts:962](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L962)
-
 <div id="parameters-17">
   ##### 매개변수
 </div>
 
-<div id="options-11">
-  ###### options?
-</div>
+<ParamField path="options" type="GetCallsOptions">
+  [`GetCallsOptions`](./getcallsoptions)를 참조하세요.
+</ParamField>
 
-[`GetCallsOptions`](./getcallsoptions)
-
-<div id="returns-17">
+<div id="returns-18">
   ##### 반환값
 </div>
 
@@ -851,9 +854,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCallStack**(): `CallStack`
 
-정의 위치: [src/weaveClient.ts:1482](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1482)
-
-<div id="returns-18">
+<div id="returns-19">
   #### 반환값
 </div>
 
@@ -867,9 +868,7 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCurrentAttributes**(): `Record`&lt;`string`, `any`&gt;
 
-정의 위치: [src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1486)
-
-<div id="returns-19">
+<div id="returns-20">
   #### 반환값
 </div>
 
@@ -881,33 +880,47 @@ console.log(`total count: ${resp.data.total_count}`)
   ### linkPromptToRegistry()
 </div>
 
-> **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;`LinkAssetToRegistryRes`&gt;
+> **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
 
 게시된 프롬프트 버전을 레지스트리 포트폴리오에 연결합니다.
-
-정의 위치: [src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
 
 <div id="parameters-18">
   #### 매개변수
 </div>
 
-<div id="prompt">
-  ##### 프롬프트
-</div>
+<ParamField path="prompt" type="string | ObjectRef | Prompt" required>
+  [`ObjectRef`](../classes/objectref)를 참조하세요.
+</ParamField>
 
-`RegistryLinkable`
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="aliases" type="string[]" />
 
-<div id="options-12">
-  ##### 옵션
-</div>
+    <ParamField path="targetPath" type="string" required />
+  </Expandable>
+</ParamField>
 
-`LinkPromptToRegistryOptions`
-
-<div id="returns-20">
+<div id="returns-21">
   #### 반환값
 </div>
 
-`Promise`&lt;`LinkAssetToRegistryRes`&gt;
+`Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
+
+***
+
+<div id="pendingcallcount">
+  ### pendingCallCount()
+</div>
+
+> **pendingCallCount**(): `number`
+
+클라이언트 측에 버퍼링되었지만 아직 server로 전송되지 않은 Call입니다.
+
+<div id="returns-22">
+  #### 반환값
+</div>
+
+`number`
 
 ***
 
@@ -917,25 +930,15 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **publish**(`obj`, `objId?`): `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
 
-정의 위치: [src/weaveClient.ts:890](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L890)
-
 <div id="parameters-19">
   #### 매개변수
 </div>
 
-<div id="obj">
-  ##### obj
-</div>
+<ParamField path="obj" type="any" required />
 
-`any`
+<ParamField path="objId" type="string" />
 
-<div id="objid">
-  ##### objId?
-</div>
-
-`string`
-
-<div id="returns-21">
+<div id="returns-23">
   #### 반환값
 </div>
 
@@ -949,31 +952,101 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **pushNewCall**(): `object`
 
-정의 위치: [src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1490)
-
-<div id="returns-22">
+<div id="returns-24">
   #### 반환값
 </div>
 
 `object`
 
-<div id="currentcall-4">
-  ##### currentCall
+<ResponseField name="currentCall" type="object" required>
+  <div id="currentcallcallid">
+    ###### currentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="currentcallchildsummary">
+    ###### currentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="currentcalldisplayname">
+    ###### currentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="currentcallopname">
+    ###### currentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="currentcalltraceid">
+    ###### currentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+<ResponseField name="newStack" type="CallStack" required />
+
+<ResponseField name="parentCall" type="object">
+  <div id="parentcallcallid">
+    ###### parentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="parentcallchildsummary">
+    ###### parentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="parentcalldisplayname">
+    ###### parentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="parentcallopname">
+    ###### parentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="parentcalltraceid">
+    ###### parentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+***
+
+<div id="registercustomruntime">
+  ### registerCustomRuntime()
 </div>
 
-> **currentCall**: `CallStackEntry`
+> **registerCustomRuntime**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
 
-<div id="newstack">
-  ##### newStack
+맞춤형 런타임을 등록합니다. 이미 존재하는 경우 전체 설정을 대체합니다.
+
+<div id="parameters-20">
+  #### 매개변수
 </div>
 
-> **newStack**: `CallStack`
+<ParamField path="options" type="RegisterCustomRuntimeOptions" required>
+  [`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions)를 참조하세요.
+</ParamField>
 
-<div id="parentcall-4">
-  ##### parentCall
+<div id="returns-25">
+  #### 반환값
 </div>
 
-> `선택` **parentCall**: `CallStackEntry`
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
 
 ***
 
@@ -983,35 +1056,21 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **runWithAttributes**&lt;`T`&gt;(`attributes`, `fn`): `T`
 
-정의 위치: [src/weaveClient.ts:1498](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1498)
-
 <div id="type-parameters">
   #### 유형 매개변수
 </div>
 
-<div id="t">
-  ##### T
-</div>
+<ParamField path="T" />
 
-`T`
-
-<div id="parameters-20">
+<div id="parameters-21">
   #### 매개변수
 </div>
 
-<div id="attributes-2">
-  ##### 속성
-</div>
+<ParamField path="attributes" type="Record<string, any>" required />
 
-`Record`&lt;`string`, `any`&gt;
+<ParamField path="fn" type="() => T" required />
 
-<div id="fn">
-  ##### fn
-</div>
-
-() =&gt; `T`
-
-<div id="returns-23">
+<div id="returns-26">
   #### 반환값
 </div>
 
@@ -1025,35 +1084,21 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **runWithCallStack**&lt;`T`&gt;(`callStack`, `fn`): `T`
 
-정의 위치: [src/weaveClient.ts:1494](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1494)
-
 <div id="type-parameters-2">
   #### 유형 매개변수
 </div>
 
-<div id="t-2">
-  ##### T
-</div>
+<ParamField path="T" />
 
-`T`
-
-<div id="parameters-21">
+<div id="parameters-22">
   #### 매개변수
 </div>
 
-<div id="callstack">
-  ##### callStack
-</div>
+<ParamField path="callStack" type="CallStack" required />
 
-`CallStack`
+<ParamField path="fn" type="() => T" required />
 
-<div id="fn-2">
-  ##### fn
-</div>
-
-() =&gt; `T`
-
-<div id="returns-24">
+<div id="returns-27">
   #### 반환값
 </div>
 
@@ -1067,19 +1112,13 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **saveCallEnd**(`callEnd`): `void`
 
-정의 위치: [src/weaveClient.ts:1477](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1477)
-
-<div id="parameters-22">
+<div id="parameters-23">
   #### 매개변수
 </div>
 
-<div id="callend">
-  ##### callEnd
-</div>
+<ParamField path="callEnd" type="object & object" required />
 
-`EndedCallSchemaForInsert`
-
-<div id="returns-25">
+<div id="returns-28">
   #### 반환값
 </div>
 
@@ -1091,21 +1130,88 @@ console.log(`total count: ${resp.data.total_count}`)
   ### saveCallStart()
 </div>
 
-> **saveCallStart**(`callStart`): `void`
+> **saveCallStart**(`callStart`, `opts?`): `void`
 
-정의 위치: [src/weaveClient.ts:1472](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1472)
-
-<div id="parameters-23">
+<div id="parameters-24">
   #### 매개변수
 </div>
 
-<div id="callstart">
-  ##### callStart
-</div>
+<ParamField path="callStart" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" required>
+      Attributes
+    </ParamField>
 
-`StartedCallSchemaForInsert`
+    <ParamField path="display_name" type="string | null">
+      표시 이름
+    </ParamField>
 
-<div id="returns-26">
+    <ParamField path="id" type="string | null">
+      Id
+    </ParamField>
+
+    <ParamField path="inputs" type="Record<string, any>" required>
+      Inputs
+    </ParamField>
+
+    <ParamField path="op_name" type="string" required>
+      Op Name
+    </ParamField>
+
+    <ParamField path="otel_dump" type="Record<string, any> | null">
+      Otel Dump
+    </ParamField>
+
+    <ParamField path="parent_id" type="string | null">
+      Parent Id
+    </ParamField>
+
+    <ParamField path="project_id" type="string" required>
+      Project Id
+    </ParamField>
+
+    <ParamField path="started_at" type="string" required>
+      Started At
+
+      **형식**
+
+      date-time
+    </ParamField>
+
+    <ParamField path="thread_id" type="string | null">
+      Thread Id
+    </ParamField>
+
+    <ParamField path="trace_id" type="string | null">
+      Trace Id
+    </ParamField>
+
+    <ParamField path="turn_id" type="string | null">
+      Turn Id
+    </ParamField>
+
+    <ParamField path="wb_run_id" type="string | null">
+      Wb Run Id
+    </ParamField>
+
+    <ParamField path="wb_run_step" type="number | null">
+      Wb Run Step
+    </ParamField>
+
+    <ParamField path="wb_user_id" type="string | null">
+      Wb User Id
+      직접 설정하지 마세요. 서버가 이 필드를 자동으로 채웁니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="eager" type="boolean" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-29">
   #### 반환값
 </div>
 
@@ -1119,25 +1225,17 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **saveOp**(`op`, `objId?`): `Promise`&lt;`OpRef`&gt;
 
-정의 위치: [src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1537)
-
-<div id="parameters-24">
+<div id="parameters-25">
   #### 매개변수
 </div>
 
-<div id="op">
-  ##### op
-</div>
+<ParamField path="op" type="Op<(...args) => any>" required>
+  [`Op`](../type-aliases/op)를 참조하세요.
+</ParamField>
 
-[`Op`](../type-aliases/op)&lt;(...`args`) =&gt; `any`&gt;
+<ParamField path="objId" type="string" />
 
-<div id="objid-2">
-  ##### objId?
-</div>
-
-`string`
-
-<div id="returns-27">
+<div id="returns-30">
   #### 반환값
 </div>
 
@@ -1149,7 +1247,7 @@ console.log(`total count: ${resp.data.total_count}`)
   ### searchAgents()
 </div>
 
-> **searchAgents**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`SearchAgentsResult`&gt;&gt;
+> **searchAgents**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
 
 프로젝트 내 에이전트 메시지 전체에서 전문 검색을 수행합니다. 결과는 대화별로 그룹화되며, 일치하는 각 메시지의 미리보기가 포함됩니다.
 
@@ -1157,23 +1255,61 @@ console.log(`total count: ${resp.data.total_count}`)
 `conversationId`, `traceId`)에 일치하는 모든 메시지를 검색하려면 빈 문자열을 전달하세요. `limit` /
 `offset`을 사용하여 결과를 페이지 단위로 조회하세요.
 
-정의 위치: [src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
-
-<div id="parameters-25">
+<div id="parameters-26">
   #### 매개변수
 </div>
 
-<div id="options-13">
-  ##### 옵션
-</div>
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="agentName" type="string | null" />
 
-`SearchAgentsOptions`
+    <ParamField path="conversationId" type="string | null" />
 
-<div id="returns-28">
+    <ParamField path="limit" type="number">
+      제한
+
+      **최소**
+
+      0
+
+      **최대**
+
+      1000
+
+      **Default**
+
+      ```ts twoslash
+      // @noErrors
+      20
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      오프셋
+
+      **최소**
+
+      0
+
+      **Default**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="string" required />
+
+    <ParamField path="traceId" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-31">
   #### 반환값
 </div>
 
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`SearchAgentsResult`&gt;&gt;
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
 
 <div id="example-7">
   #### 예시
@@ -1204,7 +1340,7 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
   ### serializeAudio()
 </div>
 
-> **serializeAudio**(`data`, `audioType?`): `Promise`&lt;`SerializedFileBlob`&gt;
+> **serializeAudio**(`data`, `audioType?`): `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
 원시 오디오 바이트를 Weave 콘텐츠 저장소에 업로드하고 Call 출력에 포함할 수 있는
 `CustomWeaveType` 자리 표시자를 반환합니다.
@@ -1212,33 +1348,23 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
 `finishCall`의 자동 직렬화 파이프라인을 사용하지 않고(예: `saveCallEnd`를 통해)
 Call 출력을 수동으로 구축할 때 사용하세요.
 
-정의 위치: [src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
-
-<div id="parameters-26">
+<div id="parameters-27">
   #### 매개변수
 </div>
 
-<div id="data">
-  ##### data
-</div>
+<ParamField path="data" type="Buffer" required>
+  원시 오디오 바이트(브라우저 호환성을 위해 WAV 권장)
+</ParamField>
 
-`Buffer`
+<ParamField path="audioType" type="&#x22;wav&#x22; = DEFAULT_AUDIO_TYPE">
+  파일 형식 — 현재 &#39;wav&#39;만 지원됩니다
+</ParamField>
 
-원시 오디오 바이트(브라우저 호환성을 위해 WAV 권장)
-
-<div id="audiotype">
-  ##### audioType?
-</div>
-
-`"wav"` = `DEFAULT_AUDIO_TYPE`
-
-파일 형식 — 현재 지원되는 형식은 &#39;wav&#39;뿐입니다
-
-<div id="returns-29">
+<div id="returns-32">
   #### 반환값
 </div>
 
-`Promise`&lt;`SerializedFileBlob`&gt;
+`Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
 ***
 
@@ -1248,25 +1374,15 @@ Call 출력을 수동으로 구축할 때 사용하세요.
 
 > **updateCall**(`callId`, `displayName`): `Promise`&lt;`void`&gt;
 
-정의 위치: [src/weaveClient.ts:1710](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1710)
-
-<div id="parameters-27">
+<div id="parameters-28">
   #### 매개변수
 </div>
 
-<div id="callid-2">
-  ##### callId
-</div>
+<ParamField path="callId" type="string" required />
 
-`string`
+<ParamField path="displayName" type="string" required />
 
-<div id="displayname-2">
-  ##### 표시 이름
-</div>
-
-`string`
-
-<div id="returns-30">
+<div id="returns-33">
   #### 반환값
 </div>
 
@@ -1280,9 +1396,7 @@ Call 출력을 수동으로 구축할 때 사용하세요.
 
 > **waitForBatchProcessing**(): `Promise`&lt;`void`&gt;
 
-정의 위치: [src/weaveClient.ts:801](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L801)
-
-<div id="returns-31">
+<div id="returns-34">
   #### 반환값
 </div>
 

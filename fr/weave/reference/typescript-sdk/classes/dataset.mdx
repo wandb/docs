@@ -3,9 +3,11 @@ title: "Dataset<R>"
 description: "Référence du SDK TypeScript"
 ---
 
-Objet Dataset avec sauvegarde facile et gestion des versions automatique
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Défini dans : [src/dataset.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L52)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53" />
+
+Objet Dataset avec sauvegarde facile et gestion des versions automatique
 
 <div id="example">
   ## Exemple
@@ -40,42 +42,36 @@ const ref = await dataset.save()
   ## Paramètres de type
 </div>
 
-<div id="r">
-  ### R
-</div>
-
-`R` *extends* `DatasetRow`
-
-<div id="constructors">
-  ## Constructeurs
-</div>
+<ParamField path="R" type="extends DatasetRow" />
 
 <div id="constructor">
-  ### Constructeur
+  ## Constructeur
 </div>
 
 > **new Dataset**&lt;`R`&gt;(`parameters`): `Dataset`&lt;`R`&gt;
 
-Défini dans : [src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
-
 <div id="parameters">
-  #### Paramètres
+  ### Paramètres
 </div>
 
-<div id="parameters-2">
-  ##### paramètres
-</div>
+<ParamField path="parameters" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="description" type="string" />
 
-`DatasetParameters`&lt;`R`&gt;
+    <ParamField path="name" type="string" />
+
+    <ParamField path="rows" type="R[]" required />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### Renvoie
+  ### Renvoie
 </div>
 
 `Dataset`&lt;`R`&gt;
 
 <div id="overrides">
-  #### Redéfinit
+  ### Redéfinit
 </div>
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
@@ -90,8 +86,6 @@ Défini dans : [src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077e
 
 > `facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
-
 <div id="inherited-from">
   #### Hérité de
 </div>
@@ -104,9 +98,7 @@ Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f
   ### rows
 </div>
 
-> **rows** : `Table`&lt;`R`&gt;
-
-Défini dans : [src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
+> **rows** : `Table`&lt;`R`&gt;
 
 <div id="accessors">
   ## Accesseurs
@@ -121,8 +113,6 @@ Défini dans : [src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077e
 </div>
 
 > **get** **description**(): `string` | `undefined`
-
-Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 <div id="returns-2">
   ##### Renvoie
@@ -148,8 +138,6 @@ Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f
 
 > **get** **length**(): `number`
 
-Défini dans : [src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
-
 <div id="returns-3">
   ##### Renvoie
 </div>
@@ -167,8 +155,6 @@ Défini dans : [src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077e
 </div>
 
 > **get** **name**(): `string`
-
-Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 <div id="returns-4">
   ##### Renvoie
@@ -192,8 +178,6 @@ Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f
 
 > **[asyncIterator]**(): `AsyncIterator`&lt;`any`&gt;
 
-Défini dans : [src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
-
 <div id="returns-5">
   #### Renvoie
 </div>
@@ -206,19 +190,13 @@ Défini dans : [src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077e
   ### getRow()
 </div>
 
-> **getRow**(`index`) : `R`
+> **getRow**(`index`) : `R`
 
-Défini dans : [src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
-
-<div id="parameters-3">
+<div id="parameters-2">
   #### Paramètres
 </div>
 
-<div id="index">
-  ##### index
-</div>
-
-`number`
+<ParamField path="index" type="number" required />
 
 <div id="returns-6">
   #### Renvoie
@@ -234,8 +212,6 @@ Défini dans : [src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077e
 
 > **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-Défini dans : [src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
-
 <div id="returns-7">
   #### Renvoie
 </div>
@@ -249,8 +225,6 @@ Défini dans : [src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077e
 </div>
 
 > **saveAttrs**(): `objet`
-
-Défini dans : [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
 <div id="returns-8">
   #### Renvoie

@@ -3,9 +3,11 @@ title: "Dataset<R>"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-간편하게 저장되고 자동으로 버전 관리되는 Dataset 객체
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-정의된 위치: [src/dataset.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L52)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53" />
+
+간편하게 저장되고 자동으로 버전 관리되는 Dataset 객체
 
 <div id="example">
   ## 예시
@@ -40,42 +42,36 @@ const ref = await dataset.save()
   ## 유형 매개변수
 </div>
 
-<div id="r">
-  ### R
-</div>
-
-`R` *extends* `DatasetRow`
-
-<div id="constructors">
-  ## 생성자
-</div>
+<ParamField path="R" type="extends DatasetRow" />
 
 <div id="constructor">
-  ### 생성자
+  ## 생성자
 </div>
 
 > **new Dataset**&lt;`R`&gt;(`parameters`): `Dataset`&lt;`R`&gt;
 
-정의된 위치: [src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
-
 <div id="parameters">
-  #### 매개변수
+  ### 매개변수
 </div>
 
-<div id="parameters-2">
-  ##### parameters
-</div>
+<ParamField path="parameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="description" type="string" />
 
-`DatasetParameters`&lt;`R`&gt;
+    <ParamField path="name" type="string" />
+
+    <ParamField path="rows" type="R[]" required />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 반환값
+  ### 반환값
 </div>
 
 `Dataset`&lt;`R`&gt;
 
 <div id="overrides">
-  #### 재정의
+  ### 재정의
 </div>
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
@@ -89,8 +85,6 @@ const ref = await dataset.save()
 </div>
 
 > `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
-
-정의된 위치: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 <div id="inherited-from">
   #### 상속됨
@@ -106,8 +100,6 @@ const ref = await dataset.save()
 
 > **행**: `Table`&lt;`R`&gt;
 
-정의된 위치: [src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
-
 <div id="accessors">
   ## 접근자
 </div>
@@ -121,8 +113,6 @@ const ref = await dataset.save()
 </div>
 
 > **get** **description**(): `string` | `undefined`
-
-정의된 위치: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 <div id="returns-2">
   ##### 반환값
@@ -148,8 +138,6 @@ const ref = await dataset.save()
 
 > **get** **length**(): `number`
 
-정의된 위치: [src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
-
 <div id="returns-3">
   ##### 반환값
 </div>
@@ -167,8 +155,6 @@ const ref = await dataset.save()
 </div>
 
 > **get** **name**(): `string`
-
-정의된 위치: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 <div id="returns-4">
   ##### 반환값
@@ -192,8 +178,6 @@ const ref = await dataset.save()
 
 > **[asyncIterator]**(): `AsyncIterator`&lt;`any`&gt;
 
-정의된 위치: [src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
-
 <div id="returns-5">
   #### 반환값
 </div>
@@ -208,17 +192,11 @@ const ref = await dataset.save()
 
 > **getRow**(`index`): `R`
 
-정의된 위치: [src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
-
-<div id="parameters-3">
+<div id="parameters-2">
   #### 매개변수
 </div>
 
-<div id="index">
-  ##### index
-</div>
-
-`number`
+<ParamField path="index" type="number" required />
 
 <div id="returns-6">
   #### 반환값
@@ -234,8 +212,6 @@ const ref = await dataset.save()
 
 > **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-정의된 위치: [src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
-
 <div id="returns-7">
   #### 반환값
 </div>
@@ -249,8 +225,6 @@ const ref = await dataset.save()
 </div>
 
 > **saveAttrs**(): `object`
-
-정의된 위치: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
 <div id="returns-8">
   #### 반환값

@@ -3,21 +3,27 @@ title: "endTurn"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **endTurn**(`opts?`): `void`
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-現在のTurnを終了します。アクティブなTurnがない場合は何も行いません。
+```ts
+endTurn(opts?: object): void
+```
 
-定義元: [src/genai/api.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L183)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L183" />
+
+現在の Turn を終了します。実行中の Turn がない場合は no-op となります。
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## 戻り値

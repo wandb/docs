@@ -1,16 +1,19 @@
 ---
-title: "Outil"
+title: "Tool"
 description: "Référence du SDK TypeScript"
 ---
 
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65" />
+
 Une invocation d&#39;outil. Émet un span `execute_tool` contenant le nom de l&#39;outil,
-les arguments encodés en JSON, l&#39;ID de l&#39;appel d&#39;outil et le résultat.
+les arguments, l&#39;ID de l&#39;appel d&#39;outil et le résultat. Les arguments et les
+résultats de type chaîne sont enregistrés tels quels ; les autres valeurs JSON sont sérialisées.
 
-Créé par `weave.startTool()` (ou `turn.startTool()` ou
-`llm.startTool()`) et terminé avec `end()`. Attribuez `result` avant
-d&#39;appeler `end()` pour enregistrer la sortie de l&#39;outil dans le span.
-
-Défini dans : [src/genai/tool.ts:43](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L43)
+Créée par `weave.startTool()` (ou `turn.startTool()`, ou
+`llm.startTool()`) et terminée par `end()`, qui accepte le résultat et
+des métadonnées d&#39;erreur facultatives.
 
 <div id="example">
   ## Exemple
@@ -18,15 +21,13 @@ Défini dans : [src/genai/tool.ts:43](https://github.com/wandb/weave/blob/8c5f0
 
 ```ts twoslash
 // @noErrors
-const tool = weave.startTool({
-  name: tc.function.name,
-  args: tc.function.arguments,
-  toolCallId: tc.id,
-});
+const tool = weave.startTool({name: 'get_weather', args: {city: 'Tokyo'}});
 try {
-  tool.result = await wikipediaSearch(JSON.parse(tc.function.arguments));
-} finally {
-  tool.end();
+  const result = await getWeather('Tokyo');
+  tool.end({result});
+} catch (error) {
+  tool.end({error: error as Error, errorType: 'weather_error'});
+  throw error;
 }
 ```
 
@@ -44,9 +45,7 @@ try {
   ### args
 </div>
 
-> `readonly` **args** : `string`
-
-Défini dans : [src/genai/tool.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L52)
+> `readonly` **args** : `string`
 
 ***
 
@@ -56,19 +55,19 @@ Défini dans : [src/genai/tool.ts:52](https://github.com/wandb/weave/blob/8c5f0
 
 > `readonly` **nom**: `string`
 
-Défini dans : [src/genai/tool.ts:51](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L51)
-
 ***
 
 <div id="result">
-  ### result
+  ### ~~result~~
 </div>
+
+<Warning>
+  **Obsolète.** Passez plutôt `result` à `end()`.
+</Warning>
 
 > `facultatif` **result**: `string`
 
-Sortie de l’outil sous forme de chaîne. Enregistré dans `gen_ai.tool.call.result` lors de `end()`.
-
-Défini dans : [src/genai/tool.ts:47](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L47)
+Sortie de l’outil sous forme de chaîne. Préférez passer `result` à `end()`.
 
 ***
 
@@ -77,8 +76,6 @@ Défini dans : [src/genai/tool.ts:47](https://github.com/wandb/weave/blob/8c5f0
 </div>
 
 > `readonly` **toolCallId**: `string`
-
-Défini dans : [src/genai/tool.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L53)
 
 <div id="methods">
   ## Méthodes
@@ -101,29 +98,15 @@ Ajoute un événement nommé au span. Utile pour marquer des moments non associ�
 la compaction du contexte, la détection de boucles d’outils ou le déclenchement de guardrails. Émet un avertissement et
 ne fait rien après `end()`. Reproduit `Span.addEvent` d’OTel.
 
-Défini dans : [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 <div id="parameters">
   #### Paramètres
 </div>
 
-<div id="name-2">
-  ##### nom
-</div>
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-<div id="attributes">
-  ##### attribut ?
-</div>
-
-`Attributes`
-
-<div id="starttime">
-  ##### startTime ?
-</div>
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 <div id="returns">
   #### Renvoie
@@ -152,22 +135,18 @@ span.addEvent('context_compacted', {removedMessages: 12});
   ### end()
 </div>
 
-> **end**(`opts?`) : `void`
+> **end**(`opts?`) : `void`
 
-Envoyez `result` au span et fermez-le. Idempotent. Transmettez `error` pour marquer
-le span comme ayant échoué ; transmettez `endTime` pour antidater la fermeture.
-
-Défini dans : [src/genai/tool.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L87)
+Enregistrez un résultat et un type d&#39;erreur facultatifs, puis fermez le span. Idempotent.
+Transmettez `error` pour marquer le span comme ayant échoué et `endTime` pour antidater la fermeture.
 
 <div id="parameters-2">
   #### Paramètres
 </div>
 
-<div id="opts">
-  ##### opts?
-</div>
-
-`SpanEndOptions`
+<ParamField path="opts" type="ToolEndOptions">
+  Voir [`ToolEndOptions`](./toolendoptions).
+</ParamField>
 
 <div id="returns-2">
   #### Renvoie
@@ -181,23 +160,17 @@ Défini dans : [src/genai/tool.ts:87](https://github.com/wandb/weave/blob/8c5f0
   ### setAttributes()
 </div>
 
-> **setAttributes**(`attributes`) : `this`
+> **setAttributes**(`attributes`) : `this`
 
 Définit simultanément plusieurs attributs sur le span. Émet un avertissement et ne fait rien après
 `end()`. Correspond à `Span.setAttributes` d’OTel (ainsi qu’à
 `set_attributes` du SDK Python).
 
-Défini dans : [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
 <div id="parameters-3">
   #### Paramètres
 </div>
 
-<div id="attributes-2">
-  ##### attributs
-</div>
-
-`Attributes`
+<ParamField path="attributes" type="Attributes" required />
 
 <div id="returns-3">
   #### Renvoie

@@ -3,9 +3,11 @@ title: "Dataset<R>"
 description: "TypeScript SDK リファレンス"
 ---
 
-簡単に保存でき、自動でバージョン管理される Dataset オブジェクト
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-定義元: [src/dataset.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L52)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53" />
+
+簡単に保存でき、自動でバージョン管理される Dataset オブジェクト
 
 <div id="example">
   ## 例
@@ -40,42 +42,36 @@ const ref = await dataset.save()
   ## タイプパラメーター
 </div>
 
-<div id="r">
-  ### R
-</div>
-
-`R` *extends* `DatasetRow`
-
-<div id="constructors">
-  ## コンストラクター
-</div>
+<ParamField path="R" type="extends DatasetRow" />
 
 <div id="constructor">
-  ### コンストラクター
+  ## コンストラクター
 </div>
 
 > **new Dataset**&lt;`R`&gt;(`parameters`): `Dataset`&lt;`R`&gt;
 
-定義元: [src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
-
 <div id="parameters">
-  #### パラメーター
+  ### パラメーター
 </div>
 
-<div id="parameters-2">
-  ##### パラメーター
-</div>
+<ParamField path="parameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="description" type="string" />
 
-`DatasetParameters`&lt;`R`&gt;
+    <ParamField path="name" type="string" />
+
+    <ParamField path="rows" type="R[]" required />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ### 戻り値
 </div>
 
 `Dataset`&lt;`R`&gt;
 
 <div id="overrides">
-  #### オーバーライド
+  ### オーバーライド
 </div>
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
@@ -89,8 +85,6 @@ const ref = await dataset.save()
 </div>
 
 > `optional` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
-
-定義元: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 <div id="inherited-from">
   #### 継承元
@@ -106,8 +100,6 @@ const ref = await dataset.save()
 
 > **rows**: `Table`&lt;`R`&gt;
 
-定義元: [src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
-
 <div id="accessors">
   ## アクセサ
 </div>
@@ -121,8 +113,6 @@ const ref = await dataset.save()
 </div>
 
 > **get** **description**(): `string` | `undefined`
-
-定義元: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 <div id="returns-2">
   ##### 戻り値
@@ -148,8 +138,6 @@ const ref = await dataset.save()
 
 > **get** **length**(): `number`
 
-定義元: [src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
-
 <div id="returns-3">
   ##### 戻り値
 </div>
@@ -167,8 +155,6 @@ const ref = await dataset.save()
 </div>
 
 > **get** **名**(): `string`
-
-定義元: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 <div id="returns-4">
   ##### 戻り値
@@ -192,8 +178,6 @@ const ref = await dataset.save()
 
 > **[asyncIterator]**(): `AsyncIterator`&lt;`any`&gt;
 
-定義元: [src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
-
 <div id="returns-5">
   #### 戻り値
 </div>
@@ -208,17 +192,11 @@ const ref = await dataset.save()
 
 > **getRow**(`index`): `R`
 
-定義元: [src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
-
-<div id="parameters-3">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-<div id="index">
-  ##### インデックス
-</div>
-
-`number`
+<ParamField path="index" type="number" required />
 
 <div id="returns-6">
   #### 戻り値
@@ -234,8 +212,6 @@ const ref = await dataset.save()
 
 > **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-定義元: [src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
-
 <div id="returns-7">
   #### 戻り値
 </div>
@@ -249,8 +225,6 @@ const ref = await dataset.save()
 </div>
 
 > **saveAttrs**(): `object`
-
-定義元: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
 <div id="returns-8">
   #### 戻り値

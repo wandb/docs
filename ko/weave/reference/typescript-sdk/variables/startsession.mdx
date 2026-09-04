@@ -7,25 +7,25 @@ description: "TypeScript SDK 레퍼런스"
   **사용 중단.** 대신 [startConversation](../functions/startconversation)을 사용하세요.
 </Warning>
 
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
 > `const` **startSession**: (`opts`) =&gt; [`Conversation`](../interfaces/conversation) = `startConversation`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L33" />
 
 새 Conversation을 시작하고 현재 conversation으로 설정합니다.
 이후 `startTurn` 호출에서 자동으로 이를 사용합니다.
 
 `attributes`를 전달하면 conversation에서 생성하는 모든
-span에 맞춤형(semconv 이외) 속성을 추가할 수 있습니다.
-
-정의 위치: [src/genai/api.ts:33](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L33)
+span에 맞춤형(semconv 이외) 속성을 전파할 수 있습니다.
 
 <div id="parameters">
-  ## 매개변수
+  ## Parameters
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
-
-[`ConversationInit`](../interfaces/conversationinit) = `{}`
+<ParamField path="opts" type="ConversationInit = {}">
+  [`ConversationInit`](../interfaces/conversationinit)를 참조하세요.
+</ParamField>
 
 <div id="returns">
   ## 반환값

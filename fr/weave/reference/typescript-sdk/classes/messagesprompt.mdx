@@ -3,7 +3,9 @@ title: "MessagesPrompt"
 description: "Référence du SDK TypeScript"
 ---
 
-Défini dans : [src/prompt.ts:41](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L41)
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L43" />
 
 <div id="extends">
   ## Étend
@@ -11,36 +13,34 @@ Défini dans : [src/prompt.ts:41](https://github.com/wandb/weave/blob/8c5f077eb
 
 * `Prompt`
 
-<div id="constructors">
-  ## Constructeurs
-</div>
-
 <div id="constructor">
-  ### Constructeur
+  ## Constructeur
 </div>
 
 > **new MessagesPrompt**(`parameters`): `MessagesPrompt`
 
-Défini dans : [src/prompt.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L44)
-
 <div id="parameters">
-  #### Paramètres
+  ### Paramètres
 </div>
 
-<div id="parameters-2">
-  ##### paramètres
-</div>
+<ParamField path="parameters" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="description" type="string" />
 
-`MessagesPromptParameters`
+    <ParamField path="messages" type="Record<string, any>[]" required />
+
+    <ParamField path="name" type="string" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### Renvoie
+  ### Renvoie
 </div>
 
 `MessagesPrompt`
 
 <div id="overrides">
-  #### Redéfinit
+  ### Redéfinit
 </div>
 
 `Prompt.constructor`
@@ -55,8 +55,6 @@ Défini dans : [src/prompt.ts:44](https://github.com/wandb/weave/blob/8c5f077eb
 
 > `facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
-
 <div id="inherited-from">
   #### Hérité de
 </div>
@@ -69,9 +67,7 @@ Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f
   ### messages
 </div>
 
-> **messages** : `Record`&lt;`string`, `any`&gt;[]
-
-Défini dans : [src/prompt.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L42)
+> **messages** : `Record`&lt;`string`, `any`&gt;[]
 
 <div id="accessors">
   ## Accesseurs
@@ -86,8 +82,6 @@ Défini dans : [src/prompt.ts:42](https://github.com/wandb/weave/blob/8c5f077eb
 </div>
 
 > **get** **description**(): `string` | `undefined`
-
-Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 <div id="returns-2">
   ##### Renvoie
@@ -113,8 +107,6 @@ Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f
 
 > **get** **name**(): `string`
 
-Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
 <div id="returns-3">
   ##### Renvoie
 </div>
@@ -137,17 +129,11 @@ Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f
 
 > **format**(`values?`): `Record`&lt;`string`, `any`&gt;[]
 
-Défini dans : [src/prompt.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L71)
-
-<div id="parameters-3">
+<div id="parameters-2">
   #### Paramètres
 </div>
 
-<div id="values">
-  ##### values ?
-</div>
-
-`Record`&lt;`string`, `any`&gt; = `{}`
+<ParamField path="values" type="Record<string, any> = {}" />
 
 <div id="returns-4">
   #### Renvoie
@@ -161,9 +147,7 @@ Défini dans : [src/prompt.ts:71](https://github.com/wandb/weave/blob/8c5f077eb
   ### saveAttrs()
 </div>
 
-> **saveAttrs**() : `objet`
-
-Défini dans : [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+> **saveAttrs**() : `objet`
 
 <div id="returns-5">
   #### Renvoie
@@ -183,25 +167,17 @@ Défini dans : [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f
   ### get()
 </div>
 
-> `static` **get**(`client`, `uri`) : `Promise`&lt;`MessagesPrompt`&gt;
+> `static` **get**(`client`, `uri`) : `Promise`&lt;`MessagesPrompt`&gt;
 
-Défini dans : [src/prompt.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L77)
-
-<div id="parameters-4">
+<div id="parameters-3">
   #### Paramètres
 </div>
 
-<div id="client">
-  ##### client
-</div>
+<ParamField path="client" type="WeaveClient" required>
+  Voir [`WeaveClient`](../interfaces/weaveclient).
+</ParamField>
 
-[`WeaveClient`](../interfaces/weaveclient)
-
-<div id="uri">
-  ##### uri
-</div>
-
-`string`
+<ParamField path="uri" type="string" required />
 
 <div id="returns-6">
   #### Renvoie

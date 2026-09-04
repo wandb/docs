@@ -3,12 +3,14 @@ title: "EvaluationLogger"
 description: "TypeScript SDK 레퍼런스"
 ---
 
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L556" />
+
 EvaluationLogger를 사용하면 예측과 점수를 점진적으로 로깅할 수 있습니다.
 
 사전에 데이터셋을 준비하고 일괄 처리해야 하는 기존 Evaluation 클래스와 달리,
 EvaluationLogger를 사용하면 예측이 발생하는 대로 유연하게 점수를 매기며 로깅할 수 있습니다.
-
-정의 위치: [src/evaluationLogger.ts:554](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L554)
 
 <div id="example">
   ## 예시
@@ -31,30 +33,38 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-<div id="constructors">
-  ## 생성자
-</div>
-
 <div id="constructor">
-  ### 생성자
+  ## 생성자
 </div>
 
 > **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-정의 위치: [src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
-
 <div id="parameters">
-  #### 매개변수
+  ### 매개변수
 </div>
 
-<div id="options">
-  ##### options
-</div>
+<ParamField path="options" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" />
 
-`EvaluationLoggerOptions`
+    <ParamField path="dataset" type="string | Dataset<DatasetRow>">
+      [`Dataset`](./dataset)을 참조하세요.
+    </ParamField>
+
+    <ParamField path="description" type="string" />
+
+    <ParamField path="model" type="WeaveObject | { name?: string; }">
+      [`WeaveObject`](./weaveobject)를 참조하세요.
+    </ParamField>
+
+    <ParamField path="name" type="string" required />
+
+    <ParamField path="scorers" type="string[]" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 반환값
+  ### 반환값
 </div>
 
 `EvaluationLogger`
@@ -76,23 +86,13 @@ await ev.logSummary();
 이 방법은 ScoreLogger를 동기적으로 반환합니다. ScoreLogger에 대한 오퍼레이션(`logScore`, `finish`)은
 큐에 들어가며 초기화가 완료되면 실행됩니다.
 
-정의 위치: [src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
-
 <div id="parameters-2">
   #### 매개변수
 </div>
 
-<div id="inputs">
-  ##### inputs
-</div>
+<ParamField path="inputs" type="Record<string, any>" required />
 
-`Record`&lt;`string`, `any`&gt;
-
-<div id="output">
-  ##### 출력
-</div>
-
-`any`
+<ParamField path="output" type="any" required />
 
 <div id="returns-2">
   #### 반환값
@@ -127,23 +127,13 @@ resolve되는 Promise를 반환합니다.
 
 계속 진행하기 전에 초기화가 완료될 때까지 await해야 하는 경우 이 방법을 사용하세요.
 
-정의 위치: [src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
-
 <div id="parameters-3">
   #### 매개변수
 </div>
 
-<div id="inputs-2">
-  ##### inputs
-</div>
+<ParamField path="inputs" type="Record<string, any>" required />
 
-`Record`&lt;`string`, `any`&gt;
-
-<div id="output-2">
-  ##### 출력
-</div>
-
-`any`
+<ParamField path="output" type="any" required />
 
 <div id="returns-3">
   #### 반환값
@@ -177,17 +167,11 @@ summarize call을 생성하고 evaluate call을 마무리합니다.
 이 방법은 await 없이도 호출할 수 있지만(fire-and-forget), 내부적으로는
 대기 중인 모든 오퍼레이션이 완료될 때까지 기다립니다.
 
-정의 위치: [src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)
-
 <div id="parameters-4">
   #### 매개변수
 </div>
 
-<div id="summary">
-  ##### summary?
-</div>
-
-`Record`&lt;`string`, `any`&gt;
+<ParamField path="summary" type="Record<string, any>" />
 
 <div id="returns-4">
   #### 반환값

@@ -3,7 +3,9 @@ title: "SubAgent"
 description: "Référence du SDK TypeScript"
 ---
 
-Défini dans : [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L65)
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L84" />
 
 <div id="extends">
   ## Hérite de
@@ -25,8 +27,6 @@ Défini dans : [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8
 
 > **get** **model**(): `string`
 
-Défini dans : [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
-
 <div id="returns">
   ##### Renvoie
 </div>
@@ -44,8 +44,6 @@ Défini dans : [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8
 </div>
 
 > **get** **name**(): `string`
-
-Défini dans : [src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
 
 <div id="returns-2">
   ##### Renvoie
@@ -74,29 +72,15 @@ Ajoute un événement nommé au span. Utile pour signaler des moments ne corresp
 la compaction du contexte, la détection de boucles d’outils ou le déclenchement de garde-fous. Émet un avertissement et
 ne fait rien après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
 
-Défini dans : [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 <div id="parameters">
   #### Paramètres
 </div>
 
-<div id="name-2">
-  ##### nom
-</div>
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-<div id="attributes">
-  ##### attributes ?
-</div>
-
-`Attributes`
-
-<div id="starttime">
-  ##### startTime?
-</div>
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 <div id="returns-3">
   #### Renvoie
@@ -129,19 +113,19 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 Lit les valeurs actuelles des champs (afin de prendre en compte les modifications effectuées via `record()`
 depuis `start`) et clôt le span. Idempotente. Transmettez `error` pour le marquer
-comme ayant échoué ; transmettez `endTime` pour antidater sa clôture.
-
-Défini dans : [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
+comme ayant échoué ; transmettez `endTime` pour antidater sa clôture.
 
 <div id="parameters-2">
   #### Paramètres
 </div>
 
-<div id="opts">
-  ##### opts ?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-4">
   #### Renvoie
@@ -155,55 +139,38 @@ Défini dans : [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/
   ### record()
 </div>
 
-> **record**(`opts`) : `this`
+> **record**(`opts`) : `this`
 
-Définit plusieurs champs à la fois. Remplace les valeurs existantes (sans les fusionner).
-
-Défini dans : [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
+Définit à la fois n&#39;importe quel sous-ensemble des champs modifiables. Remplace les valeurs existantes (sans les fusionner).
+Les messages d&#39;entrée et de sortie sont sérialisés à la fin du span.
 
 <div id="parameters-3">
   #### Paramètres
 </div>
 
-<div id="opts-2">
-  ##### opts
-</div>
+<ParamField path="opts" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
 
-<div id="agentdescription">
-  ###### agentDescription?
-</div>
+    <ParamField path="agentId" type="string" />
 
-`string`
+    <ParamField path="agentVersion" type="string" />
 
-<div id="agentid">
-  ###### agentId?
-</div>
+    <ParamField path="messages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
 
-`string`
+    <ParamField path="model" type="string" />
 
-<div id="agentversion">
-  ###### agentVersion ?
-</div>
+    <ParamField path="name" type="string" />
 
-`string`
+    <ParamField path="outputMessages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
 
-<div id="model-2">
-  ###### model?
-</div>
-
-`string`
-
-<div id="name-3">
-  ###### nom ?
-</div>
-
-`string`
-
-<div id="systeminstructions">
-  ###### systemInstructions?
-</div>
-
-`string`[]
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-5">
   #### Renvoie
@@ -217,23 +184,17 @@ Défini dans : [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/
   ### setAttributes()
 </div>
 
-> **setAttributes**(`attributes`) : `this`
+> **setAttributes**(`attributes`) : `this`
 
 Définit simultanément plusieurs attributs sur le span. Émet un avertissement et ne fait rien après
 `end()`. Reproduit `Span.setAttributes` d’OTel (ainsi que
 `set_attributes` du SDK Python).
 
-Défini dans : [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
 <div id="parameters-4">
   #### Paramètres
 </div>
 
-<div id="attributes-2">
-  ##### attributs
-</div>
-
-`Attributes`
+<ParamField path="attributes" type="Attributes" required />
 
 <div id="returns-6">
   #### Renvoie
@@ -255,3 +216,75 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 </div>
 
 `SpanBase.setAttributes`
+
+***
+
+<div id="startllm">
+  ### startLLM()
+</div>
+
+> **startLLM**(`opts`) : [`LLM`](./llm)
+
+Démarre un span LLM enfant imbriqué dans ce SubAgent.
+
+<div id="parameters-5">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="LLMInit" required>
+  Voir [`LLMInit`](./llminit).
+</ParamField>
+
+<div id="returns-7">
+  #### Renvoie
+</div>
+
+[`LLM`](./llm)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`) : `SubAgent`
+
+Démarre un span SubAgent imbriqué dans ce SubAgent.
+
+<div id="parameters-6">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="SubAgentInit" required>
+  Voir [`SubAgentInit`](./subagentinit).
+</ParamField>
+
+<div id="returns-8">
+  #### Renvoie
+</div>
+
+`SubAgent`
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`) : [`Tool`](./tool)
+
+Démarre un span Tool enfant imbriqué dans ce SubAgent.
+
+<div id="parameters-7">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="ToolInit" required>
+  Voir [`ToolInit`](./toolinit).
+</ParamField>
+
+<div id="returns-9">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)

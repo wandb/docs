@@ -3,22 +3,24 @@ title: "startTurn"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **startTurn**(`opts?`): [`Turn`](../interfaces/turn)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+startTurn(opts?: TurnInit = {}): Turn
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L54" />
 
 새 Turn을 시작합니다. 활성 상태인 Conversation이 있으면 Turn이 해당
 `conversationId`를 상속받고, 그렇지 않으면 Turn에는 conversation ID가 없습니다.
 
-정의 위치: [src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
-
 <div id="parameters">
-  ## 매개변수
+  ## Parameters
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
-
-[`TurnInit`](../interfaces/turninit) = `{}`
+<ParamField path="opts" type="TurnInit = {}">
+  [`TurnInit`](../interfaces/turninit)을 참조하세요.
+</ParamField>
 
 <div id="returns">
   ## 반환값

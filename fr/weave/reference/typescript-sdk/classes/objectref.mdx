@@ -3,14 +3,16 @@ title: "ObjectRef"
 description: "Référence du SDK TypeScript"
 ---
 
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24" />
+
 Représente une référence à un objet Weave enregistré.
 
 En général, les utilisateurs finaux n’auront pas besoin d’interagir directement avec cette classe.
 
 Un ObjectRef contient l’ID du projet, l’ID de l’objet et le digest qui identifient de manière unique
 un objet enregistré dans le système de stockage de Weave.
-
-Défini dans : [src/weaveObject.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L23)
 
 <div id="example">
   ## Exemple
@@ -22,42 +24,24 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="constructors">
-  ## Constructeurs
-</div>
-
 <div id="constructor">
-  ### Constructeur
+  ## Constructeur
 </div>
 
-> **new ObjectRef**(`projectId`, `objectId`, `digest`) : `ObjectRef`
-
-Défini dans : [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
+> **new ObjectRef**(`projectId`, `objectId`, `digest`) : `ObjectRef`
 
 <div id="parameters">
-  #### Paramètres
+  ### Paramètres
 </div>
 
-<div id="projectid">
-  ##### projectId
-</div>
+<ParamField path="projectId" type="string" required />
 
-`string`
+<ParamField path="objectId" type="string" required />
 
-<div id="objectid">
-  ##### objectId
-</div>
-
-`string`
-
-<div id="digest">
-  ##### digest
-</div>
-
-`string`
+<ParamField path="digest" type="string" required />
 
 <div id="returns">
-  #### Renvoie
+  ### Renvoie
 </div>
 
 `ObjectRef`
@@ -66,33 +50,27 @@ Défini dans : [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f
   ## Propriétés
 </div>
 
-<div id="digest-2">
+<div id="digest">
   ### digest
 </div>
 
-> **digest** : `string`
-
-Défini dans : [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
+> **digest** : `string`
 
 ***
 
-<div id="objectid-2">
+<div id="objectid">
   ### objectId
 </div>
 
-> **objectId** : `string`
-
-Défini dans : [src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
+> **objectId** : `string`
 
 ***
 
-<div id="projectid-2">
+<div id="projectid">
   ### projectId
 </div>
 
-> **projectId** : `string`
-
-Défini dans : [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
+> **projectId** : `string`
 
 <div id="methods">
   ## Méthodes
@@ -103,8 +81,6 @@ Défini dans : [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f
 </div>
 
 > **get**(): `Promise`&lt;`any`&gt;
-
-Défini dans : [src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
 
 <div id="returns-2">
   #### Renvoie
@@ -117,8 +93,6 @@ Défini dans : [src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f
 </div>
 
 > **ui&#95;url**(): `string`
-
-Défini dans : [src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
 
 <div id="returns-3">
   #### Renvoie
@@ -133,8 +107,6 @@ Défini dans : [src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f
 </div>
 
 > **uri**(): `string`
-
-Défini dans : [src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
 
 <div id="returns-4">
   #### Renvoie
@@ -152,19 +124,13 @@ Défini dans : [src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f
 
 Crée un ObjectRef à partir d&#39;une chaîne d&#39;URI Weave.
 
-Défini dans : [src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)
-
 <div id="parameters-2">
   #### Paramètres
 </div>
 
-<div id="uri-2">
-  ##### uri
-</div>
-
-`string`
-
-Une URI Weave au format : weave:///entity/project/object/name:digest
+<ParamField path="uri" type="string" required>
+  Une URI Weave au format : weave:///entity/project/object/name:digest
+</ParamField>
 
 <div id="returns-5">
   #### Renvoie

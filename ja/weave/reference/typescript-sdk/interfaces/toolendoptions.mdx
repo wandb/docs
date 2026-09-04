@@ -1,0 +1,64 @@
+---
+title: "ToolEndOptions"
+description: "TypeScript SDK リファレンス"
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L25" />
+
+<div id="extends">
+  ## Extends
+</div>
+
+* `SpanEndOptions`
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+<div id="endtime">
+  ### endTime
+</div>
+
+> `optional` **endTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanEndOptions.endTime`
+
+***
+
+<div id="error">
+  ### error
+</div>
+
+> `optional` **error**: `Error`
+
+<div id="inherited-from-2">
+  #### 継承元
+</div>
+
+`SpanEndOptions.error`
+
+***
+
+<div id="errortype">
+  ### errorType
+</div>
+
+> `optional` **errorType**: `string`
+
+`error.type` 属性に記録される、安定した障害の分類です。
+
+***
+
+<div id="result">
+  ### result
+</div>
+
+> `optional` **result**: [`JsonValue`](../type-aliases/jsonvalue)
+
+JSON 値です。strings はそのまま記録され、その他の値はシリアライズされます。

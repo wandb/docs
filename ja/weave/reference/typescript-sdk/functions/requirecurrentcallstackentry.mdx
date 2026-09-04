@@ -3,12 +3,26 @@ title: "requireCurrentCallStackEntry"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **requireCurrentCallStackEntry**(): `CallStackEntry`
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-定義場所: [src/clientApi.ts:163](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L163)
+```ts
+requireCurrentCallStackEntry(): object
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L192" />
 
 <div id="returns">
   ## 戻り値
 </div>
 
-`CallStackEntry`
+`object`
+
+<ResponseField name="callId" type="string" required />
+
+<ResponseField name="childSummary" type="Record<string, any>" required />
+
+<ResponseField name="displayName" type="string" />
+
+<ResponseField name="opName" type="string" />
+
+<ResponseField name="traceId" type="string" required />

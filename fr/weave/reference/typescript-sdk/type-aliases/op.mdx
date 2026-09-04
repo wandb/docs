@@ -3,9 +3,11 @@ title: "Op<T>"
 description: "Référence du SDK TypeScript"
 ---
 
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
 > **Op**&lt;`T`&gt; = `object` &amp; `T` &amp; (...`args`) =&gt; `ReturnType`&lt;`T`&gt; *extends* `AsyncIterable`&lt;infer U&gt; ? `AsyncIterable`&lt;`Awaited`&lt;`U`&gt;&gt; : `Promise`&lt;`Awaited`&lt;`ReturnType`&lt;`T`&gt;&gt;&gt;
 
-Défini dans : [src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L7)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L8" />
 
 <div id="type-declaration">
   ## Déclaration de type
@@ -33,7 +35,7 @@ Défini dans : [src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb1
   ### __parameterNames
 </div>
 
-> `facultatif` **&#95;&#95;parameterNames**: `ParameterNamesOption`
+> `facultatif` **&#95;&#95;parameterNames**: `"useParam0Object"` | `string`[]
 
 <div id="__savedref">
   ### __savedRef
@@ -57,8 +59,4 @@ Défini dans : [src/opType.ts:7](https://github.com/wandb/weave/blob/8c5f077eb1
   ## Paramètres de type
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
+<ParamField path="T" type="extends (...args) => any" />

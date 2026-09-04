@@ -3,10 +3,12 @@ title: "Conversation"
 description: "Référence du SDK TypeScript"
 ---
 
-Une conversation regroupe des tours de conversation sous un même `gen_ai.conversation.id`. Elle ne
-constitue pas elle-même un span OTel : les spans enfants y associent l’ID de conversation.
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Défini dans : [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L72)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72" />
+
+Une conversation regroupe des tours de conversation sous un même `gen_ai.conversation.id`. Elle ne
+constitue pas elle-même un span OTel : les spans enfants y associent l’ID de conversation.
 
 <div id="accessors">
   ## Accesseurs
@@ -21,8 +23,6 @@ Défini dans : [src/genai/conversation.ts:72](https://github.com/wandb/weave/bl
 </div>
 
 > **get** **agentName**(): `string`
-
-Défini dans : [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
 
 <div id="returns">
   ##### Renvoie
@@ -42,8 +42,6 @@ Défini dans : [src/genai/conversation.ts:94](https://github.com/wandb/weave/bl
 
 > **get** **attributes**(): `Attributes`
 
-Défini dans : [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
-
 <div id="returns-2">
   ##### Renvoie
 </div>
@@ -62,8 +60,6 @@ Défini dans : [src/genai/conversation.ts:106](https://github.com/wandb/weave/b
 
 > **get** **conversationId**(): `string`
 
-Défini dans : [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
-
 <div id="returns-3">
   ##### Renvoie
 </div>
@@ -81,8 +77,6 @@ Défini dans : [src/genai/conversation.ts:102](https://github.com/wandb/weave/b
 </div>
 
 > **get** **model**(): `string`
-
-Défini dans : [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
 
 <div id="returns-4">
   ##### Renvoie
@@ -106,8 +100,6 @@ Défini dans : [src/genai/conversation.ts:98](https://github.com/wandb/weave/bl
 
 > **get** **sessionId**(): `string`
 
-Défini dans : [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
-
 <div id="returns-5">
   ##### Renvoie
 </div>
@@ -124,17 +116,17 @@ Défini dans : [src/genai/conversation.ts:111](https://github.com/wandb/weave/b
 
 > **end**(`opts?`): `void`
 
-Défini dans : [src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
-
 <div id="parameters">
   #### Paramètres
 </div>
 
-<div id="opts">
-  ##### opts ?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-6">
   #### Renvoie
@@ -148,21 +140,17 @@ Défini dans : [src/genai/conversation.ts:168](https://github.com/wandb/weave/b
   ### startTurn()
 </div>
 
-> **startTurn**(`opts?`) : [`Turn`](./turn)
+> **startTurn**(`opts?`) : [`Turn`](./turn)
 
-Démarre un nouveau `Turn` dans cette `Conversation`. Le tour de conversation hérite du `conversationId` de la conversation ; `agentName`, `agentId`, `agentDescription`, `agentVersion` et `model` utilisent les valeurs de la conversation lorsqu’ils ne sont pas fournis dans `opts`.
-
-Défini dans : [src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
+Démarre un nouveau `Turn` dans cette `Conversation`. Le tour de conversation hérite du `conversationId` de la conversation ; `agentName`, `agentId`, `agentDescription`, `agentVersion` et `model` utilisent les valeurs de la conversation lorsqu’ils ne sont pas fournis dans `opts`.
 
 <div id="parameters-2">
   #### Paramètres
 </div>
 
-<div id="opts-2">
-  ##### opts ?
-</div>
-
-[`TurnInit`](./turninit) = `{}`
+<ParamField path="opts" type="TurnInit = {}">
+  Voir [`TurnInit`](./turninit).
+</ParamField>
 
 <div id="returns-7">
   #### Renvoie

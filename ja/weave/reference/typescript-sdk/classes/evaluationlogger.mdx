@@ -3,12 +3,14 @@ title: "EvaluationLogger"
 description: "TypeScript SDK リファレンス"
 ---
 
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluationLogger.ts#L556" />
+
 EvaluationLogger を使うと、予測とスコアを段階的にログできます。
 
 事前にデータセットを用意してバッチ処理を行う必要がある従来の Evaluation クラスとは異なり、
 EvaluationLogger では、予測が発生したタイミングで、柔軟にスコアリングしながらログできます。
-
-定義元: [src/evaluationLogger.ts:554](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L554)
 
 <div id="example">
   ## 例
@@ -31,30 +33,38 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-<div id="constructors">
-  ## コンストラクター
-</div>
-
 <div id="constructor">
-  ### コンストラクター
+  ## コンストラクター
 </div>
 
 > **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-定義元: [src/evaluationLogger.ts:573](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L573)
-
 <div id="parameters">
-  #### パラメーター
+  ### パラメーター
 </div>
 
-<div id="options">
-  ##### options
-</div>
+<ParamField path="options" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" />
 
-`EvaluationLoggerOptions`
+    <ParamField path="dataset" type="string | Dataset<DatasetRow>">
+      [`Dataset`](./dataset) を参照してください。
+    </ParamField>
+
+    <ParamField path="description" type="string" />
+
+    <ParamField path="model" type="WeaveObject | { name?: string; }">
+      [`WeaveObject`](./weaveobject) を参照してください。
+    </ParamField>
+
+    <ParamField path="name" type="string" required />
+
+    <ParamField path="scorers" type="string[]" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ### 戻り値
 </div>
 
 `EvaluationLogger`
@@ -76,23 +86,13 @@ predict&#95;and&#95;score call (子 predict call を含む) を作成します�
 この method は ScoreLogger を同期的に返します。初期化が完了すると、
 ScoreLogger に対する操作 (`logScore`、`finish`) はキューに追加され、実行されます。
 
-定義元: [src/evaluationLogger.ts:660](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L660)
-
 <div id="parameters-2">
   #### パラメーター
 </div>
 
-<div id="inputs">
-  ##### inputs
-</div>
+<ParamField path="inputs" type="Record<string, any>" required />
 
-`Record`&lt;`string`, `any`&gt;
-
-<div id="output">
-  ##### 出力
-</div>
-
-`any`
+<ParamField path="output" type="any" required />
 
 <div id="returns-2">
   #### 戻り値
@@ -127,23 +127,13 @@ logPrediction() と同様ですが、
 
 続行する前に初期化の完了を await する必要がある場合は、これを使用します。
 
-定義元: [src/evaluationLogger.ts:685](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L685)
-
 <div id="parameters-3">
   #### パラメーター
 </div>
 
-<div id="inputs-2">
-  ##### inputs
-</div>
+<ParamField path="inputs" type="Record<string, any>" required />
 
-`Record`&lt;`string`, `any`&gt;
-
-<div id="output-2">
-  ##### 出力
-</div>
-
-`any`
+<ParamField path="output" type="any" required />
 
 <div id="returns-3">
   #### 戻り値
@@ -175,19 +165,13 @@ await scoreLogger.finish();
 summarize call を作成し、evaluate call を完了します。
 
 この method は await なしでも呼び出せます (ファイア・アンド・フォーゲット) が、内部的には
-保留中のすべての operation が完了するまで待機します。
-
-定義元: [src/evaluationLogger.ts:786](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluationLogger.ts#L786)
+保留中のすべての 操作 が完了するまで待機します。
 
 <div id="parameters-4">
   #### パラメーター
 </div>
 
-<div id="summary">
-  ##### summary?
-</div>
-
-`Record`&lt;`string`, `any`&gt;
+<ParamField path="summary" type="Record<string, any>" />
 
 <div id="returns-4">
   #### 戻り値

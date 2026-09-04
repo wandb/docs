@@ -3,7 +3,13 @@ title: "instrumentOpenAIAgents"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **instrumentOpenAIAgents**(): `Promise`&lt;`boolean`&gt;
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+instrumentOpenAIAgents(): Promise<boolean>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.agent.ts#L169" />
 
 패키지를 사용할 수 있으면 OpenAI Agents에 Weave tracing을 수동으로 등록합니다.
 
@@ -14,8 +20,6 @@ description: "TypeScript SDK 레퍼런스"
 이 함수는 사용자의 node&#95;modules에서 @openai/agents를 동적으로 임포트하려고 시도하고
 TracingProcessor를 등록합니다. 패키지가 설치되어 있지 않으면 오류를 발생시키지 않고
 false를 반환합니다.
-
-정의 위치: [src/integrations/openai.agent.ts:169](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.agent.ts#L169)
 
 <div id="returns">
   ## 반환값

@@ -3,9 +3,11 @@ title: "Requête"
 description: "Référence du SDK TypeScript"
 ---
 
-Requête
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Défini dans : [src/generated/traceServerApi.ts:5222](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5222)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L5516" />
+
+Requête
 
 <div id="properties">
   ## Propriétés
@@ -15,8 +17,923 @@ Défini dans : [src/generated/traceServerApi.ts:5222](https://github.com/wandb/
   ### $expr
 </div>
 
-> **$expr**: `AndOperation` | `OrOperation` | `NotOperation` | `EqOperation` | `GtOperation` | `LtOperation` | `GteOperation` | `LteOperation` | `InOperation` | `ContainsOperation`
+> **$expr**: &#123; `$and`: (AndOperation | &#123; `$or`: (AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation)[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | &#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `substr`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;; &#125; | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;)[]; &#125; | &#123; `$or`: (&#123; `$and`: (AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation)[]; &#125; | OrOperation | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | &#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `substr`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;; &#125; | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;)[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | &#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: &#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | ContainsOperation | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;; `substr`: &#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | ContainsOperation | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;; &#125;; &#125;
 
 $Expr
 
-Défini dans : [src/generated/traceServerApi.ts:5224](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5224)
+<div id="union-members">
+  #### Membres de l&#39;union
+</div>
+
+<div id="type-literal">
+  ##### Littéral de type
+</div>
+
+&#123; `$and`: (AndOperation | &#123; `$or`: (AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation)[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | &#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `substr`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;; &#125; | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;)[]; &#125;
+
+<div id="and">
+  ##### $and
+</div>
+
+> **$and** : (AndOperation | &#123; `$or`: (AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation)[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | &#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `substr`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;; &#125; | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;)[]
+
+$And
+
+***
+
+<div id="type-literal-2">
+  ##### Littéral de type
+</div>
+
+&#123; `$or`: (&#123; `$and`: (AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation)[]; &#125; | OrOperation | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | &#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `substr`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;; &#125; | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;)[]; &#125;
+
+<div id="or">
+  ##### $or
+</div>
+
+> **$or**: (&#123; `$and`: (AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation)[]; &#125; | OrOperation | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | &#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; `substr`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; &#125;; &#125; | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; &#125;)[]
+
+$Or
+
+***
+
+<div id="type-literal-3">
+  ##### Littéral de type
+</div>
+
+&#123; `$not`: `any`[]; &#125;
+
+<div id="not">
+  ##### $not
+</div>
+
+> **$not** : `any`[]
+
+$Not
+
+<div id="max-items">
+  ###### Nombre maximal d’éléments
+</div>
+
+1
+
+<div id="min-items">
+  ###### Min Items
+</div>
+
+1
+
+***
+
+<div id="type-literal-4">
+  ##### Littéral de type
+</div>
+
+&#123; `$eq`: `any`[]; &#125;
+
+<div id="eq">
+  ##### $eq
+</div>
+
+> **$eq**: `any`[]
+
+$Eq
+
+<div id="max-items-2">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-2">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-5">
+  ##### Littéral de type
+</div>
+
+&#123; `$gt`: `any`[]; &#125;
+
+<div id="gt">
+  ##### $gt
+</div>
+
+> **$gt** : `any`[]
+
+$Gt
+
+<div id="max-items-3">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-3">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-6">
+  ##### Littéral de type
+</div>
+
+&#123; `$lt`: `any`[]; &#125;
+
+<div id="lt">
+  ##### $lt
+</div>
+
+> **$lt** : `any`[]
+
+$Lt
+
+<div id="max-items-4">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-4">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-7">
+  ##### Littéral de type
+</div>
+
+&#123; `$gte`: `any`[]; &#125;
+
+<div id="gte">
+  ##### $gte
+</div>
+
+> **$gte** : `any`[]
+
+$Gte
+
+<div id="max-items-5">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-5">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-8">
+  ##### Littéral de type
+</div>
+
+&#123; `$lte`: `any`[]; &#125;
+
+<div id="lte">
+  ##### $lte
+</div>
+
+> **$lte** : `any`[]
+
+$Lte
+
+<div id="max-items-6">
+  ###### Nombre maximal d&#39;éléments
+</div>
+
+2
+
+<div id="min-items-6">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-9">
+  ##### Littéral de type
+</div>
+
+&#123; `$in`: `any`[]; &#125;
+
+<div id="in">
+  ##### $in
+</div>
+
+> **$in**: `any`[]
+
+$In
+
+<div id="max-items-7">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-7">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-10">
+  ##### Littéral de type
+</div>
+
+&#123; `$contains`: &#123; `case_insensitive?`: `boolean` | `null`; `input`: &#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation[]; &#125; | &#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | ContainsOperation | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; &#125;; `substr`: &#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation[]; &#125; | &#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | ContainsOperation | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; &#125;; &#125;; &#125;
+
+<div id="contains">
+  ##### $contains
+</div>
+
+> **$contains** : `object`
+
+Spécification de l&#39;opération `$contains`.
+
+* `input` : la chaîne dans laquelle effectuer la recherche.
+* `substr` : la sous-chaîne à rechercher.
+* `case_insensitive` : si la valeur est true, la correspondance ne tient pas compte de la casse.
+
+<div id="containscase_insensitive">
+  ###### $contains.case_insensitive
+</div>
+
+> `optional` **case&#95;insensitive** : `boolean` | `null`
+
+Insensible à la casse
+
+<div id="default">
+  ###### Par défaut
+</div>
+
+```ts twoslash
+// @noErrors
+false
+```
+
+<div id="containsinput">
+  ###### $contains.input
+</div>
+
+> **input**: &#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | ContainsOperation | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;
+
+Entrée
+
+<div id="union-members-2">
+  ###### Membres de l&#39;union
+</div>
+
+<div id="type-literal-11">
+  ###### Littéral de type
+</div>
+
+&#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation[]; &#125;
+
+<div id="and-2">
+  ###### $and
+</div>
+
+> **$and** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation[]
+
+$And
+
+***
+
+<div id="type-literal-12">
+  ###### Littéral de type
+</div>
+
+&#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125;
+
+<div id="or-2">
+  ###### $or
+</div>
+
+> **$or** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation[]
+
+$Or
+
+***
+
+<div id="type-literal-13">
+  ###### Littéral de type
+</div>
+
+&#123; `$not`: `any`[]; &#125;
+
+<div id="not-2">
+  ###### $not
+</div>
+
+> **$not** : `any`[]
+
+$Not
+
+<div id="max-items-8">
+  ###### Nombre maximal d’éléments
+</div>
+
+1
+
+<div id="min-items-8">
+  ###### Min Items
+</div>
+
+1
+
+***
+
+<div id="type-literal-14">
+  ###### Littéral de type
+</div>
+
+&#123; `$eq`: `any`[]; &#125;
+
+<div id="eq-2">
+  ###### $eq
+</div>
+
+> **$eq**: `any`[]
+
+$Eq
+
+<div id="max-items-9">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-9">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-15">
+  ###### Littéral de type
+</div>
+
+&#123; `$gt`: `any`[]; &#125;
+
+<div id="gt-2">
+  ###### $gt
+</div>
+
+> **$gt**: `any`[]
+
+$Gt
+
+<div id="max-items-10">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-10">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-16">
+  ###### Littéral de type
+</div>
+
+&#123; `$lt`: `any`[]; &#125;
+
+<div id="lt-2">
+  ###### $lt
+</div>
+
+> **$lt** : `any`[]
+
+$Lt
+
+<div id="max-items-11">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-11">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-17">
+  ###### Littéral de type
+</div>
+
+&#123; `$gte`: `any`[]; &#125;
+
+<div id="gte-2">
+  ###### $gte
+</div>
+
+> **$gte** : `any`[]
+
+$Gte
+
+<div id="max-items-12">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-12">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-18">
+  ###### Littéral de type
+</div>
+
+&#123; `$lte`: `any`[]; &#125;
+
+<div id="lte-2">
+  ###### $lte
+</div>
+
+> **$lte** : `any`[]
+
+$Lte
+
+<div id="max-items-13">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-13">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-19">
+  ###### Littéral de type
+</div>
+
+&#123; `$in`: `any`[]; &#125;
+
+<div id="in-2">
+  ###### $in
+</div>
+
+> **$in**: `any`[]
+
+$In
+
+<div id="max-items-14">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-14">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+ContainsOperation
+
+***
+
+<div id="type-literal-20">
+  ###### Littéral de type
+</div>
+
+&#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125;
+
+<div id="literal">
+  ###### $literal
+</div>
+
+> **$literal** : `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`
+
+$Literal
+
+***
+
+<div id="type-literal-21">
+  ###### Littéral de type
+</div>
+
+&#123; `$getField`: `string`; &#125;
+
+<div id="getfield">
+  ###### $getField
+</div>
+
+> **$getField** : `string`
+
+$Getfield
+
+***
+
+<div id="type-literal-22">
+  ###### Littéral de type
+</div>
+
+&#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125;
+
+<div id="convert">
+  ###### $convert
+</div>
+
+> **$convert** : `object`
+
+Spécifie les détails de conversion pour `$convert`.
+
+* `input` : l&#39;opérande à convertir.
+* `to` : le type cible de la conversion.
+
+<div id="convertinput">
+  ###### $convert.input
+</div>
+
+> **input** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation
+
+Entrée
+
+<div id="convertto">
+  ###### $convert.to
+</div>
+
+> **to** : `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`
+
+To
+
+***
+
+<div id="type-literal-23">
+  ###### Littéral de type
+</div>
+
+&#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation; &#125;
+
+<div id="size">
+  ###### $size
+</div>
+
+> **$size** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation
+
+$Size
+
+<div id="containssubstr">
+  ###### $contains.substr
+</div>
+
+> **substr** : &#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation[]; &#125; | &#123; `$not`: `any`[]; &#125; | &#123; `$eq`: `any`[]; &#125; | &#123; `$gt`: `any`[]; &#125; | &#123; `$lt`: `any`[]; &#125; | &#123; `$gte`: `any`[]; &#125; | &#123; `$lte`: `any`[]; &#125; | &#123; `$in`: `any`[]; &#125; | ContainsOperation | &#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125; | &#123; `$getField`: `string`; &#125; | &#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125; | &#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 more ... | SizeOperation; &#125;
+
+Substr
+
+<div id="union-members-3">
+  ###### Membres de l&#39;union
+</div>
+
+<div id="type-literal-24">
+  ###### Littéral de type
+</div>
+
+&#123; `$and`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation[]; &#125;
+
+<div id="and-3">
+  ###### $and
+</div>
+
+> **$and** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation[]
+
+$And
+
+***
+
+<div id="type-literal-25">
+  ###### Littéral de type
+</div>
+
+&#123; `$or`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation[]; &#125;
+
+<div id="or-3">
+  ###### $or
+</div>
+
+> **$or** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation[]
+
+$Or
+
+***
+
+<div id="type-literal-26">
+  ###### Littéral de type
+</div>
+
+&#123; `$not`: `any`[]; &#125;
+
+<div id="not-3">
+  ###### $not
+</div>
+
+> **$not**: `any`[]
+
+$Not
+
+<div id="max-items-15">
+  ###### Nombre maximal d’éléments
+</div>
+
+1
+
+<div id="min-items-15">
+  ###### Min Items
+</div>
+
+1
+
+***
+
+<div id="type-literal-27">
+  ###### Littéral de type
+</div>
+
+&#123; `$eq`: `any`[]; &#125;
+
+<div id="eq-3">
+  ###### $eq
+</div>
+
+> **$eq**: `any`[]
+
+$Eq
+
+<div id="max-items-16">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-16">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-28">
+  ###### Littéral de type
+</div>
+
+&#123; `$gt`: `any`[]; &#125;
+
+<div id="gt-3">
+  ###### $gt
+</div>
+
+> **$gt**: `any`[]
+
+$Gt
+
+<div id="max-items-17">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-17">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-29">
+  ###### Littéral de type
+</div>
+
+&#123; `$lt`: `any`[]; &#125;
+
+<div id="lt-3">
+  ###### $lt
+</div>
+
+> **$lt** : `any`[]
+
+$Lt
+
+<div id="max-items-18">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-18">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-30">
+  ###### Littéral de type
+</div>
+
+&#123; `$gte`: `any`[]; &#125;
+
+<div id="gte-3">
+  ###### $gte
+</div>
+
+> **$gte** : `any`[]
+
+$Gte
+
+<div id="max-items-19">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-19">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-31">
+  ###### Littéral de type
+</div>
+
+&#123; `$lte`: `any`[]; &#125;
+
+<div id="lte-3">
+  ###### $lte
+</div>
+
+> **$lte**: `any`[]
+
+$Lte
+
+<div id="max-items-20">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-20">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+<div id="type-literal-32">
+  ###### Littéral de type
+</div>
+
+&#123; `$in`: `any`[]; &#125;
+
+<div id="in-3">
+  ###### $in
+</div>
+
+> **$in**: `any`[]
+
+$In
+
+<div id="max-items-21">
+  ###### Nombre maximal d’éléments
+</div>
+
+2
+
+<div id="min-items-21">
+  ###### Min Items
+</div>
+
+2
+
+***
+
+ContainsOperation
+
+***
+
+<div id="type-literal-33">
+  ###### Littéral de type
+</div>
+
+&#123; `$literal`: `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`; &#125;
+
+<div id="literal-2">
+  ###### $literal
+</div>
+
+> **$literal** : `string` | `number` | `boolean` | `Record`&lt;`string`, LiteralOperation&gt; | LiteralOperation[] | `null`
+
+$Literal
+
+***
+
+<div id="type-literal-34">
+  ###### Littéral de type
+</div>
+
+&#123; `$getField`: `string`; &#125;
+
+<div id="getfield-2">
+  ###### $getField
+</div>
+
+> **$getField** : `string`
+
+$Getfield
+
+***
+
+<div id="type-literal-35">
+  ###### Littéral de type
+</div>
+
+&#123; `$convert`: &#123; `input`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; `to`: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`; &#125;; &#125;
+
+<div id="convert-2">
+  ###### $convert
+</div>
+
+> **$convert** : `object`
+
+Spécifie les détails de conversion pour `$convert`.
+
+* `input` : l&#39;opérande à convertir.
+* `to` : le type cible de la conversion.
+
+<div id="convertinput-2">
+  ###### $convert.input
+</div>
+
+> **input** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation
+
+Entrée
+
+<div id="convertto-2">
+  ###### $convert.to
+</div>
+
+> **to**: `"string"` | `"double"` | `"int"` | `"bool"` | `"exists"`
+
+To
+
+***
+
+<div id="type-literal-36">
+  ###### Littéral de type
+</div>
+
+&#123; `$size`: AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 de plus ... | SizeOperation; &#125;
+
+<div id="size-2">
+  ###### $size
+</div>
+
+> **$size** : AndOperation | OrOperation | NotOperation | EqOperation | GtOperation | LtOperation | GteOperation | ... 6 autres ... | SizeOperation
+
+$Size

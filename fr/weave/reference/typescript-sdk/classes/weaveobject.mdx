@@ -3,7 +3,9 @@ title: "WeaveObject"
 description: "Référence du SDK TypeScript"
 ---
 
-Défini dans : [src/weaveObject.ts:70](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L70)
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L71" />
 
 <div id="extended-by">
   ## Étendu par
@@ -12,30 +14,26 @@ Défini dans : [src/weaveObject.ts:70](https://github.com/wandb/weave/blob/8c5f
 * [`Jeu de données`](./dataset)
 * [`Évaluation`](./evaluation)
 
-<div id="constructors">
-  ## Constructeurs
-</div>
-
 <div id="constructor">
-  ### Constructeur
+  ## Constructeur
 </div>
 
-> **new WeaveObject**(`_baseParameters`) : `WeaveObject`
-
-Défini dans : [src/weaveObject.ts:73](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L73)
+> **new WeaveObject**(`_baseParameters`) : `WeaveObject`
 
 <div id="parameters">
-  #### Paramètres
+  ### Paramètres
 </div>
 
-<div id="_baseparameters">
-  ##### _baseParameters
-</div>
+<ParamField path="_baseParameters" type="objet" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="description" type="string" />
 
-`WeaveObjectParameters`
+    <ParamField path="nom" type="string" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### Renvoie
+  ### Renvoie
 </div>
 
 `WeaveObject`
@@ -50,8 +48,6 @@ Défini dans : [src/weaveObject.ts:73](https://github.com/wandb/weave/blob/8c5f
 
 > `facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
-
 <div id="accessors">
   ## Accesseurs
 </div>
@@ -65,8 +61,6 @@ Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f
 </div>
 
 > **get** **description**(): `string` | `undefined`
-
-Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 <div id="returns-2">
   ##### Renvoie
@@ -86,8 +80,6 @@ Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f
 
 > **get** **nom**(): `string`
 
-Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
 <div id="returns-3">
   ##### Renvoie
 </div>
@@ -102,9 +94,7 @@ Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f
   ### saveAttrs()
 </div>
 
-> **saveAttrs**() : `objet`
-
-Défini dans : [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
+> **saveAttrs**() : `objet`
 
 <div id="returns-4">
   #### Renvoie

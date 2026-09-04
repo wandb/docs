@@ -3,26 +3,32 @@ title: "weaveAudio"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **weaveAudio**(`options`): [`WeaveAudio`](../interfaces/weaveaudio)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+weaveAudio(options: object): WeaveAudio
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L85" />
 
 新しい WeaveAudio オブジェクトを作成します
-
-定義元: [src/media.ts:62](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L62)
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="options">
-  ### options
-</div>
+<ParamField path="options" type="object" required>
+  このメディアタイプのオプションです
 
-`WeaveAudioInput`
-
-このメディアタイプのオプションです
-
-* data: Buffer 形式の生のオーディオデータ
+  * data: Buffer 形式の生のオーディオデータ
   * audioType: (任意) オーディオファイルの種類。現在サポートされているのは &#39;wav&#39; のみです
+
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="audioType" type="&#x22;wav&#x22;" />
+
+    <ParamField path="data" type="Buffer" required />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## 戻り値

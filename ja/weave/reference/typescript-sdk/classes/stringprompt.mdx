@@ -3,7 +3,9 @@ title: "StringPrompt"
 description: "TypeScript SDK リファレンス"
 ---
 
-定義元: [src/prompt.ts:18](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L18)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L19" />
 
 <div id="extends">
   ## 継承元
@@ -11,36 +13,34 @@ description: "TypeScript SDK リファレンス"
 
 * `Prompt`
 
-<div id="constructors">
-  ## コンストラクタ
-</div>
-
 <div id="constructor">
-  ### コンストラクター
+  ## コンストラクター
 </div>
 
 > **new StringPrompt**(`parameters`): `StringPrompt`
 
-定義元: [src/prompt.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L21)
-
 <div id="parameters">
-  #### パラメーター
+  ### パラメーター
 </div>
 
-<div id="parameters-2">
-  ##### パラメーター
-</div>
+<ParamField path="parameters" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="content" type="string" required />
 
-`StringPromptParameters`
+    <ParamField path="description" type="string" />
+
+    <ParamField path="name" type="string" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ### 戻り値
 </div>
 
 `StringPrompt`
 
 <div id="overrides">
-  #### オーバーライド
+  ### オーバーライド
 </div>
 
 `Prompt.constructor`
@@ -54,8 +54,6 @@ description: "TypeScript SDK リファレンス"
 </div>
 
 > `optional` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
-
-定義元: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 <div id="inherited-from">
   #### 継承元
@@ -71,8 +69,6 @@ description: "TypeScript SDK リファレンス"
 
 > **content**: `string`
 
-定義元: [src/prompt.ts:19](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L19)
-
 <div id="accessors">
   ## アクセサー
 </div>
@@ -86,8 +82,6 @@ description: "TypeScript SDK リファレンス"
 </div>
 
 > **get** **description**(): `string` | `undefined`
-
-定義元: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 <div id="returns-2">
   ##### 戻り値
@@ -113,8 +107,6 @@ description: "TypeScript SDK リファレンス"
 
 > **get** **名**(): `string`
 
-定義元: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
 <div id="returns-3">
   ##### 戻り値
 </div>
@@ -137,17 +129,11 @@ description: "TypeScript SDK リファレンス"
 
 > **format**(`values?`): `string`
 
-定義元: [src/prompt.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L26)
-
-<div id="parameters-3">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-<div id="values">
-  ##### values?
-</div>
-
-`Record`&lt;`string`, `any`&gt; = `{}`
+<ParamField path="values" type="Record<string, any> = {}" />
 
 <div id="returns-4">
   #### 戻り値
@@ -162,8 +148,6 @@ description: "TypeScript SDK リファレンス"
 </div>
 
 > **saveAttrs**(): `object`
-
-定義元: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
 <div id="returns-5">
   #### 戻り値
@@ -185,23 +169,15 @@ description: "TypeScript SDK リファレンス"
 
 > `static` **get**(`client`, `uri`): `Promise`&lt;`StringPrompt`&gt;
 
-定義元: [src/prompt.ts:30](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L30)
-
-<div id="parameters-4">
+<div id="parameters-3">
   #### パラメーター
 </div>
 
-<div id="client">
-  ##### client
-</div>
+<ParamField path="client" type="WeaveClient" required>
+  [`WeaveClient`](../interfaces/weaveclient) を参照してください。
+</ParamField>
 
-[`WeaveClient`](../interfaces/weaveclient)
-
-<div id="uri">
-  ##### uri
-</div>
-
-`string`
+<ParamField path="uri" type="string" required />
 
 <div id="returns-6">
   #### 戻り値

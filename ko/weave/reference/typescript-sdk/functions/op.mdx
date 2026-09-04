@@ -3,39 +3,77 @@ title: "op"
 description: "TypeScript SDK 레퍼런스"
 ---
 
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
 <div id="call-signature">
   ## Call 시그니처
 </div>
 
-> **op**&lt;`T`&gt;(`fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+```ts
+op<T>(fn: T, options?: object): Op<T>
+```
 
-정의 위치: [src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L380)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392" />
 
 <div id="type-parameters">
   ### 유형 매개변수
 </div>
 
-<div id="t">
-  #### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
+<ParamField path="T" type="extends (...args) => any" />
 
 <div id="parameters">
   ### 매개변수
 </div>
 
-<div id="fn">
-  #### fn
-</div>
+<ParamField path="fn" type="T" required />
 
-`T`
+<ParamField path="options" type="object">
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      이 op이 생성하는 모든 call에 적용되는 기본 속성입니다. 인테그레이션은
+      `attributes.integration` 출처 정보를 남기기 위해 이 값을 설정합니다. `kind`/
+      `color` 아래에 병합되며, 키가 충돌하면 `kind`/`color`가 우선합니다.
+    </ParamField>
 
-<div id="options">
-  #### options?
-</div>
+    <ParamField path="bindThis" type="WeaveObject">
+      [`WeaveObject`](../classes/weaveobject)를 참조하세요.
+    </ParamField>
 
-`OpOptions`&lt;`T`&gt;
+    <ParamField path="callDisplayName" type="(...args) => string" />
+
+    <ParamField path="isDecorator" type="boolean" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="opColor" type="string">
+      UI에서 해당 오퍼레이션에 사용할 맞춤형 색상
+    </ParamField>
+
+    <ParamField path="opKind" type="string">
+      UI 분류에 사용되는 오퍼레이션의 종류(예: &#39;llm&#39;, &#39;agent&#39;, &#39;tool&#39;, &#39;search&#39;)
+    </ParamField>
+
+    <ParamField path="originalFunction" type="T" />
+
+    <ParamField path="parameterNames" type="&#x22;useParam0Object&#x22; | string[]" />
+
+    <ParamField path="shouldAdoptThis" type="boolean" />
+
+    <ParamField path="streamReducer" type="object">
+      전체 유형: `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
+
+      <Expandable title="속성" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
+
+        <ParamField path="initialStateFn" type="() => any" required />
+
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ### 반환값
@@ -47,41 +85,71 @@ description: "TypeScript SDK 레퍼런스"
   ## Call 시그니처
 </div>
 
-> **op**&lt;`T`&gt;(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
-
-정의 위치: [src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L385)
+```ts
+op<T>(thisArg: any, fn: T, options?: object): Op<T>
+```
 
 <div id="type-parameters-2">
   ### 유형 매개변수
 </div>
 
-<div id="t-2">
-  #### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
+<ParamField path="T" type="extends (...args) => any" />
 
 <div id="parameters-2">
   ### 매개변수
 </div>
 
-<div id="thisarg">
-  #### thisArg
-</div>
+<ParamField path="thisArg" type="any" required />
 
-`any`
+<ParamField path="fn" type="T" required />
 
-<div id="fn-2">
-  #### fn
-</div>
+<ParamField path="options" type="object">
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      이 op이 생성하는 모든 call에 적용되는 기본 속성입니다. 인테그레이션은
+      `attributes.integration` 출처 정보를 남기기 위해 이 값을 설정합니다. `kind`/
+      `color` 아래에 병합되며, 키가 충돌하면 `kind`/`color`가 우선합니다.
+    </ParamField>
 
-`T`
+    <ParamField path="bindThis" type="WeaveObject">
+      [`WeaveObject`](../classes/weaveobject)를 참조하세요.
+    </ParamField>
 
-<div id="options-2">
-  #### options?
-</div>
+    <ParamField path="callDisplayName" type="(...args) => string" />
 
-`OpOptions`&lt;`T`&gt;
+    <ParamField path="isDecorator" type="boolean" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="opColor" type="string">
+      UI에 표시되는 오퍼레이션의 맞춤형 색상
+    </ParamField>
+
+    <ParamField path="opKind" type="string">
+      UI 분류에 사용되는 오퍼레이션의 종류(예: &#39;llm&#39;, &#39;agent&#39;, &#39;tool&#39;, &#39;search&#39;)
+    </ParamField>
+
+    <ParamField path="originalFunction" type="T" />
+
+    <ParamField path="parameterNames" type="&#x22;useParam0Object&#x22; | string[]" />
+
+    <ParamField path="shouldAdoptThis" type="boolean" />
+
+    <ParamField path="streamReducer" type="object">
+      전체 유형: `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
+
+      <Expandable title="속성" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
+
+        <ParamField path="initialStateFn" type="() => any" required />
+
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-2">
   ### 반환값
@@ -93,31 +161,19 @@ description: "TypeScript SDK 레퍼런스"
   ## Call 시그니처
 </div>
 
-> **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`&lt;`any`&gt;
-
-정의 위치: [src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L391)
+```ts
+op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>
+```
 
 <div id="parameters-3">
   ### 매개변수
 </div>
 
-<div id="target">
-  #### target
-</div>
+<ParamField path="target" type="object" required />
 
-`object`
+<ParamField path="propertyKey" type="string | symbol" required />
 
-<div id="propertykey">
-  #### propertyKey
-</div>
-
-`string` | `symbol`
-
-<div id="descriptor">
-  #### descriptor
-</div>
-
-`TypedPropertyDescriptor`&lt;`any`&gt;
+<ParamField path="descriptor" type="TypedPropertyDescriptor<any>" required />
 
 <div id="returns-3">
   ### 반환값
@@ -129,35 +185,47 @@ description: "TypeScript SDK 레퍼런스"
   ## Call 시그니처
 </div>
 
-> **op**&lt;`T`&gt;(`value`, `context`): [`Op`](../type-aliases/op)&lt;`T`&gt;
-
-정의 위치: [src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L397)
+```ts
+op<T>(value: T, context: object): Op<T>
+```
 
 <div id="type-parameters-3">
   ### 유형 매개변수
 </div>
 
-<div id="t-3">
-  #### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
+<ParamField path="T" type="extends (...args) => any" />
 
 <div id="parameters-4">
   ### 매개변수
 </div>
 
-<div id="value">
-  #### 값
-</div>
+<ParamField path="value" type="T" required />
 
-`T`
+<ParamField path="context" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="access" type="{ get: Function; has: boolean; }">
+      <Expandable title="속성" defaultOpen>
+        <ParamField path="get" required />
 
-<div id="context">
-  #### context
-</div>
+        <ParamField path="has" required />
+      </Expandable>
+    </ParamField>
 
-`MethodDecoratorContext`
+    <ParamField path="class" type="Function" />
+
+    <ParamField path="kind" type="&#x22;method&#x22;" required />
+
+    <ParamField path="metadata" type="any" />
+
+    <ParamField path="name" type="string | symbol" required />
+
+    <ParamField path="private" type="boolean" />
+
+    <ParamField path="static" type="boolean" />
+
+    <ParamField path="addInitializer" />
+  </Expandable>
+</ParamField>
 
 <div id="returns-4">
   ### 반환값
@@ -169,19 +237,15 @@ description: "TypeScript SDK 레퍼런스"
   ## Call 시그니처
 </div>
 
-> **op**(`options`): `MethodDecorator`
-
-정의 위치: [src/op.ts:402](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L402)
+```ts
+op(options: Partial<OpOptions<any>>): MethodDecorator
+```
 
 <div id="parameters-5">
   ### 매개변수
 </div>
 
-<div id="options-3">
-  #### options
-</div>
-
-`Partial`&lt;`OpOptions`&lt;`any`&gt;&gt;
+<ParamField path="options" type="Partial<OpOptions<any>>" required />
 
 <div id="returns-5">
   ### 반환값

@@ -3,32 +3,30 @@ title: "init"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-Weave クライアントを初期化します。Weave トレースを機能させるには、このクライアントが必要です。
+```ts
+init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
+```
 
-定義場所: [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L86" />
+
+Weave クライアントを初期化します。Weave トレースを利用するには、この初期化が必須です。
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="project">
-  ### project
-</div>
+<ParamField path="project" type="string" required>
+  W&amp;B プロジェクト名 (`project` または `entity/project` を指定できます) 。W&amp;B チーム (例: &#39;team/project&#39;) を指定しない場合は、既定の entity が使用されます。
+  既定の entity を検索または更新するには、User Settings[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)t-team を参照してください
+</ParamField>
 
-`string`
+<ParamField path="settings" type="Partial<{…}>">
+  (省略可) Weave トレース の設定
 
-W&amp;B プロジェクト名 (`project` または `entity/project` を指定できます) 。W&amp;B Teams (例: `team/project`) を指定しない場合は、既定の entity が使用されます。
-既定の defaul[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)/platform/app/settings-page/user-settings#default-team を検索または更新するには
-
-<div id="settings">
-  ### settings?
-</div>
-
-`Partial`&lt;[`Settings`](../type-aliases/settings)&gt;
-
-(任意) Weave トレース設定
+  完全なタイプ: `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
+</ParamField>
 
 <div id="returns">
   ## 戻り値

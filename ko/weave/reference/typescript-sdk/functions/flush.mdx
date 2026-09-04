@@ -1,0 +1,20 @@
+---
+title: "flush"
+description: "TypeScript SDK 레퍼런스"
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+flush(): Promise<void>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L163" />
+
+버퍼에 있는 모든 Call을 서버로 전송합니다. `process.exit()` 호출 전에 await하세요.
+
+<div id="returns">
+  ## 반환값
+</div>
+
+`Promise`&lt;`void`&gt;
