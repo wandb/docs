@@ -3,7 +3,9 @@ title: "MessagesPrompt"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-정의된 위치: [src/prompt.ts:41](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L41)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L43" />
 
 <div id="extends">
   ## 확장
@@ -11,32 +13,34 @@ description: "TypeScript SDK 레퍼런스"
 
 * `Prompt`
 
-<div id="constructors">
-  ## 생성자
-</div>
-
 <div id="constructor">
-  ### 생성자
+  ## 생성자
 </div>
 
 > **new MessagesPrompt**(`parameters`): `MessagesPrompt`
 
-정의된 위치: [src/prompt.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L44)
-
-#### 매개변수
-
 <div id="parameters">
-  ##### 매개변수
+  ### 매개변수
 </div>
 
-`MessagesPromptParameters`
+<ParamField path="parameters" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="description" type="string" />
 
-#### 반환값
+    <ParamField path="messages" type="Record<string, any>[]" required />
+
+    <ParamField path="name" type="string" />
+  </Expandable>
+</ParamField>
+
+<div id="returns">
+  ### 반환값
+</div>
 
 `MessagesPrompt`
 
 <div id="overrides">
-  #### 재정의
+  ### 재정의
 </div>
 
 `Prompt.constructor`
@@ -50,8 +54,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
-
-정의된 위치: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 <div id="inherited-from">
   #### 다음에서 상속됨
@@ -67,8 +69,6 @@ description: "TypeScript SDK 레퍼런스"
 
 > **messages**: `Record`&lt;`string`, `any`&gt;[]
 
-정의된 위치: [src/prompt.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L42)
-
 <div id="accessors">
   ## 접근자
 </div>
@@ -83,15 +83,13 @@ description: "TypeScript SDK 레퍼런스"
 
 > **get** **description**(): `string` | `undefined`
 
-정의된 위치: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
-
-<div id="returns">
+<div id="returns-2">
   ##### 반환값
 </div>
 
 `string` | `undefined`
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### 다음에서 상속됨
 </div>
 
@@ -103,21 +101,19 @@ description: "TypeScript SDK 레퍼런스"
   ### name
 </div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### 조회 시그니처
 </div>
 
 > **get** **name**(): `string`
 
-정의된 위치: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
-<div id="returns">
+<div id="returns-3">
   ##### 반환값
 </div>
 
 `string`
 
-<div id="inherited-from">
+<div id="inherited-from-3">
   #### 다음에서 상속됨
 </div>
 
@@ -133,17 +129,15 @@ description: "TypeScript SDK 레퍼런스"
 
 > **format**(`values?`): `Record`&lt;`string`, `any`&gt;[]
 
-정의된 위치: [src/prompt.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L71)
-
-#### 매개변수
-
-<div id="values">
-  ##### values?
+<div id="parameters-2">
+  #### 매개변수
 </div>
 
-`Record`&lt;`string`, `any`&gt; = `{}`
+<ParamField path="values" type="Record<string, any> = {}" />
 
-#### 반환값
+<div id="returns-4">
+  #### 반환값
+</div>
 
 `Record`&lt;`string`, `any`&gt;[]
 
@@ -155,13 +149,13 @@ description: "TypeScript SDK 레퍼런스"
 
 > **saveAttrs**(): `object`
 
-정의된 위치: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
-
-#### 반환값
+<div id="returns-5">
+  #### 반환값
+</div>
 
 `object`
 
-<div id="inherited-from">
+<div id="inherited-from-4">
   #### 다음에서 상속됨
 </div>
 
@@ -175,22 +169,18 @@ description: "TypeScript SDK 레퍼런스"
 
 > `static` **get**(`client`, `uri`): `Promise`&lt;`MessagesPrompt`&gt;
 
-정의된 위치: [src/prompt.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/prompt.ts#L77)
-
-#### 매개변수
-
-<div id="client">
-  ##### client
+<div id="parameters-3">
+  #### 매개변수
 </div>
 
-[`WeaveClient`](../interfaces/weaveclient)
+<ParamField path="client" type="WeaveClient" required>
+  [`WeaveClient`](../interfaces/weaveclient)를 참조하세요.
+</ParamField>
 
-<div id="uri">
-  ##### uri
+<ParamField path="uri" type="string" required />
+
+<div id="returns-6">
+  #### 반환값
 </div>
-
-`string`
-
-#### 반환값
 
 `Promise`&lt;`MessagesPrompt`&gt;

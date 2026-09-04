@@ -3,33 +3,29 @@ title: "login"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **login**(`apiKey`, `host?`): `Promise`&lt;`void`&gt;
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+login(apiKey: string, host?: string): Promise<void>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L26" />
 
 指定されたAPIキーを使用して、Weights &amp; Biases (W&amp;B) にログインします。
 この関数は、今後の使用に備えて認証情報を`netrc`ファイルに保存しようとしますが、
 ファイルシステムに書き込めない場合でも処理は継続されます。
 
-定義元: [src/clientApi.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L27)
-
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="apikey">
-  ### apiKey
-</div>
+<ParamField path="apiKey" type="string" required>
+  W&amp;B APIキー。
+</ParamField>
 
-`string`
-
-あなたの W&amp;B APIキー。
-
-<div id="host">
-  ### host?
-</div>
-
-`string`
-
-(省略可能) ホスト名 (通常は、カスタム W&amp;B サーバーを使用している場合にのみ必要です) 。
+<ParamField path="host" type="string">
+  (省略可能) ホスト名 (通常は、カスタム W&amp;B サーバーを使用している場合にのみ必要です) 。
+</ParamField>
 
 <div id="returns">
   ## 戻り値

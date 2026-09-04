@@ -13,7 +13,9 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L105" />
 
-## <kbd>class</kbd> `ContextAwareThread`
+<div id="class-contextawarethread">
+  ## <kbd>class</kbd> `ContextAwareThread`
+</div>
 
 호출자의 컨텍스트에서 함수를 실행하는 스레드입니다.
 
@@ -34,7 +36,9 @@ thread.start()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L129" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -43,7 +47,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 ***
 
 
-#### <kbd>속성</kbd> daemon
+<div id="property-daemon">
+  #### <kbd>속성</kbd> daemon
+</div>
 
 이 스레드가 데몬 스레드인지 여부를 나타내는 불리언 값입니다.
 
@@ -53,7 +59,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>속성</kbd> ident
+<div id="property-ident">
+  #### <kbd>속성</kbd> ident
+</div>
 
 이 스레드의 스레드 식별자이며, 아직 시작되지 않은 경우에는 None입니다.
 
@@ -61,7 +69,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>속성</kbd> name
+<div id="property-name">
+  #### <kbd>속성</kbd> name
+</div>
 
 식별 용도로만 사용되는 문자열입니다.
 
@@ -69,7 +79,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>속성</kbd> native_id
+<div id="property-native_id">
+  #### <kbd>속성</kbd> native_id
+</div>
 
 이 스레드의 네이티브 정수형 스레드 ID입니다. 아직 시작되지 않은 경우에는 None입니다.
 
@@ -79,7 +91,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L133" />
 
-### <kbd>방법</kbd> `run`
+<div id="method-run">
+  ### <kbd>방법</kbd> `run`
+</div>
 
 ```python
 run() → None
@@ -89,7 +103,9 @@ run() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L45" />
 
-## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+<div id="class-contextawarethreadpoolexecutor">
+  ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+</div>
 
 호출자의 컨텍스트에서 함수를 실행하는 ThreadPoolExecutor입니다.
 
@@ -109,7 +125,9 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L68" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-2">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -119,7 +137,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L77" />
 
-### <kbd>방법</kbd> `map`
+<div id="method-map">
+  ### <kbd>방법</kbd> `map`
+</div>
 
 ```python
 map(
@@ -134,7 +154,9 @@ map(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L73" />
 
-### <kbd>방법</kbd> `submit`
+<div id="method-submit">
+  ### <kbd>방법</kbd> `submit`
+</div>
 
 ```python
 submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
@@ -144,7 +166,9 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L164" />
 
-### <kbd>함수</kbd> `deprecated`
+<div id="function-deprecated">
+  ### <kbd>함수</kbd> `deprecated`
+</div>
 
 ```python
 deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
@@ -156,7 +180,9 @@ deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L137" />
 
-### <kbd>함수</kbd> `is_colab`
+<div id="function-is_colab">
+  ### <kbd>함수</kbd> `is_colab`
+</div>
 
 ```python
 is_colab()
@@ -166,7 +192,9 @@ is_colab()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L146" />
 
-### <kbd>함수</kbd> `is_notebook`
+<div id="function-is_notebook">
+  ### <kbd>함수</kbd> `is_notebook`
+</div>
 
 ```python
 is_notebook() → bool
@@ -176,7 +204,9 @@ is_notebook() → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L21" />
 
-### <kbd>함수</kbd> `log_once`
+<div id="function-log_once">
+  ### <kbd>함수</kbd> `log_once`
+</div>
 
 ```python
 log_once(log_method: 'Callable[[str], None]', message: 'str') → None

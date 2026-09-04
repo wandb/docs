@@ -1,0 +1,213 @@
+---
+title: "Utiliser les automatisations avec ARIA"
+description: "Créez une automatisation W&B qui envoie un prompt basé sur un modèle à ARIA et démarre une nouvelle conversation lorsqu'un événement spécifique se produit."
+keywords: ["ARIA", "Actions d'automatisation", "Modèle de prompt", "Variables de modèle", "Agent IA"]
+---
+
+import MultiTenantCloudOnly from "/snippets/fr/_includes/multi-tenant-cloud-only.mdx";
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
+Utilisez une automatisation W&amp;B pour envoyer un prompt à ARIA lorsqu&#39;un événement spécifique se produit. Chaque fois que l&#39;événement se produit, l&#39;automatisation démarre une nouvelle conversation ARIA et lui envoie le prompt configuré.
+
+Une automatisation qui envoie un prompt à ARIA comporte deux parties principales :
+
+* L&#39;[événement](/fr/models/automations/automation-events) qui déclenche l&#39;automatisation.
+* Le prompt qu&#39;ARIA reçoit lorsque l&#39;événement se produit.
+
+Utilisez ce flux de travail pour explorer les résultats d&#39;expériences, résumer des runs ou en faire un rapport, ou encore examiner des métriques qui franchissent un seuil.
+
+L&#39;envoi d&#39;un prompt à ARIA est l&#39;une des actions qu&#39;une automatisation W&amp;B peut effectuer. Pour créer des automatisations qui envoient des notifications vers d&#39;autres destinations, référez-vous à [Créer une automatisation Slack](/fr/models/automations/create-automations/slack) ou [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook).
+
+Vous pouvez également demander à ARIA de créer et de gérer des automatisations W&amp;B à votre place. Pour plus de détails, voir [Créer et gérer des automatisations avec ARIA](#create-and-manage-automations-with-aria).
+
+<Note>
+  <MultiTenantCloudOnly />
+
+  ARIA fonctionne dans les projects d&#39;équipe, et non dans votre entité personnelle. Votre administrateur de l&#39;organisation doit également activer les **Smart features**. Voir [Gouvernance et sécurité](/fr/aria/governance).
+</Note>
+
+<div id="requirements">
+  ## Exigences
+</div>
+
+Avant de créer une automatisation qui envoie un prompt à ARIA, vérifiez les points suivants :
+
+* ARIA doit être activé pour votre organisation. Si **Trigger ARIA** n&#39;apparaît pas dans la liste **Action type**, c&#39;est qu&#39;ARIA n&#39;est pas disponible pour votre organisation, votre portée ou votre déploiement. L&#39;option est alors simplement absente de la liste, sans explication. Voir [Gouvernance et sécurité](/fr/aria/governance).
+* Vous devez disposer d&#39;un accès en écriture au project, au registre ou à la collection sur lesquels porte la portée de l&#39;automatisation.
+* Pour définir la portée d&#39;une automatisation W&amp;B sur un registre et envoyer des prompts à ARIA, vous devez appartenir à une équipe de la même organisation. Chaque conversation ARIA est associée à une équipe : vous ne pouvez donc pas créer d&#39;automatisation dont la portée est un registre si vous n&#39;appartenez à aucune équipe de cette organisation.
+
+Chaque fois qu&#39;une automatisation ARIA s&#39;exécute, elle démarre une conversation ARIA comptabilisée dans l&#39;utilisation de votre organisation, au même titre qu&#39;une conversation que vous démarrez vous-même.
+
+<div id="create-an-automation">
+  ## Créer une automatisation
+</div>
+
+Sélectionnez **registre** ou **Project** selon la portée à laquelle vous souhaitez appliquer l&#39;automatisation. Suivez ensuite ces étapes pour créer une automatisation qui envoie un prompt à ARIA.
+
+<Note>
+  Pour appliquer une automatisation à plus grande échelle, créez-la depuis le hub **Automations** global et sélectionnez la portée **équipe** ou **organisation**. Les étapes sont identiques à celles décrites ci-dessous. À ces portées, W&amp;B ne prend en charge que les événements d&#39;artifact et de collection. Voir [Hub Automations](/fr/models/automations#automations-hub).
+</Note>
+
+<Tabs>
+  <Tab title="registre">
+    Un admin de registre peut créer des automatisations dans ce registre.
+
+    1. Connectez-vous à W&amp;B.
+    2. Cliquez sur le nom d&#39;un registre pour afficher ses détails.
+    3. Pour créer une automatisation limitée au registre, cliquez sur l&#39;onglet **Automations**, puis sur **Create automation**. Une automatisation limitée à un registre s&#39;applique automatiquement à toutes ses collections, y compris celles créées ultérieurement.
+    4. Choisissez l&#39;[événement](/fr/models/automations/automation-events/#registry-events) à surveiller.
+
+       Renseignez les champs supplémentaires qui s&#39;affichent ; ceux-ci varient selon l&#39;événement. Par exemple, si vous sélectionnez **An artifact alias is added**, vous devez renseigner le champ **Alias regex**.
+
+       Cliquez sur **Next step**.
+    5. Sélectionnez l&#39;équipe qui héberge la conversation ARIA. Voir [Où la conversation apparaît](#where-the-conversation-appears).
+    6. Définissez **Action type** sur **Trigger ARIA**.
+    7. Dans le champ **Prompt**, rédigez le prompt à envoyer à ARIA. Voir [Rédiger le prompt](#write-the-prompt). Cliquez sur **Next step**.
+    8. Donnez un nom à l&#39;automatisation. Vous pouvez également ajouter une description.
+    9. Cliquez sur **Create automation**.
+
+    L&#39;automatisation est désormais active : elle démarre une nouvelle conversation ARIA chaque fois que l&#39;événement choisi se produit dans le registre.
+  </Tab>
+
+  <Tab title="Project">
+    Un admin W&amp;B peut créer des automatisations dans un projet.
+
+    1. Connectez-vous à W&amp;B.
+    2. Accédez à la page du projet, cliquez sur l&#39;onglet **Automations**, puis sur **Create automation**.
+    3. Choisissez l&#39;[événement](/fr/models/automations/automation-events/#project) à surveiller.
+
+       1. Renseignez les champs supplémentaires qui s&#39;affichent. Par exemple, si vous sélectionnez **An artifact alias is added**, vous devez renseigner le champ **Alias regex**.
+
+          1. Pour les automatisations déclenchées par un run, vous pouvez éventuellement définir un ou plusieurs filtres de runs :
+
+             * **Filter to one user&#39;s runs** : n&#39;inclut que les runs créés par l&#39;utilisateur spécifié. Cliquez sur le bouton bascule pour activer le filtre, puis indiquez un nom d&#39;utilisateur.
+             * **Filter on run name** : n&#39;inclut que les runs dont le nom correspond à l&#39;expression régulière indiquée. Cliquez sur le bouton bascule pour activer le filtre, puis indiquez une expression régulière.
+       2. Cliquez sur **Next step**.
+    4. Sélectionnez l&#39;équipe propriétaire du projet.
+    5. Définissez **Action type** sur **Trigger ARIA**.
+    6. Dans le champ **Prompt**, rédigez le prompt à envoyer à ARIA. Voir [Rédiger le prompt](#write-the-prompt). Cliquez sur **Next step**.
+    7. Donnez un nom à l&#39;automatisation. Vous pouvez également ajouter une description.
+    8. Cliquez sur **Create automation**.
+
+    L&#39;automatisation est désormais active : elle démarre une nouvelle conversation ARIA chaque fois que l&#39;événement choisi se produit dans le projet.
+  </Tab>
+</Tabs>
+
+<div id="create-and-manage-automations-with-aria">
+  ## Créer et gérer des automatisations avec ARIA
+</div>
+
+ARIA peut créer, supprimer, activer et désactiver des automatisations à la demande.
+
+Demandez à ARIA de créer une automatisation :
+
+<AriaChatBubbles prompt="Créez une automatisation : lorsqu'un run réussit, demandez à ARIA de rédiger un report destiné à votre équipe qui résume le run, les métriques et le résultat." response="Je peux créer une automatisation activée à l'échelle du project, nommée **Résumer un run réussi**. Elle se déclenchera dès qu'un run passera à l'état `FINISHED` et demandera à ARIA de rédiger un report résumant la configuration du run, les métriques clés, le résultat et les observations notables." />
+
+Interrogez ARIA sur vos automatisations existantes :
+
+<AriaChatBubbles prompt="Quelles automatisations existent dans ce project ?" response="Vous avez 2 automatisations au niveau du project, toutes deux activées...." />
+
+<div id="write-the-prompt">
+  ## Rédiger le prompt
+</div>
+
+Le prompt est le seul élément que vous configurez pour une action ARIA. Rédigez-le comme vous rédigeriez un message dans la fenêtre de chat d&#39;ARIA, et incluez des [variables de modèle](#template-variables) pour indiquer quel run, artifact ou métrique ARIA doit examiner.
+
+Gardez à l&#39;esprit les contraintes suivantes :
+
+* Un prompt est requis et ne peut pas dépasser 4 000 caractères. W&amp;B vérifie de nouveau la longueur après avoir substitué les variables de modèle : un prompt enregistré avec succès peut donc échouer lors de l&#39;exécution de l&#39;automatisation si les valeurs substituées sont longues. Un prompt qui échoue à cette vérification est consigné comme exécution en échec dans l&#39;[historique d&#39;exécution](/fr/models/automations/view-automation-history) de l&#39;automatisation.
+* Une variable de modèle qui ne s&#39;applique pas à l&#39;événement est résolue en chaîne vide plutôt qu&#39;en son propre nom. Utilisez uniquement les variables listées pour votre événement.
+* ARIA démarre une nouvelle conversation à chaque exécution de l&#39;automatisation. Elle ne poursuit pas une conversation précédente et ne garde aucune mémoire des exécutions antérieures de la même automatisation.
+
+Pour insérer une variable, cliquez sur le **<Icon icon="plus" iconType="solid" />** situé à côté d&#39;elle dans la liste sous le champ **Prompt**. W&amp;B ajoute la variable à la fin du prompt. La liste n&#39;affiche que les variables applicables à l&#39;événement que vous avez sélectionné.
+
+Par exemple, ce prompt analyse chaque nouvelle version de modèle liée :
+
+```text
+Une nouvelle version de ${artifact_collection_name} vient d'être liée à ${project_name} par ${event_author}.
+
+Compare ${artifact_version_string} avec l'alias production actuel. Résume les éventuelles régressions des métriques d'évaluation et indique s'il faut la promouvoir.
+```
+
+Vous pouvez demander à ARIA de vous aider à formuler un prompt avant d&#39;enregistrer l&#39;automatisation :
+
+<AriaChatBubbles prompt="Je veux une automatisation qui se déclenche chaque fois qu'un run échoue dans ce projet. Rédige un prompt qui te demande de diagnostiquer l'échec." response="Voici un prompt à coller dans l'automatisation : « Le run ${run_name} du projet ${project_name} vient d'échouer. Examine ses journaux, sa configuration et ses métriques système, compare-le aux derniers runs réussis, et indique-moi la cause la plus probable ainsi qu'une correction concrète à essayer. »" />
+
+<div id="template-variables">
+  ## Variables de modèle
+</div>
+
+Les variables de modèle utilisent la syntaxe `${variable_name}`. Les variables disponibles pour un prompt dépendent de l&#39;événement surveillé par l&#39;automatisation.
+
+Les variables suivantes sont disponibles pour tous les événements :
+
+| Variable             | Description                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| `${automation_name}` | Le nom de l&#39;automatisation qui a déclenché l&#39;action.                         |
+| `${event_type}`      | Le type d&#39;événement qui a déclenché l&#39;action.                                |
+| `${event_author}`    | L&#39;utilisateur qui a déclenché l&#39;action.                                      |
+| `${entity_name}`     | Le nom de l&#39;entité propriétaire de l&#39;événement qui a déclenché l&#39;action. |
+| `${project_name}`    | Le nom du projet propriétaire de l&#39;événement qui a déclenché l&#39;action.       |
+
+Selon l&#39;événement, les variables suivantes s&#39;ajoutent aux précédentes :
+
+| Événement                                                                | Variables supplémentaires                                                                                                                   |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Une version d&#39;artifact est créée, liée ou dissociée                  | `${artifact_collection_name}`, `${artifact_version}`, `${artifact_version_string}`, `${artifact_version_index}`, `${artifact_metadata.KEY}` |
+| Un alias d&#39;artifact est ajouté ou mis à jour                         | Les variables d&#39;artifact précédentes, plus `${alias}`                                                                                   |
+| Un tag d&#39;artifact est ajouté ou supprimé                             | Les variables d&#39;artifact précédentes, plus `${tag}`                                                                                     |
+| Un tag de collection est ajouté ou supprimé                              | `${artifact_collection_name}`, `${tag}`                                                                                                     |
+| Une métrique de run franchit un seuil, change ou change selon le z-score | `${run_name}`, `${metric_name}`, `${metric_values}`, `${metric_filter}`, `${metric_filter_short}`, `${metric_current_status}`               |
+| Un run change de statut                                                  | `${run_name}`, `${run_status}`                                                                                                              |
+| Une métrique Weave franchit un seuil                                     | `${alert_name}`, `${metric_name}`, `${metric_value}`, `${threshold}`, `${comparison_op}`, `${message}`                                      |
+
+Les remarques suivantes s&#39;appliquent à certaines variables :
+
+* `${artifact_version}` se résout en une instance d&#39;artifact, par exemple `wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3`. Pour désigner la version par son nom, utilisez `${artifact_version_string}`.
+* `${artifact_metadata.KEY}` lit une valeur de metadata personnalisée dans la version d&#39;artifact ayant déclenché l&#39;événement. Remplacez `KEY` par la clé de metadata souhaitée. Seules les clés de metadata de premier niveau sont prises en charge.
+
+Pour connaître les événements disponibles à chaque portée, voir [Événements et portée des automatisations](/fr/models/automations/automation-events).
+
+<div id="view-conversations-created-by-automations">
+  ## Consulter les conversations créées par les automatisations
+</div>
+
+L&#39;automatisation crée la conversation ARIA sous le compte de l&#39;utilisateur qui a créé l&#39;automatisation, et non de l&#39;utilisateur dont l&#39;action a déclenché l&#39;événement. La conversation apparaît dans l&#39;historique de conversation ARIA de cette personne, sous **Past conversations**, aux côtés des conversations qu&#39;elle a elle-même démarrées. Pour identifier l&#39;utilisateur à l&#39;origine de l&#39;événement, incluez `${event_author}` dans le prompt.
+
+L&#39;emplacement de la conversation dépend de la portée de l&#39;automatisation :
+
+* **Automatisations dont la portée est un projet ou une équipe** : la conversation est créée dans le projet où l&#39;événement s&#39;est produit.
+* **Automatisations dont la portée est un registre** : un registre appartient à votre organisation et non à une équipe, or les conversations ARIA doivent appartenir à une équipe. La conversation est donc créée dans l&#39;équipe que vous avez sélectionnée lors de la création de l&#39;automatisation, dans un projet nommé `wandb_agent_default_project`. Cherchez-la à cet endroit plutôt que dans le registre.
+
+  `wandb_agent_default_project` est un projet réservé que W&amp;B maintient pour chaque équipe afin d&#39;héberger les conversations qui ne sont rattachées à aucun projet que vous avez ouvert. Vous n&#39;avez pas à le créer, et il est normalement vide en dehors de ces conversations.
+
+Pour vérifier que l&#39;automatisation s&#39;est bien exécutée, ouvrez son [historique d&#39;exécution](/fr/models/automations/view-automation-history). Une exécution ARIA réussie affiche le prompt envoyé par W&amp;B ainsi qu&#39;un corps de réponse contenant le `thread_id` de la conversation. W&amp;B ne fournit aucun lien entre l&#39;exécution et la conversation, et une conversation créée par une automatisation n&#39;est pas signalée différemment dans votre historique de conversation.
+
+<div id="view-and-manage-automations">
+  ## Afficher et gérer les automatisations
+</div>
+
+Affichez et gérez les automatisations depuis l&#39;onglet **Automations** d&#39;un projet ou d&#39;un registre, ou depuis le hub **Automations** global. Dans la liste des automatisations, l&#39;action s&#39;affiche sous le nom **ARIA**.
+
+Seul le créateur d&#39;une automatisation qui envoie des prompts à ARIA peut la modifier, car la conversation ARIA s&#39;exécute sous l&#39;identité de cet utilisateur. Les membres de l&#39;équipe disposant d&#39;un accès en écriture au projet ou au registre peuvent afficher et supprimer l&#39;automatisation, mais l&#39;option **Edit** ne leur est pas proposée.
+
+Vous ne pouvez pas transférer la propriété d&#39;une automatisation. Supprimez-la plutôt et demandez au nouveau propriétaire de la recréer. Procédez de la même manière pour récupérer une automatisation dont le créateur a quitté l&#39;équipe.
+
+<div id="limitations">
+  ## Limitations
+</div>
+
+* Les automatisations ARIA sont disponibles uniquement sur le [Cloud mutualisé de W&amp;B](/fr/platform/hosting/#wb-multi-tenant-cloud), dans les projects d&#39;équipe, et seulement si votre administrateur de l&#39;organisation a activé les **Smart features**.
+* Chaque automatisation peut démarrer au maximum trois conversations ARIA par minute. Au-delà de cette limite, W&amp;B consigne les exécutions dans l&#39;historique de l&#39;automatisation avec le statut **Skipped**, ce qui signifie que l&#39;automatisation correspondait à l&#39;événement mais n&#39;a pas exécuté son action.
+* Si la personne ayant créé l&#39;automatisation perd l&#39;accès en écriture au project ou si son compte est désactivé, toutes les exécutions suivantes échouent. L&#39;échec apparaît dans l&#39;historique d&#39;exécution de l&#39;automatisation.
+* Seul le créateur de l&#39;automatisation peut la modifier.
+* La bibliothèque Python `wandb` ne prend pas en charge les automatisations ARIA. Voir [Gérer les automatisations avec l&#39;API](/fr/models/automations/api).
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+* [Événements et portée des automatisations](/fr/models/automations/automation-events)
+* [Consulter l&#39;historique d&#39;une automatisation](/fr/models/automations/view-automation-history)
+* [Chat avec ARIA](/fr/aria/chat)
+* [Aperçu d&#39;ARIA](/fr/aria/overview)

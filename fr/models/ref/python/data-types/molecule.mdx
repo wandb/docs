@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py#L28" />
 
-## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Molecule
+<div id="class-wandbmolecule">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Molecule
+</div>
 
 Classe W&amp;B pour les données moléculaires 3D.
 
@@ -37,7 +39,9 @@ caption: 'str | None' = None, **kwargs: 'str'
   ## Méthodes
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Molecule.from_rdkit()
+<div id="method-moleculefrom_rdkit">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Molecule.from_rdkit()
+</div>
 
 ```python
 data_or_path: 'RDKitDataType',
@@ -64,7 +68,9 @@ Convertissez les types de fichiers et d’objets pris en charge par RDKit en wan
   (bool) Convertit en rdkit.Chem.rdchem.Mol avec des coordonnées 3D. Il s’agit d’une opération coûteuse qui peut prendre beaucoup de temps pour les Molecules complexes.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Molecule.from_smiles()
+<div id="method-moleculefrom_smiles">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Molecule.from_smiles()
+</div>
 
 ```python
 data: 'str',
@@ -76,7 +82,7 @@ mmff_optimize_molecule_max_iterations: 'int' = 200
 
 Convertit une chaîne SMILES en wandb.Molecule.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### Arguments
 </div>
 

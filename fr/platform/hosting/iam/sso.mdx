@@ -238,14 +238,14 @@ Les sections suivantes expliquent comment configurer votre fournisseur d’ident
 
 Après avoir terminé la configuration de votre IdP, effectuez les étapes suivantes dans W&amp;B pour connecter l’IdP et activer le SSO pour votre instance.
 
-Pour configurer le SSO, vous devez disposer des privilèges d’administrateur et des informations suivantes :
+Pour configurer le SSO, vous devez disposer des privilèges d’administrateur et des informations suivantes :
 
 * **OIDC Client ID**.
 * **OIDC Auth method** (`implicit` ou `pkce`).
 * **OIDC Issuer URL**.
 * **OIDC Client Secret** (facultatif, selon la manière dont vous avez configuré votre IdP).
 
-Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [variable d’environnement](/fr/platform/hosting/env-vars) `GORILLA_OIDC_SECRET` :
+Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [variable d’environnement](/fr/platform/hosting/env-vars) `GORILLA_OIDC_SECRET` :
 
 * Dans la W&amp;B App, accédez à **System Console** &gt; **Settings** &gt; **Advanced** &gt; **User Spec** et ajoutez `GORILLA_OIDC_SECRET` à la section `extraENV`, comme dans l’exemple suivant.
 * Dans Helm, configurez `values.global.extraEnv` comme dans l’exemple suivant.
@@ -257,7 +257,7 @@ Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [v
   ```
 
 <Note>
-  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true`. Cela consigne un mot de passe temporaire dans les journaux des conteneurs et désactive le SSO. Une fois les problèmes de SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
+  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true`. Cela consigne un mot de passe temporaire dans les journaux du conteneur et désactive le SSO. Une fois les problèmes de SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
 </Note>
 
 <Tabs>
@@ -277,11 +277,13 @@ Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [v
 
     5. Déconnectez-vous, puis reconnectez-vous, cette fois en utilisant l’écran de connexion de l’IdP.
 
-    ## Trouver votre Customer Namespace
+    <div id="find-your-customer-namespace">
+      ## Trouver votre Customer Namespace
+    </div>
 
     Avant de pouvoir configurer BYOB au niveau de l’équipe avec le stockage CoreWeave sur le Cloud dédié de W&amp;B ou en mode Autogéré, vous devez obtenir le **Customer Namespace** de votre organisation. Vous pouvez l’afficher et le copier en bas de l’onglet **Authentification**.
 
-    Pour obtenir des instructions détaillées sur la configuration du stockage CoreWeave avec votre Customer Namespace, voir [CoreWeave requirements for Dedicated Cloud or Autogéré](/fr/platform/hosting/data-security/secure-storage-connector#coreweave-customer-namespace).
+    Pour obtenir des instructions détaillées sur la configuration du stockage CoreWeave avec votre Customer Namespace, voir [CoreWeave requirements for Cloud dédié or Autogéré](/fr/platform/hosting/data-security/secure-storage-connector#coreweave-customer-namespace).
   </Tab>
 
   <Tab title="System settings">
@@ -289,7 +291,7 @@ Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [v
 
     2. Accédez à la W&amp;B App.
 
-    3. Cliquez sur l’icône de votre profil utilisateur. Dans la liste déroulante, sélectionnez **System Settings** :
+    3. Cliquez sur l’icône de votre profil utilisateur. Dans la liste déroulante, sélectionnez **System Settings** :
 
        <Frame>
          <img src="/images/hosting/system_settings_select_settings.png" alt="Liste déroulante System Settings" />
@@ -306,7 +308,7 @@ Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [v
 </Tabs>
 
 <Note>
-  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true`. Cela consigne un mot de passe temporaire dans les journaux des conteneurs et désactive le SSO. Une fois les problèmes de SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
+  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true`. Cela consigne un mot de passe temporaire dans les journaux du conteneur et désactive le SSO. Une fois les problèmes de SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
 </Note>
 
 <div id="security-assertion-markup-language-saml">

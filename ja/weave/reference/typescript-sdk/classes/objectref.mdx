@@ -3,6 +3,10 @@ title: "ObjectRef"
 description: "TypeScript SDK リファレンス"
 ---
 
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24" />
+
 保存された Weave オブジェクトへの参照を表します。
 
 通常、エンドユーザーがこのクラスを直接扱う必要はありません。
@@ -10,9 +14,9 @@ description: "TypeScript SDK リファレンス"
 ObjectRef には、保存されたオブジェクトを Weave のストレージシステム内で一意に識別するための
 プロジェクト ID、オブジェクト ID、ダイジェストが含まれます。
 
-定義場所: [src/weaveObject.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L23)
-
-## 例
+<div id="example">
+  ## 例
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -20,42 +24,24 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="constructors">
-  ## コンストラクター
-</div>
-
 <div id="constructor">
-  ### コンストラクター
+  ## コンストラクター
 </div>
 
 > **new ObjectRef**(`projectId`, `objectId`, `digest`): `ObjectRef`
 
-定義場所: [src/weaveObject.ts:24](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L24)
-
 <div id="parameters">
-  #### パラメーター
+  ### パラメーター
 </div>
 
-<div id="projectid">
-  ##### projectId
-</div>
+<ParamField path="projectId" type="string" required />
 
-`string`
+<ParamField path="objectId" type="string" required />
 
-<div id="objectid">
-  ##### objectId
-</div>
-
-`string`
-
-<div id="digest">
-  ##### digest
-</div>
-
-`string`
+<ParamField path="digest" type="string" required />
 
 <div id="returns">
-  #### 戻り値
+  ### 戻り値
 </div>
 
 `ObjectRef`
@@ -64,27 +50,27 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   ## プロパティ
 </div>
 
-### ダイジェスト
+<div id="digest">
+  ### ダイジェスト
+</div>
 
 > **ダイジェスト**: `string`
 
-定義場所: [src/weaveObject.ts:27](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L27)
-
 ***
 
-### objectId
+<div id="objectid">
+  ### objectId
+</div>
 
 > **objectId**: `string`
 
-定義場所: [src/weaveObject.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L26)
-
 ***
 
-### projectId
+<div id="projectid">
+  ### projectId
+</div>
 
 > **projectId**: `string`
-
-定義場所: [src/weaveObject.ts:25](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L25)
 
 <div id="methods">
   ## method
@@ -96,9 +82,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **get**(): `Promise`&lt;`any`&gt;
 
-定義場所: [src/weaveObject.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L64)
-
-<div id="returns">
+<div id="returns-2">
   #### 戻り値
 </div>
 
@@ -112,9 +96,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **ui&#95;url**(): `string`
 
-定義場所: [src/weaveObject.ts:59](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L59)
-
-<div id="returns">
+<div id="returns-3">
   #### 戻り値
 </div>
 
@@ -128,9 +110,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 > **uri**(): `string`
 
-定義場所: [src/weaveObject.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L55)
-
-<div id="returns">
+<div id="returns-4">
   #### 戻り値
 </div>
 
@@ -146,19 +126,15 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 Weave URI 文字列から ObjectRef を作成します。
 
-定義場所: [src/weaveObject.ts:42](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L42)
-
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-##### uri
+<ParamField path="uri" type="string" required>
+  以下の形式の Weave URI: weave:///entity/project/object/name:digest
+</ParamField>
 
-`string`
-
-以下の形式の Weave URI: weave:///entity/project/object/name:digest
-
-<div id="returns">
+<div id="returns-5">
   #### 戻り値
 </div>
 
@@ -172,7 +148,7 @@ Weave URI 文字列から ObjectRef を作成します。
 
 URI 形式が無効、または object ref ではない場合はエラー
 
-<div id="example">
+<div id="example-2">
   #### 例
 </div>
 

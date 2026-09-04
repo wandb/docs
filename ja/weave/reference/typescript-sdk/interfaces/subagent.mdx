@@ -3,7 +3,9 @@ title: "SubAgent"
 description: "TypeScript SDK リファレンス"
 ---
 
-定義元: [src/genai/subagent.ts:65](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L65)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L84" />
 
 <div id="extends">
   ## 継承元
@@ -15,15 +17,15 @@ description: "TypeScript SDK リファレンス"
   ## アクセサー
 </div>
 
-### モデル
+<div id="model">
+  ### モデル
+</div>
 
 <div id="get-signature">
   #### 取得シグネチャ
 </div>
 
 > **get** **model**(): `string`
-
-定義元: [src/genai/subagent.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L78)
 
 <div id="returns">
   ##### 戻り値
@@ -33,17 +35,17 @@ description: "TypeScript SDK リファレンス"
 
 ***
 
-### 名
+<div id="name">
+  ### 名
+</div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### 取得シグネチャ
 </div>
 
 > **get** **name**(): `string`
 
-定義元: [src/genai/subagent.ts:74](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L74)
-
-<div id="returns">
+<div id="returns-2">
   ##### 戻り値
 </div>
 
@@ -69,29 +71,19 @@ description: "TypeScript SDK リファレンス"
 名前付きイベントをspanに追加します。コンテキストの圧縮、ツールループの検出、ガードレールのトリガーなど、span以外のタイミングを示す際に役立ちます。
 `end()` の呼び出し後は警告を出力し、何も実行しません。OTel の `Span.addEvent` と同様の動作をします。
 
-定義元: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 <div id="parameters">
   #### パラメーター
 </div>
 
-##### 名
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-<div id="attributes">
-  ##### 属性?
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns-3">
+  #### 戻り値
 </div>
-
-`Attributes`
-
-<div id="starttime">
-  ##### startTime?
-</div>
-
-`TimeInput`
-
-#### 戻り値
 
 `this`
 
@@ -120,19 +112,21 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 現在のフィールド値を読み取り (`start` 以降に `record()` で行われた変更を反映) 、span を閉じます。冪等です。`error` を渡すと失敗としてマークされ、`endTime` を渡すと終了時刻を過去に設定できます。
 
-定義元: [src/genai/subagent.ts:153](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L153)
-
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-<div id="opts">
-  ##### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### 戻り値
 </div>
-
-`SpanEndOptions`
-
-#### 戻り値
 
 `void`
 
@@ -144,53 +138,40 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 > **record**(`opts`): `this`
 
-任意のフィールドを一括設定します。既存の値はマージではなく置換されます。
+可変フィールドの任意のサブセットを一括設定します。既存の値はマージではなく置換されます。
+入力メッセージと出力メッセージは、span の終了時にシリアライズされます。
 
-定義元: [src/genai/subagent.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/subagent.ts#L117)
-
-<div id="parameters">
+<div id="parameters-3">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
 
-<div id="agentdescription">
-  ###### agentDescription?
+    <ParamField path="agentId" type="string" />
+
+    <ParamField path="agentVersion" type="string" />
+
+    <ParamField path="messages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
+
+    <ParamField path="model" type="string" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="outputMessages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
+
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-5">
+  #### 戻り値
 </div>
-
-`string`
-
-<div id="agentid">
-  ###### agentId?
-</div>
-
-`string`
-
-<div id="agentversion">
-  ###### agentVersion?
-</div>
-
-`string`
-
-<div id="model">
-  ###### モデル?
-</div>
-
-`string`
-
-<div id="name">
-  ###### 名?
-</div>
-
-`string`
-
-<div id="systeminstructions">
-  ###### systemInstructions?
-</div>
-
-`string`[]
-
-#### 戻り値
 
 `this`
 
@@ -205,21 +186,19 @@ span.addEvent('context_compacted', {removedMessages: 12});
 span に複数の属性をまとめて設定します。`end()` の後に呼び出すと、警告が表示され何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
 `set_attributes`) と同様です。
 
-定義元: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
-<div id="parameters">
+<div id="parameters-4">
   #### パラメーター
 </div>
 
-##### 属性
+<ParamField path="attributes" type="Attributes" required />
 
-`Attributes`
-
-#### 戻り値
+<div id="returns-6">
+  #### 戻り値
+</div>
 
 `this`
 
-<div id="example">
+<div id="example-2">
   #### 例
 </div>
 
@@ -228,8 +207,80 @@ span に複数の属性をまとめて設定します。`end()` の後に呼び�
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### 継承元
 </div>
 
 `SpanBase.setAttributes`
+
+***
+
+<div id="startllm">
+  ### startLLM()
+</div>
+
+> **startLLM**(`opts`): [`LLM`](./llm)
+
+この SubAgent の配下にネストされた子 LLM span を開始します。
+
+<div id="parameters-5">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="LLMInit" required>
+  [`LLMInit`](./llminit) を参照してください。
+</ParamField>
+
+<div id="returns-7">
+  #### 戻り値
+</div>
+
+[`LLM`](./llm)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`): `SubAgent`
+
+この SubAgent の配下に、ネストされた SubAgent span を開始します。
+
+<div id="parameters-6">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](./subagentinit) を参照してください。
+</ParamField>
+
+<div id="returns-8">
+  #### 戻り値
+</div>
+
+`SubAgent`
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+この SubAgent の配下にネストされた子 Tool span を開始します。
+
+<div id="parameters-7">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](./toolinit) を参照してください。
+</ParamField>
+
+<div id="returns-9">
+  #### 戻り値
+</div>
+
+[`Tool`](./tool)

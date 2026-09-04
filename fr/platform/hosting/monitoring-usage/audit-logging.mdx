@@ -116,7 +116,9 @@ La réponse de l’API contient des objets JSON séparés par des sauts de ligne
 
 Vous devez authentifier chaque requête adressée à l’API des journaux d’audit. Pour utiliser l’authentification de base avec votre clé API afin d’accéder à l’API des journaux d’audit, définissez l’en-tête `Authorization` de la requête HTTP sur la chaîne `Basic`, suivie d’un espace, puis de la chaîne encodée en base64 au format `[USERNAME]:[API-KEY]`. En d’autres termes, remplacez le nom d’utilisateur et la clé API par vos valeurs, séparées par le caractère `:`, puis encodez le résultat en base64. Par exemple, pour vous authentifier en tant que `demo:p@55w0rd`, définissez l’en-tête sur `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
-### Exclure les PII lors de la récupération des journaux d’audit <a id="exclude-pii" />
+<div id="exclude-pii-when-fetching-audit-logs">
+  ### Exclure les PII lors de la récupération des journaux d’audit <a id="exclude-pii" />
+</div>
 
 Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d’organisation ou d’instance W&amp;B peut exclure les PII lors de la récupération des journaux d’audit. Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), le point de terminaison d’API renvoie toujours les champs pertinents des journaux d’audit, y compris les PII. Ce comportement n’est pas configurable.
 

@@ -47,13 +47,13 @@ keywords: ["사고 사슬", "생각 모드", "추론 필드", "추론 활성화"
   ### `항상 켜짐` 추론이 포함된 모델
 </div>
 
-모델이 앞의 [지원되는 모델](#supported-models) 표에서 `항상 켜짐`으로 표시되어 있으면, 추론이 항상 포함되며 이를 비활성화할 수 없습니다.
+모델이 앞의 [지원되는 모델](#supported-models-with-reasoning) 표에서 `항상 켜짐`으로 표시되어 있으면, 추론이 항상 포함되며 이를 비활성화할 수 없습니다.
 
 <div id="disable-reasoning">
   ### 추론 비활성화
 </div>
 
-모델이 앞선 [지원되는 모델](#supported-models) 표에서 `기본적으로 활성화됨`로 표시되어 있다면, 토큰 사용량을 줄이거나 응답을 더 단순하게 만들기 위해 추론을 비활성화할 수 있습니다. 요청에서 추론을 사용하지 않으려면 `chat_template_kwargs`에서 `enable_thinking` 플래그를 `False`(Python) 또는 `false`(Bash)로 설정하세요. 요청이 완료되면 응답에서 추론 내용이 생략됩니다.
+모델이 앞선 [지원되는 모델](#supported-models-with-reasoning) 표에서 `기본적으로 활성화됨`로 표시되어 있다면, 토큰 사용량을 줄이거나 응답을 더 단순하게 만들기 위해 추론을 비활성화할 수 있습니다. 요청에서 추론을 사용하지 않으려면 `chat_template_kwargs`에서 `enable_thinking` 플래그를 `False`(Python) 또는 `false`(Bash)로 설정하세요. 요청이 완료되면 응답에서 추론 내용이 생략됩니다.
 
 <Tabs>
   <Tab title="Python">
@@ -99,4 +99,4 @@ keywords: ["사고 사슬", "생각 모드", "추론 필드", "추론 활성화"
   ### 추론 활성화
 </div>
 
-앞선 [지원되는 모델](#supported-models) 표에서 모델이 `기본적으로 비활성화됨`로 표시된 경우, 앞선 코드 스니펫에서 `enable_thinking` 플래그를 `True`(Python) 또는 `true`(Bash)로 설정해 추론을 활성화할 수 있습니다.
+앞선 [지원되는 모델](#supported-models-with-reasoning) 표에서 모델이 `기본적으로 비활성화됨`로 표시된 경우, 앞선 코드 스니펫에서 `enable_thinking` 플래그를 `True`(Python) 또는 `true`(Bash)로 설정해 추론을 활성화할 수 있습니다.

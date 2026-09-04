@@ -3,7 +3,13 @@ title: "startTool"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **startTool**(`opts`): [`Tool`](../interfaces/tool)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+startTool(opts: ToolInit): Tool
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L110" />
 
 `Tool` の span を開始します。親の解決方法 (設計上の「デフォルトではフラット、ネストした場合は階層化」に対応) :
 
@@ -12,17 +18,13 @@ description: "TypeScript SDK リファレンス"
 
 Turn と LLM のどちらもアクティブでない場合は、例外をスローします。
 
-定義元: [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
-
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts
-</div>
-
-[`ToolInit`](../interfaces/toolinit)
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](../interfaces/toolinit) を参照してください。
+</ParamField>
 
 <div id="returns">
   ## 戻り値
@@ -38,7 +40,7 @@ Turn と LLM のどちらもアクティブでない場合は、例外をスロ�
 // @noErrors
 weave.startTool({
   name: 'get_weather',
-  args: JSON.stringify({city: 'Tokyo'}),
+  args: {city: 'Tokyo'},
   toolCallId: 'call_t1',
 });
 ```
@@ -47,7 +49,7 @@ weave.startTool({
 // @noErrors
 weave.startTool({
   name: 'get_weather',
-  args: JSON.stringify({city: 'Tokyo'}),
+  args: {city: 'Tokyo'},
   toolCallId: 'call_t1',
   startTime: new Date('2026-05-29T10:00:00.800Z'),
 });

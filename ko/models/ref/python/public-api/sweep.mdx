@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Sweep
+<div id="class-wandbapispublicsweep">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Sweep
+</div>
 
 스윕에 연결된 Runs 집합입니다.
 
@@ -55,7 +57,7 @@ attrs: 'Mapping[str, Any] | None' = None)
 * `state` (`str`): 스윕의 상태입니다. &quot;Finished&quot;, &quot;Failed&quot;, &quot;Crashed&quot; 또는 &quot;Running&quot;일 수 있습니다.
 * `expected_run_count` (`int`): 스윕의 예상 Runs 수
 
-<div id="attributes">
+<div id="properties">
   ## 속성
 </div>
 
@@ -107,7 +109,9 @@ attrs: 'Mapping[str, Any] | None' = None)
   ## 메서드
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.agent()
+<div id="method-sweepagent">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.agent()
+</div>
 
 ```python
 self,
@@ -124,7 +128,9 @@ agent_id: 'str'
   조회할 에이전트의 ID입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.agents()
+<div id="method-sweepagents">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.agents()
+</div>
 
 ```python
 self
@@ -132,7 +138,9 @@ self
 
 이 스윕의 모든 에이전트 목록을 쿼리합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.best_run()
+<div id="method-sweepbest_run">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.best_run()
+</div>
 
 ```python
 (self, order=None)
@@ -140,7 +148,7 @@ self
 
 설정에 정의된 메트릭 또는 전달된 순서를 기준으로 정렬된 최상의 run을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### 인수
 </div>
 
@@ -148,7 +156,9 @@ self
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.enqueue_run()
+<div id="method-sweepenqueue_run">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.enqueue_run()
+</div>
 
 ```python
 self,
@@ -158,7 +168,7 @@ display_name: 'str | None' = None
 
 스윕의 run을 큐에 추가합니다.
 
-<div id="arguments">
+<div id="arguments-3">
   ##### 인수
 </div>
 
@@ -176,7 +186,9 @@ display_name: 'str | None' = None
 
 * `UnsupportedError`: 서버가 스윕 run의 대기열 추가를 지원하지 않는 경우.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.get()
+<div id="method-sweepget">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.get()
+</div>
 
 ```python
 (api: 'Api',
@@ -189,7 +201,7 @@ query: 'str | None' = None, **kwargs)
 
 클라우드 백엔드에 쿼리를 실행합니다.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### 인수
 </div>
 
@@ -221,7 +233,9 @@ query: 'str | None' = None, **kwargs)
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.to_html()
+<div id="method-sweepto_html">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Sweep.to_html()
+</div>
 
 ```python
 self,
@@ -231,7 +245,7 @@ hidden: 'bool' = False
 
 이 스윕을 표시하는 iframe이 포함된 HTML을 생성합니다.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### 인수
 </div>
 

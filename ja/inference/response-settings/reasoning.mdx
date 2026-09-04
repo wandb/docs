@@ -47,13 +47,13 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
   ### 推論が `常時有効` のモデル
 </div>
 
-前述の[サポートされるモデル](#supported-models)表でモデルが`常時有効`と記載されている場合、そのモデルには常に推論が含まれており、これを無効にすることはできません。
+前述の[サポートされるモデル](#supported-models-with-reasoning)表でモデルが`常時有効`と記載されている場合、そのモデルには常に推論が含まれており、これを無効にすることはできません。
 
 <div id="disable-reasoning">
   ### 推論を無効にする
 </div>
 
-モデルが前述の [サポートされるモデル](#supported-models) の表で `デフォルトで有効` として記載されている場合は、トークン使用量を減らしたり、応答を簡潔にしたりするために、推論を無効にできます。リクエストで推論を無効にするには、`chat_template_kwargs` で `enable_thinking` フラグを `False` (Python) または `false` (Bash) に設定します。リクエストが完了すると、レスポンスには推論コンテンツが含まれません。
+モデルが前述の [サポートされるモデル](#supported-models-with-reasoning) の表で `デフォルトで有効` として記載されている場合は、トークン使用量を減らしたり、応答を簡潔にしたりするために、推論を無効にできます。リクエストで推論を無効にするには、`chat_template_kwargs` で `enable_thinking` フラグを `False` (Python) または `false` (Bash) に設定します。リクエストが完了すると、応答には推論コンテンツが含まれません。
 
 <Tabs>
   <Tab title="Python">
@@ -99,4 +99,4 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
   ### 推論 を有効にする
 </div>
 
-モデルが前述の[サポートされるモデル](#supported-models)の表で`デフォルトで無効`と記載されている場合は、前述のコードスニペットで`enable_thinking`フラグを`True` (Python) または`true` (Bash) に設定すると、推論 を有効にできます。
+モデルが前述の[サポートされるモデル](#supported-models-with-reasoning)の表で`デフォルトで無効`と記載されている場合は、前述のコードスニペットで`enable_thinking`フラグを`True` (Python) または`true` (Bash) に設定すると、推論 を有効にできます。

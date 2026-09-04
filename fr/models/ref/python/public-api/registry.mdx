@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
-## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Registry
+<div id="class-wandbapispublicregistry">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Registry
+</div>
 
 Un seul registre dans le Registre.
 
@@ -118,7 +120,9 @@ attrs: 'RegistryFragment | None' = None)
   ## Méthodes
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.add_members()
+<div id="method-registryadd_members">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.add_members()
+</div>
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -161,7 +165,9 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.collections()
+<div id="method-registrycollections">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.collections()
+</div>
 
 ```python
 self,
@@ -173,7 +179,7 @@ start: 'str | None' = None
 
 Renvoie les collections appartenant à ce registre.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### Arguments
 </div>
 
@@ -193,7 +199,9 @@ Renvoie les collections appartenant à ce registre.
   Curseur de pagination permettant de reprendre une requête antérieure, obtenu à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.create()
+<div id="method-registrycreate">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.create()
+</div>
 
 ```python
 api: 'Api',
@@ -209,7 +217,7 @@ Créer un nouveau registre.
 Le nom du registre doit être unique au sein de l’organisation.
 Cette fonction doit être appelée via `api.create_registry()`
 
-<div id="arguments">
+<div id="arguments-3">
   ##### Arguments
 </div>
 
@@ -237,13 +245,15 @@ Cette fonction doit être appelée via `api.create_registry()`
   Une liste facultative des types d’artefacts autorisés.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-2">
   ##### Exceptions levées
 </div>
 
 * `ValueError`: Si un registre portant le même nom existe déjà dans l’organisation, ou si sa création échoue.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.delete()
+<div id="method-registrydelete">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.delete()
+</div>
 
 ```python
 self
@@ -251,7 +261,9 @@ self
 
 Supprimez le registre. Cette action est irréversible.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.load()
+<div id="method-registryload">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.load()
+</div>
 
 ```python
 self
@@ -259,7 +271,9 @@ self
 
 Charge les attributs du registre à partir du backend.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.members()
+<div id="method-registrymembers">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.members()
+</div>
 
 ```python
 self
@@ -267,7 +281,9 @@ self
 
 Renvoie les membres actuels (Users et équipes) de ce registre.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.remove_members()
+<div id="method-registryremove_members">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.remove_members()
+</div>
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -275,7 +291,7 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 Supprime des Users ou des équipes de ce registre.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### Arguments
 </div>
 
@@ -283,14 +299,14 @@ Supprime des Users ou des équipes de ce registre.
   Les Users ou équipes à supprimer du registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-3">
   ##### Exceptions levées
 </div>
 
 * `TypeError`: Si aucun membre n’est passé en argument.
 * `ValueError`: S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
 
-<div id="examples">
+<div id="examples-2">
   ##### Exemples
 </div>
 
@@ -310,7 +326,9 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.save()
+<div id="method-registrysave">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.save()
+</div>
 
 ```python
 self
@@ -318,7 +336,9 @@ self
 
 Enregistrer les attributs du registre dans le backend.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.team_members()
+<div id="method-registryteam_members">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.team_members()
+</div>
 
 ```python
 self
@@ -326,7 +346,9 @@ self
 
 Renvoie les équipes actuellement membres de ce registre.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.update_member()
+<div id="method-registryupdate_member">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.update_member()
+</div>
 
 ```python
 self,
@@ -336,7 +358,7 @@ role: 'MemberRole | str'
 
 Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### Arguments
 </div>
 
@@ -353,13 +375,13 @@ Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
   * &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
 </ResponseField>
 
-<div id="raises">
+<div id="raises-4">
   ##### Exceptions levées
 </div>
 
 * `ValueError`: S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
 
-<div id="examples">
+<div id="examples-3">
   ##### Exemples
 </div>
 
@@ -377,7 +399,9 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.user_members()
+<div id="method-registryuser_members">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.user_members()
+</div>
 
 ```python
 self
@@ -385,7 +409,9 @@ self
 
 Renvoie les utilisateurs actuellement membres de ce registre.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.versions()
+<div id="method-registryversions">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.versions()
+</div>
 
 ```python
 self,
@@ -397,7 +423,7 @@ start: 'str | None' = None
 
 Renvoie les versions d&#39;artifact de ce registre.
 
-<div id="arguments">
+<div id="arguments-6">
   ##### Arguments
 </div>
 

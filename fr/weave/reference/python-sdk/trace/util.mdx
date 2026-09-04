@@ -13,7 +13,9 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L105" />
 
-## <kbd>class</kbd> `ContextAwareThread`
+<div id="class-contextawarethread">
+  ## <kbd>class</kbd> `ContextAwareThread`
+</div>
 
 Un thread qui exécute des fonctions avec le contexte de l&#39;appelant.
 
@@ -34,7 +36,9 @@ thread.start()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L129" />
 
-### <kbd>méthode</kbd> `__init__`
+<div id="method-__init__">
+  ### <kbd>méthode</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -43,7 +47,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 ***
 
 
-#### <kbd>propriété</kbd> `daemon`
+<div id="property-daemon">
+  #### <kbd>propriété</kbd> `daemon`
+</div>
 
 Valeur booléenne indiquant si ce thread est un thread daemon.
 
@@ -53,7 +59,9 @@ L’ensemble du programme Python se termine lorsqu’il ne reste plus que des th
 
 ***
 
-#### <kbd>propriété</kbd> ident
+<div id="property-ident">
+  #### <kbd>propriété</kbd> ident
+</div>
 
 Identifiant de ce thread, ou None s’il n’a pas été démarré.
 
@@ -61,7 +69,9 @@ Il s’agit d’un entier non nul. Voir la fonction `get_ident()`. Les identifia
 
 ***
 
-#### <kbd>propriété</kbd> nom
+<div id="property-name">
+  #### <kbd>propriété</kbd> nom
+</div>
 
 Chaîne utilisée uniquement à des fins d’identification.
 
@@ -69,7 +79,9 @@ Elle n’a pas de signification particulière. Plusieurs threads peuvent avoir l
 
 ***
 
-#### <kbd>propriété</kbd> native_id
+<div id="property-native_id">
+  #### <kbd>propriété</kbd> native_id
+</div>
 
 Identifiant natif entier de ce thread, ou None s&#39;il n&#39;a pas encore été démarré.
 
@@ -79,7 +91,9 @@ Il s&#39;agit d&#39;un entier non négatif. Voir la fonction `get_native_id()`. 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L133" />
 
-### <kbd>méthode</kbd> `run`
+<div id="method-run">
+  ### <kbd>méthode</kbd> `run`
+</div>
 
 ```python
 run() → None
@@ -89,7 +103,9 @@ run() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L45" />
 
-## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+<div id="class-contextawarethreadpoolexecutor">
+  ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+</div>
 
 Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l’appelant.
 
@@ -109,7 +125,9 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L68" />
 
-### <kbd>méthode</kbd> `__init__`
+<div id="method-__init__-2">
+  ### <kbd>méthode</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -119,7 +137,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L77" />
 
-### <kbd>méthode</kbd> `map`
+<div id="method-map">
+  ### <kbd>méthode</kbd> `map`
+</div>
 
 ```python
 map(
@@ -134,7 +154,9 @@ map(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L73" />
 
-### <kbd>méthode</kbd> `submit`
+<div id="method-submit">
+  ### <kbd>méthode</kbd> `submit`
+</div>
 
 ```python
 submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
@@ -144,7 +166,9 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L164" />
 
-### <kbd>fonction</kbd> `obsolète`
+<div id="function-deprecated">
+  ### <kbd>fonction</kbd> `obsolète`
+</div>
 
 ```python
 deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
@@ -156,7 +180,9 @@ Décorateur permettant de signaler qu’une fonction est obsolète et de redirig
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L137" />
 
-### <kbd>fonction</kbd> `is_colab`
+<div id="function-is_colab">
+  ### <kbd>fonction</kbd> `is_colab`
+</div>
 
 ```python
 is_colab()
@@ -166,7 +192,9 @@ is_colab()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L146" />
 
-### <kbd>fonction</kbd> `is_notebook`
+<div id="function-is_notebook">
+  ### <kbd>fonction</kbd> `is_notebook`
+</div>
 
 ```python
 is_notebook() → bool
@@ -176,7 +204,9 @@ is_notebook() → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L21" />
 
-### <kbd>fonction</kbd> `log_once`
+<div id="function-log_once">
+  ### <kbd>fonction</kbd> `log_once`
+</div>
 
 ```python
 log_once(log_method: 'Callable[[str], None]', message: 'str') → None

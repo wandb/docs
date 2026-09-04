@@ -13,13 +13,17 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L84" />
 
-## <kbd>class</kbd> `FeedbackQuery`
+<div id="class-feedbackquery">
+  ## <kbd>class</kbd> `FeedbackQuery`
+</div>
 
 서버에서 피드백을 가져오는 lazy 로딩 객체입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L97" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -36,7 +40,9 @@ __init__(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L145" />
 
-### <kbd>방법</kbd> `execute`
+<div id="method-execute">
+  ### <kbd>방법</kbd> `execute`
+</div>
 
 ```python
 execute() → Feedbacks
@@ -46,7 +52,9 @@ execute() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L126" />
 
-### <kbd>방법</kbd> `refresh`
+<div id="method-refresh">
+  ### <kbd>방법</kbd> `refresh`
+</div>
 
 ```python
 refresh() → Feedbacks
@@ -56,7 +64,9 @@ refresh() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L151" />
 
-### <kbd>방법</kbd> `refs`
+<div id="method-refs">
+  ### <kbd>방법</kbd> `refs`
+</div>
 
 ```python
 refs() → Refs
@@ -66,13 +76,17 @@ refs() → Refs
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L21" />
 
-## <kbd>class</kbd> `Feedbacks`
+<div id="class-feedbacks">
+  ## <kbd>class</kbd> `Feedbacks`
+</div>
 
 유틸리티를 제공하는 Feedback 객체 컬렉션입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L26" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-2">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -85,7 +99,9 @@ __init__(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L32" />
 
-### <kbd>방법</kbd> `refs`
+<div id="method-refs-2">
+  ### <kbd>방법</kbd> `refs`
+</div>
 
 ```python
 refs() → Refs
@@ -97,13 +113,17 @@ refs() → Refs
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L168" />
 
-## <kbd>class</kbd> `RefFeedbackQuery`
+<div id="class-reffeedbackquery">
+  ## <kbd>class</kbd> `RefFeedbackQuery`
+</div>
 
 특정 ref에 연결된 피드백과 상호작용하는 객체입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L173" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-3">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(ref: 'str') → None
@@ -113,7 +133,9 @@ __init__(ref: 'str') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L219" />
 
-### <kbd>방법</kbd> `add`
+<div id="method-add">
+  ### <kbd>방법</kbd> `add`
+</div>
 
 ```python
 add(
@@ -133,7 +155,9 @@ feedback&#95;type: 피드백의 유형을 나타내는 문자열입니다. &quot
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L247" />
 
-### <kbd>방법</kbd> `add_note`
+<div id="method-add_note">
+  ### <kbd>방법</kbd> `add_note`
+</div>
 
 ```python
 add_note(note: 'str', creator: 'str | None' = None) → str
@@ -143,7 +167,9 @@ add_note(note: 'str', creator: 'str | None' = None) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L238" />
 
-### <kbd>방법</kbd> `add_reaction`
+<div id="method-add_reaction">
+  ### <kbd>방법</kbd> `add_reaction`
+</div>
 
 ```python
 add_reaction(emoji: 'str', creator: 'str | None' = None) → str
@@ -153,7 +179,9 @@ add_reaction(emoji: 'str', creator: 'str | None' = None) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L145" />
 
-### <kbd>방법</kbd> `execute`
+<div id="method-execute-2">
+  ### <kbd>방법</kbd> `execute`
+</div>
 
 ```python
 execute() → Feedbacks
@@ -163,7 +191,9 @@ execute() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L256" />
 
-### <kbd>방법</kbd> `purge`
+<div id="method-purge">
+  ### <kbd>방법</kbd> `purge`
+</div>
 
 ```python
 purge(feedback_id: 'str') → None
@@ -173,7 +203,9 @@ purge(feedback_id: 'str') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L126" />
 
-### <kbd>방법</kbd> `refresh`
+<div id="method-refresh-2">
+  ### <kbd>방법</kbd> `refresh`
+</div>
 
 ```python
 refresh() → Feedbacks
@@ -183,7 +215,9 @@ refresh() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L151" />
 
-### <kbd>방법</kbd> `refs`
+<div id="method-refs-3">
+  ### <kbd>방법</kbd> `refs`
+</div>
 
 ```python
 refs() → Refs

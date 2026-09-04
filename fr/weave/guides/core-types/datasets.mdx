@@ -99,7 +99,9 @@ Cette section montre comment créer un `Dataset` à partir de données que vous 
   <Tab title="Python">
     En Python, les `Dataset` peuvent également être créés à partir d&#39;objets Weave courants comme les [appels](../tracking/tracing), ainsi que d&#39;objets Python comme les `pandas.DataFrame`. Cette fonctionnalité est utile si vous souhaitez créer un `Dataset` d&#39;exemple à partir d&#39;exemples précis.
 
-    ### Call Weave
+    <div id="weave-call">
+      ### Call Weave
+    </div>
 
     Pour créer un `Dataset` à partir d&#39;un ou de plusieurs appels Weave, récupérez le ou les objets call, puis ajoutez-les à une liste dans la méthode `from_calls`.
 
@@ -115,7 +117,9 @@ Cette section montre comment créer un `Dataset` à partir de données que vous 
     # Vous pouvez maintenant utiliser le dataset pour évaluer le modèle, etc.
     ```
 
-    ### DataFrame Pandas
+    <div id="pandas-dataframe">
+      ### DataFrame Pandas
+    </div>
 
     Pour créer un `Dataset` à partir d&#39;un objet Pandas `DataFrame`, utilisez la méthode `from_pandas`. Pour reconvertir le `Dataset`, utilisez `to_pandas`.
 
@@ -133,7 +137,9 @@ Cette section montre comment créer un `Dataset` à partir de données que vous 
     assert df.equals(df2)
     ```
 
-    ### Hugging Face Datasets
+    <div id="hugging-face-datasets">
+      ### Hugging Face Datasets
+    </div>
 
     Pour créer un `Dataset` à partir d&#39;un objet Hugging Face `datasets.Dataset` ou `datasets.DatasetDict`, assurez-vous d&#39;abord que les dépendances nécessaires sont installées :
 
@@ -327,7 +333,9 @@ Cette section présente des opérations SDK supplémentaires utiles lorsque vous
 
 <Tabs>
   <Tab title="Python">
-    ### Sélection de lignes
+    <div id="select-rows">
+      ### Sélection de lignes
+    </div>
 
     Vous pouvez sélectionner des lignes spécifiques d’un `Dataset` par leur index à l’aide de la méthode `select`. C’est utile pour créer des sous-ensembles de vos données, par exemple lorsque vous souhaitez évaluer sur un sous-ensemble plus restreint d’exemples.
 

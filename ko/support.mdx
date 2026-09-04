@@ -24,13 +24,13 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
 <div className="max-w-4xl mx-auto px-6 lg:px-8 py-10">
   {/*
-                      "custom" 모드에서는 Mintlify가 frontmatter title을 페이지 내 H1으로 렌더링하지 않고,
-                      본문을 감싸는 prose wrapper도 없으므로 HTML
-                      heading(<h1>/<h2>/<h3>)은 브라우저 기본값과 프로젝트의
-                      typography.css 규칙(serif 계열, weight 400)을 함께 상속합니다. Mintlify의 custom-layouts
-                      가이드에서는 명시적으로 Tailwind
-                      class를 지정한 raw HTML heading을 작성하는 방식으로 이를 처리합니다. 여기에서도 동일하게 적용해 heading이 일반적인 문서 heading처럼 보이도록 하세요.
-                      */}
+                        "custom" 모드에서는 Mintlify가 frontmatter title을 페이지 내 H1으로 렌더링하지 않고,
+                        본문을 감싸는 prose wrapper도 없으므로 HTML
+                        heading(<h1>/<h2>/<h3>)은 브라우저 기본값과 프로젝트의
+                        typography.css 규칙(serif 계열, weight 400)을 함께 상속합니다. Mintlify의 custom-layouts
+                        가이드에서는 명시적으로 Tailwind
+                        class를 지정한 raw HTML heading을 작성하는 방식으로 이를 처리합니다. 여기에서도 동일하게 적용해 heading이 일반적인 문서 heading처럼 보이도록 하세요.
+                        */}
 
   <h1 className="tracking-tight mb-8" style={{ fontSize: '1.875rem', lineHeight: '2.25rem' }}>지원팀 홈</h1>
 
@@ -55,7 +55,7 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
     <Card title="W&B Weave" href="/ko/support/weave" arrow="true" icon="/icons/cropped-weave.svg">
       {/* AUTO-GENERATED: counts */}
 
-      18 아티클 · 11 tags
+      19 아티클 · 12 tags
 
       {/* END AUTO-GENERATED: counts */}
     </Card>
@@ -71,9 +71,13 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
   {/* AUTO-GENERATED: 추천 문서 */}
 
-  ## 추천 아티클
+  <div id="featured-articles">
+    ## 추천 아티클
+  </div>
 
-  ### W&amp;B Models
+  <div id="wb-models">
+    ### W&amp;B Models
+  </div>
 
   <Card title="트레이닝 코드에서 run 이름을 어떻게 설정하나요?" href="/ko/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
     트레이닝 스크립트 시작 부분에서 run 이름을 지정해 wandb.init를 호출하세요. 예: wandb.init(name=&quot;my&#95;awesome&#95;run&quot;) ...

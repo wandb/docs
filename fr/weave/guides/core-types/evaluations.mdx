@@ -64,7 +64,9 @@ Le nommage personnalisé est facultatif, mais il vous aide à distinguer différ
     * [*Nom de l’objet `Evaluation`* (`evaluation_name`)](#name-the-evaluation-object) : un libellé persistant pour votre objet `Evaluation` configuré.
     * [*Nom d’affichage d’un run d’évaluation* (`__weave["display_name"]`)](#name-individual-evaluation-runs) : un libellé pour une exécution d’évaluation donnée, affiché dans l’interface utilisateur.
 
-    #### Nommer l’objet `Evaluation`
+    <div id="name-the-evaluation-object">
+      #### Nommer l’objet `Evaluation`
+    </div>
 
     Pour nommer l’objet `Evaluation` lui-même, passez un paramètre `evaluation_name` à la classe `Evaluation`. Ce nom vous aide à identifier l’objet `Evaluation` dans le code et dans les listes de l’interface utilisateur.
 
@@ -74,7 +76,9 @@ Le nommage personnalisé est facultatif, mais il vous aide à distinguer différ
     )
     ```
 
-    #### Nommer des runs d’évaluation individuels
+    <div id="name-individual-evaluation-runs">
+      #### Nommer des runs d’évaluation individuels
+    </div>
 
     Pour nommer un run d’évaluation spécifique (un appel à `evaluate()`), utilisez le dictionnaire `__weave` avec un `display_name`. Cela détermine ce qui est affiché dans l’interface utilisateur pour ce run.
 
@@ -171,7 +175,9 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). We
         return {'match': expected == output['generated_text']}
     ```
 
-    ### Facultatif : Définir une classe `Scorer` personnalisée
+    <div id="optional-define-a-custom-scorer-class">
+      ### Facultatif : Définir une classe `Scorer` personnalisée
+    </div>
 
     Dans certaines applications, vous pouvez vouloir créer des classes `Scorer` personnalisées. Par exemple, une classe `LLMJudge` standardisée peut être créée avec des paramètres spécifiques (par exemple, modèle de chat, prompt), une logique de scoring propre à chaque ligne et un calcul spécifique du score agrégé.
 
@@ -243,7 +249,9 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). We
 
     Cela exécute `predict` sur chaque exemple et attribue un score au résultat avec chaque fonction d&#39;évaluation.
 
-    ### Facultatif : Définissez une fonction à évaluer
+    <div id="optional-define-a-function-to-evaluate">
+      ### Facultatif : Définissez une fonction à évaluer
+    </div>
 
     Vous pouvez également évaluer une fonction personnalisée suivie avec `@weave.op()` :
 
@@ -305,7 +313,9 @@ Avec votre objet `Evaluation`, le jeu de données, les évaluateurs et le modèl
     asyncio.run(evaluation.evaluate(model))
     ```
 
-    ### Facultatif : Exécuter plusieurs essais
+    <div id="optional-run-multiple-trials">
+      ### Facultatif : Exécuter plusieurs essais
+    </div>
 
     Vous pouvez définir le paramètre `trials` sur l’objet `Evaluation` pour exécuter chaque exemple plusieurs fois.
 
@@ -326,7 +336,9 @@ Avec votre objet `Evaluation`, le jeu de données, les évaluateurs et le modèl
     const results = await evaluation.evaluate({model: myModel});
     ```
 
-    ### Facultatif : Exécuter plusieurs essais
+    <div id="optional-run-multiple-trials-2">
+      ### Facultatif : Exécuter plusieurs essais
+    </div>
 
     Vous pouvez définir le paramètre `nTrials` lors de l’appel à `evaluate()` pour exécuter chaque exemple plusieurs fois.
 

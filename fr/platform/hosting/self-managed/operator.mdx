@@ -193,7 +193,9 @@ Choisissez votre méthode de déploiement :
 
     Pour les considérations propres à chaque déploiement, voir [Considérations propres à l’environnement](#environment-specific-considerations) et [Déployer avec Terraform sur le cloud public](#deploy-with-terraform-on-public-cloud). Pour les environnements déconnectés, voir [Déployer sur Kubernetes en environnement isolé](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/).
 
-    #### Module Terraform Helm
+    <div id="helm-terraform-module">
+      #### Module Terraform Helm
+    </div>
 
     Cette méthode prend en charge des déploiements personnalisés adaptés à des exigences spécifiques, en utilisant l’approche d’infrastructure as code de Terraform pour garantir la cohérence et la reproductibilité. Le [module Terraform basé sur Helm](https://registry.terraform.io/modules/wandb/wandb/helm/latest) officiel de W&amp;B est disponible sur le Terraform Registry.
 
@@ -237,7 +239,9 @@ Choisissez votre méthode de déploiement :
     * [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
     * [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
-    #### Modules Terraform pour le cloud
+    <div id="cloud-terraform-modules">
+      #### Modules Terraform pour le cloud
+    </div>
 
     W&amp;B fournit un ensemble de modules Terraform pour AWS, Google Cloud et Azure. Ces modules déploient l’infrastructure complète, notamment des clusters Kubernetes, des équilibreurs de charge et des bases de données MySQL, ainsi que l’application W&amp;B Server. L’opérateur Kubernetes W&amp;B est inclus dans ces modules Terraform officiels W&amp;B spécifiques à chaque cloud, dans les versions suivantes :
 
@@ -529,11 +533,15 @@ Sélectionnez votre fournisseur de cloud :
     * ElastiCache pour Redis
     * SQS
 
-    ### Autorisations préalables
+    <div id="prerequisite-permissions">
+      ### Autorisations préalables
+    </div>
 
     Le compte qui exécute Terraform doit pouvoir créer tous les composants répertoriés dans la section précédente et disposer des autorisations nécessaires pour créer des **IAM Policies** et des **IAM Roles**, ainsi qu&#39;attribuer des rôles aux ressources.
 
-    ### Étapes générales
+    <div id="general-steps">
+      ### Étapes générales
+    </div>
 
     Les étapes de cette section sont communes à toutes les options de déploiement.
 
@@ -634,7 +642,9 @@ Sélectionnez votre fournisseur de cloud :
        }
        ```
 
-    ### Déploiement recommandé
+    <div id="recommended-deployment">
+      ### Déploiement recommandé
+    </div>
 
     Il s&#39;agit de la configuration de déploiement la plus simple, qui crée tous les composants obligatoires et installe la dernière version de W&amp;B dans le cluster Kubernetes.
 
@@ -704,7 +714,9 @@ Sélectionnez votre fournisseur de cloud :
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Activer Redis
+    <div id="enable-redis">
+      ### Activer Redis
+    </div>
 
     Pour utiliser Redis afin de mettre en cache les requêtes SQL et accélérer la réponse de l&#39;application lors du chargement des métriques, ajoutez l&#39;option `create_elasticache_subnet = true` au fichier `main.tf` :
 
@@ -722,7 +734,9 @@ Sélectionnez votre fournisseur de cloud :
     [...]
     ```
 
-    ### Activer le courtier de messages (file d&#39;attente)
+    <div id="enable-message-broker-queue">
+      ### Activer le courtier de messages (file d&#39;attente)
+    </div>
 
     Pour activer un courtier de messages externe via SQS, ajoutez l&#39;option `use_internal_queue = false` au fichier `main.tf` :
 
@@ -745,7 +759,9 @@ Sélectionnez votre fournisseur de cloud :
     }
     ```
 
-    ### Ressources supplémentaires
+    <div id="additional-resources">
+      ### Ressources supplémentaires
+    </div>
 
     * [Documentation du module AWS Terraform](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
     * [Code source du module Terraform pour AWS](https://github.com/wandb/terraform-aws-wandb)
@@ -773,11 +789,15 @@ Sélectionnez votre fournisseur de cloud :
 
     * Système de messagerie Pub/Sub
 
-    ### Autorisations préalables
+    <div id="prerequisite-permissions-2">
+      ### Autorisations préalables
+    </div>
 
     Le compte qui exécute Terraform doit disposer du rôle `roles/owner` dans le projet Google Cloud utilisé.
 
-    ### Étapes générales
+    <div id="general-steps-2">
+      ### Étapes générales
+    </div>
 
     Les étapes de cette section sont communes à toutes les options de déploiement.
 
@@ -846,7 +866,9 @@ Sélectionnez votre fournisseur de cloud :
        }
        ```
 
-    ### Déploiement recommandé
+    <div id="recommended-deployment-2">
+      ### Déploiement recommandé
+    </div>
 
     Il s&#39;agit de la configuration de déploiement la plus simple, qui crée tous les composants obligatoires et installe la dernière version de W&amp;B dans le cluster Kubernetes.
 
@@ -917,7 +939,9 @@ Sélectionnez votre fournisseur de cloud :
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Activer Redis
+    <div id="enable-redis-2">
+      ### Activer Redis
+    </div>
 
     Pour utiliser Redis afin de mettre en cache les requêtes SQL et accélérer la réponse de l&#39;application lors du chargement des métriques, ajoutez l&#39;option `create_redis = true` au fichier `main.tf` :
 
@@ -937,7 +961,9 @@ Sélectionnez votre fournisseur de cloud :
     [...]
     ```
 
-    ### Activer le courtier de messages (file d&#39;attente)
+    <div id="enable-message-broker-queue-2">
+      ### Activer le courtier de messages (file d&#39;attente)
+    </div>
 
     Pour activer un courtier de messages externe via Pub/Sub, ajoutez l&#39;option `use_internal_queue = false` au fichier `main.tf` :
 
@@ -962,7 +988,9 @@ Sélectionnez votre fournisseur de cloud :
     [...]
     ```
 
-    ### Ressources supplémentaires
+    <div id="additional-resources-2">
+      ### Ressources supplémentaires
+    </div>
 
     * [Documentation du module Terraform pour Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest)
     * [Code source du module Terraform pour Google Cloud](https://github.com/wandb/terraform-google-wandb)
@@ -987,13 +1015,17 @@ Sélectionnez votre fournisseur de cloud :
     * Azure Cache for Redis
     * Azure Event Grid
 
-    ### Autorisations préalables
+    <div id="prerequisite-permissions-3">
+      ### Autorisations préalables
+    </div>
 
     La façon la plus simple de configurer le fournisseur AzureRM est via [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli). Pour l&#39;automatisation, vous pouvez également utiliser un [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret).
 
     Quelle que soit la méthode d&#39;authentification utilisée, le compte qui exécute Terraform doit pouvoir créer tous les composants répertoriés dans la section précédente.
 
-    ### Étapes générales
+    <div id="general-steps-3">
+      ### Étapes générales
+    </div>
 
     Les étapes de cette section sont communes à toutes les options de déploiement.
 
@@ -1070,7 +1102,9 @@ Sélectionnez votre fournisseur de cloud :
            }
        ```
 
-    ### Déploiement recommandé
+    <div id="recommended-deployment-3">
+      ### Déploiement recommandé
+    </div>
 
     Il s&#39;agit de la configuration de déploiement la plus simple, qui crée tous les composants obligatoires et installe la dernière version de W&amp;B dans le cluster Kubernetes.
 
@@ -1135,7 +1169,9 @@ Sélectionnez votre fournisseur de cloud :
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Activer Redis
+    <div id="enable-redis-3">
+      ### Activer Redis
+    </div>
 
     Pour utiliser Redis afin de mettre en cache les requêtes SQL et accélérer la réponse de l&#39;application lors du chargement des métriques, ajoutez l&#39;option `create_redis = true` au fichier `main.tf` :
 
@@ -1156,7 +1192,9 @@ Sélectionnez votre fournisseur de cloud :
     }
     ```
 
-    ### Activer le courtier de messages (file d&#39;attente)
+    <div id="enable-message-broker-queue-3">
+      ### Activer le courtier de messages (file d&#39;attente)
+    </div>
 
     Pour activer un courtier de messages externe à l&#39;aide d&#39;Azure Event Grid, ajoutez l&#39;option `use_internal_queue = false` au fichier `main.tf` :
 
@@ -1181,7 +1219,9 @@ Sélectionnez votre fournisseur de cloud :
     }
     ```
 
-    ### Ressources supplémentaires
+    <div id="additional-resources-3">
+      ### Ressources supplémentaires
+    </div>
 
     * [Documentation du module Terraform pour Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
     * [Code source du module Terraform pour Azure](https://github.com/wandb/terraform-azurerm-wandb)

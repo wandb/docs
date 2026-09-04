@@ -60,6 +60,12 @@
             "title": "Tool Definitions"
           }
         },
+        "required": [
+          "model",
+          "system_instructions",
+          "tool_definitions",
+          "status"
+        ],
         "title": "AgentChatAgentStart",
         "type": "object"
       },
@@ -194,7 +200,18 @@
           }
         },
         "required": [
-          "text"
+          "text",
+          "model",
+          "reasoning_content",
+          "reasoning_tokens",
+          "input_tokens",
+          "output_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "total_cost_usd",
+          "duration_ms",
+          "status",
+          "content_refs"
         ],
         "title": "AgentChatAssistantMessage",
         "type": "object"
@@ -236,7 +253,175 @@
             "title": "Compaction Summary"
           }
         },
+        "required": [
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after"
+        ],
         "title": "AgentChatContextCompacted",
+        "type": "object"
+      },
+      "AgentChatFeedback": {
+        "description": "에이전트 채팅 `include_feedback` 프로젝션의 피드백 행입니다.\n\n필드 이름은 FEEDBACK_QUERY_FIELDS와 일치합니다. 이는 피드백\n테이블 행이나 FeedbackCreateReq가 아니며, project_id 및 span_*은\n선택되지 않습니다.",
+        "properties": {
+          "annotation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotation Ref"
+          },
+          "call_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Call Ref"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "creator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Creator"
+          },
+          "feedback_type": {
+            "title": "Feedback Type",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "runnable_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
+          },
+          "weave_ref": {
+            "title": "Weave Ref",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "feedback_type",
+          "weave_ref",
+          "payload",
+          "creator",
+          "created_at",
+          "wb_user_id",
+          "runnable_ref",
+          "call_ref",
+          "trigger_ref",
+          "annotation_ref",
+          "scorer_tags",
+          "scorer_tag_reasons",
+          "scorer_tag_confidences",
+          "scorer_ratings",
+          "scorer_rating_reasons",
+          "scorer_rating_confidences"
+        ],
+        "title": "AgentChatFeedback",
         "type": "object"
       },
       "AgentChatMessage": {
@@ -308,8 +493,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -392,7 +576,19 @@
           }
         },
         "required": [
-          "type"
+          "type",
+          "span_id",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "started_at",
+          "user_message",
+          "assistant_message",
+          "tool_call",
+          "agent_start",
+          "agent_handoff",
+          "context_compacted",
+          "feedback"
         ],
         "title": "AgentChatMessage",
         "type": "object"
@@ -468,6 +664,14 @@
             "title": "Tool Result"
           }
         },
+        "required": [
+          "tool_name",
+          "tool_arguments",
+          "tool_result",
+          "duration_ms",
+          "status",
+          "content_refs"
+        ],
         "title": "AgentChatToolCall",
         "type": "object"
       },
@@ -487,7 +691,8 @@
           }
         },
         "required": [
-          "text"
+          "text",
+          "content_refs"
         ],
         "title": "AgentChatUserMessage",
         "type": "object"
@@ -542,8 +747,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -593,7 +797,14 @@
           }
         },
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "turns",
+          "total_turns",
+          "has_more",
+          "limit",
+          "offset",
+          "total_cost_usd",
+          "feedback"
         ],
         "title": "AgentConversationChatRes",
         "type": "object"
@@ -602,7 +813,10 @@
         "description": "그룹화된 대화 행에 대한 잘린 첫 번째/마지막 메시지 스니펫입니다.\n\n`role`은 채팅 타임라인 메시지 유형(예: \"user_message\",\n\"assistant_message\")이므로 클라이언트는 전체\n채팅 뷰와 일관된 방식으로 스타일을 적용할 수 있습니다. `text`는 다듬어지고 길이 한도가 적용된 미리보기 콘텐츠입니다.",
         "properties": {
           "role": {
-            "default": "",
+            "enum": [
+              "user_message",
+              "assistant_message"
+            ],
             "title": "Role",
             "type": "string"
           },
@@ -612,6 +826,10 @@
             "type": "string"
           }
         },
+        "required": [
+          "role",
+          "text"
+        ],
         "title": "AgentConversationMessagePreview",
         "type": "object"
       },
@@ -702,7 +920,9 @@
         },
         "required": [
           "trace_id",
-          "feedback_type"
+          "feedback_type",
+          "tags",
+          "ratings"
         ],
         "title": "AgentConversationSpanFeedback",
         "type": "object"
@@ -743,7 +963,9 @@
         },
         "required": [
           "name",
-          "value"
+          "value",
+          "reason",
+          "confidence"
         ],
         "title": "AgentConversationSpanRating",
         "type": "object"
@@ -771,7 +993,9 @@
           }
         },
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "spans",
+          "spans_feedback"
         ],
         "title": "AgentConversationSpans",
         "type": "object"
@@ -833,6 +1057,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "conversations"
+        ],
         "title": "AgentConversationSpansRes",
         "type": "object"
       },
@@ -964,6 +1191,12 @@
             "type": "integer"
           }
         },
+        "required": [
+          "attributes",
+          "limit",
+          "offset",
+          "has_more"
+        ],
         "title": "AgentCustomAttrsSchemaRes",
         "type": "object"
       },
@@ -1086,7 +1319,8 @@
           "total_duration_ms",
           "error_count",
           "first_seen",
-          "last_seen"
+          "last_seen",
+          "total_cost_usd"
         ],
         "title": "AgentSchema",
         "type": "object"
@@ -1141,17 +1375,24 @@
             "type": "string"
           },
           "role": {
-            "enum": [
-              "",
-              "user",
-              "assistant",
-              "system",
-              "tool",
-              "tool_call",
-              "tool_result"
+            "anyOf": [
+              {
+                "enum": [
+                  "",
+                  "user",
+                  "assistant",
+                  "system",
+                  "tool",
+                  "tool_call",
+                  "tool_result"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
             ],
-            "title": "Role",
-            "type": "string"
+            "title": "Role"
           },
           "span_id": {
             "title": "Span Id",
@@ -1334,9 +1575,30 @@
           }
         },
         "required": [
-          "results"
+          "results",
+          "total_conversations"
         ],
         "title": "AgentSearchRes",
+        "type": "object"
+      },
+      "AgentSignalFilter": {
+        "properties": {
+          "ratings": {
+            "items": {
+              "$ref": "#/components/schemas/RatingCondition"
+            },
+            "title": "Ratings",
+            "type": "array"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "title": "AgentSignalFilter",
         "type": "object"
       },
       "AgentSortBy": {
@@ -1461,7 +1723,13 @@
           "alias",
           "source",
           "key",
-          "value_type"
+          "value_type",
+          "total_count",
+          "present_count",
+          "missing_count",
+          "other_count",
+          "bins",
+          "values"
         ],
         "title": "AgentSpanGroupDistributionItem",
         "type": "object"
@@ -1791,6 +2059,33 @@
             "type": "integer"
           }
         },
+        "required": [
+          "group_keys",
+          "span_count",
+          "invocation_count",
+          "conversation_count",
+          "total_input_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_duration_ms",
+          "error_count",
+          "total_cost_usd",
+          "total_input_cost_usd",
+          "total_output_cost_usd",
+          "agent_names",
+          "agent_versions",
+          "provider_names",
+          "request_models",
+          "conversation_names",
+          "first_seen",
+          "last_seen",
+          "first_message",
+          "last_message",
+          "metrics",
+          "distributions"
+        ],
         "title": "AgentSpanGroupRow",
         "type": "object"
       },
@@ -2072,6 +2367,83 @@
             ],
             "title": "Error Type"
           },
+          "eval_evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Evaluation Name"
+          },
+          "eval_example_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Example Id"
+          },
+          "eval_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Kind"
+          },
+          "eval_predict_and_score_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Predict And Score Call Id"
+          },
+          "eval_row_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Row Digest"
+          },
+          "eval_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Run Id"
+          },
+          "eval_trial_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Trial Index"
+          },
           "finish_reasons": {
             "items": {
               "type": "string"
@@ -2165,6 +2537,28 @@
               }
             ],
             "title": "Output Type"
+          },
+          "parent_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Id"
+          },
+          "parent_call_trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Trace Id"
           },
           "parent_span_id": {
             "anyOf": [
@@ -2584,7 +2978,83 @@
         "required": [
           "project_id",
           "trace_id",
-          "span_id"
+          "span_id",
+          "parent_span_id",
+          "span_name",
+          "span_kind",
+          "started_at",
+          "ended_at",
+          "status_code",
+          "status_message",
+          "operation_name",
+          "provider_name",
+          "agent_name",
+          "agent_id",
+          "agent_description",
+          "agent_version",
+          "eval_run_id",
+          "eval_predict_and_score_call_id",
+          "eval_kind",
+          "eval_row_digest",
+          "eval_example_id",
+          "eval_trial_index",
+          "eval_evaluation_name",
+          "parent_call_id",
+          "parent_call_trace_id",
+          "request_model",
+          "response_model",
+          "response_id",
+          "input_tokens",
+          "output_tokens",
+          "reasoning_tokens",
+          "cache_creation_input_tokens",
+          "cache_read_input_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "cache_read_cost_usd",
+          "cache_creation_cost_usd",
+          "total_cost_usd",
+          "reasoning_content",
+          "conversation_id",
+          "conversation_name",
+          "tool_name",
+          "tool_type",
+          "tool_call_id",
+          "tool_description",
+          "tool_definitions",
+          "finish_reasons",
+          "error_type",
+          "request_temperature",
+          "request_max_tokens",
+          "request_top_p",
+          "request_frequency_penalty",
+          "request_presence_penalty",
+          "request_seed",
+          "request_stop_sequences",
+          "request_choice_count",
+          "output_type",
+          "input_messages",
+          "output_messages",
+          "system_instructions",
+          "tool_call_arguments",
+          "tool_call_result",
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after",
+          "content_refs",
+          "artifact_refs",
+          "object_refs",
+          "custom_attrs_string",
+          "custom_attrs_int",
+          "custom_attrs_float",
+          "custom_attrs_bool",
+          "server_address",
+          "server_port",
+          "wb_user_id",
+          "wb_run_id",
+          "wb_run_step",
+          "wb_run_step_end",
+          "raw_span_dump"
         ],
         "title": "AgentSpanSchema",
         "type": "object"
@@ -2642,7 +3112,9 @@
         "required": [
           "name",
           "role",
-          "value_type"
+          "value_type",
+          "metric",
+          "aggregation"
         ],
         "title": "AgentSpanStatsColumn",
         "type": "object"
@@ -2870,6 +3342,16 @@
               }
             ]
           },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "start": {
             "format": "date-time",
             "title": "Start",
@@ -2966,7 +3448,11 @@
         "required": [
           "start",
           "end",
-          "timezone"
+          "granularity",
+          "timezone",
+          "bucket_type",
+          "columns",
+          "rows"
         ],
         "title": "AgentSpanStatsRes",
         "type": "object"
@@ -3094,6 +3580,16 @@
               }
             ]
           },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "sort_by": {
             "anyOf": [
               {
@@ -3162,6 +3658,11 @@
             "type": "integer"
           }
         },
+        "required": [
+          "spans",
+          "groups",
+          "total_count"
+        ],
         "title": "AgentSpansQueryRes",
         "type": "object"
       },
@@ -3214,12 +3715,23 @@
             ],
             "title": "Agent Version"
           },
+          "ended_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
           "feedback": {
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -3258,6 +3770,18 @@
             ],
             "title": "Root Span Name"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
           "status_code": {
             "anyOf": [
               {
@@ -3273,6 +3797,16 @@
               }
             ],
             "title": "Status Code"
+          },
+          "total_cache_creation_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Creation Input Tokens",
+            "type": "integer"
+          },
+          "total_cache_read_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Read Input Tokens",
+            "type": "integer"
           },
           "total_cost_usd": {
             "anyOf": [
@@ -3297,13 +3831,56 @@
             "description": "트레이스 루트 span의 실제 경과 시간(밀리초)입니다. 이는 하위 span 기간의 합이 아닙니다.",
             "title": "Total Duration Ms"
           },
+          "total_input_tokens": {
+            "default": 0,
+            "title": "Total Input Tokens",
+            "type": "integer"
+          },
+          "total_output_tokens": {
+            "default": 0,
+            "title": "Total Output Tokens",
+            "type": "integer"
+          },
+          "total_reasoning_tokens": {
+            "default": 0,
+            "title": "Total Reasoning Tokens",
+            "type": "integer"
+          },
           "trace_id": {
             "title": "Trace Id",
             "type": "string"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
           }
         },
         "required": [
-          "trace_id"
+          "trace_id",
+          "root_span_name",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "provider",
+          "started_at",
+          "ended_at",
+          "wb_user_id",
+          "total_duration_ms",
+          "total_cost_usd",
+          "total_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "messages",
+          "feedback"
         ],
         "title": "AgentTraceChatRes",
         "type": "object"
@@ -3394,6 +3971,7 @@
           "error_count",
           "first_seen",
           "last_seen",
+          "total_cost_usd",
           "agent_version"
         ],
         "title": "AgentVersionSchema",
@@ -3467,7 +4045,8 @@
           }
         },
         "required": [
-          "versions"
+          "versions",
+          "total_count"
         ],
         "title": "AgentVersionsQueryRes",
         "type": "object"
@@ -3563,7 +4142,8 @@
           }
         },
         "required": [
-          "agents"
+          "agents",
+          "total_count"
         ],
         "title": "AgentsQueryRes",
         "type": "object"
@@ -3614,6 +4194,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -3656,7 +4239,6 @@
         "type": "object"
       },
       "AnnotationQueueAddCallsBody": {
-        "additionalProperties": false,
         "description": "annotation queue에 call을 추가하기 위한 요청 본문입니다(queue_id는 경로에서 가져옵니다).",
         "properties": {
           "call_ids": {
@@ -3723,7 +4305,6 @@
         "type": "object"
       },
       "AnnotationQueueCreateReq": {
-        "additionalProperties": false,
         "description": "새 annotation queue를 생성하기 위한 요청입니다.",
         "properties": {
           "description": {
@@ -3810,7 +4391,6 @@
         "type": "object"
       },
       "AnnotationQueueItemProgressUpdateBody": {
-        "additionalProperties": false,
         "description": "주석 진행 상태를 업데이트하기 위한 요청 본문입니다(queue_id와 item_id는 경로에서 가져옵니다).\n\n참고: wb_user_id는 본문에 포함되지 않으며 인증된 세션을 기반으로 서버 측에서 설정됩니다.",
         "properties": {
           "annotation_state": {
@@ -4071,7 +4651,6 @@
         "type": "object"
       },
       "AnnotationQueueItemsQueryBody": {
-        "additionalProperties": false,
         "description": "annotation queue의 항목을 쿼리하기 위한 요청 본문입니다(queue_id는 경로에서 가져옵니다).",
         "properties": {
           "filter": {
@@ -4275,7 +4854,6 @@
         "type": "object"
       },
       "AnnotationQueueUpdateBody": {
-        "additionalProperties": false,
         "description": "어노테이션 큐를 업데이트하기 위한 요청 본문입니다(queue_id는 경로에서 가져옵니다).\n\nproject_id를 제외한 모든 필드는 선택 사항이며, 제공된 필드만 업데이트됩니다.",
         "properties": {
           "description": {
@@ -4354,7 +4932,6 @@
         "type": "object"
       },
       "AnnotationQueuesQueryReq": {
-        "additionalProperties": false,
         "description": "프로젝트의 annotation queue를 쿼리하기 위한 요청입니다.",
         "properties": {
           "limit": {
@@ -4430,7 +5007,6 @@
         "type": "object"
       },
       "AnnotationQueuesStatsReq": {
-        "additionalProperties": false,
         "description": "여러 annotation queue의 통계를 조회하기 위한 요청입니다.",
         "properties": {
           "project_id": {
@@ -4506,7 +5082,7 @@
             "title": "Expected Digest"
           },
           "file": {
-            "format": "binary",
+            "contentMediaType": "application/octet-stream",
             "title": "File",
             "type": "string"
           },
@@ -4603,7 +5179,6 @@
         "type": "object"
       },
       "CallEndReq": {
-        "additionalProperties": false,
         "properties": {
           "end": {
             "$ref": "#/components/schemas/EndedCallSchemaForInsert"
@@ -4621,7 +5196,6 @@
         "type": "object"
       },
       "CallMetricSpec": {
-        "additionalProperties": false,
         "description": "집계할 call 수준 메트릭 사양입니다(모델별로 그룹화되지 않음).",
         "properties": {
           "aggregations": {
@@ -4662,7 +5236,6 @@
         "type": "object"
       },
       "CallReadReq": {
-        "additionalProperties": false,
         "properties": {
           "id": {
             "title": "Id",
@@ -4964,7 +5537,6 @@
         "type": "object"
       },
       "CallStartReq": {
-        "additionalProperties": false,
         "properties": {
           "start": {
             "$ref": "#/components/schemas/StartedCallSchemaForInsert"
@@ -4995,7 +5567,6 @@
         "type": "object"
       },
       "CallStatsReq": {
-        "additionalProperties": false,
         "description": "시간 범위에 대한 집계된 call 통계 요청입니다.",
         "properties": {
           "call_metrics": {
@@ -5143,7 +5714,6 @@
         "type": "object"
       },
       "CallUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -5190,7 +5760,6 @@
         "type": "object"
       },
       "CallsDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "items": {
@@ -5238,7 +5807,6 @@
         "type": "object"
       },
       "CallsFilter": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "anyOf": [
@@ -5396,7 +5964,6 @@
         "type": "object"
       },
       "CallsQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "columns": {
             "anyOf": [
@@ -5579,7 +6146,6 @@
         "type": "object"
       },
       "CallsQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "expand_columns": {
             "anyOf": [
@@ -5686,7 +6252,6 @@
         "type": "object"
       },
       "CallsScoreReq": {
-        "additionalProperties": false,
         "description": "호출 목록에 대한 스코어링 작업을 큐에 추가하도록 요청합니다.\n\n스코어링은 call_scoring_worker가 비동기적으로 수행하며, 이 워커는 Kafka에서 메시지를 가져와 각 call_id에 각 scorer_ref를 적용합니다.",
         "properties": {
           "call_ids": {
@@ -5760,7 +6325,6 @@
         "type": "object"
       },
       "CallsUsageReq": {
-        "additionalProperties": false,
         "description": "여러 루트 call의 집계된 사용량을 계산하기 위한 요청입니다.\n\n이 엔드포인트는 요청된 각 루트 call에 대한 사용 메트릭을 반환하며, 각 루트의 메트릭에는 해당 루트 자체의 사용량과 모든 하위 항목의 사용량 합계가 포함됩니다.\n\n참고: 집계를 위해 일치하는 모든 call이 메모리에 로드됩니다. 결과 집합이 매우 큰 경우(>10k calls)에는 루트 call ID를 배치로 나누어 처리하거나 애플리케이션 계층에서 더 좁은 필터를 사용하는 것을 고려하세요.",
         "properties": {
           "call_ids": {
@@ -6053,6 +6617,9 @@
                 "$ref": "#/components/schemas/ConvertOperation"
               },
               {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
                 "$ref": "#/components/schemas/AndOperation"
               },
               {
@@ -6095,6 +6662,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -6163,6 +6733,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -6298,7 +6871,6 @@
         "type": "object"
       },
       "CostCreateInput": {
-        "additionalProperties": false,
         "properties": {
           "cache_creation_input_token_cost": {
             "default": 0,
@@ -6378,7 +6950,6 @@
         "type": "object"
       },
       "CostCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "costs": {
             "additionalProperties": {
@@ -6441,7 +7012,6 @@
         "type": "object"
       },
       "CostPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -6468,6 +7038,34 @@
       },
       "CostQueryOutput": {
         "properties": {
+          "cache_creation_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Creation Input Token Cost"
+          },
+          "cache_read_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Read Input Token Cost"
+          },
           "completion_token_cost": {
             "anyOf": [
               {
@@ -6586,7 +7184,6 @@
         "type": "object"
       },
       "CostQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -6765,6 +7362,147 @@
         "title": "CreateAndLinkWeaveAssetRes",
         "type": "object"
       },
+      "CustomRuntimeApplyBody": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "엔드포인트 API 키로 사용되는 팀 시크릿 이름이며, 시크릿 값 자체는 아닙니다",
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "description": "공개 OpenAI 호환 엔드포인트 기본 URL",
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "엔드포인트로 그대로 전달되는 헤더",
+            "title": "Headers",
+            "type": "object"
+          },
+          "runtime_ids": {
+            "description": "엔드포인트에서 노출할 전체 ID 목록",
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeID"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "base_url",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyBody",
+        "type": "object"
+      },
+      "CustomRuntimeApplyRes": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Headers",
+            "type": "object"
+          },
+          "name": {
+            "description": "안정적인 맞춤형 런타임 이름",
+            "title": "Name",
+            "type": "string"
+          },
+          "runtime_ids": {
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeIDRes"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "base_url",
+          "api_key_secret",
+          "headers",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyRes",
+        "type": "object"
+      },
+      "CustomRuntimeID": {
+        "properties": {
+          "id": {
+            "description": "OpenAI 호환 요청의 model 필드에 전송되는 값",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "이 런타임 ID에서 지원하는 최대 토큰 수",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "CustomRuntimeID",
+        "type": "object"
+      },
+      "CustomRuntimeIDRes": {
+        "properties": {
+          "id": {
+            "description": "OpenAI 호환 요청의 model 필드에 전송되는 값",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "이 런타임 ID에서 지원하는 최대 토큰 수",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          },
+          "playground_id": {
+            "title": "Playground Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "playground_id"
+        ],
+        "title": "CustomRuntimeIDRes",
+        "type": "object"
+      },
       "Datacenter": {
         "properties": {
           "country_code": {
@@ -6917,6 +7655,41 @@
         "title": "DatasetReadRes",
         "type": "object"
       },
+      "DeletedObjVersion": {
+        "properties": {
+          "base_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Object Class"
+          },
+          "digest": {
+            "title": "Digest",
+            "type": "string"
+          },
+          "leaf_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Class"
+          }
+        },
+        "required": [
+          "digest"
+        ],
+        "title": "DeletedObjVersion",
+        "type": "object"
+      },
       "EndedCallSchemaForInsert": {
         "properties": {
           "ended_at": {
@@ -7029,6 +7802,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -7070,6 +7846,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -7219,7 +7998,6 @@
         "type": "object"
       },
       "EvalResultsFilter": {
-        "additionalProperties": false,
         "description": "선택한 평가에 범위가 지정된 필터입니다.",
         "properties": {
           "evaluation_call_id": {
@@ -7246,7 +8024,6 @@
         "type": "object"
       },
       "EvalResultsQueryBody": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_call_ids": {
             "anyOf": [
@@ -7305,7 +8082,7 @@
           },
           "include_costs": {
             "default": false,
-            "description": "true이면 요약에서 predict 전용 `predict_total_cost`를 보고할 수 있도록 predict-and-score 하위 Call에 비용 정보를 추가합니다. 옵트인 방식이므로 다른 호출자에서는 비용 계산을 건너뜁니다.",
+            "description": "true이면 각 trial의 predict Call 비용을 산정하여 행과 요약 보고서에 predict 전용 비용(`total_cost` / `predict_total_cost`)을 보고합니다; Scorer 비용은 제외됩니다. 옵트인 방식이므로 다른 호출자에서는 비용 계산을 건너뜁니다.",
             "title": "Include Costs",
             "type": "boolean"
           },
@@ -7579,7 +8356,6 @@
         "type": "object"
       },
       "EvalResultsSortBy": {
-        "additionalProperties": false,
         "description": "평가 결과에 대한 정렬 지정이며, SortBy를 확장합니다.",
         "properties": {
           "direction": {
@@ -7735,7 +8511,6 @@
         "type": "object"
       },
       "EvaluateModelReq": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_ref": {
             "title": "Evaluation Ref",
@@ -8211,7 +8986,6 @@
         "type": "object"
       },
       "EvaluationStatusComplete": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "complete",
@@ -8232,7 +9006,6 @@
         "type": "object"
       },
       "EvaluationStatusFailed": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "failed",
@@ -8256,7 +9029,6 @@
         "type": "object"
       },
       "EvaluationStatusNotFound": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "not_found",
@@ -8269,7 +9041,6 @@
         "type": "object"
       },
       "EvaluationStatusReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -8314,7 +9085,6 @@
         "type": "object"
       },
       "EvaluationStatusRunning": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "running",
@@ -8404,7 +9174,6 @@
         "type": "object"
       },
       "FeedbackAggregateReq": {
-        "additionalProperties": false,
         "description": "시간 버킷 및 차원별 집계 점수에 대한 쿼리입니다.",
         "properties": {
           "after_ms": {
@@ -8583,7 +9352,6 @@
         "type": "object"
       },
       "FeedbackCreateBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "batch": {
             "items": {
@@ -8616,7 +9384,6 @@
         "type": "object"
       },
       "FeedbackCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -8807,6 +9574,12 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "이 피드백을 생성한 Scorer(평가자) 호출의 트레이스(평가자 Call의 spans.trace_id)입니다. 점수가 매겨진 턴을 나타내는 span_trace_id와는 구분됩니다. Call 모델을 조인하지 않고도 시그널이 평가자 span을 기준으로 해당 호출의 비용을 산정할 수 있습니다.",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
           "span_agent_name": {
             "default": "",
             "description": "평가된 에이전트의 표시 이름(spans.agent_name 기준)",
@@ -8825,13 +9598,25 @@
             "title": "Span Agent Version",
             "type": "string"
           },
+          "span_conversation_id": {
+            "default": "",
+            "description": "피드백이 속한 대화(spans.conversation_id에서)",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
           "span_status_code": {
             "default": "UNSET",
             "description": "평가된 턴의 상태(spans.status_code에서 가져옴).",
             "examples": [
-              "SUCCESS"
+              "OK"
             ],
             "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "피드백이 속한 턴(spans.trace_id에서)",
+            "title": "Span Trace Id",
             "type": "string"
           },
           "trigger_ref": {
@@ -8908,7 +9693,6 @@
         "type": "object"
       },
       "FeedbackMetricSpec": {
-        "additionalProperties": false,
         "description": "집계할 피드백 페이로드 metric의 사양입니다.",
         "properties": {
           "aggregations": {
@@ -8951,7 +9735,6 @@
         "type": "object"
       },
       "FeedbackPayloadPath": {
-        "additionalProperties": false,
         "description": "추론된 유형과 함께 피드백 페이로드에서 발견된 경로입니다.",
         "properties": {
           "json_path": {
@@ -8978,7 +9761,6 @@
         "type": "object"
       },
       "FeedbackPayloadSchemaReq": {
-        "additionalProperties": false,
         "description": "피드백 페이로드 스키마 탐색 요청입니다.",
         "properties": {
           "end": {
@@ -9060,7 +9842,6 @@
         "type": "object"
       },
       "FeedbackPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -9086,7 +9867,6 @@
         "type": "object"
       },
       "FeedbackQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -9184,16 +9964,21 @@
             },
             "title": "Result",
             "type": "array"
+          },
+          "total_count": {
+            "minimum": 0,
+            "title": "Total Count",
+            "type": "integer"
           }
         },
         "required": [
-          "result"
+          "result",
+          "total_count"
         ],
         "title": "FeedbackQueryRes",
         "type": "object"
       },
       "FeedbackReplaceReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -9388,6 +10173,12 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "이 피드백을 생성한 Scorer(평가자) 호출의 트레이스(평가자 Call의 spans.trace_id)입니다. 점수가 매겨진 턴을 나타내는 span_trace_id와는 구분됩니다. Call 모델을 조인하지 않고도 시그널이 평가자 span을 기준으로 해당 호출의 비용을 산정할 수 있습니다.",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
           "span_agent_name": {
             "default": "",
             "description": "평가된 에이전트의 표시 이름(spans.agent_name에서 가져옴).",
@@ -9406,13 +10197,25 @@
             "title": "Span Agent Version",
             "type": "string"
           },
+          "span_conversation_id": {
+            "default": "",
+            "description": "피드백이 속한 대화(spans.conversation_id에서)",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
           "span_status_code": {
             "default": "UNSET",
             "description": "평가된 턴의 상태(spans.status_code에서 가져옴).",
             "examples": [
-              "SUCCESS"
+              "OK"
             ],
             "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "피드백이 속한 턴(spans.trace_id에서)",
+            "title": "Span Trace Id",
             "type": "string"
           },
           "trigger_ref": {
@@ -9490,7 +10293,6 @@
         "type": "object"
       },
       "FeedbackStatsReq": {
-        "additionalProperties": false,
         "description": "시간 버킷별로 집계된 피드백 통계 요청입니다.",
         "properties": {
           "end": {
@@ -9644,7 +10446,6 @@
         "type": "object"
       },
       "FileContentReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -9676,7 +10477,6 @@
         "type": "object"
       },
       "FilesStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "title": "Project Id",
@@ -9840,6 +10640,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9881,6 +10684,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -9944,6 +10750,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9985,6 +10794,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -10157,6 +10969,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -10199,6 +11014,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/ConvertOperation"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SizeOperation"
                     },
                     {
                       "$ref": "#/components/schemas/AndOperation"
@@ -10473,6 +11291,10 @@
             "title": "Modalitiesoutput",
             "type": "array"
           },
+          "openRouterPermaslug": {
+            "title": "Openrouterpermaslug",
+            "type": "string"
+          },
           "parameterCountActive": {
             "title": "Parametercountactive",
             "type": "integer"
@@ -10509,6 +11331,37 @@
               "fp32"
             ],
             "title": "Quantization",
+            "type": "string"
+          },
+          "reasoningArgument": {
+            "title": "Reasoningargument",
+            "type": "string"
+          },
+          "reasoningEfforts": {
+            "items": {
+              "enum": [
+                "none",
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ],
+              "type": "string"
+            },
+            "title": "Reasoningefforts",
+            "type": "array"
+          },
+          "reasoningSupport": {
+            "enum": [
+              "unsupported",
+              "default-off",
+              "adaptive",
+              "default-on",
+              "always-on"
+            ],
+            "title": "Reasoningsupport",
             "type": "string"
           },
           "status": {
@@ -10745,6 +11598,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -10786,6 +11642,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -10849,6 +11708,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -10890,6 +11752,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -11380,7 +12245,7 @@
         "type": "object"
       },
       "NormalizedMessage": {
-        "description": "모든 공급자 형식에서 정규화된 단일 메시지입니다.\n\nClickHouse ``Tuple(role String, content String, finish_reason String)``에 매핑됩니다.\n\n- role: 메시지 역할(user, assistant, tool, system)\n- content: 단순 메시지의 경우 일반 텍스트, 멀티모달/구조화된 메시지의 경우 JSON으로 직렬화된 parts 배열\n- finish_reason: 메시지별 종료 사유(출력 메시지에만 해당)",
+        "description": "모든 공급자 형식에서 정규화된 단일 메시지입니다.\n\nClickHouse ``Tuple(role String, content String, finish_reason String)``에 매핑됩니다.\n\n- role: 메시지 역할(user, assistant, tool, system)\n- content: 단순 메시지의 경우 일반 텍스트, 멀티모달/구조화된 메시지의 경우 JSON으로 직렬화된 parts 배열\n- finish_reason: 메시지별 종료 사유(출력 메시지에만 해당)\n\n직렬화 JSON 스키마는 기본값이 지정된 필드를 필수로 표시합니다. 공개 OpenAPI 문서에서 이 클래스는 AgentSpanSchema 메시지 요소로만 나타납니다. 수집 검증은 변경되지 않습니다.",
         "properties": {
           "content": {
             "title": "Content",
@@ -11398,7 +12263,9 @@
           }
         },
         "required": [
-          "content"
+          "role",
+          "content",
+          "finish_reason"
         ],
         "title": "NormalizedMessage",
         "type": "object"
@@ -11420,6 +12287,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -11545,7 +12415,6 @@
         "type": "object"
       },
       "ObjCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "obj": {
             "$ref": "#/components/schemas/ObjSchemaForInsert"
@@ -11582,7 +12451,6 @@
         "type": "object"
       },
       "ObjDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -11617,6 +12485,21 @@
       },
       "ObjDeleteRes": {
         "properties": {
+          "deleted_versions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DeletedObjVersion"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "삭제된 각 객체 버전의 메타데이터이며, digest 별칭은 콘텐츠 digest로 확인됩니다. 지원 서버에서 이를 보고하지 않는 경우 None입니다.",
+            "title": "Deleted Versions"
+          },
           "num_deleted": {
             "title": "Num Deleted",
             "type": "integer"
@@ -11629,7 +12512,6 @@
         "type": "object"
       },
       "ObjQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "filter": {
             "anyOf": [
@@ -11774,7 +12656,6 @@
         "type": "object"
       },
       "ObjReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -11836,7 +12717,6 @@
         "type": "object"
       },
       "ObjRemoveAliasesBody": {
-        "additionalProperties": false,
         "description": "별칭을 제거하기 위한 요청 본문입니다(object_id는 경로에서 가져옵니다).",
         "properties": {
           "aliases": {
@@ -12080,7 +12960,6 @@
         "type": "object"
       },
       "ObjSetAliasesBody": {
-        "additionalProperties": false,
         "description": "별칭을 설정하기 위한 요청 본문입니다(object_id는 경로에서 가져옵니다).",
         "properties": {
           "aliases": {
@@ -12125,7 +13004,6 @@
         "type": "object"
       },
       "ObjTagsBody": {
-        "additionalProperties": false,
         "description": "태그를 추가하거나 제거하기 위한 요청 본문입니다(object_id와 digest는 경로에서 가져옵니다).",
         "properties": {
           "project_id": {
@@ -12157,7 +13035,6 @@
         "type": "object"
       },
       "ObjectVersionFilter": {
-        "additionalProperties": false,
         "properties": {
           "aliases": {
             "anyOf": [
@@ -12445,6 +13322,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -12673,7 +13553,6 @@
         "type": "object"
       },
       "ProjectsInfoReq": {
-        "additionalProperties": false,
         "properties": {
           "project_ids": {
             "description": "'entity/project' 형식의 외부 프로젝트 ID입니다.",
@@ -12759,6 +13638,36 @@
           "$expr"
         ],
         "title": "Query",
+        "type": "object"
+      },
+      "RatingCondition": {
+        "properties": {
+          "op": {
+            "enum": [
+              "gte",
+              "gt",
+              "lte",
+              "lt",
+              "eq"
+            ],
+            "title": "Op",
+            "type": "string"
+          },
+          "scorer_key": {
+            "title": "Scorer Key",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "scorer_key",
+          "op",
+          "value"
+        ],
+        "title": "RatingCondition",
         "type": "object"
       },
       "ReasoningBudgetTokens": {
@@ -12853,7 +13762,6 @@
         "type": "object"
       },
       "RefsReadBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "refs": {
             "items": {
@@ -13356,8 +14264,64 @@
         "title": "ServerInfoRes",
         "type": "object"
       },
+      "SizeOperation": {
+        "description": "컬렉션의 요소 수 또는 string의 문자 수를 반환합니다.\n\n예시:\n    ```\n    {\"$size\": {\"$getField\": \"scorer_tags\"}}\n    ```",
+        "properties": {
+          "$size": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LiteralOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GetFieldOperator"
+              },
+              {
+                "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
+                "$ref": "#/components/schemas/AndOperation"
+              },
+              {
+                "$ref": "#/components/schemas/OrOperation"
+              },
+              {
+                "$ref": "#/components/schemas/NotOperation"
+              },
+              {
+                "$ref": "#/components/schemas/EqOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/InOperation"
+              },
+              {
+                "$ref": "#/components/schemas/ContainsOperation"
+              }
+            ],
+            "title": "$Size"
+          }
+        },
+        "required": [
+          "$size"
+        ],
+        "title": "SizeOperation",
+        "type": "object"
+      },
       "SortBy": {
-        "additionalProperties": false,
         "properties": {
           "direction": {
             "enum": [
@@ -13578,7 +14542,6 @@
         "type": "object"
       },
       "TableCreateFromDigestsReq": {
-        "additionalProperties": false,
         "properties": {
           "expected_digest": {
             "anyOf": [
@@ -13625,7 +14588,6 @@
         "type": "object"
       },
       "TableCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "table": {
             "$ref": "#/components/schemas/TableSchemaForInsert"
@@ -13715,7 +14677,6 @@
         "type": "object"
       },
       "TableQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "쿼리할 테이블의 다이제스트",
@@ -13830,7 +14791,6 @@
         "type": "object"
       },
       "TableQueryStatsBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -13897,7 +14857,6 @@
         "type": "object"
       },
       "TableQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "쿼리할 테이블의 다이제스트",
@@ -13934,7 +14893,6 @@
         "type": "object"
       },
       "TableRowFilter": {
-        "additionalProperties": false,
         "properties": {
           "row_digests": {
             "anyOf": [
@@ -14053,7 +15011,6 @@
         "type": "object"
       },
       "TableUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "base_digest": {
             "title": "Base Digest",
@@ -14126,8 +15083,92 @@
         "title": "TagsListRes",
         "type": "object"
       },
+      "ThreadSchema": {
+        "properties": {
+          "first_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "이 스레드의 첫 번째 turn ID(가장 이른 start_time)",
+            "title": "First Turn Id"
+          },
+          "last_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "이 스레드의 마지막 turn ID(가장 늦은 end_time)",
+            "title": "Last Turn Id"
+          },
+          "last_updated": {
+            "description": "이 스레드에서 turn Call의 가장 늦은 종료 시간",
+            "format": "date-time",
+            "title": "Last Updated",
+            "type": "string"
+          },
+          "p50_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "이 스레드 내 turn 기간의 밀리초 단위 50번째 백분위수(중앙값)",
+            "title": "P50 Turn Duration Ms"
+          },
+          "p99_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "이 스레드 내 turn 기간의 밀리초 단위 99번째 백분위수",
+            "title": "P99 Turn Duration Ms"
+          },
+          "start_time": {
+            "description": "이 스레드에서 turn Call의 가장 이른 시작 시간",
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          },
+          "thread_id": {
+            "title": "Thread Id",
+            "type": "string"
+          },
+          "turn_count": {
+            "description": "이 스레드의 turn Call 수",
+            "title": "Turn Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "thread_id",
+          "turn_count",
+          "start_time",
+          "last_updated",
+          "first_turn_id",
+          "last_turn_id",
+          "p50_turn_duration_ms",
+          "p99_turn_duration_ms"
+        ],
+        "title": "ThreadSchema",
+        "type": "object"
+      },
       "ThreadsQueryFilter": {
-        "additionalProperties": false,
         "properties": {
           "after_datetime": {
             "anyOf": [
@@ -14188,7 +15229,6 @@
         "type": "object"
       },
       "ThreadsQueryReq": {
-        "additionalProperties": false,
         "description": "turn call만 기준으로 집계된 통계를 사용해 스레드를 쿼리합니다.\n\nturn call은 스레드 컨텍스트의 직계 하위 항목입니다(call.id == turn_id인 경우).\n이렇게 하면 중첩된 구현 세부 사항을 모두 포함하지 않고도,\n대화 수준에서 의미 있는 통계를 제공할 수 있습니다.",
         "properties": {
           "filter": {
@@ -14275,7 +15315,6 @@
         "type": "string"
       },
       "TraceUsageReq": {
-        "additionalProperties": false,
         "description": "하위 항목 롤업을 포함해 트레이스의 call별 사용량을 계산하기 위한 요청입니다.\n\n이 Endpoint는 트레이스의 각 call에 대한 사용 메트릭을 반환하며, 각\ncall의 메트릭에는 해당 call 자체의 사용량과 모든 하위 항목의 사용량 합계가 포함됩니다.\ncall별 롤업 메트릭을 확인하려는 Trace view에 사용하세요.\n\n참고: 집계를 위해 일치하는 모든 call을 메모리에 로드합니다. 결과 집합이 매우 큰 경우\n(1만 call 초과)에는 더 구체적인 필터를 사용하거나 애플리케이션 계층에서 페이지네이션을 사용하는 것을 고려하세요.",
         "properties": {
           "filter": {
@@ -14348,7 +15387,6 @@
         "type": "object"
       },
       "UsageMetricSpec": {
-        "additionalProperties": false,
         "description": "집계할 사용 메트릭의 사양입니다(모델별로 그룹화됨).",
         "properties": {
           "aggregations": {
@@ -14395,6 +15433,13 @@
       },
       "ValidationError": {
         "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
           "loc": {
             "items": {
               "anyOf": [
@@ -17613,11 +18658,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSchema"
+                }
               }
             },
-            "description": "성공 응답"
+            "description": "JSONL 형식의 데이터 스트림"
           },
           "422": {
             "content": {
@@ -17803,11 +18850,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetReadRes"
+                }
               }
             },
-            "description": "성공적인 응답"
+            "description": "JSONL 형식의 데이터 스트림"
           },
           "422": {
             "content": {
@@ -18292,10 +19341,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/EvaluationRunReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/EvaluationRunReadRes"
                 }
               }
             },
@@ -18532,16 +19578,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "반환할 최대 평가 수",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "반환할 최대 평가 수",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "건너뛸 평가 수",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "건너뛸 평가 수",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationReadRes"
+                }
               }
             },
-            "description": "성공 응답"
+            "description": "JSONL 형식 데이터 스트림"
           },
           "422": {
             "content": {
@@ -18835,11 +19919,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelReadRes"
+                }
               }
             },
-            "description": "성공 응답"
+            "description": "JSONL 형식 데이터 스트림"
           },
           "422": {
             "content": {
@@ -19133,11 +20219,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpReadRes"
+                }
               }
             },
-            "description": "성공적인 응답"
+            "description": "JSONL 형식의 데이터 스트림"
           },
           "422": {
             "content": {
@@ -19527,10 +20615,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/PredictionReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/PredictionReadRes"
                 }
               }
             },
@@ -19735,6 +20820,82 @@
         ]
       }
     },
+    "/v2/{entity}/{project}/runtimes/{runtime_name}": {
+      "put": {
+        "description": "맞춤형 런타임 설정을 생성하거나 교체합니다.",
+        "operationId": "custom_runtime_apply_v2__entity___project__runtimes__runtime_name__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "title": "Entity",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project",
+            "required": true,
+            "schema": {
+              "title": "Project",
+              "type": "string"
+            }
+          },
+          {
+            "description": "생성하거나 교체할 맞춤형 런타임의 고정 이름",
+            "in": "path",
+            "name": "runtime_name",
+            "required": true,
+            "schema": {
+              "description": "생성하거나 교체할 맞춤형 런타임의 고정 이름",
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[^\\s:]*(?::[^\\s:]+)*:?$",
+              "title": "Runtime Name",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomRuntimeApplyBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomRuntimeApplyRes"
+                }
+              }
+            },
+            "description": "성공적인 응답"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "검증 오류"
+          }
+        },
+        "summary": "맞춤형 런타임 적용",
+        "tags": [
+          "Custom Runtimes"
+        ]
+      }
+    },
     "/v2/{entity}/{project}/scorers": {
       "get": {
         "description": "scorer 객체 목록을 조회합니다.",
@@ -19757,16 +20918,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "반환할 Scorer의 최대 수",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "반환할 Scorer의 최대 수",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "건너뛸 Scorer 수",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "건너뛸 Scorer 수",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScorerReadRes"
+                }
               }
             },
-            "description": "성공적인 응답"
+            "description": "JSONL 형식 데이터 스트림"
           },
           "422": {
             "content": {
@@ -20144,10 +21343,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ScoreReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/ScoreReadRes"
                 }
               }
             },

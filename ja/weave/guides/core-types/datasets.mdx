@@ -99,7 +99,9 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
   <Tab title="Python">
     Python では、`Dataset` は [Call](../tracking/tracing) のような一般的な Weave オブジェクトや、`pandas.DataFrame` のような Python オブジェクトから作成することもできます。この機能は、特定の例から例示用の `Dataset` を作成したい場合に便利です。
 
-    ### Weave Call
+    <div id="weave-call">
+      ### Weave Call
+    </div>
 
     1 つ以上の Weave Call から `Dataset` を作成するには、Call オブジェクトを取得し、`from_calls` method に list として渡します。
 
@@ -115,7 +117,9 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
     # これで、モデルの評価などに dataset を使用できます。
     ```
 
-    ### Pandas DataFrame
+    <div id="pandas-dataframe">
+      ### Pandas DataFrame
+    </div>
 
     Pandas の `DataFrame` object から `Dataset` を作成するには、`from_pandas` method を使用します。
 
@@ -135,7 +139,9 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
     assert df.equals(df2)
     ```
 
-    ### Hugging Face Datasets
+    <div id="hugging-face-datasets">
+      ### Hugging Face Datasets
+    </div>
 
     Hugging Face の `datasets.Dataset` または `datasets.DatasetDict` object から `Dataset` を作成するには、まず必要な dependencies がインストールされていることを確認します。
 
@@ -329,7 +335,9 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
 
 <Tabs>
   <Tab title="Python">
-    ### 行の選択
+    <div id="select-rows">
+      ### 行の選択
+    </div>
 
     `select` method を使用すると、インデックスを指定して `Dataset` から特定の行を選択できます。これは、データのサブセットを作成する際に便利です。たとえば、少数の examples の一部に対して Evaluate したい場合に役立ちます。
 

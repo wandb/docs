@@ -3,21 +3,27 @@ title: "endConversation"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **endConversation**(`opts?`): `void`
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-현재 Conversation을 종료합니다. 활성 Conversation이 없으면 아무 작업도 수행하지 않습니다.
+```ts
+endConversation(opts?: object): void
+```
 
-정의된 위치: [src/genai/api.ts:159](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L159)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L159" />
+
+현재 Conversation을 종료합니다. 활성 상태인 Conversation이 없으면 아무 작업도 수행하지 않습니다.
 
 <div id="parameters">
   ## 매개변수
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## 반환값

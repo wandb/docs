@@ -7,17 +7,22 @@ keywords: ["API Python", "automatisation programmatique", "wandb.Api", "scripts 
 Gérez les automatisations W&amp;B de manière programmatique avec l’API Python `wandb` lorsque vous automatisez des flux de travail par script plutôt que d’utiliser le W&amp;B App.
 
 <Note>
-  La **création** et la **mise à jour** programmatiques des automatisations via `wandb.Api().create_automation()` et les fonctions utilitaires associées peuvent échouer sur certaines versions du client Python `wandb` en raison d’une vérification de fonctionnalité côté client (par exemple, pour les automatisations basées sur l’état d’exécution). En attendant la publication d’un correctif du SDK, utilisez le [W&amp;B App](/fr/models/automations/create-automations) pour créer et modifier des automatisations. Les méthodes `list`, `get` et `delete` ne sont pas affectées. Suivi interne : WB-34263.
+  La **création** et la **mise à jour** programmatiques des automatisations via `wandb.Api().create_automation()` et les fonctions utilitaires associées peuvent échouer sur certaines versions du client Python `wandb` en raison d’une vérification de fonctionnalité côté client (par exemple, pour les automatisations basées sur l’état d’exécution). En attendant la publication d’un correctif du SDK, utilisez le [W&amp;B App](/fr/models/automations/create-automations) pour créer et modifier des automatisations. Les méthodes `list`, `get` et `delete` ne sont pas affectées. Suivi interne : WB-34263.
+</Note>
+
+<Note>
+  Le SDK Python W&amp;B (`wandb`) ne prend pas en charge les [automatisations ARIA](/fr/models/automations/create-automations/aria). Il n’est pas possible d’en créer une depuis la bibliothèque, et W&amp;B exclut les automatisations ARIA des résultats des appels `list`, car les versions publiées du client ne peuvent pas analyser le type d’action ARIA. Gérez les automatisations ARIA dans l’interface W&amp;B. La prise en charge est prévue dans une prochaine version de la bibliothèque.
 </Note>
 
 <div id="next-steps">
   ## Prochaines étapes
 </div>
 
-Consultez les ressources suivantes pour gérer les automatisations et en savoir plus sur leur fonctionnement :
+Consultez les ressources suivantes pour gérer les automatisations et en savoir plus sur leur fonctionnement :
 
 * [Aperçu des automatisations](/fr/models/automations)
 * [Créer une automatisation](/fr/models/automations/create-automations) (W&amp;B App)
 * [Événements et portée des automatisations](/fr/models/automations/automation-events)
+* [Créer une automatisation ARIA](/fr/models/automations/create-automations/aria) (interface W&amp;B)
 
 {/* Restaurez depuis l’historique Git les exemples list/get/create/update/delete lorsque la régression du SDK Python aura été corrigée (WB-34263). La révision précédente incluait également un lien vers le notebook du tutoriel Automations (wandb/examples PR 618). */}

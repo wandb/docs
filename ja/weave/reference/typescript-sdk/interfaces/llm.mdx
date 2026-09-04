@@ -3,6 +3,10 @@ title: "LLM"
 description: "TypeScript SDK リファレンス"
 ---
 
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
+
 LLM Call。`gen_ai.*` 属性を含む `chat` span を生成します。
 
 `weave.startLLM()` (または `turn.startLLM()`) で作成し、`end()` で終了します。非同期コンテキストでは、一度にアクティブにできる LLM は 1 つのみです。`startTool` / `startSubagent` を使用して、その配下に tool/subagent Call をネストします。
@@ -10,8 +14,6 @@ LLM Call。`gen_ai.*` 属性を含む `chat` span を生成します。
 `inputMessages` / `outputMessages` / `usage` / `reasoning` は直接設定するか、ヘルパー関数 (`output`、`think`、`attachMedia`、`record`) を使用して設定します。
 
 記録されたすべてのデータは、`end()` 時に span にフラッシュされます。
-
-定義元: [src/genai/llm.ts:86](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L86)
 
 <div id="examples">
   ## 例
@@ -57,13 +59,13 @@ try {
   ## プロパティ
 </div>
 
-### inputMessages
+<div id="inputmessages">
+  ### inputMessages
+</div>
 
 > **inputMessages**: [`Message`](./message)[] = `[]`
 
 モデルに送信される入力メッセージです。`end()` の呼び出し時に `gen_ai.input.messages` にフラッシュされます。
-
-定義元: [src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L93)
 
 ***
 
@@ -73,18 +75,16 @@ try {
 
 > `readonly` **モデル**: `string`
 
-定義元: [src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L117)
-
 ***
 
-### outputMessages
+<div id="outputmessages">
+  ### outputMessages
+</div>
 
 > **outputMessages**: [`Message`](./message)[] = `[]`
 
 モデルが返すアシスタント メッセージ。`end()` 時に
 `gen_ai.output.messages` にフラッシュされます。
-
-定義元: [src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L98)
 
 ***
 
@@ -94,28 +94,26 @@ try {
 
 > `readonly` **providerName**: `string`
 
-定義元: [src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L118)
-
 ***
 
-### 推論
+<div id="reasoning">
+  ### 推論
+</div>
 
 > `optional` **推論**: [`Reasoning`](./reasoning)
 
 思考の連鎖の内容です。シリアル化時に、最後のアシスタント メッセージに
 ReasoningPart として組み込まれます。
 
-定義元: [src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L105)
-
 ***
 
-### usage
+<div id="usage">
+  ### usage
+</div>
 
 > **usage**: [`Usage`](./usage) = `{}`
 
 トークン数とキャッシュ統計です。`end()` 時に `gen_ai.usage.*` へフラッシュされます。
-
-定義元: [src/genai/llm.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L100)
 
 <div id="methods">
   ## メソッド
@@ -138,29 +136,15 @@ ReasoningPart として組み込まれます。
 span 以外の時点をマークする場合に役立ちます。`end()` の後に呼び出すと警告が表示され、
 何も実行されません。OTel の `Span.addEvent` に対応します。
 
-定義元: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 <div id="parameters">
   #### パラメーター
 </div>
 
-<div id="name">
-  ##### 名
-</div>
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-<div id="attributes">
-  ##### 属性?
-</div>
-
-`Attributes`
-
-<div id="starttime">
-  ##### startTime?
-</div>
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 <div id="returns">
   #### 戻り値
@@ -193,20 +177,20 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 LLM Call に添付するメディアを準備します。
 `content` (インライン base64 バイト) 、`uri` (URI 参照) 、または `fileId`
- (事前にアップロードされた file ID) のいずれか 1 つだけを指定します。添付は `end()` 時に
+(事前にアップロードされた file ID) のいずれか 1 つだけを指定します。添付は `end()` 時に
 `inputMessages` 内の最後のユーザーメッセージに追加されます。
 
-定義元: [src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L183)
-
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="{…} | {…} | {…}" required>
+  [`Modality`](../type-aliases/modality)、[`Modality`](../type-aliases/modality)、[`Modality`](../type-aliases/modality) を参照してください。
 
-`AttachMediaOpts`
+  完全なタイプ: `{ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; }`
+</ParamField>
 
-<div id="returns">
+<div id="returns-2">
   #### 戻り値
 </div>
 
@@ -222,27 +206,21 @@ LLM Call に添付するメディアを準備します。
 
 `attachMedia({uri, modality})` の簡易版です。
 
-定義元: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L192)
-
-<div id="parameters">
+<div id="parameters-3">
   #### パラメーター
 </div>
 
-<div id="url">
-  ##### url
-</div>
+<ParamField path="url" type="string" required />
 
-`string`
+<ParamField path="opts" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="modality" type="Modality" required>
+      [`Modality`](../type-aliases/modality) を参照してください。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-##### opts
-
-<div id="modality">
-  ###### モダリティ
-</div>
-
-[`Modality`](../type-aliases/modality)
-
-<div id="returns">
+<div id="returns-3">
   #### 戻り値
 </div>
 
@@ -258,19 +236,19 @@ LLM Call に添付するメディアを準備します。
 
 蓄積された状態をフラッシュして span を閉じます。冪等です。失敗としてマークするには `error` を渡し、終了時刻を過去に設定するには `endTime` を渡します。
 
-定義元: [src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L274)
-
-<div id="parameters">
+<div id="parameters-4">
   #### パラメーター
 </div>
 
-<div id="opts">
-  ##### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
-<div id="returns">
+<div id="returns-4">
   #### 戻り値
 </div>
 
@@ -286,19 +264,13 @@ LLM Call に添付するメディアを準備します。
 
 レスポンスにアシスタント メッセージを追加します。
 
-定義元: [src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L155)
-
-<div id="parameters">
+<div id="parameters-5">
   #### パラメーター
 </div>
 
-<div id="content">
-  ##### content
-</div>
+<ParamField path="content" type="string" required />
 
-`string`
-
-<div id="returns">
+<div id="returns-5">
   #### 戻り値
 </div>
 
@@ -315,69 +287,45 @@ LLM Call に添付するメディアを準備します。
 変更可能なフィールドの任意のサブセットを一括で設定します。マージではなく置換されます。
 provider 呼び出しの結果が返された後に、すべてを一度に割り当てる場合に便利です。
 
-定義元: [src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L203)
-
-<div id="parameters">
+<div id="parameters-6">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="finishReasons" type="string[]" />
 
-<div id="finishreasons">
-  ###### 終了理由?
-</div>
+    <ParamField path="inputMessages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
 
-`string`[]
+    <ParamField path="mediaAttachments" type="({…} | {…} | {…})[]">
+      [`Modality`](../type-aliases/modality)、[`Modality`](../type-aliases/modality)、[`Modality`](../type-aliases/modality) を参照してください。
 
-<div id="inputmessages">
-  ###### inputMessages?
-</div>
+      完全なタイプ: `({ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; })[]`
+    </ParamField>
 
-[`Message`](./message)[]
+    <ParamField path="outputMessages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
 
-<div id="mediaattachments">
-  ###### mediaAttachments?
-</div>
+    <ParamField path="outputType" type="string" />
 
-`AttachMediaOpts`[]
+    <ParamField path="reasoning" type="Reasoning">
+      [`Reasoning`](./reasoning) を参照してください。
+    </ParamField>
 
-<div id="outputmessages">
-  ###### outputMessages?
-</div>
+    <ParamField path="responseId" type="string" />
 
-[`Message`](./message)[]
+    <ParamField path="responseModel" type="string" />
 
-<div id="outputtype">
-  ###### outputType?
-</div>
+    <ParamField path="usage" type="Usage">
+      [`Usage`](./usage) を参照してください。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-`string`
-
-<div id="reasoning">
-  ###### 推論?
-</div>
-
-[`Reasoning`](./reasoning)
-
-<div id="responseid">
-  ###### responseId?
-</div>
-
-`string`
-
-<div id="responsemodel">
-  ###### responseModel?
-</div>
-
-`string`
-
-<div id="usage">
-  ###### 使用方法
-</div>
-
-[`Usage`](./usage)
-
-<div id="returns">
+<div id="returns-6">
   #### 戻り値
 </div>
 
@@ -395,23 +343,19 @@ span に複数の属性をまとめて設定します。`end()` の呼び出し�
 何も実行しません。OTel の `Span.setAttributes` (および Python SDK の
 `set_attributes`) と同様です。
 
-定義元: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
-<div id="parameters">
+<div id="parameters-7">
   #### パラメーター
 </div>
 
-##### 属性
+<ParamField path="attributes" type="Attributes" required />
 
-`Attributes`
-
-<div id="returns">
+<div id="returns-7">
   #### 戻り値
 </div>
 
 `this`
 
-<div id="example">
+<div id="example-2">
   #### 例
 </div>
 
@@ -420,7 +364,7 @@ span に複数の属性をまとめて設定します。`end()` の呼び出し�
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### 継承元
 </div>
 
@@ -436,17 +380,15 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 この LLM 内にネストされた子 SubAgent の span を開始します。
 
-定義元: [src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L261)
-
-<div id="parameters">
+<div id="parameters-8">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](./subagentinit) を参照してください。
+</ParamField>
 
-[`SubAgentInit`](./subagentinit)
-
-<div id="returns">
+<div id="returns-8">
   #### 戻り値
 </div>
 
@@ -462,17 +404,15 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 この LLM 内にネストされた子 Tool span を開始します。
 
-定義元: [src/genai/llm.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L252)
-
-<div id="parameters">
+<div id="parameters-9">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](./toolinit) を参照してください。
+</ParamField>
 
-[`ToolInit`](./toolinit)
-
-<div id="returns">
+<div id="returns-9">
   #### 戻り値
 </div>
 
@@ -486,23 +426,17 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 > **think**(`content`): `this`
 
-モデルの推論/chain-of-thought コンテンツを設定または追加します。内容は
+モデルの推論/思考の連鎖 コンテンツを設定または追加します。内容は
 `this.reasoning.content` に蓄積されます。シリアル化時には `ReasoningPart` として最後のアシスタント メッセージに
 組み込まれ、Python SDK のオンザワイヤ形式に一致します。
 
-定義元: [src/genai/llm.ts:167](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L167)
-
-<div id="parameters">
+<div id="parameters-10">
   #### パラメーター
 </div>
 
-<div id="content">
-  ##### content
-</div>
+<ParamField path="content" type="string" required />
 
-`string`
-
-<div id="returns">
+<div id="returns-10">
   #### 戻り値
 </div>
 

@@ -3,11 +3,13 @@ title: "WeaveAdkPlugin"
 description: "TypeScript SDK リファレンス"
 ---
 
-Weave の agents パイプラインで、ランナーの invocation、エージェントの run、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/googleAdk.ts#L589" />
+
+Weave のエージェント パイプラインで、ランナーの invocation、エージェントの run、モデルの Call、ツールの実行を GenAI-semconv OTel スパンとして出力する ADK プラグインです。
 
 構造的に `BasePlugin` の完全なサーフェスを実装しています。ADK の PluginManager はすべてのコールバックを呼び出すため、no-op のコールバックであっても、すべて定義されています。ADK は `undefined` 以外の戻り値をショートサーキットとして扱うため、各コールバックは自身のエラーを捕捉して `undefined` を返します。
-
-定義元: [src/integrations/googleAdk.ts:589](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L589)
 
 <div id="implements">
   ## 実装
@@ -15,18 +17,14 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 
 * `BasePlugin`
 
-<div id="constructors">
-  ## コンストラクター
-</div>
-
 <div id="constructor">
-  ### コンストラクター
+  ## コンストラクター
 </div>
 
 > **new WeaveAdkPlugin**(): `WeaveAdkPlugin`
 
 <div id="returns">
-  #### 戻り値
+  ### 戻り値
 </div>
 
 `WeaveAdkPlugin`
@@ -40,8 +38,6 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 </div>
 
 > `readonly` **名**: `"weave"` = `WEAVE_ADK_PLUGIN_NAME`
-
-定義元: [src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
 
 <div id="implementation-of">
   #### 実装元
@@ -63,33 +59,23 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 
 このコールバックを使用して、返される前にエージェントの最終結果を検査、ログする、または変更できます。
 
-定義元: [src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
-
 <div id="parameters">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="agent" type="BaseAgent" required>
+      実行が完了したエージェント。
+    </ParamField>
 
-<div id="agent">
-  ###### エージェント
-</div>
+    <ParamField path="callbackContext" type="Context" required>
+      エージェントの invocation のコンテキスト。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-`BaseAgent`
-
-直前に実行されたエージェントです。
-
-<div id="callbackcontext">
-  ###### callbackContext
-</div>
-
-`Context`
-
-エージェントの invocation コンテキストです。
-
-<div id="returns">
+<div id="returns-2">
   #### 戻り値
 </div>
 
@@ -99,7 +85,7 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 エージェントの元の結果が置き換えられます。`undefined` を返した場合は、
 変更されていない元の結果が使用されます。
 
-<div id="implementation-of">
+<div id="implementation-of-2">
   #### 実装元
 </div>
 
@@ -118,25 +104,19 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 このコールバックにより、圧縮後のコンテキストを
 確認できます。
 
-定義元: [src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
-
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-<div id="_params">
-  ##### _params
-</div>
+<ParamField path="_params" type="unknown" required />
 
-`unknown`
-
-<div id="returns">
+<div id="returns-3">
   #### 戻り値
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+<div id="implementation-of-3">
   #### 実装元
 </div>
 
@@ -155,33 +135,23 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 ここは、モデルの応答をログし、トークン使用量に関するメトリクスを収集し、
 生の `LlmResponse` を後処理するのに最適な場所です。
 
-定義元: [src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
-
-<div id="parameters">
+<div id="parameters-3">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      現在のエージェント Call のコンテキストです。
+    </ParamField>
 
-<div id="callbackcontext">
-  ###### callbackContext
-</div>
+    <ParamField path="llmResponse" type="LlmResponse" required>
+      モデルから受け取った応答オブジェクトです。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-`Context`
-
-現在のエージェント呼び出しのコンテキストです。
-
-<div id="llmresponse">
-  ###### llmResponse
-</div>
-
-`LlmResponse`
-
-モデルから受け取る応答オブジェクト。
-
-<div id="returns">
+<div id="returns-4">
   #### 戻り値
 </div>
 
@@ -191,7 +161,7 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 フレームワークが応答を変更または置き換える場合があります。`undefined` を返すと、
 元の応答が使用されます。
 
-<div id="implementation-of">
+<div id="implementation-of-4">
   #### 実装元
 </div>
 
@@ -208,27 +178,21 @@ Weave の agents パイプラインで、ランナーの invocation、エージ�
 ADK ランナーの run の完了後に実行されるコールバックです。
 
 ADK ライフサイクルにおける最後のコールバックであり、クリーンアップ、
-最終的なログ記録、またはレポート作成に適しています。
+最終的にログすること、またはレポート作成に適しています。
 
-定義元: [src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
-
-<div id="parameters">
+<div id="parameters-4">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      invocation 全体のコンテキストです。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-<div id="invocationcontext">
-  ###### invocationContext
-</div>
-
-`InvocationContext`
-
-invocation 全体のコンテキストです。
-
-<div id="returns">
+<div id="returns-5">
   #### 戻り値
 </div>
 
@@ -236,7 +200,7 @@ invocation 全体のコンテキストです。
 
 undefined
 
-<div id="implementation-of">
+<div id="implementation-of-5">
   #### 実装元
 </div>
 
@@ -254,49 +218,31 @@ undefined
 
 このコールバックを使用すると、ツールから返された結果を検査、ログ、または変更できます。
 
-定義元: [src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
-
-<div id="parameters">
+<div id="parameters-5">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="result" type="Record<string, unknown> | null" required>
+      ツール の invocation が返した辞書 です。
+    </ParamField>
 
-<div id="result">
-  ###### result
-</div>
+    <ParamField path="tool" type="BaseTool" required>
+      実行が完了した直後のツール の インスタンス です。
+    </ParamField>
 
-`Record`&lt;`string`, `unknown`&gt; | `null`
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      ツール に渡された元の引数です。
+    </ParamField>
 
-ツール呼び出しによって返される辞書。
+    <ParamField path="toolContext" type="Context" required>
+      ツール実行に固有のコンテキストです。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-<div id="tool">
-  ###### tool
-</div>
-
-`BaseTool`
-
-実行直後のツールインスタンス。
-
-<div id="toolargs">
-  ###### toolArgs
-</div>
-
-`Record`&lt;`string`, `unknown`&gt;
-
-ツールに渡された元の引数です。
-
-<div id="toolcontext">
-  ###### toolContext
-</div>
-
-`Context`
-
-ツール実行に固有のコンテキストです。
-
-<div id="returns">
+<div id="returns-6">
   #### 戻り値
 </div>
 
@@ -307,7 +253,7 @@ undefined
 ツールの出力を後処理または変更できます。`undefined` を返した場合は、
 変更されていない元の結果が使用されます。
 
-<div id="implementation-of">
+<div id="implementation-of-6">
   #### 実装元
 </div>
 
@@ -323,34 +269,26 @@ undefined
 
 エージェントの主要ロジックが呼び出される前に実行されるコールバックです。
 
-このコールバックは、ログ記録やセットアップ、または値を返してエージェントの
+このコールバックは、ログすることやセットアップ、または値を返してエージェントの
 実行を中断するために使用できます。
 
-定義元: [src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
-
-<div id="parameters">
+<div id="parameters-6">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="agent" type="BaseAgent" required>
+      これから実行されるエージェント。
+    </ParamField>
 
-###### agent
+    <ParamField path="callbackContext" type="Context" required>
+      エージェントの invocation のコンテキスト。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-`BaseAgent`
-
-実行されるエージェント。
-
-<div id="callbackcontext">
-  ###### callbackContext
-</div>
-
-`Context`
-
-エージェントの invocation のコンテキスト。
-
-<div id="returns">
+<div id="returns-7">
   #### 戻り値
 </div>
 
@@ -360,7 +298,7 @@ undefined
 エージェントのコールバックと実行をスキップして、その値が直接返されます。
 `undefined`を返すと、エージェントは通常どおり処理を続行します。
 
-<div id="implementation-of">
+<div id="implementation-of-7">
   #### 実装元
 </div>
 
@@ -379,25 +317,19 @@ undefined
 このコールバックを使用すると、コンテキストが圧縮される前に
 検査または変更できます。
 
-定義元: [src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
-
-<div id="parameters">
+<div id="parameters-7">
   #### パラメーター
 </div>
 
-<div id="_params">
-  ##### _params
-</div>
+<ParamField path="_params" type="unknown" required />
 
-`unknown`
-
-<div id="returns">
+<div id="returns-8">
   #### 戻り値
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+<div id="implementation-of-8">
   #### 実装元
 </div>
 
@@ -416,33 +348,23 @@ undefined
 `LlmRequest`オブジェクトを検査、ログ、または変更できます。
 また、キャッシュされた`LlmResponse`を返すことでキャッシュを実装でき、その場合は実際のモデルの Callをスキップします。
 
-定義元: [src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
-
-<div id="parameters">
+<div id="parameters-8">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      現在のエージェント Call のコンテキストです。
+    </ParamField>
 
-<div id="callbackcontext">
-  ###### callbackContext
-</div>
+    <ParamField path="llmRequest" type="LlmRequest" required>
+      モデルに送信される、準備済みのリクエストオブジェクトです。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-`Context`
-
-現在のエージェント呼び出しのコンテキスト。
-
-<div id="llmrequest">
-  ###### llmRequest
-</div>
-
-`LlmRequest`
-
-モデルに送信する準備が整ったリクエスト オブジェクト。
-
-<div id="returns">
+<div id="returns-9">
   #### 戻り値
 </div>
 
@@ -451,7 +373,7 @@ undefined
 任意の値です。`undefined` 以外の値を返すと、
 処理が早期終了し、応答が直ちに返されます。`undefined` を返すと、LLM リクエストは通常どおり続行されます。
 
-<div id="implementation-of">
+<div id="implementation-of-9">
   #### 実装元
 </div>
 
@@ -470,25 +392,19 @@ ADK ランナーの実行前に呼び出されるコールバックです。
 ライフサイクルで最初に呼び出されるコールバックであり、グローバルな
 セットアップや初期化タスクに適しています。
 
-定義元: [src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
-
-<div id="parameters">
+<div id="parameters-9">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      セッション情報、ルートエージェントなどを含む、invocation 全体のコンテキストです。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-<div id="invocationcontext">
-  ###### invocationContext
-</div>
-
-`InvocationContext`
-
-セッション情報、ルートエージェントなどを含む、invocation 全体のコンテキストです。
-
-<div id="returns">
+<div id="returns-10">
   #### 戻り値
 </div>
 
@@ -498,7 +414,7 @@ ADK に返す任意の `Event`。値を返すと、
 ランナーの実行が停止され、そのイベントでランナーが終了します。
 通常どおり続行するには `undefined` を返します。
 
-<div id="implementation-of">
+<div id="implementation-of-10">
   #### 実装元
 </div>
 
@@ -514,43 +430,29 @@ ADK に返す任意の `Event`。値を返すと、
 
 ツールが呼び出される前に実行されるコールバックです。
 
-このコールバックは、ツールの使用状況のログ記録、入力の検証、またはツールに渡す前の引数の変更に役立ちます。
+このコールバックは、ツールの使用状況をログすること、入力の検証、またはツールに渡す前の引数の変更に役立ちます。
 
-定義元: [src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
-
-<div id="parameters">
+<div id="parameters-10">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="tool" type="BaseTool" required>
+      これから実行されるツール インスタンス。
+    </ParamField>
 
-<div id="tool">
-  ###### tool
-</div>
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      ツール の呼び出しに使用する引数の辞書。
+    </ParamField>
 
-`BaseTool`
+    <ParamField path="toolContext" type="Context" required>
+      ツール実行に固有のコンテキスト。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-これから実行されるツールインスタンス。
-
-<div id="toolargs">
-  ###### toolArgs
-</div>
-
-`Record`&lt;`string`, `unknown`&gt;
-
-ツールの呼び出しに使用する引数の辞書。
-
-<div id="toolcontext">
-  ###### toolContext
-</div>
-
-`Context`
-
-ツール実行に固有のコンテキスト。
-
-<div id="returns">
+<div id="returns-11">
   #### 戻り値
 </div>
 
@@ -560,7 +462,7 @@ ADK に返す任意の `Event`。値を返すと、
 ツール実行を停止し、この応答を直ちに返します。
 `undefined` を返すと、元の未変更の引数が使用されます。
 
-<div id="implementation-of">
+<div id="implementation-of-11">
   #### 実装元
 </div>
 
@@ -578,19 +480,13 @@ ADK に返す任意の `Event`。値を返すと、
 
 このコールバックを使用すると、選択前に利用可能なツールを検査、ログ記録、または変更できます。
 
-定義元: [src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
-
-<div id="parameters">
+<div id="parameters-11">
   #### パラメーター
 </div>
 
-<div id="_params">
-  ##### _params
-</div>
+<ParamField path="_params" type="unknown" required />
 
-`unknown`
-
-<div id="returns">
+<div id="returns-12">
   #### 戻り値
 </div>
 
@@ -600,7 +496,7 @@ ADK に返す任意の `Event`。値を返すと、
 フレームワークが使用可能なツールを変更または置き換えることがあります。`undefined` を返すと、
 元のツールが使用されます。
 
-<div id="implementation-of">
+<div id="implementation-of-12">
   #### 実装元
 </div>
 
@@ -620,19 +516,13 @@ ADK に返す任意の `Event`。値を返すと、
 自動インストルメントされたランナー ラッパーは、これらを中断として閉じるために `finally` からこれを呼び出します。
 べき等であり、run がすでに終了している場合 (一般的な、完全に消費されたケース) には何もしません。
 
-定義元: [src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
-
-<div id="parameters">
+<div id="parameters-12">
   #### パラメーター
 </div>
 
-<div id="invocationid">
-  ##### invocationId
-</div>
+<ParamField path="invocationId" type="string" required />
 
-`string`
-
-<div id="returns">
+<div id="returns-13">
   #### 戻り値
 </div>
 
@@ -651,44 +541,33 @@ ADK に返す任意の `Event`。値を返すと、
 基盤となるエージェントアプリでイベントが処理される前に、
 イベントに変更を加えるのに最適な場所です。
 
-定義元: [src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
-
-<div id="parameters">
+<div id="parameters-13">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="event" type="Event" required>
+      ランナーが発生させたイベントです。
+    </ParamField>
 
-<div id="event">
-  ###### イベント
-</div>
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      invocation 全体のコンテキストです。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-`Event`
-
-ランナーによって発生するイベントです。
-
-<div id="invocationcontext">
-  ###### invocationContext
-</div>
-
-`InvocationContext`
-
-invocation 全体のコンテキストです。
-
-<div id="returns">
+<div id="returns-14">
   #### 戻り値
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-省略可能な値です。`undefined` 以外の戻り値は、フレームワークが
-応答を変更または置き換えるために使用する場合があります。置き換える値を構築する際は、イベントアクションなど変更しない
-フィールドを保持するために、`params.event` をコピーしてください。`undefined` を返すと、
+任意の値です。`undefined` 以外の値を返すと、
+フレームワークが応答を変更または置き換える場合があります。`undefined` を返すと、
 元の応答が使用されます。
 
-<div id="implementation-of">
+<div id="implementation-of-13">
   #### 実装元
 </div>
 
@@ -707,41 +586,27 @@ invocation 全体のコンテキストです。
 このコールバックでは、モデルエラーを適切に処理し、
 代替の応答や復旧手段を提供できます。
 
-定義元: [src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
-
-<div id="parameters">
+<div id="parameters-14">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      現在のエージェント Call のコンテキスト。
+    </ParamField>
 
-<div id="callbackcontext">
-  ###### callbackContext
-</div>
+    <ParamField path="error" type="Error" required>
+      モデルの実行中に発生した例外。
+    </ParamField>
 
-`Context`
+    <ParamField path="llmRequest" type="LlmRequest" required>
+      エラー発生時にモデルへ送信されたリクエスト。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-現在のエージェント呼び出しのコンテキスト。
-
-<div id="error">
-  ###### error
-</div>
-
-`Error`
-
-モデルの実行中に発生した例外です。
-
-<div id="llmrequest">
-  ###### llmRequest
-</div>
-
-`LlmRequest`
-
-エラー発生時にモデルへ送信されたリクエスト。
-
-<div id="returns">
+<div id="returns-15">
   #### 戻り値
 </div>
 
@@ -750,7 +615,7 @@ invocation 全体のコンテキストです。
 省略可能な LlmResponse。LlmResponse が返された場合、エラーを伝播する代わりに
 それが使用されます。`undefined` を返すと、元のエラーが送出されます。
 
-<div id="implementation-of">
+<div id="implementation-of-14">
   #### 実装元
 </div>
 
@@ -764,7 +629,7 @@ invocation 全体のコンテキストです。
 
 > **onToolErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-ツール呼び出しでエラーが発生したときに実行されるコールバック。
+ツール Call でエラーが発生したときに実行されるコールバック。
 tool: BaseTool;
 toolArgs: Record&lt;string, unknown&gt;;
 toolContext: Context;
@@ -774,54 +639,36 @@ return;
 &#125;
 
 /**
-ツール呼び出しでエラーが発生したときに実行されるコールバック。
+ツール Call でエラーが発生したときに実行されるコールバック。
 
 このコールバックを使用すると、ツールのエラーを適切に処理し、
 代替の応答や復旧メカニズムを提供できます。
 
-定義元: [src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
-
-<div id="parameters">
+<div id="parameters-15">
   #### パラメーター
 </div>
 
-<div id="params">
-  ##### params
-</div>
+<ParamField path="params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="error" type="Error" required>
+      ツール実行中に発生した例外です。
+    </ParamField>
 
-<div id="error">
-  ###### error
-</div>
+    <ParamField path="tool" type="BaseTool" required>
+      エラーが発生したツールのインスタンスです。
+    </ParamField>
 
-`Error`
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      ツールに渡された引数です。
+    </ParamField>
 
-ツール実行中に発生した例外です。
+    <ParamField path="toolContext" type="Context" required>
+      そのツール実行に固有のコンテキストです。
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-<div id="tool">
-  ###### tool
-</div>
-
-`BaseTool`
-
-エラーが発生したツールのインスタンス。
-
-<div id="toolargs">
-  ###### toolArgs
-</div>
-
-`Record`&lt;`string`, `unknown`&gt;
-
-tool に渡された引数。
-
-<div id="toolcontext">
-  ###### toolContext
-</div>
-
-`Context`
-
-ツール実行に固有のコンテキスト。
-
-<div id="returns">
+<div id="returns-16">
   #### 戻り値
 </div>
 
@@ -830,7 +677,7 @@ tool に渡された引数。
 省略可能な辞書です。辞書を返した場合、エラーを伝播せずに
 ツールの応答として使用されます。`undefined` を返すと、元のエラーが送出されます。
 
-<div id="implementation-of">
+<div id="implementation-of-15">
   #### 実装元
 </div>
 
@@ -846,31 +693,21 @@ tool に渡された引数。
 
 ユーザーメッセージを受信したときに、invocation が開始される前に実行されるコールバックです。
 
-このコールバックを使用すると、ランナーが invocation を開始する前にユーザーメッセージをログに記録したり変更したりできます。
+このコールバックを使用すると、ランナーが invocation を開始する前にユーザーメッセージをログしたり変更したりできます。
 
-定義元: [src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
-
-<div id="parameters">
+<div id="parameters-16">
   #### パラメーター
 </div>
 
-<div id="_params">
-  ##### _params
-</div>
+<ParamField path="_params" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required />
 
-<div id="invocationcontext">
-  ###### invocationContext
-</div>
+    <ParamField path="userMessage" type="Content" required />
+  </Expandable>
+</ParamField>
 
-`InvocationContext`
-
-<div id="usermessage">
-  ###### userMessage
-</div>
-
-`Content`
-
-<div id="returns">
+<div id="returns-17">
   #### 戻り値
 </div>
 
@@ -878,7 +715,7 @@ tool に渡された引数。
 
 ADK に返す省略可能な `Content`。値を返すとユーザーメッセージが置き換えられ、`undefined` を返すと通常どおり処理が続行されます。
 
-<div id="implementation-of">
+<div id="implementation-of-16">
   #### 実装元
 </div>
 

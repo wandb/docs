@@ -23,6 +23,7 @@ ARIA は次のことを支援できます:
 * 試すべきハイパーパラメーターの推奨など、次のステップを提案する。
 * データを可視化するためのプロットやパネルを作成する。
 * インサイトをチームと共有するために、保存済みビューや Reports を作成する。
+* 失敗した run の診断や新しいモデルバージョンのレビューなど、[W&amp;B のイベントに自動的に応答する](/ja/models/automations/create-automations/aria)。
 
 <div id="quick-start">
   ## クイックスタート
@@ -49,27 +50,24 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
 
 実際の使用例については、[チャット例](/ja/aria/overview#example-chats) を参照してください。チャットの管理に関する詳細は、[Chat with ARIA](/ja/aria/chat) を参照してください。
 
-{/*
+<div id="view-and-manage-project-memories">
   ## project のメモリを表示、管理する
-  ARIA は学習した内容を記憶します。作業中、ARIA は project にスコープされた_メモリ_を書き込むため、新しいセッションごとに設定、結論、好みを最初から把握し直す必要がありません。チームが対数スケールのチャートを好むことを一度伝えれば、以後もその内容を記憶します。
+</div>
 
-  各メモリには、ARIA がいつ呼び出すかを判断できるように名前と説明があり、メモリのテキスト自体も含まれます。
+ARIA は学習した内容を記憶します。作業中、ARIA は project にスコープされた&#95;メモリ&#95;を書き込むため、新しいセッションごとに設定、結論、好みを最初から把握し直す必要がありません。チームが対数スケールのチャートを好むことを一度伝えれば、以後もその内容を記憶します。
 
-  project を所有するチームのメンバーは誰でも、メモリを表示、編集、削除できます:
+各メモリには、ARIA がいつ呼び出すかを判断できるように名前と説明があり、メモリのテキスト自体も含まれます。
 
-  1. ARIA チャットウィンドウで、**<Icon icon="bars" iconType="solid" />** をクリックします。
-  1. **Customization** セクションで、**Project memory** をクリックします。ARIA が project について保持している各メモリが表示されます。
-  1. メモリを編集するには、**<Icon icon="pencil" iconType="solid" />** をクリックします。メモリの **Name**、**Description**、または **Memory** を更新してから、**Save** をクリックします。
-  1. メモリを削除するには、**<Icon icon="trash" iconType="solid" />** をクリックします。
+project を所有するチームのメンバーは誰でも、メモリを表示、編集、削除できます:
 
-  ARIA が新しいメモリを学習するのを待たずに、インタラクティブに project メモリを作成できます。例:
+1. ARIA チャットウィンドウで、**<Icon icon="sidebar-reveal" iconType="solid" />** をクリックします。
+2. **Customization** セクションで、**Project memory** をクリックします。ARIA が project について保持している各メモリが表示されます。
+3. メモリを編集するには、**<Icon icon="pencil" iconType="solid" />** をクリックします。メモリの **Name**、**Description**、または **Memory** を更新してから、**Save** をクリックします。
+4. メモリを削除するには、**<Icon icon="trash" iconType="solid" />** をクリックします。
 
-  <AriaChatBubbles
-  prompt="チャートにはセマンティックカラーリングを使用することを覚えておいてください。"
-  response="まず既存の project メモリを確認し、この設定が重複せず適切なトピックに記録されるようにします ... 新しい project メモリを保存しました: chart-coloring。これは、チャートでは任意のパレット順ではなく、系列やカテゴリの意味またはステータスに基づく一貫したセマンティックカラーを使用する必要があることを記録しています。 "
-  />
+ARIA が新しいメモリを学習するのを待たずに、インタラクティブに project メモリを作成できます。例:
 
-  */}
+<AriaChatBubbles prompt="チャートにはセマンティックカラーリングを使用することを覚えておいてください。" response="まず既存の project メモリを確認し、この設定が重複せず適切なトピックに記録されるようにします ... 新しい project メモリを保存しました: chart-coloring。これは、チャートでは任意のパレット順ではなく、系列やカテゴリの意味またはステータスに基づく一貫したセマンティックカラーを使用する必要があることを記録しています。 " />
 
 <div id="example-chats">
   ## チャット例
@@ -77,8 +75,8 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
 
 以下は、ARIA とどのようにやり取りできるか、またどのような応答が返ってくるかを示すための、ARIA との実際のチャット例です。
 
-<Accordion title="ARIA の推奨に基づいて Experiments を実行する">
-  一連の Experiments を終えたばかりの ML Engineer だとします。モデルのパフォーマンスを向上させるには、次に何をすべきかを知りたいと考えています。
+<Accordion title="ARIA の推奨に基づいて 実験 を実行する">
+  一連の 実験 を終えたばかりの ML Engineer だとします。モデルのパフォーマンスを向上させるには、次に何をすべきかを知りたいと考えています。
 
   そのために、Runs をログした project にアクセスします。ARIA を開いて、次のように質問します。
 
@@ -91,7 +89,7 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
   ```text title="ARIA の推論ステップ"
   推奨: モデル アーキテクチャを変更したり LR を sweep したりする前に、
   「トレーニング時間を延ばす + ホールドアウト評価」の
-  experiment を 1 回実行する
+  実験 を 1 回実行する
 
   現在の最良の設定を使いつつ、トレーニングを長くします:
 
@@ -112,7 +110,7 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
   また、最良のチェックポイントは training loss だけでなく、
   test/test_loss に基づいて保存します。
 
-  これが次の experiment として最も有望な理由
+  これが次の 実験 として最も有望な理由
   この project には完了済みの Runs が 16 件ありますが、実際の training Runs は 4 件だけです。
   その 4 件はすべて同じトレーニング設定を使用しています:
 
@@ -136,19 +134,19 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
   test/test_loss が最小のときにチェックポイントを保存する
   ```
 
-  ARIA の推奨に同意したので、experiment を実行するよう ARIA に依頼します。
+  ARIA の推奨に同意したので、実験 を実行するよう ARIA に依頼します。
 
   ```text title="ユーザープロンプト"
   Run that experiment for me.
   ```
 
-  ARIA は W&amp;B Launch を使用して、サンドボックス環境で experiment を実行します。次の画像は、experiment の実行完了後の ARIA の応答を示しています。
+  ARIA は W&amp;B Launch を使用して、サンドボックス環境で 実験 を実行します。次の画像は、実験 の実行完了後の ARIA の応答を示しています。
 
   <Frame>
-    <img src="/images/agent/aria_experiment.gif" alt="experiment を実行している ARIA" />
+    <img src="/images/agent/aria_experiment.gif" alt="実験 を実行している ARIA" />
   </Frame>
 
-  ARIA は W&amp;B Launch を使用して、サンドボックス環境で Experiments を実行します。詳しくは、[ARIA が Experiments を実行できるようにする](/ja/aria/autoresearch#run-experiments-with-w\&b-launch) をご覧ください。
+  ARIA は W&amp;B Launch を使用して、サンドボックス環境で 実験 を実行します。詳しくは、[ARIA が 実験 を実行できるようにする](/ja/aria/autoresearch) をご覧ください。
 </Accordion>
 
 <Accordion title="実験からインサイトを得る">
@@ -223,7 +221,7 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
 
   ARIA は、指定された project ではすべての Runs で学習率 `0.01` が使われていたことを特定します。これらのインサイトに基づき、ARIA は、今後の Runs ではモデルのパフォーマンス改善に役立つか確認するため、`0.001` などのより低い学習率を試すことを推奨します。
 
-  ARIA はまた、SGD オプティマイザーを使用している Runs についても特定します。このインサイトに基づき、ARIA は、今後の Runs ではモデルのパフォーマンス改善に役立つか確認するため、Adam (Adaptive Moment Estimation) などの別のオプティマイザーを試すことを推奨します。
+  ARIA はまた、すべての Runs が SGD オプティマイザーを使用していることも特定します。このインサイトに基づき、ARIA は、今後の Runs ではモデルのパフォーマンス改善に役立つか確認するため、Adam (Adaptive Moment Estimation) などの別のオプティマイザーを試すことを推奨します。
 
   次の画像は、ハイパーパラメーター調整に関する推奨事項を含む ARIA の応答の一部を示しています。
 

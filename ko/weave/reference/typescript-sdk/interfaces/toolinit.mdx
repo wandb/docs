@@ -3,7 +3,9 @@ title: "ToolInit"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-정의 위치: [src/genai/tool.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L17)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L18" />
 
 <div id="extends">
   ## 확장
@@ -19,9 +21,9 @@ description: "TypeScript SDK 레퍼런스"
   ### args
 </div>
 
-> `선택` **args**: `string`
+> `선택` **args**: `string` | [`JsonObject`](../type-aliases/jsonobject)
 
-정의 위치: [src/genai/tool.ts:19](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L19)
+JSON 객체 또는 그대로 기록되는 사전 직렬화된 문자열입니다.
 
 ***
 
@@ -31,8 +33,6 @@ description: "TypeScript SDK 레퍼런스"
 
 > **name**: `string`
 
-정의 위치: [src/genai/tool.ts:18](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L18)
-
 ***
 
 <div id="starttime">
@@ -40,8 +40,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `선택` **startTime**: `TimeInput`
-
-정의 위치: [src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
 
 <div id="inherited-from">
   #### 상속됨
@@ -56,5 +54,3 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `선택` **toolCallId**: `string`
-
-정의 위치: [src/genai/tool.ts:20](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/tool.ts#L20)

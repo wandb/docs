@@ -193,7 +193,9 @@ api:
 
     デプロイ固有の考慮事項については、[環境ごとの考慮事項](#environment-specific-considerations) と [パブリッククラウドで Terraform を使用してデプロイする](#deploy-with-terraform-on-public-cloud) を参照してください。切り離された環境については、[Air-Gapped Kubernetes へのデプロイ](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/) を参照してください。
 
-    #### Helm Terraform Module
+    <div id="helm-terraform-module">
+      #### Helm Terraform Module
+    </div>
 
     この method は、Terraform の Infrastructure as Code アプローチを使用して一貫性と再現性を確保しながら、特定の要件に合わせてカスタマイズしたデプロイをサポートします。公式の W&amp;B [Helm ベースの Terraform Module](https://registry.terraform.io/modules/wandb/wandb/helm/latest) は Terraform Registry で利用できます。
 
@@ -237,7 +239,9 @@ api:
     * [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
     * [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
-    #### クラウド Terraform モジュール
+    <div id="cloud-terraform-modules">
+      #### クラウド Terraform モジュール
+    </div>
 
     W&amp;B は、AWS、Google Cloud、Azure 向けの Terraform モジュール一式を提供しています。これらのモジュールは、Kubernetes クラスター、ロードバランサー、MySQL データベースを含む完全なインフラストラクチャーに加えて、W&amp;B Server アプリケーションもデプロイします。W&amp;B Kubernetes Operator は、以下のバージョンでこれらの公式 W&amp;B クラウド向け Terraform モジュールに含まれています。
 
@@ -529,11 +533,15 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     * Elastic Cache for Redis
     * SQS
 
-    ### 前提条件の権限
+    <div id="prerequisite-permissions">
+      ### 前提条件の権限
+    </div>
 
     Terraformを実行するアカウントには、前のセクションに記載されたすべてのコンポーネントを作成する権限に加え、**IAMポリシー**および**IAMロール**を作成してリソースにロールを割り当てる権限が必要です。
 
-    ### General steps
+    <div id="general-steps">
+      ### General steps
+    </div>
 
     このセクションの手順は、どのデプロイオプションにも共通です。
 
@@ -634,7 +642,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        }
        ```
 
-    ### 推奨デプロイ
+    <div id="recommended-deployment">
+      ### 推奨デプロイ
+    </div>
 
     これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
@@ -704,7 +714,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redisを有効にする
+    <div id="enable-redis">
+      ### Redisを有効にする
+    </div>
 
     Redisを使用してSQLクエリをキャッシュし、メトリクス読み込み時のアプリケーションのレスポンスを高速化するには、`main.tf`ファイルに`create_elasticache_subnet = true`オプションを追加します。
 
@@ -722,7 +734,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     [...]
     ```
 
-    ### メッセージブローカー (キュー) を有効にする
+    <div id="enable-message-broker-queue">
+      ### メッセージブローカー (キュー) を有効にする
+    </div>
 
     SQSを使用して外部メッセージブローカーを有効にするには、`main.tf` ファイルにオプション `use_internal_queue = false` を追加します。
 
@@ -745,7 +759,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     }
     ```
 
-    ### 追加リソース
+    <div id="additional-resources">
+      ### 追加リソース
+    </div>
 
     * [AWS Terraform Module のドキュメント](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
     * [AWS Terraform Moduleのソースコード](https://github.com/wandb/terraform-aws-wandb)
@@ -773,11 +789,15 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     * Pub/Sub メッセージング システム
 
-    ### 前提条件の権限
+    <div id="prerequisite-permissions-2">
+      ### 前提条件の権限
+    </div>
 
     Terraformを実行するアカウントには、使用するGoogle Cloudプロジェクトに対して`roles/owner`ロールが必要です。
 
-    ### General steps
+    <div id="general-steps-2">
+      ### General steps
+    </div>
 
     このセクションの手順は、どのデプロイオプションにも共通です。
 
@@ -846,7 +866,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        }
        ```
 
-    ### 推奨デプロイ
+    <div id="recommended-deployment-2">
+      ### 推奨デプロイ
+    </div>
 
     これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
@@ -917,7 +939,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redisを有効にする
+    <div id="enable-redis-2">
+      ### Redisを有効にする
+    </div>
 
     Redisを使用してSQLクエリをキャッシュし、メトリクス読み込み時のアプリケーションのレスポンスを高速化するには、`main.tf`ファイルに`create_redis = true`オプションを追加します。
 
@@ -937,7 +961,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     [...]
     ```
 
-    ### メッセージブローカー (キュー) を有効にする
+    <div id="enable-message-broker-queue-2">
+      ### メッセージブローカー (キュー) を有効にする
+    </div>
 
     Pub/Sub を使用して外部メッセージブローカーを有効にするには、`main.tf` ファイルにオプション `use_internal_queue = false` を追加します。
 
@@ -962,7 +988,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     [...]
     ```
 
-    ### 追加リソース
+    <div id="additional-resources-2">
+      ### 追加リソース
+    </div>
 
     * [Google Cloud Terraform モジュールのドキュメント](https://registry.terraform.io/modules/wandb/wandb/google/latest)
     * [Google Cloud Terraform モジュールのソースコード](https://github.com/wandb/terraform-google-wandb)
@@ -987,13 +1015,17 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     * Azure Cache for Redis
     * Azure Event Grid
 
-    ### 前提条件の権限
+    <div id="prerequisite-permissions-3">
+      ### 前提条件の権限
+    </div>
 
     AzureRM プロバイダーを設定する最もシンプルな方法は [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) を使用することです。オートメーションの場合は、[Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) を使用することもできます。
 
     使用する認証方法に関わらず、Terraformを実行するアカウントには、前のセクションに記載されたすべてのコンポーネントを作成する権限が必要です。
 
-    ### General steps
+    <div id="general-steps-3">
+      ### General steps
+    </div>
 
     このセクションの手順は、どのデプロイオプションにも共通です。
 
@@ -1070,7 +1102,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
            }
        ```
 
-    ### 推奨デプロイ
+    <div id="recommended-deployment-3">
+      ### 推奨デプロイ
+    </div>
 
     これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
@@ -1135,7 +1169,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redisを有効にする
+    <div id="enable-redis-3">
+      ### Redisを有効にする
+    </div>
 
     Redisを使用してSQLクエリをキャッシュし、メトリクス読み込み時のアプリケーションのレスポンスを高速化するには、`main.tf`ファイルに`create_redis = true`オプションを追加します。
 
@@ -1156,7 +1192,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     }
     ```
 
-    ### メッセージブローカー (キュー) を有効にする
+    <div id="enable-message-broker-queue-3">
+      ### メッセージブローカー (キュー) を有効にする
+    </div>
 
     Azure Event Gridを使用して外部メッセージブローカーを有効にするには、`main.tf`ファイルに`use_internal_queue = false`オプションを追加します。
 
@@ -1181,7 +1219,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     }
     ```
 
-    ### 追加リソース
+    <div id="additional-resources-3">
+      ### 追加リソース
+    </div>
 
     * [Azure Terraform Module ドキュメント](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
     * [Azure Terraform Module のソースコード](https://github.com/wandb/terraform-azurerm-wandb)

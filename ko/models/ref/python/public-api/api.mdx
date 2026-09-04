@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
-## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Api
+<div id="class-wandbapi">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Api
+</div>
 
 W&amp;B 서버를 쿼리할 때 사용됩니다.
 
@@ -34,7 +36,9 @@ api_key: 'str | None' = None
   인증에 사용할 API 키입니다. 제공하지 않으면 현재 환경 또는 설정의 API 키를 사용합니다. API 키가 제공되지 않았고 환경에도 설정되어 있지 않으면 API 키 입력을 요청합니다.
 </ResponseField>
 
-## 예시
+<div id="examples">
+  ## 예시
+</div>
 
 ```python
 import wandb
@@ -62,7 +66,9 @@ wandb.Api()
   ## 메서드
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact()
+<div id="method-apiartifact">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact()
+</div>
 
 ```python
 (self,
@@ -91,7 +97,7 @@ type: 'str | None' = None)
 * `ValueError`: 아티팩트 이름이 지정되지 않은 경우.
 * `ValueError`: 아티팩트 유형이 지정되었지만 가져온 아티팩트의 유형과 일치하지 않는 경우.
 
-<div id="examples">
+<div id="examples-2">
   ##### 예시
 </div>
 
@@ -115,7 +121,9 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collection()
+<div id="method-apiartifact_collection">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collection()
+</div>
 
 ```python
 self,
@@ -128,7 +136,7 @@ name: 'str'
 반환된 `ArtifactCollection` 객체를 사용해 해당 컬렉션의 특정 아티팩트에 대한 정보를 조회하는 등
 추가 작업을 수행할 수 있습니다.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### 인수
 </div>
 
@@ -140,7 +148,7 @@ name: 'str'
   아티팩트 컬렉션 이름입니다. 선택적으로 아티팩트를 로깅한 entity를 접두사로 붙인 다음 슬래시(`/`)를 추가할 수 있습니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-3">
   ##### 예시
 </div>
 
@@ -160,7 +168,9 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collection_exists()
+<div id="method-apiartifact_collection_exists">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collection_exists()
+</div>
 
 ```python
 self,
@@ -170,7 +180,7 @@ type: 'str'
 
 지정된 프로젝트와 entity 내에 아티팩트 컬렉션이 존재하는지 여부입니다.
 
-<div id="arguments">
+<div id="arguments-3">
   ##### 인수
 </div>
 
@@ -182,7 +192,7 @@ type: 'str'
   아티팩트 컬렉션의 유형입니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-4">
   ##### 예시
 </div>
 
@@ -194,7 +204,9 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collections()
+<div id="method-apiartifact_collections">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_collections()
+</div>
 
 ```python
 self,
@@ -207,7 +219,7 @@ start: 'str | None' = None
 
 조건에 맞는 아티팩트 컬렉션 목록을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### 인수
 </div>
 
@@ -231,7 +243,9 @@ start: 'str | None' = None
   이전 paginator의 `.cursor` 속성에서 캡처한 값을 사용하여 이전 쿼리를 재개하기 위한 페이지 매김 커서입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_exists()
+<div id="method-apiartifact_exists">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_exists()
+</div>
 
 ```python
 self,
@@ -241,7 +255,7 @@ type: 'str | None' = None
 
 지정된 프로젝트와 entity 내에 아티팩트 버전이 존재하는지 여부입니다.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### 인수
 </div>
 
@@ -253,7 +267,7 @@ type: 'str | None' = None
   아티팩트의 유형입니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-5">
   ##### 예시
 </div>
 
@@ -268,7 +282,9 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_type()
+<div id="method-apiartifact_type">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_type()
+</div>
 
 ```python
 self,
@@ -278,7 +294,7 @@ project: 'str | None' = None
 
 일치하는 `ArtifactType`을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-6">
   ##### 인수
 </div>
 
@@ -290,7 +306,9 @@ project: 'str | None' = None
   지정한 경우, 필터링할 프로젝트 이름 또는 경로입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_types()
+<div id="method-apiartifact_types">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_types()
+</div>
 
 ```python
 self,
@@ -300,7 +318,7 @@ start: 'str | None' = None
 
 일치하는 아티팩트 유형 모음을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-7">
   ##### 인수
 </div>
 
@@ -312,7 +330,9 @@ start: 'str | None' = None
   이전 paginator의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_versions()
+<div id="method-apiartifact_versions">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifact_versions()
+</div>
 
 ```python
 (self, type_name, name, per_page=50)
@@ -320,7 +340,7 @@ start: 'str | None' = None
 
 사용 중단되었습니다. 대신 `Api.artifacts(type_name, name)` 방법을 사용하세요.
 
-<div id="arguments">
+<div id="arguments-8">
   ##### 인수
 </div>
 
@@ -336,7 +356,9 @@ start: 'str | None' = None
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifacts()
+<div id="method-apiartifacts">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.artifacts()
+</div>
 
 ```python
 self,
@@ -350,7 +372,7 @@ start: 'str | None' = None
 
 `Artifacts` 컬렉션을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-9">
   ##### 인수
 </div>
 
@@ -378,7 +400,7 @@ start: 'str | None' = None
   이전 paginator의 `.cursor` 속성에서 캡처한 값을 사용하여 이전 쿼리를 재개하는 페이지 매김 커서입니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-6">
   ##### 예시
 </div>
 
@@ -420,7 +442,9 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.automation()
+<div id="method-apiautomation">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.automation()
+</div>
 
 ```python
 self,
@@ -430,7 +454,7 @@ entity: 'str | None' = None
 
 매개변수와 일치하는 유일한 Automation을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-10">
   ##### 인수
 </div>
 
@@ -442,13 +466,13 @@ entity: 'str | None' = None
   자동화를 가져올 entity입니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-2">
   ##### 예외
 </div>
 
 * `ValueError`: 검색 조건과 일치하는 Automation이 없거나 여러 개인 경우.
 
-<div id="examples">
+<div id="examples-7">
   ##### 예시
 </div>
 
@@ -467,7 +491,9 @@ entity &quot;my-team&quot;에서 &quot;other-automation&quot;이라는 이름의
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.automations()
+<div id="method-apiautomations">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.automations()
+</div>
 
 ```python
 self,
@@ -482,7 +508,7 @@ start: 'str | None' = None
 매개변수가 제공되지 않으면 반환된 이터레이터에는 사용자가 접근할 수 있는 모든
 Automations가 포함됩니다.
 
-<div id="arguments">
+<div id="arguments-11">
   ##### 인수
 </div>
 
@@ -502,7 +528,7 @@ Automations가 포함됩니다.
   이전 paginator의 `.cursor` 속성에서 가져온, 이전 쿼리를 재개하기 위한 페이지 매김 커서입니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-8">
   ##### 예시
 </div>
 
@@ -515,7 +541,9 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_automation()
+<div id="method-apicreate_automation">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_automation()
+</div>
 
 ```python
 self,
@@ -525,7 +553,7 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 새 Automation을 생성합니다.
 
-<div id="arguments">
+<div id="arguments-12">
   ##### 인수
 </div>
 
@@ -541,7 +569,7 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-9">
   ##### 예시
 </div>
 
@@ -571,7 +599,9 @@ automation = api.create_automation(
 )
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_custom_chart()
+<div id="method-apicreate_custom_chart">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_custom_chart()
+</div>
 
 ```python
 self,
@@ -585,7 +615,7 @@ spec: 'str | dict'
 
 맞춤형 차트 프리셋을 만들고 해당 ID를 반환합니다.
 
-<div id="arguments">
+<div id="arguments-13">
   ##### 인수
 </div>
 
@@ -616,14 +646,14 @@ spec: 'str | dict'
   딕셔너리 또는 JSON string 형식의 Vega/Vega-Lite 사양
 </ResponseField>
 
-<div id="raises">
+<div id="raises-3">
   ##### 예외
 </div>
 
 * `wandb.Error`: 차트 생성에 실패한 경우
 * `UnsupportedError`: 서버가 맞춤형 차트를 지원하지 않는 경우
 
-<div id="examples">
+<div id="examples-10">
   ##### 예시
 </div>
 
@@ -661,7 +691,9 @@ spec: 'str | dict'
     )
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_project()
+<div id="method-apicreate_project">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_project()
+</div>
 
 ```python
 self,
@@ -671,7 +703,7 @@ entity: 'str'
 
 새 프로젝트를 생성합니다.
 
-<div id="arguments">
+<div id="arguments-14">
   ##### 인수
 </div>
 
@@ -683,7 +715,9 @@ entity: 'str'
   새 프로젝트의 entity입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_registry()
+<div id="method-apicreate_registry">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_registry()
+</div>
 
 ```python
 self,
@@ -696,7 +730,7 @@ artifact_types: 'list[str] | None' = None
 
 새 레지스트리를 생성합니다.
 
-<div id="arguments">
+<div id="arguments-15">
   ##### 인수
 </div>
 
@@ -720,7 +754,7 @@ artifact_types: 'list[str] | None' = None
   레지스트리에서 허용하는 아티팩트 유형입니다. 유형은 128자를 초과할 수 없고 `/` 또는 `:`를 포함할 수 없습니다. 지정하지 않으면 모든 유형이 허용됩니다. 레지스트리에 추가된 허용 유형은 나중에 제거할 수 없습니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-11">
   ##### 예시
 </div>
 
@@ -737,7 +771,9 @@ registry = api.create_registry(
 )
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_run()
+<div id="method-apicreate_run">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_run()
+</div>
 
 ```python
 self, *,
@@ -748,7 +784,7 @@ entity: 'str | None' = None
 
 새 run을 생성합니다.
 
-<div id="arguments">
+<div id="arguments-16">
   ##### 인수
 </div>
 
@@ -764,7 +800,9 @@ entity: 'str | None' = None
   프로젝트를 소유한 entity입니다. entity를 지정하지 않으면 기본 entity에 run을 기록합니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_run_queue()
+<div id="method-apicreate_run_queue">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_run_queue()
+</div>
 
 ```python
 self,
@@ -778,7 +816,7 @@ template_variables: 'dict | None' = None
 
 W&amp;B Launch에서 새 run 큐를 생성합니다.
 
-<div id="arguments">
+<div id="arguments-17">
   ##### 인수
 </div>
 
@@ -806,7 +844,9 @@ W&amp;B Launch에서 새 run 큐를 생성합니다.
   설정과 함께 사용할 템플릿 변수 스키마의 딕셔너리입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_team()
+<div id="method-apicreate_team">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_team()
+</div>
 
 ```python
 self,
@@ -820,7 +860,7 @@ W&amp;B Multi-tenant Cloud 사용자라면 `create_team()`을 호출하기 전�
 W&amp;B UI의 사용자 설정에서 Default API 조직을 설정하세요.
 이 설정은 새 팀이 속할 조직을 결정합니다.
 
-<div id="arguments">
+<div id="arguments-18">
   ##### 인수
 </div>
 
@@ -832,7 +872,9 @@ W&amp;B UI의 사용자 설정에서 Default API 조직을 설정하세요.
   Team의 관리자 사용자 이름입니다. 기본값은 현재 사용자입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_user()
+<div id="method-apicreate_user">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.create_user()
+</div>
 
 ```python
 self,
@@ -842,7 +884,7 @@ admin: 'bool | None' = False
 
 새 사용자를 생성합니다.
 
-<div id="arguments">
+<div id="arguments-19">
   ##### 인수
 </div>
 
@@ -854,7 +896,9 @@ admin: 'bool | None' = False
   사용자를 인스턴스 전체 관리자으로 설정합니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.delete_automation()
+<div id="method-apidelete_automation">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.delete_automation()
+</div>
 
 ```python
 self,
@@ -863,7 +907,7 @@ obj: 'Automation | str'
 
 자동화를 삭제합니다.
 
-<div id="arguments">
+<div id="arguments-20">
   ##### 인수
 </div>
 
@@ -871,7 +915,9 @@ obj: 'Automation | str'
   삭제할 자동화 또는 그 ID입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.flush()
+<div id="method-apiflush">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.flush()
+</div>
 
 ```python
 (self)
@@ -882,7 +928,9 @@ obj: 'Automation | str'
 api 객체는 Runs의 로컬 캐시를 유지하므로, 스크립트 실행 중 run 상태가
 변경될 수 있다면 run에 연결된 최신 값을 가져오기 위해 `api.flush()`로 로컬 캐시를 초기화해야 합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.from_path()
+<div id="method-apifrom_path">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.from_path()
+</div>
 
 ```python
 (self,
@@ -891,7 +939,7 @@ path: 'str')
 
 경로로부터 run, 스윕, 프로젝트 또는 리포트를 반환합니다.
 
-<div id="arguments">
+<div id="arguments-21">
   ##### 인수
 </div>
 
@@ -899,7 +947,7 @@ path: 'str')
   프로젝트, run, 스윕 또는 리포트의 경로
 </ResponseField>
 
-<div id="examples">
+<div id="examples-12">
   ##### 예시
 </div>
 
@@ -917,7 +965,9 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.integrations()
+<div id="method-apiintegrations">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.integrations()
+</div>
 
 ```python
 self,
@@ -928,7 +978,7 @@ start: 'str | None' = None
 
 entity에 대한 모든 인테그레이션의 이터레이터를 반환합니다.
 
-<div id="arguments">
+<div id="arguments-22">
   ##### 인수
 </div>
 
@@ -944,7 +994,9 @@ entity에 대한 모든 인테그레이션의 이터레이터를 반환합니다
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.job()
+<div id="method-apijob">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.job()
+</div>
 
 ```python
 self,
@@ -954,7 +1006,7 @@ path: 'str | None' = None
 
 `Job` 객체를 반환합니다.
 
-<div id="arguments">
+<div id="arguments-23">
   ##### 인수
 </div>
 
@@ -966,7 +1018,9 @@ path: 'str | None' = None
   작업 아티팩트를 다운로드할 루트 경로입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.list_jobs()
+<div id="method-apilist_jobs">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.list_jobs()
+</div>
 
 ```python
 self,
@@ -976,7 +1030,7 @@ project: 'str'
 
 주어진 entity와 프로젝트에 대해, 해당하는 작업이 있으면 작업 목록을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-24">
   ##### 인수
 </div>
 
@@ -988,7 +1042,9 @@ project: 'str'
   목록에 있는 작업의 프로젝트입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.organization()
+<div id="method-apiorganization">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.organization()
+</div>
 
 ```python
 self,
@@ -997,7 +1053,7 @@ name: 'str | None' = None
 
 일치하는 `Organization`을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-25">
   ##### 인수
 </div>
 
@@ -1005,7 +1061,9 @@ name: 'str | None' = None
   조직의 이름입니다. 생략하면 이 메서드는 현재 기본 조직을 추론해 반환합니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.project()
+<div id="method-apiproject">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.project()
+</div>
 
 ```python
 self,
@@ -1015,7 +1073,7 @@ entity: 'str | None' = None
 
 주어진 이름의 `Project`를 반환합니다(`entity`가 지정된 경우 해당 `entity`에서 반환).
 
-<div id="arguments">
+<div id="arguments-26">
   ##### 인수
 </div>
 
@@ -1027,7 +1085,9 @@ entity: 'str | None' = None
   요청할 entity의 이름입니다. `None`이면 `Api`에 전달된 기본 entity를 사용합니다. 기본 entity도 없으면 `ValueError`가 발생합니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.projects()
+<div id="method-apiprojects">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.projects()
+</div>
 
 ```python
 self,
@@ -1037,7 +1097,7 @@ per_page: 'int' = 200
 
 주어진 entity의 Projects를 조회합니다.
 
-<div id="arguments">
+<div id="arguments-27">
   ##### 인수
 </div>
 
@@ -1049,7 +1109,9 @@ per_page: 'int' = 200
   쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로는 이 값을 변경할 필요가 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.queued_run()
+<div id="method-apiqueued_run">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.queued_run()
+</div>
 
 ```python
 (self,
@@ -1063,7 +1125,7 @@ run_queue_item_id: 'str', project_queue=None, priority=None)
 
 `entity/project/queue_id/run_queue_item_id` 형식의 경로를 파싱합니다.
 
-<div id="arguments">
+<div id="arguments-28">
   ##### 인수
 </div>
 
@@ -1091,7 +1153,9 @@ run_queue_item_id: 'str', project_queue=None, priority=None)
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.registries()
+<div id="method-apiregistries">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.registries()
+</div>
 
 ```python
 self,
@@ -1109,7 +1173,7 @@ start: 'str | None' = None
 가져오므로 :func:`itertools.islice` 등을 사용해 원하는 수의 항목에서 중지하고
 나머지를 요청하지 않을 수 있습니다.
 
-<div id="arguments">
+<div id="arguments-29">
   ##### 인수
 </div>
 
@@ -1133,7 +1197,7 @@ start: 'str | None' = None
   이전 paginator의 `.cursor` 속성에서 캡처한 값으로 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-13">
   ##### 예시
 </div>
 
@@ -1189,7 +1253,9 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.registry()
+<div id="method-apiregistry">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.registry()
+</div>
 
 ```python
 self,
@@ -1199,7 +1265,7 @@ organization: 'str | None' = None
 
 레지스트리 이름으로 해당 레지스트리를 반환합니다.
 
-<div id="arguments">
+<div id="arguments-30">
   ##### 인수
 </div>
 
@@ -1211,7 +1277,7 @@ organization: 'str | None' = None
   레지스트리가 속한 조직입니다. Settings에 조직이 설정되어 있지 않으면, entity가 하나의 조직에만 속한 경우 해당 조직을 entity에서 가져옵니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-14">
   ##### 예시
 </div>
 
@@ -1226,7 +1292,9 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.reports()
+<div id="method-apireports">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.reports()
+</div>
 
 ```python
 self,
@@ -1239,7 +1307,7 @@ per_page: 'int' = 50
 
 참고: `wandb.Api.reports()` API는 베타 버전이며, 향후 릴리스에서 변경될 수 있습니다.
 
-<div id="arguments">
+<div id="arguments-31">
   ##### 인수
 </div>
 
@@ -1255,7 +1323,7 @@ per_page: 'int' = 50
   쿼리 페이지네이션의 페이지 크기를 설정합니다. 일반적으로는 이를 변경할 이유가 없습니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-15">
   ##### 예시
 </div>
 
@@ -1265,7 +1333,9 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.run()
+<div id="method-apirun">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.run()
+</div>
 
 ```python
 self,
@@ -1274,7 +1344,7 @@ path: 'str' = ''
 
 `entity/project/run_id` 형식의 경로를 파싱해 단일 run을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-32">
   ##### 인수
 </div>
 
@@ -1282,13 +1352,15 @@ path: 'str' = ''
   `entity/project/run_id` 형식의 run 경로입니다. `api.entity`가 설정되어 있으면 `project/run_id` 형식도 사용할 수 있으며, `api.project`가 설정되어 있으면 run&#95;id만 지정하면 됩니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-4">
   ##### 예외
 </div>
 
 * `RunNotFoundError`: run을 찾을 수 없거나 run 데이터를 로드할 수 없는 경우.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.run_queue()
+<div id="method-apirun_queue">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.run_queue()
+</div>
 
 ```python
 (self,
@@ -1300,7 +1372,7 @@ entity의 지정된 `RunQueue`를 반환합니다.
 
 run 큐를 생성하는 방법에 대한 자세한 내용은 `Api.create_run_queue`를 참조하세요.
 
-<div id="arguments">
+<div id="arguments-33">
   ##### 인수
 </div>
 
@@ -1312,7 +1384,9 @@ run 큐를 생성하는 방법에 대한 자세한 내용은 `Api.create_run_que
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.runs()
+<div id="method-apiruns">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.runs()
+</div>
 
 ```python
 (self,
@@ -1360,7 +1434,7 @@ lazy: 'bool' = True)
 * `$exists`
 * `$regex`
 
-<div id="arguments">
+<div id="arguments-34">
   ##### 인수
 </div>
 
@@ -1388,7 +1462,7 @@ lazy: 'bool' = True)
   (bool) 더 빠른 성능을 위해 lazy 로딩을 사용할지 여부입니다. True(기본값)인 경우 처음에는 필수 run 메타데이터만 로드됩니다. config, summaryMetrics, systemMetrics 같은 큰 필드는 접근 시 필요에 따라 로드됩니다. 전체 데이터를 처음부터 로드하려면 False로 설정하세요.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-16">
   ##### 예시
 </div>
 
@@ -1436,7 +1510,9 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.slack_integrations()
+<div id="method-apislack_integrations">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.slack_integrations()
+</div>
 
 ```python
 self, *,
@@ -1447,7 +1523,7 @@ start: 'str | None' = None
 
 entity에 대한 Slack 인테그레이션 이터레이터를 반환합니다.
 
-<div id="arguments">
+<div id="arguments-35">
   ##### 인수
 </div>
 
@@ -1463,7 +1539,7 @@ entity에 대한 Slack 인테그레이션 이터레이터를 반환합니다.
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-17">
   ##### 예시
 </div>
 
@@ -1487,7 +1563,9 @@ team_alert_integrations = [
 ]
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.sweep()
+<div id="method-apisweep">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.sweep()
+</div>
 
 ```python
 (self, path='')
@@ -1495,7 +1573,7 @@ team_alert_integrations = [
 
 `entity/project/sweep_id` 형식의 경로를 파싱해 스윕을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-36">
   ##### 인수
 </div>
 
@@ -1503,7 +1581,9 @@ team_alert_integrations = [
   entity/project/sweep&#95;id 형식의 스윕 경로입니다. `api.entity`가 설정되어 있으면 project/sweep&#95;id 형식을 사용할 수 있고, `api.project`가 설정되어 있으면 sweep&#95;id만 사용하면 됩니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.sync_tensorboard()
+<div id="method-apisync_tensorboard">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.sync_tensorboard()
+</div>
 
 ```python
 (self, root_dir, run_id=None, project=None, entity=None)
@@ -1511,7 +1591,7 @@ team_alert_integrations = [
 
 tfevent 파일이 포함된 로컬 디렉터리를 wandb로 동기화합니다.
 
-<div id="arguments">
+<div id="arguments-37">
   ##### 인수
 </div>
 
@@ -1531,7 +1611,9 @@ tfevent 파일이 포함된 로컬 디렉터리를 wandb로 동기화합니다.
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.team()
+<div id="method-apiteam">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.team()
+</div>
 
 ```python
 self,
@@ -1540,7 +1622,7 @@ team: 'str'
 
 지정한 이름과 일치하는 `Team`을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-38">
   ##### 인수
 </div>
 
@@ -1548,7 +1630,9 @@ team: 'str'
   팀 이름
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.update_automation()
+<div id="method-apiupdate_automation">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.update_automation()
+</div>
 
 ```python
 self,
@@ -1558,7 +1642,7 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 기존 자동화를 업데이트합니다.
 
-<div id="arguments">
+<div id="arguments-39">
   ##### 인수
 </div>
 
@@ -1574,7 +1658,7 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-18">
   ##### 예시
 </div>
 
@@ -1608,7 +1692,9 @@ updated_automation = api.update_automation(
 )
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.upsert_run_queue()
+<div id="method-apiupsert_run_queue">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.upsert_run_queue()
+</div>
 
 ```python
 (self,
@@ -1623,7 +1709,7 @@ prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None)
 
 W&amp;B Launch에서 run 큐를 생성하거나 업데이트합니다.
 
-<div id="arguments">
+<div id="arguments-40">
   ##### 인수
 </div>
 
@@ -1655,7 +1741,9 @@ W&amp;B Launch에서 run 큐를 생성하거나 업데이트합니다.
   사용할 선택적 우선순위 지정 버전입니다. &quot;V0&quot; 또는 None입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.user()
+<div id="method-apiuser">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.user()
+</div>
 
 ```python
 self,
@@ -1666,7 +1754,7 @@ username_or_email: 'str'
 
 이 함수는 로컬 관리자만 사용할 수 있습니다. 자신의 사용자 객체를 가져오려면 `api.viewer`를 사용하세요.
 
-<div id="arguments">
+<div id="arguments-41">
   ##### 인수
 </div>
 
@@ -1674,7 +1762,9 @@ username_or_email: 'str'
   사용자의 사용자 이름 또는 이메일 주소입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.users()
+<div id="method-apiusers">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.users()
+</div>
 
 ```python
 self,
@@ -1685,7 +1775,7 @@ username_or_email: 'str'
 
 이 함수는 로컬 관리자만 사용할 수 있습니다. 자신의 사용자 객체를 가져오려면 `api.viewer`를 사용하세요.
 
-<div id="arguments">
+<div id="arguments-42">
   ##### 인수
 </div>
 
@@ -1693,7 +1783,9 @@ username_or_email: 'str'
   찾으려는 사용자의 접두사 또는 접미사입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.webhook_integrations()
+<div id="method-apiwebhook_integrations">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Api.webhook_integrations()
+</div>
 
 ```python
 self,
@@ -1704,7 +1796,7 @@ start: 'str | None' = None
 
 entity에 대한 웹훅 인테그레이션 이터레이터를 반환합니다.
 
-<div id="arguments">
+<div id="arguments-43">
   ##### 인수
 </div>
 
@@ -1720,7 +1812,7 @@ entity에 대한 웹훅 인테그레이션 이터레이터를 반환합니다.
   제공된 설명이 없습니다.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-19">
   ##### 예시
 </div>
 

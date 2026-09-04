@@ -1,0 +1,213 @@
+---
+title: ARIA でオートメーションを使用する
+description: "特定のイベントの発生時に、テンプレート化された プロンプト を ARIA に送信して新しい会話を開始する W&B オートメーションを作成します。"
+keywords: ["ARIA", "Automation actions", "Prompt template", "テンプレート変数", "AI agent"]
+---
+
+import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only.mdx";
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
+特定のイベントが発生したときに ARIA へ プロンプト を送信するには、W&amp;B のオートメーションを使用します。イベントが発生するたびに、オートメーションは新しい ARIA の会話を開始し、設定された プロンプト を送信します。
+
+ARIA に プロンプト を送信するオートメーションは、主に次の 2 つの要素で構成されます。
+
+* オートメーションをトリガーする[イベント](/ja/models/automations/automation-events)。
+* イベント発生時に ARIA が受け取る プロンプト。
+
+このワークフローは、experiment の結果を調べたり、runs を要約または report にまとめたり、しきい値を超えたメトリクスを調査したりする際に使用します。
+
+ARIA への プロンプト 送信は、W&amp;B のオートメーションが実行できるアクションの 1 つです。他の送信先へ通知を送るオートメーションを作成するには、[Create a Slack automation](/ja/models/automations/create-automations/slack) または [Create a webhook automation](/ja/models/automations/create-automations/webhook) を参照してください。
+
+また、W&amp;B のオートメーションの作成や管理を ARIA に任せることもできます。詳細については、[ARIA でオートメーションを作成・管理する](#create-and-manage-automations-with-aria)を参照してください。
+
+<Note>
+  <MultiTenantCloudOnly />
+
+  ARIA はチームの project で動作し、個人の entity では動作しません。また、組織の 組織管理者 が **Smart features** を有効にする必要があります。[ガバナンスとセキュリティ](/ja/aria/governance)を参照してください。
+</Note>
+
+<div id="requirements">
+  ## Requirements
+</div>
+
+ARIA にプロンプトを送信するオートメーションを作成する前に、以下を確認してください。
+
+* 組織で ARIA が有効になっている必要があります。**Action type** の一覧に **Trigger ARIA** が表示されない場合、お使いの組織、scope、またはデプロイメントでは ARIA を利用できません。この場合、一覧には理由が示されないまま、選択肢が非表示になります。[Governance and security](/ja/aria/governance) を参照してください。
+* オートメーションの scope とする project、Registry、またはコレクションに対する書き込み権限が必要です。
+* W&amp;B のオートメーションを Registry に scope 設定して ARIA にプロンプトを送信するには、同じ組織内のチームに所属している必要があります。ARIA の各会話はチームに関連付けられるため、その組織内のチームに所属していない場合は、Registry を scope とするオートメーションを作成できません。
+
+ARIA オートメーションが実行されるたびに ARIA 会話が開始され、自分で開始した会話と同様に組織の使用量としてカウントされます。
+
+<div id="create-an-automation">
+  ## オートメーションを作成する
+</div>
+
+オートメーションを適用したい scope に応じて、**Registry** または **Project** を選択してください。その後、次の step に従って、ARIA に プロンプト を送信するオートメーションを作成します。
+
+<Note>
+  オートメーションをより広範に適用するには、グローバルな **Automations** ハブから作成し、**Team** または **Organization** scope を選択してください。step は以下と同じです。これらの scope では、W&amp;B は artifact およびコレクションのイベントのみをサポートします。[Automations ハブ](/ja/models/automations#automations-hub) を参照してください。
+</Note>
+
+<Tabs>
+  <Tab title="Registry">
+    Registry 管理者は、その registry でオートメーションを作成できます。
+
+    1. W&amp;B にログインします。
+    2. registry 名をクリックして詳細を表示します。
+    3. registry を scope とするオートメーションを作成するには、**Automations** タブをクリックし、**Create automation** をクリックします。registry を scope とするオートメーションは、そのすべてのコレクション (今後作成されるものを含む) に自動的に適用されます。
+    4. 監視する [イベント](/ja/models/automations/automation-events/#registry-events) を選択します。
+
+       イベントに応じて表示される追加のフィールドを入力します。たとえば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
+
+       **Next step** をクリックします。
+    5. ARIA の会話をホストするチームを選択します。[会話が表示される場所](#where-the-conversation-appears) を参照してください。
+    6. **Action type** を **Trigger ARIA** に設定します。
+    7. **Prompt** フィールドに、ARIA に送信する プロンプト を記述します。[プロンプト を記述する](#write-the-prompt) を参照してください。**Next step** をクリックします。
+    8. オートメーションの名を指定します。必要に応じて説明を入力します。
+    9. **Create automation** をクリックします。
+
+    これでオートメーションが実行中となり、選択したイベントが registry で発生するたびに新しい ARIA の会話を開始します。
+  </Tab>
+
+  <Tab title="Project">
+    W&amp;B 管理者は、project でオートメーションを作成できます。
+
+    1. W&amp;B にログインします。
+    2. project ページに移動して **Automations** タブをクリックし、**Create automation** をクリックします。
+    3. 監視する [イベント](/ja/models/automations/automation-events/#project) を選択します。
+
+       1. 表示される追加のフィールドを入力します。たとえば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
+
+          1. run によって trigger されるオートメーションでは、必要に応じて 1 つ以上の run フィルターを指定できます。
+
+             * **Filter to one user&#39;s runs**: 指定したユーザーが作成した run のみを含めます。トグルをクリックしてフィルターを有効にし、ユーザー名を指定します。
+             * **Filter on run name**: 指定した正規表現に一致する名を持つ run のみを含めます。トグルをクリックしてフィルターを有効にし、正規表現を指定します。
+       2. **Next step** をクリックします。
+    4. project を所有するチームを選択します。
+    5. **Action type** を **Trigger ARIA** に設定します。
+    6. **Prompt** フィールドに、ARIA に送信する プロンプト を記述します。[プロンプト を記述する](#write-the-prompt) を参照してください。**Next step** をクリックします。
+    7. オートメーションの名を指定します。必要に応じて説明を入力します。
+    8. **Create automation** をクリックします。
+
+    これでオートメーションが実行中となり、選択したイベントが project で発生するたびに新しい ARIA の会話を開始します。
+  </Tab>
+</Tabs>
+
+<div id="create-and-manage-automations-with-aria">
+  ## ARIA でオートメーションを作成・管理する
+</div>
+
+ARIA は、必要に応じてオートメーションの作成、削除、有効化、無効化を実行できます。
+
+ARIA にオートメーションの作成を依頼します:
+
+<AriaChatBubbles prompt="Create a new automation: When a run succeeds, trigger ARIA to write a report for your team that summarizes the run, metrics, and outcome." response="I can create an enabled project-wide automation named **Summarize successful run**. It will fire whenever any run reaches `FINISHED` and ask ARIA to write a report to summarize the run's configuration, key metrics, outcome, and notable observations." />
+
+既存のオートメーションについて ARIA に問い合わせます:
+
+<AriaChatBubbles prompt="What automations exist in this project?" response="You have 2 project-level automations, both enabled...." />
+
+<div id="write-the-prompt">
+  ## プロンプトを記述する
+</div>
+
+ARIA の アクション で設定する必要があるのはプロンプトのみです。ARIA のチャットウィンドウでメッセージを書くのと同じ要領で記述し、ARIA に調べさせる run、artifact、メトリクスを指定するために [テンプレート変数](#template-variables) を含めてください。
+
+次の制約に注意してください。
+
+* プロンプトは必須で、最大 4,000 文字です。W&amp;B は テンプレート変数 を置換した後にもう一度長さをチェックするため、保存に成功したプロンプトでも、置換後の値が長い場合はオートメーションの実行時に失敗することがあります。このチェックに失敗したプロンプトは、オートメーションの[実行履歴](/ja/models/automations/view-automation-history)に失敗した 実行 として記録されます。
+* イベントに該当しない テンプレート変数 は、変数名そのものではなく空文字列に解決されます。対象のイベントに記載されている変数のみを使用してください。
+* ARIA はオートメーションが実行されるたびに新しい会話を開始します。以前の会話を引き継ぐことはなく、同じオートメーションの過去の 実行 を記憶することもありません。
+
+変数を挿入するには、**Prompt** フィールドの下のリストで、その変数の横にある **<Icon icon="plus" iconType="solid" />** をクリックします。W&amp;B は変数をプロンプトの末尾に追加します。このリストには、選択したイベントに該当する変数のみが表示されます。
+
+たとえば、次のプロンプトは新しく link されたモデルバージョンをそれぞれ調査します。
+
+```text
+${artifact_collection_name} の新しいバージョンが ${event_author} によって ${project_name} にリンクされました。
+
+${artifact_version_string} を現在の production エイリアスと比較してください。評価メトリクスに劣化があれば要約し、プロモートすべきかどうかを提案してください。
+```
+
+オートメーションを保存する前に、プロンプト の文面を考える手助けを ARIA に依頼できます。
+
+<AriaChatBubbles prompt="この project で run が失敗するたびに実行されるオートメーションを作成したいです。失敗の原因を診断してもらうための プロンプト を作成してください。" response="オートメーションに貼り付ける プロンプト はこちらです: 'Run ${run_name} in ${project_name} just failed. Look at its logs, config, and system metrics, compare it to the last few successful runs, and tell me the most likely cause plus one concrete fix to try.'" />
+
+<div id="template-variables">
+  ## テンプレート変数
+</div>
+
+テンプレート変数は `${variable_name}` という構文を使用します。プロンプトで使用できる変数は、オートメーションが監視するイベントによって異なります。
+
+以下の変数は、すべてのイベントで使用できます。
+
+| 変数                   | 説明                                 |
+| -------------------- | ---------------------------------- |
+| `${automation_name}` | アクションをトリガーしたオートメーションの名前。           |
+| `${event_type}`      | アクションをトリガーしたイベントのタイプ。              |
+| `${event_author}`    | アクションをトリガーしたユーザー。                  |
+| `${entity_name}`     | アクションをトリガーしたイベントを所有する entity の名前。  |
+| `${project_name}`    | アクションをトリガーしたイベントを所有する project の名前。 |
+
+イベントに応じて、上記に加えて以下の変数も使用できます。
+
+| イベント                                          | 追加の変数                                                                                                                                   |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| artifact バージョンが作成、リンク、またはリンク解除される             | `${artifact_collection_name}`、`${artifact_version}`、`${artifact_version_string}`、`${artifact_version_index}`、`${artifact_metadata.KEY}` |
+| artifact のエイリアスが追加または更新される                    | 上記の artifact 変数に加えて `${alias}`                                                                                                          |
+| artifact のタグが追加または削除される                       | 上記の artifact 変数に加えて `${tag}`                                                                                                            |
+| コレクションのタグが追加または削除される                          | `${artifact_collection_name}`、`${tag}`                                                                                                  |
+| run のメトリクスがしきい値を超える、変化する、または z-score の分だけ変化する | `${run_name}`、`${metric_name}`、`${metric_values}`、`${metric_filter}`、`${metric_filter_short}`、`${metric_current_status}`                |
+| run のステータスが変化する                               | `${run_name}`、`${run_status}`                                                                                                           |
+| Weave のメトリクスがしきい値を超える                         | `${alert_name}`、`${metric_name}`、`${metric_value}`、`${threshold}`、`${comparison_op}`、`${message}`                                       |
+
+個々の変数に関する注意点は以下のとおりです。
+
+* `${artifact_version}` は、`wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3` のような artifact インスタンスに解決されます。バージョンを名前で参照するには、`${artifact_version_string}` を使用してください。
+* `${artifact_metadata.KEY}` は、イベントをトリガーした artifact バージョンからカスタムメタデータの値を読み取ります。`KEY` は取得したいメタデータのキーに置き換えてください。サポートされるのはトップレベルのメタデータキーのみです。
+
+各スコープで使用できるイベントについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
+
+<div id="view-conversations-created-by-automations">
+  ## オートメーションによって作成された会話を表示する
+</div>
+
+オートメーションは、イベントのきっかけとなるアクションを実行したユーザーではなく、そのオートメーションを作成したユーザーのアカウントで ARIA 会話を作成します。会話は、そのユーザーの ARIA チャット履歴の **Past conversations** に、自分で開始した会話と並んで表示されます。イベントを発生させたユーザーを特定するには、プロンプトに `${event_author}` を含めてください。
+
+会話が作成される場所は、オートメーションのスコープによって異なります。
+
+* **project スコープおよびチームスコープのオートメーション**: 会話は、イベントが発生した project に作成されます。
+* **Registry スコープのオートメーション**: Registry はチームではなく組織に属しますが、ARIA 会話はチームに属している必要があります。この場合、会話はオートメーションの作成時に選択したチームの `wandb_agent_default_project` という project に作成されます。Registry ではなく、そちらを確認してください。
+
+  `wandb_agent_default_project` は、開いている project に紐づかない会話を保持するために、W&amp;B がチームごとに用意しているプレースホルダー project です。ユーザーが作成する必要はなく、通常はこれらの会話以外は空の状態です。
+
+オートメーションが実行されたことを確認するには、その [実行履歴](/ja/models/automations/view-automation-history) を開きます。ARIA の実行が成功した場合、W&amp;B が送信したプロンプトと、会話の `thread_id` を含むレスポンスボディが表示されます。なお、実行から会話へのリンクは提供されておらず、オートメーションが作成した会話がチャット履歴内で区別して表示されることもありません。
+
+<div id="view-and-manage-automations">
+  ## オートメーションの表示と管理
+</div>
+
+オートメーションの表示と管理は、project または Registry の **Automations** タブ、あるいはグローバルな **Automations** ハブから行えます。オートメーションの一覧では、アクションは **ARIA** と表示されます。
+
+ARIA にプロンプトを送信するオートメーションを編集できるのは、その作成者のみです。ARIA の会話がそのユーザーとして実行されるためです。project または Registry への書き込み権限を持つチームメンバーは、オートメーションの表示と削除は可能ですが、オートメーションの **Edit** オプションは利用できません。
+
+オートメーションの所有権を移譲することはできません。代わりに、オートメーションを削除し、新しい所有者に作成し直してもらってください。作成者がチームを離れたオートメーションを復旧する場合も、同じ手順を使用します。
+
+<div id="limitations">
+  ## 制限事項
+</div>
+
+* ARIA オートメーションは、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud) の team project でのみ利用可能で、かつ 組織管理者 が **Smart features** を有効化している必要があります。
+* 1 つのオートメーションが開始できる ARIA 会話は、1 分あたり最大 3 件です。この上限を超えた実行は、ステータス **Skipped** としてオートメーションの履歴に記録されます。これは、オートメーションが イベント に一致したものの アクション を実行しなかったことを示します。
+* オートメーションを作成したユーザーが project への書き込み権限を失った場合、またはそのアカウントが無効化された場合、それ以降の実行はすべて失敗します。失敗はオートメーションの実行履歴に表示されます。
+* オートメーションを編集できるのは、その作成者のみです。
+* `wandb` Python ライブラリは ARIA オートメーションをサポートしていません。[API でオートメーションを管理する](/ja/models/automations/api)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [オートメーションのイベントとスコープ](/ja/models/automations/automation-events)
+* [オートメーションの履歴を表示する](/ja/models/automations/view-automation-history)
+* [Chat with ARIA](/ja/aria/chat)
+* [ARIA の概要](/ja/aria/overview)

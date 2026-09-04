@@ -3,7 +3,13 @@ title: "startTool"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **startTool**(`opts`): [`Tool`](../interfaces/tool)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+startTool(opts: ToolInit): Tool
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L110" />
 
 Tool span을 시작합니다. 상위 항목 결정 방식은 다음과 같습니다(설계의 &quot;기본적으로는 평면 구조, 중첩하면 계층 구조&quot;와 일치).
 
@@ -12,17 +18,13 @@ Tool span을 시작합니다. 상위 항목 결정 방식은 다음과 같습니
 
 Turn과 LLM이 모두 활성화되어 있지 않으면 예외를 발생시킵니다.
 
-정의 위치: [src/genai/api.ts:110](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L110)
-
 <div id="parameters">
   ## 매개변수
 </div>
 
-<div id="opts">
-  ### opts
-</div>
-
-[`ToolInit`](../interfaces/toolinit)
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](../interfaces/toolinit)을 참조하세요.
+</ParamField>
 
 <div id="returns">
   ## 반환값
@@ -38,7 +40,7 @@ Turn과 LLM이 모두 활성화되어 있지 않으면 예외를 발생시킵니
 // @noErrors
 weave.startTool({
   name: 'get_weather',
-  args: JSON.stringify({city: 'Tokyo'}),
+  args: {city: 'Tokyo'},
   toolCallId: 'call_t1',
 });
 ```
@@ -47,7 +49,7 @@ weave.startTool({
 // @noErrors
 weave.startTool({
   name: 'get_weather',
-  args: JSON.stringify({city: 'Tokyo'}),
+  args: {city: 'Tokyo'},
   toolCallId: 'call_t1',
   startTime: new Date('2026-05-29T10:00:00.800Z'),
 });

@@ -2192,7 +2192,8 @@
                             "pages": [
                               "fr/models/automations/create-automations",
                               "fr/models/automations/create-automations/slack",
-                              "fr/models/automations/create-automations/webhook"
+                              "fr/models/automations/create-automations/webhook",
+                              "fr/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -2365,6 +2366,7 @@
                           "fr/weave/guides/tracking/trace-agents-otel",
                           "fr/weave/guides/tracking/view-agent-activity",
                           "fr/weave/guides/tracking/view-agent-signals",
+                          "fr/weave/guides/tracking/create-custom-signal",
                           "fr/weave/guides/tracking/trace-agents-attributes",
                           "fr/weave/guides/tracking/trace-agents-batch",
                           "fr/weave/guides/tracking/trace-sub-agents",
@@ -3307,6 +3309,12 @@
                         ]
                       },
                       {
+                        "group": "Environnements d’exécution personnalisés",
+                        "pages": [
+                          "fr/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Évaluateurs",
                         "pages": [
                           "fr/weave/reference/service-api/scorers/scorer-list",
@@ -3975,7 +3983,8 @@
                             "pages": [
                               "ja/models/automations/create-automations",
                               "ja/models/automations/create-automations/slack",
-                              "ja/models/automations/create-automations/webhook"
+                              "ja/models/automations/create-automations/webhook",
+                              "ja/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -4148,6 +4157,7 @@
                           "ja/weave/guides/tracking/trace-agents-otel",
                           "ja/weave/guides/tracking/view-agent-activity",
                           "ja/weave/guides/tracking/view-agent-signals",
+                          "ja/weave/guides/tracking/create-custom-signal",
                           "ja/weave/guides/tracking/trace-agents-attributes",
                           "ja/weave/guides/tracking/trace-agents-batch",
                           "ja/weave/guides/tracking/trace-sub-agents",
@@ -5090,6 +5100,12 @@
                         ]
                       },
                       {
+                        "group": "カスタムランタイム",
+                        "pages": [
+                          "ja/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Scorer",
                         "pages": [
                           "ja/weave/reference/service-api/scorers/scorer-list",
@@ -5108,7 +5124,7 @@
                         ]
                       },
                       {
-                        "group": "評価 run",
+                        "group": "評価Runs",
                         "pages": [
                           "ja/weave/reference/service-api/evaluation-runs/evaluation-run-list",
                           "ja/weave/reference/service-api/evaluation-runs/evaluation-run-create",
@@ -5758,7 +5774,8 @@
                             "pages": [
                               "ko/models/automations/create-automations",
                               "ko/models/automations/create-automations/slack",
-                              "ko/models/automations/create-automations/webhook"
+                              "ko/models/automations/create-automations/webhook",
+                              "ko/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -5931,6 +5948,7 @@
                           "ko/weave/guides/tracking/trace-agents-otel",
                           "ko/weave/guides/tracking/view-agent-activity",
                           "ko/weave/guides/tracking/view-agent-signals",
+                          "ko/weave/guides/tracking/create-custom-signal",
                           "ko/weave/guides/tracking/trace-agents-attributes",
                           "ko/weave/guides/tracking/trace-agents-batch",
                           "ko/weave/guides/tracking/trace-sub-agents",
@@ -6873,6 +6891,12 @@
                         ]
                       },
                       {
+                        "group": "맞춤형 런타임",
+                        "pages": [
+                          "ko/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Scorer",
                         "pages": [
                           "ko/weave/reference/service-api/scorers/scorer-list",
@@ -6891,7 +6915,7 @@
                         ]
                       },
                       {
-                        "group": "평가 run",
+                        "group": "평가 Runs",
                         "pages": [
                           "ko/weave/reference/service-api/evaluation-runs/evaluation-run-list",
                           "ko/weave/reference/service-api/evaluation-runs/evaluation-run-create",

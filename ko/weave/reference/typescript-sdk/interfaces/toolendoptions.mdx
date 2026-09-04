@@ -1,0 +1,64 @@
+---
+title: "ToolEndOptions"
+description: "TypeScript SDK 레퍼런스"
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L25" />
+
+<div id="extends">
+  ## Extends
+</div>
+
+* `SpanEndOptions`
+
+<div id="properties">
+  ## 속성
+</div>
+
+<div id="endtime">
+  ### endTime
+</div>
+
+> `선택` **endTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+`SpanEndOptions.endTime`
+
+***
+
+<div id="error">
+  ### error
+</div>
+
+> `선택` **error**: `Error`
+
+<div id="inherited-from-2">
+  #### 상속됨
+</div>
+
+`SpanEndOptions.error`
+
+***
+
+<div id="errortype">
+  ### errorType
+</div>
+
+> `optional` **errorType**: `string`
+
+`error.type` 속성에 기록되는 안정적인 실패 분류입니다.
+
+***
+
+<div id="result">
+  ### result
+</div>
+
+> `optional` **result**: [`JsonValue`](../type-aliases/jsonvalue)
+
+JSON 값입니다. strings는 있는 그대로 기록되고, 그 외의 값은 직렬화됩니다.

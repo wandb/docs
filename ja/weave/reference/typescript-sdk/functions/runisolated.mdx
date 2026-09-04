@@ -3,7 +3,13 @@ title: "runIsolated"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **runIsolated**&lt;`T`&gt;(`fn`): `T`
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+runIsolated<T>(fn: () => T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/context.ts#L54" />
 
 新しい独立した GenAI 状態フレームで `fn` を実行します。`fn` 内で開始された Conversation / Turn / LLM
 はこのフレーム内にのみ存在し、同時に実行される
@@ -22,27 +28,17 @@ description: "TypeScript SDK リファレンス"
 single-flight を順次利用する場合、このラッパーは不要です —
 プロセス全体のデフォルト状態で対応されます。
 
-定義元: [src/genai/context.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/context.ts#L54)
-
 <div id="type-parameters">
   ## タイプパラメーター
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T`
+<ParamField path="T" />
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="fn">
-  ### fn
-</div>
-
-() =&gt; `T`
+<ParamField path="fn" type="() => T" required />
 
 <div id="returns">
   ## 戻り値

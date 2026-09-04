@@ -3,7 +3,9 @@ title: "WeaveClient"
 description: "TypeScript SDK リファレンス"
 ---
 
-定義元: [src/weaveClient.ts:445](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L445)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519" />
 
 <div id="properties">
   ## プロパティ
@@ -15,17 +17,94 @@ description: "TypeScript SDK リファレンス"
 
 > **projectId**: `string`
 
-定義元: [src/weaveClient.ts:456](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L456)
-
 ***
 
 <div id="settings">
   ### settings
 </div>
 
-> **settings**: [`Settings`](../type-aliases/settings)
+> **settings**: `object`
 
-定義元: [src/weaveClient.ts:457](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L457)
+<div id="attributes">
+  #### attributes
+</div>
+
+> `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
+
+このクライアントが生成するすべての trace に適用される属性のマップです。
+
+<div id="genai">
+  #### genai
+</div>
+
+> `readonly` **genai**: `object`
+
+<div id="genaibatchoptions">
+  ##### genai.batchOptions
+</div>
+
+> `optional` **batchOptions**: `BufferConfig`
+
+`BatchSpanProcessor` の設定です。`spanProcessor === 'batch'` の場合を除き、無視されます。
+
+<div id="genaispanprocessor">
+  ##### genai.spanProcessor
+</div>
+
+> `optional` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
+
+GenAI のスパンをエクスポートする方法を指定します。
+
+* `'batch'` (デフォルト) : `BatchSpanProcessor`。本番環境のエージェントや
+  長時間稼働するプロセスに適しています。
+* `'simple'`: `SimpleSpanProcessor`。スパンごとに HTTP POST を 1 回実行します。
+  スループットよりも確実な flush が重要となるテストや、短時間で終了する CLI に
+  適しています。
+* `SpanProcessor` インスタンス: ユーザーが指定するプロセッサです。ライフサイクルの管理は
+  呼び出し元の責任となり、`/agents/otel/v1/traces` を送信先とする Weave の OTLP エクスポーターは
+  使用されません。
+
+<div id="printcalllink">
+  #### printCallLink
+</div>
+
+> `readonly` **printCallLink**: `boolean`
+
+op の Weave UI へのリンクをターミナルに出力します。
+
+<div id="default">
+  ##### デフォルト
+</div>
+
+`true`
+
+<div id="usecallscomplete">
+  #### useCallsComplete
+</div>
+
+> **useCallsComplete**: `boolean`
+
+完了した Call を、従来の `call/upsert_batch` パスではなく `calls/complete` エンドポイントに送信します (開始と終了はクライアント側でペアリングされます) 。
+
+<div id="default-2">
+  ##### デフォルト
+</div>
+
+`true`
+
+<div id="useotelv2">
+  #### useOTelV2
+</div>
+
+> **useOTelV2**: `boolean`
+
+OTel に対応したインテグレーションを OTel バリアント経由でルーティングします。
+
+<div id="default-3">
+  ##### デフォルト
+</div>
+
+`true`
 
 ***
 
@@ -34,8 +113,6 @@ description: "TypeScript SDK リファレンス"
 </div>
 
 > **traceServerApi**: `Api`&lt;`any`&gt;
-
-定義元: [src/weaveClient.ts:455](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L455)
 
 <div id="methods">
   ## メソッド
@@ -50,43 +127,29 @@ description: "TypeScript SDK リファレンス"
 Scorer の結果 (Scorer の出力など) を Call に追加します。
 命令型の評価で、Scorer の結果を予測 Call に関連付けるために使用します。
 
-定義元: [src/weaveClient.ts:1727](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1727)
-
-#### パラメーター
-
-<div id="predictcallid">
-  ##### predictCallId
+<div id="parameters">
+  #### パラメーター
 </div>
 
-`string`
+<ParamField path="predictCallId" type="string" required>
+  feedback を関連付けるする predict call の ID
+</ParamField>
 
-フィードバックを紐付ける予測CallのID
+<ParamField path="scorerCallId" type="string" required>
+  feedback を生成した scorer call の ID
+</ParamField>
 
-<div id="scorercallid">
-  ##### scorerCallId
+<ParamField path="runnableRefUri" type="string" required>
+  scorer の URI (Op または Object ref) 
+</ParamField>
+
+<ParamField path="scorerOutput" type="any" required>
+  scorer の 出力
+</ParamField>
+
+<div id="returns">
+  #### 戻り値
 </div>
-
-`string`
-
-feedback を生成した Scorer Call の ID
-
-<div id="runnablerefuri">
-  ##### runnableRefUri
-</div>
-
-`string`
-
-Scorer (Op または Object ref) のURI
-
-<div id="scoreroutput">
-  ##### scorerOutput
-</div>
-
-`any`
-
-Scorer の出力
-
-#### 戻り値
 
 `Promise`&lt;`string`&gt;
 
@@ -96,71 +159,51 @@ Scorer の出力
   ### createCall()
 </div>
 
-> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`&lt;`void`&gt;
+> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`): `Promise`&lt;`void`&gt;
 
-定義元: [src/weaveClient.ts:1570](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1570)
-
-#### パラメーター
-
-<div id="internalcall">
-  ##### internalCall
+<div id="parameters-2">
+  #### パラメーター
 </div>
 
-`InternalCall`
+<ParamField path="internalCall" type="InternalCall" required />
 
-<div id="opref">
-  ##### opRef
+<ParamField path="opRef" type="any" required />
+
+<ParamField path="params" type="any[]" required />
+
+<ParamField path="parameterNames" type="undefined | &#x22;useParam0Object&#x22; | string[]" required />
+
+<ParamField path="thisArg" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  完全なタイプ: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="startTime" type="Date" required />
+
+<ParamField path="displayName" type="string" />
+
+<ParamField path="attributes" type="Record<string, any>" />
+
+<ParamField path="eagerCallStart" type="boolean = false" />
+
+<div id="returns-2">
+  #### 戻り値
 </div>
-
-`any`
-
-<div id="params">
-  ##### params
-</div>
-
-`any`[]
-
-<div id="parameternames">
-  ##### パラメーター名
-</div>
-
-`ParameterNamesOption`
-
-<div id="thisarg">
-  ##### thisArg
-</div>
-
-`any`
-
-<div id="currentcall">
-  ##### currentCall
-</div>
-
-`CallStackEntry`
-
-<div id="parentcall">
-  ##### parentCall
-</div>
-
-`CallStackEntry` | `undefined`
-
-<div id="starttime">
-  ##### startTime
-</div>
-
-`Date`
-
-##### 表示名?
-
-`string`
-
-<div id="attributes">
-  ##### 属性?
-</div>
-
-`Record`&lt;`string`, `any`&gt;
-
-#### 戻り値
 
 `Promise`&lt;`void`&gt;
 
@@ -172,53 +215,41 @@ Scorer の出力
 
 > **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-定義元: [src/weaveClient.ts:1630](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1630)
-
-#### パラメーター
-
-<div id="call">
-  ##### call
+<div id="parameters-3">
+  #### パラメーター
 </div>
 
-`InternalCall`
+<ParamField path="call" type="InternalCall" required />
 
-<div id="result">
-  ##### result
+<ParamField path="result" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  完全なタイプ: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="summarize" type="((result) => Record<string, any>) | undefined" required />
+
+<ParamField path="endTime" type="Date" required />
+
+<ParamField path="startCallPromise" type="Promise<void>" required />
+
+<div id="returns-3">
+  #### 戻り値
 </div>
-
-`any`
-
-<div id="currentcall">
-  ##### currentCall
-</div>
-
-`CallStackEntry`
-
-<div id="parentcall">
-  ##### parentCall
-</div>
-
-`CallStackEntry` | `undefined`
-
-<div id="summarize">
-  ##### summarize
-</div>
-
-((`result`) =&gt; `Record`&lt;`string`, `any`&gt;) | `undefined`
-
-<div id="endtime">
-  ##### 終了時刻
-</div>
-
-`Date`
-
-<div id="startcallpromise">
-  ##### startCallPromise
-</div>
-
-`Promise`&lt;`void`&gt;
-
-#### 戻り値
 
 `Promise`&lt;`void`&gt;
 
@@ -230,47 +261,55 @@ Scorer の出力
 
 > **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-定義元: [src/weaveClient.ts:1672](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1672)
-
-#### パラメーター
-
-<div id="call">
-  ##### call
+<div id="parameters-4">
+  #### パラメーター
 </div>
 
-`InternalCall`
+<ParamField path="call" type="InternalCall" required />
 
-<div id="error">
-  ##### error
-</div>
+<ParamField path="error" type="any" required />
 
-`any`
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callId" type="string" required />
 
-<div id="currentcall">
-  ##### currentCall
-</div>
+    <ParamField path="childSummary" type="Record<string, any>" required />
 
-`CallStackEntry`
+    <ParamField path="displayName" type="string" />
 
-<div id="parentcall">
-  ##### parentCall
-</div>
+    <ParamField path="opName" type="string" />
 
-`CallStackEntry` | `undefined`
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
 
-<div id="endtime">
-  ##### 終了時刻
-</div>
+<ParamField path="parentCall" type="{…} | undefined" required>
+  完全なタイプ: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
 
-`Date`
+<ParamField path="endTime" type="Date" required />
 
-<div id="startcallpromise">
-  ##### startCallPromise
+<ParamField path="startCallPromise" type="Promise<void>" required />
+
+<div id="returns-4">
+  #### 戻り値
 </div>
 
 `Promise`&lt;`void`&gt;
 
-#### 戻り値
+***
+
+<div id="flush">
+  ### flush()
+</div>
+
+> **flush**(): `Promise`&lt;`void`&gt;
+
+バッファされたすべての Call をサーバーに送信します。`process.exit()` の前に await してください。
+
+<div id="returns-5">
+  #### 戻り値
+</div>
 
 `Promise`&lt;`void`&gt;
 
@@ -282,17 +321,17 @@ Scorer の出力
 
 > **get**(`ref`): `Promise`&lt;`any`&gt;
 
-定義元: [src/weaveClient.ts:1025](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1025)
-
-#### パラメーター
-
-<div id="ref">
-  ##### ref
+<div id="parameters-5">
+  #### パラメーター
 </div>
 
-[`ObjectRef`](../classes/objectref)
+<ParamField path="ref" type="ObjectRef" required>
+  [`ObjectRef`](../classes/objectref) を参照してください。
+</ParamField>
 
-#### 戻り値
+<div id="returns-6">
+  #### 戻り値
+</div>
 
 `Promise`&lt;`any`&gt;
 
@@ -302,23 +341,63 @@ Scorer の出力
   ### getAgentCustomAttributes()
 </div>
 
-> **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+> **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
 project 内のエージェント スパンで検出された、型付きカスタム属性キーを取得します。各結果行は 1 つの `(source, key, value_type)` トリプルと、そのトリプルを持つスパン数で構成されます。スパンのクエリ、グループ化、統計 API では、この形式でカスタム属性を参照します。
 
 `query` (構造化スパンフィルター) 、`startedAfter` / `startedBefore` (ISO-8601) 、または両方を指定して、対象のスパンをフィルターします。検出されたキーをページングするには、`limit` / `offset` を使用します。
 
-定義元: [src/weaveClient.ts:772](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L772)
+<div id="parameters-6">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="limit" type="number">
+      **Min**
 
-##### オプション
+      1
 
-`GetAgentCustomAttributesOptions`
+      **Max**
 
-#### 戻り値
+      2000
 
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentCustomAttributesResult`&gt;&gt;
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      200
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      **Min**
+
+      0
+
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="Query | null">
+      [`Query`](./query) を参照してください。
+    </ParamField>
+
+    <ParamField path="startedAfter" type="string | null" />
+
+    <ParamField path="startedBefore" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-7">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
 <div id="example">
   #### 例
@@ -352,19 +431,21 @@ for (const attr of resp.data.attributes ?? []) {
 
 集計された統計情報を含むエージェントの一覧を取得します。
 
-定義元: [src/weaveClient.ts:488](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L488)
+<div id="parameters-7">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="GetAgentsOptions = {}">
+  [`GetAgentsOptions`](./getagentsoptions) を参照してください。
+</ParamField>
 
-##### オプション?
-
-[`GetAgentsOptions`](./getagentsoptions) = `{}`
-
-#### 戻り値
+<div id="returns-8">
+  #### 戻り値
+</div>
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
 
-<div id="example">
+<div id="example-2">
   #### 例
 </div>
 
@@ -390,19 +471,21 @@ console.log(`total count: ${resp.data.total_count}`)
 
 エージェント スパンをクエリします。必要に応じて、エージェント名や Mongo スタイルのクエリ式でフィルターできます。
 
-定義元: [src/weaveClient.ts:566](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L566)
+<div id="parameters-8">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="GetAgentSpansOptions" required>
+  [`GetAgentSpansOptions`](./getagentspansoptions) を参照してください。
+</ParamField>
 
-##### オプション
-
-[`GetAgentSpansOptions`](./getagentspansoptions)
-
-#### 戻り値
+<div id="returns-9">
+  #### 戻り値
+</div>
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
 
-<div id="example">
+<div id="examples">
   #### 例
 </div>
 
@@ -438,25 +521,50 @@ for (const span of resp.data.spans) {
   ### getAgentSpanStats()
 </div>
 
-> **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+> **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
 
 project 内のエージェント スパンに対する集約結果を、時系列または時間バケットの可視化に適した行と列のメタデータとして返します。
 
 `start` (必須) と`end`で時間範囲を指定します。`metrics`の各エントリでは、抽出するフィールドと集約方法 (`sum`、`avg`、`count`、パーセンタイルなど) を指定します。行を時間単位でバケット化するには`granularity` (秒) を指定し、エージェント／provider／モデルなどごとに結果を分けるには`groupBy`を指定します。`query`は、集約前に対象となるスパンをフィルターします。
 
-定義元: [src/weaveClient.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L621)
+<div id="parameters-9">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="end" type="string | null" />
 
-##### オプション
+    <ParamField path="granularity" type="number | null" />
 
-`GetAgentSpanStatsOptions`
+    <ParamField path="groupBy" type="object[]" />
 
-#### 戻り値
+    <ParamField path="metrics" type="object[]" required />
 
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`GetAgentSpanStatsResult`&gt;&gt;
+    <ParamField path="query" type="Query | null">
+      [`Query`](./query) を参照してください。
+    </ParamField>
 
-<div id="example">
+    <ParamField path="start" type="string" required />
+
+    <ParamField path="timezone" type="string">
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      "UTC"
+      ```
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-10">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
+
+<div id="example-3">
   #### 例
 </div>
 
@@ -489,23 +597,25 @@ for (const row of resp.data.rows ?? []) {
   ### getAgentTurn()
 </div>
 
-> **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`AgentTraceChatRes`&gt;&gt;
+> **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
-指定した traceId の単一ターンに関するデータ (メッセージを含む) を取得します。
+traceId を指定して、単一の ターン のデータ (メッセージを含む) を取得します。
 
-定義元: [src/weaveClient.ts:655](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L655)
+<div id="parameters-10">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="GetAgentTurnOptions" required>
+  [`GetAgentTurnOptions`](./getagentturnoptions) を参照してください。
+</ParamField>
 
-##### オプション
+<div id="returns-11">
+  #### 戻り値
+</div>
 
-[`GetAgentTurnOptions`](./getagentturnoptions)
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
-#### 戻り値
-
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`AgentTraceChatRes`&gt;&gt;
-
-<div id="example">
+<div id="example-4">
   #### 例
 </div>
 
@@ -535,19 +645,21 @@ for (const message of resp.data.messages ?? []) {
 
 会話 ID を指定して、複数のターンのデータ (メッセージを含む) を取得します。
 
-定義元: [src/weaveClient.ts:688](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L688)
+<div id="parameters-11">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="GetAgentTurnsOptions" required>
+  [`GetAgentTurnsOptions`](./getagentturnsoptions) を参照してください。
+</ParamField>
 
-##### オプション
-
-[`GetAgentTurnsOptions`](./getagentturnsoptions)
-
-#### 戻り値
+<div id="returns-12">
+  #### 戻り値
+</div>
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
 
-<div id="example">
+<div id="example-5">
   #### 例
 </div>
 
@@ -581,19 +693,21 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 指定したエージェントのバージョンを一覧表示します。
 
-定義元: [src/weaveClient.ts:522](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L522)
+<div id="parameters-12">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="GetAgentVersionsOptions" required>
+  [`GetAgentVersionsOptions`](./getagentversionsoptions) を参照してください。
+</ParamField>
 
-##### オプション
-
-[`GetAgentVersionsOptions`](./getagentversionsoptions)
-
-#### 戻り値
+<div id="returns-13">
+  #### 戻り値
+</div>
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
 
-<div id="example">
+<div id="example-6">
   #### 例
 </div>
 
@@ -615,25 +729,21 @@ console.log(`total count: ${resp.data.total_count}`)
   ### getCall()
 </div>
 
-> **getCall**(`callId`, `includeCosts?`): `Promise`&lt;`Call`&gt;
+> **getCall**(`callId`, `includeCosts?`): `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
-定義元: [src/weaveClient.ts:902](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L902)
-
-#### パラメーター
-
-<div id="callid">
-  ##### callId
+<div id="parameters-13">
+  #### パラメーター
 </div>
 
-`string`
+<ParamField path="callId" type="string" required />
 
-##### includeCosts?
+<ParamField path="includeCosts" type="boolean = false" />
 
-`boolean` = `false`
+<div id="returns-14">
+  #### 戻り値
+</div>
 
-#### 戻り値
-
-`Promise`&lt;`Call`&gt;
+`Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
 ***
 
@@ -645,59 +755,45 @@ console.log(`total count: ${resp.data.total_count}`)
   #### Call Signature
 </div>
 
-> **getCalls**(`options?`): `Promise`&lt;`Call`[]&gt;
+> **getCalls**(`options?`): `Promise`&lt;`object`[]&gt;
 
-定義元: [src/weaveClient.ts:935](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L935)
-
-<div id="parameters">
+<div id="parameters-14">
   ##### パラメーター
 </div>
 
-###### オプション
+<ParamField path="options" type="GetCallsOptions">
+  [`GetCallsOptions`](./getcallsoptions) を参照してください。
+</ParamField>
 
-[`GetCallsOptions`](./getcallsoptions)
-
-<div id="returns">
+<div id="returns-15">
   ##### 戻り値
 </div>
 
-`Promise`&lt;`Call`[]&gt;
+`Promise`&lt;`object`[]&gt;
 
-<div id="call-signature">
+<div id="call-signature-2">
   #### Call Signature
 </div>
 
-> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`Call`[]&gt;
+> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`object`[]&gt;
 
-定義元: [src/weaveClient.ts:936](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L936)
-
-<div id="parameters">
+<div id="parameters-15">
   ##### パラメーター
 </div>
 
-<div id="options">
-  ###### オプション?
-</div>
+<ParamField path="options" type="CallsFilter">
+  [`CallsFilter`](./callsfilter) を参照してください。
+</ParamField>
 
-[`CallsFilter`](./callsfilter)
+<ParamField path="includeCosts" type="boolean" />
 
-<div id="includecosts">
-  ###### includeCosts?
-</div>
+<ParamField path="limit" type="number" />
 
-`boolean`
-
-<div id="limit">
-  ###### limit?
-</div>
-
-`数値`
-
-<div id="returns">
+<div id="returns-16">
   ##### 戻り値
 </div>
 
-`Promise`&lt;`Call`[]&gt;
+`Promise`&lt;`object`[]&gt;
 
 ***
 
@@ -705,61 +801,45 @@ console.log(`total count: ${resp.data.total_count}`)
   ### getCallsIterator()
 </div>
 
-<div id="call-signature">
+<div id="call-signature-3">
   #### Call Signature
 </div>
 
 > **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-定義元: [src/weaveClient.ts:957](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L957)
-
-<div id="parameters">
+<div id="parameters-16">
   ##### パラメーター
 </div>
 
-<div id="options">
-  ###### オプション?
-</div>
+<ParamField path="options" type="CallsFilter">
+  [`CallsFilter`](./callsfilter) を参照してください。
+</ParamField>
 
-[`CallsFilter`](./callsfilter)
+<ParamField path="includeCosts" type="boolean" />
 
-<div id="includecosts">
-  ###### includeCosts?
-</div>
+<ParamField path="limit" type="number" />
 
-`boolean`
-
-<div id="limit">
-  ###### limit?
-</div>
-
-`数値`
-
-<div id="returns">
+<div id="returns-17">
   ##### 戻り値
 </div>
 
 `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-<div id="call-signature">
+<div id="call-signature-4">
   #### Call Signature
 </div>
 
 > **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-定義元: [src/weaveClient.ts:962](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L962)
-
-<div id="parameters">
+<div id="parameters-17">
   ##### パラメーター
 </div>
 
-<div id="options">
-  ###### オプション?
-</div>
+<ParamField path="options" type="GetCallsOptions">
+  [`GetCallsOptions`](./getcallsoptions) を参照してください。
+</ParamField>
 
-[`GetCallsOptions`](./getcallsoptions)
-
-<div id="returns">
+<div id="returns-18">
   ##### 戻り値
 </div>
 
@@ -773,9 +853,9 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCallStack**(): `CallStack`
 
-定義元: [src/weaveClient.ts:1482](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1482)
-
-#### 戻り値
+<div id="returns-19">
+  #### 戻り値
+</div>
 
 `CallStack`
 
@@ -787,9 +867,9 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **getCurrentAttributes**(): `Record`&lt;`string`, `any`&gt;
 
-定義元: [src/weaveClient.ts:1486](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1486)
-
-#### 戻り値
+<div id="returns-20">
+  #### 戻り値
+</div>
 
 `Record`&lt;`string`, `any`&gt;
 
@@ -799,27 +879,47 @@ console.log(`total count: ${resp.data.total_count}`)
   ### linkPromptToRegistry()
 </div>
 
-> **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;`LinkAssetToRegistryRes`&gt;
+> **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
 
 公開済みの prompt バージョンを Registry ポートフォリオにリンクします。
 
-定義元: [src/weaveClient.ts:1181](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1181)
-
-#### パラメーター
-
-<div id="prompt">
-  ##### プロンプト
+<div id="parameters-18">
+  #### パラメーター
 </div>
 
-`RegistryLinkable`
+<ParamField path="prompt" type="string | ObjectRef | Prompt" required>
+  [`ObjectRef`](../classes/objectref) を参照してください。
+</ParamField>
 
-##### オプション
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="aliases" type="string[]" />
 
-`LinkPromptToRegistryOptions`
+    <ParamField path="targetPath" type="string" required />
+  </Expandable>
+</ParamField>
 
-#### 戻り値
+<div id="returns-21">
+  #### 戻り値
+</div>
 
-`Promise`&lt;`LinkAssetToRegistryRes`&gt;
+`Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
+
+***
+
+<div id="pendingcallcount">
+  ### pendingCallCount()
+</div>
+
+> **pendingCallCount**(): `number`
+
+クライアント側でバッファされていて、まだサーバーに送信されていない Call の数です。
+
+<div id="returns-22">
+  #### 戻り値
+</div>
+
+`number`
 
 ***
 
@@ -829,23 +929,17 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **publish**(`obj`, `objId?`): `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
 
-定義元: [src/weaveClient.ts:890](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L890)
-
-#### パラメーター
-
-<div id="obj">
-  ##### obj
+<div id="parameters-19">
+  #### パラメーター
 </div>
 
-`any`
+<ParamField path="obj" type="any" required />
 
-<div id="objid">
-  ##### objId?
+<ParamField path="objId" type="string" />
+
+<div id="returns-23">
+  #### 戻り値
 </div>
-
-`string`
-
-#### 戻り値
 
 `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
 
@@ -857,29 +951,101 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **pushNewCall**(): `object`
 
-定義元: [src/weaveClient.ts:1490](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1490)
-
-#### 戻り値
+<div id="returns-24">
+  #### 戻り値
+</div>
 
 `object`
 
-<div id="currentcall">
-  ##### currentCall
+<ResponseField name="currentCall" type="object" required>
+  <div id="currentcallcallid">
+    ###### currentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="currentcallchildsummary">
+    ###### currentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="currentcalldisplayname">
+    ###### currentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="currentcallopname">
+    ###### currentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="currentcalltraceid">
+    ###### currentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+<ResponseField name="newStack" type="CallStack" required />
+
+<ResponseField name="parentCall" type="object">
+  <div id="parentcallcallid">
+    ###### parentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="parentcallchildsummary">
+    ###### parentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="parentcalldisplayname">
+    ###### parentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="parentcallopname">
+    ###### parentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="parentcalltraceid">
+    ###### parentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+***
+
+<div id="registercustomruntime">
+  ### registerCustomRuntime()
 </div>
 
-> **currentCall**: `CallStackEntry`
+> **registerCustomRuntime**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
 
-<div id="newstack">
-  ##### newStack
+custom runtime を登録します。既に存在する場合は、その設定全体を置き換えます。
+
+<div id="parameters-20">
+  #### パラメーター
 </div>
 
-> **newStack**: `CallStack`
+<ParamField path="options" type="RegisterCustomRuntimeOptions" required>
+  [`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions) を参照してください。
+</ParamField>
 
-<div id="parentcall">
-  ##### parentCall
+<div id="returns-25">
+  #### 戻り値
 </div>
 
-> `optional` **親Call**: `CallStackEntry`
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
 
 ***
 
@@ -889,31 +1055,23 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **runWithAttributes**&lt;`T`&gt;(`attributes`, `fn`): `T`
 
-定義元: [src/weaveClient.ts:1498](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1498)
-
 <div id="type-parameters">
   #### タイプパラメーター
 </div>
 
-<div id="t">
-  ##### T
+<ParamField path="T" />
+
+<div id="parameters-21">
+  #### パラメーター
 </div>
 
-`T`
+<ParamField path="attributes" type="Record<string, any>" required />
 
-#### パラメーター
+<ParamField path="fn" type="() => T" required />
 
-##### 属性
-
-`Record`&lt;`string`, `any`&gt;
-
-<div id="fn">
-  ##### fn
+<div id="returns-26">
+  #### 戻り値
 </div>
-
-() =&gt; `T`
-
-#### 戻り値
 
 `T`
 
@@ -925,33 +1083,23 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **runWithCallStack**&lt;`T`&gt;(`callStack`, `fn`): `T`
 
-定義元: [src/weaveClient.ts:1494](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1494)
-
-<div id="type-parameters">
+<div id="type-parameters-2">
   #### タイプパラメーター
 </div>
 
-<div id="t">
-  ##### T
+<ParamField path="T" />
+
+<div id="parameters-22">
+  #### パラメーター
 </div>
 
-`T`
+<ParamField path="callStack" type="CallStack" required />
 
-#### パラメーター
+<ParamField path="fn" type="() => T" required />
 
-<div id="callstack">
-  ##### callStack
+<div id="returns-27">
+  #### 戻り値
 </div>
-
-`CallStack`
-
-<div id="fn">
-  ##### fn
-</div>
-
-() =&gt; `T`
-
-#### 戻り値
 
 `T`
 
@@ -963,17 +1111,15 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **saveCallEnd**(`callEnd`): `void`
 
-定義元: [src/weaveClient.ts:1477](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1477)
-
-#### パラメーター
-
-<div id="callend">
-  ##### callEnd
+<div id="parameters-23">
+  #### パラメーター
 </div>
 
-`EndedCallSchemaForInsert`
+<ParamField path="callEnd" type="object & object" required />
 
-#### 戻り値
+<div id="returns-28">
+  #### 戻り値
+</div>
 
 `void`
 
@@ -983,19 +1129,90 @@ console.log(`total count: ${resp.data.total_count}`)
   ### saveCallStart()
 </div>
 
-> **saveCallStart**(`callStart`): `void`
+> **saveCallStart**(`callStart`, `opts?`): `void`
 
-定義元: [src/weaveClient.ts:1472](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1472)
-
-#### パラメーター
-
-<div id="callstart">
-  ##### callStart
+<div id="parameters-24">
+  #### パラメーター
 </div>
 
-`StartedCallSchemaForInsert`
+<ParamField path="callStart" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" required>
+      属性
+    </ParamField>
 
-#### 戻り値
+    <ParamField path="display_name" type="string | null">
+      表示名
+    </ParamField>
+
+    <ParamField path="id" type="string | null">
+      ID
+    </ParamField>
+
+    <ParamField path="inputs" type="Record<string, any>" required>
+      入力
+    </ParamField>
+
+    <ParamField path="op_name" type="string" required>
+      op 名
+    </ParamField>
+
+    <ParamField path="otel_dump" type="Record<string, any> | null">
+      Otel ダンプ
+    </ParamField>
+
+    <ParamField path="parent_id" type="string | null">
+      親 ID
+    </ParamField>
+
+    <ParamField path="project_id" type="string" required>
+      project ID
+    </ParamField>
+
+    <ParamField path="started_at" type="string" required>
+      開始日時
+
+      **形式**
+
+      date-time
+    </ParamField>
+
+    <ParamField path="thread_id" type="string | null">
+      thread ID
+    </ParamField>
+
+    <ParamField path="trace_id" type="string | null">
+      trace ID
+    </ParamField>
+
+    <ParamField path="turn_id" type="string | null">
+      turn ID
+    </ParamField>
+
+    <ParamField path="wb_run_id" type="string | null">
+      W&amp;B run ID
+    </ParamField>
+
+    <ParamField path="wb_run_step" type="number | null">
+      W&amp;B run ステップ
+    </ParamField>
+
+    <ParamField path="wb_user_id" type="string | null">
+      W&amp;B ユーザー ID
+      直接設定しないでください。このフィールドはサーバーが自動的に設定します。
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="eager" type="boolean" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-29">
+  #### 戻り値
+</div>
 
 `void`
 
@@ -1007,23 +1224,19 @@ console.log(`total count: ${resp.data.total_count}`)
 
 > **saveOp**(`op`, `objId?`): `Promise`&lt;`OpRef`&gt;
 
-定義元: [src/weaveClient.ts:1537](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1537)
-
-#### パラメーター
-
-<div id="op">
-  ##### op
+<div id="parameters-25">
+  #### パラメーター
 </div>
 
-[`Op`](../type-aliases/op)&lt;(...`args`) =&gt; `any`&gt;
+<ParamField path="op" type="Op<(...args) => any>" required>
+  [`Op`](../type-aliases/op) を参照してください。
+</ParamField>
 
-<div id="objid">
-  ##### objId?
+<ParamField path="objId" type="string" />
+
+<div id="returns-30">
+  #### 戻り値
 </div>
-
-`string`
-
-#### 戻り値
 
 `Promise`&lt;`OpRef`&gt;
 
@@ -1033,25 +1246,69 @@ console.log(`total count: ${resp.data.total_count}`)
   ### searchAgents()
 </div>
 
-> **searchAgents**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;`SearchAgentsResult`&gt;&gt;
+> **searchAgents**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
 
 project 内のエージェントメッセージを全文検索します。一致したメッセージのプレビューを含む結果を、会話ごとにグループ化して返します。
 
 `query` は全文検索の検索語です。空の文字列を渡すと、テキスト検索を行わずに構造化フィルター (`agentName`、`conversationId`、`traceId`) に一致するすべてのメッセージを取得します。`limit` / `offset` を使用して結果をページネーションします。
 
-定義元: [src/weaveClient.ts:730](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L730)
+<div id="parameters-26">
+  #### パラメーター
+</div>
 
-#### パラメーター
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="agentName" type="string | null" />
 
-##### オプション
+    <ParamField path="conversationId" type="string | null" />
 
-`SearchAgentsOptions`
+    <ParamField path="limit" type="number">
+      取得件数の上限
 
-#### 戻り値
+      **Min**
 
-`Promise`&lt;[`Response`](../type-aliases/response)&lt;`SearchAgentsResult`&gt;&gt;
+      0
 
-<div id="example">
+      **Max**
+
+      1000
+
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      20
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      オフセット
+
+      **Min**
+
+      0
+
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="string" required />
+
+    <ParamField path="traceId" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-31">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
+
+<div id="example-7">
   #### 例
 </div>
 
@@ -1080,36 +1337,30 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
   ### serializeAudio()
 </div>
 
-> **serializeAudio**(`data`, `audioType?`): `Promise`&lt;`SerializedFileBlob`&gt;
+> **serializeAudio**(`data`, `audioType?`): `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
 生のオーディオバイトを Weave コンテンツストアにアップロードし、Call の出力に埋め込み可能な
 `CustomWeaveType` プレースホルダーを返します。
 
 `finishCall` の自動シリアル化パイプラインを使用せずに、`saveCallEnd` 経由などで Call の出力を手動で構築する場合に使用します。
 
-定義元: [src/weaveClient.ts:1424](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1424)
-
-#### パラメーター
-
-<div id="data">
-  ##### data
+<div id="parameters-27">
+  #### パラメーター
 </div>
 
-`Buffer`
+<ParamField path="data" type="Buffer" required>
+  生のオーディオバイト (ブラウザとの互換性を最大限確保するには WAV)
+</ParamField>
 
-生のオーディオバイト (ブラウザとの互換性を最大限確保するには WAV)
+<ParamField path="audioType" type="&#x22;wav&#x22; = DEFAULT_AUDIO_TYPE">
+  ファイル形式 — 現在は &#39;wav&#39; のみサポートされています
+</ParamField>
 
-<div id="audiotype">
-  ##### audioType?
+<div id="returns-32">
+  #### 戻り値
 </div>
 
-`"wav"` = `DEFAULT_AUDIO_TYPE`
-
-file 形式 — 現在サポートされているのは「wav」のみです
-
-#### 戻り値
-
-`Promise`&lt;`SerializedFileBlob`&gt;
+`Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
 ***
 
@@ -1119,23 +1370,17 @@ file 形式 — 現在サポートされているのは「wav」のみです
 
 > **updateCall**(`callId`, `displayName`): `Promise`&lt;`void`&gt;
 
-定義元: [src/weaveClient.ts:1710](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L1710)
-
-#### パラメーター
-
-<div id="callid">
-  ##### callId
+<div id="parameters-28">
+  #### パラメーター
 </div>
 
-`string`
+<ParamField path="callId" type="string" required />
 
-<div id="displayname">
-  ##### displayName
+<ParamField path="displayName" type="string" required />
+
+<div id="returns-33">
+  #### 戻り値
 </div>
-
-`string`
-
-#### 戻り値
 
 `Promise`&lt;`void`&gt;
 
@@ -1147,8 +1392,8 @@ file 形式 — 現在サポートされているのは「wav」のみです
 
 > **waitForBatchProcessing**(): `Promise`&lt;`void`&gt;
 
-定義元: [src/weaveClient.ts:801](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L801)
-
-#### 戻り値
+<div id="returns-34">
+  #### 戻り値
+</div>
 
 `Promise`&lt;`void`&gt;

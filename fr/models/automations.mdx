@@ -9,7 +9,7 @@ import AutomationsActionsList from "/snippets/fr/_includes/automations/actions-l
 import AutomationsBestPractices from "/snippets/fr/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/fr/_includes/automations/where-to-find-automations.mdx";
 
-*Les automatisations* envoient des notifications Slack ou déclenchent des webhooks en réponse à des événements spécifiques dans W&amp;B. Vous pouvez définir la portée d’une automatisation au niveau d’une organisation, d’une équipe, d’un projet, d’un registre ou d’une collection. Une automatisation surveille l’événement dans l’ensemble des ressources incluses dans sa portée, y compris les projets, registres et collections créés ultérieurement. La procédure de création d’une automatisation et les événements disponibles dépendent de sa portée. Pour connaître les types d’événements par portée, voir [événements et portée des automatisations](/fr/models/automations/automation-events).
+*Les automatisations* envoient des notifications Slack, déclenchent des webhooks ou envoient des prompts à ARIA en réponse à des événements spécifiques dans W&amp;B. Vous pouvez définir la portée d’une automatisation au niveau d’une organisation, d’une équipe, d’un projet, d’un registre ou d’une collection. Une automatisation surveille l’événement dans l’ensemble des ressources incluses dans sa portée, y compris les projets, registres et collections créés ultérieurement. La procédure de création d’une automatisation et les événements disponibles dépendent de sa portée. Pour connaître les types d’événements par portée, voir [événements et portée des automatisations](/fr/models/automations/automation-events).
 
 <Note>
   Les automatisations à l’échelle d’une équipe ou d’une organisation, ainsi que le [hub Automatisations](#automations-hub), sont disponibles sur Cloud mutualisé de W&amp;B et sur W&amp;B Cloud dédié (Server v0.83.0 et versions ultérieures).
@@ -23,7 +23,7 @@ flowchart LR
   Condition --> Action[Action]
 ```
 
-**Exemple :** Le run échoue (événement) et un filtre facultatif sur le nom du run (condition), puis notification Slack (action). Ou : alias `production` ajouté (événement), puis webhook (action).
+**Exemple :** Le run échoue (événement) et un filtre facultatif sur le nom du run (condition), puis notification Slack (action). Ou : alias `production` ajouté (événement), puis webhook (action).
 
 <div id="where-to-create-automations">
   ## Où créer des automatisations
@@ -52,9 +52,10 @@ Le hub **Automatisations** complète l&#39;onglet **Automatisations** de chaque 
   ## Cas d’utilisation
 </div>
 
-* **Surveillance des runs et alertes** : notifier l’équipe lorsqu’un run échoue ou lorsqu’une métrique franchit un seuil (par exemple, la perte passe à NaN ou la précision baisse).
-* **CI/CD du Registry** : lorsqu’une nouvelle version de modèle est liée ou qu’un alias (tel que `staging` ou `production`) est ajouté, déclencher un webhook pour exécuter des tests ou déployer.
-* **Flux de travail des artefacts de projet** : lorsqu’une nouvelle version d’artefact est créée ou qu’un alias est ajouté dans un projet, exécuter un job en aval ou publier sur Slack.
+* **Surveillance des runs et alertes** : notifier l’équipe lorsqu’un run échoue ou lorsqu’une métrique franchit un seuil (par exemple, la perte passe à NaN ou la précision baisse).
+* **CI/CD du registre** : lorsqu’une nouvelle version de modèle est liée ou qu’un alias (tel que `staging` ou `production`) est ajouté, déclencher un webhook pour exécuter des tests ou déployer.
+* **Flux de travail des artefacts de projet** : lorsqu’une nouvelle version d’artefact est créée ou qu’un alias est ajouté dans un projet, exécuter un job en aval ou publier sur Slack.
+* **Analyse automatisée** : lorsqu’un run échoue ou qu’une nouvelle version de modèle est liée, envoyer un prompt à [ARIA](/fr/aria/overview) pour diagnostiquer l’échec ou comparer la nouvelle version à celle en production.
 
 Pour obtenir tous les détails sur les événements et les portées, voir [événements et portée des automatisations](/fr/models/automations/automation-events).
 
@@ -62,23 +63,23 @@ Pour obtenir tous les détails sur les événements et les portées, voir [évé
   ## Actions d’automatisation
 </div>
 
-Lorsqu’un événement déclenche une automatisation, celle-ci peut exécuter l’une des actions suivantes :
+Lorsqu’un événement déclenche une automatisation, celle-ci peut exécuter l’une des actions suivantes :
 
 <AutomationsActionsList />
 
-Pour plus de détails sur l’implémentation, voir [Créer une automatisation Slack](/fr/models/automations/create-automations/slack) et [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook).
+Pour plus de détails sur l’implémentation, voir [Créer une automatisation Slack](/fr/models/automations/create-automations/slack), [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook) ou [Créer une automatisation ARIA](/fr/models/automations/create-automations/aria).
 
 <div id="how-automations-work">
   ## Fonctionnement des automatisations
 </div>
 
-Pour [créer une automatisation](/fr/models/automations/create-automations), vous devez :
+Pour [créer une automatisation](/fr/models/automations/create-automations), vous devez :
 
 1. Si nécessaire, configurez des [secrets](/fr/platform/secrets) pour les chaînes sensibles dont l’automatisation a besoin, comme des jetons d’accès, des mots de passe ou des détails de configuration sensibles. Les secrets sont définis dans **Team Settings**. Ils sont le plus souvent utilisés dans les automatisations webhook pour transmettre en toute sécurité des identifiants ou des jetons au service externe du webhook, sans les exposer en clair ni les coder en dur dans la charge utile du webhook.
-2. Configurez des intégrations webhook ou Slack au niveau de l’équipe afin d’autoriser W&amp;B à publier dans Slack ou à exécuter le webhook en votre nom. Une même action d’automatisation (webhook ou notification Slack) peut être utilisée par plusieurs automatisations. Ces actions sont définies dans **Team Settings**.
-3. Dans le projet ou le registre, créez l’automatisation :
+2. Configurez des intégrations webhook ou Slack au niveau de l’équipe afin d’autoriser W&amp;B à publier dans Slack ou à exécuter le webhook en votre nom. Une même action d’automatisation (webhook ou notification Slack) peut être utilisée par plusieurs automatisations. Ces actions sont définies dans **Team Settings**. Une action ARIA ne nécessite aucune intégration.
+3. Dans le projet ou le registre, créez l’automatisation :
    1. Définissez l’[événement](/fr/models/automations/automation-events) à surveiller, par exemple l’ajout d’une nouvelle version d’artefact.
-   2. Définissez l’action à effectuer lorsque l’événement se produit (publier dans un canal Slack ou exécuter un webhook). Pour un webhook, indiquez un secret à utiliser pour le jeton d’accès et/ou un secret à envoyer avec la charge utile, si nécessaire.
+   2. Définissez l’action à effectuer lorsque l’événement se produit, par exemple publier dans un canal Slack, exécuter un webhook ou envoyer un prompt à ARIA. Pour un webhook, indiquez un secret à utiliser pour le jeton d’accès et/ou un secret à envoyer avec la charge utile, si nécessaire.
 
 <div id="recommendations">
   ## Recommandations

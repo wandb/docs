@@ -193,7 +193,9 @@ api:
 
     배포별 고려 사항은 [환경별 고려 사항](#environment-specific-considerations) 및 [퍼블릭 클라우드에서 Terraform으로 배포](#deploy-with-terraform-on-public-cloud)를 참조하세요. 연결이 차단된 환경의 경우 [Air-Gapped Kubernetes에 배포](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/)를 참조하세요.
 
-    #### Helm Terraform Module
+    <div id="helm-terraform-module">
+      #### Helm Terraform Module
+    </div>
 
     이 방법은 특정 요구 사항에 맞게 사용자 지정된 배포를 지원하며, Terraform의 infrastructure-as-code 접근 방식을 사용해 일관성과 반복 가능성을 확보합니다. 공식 W&amp;B [Helm-based Terraform Module](https://registry.terraform.io/modules/wandb/wandb/helm/latest)은 Terraform Registry에서 사용할 수 있습니다.
 
@@ -237,7 +239,9 @@ api:
     * [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
     * [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
-    #### 클라우드 Terraform 모듈
+    <div id="cloud-terraform-modules">
+      #### 클라우드 Terraform 모듈
+    </div>
 
     W&amp;B는 AWS, Google Cloud, Azure용 Terraform 모듈 세트를 제공합니다. 이러한 모듈은 Kubernetes 클러스터, 로드 밸런서, MySQL 데이터베이스를 포함한 전체 인프라와 W&amp;B Server 애플리케이션을 함께 배포합니다. W&amp;B Kubernetes Operator는 다음 버전의 공식 W&amp;B 클라우드별 Terraform 모듈에 포함되어 있습니다.
 
@@ -529,11 +533,15 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     * Redis용 ElastiCache
     * SQS
 
-    ### 사전 필요 권한
+    <div id="prerequisite-permissions">
+      ### 사전 필요 권한
+    </div>
 
     Terraform를 실행하는 계정은 앞 섹션에 나열된 모든 컴포넌트를 생성할 수 있어야 하며, **IAM 정책** 및 **IAM 역할**을 생성하고 리소스에 역할을 부여하는 권한도 필요합니다.
 
-    ### 일반 단계
+    <div id="general-steps">
+      ### 일반 단계
+    </div>
 
     이 섹션의 단계는 모든 배포 옵션에 공통으로 적용됩니다.
 
@@ -634,7 +642,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
        }
        ```
 
-    ### 권장 배포
+    <div id="recommended-deployment">
+      ### 권장 배포
+    </div>
 
     이것은 모든 필수 컴포넌트를 생성하고 Kubernetes Cluster에 W&amp;B 최신 버전을 설치하는 가장 간단한 배포 옵션 설정입니다.
 
@@ -704,7 +714,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redis 활성화
+    <div id="enable-redis">
+      ### Redis 활성화
+    </div>
 
     Redis를 사용해 SQL 쿼리를 캐시하고 메트릭 로딩 시 애플리케이션 응답 속도를 높이려면 `main.tf` 파일에 `create_elasticache_subnet = true` 옵션을 추가하세요:
 
@@ -722,7 +734,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     [...]
     ```
 
-    ### 메시지 브로커(큐) 활성화
+    <div id="enable-message-broker-queue">
+      ### 메시지 브로커(큐) 활성화
+    </div>
 
     SQS를 사용하여 외부 메시지 브로커를 활성화하려면 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가하세요:
 
@@ -745,7 +759,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     }
     ```
 
-    ### 추가 리소스
+    <div id="additional-resources">
+      ### 추가 리소스
+    </div>
 
     * [AWS Terraform 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
     * [AWS Terraform 모듈 소스 코드](https://github.com/wandb/terraform-aws-wandb)
@@ -773,11 +789,15 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
 
     * Pub/Sub 메시징 시스템
 
-    ### 사전 필요 권한
+    <div id="prerequisite-permissions-2">
+      ### 사전 필요 권한
+    </div>
 
     Terraform를 실행할 계정은 사용하는 Google Cloud 프로젝트에서 `roles/owner` 역할이 있어야 합니다.
 
-    ### 일반 단계
+    <div id="general-steps-2">
+      ### 일반 단계
+    </div>
 
     이 섹션의 단계는 모든 배포 옵션에 공통으로 적용됩니다.
 
@@ -846,7 +866,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
        }
        ```
 
-    ### 권장 배포
+    <div id="recommended-deployment-2">
+      ### 권장 배포
+    </div>
 
     이것은 모든 필수 컴포넌트를 생성하고 Kubernetes Cluster에 W&amp;B 최신 버전을 설치하는 가장 간단한 배포 옵션 설정입니다.
 
@@ -917,7 +939,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redis 활성화
+    <div id="enable-redis-2">
+      ### Redis 활성화
+    </div>
 
     Redis를 사용하여 SQL 쿼리를 캐시하고 메트릭 로딩 시 애플리케이션 응답 속도를 높이려면 `main.tf` 파일에 `create_redis = true` 옵션을 추가하세요:
 
@@ -937,7 +961,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     [...]
     ```
 
-    ### 메시지 브로커(큐) 활성화
+    <div id="enable-message-broker-queue-2">
+      ### 메시지 브로커(큐) 활성화
+    </div>
 
     Pub/Sub를 사용하여 외부 메시지 브로커를 활성화하려면 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가하세요:
 
@@ -962,7 +988,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     [...]
     ```
 
-    ### 추가 리소스
+    <div id="additional-resources-2">
+      ### 추가 리소스
+    </div>
 
     * [Google Cloud Terraform 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/google/latest)
     * [Google Cloud Terraform 모듈 소스 코드](https://github.com/wandb/terraform-google-wandb)
@@ -987,13 +1015,17 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     * Azure Cache for Redis
     * Azure Event Grid
 
-    ### 사전 필요 권한
+    <div id="prerequisite-permissions-3">
+      ### 사전 필요 권한
+    </div>
 
     AzureRM 공급자를 설정하는 가장 간단한 방법은 [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli)를 사용하는 것입니다. 자동화 환경에서는 [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret)을 활용할 수도 있습니다.
 
     사용하는 인증 방법에 관계없이, Terraform을 실행할 계정은 앞 섹션에 나열된 모든 컴포넌트를 생성할 수 있어야 합니다.
 
-    ### 일반 단계
+    <div id="general-steps-3">
+      ### 일반 단계
+    </div>
 
     이 섹션의 단계는 모든 배포 옵션에 공통으로 적용됩니다.
 
@@ -1070,7 +1102,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
            }
        ```
 
-    ### 권장 배포
+    <div id="recommended-deployment-3">
+      ### 권장 배포
+    </div>
 
     이것은 모든 필수 컴포넌트를 생성하고 Kubernetes Cluster에 W&amp;B 최신 버전을 설치하는 가장 간단한 배포 옵션 설정입니다.
 
@@ -1135,7 +1169,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redis 활성화
+    <div id="enable-redis-3">
+      ### Redis 활성화
+    </div>
 
     Redis를 사용하여 SQL 쿼리를 캐시하고 메트릭 로딩 시 애플리케이션 응답 속도를 높이려면 `main.tf` 파일에 `create_redis = true` 옵션을 추가하세요:
 
@@ -1156,7 +1192,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     }
     ```
 
-    ### 메시지 브로커(큐) 활성화
+    <div id="enable-message-broker-queue-3">
+      ### 메시지 브로커(큐) 활성화
+    </div>
 
     Azure Event Grid를 사용하여 외부 메시지 브로커를 활성화하려면 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가하세요:
 
@@ -1181,7 +1219,9 @@ W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포할 수 있
     }
     ```
 
-    ### 추가 리소스
+    <div id="additional-resources-3">
+      ### 추가 리소스
+    </div>
 
     * [Azure Terraform 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
     * [Azure Terraform 모듈 소스 코드](https://github.com/wandb/terraform-azurerm-wandb)

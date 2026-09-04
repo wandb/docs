@@ -1,0 +1,52 @@
+---
+title: "RegisterCustomRuntimeOptions"
+description: "TypeScript SDK 레퍼런스"
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L79" />
+
+<div id="properties">
+  ## 속성
+</div>
+
+<div id="apikeysecret">
+  ### apiKeySecret
+</div>
+
+> `optional` **apiKeySecret**: `string`
+
+***
+
+<div id="baseurl">
+  ### baseUrl
+</div>
+
+> **baseUrl**: `string`
+
+***
+
+<div id="headers">
+  ### headers
+</div>
+
+> `optional` **headers**: `Readonly`&lt;`Record`&lt;`string`, `string`&gt;&gt;
+
+***
+
+<div id="name">
+  ### name
+</div>
+
+> **name**: `string`
+
+***
+
+<div id="runtimeids">
+  ### runtimeIds
+</div>
+
+> **runtimeIds**: readonly (`string` | [`CustomRuntimeId`](./customruntimeid))[]
+
+원하는 전체 목록을 지정합니다. 생략된 ID는 기존 runtime에서 제거됩니다.

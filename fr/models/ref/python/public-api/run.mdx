@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L598" />
 
-## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Run
+<div id="class-wandbapispublicrun">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Run
+</div>
 
 Un seul run associé à une entité et à un projet.
 
@@ -175,7 +177,9 @@ api_key: 'str | None' = None)
   ## Méthodes
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.beta_scan_history()
+<div id="method-runbeta_scan_history">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.beta_scan_history()
+</div>
 
 ```python
 self,
@@ -210,7 +214,9 @@ use_cache: 'bool' = True
   Aucune description fournie.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.console_logs()
+<div id="method-runconsole_logs">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.console_logs()
+</div>
 
 ```python
 self, *,
@@ -226,7 +232,7 @@ même journal affiché dans l&#39;onglet &quot;Logs&quot; de la page du run dans
 Cette méthode relit ce journal, aussi bien pour les runs terminés que pour ceux encore
 en cours d&#39;exécution.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### Arguments
 </div>
 
@@ -262,7 +268,9 @@ for line in run.console_logs(last=100):
     print(line.timestamp, line.content)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.create()
+<div id="method-runcreate">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.create()
+</div>
 
 ```python
 api: 'public.Api',
@@ -284,7 +292,7 @@ contention). Ces runs en attente peuvent ensuite être repris et suivis par W&am
 Les runs créés avec cette méthode ont des capacités limitées. L’appel à
 `update()` sur un run créé de cette manière peut ne pas fonctionner comme prévu.
 
-<div id="arguments">
+<div id="arguments-3">
   ##### Arguments
 </div>
 
@@ -308,7 +316,7 @@ Les runs créés avec cette méthode ont des capacités limitées. L’appel à
   État initial du run. Utilisez « pending » pour les runs qui seront repris ultérieurement, ou « running » pour une exécution immédiate.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-2">
   ##### Exemples
 </div>
 
@@ -330,7 +338,9 @@ run = Run.create(
 )
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.delete()
+<div id="method-rundelete">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.delete()
+</div>
 
 ```python
 self,
@@ -339,7 +349,7 @@ delete_artifacts: 'bool' = False
 
 Supprime le run spécifié du backend wandb.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### Arguments
 </div>
 
@@ -347,7 +357,9 @@ Supprime le run spécifié du backend wandb.
   Indique s’il faut supprimer les artifacts associés au run.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.download_history_exports()
+<div id="method-rundownload_history_exports">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.download_history_exports()
+</div>
 
 ```python
 self,
@@ -357,7 +369,7 @@ require_complete_history: 'bool' = True
 
 Télécharge tous les fichiers parquet de l’historique du run dans le répertoire indiqué.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### Arguments
 </div>
 
@@ -369,14 +381,16 @@ Télécharge tous les fichiers parquet de l’historique du run dans le réperto
   Indique s’il faut exiger le téléchargement de l’historique complet. Si cette valeur est `true` et que le run contient des données qui n’ont pas encore été exportées en fichiers parquet, une `IncompleteRunHistoryError` est levée.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-2">
   ##### Exceptions levées
 </div>
 
 * `IncompleteRunHistoryError`:  Si `require_complete_history` vaut `True` et que le run contient des données qui n’ont pas encore été exportées en fichiers parquet.
 * `WandbApiFailedError`:  Si la requête API échoue pour une raison autre qu’un historique incomplet.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.file()
+<div id="method-runfile">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.file()
+</div>
 
 ```python
 self,
@@ -385,7 +399,7 @@ name: 'str'
 
 Renvoie le chemin d’un fichier portant le nom indiqué dans l’artifact.
 
-<div id="arguments">
+<div id="arguments-6">
   ##### Arguments
 </div>
 
@@ -393,7 +407,9 @@ Renvoie le chemin d’un fichier portant le nom indiqué dans l’artifact.
   nom du fichier demandé.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.files()
+<div id="method-runfiles">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.files()
+</div>
 
 ```python
 self,
@@ -407,7 +423,7 @@ Renvoie un objet `Files` pour tous les fichiers du run qui correspondent aux cri
 Vous pouvez spécifier une liste exacte de noms de fichiers à faire correspondre, ou un motif de correspondance.
 Si les deux sont fournis, le motif sera ignoré.
 
-<div id="arguments">
+<div id="arguments-7">
   ##### Arguments
 </div>
 
@@ -423,7 +439,9 @@ Si les deux sont fournis, le motif sera ignoré.
   nombre de résultats par page.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.history()
+<div id="method-runhistory">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.history()
+</div>
 
 ```python
 self,
@@ -438,7 +456,7 @@ Renvoie un échantillon des métriques de l&#39;historique pour un run.
 
 Cette méthode est plus simple et plus rapide si vous acceptez que les enregistrements de l&#39;historique soient échantillonnés.
 
-<div id="arguments">
+<div id="arguments-8">
   ##### Arguments
 </div>
 
@@ -462,7 +480,9 @@ Cette méthode est plus simple et plus rapide si vous acceptez que les enregistr
   (str, facultatif) « default » pour les métriques, « system » pour les métriques système
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.load()
+<div id="method-runload">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.load()
+</div>
 
 ```python
 self,
@@ -471,7 +491,7 @@ force: 'bool' = False
 
 Charge les données du run en utilisant le fragment approprié selon le mode lazy.
 
-<div id="arguments">
+<div id="arguments-9">
   ##### Arguments
 </div>
 
@@ -479,13 +499,15 @@ Charge les données du run en utilisant le fragment approprié selon le mode laz
   si la valeur est `True`, récupère de nouveau les données du run depuis le serveur, même si elles sont déjà chargées.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-3">
   ##### Exceptions levées
 </div>
 
 * `RunNotFoundError` : si le run est introuvable ou si les données du run ne peuvent pas être chargées.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.load_full_data()
+<div id="method-runload_full_data">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.load_full_data()
+</div>
 
 ```python
 self,
@@ -497,7 +519,7 @@ Chargez l’ensemble des données du run, y compris les champs volumineux comme 
 Cette méthode est utile si vous avez initialement utilisé lazy=True pour lister des runs,
 mais que vous devez accéder aux données complètes de certains runs.
 
-<div id="arguments">
+<div id="arguments-10">
   ##### Arguments
 </div>
 
@@ -505,7 +527,9 @@ mais que vous devez accéder aux données complètes de certains runs.
   Force le rechargement même si les données sont déjà chargées
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_artifact()
+<div id="method-runlog_artifact">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_artifact()
+</div>
 
 ```python
 self,
@@ -516,7 +540,7 @@ tags: 'Collection[str] | None' = None
 
 Déclarer un artifact en tant que sortie d’un run.
 
-<div id="arguments">
+<div id="arguments-11">
   ##### Arguments
 </div>
 
@@ -532,7 +556,9 @@ Déclarer un artifact en tant que sortie d’un run.
   (liste, facultatif) Les tags à appliquer à cet artifact, le cas échéant.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.logged_artifacts()
+<div id="method-runlogged_artifacts">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.logged_artifacts()
+</div>
 
 ```python
 self,
@@ -544,7 +570,7 @@ Récupère tous les artifacts enregistrés par ce run.
 Récupère tous les artifacts de sortie qui ont été enregistrés pendant le run. Renvoie un
 résultat paginé qui peut être parcouru ou rassemblé dans une seule liste.
 
-<div id="arguments">
+<div id="arguments-12">
   ##### Arguments
 </div>
 
@@ -552,7 +578,7 @@ résultat paginé qui peut être parcouru ou rassemblé dans une seule liste.
   Nombre d&#39;artifacts à récupérer par requête API.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-3">
   ##### Exemples
 </div>
 
@@ -577,7 +603,9 @@ for logged_artifact in finished_run.logged_artifacts():
     print(logged_artifact.name)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.save()
+<div id="method-runsave">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.save()
+</div>
 
 ```python
 self
@@ -585,7 +613,9 @@ self
 
 Enregistrez les modifications apportées à l’objet run sur le backend W&amp;B.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.scan_history()
+<div id="method-runscan_history">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.scan_history()
+</div>
 
 ```python
 self,
@@ -598,7 +628,7 @@ use_cache: 'bool' = True
 
 Renvoie une collection itérable de tous les enregistrements de l’historique d’un run.
 
-<div id="arguments">
+<div id="arguments-13">
   ##### Arguments
 </div>
 
@@ -622,7 +652,9 @@ Renvoie une collection itérable de tous les enregistrements de l’historique d
   lorsqu’il est défini sur True, vérifie si l’historique d’un run est présent dans WANDB&#95;CACHE&#95;DIR. Si l’historique du run n’est pas trouvé dans le cache, il sera téléchargé depuis le serveur. S’il est défini sur False, l’historique du run sera téléchargé à chaque fois.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.stop()
+<div id="method-runstop">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.stop()
+</div>
 
 ```python
 self
@@ -640,13 +672,13 @@ L’arrêt est asynchrone : cette méthode renvoie dès que le backend a
 activé l’indicateur d’arrêt du run, et non lorsque le run est effectivement terminé. La rappeler, ou l’appeler
 sur un run qui n’est plus en cours d’exécution, n’a aucun effet.
 
-<div id="raises">
+<div id="raises-4">
   ##### Exceptions levées
 </div>
 
 * `wandb.Error`: Si la requête échoue.
 
-<div id="examples">
+<div id="examples-4">
   ##### Exemples
 </div>
 
@@ -657,7 +689,9 @@ run = wandb.Api().run("entity/project/run_id")
 run.stop()
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.to_html()
+<div id="method-runto_html">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.to_html()
+</div>
 
 ```python
 self,
@@ -667,7 +701,7 @@ hidden: 'bool' = False
 
 Générez le code HTML contenant une iframe qui affiche ce run.
 
-<div id="arguments">
+<div id="arguments-14">
   ##### Arguments
 </div>
 
@@ -679,7 +713,9 @@ Générez le code HTML contenant une iframe qui affiche ce run.
   Aucune description fournie.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.update()
+<div id="method-runupdate">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.update()
+</div>
 
 ```python
 self
@@ -687,7 +723,9 @@ self
 
 Enregistre les modifications de l’objet run sur le backend wandb.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.update_state()
+<div id="method-runupdate_state">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.update_state()
+</div>
 
 ```python
 self,
@@ -707,7 +745,7 @@ L’état des runs de balayage ne peut pas être mis à jour.
 
 Voir `Run.state` pour la liste des états de run possibles.
 
-<div id="arguments">
+<div id="arguments-15">
   ##### Arguments
 </div>
 
@@ -715,13 +753,15 @@ Voir `Run.state` pour la liste des états de run possibles.
   L’état cible du run. L’une des valeurs `"pending"` ou `"failed"`.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-5">
   ##### Exceptions levées
 </div>
 
 * `wandb.Error`: Si la transition d’état demandée n’est pas autorisée ou si le serveur ne prend pas en charge cette opération.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.upload_file()
+<div id="method-runupload_file">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.upload_file()
+</div>
 
 ```python
 self,
@@ -731,7 +771,7 @@ root: 'str' = '.'
 
 Téléverse un fichier local sur W&amp;B et l’associe à ce run.
 
-<div id="arguments">
+<div id="arguments-16">
   ##### Arguments
 </div>
 
@@ -743,7 +783,9 @@ Téléverse un fichier local sur W&amp;B et l’associe à ce run.
   Chemin racine auquel le fichier est enregistré relativement. Par exemple, si vous souhaitez que le fichier soit enregistré dans le run sous la forme &quot;my&#95;dir/file.txt&quot; et que vous vous trouvez actuellement dans &quot;my&#95;dir&quot;, vous devez définir `root` sur &quot;../&quot;. La valeur par défaut est le répertoire courant (&quot;.&quot;).
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_artifact()
+<div id="method-runuse_artifact">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_artifact()
+</div>
 
 ```python
 self,
@@ -753,7 +795,7 @@ use_as: 'str | None' = None
 
 Déclarez un artifact comme entrée d’un run.
 
-<div id="arguments">
+<div id="arguments-17">
   ##### Arguments
 </div>
 
@@ -765,7 +807,9 @@ Déclarez un artifact comme entrée d’un run.
   Une chaîne qui indique comment l’artifact est utilisé dans le script. Elle sert à différencier facilement les artifacts utilisés dans un run lors de l’utilisation de la fonctionnalité bêta d’échange d’artifacts de wandb Launch.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.used_artifacts()
+<div id="method-runused_artifacts">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.used_artifacts()
+</div>
 
 ```python
 self,
@@ -778,7 +822,7 @@ Récupère uniquement les artifacts d’entrée qui ont été explicitement déc
 lors du run, généralement via `run.use_artifact()`. Renvoie un résultat paginé
 qui peut être parcouru ou regroupé dans une seule liste.
 
-<div id="arguments">
+<div id="arguments-18">
   ##### Arguments
 </div>
 
@@ -786,7 +830,7 @@ qui peut être parcouru ou regroupé dans une seule liste.
   Nombre d&#39;artifacts à récupérer par requête API.
 </ResponseField>
 
-<div id="examples">
+<div id="examples-5">
   ##### Exemples
 </div>
 
@@ -804,7 +848,9 @@ for used_artifact in finished_run.used_artifacts():
 test_artifact
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.wait_until_finished()
+<div id="method-runwait_until_finished">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.wait_until_finished()
+</div>
 
 ```python
 self

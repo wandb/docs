@@ -3,22 +3,24 @@ title: "startTurn"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **startTurn**(`opts?`): [`Turn`](../interfaces/turn)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+startTurn(opts?: TurnInit = {}): Turn
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L54" />
 
 新しいターンを開始します。Conversation がアクティブな場合、ターンはその
 `conversationId` を引き継ぎます。アクティブでない場合、ターンには conversation ID がありません。
-
-定義場所: [src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
-
-[`TurnInit`](../interfaces/turninit) = `{}`
+<ParamField path="opts" type="TurnInit = {}">
+  [`TurnInit`](../interfaces/turninit) を参照してください。
+</ParamField>
 
 <div id="returns">
   ## 戻り値

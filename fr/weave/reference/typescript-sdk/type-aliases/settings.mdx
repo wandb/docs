@@ -3,9 +3,11 @@ title: "Paramètres"
 description: "Référence du SDK TypeScript"
 ---
 
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
 > **Paramètres** = `objet`
 
-Défini dans : [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L3)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
 
 <div id="properties">
   ## Propriétés
@@ -19,17 +21,13 @@ Défini dans : [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077e
 
 Un mappage d&#39;attributs appliqués à chaque trace produite par ce client.
 
-Défini dans : [src/settings.ts:14](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L14)
-
 ***
 
 <div id="genai">
   ### genai
 </div>
 
-> `readonly` **genai** : `objet`
-
-Défini dans : [src/settings.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L23)
+> `readonly` **genai** : `objet`
 
 <div id="batchoptions">
   #### batchOptions
@@ -66,9 +64,24 @@ Définit comment les spans GenAI sont exportés.
 
 Imprime des liens vers l&#39;interface Weave pour les ops dans le terminal.
 
-Défini dans : [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L9)
-
 <div id="default">
+  #### Par défaut
+</div>
+
+`true`
+
+***
+
+<div id="usecallscomplete">
+  ### useCallsComplete
+</div>
+
+> **useCallsComplete** : `boolean`
+
+Envoie les appels terminés au point de terminaison `calls/complete` (début et fin
+appariés côté client) plutôt qu&#39;à l&#39;ancien chemin `call/upsert_batch`.
+
+<div id="default-2">
   #### Par défaut
 </div>
 
@@ -80,13 +93,11 @@ Défini dans : [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077e
   ### useOTelV2
 </div>
 
-> **useOTelV2** : `boolean`
+> **useOTelV2** : `boolean`
 
 Achemine les intégrations compatibles avec OTel via leur variante OTel.
 
-Défini dans : [src/settings.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L21)
-
-<div id="default">
+<div id="default-3">
   #### Par défaut
 </div>
 
