@@ -3,21 +3,29 @@ title: "weaveAudio"
 description: "TypeScript SDK reference"
 ---
 
-> **weaveAudio**(`options`): [`WeaveAudio`](../interfaces/weaveaudio)
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+```ts
+weaveAudio(options: object): WeaveAudio
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L85" />
 
 Create a new WeaveAudio object
 
-Defined in: [src/media.ts:62](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L62)
-
 ## Parameters
 
-### options
+<ParamField path="options" type="object" required>
+  The options for this media type
+  - data: The raw audio data as a Buffer
+  - audioType: (Optional) The type of audio file, currently only 'wav' is supported
 
-`WeaveAudioInput`
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="audioType" type='"wav"' />
 
-The options for this media type
-   - data: The raw audio data as a Buffer
-   - audioType: (Optional) The type of audio file, currently only 'wav' is supported
+    <ParamField path="data" type="Buffer" required />
+  </Expandable>
+</ParamField>
 
 ## Returns
 
