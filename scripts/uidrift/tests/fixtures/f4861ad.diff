@@ -1,0 +1,1082 @@
+diff --git a/frontends/app/src/components/MembersTable/AccountSettingsMembersTable/OrganizationMembersTable.tsx b/frontends/app/src/components/MembersTable/AccountSettingsMembersTable/OrganizationMembersTable.tsx
+index 8badf780e9a..0fcbd884c8a 100644
+--- a/frontends/app/src/components/MembersTable/AccountSettingsMembersTable/OrganizationMembersTable.tsx
++++ b/frontends/app/src/components/MembersTable/AccountSettingsMembersTable/OrganizationMembersTable.tsx
+@@ -1,10 +1,16 @@
+-import {Link} from '@wandb/weave/common/util/links';
+-import {isNotNullOrUndefined, isTruthy} from '@wandb/weave/common/util/types';
+-import {Icon} from '@wandb/weave/components/Icon';
++import {
++  Avatar,
++  DotProgress,
++  InfoTooltip,
++  Link,
++  SearchField,
++  type SortDescriptor,
++  Table,
++  TimeAgo,
++} from '@wandb/components';
++import {isTruthy} from '@wandb/weave/common/util/types';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+-import {TooltipDeprecated} from '@wandb/weave/components/TooltipDeprecated';
+ import React, {memo, useCallback, useContext, useMemo, useState} from 'react';
+-import TimeAgo from 'react-timeago';
+ 
+ import {
+   type OrganizationMembersTableQuery,
+@@ -15,15 +21,10 @@ import {
+   useAccountSettingsContext,
+ } from '../../../pages/Billing/AccountSettings/AccountSettingsContextProvider';
+ import {useViewer} from '../../../state/viewer/hooks';
++import {type Viewer} from '../../../state/viewer/types';
+ import {useAccountPrivileges} from '../../../util/accounts/pricing';
+ import {useRampFlagShowOrgActivityPage} from '../../../util/rampFeatureFlags/rampFeatureFlags';
+ import {AccountType} from '../../Search/SearchNav/types';
+-import {Skeleton} from '../../Skeleton';
+-import TypedWBReactTable, {
+-  type DataColumn,
+-  type DataColumns,
+-  type DataRow,
+-} from '../../WBReactTable/TypedWBReactTable';
+ import {ModelSeatTypeDropdown} from '../ModelSeatTypeDropdown';
+ import {UserExportsDropdown} from '../UserExportsDropdown';
+ import {
+@@ -42,6 +43,10 @@ import {OrganizationMemberActionMenu} from './OrganizationMemberActionMenu';
+ import {OrganizationMemberRoleDropdown} from './OrganizationMemberRoleDropdown';
+ import {TeamsColumn} from './TeamsColumn';
+ 
++const PAGE_SIZE = 25;
++
++const ICON_COLUMN_WIDTH = 56;
++
+ type InviteRow = {
+   email: string;
+   username: string;
+@@ -55,6 +60,7 @@ type OrganizationMember = NonNullable<
+ >['members'][number];
+ 
+ type Row = {
++  id: string;
+   user?: {
+     name: string;
+     username: string;
+@@ -63,31 +69,17 @@ type Row = {
+   email: string;
+   username: string;
+   teams: string[];
+-  role: {member?: OrganizationMember; invitedRole?: string};
+-  billingAdmin?: OrganizationMember & {billingColumn?: true};
+-  model_seat?: {member: OrganizationMember};
+-  weave_role?: {member: OrganizationMember};
+-  actions: {member?: OrganizationMember; inviteIds?: string[]};
++  member?: OrganizationMember;
++  invitedRole?: string;
+   lastActiveAt?: string | null;
++  inviteIds?: string[];
+ };
+ 
+-function getSearchOptions({user, email, username, teams, role}: Row) {
+-  return [
+-    user?.name,
+-    username,
+-    email,
+-    ...teams,
+-    role?.member?.role,
+-    role?.invitedRole,
+-  ].filter(isNotNullOrUndefined);
+-}
+-
+ type Invite = NonNullable<
+   OrganizationMembersTableQuery['organization']
+ >['pendingInvites'][number];
+ 
+ function parseInvites(invites: Invite[]): InviteRow[] {
+-  // Group invites by email and order from latest to first invite
+   const groupedInvites = invites.reduce(
+     (groups: {[email: string]: Invite[]}, invite: Invite) => {
+       const email = invite?.email;
+@@ -128,6 +120,111 @@ function parseInvites(invites: Invite[]): InviteRow[] {
+   );
+ }
+ 
++function matchesSearch(row: Row, pattern: string): boolean {
++  const lower = pattern.toLowerCase();
++  return [
++    row.user?.name,
++    row.username,
++    row.email,
++    ...row.teams,
++    row.member?.role,
++    row.invitedRole,
++  ]
++    .filter(Boolean)
++    .some(value => value!.toLowerCase().includes(lower));
++}
++
++type ColumnDef = {
++  id: string;
++  name: string | React.ReactNode;
++  allowsSorting: boolean;
++  minWidth?: number;
++  maxWidth?: number;
++  defaultWidth?: number;
++};
++
++function nullsLast(aPresent: boolean, bPresent: boolean): number {
++  if (aPresent === bPresent) {
++    return 0;
++  }
++  return aPresent ? -1 : 1;
++}
++
++function isPresent(row: Row, colId: string): boolean {
++  switch (colId) {
++    case 'user':
++      return !!row.user?.name;
++    case 'email':
++      return !!row.email;
++    case 'lastActiveAt': {
++      if (!row.lastActiveAt) {
++        return false;
++      }
++      const t = new Date(row.lastActiveAt).getTime();
++      return !isNaN(t);
++    }
++    case 'billingAdmin':
++      return row.member != null;
++    default:
++      return true;
++  }
++}
++
++// Ascending comparators: positive means a sorts after b.
++// Only called when both rows have present values for the column.
++const SORT_COMPARATORS: Record<string, (a: Row, b: Row) => number> = {
++  user: (a, b) =>
++    (a.user?.name ?? '').localeCompare(b.user?.name ?? '', undefined, {
++      sensitivity: 'base',
++      numeric: true,
++    }),
++  email: (a, b) =>
++    a.email.localeCompare(b.email, undefined, {
++      sensitivity: 'base',
++      numeric: true,
++    }),
++  lastActiveAt: (a, b) =>
++    new Date(a.lastActiveAt!).getTime() - new Date(b.lastActiveAt!).getTime(),
++};
++
++function sortRows(
++  rows: Row[],
++  descriptor: SortDescriptor | undefined,
++  billingUsername: string | undefined
++): Row[] {
++  if (!descriptor?.column) {
++    return rows;
++  }
++  const colId = descriptor.column as string;
++  const desc = descriptor.direction === 'descending';
++
++  if (colId === 'billingAdmin') {
++    return [...rows].sort((a, b) => {
++      const pin = nullsLast(isPresent(a, colId), isPresent(b, colId));
++      if (pin !== 0) {
++        return pin;
++      }
++      const aAdmin = a.member?.username === billingUsername ? 1 : 0;
++      const bAdmin = b.member?.username === billingUsername ? 1 : 0;
++      const cmp = aAdmin - bAdmin;
++      return desc ? -cmp : cmp;
++    });
++  }
++
++  const comparator = SORT_COMPARATORS[colId];
++  if (!comparator) {
++    return rows;
++  }
++  return [...rows].sort((a, b) => {
++    const pin = nullsLast(isPresent(a, colId), isPresent(b, colId));
++    if (pin !== 0) {
++      return pin;
++    }
++    const cmp = comparator(a, b);
++    return desc ? -cmp : cmp;
++  });
++}
++
+ const OrganizationMembersTableComp = () => {
+   const {
+     viewerMemberRole,
+@@ -172,457 +269,448 @@ const OrganizationMembersTableComp = () => {
+     !privilegesLoading && privileges.roleManagementEnabled;
+ 
+   const [isSettingRole, setIsSettingRole] = useState(false);
++  const [searchPattern, setSearchPattern] = useState('');
++  const [sortDescriptor, setSortDescriptor] = useState<
++    SortDescriptor | undefined
++  >(undefined);
++  const [pageIndex, setPageIndex] = useState(0);
+ 
+   const columns = useMemo(() => {
+-    const sortMethods = {
+-      name: (a: any, b: any, desc: boolean) => {
+-        const aName = a?.name ?? '';
+-        const bName = b?.name ?? '';
+-
+-        const aMissing = !aName;
+-        const bMissing = !bName;
+-
+-        if (aMissing && bMissing) {
+-          return 0;
+-        }
+-        if (aMissing) {
+-          return desc ? -1 : 1;
+-        }
+-        if (bMissing) {
+-          return desc ? 1 : -1;
+-        }
+-
+-        return aName.localeCompare(bName, undefined, {
+-          sensitivity: 'base',
+-          numeric: true,
+-        });
++    const base: ColumnDef[] = [
++      {id: 'user', name: 'Profile', allowsSorting: true, minWidth: 120},
++      {id: 'email', name: 'Email', allowsSorting: true, minWidth: 180},
++      ...(isMemberTableLastActiveAtEnabled
++        ? [
++            {
++              id: 'lastActiveAt',
++              name: 'Last Active',
++              allowsSorting: true,
++              minWidth: 150,
++            },
++          ]
++        : []),
++      {id: 'teams', name: 'Teams', allowsSorting: false, minWidth: 150},
++      {id: 'role', name: 'Org Role', allowsSorting: false, minWidth: 70},
++      {
++        id: 'model_seat',
++        name: (
++          <span className="flex items-center gap-4">
++            Models Seat
++            <InfoTooltip
++              id="models-seat-info"
++              aria-label="Models seat information">
++              A models seat gives you write access to model projects so that you
++              can contribute and manage a models project.
++            </InfoTooltip>
++          </span>
++        ),
++        allowsSorting: false,
++        minWidth: 60,
+       },
+-      email: (a: any, b: any, desc: boolean) => {
+-        const aMissing = !a;
+-        const bMissing = !b;
+-
+-        if (aMissing && bMissing) {
+-          return 0;
+-        }
+-        if (aMissing) {
+-          return desc ? -1 : 1;
+-        }
+-        if (bMissing) {
+-          return desc ? 1 : -1;
+-        }
+-
+-        return a.localeCompare(b, undefined, {
+-          sensitivity: 'base',
+-          numeric: true,
+-        });
++      {
++        id: 'weave_role',
++        name: 'Weave Access',
++        allowsSorting: false,
++        minWidth: 60,
++      },
++      {
++        id: 'billingAdmin',
++        name: 'Billing Admin',
++        allowsSorting: true,
++        minWidth: 60,
++      },
++      {
++        id: 'actions',
++        name: '',
++        allowsSorting: false,
++        minWidth: ICON_COLUMN_WIDTH,
++        maxWidth: ICON_COLUMN_WIDTH,
++        defaultWidth: ICON_COLUMN_WIDTH,
+       },
+-      lastActiveAt: (a: any, b: any, desc: boolean) => {
+-        const timeA = a ? new Date(a).getTime() : null;
+-        const timeB = b ? new Date(b).getTime() : null;
++    ];
+ 
+-        const aMissing = timeA == null || isNaN(timeA);
+-        const bMissing = timeB == null || isNaN(timeB);
++    return base;
++  }, [isMemberTableLastActiveAtEnabled]);
+ 
+-        if (aMissing && bMissing) {
+-          return 0;
+-        }
+-        if (aMissing) {
+-          return desc ? -1 : 1;
+-        }
+-        if (bMissing) {
+-          return desc ? 1 : -1;
+-        }
++  const allRows: Row[] = useMemo(() => {
++    if (!organization) {
++      return [];
++    }
+ 
+-        return timeA - timeB;
+-      },
+-      billingAdmin: (a: any, b: any, desc: boolean) => {
+-        if (a?.billingColumn == null || !a?.billingColumn) {
+-          return desc ? -1 : 1;
+-        }
+-        if (b?.billingColumn == null || !b?.billingColumn) {
+-          return desc ? 1 : -1;
+-        }
++    const memberRows: Row[] = organization.members.map(member => {
++      const teamNames: string[] =
++        member.teams?.edges?.map(edge => edge?.node?.name)?.filter(isTruthy) ??
++        [];
+ 
+-        const aAdmin =
+-          a?.username === organization?.billingUser?.username ? 1 : 0;
+-        const bAdmin =
+-          b?.username === organization?.billingUser?.username ? 1 : 0;
++      return {
++        id: `member-${member.id}`,
++        user: {
++          name: member.name,
++          username: member.username,
++          photoUrl: member.photoUrl,
++        },
++        username: member.username,
++        email: member.email,
++        teams: teamNames,
++        member,
++        lastActiveAt: member.lastActiveAt,
++      };
++    });
++
++    const inviteRows: Row[] = parseInvites(
++      organization.pendingInvites ?? []
++    ).map(invite => ({
++      id: `invite-${invite.email}`,
++      email: invite.email,
++      username: invite.username,
++      teams: invite.teamEntities,
++      invitedRole: invite.role,
++      inviteIds: invite.ids,
++    }));
++
++    return [...memberRows, ...inviteRows];
++  }, [organization]);
++
++  const filteredRows = useMemo(() => {
++    const trimmed = searchPattern.trim();
++    const filtered = trimmed
++      ? allRows.filter(row => matchesSearch(row, trimmed))
++      : allRows;
++    return sortRows(
++      filtered,
++      sortDescriptor,
++      organization?.billingUser?.username ?? undefined
++    );
++  }, [allRows, searchPattern, sortDescriptor, organization?.billingUser]);
++
++  const totalCount = filteredRows.length;
++  const pageCount = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
++  const safePageIndex = Math.min(pageIndex, pageCount - 1);
++  const pagedRows = filteredRows.slice(
++    safePageIndex * PAGE_SIZE,
++    (safePageIndex + 1) * PAGE_SIZE
++  );
+ 
+-        return aAdmin - bAdmin;
+-      },
+-    };
++  const handleSearchChange = useCallback((value: string) => {
++    setSearchPattern(value);
++    setPageIndex(0);
++  }, []);
+ 
+-    if (organization == null) {
+-      return [];
+-    }
++  const handleSortChange = useCallback((desc: SortDescriptor) => {
++    setSortDescriptor(desc);
++    setPageIndex(0);
++  }, []);
+ 
+-    const modelSeatColumn: DataColumn<Row> = {
+-      Header: () => (
+-        <TooltipDeprecated
+-          position="top center"
+-          className="flex items-center"
+-          trigger={
+-            <div className="flex items-center pl-5">
+-              MODELS SEAT
+-              <Icon name="info" className="ml-5" />
+-            </div>
+-          }>
+-          <Tailwind>
+-            <div className="flex items-center">
+-              A models seat gives you write access to model projects so that you
+-              can contribute and manage a models project.
+-            </div>
+-          </Tailwind>
+-        </TooltipDeprecated>
+-      ),
+-      accessor: 'model_seat',
+-      minWidth: 60,
+-      Cell: cellInfo => {
+-        if (cellInfo.value != null && cellInfo.value.member != null) {
+-          const roleDropdownOptions = getModelSeatTypeDropdownItems(
+-            organization,
+-            cellInfo.value.member,
+-            roleManagementEnabled
+-          );
++  const isFetching = loading || organization == null;
+ 
+-          return (
+-            <ModelSeatTypeDropdown
+-              username={cellInfo.value.member.username}
+-              userId={cellInfo.value.member.id}
+-              organizationId={organization?.id}
+-              isDisabled={!canViewerEditMember}
+-              refetch={refetch}
+-              setIsLoading={setIsSettingRole}
+-              roleOptions={roleDropdownOptions}
+-              currentModelSeat={getModelsSeatTypeDisplayName(
+-                cellInfo.value.member.modelsSeat as ModelSeatTypeColumnName
+-              )}
+-              isCurrentOrgAdmin={
+-                cellInfo.value.member.role === OrganizationMemberRole.ADMIN
+-              }
+-            />
+-          );
+-        }
+-        return (
+-          <div className="overflow-visible pl-5">
+-            <div className="inline-flex items-center text-moon-800/40">
+-              Invited
+-            </div>
+-          </div>
+-        );
+-      },
+-    };
+-
+-    const weaveRoleColumn: DataColumn<Row> = {
+-      Header: 'WEAVE ACCESS',
+-      accessor: 'weave_role',
+-      minWidth: 60,
+-      Cell: cellInfo => {
+-        if (cellInfo.value != null && cellInfo.value.member != null) {
+-          const roleDropdownOptions = getWeaveRoleDropdownItems(
+-            cellInfo.value.member,
+-            selectedAccount?.isEnterprise ?? false
+-          );
++  const tableUsers: TableUser[] = useMemo(
++    () => organization?.members.map(transformToTableUser) ?? [],
++    [organization]
++  );
+ 
+-          return (
+-            <WeaveRoleDropdown
+-              userId={cellInfo.value.member.id}
+-              organizationId={organization?.id}
+-              isDisabled={!canViewerEditMember}
+-              refetch={refetch}
+-              setIsLoading={setIsSettingRole}
+-              roleOptions={roleDropdownOptions}
+-              currentWeaveRole={getWeaveRoleTypeDisplayName(
+-                cellInfo.value.member.weaveRole
+-              )}
+-            />
++  const renderCellContent = useCallback(
++    (columnId: string, row: Row): React.ReactNode => {
++      switch (columnId) {
++        case 'user':
++          return <ProfileCell row={row} />;
++        case 'email':
++          return <span className="truncate">{row.email}</span>;
++        case 'lastActiveAt':
++          return row.lastActiveAt != null ? (
++            <TimeAgo dateTime={row.lastActiveAt} />
++          ) : (
++            <span>-</span>
+           );
+-        }
+-        return (
+-          <div className="overflow-visible pl-5">
+-            <div className="inline-flex items-center text-moon-800/40">
+-              Invited
+-            </div>
+-          </div>
+-        );
+-      },
+-    };
+-
+-    const userColumn: DataColumn<Row> = {
+-      Header: 'PROFILE',
+-      accessor: 'user',
+-      minWidth: 120,
+-      sortMethod: sortMethods.name,
+-      Cell: cellInfo => {
+-        if (!cellInfo.value) {
+-          return (
+-            <div className="flex items-center">
+-              <img
+-                src="/default-profile-picture.png"
+-                alt={`${
+-                  cellInfo.original.user?.name || 'default'
+-                } profile picture`}
+-                className="h-36 w-36 rounded-full"
+-              />
+-              <div className="overflow-visible pl-5">
+-                <div className="inline-flex items-center">
+-                  <i>Invited User</i>
+-                </div>
+-              </div>
+-            </div>
+-          );
+-        }
+-        const {name, username, photoUrl} = cellInfo.value;
+-        return (
+-          <div className="flex items-center">
+-            <img
+-              src={photoUrl ?? '/default-profile-picture.png'}
+-              alt={`${name}'s profile picture`}
+-              className="h-36 w-36 rounded-full"
+-            />
+-            <div className="overflow-visible pl-5">
+-              <div className="inline-flex items-center">{name}</div>
+-              <div>
+-                <Link className="text-teal-550" to={`/${username}`}>
+-                  @{username}
+-                </Link>
+-              </div>
+-            </div>
+-          </div>
+-        );
+-      },
+-    };
+-
+-    const emailColumn: DataColumn<Row> = {
+-      Header: 'EMAIL',
+-      accessor: 'email',
+-      minWidth: 180,
+-      sortMethod: sortMethods.email,
+-      Cell: cellInfo => {
+-        const email = cellInfo.value;
+-        return (
+-          <Tailwind>
+-            <div className="overflow-visible">
+-              <div className="inline-flex items-center">{email}</div>
+-            </div>
+-          </Tailwind>
+-        );
+-      },
+-    };
+-
+-    const lastActiveAtColumn: DataColumn<Row> = {
+-      Header: 'LAST ACTIVE',
+-      accessor: 'lastActiveAt',
+-      minWidth: 150,
+-      sortMethod: sortMethods.lastActiveAt,
+-      Cell: cellInfo => {
+-        if (cellInfo.value != null) {
+-          return <TimeAgo date={cellInfo.value} />;
+-        }
+-        return <div>-</div>;
+-      },
+-    };
+-
+-    const teamsColumn: DataColumn<Row> = {
+-      Header: 'TEAMS',
+-      accessor: 'teams',
+-      minWidth: 150,
+-      sortable: false,
+-      Cell: cellInfo => {
+-        const teams = cellInfo.value;
+-        return <TeamsColumn teams={teams} />;
+-      },
+-    };
+-
+-    const orgRoleColumn: DataColumn<Row> = {
+-      Header: () => {
+-        return <div className="ml-8">ORG ROLE</div>;
+-      },
+-      accessor: 'role',
+-      minWidth: 70,
+-      Cell: cellInfo => {
+-        if (cellInfo.value.member != null) {
+-          return (
++        case 'teams':
++          return <TeamsColumn teams={row.teams} />;
++        case 'role':
++          return row.member != null && organization != null ? (
+             <OrganizationMemberRoleDropdown
+               canEditMemberRole={canViewerEditMember}
+-              member={cellInfo.value.member}
+-              memberRole={cellInfo.value.member.role}
++              member={row.member}
++              memberRole={row.member.role}
+               organization={organization}
+               setIsLoading={setIsSettingRole}
+               refetch={refetch}
+             />
+-          );
+-        }
+-        if (cellInfo.value.invitedRole != null) {
+-          return (
++          ) : row.invitedRole != null && organization != null ? (
+             <OrganizationMemberRoleDropdown
+               canEditMemberRole={false}
+-              memberRole={cellInfo.value.invitedRole}
++              memberRole={row.invitedRole}
+               organization={organization}
+               member={undefined}
+             />
+-          );
+-        }
+-        return null;
+-      },
+-    };
+-
+-    const billingAdminColumn: DataColumn<Row> = {
+-      Header: 'BILLING ADMIN',
+-      accessor: 'billingAdmin',
+-      minWidth: 60,
+-      sortMethod: sortMethods.billingAdmin,
+-      Cell: cellInfo => {
+-        if (!cellInfo.value) {
+-          return null;
+-        }
+-        return (
+-          <BillingAdminRadio
+-            canViewerPerformAction={canViewerChangeBillingUser}
+-            member={cellInfo.value}
+-            organization={organization}
+-          />
+-        );
+-      },
+-    };
+-
+-    const baseColumns: DataColumns<Row> = [
+-      userColumn,
+-      emailColumn,
+-      ...(isMemberTableLastActiveAtEnabled ? [lastActiveAtColumn] : []),
+-      teamsColumn,
+-      orgRoleColumn,
+-      modelSeatColumn,
+-      weaveRoleColumn,
+-      billingAdminColumn,
+-    ];
+-
+-    const actionColumn: DataColumn<Row> = {
+-      Header: ' ',
+-      accessor: 'actions',
+-      minWidth: 40,
+-      sortable: false,
+-      Cell: cellInfo => {
+-        if (cellInfo.value.member != null) {
+-          if (viewer?.username === cellInfo.value.member.username) {
+-            return null;
+-          }
++          ) : null;
++        case 'model_seat':
+           return (
+-            <OrganizationMemberActionMenu
+-              member={cellInfo.value.member}
+-              organization={organization}
++            <ModelSeatCell
++              row={row}
++              organization={organization ?? null}
++              roleManagementEnabled={roleManagementEnabled}
++              canViewerEditMember={canViewerEditMember}
+               refetch={refetch}
++              setIsSettingRole={setIsSettingRole}
+             />
+           );
+-        }
+-        if (cellInfo.value.inviteIds != null) {
++        case 'weave_role':
+           return (
+-            <OrganizationMemberActionMenu
+-              inviteIds={cellInfo.value.inviteIds}
+-              organization={organization}
++            <WeaveRoleCell
++              row={row}
++              organization={organization ?? null}
++              selectedAccount={selectedAccount}
++              canViewerEditMember={canViewerEditMember}
+               refetch={refetch}
++              setIsSettingRole={setIsSettingRole}
+             />
+           );
+-        }
+-        return null;
+-      },
+-    };
+-
+-    const finalColumns = [...baseColumns];
+-
+-    if (canViewerEditMember) {
+-      finalColumns.push(actionColumn);
+-    }
+-
+-    return finalColumns;
+-  }, [
+-    canViewerEditMember,
+-    organization,
+-    viewer,
+-    canViewerChangeBillingUser,
+-    refetch,
+-    roleManagementEnabled,
+-    isMemberTableLastActiveAtEnabled,
+-    selectedAccount?.isEnterprise,
+-  ]);
+-
+-  const memberRows: DataRow<Row>[] =
+-    organization?.members.map(member => {
+-      const {name, username, email, teams, photoUrl, lastActiveAt} = member;
+-
+-      const teamNames: string[] =
+-        teams?.edges?.map(edge => edge?.node?.name)?.filter(isTruthy) ?? [];
++        case 'billingAdmin':
++          return row.member != null && organization != null ? (
++            <BillingAdminRadio
++              canViewerPerformAction={canViewerChangeBillingUser}
++              member={row.member}
++              organization={organization}
++            />
++          ) : null;
++        case 'actions':
++          return canViewerEditMember ? (
++            <ActionsCell
++              row={row}
++              organization={organization ?? null}
++              viewer={viewer ?? null}
++              refetch={refetch}
++            />
++          ) : null;
++        default:
++          return null;
++      }
++    },
++    [
++      organization,
++      canViewerEditMember,
++      canViewerChangeBillingUser,
++      roleManagementEnabled,
++      selectedAccount,
++      viewer,
++      refetch,
++      setIsSettingRole,
++    ]
++  );
+ 
+-      return {
+-        row: {
+-          user: {
+-            name,
+-            username,
+-            photoUrl,
+-          },
+-          username,
+-          email,
+-          teams: teamNames,
+-          role: {member},
+-          billingAdmin: {...member, billingColumn: true},
+-          model_seat: {member},
+-          weave_role: {member},
+-          lastActiveAt,
+-          actions: {member},
+-        },
+-      };
+-    }) ?? [];
+-
+-  const inviteRows: DataRow<Row>[] = parseInvites(
+-    organization?.pendingInvites ?? []
+-  ).map(invite => {
+-    const {email, username, teamEntities, ids, role} = invite;
+-
+-    return {
+-      row: {
+-        email,
+-        username,
+-        teams: teamEntities,
+-        role: {invitedRole: role},
+-        actions: {inviteIds: ids},
+-      },
+-    };
+-  });
++  return (
++    <Tailwind>
++      <div data-test="organization-members-table" className="mt-8">
++        <Table
++          aria-label="Organization members table"
++          columnResizable
++          sortDescriptor={sortDescriptor}
++          onSortChange={handleSortChange}
++          isLoading={isFetching || isSettingRole}
++          toolbar={() => (
++            <div className="flex w-full items-center gap-8">
++              <div className="flex-1">
++                <SearchField
++                  fullWidth
++                  aria-label="Search members"
++                  placeholder="Search by name, email, teams or roles..."
++                  value={searchPattern}
++                  onChange={handleSearchChange}
++                />
++              </div>
++              {canViewerEditMember && (
++                <UserExportsDropdown users={tableUsers} />
++              )}
++            </div>
++          )}
++          pagination={{
++            hasPreviousPage: safePageIndex > 0,
++            hasNextPage: safePageIndex < pageCount - 1,
++            onPrevious: () => setPageIndex(Math.max(0, safePageIndex - 1)),
++            onNext: () => setPageIndex(safePageIndex + 1),
++            range: {
++              pageIndex: safePageIndex,
++              pageSize: PAGE_SIZE,
++              totalCount,
++            },
++          }}>
++          <Table.Header columns={columns}>
++            {(col: ColumnDef) => (
++              <Table.Column
++                id={col.id}
++                isRowHeader={col.id === 'user'}
++                allowsSorting={col.allowsSorting}
++                allowsResizing={col.maxWidth == null}
++                minWidth={col.minWidth}
++                maxWidth={col.maxWidth}
++                defaultWidth={col.defaultWidth}>
++                {col.name}
++              </Table.Column>
++            )}
++          </Table.Header>
++          <Table.Body
++            items={pagedRows}
++            renderEmptyState={() =>
++              isFetching ? (
++                <div className="flex justify-center py-32">
++                  <DotProgress aria-label="Loading members" />
++                </div>
++              ) : (
++                <div className="py-32 text-center text-moon-500">
++                  No members found
++                </div>
++              )
++            }>
++            {(row: Row) => (
++              <Table.Row id={row.id} columns={columns}>
++                {(col: ColumnDef) => (
++                  <Table.Cell>{renderCellContent(col.id, row)}</Table.Cell>
++                )}
++              </Table.Row>
++            )}
++          </Table.Body>
++        </Table>
++      </div>
++    </Tailwind>
++  );
++};
+ 
+-  const rows: DataRow<Row>[] = [...memberRows, ...inviteRows];
++const ProfileCell = ({row}: {row: Row}) => {
++  if (!row.user) {
++    return (
++      <Avatar src="/default-profile-picture.png" textValue="Invited User" />
++    );
++  }
++  const {name, username, photoUrl} = row.user;
++  return (
++    <div className="flex items-center gap-8">
++      <Avatar
++        src={photoUrl ?? '/default-profile-picture.png'}
++        alt={`${name}'s profile picture`}
++      />
++      <div>
++        <div>{name}</div>
++        <Link href={`/${username}`}>@{username}</Link>
++      </div>
++    </div>
++  );
++};
+ 
+-  if (loading || organization == null) {
+-    return <Skeleton className="h-[400px] w-full rounded-[4px]" />;
++const ModelSeatCell = ({
++  row,
++  organization,
++  roleManagementEnabled,
++  canViewerEditMember,
++  refetch,
++  setIsSettingRole,
++}: {
++  row: Row;
++  organization: NonNullable<
++    OrganizationMembersTableQuery['organization']
++  > | null;
++  roleManagementEnabled: boolean;
++  canViewerEditMember: boolean;
++  refetch: () => void;
++  setIsSettingRole: React.Dispatch<React.SetStateAction<boolean>>;
++}) => {
++  if (row.member != null && organization != null) {
++    const roleDropdownOptions = getModelSeatTypeDropdownItems(
++      organization,
++      row.member,
++      roleManagementEnabled
++    );
++    return (
++      <ModelSeatTypeDropdown
++        username={row.member.username}
++        userId={row.member.id}
++        organizationId={organization.id}
++        isDisabled={!canViewerEditMember}
++        refetch={refetch}
++        setIsLoading={setIsSettingRole}
++        roleOptions={roleDropdownOptions}
++        currentModelSeat={getModelsSeatTypeDisplayName(
++          row.member.modelsSeat as ModelSeatTypeColumnName
++        )}
++        isCurrentOrgAdmin={row.member.role === OrganizationMemberRole.ADMIN}
++      />
++    );
+   }
++  return <span className="text-moon-800/40">Invited</span>;
++};
+ 
+-  const tableUsers: TableUser[] =
+-    organization?.members.map(transformToTableUser) || [];
++const WeaveRoleCell = ({
++  row,
++  organization,
++  selectedAccount,
++  canViewerEditMember,
++  refetch,
++  setIsSettingRole,
++}: {
++  row: Row;
++  organization: NonNullable<
++    OrganizationMembersTableQuery['organization']
++  > | null;
++  selectedAccount: {isEnterprise?: boolean} | null;
++  canViewerEditMember: boolean;
++  refetch: () => void;
++  setIsSettingRole: React.Dispatch<React.SetStateAction<boolean>>;
++}) => {
++  if (row.member != null && organization != null) {
++    const roleDropdownOptions = getWeaveRoleDropdownItems(
++      row.member,
++      selectedAccount?.isEnterprise ?? false
++    );
++    return (
++      <WeaveRoleDropdown
++        userId={row.member.id}
++        organizationId={organization.id}
++        isDisabled={!canViewerEditMember}
++        refetch={refetch}
++        setIsLoading={setIsSettingRole}
++        roleOptions={roleDropdownOptions}
++        currentWeaveRole={getWeaveRoleTypeDisplayName(row.member.weaveRole)}
++      />
++    );
++  }
++  return <span className="text-moon-800/40">Invited</span>;
++};
+ 
+-  return (
+-    <Tailwind>
+-      <TypedWBReactTable<Row>
+-        dataTest="organization-members-table"
+-        className="mt-8 border-moon-250"
+-        data={rows}
+-        columns={columns}
+-        searchPlaceholder={'Search by name, email, teams or roles...'}
+-        defaultSorted={[{id: 'name', desc: true}]} // todo(sammy): why doesn't this actually sort on first load?
+-        loading={isSettingRole}
+-        pageSize={25}
+-        getTrProps={() => ({
+-          className: 'flex items-center min-h-64',
+-        })}
+-        extraActions={
+-          canViewerEditMember && (
+-            <div className="mx-12 flex items-center gap-8">
+-              <UserExportsDropdown users={tableUsers} />
+-            </div>
+-          )
+-        }
+-        getSearchOptions={getSearchOptions}
++const ActionsCell = ({
++  row,
++  organization,
++  viewer,
++  refetch,
++}: {
++  row: Row;
++  organization: NonNullable<
++    OrganizationMembersTableQuery['organization']
++  > | null;
++  viewer: Viewer | null;
++  refetch: () => void;
++}) => {
++  if (organization == null) {
++    return null;
++  }
++  if (row.member != null) {
++    if (viewer?.username === row.member.username) {
++      return null;
++    }
++    return (
++      <OrganizationMemberActionMenu
++        member={row.member}
++        organization={organization}
++        refetch={refetch}
+       />
+-    </Tailwind>
+-  );
++    );
++  }
++  if (row.inviteIds != null) {
++    return (
++      <OrganizationMemberActionMenu
++        inviteIds={row.inviteIds}
++        organization={organization}
++        refetch={refetch}
++      />
++    );
++  }
++  return null;
+ };
+ 
+ export const OrganizationMembersTable = memo(OrganizationMembersTableComp);
+diff --git a/frontends/app/src/components/MembersTable/UserExportsDropdown.tsx b/frontends/app/src/components/MembersTable/UserExportsDropdown.tsx
+index e7326e85d64..153b4bef9bb 100644
+--- a/frontends/app/src/components/MembersTable/UserExportsDropdown.tsx
++++ b/frontends/app/src/components/MembersTable/UserExportsDropdown.tsx
+@@ -95,7 +95,7 @@ export const UserExportsDropdown = ({users}: ExportsDropdownProps) => {
+       </DropdownMenu.Trigger>
+ 
+       <DropdownMenu.Portal>
+-        <DropdownMenu.Content align="end">
++        <DropdownMenu.Content align="end" style={{zIndex: 10}}>
+           <DropdownMenu.Item onClick={exportCsv}>
+             <Icon name="download" />
+             Export as CSV

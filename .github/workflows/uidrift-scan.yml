@@ -1,0 +1,370 @@
+name: UI label drift
+
+# Watches wandb/core for user-facing label changes that leave wandb/docs stale
+# and carries the resulting report in one rolling draft PR.
+#
+# The detector is scripts/uidrift; scripts/uidrift/ADAPTING.md explains what it
+# looks for and why. This workflow is only part 4 of that anatomy -- the sink. It
+# supplies a wandb/core checkout, runs the scan, and turns the markdown report
+# into something a writer can review and merge.
+
+on:
+  schedule:
+    # Weekday mornings at 13:00 UTC (6am PT), so a report is waiting at standup.
+    # Weekends are skipped: wandb/core barely moves and the watermark simply
+    # widens Monday's range, which costs seconds.
+    - cron: '0 13 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Window start, as a git date. Used only when there is no report to resume from.'
+        type: string
+        default: '60 days ago'
+      seed:
+        description: 'Ignore existing reports and rescan the whole --since window'
+        type: boolean
+        default: false
+      dry-run:
+        description: 'Scan and print the report to the job summary; open no PR'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  # Queue rather than cancel. Two runs must never write the rolling branch at
+  # once, and a cancelled run leaves no report -- the next one would just rescan
+  # the same range, so there is nothing to gain by killing one early.
+  group: uidrift
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    # The wandb/core clone is the slow part (~3-4 min for 1.3 GB); the scan
+    # itself is seconds to ~2 minutes depending on the window.
+    timeout-minutes: 30
+
+    env:
+      # Only a manual dispatch can be dry or seeded: `inputs` is empty on schedule.
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs['dry-run'] || false }}
+      SEED: ${{ github.event_name == 'workflow_dispatch' && inputs.seed || false }}
+      SINCE: ${{ inputs.since || '60 days ago' }}
+      # The one variable that points the detector at a checkout; see
+      # config.SourceRepo.local_path_env.
+      CORE_REPO: ${{ runner.temp }}/core
+      SUMMARY_JSON: ${{ runner.temp }}/uidrift-summary.json
+      PR_BODY: ${{ runner.temp }}/uidrift-pr-body.md
+
+    steps:
+      # Two ways to read a private wandb/core, checked before spending four
+      # minutes on a clone that cannot authenticate.
+      - name: Require a wandb/core read credential
+        id: creds
+        env:
+          APP_CLIENT_ID: ${{ vars.DOCS_SOURCE_READER_CLIENT_ID }}
+          APP_KEY: ${{ secrets.DOCS_SOURCE_READER_PRIVATE_KEY }}
+          CORE_PAT: ${{ secrets.WANDB_CORE_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -n "$APP_CLIENT_ID" ] && [ -n "$APP_KEY" ]; then
+            echo "use_app=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "use_app=false" >> "$GITHUB_OUTPUT"
+          if [ -n "$CORE_PAT" ]; then
+            echo "Using the WANDB_CORE_TOKEN secret; no App credentials configured."
+            exit 0
+          fi
+          echo "::error::Nothing here can read wandb/core. Either install the wandb-docs-source-reader App on wandb/core with Contents: read (today it is installed only on docs-code-eval and weave-internal), or add a WANDB_CORE_TOKEN secret that can read wandb/core."
+          exit 1
+
+      - name: Create wandb/core read token
+        id: core_token
+        if: steps.creds.outputs.use_app == 'true'
+        # Not fatal. The App has to be installed on wandb/core for this to
+        # succeed, and WANDB_CORE_TOKEN is the documented fallback while that
+        # install is pending. The clone step reports the real failure.
+        continue-on-error: true
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.DOCS_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_SOURCE_READER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: core
+          permission-contents: read
+
+      - name: Require app credentials for the PR
+        if: env.DRY_RUN != 'true'
+        env:
+          PR_CLIENT_ID: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          PR_KEY: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+        run: |
+          if [ -z "$PR_CLIENT_ID" ] || [ -z "$PR_KEY" ]; then
+            echo "::error::DOCS_PR_WRITER_CLIENT_ID (variable) and DOCS_PR_WRITER_PRIVATE_KEY (secret) must be set in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      # The default GITHUB_TOKEN would open the PR but would not trigger the
+      # pull_request checks on it, leaving required checks permanently pending.
+      # See "GitHub App authentication" in .github/workflows/README.md.
+      - name: Create token for wandb-docs-pr-writer
+        id: pr_token
+        if: env.DRY_RUN != 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.DOCS_PR_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_PR_WRITER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: docs
+
+      - name: Checkout docs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Shallow is fine: the scan reads the docs tree as files, and its
+          # watermark comes from the report filenames, not from git history.
+          token: ${{ steps.pr_token.outputs.token || secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.11'
+          # No dependency step: scripts/uidrift is stdlib-only by design, and
+          # _vendor/ holds the three modules it borrows from another repo.
+
+      - name: Clone wandb/core
+        env:
+          CORE_TOKEN: ${{ steps.core_token.outputs.token || secrets.WANDB_CORE_TOKEN }}
+          GIT_TERMINAL_PROMPT: "0"
+        run: |
+          set -euo pipefail
+          if [ -z "$CORE_TOKEN" ]; then
+            echo "::error::Could not mint a wandb/core App token and no WANDB_CORE_TOKEN secret is set. Install wandb-docs-source-reader on wandb/core with Contents: read, or add the secret."
+            exit 1
+          fi
+
+          # Run from RUNNER_TEMP, not the workspace. Inside the docs checkout git
+          # would apply that repo's persisted http.extraheader -- a GITHUB_TOKEN
+          # scoped to wandb/docs alone -- to this fetch, and a private wandb/core
+          # answers that with 404 rather than a permission error.
+          cd "$RUNNER_TEMP"
+
+          header="Authorization: Basic $(printf 'x-access-token:%s' "$CORE_TOKEN" | base64 -w0)"
+          echo "::add-mask::${header#Authorization: Basic }"
+
+          # Full history, single branch, no working tree. Each of those is
+          # measured rather than assumed:
+          #   * Full, not shallow: ownership falls back to all-time authorship
+          #     for files with thin recent history, which is exactly what a
+          #     truncated clone cannot answer. A 7-month and an 18-month clone
+          #     each named different reviewers than complete history did.
+          #   * --no-checkout: every read is plumbing (log, show, rev-list), so
+          #     materializing a 2 GB working tree buys nothing.
+          #   * Not --filter=blob:none: iter_commits reads --numstat, which needs
+          #     blob content. On a blobless clone a one-day window spent 82
+          #     seconds lazy-fetching and then died on the promisor remote.
+          git -c "http.extraheader=${header}" clone --quiet \
+            --no-checkout --single-branch --branch master \
+            https://github.com/wandb/core.git "$CORE_REPO"
+
+          git -C "$CORE_REPO" log -1 --format='wandb/core master at %h (%ci)' origin/master
+
+      - name: Scan for label drift
+        id: scan
+        run: |
+          set -uo pipefail
+
+          # --incremental takes its base from the head SHA in the newest report
+          # already committed, so a first-ever run -- or a --seed dispatch -- has
+          # to name a window instead.
+          if [ "$SEED" != "true" ] && compgen -G 'uidrift/reports/*.md' > /dev/null; then
+            mode=(--incremental)
+          else
+            mode=(--since "$SINCE")
+          fi
+          echo "Scanning with: ${mode[*]}"
+
+          set +e
+          PYTHONPATH=scripts python3 -m uidrift.scan scan "${mode[@]}" \
+            --summary-json "$SUMMARY_JSON"
+          code=$?
+          set -e
+
+          # 0 clean, 3 a decision reopened, anything else operator error.
+          if [ "$code" -ne 0 ] && [ "$code" -ne 3 ]; then
+            echo "::error::uidrift scan failed with exit $code. See scripts/uidrift/ADAPTING.md for the exit-code contract."
+            exit "$code"
+          fi
+
+          {
+            echo "exit_code=$code"
+            echo "findings=$(jq -r '.findings' "$SUMMARY_JSON")"
+            echo "reopened=$(jq -r '.reopened' "$SUMMARY_JSON")"
+            echo "suppressed=$(jq -r '.suppressed' "$SUMMARY_JSON")"
+            echo "report=$(jq -r '.report // ""' "$SUMMARY_JSON")"
+            echo "head=$(jq -r '.head[0:12]' "$SUMMARY_JSON")"
+            echo "range=$(jq -r '.scanned_range' "$SUMMARY_JSON")"
+            # A reopened decision is drift too: a writer's earlier dismissal no
+            # longer matches the docs, so the row is live again and belongs in
+            # the PR even when nothing else was found.
+            echo "actionable=$(jq -r '.findings + .reopened' "$SUMMARY_JSON")"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish the report to the job summary
+        env:
+          REPORT: ${{ steps.scan.outputs.report }}
+        run: |
+          set -euo pipefail
+          # The run is worth reading even when it opens no PR -- a dry run, or a
+          # quiet window whose only news is that there is no news.
+          if [ -n "$REPORT" ] && [ -f "$REPORT" ]; then
+            head -c 900000 "$REPORT" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          {
+            echo
+            echo '<details><summary>Run counts</summary>'
+            echo
+            echo '```json'
+            cat "$SUMMARY_JSON"
+            echo '```'
+            echo
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Compose the PR body
+        if: steps.scan.outputs.actionable != '0' && env.DRY_RUN != 'true'
+        # Every scan value arrives through env, never interpolated into the
+        # script. `range` echoes the --since input, which a dispatch controls, so
+        # `${{ }}` here would be a command-substitution hole.
+        env:
+          RANGE: ${{ steps.scan.outputs.range }}
+          HEAD_SHA: ${{ steps.scan.outputs.head }}
+          REPORT: ${{ steps.scan.outputs.report }}
+          REOPENED: ${{ steps.scan.outputs.reopened }}
+        run: |
+          set -euo pipefail
+          {
+            echo "UI labels changed in \`wandb/core\` that this repo may now describe wrongly."
+            echo
+            echo "**Range**: \`${RANGE}\` (head \`${HEAD_SHA}\`)"
+            echo "**Report**: \`${REPORT}\`"
+            echo
+            jq -r '"| Stage | Count |\n|---|---|\n" +
+                   "| Commits in range | \(.commits) |\n" +
+                   "| Touching UI paths | \(.ui_commits) |\n" +
+                   "| Stage-1 candidates | \(.candidate_commits) (\(.candidate_deltas) changed strings) |\n" +
+                   "| **Findings** | **\(.findings)** |\n" +
+                   "| Suppressed by the ledger | \(.suppressed) |\n" +
+                   "| Reopened | \(.reopened) |"' "$SUMMARY_JSON"
+            echo
+
+            lanes=$(jq -r '.lanes | to_entries | map("\(.value) \(.key)") | join(", ")' "$SUMMARY_JSON")
+            # An `&&` one-liner would abort the whole body under `set -e` on the
+            # run that has no lanes to report.
+            if [ -n "$lanes" ]; then
+              echo "**Lanes**: $lanes"
+            fi
+            echo
+
+            if [ "$REOPENED" != "0" ]; then
+              echo "> [!WARNING]"
+              echo "> ${REOPENED} stored decision(s) reopened: docs have started"
+              echo "> covering a surface that someone previously dismissed, so the dismissal is"
+              echo "> now hiding a real finding. Re-decide those rows rather than merging past them."
+              echo
+            fi
+
+            echo "### How to review"
+            echo
+            echo "Read the report, then act per lane:"
+            echo
+            echo "- **agent** — mechanical rename; the label swap is safe to apply as-is."
+            echo "- **pair** — a writer scopes it first, then an agent applies it."
+            echo "- **human** — prose has to be written; the row only tells you where."
+            echo
+            echo "Rows that are wrong or not worth doing get recorded, not deleted:"
+            echo
+            echo '```bash'
+            echo "PYTHONPATH=scripts python3 -m uidrift.scan decide <id> \\"
+            echo "    --status dismissed --by <you> --agreement false_positive --note '<why>'"
+            echo '```'
+            echo
+            echo "\`--agreement\` is the detector's only feedback channel and cannot be"
+            echo "reconstructed later. A dismissal reopens by itself if docs later start"
+            echo "covering the surface, so it suppresses a row without hiding it forever."
+            echo
+            echo "Merging this PR advances the scan watermark: the next run resumes from"
+            echo "\`${HEAD_SHA}\`. Closing it without merging is also fine —"
+            echo "the next run rescans the same range and supersedes this report."
+            echo
+            echo "---"
+            echo "*Opened by \`.github/workflows/uidrift-scan.yml\`. Detector: \`scripts/uidrift\` ([how it works](https://github.com/wandb/docs/blob/main/scripts/uidrift/ADAPTING.md)).*"
+          } > "$PR_BODY"
+
+      - name: Open or update the drift PR
+        id: pr
+        if: steps.scan.outputs.actionable != '0' && env.DRY_RUN != 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          token: ${{ steps.pr_token.outputs.token }}
+          base: main
+          # One rolling branch, not one per run. The watermark is the newest
+          # report on main, so every run regenerates the delta since the last
+          # MERGED report: a superseded report has nothing left to say, and one
+          # PR per weekday would bury the current one.
+          branch: uidrift/drift-report
+          delete-branch: true
+          draft: true
+          # Only the report. Nothing else should have changed, and the scan never
+          # writes the ledger -- only `decide` does.
+          add-paths: uidrift/reports
+          # Deliberately no `[skip ci]`, though the ADAPTING.md anatomy names it:
+          # a skipped run reports no status, so required pull_request checks would
+          # sit pending forever and the PR could never merge. Nothing expensive
+          # runs anyway -- Validate MDX sees no .mdx or .json in the diff and
+          # short-circuits, and .mintignore keeps uidrift/ out of the site build.
+          commit-message: |
+            Report UI label drift through ${{ steps.scan.outputs.head }}
+
+            ${{ steps.scan.outputs.findings }} finding(s) over ${{ steps.scan.outputs.range }}.
+            Generated by .github/workflows/uidrift-scan.yml.
+          title: "UI label drift: ${{ steps.scan.outputs.findings }} finding(s) through ${{ steps.scan.outputs.head }}"
+          body-path: ${{ env.PR_BODY }}
+          labels: |
+            documentation
+            automated
+            uidrift
+
+      - name: Report the outcome
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
+          ACTIONABLE: ${{ steps.scan.outputs.actionable }}
+          FINDINGS: ${{ steps.scan.outputs.findings }}
+          RANGE: ${{ steps.scan.outputs.range }}
+        run: |
+          set -euo pipefail
+          if [ "$ACTIONABLE" = "0" ]; then
+            echo "::notice title=No drift to act on::Nothing in ${RANGE} left docs wrong. The watermark stays put, so the next run resumes from the same base and simply covers a wider window."
+            exit 0
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "::notice title=Dry run::${FINDINGS} finding(s); no PR opened. The report is in the job summary."
+            exit 0
+          fi
+          if [ -n "$PR_NUMBER" ]; then
+            echo "::notice title=Drift report ready::https://github.com/${{ github.repository }}/pull/${PR_NUMBER}"
+          fi
+
+      # Last, so the report and the PR exist before the run goes red. A reopened
+      # decision is the one outcome the detector is allowed to fail a step over:
+      # a human's recorded call no longer matches the evidence it was made
+      # against, and only a human can settle that.
+      - name: Fail on reopened decisions
+        if: steps.scan.outputs.reopened != '0'
+        env:
+          REOPENED: ${{ steps.scan.outputs.reopened }}
+        run: |
+          echo "::error title=Reopened decisions::${REOPENED} stored decision(s) no longer match the docs they were made against. Re-run \`uidrift.scan decide\` on those ids to settle them."
+          exit 1

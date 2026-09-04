@@ -1,0 +1,51 @@
+name: UI label drift tests
+
+# Runs the detector's own test suite on every PR that touches it.
+#
+# The scan workflow (uidrift-scan.yml) triggers only on schedule and dispatch,
+# so before this existed nothing ran scripts/uidrift/tests on a pull request: a
+# regression could merge and first surface days later, in a rolling PR that a
+# writer would reasonably read as drift rather than as a broken detector.
+#
+# The suite is stdlib unittest, needs no network and no wandb/core checkout, and
+# finishes in seconds -- so it is cheap enough to gate every relevant PR.
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/uidrift/**'
+      - '.github/workflows/uidrift-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/uidrift/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: uidrift-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          # Matches the scan workflow. No dependency step: scripts/uidrift is
+          # stdlib-only by design.
+          python-version: '3.11'
+
+      - name: Run the detector test suite
+        # Discovery runs from scripts/ so the tests' relative imports (`from ..
+        # import config`) resolve against the uidrift package, which is how they
+        # are written and how they run locally.
+        run: |
+          python3 -m unittest discover -s scripts/uidrift/tests -t scripts -p 'test_*.py' -v

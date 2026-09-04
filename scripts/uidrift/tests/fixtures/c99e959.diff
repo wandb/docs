@@ -1,0 +1,467 @@
+diff --git a/frontends/app/src/components/RunSelectAll.tsx b/frontends/app/src/components/RunSelectAll.tsx
+index a60e10a99e5..3328131a977 100644
+--- a/frontends/app/src/components/RunSelectAll.tsx
++++ b/frontends/app/src/components/RunSelectAll.tsx
+@@ -108,9 +108,9 @@ const RunSelectAllComp: React.FC<RunSelectAllProps> = ({
+                 'dropdown'
+               );
+             }}>
+-            <span className="pr-10">Only show visualized</span>
++            <span className="pr-10">Hide manually hidden runs</span>
+             {!isInReport && (
+-              <Hotkey keys={['Alt', 'KeyV']} name="Only show visualized" />
++              <Hotkey keys={['Alt', 'KeyV']} name="Hide manually hidden runs" />
+             )}
+             <Switch.Root checked={onlyShowSelected}>
+               <Switch.Thumb checked={onlyShowSelected ? true : false} />
+diff --git a/frontends/app/src/components/RunSelector/RunSelectorExtraTableActionsLeft.tsx b/frontends/app/src/components/RunSelector/RunSelectorExtraTableActionsLeft.tsx
+index 9f7e8caf6b5..6dc8d7b12b6 100644
+--- a/frontends/app/src/components/RunSelector/RunSelectorExtraTableActionsLeft.tsx
++++ b/frontends/app/src/components/RunSelector/RunSelectorExtraTableActionsLeft.tsx
+@@ -56,6 +56,7 @@ type RunSelectorExtraTableActionsLeftProps = {
+     newProjectName: string,
+     newProjectId: string
+   ) => void;
++  setOnlyShowSelected: (newSetting: boolean) => void;
+   sortPopupOpen: boolean;
+   sortRef: SortRef;
+   tableSettings: ConfigV2;
+@@ -97,6 +98,7 @@ export function RunSelectorExtraTableActionsLeft(
+           onChange={() => {
+             props.resetPagination();
+           }}
++          setOnlyShowSelected={props.setOnlyShowSelected}
+           tableSettings={props.tableSettings}
+         />
+       )}
+diff --git a/frontends/app/src/components/RunSelector/RunSelectorInner.tsx b/frontends/app/src/components/RunSelector/RunSelectorInner.tsx
+index 17e456b8bb2..63aaeeebd0f 100644
+--- a/frontends/app/src/components/RunSelector/RunSelectorInner.tsx
++++ b/frontends/app/src/components/RunSelector/RunSelectorInner.tsx
+@@ -211,13 +211,7 @@ class RunSelectorInnerComp extends React.Component<
+         onAllItemsTempUnselected={this.clearTableMessage}
+         onVisibilitySelectNone={this.props.selectNone}
+         onVisibilitySelectAll={this.props.selectAll}
+-        onSetOnlyShowSelected={newSetting => {
+-          this.props.setTableSettings({
+-            ...this.props.tableSettings,
+-            onlyShowSelected: newSetting,
+-          });
+-          this.reload();
+-        }}
++        onSetOnlyShowSelected={this.setOnlyShowSelected}
+         onSelectVisibleRuns={expandTable}
+       />
+     );
+@@ -282,6 +276,7 @@ class RunSelectorInnerComp extends React.Component<
+           }
+         }}
+         setProject={this.props.setProject}
++        setOnlyShowSelected={this.setOnlyShowSelected}
+         sortPopupOpen={this.state.sortPopupOpen}
+         sortRef={this.props.sortRef}
+         tableSettings={this.props.tableSettings}
+@@ -361,6 +356,14 @@ class RunSelectorInnerComp extends React.Component<
+     });
+   };
+ 
++  setOnlyShowSelected = (newSetting: boolean) => {
++    this.props.setTableSettings({
++      ...this.props.tableSettings,
++      onlyShowSelected: newSetting,
++    });
++    this.reload();
++  };
++
+   bulkUpdateTag(actionType: 'add' | 'remove', tagName: string): void {
+     const {entityName, projectName, combinedFilter} = this.props;
+     this.props
+diff --git a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterButton.tsx b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterButton.tsx
+index f1dee34ea93..9262e4481bb 100644
+--- a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterButton.tsx
++++ b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterButton.tsx
+@@ -11,11 +11,18 @@ interface RunsFilterButtonProps {
+   notificationOpen: boolean;
+   filtersOpen: boolean;
+   filtersRef: Ref;
++  extraFilterCount?: number;
+ }
+ 
+ export const RunsFilterButton = (props: RunsFilterButtonProps) => {
+   const filters = usePart(props.filtersRef);
+-  const passThroughProps = omit(props, 'compact', 'filtersOpen', 'filtersRef');
++  const passThroughProps = omit(
++    props,
++    'compact',
++    'filtersOpen',
++    'filtersRef',
++    'extraFilterCount'
++  );
+ 
+   return (
+     <>
+@@ -25,6 +32,7 @@ export const RunsFilterButton = (props: RunsFilterButtonProps) => {
+         compact={props.compact}
+         filtersOpen={props.filtersOpen}
+         filters={filters}
++        extraFilterCount={props.extraFilterCount}
+       />
+     </>
+   );
+diff --git a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterPicker.tsx b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterPicker.tsx
+index 1bbb50d2a2d..f8ac2e5b1eb 100644
+--- a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterPicker.tsx
++++ b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterPicker.tsx
+@@ -16,6 +16,10 @@ interface RunsFilterPickerProps {
+   filtersRef: Ref;
+ 
+   defaultToggleFilters?: FilterTypes.DefaultToggleFilter[];
++  hideManuallyHidden?: {
++    checked: boolean;
++    onChange: (checked: boolean) => void;
++  };
+   onFiltersChanged(): void;
+ 
+   filterKeySelector(props: FilterKeySelectorCreatorProps): React.ReactNode;
+@@ -25,7 +29,12 @@ interface RunsFilterPickerProps {
+ }
+ 
+ export const RunsFilterPicker = (props: RunsFilterPickerProps) => {
+-  const {filtersRef, onFiltersChanged, defaultToggleFilters} = props;
++  const {
++    filtersRef,
++    onFiltersChanged,
++    defaultToggleFilters,
++    hideManuallyHidden,
++  } = props;
+   const storedFilters = ViewHooks.usePart(filtersRef);
+   const setFilters = useViewAction(filtersRef, FilterActions.set);
+ 
+@@ -41,6 +50,7 @@ export const RunsFilterPicker = (props: RunsFilterPickerProps) => {
+     <WBTableActionFilterPicker
+       filters={storedFilters}
+       defaultToggleFilters={defaultToggleFilters}
++      hideManuallyHidden={hideManuallyHidden}
+       setFilters={setFiltersWrapped}
+       filterKeySelector={props.filterKeySelector}
+       filterValueSelector={props.filterValueSelector}
+diff --git a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx
+index 798bbe45ce7..f752db4717f 100644
+--- a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx
++++ b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx
+@@ -1,9 +1,12 @@
+-import React from 'react';
++import React, {useMemo} from 'react';
+ 
++import {trackRunVisibilityMenu} from '../../../services/analytics/runSelectAllVisibilityMenuEvents';
+ import type {Ref} from '../../../state/views/filter/types';
+ import type {DefaultToggleFilter} from '../../../util/filterTypes';
+ import {useRampFlagWorkspaceFilterVisibilityUI} from '../../../util/rampFeatureFlags/rampFeatureFlags';
+ import {type Config as TableSettings} from '../../../util/runfeed';
++import {useRunSelectorAnalyticsLocation} from '../RunSelectorAnalyticsLocationContext';
++import {useRunSelectorFeatureEnabled} from '../RunSelectorFeaturesContext';
+ import {WBTableActionFilter} from '../WBTable/WBTableActionsFilter';
+ import {RunsFilterButton} from './RunsFilterButton';
+ import {RunsFilterKeySelector} from './RunsFilterKeySelector';
+@@ -20,6 +23,7 @@ interface RunsFilterTableActionProps {
+   pickerOpen: boolean;
+ 
+   defaultToggleFilters?: DefaultToggleFilter[];
++  setOnlyShowSelected?: (newSetting: boolean) => void;
+   setPickerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   onFiltersChanged(): void;
+ }
+@@ -33,11 +37,46 @@ export const RunsFilterTableAction = ({
+   onFiltersChanged,
+   pickerOpen,
+   projectName,
++  setOnlyShowSelected,
+   setPickerOpen,
+   tableSettings,
+ }: RunsFilterTableActionProps) => {
+   const isFilterVisibilityUIEnabled = useRampFlagWorkspaceFilterVisibilityUI();
++  const isEnabled = useRunSelectorFeatureEnabled();
+   const isCompact = isFilterVisibilityUIEnabled ? false : compact;
++  const analyticsLocation = useRunSelectorAnalyticsLocation();
++
++  const onlyShowSelected = Boolean(tableSettings.onlyShowSelected);
++  const hideManuallyHidden = useMemo(
++    () =>
++      isEnabled('toggle-visibility') &&
++      isFilterVisibilityUIEnabled &&
++      setOnlyShowSelected
++        ? {
++            checked: onlyShowSelected,
++            onChange: (checked: boolean) => {
++              setOnlyShowSelected(checked);
++              // event name kept as 'Only show visualized toggled' despite the
++              // renamed UI label ('Hide manually hidden runs') for analytic continuity
++              trackRunVisibilityMenu({
++                action: 'Only show visualized toggled',
++                method: 'filter_modal',
++                location: analyticsLocation,
++              });
++            },
++          }
++        : undefined,
++    [
++      isFilterVisibilityUIEnabled,
++      onlyShowSelected,
++      setOnlyShowSelected,
++      analyticsLocation,
++      isEnabled,
++    ]
++  );
++
++  const extraFilterCount =
++    isFilterVisibilityUIEnabled && onlyShowSelected ? 1 : 0;
+ 
+   return (
+     <WBTableActionFilter
+@@ -49,6 +88,7 @@ export const RunsFilterTableAction = ({
+           compact={isCompact}
+           filtersOpen={filtersOpen}
+           filtersRef={filtersRef}
++          extraFilterCount={extraFilterCount}
+         />
+       )}
+       content={
+@@ -57,6 +97,7 @@ export const RunsFilterTableAction = ({
+           projectName={projectName}
+           filtersRef={filtersRef}
+           defaultToggleFilters={defaultToggleFilters}
++          hideManuallyHidden={hideManuallyHidden}
+           onFiltersChanged={onFiltersChanged}
+           filterKeySelector={filterKeySelectorProps => (
+             <RunsFilterKeySelector
+diff --git a/frontends/app/src/components/RunSelector/RunsFreeze.tsx b/frontends/app/src/components/RunSelector/RunsFreeze.tsx
+index c36cc14c276..b655739d8aa 100644
+--- a/frontends/app/src/components/RunSelector/RunsFreeze.tsx
++++ b/frontends/app/src/components/RunSelector/RunsFreeze.tsx
+@@ -277,6 +277,7 @@ interface RunsFreezeAndFilterProps {
+   enableFreezeRunset: boolean;
+   filtersRef: Ref;
+   compact: boolean;
++  setOnlyShowSelected?: (newSetting: boolean) => void;
+   onChange(): void;
+ }
+ 
+@@ -290,6 +291,7 @@ export const RunsFreezeAndFilter = (props: RunsFreezeAndFilterProps) => {
+     enableFreezeRunset,
+     filtersRef,
+     compact,
++    setOnlyShowSelected,
+     onChange,
+   } = props;
+ 
+@@ -357,6 +359,7 @@ export const RunsFreezeAndFilter = (props: RunsFreezeAndFilterProps) => {
+         notificationOpen={notificationPopupOpen === 'filter'}
+         setPickerOpen={setFilterPickerOpen}
+         defaultToggleFilters={defaultToggleFilters}
++        setOnlyShowSelected={setOnlyShowSelected}
+         onFiltersChanged={onChange}
+       />
+     </>
+diff --git a/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx b/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx
+index 2763ebf2d53..17a257d0492 100644
+--- a/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx
++++ b/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx
+@@ -1,4 +1,4 @@
+-import {Button, IconButton} from '@wandb/components';
++import {Button, Hotkey, IconButton} from '@wandb/components';
+ import {Switch} from '@wandb/weave/components';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import _ from 'lodash';
+@@ -6,6 +6,7 @@ import * as React from 'react';
+ import {useCallback, useLayoutEffect, useMemo, useRef} from 'react';
+ import {Popup} from 'semantic-ui-react';
+ 
++import {useIsInLoadedReportContext} from '../../../pages/ReportPage/LoadedReportContext';
+ import * as Filter from '../../../util/filters';
+ import type * as FilterTypes from '../../../util/filterTypes';
+ import {
+@@ -70,19 +71,22 @@ interface WBTableActionFilterButtonProps {
+   notificationOpen?: boolean;
+   filtersOpen: boolean;
+   filters: StoredFilter;
++  extraFilterCount?: number;
+   onClick?(): void;
+ }
+ 
+ export const WBTableActionFilterButton = ({
+   compact,
+   filters,
++  extraFilterCount,
+   filtersOpen,
+   notificationOpen,
+   onClick,
+   className,
+ }: WBTableActionFilterButtonProps) => {
+   const analyticsLocation = useRunSelectorAnalyticsLocation();
+-  const filterCount = activeFilterCountFromStored(filters);
++  const filterCount =
++    activeFilterCountFromStored(filters) + (extraFilterCount ?? 0);
+   const buttonText =
+     filterCount > 0 ? maybePluralize(filterCount, 'filter') : 'Filter';
+ 
+@@ -143,6 +147,11 @@ interface WBTableActionFilterPickerProps {
+ 
+   overflowFunc?: () => void;
+ 
++  hideManuallyHidden?: {
++    checked: boolean;
++    onChange: (checked: boolean) => void;
++  };
++
+   setFilters(filters: StoredFilter): void;
+ 
+   filterKeySelector(props: FilterKeySelectorCreatorProps): React.ReactNode;
+@@ -194,7 +203,7 @@ export const WBTableActionFilterPicker = (
+ };
+ 
+ const FilterPickerV2Content = (props: WBTableActionFilterPickerProps) => {
+-  const {filters, defaultToggleFilters} = props;
++  const {filters, defaultToggleFilters, hideManuallyHidden} = props;
+   const {trackGroupCreated, trackORToggled} = useTrackFilterWithLocation();
+   const v2Root = useMemo(() => getFiltersForUI(filters), [filters]);
+ 
+@@ -241,11 +250,12 @@ const FilterPickerV2Content = (props: WBTableActionFilterPickerProps) => {
+           ) => React.ReactNode
+         }
+       />
+-      {defaultToggleFilters && (
++      {(defaultToggleFilters || hideManuallyHidden) && (
+         <WBTableActionFilterPickerDefaultToggles
+-          defaultToggleFilters={defaultToggleFilters}
++          defaultToggleFilters={defaultToggleFilters ?? []}
+           onToggle={handleToggle}
+           hasEnabled={hasEnabledToggle}
++          hideManuallyHidden={hideManuallyHidden}
+           showDivider
+         />
+       )}
+@@ -254,7 +264,7 @@ const FilterPickerV2Content = (props: WBTableActionFilterPickerProps) => {
+ };
+ 
+ const FilterPickerLegacyContent = (props: WBTableActionFilterPickerProps) => {
+-  const {filters, defaultToggleFilters} = props;
++  const {filters, defaultToggleFilters, hideManuallyHidden} = props;
+   const legacyFilters = isFilterV2(filters) ? Filter.EMPTY_FILTERS : filters;
+ 
+   return (
+@@ -292,9 +302,9 @@ const FilterPickerLegacyContent = (props: WBTableActionFilterPickerProps) => {
+           filterValueSelector={props.filterValueSelector}
+         />
+       ))}
+-      {defaultToggleFilters && (
++      {(defaultToggleFilters || hideManuallyHidden) && (
+         <WBTableActionFilterPickerDefaultToggles
+-          defaultToggleFilters={defaultToggleFilters}
++          defaultToggleFilters={defaultToggleFilters ?? []}
+           onToggle={tf => {
+             const toggleFilter =
+               tf as FilterTypes.IndividualFilter<RunTypes.Key>;
+@@ -320,6 +330,7 @@ const FilterPickerLegacyContent = (props: WBTableActionFilterPickerProps) => {
+               tf as FilterTypes.IndividualFilter<RunTypes.Key>
+             )
+           }
++          hideManuallyHidden={hideManuallyHidden}
+         />
+       )}
+     </>
+@@ -330,33 +341,63 @@ const WBTableActionFilterPickerDefaultToggles = ({
+   defaultToggleFilters,
+   onToggle,
+   hasEnabled,
++  hideManuallyHidden,
+   showDivider,
+ }: {
+   defaultToggleFilters: FilterTypes.DefaultToggleFilter[];
+   onToggle: (filter: FilterTypes.IndividualFilter<RunTypes.Key>) => void;
+   hasEnabled: (filter: FilterTypes.IndividualFilter<RunTypes.Key>) => boolean;
++  hideManuallyHidden?: {
++    checked: boolean;
++    onChange: (checked: boolean) => void;
++  };
+   showDivider?: boolean;
+-}) => (
+-  <Tailwind>
+-    {showDivider && <hr className="my-16 text-moon-250" />}
+-    <div className="flex flex-col gap-8">
+-      {defaultToggleFilters.map((defaultFilter, i) => (
+-        <div key={i} className="flex justify-between">
+-          <span>{defaultFilter.label}</span>
+-          <Switch.Root
+-            size="medium"
+-            checked={hasEnabled(defaultFilter.filter)}
+-            onCheckedChange={() => onToggle(defaultFilter.filter)}>
+-            <Switch.Thumb
++}) => {
++  const isInReport = useIsInLoadedReportContext();
++  return (
++    <Tailwind>
++      {showDivider && <hr className="my-16 text-moon-250" />}
++      <div className="flex flex-col gap-8">
++        {defaultToggleFilters.map((defaultFilter, i) => (
++          <div key={i} className="flex justify-between">
++            <span>{defaultFilter.label}</span>
++            <Switch.Root
+               size="medium"
+               checked={hasEnabled(defaultFilter.filter)}
+-            />
+-          </Switch.Root>
+-        </div>
+-      ))}
+-    </div>
+-  </Tailwind>
+-);
++              onCheckedChange={() => onToggle(defaultFilter.filter)}>
++              <Switch.Thumb
++                size="medium"
++                checked={hasEnabled(defaultFilter.filter)}
++              />
++            </Switch.Root>
++          </div>
++        ))}
++        {hideManuallyHidden && (
++          <div className="flex items-center justify-between">
++            <span>Hide manually hidden runs</span>
++            <div className="flex items-center gap-8">
++              {!isInReport && (
++                <Hotkey
++                  keys={['Alt', 'KeyV']}
++                  name="Hide manually hidden runs"
++                />
++              )}
++              <Switch.Root
++                size="medium"
++                checked={hideManuallyHidden.checked}
++                onCheckedChange={hideManuallyHidden.onChange}>
++                <Switch.Thumb
++                  size="medium"
++                  checked={hideManuallyHidden.checked}
++                />
++              </Switch.Root>
++            </div>
++          </div>
++        )}
++      </div>
++    </Tailwind>
++  );
++};
+ 
+ interface WBTableActionFilterProps {
+   open: boolean;
+diff --git a/frontends/app/src/services/analytics/runSelectAllVisibilityMenuEvents.ts b/frontends/app/src/services/analytics/runSelectAllVisibilityMenuEvents.ts
+index a04745e9fee..336781f0ff3 100644
+--- a/frontends/app/src/services/analytics/runSelectAllVisibilityMenuEvents.ts
++++ b/frontends/app/src/services/analytics/runSelectAllVisibilityMenuEvents.ts
+@@ -10,7 +10,7 @@ export type VisibilityMenuAction =
+ 
+ export type VisibilityMenuEvent = {
+   action: VisibilityMenuAction;
+-  method: 'hotkey' | 'dropdown';
++  method: 'hotkey' | 'dropdown' | 'filter_modal';
+   location?: RunSelectorAnalyticsLocation;
+ };
+ 
