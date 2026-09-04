@@ -6,13 +6,18 @@ keywords: ["ARIA", "Automation actions", "Prompt template", "Template variables"
 import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.mdx";
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
 
-This page shows how to use an [automations](/models/automations) to send a prompt to [ARIA](/aria/overview) when a specific event occurs in W&B. Each time the automation runs, ARIA starts a new conversation and works on the prompt on your behalf. Use an ARIA automation to kickstart exploration of an experiment, summarize or report on a run, or investigate a metric that crossed a threshold.
+Use a W&B automation to send a prompt to ARIA when a specific event occurs. Each time the event occurs, the automation starts a new ARIA conversation and sends it the configured prompt.
 
-At a high level, an ARIA automation defines the [event](/models/automations/automation-events) to watch for and the prompt that ARIA receives each time that event occurs.
+An automation that sends a prompt to ARIA consists of two main parts:
 
-To create a different kind of automation, refer to [Create a Slack automation](/models/automations/create-automations/slack) or [Create a webhook automation](/models/automations/create-automations/webhook).
+- The [event](/models/automations/automation-events) that triggers the automation.
+- The prompt that ARIA receives when the event occurs. 
 
-You can ask ARIA to create and manage automations of all kinds on your behalf. For details, see [Create and manage automations with ARIA](#create-and-manage-automations-with-aria).
+Use this workflow to explore experiment results, summarize or report on runs, or investigate metrics that cross a threshold.
+
+Sending a prompt to ARIA is one action that a W&B automation can perform. To create automations that send notifications to other destinations, refer to [Create a Slack automation](/models/automations/create-automations/slack) or [Create a webhook automation](/models/automations/create-automations/webhook).
+
+You can also ask ARIA to create and manage W&B automations on your behalf. For details, see [Create and manage automations with ARIA](#create-and-manage-automations-with-aria).
 
 <Note>
 <MultiTenantCloudOnly />
@@ -22,7 +27,7 @@ ARIA works in team projects, not in your personal entity. Your organization admi
 
 ## Requirements
 
-Before you create an ARIA automation, verify the following:
+Before you create an automation that sends a prompt to ARIA, verify the following:
 
 - Your organization must have ARIA enabled. If **Trigger ARIA** doesn't appear in the **Action type** list, ARIA isn't available for your organization, scope, or deployment. The list omits the option without explanation. See [Governance and security](/aria/governance).
 - You must have write access to the project, registry, or collection you scope the automation to.
@@ -88,7 +93,7 @@ ARIA can create, delete, enable, and disable automations on demand.
 Ask ARIA to create an automation:
 
 <AriaChatBubbles
-  prompt="CCreate a new automation: When a run succeeds, trigger ARIA to write a report for your team that summarizes the run, metrics, and outcome."
+  prompt="Create a new automation: When a run succeeds, trigger ARIA to write a report for your team that summarizes the run, metrics, and outcome."
   response="I can create an enabled project-wide automation named **Summarize successful run**. It will fire whenever any run reaches `FINISHED` and ask ARIA to write a report to summarize the run's configuration, key metrics, outcome, and notable observations."
 />
 
@@ -158,9 +163,9 @@ The following notes apply to individual variables:
 
 For the events available at each scope, see [Automation events and scopes](/models/automations/automation-events).
 
-## Where the conversation appears
+## View conversations created by automations
 
-An ARIA automation creates the conversation as the person who created the automation, not as the person whose action triggered the event. The conversation appears in that person's ARIA chat history under **Past conversations**, alongside conversations they started themselves. To identify who caused the event, include `${event_author}` in the prompt.
+The automation creates the ARIA conversation under the account of the user who created the automation, not the user whose action triggered the event. The conversation appears in that person's ARIA chat history under **Past conversations**, alongside conversations they started themselves. To identify the user that caused the event, include `${event_author}` in the prompt.
 
 Where the conversation lives depends on the automation's scope:
 
@@ -173,9 +178,11 @@ To confirm that the automation ran, open its [execution history](/models/automat
 
 ## View and manage automations
 
-Manage ARIA automations from the **Automations** tab of the project or registry, or from the global **Automations** hub, the same as any other automation. In the automations list, the action displays as **ARIA**.
+View and manage automations from the **Automations** tab in a project or registry, or from the global **Automations** hub. In the automations list, the action displays as **ARIA**.
 
-ARIA automations have one additional restriction: only the automation's creator can edit it, because the conversation runs as that person. Teammates with write access to the scope can still view and delete the automation, but the **Edit automation** option is unavailable to them. You can't transfer ownership, so to hand off an ARIA automation, delete it and have the new owner create it again. Do the same to recover an automation whose creator has left the team.
+Only the creator of an automation that sends prompts to ARIA can edit it because the ARIA conversation runs as that user. Team members with write access to the project or registry can view and delete the automation, but the **Edit** automation option is unavailable to them.
+
+You can't transfer ownership of the automation. Instead, delete it and have the new owner create it again. Use the same process to recover an automation whose creator has left the team.
 
 ## Limitations
 
