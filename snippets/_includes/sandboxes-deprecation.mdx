@@ -1,0 +1,10 @@
+<Warning>
+**`wandb.sandbox` is deprecated** and will be removed in a future release of the W&B Python SDK. Use the `cwsandbox` package instead, documented in the [CoreWeave sandbox docs](https://docs.coreweave.com/products/sandboxes).
+
+Migrating changes two things:
+
+* **The import.** Install `cwsandbox` with the W&B extra (`pip install "cwsandbox[wandb]"`) and import from `cwsandbox` instead of `wandb.sandbox`.
+* **The credential.** `cwsandbox` authenticates with a CoreWeave API access token in `CWSANDBOX_API_KEY` by default, so pass `auth=AuthStrategy.WANDB` to keep using your W&B API key. See [Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential).
+
+The examples on this page still use `wandb.sandbox`. For the equivalent `cwsandbox` code, see [Migrate to `cwsandbox`](/sandboxes#migrate-to-cwsandbox).
+</Warning>
