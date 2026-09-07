@@ -165,7 +165,7 @@ Then, create one or more [scoring functions](../evaluation/scorers). Weave uses 
 
   In some applications, you may want to create custom `Scorer` classes. For example, a standardized `LLMJudge` class can be created with specific parameters (for example, chat model, prompt), specific scoring of each row, and specific calculation of an aggregate score.
 
-  See the tutorial on defining a `Scorer` class in [Model-Based Evaluation of RAG applications](/weave/tutorial-rag#optional-defining-a-scorer-class) for more information.
+  See the tutorial on defining a `Scorer` class in [Model-Based Evaluation of RAG applications](/weave/tutorial-rag#optional-define-a-scorer-class) for more information.
 </Tab>
 <Tab title="TypeScript">
   Each scoring function is wrapped with `weave.op` and receives an object with `modelOutput` and `datasetRow` properties.

@@ -81,7 +81,7 @@ runs.summary["cifar10_sample_table"]
 
 Breaking this down:
 
-* `runs` is a variable automatically injected in query panel expressions when the query panel is in a workspace. Its value is the list of runs visible for that workspace. For details about the different attributes available within a run, see [Understanding the different attributes](/models/track/public-api-guide/#understanding-the-different-attributes).
+* `runs` is a variable automatically injected in query panel expressions when the query panel is in a workspace. Its value is the list of runs visible for that workspace. For details about the different attributes available within a run, see [Export run data](/models/track/public-api-guide#export-run-data).
 * `summary` is an op that returns the Summary object for a run. Ops are *mapped*, meaning this op is applied to each run in the list, resulting in a list of Summary objects.
 * `["cifar10_sample_table"]` is a Pick op (denoted with brackets) with a key of `cifar10_sample_table`. Because Summary objects act like dictionaries or maps, this operation picks that field from each Summary object.
 
