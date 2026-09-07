@@ -6,9 +6,11 @@ namespace: wandb.plot.line_series
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
 
-## <kbd>fonction</kbd> wandb.plot.line_series
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.line_series()
+
+Construit un graphique de série de lignes.
 
 ```python
 xs: 'Iterable[Iterable[Any]] | Iterable[Any]',
@@ -19,18 +21,33 @@ xname: 'str' = 'x',
 split_table: 'bool' = False
 ```
 
-Construit un graphique de série de lignes.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `xs`: Séquence de valeurs x. Si un seul tableau est fourni, toutes les valeurs y sont tracées par rapport à ce tableau x. Si un tableau de tableaux est fourni, chaque valeur y est tracée par rapport au tableau x correspondant.
-* `ys`: Séquence de valeurs y, où chaque itérable représente une série de lignes distincte.
-* `keys`: Séquence de clés pour étiqueter chaque série de lignes. Si elle n&#39;est pas fournie, les clés seront automatiquement générées sous la forme &quot;line&#95;1&quot;, &quot;line&#95;2&quot;, etc.
-* `title`: Titre du graphique.
-* `xname`: Libellé de l&#39;axe des x.
-* `split_table`: Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+<ResponseField name="xs" type="Iterable[Iterable[Any]] | Iterable[Any]">
+  Séquence de valeurs x. Si un seul tableau est fourni, toutes les valeurs y sont tracées en fonction de ce tableau x. Si un tableau de tableaux est fourni, chaque valeur y est tracée en fonction du tableau x correspondant.
+</ResponseField>
+
+<ResponseField name="ys" type="Iterable[Iterable[Any]]">
+  Séquence de valeurs y, où chaque itérable représente une série de lignes distincte.
+</ResponseField>
+
+<ResponseField name="keys" type="Iterable[str] | None">
+  Séquence de clés servant à étiqueter chaque série de lignes. Si elles ne sont pas fournies, les clés sont générées automatiquement sous la forme « line&#95;1 », « line&#95;2 », etc.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Titre du graphique.
+</ResponseField>
+
+<ResponseField name="xname" type="str">
+  Étiquette de l’axe X.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau s’affiche dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

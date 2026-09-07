@@ -95,49 +95,89 @@ Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts) pour les autres rac
   ## Ajouter des panneaux
 </div>
 
-Les sections suivantes décrivent comment ajouter des panneaux à votre Workspace.
+Les sections suivantes décrivent comment ajouter des panneaux à votre Workspace. Vous pouvez ajouter des panneaux un par un ou automatiquement pour chaque clé sélectionnée. Vous pouvez également demander à ARIA d&#39;ajouter des panneaux pour vous.
 
 <div id="add-a-panel-manually">
   ### Ajouter un panneau manuellement
 </div>
 
-Ajoutez des panneaux à votre Workspace, un à la fois, soit globalement, soit au niveau de la section.
+Ajoutez des panneaux à votre Workspace, un à la fois, soit globalement dans le Workspace, soit au niveau de la section.
 
-1. Pour ajouter un panneau globalement, cliquez sur **Ajouter des panneaux** dans la barre de contrôle, près du champ de recherche de panneaux.
-2. Pour ajouter directement un panneau à une section, cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Ajouter des panneaux**.
-3. Sélectionnez le type de panneau à ajouter, par exemple un graphique. Les détails de configuration du panneau s&#39;affichent, avec les valeurs par défaut sélectionnées.
-4. Facultatif : personnalisez le panneau et ses préférences d&#39;affichage. Les options de configuration dépendent du type de panneau sélectionné. Pour en savoir plus sur les options de chaque type de panneau, référez-vous à la section correspondante, par exemple [Graphiques en courbes](/fr/models/app/features/panels/line-plot/) ou [Graphiques à barres](/fr/models/app/features/panels/bar-plot/).
-5. Cliquez sur **Appliquer**.
+<div id="add-panels-to-a-workspace">
+  #### Ajouter des panneaux à un Workspace
+</div>
+
+1. Accédez au Workspace de votre projet.
+2. Cliquez sur **ajouter des panneaux**, à droite du champ de recherche de panneaux.
+3. Dans la fenêtre modale qui s’affiche, sélectionnez le type de panneau à ajouter, par exemple un graphique, un contenu multimédia ou un panneau de requête.
+
+<div id="add-panels-to-a-section">
+  #### Ajouter des panneaux à une section
+</div>
+
+1. Accédez à votre Workspace de projet.
+2. Facultatif : créez une nouvelle section. Faites défiler jusqu’en bas du Workspace et cliquez sur **Ajouter une section**.
+3. Cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** de la section, puis sur **+ Ajouter des panneaux**.
+4. Dans la fenêtre modale qui s’affiche, sélectionnez le type de panneau à ajouter, par exemple un graphique, un média ou un panneau de requête.
 
 <Frame>
   <img src="/images/app_ui/add_single_panel.gif" alt="Démo de l'ajout d'un panneau" />
 </Frame>
 
-<div id="quick-add-panels">
-  ### Ajouter rapidement des panneaux
+<div id="quick-panel-builder">
+  ### Générateur rapide de panneaux
 </div>
 
-Utilisez **ajout rapide** pour ajouter automatiquement un panneau pour chaque clé que vous sélectionnez, soit à l’échelle globale, soit au niveau d’une section.
-
-Vous pouvez également demander à ARIA d’ajouter des panneaux pour vous :
-
-<AriaChatBubbles prompt="Ajoute des panneaux de graphique en courbes pour chaque métrique sous le préfixe train/." response="Je vais ajouter des panneaux de graphique en courbes pour chaque métrique train/ enregistrée dans les runs visibles et les organiser dans votre Workspace." />
+Utilisez le **générateur rapide de panneaux** pour créer automatiquement des panneaux pour les clés de métriques sélectionnées au niveau du Workspace ou d’une section.
 
 <Note>
-  Dans un Workspace automatisé sans panneau supprimé, l’option **ajout rapide** n’est pas visible, car le Workspace inclut déjà des panneaux pour toutes les clés enregistrées. Vous pouvez utiliser **ajout rapide** pour ajouter de nouveau un panneau que vous avez supprimé.
+  Dans un Workspace automatique, le **générateur rapide de panneaux** est masqué si des panneaux existent déjà pour toutes les clés enregistrées. Si vous supprimez un panneau, utilisez le **générateur rapide de panneaux** pour l’ajouter de nouveau.
 </Note>
 
-Pour ouvrir **ajout rapide**, effectuez l’une des opérations suivantes :
+Vous pouvez créer des panneaux de deux façons avec le **générateur rapide de panneaux** :
 
-* Pour utiliser **ajout rapide** afin d’ajouter un panneau globalement, cliquez sur **Ajouter des panneaux** dans la barre de contrôle, près du champ de recherche des panneaux, puis cliquez sur **ajout rapide**.
-* Pour utiliser **ajout rapide** afin d’ajouter un panneau directement à une section, cliquez sur le menu **d’actions (<Icon icon="ellipsis" iconType="solid" />)** de la section, cliquez sur **Ajouter des panneaux**, puis cliquez sur **ajout rapide**.
+| Option                             | Description                                                                                                                                                                        |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Panneaux à clé unique**          | Sélectionnez des clés spécifiques. W&amp;B crée un panneau distinct pour chaque clé de métrique et compare cette métrique entre les runs visibles.                                 |
+| **Panneaux à plusieurs métriques** | Saisissez une expression régulière RE2. W&amp;B crée un panneau contenant toutes les clés de métriques correspondant à l’expression, y compris celles enregistrées ultérieurement. |
 
-Une liste de panneaux s’affiche. Chaque panneau coché est déjà inclus dans le Workspace. Pour ajouter des panneaux depuis la liste :
+Par exemple, supposons que votre Workspace inclue les clés de métriques `train/loss` et `val/loss`. Vous pouvez utiliser le **générateur rapide de panneaux** pour créer des panneaux de l’une des façons suivantes :
 
-* Pour ajouter tous les panneaux disponibles, cliquez sur le bouton **Add `[N]` panels** en haut de la liste. La liste **ajout rapide** se ferme et les nouveaux panneaux s’affichent dans le Workspace.
-* Pour ajouter un panneau individuel depuis la liste, survolez la ligne du panneau, puis cliquez sur **Add**. Répétez cette étape pour chaque panneau que vous souhaitez ajouter, puis cliquez sur le **X** en haut à droite pour fermer la liste **ajout rapide**. Les nouveaux panneaux s’affichent dans le Workspace.
+* **Panneaux à clé unique** : crée deux panneaux, un pour `train/loss` et un pour `val/loss`.
+* **Panneaux à plusieurs métriques** : l’expression régulière `.*\/loss` crée un panneau contenant les deux métriques.
 
-Facultatif : personnalisez les paramètres du panneau.
+<div id="add-panels-to-the-workspace">
+  #### Ajouter des panneaux au Workspace
+</div>
+
+1. Accédez au Workspace de votre projet.
+2. Sélectionnez **ajouter des panneaux** à côté du champ de recherche de panneaux, puis sélectionnez **générateur rapide de panneaux**.
+3. Sélectionnez **Panneaux à clé unique** ou **Panneaux à plusieurs métriques**.
+4. Indiquez les clés de métrique ou une expression régulière dans le champ de recherche.
+5. Effectuez l’étape suivante selon le mode de création :
+   * **Panneaux à clé unique** : Survolez une clé de métrique, puis sélectionnez **Ajouter**. Répétez l’opération pour chaque clé de métrique à ajouter.
+   * **Panneaux à plusieurs métriques** : Indiquez une expression régulière pour créer un panneau contenant les clés de métrique correspondantes. Cliquez sur **Ajouter un panneau**.
+
+<div id="add-panels-to-a-section">
+  #### Ajouter des panneaux à une section
+</div>
+
+1. Accédez au Workspace de votre projet.
+2. Facultatif : pour créer une section, faites défiler jusqu’en bas du Workspace et sélectionnez **Ajouter une section**.
+3. Dans la section, sélectionnez **ajouter un panneau**, puis sélectionnez **générateur rapide de panneaux**.
+4. Sélectionnez **panneaux à clé unique** ou **panneaux à plusieurs métriques**.
+5. Spécifiez les clés de métrique ou l’expression régulière dans le champ de recherche.
+6. Effectuez l’étape suivante selon le mode de création :
+   * **panneaux à clé unique** : survolez une clé de métrique, puis sélectionnez **ajouter**. Répétez l’opération pour chaque clé de métrique que vous souhaitez ajouter.
+   * **panneaux à plusieurs métriques** : spécifiez une expression régulière pour créer un panneau contenant les clés de métrique correspondantes. Cliquez sur **ajouter un panneau**.
+
+<Tip>
+  Vous pouvez également demander à ARIA d’ajouter des panneaux pour vous :
+
+  <AriaChatBubbles prompt="Ajoute des panneaux de graphique en courbes pour chaque métrique sous le préfixe train/." response="Je vais ajouter des panneaux de graphique en courbes pour chaque métrique train/ enregistrée dans les runs visibles et les organiser dans votre Workspace." />
+</Tip>
+
+<br />
 
 <div id="share-a-panel">
   ## Partager un panneau

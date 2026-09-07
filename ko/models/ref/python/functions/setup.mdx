@@ -6,13 +6,9 @@ namespace: wandb.sdk.wandb_setup
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L515" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py#L512" />
 
-## <kbd>함수</kbd> wandb.setup
-
-```python
-settings: 'Settings | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.setup()
 
 현재 프로세스와 그 자식 프로세스에서 사용할 수 있도록 W&amp;B를 준비합니다.
 
@@ -24,11 +20,17 @@ settings: 'Settings | None' = None
 
 `wandb.teardown()`도 참조하세요.
 
+```python
+settings: 'Settings | None' = None
+```
+
 <div id="args">
   ## 인수
 </div>
 
-* `settings`: 전역으로 적용할 설정입니다. 이후 `wandb.init()` 호출에서 재정의할 수 있습니다.
+<ResponseField name="settings" type="Settings | None">
+  전역으로 적용할 설정입니다. 이후 `wandb.init()` 호출에서 재정의할 수 있습니다.
+</ResponseField>
 
 <div id="examples">
   ## 예시

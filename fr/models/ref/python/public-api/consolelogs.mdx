@@ -1,0 +1,57 @@
+---
+title: ConsoleLogs
+kind: classe
+namespace: wandb.apis.public.console_logs
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L67" />
+
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.ConsoleLogs
+
+Un itérateur paresseux sur les lignes du journal de console d’un run, des plus anciennes aux plus récentes.
+
+Les lignes sont récupérées page par page depuis le backend W&amp;B et conservées en
+mémoire. Une deuxième itération relit donc les mêmes lignes au lieu de
+les récupérer de nouveau ; créez une nouvelle instance pour relire un journal qui a peut-être
+été enrichi.
+
+```python
+(service_api: 'ServiceApi',
+run: 'Run',
+per_page: 'int' = 1000,
+last: 'int | None' = None)
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="service_api" type="ServiceApi">
+  Instance de l’API de service utilisée pour interroger W&amp;B.
+</ResponseField>
+
+<ResponseField name="run" type="Run">
+  Run dont le journal de console est lu.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Nombre de lignes à récupérer par requête lors de la lecture du journal depuis le début. Ignoré lorsque `last` est fourni.
+</ResponseField>
+
+<ResponseField name="last" type="int | None">
+  S’il est défini, récupère uniquement les N dernières lignes du journal en une seule requête au lieu de le lire depuis le début. Le backend limite le nombre de lignes renvoyées par requête ; une portion plus longue du journal est donc tronquée aux lignes les plus récentes.
+</ResponseField>
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
+
+```python
+self
+```
+
+Renvoie l’élément suivant de l’itérateur. Lorsqu’il est épuisé, lève StopIteration.

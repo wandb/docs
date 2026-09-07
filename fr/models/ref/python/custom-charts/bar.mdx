@@ -6,9 +6,11 @@ namespace: wandb.plot.bar
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py#L12" />
 
-## <kbd>fonction</kbd> wandb.plot.bar
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.bar()
+
+Crée un graphique à barres à partir d’un `wandb.Table` de données.
 
 ```python
 table: 'wandb.Table',
@@ -18,17 +20,29 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-Crée un graphique à barres à partir d’un `wandb.Table` de données.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `table`: Un tableau contenant les données du graphique à barres.
-* `label`: Le nom de la colonne à utiliser pour les libellés de chaque barre.
-* `value`: Le nom de la colonne à utiliser pour les valeurs de chaque barre.
-* `title`: Le titre du graphique à barres.
-* `split_table`: Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau s’affiche dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+<ResponseField name="table" type="wandb.Table">
+  Un tableau contenant les données du graphique à barres.
+</ResponseField>
+
+<ResponseField name="label" type="str">
+  Le nom de la colonne à utiliser pour les libellés de chaque barre.
+</ResponseField>
+
+<ResponseField name="value" type="str">
+  Le nom de la colonne à utiliser pour les valeurs de chaque barre.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Le titre du graphique à barres.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau s’affiche dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

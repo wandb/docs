@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L418" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L420" />
 
-## <kbd>classe</kbd> wandb.automations.OnRunState
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.OnRunState
+
+L’état d’un run est modifié.
 
 ```python
 *,
@@ -17,15 +19,21 @@ scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.au
 filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
-L’état d’un run est modifié.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `event_type` :
-* `scope` : Portée de l’événement : doit être un projet ou une entité d’équipe/d’organisation.
-* `filter` : Condition(s) sur l’état du run à remplir pour que cet événement se déclenche.
+<ResponseField name="event_type" type="Literal">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  Portée de l’événement : doit être un projet ou une entité d’équipe/d’organisation.
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated">
+  Condition(s) sur l’état du run à remplir pour que cet événement se déclenche.
+</ResponseField>
 
 <div id="examples">
   ## Exemples

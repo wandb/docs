@@ -6,9 +6,11 @@ namespace: wandb.automations.actions
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L141" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
 
-## <kbd>classe</kbd> wandb.automations.SendNotification
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.SendNotification
+
+Définit une action d’automatisation qui envoie une notification (Slack).
 
 ```python
 *,
@@ -19,23 +21,35 @@ title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_sche
 action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
-Définit une action d’automatisation qui envoie une notification (Slack).
-
 <div id="args">
   ## Arguments
 </div>
 
-* `integration_id`: L’ID de l’intégration Slack utilisée pour envoyer la notification.
-* `text`: Le contenu du message de la notification envoyée.
-* `level`: Le niveau de gravité (`INFO`, `WARN`, `ERROR`) de la notification envoyée.
-* `title`: Le titre de la notification envoyée.
-* `action_type`: 
+<ResponseField name="integration_id" type="Annotated">
+  L’ID de l’intégration Slack utilisée pour envoyer la notification.
+</ResponseField>
+
+<ResponseField name="text" type="Annotated">
+  Le contenu du message de la notification envoyée.
+</ResponseField>
+
+<ResponseField name="level" type="Annotated">
+  Le niveau de gravité (`INFO`, `WARN`, `ERROR`) de la notification envoyée.
+</ResponseField>
+
+<ResponseField name="title" type="Annotated">
+  Le titre de la notification envoyée.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> SendNotification.from_integration()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> SendNotification.from_integration()
 
 ```python
 integration: 'SlackIntegration', *,
@@ -50,7 +64,18 @@ Définit une action de notification envoyée à l’intégration (Slack) donnée
   ##### Arguments
 </div>
 
-* `integration`:
-* `title`:
-* `text`:
-* `level`: 
+<ResponseField name="integration" type="SlackIntegration">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="text" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+  Aucune description fournie.
+</ResponseField>

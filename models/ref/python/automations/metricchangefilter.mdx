@@ -7,11 +7,21 @@ namespace: wandb.automations._run_metric_filters
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L152" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L152" />
 
 
 
-## <kbd>class</kbd> wandb.automations.MetricChangeFilter
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.MetricChangeFilter
+
+
+
+Filter that compares a **change** in a metric value to a user-defined threshold.
+
+The change is calculated over "tumbling" windows, i.e. the difference
+between the current window and the non-overlapping prior window.
+
+
+
 ```python
 *,
 name: str,
@@ -24,27 +34,41 @@ change_type: wandb.automations._run_metric_filters.ChangeType,
 change_dir: wandb.automations._run_metric_filters.ChangeDir
 ```
 
-
-
-Filter that compares a **change** in a metric value to a user-defined threshold.
-
-The change is calculated over "tumbling" windows, i.e. the difference
-between the current window and the non-overlapping prior window.
-
-
-
 ## Args
 
-- `name`: 
-- `agg_op`: 
-- `current_window_size`: 
-- `cmp`: Ignored.
-- `change_amount`: 
-- `prior_window_size`: Size of the "prior" metric aggregation window (ignored if `agg` is ``None``).
+<ResponseField name="name" type="str">
+No description provided.
+</ResponseField>
 
-    If omitted, defaults to the size of the current window.
-- `change_type`: 
-- `change_dir`: 
+<ResponseField name="agg_op" type="wandb.automations._run_metric_filters.Agg | None">
+No description provided.
+</ResponseField>
+
+<ResponseField name="current_window_size" type="Annotated">
+No description provided.
+</ResponseField>
+
+<ResponseField name="cmp" type="NoneType">
+Ignored.
+</ResponseField>
+
+<ResponseField name="change_amount" type="Union">
+No description provided.
+</ResponseField>
+
+<ResponseField name="prior_window_size" type="Annotated">
+Size of the "prior" metric aggregation window (ignored if `agg` is ``None``).
+
+If omitted, defaults to the size of the current window.
+</ResponseField>
+
+<ResponseField name="change_type" type="ChangeType">
+No description provided.
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+No description provided.
+</ResponseField>
 
 
 

@@ -6,9 +6,9 @@ namespace: wandb.apis.public.users
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
 
-## <kbd>class</kbd> wandb.apis.public.User
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.User
 
 Un utilisateur sur une instance W&amp;B.
 
@@ -18,29 +18,29 @@ Cette classe permet de gérer les clés API d’un utilisateur et d’accéder �
   ## Propriétés
 </div>
 
-### <kbd>propriété</kbd> api_keys
+<ResponseField name="api_keys" type="list[str]">
+  Noms des clés API de l&#39;utilisateur.
 
-Noms des clés API de l&#39;utilisateur.
+  Cette propriété renvoie les noms des clés API, *et non* le secret associé à chaque clé. Le nom d&#39;une clé ne peut pas être utilisé comme clé API.
 
-Cette propriété renvoie les noms des clés API, *et non* le secret associé à chaque clé. Le nom d&#39;une clé ne peut pas être utilisé comme clé API.
+  La liste est vide si l&#39;utilisateur n&#39;a pas de clés API ou si celles-ci n&#39;ont pas été chargées.
+</ResponseField>
 
-La liste est vide si l&#39;utilisateur n&#39;a pas de clés API ou si celles-ci n&#39;ont pas été chargées.
+<ResponseField name="teams" type="list[str]">
+  Noms des équipes de l’utilisateur.
 
-### <kbd>propriété</kbd> teams
+  Il s’agit d’une liste vide si l’utilisateur n’est membre d’aucune équipe ou si les données des équipes n’ont pas été chargées.
+</ResponseField>
 
-Noms des équipes auxquelles l’utilisateur appartient.
-
-Il s’agit d’une liste vide si l’utilisateur n’appartient à aucune équipe ou si les données des équipes n’ont pas été chargées.
-
-### <kbd>propriété</kbd> user_api
-
-Une instance `wandb.Api` qui utilise les identifiants de l’utilisateur.
+<ResponseField name="user_api" type="Api | None">
+  Une instance de `wandb.Api` utilisant les identifiants d’authentification de l’utilisateur.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> User.create()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.create()
 
 ```python
 api: 'Api',
@@ -56,11 +56,19 @@ Il s&#39;agit d&#39;une méthode interne. Utilisez plutôt la méthode `create_u
   ##### Arguments
 </div>
 
-* `api` : L’instance d’API à utiliser pour créer l’utilisateur.
-* `email` : L’adresse e-mail de l’utilisateur.
-* `admin` : Indique si cet utilisateur doit être admin global de l’instance.
+<ResponseField name="api" type="Api">
+  Instance d’API à utiliser pour créer l’utilisateur.
+</ResponseField>
 
-### <kbd>méthode</kbd> User.delete_api_key()
+<ResponseField name="email" type="str">
+  Adresse e-mail de l’utilisateur.
+</ResponseField>
+
+<ResponseField name="admin" type="bool | None">
+  Indique si cet utilisateur doit être administrateur global de l’instance.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.delete_api_key()
 
 ```python
 self,
@@ -75,9 +83,11 @@ Seul le propriétaire de la clé ou un administrateur peut la supprimer.
   ##### Arguments
 </div>
 
-* `api_key`: Le nom de la clé API à supprimer. Utilisez l’un des noms renvoyés par la propriété `api_keys`.
+<ResponseField name="api_key" type="str">
+  Le nom de la clé API à supprimer. Utilisez l’un des noms renvoyés par la propriété `api_keys`.
+</ResponseField>
 
-### <kbd>méthode</kbd> User.generate_api_key()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.generate_api_key()
 
 ```python
 self,
@@ -90,4 +100,6 @@ Générez une nouvelle clé API.
   ##### Arguments
 </div>
 
-* `description`: Une description de la nouvelle clé API. Elle peut être utilisée pour identifier l’usage de la clé API.
+<ResponseField name="description" type="str | None">
+  Une description de la nouvelle clé API. Elle peut être utilisée pour identifier l’usage de la clé API.
+</ResponseField>

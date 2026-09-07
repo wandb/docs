@@ -6,9 +6,15 @@ namespace: wandb.apis.public.runs
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-## <kbd>classe</kbd> wandb.apis.public.Runs
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Runs
+
+Un itérateur paresseux d’objets `Run` associé à un projet et à un filtre facultatif.
+
+Les runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
+
+Cet objet est généralement utilisé indirectement via l’espace de noms `Api.runs`.
 
 ```python
 (service_api: 'ServiceApi',
@@ -22,31 +28,51 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-Un itérateur paresseux d’objets `Run` associé à un projet et à un filtre facultatif.
-
-Les runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
-
-Cet objet est généralement utilisé indirectement via l’espace de noms `Api.runs`.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `service_api`: L’API de service à utiliser pour les requêtes.
-* `entity`: L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
-* `project`: Le nom du projet depuis lequel récupérer les runs.
-* `filters`: Filtres à appliquer à la requête de runs.
-* `order`: L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`. Si l’ordre est précédé de `+`, le tri est croissant (par défaut). Si l’ordre est précédé de `-`, le tri est décroissant. Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
-* `per_page`: Le nombre de runs à récupérer par requête (50 par défaut).
-* `include_sweeps`: Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
-* `lazy`: Indique s’il faut différer le chargement des champs volumineux (`config`, `summaryMetrics`, `systemMetrics`) jusqu’à ce qu’ils soient consultés. La valeur par défaut est `True`.
-* `api_key`: 
+<ResponseField name="service_api" type="ServiceApi">
+  L’API de service à utiliser pour les requêtes.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  Le nom du projet depuis lequel récupérer les runs.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  Filtres à appliquer à la requête de runs.
+</ResponseField>
+
+<ResponseField name="order" type="str">
+  L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`. Si l’ordre est précédé de `+`, le tri est croissant (par défaut). Si l’ordre est précédé de `-`, le tri est décroissant. Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Le nombre de runs à récupérer par requête (50 par défaut).
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  Indique s’il faut différer le chargement des champs volumineux (`config`, `summaryMetrics`, `systemMetrics`) jusqu’à ce qu’ils soient consultés. La valeur par défaut est `True`.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Runs.histories()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.histories()
 
 ```python
 self,
@@ -63,13 +89,27 @@ Renvoie des métriques d’historique échantillonnées pour tous les runs qui s
   ##### Arguments
 </div>
 
-* `samples`: Nombre d’échantillons à renvoyer par run
-* `keys`: Renvoie uniquement les métriques pour des clés spécifiques
-* `x_axis`: Utilisez cette métrique comme xAxis ; la valeur par défaut est &#95;step
-* `format`: Format dans lequel renvoyer les données ; les options sont &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;
-* `stream`: &quot;default&quot; pour les métriques, &quot;system&quot; pour les métriques système
+<ResponseField name="samples" type="int">
+  Nombre d’échantillons à renvoyer par run
+</ResponseField>
 
-### <kbd>méthode</kbd> Paginator.**next**()
+<ResponseField name="keys" type="list[str] | None">
+  Renvoyer uniquement les métriques associées à des clés spécifiques
+</ResponseField>
+
+<ResponseField name="x_axis" type="str">
+  Utiliser cette métrique comme axe des x ; la valeur par défaut est &#95;step
+</ResponseField>
+
+<ResponseField name="format" type="Literal['default', 'pandas', 'polars']">
+  Format de renvoi des données : « default », « pandas » ou « polars »
+</ResponseField>
+
+<ResponseField name="stream" type="Literal['default', 'system']">
+  « default » pour les métriques, « system » pour les métriques système
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
 
 ```python
 self
@@ -77,7 +117,7 @@ self
 
 Renvoyer l’élément suivant de l’itérateur. S’il n’y en a plus, lever StopIteration
 
-### <kbd>méthode</kbd> Paginator.update_variables()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
 
 ```python
 self
@@ -85,7 +125,7 @@ self
 
 Mettez à jour les variables de la requête pour récupérer la page suivante.
 
-### <kbd>méthode</kbd> Runs.upgrade_to_full()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.upgrade_to_full()
 
 ```python
 self

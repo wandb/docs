@@ -6,9 +6,14 @@ namespace: wandb.sdk.data_types.histogram
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py#L21" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py#L21" />
 
-## <kbd>classe</kbd> wandb.Histogram
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Histogram
+
+Classe W&amp;B pour les histogrammes.
+
+Cet objet fonctionne exactement comme la fonction `histogram` de NumPy
+[https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html](https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html)
 
 ```python
 sequence: 'Sequence | None' = None,
@@ -16,18 +21,21 @@ np_histogram: 'NumpyHistogram | None' = None,
 num_bins: 'int' = 64
 ```
 
-Classe W&amp;B pour les histogrammes.
-
-Cet objet fonctionne exactement comme la fonction `histogram` de NumPy
-[https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html](https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html)
-
 <div id="args">
   ## Arguments
 </div>
 
-* `sequence`: Données d’entrée de l’histogramme.
-* `np_histogram`: Entrée alternative correspondant à un histogramme précalculé.
-* `num_bins`: Nombre d’intervalles de l’histogramme.  Le nombre d’intervalles par défaut est de 64. Le nombre maximal d’intervalles est de 512.
+<ResponseField name="sequence" type="Sequence | None">
+  Données d’entrée de l’histogramme.
+</ResponseField>
+
+<ResponseField name="np_histogram" type="NumpyHistogram | None">
+  Entrée alternative correspondant à un histogramme précalculé.
+</ResponseField>
+
+<ResponseField name="num_bins" type="int">
+  Nombre d’intervalles de l’histogramme.  Le nombre d’intervalles par défaut est de 64. Le nombre maximal d’intervalles est de 512.
+</ResponseField>
 
 <div id="attributes">
   ## Attributs

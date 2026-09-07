@@ -6,9 +6,9 @@ namespace: wandb.apis.public.users
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
 
-## <kbd>클래스</kbd> wandb.apis.public.User
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.User
 
 W&amp;B 인스턴스의 사용자입니다.
 
@@ -18,29 +18,29 @@ W&amp;B 인스턴스의 사용자입니다.
   ## 속성
 </div>
 
-### <kbd>속성</kbd> api_keys
+<ResponseField name="api_keys" type="list[str]">
+  사용자의 API 키 이름입니다.
 
-사용자의 API 키 이름입니다.
+  이 속성은 키와 연결된 시크릿이 아니라 API 키의 이름을 반환합니다. 키 이름은 API 키로 사용할 수 없습니다.
 
-이 속성은 키와 연결된 시크릿이 아니라 API 키의 이름을 반환합니다. 키 이름은 API 키로 사용할 수 없습니다.
+  사용자에게 API 키가 없거나 API 키를 아직 불러오지 않은 경우 목록은 비어 있습니다.
+</ResponseField>
 
-사용자에게 API 키가 없거나 API 키를 아직 불러오지 않은 경우 목록은 비어 있습니다.
+<ResponseField name="teams" type="list[str]">
+  사용자의 팀 이름입니다.
 
-### <kbd>속성</kbd> teams
+  사용자에게 팀 멤버십이 없거나 팀 데이터를 불러오지 않은 경우 빈 목록입니다.
+</ResponseField>
 
-사용자가 속한 팀의 이름 목록입니다.
-
-사용자가 어떤 팀에도 속해 있지 않거나 팀 데이터를 로드하지 않은 경우 빈 목록입니다.
-
-### <kbd>속성</kbd> user_api
-
-사용자의 자격 증명을 사용하는 `wandb.Api` 인스턴스입니다.
+<ResponseField name="user_api" type="Api | None">
+  사용자의 자격 증명을 사용하는 `wandb.Api` 인스턴스입니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> User.create()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> User.create()
 
 ```python
 api: 'Api',
@@ -57,11 +57,19 @@ admin: 'bool | None' = False
   ##### 인수
 </div>
 
-* `api`: 사용자 생성에 사용할 API 인스턴스입니다.
-* `email`: 사용자의 이메일입니다.
-* `admin`: 이 사용자를 전역 인스턴스 관리자로 지정할지 여부입니다.
+<ResponseField name="api" type="Api">
+  사용자 생성에 사용할 API 인스턴스입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> User.delete_api_key()
+<ResponseField name="email" type="str">
+  사용자의 이메일 주소입니다.
+</ResponseField>
+
+<ResponseField name="admin" type="bool | None">
+  이 사용자를 전역 인스턴스 Admin으로 지정할지 여부입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> User.delete_api_key()
 
 ```python
 self,
@@ -76,9 +84,11 @@ api_key: 'str'
   ##### 인수
 </div>
 
-* `api_key`: 삭제할 API 키의 이름입니다. `api_keys` 속성에서 반환된 이름 중 하나를 사용합니다.
+<ResponseField name="api_key" type="str">
+  삭제할 API 키의 이름입니다. `api_keys` 속성에서 반환된 이름 중 하나를 사용합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> User.generate_api_key()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> User.generate_api_key()
 
 ```python
 self,
@@ -91,4 +101,6 @@ description: 'str | None' = None
   ##### 인수
 </div>
 
-* `description`: 새 API 키에 대한 설명입니다. API 키의 용도를 파악하는 데 사용할 수 있습니다.
+<ResponseField name="description" type="str | None">
+  새 API 키에 대한 설명입니다. API 키의 용도를 파악하는 데 사용할 수 있습니다.
+</ResponseField>

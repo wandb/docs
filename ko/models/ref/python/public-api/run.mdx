@@ -6,9 +6,11 @@ namespace: wandb.apis.public.runs
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L598" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L598" />
 
-## <kbd>클래스</kbd> wandb.apis.public.Run
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Run
+
+entity 및 프로젝트와 연결된 하나의 run.
 
 ```python
 (service_api: 'ServiceApi',
@@ -21,20 +23,41 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-entity 및 프로젝트와 연결된 하나의 run.
-
 <div id="args">
   ## 인수
 </div>
 
-* `service_api`: 이 run에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스 인터페이스입니다.
-* `entity`: run과 연결된 entity.
-* `project`: run과 연결된 프로젝트.
-* `run_id`: run의 고유 식별자.
-* `attrs`: run의 속성.
-* `include_sweeps`: run에 스윕을 포함할지 여부.
-* `lazy`:
-* `api_key`: 
+<ResponseField name="service_api" type="ServiceApi">
+  이 run에 대해 W&amp;B API 호출을 수행하는 wandb-core 서비스 인터페이스입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  run에 연결된 entity입니다.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  run에 연결된 프로젝트입니다.
+</ResponseField>
+
+<ResponseField name="run_id" type="str">
+  run의 고유 식별자입니다.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping | None">
+  run의 속성입니다.
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  run에 스윕을 포함할지 여부입니다.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="attributes">
   ## 속성
@@ -63,95 +86,96 @@ entity 및 프로젝트와 연결된 하나의 run.
   ## 속성
 </div>
 
-### <kbd>속성</kbd> config
+<ResponseField name="config" type="dict[str, Any]">
+  run 설정을 조회합니다. 지연 모드인 경우 전체 데이터를 자동으로 로드합니다.
+</ResponseField>
 
-run 구성(config)을 가져옵니다. lazy 모드일 때 전체 데이터를 자동으로 불러옵니다.
+<ResponseField name="entity" type="str">
+  run과 연결된 entity입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> entity
+<ResponseField name="id" type="str">
+  run의 고유 식별자입니다.
+</ResponseField>
 
-run과 연관된 entity입니다.
+<ResponseField name="lastHistoryStep" type="int">
+  run 이력에 로깅된 마지막 step을 반환합니다.
+</ResponseField>
 
-### <kbd>속성</kbd> id
+<ResponseField name="metadata" type="dict[str, Any] | None">
+  wandb-metadata.json의 run 관련 메타데이터입니다.
 
-run의 고유 식별자입니다.
+  메타데이터에는 run의 설명, 태그, 시작 시간, 메모리
+  사용량 등이 포함됩니다.
+</ResponseField>
 
-### <kbd>속성</kbd> lastHistoryStep
+<ResponseField name="name" type="str | None">
+  run의 이름입니다.
+</ResponseField>
 
-run 이력에 기록된 마지막 step을 반환합니다.
+<ResponseField name="path" type="list[str]">
+  run의 경로입니다. 경로는 entity, 프로젝트 및 run&#95;id를 포함하는 목록입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> metadata
+<ResponseField name="rawconfig" type="dict[str, Any]">
+  내부 키를 포함한 원시 run 설정을 조회합니다. 지연 모드인 경우 전체 데이터를 자동으로 로드합니다.
+</ResponseField>
 
-wandb-metadata.json에서 가져온 run에 대한 메타데이터입니다.
+<ResponseField name="state" type="str">
+  run의 상태입니다.
 
-메타데이터에는 run의 설명, 태그, 시작 시간, 메모리
-사용량 등 다양한 정보가 포함됩니다.
+  다음 표에서는 run이 가질 수 있는 상태를 설명합니다.
 
-### <kbd>속성</kbd> name
+  | 상태       | 설명                                                                 |
+  | -------- | ------------------------------------------------------------------ |
+  | Crashed  | 내부 프로세스에서 run의 하트비트 전송이 중지된 상태입니다. 머신이 충돌한 경우 이런 일이 발생할 수 있습니다. |
+  | Failed   | run이 0이 아닌 종료 상태 코드로 종료되었습니다.                                      |
+  | Finished | run이 종료되었고 데이터 동기화가 완전히 완료되었거나, `wandb.Run.finish()`가 호출되었습니다.     |
+  | Killed   | run이 완료되기 전에 강제로 중지되었습니다.                                          |
+  | Running  | run이 아직 실행 중이며 최근에 하트비트를 전송했습니다.                                   |
+  | Pending  | run이 예약되었지만 아직 시작되지 않았습니다(스윕 및 Launch 작업에서 일반적임).                  |
+</ResponseField>
 
-run의 이름입니다.
+<ResponseField name="storage_id" type="str">
+  run의 고유 저장소 식별자입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> path
+<ResponseField name="summary" type="HTTPSummary">
+  run summary 메트릭을 조회합니다. 지연 모드인 경우 전체 데이터를 자동으로 로드합니다.
+</ResponseField>
 
-run의 경로를 나타냅니다. 이 경로는 entity, 프로젝트, run&#95;id로 구성된 리스트입니다.
+<ResponseField name="summary_metrics" type="dict[str, Any]">
+  run summary 메트릭을 조회합니다. 지연 모드인 경우 전체 데이터를 자동으로 로드합니다.
+</ResponseField>
 
-### <kbd>속성</kbd> rawconfig
+<ResponseField name="sweep" type="public.Sweep | None">
+  이 run과 연결된 스윕입니다. include&#95;sweeps가 False이면 스윕 데이터를 로드합니다.
+</ResponseField>
 
-내부 키를 포함하는 원시 run config를 반환합니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다.
+<ResponseField name="sweep_name" type="str | None">
+  스윕 이름을 조회합니다. sweepName은 경량 프래그먼트에 있으므로 항상 사용 가능합니다.
+</ResponseField>
 
-### <kbd>속성</kbd> state
+<ResponseField name="system_metrics" type="dict[str, Any]">
+  run 시스템 메트릭을 조회합니다. 지연 모드인 경우 전체 데이터를 자동으로 로드합니다.
+</ResponseField>
 
-run의 상태입니다.
+<ResponseField name="url" type="str">
+  run의 URL입니다.
 
-다음 표에서는 run이 가질 수 있는 상태를 설명합니다.
+  run URL은 entity, 프로젝트 및 run&#95;id로 생성됩니다. SaaS
+  사용자의 경우 형식은 `https://wandb.ai/entity/project/run_id`입니다.
+</ResponseField>
 
-| 상태       | 설명                                                                 |
-| -------- | ------------------------------------------------------------------ |
-| Crashed  | 내부 process에서 run의 하트비트 전송이 중지된 상태입니다. 머신이 충돌한 경우 이런 일이 발생할 수 있습니다. |
-| Failed   | run이 0이 아닌 종료 상태 코드로 종료되었습니다.                                      |
-| Finished | run이 종료되었고 데이터 동기화가 완전히 완료되었거나, `wandb.Run.finish()`가 호출되었습니다.     |
-| Killed   | run이 완료되기 전에 강제로 중지되었습니다.                                          |
-| Running  | run이 아직 실행 중이며 최근에 하트비트를 전송했습니다.                                   |
-| Pending  | run이 예약되었지만 아직 시작되지 않았습니다(스윕 및 Launch 작업에서 일반적임).                  |
-
-### <kbd>속성</kbd> storage_id
-
-run의 고유 스토리지 식별자입니다.
-
-### <kbd>속성</kbd> summary
-
-run의 요약 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다.
-
-### <kbd>속성</kbd> summary_metrics
-
-run의 요약 메트릭을 가져옵니다. lazy 모드일 경우 전체 데이터를 자동으로 로드합니다.
-
-### <kbd>속성</kbd> sweep
-
-이 run에 연결된 스윕입니다. include&#95;sweeps가 False로 설정된 경우 스윕 데이터를 로드합니다.
-
-### <kbd>속성</kbd> sweep_name
-
-스윕 이름을 가져옵니다. `sweepName`은 lightweight fragment에 포함되어 있기 때문에 항상 사용할 수 있습니다.
-
-### <kbd>속성</kbd> system_metrics
-
-run의 시스템 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다.
-
-### <kbd>속성</kbd> url
-
-run의 URL입니다.
-
-run URL은 entity, 프로젝트, 그리고 run&#95;id로부터 생성됩니다. SaaS 사용자의 경우 `https://wandb.ai/entity/project/run_id` 형식입니다.
-
-### <kbd>속성</kbd> username
-
-이 API는 더 이상 사용되지 않습니다. 대신 `entity`를 사용하세요.
+<ResponseField name="username" type="str">
+  이 API는 사용 중단되었습니다. 대신 `entity`를 사용하세요.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Run.beta_scan_history()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.beta_scan_history()
 
 ```python
 self,
@@ -166,13 +190,78 @@ use_cache: 'bool' = True
   ##### 인수
 </div>
 
-* `keys`:
-* `page_size`:
-* `min_step`:
-* `max_step`:
-* `use_cache`: 
+<ResponseField name="keys" type="list[str] | None">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.create()
+<ResponseField name="page_size" type="int">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="min_step" type="int">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="max_step" type="int | None">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="use_cache" type="bool">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.console_logs()
+
+```python
+self, *,
+per_page: 'int' = 1000,
+last: 'int | None' = None
+```
+
+run의 캡처된 콘솔 출력을 반환합니다.
+
+run이 실행되는 동안 W&amp;B는 해당 프로세스가 stdout 및 stderr에 기록하는 내용을
+캡처하여 run의 콘솔 로그로 기록합니다. 이 로그는 W&amp;B App의 run 페이지에 있는
+&quot;Logs&quot; 탭에 표시되는 로그와 동일합니다. 이 메서드는 완료된 run과 아직 실행 중인
+run 모두에서 해당 로그를 조회합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="per_page" type="int">
+  로그를 처음부터 읽을 때 요청당 가져올 줄 수입니다. `last`가 지정되면 무시됩니다.
+</ResponseField>
+
+<ResponseField name="last" type="int | None">
+  설정하면 단일 요청으로 로그의 마지막 N줄만 가져옵니다. 실행 중인 run을 확인하거나 충돌을 진단할 때 유용합니다. 백엔드는 하나의 요청으로 반환할 수 있는 줄 수에 한도를 두므로, 더 많은 줄을 요청하면 최신 줄만 반환됩니다.
+</ResponseField>
+
+<div id="raises">
+  ##### 예외
+</div>
+
+* `CommError`: 반복 중 요청이 실패할 때 발생합니다. 로그를 처음부터 조회하려면 W&amp;B server 0.77 이상이 필요합니다. 이전 버전의 서버에서는 대신 마지막 N줄을 조회하세요.
+
+<div id="examples">
+  ##### 예시
+</div>
+
+```python
+import wandb
+
+run = wandb.Api().run("entity/project/run_id")
+
+# 전체 로그를 오래된 줄부터 조회합니다.
+for line in run.console_logs():
+    print(line.content)
+
+# 마지막 100줄만 조회합니다.
+for line in run.console_logs(last=100):
+    print(line.timestamp, line.content)
+```
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.create()
 
 ```python
 api: 'public.Api',
@@ -192,11 +281,25 @@ state: "Literal['running', 'pending']" = 'running'
   ##### 인수
 </div>
 
-* `api`: W&amp;B API 인스턴스.
-* `run_id`: 선택적 run ID. 제공하지 않으면 무작위 ID가 생성됩니다.
-* `project`: 선택적 프로젝트 이름. API 설정의 프로젝트 또는 &quot;uncategorized&quot;가 기본값입니다.
-* `entity`: 선택적 entity(사용자 또는 팀) 이름.
-* `state`: run의 초기 상태. 나중에 재개할 run에는 &quot;pending&quot;을, 즉시 실행할 run에는 &quot;running&quot;을 사용하십시오.
+<ResponseField name="api" type="public.Api">
+  W&amp;B API 인스턴스입니다.
+</ResponseField>
+
+<ResponseField name="run_id" type="str | None">
+  선택 run ID입니다. 지정하지 않으면 임의의 ID가 생성됩니다.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  선택 프로젝트 이름입니다. 기본값은 API 설정의 프로젝트 또는 &quot;uncategorized&quot;입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  선택 entity(사용자 또는 팀) 이름입니다.
+</ResponseField>
+
+<ResponseField name="state" type="Literal['running', 'pending']">
+  run의 초기 상태입니다. 나중에 재개할 run에는 &quot;pending&quot;을, 즉시 실행할 run에는 &quot;running&quot;을 사용하세요.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -220,7 +323,7 @@ run = Run.create(
 )
 ```
 
-### <kbd>방법</kbd> Run.delete()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.delete()
 
 ```python
 self,
@@ -233,9 +336,11 @@ wandb 백엔드에서 지정된 run을 삭제합니다.
   ##### 인수
 </div>
 
-* `delete_artifacts`: run과 연결된 아티팩트를 삭제할지 여부입니다.
+<ResponseField name="delete_artifacts" type="bool">
+  run과 연결된 아티팩트를 삭제할지 여부입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.download_history_exports()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.download_history_exports()
 
 ```python
 self,
@@ -249,8 +354,13 @@ run에 대한 모든 parquet 형식의 이력 파일을 지정한 디렉터리�
   ##### 인수
 </div>
 
-* `download_dir`: 이력 파일을 다운로드할 디렉터리입니다.
-* `require_complete_history`: 전체 이력이 모두 다운로드되어야 하는지 여부입니다. true인 경우, run에 아직 parquet 파일로 내보내지 않은 데이터가 포함되어 있으면 IncompleteRunHistoryError가 발생합니다.
+<ResponseField name="download_dir" type="pathlib.Path | str">
+  이력 파일을 다운로드할 디렉터리입니다.
+</ResponseField>
+
+<ResponseField name="require_complete_history" type="bool">
+  전체 이력이 모두 다운로드되어야 하는지 여부입니다. true인 경우, run에 아직 parquet 파일로 내보내지 않은 데이터가 포함되어 있으면 IncompleteRunHistoryError가 발생합니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -259,7 +369,7 @@ run에 대한 모든 parquet 형식의 이력 파일을 지정한 디렉터리�
 * `IncompleteRunHistoryError`:  `require_complete_history`가 True이고 run에 아직 parquet 파일로 내보내지 않은 데이터가 포함되어 있는 경우 발생합니다.
 * `WandbApiFailedError`:  이력이 완전하지 않은 경우 이외의 이유로 API 요청이 실패한 경우 발생합니다.
 
-### <kbd>방법</kbd> Run.file()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.file()
 
 ```python
 self,
@@ -272,9 +382,11 @@ name: 'str'
   ##### 인수
 </div>
 
-* `name`: 요청한 파일의 이름입니다.
+<ResponseField name="name" type="str">
+  요청한 파일의 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.files()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.files()
 
 ```python
 self,
@@ -292,11 +404,19 @@ per_page: 'int' = 50
   ##### 인수
 </div>
 
-* `names`: 요청된 파일의 이름 목록입니다. 비어 있으면 모든 파일을 반환합니다.
-* `pattern`: W&amp;B에서 파일을 반환할 때 사용할 패턴입니다. 이 패턴은 mySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일을 매칭하려면 &quot;%.json&quot;을 사용합니다. `names`와 `pattern`이 모두 제공되면 ValueError가 발생합니다.
-* `per_page`: 페이지당 결과 개수입니다.
+<ResponseField name="names" type="list[str] | None">
+  요청된 파일의 이름 목록입니다. 비어 있으면 모든 파일을 반환합니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.history()
+<ResponseField name="pattern" type="str | None">
+  W&amp;B에서 파일을 반환할 때 사용할 패턴입니다. 이 패턴은 mySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일을 매칭하려면 &quot;%.json&quot;을 사용합니다. `names`와 `pattern`이 모두 제공되면 ValueError가 발생합니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  페이지당 결과 개수입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.history()
 
 ```python
 self,
@@ -315,26 +435,42 @@ run에 대해 샘플링된 이력 메트릭을 반환합니다.
   ##### 인수
 </div>
 
-* `samples`: (int, optional) 반환할 샘플 개수
-* `keys`: (list, optional) 지정한 키에 대한 메트릭만 반환
-* `x_axis`: (str, optional) 이 메트릭을 x축으로 사용합니다. 기본값은 &#95;step입니다.
-* `pandas`: (bool, optional) pandas DataFrame을 반환할지 여부
-* `stream`: (str, optional) 메트릭의 경우 &quot;default&quot;, 머신 메트릭의 경우 &quot;system&quot;
+<ResponseField name="samples" type="int">
+  (int, 선택) 반환할 샘플 수
+</ResponseField>
 
-### <kbd>방법</kbd> Run.load()
+<ResponseField name="keys" type="list[str] | None">
+  (목록, 선택) 지정된 키의 메트릭만 반환
+</ResponseField>
+
+<ResponseField name="x_axis" type="str">
+  (str, 선택) 이 메트릭을 x축으로 사용합니다. 기본값은 &#95;step입니다.
+</ResponseField>
+
+<ResponseField name="pandas" type="bool">
+  (bool, 선택) pandas 데이터프레임을 반환
+</ResponseField>
+
+<ResponseField name="stream" type="Literal['default', 'system']">
+  (str, 선택) 메트릭에는 &quot;default&quot;, 시스템 메트릭에는 &quot;system&quot;
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.load()
 
 ```python
 self,
 force: 'bool' = False
 ```
 
-lazy 모드 설정에 따라 적절한 프래그먼트를 사용해 run 데이터를 로드합니다.
+지연 모드 설정에 따라 적절한 프래그먼트를 사용해 run 데이터를 로드합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `force`: True로 설정하면 이미 로드되어 있더라도 서버에서 run 데이터를 다시 가져옵니다.
+<ResponseField name="force" type="bool">
+  True로 설정하면 이미 로드되어 있더라도 서버에서 run 데이터를 다시 가져옵니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -342,7 +478,7 @@ lazy 모드 설정에 따라 적절한 프래그먼트를 사용해 run 데이�
 
 * `RunNotFoundError`: run을 찾을 수 없거나 run 데이터를 로드할 수 없는 경우 발생합니다.
 
-### <kbd>방법</kbd> Run.load_full_data()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.load_full_data()
 
 ```python
 self,
@@ -358,9 +494,11 @@ config, systemMetrics, summaryMetrics 같은 대용량 필드를 포함해 전�
   ##### 인수
 </div>
 
-* `force`: 데이터가 이미 로드된 경우에도 강제로 다시 로드할지 여부
+<ResponseField name="force" type="bool">
+  데이터가 이미 로드된 경우에도 강제로 다시 로드할지 여부
+</ResponseField>
 
-### <kbd>방법</kbd> Run.log_artifact()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.log_artifact()
 
 ```python
 self,
@@ -375,11 +513,19 @@ run의 출력으로 사용할 아티팩트를 선언합니다.
   ##### 인수
 </div>
 
-* `artifact`: `wandb.Api().artifact(name)`에서 반환된 아티팩트입니다.
-* `aliases`: 이 아티팩트에 적용할 별칭 목록입니다.
-* `tags`: (list, optional) 이 아티팩트에 적용할 태그 목록입니다(있는 경우).
+<ResponseField name="artifact" type="wandb.Artifact">
+  `wandb.Api().artifact(name)`에서 반환된 아티팩트입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.logged_artifacts()
+<ResponseField name="aliases" type="Collection[str] | None">
+  이 아티팩트에 적용할 별칭입니다.
+</ResponseField>
+
+<ResponseField name="tags" type="Collection[str] | None">
+  (목록, 선택) 지정된 경우 이 아티팩트에 적용할 태그입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.logged_artifacts()
 
 ```python
 self,
@@ -388,13 +534,15 @@ per_page: 'int' = 100
 
 이 run에서 로깅된 모든 아티팩트를 가져옵니다.
 
-run 동안 출력으로 로깅된 모든 아티팩트를 가져옵니다. 페이지네이션된 결과를 반환하며, 이 결과는 순회하거나 하나의 리스트로 모을 수 있습니다.
+run 동안 출력으로 로깅된 모든 아티팩트를 가져옵니다. 페이지 매김된 결과를 반환하며, 이 결과는 순회하거나 하나의 목록으로 모을 수 있습니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `per_page`: API 요청당 가져올 아티팩트 개수입니다.
+<ResponseField name="per_page" type="int">
+  API 요청당 가져올 아티팩트 개수입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -421,7 +569,7 @@ for logged_artifact in finished_run.logged_artifacts():
     print(logged_artifact.name)
 ```
 
-### <kbd>방법</kbd> Run.save()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.save()
 
 ```python
 self
@@ -429,7 +577,7 @@ self
 
 run 객체의 변경 내용을 W&amp;B 백엔드에 반영합니다.
 
-### <kbd>방법</kbd> Run.scan_history()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.scan_history()
 
 ```python
 self,
@@ -446,13 +594,27 @@ run의 모든 이력 레코드를 담은 이터러블 컬렉션을 반환합니�
   ##### 인수
 </div>
 
-* `keys`: run의 이력에서 읽을 메트릭 목록입니다. keys를 지정하지 않으면 모든 메트릭이 반환됩니다.
-* `page_size`: 한 번에 읽을 이력 레코드 수입니다.
-* `min_step`: 이력을 읽기 시작할 최소 step(포함)입니다.
-* `max_step`: 이력을 읽을 최대 step(미포함)입니다.
-* `use_cache`: True로 설정하면 WANDB&#95;CACHE&#95;DIR에서 run 이력을 확인합니다. 캐시에서 run 이력을 찾을 수 없으면 서버에서 다운로드합니다. False로 설정하면 매번 run 이력을 서버에서 다운로드합니다.
+<ResponseField name="keys" type="list[str] | None">
+  run의 이력에서 읽을 메트릭 목록입니다. 스캔은 요청한 모든 키를 포함하는 행만 반환합니다. 키가 서로 다른 step에 로깅되었다면 각 키에 대해 별도의 Call을 사용하거나 이 인수를 생략하세요. keys를 지정하지 않으면 모든 메트릭이 반환됩니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.stop()
+<ResponseField name="page_size" type="int">
+  한 번에 읽을 이력 레코드 수입니다.
+</ResponseField>
+
+<ResponseField name="min_step" type="int">
+  이력을 읽기 시작할 최소 step(포함)입니다.
+</ResponseField>
+
+<ResponseField name="max_step" type="int | None">
+  이력을 읽을 최대 step(미포함)입니다.
+</ResponseField>
+
+<ResponseField name="use_cache" type="bool">
+  True로 설정하면 WANDB&#95;CACHE&#95;DIR에서 run 이력을 확인합니다. 캐시에서 run 이력을 찾을 수 없으면 서버에서 다운로드합니다. False로 설정하면 매번 run 이력을 서버에서 다운로드합니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.stop()
 
 ```python
 self
@@ -481,7 +643,7 @@ run = wandb.Api().run("entity/project/run_id")
 run.stop()
 ```
 
-### <kbd>방법</kbd> Run.to_html()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.to_html()
 
 ```python
 self,
@@ -495,10 +657,15 @@ hidden: 'bool' = False
   ##### 인수
 </div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.update()
+<ResponseField name="hidden" type="bool">
+  설명이 없습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.update()
 
 ```python
 self
@@ -506,7 +673,7 @@ self
 
 run 객체의 변경 내용을 wandb 백엔드에 저장합니다.
 
-### <kbd>방법</kbd> Run.update_state()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.update_state()
 
 ```python
 self,
@@ -530,7 +697,9 @@ run의 상태를 업데이트합니다.
   ##### 인수
 </div>
 
-* `state`: 대상 run 상태입니다. `"pending"` 또는 `"failed"` 중 하나입니다.
+<ResponseField name="state" type="str">
+  대상 run 상태입니다. `"pending"` 또는 `"failed"` 중 하나입니다.
+</ResponseField>
 
 <div id="raises">
   ##### 예외
@@ -538,7 +707,7 @@ run의 상태를 업데이트합니다.
 
 * `wandb.Error`: 요청한 상태 전환이 허용되지 않거나, 서버가 이 작업을 지원하지 않는 경우 발생합니다.
 
-### <kbd>방법</kbd> Run.upload_file()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.upload_file()
 
 ```python
 self,
@@ -552,10 +721,15 @@ root: 'str' = '.'
   ##### 인수
 </div>
 
-* `path`: 업로드할 파일의 경로입니다. 절대 경로나 상대 경로 모두 사용할 수 있습니다.
-* `root`: 파일을 저장할 때 기준이 되는 루트 경로입니다. 예를 들어, run 내에서 파일이 &quot;my&#95;dir/file.txt&quot;로 저장되기를 원하고 현재 디렉터리가 &quot;my&#95;dir&quot;이라면, root를 &quot;../&quot;로 설정하면 됩니다. 기본값은 현재 디렉터리(&quot;.&quot;)입니다.
+<ResponseField name="path" type="str">
+  업로드할 파일의 경로입니다. 절대 경로나 상대 경로 모두 사용할 수 있습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Run.use_artifact()
+<ResponseField name="root" type="str">
+  파일을 저장할 때 기준이 되는 루트 경로입니다. 예를 들어, run 내에서 파일이 &quot;my&#95;dir/file.txt&quot;로 저장되기를 원하고 현재 디렉터리가 &quot;my&#95;dir&quot;이라면, root를 &quot;../&quot;로 설정하면 됩니다. 기본값은 현재 디렉터리(&quot;.&quot;)입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.use_artifact()
 
 ```python
 self,
@@ -569,10 +743,15 @@ run의 입력으로 사용할 아티팩트를 선언합니다.
   ##### 인수
 </div>
 
-* `artifact`: `wandb.Api().artifact(name)`에서 반환된 아티팩트
-* `use_as`: 스크립트에서 아티팩트를 어떻게 사용하는지 식별하는 문자열입니다. 베타 기능인 wandb Launch의 아티팩트 스와핑 기능을 사용할 때 run에서 사용된 아티팩트를 쉽게 구분하는 데 사용됩니다.
+<ResponseField name="artifact" type="wandb.Artifact">
+  `wandb.Api().artifact(name)`에서 반환된 아티팩트
+</ResponseField>
 
-### <kbd>방법</kbd> Run.used_artifacts()
+<ResponseField name="use_as" type="str | None">
+  스크립트에서 아티팩트를 어떻게 사용하는지 식별하는 문자열입니다. 베타 기능인 wandb Launch의 아티팩트 스와핑 기능을 사용할 때 run에서 사용된 아티팩트를 쉽게 구분하는 데 사용됩니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.used_artifacts()
 
 ```python
 self,
@@ -581,13 +760,15 @@ per_page: 'int' = 100
 
 이 run에서 명시적으로 사용된 아티팩트를 가져옵니다.
 
-일반적으로 `run.use_artifact()`을 통해 run 동안 사용되었다고 명시적으로 선언된 입력 아티팩트만을 가져옵니다. 반복(iteration)하거나 단일 리스트로 수집할 수 있는 페이징된 결과를 반환합니다.
+일반적으로 `run.use_artifact()`을 통해 run 동안 사용되었다고 명시적으로 선언된 입력 아티팩트만을 가져옵니다. 순회하거나 단일 목록로 수집할 수 있는 페이지 매김된 결과를 반환합니다.
 
 <div id="arguments">
   ##### 인수
 </div>
 
-* `per_page`: API 요청당 가져올 아티팩트 개수입니다.
+<ResponseField name="per_page" type="int">
+  API 요청당 가져올 아티팩트 개수입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -607,7 +788,7 @@ for used_artifact in finished_run.used_artifacts():
 test_artifact
 ```
 
-### <kbd>방법</kbd> Run.wait_until_finished()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Run.wait_until_finished()
 
 ```python
 self

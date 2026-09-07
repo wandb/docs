@@ -6,9 +6,11 @@ namespace: wandb.automations.automations
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
-## <kbd>클래스</kbd> wandb.automations.NewAutomation
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.NewAutomation
+
+새로 생성할 자동화입니다.
 
 ```python
 *,
@@ -19,22 +21,34 @@ event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automa
 action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
 
-새로 생성할 자동화입니다.
-
 <div id="args">
-  ## 매개변수
+  ## 인수
 </div>
 
-* `name`: 이 자동화의 이름입니다.
-* `description`: 이 자동화에 대한 선택 사항인 설명입니다.
-* `enabled`: 이 자동화의 활성화 여부입니다. 활성화된 자동화만 트리거됩니다.
-* `event`: 이 자동화를 트리거하는 이벤트입니다.
-* `action`: 이 자동화가 트리거될 때 실행되는 action입니다.
+<ResponseField name="name" type="str | None">
+  이 자동화의 이름입니다.
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  이 자동화에 대한 선택적 설명입니다.
+</ResponseField>
+
+<ResponseField name="enabled" type="bool | None">
+  이 자동화의 활성화 여부입니다. 활성화된 자동화만 트리거됩니다.
+</ResponseField>
+
+<ResponseField name="event" type="Optional">
+  이 자동화를 트리거하는 이벤트입니다.
+</ResponseField>
+
+<ResponseField name="action" type="Optional">
+  이 자동화가 트리거될 때 실행되는 액션입니다.
+</ResponseField>
 
 <div id="properties">
   ## 속성
 </div>
 
-### <kbd>속성</kbd> 범위
-
-트리거 이벤트가 발생하는 범위입니다.
+<ResponseField name="scope" type="AutomationScope | None">
+  트리거 이벤트가 발생하는 범위입니다.
+</ResponseField>

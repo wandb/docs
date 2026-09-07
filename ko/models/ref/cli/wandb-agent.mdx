@@ -4,7 +4,7 @@ title: wandb 에이전트
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2118" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L2073" />
 
 <div id="usage">
   ## 사용
@@ -68,9 +68,10 @@ wandb agent --forward-signals wbyz9876
   ## 옵션
 </div>
 
-| Flag                    | Type      | Description                                                              |
-| ----------------------- | --------- | ------------------------------------------------------------------------ |
-| `--project, -p`         | STR       | run을 업로드할 프로젝트를 설정합니다. **기본값**: None                                     |
-| `--entity, -e`          | STR       | 프로젝트에 적용할 entity를 설정합니다. **기본값**: None                                   |
-| `--count`               | INT       | 이 에이전트가 실행할 최대 run 수입니다. 설정하지 않으면 스윕이 완료될 때까지 계속 실행됩니다. **기본값**: None    |
-| `--forward-signals, -f` | BOOL Flag | 시그널(예: SIGINT/SIGTERM)을 하위 run에 전달해 run이 정상적으로 종료되도록 합니다. **기본값**: False |
+| Flag                    | 유형      | Description                                                                                                                                             |
+| ----------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p`         | STR       | run을 업로드할 프로젝트를 설정합니다. **기본값**: None                                                                                                                    |
+| `--entity, -e`          | STR       | 프로젝트에 적용할 entity를 설정합니다. **기본값**: None                                                                                                                  |
+| `--count`               | INT       | 이 에이전트가 실행할 최대 run 수입니다. 설정하지 않으면 스윕이 완료될 때까지 계속 실행됩니다. **기본값**: None                                                                                   |
+| `--forward-signals, -f` | BOOL Flag | 시그널(예: SIGINT/SIGTERM)을 하위 run에 전달해 run이 정상적으로 종료되도록 합니다. **기본값**: False                                                                                |
+| `--term-timeout, -t`    | INT       | 종료 시그널(예: SIGINT /SIGTERM)을 수신한 후, 처음 전달된 시그널을 받은 뒤에도 완료되지 않은 하위 run을 강제 종료할 때까지의 시간(초)입니다. --forward-signals가 설정되지 않으면 아무 작업도 수행하지 않습니다. **기본값**: None |

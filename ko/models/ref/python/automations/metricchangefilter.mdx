@@ -6,9 +6,14 @@ namespace: wandb.automations._run_metric_filters
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L153" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L152" />
 
-## <kbd>클래스</kbd> wandb.automations.MetricChangeFilter
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.MetricChangeFilter
+
+메트릭 값의 **변화**를 사용자 정의 임곗값과 비교하는 필터입니다.
+
+변화는 &quot;텀블링&quot; 윈도우에서 계산됩니다. 즉, 현재 윈도우와
+겹치지 않는 직전 윈도우 간의 차이입니다.
 
 ```python
 *,
@@ -22,22 +27,40 @@ change_type: wandb.automations._run_metric_filters.ChangeType,
 change_dir: wandb.automations._run_metric_filters.ChangeDir
 ```
 
-메트릭 값의 **변화**를 사용자 정의 임곗값과 비교하는 필터입니다.
-
-변화는 &quot;텀블링&quot; 윈도우에서 계산됩니다. 즉, 현재 윈도우와
-겹치지 않는 직전 윈도우 간의 차이입니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `name`:
-* `agg_op`:
-* `current_window_size`:
-* `cmp`: 무시됩니다.
-* `change_amount`:
-* `prior_window_size`: &quot;이전&quot; 메트릭 집계 윈도우의 크기(`agg`가 `None`이면 무시됨).
+<ResponseField name="name" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-  생략하면 현재 윈도우 크기가 기본값으로 사용됩니다.
-* `change_type`:
-* `change_dir`: 
+<ResponseField name="agg_op" type="wandb.automations._run_metric_filters.Agg | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="current_window_size" type="Annotated">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="cmp" type="NoneType">
+  무시됩니다.
+</ResponseField>
+
+<ResponseField name="change_amount" type="Union">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="prior_window_size" type="Annotated">
+  &quot;이전&quot; 메트릭 집계 윈도우의 크기입니다(`agg`가 `None`이면 무시됨).
+
+  생략하면 현재 윈도우의 크기가 기본값으로 사용됩니다.
+</ResponseField>
+
+<ResponseField name="change_type" type="ChangeType">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+  설명이 제공되지 않았습니다.
+</ResponseField>

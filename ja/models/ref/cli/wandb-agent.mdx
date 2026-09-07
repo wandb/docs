@@ -4,7 +4,7 @@ title: wandb エージェント
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2118" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L2073" />
 
 <div id="usage">
   ## 使い方
@@ -69,9 +69,10 @@ wandb agent --forward-signals wbyz9876
   ## オプション
 </div>
 
-| Flag                    | Type      | Description                                                               |
-| ----------------------- | --------- | ------------------------------------------------------------------------- |
-| `--project, -p`         | STR       | run のアップロード先の project を設定します。**デフォルト**: なし                                |
-| `--entity, -e`          | STR       | project のスコープ先となる entity を設定します。**デフォルト**: なし                             |
-| `--count`               | INT       | このエージェントが実行する run の最大数を指定します。設定しない場合は、sweep が完了するまで実行を続けます。**デフォルト**: なし  |
-| `--forward-signals, -f` | BOOL Flag | シグナル (例: SIGINT/SIGTERM) を子 run に転送し、適切にシャットダウンできるようにします。**デフォルト**: False |
+| Flag                    | Type      | Description                                                                                                                                         |
+| ----------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project, -p`         | STR       | run のアップロード先の project を設定します。**デフォルト**: なし                                                                                                          |
+| `--entity, -e`          | STR       | project のスコープ先となる entity を設定します。**デフォルト**: なし                                                                                                       |
+| `--count`               | INT       | このエージェントが実行する run の最大数を指定します。設定しない場合は、sweep が完了するまで実行を続けます。**デフォルト**: なし                                                                            |
+| `--forward-signals, -f` | BOOL Flag | シグナル (例: SIGINT/SIGTERM) を子 run に転送し、適切にシャットダウンできるようにします。**デフォルト**: False                                                                           |
+| `--term-timeout, -t`    | INT       | シャットダウンシグナル (例: SIGINT /SIGTERM) を受信してから、最初に転送されたシグナルを受信した後も終了していない子 run を強制終了するまでの時間 (秒) を指定します。--forward-signals が設定されていない場合は何もしません。**デフォルト**: なし |

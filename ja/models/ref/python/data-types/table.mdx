@@ -6,9 +6,19 @@ namespace: wandb.sdk.data_types.table
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
-## <kbd>クラス</kbd> wandb.Table
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Table
+
+表形式データを表示・分析するための 表 クラスです。
+
+従来のスプレッドシートとは異なり、表はさまざまなデータ型をサポートします。
+たとえば、スカラー値、文字列、numpy 配列、`wandb.data_types.Media` のほとんどのサブクラスを扱えます。
+つまり、`Images`、`Video`、`Audio`、そのほかのリッチな注釈付きメディアを
+従来のスカラー値と並べて 表に直接埋め込むことができます。
+
+このクラスは、W&amp;B 表を生成するための主要なクラスです
+[https://docs.wandb.ai/models/tables](https://docs.wandb.ai/models/tables)
 
 ```python
 columns: 'list[ColumnKey] | None' = None,
@@ -21,49 +31,65 @@ allow_mixed_types: 'bool' = False,
 log_mode: 'LogMode | None' = 'IMMUTABLE'
 ```
 
-表形式データを表示・分析するための 表 クラスです。
-
-従来のスプレッドシートとは異なり、表はさまざまなデータ型をサポートします。
-たとえば、スカラー値、文字列、numpy 配列、`wandb.data_types.Media` のほとんどのサブクラスを扱えます。
-つまり、`Images`、`Video`、`Audio`、そのほかのリッチな注釈付きメディアを
-従来のスカラー値と並べて 表に直接埋め込むことができます。
-
-このクラスは、W&amp;B 表を生成するための主要なクラスです
-[https://docs.wandb.ai/models/tables](https://docs.wandb.ai/models/tables)
-
 <div id="args">
   ## 引数
 </div>
 
-* `columns`: 表の列名。デフォルトは [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;] です。
-* `data`: 値の2次元の行指向配列、NumPy 配列、または pandas DataFrame。
-* `rows`: 値の2次元の行指向配列。
-* `dataframe`: 表の作成に使用するDataFrame object。これを設定すると、`data` 引数と `columns` 引数は無視されます。
-* `dtype`: 列の値に期待されるタイプで、データの検証に使用されます。
+<ResponseField name="columns" type="list[ColumnKey] | None">
+  表の列名。デフォルトは &#91;&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;&#93; です。
+</ResponseField>
+
+<ResponseField name="data" type="list[InputRow] | np.ndarray | pd.DataFrame | None">
+  値の2次元の行指向配列、NumPy 配列、または pandas DataFrame。
+</ResponseField>
+
+<ResponseField name="rows" type="list[InputRow] | None">
+  値の2次元の行指向配列。
+</ResponseField>
+
+<ResponseField name="dataframe" type="pd.DataFrame | None">
+  表の作成に使用するDataFrame オブジェクト。これを設定すると、`data` 引数と `columns` 引数は無視されます。
+</ResponseField>
+
+<ResponseField name="dtype" type="Any">
+  列の値に期待されるタイプで、データの検証に使用されます。
   設定しない場合、タイプはデータから推論されます。指定できるのは次のいずれかです。
+
   * 単一のタイプ
     * `int`、`str`、`bool`、list、dict、または
       datetime などの Python 組み込みタイプ。
     * wandb.data&#95;types で宣言された `wandb.Image` のような W&amp;B Media タイプ
     * const 値
   * 上記のいずれかの list。各
-    列に異なるタイプを割り当てるために使用します (長さは `columns` と同じである必要があります) 
-* `optional`: `None` 値を許可するかどうかを判定します。デフォルトは True です。
+    列に異なるタイプを割り当てるために使用します (長さは `columns` と同じである必要があります)
+</ResponseField>
+
+<ResponseField name="optional" type="bool | list[bool]">
+  `None` 値を許可するかどうかを判定します。デフォルトは True です。
+
   * 単一の bool 値を指定した場合、構築時に指定されたすべての列に対して optionality が強制されます
   * bool 値の list を指定した場合、optionality は各列に適用されます。長さは `columns` と同じである必要があります。
     すべての列に適用されます。bool 値の list は、それぞれの列に適用されます。
-* `allow_mixed_types`: 列に複数のタイプが混在することを許可するかどうかを判定します (タイプ検証を無効化します) 。デフォルトは False です
-* `log_mode`: 変更が発生したときに 表 をどのようにログするかを制御します。
+</ResponseField>
+
+<ResponseField name="allow_mixed_types" type="bool">
+  列に複数のタイプが混在することを許可するかどうかを判定します (タイプ検証を無効化します) 。デフォルトは False です
+</ResponseField>
+
+<ResponseField name="log_mode" type="LogMode | None">
+  変更が発生したときに 表 をどのようにログするかを制御します。
   オプション:
+
   * &quot;IMMUTABLE&quot; (デフォルト): 表 は一度だけログできます。表 が変更された後に再度ログしようとしても no-op になります。
   * &quot;MUTABLE&quot;: 変更後に 表 を再度ログでき、ログするたびに新しい artifact version が作成されます。
   * &quot;INCREMENTAL&quot;: 表 data は段階的にログされ、ログのたびに前回のログ以降の新しい data を含む新しい artifact entry が作成されます。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>method</kbd> Table.add_column()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_column()
 
 ```python
 self,
@@ -72,17 +98,25 @@ data: 'list[Any] | np.ndarray',
 optional: 'bool' = False
 ```
 
-テーブルにデータ列を追加します。
+表にデータ列を追加します。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `name`: 列の一意な名前。
-* `data`: 同種のデータで構成される列。
-* `optional`: null 相当の値を許可するかどうか。
+<ResponseField name="name" type="str">
+  列の一意の名前。
+</ResponseField>
 
-### <kbd>method</kbd> Table.add_computed_columns()
+<ResponseField name="data" type="list[Any] | np.ndarray">
+  同じ型のデータで構成される列。
+</ResponseField>
+
+<ResponseField name="optional" type="bool">
+  null に類する値を許可するかどうか。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_computed_columns()
 
 ```python
 self,
@@ -95,7 +129,9 @@ fn: 'Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]'
   ##### 引数
 </div>
 
-* `fn`: インデックスと行の dict を受け取る関数です。各行について、新しい列名をキーとする新しい列を表す dict を返します。
+<ResponseField name="fn" type="Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]">
+  インデックスと行の dict を受け取る関数です。各行について、新しい列名をキーとする新しい列を表す dict を返します。
+</ResponseField>
 
 <div id="examples">
   ##### 例
@@ -113,7 +149,7 @@ table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
 table.add_computed_columns(lambda ndx, row: {"diff": row["x"] - row["y"]})
 ```
 
-### <kbd>method</kbd> Table.add_data()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_data()
 
 ```python
 self, *data: 'Any'
@@ -129,23 +165,27 @@ self, *data: 'Any'
   ##### 引数
 </div>
 
-* `data`: 
+<ResponseField name="data" type="Any">
+  説明は提供されていません。
+</ResponseField>
 
-### <kbd>method</kbd> Table.add_row()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_row()
 
 ```python
 self, *row: 'Any'
 ```
 
-非推奨です。代わりに `Table.add_data` method を使用してください。
+非推奨です。代わりに `Table.add_data` メソッド を使用してください。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `row`: 
+<ResponseField name="row" type="Any">
+  説明はありません。
+</ResponseField>
 
-### <kbd>method</kbd> Table.cast()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.cast()
 
 ```python
 self,
@@ -158,17 +198,25 @@ optional: 'bool' = False
 
 指定できるのは、通常の Python クラス、W&amp;B の内部タイプ、
 または wandb.Image や
-wandb.Classes のインスタンスのようなサンプル object のいずれかです。
+wandb.Classes のインスタンスのようなサンプル オブジェクト のいずれかです。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `col_name`: キャストする列の名。
-* `dtype`: 対象の dtype。
-* `optional`: 列で None を許可するかどうか。
+<ResponseField name="col_name" type="ColumnKey">
+  キャストする列名。
+</ResponseField>
 
-### <kbd>method</kbd> Table.get_column()
+<ResponseField name="dtype" type="Any">
+  変換先の dtype。
+</ResponseField>
+
+<ResponseField name="optional" type="bool">
+  列で None を許可するかどうか。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_column()
 
 ```python
 self,
@@ -182,10 +230,15 @@ convert_to: "Literal['numpy'] | None" = None
   ##### 引数
 </div>
 
-* `name`: 列の名前
-* `convert_to`: `"numpy"` を指定すると、元のデータを NumPy オブジェクトに変換します。
+<ResponseField name="name" type="ColumnKey">
+  列の名前
+</ResponseField>
 
-### <kbd>method</kbd> Table.get_dataframe()
+<ResponseField name="convert_to" type="Literal['numpy'] | None">
+  `"numpy"` を指定すると、元のデータを NumPy オブジェクトに変換します。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_dataframe()
 
 ```python
 self
@@ -193,7 +246,7 @@ self
 
 表を `pandas.DataFrame` として返します。
 
-### <kbd>method</kbd> Table.get_index()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_index()
 
 ```python
 (self)

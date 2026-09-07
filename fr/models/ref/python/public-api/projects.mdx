@@ -6,9 +6,13 @@ namespace: wandb.apis.public.projects
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
-## <kbd>class</kbd> wandb.apis.public.Projects
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Projects
+
+Un itérateur paresseux d’objets `Project`.
+
+Une interface itérable permettant d’accéder aux projets créés et enregistrés par l’entité.
 
 ```python
 service_api: 'ServiceApi',
@@ -16,17 +20,21 @@ entity: 'str',
 per_page: 'int' = 50
 ```
 
-Un itérateur paresseux d’objets `Project`.
-
-Une interface itérable permettant d’accéder aux projets créés et enregistrés par l’entité.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `service_api`: Interface du service wandb-core qui effectue les appels à l’API W&amp;B pour cette collection.
-* `entity`: L’entité propriétaire des projets.
-* `per_page`: Le nombre de projets à récupérer à chaque requête à l’API.
+<ResponseField name="service_api" type="ServiceApi">
+  L’API de service utilisée pour interroger W&amp;B.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  L’entité propriétaire des projets.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Le nombre de projets à récupérer par requête auprès de l’API.
+</ResponseField>
 
 <div id="examples">
   ## Exemples
@@ -50,7 +58,7 @@ for project in projects:
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> RelayPaginator.convert_objects()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> RelayPaginator.convert_objects()
 
 ```python
 self
@@ -58,7 +66,7 @@ self
 
 Convertissez les données de la dernière réponse récupérée en objets parcourus lors de l’itération.
 
-### <kbd>méthode</kbd> Paginator.**next**()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
 
 ```python
 self
@@ -66,7 +74,7 @@ self
 
 Renvoie l’élément suivant de l’itérateur. Lorsqu’il est épuisé, lève StopIteration
 
-### <kbd>méthode</kbd> Paginator.update_variables()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
 
 ```python
 self

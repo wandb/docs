@@ -6,9 +6,11 @@ namespace: wandb.plot.line
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py#L12" />
 
-## <kbd>fonction</kbd> wandb.plot.line
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.line()
+
+Crée un graphique linéaire personnalisable.
 
 ```python
 table: 'wandb.Table',
@@ -19,18 +21,33 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-Crée un graphique linéaire personnalisable.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `table`: Le tableau contenant les données du graphique.
-* `x`: Nom de la colonne contenant les valeurs de l’axe des x.
-* `y`: Nom de la colonne contenant les valeurs de l’axe des y.
-* `stroke`: Nom de la colonne utilisée pour différencier le tracé des lignes (par ex., pour regrouper les lignes).
-* `title`: Titre du graphique.
-* `split_table`: Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+<ResponseField name="table" type="wandb.Table">
+  Le tableau contenant les données du graphique.
+</ResponseField>
+
+<ResponseField name="x" type="str">
+  Nom de la colonne contenant les valeurs de l’axe des x.
+</ResponseField>
+
+<ResponseField name="y" type="str">
+  Nom de la colonne contenant les valeurs de l’axe des y.
+</ResponseField>
+
+<ResponseField name="stroke" type="str | None">
+  Nom de la colonne utilisée pour différencier le tracé des lignes (par ex., pour regrouper les lignes).
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Titre du graphique.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

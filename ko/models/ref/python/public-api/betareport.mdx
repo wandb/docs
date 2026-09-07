@@ -6,9 +6,13 @@ namespace: wandb.apis.public.reports
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
-## <kbd>클래스</kbd> wandb.apis.public.BetaReport
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.BetaReport
+
+BetaReport는 W&amp;B에서 생성된 리포트와 연관된 클래스입니다.
+
+리포트의 속성(이름, 설명, 사용자, 스펙, 타임스탬프)에 접근할 수 있게 해주며, 연관된 실행과 섹션을 조회하고 리포트를 HTML로 렌더링하는 메서드를 제공합니다.
 
 ```python
 (service_api: 'ServiceApi',
@@ -17,18 +21,25 @@ entity: 'str | None' = None,
 project: 'str | None' = None)
 ```
 
-BetaReport는 W&amp;B에서 생성된 리포트와 연관된 클래스입니다.
-
-리포트의 속성(이름, 설명, 사용자, 스펙, 타임스탬프)에 접근할 수 있게 해주며, 연관된 실행과 섹션을 조회하고 리포트를 HTML로 렌더링하는 메서드를 제공합니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `service_api`:
-* `attrs`:
-* `entity`:
-* `project`: 
+<ResponseField name="service_api" type="ServiceApi">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="attrs" type="dict">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="attributes">
   ## 속성
@@ -48,33 +59,51 @@ BetaReport는 W&amp;B에서 생성된 리포트와 연관된 클래스입니다.
   ## 속성
 </div>
 
-### <kbd>속성</kbd> created_at
+<ResponseField name="created_at" type="">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> 설명
+<ResponseField name="description" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> display_name
+<ResponseField name="display_name" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> id
+<ResponseField name="id" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> 이름
+<ResponseField name="name" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> sections
+<ResponseField name="sections" type="">
+  리포트에서 패널 섹션(그룹)을 조회합니다.
+</ResponseField>
 
-리포트의 패널 섹션(그룹)을 가져옵니다.
+<ResponseField name="spec" type="dict[str, Any]">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> 사양
+<ResponseField name="updated_at" type="">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> updated_at
+<ResponseField name="url" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> url
-
-### <kbd>속성</kbd> user
+<ResponseField name="user" type="">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> BetaReport.runs()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> BetaReport.runs()
 
 ```python
 self,
@@ -89,11 +118,19 @@ only_selected: 'bool' = True
   ##### 인수
 </div>
 
-* `section`:
-* `per_page`:
-* `only_selected`: 
+<ResponseField name="section" type="dict[str, Any]">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> BetaReport.to_html()
+<ResponseField name="per_page" type="int">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="only_selected" type="bool">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> BetaReport.to_html()
 
 ```python
 self,
@@ -107,5 +144,10 @@ hidden: 'bool' = False
   ##### 인수
 </div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  설명이 없습니다.
+</ResponseField>

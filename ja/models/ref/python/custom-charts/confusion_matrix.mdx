@@ -6,9 +6,11 @@ namespace: wandb.plot.confusion_matrix
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
 
-## <kbd>関数</kbd> wandb.plot.confusion_matrix
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.confusion_matrix()
+
+確率または予測のシーケンスから混同行列を作成します。
 
 ```python
 probs: 'Sequence[Sequence[float]] | None' = None,
@@ -19,18 +21,33 @@ title: 'str' = 'Confusion Matrix Curve',
 split_table: 'bool' = False
 ```
 
-確率または予測のシーケンスから混同行列を作成します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `probs`: 各クラスに対する予測確率のシーケンス。シーケンスの形状は (N, K) である必要があります。ここで、N はサンプル数、K はクラス数です。これを指定する場合、`preds` は指定しないでください。
-* `y_true`: 真のラベルのシーケンス。
-* `preds`: 予測クラスラベルのシーケンス。これを指定する場合、`probs` は指定しないでください。
-* `class_names`: クラス名のシーケンス。指定しない場合、クラス名は &quot;Class&#95;1&quot;、&quot;Class&#95;2&quot; などになります。
-* `title`: 混同行列チャートのタイトル。
-* `split_table`: 表を W&amp;B UI の別セクションに分けるかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="probs" type="Sequence[Sequence[float]] | None">
+  各クラスの予測確率のシーケンスです。シーケンスの形状は (N, K) とする必要があります。N はサンプル数、K はクラス数です。指定する場合、`preds` は指定しないでください。
+</ResponseField>
+
+<ResponseField name="y_true" type="Sequence[T] | None">
+  正解ラベルのシーケンスです。
+</ResponseField>
+
+<ResponseField name="preds" type="Sequence[T] | None">
+  予測クラスラベルのシーケンスです。指定する場合、`probs` は指定しないでください。
+</ResponseField>
+
+<ResponseField name="class_names" type="Sequence[str] | None">
+  クラス名のシーケンスです。指定しない場合、クラス名は「Class&#95;1」、「Class&#95;2」などとして定義されます。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  混同行列チャートのタイトルです。
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別のセクションに表示するかどうかを指定します。`True` の場合、表は「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

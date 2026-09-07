@@ -6,13 +6,9 @@ namespace: wandb.sdk.wandb_setup
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main//Users/noahluna/.pyenv/versions/3.13.0/lib/python3.13/contextlib.py#L574" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main//Users/noahluna/.pyenv/versions/3.13.0/lib/python3.13/contextlib.py#L571" />
 
-## <kbd>fonction</kbd> wandb.teardown
-
-```python
-exit_code: 'int | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.teardown()
 
 Attend la fin de W&amp;B et libère les ressources.
 
@@ -24,11 +20,17 @@ ayant utilisé `wandb.setup()`. Elle est appelée automatiquement
 via un hook `atexit`, mais cela n&#39;est pas fiable dans certaines configurations,
 par exemple lors de l&#39;utilisation du module `multiprocessing` de Python.
 
+```python
+exit_code: 'int | None' = None
+```
+
 <div id="args">
   ## Arguments
 </div>
 
-* `exit_code`: 
+<ResponseField name="exit_code" type="int | None">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="returns">
   ## Renvoie

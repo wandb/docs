@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L371" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L373" />
 
-## <kbd>클래스</kbd> wandb.automations.OnRunMetric
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.OnRunMetric
+
+run 메트릭이 사용자가 정의한 조건을 만족합니다.
 
 ```python
 *,
@@ -17,15 +19,21 @@ scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.au
 filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
-run 메트릭이 사용자가 정의한 조건을 만족합니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `event_type`:
-* `scope`: 이벤트 범위입니다. 프로젝트 또는 팀/org entity여야 합니다.
-* `filter`: 이 이벤트가 트리거되기 위해 충족되어야 하는 run 및/또는 메트릭 조건입니다.
+<ResponseField name="event_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  이벤트 범위입니다. 프로젝트 또는 팀/org entity여야 합니다.
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated">
+  이 이벤트가 트리거되기 위해 충족되어야 하는 run 및/또는 메트릭 조건입니다.
+</ResponseField>
 
 <div id="examples">
   ## 예시

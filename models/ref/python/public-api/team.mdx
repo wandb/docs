@@ -7,16 +7,11 @@ namespace: wandb.apis.public.teams
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Team
-```python
-(service_api: 'ServiceApi',
-name: 'str',
-attrs: 'Mapping[str, Any] | None' = None)
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Team
 
 
 
@@ -28,11 +23,26 @@ to handle team attributes.
 
 
 
+```python
+(service_api: 'ServiceApi',
+name: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
+```
+
 ## Args
 
-- `service_api`: The service API instance to use for querying W&B.
-- `name`: The name of the team
-- `attrs`: Optional dictionary of team attributes
+<ResponseField name="service_api" type="ServiceApi">
+The service API instance to use for querying W&B.
+</ResponseField>
+
+<ResponseField name="name" type="str">
+The name of the team
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+Optional dictionary of team attributes
+</ResponseField>
+
 
 
 
@@ -63,7 +73,8 @@ team.create_service_account("CI service account")
 
 ## Methods
 
-### <kbd>method</kbd> Team.create()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Team.create()
 
 ```python
 api: 'Api',
@@ -75,14 +86,26 @@ Create a new team.
 
 ##### Arguments
 
-- `api`: (`Api`) The api instance to use
-- `team`: (str) The name of the team
-- `admin_username`: (str) optional username of the admin user of the team, defaults to the current user.
+<ResponseField name="api" type="Api">
+(`Api`) The api instance to use
+</ResponseField>
+
+<ResponseField name="team" type="str">
+(str) The name of the team
+</ResponseField>
+
+<ResponseField name="admin_username" type="str | None">
+(str) optional username of the admin user of the team, defaults to the current user.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Team.create_service_account()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Team.create_service_account()
 
 ```python
 self,
@@ -93,12 +116,18 @@ Create a service account for the team.
 
 ##### Arguments
 
-- `description`: (str) A description for this service account
+<ResponseField name="description" type="str">
+(str) A description for this service account
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Team.invite()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Team.invite()
 
 ```python
 self,
@@ -110,8 +139,15 @@ Invite a user to a team.
 
 ##### Arguments
 
-- `username_or_email`: (str) The username or email address of the user you want to invite.
-- `admin`: (bool) Whether to make this user a team admin. Defaults to `False`.
+<ResponseField name="username_or_email" type="str">
+(str) The username or email address of the user you want to invite.
+</ResponseField>
+
+<ResponseField name="admin" type="bool">
+(bool) Whether to make this user a team admin. Defaults to `False`.
+</ResponseField>
+
+
 
 
 

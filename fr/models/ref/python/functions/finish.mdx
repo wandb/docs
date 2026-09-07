@@ -6,14 +6,9 @@ namespace: wandb.sdk.wandb_run
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4190" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4114" />
 
-## <kbd>fonction</kbd> wandb.finish
-
-```python
-exit_code: 'int | None' = None,
-quiet: 'bool | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.finish()
 
 Terminez un run et envoyez toutes les données restantes.
 
@@ -27,12 +22,17 @@ L’état final du run est déterminé par ses conditions de sortie et son statu
 * Finished : Run terminé avec succès (`exit_code=0`) avec toutes les données synchronisées.
 * Failed : Run terminé avec des erreurs (`exit_code!=0`).
 
+```python
+exit_code: 'int | None' = None
+```
+
 <div id="args">
   ## Arguments
 </div>
 
-* `exit_code`: Entier indiquant le statut de sortie du run. Utilisez 0 pour indiquer une réussite ; toute autre valeur marque le run comme ayant échoué.
-* `quiet`: Obsolète. Configurez la verbosité de la journalisation à l’aide de `wandb.Settings(quiet=...)`.
+<ResponseField name="exit_code" type="int | None">
+  Entier indiquant le statut de sortie du run. Utilisez 0 pour indiquer une réussite ; toute autre valeur marque le run comme ayant échoué.
+</ResponseField>
 
 <div id="returns">
   ## Renvoie

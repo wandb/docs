@@ -6,9 +6,11 @@ namespace: wandb.apis.public.api
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L105" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L101" />
 
-## <kbd>クラス</kbd> wandb.Api
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Api
+
+W&amp;B Server のクエリに使用されます。
 
 ```python
 overrides: 'dict[str, Any] | None' = None,
@@ -16,15 +18,21 @@ timeout: 'int | None' = None,
 api_key: 'str | None' = None
 ```
 
-W&amp;B Server のクエリに使用されます。
-
 <div id="args">
   ## 引数
 </div>
 
-* `overrides`: `https://api.wandb.ai` 以外の W&amp;B Server を使用している場合は、`base_url` を設定できます。`entity`、`project`、`run` のデフォルト値も設定できます。
-* `timeout`: API リクエストの HTTP タイムアウト (秒) 。指定しない場合は、デフォルトのタイムアウトが使用されます。
-* `api_key`: 認証に使用する APIキー。指定しない場合は、現在の環境または設定の APIキーが使用されます。APIキーが指定されておらず、環境にも設定されていない場合は、APIキーの入力を求められます。
+<ResponseField name="overrides" type="dict[str, Any] | None">
+  `https://api.wandb.ai` 以外の W&amp;B Server を使用している場合は、`base_url` を設定できます。`entity`、`project`、`run` のデフォルト値も設定できます。
+</ResponseField>
+
+<ResponseField name="timeout" type="int | None">
+  API リクエストの HTTP タイムアウト (秒) 。指定しない場合は、デフォルトのタイムアウトが使用されます。
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  認証に使用する APIキー。指定しない場合は、現在の環境または設定の APIキーが使用されます。APIキーが指定されておらず、環境にも設定されていない場合は、APIキーの入力を求められます。
+</ResponseField>
 
 ## 例
 
@@ -38,23 +46,23 @@ wandb.Api()
   ## プロパティ
 </div>
 
-### <kbd>プロパティ</kbd> default_entity
+<ResponseField name="default_entity" type="str | None">
+  デフォルトの W&amp;B entityを返します。
+</ResponseField>
 
-デフォルトの W&amp;B entity を返します。
+<ResponseField name="user_agent" type="str">
+  W&amp;B のパブリックユーザーエージェントを返します。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> user_agent
-
-W&amp;B の公開用ユーザーエージェントを返します。
-
-### <kbd>プロパティ</kbd> viewer
-
-viewer オブジェクトを返します。
+<ResponseField name="viewer" type="User">
+  Viewer オブジェクトを返します。
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>method</kbd> Api.artifact()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact()
 
 ```python
 (self,
@@ -62,14 +70,19 @@ name: 'str',
 type: 'str | None' = None)
 ```
 
-1 つのartifactを返します。
+1 つのアーティファクトを返します。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `name`: artifactの名。artifactの名はファイルパスのような形式で、少なくともartifactがログされたprojectの名、artifactの名、artifactのバージョンまたはaliasで構成されます。必要に応じて、artifactをログしたentityを接頭辞として追加し、その後にスラッシュ (/) を続けます。名にentityが指定されていない場合は、RunまたはAPI設定のentityが使用されます。
-* `type`: 取得するartifactのタイプ。
+<ResponseField name="name" type="str">
+  アーティファクトの名。アーティファクトの名はファイルパスのような形式で、少なくともアーティファクトがログされたprojectの名、アーティファクトの名、アーティファクトのバージョンまたはaliasで構成されます。必要に応じて、アーティファクトをログしたentityを接頭辞として追加し、その後にスラッシュ (/) を続けます。名にentityが指定されていない場合は、RunまたはAPI設定のentityが使用されます。
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+  取得するアーティファクトのタイプ。
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -98,7 +111,7 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
 
-### <kbd>method</kbd> Api.artifact_collection()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collection()
 
 ```python
 self,
@@ -108,14 +121,19 @@ name: 'str'
 
 タイプを指定して、単一の アーティファクト コレクション を返します。
 
-返された `ArtifactCollection` オブジェクトを使用すると、その collection 内の特定の artifact に関する情報などを取得できます。
+返された `ArtifactCollection` オブジェクトを使用すると、その collection 内の特定の アーティファクト に関する情報などを取得できます。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `type_name`: 取得する アーティファクト コレクション のタイプ。
-* `name`: アーティファクト コレクション の名前。必要に応じて、artifact をログした entity をプレフィックスとして先頭に付け、その後にスラッシュを続けます。
+<ResponseField name="type_name" type="str">
+  取得するアーティファクト コレクションのタイプ。
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  アーティファクト コレクションの名。必要に応じて、アーティファクトをログしたentityを接頭辞として付け、その後にスラッシュを続けます。
+</ResponseField>
 
 ##### 例
 
@@ -138,7 +156,7 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-### <kbd>method</kbd> Api.artifact_collection_exists()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collection_exists()
 
 ```python
 self,
@@ -152,8 +170,13 @@ type: 'str'
   ##### 引数
 </div>
 
-* `name`: アーティファクト コレクションの名。必要に応じて、artifactをログしたentityを接頭辞として付け、その後にスラッシュを続けます。entityまたはprojectが指定されていない場合は、overrideパラメータがあればそこからcollectionを推定します。そうでない場合、entityはユーザー設定から取得され、projectのデフォルトは&quot;uncategorized&quot;になります。
-* `type`: アーティファクト コレクションのタイプ。
+<ResponseField name="name" type="str">
+  アーティファクト コレクションの名。必要に応じて、アーティファクトをログしたentityを接頭辞として付け、その後にスラッシュを続けます。entityまたはprojectが指定されていない場合は、overrideパラメータがあればそこからcollectionを推定します。そうでない場合、entityはユーザー設定から取得され、projectのデフォルトは&quot;uncategorized&quot;になります。
+</ResponseField>
+
+<ResponseField name="type" type="str">
+  アーティファクト コレクションのタイプ。
+</ResponseField>
 
 ##### 例
 
@@ -165,7 +188,7 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-### <kbd>method</kbd> Api.artifact_collections()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collections()
 
 ```python
 self,
@@ -182,13 +205,27 @@ start: 'str | None' = None
   ##### 引数
 </div>
 
-* `project_name`: フィルター対象の project 名。
-* `type_name`: フィルター対象の アーティファクト タイプ 名。
-* `order`: 結果の順序を指定する省略可能な string。接頭辞に &#39;+&#39; が付いている場合は昇順 (デフォルト) で並べ替えます。接頭辞に &#39;-&#39; が付いている場合は降順で並べ替えます。
-* `per_page`: クエリのページネーションにおけるページサイズを設定します。通常は変更する必要はありません。
-* `start`: 過去のクエリを再開するためのページネーション カーソル。前の paginator の `.cursor` 属性から取得します。
+<ResponseField name="project_name" type="str">
+  フィルター対象のproject名。
+</ResponseField>
 
-### <kbd>method</kbd> Api.artifact_exists()
+<ResponseField name="type_name" type="str">
+  フィルター対象のアーティファクト タイプ名。
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  結果の並び順を指定するオプションのstringです。接頭辞が `'+'` の場合は昇順 (デフォルト) 、`'-'` の場合は降順で並べ替えます。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  クエリのページネーションにおけるページサイズを設定します。通常、この値を変更する必要はありません。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  以前のクエリを再開するためのページネーションカーソルです。前のページネーターの `.cursor` 属性から取得します。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_exists()
 
 ```python
 self,
@@ -196,14 +233,19 @@ name: 'str',
 type: 'str | None' = None
 ```
 
-指定したprojectおよびentity内に、artifactのバージョンが存在するかどうかを返します。
+指定したprojectおよびentity内に、アーティファクトのバージョンが存在するかどうかを返します。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `name`:  artifactの名。先頭にartifactのentityとprojectを付けます。末尾には、artifactのバージョンまたはaliasをコロン区切りで追加します。entityまたはprojectが指定されていない場合、値が設定されていれば W&amp;B は override パラメーターを使用します。そうでない場合、entity はユーザー設定から取得され、projectは&quot;Uncategorized&quot;に設定されます。
-* `type`:  artifactのタイプ。
+<ResponseField name="name" type="str">
+  アーティファクトの名。先頭にアーティファクトのentityとprojectを付けます。末尾には、アーティファクトのバージョンまたはaliasをコロン区切りで追加します。entityまたはprojectが指定されていない場合、値が設定されていれば W&amp;B は override パラメーターを使用します。そうでない場合、entity はユーザー設定から取得され、projectは&quot;Uncategorized&quot;に設定されます。
+</ResponseField>
+
+<ResponseField name="type" type="str | None">
+  アーティファクトのタイプ。
+</ResponseField>
 
 ##### 例
 
@@ -216,7 +258,7 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-### <kbd>method</kbd> Api.artifact_type()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_type()
 
 ```python
 self,
@@ -230,10 +272,15 @@ project: 'str | None' = None
   ##### 引数
 </div>
 
-* `type_name`: 取得する アーティファクト タイプの名前。
-* `project`: 指定した場合、絞り込み対象のプロジェクト名またはパス。
+<ResponseField name="type_name" type="str">
+  取得する アーティファクト タイプの名前。
+</ResponseField>
 
-### <kbd>method</kbd> Api.artifact_types()
+<ResponseField name="project" type="str | None">
+  指定した場合、絞り込み対象のproject名またはパス。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_types()
 
 ```python
 self,
@@ -247,26 +294,39 @@ start: 'str | None' = None
   ##### 引数
 </div>
 
-* `project`: フィルター対象の project 名またはパス。
-* `start`: 前回のクエリを再開するためのページネーション カーソル。以前の paginator の `.cursor` 属性から取得します。
+<ResponseField name="project" type="str | None">
+  フィルター対象の project 名またはパス。
+</ResponseField>
 
-### <kbd>method</kbd> Api.artifact_versions()
+<ResponseField name="start" type="str | None">
+  前回のクエリを再開するためのページネーション カーソル。以前の ページネーター の `.cursor` 属性から取得します。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_versions()
 
 ```python
 (self, type_name, name, per_page=50)
 ```
 
-非推奨です。代わりに `Api.artifacts(type_name, name)` method を使用してください。
+非推奨です。代わりに `Api.artifacts(type_name, name)` メソッド を使用してください。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `type_name`:
-* `name`:
-* `per_page`: 
+<ResponseField name="type_name" type="_empty">
+  説明はありません。
+</ResponseField>
 
-### <kbd>method</kbd> Api.artifacts()
+<ResponseField name="name" type="_empty">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="per_page" type="_empty">
+  説明はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifacts()
 
 ```python
 self,
@@ -284,12 +344,29 @@ start: 'str | None' = None
   ##### 引数
 </div>
 
-* `type_name`: 取得する アーティファクト タイプ。
-* `name`: アーティファクト のコレクション名。必要に応じて、アーティファクト をログした entity をプレフィックスとして付け、その後にスラッシュを追加します。
-* `order`: 結果の並び順を指定する省略可能な string。`+` をプレフィックスとして付けると昇順 (デフォルト) で並べ替えます。`-` をプレフィックスとして付けると降順で並べ替えます。
-* `per_page`: クエリのページネーションにおけるページサイズを設定します。通常は、これを変更する必要はありません。
-* `tags`: これらのタグをすべて持つ アーティファクト のみを返します。
-* `start`: 過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得します。
+<ResponseField name="type_name" type="str">
+  取得するアーティファクトのタイプ。
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  アーティファクトのコレクション名。必要に応じて、アーティファクトをログしたentityを接頭辞として、その後にスラッシュを付けて追加します。
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  結果の並び順を指定するオプションの文字列。&#39;+&#39; を接頭辞にすると昇順 (デフォルト) 、&#39;-&#39; を接頭辞にすると降順で並べ替えます。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  クエリのページネーションのページサイズを設定します。通常、変更する必要はありません。
+</ResponseField>
+
+<ResponseField name="tags" type="list[str] | None">
+  これらすべてのタグを持つアーティファクトのみを返します。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  以前のクエリを再開するためのページネーションカーソル。以前のページネーターの`.cursor`属性から取得します。
+</ResponseField>
 
 ##### 例
 
@@ -332,7 +409,7 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-### <kbd>method</kbd> Api.automation()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.automation()
 
 ```python
 self,
@@ -346,8 +423,13 @@ entity: 'str | None' = None
   ##### 引数
 </div>
 
-* `name`: 取得する オートメーション の名前。
-* `entity`: オートメーション の取得対象の entity。
+<ResponseField name="name" type="str">
+  取得するオートメーションの名前。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  オートメーションを取得するentity。
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -372,7 +454,7 @@ entity &quot;my-team&quot; から、名前が &quot;other-automation&quot; の�
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-### <kbd>method</kbd> Api.automations()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.automations()
 
 ```python
 self,
@@ -390,10 +472,21 @@ start: 'str | None' = None
   ##### 引数
 </div>
 
-* `entity`: オートメーション を取得する対象の entity。
-* `name`: 取得する オートメーション の名。
-* `per_page`: 1 ページあたりに取得する オートメーション の数。デフォルトは 50 です。通常、これを変更する必要はありません。
-* `start`: 過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得します。
+<ResponseField name="entity" type="str | None">
+  オートメーションを取得するentity。
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  取得するオートメーションの名前。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  ページごとに取得するオートメーションの数。デフォルトは 50 です。通常、この値を変更する必要はありません。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  以前のページネーターの `.cursor` 属性から取得した、過去のクエリを再開するためのページネーションカーソル。
+</ResponseField>
 
 ##### 例
 
@@ -406,7 +499,7 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-### <kbd>method</kbd> Api.create_automation()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_automation()
 
 ```python
 self,
@@ -420,9 +513,17 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   ##### 引数
 </div>
 
-* `obj`: 作成するオートメーション。
-* `fetch_existing`: True の場合、競合するオートメーションがすでに存在するときは、エラーを発生させる代わりに既存のオートメーションの取得を試みます。
-* `kwargs`: 
+<ResponseField name="obj" type="NewAutomation">
+  作成するオートメーション。
+</ResponseField>
+
+<ResponseField name="fetch_existing" type="bool">
+  True の場合、競合するオートメーションがすでに存在するときは、エラーを発生させる代わりに既存のオートメーションの取得を試みます。
+</ResponseField>
+
+<ResponseField name="kwargs" type="Unpack[WriteAutomationsKwargs]">
+  説明はありません。
+</ResponseField>
 
 ##### 例
 
@@ -452,7 +553,7 @@ automation = api.create_automation(
 )
 ```
 
-### <kbd>method</kbd> Api.create_custom_chart()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_custom_chart()
 
 ```python
 self,
@@ -470,14 +571,32 @@ spec: 'str | dict'
   ##### 引数
 </div>
 
-* `entity`: チャートを所有する entity (ユーザーまたはチーム)
-* `name`: チャートプリセットの一意の識別子
-* `display_name`: UI に表示される、人が理解しやすい名前
-* `spec_type`: 仕様のタイプ。Vega-Lite v2 の仕様では &quot;vega2&quot; である必要があります。
-* `access`: チャートのアクセスレベル:
-  * &quot;private&quot;: チャートを作成した entity のみがアクセス可能
-  * &quot;public&quot;: チャートは公開アクセス可能
-* `spec`: dict または JSON 文字列として表した Vega/Vega-Lite 仕様
+<ResponseField name="entity" type="str">
+  チャートを所有するentity (ユーザーまたはチーム) 
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  チャートプリセットの一意の ID
+</ResponseField>
+
+<ResponseField name="display_name" type="str">
+  UI に表示される人間が読みやすい名前
+</ResponseField>
+
+<ResponseField name="spec_type" type="Literal['vega2']">
+  仕様のタイプ。Vega-Lite v2 の仕様の場合は &quot;vega2&quot; を指定する必要があります。
+</ResponseField>
+
+<ResponseField name="access" type="Literal['private', 'public']">
+  チャートのアクセスレベル:
+
+  * &quot;private&quot;: 作成したentityのみがチャートにアクセスできます
+  * &quot;public&quot;: チャートは公開されています
+</ResponseField>
+
+<ResponseField name="spec" type="str | dict">
+  辞書または JSON 文字列形式の Vega/Vega-Lite 仕様
+</ResponseField>
 
 <div id="raises">
   ##### 送出される例外
@@ -522,7 +641,7 @@ spec: 'str | dict'
     )
 ```
 
-### <kbd>method</kbd> Api.create_project()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_project()
 
 ```python
 self,
@@ -536,10 +655,15 @@ entity: 'str'
   ##### 引数
 </div>
 
-* `name`: 新しいprojectの名前。
-* `entity`: 新しいprojectの entity。
+<ResponseField name="name" type="str">
+  新しいprojectの名前。
+</ResponseField>
 
-### <kbd>method</kbd> Api.create_registry()
+<ResponseField name="entity" type="str">
+  新しいprojectのentity。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_registry()
 
 ```python
 self,
@@ -556,11 +680,25 @@ artifact_types: 'list[str] | None' = None
   ##### 引数
 </div>
 
-* `name`: レジストリの名です。名は組織内で一意である必要があります。
-* `visibility`: レジストリの公開範囲です。 organization: 組織内の誰でもこのレジストリを表示できます。ロールは後で UI の設定から編集できます。 restricted: UI で招待されたメンバーのみがこのレジストリにアクセスできます。公開共有は無効になります。
-* `organization`: レジストリの組織です。設定で組織が指定されていない場合、entity が 1 つの組織にのみ属していれば、その組織が entity から取得されます。
-* `description`: レジストリの説明です。
-* `artifact_types`: レジストリで受け入れ可能なアーティファクト タイプです。タイプは 128 文字以内で、`/` または `:` を含めることはできません。指定しない場合は、すべてのタイプが受け入れられます。レジストリに追加した許可タイプは後から削除できません。
+<ResponseField name="name" type="str">
+  レジストリの名です。名は組織内で一意である必要があります。
+</ResponseField>
+
+<ResponseField name="visibility" type="Literal['organization', 'restricted']">
+  レジストリの公開範囲です。 organization: 組織内の誰でもこのレジストリを表示できます。ロールは後で UI の設定から編集できます。 restricted: UI で招待されたメンバーのみがこのレジストリにアクセスできます。公開共有は無効になります。
+</ResponseField>
+
+<ResponseField name="organization" type="str | None">
+  レジストリの組織です。設定で組織が指定されていない場合、entity が 1 つの組織にのみ属していれば、その組織が entity から取得されます。
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  レジストリの説明です。
+</ResponseField>
+
+<ResponseField name="artifact_types" type="list[str] | None">
+  レジストリで受け入れ可能なアーティファクト タイプです。タイプは 128 文字以内で、`/` または `:` を含めることはできません。指定しない場合は、すべてのタイプが受け入れられます。レジストリに追加した許可タイプは後から削除できません。
+</ResponseField>
 
 ##### 例
 
@@ -577,7 +715,7 @@ registry = api.create_registry(
 )
 ```
 
-### <kbd>method</kbd> Api.create_run()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_run()
 
 ```python
 self, *,
@@ -592,11 +730,19 @@ entity: 'str | None' = None
   ##### 引数
 </div>
 
-* `run_id`: runに割り当てるID。指定しない場合、W&amp;BがランダムなIDを生成します。
-* `project`: runをログする先のproject。指定しない場合、&quot;Uncategorized&quot; という名前のprojectにrunをログします。
-* `entity`: projectの所有者であるentity。指定しない場合、デフォルトのentityにrunをログします。
+<ResponseField name="run_id" type="str | None">
+  runに割り当てるID。指定しない場合、W&amp;BがランダムなIDを生成します。
+</ResponseField>
 
-### <kbd>method</kbd> Api.create_run_queue()
+<ResponseField name="project" type="str | None">
+  runをログする先のproject。指定しない場合、&quot;Uncategorized&quot; という名前のprojectにrunをログします。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  projectの所有者であるentity。指定しない場合、デフォルトのentityにrunをログします。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_run_queue()
 
 ```python
 self,
@@ -614,14 +760,31 @@ W&amp;B Launch に新しい run キューを作成します。
   ##### 引数
 </div>
 
-* `name`: 作成するキューの名
-* `type`: キューで使用するリソースのタイプ。`"local-container"`、`"local-process"`、`"kubernetes"`、`"sagemaker"`、または `"gcp-vertex"` のいずれかです。
-* `entity`: キューを作成する entity の名。`None` の場合は、設定済みまたはデフォルトの entity を使用します。
-* `prioritization_mode`: 使用する優先順位付けのバージョン。`"V0"` または `None` のいずれかです。
-* `config`: キューで使用するデフォルトのリソース設定。テンプレート変数を指定するには、Handlebars (例: `{{var}}`) を使用します。
-* `template_variables`: `config` と一緒に使用するテンプレート変数スキーマの辞書。
+<ResponseField name="name" type="str">
+  作成するキューの名前
+</ResponseField>
 
-### <kbd>method</kbd> Api.create_team()
+<ResponseField name="type" type="public.RunQueueResourceType">
+  キューで使用するリソースのタイプ。&quot;local-container&quot;、&quot;local-process&quot;、&quot;kubernetes&quot;、&quot;sagemaker&quot;、または &quot;gcp-vertex&quot; のいずれかです。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  キューを作成する entity の名前。`None` の場合は、設定済みまたはデフォルトの entity を使用します。
+</ResponseField>
+
+<ResponseField name="prioritization_mode" type="public.RunQueuePrioritizationMode | None">
+  使用する優先順位付けのバージョン。&quot;V0&quot; または `None` のいずれかです。
+</ResponseField>
+
+<ResponseField name="config" type="dict | None">
+  キューで使用するデフォルトのリソース設定。Handlebars (例: `{{var}}`) を使用してテンプレート変数を指定します。
+</ResponseField>
+
+<ResponseField name="template_variables" type="dict | None">
+  設定で使用するテンプレート変数のスキーマを含む辞書。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_team()
 
 ```python
 self,
@@ -638,10 +801,15 @@ W&amp;B Multi-tenant Cloud を利用しているユーザーは、`create_team()
   ##### 引数
 </div>
 
-* `team`: チームの名前
-* `admin_username`: チームの管理者ユーザーのユーザー名。デフォルトでは現在のユーザーです。
+<ResponseField name="team" type="str">
+  チームの名前
+</ResponseField>
 
-### <kbd>method</kbd> Api.create_user()
+<ResponseField name="admin_username" type="str | None">
+  チームの管理者ユーザーのユーザー名。デフォルトでは現在のユーザーです。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_user()
 
 ```python
 self,
@@ -655,10 +823,15 @@ admin: 'bool | None' = False
   ##### 引数
 </div>
 
-* `email`: ユーザーのメールアドレス。
-* `admin`: ユーザーをインスタンス全体の管理者に設定します。
+<ResponseField name="email" type="str">
+  ユーザーのメールアドレス。
+</ResponseField>
 
-### <kbd>method</kbd> Api.delete_automation()
+<ResponseField name="admin" type="bool | None">
+  ユーザーをインスタンス全体の管理者に設定します。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.delete_automation()
 
 ```python
 self,
@@ -671,9 +844,11 @@ obj: 'Automation | str'
   ##### 引数
 </div>
 
-* `obj`: 削除対象の オートメーション、またはその ID。
+<ResponseField name="obj" type="Automation | str">
+  削除対象の オートメーション、またはその ID。
+</ResponseField>
 
-### <kbd>method</kbd> Api.flush()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.flush()
 
 ```python
 (self)
@@ -683,7 +858,7 @@ obj: 'Automation | str'
 
 api オブジェクトは runs のローカルキャッシュを保持しています。そのため、スクリプトの実行中に run の状態が変わる可能性がある場合は、`api.flush()` でローカルキャッシュをクリアし、run に関連付けられた最新の値を取得する必要があります。
 
-### <kbd>method</kbd> Api.from_path()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.from_path()
 
 ```python
 (self,
@@ -696,7 +871,9 @@ path: 'str')
   ##### 引数
 </div>
 
-* `path`: project、run、sweep、または レポート へのパス
+<ResponseField name="path" type="str">
+  project、run、sweep、または レポート へのパス
+</ResponseField>
 
 ##### 例
 
@@ -716,7 +893,7 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-### <kbd>method</kbd> Api.integrations()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.integrations()
 
 ```python
 self,
@@ -731,11 +908,19 @@ entity のすべてのインテグレーションを反復するイテレータ�
   ##### 引数
 </div>
 
-* `entity`: インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
-* `per_page`: 1 ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、これを変更する必要はありません。
-* `start`: 
+<ResponseField name="entity" type="str | None">
+  インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
+</ResponseField>
 
-### <kbd>method</kbd> Api.job()
+<ResponseField name="per_page" type="int">
+  1 ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、これを変更する必要はありません。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  説明はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.job()
 
 ```python
 self,
@@ -749,10 +934,15 @@ path: 'str | None' = None
   ##### 引数
 </div>
 
-* `name`: ジョブ名。
-* `path`: ジョブ artifact をダウンロードするルートパス。
+<ResponseField name="name" type="str | None">
+  ジョブ名。
+</ResponseField>
 
-### <kbd>method</kbd> Api.list_jobs()
+<ResponseField name="path" type="str | None">
+  ジョブ artifact をダウンロードするルートパス。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.list_jobs()
 
 ```python
 self,
@@ -766,10 +956,15 @@ project: 'str'
   ##### 引数
 </div>
 
-* `entity`: 一覧表示するジョブのentity。
-* `project`: 一覧表示するジョブのproject。
+<ResponseField name="entity" type="str">
+  一覧表示するジョブのentity。
+</ResponseField>
 
-### <kbd>method</kbd> Api.organization()
+<ResponseField name="project" type="str">
+  一覧表示するジョブのproject。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.organization()
 
 ```python
 self,
@@ -782,9 +977,11 @@ name: 'str | None' = None
   ##### 引数
 </div>
 
-* `name`: 組織名。省略した場合、このメソッドは現在のデフォルト組織を推定して返します。
+<ResponseField name="name" type="str | None">
+  組織名。省略した場合、このメソッドは現在のデフォルト組織を推定して返します。
+</ResponseField>
 
-### <kbd>method</kbd> Api.project()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.project()
 
 ```python
 self,
@@ -798,10 +995,15 @@ entity: 'str | None' = None
   ##### 引数
 </div>
 
-* `name`: プロジェクト名。
-* `entity`: 取得する entity の名前。`None` の場合は、`Api` に渡されたデフォルトの entity が使用されます。デフォルトの entity がない場合は、`ValueError` を送出します。
+<ResponseField name="name" type="str">
+  プロジェクト名です。
+</ResponseField>
 
-### <kbd>method</kbd> Api.projects()
+<ResponseField name="entity" type="str | None">
+  要求されたentityの名です。`None` の場合は、`Api` に渡されたデフォルトのentityが使用されます。デフォルトのentityがない場合は、`ValueError` が発生します。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.projects()
 
 ```python
 self,
@@ -815,10 +1017,15 @@ per_page: 'int' = 200
   ##### 引数
 </div>
 
-* `entity`: 要求されたentityの名です。`None` の場合は、`Api` に渡されたデフォルトのentityが使用されます。デフォルトのentityがない場合は、`ValueError` が発生します。
-* `per_page`: クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
+<ResponseField name="entity" type="str | None">
+  要求されたentityの名です。`None` の場合は、`Api` に渡されたデフォルトのentityが使用されます。デフォルトのentityがない場合は、`ValueError` が発生します。
+</ResponseField>
 
-### <kbd>method</kbd> Api.queued_run()
+<ResponseField name="per_page" type="int">
+  クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.queued_run()
 
 ```python
 (self,
@@ -836,14 +1043,31 @@ run_queue_item_id: 'str', project_queue=None, priority=None)
   ##### 引数
 </div>
 
-* `entity`:
-* `project`:
-* `queue_name`:
-* `run_queue_item_id`:
-* `project_queue`:
-* `priority`: 
+<ResponseField name="entity" type="str">
+  説明はありません。
+</ResponseField>
 
-### <kbd>method</kbd> Api.registries()
+<ResponseField name="project" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="queue_name" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="run_queue_item_id" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="project_queue" type="_empty">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="priority" type="_empty">
+  説明はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registries()
 
 ```python
 self,
@@ -857,17 +1081,33 @@ start: 'str | None' = None
 `Registry` オブジェクトの遅延イテレーターを返します。
 
 このイテレーターを使用して、組織のレジストリ全体にあるレジストリ、コレクション、
-または artifact バージョンを検索したり、フィルターしたりできます。
+または artifact バージョンを検索したり、フィルターしたりできます。結果は
+イテレーション時に遅延取得されるため、残りをリクエストせずに、任意の数の
+項目の後で停止できます。たとえば、:func:`itertools.islice` を使用できます。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `organization`:  取得するレジストリの組織。指定しない場合は、ユーザーの Settings で指定された組織を使用します。
-* `filter`:  遅延レジストリイテレーター内の各オブジェクトに適用する、省略可能な MongoDB スタイルのフィルター。レジストリに対してフィルターできるフィールドは `name`、`description`、`created_at`、`updated_at` です。コレクション に対してフィルターできるフィールドは `name`、`tag`、`description`、`created_at`、`updated_at` です。バージョンに対してフィルターできるフィールドは `tag`、`alias`、`created_at`、`updated_at`、`metadata` です。
-* `order`:  結果の順序を指定する省略可能な string。接頭辞が `+` の場合は昇順 (デフォルト) で並べ替えます。接頭辞が `-` の場合は降順で並べ替えます。
-* `per_page`:  クエリのページネーションにおけるページサイズを設定します。
-* `start`:  過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得します。
+<ResponseField name="organization" type="str | None">
+  取得するレジストリの組織。指定しない場合は、ユーザーの Settings で指定された組織を使用します。
+</ResponseField>
+
+<ResponseField name="filter" type="dict[str, Any] | None">
+  遅延レジストリイテレーター内の各オブジェクトに適用する、省略可能な MongoDB スタイルのフィルター。レジストリに対してフィルターできるフィールドは `name`、`description`、`created_at`、`updated_at` です。コレクション に対してフィルターできるフィールドは `name`、`tag`、`description`、`created_at`、`updated_at` です。バージョンに対してフィルターできるフィールドは `tag`、`alias`、`created_at`、`updated_at`、`metadata` です。
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  結果の順序を指定する省略可能な string。接頭辞が `+` の場合は昇順 (デフォルト) で並べ替えます。接頭辞が `-` の場合は降順で並べ替えます。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  クエリのページネーションにおけるページサイズを設定します。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得します。
+</ResponseField>
 
 ##### 例
 
@@ -922,7 +1162,7 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-### <kbd>method</kbd> Api.registry()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registry()
 
 ```python
 self,
@@ -936,8 +1176,13 @@ organization: 'str | None' = None
   ##### 引数
 </div>
 
-* `name`: レジストリの名前。`wandb-registry-` プレフィックスは含みません。
-* `organization`: レジストリの組織。Settings で組織が設定されていない場合、entity が 1 つの組織にのみ所属していれば、その entity から組織を取得します。
+<ResponseField name="name" type="str">
+  レジストリの名です。`wandb-registry-` 接頭辞は含まれません。
+</ResponseField>
+
+<ResponseField name="organization" type="str | None">
+  レジストリの組織です。設定で組織が指定されていない場合、entity が 1 つの組織にのみ属していれば、その組織が entity から取得されます。
+</ResponseField>
 
 ##### 例
 
@@ -952,7 +1197,7 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-### <kbd>method</kbd> Api.reports()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.reports()
 
 ```python
 self,
@@ -969,9 +1214,17 @@ per_page: 'int' = 50
   ##### 引数
 </div>
 
-* `path`: レポートが存在するprojectのパスです。projectを作成した entity をプレフィックスとして指定し、その後にスラッシュを付けます。
-* `name`: 取得するレポートの名です。
-* `per_page`: クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
+<ResponseField name="path" type="str">
+  レポートが存在するprojectのパスです。projectを作成した entity をプレフィックスとして指定し、その後にスラッシュを付けます。
+</ResponseField>
+
+<ResponseField name="name" type="str | None">
+  取得するレポートの名です。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
+</ResponseField>
 
 ##### 例
 
@@ -981,10 +1234,11 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-### <kbd>method</kbd> Api.run()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run()
 
 ```python
-(self, path='')
+self,
+path: 'str' = ''
 ```
 
 `entity/project/run_id` 形式のパスを解析して、1 つの run を返します。
@@ -993,13 +1247,15 @@ wandb.Api.reports("entity/project")
   ##### 引数
 </div>
 
-* `path`: `entity/project/run_id` 形式の run へのパス。`api.entity` が設定されている場合は `project/run_id` 形式でも指定でき、`api.project` が設定されている場合は run&#95;id のみでも指定できます。
+<ResponseField name="path" type="str">
+  `entity/project/run_id` 形式の run へのパス。`api.entity` が設定されている場合は `project/run_id` 形式でも指定でき、`api.project` が設定されている場合は run&#95;id のみでも指定できます。
+</ResponseField>
 
 ##### 発生する例外
 
 * `RunNotFoundError`: run が見つからない場合、または run データを読み込めない場合。
 
-### <kbd>method</kbd> Api.run_queue()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run_queue()
 
 ```python
 (self,
@@ -1015,10 +1271,15 @@ run キューの作成方法の詳細については、`Api.create_run_queue` �
   ##### 引数
 </div>
 
-* `entity`:
-* `name`: 
+<ResponseField name="entity" type="str">
+  説明はありません。
+</ResponseField>
 
-### <kbd>method</kbd> Api.runs()
+<ResponseField name="name" type="str">
+  説明はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.runs()
 
 ```python
 (self,
@@ -1067,12 +1328,29 @@ lazy: 'bool' = True)
   ##### 引数
 </div>
 
-* `path`: (str) project へのパス。形式は &quot;entity/project&quot; である必要があります
-* `filters`: (dict) MongoDB クエリ言語を使用して特定の run をクエリするための条件。config.key、summary&#95;metrics.key、state、entity、createdAt などの run のプロパティでフィルターできます。たとえば: `{"config.experiment_name": "foo"}` は、experiment name の設定エントリが &quot;foo&quot; に設定されている run を検索します
-* `order`: (str) 順序には `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。先頭に + を付けると昇順 (デフォルト) 、- を付けると降順になります。デフォルトの順序は、古いものから新しいものへの run.created&#95;at です。
-* `per_page`: (int) クエリのページネーションのページサイズを設定します。
-* `include_sweeps`: (bool) 各 run の結果で sweep オブジェクトを事前に取得するかどうか。
-* `lazy`: (bool) より高速なパフォーマンスのために遅延読み込みを使用するかどうか。True (デフォルト) の場合、最初は必要最小限の run メタデータのみが読み込まれます。config、summaryMetrics、systemMetrics などの重いフィールドは、アクセス時にオンデマンドで読み込まれます。最初から完全なデータを取得するには False に設定してください。
+<ResponseField name="path" type="str | None">
+  (str) project へのパス。形式は &quot;entity/project&quot; である必要があります
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  (dict) MongoDB クエリ言語を使用して特定の run をクエリするための条件。config.key、summary&#95;metrics.key、state、entity、createdAt などの run のプロパティでフィルターできます。たとえば: `{"config.experiment_name": "foo"}` は、experiment name の設定エントリが &quot;foo&quot; に設定されている run を検索します
+</ResponseField>
+
+<ResponseField name="order" type="str">
+  (str) 順序には `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。先頭に + を付けると昇順 (デフォルト) 、- を付けると降順になります。デフォルトの順序は、古いものから新しいものへの run.created&#95;at です。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  (int) クエリのページネーションのページサイズを設定します。
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  (bool) 各 run の結果で sweep オブジェクトを事前に取得するかどうか。
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  (bool) より高速なパフォーマンスのために遅延読み込みを使用するかどうか。True (デフォルト) の場合、最初は必要最小限の run メタデータのみが読み込まれます。config、summaryMetrics、systemMetrics などの重いフィールドは、アクセス時にオンデマンドで読み込まれます。最初から完全なデータを取得するには False に設定してください。
+</ResponseField>
 
 ##### 例
 
@@ -1120,7 +1398,7 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-### <kbd>method</kbd> Api.slack_integrations()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.slack_integrations()
 
 ```python
 self, *,
@@ -1135,9 +1413,17 @@ entity の Slack インテグレーションのイテレーターを返します
   ##### 引数
 </div>
 
-* `entity`: インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
-* `per_page`: 1 ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、これを変更する必要はありません。
-* `start`: 
+<ResponseField name="entity" type="str | None">
+  インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  1 ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、これを変更する必要はありません。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  説明はありません。
+</ResponseField>
 
 ##### 例
 
@@ -1161,7 +1447,7 @@ team_alert_integrations = [
 ]
 ```
 
-### <kbd>method</kbd> Api.sweep()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sweep()
 
 ```python
 (self, path='')
@@ -1173,9 +1459,11 @@ team_alert_integrations = [
   ##### 引数
 </div>
 
-* `path`: `entity/project/sweep&#95;id` 形式の sweep へのパス。`api.entity` が設定されている場合は `project/sweep&#95;id` 形式でも指定でき、`api.project` が設定されている場合は `sweep&#95;id` のみでも指定できます。
+<ResponseField name="path" type="_empty">
+  `entity/project/sweep&#95;id` 形式の sweep へのパス。`api.entity` が設定されている場合は `project/sweep&#95;id` 形式でも指定でき、`api.project` が設定されている場合は `sweep&#95;id` のみでも指定できます。
+</ResponseField>
 
-### <kbd>method</kbd> Api.sync_tensorboard()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sync_tensorboard()
 
 ```python
 (self, root_dir, run_id=None, project=None, entity=None)
@@ -1187,12 +1475,23 @@ tfevent ファイルを含むローカルディレクトリを wandb に Sync �
   ##### 引数
 </div>
 
-* `root_dir`:
-* `run_id`:
-* `project`:
-* `entity`: 
+<ResponseField name="root_dir" type="_empty">
+  説明はありません。
+</ResponseField>
 
-### <kbd>method</kbd> Api.team()
+<ResponseField name="run_id" type="_empty">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="project" type="_empty">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="entity" type="_empty">
+  説明はありません。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.team()
 
 ```python
 self,
@@ -1205,9 +1504,11 @@ team: 'str'
   ##### 引数
 </div>
 
-* `team`: チームの名前。
+<ResponseField name="team" type="str">
+  チームの名前
+</ResponseField>
 
-### <kbd>method</kbd> Api.update_automation()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.update_automation()
 
 ```python
 self,
@@ -1221,9 +1522,17 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   ##### 引数
 </div>
 
-* `obj`: 更新するオートメーション。既存のオートメーションである必要があります。
-* `create_missing`: True の場合、オートメーションが存在しなければ作成します。
-* `kwargs`: 
+<ResponseField name="obj" type="Automation">
+  更新するオートメーション。既存のオートメーションである必要があります。
+</ResponseField>
+
+<ResponseField name="create_missing" type="bool">
+  True で、オートメーションが存在しない場合に作成します。
+</ResponseField>
+
+<ResponseField name="kwargs" type="Unpack[WriteAutomationsKwargs]">
+  説明はありません。
+</ResponseField>
 
 <div id="examples">
   ##### Examples
@@ -1259,7 +1568,7 @@ updated_automation = api.update_automation(
 )
 ```
 
-### <kbd>method</kbd> Api.upsert_run_queue()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.upsert_run_queue()
 
 ```python
 (self,
@@ -1278,15 +1587,35 @@ W&amp;B Launch で run キューをアップサートします。
   ##### 引数
 </div>
 
-* `name`: 作成するキューの名
-* `resource_config`: キューに使用する任意のデフォルトのリソース設定。テンプレート変数を指定するには、handlebars (例: `{{var}}`) を使用します。
-* `resource_type`: キューに使用するリソースのタイプ。&quot;local-container&quot;、&quot;local-process&quot;、&quot;kubernetes&quot;、&quot;sagemaker&quot;、または &quot;gcp-vertex&quot; のいずれかです。
-* `entity`: キューを作成する entity の任意の名。`None` の場合は、設定済みまたはデフォルトの entity を使用します。
-* `template_variables`: 設定で使用するテンプレート変数スキーマの辞書。
-* `external_links`: キューで使用する外部リンクの任意の辞書。
-* `prioritization_mode`: 使用する優先順位付けの任意のバージョン。&quot;V0&quot; または None のいずれかです
+<ResponseField name="name" type="str">
+  作成するキューの名
+</ResponseField>
 
-### <kbd>method</kbd> Api.user()
+<ResponseField name="resource_config" type="dict">
+  キューで使用するオプションのデフォルトリソース設定。テンプレート変数を指定するには、handlebars (例: `{{var}}`) を使用します。
+</ResponseField>
+
+<ResponseField name="resource_type" type="public.RunQueueResourceType">
+  キューで使用するリソースのタイプ。&quot;local-container&quot;、&quot;local-process&quot;、&quot;kubernetes&quot;、&quot;sagemaker&quot;、または &quot;gcp-vertex&quot; のいずれかです。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  キューを作成するentityのオプションの名。`None` の場合は、設定済みまたはデフォルトのentityを使用します。
+</ResponseField>
+
+<ResponseField name="template_variables" type="dict | None">
+  設定で使用するテンプレート変数スキーマの辞書。
+</ResponseField>
+
+<ResponseField name="external_links" type="dict | None">
+  キューで使用する外部リンクのオプションの辞書。
+</ResponseField>
+
+<ResponseField name="prioritization_mode" type="public.RunQueuePrioritizationMode | None">
+  使用する優先順位付けのオプションのバージョン。&quot;V0&quot; または `None`。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.user()
 
 ```python
 self,
@@ -1302,9 +1631,11 @@ username_or_email: 'str'
   ##### 引数
 </div>
 
-* `username_or_email`: 対象ユーザーのユーザー名またはメールアドレス。
+<ResponseField name="username_or_email" type="str">
+  対象ユーザーのユーザー名またはメールアドレス。
+</ResponseField>
 
-### <kbd>method</kbd> Api.users()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.users()
 
 ```python
 self,
@@ -1313,15 +1644,18 @@ username_or_email: 'str'
 
 ユーザー名またはメールアドレスの一部をクエリして、該当するすべてのユーザーを返します。
 
-この関数はローカル管理者のみが使用できます。自分自身のユーザーオブジェクトを取得するには、`api.viewer` を使用します。
+この関数はローカル管理者のみが使用できます。自分自身のユーザーオブジェクトを取得するには、`api.viewer`
+を使用します。
 
 <div id="arguments">
   ##### 引数
 </div>
 
-* `username_or_email`: 検索したいユーザー名またはメールアドレスの接頭辞または接尾辞。
+<ResponseField name="username_or_email" type="str">
+  検索したいユーザー名またはメールアドレスの接頭辞または接尾辞。
+</ResponseField>
 
-### <kbd>method</kbd> Api.webhook_integrations()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.webhook_integrations()
 
 ```python
 self,
@@ -1336,9 +1670,17 @@ entity の webhook インテグレーションのイテレーターを返しま�
   ##### 引数
 </div>
 
-* `entity`: インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
-* `per_page`: 1 ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、これを変更する必要はありません。
-* `start`: 
+<ResponseField name="entity" type="str | None">
+  インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  1 ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、これを変更する必要はありません。
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+  説明はありません。
+</ResponseField>
 
 ##### 例
 

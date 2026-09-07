@@ -6,9 +6,11 @@ namespace: wandb.automations.automations
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
-## <kbd>クラス</kbd> wandb.automations.NewAutomation
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.NewAutomation
+
+新たに作成するオートメーション。
 
 ```python
 *,
@@ -19,22 +21,34 @@ event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automa
 action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
 
-新たに作成するオートメーション。
-
 <div id="args">
   ## 引数
 </div>
 
-* `name`: このオートメーションの名前。
-* `description`: このオートメーションの説明 (省略可能) 。
-* `enabled`: このオートメーションを有効にするかどうか。有効なオートメーションのみがトリガーされます。
-* `event`: このオートメーションをトリガーするイベント。
-* `action`: このオートメーションがトリガーされたときに実行されるアクション。
+<ResponseField name="name" type="str | None">
+  このオートメーションの名前。
+</ResponseField>
+
+<ResponseField name="description" type="str | None">
+  このオートメーションの説明 (省略可) 。
+</ResponseField>
+
+<ResponseField name="enabled" type="bool | None">
+  このオートメーションを有効にするかどうか。有効なオートメーションのみがトリガーされます。
+</ResponseField>
+
+<ResponseField name="event" type="Optional">
+  このオートメーションをトリガーするイベント。
+</ResponseField>
+
+<ResponseField name="action" type="Optional">
+  このオートメーションがトリガーされたときに実行するアクション。
+</ResponseField>
 
 <div id="properties">
   ## プロパティ
 </div>
 
-### <kbd>プロパティ</kbd> scope
-
-トリガーとなるイベントが発生する必要があるスコープ。
+<ResponseField name="scope" type="AutomationScope | None">
+  トリガーとなるイベントが発生する必要があるスコープ。
+</ResponseField>

@@ -71,19 +71,7 @@ Each category offers preset templates that you can select directly. Select any c
 
 ### Custom signals
 
-In the **Create signals** drawer, at the bottom of each of the **Tags** and **Ratings** categories, there is an option to create a custom signal.
-
-To define your own signal, select **Custom Tags** or **Custom Rating**. This opens a configuration screen with the following fields.
-
-- **Prompt template**: Optionally base your scorer on one or more preset templates. Selecting templates populates the **Scorer prompt**; you can combine multiple templates or write a prompt from scratch.
-- **Scorer prompt**: The prompt sent to the inference model at score time. Weave resolves template variables, such as `{input_messages}`, `{output_messages}`, `{system_instructions}`, and `{agent_name}`, during scoring.
-- **Scorer name**: The display name for this signal.
-- **Inference model**: The LLM to use for scoring. [Serverless Inference](/inference/) is the default; CoreWeave Serverless Inference consumes credits from your W&B account.
-- **Advanced**: Expand to configure additional options:
-  - **Only score turns matching**: Add one or more filters to restrict which turns the signal scores, for example by agent, operation, tool, or model. Leave empty to score every agent turn. Weave combines multiple filters with `AND` logic.
-  - **Sample rate**: For high-traffic agents, lower the sample rate to score a fraction of matching turns instead of every turn and reduce cost.
-
-Select **Create signal** to save.
+To create a custom tag signal from an empty Signals tab, see [Create a custom signal](/weave/guides/tracking/create-custom-signal).
 
 ## Manage and edit signals
 

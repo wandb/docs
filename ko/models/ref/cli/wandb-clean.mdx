@@ -1,0 +1,38 @@
+---
+title: wandb clean
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/clean.py#L20" />
+
+<div id="usage">
+  ## 사용
+</div>
+
+```bash
+clean [OPTIONS]
+```
+
+<div id="description">
+  ## 설명
+</div>
+
+동기화된 run 데이터를 제거합니다.
+
+Settings에 따라 wandb 폴더를 정리합니다. 일반적으로 현재 작업 디렉터리에 있는
+&quot;wandb&quot; 또는 &quot;.wandb&quot; 폴더이며, WANDB&#95;DIR 환경 변수가 설정된 경우에는 해당 변수로
+지정된 디렉터리입니다.
+
+기본적으로 run 폴더 이름의 타임스탬프를 기준으로 24시간 이전에 생성된 모든 run 중
+온라인 run이거나 `wandb sync`로 동기화된 run을 제거합니다.
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 플래그                  | 유형       | 설명                                           |
+| -------------------- | -------- | -------------------------------------------- |
+| `--min-hours`        | INT      | 삭제할 run의 최소 경과 시간(기본값: 24시간)입니다. **기본값**: 24 |
+| `--include-unsynced` | BOOL 플래그 | 동기화되지 않은 run 디렉터리도 삭제합니다. **기본값**: False     |
+| `--force`            | BOOL 플래그 | 확인 프롬프트를 건너뜁니다. **기본값**: False               |

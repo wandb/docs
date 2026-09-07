@@ -6,9 +6,11 @@ namespace: wandb.automations.events
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L371" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L373" />
 
-## <kbd>クラス</kbd> wandb.automations.OnRunMetric
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.OnRunMetric
+
+run のメトリクスは、ユーザー定義の条件を満たします。
 
 ```python
 *,
@@ -17,15 +19,21 @@ scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.au
 filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
-run のメトリクスは、ユーザー定義の条件を満たします。
-
 <div id="args">
   ## 引数
 </div>
 
-* `event_type`:
-* `scope`: イベントのスコープ。project または team/org entity である必要があります。
-* `filter`: このイベントがトリガーされるために満たす必要がある、run および/またはメトリクスの条件。
+<ResponseField name="event_type" type="Literal">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+  イベントのスコープ。project または team/org entity である必要があります。
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated">
+  このイベントがトリガーされるために満たす必要がある、run および/またはメトリクスの条件。
+</ResponseField>
 
 <div id="examples">
   ## 例

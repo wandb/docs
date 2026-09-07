@@ -6,9 +6,11 @@ namespace: wandb.apis.public.runhistory.downloads
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py#L26" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py#L26" />
 
-## <kbd>クラス</kbd> wandb.apis.public.DownloadHistoryResult
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.DownloadHistoryResult
+
+run の history エクスポートのダウンロード結果です。
 
 ```python
 paths: 'list[pathlib.Path]',
@@ -16,15 +18,21 @@ contains_live_data: 'bool',
 errors: 'dict[pathlib.Path, str] | None' = None
 ```
 
-run の history エクスポートのダウンロード結果です。
-
 <div id="args">
   ## 引数
 </div>
 
-* `paths`:
-* `contains_live_data`:
-* `errors`: 
+<ResponseField name="paths" type="list[pathlib.Path]">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="contains_live_data" type="bool">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="errors" type="dict[pathlib.Path, str] | None">
+  説明はありません。
+</ResponseField>
 
 <div id="attributes">
   ## 属性

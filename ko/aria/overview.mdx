@@ -2,7 +2,15 @@
 title: "개요"
 ---
 
+import MultiTenantCloudOnly from "/snippets/ko/_includes/multi-tenant-cloud-only.mdx";
+
 ARIA는 W&amp;B의 AI Research and Iteration Agent로, W&amp;B에서 실험을 분석하고 실행하고, 결과를 설명하고, Runs 전반의 패턴을 파악하고, 다음 step을 추천하고, 시각화와 보고서를 만들도록 도와주는 맞춤형 리서치 어시스턴트입니다.
+
+<Note>
+  <MultiTenantCloudOnly />
+
+  ARIA는 개인 entity가 아닌 팀 프로젝트에서 작동합니다. 조직 관리자도 **Smart features**를 활성화해야 합니다. [Governance and security](/ko/aria/governance)를 참조하세요.
+</Note>
 
 <Frame>
   <img src="/images/agent/agent_empty_chat_window.png" alt="빈 ARIA 채팅 창" />
@@ -16,13 +24,21 @@ ARIA는 다음 작업을 도와드릴 수 있습니다:
 * 데이터를 시각화할 수 있도록 plot과 패널을 만듭니다.
 * 팀과 인사이트를 공유할 수 있도록 저장된 뷰와 보고서를 만듭니다.
 
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
 [ARIA와 채팅](/ko/aria/chat)하려면 다음 단계를 따르세요:
 
 1. 아무 프로젝트에서나 페이지 오른쪽 상단의 파란색 원을 클릭합니다.
 2. 채팅 창에 질문이나 요청을 입력합니다. 무엇을 물어봐야 할지 잘 모르겠다면 추천 프롬프트를 선택하세요.
 3. 채팅 창 오른쪽 아래에 있는 위쪽 화살표 모양의 **Send** 버튼을 클릭합니다.
 
-질문의 복잡도에 따라 ARIA가 응답하는 데 잠시 시간이 걸릴 수 있습니다. ARIA가 작업하는 동안 채팅 창을 닫고 나중에 다시 와서 응답을 확인할 수 있습니다. ARIA에 더 많은 정보가 필요하면 추가 설명을 요청합니다.
+<div id="follow-arias-progress">
+  ## ARIA의 진행 상황 확인
+</div>
+
+ARIA는 작업 중에 응답을 스트림으로 제공하므로 완료된 답변을 기다리지 않고 진행 상황을 step별로 확인할 수 있습니다. 질문의 복잡도에 따라 ARIA가 완료하는 데 잠시 시간이 걸릴 수 있습니다. ARIA가 작업하는 동안 채팅 창을 닫고 나중에 다시 와서 응답을 확인하거나, 기다리지 않고 [다음 메시지를 큐에 추가](/ko/aria/chat#queue-messages)할 수 있습니다. ARIA에 더 많은 정보가 필요하면 추가 설명을 요청합니다.
 
 ARIA가 작업하는 동안 **Thinking** 및 **shell** step이 표시될 수 있습니다:
 
@@ -31,7 +47,29 @@ ARIA가 작업하는 동안 **Thinking** 및 **shell** step이 표시될 수 있
 
 **Thinking** step 또는 **shell** step을 클릭하면 ARIA의 추론이나 수행한 액션에 대한 자세한 내용을 펼쳐서 볼 수 있습니다.
 
-실제 예시는 [Example chats](/ko/aria/overview#example-chats)를 참조하세요. 채팅 관리에 대한 자세한 내용은 [Chat with ARIA](/ko/aria/chat)를 참조하세요.
+실제 예시는 [예시 채팅](/ko/aria/overview#example-chats)를 참조하세요. 채팅 관리에 대한 자세한 내용은 [Chat with ARIA](/ko/aria/chat)를 참조하세요.
+
+{/*
+  ## 프로젝트 메모리 보기 및 관리
+  ARIA는 학습한 내용을 기억합니다. 작업하는 동안 ARIA는 프로젝트 범위의 _메모리_를 작성하므로, 새 세션마다 설정, 결론 또는 기본 설정을 처음부터 다시 파악할 필요가 없습니다. 팀에서 로그 스케일 차트를 선호한다고 한 번만 알려주면 ARIA가 이를 기억합니다.
+
+  각 메모리에는 ARIA가 언제 불러와야 하는지 알 수 있도록 이름과 설명, 그리고 메모리 텍스트 자체가 포함됩니다.
+
+  프로젝트를 소유한 팀의 모든 구성원은 메모리를 보고, 수정하거나 삭제할 수 있습니다:
+
+  1. ARIA 채팅 창에서 **<Icon icon="bars" iconType="solid" />**를 클릭합니다.
+  1. **Customization** 섹션에서 **Project memory**를 클릭합니다. ARIA가 프로젝트에 대해 보유한 모든 메모리가 표시됩니다.
+  1. 메모리를 수정하려면 **<Icon icon="pencil" iconType="solid" />**를 클릭합니다. 메모리의 **Name**, **Description** 또는 **Memory**를 업데이트한 후 **Save**를 클릭합니다.
+  1. 메모리를 삭제하려면 **<Icon icon="trash" iconType="solid" />**를 클릭합니다.
+
+  ARIA가 새 메모리를 학습할 때까지 기다리지 않고 대화형으로 프로젝트 메모리를 만들 수 있습니다. 예시:
+
+  <AriaChatBubbles
+  prompt="차트에 의미 기반 색상을 사용하는 것을 선호한다고 기억해 주세요."
+  response="먼저 기존 프로젝트 메모리를 확인하여 이 기본 설정이 중복되지 않고 올바른 주제 아래에 기록되도록 하겠습니다 ... 새 프로젝트 메모리를 저장했습니다: chart-coloring. 이 메모리에는 차트가 임의의 팔레트 순서가 아니라 시리즈/범주의 의미 또는 상태를 기반으로 일관된 의미 기반 색상을 사용해야 한다고 기록되어 있습니다. "
+  />
+
+  */}
 
 <div id="example-chats">
   ## 예시 채팅

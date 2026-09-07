@@ -6,9 +6,11 @@ namespace: wandb.plot.line
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py#L12" />
 
-## <kbd>함수</kbd> wandb.plot.line
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.line()
+
+맞춤형 선 차트를 생성합니다.
 
 ```python
 table: 'wandb.Table',
@@ -19,18 +21,33 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-맞춤형 선 차트를 생성합니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `table`: 차트 데이터가 포함된 테이블입니다.
-* `x`: x축 값의 열 이름입니다.
-* `y`: y축 값의 열 이름입니다.
-* `stroke`: 선을 구분하기 위한 열 이름입니다(예: 선 그룹화).
-* `title`: 차트 제목입니다.
-* `split_table`: 테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+<ResponseField name="table" type="wandb.Table">
+  차트 데이터가 포함된 테이블입니다.
+</ResponseField>
+
+<ResponseField name="x" type="str">
+  x축 값의 열 이름입니다.
+</ResponseField>
+
+<ResponseField name="y" type="str">
+  y축 값의 열 이름입니다.
+</ResponseField>
+
+<ResponseField name="stroke" type="str | None">
+  선을 구분하기 위한 열 이름입니다(예: 선 그룹화).
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  차트 제목입니다.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;맞춤형 차트 Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+</ResponseField>
 
 <div id="returns">
   ## 반환값

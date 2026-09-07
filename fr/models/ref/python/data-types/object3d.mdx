@@ -6,30 +6,38 @@ namespace: wandb.sdk.data_types.object_3d
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L245" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L245" />
 
-## <kbd>classe</kbd> wandb.Object3D
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Object3D
+
+Classe W&amp;B pour les nuages de points 3D.
 
 ```python
 data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
 caption: 'str | None' = None, **kwargs: 'str | FileFormat3D | None'
 ```
 
-Classe W&amp;B pour les nuages de points 3D.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `data_or_path`: Object3D peut être initialisé à partir d’un fichier ou d’un tableau NumPy.
-* `caption`: Légende associée à l’objet pour l’affichage.
-* `kwargs`: 
+<ResponseField name="data_or_path" type="np.ndarray | str | pathlib.Path | TextIO | dict">
+  Object3D peut être initialisé à partir d’un fichier ou d’un tableau NumPy.
+</ResponseField>
+
+<ResponseField name="caption" type="str | None">
+  Légende associée à l’objet pour l’affichage.
+</ResponseField>
+
+<ResponseField name="kwargs" type="str | FileFormat3D | None">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Object3D.from_file()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Object3D.from_file()
 
 ```python
 data_or_path: 'TextIO | str',
@@ -42,9 +50,11 @@ Initialise Object3D à partir d’un fichier ou d’un flux.
   ##### Arguments
 </div>
 
-* `data_or_path` : Chemin vers un fichier ou un flux `TextIO`.
+<ResponseField name="data_or_path" type="TextIO | str">
+  Chemin vers un fichier ou un flux `TextIO`.
+</ResponseField>
 
-### <kbd>méthode</kbd> Object3D.from_numpy()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Object3D.from_numpy()
 
 ```python
 data: 'np.ndarray'
@@ -52,7 +62,7 @@ data: 'np.ndarray'
 
 Initialise un Object3D à partir d’un tableau NumPy.
 
-### <kbd>méthode</kbd> Object3D.from_point_cloud()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Object3D.from_point_cloud()
 
 ```python
 points: 'Sequence[Point]',
@@ -67,6 +77,14 @@ Initialise un Object3D à partir d’un objet Python.
   ##### Arguments
 </div>
 
-* `points` : Les points du nuage de points.
-* `boxes` : Boîtes englobantes 3D permettant d’annoter le nuage de points. Les boîtes englobantes s’affichent dans les visualisations de nuages de points.
-* `vectors` : Chaque vecteur s’affiche dans la visualisation du nuage de points. Peut être utilisé pour indiquer l’orientation des boîtes englobantes. La valeur par défaut est `None`.
+<ResponseField name="points" type="Sequence[Point]">
+  Les points du nuage de points.
+</ResponseField>
+
+<ResponseField name="boxes" type="Sequence[Box3D]">
+  Boîtes englobantes 3D permettant d’annoter le nuage de points. Les boîtes englobantes s’affichent dans les visualisations de nuages de points.
+</ResponseField>
+
+<ResponseField name="vectors" type="Sequence[Vector3D] | None">
+  Chaque vecteur s’affiche dans la visualisation du nuage de points. Peut être utilisé pour indiquer l’orientation des boîtes englobantes. La valeur par défaut est `None`.
+</ResponseField>

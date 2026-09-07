@@ -6,9 +6,14 @@ namespace: wandb.apis.public.reports
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
-## <kbd>classe</kbd> wandb.apis.public.BetaReport
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.BetaReport
+
+BetaReport est une classe associée aux rapports créés dans W&amp;B.
+
+Elle fournit un accès aux attributs du rapport (nom, description, utilisateur, spec,
+horodatages), ainsi qu&#39;à des méthodes permettant de récupérer les runs et les sections associés et d&#39;effectuer le rendu du rapport en HTML.
 
 ```python
 (service_api: 'ServiceApi',
@@ -17,19 +22,25 @@ entity: 'str | None' = None,
 project: 'str | None' = None)
 ```
 
-BetaReport est une classe associée aux rapports créés dans W&amp;B.
-
-Elle fournit un accès aux attributs du rapport (nom, description, utilisateur, spec,
-horodatages), ainsi qu&#39;à des méthodes permettant de récupérer les runs et les sections associés et d&#39;effectuer le rendu du rapport en HTML.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `service_api`:
-* `attrs`:
-* `entity`:
-* `project`: 
+<ResponseField name="service_api" type="ServiceApi">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="attrs" type="dict">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="attributes">
   ## Attributs
@@ -49,33 +60,51 @@ horodatages), ainsi qu&#39;à des méthodes permettant de récupérer les runs e
   ## Propriétés
 </div>
 
-### <kbd>propriété</kbd> created_at
+<ResponseField name="created_at" type="">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> description
+<ResponseField name="description" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> display_name
+<ResponseField name="display_name" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> id
+<ResponseField name="id" type="str">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> nom
+<ResponseField name="name" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> sections
+<ResponseField name="sections" type="">
+  Obtenir les sections de panneaux (groupes) du rapport.
+</ResponseField>
 
-Obtient les sections (groupes) de panneaux du rapport.
+<ResponseField name="spec" type="dict[str, Any]">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> spec
+<ResponseField name="updated_at" type="">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> updated_at
+<ResponseField name="url" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> url
-
-### <kbd>propriété</kbd> utilisateur
+<ResponseField name="user" type="">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> BetaReport.runs()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> BetaReport.runs()
 
 ```python
 self,
@@ -90,11 +119,19 @@ Obtenir les runs associés à une section de rapports.
   ##### Arguments
 </div>
 
-* `section`:
-* `per_page`:
-* `only_selected`: 
+<ResponseField name="section" type="dict[str, Any]">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>méthode</kbd> BetaReport.to_html()
+<ResponseField name="per_page" type="int">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="only_selected" type="bool">
+  Aucune description fournie.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> BetaReport.to_html()
 
 ```python
 self,
@@ -108,5 +145,10 @@ Générez du code HTML contenant une iframe qui affiche ce rapport.
   ##### Arguments
 </div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  Aucune description fournie.
+</ResponseField>

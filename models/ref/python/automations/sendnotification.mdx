@@ -7,11 +7,18 @@ namespace: wandb.automations.actions
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L140" />
 
 
 
-## <kbd>class</kbd> wandb.automations.SendNotification
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.SendNotification
+
+
+
+Defines an automation action that sends a (Slack) notification.
+
+
+
 ```python
 *,
 integration_id: Annotated[str, Strict(strict=True)],
@@ -21,19 +28,28 @@ title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_sche
 action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
-
-
-Defines an automation action that sends a (Slack) notification.
-
-
-
 ## Args
 
-- `integration_id`: The ID of the Slack integration that will be used to send the notification.
-- `text`: The message body of the sent notification.
-- `level`: The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
-- `title`: The title of the sent notification.
-- `action_type`: 
+<ResponseField name="integration_id" type="Annotated">
+The ID of the Slack integration that will be used to send the notification.
+</ResponseField>
+
+<ResponseField name="text" type="Annotated">
+The message body of the sent notification.
+</ResponseField>
+
+<ResponseField name="level" type="Annotated">
+The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
+</ResponseField>
+
+<ResponseField name="title" type="Annotated">
+The title of the sent notification.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+No description provided.
+</ResponseField>
+
 
 
 
@@ -44,7 +60,8 @@ Defines an automation action that sends a (Slack) notification.
 
 ## Methods
 
-### <kbd>method</kbd> SendNotification.from_integration()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> SendNotification.from_integration()
 
 ```python
 integration: 'SlackIntegration', *,
@@ -57,10 +74,23 @@ Define a notification action that sends to the given (Slack) integration.
 
 ##### Arguments
 
-- `integration`: 
-- `title`: 
-- `text`: 
-- `level`: 
+<ResponseField name="integration" type="SlackIntegration">
+No description provided.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="text" type="str">
+No description provided.
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+No description provided.
+</ResponseField>
+
+
 
 
 

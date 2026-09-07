@@ -6,9 +6,13 @@ namespace: wandb.apis.public.teams
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
-## <kbd>クラス</kbd> wandb.apis.public.Team
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Team
+
+W&amp;B のチームを表すクラス。
+
+このクラスは、チームの作成、メンバーの招待、サービスアカウントの管理など、W&amp;B のチームを管理するための method を提供します。チーム属性を扱うために Attrs を継承します。
 
 ```python
 (service_api: 'ServiceApi',
@@ -16,17 +20,21 @@ name: 'str',
 attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-W&amp;B のチームを表すクラス。
-
-このクラスは、チームの作成、メンバーの招待、サービスアカウントの管理など、W&amp;B のチームを管理するための method を提供します。チーム の属性を扱うために Attrs を継承します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `service_api`: W&amp;B をクエリするために使用するサービス API インスタンス
-* `name`: チーム の名
-* `attrs`: チーム の属性を格納したオプションの辞書
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B のクエリに使用するサービス API インスタンス。
+</ResponseField>
+
+<ResponseField name="name" type="str">
+  チーム名
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+  省略可能なチーム属性の辞書
+</ResponseField>
 
 <div id="examples">
   ## 例
@@ -56,7 +64,7 @@ team.create_service_account("CI service account")
   ## メソッド
 </div>
 
-### <kbd>メソッド</kbd> Team.create()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create()
 
 ```python
 api: 'Api',
@@ -70,11 +78,19 @@ admin_username: 'str | None' = None
   ##### 引数
 </div>
 
-* `api`: (`Api`) 使用するapiインスタンス
-* `team`: (str) チームの名前
-* `admin_username`: (str) チームの管理者ユーザーのユーザー名 (省略可能) 。デフォルトは現在のユーザーです。
+<ResponseField name="api" type="Api">
+  (`Api`) 使用するapiインスタンス
+</ResponseField>
 
-### <kbd>メソッド</kbd> Team.create_service_account()
+<ResponseField name="team" type="str">
+  (str) チーム名
+</ResponseField>
+
+<ResponseField name="admin_username" type="str | None">
+  (str) チームの管理者ユーザーのユーザー名 (省略可能) 。デフォルトは現在のユーザーです。
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create_service_account()
 
 ```python
 self,
@@ -87,9 +103,11 @@ description: 'str'
   ##### 引数
 </div>
 
-* `description`: (str) このサービスアカウントの説明
+<ResponseField name="description" type="str">
+  (str) このサービスアカウントの説明
+</ResponseField>
 
-### <kbd>メソッド</kbd> Team.invite()
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.invite()
 
 ```python
 self,
@@ -103,5 +121,10 @@ admin: 'bool' = False
   ##### 引数
 </div>
 
-* `username_or_email`: (str) 招待するユーザーのユーザー名またはメールアドレス。
-* `admin`: (bool) このユーザーをチームの管理者にするかどうか。デフォルトは `False` です。
+<ResponseField name="username_or_email" type="str">
+  (str) 招待するユーザーのユーザー名またはメールアドレス。
+</ResponseField>
+
+<ResponseField name="admin" type="bool">
+  (bool) このユーザーをチームの管理者にするかどうか。デフォルトは `False` です。
+</ResponseField>

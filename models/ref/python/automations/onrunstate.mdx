@@ -7,17 +7,11 @@ namespace: wandb.automations.events
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L420" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L420" />
 
 
 
-## <kbd>class</kbd> wandb.automations.OnRunState
-```python
-*,
-event_type: Literal[RUN_STATE] = RUN_STATE,
-scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
-filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.automations.OnRunState
 
 
 
@@ -25,11 +19,27 @@ A run state changes.
 
 
 
+```python
+*,
+event_type: Literal[RUN_STATE] = RUN_STATE,
+scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
+```
+
 ## Args
 
-- `event_type`: 
-- `scope`: The scope of the event: must be a project or a team/org entity.
-- `filter`: Run state condition(s) that must be satisfied for this event to trigger.
+<ResponseField name="event_type" type="Literal">
+No description provided.
+</ResponseField>
+
+<ResponseField name="scope" type="Annotated">
+The scope of the event: must be a project or a team/org entity.
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated">
+Run state condition(s) that must be satisfied for this event to trigger.
+</ResponseField>
+
 
 
 
@@ -51,7 +61,6 @@ event = OnRunState(
     filter=RunEvent.state.in_(["finished", "failed"]),
 )
 ```
-
 
 
 

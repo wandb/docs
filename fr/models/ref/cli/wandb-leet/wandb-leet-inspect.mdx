@@ -1,0 +1,46 @@
+---
+title: wandb leet inspect
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/leet.py#L113" />
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+inspect [OPTIONS] [PATH]
+```
+
+<div id="description">
+  ## Description
+</div>
+
+Parcourez les enregistrements bruts du journal de transactions `.wandb` d&#39;une exécution.
+
+Ouvre une liste navigable des enregistrements stockés dans le journal, accompagnée d&#39;une
+vue texte de l&#39;enregistrement sélectionné. Lorsque stdout n&#39;est pas un terminal,
+affiche les enregistrements sous forme de texte, par exemple :
+
+wandb leet inspect run.wandb | less
+
+PATH peut être un fichier `.wandb`, un répertoire d&#39;exécution qui en contient un ou un
+répertoire wandb. Si PATH n&#39;est pas fourni, la dernière exécution est utilisée.
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Nom    | Par défaut | Type  |
+| ------ | ---------- | ----- |
+| `path` | STR        | False |
+
+<div id="options">
+  ## Options
+</div>
+
+| Indicateur   | Type            | Description                                          |
+| ------------ | --------------- | ---------------------------------------------------- |
+| `-h, --help` | Indicateur BOOL | Affiche ce message et quitte. **Par défaut** : False |

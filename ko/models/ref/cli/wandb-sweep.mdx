@@ -4,7 +4,7 @@ title: wandb 스윕
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1038" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/cli.py#L982" />
 
 <div id="usage">
   ## 사용
@@ -46,9 +46,7 @@ wandb sweep sweep_config.yaml
 wandb sweep -p foobar -e team-awesome sweep_config.yaml
 ```
 
-sweep&#95;config.yaml의 새 설정을 사용해 스윕 abcd1234를 업데이트합니다.
-활성 스윕의 매개변수나 검색 전략을 변경할 때
-유용합니다:
+sweep&#95;config.yaml의 새 설정을 사용해 스윕 abcd1234를 업데이트하려면:
 
 ```bash
 wandb sweep --update abcd1234 sweep_config.yaml
@@ -108,11 +106,11 @@ wandb sweep -R abcd1234 -R efgh5678 sweep_config.yaml
 | ----------------- | --------- | ------------------------------------------------------------------------------- |
 | `--project, -p`   | STR       | 스윕 run에 사용할 프로젝트를 설정합니다. 설정하지 않으면 &#39;Uncategorized&#39;를 사용합니다. **기본값**: None |
 | `--entity, -e`    | STR       | 스윕에 사용할 entity를 설정합니다. 설정하지 않으면 현재 사용자의 기본 entity를 사용합니다. **기본값**: None         |
-| `--controller`    | BOOL Flag | 스윕을 생성한 후 로컬 스윕 컨트롤러를 시작합니다. **기본값**: False                               |
+| `--controller`    | BOOL Flag | 스윕을 생성한 후 로컬 스윕 컨트롤러를 시작합니다. **기본값**: False                                     |
 | `--verbose`       | BOOL Flag | 자세한 출력을 표시합니다. **기본값**: False                                                   |
-| `--name`          | STR       | 스윕의 표시 이름을 설정합니다. 지정하지 않으면 스윕 ID를 사용합니다. **기본값**: None                       |
+| `--name`          | STR       | 스윕의 표시 이름을 설정합니다. 지정하지 않으면 스윕 ID를 사용합니다. **기본값**: None                          |
 | `--program`       | STR       | 스윕 설정에 지정된 트레이닝 프로그램을 재정의합니다. **기본값**: None                                     |
-| `--update`        | STR       | 기존 스윕 설정을 업데이트합니다. 스윕 ID를 전달하세요. **기본값**: None                               |
+| `--update`        | STR       | 아직 대기 중이며 어떤 run도 시작되지 않은 스윕의 설정을 업데이트합니다. 스윕 ID를 전달하세요. **기본값**: None          |
 | `--stop`          | BOOL Flag | 스윕을 중지합니다. 활성 run은 완료되도록 두고 새 run은 시작하지 않습니다. **기본값**: False                    |
 | `--cancel`        | BOOL Flag | 스윕을 취소합니다. 활성 run을 종료하고 새 run 시작도 중지합니다. **기본값**: False                         |
 | `--pause`         | BOOL Flag | 스윕을 일시 중지합니다. 새 run 시작을 일시적으로 중지합니다. **기본값**: False                             |

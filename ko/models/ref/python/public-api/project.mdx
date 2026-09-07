@@ -6,9 +6,11 @@ namespace: wandb.apis.public.projects
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
 
-## <kbd>클래스</kbd> wandb.apis.public.Project
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Project
+
+프로젝트는 Runs의 네임스페이스입니다.
 
 ```python
 service_api: 'ServiceApi',
@@ -17,40 +19,51 @@ project: 'str',
 attrs: 'Mapping[str, Any]'
 ```
 
-프로젝트는 Runs의 네임스페이스입니다.
-
 <div id="args">
-  ## 매개변수
+  ## 인수
 </div>
 
-* `service_api`: W&amp;B를 쿼리하는 데 사용하는 서비스 API입니다.
-* `entity`: 프로젝트를 소유한 entity입니다.
-* `project`: 쿼리할 프로젝트의 이름입니다.
-* `attrs`: 프로젝트의 속성입니다.
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B를 쿼리하는 데 사용하는 Service API입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  프로젝트를 소유한 entity입니다.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  쿼리할 프로젝트의 이름입니다.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  프로젝트의 속성입니다.
+</ResponseField>
 
 <div id="properties">
   ## 속성
 </div>
 
-### <kbd>속성</kbd> id
+<ResponseField name="id" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-### <kbd>속성</kbd> owner
+<ResponseField name="owner" type="public.User">
+  프로젝트 소유자를 User 객체로 반환합니다.
+</ResponseField>
 
-프로젝트 소유자를 User 객체로 반환합니다.
+<ResponseField name="path" type="list[str]">
+  프로젝트의 경로를 반환합니다. 경로는 entity와 프로젝트 이름을 포함하는 목록입니다.
+</ResponseField>
 
-### <kbd>속성</kbd> path
-
-프로젝트의 경로를 반환합니다. 경로는 entity와 프로젝트 이름을 포함하는 목록입니다.
-
-### <kbd>속성</kbd> url
-
-프로젝트의 URL을 반환합니다.
+<ResponseField name="url" type="str">
+  프로젝트의 URL을 반환합니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Project.artifacts_types()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Project.artifacts_types()
 
 ```python
 self,
@@ -63,9 +76,11 @@ per_page: 'int' = 50
   ##### 인수
 </div>
 
-* `per_page`: 
+<ResponseField name="per_page" type="int">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Project.collections()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Project.collections()
 
 ```python
 self,
@@ -80,11 +95,19 @@ per_page: 'int' = 50
   ##### 인수
 </div>
 
-* `filters`: 쿼리에 적용할 필터의 선택적 매핑입니다.
-* `order`: 결과 순서를 지정하는 선택적 문자열입니다. `order` 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다.
-* `per_page`: 페이지당 가져올 artifact collection의 수입니다. 기본값은 50입니다.
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+  쿼리에 적용할 필터의 선택적 매핑입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Project.sweeps()
+<ResponseField name="order" type="str | None">
+  결과 순서를 지정하는 선택적 문자열입니다. `order` 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  페이지당 가져올 artifact collection의 수입니다. 기본값은 50입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Project.sweeps()
 
 ```python
 self,
@@ -99,6 +122,14 @@ order: 'str | None' = None
   ##### 인수
 </div>
 
-* `per_page`: API 요청당 가져올 sweep 수입니다.
-* `filters`: (dict) Runs 필터를 사용해 특정 sweep을 조회하기 위한 쿼리입니다. 자세한 내용은 wandb/apis/public/api.py:runs를 참조하세요.
-* `order`: 
+<ResponseField name="per_page" type="int">
+  API 요청당 가져올 sweep 수입니다.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  (dict) Runs 필터를 사용해 특정 sweep을 조회하기 위한 쿼리입니다. 자세한 내용은 wandb/apis/public/api.py:runs를 참조하세요.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>

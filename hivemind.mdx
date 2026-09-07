@@ -23,19 +23,20 @@ On each team member's local system, install the client, authenticate, and start 
 
 <Tabs>
 
-<Tab title="Standalone binary (macOS or Linux)">
+<Tab title="Install script (macOS or Linux)">
 
-Download and install HiveMind using the signed standalone binary:
+Download and run the HiveMind install script:
 
 ```bash
-curl -fsSL https://hivemind.wandb.tools/install -o hivemind-install.sh | sh
-hivemind login
+curl -fsSL https://hivemind.wandb.tools/install | sh
+hivemind start
 ```
 
-- On macOS, the standalone binary requires Apple Silicon. On an Intel Mac, use `uv` instead.
+- On macOS, the install script requires Apple Silicon. On an Intel Mac, use `uv` instead.
+- On an Apple Silicon Mac with Homebrew, the script installs the `wandb-hivemind` Homebrew cask. Everywhere else, it downloads a signed binary to `~/.local/bin`.
 - Privileged access (`sudo`) is not required.
-- The installer registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
-- Upgrades automatically with no action required.
+- `hivemind start` walks you through the terms of service and sign-in, then registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
+- The daemon upgrades itself, with no action required.
 
 <Tip>For details about distributing and installing the standalone binary with fleet rollout tools like JAMF, Intune, Mosyle, Kandji, or Workspace ONE, see [MDM](https://hivemind.wandb.tools/docs/mdm) in the HiveMind documentation.</Tip>
 </Tab>
@@ -45,12 +46,11 @@ Install with `uv` on macOS or Linux:
 
 ```bash
 uv tool install wandb-hivemind
-hivemind login
 hivemind start
 ```
 
-- `uv` automatically selects the correct binary for the operating system.
-- When you run `hivemind start`, it registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
+- `uv` automatically selects the correct binary for the operating system. Use `uv` on an Intel Mac or on Windows, where the install script doesn't apply.
+- `hivemind start` walks you through the terms of service and sign-in, then registers a background service (launchd on macOS, systemd on Linux) so the daemon keeps running and starts on login.
 - Upgrade with `uv tool upgrade wandb-hivemind`.
 </Tab>
 </Tabs>
@@ -63,21 +63,22 @@ After the HiveMind service starts receiving information from your team, access t
 From the HiveMind dashboard, your team can:
 
 - **See sessions across agents**: One daemon captures sessions from every supported agent, with no per-agent configuration.
-- **Track spend and usage**: View estimated cost over time, cost by model and team, token usage, and cost per merged pull request. Cost figures are estimates from published model pricing and session token counts, not billed amounts from your AI vendors.
+- **Track spend and usage**: View estimated cost over time, cost by model and team, token usage, and cost per merged pull request. Cost figures are estimates from published model pricing and session token counts, not billed amounts from your AI vendors. To report your own token usage and cost from the command line, run `hivemind usage`.
 - **Measure outcomes**: Connect agent activity to pull requests, merge rates, and how much agent-written code survives.
 - **Track skills and slash commands**: See which skills and slash commands your team invokes and how widely they're used.
 - **Reuse past work**: Use `@hivemind` inside Claude Code, Codex, or Cursor to search your team's session history and bring relevant context into your current session.
 - **Learn from history**: Import existing sessions from local tools like Claude Code or Cursor to gain new insights from prior AI usage.
 
-These screenshots show example pages in the HiveMind dashboard: an adoption leaderboard, a usage and cost report, and the detailed view of a session. Click a screenshot to view details.
+These screenshots show example pages in the HiveMind dashboard, including leaderboards, usage and cost breakdowns, session details, and more. Click a screenshot to view details.
 
-<Columns cols={2}>
-<Frame>![HiveMind Adoption Leaderboard showing the top users](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
-<Frame>![HiveMind Usage dashboard with charts](/images/hivemind/hivemind-dashboard-usage.png)</Frame>
-</Columns>
-<Columns cols={1}>
-<Frame>![HiveMind session details with insights](/images/hivemind/hivemind-session-insights.png)</Frame>
-</Columns>
+<Frame>![HiveMind adoption leaderboard](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
+<Frame>![HiveMind usage dashboard](/images/hivemind/hivemind-dashboard-usage.png)</Frame>
+<Frame>![HiveMind cost dashboard](/images/hivemind/hivemind-dashboard-cost.png)</Frame>
+<Frame>![Hivemind recent sessions](/images/hivemind/hivemind-recent-sessions.png)</Frame>
+<Frame>![HiveMind session details](/images/hivemind/hivemind-session-insights.png)</Frame>
+<Frame>![HiveMind agents by harness](/images/hivemind/hivemind-agents-by-harness.png)</Frame>
+<Frame>![HiveMind agents by model](/images/hivemind/hivemind-agents-by-model.png)</Frame>
+<Frame>![Hivemind skills dashboard](/images/hivemind/hivemind-skills.png)</Frame>
 
 ## Supported agents
 

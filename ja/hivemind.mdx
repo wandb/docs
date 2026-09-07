@@ -26,18 +26,19 @@ HiveMind は、次の 2 つの対象者向けに設計されています。
 各チームメンバーのローカルシステムで、クライアントをインストールし、認証してから、デーモンを起動します。使用しているプラットフォームに合った方法を選択してください。
 
 <Tabs>
-  <Tab title="スタンドアロンバイナリ（macOS または Linux）">
-    署名付きのスタンドアロンバイナリを使用して HiveMind をダウンロードし、インストールします。
+  <Tab title="インストールスクリプト（macOS または Linux）">
+    HiveMind インストールスクリプトをダウンロードして実行します。
 
     ```bash
-    curl -fsSL https://hivemind.wandb.tools/install -o hivemind-install.sh | sh
-    hivemind login
+    curl -fsSL https://hivemind.wandb.tools/install | sh
+    hivemind start
     ```
 
-    * macOS では、スタンドアロンバイナリの利用に Apple Silicon が必要です。Intel Mac では、代わりに `uv` を使用してください。
+    * macOS では、インストールスクリプトの利用に Apple Silicon が必要です。Intel Mac では、代わりに `uv` を使用してください。
+    * Homebrew を使用している Apple Silicon Mac では、スクリプトによって `wandb-hivemind` Homebrew cask がインストールされます。それ以外の場合は、署名付きバイナリが `~/.local/bin` にダウンロードされます。
     * 特権アクセス (`sudo`) は不要です。
-    * インストーラはバックグラウンドサービス (macOS では launchd、Linux では systemd) を登録するため、デーモンは実行を継続し、ログイン時に自動的に起動します。
-    * 操作不要で自動的にアップグレードされます。
+    * `hivemind start` により利用規約への同意とサインインが案内され、その後バックグラウンドサービス (macOS では launchd、Linux では systemd) が登録されるため、デーモンは実行を継続し、ログイン時に自動的に起動します。
+    * 操作不要でデーモンは自動的にアップグレードされます。
 
     <Tip>JAMF、Intune、Mosyle、Kandji、Workspace ONE などのフリート展開ツールを使用した、スタンドアロンバイナリの配布とインストールの詳細については、HiveMind ドキュメントの [MDM](https://hivemind.wandb.tools/docs/mdm) を参照してください。</Tip>
   </Tab>
@@ -47,12 +48,11 @@ HiveMind は、次の 2 つの対象者向けに設計されています。
 
     ```bash
     uv tool install wandb-hivemind
-    hivemind login
     hivemind start
     ```
 
-    * `uv` はオペレーティングシステムに応じて適切なバイナリを自動的に選択します。
-    * `hivemind start` を実行すると、バックグラウンドサービス (macOS では launchd、Linux では systemd) が登録されるため、デーモンは実行を継続し、ログイン時に自動的に起動します。
+    * `uv` はオペレーティングシステムに応じて適切なバイナリを自動的に選択します。Intel Mac またはインストールスクリプトが適用されない Windows では、`uv` を使用してください。
+    * `hivemind start` により利用規約への同意とサインインが案内され、その後バックグラウンドサービス (macOS では launchd、Linux では systemd) が登録されるため、デーモンは実行を継続し、ログイン時に自動的に起動します。
     * `uv tool upgrade wandb-hivemind` でアップグレードします。
   </Tab>
 </Tabs>
@@ -68,22 +68,22 @@ HiveMind サービスがチームからの情報を受信し始めたら、[Hive
 HiveMind ダッシュボードでは、チームで次のことができます。
 
 * **エージェント全体のセッションを確認する**: 1 つの デーモン が、サポート対象のすべてのエージェントからセッションを取得するため、エージェントごとの設定は不要です。
-* **コストと使用状況をトラッキングする**: 時系列の推定コスト、モデル別およびチーム別のコスト、トークン使用量、マージ済み pull request あたりのコストを確認できます。コストの値は、公表されているモデルの料金とセッションのトークン数に基づく推定値であり、AI ベンダーから実際に請求された金額ではありません。
+* **コストと使用状況をトラッキングする**: 時系列の推定コスト、モデル別およびチーム別のコスト、トークン使用量、マージ済み pull request あたりのコストを確認できます。コストの値は、公表されているモデルの料金とセッションのトークン数に基づく推定値であり、AI ベンダーから実際に請求された金額ではありません。コマンドラインから独自のトークン使用量とコストを報告するには、`hivemind usage` を実行します。
 * **成果を測定する**: エージェントのアクティビティを pull request、マージ率、エージェントが作成したコードがどの程度残るかと関連付けて把握できます。
 * **スキルとスラッシュコマンドをトラッキングする**: チームがどのスキルやスラッシュコマンドを呼び出しているか、またそれらがどの程度広く使用されているかを確認できます。
 * **過去の作業を再利用する**: Claude Code、Codex、または Cursor 内で `@hivemind` を使用してチームのセッション履歴を検索し、関連するコンテキストを現在のセッションに取り込めます。
 * **履歴から学ぶ**: Claude Code や Cursor などのローカル ツールから既存のセッションをインポートし、過去の AI 使用状況から新たな知見を得られます。
 
-これらのスクリーンショットは、HiveMind ダッシュボード内のページ例として、導入状況のリーダーボード、使用状況とコストの report、セッションの詳細ビューを示しています。詳細を表示するには、スクリーンショットをクリックしてください。
+これらのスクリーンショットは、リーダーボード、使用状況とコストの内訳、セッションの詳細など、HiveMind ダッシュボード内のページ例を示しています。詳細を表示するには、スクリーンショットをクリックしてください。
 
-<Columns cols={2}>
-  <Frame>![上位の Users を表示する HiveMind Adoption リーダーボード](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
-  <Frame>![チャートを含む HiveMind Usage ダッシュボード](/images/hivemind/hivemind-dashboard-usage.png)</Frame>
-</Columns>
-
-<Columns cols={1}>
-  <Frame>![インサイトを含む HiveMind セッションの詳細](/images/hivemind/hivemind-session-insights.png)</Frame>
-</Columns>
+<Frame>![HiveMind 導入状況リーダーボード](/images/hivemind/hivemind-dashboard-leaderboard.png)</Frame>
+<Frame>![HiveMind 使用状況ダッシュボード](/images/hivemind/hivemind-dashboard-usage.png)</Frame>
+<Frame>![HiveMind コストダッシュボード](/images/hivemind/hivemind-dashboard-cost.png)</Frame>
+<Frame>![Hivemind の最近のセッション](/images/hivemind/hivemind-recent-sessions.png)</Frame>
+<Frame>![HiveMind セッションの詳細](/images/hivemind/hivemind-session-insights.png)</Frame>
+<Frame>![ハーネス別 HiveMind エージェント](/images/hivemind/hivemind-agents-by-harness.png)</Frame>
+<Frame>![モデル別 HiveMind エージェント](/images/hivemind/hivemind-agents-by-model.png)</Frame>
+<Frame>![Hivemind スキルダッシュボード](/images/hivemind/hivemind-skills.png)</Frame>
 
 <div id="supported-agents">
   ## サポート対象のエージェント

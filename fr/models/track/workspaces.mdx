@@ -265,11 +265,11 @@ pip install wandb wandb-workspaces
 ```
 
 <div id="define-and-save-a-workspace-view-programmatically">
-  ### Définir et enregistrer une vue de Workspace par programmation
+  ### Définir et enregistrer une vue du Workspace par programmation
 </div>
 
 ```python
-import wandb_workspaces.reports.v2 as ws
+import wandb_workspaces.workspaces as ws
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()
@@ -285,16 +285,44 @@ existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
 existing_workspace.save()
 ```
 
-<div id="copy-a-workspace-saved-view-to-another-workspace">
-  ### Copier une `vue enregistrée` d’un Workspace vers un autre Workspace
+<div id="clone-a-saved-workspace-view">
+  ### Cloner une vue enregistrée du Workspace
 </div>
 
+Utilisez l’API Reports and Workspaces pour cloner une vue enregistrée du Workspace et vous servir de sa mise en page et de ses paramètres comme base d’une nouvelle vue.
+
+Avant de commencer, identifiez les éléments suivants :
+
+* L’entité et le projet qui contiennent la vue Workspace source.
+* L’ID de la vue Workspace.
+  * Pour trouver l’ID de la vue, ouvrez la vue enregistrée du Workspace dans W&amp;B et copiez la valeur du paramètre de requête `nw` dans l’URL. Par exemple, dans `https://wandb.ai/awesome-team/mnist?nw=54ro5zcn9d4`, l’ID de la vue est `54ro5zcn9d4`.
+* L’entité et le projet de destination.
+* Le nom de la nouvelle vue Workspace.
+
+L’exemple suivant clone une vue enregistrée du Workspace :
+
 ```python
-old_workspace = ws.Workspace.from_url("old-workspace-url")
-old_workspace_view = old_workspace.views[0]
-new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[old_workspace_view])
+import wandb_workspaces.workspaces as ws
 
-new_workspace.save()
+# Spécifiez la vue de workspace source
+source_entity = "source-entity"
+source_project = "source-project"
+saved_view = "saved-view-id"
+source_url = f"https://wandb.ai/{source_entity}/{source_project}?nw={saved_view}"
+
+# Spécifiez la destination
+target_entity = "target-entity"
+target_project = "target-project"
+target_view_name = "view-name"
+
+# Chargez la vue de workspace source
+workspace = ws.Workspace.from_url(source_url)
+
+# Configurez la destination
+workspace.entity = target_entity
+workspace.project = target_project
+workspace.name = target_view_name
+
+# Enregistrez le workspace en tant que nouvelle vue.
+workspace.save_as_new_view()
 ```
-
-Voir [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) pour des exemples détaillés de l’API Workspace.

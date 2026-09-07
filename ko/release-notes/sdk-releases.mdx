@@ -6,6 +6,117 @@ rss: true
 
 이 페이지에서는 W&amp;B Models와 함께 사용하는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트를 제공합니다. Weave Python SDK(`weave` 패키지)는 [Weave SDK 릴리스](/ko/release-notes/weave-sdk-releases)를 참조하세요. W&amp;B Server는 [W&amp;B Server 릴리스 노트](/ko/release-notes/server-releases)를 참조하세요.
 
+<Update label="0.29.0" description="2026년 8월 26일">
+  ## 주요 변경 사항
+
+  * macOS에서 `wandb`를 사용하려면 이제 macOS 13(Ventura) 이상이 필요합니다.
+  * `wandb.Image`는 더 이상 픽셀 값을 정규화하지 않습니다. 데이터가 이미 [0, 255] 범위 내에 있는지 확인하세요.
+  * NumPy 배열 또는 IO 객체로 `wandb.Video()`를 초기화할 때 이제 `format` 인수가 필요합니다.
+  * `Api.runs()`, `Api.sweeps()`, `run.files()`와 같은 페이지 매김된 객체의 `.length` 속성이 제거되었습니다. 대신 `len(...)`을 사용하세요.
+  * 다음 사용 중단된 API가 제거되었습니다. `start_method` 설정, `run.define_metric()`의 `summary="best"` 옵션 및 `goal` 인수, `run.finish()` 및 `wandb.finish()`의 `quiet` 인수, `run.project_name()`, `run.get_url()`, `run.get_project_url()`, `run.get_sweep_url()` 메서드입니다.
+
+  ## 추가됨
+
+  * 새로운 Public API 메서드 `run.console_logs()`는 완료된 run과 활성 run 모두에서 W&amp;B가 캡처한 콘솔 출력을 반환합니다. 마지막 N줄만 반환하려면 `last=N`을 전달하세요. 로그의 처음부터 읽으려면 W&amp;B Server v0.77 이상이 필요합니다.
+  * Automations API는 팀 및 조직 범위를 지원합니다.
+  * Automations API는 `Registry` 객체 범위로 지정된 자동화를 생성하고 편집할 수 있도록 지원합니다.
+  * `wandb.Artifact`는 `"MD5"`(기본값) 또는 `"XXH128"` 중 하나를 새 `digest_algorithm` 인수로 허용합니다. 가능한 경우 아티팩트에 XXH128 해싱을 적용하려면 `digest_algorithm="XXH128"`을 전달하세요. `digest_algorithm="XXH128"`로 생성된 아티팩트의 경우 SDK 버전이 v0.29.0보다 이전이면 `artifact.verify()`가 실패합니다.
+  * 새 속성 `Artifact.linked_at`은 버전이 해당 컬렉션에 연결된 시간을 반환합니다. 연결된 버전에만 적용되며, 소스 아티팩트에는 `None`을 반환합니다.
+  * Registry 버전 쿼리(`Api.registries().versions()`, `Api.registries().collections().versions()`, `Registry.versions()`, and `Registry.collections().versions()`)는 고급 검색을 사용하는 조직에서 선택적 `order` string을 키워드 인수로 허용합니다. `created_at`, `artifact_size` 또는 `linked_at`을 기준으로 아티팩트 버전을 정렬할 수 있습니다.
+  * W&amp;B LEET TUI 특성:
+    * 새 명령어 `wandb leet inspect [PATH]`로 run의 `.wandb` 트랜잭션 로그에 있는 원시 레코드를 탐색할 수 있습니다. 필터링 가능한 레코드 목록과 선택한 레코드의 텍스트 뷰를 함께 표시하며, 실행 중인 run에 기록되는 내용도 실시간으로 확인합니다. 단일 run 뷰에서 `i`를 눌러 현재 run을 검사하세요. 대신 레코드를 출력하려면 `wandb leet inspect | less`와 같이 출력을 파이프하거나 리디렉션하세요.
+    * `g`를 눌러 선 차트 뒤에 점선 배경 또는 축 눈금에 맞춘 가로선 가이드를 표시하세요. 선택한 설정은 저장되며, `wandb leet config`에서 `chart_guides`로도 설정할 수 있습니다.
+    * run 개요 섹션 사이의 구분선을 드래그해 마우스로 크기를 조절하세요. 비율은 각 뷰에 저장됩니다. 다른 패널 크기와 함께 재설정하려면 `0`을 누르세요.
+
+  ## 변경됨
+
+  * SDK가 내부 프로세스 간 통신에 사용하는 메시지 형식이 약간 변경되었습니다. `wandb beta core`를 사용하는 경우 SDK와 서비스의 버전이 다르면 일부 오퍼레이션이 실패할 수 있으므로 `wandb`를 업그레이드한 후 서비스를 다시 시작하세요.
+  * 이제 `wandb.sandbox`는 클라이언트에서 `resources.gpu`를 거부하는 대신 샌드박스의 GPU 리소스 요청을 허용합니다.
+  * 레지스트리 검색 메서드인 `Api.registries()`, `.collections()`, `.versions()`는 이제 필터 필드 이름을 검증하고 지원되지 않는 이름을 거부합니다.
+  * 이제 `Api.create_automation()` 및 `Api.update_automation()`은 서버가 지정된 자동화를 지원하지 않는 경우 `CommError` 대신 `UnsupportedError`를 발생시킵니다.
+  * 이제 macOS wheel에는 macOS 13(Ventura) 이상이 필요합니다. macOS 12는 2024년에 지원이 종료되었습니다.
+  * W&amp;B LEET TUI에서 run 개요 섹션(**환경**, **설정**, **요약**)은 이제 사이드바 높이를 비례적으로 나누어 사용 가능한 공간을 모두 활용합니다. 이전에는 고정된 크기 이상으로 늘어나지 않아 높이가 큰 터미널의 하단이 비어 있었습니다.
+
+  ## 제거됨
+
+  * `wandb.tensorboard.log()` 및 `wandb.tensorflow.log()`를 제거했습니다.
+  * 이미 아무런 효과가 없었던 사용 중단된 `start_method` 설정을 제거했습니다.
+  * `wandb.apis.paginator.SizedPaginator`에서 사용 중단된 `.length` 속성을 제거했습니다. 대신 `len(...)`을 사용하세요.
+  * 사용 중단된 `summary="best"` 옵션과 `run.define_metric()`의 `goal` 인수를 제거했습니다. 대신 `summary="min"` 또는 `summary="max"`를 사용하세요.
+  * `run.finish()` 및 `wandb.finish()`의 사용 중단된 `quiet` 인수를 제거했습니다. 대신 `wandb.Settings(quiet=...)`를 사용하세요.
+  * 사용 중단된 `run.project_name()`, `run.get_url()`, `run.get_project_url()`, `run.get_sweep_url()` 메서드를 제거했습니다. 대신 `run.project`, `run.url`, `run.project_url`, `run.sweep_url` 속성을 사용하세요.
+  * `wandb.Image`에서 사용 중단된 `normalize` 인수를 제거했습니다. NumPy 배열 및 PyTorch 텐서의 픽셀 값이 이미 [0, 255] 범위에 있는지 확인하세요.
+
+  ## 수정 사항
+
+  * 이제 `Artifact.new_file()`은 `wandb sync`로 업로드된 아티팩트에서도 작동합니다.
+  * 이제 `Run.scan_history(keys=...)`는 중첩된 값을 가진 Runs에서도 실패하지 않습니다.
+  * 사이드바 가장자리를 드래그하는 경우처럼 특정 패널 너비에서 W&amp;B LEET TUI가 사용 가능한 공간보다 넓게 메트릭 차트를 그려 오른쪽 사이드바가 화면 밖으로 밀려나던 문제가 있었습니다.
+  * W&amp;B LEET TUI:
+    * `wandb leet config`가 이제 짧은 터미널 창에서도 작동합니다. 필드 목록은 선택 항목에 맞춰 스크롤되며, **Space**를 눌러 불리언 설정을 표시하거나 숨길 수 있습니다.
+    * 미디어 패널은 더 이상 ANSI 뷰에서 이미지 주변에 검은 막대를 표시하지 않으며, 전체 해상도 뷰로 전환할 때 검은색으로 깜박이지 않습니다. 이제 이미지 주변에는 터미널 배경이 표시되며, 모드를 전환해도 이미지가 깜박이거나 이동하지 않습니다.
+
+  ## 보안
+
+  * 이제 `artifact.files()` 또는 `artifact.checkout()`을 사용해 아티팩트를 다운로드할 때 상대 경로를 포함하는 파일 및 아티팩트 이름은 허용되지 않습니다.
+</Update>
+
+<Update label="0.28.2" description="2026년 8월 12일">
+  ## 주요 변경 사항
+
+  * 이제 `wandb sync --clean` 명령은 종료 코드 1로 종료되며, 대신 새 `wandb clean` 명령을 사용하라는 안내를 출력합니다.
+  * 이제 `wandb login`은 기본적으로 자격 증명을 확인합니다. 확인을 비활성화하려면 명령줄에서 `--no-verify`를 전달하거나 `wandb.login()`에 `verify=False`를 전달하세요.
+
+  ## 추가됨
+
+  * Filestream 요청은 gzip 압축을 지원하므로 메트릭을 기록할 때 네트워크 트래픽을 줄일 수 있습니다. 압축은 선택적으로 사용할 수 있으며 서버 지원이 필요합니다. 사용하려면 `wandb.Settings`에서 `x_file_stream_no_gzip=False`를 설정하세요. 향후 릴리스에서는 압축이 기본값이 됩니다.
+  * `wandb agent` 명령에 새 `--term-timeout` 플래그가 추가되었습니다.
+  * 새 속성 `run.sync_dir`는 run의 동기화 디렉터리를 반환합니다.
+
+  ## 변경됨
+
+  * 새 `wandb clean` 명령이 `wandb sync --clean`을 대체합니다.
+  * 이제 `wandb.init()`는 시간 초과 시 일반적인 시간 초과 메시지 대신 네트워크 오류와 같이 재시도하던 오류를 보고합니다. 또한 `init_timeout` 설정은 run 초기화 중 백엔드의 재시도 시간도 제한합니다.
+  * 이제 `wandb.Api().create_run_queue()`, `wandb.Api().create_custom_chart()`, `wandb.Api().upsert_run_queue()`는 백엔드에서 오퍼레이션이 실패하면 `WandbApiFailedError`를 발생시킵니다.
+  * 페이지 매김된 아티팩트 및 레지스트리 쿼리 메서드는 결과를 가져오기 전에 클라이언트에서 페이지 매김 인수를 검증합니다. 이는 `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Registries.collections()`, `Registries.versions()`, `Collections.versions()`, `Registry.collections()`, `Registry.versions()`, `Project.collections()`에 적용됩니다.
+  * 정렬된 레지스트리 검색은 레지스트리별 컬렉션 및 버전 쿼리의 범위를 현재 레지스트리의 내부 ID로 제한하여 페이지 매김과 필터링의 신뢰성을 높입니다.
+  * 아티팩트 및 레지스트리 쿼리를 포함한 여러 `wandb.Api` 오퍼레이션의 응답 파싱 속도가 빨라졌습니다.
+  * `local-process` 리소스에 대한 `wandb launch`의 인수 처리가 강화되어 작업에서 제공한 값은 항상 셸 인용 처리됩니다.
+  * Launch 에이전트는 이제 작업의 Git 소스 URL을 HTTPS 및 SSH 원격 URL로 제한하고, 소스를 가져오고 하위 모듈을 업데이트할 때 Git의 프로토콜 허용 목록을 고정합니다.
+
+  ## 사용 중단
+
+  * `wandb sync --sync-tensorboard`는 사용 중단되었으며 향후 릴리스에서 제거될 예정입니다.
+
+  ## Removed
+
+  * 릴리스에는 더 이상 32비트 Windows(`win32`)용 휠이 포함되지 않습니다. Windows에서는 64비트 Python을 사용하세요.
+
+  ## 수정 사항
+
+  * 이제 `registries(order=...).collections(order=...).versions()`를 사용한 레지스트리 검색은 레지스트리 순서, 컬렉션 순서 또는 둘 다에 따라 아티팩트 버전을 반환합니다.
+  * 이제 macOS x86&#95;64 wheel에는 `wandb-xpu` 바이너리 및 Rust parquet 라이브러리의 x86&#95;64 빌드가 포함됩니다. 이전에는 arm64 빌드로 제공되어 Intel Mac에서 실행하거나 로드할 수 없었습니다.
+  * 이제 `wandb.login(verify=True)` 및 `wandb login --verify`는 이전에 확인하지 않았던 페더레이션 ID(ID 토큰) 자격 증명을 확인합니다.
+  * 이제 `wandb login`은 API 키를 `.netrc` 파일에 저장하기 전에 검증합니다.
+  * 이제 `wandb login`은 `.netrc` 파일에서 다른 머신의 자격 증명을 제거하거나 손상시키지 않습니다.
+  * 이제 `wandb login` 및 `wandb verify`는 로그인 시도가 실패해도 시스템 호스트 설정을 업데이트하지 않습니다.
+  * 이제 `wandb verify`는 재시도 후에도 오퍼레이션이 계속 실패하면 충돌하는 대신 검사 실패를 보고합니다.
+  * 지정한 서버가 Dedicated Cloud 배포와 같이 기본 서버가 아닌 경우, `WANDB_BASE_URL`도 설정하지 않으면 페더레이션 ID(ID 토큰) 자격 증명으로 인증하지 못하던 `wandb.Api(overrides={"base_url": ...})` 문제를 수정했습니다.
+  * 페더레이션 ID를 사용하는 경우, 이제 ID 토큰 파일을 시작 시에만 읽는 대신 각 액세스 토큰 교환 시 다시 읽습니다. 동일한 경로에 다시 발급되는 수명이 짧은 ID 토큰은 해당 토큰보다 오래 지속되는 run에서도 계속 작동합니다.
+  * 페더레이션 ID를 사용 중이고 서버가 잘못되었거나 만료된 토큰 등의 이유로 ID 토큰 교환을 거부하면, 이제 요청은 서버의 오류 메시지와 함께 즉시 실패합니다. 이전에는 거부된 교환을 요청이 일반 오류로 시간 초과될 때까지 재시도했습니다.
+  * 이제 스윕 에이전트는 JSON 출력을 작성할 때 맞춤형 `WANDB_DIR`을 준수합니다.
+  * TensorBoard 파일을 Sync할 때 생성되는 `global_step` 메트릭에는 더 이상 `train/global_step`과 같은 접두사가 붙지 않아 트레이닝 및 검증 메트릭을 더 쉽게 비교할 수 있습니다.
+  * 이제 TensorBoard 인테그레이션은 가능한 경우 동일한 `global_step`의 데이터를 하나의 W&amp;B step으로 병합하여 W&amp;B step을 더 적게 생성합니다.
+  * 이제 `wandb sync`는 시작 후 이름, 태그 또는 메모를 설정한 run에서 더 이상 멈추지 않습니다.
+  * Python 로거에서 캡처한 로그 메시지는 더 이상 run의 로그에 빈 줄을 추가하지 않습니다.
+  * 이제 `del run.summary[key]`는 중첩된 값으로 로깅된 메트릭도 제거합니다. 이전에는 이를 무시했습니다.
+
+  ## 보안
+
+  * 디버그 로그에 더 이상 CoreWeave 클러스터 자격 증명이 포함되지 않습니다.
+  * `wandb docker` 및 `wandb docker-run`은 동일한 머신의 다른 사용자가 읽을 수 있는 명령줄을 통해 더 이상 API 키를 전달하지 않습니다.
+</Update>
+
 <Update label="0.28.1" description="2026년 7월 16일">
   ## 주요 변경 사항
 
@@ -15,8 +126,8 @@ rss: true
   ## 추가됨
 
   * `Api().project().sweeps()`는 `Api().runs()`와 동일한 필터 형식을 사용하는 선택적 `filters` 인수를 허용합니다.
-  * 새 Public API 메서드 `Run.stop()`(`wandb.Api().run(...).stop()`)는 W&amp;B App의 **run 중지** 버튼과 마찬가지로 활성 run이 정상적으로 중지되도록 요청합니다.
-  * 새 메서드 `wandb.Api().organization()`은 이름으로 `Organization`을 반환합니다. 이름을 생략하면 현재 기본 조직을 반환합니다.
+  * 새 Public API 방법 `Run.stop()`(`wandb.Api().run(...).stop()`)는 W&amp;B App의 **run 중지** 버튼과 마찬가지로 활성 run이 정상적으로 중지되도록 요청합니다.
+  * 새 방법 `wandb.Api().organization()`은 이름으로 `Organization`을 반환합니다. 이름을 생략하면 현재 기본 조직을 반환합니다.
 
   ## 변경됨
 
@@ -31,7 +142,7 @@ rss: true
   ## 제거됨
 
   * v0.70.0 이전 W&amp;B Server 릴리스에서 아티팩트 파일을 다운로드하기 위한 레거시 폴백 구현을 제거했습니다. 이러한 서버에서는 `Artifact.files()` 및 `Artifact.download()`가 더 이상 어떤 아티팩트에도 작동하지 않으며, `Artifact.get_entry()` 및 `Artifact.get_path()`를 통한 파일 다운로드는 더 이상 비참조 아티팩트에 작동하지 않습니다. 이러한 오퍼레이션을 계속 사용하려면 W&amp;B Server를 v0.70.0 이상으로 업그레이드하세요.
-  * v0.70.0 이전 W&amp;B Server 릴리스에서 이름으로 아티팩트를 가져오기 위한 레거시 폴백 구현을 제거했습니다. 이러한 서버에서는 `wandb.Api().artifact()` 및 경로로 아티팩트를 가져오는 다른 메서드가 더 이상 작동하지 않습니다. 이러한 오퍼레이션을 계속 사용하려면 W&amp;B Server를 v0.70.0 이상으로 업그레이드하세요.
+  * v0.70.0 이전 W&amp;B Server 릴리스에서 이름으로 아티팩트를 가져오기 위한 레거시 폴백 구현을 제거했습니다. 이러한 서버에서는 `wandb.Api().artifact()` 및 경로로 아티팩트를 가져오는 다른 방법이 더 이상 작동하지 않습니다. 이러한 오퍼레이션을 계속 사용하려면 W&amp;B Server를 v0.70.0 이상으로 업그레이드하세요.
   * `GitPython` 종속성을 제거했습니다. 이제 Git 메타데이터는 `git` 실행 파일을 직접 호출하여 수집됩니다. `GIT_PYTHON_GIT_EXECUTABLE` 환경 변수는 실행 파일의 위치를 찾는 데 계속 적용됩니다.
 
   ## 수정됨
@@ -40,7 +151,7 @@ rss: true
   * `Run.log()`로 로깅된 `np.float16` 및 `np.float32` `NaN` 값은 이제 자동으로 삭제되지 않고 `NaN`으로 기록되며, `np.float64` 및 기본 `float`의 동작과 일치합니다.
   * 이제 `Run.upload_file()`(`wandb.Api().run(...)`을 통해)은 Self-Managed 배포에서 업로드한 파일을 run에 등록합니다. 이전에는 파일의 바이트가 업로드되었지만 커밋되지 않았으므로 객체 스토어 알림이 없는 배포에서는 파일이 run에 표시되지 않았습니다.
   * 이제 스윕 에이전트는 스윕이 삭제되거나 `Api()`가 404 오류를 반환할 때 종료하기 전에 진행 중인 run이 완료되도록 합니다.
-  * SDK v0.25.1에서 도입된 교착 상태를 수정했습니다. 이러한 교착 상태는 기본적으로 `fork` `multiprocessing` 시작 방법을 사용하는 Python 3.14 이전 버전에서 PyTorch를 사용할 때 보고되었습니다. 일부 `wandb.Api` 기능을 사용할 때 가비지 수집 중에도 발생할 수 있었습니다.
+  * SDK v0.25.1에서 도입된 교착 상태를 수정했습니다. 이러한 교착 상태는 기본적으로 `fork` `multiprocessing` 시작 방법을 사용하는 Python 3.14 이전 버전에서 PyTorch를 사용할 때 보고되었습니다. 일부 `wandb.Api` 기능을 사용할 때 가비지 컬렉션 중에도 발생할 수 있었습니다.
 </Update>
 
 <Update label="0.28.0" description="2026년 6월 22일">

@@ -6,9 +6,19 @@ namespace: wandb.sdk.data_types.table
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
-## <kbd>클래스</kbd> wandb.Table
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Table
+
+표 형식 데이터를 표시하고 분석하는 데 사용되는 Table 클래스입니다.
+
+기존 스프레드시트와 달리 Tables는 다양한 데이터 유형을 지원합니다:
+스칼라 값, 문자열, numpy 배열, 그리고 `wandb.data_types.Media`의 대부분의 하위 클래스입니다.
+즉, 다른 기존 스칼라 값과 함께 `Images`, `Video`, `Audio` 및 기타 다양한 리치 미디어와 주석이 포함된 미디어를
+Tables에 직접 임베드할 수 있습니다.
+
+이 클래스는 W&amp;B Tables를 생성하는 데 사용하는 기본 클래스입니다.
+[https://docs.wandb.ai/models/tables](https://docs.wandb.ai/models/tables)
 
 ```python
 columns: 'list[ColumnKey] | None' = None,
@@ -21,49 +31,65 @@ allow_mixed_types: 'bool' = False,
 log_mode: 'LogMode | None' = 'IMMUTABLE'
 ```
 
-표 형식 데이터를 표시하고 분석하는 데 사용되는 Table 클래스입니다.
-
-기존 스프레드시트와 달리 Tables는 다양한 데이터 유형을 지원합니다:
-스칼라 값, 문자열, numpy 배열, 그리고 `wandb.data_types.Media`의 대부분의 하위 클래스입니다.
-즉, 다른 기존 스칼라 값과 함께 `Images`, `Video`, `Audio` 및 기타 다양한 리치 미디어와 주석이 포함된 미디어를
-Tables에 직접 임베드할 수 있습니다.
-
-이 클래스는 W&amp;B Tables를 생성하는 데 사용하는 기본 클래스입니다.
-[https://docs.wandb.ai/models/tables](https://docs.wandb.ai/models/tables)
-
 <div id="args">
   ## 인수
 </div>
 
-* `columns`: 테이블의 열 이름입니다. 기본값은 [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;]입니다.
-* `data`: 값으로 이루어진 2차원 행 기준 배열, NumPy 배열 또는 pandas DataFrame입니다.
-* `rows`: 값으로 이루어진 2차원 행 기준 배열입니다.
-* `dataframe`: 테이블을 생성하는 데 사용하는 pandas DataFrame 객체입니다. 이 값이 설정되면 `data` 및 `columns` 인수는 무시됩니다.
-* `dtype`: 열 값의 예상 유형으로, 데이터를 검증하는 데 사용됩니다. 설정하지 않으면 데이터에서 유형을 추론합니다. 다음 중 하나일 수 있습니다:
+<ResponseField name="columns" type="list[ColumnKey] | None">
+  테이블의 열 이름입니다. 기본값은 &#91;&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;&#93;입니다.
+</ResponseField>
+
+<ResponseField name="data" type="list[InputRow] | np.ndarray | pd.DataFrame | None">
+  값으로 이루어진 2차원 행 기준 배열, NumPy 배열 또는 pandas DataFrame입니다.
+</ResponseField>
+
+<ResponseField name="rows" type="list[InputRow] | None">
+  값으로 이루어진 2차원 행 기준 배열입니다.
+</ResponseField>
+
+<ResponseField name="dataframe" type="pd.DataFrame | None">
+  테이블을 생성하는 데 사용하는 pandas DataFrame 객체입니다. 이 값이 설정되면 `data` 및 `columns` 인수는 무시됩니다.
+</ResponseField>
+
+<ResponseField name="dtype" type="Any">
+  열 값의 예상 유형으로, 데이터를 검증하는 데 사용됩니다. 설정하지 않으면 데이터에서 유형을 추론합니다. 다음 중 하나일 수 있습니다:
+
   * 단일 유형
     * `int`, `str`, `bool`, list, dict 또는 datetime과 같은 Python 내장 유형
     * wandb.data&#95;types 아래에 선언된 `wandb.Image`와 같은 W&amp;B Media 유형
     * 상수 값
   * 각 열에 서로 다른 유형을 부여하기 위한 위 항목들의 목록
     (`columns`와 길이가 같아야 함)
-* `optional`: `None` 값 허용 여부입니다. 기본값은 True입니다.
+</ResponseField>
+
+<ResponseField name="optional" type="bool | list[bool]">
+  `None` 값 허용 여부입니다. 기본값은 True입니다.
+
   * 단일 bool 값이면 생성 시 지정된 모든 열에 선택 여부가 강제 적용됩니다.
   * bool 값의 목록이면 각 열에 선택 여부가 적용되며, `columns`와 길이가 같아야 합니다.
-* `allow_mixed_types`: 열에 혼합 유형을 허용할지 여부입니다 (유형 검증 비활성화). 기본값은 False입니다.
-* `log_mode`: 변경이 발생할 때 Table이 로깅되는 방식을 제어합니다.
+</ResponseField>
+
+<ResponseField name="allow_mixed_types" type="bool">
+  열에 혼합 유형을 허용할지 여부입니다 (유형 검증 비활성화). 기본값은 False입니다.
+</ResponseField>
+
+<ResponseField name="log_mode" type="LogMode | None">
+  변경이 발생할 때 Table이 로깅되는 방식을 제어합니다.
   옵션:
+
   * &quot;IMMUTABLE&quot; (기본값): Table은 한 번만 로깅할 수 있으며, 이후
     테이블이 변경된 후 다시 로깅을 시도해도 아무 작업도 수행되지 않습니다.
   * &quot;MUTABLE&quot;: 변경 후에도 Table을 다시 로깅할 수 있으며,
     로깅할 때마다 새 아티팩트 버전이 생성됩니다.
   * &quot;INCREMENTAL&quot;: Table 데이터가 증분 방식으로 로깅되며, 각 로그는
     마지막 로그 이후의 새 데이터를 포함하는 새 아티팩트 항목을 생성합니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Table.add_column()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_column()
 
 ```python
 self,
@@ -78,11 +104,19 @@ optional: 'bool' = False
   ##### 인수
 </div>
 
-* `name`: 열의 고유한 이름
-* `data`: 동일한 타입의 데이터로 구성된 열
-* `optional`: null과 같은 값의 허용 여부
+<ResponseField name="name" type="str">
+  열의 고유 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Table.add_computed_columns()
+<ResponseField name="data" type="list[Any] | np.ndarray">
+  동일한 유형의 데이터로 구성된 열입니다.
+</ResponseField>
+
+<ResponseField name="optional" type="bool">
+  null과 유사한 값을 허용할지 여부입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_computed_columns()
 
 ```python
 self,
@@ -95,7 +129,9 @@ fn: 'Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]'
   ##### 인수
 </div>
 
-* `fn`: 인덱스와 행 dict를 받아 해당 행의 새 열을 나타내는 dict를 반환하는 함수이며, 키는 새 열 이름입니다.
+<ResponseField name="fn" type="Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]">
+  인덱스와 행 dict를 받아 해당 행의 새 열을 나타내는 dict를 반환하는 함수이며, 키는 새 열 이름입니다.
+</ResponseField>
 
 <div id="examples">
   ##### 예시
@@ -113,7 +149,7 @@ table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
 table.add_computed_columns(lambda ndx, row: {"diff": row["x"] - row["y"]})
 ```
 
-### <kbd>방법</kbd> Table.add_data()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_data()
 
 ```python
 self, *data: 'Any'
@@ -130,9 +166,11 @@ self, *data: 'Any'
   ##### 인수
 </div>
 
-* `data`: 
+<ResponseField name="data" type="Any">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Table.add_row()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.add_row()
 
 ```python
 self, *row: 'Any'
@@ -144,9 +182,11 @@ self, *row: 'Any'
   ##### 인수
 </div>
 
-* `row`: 
+<ResponseField name="row" type="Any">
+  설명이 없습니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Table.cast()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.cast()
 
 ```python
 self,
@@ -165,11 +205,19 @@ wandb.Classes의 인스턴스 같은 예시 객체 중 하나를 사용할 수 �
   ##### 인수
 </div>
 
-* `col_name`: 캐스팅할 열의 이름입니다.
-* `dtype`: 대상 dtype입니다.
-* `optional`: 열에서 None을 허용할지 여부입니다.
+<ResponseField name="col_name" type="ColumnKey">
+  캐스팅할 열의 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Table.get_column()
+<ResponseField name="dtype" type="Any">
+  변환할 대상 dtype입니다.
+</ResponseField>
+
+<ResponseField name="optional" type="bool">
+  열에서 None을 허용할지 여부입니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_column()
 
 ```python
 self,
@@ -183,10 +231,15 @@ convert_to: "Literal['numpy'] | None" = None
   ##### 인수
 </div>
 
-* `name`: 열 이름입니다.
-* `convert_to`: &quot;numpy&quot;는 기본 데이터를 NumPy 객체로 변환합니다.
+<ResponseField name="name" type="ColumnKey">
+  열 이름입니다.
+</ResponseField>
 
-### <kbd>방법</kbd> Table.get_dataframe()
+<ResponseField name="convert_to" type="Literal['numpy'] | None">
+  &quot;numpy&quot;는 기본 데이터를 NumPy 객체로 변환합니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_dataframe()
 
 ```python
 self
@@ -194,7 +247,7 @@ self
 
 테이블을 `pandas.DataFrame`으로 반환합니다.
 
-### <kbd>방법</kbd> Table.get_index()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Table.get_index()
 
 ```python
 (self)

@@ -6,9 +6,11 @@ namespace: wandb.apis.public.sweeps
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L272" />
 
-## <kbd>classe</kbd> wandb.apis.public.Sweep
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Sweep
+
+L’ensemble des run associées au balayage.
 
 ```python
 (service_api: 'ServiceApi',
@@ -18,17 +20,29 @@ sweep_id: 'str',
 attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-L’ensemble des run associées au balayage.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `service_api`:
-* `entity`:
-* `project`:
-* `sweep_id`:
-* `attrs`: 
+<ResponseField name="service_api" type="ServiceApi">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="sweep_id" type="str">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+  Aucune description fournie.
+</ResponseField>
 
 <div id="attributes">
   ## Attributs
@@ -45,53 +59,56 @@ L’ensemble des run associées au balayage.
   ## Propriétés
 </div>
 
-### <kbd>propriété</kbd> config
+<ResponseField name="config" type="">
+  La configuration de balayage utilisée pour le balayage.
+</ResponseField>
 
-Configuration du balayage utilisée pour ce balayage.
+<ResponseField name="entity" type="str">
+  L’entité associée au balayage.
+</ResponseField>
 
-### <kbd>propriété</kbd> entité
+<ResponseField name="expected_run_count" type="int | None">
+  Renvoyer le nombre de runs attendus dans le balayage, ou None si le nombre de runs est illimité.
+</ResponseField>
 
-L’entité associée au balayage.
+<ResponseField name="name" type="">
+  Le nom du balayage.
 
-### <kbd>propriété</kbd> expected_run_count
+  Renvoyer le premier nom disponible selon l’ordre de priorité suivant :
 
-Retourne le nombre de runs attendus dans le balayage, ou None si le nombre de runs est infini.
+  1. Nom d’affichage modifié par l’utilisateur
+  2. Nom configuré lors de la création
+  3. ID du balayage
+</ResponseField>
 
-### <kbd>propriété</kbd> name
+<ResponseField name="order" type="">
+  Renvoyer la clé d’ordre du balayage.
+</ResponseField>
 
-Le nom du balayage.
+<ResponseField name="path" type="">
+  Renvoyer le chemin du projet.
 
-Renvoie le premier nom disponible selon l’ordre de priorité suivant :
+  Le chemin est une liste contenant l’entité, le nom du projet et l’ID du balayage.
+</ResponseField>
 
-1. Nom d’affichage modifié par l’utilisateur
-2. Nom défini lors de la création
-3. ID du balayage
+<ResponseField name="url" type="">
+  L’URL du balayage.
 
-### <kbd>propriété</kbd> order
+  L’URL du balayage est générée à partir de l’entité, du projet, du terme
+  « balayages » et de l’ID du balayage.run&#95;id. Pour les
+  utilisateurs SaaS, elle se présente sous la forme
+  `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
+</ResponseField>
 
-Renvoie la clé d’ordre du balayage.
-
-### <kbd>propriété</kbd> path
-
-Renvoie le chemin du projet.
-
-Le chemin est une liste qui contient l’entité, le nom du projet et l’ID du balayage.
-
-### <kbd>propriété</kbd> url
-
-L’URL du balayage.
-
-L’URL du balayage est générée à partir de l’entité, du projet, du terme « sweeps » et de `ID du balayage.run_id`. Pour les utilisateurs SaaS, elle se présente sous la forme `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
-
-### <kbd>propriété</kbd> username
-
-Obsolète. Utilisez `Sweep.entity` à la place.
+<ResponseField name="username" type="str">
+  Obsolète. Utilisez plutôt `Sweep.entity`.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Sweep.agent()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.agent()
 
 ```python
 self,
@@ -104,9 +121,11 @@ Récupérer un agent à partir de son ID pour ce balayage.
   ##### Arguments
 </div>
 
-* `agent_id`: l’ID de l’agent à récupérer.
+<ResponseField name="agent_id" type="str">
+  l’ID de l’agent à récupérer.
+</ResponseField>
 
-### <kbd>méthode</kbd> Sweep.agents()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.agents()
 
 ```python
 self
@@ -114,21 +133,51 @@ self
 
 Récupérez la liste de tous les agents de ce balayage.
 
-### <kbd>méthode</kbd> Sweep.best_run()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.best_run()
 
 ```python
 (self, order=None)
 ```
 
-Retourne le meilleur run, trié selon la métrique définie dans la configuration ou l’ordre fourni.
+Renvoyer le meilleur run, trié selon la métrique définie dans la configuration ou l’ordre fourni.
 
 <div id="arguments">
   ##### Arguments
 </div>
 
-* `order`: 
+<ResponseField name="order" type="_empty">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>méthode</kbd> Sweep.get()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.enqueue_run()
+
+```python
+self,
+config: 'dict',
+display_name: 'str | None' = None
+```
+
+Mettre un run en file d&#39;attente pour le balayage.
+
+<div id="arguments">
+  ##### Arguments
+</div>
+
+<ResponseField name="config" type="dict">
+  La configuration de l’exécution.
+</ResponseField>
+
+<ResponseField name="display_name" type="str | None">
+  Le nom d’affichage facultatif de l’exécution.
+</ResponseField>
+
+<div id="raises">
+  ##### Exceptions levées
+</div>
+
+* `UnsupportedError` : Si le serveur ne prend pas en charge la mise en file d’attente de runs de balayage.
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.get()
 
 ```python
 (api: 'Api',
@@ -145,15 +194,35 @@ Exécute une requête sur le backend cloud.
   ##### Arguments
 </div>
 
-* `api`: L’instance d’API W&amp;B.
-* `entity`: L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
-* `project`: Le nom du projet depuis lequel récupérer le balayage.
-* `sid`: L’ID du balayage à interroger.
-* `order`: L’ordre dans lequel les runs du balayage sont renvoyés.
-* `query`: La requête à utiliser pour exécuter la requête.
-* `kwargs`: 
+<ResponseField name="api" type="Api">
+  L’instance de l’API W&amp;B.
+</ResponseField>
 
-### <kbd>méthode</kbd> Sweep.to_html()
+<ResponseField name="entity" type="str | None">
+  L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  Le nom du projet dont récupérer le balayage.
+</ResponseField>
+
+<ResponseField name="sid" type="str | None">
+  L’ID du balayage à interroger.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  L’ordre dans lequel les runs du balayage sont renvoyés.
+</ResponseField>
+
+<ResponseField name="query" type="str | None">
+  La requête à utiliser pour effectuer la requête.
+</ResponseField>
+
+<ResponseField name="kwargs" type="_empty">
+  Aucune description fournie.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Sweep.to_html()
 
 ```python
 self,
@@ -167,5 +236,10 @@ Génère du HTML contenant une iframe qui affiche ce balayage.
   ##### Arguments
 </div>
 
-* `height`:
-* `hidden`: 
+<ResponseField name="height" type="int">
+  Aucune description n’est fournie.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  Aucune description n’est fournie.
+</ResponseField>

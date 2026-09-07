@@ -17,6 +17,27 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 {/* Pour archiver une version, déplacez ses entrées <Update> (y compris les correctifs)
     de server-releases.mdx juste en dessous */}
 
+<Update label="v0.72.0" description="6 août 2025">
+  W&amp;B 0.72 inclut des correctifs pour les graphiques en courbes et les volets multimédias, ainsi que des améliorations des intégrations Weave pour OpenTelemetry et Google Agent Development Kit.
+
+  ## Assistance et fin de vie
+
+  * W&amp;B Server v0.58 est arrivé en fin de vie.
+
+  ## Modifications à venir
+
+  * Nous optimisons le comportement de rendu dans le Workspace afin d’accélérer le chargement des Workspaces comportant de nombreux volets et de rendre le glisser-déposer des volets plus réactif et plus précis. **Dans ce cadre, nous prévoyons de supprimer la mise en page « Custom grid » dans les sections de Workspace dans la prochaine version (0.73).** Les grilles personnalisées resteront disponibles dans Reports. Contactez votre équipe W&amp;B ou [l’assistance](mailto:support@wandb.ai) pour toute question ou préoccupation.
+  * Dans une prochaine version, nous alignerons les vues Workspace multi-run et à run unique afin que, lorsque vous explorez un run unique, vous voyiez la même mise en page et la même configuration des volets que celles configurées pour la vue multi-run, y compris les graphiques personnalisés, les mises en page et les paramètres. L’objectif est de vous aider à conserver le contexte et à éviter de devoir reconfigurer vos vues. Toutefois, cela supprimera la possibilité de personnaliser des vues à run unique distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou [l’assistance](mailto:support@wandb.ai) pour toute question concernant la migration.
+  * Au cours des prochaines versions, nous continuerons à migrer les Model Registry existants au niveau des équipes vers W&amp;B Registry.
+
+  ## Correctifs
+
+  * Annulation de la modification du comportement des graphiques en courbes annoncée dans la version 0.71.0. Les graphiques en courbes n’ayant qu’un point pour chaque ligne seront convertis en graphiques à barres même si les paramètres sont modifiés.
+  * Correction d’un bug qui pouvait entraîner l’affichage des boîtes englobantes en dehors du média dans un volet multimédia, au lieu de les superposer au média.
+  * Correction d’un bug selon lequel l’intégration Google Agent Development Kit ne prenait pas en charge Weave Threads.
+  * Correction d’un bug selon lequel la colonne **Attributes** était absente des traces Weave soumises via OpenTelemetry.
+</Update>
+
 <Update label="v0.71.0" description="29 juillet 2025">
   Avec W&amp;B Server 0.71, Registry est activé par défaut pour toutes les organisations. Pour en savoir plus sur le déploiement progressif de Registry, voir la note correspondante dans Fonctionnalités. Cette version apporte plusieurs améliorations et correctifs aux workspaces : gardez les panneaux multimédias synchronisés grâce à un curseur d’étapes commun, naviguez plus efficacement entre les panneaux en plein écran et consultez davantage de détails sur la durée totale d’un run et son temps d’exécution effectif dans la page Run Overview. Les automatisations ont été enrichies : vous pouvez désormais déclencher une automatisation basée sur les tags d’une version d’artifact. {/* more */}
 

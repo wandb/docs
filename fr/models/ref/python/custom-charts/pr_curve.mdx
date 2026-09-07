@@ -6,9 +6,13 @@ namespace: wandb.plot.pr_curve
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py#L19" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py#L19" />
 
-## <kbd>fonction</kbd> wandb.plot.pr_curve
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.pr_curve()
+
+Construit une courbe précision-rappel (PR).
+
+La courbe précision-rappel est particulièrement utile pour évaluer des classificateurs sur des jeux de données déséquilibrés. Une aire élevée sous la courbe PR indique à la fois une précision élevée (un faible taux de faux positifs) et un rappel élevé (un faible taux de faux négatifs). La courbe donne des indications sur l’équilibre entre faux positifs et faux négatifs à différents seuils, ce qui aide à évaluer les performances d’un modèle.
 
 ```python
 y_true: 'Iterable[T] | None' = None,
@@ -20,21 +24,37 @@ title: 'str' = 'Precision-Recall Curve',
 split_table: 'bool' = False
 ```
 
-Construit une courbe précision-rappel (PR).
-
-La courbe précision-rappel est particulièrement utile pour évaluer des classificateurs sur des jeux de données déséquilibrés. Une aire élevée sous la courbe PR indique à la fois une précision élevée (un faible taux de faux positifs) et un rappel élevé (un faible taux de faux négatifs). La courbe donne des indications sur l’équilibre entre faux positifs et faux négatifs à différents seuils, ce qui aide à évaluer les performances d’un modèle.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `y_true`: Vraies étiquettes binaires. La forme doit être (`num_samples`,).
-* `y_probas`: Scores ou probabilités prédits pour chaque classe. Ces valeurs peuvent être des estimations de probabilité, des scores de confiance ou des valeurs de décision sans seuillage. La forme doit être (`num_samples`, `num_classes`).
-* `labels`: Liste facultative de noms de classes pour remplacer les valeurs numériques dans `y_true` afin de faciliter l’interprétation du graphique. Par exemple, `labels = ['dog', 'cat', 'owl']` remplacera 0 par &#39;dog&#39;, 1 par &#39;cat&#39; et 2 par &#39;owl&#39; dans le graphique. Si elle n’est pas fournie, les valeurs numériques de `y_true` seront utilisées.
-* `classes_to_plot`: Liste facultative de valeurs de classe uniques de y&#95;true à inclure dans le graphique. Si elle n’est pas spécifiée, toutes les classes uniques de y&#95;true seront représentées.
-* `interp_size`: Nombre de points servant à interpoler les valeurs de rappel. Les valeurs de rappel seront fixées à `interp_size` points uniformément répartis dans l’intervalle [0, 1], et la précision sera interpolée en conséquence.
-* `title`: Titre du graphique. La valeur par défaut est &quot;Courbe précision-rappel&quot;.
-* `split_table`: Indique si le tableau doit être séparé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+<ResponseField name="y_true" type="Iterable[T] | None">
+  Étiquettes binaires réelles. La forme doit être (`num_samples`,).
+</ResponseField>
+
+<ResponseField name="y_probas" type="Iterable[numbers.Number] | None">
+  Scores ou probabilités prédits pour chaque classe. Il peut s&#39;agir d&#39;estimations de probabilité, de scores de confiance ou de valeurs de décision sans application de seuil. La forme doit être (`num_samples`, `num_classes`).
+</ResponseField>
+
+<ResponseField name="labels" type="list[str] | None">
+  Liste facultative de noms de classes permettant de remplacer les valeurs numériques de `y_true` afin de faciliter l&#39;interprétation du graphique. Par exemple, `labels = ['dog', 'cat', 'owl']` remplacera 0 par « dog », 1 par « cat » et 2 par « owl » dans le graphique. Si elle n&#39;est pas fournie, les valeurs numériques de `y_true` seront utilisées.
+</ResponseField>
+
+<ResponseField name="classes_to_plot" type="list[T] | None">
+  Liste facultative de valeurs de classe uniques issues de `y_true` à inclure dans le graphique. Si elle n&#39;est pas spécifiée, toutes les classes uniques de `y_true` seront représentées.
+</ResponseField>
+
+<ResponseField name="interp_size" type="int">
+  Nombre de points auxquels interpoler les valeurs de rappel. Les valeurs de rappel seront fixées à `interp_size` points uniformément répartis dans l&#39;intervalle &#91;0, 1&#93;, et la précision sera interpolée en conséquence.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Titre du graphique. La valeur par défaut est « Precision-Recall Curve ».
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
+</ResponseField>
 
 <div id="returns">
   ## Renvoie

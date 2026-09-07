@@ -15,10 +15,72 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
 
 <EolReminder />
 
+<Update label="v0.84.0" description="25 août 2026">
+  W&amp;B Server 0.84 simplifie la gestion des clés API pour les organisations et les Teams, avec une administration centralisée et une suppression groupée. Weave ajoute le rendu en ligne depuis un stockage BYOB, des vues Agents et Signals repensées, et bien plus encore. Pour compléter cette version : des lignes de référence configurables sur les nuages de points, les identités de charge de travail Azure pour le stockage BYOB en préversion, et un chargement plus rapide des panels de requête pour les runs comportant de nombreuses métriques éparses.
+
+  ## Assistance et fin de vie
+
+  * W&amp;B Server v0.72 est arrivé en fin de vie.
+
+  ## Fonctionnalités
+
+  * Les graphiques en courbes utilisent désormais une échelle unique pour toutes les exécutions d’un même graphique. Lorsque vous survolez une exécution, la même valeur sur l’axe X s’affiche pour toutes les exécutions ayant enregistré la métrique à la même étape :
+    * Lorsque les runs journalisent à la même cadence, le survol affiche une valeur cohérente sur l’axe X.
+    * Lorsque des runs, comme les runs distribués, ont des cadences de journalisation différentes, ils peuvent afficher des valeurs X différentes, car leurs points enregistrés les plus proches diffèrent réellement. La comparaison reste pertinente, car les valeurs proviennent toujours des mêmes limites de bucket.
+  * Personnalisez l’affichage des données en fidélité totale dans vos graphiques en courbes en spécifiant le mode du panneau dans l’onglet des paramètres **Données** d’un espace de travail, d’une section ou d’un panneau.
+
+    * Le **mode Band** affiche la plage de valeurs dans les zones denses afin de vous aider à comprendre la variance et les valeurs aberrantes à grande échelle.
+    * Le **mode Line** est désormais disponible en disponibilité générale et affiche directement la trace en fidélité totale afin de préserver la forme brute de l’historique de votre run.
+
+    <Frame>![Animation montrant un graphique en modes Band et Line](/images/release-notes/v0-84-0/chart-line-mode.gif)</Frame>
+  * Ajoutez des lignes de référence aux nuages de points pour mettre en évidence des seuils, des références ou des valeurs cibles importants sur vos graphiques. Configurez jusqu’à cinq lignes aux couleurs personnalisables dans l’onglet **Lignes de référence** des paramètres d’un graphique.
+    <Frame>![Deux nuages de points avec des lignes de référence](/images/release-notes/v0-84-0/scatter-plot-reference-lines.png)</Frame>
+  * Gestion améliorée des clés API pour les organisations et les équipes :
+    * Depuis l’onglet **API Keys** du **tableau de bord de l’organisation**, les administrateurs peuvent désormais modifier ou supprimer n’importe quelle clé API de l’organisation.
+    * Depuis le **tableau de bord de l’organisation** ou les **paramètres** de l’équipe, les administrateurs peuvent désormais supprimer en masse les clés API qu’ils sont autorisés à gérer.
+  * [Identités de charge de travail Azure](/fr/platform/hosting/data-security/secure-storage-connector#provision-your-bucket) pour le stockage BYOB en préversion. Pour les tester, mettez à niveau le chart Helm de l’opérateur vers la [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0) avant de mettre à niveau W&amp;B.
+  * Ajout de la prise en charge des requêtes filestream avec Content-Encoding : gzip.
+  * Un projet W&amp;B avec des données Weave affiche désormais les traces et évaluations actives sur la page d’aperçu du projet.
+
+  ### Weave
+
+  * Weave résout désormais les références de stockage BYOB (`s3://`, `gs://`, `gcs://` et `az://` ) en URL signées à durée de validité limitée, ce qui apporte plusieurs améliorations :
+    * Améliore la rentabilité et la confidentialité des données en supprimant la nécessité d’ingérer des médias distants dans Weave.
+    * Les médias s’affichent désormais directement dans le texte des messages de chat, le volet de détails de comparaison des évaluations, la grille de comparaison des traces et les vues personnalisées raw-call. Les grilles denses, comme les cellules de comparaison des évaluations et de dataset, affichent à la place un lien de téléchargement signé compact.
+    * Les références Audio s’affichent avec le lecteur de forme d’onde intégré.
+    * Les traces et les spans d’agent affichent et visualisent désormais les médias référencés.
+  * Les [vues d’agent](/fr/weave/guides/tracking/view-agent-activity) prennent désormais en charge la recherche et le filtrage. Spécifiez plusieurs filtres `OR` sur un même champ pour les expressions `OR`, ou des filtres sur différents champs pour les expressions `AND`. Vous pouvez également faire glisser les colonnes pour les redimensionner.
+  * Amélioration de l’affichage des détails des conversations dans la vue Agent, avec une chronologie compacte des tours de conversation tenant compte de leur durée et une mise en page plus pratique. Les erreurs s’affichent désormais directement dans la conversation, les conversations renvoient directement au span correspondant dans la vue de trace et les tours de conversation évalués incluent désormais des points pour chaque tour.
+  * [La gestion des tags de signal](/fr/weave/guides/tracking/view-agent-signals#tags-presets) est plus rapide et plus claire.
+    * Créez un signal directement à partir de la description du tag, sans définir de prompt système, de schéma de sortie ni d’autres détails. Les modifications sont enregistrées automatiquement.
+    * Chaque badge simplifié intègre un contrôle de suppression. Survolez un badge pour afficher, dans une infobulle, les détails sur la provenance du tag.
+    * Les sections inutiles sont masquées lorsqu’aucun tag n’est appliqué, afin de préserver la clarté de votre espace de travail.
+  * Lors de la création ou de la modification d’un signal, le sélecteur **Inference provider** affiche désormais une entrée par modèle pour chaque fournisseur tiers.
+  * Les signaux sont désormais liés aux conversations parentes, et les spans renvoient vers leurs évaluations parentes.
+  * Dans le tableau de comparaison des évaluations, les cellules contenant une liste de nombres s’affichent désormais sous forme d’histogrammes par défaut. Utilisez la barre d’outils de la cellule pour modifier le mode d’affichage : **Histogram**, **Bar Chart**, **Text** ou **Code**. Cliquez sur une cellule pour ouvrir un graphique plus grand avec des statistiques récapitulatives.
+  * Le mode d’affichage que vous choisissez pour une cellule de type chaîne (***Text**, **Code** ou **Markdown**) s’applique désormais à toutes les cellules de type chaîne de cette colonne, et non plus uniquement à celle sur laquelle vous avez cliqué. Les cellules conservent leurs valeurs par défaut automatiques, telles que **Code** pour JSON, jusqu’à ce que vous sélectionniez explicitement un mode.
+  * Les fournisseurs personnalisés ont été renommés en [environnements d’exécution personnalisés](/fr/weave/guides/tools/custom-runtimes), avec une interface utilisateur enrichie. Vous pouvez modifier ou supprimer des environnements d’exécution personnalisés à mesure que vos expériences évoluent.
+  * Lorsque Weave indique si un fournisseur d’inférence est configuré, les secrets définis au niveau de l’utilisateur sont désormais pris en compte, en plus des secrets d’équipe. Un fournisseur configuré avec votre propre clé apparaît désormais comme disponible dans la liste déroulante des modèles de **Playground**, l’onglet **Providers** et l’inférence **Agents**.
+  * Pour une sécurité renforcée, la liste d’hôtes autorisés pour les scorers distants du worker de scoring Weave accepte désormais les motifs avec suffixe générique. Définissez la variable d’environnement `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` sur une liste de motifs séparés par des virgules :
+    * Une entrée telle que `*.corp.example.com` correspond aux sous-domaines, quel que soit leur niveau de profondeur, mais pas au domaine racine : `a.corp.example.com` et `a.b.corp.example.com` correspondent donc, contrairement à `corp.example.com`.
+    * Pour des raisons de sécurité, un caractère générique doit couvrir au moins deux libellés DNS ; les modèles tels que `*.com` et `*.internal` sont donc rejetés.
+
+  ## Améliorations des performances
+
+  * Amélioration des performances de chargement des panneaux de requête pour les runs comportant un grand nombre de métriques éparses.
+  * Les workers de scoring Weave adaptent désormais leur concurrence par projet lors des appels aux points de terminaison d’inférence, réduisant ainsi les erreurs de dépassement de limite de débit pour les organisations disposant de quotas fournisseur moins élevés.
+
+  ## Correctifs
+
+  * Lors de l’importation de panels dans un report, le nom complet du panel s’affiche désormais systématiquement, au lieu de s’afficher uniquement au survol.
+  * L’opérateur `NOT` n’est plus proposé dans l’onglet **Signals** de Weave, où il n’était pas pris en charge.
+  * Correction d’un symbole « différent de » redondant dans une puce de filtre d’un tableau de bord Weave.
+</Update>
+
 <Update label="v0.83.2" description="6 août 2026">
   ## Sécurité
 
-  * Correction d’un bug de sécurité critique susceptible de permettre une utilisation abusive des points de terminaison d’API Weave.
+  * Correctif d’un bug de sécurité critique susceptible de permettre une utilisation abusive des points de terminaison d’API Weave.
 
   ## Améliorations des performances
 
@@ -27,10 +89,10 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   ## Correctifs
 
   * Le tableau **Users** de l’équipe comporte désormais une colonne **statut** qui indique si chaque membre de l’équipe est actif, a une invitation en attente ou possède un compte qu’un administrateur de l’organisation a désactivé. Voir [Ajouter et gérer des équipes](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams).
-  * Correction d’un bug où une métrique enregistrée pour la première fois à une étape antérieure à la dernière étape enregistrée du run était omise des métriques du run et des exportations ultérieures de l’historique, ce qui pouvait bloquer le nettoyage de l’historique en direct pour les runs concernés. Les exportations existantes ne sont pas retraitées.
-  * Correction d’un bug où une requête de journalisation de run suffisamment volumineuse pour être répartie sur plusieurs écritures pouvait signaler une réussite alors qu’une partie des données n’était jamais stockée.
-  * Correction d’un bug où les tags de version du registre pouvaient être écrasés dans l’index de recherche lorsqu’une seule opération de mise à jour d’artefact tente à la fois d’ajouter et de supprimer des tags.
-  * Correction d’un bug susceptible de forcer les purges du registre à être synchrones.
+  * Correctif d’un bug où une métrique enregistrée pour la première fois à une étape antérieure à la dernière étape enregistrée du run était omise des métriques du run et des exportations ultérieures de l’historique, ce qui pouvait bloquer le nettoyage de l’historique en direct pour les runs concernés. Les exportations existantes ne sont pas retraitées.
+  * Correctif d’un bug où une requête de journalisation de run suffisamment volumineuse pour être répartie sur plusieurs écritures pouvait signaler une réussite alors qu’une partie des données n’était jamais stockée.
+  * Correctif d’un bug où les tags de version du registre pouvaient être écrasés dans l’index de recherche lorsqu’une seule opération de mise à jour d’artifact tente à la fois d’ajouter et de supprimer des tags.
+  * Correctif d’un bug susceptible de forcer les purges du registre à être synchrones.
 </Update>
 
 <Update label="v0.83.1" description="28 juillet 2026">
@@ -1047,25 +1109,4 @@ Cette page inclut les notes de version des versions du serveur W&amp;B prises en
   ## Autres modifications
 
   * La mise en page en grille personnalisée a été supprimée des Workspaces W&amp;B à partir de la version Server v0.73.0. Auparavant, elle vous permettait d’ajuster la taille de panneaux individuels au sein d’une section. Désormais, le redimensionnement d’un panneau dans une section de Workspace redimensionne tous les panneaux de cette section, que vous configuriez le Workspace à l’aide de la [W&amp;B App](/fr/models/app/features/panels/#manage-a-sections-panels) ou de la [Workspace API](/fr/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings). La mise en page en grille personnalisée reste disponible dans les [W&amp;B Reports](/fr/models/reports) et la [Reports API](/fr/models/ref/wandb_workspaces/reports).
-</Update>
-
-<Update label="v0.72.0" description="6 août 2025">
-  W&amp;B 0.72 inclut des correctifs pour les graphiques en courbes et les panneaux multimédias, ainsi que des améliorations des intégrations Weave pour OpenTelemetry et Google Agent Development Kit.
-
-  ## Assistance et fin de vie
-
-  * W&amp;B Server v0.58 est arrivé en fin de vie.
-
-  ## Changements à venir
-
-  * Nous optimisons le rendu dans le Workspace afin d’accélérer le chargement des Workspaces comportant de nombreux panneaux, ainsi que le glisser-déposer des panneaux pour le rendre plus réactif et plus précis. **Dans ce cadre, nous prévoyons de supprimer la mise en page « grille personnalisée » dans les sections de Workspace dans la prochaine version (0.73).** Les grilles personnalisées resteront disponibles dans Reports. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question ou préoccupation.
-  * Dans une prochaine version, nous alignerons les vues Workspace multi-run et single-run, afin que, lorsque vous ouvrez un single run, vous voyiez la même mise en page et la même configuration de panneaux que celles définies pour la vue multi-run, y compris les graphiques personnalisés, mises en page et paramètres. L’objectif est de vous aider à rester dans le contexte et à éviter d’avoir à reconfigurer vos vues. En revanche, cela supprimera la possibilité de personnaliser des vues single-run distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question concernant la migration.
-  * Au cours des prochaines versions, nous poursuivrons la migration du registre de modèles existant au niveau de l’équipe vers W&amp;B Registry.
-
-  ## Correctifs
-
-  * Annulation du changement de comportement des graphiques en courbes annoncé dans la version 0.71.0. Les graphiques en courbes avec seulement 1 point sur chaque ligne seront convertis en histogrammes, même si les paramètres sont modifiés.
-  * Correction d’un bug pouvant entraîner l’affichage des boîtes englobantes en dehors du média dans un panneau multimédia, au lieu de les superposer au média.
-  * Correction d’un bug où l’intégration Google Agent Development Kit ne prenait pas en charge les threads Weave.
-  * Correction d’un bug où la colonne **Attributes** était absente des traces Weave soumises via OpenTelemetry.
 </Update>

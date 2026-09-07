@@ -6,9 +6,11 @@ namespace: wandb.plot.bar
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py#L12" />
 
-## <kbd>関数</kbd> wandb.plot.bar
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.bar()
+
+wandb.Table のデータから棒グラフを作成します。
 
 ```python
 table: 'wandb.Table',
@@ -18,17 +20,29 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-wandb.Table のデータから棒グラフを作成します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `table`: 棒グラフ用のデータを含む表。
-* `label`: 各棒のラベルに使用する列名。
-* `value`: 各棒の値に使用する列名。
-* `title`: 棒グラフのタイトル。
-* `split_table`: 表を W&amp;B UI の別セクションに分けて表示するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="table" type="wandb.Table">
+  棒グラフ用のデータを含む表。
+</ResponseField>
+
+<ResponseField name="label" type="str">
+  各棒のラベルに使用する列名。
+</ResponseField>
+
+<ResponseField name="value" type="str">
+  各棒の値に使用する列名。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  棒グラフのタイトル。
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別セクションに分けて表示するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

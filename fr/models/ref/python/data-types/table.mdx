@@ -6,9 +6,19 @@ namespace: wandb.sdk.data_types.table
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
-## <kbd>classe</kbd> wandb.Table
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Table
+
+La classe Table permet d’afficher et d’analyser des données tabulaires.
+
+Contrairement aux feuilles de calcul traditionnelles, les Tables prennent en charge de nombreux types de données :
+des valeurs scalaires, des chaînes de caractères, des tableaux NumPy et la plupart des sous-classes de `wandb.data_types.Media`.
+Cela signifie que vous pouvez intégrer `Images`, `Video`, `Audio` et d’autres types de médias enrichis et annotés
+directement dans les Tables, aux côtés d’autres valeurs scalaires plus classiques.
+
+Cette classe est la classe principale utilisée pour générer des W&amp;B Tables
+[https://docs.wandb.ai/models/tables](https://docs.wandb.ai/models/tables)
 
 ```python
 columns: 'list[ColumnKey] | None' = None,
@@ -21,26 +31,30 @@ allow_mixed_types: 'bool' = False,
 log_mode: 'LogMode | None' = 'IMMUTABLE'
 ```
 
-La classe Table permet d’afficher et d’analyser des données tabulaires.
-
-Contrairement aux feuilles de calcul traditionnelles, les Tables prennent en charge de nombreux types de données :
-des valeurs scalaires, des chaînes de caractères, des tableaux NumPy et la plupart des sous-classes de `wandb.data_types.Media`.
-Cela signifie que vous pouvez intégrer `Images`, `Video`, `Audio` et d’autres types de médias enrichis et annotés
-directement dans les Tables, aux côtés d’autres valeurs scalaires plus classiques.
-
-Cette classe est la classe principale utilisée pour générer des W&amp;B Tables
-[https://docs.wandb.ai/models/tables](https://docs.wandb.ai/models/tables)
-
 <div id="args">
   ## Arguments
 </div>
 
-* `columns`: Noms des colonnes du tableau. Valeurs par défaut : [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;].
-* `data`: Tableau 2D de valeurs orienté par lignes, tableau NumPy ou DataFrame pandas.
-* `rows`: Tableau 2D de valeurs orienté par lignes.
-* `dataframe`: Objet DataFrame utilisé pour créer le tableau. Lorsqu&#39;il est défini, les arguments `data` et `columns` sont ignorés.
-* `dtype`: Type attendu pour les valeurs des colonnes, utilisé pour valider les
+<ResponseField name="columns" type="list[ColumnKey] | None">
+  Noms des colonnes du tableau. Valeurs par défaut : &#91;&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;&#93;.
+</ResponseField>
+
+<ResponseField name="data" type="list[InputRow] | np.ndarray | pd.DataFrame | None">
+  Tableau 2D de valeurs orienté par lignes, tableau NumPy ou DataFrame pandas.
+</ResponseField>
+
+<ResponseField name="rows" type="list[InputRow] | None">
+  Tableau 2D de valeurs orienté par lignes.
+</ResponseField>
+
+<ResponseField name="dataframe" type="pd.DataFrame | None">
+  Objet DataFrame utilisé pour créer le tableau. Lorsqu&#39;il est défini, les arguments `data` et `columns` sont ignorés.
+</ResponseField>
+
+<ResponseField name="dtype" type="Any">
+  Type attendu pour les valeurs des colonnes, utilisé pour valider les
   données. S&#39;il n&#39;est pas défini, les types sont déduits à partir des données. Il peut s&#39;agir de :
+
   * un type unique
     * un type intégré Python tel que `int`, `str`, `bool`, list, dict ou
       datetime.
@@ -48,24 +62,36 @@ Cette classe est la classe principale utilisée pour générer des W&amp;B Table
     * une valeur constante
   * une liste de l&#39;un des éléments ci-dessus pour attribuer un type différent à chaque
     colonne (doit avoir la même longueur que `columns`)
-* `optional`: Détermine si les valeurs `None` sont autorisées. Valeur par défaut : True.
+</ResponseField>
+
+<ResponseField name="optional" type="bool | list[bool]">
+  Détermine si les valeurs `None` sont autorisées. Valeur par défaut : True.
+
   * S&#39;il s&#39;agit d&#39;une valeur booléenne unique, le caractère facultatif est appliqué à toutes les
     colonnes spécifiées lors de la création
   * S&#39;il s&#39;agit d&#39;une liste de valeurs booléennes, le caractère facultatif est appliqué à chaque
     colonne ; la liste doit avoir la même longueur que `columns`
     s&#39;applique à toutes les colonnes. Une liste de valeurs booléennes s&#39;applique à chaque colonne correspondante.
-* `allow_mixed_types`: Détermine si les colonnes peuvent contenir des types mixtes (désactive la validation de type). Valeur par défaut : False
-* `log_mode`: Contrôle la façon dont la Table est enregistrée lorsque des modifications surviennent.
+</ResponseField>
+
+<ResponseField name="allow_mixed_types" type="bool">
+  Détermine si les colonnes peuvent contenir des types mixtes (désactive la validation de type). Valeur par défaut : False
+</ResponseField>
+
+<ResponseField name="log_mode" type="LogMode | None">
+  Contrôle la façon dont la Table est enregistrée lorsque des modifications surviennent.
   Options :
+
   * &quot;IMMUTABLE&quot; (par défaut) : la Table ne peut être enregistrée qu&#39;une seule fois ; les tentatives d&#39;enregistrement suivantes après modification du tableau seront sans effet.
   * &quot;MUTABLE&quot; : la Table peut être enregistrée à nouveau après des modifications, créant une nouvelle version d&#39;artifact à chaque enregistrement.
   * &quot;INCREMENTAL&quot; : les données de la Table sont enregistrées de façon incrémentielle, chaque enregistrement créant une nouvelle entrée d&#39;artifact contenant les nouvelles données depuis le dernier enregistrement.
+</ResponseField>
 
 <div id="methods">
   ## Méthodes
 </div>
 
-### <kbd>méthode</kbd> Table.add_column()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_column()
 
 ```python
 self,
@@ -80,11 +106,19 @@ Ajoute une colonne de données au tableau.
   ##### Arguments
 </div>
 
-* `name`: Le nom unique de la colonne.
-* `data`: Une colonne de données homogènes.
-* `optional`: Si les valeurs nulles sont autorisées.
+<ResponseField name="name" type="str">
+  Le nom unique de la colonne.
+</ResponseField>
 
-### <kbd>méthode</kbd> Table.add_computed_columns()
+<ResponseField name="data" type="list[Any] | np.ndarray">
+  Une colonne de données homogènes.
+</ResponseField>
+
+<ResponseField name="optional" type="bool">
+  Indique si les valeurs nulles sont autorisées.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_computed_columns()
 
 ```python
 self,
@@ -97,7 +131,9 @@ Ajoute une ou plusieurs colonnes calculées à partir des données existantes.
   ##### Arguments
 </div>
 
-* `fn`: fonction qui accepte un index et le dictionnaire d’une ligne, et qui renvoie un dictionnaire représentant les nouvelles colonnes de cette ligne, avec pour clés les noms des nouvelles colonnes.
+<ResponseField name="fn" type="Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]">
+  fonction qui accepte un index et le dictionnaire d’une ligne, et qui renvoie un dictionnaire représentant les nouvelles colonnes de cette ligne, avec pour clés les noms des nouvelles colonnes.
+</ResponseField>
 
 <div id="examples">
   ##### Exemples
@@ -115,7 +151,7 @@ table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
 table.add_computed_columns(lambda ndx, row: {"diff": row["x"] - row["y"]})
 ```
 
-### <kbd>méthode</kbd> Table.add_data()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_data()
 
 ```python
 self, *data: 'Any'
@@ -132,9 +168,11 @@ Le nombre d’éléments des données doit correspondre au nombre de colonnes du
   ##### Arguments
 </div>
 
-* `data`: 
+<ResponseField name="data" type="Any">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>méthode</kbd> Table.add_row()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_row()
 
 ```python
 self, *row: 'Any'
@@ -146,9 +184,11 @@ Obsolète. Utilisez plutôt la méthode `Table.add_data`.
   ##### Arguments
 </div>
 
-* `row`: 
+<ResponseField name="row" type="Any">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>méthode</kbd> Table.cast()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.cast()
 
 ```python
 self,
@@ -167,11 +207,19 @@ wandb.Classes.
   ##### Arguments
 </div>
 
-* `col_name`: Le nom de la colonne à convertir.
-* `dtype`: Le type cible.
-* `optional`: Indique si la colonne doit accepter des valeurs None.
+<ResponseField name="col_name" type="ColumnKey">
+  Le nom de la colonne à convertir.
+</ResponseField>
 
-### <kbd>méthode</kbd> Table.get_column()
+<ResponseField name="dtype" type="Any">
+  Le dtype cible.
+</ResponseField>
+
+<ResponseField name="optional" type="bool">
+  Indique si la colonne peut contenir des valeurs None.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_column()
 
 ```python
 self,
@@ -185,10 +233,15 @@ Récupère une colonne du tableau et, éventuellement, la convertit en objet Num
   ##### Arguments
 </div>
 
-* `name`: Le nom de la colonne.
-* `convert_to`: « numpy » convertit les données sous-jacentes en un objet NumPy.
+<ResponseField name="name" type="ColumnKey">
+  Le nom de la colonne.
+</ResponseField>
 
-### <kbd>méthode</kbd> Table.get_dataframe()
+<ResponseField name="convert_to" type="Literal['numpy'] | None">
+  « numpy » convertit les données sous-jacentes en un objet NumPy.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_dataframe()
 
 ```python
 self
@@ -196,7 +249,7 @@ self
 
 Renvoie un `pandas.DataFrame` contenant le tableau.
 
-### <kbd>méthode</kbd> Table.get_index()
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_index()
 
 ```python
 (self)

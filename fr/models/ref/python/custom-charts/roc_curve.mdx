@@ -6,9 +6,11 @@ namespace: wandb.plot.roc_curve
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py#L16" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py#L16" />
 
-## <kbd>fonction</kbd> wandb.plot.roc_curve
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.roc_curve()
+
+Construit un graphique de courbe ROC (Receiver Operating Characteristic).
 
 ```python
 y_true: 'Sequence[numbers.Number]',
@@ -19,18 +21,33 @@ title: 'str' = 'ROC Curve',
 split_table: 'bool' = False
 ```
 
-Construit un graphique de courbe ROC (Receiver Operating Characteristic).
-
 <div id="args">
   ## Arguments
 </div>
 
-* `y_true` : Les véritables étiquettes de classe (vérité de terrain) pour la variable cible. La forme doit être (num&#95;samples,).
-* `y_probas` : Les probabilités prédites ou les scores de décision pour chaque classe. La forme doit être (num&#95;samples, num&#95;classes).
-* `labels` : Des libellés lisibles par l’humain correspondant aux indices de classe dans `y_true`. Par exemple, si `labels=['dog', 'cat']`, la classe 0 s’affichera comme &#39;dog&#39; et la classe 1 comme &#39;cat&#39; dans le graphique. Si None, les indices de classe bruts de `y_true` seront utilisés. La valeur par défaut est None.
-* `classes_to_plot` : Un sous-ensemble d’étiquettes de classe uniques à inclure dans la courbe ROC. Si None, toutes les classes de `y_true` seront tracées. La valeur par défaut est None.
-* `title` : Le titre du graphique de courbe ROC. La valeur par défaut est &quot;ROC Curve&quot;.
-* `split_table` : Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+<ResponseField name="y_true" type="Sequence[numbers.Number]">
+  Les véritables étiquettes de classe (vérité de terrain) pour la variable cible. La forme doit être (num&#95;samples,).
+</ResponseField>
+
+<ResponseField name="y_probas" type="Sequence[Sequence[float]] | None">
+  Les probabilités prédites ou les scores de décision pour chaque classe. La forme doit être (num&#95;samples, num&#95;classes).
+</ResponseField>
+
+<ResponseField name="labels" type="list[str] | None">
+  Des libellés lisibles par l’humain correspondant aux indices de classe dans `y_true`. Par exemple, si `labels=['dog', 'cat']`, la classe 0 s’affichera comme &#39;dog&#39; et la classe 1 comme &#39;cat&#39; dans le graphique. Si None, les indices de classe bruts de `y_true` seront utilisés. La valeur par défaut est None.
+</ResponseField>
+
+<ResponseField name="classes_to_plot" type="list[numbers.Number] | None">
+  Un sous-ensemble d’étiquettes de classe uniques à inclure dans la courbe ROC. Si None, toutes les classes de `y_true` seront tracées. La valeur par défaut est None.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Le titre du graphique de courbe ROC. La valeur par défaut est &quot;ROC Curve&quot;.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

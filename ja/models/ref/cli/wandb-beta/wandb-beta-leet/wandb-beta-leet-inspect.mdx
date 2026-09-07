@@ -1,0 +1,44 @@
+---
+title: wandb beta leet inspect
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/v0.29.0/wandb/cli/leet.py#L113" />
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+inspect [OPTIONS] [PATH]
+```
+
+<div id="description">
+  ## 説明
+</div>
+
+run の .wandb トランザクションログに含まれる生のレコードを参照します。
+
+ログに保存されているレコードを一覧表示し、選択したレコードを横にテキストビューで表示します。stdout がターミナルでない場合は、代わりにレコードをテキストとして出力します。例:
+
+wandb leet inspect run.wandb | less
+
+PATH には .wandb file、.wandb file を含む run ディレクトリ、または
+wandb ディレクトリを指定できます。PATH を指定しない場合は、最新の run が使用されます。
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 名      | デフォルト | タイプ   |
+| ------ | ----- | ----- |
+| `path` | STR   | False |
+
+<div id="options">
+  ## オプション
+</div>
+
+| フラグ          | タイプ      | 説明                                 |
+| ------------ | -------- | ---------------------------------- |
+| `-h, --help` | BOOL フラグ | このメッセージを表示して終了します。**デフォルト**: False |

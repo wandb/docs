@@ -6,9 +6,11 @@ namespace: wandb.plot.scatter
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py#L12" />
 
-## <kbd>fonction</kbd> wandb.plot.scatter
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.scatter()
+
+Construit un nuage de points à partir d’un wandb.Table de données.
 
 ```python
 table: 'wandb.Table',
@@ -18,17 +20,29 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-Construit un nuage de points à partir d’un wandb.Table de données.
-
 <div id="args">
   ## Arguments
 </div>
 
-* `table` : Le tableau W&amp;B contenant les données à visualiser.
-* `x` : Le nom de la colonne utilisée pour l’axe des x.
-* `y` : Le nom de la colonne utilisée pour l’axe des y.
-* `title` : Le titre du nuage de points.
-* `split_table` : Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section intitulée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+<ResponseField name="table" type="wandb.Table">
+  Le tableau W&amp;B contenant les données à visualiser.
+</ResponseField>
+
+<ResponseField name="x" type="str">
+  Le nom de la colonne utilisée pour l’axe des x.
+</ResponseField>
+
+<ResponseField name="y" type="str">
+  Le nom de la colonne utilisée pour l’axe des y.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  Le titre du nuage de points.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section intitulée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+</ResponseField>
 
 <div id="returns">
   ## Retourne

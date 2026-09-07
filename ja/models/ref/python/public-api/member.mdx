@@ -6,9 +6,11 @@ namespace: wandb.apis.public.teams
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
-## <kbd>クラス</kbd> wandb.apis.public.Member
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Member
+
+チームのメンバー。
 
 ```python
 (service_api: 'ServiceApi',
@@ -16,21 +18,27 @@ team: 'str',
 attrs: 'Mapping[str, Any]')
 ```
 
-チームのメンバー。
-
 <div id="args">
   ## 引数
 </div>
 
-* `service_api`: W&amp;B をクエリするために使用するサービス API のインスタンス
-* `team`: このメンバーが所属するチームの名
-* `attrs`: メンバーの属性
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B のクエリに使用するサービス API インスタンス。
+</ResponseField>
+
+<ResponseField name="team" type="str">
+  このメンバーが所属するチーム名
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  メンバーの属性
+</ResponseField>
 
 <div id="methods">
   ## メソッド
 </div>
 
-### <kbd>method</kbd> Member.delete()
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Member.delete()
 
 ```python
 (self)

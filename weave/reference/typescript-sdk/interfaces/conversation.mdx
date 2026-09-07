@@ -3,10 +3,12 @@ title: "Conversation"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72" />
+
 A Conversation groups Turns under a single `gen_ai.conversation.id`. It is
 not itself an OTel span — children stamp the conversation id onto theirs.
-
-Defined in: [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L72)
 
 ## Accessors
 
@@ -15,8 +17,6 @@ Defined in: [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/8
 #### Get Signature
 
 > **get** **agentName**(): `string`
-
-Defined in: [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
 
 ##### Returns
 
@@ -30,8 +30,6 @@ Defined in: [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8
 
 > **get** **attributes**(): `Attributes`
 
-Defined in: [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
-
 ##### Returns
 
 `Attributes`
@@ -44,8 +42,6 @@ Defined in: [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/
 
 > **get** **conversationId**(): `string`
 
-Defined in: [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
-
 ##### Returns
 
 `string`
@@ -57,8 +53,6 @@ Defined in: [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/
 #### Get Signature
 
 > **get** **model**(): `string`
-
-Defined in: [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
 
 ##### Returns
 
@@ -76,8 +70,6 @@ Defined in: [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8
 
 > **get** **sessionId**(): `string`
 
-Defined in: [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
-
 ##### Returns
 
 `string`
@@ -88,13 +80,15 @@ Defined in: [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/
 
 > **end**(`opts?`): `void`
 
-Defined in: [src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
-
 #### Parameters
 
-##### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -111,13 +105,11 @@ conversation's `conversationId`; `agentName`, `agentId`, `agentDescription`,
 `agentVersion` and `model` fall back to the conversation's values when not
 provided on `opts`.
 
-Defined in: [src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
-
 #### Parameters
 
-##### opts?
-
-[`TurnInit`](./turninit) = `{}`
+<ParamField path="opts" type="TurnInit = {}">
+  See [`TurnInit`](./turninit).
+</ParamField>
 
 #### Returns
 

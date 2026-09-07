@@ -6,9 +6,15 @@ namespace: wandb.apis.public.runs
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-## <kbd>클래스</kbd> wandb.apis.public.Runs
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Runs
+
+프로젝트 및 선택적 필터와 연결된 `Run` 객체의 지연 이터레이터입니다.
+
+필요에 따라 W&amp;B server에서 페이지 단위로 Runs를 가져옵니다.
+
+일반적으로 `Api.runs` 네임스페이스를 통해 간접적으로 사용됩니다.
 
 ```python
 (service_api: 'ServiceApi',
@@ -22,31 +28,51 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-프로젝트 및 선택적 필터와 연결된 `Run` 객체의 지연 이터레이터입니다.
-
-필요에 따라 W&amp;B server에서 페이지 단위로 Runs를 가져옵니다.
-
-일반적으로 `Api.runs` 네임스페이스를 통해 간접적으로 사용됩니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `service_api`: 요청에 사용할 서비스 API입니다.
-* `entity`: 프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
-* `project`: run을 가져올 프로젝트 이름입니다.
-* `filters`: run 쿼리에 적용할 필터입니다.
-* `order`: `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다. 기본 정렬 순서는 가장 오래된 항목부터 최신 항목까지의 `run.created_at`입니다.
-* `per_page`: 요청당 가져올 run 수입니다(기본값: 50).
-* `include_sweeps`: run에 sweep 정보를 포함할지 여부입니다. 기본값은 True입니다.
-* `lazy`: 액세스할 때까지 무거운 필드(`config`, `summaryMetrics`, `systemMetrics`)의 로드를 지연할지 여부입니다. 기본값은 True입니다.
-* `api_key`: 
+<ResponseField name="service_api" type="ServiceApi">
+  요청에 사용할 서비스 API입니다.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  프로젝트를 소유한 entity(사용자 이름 또는 팀)입니다.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+  run을 가져올 프로젝트 이름입니다.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  run 쿼리에 적용할 필터입니다.
+</ResponseField>
+
+<ResponseField name="order" type="str">
+  `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`를 사용할 수 있습니다. 앞에 `+`를 붙이면 오름차순(기본값)이고, `-`를 붙이면 내림차순입니다. 기본 정렬 순서는 가장 오래된 항목부터 최신 항목까지의 `run.created_at`입니다.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  요청당 가져올 run 수입니다(기본값: 50).
+</ResponseField>
+
+<ResponseField name="include_sweeps" type="bool">
+  run에 sweep 정보를 포함할지 여부입니다. 기본값은 True입니다.
+</ResponseField>
+
+<ResponseField name="lazy" type="bool">
+  액세스할 때까지 무거운 필드(`config`, `summaryMetrics`, `systemMetrics`)의 로드를 지연할지 여부입니다. 기본값은 True입니다.
+</ResponseField>
+
+<ResponseField name="api_key" type="str | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
 <div id="methods">
   ## 메서드
 </div>
 
-### <kbd>방법</kbd> Runs.histories()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Runs.histories()
 
 ```python
 self,
@@ -63,13 +89,27 @@ stream: "Literal['default', 'system']" = 'default'
   ##### 인수
 </div>
 
-* `samples`: 각 run별로 반환할 샘플 수
-* `keys`: 특정 키에 대한 메트릭만 반환합니다
-* `x_axis`: 이 메트릭을 xAxis로 사용하며, 기본값은 &#95;step입니다
-* `format`: 데이터를 반환할 형식입니다. 옵션은 &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;입니다
-* `stream`: 메트릭에는 &quot;default&quot;, 시스템 메트릭에는 &quot;system&quot;을 사용합니다
+<ResponseField name="samples" type="int">
+  run당 반환할 샘플 수
+</ResponseField>
 
-### <kbd>방법</kbd> Paginator.**next**()
+<ResponseField name="keys" type="list[str] | None">
+  특정 키에 대한 메트릭만 반환
+</ResponseField>
+
+<ResponseField name="x_axis" type="str">
+  이 메트릭을 x축으로 사용합니다. 기본값은 &#95;step입니다.
+</ResponseField>
+
+<ResponseField name="format" type="Literal['default', 'pandas', 'polars']">
+  반환할 데이터 형식입니다. 옵션은 &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;입니다.
+</ResponseField>
+
+<ResponseField name="stream" type="Literal['default', 'system']">
+  메트릭에는 &quot;default&quot;, 시스템 메트릭에는 &quot;system&quot;을 사용합니다.
+</ResponseField>
+
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.**next**()
 
 ```python
 self
@@ -77,7 +117,7 @@ self
 
 이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 `StopIteration` 예외를 발생시킵니다.
 
-### <kbd>방법</kbd> Paginator.update_variables()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.update_variables()
 
 ```python
 self
@@ -85,7 +125,7 @@ self
 
 다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.
 
-### <kbd>방법</kbd> Runs.upgrade_to_full()
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Runs.upgrade_to_full()
 
 ```python
 self

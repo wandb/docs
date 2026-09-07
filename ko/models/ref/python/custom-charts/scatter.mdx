@@ -6,9 +6,11 @@ namespace: wandb.plot.scatter
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py#L12" />
 
-## <kbd>함수</kbd> wandb.plot.scatter
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.scatter()
+
+`wandb.Table`의 데이터로 scatter plot을 만듭니다.
 
 ```python
 table: 'wandb.Table',
@@ -18,17 +20,29 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-`wandb.Table`의 데이터로 산점도를 만듭니다.
-
 <div id="args">
   ## 매개변수
 </div>
 
-* `table`: 시각화할 데이터가 들어 있는 W&amp;B Table입니다.
-* `x`: x축에 사용할 열 이름입니다.
-* `y`: y축에 사용할 열 이름입니다.
-* `title`: 산점도 차트의 제목입니다.
-* `split_table`: 테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+<ResponseField name="table" type="wandb.Table">
+  시각화할 데이터가 들어 있는 W&amp;B Table입니다.
+</ResponseField>
+
+<ResponseField name="x" type="str">
+  x축에 사용할 열 이름입니다.
+</ResponseField>
+
+<ResponseField name="y" type="str">
+  y축에 사용할 열 이름입니다.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  산점도 차트의 제목입니다.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+</ResponseField>
 
 <div id="returns">
   ## 반환값

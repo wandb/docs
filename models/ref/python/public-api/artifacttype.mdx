@@ -7,12 +7,11 @@ namespace: wandb.apis.public.artifacts
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L204" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L204" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.ArtifactType
-
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactType
 
 
 
@@ -26,21 +25,24 @@ An artifact object that satisfies query based on the specified type.
 
 
 
+
+
 ## Properties
 
-### <kbd>property</kbd> id
-
+<ResponseField name="id" type="str">
 The unique identifier of the artifact type.
+</ResponseField>
 
-### <kbd>property</kbd> name
-
+<ResponseField name="name" type="str">
 The name of the artifact type.
+</ResponseField>
 
 
 
 ## Methods
 
-### <kbd>method</kbd> ArtifactType.collection()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactType.collection()
 
 ```python
 self,
@@ -51,12 +53,18 @@ Get a specific artifact collection by name.
 
 ##### Arguments
 
-- `name`: The name of the artifact collection to retrieve.
+<ResponseField name="name" type="str">
+The name of the artifact collection to retrieve.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> ArtifactType.collections()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> ArtifactType.collections()
 
 ```python
 self,
@@ -70,10 +78,23 @@ Get all artifact collections associated with this artifact type.
 
 ##### Arguments
 
-- `filters`: Optional mapping of filters to apply to the query.
-- `order`: Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending. The default order is the collection ID in descending order.
-- `per_page`: The number of artifact collections to fetch per page. Default is 50.
-- `start`: Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+Optional mapping of filters to apply to the query.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If prefixed with '+', sorts ascending (default). If prefixed with '-', sorts descending. The default order is the collection ID in descending order.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of artifact collections to fetch per page. Default is 50.
+</ResponseField>
+
+<ResponseField name="start" type="str | None">
+Pagination cursor for resuming a past query, captured from a previous paginator's `.cursor` attribute.
+</ResponseField>
+
+
 
 
 

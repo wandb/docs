@@ -6,9 +6,11 @@ namespace: wandb.plot.confusion_matrix
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
 
-## <kbd>함수</kbd> wandb.plot.confusion_matrix
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.confusion_matrix()
+
+확률 또는 예측 시퀀스로 혼동 행렬을 생성합니다.
 
 ```python
 probs: 'Sequence[Sequence[float]] | None' = None,
@@ -19,18 +21,33 @@ title: 'str' = 'Confusion Matrix Curve',
 split_table: 'bool' = False
 ```
 
-확률 또는 예측값 시퀀스로 혼동 행렬을 생성합니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `probs`: 각 클래스에 대한 예측 확률 시퀀스입니다. 시퀀스의 형태는 (N, K)여야 하며, 여기서 N은 샘플 수이고 K는 클래스 수입니다. `probs`를 제공한 경우 `preds`는 제공하면 안 됩니다.
-* `y_true`: 실제 레이블 시퀀스입니다.
-* `preds`: 예측된 클래스 레이블 시퀀스입니다. `preds`를 제공한 경우 `probs`는 제공하면 안 됩니다.
-* `class_names`: 클래스 이름 시퀀스입니다. 제공하지 않으면 클래스 이름은 &quot;Class&#95;1&quot;, &quot;Class&#95;2&quot; 등으로 지정됩니다.
-* `title`: 혼동 행렬 차트의 제목입니다.
-* `split_table`: 테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+<ResponseField name="probs" type="Sequence[Sequence[float]] | None">
+  각 클래스의 예측 확률 시퀀스입니다. 시퀀스의 형태는 (N, K)여야 합니다. 여기서 N은 샘플 수이고 K는 클래스 수입니다. 이 값을 제공하는 경우 `preds`를 제공해서는 안 됩니다.
+</ResponseField>
+
+<ResponseField name="y_true" type="Sequence[T] | None">
+  실제 레이블의 시퀀스입니다.
+</ResponseField>
+
+<ResponseField name="preds" type="Sequence[T] | None">
+  예측 클래스 레이블의 시퀀스입니다. 이 값을 제공하는 경우 `probs`를 제공해서는 안 됩니다.
+</ResponseField>
+
+<ResponseField name="class_names" type="Sequence[str] | None">
+  클래스 이름의 시퀀스입니다. 제공하지 않으면 클래스 이름은 &quot;Class&#95;1&quot;, &quot;Class&#95;2&quot; 등으로 정의됩니다.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  혼동 행렬 차트의 제목입니다.
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot; 섹션에 표시됩니다. 기본값은 `False`입니다.
+</ResponseField>
 
 <div id="returns">
   ## 반환값

@@ -6,9 +6,13 @@ namespace: wandb.automations._run_metric_filters
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L126" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L125" />
 
-## <kbd>클래스</kbd> wandb.automations.MetricThresholdFilter
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.MetricThresholdFilter
+
+사용자가 정의한 임계값과 **절대값 기준** 메트릭 값을 비교하는 필터입니다.
+
+이 값은 단일 값일 수도 있고, 여러 값에 대한 윈도우 구간에서 집계된 결과일 수도 있습니다.
 
 ```python
 *,
@@ -19,16 +23,26 @@ cmp_op: Literal['$gte', '$gt', '$lt', '$lte'],
 threshold: Union[Annotated[int, Strict(strict=True)], Annotated[float, Strict(strict=True)]]
 ```
 
-사용자가 정의한 임계값과 **절대값 기준** 메트릭 값을 비교하는 필터입니다.
-
-이 값은 단일 값일 수도 있고, 여러 값에 대한 윈도우 구간에서 집계된 결과일 수도 있습니다.
-
 <div id="args">
   ## 인수
 </div>
 
-* `name`:
-* `agg_op`:
-* `window_size`:
-* `cmp_op`: 메트릭 값(왼쪽)과 임계값(오른쪽)을 비교하는 연산자.
-* `threshold`: 
+<ResponseField name="name" type="str">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="agg_op" type="wandb.automations._run_metric_filters.Agg | None">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="window_size" type="Annotated">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<ResponseField name="cmp_op" type="Literal">
+  메트릭 값(왼쪽)과 임계값(오른쪽)을 비교하는 연산자입니다.
+</ResponseField>
+
+<ResponseField name="threshold" type="Union">
+  설명이 제공되지 않았습니다.
+</ResponseField>

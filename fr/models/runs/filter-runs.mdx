@@ -75,8 +75,14 @@ Vous pouvez effectuer un filtrage à l’aide du langage de requête MongoDB.
 L’exemple suivant filtre les runs créés entre deux horodatages à l’aide de l’API publique W&amp;B :
 
 ```python
+import wandb
+
+api = wandb.Api()
+entity = "your-entity"
+project = "your-project"
+
 runs = api.runs(
-    "<entity>/<project>",
+    f"{entity}/{project}",
     {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
 )
 ```
@@ -119,6 +125,35 @@ L’image suivante montre un filtre configuré pour afficher les runs dont le ch
 <Frame>
   <img src="/images/runs/contains_filter.png" alt="Filtrer les runs par configuration de run" />
 </Frame>
+
+<div id="example-filter-runs-that-are-part-of-a-sweep">
+  ### Exemple : filtrer les runs faisant partie d’un sweep
+</div>
+
+L’exemple suivant filtre les runs faisant partie d’un sweep à l’aide de l’API publique W&amp;B :
+
+```python
+import wandb
+
+project_name="your-project"
+entity="your-entity"
+
+api = wandb.Api()
+project = api.project(project_name, entity=entity)
+
+# Récupérer tous les sweeps du projet
+sweep_ids = list(map(lambda s: s.id, project.sweeps()))
+
+# Récupérer tous les runs terminés du projet appartenant à un sweep
+all_runs_lists = api.runs(
+    path=f"{entity}/{project_name}",
+    filters={"$and": [{"sweep": {"$in": sweep_ids}}, {"state": "finished"}]},
+    per_page=1000,
+    include_sweeps=False,
+)
+```
+
+Voir le [guide de l’API](/fr/models/ref/python/public-api/api#method-api-runs) pour découvrir d’autres exemples de filtrage des runs à l’aide de l’API.
 
 <div id="default-filters">
   ## Filtres par défaut

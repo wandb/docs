@@ -6,9 +6,11 @@ namespace: wandb.plot.histogram
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py#L12" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py#L12" />
 
-## <kbd>関数</kbd> wandb.plot.histogram
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.histogram()
+
+W&amp;B 表 からヒストグラムチャートを作成します。
 
 ```python
 table: 'wandb.Table',
@@ -17,16 +19,25 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-W&amp;B 表 からヒストグラムチャートを作成します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `table`: ヒストグラム用のデータを含む W&amp;B 表。
-* `value`: ビン軸 (x軸) のラベル。
-* `title`: ヒストグラムプロットのタイトル。
-* `split_table`: 表を W&amp;B UI の別セクションとして分割するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="table" type="wandb.Table">
+  ヒストグラム用のデータを含む W&amp;B 表。
+</ResponseField>
+
+<ResponseField name="value" type="str">
+  ビン軸 (x軸) のラベル。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  ヒストグラムプロットのタイトル。
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別セクションとして分割するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

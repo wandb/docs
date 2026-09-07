@@ -7,17 +7,11 @@ namespace: wandb.sdk.wandb_sweep
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L35" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L35" />
 
 
 
-## <kbd>function</kbd> wandb.sweep
-```python
-sweep: 'dict | Callable',
-entity: 'str | None' = None,
-project: 'str | None' = None,
-prior_runs: 'list[str] | None' = None
-```
+## <Badge color="blue" size="lg" shape="rounded">function</Badge> wandb.sweep()
 
 
 
@@ -34,12 +28,31 @@ for information on how to define your sweep.
 
 
 
+```python
+sweep: 'dict | Callable',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+prior_runs: 'list[str] | None' = None
+```
+
 ## Args
 
-- `sweep`: The configuration of a hyperparameter search. (or configuration generator). If you provide a callable, ensure that the callable does not take arguments and that it returns a dictionary that conforms to the W&B sweep config spec.
-- `entity`: The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username.
-- `project`: The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'.
-- `prior_runs`: The run IDs of existing runs to add to this sweep.
+<ResponseField name="sweep" type="dict | Callable">
+The configuration of a hyperparameter search. (or configuration generator). If you provide a callable, ensure that the callable does not take arguments and that it returns a dictionary that conforms to the W&B sweep config spec.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'.
+</ResponseField>
+
+<ResponseField name="prior_runs" type="list[str] | None">
+The run IDs of existing runs to add to this sweep.
+</ResponseField>
+
 
 
 ## Returns

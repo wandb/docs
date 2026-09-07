@@ -1505,16 +1505,15 @@
           "experimental_config": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/SFTExperimentalTrainingConfig"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Experimental Config"
+            ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "model_id",
@@ -2390,6 +2389,38 @@
         ],
         "title": "PydanticException"
       },
+      "SFTExperimentalTrainingConfig": {
+        "properties": {},
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SFTExperimentalTrainingConfig",
+        "description": "Reserved SFT experimental config; no fields are currently supported."
+      },
+      "SFTMetricLoggingConfig": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": false
+          },
+          "target_training_step": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Training Step"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SFTMetricLoggingConfig",
+        "description": "Schema for optional SFT metric logging."
+      },
       "SFTTrainingConfig": {
         "properties": {
           "batch_size": {
@@ -2436,16 +2467,15 @@
           "metric_logging": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/SFTMetricLoggingConfig"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Metric Logging"
+            ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "SFTTrainingConfig",
         "description": "Schema for SFT training config."

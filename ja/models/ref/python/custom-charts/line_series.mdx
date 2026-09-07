@@ -6,9 +6,11 @@ namespace: wandb.plot.line_series
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
 
-## <kbd>関数</kbd> wandb.plot.line_series
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.line_series()
+
+折れ線系列チャートを作成します。
 
 ```python
 xs: 'Iterable[Iterable[Any]] | Iterable[Any]',
@@ -19,18 +21,33 @@ xname: 'str' = 'x',
 split_table: 'bool' = False
 ```
 
-折れ線系列チャートを作成します。
-
 <div id="args">
   ## 引数
 </div>
 
-* `xs`: x 値のシーケンス。単一の配列が指定された場合、すべての y 値はその x 配列に対してプロットされます。配列の配列が指定された場合、各 y 値は対応する x 配列に対してプロットされます。
-* `ys`: y 値のシーケンス。各イテラブルはそれぞれ別個の折れ線系列を表します。
-* `keys`: 各折れ線系列にラベルを付けるためのキーのシーケンス。指定しない場合、キーは &quot;line&#95;1&quot;、&quot;line&#95;2&quot; などとして自動生成されます。
-* `title`: チャートのタイトル。
-* `xname`: x 軸のラベル。
-* `split_table`: 表を W&amp;B UI の別のセクションに分割するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+<ResponseField name="xs" type="Iterable[Iterable[Any]] | Iterable[Any]">
+  x 値のシーケンス。単一の配列を指定した場合は、すべての y 値がその x 配列に対してプロットされます。配列の配列を指定した場合は、各 y 値が対応する x 配列に対してプロットされます。
+</ResponseField>
+
+<ResponseField name="ys" type="Iterable[Iterable[Any]]">
+  y 値のシーケンス。各イテラブルは個別の線系列を表します。
+</ResponseField>
+
+<ResponseField name="keys" type="Iterable[str] | None">
+  各線系列のラベルに使用するキーのシーケンス。指定しない場合、キーは &quot;line&#95;1&quot;、&quot;line&#95;2&quot; などとして自動生成されます。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  チャートのタイトル。
+</ResponseField>
+
+<ResponseField name="xname" type="str">
+  x 軸のラベル。
+</ResponseField>
+
+<ResponseField name="split_table" type="bool">
+  表を W&amp;B UI の別のセクションに分割するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+</ResponseField>
 
 <div id="returns">
   ## 戻り値

@@ -138,18 +138,14 @@ Les onglets suivants décrivent comment désactiver le SSO selon le type de dép
   ### Capture de domaine
 </div>
 
-La capture de domaine aide vos employés à rejoindre l’organisation de votre entreprise afin d’éviter que de nouveaux utilisateurs ne créent des ressources en dehors du périmètre de votre entreprise.
+La capture de domaine vous permet d’ajouter automatiquement à W&amp;B les personnes disposant d’une adresse e-mail professionnelle, telle que `@example.com`. Cela aide tous vos employés à rejoindre la bonne organisation et garantit que les nouveaux utilisateurs ne créent pas de ressources en dehors du périmètre de votre entreprise.
 
-<Note>
-  **Les domaines doivent être uniques**
+<Note>La capture de domaine n’est pas disponible avec les forfaits gratuits ou d’essai.</Note>
 
-  Les domaines sont des identifiants uniques. Cela signifie que vous ne pouvez pas utiliser un domaine déjà utilisé par une autre organisation.
-</Note>
+Les domaines doivent être uniques ; vous ne pouvez pas utiliser un domaine déjà utilisé par une autre organisation.
 
 <Tabs>
   <Tab title="Cloud mutualisé">
-    La capture de domaine vous permet d’ajouter automatiquement à votre organisation W&amp;B Cloud mutualisé les personnes disposant d’une adresse e-mail professionnelle, telle que `@example.com`. Cela aide tous vos employés à rejoindre la bonne organisation et garantit que les nouveaux utilisateurs ne créent pas de ressources en dehors du périmètre de votre entreprise.
-
     Ce tableau résume le comportement des nouveaux utilisateurs et des utilisateurs existants, avec ou sans capture de domaine activée :
 
     |                        | Avec capture de domaine                                                                                                                                                                                                                                                                                                                                       | Sans capture de domaine                                                                                                                                                                        |
@@ -161,26 +157,26 @@ La capture de domaine aide vos employés à rejoindre l’organisation de votre 
     Pour attribuer automatiquement les nouveaux utilisateurs non invités à une équipe par défaut lorsqu’ils rejoignent votre organisation :
 
     1. Accédez à [https://wandb.ai/home](https://wandb.ai/home).
-    2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans ce menu, choisissez **Settings**.
-    3. Dans l’onglet **Settings**, sélectionnez **General**.
+    2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans ce menu, choisissez **Paramètres**.
+    3. Dans l’onglet **Paramètres**, sélectionnez **Général**.
     4. Cliquez sur le bouton **Claim domain** dans **capture de domaine**.
     5. Sélectionnez dans le menu déroulant **Default team** l’équipe que les nouveaux utilisateurs doivent rejoindre automatiquement. Si aucune équipe n’est disponible, mettez à jour les paramètres de l’équipe. Voir les instructions dans [Ajouter et gérer des équipes](#add-and-manage-teams).
-    6. Cliquez sur le bouton **Claim email domain**.
+    6. Cliquez sur le bouton **Claim domaine d’adresse e-mail**.
 
     Vous devez activer la correspondance de domaine dans les paramètres d’une équipe avant de pouvoir attribuer automatiquement à cette équipe les nouveaux utilisateurs non invités.
 
     1. Accédez au tableau de bord de l’équipe à l’adresse `https://wandb.ai/<team-name>`, où `<team-name>` est le nom de l’équipe pour laquelle vous souhaitez activer la correspondance de domaine.
-    2. Sélectionnez **Team settings** dans la navigation globale située à gauche du tableau de bord de l’équipe.
+    2. Sélectionnez **Paramètres de l’équipe** dans la navigation globale située à gauche du tableau de bord de l’équipe.
     3. Dans la section **Privacy**, activez l’option **Recommend new users with matching email domains join this team upon signing up**.
   </Tab>
 
   <Tab title="Cloud dédié ou Autogéré">
-    Si vous utilisez un type de déploiement Cloud dédié ou Autogéré, contactez votre Account Team W&amp;B pour configurer la capture de domaine. Une fois configurée, votre instance W&amp;B Cloud mutualisé invite automatiquement les utilisateurs qui créent un compte W&amp;B avec l’adresse e-mail de votre entreprise à contacter votre administrateur pour demander l’accès à votre instance Cloud dédié ou Autogéré.
+    Contactez votre Account Team W&amp;B pour configurer la capture de domaine. Par la suite, lorsqu’un utilisateur crée un compte W&amp;B avec une adresse e-mail professionnelle, votre déploiement l’invite automatiquement à contacter votre administrateur pour demander l’accès.
 
-    |                        | Avec capture de domaine                                                                                                                                                                                                                                                                                 | Sans capture de domaine                                                                                                                          |
-    | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+    |                        | Avec capture de domaine                                                                                                                                                                                                                                                                           | Sans capture de domaine                                                                                                                       |
+    | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
     | Nouveaux utilisateurs  | Les utilisateurs qui s’inscrivent à W&amp;B sur Cloud mutualisé à partir de domaines vérifiés sont automatiquement invités à contacter un administrateur à l’adresse e-mail que vous avez personnalisée. Ils peuvent toujours créer une organisation sur Cloud mutualisé pour essayer le produit. | Les utilisateurs peuvent créer des comptes W&amp;B Cloud mutualisé sans savoir que leur entreprise dispose d’une instance dédiée centralisée. |
-    | Utilisateurs existants | Les utilisateurs W&amp;B existants peuvent être répartis entre plusieurs organisations et équipes.                                                                                                                                                                                                      | Les utilisateurs W&amp;B existants peuvent être répartis entre plusieurs organisations et équipes.                                               |
+    | Utilisateurs existants | Les utilisateurs W&amp;B existants peuvent être répartis entre plusieurs organisations et équipes.                                                                                                                                                                                                | Les utilisateurs W&amp;B existants peuvent être répartis entre plusieurs organisations et équipes.                                            |
   </Tab>
 </Tabs>
 
