@@ -22,11 +22,31 @@ date: 2026-07-23
 
 {/* new-articles:start */}
 
+<div id="september-2026">
+  ## 2026年9月
+</div>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="カスタムシグナルを作成する" href="/ja/weave/guides/tracking/create-custom-signal/" arrow="true" horizontal>
+  W&amp;B Weave のカスタムシグナルを作成し、自分で定義した動作に該当するエージェントのターンにタグを付けられます。
+</Card>
+
+<div id="support">
+  ### サポート
+</div>
+
+<Card title="CommonJS 形式で Weave TypeScript の build が失敗するのはなぜですか?" href="/ja/support/weave/articles/typescript-build-fails-after-commonjs-setup/" arrow="true" horizontal>
+  tsconfig.json file で &quot;verbatimModuleSyntax&quot;: true を指定している場合、(TypeScript SDK インテグレーションガイドに従って) W&amp;B Weave の CommonJS project をコンパイルすると、次のエラーで失敗します:
+</Card>
+
 <div id="august-2026">
   ## 2026年8月
 </div>
 
-<div id="weave">
+<div id="weave-2">
   ### Weave
 </div>
 
@@ -38,9 +58,17 @@ date: 2026-07-23
   繰り返しのクエリや帯域幅が限られた環境で、Weave のサーバー応答のキャッシュによりパフォーマンスを向上させます。
 </Card>
 
-<div id="support">
+<div id="support-2">
   ### サポート
 </div>
+
+<Card title="projectを別のチームまたは組織に移動するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-move-a-project-to-a-different-team-or-organization/" arrow="true" horizontal>
+  W&amp;B Support が project をチームまたは組織間で移動できるのは、Multi-tenant Cloud のみです。
+</Card>
+
+<Card title="学術アカウントと Pro、Team、Enterprise の各アカウントタイプを切り替えるにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-change-my-account-type/" arrow="true" horizontal>
+  このページでは、W&amp;B アカウントのプランを変更する方法を説明します。
+</Card>
 
 <Card title="一時的な環境でrunデータを保持するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env/" arrow="true" horizontal>
   一時的な環境でローカルのrunデータと診断ログを保持するには、WANDBDIR を永続ストレージ上のディレクトリに設定します。
@@ -86,7 +114,7 @@ date: 2026-07-23
   W&amp;B で Eval Tables を作成、比較、可視化する方法を確認します。
 </Card>
 
-<div id="weave-2">
+<div id="weave-3">
   ### Weave
 </div>
 
@@ -126,7 +154,7 @@ date: 2026-07-23
   LEET (Lightweight Experiment Exploration Tool) TUI を使用すると、ターミナルからローカルの W&amp;B runs を探索して比較できます。
 </Card>
 
-<div id="weave-3">
+<div id="weave-4">
   ### Weave
 </div>
 
@@ -202,7 +230,7 @@ date: 2026-07-23
   AI コーディングセッション向けの共有ダッシュボード。leaderboards、チームビュー、効率性に関するインサイトを通じて、Claude Code、Cursor、Codex、Gemini CLI などのアクティビティ、コスト、成果をトラッキングします。
 </Card>
 
-<div id="support-2">
+<div id="support-3">
   ### サポート
 </div>
 
@@ -338,7 +366,7 @@ date: 2026-07-23
   ## 2026年4月
 </div>
 
-<div id="weave-4">
+<div id="weave-5">
   ### Weave
 </div>
 
@@ -402,7 +430,7 @@ date: 2026-07-23
   W&amp;B Serverless Sandboxes では、Python からオンデマンドの分離コンピューティング環境を作成、使用、破棄できます。
 </Card>
 
-<div id="support-3">
+<div id="support-4">
   ### サポート
 </div>
 
@@ -448,74 +476,6 @@ date: 2026-07-23
 
 <Card title="sweep 中の `anaconda 400 error` を修正するにはどうすればよいですか？" href="/ja/support/models/articles/anaconda-400-error-during-a-sweep/" arrow="true" horizontal>
   sweep 中に anaconda 400 error が発生する場合は、多くの場合、最適化対象のメトリクスをログしていないことを示しています。
-</Card>
-
-<div id="march-2026">
-  ## 2026年3月
-</div>
-
-<div id="models-4">
-  ### Models
-</div>
-
-<Card title="シグナル処理と sweep run" href="/ja/models/sweeps/signal-handling-sweep-runs/" arrow="true" horizontal>
-  W&amp;B Sweeps が sweep run で UNIX シグナル、終了コード、プリエンプションをどのように処理するかを確認します。
-</Card>
-
-<div id="weave-5">
-  ### Weave
-</div>
-
-<Card title="OpenAI Realtime API" href="/ja/weave/guides/integrations/openai-realtime-audio/" arrow="true" horizontal>
-  Weave を使用して、OpenAI Realtime API への Call を自動的にトレースします。
-</Card>
-
-<Card title="プロンプトのバージョンを保存・トラッキングする" href="/ja/weave/guides/core-types/prompts-version/" arrow="true" horizontal>
-  LLM アプリケーション用のプロンプトのバージョンを取得・管理します
-</Card>
-
-<Card title="アノテーションキュー内の項目をレビューする" href="/ja/weave/guides/tracking/annotation-review/" arrow="true" horizontal>
-  簡素化されたレビューインターフェースでトレース項目を評価し、構造化フィードバックを送信します。
-</Card>
-
-<Card title="アノテーションキューを設定する" href="/ja/weave/guides/tracking/annotation-queues/" arrow="true" horizontal>
-  アノテーションキューを作成し、トレースをドメインエキスパートにルーティングして、構造化フィードバックをエクスポートします。
-</Card>
-
-<div id="platform-2">
-  ### プラットフォーム
-</div>
-
-<Card title="W&B モバイルアプリ（iOS）" href="/ja/platform/hosting/monitoring-usage/mobile-app/" arrow="true" horizontal>
-  iPhone または iPad からトレーニング Runs をトラッキングし、コンソールログを確認したり、折れ線グラフやシステムメトリクスを表示したり、W&amp;B Models projects を探索したりできます。
-</Card>
-
-<Card title="W&B Skills を使用する" href="/ja/platform/wb-skills/" arrow="true" horizontal>
-  W&amp;B Skills をインストールすると、W&amp;B の AI 開発プラットフォームを使用したモデルのトレーニング、エージェントの構築、Experiments の分析をコーディングエージェントに教えることができます。
-</Card>
-
-<Card title="レート制限" href="/ja/platform/hosting/self-managed/rate-limits/" arrow="true" horizontal>
-  安定性のためにセルフマネージドインスタンスに任意で設定できるレート制限
-</Card>
-
-<Card title="サポートされる専用クラウドリージョン" href="/ja/platform/hosting/hosting-options/dedicated-cloud/regions/" arrow="true" horizontal>
-  W&amp;B 専用クラウド instances で利用可能な、サポート対象の AWS、Google Cloud、Azure の全リージョンを表示します。
-</Card>
-
-<Card title="レート制限" href="/ja/platform/hosting/hosting-options/dedicated-cloud/rate-limits/" arrow="true" horizontal>
-  専用クラウドのデフォルトのレート制限と変更のリクエスト方法
-</Card>
-
-<Card title="専用クラウドからデータをエクスポートする" href="/ja/platform/hosting/hosting-options/dedicated-cloud/export-data/" arrow="true" horizontal>
-  Python SDK API を使用して、W&amp;B 専用クラウド instance から Runs、メトリクス、artifact、report をエクスポートします。
-</Card>
-
-<div id="inference">
-  ### Inference
-</div>
-
-<Card title="Serverless Inference と Cline" href="/ja/inference/tutorials/integration-cline/" arrow="true" horizontal>
-  >
 </Card>
 
 {/* new-articles:end */}
