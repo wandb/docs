@@ -1337,41 +1337,18 @@ Ces étapes décrivent la séquence du point de vue de W&amp;B. Pour savoir comm
 
 Les déploiements autogérés qui utilisent un cluster ClickHouse externe doivent vérifier la compatibilité de ClickHouse avant de mettre à niveau le serveur W&amp;B.
 
-<div id="unsupported-clickhouse-versions">
-  ### Versions de ClickHouse non prises en charge
+<div id="supported-clickhouse-versions">
+  ### Versions de ClickHouse prises en charge
 </div>
 
-Les déploiements W&amp;B Autogéré qui utilisent les fonctionnalités OLAP de W&amp;B Weave ou de Models nécessitent une version prise en charge de ClickHouse Server et de ClickHouse Keeper.
+W&amp;B Weave nécessite une version prise en charge à la fois de ClickHouse Server et de ClickHouse Keeper.
 
-* Weave ne fonctionne pas avec ClickHouse 26.1 ni 26.2.
-* Les fonctionnalités OLAP de Models décrites dans la section suivante nécessitent ClickHouse 26.2 ou version ultérieure.
-* Les déploiements qui utilisent à la fois les fonctionnalités OLAP de Weave et de Models nécessitent ClickHouse 26.3.
+* Weave prend en charge ClickHouse 25.8 à 25.12, ainsi que 26.3 ou ultérieure.
+* Weave ne fonctionne pas avec ClickHouse 26.1 ou 26.2.
 
-Si votre déploiement W&amp;B Autogéré n&#39;utilise ni Weave ni les fonctionnalités OLAP de Models, ClickHouse n&#39;est pas requis.
+***Avant* de mettre à niveau W&amp;B Autogéré**, vérifiez que ClickHouse Server et ClickHouse Keeper exécutent tous deux une version prise en charge par Weave. Si vous devez modifier les versions de ClickHouse, mettez à niveau les deux composants ensemble.
 
-<div id="models-olap-features">
-  ### Fonctionnalités OLAP de Models
-</div>
-
-serveur W&amp;B 0.81.0+ introduit des migrations de schéma qui nécessitent ClickHouse 26.2+. Ces migrations s’exécutent lorsque l’une des fonctionnalités OLAP de Models ci-dessous est activée dans vos valeurs Helm :
-
-```yaml
-global:
-  olap:
-    registrySearch:
-      enabled: true
-    runStoreAccelerator:
-      enabled: true
-    history:
-      enabled: true
-```
-
-***Avant* la mise à niveau de W&amp;B Autogéré vers Server v0.81+**, vous devez *soit* :
-
-* définir ces valeurs sur `false` dans vos valeurs Helm, *soit* :
-* mettre à niveau ClickHouse Server et ClickHouse Keeper vers la version 26.2 ou ultérieure (26.3 ou ultérieure si votre déploiement utilise également Weave).
-
-Si ces fonctionnalités sont désactivées ou si vous n&#39;utilisez pas ClickHouse pour les charges de travail OLAP de Models, cette exigence ne s&#39;applique pas à votre mise à niveau.
+Si votre déploiement W&amp;B Autogéré n&#39;utilise pas Weave, ClickHouse n&#39;est pas requis et cette exigence ne s&#39;applique pas à votre mise à niveau.
 
 Les déploiements Cloud dédié et Cloud mutualisé exécutent déjà une version compatible de ClickHouse et ne sont pas concernés.
 
