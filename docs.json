@@ -393,6 +393,22 @@
                         ]
                       },
                       {
+                        "group": "Notebooks",
+                        "pages": [
+                          "models/notebooks",
+                          "models/notebooks/get-started",
+                          "models/notebooks/create-notebook",
+                          "models/notebooks/edit-notebook",
+                          "models/notebooks/run-notebooks",
+                          "models/notebooks/manage-compute",
+                          "models/notebooks/manage-packages-environments",
+                          "models/notebooks/data-files",
+                          "models/notebooks/share-notebooks",
+                          "models/notebooks/configure-notebook",
+                          "models/notebooks/developer-tools"
+                        ]
+                      },
+                      {
                         "group": "Automations",
                         "pages": [
                           "models/automations",
