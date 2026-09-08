@@ -1593,7 +1593,7 @@
                 "type": "null"
               }
             ],
-            "description": "使用している W&B APIキー に対応する開発者の Teams またはユーザー名",
+            "description": "指定された W&B 認証情報に対応するチームまたはユーザー名",
             "examples": [
               "my-team"
             ],
