@@ -33,7 +33,7 @@ Vous pouvez également demander à ARIA de créer et de gérer des automatisatio
 Avant de créer une automatisation qui envoie un prompt à ARIA, vérifiez les points suivants :
 
 * ARIA doit être activé pour votre organisation. Si **Trigger ARIA** n&#39;apparaît pas dans la liste **Action type**, c&#39;est qu&#39;ARIA n&#39;est pas disponible pour votre organisation, votre portée ou votre déploiement. L&#39;option est alors simplement absente de la liste, sans explication. Voir [Gouvernance et sécurité](/fr/aria/governance).
-* Vous devez disposer d&#39;un accès en écriture au project, au registre ou à la collection sur lesquels porte la portée de l&#39;automatisation.
+* Vous devez disposer d&#39;un accès en écriture au projet, au registre ou à la collection sur lesquels porte la portée de l&#39;automatisation.
 * Pour définir la portée d&#39;une automatisation W&amp;B sur un registre et envoyer des prompts à ARIA, vous devez appartenir à une équipe de la même organisation. Chaque conversation ARIA est associée à une équipe : vous ne pouvez donc pas créer d&#39;automatisation dont la portée est un registre si vous n&#39;appartenez à aucune équipe de cette organisation.
 
 Chaque fois qu&#39;une automatisation ARIA s&#39;exécute, elle démarre une conversation ARIA comptabilisée dans l&#39;utilisation de votre organisation, au même titre qu&#39;une conversation que vous démarrez vous-même.
@@ -42,10 +42,10 @@ Chaque fois qu&#39;une automatisation ARIA s&#39;exécute, elle démarre une con
   ## Créer une automatisation
 </div>
 
-Sélectionnez **registre** ou **Project** selon la portée à laquelle vous souhaitez appliquer l&#39;automatisation. Suivez ensuite ces étapes pour créer une automatisation qui envoie un prompt à ARIA.
+Sélectionnez **registre** ou **projet** selon la portée à laquelle vous souhaitez appliquer l&#39;automatisation. Suivez ensuite ces étapes pour créer une automatisation qui envoie un prompt à ARIA.
 
 <Note>
-  Pour appliquer une automatisation à plus grande échelle, créez-la depuis le hub **Automations** global et sélectionnez la portée **équipe** ou **organisation**. Les étapes sont identiques à celles décrites ci-dessous. À ces portées, W&amp;B ne prend en charge que les événements d&#39;artifact et de collection. Voir [Hub Automations](/fr/models/automations#automations-hub).
+  Pour appliquer une automatisation à plus grande échelle, créez-la depuis le hub **Automatisations** global et sélectionnez la portée **équipe** ou **organisation**. Les étapes sont identiques à celles décrites ci-dessous. À ces portées, W&amp;B ne prend en charge que les événements d&#39;artifact et de collection. Voir [Hub Automatisations](/fr/models/automations#automations-hub).
 </Note>
 
 <Tabs>
@@ -54,13 +54,13 @@ Sélectionnez **registre** ou **Project** selon la portée à laquelle vous souh
 
     1. Connectez-vous à W&amp;B.
     2. Cliquez sur le nom d&#39;un registre pour afficher ses détails.
-    3. Pour créer une automatisation limitée au registre, cliquez sur l&#39;onglet **Automations**, puis sur **Create automation**. Une automatisation limitée à un registre s&#39;applique automatiquement à toutes ses collections, y compris celles créées ultérieurement.
+    3. Pour créer une automatisation limitée au registre, cliquez sur l&#39;onglet **Automatisations**, puis sur **Create automation**. Une automatisation limitée à un registre s&#39;applique automatiquement à toutes ses collections, y compris celles créées ultérieurement.
     4. Choisissez l&#39;[événement](/fr/models/automations/automation-events/#registry-events) à surveiller.
 
        Renseignez les champs supplémentaires qui s&#39;affichent ; ceux-ci varient selon l&#39;événement. Par exemple, si vous sélectionnez **An artifact alias is added**, vous devez renseigner le champ **Alias regex**.
 
        Cliquez sur **Next step**.
-    5. Sélectionnez l&#39;équipe qui héberge la conversation ARIA. Voir [Où la conversation apparaît](#where-the-conversation-appears).
+    5. Sélectionnez l&#39;équipe qui héberge la conversation ARIA. Voir [Afficher les conversations créées par des automatisations](#view-conversations-created-by-automations).
     6. Définissez **Action type** sur **Trigger ARIA**.
     7. Dans le champ **Prompt**, rédigez le prompt à envoyer à ARIA. Voir [Rédiger le prompt](#write-the-prompt). Cliquez sur **Next step**.
     8. Donnez un nom à l&#39;automatisation. Vous pouvez également ajouter une description.
@@ -69,11 +69,11 @@ Sélectionnez **registre** ou **Project** selon la portée à laquelle vous souh
     L&#39;automatisation est désormais active : elle démarre une nouvelle conversation ARIA chaque fois que l&#39;événement choisi se produit dans le registre.
   </Tab>
 
-  <Tab title="Project">
+  <Tab title="projet">
     Un admin W&amp;B peut créer des automatisations dans un projet.
 
     1. Connectez-vous à W&amp;B.
-    2. Accédez à la page du projet, cliquez sur l&#39;onglet **Automations**, puis sur **Create automation**.
+    2. Accédez à la page du projet, cliquez sur l&#39;onglet **Automatisations**, puis sur **Create automation**.
     3. Choisissez l&#39;[événement](/fr/models/automations/automation-events/#project) à surveiller.
 
        1. Renseignez les champs supplémentaires qui s&#39;affichent. Par exemple, si vous sélectionnez **An artifact alias is added**, vous devez renseigner le champ **Alias regex**.

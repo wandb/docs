@@ -32,9 +32,9 @@ ARIA への プロンプト 送信は、W&amp;B のオートメーションが�
 
 ARIA にプロンプトを送信するオートメーションを作成する前に、以下を確認してください。
 
-* 組織で ARIA が有効になっている必要があります。**Action type** の一覧に **Trigger ARIA** が表示されない場合、お使いの組織、scope、またはデプロイメントでは ARIA を利用できません。この場合、一覧には理由が示されないまま、選択肢が非表示になります。[Governance and security](/ja/aria/governance) を参照してください。
-* オートメーションの scope とする project、Registry、またはコレクションに対する書き込み権限が必要です。
-* W&amp;B のオートメーションを Registry に scope 設定して ARIA にプロンプトを送信するには、同じ組織内のチームに所属している必要があります。ARIA の各会話はチームに関連付けられるため、その組織内のチームに所属していない場合は、Registry を scope とするオートメーションを作成できません。
+* 組織で ARIA が有効になっている必要があります。**Action type** の一覧に **Trigger ARIA** が表示されない場合、お使いの組織、スコープ、またはデプロイメントでは ARIA を利用できません。この場合、一覧には理由が示されないまま、選択肢が非表示になります。[Governance and security](/ja/aria/governance) を参照してください。
+* オートメーションのスコープとする project、Registry、またはコレクションに対する書き込み権限が必要です。
+* W&amp;B のオートメーションを Registry にスコープ設定して ARIA にプロンプトを送信するには、同じ組織内のチームに所属している必要があります。ARIA の各会話はチームに関連付けられるため、その組織内のチームに所属していない場合は、Registry をスコープとするオートメーションを作成できません。
 
 ARIA オートメーションが実行されるたびに ARIA 会話が開始され、自分で開始した会話と同様に組織の使用量としてカウントされます。
 
@@ -42,10 +42,10 @@ ARIA オートメーションが実行されるたびに ARIA 会話が開始さ
   ## オートメーションを作成する
 </div>
 
-オートメーションを適用したい scope に応じて、**Registry** または **Project** を選択してください。その後、次の step に従って、ARIA に プロンプト を送信するオートメーションを作成します。
+オートメーションを適用したい スコープ に応じて、**Registry** または **Project** を選択してください。その後、次の step に従って、ARIA に プロンプト を送信するオートメーションを作成します。
 
 <Note>
-  オートメーションをより広範に適用するには、グローバルな **Automations** ハブから作成し、**Team** または **Organization** scope を選択してください。step は以下と同じです。これらの scope では、W&amp;B は artifact およびコレクションのイベントのみをサポートします。[Automations ハブ](/ja/models/automations#automations-hub) を参照してください。
+  オートメーションをより広範に適用するには、グローバルな **Automations** ハブから作成し、**Team** または **Organization** スコープ を選択してください。step は以下と同じです。これらの スコープ では、W&amp;B は artifact およびコレクションのイベントのみをサポートします。[Automations ハブ](/ja/models/automations#automations-hub) を参照してください。
 </Note>
 
 <Tabs>
@@ -54,13 +54,13 @@ ARIA オートメーションが実行されるたびに ARIA 会話が開始さ
 
     1. W&amp;B にログインします。
     2. registry 名をクリックして詳細を表示します。
-    3. registry を scope とするオートメーションを作成するには、**Automations** タブをクリックし、**Create automation** をクリックします。registry を scope とするオートメーションは、そのすべてのコレクション (今後作成されるものを含む) に自動的に適用されます。
+    3. registry をスコープとするオートメーションを作成するには、**Automations** タブをクリックし、**Create automation** をクリックします。registry をスコープとするオートメーションは、そのすべてのコレクション (今後作成されるものを含む) に自動的に適用されます。
     4. 監視する [イベント](/ja/models/automations/automation-events/#registry-events) を選択します。
 
        イベントに応じて表示される追加のフィールドを入力します。たとえば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
 
        **Next step** をクリックします。
-    5. ARIA の会話をホストするチームを選択します。[会話が表示される場所](#where-the-conversation-appears) を参照してください。
+    5. ARIA の会話をホストするチームを選択します。[オートメーションによって作成された会話を表示する](#view-conversations-created-by-automations) を参照してください。
     6. **Action type** を **Trigger ARIA** に設定します。
     7. **Prompt** フィールドに、ARIA に送信する プロンプト を記述します。[プロンプト を記述する](#write-the-prompt) を参照してください。**Next step** をクリックします。
     8. オートメーションの名を指定します。必要に応じて説明を入力します。
@@ -78,7 +78,7 @@ ARIA オートメーションが実行されるたびに ARIA 会話が開始さ
 
        1. 表示される追加のフィールドを入力します。たとえば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
 
-          1. run によって trigger されるオートメーションでは、必要に応じて 1 つ以上の run フィルターを指定できます。
+          1. run によって トリガーされるオートメーションでは、必要に応じて 1 つ以上の run フィルターを指定できます。
 
              * **Filter to one user&#39;s runs**: 指定したユーザーが作成した run のみを含めます。トグルをクリックしてフィルターを有効にし、ユーザー名を指定します。
              * **Filter on run name**: 指定した正規表現に一致する名を持つ run のみを含めます。トグルをクリックしてフィルターを有効にし、正規表現を指定します。
