@@ -31,7 +31,7 @@ Before you create an automation that sends a prompt to ARIA, verify the followin
 
 - Your organization must have ARIA enabled. If **Trigger ARIA** doesn't appear in the **Action type** list, ARIA isn't available for your organization, scope, or deployment. The list omits the option without explanation. See [Governance and security](/aria/governance).
 - You must have write access to the project, registry, or collection you scope the automation to.
-- To scope a W&B automation to a registry and send prompts to ARIA, you must belong to a team in the same organization. Each ARIA conversation is associated with a team, so you can’t create a registry-scoped automation if you don’t belong to a team in that organization.
+- To scope a W&B automation to a registry and send prompts to ARIA, you must belong to a team in the same organization. Each ARIA conversation is associated with a team, so you can't create a registry-scoped automation if you don't belong to a team in that organization.
 
 Each time an ARIA automation runs, it starts an ARIA conversation that counts toward your organization's usage, the same as a conversation you start yourself.
 
@@ -55,7 +55,7 @@ A Registry admin can create automations in that registry.
    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
    Click **Next step**.
-1. Select the team that hosts the ARIA conversation. See [Where the conversation appears](#where-the-conversation-appears).
+1. Select the team that hosts the ARIA conversation. See [View conversations created by automations](#view-conversations-created-by-automations).
 1. Set **Action type** to **Trigger ARIA**.
 1. In the **Prompt** field, write the prompt to send to ARIA. See [Write the prompt](#write-the-prompt). Click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
@@ -88,6 +88,7 @@ The automation is now active and starts a new ARIA conversation whenever the cho
 </Tabs>
 
 ## Create and manage automations with ARIA
+
 ARIA can create, delete, enable, and disable automations on demand.
 
 Ask ARIA to create an automation:
@@ -103,6 +104,7 @@ Ask ARIA about your existing automations:
   prompt="What automations exist in this project?"
   response="You have 2 project-level automations, both enabled...."
 />
+
 ## Write the prompt
 
 The prompt is the only thing you configure for an ARIA action. Write it the way you would write a message in the ARIA chat window, and include [template variables](#template-variables) to specify which run, artifact, or metric ARIA should examine.
