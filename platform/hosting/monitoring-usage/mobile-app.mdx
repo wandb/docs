@@ -5,7 +5,7 @@ keywords: ["iPhone app", "iPad app", "iOS app", "App Store", "mobile monitoring"
 ---
 
 <Info>
-Latest version: 26.23 (released August 31, 2026). [App Store release notes](https://apps.apple.com/us/app/6755162576).
+Latest version: 26.24 (released September 8, 2026). [App Store release notes](https://apps.apple.com/us/app/6755162576).
 </Info>
 
 <Columns cols={4}>
@@ -48,6 +48,7 @@ The following features are available in the mobile app.
     - **Full project history**: Metric charts on project panels include data from _all runs_ in the project, not only the latest run.
     - **Star projects**: See your most important projects at a glance. Tap the star icon next to a project to star it. To filter the list to only starred projects, tap the **Starred** tab at the top of the list.
 - **Track experiments**: View run status, metrics, and line plots for your experiments in real time.
+    - **Hide and show runs**: On a project's **Runs** tab, tap the **visibility (<Icon icon="eye" iconType="solid"/>)** icon on a run to hide it. Hidden runs stay in the runs list with a **hidden (<Icon icon="eye-slash" iconType="solid"/>)** icon, so you can tap the icon again to show the run. Charts on the project's **Panels** tab plot only the runs that are visible. The app remembers which runs you hid in each project between launches.
     - **Live updates**: Charts refresh as new data arrives. The **Runs** tab and project run lists update automatically when new runs start.
     - **Run overview tab**: On each run, open the **Overview** tab for a dedicated summary of run details alongside metrics and logs. View the full run configuration and summary, including nested objects and arrays. Long config values wrap to multiple lines. Long-press a configuration value to copy it.
     - **View system metrics**: On each run, open the **Metrics** tab to see how your hardware behaved during training. W&B automatically logs [metrics](/models/ref/python/experiments/system-metrics) such as GPU utilization, CPU usage, memory, disk I/O, and network traffic. System metrics appear in a collapsible **System** section alongside your logged metrics. Each metric displays as a line chart with the same tooltip and search behavior as other metrics on the tab.
