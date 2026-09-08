@@ -2193,7 +2193,7 @@
               }
             ],
             "title": "Entity",
-            "description": "Team or username of the developer whose W&B API key is being used",
+            "description": "Team or username associated with the supplied W&B credential",
             "examples": [
               "my-team"
             ]
