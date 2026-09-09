@@ -52,13 +52,23 @@ jobs:
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs['dry-run'] || false }}
       SEED: ${{ github.event_name == 'workflow_dispatch' && inputs.seed || false }}
       SINCE: ${{ inputs.since || '60 days ago' }}
-      # The one variable that points the detector at a checkout; see
-      # config.SourceRepo.local_path_env.
-      CORE_REPO: ${{ runner.temp }}/core
-      SUMMARY_JSON: ${{ runner.temp }}/uidrift-summary.json
-      PR_BODY: ${{ runner.temp }}/uidrift-pr-body.md
 
     steps:
+      # RUNNER_TEMP is only known to the runner, and the `runner` context is not
+      # available in a job-level `env:` -- referencing it there is a workflow
+      # startup failure, not an empty string. So the three paths that live
+      # outside the workspace are resolved here, once, into the job environment.
+      - name: Resolve scratch paths
+        run: |
+          set -euo pipefail
+          {
+            # The one variable that points the detector at a checkout; see
+            # config.SourceRepo.local_path_env.
+            echo "CORE_REPO=$RUNNER_TEMP/core"
+            echo "SUMMARY_JSON=$RUNNER_TEMP/uidrift-summary.json"
+            echo "PR_BODY=$RUNNER_TEMP/uidrift-pr-body.md"
+          } >> "$GITHUB_ENV"
+
       # Two ways to read a private wandb/core, checked before spending four
       # minutes on a clone that cannot authenticate.
       - name: Require a wandb/core read credential
