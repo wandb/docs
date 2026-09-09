@@ -78,15 +78,18 @@ Before you fetch audit logs, confirm that you meet the following prerequisites f
 Use the W&B Audit Logging API to retrieve audit logs. The endpoint, query parameters, and response format depend on your deployment type.
 
 <Tabs>
-<Tab title="Dedicated Cloud and Self-Managed">
+<Tab title="Dedicated Cloud or Self-Managed">
 Use this tab for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances. The Audit Logging API endpoint uses your instance URL:
 
 - Dedicated Cloud: `https://[INSTANCE-NAME].wandb.io/admin/audit_logs`.
-- Self-Managed: `[WANDB-PLATFORM-URL]/admin/audit_logs`.
+- Self-Managed: `https://[WANDB-PLATFORM-URL]/admin/audit_logs`.
 
-Replace `[INSTANCE-NAME]` with your Dedicated Cloud instance name. Replace `[WANDB-PLATFORM-URL]` with the URL of your Self-Managed instance.
-
-In the following `curl` examples, replace `[API-ENDPOINT]` with the endpoint for your instance. Replace `[BASE64-USERNAME-API-KEY]` with the base64-encoded string in the format `[USERNAME]:[API-KEY]`. Replace `[NEXT-CURSOR]` with the `next_cursor` value from the previous response.
+In the following examples, replace:
+- `[INSTANCE-NAME]`: your Dedicated Cloud instance name.
+- `[WANDB-PLATFORM-URL]`: the URL of your Self-Managed instance.
+- `[API-ENDPOINT]`: the endpoint for your instance.
+- `[BASE64-USERNAME-API-KEY]`: the base64-encoded string in the format `[USERNAME]:[API-KEY]`.
+- `[NEXT-CURSOR]`: the `next_cursor` value from the previous response.
 
 The following query parameters are supported:
 
@@ -146,6 +149,17 @@ To fetch the next page, repeat the request with the same resolved date range and
 curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
   "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000&cursor=[NEXT-CURSOR]"
 ```
+
+### Exclude PII when fetching audit logs <a id="exclude-pii"></a>
+
+For [Self-Managed](/platform/hosting/hosting-options/self-managed) and [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), a W&B organization or instance admin can exclude PII when fetching audit logs. For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This isn't configurable.
+
+To exclude PII, pass the `anonymize=true` URL parameter. For example, to get audit logs for user activity within the last week and exclude PII, if your W&B instance URL is `https://mycompany.wandb.io`, use an API endpoint like:
+
+```text
+https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETERS].
+```
+
 </Tab>
 <Tab title="Multi-tenant Cloud">
 Use this tab for [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). Multi-tenant audit logs are available only for Enterprise plans. The Audit Logging API endpoint is:
@@ -171,7 +185,9 @@ The response is a JSON object with the following fields:
 - `count`: The number of audit log entries returned in this response.
 - `next_cursor`: An opaque cursor for the next page of results. If this field is `null`, there are no more results for the selected date range.
 
-In the following `curl` examples, replace `[BASE64-USERNAME-API-KEY]` with the base64-encoded string in the format `[USERNAME]:[API-KEY]`. Replace `[NEXT-CURSOR]` with the `next_cursor` value from the previous response.
+In the following examples, replace:
+- `[BASE64-USERNAME-API-KEY]`: the base64-encoded string in the format `[USERNAME]:[API-KEY]`.
+- `[NEXT-CURSOR]`: the `next_cursor` value from the previous response.
 
 To fetch audit logs for a range, run:
 
@@ -205,22 +221,18 @@ To fetch the next page, repeat the request with the same resolved date range. Se
 curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
   "https://api.wandb.ai/audit_logs?startDate=2026-08-01&numDays=2&limit=1000&cursor=[NEXT-CURSOR]"
 ```
+
+<a id="1">1</a>: On [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), audit logs are not collected for:
+- Open or Public projects.
+- The `report:read` action.
+- `User` actions that aren't tied to a specific organization.
+
 </Tab>
 </Tabs>
 
 ### Use basic authentication
 
 You must authenticate each request to the audit logs API. To use basic authentication with your API key to access the audit logs API, set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base64-encoded string in the format `[USERNAME]:[API-KEY]`. In other words, replace the username and API key with your values separated with a `:` character, then base64-encode the result. For example, to authorize as `demo:p@55w0rd`, set the header to `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
-
-### Exclude PII when fetching audit logs <a id="exclude-pii"></a>
-
-For [Self-Managed](/platform/hosting/hosting-options/self-managed) and [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), a W&B organization or instance admin can exclude PII when fetching audit logs. For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This isn't configurable.
-
-To exclude PII, pass the `anonymize=true` URL parameter. For example, to get audit logs for user activity within the last week and exclude PII, if your W&B instance URL is `https://mycompany.wandb.io`, use an API endpoint like:
-
-```text
-https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETERS].
-```
 
 ## Actions
 
@@ -259,7 +271,3 @@ Each audit log entry records one of the following actions. Use this reference to
 | `user:read`                   | User profile is read. <sup><a href="#1">1</a></sup>
 | `user:update`                 | User is updated. <sup><a href="#1">1</a></sup>
 
-<a id="1">1</a>: On [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), audit logs are not collected for:
-- Open or Public projects.
-- The `report:read` action.
-- `User` actions that aren't tied to a specific organization.
