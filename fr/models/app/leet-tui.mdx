@@ -1,9 +1,9 @@
 ---
 title: Interface de terminal LEET
-description: Explorez et comparez des runs W&B locaux depuis le terminal avec la TUI LEET (Lightweight Experiment Exploration Tool).
+description: Explorez les runs W&B locaux et les métriques de runs distants depuis le terminal avec l'interface de terminal LEET.
 ---
 
-W&amp;B LEET (Lightweight Experiment Exploration Tool) est une interface de terminal pilotée au clavier pour explorer les runs journalisés sur la machine sur laquelle vous travaillez. Utilisez LEET pour comparer des métriques, inspecter l’utilisation des ressources système, parcourir les images enregistrées et suivre la sortie console sans ouvrir de navigateur. LEET lit les journaux de transactions locaux `.wandb`, ce qui vous permet d’inspecter les runs avant qu’ils ne soient synchronisés avec le cloud.
+W&amp;B LEET (Lightweight Experiment Exploration Tool) est une interface de terminal pilotée au clavier pour explorer les runs W&amp;B. Utilisez LEET pour comparer des métriques locales, inspecter l’utilisation des ressources système, parcourir les images enregistrées et suivre la sortie console sans ouvrir de navigateur. LEET lit les journaux de transactions locaux `.wandb`, ce qui vous permet d’inspecter les runs avant qu’ils ne soient synchronisés avec le cloud. Vous pouvez également ouvrir un run distant par son URL pour consulter son historique de scalaires et sa synthèse.
 
 <Frame>
   <img src="/images/leet/leet-workspace-all-panes.png" alt="Vue Workspace de W&B LEET avec des volets pour les runs, les métriques, les métriques système, les médias, les journaux de console et l’aperçu du run." />
@@ -21,29 +21,29 @@ LEET est conçu pour les ingénieurs qui passent le plus clair de leur temps dan
 | **[W&amp;B App](/fr/models/runs/view-logged-runs)**                        | Workspaces de projet complets, collaboration en équipe, Reports, Sweeps, Artifacts et types de panneaux variés pour les runs cloud synchronisés.                                                      |
 | **[W&amp;B mobile app](/fr/platform/hosting/monitoring-usage/mobile-app)** | Surveillance légère et alertes pour les projets cloud synchronisés sur téléphone (Cloud mutualisé uniquement).                                                                                        |
 
-LEET et W&amp;B App affichent les mêmes données de run sous-jacentes lorsque ces données existent localement et ont été synchronisées. LEET ne remplace pas un workspace de projet dans le navigateur. Il s&#39;agit d&#39;une interface différente pour les fichiers de run locaux et les mises à jour en temps réel d&#39;un processus d&#39;entraînement actif.
+LEET et W&amp;B affichent les mêmes données de run sous-jacentes lorsque ces données existent localement et ont été synchronisées. LEET prend en charge les fichiers de run locaux, les mises à jour en temps réel d&#39;un processus d&#39;entraînement actif et une [exploration limitée des runs distants](#remote-runs).
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-Installez ou mettez à jour la CLI W&amp;B vers la dernière version à l’aide de `pip` ou `uv` :
+Installez ou mettez à jour la CLI W&amp;B vers la dernière version à l’aide de `pip` ou `uv` :
 
 <Tabs>
   <Tab title="pip">
-    ```bash
+    ```sh
     pip install --upgrade wandb
     ```
   </Tab>
 
   <Tab title="uv">
-    ```bash
+    ```sh
     uv pip install --upgrade wandb
     ```
   </Tab>
 </Tabs>
 
-Ce guide décrit le comportement le plus récent de la CLI. Pour les modifications d’une version à l’autre, voir le [journal des modifications](#changelog) sur cette page.
+Ce guide décrit le comportement le plus récent de la CLI.
 
 <Note>
   Dans le SDK v0.27.x et les versions antérieures, lancez le TUI LEET avec `wandb beta leet` au lieu de `wandb leet`.
@@ -53,33 +53,47 @@ Ce guide décrit le comportement le plus récent de la CLI. Pour les modificatio
   ## Launch LEET
 </div>
 
-Depuis le répertoire qui contient votre dossier `wandb/`, ouvrez le Workspace par défaut et sélectionnez automatiquement le run local le plus récent :
+Depuis le répertoire qui contient votre dossier `wandb/`, ouvrez le Workspace par défaut et sélectionnez automatiquement le run local le plus récent :
 
-```bash
+```sh
 wandb leet
 ```
 
-Vous pouvez fournir un `PATH` facultatif pointant vers un répertoire Workspace, le répertoire d’un run spécifique ou un fichier `.wandb` :
+Vous pouvez fournir un `PATH` facultatif pointant vers un répertoire Workspace, le répertoire d’un run spécifique ou un fichier `.wandb` :
 
-```bash
+```sh
 wandb leet ./wandb
 wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns
 wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
 ```
 
-Ouvrez le moniteur système autonome (SYMON) pour consulter les métriques de l’hôte en dehors de tout contexte de run :
+Ouvrez le moniteur système autonome (SYMON) pour consulter les métriques de l’hôte en dehors de tout contexte de run :
 
-```bash
+```sh
 wandb leet symon --interval 2s
 ```
 
 Pour la syntaxe de la commande et les sous-commandes, voir [`wandb leet`](/fr/models/ref/cli/wandb-leet) dans la Référence CLI.
 
+<div id="remote-runs">
+  ### Runs distants
+</div>
+
+Pour afficher un run synchronisé, indiquez son URL. Remplacez `[ENTITY]`, `[PROJECT]` et `[RUN-ID]` par les valeurs de l&#39;URL de votre run :
+
+```sh
+wandb leet "https://wandb.ai/[ENTITY]/[PROJECT]/runs/[RUN-ID]"
+```
+
+Les runs distants nécessitent une connexion réseau et une authentification par clé API auprès du serveur qui héberge le run. LEET utilise vos identifiants d’authentification configurés ou vous invite à vous connecter.
+
+Le mode distant ouvre l’historique scalaire et la synthèse d’un seul run. Il ne propose ni mises à jour en direct, ni comparaison entre plusieurs runs, ni configuration, system metrics, media, console logs, axes X personnalisés ou inspecteur d’enregistrements. Utilisez des run files locaux pour ces fonctionnalités.
+
 <div id="views-and-pane-layout">
   ## Vues et mise en page des volets
 </div>
 
-LEET propose trois vues principales : **workspace**, **run unique** et **SYMON**.
+LEET propose trois vues principales : **workspace**, **run unique** et **SYMON**. Le **record inspector** fournit une vue distincte d&#39;un journal de transactions local.
 
 <div id="workspace-view">
   ### Vue Workspace
@@ -87,7 +101,7 @@ LEET propose trois vues principales : **workspace**, **run unique** et **SYMON*
 
 La vue Workspace s’affiche par défaut. Elle est conçue pour comparer plusieurs runs issus du même répertoire local `wandb/`.
 
-Les volets typiques incluent :
+Les volets typiques incluent :
 
 * **Barre latérale Runs** — parcourez et filtrez les dossiers de runs locaux.
 * **Grille de métriques** — superposez les runs sélectionnés sur les mêmes graphiques scalaires.
@@ -97,6 +111,10 @@ Les volets typiques incluent :
 * **Aperçu du run** — état, ID, tag, notes, configuration et valeurs de synthèse.
 
 Utilisez `space` pour sélectionner ou désélectionner un run afin de superposer ses métriques. Les runs sélectionnés sont marqués d’une icône pleine. Utilisez `p` pour épingler un run afin que sa série reste au premier plan dans les graphiques de métriques. Appuyez sur `enter` sur le run en surbrillance pour ouvrir la **vue run unique**. Les runs en cours continuent de se mettre à jour dans Workspace, ce qui vous permet d’utiliser LEET aussi bien pour l’analyse après exécution que pour surveiller un job actif.
+
+Les runs en cours sont signalés par des marqueurs animés dans la liste des runs et par un indicateur d’état clignotant dans la barre de statut. LEET marque un run local en cours comme planté après 10 minutes sans mise à jour du journal de transactions. Si les écritures reprennent, LEET reprend la surveillance en direct.
+
+Dans les terminaux étroits, LEET masque temporairement la barre latérale d’aperçu du run, puis la barre latérale Runs, afin de laisser si possible au moins 24 colonnes aux graphiques. Les barres latérales réapparaissent lorsque le terminal dispose de suffisamment d’espace.
 
 <div id="single-run-view">
   ### Vue d’un run unique
@@ -108,7 +126,7 @@ La vue d’un run unique se concentre sur un run, avec une grille de métriques 
   <img src="/images/leet/leet-single-run-view.png" alt="Vue LEET d’un run unique dans W&B, avec des volets d’aperçu du run, de graphiques de métriques et de métriques système." />
 </Frame>
 
-Appuyez sur `esc` pour revenir à la vue de l’espace de travail.
+Appuyez sur `esc` pour quitter le filtre actif ou la vue des médias en plein écran, puis pour retirer le focus du volet. Pour un run local, appuyez à nouveau sur `esc` lorsqu’aucun volet n’a le focus afin de revenir à la vue de l’espace de travail.
 
 <div id="symon">
   ### SYMON
@@ -120,6 +138,29 @@ SYMON surveille les métriques locales du CPU, de la mémoire, du disque, du ré
   <img src="/images/leet/leet-system-metrics-heatmap.png" alt="Vue des métriques système de W&B LEET avec des graphiques GPU et un mode de carte thermique par buckets." />
 </Frame>
 
+<div id="record-inspector">
+  ### Inspecteur d&#39;enregistrements
+</div>
+
+Utilisez l&#39;inspecteur d&#39;enregistrements pour examiner les enregistrements bruts d&#39;un journal de transactions `.wandb` local. Dans la vue run unique, appuyez sur `i` pour l&#39;ouvrir sur le run actuel. Vous pouvez également le lancer directement :
+
+```sh
+wandb leet inspect
+wandb leet inspect ./wandb
+wandb leet inspect ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+```
+
+Le chemin facultatif accepte un fichier `.wandb`, un répertoire de run ou un répertoire d&#39;espace de travail. Sans chemin, ou avec un répertoire d&#39;espace de travail, LEET ouvre le run le plus récent.
+
+La liste des enregistrements affiche les types et les synthèses des enregistrements, ainsi que le texte complet de l&#39;enregistrement sélectionné. Appuyez sur `/` pour filtrer par type ou par synthèse, sur `tab` pour basculer entre les modes regex et glob pendant la saisie, et sur `ctrl+/` pour effacer le filtre. Lorsque le focus est sur la liste des enregistrements, appuyez sur `end` pour suivre les nouveaux enregistrements d&#39;un run en cours. Si vous avez ouvert l&#39;inspecteur avec `i`, appuyez sur `esc` depuis la liste des enregistrements pour revenir au run.
+
+Lorsque la sortie standard est redirigée ou transmise à un pipe, la commande affiche les enregistrements disponibles au format texte Protocol Buffer, puis se termine :
+
+```sh
+wandb leet inspect | less
+wandb leet inspect > records.txt
+```
+
 <div id="key-features">
   ## Fonctionnalités clés
 </div>
@@ -130,16 +171,16 @@ SYMON surveille les métriques locales du CPU, de la mémoire, du disque, du ré
 
 Sélectionnez plusieurs runs dans la vue Workspace pour comparer des métriques scalaires sur des graphiques partagés. Chaque run se voit attribuer une couleur stable, et LEET réduit les collisions entre couleurs de base afin que les séries superposées restent faciles à distinguer. L’épinglage est utile lorsque de nombreux runs sont sélectionnés et que vous souhaitez qu’une série soit affichée au-dessus des autres.
 
-Appuyez sur `f` pour filtrer la liste des runs par nom, projet, tags, notes, valeurs de configuration et autres métadonnées. Les termes seuls effectuent une recherche dans la clé du run, le nom d’affichage, l’ID du run, le projet, les tags et les notes. Le filtre prend également en charge les requêtes par champ :
+Appuyez sur `f` pour filtrer la liste des runs par nom, projet, tags, notes, valeurs de configuration et autres métadonnées. Les termes seuls effectuent une recherche dans la clé du run, le nom d’affichage, l’ID du run, le projet, les tags et les notes. Le filtre prend également en charge les requêtes par champ :
 
 | Requête                             | Correspond à                                                                      |
 | ----------------------------------- | --------------------------------------------------------------------------------- |
 | `project:vision`                    | Nom du projet.                                                                    |
-| `name:baseline`                     | Nom d’affichage. Alias : `run_name`, `display`, `display_name`.                   |
-| `id:abc123`                         | ID du run. Alias : `run_id`.                                                      |
-| `key:offline-run`                   | Clé du répertoire du run. Alias : `run_key`, `path`.                              |
-| `tag:prod`                          | Tags. Alias : `tags`.                                                             |
-| `note:debug`                        | Notes. Alias : `notes`.                                                           |
+| `name:baseline`                     | Nom d’affichage. Alias : `run_name`, `display`, `display_name`.                   |
+| `id:abc123`                         | ID du run. Alias : `run_id`.                                                      |
+| `key:offline-run`                   | Clé du répertoire du run. Alias : `run_key`, `path`.                              |
+| `tag:prod`                          | Tags. Alias : `tags`.                                                             |
+| `note:debug`                        | Notes. Alias : `notes`.                                                           |
 | `config:adamw` or `cfg:adamw`       | Toute clé ou valeur de configuration aplatie.                                     |
 | `cfg.lr>=1e-3`                      | Un chemin de configuration imbriqué spécifique. `config.lr` fonctionne également. |
 | `has:notes` or `exists:cfg.dataset` | Vérification de l’existence.                                                      |
@@ -158,39 +199,66 @@ project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
 
 Lors de la modification d’un filtre, appuyez sur `tab` pour basculer entre les modes regex et glob. Le mode regex fonctionne comme une recherche de sous-chaîne insensible à la casse, sauf si la requête contient des métacaractères regex. Le mode glob prend en charge `*` pour toute séquence de caractères et `?` pour n’importe quel caractère unique.
 
+LEET enregistre les filtres de runs, de métriques et de métriques système, y compris leurs modes de correspondance, dans `.wandb-leet.json` à l’intérieur de chaque répertoire local `wandb/`. Il les restaure lorsque vous rouvrez ce répertoire dans la vue Workspace ou la vue run unique. Effacer un filtre efface également sa valeur enregistrée. Les filtres du journal de console et de l’aperçu du run ne sont pas conservés d’une session à l’autre.
+
 <div id="metrics-and-system-metrics">
   ### Métriques et métriques système
 </div>
 
-LEET affiche les métriques scalaires sous forme de graphiques linéaires dans le terminal. Filtrez les métriques de run avec `/` et les métriques système avec `\`. Appuyez sur `y` lorsqu’un graphique est sélectionné pour faire défiler des modes tels que l’échelle logarithmique sur l’axe Y ou des vues en carte thermique par plages pour les métriques système basées sur des pourcentages.
+LEET affiche les métriques scalaires sous forme de graphiques linéaires dans le terminal. Filtrez les métriques de run avec `/` et les métriques système avec `\`. Lorsque le volet des journaux de la console a le focus, `/` filtre les journaux à la place. Appuyez sur `y` lorsqu&#39;un graphique a le focus pour parcourir les différents modes, comme l&#39;axe Y en échelle logarithmique ou les vues heatmap par buckets pour les métriques système exprimées en pourcentage.
 
-Utilisez la molette de la souris pour zoomer sur le graphique sélectionné. Sur les graphiques de métriques système en temps réel, LEET utilise par défaut une fenêtre glissante sur les dernières valeurs (10 minutes par défaut). Cliquez avec le bouton droit et faites glisser sur un graphique pour inspecter le point le plus proche. Maintenez `alt` enfoncée tout en faisant glisser pour inspecter tous les graphiques visibles à la même position sur l’axe X.
+Appuyez sur `g` pour faire défiler les repères du graphique : désactivés, arrière-plan pointillé, puis lignes horizontales alignées sur les graduations de l&#39;axe Y. Ce paramètre s&#39;applique aux vues workspace, run unique et SYMON, et il est conservé d&#39;une session à l&#39;autre.
+
+Par défaut, LEET trace chaque métrique en fonction de la métrique d&#39;étape interne de W&amp;B (`_step`). Pour les runs locaux, un axe X personnalisé défini avec `run.define_metric()` est prioritaire, y compris pour les définitions utilisant des motifs glob. Par exemple, ce run trace `train/loss` en fonction de `train/step` :
+
+```python
+import wandb
+
+with wandb.init(project="leet-example", mode="offline") as run:
+    run.define_metric("train/*", step_metric="train/step")
+    for step in range(10):
+        run.log({"train/step": step * 100, "train/loss": 1 / (step + 1)})
+```
+
+L&#39;en-tête du graphique et la barre de statut affichent `[x: train/step]`. Les lignes sans valeur finie pour l&#39;axe X personnalisé sont omises. Chaque graphique utilise un seul axe X : comparez donc des runs partageant la même définition d&#39;axe. Un axe personnalisé remplace l&#39;axe des étapes par défaut, et les séries utilisant un autre axe ne sont pas tracées sur ce graphique.
+
+Utilisez la molette de la souris pour zoomer sur le graphique actif. Sur les graphiques de métriques système en direct, LEET applique par défaut une fenêtre glissante des dernières données (10 minutes par défaut). Faites un clic droit et faites glisser sur un graphique pour inspecter le point le plus proche. Maintenez `alt` enfoncée pendant le glissement pour inspecter les graphiques visibles de la même grille à la même position X. Les graphiques de métriques ne se synchronisent que s&#39;ils partagent le même axe X.
 
 <div id="media-and-console-logs">
-  ### Médias et journal de la console
+  ### Multimédia et journaux de console
 </div>
 
-Le volet multimédia affiche les séries `wandb.Image` sous forme de miniatures ANSI. Basculez-le avec `3` dans la vue Workspace ou la vue d’un run unique.
+Le volet multimédia affiche les séries `wandb.Image`, y compris les listes d&#39;images journalisées sous une même clé, avec une vignette par image. Affichez-le ou masquez-le avec `3` dans la vue workspace ou la vue run unique.
+
+Lorsque le volet multimédia a le focus, utilisez `w`, `a`, `s` et `d` pour sélectionner des vignettes. Les flèches gauche et droite avancent d&#39;une image, et les flèches haut et bas de 10 images. Appuyez sur `enter` pour afficher le média en plein écran et sur `esc` pour quitter ce mode. Appuyez sur `l` pour synchroniser le défilement entre les séries d&#39;images : les flèches, `home` et `end` déplacent alors un curseur partagé le long de leur chronologie d&#39;étapes combinée.
+
+Appuyez sur `k` pour basculer entre les vignettes ANSI et le rendu haute résolution dans les terminaux qui prennent en charge le protocole graphique Kitty. LEET revient au mode ANSI lorsque le terminal ne prend pas en charge le rendu haute résolution. Le remplissage des images utilise l&#39;arrière-plan du terminal.
 
 <Frame>
-  <img src="/images/leet/leet-media-workspace.png" alt="Vue Workspace de W&B LEET avec le volet multimédia affichant plusieurs séries d’images." />
+  <img src="/images/leet/leet-media-workspace.png" alt="Vue workspace de W&B LEET avec le volet multimédia affichant plusieurs séries d'images." />
 </Frame>
 
-Basculez le journal de la console avec `4`. LEET reconstruit des lignes de log lisibles à partir de la sortie brute du terminal, y compris les codes d’échappement ANSI et les lignes de progression avec retour chariot.
+Affichez ou masquez les journaux de console avec `4`. LEET reconstruit des lignes de journal lisibles à partir de la sortie brute du terminal, y compris les codes d&#39;échappement ANSI et les lignes de progression avec retour chariot.
 
-Pour le comportement du journal de la console dans W&amp;B App, voir [Journal de la console](/fr/models/app/console-logs).
+Pour filtrer la sortie de la console, donnez le focus au volet des journaux, appuyez sur `/`, puis saisissez un motif. Appuyez sur `tab` pendant la saisie pour basculer entre la correspondance par expression régulière et la correspondance glob. Appuyez sur `enter` pour appliquer le filtre ou sur `esc` pour abandonner la requête en cours de saisie. LEET affiche les lignes correspondantes et suit les nouvelles correspondances lorsque vous vous trouvez à la fin du journal. Lorsque le volet des journaux a le focus, appuyez sur `ctrl+/` ou `ctrl+l` pour effacer le filtre.
+
+Pour connaître le comportement des journaux de console dans la W&amp;B App, voir [Console logs](/fr/models/app/console-logs).
 
 <div id="configuration">
   ### Configuration
 </div>
 
-Enregistrez la mise en page, les couleurs, les volets par défaut et le mode de démarrage avec l’éditeur de configuration :
+Enregistrez la mise en page, les couleurs, les volets par défaut et le mode de démarrage avec l’éditeur de configuration :
 
-```bash
+```sh
 wandb leet config
 ```
 
 LEET écrit `wandb-leet.json` dans `~/.config/wandb/` par défaut, ou dans `WANDB_CONFIG_DIR` si cette variable est définie. Vous pouvez aussi redimensionner les grilles directement dans LEET avec `c` et `r`.
+
+Faites glisser les bordures des volets et les lignes de séparation pour redimensionner les barres latérales, les volets empilés ainsi que les sections Environment, Config et Summary de l’aperçu du run. La bordure active est mise en évidence pendant le glissement. LEET enregistre les proportions séparément pour les vues workspace, run unique et inspecteur. Appuyez sur `0` pour réinitialiser les tailles de la vue courante, y compris celles des sections de l’aperçu du run.
+
+Dans l’éditeur de configuration, la liste des champs défile avec votre sélection pour s’adapter aux terminaux de faible hauteur. Appuyez sur `space` pour basculer un paramètre booléen.
 
 <Frame>
   <img src="/images/leet/leet-config-editor.png" alt="Éditeur de configuration LEET de W&B affichant les paramètres de grille, les jeux de couleurs, les paramètres de visibilité et la sélection de palette." />
@@ -200,40 +268,53 @@ LEET écrit `wandb-leet.json` dans `~/.config/wandb/` par défaut, ou dans `WAND
   ### Clés de configuration courantes
 </div>
 
-| Clé                                                          | Par défaut         | Description                                                                                        |
-| ------------------------------------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------- |
-| `startup_mode`                                               | `workspace_latest` | Vue initiale lors du lancement sans chemin de run.                                                 |
-| `metrics_grid.rows`, `metrics_grid.cols`                     | `4`, `3`           | Taille de la grille des métriques d&#39;un seul run.                                               |
-| `system_grid.rows`, `system_grid.cols`                       | `6`, `2`           | Taille de la grille de la barre latérale des métriques système d&#39;un seul run.                  |
-| `media_grid.rows`, `media_grid.cols`                         | `1`, `2`           | Taille de la grille multimédia d&#39;un seul run.                                                  |
-| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3`           | Taille de la grille des métriques de l&#39;espace de travail.                                      |
-| `workspace_system_grid.rows`, `workspace_system_grid.cols`   | `3`, `3`           | Taille de la grille des métriques système de l&#39;espace de travail.                              |
-| `workspace_media_grid.rows`, `workspace_media_grid.cols`     | `1`, `2`           | Taille de la grille multimédia de l&#39;espace de travail.                                         |
-| `symon_grid.rows`, `symon_grid.cols`                         | `3`, `3`           | Taille de la grille SYMON.                                                                         |
-| `color_scheme`                                               | `wandb-vibe-10`    | Palette pour les métriques de run de l&#39;espace de travail et les couleurs de la liste des runs. |
-| `per_plot_color_scheme`                                      | `sunset-glow`      | Palette pour les graphiques d&#39;un seul run lorsque `single_run_color_mode` vaut `per_plot`.     |
-| `tag_color_scheme`                                           | `wandb-vibe-10`    | Palette pour les badges de tag dans la barre latérale d&#39;aperçu.                                |
-| `system_color_scheme`                                        | `wandb-vibe-10`    | Palette pour les graphiques de métriques système.                                                  |
-| `french_fries_color_scheme`                                  | `viridis`          | Palette pour les graphiques de cartes thermiques par compartiments.                                |
-| `single_run_color_mode`                                      | `per_series`       | Colorer les graphiques d&#39;un seul run par série ou par graphique.                               |
-| `system_color_mode`                                          | `per_series`       | Colorer les graphiques système par série ou par graphique.                                         |
-| `system_tail_window_minutes`                                 | `10`               | Fenêtre glissante en direct par défaut pour les graphiques système.                                |
-| `heartbeat_interval_seconds`                                 | `15`               | Intervalle d&#39;interrogation pour les runs en direct.                                            |
-| `workspace_overview_visible`                                 | `true`             | Afficher par défaut la barre latérale d&#39;aperçu des runs de l&#39;espace de travail.            |
-| `workspace_metrics_grid_visible`                             | `true`             | Afficher par défaut la grille des métriques de l&#39;espace de travail.                            |
-| `workspace_system_metrics_visible`                           | `false`            | Afficher par défaut le volet des métriques système de l&#39;espace de travail.                     |
-| `workspace_console_logs_visible`                             | `false`            | Afficher par défaut le volet des journaux de la console de l&#39;espace de travail.                |
-| `workspace_media_visible`                                    | `false`            | Afficher par défaut le volet multimédia de l&#39;espace de travail.                                |
-| `left_sidebar_visible`                                       | `true`             | Afficher par défaut la barre latérale d&#39;aperçu d&#39;un seul run.                              |
-| `right_sidebar_visible`                                      | `true`             | Afficher par défaut la barre latérale des métriques système d&#39;un seul run.                     |
-| `metrics_grid_visible`                                       | `true`             | Afficher par défaut la grille des métriques d&#39;un seul run.                                     |
-| `console_logs_visible`                                       | `false`            | Afficher par défaut le volet des journaux de la console d&#39;un seul run.                         |
-| `media_visible`                                              | `false`            | Afficher par défaut le volet multimédia d&#39;un seul run.                                         |
+| Clé                                                          | Par défaut         | Description                                                                                                    |
+| ------------------------------------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `startup_mode`                                               | `workspace_latest` | Vue initiale lors du lancement sans chemin de run.                                                             |
+| `chart_guides`                                               | `off`              | Repères des graphiques linéaires : `off`, `dots` ou `horizontal`. Passez d&#39;un mode à l&#39;autre avec `g`. |
+| `metrics_grid.rows`, `metrics_grid.cols`                     | `4`, `3`           | Taille de la grille des métriques d&#39;un seul run.                                                           |
+| `system_grid.rows`, `system_grid.cols`                       | `6`, `2`           | Taille de la grille de la barre latérale des métriques système d&#39;un seul run.                              |
+| `media_grid.rows`, `media_grid.cols`                         | `1`, `2`           | Taille de la grille multimédia d&#39;un seul run.                                                              |
+| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3`           | Taille de la grille des métriques de l&#39;espace de travail.                                                  |
+| `workspace_system_grid.rows`, `workspace_system_grid.cols`   | `3`, `3`           | Taille de la grille des métriques système de l&#39;espace de travail.                                          |
+| `workspace_media_grid.rows`, `workspace_media_grid.cols`     | `1`, `2`           | Taille de la grille multimédia de l&#39;espace de travail.                                                     |
+| `symon_grid.rows`, `symon_grid.cols`                         | `3`, `3`           | Taille de la grille SYMON.                                                                                     |
+| `color_scheme`                                               | `wandb-vibe-10`    | Palette pour les métriques de run de l&#39;espace de travail et les couleurs de la liste des runs.             |
+| `per_plot_color_scheme`                                      | `sunset-glow`      | Palette pour les graphiques d&#39;un seul run lorsque `single_run_color_mode` vaut `per_plot`.                 |
+| `tag_color_scheme`                                           | `wandb-vibe-10`    | Palette pour les badges de tag dans la barre latérale d&#39;aperçu.                                            |
+| `system_color_scheme`                                        | `wandb-vibe-10`    | Palette pour les graphiques de métriques système.                                                              |
+| `french_fries_color_scheme`                                  | `viridis`          | Palette pour les graphiques de cartes thermiques par compartiments.                                            |
+| `single_run_color_mode`                                      | `per_series`       | Colorer les graphiques d&#39;un seul run par série ou par graphique.                                           |
+| `system_color_mode`                                          | `per_series`       | Colorer les graphiques système par série ou par graphique.                                                     |
+| `system_tail_window_minutes`                                 | `10`               | Fenêtre glissante en direct par défaut pour les graphiques système.                                            |
+| `heartbeat_interval_seconds`                                 | `15`               | Intervalle d&#39;interrogation pour les runs en direct.                                                        |
+| `workspace_overview_visible`                                 | `true`             | Afficher par défaut la barre latérale d&#39;aperçu des runs de l&#39;espace de travail.                        |
+| `workspace_metrics_grid_visible`                             | `true`             | Afficher par défaut la grille des métriques de l&#39;espace de travail.                                        |
+| `workspace_system_metrics_visible`                           | `false`            | Afficher par défaut le volet des métriques système de l&#39;espace de travail.                                 |
+| `workspace_console_logs_visible`                             | `false`            | Afficher par défaut le volet des journaux de la console de l&#39;espace de travail.                            |
+| `workspace_media_visible`                                    | `false`            | Afficher par défaut le volet multimédia de l&#39;espace de travail.                                            |
+| `left_sidebar_visible`                                       | `true`             | Afficher par défaut la barre latérale d&#39;aperçu d&#39;un seul run.                                          |
+| `right_sidebar_visible`                                      | `true`             | Afficher par défaut la barre latérale des métriques système d&#39;un seul run.                                 |
+| `metrics_grid_visible`                                       | `true`             | Afficher par défaut la grille des métriques d&#39;un seul run.                                                 |
+| `console_logs_visible`                                       | `false`            | Afficher par défaut le volet des journaux de la console d&#39;un seul run.                                     |
+| `media_visible`                                              | `false`            | Afficher par défaut le volet multimédia d&#39;un seul run.                                                     |
 
 Plusieurs palettes de couleurs sont disponibles, comme `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`, `blush-tide`, `gilded-lagoon`, `bootstrap-vibe`, `dusk-shore`, `clear-signal`, `traffic-light`, `viridis`, `plasma`, `inferno`, `magma` et `cividis`.
 
 * Les palettes `dusk-shore` et `clear-signal` sont adaptées aux personnes daltoniennes.
 * Les palettes séquentielles comme `viridis`, `plasma`, `inferno`, `magma`, `cividis` et `traffic-light` conviennent bien aux cartes thermiques par compartiments.
+
+<div id="diagnostics-and-telemetry">
+  ### Diagnostics et télémétrie
+</div>
+
+LEET affiche les échecs de démarrage sur stderr. Pour collecter les journaux de débogage, lancez-le avec `WANDB_DEBUG=true` :
+
+```sh
+WANDB_DEBUG=true wandb leet
+```
+
+La sortie de débogage est écrite dans `wandb-leet.debug.log`, aux côtés du fichier de configuration global `wandb-leet.json`. LEET n&#39;envoie pas de données de télémétrie d&#39;utilisation lorsque `WANDB_MODE=offline`, `WANDB_MODE=disabled` ou `WANDB_ERROR_REPORTING=false`.
 
 <div id="navigate-with-the-keyboard">
   ## Naviguer avec le clavier
@@ -241,7 +322,7 @@ Plusieurs palettes de couleurs sont disponibles, comme `wandb-vibe-10`, `wandb-v
 
 LEET est conçu pour être utilisé au clavier et à la souris. Appuyez sur `h` ou `?` dans LEET pour ouvrir la superposition d’aide intégrée à l’application pour la vue actuelle.
 
-Dans les vues du Workspace et du run unique :
+Dans les vues du Workspace et du run unique :
 
 * `tab` et `shift+tab` font passer le focus d’un volet visible à l’autre.
 * `w`, `a`, `s`, `d` et les touches fléchées permettent de se déplacer dans le volet actif (sauf dans le volet multimédia, où les flèches font défiler l’axe X et WASD permet de se déplacer entre les tuiles).
@@ -249,7 +330,7 @@ Dans les vues du Workspace et du run unique :
 * `1`, `2`, `3` et `4` affichent ou masquent la grille des métriques, les métriques système, le multimédia et le volet des journaux de la console.
 * `[` et `]` affichent ou masquent les barres latérales (liste des runs, aperçu du run ou métriques système selon la vue).
 
-Pour consulter les tableaux complets des raccourcis clavier pour le Workspace, le run unique, SYMON et les actions de la souris, voir [Keyboard shortcuts](/fr/models/app/keyboard-shortcuts) (onglet LEET).
+Pour consulter les tableaux complets des raccourcis clavier pour le Workspace, le run unique, SYMON, le multimédia, l’inspecteur d’enregistrements et les actions de la souris, voir [Keyboard shortcuts](/fr/models/app/keyboard-shortcuts) (onglet LEET).
 
 <div id="limitations-compared-to-the-wb-app">
   ## Limitations par rapport à la W&amp;B App
@@ -257,14 +338,14 @@ Pour consulter les tableaux complets des raccourcis clavier pour le Workspace, l
 
 LEET complète la W&amp;B App, mais ne reprend pas toutes les fonctionnalités du Workspace.
 
-| Fonctionnalité        | LEET                                                                                         | W&amp;B App                                                                                                                  |
-| --------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Source de données     | Répertoires locaux `wandb/` et fichiers `.wandb` sur la machine actuelle                     | Projects et Teams synchronisés dans le cloud                                                                                 |
-| Comparaison des runs  | Plusieurs runs locaux dans un même répertoire                                                | Tableaux complets du Workspace, Grouping et vues enregistrées                                                                |
-| Types de panneaux     | Graphiques linéaires scalaires, métriques système, médias `wandb.Image`, journaux de console | Courbes, barres, nuages de points, coordonnées parallèles, médias, code, panneaux de requête, graphiques personnalisés, etc. |
-| Collaboration         | Session de terminal pour un seul utilisateur                                                 | Partage, commentaires, Reports et fonctionnalités d’équipe                                                                   |
-| Artifacts et fichiers | Non disponible                                                                               | Onglets Artifacts, Files et Code pour chaque run                                                                             |
-| Sweeps et registre    | Non disponible                                                                               | Tableaux de bord Sweeps, registre et automatisations                                                                         |
+| Fonctionnalité        | LEET                                                                                                               | W&amp;B App                                                                                                                  |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Source de données     | Répertoires locaux `wandb/` et fichiers `.wandb`, ou l’historique scalaire et la synthèse d’un run distant via URL | Projects et Teams synchronisés dans le cloud                                                                                 |
+| Comparaison des runs  | Plusieurs runs locaux dans un même répertoire                                                                      | Tableaux complets du Workspace, Grouping et vues enregistrées                                                                |
+| Types de panneaux     | Graphiques linéaires scalaires, métriques système, médias `wandb.Image`, journaux de console                       | Courbes, barres, nuages de points, coordonnées parallèles, médias, code, panneaux de requête, graphiques personnalisés, etc. |
+| Collaboration         | Session de terminal pour un seul utilisateur                                                                       | Partage, commentaires, Reports et fonctionnalités d’équipe                                                                   |
+| Artifacts et fichiers | Non disponible                                                                                                     | Onglets Artifacts, Files et Code pour chaque run                                                                             |
+| Sweeps et registre    | Non disponible                                                                                                     | Tableaux de bord Sweeps, registre et automatisations                                                                         |
 
 Si vous avez besoin d’Artifacts, d’analyses de Sweeps ou de types de panneaux que LEET ne propose pas, ouvrez le run dans la [W&amp;B App](/fr/models/runs/view-logged-runs) après synchronisation.
 

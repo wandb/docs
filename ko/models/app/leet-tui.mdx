@@ -1,9 +1,9 @@
 ---
 title: LEET 터미널 UI
-description: LEET(Lightweight Experiment Exploration Tool) TUI를 사용해 터미널에서 로컬 W&B run을 탐색하고 비교하세요.
+description: LEET 터미널 UI를 사용해 터미널에서 로컬 W&B run과 원격 run 메트릭을 탐색하세요.
 ---
 
-W&amp;B LEET(Lightweight Experiment Exploration Tool)는 현재 작업 중인 머신에 로깅된 run을 탐색할 수 있는 키보드 기반 터미널 UI입니다. LEET를 사용하면 메트릭을 비교하고, 시스템 사용량을 점검하고, 로깅된 이미지를 둘러보고, 브라우저를 열지 않고도 콘솔 출력을 실시간으로 확인할 수 있습니다. LEET는 로컬 `.wandb` 트랜잭션 로그를 읽으므로, run이 클라우드에 동기화되기 전에 확인할 수 있습니다.
+W&amp;B LEET(Lightweight Experiment Exploration Tool)는 W&amp;B run을 탐색할 수 있는 키보드 기반 터미널 UI입니다. LEET를 사용하면 로컬 메트릭을 비교하고, 시스템 사용량을 점검하고, 로깅된 이미지를 둘러보고, 브라우저를 열지 않고도 콘솔 출력을 실시간으로 확인할 수 있습니다. LEET는 로컬 `.wandb` 트랜잭션 로그를 읽으므로, run이 클라우드에 동기화되기 전에 확인할 수 있습니다. 또한 URL로 원격 run을 열어 스칼라 이력과 요약을 확인할 수도 있습니다.
 
 <Frame>
   <img src="/images/leet/leet-workspace-all-panes.png" alt="Runs, 메트릭, 시스템 메트릭, 미디어, 콘솔 로그, run 개요 패널이 있는 W&B LEET 워크스페이스 뷰." />
@@ -15,13 +15,13 @@ W&amp;B LEET(Lightweight Experiment Exploration Tool)는 현재 작업 중인 �
 
 LEET는 대부분의 시간을 터미널에서 보내는 엔지니어를 위해 설계되었으며, 특히 그래픽 브라우저가 느리거나 사용할 수 없는 원격 머신, 클러스터, SSH 세션에서 유용합니다.
 
-| Surface                                                                 | 가장 적합한 용도                                                                               |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| **LEET**                                                                | 이를 로깅한 머신의 로컬 run 폴더, 빠른 키보드 내비게이션, 작업이 아직 로그를 기록하는 동안의 실시간 모니터링, SSH 및 `tmux` 워크플로     |
-| **[W&amp;B App](/ko/models/runs/view-logged-runs)**                        | 동기화된 클라우드 Runs 전반에서 전체 프로젝트 워크스페이스, 팀 협업, Reports, 스윕, 아티팩트, 다양한 Panel 유형을 사용할 때 |
-| **[W&amp;B mobile app](/ko/platform/hosting/monitoring-usage/mobile-app)** | 휴대전화에서 동기화된 클라우드 Projects를 위한 경량 모니터링 및 알림(Multi-tenant Cloud 전용)                       |
+| Surface                                                                 | 가장 적합한 용도                                                                           |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **LEET**                                                                | 이를 로깅한 머신의 로컬 run 폴더, 빠른 키보드 내비게이션, 작업이 아직 로그를 기록하는 동안의 실시간 모니터링, SSH 및 `tmux` 워크플로 |
+| **[W&amp;B App](/ko/models/runs/view-logged-runs)**                        | 동기화된 클라우드 Runs 전반에서 전체 프로젝트 워크스페이스, 팀 협업, Reports, 스윕, 아티팩트, 다양한 Panel 유형을 사용할 때    |
+| **[W&amp;B mobile app](/ko/platform/hosting/monitoring-usage/mobile-app)** | 휴대전화에서 동기화된 클라우드 Projects를 위한 경량 모니터링 및 알림(Multi-tenant Cloud 전용)                   |
 
-LEET와 W&amp;B App은 데이터가 로컬에 존재하고 동기화된 경우 동일한 기본 run 데이터를 표시합니다. LEET는 브라우저의 프로젝트 워크스페이스를 대체하지 않습니다. LEET는 로컬 run files와 활성 트레이닝 process의 실시간 업데이트를 위한 별도의 인터페이스입니다.
+LEET와 W&amp;B는 데이터가 로컬에 존재하고 동기화된 경우 동일한 기본 run 데이터를 표시합니다. LEET는 로컬 run files, 활성 트레이닝 process의 실시간 업데이트, 그리고 [제한적인 원격 run 탐색](#remote-runs)을 지원합니다.
 
 <div id="prerequisites">
   ## 사전 요구 사항
@@ -31,19 +31,19 @@ LEET와 W&amp;B App은 데이터가 로컬에 존재하고 동기화된 경우 �
 
 <Tabs>
   <Tab title="pip">
-    ```bash
+    ```sh
     pip install --upgrade wandb
     ```
   </Tab>
 
   <Tab title="uv">
-    ```bash
+    ```sh
     uv pip install --upgrade wandb
     ```
   </Tab>
 </Tabs>
 
-이 가이드는 최신 CLI 동작을 기준으로 작성되었습니다. 버전별 변경 사항은 이 페이지의 [변경 로그](#changelog)를 참조하세요.
+이 가이드는 최신 CLI 동작을 설명합니다.
 
 <Note>
   SDK v0.27.x 이하에서는 `wandb leet` 대신 `wandb beta leet`를 사용하여 LEET TUI를 시작하세요.
@@ -55,13 +55,13 @@ LEET와 W&amp;B App은 데이터가 로컬에 존재하고 동기화된 경우 �
 
 `wandb/` 폴더가 있는 디렉터리에서 기본 워크스페이스를 열고 최신 로컬 run을 자동으로 선택하세요:
 
-```bash
+```sh
 wandb leet
 ```
 
 워크스페이스 디렉터리, 특정 run 디렉터리 또는 `.wandb` 파일을 가리키는 선택 사항인 `PATH`를 전달할 수 있습니다:
 
-```bash
+```sh
 wandb leet ./wandb
 wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns
 wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
@@ -69,17 +69,31 @@ wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
 
 run 컨텍스트 없이 호스트 메트릭을 확인하려면 독립형 시스템 모니터(SYMON)를 여세요:
 
-```bash
+```sh
 wandb leet symon --interval 2s
 ```
 
 명령 구문과 하위 명령에 대해서는 CLI 레퍼런스의 [`wandb leet`](/ko/models/ref/cli/wandb-leet)를 참조하세요.
 
+<div id="remote-runs">
+  ### 원격 runs
+</div>
+
+동기화된 run을 보려면 해당 URL을 전달하세요. `[ENTITY]`, `[PROJECT]`, `[RUN-ID]`는 run URL에 있는 값으로 바꾸세요:
+
+```sh
+wandb leet "https://wandb.ai/[ENTITY]/[PROJECT]/runs/[RUN-ID]"
+```
+
+원격 run에는 해당 run을 호스팅하는 서버에 대한 네트워크 연결과 API 키 인증이 필요합니다. LEET는 설정된 자격 증명을 사용하거나 로그인을 요청합니다.
+
+원격 모드에서는 단일 run의 스칼라 이력과 요약만 열립니다. 실시간 업데이트, 여러 run 비교, 설정, 시스템 메트릭, 미디어, 콘솔 로그, 맞춤형 X축, 레코드 인스펙터는 지원되지 않습니다. 이러한 특성이 필요한 경우 로컬 run 파일을 사용하세요.
+
 <div id="views-and-pane-layout">
   ## 뷰 및 패널 레이아웃
 </div>
 
-LEET에는 **workspace**, **single-run**, **SYMON**의 세 가지 주요 뷰가 있습니다.
+LEET에는 **워크스페이스**, **단일 run**, **SYMON**의 세 가지 주요 뷰가 있습니다. **레코드 인스펙터**는 로컬 트랜잭션 로그를 별도의 뷰로 제공합니다.
 
 <div id="workspace-view">
   ### 워크스페이스 뷰
@@ -98,6 +112,10 @@ LEET에는 **workspace**, **single-run**, **SYMON**의 세 가지 주요 뷰가 
 
 겹쳐진 메트릭에 표시할 run을 선택하거나 선택 해제하려면 `space`를 사용하세요. 선택된 run에는 채워진 아이콘이 표시됩니다. 메트릭 차트에서 해당 시리즈가 맨 위에 유지되도록 run을 고정하려면 `p`를 사용하세요. 강조 표시된 run에서 `enter`를 눌러 **단일 run 뷰**를 여세요. 실행 중인 run은 워크스페이스에서 계속 업데이트되므로, LEET를 실행 후 분석과 활성 작업 모니터링 모두에 사용할 수 있습니다.
 
+실행 중인 run은 runs 목록에 애니메이션 마커로 표시되고, 상태 표시줄에는 깜박이는 상태 표시기가 나타납니다. LEET는 트랜잭션 로그 업데이트 없이 10분이 지나면 실행 중인 로컬 run을 crashed로 표시합니다. 쓰기가 다시 시작되면 LEET는 실시간 모니터링을 재개합니다.
+
+터미널 너비가 좁으면 LEET는 차트에 최소 24개 열을 확보하기 위해 run 개요 사이드바를 먼저 숨기고, 이어서 runs 사이드바를 숨깁니다. 터미널에 충분한 공간이 생기면 사이드바가 다시 표시됩니다.
+
 <div id="single-run-view">
   ### 단일 run 뷰
 </div>
@@ -108,7 +126,7 @@ LEET에는 **workspace**, **single-run**, **SYMON**의 세 가지 주요 뷰가 
   <img src="/images/leet/leet-single-run-view.png" alt="run 개요, 메트릭 차트, 시스템 메트릭 패널이 있는 W&B LEET 단일 run 뷰." />
 </Frame>
 
-`esc`를 눌러 워크스페이스 뷰로 돌아가세요.
+`esc`를 누르면 활성 필터 또는 전체 화면 미디어 뷰에서 빠져나가고, 이어서 패널 포커스가 해제됩니다. 로컬 run의 경우 포커스된 패널이 없는 상태에서 `esc`를 다시 누르면 워크스페이스 뷰로 돌아갑니다.
 
 <div id="symon">
   ### SYMON
@@ -119,6 +137,29 @@ SYMON은 로컬 CPU, 메모리, 디스크, 네트워크, 가속기 메트릭을 
 <Frame>
   <img src="/images/leet/leet-system-metrics-heatmap.png" alt="GPU 차트와 버킷화된 히트맵 모드가 포함된 W&B LEET 시스템 메트릭 뷰." />
 </Frame>
+
+<div id="record-inspector">
+  ### 레코드 인스펙터
+</div>
+
+레코드 인스펙터를 사용하여 로컬 `.wandb` 트랜잭션 로그의 원시 레코드를 살펴보세요. 단일 run 뷰에서 `i` 키를 누르면 현재 run에 대한 인스펙터가 열립니다. 다음과 같이 직접 실행할 수도 있습니다.
+
+```sh
+wandb leet inspect
+wandb leet inspect ./wandb
+wandb leet inspect ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+```
+
+선택적 경로 인수로는 `.wandb` 파일, run 디렉터리 또는 워크스페이스 디렉터리를 지정할 수 있습니다. 경로를 지정하지 않거나 워크스페이스 디렉터리를 지정하면 LEET가 최신 run을 엽니다.
+
+레코드 목록에는 선택한 레코드의 전체 텍스트와 함께 레코드 유형과 요약이 표시됩니다. `/`를 누르면 유형이나 요약으로 필터링하고, 편집 중 `tab`을 누르면 정규식 모드와 glob 모드를 전환하며, `ctrl+/`를 누르면 필터를 지웁니다. 레코드 목록에 포커스가 있는 상태에서 `end`를 누르면 실행 중인 run의 새 레코드를 계속 따라갑니다. `i`로 인스펙터를 열었다면 레코드 목록에서 `esc`를 눌러 run으로 돌아갑니다.
+
+stdout이 파이프되거나 리디렉션된 경우, 이 command는 사용 가능한 레코드를 Protocol Buffer 텍스트로 출력한 뒤 종료합니다:
+
+```sh
+wandb leet inspect | less
+wandb leet inspect > records.txt
+```
 
 <div id="key-features">
   ## 주요 기능
@@ -158,39 +199,66 @@ project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
 
 필터를 편집할 때 `tab`을 눌러 regex 모드와 glob 모드 사이를 전환하세요. Regex 모드는 쿼리에 regex 메타문자가 포함되어 있지 않으면 대소문자를 구분하지 않는 부분 문자열 검색처럼 동작합니다. Glob 모드에서는 `*`가 임의의 문자열 시퀀스를, `?`가 임의의 단일 문자를 나타냅니다.
 
+LEET는 run, 메트릭, 시스템 메트릭 필터를 매칭 모드와 함께 각 로컬 `wandb/` 디렉터리 내의 `.wandb-leet.json`에 저장합니다. 해당 디렉터리를 워크스페이스 뷰나 단일 run 뷰에서 다시 열면 필터가 복원됩니다. 필터를 지우면 저장된 값도 함께 지워집니다. 콘솔 로그 필터와 run 개요 필터는 세션 간에 저장되지 않습니다.
+
 <div id="metrics-and-system-metrics">
   ### 메트릭 및 시스템 메트릭
 </div>
 
-LEET는 스칼라 메트릭을 터미널 선 차트로 표시합니다. `/`로 run 메트릭을 필터링하고 `\`로 시스템 메트릭을 필터링합니다. 선택된 차트에서 `y`를 누르면 로그 스케일 Y축이나 백분율 기반 시스템 메트릭용 버킷 히트맵 뷰 같은 모드로 전환할 수 있습니다.
+LEET는 스칼라 메트릭을 터미널 선 차트로 렌더링합니다. run 메트릭은 `/`로, 시스템 메트릭은 `\`로 필터링하세요. 콘솔 로그 패널에 포커스가 있을 때는 `/`가 로그를 필터링합니다. 포커스된 차트에서 `y`를 누르면 로그 스케일 Y축, 백분율 기반 시스템 메트릭용 버킷 히트맵 뷰 등의 모드를 차례로 전환할 수 있습니다.
 
-마우스 휠을 사용해 선택된 차트를 확대하거나 축소하세요. 실시간 시스템 메트릭 차트에서 LEET는 기본적으로 롤링 테일 윈도우(기본값 10분)를 사용합니다. 차트에서 마우스 오른쪽 버튼을 누른 채 드래그해 가장 가까운 지점을 확인하세요. 드래그하는 동안 `alt`를 누르고 있으면 동일한 X 위치에서 표시된 모든 차트를 확인할 수 있습니다.
+`g`를 누르면 차트 가이드가 끄기, 점선 배경, Y축 눈금에 맞춘 수평선 순으로 전환됩니다. 이 설정은 워크스페이스, 단일 run, SYMON 뷰 전반에 적용되며 세션 간에 유지됩니다.
+
+기본적으로 LEET는 각 메트릭을 W&amp;B의 내부 step 메트릭(`_step`) 기준으로 표시합니다. 로컬 run의 경우 `run.define_metric()`으로 정의한 맞춤형 X축이 우선하며, glob 패턴을 사용한 정의도 마찬가지입니다. 예를 들어 다음 run은 `train/loss`를 `train/step` 기준으로 표시합니다:
+
+```python
+import wandb
+
+with wandb.init(project="leet-example", mode="offline") as run:
+    run.define_metric("train/*", step_metric="train/step")
+    for step in range(10):
+        run.log({"train/step": step * 100, "train/loss": 1 / (step + 1)})
+```
+
+차트 헤더와 상태 표시줄에 `[x: train/step]`이 표시됩니다. 맞춤형 X축 값이 유한하지 않은 행은 생략됩니다. 각 차트는 하나의 X축만 사용하므로 축 정의가 동일한 runs끼리 비교하세요. 맞춤형 축은 기본 step 축을 대체하며, 다른 축을 사용하는 series는 해당 차트에 표시되지 않습니다.
+
+마우스 휠로 포커스된 차트를 확대/축소할 수 있습니다. 실시간 시스템 메트릭 차트에서 LEET는 기본적으로 롤링 tail window(기본값 10분)를 사용합니다. 차트에서 마우스 오른쪽 버튼을 누른 채 드래그하면 가장 가까운 지점을 확인할 수 있습니다. 드래그하는 동안 `alt` 키를 누르고 있으면 같은 그리드에 표시된 차트를 동일한 X 위치에서 함께 확인할 수 있습니다. 메트릭 차트는 동일한 X축을 공유할 때만 동기화됩니다.
 
 <div id="media-and-console-logs">
   ### 미디어 및 콘솔 로그
 </div>
 
-미디어 패널에는 `wandb.Image` 시리즈가 ANSI 썸네일로 표시됩니다. 워크스페이스 뷰 또는 단일 run 뷰에서 `3` 키로 이를 표시하거나 숨길 수 있습니다.
+미디어 패널은 `wandb.Image` 시리즈를 표시하며, 하나의 키 아래에 로깅된 이미지 목록도 이미지당 타일 하나씩 보여줍니다. 워크스페이스 뷰 또는 단일 run 뷰에서 `3`으로 표시/숨기기할 수 있습니다.
+
+미디어 패널이 포커스된 상태에서 `w`, `a`, `s`, `d`로 타일을 선택하세요. 좌우 화살표는 한 프레임씩, 위아래 화살표는 10프레임씩 이동합니다. `enter`를 누르면 미디어가 전체 화면으로 표시되고, `esc`를 누르면 전체 화면이 해제됩니다. `l`을 누르면 여러 이미지 시리즈의 스크러빙이 연동되어, 화살표와 `home`, `end` 키가 결합된 step 타임라인에서 공유 커서를 이동시킵니다.
+
+Kitty 그래픽 프로토콜을 지원하는 터미널에서는 `k`를 눌러 ANSI 썸네일과 고해상도 렌더링을 전환할 수 있습니다. 터미널이 고해상도 렌더링을 지원하지 않으면 LEET는 ANSI로 대체합니다. 이미지 패딩에는 터미널 배경색이 사용됩니다.
 
 <Frame>
-  <img src="/images/leet/leet-media-workspace.png" alt="미디어 패널에 여러 이미지 시리즈가 표시된 W&B LEET 워크스페이스 뷰" />
+  <img src="/images/leet/leet-media-workspace.png" alt="여러 이미지 시리즈를 표시하는 미디어 패널이 있는 W&B LEET 워크스페이스 뷰." />
 </Frame>
 
-`4` 키로 콘솔 로그를 표시하거나 숨기세요. LEET는 ANSI 이스케이프 코드와 캐리지 리턴 기반 진행 상태 줄을 포함한 원시 터미널 출력에서 읽기 쉬운 로그 줄을 재구성합니다.
+콘솔 로그는 `4`로 표시/숨기기할 수 있습니다. LEET는 ANSI 이스케이프 코드와 캐리지 리턴 진행 표시 줄을 포함한 원시 터미널 출력에서 읽기 쉬운 로그 줄을 재구성합니다.
 
-W&amp;B App에서의 콘솔 로그 동작은 [Console logs](/ko/models/app/console-logs)를 참조하세요.
+콘솔 출력을 필터링하려면 로그 패널에 포커스를 두고 `/`를 누른 다음 패턴을 입력하세요. 편집 중에 `tab`을 누르면 정규식 매칭과 glob 매칭을 전환할 수 있습니다. `enter`를 누르면 필터가 적용되고, `esc`를 누르면 초안 쿼리가 삭제됩니다. LEET는 일치하는 줄을 표시하며, 로그 끝부분을 보고 있으면 새로 일치하는 줄을 계속 따라갑니다. 로그 패널이 포커스된 상태에서 `ctrl+/` 또는 `ctrl+l`을 누르면 필터가 해제됩니다.
+
+W&amp;B App에서의 콘솔 로그 동작은 [콘솔 로그](/ko/models/app/console-logs)를 참조하세요.
 
 <div id="configuration">
   ### 설정
 </div>
 
-config editor로 레이아웃, 색상, 기본 패널, 시작 모드를 저장하세요:
+설정 편집기로 레이아웃, 색상, 기본 패널, 시작 모드를 저장하세요:
 
-```bash
+```sh
 wandb leet config
 ```
 
 LEET는 기본적으로 `wandb-leet.json` 파일을 `~/.config/wandb/` 아래에 저장하며, 해당 변수가 설정되어 있으면 `WANDB_CONFIG_DIR` 아래에 저장합니다. 또한 LEET 내부에서 `c`와 `r`를 사용해 그리드 크기를 조정할 수도 있습니다.
+
+패널 경계선과 구분선을 드래그하여 사이드바, 스택된 패널, 그리고 run 개요의 Environment, 설정, Summary 섹션 크기를 조정하세요. 드래그하는 동안 활성 경계선이 강조 표시됩니다. LEET는 워크스페이스, 단일 run, inspector 뷰별로 비율을 각각 저장합니다. `0`을 누르면 run 개요 섹션을 포함해 현재 뷰의 크기가 재설정됩니다.
+
+설정 편집기에서는 높이가 낮은 터미널에 맞춰 필드 목록이 선택 항목을 따라 스크롤됩니다. `space`를 누르면 부울 설정을 표시/숨기기할 수 있습니다.
 
 <Frame>
   <img src="/images/leet/leet-config-editor.png" alt="그리드 설정, 색상 구성표, 표시 설정, 팔레트 선택을 보여주는 W&B LEET 설정 편집기." />
@@ -203,37 +271,50 @@ LEET는 기본적으로 `wandb-leet.json` 파일을 `~/.config/wandb/` 아래에
 | 키                                                            | 기본값                | 설명                                                                 |
 | ------------------------------------------------------------ | ------------------ | ------------------------------------------------------------------ |
 | `startup_mode`                                               | `workspace_latest` | run 경로 없이 시작할 때의 초기 뷰입니다.                                          |
-| `metrics_grid.rows`, `metrics_grid.cols`                     | `4`, `3`           | single-run 메트릭 그리드 크기입니다.                                          |
-| `system_grid.rows`, `system_grid.cols`                       | `6`, `2`           | single-run 시스템 메트릭 사이드바 그리드 크기입니다.                                 |
-| `media_grid.rows`, `media_grid.cols`                         | `1`, `2`           | single-run 미디어 그리드 크기입니다.                                          |
-| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3`           | 워크스페이스 메트릭 그리드 크기입니다.                                           |
-| `workspace_system_grid.rows`, `workspace_system_grid.cols`   | `3`, `3`           | 워크스페이스 시스템 메트릭 그리드 크기입니다.                                       |
-| `workspace_media_grid.rows`, `workspace_media_grid.cols`     | `1`, `2`           | 워크스페이스 미디어 그리드 크기입니다.                                           |
+| `chart_guides`                                               | `off`              | 선 차트 가이드: `off`, `dots`, `horizontal`. `g` 키로 순환합니다.               |
+| `metrics_grid.rows`, `metrics_grid.cols`                     | `4`, `3`           | 단일 run 메트릭 그리드 크기입니다.                                          |
+| `system_grid.rows`, `system_grid.cols`                       | `6`, `2`           | 단일 run 시스템 메트릭 사이드바 그리드 크기입니다.                                 |
+| `media_grid.rows`, `media_grid.cols`                         | `1`, `2`           | 단일 run 미디어 그리드 크기입니다.                                          |
+| `workspace_metrics_grid.rows`, `workspace_metrics_grid.cols` | `3`, `3`           | 워크스페이스 메트릭 그리드 크기입니다.                                              |
+| `workspace_system_grid.rows`, `workspace_system_grid.cols`   | `3`, `3`           | 워크스페이스 시스템 메트릭 그리드 크기입니다.                                          |
+| `workspace_media_grid.rows`, `workspace_media_grid.cols`     | `1`, `2`           | 워크스페이스 미디어 그리드 크기입니다.                                              |
 | `symon_grid.rows`, `symon_grid.cols`                         | `3`, `3`           | SYMON 그리드 크기입니다.                                                   |
-| `color_scheme`                                               | `wandb-vibe-10`    | 워크스페이스 run 메트릭 및 run 목록 색상에 사용하는 팔레트입니다.                        |
-| `per_plot_color_scheme`                                      | `sunset-glow`      | `single_run_color_mode`가 `per_plot`일 때 single-run 차트에 사용하는 팔레트입니다. |
+| `color_scheme`                                               | `wandb-vibe-10`    | 워크스페이스 run 메트릭 및 run 목록 색상에 사용하는 팔레트입니다.                           |
+| `per_plot_color_scheme`                                      | `sunset-glow`      | `single_run_color_mode`가 `per_plot`일 때 단일 run 차트에 사용하는 팔레트입니다. |
 | `tag_color_scheme`                                           | `wandb-vibe-10`    | 개요 사이드바의 tag 배지에 사용하는 팔레트입니다.                                      |
 | `system_color_scheme`                                        | `wandb-vibe-10`    | 시스템 메트릭 차트에 사용하는 팔레트입니다.                                           |
 | `french_fries_color_scheme`                                  | `viridis`          | 버킷형 히트맵 차트에 사용하는 팔레트입니다.                                           |
-| `single_run_color_mode`                                      | `per_series`       | single-run 차트에 시리즈별 또는 플롯별로 색상을 적용합니다.                             |
+| `single_run_color_mode`                                      | `per_series`       | 단일 run 차트에 시리즈별 또는 플롯별로 색상을 적용합니다.                             |
 | `system_color_mode`                                          | `per_series`       | 시스템 차트에 시리즈별 또는 플롯별로 색상을 적용합니다.                                    |
 | `system_tail_window_minutes`                                 | `10`               | 시스템 차트의 기본 라이브 tail 창 길이입니다.                                       |
-| `heartbeat_interval_seconds`                                 | `15`               | 라이브 Runs를 위한 폴링 heartbeat 간격입니다.                                   |
-| `workspace_overview_visible`                                 | `true`             | 기본적으로 워크스페이스 run 개요 사이드바를 표시합니다.                                |
-| `workspace_metrics_grid_visible`                             | `true`             | 기본적으로 워크스페이스 메트릭 그리드를 표시합니다.                                    |
-| `workspace_system_metrics_visible`                           | `false`            | 기본적으로 워크스페이스 시스템 메트릭 패널을 표시합니다.                                 |
-| `workspace_console_logs_visible`                             | `false`            | 기본적으로 워크스페이스 콘솔 로그 패널을 표시합니다.                                   |
-| `workspace_media_visible`                                    | `false`            | 기본적으로 워크스페이스 미디어 패널을 표시합니다.                                     |
-| `left_sidebar_visible`                                       | `true`             | 기본적으로 single-run 개요 사이드바를 표시합니다.                                   |
-| `right_sidebar_visible`                                      | `true`             | 기본적으로 single-run 시스템 메트릭 사이드바를 표시합니다.                              |
-| `metrics_grid_visible`                                       | `true`             | 기본적으로 single-run 메트릭 그리드를 표시합니다.                                   |
-| `console_logs_visible`                                       | `false`            | 기본적으로 single-run 콘솔 로그 패널을 표시합니다.                                  |
-| `media_visible`                                              | `false`            | 기본적으로 single-run 미디어 패널을 표시합니다.                                    |
+| `heartbeat_interval_seconds`                                 | `15`               | 실행 중인 run를 위한 폴링 heartbeat 간격입니다.                                   |
+| `workspace_overview_visible`                                 | `true`             | 기본적으로 워크스페이스 run 개요 사이드바를 표시합니다.                                   |
+| `workspace_metrics_grid_visible`                             | `true`             | 기본적으로 워크스페이스 메트릭 그리드를 표시합니다.                                       |
+| `workspace_system_metrics_visible`                           | `false`            | 기본적으로 워크스페이스 시스템 메트릭 패널을 표시합니다.                                    |
+| `workspace_console_logs_visible`                             | `false`            | 기본적으로 워크스페이스 콘솔 로그 패널을 표시합니다.                                      |
+| `workspace_media_visible`                                    | `false`            | 기본적으로 워크스페이스 미디어 패널을 표시합니다.                                        |
+| `left_sidebar_visible`                                       | `true`             | 기본적으로 단일 run 개요 사이드바를 표시합니다.                                   |
+| `right_sidebar_visible`                                      | `true`             | 기본적으로 단일 run 시스템 메트릭 사이드바를 표시합니다.                              |
+| `metrics_grid_visible`                                       | `true`             | 기본적으로 단일 run 메트릭 그리드를 표시합니다.                                   |
+| `console_logs_visible`                                       | `false`            | 기본적으로 단일 run 콘솔 로그 패널을 표시합니다.                                  |
+| `media_visible`                                              | `false`            | 기본적으로 단일 run 미디어 패널을 표시합니다.                                    |
 
 `wandb-vibe-10`, `wandb-vibe-20`, `sunset-glow`, `blush-tide`, `gilded-lagoon`, `bootstrap-vibe`, `dusk-shore`, `clear-signal`, `traffic-light`, `viridis`, `plasma`, `inferno`, `magma`, `cividis`와 같은 여러 색상 구성표를 사용할 수 있습니다.
 
 * `dusk-shore` 및 `clear-signal` 팔레트는 색각 이상 사용자에게도 친화적입니다.
 * `viridis`, `plasma`, `inferno`, `magma`, `cividis`, `traffic-light`와 같은 순차 팔레트는 버킷형 히트맵에 적합합니다.
+
+<div id="diagnostics-and-telemetry">
+  ### 진단 및 telemetry
+</div>
+
+LEET는 시작 실패 정보를 stderr에 출력합니다. debug 로그를 수집하려면 `WANDB_DEBUG=true`를 설정하여 실행하세요:
+
+```sh
+WANDB_DEBUG=true wandb leet
+```
+
+디버그 출력은 전역 `wandb-leet.json` 설정 파일과 같은 위치의 `wandb-leet.debug.log`에 기록됩니다. `WANDB_MODE=offline`, `WANDB_MODE=disabled` 또는 `WANDB_ERROR_REPORTING=false`인 경우 LEET는 사용 telemetry를 전송하지 않습니다.
 
 <div id="navigate-with-the-keyboard">
   ## 키보드로 탐색하기
@@ -241,7 +322,7 @@ LEET는 기본적으로 `wandb-leet.json` 파일을 `~/.config/wandb/` 아래에
 
 LEET는 키보드와 마우스 입력을 모두 지원하도록 설계되었습니다. LEET 안에서 `h` 또는 `?`를 눌러 현재 뷰의 인앱 도움말 오버레이를 여세요.
 
-workspace와 단일 run 뷰 전반에서:
+워크스페이스와 단일 run 뷰 전반에서:
 
 * `tab` 및 `shift+tab`을 사용해 표시된 패널 사이로 포커스를 순환합니다.
 * `w`, `a`, `s`, `d` 및 화살표 키로 포커스된 패널 안에서 이동합니다(단, 미디어 패널에서는 화살표 키로 X-axis를 스크럽하고 WASD로 타일 사이를 이동합니다).
@@ -249,7 +330,7 @@ workspace와 단일 run 뷰 전반에서:
 * `1`, `2`, `3`, `4`로 메트릭 그리드, 시스템 메트릭, 미디어, 콘솔 로그 패널을 표시/숨기기합니다.
 * `[` 및 `]`로 사이드바(run 목록, run 개요 또는 뷰에 따라 시스템 메트릭)를 표시/숨기기합니다.
 
-workspace, 단일 run, SYMON 및 마우스 작업의 전체 단축키 표는 [Keyboard shortcuts](/ko/models/app/keyboard-shortcuts) (LEET 탭)를 참조하세요.
+워크스페이스, 단일 run, SYMON, 미디어, 레코드 인스펙터 및 마우스 작업의 전체 단축키 표는 [Keyboard shortcuts](/ko/models/app/keyboard-shortcuts) (LEET 탭)를 참조하세요.
 
 <div id="limitations-compared-to-the-wb-app">
   ## W&amp;B App과 비교한 제한 사항
@@ -257,14 +338,14 @@ workspace, 단일 run, SYMON 및 마우스 작업의 전체 단축키 표는 [Ke
 
 LEET는 W&amp;B App을 보완하지만 워크스페이스의 모든 기능을 제공하지는 않습니다.
 
-| 기능             | LEET                                        | W&amp;B App                                  |
-| -------------- | ------------------------------------------- | -------------------------------------------- |
-| 데이터 소스         | 현재 머신의 로컬 `wandb/` 디렉터리와 `.wandb` 파일        | 동기화된 클라우드 프로젝트와 팀                            |
-| Runs 비교        | 한 디렉터리의 여러 로컬 Runs                          | 전체 워크스페이스 테이블, 그룹화, 저장된 뷰                    |
-| 패널 유형          | 스칼라 선 차트, 시스템 메트릭, `wandb.Image` 미디어, 콘솔 로그 | 선형, 막대, 산점도, 병렬 좌표, 미디어, 코드, 쿼리 패널, 맞춤형 차트 등 |
-| 협업             | 단일 사용자 터미널 세션                               | 공유, 댓글, Reports, 팀 기능                        |
-| 아티팩트 및 파일 | 사용 불가                                       | 각 Run의 아티팩트, Files, Code 탭              |
-| 스윕 및 레지스트리 | 사용 불가                                       | 스윕 대시보드, 레지스트리, 자동화                          |
+| 기능         | LEET                                                          | W&amp;B App                                  |
+| ---------- | ------------------------------------------------------------- | -------------------------------------------- |
+| 데이터 소스     | 로컬 `wandb/` 디렉터리와 `.wandb` 파일, 또는 URL로 지정한 원격 run의 스칼라 이력과 요약 | 동기화된 클라우드 프로젝트와 팀                            |
+| Runs 비교    | 한 디렉터리의 여러 로컬 Runs                                            | 전체 워크스페이스 테이블, 그룹화, 저장된 뷰                    |
+| 패널 유형      | 스칼라 선 차트, 시스템 메트릭, `wandb.Image` 미디어, 콘솔 로그                   | 선형, 막대, 산점도, 병렬 좌표, 미디어, 코드, 쿼리 패널, 맞춤형 차트 등 |
+| 협업         | 단일 사용자 터미널 세션                                                 | 공유, 댓글, Reports, 팀 기능                        |
+| 아티팩트 및 파일  | 사용 불가                                                         | 각 Run의 아티팩트, Files, Code 탭                   |
+| 스윕 및 레지스트리 | 사용 불가                                                         | 스윕 대시보드, 레지스트리, 자동화                          |
 
 LEET에서 제공하지 않는 아티팩트, 스윕 분석 또는 패널 유형이 필요하면 동기화한 후 [W&amp;B App](/ko/models/runs/view-logged-runs)에서 Run을 여세요.
 
