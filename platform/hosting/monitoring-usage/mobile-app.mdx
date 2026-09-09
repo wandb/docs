@@ -41,13 +41,14 @@ Install the app from the App Store to get started.
 
 ## Log in
 
-You can't create a W&B account from the mobile app, so log in with an account that already exists.
-
-How you log in depends on the deployment your W&B account belongs to. Select your deployment type to continue.
+Follow these steps to sign in to W&B on iOS. How you log in depends on the deployment your W&B account belongs to. Select your deployment type to continue.
 
 <Tabs>
 <Tab title="Multi-tenant Cloud">
-To log in to a Multi-tenant Cloud account, follow these steps:
+
+<Tip>You can't create a W&B account from the mobile app. Visit [wandb.ai](https://wandb.ai) on a desktop browser and click **Sign up**.</Tip>
+
+To log in, follow these steps:
 
 1. Open the app, then tap **Log in**.
 2. Log in with the same credentials you use for W&B in your browser.
@@ -55,9 +56,9 @@ To log in to a Multi-tenant Cloud account, follow these steps:
 Multi-tenant Cloud doesn't use login codes, so the **Log in on mobile** menu item doesn't appear in W&B.
 </Tab>
 <Tab title="Dedicated Cloud">
-Logging in to Dedicated Cloud is in preview and available by invitation only.
+<Tip>Access to W&B Dedicated Cloud from a mobile device is available in preview by invitation only.</Tip>
 
-To log in to a Dedicated Cloud instance, generate a login code in W&B on your computer, then scan the code with your mobile device. Before you start, have both your computer and your mobile device with you.
+To authenticate to a Dedicated Cloud instance, generate a code in W&B App on your computer, then scan it with your mobile device. Have both devices available before you begin.
 
 1. In W&B on your computer, click your profile image in the upper-right corner, then click **Log in on mobile**. If you don't have this menu item, your organization is not enrolled in the preview. To request access for your organization, contact [support](mailto:support@wandb.com) or your AISE.
 2. In the **Log in on mobile** dialog, click **Generate login code**. W&B displays the login code as a QR code and adds an API key named **W&B iOS** to your [user settings](/platform/app/settings-page/user-settings#api-keys). If W&B can't generate a key, an error appears in the dialog. If your organization restricts who can create API keys, ask your organization admin for help.
@@ -66,7 +67,7 @@ To log in to a Dedicated Cloud instance, generate a login code in W&B on your co
 5. On your computer, click **Done** to close the dialog.
 
 <Warning>
-Treat a login code as sensitive information, like an API key or a password, because it grants access to your W&B account. Don't take a screenshot of the code, save it, or share it. Close the dialog when you finish logging in. If a code might have been exposed, [delete the API key](/platform/app/settings-page/user-settings#delete-an-api-key) immediately, then generate a new login code.
+Treat a login code as sensitive information because it grants access to your W&B account. Protect it the same way you protect an API key or password. Don't take a screenshot of the code, save it, or share it. Close the dialog when you finish logging in. If a code might have been exposed, [delete the API key](/platform/app/settings-page/user-settings#delete-an-api-key) immediately, then generate a new login code.
 </Warning>
 
 Keep the following in mind when you log in to Dedicated Cloud:
