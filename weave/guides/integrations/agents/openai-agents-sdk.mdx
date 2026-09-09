@@ -54,13 +54,14 @@ npm install weave @openai/agents zod
 <Tabs>
 <Tab title="Python">
 
-Add `weave.init` to the project, along with your W&B team and project names, and then build your agent as usual. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace.
+Add `weave.init` to the project, along with your W&B team and project names, and then build your agent as usual. The following code defines a `wikipedia_search` function tool and a `Research assistant` agent, then runs three questions through the OpenAI Agents SDK `Runner` while Weave captures the trace. Each `Runner.run` call starts its own trace, so the example passes a `RunConfig` with a shared `group_id` on every call. Weave uses `group_id` to group traces from the same conversation, falling back to each trace's own ID when no `group_id` is set.
 
-```python lines  highlight="6"
+```python lines  highlight="7,33,42"
 import asyncio
+import uuid
 import requests
 import weave
-from agents import Agent, Runner, function_tool
+from agents import Agent, RunConfig, Runner, function_tool
 
 weave.init("<your-team>/<your-project-name>")
 
@@ -88,6 +89,7 @@ agent = Agent(
 )
 
 async def main():
+    run_config = RunConfig(group_id=str(uuid.uuid4()))
     history = []
     for question in [
         "Who founded Anthropic?",
@@ -96,14 +98,14 @@ async def main():
     ]:
         history.append({"role": "user", "content": question})
         print(f"USER: {question}")
-        result = await Runner.run(agent, input=history)
+        result = await Runner.run(agent, input=history, run_config=run_config)
         print(f"AGENT: {result.final_output}\n")
         history = result.to_input_list()
 
 asyncio.run(main())
 ```
 
-The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `Runner.run` continues the conversation by passing the previous result's input list back as the next request.
+The example runs three turns in a single conversation. The first two turns trigger Wikipedia lookups, and the third uses the prior conversation context to produce a summary without a tool call. Each call to `Runner.run` continues the conversation by passing the previous result's input list back as the next request, and shares the same `group_id` so Weave groups all three turns into one conversation in the Agents view. Without a shared `group_id`, each turn falls back to its own trace ID and appears as a separate conversation.
 </Tab>
 
 <Tab title="TypeScript">

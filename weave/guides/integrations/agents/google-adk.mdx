@@ -123,6 +123,8 @@ asyncio.run(main())
 ```
 
 The example runs three turns in a single ADK session. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
+
+Every turn passes the same `session_id`. ADK sets `gen_ai.conversation.id` from that session, so Weave renders the three turns as one conversation in the Agents view. If you create a session per turn instead, each turn appears as a separate conversation.
 </Tab>
 
 <Tab title="TypeScript">
@@ -223,6 +225,8 @@ main().catch(console.error);
 ```
 
 The example runs three turns in a single ADK session. The first two turns trigger Wikipedia lookups, and the third uses the previous conversation context to produce a summary without a tool call.
+
+Every turn passes the same `sessionId`. ADK sets `gen_ai.conversation.id` from that session, so Weave renders the three turns as one conversation in the Agents view. If you create a session per turn instead, each turn appears as a separate conversation.
 </Tab>
 </Tabs>
 
