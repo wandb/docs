@@ -239,6 +239,18 @@ This is not the suppression the one-directional rule forbids. Absence of docs
 must never *hide a finding that exists*; it just must not *manufacture findings
 that do not*.
 
+**Absence of docs and absence of a search are different things, and the report
+must not merge them.** `docsindex` refuses to look up a literal that is too
+generic to attribute — a lone word that is not all-caps, so `Runs`, `Inference`,
+`Threshold`. Those come back with zero occurrences too, but that zero means "we
+did not look", not "no page says it". Counting them alongside genuine coverage
+gaps let the report assert that nothing in the docs became wrong about a label it
+had never searched for, which is precisely the violation the paragraph above
+disclaims. So `build_findings` returns two lists and the report prints two
+headings: **Undocumented surfaces** for searched-and-unfound, **Not attributable**
+for never-searched. The second number is the one to watch — a sustained rise
+means `is_specific_enough` is eating real drift and wants re-tuning.
+
 Two related shapes fell out of the same pass:
 
 - **Aggregate new copy per surface.** A new settings panel adds a heading, a
@@ -268,6 +280,13 @@ identical across the whole scan.
 
 Cache it per run and *not* across runs. Team membership changes, and a stale
 owner cache is a wrong @-mention in a PR nobody can explain.
+
+Both answers are ref-scoped, so the cache key carries the ref and `scan` passes
+its resolved `--head` into `ownership.reset_caches(head=...)`. Reading history
+and CODEOWNERS from the configured default while the commit range came from some
+other ref names people who never touched the commits in the range — the failure
+is silent, and a wrong @-mention is the one output a reviewer cannot sanity-check
+from the report alone.
 
 The docs oracle wants the same treatment for the same reason. `docsindex.find`
 is memoized on the index, because the corpus does not change mid-run and the

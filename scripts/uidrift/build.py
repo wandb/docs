@@ -129,7 +129,12 @@ def build_findings(
     today: date,
     core: Optional[Path] = None,
     resolve_owners: bool = True,
-) -> tuple[list[Finding], list[str]]:
+) -> tuple[list[Finding], list[str], list[str]]:
+    """Returns (findings, undocumented literals, unsearchable literals).
+
+    The last two are counted, not listed, and they are not interchangeable --
+    see the note on `unattributable` below.
+    """
     streams = structure.parse_streams(diff)
     lifecycle = structure.flag_lifecycle(diff)
     pairs, unpaired_add, unpaired_rem = structure.pair_renames(added, removed, streams)
@@ -226,10 +231,23 @@ def build_findings(
     # That is not the suppression the direction-discipline rule forbids: absence
     # of docs never hides a finding that exists, it just stops manufacturing
     # findings that do not.
+    #
+    # `unattributable` is a SEPARATE count, and the distinction is the whole
+    # point of keeping two lists. A literal `docsindex` refused to search --
+    # `Runs`, `Inference`, any lone word that is not all-caps -- also comes back
+    # with zero occurrences, but that zero is "we did not look", not "the docs
+    # are silent". Counting those as coverage gaps let the report claim nothing
+    # in the docs became wrong about a label it never searched for, which is
+    # exactly the direction-discipline violation the paragraph above disclaims.
     gaps: list[str] = []
+    unattributable: list[str] = []
 
     def emit_if_documented(kind, old, new, probe, delta, extra=()):
-        if not docsindex.find(index, probe).ui_occurrences:
+        lookup = docsindex.find(index, probe)
+        if not lookup.eligible:
+            unattributable.append(probe)
+            return
+        if not lookup.ui_occurrences:
             gaps.append(probe)
             return
         emit(kind, old, new, probe, delta, extra)
@@ -281,4 +299,4 @@ def build_findings(
             [f"and {len(others)} more new string(s) on this surface"] if others else [],
         )
 
-    return list(findings.values()), gaps
+    return list(findings.values()), gaps, unattributable

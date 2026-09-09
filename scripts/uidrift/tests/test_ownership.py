@@ -271,5 +271,51 @@ class TestCodeownersGlobs(unittest.TestCase):
         self.assertTrue(pattern.match("a/x/y/b"))
 
 
+class TestHeadSelection(OwnershipTestCase):
+    """Ownership must read the ref `scan` actually scanned.
+
+    `scan` exposes `--head`, and both answers here come from git history, so a
+    scan of a non-default ref that ranked reviewers against `origin/master`
+    would name people who never touched the commits in the range.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        # A ref origin/master does not contain: one more author on members.tsx
+        # and a CODEOWNERS that routes the app to a different team.
+        _git(cls.repo, "checkout", "-q", "-b", "feature")
+        _commit(cls.repo, f"{UI}/members.tsx", "linus", "Linus Torvalds")
+        _commit(
+            cls.repo, ".github/CODEOWNERS",
+            CODEOWNERS.replace("@wandb/frontend-reviewers", "@wandb/feature-team"),
+            "Linus Torvalds",
+        )
+
+    def test_default_head_ignores_commits_only_on_another_ref(self):
+        authors = ownership._git_authors(self.repo, f"{UI}/members.tsx", None)
+        self.assertNotIn("Linus Torvalds", authors)
+
+    def test_authors_follow_the_selected_head(self):
+        ownership.reset_caches(head="feature")
+        authors = ownership._git_authors(self.repo, f"{UI}/members.tsx", None)
+        self.assertIn("Linus Torvalds", authors)
+
+    def test_codeowners_follows_the_selected_head(self):
+        path = f"{UI}/members.tsx"
+        self.assertEqual(
+            ownership.owning_team(path, core=self.repo), "@wandb/frontend-reviewers"
+        )
+        ownership.reset_caches(head="feature")
+        self.assertEqual(
+            ownership.owning_team(path, core=self.repo), "@wandb/feature-team"
+        )
+
+    def test_reset_without_a_head_restores_the_default(self):
+        ownership.reset_caches(head="feature")
+        ownership.reset_caches()
+        self.assertEqual(ownership._head(), config.SOURCE.default_head)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -196,11 +196,16 @@ def scan(
     progress(f"docs index: {len(index)} pages")
 
     # Resolved once for the whole run rather than per finding; the caches are
-    # process-local, so a fresh run always re-reads them.
-    ownership.reset_caches()
+    # process-local, so a fresh run always re-reads them. `head` is passed so
+    # ownership reads the same ref the range came from -- a `--head` scan whose
+    # reviewers were ranked against `origin/master` names the wrong people.
+    ownership.reset_caches(head=head)
 
     raw: list = []
     gaps: list[str] = []
+    # Tracked apart from `gaps` because the two zeros mean different things --
+    # see the note in build.build_findings.
+    unattributable: list[str] = []
     # Two different counts, because the established funnel reports commits while
     # the useful calibration number is deltas.
     candidate_commits = 0
@@ -215,12 +220,13 @@ def scan(
         candidate_commits += 1
         candidate_deltas += len(surviving)
         added, removed, moved = extract.commit_net_change(surviving)
-        found, commit_gaps = build.build_findings(
+        found, commit_gaps, commit_unattributable = build.build_findings(
             commit, added, removed, moved, diff, index,
             today=today, core=root, resolve_owners=resolve_owners,
         )
         raw.extend(found)
         gaps.extend(commit_gaps)
+        unattributable.extend(commit_unattributable)
         if i % 50 == 0:
             progress(f"  {i}/{len(ui_commits)} commits, {len(raw)} raw findings")
 
@@ -245,6 +251,7 @@ def scan(
         candidate_deltas=candidate_deltas,
         docs_pages=len(index),
         gaps=len(gaps),
+        unattributable=len(unattributable),
         suppressed=applied.suppressed,
         reopened=applied.reopened,
         unresolved=applied.unresolved,
@@ -269,6 +276,7 @@ def scan(
         "unresolved": len(applied.unresolved),
         "reverted": len(merged.reverted),
         "gaps": len(gaps),
+        "unattributable": len(unattributable),
         "orphans": applied.orphans,
     }
     return ScanResult(markdown=markdown, stats=stats, applied=applied, merged=merged)

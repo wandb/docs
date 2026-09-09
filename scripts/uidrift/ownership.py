@@ -36,12 +36,28 @@ _AUTHOR_MARK = "\x01"
 _AUTHOR_INDEX: dict[tuple[str, str, Optional[str]], dict[str, dict[str, int]]] = {}
 # (root, head) -> parsed CODEOWNERS rules, most general first.
 _CODEOWNERS: dict[tuple[str, str], list[tuple[re.Pattern[str], str]]] = {}
+# The ref this run reads history and CODEOWNERS from. Set once per run, because
+# it has to be the same ref `scan` selected its commit range from -- attributing
+# a commit on one ref to the authors of another names the wrong people.
+_HEAD: Optional[str] = None
 
 
-def reset_caches() -> None:
-    """Drop the per-run caches. Tests call this; a cron process is short-lived."""
+def reset_caches(head: Optional[str] = None) -> None:
+    """Drop the per-run caches and set the ref this run reads.
+
+    Tests call this; a cron process is short-lived. `head` is the ref `scan`
+    resolved (`--head`, defaulting to `config.SOURCE.default_head`); passing
+    None restores the default.
+    """
+    global _HEAD
+    _HEAD = head
     _AUTHOR_INDEX.clear()
     _CODEOWNERS.clear()
+
+
+def _head() -> str:
+    """The ref to read. `reset_caches(head=...)` wins over the configured default."""
+    return _HEAD or config.SOURCE.default_head
 
 
 @dataclass(frozen=True)
@@ -59,7 +75,7 @@ def _build_author_index(core: Path, since: Optional[str]) -> dict[str, dict[str,
     anything this needs.
     """
     cmd = [
-        "git", "-C", str(core), "log", config.SOURCE.default_head,
+        "git", "-C", str(core), "log", _head(),
         f"--format={_AUTHOR_MARK}%an", "--name-only",
     ]
     if since:
@@ -88,7 +104,7 @@ def _build_author_index(core: Path, since: Optional[str]) -> dict[str, dict[str,
 
 
 def _author_index(core: Path, since: Optional[str]) -> dict[str, dict[str, int]]:
-    key = (str(core), config.SOURCE.default_head, since)
+    key = (str(core), _head(), since)
     if key not in _AUTHOR_INDEX:
         _AUTHOR_INDEX[key] = _build_author_index(core, since)
     return _AUTHOR_INDEX[key]
@@ -165,7 +181,7 @@ def _codeowners_rules(core: Path) -> list[tuple[re.Pattern[str], str]]:
     the globs are compiled once. Rules stay in file order because matching
     depends on it.
     """
-    key = (str(core), config.SOURCE.default_head)
+    key = (str(core), _head())
     if key in _CODEOWNERS:
         return _CODEOWNERS[key]
 
@@ -174,7 +190,7 @@ def _codeowners_rules(core: Path) -> list[tuple[re.Pattern[str], str]]:
         try:
             out = subprocess.run(
                 ["git", "-C", str(core), "show",
-                 f"{config.SOURCE.default_head}:{candidate}"],
+                 f"{_head()}:{candidate}"],
                 capture_output=True, text=True, timeout=20,
             )
         except (OSError, subprocess.SubprocessError):

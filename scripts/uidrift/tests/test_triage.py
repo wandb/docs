@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+# Explicit: `unittest` does not re-export `mock`, so `unittest.mock.patch` below
+# only resolved when another test module in the same run happened to import it.
+# Running this module on its own -- which its __main__ block invites -- failed.
+import unittest.mock
 from datetime import date
 from pathlib import Path
 
-from .. import build, config, extract, finding, report, structure
+from .. import build, config, docsindex, extract, finding, report, structure
 from .test_docsindex import build_temp_index
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -141,42 +145,104 @@ class TestBuildSuppressesNonDrift(BuildTestCase):
     def test_undocumented_rename_is_counted_not_listed(self):
         # Renaming a label no page mentions makes nothing wrong. Listing each
         # one buried the real findings under twenty rows of empty-state copy.
-        findings, gaps = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        findings, gaps, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
         listed = {f.old_string for f in findings}
         self.assertNotIn("PROFILE", listed)
         self.assertNotIn("EMAIL", listed)
         self.assertIn("PROFILE", set(gaps))
 
     def test_documented_rename_is_listed(self):
-        findings, _gaps = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        findings, _gaps, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
         self.assertIn("MODELS SEAT", {f.old_string for f in findings})
 
     def test_incidental_new_copy_is_not_a_finding(self):
-        findings, gaps = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        findings, gaps, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
         self.assertNotIn("Loading members", {f.new_string for f in findings})
         self.assertIn("Loading members", set(gaps))
 
     def test_new_settings_panel_is_one_row_not_many(self):
-        findings, _gaps = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
+        findings, _gaps, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
         settings = [f for f in findings if f.kind == finding.KIND_NEW_SETTING]
         self.assertEqual(len(settings), 1, "a new settings panel is one docs task")
         self.assertEqual(settings[0].new_string, "Enable project memory")
 
 
+# `Billing` is a single capitalized token, so `docsindex.is_specific_enough`
+# refuses to look it up -- yet the test corpus really does say `Billing Admin`.
+# That combination is the whole point: the detector cannot claim the docs are
+# silent about a label it never searched for.
+_UNSEARCHABLE_RENAME_DIFF = (
+    "diff --git a/frontends/app/src/components/BillingPanel.tsx "
+    "b/frontends/app/src/components/BillingPanel.tsx\n"
+    "--- a/frontends/app/src/components/BillingPanel.tsx\n"
+    "+++ b/frontends/app/src/components/BillingPanel.tsx\n"
+    "@@ -10,6 +10,6 @@\n"
+    "   return (\n"
+    '-    <Tab label="Billing" />\n'
+    '+    <Tab label="Payments" />\n'
+    "   );\n"
+)
+
+
+class TestUnsearchableLiteralsAreNotCoverageGaps(BuildTestCase):
+    """A literal too generic to search is not evidence that the docs are silent.
+
+    Both populations come back from `docsindex.find` with zero occurrences, so
+    counting them together let the report assert "matches no documentation at
+    all, so nothing in the docs became wrong" about labels it had never looked
+    for. `Runs` and `Inference` are real wandb/core labels that land here.
+    """
+
+    def _run(self):
+        return self.run_diff(
+            _UNSEARCHABLE_RENAME_DIFF, "2026-07-01T13:52:32-07:00",
+            sha="c" * 40, message="test: rename a single-token label",
+        )
+
+    def test_the_premise_holds_docs_do_mention_it(self):
+        # If this ever fails the fixture has drifted and the test below proves
+        # nothing: the point is that the label IS documented.
+        self.assertTrue(
+            any("Billing" in body for body in self.index.text),
+            "corpus must mention the literal for this test to mean anything",
+        )
+        self.assertFalse(docsindex.is_specific_enough("Billing")[0])
+
+    def test_it_is_not_counted_as_an_undocumented_surface(self):
+        _findings, gaps, unattributable = self._run()
+        self.assertIn("Billing", unattributable)
+        self.assertNotIn("Billing", gaps)
+
+    def test_it_is_still_not_silently_dropped(self):
+        # Not a finding, but not invisible either -- the count is the only
+        # signal that the eligibility filter is eating real drift.
+        _findings, _gaps, unattributable = self._run()
+        self.assertTrue(unattributable)
+
+    def test_searched_and_unfound_literals_stay_in_gaps(self):
+        # The other half of the split: `PROFILE` is all-caps, so it IS searched,
+        # and it genuinely appears on no page.
+        _findings, gaps, unattributable = self.run_fixture(
+            "f4861ad", "2026-07-01T13:52:32-07:00"
+        )
+        self.assertIn("PROFILE", gaps)
+        self.assertNotIn("PROFILE", unattributable)
+
+
 class TestBuildSignals(BuildTestCase):
 
     def test_gated_new_setting_is_flagged_not_visible(self):
-        findings, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
+        findings, _, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
         f = next(f for f in findings if f.kind == finding.KIND_NEW_SETTING)
         self.assertTrue(f.not_yet_visible)
         self.assertIsNotNone(f.gate)
 
     def test_recent_change_is_unsettled(self):
-        findings, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
+        findings, _, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
         self.assertFalse(any(f.settled for f in findings))
 
     def test_old_change_is_settled(self):
-        findings, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        findings, _, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
         self.assertTrue(all(f.settled for f in findings))
 
 
@@ -220,7 +286,7 @@ class TestGateKeyResolution(BuildTestCase):
         with unittest.mock.patch.object(
             structure, "resolve_gate_key", return_value=key
         ) as resolver:
-            findings, _ = self.run_diff(
+            findings, _, _ = self.run_diff(
                 diff, "2026-08-10T10:00:00-07:00",
                 sha="b" * 40, message="test: gated rename",
             )
@@ -286,10 +352,11 @@ class TestSurfaceNaming(unittest.TestCase):
 
 class TestReport(unittest.TestCase):
 
-    def _render(self, findings, gaps=0):
+    def _render(self, findings, gaps=0, unattributable=0):
         return report.render(
             findings, scanned_range="a..b", today=TODAY,
             commits=1, ui_commits=1, candidates=1, docs_pages=10, gaps=gaps,
+            unattributable=unattributable,
         )
 
     def test_empty_report_says_so_explicitly(self):
@@ -321,6 +388,31 @@ class TestReport(unittest.TestCase):
         out = self._render([f], gaps=890)
         self.assertIn("890", out)
         self.assertIn("Undocumented surfaces", out)
+
+    def test_unsearchable_count_gets_its_own_section(self):
+        # Reported apart from the gap count because only the gap count supports
+        # the claim that nothing in the docs became wrong.
+        out = self._render([], gaps=12, unattributable=34)
+        self.assertIn("Undocumented surfaces", out)
+        self.assertIn("Not attributable", out)
+        self.assertIn("34", out)
+        self.assertLess(out.index("Undocumented surfaces"), out.index("Not attributable"))
+
+    def test_unsearchable_section_does_not_claim_the_docs_are_silent(self):
+        out = self._render([], unattributable=34)
+        self.assertNotIn("Undocumented surfaces", out)
+        section = out[out.index("Not attributable"):]
+        self.assertIn("never searched", section)
+        self.assertNotIn("nothing in the docs became wrong", section)
+
+    def test_gap_section_claims_only_what_was_searched(self):
+        section = self._render([], gaps=12)
+        self.assertIn("were searched for and appear on no page", section)
+
+    def test_neither_section_appears_when_both_are_zero(self):
+        out = self._render([])
+        self.assertNotIn("Undocumented surfaces", out)
+        self.assertNotIn("Not attributable", out)
 
 
 class TestLandingDate(unittest.TestCase):

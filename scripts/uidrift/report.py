@@ -32,25 +32,44 @@ _LANE_TITLE = {
 _REPO_URL = f"https://github.com/{config.SOURCE.owner_repo}/commit/"
 
 
-def _gaps_section(gaps: int) -> list[str]:
-    """The undocumented-surface count.
+def _gaps_section(gaps: int, unattributable: int = 0) -> list[str]:
+    """The two not-a-finding counts, which must not be conflated.
 
     Shared by both paths on purpose. A run whose findings are all gaps used to
     print "No drift to act on" and then omit the one number that explains why,
     which reads as "nothing happened" when what happened is that every changed
     label was undocumented.
+
+    They are separate headings because only the first one supports the claim
+    that nothing in the docs became wrong. `unattributable` labels were never
+    searched -- the docs may well mention them -- so asserting they "match no
+    documentation at all" told the reader we had checked when we had not.
     """
-    if not gaps:
-        return []
-    return [
-        "### Undocumented surfaces",
-        "",
-        f"{gaps} changed label(s) match no documentation at all, so nothing in the",
-        "docs became wrong and they are not listed above. Most are incidental copy",
-        "— empty states, spinner labels, status pills. The count is here because a",
-        "sustained rise in it is worth noticing, not because each one needs a row.",
-        "",
-    ]
+    out: list[str] = []
+    if gaps:
+        out += [
+            "### Undocumented surfaces",
+            "",
+            f"{gaps} changed label(s) were searched for and appear on no page, so",
+            "nothing in the docs became wrong and they are not listed above. Most are",
+            "incidental copy — empty states, spinner labels, status pills. The count is",
+            "here because a sustained rise in it is worth noticing, not because each one",
+            "needs a row.",
+            "",
+        ]
+    if unattributable:
+        out += [
+            "### Not attributable",
+            "",
+            f"{unattributable} changed label(s) were too generic to look up — a lone",
+            "word that is not all-caps, like `Runs`, matches too much of the corpus to",
+            "attribute, so the detector does not guess. **These were never searched, so",
+            "the docs may well mention them.** They are not listed above because there",
+            "is no page to point at, not because nothing changed. A sustained rise here",
+            "means the eligibility filter is hiding real drift and should be re-tuned.",
+            "",
+        ]
+    return out
 
 
 def _escape(text: str) -> str:
@@ -226,6 +245,7 @@ def render(
     candidates: int,
     docs_pages: int,
     gaps: int = 0,
+    unattributable: int = 0,
     candidate_deltas: int = 0,
     suppressed: Sequence[Finding] = (),
     reopened: Sequence[Finding] = (),
@@ -268,7 +288,7 @@ def render(
         else:
             a("was renamed back before anyone had to act on it.")
         a("")
-        lines.extend(_gaps_section(gaps))
+        lines.extend(_gaps_section(gaps, unattributable))
         lines.extend(_ledger_sections(suppressed, reopened, unresolved, orphans, reverted))
         return "\n".join(lines) + "\n"
 
@@ -309,7 +329,7 @@ def render(
         a("is fresh and hold the PR — this is lead time, not noise.")
         a("")
 
-    lines.extend(_gaps_section(gaps))
+    lines.extend(_gaps_section(gaps, unattributable))
 
     lines.extend(_ledger_sections(suppressed, reopened, unresolved, orphans, reverted))
     return "\n".join(lines) + "\n"
