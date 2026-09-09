@@ -29,16 +29,59 @@ keywords: ["application iPhone", "application iPad", "application iOS", "App Sto
 L&#39;application mobile W&amp;B pour iOS vous permet de rester connecté à vos projets W&amp;B Models où que vous soyez. Utilisez-la sur votre iPhone ou iPad pour suivre les runs d&#39;entraînement et lire les journaux de run en temps réel, consulter des graphiques en courbes et les métriques système, explorer l&#39;historique des projets et suivre l&#39;avancement de votre équipe afin de surveiller les expériences sans ouvrir votre ordinateur portable. Cette page décrit les fonctionnalités de l&#39;application et vous montre comment configurer les notifications.
 
 <Info>
-  L&#39;application mobile est disponible uniquement pour les comptes [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud). Elle n&#39;est pas disponible pour les déploiements [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed).
+  L&#39;application mobile est disponible pour les comptes [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), et en préversion pour les comptes [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), sur invitation uniquement. Pour demander l&#39;accès pour votre organisation, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE. L&#39;application mobile n&#39;est pas disponible pour les déploiements [Autogéré](/fr/platform/hosting/hosting-options/self-managed).
 </Info>
 
-<div id="download-the-app">
-  ## Télécharger l’app
+<div id="download-wb-mobile">
+  ## Télécharger W&amp;B Mobile
 </div>
 
 Installez l’app depuis l’App Store pour commencer.
 
 <Card title="Télécharger dans l’App Store" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="log-in">
+  ## Log in
+</div>
+
+Suivez ces étapes pour vous connecter à W&amp;B sur iOS. La méthode de connexion dépend du déploiement auquel appartient votre compte W&amp;B. Sélectionnez votre type de déploiement pour continuer.
+
+<Tabs>
+  <Tab title="Cloud mutualisé">
+    <Tip>Vous ne pouvez pas créer de compte W&amp;B depuis l’application mobile. Rendez-vous sur [wandb.ai](https://wandb.ai) depuis un navigateur de bureau et cliquez sur **Sign up**.</Tip>
+
+    Pour vous connecter, suivez ces étapes :
+
+    1. Ouvrez l’application, puis appuyez sur **Log in**.
+    2. Connectez-vous avec les mêmes identifiants d’authentification que ceux utilisés pour W&amp;B dans votre navigateur.
+
+    Le Cloud mutualisé n’utilise pas de codes de connexion : l’élément de menu **Log in on mobile** n’apparaît donc pas dans W&amp;B.
+  </Tab>
+
+  <Tab title="Cloud dédié">
+    <Tip>L’accès au Cloud dédié de W&amp;B depuis un appareil mobile est disponible en préversion, sur invitation uniquement.</Tip>
+
+    Pour vous authentifier auprès d’une instance de Cloud dédié, générez un code dans W&amp;B App sur votre ordinateur, puis scannez-le avec votre appareil mobile. Munissez-vous des deux appareils avant de commencer.
+
+    1. Sur votre ordinateur, connectez-vous à W&amp;B.
+    2. Sélectionnez votre image de profil dans le coin supérieur droit, puis sélectionnez **Log in on mobile**. Si cette option n’est pas disponible, votre organisation n’est pas inscrite à la préversion. Pour demander l’accès pour votre organisation, contactez l’[assistance](mailto:support@wandb.com) ou votre AISE.
+    3. Dans la boîte de dialogue **Log in on mobile**, cliquez sur **Generate login code**. W&amp;B affiche le code de connexion sous forme de QR code et ajoute une clé API nommée **W&amp;B iOS** à vos [paramètres utilisateur](/fr/platform/app/settings-page/user-settings#api-keys). Si W&amp;B ne parvient pas à générer de clé, une erreur s’affiche dans la boîte de dialogue. Si votre organisation restreint la création de clés API, demandez de l’aide à votre administrateur de l’organisation.
+    4. Sur votre iPhone ou iPad, ouvrez l’application, puis appuyez sur **Log in to Dedicated Cloud**. Si vous y êtes invité, autorisez l’application à utiliser votre appareil photo.
+    5. Pointez l’appareil photo de votre appareil vers le QR code. L’application vous connecte à votre instance de Cloud dédié et ferme le scanner.
+    6. Sur votre ordinateur, cliquez sur **Done** pour fermer la boîte de dialogue.
+
+    <Warning>
+      Traitez un code de connexion comme une information sensible, car il donne accès à votre compte W&amp;B. Protégez-le comme vous protégez une clé API ou un mot de passe. Ne faites pas de capture d’écran du code, ne l’enregistrez pas et ne le partagez pas. Fermez la boîte de dialogue une fois la connexion terminée. Si un code a pu être exposé, [supprimez la clé API](/fr/platform/app/settings-page/user-settings#delete-an-api-key) immédiatement, puis générez un nouveau code de connexion.
+    </Warning>
+
+    Gardez les points suivants à l’esprit lorsque vous vous connectez au Cloud dédié :
+
+    * Chaque code de connexion généré ajoute une nouvelle clé API **W&amp;B iOS** à vos paramètres utilisateur, chacune avec son propre ID de clé. Comme ces clés portent le même nom, renommez-en une pour la différencier, par exemple en précisant quel appareil l’utilise. Dans vos paramètres utilisateur, ouvrez le menu **action (<Icon icon="ellipsis" iconType="solid" />)** de la clé, puis cliquez sur **Edit**.
+    * Une clé **W&amp;B iOS** reste valide jusqu’à ce que vous la supprimiez. Supprimer une clé révoque l’accès de l’appareil qui a scanné le code de connexion correspondant.
+    * La connexion au Cloud dédié remplace les identifiants d’authentification de tout compte auquel vous étiez précédemment connecté.
+    * Si **Log in to Dedicated Cloud** n’apparaît pas dans l’application, vérifiez que votre organisation a accès à la préversion.
+  </Tab>
+</Tabs>
 
 <div id="features">
   ## Fonctionnalités

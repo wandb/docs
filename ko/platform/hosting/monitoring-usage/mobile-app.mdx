@@ -29,16 +29,59 @@ keywords: ["iPhone 앱", "iPad 앱", "iOS 앱", "App Store", "모바일 모니�
 iOS용 W&amp;B 모바일 앱을 사용하면 어디서든 W&amp;B Models 프로젝트에 계속 연결된 상태를 유지할 수 있습니다. iPhone 또는 iPad에서 실시간으로 트레이닝 run을 추적하고 run 로그를 조회하고, 선형 플롯과 시스템 메트릭을 확인하고, 프로젝트 이력을 탐색하고, 노트북을 열지 않고도 실험을 모니터링할 수 있도록 팀의 진행 상황을 살펴볼 수 있습니다. 이 페이지에서는 앱의 특성을 설명하고 알림을 설정하는 방법을 보여줍니다.
 
 <Info>
-  모바일 앱은 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 계정에서만 사용할 수 있습니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-managed](/ko/platform/hosting/hosting-options/self-managed) deployment에서는 사용할 수 없습니다.
+  모바일 앱은 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 계정에서 사용할 수 있으며, [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 계정에서는 초대를 받은 경우에 한해 프리뷰로 사용할 수 있습니다. 조직에 대한 액세스를 요청하려면 [지원팀](mailto:support@wandb.com) 또는 담당 AISE에게 문의하세요. 모바일 앱은 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) deployment에서는 사용할 수 없습니다.
 </Info>
 
-<div id="download-the-app">
-  ## 앱 다운로드
+<div id="download-wb-mobile">
+  ## W&amp;B Mobile 다운로드
 </div>
 
 시작하려면 App Store에서 앱을 설치하세요.
 
 <Card title="App Store에서 다운로드" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="log-in">
+  ## 로그인
+</div>
+
+다음 단계에 따라 iOS에서 W&amp;B에 로그인하세요. 로그인 방법은 W&amp;B 계정이 속한 deployment에 따라 다릅니다. 계속하려면 deployment type을 선택하세요.
+
+<Tabs>
+  <Tab title="Multi-tenant Cloud">
+    <Tip>모바일 앱에서는 W&amp;B 계정을 만들 수 없습니다. 데스크톱 브라우저에서 [wandb.ai](https://wandb.ai) 에 접속하여 **Sign up**을 클릭하세요.</Tip>
+
+    로그인하려면 다음 단계를 따르세요.
+
+    1. 앱을 열고 **Log in**을 탭합니다.
+    2. 브라우저에서 W&amp;B에 사용하는 것과 동일한 credentials로 로그인합니다.
+
+    Multi-tenant Cloud는 로그인 코드를 사용하지 않으므로, W&amp;B에 **Log in on mobile** 메뉴 항목이 표시되지 않습니다.
+  </Tab>
+
+  <Tab title="Dedicated Cloud">
+    <Tip>모바일 기기에서 W&amp;B Dedicated Cloud에 액세스하는 기능은 초대받은 경우에만 프리뷰로 사용할 수 있습니다.</Tip>
+
+    Dedicated Cloud instance에 인증하려면 컴퓨터의 W&amp;B App에서 코드를 생성한 후 모바일 기기로 스캔하세요. 시작하기 전에 두 기기를 모두 준비하세요.
+
+    1. 컴퓨터에서 W&amp;B에 로그인합니다.
+    2. 오른쪽 위에 있는 profile 이미지를 선택한 후 **Log in on mobile**을 선택합니다. 이 옵션을 사용할 수 없다면 해당 조직이 프리뷰에 등록되지 않은 것입니다. 조직의 액세스를 요청하려면 [지원팀](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.
+    3. **Log in on mobile** 대화 상자에서 **Generate login code**를 클릭합니다. W&amp;B가 로그인 코드를 QR 코드로 표시하고, [사용자 설정](/ko/platform/app/settings-page/user-settings#api-keys)에 **W&amp;B iOS**라는 이름의 API 키를 추가합니다. W&amp;B가 키를 생성할 수 없는 경우 대화 상자에 오류가 표시됩니다. 조직에서 API 키를 만들 수 있는 사용자를 제한하는 경우 조직 admin에게 도움을 요청하세요.
+    4. iPhone 또는 iPad에서 앱을 열고 **Log in to Dedicated Cloud**를 탭합니다. 메시지가 표시되면 앱이 카메라를 사용할 수 있도록 허용합니다.
+    5. 기기의 카메라를 QR 코드에 맞춥니다. 앱이 Dedicated Cloud instance에 로그인하고 스캐너를 닫습니다.
+    6. 컴퓨터에서 **Done**을 클릭하여 대화 상자를 닫습니다.
+
+    <Warning>
+      로그인 코드는 W&amp;B 계정에 대한 액세스를 부여하므로 민감한 정보로 취급하세요. API 키나 비밀번호와 동일한 수준으로 보호해야 합니다. 코드를 스크린샷으로 찍거나 저장하거나 공유하지 마세요. 로그인을 완료하면 대화 상자를 닫으세요. 코드가 노출되었을 가능성이 있다면 즉시 [API 키를 삭제](/ko/platform/app/settings-page/user-settings#delete-an-api-key)한 후 새 로그인 코드를 생성하세요.
+    </Warning>
+
+    Dedicated Cloud에 로그인할 때 다음 사항을 유념하세요.
+
+    * 로그인 코드를 생성할 때마다 사용자 설정에 **W&amp;B iOS** API 키가 각각 고유한 키 ID와 함께 추가됩니다. 키 이름이 모두 동일하므로, 어떤 기기에서 사용하는지 이름에 포함하는 등의 방식으로 이름을 변경해 구분하세요. 사용자 설정에서 키의 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 열고 **Edit**를 클릭하세요.
+    * **W&amp;B iOS** 키는 삭제할 때까지 유효합니다. 키를 삭제하면 해당 로그인 코드를 스캔한 기기의 액세스가 철회됩니다.
+    * Dedicated Cloud에 로그인하면 이전에 로그인했던 계정의 credentials가 대체됩니다.
+    * 앱에 **Log in to Dedicated Cloud**가 표시되지 않으면 조직이 프리뷰에 액세스할 수 있는지 확인하세요.
+  </Tab>
+</Tabs>
 
 <div id="features">
   ## 특성

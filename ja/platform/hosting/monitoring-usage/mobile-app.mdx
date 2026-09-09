@@ -29,16 +29,59 @@ keywords: ["iPhone アプリ", "iPad アプリ", "iOS アプリ", "App Store", "
 iOS 向けの W&amp;B モバイルアプリ を使えば、どこにいても W&amp;B Models の project を確認できます。iPhone や iPad で利用して、トレーニング Runs をリアルタイムでトラッキングし、run ログを確認し、折れ線グラフとシステムメトリクスを表示し、project の履歴を確認し、ノートPCを開かなくても 実験 を監視しながら、チームの進捗を把握できます。このページでは、アプリの機能を説明し、通知を設定する方法を紹介します。
 
 <Info>
-  モバイルアプリを利用できるのは、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントのみです。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
+  モバイルアプリは [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントで利用でき、[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) アカウントでは招待制のプレビューとして利用できます。組織でのアクセスをリクエストするには、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。モバイルアプリは [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
 </Info>
 
-<div id="download-the-app">
-  ## アプリをダウンロード
+<div id="download-wb-mobile">
+  ## W&amp;B Mobile をダウンロード
 </div>
 
 使い始めるには、App Storeからアプリをインストールしてください。
 
 <Card title="App Storeからダウンロード" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="log-in">
+  ## Log in
+</div>
+
+次の step に従って、iOS で W&amp;B にサインインします。ログイン方法は、W&amp;B アカウントが属する デプロイ によって異なります。続行するには、デプロイ タイプを選択してください。
+
+<Tabs>
+  <Tab title="Multi-tenant Cloud">
+    <Tip>モバイルアプリから W&amp;B アカウントを作成することはできません。デスクトップのブラウザーで [wandb.ai](https://wandb.ai) にアクセスし、**Sign up** をクリックしてください。</Tip>
+
+    ログインするには、次の step に従います。
+
+    1. アプリを開き、**Log in** をタップします。
+    2. ブラウザーで W&amp;B にログインする際と同じ認証情報でログインします。
+
+    Multi-tenant Cloud はログインコードを使用しないため、W&amp;B に **Log in on mobile** メニュー項目は表示されません。
+  </Tab>
+
+  <Tab title="専用クラウド">
+    <Tip>モバイルデバイスからの W&amp;B 専用クラウド へのアクセスは、招待制のプレビューとして提供されています。</Tip>
+
+    専用クラウド instance に認証するには、コンピューターの W&amp;B App でコードを生成し、モバイルデバイスでスキャンします。開始する前に、両方のデバイスを手元に用意してください。
+
+    1. コンピューターで W&amp;B にサインインします。
+    2. 右上隅のプロフィール画像を選択し、**Log in on mobile** を選択します。このオプションが表示されない場合、お客様の組織はプレビューに登録されていません。組織向けのアクセスをリクエストするには、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。
+    3. **Log in on mobile** ダイアログで、**Generate login code** をクリックします。W&amp;B はログインコードを QR コードとして表示し、**W&amp;B iOS** という名前の APIキーを [ユーザー設定](/ja/platform/app/settings-page/user-settings#api-keys) に追加します。W&amp;B がキーを生成できない場合は、ダイアログに error が表示されます。組織で APIキーを作成できるユーザーが制限されている場合は、organization admin にお問い合わせください。
+    4. iPhone または iPad でアプリを開き、**Log in to 専用クラウド** をタップします。確認を求められたら、アプリによるカメラの使用を許可します。
+    5. デバイスのカメラを QR コードに向けます。アプリが 専用クラウド instance にログインし、スキャナーが閉じます。
+    6. コンピューターで **Done** をクリックしてダイアログを閉じます。
+
+    <Warning>
+      ログインコードは W&amp;B アカウントへのアクセスを可能にするため、機密情報として扱ってください。APIキーやパスワードと同じように保護してください。コードのスクリーンショットを撮る、保存する、共有するといったことは避けてください。ログインが完了したらダイアログを閉じてください。コードが漏洩した可能性がある場合は、直ちに [APIキーを削除](/ja/platform/app/settings-page/user-settings#delete-an-api-key) し、新しいログインコードを生成してください。
+    </Warning>
+
+    専用クラウド にログインする際は、次の点に注意してください。
+
+    * ログインコードを生成するたびに、**W&amp;B iOS** APIキーがユーザー設定に追加され、それぞれ個別のキー ID を持ちます。キー名が同じであるため、使用するデバイス名を含めるなどして、キーをリネームして区別してください。ユーザー設定でキーの **action (<Icon icon="ellipsis" iconType="solid" />)** メニューを開き、**Edit** をクリックします。
+    * **W&amp;B iOS** キーは、削除するまで有効です。キーを削除すると、対応するログインコードをスキャンしたデバイスのアクセスが revoke されます。
+    * 専用クラウド にログインすると、以前にログインしていたアカウントの認証情報は置き換えられます。
+    * アプリに **Log in to 専用クラウド** が表示されない場合は、お客様の組織がプレビューへのアクセス権を持っているかどうかを確認してください。
+  </Tab>
+</Tabs>
 
 <div id="features">
   ## 機能
