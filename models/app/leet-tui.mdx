@@ -184,7 +184,7 @@ LEET renders scalar metrics as terminal line charts. Filter run metrics with `/`
 
 Press `g` to cycle chart guides between off, a dotted background, and horizontal lines aligned with Y-axis ticks. This setting applies across workspace, single-run, and SYMON views and is saved between sessions.
 
-For local runs, LEET uses custom X-axes defined with `run.define_metric()`, including glob definitions. For example, this run plots `train/loss` against `train/step`:
+By default, LEET plots each metric against W&B's internal step metric (`_step`). For local runs, a custom X-axis defined with `run.define_metric()` takes precedence, including definitions that use glob patterns. For example, this run plots `train/loss` against `train/step`:
 
 ```python
 import wandb
