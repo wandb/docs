@@ -27,18 +27,18 @@ Install or upgrade the W&B CLI to the latest release using `pip` or `uv`:
 
 <Tabs>
 <Tab title="pip">
-```bash
+```sh
 pip install --upgrade wandb
 ```
 </Tab>
 <Tab title="uv">
-```bash
+```sh
 uv pip install --upgrade wandb
 ```
 </Tab>
 </Tabs>
 
-This guide describes the latest CLI behavior. For version-by-version changes, see the [changelog](#changelog) on this page.
+This guide describes the latest CLI behavior.
 
 <Note>
 In SDK v0.27.x and earlier, launch the LEET TUI with `wandb beta leet` instead of `wandb leet`.
@@ -48,13 +48,13 @@ In SDK v0.27.x and earlier, launch the LEET TUI with `wandb beta leet` instead o
 
 From the directory that contains your `wandb/` folder, open the default workspace and auto-select the latest local run:
 
-```bash
+```sh
 wandb leet
 ```
 
 You can pass an optional `PATH` that points to a workspace directory, a specific run directory, or a `.wandb` file:
 
-```bash
+```sh
 wandb leet ./wandb
 wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns
 wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
@@ -62,7 +62,7 @@ wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
 
 Open the standalone system monitor (SYMON) to view host metrics without a run context:
 
-```bash
+```sh
 wandb leet symon --interval 2s
 ```
 
@@ -72,7 +72,7 @@ For command syntax and subcommands, see [`wandb leet`](/models/ref/cli/wandb-lee
 
 To view a synced run, pass its URL. Replace `[ENTITY]`, `[PROJECT]`, and `[RUN-ID]` with the values from your run URL:
 
-```bash
+```sh
 wandb leet "https://wandb.ai/[ENTITY]/[PROJECT]/runs/[RUN-ID]"
 ```
 
@@ -125,7 +125,7 @@ SYMON watches local CPU, memory, disk, network, and accelerator metrics. It uses
 
 Use the record inspector to examine the raw records in a local `.wandb` transaction log. In single-run view, press `i` to open it for the current run. You can also launch it directly:
 
-```bash
+```sh
 wandb leet inspect
 wandb leet inspect ./wandb
 wandb leet inspect ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
@@ -137,7 +137,7 @@ The record list shows record types and summaries alongside the selected record's
 
 When stdout is piped or redirected, the command prints the available records as Protocol Buffer text and exits:
 
-```bash
+```sh
 wandb leet inspect | less
 wandb leet inspect > records.txt
 ```
@@ -221,7 +221,7 @@ For console log behavior in the W&B App, see [Console logs](/models/app/console-
 
 Persist layout, colors, default panes, and startup mode with the config editor:
 
-```bash
+```sh
 wandb leet config
 ```
 
@@ -277,7 +277,7 @@ Several color schemes are available, like `wandb-vibe-10`, `wandb-vibe-20`, `sun
 
 LEET prints startup failures to stderr. To collect debug logs, launch it with `WANDB_DEBUG=true`:
 
-```bash
+```sh
 WANDB_DEBUG=true wandb leet
 ```
 
@@ -315,12 +315,6 @@ If you need artifacts, sweep analysis, or panel types that LEET does not provide
 ## Changelog
 
 LEET was initially launched in beta in SDK v0.23.0, and graduated to GA in SDK v0.28.0. For details, refer to the [SDK release notes](/release-notes/sdk-releases).
-
-| SDK version | LEET changes |
-| --- | --- |
-| `0.30.0` | Custom X-axes for local runs, console log filtering, filters saved per directory, drag highlighting, faster loading and rendering for long runs, automatic sidebar hiding in narrow terminals, startup diagnostics, and offline telemetry controls. |
-| `0.29.0` | Record inspector, chart guides, saved pane and overview section sizes with mouse resizing, layered Escape navigation, run state indicators and crash detection, and config editor improvements for short terminals. |
-| `0.28.0` | `wandb leet` command, remote run metrics, high-resolution image rendering, image lists, and linked media scrubbing. `wandb beta leet` remains an alias. |
 
 ## Related resources
 
