@@ -190,7 +190,6 @@ For local runs, LEET uses custom X-axes defined with `run.define_metric()`, incl
 import wandb
 
 with wandb.init(project="leet-example", mode="offline") as run:
-    run.define_metric("train/step")
     run.define_metric("train/*", step_metric="train/step")
     for step in range(10):
         run.log({"train/step": step * 100, "train/loss": 1 / (step + 1)})
