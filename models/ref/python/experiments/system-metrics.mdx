@@ -13,7 +13,7 @@ This page provides detailed information about the system metrics that are tracke
 </Note>
 
 ## View system metrics
-You can view and monitor system metrics using the W&B App or the `wandb beta leet` terminal UI.
+You can view and monitor system metrics using the W&B App or the `wandb leet` terminal UI.
 
 <Tabs>
 <Tab title="App">
@@ -34,27 +34,30 @@ You can customize which system metrics to display by adding panels to your works
 </Tab>
 <Tab title="LEET">
 
-To view system metrics for a run in your terminal using the `wandb beta leet` terminal UI:
+To view system metrics for a local run in your terminal using the `wandb leet` terminal UI:
 
 1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log named in the format `run-<run-ID>.wandb`.
 
     If you did not start the run locally but downloaded a `.wandb` transaction log file instead, make a note of its location.
-2. Start `wandb beta leet` using one of these commands:
+2. Start `wandb leet` using one of these commands:
 
    ```bash
-   # View the latest run, stored in ./wandb/latest-run/
-   wandb beta leet
+   # Open the workspace and select the latest local run
+   wandb leet
    
    # Specify a run directory
-   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   wandb leet ./wandb/run-20250813_124246-n67z9ude
    
    # Specify a .wandb file
-   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   wandb leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
    ```
 
 
 
-LEET displays system metrics in the **right sidebar**, showing:
+Without a run path, LEET opens workspace view by default. Press `2` to show system metrics for the highlighted run. A run directory or `.wandb` file opens single-run view, where system metrics appear in the right sidebar by default.
+
+The system metrics pane shows:
+
 - GPU utilization (%) and memory usage (GB)
 - CPU usage
 - RAM usage (GB)
@@ -62,13 +65,20 @@ LEET displays system metrics in the **right sidebar**, showing:
 - Network activity
 
 Get started with these keyboard shortcuts:
-- `h` or `?` - View all keyboard shortcuts
-- `/` - Filter metrics by pattern
-- `[` / `]` - Toggle left/right sidebars
-- `n` / `N` - Navigate between metric pages
-- `q` / `CMD+C` - Quit
 
-See [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) for more details.
+- `h` or `?`: View keyboard shortcuts for the current view.
+- `\`: Filter system metrics by pattern.
+- `y`: Cycle the focused chart between linear, log, and, for percentage metrics, bucketed heatmap modes.
+- `n` and `N`: Navigate between pages in the focused pane.
+- `q` or `ctrl+c`: Quit.
+
+To monitor the current machine without a run, launch the standalone system monitor (SYMON):
+
+```bash
+wandb leet symon --interval 2s
+```
+
+See [LEET terminal UI](/models/app/leet-tui) for the full guide, or the [`wandb leet`](/models/ref/cli/wandb-leet) CLI reference for command syntax.
 
 </Tab>
 </Tabs>
