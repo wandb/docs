@@ -81,6 +81,9 @@ def _resolve_base(core: Path, *, since: Optional[str], base: Optional[str],
     # `git log --since` would drop commits whose author date predates the window
     # but which landed inside it. Pinning a base SHA by date and diffing forward
     # keeps the range a contiguous range of history.
+    if not since:
+        raise ScanError("--since is required when --base is not set")
+
     r = subprocess.run(
         ["git", "-C", str(core), "rev-list", "-1", f"--before={since}", head],
         capture_output=True, text=True,

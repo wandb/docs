@@ -170,7 +170,7 @@ def _codeowners_regex(pattern: str) -> re.Pattern[str]:
 
     body = "".join(out)
     prefix = "^" if anchored else "^(?:.*/)?"
-    suffix = "(?:/.*)?$" if directory else "(?:/.*)?$"
+    suffix = "(?:/.*)?$" if directory else "$"
     return re.compile(prefix + body + suffix)
 
 
