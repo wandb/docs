@@ -252,10 +252,6 @@ class TestSuffixMatching(unittest.TestCase):
         self.assertEqual(extract.extract_deltas(diff), [])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class TestWrappedSemantics(unittest.TestCase):
     """`wrapped` means "not a complete literal", not "Prettier moved it"."""
 
@@ -282,3 +278,7 @@ class TestWrappedSemantics(unittest.TestCase):
         deltas = extract.extract_deltas(diff)
         self.assertTrue(deltas)
         self.assertTrue(all(d.wrapped for d in deltas))
+
+
+if __name__ == "__main__":
+    unittest.main()

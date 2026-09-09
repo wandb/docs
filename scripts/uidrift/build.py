@@ -8,6 +8,7 @@ missed, which is why the table is useful before it exists.
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Optional, Sequence
@@ -132,6 +133,24 @@ def build_findings(
     streams = structure.parse_streams(diff)
     lifecycle = structure.flag_lifecycle(diff)
     pairs, unpaired_add, unpaired_rem = structure.pair_renames(added, removed, streams)
+    gate_keys: dict[str, Optional[str]] = {}
+
+    def gate_key_for(gate: structure.GateScope) -> Optional[str]:
+        """The Statsig key behind a gate hook.
+
+        `gate_scope` is pure, so it leaves `key` unset: the hook-to-key map
+        lives in the watched repo's flag-hook module, not in this diff. Resolve
+        it here, where the checkout is in hand, and memoize per hook -- one
+        commit can carry several deltas behind the same gate.
+
+        Only a commit that touched the ramp registry can match `lifecycle` at
+        all, so a commit that did not never pays for the `git show`.
+        """
+        if not lifecycle or not gate.hook:
+            return None
+        if gate.hook not in gate_keys:
+            gate_keys[gate.hook] = structure.resolve_gate_key(gate.hook, core)
+        return gate_keys[gate.hook]
 
     commit_date = _landed_date(commit)
     settled = _is_settled(commit_date, today)
@@ -141,6 +160,8 @@ def build_findings(
              extra_signals: Sequence[str] = ()) -> None:
         lookup = docsindex.find(index, probe)
         gate = structure.gate_scope(streams, delta)
+        if gate is not None:
+            gate = replace(gate, key=gate_key_for(gate))
         signals = list(extra_signals)
 
         if structure.testid_corroboration(streams, delta):

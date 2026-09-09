@@ -238,10 +238,6 @@ class TestLiveCorpus(unittest.TestCase):
         self.assertFalse(docsindex.find(self.index, "search").eligible)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class TestMatchConfidence(DocsIndexTestCase):
     """Edge cases are reported at low confidence rather than classified."""
 
@@ -338,3 +334,7 @@ class TestPerOccurrenceEmphasis(DocsIndexTestCase):
         lookup = self._find("Click **Add panel** to begin.")
         self.assertEqual(["bold"], [o.context for o in lookup.occurrences])
         self.assertTrue(lookup.all_occurrences_emphasized)
+
+
+if __name__ == "__main__":
+    unittest.main()

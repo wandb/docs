@@ -6,8 +6,9 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
+from unittest import mock
 
-from .. import build, config, extract, finding, report
+from .. import build, config, extract, finding, report, structure
 from .test_docsindex import build_temp_index
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -117,17 +118,22 @@ class BuildTestCase(unittest.TestCase):
         self.addCleanup(self._tmp.cleanup)
         self.index = build_temp_index(self._tmp.name)
 
-    def run_fixture(self, stem: str, when: str):
-        diff = (FIXTURES / f"{stem}.diff").read_text()
+    def run_diff(self, diff: str, when: str, *, sha: str, message: str):
         surviving = extract.surviving_deltas(extract.extract_deltas(diff))
         added, removed, moved = extract.commit_net_change(surviving)
         commit = {
-            "sha": stem + "0" * 33,
-            "commit": {"message": f"test: {stem}", "author": {"date": when, "name": "tester"}},
+            "sha": sha,
+            "commit": {"message": message, "author": {"date": when, "name": "tester"}},
         }
         return build.build_findings(
             commit, added, removed, moved, diff, self.index,
             today=TODAY, resolve_owners=False,
+        )
+
+    def run_fixture(self, stem: str, when: str):
+        return self.run_diff(
+            (FIXTURES / f"{stem}.diff").read_text(), when,
+            sha=stem + "0" * 33, message=f"test: {stem}",
         )
 
 
@@ -173,6 +179,95 @@ class TestBuildSignals(BuildTestCase):
     def test_old_change_is_settled(self):
         findings, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
         self.assertTrue(all(f.settled for f in findings))
+
+
+# A label change inside a conditional that ALREADY existed, in a commit that
+# adds that gate's key to the ramp registry. `conditional_added` is False here,
+# so the registry-add path is the only thing that can call this not-yet-visible.
+_GATE_ADDED_DIFF = (
+    "diff --git a/frontends/app/src/components/MembersTable.tsx "
+    "b/frontends/app/src/components/MembersTable.tsx\n"
+    "--- a/frontends/app/src/components/MembersTable.tsx\n"
+    "+++ b/frontends/app/src/components/MembersTable.tsx\n"
+    "@@ -10,6 +10,6 @@\n"
+    "   const shouldShowSeats = useStatsigGateSeats(orgName);\n"
+    "   if (shouldShowSeats) {\n"
+    '-    return <Column header="MODELS SEAT" />;\n'
+    '+    return <Column header="Models Seat" />;\n'
+    "   }\n"
+)
+
+_REGISTRY_ADD = (
+    "diff --git a/frontends/app/src/util/useRampFlag.ts "
+    "b/frontends/app/src/util/useRampFlag.ts\n"
+    "--- a/frontends/app/src/util/useRampFlag.ts\n"
+    "+++ b/frontends/app/src/util/useRampFlag.ts\n"
+    "@@ -1,2 +1,3 @@\n"
+    "   | 'existing_gate'\n"
+    "+  | 'models_seat_rollout'\n"
+)
+
+
+class TestGateKeyResolution(BuildTestCase):
+    """The gate's Statsig key is not in the diff, so `build` has to resolve it.
+
+    `gate_scope` is pure and leaves `GateScope.key` unset. Until `build`
+    resolved it, `lifecycle.get(gate.key)` was always a lookup on None, so the
+    "gate entered the registry in this commit" half of the visibility signal
+    could never fire -- a label users cannot see yet was reported as live drift.
+    """
+
+    def _run(self, diff, key):
+        with mock.patch.object(
+            structure, "resolve_gate_key", return_value=key
+        ) as resolver:
+            findings, _ = self.run_diff(
+                diff, "2026-08-10T10:00:00-07:00",
+                sha="b" * 40, message="test: gated rename",
+            )
+        return findings, resolver
+
+    def test_gate_entering_the_registry_marks_the_finding_not_visible(self):
+        findings, _ = self._run(
+            _GATE_ADDED_DIFF + _REGISTRY_ADD, "models_seat_rollout"
+        )
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertFalse(f.gate["conditional_added"], "the `if` pre-existed")
+        self.assertTrue(f.not_yet_visible)
+
+    def test_resolved_key_names_the_gate_consistently(self):
+        # `gate:<name>` and `flag_added:<key>` described the same gate under two
+        # different identifiers while the key went unresolved.
+        findings, _ = self._run(
+            _GATE_ADDED_DIFF + _REGISTRY_ADD, "models_seat_rollout"
+        )
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertEqual("models_seat_rollout", f.gate["name"])
+        self.assertIn("gate:models_seat_rollout", f.signals)
+        self.assertIn("flag_added:models_seat_rollout", f.signals)
+
+    def test_unresolvable_key_degrades_rather_than_claiming_visibility(self):
+        # The resolver returns None on any failure. That must fall back to the
+        # hook name and leave the finding visible, not crash or over-claim.
+        findings, _ = self._run(_GATE_ADDED_DIFF + _REGISTRY_ADD, None)
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertFalse(f.not_yet_visible)
+        self.assertEqual("useStatsigGateSeats", f.gate["name"])
+
+    def test_commit_without_a_registry_change_never_reads_the_repo(self):
+        # Resolution costs a `git show` against the watched repo. No registry
+        # change means no lifecycle entry can match, so it must not be paid.
+        findings, resolver = self._run(_GATE_ADDED_DIFF, "models_seat_rollout")
+        resolver.assert_not_called()
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertFalse(f.not_yet_visible)
+
+    def test_one_lookup_per_hook_per_commit(self):
+        findings, resolver = self._run(
+            _GATE_ADDED_DIFF + _REGISTRY_ADD, "models_seat_rollout"
+        )
+        self.assertTrue(findings)
+        self.assertEqual(1, resolver.call_count)
 
 
 class TestSurfaceNaming(unittest.TestCase):
@@ -229,10 +324,6 @@ class TestReport(unittest.TestCase):
         self.assertIn("Undocumented surfaces", out)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class TestLandingDate(unittest.TestCase):
     """Settledness measures time on master, not time since authoring.
 
@@ -282,3 +373,7 @@ class TestLandingDate(unittest.TestCase):
         self.assertTrue(
             build._is_settled(commit["commit"]["author"]["date"], today)
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
