@@ -1,9 +1,9 @@
 ---
 title: LEET terminal UI
-description: Explore and compare local W&B runs from the terminal with the LEET (Lightweight Experiment Exploration Tool) TUI.
+description: Explore local W&B runs and remote run metrics from the terminal with the LEET terminal UI.
 ---
 
-W&B LEET (Lightweight Experiment Exploration Tool) is a keyboard-driven terminal UI for exploring runs logged on the machine where you work. Use LEET to compare metrics, inspect system utilization, browse logged images, and tail console output without opening a browser. LEET reads local `.wandb` transaction logs, so you can inspect runs before they sync to the cloud.
+W&B LEET (Lightweight Experiment Exploration Tool) is a keyboard-driven terminal UI for exploring W&B runs. Use LEET to compare local metrics, inspect system utilization, browse logged images, and tail console output without opening a browser. LEET reads local `.wandb` transaction logs, so you can inspect runs before they sync to the cloud. You can also open a remote run by URL to view its scalar history and summary.
 
 <Frame>
   <img src="/images/leet/leet-workspace-all-panes.png" alt="W&B LEET workspace view with runs, metrics, system metrics, media, console logs, and run overview panes." />
@@ -19,7 +19,7 @@ LEET is built for engineers who spend most of their time in a terminal, especial
 | **[W&B App](/models/runs/view-logged-runs)** | Full project workspaces, team collaboration, reports, sweeps, artifacts, and rich panel types across synced cloud runs. |
 | **[W&B mobile app](/platform/hosting/monitoring-usage/mobile-app)** | Lightweight monitoring and alerts for synced cloud projects on a phone (Multi-tenant Cloud only). |
 
-LEET and the W&B App show the same underlying run data when that data exists locally and has been synced. LEET does not replace a project workspace in the browser. It is a different interface over local run files and live updates from an active training process.
+LEET and W&B show the same underlying run data when that data exists locally and has been synced. LEET supports local run files, live updates from an active training process, and [limited remote-run exploration](#remote-runs).
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ uv pip install --upgrade wandb
 </Tab>
 </Tabs>
 
-This guide tracks the latest CLI behavior. For version-by-version changes, see the [changelog](#changelog) on this page.
+This guide describes W&B Python SDK v0.30.0. For version-by-version changes, see the [changelog](#changelog) on this page.
 
 <Note>
 In SDK v0.27.x and earlier, launch the LEET TUI with `wandb beta leet` instead of `wandb leet`.
@@ -60,7 +60,6 @@ wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns
 wandb leet ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
 ```
 
-
 Open the standalone system monitor (SYMON) to view host metrics without a run context:
 
 ```bash
@@ -69,9 +68,21 @@ wandb leet symon --interval 2s
 
 For command syntax and subcommands, see [`wandb leet`](/models/ref/cli/wandb-leet) in the CLI reference.
 
+### Remote runs
+
+To view a synced run, pass its URL. Replace `[ENTITY]`, `[PROJECT]`, and `[RUN-ID]` with the values from your run URL:
+
+```bash
+wandb leet "https://wandb.ai/[ENTITY]/[PROJECT]/runs/[RUN-ID]"
+```
+
+Remote runs require a network connection and API key authentication for the server that hosts the run. LEET uses your configured credentials or prompts you to log in.
+
+Remote mode opens one run's scalar history and summary. It doesn't provide live updates, multi-run comparison, config, system metrics, media, console logs, custom X-axes, or the record inspector. Use local run files for those features.
+
 ## Views and pane layout
 
-LEET has three main views: **workspace**, **single-run**, and **SYMON**.
+LEET has three main views: **workspace**, **single-run**, and **SYMON**. The **record inspector** provides a separate view of a local transaction log.
 
 ### Workspace view
 
@@ -88,6 +99,10 @@ Typical panes include:
 
 Use `space` to select or deselect a run for overlaid metrics. Selected runs have a filled icon. Use `p` to pin a run so its series stays on top in metric charts. Press `enter` on the highlighted run to open **single-run view**. Live runs keep updating in the workspace, so you can use LEET for both post-run analysis and monitoring an active job.
 
+Live runs have animated markers in the runs list and a pulsing state indicator in the status bar. LEET marks a live local run as crashed after 10 minutes without transaction-log updates. If writes resume, LEET resumes live monitoring.
+
+In narrow terminals, LEET temporarily hides the run overview sidebar, then the runs sidebar, to leave at least 24 columns for charts when possible. The sidebars return when the terminal has enough space.
+
 ### Single-run view
 
 Single-run view focuses on one run with a metrics grid in the center, run overview on the left, and system metrics on the right. Media and console log panes open below the metrics grid when toggled on.
@@ -96,7 +111,7 @@ Single-run view focuses on one run with a metrics grid in the center, run overvi
   <img src="/images/leet/leet-single-run-view.png" alt="W&B LEET single-run view with run overview, metric charts, and system metrics panes." />
 </Frame>
 
-Press `esc` to return to workspace view.
+Press `esc` to leave the active filter or fullscreen media view, then clear pane focus. For a local run, press `esc` again with no pane focused to return to workspace view.
 
 ### SYMON
 
@@ -105,6 +120,27 @@ SYMON watches local CPU, memory, disk, network, and accelerator metrics. It uses
 <Frame>
   <img src="/images/leet/leet-system-metrics-heatmap.png" alt="W&B LEET system metrics view with GPU charts and bucketed heatmap mode." />
 </Frame>
+
+### Record inspector
+
+Use the record inspector to examine the raw records in a local `.wandb` transaction log. In single-run view, press `i` to open it for the current run. You can also launch it directly:
+
+```bash
+wandb leet inspect
+wandb leet inspect ./wandb
+wandb leet inspect ./wandb/offline-run-20260403_145048-6ao9fhns/run-6ao9fhns.wandb
+```
+
+The optional path accepts a `.wandb` file, a run directory, or a workspace directory. With no path or a workspace directory, LEET opens the latest run.
+
+The record list shows record types and summaries alongside the selected record's full text. Press `/` to filter by type or summary, `tab` to switch between regex and glob modes while editing, and `ctrl+/` to clear the filter. With the record list focused, press `end` to follow new records from a live run. If you opened the inspector with `i`, press `esc` from the record list to return to the run.
+
+When stdout is piped or redirected, the command prints the available records as Protocol Buffer text and exits:
+
+```bash
+wandb leet inspect | less
+wandb leet inspect > records.txt
+```
 
 ## Key features
 
@@ -140,21 +176,45 @@ project:vision tag:baseline cfg.lr>=1e-3 -note:debug | project:nlp
 
 While editing a filter, press `tab` to switch between regex and glob modes. Regex mode behaves like a case-insensitive substring search unless the query contains regex metacharacters. Glob mode supports `*` for any sequence and `?` for any single character.
 
+LEET saves run, metric, and system metric filters, including their match modes, in `.wandb-leet.json` inside each local `wandb/` directory. It restores them when you reopen that directory in workspace or single-run view. Clearing a filter also clears its saved value. Console log and run overview filters aren't saved between sessions.
+
 ### Metrics and system metrics
 
-LEET renders scalar metrics as terminal line charts. Filter run metrics with `/` and system metrics with `\`. Press `y` on a focused chart to cycle modes such as log-scale Y or bucketed heatmap views for percentage-based system metrics.
+LEET renders scalar metrics as terminal line charts. Filter run metrics with `/` and system metrics with `\`. When the console logs pane has focus, `/` filters logs instead. Press `y` on a focused chart to cycle modes such as log-scale Y or bucketed heatmap views for percentage-based system metrics.
 
-Use the mouse wheel to zoom the focused chart. On live system metric charts, LEET defaults to a rolling tail window (10 minutes by default). Right-click and drag on a chart to inspect the nearest point. Hold `alt` while dragging to inspect all visible charts at the same X position.
+Press `g` to cycle chart guides between off, a dotted background, and horizontal lines aligned with Y-axis ticks. This setting applies across workspace, single-run, and SYMON views and is saved between sessions.
+
+For local runs, LEET uses custom X-axes defined with `run.define_metric()`, including glob definitions. For example, this run plots `train/loss` against `train/step`:
+
+```python
+import wandb
+
+with wandb.init(project="leet-example", mode="offline") as run:
+    run.define_metric("train/step")
+    run.define_metric("train/*", step_metric="train/step")
+    for step in range(10):
+        run.log({"train/step": step * 100, "train/loss": 1 / (step + 1)})
+```
+
+The chart header and status bar show `[x: train/step]`. Rows without a finite value for the custom X-axis are omitted. Each chart uses one X-axis, so compare runs with the same axis definition. A custom axis replaces the default step axis, and series using a different axis aren't plotted on that chart.
+
+Use the mouse wheel to zoom the focused chart. On live system metric charts, LEET defaults to a rolling tail window (10 minutes by default). Right-click and drag on a chart to inspect the nearest point. Hold `alt` while dragging to inspect visible charts in the same grid at the same X position. Metric charts synchronize only when they share the same X-axis.
 
 ### Media and console logs
 
-The media pane shows `wandb.Image` series as ANSI thumbnails. Toggle it with `3` in workspace or single-run view.
+The media pane shows `wandb.Image` series, including lists of images logged under one key, with one tile per image. Toggle it with `3` in workspace or single-run view.
+
+With the media pane focused, use `w`, `a`, `s`, and `d` to select tiles. The left and right arrows move one frame, and the up and down arrows move 10 frames. Press `enter` for fullscreen media and `esc` to leave it. Press `l` to link scrubbing across image series so the arrows, `home`, and `end` move a shared cursor along their combined step timeline.
+
+Press `k` to switch between ANSI thumbnails and high-resolution rendering in terminals that support the Kitty graphics protocol. LEET falls back to ANSI when the terminal doesn't support high-resolution rendering. Image padding uses the terminal background.
 
 <Frame>
   <img src="/images/leet/leet-media-workspace.png" alt="W&B LEET workspace view with the media pane showing several image series." />
 </Frame>
 
 Toggle console logs with `4`. LEET rebuilds readable log lines from raw terminal output, including ANSI escape codes and carriage-return progress lines.
+
+To filter console output, focus the logs pane, press `/`, and type a pattern. Press `tab` while editing to switch between regex and glob matching. Press `enter` to apply the filter or `esc` to discard the draft query. LEET displays matching lines and follows new matches when you're at the end of the log. With the logs pane focused, press `ctrl+/` or `ctrl+l` to clear the filter.
 
 For console log behavior in the W&B App, see [Console logs](/models/app/console-logs).
 
@@ -168,6 +228,10 @@ wandb leet config
 
 LEET writes `wandb-leet.json` under `~/.config/wandb/` by default, or under `WANDB_CONFIG_DIR` when that variable is set. You can also resize grids from inside LEET with `c` and `r`.
 
+Drag pane borders and separator lines to resize sidebars, stacked panes, and the Environment, Config, and Summary sections of the run overview. The active border is highlighted while you drag. LEET saves the proportions separately for workspace, single-run, and inspector views. Press `0` to reset sizes for the current view, including the run overview sections.
+
+In the config editor, the field list scrolls with your selection to fit short terminals. Press `space` to toggle a boolean setting.
+
 <Frame>
   <img src="/images/leet/leet-config-editor.png" alt="W&B LEET config editor showing grid settings, color schemes, visibility settings, and palette selection." />
 </Frame>
@@ -177,6 +241,7 @@ LEET writes `wandb-leet.json` under `~/.config/wandb/` by default, or under `WAN
 | Key | Default | Description |
 | --- | --- | --- |
 | `startup_mode` | `workspace_latest` | Initial view when launched without a run path. |
+| `chart_guides` | `off` | Line chart guides: `off`, `dots`, or `horizontal`. Cycle with `g`. |
 | `metrics_grid.rows`, `metrics_grid.cols` | `4`, `3` | Single-run metrics grid size. |
 | `system_grid.rows`, `system_grid.cols` | `6`, `2` | Single-run system metrics sidebar grid size. |
 | `media_grid.rows`, `media_grid.cols` | `1`, `2` | Single-run media grid size. |
@@ -209,6 +274,16 @@ Several color schemes are available, like `wandb-vibe-10`, `wandb-vibe-20`, `sun
 - Palettes `dusk-shore` and `clear-signal` are colorblind-friendly.
 - Sequential palettes such as `viridis`, `plasma`, `inferno`, `magma`, `cividis`, and `traffic-light` work well for bucketed heatmaps.
 
+### Diagnostics and telemetry
+
+LEET prints startup failures to stderr. To collect debug logs, launch it with `WANDB_DEBUG=true`:
+
+```bash
+WANDB_DEBUG=true wandb leet
+```
+
+Debug output is written to `wandb-leet.debug.log` beside the global `wandb-leet.json` config file. LEET doesn't send usage telemetry when `WANDB_MODE=offline`, `WANDB_MODE=disabled`, or `WANDB_ERROR_REPORTING=false`.
+
 ## Navigate with the keyboard
 
 LEET is designed for keyboard and mouse input. Press `h` or `?` inside LEET to open the in-app help overlay for the current view.
@@ -221,7 +296,7 @@ Across workspace and single-run views:
 - `1`, `2`, `3`, and `4` toggle the metrics grid, system metrics, media, and console logs panes.
 - `[` and `]` toggle sidebars (runs list, run overview, or system metrics depending on the view).
 
-For the full shortcut tables for workspace, single-run, SYMON, and mouse actions, see [Keyboard shortcuts](/models/app/keyboard-shortcuts) (LEET tab).
+For the full shortcut tables for workspace, single-run, SYMON, media, record inspector, and mouse actions, see [Keyboard shortcuts](/models/app/keyboard-shortcuts) (LEET tab).
 
 ## Limitations compared to the W&B App
 
@@ -229,7 +304,7 @@ LEET complements the W&B App but does not replicate every workspace capability.
 
 | Capability | LEET | W&B App |
 | --- | --- | --- |
-| Data source | Local `wandb/` directories and `.wandb` files on the current machine | Synced cloud projects and teams |
+| Data source | Local `wandb/` directories and `.wandb` files, or a remote run's scalar history and summary by URL | Synced cloud projects and teams |
 | Run comparison | Multiple local runs in one directory | Full workspace tables, grouping, and saved views |
 | Panel types | Scalar line charts, system metrics, `wandb.Image` media, console logs | Line, bar, scatter, parallel coordinates, media, code, query panels, custom charts, and more |
 | Collaboration | Single-user terminal session | Sharing, comments, reports, and team features |
@@ -241,6 +316,12 @@ If you need artifacts, sweep analysis, or panel types that LEET does not provide
 ## Changelog
 
 LEET was initially launched in beta in SDK v0.23.0, and graduated to GA in SDK v0.28.0. For details, refer to the [SDK release notes](/release-notes/sdk-releases).
+
+| SDK version | LEET changes |
+| --- | --- |
+| `0.30.0` | Custom X-axes for local runs, console log filtering, filters saved per directory, drag highlighting, faster loading and rendering for long runs, automatic sidebar hiding in narrow terminals, startup diagnostics, and offline telemetry controls. |
+| `0.29.0` | Record inspector, chart guides, saved pane and overview section sizes with mouse resizing, layered Escape navigation, run state indicators and crash detection, and config editor improvements for short terminals. |
+| `0.28.0` | `wandb leet` command, remote run metrics, high-resolution image rendering, image lists, and linked media scrubbing. `wandb beta leet` remains an alias. |
 
 ## Related resources
 
