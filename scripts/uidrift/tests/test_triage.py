@@ -6,7 +6,6 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
-from unittest import mock
 
 from .. import build, config, extract, finding, report, structure
 from .test_docsindex import build_temp_index
@@ -218,7 +217,7 @@ class TestGateKeyResolution(BuildTestCase):
     """
 
     def _run(self, diff, key):
-        with mock.patch.object(
+        with unittest.mock.patch.object(
             structure, "resolve_gate_key", return_value=key
         ) as resolver:
             findings, _ = self.run_diff(
