@@ -5,29 +5,31 @@
 | `h`, `?` | Toggle help. |
 | `q`, `ctrl+c` | Quit. |
 | `alt+r` | Restart LEET. |
-| `esc` | Focus the runs list. |
-| `enter` | Open the highlighted run in single-run view. |
+| `esc` | Leave the active filter or fullscreen media, then focus the runs list (or clear focus if it's hidden). |
+| `enter` | Open the highlighted run in single-run view when the runs list is focused. |
 | `1` | Toggle metrics grid. |
 | `[` | Toggle runs sidebar. |
 | `2` | Toggle system metrics pane. |
 | `]` | Toggle run overview sidebar. |
 | `3` | Toggle media pane. |
 | `4` | Toggle console logs pane. |
+| `0` | Reset pane and overview section sizes for this view. |
 | `f` | Filter runs by name or metadata. |
 | `ctrl+f` | Clear runs filter. |
 | `space` | Select or deselect run. |
 | `p` | Pin or unpin run. |
-| `/` | Filter metrics. |
+| `/` | Filter metrics, or console logs when the logs pane is focused. |
 | `\` | Filter system metrics. |
-| `ctrl+/`, `ctrl+l` | Clear metrics filter. |
+| `ctrl+/`, `ctrl+l` | Clear metrics filter, or console filter when the logs pane is focused. |
 | `ctrl+\` | Clear system metrics filter. |
 | `o` | Filter run overview items. |
 | `ctrl+o` | Clear overview filter. |
 | `y` | Cycle focused chart mode. |
+| `g` | Cycle chart guides: off, dots, horizontal. |
 | `c` | Set columns for focused grid. |
 | `r` | Set rows for focused grid. |
 | `tab`, `shift+tab` | Cycle focus across visible panes. |
-| `w`, `a`, `s`, `d` or arrow keys | Move within the focused pane. |
+| `w`, `a`, `s`, `d` or arrow keys | Move within the focused pane. In media, arrows scrub frames and WASD selects tiles. |
 | `N`, `pgup` | Previous page. |
 | `n`, `pgdown` | Next page. |
 | `home` | Jump to first item, first page, or first media frame. |
@@ -40,23 +42,26 @@
 | `h`, `?` | Toggle help. |
 | `q`, `ctrl+c` | Quit. |
 | `alt+r` | Restart LEET. |
-| `esc` | Return to workspace view. |
+| `esc` | Leave the active filter or fullscreen media, then clear pane focus, then return to the local workspace. |
+| `i` | Open the record inspector for the current local run. |
 | `1` | Toggle metrics grid. |
 | `[` | Toggle run overview sidebar. |
-| `]` | Toggle system metrics sidebar. |
+| `]`, `2` | Toggle system metrics sidebar. |
 | `3` | Toggle media pane. |
 | `4` | Toggle console logs pane. |
-| `/` | Filter metrics. |
+| `0` | Reset pane and overview section sizes for this view. |
+| `/` | Filter metrics, or console logs when the logs pane is focused. |
 | `\` | Filter system metrics. |
-| `ctrl+/`, `ctrl+l` | Clear metrics filter. |
+| `ctrl+/`, `ctrl+l` | Clear metrics filter, or console filter when the logs pane is focused. |
 | `ctrl+\` | Clear system metrics filter. |
 | `o` | Filter run overview items. |
 | `ctrl+o` | Clear overview filter. |
 | `y` | Cycle focused chart mode. |
+| `g` | Cycle chart guides: off, dots, horizontal. |
 | `c` | Set columns for focused grid. |
 | `r` | Set rows for focused grid. |
 | `tab`, `shift+tab` | Cycle focus across visible panes. |
-| `w`, `a`, `s`, `d` or arrow keys | Move within the focused pane. |
+| `w`, `a`, `s`, `d` or arrow keys | Move within the focused pane. In media, arrows scrub frames and WASD selects tiles. |
 | `N`, `pgup` | Previous page. |
 | `n`, `pgdown` | Next page. |
 | `home` | Jump to first item, first page, or first media frame. |
@@ -70,6 +75,7 @@
 | `q`, `ctrl+c` | Quit. |
 | `alt+r` | Restart. |
 | `y` | Cycle focused chart mode. |
+| `g` | Cycle chart guides: off, dots, horizontal. |
 | `\` | Filter system metrics. |
 | `ctrl+\` | Clear system metrics filter. |
 | `c`, `C` | Set grid columns. |
@@ -80,12 +86,57 @@
 | `home` | First chart page. |
 | `end` | Last chart page. |
 
+### Media
+
+These shortcuts apply when the media pane is focused in workspace or single-run view.
+
+| Key | Action |
+| --- | --- |
+| `w`, `a`, `s`, `d` | Select an image tile. |
+| Left arrow, right arrow | Scrub backward or forward one frame. |
+| Up arrow, down arrow | Scrub backward or forward 10 frames. |
+| `home`, `end` | First or latest frame. |
+| `N`, `pgup` / `n`, `pgdown` | Previous or next page of image series. |
+| `enter` | Toggle fullscreen for the selected image. |
+| `esc` | Leave fullscreen media. |
+| `l` | Toggle linked scrubbing across image series. |
+| `k` | Toggle ANSI and high-resolution rendering in terminals that support the Kitty graphics protocol. |
+
+### Record inspector
+
+Open the inspector with `wandb leet inspect` or press `i` in single-run view for a local run.
+
+| Key | Action |
+| --- | --- |
+| `h`, `?` | Toggle help. |
+| `q`, `ctrl+c` | Quit LEET. |
+| `esc` | Leave filter editing, then focus the record list. From the list, return to the run if opened with `i`. |
+| `tab`, `shift+tab` | Switch focus between the record list and detail pane. |
+| `w`, `s`, up arrow, down arrow | Select a record or scroll the detail pane. |
+| `N`, `pgup` / `n`, `pgdown` | Previous or next page. |
+| `home` | First record or top of the detail pane. |
+| `end` | Last record or bottom of the detail pane. At the last record, follow live updates. |
+| `/` | Filter records by type or summary. |
+| `ctrl+/` | Clear the record filter. |
+| `0` | Reset inspector pane sizes. |
+
+### Filter editing
+
+These shortcuts apply while a filter input is active.
+
+| Key | Action |
+| --- | --- |
+| `tab` | Switch between regex and glob matching. |
+| `enter` | Apply the filter and leave editing. |
+| `esc` | Discard the draft query and leave editing. |
+
 ### Mouse
 
 | Input | Action |
 | --- | --- |
 | Click | Focus a chart or select a media tile. |
+| Left-click and drag a border or separator | Resize panes, sidebars, or run overview sections. |
 | Wheel | Zoom the focused chart. |
 | Right-click and drag | Inspect the nearest point on a chart. |
-| `alt` plus right-click and drag | Inspect all visible charts in sync. |
+| `alt` plus right-click and drag | Inspect visible charts in the same grid in sync. Metric charts must share an X-axis. |
 | `shift` plus drag | Select terminal text. |
