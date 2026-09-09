@@ -384,9 +384,9 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
 1. Choose an authentication method:
 
     - **Storage account key**: Generate a storage account access key and record the key and storage account name. For organizations on Dedicated Cloud, share these values with your W&B account team using a secure sharing mechanism.
-    - **Workload identity**: Don't generate or share a storage account key. Instead, the W&B System Console shows the principal ID of the deployment's managed identity. Grant that principal the **Reader** and **Storage Blob Data Contributor** roles on the storage account. W&B uses one Azure managed identity per instance. Kubernetes service accounts are configured according to each component's permissions. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0).</Note>
+    - **Workload identity**: Use the deployment's Azure managed identity instead of a storage account key. Complete the [Azure workload identity setup](#set-up-azure-workload-identity) before selecting this method. Grant the identity's principal ID the **Reader** and **Storage Blob Data Contributor** roles at storage-account scope. The principal ID is different from the client ID.
 
-    Workload identity is an opt-in migration. Enabling it for W&B-managed storage preserves the authentication method of existing BYOB configurations, including storage account keys and bucket-specific identities.
+    Workload identity is an opt-in migration. Enabling it for W&B-managed default storage preserves existing BYOB keys and bucket-specific identities. Changing the instance bucket doesn't change the authentication of separately configured team buckets.
 
 **Team level BYOB**:
 
@@ -477,21 +477,92 @@ Plan your storage bucket layout carefully. After you configure a storage bucket 
 For CoreWeave AI Object Storage at the instance level, contact [W&B support](mailto:support@wandb.com) instead of following these instructions. Self-service configuration isn't yet supported.
 </Note>
 
-For **Dedicated Cloud**: Share the bucket details with your W&B team, who configures your Dedicated Cloud instance.
+For **Dedicated Cloud**: Share the bucket details with your W&B team, who configures your instance. For Azure, include the storage account, container, optional path, and preferred authentication method. Your W&B team provides workload identity and federation details and manages the deployment configuration. You grant the required roles on your storage account. If you use key authentication, share the key through a secure mechanism.
 
-For **Self-Managed**, you can configure instance level BYOB using the W&B App:
+For **Self-Managed**, configure instance level BYOB in the W&B System Console. For Azure workload identity, first complete the [identity setup](#set-up-azure-workload-identity).
+
 1. Log in to W&B as a user with the `admin` role.
 1. Click the user icon at the top, then click **System Console**.
 1. Navigate to **Settings** > **System Connections**.
-1. In the **Bucket Storage** section, select **Azure** as the **Provider**.
-1. Enter the storage account name in **Bucket Name**.
+1. In **Bucket Storage**, select the **Provider** and enter the bucket details. For Azure, select **Azure Blob Storage (az)**, enter the **Storage account**, and enter the **Blob container** separately.
 1. Optional: Enter the **Path** to use in the new bucket.
-1. In **Authentication**, select one of the following options:
-    - **Storage account key**: Enter the storage account access key. Use this option to retain an existing key-based BYOB configuration.
-    - **Workload identity (user-delegation SAS)**: Copy the displayed **Managed identity principal ID** and grant it the **Reader** and **Storage Blob Data Contributor** roles on the storage account. You don't need to enter a tenant ID or client ID. <Note>For Self-Managed deployments, requires Operator Helm chart [v0.44.0+](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.0).</Note>
+1. Ensure that the identity or credentials for the selected provider have access to the bucket. For Azure, select an **Authentication** method:
+    - **Storage account key**: Enter a nonempty **Storage account key**. An available managed identity doesn't prevent you from using a key.
+    - **Workload identity (user-delegation SAS)**: Use the configured deployment identity. This option is available when the effective configuration contains the Azure tenant and client IDs. The **Identity** information is read-only. Selecting this option doesn't create an identity, grant roles, or configure federation.
+1. If you change authentication for the same storage account and container, review the warning. Saving creates a bucket override that takes precedence over the default bucket, including future authentication changes.
 1. Click **Save**.
 
 After you save, W&B uses the configured bucket as the default storage destination for new artifacts and run files at the instance level.
+
+If infrastructure sets a named `global.bucket` in the resource spec, Console locks the corresponding fields. Update the configuration through its infrastructure owner. A configured `global.defaultBucket` remains editable through a user-spec bucket override.
+
+#### Set up Azure workload identity
+
+Azure workload identity is in preview for Dedicated Cloud and Self-Managed. These steps configure instance-level Azure Blob Storage authentication with a user-delegation shared access signature (SAS). For Dedicated Cloud, coordinate the rollout with your W&B team. For Self-Managed, the deployment administrator performs the setup.
+
+Use the following versions for this workflow:
+
+| Component | Required version |
+| --- | --- |
+| W&B Server | v0.84.0 or later, including every component that accesses storage |
+| Operator Helm chart | [v0.44.13](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.13) or later |
+| W&B System Console | [v2.20.0](https://github.com/wandb/console/releases/tag/v2.20.0) or later for the authentication selector |
+
+Check component image overrides before the rollout. Upgrading the chart alone doesn't add workload identity support to an older server image.
+
+1. Enable OpenID Connect (OIDC) token federation and Azure workload identity for the Kubernetes cluster. For Azure Kubernetes Service (AKS), follow [Configure Microsoft Entra Workload ID](https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster).
+1. Create or select the Azure managed identity for the instance. Record its tenant ID, client ID, and principal ID. Grant the principal **Reader** and **Storage Blob Data Contributor** on the target storage account. Storage-account scope permits the identity to request the [user-delegation key](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-user-delegation-sas-create-cli#assign-permissions-with-azure-rbac) used to sign blob URLs.
+1. Configure a federated identity credential on that identity for each Kubernetes service account used by a storage-consuming component. Use these values:
+
+    | Credential field | Value |
+    | --- | --- |
+    | Issuer | The Kubernetes cluster's OIDC issuer URL |
+    | Subject | `system:serviceaccount:[NAMESPACE]:[SERVICE-ACCOUNT]`, with the actual namespace and service account name |
+    | Audience | `api://AzureADTokenExchange` |
+
+    One Azure managed identity can trust multiple Kubernetes service accounts. For an initial rollout, use `component` mode to retain the existing accounts and their Kubernetes permissions. Include Console and any optional storage consumers, such as the parquet metadata cache. Keep existing federation mappings during the rollout and rollback window. The chart doesn't create Azure federated credentials or role assignments.
+
+1. Configure the `azure.workload.identity/client-id` annotation on each of those service accounts. In `component` mode, set each component's `serviceAccount.annotations` in your Helm values. If infrastructure creates the account, manage its annotations there. For example, these values configure the API and Console accounts. Repeat the configuration for each enabled storage consumer:
+
+    ```yaml
+    api:
+      serviceAccount:
+        annotations:
+          azure.workload.identity/client-id: "[CLIENT-ID]"
+    console:
+      serviceAccount:
+        annotations:
+          azure.workload.identity/client-id: "[CLIENT-ID]"
+    ```
+
+    Replace `[CLIENT-ID]` with the identity's client ID. `component` mode preserves component accounts and doesn't annotate all of them from the global identity block. Verify the rendered service account names against the federation subjects.
+
+1. Merge the following values into your existing configuration. Replace `[TENANT-ID]`, `[CLIENT-ID]`, and `[PRINCIPAL-ID]` with the managed identity's values. Preserve the existing storage account name, container path, and other deployment settings.
+
+    ```yaml
+    global:
+      azureStorageIdentity:
+        tenantId: "[TENANT-ID]"
+        clientId: "[CLIENT-ID]"
+        principalId: "[PRINCIPAL-ID]"
+        serviceAccount:
+          mode: component
+      defaultBucket:
+        azureAuthMethod: workloadIdentity
+    ```
+
+    This example selects workload identity for an Azure `defaultBucket`. To keep using the default bucket's key while you prepare federation, explicitly set `defaultBucket.azureAuthMethod: accessKey` and retain its key. Configuring the identity makes tokens available independently of the selected authentication method.
+
+    For Self-Managed, these values can come from your deployment configuration or the user spec. For Dedicated Cloud, your W&B team manages the default bucket through infrastructure configuration. Use Console to configure a BYOB override, rather than to opt the infrastructure default bucket into workload identity.
+
+1. For an instance-level BYOB override, use the [Console procedure](#instance-level-byob), or configure a named `global.bucket` with its own `azureAuthMethod`. A named bucket overrides the entire default bucket, including authentication. It doesn't inherit `defaultBucket.azureAuthMethod` or the default bucket's key. Existing named buckets continue to use their key or existing bucket-specific identity unless you change their configuration.
+1. Apply the configuration through your deployment process. Confirm that all replacement pods are ready and that the old replicas have terminated. Test run-file and artifact uploads and downloads, an existing file, and any separately configured BYOB projects. A successful pod rollout alone doesn't verify storage authentication.
+
+When you omit `defaultBucket.azureAuthMethod`, the chart preserves legacy selection: a configured deployment or default-bucket identity selects workload identity, otherwise it uses the key. Set the method explicitly during migration to control when the switch occurs.
+
+The Console selector uses the configured deployment identity. Existing buckets with their own Azure tenant and client IDs retain that identity. If a bucket requires a different identity or tenant, configure its bucket-specific federation separately before changing authentication.
+
+Selecting workload identity stops using the key for that bucket. Remove unused keys from that bucket's configuration after validation. This doesn't revoke or delete Azure storage account keys, turn off Shared Key access in Azure, or remove copies from backups and prior configuration records. To restore key authentication, select `accessKey` and supply a valid key. Weave storage is configured separately.
 
 ### Team level BYOB
 
