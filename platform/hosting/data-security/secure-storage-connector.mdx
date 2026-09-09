@@ -498,7 +498,22 @@ If infrastructure sets a named `global.bucket` in the resource spec, Console loc
 
 #### Set up Azure workload identity
 
-Azure workload identity is in preview for Dedicated Cloud and Self-Managed. These steps configure instance-level Azure Blob Storage authentication with a user-delegation shared access signature (SAS). For Dedicated Cloud, coordinate the rollout with your W&B team. For Self-Managed, the deployment administrator performs the setup.
+Azure workload identity is in preview for Dedicated Cloud and Self-Managed. It authenticates to Azure Blob Storage with a user-delegation shared access signature (SAS). Select your deployment type for the steps you need to perform.
+
+<Tabs>
+<Tab title="Dedicated Cloud">
+W&B manages the deployment's software versions, managed identity, Kubernetes service-account annotations, and cluster federation. W&B also controls authentication for its managed default bucket through infrastructure configuration. You don't need to apply Helm values or configure Kubernetes service accounts.
+
+For an Azure BYOB bucket that uses the deployment identity:
+
+1. Obtain the deployment's managed identity principal ID from your W&B team or the read-only identity information in System Console.
+1. Grant that principal **Reader** and **Storage Blob Data Contributor** at storage-account scope on your BYOB storage account.
+1. Share the storage account name, container name, and optional path with your W&B team, and request workload identity authentication for that bucket.
+
+If your bucket requires a different identity or Azure tenant, coordinate its bucket-specific federation with your W&B team. Enabling workload identity for the W&B-managed default bucket doesn't migrate existing BYOB keys or bucket-specific identities.
+</Tab>
+<Tab title="Self-Managed">
+The deployment administrator configures the identity, federation, and Helm values. These steps apply to Self-Managed deployments, including deployments in your cloud account or on-premises.
 
 Use the following versions for this workflow:
 
@@ -522,7 +537,7 @@ Check component image overrides before the rollout. Upgrading the chart alone do
 
     One Azure managed identity can trust multiple Kubernetes service accounts. For an initial rollout, use `component` mode to retain the existing accounts and their Kubernetes permissions. Include Console and any optional storage consumers, such as the parquet metadata cache. Keep existing federation mappings during the rollout and rollback window. The chart doesn't create Azure federated credentials or role assignments.
 
-1. Configure the `azure.workload.identity/client-id` annotation on each of those service accounts. In `component` mode, set each component's `serviceAccount.annotations` in your Helm values. If infrastructure creates the account, manage its annotations there. For example, these values configure the API and Console accounts. Repeat the configuration for each enabled storage consumer:
+1. Configure the `azure.workload.identity/client-id` annotation on each of those service accounts. In `component` mode, set each component's `serviceAccount.annotations` in your Helm values. If infrastructure creates the account, manage its annotations there. For example, these values configure the API and Console accounts. Replace `[CLIENT-ID]` with the identity's client ID, and repeat the configuration for each enabled storage consumer:
 
     ```yaml
     api:
@@ -535,7 +550,7 @@ Check component image overrides before the rollout. Upgrading the chart alone do
           azure.workload.identity/client-id: "[CLIENT-ID]"
     ```
 
-    Replace `[CLIENT-ID]` with the identity's client ID. `component` mode preserves component accounts and doesn't annotate all of them from the global identity block. Verify the rendered service account names against the federation subjects.
+    `component` mode preserves component accounts and doesn't annotate all of them from the global identity block. Verify the rendered service account names against the federation subjects.
 
 1. Merge the following values into your existing configuration. Replace `[TENANT-ID]`, `[CLIENT-ID]`, and `[PRINCIPAL-ID]` with the managed identity's values. Preserve the existing storage account name, container path, and other deployment settings.
 
@@ -553,7 +568,7 @@ Check component image overrides before the rollout. Upgrading the chart alone do
 
     This example selects workload identity for an Azure `defaultBucket`. To keep using the default bucket's key while you prepare federation, explicitly set `defaultBucket.azureAuthMethod: accessKey` and retain its key. Configuring the identity makes tokens available independently of the selected authentication method.
 
-    For Self-Managed, these values can come from your deployment configuration or the user spec. For Dedicated Cloud, your W&B team manages the default bucket through infrastructure configuration. Use Console to configure a BYOB override, rather than to opt the infrastructure default bucket into workload identity.
+    These values can come from your deployment configuration or the user spec. Use Console to configure a BYOB override. Set the default bucket's authentication method in its deployment configuration.
 
 1. For an instance-level BYOB override, use the [Console procedure](#instance-level-byob), or configure a named `global.bucket` with its own `azureAuthMethod`. A named bucket overrides the entire default bucket, including authentication. It doesn't inherit `defaultBucket.azureAuthMethod` or the default bucket's key. Existing named buckets continue to use their key or existing bucket-specific identity unless you change their configuration.
 1. Apply the configuration through your deployment process. Confirm that all replacement pods are ready and that the old replicas have terminated. Test run-file and artifact uploads and downloads, an existing file, and any separately configured BYOB projects. A successful pod rollout alone doesn't verify storage authentication.
@@ -563,6 +578,8 @@ When you omit `defaultBucket.azureAuthMethod`, the chart preserves legacy select
 The Console selector uses the configured deployment identity. Existing buckets with their own Azure tenant and client IDs retain that identity. If a bucket requires a different identity or tenant, configure its bucket-specific federation separately before changing authentication.
 
 Selecting workload identity stops using the key for that bucket. Remove unused keys from that bucket's configuration after validation. This doesn't revoke or delete Azure storage account keys, turn off Shared Key access in Azure, or remove copies from backups and prior configuration records. To restore key authentication, select `accessKey` and supply a valid key. Weave storage is configured separately.
+</Tab>
+</Tabs>
 
 ### Team level BYOB
 
