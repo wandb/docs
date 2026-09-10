@@ -2780,6 +2780,7 @@
                           "fr/models/ref/python/automations/onunlinkartifact",
                           "fr/models/ref/python/automations/runstatefilter",
                           "fr/models/ref/python/automations/sendnotification",
+                          "fr/models/ref/python/automations/sendprompttoaria",
                           "fr/models/ref/python/automations/sendwebhook"
                         ]
                       },
@@ -4562,6 +4563,7 @@
                           "ja/models/ref/python/automations/onunlinkartifact",
                           "ja/models/ref/python/automations/runstatefilter",
                           "ja/models/ref/python/automations/sendnotification",
+                          "ja/models/ref/python/automations/sendprompttoaria",
                           "ja/models/ref/python/automations/sendwebhook"
                         ]
                       },
@@ -6344,6 +6346,7 @@
                           "ko/models/ref/python/automations/onunlinkartifact",
                           "ko/models/ref/python/automations/runstatefilter",
                           "ko/models/ref/python/automations/sendnotification",
+                          "ko/models/ref/python/automations/sendprompttoaria",
                           "ko/models/ref/python/automations/sendwebhook"
                         ]
                       },

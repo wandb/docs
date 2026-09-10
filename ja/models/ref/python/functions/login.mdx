@@ -27,7 +27,7 @@ W&amp;B にログインします。
 * WANDB&#95;API&#95;KEY 環境変数
 * システムまたは Workspace settings ファイル内の api&#95;key 設定
 * .netrc ファイル (~~/.netrc、~~/&#95;netrc、または NETRC 環境変数で指定されたパス)
-* 対話型プロンプト (利用可能な場合)
+* 対話型プロンプト (利用可能で、かつ `prompt` が True の場合)
 
 ```python
 key: 'str | None' = None,
@@ -37,6 +37,7 @@ force: 'bool | None' = None,
 timeout: 'int | None' = None,
 verify: 'bool' = True,
 referrer: 'str | None' = None,
+prompt: 'bool' = True,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
@@ -72,19 +73,23 @@ anonymous: 'DoNotSet' = DoNotSet
   分析のため、URLログインリクエストで使用するリファラー。
 </ResponseField>
 
+<ResponseField name="prompt" type="bool">
+  APIキーが設定されていない場合に、インタラクティブに入力を求めるかどうか。False の場合は False を返し、セッションと設定は変更されません。
+</ResponseField>
+
 <ResponseField name="anonymous" type="DoNotSet">
   説明はありません。
 </ResponseField>
 
 <div id="returns">
-  ## 戻り値
+  ## Returns
 </div>
 
-`bool`: `key` が設定されている場合。
+この call の後にセッションが認証情報を保持している場合は True。
 
 <div id="raises">
   ## Raises
 </div>
 
 * `AuthenticationError`: 認証情報のサーバー検証に失敗した場合。
-* `UsageError`: `api_key` を設定できず、tty もない場合。
+* `UsageError`: 認証情報が設定されておらず、`prompt` が True で、APIキーを入力するためのターミナルがない場合。
