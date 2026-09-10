@@ -147,12 +147,12 @@ W&amp;B attribue une balise `disk.in` à cette métrique.
   ### Écriture sur disque
 </div>
 
-Représente le volume total des écritures système sur disque en mégaoctets (MB).
-Comme pour [Disque In](), les octets d&#39;écriture initiaux sur disque sont enregistrés lors du premier échantillonnage. Les échantillons suivants calculent la différence entre le nombre actuel d&#39;octets écrits et la valeur initiale.
+Représente le volume total des écritures système sur disque en mégaoctets (Mo).
+Comme pour [Disque en lecture](#disk-in), les octets d&#39;écriture initiaux sur disque sont enregistrés lors du premier échantillonnage. Les échantillons suivants calculent la différence entre le nombre actuel d&#39;octets écrits et la valeur initiale.
 
 W&amp;B attribue la balise `disk.out` à cette métrique.
 
-{/* Nouvelle section */}
+{{/* Nouvelle section */}}
 
 <div id="memory">
   ## Mémoire
@@ -210,7 +210,7 @@ W&amp;B attribue une balise `network.sent` à cette métrique.
 </div>
 
 Indique le nombre total d’octets reçus sur le réseau.
-Comme pour [Données envoyées sur le réseau](), le nombre initial d’octets reçus est enregistré lors de la première initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets reçus et la valeur initiale.
+Comme pour [octets réseau envoyés](#network-sent), le nombre initial d’octets reçus est enregistré lors de la première initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets reçus et la valeur initiale.
 
 W&amp;B attribue la balise `network.recv` à cette métrique.
 
