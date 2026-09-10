@@ -3,31 +3,27 @@ title: "wrapOpenAI"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **wrapOpenAI**&lt;`T`&gt;(`openai`): `T`
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-OpenAI 呼び出しの関数トレースを有効にするため、OpenAI API をラップします。
+```ts
+wrapOpenAI<T>(openai: T): T
+```
 
-定義場所: [src/integrations/openai.ts:723](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.ts#L723)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.ts#L760" />
+
+OpenAI API をラップし、OpenAI の Call に対する関数のトレースを有効にします。
 
 <div id="type-parameters">
   ## タイプパラメーター
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T` *extends* `OpenAIAPI`
+<ParamField path="T" type="extends object" />
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="openai">
-  ### openai
-</div>
-
-`T`
+<ParamField path="openai" type="T" required />
 
 <div id="returns">
   ## 戻り値

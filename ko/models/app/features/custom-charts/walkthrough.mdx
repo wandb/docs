@@ -63,23 +63,23 @@ with wandb.init() as run:
   ## 차트 사용자 지정하기
 </div>
 
-기본 시각화도 좋은 시작점이지만, Vega 스펙을 편집해 차트 유형을 바꾸고 제목을 추가하며 모양을 더 세밀하게 다듬을 수 있습니다. 산점도에서 선형 플롯으로 전환하려면 **Edit**를 클릭해 이 기본 제공 차트의 Vega 스펙을 변경하세요. [맞춤형 차트 데모 워크스페이스](https://app.wandb.ai/demo-team/custom-charts)에서 함께 따라 해보세요.
+기본 시각화도 좋은 시작점이지만, Vega 사양을 편집해 차트 유형을 바꾸고 제목을 추가하며 모양을 더 세밀하게 다듬을 수 있습니다. 산점도에서 선형 플롯으로 전환하려면 **Edit**를 클릭해 이 기본 제공 차트의 Vega 사양을 변경하세요. [맞춤형 차트 데모 워크스페이스](https://app.wandb.ai/demo-team/custom-charts)에서 함께 따라 해보세요.
 
 <Frame>
   <img src="/images/app_ui/custom-charts-1.png" alt="맞춤형 차트 선택" />
 </Frame>
 
-시각화를 사용자 지정하도록 Vega 스펙을 업데이트하세요:
+시각화를 사용자 지정하도록 Vega 사양을 업데이트하세요:
 
 * 플롯, 범례, x축, y축에 제목을 추가합니다(각 필드의 &quot;title&quot; 설정).
 * &quot;mark&quot; 값을 &quot;point&quot;에서 &quot;line&quot;으로 변경합니다.
 * 사용하지 않는 &quot;size&quot; 필드를 제거합니다.
 
 <Frame>
-  <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="PR 곡선 Vega 스펙" />
+  <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="PR 곡선 Vega 사양" />
 </Frame>
 
-프리셋을 저장하면 프로젝트의 다른 Panel에서도 동일한 차트 설정을 재사용할 수 있습니다. 이 프로젝트의 다른 곳에서 사용할 수 있는 프리셋으로 저장하려면 페이지 상단의 **Save as**를 클릭하세요. 다음은 ROC 곡선과 함께 표시된 결과입니다.
+프리셋을 저장하면 프로젝트의 다른 패널에서도 동일한 차트 설정을 재사용할 수 있습니다. 이 프로젝트의 다른 곳에서 사용할 수 있는 프리셋으로 저장하려면 페이지 상단의 **Save as**를 클릭하세요. 다음은 ROC 곡선과 함께 표시된 결과입니다.
 
 <Frame>
   <img src="/images/app_ui/custom-charts-2.png" alt="PR 곡선 차트" />
@@ -89,7 +89,7 @@ with wandb.init() as run:
   ## 보너스: 합성 히스토그램
 </div>
 
-이 섹션에서는 Vega 스펙 편집에 익숙해진 후 무엇이 가능한지 보여주기 위해, 동일한 뷰에 두 분포를 겹쳐 표시하는 더 고급 맞춤형 차트인 합성 히스토그램을 구축하는 방법을 설명합니다.
+이 섹션에서는 Vega 사양 편집에 익숙해진 후 무엇이 가능한지 보여주기 위해, 동일한 뷰에 두 분포를 겹쳐 표시하는 더 고급 맞춤형 차트인 합성 히스토그램을 구축하는 방법을 설명합니다.
 
 히스토그램은 수치 분포를 시각화해 더 큰 데이터셋을 이해하는 데 도움을 줍니다. 합성 히스토그램은 동일한 bin에 여러 분포를 함께 표시하므로, 서로 다른 모델 간 또는 하나의 모델 내 서로 다른 클래스 간에 두 개 이상의 메트릭을 비교할 수 있습니다. 예를 들어 주행 장면에서 객체를 감지하는 시맨틱 세그멘테이션 모델에서는 정확도와 Intersection over Union(IoU) 최적화의 효과를 비교할 수 있습니다. 또는 서로 다른 모델이 자동차(데이터에서 크고 흔한 영역)와 교통 표지판(훨씬 작고 덜 흔한 영역)을 얼마나 잘 감지하는지 확인하고 싶을 수도 있습니다. [demo Colab](https://bit.ly/custom-charts-colab)에서는 생물 10개 클래스 중 2개 클래스의 신뢰도 점수를 비교할 수 있습니다.
 
@@ -99,10 +99,10 @@ with wandb.init() as run:
 
 나만의 맞춤형 합성 히스토그램 패널을 만들려면 다음 단계를 따르세요.
 
-1. 워크스페이스 또는 report에서 새 맞춤형 차트 패널을 만드세요(**Custom Chart** 시각화 추가). 오른쪽 상단의 **Edit**를 클릭한 다음, 기본 제공 패널 유형 중 하나를 시작점으로 사용해 Vega 스펙을 수정하세요.
-2. 해당 기본 제공 Vega 스펙을 [Vega용 합성 히스토그램 starter code](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21)로 바꾸세요. 이 Vega 스펙에서 기본 제목, 축 제목, 입력 도메인, 기타 세부 사항을 [Vega syntax 사용](https://vega.github.io/)하여 직접 수정할 수 있습니다. 예를 들어 색상을 바꾸거나 세 번째 히스토그램을 추가할 수 있습니다.
+1. 워크스페이스 또는 리포트에서 새 맞춤형 차트 패널을 만드세요(**Custom Chart** 시각화 추가). 오른쪽 상단의 **Edit**를 클릭한 다음, 기본 제공 패널 유형 중 하나를 시작점으로 사용해 Vega 사양을 수정하세요.
+2. 해당 기본 제공 Vega 사양을 [Vega용 합성 히스토그램 starter code](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21)로 바꾸세요. 이 Vega 사양에서 기본 제목, 축 제목, 입력 도메인, 기타 세부 사항을 [Vega syntax 사용](https://vega.github.io/)하여 직접 수정할 수 있습니다. 예를 들어 색상을 바꾸거나 세 번째 히스토그램을 추가할 수 있습니다.
 3. 오른쪽 패널의 쿼리를 수정해 wandb logs에서 올바른 데이터를 로드하세요. `summaryTable` 필드를 추가하고 해당 `tableKey`를 `class_scores`로 설정하여 run에 로깅된 `wandb.Table`을 가져오세요. 이렇게 하면 드롭다운 메뉴를 통해 `class_scores`로 로깅된 `wandb.Table`의 열을 사용해 두 히스토그램 bin 세트(`red_bins` 및 `blue_bins`)를 채울 수 있습니다. 예를 들어 red bins에는 `animal` 클래스의 prediction scores를, blue bins에는 `plant`를 선택할 수 있습니다.
-4. 미리보기 렌더링에 표시되는 플롯이 원하는 결과와 일치할 때까지 Vega 스펙과 쿼리를 계속 수정할 수 있습니다. 완료되면 상단의 **Save as**를 클릭하고 맞춤형 플롯의 이름을 지정해 재사용할 수 있도록 하세요. 그런 다음 **Apply from panel library**를 클릭해 플롯 생성을 마무리하세요.
+4. 미리보기 렌더링에 표시되는 플롯이 원하는 결과와 일치할 때까지 Vega 사양과 쿼리를 계속 수정할 수 있습니다. 완료되면 상단의 **Save as**를 클릭하고 맞춤형 플롯의 이름을 지정해 재사용할 수 있도록 하세요. 그런 다음 **Apply from panel library**를 클릭해 플롯 생성을 마무리하세요.
 
 다음은 간단한 실험의 예시 결과입니다. 예시 1,000개만으로 한 에포크 동안 트레이닝하면, 대부분의 이미지가 식물이 아니라는 점에는 확신하지만 어떤 이미지가 동물일 수 있는지에 대해서는 불확실한 모델이 생성됩니다.
 

@@ -3,38 +3,34 @@ title: "wrapClaudeAgentSdk"
 description: "Référence du SDK TypeScript"
 ---
 
-> **wrapClaudeAgentSdk**&lt;`T`&gt;(`sdk`): `T`
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+wrapClaudeAgentSdk<T>(sdk: T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/claudeAgentSdk.ts#L232" />
 
 Instrumentez manuellement le module `@anthropic-ai/claude-agent-sdk`.
 
 Utilisez cette fonction lorsque l&#39;instrumentation automatique ne s&#39;applique pas — par ex. avec un bundler
 dont le chargement des modules ne peut pas être observé par les hooks CJS/ESM, ou avec un chemin d&#39;import qu&#39;ils
 ne couvrent pas. Nécessite `@anthropic-ai/claude-agent-sdk` &gt;= 0.3.178. Renvoie une
-vue du module dont l&#39;export `query` est tracé ; utilisez l&#39;objet renvoyé
+vue du module dont l&#39;export `query` est tracé ; utilisez l&#39;objet renvoyé
 plutôt que l&#39;import d&#39;origine (le `query` du SDK est un export avec accesseur en lecture seule,
-donc la liaison d&#39;origine ne peut pas être patchée sur place) :
-
-Défini dans : [src/integrations/claudeAgentSdk.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/claudeAgentSdk.ts#L209)
+donc la liaison d&#39;origine ne peut pas être patchée sur place) :
 
 <div id="type-parameters">
   ## Paramètres de type
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T`
+<ParamField path="T" />
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="sdk">
-  ### sdk
-</div>
-
-`T`
+<ParamField path="sdk" type="T" required />
 
 <div id="returns">
   ## Renvoie

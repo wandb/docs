@@ -130,7 +130,7 @@ LLMは、大規模なLocadex PRのトリアージに役立ちます。ただし�
 * **English baseline**: サンプル対象のファイルでは、モデルが構造 (見出し、リスト、コードブロック、リンク) を比較できるように、英語のソースパスとローカライズ済みのパスを含めます。
 
 <div id="2-prompt-shape-example">
-  ### 2. プロンプトの形 (例)
+  ### 2. プロンプトの形 (例) 
 </div>
 
 モデルに次のことを依頼します。
@@ -197,7 +197,7 @@ LLMは、大規模なLocadex PRのトリアージに役立ちます。ただし�
 * [Retranslate](https://generaltranslation.com/docs/platform/translations/retranslate)
 
 <div id="checklist-quick-reference">
-  ## チェックリスト (クイックリファレンス)
+  ## チェックリスト (クイックリファレンス) 
 </div>
 
 * [ ] 英語版の PR を `main` にマージします。

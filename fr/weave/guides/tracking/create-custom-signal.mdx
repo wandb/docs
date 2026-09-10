@@ -1,0 +1,36 @@
+---
+title: "Créer un signal personnalisé"
+description: "Créez un signal W&B Weave personnalisé pour taguer les tours de conversation d'un agent selon un comportement que vous définissez."
+keywords: ["signals", "signal personnalisé", "surveillance des agents", "tags"]
+---
+
+Un signal personnalisé évalue les tours de conversation d&#39;un agent au regard d&#39;un comportement que vous définissez, puis affiche ce résultat sous forme de tag dans la [vue Agents](/fr/weave/guides/tracking/view-agent-activity). W&amp;B Weave fournit également des [built-in signals](/fr/weave/guides/tracking/view-agent-signals) pour les cas courants, tels que la frustration de l&#39;utilisateur ou le jailbreaking. Si ces built-in signals ne couvrent pas ce que vous souhaitez surveiller, créez un signal personnalisé. Cette page vous explique comment créer ce signal de tag personnalisé dans l&#39;interface Weave.
+
+<div id="create-a-custom-tag-signal">
+  ## Créer un signal de tag personnalisé
+</div>
+
+Pour créer un signal de tag personnalisé :
+
+1. Accédez à [wandb.ai](https://wandb.ai/) et sélectionnez votre projet.
+2. Dans la **barre latérale du projet Weave**, cliquez sur **Agents**.
+3. Dans la barre d&#39;onglets, cliquez sur **Signals**.
+4. Dans l&#39;onglet Signals, cliquez sur **+ Create your first signal** ou sur **New signal**.
+5. Dans le volet latéral, cliquez sur **Custom Signal**.
+
+<Frame>
+  ![Le volet latéral Custom tags avec les champs Tag name, Definition, Scorer name et Inference model pour créer un signal personnalisé.](/weave/guides/tracking/imgs/custom-signal.png)
+</Frame>
+
+1. Dans le volet latéral **Custom tags**, configurez les champs suivants :
+   * **Tag name** : le libellé qui apparaît dans la vue Agents pour le comportement à surveiller.
+   * **Definition** : un prompt décrivant le comportement que le signal doit détecter. Weave envoie ce prompt à un juge LLM, qui évalue chaque tour de conversation de l&#39;agent et applique le tag lorsque le tour correspond au comportement décrit. Par exemple, pour détecter une défaillance produit précise : « L&#39;utilisateur évoque des erreurs ou des problèmes concernant le produit X. »
+   * **+ Add tag** (facultatif) : cliquez pour définir un autre tag sur le même signal. Par exemple, si vous prenez en charge plusieurs produits, ajoutez un tag distinct pour chacun d&#39;eux afin de suivre la frustration produit par produit, et non uniquement de façon agrégée.
+   * **Scorer name** : le nom de l&#39;objet scorer sous-jacent.
+   * **Inference model or custom runtime** : le modèle utilisé pour évaluer les tours de conversation correspondants. [Serverless Inference](/fr/inference/) est la valeur par défaut. CoreWeave Serverless Inference consomme des crédits de votre compte W&amp;B.
+   * **Include tool calls** (facultatif) : développez **Advanced**, puis cochez la case pour inclure les appels d&#39;outil du tour de conversation dans le contexte envoyé au modèle d&#39;évaluation.
+   * **Only score turns matching** (facultatif) : développez **Advanced**, puis ajoutez un ou plusieurs filtres pour restreindre les tours de conversation évalués par le signal, par exemple par agent, opération, outil ou modèle. Laissez vide pour évaluer tous les tours de conversation de l&#39;agent. Weave combine plusieurs filtres selon une logique `AND`.
+   * **Sample rate** (facultatif) : développez **Advanced**, puis définissez la proportion de tours de conversation correspondants évalués par le signal. Pour les agents à fort trafic, réduisez le sample rate afin de n&#39;évaluer qu&#39;une partie des tours correspondants plutôt que la totalité, et ainsi limiter les coûts.
+2. Dans le volet latéral **Custom tags**, cliquez sur **Create signal**.
+
+Une fois le signal créé, Weave évalue les tours de conversation correspondants. Le tag apparaît dans la vue Agents, y compris dans l&#39;onglet Signals.

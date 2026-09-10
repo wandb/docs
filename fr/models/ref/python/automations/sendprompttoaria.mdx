@@ -1,0 +1,33 @@
+---
+title: SendPromptToAria
+kind: class
+namespace: wandb.automations.actions
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L243" />
+
+<div id="class-wandbautomationssendprompttoaria">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.SendPromptToAria
+</div>
+
+Définit une action d&#39;automatisation qui envoie un prompt à ARIA.
+
+```python
+*,
+prompt: Annotated[str, AfterValidator(func=<function _validate_aria_prompt>)],
+action_type: Literal[ARIA] = ARIA
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="prompt" type="Annotated">
+  Le prompt reçu par ARIA lorsque cette automatisation est déclenchée.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  Aucune description fournie.
+</ResponseField>
