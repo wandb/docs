@@ -18,11 +18,15 @@ from .. import config, ownership
 UI = config.SOURCE.ui_roots[0]
 
 CODEOWNERS = """\
-# Coarse default, then progressively narrower overrides.
+# Coarse default, then progressively narrower overrides. `settings` has no
+# trailing slash on purpose -- wandb/core writes directory rules both ways, and
+# when every rule in this fixture ended in a slash a regression that unmatched
+# the slash-less form against files inside it passed the whole suite.
 *                                   @wandb/docs-platform
 /frontends/app/                     @wandb/frontend-reviewers
 /frontends/app/src/weave/           @wandb/weave-team
 /frontends/app/**/*ramp*            @wandb/growth
+/frontends/app/src/settings         @wandb/settings-team
 """
 
 
@@ -160,6 +164,14 @@ class TestOwningTeam(OwnershipTestCase):
         self.assertEqual(ownership.owning_team("README.md", core=self.repo),
                          "@wandb/docs-platform")
 
+    def test_directory_rule_without_a_trailing_slash_owns_its_contents(self):
+        # CODEOWNERS globs are gitignore-style: naming a directory owns
+        # everything beneath it, slash or no slash. Requiring the slash makes
+        # the rule match nothing at all, so the path falls back to the broader
+        # team -- a wrong @-mention that the report cannot expose.
+        team = ownership.owning_team(f"{UI}/settings/panel.tsx", core=self.repo)
+        self.assertEqual(team, "@wandb/settings-team")
+
 
 class TestResolve(OwnershipTestCase):
     def test_commit_author_leads_and_is_not_duplicated(self):
@@ -269,6 +281,25 @@ class TestCodeownersGlobs(unittest.TestCase):
         pattern = ownership._codeowners_regex("/a/**/b")
         self.assertTrue(pattern.match("a/b"))
         self.assertTrue(pattern.match("a/x/y/b"))
+
+    def test_trailing_slash_is_not_significant(self):
+        # The two forms are one rule, so the translation must not branch on the
+        # slash. Asserting equality of the compiled patterns is what makes the
+        # branch provably redundant -- the last attempt to remove it as dead
+        # code changed behavior instead, because nothing pinned them together.
+        self.assertEqual(
+            ownership._codeowners_regex("/frontends/app/src/weave").pattern,
+            ownership._codeowners_regex("/frontends/app/src/weave/").pattern,
+        )
+
+    def test_directory_pattern_matches_contents_either_way(self):
+        for pattern in ("/src/weave", "/src/weave/"):
+            rx = ownership._codeowners_regex(pattern)
+            with self.subTest(pattern=pattern):
+                self.assertTrue(rx.match("src/weave/panel.tsx"))
+                self.assertTrue(rx.match("src/weave/deep/nested.tsx"))
+                self.assertTrue(rx.match("src/weave"))
+                self.assertFalse(rx.match("src/weaver.tsx"))
 
 
 class TestHeadSelection(OwnershipTestCase):

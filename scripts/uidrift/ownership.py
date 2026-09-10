@@ -141,11 +141,15 @@ def _codeowners_regex(pattern: str) -> re.Pattern[str]:
     Supports the subset that appears in wandb/core: a leading `/` anchor,
     `**` across segments, `*` within a segment, and a trailing `/` for
     directories.
+
+    A trailing `/` is stripped and then ignored, because CODEOWNERS globs are
+    gitignore-style: a pattern that names a directory owns everything beneath it
+    whether or not it ends in a slash. `/frontends/app/src/weave` and
+    `/frontends/app/src/weave/` are the same rule, and wandb/core writes both
+    forms.
     """
     anchored = pattern.startswith("/")
-    p = pattern.lstrip("/")
-    directory = p.endswith("/")
-    p = p.rstrip("/")
+    p = pattern.lstrip("/").rstrip("/")
 
     out: list[str] = []
     i = 0
@@ -170,7 +174,14 @@ def _codeowners_regex(pattern: str) -> re.Pattern[str]:
 
     body = "".join(out)
     prefix = "^" if anchored else "^(?:.*/)?"
-    suffix = "(?:/.*)?$" if directory else "$"
+    # Deliberately not a conditional on the trailing slash. Both forms have to
+    # match everything beneath the directory (see the docstring), so branching
+    # here can only produce two spellings of the same regex -- which is why this
+    # read as a dead conditional and got "simplified" to a bare `$` for the
+    # slash-less form. That silently unmatched `/frontends/app/src/weave`
+    # against files inside it, dropping the last-match override and naming the
+    # broader team instead. The regression is invisible in the report.
+    suffix = "(?:/.*)?$"
     return re.compile(prefix + body + suffix)
 
 
