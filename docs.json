@@ -997,6 +997,7 @@
                           "models/ref/python/automations/onunlinkartifact",
                           "models/ref/python/automations/runstatefilter",
                           "models/ref/python/automations/sendnotification",
+                          "models/ref/python/automations/sendprompttoaria",
                           "models/ref/python/automations/sendwebhook"
                         ]
                       },
