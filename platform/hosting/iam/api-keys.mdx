@@ -141,55 +141,48 @@ If a key was exposed publicly, delete it immediately rather than waiting to upda
 
 ## Restrict how members use API keys
 
-Organization admins can restrict key creation and use. The available restrictions differ by deployment type, and each is set through the `updateOrganizationPrivacySettings` GraphQL mutation rather than through the W&B App.
+Organization admins can restrict key creation and use from the organization settings in the W&B App. These restrictions limit which keys can reach your organization's resources and who can create new ones. The following sections describe the available restrictions, which differ by deployment type.
 
-### Require organization API keys
+### Enforce organization-scoped API keys
 
-Available in **Multi-tenant Cloud** for Enterprise organizations.
+Available in **Multi-tenant Cloud** for Enterprise organizations. W&B enables this setting per organization. If you don't see it, contact your W&B account team.
 
-When enabled, only organization API keys can access the organization's resources. Personal API keys that a member uses across several organizations no longer work against this organization, which prevents a key leaked from elsewhere from reaching your data.
+When enforced, only organization API keys and keys that belong to service accounts in the organization can reach the organization's resources. A personal API key that a member uses across several organizations no longer works against this organization, which prevents a key leaked from elsewhere from reaching your data.
 
-Replace `[ORGANIZATION-ID]` with the ID of your organization.
+<Warning>
+Personal API keys lose read and write access to the organization as soon as you enforce this setting, and any integration that uses a personal key stops working. Notify your users before you enforce it.
+</Warning>
 
-```graphql
-mutation RequireOrgScopedAPIKeys {
-  updateOrganizationPrivacySettings(
-    input: {organizationId: "[ORGANIZATION-ID]", requireOrgScopedAPIKeys: true}
-  ) {
-    success
-  }
-}
-```
+To enforce organization-scoped API keys, complete the following steps:
 
-This setting requires that organization API keys are already enabled for your organization. Contact your W&B account team to confirm.
+1. Sign in as an organization admin.
+2. Open your organization settings, then select **Authentication** in the left navigation.
+3. Next to **Enforce organization-scoped API keys**, click **Enforce**.
+4. Type your organization name to confirm, then click **Enforce Organization-Scoped API Keys**.
 
-{/*
+W&B then shows an **Enforced** label next to the setting. To stop enforcing it, return to **Authentication** and click **Disable**.
+
 ### Disable API key creation
 
 Available in **Dedicated Cloud** and **Self-Managed** v0.84.0 and above.
 
-When enabled, members of the organization can't create new API keys. Existing keys keep working, so turning this on doesn't interrupt running jobs. Use it when your organization issues keys through a controlled process and you want to prevent members from creating their own.
+When enabled, users and team service accounts can't create new API keys. Organization service accounts can still create keys, and existing keys keep working, so turning this on doesn't interrupt running jobs. Use it when your organization issues keys through a controlled process and you want to prevent members from creating their own.
 
-Replace `[ORGANIZATION-ID]` with the ID of your organization.
+To disable API key creation, complete the following steps:
 
-```graphql
-mutation DisableAPIKeyCreation {
-  updateOrganizationPrivacySettings(
-    input: {organizationId: "[ORGANIZATION-ID]", disableApiKeyCreation: true}
-  ) {
-    success
-  }
-}
-```
+1. Sign in as an organization admin.
+2. Open your organization dashboard, then select **Privacy** in the left navigation.
+3. In the **Access Control** section, turn on **Disable API key creation**.
 
-A member who tries to create a key after you enable this setting receives the following error:
+W&B saves the change immediately. For the other settings on this tab, see [Configure privacy settings](/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+
+While the setting is on, the **API Keys** tab disables the **New key** button and shows the following message:
 
 ```text
-API key creation has been disabled by your organization administrator
+API key creation has been disabled by your organization administrator. You can still edit, delete, and use existing API keys.
 ```
 
 To restrict service account creation as well, see [`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/platform/hosting/iam/advanced_env_vars), which prevents the creation of new team-scoped service accounts in Dedicated Cloud and Self-Managed v0.83.0 and above.
-*/}
 
 ## Availability
 

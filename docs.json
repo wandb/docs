@@ -419,15 +419,6 @@
                         ]
                       },
                       {
-                        "group": "LLM Evaluation Jobs",
-                        "pages": [
-                          "models/launch",
-                          "models/launch/evaluate-model-checkpoint",
-                          "models/launch/evaluate-hosted-model",
-                          "models/launch/evaluations"
-                        ]
-                      },
-                      {
                         "group": "W&B App UI",
                         "pages": [
                           "models/app/features/cascade-settings",
@@ -2209,15 +2200,6 @@
                         ]
                       },
                       {
-                        "group": "Jobs d’évaluation des LLM",
-                        "pages": [
-                          "fr/models/launch",
-                          "fr/models/launch/evaluate-model-checkpoint",
-                          "fr/models/launch/evaluate-hosted-model",
-                          "fr/models/launch/evaluations"
-                        ]
-                      },
-                      {
                         "group": "Interface de l’application W&B",
                         "pages": [
                           "fr/models/app/features/cascade-settings",
@@ -3992,15 +3974,6 @@
                         ]
                       },
                       {
-                        "group": "LLM 評価ジョブ",
-                        "pages": [
-                          "ja/models/launch",
-                          "ja/models/launch/evaluate-model-checkpoint",
-                          "ja/models/launch/evaluate-hosted-model",
-                          "ja/models/launch/evaluations"
-                        ]
-                      },
-                      {
                         "group": "W&B App UI",
                         "pages": [
                           "ja/models/app/features/cascade-settings",
@@ -5772,15 +5745,6 @@
                           "ko/models/automations/view-automation-history",
                           "ko/models/automations/automation-events",
                           "ko/models/automations/api"
-                        ]
-                      },
-                      {
-                        "group": "LLM 평가 작업",
-                        "pages": [
-                          "ko/models/launch",
-                          "ko/models/launch/evaluate-model-checkpoint",
-                          "ko/models/launch/evaluate-hosted-model",
-                          "ko/models/launch/evaluations"
                         ]
                       },
                       {
