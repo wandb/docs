@@ -387,6 +387,29 @@ with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
 python train.py --configs other-config.yaml
 ```
 
+<div id="nested-dictionaries-in-config">
+  ### config 内のネストされた辞書
+</div>
+
+`config-defaults.yaml` は、ネストされたマッピングがトップレベルキーの `value` になっている場合に、ネストされた辞書をサポートします。また、ネストされた辞書を `wandb.init()` に直接渡すこともできます。
+
+```python
+import wandb
+
+config = {
+    "EPISODE_BUDGET": {
+        "cramped_room": 5000,
+        "coordination_ring": 5000,
+        "counter_circuit_o_1order": 5000,
+    }
+}
+
+with wandb.init(project="my_project", config=config) as run:
+    ...
+```
+
+W&amp;B App の一部のビューでは、ネストされた設定キーがドット区切り形式で表示されます (例: `EPISODE_BUDGET.cramped_room`)。Public API のフィルターでは、これらのパスの先頭に `config.` が付きます (例: `config.EPISODE_BUDGET.cramped_room`)。Python では、通常の 辞書 のインデックス指定でネストされた値にアクセスします (例: `run.config["EPISODE_BUDGET"]["cramped_room"]`)。
+
 <div id="example-use-case-for-file-based-configs">
   ### ファイルベースの設定の使用例
 </div>

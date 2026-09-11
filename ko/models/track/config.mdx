@@ -387,6 +387,29 @@ with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
 python train.py --configs other-config.yaml
 ```
 
+<div id="nested-dictionaries-in-config">
+  ### config의 중첩 딕셔너리
+</div>
+
+`config-defaults.yaml`은 중첩된 매핑이 최상위 키의 `value`인 경우 중첩 딕셔너리를 지원합니다. 중첩 딕셔너리를 `wandb.init()`에 직접 전달할 수도 있습니다:
+
+```python
+import wandb
+
+config = {
+    "EPISODE_BUDGET": {
+        "cramped_room": 5000,
+        "coordination_ring": 5000,
+        "counter_circuit_o_1order": 5000,
+    }
+}
+
+with wandb.init(project="my_project", config=config) as run:
+    ...
+```
+
+일부 W&amp;B App 뷰는 중첩된 설정 키를 점 표기법으로 표시합니다(예: `EPISODE_BUDGET.cramped_room`). Public API 필터에서는 이러한 경로 앞에 `config.` 접두사를 붙입니다(예: `config.EPISODE_BUDGET.cramped_room`). Python에서는 일반적인 딕셔너리 인덱싱으로 중첩된 값에 액세스하세요: `run.config["EPISODE_BUDGET"]["cramped_room"]`.
+
 <div id="example-use-case-for-file-based-configs">
   ### 파일 기반 설정 사용 예
 </div>
