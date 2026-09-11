@@ -1593,7 +1593,7 @@
                 "type": "null"
               }
             ],
-            "description": "사용 중인 W&B API 키의 개발자 팀 또는 사용자 이름",
+            "description": "제공된 W&B 자격 증명과 연결된 팀 또는 사용자 이름",
             "examples": [
               "my-team"
             ],

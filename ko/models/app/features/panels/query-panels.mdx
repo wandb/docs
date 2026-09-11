@@ -17,14 +17,14 @@ keywords: ["쿼리 표현식", "Weave 패널", "즉석 쿼리", "Runs 객체", "
 * **[설정](#configurations)**: 패널 유형과 톱니바퀴 메뉴의 옵션 같은 패널의 선택 설정입니다.
 * **[결과 패널](#result-panels)**: 테이블이나 플롯 등으로 결과를 표시하는 방식입니다.
 
-사용해 볼 수 있는 대화형 예시는 공개 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2)를 참조하세요. 쿼리 구문에 대한 안내형 워크스루는 [Query panel tutorial report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2)를 참조하세요. 생성된 유형과 Ops는 [query 표현식 language overview](/ko/models/ref/query-panel)에 나와 있습니다.
+사용해 볼 수 있는 대화형 예시와 쿼리 구문에 대한 안내형 워크스루는 공개 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)를 참조하세요. 생성된 유형과 Ops는 [query 표현식 language overview](/ko/models/ref/query-panel)에 나와 있습니다.
 
 <Frame>
   <img src="/images/weave/pretty_panel.png" alt="쿼리 패널" />
 </Frame>
 
 {/* <Note>
-  [Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark)를 참조해, 이 팀이 벤치마크를 시각화하는 데 쿼리 패널을 어떻게 사용했는지 확인하세요.
+  [Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark)를 참조하여 이 팀이 쿼리 패널로 벤치마크를 시각화한 방법을 확인하세요.
   </Note> */}
 
 <div id="create-a-query-panel">
@@ -109,7 +109,7 @@ runs.summary["cifar10_sample_table"]
   #### 패널 옵션
 </div>
 
-설정 메뉴에는 패널이 테이블 스타일 결과를 결합하거나 로드하는 방식을 변경하는 옵션이 포함될 수 있습니다. 정확한 레이블과 사용 가능 여부는 표현식과 패널 유형에 따라 달라집니다. 구체적인 설정 예시는 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2)를 참조하세요.
+설정 메뉴에는 패널이 테이블 스타일 결과를 결합하거나 로드하는 방식을 변경하는 옵션이 포함될 수 있습니다. 정확한 레이블과 사용 가능 여부는 표현식과 패널 유형에 따라 달라집니다. 구체적인 설정 예시는 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)를 참조하세요.
 
 **Concat**
 
@@ -117,7 +117,7 @@ runs.summary["cifar10_sample_table"]
 
 **Paginate**
 
-테이블 결과가 한 번에 렌더링하기에는 너무 클 수 있을 때는 **Paginate**를 사용하세요. 페이지네이션은 행을 청크 단위로 로드해 패널의 응답성을 유지합니다. 이 옵션은 큰 행 목록을 반환하는 표현식과 함께 사용하세요. 페이지네이션과 잘 맞는 패턴은 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2)를 참조하세요.
+테이블 결과가 한 번에 렌더링하기에는 너무 클 수 있을 때는 **Paginate**를 사용하세요. 페이지네이션은 행을 청크 단위로 로드해 패널의 응답성을 유지합니다. 이 옵션은 큰 행 목록을 반환하는 표현식과 함께 사용하세요. 페이지네이션과 잘 맞는 패턴은 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)를 참조하세요.
 
 <div id="result-panels">
   ### 결과 패널
@@ -137,7 +137,7 @@ runs.summary["cifar10_sample_table"]
   ### run 이력을 단계별로 살펴보기
 </div>
 
-`runs` 또는 `runs.history`로 만든 테이블과 플롯에서는 앱이 **step** 컨트롤(예: 슬라이더)을 표시할 수 있습니다. 이를 사용하면 로깅된 step 사이를 이동하면서 run 전반에 걸친 메트릭, 텍스트 또는 미디어를 확인할 수 있습니다. 표현식을 변경한 후에는 쿼리 패널의 설정을 편집하고 **Render As**를 **Stepper**로 변경하세요. 이 컨트롤은 `_step` 대신 다른 메트릭을 따르도록 설정할 수도 있으며, 이렇게 하는 편이 데이터 로깅 방식에 더 잘 맞을 수 있습니다. 예시 식은 [쿼리 패널 examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2)에서 확인하세요.
+`runs` 또는 `runs.history`로 만든 테이블과 플롯에서는 앱이 **step** 컨트롤(예: 슬라이더)을 표시할 수 있습니다. 이를 사용하면 로깅된 step 사이를 이동하면서 run 전반에 걸친 메트릭, 텍스트 또는 미디어를 확인할 수 있습니다. 표현식을 변경한 후에는 쿼리 패널의 설정을 편집하고 **Render As**를 **Stepper**로 변경하세요. 이 컨트롤은 `_step` 대신 다른 메트릭을 따르도록 설정할 수도 있으며, 이렇게 하는 편이 데이터 로깅 방식에 더 잘 맞을 수 있습니다. 예시 식은 [Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)에서 확인하세요.
 
 <div id="basic-operations">
   ## 기본 오퍼레이션
@@ -244,7 +244,7 @@ runs.summary["short_table_1"].table.rows.concat
   ## Runs 객체
 </div>
 
-쿼리 패널을 사용해 `runs` 객체에 액세스할 수 있습니다. Run 객체는 Experiments의 기록을 저장합니다. 자세한 내용은 [runs 객체에 액세스하기](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#3.-accessing-runs-object)에서 확인하세요. 간단히 살펴보면 `runs` 객체에서 다음을 사용할 수 있습니다:
+쿼리 패널을 사용해 `runs` 객체에 액세스할 수 있습니다. Run 객체는 Experiments의 기록을 저장합니다. 자세한 내용은 [runs 객체에 액세스하기](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object)에서 확인하세요. 간단히 살펴보면 `runs` 객체에서 다음을 사용할 수 있습니다:
 
 * `summary`: run 결과를 요약하는 정보를 담고 있는 딕셔너리입니다. summary에는 accuracy나 loss 같은 스칼라 값이나 큰 파일이 포함될 수 있습니다. 기본적으로 `wandb.Run.log()`는 로깅된 시계열의 마지막 값을 summary로 설정합니다. summary의 내용은 직접 설정할 수도 있습니다. `summary`를 run의 출력값이라고 생각하면 됩니다.
 * `history`: 모델이 트레이닝되는 동안 loss처럼 변하는 값을 저장하기 위한 딕셔너리 목록입니다. `wandb.Run.log()` 명령은 이 객체에 항목을 추가합니다.
@@ -258,7 +258,7 @@ runs.summary["short_table_1"].table.rows.concat
   ## 아티팩트에 액세스
 </div>
 
-아티팩트는 W&amp;B의 핵심 개념입니다. 아티팩트는 버전과 이름이 지정된 파일 및 디렉터리의 컬렉션입니다. 아티팩트를 사용해 모델 가중치, 데이터셋, 그 밖의 모든 파일이나 디렉터리를 추적하세요. W&amp;B는 아티팩트를 저장하며, 이를 다운로드하거나 다른 run에서 사용할 수 있습니다. 자세한 내용과 예시는 [아티팩트에 액세스하기](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#4.-accessing-artifacts)를 참조하세요. 일반적으로 아티팩트는 `project` 객체에서 액세스합니다.
+아티팩트는 W&amp;B의 핵심 개념입니다. 아티팩트는 버전과 이름이 지정된 파일 및 디렉터리의 컬렉션입니다. 아티팩트를 사용해 모델 가중치, 데이터셋, 그 밖의 모든 파일이나 디렉터리를 추적하세요. W&amp;B는 아티팩트를 저장하며, 이를 다운로드하거나 다른 run에서 사용할 수 있습니다. 자세한 내용과 예시는 [아티팩트에 액세스하기](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts)를 참조하세요. 일반적으로 아티팩트는 `project` 객체에서 액세스합니다.
 
 * `project.artifactVersion()`: 프로젝트 내에서 지정한 이름과 버전에 해당하는 특정 아티팩트 버전을 반환합니다.
 * `project.artifact("")`: 프로젝트 내에서 지정한 이름에 해당하는 아티팩트를 반환합니다. 그런 다음 `.versions`를 사용해 이 아티팩트의 모든 버전 목록을 가져올 수 있습니다.

@@ -1,0 +1,36 @@
+---
+title: "Pourquoi mon build Weave TypeScript échoue-t-il au format CommonJS ?"
+keywords: ["TypeScript"]
+---
+
+<div id="ts1295-and-ts1287-ecmascript-imports-and-exports-cannot-be-written-in-a-commonjs-file">
+  ## `TS1295` et `TS1287` : les imports et exports ECMAScript ne peuvent pas être utilisés dans un fichier CommonJS
+</div>
+
+Si votre fichier `tsconfig.json` définit `"verbatimModuleSyntax": true`, la compilation d&#39;un projet CommonJS W&amp;B Weave (conformément au [guide d&#39;intégration du SDK TypeScript](/fr/weave/guides/integrations/js)) échoue avec l&#39;erreur suivante :
+
+```text
+error TS1295: ECMAScript imports and exports cannot be written in a CommonJS file under 'verbatimModuleSyntax'.
+error TS1287: A top-level 'export' modifier cannot be used on value declarations in a CommonJS module when 'verbatimModuleSyntax' is enabled.
+```
+
+Ce paramètre vaut `false` par défaut, ce que suppose le guide d&#39;intégration du SDK TypeScript.
+
+Définissez le champ `verbatimModuleSyntax` sur `false`, en plus de votre paramètre `module` CommonJS :
+
+```json lines
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "verbatimModuleSyntax": false
+  }
+}
+```
+
+`"verbatimModuleSyntax": false` autorise la syntaxe `import`/`export` de style ESM dans vos fichiers sources, tout en laissant TypeScript générer une sortie CommonJS. Pour plus de détails, consultez [TypeScript - Verbatim Module Syntax](https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax).
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[TypeScript](/fr/support/weave/tags/typescript)</Badge>
+
+{/* FIN GÉNÉRÉE AUTOMATIQUEMENT : badge d’onglet */}

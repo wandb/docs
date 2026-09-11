@@ -3,7 +3,11 @@ title: "OpDecorator<T>"
 description: "TypeScript SDK リファレンス"
 ---
 
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
 > **OpDecorator**&lt;`T`&gt; = (`value`, `context`) =&gt; `T` | `void` &amp; (`target`, `propertyKey`, `descriptor`) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L43" />
 
 デコレータ用のヘルパータイプです。
 これは、従来のデコレータと Stage 3 デコレータの両方で使用できるデコレータ関数を表します。
@@ -17,14 +21,8 @@ target: プロトタイプ (インスタンスmethod) またはコンストラ�
 propertyKey: method名
 descriptor: method を含むプロパティディスクリプタ
 
-定義場所: [src/opType.ts:41](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L41)
-
 <div id="type-parameters">
   ## 型パラメーター
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
+<ParamField path="T" type="extends (...args) => any" />

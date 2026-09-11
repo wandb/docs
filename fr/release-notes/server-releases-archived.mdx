@@ -20,17 +20,23 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <Update label="v0.72.0" description="6 août 2025">
   W&amp;B 0.72 inclut des correctifs pour les graphiques en courbes et les volets multimédias, ainsi que des améliorations des intégrations Weave pour OpenTelemetry et Google Agent Development Kit.
 
-  ## Assistance et fin de vie
+  <div id="support-and-end-of-life">
+    ## Assistance et fin de vie
+  </div>
 
   * W&amp;B Server v0.58 est arrivé en fin de vie.
 
-  ## Modifications à venir
+  <div id="upcoming-changes">
+    ## Modifications à venir
+  </div>
 
   * Nous optimisons le comportement de rendu dans le Workspace afin d’accélérer le chargement des Workspaces comportant de nombreux volets et de rendre le glisser-déposer des volets plus réactif et plus précis. **Dans ce cadre, nous prévoyons de supprimer la mise en page « Custom grid » dans les sections de Workspace dans la prochaine version (0.73).** Les grilles personnalisées resteront disponibles dans Reports. Contactez votre équipe W&amp;B ou [l’assistance](mailto:support@wandb.ai) pour toute question ou préoccupation.
   * Dans une prochaine version, nous alignerons les vues Workspace multi-run et à run unique afin que, lorsque vous explorez un run unique, vous voyiez la même mise en page et la même configuration des volets que celles configurées pour la vue multi-run, y compris les graphiques personnalisés, les mises en page et les paramètres. L’objectif est de vous aider à conserver le contexte et à éviter de devoir reconfigurer vos vues. Toutefois, cela supprimera la possibilité de personnaliser des vues à run unique distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou [l’assistance](mailto:support@wandb.ai) pour toute question concernant la migration.
   * Au cours des prochaines versions, nous continuerons à migrer les Model Registry existants au niveau des équipes vers W&amp;B Registry.
 
-  ## Correctifs
+  <div id="fixes">
+    ## Correctifs
+  </div>
 
   * Annulation de la modification du comportement des graphiques en courbes annoncée dans la version 0.71.0. Les graphiques en courbes n’ayant qu’un point pour chaque ligne seront convertis en graphiques à barres même si les paramètres sont modifiés.
   * Correction d’un bug qui pouvait entraîner l’affichage des boîtes englobantes en dehors du média dans un volet multimédia, au lieu de les superposer au média.
@@ -41,17 +47,23 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <Update label="v0.71.0" description="29 juillet 2025">
   Avec W&amp;B Server 0.71, Registry est activé par défaut pour toutes les organisations. Pour en savoir plus sur le déploiement progressif de Registry, voir la note correspondante dans Fonctionnalités. Cette version apporte plusieurs améliorations et correctifs aux workspaces : gardez les panneaux multimédias synchronisés grâce à un curseur d’étapes commun, naviguez plus efficacement entre les panneaux en plein écran et consultez davantage de détails sur la durée totale d’un run et son temps d’exécution effectif dans la page Run Overview. Les automatisations ont été enrichies : vous pouvez désormais déclencher une automatisation basée sur les tags d’une version d’artifact. {/* more */}
 
-  ## Assistance et fin de vie
+  <div id="support-and-end-of-life-2">
+    ## Assistance et fin de vie
+  </div>
 
   * W&amp;B Server v0.57 est arrivé en fin de vie.
 
-  ## Modifications à venir
+  <div id="upcoming-changes-2">
+    ## Modifications à venir
+  </div>
 
   * Nous optimisons le rendu dans le Workspace afin d’accélérer le chargement des Workspaces comportant de nombreux panneaux et de rendre le glisser-déposer des panneaux plus réactif et plus précis. **Dans ce cadre, nous prévoyons de supprimer la mise en page « Grille personnalisée » des sections du Workspace dans la prochaine version (0.72).** Les grilles personnalisées resteront disponibles dans les Reports. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question.
   * Dans une prochaine version, nous harmoniserons les vues Workspace multi-run et run unique afin que, lorsque vous accédez à un run unique, vous retrouviez la même mise en page et la même configuration de panneaux que celles définies pour la vue multi-run, y compris les graphiques personnalisés, les mises en page et les paramètres. L’objectif est de vous aider à conserver le contexte et à éviter de devoir reconfigurer vos vues. Toutefois, vous ne pourrez plus personnaliser des vues de run unique distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) pour toute question concernant la migration.
   * Au cours des prochaines versions, nous poursuivrons la migration des Model Registry existants au niveau des équipes vers W&amp;B Registry. Pour plus de détails et un rappel du calendrier, voir l’[annonce de disponibilité générale de W&amp;B Registry](#registry_ga_announcement) ci-dessous.
 
-  ## Fonctionnalités
+  <div id="features">
+    ## Fonctionnalités
+  </div>
 
   * <a id="registry_ga_announcement" aria-label="Annonce de la disponibilité générale de W&B Registry" /> Nous migrerons progressivement les Model Registry existants au niveau des équipes vers W&amp;B Registry au cours des prochaines versions. **Vous n’avez aucune action à effectuer : W&amp;B copiera automatiquement les ressources Model Registry de chaque équipe vers un registre privé correspondant, créé automatiquement au niveau de l’équipe.**  Les références existantes aux collections de modèles de votre ancien Model Registry au niveau de l’équipe continueront de fonctionner.
 
@@ -66,7 +78,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Vous pouvez désormais synchroniser les volets multimédias utilisant la même clé de curseur d’étape : lorsque vous avancez le curseur d’étape dans un volet multimédia, ceux des autres volets avancent également. Ouvrez les paramètres du Workspace ou de la section, accédez à **Media**, cliquez sur l’onglet **Sync**, puis activez **Sync slider by key (Step)**.
   * Le Run Comparer comprend une nouvelle section **Meta** contenant des métadonnées sur le run, telles que la commande, la version de Python et le type de GPU.
 
-  ### Weave
+  <div id="weave">
+    ### Weave
+  </div>
 
   * L’outil **Trace plots** vous permet d’explorer, de visualiser et de déboguer au fil du temps des métriques au niveau des traces, telles que la latence, le coût ou les jetons, à l’aide de graphiques interactifs personnalisés. [En savoir plus](/fr/weave/guides/tracking/trace-plots).
   * **Évaluations en ligne** : surveillez vos traces dans le Cloud dédié en joignant des Monitors à vos traces entrantes. Les Monitors s’exécutent en arrière-plan en tant que juges LLM et évaluent un sous-ensemble d’appels que vous définissez. Utilisez les Monitors pour suivre le comportement en production, détecter les régressions, collecter des données réelles de production, et bien plus encore. [En savoir plus](/fr/weave/guides/tracking/trace-plots).
@@ -78,7 +92,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Ajout de la prise en charge, dans le SDK TypeScript, de la création et de la publication de prompts. [En savoir plus](/fr/weave/guides/core-types/prompts).
   * La nouvelle classe `Content` vous permet de téléverser en toute sécurité des données de tout type MIME, avec encodage automatique en Base64, extraction automatique des métadonnées et bien plus encore.
 
-  ## Correctifs
+  <div id="fixes-2">
+    ## Correctifs
+  </div>
 
   * La page **Aperçu** d’un run affiche désormais sa durée d’exécution et ses heures suivies. La *durée d’exécution* d’un run correspond à sa durée totale, du début à la fin, tandis que ses *heures suivies* correspondent au temps pendant lequel le run exécutait activement des expériences ou des calculs.
   * Lorsque vous zoomez sur un graphique en courbes, puis l’ouvrez en mode plein écran, le graphique en plein écran conserve désormais correctement le même niveau de zoom.
@@ -102,7 +118,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.70.1" description="9 juillet 2025">
-  ## Correctifs
+  <div id="fixes-3">
+    ## Correctifs
+  </div>
 
   * Correctif d’un bug où le statut des runs plantés n’était pas mis à jour vers **Crashed** après une mise à niveau.
   * Correctif d’un bug où la colonne **State** était absente du tableau des runs de **Sweeps**.
@@ -115,16 +133,22 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 <Update label="v0.70.0" description="7 juillet 2025">
   W&amp;B Server v0.70 inclut de nouvelles fonctionnalités, des améliorations et des améliorations des performances pour vous aider à obtenir et à partager des informations plus efficacement. Par exemple :
 
-  ## Assistance et fin de vie
+  <div id="support-and-end-of-life-3">
+    ## Assistance et fin de vie
+  </div>
 
   * W&amp;B Server v0.56 a atteint sa fin de vie.
 
-  ## Modifications à venir
+  <div id="upcoming-changes-3">
+    ## Modifications à venir
+  </div>
 
   * Dans une prochaine version, nous alignerons les vues Workspace multi-run et single-run, afin que, lorsque vous ouvrez le détail d’un run, vous voyiez la même mise en page et la même configuration de panneaux que celles définies pour la vue multi-run, y compris les graphiques personnalisés, les mises en page et les paramètres. L’objectif est de vous aider à garder le contexte et à éviter d’avoir à reconfigurer vos vues. Cependant, cela supprimera la possibilité de personnaliser des vues single-run distinctes, isolées du reste du Workspace. Contactez votre équipe W&amp;B ou l’[assistance](mailto:support@wandb.ai) si vous avez des questions concernant la migration.
   * Au cours des prochaines versions, nous migrerons le Model Registry existant au niveau de l’équipe vers W&amp;B Registry. Pour plus de détails et le calendrier, voir l’[annonce de disponibilité générale de W&amp;B Registry](#registry_ga_announcement) ci-dessous.
 
-  ## Fonctionnalités
+  <div id="features-2">
+    ## Fonctionnalités
+  </div>
 
   * <a id="registry_ga_announcement" aria-label="Annonce de la disponibilité générale de W&B Registry" /> **W&amp;B Registry est désormais en disponibilité générale** ! W&amp;B Registry offre une plus grande diversité de ressources, une gestion des accès améliorée et une meilleure évolutivité, ce qui en fait un véritable hub de collaboration pour les initiatives d&#39;IA menées par des équipes nombreuses et variées.
     * Registry peut être activé dès aujourd’hui avec la variable d’environnement `ENABLE_REGISTRY_UI` ou en contactant l’assistance W&amp;B.
@@ -142,7 +166,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Utilisez les **modèles de Workspace** pour créer rapidement des workspaces en reprenant les mêmes paramètres qu’un Workspace existant. Actuellement, un modèle de Workspace peut définir des paramètres personnalisés pour les graphiques en courbes. Pour en savoir plus, consultez [Workspace templates](/fr/models/track/workspaces/#workspace-templates).
   * Grâce à la **journalisation incrémentielle des tableaux**, vous pouvez journaliser des lots de lignes dans un tableau au cours d’une expérience de machine learning. Cela est particulièrement utile pour surveiller des jobs de longue durée ou lorsque vous travaillez avec de grands tableaux dont la mise à jour pendant le run serait peu efficace. Dans l’interface utilisateur, le tableau est mis à jour avec les nouvelles lignes au fur et à mesure de leur journalisation, ce qui vous permet de consulter les données les plus récentes sans attendre la fin complète du run. Vous pouvez parcourir les incréments pour afficher le tableau à différents moments. Pour en savoir plus, consultez [Log tables](/fr/models/track/log/log-tables/#adding-data-incrementally).
 
-  ## Correctifs
+  <div id="fixes-4">
+    ## Correctifs
+  </div>
 
   * Ajout d&#39;une bannière en haut de la visionneuse de logs lorsqu&#39;un sous-ensemble des lignes seulement est affiché.
   * Correctif d&#39;un bug dans le calcul de la moyenne glissante aux limites des données.
@@ -170,7 +196,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.69.1" description="10 juin 2025">
-  ## Correctifs
+  <div id="fixes-5">
+    ## Correctifs
+  </div>
 
   * Vous pouvez désormais définir l’état initial d’un run lors de sa création avec `Run.create()`, en définissant le paramètre `state` sur `pending` ou `running`.
   * Correctif d’un bug qui faisait qu’un clic sur **Action History** chargeait incorrectement la vue **Version**.
@@ -178,11 +206,15 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.69.0" description="28 mai 2025">
-  ## Assistance et fin de vie
+  <div id="support-and-end-of-life-4">
+    ## Assistance et fin de vie
+  </div>
 
   * W&amp;B Server v0.56 est en fin de vie.
 
-  ## Mise à niveau
+  <div id="upgrading">
+    ## Mise à niveau
+  </div>
 
   Pour [mettre à niveau](/fr/platform/hosting/server-upgrade-process/#update-with-helm) vers W&amp;B v0.69.x, vous devez utiliser la version v0.31.4+ du chart Helm `operator-wandb`. Dans le cas contraire, après la mise à niveau, le conteneur `weave-cache-clear` peut ne pas démarrer. Assurez-vous que votre déploiement utilise les valeurs suivantes :
 
@@ -195,7 +227,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 
   Si vous avez des questions ou rencontrez des problèmes lors d&#39;une mise à niveau, contactez l&#39;[assistance](mailto:support@wandb.com).
 
-  ## Fonctionnalités
+  <div id="features-3">
+    ## Fonctionnalités
+  </div>
 
   * Vous pouvez désormais définir un nom d’affichage personnalisé pour un run directement dans l’espace de travail. Les noms de run personnalisés s’affichent dans tous les graphiques et tableaux, mais uniquement dans votre espace de travail, sans affecter les vues de vos coéquipiers. Vous obtenez ainsi une vue plus claire et plus épurée dans votre espace de travail, sans libellés du type `*...v6-final-restart...`* dans chaque légende et graphique.
   * Lors du filtrage ou du regroupement de runs, les couleurs peuvent parfois se chevaucher et devenir difficiles à distinguer. La nouvelle option **Randomize Colors** du sélecteur de runs réattribue aléatoirement des couleurs de la palette par défaut à votre sélection actuelle de runs ou à vos groupes, afin de mieux les différencier.
@@ -206,14 +240,18 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Les comptes de service au niveau de l’équipe et de l’organisation peuvent désormais interagir avec Registry.
   * Le lissage amélioré par moyenne mobile exponentielle pondérée (EMA) fournit des [courbes lissées](/fr/models/app/features/panels/line-plot/smoothing) plus fiables lorsqu’il est appliqué à des données complètes non agrégées. Dans la plupart des cas, le lissage est effectué côté back-end pour améliorer les performances. Cette fonctionnalité était disponible en aperçu privé dans la version v0.68.x.
 
-  ### Aperçu privé
+  <div id="private-preview">
+    ### Aperçu privé
+  </div>
 
   Les fonctionnalités en préversion privée sont disponibles sur invitation uniquement. Pour demander à rejoindre une préversion privée, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.
 
   * Vous pouvez désormais colorer toutes vos exécutions en fonction d&#39;une métrique secondaire, comme la perte ou des métriques d&#39;efficacité personnalisées. Cela crée un dégradé de couleurs net sur toutes vos exécutions dans tous les graphiques, ce qui vous permet de repérer plus rapidement les tendances. [Voir une démo vidéo](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d).
   * [Modèles d’espace de travail personnel](/fr/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */} vous permettent d’enregistrer les paramètres de base d’un graphique en courbes et de les réappliquer automatiquement dans de nouvelles vues. Ces paramètres incluent la clé de l’axe X, l’algorithme de lissage, le facteur de lissage, le nombre maximal de lignes, l’utilisation ou non du Grouping du sélecteur de runs, ainsi que l’agrégation à appliquer.
 
-  ### Weave
+  <div id="weave-2">
+    ### Weave
+  </div>
 
   * [Les vues enregistrées](/fr/weave/guides/tools/saved-views) simplifient la collaboration au sein de l’équipe et vous permettent d’enregistrer les paramètres de filtre et de colonne.
   * Les PDF et les fichiers génériques sont désormais pris en charge.
@@ -225,12 +263,16 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Le nouvel utilitaire [`dataset.add_rows`](/fr/weave/reference/python-sdk/#method-add-rows) améliore l’efficacité de l’ajout de lignes à un jeu de données existant.
   * Pour vous aider à mieux comprendre votre utilisation, les tailles des traces et des objets sont désormais affichées dans l’interface utilisateur.
 
-  ## Performances
+  <div id="performance">
+    ## Performances
+  </div>
 
   * Avec le [`wandb` SDK](/fr/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11, les artefacts se téléchargent désormais en moyenne 3 à 5 fois plus vite. Par exemple, un artefact qui se téléchargeait auparavant à environ 100 Mo/s peut désormais être téléchargé à 450 Mo/s ou plus. Les vitesses de téléchargement réelles varient en fonction de facteurs tels que votre réseau et votre infrastructure de stockage.
   * Amélioration de la mise en cache sur les pages [Project](/fr/models/track/project-page) et [Paramètres utilisateur](/fr/platform/app/settings-page/user-settings).
 
-  ## Correctifs
+  <div id="fixes-6">
+    ## Correctifs
+  </div>
 
   * Amélioration du processus de démarrage du conteneur `weave-cache-clear` pour garantir sa compatibilité avec les environnements virtuels Python.
   * Ajout d’options pour un affichage plus dense des logs de console.
@@ -249,7 +291,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.68.2" description="7 mai 2025">
-  ## Correctifs
+  <div id="fixes-7">
+    ## Correctifs
+  </div>
 
   * Vous pouvez désormais définir l’état initial d’un run lors de sa création avec `Run.create()`, en définissant le paramètre `state` sur `pending` ou `running`.
   * Correctif d’un bug qui faisait qu’un clic sur **Action History** chargeait incorrectement la vue **Version**.
@@ -257,7 +301,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.68.1" description="2 mai 2025">
-  ## Correctifs
+  <div id="fixes-8">
+    ## Correctifs
+  </div>
 
   * Correctif d’un bug introduit dans la v0.68.0 qui pouvait empêcher le chargement des médias dans les volets multimédia.
 </Update>
@@ -267,7 +313,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     v0.68.0 a introduit un bug, corrigé dans [v0.68.1](#0_68_1), qui pouvait empêcher le chargement des médias dans les volets multimédia. Pour éviter ce bug, installez ou mettez à niveau vers une version qui inclut ce correctif. Si vous avez besoin d’assistance, contactez [l’assistance](mailto:support@wandb.com).
   </Note>
 
-  ## Fonctionnalités
+  <div id="features-4">
+    ## Fonctionnalités
+  </div>
 
   * Les administrateurs du registre peuvent définir et attribuer des [*alias protégés*](/fr/models/registry/aliases#protected-aliases) pour représenter les étapes clés de votre pipeline de développement. Un alias protégé ne peut être attribué que par un administrateur du registre. W&amp;B empêche les autres utilisateurs d’ajouter ou de supprimer des alias protégés sur des versions dans un registre à l’aide de l’API ou de l’interface utilisateur.
   * Vous pouvez désormais filtrer les journaux de console en fonction de la valeur `x_label` d&#39;un run. Lors d’un [entraînement distribué](/fr/models/track/log/distributed-training/#track-all-processes-to-a-single-run), ce paramètre facultatif permet d’identifier le nœud qui a enregistré le run.
@@ -278,14 +326,18 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Dans les tableaux et graphiques des [panneaux de requête](/fr/models/app/features/panels/query-panels) qui utilisent des expressions `runs` ou `runs.history`, un curseur d’étape vous permet de suivre, étape par étape, l’évolution de vos métriques, textes ou médias tout au long de vos runs. Le curseur permet également de naviguer à l’aide de métriques autres que `_step`.
   * Vous pouvez désormais personnaliser les libellés du [graphique à barres](/fr/models/app/features/panels/bar-plot) grâce à un réglage de la taille de police.
 
-  ### Aperçu privé
+  <div id="private-preview-2">
+    ### Aperçu privé
+  </div>
 
   Les fonctionnalités en préversion privée sont disponibles sur invitation uniquement. Pour demander à participer à une préversion privée, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.
 
   * Les **modèles d’espace de travail personnels** vous permettent d’enregistrer la configuration de votre espace de travail afin qu’elle soit automatiquement appliquée à vos nouveaux [projects](/fr/models/track/project-page). Dans un premier temps, vous pouvez configurer certains paramètres des graphiques en courbes, comme la métrique par défaut de l’axe X, l’algorithme de lissage et le facteur de lissage.
   * **Le lissage amélioré par moyenne mobile exponentielle (EMA)** fournit des [courbes lissées](/fr/models/app/features/panels/line-plot/smoothing) plus fiables lorsqu’il est appliqué à des données complètes non agrégées. Dans la plupart des cas, le lissage est effectué côté serveur pour de meilleures performances.
 
-  ### Weave
+  <div id="weave-3">
+    ### Weave
+  </div>
 
   * Discutez avec des modèles affinés directement depuis votre instance W&amp;B. [Playground](/fr/weave/guides/tools/playground) est désormais pris en charge dans le Cloud dédié. Playground est une interface de chat qui permet de comparer différents LLM sur des traces historiques. Les administrateurs peuvent ajouter des clés API pour différents fournisseurs de modèles ou configurer des [fournisseurs de LLM personnalisés hébergés](/fr/weave/guides/tools/playground/#add-a-custom-provider) afin que votre équipe puisse interagir avec eux depuis Weave.
   * Prise en charge d’OpenTelemetry. Vous pouvez désormais enregistrer des traces via OpenTelemetry (OTel). Voir [le traçage OpenTelemetry](/fr/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink).
@@ -293,11 +345,15 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Playground prend en charge de nouveaux [modèles OpenAI](/fr/weave/guides/tools/playground/#openai) : GPT‑4.1, GPT‑4.1 mini et GPT‑4.1 nano.
   * Créez des datasets étiquetés directement à partir de traces, vos annotations étant automatiquement converties en colonnes de dataset. Voir [Création de datasets à partir de traces](/fr/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui).
 
-  ## Sécurité
+  <div id="security">
+    ## Sécurité
+  </div>
 
   * Les administrateurs du registre peuvent désormais désigner un [compte de service](/fr/platform/hosting/iam/service-accounts) dans un registre avec le rôle Registry Admin ou membre. Auparavant, le rôle du compte de service était toujours Registry Admin. Voir [la configuration du compte de service pour Registry](/fr/models/registry/configure_registry).
 
-  ## Performances
+  <div id="performance-2">
+    ## Performances
+  </div>
 
   * Les performances de nombreuses interactions dans les espaces de travail ont été améliorées, en particulier dans les grands espaces de travail. Par exemple, le dépliement des sections et l’utilisation du sélecteur de run sont nettement plus réactifs.
   * Amélioration des performances de Fork et de Rewind.
@@ -306,7 +362,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 
     Dans les Projects comportant de nombreux forks imbriqués, le fork de nouveaux runs est désormais beaucoup plus efficace grâce aux améliorations apportées à la mise en cache.
 
-  ## Correctifs
+  <div id="fixes-9">
+    ## Correctifs
+  </div>
 
   * Correctif d’un bug qui pouvait empêcher l’ajout d’un compte de service d’une organisation à de nouvelles équipes.
   * Correctif d’un bug pouvant entraîner l’absence de repères au survol pour les lignes groupées.
@@ -320,7 +378,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.67.0" description="28 mars 2025">
-  ## Fonctionnalités
+  <div id="features-5">
+    ## Fonctionnalités
+  </div>
 
   * Dans Reports, vous pouvez désormais attribuer à un run un nom d’affichage personnalisé pour chaque grille de panneaux. Cela vous permet de remplacer le nom du run au moment de l’entraînement, souvent long et peu explicite, par un nom plus parlant pour votre public. Le rapport met à jour ce nom dans toutes les grilles de panneaux, ce qui vous aide à présenter à vos collègues vos résultats expérimentaux de manière concise et lisible. Le nom original du run reste intact dans le projet, donc cela ne perturbera pas vos collaborateurs.
   * Lorsque vous développez un panneau dans le Workspace, il s’ouvre désormais en mode plein écran avec davantage d’espace. Dans cette vue, les graphiques en courbes offrent maintenant un rendu plus fin, avec jusqu’à 10 000 bins. Le run selector apparaît à côté du panneau, ce qui vous permet de basculer, regrouper ou filtrer facilement les runs directement dans ce contexte.
@@ -348,20 +408,26 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Le SDK Python Weave fournit désormais un moyen de filtrer les entrées et les sorties de vos données dans Weave afin de garantir que les données sensibles ne quittent pas le périmètre de votre réseau. Vous pouvez configurer le SDK pour masquer les données sensibles. En savoir plus : /weave/guides/tracking/redact-pii/
   * Pour améliorer votre expérience, l’onglet System dans la vue Workspace d’un run individuel sera supprimé dans une prochaine version. Consultez les informations complètes sur les métriques système dans la section System du Workspace. Pour toute question, contactez [support@wandb.com](mailto:support@wandb.com).
 
-  ## Sécurité
+  <div id="security-2">
+    ## Sécurité
+  </div>
 
   * `golang crypto` a été mis à jour vers la version v0.36.0.
   * `golang oauth2` a été mis à jour vers la version v0.28.0.
   * Dans Weave, `pyarrow` est désormais verrouillé sur la version v17.0.0.
 
-  ## Performances
+  <div id="performance-3">
+    ## Performances
+  </div>
 
   * Les mises à jour du front-end réduisent considérablement les temps de rechargement du Workspace en stockant les données essentielles dans le cache du navigateur d’une visite à l’autre. Cette mise à jour optimise le chargement des vues enregistrées, des noms de métriques, du run selector, du nombre de runs, des détails de configuration de W&amp;B, ainsi que le recalcul des vues du Workspace.
   * Les pages d’aperçu du registre se chargent désormais bien plus rapidement.
   * Amélioration des performances de la sélection des métriques utilisées pour les valeurs X, Y ou Z dans un nuage de points au sein d’un workspace comportant des milliers de runs ou des centaines de métriques.
   * Améliorations des performances de la journalisation des évaluations dans Weave.
 
-  ## Correctifs
+  <div id="fixes-10">
+    ## Correctifs
+  </div>
 
   * Correction d’un bug dans Reports : suivre un lien vers une section d’un rapport n’ouvrait pas cette section.
   * Amélioration de la gestion de la réflexion des indices par le lissage gaussien, afin qu’elle corresponde au mode &quot;reflect&quot; par défaut de SciPy.
@@ -373,18 +439,24 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.66.0" description="06 mars 2025">
-  ## Fonctionnalités
+  <div id="features-6">
+    ## Fonctionnalités
+  </div>
 
   * Dans les tableaux et les panneaux de requête, les colonnes dérivées d’autres colonnes sont désormais conservées, ce qui vous permet de les utiliser pour le filtrage ou dans les graphiques du panneau de requête.
 
-  ## Sécurité
+  <div id="security-3">
+    ## Sécurité
+  </div>
 
   * La profondeur maximale d’un document GraphQL a été limitée à 20.
   * pyarrow a été mis à niveau vers la version v17.0.0.
 </Update>
 
 <Update label="v0.65.0" description="30 janvier 2025">
-  ## Fonctionnalités
+  <div id="features-7">
+    ## Fonctionnalités
+  </div>
 
   * Depuis les **Settings** d’un registre, vous pouvez désormais remplacer le propriétaire par un autre utilisateur ayant le rôle Admin. Sélectionnez **Owner** dans le menu **Role** de l’utilisateur.
   * Vous pouvez désormais déplacer un run vers un autre groupe dans le même projet. Survolez un run dans la liste des runs, cliquez sur le menu **d’action (<Icon icon="ellipsis-vertical" iconType="solid" />)**, puis choisissez **Move to another group**.
@@ -394,7 +466,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.63.0" description="10 décembre 2024">
-  ## Fonctionnalités
+  <div id="features-8">
+    ## Fonctionnalités
+  </div>
 
   **[W&amp;B Weave](https://wandb.ai/site/weave/) est désormais disponible en disponibilité générale (GA) dans le Cloud dédié sur AWS. Contactez votre équipe W&amp;B si vos équipes souhaitent créer des applications d’IA générative en toute confiance et les mettre en production.**
 
@@ -409,7 +483,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * ***Bientôt disponible*** dans une version corrective cette semaine, vous pourrez utiliser des comptes de service au niveau de l’organisation pour automatiser vos charges de travail W&amp;B dans toutes les équipes de votre instance. Vous pourrez toujours utiliser les comptes de service existants au niveau de l’équipe si vous souhaitez un contrôle plus fin sur la portée d’accès d’un compte de service.
     * Les comptes de service au niveau de l’organisation peuvent interagir avec Registry. Ces comptes de service peuvent être invités dans un registre via la fenêtre modale d’invitation et s’affichent dans le tableau des membres avec leurs rôles d’organisation respectifs.
 
-  ## Correctifs
+  <div id="fixes-11">
+    ## Correctifs
+  </div>
 
   * Correction d’un problème où les utilisateurs créant des rôles personnalisés incluant l’autorisation `Create Artifact` ne pouvaient pas enregistrer des Artifacts dans un projet.
   * Correction d’un problème de journalisation des métadonnées pour les fichiers dans les instances où la prise en charge des sous-chemins est configurée pour BYOB.
@@ -417,7 +493,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.61.0" description="17 octobre 2024">
-  ## Fonctionnalités
+  <div id="features-9">
+    ## Fonctionnalités
+  </div>
 
   **Il s’agit d’une version mineure avec correctifs, publiée selon un calendrier différent de celui des versions majeures mensuelles de W&amp;B Server**
 
@@ -425,7 +503,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     * La tarification de [Weave](/fr/weave/) est basée sur la consommation plutôt que sur le nombre de licences utilisées. La gestion des licences s’applique uniquement au produit Models.
   * Vous pouvez désormais configurer des [rôles d’accès au niveau du projet pour les projets d’équipe et à portée restreinte](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/). Cela permet d’attribuer différents rôles d’accès à un utilisateur selon les projets au sein d’une même équipe, et ajoute ainsi un mécanisme de contrôle supplémentaire important pour répondre aux besoins de gouvernance des entreprises.
 
-  ## Correctifs
+  <div id="fixes-12">
+    ## Correctifs
+  </div>
 
   * Correction d’un problème où les modifications du schéma de la base de données sous-jacente lors des mises à niveau pouvaient expirer au démarrage de la plateforme.
   * Ajout d’autres améliorations des performances au service Parquet Store sous-jacent afin d’améliorer encore les temps de chargement des graphiques pour les utilisateurs. Le service Parquet Store est disponible uniquement sur Cloud dédié et sur les instances autogérées basées sur l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator).
@@ -437,19 +517,25 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     En raison d’un problème de gestion des versions, 0.60.0 est la version majeure suivant 0.58.0. La version 0.59.0 était l’une des versions correctives de 0.58.0.
   </Note>
 
-  ## Fonctionnalités
+  <div id="features-10">
+    ## Fonctionnalités
+  </div>
 
   * Dernières mises à jour pour la conformité 1.1.1 de niveau AA 2.2 aux normes Web Content Accessibility Guidelines (WCAG).
   * W&amp;B peut désormais désactiver la mise à niveau automatique des versions pour les instances autogérées utilisant l’opérateur Kubernetes W&amp;B. Vous pouvez en faire la demande à votre équipe W&amp;B.
     W&amp;B exige que toutes les instances soient mises à niveau périodiquement afin de respecter la période de fin de vie de 6 mois pour chaque version. W&amp;B ne prend pas en charge les versions âgées de plus de 6 mois.
 
-  ## Correctifs
+  <div id="fixes-13">
+    ## Correctifs
+  </div>
 
   * Correction d’un bug permettant aux administrateurs d’instance sur Cloud dédié et sur les instances autogérées d’accéder aux workspaces dans des entités personnelles.
   * Les points de terminaison GET SCIM Groups et Users filtrent désormais les comptes de service dans les réponses. Seuls les utilisateurs qui ne sont pas des comptes de service sont désormais renvoyés par ces points de terminaison.
   * Correction d’un bug de gestion des utilisateurs en supprimant la possibilité pour les administrateurs d’équipe de supprimer simultanément un utilisateur de l’instance entière tout en le supprimant d’une équipe. Les administrateurs d’instance ou d’organisation sont chargés de supprimer un utilisateur de l’instance entière / organisation.
 
-  ## Améliorations des performances
+  <div id="performance-improvements">
+    ## Améliorations des performances
+  </div>
 
   * Réduction de la latence lors de l’ajout d’un panneau jusqu’à 90 % dans les workspaces contenant de nombreuses métriques.
   * Amélioration de la fiabilité et des performances des exports Parquet vers le stockage blob lorsque les Runs sont souvent repris.
@@ -457,7 +543,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.58.1" description="4 septembre 2024">
-  ## Fonctionnalités
+  <div id="features-11">
+    ## Fonctionnalités
+  </div>
 
   * W&amp;B prend désormais en charge les sous-chemins pour la fonctionnalité **connecteur de stockage sécurisé, c.-à-d. Bring your own bucket**. Vous pouvez maintenant indiquer un sous-chemin lors de la configuration d’un bucket au niveau de l’instance ou de l’équipe. Cette possibilité n’est disponible que pour les nouvelles configurations de bucket, pas pour les buckets déjà configurés.
   * Le stockage géré par W&amp;B sur les nouvelles instances Cloud dédié dans Google Cloud et Azure sera désormais chiffré par défaut avec des **clés cloud natives gérées par W&amp;B**. Cette fonctionnalité est déjà disponible sur les instances AWS. Le stockage de chaque instance est chiffré avec une clé propre à l’instance. Jusqu’à présent, toutes les instances sur Google Cloud et Azure utilisaient les clés de chiffrement par défaut gérées par le fournisseur cloud.
@@ -465,12 +553,16 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Si vous utilisez l’opérateur Kubernetes W&amp;B pour une instance Autogéré, vous pouvez désormais utiliser, de façon facultative, une autorité de certification personnalisée pour le controller manager.
   * Nous avons modifié l’opérateur Kubernetes W&amp;B pour qu’il s’exécute par défaut dans un contexte non root, en conformité avec les Security Context Constraints (SCC) d’OpenShift. Ce changement garantit un déploiement plus fluide des instances Autogéré sur OpenShift en respectant ses politiques de sécurité.
 
-  ## Correctifs
+  <div id="fixes-14">
+    ## Correctifs
+  </div>
 
   * Correction d’un problème où l’exportation de panneaux d’un Workspace vers un report respectait désormais correctement la regex de recherche des panneaux.
   * Correction d’un problème où la définition de `GORILLA_DISABLE_PERSONAL_ENTITY` sur `true` n’empêchait pas les Users de créer des projets et d’écrire dans des projets existants dans leurs entités personnelles.
 
-  ## Améliorations des performances
+  <div id="performance-improvements-2">
+    ## Améliorations des performances
+  </div>
 
   * Nous avons considérablement amélioré les performances et la stabilité pour les expériences avec plus de 100k points enregistrés. Sur une instance Autogéré, cette amélioration est disponible si le déploiement est géré à l’aide de l’opérateur Kubernetes W&amp;B.
   * Correction d’un problème où l’enregistrement des modifications dans de grands Workspaces pouvait être très lent ou échouer.
@@ -478,7 +570,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.57.2" description="24 juillet 2024">
-  ## Fonctionnalités
+  <div id="features-12">
+    ## Fonctionnalités
+  </div>
 
   **Vous pouvez désormais utiliser des JWT (JSON Web Tokens) pour accéder à votre instance W&amp;B depuis le SDK wandb ou la CLI, à l’aide de la fonctionnalité de fédération d’identités. La fonctionnalité est en préversion.** Consultez [Identity federation](https://docs.wandb.ai/platform/hosting/iam/identity_federation) et contactez votre équipe W&amp;B pour toute question.
 
@@ -491,14 +585,18 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Les comptes de service au niveau de l’équipe sont désormais affichés séparément dans un nouvel onglet de la vue des paramètres de l’équipe. Les comptes de service ne sont plus listés dans l’onglet Members. De plus, la clé API est désormais masquée et ne peut être copiée que par les Administrateurs d’équipe.
   * Cloud dédié est désormais disponible dans la région Séoul de Google Cloud.
 
-  ## Correctifs
+  <div id="fixes-15">
+    ## Correctifs
+  </div>
 
   * Le lissage gaussien était excessivement agressif sur de nombreux graphiques.
   * Correction d’un problème où le bouton `Ignore Outliers in Chart Scaling` n’avait actuellement aucun effet dans le Workspace de l’UI.
   * Il n’est plus possible d’inviter des utilisateurs désactivés dans une organisation.
   * Correction d’un problème où les utilisateurs ajoutés à une instance à l’aide de l’API SCIM ne pouvaient pas terminer l’onboarding correctement.
 
-  ## Améliorations des performances
+  <div id="performance-improvements-3">
+    ## Améliorations des performances
+  </div>
 
   * Amélioration significative des performances lors de la modification des paramètres d’un panneau et de l’application des changements.
   * Amélioration de la réactivité du basculement de visibilité des runs dans de grands Workspaces.
@@ -511,7 +609,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     En raison d’un problème de gestion des versions, 0.56.0 est la version majeure qui suit 0.54.0. La 0.55.0 était une version corrective de 0.54.0.
   </Note>
 
-  ## Fonctionnalités
+  <div id="features-13">
+    ## Fonctionnalités
+  </div>
 
   * Le nouveau graphique en courbes Full Fidelity dans W&amp;B Experiments améliore la visibilité des métriques d’entraînement en agrégeant toutes les données le long de l’axe des x et en affichant les valeurs minimale, maximale et finale dans chaque bucket (la valeur finale trace la ligne principale), ce qui permet aux utilisateurs de repérer facilement les valeurs aberrantes et de zoomer sur des détails en fidélité totale sans perte due au sous-échantillonnage. [En savoir plus dans notre documentation](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling).
   * Vous pouvez désormais utiliser des [buckets de stockage cross-cloud pour le BYOB au niveau de l’équipe (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) dans les instances Cloud dédié et Autogéré. Par exemple, dans une instance W&amp;B sur AWS, vous pouvez désormais configurer Azure Blob Storage ou Google Cloud Storage pour le BYOB au niveau de l’équipe, et ainsi de suite pour chaque combinaison cross-cloud.
@@ -521,7 +621,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     L’API affiche désormais un message d’erreur plus explicite en cas d’échec d’authentification.
     Les points de terminaison concernés renvoient désormais le nom complet d’un utilisateur dans l’objet SCIM User, s’il est disponible.
 
-  ## Correctifs
+  <div id="fixes-16">
+    ## Correctifs
+  </div>
 
   * Ce correctif résout un problème où la suppression d’un terme de recherche d’un runset dans un rapport pouvait supprimer le panneau ou faire planter le rapport, en assurant une gestion correcte du texte sélectionné lors des opérations de copier-coller.
   * Ce correctif résout un problème d’indentation des éléments à puces dans Reports, causé par une mise à niveau de slate et par une vérification supplémentaire dans le processus de normalisation des éléments.
@@ -537,7 +639,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.54.0" description="24 mai 2024">
-  ## Fonctionnalités
+  <div id="features-14">
+    ## Fonctionnalités
+  </div>
 
   * Vous pouvez désormais configurer le connecteur de stockage sécurisé (BYOB) au niveau de l’équipe dans les instances Cloud dédié ou Autogéré sur Microsoft Azure.
     Consultez [ce module Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) et contactez votre équipe W&amp;B pour toute question.
@@ -548,7 +652,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     W&amp;B recommande de faire preuve de prudence et de bien comprendre toutes les implications avant d’activer ce paramètre. Contactez votre équipe W&amp;B pour toute question.
   * Le Cloud dédié sur AWS est désormais également disponible dans la région de Séoul (Corée du Sud).
 
-  ## Correctifs
+  <div id="fixes-17">
+    ## Correctifs
+  </div>
 
   * Correction d’un problème empêchant le chargement des Reports sur mobile.
   * Correction du lien vers le fichier git diff dans l’aperçu du run.
@@ -556,14 +662,18 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.52.2" description="25 avril 2024">
-  ## Fonctionnalités
+  <div id="features-15">
+    ## Fonctionnalités
+  </div>
 
   * Vous pouvez désormais appliquer le nom d’utilisateur et le nom complet pour les utilisateurs de votre organisation en utilisant les claims OIDC de votre fournisseur SSO. Contactez votre équipe W&amp;B ou l’assistance si cela vous intéresse.
   * Vous pouvez désormais désactiver l’utilisation des projets personnels dans votre organisation afin de garantir que tous les projets soient créés au sein des équipes W&amp;B et régis par des directives appliquées par les administrateurs. Contactez votre équipe W&amp;B ou l’assistance si cela vous intéresse.
   * Possibilité de développer toutes les versions dans un cluster de runs ou d’artifacts dans la vue DAG de traçabilité des Artifacts.
   * Améliorations de l’interface du DAG de traçabilité des Artifacts : le type est désormais visible pour chaque entrée d’un cluster.
 
-  ## Correctifs
+  <div id="fixes-18">
+    ## Correctifs
+  </div>
 
   * Ajout de la pagination aux panneaux d’images dans les banques de médias, avec affichage de jusqu’à 32 images par page, une grille plus esthétique et des contrôles de pagination améliorés, ainsi qu’un contournement pour d’éventuelles incohérences d’offset.
   * Résolution d’un problème empêchant l’affichage des infobulles sur les graphiques système en appliquant le paramètre `isHovered`, essentiel à la visibilité de l’interface du réticule.
@@ -573,7 +683,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.51.0" description="20 mars 2024">
-  ## Fonctionnalités
+  <div id="features-16">
+    ## Fonctionnalités
+  </div>
 
   * Vous pouvez désormais enregistrer plusieurs vues pour n’importe quel workspace en cliquant sur &quot;Save as a new view&quot; dans le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** de la barre du workspace.
     Voir [Saved workspace views](/fr/models/app/features/cascade-settings) pour en savoir plus.
@@ -595,7 +707,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 
   > **Avis important** : Nous demandons vivement à tous les clients qui utilisent des webhooks avec Automations d’ajouter un enregistrement A valide pour leurs points de terminaison, car nous allons interdire l’utilisation d’URL de webhook basées sur des adresses IP à partir de la prochaine version. Cette mesure vise à se protéger contre la vulnérabilité SSRF et d’autres vecteurs de menace associés.
 
-  ## Correctifs
+  <div id="fixes-19">
+    ## Correctifs
+  </div>
 
   * Correction d’un problème où l’onglet Expressions ne s’affichait pas pour les graphiques en courbes.
   * Le nom d’affichage est désormais utilisé pour les Sweeps lors du regroupement par Sweeps dans les graphiques et le tableau des Runs.
@@ -603,7 +717,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.50.2" description="26 février 2024">
-  ## Fonctionnalité
+  <div id="feature">
+    ## Fonctionnalité
+  </div>
 
   * Ajout d’un paramètre de banc de panneaux pour développer automatiquement les résultats de recherche
   * Meilleure visibilité sur les problèmes liés aux éléments de la file d’attente des runs
@@ -613,7 +729,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Toutes les instances Cloud dédié sur AWS et Azure sont désormais gérées à l’aide du nouvel opérateur Kubernetes W&amp;B. Le nouveau service Parquet Store est également disponible. Ce service permet un stockage performant et économique des données d’historique des runs au format parquet dans le blob storage. Cela accélère le chargement des données d’historique pertinentes dans les graphiques et tracés utilisés pour évaluer les runs.
   * L’opérateur Kubernetes W&amp;B ainsi que le service Parquet Store sont désormais disponibles pour les instances autogérées. Nous encourageons les clients qui utilisent déjà Kubernetes pour héberger W&amp;B à contacter leur équipe W&amp;B pour savoir comment tirer parti de l’opérateur. Nous recommandons vivement aux autres de migrer vers Kubernetes afin de bénéficier à l’avenir, grâce à l’opérateur, des dernières améliorations des performances et des nouveaux services. Nous serons ravis de vous aider à planifier une telle migration.
 
-  ## Correctifs
+  <div id="fixes-20">
+    ## Correctifs
+  </div>
 
   * Transmettre correctement les variables de modèle au planificateur de balayage
   * Le planificateur pollue le générateur YAML de balayage
@@ -623,7 +741,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.49.0" description="18 janvier 2024">
-  ## Fonctionnalités
+  <div id="features-17">
+    ## Fonctionnalités
+  </div>
 
   * Définir une politique TTL (time-to-live ou suppression planifiée) par défaut pour une équipe sur la page des paramètres de l’équipe.
     Restreindre la définition ou la modification d’une politique TTL aux seuls administrateurs, ou aux administrateurs et aux membres.
@@ -637,7 +757,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Activer l’opérateur Kubernetes pour les déploiements Cloud dédié sur AWS.
   * Configurer une plage d’adresses IP non conflictuelle pour le cache géré utilisé dans les déploiements Cloud dédié sur Google Cloud.
 
-  ## Correctifs
+  <div id="fixes-21">
+    ## Correctifs
+  </div>
 
   * Mettre à jour la zone cliquable du bouton d’ajout de runset dans Reports
   * Afficher le bon message de regroupement pour la troncature
@@ -653,7 +775,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.48.0" description="20 décembre 2023">
-  ## Fonctionnalités
+  <div id="features-18">
+    ## Fonctionnalités
+  </div>
 
   * Tous les changements front-end requis pour la priorisation dans Launch
     Consultez [ce blog](https://wandb.ai/wandb_fc/launch-releases/reports/Introducing-Priority-Based-Job-Management-with-W-B-Launch--Vmlldzo2MzE2NjI2) pour découvrir comment exécuter, avec Launch, des jobs plus prioritaires que d&#39;autres.
@@ -662,14 +786,18 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     * Lorsqu&#39;aucune équipe n&#39;est configurée dans l&#39;environnement d&#39;entraînement et qu&#39;un compte de service est utilisé, les runs sont enregistrés dans le projet nommé au sein de l&#39;équipe du compte de service, et sont attribués à un utilisateur uniquement si la variable `WANDB_USERNAME` ou `WANDB_USER_EMAIL` est configurée dans l&#39;environnement et que l&#39;utilisateur fait partie de cette équipe.
     * Un compte de service d&#39;équipe **ne peut pas** enregistrer de runs dans un projet privé d&#39;une autre équipe, mais il peut enregistrer des runs dans des projets publics d&#39;autres Teams.
 
-  ## Correctifs
+  <div id="fixes-22">
+    ## Correctifs
+  </div>
 
   * Réduction de la largeur des colonnes pour les sélecteurs de runs surdimensionnés
   * Correction de quelques bugs liés à la fonctionnalité en aperçu des rôles personnalisés
 </Update>
 
 <Update label="v0.47.2" description="1 décembre 2023">
-  ## Fonctionnalités
+  <div id="features-19">
+    ## Fonctionnalités
+  </div>
 
   * **Utilisez des rôles personnalisés avec des autorisations spécifiques pour personnaliser le contrôle d&#39;accès au sein d&#39;une équipe**
     Disponible en aperçu pour les clients Enterprise. Pour toute question, contactez votre équipe de compte W&amp;B ou l&#39;assistance.
@@ -677,7 +805,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Redimensionnement automatique de la recherche de runs pour les textes longs
   * Affichage des détails du webhook, notamment l&#39;URL, les secrets et la date de création, directement depuis le tableau des automatisations pour les automatisations webhook
 
-  ## Correctifs
+  <div id="fixes-23">
+    ## Correctifs
+  </div>
 
   * Regroupement des runs lorsque la valeur de groupe est une chaîne ressemblant à un nombre
   * Comportement saccadé du glisser-déposer des panneaux de rapport
@@ -687,7 +817,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.46.0" description="15 novembre 2023">
-  ## Fonctionnalités
+  <div id="features-20">
+    ## Fonctionnalités
+  </div>
 
   * Les déploiements sur AWS peuvent désormais utiliser W&amp;B Secrets avec Webhooks et Automations
     Les secrets sont stockés de manière sécurisée dans AWS Secret Manager. Utilisez le module terraform-aws-wandb pour en provisionner un et
@@ -701,7 +833,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Les invitations d&#39;utilisateurs réussiront désormais même si l&#39;e-mail d&#39;invitation ne peut pas être envoyé pour une raison quelconque
   * Ajout d&#39;une liste des files d&#39;attente associées à la page d&#39;aperçu de l&#39;agent
 
-  ## Correctifs
+  <div id="fixes-24">
+    ## Correctifs
+  </div>
 
   * La fonction de copie sur la superposition de panneau supprimait des valeurs
   * Nettoyage CSS de la fenêtre modale d&#39;importation lors de la création d&#39;un rapport
@@ -713,13 +847,17 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.45.0" description="25 octobre 2023">
-  ## Fonctionnalités
+  <div id="features-21">
+    ## Fonctionnalités
+  </div>
 
   * Activez le ramasse-miettes des Artifacts à l&#39;aide de la variable d&#39;environnement `GORILLA_ARTIFACT_GC_ENABLED=true` et de la gestion des versions des objets cloud ou de la suppression réversible.
   * Le module terraform terrraform-azurerm-wandb prend désormais en charge Azure Key Vault comme magasin de secrets.
     Les déploiements sur Azure peuvent désormais utiliser W&amp;B Secrets avec Webhooks et Automations. Les secrets sont stockés de manière sécurisée dans Azure Key Vault.
 
-  ## Correctifs
+  <div id="fixes-25">
+    ## Correctifs
+  </div>
 
   * Suppression de la sortie anticipée invalide qui empêchait la suppression de l&#39;historique
   * Lors du déplacement/de la copie de runs, ne supprimez pas les informations de jeu de clés
@@ -728,7 +866,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.44.1" description="12 octobre 2023">
-  ## Fonctionnalités
+  <div id="features-22">
+    ## Fonctionnalités
+  </div>
 
   **Ajout de l&#39;interface utilisateur du proxy OpenAI à W&amp;B**
 
@@ -742,7 +882,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Ajout de la prise en charge d&#39;AWS Secret Manager pour Customer Secret Store, qui peut être activé une fois le module Terraform terrraform-aws-wandb mis à jour et publié
   * Ajout de la prise en charge d&#39;Azure Key Vault pour Customer Secret Store, qui peut être activé une fois le module Terraform terrraform-azurerm-wandb mis à jour et publié
 
-  ## Correctifs
+  <div id="fixes-26">
+    ## Correctifs
+  </div>
 
   * Améliorations de confort d&#39;utilisation dans l&#39;interface utilisateur du registre de modèles
   * Les valeurs `int` ne sont plus ignorées lors de la détermination de l&#39;atteinte par un run de l&#39;objectif d&#39;optimisation d&#39;un sweep
@@ -768,7 +910,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     ![Démo du tableau de Runs corrigé](https://github.com/wandb/server/assets/117778861/e4fe9656-b382-4328-80e4-edc4fcae1c88)
   </Frame>
 
-  ## Correctifs
+  <div id="fixes-27">
+    ## Correctifs
+  </div>
 
   * Amélioration spectaculaire des performances de chargement du Workspace
   * Correction d&#39;un lien vers la documentation cassé dans le menu désactivé d&#39;ajout de panneau
@@ -782,7 +926,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.42.0" description="14 septembre 2023">
-  ## Fonctionnalités
+  <div id="features-23">
+    ## Fonctionnalités
+  </div>
 
   * W&amp;B Artifacts prend désormais en charge les politiques de durée de vie (TTL).
 
@@ -800,7 +946,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Activer CustomerSecretStore
   * Ajouter Kubernetes comme backend pour CustomerSecretStore
 
-  ## Correctifs
+  <div id="fixes-28">
+    ## Correctifs
+  </div>
 
   * Désactiver le stockage et la facturation des Artifacts en raison de refactorisations en cours des calculs de stockage
   * Bug lors de la suppression d&#39;un panneau
@@ -813,7 +961,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.41.0" description="28 août 2023">
-  ## Fonctionnalités
+  <div id="features-24">
+    ## Fonctionnalités
+  </div>
 
   * Nouvelle page d’accueil de Launch
 
@@ -826,7 +976,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Affichage de la version de l’agent sur la page d’aperçu de l’agent
   * Nouveau flux de travail du registre de modèles retiré du feature flag pour tous les utilisateurs
 
-  ## Correctifs
+  <div id="fixes-29">
+    ## Correctifs
+  </div>
 
   * Les projets vides provoquaient un chargement infini dans l’explorateur de stockage
   * Les Runs sont marqués comme ayant échoué lorsque des éléments de la file d’attente de runs échouent
@@ -838,7 +990,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.40.0" description="18 août 2023">
-  ## Fonctionnalités
+  <div id="features-25">
+    ## Fonctionnalités
+  </div>
 
   * Les webhooks permettent un flux de travail CI/CD des modèles fluide en utilisant les Webhook Automations pour déclencher des actions spécifiques dans le pipeline CI/CD lorsque certains événements se produisent. Utilisez les webhooks pour faciliter un point de passage clair entre l’ingénierie ML et le DevOps. Pour voir cela en pratique pour l’[évaluation de modèles](https://www.youtube.com/watch?v=7j-Mtbo-E74) et le [déploiement de modèles](https://www.youtube.com/watch?v=g5UiAFjM2nA), consultez les vidéos de démonstration associées. Pour en savoir plus, consultez [notre documentation](/fr/models/automations/create-automations/webhook/).
     <Frame>
@@ -846,7 +1000,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
     </Frame>
   * Nouveau tableau de bord d’activité utilisateur pour tous les clients.
 
-  ## Correctifs
+  <div id="fixes-30">
+    ## Correctifs
+  </div>
 
   * Suppression de la limite du nombre de Registered Models qu’une organisation pouvait avoir.
   * Ajout de l’historique de recherche aux workspaces pour faciliter la recherche des graphiques couramment utilisés.
@@ -860,7 +1016,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.39.0" description="27 juillet 2023">
-  ## Fonctionnalités
+  <div id="features-26">
+    ## Fonctionnalités
+  </div>
 
   **Refonte du tableau de bord de l’organisation**
 
@@ -872,7 +1030,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 
   Pour les clients Cloud dédié, cette fonctionnalité a été activée. Pour les clients W&amp;B Autogéré, contactez l’assistance W&amp;B et nous serons ravis de vous aider à l’activer.
 
-  ## Correctifs
+  <div id="fixes-31">
+    ## Correctifs
+  </div>
 
   * Restriction des clés API de service aux administrateurs d’équipe
   * La configuration de l’agent Launch est désormais affichée sur la page Agents
@@ -885,7 +1045,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.38.0" description="13 juillet 2023">
-  ## Fonctionnalités
+  <div id="features-27">
+    ## Fonctionnalités
+  </div>
 
   * Améliorations de la visualisation des métriques
 
@@ -896,7 +1058,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 
     Nous continuons à améliorer l’expérience de visualisation de nos métriques. Vous pouvez désormais définir, à partir d’expressions régulières, quelles métriques afficher dans vos graphiques, jusqu’à 100 métriques à la fois. Et pour représenter plus fidèlement les données à grande échelle, nous avons ajouté un nouvel algorithme de lissage par moyenne mobile exponentielle pondérée dans le temps pour les graphiques ([consultez tous nos algorithmes pris en charge](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)).
 
-  ## Correctifs
+  <div id="fixes-32">
+    ## Correctifs
+  </div>
 
   * Amélioration majeure de la vitesse de téléchargement des artifacts : plus de 6× plus rapide sur notre benchmark d’artifacts de 1 million de fichiers. Veuillez passer à la version 0.15.5+ du SDK.
   * (Launch) Optuna est désormais disponible comme [planificateur de Sweeps avec Sweeps on Launch](https://docs.wandb.ai/guides/launch/sweeps-on-launch#create-a-custom-sweep-scheduler), ce qui permet une exploration plus efficace des hyperparamètres.
@@ -926,7 +1090,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.36.0" description="14 juin 2023">
-  ## Fonctionnalités
+  <div id="features-28">
+    ## Fonctionnalités
+  </div>
 
   * Cloner des Runs avec Launch
 
@@ -936,7 +1102,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 
     Si vous souhaitez relancer un run en ajustant quelques hyperparamètres — par exemple augmenter la batch size pour tirer parti d’une machine plus puissante — il est désormais facile de cloner un run avec W&amp;B Launch. Accédez à l’aperçu du run, cliquez sur Clone, puis sélectionnez une nouvelle infrastructure sur laquelle exécuter le job, avec de nouveaux hyperparamètres. Pour en savoir plus, consultez la [documentation Launch](https://docs.wandb.ai/guides/launch).
 
-  ## Correctifs
+  <div id="fixes-33">
+    ## Correctifs
+  </div>
 
   * Ajout des actions de création et de mise à jour de rapport aux journaux d’audit.
   * Les Artifacts lus via le SDK sont désormais capturés dans les [journaux d’audit](https://docs.wandb.ai/platform/hosting/audit-logging/).
@@ -953,11 +1121,15 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.35.0" description="7 juin 2023">
-  ## Sécurité
+  <div id="security-4">
+    ## Sécurité
+  </div>
 
   Correction d’un problème où des clés API étaient enregistrées pour des utilisateurs récemment connectés. Recherchez `FetchAuthUserByAPIKey` dans les journaux, disponibles dans `gorilla.log` à partir d’un bundle de débogage, et faites pivoter toutes les clés trouvées.
 
-  ## Fonctionnalités
+  <div id="features-29">
+    ## Fonctionnalités
+  </div>
 
   * Les journaux de l’agent Launch sont désormais disponibles dans la W&amp;B App.
 
@@ -967,7 +1139,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 
     [W&amp;B Launch](https://docs.wandb.ai/guides/launch) vous permet d’envoyer des jobs de machine learning vers un large éventail d’environnements de calcul spécialisés. Avec cette mise à jour, vous pouvez désormais utiliser W&amp;B pour surveiller et déboguer les jobs exécutés dans ces environnements distants, sans avoir à vous connecter à votre console AWS ou Google Cloud.
 
-  ## Correctifs
+  <div id="fixes-34">
+    ## Correctifs
+  </div>
 
   * L’onglet Logs n’est plus limité à 1 000 lignes.
   * Correction d’un cas où la pagination des fichiers d’artifact pouvait entrer dans une boucle infinie
@@ -976,7 +1150,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.34.0" description="31 mai 2023">
-  ## Fonctionnalités
+  <div id="features-30">
+    ## Fonctionnalités
+  </div>
 
   * Nouvelle UI du registre de modèles
 
@@ -994,7 +1170,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Prévisualiser certaines colonnes de métadonnées et certains détails
   * Modifier les contrôles d&#39;accès du modèle
 
-  ## Correctifs
+  <div id="fixes-35">
+    ## Correctifs
+  </div>
 
   * Amélioration de la fonctionnalité de recherche pour de meilleurs résultats de classement dans la recherche universelle.
   * Ajout de la possibilité d&#39;ajouter/supprimer plusieurs tags à la fois dans le registre de modèles
@@ -1021,7 +1199,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
 </Update>
 
 <Update label="v0.33.0" description="10 mai 2023">
-  ## Fonctionnalités
+  <div id="features-31">
+    ## Fonctionnalités
+  </div>
 
   * Prompts : zoom et déplacement
     <Frame>
@@ -1045,7 +1225,9 @@ Cette page présente les notes de version des versions de W&amp;B Server arrivé
   * Navigation mise à jour
     À mesure que W&amp;B a étendu les différentes parties du flux de travail ML que nous couvrons, vous nous avez indiqué qu’il pouvait être difficile de naviguer dans l’application. Nous avons donc mis à jour la barre latérale de navigation avec des libellés plus clairs pour les différentes zones du produit, et ajouté des liens de retour sur certains écrans de détail. Nous avons également renommé “Triggers” en “Automations” pour mieux refléter la puissance de cette fonctionnalité.
 
-  ## Correctifs
+  <div id="fixes-36">
+    ## Correctifs
+  </div>
 
   * Lors du survol d’un graphique dans les workspaces ou dans un rapport, vous pouvez désormais utiliser Cmd+C ou Ctrl+C pour copier les noms de run et les valeurs affichées dans l’infobulle.
   * Les modifications apportées aux workspaces par défaut ne sont désormais plus enregistrées automatiquement.

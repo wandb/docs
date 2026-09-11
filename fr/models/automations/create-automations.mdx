@@ -4,10 +4,10 @@ description: Créez et gérez les automatisations W&B pour simplifier vos flux d
 keywords: ["automatisations", "notifications Slack", "webhooks", "événements du registre", "secrets W&B"]
 ---
 
-Cette page explique comment créer et gérer des [automatisations](/fr/models/automations) W&amp;B, qui se déclenchent en réponse à des événements spécifiques dans W&amp;B. Lorsqu’un événement spécifique se produit au sein d’une organisation, d’une équipe, d’un projet, d’un registre ou d’une collection, l’automatisation envoie une notification à un canal Slack ou déclenche un webhook. Utilisez cet aperçu pour comprendre les prérequis et le flux de travail général, puis suivez les instructions détaillées dans [Créer une automatisation Slack](/fr/models/automations/create-automations/slack) ou [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook).
+Cette page explique comment créer et gérer des [automatisations](/fr/models/automations) W&amp;B, qui se déclenchent en réponse à des événements spécifiques dans W&amp;B. Lorsqu’un événement spécifique se produit au sein d’une organisation, d’une équipe, d’un projet, d’un registre ou d’une collection, l’automatisation envoie une notification à un canal Slack, déclenche un webhook ou envoie un prompt à ARIA. Utilisez cet aperçu pour comprendre les prérequis et le flux de travail général, puis suivez les instructions détaillées dans [Créer une automatisation Slack](/fr/models/automations/create-automations/slack), [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook) ou [Créer une automatisation ARIA](/fr/models/automations/create-automations/aria).
 
 <Note>
-  Vous cherchez des tutoriels complémentaires sur les automatisations ?
+  Vous cherchez des tutoriels complémentaires sur les automatisations ?
 
   * [Découvrez comment déclencher automatiquement une GitHub Action pour l&#39;évaluation et le déploiement d&#39;un modèle](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
   * [Regardez une vidéo montrant comment déployer automatiquement un modèle vers un point de terminaison SageMaker](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
@@ -46,7 +46,7 @@ Après avoir suivi ces étapes, l’automatisation s’exécute chaque fois que 
   ### Créer une automatisation sur une métrique de run à partir d’un panneau du Workspace
 </div>
 
-À partir d’un graphique en courbes dans le Workspace, vous pouvez également créer une [automatisation sur une métrique de run](/fr/models/automations/automation-events/#run-events) pour la métrique affichée :
+À partir d’un graphique en courbes dans le Workspace, vous pouvez également créer une [automatisation sur une métrique de run](/fr/models/automations/automation-events/#run-events) pour la métrique affichée :
 
 1. Survolez le panneau, puis cliquez sur l’icône en forme de cloche en haut du panneau.
 
@@ -55,10 +55,11 @@ Après avoir suivi ces étapes, l’automatisation s’exécute chaque fois que 
    </Frame>
 2. Configurez l’automatisation à l’aide des options de configuration de base ou avancées. Par exemple, appliquez un filtre de run pour limiter la portée de l’automatisation, ou configurez un seuil absolu.
 
-Pour plus de détails, consultez :
+Pour plus de détails, consultez :
 
 * [Créer une automatisation Slack](/fr/models/automations/create-automations/slack)
 * [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook)
+* [Créer une automatisation ARIA](/fr/models/automations/create-automations/aria)
 
 <div id="view-and-manage-automations">
   ## Afficher et gérer les Automatisations
@@ -75,14 +76,15 @@ Affichez et gérez les Automatisations depuis l&#39;onglet **Automatisations** d
   ## Aller plus loin
 </div>
 
-Pour plus d&#39;informations, voir les ressources suivantes :
+Pour plus d&#39;informations, voir les ressources suivantes :
 
-* [Tutoriels sur les Automatisations](/fr/models/automations/tutorial) : créez une [alerte d’échec d’un run de projet](/fr/models/automations/project-automation-tutorial) ou une [automatisation d’un alias de Registre vers un webhook](/fr/models/automations/registry-automation-tutorial) dans l’application W&amp;B.
+* [Tutoriels sur les Automatisations](/fr/models/automations/tutorial) : créez une [alerte d’échec d’un run de projet](/fr/models/automations/project-automation-tutorial) ou une [automatisation d’un alias de Registre vers un webhook](/fr/models/automations/registry-automation-tutorial) dans l’application W&amp;B.
 * [Événements et portée des Automatisations](/fr/models/automations/automation-events).
 * [Créer une automatisation Slack](/fr/models/automations/create-automations/slack).
 * [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook).
+* [Créer une automatisation ARIA](/fr/models/automations/create-automations/aria).
 * [Créer un secret](/fr/platform/secrets).
 
-{/* Rétablir lorsque la régression du SDK Python `create_automation` sera corrigée (en interne, WB-34263) :
+{/* Rétablir une fois la régression du SDK Python `create_automation` corrigée (en interne, WB-34263) :
   - [Gérer les Automatisations avec l’API](/models/automations/api).
   */}

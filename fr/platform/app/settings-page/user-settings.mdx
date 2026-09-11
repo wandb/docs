@@ -98,12 +98,12 @@ La section **Clés API** vous permet de gérer vos clés API personnelles pour v
   ### Consultez vos clés API
 </div>
 
-Le tableau des clés API affiche :
+Le tableau des clés API affiche :
 
-* **ID de la clé** : La première partie de chaque clé API, utilisée pour l’identifier.
-* **Nom** : Un nom descriptif que vous avez donné lorsque vous avez créé la clé.
-* **Créée le** : La date de création de la clé.
-* **Dernière utilisation** : La date et l’heure de la dernière utilisation.
+* **ID de la clé** : La première partie de chaque clé API, utilisée pour l’identifier.
+* **Nom** : Un nom descriptif facultatif pour la clé.
+* **Créée le** : La date de création de la clé.
+* **Dernière utilisation** : La date et l’heure de la dernière utilisation.
 
 <Note>
   Pour des raisons de sécurité, le tableau n’affiche que l’ID de la clé (la première partie de la clé). La clé API secrète complète n’apparaît qu’une seule fois, au moment de sa création.
@@ -117,14 +117,24 @@ Pour filtrer la liste des clés API, saisissez une partie du nom de la clé ou d
 
 <ApiKeyCreate />
 
+<div id="rename-an-api-key">
+  ### Renommer une clé API
+</div>
+
+Pour modifier le nom d’affichage d’une clé API sans en modifier le matériel cryptographique :
+
+1. Trouvez la clé que vous souhaitez supprimer dans le tableau des clés API.
+2. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** et choisissez **Edit**.
+3. Mettez à jour le **Nom** de la clé, puis cliquez sur **enregistrer**.
+
 <div id="delete-an-api-key">
   ### Supprimer une clé API
 </div>
 
-Supprimez une clé API lorsque vous n’en avez plus besoin ou si elle a pu être compromise. Pour révoquer l’accès en supprimant une clé API :
+Supprimez une clé API lorsque vous n’en avez plus besoin ou si elle a pu être compromise. Pour révoquer l’accès en supprimant une clé API :
 
 1. Trouvez la clé que vous souhaitez supprimer dans le tableau des clés API.
-2. Cliquez sur le bouton Supprimer à côté de la clé.
+2. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** et choisissez **supprimer**.
 3. Confirmez la suppression.
 
 W&amp;B supprime la clé du tableau et vous ne pouvez plus l’utiliser pour vous authentifier.

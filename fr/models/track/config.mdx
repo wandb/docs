@@ -387,6 +387,94 @@ Pour charger un fichier de configuration autre que `config-defaults.yaml`, utili
 python train.py --configs other-config.yaml
 ```
 
+<div id="nested-dictionaries-in-config">
+  ### Dictionnaires imbriqués dans config
+</div>
+
+Pour stocker des valeurs imbriquées dans une configuration de run, passez un dictionnaire imbriqué à `wandb.init()`. L&#39;exemple suivant définit les dictionnaires imbriqués `optimizer` et `training` dans `config` :
+
+```python
+config = {
+    "optimizer": {
+        "type": "adamw",
+        "learning_rate": 0.0001,
+        "weight_decay": 0.01,
+    },
+    "training": {
+        "epochs": 20,
+        "batch_size": 64,
+    },
+}
+
+with wandb.init(project="project", config=config) as run:
+    ...
+```
+
+Chaque clé de premier niveau doit contenir un champ `value`. Attribuez le dictionnaire imbriqué à `value` :
+
+```yaml
+optimizer:
+  value:
+    type: adamw
+    learning_rate: 0.0001
+    weight_decay: 0.01
+
+training:
+  value:
+    epochs: 20
+    batch_size: 64
+```
+
+En Python, utilisez l&#39;indexation de dictionnaire pour accéder aux valeurs imbriquées.
+
+L&#39;exemple suivant récupère la valeur `learning_rate` dans le dictionnaire imbriqué optimizer de la configuration de run :
+
+```python
+with wandb.init(project="project", config=config) as run:
+    run.config["optimizer"]["learning_rate"]
+```
+
+Dans les contextes qui référencent les valeurs de configuration par chemin, comme les filtres de l&#39;API publique ou les expressions de graphiques en courbes, utilisez la notation par points. Par exemple, utilisez `config.optimizer.learning_rate` dans un filtre de l&#39;API publique et `${config:optimizer.learning_rate}` dans une expression de graphique en courbes.
+
+L&#39;exemple suivant crée un run avec une configuration imbriquée et journalise la perte pour chaque époque d&#39;entraînement. Il utilise ensuite l&#39;API publique pour trouver les runs dont le taux d&#39;apprentissage est de `1e-4` et affiche le nom et le taux d&#39;apprentissage de chaque run.
+
+```python
+import random
+import wandb
+
+config = {
+    "optimizer": {
+        "type": "adamw",
+        "learning_rate": 1e-4,
+        "weight_decay": 0.01,
+    },
+    "training": {
+        "epochs": 3,
+        "batch_size": 64,
+    },
+}
+
+with wandb.init(project="nested-config-example", config=config) as run:
+    lr = run.config["optimizer"]["learning_rate"]
+
+    for epoch in range(run.config["training"]["epochs"]):
+        loss = 1.0 / (epoch + 1) + random.random() * 0.05
+        run.log({"epoch": epoch, "train/loss": loss})
+
+api = wandb.Api()
+runs = api.runs(
+    "wandb/nested-config-example",
+    filters={"config.optimizer.learning_rate": 1e-4},
+)
+
+for run in runs:
+    print(run.name, run.config["optimizer"]["learning_rate"])
+```
+
+<Info>
+  En pratique, vous utilisez généralement des scripts distincts pour créer les runs, puis pour les interroger ultérieurement à l&#39;aide de filtres.
+</Info>
+
 <div id="example-use-case-for-file-based-configs">
   ### Exemple d’utilisation de configurations basées sur des fichiers
 </div>

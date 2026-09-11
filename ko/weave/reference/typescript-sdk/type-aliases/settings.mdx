@@ -3,9 +3,11 @@ title: "Settings"
 description: "TypeScript SDK 레퍼런스"
 ---
 
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
 > **Settings** = `object`
 
-정의 위치: [src/settings.ts:3](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L3)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
 
 <div id="properties">
   ## 속성
@@ -19,8 +21,6 @@ description: "TypeScript SDK 레퍼런스"
 
 이 클라이언트에서 생성되는 모든 트레이스에 적용되는 속성 맵입니다.
 
-정의 위치: [src/settings.ts:14](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L14)
-
 ***
 
 <div id="genai">
@@ -28,8 +28,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `readonly` **genai**: `object`
-
-정의 위치: [src/settings.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L23)
 
 <div id="batchoptions">
   #### batchOptions
@@ -65,9 +63,23 @@ GenAI span을 익스포트하는 방식입니다.
 
 터미널에서 op의 Weave UI 링크를 출력합니다.
 
-정의 위치: [src/settings.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L9)
-
 <div id="default">
+  #### 기본값
+</div>
+
+`true`
+
+***
+
+<div id="usecallscomplete">
+  ### useCallsComplete
+</div>
+
+> **useCallsComplete**: `boolean`
+
+완료된 Call을 레거시 `call/upsert_batch` 경로 대신 `calls/complete` 엔드포인트로 전송합니다(시작과 종료를 클라이언트 측에서 페어링).
+
+<div id="default-2">
   #### 기본값
 </div>
 
@@ -83,9 +95,7 @@ GenAI span을 익스포트하는 방식입니다.
 
 OTel을 지원하는 인테그레이션을 OTel 변형을 통해 라우팅합니다.
 
-정의 위치: [src/settings.ts:21](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/settings.ts#L21)
-
-<div id="default">
+<div id="default-3">
   #### 기본값
 </div>
 

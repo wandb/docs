@@ -3,14 +3,20 @@ title: "runIsolated"
 description: "Référence du SDK TypeScript"
 ---
 
-> **runIsolated**&lt;`T`&gt;(`fn`): `T`
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+runIsolated<T>(fn: () => T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/context.ts#L54" />
 
 Exécutez `fn` dans un cadre d’état GenAI nouveau et isolé. Toute Conversation / tout tour de conversation / tout LLM
 démarré dans `fn` n’existe que dans ce cadre — il n’entre pas en conflit avec
 d’autres cadres `runIsolated` exécutés simultanément, et n’est pas propagé
 à la chaîne asynchrone externe.
 
-Utilisez cette fonction pour exécuter en toute sécurité des tâches GenAI en parallèle :
+Utilisez cette fonction pour exécuter en toute sécurité des tâches GenAI en parallèle :
 
 ```typescript
   await Promise.all([
@@ -22,27 +28,17 @@ Utilisez cette fonction pour exécuter en toute sécurité des tâches GenAI en 
 L’utilisation séquentielle de single-flight ne nécessite pas ce wrapper —
 l’état global par défaut du processus s’en charge.
 
-Défini dans : [src/genai/context.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/context.ts#L54)
-
 <div id="type-parameters">
   ## Paramètres de type
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T`
+<ParamField path="T" />
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="fn">
-  ### fn
-</div>
-
-() =&gt; `T`
+<ParamField path="fn" type="() => T" required />
 
 <div id="returns">
   ## Renvoie
