@@ -132,6 +132,7 @@
                               "platform/app/settings-page/billing-settings",
                               "platform/app/settings-page/emails",
                               "platform/app/settings-page/teams",
+                              "platform/hosting/privacy-settings",
                               "platform/secrets",
                               "platform/app/settings-page/storage"
                             ]
@@ -190,6 +191,7 @@
                         "group": "Deployment Options",
                         "pages": [
                           "platform/hosting",
+                          "platform/hosting/hosting-options",
                           "platform/hosting/hosting-options/multi_tenant_cloud",
                           {
                             "group": "Dedicated Cloud",
