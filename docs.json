@@ -211,6 +211,7 @@
                               "platform/hosting/self-managed/rate-limits",
                               "platform/hosting/self-managed/operator",
                               "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
+                              "platform/hosting/enterprise-licenses",
                               "platform/hosting/server-upgrade-process",
                               "platform/hosting/self-managed/disable-automatic-app-version-updates"
                             ]
