@@ -3,79 +3,58 @@ title: "GetAgentVersionsOptions"
 description: "TypeScript SDK reference"
 ---
 
-Options for [WeaveClient.getAgentVersions](../classes/weaveclient#getagentversions).
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-## Table of contents
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L160" />
 
-### Properties
-
-- [agentName](./getagentversionsoptions#agentname)
-- [limit](./getagentversionsoptions#limit)
-- [offset](./getagentversionsoptions#offset)
-- [sortBy](./getagentversionsoptions#sortby)
+Options for [WeaveClient.getAgentVersions](./weaveclient#getagentversions).
 
 ## Properties
 
 ### agentName
 
-• **agentName**: `string`
+> **agentName**: `string`
 
-#### Defined in
-
-[src/weaveClient.ts:134](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L134)
-
-___
+***
 
 ### limit
 
-• `Optional` **limit**: `number`
+> `optional` **limit**: `number`
 
-`Min`
+#### Min
 
 0
 
-`Max`
+#### Max
 
 10000
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 100
 ```
 
-#### Defined in
-
-[src/weaveClient.ts:140](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L140)
-
-___
+***
 
 ### offset
 
-• `Optional` **offset**: `number`
+> `optional` **offset**: `number`
 
-`Min`
+#### Min
 
 0
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 0
 ```
 
-#### Defined in
-
-[src/weaveClient.ts:145](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L145)
-
-___
+***
 
 ### sortBy
 
-• `Optional` **sortBy**: [`SortBy`](./sortby)[]
-
-#### Defined in
-
-[src/weaveClient.ts:146](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L146)
+> `optional` **sortBy**: [`SortBy`](./sortby)[]

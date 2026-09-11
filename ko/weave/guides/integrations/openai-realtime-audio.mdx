@@ -1,12 +1,12 @@
 ---
 title: OpenAI Realtime API
 description: Weave를 사용해 OpenAI Realtime API 호출을 자동으로 트레이스합니다.
-keywords: ["음성-대-음성", "음성 어시스턴트", "WebSockets", "Agents SDK", "오디오 트레이싱"]
+keywords: ["음성-대-음성", "음성 어시스턴트", "WebSockets", "Agents SDK", "오디오 트레이싱", "TypeScript"]
 ---
 
 Weave의 [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/realtime/) 인테그레이션을 사용하면 애플리케이션의 음성-대-음성 상호작용을 발생하는 즉시 자동으로 트레이스할 수 있습니다. 이를 통해 에이전트와 사용자 간의 대화를 캡처하여 에이전트 성능을 검토하고 평가할 수 있습니다.
 
-이 가이드에서는 애플리케이션에서 Realtime API 트레이싱을 활성화하는 방법을 보여주고, 로컬에서 실행할 수 있는 엔드투엔드 음성 어시스턴트 예시 두 가지를 안내합니다.
+이 가이드에서는 애플리케이션에서 Realtime API 트레이싱을 활성화하는 방법을 보여주고, 로컬에서 실행할 수 있는 Python 및 TypeScript 엔드투엔드 예시를 안내합니다.
 
 <div id="integrate-realtime-traces">
   ## 실시간 트레이스 통합하기
@@ -14,304 +14,438 @@ Weave의 [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/rea
 
 이 섹션에서는 모든 애플리케이션에서 OpenAI Realtime API에 대한 Weave 트레이싱을 활성화하는 데 필요한 최소한의 코드를 보여줍니다.
 
-Weave는 OpenAI Realtime API에 자동으로 패치되므로, 애플리케이션의 오디오 상호작용을 캡처하기 시작하려면 몇 줄의 코드만 추가하면 됩니다. 다음 코드는 Weave와 Realtime API 인테그레이션을 임포트합니다:
+<Tabs>
+  <Tab title="Python">
+    Weave는 OpenAI Realtime API에 자동으로 패치되므로, 애플리케이션의 오디오 상호작용을 캡처하기 시작하려면 몇 줄의 코드만 추가하면 됩니다. 다음 코드는 Weave와 Realtime API 인테그레이션을 임포트합니다:
 
-```python lines {2,5}
-import weave
-from weave.integrations import patch_openai_realtime
+    ```python lines {2,5}
+    import weave
+    from weave.integrations import patch_openai_realtime
 
-weave.init("your-team-name/your-project-name")
-patch_openai_realtime()
+    weave.init("your-team-name/your-project-name")
+    patch_openai_realtime()
 
-# 애플리케이션 로직
-```
+    # 애플리케이션 로직
+    ```
 
-코드에 임포트해 실행하면 Weave가 사용자와 OpenAI Realtime API 간의 상호작용을 자동으로 트레이스합니다.
+    코드에 임포트해 실행하면 Weave가 사용자와 OpenAI Realtime API 간의 상호작용을 자동으로 트레이스합니다.
+  </Tab>
 
-<div id="run-a-realtime-voice-assistant-with-the-openai-agents-sdk">
-  ### OpenAI Agents SDK로 실시간 음성 어시스턴트 실행하기
+  <Tab title="TypeScript">
+    TypeScript에서 Weave는 [OpenAI Agents SDK](https://openai.github.io/openai-agents-js/)를 통해 Realtime API를 트레이스합니다. Weave를 임포트하면 `@openai/agents-realtime`의 모든 `RealtimeSession`이 자동으로 계측되므로 패치 함수를 호출할 필요가 없습니다. Weave 프로젝트 초기화만 수행하면 됩니다:
+
+    ```typescript twoslash
+    // @noErrors
+    import * as weave from 'weave';
+
+    await weave.init('your-team-name/your-project-name');
+
+    // 애플리케이션 로직
+    ```
+
+    동적 임포트 또는 특정 번들러처럼 설정에서 Weave가 자동 계측에 사용하는 Node.js 모듈 로더 훅을 우회하는 경우, 애플리케이션에서 세션을 생성하기 전에 시작 시 [`patchRealtimeSession()`](/ko/weave/reference/typescript-sdk/functions/patchrealtimesession)을 한 번 호출하세요:
+
+    ```typescript twoslash
+    // @noErrors
+    import { patchRealtimeSession } from 'weave';
+
+    await patchRealtimeSession();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="run-a-realtime-agent-with-the-openai-agents-sdk">
+  ### OpenAI Agents SDK로 실시간 에이전트 실행하기
 </div>
 
-이 예제는 마이크 오디오를 OpenAI의 Realtime API로 스트리밍하고, AI의 음성 응답을 로컬 머신의 스피커로 재생하는 실시간 음성 어시스턴트를 실행합니다. 이 애플리케이션은 `RealtimeAgent` 및 `RealtimeRunner`와 함께 OpenAI Agents SDK를 사용하며, `patch_openai_realtime()`로 패치하여 트레이싱을 활성화합니다. Realtime Session을 상위 수준의 Agents SDK가 대신 관리하도록 하려면 이 방식을 사용하세요.
+<Tabs>
+  <Tab title="Python">
+    이 예제는 마이크 오디오를 OpenAI의 Realtime API로 스트리밍하고 AI의 음성 응답을 로컬 머신 스피커로 재생하는 실시간 음성 어시스턴트를 실행합니다. 이 애플리케이션은 OpenAI Agents SDK의 `RealtimeAgent`와 `RealtimeRunner`를 사용하며, `patch_openai_realtime()`으로 패치하여 Weave 트레이싱을 활성화합니다. 상위 수준의 Agents SDK가 Realtime 세션을 대신 관리하도록 하려면 이 방식을 사용하세요.
 
-예제를 실행하려면 다음 단계를 완료하세요:
+    예시를 실행하려면 다음 step을 완료하세요:
 
-1. Python 환경을 실행하고 다음 라이브러리를 설치하세요:
+    1. Python 환경을 실행하고 다음 라이브러리를 설치하세요:
 
-   <Tabs>
-     <Tab title="uv">
-       ```bash
-       uv add weave openai-agents websockets pyaudio numpy
-       ```
-     </Tab>
+       <CodeGroup>
+         ```bash uv
+         uv add weave openai-agents websockets pyaudio numpy
+         ```
 
-     <Tab title="pip">
-       ```bash
-       pip install weave openai-agents websockets pyaudio numpy
-       ```
-     </Tab>
-   </Tabs>
+         ```bash pip
+         pip install weave openai-agents websockets pyaudio numpy
+         ```
+       </CodeGroup>
 
-2. `weave_voice_assistant.py` 파일을 만들고 다음 코드를 추가하세요.
+    2. `weave_voice_assistant.py` 파일을 만들고 다음 코드를 추가하세요.
 
-   강조 표시된 줄은 애플리케이션에 Weave가 인테그레이션된 부분을 나타냅니다. 나머지 코드는 기본 음성 비서 앱을 구현합니다.
+       강조 표시된 줄은 애플리케이션에 Weave가 인테그레이션된 부분을 나타냅니다. 나머지 코드는 기본 음성 비서 앱을 구현합니다.
 
-   <Accordion title="weave_voice_assistant.py">
-     ```python lines {8,11,14,51-55}
-     import argparse
-     import asyncio
-     import queue
-     import sys
-     import termios
-     import threading
-     import tty
-     import weave
-     import pyaudio
-     import numpy as np
-     from weave.integrations import patch_openai_realtime
-     from agents.realtime import RealtimeAgent, RealtimeRunner
+       <Accordion title="weave_voice_assistant.py">
+         ```python lines {8,11,14,51-55}
+         import argparse
+         import asyncio
+         import queue
+         import sys
+         import termios
+         import threading
+         import tty
+         import weave
+         import pyaudio
+         import numpy as np
+         from weave.integrations import patch_openai_realtime
+         from agents.realtime import RealtimeAgent, RealtimeRunner
 
-     DEFAULT_WEAVE_PROJECT = "<your-team-name/your-project-name>"
+         DEFAULT_WEAVE_PROJECT = "<your-team-name/your-project-name>"
 
-     FORMAT = pyaudio.paInt16
-     RATE = 24000  # Required by the OpenAI Realtime API.
-     CHUNK = 1024
-     MAX_INPUT_CHANNELS = 1
-     MAX_OUTPUT_CHANNELS = 1
+         FORMAT = pyaudio.paInt16
+         RATE = 24000  # Required by the OpenAI Realtime API.
+         CHUNK = 1024
+         MAX_INPUT_CHANNELS = 1
+         MAX_OUTPUT_CHANNELS = 1
 
-     INP_DEV_IDX = None
-     OUT_DEV_IDX = None
+         INP_DEV_IDX = None
+         OUT_DEV_IDX = None
 
-     # Weave 프로젝트 이름 및 오디오 장치 선택을 위한 CLI 인수를 파싱합니다.
-     def parse_args():
-         parser = argparse.ArgumentParser(description="Realtime agent with Weave logging")
-         parser.add_argument(
-             "--weave-project",
-             default=DEFAULT_WEAVE_PROJECT,
-             help=f"Weave project name (default: {DEFAULT_WEAVE_PROJECT})",
-             dest="weave_project"
-         )
-         parser.add_argument(
-             "--input-device",
-             type=int,
-             default=None,
-             help="PyAudio input (mic) device index. Defaults to system default. Run mic_detect.py to list devices.",
-             dest="input_device"
-         )
-         parser.add_argument(
-             "--output-device",
-             type=int,
-             default=None,
-             help="PyAudio output (speaker) device index. Defaults to system default. Run mic_detect.py to list devices.",
-             dest="output_device"
-         )
-         return parser.parse_args()
+         # Weave 프로젝트 이름 및 오디오 장치 선택을 위한 CLI 인수를 파싱합니다.
+         def parse_args():
+             parser = argparse.ArgumentParser(description="Realtime agent with Weave logging")
+             parser.add_argument(
+                 "--weave-project",
+                 default=DEFAULT_WEAVE_PROJECT,
+                 help=f"Weave project name (default: {DEFAULT_WEAVE_PROJECT})",
+                 dest="weave_project"
+             )
+             parser.add_argument(
+                 "--input-device",
+                 type=int,
+                 default=None,
+                 help="PyAudio input (mic) device index. Defaults to system default. Run mic_detect.py to list devices.",
+                 dest="input_device"
+             )
+             parser.add_argument(
+                 "--output-device",
+                 type=int,
+                 default=None,
+                 help="PyAudio output (speaker) device index. Defaults to system default. Run mic_detect.py to list devices.",
+                 dest="output_device"
+             )
+             return parser.parse_args()
 
 
-     # Weave를 초기화하고 Tracing을 위해 OpenAI Realtime API를 패치합니다.
-     def init_weave(project_name: str | None = None) -> None:
-         name = project_name or DEFAULT_WEAVE_PROJECT
-         weave.init(name)
-         patch_openai_realtime()  # Enables automatic tracing of Realtime API sessions.
+         # Weave를 초기화하고 Tracing을 위해 OpenAI Realtime API를 패치합니다.
+         def init_weave(project_name: str | None = None) -> None:
+             name = project_name or DEFAULT_WEAVE_PROJECT
+             weave.init(name)
+             patch_openai_realtime()  # Enables automatic tracing of Realtime API sessions.
 
 
-     mic_enabled = True
+         mic_enabled = True
 
-     # 마이크 켜기/끄기 전환을 위해 't' 키 입력을 감지합니다. 데몬 스레드에서 실행됩니다.
-     def start_keylistener():
-         global mic_enabled
-         fd = sys.stdin.fileno()
-         old_settings = termios.tcgetattr(fd)
-         try:
-             tty.setcbreak(fd)
-             while True:
-                 ch = sys.stdin.read(1)
-                 if ch.lower() == 't':
-                     mic_enabled = not mic_enabled
-                     state = "ON" if mic_enabled else "OFF"
-                     print(f"\n🎙  Mic {state} (press t to toggle)")
-                 elif ch == '\x03':  # Ctrl-C
-                     break
-         finally:
-             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-
-
-     # 백그라운드 스레드에서 오디오 큐를 비우고 스피커에 출력합니다.
-     def play_audio(output_stream: pyaudio.Stream, audio_output_queue: queue.Queue):
-         while True:
-             data = audio_output_queue.get()
-             if data is None:
-                 break
-             output_stream.write(data)
-
-
-     # 오디오 스트림을 열고, Realtime 세션을 시작하고, 송수신 루프를 실행합니다.
-     async def main(*, input_device_index: int | None = None, output_device_index: int | None = None):
-         p = pyaudio.PyAudio()
-
-         if input_device_index is None:
-             input_device_index = int(p.get_default_input_device_info()['index'])
-         if output_device_index is None:
-             output_device_index = int(p.get_default_output_device_info()['index'])
-
-         # pyaudio 오류를 방지하기 위해 채널 수를 장치 지원 범위 내로 제한합니다.
-         input_info = p.get_device_info_by_index(input_device_index)
-         output_info = p.get_device_info_by_index(output_device_index)
-
-         input_channels = min(int(input_info['maxInputChannels']), MAX_INPUT_CHANNELS)
-         output_channels = min(int(output_info['maxOutputChannels']), MAX_OUTPUT_CHANNELS)
-
-         mic = p.open(
-             format=FORMAT,
-             channels=input_channels,
-             rate=RATE,
-             input=True,
-             output=False,
-             frames_per_buffer=CHUNK,
-             input_device_index=input_device_index,
-             start=False,
-         )
-         speaker = p.open(
-             format=FORMAT,
-             channels=output_channels,
-             rate=RATE,
-             input=False,
-             output=True,
-             frames_per_buffer=CHUNK,
-             output_device_index=output_device_index,
-             start=False,
-         )
-         mic.start_stream()
-         speaker.start_stream()
-
-         # 인터럽트 발생 시 재생 중인 오디오를 플러시할 수 있도록 큐를 통해 오디오를 버퍼링합니다.
-         audio_output_queue = queue.Queue()
-         threading.Thread(
-             target=play_audio, args=(speaker, audio_output_queue), daemon=True
-         ).start()
-
-         s_agent = RealtimeAgent(
-             name="Speech Assistant",
-             instructions="You are a tool using AI. Use tools to accomplish a task whenever possible"
-         )
-
-         s_runner = RealtimeRunner(s_agent, config={
-             "model_settings": {
-                 "model_name": "gpt-realtime",
-                 "modalities": ["audio"],
-                 "output_modalities": ["audio"],
-                 "input_audio_format": "pcm16",
-                 "output_audio_format": "pcm16",
-                 "speed": 1.2,
-                 "turn_detection": {
-                     "prefix_padding_ms": 100,
-                     "silence_duration_ms": 100,
-                     "type": "server_vad",
-                     "interrupt_response": True,
-                     "create_response": True,
-                 },
-             }
-         })
-         print("--- Session Active (Speak into mic) ---")
-         print("🎙  Mic ON (press t to toggle)")
-
-         threading.Thread(target=start_keylistener, daemon=True).start()
-
-         async with await s_runner.run() as session:
-             # 마이크 입력을 Realtime API로 스트리밍하며, 음소거 상태일 때는 무음을 전송합니다.
-             async def send_mic_audio():
-                 silence = b'\x00' * CHUNK * 2  # 샘플당 2바이트 (16비트 PCM).
-                 try:
-                     while True:
-                         raw_data = mic.read(CHUNK, exception_on_overflow=False)
-
-                         if mic_enabled:
-                             audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float64)
-                             rms = np.sqrt(np.mean(audio_data**2))
-                             meter = int(min(rms / 50, 50))
-                             print(f"Mic Level: {'█' * meter}{' ' * (50-meter)} | 🎙 ON ", end="\r")
-                             await session.send_audio(raw_data)
-                         else:
-                             print(f"Mic Level: {' ' * 50} | 🎙 OFF", end="\r")
-                             await session.send_audio(silence)
-
-                         await asyncio.sleep(0)  # 읽기 사이에 이벤트 루프에 제어권을 양보합니다.
-                 except Exception:
-                     pass
-
-             # 세션에서 이벤트를 수신하고 오디오를 스피커로 전달합니다.
-             async def handle_events():
-                 async for event in session:
-                     if event.type == "audio":
-                         audio_output_queue.put(event.audio.data)
-                     elif event.type == "audio_interrupted":
-                         # 큐에 쌓인 AI 오디오를 플러시하여 사용자 발화와 겹치지 않도록 합니다.
-                         while not audio_output_queue.empty():
-                             try:
-                                 audio_output_queue.get_nowait()
-                             except queue.Empty:
-                                 break
-
-             mic_task = asyncio.create_task(send_mic_audio())
+         # 마이크 켜기/끄기 전환을 위해 't' 키 입력을 감지합니다. 데몬 스레드에서 실행됩니다.
+         def start_keylistener():
+             global mic_enabled
+             fd = sys.stdin.fileno()
+             old_settings = termios.tcgetattr(fd)
              try:
-                 await handle_events()
+                 tty.setcbreak(fd)
+                 while True:
+                     ch = sys.stdin.read(1)
+                     if ch.lower() == 't':
+                         mic_enabled = not mic_enabled
+                         state = "ON" if mic_enabled else "OFF"
+                         print(f"\n🎙  Mic {state} (press t to toggle)")
+                     elif ch == '\x03':  # Ctrl-C
+                         break
              finally:
-                 mic_task.cancel()
+                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
-         # 정리
-         audio_output_queue.put(None)  # 재생 스레드에 종료 신호를 보냅니다.
-         mic.close()
-         speaker.close()
-         p.terminate()
 
-     if __name__ == "__main__":
-         args = parse_args()
-         init_weave(args.weave_project)
-         fd = sys.stdin.fileno()
-         old_settings = termios.tcgetattr(fd)
-         try:
-             asyncio.run(main(input_device_index=args.input_device, output_device_index=args.output_device))
-         finally:
-             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-     ```
-   </Accordion>
+         # 백그라운드 스레드에서 오디오 큐를 비우고 스피커에 출력합니다.
+         def play_audio(output_stream: pyaudio.Stream, audio_output_queue: queue.Queue):
+             while True:
+                 data = audio_output_queue.get()
+                 if data is None:
+                     break
+                 output_stream.write(data)
 
-3. `DEFAULT_WEAVE_PROJECT` 값을 팀 이름과 프로젝트 이름으로 업데이트하세요.
 
-4. `OPENAI_API_KEY` 환경 변수를 설정하세요.
+         # 오디오 스트림을 열고, Realtime 세션을 시작하고, 송수신 루프를 실행합니다.
+         async def main(*, input_device_index: int | None = None, output_device_index: int | None = None):
+             p = pyaudio.PyAudio()
 
-5. 음성 어시스턴트를 시작하세요:
-   ```bash
-   python weave_voice_assistant.py
-   ```
+             if input_device_index is None:
+                 input_device_index = int(p.get_default_input_device_info()['index'])
+             if output_device_index is None:
+                 output_device_index = int(p.get_default_output_device_info()['index'])
 
-어시스턴트가 실행되면 키보드에서 `T` 키를 눌러 마이크를 음소거하거나 음소거 해제할 수 있습니다. 어시스턴트는 서버 측 음성 활동 감지를 사용해 차례 전환과 중간 끼어들기를 처리합니다.
+             # pyaudio 오류를 방지하기 위해 채널 수를 장치 지원 범위 내로 제한합니다.
+             input_info = p.get_device_info_by_index(input_device_index)
+             output_info = p.get_device_info_by_index(output_device_index)
 
-어시스턴트에게 말을 하는 동안 Weave는 세션의 오디오를 포함한 트레이스를 캡처하며, 이를 Weave UI에서 탐색할 수 있습니다.
+             input_channels = min(int(input_info['maxInputChannels']), MAX_INPUT_CHANNELS)
+             output_channels = min(int(output_info['maxOutputChannels']), MAX_OUTPUT_CHANNELS)
+
+             mic = p.open(
+                 format=FORMAT,
+                 channels=input_channels,
+                 rate=RATE,
+                 input=True,
+                 output=False,
+                 frames_per_buffer=CHUNK,
+                 input_device_index=input_device_index,
+                 start=False,
+             )
+             speaker = p.open(
+                 format=FORMAT,
+                 channels=output_channels,
+                 rate=RATE,
+                 input=False,
+                 output=True,
+                 frames_per_buffer=CHUNK,
+                 output_device_index=output_device_index,
+                 start=False,
+             )
+             mic.start_stream()
+             speaker.start_stream()
+
+             # 인터럽트 발생 시 재생 중인 오디오를 플러시할 수 있도록 큐를 통해 오디오를 버퍼링합니다.
+             audio_output_queue = queue.Queue()
+             threading.Thread(
+                 target=play_audio, args=(speaker, audio_output_queue), daemon=True
+             ).start()
+
+             s_agent = RealtimeAgent(
+                 name="Speech Assistant",
+                 instructions="You are a tool using AI. Use tools to accomplish a task whenever possible"
+             )
+
+             s_runner = RealtimeRunner(s_agent, config={
+                 "model_settings": {
+                     "model_name": "gpt-realtime",
+                     "modalities": ["audio"],
+                     "output_modalities": ["audio"],
+                     "input_audio_format": "pcm16",
+                     "output_audio_format": "pcm16",
+                     "speed": 1.2,
+                     "turn_detection": {
+                         "prefix_padding_ms": 100,
+                         "silence_duration_ms": 100,
+                         "type": "server_vad",
+                         "interrupt_response": True,
+                         "create_response": True,
+                     },
+                 }
+             })
+             print("--- Session Active (Speak into mic) ---")
+             print("🎙  Mic ON (press t to toggle)")
+
+             threading.Thread(target=start_keylistener, daemon=True).start()
+
+             async with await s_runner.run() as session:
+                 # 마이크 입력을 Realtime API로 스트리밍하며, 음소거 상태일 때는 무음을 전송합니다.
+                 async def send_mic_audio():
+                     silence = b'\x00' * CHUNK * 2  # 샘플당 2바이트 (16비트 PCM).
+                     try:
+                         while True:
+                             raw_data = mic.read(CHUNK, exception_on_overflow=False)
+
+                             if mic_enabled:
+                                 audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float64)
+                                 rms = np.sqrt(np.mean(audio_data**2))
+                                 meter = int(min(rms / 50, 50))
+                                 print(f"Mic Level: {'█' * meter}{' ' * (50-meter)} | 🎙 ON ", end="\r")
+                                 await session.send_audio(raw_data)
+                             else:
+                                 print(f"Mic Level: {' ' * 50} | 🎙 OFF", end="\r")
+                                 await session.send_audio(silence)
+
+                             await asyncio.sleep(0)  # 읽기 사이에 이벤트 루프에 제어권을 양보합니다.
+                     except Exception:
+                         pass
+
+                 # 세션에서 이벤트를 수신하고 오디오를 스피커로 전달합니다.
+                 async def handle_events():
+                     async for event in session:
+                         if event.type == "audio":
+                             audio_output_queue.put(event.audio.data)
+                         elif event.type == "audio_interrupted":
+                             # 큐에 쌓인 AI 오디오를 플러시하여 사용자 발화와 겹치지 않도록 합니다.
+                             while not audio_output_queue.empty():
+                                 try:
+                                     audio_output_queue.get_nowait()
+                                 except queue.Empty:
+                                     break
+
+                 mic_task = asyncio.create_task(send_mic_audio())
+                 try:
+                     await handle_events()
+                 finally:
+                     mic_task.cancel()
+
+             # 정리
+             audio_output_queue.put(None)  # 재생 스레드에 종료 신호를 보냅니다.
+             mic.close()
+             speaker.close()
+             p.terminate()
+
+         if __name__ == "__main__":
+             args = parse_args()
+             init_weave(args.weave_project)
+             fd = sys.stdin.fileno()
+             old_settings = termios.tcgetattr(fd)
+             try:
+                 asyncio.run(main(input_device_index=args.input_device, output_device_index=args.output_device))
+             finally:
+                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+         ```
+       </Accordion>
+
+    3. `DEFAULT_WEAVE_PROJECT` 값을 팀 이름과 프로젝트 이름으로 업데이트하세요.
+
+    4. `OPENAI_API_KEY` 환경 변수를 설정하세요.
+
+    5. 음성 어시스턴트를 시작하세요:
+       ```bash
+       python weave_voice_assistant.py
+       ```
+
+    어시스턴트가 실행되면 키보드에서 `T` 키를 눌러 마이크를 음소거하거나 음소거를 해제하세요. 어시스턴트는 서버 측 음성 활동 감지를 사용하여 차례 전환과 끼어들기를 처리합니다.
+
+    assistant와 대화하는 동안 Weave는 세션의 오디오를 포함한 트레이스를 캡처하며, 이를 Weave UI에서 살펴볼 수 있습니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    이 예제에서는 `RealtimeAgent` 및 `RealtimeSession`으로 실시간 에이전트를 만들고, 날씨 도구를 제공한 후 텍스트 메시지를 전송합니다. 임포트하면 Weave가 세션을 자동으로 계측하고, 세션, 생성, 도구 Call 및 오디오 출력을 트레이스로 캡처합니다.
+
+    예제를 실행하려면 다음 단계를 완료하세요:
+
+    1. 새 디렉터리에서 TypeScript를 사용해 Node.js 프로젝트를 설정하고 다음 라이브러리를 설치하세요:
+
+       ```bash
+       npm init -y
+       npm install weave @openai/agents zod
+       npm install --save-dev typescript @types/node
+       npx tsc --init
+       npm pkg set type=module
+       ```
+
+    2. `weave_realtime_agent.ts` 파일을 만들고 다음 코드를 추가하세요.
+
+       강조 표시된 줄은 애플리케이션에 Weave가 인테그레이션된 부분을 나타냅니다. 나머지 코드는 기본 실시간 에이전트를 구현합니다.
+
+       <Accordion title="weave_realtime_agent.ts">
+         ```typescript lines {1,32,34-36}
+         import * as weave from 'weave';
+         import {RealtimeAgent, RealtimeSession, tool} from '@openai/agents/realtime';
+         import {z} from 'zod';
+
+         const WEAVE_PROJECT = '<your-team-name/your-project-name>';
+
+         // 에이전트가 호출할 수 있는 시뮬레이션된 날씨 조회 도구입니다.
+         const getWeatherTool = tool({
+           name: 'get_weather',
+           description: 'Get the current weather for a given city.',
+           parameters: z.object({
+             city: z.string().describe('The name of the city'),
+           }),
+           async execute({city}) {
+             const weather: Record<string, string> = {
+               'San Francisco': '65°F, foggy',
+               'New York': '72°F, sunny',
+               London: '55°F, cloudy',
+             };
+             return weather[city] ?? '70°F, clear';
+           },
+         });
+
+         const agent = new RealtimeAgent({
+           name: 'Assistant',
+           instructions:
+             'You are a helpful voice assistant. Keep responses concise because this is a voice conversation.',
+           tools: [getWeatherTool],
+         });
+
+         async function main() {
+           await weave.init(WEAVE_PROJECT);
+
+           // Weave는 임포트 시 `@openai/agents-realtime`을 자동으로 계측합니다.
+           // 설정에서 모듈 로더 훅을 우회하는 경우 다음 줄의 주석 처리를 해제하세요.
+           // await weave.patchRealtimeSession();
+
+           const apiKey = process.env.OPENAI_API_KEY;
+           if (!apiKey) throw new Error('OPENAI_API_KEY is required');
+
+           const session = new RealtimeSession(agent);
+
+           // 대화 이력이 업데이트될 때 assistant의 텍스트 응답을 출력합니다.
+           session.on('history_updated', history => {
+             const last = history[history.length - 1];
+             if (last?.type === 'message' && last.role === 'assistant') {
+               const text = (last.content ?? [])
+                 .filter((c: any) => c.type === 'output_text')
+                 .map((c: any) => c.text)
+                 .join('');
+               if (text) console.log(`\nAssistant: ${text}`);
+             }
+           });
+
+           session.on('error', event => {
+             console.error('[error]', event.error);
+           });
+
+           console.log('Connecting...');
+           await session.connect({apiKey});
+           console.log('Connected.');
+
+           session.sendMessage('What is the weather like in San Francisco?');
+
+           // 응답을 기다린 후 연결을 종료합니다.
+           await new Promise<void>(resolve => setTimeout(resolve, 10_000));
+
+           session.close();
+           console.log('\nDone.');
+         }
+
+         main().catch(console.error);
+         ```
+       </Accordion>
+
+    3. `WEAVE_PROJECT` 값을 팀 이름과 프로젝트 이름으로 업데이트하세요.
+
+    4. `OPENAI_API_KEY` 및 `WANDB_API_KEY` 환경 변수를 설정하세요.
+
+    5. 에이전트를 컴파일하고 실행하세요:
+
+       ```bash
+       npx tsc
+       node --import=weave/instrument --import=tsx  weave_realtime_agent.js
+       ```
+
+    첫 번째 `--import` 플래그는 Weave 계측을 미리 로드하고, 두 번째 `--import` 플래그는 Node가 TypeScript를 실행할 수 있도록 `tsx`를 미리 로드합니다.
+
+    에이전트는 Realtime API에 연결해 San Francisco의 날씨를 묻고 날씨 도구를 호출한 후 연결을 종료합니다. Weave UI에서 세션, 생성, 도구 Call 및 assistant의 오디오 출력을 포함한 결과 트레이스를 탐색할 수 있습니다.
+  </Tab>
+</Tabs>
 
 <div id="run-a-realtime-voice-assistant-with-websockets">
   ### WebSockets를 사용해 실시간 음성 어시스턴트 실행
 </div>
 
-다음 예제는 WebSockets를 통해 OpenAI Realtime API에 직접 연결합니다. 마이크 오디오를 API로 스트리밍하고, 음성 응답을 재생하며, 도구 호출 기능(날씨 조회, 수식 계산, 코드 실행, 파일 쓰기)을 지원합니다. Weave는 `weave.init()`와 `patch_openai_realtime()`을 사용해 세션을 트레이스합니다. Agents SDK에 의존하지 않고 Realtime Session을 완전히 제어하려는 경우 이 방식을 사용하세요.
+다음 Python 예제는 WebSockets를 통해 OpenAI Realtime API에 직접 연결합니다. 마이크 오디오를 API로 스트리밍하고, 음성 응답을 재생하며, 도구 호출 기능(날씨 조회, 수식 계산, 코드 실행, 파일 쓰기)을 지원합니다. Weave는 `weave.init()`와 `patch_openai_realtime()`을 사용해 세션을 트레이스합니다. Agents SDK에 의존하지 않고 Realtime Session을 완전히 제어하려는 경우 이 방식을 사용하세요.
 
 예제를 실행하려면 다음 단계를 완료하세요:
 
 1. Python 환경을 실행한 다음 다음 라이브러리를 설치합니다:
 
-   <Tabs>
-     <Tab title="uv">
-       ```bash
-       uv add weave websockets pyaudio numpy
-       ```
-     </Tab>
+   <CodeGroup>
+     ```bash uv
+     uv add weave websockets pyaudio numpy
+     ```
 
-     <Tab title="pip">
-       ```bash
-       pip install weave websockets pyaudio numpy
-       ```
-     </Tab>
-   </Tabs>
+     ```bash pip
+     pip install weave websockets pyaudio numpy
+     ```
+   </CodeGroup>
 
 2. `tool_definitions.py` 파일을 만들고 여기에 다음 도구 정의를 추가하세요. 메인 애플리케이션은 이 모듈을 임포트합니다.
 

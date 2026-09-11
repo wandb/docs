@@ -1,0 +1,360 @@
+---
+title: "LLM"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
+
+An LLM call. Emits a `chat` span with `gen_ai.*` attributes.
+
+Created by `weave.startLLM()` (or `turn.startLLM()`) and terminated with
+`end()`. Only one LLM may be active in an async context at a time; nest
+tool/subagent calls under it via `startTool` / `startSubagent`.
+
+Populate `inputMessages` / `outputMessages` / `usage` / `reasoning` directly,
+or via the helper functions (`output`, `think`, `attachMedia`, `record`).
+
+All recorded data is flushed to the span at `end()`.
+
+## Examples
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+
+try {
+  llm.inputMessages = [{role: 'user', content: prompt}];
+  const resp = await openai.chat.completions.create({...});
+  llm.output(resp.choices[0].message.content ?? '');
+  llm.record({usage: {inputTokens: resp.usage?.prompt_tokens}});
+} finally {
+  llm.end();
+}
+```
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  // ... call the LLM, populate llm.outputMessages / usage ...
+} finally {
+  llm.end();
+}
+```
+
+## Extends
+
+- `SpanBase`
+
+## Properties
+
+### inputMessages
+
+> **inputMessages**: [`Message`](./message)[] = `[]`
+
+Input messages sent to the model. Flushed to `gen_ai.input.messages` on
+`end()`.
+
+***
+
+### model
+
+> `readonly` **model**: `string`
+
+***
+
+### outputMessages
+
+> **outputMessages**: [`Message`](./message)[] = `[]`
+
+Assistant messages returned by the model. Flushed to
+`gen_ai.output.messages` on `end()`.
+
+***
+
+### providerName
+
+> `readonly` **providerName**: `string`
+
+***
+
+### reasoning
+
+> `optional` **reasoning**: [`Reasoning`](./reasoning)
+
+Chain-of-thought content. Folded into the last assistant message as a
+ReasoningPart at serialization time.
+
+***
+
+### usage
+
+> **usage**: [`Usage`](./usage) = `{}`
+
+Token counts and cache stats. Flushed to `gen_ai.usage.*` on `end()`.
+
+## Methods
+
+### ~~addEvent()~~
+
+<Warning>
+  **Deprecated.** Record this data via [setAttributes](#setattributes) instead.
+OpenTelemetry is phasing out the Span Event API (`Span.addEvent`). This
+method still works and existing span-event data stays valid.
+See https://opentelemetry.io/blog/2026/deprecating-span-events/
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Inherited from
+
+`SpanBase.addEvent`
+
+***
+
+### attachMedia()
+
+> **attachMedia**(`opts`): `this`
+
+Stage a media attachment for the LLM call. Pick exactly one of
+ `content` (inline base64 bytes), `uri` (URI reference), or `fileId`
+ (pre-uploaded file id). The attachment is glued onto the last user
+ message in `inputMessages` on `end()`.
+
+#### Parameters
+
+<ParamField path="opts" type="{…} | {…} | {…}" required>
+  See [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality).
+
+  Full type: `{ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; }`
+</ParamField>
+
+#### Returns
+
+`this`
+
+***
+
+### attachMediaUrl()
+
+> **attachMediaUrl**(`url`, `opts`): `this`
+
+Convenience for `attachMedia({uri, modality})`.
+
+#### Parameters
+
+<ParamField path="url" type="string" required />
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="modality" type="Modality" required>
+      See [`Modality`](../type-aliases/modality).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+#### Returns
+
+`this`
+
+***
+
+### end()
+
+> **end**(`opts?`): `void`
+
+Flush accumulated state and close the span. Idempotent. Pass `error` to mark failed; pass `endTime` to backdate the close.
+
+#### Parameters
+
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+#### Returns
+
+`void`
+
+***
+
+### output()
+
+> **output**(`content`): `this`
+
+Append an assistant message to the response.
+
+#### Parameters
+
+<ParamField path="content" type="string" required />
+
+#### Returns
+
+`this`
+
+***
+
+### record()
+
+> **record**(`opts`): `this`
+
+Bulk-set any subset of the mutable fields. Replaces (does not merge).
+Useful for assigning everything at once after a provider call returns.
+
+#### Parameters
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="finishReasons" type="string[]" />
+
+    <ParamField path="inputMessages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="mediaAttachments" type="({…} | {…} | {…})[]">
+      See [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality).
+
+      Full type: `({ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; })[]`
+    </ParamField>
+
+    <ParamField path="outputMessages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="outputType" type="string" />
+
+    <ParamField path="reasoning" type="Reasoning">
+      See [`Reasoning`](./reasoning).
+    </ParamField>
+
+    <ParamField path="responseId" type="string" />
+
+    <ParamField path="responseModel" type="string" />
+
+    <ParamField path="usage" type="Usage">
+      See [`Usage`](./usage).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+#### Returns
+
+`this`
+
+***
+
+### setAttributes()
+
+> **setAttributes**(`attributes`): `this`
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+<ParamField path="attributes" type="Attributes" required />
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+`SpanBase.setAttributes`
+
+***
+
+### startSubagent()
+
+> **startSubagent**(`opts`): [`SubAgent`](./subagent)
+
+Start a child SubAgent span nested under this LLM.
+
+#### Parameters
+
+<ParamField path="opts" type="SubAgentInit" required>
+  See [`SubAgentInit`](./subagentinit).
+</ParamField>
+
+#### Returns
+
+[`SubAgent`](./subagent)
+
+***
+
+### startTool()
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+Start a child Tool span nested under this LLM.
+
+#### Parameters
+
+<ParamField path="opts" type="ToolInit" required>
+  See [`ToolInit`](./toolinit).
+</ParamField>
+
+#### Returns
+
+[`Tool`](./tool)
+
+***
+
+### think()
+
+> **think**(`content`): `this`
+
+Set or extend the model's reasoning/chain-of-thought content. Accumulates
+ into `this.reasoning.content`. Folded into the last assistant message as
+ a `ReasoningPart` at serialization time, matching the Python SDK's
+ on-the-wire shape.
+
+#### Parameters
+
+<ParamField path="content" type="string" required />
+
+#### Returns
+
+`this`

@@ -63,7 +63,10 @@ The primary way to generate reference documentation is through the GitHub Action
 2. Select "Generate Weave references" workflow
 3. Click "Run workflow"
 4. Enter the Weave version:
-   - `latest` - Latest PyPI release (default)
+   - `latest` (default) - Latest PyPI release for the Python SDK; latest
+     `vX.Y.Z-ts` git tag for the TypeScript SDK (plain `vX.Y.Z` tags are
+     Python releases and are skipped, since they can include TypeScript
+     APIs not yet published to npm)
    - `0.51.34` or `v0.51.34` - Specific version
    - Commit SHA - Specific commit
    - Branch name - From a branch
@@ -143,7 +146,8 @@ weave/
         ├── classes/
         ├── functions/
         ├── interfaces/
-        └── type-aliases/
+        ├── type-aliases/
+        └── variables/
 ```
 
 ## Testing Locally
@@ -248,7 +252,11 @@ After generation (either via GitHub Actions or locally):
 
 ### TypeScript SDK Issues
 - Ensure Node.js 18+ is installed
-- If typedoc fails, check for TypeScript compilation errors in the Weave SDK
+- TypeScript compilation errors in the Weave SDK do not fail the build:
+  the typedoc config sets `skipErrorChecking` because upstream dependency
+  conflicts (for example duplicate `@google/genai` versions) can produce
+  type errors that docs generation doesn't need resolved. If typedoc
+  fails outright, look for configuration or plugin errors instead.
 - The script pins specific versions of typedoc that are known to work
 
 ### General Issues

@@ -3,39 +3,19 @@ title: "GetCallsOptions"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / GetCallsOptions
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<div id="table-of-contents">
-  ## 目次
-</div>
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L120" />
 
 <div id="properties">
-  ### プロパティ
+  ## プロパティ
 </div>
-
-* [columns](./getcallsoptions#columns)
-* [expandColumns](./getcallsoptions#expandcolumns)
-* [filter](./getcallsoptions#filter)
-* [includeCosts](./getcallsoptions#includecosts)
-* [includeFeedback](./getcallsoptions#includefeedback)
-* [limit](./getcallsoptions#limit)
-* [offset](./getcallsoptions#offset)
-* [query](./getcallsoptions#query)
-* [sortBy](./getcallsoptions#sortby)
-
-## プロパティ
 
 <div id="columns">
   ### columns
 </div>
 
-• `任意` **columns**: `string`[]
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:101](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L101)
+> `optional` **columns**: `string`[]
 
 ***
 
@@ -43,13 +23,7 @@ description: "TypeScript SDK リファレンス"
   ### expandColumns
 </div>
 
-• `任意` **expandColumns**: `string`[]
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L102)
+> `optional` **expandColumns**: `string`[]
 
 ***
 
@@ -57,13 +31,7 @@ description: "TypeScript SDK リファレンス"
   ### filter
 </div>
 
-• `任意` **フィルター**: [`CallsFilter`](./callsfilter)
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L94)
+> `optional` **filter**: [`CallsFilter`](./callsfilter)
 
 ***
 
@@ -71,13 +39,7 @@ description: "TypeScript SDK リファレンス"
   ### includeCosts
 </div>
 
-• `任意` **includeCosts**: `boolean`
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:96](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L96)
+> `optional` **includeCosts**: `boolean`
 
 ***
 
@@ -85,13 +47,7 @@ description: "TypeScript SDK リファレンス"
   ### includeFeedback
 </div>
 
-• `任意` **includeFeedback**: `boolean`
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:97](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L97)
+> `optional` **includeFeedback**: `boolean`
 
 ***
 
@@ -99,13 +55,7 @@ description: "TypeScript SDK リファレンス"
   ### limit
 </div>
 
-• `任意` **limit**: `数値`
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L98)
+> `optional` **limit**: `数値`
 
 ***
 
@@ -113,27 +63,15 @@ description: "TypeScript SDK リファレンス"
   ### offset
 </div>
 
-• `任意` **offset**: `数値`
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:99](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L99)
+> `optional` **offset**: `数値`
 
 ***
 
 <div id="query">
-  ### query
+  ### クエリする
 </div>
 
-• `任意` **query**: [`Query`](./query)
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:95](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L95)
+> `optional` **クエリする**: [`Query`](./query)
 
 ***
 
@@ -141,10 +79,4 @@ description: "TypeScript SDK リファレンス"
   ### sortBy
 </div>
 
-• `任意` **sortBy**: [`SortBy`](./sortby)[]
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L100)
+> `optional` **sortBy**: [`SortBy`](./sortby)[]

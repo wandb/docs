@@ -66,11 +66,23 @@ W&amp;B에서는 [W&amp;B 감사 로그](../monitoring-usage/audit-logging)를 b
   ## 사전 서명된 URL을 요청한 사용자 확인
 </div>
 
-감사 로그를 검토할 때 사전 서명된 URL 활동을 특정 W&amp;B 사용자와 연관시키려면 W&amp;B가 각 URL에 추가하는 쿼리 매개변수를 확인하세요. W&amp;B가 사전 서명된 URL을 반환할 때 URL의 쿼리 매개변수에는 요청한 사용자의 사용자 이름이 포함됩니다:
+감사 로그를 검토할 때 사전 서명된 URL 활동을 특정 W&amp;B 사용자와 연관시키려면 W&amp;B가 각 URL에 추가하는 공급자별 쿼리 매개변수를 확인하세요:
 
-| 저장소 공급자                     | 서명된 URL 쿼리 매개변수 |
-| --------------------------- | --------------- |
-| CoreWeave AI Object Storage | `X-User`        |
-| AWS S3                      | `X-User`        |
-| Google Cloud Storage        | `X-User`        |
-| Azure Blob Storage          | `scid`          |
+| 저장소 공급자                     | 쿼리 매개변수  | 값                              |
+| --------------------------- | -------- | ------------------------------ |
+| CoreWeave AI Object Storage | `X-User` | W&amp;B 사용자 이름                 |
+| AWS S3                      | `X-User` | W&amp;B 사용자 이름                 |
+| Google Cloud Storage        | `X-User` | W&amp;B 사용자 이름                 |
+| Azure Blob Storage          | `scid`   | W&amp;B 사용자 이름에서 파생된 결정론적 UUID |
+
+<div id="correlate-azure-blob-storage-activity-with-a-user">
+  ### Azure Blob Storage 활동을 사용자와 연결하기
+</div>
+
+Azure에서는 `scid`가 GUID여야 하므로 W&amp;B는 사용자 이름을 직접 포함하는 대신 사용자 이름에서 안정적인 UUID를 파생합니다. 이 UUID에는 사용자 이름이 포함되지 않으며 디코딩할 수 없습니다. Azure 저장소 활동을 사용자와 연결하려면 W&amp;B 사용자 이름과 해당 `scid` 값 간의 매핑을 계산하거나 유지하세요.
+
+Azure는 저장소 버킷이 관리 ID로 구성된 경우 W&amp;B가 생성하는 사용자 위임 SAS URL에만 `scid`를 포함합니다. 공유 키 SAS URL에는 `scid`가 포함되지 않습니다.
+
+<Note>
+  W&amp;B는 기본적으로 사전 서명된 URL에 귀속 매개변수를 추가합니다. 모든 저장소 공급자에 대해 귀속을 비활성화하려면 `GORILLA_BUCKET_ATTRIBUTION_DISABLED` 환경 변수를 `true`로 설정하세요. 귀속을 비활성화하면 W&amp;B는 `scid`와 `X-User`를 생략하므로 사전 서명된 URL 활동을 개별 사용자와 연결할 수 없습니다.
+</Note>

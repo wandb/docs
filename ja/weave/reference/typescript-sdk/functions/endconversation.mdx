@@ -3,46 +3,44 @@ title: "endConversation"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="endconversation">
-  # endConversation
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **endConversation**(`opts?`): `void`
+```ts
+endConversation(opts?: object): void
+```
 
-現在のConversationを終了します。アクティブなConversationがない場合、この操作は何も行いません。
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L159" />
+
+現在の会話を終了します。実行中の会話がない場合は no-op です。
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名       | タイプ              |
-| :------ | :--------------- |
-| `opts?` | `SpanEndOptions` |
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
 `void`
 
-`例`
+<div id="examples">
+  ## 例
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.endConversation();
 ```
 
-`例`
-
 ```ts twoslash
 // @noErrors
 weave.endConversation({endTime: new Date('2026-05-29T10:00:01.700Z')});
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/genai/api.ts:159](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L159)
-
-***

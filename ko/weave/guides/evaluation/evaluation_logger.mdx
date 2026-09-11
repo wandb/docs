@@ -4,16 +4,14 @@ description: "Python 및 TypeScript 코드에서 평가 데이터를 기록하�
 keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가", "리치 미디어 기록"]
 ---
 
-이 가이드에서는 `EvaluationLogger`를 사용해 기존 Python 또는 TypeScript 코드에서 예측과 점수를 기록하는 방법을 보여줍니다. 이를 통해 전체 데이터셋과 Scorer 모음을 먼저 정의하지 않고도 Weave에서 모델 성능을 평가할 수 있습니다.
-
-이 접근 방식은 전체 데이터셋이나 모든 scorer가 처음부터 정의되어 있지 않을 수 있는 복잡한 워크플로에서 특히 유용합니다.
+이 가이드에서는 `EvaluationLogger`를 사용해 기존 Python 또는 TypeScript 코드에서 예측과 점수를 기록하는 방법을 보여줍니다. 이를 통해 전체 데이터셋과 Scorer 모음을 먼저 정의하지 않고도 Weave에서 모델 성능을 평가할 수 있습니다. 데이터셋이나 scorer가 처음부터 정의되어 있지 않거나 워크플로가 실행되는 동안 평가 데이터를 점진적으로 기록해야 하는 경우 이 접근 방식을 사용하세요.
 
 미리 정의된 `Dataset`과 `Scorer` 객체 목록이 필요한 표준 `Evaluation` 객체와 달리, `EvaluationLogger`를 사용하면 개별 예측과 그에 해당하는 점수를 사용할 수 있게 되는 대로 점진적으로 기록할 수 있습니다.
 
 <Info>
   **더 체계적인 평가를 선호하시나요?**
 
-  미리 정의된 데이터셋과 scorer를 갖춘, 더 구조화된 평가 프레임워크를 원한다면 [Weave의 표준 Evaluation 프레임워크](../core-types/evaluations)를 참조하세요.
+  미리 정의된 데이터셋과 scorer를 갖춘, 더 구조화된 평가 프레임워크를 원한다면 [표준 Evaluation 프레임워크](../core-types/evaluations)를 참조하세요.
 
   `EvaluationLogger`는 유연성을 제공하고, 표준 프레임워크는 구조와 가이드를 제공합니다.
 </Info>
@@ -26,7 +24,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 
 1. *로거 초기화:* `EvaluationLogger` 인스턴스를 생성하고, 필요에 따라 `model` 및 `dataset`에 대한 메타데이터를 전달합니다. 생략하면 기본값이 사용됩니다.
    <Note>
-     LLM 호출(예: OpenAI)의 토큰 사용량과 비용을 수집하려면 LLM을 호출하기 &#42;&#42;전에 `EvaluationLogger`를 초기화하세요.
+     LLM 호출(예: OpenAI)의 토큰 사용량과 비용을 수집하려면 LLM을 호출하기 **전에 `EvaluationLogger`를 초기화하세요.
      먼저 LLM을 호출하고 나중에 예측을 로깅하면 토큰 및 비용 데이터는 수집되지 않습니다.
    </Note>
 2. *예측 로깅:* 시스템의 각 입력/출력 쌍에 대해 `log_prediction()`을 호출합니다.
@@ -42,11 +40,11 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
   ## 기본 예제
 </div>
 
-다음 예제에서는 `EvaluationLogger`를 사용해 기존 코드에 인라인으로 예측과 점수를 로깅하는 방법을 보여줍니다.
+다음 예제에서는 `EvaluationLogger`를 사용해 기존 코드에 인라인으로 예측과 점수를 로깅하는 방법을 보여줍니다. `[YOUR-TEAM]/[YOUR-PROJECT]`를 W&amp;B entity와 프로젝트로 바꾸세요.
 
 <Tabs>
   <Tab title="Python">
-    `user_model` 모델 함수는 입력 목록에 대해 정의되며 적용됩니다. 각 예제마다:
+    `user_model` 함수는 입력 목록에 대해 정의되며 적용됩니다. 각 예제마다:
 
     * 입력과 출력은 `log_prediction`을 사용해 로깅됩니다.
     * 정확성 점수(`correctness_score`)는 `log_score`를 통해 로깅됩니다.
@@ -59,7 +57,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
     from openai import OpenAI
     from weave import EvaluationLogger
 
-    weave.init('your-team/your-project')
+    weave.init('[YOUR-TEAM]/[YOUR-PROJECT]')
 
     # 토큰 추적을 위해 모델 호출 전에 EvaluationLogger를 초기화하세요
     eval_logger = EvaluationLogger(
@@ -91,7 +89,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
         model_output = user_model(**inputs) # 입력을 kwargs로 전달합니다
 
         # 예측 입력과 출력을 로깅합니다
-        pred_logger = eval_logger.log_prediction(
+        prediction = eval_logger.log_prediction(
             inputs=inputs,
             output=model_output
         )
@@ -99,13 +97,13 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
         # 이 예측에 대한 점수를 계산하고 로깅합니다
         expected = sample["expected"]
         correctness_score = model_output == expected
-        pred_logger.log_score(
+        prediction.log_score(
             scorer="correctness", # 스코어러의 단순 문자열 이름
             score=correctness_score
         )
 
         # 이 특정 예측에 대한 로깅을 완료합니다
-        pred_logger.finish()
+        prediction.finish()
 
     # 전체 평가에 대한 최종 요약을 로깅합니다.
     # Weave는 위에서 로깅된 'correctness' 점수를 자동으로 집계합니다.
@@ -137,7 +135,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
     import weave, {EvaluationLogger} from 'weave';
     import OpenAI from 'openai';
 
-    await weave.init('your-team/your-project');
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
     // 토큰 추적을 보장하려면 모델 호출 전에 EvaluationLogger를 초기화하세요
     const evalLogger = new EvaluationLogger({
@@ -169,16 +167,16 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
       const modelOutput = await userModel(inputs.a, inputs.b);
 
       // Fire-and-forget: logPrediction에 await 불필요
-      const scoreLogger = evalLogger.logPrediction(inputs, modelOutput);
+      const prediction = evalLogger.logPrediction(inputs, modelOutput);
 
       // 이 예측에 대한 점수 계산 및 로깅
       const correctnessScore = modelOutput === sample.expected;
 
       // Fire-and-forget: logScore에 await 불필요
-      scoreLogger.logScore('correctness', correctnessScore);
+      prediction.logScore('correctness', correctnessScore);
 
       // Fire-and-forget: finish에 await 불필요
-      scoreLogger.finish();
+      prediction.finish();
     }
 
     // logSummary는 내부적으로 보류 중인 모든 오퍼레이션이 완료될 때까지 기다립니다
@@ -195,11 +193,11 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
     ```typescript twoslash lines
     // @noErrors
     // logPrediction 대신 logPredictionAsync 사용
-    const scoreLogger = await evalLogger.logPredictionAsync(inputs, modelOutput);
+    const prediction = await evalLogger.logPredictionAsync(inputs, modelOutput);
 
     // 각 오퍼레이션을 await
-    await scoreLogger.logScore('correctness', correctnessScore);
-    await scoreLogger.finish();
+    await prediction.logScore('correctness', correctnessScore);
+    await prediction.finish();
     ```
   </Tab>
 </Tabs>
@@ -214,7 +212,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 import weave
 from weave import EvaluationLogger
 
-weave.init('your-team-name/your-project-name')
+weave.init('[YOUR-TEAM]/[YOUR-PROJECT]')
 
 eval_logger = EvaluationLogger(
     model="my_model",
@@ -242,10 +240,10 @@ eval_logger.log_summary({"avg_score": 1.0})
 
 이전 `log_example()` 호출은 다음과 동일합니다:
 
-```python
-pred = eval_logger.log_prediction(inputs=inputs, output=output)
-pred.log_score(scorer="correctness", score=output == sample['expected'])
-pred.finish()
+```python lines
+prediction = eval_logger.log_prediction(inputs=inputs, output=output)
+prediction.log_score(scorer="correctness", score=output == sample['expected'])
+prediction.finish()
 ```
 
 <Note>
@@ -256,7 +254,7 @@ pred.finish()
   ## 고급 활용
 </div>
 
-`EvaluationLogger`는 더 복잡한 평가 시나리오를 지원할 수 있도록 기본 워크플로를 넘어서는 유연한 사용 패턴을 제공합니다. 다음 섹션에서는 자동 리소스 관리를 위한 컨텍스트 매니저 사용, 모델 실행과 로깅의 분리, 리치 미디어 데이터 처리, 그리고 여러 모델 평가를 나란히 비교하는 등 고급 기법을 설명합니다.
+`EvaluationLogger`는 더 복잡한 평가 시나리오를 지원할 수 있도록 기본 워크플로를 넘어서는 유연한 사용 패턴을 제공합니다. 다음 섹션에서는 자동 리소스 관리를 위한 컨텍스트 매니저 사용, 에이전트 트레이스를 평가 행에 연결, 모델 실행과 로깅의 분리, 리치 미디어 데이터 처리, 그리고 여러 모델 평가를 나란히 비교하는 등 고급 기법을 설명합니다.
 
 <div id="use-context-managers">
   ### 컨텍스트 관리자 사용
@@ -288,7 +286,7 @@ pred.finish()
     user_prompt = "Tell me a joke"
 
     # prediction에 컨텍스트 관리자 사용 - finish()를 호출할 필요 없음
-    with ev.log_prediction(inputs={"user_prompt": user_prompt}) as pred:
+    with ev.log_prediction(inputs={"user_prompt": user_prompt}) as prediction:
         # 컨텍스트 내에서 모델 호출 수행
         result = oai.chat.completions.create(
             model="gpt-4o-mini",
@@ -296,19 +294,19 @@ pred.finish()
         )
 
         # 모델 호출 후 output 설정
-        pred.output = result.choices[0].message.content
+        prediction.output = result.choices[0].message.content
 
         # 단순한 점수 로깅
-        pred.log_score("correctness", 1.0)
-        pred.log_score("ambiguity", 0.3)
+        prediction.log_score("correctness", 1.0)
+        prediction.log_score("ambiguity", 0.3)
         
         # LLM 호출이 필요한 점수에는 중첩된 컨텍스트 관리자 사용
-        with pred.log_score("llm_judge") as score:
+        with prediction.log_score("llm_judge") as score:
             judge_result = oai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "Rate how funny the joke is from 1-5"},
-                    {"role": "user", "content": pred.output},
+                    {"role": "user", "content": prediction.output},
                 ],
             )
             # 계산 후 점수 값 설정
@@ -333,7 +331,7 @@ pred.finish()
     import OpenAI from 'openai';
     import {EvaluationLogger} from 'weave/evaluationLogger';
 
-    await weave.init('your-team/your-project');
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
     const oai = new OpenAI();
 
     // 로거 초기화
@@ -354,11 +352,11 @@ pred.finish()
     const modelOutput = result.choices[0].message.content;
 
     // output과 함께 prediction 로깅
-    const pred = ev.logPrediction({user_prompt: userPrompt}, modelOutput);
+    const prediction = ev.logPrediction({user_prompt: userPrompt}, modelOutput);
 
     // 단순한 점수 로깅
-    pred.logScore('correctness', 1.0);
-    pred.logScore('ambiguity', 0.3);
+    prediction.logScore('correctness', 1.0);
+    prediction.logScore('ambiguity', 0.3);
 
     // LLM judge 점수의 경우 호출을 수행한 뒤 결과를 로깅
     const judgeResult = await oai.chat.completions.create({
@@ -368,10 +366,10 @@ pred.finish()
         {role: 'user', content: modelOutput || ''},
       ],
     });
-    pred.logScore('llm_judge', judgeResult.choices[0].message.content);
+    prediction.logScore('llm_judge', judgeResult.choices[0].message.content);
 
     // 점수 기록이 끝나면 finish를 명시적으로 호출
-    pred.finish();
+    prediction.finish();
 
     await ev.logSummary({avg_score: 1.0});
     ```
@@ -382,31 +380,259 @@ pred.finish()
   </Tab>
 </Tabs>
 
+<div id="link-agent-traces-to-evaluations">
+  ### 에이전트 트레이스를 평가에 연결하기
+</div>
+
+Python에서는 트레이싱되는 각 에이전트 호출을 `log_prediction()` 컨텍스트 내에서 실행하세요. `EvaluationLogger`는 해당 컨텍스트에서 생성된 span에 평가 run, 예시 및 trial 메타데이터를 설정하고, Weave는 이 메타데이터를 사용해 트레이스를 평가 결과에 연결합니다.
+
+<Note>
+  평가와 에이전트 span 간의 자동 연결은 Python에서만 사용할 수 있습니다. TypeScript `EvaluationLogger`와 `Evaluation.evaluate()`는 에이전트 span을 연결하는 활성 평가 범위를 생성하지 않습니다. TypeScript에서는 이 섹션에서 설명하는 OTel 속성을 직접 설정해야만 span을 연결할 수 있으며, 두 Call ID를 모두 이미 알고 있는 경우에만 가능합니다.
+</Note>
+
+다음 예시는 [OpenAI Agents SDK](../integrations/agents/openai-agents-sdk)를 사용합니다. 이 패턴은 Weave가 트레이싱하는 다른 에이전트 프레임워크에도 동일하게 적용됩니다. `[YOUR-TEAM]/[YOUR-PROJECT]`를 W&amp;B entity 및 프로젝트로 바꾸세요.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {18-28}
+    import weave
+    from agents import Agent, Runner
+    from weave import EvaluationLogger
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    agent = Agent(
+        name="Support agent",
+        instructions="Answer with only the city name.",
+    )
+    eval_logger = EvaluationLogger(
+        name="support-agent-eval",
+        model="support-agent",
+        dataset="support-prompts",
+    )
+    question = "What is the capital of France?"
+
+    with eval_logger.log_prediction(
+        inputs={"prompt": question},
+        example_id="capital-of-france",
+    ) as prediction:
+        result = Runner.run_sync(agent, question)
+        output = str(result.final_output or "")
+        prediction.output = output
+        prediction.log_score(
+            scorer="contains_expected_answer",
+            score="paris" in output.lower(),
+        )
+
+    eval_logger.log_summary()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    이 기능은 TypeScript에서 사용할 수 없습니다.
+  </Tab>
+</Tabs>
+
+예측 컨텍스트가 시작되기 전이나 종료된 후에 에이전트가 실행되면 Weave는 트레이스를 기록하지만 평가 결과에 연결하지 않습니다.
+
+앞의 코드 예시처럼 에이전트가 `log_prediction()` 컨텍스트 내에서 실행되고 Weave 인테그레이션이 이를 트레이싱하면 Weave는 트레이스를 평가 결과에 자동으로 연결합니다. 그렇지 않은 경우에는 에이전트 span에 두 연결 ID를 직접 설정해야 합니다. 설정 방법은 span이 생성되는 위치에 따라 다릅니다.
+
+* **동일한 프로세스, 자체 계측:** 각 span에 속성을 직접 설정합니다.
+* **별도의 서비스:** 해당 서비스에 두 ID를 전달한 후, 서비스가 생성하는 span에 설정합니다.
+
+<div id="link-spans-you-instrument-yourself">
+  #### 직접 계측한 span 연결
+</div>
+
+`log_prediction()` 컨텍스트 내에서 span이 생성되면 `EvaluationLogger`가 모든 속성을 자동으로 설정합니다. 하지만 자체 OpenTelemetry(OTel) 계측을 통해 span을 전송하는 경우, 연결하려는 각 span에 속성을 직접 설정해야 합니다. 평가에는 다음 속성을 설정할 수 있습니다.
+
+| 속성                                     | 유형      | 설명                                                                                                                        |
+| -------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `weave.eval.run_id`                    | string  | (필수) 평가 run(`Evaluation.evaluate`)의 Call ID입니다. 평가 수준의 **View spans** 결과에 span을 포함하려면 필요합니다.                              |
+| `weave.eval.predict_and_score_call_id` | string  | (필수) 특정 결과와 trial에 대한 `Evaluation.predict_and_score` 오퍼레이션의 Call ID입니다. span을 해당 결과에 연결하려면 `weave.eval.run_id`와 함께 설정합니다. |
+| `weave.eval.kind`                      | string  | (선택 사항) 평가 범주입니다. Weave는 에이전트 평가에는 `agent`, 표준 평가에는 `standard`를 사용합니다.                                                    |
+| `weave.eval.row_digest`                | string  | (선택 사항) 평가된 데이터셋 행을 식별하는 안정적인 digest입니다. 값을 제공하지 않으면 `EvaluationLogger`가 예측 입력에서 이 값을 파생합니다.                              |
+| `weave.eval.example_id`                | string  | (선택 사항) 호출자가 제공하는 평가된 예시의 식별자입니다.                                                                                         |
+| `weave.eval.trial_index`               | integer | (선택 사항) 데이터셋 행에 대한 0부터 시작하는 trial 번호입니다.                                                                                  |
+| `weave.eval.evaluation_name`           | string  | (선택 사항) 사람이 읽을 수 있는 평가 이름입니다.                                                                                             |
+| `weave.eval.project_id`                | string  | (선택 사항) Weave SDK에서 설정한 프로젝트 컨텍스트입니다. 이 속성은 span을 라우팅하거나 연결하지 않습니다. 대신 OTel 리소스에서 대상 프로젝트를 구성하세요.                         |
+
+`/agents/otel/v1/traces` 엔드포인트를 통해 평가와 동일한 Weave 프로젝트로 span을 전송하세요. OTel span 속성은 부모 span에서 자식 span으로 전파되지 않으므로 연결하려는 모든 span에 속성을 설정하세요.
+
+엔드포인트에 대한 자세한 내용은 다음을 참조하세요.
+
+* 기존 OTel 파이프라인에서 span을 전송하려면 [OpenTelemetry span을 Agents 뷰로 전송](/ko/weave/guides/tracking/trace-agents-otel)을 참조하세요.
+* 엔드포인트 사양은 [GenAI 트레이스 내보내기](/ko/weave/reference/service-api/agents/export-genai-trace)를 참조하세요.
+
+`weave.eval.run_id`와 `weave.eval.predict_and_score_call_id`만 평가 및 결과 연결을 설정합니다. 행 digest, 예시 ID, trial index, kind, 평가 이름은 컨텍스트를 추가하고 필터링을 지원하지만 자체적으로 연결을 만들지는 않습니다. 두 연결 속성에는 OTel 트레이스 또는 span ID가 아닌 Weave Call ID를 사용하세요.
+
+[평가 결과 쿼리 API](/ko/weave/reference/service-api/eval-results/eval-results-query)에서 두 ID를 모두 획득할 수 있습니다. 응답의 각 평가에는 `evaluation_call_id`가 있고, 각 trial에는 `predict_and_score_call_id`가 있습니다.
+
+다음 예시에서는 `span`이 에이전트 오퍼레이션의 OTel span이라고 가정합니다. 각 대괄호 값을 해당 span이 속한 평가 run 및 결과의 메타데이터로 바꾸세요.
+
+TypeScript 예시는 예측 범위에 의존하지 않고 OTel 속성을 직접 설정하므로 작동합니다. 두 Call ID를 이미 사용할 수 있는 경우에만 사용하세요.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    span.set_attributes(
+        {
+            "weave.eval.run_id": "[EVALUATION-RUN-CALL-ID]",
+            "weave.eval.predict_and_score_call_id": "[PREDICT-AND-SCORE-CALL-ID]",
+            "weave.eval.kind": "agent",
+            "weave.eval.row_digest": "[ROW-DIGEST]",
+            "weave.eval.example_id": "[EXAMPLE-ID]",
+            "weave.eval.trial_index": 0,
+            "weave.eval.evaluation_name": "[EVALUATION-NAME]",
+        }
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    span.setAttributes({
+      'weave.eval.run_id': '[EVALUATION-RUN-CALL-ID]',
+      'weave.eval.predict_and_score_call_id': '[PREDICT-AND-SCORE-CALL-ID]',
+      'weave.eval.kind': 'agent',
+      'weave.eval.row_digest': '[ROW-DIGEST]',
+      'weave.eval.example_id': '[EXAMPLE-ID]',
+      'weave.eval.trial_index': 0,
+      'weave.eval.evaluation_name': '[EVALUATION-NAME]',
+    });
+    ```
+  </Tab>
+</Tabs>
+
+<div id="link-an-agent-that-runs-in-a-separate-service">
+  #### 별도의 서비스에서 실행되는 에이전트 연결
+</div>
+
+에이전트가 별도의 서비스에서 실행되는 경우 평가 프로세스와 에이전트는 메모리를 공유하지 않습니다. Weave는 연결 속성을 자동으로 설정할 수 없으며, 에이전트의 span 객체에 직접 액세스할 수도 없습니다. 대신 평가 프로세스에서 두 Call ID를 가져와 서비스로 전송한 후, այնտեղ에서 생성된 span에 설정하세요. 이 분산 `EvaluationLogger` 패턴은 Python에서만 사용할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    `log_prediction()` 컨텍스트에 진입하면 컨텍스트 본문이 실행되기 전에 `Evaluation.predict_and_score` Call이 생성됩니다. 이 컨텍스트는 두 Call ID를 모두 제공하는 `ScoreLogger`를 반환합니다(다음 예시에서는 `prediction`에 바인딩됨). 서비스가 응답할 때까지 컨텍스트를 열어 두어 동일한 평가 결과에 출력과 점수를 기록할 수 있도록 하세요.
+
+    평가 프로세스에서 `[AGENT-SERVICE-URL]`을 에이전트를 실행하는 엔드포인트로 바꾸고, `[YOUR-TEAM]/[YOUR-PROJECT]`도 변경하세요.
+
+    ```python lines {16-37}
+    import requests
+    import weave
+    from weave import EvaluationLogger
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    eval_logger = EvaluationLogger(
+        name="support-agent-eval",
+        model="support-agent",
+        dataset="support-prompts",
+    )
+    question = "What is the capital of France?"
+    example_id = "capital-of-france"
+    trial_index = 0
+
+    with eval_logger.log_prediction(
+        inputs={"prompt": question},
+        example_id=example_id,
+        trial_index=trial_index,
+    ) as prediction:
+        eval_context = {
+            "weave.eval.run_id": prediction.evaluate_call.id,
+            "weave.eval.predict_and_score_call_id": (
+                prediction.predict_and_score_call.id
+            ),
+            "weave.eval.kind": "agent",
+            "weave.eval.example_id": example_id,
+            "weave.eval.trial_index": trial_index,
+            "weave.eval.evaluation_name": "support-agent-eval",
+        }
+        response = requests.post(
+            "[AGENT-SERVICE-URL]",
+            json={"prompt": question, "eval_context": eval_context},
+            timeout=60,
+        )
+        response.raise_for_status()
+        prediction.output = response.json()["output"]
+
+    eval_logger.log_summary()
+    ```
+
+    에이전트 서비스에서는 수신한 속성을 결과와 연결하려는 모든 에이전트 span에 복사하세요. 다음 함수는 원시 OTel span을 사용하여 수신 측을 보여 줍니다. 서비스가 평가와 동일한 `[YOUR-TEAM]/[YOUR-PROJECT]`로 span을 내보내도록 구성하세요.
+
+    ```python lines {16,22}
+    from typing import Any
+
+    import weave
+    from agents import Agent, Runner
+    from opentelemetry import trace
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+    tracer = trace.get_tracer(__name__)
+    agent = Agent(
+        name="Support agent",
+        instructions="Answer with only the city name.",
+    )
+
+
+    def run_agent(request_body: dict[str, Any]) -> dict[str, str]:
+        eval_context = request_body["eval_context"]
+        with tracer.start_as_current_span(
+            "invoke_agent Support agent",
+            attributes={
+                "gen_ai.operation.name": "invoke_agent",
+                "gen_ai.agent.name": "Support agent",
+                **eval_context,
+            },
+        ):
+            result = Runner.run_sync(agent, request_body["prompt"])
+            return {"output": str(result.final_output or "")}
+    ```
+
+    이 예시의 래퍼 span은 평가 결과에 연결됩니다. 에이전트 프레임워크에서 추가 span을 생성하는 경우 해당 span에도 `eval_context`를 복사하세요. OTel은 래퍼 span의 속성을 상속하지 않습니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    이 기능은 TypeScript에서 사용할 수 없습니다.
+  </Tab>
+</Tabs>
+
+<div id="view-linked-agent-spans-from-your-evaluations">
+  #### evaluation에서 연결된 에이전트 span 보기
+</div>
+
+Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
+
+1. [wandb.ai](https://wandb.ai)로 이동합니다.
+2. Weave 사이드바 메뉴에서 **Evals**를 클릭합니다.
+3. 평가 run을 선택합니다.
+4. 열리는 evaluation 세부정보 패널에서 **Evaluation** 탭의 **View spans**를 클릭합니다. 해당 evaluation으로 필터링된 **Spans** 탭이 표시된 **Agents** 페이지가 열립니다.
+
 <div id="link-to-an-existing-dataset">
   ### 기존 데이터셋에 연결하기
 </div>
 
 원시 데이터셋을 `log_prediction`에 `inputs`로 전달하면, Weave는 평가 run이 실행될 때마다 데이터를 다시 임포트합니다. 그 결과 중복 데이터가 저장되며, 데이터셋이 크거나 많은 평가에서 이를 재사용하는 경우 저장 공간이 낭비될 수 있습니다.
 
-이 중복을 방지하려면 평가를 실행하기 전에 먼저 데이터셋을 Weave에 게시한 다음, 게시된 데이터셋의 행을 `inputs`로 전달하세요. 그러면 Weave는 데이터를 다시 임포트하는 대신 내부 참조를 사용해 게시된 행 참조를 해석합니다. 이 방식을 사용하면 표준 [Evaluation 프레임워크](../core-types/evaluations)와 동일하게 연결된 환경을 사용할 수 있으며, 각 예측은 Weave UI의 특정 데이터셋 행에 다시 연결됩니다.
+이 중복을 방지하려면 평가를 실행하기 전에 먼저 데이터셋을 Weave에 게시한 다음, 게시된 데이터셋의 행을 `inputs`로 전달하세요. 그러면 Weave는 데이터를 다시 임포트하는 대신 내부 참조를 사용해 게시된 행 참조를 해석합니다. 이 방식을 사용하면 표준 Evaluation 프레임워크와 동일하게 연결된 환경을 사용할 수 있으며, 각 예측은 Weave UI의 특정 데이터셋 행에 다시 연결됩니다.
 
 다음 예제에서는 데이터셋을 게시하고 이를 `EvaluationLogger`에 연결한 뒤, 다른 데이터셋과 마찬가지로 조회하고 순회합니다.
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
     from weave import EvaluationLogger
 
-    weave.init("your-team-name/your-project-name")
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
     # 데이터셋 게시(한 번만 수행하면 됨)
     dataset = weave.Dataset(
         name="my_eval_dataset",
         rows=[
-          {"question": "What is the capitol of France?", "expected": "Paris"},
+          {"question": "What is the capital of France?", "expected": "Paris"},
           {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
-          {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
+          {"question": "In which country is Mount Fuji?", "expected": "Japan"},
         ],
     )
     weave.publish(dataset)
@@ -417,19 +643,19 @@ pred.finish()
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash
+    ```typescript twoslash lines
     // @noErrors
     import weave, {EvaluationLogger, Dataset} from 'weave';
 
-    await weave.init('your-team-name/your-project-name');
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
     // 데이터셋 게시(한 번만 수행하면 됨)
     const dataset = new Dataset({
       name: 'my_eval_dataset',
       rows: [
-        {"question": "What is the capitol of France?", "expected": "Paris"},
+        {"question": "What is the capital of France?", "expected": "Paris"},
         {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
-        {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
+        {"question": "In which country is Mount Fuji?", "expected": "Japan"},
       ],
     });
     const datasetRef = await dataset.save();
@@ -457,11 +683,11 @@ pred.finish()
 
     # 토큰 추적을 위해 모델 출력(예: OpenAI Call)은 로거 초기화 후에 발생해야 합니다
     outputs = [your_output_generator(**inputs) for inputs in your_dataset]
-    preds = [ev.log_prediction(inputs, output) for inputs, output in zip(your_dataset, outputs)]
-    for pred, output in zip(preds, outputs):
-        pred.log_score(scorer="greater_than_5_scorer", score=output > 5)
-        pred.log_score(scorer="greater_than_7_scorer", score=output > 7)
-        pred.finish()
+    predictions = [ev.log_prediction(inputs, output) for inputs, output in zip(your_dataset, outputs)]
+    for prediction, output in zip(predictions, outputs):
+        prediction.log_score(scorer="greater_than_5_scorer", score=output > 5)
+        prediction.log_score(scorer="greater_than_7_scorer", score=output > 7)
+        prediction.finish()
 
     ev.log_summary()
     ```
@@ -487,16 +713,16 @@ pred.finish()
     );
 
     // Fire-and-forget: 기다리지 않고 모든 예측을 처리합니다
-    const preds = yourDataset.map((inputs, i) =>
+    const predictions = yourDataset.map((inputs, i) =>
       ev.logPrediction(inputs, outputs[i])
     );
 
-    preds.forEach((pred, i) => {
+    predictions.forEach((prediction, i) => {
       const output = outputs[i];
       // Fire-and-forget: await가 필요하지 않습니다
-      pred.logScore('greater_than_5_scorer', output > 5);
-      pred.logScore('greater_than_7_scorer', output > 7);
-      pred.finish();
+      prediction.logScore('greater_than_5_scorer', output > 5);
+      prediction.logScore('greater_than_7_scorer', output > 7);
+      prediction.finish();
     });
 
     // logSummary는 보류 중인 모든 오퍼레이션이 끝날 때까지 기다립니다
@@ -574,9 +800,9 @@ pred.finish()
 
     for inputs in rich_media_dataset:
         output = your_output_generator(**inputs)
-        pred = ev.log_prediction(inputs, output)
-        pred.log_score(scorer="greater_than_5_scorer", score=output["result"] > 5)
-        pred.log_score(scorer="greater_than_7_scorer", score=output["result"] > 7)
+        prediction = ev.log_prediction(inputs, output)
+        prediction.log_score(scorer="greater_than_5_scorer", score=output["result"] > 5)
+        prediction.log_score(scorer="greater_than_7_scorer", score=output["result"] > 7)
 
     ev.log_summary()
     ```
@@ -590,7 +816,7 @@ pred.finish()
     import weave, {EvaluationLogger} from 'weave';
     import * as fs from 'fs';
 
-    await weave.init('your-team/your-project');
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
     // 파일에서 이미지와 오디오를 로드합니다
     const richMediaDataset = [
@@ -627,10 +853,10 @@ pred.finish()
       const output = await yourOutputGenerator(inputs);
 
       // 입력과 출력 모두에 리치 미디어를 포함해 예측을 로깅합니다
-      const pred = ev.logPrediction(inputs, output);
-      pred.logScore('greater_than_5_scorer', output.result > 5);
-      pred.logScore('greater_than_7_scorer', output.result > 7);
-      pred.finish();
+      const prediction = ev.logPrediction(inputs, output);
+      prediction.logScore('greater_than_5_scorer', output.result > 5);
+      prediction.logScore('greater_than_7_scorer', output.result > 7);
+      prediction.finish();
     }
 
     await ev.logSummary();
@@ -645,10 +871,10 @@ pred.finish()
 `EvaluationLogger`를 사용하면 Weave UI에서 여러 평가를 나란히 기록하고 비교할 수 있습니다. 이는 동일한 데이터셋에서 서로 다른 모델의 성능을 평가하는 데 유용합니다.
 
 1. 다음 코드 샘플을 실행합니다.
-2. Weave UI에서 `Evals` 탭으로 이동합니다.
-3. 비교하려는 eval을 선택합니다.
-4. **Compare** 버튼을 클릭합니다. Compare 뷰에서 다음 작업을 할 수 있습니다.
-   * 추가하거나 제거할 Evals 선택.
+2. Weave UI에서 **Evals** 탭을 엽니다.
+3. 비교하려는 평가를 선택합니다.
+4. **Compare**를 클릭합니다. Compare 뷰에서 다음 작업을 할 수 있습니다.
+   * 추가하거나 제거할 평가 선택.
    * 표시하거나 숨길 메트릭 선택.
    * 특정 예제를 페이지별로 살펴보며, 주어진 데이터셋에서 동일한 입력에 대해 서로 다른 모델이 어떻게 수행되었는지 확인.
 
@@ -676,11 +902,11 @@ pred.finish()
         )
         for inputs in your_dataset:
             output = your_output_generator(**inputs)
-            pred = ev.log_prediction(inputs=inputs, output=output)
-            pred.log_score(scorer="greater_than_3_scorer", score=output > 3)
-            pred.log_score(scorer="greater_than_5_scorer", score=output > 5)
-            pred.log_score(scorer="greater_than_7_scorer", score=output > 7)
-            pred.finish()
+            prediction = ev.log_prediction(inputs=inputs, output=output)
+            prediction.log_score(scorer="greater_than_3_scorer", score=output > 3)
+            prediction.log_score(scorer="greater_than_5_scorer", score=output > 5)
+            prediction.log_score(scorer="greater_than_7_scorer", score=output > 7)
+            prediction.finish()
 
         ev.log_summary()
     ```
@@ -693,7 +919,7 @@ pred.finish()
     import {EvaluationLogger} from 'weave/evaluationLogger';
     import {WeaveObject} from 'weave/weaveObject';
 
-    await weave.init('your-team/your-project');
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
     const models = [
       'model1',
@@ -716,11 +942,11 @@ pred.finish()
         const output = await yourOutputGenerator(inputs);
 
         // 깔끔하고 효율적인 로깅을 위한 fire-and-forget 패턴
-        const pred = ev.logPrediction(inputs, output);
-        pred.logScore('greater_than_3_scorer', output > 3);
-        pred.logScore('greater_than_5_scorer', output > 5);
-        pred.logScore('greater_than_7_scorer', output > 7);
-        pred.finish();
+        const prediction = ev.logPrediction(inputs, output);
+        prediction.logScore('greater_than_3_scorer', output > 3);
+        prediction.logScore('greater_than_5_scorer', output > 5);
+        prediction.logScore('greater_than_7_scorer', output > 7);
+        prediction.finish();
       }
 
       await ev.logSummary();
@@ -730,11 +956,11 @@ pred.finish()
 </Tabs>
 
 <Frame>
-  ![Evals 탭](/weave/guides/evaluation/img/evals_tab.png)
+  ![평가 run 목록을 표시하는 Evals 탭](/weave/guides/evaluation/img/evals_tab.png)
 </Frame>
 
 <Frame>
-  ![Compare 뷰](/weave/guides/evaluation/img/comparison.png)
+  ![여러 평가 run의 메트릭을 표시하는 Compare 뷰](/weave/guides/evaluation/img/comparison.png)
 </Frame>
 
 <div id="usage-tips">
@@ -751,7 +977,7 @@ pred.finish()
   </Tab>
 
   <Tab title="TypeScript">
-    * **자동 종료 동작**: 명확성을 위해 각 예측마다 `finish()`를 명시적으로 호출하는 것을 권장하지만, `logSummary()`는 완료되지 않은 예측을 자동으로 모두 종료합니다. 단, 스크립트에서 `finish()`를 호출한 이후에는 더 이상 점수를 기록할 수 없습니다.
+    * **자동 종료 동작**: 명확성을 위해 각 예측마다 `finish()`를 명시적으로 호출하세요. `logSummary()`는 완료되지 않은 예측을 자동으로 모두 종료합니다. 하지만 `finish()`를 호출한 후에는 해당 예측에 대해 더 이상 점수를 기록할 수 없습니다.
     * **설정 옵션**: `name`, `description`, `dataset`, `model`, `scorers`, `attributes` 등의 설정 옵션을 사용해 Weave UI에서 평가를 구성하고 필터링하세요.
   </Tab>
 </Tabs>

@@ -174,7 +174,7 @@ Pour ouvrir une vue enregistrée, cliquez sur **Workspaces** dans la barre laté
   * de W&amp;B Server v0.68 ou ultérieure.
 </Note>
 
-Dans cette approche, vous utilisez un nœud principal et un ou plusieurs nœuds workers. Sur le nœud principal, vous initialisez un run W&amp;B. Pour chaque nœud worker, initialisez un run en utilisant l’ID du run du nœud principal. Pendant l’entraînement, chaque nœud worker consigne ses données dans le même ID de run que le nœud principal. W&amp;B agrège les métriques de tous les nœuds et les affiche dans la W&amp;B App UI.
+Dans cette approche, vous utilisez un nœud principal et un ou plusieurs nœuds workers. Avant de démarrer le job distribué, générez un ID de run unique et configurez chaque processus pour utiliser cet ID de run. Pendant l’entraînement, chaque nœud worker consigne ses données dans le même ID de run que le nœud principal. W&amp;B agrège les métriques de tous les nœuds et les affiche dans la W&amp;B App UI.
 
 Sur le nœud principal, initialisez un run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/functions/init). Passez un objet `wandb.Settings` au paramètre `settings` (`wandb.init(settings=wandb.Settings()`) avec les éléments suivants :
 
@@ -183,7 +183,7 @@ Sur le nœud principal, initialisez un run W&amp;B avec [`wandb.init()`](/fr/mod
 3. Définissez le paramètre [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) sur `True` pour indiquer qu’il s’agit du nœud principal.
 4. Vous pouvez éventuellement fournir une liste d’index GPU ([0,1,2]) à `x_stats_gpu_device_ids` pour préciser les GPU dont W&amp;B doit suivre les métriques. Si vous ne fournissez pas de liste, W&amp;B suit les métriques de tous les GPU de la machine.
 
-Notez l’ID du run du nœud principal. Chaque nœud worker en a besoin.
+Définissez la variable d’environnement `WANDB_RUN_ID` sur l’ID de run généré avant le démarrage de chaque processus. W&amp;B lit automatiquement `WANDB_RUN_ID` lorsque le processus appelle `wandb.init()`.
 
 <Note>
   `x_primary=True` permet de distinguer un nœud principal des nœuds workers. Les nœuds principaux sont les seuls à téléverser les fichiers partagés entre les nœuds, comme les fichiers de configuration, la télémétrie, etc. Les nœuds workers ne téléversent pas ces fichiers.
@@ -195,56 +195,64 @@ Pour chaque nœud worker, initialisez un run W&amp;B avec [`wandb.init()`](/fr/m
    * Le paramètre `mode` défini sur `"shared"` pour activer le mode partagé.
    * Un libellé unique pour `x_label`. La valeur spécifiée pour `x_label` permet d’identifier de quel nœud proviennent les données dans les journaux et les métriques système de la W&amp;B App UI. S’il n’est pas spécifié, W&amp;B crée un libellé à partir du nom d’hôte et d’un hachage aléatoire.
    * Définissez le paramètre `x_primary` sur `False` pour indiquer qu’il s’agit d’un nœud worker.
-2. Passez l’ID du run du nœud principal au paramètre `id`.
+2. Définissez `WANDB_RUN_ID` sur le même ID de run généré que celui utilisé par le nœud principal avant le démarrage du processus worker.
 3. Définissez éventuellement [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) sur `False`. Cela empêche les nœuds non principaux de mettre prématurément à jour l’[état du run](/fr/models/runs/run-states#run-states) vers `finished`, afin de garantir que l’état du run reste cohérent et géré par le nœud principal.
 
-<Note>
+<Tip>
   * Utilisez la même entité et le même projet pour tous les nœuds. Cela permet de s’assurer que le bon ID de run est trouvé.
-  * Vous pouvez envisager de définir une variable d’environnement sur chaque nœud worker pour définir l’ID du run du nœud principal.
-</Note>
+  * Générez l’ID de run avant de démarrer le job distribué. Utilisez votre lanceur, planificateur ou framework d’orchestration pour définir `WANDB_RUN_ID` pour chaque processus.
+  * Configurez les variables d’environnement W&amp;B avant le démarrage de chaque processus. Évitez de modifier `os.environ` au moment de l’exécution, car le SDK W&amp;B pourrait ne pas détecter la modification.
+</Tip>
 
-L’exemple de code suivant illustre les exigences générales pour suivre plusieurs processus dans un seul run :
+La manière dont vous générez et distribuez l’ID de run dépend du framework que vous utilisez pour orchestrer les nœuds. Ce guide ne fournit pas d’exemple de lanceur générique. Les extraits suivants présentent la configuration W&amp;B au sein de chaque processus après que votre couche d’orchestration a défini `WANDB_RUN_ID`.
+
+L’exemple suivant initialise le run sur le nœud principal :
 
 ```python
 import wandb
 
-entity = "<team_entity>"
-project = "<project_name>"
+entity = "your-entity"
+project = "your-project"
 
 # Initialiser un run dans le nœud principal
-run = wandb.init(
+with wandb.init(
     entity=entity,
     project=project,
-	settings=wandb.Settings(
+    settings=wandb.Settings(
         x_label="rank_0",
         mode="shared",
         x_primary=True,
         x_stats_gpu_device_ids=[0, 1],  # (Facultatif) Suivre uniquement les métriques pour les GPU 0 et 1
-        )
-)
-
-# Noter l'ID du run du nœud principal.
-# Chaque nœud worker a besoin de cet ID de run.
-run_id = run.id
-
-# Initialiser un run dans un nœud worker en utilisant l'ID du run du nœud principal
-run = wandb.init(
-    entity=entity, # Utiliser la même entité que le nœud principal
-    project=project, # Utiliser le même project que le nœud principal
-	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
-	id=run_id,
-)
-
-# Initialiser un run dans un nœud worker en utilisant l'ID du run du nœud principal
-run = wandb.init(
-    entity=entity, # Utiliser la même entité que le nœud principal
-    project=project, # Utiliser le même project que le nœud principal
-	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
-	id=run_id,
-)
+    )
+) as run:
+    # Placer ici la logique du nœud principal
 ```
 
-Dans un cas réel, chaque nœud worker peut se trouver sur une machine distincte.
+L’exemple suivant montre la configuration correspondante pour un nœud worker. Définissez `rank` sur un identifiant unique pour le worker, en fonction de votre framework d’orchestration.
+
+```python
+import wandb
+
+entity = "your-entity"
+project = "your-project"
+rank = 1
+
+# Initialiser un run dans un nœud worker.
+# W&B lit automatiquement WANDB_RUN_ID depuis l'environnement du processus worker.
+with wandb.init(
+    entity=entity,  # Utiliser la même entité que le nœud principal
+    project=project,  # Utiliser le même projet que le nœud principal
+    settings=wandb.Settings(
+        x_label=f"rank_{rank}",
+        mode="shared",
+        x_primary=False,
+        x_update_finish_state=False,
+    ),
+) as run:
+    # La logique du nœud worker se place ici
+```
+
+Dans un déploiement distribué, les nœuds worker peuvent s’exécuter sur des machines distinctes.
 
 <Note>
   Voir le report [Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) pour un exemple de bout en bout montrant comment entraîner
@@ -258,7 +266,7 @@ Affichez les journaux de console des processus multi-nœuds dans le projet dans 
 3. Cliquez sur le run que vous souhaitez afficher.
 4. Cliquez sur l’onglet **Logs** dans la barre latérale du projet.
 
-Vous pouvez filtrer les journaux de console en fonction des libellés que vous fournissez pour `x_label` dans la barre de recherche de l’UI située en haut de la page des journaux de console. Par exemple, l’image suivante montre les options disponibles pour filtrer le journal de console si les valeurs `rank0`, `rank1`, `rank2`, `rank3`, `rank4`, `rank5` et `rank6` sont fournies à `x_label`.
+Vous pouvez filtrer les journaux de console en fonction des libellés que vous fournissez pour `x_label` dans la barre de recherche de l’UI située en haut de la page des journaux de console. Par exemple, l’image suivante montre les options disponibles pour filtrer le journal de console si les valeurs `rank0`, `rank1`, `rank2`, `rank3`, `rank4`, `rank5` et `rank6` sont fournies à `x_label`.&#96;
 
 <Frame>
   <img src="/images/track/multi_node_console_logs.png" alt="Journaux de console multi-nœuds" />

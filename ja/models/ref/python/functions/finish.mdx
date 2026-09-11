@@ -1,23 +1,21 @@
 ---
 title: finish()
-namespace: python_sdk_actions
-python_object_type: function
+kind: function
+namespace: wandb.sdk.wandb_run
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4098" />
 
-
-### <kbd>関数</kbd> `finish`
-
-```python
-finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
-```
+<div id="function-wandbfinish">
+  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.finish()
+</div>
 
 run を終了し、残りのデータをアップロードします。
 
-W&amp;B run を完了としてマークし、すべてのデータがサーバーに同期されるようにします。run の最終状態は、終了条件と Sync ステータスによって決まります。
+W&amp;B run を完了としてマークし、すべてのデータがサーバーに同期されるようにします。
+run の最終状態は、終了条件と Sync ステータスによって決まります。
 
 run の状態:
 
@@ -26,7 +24,20 @@ run の状態:
 * Finished: すべてのデータが同期された状態で正常に完了した run (`exit_code=0`) 。
 * Failed: エラーありで完了した run (`exit_code!=0`) 。
 
-**引数:**
+```python
+exit_code: 'int | None' = None
+```
 
-* `exit_code`:  run の終了ステータスを示す整数。成功時は 0 を使用し、それ以外の値は run が失敗したことを示します。
-* `quiet`:  非推奨です。`wandb.Settings(quiet=...)` を使用してログの詳細度を設定してください。
+<div id="args">
+  ## 引数
+</div>
+
+<ResponseField name="exit_code" type="int | None">
+  run の終了ステータスを示す整数。成功時は 0 を使用し、それ以外の値は run が失敗したことを示します。
+</ResponseField>
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+None

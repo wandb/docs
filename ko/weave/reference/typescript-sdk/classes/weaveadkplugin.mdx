@@ -3,7 +3,9 @@ title: "WeaveAdkPlugin"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / WeaveAdkPlugin
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/googleAdk.ts#L589" />
 
 러너 호출 수, 에이전트 Runs, 모델 Call, 도구
 실행을 Weave의 에이전트 파이프라인에서 GenAI-semconv OTel span으로 내보내는 ADK
@@ -20,646 +22,707 @@ ADK는 `undefined`가 아닌 반환값을 모두 단락 처리로 간주하므�
 
 * `BasePlugin`
 
-<div id="table-of-contents">
-  ## 목차
-</div>
-
-<div id="constructors">
-  ### 생성자
-</div>
-
-* [constructor](./weaveadkplugin#constructor)
-
-<div id="properties">
-  ### 속성
-</div>
-
-* [name](./weaveadkplugin#name)
-
-<div id="methods">
-  ### 메서드
-</div>
-
-* [afterAgentCallback](./weaveadkplugin#afteragentcallback)
-* [afterContextCompaction](./weaveadkplugin#aftercontextcompaction)
-* [afterModelCallback](./weaveadkplugin#aftermodelcallback)
-* [afterRunCallback](./weaveadkplugin#afterruncallback)
-* [afterToolCallback](./weaveadkplugin#aftertoolcallback)
-* [beforeAgentCallback](./weaveadkplugin#beforeagentcallback)
-* [beforeContextCompaction](./weaveadkplugin#beforecontextcompaction)
-* [beforeModelCallback](./weaveadkplugin#beforemodelcallback)
-* [beforeRunCallback](./weaveadkplugin#beforeruncallback)
-* [beforeToolCallback](./weaveadkplugin#beforetoolcallback)
-* [beforeToolSelection](./weaveadkplugin#beforetoolselection)
-* [finishInterruptedInvocation](./weaveadkplugin#finishinterruptedinvocation)
-* [onEventCallback](./weaveadkplugin#oneventcallback)
-* [onModelErrorCallback](./weaveadkplugin#onmodelerrorcallback)
-* [onToolErrorCallback](./weaveadkplugin#ontoolerrorcallback)
-* [onUserMessageCallback](./weaveadkplugin#onusermessagecallback)
-
-## 생성자
-
 <div id="constructor">
-  ### constructor
+  ## 생성자
 </div>
 
-• **new WeaveAdkPlugin**(): [`WeaveAdkPlugin`](./weaveadkplugin)
+> **new WeaveAdkPlugin**(): `WeaveAdkPlugin`
 
 <div id="returns">
-  #### 반환값
+  ### 반환값
 </div>
 
-[`WeaveAdkPlugin`](./weaveadkplugin)
+`WeaveAdkPlugin`
 
-## 속성
+<div id="properties">
+  ## 속성
+</div>
 
 <div id="name">
   ### name
 </div>
 
-• `Readonly` **name**: `"weave"`
+> `readonly` **name**: `"weave"` = `WEAVE_ADK_PLUGIN_NAME`
 
 <div id="implementation-of">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.name
+`AdkBasePlugin.name`
 
-<div id="defined-in">
-  #### 정의 위치
+<div id="methods">
+  ## 메서드
 </div>
-
-[src/integrations/googleAdk.ts:590](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L590)
-
-## 메서드
 
 <div id="afteragentcallback">
-  ### afterAgentCallback
+  ### afterAgentCallback()
 </div>
 
-▸ **afterAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+
+에이전트의 기본 로직이 완료된 후 실행되는 callback입니다.
+
+이 callback을 사용하여 반환되기 전에 에이전트의 최종
+결과를 검사하거나 로깅 또는 수정할 수 있습니다.
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름                       | 유형          |
-| :----------------------- | :---------- |
-| `params`                 | `Object`    |
-| `params.agent`           | `BaseAgent` |
-| `params.callbackContext` | `Context`   |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="agent" type="BaseAgent" required>
+      방금 실행이 완료된 에이전트입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="callbackContext" type="Context" required>
+      해당 에이전트 호출의 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-2">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택 사항인 `Content` 객체입니다. 값을 반환하면 에이전트의
+원래 결과가 해당 값으로 대체됩니다. `undefined`를 반환하면
+수정되지 않은 원래 결과가 사용됩니다.
+
+<div id="implementation-of-2">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.afterAgentCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:779](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L779)
+`AdkBasePlugin.afterAgentCallback`
 
 ***
 
 <div id="aftercontextcompaction">
-  ### afterContextCompaction
+  ### afterContextCompaction()
 </div>
 
-▸ **afterContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+> **afterContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+컨텍스트 압축 후 실행되는 callback입니다.
+
+이 callback을 통해 압축된 컨텍스트를
+검사할 수 있습니다.
+
+<div id="parameters-2">
   #### 매개변수
 </div>
 
-| 이름        | 유형        |
-| :-------- | :-------- |
-| `_params` | `unknown` |
+<ParamField path="_params" type="unknown" required />
 
-<div id="returns">
+<div id="returns-3">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+<div id="implementation-of-3">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.afterContextCompaction
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:997](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L997)
+`AdkBasePlugin.afterContextCompaction`
 
 ***
 
 <div id="aftermodelcallback">
-  ### afterModelCallback
+  ### afterModelCallback()
 </div>
 
-▸ **afterModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+모델의 응답을 받은 후 실행되는 callback입니다.
+
+모델 응답을 로깅하고 토큰
+사용량에 대한 메트릭을 수집하거나 원시 `LlmResponse`를 후처리하기에 적합한 위치입니다.
+
+<div id="parameters-3">
   #### 매개변수
 </div>
 
-| 이름                       | 유형            |
-| :----------------------- | :------------ |
-| `params`                 | `Object`      |
-| `params.callbackContext` | `Context`     |
-| `params.llmResponse`     | `LlmResponse` |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      현재 에이전트 호출의 컨텍스트입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="llmResponse" type="LlmResponse" required>
+      모델에서 받은 응답 객체입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 값입니다. `undefined`가 아닌 값을 반환하면
+프레임워크가 응답을 수정하거나 대체할 수 있습니다. `undefined`를 반환하면
+원래 응답이 사용됩니다.
+
+<div id="implementation-of-4">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.afterModelCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:841](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L841)
+`AdkBasePlugin.afterModelCallback`
 
 ***
 
 <div id="afterruncallback">
-  ### afterRunCallback
+  ### afterRunCallback()
 </div>
 
-▸ **afterRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+ADK 러너의 run이 완료된 후 실행되는 callback입니다.
+
+ADK 라이프사이클의 마지막 callback으로, 정리, 최종 로깅 또는 보고 작업에 적합합니다.
+
+<div id="parameters-4">
   #### 매개변수
 </div>
 
-| 이름                         | 유형                  |
-| :------------------------- | :------------------ |
-| `params`                   | `Object`            |
-| `params.invocationContext` | `InvocationContext` |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      전체 invocation에 대한 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-<div id="returns">
+<div id="returns-5">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+undefined
+
+<div id="implementation-of-5">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.afterRunCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:713](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L713)
+`AdkBasePlugin.afterRunCallback`
 
 ***
 
 <div id="aftertoolcallback">
-  ### afterToolCallback
+  ### afterToolCallback()
 </div>
 
-▸ **afterToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **afterToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+도구가 호출된 후 실행되는 callback입니다.
+
+이 callback을 사용하면 도구가 반환한 결과를 검사, 로깅 또는 수정할 수
+있습니다.
+
+<div id="parameters-5">
   #### 매개변수
 </div>
 
-| 이름                   | 유형                                           |
-| :------------------- | :------------------------------------------- |
-| `params`             | `Object`                                     |
-| `params.result`      | `null` | `Record`&lt;`string`, `unknown`&gt; |
-| `params.tool`        | `BaseTool`                                   |
-| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt;          |
-| `params.toolContext` | `Context`                                    |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="result" type="Record<string, unknown> | null" required>
+      도구 호출이 반환한 딕셔너리입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="tool" type="BaseTool" required>
+      방금 실행된 도구 인스턴스입니다.
+    </ParamField>
+
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      도구에 전달된 원래 인수입니다.
+    </ParamField>
+
+    <ParamField path="toolContext" type="Context" required>
+      해당 도구 실행에 특화된 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-6">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 딕셔너리입니다. 딕셔너리를 반환하면
+도구의 원래 결과를 **대체**합니다. 이를 통해
+도구 출력을 후처리하거나 변경할 수 있습니다. `undefined`를 반환하면
+수정되지 않은 원래 결과가 사용됩니다.
+
+<div id="implementation-of-6">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.afterToolCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:965](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L965)
+`AdkBasePlugin.afterToolCallback`
 
 ***
 
 <div id="beforeagentcallback">
-  ### beforeAgentCallback
+  ### beforeAgentCallback()
 </div>
 
-▸ **beforeAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+에이전트의 기본 로직이 호출되기 전에 실행되는 callback입니다.
+
+이 callback은 로깅, 설정 또는 값을 반환하여 에이전트의 실행을 조기에 종료하는 데 사용할 수 있습니다.
+
+<div id="parameters-6">
   #### 매개변수
 </div>
 
-| 이름                       | 유형          |
-| :----------------------- | :---------- |
-| `params`                 | `Object`    |
-| `params.agent`           | `BaseAgent` |
-| `params.callbackContext` | `Context`   |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="agent" type="BaseAgent" required>
+      실행되기 직전의 에이전트입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="callbackContext" type="Context" required>
+      에이전트 호출에 대한 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-7">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 `Content` 객체입니다. 값이 반환되면 에이전트의 callback과 실행을
+건너뛰고 해당 값을 직접 반환합니다. `undefined`를 반환하면 에이전트가 정상적으로 진행됩니다.
+
+<div id="implementation-of-7">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.beforeAgentCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:765](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L765)
+`AdkBasePlugin.beforeAgentCallback`
 
 ***
 
 <div id="beforecontextcompaction">
-  ### beforeContextCompaction
+  ### beforeContextCompaction()
 </div>
 
-▸ **beforeContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
+> **beforeContextCompaction**(`_params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+컨텍스트 압축 전에 실행되는 callback입니다.
+
+이 callback을 통해 압축 전에 컨텍스트를 검사하거나 수정할 수 있습니다.
+
+<div id="parameters-7">
   #### 매개변수
 </div>
 
-| 이름        | 유형        |
-| :-------- | :-------- |
-| `_params` | `unknown` |
+<ParamField path="_params" type="unknown" required />
 
-<div id="returns">
+<div id="returns-8">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+<div id="implementation-of-8">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.beforeContextCompaction
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:993](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L993)
+`AdkBasePlugin.beforeContextCompaction`
 
 ***
 
 <div id="beforemodelcallback">
-  ### beforeModelCallback
+  ### beforeModelCallback()
 </div>
 
-▸ **beforeModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+모델에 요청을 보내기 전에 실행되는 callback입니다.
+
+`LlmRequest`
+객체를 검사, 로깅하거나 수정할 수 있습니다. 캐시된
+`LlmResponse`를 반환하여 캐싱을 구현할 수도 있으며, 이 경우 실제 모델 Call이 생략됩니다.
+
+<div id="parameters-8">
   #### 매개변수
 </div>
 
-| 이름                       | 유형           |
-| :----------------------- | :----------- |
-| `params`                 | `Object`     |
-| `params.callbackContext` | `Context`    |
-| `params.llmRequest`      | `LlmRequest` |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      현재 에이전트 호출의 컨텍스트입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="llmRequest" type="LlmRequest" required>
+      모델로 전송할 준비된 요청 object입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-9">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 값입니다. `undefined`가 아닌 값을 반환하면
+조기 종료가 트리거되고 응답이 즉시 반환됩니다. `undefined`를 반환하면 LLM 요청이 정상적으로 진행됩니다.
+
+<div id="implementation-of-9">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.beforeModelCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:804](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L804)
+`AdkBasePlugin.beforeModelCallback`
 
 ***
 
 <div id="beforeruncallback">
-  ### beforeRunCallback
+  ### beforeRunCallback()
 </div>
 
-▸ **beforeRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+ADK 러너가 실행되기 전에 호출되는 callback입니다.
+
+라이프사이클에서 가장 먼저 호출되는 callback으로, 전역
+설정 또는 초기화 작업에 적합합니다.
+
+<div id="parameters-9">
   #### 매개변수
 </div>
 
-| 이름                         | 유형                  |
-| :------------------------- | :------------------ |
-| `params`                   | `Object`            |
-| `params.invocationContext` | `InvocationContext` |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      세션 정보, 루트 에이전트 등을 포함하는 전체 호출의 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
 
-<div id="returns">
+<div id="returns-10">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+ADK에 반환할 수 있는 선택적 `Event`입니다. 값을 반환하면
+러너 실행이 중지되고 해당 이벤트와 함께 러너가 종료됩니다.
+정상적으로 계속하려면 `undefined`를 반환합니다.
+
+<div id="implementation-of-10">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.beforeRunCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:621](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L621)
+`AdkBasePlugin.beforeRunCallback`
 
 ***
 
 <div id="beforetoolcallback">
-  ### beforeToolCallback
+  ### beforeToolCallback()
 </div>
 
-▸ **beforeToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **beforeToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+도구가 호출되기 전에 실행되는 callback입니다.
+
+이 callback은 도구 사용을 로깅하거나 입력을 검증하거나,
+도구에 전달되기 전에 인수를 수정하는 데 유용합니다.
+
+<div id="parameters-10">
   #### 매개변수
 </div>
 
-| 이름                   | 유형                                  |
-| :------------------- | :---------------------------------- |
-| `params`             | `Object`                            |
-| `params.tool`        | `BaseTool`                          |
-| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt; |
-| `params.toolContext` | `Context`                           |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="tool" type="BaseTool" required>
+      곧 실행될 도구 인스턴스입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      도구를 호출할 때 사용할 인수 딕셔너리입니다.
+    </ParamField>
+
+    <ParamField path="toolContext" type="Context" required>
+      해당 도구 실행에 국한된 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-11">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 딕셔너리입니다. 딕셔너리를 반환하면
+도구 실행이 중지되고 이 응답이 즉시 반환됩니다. `undefined`를 반환하면
+수정되지 않은 원래 인수가 사용됩니다.
+
+<div id="implementation-of-11">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.beforeToolCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:918](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L918)
+`AdkBasePlugin.beforeToolCallback`
 
 ***
 
 <div id="beforetoolselection">
-  ### beforeToolSelection
+  ### beforeToolSelection()
 </div>
 
-▸ **beforeToolSelection**(`_params`): `Promise`&lt;`undefined`&gt;
+> **beforeToolSelection**(`_params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+도구를 선택하기 전에 실행되는 callback입니다.
+
+이 callback을 사용하면 선택 전에 사용 가능한 도구를 검사, 로깅 또는 수정할 수 있습니다.
+
+<div id="parameters-11">
   #### 매개변수
 </div>
 
-| 이름        | 유형        |
-| :-------- | :-------- |
-| `_params` | `unknown` |
+<ParamField path="_params" type="unknown" required />
 
-<div id="returns">
+<div id="returns-12">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 값입니다. `undefined`가 아닌 반환값은
+프레임워크에서 사용 가능한 도구를 수정하거나 대체하는 데 사용할 수 있습니다. `undefined`를 반환하면 원래 도구를 사용할 수 있습니다.
+
+<div id="implementation-of-12">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.beforeToolSelection
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:914](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L914)
+`AdkBasePlugin.beforeToolSelection`
 
 ***
 
 <div id="finishinterruptedinvocation">
-  ### finishInterruptedInvocation
+  ### finishInterruptedInvocation()
 </div>
 
-▸ **finishInterruptedInvocation**(`invocationId`): `void`
+> **finishInterruptedInvocation**(`invocationId`): `void`
 
 `afterRunCallback`에 도달하지 못한 run을 완료 처리합니다. ADK는 이벤트 루프가 정상적으로 모두 처리된 후에만
 `afterRunCallback`을 호출하므로, 소비자가 `runAsync`에서
-일찍 빠져나오거나 run이 중단되면 invocation
+일찍 빠져나오거나 run이 중단되면 호출
 (및 해당 span들)이 열린 상태로 남습니다. 자동 instrument 러너 래퍼는 이를
 `finally`에서 호출해 중단된 것으로 닫습니다. 멱등적이므로 run이
 이미 완료된 경우에는 아무 작업도 하지 않습니다(일반적으로 전체를 끝까지 소비한 경우).
 
-<div id="parameters">
+<div id="parameters-12">
   #### 매개변수
 </div>
 
-| 이름             | 유형       |
-| :------------- | :------- |
-| `invocationId` | `string` |
+<ParamField path="invocationId" type="string" required />
 
-<div id="returns">
+<div id="returns-13">
   #### 반환값
 </div>
 
 `void`
 
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:732](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L732)
-
 ***
 
 <div id="oneventcallback">
-  ### onEventCallback
+  ### onEventCallback()
 </div>
 
-▸ **onEventCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **onEventCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+러너에서 이벤트가 반환된 후 실행되는 callback입니다.
+
+기본 에이전트 앱에서 이벤트를 처리하기 전에 이벤트를 수정하기에 적합한 위치입니다.
+
+<div id="parameters-13">
   #### 매개변수
 </div>
 
-| 이름                         | 유형                  |
-| :------------------------- | :------------------ |
-| `params`                   | `Object`            |
-| `params.event`             | `Event`             |
-| `params.invocationContext` | `InvocationContext` |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="event" type="Event" required>
+      러너가 발생시킨 이벤트입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="invocationContext" type="InvocationContext" required>
+      invocation 전체에 대한 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-14">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 값입니다. `undefined`가 아닌 값을 반환하면
+프레임워크가 응답을 수정하거나 대체할 수 있습니다. `undefined`를 반환하면
+원래 응답이 사용됩니다.
+
+<div id="implementation-of-13">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.onEventCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:693](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L693)
+`AdkBasePlugin.onEventCallback`
 
 ***
 
 <div id="onmodelerrorcallback">
-  ### onModelErrorCallback
+  ### onModelErrorCallback()
 </div>
 
-▸ **onModelErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **onModelErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+모델 Call 중 오류가 발생했을 때 실행되는 callback입니다.
+
+이 callback을 통해 모델 오류를 적절히 처리하고,
+대체 응답이나 복구 메커니즘을 제공할 수 있습니다.
+
+<div id="parameters-14">
   #### 매개변수
 </div>
 
-| 이름                       | 유형           |
-| :----------------------- | :----------- |
-| `params`                 | `Object`     |
-| `params.callbackContext` | `Context`    |
-| `params.error`           | `Error`      |
-| `params.llmRequest`      | `LlmRequest` |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="callbackContext" type="Context" required>
+      현재 에이전트 호출의 컨텍스트입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="error" type="Error" required>
+      모델 실행 중에 발생한 예외입니다.
+    </ParamField>
+
+    <ParamField path="llmRequest" type="LlmRequest" required>
+      오류가 발생했을 때 모델로 전송된 요청입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-15">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 LlmResponse입니다. LlmResponse가 반환되면 오류를 전파하는 대신
+해당 응답이 사용됩니다. `undefined`를 반환하면 원래 오류가 발생합니다.
+
+<div id="implementation-of-14">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.onModelErrorCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:884](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L884)
+`AdkBasePlugin.onModelErrorCallback`
 
 ***
 
 <div id="ontoolerrorcallback">
-  ### onToolErrorCallback
+  ### onToolErrorCallback()
 </div>
 
-▸ **onToolErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
+> **onToolErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+도구 Call 중 오류가 발생하면 실행되는 callback입니다.
+tool: BaseTool;
+toolArgs: Record&lt;string, unknown&gt;;
+toolContext: Context;
+result: Record&lt;string, unknown&gt;;
+&#125;): Promise&lt;Record&lt;string, unknown&gt; | undefined&gt; &#123;
+return;
+&#125;
+
+/**
+도구 Call 중 오류가 발생하면 실행되는 callback입니다.
+
+이 callback을 사용하여 도구 오류를 정상적으로 처리하고,
+필요에 따라 대체 응답이나 복구 메커니즘을 제공할 수 있습니다.
+
+<div id="parameters-15">
   #### 매개변수
 </div>
 
-| 이름                   | 유형                                  |
-| :------------------- | :---------------------------------- |
-| `params`             | `Object`                            |
-| `params.error`       | `Error`                             |
-| `params.tool`        | `BaseTool`                          |
-| `params.toolArgs`    | `Record`&lt;`string`, `unknown`&gt; |
-| `params.toolContext` | `Context`                           |
+<ParamField path="params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="error" type="Error" required>
+      도구 실행 중에 발생한 예외입니다.
+    </ParamField>
 
-<div id="returns">
+    <ParamField path="tool" type="BaseTool" required>
+      오류가 발생한 도구 인스턴스입니다.
+    </ParamField>
+
+    <ParamField path="toolArgs" type="Record<string, unknown>" required>
+      도구에 전달된 인수입니다.
+    </ParamField>
+
+    <ParamField path="toolContext" type="Context" required>
+      해당 도구 실행에 한정된 컨텍스트입니다.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-16">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+선택적 딕셔너리입니다. 딕셔너리를 반환하면 오류를 전파하는 대신
+도구 응답으로 사용됩니다. `undefined`를 반환하면 원래 오류가 발생합니다.
+
+<div id="implementation-of-15">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.onToolErrorCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:977](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L977)
+`AdkBasePlugin.onToolErrorCallback`
 
 ***
 
 <div id="onusermessagecallback">
-  ### onUserMessageCallback
+  ### onUserMessageCallback()
 </div>
 
-▸ **onUserMessageCallback**(`_params`): `Promise`&lt;`undefined`&gt;
+> **onUserMessageCallback**(`_params`): `Promise`&lt;`undefined`&gt;
 
-<div id="parameters">
+사용자 메시지를 수신한 후 호출이
+시작되기 전에 실행되는 callback입니다.
+
+이 callback은 러너가 호출을 시작하기 전에 사용자 메시지를 로깅하고 수정하는 데 도움이 됩니다.
+
+<div id="parameters-16">
   #### 매개변수
 </div>
 
-| 이름                          | 유형                  |
-| :-------------------------- | :------------------ |
-| `_params`                   | `Object`            |
-| `_params.invocationContext` | `InvocationContext` |
-| `_params.userMessage`       | `Content`           |
+<ParamField path="_params" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="invocationContext" type="InvocationContext" required />
 
-<div id="returns">
+    <ParamField path="userMessage" type="Content" required />
+  </Expandable>
+</ParamField>
+
+<div id="returns-17">
   #### 반환값
 </div>
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of">
+ADK에 반환할 수 있는 선택적 `Content`입니다. 사용자 메시지를 대체하는 값을
+반환합니다. 정상적으로 계속 진행하려면 `undefined`를 반환합니다.
+
+<div id="implementation-of-16">
   #### 구현 대상
 </div>
 
-AdkBasePlugin.onUserMessageCallback
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleAdk.ts:614](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleAdk.ts#L614)
+`AdkBasePlugin.onUserMessageCallback`

@@ -4,9 +4,9 @@ description: 상태, 상태 변경을 기다리는 방법, 샌드박스를 중�
 keywords: ["SandboxState", "wait_until_complete", "wait_until_ready", "sandbox timeout", "resource cleanup"]
 ---
 
-<Warning>
-  Serverless Sandboxes는 공개 프리뷰입니다.
-</Warning>
+import SandboxesPreview from '/snippets/ko/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesPreview />
 
 이 페이지에서는 상태 변경을 기다리고 샌드박스를 중지하며, 수명 주기에 맞춰 코드를 구성할 때 적절한 방법을 선택할 수 있도록 Serverless Sandbox의 라이프사이클을 설명합니다. 라이프사이클을 이해하면 경쟁 상태를 방지하고, 시작 실패와 런타임 오류를 구분하며, 리소스를 일관되게 정리하는 데 도움이 됩니다.
 
@@ -22,7 +22,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
                                -> TERMINATED
 ```
 
-다음 섹션에서는 샌드박스 상태, 준비 완료 또는 작업 완료까지 대기하는 방법, 그리고 샌드박스를 중지하는 방법을 설명합니다. 샌드박스를 생성하고 명령어를 실행하는 방법에 대한 자세한 내용은 [샌드박스 생성](/ko/sandboxes/create-sandbox) 및 [명령어 실행](/ko/sandboxes/run-commands)을 참조하세요.
+다음 섹션에서는 샌드박스 상태, 준비 완료 또는 완료 시점까지 대기하는 방법, 그리고 샌드박스를 중지하는 방법을 설명합니다. 샌드박스를 생성하고 명령어를 실행하는 방법에 대한 자세한 내용은 [샌드박스 생성](/ko/sandboxes/create-sandbox) 및 [명령어 실행](/ko/sandboxes/run-commands)을 참조하세요.
 
 <div id="sandbox-states">
   ## 샌드박스 상태

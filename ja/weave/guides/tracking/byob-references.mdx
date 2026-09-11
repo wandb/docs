@@ -1,0 +1,65 @@
+---
+title: "Weave Op を使用して自身のバケット（BYOB）内のメディアを参照する"
+sidebarTitle: "自身のバケット内のメディアを参照する"
+description: "バイトデータを Weave にインポートすることなく URI をログするだけで、自身のクラウドバケット内にある画像や動画を Weave トレースで表示できます。"
+keywords: ["BYOB", "参照バケット", "S3", "署名付き URL", "メディア", "外部ストレージ"]
+---
+
+import ByobReferenceSetup from "/snippets/ja/_includes/byob-reference-setup.mdx";
+
+<ByobReferenceSetup />
+
+<div id="log-a-media-reference-using-weave-op-function-tracing">
+  ## Weave Op 関数のトレースでメディア参照をログする
+</div>
+
+URI をトレース内の string 値としてログします。値がバケット URI の string フィールドはすべて表示されます。バイトデータはお使いのバケットに保持されたままなので、No Content アノテーションは不要です。次の例の Op は、すでにバケット内にある画像にキャプションを付け、各 URI をそのキャプションとともにログします。`[YOUR-TEAM]`、`[YOUR-PROJECT]`、`[YOUR-BUCKET]` はご自身の値に置き換えてください。
+
+<Tip>
+  agentic アプリケーションに参照メディアを追加する場合は、代わりに [エージェント スパン内の参照メディア](/ja/weave/guides/tracking/agents-byob-references) を参照してください。
+</Tip>
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    @weave.op
+    def caption_image(image_uri: str) -> dict:
+        caption = my_captioner(image_uri)  # ご自身のモデルまたは API 呼び出し。
+        # image_uri はその値に基づいてインライン表示されます。フィールド名は任意で、
+        # 拡張子（ここでは .png）によって画像か動画かが決まります。
+        return {"image": image_uri, "caption": caption}
+
+    caption_image("s3://[YOUR-BUCKET]/photos/cat.png")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    const captionImage = weave.op(async function captionImage(imageUri: string) {
+      const caption = await myCaptioner(imageUri); // ご自身のモデルまたは API 呼び出し。
+      // imageUri はその値に基づいてインライン表示されます。フィールド名は任意です。
+      return {image: imageUri, caption};
+    });
+
+    await captionImage('s3://[YOUR-BUCKET]/photos/cat.png');
+    ```
+  </Tab>
+</Tabs>
+
+<div id="view-the-reference-in-weave-traces">
+  ## Weave トレースで参照を表示する
+</div>
+
+`weave.init()` が出力するリンクからトレースを開きます。参照先の画像または動画は、**Traces** ビュー内にインライン表示されます。たとえば、object が見つからない、または バケット が登録されていないために Weave が URI を解決できない場合は、URI 文字列がそのまま表示されます。
+
+<Frame>
+  ![独自のクラウド バケット 内の object を指す バケット URI から解決された参照先の画像が、Weave トレースビュー内にインライン表示されている様子。](/weave/guides/tracking/imgs/traces-byob.png)
+</Frame>

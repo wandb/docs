@@ -4,9 +4,9 @@ description: Serverless Sandbox のライフサイクル（状態、状態変化
 keywords: ["SandboxState", "wait_until_complete", "wait_until_ready", "sandbox timeout", "resource cleanup"]
 ---
 
-<Warning>
-  Serverless Sandboxes はパブリックプレビューです。
-</Warning>
+import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesPreview />
 
 このページでは、Serverless Sandbox のライフサイクルについて説明します。これにより、状態変化の待機方法、サンドボックスの停止方法、ライフタイムを考慮したコード構成について適切な方法を選択できます。ライフサイクルを理解することで、競合状態を回避し、起動時の失敗と実行時エラーを区別し、リソースを意図したとおりにクリーンアップできるようになります。
 
@@ -22,7 +22,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
                                -> TERMINATED
 ```
 
-以下のセクションでは、サンドボックスの状態、準備完了または処理完了まで待機する方法、そしてサンドボックスを停止する方法について説明します。サンドボックスの作成方法やコマンドの実行方法について詳しくは、[サンドボックスを作成する](/ja/sandboxes/create-sandbox) および [コマンドを実行する](/ja/sandboxes/run-commands) を参照してください。
+以下のセクションでは、サンドボックスの状態、準備完了または完了まで待機する方法、そしてサンドボックスを停止する方法について説明します。サンドボックスの作成方法やコマンドの実行方法について詳しくは、[サンドボックスを作成する](/ja/sandboxes/create-sandbox) および [コマンドを実行する](/ja/sandboxes/run-commands) を参照してください。
 
 <div id="sandbox-states">
   ## サンドボックスの状態

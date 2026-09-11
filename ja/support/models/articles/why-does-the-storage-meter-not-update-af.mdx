@@ -1,18 +1,32 @@
 ---
-title: "Runs を削除してもストレージメーターが更新されないのはなぜですか？"
+title: "Runs を削除してもストレージ使用量が更新されないのはなぜですか？"
 keywords: ["Storage"]
 ---
 
-Runs、Artifacts、またはファイルを削除しても、ストレージメーターはすぐには更新されません。UI または CLI からデータを削除すると、バックエンドで削除処理がバックグラウンドで実行されるため、使用量に変更が反映されるまで数時間かかることがあります。これは想定内の動作です。
+Runs、Artifacts、またはファイルを削除しても、ストレージ使用量はすぐには更新されません。UI または CLI からデータを削除すると、バックエンドで削除処理がバックグラウンドで実行されます。ガベージコレクションプロセスは数時間ごとに実行されるため、回収された容量が利用可能なストレージに反映されるまで最大 24 時間かかることがあります。これは想定内の動作です。
 
-ストレージ制限を超過していた場合でも、使用量が制限を下回り、メーターの表示が追いつけば、アクセス制限は自動的に解除されます。処理が完了するまで、追加の対応は必要ありません。
+ストレージ制限を超過していた場合でも、使用量が制限を下回り、W&amp;B による削除処理が完了すると、アクセス制限は自動的に解除されます。処理が完了するまで、追加の対応は必要ありません。
 
-数時間経ってもメーターが更新されない場合は、`https://wandb.ai/account-settings/[ENTITY]/usage/manage/` の **Manage storage** ページで実際の使用量を確認してください。`[ENTITY]` は、ご自身のチーム名またはユーザー名に置き換えてください。このページでは、どの Projects や Runs が最も多くの容量を消費しているかが表示されるため、次に何を削除すべきかを判断できます。そこでの使用量がすでに制限内であるにもかかわらず警告が引き続き表示される場合は、[サポートにお問い合わせください](mailto:support@wandb.com)。
+<div id="if-your-usage-still-looks-too-high">
+  ## 使用量が依然として多すぎるように見える場合
+</div>
+
+run を削除しても、ログした artifact は、削除を選択した場合にのみ削除されます。W&amp;B App で run を削除すると、関連する artifact も削除するかどうかを確認するプロンプトが表示されます。[`Run.delete()`](/ja/models/ref/python/public-api/run#method-run-delete) の `delete_artifacts` 引数のデフォルト値は `False` です。詳細は、[run を削除する](/ja/models/runs/delete-runs)を参照してください。
+
+保持している artifact は、個別に削除するまでストレージを消費します。そのため、file がないように見える project でも、ストレージ使用量にカウントされる場合があります。
+
+上限に引き続きカウントされているデータを特定して削除するには、次の手順を実行します。
+
+1. `https://wandb.ai/account-settings/[ENTITY]/usage/manage/` の **Manage storage** ページで実際の使用量を確認します。`[ENTITY]` はチーム名またはユーザー名に置き換えてください。このページには、最も多くの容量を消費している Projects と Runs が表示されます。
+2. 想定より多くのストレージを使用している project では、**Artifacts** タブを開き、不要になった artifact versions を削除します。W&amp;B はまず削除された artifact を論理削除としてマークし、その後、ガベージコレクション中に基盤となる file を回収します。詳細は、[artifact を削除する](/ja/models/artifacts/delete-artifacts)を参照してください。
+3. 多数の file を一度に削除しようとして失敗またはタイムアウトする場合は、[多数の artifact を一度に削除するにはどうすればよいですか？](/ja/support/models/articles/how-do-i-delete-many-artifacts-at-once)を参照してください。
+
+**Manage storage** ページの使用量がすでに上限未満であるにもかかわらず、24 時間経っても警告が表示される場合は、[サポートにお問い合わせください](mailto:support@wandb.com)。
 
 ***
 
-{/* AUTO-GENERATED: tab badges */}
+{/* AUTO-GENERATED: タブバッジ */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Storage](/ja/support/models/tags/storage)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[ストレージ](/ja/support/models/tags/storage)</Badge>
 
 {/* END AUTO-GENERATED: tab badges */}

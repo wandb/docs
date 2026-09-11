@@ -199,7 +199,7 @@ draft_artifact.save()  # commit changes to the draft
 
 Use `Artifact.upsert_artifact()` and `Artifact.finish_artifact()` when multiple runs contribute files to one artifact version. 
 
-The following examples shows how to create a new artifact version from distributed runs in the case where the artifact is used as [an input to the runs](/models/artifacts/create-a-new-artifact-version#use-as-run-input). The same approach applies when the artifact is [fetched directly](/models/artifacts/create-a-new-artifact-version#fetch-directly) with the Public API.
+The following example shows how to create a new artifact version from distributed runs in the case where the artifact is used as [an input to the runs](/models/artifacts/create-a-new-artifact-version#use-as-run-input). The same approach applies when the artifact is [fetched directly](/models/artifacts/create-a-new-artifact-version#fetch-directly) with the Public API.
 
 ```python
 import wandb

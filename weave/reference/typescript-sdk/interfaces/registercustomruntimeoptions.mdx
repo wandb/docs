@@ -1,0 +1,40 @@
+---
+title: "RegisterCustomRuntimeOptions"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L79" />
+
+## Properties
+
+### apiKeySecret
+
+> `optional` **apiKeySecret**: `string`
+
+***
+
+### baseUrl
+
+> **baseUrl**: `string`
+
+***
+
+### headers
+
+> `optional` **headers**: `Readonly`\<`Record`\<`string`, `string`\>\>
+
+***
+
+### name
+
+> **name**: `string`
+
+***
+
+### runtimeIds
+
+> **runtimeIds**: readonly (`string` \| [`CustomRuntimeId`](./customruntimeid))[]
+
+Complete desired list; omitted IDs are removed from an existing runtime.

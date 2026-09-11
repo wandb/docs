@@ -1,14 +1,25 @@
 ---
-title: "Comment effectuer une rotation ou révoquer l’accès ?"
-keywords: ["Administrateur", "Sécurité"]
+title: "Comment puis-je faire pivoter ou révoquer l’accès ?"
+keywords: ["Administrateur", "Sécurité", "API Keys"]
 ---
 
-Vous pouvez faire pivoter ou révoquer les clés personnelles et les clés de compte de service. Créez une nouvelle clé API ou un nouvel utilisateur de compte de service, puis reconfigurez vos scripts pour utiliser la nouvelle clé. Une fois que vos scripts utilisent la nouvelle clé, supprimez l’ancienne clé API de votre profil ou de votre équipe.
+Si vous avez accès à votre compte, vous pouvez révoquer et faire pivoter vous-même vos clés API personnelles. Si vous n’avez plus accès à votre compte, si la clé appartient à un utilisateur qui a quitté votre organisation ou si vous avez des difficultés à suivre ces instructions, contactez l’[assistance](mailto:support@wandb.com).
+Les administrateurs de l’organisation peuvent révoquer et faire pivoter des clés API dans toute l’organisation, et les administrateurs d’équipe peuvent effectuer ces actions pour les clés API d’une équipe.
+
+Pour faire pivoter une clé API dans des circonstances normales :
+
+1. Créez une nouvelle clé API.
+2. Reconfigurez vos scripts pour utiliser la nouvelle clé.
+3. Supprimez l’ancienne clé.
+
+<Warning>Si une clé API a été divulguée ou compromise, supprimez immédiatement l’ancienne clé au lieu d’attendre.</Warning>
+
+Pour obtenir des instructions étape par étape, voir [Clés API](/fr/platform/app/settings-page/user-settings#api-keys).
 
 ***
 
-{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sécurité](/fr/support/models/tags/security)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sécurité](/fr/support/models/tags/security)</Badge><Badge stroke shape="pill" color="orange" size="md">[Clés API](/fr/support/models/tags/api-keys)</Badge>
 
 {/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

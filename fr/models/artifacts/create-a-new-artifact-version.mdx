@@ -153,7 +153,7 @@ Une fois le brouillon modifié, consignez-le ou enregistrez-le pour créer une n
 
 Vous pouvez créer un artefact incrémentiel dans le cadre d’une seule exécution ou de plusieurs exécutions contribuant à la nouvelle version. Les sections suivantes décrivent comment créer un artefact incrémentiel dans chaque cas.
 
-<div id="single-run">
+<div id="single-run-2">
   ### Run unique
 </div>
 
@@ -203,13 +203,13 @@ Vous pouvez créer un artefact incrémentiel dans le cadre d’une seule exécut
   </Tab>
 </Tabs>
 
-<div id="distributed-runs">
+<div id="distributed-runs-2">
   ### Runs distribués
 </div>
 
-Utilisez `Artifact.upsert_artifact()` et `Artifact.finish_artifact()` lorsque plusieurs exécutions ajoutent des fichiers à une même version d&#39;artefact.
+Utilisez `Artifact.upsert_artifact()` et `Artifact.finish_artifact()` lorsque plusieurs runs ajoutent des fichiers à une même version d&#39;artefact.
 
-L&#39;exemple suivant montre comment créer une nouvelle version d&#39;artefact à partir d&#39;exécutions distribuées lorsque l&#39;artefact est utilisé comme [entrée pour les exécutions](/fr/models/artifacts/create-a-new-artifact-version#use-as-run-input). La même approche s&#39;applique lorsque l&#39;artefact est [récupéré directement](/fr/models/artifacts/create-a-new-artifact-version#fetch-directly) avec l&#39;API publique.
+L&#39;exemple suivant montre comment créer une nouvelle version d&#39;artefact à partir de runs distribués lorsque l&#39;artefact est utilisé comme [entrée pour les runs](/fr/models/artifacts/create-a-new-artifact-version#use-as-run-input). La même approche s&#39;applique lorsque l&#39;artefact est [récupéré directement](/fr/models/artifacts/create-a-new-artifact-version#fetch-directly) avec l&#39;API publique.
 
 ```python
 import wandb

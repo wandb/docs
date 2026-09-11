@@ -1,0 +1,118 @@
+---
+title: "接頭辞キャッシュ"
+description: "接頭辞キャッシュを使用して、繰り返しのプロンプトのレイテンシを削減し、必要に応じて cache_salt でキャッシュの再利用を分離します。"
+---
+
+W&amp;B Inference では、サポートされているホスト型モデルで接頭辞キャッシュを使用して、同じプロンプト接頭辞を持つ繰り返しのリクエストを高速化します。
+
+同じバックエンド上の以前のリクエストと同じプロンプト接頭辞を共有するリクエストでは、モデルは接頭辞全体を再計算する代わりに、前回計算したキーと値 (KV) キャッシュを再利用します。これにより、繰り返しのプロンプト、長いシステムプロンプト、共通の接頭辞が安定しているワークロードでレイテンシを削減できます。
+
+接頭辞キャッシュはサポートされているモデルで自動的に有効になるため、リクエストで明示的に有効化する必要はありません。このページでは、接頭辞キャッシュが最も効果的なケースと、`cache_salt` を使用してキャッシュの分離を制御する方法について説明します。
+
+<div id="when-prefix-caching-helps">
+  ## 接頭辞キャッシュが役立つ場面
+</div>
+
+接頭辞キャッシュは、長い共通の接頭辞を持つリクエストを繰り返し送信する場合に特に効果的です。たとえば、次のようなケースです。
+
+* 多数のリクエストで再利用する大規模なシステムプロンプト。
+* 長い共通ドキュメントの後に、それぞれ異なるユーザーの質問が続く場合。
+* リクエストごとの差分がわずかな、繰り返し行う評価用プロンプト。
+* 会話履歴の大部分が変わらない複数ターンのワークロード。
+
+<div id="cache-isolation">
+  ## キャッシュの分離
+</div>
+
+一部の環境では、異なるユーザーやアプリケーション間でキャッシュが再利用されないようにする必要があります。これを制御するためのパラメーターが `cache_salt` です。
+
+デフォルトでは、プロンプトの接頭辞が同じリクエストは、バックエンドで許可されている場合、共有インフラストラクチャー上でキャッシュを再利用することがあります。
+
+キャッシュの再利用を特定の信頼境界内に限定するには、リクエストパラメーター `cache_salt` を設定します。接頭辞キャッシュが再利用されるのは、プロンプトの接頭辞と `cache_salt` の両方が一致する場合のみです。
+
+単一のユーザー、テナント、セッション、またはアプリケーションの境界内ではキャッシュを再利用したい一方で、他の呼び出し元との間では再利用したくない場合は、`cache_salt` を使用します。
+
+<div id="how-it-works">
+  ### 仕組み
+</div>
+
+`cache_salt` の有無と値は、キャッシュの再利用に次のように影響します。
+
+* プロンプト接頭辞が同じで、`cache_salt` がない場合: 一致するリクエスト間でキャッシュが再利用されることがあります。
+* プロンプト接頭辞が同じで、`cache_salt` も同じ場合: キャッシュを再利用できます。
+* プロンプト接頭辞が同じで、`cache_salt` が異なる場合: キャッシュは分離され、異なる salt 間では再利用されません。
+
+<Note>
+  `cache_salt` は、指定する場合、空でない string である必要があります。
+</Note>
+
+<div id="examples">
+  ## 例
+</div>
+
+次の例は、`cache_salt` を指定して Chat Completion リクエストを送信し、キャッシュの再利用を分離する方法を示しています。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key="<your-api-key>",
+    )
+
+    response = client.chat.completions.create(
+        model="moonshotai/Kimi-K2.5",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a careful assistant that answers concisely."
+            },
+            {
+                "role": "user",
+                "content": "Summarize this document in one sentence: <long shared prefix here>"
+            },
+        ],
+        extra_body={
+            "cache_salt": "tenant-a-user-123-secret",
+        },
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "moonshotai/Kimi-K2.5",
+        "messages": [
+          { "role": "system", "content": "You are a careful assistant that answers concisely." },
+          { "role": "user", "content": "Summarize this document in one sentence: <long shared prefix here>" }
+        ],
+        "cache_salt": "tenant-a-user-123-secret"
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="response-behavior">
+  ## Responseの動作
+</div>
+
+Request で接頭辞キャッシュが有効になっていることを確認するには、Response の Usage の詳細を確認してください。一部のモデルでは、prefix cache が再利用されると、Usage の詳細に `usage.prompt_tokens_details.cached_tokens` の cached token 数が含まれる場合があります。このフィールドを利用できるかどうかは、モデルとバックエンドによって異なります。
+
+<div id="related-pages">
+  ## 関連ページ
+</div>
+
+以下のページでは、関連トピックを紹介しています。
+
+* [Chat Completions](/ja/inference/api-reference/chat-completions)
+* [ストリーミング応答を有効にする](/ja/inference/response-settings/streaming)
+* [構造化出力](/ja/inference/response-settings/structured-output)
+* [JSON モード](/ja/inference/response-settings/json-mode)
