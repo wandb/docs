@@ -3,11 +3,13 @@ title: "GetAgentTurnsResult"
 description: "Référence du SDK TypeScript"
 ---
 
-> **GetAgentTurnsResult** = `objet`
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+> **GetAgentTurnsResult** = `object`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L283" />
 
 Structure du résultat renvoyé par [WeaveClient.getAgentTurns](../interfaces/weaveclient#getagentturns).
-
-Défini dans : [src/weaveClient.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L252)
 
 <div id="properties">
   ## Propriétés
@@ -17,9 +19,7 @@ Défini dans : [src/weaveClient.ts:252](https://github.com/wandb/weave/blob/8c5
   ### conversation_id
 </div>
 
-> **conversation&#95;id** : `string`
-
-Défini dans : [src/weaveClient.ts:253](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L253)
+> **conversation&#95;id** : `string`
 
 ***
 
@@ -29,8 +29,6 @@ Défini dans : [src/weaveClient.ts:253](https://github.com/wandb/weave/blob/8c5
 
 > `facultatif` **feedback**: `Record`&lt;`string`, `any`&gt;[] | `null`
 
-Défini dans : [src/weaveClient.ts:259](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L259)
-
 ***
 
 <div id="has_more">
@@ -38,8 +36,6 @@ Défini dans : [src/weaveClient.ts:259](https://github.com/wandb/weave/blob/8c5
 </div>
 
 > `facultatif` **has&#95;more**: `boolean`
-
-Défini dans : [src/weaveClient.ts:256](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L256)
 
 ***
 
@@ -49,8 +45,6 @@ Défini dans : [src/weaveClient.ts:256](https://github.com/wandb/weave/blob/8c5
 
 > `facultatif` **limit**: `number`
 
-Défini dans : [src/weaveClient.ts:257](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L257)
-
 ***
 
 <div id="offset">
@@ -59,17 +53,13 @@ Défini dans : [src/weaveClient.ts:257](https://github.com/wandb/weave/blob/8c5
 
 > `facultatif` **offset**: `number`
 
-Défini dans : [src/weaveClient.ts:258](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L258)
-
 ***
 
 <div id="total_turns">
-  ### total_turns
+  ### total_tours de conversation
 </div>
 
-> `facultatif` **total&#95;turns** : `number`
-
-Défini dans : [src/weaveClient.ts:255](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L255)
+> `facultatif` **total&#95;tours de conversation** : `number`
 
 ***
 
@@ -78,5 +68,3 @@ Défini dans : [src/weaveClient.ts:255](https://github.com/wandb/weave/blob/8c5
 </div>
 
 > `facultatif` **tours de conversation**: [`AgentTurn`](./agentturn)[]
-
-Défini dans : [src/weaveClient.ts:254](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L254)

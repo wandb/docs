@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
-## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Registry
+<div id="class-wandbapispublicregistry">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Registry
+</div>
 
 레지스트리 내 개별 레지스트리입니다.
 
@@ -118,7 +120,9 @@ attrs: 'RegistryFragment | None' = None)
   ## 메서드
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.add_members()
+<div id="method-registryadd_members">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.add_members()
+</div>
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -161,7 +165,9 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.collections()
+<div id="method-registrycollections">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.collections()
+</div>
 
 ```python
 self,
@@ -173,7 +179,7 @@ start: 'str | None' = None
 
 이 레지스트리에 속한 컬렉션을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### 인수
 </div>
 
@@ -193,7 +199,9 @@ start: 'str | None' = None
   이전 `paginator`의 `.cursor` 속성에서 캡처한 값으로, 이전 쿼리를 이어서 실행하기 위한 페이지 매김 커서입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.create()
+<div id="method-registrycreate">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.create()
+</div>
 
 ```python
 api: 'Api',
@@ -209,7 +217,7 @@ artifact_types: 'list[str] | None' = None
 레지스트리 이름은 조직 내에서 고유해야 합니다.
 이 함수는 `api.create_registry()`를 사용해 호출해야 합니다.
 
-<div id="arguments">
+<div id="arguments-3">
   ##### 인수
 </div>
 
@@ -237,13 +245,15 @@ artifact_types: 'list[str] | None' = None
   허용되는 아티팩트 유형의 선택적 목록입니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-2">
   ##### 예외
 </div>
 
 * `ValueError`: 조직 내에 같은 이름의 레지스트리가 이미 있거나 생성에 실패한 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.delete()
+<div id="method-registrydelete">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.delete()
+</div>
 
 ```python
 self
@@ -251,7 +261,9 @@ self
 
 레지스트리를 삭제합니다. 이 작업은 되돌릴 수 없습니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.load()
+<div id="method-registryload">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.load()
+</div>
 
 ```python
 self
@@ -259,7 +271,9 @@ self
 
 백엔드에서 레지스트리 속성을 불러옵니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.members()
+<div id="method-registrymembers">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.members()
+</div>
 
 ```python
 self
@@ -267,7 +281,9 @@ self
 
 이 레지스트리의 현재 멤버(사용자 및 팀)를 반환합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.remove_members()
+<div id="method-registryremove_members">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.remove_members()
+</div>
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -275,7 +291,7 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 이 레지스트리에서 사용자 또는 팀을 제거합니다.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### 인수
 </div>
 
@@ -283,14 +299,14 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
   레지스트리에서 제거할 사용자 또는 팀입니다. `User` 객체, `Team` 객체 또는 해당 문자열 ID를 받습니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-3">
   ##### 예외
 </div>
 
 * `TypeError`: 인수로 전달된 멤버가 없으면 발생합니다.
 * `ValueError`: 사용자 또는 팀 ID를 추론하거나 파싱할 수 없으면 발생합니다.
 
-<div id="examples">
+<div id="examples-2">
   ##### 예시
 </div>
 
@@ -310,7 +326,9 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.save()
+<div id="method-registrysave">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.save()
+</div>
 
 ```python
 self
@@ -318,7 +336,9 @@ self
 
 레지스트리 속성을 백엔드에 저장합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.team_members()
+<div id="method-registryteam_members">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.team_members()
+</div>
 
 ```python
 self
@@ -326,7 +346,9 @@ self
 
 이 레지스트리에 현재 멤버로 등록된 팀을 반환합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.update_member()
+<div id="method-registryupdate_member">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.update_member()
+</div>
 
 ```python
 self,
@@ -336,7 +358,7 @@ role: 'MemberRole | str'
 
 이 레지스트리에서 멤버(사용자 또는 팀)의 역할을 업데이트합니다.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### 인수
 </div>
 
@@ -353,13 +375,13 @@ role: 'MemberRole | str'
   * &quot;restricted&#95;viewer&quot; (W&amp;B 서버에서 지원하는 경우)
 </ResponseField>
 
-<div id="raises">
+<div id="raises-4">
   ##### 예외
 </div>
 
 * `ValueError`: 사용자 또는 팀 ID를 식별할 수 없는 경우 발생합니다.
 
-<div id="examples">
+<div id="examples-3">
   ##### 예시
 </div>
 
@@ -377,7 +399,9 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.user_members()
+<div id="method-registryuser_members">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.user_members()
+</div>
 
 ```python
 self
@@ -385,7 +409,9 @@ self
 
 이 레지스트리의 현재 멤버인 사용자를 반환합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.versions()
+<div id="method-registryversions">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Registry.versions()
+</div>
 
 ```python
 self,
@@ -397,7 +423,7 @@ start: 'str | None' = None
 
 이 레지스트리에 속한 아티팩트 버전들을 반환합니다.
 
-<div id="arguments">
+<div id="arguments-6">
   ##### 인수
 </div>
 

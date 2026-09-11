@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L128" />
 
-## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Artifact
+<div id="class-wandbartifact">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Artifact
+</div>
 
 데이터셋과 모델 버전 관리를 위한 유연하고 가벼운 구성 요소입니다.
 
@@ -274,7 +276,9 @@ digest_algorithm: "Literal['MD5', 'XXH128']" = 'MD5'
   ## 메서드
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add()
+<div id="method-artifactadd">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add()
+</div>
 
 ```python
 self,
@@ -285,7 +289,9 @@ overwrite: 'bool' = False
 
 wandb.WBValue `obj`를 artifact에 추가합니다.
 
-##### 인수
+<div id="arguments">
+  ##### 인수
+</div>
 
 <ResponseField name="obj" type="WBValue">
   추가할 객체입니다. 현재 Bokeh, JoinedTable, PartitionedTable, Table, Classes, ImageMask, BoundingBoxes2D, Audio, Image, Video, Html, Object3D 중 하나를 지원합니다.
@@ -305,7 +311,9 @@ wandb.WBValue `obj`를 artifact에 추가합니다.
 
 * `ArtifactFinalizedError`:  현재 artifact 버전은 이미 확정되어 변경할 수 없습니다. 대신 새 artifact 버전을 로그하세요.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add_dir()
+<div id="method-artifactadd_dir">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add_dir()
+</div>
 
 ```python
 self,
@@ -318,7 +326,9 @@ merge: 'bool' = False
 
 로컬 디렉터리를 artifact에 추가합니다.
 
-##### 인수
+<div id="arguments-2">
+  ##### 인수
+</div>
 
 <ResponseField name="local_path" type="str">
   로컬 디렉터리 경로입니다.
@@ -343,14 +353,16 @@ merge: 'bool' = False
   `False`(기본값)인 경우, 이전 `add_dir` call에서 이미 추가된 파일의 내용이 변경되었으면 ValueError를 발생시킵니다. `True`인 경우, 내용이 변경된 기존 파일을 덮어씁니다. 새 파일은 항상 추가하고 파일은 제거하지 않습니다. 전체 디렉터리를 교체하려면 디렉터리를 추가할 때 `add_dir(local_path, name=my_prefix)`로 이름을 전달하고, `remove(my_prefix)`를 호출해 디렉터리를 제거한 뒤 다시 추가하세요.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-2">
   ##### 예외
 </div>
 
 * `ArtifactFinalizedError`: 현재 artifact 버전은 finalized 상태이므로 변경할 수 없습니다. 대신 새 artifact 버전을 log하세요.
 * `ValueError`: Policy는 &quot;mutable&quot; 또는 &quot;immutable&quot;이어야 합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add_file()
+<div id="method-artifactadd_file">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add_file()
+</div>
 
 ```python
 self,
@@ -364,7 +376,9 @@ overwrite: 'bool' = False
 
 로컬 파일을 artifact에 추가합니다.
 
-##### 인수
+<div id="arguments-3">
+  ##### 인수
+</div>
 
 <ResponseField name="local_path" type="str">
   추가할 파일의 경로입니다.
@@ -390,14 +404,16 @@ overwrite: 'bool' = False
   `True`이면 파일이 이미 존재할 경우 덮어씁니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-3">
   ##### 예외
 </div>
 
 * `ArtifactFinalizedError`: 현재 artifact 버전은 finalized 상태이므로 변경할 수 없습니다. 대신 새 artifact 버전을 log하세요.
 * `ValueError`: Policy는 &quot;mutable&quot; 또는 &quot;immutable&quot;이어야 합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add_reference()
+<div id="method-artifactadd_reference">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.add_reference()
+</div>
 
 ```python
 self,
@@ -429,7 +445,9 @@ URI로 지정된 레퍼런스를 아티팩트에 추가합니다.
 그 밖의 스키마에서는 다이제스트가 단순히 URI의 해시가 되며, 크기는 비워
 둡니다.
 
-##### 인수
+<div id="arguments-4">
+  ##### 인수
+</div>
 
 <ResponseField name="uri" type="ArtifactManifestEntry | str">
   추가할 레퍼런스의 URI 경로입니다. URI 경로는 다른 아티팩트 항목에 대한 레퍼런스를 저장하기 위해 `Artifact.get_entry`에서 반환된 객체일 수도 있습니다.
@@ -447,13 +465,15 @@ URI로 지정된 레퍼런스를 아티팩트에 추가합니다.
   디렉터리 또는 bucket 저장소 prefix를 가리키는 레퍼런스를 추가할 때 고려할 최대 객체 수입니다. 기본적으로 Amazon S3, GCS, Azure 및 로컬 파일에서 허용되는 최대 객체 수는 10,000,000입니다. 다른 URI 스키마에는 최대값이 없습니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-4">
   ##### 예외
 </div>
 
 * `ArtifactFinalizedError`:  현재 artifact 버전은 이미 확정되어 변경할 수 없습니다. 대신 새 artifact 버전을 로그하세요.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.checkout()
+<div id="method-artifactcheckout">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.checkout()
+</div>
 
 ```python
 self,
@@ -464,19 +484,23 @@ root: 'str | None' = None
 
 WARNING: artifact에 포함되지 않은 `root`의 모든 파일이 삭제됩니다.
 
-##### 인수
+<div id="arguments-5">
+  ##### 인수
+</div>
 
 <ResponseField name="root" type="str | None">
   이 artifact의 파일로 대체할 디렉터리입니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-5">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.delete()
+<div id="method-artifactdelete">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.delete()
+</div>
 
 ```python
 self,
@@ -489,7 +513,7 @@ delete_aliases: 'bool' = False
 
 원본 아티팩트와 컬렉션 간의 링크를 제거하려면 `Artifact.delete()` 대신 `Artifact.unlink()`를 사용하세요.
 
-<div id="arguments">
+<div id="arguments-6">
   ##### 매개변수
 </div>
 
@@ -497,13 +521,15 @@ delete_aliases: 'bool' = False
   `True`로 설정하면 아티팩트와 연결된 모든 alias를 삭제합니다. `False`이면 아티팩트에 기존 alias가 있을 경우 예외를 발생시킵니다. 아티팩트를 연결된 컬렉션에서 조회한 경우 이 매개변수는 무시됩니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-6">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.download()
+<div id="method-artifactdownload">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.download()
+</div>
 
 ```python
 self,
@@ -518,7 +544,9 @@ artifact의 내용을 지정된 루트 디렉터리로 다운로드합니다.
 
 `root` 내의 기존 파일은 수정되지 않습니다. `root`의 내용이 artifact와 정확히 일치하도록 하려면 `download`를 호출하기 전에 `root`를 명시적으로 삭제하세요.
 
-##### 인수
+<div id="arguments-7">
+  ##### 인수
+</div>
 
 <ResponseField name="root" type="StrPath | None">
   W&amp;B가 artifact 파일을 저장하는 디렉터리입니다.
@@ -540,13 +568,15 @@ artifact의 내용을 지정된 루트 디렉터리로 다운로드합니다.
   `None`(기본값)으로 설정하면 개별 파일 크기가 2GB보다 큰 경우 multipart 다운로드를 사용해 artifact를 병렬로 다운로드합니다. `True` 또는 `False`로 설정하면 파일 크기와 관계없이 artifact를 각각 병렬 또는 직렬로 다운로드합니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-7">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.file()
+<div id="method-artifactfile">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.file()
+</div>
 
 ```python
 self,
@@ -555,20 +585,24 @@ root: 'str | None' = None
 
 `root`로 지정한 디렉터리로 단일 파일 artifact를 다운로드합니다.
 
-##### 인수
+<div id="arguments-8">
+  ##### 인수
+</div>
 
 <ResponseField name="root" type="str | None">
   파일을 저장할 루트 디렉터리입니다. 기본값은 `./artifacts/self.name/`입니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-8">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: artifact가 로깅되지 않은 경우.
 * `ValueError`: artifact에 파일이 두 개 이상 포함된 경우.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.files()
+<div id="method-artifactfiles">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.files()
+</div>
 
 ```python
 self,
@@ -579,7 +613,9 @@ start: 'str | None' = None
 
 이 아티팩트에 저장된 모든 파일을 순회합니다.
 
-##### 인수
+<div id="arguments-9">
+  ##### 인수
+</div>
 
 <ResponseField name="names" type="list[str] | None">
   나열할 아티팩트 루트를 기준으로 한 파일 경로입니다.
@@ -593,13 +629,15 @@ start: 'str | None' = None
   이전 paginator의 `.cursor` 속성에서 캡처한, 이전 쿼리를 이어서 수행하기 위한 페이지네이션 커서입니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-9">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.finalize()
+<div id="method-artifactfinalize">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.finalize()
+</div>
 
 ```python
 self
@@ -609,7 +647,9 @@ artifact 버전을 최종 확정합니다.
 
 artifact는 특정 버전으로 로깅되므로, 최종 확정된 후에는 해당 artifact 버전을 수정할 수 없습니다. artifact에 데이터를 더 로깅하려면 새 artifact 버전을 만드세요. `log_artifact`로 artifact를 로깅하면 artifact는 자동으로 최종 확정됩니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get()
+<div id="method-artifactget">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get()
+</div>
 
 ```python
 self,
@@ -618,19 +658,23 @@ name: 'str'
 
 artifact를 기준으로 상대 `name`에 있는 WBValue 객체를 조회합니다.
 
-##### 인수
+<div id="arguments-10">
+  ##### 인수
+</div>
 
 <ResponseField name="name" type="str">
   조회할 artifact 기준 상대 name입니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-10">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: artifact가 로깅되지 않았거나 run이 오프라인인 경우.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get_added_local_path_name()
+<div id="method-artifactget_added_local_path_name">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get_added_local_path_name()
+</div>
 
 ```python
 self,
@@ -639,13 +683,17 @@ local_path: 'str'
 
 로컬 파일 시스템 경로로 추가한 파일의 artifact 상대 이름을 조회합니다.
 
-##### 인수
+<div id="arguments-11">
+  ##### 인수
+</div>
 
 <ResponseField name="local_path" type="str">
   artifact 상대 이름으로 확인할 로컬 경로입니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get_entry()
+<div id="method-artifactget_entry">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get_entry()
+</div>
 
 ```python
 self,
@@ -654,20 +702,24 @@ name: 'StrPath'
 
 지정한 이름의 entry를 조회합니다.
 
-##### 인수
+<div id="arguments-12">
+  ##### 인수
+</div>
 
 <ResponseField name="name" type="StrPath">
   조회할 artifact의 상대 이름
 </ResponseField>
 
-<div id="raises">
+<div id="raises-11">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: artifact가 로깅되지 않았거나 run이 오프라인인 경우
 * `KeyError`: artifact에 지정한 이름의 entry가 없는 경우
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get_path()
+<div id="method-artifactget_path">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.get_path()
+</div>
 
 ```python
 self,
@@ -676,13 +728,17 @@ name: 'StrPath'
 
 사용 중단되었습니다. `get_entry(name)`을 사용하세요.
 
-##### 인수
+<div id="arguments-13">
+  ##### 인수
+</div>
 
 <ResponseField name="name" type="StrPath">
   설명이 없습니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.is_draft()
+<div id="method-artifactis_draft">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.is_draft()
+</div>
 
 ```python
 self
@@ -690,7 +746,9 @@ self
 
 artifact가 저장되지 않은 상태인지 확인합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.json_encode()
+<div id="method-artifactjson_encode">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.json_encode()
+</div>
 
 ```python
 self
@@ -698,7 +756,9 @@ self
 
 JSON 형식으로 인코딩된 artifact를 반환합니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.link()
+<div id="method-artifactlink">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.link()
+</div>
 
 ```python
 self,
@@ -708,7 +768,9 @@ aliases: 'Iterable[str] | None' = None
 
 이 artifact를 컬렉션에 연결합니다.
 
-##### 인수
+<div id="arguments-14">
+  ##### 인수
+</div>
 
 <ResponseField name="target_path" type="str">
   컬렉션의 경로입니다. 경로는 접두사 &quot;wandb-registry-&quot;, 레지스트리 이름, 컬렉션 이름으로 구성되며 형식은 `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`입니다.
@@ -718,13 +780,15 @@ aliases: 'Iterable[str] | None' = None
   연결할 artifact에 하나 이상의 alias를 추가합니다. &quot;latest&quot; alias는 연결한 가장 최근 artifact에 자동으로 적용됩니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-12">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.logged_by()
+<div id="method-artifactlogged_by">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.logged_by()
+</div>
 
 ```python
 self
@@ -732,13 +796,15 @@ self
 
 원래 artifact를 로깅한 W&amp;B run을 조회합니다.
 
-<div id="raises">
+<div id="raises-13">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.new_draft()
+<div id="method-artifactnew_draft">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.new_draft()
+</div>
 
 ```python
 self
@@ -748,13 +814,15 @@ self
 
 기존 artifact를 수정하면 &quot;증분 artifact&quot;라고 하는 새 artifact 버전이 생성됩니다. 반환된 artifact는 확장하거나 수정한 후 새 버전으로 로깅할 수 있습니다.
 
-<div id="raises">
+<div id="raises-14">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.new_file()
+<div id="method-artifactnew_file">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.new_file()
+</div>
 
 ```python
 self,
@@ -766,7 +834,9 @@ policy: "Literal['mutable', 'immutable']" = 'mutable'
 
 새 임시 파일을 열어 아티팩트에 추가합니다.
 
-##### 인수
+<div id="arguments-15">
+  ##### 인수
+</div>
 
 <ResponseField name="name" type="str">
   아티팩트에 추가할 새 파일의 이름입니다.
@@ -784,13 +854,15 @@ policy: "Literal['mutable', 'immutable']" = 'mutable'
   기본값은 &quot;mutable&quot;입니다. &quot;mutable&quot;로 설정하면 업로드 중 손상을 방지하기 위해 파일의 임시 복사본을 생성합니다. &quot;immutable&quot;로 설정하면 보호를 비활성화하고, 사용자가 파일을 삭제하거나 변경하지 않는다고 가정합니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-15">
   ##### 예외
 </div>
 
 * `ArtifactFinalizedError`:  현재 artifact 버전은 이미 확정되어 변경할 수 없습니다. 대신 새 artifact 버전을 로그하세요.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.remove()
+<div id="method-artifactremove">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.remove()
+</div>
 
 ```python
 self,
@@ -799,20 +871,24 @@ item: 'StrPath | ArtifactManifestEntry'
 
 artifact에서 항목을 제거합니다.
 
-##### 인수
+<div id="arguments-16">
+  ##### 인수
+</div>
 
 <ResponseField name="item" type="StrPath | ArtifactManifestEntry">
   제거할 항목입니다. 특정 manifest 항목이거나 artifact 기준 상대 경로 이름일 수 있습니다. `item`이 디렉터리와 일치하면 해당 디렉터리의 모든 항목이 제거됩니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-16">
   ##### 예외
 </div>
 
 * `ArtifactFinalizedError`: 현재 artifact 버전이 finalized 상태이므로 변경할 수 없습니다. 대신 새 artifact 버전을 log하세요.
 * `FileNotFoundError`: artifact에서 해당 항목을 찾을 수 없는 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.save()
+<div id="method-artifactsave">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.save()
+</div>
 
 ```python
 self,
@@ -825,7 +901,9 @@ artifact에 적용한 변경 사항을 저장합니다.
 현재 run 컨텍스트에 있으면 해당 run에 이 artifact가 기록됩니다. 현재 run 컨텍스트에 없으면 이
 artifact를 추적하기 위해 유형이 &quot;auto&quot;인 run이 생성됩니다.
 
-##### 인수
+<div id="arguments-17">
+  ##### 인수
+</div>
 
 <ResponseField name="project" type="str | None">
   아직 run 컨텍스트에 없는 경우 artifact에 사용할 프로젝트입니다.
@@ -835,7 +913,9 @@ artifact를 추적하기 위해 유형이 &quot;auto&quot;인 run이 생성됩�
   자동 run을 초기화할 때 사용할 설정 객체입니다. 주로 테스트 하니스에서 사용합니다.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.unlink()
+<div id="method-artifactunlink">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.unlink()
+</div>
 
 ```python
 self
@@ -843,14 +923,16 @@ self
 
 이 artifact가 artifact collection에 연결된 멤버인 경우 연결을 해제합니다.
 
-<div id="raises">
+<div id="raises-17">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: artifact가 로깅되지 않은 경우.
 * `ValueError`: artifact가 어떤 collection에도 연결되어 있지 않은 경우.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.used_by()
+<div id="method-artifactused_by">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.used_by()
+</div>
 
 ```python
 self
@@ -858,13 +940,15 @@ self
 
 이 artifact와 여기에 연결된 artifact를 사용한 run의 목록을 조회합니다.
 
-<div id="raises">
+<div id="raises-18">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: 아티팩트가 로깅되지 않은 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.verify()
+<div id="method-artifactverify">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.verify()
+</div>
 
 ```python
 self,
@@ -875,20 +959,24 @@ artifact의 내용이 매니페스트와 일치하는지 확인합니다.
 
 디렉터리의 모든 파일에 대해 체크섬을 계산한 다음, 해당 체크섬을 artifact의 매니페스트와 대조합니다. 레퍼런스는 확인하지 않습니다.
 
-##### 인수
+<div id="arguments-18">
+  ##### 인수
+</div>
 
 <ResponseField name="root" type="str | None">
   확인할 디렉터리입니다. None이면 artifact를 &#39;./artifacts/self.name/&#39;에 다운로드합니다.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-19">
   ##### 예외
 </div>
 
 * `ArtifactNotLoggedError`: artifact가 로깅되지 않은 경우입니다.
 * `ValueError`: 확인에 실패한 경우입니다.
 
-### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.wait()
+<div id="method-artifactwait">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Artifact.wait()
+</div>
 
 ```python
 self,
@@ -897,7 +985,9 @@ timeout: 'int | None' = None
 
 필요한 경우 이 artifact의 logging이 완료될 때까지 기다립니다.
 
-##### 인수
+<div id="arguments-19">
+  ##### 인수
+</div>
 
 <ResponseField name="timeout" type="int | None">
   기다릴 시간(초)입니다.

@@ -3,31 +3,27 @@ title: "wrapOpenAI"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **wrapOpenAI**&lt;`T`&gt;(`openai`): `T`
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-OpenAI Call에 대한 함수 추적을 활성화하도록 OpenAI API를 래핑합니다.
+```ts
+wrapOpenAI<T>(openai: T): T
+```
 
-정의 위치: [src/integrations/openai.ts:723](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.ts#L723)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.ts#L760" />
+
+OpenAI API를 wrap하여 OpenAI Call에 대한 함수 Tracing을 활성화합니다.
 
 <div id="type-parameters">
   ## 유형 매개변수
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T` *extends* `OpenAIAPI`
+<ParamField path="T" type="extends object" />
 
 <div id="parameters">
   ## 매개변수
 </div>
 
-<div id="openai">
-  ### openai
-</div>
-
-`T`
+<ParamField path="openai" type="T" required />
 
 <div id="returns">
   ## 반환값

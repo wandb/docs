@@ -161,57 +161,52 @@ Jusqu&#39;à ce que vous terminiez la dernière étape, les deux clés fonctionn
   ## Restreindre l’utilisation des clés API par les membres
 </div>
 
-Les administrateurs de l’organisation peuvent restreindre la création et l’utilisation des clés API. Les restrictions disponibles varient selon le type de déploiement. Elles se définissent toutes via la mutation GraphQL `updateOrganizationPrivacySettings`, et non dans la W&amp;B App.
+Les administrateurs de l’organisation peuvent restreindre la création et l’utilisation des clés API depuis les paramètres de l’organisation dans la W&amp;B App. Ces restrictions limitent les clés pouvant accéder aux ressources de votre organisation ainsi que les personnes autorisées à en créer de nouvelles. Les sections suivantes décrivent les restrictions disponibles, qui varient selon le type de déploiement.
 
-<div id="require-organization-api-keys">
-  ### Exiger des clés API d’organisation
+<div id="enforce-organization-scoped-api-keys">
+  ### Appliquer des clés API limitées à l’organisation
 </div>
 
-Disponible dans le **Cloud mutualisé** pour les organisations Enterprise.
+Disponible dans **Cloud mutualisé** pour les organisations Enterprise. W&amp;B active ce paramètre organisation par organisation. Si vous ne le voyez pas, contactez votre équipe de compte W&amp;B.
 
-Lorsqu’elle est activée, seules les clés API d’organisation peuvent accéder aux ressources de l’organisation. Les clés API personnelles qu’un membre utilise dans plusieurs organisations ne fonctionnent plus avec cette organisation, ce qui empêche qu’une clé divulguée ailleurs donne accès à vos données.
+Lorsque ce paramètre est appliqué, seules les clés API d’organisation et les clés appartenant à des comptes de service de l’organisation peuvent accéder aux ressources de celle-ci. Une clé API personnelle qu’un membre utilise dans plusieurs organisations ne fonctionne plus pour cette organisation, ce qui empêche une clé divulguée ailleurs d’atteindre vos données.
 
-Remplacez `[ORGANIZATION-ID]` par l’ID de votre organisation.
+<Warning>
+  Les clés API personnelles perdent l’accès en lecture et en écriture à l’organisation dès que vous appliquez ce paramètre, et toute intégration qui utilise une clé personnelle cesse de fonctionner. Prévenez vos utilisateurs avant de l’appliquer.
+</Warning>
 
-```graphql
-mutation RequireOrgScopedAPIKeys {
-  updateOrganizationPrivacySettings(
-    input: {organizationId: "[ORGANIZATION-ID]", requireOrgScopedAPIKeys: true}
-  ) {
-    success
-  }
-}
+Pour appliquer des clés API limitées à l’organisation, procédez comme suit :
+
+1. Connectez-vous en tant qu’administrateur de l’organisation.
+2. Ouvrez les paramètres de votre organisation, puis sélectionnez **Authentication** dans le menu de navigation de gauche.
+3. À côté de **Enforce organization-scoped API keys**, cliquez sur **Enforce**.
+4. Saisissez le nom de votre organisation pour confirmer, puis cliquez sur **Enforce Organization-Scoped API Keys**.
+
+W&amp;B affiche alors l’étiquette **Enforced** à côté du paramètre. Pour cesser de l’appliquer, revenez à **Authentication** et cliquez sur **Disable**.
+
+<div id="disable-api-key-creation">
+  ### Désactiver la création de clés API
+</div>
+
+Disponible dans **Cloud dédié** et **Autogéré** v0.84.0 et versions ultérieures.
+
+Lorsque ce paramètre est activé, les utilisateurs et les comptes de service d&#39;équipe ne peuvent plus créer de clés API. Les comptes de service de l&#39;organisation peuvent toujours en créer et les clés existantes continuent de fonctionner : activer cette option n&#39;interrompt donc pas les jobs en cours. Utilisez-la lorsque votre organisation délivre les clés via un processus contrôlé et que vous souhaitez empêcher les membres de créer les leurs.
+
+Pour désactiver la création de clés API, procédez comme suit :
+
+1. Connectez-vous en tant qu&#39;administrateur de l&#39;organisation.
+2. Ouvrez le tableau de bord de votre organisation, puis sélectionnez **Privacy** dans le menu de navigation de gauche.
+3. Dans la section **Access Control**, activez **Disable API key creation**.
+
+W&amp;B enregistre la modification immédiatement. Pour les autres paramètres de cet onglet, voir [Configurer les paramètres de confidentialité](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
+
+Tant que ce paramètre est activé, l&#39;onglet **API Keys** désactive le bouton **New key** et affiche le message suivant :
+
+```text
+La création de clés API a été désactivée par l'administrateur de votre organisation. Vous pouvez toujours modifier, supprimer et utiliser les clés API existantes.
 ```
 
-Ce paramètre nécessite que les clés API d’organisation soient déjà activées pour votre organisation. Contactez votre équipe de compte W&amp;B pour le confirmer.
-
-{/*
-  ### Désactiver la création de clés API
-
-  Disponible dans **Cloud dédié** et **Autogéré** à partir de la version 0.84.0.
-
-  Lorsqu'il est activé, ce paramètre empêche les membres de l'organisation de créer des clés API. Les clés existantes continuent de fonctionner ; son activation n'interrompt donc pas les tâches en cours. Utilisez-le si votre organisation délivre des clés via un processus contrôlé et que vous souhaitez empêcher les membres de créer leurs propres clés.
-
-  Remplacez `[ORGANIZATION-ID]` par l'ID de votre organisation.
-
-  ```graphql
-  mutation DisableAPIKeyCreation {
-  updateOrganizationPrivacySettings(
-    input: {organizationId: "[ORGANIZATION-ID]", disableApiKeyCreation: true}
-  ) {
-    success
-  }
-  }
-  ```
-
-  Un membre qui tente de créer une clé après avoir activé ce paramètre reçoit l'erreur suivante :
-
-  ```text
-  La création de clés API a été désactivée par l'administrateur de votre organisation
-  ```
-
-  Pour restreindre également la création de comptes de service, voir [`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/platform/hosting/iam/advanced_env_vars), qui empêche la création de nouveaux comptes de service à portée d'équipe dans Cloud dédié et Autogéré à partir de la version 0.83.0.
-  */}
+Pour restreindre également la création de comptes de service, voir [`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/fr/platform/hosting/iam/advanced_env_vars), qui empêche la création de nouveaux comptes de service à portée d&#39;équipe dans Cloud dédié et Autogéré à partir de la version v0.83.0.
 
 <div id="availability">
   ## Disponibilité

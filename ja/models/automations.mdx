@@ -9,17 +9,17 @@ import AutomationsActionsList from "/snippets/ja/_includes/automations/actions-l
 import AutomationsBestPractices from "/snippets/ja/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/ja/_includes/automations/where-to-find-automations.mdx";
 
-*オートメーション*は、W&amp;B で発生する特定のイベントに応じて Slack 通知を送信したり、webhook を実行したりします。オートメーションのスコープは、組織、チーム、project、レジストリ、またはコレクションに設定できます。オートメーションは、後から作成される project、レジストリ、コレクションを含め、スコープ内のすべてで発生するイベントを監視します。オートメーションを作成する手順と利用可能なイベントは、スコープによって異なります。スコープごとのイベントタイプについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
+*オートメーション*は、W&amp;B で発生する特定のイベントに応じて Slack 通知を送信したり、webhook を実行したり、ARIA にプロンプトを送信したりします。オートメーションのスコープは、組織、チーム、project、Registry、またはコレクションに設定できます。オートメーションは、後から作成される project、Registry、コレクションを含め、スコープ内のすべてで発生するイベントを監視します。オートメーションを作成する手順と利用可能なイベントは、スコープによって異なります。スコープごとのイベントタイプについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
 
 <Note>
-  チームスコープおよび組織スコープのオートメーションと [Automations hub](#automations-hub) は、W&amp;B Multi-tenant Cloud および W&amp;B 専用クラウド (Server v0.83.0 以降) で利用できます。
+  チームスコープおよび組織スコープのオートメーションと [Automations ハブ](#automations-hub) は、W&amp;B Multi-tenant Cloud および W&amp;B 専用クラウド (Server v0.83.0 以降) で利用できます。
 </Note>
 
 <AutomationsMentalModel />
 
 ```mermaid
 flowchart LR
-  Event[イベント] --> Condition[条件]
+  Event[イベント] --> Condition[コンディション]
   Condition --> Action[アクション]
 ```
 
@@ -55,6 +55,7 @@ flowchart LR
 * **run の監視とアラート**: run が失敗したときや、メトリクスがしきい値を超えたとき (たとえば、損失が NaN になる、または精度が低下する場合) にチームに通知します。
 * **Registry CI/CD**: 新しいモデル バージョンがリンクされたとき、または alias (`staging` や `production` など) が追加されたときに、webhook をトリガーしてテストを実行したり、デプロイしたりします。
 * **project の artifact ワークフロー**: 新しい artifact バージョンが作成されたとき、または project に alias が追加されたときに、後続のジョブを実行したり、Slack に投稿したりします。
+* **自動分析**: run が失敗したときや、新しいモデル バージョンがリンクされたときに、[ARIA](/ja/aria/overview) にプロンプトを送信して、失敗の原因を診断したり、新しいバージョンを本番環境のものと比較したりします。
 
 イベントとスコープの詳細については、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
 
@@ -66,7 +67,7 @@ flowchart LR
 
 <AutomationsActionsList />
 
-実装の詳細については、[Slack オートメーションの作成](/ja/models/automations/create-automations/slack) および [webhook オートメーションの作成](/ja/models/automations/create-automations/webhook) を参照してください。
+実装の詳細については、[Slack オートメーションの作成](/ja/models/automations/create-automations/slack)、[webhook オートメーションの作成](/ja/models/automations/create-automations/webhook)、または [ARIA オートメーションの作成](/ja/models/automations/create-automations/aria) を参照してください。
 
 <div id="how-automations-work">
   ## オートメーションの動作
@@ -75,10 +76,10 @@ flowchart LR
 [オートメーションを作成](/ja/models/automations/create-automations)するには、次の手順を行います。
 
 1. 必要に応じて、アクセストークン、パスワード、機密性の高い設定の詳細など、オートメーションで必要になる機密文字列のために[シークレット](/ja/platform/secrets)を設定します。シークレットは **Team Settings** で定義します。シークレットは、主に webhook オートメーションで、認証情報やトークンを平文で公開したり webhook のペイロードにハードコードしたりすることなく、webhook の外部サービスに安全に渡すために使用されます。
-2. チームレベルの webhook または Slack インテグレーションを設定して、W&amp;B が Slack に投稿したり、ユーザーに代わって webhook を実行したりできるようにします。1 つのオートメーションアクション (webhook または Slack 通知) を複数のオートメーションで使用できます。これらのアクションは **Team Settings** で定義します。
-3. project または レジストリ で、オートメーションを作成します。
+2. チームレベルの webhook または Slack インテグレーションを設定して、W&amp;B が Slack に投稿したり、ユーザーに代わって webhook を実行したりできるようにします。1 つのオートメーションアクション (webhook または Slack 通知) を複数のオートメーションで使用できます。これらのアクションは **Team Settings** で定義します。ARIA アクションにはインテグレーションは不要です。
+3. project または Registry で、オートメーションを作成します。
    1. 監視する[イベント](/ja/models/automations/automation-events)を定義します。たとえば、新しい artifact バージョンが追加されたときです。
-   2. イベント発生時に実行するアクション (Slack チャンネルへの投稿や webhook の実行) を定義します。webhook の場合は、必要に応じて、アクセストークンに使用するシークレットや、ペイロードとともに送信するシークレットを指定します。
+   2. イベント発生時に実行するアクション (Slack チャンネルへの投稿、webhook の実行、ARIA へのプロンプトの送信など) を定義します。webhook の場合は、必要に応じて、アクセストークンに使用するシークレットや、ペイロードとともに送信するシークレットを指定します。
 
 <div id="recommendations">
   ## 推奨事項

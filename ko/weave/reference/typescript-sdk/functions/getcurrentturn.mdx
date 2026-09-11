@@ -3,11 +3,15 @@ title: "getCurrentTurn"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **getCurrentTurn**(): [`Turn`](../interfaces/turn) | `undefined`
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+getCurrentTurn(): Turn | undefined
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/context.ts#L67" />
 
 현재 Turn을 반환하며, 없으면 undefined를 반환합니다.
-
-정의 위치: [src/genai/context.ts:67](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/context.ts#L67)
 
 <div id="returns">
   ## 반환값

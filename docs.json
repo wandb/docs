@@ -435,15 +435,6 @@
                         ]
                       },
                       {
-                        "group": "LLM Evaluation Jobs",
-                        "pages": [
-                          "models/launch",
-                          "models/launch/evaluate-model-checkpoint",
-                          "models/launch/evaluate-hosted-model",
-                          "models/launch/evaluations"
-                        ]
-                      },
-                      {
                         "group": "W&B App UI",
                         "pages": [
                           "models/app/features/cascade-settings",
@@ -1022,6 +1013,7 @@
                           "models/ref/python/automations/onunlinkartifact",
                           "models/ref/python/automations/runstatefilter",
                           "models/ref/python/automations/sendnotification",
+                          "models/ref/python/automations/sendprompttoaria",
                           "models/ref/python/automations/sendwebhook"
                         ]
                       },
@@ -2208,7 +2200,8 @@
                             "pages": [
                               "fr/models/automations/create-automations",
                               "fr/models/automations/create-automations/slack",
-                              "fr/models/automations/create-automations/webhook"
+                              "fr/models/automations/create-automations/webhook",
+                              "fr/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -2222,15 +2215,6 @@
                           "fr/models/automations/view-automation-history",
                           "fr/models/automations/automation-events",
                           "fr/models/automations/api"
-                        ]
-                      },
-                      {
-                        "group": "Jobs d’évaluation des LLM",
-                        "pages": [
-                          "fr/models/launch",
-                          "fr/models/launch/evaluate-model-checkpoint",
-                          "fr/models/launch/evaluate-hosted-model",
-                          "fr/models/launch/evaluations"
                         ]
                       },
                       {
@@ -2381,6 +2365,7 @@
                           "fr/weave/guides/tracking/trace-agents-otel",
                           "fr/weave/guides/tracking/view-agent-activity",
                           "fr/weave/guides/tracking/view-agent-signals",
+                          "fr/weave/guides/tracking/create-custom-signal",
                           "fr/weave/guides/tracking/trace-agents-attributes",
                           "fr/weave/guides/tracking/trace-agents-batch",
                           "fr/weave/guides/tracking/trace-sub-agents",
@@ -2811,6 +2796,7 @@
                           "fr/models/ref/python/automations/onunlinkartifact",
                           "fr/models/ref/python/automations/runstatefilter",
                           "fr/models/ref/python/automations/sendnotification",
+                          "fr/models/ref/python/automations/sendprompttoaria",
                           "fr/models/ref/python/automations/sendwebhook"
                         ]
                       },
@@ -3320,6 +3306,12 @@
                           "fr/weave/reference/service-api/datasets/dataset-create",
                           "fr/weave/reference/service-api/datasets/dataset-read",
                           "fr/weave/reference/service-api/datasets/dataset-delete"
+                        ]
+                      },
+                      {
+                        "group": "Environnements d’exécution personnalisés",
+                        "pages": [
+                          "fr/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
                         ]
                       },
                       {
@@ -3991,7 +3983,8 @@
                             "pages": [
                               "ja/models/automations/create-automations",
                               "ja/models/automations/create-automations/slack",
-                              "ja/models/automations/create-automations/webhook"
+                              "ja/models/automations/create-automations/webhook",
+                              "ja/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -4005,15 +3998,6 @@
                           "ja/models/automations/view-automation-history",
                           "ja/models/automations/automation-events",
                           "ja/models/automations/api"
-                        ]
-                      },
-                      {
-                        "group": "LLM 評価ジョブ",
-                        "pages": [
-                          "ja/models/launch",
-                          "ja/models/launch/evaluate-model-checkpoint",
-                          "ja/models/launch/evaluate-hosted-model",
-                          "ja/models/launch/evaluations"
                         ]
                       },
                       {
@@ -4164,6 +4148,7 @@
                           "ja/weave/guides/tracking/trace-agents-otel",
                           "ja/weave/guides/tracking/view-agent-activity",
                           "ja/weave/guides/tracking/view-agent-signals",
+                          "ja/weave/guides/tracking/create-custom-signal",
                           "ja/weave/guides/tracking/trace-agents-attributes",
                           "ja/weave/guides/tracking/trace-agents-batch",
                           "ja/weave/guides/tracking/trace-sub-agents",
@@ -4594,6 +4579,7 @@
                           "ja/models/ref/python/automations/onunlinkartifact",
                           "ja/models/ref/python/automations/runstatefilter",
                           "ja/models/ref/python/automations/sendnotification",
+                          "ja/models/ref/python/automations/sendprompttoaria",
                           "ja/models/ref/python/automations/sendwebhook"
                         ]
                       },
@@ -5106,6 +5092,12 @@
                         ]
                       },
                       {
+                        "group": "カスタムランタイム",
+                        "pages": [
+                          "ja/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Scorer",
                         "pages": [
                           "ja/weave/reference/service-api/scorers/scorer-list",
@@ -5124,7 +5116,7 @@
                         ]
                       },
                       {
-                        "group": "評価 run",
+                        "group": "評価Runs",
                         "pages": [
                           "ja/weave/reference/service-api/evaluation-runs/evaluation-run-list",
                           "ja/weave/reference/service-api/evaluation-runs/evaluation-run-create",
@@ -5774,7 +5766,8 @@
                             "pages": [
                               "ko/models/automations/create-automations",
                               "ko/models/automations/create-automations/slack",
-                              "ko/models/automations/create-automations/webhook"
+                              "ko/models/automations/create-automations/webhook",
+                              "ko/models/automations/create-automations/aria"
                             ]
                           },
                           {
@@ -5788,15 +5781,6 @@
                           "ko/models/automations/view-automation-history",
                           "ko/models/automations/automation-events",
                           "ko/models/automations/api"
-                        ]
-                      },
-                      {
-                        "group": "LLM 평가 작업",
-                        "pages": [
-                          "ko/models/launch",
-                          "ko/models/launch/evaluate-model-checkpoint",
-                          "ko/models/launch/evaluate-hosted-model",
-                          "ko/models/launch/evaluations"
                         ]
                       },
                       {
@@ -5947,6 +5931,7 @@
                           "ko/weave/guides/tracking/trace-agents-otel",
                           "ko/weave/guides/tracking/view-agent-activity",
                           "ko/weave/guides/tracking/view-agent-signals",
+                          "ko/weave/guides/tracking/create-custom-signal",
                           "ko/weave/guides/tracking/trace-agents-attributes",
                           "ko/weave/guides/tracking/trace-agents-batch",
                           "ko/weave/guides/tracking/trace-sub-agents",
@@ -6377,6 +6362,7 @@
                           "ko/models/ref/python/automations/onunlinkartifact",
                           "ko/models/ref/python/automations/runstatefilter",
                           "ko/models/ref/python/automations/sendnotification",
+                          "ko/models/ref/python/automations/sendprompttoaria",
                           "ko/models/ref/python/automations/sendwebhook"
                         ]
                       },
@@ -6889,6 +6875,12 @@
                         ]
                       },
                       {
+                        "group": "맞춤형 런타임",
+                        "pages": [
+                          "ko/weave/reference/service-api/custom-runtimes/custom-runtime-apply"
+                        ]
+                      },
+                      {
                         "group": "Scorer",
                         "pages": [
                           "ko/weave/reference/service-api/scorers/scorer-list",
@@ -6907,7 +6899,7 @@
                         ]
                       },
                       {
-                        "group": "평가 run",
+                        "group": "평가 Runs",
                         "pages": [
                           "ko/weave/reference/service-api/evaluation-runs/evaluation-run-list",
                           "ko/weave/reference/service-api/evaluation-runs/evaluation-run-create",

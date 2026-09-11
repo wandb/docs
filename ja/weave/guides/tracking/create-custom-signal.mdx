@@ -1,0 +1,36 @@
+---
+title: "カスタムシグナルを作成する"
+description: "定義した動作に基づいてエージェントのターンにタグを付ける、カスタム W&B Weave シグナルを作成します。"
+keywords: ["signals", "custom signal", "agent monitoring", "tags"]
+---
+
+カスタムシグナルは、ユーザーが定義した動作に照らしてエージェントのターンをスコアリングし、その結果を [Agents ビュー](/ja/weave/guides/tracking/view-agent-activity) にタグとして表示します。W&amp;B Weave は、ユーザーのフラストレーションやジェイルブレイクなど、一般的なケース向けの [組み込みシグナル](/ja/weave/guides/tracking/view-agent-signals) も提供しています。組み込みシグナルでは監視したい内容をカバーできない場合は、カスタムシグナルを作成してください。このページでは、Weave UI でカスタムタグシグナルを作成する方法を説明します。
+
+<div id="create-a-custom-tag-signal">
+  ## カスタムタグシグナルを作成する
+</div>
+
+カスタムタグシグナルを作成するには、次の手順を実行します。
+
+1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
+2. **Weave のプロジェクトのサイドバー** で、**Agents** をクリックします。
+3. タブバーで **Signals** をクリックします。
+4. Signals タブで、**+ Create your first signal** または **New signal** をクリックします。
+5. ドロワーで **Custom Signal** をクリックします。
+
+<Frame>
+  ![カスタムシグナルを作成するための Tag name、Definition、Scorer name、Inference model の各フィールドが表示された Custom tags ドロワー。](/weave/guides/tracking/imgs/custom-signal.png)
+</Frame>
+
+1. **Custom tags** ドロワーで、次のフィールドを設定します。
+   * **Tag name**: モニタリング対象の動作に対して Agents ビューに表示されるラベルです。
+   * **Definition**: シグナルに検出させたい動作を記述する prompt です。Weave はこの prompt を LLM judge に送信し、LLM judge が各エージェントのターンをスコアリングして、その動作に一致するターンにタグを付与します。たとえば、特定のプロダクトの不具合を検出する場合は、「The user is discussing errors or issues regarding Product X.」のように記述します。
+   * **+ Add tag** (任意) : クリックすると、同じシグナルに別のタグを定義できます。たとえば、複数のプロダクトをサポートしている場合は、プロダクトごとに個別のタグを追加しておくと、全体の集計だけでなくプロダクト単位で不満をトラッキングできます。
+   * **Scorer name**: 基盤となる scorer オブジェクトの名前です。
+   * **Inference model or custom runtime**: 一致するターンのスコアリングに使用するモデルです。デフォルトは [Serverless Inference](/ja/inference/) です。CoreWeave Serverless Inference は、W&amp;B アカウントのクレジットを消費します。
+   * **Include tool calls** (任意) : **Advanced** を展開してチェックボックスをオンにすると、スコアリングモデルに送信されるコンテキストにそのターンの tool call が含まれます。
+   * **Only score turns matching** (任意) : **Advanced** を展開して 1 つ以上のフィルターを追加すると、シグナルがスコアリングするターンをエージェント、operation、tool、モデルなどで制限できます。空のままにすると、すべてのエージェントのターンがスコアリングされます。Weave は複数のフィルターを `AND` ロジックで結合します。
+   * **Sample rate** (任意) : **Advanced** を展開し、シグナルがスコアリングする、一致するエージェントのターンの割合を設定します。トラフィックの多いエージェントでは、サンプリング率を下げてすべてのターンではなく一部のみをスコアリングすることで、コストを抑えられます。
+2. **Custom tags** ドロワーで **Create signal** をクリックします。
+
+シグナルを作成すると、Weave が一致するターンをスコアリングします。タグは Signals タブを含む Agents ビューに表示されます。

@@ -3,21 +3,27 @@ title: "endConversation"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **endConversation**(`opts?`): `void`
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-現在の会話を終了します。アクティブな会話がない場合は何もしません。
+```ts
+endConversation(opts?: object): void
+```
 
-定義元: [src/genai/api.ts:159](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L159)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L159" />
+
+現在の会話を終了します。実行中の会話がない場合は no-op です。
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## 戻り値

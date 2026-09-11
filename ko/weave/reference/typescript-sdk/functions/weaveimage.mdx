@@ -3,26 +3,33 @@ title: "weaveImage"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **weaveImage**(`options`): [`WeaveImage`](../interfaces/weaveimage)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+weaveImage(options: object): WeaveImage
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L31" />
 
 새 WeaveImage 객체를 생성합니다
 
-정의 위치: [src/media.ts:28](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L28)
-
 <div id="parameters">
-  ## 매개변수
+  ## Parameters
 </div>
 
-<div id="options">
-  ### options
-</div>
+<ParamField path="options" type="object" required>
+  이 미디어 유형에 대한 옵션입니다
 
-`WeaveImageInput`
+  * data: Buffer 형식의 원시 이미지 데이터
+  * imageType: (선택) 이미지 형식으로 &#39;png&#39;(기본값), &#39;jpeg&#39; 또는 &#39;webp&#39;입니다.
+    게시 시 저장되는 파일 이름은 항상 image.png입니다
 
-이 미디어 유형에 대한 옵션입니다
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="data" type="Buffer" required />
 
-* data: Buffer 형식의 원시 이미지 데이터
-  * imageType: (선택) 이미지 파일 유형이며 현재는 &#39;png&#39;만 지원됩니다
+    <ParamField path="imageType" type="&#x22;png&#x22; | &#x22;jpeg&#x22; | &#x22;webp&#x22;" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## 반환값
