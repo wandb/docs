@@ -3,7 +3,52 @@ title: "ターン"
 description: "TypeScript SDK リファレンス"
 ---
 
-定義元: [src/genai/turn.ts:92](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L92)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L98" />
+
+agent invocation です。通常は、単一のユーザーメッセージに応答するための処理をラップします。`invoke_agent` span を発行し、そのターンにおける trace のルートとして機能します。常に `ROOT_CONTEXT` の下で開始されるため、OTel でインストルメントされた他のライブラリから誤って親を継承することはありません。
+
+`weave.startTurn()` (または `conversation.startTurn()`) によって作成され、`end()` で終了します。1 つの非同期チェーン内で実行中にできるターンは 1 つだけです。子 (LLM、Tool、SubAgent) は `startLLM`、`startTool`、`startSubagent` の各 method を通じて attach されます。
+
+<div id="examples">
+  ## 例
+</div>
+
+```ts twoslash
+// @noErrors
+const turn = weave.startTurn();
+
+try {
+  const llm = turn.startLLM({model: 'gpt-4o', providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+```ts twoslash
+// @noErrors
+const turn = weave.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  const llm = turn.startLLM({model: 'gpt-4o', providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
 
 <div id="extends">
   ## 継承元
@@ -15,15 +60,15 @@ description: "TypeScript SDK リファレンス"
   ## アクセサー
 </div>
 
-### エージェント名
+<div id="agentname">
+  ### エージェント名
+</div>
 
 <div id="get-signature">
   #### Get Signature
 </div>
 
 > **get** **agentName**(): `string`
-
-定義元: [src/genai/turn.ts:103](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L103)
 
 <div id="returns">
   ##### 戻り値
@@ -33,17 +78,17 @@ description: "TypeScript SDK リファレンス"
 
 ***
 
-### モデル
+<div id="model">
+  ### モデル
+</div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### Get Signature
 </div>
 
 > **get** **model**(): `string`
 
-定義元: [src/genai/turn.ts:107](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L107)
-
-<div id="returns">
+<div id="returns-2">
   ##### 戻り値
 </div>
 
@@ -70,31 +115,19 @@ description: "TypeScript SDK リファレンス"
 span 以外の時点を記録する際に便利です。`end()` の後は警告を出し、
 何も行いません。OTel の `Span.addEvent` と同様の動作をします。
 
-定義元: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 <div id="parameters">
   #### パラメーター
 </div>
 
-<div id="name">
-  ##### 名
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns-3">
+  #### 戻り値
 </div>
-
-`string`
-
-<div id="attributes">
-  ##### 属性?
-</div>
-
-`Attributes`
-
-<div id="starttime">
-  ##### startTime?
-</div>
-
-`TimeInput`
-
-#### 戻り値
 
 `this`
 
@@ -123,19 +156,21 @@ span.addEvent('context_compacted', {removedMessages: 12});
 
 現在のフィールド値を読み取り (`start`以降に`record()`で行った変更を反映) 、span を終了します。冪等です。失敗としてマークするには`error`を渡します。終了時刻を過去に設定するには`endTime`を渡します。
 
-定義元: [src/genai/turn.ts:241](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L241)
-
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-<div id="opts">
-  ##### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### 戻り値
 </div>
-
-`SpanEndOptions`
-
-#### 戻り値
 
 `void`
 
@@ -150,57 +185,37 @@ span.addEvent('context_compacted', {removedMessages: 12});
 変更可能なフィールドの任意のサブセットを一括で設定します。マージではなく置換されます。
 provider 呼び出しの戻り値を受け取った後に、すべてを一度に割り当てる場合に便利です。
 
-定義元: [src/genai/turn.ts:201](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L201)
-
-<div id="parameters">
+<div id="parameters-3">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
 
-<div id="agentdescription">
-  ###### agentDescription?
+    <ParamField path="agentId" type="string" />
+
+    <ParamField path="agentName" type="string" />
+
+    <ParamField path="agentVersion" type="string" />
+
+    <ParamField path="messages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
+
+    <ParamField path="model" type="string" />
+
+    <ParamField path="outputMessages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
+
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-5">
+  #### 戻り値
 </div>
-
-`string`
-
-<div id="agentid">
-  ###### agentId?
-</div>
-
-`string`
-
-<div id="agentname">
-  ###### agentName?
-</div>
-
-`string`
-
-<div id="agentversion">
-  ###### agentVersion?
-</div>
-
-`string`
-
-<div id="messages">
-  ###### messages?
-</div>
-
-[`Message`](./message)[]
-
-<div id="model">
-  ###### モデル?
-</div>
-
-`string`
-
-<div id="systeminstructions">
-  ###### systemInstructions?
-</div>
-
-`string`[]
-
-#### 戻り値
 
 `this`
 
@@ -218,25 +233,17 @@ provider 呼び出しの戻り値を受け取った後に、すべてを一度�
 
 > **setAttribute**(`key`, `value`): `this`
 
-定義元: [src/genai/turn.ts:193](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L193)
-
-<div id="parameters">
+<div id="parameters-4">
   #### パラメーター
 </div>
 
-<div id="key">
-  ##### キー
+<ParamField path="key" type="string" required />
+
+<ParamField path="value" type="AttributeValue" required />
+
+<div id="returns-6">
+  #### 戻り値
 </div>
-
-`string`
-
-<div id="value">
-  ##### 値
-</div>
-
-`AttributeValue`
-
-#### 戻り値
 
 `this`
 
@@ -251,21 +258,19 @@ provider 呼び出しの戻り値を受け取った後に、すべてを一度�
 span に複数の属性を一度に設定します。`end()` の後に呼び出すと警告が表示され、何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
 `set_attributes`) と同様です。
 
-定義元: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
-<div id="parameters">
+<div id="parameters-5">
   #### パラメーター
 </div>
 
-##### 属性
+<ParamField path="attributes" type="Attributes" required />
 
-`Attributes`
-
-#### 戻り値
+<div id="returns-7">
+  #### 戻り値
+</div>
 
 `this`
 
-<div id="example">
+<div id="example-2">
   #### 例
 </div>
 
@@ -274,7 +279,7 @@ span に複数の属性を一度に設定します。`end()` の後に呼び出�
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### 継承元
 </div>
 
@@ -290,17 +295,17 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 この ターン 内で子 LLM span を開始します。
 
-定義元: [src/genai/turn.ts:161](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L161)
-
-<div id="parameters">
+<div id="parameters-6">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="LLMInit" required>
+  [`LLMInit`](./llminit) を参照してください。
+</ParamField>
 
-[`LLMInit`](./llminit)
-
-#### 戻り値
+<div id="returns-8">
+  #### 戻り値
+</div>
 
 [`LLM`](./llm)
 
@@ -314,17 +319,17 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 この ターン 内で子 SubAgent の span を開始します。
 
-定義元: [src/genai/turn.ts:179](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L179)
-
-<div id="parameters">
+<div id="parameters-7">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](./subagentinit) を参照してください。
+</ParamField>
 
-[`SubAgentInit`](./subagentinit)
-
-#### 戻り値
+<div id="returns-9">
+  #### 戻り値
+</div>
 
 [`SubAgent`](./subagent)
 
@@ -338,16 +343,16 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 この ターン 内で子 Tool span を開始します。
 
-定義元: [src/genai/turn.ts:170](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L170)
-
-<div id="parameters">
+<div id="parameters-8">
   #### パラメーター
 </div>
 
-##### opts
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](./toolinit) を参照してください。
+</ParamField>
 
-[`ToolInit`](./toolinit)
-
-#### 戻り値
+<div id="returns-10">
+  #### 戻り値
+</div>
 
 [`Tool`](./tool)

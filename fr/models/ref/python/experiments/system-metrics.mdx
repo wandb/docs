@@ -16,15 +16,15 @@ Cette page fournit des informations détaillées sur les métriques système sui
   ## Afficher les métriques système
 </div>
 
-Vous pouvez afficher et surveiller les métriques système à l’aide de la W&amp;B App ou de l’interface terminal `wandb beta leet`.
+Vous pouvez afficher et surveiller les métriques système à l’aide de la W&amp;B App ou de l’interface terminal `wandb leet`.
 
 <Tabs>
   <Tab title="App">
-    Pour afficher les métriques système dans la W&amp;B App :
+    Pour afficher les métriques système dans la W&amp;B App :
 
     1. Accédez à votre projet dans la W&amp;B App.
     2. Sélectionnez un run dans le tableau **Runs**.
-    3. Dans le Workspace, recherchez la section **System**, qui affiche des graphiques pour :
+    3. Dans le Workspace, recherchez la section **System**, qui affiche des graphiques pour :
        * l’utilisation du GPU et la mémoire
        * l’utilisation du CPU
        * l’utilisation de la mémoire
@@ -35,25 +35,27 @@ Vous pouvez afficher et surveiller les métriques système à l’aide de la W&a
   </Tab>
 
   <Tab title="LEET">
-    Pour afficher les métriques système d’un run dans votre terminal à l’aide de l’interface terminal `wandb beta leet` :
+    Pour afficher les métriques système d’un run local dans votre terminal à l’aide de l’interface terminal `wandb leet` :
 
     1. Si vous avez démarré le run localement à partir d’un script, accédez au répertoire dans lequel vous avez exécuté votre code. Il contient un répertoire `wandb/` avec un sous-répertoire par run et un lien symbolique `latest-run/`. Chaque répertoire de run contient un journal des transactions nommé au format `run-<run-ID>.wandb`.
 
        Si vous n’avez pas démarré le run localement, mais avez téléchargé à la place un fichier journal des transactions `.wandb`, notez son emplacement.
-    2. Démarrez `wandb beta leet` à l’aide de l’une des commandes suivantes :
+    2. Démarrez `wandb leet` à l’aide de l’une des commandes suivantes :
 
        ```bash
-       # Afficher le dernier run, stocké dans ./wandb/latest-run/
-       wandb beta leet
+       # Ouvrir le workspace et sélectionner le dernier run local
+       wandb leet
 
        # Indiquer un répertoire de run
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+       wandb leet ./wandb/run-20250813_124246-n67z9ude
 
        # Indiquer un fichier .wandb
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       wandb leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
        ```
 
-    LEET affiche les métriques système dans la **barre latérale droite**, notamment :
+    Sans chemin du run, LEET ouvre par défaut la vue workspace. Appuyez sur `2` pour afficher les métriques système du run mis en évidence. Un répertoire de run ou un fichier `.wandb` ouvre la vue run unique, où les métriques système apparaissent par défaut dans la barre latérale droite.
+
+    Le volet des métriques système affiche :
 
     * l’utilisation du GPU (%) et de la mémoire (Go)
     * l’utilisation du CPU
@@ -61,15 +63,21 @@ Vous pouvez afficher et surveiller les métriques système à l’aide de la W&a
     * les E/S du disque
     * l’activité réseau
 
-    Voici quelques raccourcis clavier pour commencer :
+    Voici quelques raccourcis clavier pour commencer :
 
-    * `h` ou `?` - Afficher tous les raccourcis clavier
-    * `/` - Filtrer les métriques par motif
-    * `[` / `]` - Basculer entre les barres latérales gauche et droite
-    * `n` / `N` - Naviguer entre les pages de métriques
-    * `q` / `CMD+C` - Quitter
+    * `h` ou `?` : Afficher les raccourcis clavier de la vue actuelle.
+    * `\` : Filtrer les métriques système par motif.
+    * `y` : Faire basculer le graphique ciblé entre les modes linéaire, logarithmique et, pour les métriques en pourcentage, heatmap par buckets.
+    * `n` et `N` : Naviguer entre les pages du volet ciblé.
+    * `q` ou `ctrl+c` : Quitter.
 
-    Voir [`wandb beta leet`](/fr/models/ref/cli/wandb-beta/wandb-beta-leet) pour plus de détails.
+    Pour surveiller la machine actuelle sans run, lancez le system monitor autonome (SYMON) :
+
+    ```bash
+    wandb leet symon --interval 2s
+    ```
+
+    Voir [LEET terminal UI](/fr/models/app/leet-tui) pour le guide complet, ou la référence CLI [`wandb leet`](/fr/models/ref/cli/wandb-leet) pour la syntaxe des commandes.
   </Tab>
 </Tabs>
 
@@ -139,12 +147,12 @@ W&amp;B attribue une balise `disk.in` à cette métrique.
   ### Écriture sur disque
 </div>
 
-Représente le volume total des écritures système sur disque en mégaoctets (MB).
-Comme pour [Disque In](), les octets d&#39;écriture initiaux sur disque sont enregistrés lors du premier échantillonnage. Les échantillons suivants calculent la différence entre le nombre actuel d&#39;octets écrits et la valeur initiale.
+Représente le volume total des écritures système sur disque en mégaoctets (Mo).
+Comme pour [Disque en lecture](#disk-in), les octets d&#39;écriture initiaux sur disque sont enregistrés lors du premier échantillonnage. Les échantillons suivants calculent la différence entre le nombre actuel d&#39;octets écrits et la valeur initiale.
 
 W&amp;B attribue la balise `disk.out` à cette métrique.
 
-{/* Nouvelle section */}
+{{/* Nouvelle section */}}
 
 <div id="memory">
   ## Mémoire
@@ -202,7 +210,7 @@ W&amp;B attribue une balise `network.sent` à cette métrique.
 </div>
 
 Indique le nombre total d’octets reçus sur le réseau.
-Comme pour [Données envoyées sur le réseau](), le nombre initial d’octets reçus est enregistré lors de la première initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets reçus et la valeur initiale.
+Comme pour [octets réseau envoyés](#network-sent), le nombre initial d’octets reçus est enregistré lors de la première initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets reçus et la valeur initiale.
 
 W&amp;B attribue la balise `network.recv` à cette métrique.
 

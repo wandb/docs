@@ -213,7 +213,9 @@ SCIM の user リソースは、W&amp;B Users とサービスアカウントに�
 
 サービスアカウントの応答には、`accountType` (チームスコープのサービスアカウントは `SERVICE`、組織スコープのサービスアカウントは `ORG_SERVICE`) が含まれます。サービスアカウントには `emails` は含まれません。
 
-#### エンドポイント
+<div id="endpoint">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `GET`
@@ -226,7 +228,7 @@ SCIM の user リソースは、W&amp;B Users とサービスアカウントに�
 | ------ | ------ | --- | ----------- |
 | `id`   | string | Yes | ユーザーの一意の ID |
 
-<div id="examples">
+<div id="example">
   #### 例
 </div>
 
@@ -295,7 +297,7 @@ SCIM の user リソースは、W&amp;B Users とサービスアカウントに�
 * `userName eq "value"`: ユーザー名でフィルター。
 * `emails.value eq "value"`: メールアドレスでフィルター。
 
-<div id="example">
+<div id="example-2">
   ##### 例
 </div>
 
@@ -304,12 +306,14 @@ GET /scim/Users?filter=userName eq "john.doe"
 GET /scim/Users?filter=emails.value eq "john@example.com"
 ```
 
-#### エンドポイント
+<div id="endpoint-2">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users`
 * **Method**: `GET`
 
-<div id="examples">
+<div id="example-3">
   #### 例
 </div>
 
@@ -379,12 +383,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 組織内に新しいユーザーを作成します。
 
-#### エンドポイント
+<div id="endpoint-3">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users`
 * **method**: `POST`
 
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
@@ -396,7 +402,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `weaveRole`      | string | いいえ | Weave のロールレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。                                                                                                             |
 | `registryAccess` | string | いいえ | Registry の利用権限です。`enabled` または `none` のいずれかです。省略した場合、実効アクセス権は読み取り時に `modelsSeat` と `weaveRole` から決定されます。**Multi-tenant Cloud**、**専用クラウド**、および **セルフマネージド** v0.83.0+ で利用できます。 |
 
-<div id="examples">
+<div id="example-4">
   #### 例
 </div>
 
@@ -548,12 +554,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   * サービスアカウントは `PATCH` または `PUT` で更新できず、無効化することもできません。また、SCIM を通じて組織、チーム、または Registry のロールを割り当てることもできません。プロビジョニング後に W&amp;B App でAPIキーを作成してください。
 </Note>
 
-#### エンドポイント
+<div id="endpoint-4">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users`
 * **method**: `POST`
 
-<div id="parameters">
+<div id="parameters-3">
   #### パラメーター
 </div>
 
@@ -565,7 +573,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `defaultTeam`                                           | string | Yes | Teams 拡張のサブフィールドです。既存の W&amp;B Team の名前を指定します。サービスアカウントはこのチームの Member として作成されます。チームスコープのサービスアカウントが参加するチームは、このチームのみです。組織スコープのサービスアカウントは、後から SCIM によって作成されるチームにも自動的に追加されます。                                                        |
 | `teams`                                                 | array  | No  | **Multi-tenant Cloud のみ。** アカウントを追加するチーム名の配列です。このフィールドを使用する場合は、`defaultTeam` と同じチームも含めてください。                                                                                                                                     |
 
-<div id="examples">
+<div id="example-5">
   #### 例
 </div>
 
@@ -611,7 +619,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="response">
+<div id="response-2">
   #### レスポンス
 </div>
 
@@ -706,12 +714,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   **専用クラウド**、**セルフマネージド** v0.81.0+、および **Multi-tenant Cloud** で利用できます。サービスアカウントの SCIM ユーザー `id` は、プロビジョニング時のレスポンス、または [Get user](#get-user) から取得したものを使用してください。プロビジョニングを解除しても、すでに発行済みの APIキー は削除されません。必要に応じて、W&amp;B App でキーを個別に失効してください。
 </Note>
 
-#### エンドポイント
+<div id="endpoint-5">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `DELETE`
 
-<div id="parameters">
+<div id="parameters-4">
   #### パラメーター
 </div>
 
@@ -719,7 +729,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | ------ | ------ | --- | ------------------- |
 | `id`   | string | Yes | サービスアカウントの一意の IDです。 |
 
-<div id="examples">
+<div id="example-6">
   #### 例
 </div>
 
@@ -751,12 +761,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 組織からユーザーを完全に削除します。サービスアカウントを削除するには、[サービスアカウントのプロビジョニング解除](#deprovision-service-account) を参照してください。
 
-#### エンドポイント
+<div id="endpoint-6">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `DELETE`
 
-<div id="parameters">
+<div id="parameters-5">
   #### パラメーター
 </div>
 
@@ -764,7 +776,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | ------ | ------ | -- | --------------- |
 | `id`   | string | はい | 削除するユーザーの一意の ID |
 
-<div id="examples">
+<div id="example-7">
   #### 例
 </div>
 
@@ -793,12 +805,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 ユーザーのメインメールアドレスを更新します。
 **Multi-tenant Cloud ではサポートされていません**。この環境では、ユーザーのアカウントは組織によって管理されません。
 
-#### エンドポイント
+<div id="endpoint-7">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-6">
   #### パラメーター
 </div>
 
@@ -809,7 +823,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | Yes | `emails`          |
 | `value` | array  | Yes | 新しいメールオブジェクトを含む配列 |
 
-<div id="examples">
+<div id="example-8">
   #### 例
 </div>
 
@@ -877,12 +891,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 **Multi-tenant Cloud ではサポートされていません**。この環境では、ユーザーのアカウントは組織で管理されません。
 
-#### エンドポイント
+<div id="endpoint-8">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-7">
   #### パラメーター
 </div>
 
@@ -893,7 +909,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `displayName` |
 | `value` | string | はい | 新しい表示名        |
 
-<div id="examples">
+<div id="example-9">
   #### 例
 </div>
 
@@ -959,12 +975,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 <Note>この操作はユーザーにのみ使用でき、サービスアカウントには対応していません。サービスアカウントの無効化はサポートされていません。チームのサービスアカウントは、W&amp;B Team の Settings で管理してください。</Note>
 
-#### エンドポイント
+<div id="endpoint-9">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-8">
   #### パラメーター
 </div>
 
@@ -974,7 +992,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `op`    | string | はい | `replace`                       |
 | `value` | object | はい | `{"active": false}` を指定したオブジェクト |
 
-<div id="examples">
+<div id="example-10">
   #### 例
 </div>
 
@@ -1016,7 +1034,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="response">
+<div id="response-3">
   #### レスポンス
 </div>
 
@@ -1091,12 +1109,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     ```
 </Note>
 
-#### エンドポイント
+<div id="endpoint-10">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-9">
   #### パラメーター
 </div>
 
@@ -1106,7 +1126,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `op`    | string | はい | `replace`                      |
 | `value` | object | はい | `{"active": true}` を指定したオブジェクト |
 
-<div id="examples">
+<div id="example-11">
   #### 例
 </div>
 
@@ -1168,12 +1188,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 <Note>この操作はユーザーに対してのみ使用でき、サービスアカウントには使用できません。サービスアカウントではカスタムロールはサポートされていません。</Note>
 
-#### エンドポイント
+<div id="endpoint-11">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-10">
   #### パラメーター
 </div>
 
@@ -1196,7 +1218,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   `member` または `admin` の組織ロールを割り当てても、ユーザーの `modelsSeat` や `weaveRole` は変更されません。
 </Note>
 
-<div id="examples">
+<div id="example-12">
   #### 例
 </div>
 
@@ -1270,12 +1292,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   **専用クラウド** と **セルフマネージド** v0.82.0 以前では、Registry へのアクセスは引き続き `modelsSeat` に紐付いています。これらのリリースで Registry へのアクセスを取り消すには、`modelsSeat` を `none` に設定します。
 </Note>
 
-#### エンドポイント
+<div id="endpoint-12">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-11">
   #### パラメーター
 </div>
 
@@ -1286,7 +1310,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `modelsSeat`                        |
 | `value` | string | はい | シートレベル (`full`、`viewer`、または `none`) |
 
-<div id="examples">
+<div id="example-13">
   #### 例
 </div>
 
@@ -1350,12 +1374,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 ユーザーの Weave ロールを更新します。
 
-#### エンドポイント
+<div id="endpoint-13">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-12">
   #### パラメーター
 </div>
 
@@ -1366,7 +1392,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `weaveRole`                         |
 | `value` | string | はい | ロールレベル (`full`、`viewer`、または `none`) |
 
-<div id="examples">
+<div id="example-14">
   #### 例
 </div>
 
@@ -1436,12 +1462,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 作成時に `registryAccess` を省略すると、ユーザーの `modelsSeat` と `weaveRole` に基づいて API が有効なアクセス権を導出し、ユーザーの読み取り時にそれを返します。`registryAccess` を明示的に指定すると、この導出結果よりもそちらが優先されます。組織ロールが請求専用のユーザーには、この導出によって Registry アクセスは付与されません。
 
-#### エンドポイント
+<div id="endpoint-14">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-13">
   #### パラメーター
 </div>
 
@@ -1452,7 +1480,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `registryAccess`                       |
 | `value` | string | はい | Registry の利用権限 (`enabled` または `none`)  |
 
-<div id="examples">
+<div id="example-15">
   #### 例
 </div>
 
@@ -1519,12 +1547,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 <Note>この操作はユーザーにのみ適用され、サービスアカウントには対応していません。サービスアカウントではカスタムロールはサポートされていません。</Note>
 
-#### エンドポイント
+<div id="endpoint-15">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-14">
   #### パラメーター
 </div>
 
@@ -1535,7 +1565,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `teamRoles`                          |
 | `value` | array  | はい | `teamName` と `roleName` を含むオブジェクトの配列 |
 
-<div id="examples">
+<div id="example-16">
   #### 例
 </div>
 
@@ -1610,12 +1640,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 <Note>この操作はユーザーにのみ対応しており、サービスアカウントでは使用できません。サービスアカウントではカスタムロールはサポートされません。</Note>
 
-#### エンドポイント
+<div id="endpoint-16">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-15">
   #### パラメーター
 </div>
 
@@ -1626,7 +1658,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | Yes | `registryRoles`                          |
 | `value` | array  | Yes | `registryName` と `roleName` を含むオブジェクトの配列 |
 
-<div id="examples">
+<div id="example-17">
   #### 例
 </div>
 
@@ -1708,12 +1740,14 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   * この操作はユーザーに対してのみ有効で、サービスアカウントには対応していません。サービスアカウントを Registry から削除するには、W&amp;B Team の Settings で行ってください。
 </Note>
 
-#### エンドポイント
+<div id="endpoint-17">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters">
+<div id="parameters-16">
   #### パラメーター
 </div>
 
@@ -1723,7 +1757,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `op`   | string | はい | `remove`                                                                     |
 | `path` | string | はい | `"registryRoles[registryName eq \"{registry_name}\"]"` または `"registryRoles"` |
 
-<div id="examples">
+<div id="example-18">
   #### 例
 </div>
 
@@ -1841,7 +1875,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 SCIM グループリソースは W&amp;B Team にマッピングされます。このセクションのエンドポイントを使用して、チームの作成、チームメンバーシップの管理、さらにアイデンティティプロバイダまたはオートメーションからのチームレベルのストレージ設定 (任意) を行えます。IAM で SCIM グループを作成すると、対応する W&amp;B Team が作成されてマッピングされ、以降の SCIM グループ操作はそのチームに対して行われます。チームの作成時にカスタムストレージを設定するには、リクエストに `storageBucket` を含めます。
 
-<div id="service-accounts">
+<div id="service-accounts-2">
   ### サービスアカウント
 </div>
 
@@ -1861,7 +1895,7 @@ SCIM を使用して W&amp;B Team を作成すると、サービスアカウン�
 
 * `displayName eq "value"`: チームの表示名でフィルターします。
 
-<div id="examples">
+<div id="example-19">
   #### 例
 </div>
 
@@ -1875,12 +1909,14 @@ GET /scim/Groups?filter=displayName eq "engineering-team"
 
 チームの一意の ID を指定して、チームの情報を取得します。
 
-#### エンドポイント
+<div id="endpoint-18">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Groups/{id}`
 * **method**: `GET`
 
-<div id="examples">
+<div id="example-20">
   #### 例
 </div>
 
@@ -1928,12 +1964,14 @@ GET /scim/Groups?filter=displayName eq "engineering-team"
 
 チームの一覧を取得します。
 
-#### エンドポイント
+<div id="endpoint-19">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Groups`
 * **method**: `GET`
 
-<div id="examples">
+<div id="example-21">
   #### 例
 </div>
 
@@ -1991,7 +2029,9 @@ GET /scim/Groups?filter=displayName eq "engineering-team"
 
 新しい チーム リソースを作成します。
 
-#### エンドポイント
+<div id="endpoint-20">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Groups`
 * **method**: `POST`
@@ -2178,7 +2218,9 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
 
 既存のチームのメンバー一覧を更新します。
 
-#### エンドポイント
+<div id="endpoint-21">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Groups/{id}`
 * **Method**: `PATCH`
@@ -2206,7 +2248,9 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
 
 <Note>この操作はユーザーにのみ適用され、サービスアカウントには対応していません。サービスアカウントは W&amp;B Team の Settings で管理してください。</Note>
 
-#### エンドポイント
+<div id="endpoint-22">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Groups/{id}`
 * **Method**: `PUT`
@@ -2464,12 +2508,14 @@ SCIM のロールリソースは、W&amp;B のカスタムロールに対応し�
 
 ロールの一意の ID を指定して、カスタムロールの情報を取得します。
 
-#### エンドポイント
+<div id="endpoint-23">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `GET`
 
-<div id="examples">
+<div id="example-22">
   #### 例
 </div>
 
@@ -2524,12 +2570,14 @@ SCIM のロールリソースは、W&amp;B のカスタムロールに対応し�
 
 W&amp;B 組織内のすべてのカスタムロールの情報を取得します。
 
-#### エンドポイント
+<div id="endpoint-24">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Roles`
 * **Method**: `GET`
 
-<div id="examples">
+<div id="example-23">
   #### 例
 </div>
 
@@ -2621,12 +2669,14 @@ W&amp;B 組織内のすべてのカスタムロールの情報を取得します
 
 W&amp;B 組織に新しいカスタムロールを作成します。
 
-#### エンドポイント
+<div id="endpoint-25">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Roles`
 * **Method**: `POST`
 
-<div id="supported-fields">
+<div id="supported-fields-2">
   #### サポートされるフィールド
 </div>
 
@@ -2637,7 +2687,7 @@ W&amp;B 組織に新しいカスタムロールを作成します。
 | `permissions`   | Object array | 権限オブジェクトの配列です。各オブジェクトには、値が `w&bobject:operation` 形式の `name` 文字列フィールドが含まれます。たとえば、W&amp;B の run に対する delete 操作の権限オブジェクトでは、`name` は `run:delete` になります。 |
 | `inheritedFrom` | String       | カスタムロールが継承元とする事前定義ロールです。`member` または `viewer` のいずれかを指定できます。                                                                                          |
 
-<div id="examples">
+<div id="example-24">
   #### 例
 </div>
 
@@ -2712,7 +2762,7 @@ W&amp;B 組織に新しいカスタムロールを作成します。
 
 既存のカスタムロールに権限を追加します。
 
-<div id="endpoint">
+<div id="endpoint-26">
   ##### エンドポイント
 </div>
 
@@ -2761,7 +2811,7 @@ W&amp;B 組織に新しいカスタムロールを作成します。
 
 既存のカスタムロールから権限を削除します。
 
-<div id="endpoint">
+<div id="endpoint-27">
   ##### エンドポイント
 </div>
 
@@ -2807,7 +2857,9 @@ W&amp;B 組織に新しいカスタムロールを作成します。
 
 カスタムロール定義全体を置き換えます。
 
-#### エンドポイント
+<div id="endpoint-28">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `PUT`
@@ -2854,12 +2906,14 @@ W&amp;B 組織に新しいカスタムロールを作成します。
 
 W&amp;B組織内のカスタムロールを削除します。**この操作は注意して使用してください**。削除前にそのカスタムロールが割り当てられていたすべてのユーザーには、カスタムロールの継承元である事前定義ロールが割り当てられます。
 
-#### エンドポイント
+<div id="endpoint-29">
+  #### エンドポイント
+</div>
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `DELETE`
 
-<div id="examples">
+<div id="example-25">
   #### 例
 </div>
 
@@ -2898,7 +2952,7 @@ ETagを使用するには、次のstepに従います:
 1. **現在のETagを取得**: リソースをGETした際に、レスポンスのETagヘッダーを確認します。
 2. **条件付き更新**: 更新時に、`If-Match`ヘッダーにETagを含めます。
 
-<div id="examples">
+<div id="example-26">
   #### 例
 </div>
 

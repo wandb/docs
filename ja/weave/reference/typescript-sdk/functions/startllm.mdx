@@ -3,22 +3,24 @@ title: "startLLM"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **startLLM**(`opts`): [`LLM`](../interfaces/llm)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+startLLM(opts: LLMInit): LLM
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L77" />
 
 現在の Turn の子として LLM span を開始します。アクティブな Turn がない場合は
 例外がスローされます。
-
-定義場所: [src/genai/api.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L77)
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts
-</div>
-
-[`LLMInit`](../interfaces/llminit)
+<ParamField path="opts" type="LLMInit" required>
+  [`LLMInit`](../interfaces/llminit) を参照してください。
+</ParamField>
 
 <div id="returns">
   ## 戻り値

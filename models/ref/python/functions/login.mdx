@@ -39,7 +39,7 @@ If none of the above is true, then this gets the API key from the first of:
 - The api_key setting in a system or workspace settings file
 - The .netrc file (either ~/.netrc, ~/_netrc or the path specified by the
   NETRC environment variable)
-- An interactive prompt (if available)
+- An interactive prompt, if available and `prompt` is True
 
 
 
@@ -51,6 +51,7 @@ force: 'bool | None' = None,
 timeout: 'int | None' = None,
 verify: 'bool' = True,
 referrer: 'str | None' = None,
+prompt: 'bool' = True,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
@@ -84,6 +85,10 @@ Verify the credentials with the W&B server and raise an AuthenticationError on f
 The referrer to use in the URL login request for analytics.
 </ResponseField>
 
+<ResponseField name="prompt" type="bool">
+Whether to ask for an API key interactively when none is configured. If False, this returns False and leaves the session and settings unchanged.
+</ResponseField>
+
 <ResponseField name="anonymous" type="DoNotSet">
 No description provided.
 </ResponseField>
@@ -92,13 +97,12 @@ No description provided.
 
 ## Returns
 
-`bool`: If `key` is configured.
-
+True if the session has credentials after this call.
 
 ## Raises
 
 - `AuthenticationError`: If the credentials fail verification with the server.
-- `UsageError`: If `api_key` cannot be configured and no tty.
+- `UsageError`: If no credentials are configured, `prompt` is True and there is no terminal to ask for an API key.
 
 
 

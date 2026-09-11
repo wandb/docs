@@ -3,6 +3,10 @@ title: "Evaluation<R, E, M>"
 description: "Référence du SDK TypeScript"
 ---
 
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L145" />
+
 Configure une évaluation qui comprend un ensemble d’évaluateurs et un jeu de données.
 
 L’appel à `evaluation.evaluate(model)` transmet des lignes d’un jeu de données à un modèle, en faisant correspondre
@@ -10,9 +14,9 @@ les noms des colonnes du jeu de données aux noms des arguments dans `model.pred
 
 Il appelle ensuite tous les évaluateurs et enregistre les résultats dans weave.
 
-Défini dans : [src/evaluation.ts:139](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L139)
-
-## Exemple
+<div id="example">
+  ## Exemple
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -56,50 +60,56 @@ const results = await evaluation.evaluate({ model });
   ## Paramètres de type
 </div>
 
-<div id="r">
-  ### R
-</div>
+<ParamField path="R" type="extends DatasetRow" />
 
-`R` *extends* `DatasetRow`
+<ParamField path="E" type="extends DatasetRow" />
 
-<div id="e">
-  ### E
-</div>
-
-`E` *extends* `DatasetRow`
-
-<div id="m">
-  ### M
-</div>
-
-`M`
-
-<div id="constructors">
-  ## Constructeurs
-</div>
+<ParamField path="M" />
 
 <div id="constructor">
-  ### Constructeur
+  ## Constructeur
 </div>
 
-> **new Evaluation**&lt;`R`, `E`, `M`&gt;(`parameters`) : `Evaluation`&lt;`R`, `E`, `M`&gt;
-
-Défini dans : [src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L150)
-
-#### Paramètres
+> **new Evaluation**&lt;`R`, `E`, `M`&gt;(`parameters`) : `Evaluation`&lt;`R`, `E`, `M`&gt;
 
 <div id="parameters">
-  ##### paramètres
+  ### Paramètres
 </div>
 
-`EvaluationParameters`&lt;`R`, `E`, `M`&gt;
+<ParamField path="parameters" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="columnMapping" type="{[key: string]: keyof R; __savedRef?: keyof R; }">
+      <Expandable title="propriétés" defaultOpen>
+        <ParamField path="__savedRef" type="keyof R" />
+      </Expandable>
+    </ParamField>
 
-#### Renvoie
+    <ParamField path="dataset" type="Dataset<R>" required>
+      Voir [`Dataset`](./dataset).
+    </ParamField>
+
+    <ParamField path="description" type="string" />
+
+    <ParamField path="maxConcurrency" type="number" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="scorers" type="(Op<(...args) => any> | {…})[]" required>
+      Voir [`Op`](../type-aliases/op).
+
+      Type complet : `(Op<(...args) => any> | { id: string; invoke: (...args) => any; })[]`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns">
+  ### Renvoie
+</div>
 
 `Evaluation`&lt;`R`, `E`, `M`&gt;
 
 <div id="overrides">
-  #### Redéfinit
+  ### Redéfinit
 </div>
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
@@ -112,9 +122,7 @@ Défini dans : [src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f
   ### __savedRef
 </div>
 
-> `facultatif` **&#95;&#95;savedRef** : [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
-
-Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
+> `facultatif` **&#95;&#95;savedRef** : [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
 <div id="inherited-from">
   #### Hérité de
@@ -136,15 +144,13 @@ Défini dans : [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f
 
 > **get** **description**(): `string` | `undefined`
 
-Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
-
-<div id="returns">
+<div id="returns-2">
   ##### Renvoie
 </div>
 
 `string` | `undefined`
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### Hérité de
 </div>
 
@@ -156,21 +162,19 @@ Défini dans : [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f
   ### nom
 </div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### Signature d’obtention
 </div>
 
 > **get** **name**(): `string`
 
-Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
-<div id="returns">
+<div id="returns-3">
   ##### Renvoie
 </div>
 
 `string`
 
-<div id="inherited-from">
+<div id="inherited-from-3">
   #### Hérité de
 </div>
 
@@ -184,35 +188,29 @@ Défini dans : [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f
   ### evaluate()
 </div>
 
-> **evaluate**(`__namedParameters`) : `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
+> **evaluate**(`__namedParameters`) : `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
-Défini dans : [src/evaluation.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L165)
-
-#### Paramètres
-
-<div id="__namedparameters">
-  ##### __namedParameters
+<div id="parameters-2">
+  #### Paramètres
 </div>
 
-<div id="maxconcurrency">
-  ###### maxConcurrency?
+<ParamField path="__namedParameters" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="maxConcurrency" type="number = 5" />
+
+    <ParamField path="model" type="Op<(...args) => Promise<M>> | {…}" required>
+      Voir [`Op`](../type-aliases/op).
+
+      Type complet : `Op<(...args) => Promise<M>> | { id: string; invoke: (...args) => Promise<M>; }`
+    </ParamField>
+
+    <ParamField path="nTrials" type="number = 1" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### Renvoie
 </div>
-
-`number` = `5`
-
-<div id="model">
-  ###### model
-</div>
-
-`WeaveCallable`&lt;(...`args`) =&gt; `Promise`&lt;`M`&gt;&gt;
-
-<div id="ntrials">
-  ###### nTrials ?
-</div>
-
-`number` = `1`
-
-#### Renvoie
 
 `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
@@ -222,35 +220,33 @@ Défini dans : [src/evaluation.ts:165](https://github.com/wandb/weave/blob/8c5f
   ### predictAndScore()
 </div>
 
-> **predictAndScore**(`__namedParameters`) : `Promise`&lt;&#123; `model_latency` : `number`; `model_output` : `any`; `model_success` : `boolean`; `scores` : &#123;[`key` : `string`] : `any`; &#125;; &#125;&gt;
+> **predictAndScore**(`__namedParameters`) : `Promise`&lt;&#123; `model_latency` : `number`; `model_output` : `any`; `model_success` : `boolean`; `scores` : &#123;[`key` : `string`] : `any`; &#125;; &#125;&gt;
 
-Défini dans : [src/evaluation.ts:244](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L244)
-
-#### Paramètres
-
-<div id="__namedparameters">
-  ##### __namedParameters
+<div id="parameters-3">
+  #### Paramètres
 </div>
 
-<div id="columnmapping">
-  ###### columnMapping?
+<ParamField path="__namedParameters" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="columnMapping" type="{[key: string]: keyof R; __savedRef?: keyof R; }">
+      <Expandable title="propriétés" defaultOpen>
+        <ParamField path="__savedRef" type="keyof R" />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="example" type="R" required />
+
+    <ParamField path="model" type="Op<(...args) => Promise<M>> | {…}" required>
+      Voir [`Op`](../type-aliases/op).
+
+      Type complet : `Op<(...args) => Promise<M>> | { id: string; invoke: (...args) => Promise<M>; }`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-5">
+  #### Renvoie
 </div>
-
-`ColumnMapping`&lt;`R`, `E`&gt;
-
-<div id="example">
-  ###### exemple
-</div>
-
-`R`
-
-<div id="model">
-  ###### model
-</div>
-
-`WeaveCallable`&lt;(...`args`) =&gt; `Promise`&lt;`M`&gt;&gt;
-
-#### Renvoie
 
 `Promise`&lt;&#123; `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: &#123;[`key`: `string`]: `any`; &#125;; &#125;&gt;
 
@@ -262,13 +258,13 @@ Défini dans : [src/evaluation.ts:244](https://github.com/wandb/weave/blob/8c5f
 
 > **saveAttrs**(): `objet`
 
-Défini dans : [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
-
-#### Renvoie
+<div id="returns-6">
+  #### Renvoie
+</div>
 
 `objet`
 
-<div id="inherited-from">
+<div id="inherited-from-4">
   #### Hérité de
 </div>
 

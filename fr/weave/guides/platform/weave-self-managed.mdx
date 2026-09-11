@@ -1194,7 +1194,7 @@ Pour augmenter la capacité de ClickHouse, vous pouvez :
   ### Utiliser une autre version de ClickHouse
 </div>
 
-Pour utiliser une autre version de ClickHouse, mettez à jour le tag de l’image dans les deux fichiers `ch-keeper.yaml` et `ch-server.yaml` :
+Pour utiliser une autre version de ClickHouse, mettez à jour le tag de l’image dans les deux fichiers `ch-keeper.yaml` et `ch-server.yaml` :
 
 ```yaml
 image: clickhouse/clickhouse-keeper:25.10   # Version de Keeper
@@ -1204,7 +1204,7 @@ image: clickhouse/clickhouse-server:25.10   # Version du serveur
 Les versions de Keeper et du serveur doivent correspondre, ou la version de Keeper doit être supérieure ou égale à celle du serveur pour garantir la compatibilité.
 
 <Warning>
-  Mettez à niveau ClickHouse Keeper vers une version compatible lorsque vous mettez à niveau ClickHouse Server. Avant de modifier les versions de ClickHouse pour un déploiement W&amp;B Autogéré, consultez [la compatibilité de ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) ainsi que la page [Versions de serveur W&amp;B prises en charge](/fr/release-notes/server-releases). Les fonctionnalités OLAP de Models et Weave peuvent avoir des exigences de version ClickHouse différentes.
+  Mettez à niveau ClickHouse Keeper vers une version compatible lorsque vous mettez à niveau le serveur ClickHouse. Avant de modifier les versions de ClickHouse pour un déploiement W&amp;B Autogéré, consultez [la compatibilité de ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) ainsi que la page [versions du serveur W&amp;B prises en charge](/fr/release-notes/server-releases).
 </Warning>
 
 <div id="monitor-clickhouse">
@@ -1253,9 +1253,7 @@ Les déploiements de production doivent renforcer la sécurité des valeurs par 
 Les procédures suivantes décrivent les mises à niveau courantes de l’opérateur, du serveur ClickHouse et des composants Weave Trace. Mettez à niveau un composant à la fois et vérifiez que le déploiement est en bon état avant de passer au suivant.
 
 <Note>
-  Les déploiements autogérés qui utilisent ClickHouse pour les fonctionnalités OLAP de Weave et de Models doivent respecter les exigences de version des deux produits. Les fonctionnalités OLAP de Models et Weave peuvent avoir des exigences de version de ClickHouse différentes.
-
-  Voir [la compatibilité de ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) et [les versions du serveur W&amp;B prises en charge](/fr/release-notes/server-releases) avant de mettre à niveau ClickHouse ou le serveur W&amp;B. Mettez à niveau le serveur ClickHouse et ClickHouse Keeper ensemble.
+  Weave nécessite une version de ClickHouse prise en charge. Voir [la compatibilité de ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) et [les versions du serveur W&amp;B prises en charge](/fr/release-notes/server-releases) avant de mettre à niveau ClickHouse ou le serveur W&amp;B. Mettez à niveau le serveur ClickHouse et ClickHouse Keeper ensemble.
 </Note>
 
 <div id="upgrade-the-clickhouse-operator">

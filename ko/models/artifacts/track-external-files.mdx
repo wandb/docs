@@ -3,7 +3,7 @@ description: 외부 버킷, HTTP 파일 서버 또는 NFS 공유에 저장된 �
 title: 외부 파일 추적
 ---
 
-*참조 아티팩트*를 사용하면 W&amp;B 서버 외부에 저장된 파일을 추적하고 사용할 수 있습니다. 일반적인 외부 저장소 솔루션으로는 CoreWeave AI Object Storage, Amazon Simple Storage Service(Amazon S3) 버킷, GCS 버킷, Azure blob, HTTP 파일 서버, NFS 공유가 있습니다.
+*참조 아티팩트*를 사용하면 W&amp;B 서버 외부에 저장된 파일을 추적하고 사용할 수 있습니다. 일반적인 외부 저장소 솔루션으로는 CoreWeave AI Object Storage, Backblaze B2 Cloud Storage, Amazon Simple Storage Service(Amazon S3) 버킷, GCS 버킷, Azure blob, HTTP 파일 서버, NFS 공유가 있습니다.
 
 참조 아티팩트는 비참조 아티팩트와 비슷하게 동작합니다. 가장 큰 차이점은 참조 아티팩트에는 파일 크기나 MD5 체크섬 같은 파일 메타데이터만 포함된다는 점입니다. 파일 자체는 시스템 밖으로 전송되지 않습니다.
 
@@ -12,7 +12,7 @@ title: 외부 파일 추적
 <Note>
   외부 파일을 추적하지 않는 아티팩트를 로깅하면 W&amp;B는 해당 아티팩트의 파일을 W&amp;B 서버에 저장합니다. 이는 W&amp;B Python SDK로 아티팩트를 로깅할 때의 기본 동작입니다.
 
-  외부 파일을 추적하는 아티팩트를 로깅하면 W&amp;B는 객체의 ETag, 크기 같은 객체 메타데이터를 로깅합니다. 버킷에서 객체 버저닝이 활성화되어 있으면 버전 ID도 함께 로깅됩니다.
+  외부 파일을 추적하는 아티팩트를 로깅하면 W&amp;B는 객체의 ETag, 크기 같은 객체 메타데이터를 로깅합니다. 버킷에서 객체 버전 관리가 활성화되어 있으면 버전 ID도 함께 로깅됩니다.
 </Note>
 
 다음 섹션에서는 외부 참조 아티팩트를 추적하는 방법을 설명합니다.
@@ -62,7 +62,7 @@ s3://my-bucket
 3. `wandb.Artifact.add_reference()`를 호출할 때 `datasets/mnist/` 디렉터리 경로를 Amazon S3 URI(`s3://my-bucket/datasets/mnist/`)로 지정합니다.
 4. `run.log_artifact()`로 아티팩트를 기록합니다.
 
-다음 코드 샘플은 레퍼런스 아티팩트 `mnist:latest`를 생성합니다:
+다음 코드 샘플은 참조 아티팩트 `mnist:latest`를 생성합니다:
 
 ```python
 import wandb
@@ -73,14 +73,15 @@ with wandb.init(project="my-project") as run:
   run.log_artifact(artifact)
 ```
 
-W&amp;B App에서는 파일 브라우저를 사용해 레퍼런스 아티팩트의 내용을 살펴보고, [전체 종속성 그래프를 탐색](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/)하며, 아티팩트의 버전별 이력을 검토할 수 있습니다. 데이터 자체는 아티팩트에 포함되어 있지 않으므로 W&amp;B App은 이미지, 오디오 등의 리치 미디어를 렌더링하지 않습니다.
+W&amp;B App에서는 파일 브라우저를 사용해 참조 아티팩트의 내용을 살펴보고, [전체 종속성 그래프를 탐색](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/)하며, 아티팩트의 버전별 이력을 검토할 수 있습니다. 데이터 자체는 아티팩트에 포함되어 있지 않으므로 W&amp;B App은 이미지, 오디오 등의 리치 미디어를 렌더링하지 않습니다.
 
 <Note>
-  W&amp;B Artifacts는 CoreWeave Storage 및 MinIO를 포함한 모든 Amazon S3 호환 인터페이스를 지원합니다. 아래에 설명된 스크립트는 `AWS_S3_ENDPOINT_URL`
-  환경 변수가 CoreWeave Storage 또는 MinIO 서버를 가리키도록 설정하면 두 제공업체 모두에서 별도 수정 없이 그대로 작동합니다.
+  W&amp;B Artifacts는 CoreWeave Storage, Backblaze B2 Cloud Storage, MinIO를 포함한 모든 Amazon S3 호환 인터페이스를 지원합니다. 아래에 설명된 스크립트는 `AWS_S3_ENDPOINT_URL` 환경 변수가 S3 호환 서버를 가리키도록 설정하면(예: Backblaze B2의 경우 `https://s3.us-west-001.backblazeb2.com`) 이러한 공급자 모두에서 별도 수정 없이 그대로 작동합니다.
 </Note>
 
-<Warning>기본적으로 W&amp;B는 객체 접두사를 추가할 때 객체 수를 10,000개로 제한합니다. `wandb.Artifact.add_reference()`를 호출할 때 `max_objects=`를 지정하면 이 제한을 조정할 수 있습니다.</Warning>
+<Warning>
+  기본적으로 W&amp;B는 객체 접두사를 추가할 때 객체 수를 10,000개로 제한합니다. `wandb.Artifact.add_reference()`를 호출할 때 `max_objects=`를 지정하면 이 제한을 조정할 수 있습니다.
+</Warning>
 
 <div id="download-an-artifact-from-an-external-bucket">
   ## 외부 버킷에서 아티팩트 다운로드
@@ -154,6 +155,7 @@ W&amp;B는 사용 중인 클라우드 제공업체에 따라 자격 증명을 �
 | Cloud provider              | 자격 증명 문서                                                                                                                                         |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | CoreWeave AI Object Storage | [CoreWeave AI Object Storage 문서](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
+| Backblaze B2 Cloud Storage  | [Backblaze B2 Application Keys 문서](https://www.backblaze.com/docs/cloud-storage-application-keys)                                                |
 | AWS                         | [Boto3 문서](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials)                               |
 | Google Cloud                | [Google Cloud 문서](https://cloud.google.com/docs/authentication/provide-credentials-adc)                                                          |
 | Azure                       | [Azure 문서](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python)                        |

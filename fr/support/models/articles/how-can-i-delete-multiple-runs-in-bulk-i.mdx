@@ -5,16 +5,47 @@ keywords: ["Projects", "Runs"]
 
 Dans l’onglet **Runs** de votre Workspace, cochez la case à côté de chaque run à supprimer, puis cliquez sur **Supprimer**.
 
-Pour filtrer les runs selon une condition plutôt que de les sélectionner manuellement, utilisez l’[API publique](/fr/models/ref/python/public-api/api) pour supprimer plusieurs runs en une seule opération. Remplacez `[ENTITY]` et `[PROJECT]` par les noms de votre entité et de votre projet, et remplacez `[CONDITION]` par une expression Python qui renvoie `True` pour les runs que vous souhaitez supprimer :
+Pour filtrer les runs selon une condition plutôt que de les sélectionner manuellement, utilisez l’[API publique](/fr/models/ref/python/public-api/api) pour supprimer plusieurs runs en une seule opération. Remplacez `"entity"` et &quot;project&quot; par les noms de votre entité et de votre projet, et remplacez `[CONDITION]` par une expression Python qui renvoie `True` pour les runs que vous souhaitez supprimer :
 
 ```python
 import wandb
 
 api = wandb.Api()
-runs = api.runs('[ENTITY]/[PROJECT]')
+runs = api.runs("entity/project")
 for run in runs:
     if [CONDITION]:
         run.delete()
+```
+
+Par exemple, si vous souhaitez supprimer les runs créés avant une date précise :
+
+```python
+import wandb
+from datetime import datetime
+
+api = wandb.Api()
+
+entity = "wandb"
+project = "project"
+cutoff = "2024-01-01T00:00:00Z"  # supprime les runs créés avant cet horodatage UTC
+
+runs = api.runs(
+    path=f"{entity}/{project}",
+    filters={"createdAt": {"$lt": cutoff}},
+    order="+created_at",
+)
+
+# D'abord, une simulation à blanc
+runs_to_delete = list(runs)
+print(f"Found {len(runs_to_delete)} runs to delete:")
+for run in runs_to_delete:
+    print(run.id, run.name, run.created_at)
+
+confirm = input("Type DELETE to permanently delete these runs: ")
+if confirm == "DELETE":
+    for run in runs_to_delete:
+        print(f"Deleting {run.path}")
+        run.delete()  # ou run.delete(delete_artifacts=True)
 ```
 
 ***
@@ -23,4 +54,4 @@ for run in runs:
 
 <Badge stroke shape="pill" color="orange" size="md">[Projects](/fr/support/models/tags/projects)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
 
-{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}

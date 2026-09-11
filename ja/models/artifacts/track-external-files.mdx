@@ -3,16 +3,16 @@ description: external cloud storage bucket、HTTPファイルサーバー、ま�
 title: 外部ファイルをトラッキングする
 ---
 
-W&amp;Bサーバーの外部に保存されたファイルをトラッキングして使用するには、*reference artifacts* を使用します。一般的な外部ストレージには、CoreWeave AI Object Storage、Amazon Simple Storage Service (Amazon S3) バケット、GCS バケット、Azure blob、HTTPファイルサーバー、NFS共有などがあります。
+W&amp;Bサーバーの外部に保存されたファイルをトラッキングして使用するには、*reference artifacts* を使用します。一般的な外部ストレージには、CoreWeave AI Object Storage、Backblaze B2 Cloud Storage、Amazon Simple Storage Service (Amazon S3) バケット、GCS バケット、Azure blob、HTTPファイルサーバー、NFS共有などがあります。
 
 reference artifacts は、通常の artifacts とほぼ同様に動作します。主な違いは、reference artifacts にはファイルサイズやMD5チェックサムなど、ファイルに関するメタデータしか含まれないことです。ファイル自体がシステムの外に出ることはありません。
 
-reference artifacts は、通常の artifacts と同様に操作できます。W&amp;B Appでは、ファイルブラウザを使ってreference artifact の内容を参照したり、完全な依存関係グラフを確認したり、artifact のバージョン管理された履歴をたどったりできます。ただし、データ自体はartifact に含まれていないため、UIでは画像やオーディオなどのリッチメディアを表示できません。
+reference artifacts は、通常の artifacts と同様に操作できます。W&amp;B Appでは、ファイルブラウザを使ってreference artifact の内容を参照したり、完全な依存関係グラフを確認したり、artifact のバージョン履歴をたどったりできます。ただし、データ自体はartifact に含まれていないため、UIでは画像やオーディオなどのリッチメディアを表示できません。
 
 <Note>
   外部ファイルをトラッキングしない artifact をログすると、W&amp;Bはartifact のファイルをW&amp;Bサーバーに保存します。これは、W&amp;B Python SDKでartifact をログする場合のデフォルトの動作です。
 
-  外部ファイルをトラッキングする artifact をログすると、W&amp;Bはobject のETagやサイズなど、そのobject に関するメタデータをログします。バケット でobject のバージョン管理が有効になっている場合は、バージョンIDもログされます。
+  外部ファイルをトラッキングする artifact をログすると、W&amp;Bはobject のETagやサイズなど、そのobject に関するメタデータをログします。バケット でオブジェクトのバージョン管理が有効になっている場合は、バージョンIDもログされます。
 </Note>
 
 以下のセクションでは、外部 reference artifacts をトラッキングする方法について説明します。
@@ -76,11 +76,12 @@ with wandb.init(project="my-project") as run:
 W&amp;B App では、ファイルブラウザを使用して reference artifact の内容を確認したり、[依存関係グラフ全体を探索したり](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/)、artifact のバージョン履歴を確認したりできます。データ自体は artifact 内に含まれていないため、W&amp;B App では画像やオーディオなどのリッチメディアは表示されません。
 
 <Note>
-  W&amp;B Artifacts は、CoreWeave Storage や MinIO を含む、Amazon S3 互換のあらゆるインターフェースをサポートしています。以下で説明するスクリプトは、`AWS_S3_ENDPOINT_URL`
-  環境変数で CoreWeave Storage または MinIO サーバーを指定すれば、どちらのプロバイダでもそのまま動作します。
+  W&amp;B Artifacts は、CoreWeave Storage、Backblaze B2 Cloud Storage、MinIO を含む、Amazon S3互換のあらゆるインターフェースをサポートしています。以下で説明するスクリプトは、`AWS_S3_ENDPOINT_URL` 環境変数で S3互換サーバー (Backblaze B2 の場合は `https://s3.us-west-001.backblazeb2.com` など) を指定すれば、これらのプロバイダでそのまま動作します。
 </Note>
 
-<Warning>デフォルトでは、オブジェクトプレフィックスを追加する際、W&amp;B は 10,000 オブジェクトの上限を適用します。この上限は、`wandb.Artifact.add_reference()` を呼び出すときに `max_objects=` を指定することで調整できます。</Warning>
+<Warning>
+  デフォルトでは、オブジェクトプレフィックスを追加する際、W&amp;B は 10,000 オブジェクトの上限を適用します。この上限は、`wandb.Artifact.add_reference()` を呼び出すときに `max_objects=` を指定することで調整できます。
+</Warning>
 
 <div id="download-an-artifact-from-an-external-bucket">
   ## external cloud storage bucket から artifact をダウンロードする
@@ -154,6 +155,7 @@ W&amp;B は、使用しているクラウドプロバイダに応じたデフォ
 | クラウドプロバイダ                   | 認証情報のドキュメント                                                                                                                                                 |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CoreWeave AI Object Storage | [CoreWeave AI Object Storage documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
+| Backblaze B2 Cloud Storage  | [Backblaze B2 Application Keys documentation](https://www.backblaze.com/docs/cloud-storage-application-keys)                                                |
 | AWS                         | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials)                               |
 | Google Cloud                | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc)                                                          |
 | Azure                       | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python)                        |

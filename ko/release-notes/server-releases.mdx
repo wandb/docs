@@ -15,14 +15,28 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.84.1" description="2026년 9월 2일">
+  <div id="fixes">
+    ## 수정 사항
+  </div>
+
+  * 팀 내에서 처음 500개의 태그만 UI에 표시되던 버그를 수정했습니다. 이제 팀당 최대 1000개까지 모든 태그가 표시됩니다.
+  * 패널 그리드가 포함된 Reports에서 짧은 시간에 여러 번 조작할 경우 페이지가 중단될 수 있던 버그를 수정했습니다.
+  * `GORILLA_GRAPHQL_DISABLE_INTROSPECTION`이 `true`로 설정되어 있어도 tables와 아티팩트에서 GraphQL 인트로스펙션이 계속 사용되던 버그를 수정했습니다.
+</Update>
+
 <Update label="v0.84.0" description="2026년 8월 25일">
   W&amp;B Server 0.84에서는 조직과 팀의 API 키 관리가 간소화되어 중앙에서 관리하고 일괄 삭제할 수 있습니다. Weave에는 BYOB 저장소의 인라인 렌더링, 새롭게 개선된 Agents 및 Signals 뷰 등이 추가되었습니다. 이 밖에도 이번 릴리스에는 산점도에 설정 가능한 레퍼런스 선, 프리뷰로 제공되는 BYOB 저장소용 Azure 워크로드 ID, 희소 메트릭이 많은 run의 쿼리 패널 로딩 속도 개선이 포함되어 있습니다.
 
-  ## 지원 및 지원 종료
+  <div id="support-and-end-of-life">
+    ## 지원 및 지원 종료
+  </div>
 
   * W&amp;B Server v0.72의 지원이 종료되었습니다.
 
-  ## 특성
+  <div id="features">
+    ## 특성
+  </div>
 
   * 이제 선형 플롯에서는 하나의 플롯에 있는 모든 run에 동일한 스케일이 적용됩니다. run 위에 마우스를 올리면 같은 step에서 metric을 로깅한 모든 run에 대해 동일한 X축 값이 표시됩니다:
     * run이 동일한 주기로 로그를 기록하면 마우스를 올렸을 때 일관된 x축 값이 표시됩니다.
@@ -42,7 +56,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * Content-Encoding: gzip을 사용하는 filestream 요청을 지원합니다.
   * 이제 Weave 데이터가 있는 W&amp;B 프로젝트의 프로젝트 개요 페이지에 활성 트레이스와 평가가 표시됩니다.
 
-  ### Weave
+  <div id="weave">
+    ### Weave
+  </div>
 
   * Weave는 이제 BYOB 저장소 레퍼런스(`s3://`, `gs://`, `gcs://`, `az://`)를 단기 서명 URL로 해석하여 여러 기능을 개선합니다:
     * 원격 미디어를 Weave로 수집하지 않아도 되어 비용 효율성과 데이터 민감도가 향상됩니다.
@@ -58,19 +74,23 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 시그널을 생성하거나 편집할 때 **Inference provider** 선택기에 이제 각 타사 공급자의 모델별 항목이 하나씩 표시됩니다.
   * 이제 시그널은 상위 대화에 연결되고, span은 상위 평가에 연결됩니다.
   * 평가 비교 표에서 숫자 목록이 포함된 셀은 이제 기본적으로 히스토그램으로 표시됩니다. 셀 툴바를 사용하여 뷰 모드를 **Histogram**, **Bar Chart**, **Text** 또는 **Code**로 변경하세요. 셀을 클릭하면 요약 통계가 포함된 더 큰 차트가 열립니다.
-  * string 셀에 대해 선택한 뷰 모드(***Text**, **Code** 또는 **Markdown**)는 이제 클릭한 셀에만 적용되는 것이 아니라 해당 열의 모든 string 셀에 적용됩니다. 명시적으로 모드를 선택하기 전까지는 JSON의 **Code**와 같은 자동 기본값이 유지됩니다.
+  * string 셀에 대해 선택한 뷰 모드(**Text**, **Code** 또는 **Markdown**)는 이제 클릭한 셀에만 적용되는 것이 아니라 해당 열의 모든 string 셀에 적용됩니다. 명시적으로 모드를 선택하기 전까지는 JSON의 **Code**와 같은 자동 기본값이 유지됩니다.
   * Custom providers가 개선된 UI와 함께 [맞춤형 런타임](/ko/weave/guides/tools/custom-runtimes)으로 이름이 변경되었습니다. 실험 변화에 따라 맞춤형 런타임을 편집하거나 제거할 수 있습니다.
   * Weave에서 inference 공급자의 설정 여부를 보고할 때 이제 팀 시크릿뿐 아니라 사용자 범위의 시크릿도 고려됩니다. 자체 키로 설정한 공급자는 이제 **Playground** 모델 드롭다운, **Providers** 탭 및 **Agents** inference에서 사용 가능한 것으로 표시됩니다.
   * 보안을 강화하기 위해 Weave 점수화 워커의 원격 Scorer 호스트 허용 목록에서 이제 와일드카드 접미사 패턴을 사용할 수 있습니다. `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` 환경 변수를 쉼표로 구분된 패턴 목록으로 설정하세요:
     * `*.corp.example.com`과 같은 항목은 깊이에 관계없이 하위 도메인과 일치하지만 루트 도메인과는 일치하지 않습니다. 따라서 `a.corp.example.com` 및 `a.b.corp.example.com`은 일치하지만 `corp.example.com`은 일치하지 않습니다.
     * 보안을 위해 와일드카드는 최소 두 개의 DNS 레이블을 포함해야 하므로 `*.com` 및 `*.internal`과 같은 패턴은 거부됩니다.
 
-  ## 성능 개선
+  <div id="performance-improvements">
+    ## 성능 개선
+  </div>
 
   * 희소 메트릭이 많은 run에서 쿼리 패널을 로드하는 성능을 개선했습니다.
   * 이제 Weave 점수화 워커는 추론 엔드포인트 호출 시 프로젝트별로 동시성을 조정하여, 공급자 할당량이 낮은 조직에서 발생하는 속도 제한 오류를 줄입니다.
 
-  ## 수정 사항
+  <div id="fixes-2">
+    ## 수정 사항
+  </div>
 
   * 패널을 report로 임포트하면 마우스를 올리지 않아도 항상 전체 패널 이름이 표시됩니다.
   * 지원되지 않는 Weave **시그널** 탭에서 더 이상 `NOT` 연산자가 제공되지 않습니다.
@@ -78,15 +98,21 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.83.2" description="2026년 8월 6일">
-  ## 보안
+  <div id="security">
+    ## 보안
+  </div>
 
   * Weave API endpoints가 악용될 수 있는 심각한 보안 버그를 수정했습니다.
 
-  ## 성능 개선
+  <div id="performance-improvements-2">
+    ## 성능 개선
+  </div>
 
   * 아티팩트 컬렉션 사이드바 새로 고침의 효율성을 개선했습니다.
 
-  ## 수정 사항
+  <div id="fixes-3">
+    ## 수정 사항
+  </div>
 
   * 이제 팀 **Users** 테이블에 각 팀 구성원이 활성 상태인지, 초대가 대기 중인지, 또는 조직 Admin이 비활성화한 계정을 보유하고 있는지를 보여주는 **상태** 열이 있습니다. [Add and manage teams](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참조하세요.
   * run의 최신 기록 step보다 이전 step에서 처음 로깅된 메트릭이 run의 메트릭 및 이후 이력 내보내기에서 누락되어 영향을 받는 Runs의 라이브 이력 정리를 차단할 수 있는 버그를 수정했습니다. 기존 내보내기는 재처리되지 않습니다.
@@ -96,7 +122,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.83.1" description="2026년 7월 28일">
-  ## 수정 사항
+  <div id="fixes-4">
+    ## 수정 사항
+  </div>
 
   * run 메트릭 로드를 위한 UI 요청이 취소되거나 실패할 때 캐시 처리를 개선했습니다.
 </Update>
@@ -104,11 +132,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.83.0" description="2026년 7월 22일">
   W&amp;B Server 0.83.0부터 레지스트리를 플랫폼 전반에서 사용할 수 있습니다. Dedicated Cloud에서 Weave 사용자는 이제 Models seat 없이도 레지스트리를 사용할 수 있으며, Weave 프롬프트를 레지스트리에 게시해 조직 전체에서 버전 관리하고 재사용할 수 있습니다. 또한 조직 수준의 레지스트리 액세스는 새로운 SCIM 엔타이틀먼트를 통해 관리됩니다. 이번 릴리스에서는 팀 가시성, service account, 사용에 대한 관리 제어 기능도 확장되었습니다.
 
-  ## 지원 및 지원 종료(EOL)
+  <div id="support-and-end-of-life-2">
+    ## 지원 및 지원 종료(EOL)
+  </div>
 
   * W&amp;B Server v0.71의 지원이 종료되었습니다.
 
-  ## 기능
+  <div id="features-2">
+    ## 기능
+  </div>
 
   * 이제 Team admins는 초과 사용 배너와 검색 가능한 팀 선택 기능을 포함하여 팀 수준의 [사용량 및 청구](/ko/platform/app/settings-page/billing-settings#plan-usage) 차트를 확인하고 지출 한도를 설정할 수 있습니다.
   * 패널을 검색할 때 이제 이름이 정규식 패턴과 일치하는 패널을 검색 결과에서 제외할 수 있습니다. 필터는 제거할 때까지 활성 상태로 유지되므로, 이를 사용해 Workspace에 가장 중요한 패널만 표시할 수 있습니다.
@@ -129,14 +161,18 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 가상 버전 별칭으로 아티팩트를 필터링하고 검색할 수 있습니다. 퍼지 매칭은 아직 지원되지 않습니다.
   * 조직별 레지스트리 및 아티팩트 수를 추가했습니다.
 
-  ### Automations
+  <div id="automations">
+    ### Automations
+  </div>
 
   v0.83.x에서 다음 Automations 특성은 Dedicated Cloud에서만 사용 가능합니다:
 
   * **Automation Hub**에서 프로젝트와 레지스트리 전반의 [자동화](/ko/models/automations#automations-overview)를 생성하고 관리할 수 있습니다. 사이드바의 **Core** 섹션에서 찾을 수 있습니다.
   * 이제 자동화의 적용 범위를 조직, 팀, 프로젝트, 레지스트리 또는 컬렉션으로 지정할 수 있습니다. 이를 통해 광범위한 적용을 위해 자동화를 복제할 필요가 없습니다. 자동화를 생성할 때 **Edit scopes**를 클릭하세요.
 
-  ### 레지스트리
+  <div id="registry">
+    ### 레지스트리
+  </div>
 
   v0.83.x에서 다음 레지스트리 특성은 Dedicated Cloud에서만 사용 가능합니다:
 
@@ -144,7 +180,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 Weave [프롬프트](/ko/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` 및 `MessagesPrompt`)를 레지스트리에 추가할 수 있으므로, 모델 아티팩트와 함께 조직 전체에서 프롬프트의 버전을 관리하고, 별칭을 지정하며, 재사용할 수 있습니다.
   * [아티팩트 컬렉션](/ko/models/registry/create_collection) 개요 편집 및 버전 그리드 선택 기능이 개선되었습니다. 더 많은 컨텍스트를 위해 동적 아티팩트 패널이 포함된 풍부한 컬렉션 Card를 자동 생성할 수 있습니다.
 
-  ### Weave
+  <div id="weave-2">
+    ### Weave
+  </div>
 
   * **New agent** 시그널 드로어에 미리 구성된 시그널 메뉴를 추가했습니다.
   * 이제 UI에 토큰 비용이 표시됩니다.
@@ -159,7 +197,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 점수화 워커 span에 entity, 프로젝트, Scorer, monitor 세부 정보가 주석으로 추가됩니다.
   * 이제 **Agents** 뷰에서 대화 내 개별 span에 연결할 수 있습니다.
 
-  ## 성능 개선
+  <div id="performance-improvements-3">
+    ## 성능 개선
+  </div>
 
   * 패널 호버 및 강조 표시 상호작용의 성능과 효율성을 개선했습니다.
   * Workspace 이력 키 집계 효율성을 개선했습니다.
@@ -167,7 +207,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * Weave 점수화 소비자 루프의 처리량을 개선했습니다.
   * Weave에서 많은 워커 judge-call span을 일괄 삽입할 때의 성능과 스레드 풀 사이징을 개선했습니다.
 
-  ## 보안
+  <div id="security-2">
+    ## 보안
+  </div>
 
   **SCIM 및 액세스 관리**
 
@@ -187,7 +229,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 이제 시작 설정 로그에서 민감한 라이선스 세부 정보와 객체 저장소 자격 증명이 마스킹됩니다.
 
-  ## 수정 사항
+  <div id="fixes-5">
+    ## 수정 사항
+  </div>
 
   * 보고서 목록의 필터가 모든 보고서에 적용되지 않고 각 페이지에 개별적으로 적용되던 버그를 수정했습니다.
   * 숨겨진 run이 병렬 좌표 플롯에 표시될 수 있던 버그를 수정했습니다.
@@ -196,7 +240,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.82.2" description="2026년 7월 7일">
-  ## 수정 사항
+  <div id="fixes-6">
+    ## 수정 사항
+  </div>
 
   * v0.82.1에서 새 W&amp;B 배포의 초기 설정을 완료하지 못하게 하던 회귀 문제를 수정했습니다. v0.82.1로 업그레이드하기 전에 이미 첫 번째 사용자를 생성한 인스턴스는 영향을 받지 않습니다.
 </Update>
@@ -210,11 +256,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     W&amp;B Server v0.82.1의 회귀 문제로 인해 새 W&amp;B 배포에서 초기 설정을 완료할 수 없습니다. W&amp;B는 새 배포에 v0.82.1을 사용하지 않는 것을 권장합니다. v0.82.1로 업그레이드하기 전에 이미 첫 번째 사용자를 생성한 인스턴스는 영향을 받지 않습니다.
   </Warning>
 
-  ## 성능 개선
+  <div id="performance-improvements-4">
+    ## 성능 개선
+  </div>
 
   * 로깅된 메트릭이 많은 프로젝트에서 차트와 워크스페이스 로딩을 개선했습니다. 여기에는 더 빠른 미디어 패널 로딩과 더 효율적인 이력 키 쿼리가 포함됩니다.
 
-  ## 수정 사항
+  <div id="fixes-7">
+    ## 수정 사항
+  </div>
 
   * 로깅된 메트릭이 많은 프로젝트에서 워크스페이스를 로드할 때 사용자 지정 Vega 차트에 이력 키를 추가하면 멈출 수 있던 버그를 수정했습니다.
   * 로그 스케일이 아닌 축 분할이 있는 선형 플롯을 렌더링할 때 발생할 수 있던 무한 루프를 수정했습니다.
@@ -229,11 +279,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   <SelfManagedClickhouseUpgradeNote />
 
-  ## 지원 및 지원 종료
+  <div id="support-and-end-of-life-3">
+    ## 지원 및 지원 종료
+  </div>
 
   * W&amp;B v0.70은 지원이 종료되었습니다.
 
-  ## 특성
+  <div id="features-3">
+    ## 특성
+  </div>
 
   * 서로 다른 프로젝트의 run을 고정하고 비교하거나, 다른 프로젝트의 run을 기준 run으로 지정할 수 있습니다. 자세한 내용은 [Compare runs across projects](/ko/models/runs/compare-runs#compare-runs-across-projects)를 참조하세요.
     <Frame>
@@ -244,16 +298,22 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 워크스페이스 브라우저 탭의 페이지 제목에 활성 뷰 이름이 포함되어, 브라우저 탭 간 저장된 뷰를 더 쉽게 구분할 수 있습니다.
   * 조직에 구성원을 초대할 때 이제 각 구성원의 Models 시트와 Weave 역할을 동시에 설정할 수 있습니다.
 
-  ### 레지스트리
+  <div id="registry-2">
+    ### 레지스트리
+  </div>
 
   * 레지스트리 **Advanced** 검색 탭을 사용하면 레지스트리, 컬렉션, 버전을 효율적으로 검색하고 필터링할 수 있습니다. 객체 이름으로 빠르게 검색하고, 이름, 태그, 생성일 또는 업데이트 날짜, 상위 레지스트리 등으로 객체를 필터링할 수 있습니다. 검색 성능과 효율성도 개선되었습니다. 자세한 내용은 [Find registry items](/ko/models/registry/search_registry)를 참조하세요.
 
-  ### Weave
+  <div id="weave-3">
+    ### Weave
+  </div>
 
   * 이제 Weave LLM 프록시가 비용을 입력 토큰과 출력 토큰으로 나누어 보고하므로, 더 세밀한 비용 분석이 가능합니다.
   * 이제 Weave 플레이그라운드에서 Gemini 3.1 프리뷰 모델의 비디오 입력을 지원합니다.
 
-  ## 보안
+  <div id="security-3">
+    ## 보안
+  </div>
 
   * 이제 [Audit logs](/ko/platform/hosting/monitoring-usage/audit-logging)에 관련 이벤트의 API 키 정보가 포함됩니다.
   * 다음 CVE를 해결하기 위해 Redis를 8.6.3으로 업그레이드했습니다.
@@ -261,11 +321,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     * [CVE-2026-23631](https://www.cve.org/CVERecord?id=CVE-2026-23631)
     * [CVE-2026-23479](https://www.cve.org/CVERecord?id=CVE-2026-23479)
 
-  ## 성능 개선
+  <div id="performance-improvements-5">
+    ## 성능 개선
+  </div>
 
   * 워크스페이스 패널 검색의 효율성을 개선했습니다.
 
-  ## 수정 사항
+  <div id="fixes-8">
+    ## 수정 사항
+  </div>
 
   * 선형 축이 있는 선형 플롯 패널에서 무한 루프가 발생하던 문제를 수정했습니다.
   * 어두운 모드에서 로깅된 비디오를 볼 때 전체 화면으로 전환하면 비디오가 밝은 모드 색상으로 표시되던 버그를 수정했습니다.
@@ -273,7 +337,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.81.3" description="2026년 6월 9일">
-  ## 수정 사항
+  <div id="fixes-9">
+    ## 수정 사항
+  </div>
 
   * 지원되지 않는 내부 API endpoint를 제거했습니다.
 </Update>
@@ -281,7 +347,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.81.2" description="2026년 6월 8일">
   **2026년 6월 8일**
 
-  ## 수정 사항
+  <div id="fixes-10">
+    ## 수정 사항
+  </div>
 
   * Dedicated Cloud에서 선택적으로 활성화한 프리뷰 기능이 v0.81.1로 업그레이드한 후 잘못 비활성화될 수 있던 버그를 수정했습니다. 배포는 자동으로 업그레이드되며 별도의 조치는 필요하지 않습니다. 문제가 발생하면 [support](mailto:support@wandb.com)에 문의하세요.
 </Update>
@@ -289,7 +357,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.81.1" description="2026년 6월 3일">
   **2026년 6월 3일**
 
-  ## 수정 사항
+  <div id="fixes-11">
+    ## 수정 사항
+  </div>
 
   * 워크스페이스에서 패널 검색 성능을 개선했으며, 특히 regex 기반 검색이 향상되었습니다.
   * 사용자가 현재 접근할 수 있는 컨텍스트를 벗어나 권한 검사가 수행되면서, 아티팩트가 여러 레지스트리에 연결된 경우 아티팩트 다운로드가 실패할 수 있던 버그를 수정했습니다.
@@ -305,11 +375,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   <SelfManagedClickhouseUpgradeNote />
 
-  ## 지원 및 서비스 종료
+  <div id="support-and-end-of-life-4">
+    ## 지원 및 서비스 종료
+  </div>
 
   * W&amp;B Server v0.69는 지원이 종료되었습니다.
 
-  ## 특성
+  <div id="features-4">
+    ## 특성
+  </div>
 
   * 자연어로 W&amp;B 데이터와 W&amp;B 공식 문서를 쿼리하고 분석할 수 있도록 IDE 또는 AI 에이전트를 [W&amp;B MCP Server](/ko/platform/mcp-server)에 연결하세요. 호스팅 모드 또는 로컬 모드에서 실행할 수 있습니다.
 
@@ -347,7 +421,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     * 컬렉션에서 태그가 제거될 때
     * 아티팩트가 컬렉션에서 제거될 때
 
-  ### Weave
+  <div id="weave-4">
+    ### Weave
+  </div>
 
   * 프로젝트 관리자 또는 조직 관리자는 이제 Weave 트레이스의 보존 기간을 설정할 수 있습니다:
     * 프로젝트의 **Settings** 페이지에서 트레이스의 기본 TTL을 설정하세요.
@@ -360,13 +436,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 서버 측 정렬, 필터링, 페이지 매김을 사용해 **Evaluation Results** 페이지의 쿼리 성능을 개선했습니다.
   * 이제 Weave UI에 캐시된 tokens이 표시됩니다.
 
-  ## 성능 개선
+  <div id="performance-improvements-6">
+    ## 성능 개선
+  </div>
 
   * 모든 에이전트를 항상 로드하지 않고 필요한 경우에만 로드하도록 하여 **Sweeps** 페이지의 성능을 개선했습니다.
   * 대규모 워크스페이스에서 편집기 열기, 축 변경, 업데이트 미리 보기, 변경 사항 적용 시의 성능을 개선했습니다.
   * 핫 패스를 얕은 복제로 클론하여 Workspace에 Runs를 추가할 때의 성능을 개선했습니다.
 
-  ## 보안
+  <div id="security-4">
+    ## 보안
+  </div>
 
   * 값을 `true`로 설정하면 인증되지 않은 요청을 거부하는 불리언 환경 변수 `GRAPHQL_REJECT_UNAUTHED_REQUESTS`를 추가했습니다.
   * Okta를 IdP로 사용하는 경우 [SCIM](/ko/platform/hosting/iam/scim) API 호환성이 개선되었습니다.
@@ -386,7 +466,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * [CVE-2026-23490](https://github.com/advisories/GHSA-63vm-454h-vhhq) 및 [CVE-2026-30922](https://github.com/advisories/GHSA-jr27-m4p2-rc6r)를 해결하기 위해 `pyasn1`을 0.6.3으로 업그레이드했습니다.
   * [CVE-2026-24486](https://github.com/advisories/GHSA-wp53-j4wj-2cfg)를 해결하기 위해 `python-multipart`를 0.0.22로 업그레이드했습니다.
 
-  ## Fixes
+  <div id="fixes-12">
+    ## Fixes
+  </div>
 
   * 아티팩트 생성, 삭제 및 가비지 컬렉션 중 발생할 수 있는 교착 상태의 위험을 줄였습니다.
   * 캐시 항목이 점유하는 실제 힙 메모리가 실제보다 크게 적게 보고될 수 있었던 저장소 엔진의 메모리 캐싱 bug를 수정했습니다.
@@ -403,7 +485,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.80.1" description="2026년 5월 6일">
   **2026년 5월 6일**
 
-  ## 수정 사항
+  <div id="fixes-13">
+    ## 수정 사항
+  </div>
 
   * 권한이 없는 사용자에게 아티팩트가 노출될 수 있었던 치명적인 권한 부여 버그를 수정했습니다.
   * 직렬화된 페이로드 검증 과정에서 코드가 실행될 수 있었던 치명적인 보안 버그를 수정했습니다.
@@ -425,7 +509,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * Weave에서 아티팩트 메타데이터를 ClickHouse 검색 인덱스에 기록할 때 발생하던 JSON 직렬화 버그를 수정했습니다.
   * Weave trace server에서 마이그레이션이 잘못된 데이터베이스 엔진을 선택할 수 있던 버그를 수정했습니다.
 
-  ## 호환성에 영향을 주는 변경 사항
+  <div id="breaking-changes">
+    ## 호환성에 영향을 주는 변경 사항
+  </div>
 
   이 릴리스에는 SCIM User JSON을 파싱하는 인테그레이션에 영향을 주는 호환성 변경이 포함되어 있습니다.
 
@@ -442,13 +528,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   W&amp;B 0.80.0에는 실험을 효율적으로 관찰하고 분석하는 데 도움이 되는 새로운 기능, 버그 수정 및 보안 개선 사항이 포함되어 있습니다. 업데이트된 홈 페이지에서 조직 전반의 최근 활동을 보고, 검색하고, 필터링할 수 있습니다. run 지표의 z-점수 기반 자동화와 미디어 나란히 비교 기능이 정식 출시(generally available)되었습니다. 테이블 패널, 평행 좌표 플롯, 산점도도 개선되었습니다. 아티팩트 리니지 그래프 상호작용 및 공유가 더욱 효율적으로 개선되었습니다. 엔터프라이즈 배포의 프로비저닝 간소화를 위해 SCIM API에서 이제 Models 시트 및 Weave 역할 관리를 지원합니다.
 
-  ## 지원 및 서비스 종료
+  <div id="support-and-end-of-life-5">
+    ## 지원 및 서비스 종료
+  </div>
 
   * W&amp;B Server v0.68의 지원이 종료되었습니다.
 
   [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참고하세요. 도움이 필요하거나 문의 사항이 있으면 [지원팀](mailto:support@wandb.com)에 문의하세요.
 
-  ## 특성
+  <div id="features-5">
+    ## 특성
+  </div>
 
   * 미디어 패널용 [Compare mode](/ko/models/app/features/panels/media#compare-mode)를 이제 정식으로 사용할 수 있습니다. Compare mode를 사용하면 파일을 다운로드하거나 탭을 전환하지 않고도 Runs, step 또는 인덱스를 자유롭게 조합해 이미지나 비디오 2~4개를 선택하고 하나의 그리드에서 볼 수 있습니다.
 
@@ -490,7 +580,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * URL로 아티팩트의 리니지 뷰를 공유하면 이제 받는 사람도 필터, 숨겨진 노드, 수동 위치, 뷰포트, 확대/축소 수준을 포함한 동일한 그래프 설정을 그대로 볼 수 있습니다.
 
-  ### Weave
+  <div id="weave-5">
+    ### Weave
+  </div>
 
   * **Project overview** 페이지의 새로운 **Scorer dashboard** 뷰에서는 스코어러별 통과/실패 비율과 히스토그램 분포, 필터링할 수 있는 예시 목록, 그리고 예시별 세부 정보와 trial별 점수를 보여줍니다.
     ![Scorer 대시보드 비디오 데모](/images/release-notes/v0-80-0/weave_scorer_dashboards.gif)
@@ -500,7 +592,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * **Monitors** 페이지에서 시그널 프롬프트를 바로 편집하세요. 톱니바퀴 아이콘을 클릭한 다음 시그널의 연필 아이콘을 클릭하세요.
   * **Calls** 테이블에서 이제 사용자 ID가 사용자 이름으로 표시됩니다.
 
-  ## 보안
+  <div id="security-5">
+    ## 보안
+  </div>
 
   * [SCIM](/ko/platform/hosting/iam/automate_iam)을 사용해 Models 시트 또는 Weave 역할을 부여하세요.
   * [감사 로그를 가져올 때](/ko/platform/hosting/monitoring-usage/audit-logging#fetch-audit-logs) `startDate` 파라미터는 가져올 가장 최신 로그를 제어합니다.
@@ -515,7 +609,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 역직렬화 중 메모리 내 트레이스 아티팩트에 제공된 파일 경로가 의도된 임시 작업 공간을 벗어날 수 있던 버그를 수정했습니다. 이제 경로를 안전하게 정제하여 아티팩트 파일이 예상된 디렉터리 레이아웃 내에만 저장되도록 합니다.
   * 평가 작업 중 evaluate-model 워커가 안전하지 않은 맞춤형 직렬화 페이로드를 처리할 수 있던 버그를 수정했습니다. 이제 이러한 페이로드는 역직렬화 전에 거부되며, 평가 스택의 다른 보안 강화 경로와 일관되게 처리됩니다.
 
-  ## Fixes
+  <div id="fixes-14">
+    ## Fixes
+  </div>
 
   * 이제 테이블 패널은 기본적으로 summary 테이블로 표시되며, 테이블이 여러 step에 걸쳐 로깅된 경우 stepper 뷰로 전환할 수 있는 버튼이 제공됩니다. 이를 통해 테이블 패널이 있는 Workspace의 로드 시간이 개선되고, 재개된 run의 이력을 볼 때 발생하던 비호환성도 완화됩니다.
   * 스윕 테이블에서 500개가 넘는 스윕을 로드하지 못하던 버그를 수정했습니다.
@@ -525,13 +621,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.79.2" description="2026년 4월 10일">
-  ## 수정 사항
+  <div id="fixes-15">
+    ## 수정 사항
+  </div>
 
   * 메트릭 수집이 지연될 수 있던 bug를 수정했습니다.
 </Update>
 
 <Update label="v0.79.1" description="2026년 4월 1일">
-  ## 수정 사항
+  <div id="fixes-16">
+    ## 수정 사항
+  </div>
 
   * 새 run, 특히 새 프로젝트의 run에서 404 `run not found` 오류가 발생하던 bug를 수정했습니다.
   * audit logs가 1000일치를 초과하는 deployment에서 audit logs를 쿼리하지 못할 수 있던 bug를 수정했습니다.
@@ -540,20 +640,26 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.79.0" description="2026년 3월 24일">
   W&amp;B Server 0.79.0에는 이미지 확대/축소 및 이동, 서비스 계정과 API 키 관리 개선, 그리고 성능 개선이 추가되었습니다. 이제 Weave monitors는 모든 오퍼레이션의 점수화를 지원하며, Weave UI에는 프롬프트 태그와 alias 관리 개선, Claude agent용 채팅 뷰, 이모지 피드백 반응 또는 노트 내용별 필터링 등이 추가되었습니다.
 
-  ## 지원 및 지원 종료
+  <div id="support-and-end-of-life-6">
+    ## 지원 및 지원 종료
+  </div>
 
   * W&amp;B Server v0.67의 지원이 종료되었습니다.
 
   [Release policies and processes](/ko/release-notes/release-policies)를 참조하세요. 도움이 필요하거나 질문이 있으면 [지원팀](mailto:support@wandb.com)에 문의하세요.
 
-  ## 보안
+  <div id="security-6">
+    ## 보안
+  </div>
 
   * 서비스 계정을 생성할 때 이제 해당 계정의 API 키를 만들도록 자동으로 안내됩니다.
   * 이제 W&amp;B App에서 서비스 계정 또는 API 키를 삭제하려면 확인이 필요합니다.
   * 이제 SQL 인젝션을 방지할 수 있도록 백엔드에서 필터의 열 이름을 이스케이프 처리합니다.
   * [발음 구별 기호](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks)가 포함된 이메일 주소는 이제 사용자 등록이나 로그인에 사용할 수 없습니다.
 
-  ## 기능
+  <div id="features-6">
+    ## 기능
+  </div>
 
   * **이미지를 이동하고 확대/축소**하여 W&amp;B&#39;s 전체 화면 이미지 모달에서 세부적인 이미지 내용을 직접 확인할 수 있습니다. 이미지를 전체 화면으로 연 다음, 다음을 수행하세요.
 
@@ -572,11 +678,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     * 설정 매개변수를 지정한 run에 대해 `CONTAINS` Operator 지원이 추가되었습니다.
   * 데이터베이스 부하를 줄이기 위해 프로젝트 필드에 방어적 캐싱이 추가되었습니다.
 
-  ### 레지스트리
+  <div id="registry-3">
+    ### 레지스트리
+  </div>
 
   * 시스템 과부하 위험을 줄이기 위해 아티팩트 생성에 대한 새로운 요청 속도 제한이 추가되었습니다.
 
-  ### Weave
+  <div id="weave-6">
+    ### Weave
+  </div>
 
   <Note>Weave를 사용하는 deployment의 경우 v0.78+로 업그레이드하기 전에 Clickhouse v0.25.8+가 필요합니다.</Note>
 
@@ -586,7 +696,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 **Calls** 및 **Traces** 페이지의 테이블에서 열을 드래그 앤 드롭으로 재정렬할 수 있습니다.
   * 이제 Weave monitors는 모든 오퍼레이션에 대한 점수화를 지원합니다.
 
-  ## 수정 사항
+  <div id="fixes-17">
+    ## 수정 사항
+  </div>
 
   * 백엔드 smoothing의 부동소수점 반올림 오류를 수정했습니다.
   * expression inputs에 입력할 때 커서가 갑자기 이동하던 bug를 수정했습니다.
@@ -599,7 +711,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.78.2" description="2026년 3월 10일">
   <Note>Weave를 사용하는 deployment의 경우 v0.78로 업그레이드하기 전에 Clickhouse v0.25.8+가 필요합니다.</Note>
 
-  ## 수정 사항
+  <div id="fixes-18">
+    ## 수정 사항
+  </div>
 
   이전의 중요 보안 수정에서 다시 발생한 문제를 수정했습니다. 이 문제로 인해 아티팩트에 대한 무단 액세스가 허용될 수 있습니다. 이 회귀는 v0.78.0 및 v0.78.1에 존재합니다. 이러한 버전을 설치하거나 이 버전으로 업그레이드하지 마세요. 대신 이 수정이 포함된 v0.78.2를 설치하세요.
 </Update>
@@ -609,7 +723,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     이 릴리스는 권한이 없는 사용자가 아티팩트에 접근할 수 있게 하는 치명적인 보안 문제의 영향을 받습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
   </Warning>
 
-  ## 수정 사항
+  <div id="fixes-19">
+    ## 수정 사항
+  </div>
 
   * 데이터를 전혀 로깅하지 않은 부모 run에서 포크할 때 실패할 수 있던 버그를 수정했습니다.
   * 밝은 모드 또는 어두운 모드에 대한 사용자의 기본 설정이 적용되지 않던 UI 버그를 수정했습니다.
@@ -629,20 +745,26 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     이 릴리스에는 권한이 없는 사용자가 artifact에 액세스할 수 있게 하는 치명적인 보안 문제가 있습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
   </Warning>
 
-  ## 지원 및 서비스 종료
+  <div id="support-and-end-of-life-7">
+    ## 지원 및 서비스 종료
+  </div>
 
   * v0.66.0 이하 버전은 지원이 종료되었습니다.
 
   [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참고하세요. 도움이 필요하거나 문의 사항이 있으시면 [지원팀](mailto:support@wandb.com)에 문의하세요.
 
-  ## 보안
+  <div id="security-7">
+    ## 보안
+  </div>
 
   * 이제 W&amp;B 조직 또는 배포에서는 개인 API 키를 최대 100개, 사용자당 조직 수준 API 키를 최대 100개, 그리고 Service Account당 API 키를 최대 100개까지 가질 수 있습니다.
   * Enterprise 플랜에서는 [조직에 구성원을 초대](/ko/platform/hosting/iam/access-management/manage-organization#invite-a-user)하면 기본적으로 **Member** 역할이 부여됩니다. 다른 플랜의 기본 역할은 **Admin**입니다.
   * 현재 조직의 구성원이 아닌 새 사용자를 team에 초대하면, 해당 사용자의 초기 역할이 이제 **Member**로 설정됩니다.
   * 이제 조직 또는 팀에 [초대된](/ko/platform/hosting/iam/access-management/manage-organization#invite-a-user) 사용자의 초기 역할이 초대 테이블에 표시됩니다.
 
-  ## 특성
+  <div id="features-7">
+    ## 특성
+  </div>
 
   * 중요한 run을 추적하고 모델 실험을 효율적으로 평가하려면 [pinned and baseline runs](/ko/models/runs/compare-runs)을 사용하세요.
 
@@ -665,7 +787,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 이제 관리자는 조직의 사용량 및 지출 알림을 사용자 지정할 수 있습니다. 새 **Usage &amp; Alerts** 탭이 있는 조직 Settings에서 저장소, 추적 시간, Weave, 트레이닝의 사용량과 지출을 확인하고 이메일 알림을 설정하세요. [플랜 사용량](/ko/platform/app/settings-page/billing-settings#plan-usage)을 참조하세요.
 
-  ### 레지스트리
+  <div id="registry-4">
+    ### 레지스트리
+  </div>
 
   * 레지스트리 UI에서는 더 빠르게 이동할 수 있고 더 쉽게 살펴볼 수 있습니다.
 
@@ -678,7 +802,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     * 이제 컬렉션 이름을 클릭해 해당 artifact 버전을 빠르게 볼 수 있습니다.
     * 이제 **Settings** 페이지에서 레지스트리에 별표를 표시할 수 있어 더욱 편리합니다.
 
-  ### Weave
+  <div id="weave-7">
+    ### Weave
+  </div>
 
   * 이제 **프로젝트 Overview** 페이지에는 요청 수, 지연 시간 백분위수(P50/P95/P99), 모델별 토큰 사용량, 비용 내역을 보여주는 **Trace Analytics** 대시보드가 포함됩니다. 어떤 모델이 예산을 빠르게 소진하고 있는지, 또는 P95를 악화시키는 느린 요청이 무엇인지 파악할 수 있습니다. 시간 버킷을 클릭하면 관련 트레이스로 바로 이동하여 지연 시간 급증의 원인을 빠르게 파악할 수 있습니다.
 
@@ -701,7 +827,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * Gemini와 같이 thinking token을 제공하는 모델의 경우, 이제 Weave UI의 **Token Usage**에 표시됩니다. thinking token은 최종 답변을 생성하기 전에 LLM이 복잡한 추론 단계, 계산, 자체 검토를 처리하는 데 사용하는 내부 토큰입니다.
 
-  ## Fixes
+  <div id="fixes-20">
+    ## Fixes
+  </div>
 
   * 숨겨진 Teams의 Reports를 공유할 수 있었던 버그를 수정했습니다.
   * 줄바꿈이 포함된 텍스트를 복사할 때 선택 영역이 잘릴 수 있던 UI bug를 수정했습니다.
@@ -713,11 +841,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.77.1" description="2026년 1월 28일">
   **2026년 1월 28일**
 
-  ## 변경 사항
+  <div id="changes">
+    ## 변경 사항
+  </div>
 
   * **Self-Managed**에서 이제 W&amp;B 워크스페이스에 Weave 패널을 추가하고 Weave 트레이스에서 W&amp;B Artifacts를 참조할 수 있습니다. 이 기능은 이전에는 **Dedicated Cloud**에서만 지원되었습니다. [W&amp;B training runs와 함께 Weave 사용하기](/ko/weave/guides/tools/weave-in-workspaces)를 참조하세요.
 
-  ## 수정 사항
+  <div id="fixes-21">
+    ## 수정 사항
+  </div>
 
   * alias 필터가 적용된 경우 레지스트리 버전 쿼리에서 중복 항목이 반환될 수 있던 버그를 수정했습니다.
 </Update>
@@ -729,13 +861,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   이번 릴리스에는 API 키 보안 강화, 단일 run 및 다중 run Workspace 간 공유 설정을 통한 내비게이션 간소화, 새로운 선형 플롯 음영 옵션, 미디어 패널 동기화 및 루핑의 정식 출시가 포함되며, 주요 사용 편의성 개선 및 버그 수정도 함께 제공됩니다.
 
-  ## 지원 및 서비스 종료
+  <div id="support-and-end-of-life-8">
+    ## 지원 및 서비스 종료
+  </div>
 
   * W&amp;B Server v0.65는 지원이 종료되었습니다.
 
   [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참고하세요. 도움이 필요하거나 문의 사항이 있으시면 [지원팀](mailto:support@wandb.com)에 문의하세요.
 
-  ## 예정된 변경 사항
+  <div id="upcoming-changes">
+    ## 예정된 변경 사항
+  </div>
 
   * 곧 레지스트리 UI에서 더 빠르게 이동하고 더 쉽게 훑어볼 수 있게 됩니다.
 
@@ -748,7 +884,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
       ![Registry UI 개선을 보여주는 애니메이션](/images/release-notes/v0-77-0/registry-ui-improvements.gif)
     </Frame>
 
-  ## 보안
+  <div id="security-8">
+    ## 보안
+  </div>
 
   * 개인 계정과 서비스 계정의 보안 및 키 관리를 강화하기 위해 W&amp;B 전반의 API 키를 업데이트했습니다. 이번 변경은 최신 보안 모범 사례에 부합하는 동시에 팀에 더 큰 유연성과 더 안전한 자동화 환경을 제공합니다.
 
@@ -761,7 +899,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
     [회원 가입 및 API 키 생성](/ko/models/quickstart#sign-up-and-create-an-api-key)을 참조하세요.
 
-  ## 특성
+  <div id="features-8">
+    ## 특성
+  </div>
 
   * **업데이트된 Workspace 내비게이션.** 멀티 run과 single run Workspace 뷰를 일치시켜, 단일 run으로 들어가면 맞춤형 chart, layout, Settings를 포함해 멀티 run 뷰에서 설정한 것과 동일한 패널 layout 및 설정을 볼 수 있습니다. 이를 통해 작업 맥락을 유지하고 뷰를 다시 설정하는 수고를 줄일 수 있습니다. 내비게이션 버튼의 위치 변경을 포함한 변경 사항을 이해하려면 이 [비디오](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)를 참조하세요.
     <Frame>
@@ -775,12 +915,16 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     </Frame>
   * 자동화를 더 효율적으로 설정할 수 있도록, 이제 앱에서 기준으로 삼을 메트릭을 제안합니다.
 
-  ### 레지스트리
+  <div id="registry-5">
+    ### 레지스트리
+  </div>
 
   * [Artifact 리니지 그래프](/ko/models/artifacts/explore-and-traverse-an-artifact-graph)는 이제 레지스트리에서 항목을 드래그 앤 드롭으로 재배치하거나 숨길 수 있습니다.
   * artifact 버전을 볼 때 이제 한 번의 오퍼레이션으로 새 레지스트리를 만들고 해당 artifact 버전을 연결할 수 있습니다.
 
-  ### Weave
+  <div id="weave-8">
+    ### Weave
+  </div>
 
   * 이제 W&amp;B App의 빈 상태에 표시되는 Weave 온보딩 페이지에는 Python 예제 코드와 함께 TypeScript 예제 코드도 포함됩니다.
   * 이제 Weave call 로그는 기본적으로 연속 스크롤을 지원합니다. 이전에는 최근 로그 10,000줄만 볼 수 있었습니다.
@@ -791,7 +935,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     * Opus 4.5
   * 이제 [Weave 플레이그라운드](https://wandb.ai/site/playground/)에서 새 프롬프트를 만들고 저장할 수 있습니다.
 
-  ## Fixes
+  <div id="fixes-22">
+    ## Fixes
+  </div>
 
   * 편집할 때 run의 **Notes** 텍스트 필드가 너무 좁게 표시되던 버그를 수정했습니다. 이제 텍스트 상자는 보기와 편집 시 동일한 너비로 표시됩니다.
   * W&amp;B Report를 PDF로 내보낼 때 이미지 해상도가 너무 낮아지던 버그를 수정했습니다.
@@ -799,7 +945,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * Report의 이상값이 선형 플롯에서 숨길 수 있는 옵션 없이 표시되던 버그를 수정했습니다.
   * 여러 runset이 있는 Report의 선형 플롯에서, runset 간에 같은 이름을 공유하는 run에 대해 올바르지 않은 데이터가 표시될 수 있던 버그를 수정했습니다. 이제 run은 runset과 이름 조합의 키로 고유하게 식별됩니다.
 
-  ### Weave
+  <div id="weave-9">
+    ### Weave
+  </div>
 
   * Dedicated Cloud의 Weave UI에 Dedicated Cloud에서 사용할 수 없는 Serverless Inference 링크가 표시되던 버그를 수정했습니다.
   * 세부 정보 drawer가 열려 있으면 [Evaluation](/ko/weave/guides/core-types/evaluations) 비교 페이지에서 막대 차트 너비가 지나치게 좁아질 수 있던 버그를 수정했습니다.
@@ -814,7 +962,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.76.3" description="2025년 12월 17일">
   **2025년 12월 17일**
 
-  ## 수정 사항
+  <div id="fixes-23">
+    ## 수정 사항
+  </div>
 
   * 스크롤 막대가 항상 표시되도록 설정된 macOS에서 발생할 수 있는 표시 버그를 수정했습니다. 워크스페이스에 [쿼리 패널](/ko/models/app/features/panels/query-panels)이 있는 경우, 워크스페이스를 축소하면 쿼리 패널 table 크기가 초당 여러 차례 오르내리는 크기 조정 루프가 트리거될 수 있었습니다.
   * Serverless Inference가 Dedicated Cloud UI에 잘못 표시되던 버그를 수정했습니다. Dedicated Cloud에서는 Inference를 사용할 수 없습니다.
@@ -823,7 +973,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.76.2" description="2025년 12월 10일">
   **2025년 12월 10일**
 
-  ## 수정 사항
+  <div id="fixes-24">
+    ## 수정 사항
+  </div>
 
   * **Organization Dashboard** 페이지의 부정확한 사용 카드를 **Usage** 페이지 링크로 대체했습니다. 이는 UI 버그일 뿐이며 billing에는 영향이 없습니다.
   * Parquet 조회는 꺼져 있지만 내보내기는 켜진 상태가 될 수 있던 버그를 수정했습니다.
@@ -833,7 +985,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.76.1" description="2025년 12월 4일">
   **2025년 12월 4일**
 
-  ## 수정 사항
+  <div id="fixes-25">
+    ## 수정 사항
+  </div>
 
   * 플롯에서 극단적인 이상값이 숨겨져 있을 때 워크스페이스에서 report로 선형 플롯을 임포트하면 멈출 수 있던 버그를 수정했습니다.
   * 높이를 줄였을 때 table 패널 크기가 올바르게 조정되지 않을 수 있던 버그를 수정했습니다.
@@ -849,11 +1003,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   W&amp;B v0.76은 더 스마트한 미디어 도구, 더 원활한 워크플로, 강력한 새 인터페이스를 도입하여 실험 인사이트와 생산성을 크게 향상시킵니다. 자동 재생 및 반복 재생을 지원하는 멀티 비디오 Sync를 통해 빠른 병렬 Evaluation이 가능하며, 간소화된 Workspace 내비게이션으로 여러 뷰 사이를 손쉽게 이동할 수 있습니다. 또한 새로운 LEET 터미널 UI를 통해 실시간 run 인사이트를 명령줄에서 바로 확인할 수 있습니다.
 
-  ## 지원 및 서비스 종료
+  <div id="support-and-end-of-life-9">
+    ## 지원 및 서비스 종료
+  </div>
 
   * W&amp;B Server v0.63의 지원이 종료되었습니다.
 
-  ## 특성
+  <div id="features-9">
+    ## 특성
+  </div>
 
   * **멀티 비디오 Sync**: 여러 비디오 패널을 함께 재생하고 제어하여 정성적 평가와 트레이닝 run 비교를 수행하고, 여러 실험에 걸친 모델 동작을 분석하며, 멀티모달 모델 체크포인트를 평가합니다.
 
@@ -892,7 +1050,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * 최근 [Workspaces and Reports SDK v0.20.0](/ko/models/ref/wandb_workspaces) v0.20.0을 릴리스했으며, 이 버전에는 섹션과 열을 프로그래밍 방식으로 고정하는 기능이 포함되어 있습니다. [Workspaces and Reports API 설치](/ko/models/ref/wandb_workspaces#installation-and-setup)를 참조하세요.
 
-  ## Fixes
+  <div id="fixes-26">
+    ## Fixes
+  </div>
 
   * 비교를 더 쉽게 할 수 있도록 이제 그룹화된 선 차트에 최솟값과 최댓값이 표시됩니다.
   * 이제 Reports에서는 긴 미디어 패널 제목을 잘라 더 깔끔하게 표시합니다.
@@ -918,13 +1078,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.75.0" description="2025년 10월 28일">
   W&amp;B v0.75는 새로운 Restricted Viewer 역할, 레지스트리 즐겨찾기 기능, SCIM을 통한 프로그래밍 방식의 Registry 접근 제어를 추가하여 Registry 기능을 강화합니다. 새로운 automation 실행 이력 뷰를 통해 automation을 파악하고 디버그할 수 있습니다. 하이퍼파라미터 등 설정 속성별 시맨틱 색상으로 설정 기반 효과를 시각화하고, 시스템 메트릭의 전체 해상도 플롯을 확인하는 등 다양한 기능을 제공합니다.
 
-  ## 지원 및 서비스 종료
+  <div id="support-and-end-of-life-10">
+    ## 지원 및 서비스 종료
+  </div>
 
   * W&amp;B Server v0.61은 지원이 종료되었습니다.
 
   [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참고하세요. 도움이 필요하거나 문의 사항이 있으시면 [지원팀](mailto:support@wandb.com)에 문의하세요.
 
-  ## 예정된 변경 사항
+  <div id="upcoming-changes-2">
+    ## 예정된 변경 사항
+  </div>
 
   다음 W&amp;B Server 릴리스에서는 멀티 run과 싱글 run Workspace 간 이동을 더 쉽게 해주는 Workspace 내비게이션 업데이트를 출시할 예정입니다. 이 [미리보기 비디오](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)를 참조하세요.
 
@@ -932,11 +1096,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   ![예정된 내비게이션 사이드바 업데이트](/images/release-notes/v0-75-0/navigation-sidebar-upcoming-update.png)
 
-  ## 보안
+  <div id="security-9">
+    ## 보안
+  </div>
 
   * 환경 변수 `FEDERATED_AUTH_AUDIENCES`를 쉼표로 구분된 audience 목록으로 설정해 [연합 ID](/ko/platform/hosting/iam/identity_federation)의 audience를 구성할 수 있습니다. audience는 ID 토큰의 허용된 수신자를 지정합니다.
 
-  ## 특성
+  <div id="features-10">
+    ## 특성
+  </div>
 
   * **레지스트리 액세스 제어 업데이트:**
     * **프로그래밍 방식의 레지스트리 액세스 제어:** 이제 SCIM 스키마에 [레지스트리 역할](/ko/models/registry/configure_registry#details-about-registry-roles)이 포함됩니다. 사용자를 [생성](/ko/platform/hosting/iam/scim#create-user)하거나 업데이트할 때 해당 사용자의 레지스트리 역할을 구성할 수 있으며, [사용자 조회](/ko/platform/hosting/iam/scim#get-user) 시에도 레지스트리 역할이 반환됩니다.
@@ -967,7 +1135,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 
   * Parquet로의 run 이력 내보내기 기능이 개선되었습니다. 이제 모든 배포 환경에서 run 이력 내보내기는 기본적으로 비동기 방식으로 수행됩니다. 또한 run 이력을 내보낼 때, run이 7일 이상 로깅되지 않았고 해당 run의 이력이 완전히 내보내진 후에는 해당 run의 이력이 MySQL에서 자동으로 삭제됩니다.
 
-  ## Fixes
+  <div id="fixes-27">
+    ## Fixes
+  </div>
 
   * 이제 Workspace 또는 섹션의 모든 플롯에 대해 **원본 표시** 선형 플롯 설정을 표시하거나 숨길 수 있습니다.
   * Reports에서 run selector의 모든 열을 고정하면 리포트 레이아웃이 깨질 수 있던 버그를 수정했습니다.
@@ -1000,11 +1170,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.74.0" description="2025년 10월 8일">
   W&amp;B v0.74는 Okta와의 자동화된 그룹 동기화, 간소화된 사용자 역할 설정 등 엔터프라이즈 ID 관리를 위한 SCIM API 개선 사항을 제공합니다. Dedicated Cloud에서는 강력한 새 전체 화면 이미지 브라우저를 통해 run 내부 및 run 간 이미지를 검사하고 비교할 수 있습니다. Weave 개선 사항으로는 플레이그라운드 내 LLM judge 평가, 멀티턴 Thread 도구 calls에 대한 향상된 가시성, DSPy 개선, 강화 학습 워크플로를 위한 Verifiers 라이브러리와의 새로운 인테그레이션이 포함됩니다.
 
-  ## 지원 및 서비스 종료
+  <div id="support-and-end-of-life-11">
+    ## 지원 및 서비스 종료
+  </div>
 
   * W&amp;B Server v0.60의 지원이 종료되었습니다.
 
-  ## 특성
+  <div id="features-11">
+    ## 특성
+  </div>
 
   * SCIM API가 개선되었습니다:
     * 프로비저닝 및 프로비저닝 해제 오퍼레이션이 이제 Okta와 더 잘 호환됩니다.
@@ -1018,7 +1192,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
     * **전체 화면 뷰의 step 슬라이더.** 내장 슬라이더로 step 사이를 효율적으로 이동하며 출력이 어떻게 변화하는지 확인할 수 있습니다.
     * **키보드로 run 사이를 빠르게 전환.** 전체 화면 뷰에서 키보드의 **왼쪽 / 오른쪽 화살표** 키를 사용해 run 사이를 이동하고, **Cmd + 왼쪽 / 오른쪽 화살표**(macOS) 또는 **Ctrl + 왼쪽 / 오른쪽 화살표**(Windows / Linux)를 사용해 같은 이미지의 step 사이를 이동합니다.
 
-  ### Weave
+  <div id="weave-10">
+    ### Weave
+  </div>
 
   * **Evaluations** 사이드바 탭에서 이제 프롬프트 값을 업데이트하고 LLM judge 평가를 실행해 변경 사항을 테스트할 수 있습니다. [플레이그라운드](/ko/weave/guides/tools/playground)에서 직접 사용해 보세요.
   * 이제 Weave를 강화 학습(RL) 트레이닝 워크플로에 통합하고, 트레이닝 중 수집된 [트레이스와 평가](/ko/weave/guides/tools/weave-in-workspaces)를 W&amp;B Workspace에서 run 메트릭 패널과 함께 볼 수 있습니다.
@@ -1030,7 +1206,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 새로운 편의 메서드 [`delete_all_object_versions`](/ko/weave/reference/python-sdk/trace/weave_client).
   * 이제 OpenAI 스트리밍 엔드포인트 call의 출력에는 밀리초 단위의 새 필드 `time_to_first_token`이 포함됩니다.
 
-  ## Fixes
+  <div id="fixes-28">
+    ## Fixes
+  </div>
 
   * 캡션이 있는 바운딩 박스의 표시 문제를 해결했습니다.
   * Runs Table에서 run을 그룹화할 때 이제 `null` 그룹을 펼쳐 그룹화 키 값이 `null`인 run을 확인할 수 있습니다.
@@ -1044,7 +1222,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 </Update>
 
 <Update label="v0.73.1" description="2025년 9월 10일">
-  ## 수정 사항
+  <div id="fixes-29">
+    ## 수정 사항
+  </div>
 
   * v0.73.0에서 도입된 버그를 수정했습니다. 이 버그로 인해 워크스페이스 패널의 크기를 조정하거나 순서를 바꿔도 저장된 뷰에 항상 반영되지 않았습니다.
   * 조직에 수백 개의 레지스트리가 있는 경우, 레지스트리 목록 페이지를 넘길 때 실패할 수 있던 레지스트리 UI 버그를 수정했습니다.
@@ -1057,16 +1237,22 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
 <Update label="v0.73.0" description="2025년 9월 10일">
   W&amp;B v0.73은 팀 수준 Model Registry에서 W&amp;B 레지스트리로의 마이그레이션에서 중요한 이정표입니다. 대부분의 조직은 업그레이드 시 자동으로 마이그레이션됩니다. UI 개선 사항으로는 색각 이상자를 위한 run 색상 팔레트, metric 기반 run 색상 지정을 위한 연속 색상 옵션, 더욱 매끄러운 패널 재배치가 포함됩니다. 이번 릴리스에서는 CoreWeave AI Object Storage를 사용하는 BYOB(Bring Your Own Bucket) 설정에 대한 서비스 주체 인증도 제공하며, 콘솔 로그 처리 개선 및 기타 향상 사항도 포함됩니다.
 
-  ## 예정된 변경 사항
+  <div id="upcoming-changes-3">
+    ## 예정된 변경 사항
+  </div>
 
   * 다가오는 릴리스에서 멀티 run과 single run Workspace 뷰를 일치시킬 예정입니다. 따라서 single run으로 들어가면 맞춤형 차트, 레이아웃, Settings를 포함해 멀티 run 뷰에서 설정한 것과 동일한 패널 레이아웃과 설정이 표시됩니다. 이는 작업 맥락을 유지하고 뷰 설정을 다시 해야 하는 번거로움을 줄이기 위한 것입니다. 하지만 이 변경으로 인해 Workspace의 다른 부분과 분리된 고유한 single run 뷰를 사용자 지정하는 기능은 없어집니다. 마이그레이션에 관해 궁금한 점이 있으면 W&amp;B 팀 또는 [지원팀](mailto:support@wandb.ai)에 문의하세요.
   * 향후 몇 차례의 릴리스에 걸쳐 기존 팀 단위 Model Registry를 W&amp;B Registry로 계속 이전할 예정입니다. 자세한 내용과 일정에 대한 안내는 아래의 [W&amp;B Registry GA announcement](#registry_ga_announcement)을 참조하세요.
 
-  ## 알려진 문제
+  <div id="known-issues">
+    ## 알려진 문제
+  </div>
 
   v0.73.0에서는 Workspace 패널의 크기 조정 또는 순서 변경이 저장된 뷰에 반영되지 않을 수 있습니다. 이 버그는 v0.73.1에서 수정되었습니다. 이 문제가 발생하면 수정 사항이 포함된 v0.73.1로 업그레이드하세요. 업그레이드할 수 없는 경우 [지원팀](mailto:support@wandb.ai)에 문의하여 해결 방법을 안내받으세요.
 
-  ## 특성
+  <div id="features-12">
+    ## 특성
+  </div>
 
   * <a id="registry_ga_announcement" aria-label="W&B Registry GA 발표" />앞으로 몇 차례의 릴리스에 걸쳐 기존 팀 수준 Model Registry를 W&amp;B Registry로 단계적으로 마이그레이션합니다. **사용자 쪽에서 별도로 조치하실 필요는 없습니다. W&amp;B가 각 팀의 Model Registry 에셋을 해당 팀에 대해 자동 생성된 팀 수준 비공개 레지스트리로 자동 복사합니다.** 기존 팀 수준 Model Registry의 모델 컬렉션을 가리키는 레퍼런스도 계속 작동합니다.
 
@@ -1080,7 +1266,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * [W&amp;B run](/ko/models/runs) 동안 [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 컴퓨팅 인프라를 모니터링합니다. 이제 이 인테그레이션은 Dedicated Cloud에서 지원됩니다.
   * 이제 CoreWeave AI Object Storage를 사용하는 BYOB에서 Multi-tenant Cloud, Dedicated Cloud 및 Self-Managed 배포 환경의 서비스 프린시펄 인증을 지원합니다. 이를 통해 배포 환경에서 정적 자격 증명을 사용하지 않을 수 있습니다. 자세한 내용은 [Bring your own bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)에서 확인하세요.
 
-  ### Weave
+  <div id="weave-11">
+    ### Weave
+  </div>
 
   * 이제 [Weave Threads](/ko/weave/guides/tracking/threads)를 사용해 여러 트레이스에 걸쳐 있는 세션이나 대화를 묶을 수 있습니다.
   * The **Trace view**의 새로운 [Graph view](/ko/weave/guides/tracking/trace-tree#graph-view)는 call 트리 구조를 그래프로 시각화합니다.
@@ -1088,7 +1276,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * 이제 [HTML](/ko/weave/guides/core-types/media#html)을 트레이스에 미디어 유형으로 첨부할 수 있습니다.
   * 이제 **Assets** 탭에서 프롬프트를 만들고 수정할 수 있습니다. **Assets**를 클릭한 다음 내비게이션에서 **Prompts**를 클릭합니다. **New prompt**를 클릭하거나 기존 프롬프트의 이름을 클릭해 세부 정보를 확인합니다. 그런 다음 연필 아이콘을 클릭해 프롬프트를 수정하고 다시 게시합니다.
 
-  ## Fixes
+  <div id="fixes-30">
+    ## Fixes
+  </div>
 
   * 섹션 내부와 섹션 간 [패널을 끌어 놓는 작업](/ko/models/app/features/panels/#move-a-panel)의 부드러움과 정확도가 개선되었습니다.
   * [전체 화면 패널 뷰](/ko/models/app/features/panels/#view-a-panel-in-full-screen-mode)에서 **Esc** 키를 누르면 이제 Workspace로 돌아갑니다.
@@ -1103,7 +1293,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ko/_includes/self-manage
   * **Tab**을 누른 후 섹션을 확장하거나 축소할 때 리포트가 비정상 종료될 수 있는 버그를 수정했습니다.
   * 모바일 화면에서 스크롤할 때 로깅된 비디오가 전체 화면으로 자동 재생되던 버그를 수정했습니다.
 
-  ## 기타 변경 사항
+  <div id="other-changes">
+    ## 기타 변경 사항
+  </div>
 
   * 맞춤형 그리드 레이아웃은 Server 릴리스 v0.73.0부터 W&amp;B Workspaces에서 제거되었습니다. 이전에는 맞춤형 그리드 레이아웃을 사용해 섹션 내 개별 패널의 크기를 조정할 수 있었습니다. 이제 워크스페이스 섹션에서 패널 하나의 크기를 조정하면 [W&amp;B App](/ko/models/app/features/panels/#manage-a-sections-panels) 또는 [Workspace API](/ko/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings)로 워크스페이스를 설정했는지와 관계없이 해당 섹션의 모든 패널 크기가 함께 조정됩니다. 맞춤형 그리드 레이아웃은 [W&amp;B Reports](/ko/models/reports) 및 [Reports API](/ko/models/ref/wandb_workspaces/reports)에서는 계속 사용할 수 있습니다.
 </Update>

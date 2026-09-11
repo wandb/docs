@@ -15,14 +15,28 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
 <EolReminder />
 
+<Update label="v0.84.1" description="September 2, 2026">
+  <div id="fixes">
+    ## Fixes
+  </div>
+
+  * チーム内の最初の 500 件の タグ のみが UI に表示されるバグを修正しました。現在は、1 チームあたり最大 1000 件まですべての タグ が表示されます。
+  * パネルグリッドを含む Reports で、report を短時間に複数回操作するとページがクラッシュすることがあるバグを修正しました。
+  * `GORILLA_GRAPHQL_DISABLE_INTROSPECTION` が `true` に設定されていても、Tables と アーティファクト で GraphQL のイントロスペクションが引き続き使用されるバグを修正しました。
+</Update>
+
 <Update label="v0.84.0" description="2026年8月25日">
   W&amp;B Server 0.84 では、一元管理と一括削除に対応し、組織およびチームの APIキー 管理が簡素化されました。Weave には、BYOB ストレージからのインラインレンダリングや、刷新された Agents ビューと Signals ビューなどが追加されています。このリリースではさらに、散布図で設定可能な参照線、BYOB ストレージ向け Azure ワークロード ID (プレビュー) 、疎なメトリクスを多数含む runs でのクエリパネルの読み込み高速化にも対応しました。
 
-  ## サポートとサポート終了 (EOL)
+  <div id="support-and-end-of-life">
+    ## サポートとサポート終了 (EOL)
+  </div>
 
   * W&amp;B Server v0.72 はサポート終了となりました。
 
-  ## 機能
+  <div id="features">
+    ## 機能
+  </div>
 
   * 折れ線グラフでは、プロット内のすべての Runs で単一のスケールを使用するようになりました。run にカーソルを合わせると、同じ step でメトリクスをログしたすべての Runs で、同じ X-axis の値が表示されます。
     * run が同じ間隔でログする場合、ホバーすると一貫した X 軸の値が表示されます。
@@ -42,7 +56,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * Content-Encoding: gzip を使用する filestream request のサポートを追加しました。
   * Weave data を含む W&amp;B project の overview page に、アクティブなトレースと評価が表示されるようになりました。
 
-  ### Weave
+  <div id="weave">
+    ### Weave
+  </div>
 
   * Weave が BYOB ストレージ参照 (`s3://`、`gs://`、`gcs://`、`az://`) を有効期限の短い署名付き URL に解決するようになり、次の機能強化が可能になりました。
     * リモートメディアを Weave に取り込む必要がなくなり、コスト効率とデータの機密性が向上します。
@@ -58,19 +74,23 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * シグナルの作成または編集時に、**Inference provider** セレクターでは、サードパーティプロバイダーごとにモデル単位のエントリが表示されるようになりました。
   * シグナルから親会話へのリンク、およびスパンから親評価へのリンクが追加されました。
   * 評価比較表では、複数の数値のリストを含むセルがデフォルトでヒストグラムとして表示されるようになりました。セルのツールバーを使用して、表示モードを **Histogram**、**Bar Chart**、**Text**、または **Code** に変更できます。セルをクリックすると、要約統計量を含む拡大チャートが表示されます。
-  * string セルで選択した表示モード (***Text**、**Code**、または **Markdown**) が、クリックしたセルだけでなく、その列内のすべての string セルに適用されるようになりました。明示的にモードを選択するまで、セルには JSON の **Code** などの自動デフォルトが適用されます。
+  * string セルで選択した表示モード (**Text**、**Code**、または **Markdown**) が、クリックしたセルだけでなく、その列内のすべての string セルに適用されるようになりました。明示的にモードを選択するまで、セルには JSON の **Code** などの自動デフォルトが適用されます。
   * Custom providers は、UI を強化した [custom runtimes](/ja/weave/guides/tools/custom-runtimes) に名称変更されました。実験の変化に応じて custom runtimes を編集または削除できます。
   * Weave が inference provider の設定状況を報告する際、チームシークレットに加えてユーザースコープのシークレットも考慮されるようになりました。独自のキーで設定した provider は、**Playground** のモデルドロップダウン、**Providers** タブ、および **Agents** inference で利用可能として表示されるようになりました。
   * セキュリティを強化するため、Weave scoring worker のリモート Scorer ホスト許可リストで、ワイルドカードを含む接尾辞パターンを指定できるようになりました。`WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` 環境変数に、パターンをカンマ区切りのリストとして設定します。
     * `*.corp.example.com` のようなエントリは、任意の階層のサブドメインに一致しますが、apex ドメインには一致しません。したがって、`a.corp.example.com` と `a.b.corp.example.com` には一致しますが、`corp.example.com` には一致しません。
     * 安全性のため、ワイルドカードは少なくとも 2 つの DNS ラベルを対象とする必要があります。そのため、`*.com` や `*.internal` のようなパターンは拒否されます。
 
-  ## パフォーマンス改善
+  <div id="performance-improvements">
+    ## パフォーマンス改善
+  </div>
 
   * スパースなメトリクスが多数ある Runs のクエリパネルの読み込みパフォーマンスを改善しました。
   * Weave のスコアリングワーカーは、推論エンドポイントの呼び出し時に project ごとに同時実行数を適応的に調整するようになり、プロバイダーのクォータが低い組織で発生するレート制限エラーを削減します。
 
-  ## 修正
+  <div id="fixes-2">
+    ## 修正
+  </div>
 
   * パネルを report にインポートすると、ホバー時だけでなく常にパネル名全体が表示されるようになりました。
   * サポートされていなかったため、Weave の **Signals** タブで `NOT` 演算子を提供しなくなりました。
@@ -78,15 +98,21 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 </Update>
 
 <Update label="v0.83.2" description="2026年8月6日">
-  ## セキュリティ
+  <div id="security">
+    ## セキュリティ
+  </div>
 
   * Weave API endpointの悪用を可能にする可能性がある重大なセキュリティバグを修正しました。
 
-  ## パフォーマンス改善
+  <div id="performance-improvements-2">
+    ## パフォーマンス改善
+  </div>
 
   * アーティファクト コレクションのサイドバーの更新効率を改善しました。
 
-  ## 修正
+  <div id="fixes-3">
+    ## 修正
+  </div>
 
   * チームの **Users** 表に **ステータス** 列が追加され、各チームメンバーがアクティブか、招待が保留中か、組織管理者によってアカウントが無効化されているかが表示されるようになりました。[Add and manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)を参照してください。
   * run の最新の記録済み step より前の step で最初にログされたメトリクスが、run のメトリクスおよび以降の履歴 エクスポートから除外され、影響を受ける run のライブ履歴クリーンアップがブロックされる可能性があったバグを修正しました。既存のエクスポートは再処理されません。
@@ -96,7 +122,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 </Update>
 
 <Update label="v0.83.1" description="2026年7月28日">
-  ## 修正
+  <div id="fixes-4">
+    ## 修正
+  </div>
 
   * run メトリクスを読み込む UI リクエストがキャンセルされた場合や失敗した場合のキャッシュ処理を改善しました。
 </Update>
@@ -104,11 +132,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.83.0" description="2026年7月22日">
   W&amp;B Server 0.83.0 では、Registry をプラットフォーム横断で利用できるようになりました。専用クラウドでは、Weave ユーザーが Models のシートなしで Registry を使用できるようになり、Weave のプロンプトを Registry に公開して組織全体でバージョン管理および再利用できます。また、組織レベルの Registry アクセスは、新しい SCIM エンタイトルメントで管理します。本リリースでは、チームの可視性、サービスアカウント、使用状況に対する管理者向けの制御も拡張されました。
 
-  ## サポートとサポート終了(EOL)
+  <div id="support-and-end-of-life-2">
+    ## サポートとサポート終了(EOL)
+  </div>
 
   * W&amp;B Server v0.71 はサポート終了となりました。
 
-  ## 機能
+  <div id="features-2">
+    ## 機能
+  </div>
 
   * チーム管理者は、超過分を示すバナーやチームを検索して選択する機能を含む、チームレベルの[使用状況と請求](/ja/platform/app/settings-page/billing-settings#plan-usage)チャートを表示し、支出制限を設定できるようになりました。
   * パネルを検索する際に、名前が正規表現パターンに一致するパネルを検索結果から除外できるようになりました。フィルターは削除するまで有効なため、重要なパネルだけが表示されるように Workspace を絞り込むことができます。
@@ -129,14 +161,18 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * 仮想バージョンのエイリアスでartifactをフィルターおよび検索できるようになりました。あいまい一致はまだサポートされていません。
   * 組織ごとのレジストリ数とartifact数を追加しました。
 
-  ### オートメーション
+  <div id="automations">
+    ### オートメーション
+  </div>
 
   v0.83.x では、以下の Automations の機能は専用クラウドでのみ利用できます。
 
   * **Automation Hub**では、project とレジストリにまたがる[オートメーション](/ja/models/automations#automations-overview)を一元的に作成・管理できます。サイドバーの**Core**セクションにあります。
   * オートメーションの適用範囲を、組織、チーム、project、レジストリ、またはコレクションに設定できるようになりました。これにより、広範囲をカバーするためにオートメーションを複製する必要がなくなります。オートメーションを作成する際は、**Edit scopes** をクリックしてください。
 
-  ### Registry
+  <div id="registry">
+    ### Registry
+  </div>
 
   v0.83.x では、以下の Registry 機能は専用クラウドでのみ利用可能です。
 
@@ -144,7 +180,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * Weave [プロンプト](/ja/weave/guides/core-types/prompts#create-prompt-objects) (`StringPrompt` および `MessagesPrompt`) を Registry に追加できるようになりました。これにより、モデルアーティファクトとともに、組織全体でプロンプトのバージョン管理、エイリアスの設定、再利用を行えます。
   * [アーティファクト コレクション](/ja/models/registry/create_collection)の概要の編集機能とバージョングリッドでの選択機能を改善しました。動的なアーティファクト パネルを備えたリッチなコレクションカードを自動生成し、より多くのコンテキストを提供できます。
 
-  ### Weave
+  <div id="weave-2">
+    ### Weave
+  </div>
 
   * **New agent** シグナルドロワーに、事前設定されたシグナルメニューを追加しました。
   * トークンコストが UI に表示されるようになりました。
@@ -159,7 +197,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * スコアリングワーカーのスパンに、entity、project、Scorer、モニターの詳細がアノテーションされるようになりました。
   * **Agents** ビューで、会話内の個々のスパンにリンクできるようになりました。
 
-  ## パフォーマンス改善
+  <div id="performance-improvements-3">
+    ## パフォーマンス改善
+  </div>
 
   * パネルのホバーおよびハイライト時のパフォーマンスと効率を改善しました。
   * Workspace の履歴キー集約の効率を改善しました。
@@ -167,7 +207,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * Weave のスコアリングコンシューマーループのスループットを改善しました。
   * Weave が多数のワーカージャッジコールスパンをバッチ挿入する際のパフォーマンスとスレッドプールのサイズ設定を改善しました。
 
-  ## セキュリティ
+  <div id="security-2">
+    ## セキュリティ
+  </div>
 
   **SCIM とアクセス管理**
 
@@ -187,7 +229,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   * 機密性の高いLicenseの詳細とオブジェクトストレージの認証情報が、起動時の設定ログでマスクされるようになりました。
 
-  ## 修正
+  <div id="fixes-5">
+    ## 修正
+  </div>
 
   * report リストのフィルターが、すべての report ではなく各ページに個別に適用されるバグを修正しました。
   * 非表示の Runs が平行座標プロットに表示されることがあるバグを修正しました。
@@ -196,7 +240,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 </Update>
 
 <Update label="v0.82.2" description="2026年7月7日">
-  ## 修正
+  <div id="fixes-6">
+    ## 修正
+  </div>
 
   * v0.82.1 のリグレッションにより、新しい W&amp;B デプロイで初期セットアップを完了できない問題を修正しました。v0.82.1 にアップグレードする前に最初のユーザーを作成済みのインスタンスは影響を受けません。
 </Update>
@@ -210,11 +256,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     W&amp;B Server v0.82.1 のリグレッションにより、新しい W&amp;B デプロイで初期セットアップを完了できません。W&amp;B は、新しいデプロイで v0.82.1 を使用しないことを推奨します。v0.82.1 にアップグレードする前に最初のユーザーを作成済みのインスタンスは影響を受けません。
   </Warning>
 
-  ## パフォーマンス改善
+  <div id="performance-improvements-4">
+    ## パフォーマンス改善
+  </div>
 
   * 大量のメトリクスがログされた project におけるチャートと Workspace の読み込みを改善しました。メディアパネルの読み込みの高速化や、履歴キーのクエリの効率化が含まれます。
 
-  ## 修正
+  <div id="fixes-7">
+    ## 修正
+  </div>
 
   * 大量のメトリクスがログされた project で、カスタム Vega チャートに履歴キーを追加すると、Workspace の読み込み時に停止することがあるバグを修正しました。
   * 非対数軸の分割を使用して折れ線グラフをレンダリングすると発生することがある無限ループを修正しました。
@@ -229,11 +279,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   <SelfManagedClickhouseUpgradeNote />
 
-  ## サポートと提供終了
+  <div id="support-and-end-of-life-3">
+    ## サポートと提供終了
+  </div>
 
   * W&amp;B v0.70 は提供終了となりました。
 
-  ## 機能
+  <div id="features-3">
+    ## 機能
+  </div>
 
   * 異なる project の Runs をピン留めして比較したり、別の project の run をベースライン run として指定したりできるようになりました。[Compare runs across projects](/ja/models/runs/compare-runs#compare-runs-across-projects)を参照してください。
     <Frame>
@@ -244,16 +298,22 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * Workspace のブラウザータブにアクティブなビュー名がページタイトルとして含まれるようになり、ブラウザータブ間で保存済みビューを区別しやすくなりました。
   * 組織にメンバーを招待する際に、各メンバーの Models のシートと Weave ロールを同時に設定できるようになりました。
 
-  ### Registry
+  <div id="registry-2">
+    ### Registry
+  </div>
 
   * Registry の **Advanced** search タブで、Registry、コレクション、バージョンを効率的に検索してフィルターできるようになりました。オブジェクト名ですばやく検索し、名、タグ、作成日または更新日、親Registry などでオブジェクトをフィルターできます。検索パフォーマンスと効率も改善されました。[Find registry items](/ja/models/registry/search_registry)を参照してください。
 
-  ### Weave
+  <div id="weave-3">
+    ### Weave
+  </div>
 
   * Weave LLM プロキシで、コストが入力トークンと出力トークンの内訳に分けてレポートされるようになり、より詳細なコスト分析が可能になりました。
   * Weave Playground で、Gemini 3.1 preview モデルの動画入力がサポートされるようになりました。
 
-  ## セキュリティ
+  <div id="security-3">
+    ## セキュリティ
+  </div>
 
   * [監査ログ](/ja/platform/hosting/monitoring-usage/audit-logging)に、関連イベントの APIキー 情報が含まれるようになりました。
   * 以下の CVE に対処するため、Redis を 8.6.3 にアップグレードしました。
@@ -261,11 +321,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     * [CVE-2026-23631](https://www.cve.org/CVERecord?id=CVE-2026-23631)
     * [CVE-2026-23479](https://www.cve.org/CVERecord?id=CVE-2026-23479)
 
-  ## パフォーマンス改善
+  <div id="performance-improvements-5">
+    ## パフォーマンス改善
+  </div>
 
   * Workspace の panel search の効率を改善しました。
 
-  ## 修正
+  <div id="fixes-8">
+    ## 修正
+  </div>
 
   * 線形軸を使用するラインプロットパネルで発生する無限ループを修正しました。
   * ダークモードでログされた動画を表示しているときに、全画面表示へ切り替えるとライトモードのカラーで動画が表示されることがあるバグを修正しました。
@@ -273,7 +337,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 </Update>
 
 <Update label="v0.81.3" description="2026年6月9日">
-  ## 修正
+  <div id="fixes-9">
+    ## 修正
+  </div>
 
   * サポート対象外の内部 API endpoint を削除しました。
 </Update>
@@ -281,7 +347,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.81.2" description="2026年6月8日">
   **2026年6月8日**
 
-  ## 修正
+  <div id="fixes-10">
+    ## 修正
+  </div>
 
   * 専用クラウドで、v0.81.1 へのアップグレード後に、オプトインの preview 機能が誤って無効化されることがあるバグを修正しました。デプロイは自動的にアップグレードされるため、対応は不要です。問題が見られる場合は [サポート](mailto:support@wandb.com) にお問い合わせください。
 </Update>
@@ -289,7 +357,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.81.1" description="2026年6月3日">
   **2026年6月3日**
 
-  ## 修正
+  <div id="fixes-11">
+    ## 修正
+  </div>
 
   * Workspace での panel search のパフォーマンスを改善しました。特に、正規表現ベースの検索で効果があります。
   * アーティファクトが複数のレジストリにリンクされている場合に、ユーザーが現在アクセス可能なコンテキストを超えて権限チェックが評価されることで、アーティファクトのダウンロードが失敗することがあるバグを修正しました。
@@ -305,11 +375,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   <SelfManagedClickhouseUpgradeNote />
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-4">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.69 はサポート終了となりました。
 
-  ## 機能
+  <div id="features-4">
+    ## 機能
+  </div>
 
   * IDE または AI エージェントを [W&amp;B MCP Server](/ja/platform/mcp-server) に接続すると、自然言語で W&amp;B のデータや W&amp;B の公式ドキュメントをクエリして分析できます。hosted モードまたはローカル モードで動作します。
 
@@ -347,7 +421,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     * タグがコレクションから削除されたとき。
     * アーティファクトがコレクションから削除されたとき。
 
-  ### Weave
+  <div id="weave-4">
+    ### Weave
+  </div>
 
   * project または組織管理者は、Weave トレースの保持期間を設定できるようになりました:
     * project の **Settings** ページで、トレースのデフォルトの TTL を指定します。
@@ -360,13 +436,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * サーバーサイドでの並べ替え、フィルタリング、ページネーションの採用により、**Evaluation Results** ページでのクエリのパフォーマンスを改善しました。
   * Weave UI でキャッシュされたトークンが表示されるようになりました。
 
-  ## パフォーマンス改善
+  <div id="performance-improvements-6">
+    ## パフォーマンス改善
+  </div>
 
   * 常にすべてのエージェントを読み込むのではなく、必要なときにのみ読み込むようにして、**Sweeps** ページのパフォーマンスを改善しました。
   * 大規模なWorkspaceで、エディタを開く際、軸を変更する際、更新をプレビューする際、および変更を適用する際のパフォーマンスを改善しました。
   * ホットパスを浅くクローンすることで、Workspace に Runs を追加する際のパフォーマンスが向上しました。
 
-  ## セキュリティ
+  <div id="security-4">
+    ## セキュリティ
+  </div>
 
   * `true` に設定すると未認証のリクエストを拒否する、ブール型の環境変数 `GRAPHQL_REJECT_UNAUTHED_REQUESTS` を追加しました。
   * Okta をアイデンティティプロバイダとして使用している場合の [SCIM](/ja/platform/hosting/iam/scim) API の互換性を改善しました。
@@ -386,7 +466,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * [CVE-2026-23490](https://github.com/advisories/GHSA-63vm-454h-vhhq) および [CVE-2026-30922](https://github.com/advisories/GHSA-jr27-m4p2-rc6r) に対処するため、`pyasn1` を 0.6.3 にアップグレードしました。
   * [CVE-2026-24486](https://github.com/advisories/GHSA-wp53-j4wj-2cfg) に対処するため、`python-multipart` を 0.0.22 にアップグレードしました。
 
-  ## 修正
+  <div id="fixes-12">
+    ## 修正
+  </div>
 
   * Artifact の作成、削除、およびガベージコレクション中に発生するデッドロックのリスクを軽減しました。
   * キャッシュエントリが実際に保持しているヒープ使用量を大幅に過少報告する可能性があった、ストレージエンジンのメモリキャッシュのバグを修正しました。
@@ -403,7 +485,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.80.1" description="2026年5月6日">
   **2026年5月6日**
 
-  ## 修正
+  <div id="fixes-13">
+    ## 修正
+  </div>
 
   * 認可されていないユーザーにアーティファクトが公開される可能性があった重大な認可バグを修正しました。
   * シリアル化されたペイロードの検証における重大なセキュリティバグを修正しました。この問題により、コードが実行される可能性がありました。
@@ -425,7 +509,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * ClickHouse 検索インデックスにアーティファクト メタデータを書き込む際の Weave の JSON シリアル化バグを修正しました。
   * マイグレーションで誤ったデータベース推論エンジンが選択される可能性があった Weave トレースサーバーのバグを修正しました。
 
-  ## 破壊的変更
+  <div id="breaking-changes">
+    ## 破壊的変更
+  </div>
 
   このリリースには、SCIM User JSON を解析するインテグレーション向けの破壊的変更が含まれています。
 
@@ -442,13 +528,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   W&amp;B 0.80.0 では、実験の効率的な観察と分析を支援する新機能、バグ修正、およびセキュリティ改善が導入されました。更新されたホームページでは、組織全体の最近のアクティビティを表示、検索、フィルタリングできます。run メトリクスの z スコアに基づくオートメーションと、メディアの並列比較が一般提供 (GA) になりました。表パネル、平行座標プロット、散布図も改善されました。artifact のリネージグラフの操作と共有がより効率的になりました。エンタープライズ環境でのプロビジョニングを効率化するため、SCIM API が Models シートおよび Weave ロールの管理をサポートするようになりました。
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-5">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.68 はサポート終了となりました。
 
   [リリースポリシーとプロセス](/ja/release-notes/release-policies)をご参照ください。サポートや質問については、[サポート](mailto:support@wandb.com)までお問い合わせください。
 
-  ## 機能
+  <div id="features-5">
+    ## 機能
+  </div>
 
   * [Compare mode](/ja/models/app/features/panels/media#compare-mode) が、メディアパネルで一般提供になりました。Compare mode では、Runs、ステップ、インデックスを任意に組み合わせて 2 ～ 4 個の画像または動画を選択し、ファイルをダウンロードしたりタブを切り替えたりすることなく、1 つのグリッドで表示できます。
 
@@ -490,7 +580,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   * URL で artifact のリネージビューを共有すると、共有相手にもフィルター、非表示ノード、手動で設定した位置、ビューポート、ズーム レベルを含む、まったく同じグラフ設定が表示されるようになりました。
 
-  ### Weave
+  <div id="weave-5">
+    ### Weave
+  </div>
 
   * **Project overview** ページの新しい **Scorer dashboard** ビューでは、スコアラーごとの合格/不合格率やヒストグラム分布、フィルター可能な例のリスト、さらに各例の試行スコアを含む詳細を表示できます。
     ![Scorer dashboard の動画デモ](/images/release-notes/v0-80-0/weave_scorer_dashboards.gif)
@@ -500,7 +592,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * **Monitors** ページでシグナルプロンプトを直接編集できます。歯車アイコンをクリックし、次にシグナルの鉛筆アイコンをクリックします。
   * **Calls** 表では、ユーザー ID がユーザー名として表示されるようになりました。
 
-  ## セキュリティ
+  <div id="security-5">
+    ## セキュリティ
+  </div>
 
   * [SCIM](/ja/platform/hosting/iam/automate_iam) を使用して、Models のシートまたは Weave のロールを割り当てます。
   * [監査ログを取得する](/ja/platform/hosting/monitoring-usage/audit-logging#fetch-audit-logs)場合、`startDate` パラメーターは、取得対象とする最新のログを指定します。
@@ -515,7 +609,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * インメモリ trace artifact 向けに指定されたファイルパスが、デシリアライズ中に意図した一時 Workspace の外へ抜け出せてしまうバグを修正しました。artifact file が想定されたディレクトリレイアウト内に限定されるよう、パスはサニタイズされるようになりました。
   * 評価ジョブ中に evaluate-model worker が安全でないカスタムのシリアライズ済みペイロードを処理できてしまうバグを修正しました。これらのペイロードは、評価スタック内の他の強化されたパスとの整合性を保つため、デシリアライズ前に拒否されるようになりました。
 
-  ## Fixes
+  <div id="fixes-14">
+    ## Fixes
+  </div>
 
   * 表パネルは、デフォルトでsummary表として表示されるようになり、表が複数の step にまたがってログされている場合は、ボタンでstepper表示に切り替えられるようになりました。これにより、表パネルを含む Workspace の読み込み時間が短縮され、再開した run の履歴を表示する際の非互換性も軽減されます。
   * 500 件を超える sweep を Sweeps テーブルで読み込めないバグを修正しました。
@@ -525,13 +621,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 </Update>
 
 <Update label="v0.79.2" description="2026年4月10日">
-  ## 修正
+  <div id="fixes-15">
+    ## 修正
+  </div>
 
   * メトリクスの取り込みが遅延する可能性がある bug を修正しました。
 </Update>
 
 <Update label="v0.79.1" description="2026年4月1日">
-  ## 修正
+  <div id="fixes-16">
+    ## 修正
+  </div>
 
   * 新しい run、特に新しい project で、404 `run not found` エラーが発生する bug を修正しました。
   * 1000 日を超える監査ログがあるデプロイで、監査ログをクエリできなくなる可能性がある bug を修正しました。
@@ -540,20 +640,26 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.79.0" description="2026年3月24日">
   W&amp;B Server 0.79.0 では、画像のズームとパン、サービスアカウントとAPIキーの管理機能の改善、パフォーマンス改善が追加されました。Weave monitors はすべての operation のスコアリングをサポートするようになり、Weave UI には、prompt の tags と aliases の管理強化、Claude agents 向けの chat view、絵文字フィードバックリアクションやメモ内容によるフィルタリングなどが追加されました。
 
-  ## サポートと提供終了
+  <div id="support-and-end-of-life-6">
+    ## サポートと提供終了
+  </div>
 
   * W&amp;B Server v0.67 は提供終了となりました。
 
   [Release policies and processes](/ja/release-notes/release-policies)を参照してください。サポートが必要な場合やご質問がある場合は、[サポート](mailto:support@wandb.com)までお問い合わせください。
 
-  ## セキュリティ
+  <div id="security-6">
+    ## セキュリティ
+  </div>
 
   * サービスアカウントの作成時に、そのサービスアカウント用のAPIキーを自動的に作成するよう案内されるようになりました。
   * W&amp;B App からサービスアカウントまたはAPIキーを削除する際、確認が必須になりました。
   * SQL インジェクションを防ぐため、バックエンドでフィルター内の列名をエスケープするようになりました。
   * [diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) を含むメールアドレスは、ユーザー登録やログインで使用できなくなりました。
 
-  ## 機能
+  <div id="features-6">
+    ## 機能
+  </div>
 
   * **画像のパンとズーム** により、W&amp;B のフルスクリーン画像モーダルで細かな画像の詳細を直接確認できます。任意の画像をフルスクリーンで開いたら、次の操作を行います。
 
@@ -572,11 +678,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     * config パラメーターを指定する run で、`CONTAINS` operator をサポートしました。
   * データベース負荷を軽減するため、project fields に防御的キャッシュを追加しました。
 
-  ### Registry
+  <div id="registry-3">
+    ### Registry
+  </div>
 
   * システム過負荷のリスクを減らすため、アーティファクト 作成に新しい rate limits を追加しました。
 
-  ### Weave
+  <div id="weave-6">
+    ### Weave
+  </div>
 
   <Note>Weave を使用するデプロイでは、v0.78+ へアップグレードする前に Clickhouse v0.25.8+ が必要です。</Note>
 
@@ -586,7 +696,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * **Calls** ページと **Traces** ページの表で、列のドラッグ＆ドロップによる並べ替えをサポートするようになりました。
   * Weave monitors で、すべての operations に対するスコアリングをサポートするようになりました。
 
-  ## 修正
+  <div id="fixes-17">
+    ## 修正
+  </div>
 
   * バックエンドのスムージングにおける浮動小数点の丸め誤差を修正しました。
   * expression inputs への入力時にカーソルが飛ぶ bug を修正しました。
@@ -599,7 +711,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.78.2" description="2026年3月10日">
   <Note>Weave を使用するデプロイでは、v0.78 へアップグレードする前に Clickhouse v0.25.8+ が必要です。</Note>
 
-  ## 修正
+  <div id="fixes-18">
+    ## 修正
+  </div>
 
   以前に対応した重大なセキュリティ修正にリグレッションがあり、アーティファクト への未承認アクセスが可能になる問題を修正しました。このリグレッションは v0.78.0 と v0.78.1 に存在します。これらの version はインストールまたはアップグレードしないでください。代わりに、修正を含む v0.78.2 をインストールしてください。
 </Update>
@@ -609,7 +723,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     このversionには、認可されていないアクセスによってアーティファクトにアクセスできてしまう重大なセキュリティ上の問題があります。このversionのインストールやアップグレードは行わないでください。代わりに、修正が含まれる[v0.78.2](#v0-78-2)をインストールしてください。
   </Warning>
 
-  ## 修正
+  <div id="fixes-19">
+    ## 修正
+  </div>
 
   * データがまったくログされていない親runからフォークすると失敗することがある不具合を修正しました。
   * ライトモードまたはダークモードに関するユーザー設定が使用されないUIの不具合を修正しました。
@@ -629,20 +745,26 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     このversionは、artifact への不正アクセスを許す重大なセキュリティ問題の影響を受けています。このversionをインストールしたり、アップグレードしたりしないでください。代わりに、修正を含む[v0.78.2](#v0-78-2)をインストールしてください。
   </Warning>
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-7">
+    ## サポートとサポート終了
+  </div>
 
   * v0.66.0 以前はサポート対象外です。
 
   [リリースポリシーとプロセス](/ja/release-notes/release-policies)を参照してください。サポートが必要な場合やご質問がある場合は、[サポート](mailto:support@wandb.com)までお問い合わせください。
 
-  ## セキュリティ
+  <div id="security-7">
+    ## セキュリティ
+  </div>
 
   * W&amp;B の組織またはデプロイでは、Personal API Keys は最大 100 個、ユーザーごとの組織レベルの APIキーは最大 100 個、サービスアカウントごとの APIキーは最大 100 個まで保有できるようになりました。
   * Enterprise plan では、組織に[メンバーを招待する](/ja/platform/hosting/iam/access-management/manage-organization#invite-a-user)と、デフォルトで **Member** ロールが割り当てられます。その他のプランでは、デフォルトのロールは **Admin** です。
   * 現在組織のメンバーではない新規ユーザーをチームに招待した場合、初期ロールは **Member** になります。
   * 組織またはチームに[招待](/ja/platform/hosting/iam/access-management/manage-organization#invite-a-user)されたユーザーの初期ロールが、招待テーブルに表示されるようになりました。
 
-  ## 機能
+  <div id="features-7">
+    ## 機能
+  </div>
 
   * 重要な run を把握し、モデルの実験を効率的に評価するには、[ピン留めされた run とベースライン run](/ja/models/runs/compare-runs)を使用します。
 
@@ -665,7 +787,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   * 管理者は、組織の利用状況と支出に関するアラートをカスタマイズできるようになりました。新しい **Usage &amp; Alerts** タブの組織設定で、ストレージ、tracked hours、Weave、トレーニングの利用状況と支出を確認し、メール通知を設定できます。詳しくは、[プランの利用状況](/ja/platform/app/settings-page/billing-settings#plan-usage)を参照してください。
 
-  ### Registry
+  <div id="registry-4">
+    ### Registry
+  </div>
 
   * Registry UI では、よりすばやく移動でき、内容を把握しやすくなりました。
 
@@ -678,7 +802,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     * collection の名をクリックすると、その artifact バージョンをすばやく表示できるようになりました。
     * 使いやすさ向上のため、registry の **Settings** ページからスターを付けられるようになりました。
 
-  ### Weave
+  <div id="weave-7">
+    ### Weave
+  </div>
 
   * **プロジェクト概要**ページに、リクエスト数、レイテンシのパーセンタイル (P50/P95/P99) 、モデルごとのトークン使用量、コストの内訳を確認できる**Trace Analytics**ダッシュボードが追加されました。どのモデルが予算を大きく圧迫しているか、またはどの低速なリクエストがP95を押し下げているかを把握できます。時間バケットをクリックすると関連するトレースに直接移動できるため、レイテンシ急増の原因をすばやく特定できます。
 
@@ -701,7 +827,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   * Gemini のように thinking token を提供するモデルでは、thinking token が Weave UI の **Token Usage** に表示されるようになりました。thinking token は、LLM が最終的な回答を生成する前に、複雑な推論 step、計算、自己反省を処理するために使用する内部トークンです。
 
-  ## 修正
+  <div id="fixes-20">
+    ## 修正
+  </div>
 
   * 非表示のチームのReportsを共有できてしまう不具合を修正しました。
   * 改行を含むテキストをコピーすると、選択範囲が途中で切れることがあるUIの不具合を修正しました。
@@ -713,11 +841,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.77.1" description="2026年1月28日">
   **2026年1月28日**
 
-  ## 変更
+  <div id="changes">
+    ## 変更
+  </div>
 
   * **セルフマネージド**で、W&amp;B Workspace に Weave パネルを追加し、Weave trace で W&amp;B Artifacts を参照できるようになりました。これまでは **専用クラウド** でのみ利用できた機能です。[W&amp;B トレーニング run で Weave を使用する](/ja/weave/guides/tools/weave-in-workspaces)を参照してください。
 
-  ## 修正
+  <div id="fixes-21">
+    ## 修正
+  </div>
 
   * alias フィルターがある場合に、registry version のクエリで重複が返されることがある bug を修正しました。
 </Update>
@@ -729,13 +861,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   このversionでは、APIキーのセキュリティ強化、単一runおよび複数runのWorkspace間で設定を共有するナビゲーションの効率化、折れ線グラフの新しいシェーディングオプション、メディアパネルのSyncとループの一般提供開始のほか、使い勝手の改善とバグ修正が含まれています。
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-8">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.65 はサポート終了となりました。
 
   [リリースポリシーとプロセス](/ja/release-notes/release-policies)を参照してください。ご不明な点やサポートが必要な場合は、[サポート](mailto:support@wandb.com)までお問い合わせください。
 
-  ## 今後の変更点
+  <div id="upcoming-changes">
+    ## 今後の変更点
+  </div>
 
   * 近日中に、Registry UI はより素早く操作でき、ひと目で把握しやすくなります。
 
@@ -748,7 +884,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
       ![Registry UIの改善を示すアニメーション](/images/release-notes/v0-77-0/registry-ui-improvements.gif)
     </Frame>
 
-  ## セキュリティ
+  <div id="security-8">
+    ## セキュリティ
+  </div>
 
   * W&amp;B 全体で APIキー を更新し、個人アカウントとサービスアカウントの両方におけるセキュリティとキー管理を強化しました。これらの変更は最新のセキュリティのベストプラクティスに沿っており、同時にチームの柔軟性を高め、より安全な自動化を実現します。
 
@@ -761,7 +899,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
     [登録してAPIキーを作成する](/ja/models/quickstart#sign-up-and-create-an-api-key)を参照してください。
 
-  ## 機能
+  <div id="features-8">
+    ## 機能
+  </div>
 
   * **Workspaceナビゲーションを更新しました。** 複数runビューと単一runビューのWorkspace表示を統一したため、単一runの詳細を開くと、カスタムチャート、Layout、設定などを含め、複数runビューで設定したものと同じパネルのレイアウトと設定が表示されます。これにより、表示コンテキストを保ったまま、ビュー設定をやり直す手間を省けます。ナビゲーションボタンの位置変更を含む変更点については、この[動画](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)を参照してください。
     <Frame>
@@ -775,12 +915,16 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     </Frame>
   * automation の設定をより効率的に行えるよう、アプリでその基準にできるメトリクスが提案されるようになりました。
 
-  ### Registry
+  <div id="registry-5">
+    ### Registry
+  </div>
 
   * Registry の [Artifact リネージグラフ](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) で、アイテムをドラッグ＆ドロップで再配置したり、非表示にしたりできるようになりました。
   * artifact バージョンの表示時に、新しいレジストリを作成し、そのartifact バージョンを一度の操作でリンクできるようになりました。
 
-  ### Weave
+  <div id="weave-8">
+    ### Weave
+  </div>
 
   * W&amp;B App の空状態で表示される Weave のオンボーディングページに、Python のサンプルコードに加えて TypeScript のサンプルコードも含まれるようになりました。
   * Weave の call ログは、デフォルトで連続スクロールに対応するようになりました。以前は、最新の 10,000 行のログしか表示できませんでした。
@@ -791,7 +935,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     * Opus 4.5
   * [Weave Playground](https://wandb.ai/site/playground/) から、新しいプロンプトを作成して保存できるようになりました。
 
-  ## 修正
+  <div id="fixes-22">
+    ## 修正
+  </div>
 
   * 編集中に run の **メモ** テキストフィールドの幅が狭すぎる不具合を修正しました。これにより、表示時と編集時でテキストボックスの幅が同じになります。
   * W&amp;B Report の PDF エクスポート時に画像の解像度が低すぎる不具合を修正しました。
@@ -799,7 +945,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * 外れ値を非表示にするオプションがない折れ線グラフで、Report に外れ値が表示されていた不具合を修正しました。
   * 複数の runset を含む Report の折れ線グラフで、runset 間で同じ名を持つ Runs に誤ったデータが表示されることがある bug を修正しました。Runs は runset と名の組み合わせで一意に識別されるようになりました。
 
-  ### Weave
+  <div id="weave-9">
+    ### Weave
+  </div>
 
   * 専用クラウドでは利用できない Serverless Inference へのリンクが、専用クラウドの Weave UI に表示されていた不具合を修正しました。
   * 詳細ドロワーが開いている場合に、[評価](/ja/weave/guides/core-types/evaluations)の比較ページで棒グラフの幅を必要以上に狭く変更できてしまう不具合を修正しました。
@@ -814,7 +962,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.76.3" description="2025年12月17日">
   **2025年12月17日**
 
-  ## 修正
+  <div id="fixes-23">
+    ## 修正
+  </div>
 
   * スクロールバーが常に表示される設定の macOS で発生することがあった表示上の不具合を修正しました。Workspace に [Query panel](/ja/models/app/features/panels/query-panels) がある場合、Workspace でズームアウトすると、Query panel の表のサイズが毎秒何度も変動するリサイズループが発生することがありました。
   * 専用クラウドの UI に Serverless Inference が誤って表示される不具合を修正しました。専用クラウドでは Inference は利用できません。
@@ -823,7 +973,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.76.2" description="2025年12月10日">
   **2025年12月10日**
 
-  ## 修正
+  <div id="fixes-24">
+    ## 修正
+  </div>
 
   * **Organization Dashboard** ページの不正確な **Usage** カードを、**Usage** ページへのリンクに置き換えました。これは UI 上の不具合のみで、billing への影響はありません。
   * Parquet の読み取りがオフなのに、エクスポートがオンになることがある不具合を修正しました。
@@ -833,7 +985,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.76.1" description="2025年12月4日">
   **2025年12月4日**
 
-  ## 修正
+  <div id="fixes-25">
+    ## 修正
+  </div>
 
   * Workspace からレポートに折れ線グラフをインポートする際、プロット内で極端な外れ値が非表示になっていると処理が停止することがある不具合を修正しました。
   * 高さを小さくした場合に、表パネルのサイズが正しく変更されないことがある不具合を修正しました。
@@ -849,11 +1003,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   W&amp;B v0.76 では、実験の可視性と生産性が大幅に向上し、より高度なメディアツール、スムーズなワークフロー、強力な新インターフェースが追加されました。自動再生とループに対応したマルチ動画 Sync により、複数の動画を並べて素早く評価できます。また、シンプルになった Workspace のナビゲーションで、各ビュー間をスムーズに移動できます。さらに、新しい LEET ターミナル UI により、run のリアルタイム情報をコマンドラインで直接確認できます。
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-9">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.63 はサポート終了となりました。
 
-  ## 機能
+  <div id="features-9">
+    ## 機能
+  </div>
 
   * **複数動画のSync**: 複数の動画パネルを同期して再生・操作し、トレーニング run の定性的な評価と比較、実験間でのモデルの挙動の分析、マルチモーダル モデル チェックポイントの評価を行えます。
 
@@ -892,7 +1050,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   * このたび、[Workspaces and Reports SDK v0.20.0](/ja/models/ref/wandb_workspaces) v0.20.0 をリリースしました。これにより、セクションと列をプログラムから固定できるようになりました。詳細は [Install Workspaces And Reports API](/ja/models/ref/wandb_workspaces#installation-and-setup) を参照してください。
 
-  ## 修正
+  <div id="fixes-26">
+    ## 修正
+  </div>
 
   * 比較しやすいよう、グループ化された折れ線グラフに最小値と最大値が表示されるようになりました。
   * Reports では、表示をより見やすくするため、長いメディアパネルのタイトルが省略表示されるようになりました。
@@ -918,13 +1078,17 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.75.0" description="2025年10月28日">
   W&amp;B v0.75 では、Registry に新しい Restricted Viewer ロール、レジストリのスター機能、SCIM を通じたプログラムによる Registry アクセス制御が追加されました。新しい automation 実行履歴ビューにより、automation の動作を把握してデバッグできるようになります。ハイパーパラメーターなどの設定プロパティによるセマンティックカラーリングで設定主導の効果を可視化したり、システムメトリクスのフル解像度プロットを表示したりすることもできます。
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-10">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.61 はサポート終了となりました。
 
   [リリースポリシーとプロセス](/ja/release-notes/release-policies)を参照してください。サポートや質問については、[サポート](mailto:support@wandb.com)までお問い合わせください。
 
-  ## 今後の変更点
+  <div id="upcoming-changes-2">
+    ## 今後の変更点
+  </div>
 
   次の W&amp;B Server version では、マルチ run と シングル run の Workspace 間の移動をより簡単にする Workspace ナビゲーションのアップデートを展開します。詳細はこちらの[プレビュー動画](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)をご覧ください。
 
@@ -932,11 +1096,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   ![ナビゲーションサイドバーの近日公開予定の更新](/images/release-notes/v0-75-0/navigation-sidebar-upcoming-update.png)
 
-  ## セキュリティ
+  <div id="security-9">
+    ## セキュリティ
+  </div>
 
   * 環境変数 `FEDERATED_AUTH_AUDIENCES` にオーディエンスをカンマ区切りのリストで設定することで、[フェデレーテッドアイデンティティ](/ja/platform/hosting/iam/identity_federation) のオーディエンスを設定できます。オーディエンスは、アイデンティティトークンの受信先として許可される対象を指定します。
 
-  ## 機能
+  <div id="features-10">
+    ## 機能
+  </div>
 
   * **Registryのアクセス制御に関する更新:**
     * **プログラムによる Registry アクセス制御:** [Registry roles](/ja/models/registry/configure_registry#details-about-registry-roles) が SCIM スキーマに含まれるようになりました。[ユーザーを作成](/ja/platform/hosting/iam/scim#create-user)または更新する際に、そのユーザーの Registry ロールを設定でき、[ユーザーを取得](/ja/platform/hosting/iam/scim#get-user)すると Registry ロールも返されます。
@@ -967,7 +1135,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 
   * Parquet への run history のエクスポートが改善されました。これにより、すべてのデプロイで、run history のエクスポートはデフォルトで非同期になりました。また、run history をエクスポートする際、run が 7 日以上ログされておらず、その run の history のエクスポートが完了している場合、その run の history は MySQL から自動的に削除されます。
 
-  ## 修正
+  <div id="fixes-27">
+    ## 修正
+  </div>
 
   * Workspace またはセクション内のすべてのプロットで、折れ線グラフの **元を表示** 設定を切り替えられるようになりました。
   * Reports で、run selector のすべての列を固定するとレポートのLayoutが崩れる不具合を修正しました。
@@ -1000,11 +1170,15 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.74.0" description="2025年10月8日">
   W&amp;B v0.74では、Okta との自動グループ同期やユーザーロール設定の効率化など、エンタープライズ向けアイデンティティ管理のための SCIM API が改善されました。専用クラウドでは、新しい強力なフルスクリーン画像ブラウザにより、run 内および run 間での画像の検査・比較が容易になりました。Weave の機能強化として、Playground 内での LLM judge 評価、マルチターン Thread tool calls の可視性向上、DSPy の改善、および Reinforcement Learning ワークフロー向け Verifiers ライブラリとの新しいインテグレーションが追加されました。
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-11">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.60 はサポート終了となりました。
 
-  ## 機能
+  <div id="features-11">
+    ## 機能
+  </div>
 
   * SCIM API が強化されました:
     * プロビジョニングおよびデプロビジョニングの操作で、Okta との互換性が向上しました。
@@ -1018,7 +1192,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
     * **フルスクリーン表示でのstepスライダー。** 埋め込みスライダーでstepを効率よく移動し、出力の変化を確認できます。
     * **キーボードでrunをすばやく切り替え。** フルスクリーン表示では、キーボードの**左 / 右矢印**キーを使用してrun間を移動できます。また、**Cmd + 左 / 右矢印** (macOS) または **Ctrl + 左 / 右矢印** (Windows / Linux) を使用すると、同じ画像内のstep間を移動できます。
 
-  ### Weave
+  <div id="weave-10">
+    ### Weave
+  </div>
 
   * **評価**のサイドバータブから、プロンプトの値を更新し、変更をテストするための LLM judge 評価を実行できるようになりました。ぜひ [Playground](/ja/weave/guides/tools/playground) でお試しください。
   * Weave を強化学習 (RL) のトレーニングワークフローに統合できるようになり、W&amp;B Workspace でトレーニング中に取得された[トレースと評価を表示](/ja/weave/guides/tools/weave-in-workspaces)して、run のメトリクスパネルとあわせて確認できるようになりました。
@@ -1030,7 +1206,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * 便利な新しいmethod [`delete_all_object_versions`](/ja/weave/reference/python-sdk/trace/weave_client)。
   * OpenAI のストリーミング Endpoint call の出力に、ミリ秒単位の新しいフィールド `time_to_first_token` が追加されました。
 
-  ## 修正
+  <div id="fixes-28">
+    ## 修正
+  </div>
 
   * キャプション付きバウンディングボックスの表示に関する問題を修正しました。
   * Runs Tableでrunをグループ化する際、グループ化キーの値がnullのrunを表示するために、`null`グループを展開できるようになりました。
@@ -1044,7 +1222,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 </Update>
 
 <Update label="v0.73.1" description="2025年9月10日">
-  ## 修正
+  <div id="fixes-29">
+    ## 修正
+  </div>
 
   * v0.73.0 で導入された不具合を修正しました。この不具合により、Workspace パネルのサイズ変更や並べ替えが保存済みビューに反映されないことがありました。
   * Registry UI の不具合を修正しました。組織に数百件のレジストリがある場合、レジストリ一覧をページ送りできないことがありました。
@@ -1057,16 +1237,22 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
 <Update label="v0.73.0" description="2025年9月10日">
   W&amp;B v0.73 は、チームレベルのモデルレジストリから W&amp;B Registry への移行における重要なマイルストーンです。ほとんどの組織は、アップグレード時に自動的に移行されます。UI の改善点として、色覚障害に配慮した run のカラーパレット、メトリクスベースの run 色付け向けの連続カラーオプション、パネルの再配置操作のスムーズ化が挙げられます。また、CoreWeave AI オブジェクトストレージを使用した BYOB (Bring Your Own Bucket) 設定向けのサービスプリンシパル認証のサポート、コンソールログの処理改善、その他の機能強化も含まれています。
 
-  ## 今後の変更点
+  <div id="upcoming-changes-3">
+    ## 今後の変更点
+  </div>
 
   * 今後の version では、複数 run と single run の Workspace ビューの表示を統一する予定です。これにより、single run の詳細を表示すると、複数 run ビューで設定したものと同じパネルの Layout と設定に加え、custom chart、Layout、Settings もそのまま表示されます。これにより、作業中のコンテキストを維持しつつ、ビュー設定のやり直しを避けられるようにすることが目的です。ただし、これに伴い、Workspace の他の部分とは切り離された single run 専用のビューを個別に customize することはできなくなります。この移行についてご不明な点があれば、W&amp;B のチームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
   * 今後数回のバージョンにわたり、既存のチーム単位の Model Registry を W&amp;B Registry へ引き続き移行していきます。詳細およびスケジュールの再確認については、以下の[W&amp;B Registry の一般提供開始のお知らせ](#registry_ga_announcement)を参照してください。
 
-  ## 既知の問題
+  <div id="known-issues">
+    ## 既知の問題
+  </div>
 
   v0.73.0 では、Workspace パネルのサイズ変更や並び替えが保存済みビューに反映されない場合があります。このバグは v0.73.1 で修正済みです。この問題が発生した場合は、修正を含む v0.73.1 にアップグレードしてください。アップグレードできない場合は、回避策について[サポート](mailto:support@wandb.ai)にお問い合わせください。
 
-  ## 機能
+  <div id="features-12">
+    ## 機能
+  </div>
 
   * <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement" />今後数回のリリースにわたって、既存のチームレベルのModel Registryを段階的にW&amp;B Registryへ移行します。**お客様側での対応は不要です。W&amp;Bが、各チームのModel Registryのアセットを、対応する自動作成されたチームレベルのプライベートレジストリに自動的にコピーします。** 旧チームレベルのModel Registry内のモデルコレクションへの既存の参照は、引き続き機能します。
 
@@ -1080,7 +1266,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * [W&amp;B run](/ja/models/runs) の実行中、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) がご利用のコンピュート インフラストラクチャーを監視します。このインテグレーションは専用クラウドでも利用できるようになりました。
   * CoreWeave AI Object Storage を使用する BYOB で、Multi-tenant Cloud、専用クラウド、セルフマネージドの各デプロイにおいて、サービスプリンシパルによる認証をサポートするようになりました。これにより、デプロイで静的認証情報を使用せずに済みます。詳細は [Bring your own bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) を参照してください。
 
-  ### Weave
+  <div id="weave-11">
+    ### Weave
+  </div>
 
   * これで、[Weave Threads](/ja/weave/guides/tracking/threads) を使って、複数のトレースをまたいでセッションや会話をグループ化できるようになりました。
   * The **Trace view**の新しい[グラフ ビュー](/ja/weave/guides/tracking/trace-tree#graph-view)では、callツリーの構造をグラフで可視化します。
@@ -1088,7 +1276,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * traceにメディアタイプとして[HTML](/ja/weave/guides/core-types/media#html)を添付できるようになりました。
   * **Assets** タブから、プロンプトを作成・編集できるようになりました。**Assets** をクリックし、ナビゲーションで **Prompts** をクリックします。**New prompt** をクリックするか、既存のプロンプト名をクリックして詳細を表示します。そこから鉛筆アイコンをクリックして、プロンプトを編集して再公開します。
 
-  ## 修正
+  <div id="fixes-30">
+    ## 修正
+  </div>
 
   * セクション内およびセクション間での[パネルのドラッグ＆ドロップ](/ja/models/app/features/panels/#move-a-panel)の操作性と精度が向上しました。
   * [パネルの全画面表示](/ja/models/app/features/panels/#view-a-panel-in-full-screen-mode)では、**Esc** キーで Workspace に戻れるようになりました。
@@ -1103,7 +1293,9 @@ import SelfManagedClickhouseUpgradeNote from '/snippets/ja/_includes/self-manage
   * **Tab** キーを押した後にセクションを展開または折りたたむと、Report がクラッシュする可能性があるバグを修正しました。
   * モバイル表示で、スクロール時にログした動画が自動的に全画面再生されることがある不具合を修正しました。
 
-  ## その他の変更
+  <div id="other-changes">
+    ## その他の変更
+  </div>
 
   * カスタムグリッドレイアウトは、Server v0.73.0 のリリースで W&amp;B Workspaces から削除されました。以前は、カスタムグリッドレイアウトを使用すると、セクション内の各パネルのサイズを個別に調整できました。現在は、Workspace セクション内でパネルのサイズを変更すると、[W&amp;B App](/ja/models/app/features/panels/#manage-a-sections-panels) と [Workspace API](/ja/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings) のどちらで Workspace を設定している場合でも、そのセクション内のすべてのパネルのサイズが変更されます。カスタムグリッドレイアウトは、[W&amp;B Reports](/ja/models/reports) と [Reports API](/ja/models/ref/wandb_workspaces/reports) では引き続き利用できます。
 </Update>

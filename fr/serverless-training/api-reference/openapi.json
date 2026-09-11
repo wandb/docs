@@ -1593,7 +1593,7 @@
                 "type": "null"
               }
             ],
-            "description": "Teams ou nom d’utilisateur du développeur dont la clé API W&B est utilisée",
+            "description": "Teams ou nom d’utilisateur associés à l’identifiant d’authentification W&B fourni",
             "examples": [
               "my-team"
             ],

@@ -3,21 +3,23 @@ title: "startLLM"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **startLLM**(`opts`): [`LLM`](../interfaces/llm)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+startLLM(opts: LLMInit): LLM
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L77" />
 
 현재 Turn의 하위 span으로 LLM을 시작합니다. 활성 Turn이 없으면 예외가 발생합니다.
 
-정의된 위치: [src/genai/api.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L77)
-
 <div id="parameters">
-  ## 매개변수
+  ## 파라미터
 </div>
 
-<div id="opts">
-  ### opts
-</div>
-
-[`LLMInit`](../interfaces/llminit)
+<ParamField path="opts" type="LLMInit" required>
+  [`LLMInit`](../interfaces/llminit)을 참조하세요.
+</ParamField>
 
 <div id="returns">
   ## 반환값
