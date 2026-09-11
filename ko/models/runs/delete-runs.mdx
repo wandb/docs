@@ -21,23 +21,70 @@ W&amp;B App 또는 Python API를 사용해 프로젝트에서 Runs를 삭제할 
   </Tab>
 
   <Tab title="Python" value="python">
-    [`Run.delete()`](/ko/models/ref/python/public-api/run#method-run-delete)를 사용하면 프로그래밍 방식으로 Runs를 삭제할 수 있습니다. run에 연결된 아티팩트도 함께 제거하려면 `delete_artifacts=True`로 설정하세요.
+    W&amp;B Public API를 사용하면 프로그래밍 방식으로 Runs를 삭제할 수 있습니다. 삭제 오퍼레이션은 단일 run 또는 여러 Runs에 대해 한 번에 수행할 수 있습니다.
+
+    단일 run을 삭제하려면 [`wandb.Api.Run.delete()`](/ko/models/ref/python/public-api/run#method-run-delete)를 사용하세요. run 경로는 `entity/project/runID` 형식으로 지정합니다.
 
     ```python
     import wandb
 
     api = wandb.Api()
-    runs = api.runs("<entity>/<project>")
-    for run in runs:
-        if run.state == "finished":  # 사용자 고유의 조건으로 바꾸세요
-            run.delete(delete_artifacts=False)
+
+    run_path = "entity/project/runID"
+    run = api.run(path=run_path)
+    run.delete()
     ```
 
-    전체 메서드 시그니처와 동작은 [`Run.delete` 레퍼런스](/ko/models/ref/python/public-api/run#method-run-delete)를 참조하세요.
+    `wandb.Api.runs()`를 사용해 프로젝트에서 여러 Runs를 가져온 다음 각 run을 삭제하세요. 다음 예시는 프로젝트의 모든 Runs를 삭제합니다.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    entity = "entity"
+    project = "project"
+
+    runs = api.runs(
+        path=f"{entity}/{project}")
+
+    for run in runs:
+        run.delete()
+    ```
+
+    필터를 사용하면 생성 날짜, tags 또는 기타 메타데이터와 같은 특정 조건에 맞는 Runs만 삭제할 수 있습니다. 다음 예시는 지정한 UTC 타임스탬프 이전에 생성된 Runs를 미리 확인한 후 삭제합니다.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    entity = "entity"
+    project = "project"
+    cutoff = "2024-01-01T00:00:00Z"  # 이 UTC 타임스탬프 이전에 생성된 runs를 삭제합니다
+
+    runs = api.runs(
+        path=f"{entity}/{project}",
+        filters={"createdAt": {"$lt": cutoff}},
+        order="+created_at",
+    )
+
+    # 먼저 dry run 수행
+    runs_to_delete = list(runs)
+    print(f"Found {len(runs_to_delete)} runs to delete:")
+    for run in runs_to_delete:
+        print(run.id, run.name, run.created_at)
+
+    confirm = input("Type DELETE to permanently delete these runs: ")
+    if confirm == "DELETE":
+        for run in runs_to_delete:
+            print(f"Deleting {run.path}")
+            run.delete()  # 또는 run.delete(delete_artifacts=True)
+    ```
 
     로깅된 미디어처럼 run에 첨부된 개별 파일을 제거하려면 다음과 같이 하세요.
 
-    1. [`Run.files()`](/ko/models/ref/python/public-api/run#method-run-files)로 관련 파일 핸들을 가져옵니다.
+    1. [`wandb.Api.Run.files()`](/ko/models/ref/python/public-api/run#method-run-files)로 관련 파일 핸들을 가져옵니다.
     2. [`File.delete()`](/ko/models/ref/python/public-api/file#method-file-delete)를 사용해 개별 파일을 삭제합니다.
   </Tab>
 </Tabs>
