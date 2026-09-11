@@ -5,16 +5,47 @@ keywords: ["Projects", "Runs"]
 
 Workspace의 **Runs** 탭에서 삭제할 각 run 옆의 체크박스를 선택한 다음 **Delete**를 클릭하세요.
 
-수동으로 선택하는 대신 조건으로 run을 필터링하려면 [public API](/ko/models/ref/python/public-api/api)를 사용해 여러 run을 한 번에 삭제하세요. `[ENTITY]`와 `[PROJECT]`를 entity 및 프로젝트 이름으로 바꾸고, `[CONDITION]`을 삭제할 run에 대해 `True`로 평가되는 Python 표현식으로 바꾸세요:
+수동으로 선택하는 대신 조건으로 run을 필터링하려면 [public API](/ko/models/ref/python/public-api/api)를 사용해 여러 run을 한 번에 삭제하세요. `"entity"`와 &quot;project&quot;를 entity 및 프로젝트 이름으로 바꾸고, `[CONDITION]`을 삭제할 run에 대해 `True`로 평가되는 Python 표현식으로 바꾸세요:
 
 ```python
 import wandb
 
 api = wandb.Api()
-runs = api.runs('[ENTITY]/[PROJECT]')
+runs = api.runs("entity/project")
 for run in runs:
     if [CONDITION]:
         run.delete()
+```
+
+예를 들어, 특정 날짜 이전에 생성된 run을 삭제하려는 경우:
+
+```python
+import wandb
+from datetime import datetime
+
+api = wandb.Api()
+
+entity = "wandb"
+project = "project"
+cutoff = "2024-01-01T00:00:00Z"  # 이 UTC 타임스탬프 이전에 생성된 run 삭제
+
+runs = api.runs(
+    path=f"{entity}/{project}",
+    filters={"createdAt": {"$lt": cutoff}},
+    order="+created_at",
+)
+
+# 먼저 dry run 실행
+runs_to_delete = list(runs)
+print(f"Found {len(runs_to_delete)} runs to delete:")
+for run in runs_to_delete:
+    print(run.id, run.name, run.created_at)
+
+confirm = input("Type DELETE to permanently delete these runs: ")
+if confirm == "DELETE":
+    for run in runs_to_delete:
+        print(f"Deleting {run.path}")
+        run.delete()  # 또는 run.delete(delete_artifacts=True)
 ```
 
 ***
