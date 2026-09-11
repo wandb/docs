@@ -5,17 +5,49 @@ keywords: ["Projects", "Runs"]
 
 From the **Runs** tab in your Workspace, select the checkbox next to each run to delete, then click **Delete**.
 
-To filter runs by a condition rather than selecting them manually, use the [public API](/models/ref/python/public-api/api) to delete multiple runs in a single operation. Replace `[ENTITY]` and `[PROJECT]` with your entity and project names, and replace `[CONDITION]` with a Python expression that evaluates to `True` for runs you want to delete:
+To filter runs by a condition rather than selecting them manually, use the [public API](/models/ref/python/public-api/api) to delete multiple runs in a single operation. Replace `"entity"` and "project" with your entity and project names, and replace `[CONDITION]` with a Python expression that evaluates to `True` for runs you want to delete:
 
 ```python
 import wandb
 
 api = wandb.Api()
-runs = api.runs('[ENTITY]/[PROJECT]')
+runs = api.runs("entity/project")
 for run in runs:
     if [CONDITION]:
         run.delete()
 ```
+
+For example, if you want to delete runs that were created before a specific date:
+
+```python
+import wandb
+from datetime import datetime
+
+api = wandb.Api()
+
+entity = "wandb"
+project = "project"
+cutoff = "2024-01-01T00:00:00Z"  # delete runs created before this UTC timestamp
+
+runs = api.runs(
+    path=f"{entity}/{project}",
+    filters={"createdAt": {"$lt": cutoff}},
+    order="+created_at",
+)
+
+# Dry run first
+runs_to_delete = list(runs)
+print(f"Found {len(runs_to_delete)} runs to delete:")
+for run in runs_to_delete:
+    print(run.id, run.name, run.created_at)
+
+confirm = input("Type DELETE to permanently delete these runs: ")
+if confirm == "DELETE":
+    for run in runs_to_delete:
+        print(f"Deleting {run.path}")
+        run.delete()  # or run.delete(delete_artifacts=True)
+```
+
 ---
 
 {/* AUTO-GENERATED: tab badges */}

@@ -18,22 +18,71 @@ For projects that contain a large number of runs, you can use either the search 
 </Tab>
 
 <Tab title="Python" value="python">
-You can delete runs programmatically with [`Run.delete()`](/models/ref/python/public-api/run#method-run-delete). Set `delete_artifacts=True` if you also want to remove artifacts associated with the run.
+
+
+Use the W&B Public API to delete runs programmatically. Delete operations can be performed on single runs or multiple runs at once.
+
+Use [`wandb.Api.Run.delete()`](/models/ref/python/public-api/run#method-run-delete) to delete a single run. Specify the run path using the format `entity/project/runID`.
 
 ```python
 import wandb
 
 api = wandb.Api()
-runs = api.runs("<entity>/<project>")
-for run in runs:
-    if run.state == "finished":  # Replace with your own condition
-        run.delete(delete_artifacts=False)
+
+run_path = "entity/project/runID"
+run = api.run(path=run_path)
+run.delete()
 ```
 
-For the full method signature and behavior, see the [`Run.delete` reference](/models/ref/python/public-api/run#method-run-delete).
+Use `wandb.Api.runs()` to retrieve multiple runs from a project, then delete each run. The following example deletes all runs in a project:
+
+```python
+import wandb
+
+api = wandb.Api()
+
+entity = "entity"
+project = "project"
+
+runs = api.runs(
+    path=f"{entity}/{project}")
+
+for run in runs:
+    run.delete()
+```
+
+You can use filters to delete only runs that match specific criteria, such as their creation date, tags, or other metadata. The following example previews and deletes runs created before a specified UTC timestamp:
+
+```python
+import wandb
+
+api = wandb.Api()
+
+entity = "entity"
+project = "project"
+cutoff = "2024-01-01T00:00:00Z"  # delete runs created before this UTC timestamp
+
+runs = api.runs(
+    path=f"{entity}/{project}",
+    filters={"createdAt": {"$lt": cutoff}},
+    order="+created_at",
+)
+
+# Dry run first
+runs_to_delete = list(runs)
+print(f"Found {len(runs_to_delete)} runs to delete:")
+for run in runs_to_delete:
+    print(run.id, run.name, run.created_at)
+
+confirm = input("Type DELETE to permanently delete these runs: ")
+if confirm == "DELETE":
+    for run in runs_to_delete:
+        print(f"Deleting {run.path}")
+        run.delete()  # or run.delete(delete_artifacts=True)
+```
 
 To remove individual files attached to a run, like logged media:
-1. Obtain the relevant file handles with [`Run.files()`](/models/ref/python/public-api/run#method-run-files).
+1. Obtain the relevant file handles with [`wandb.Api.Run.files()`](/models/ref/python/public-api/run#method-run-files).
 1. Use [`File.delete()`](/models/ref/python/public-api/file#method-file-delete) to delete individual files.
 
 </Tab>
