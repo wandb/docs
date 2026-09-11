@@ -3,34 +3,33 @@ description: Learn how to create configuration files for sweeps.
 title: Overview
 ---
 
+Use a sweep configuration to define the hyperparameters to optimize during training. You can specify the hyperparameters to optimize, the search strategy to use, and other sweep settings.
 
-A sweep combines a strategy for exploring hyperparameter values with the code that evaluates them. The strategy can be as simple as trying every option or as complex as Bayesian Optimization and Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
-
-This guide shows you how to define a sweep configuration that specifies which hyperparameters to search, which search strategy to use, and how to evaluate each run. Use it when you're setting up a new sweep or adapting an existing configuration to a different search method or parameter space.
-
-Define a sweep configuration either in a [Python dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) or a [YAML](https://yaml.org/) file. How you define your sweep configuration depends on how you want to manage your sweep.
-
-<Note>
-Define your sweep configuration in a YAML file if you want to initialize a sweep and start a sweep agent from the command line. Define your sweep in a Python dictionary if you initialize a sweep and start a sweep entirely within a Python script or notebook.
-</Note>
-
-The following sections describe how to format your sweep configuration. See [Sweep configuration options](/models/sweeps/sweep-config-keys) for a comprehensive list of top-level sweep configuration keys.
+The following sections describe the top-level structure of a sweep configuration. For a comprehensive list of top-level keys, see [Sweep configuration options](./sweep-config-keys).
 
 ## Basic structure
 
-Sweep configurations are defined using either YAML or a Python dictionary, with key-value pairs and nested structures.
+Sweep configurations use key-value pairs and nested structures. You can define your sweep configuration in a YAML file or in a Python dictionary. The structure of the sweep configuration is the same regardless of where you define it.
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search, such as the sweep [`name`](/models/sweeps/sweep-config-keys), the [`parameters`](/models/sweeps/sweep-config-keys#parameters) to search through, and the search [`method`](/models/sweeps/sweep-config-keys#method).
+<Tip>
+**Where to define your sweep configuration?**
 
+Define your sweep configuration in a YAML file if you want to manage sweeps from the command line or keep the sweep configuration separate from your training code.
 
-For example, the following code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. The sweep configuration specifies five top-level keys: `program`, `name`, `method`, `metric`, and `parameters`.
+Define your sweep configuration in a Python dictionary if your training algorithm is defined in a Python script or notebook, or if you want to keep the sweep configuration close to your training code.
+</Tip>
 
+Top-level keys define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys) key), the parameters to search through ([`parameters`](./sweep-config-keys#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key), and more. 
+
+The values associated with each key can be a string, a number, a list, or another nested key-value pair. The value type depends on the key.
+
+For example, the following code snippet shows a sweep configuration with the `method`, `metric`, and `parameters` keys. The method key specifies the search strategy (`bayes`). The `metric` key specifies the metric to optimize and whether to minimize or maximize it. The `parameters` key specifies the hyperparameters to optimize and their values or distributions.
 
 <Tabs>
 <Tab title="CLI">
-To manage sweeps interactively from the command line, define a sweep configuration in a YAML file.
+The following code snippet shows how to define a sweep configuration in a YAML file named `config.yaml`:
 
-```yaml title="config.yaml"
+```yaml lines title="config.yaml"
 program: train.py
 name: sweepdemo
 method: bayes
@@ -48,13 +47,14 @@ parameters:
   optimizer:
     values: ["adam", "sgd"]
 ```
+
+Within the top level `parameters` key (line 7), the following keys are nested: `learning_rate` (line 8), `batch_size` (line 11), `epochs` (line 14), and `optimizer` (line 17). For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more.
+
 </Tab>
 <Tab title="Python script or notebook">
-Define a sweep in a Python dictionary data structure if you define your training algorithm in a Python script or notebook.
-
 The following code snippet stores a sweep configuration in a variable named `sweep_configuration`:
 
-```python title="train.py"
+```python lines title="train.py"
 sweep_configuration = {
     "name": "sweepdemo",
     "method": "bayes",
@@ -67,23 +67,28 @@ sweep_configuration = {
     },
 }
 ```
+
+Within the top level `parameters` key (line 5), the following keys are nested: `learning_rate` (line 6), `batch_size` (line 7), `epochs` (line 8), and `optimizer` (line 10). For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. 
+
 </Tab>
 </Tabs>
 
-
-The top-level `parameters` key nests the following keys: `learning_rate`, `batch_size`, `epochs`, and `optimizer`. For each nested key you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters](/models/sweeps/sweep-config-keys#parameters) section in [Sweep configuration options](/models/sweeps/sweep-config-keys).
-
+<Note>
+See [Define sweep configuration options](./sweep-config-keys) for a comprehensive list of top-level sweep configuration keys and their associated values.
+</Note>
 
 ## Double-nested parameters
 
-Use nested parameters when you want to group related hyperparameters together or when your training code expects a nested configuration structure. To define a nested parameter, include an additional `parameters` key under the top-level parameter name.
+Sweep configurations support nested parameters. Double nested parameters are useful for organizing your hyperparameters into categories. For example, you can group hyperparameters related to the optimizer under an `optimizer` category and group hyperparameters related to the model architecture under a `model` category.
+
+To define a nested parameter, include an additional `parameters` key under the top-level parameter name.
 
 The following example shows a sweep configuration with nested parameters `nested_category_1`, `nested_category_2`, and `nested_category_3`, each including the additional parameters `momentum` and `weight_decay`. The following code examples show the configuration in both a YAML file and a Python dictionary:
 
 <Tabs>
 <Tab title="CLI">
 
-```yaml
+```yaml title="config.yaml"
 program: sweep_nest.py
 name: nested_sweep
 method: random
