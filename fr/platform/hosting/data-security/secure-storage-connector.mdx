@@ -114,13 +114,13 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     Pour plus d&#39;informations, voir [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/buckets/create-bucket) dans la documentation CoreWeave.
 
-    1. <a id="coreweave-org-id" />**Cloud mutualisé** : Obtenez l’ID de votre organisation, requis pour la politique de votre bucket.
+    1. <a id="coreweave-org-id" />**Cloud mutualisé** : Obtenez l’ID de votre organisation, requis pour la politique de votre bucket.
        1. Connectez-vous à l’[app W&amp;B](https://wandb.ai/site).
        2. Dans la barre de navigation de gauche, cliquez sur **Créer une nouvelle équipe**.
        3. Dans le panneau latéral qui s’ouvre, copiez l’ID de l’organisation W&amp;B, situé au-dessus de **Inviter des membres de l’équipe**.
        4. Laissez cette page ouverte. Vous l’utilisez pour [configurer W&amp;B](#configure-byob).
 
-    2. <a id="coreweave-customer-namespace" aria-label="Espace de noms client CoreWeave" />**Cloud dédié** / **Autogéré** : Obtenez votre espace de noms client, nécessaire pour la stratégie de votre bucket.
+    2. <a id="coreweave-customer-namespace" aria-label="Espace de noms client CoreWeave" />**Cloud dédié** / **Autogéré** : Obtenez votre espace de noms client, nécessaire pour la stratégie de votre bucket.
        1. Dans l’application W&amp;B, cliquez sur l’icône de votre profil, puis sur **System Console**.
        2. Cliquez sur l’onglet **Authentication**.
        3. En bas de la page, copiez la valeur de **Customer Namespace**. Conservez cette valeur pour configurer la politique du bucket.
@@ -128,7 +128,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     3. Dans CoreWeave, créez un bucket portant le nom de votre choix dans la zone de disponibilité CoreWeave de votre choix. Vous pouvez également créer un dossier que W&amp;B utilisera comme sous-chemin pour tous les fichiers W&amp;B. Notez le nom du bucket, la zone de disponibilité, la clé d&#39;accès à l&#39;API, la clé secrète et le sous-chemin.
 
-    4. Définissez la politique CORS suivante pour le bucket :
+    4. Définissez la politique CORS suivante pour le bucket :
        ```json
        [
          {
@@ -206,18 +206,18 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
        La clause commençant par `"Sid": "AllowUsersInOrg"` accorde aux utilisateurs de votre organisation un accès direct au bucket. Si vous n’avez pas besoin de cette option, vous pouvez omettre cette clause de votre stratégie.
 
-    6. Dans la politique du bucket, remplacez les espaces réservés :
-       * `<cw-bucket>` : le nom de votre bucket.
-       * `<cw-wandb-principal>` :
-         * **Cloud mutualisé** : `arn:aws:iam::wandb:static/wandb-integration-public`
-         * **Cloud dédié** ou **Autogéré** : `arn:aws:iam::wandb:static/wandb-integration`
-       * `<wb-org-id>` :
-         * **Cloud mutualisé** : l’ID de l’organisation indiqué dans [Provision your bucket](#coreweave-org-id).
-         * **Cloud dédié** ou **Autogéré** : l’espace de noms client indiqué dans [Provision your bucket](#coreweave-customer-namespace).
+    6. Dans la politique du bucket, remplacez les espaces réservés :
+       * `<cw-bucket>` : le nom de votre bucket.
+       * `<cw-wandb-principal>` :
+         * **Cloud mutualisé** : `arn:aws:iam::wandb:static/wandb-integration-public`
+         * **Cloud dédié** ou **Autogéré** : `arn:aws:iam::wandb:static/wandb-integration`
+       * `<wb-org-id>` :
+         * **Cloud mutualisé** : l’ID de l’organisation indiqué dans [Provision your bucket](#coreweave-org-id).
+         * **Cloud dédié** ou **Autogéré** : l’espace de noms client indiqué dans [Provision your bucket](#coreweave-customer-namespace).
 
-    7. **Cloud dédié** : Contactez l’[assistance](mailto:support@wandb.ai) pour suivre des étapes supplémentaires.
+    7. **Cloud dédié** : Contactez l’[assistance](mailto:support@wandb.ai) pour suivre des étapes supplémentaires.
 
-    8. <a id="set-environment-variable" aria-label="Définir la variable d'environnement" />**Autogéré** : Mettez à jour votre déploiement W&amp;B afin de définir la variable d&#39;environnement `GORILLA_SUPPORTED_FILE_STORES` sur la valeur exacte `cw://`, puis redémarrez W&amp;B. Sinon, CoreWeave n&#39;apparaît pas comme option lors de la configuration du stockage de l’équipe.
+    8. <a id="set-environment-variable" aria-label="Définir la variable d'environnement" />**Autogéré** : Mettez à jour votre déploiement W&amp;B afin de définir la variable d&#39;environnement `GORILLA_SUPPORTED_FILE_STORES` sur la valeur exacte `cw://`, puis redémarrez W&amp;B. Sinon, CoreWeave n&#39;apparaît pas comme option lors de la configuration du stockage de l’équipe.
 
     Ensuite, [configurez W&amp;B](#configure-byob).
   </Tab>
@@ -227,7 +227,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     1. Créez la clé KMS.
 
-       W&amp;B vous demande de créer une Clé KMS pour chiffrer et déchiffrer les données du bucket S3. Le type d’utilisation de la clé doit être `ENCRYPT_DECRYPT`. Attribuez la politique suivante à la clé :
+       W&amp;B vous demande de créer une Clé KMS pour chiffrer et déchiffrer les données du bucket S3. Le type d’utilisation de la clé doit être `ENCRYPT_DECRYPT`. Attribuez la politique suivante à la clé :
 
        ```json
        {
@@ -259,7 +259,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
        Remplacez `<Your_Account_Id>` et `<aws_kms_key.key.arn>` par les valeurs appropriées.
 
-       Si vous utilisez [Cloud mutualisé](/fr/platform/hosting/hosting-options#w%26b-multi-tenant-cloud) ou [Cloud dédié](/fr/platform/hosting/hosting-options#w%26b-dedicated-cloud), remplacez `<aws_principal_and_role_arn>` par la valeur correspondante :
+       Si vous utilisez [Cloud mutualisé](/fr/platform/hosting/hosting-options#w%26b-multi-tenant-cloud) ou [Cloud dédié](/fr/platform/hosting/hosting-options#w%26b-dedicated-cloud), remplacez `<aws_principal_and_role_arn>` par la valeur correspondante :
 
        * **Cloud mutualisé**: `arn:aws:iam::725579432336:role/WandbIntegration`
        * **Cloud dédié**: `arn:aws:iam::830241207209:root`
@@ -268,11 +268,11 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     2. Créez le bucket S3.
 
-       Suivez ces étapes pour créer le bucket S3 dans votre compte AWS :
+       Suivez ces étapes pour créer le bucket S3 dans votre compte AWS :
 
        1. Créez le bucket S3 avec le nom de votre choix. Vous pouvez également créer un dossier que vous configurerez comme sous-chemin pour y stocker tous les fichiers W&amp;B.
        2. Activez le chiffrement côté serveur à l’aide de la clé KMS de l’étape précédente.
-       3. Configurez CORS avec la stratégie suivante :
+       3. Configurez CORS avec la stratégie suivante :
 
           ```json
           [
@@ -336,8 +336,8 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
           Si vous utilisez [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), remplacez `<aws_principal_and_role_arn>` par la valeur correspondante.
 
-          * Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) : `arn:aws:iam::725579432336:role/WandbIntegration`
-          * Pour [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) : `arn:aws:iam::830241207209:root`
+          * Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) : `arn:aws:iam::725579432336:role/WandbIntegration`
+          * Pour [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) : `arn:aws:iam::830241207209:root`
 
     Pour plus de détails, voir le [guide d&#39;hébergement autogéré AWS](/fr/platform/hosting/hosting-options).
   </Tab>
@@ -347,7 +347,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     1. Provisionnez le bucket GCS.
 
-       Suivez ces étapes pour provisionner le bucket GCS dans votre projet Google Cloud :
+       Suivez ces étapes pour provisionner le bucket GCS dans votre projet Google Cloud :
 
        1. Créez le bucket GCS avec le nom de votre choix. Vous pouvez également créer un dossier que vous configurerez comme sous-chemin pour stocker tous les fichiers W&amp;B.
 
@@ -390,8 +390,8 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     2. Si vous utilisez [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), accordez le rôle `storage.admin` au compte de service Google Cloud associé à la plateforme W&amp;B. W&amp;B a besoin de ce rôle pour vérifier la configuration CORS et les attributs du bucket, par exemple si la gestion des versions des objets est activée. Si le compte de service ne dispose pas du rôle `storage.admin`, ces vérifications renvoient une erreur HTTP 403.
 
-       * Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), le compte est : `wandb-integration@wandb-production.iam.gserviceaccount.com`
-       * Pour [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), le compte est : `deploy@wandb-production.iam.gserviceaccount.com`
+       * Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), le compte est : `wandb-integration@wandb-production.iam.gserviceaccount.com`
+       * Pour [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), le compte est : `deploy@wandb-production.iam.gserviceaccount.com`
 
        Conservez le nom du bucket. Ensuite, [configurez W&amp;B pour BYOB](#configure-byob).
   </Tab>
@@ -403,12 +403,12 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
     1. Provisionnez le conteneur Azure Blob Storage.
 
-       Pour les déploiements autogérés, ainsi que pour les déploiements Cloud dédié qui n’utilisent pas [ce module Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), suivez ces étapes pour provisionner un conteneur Azure Blob Storage dans votre abonnement Azure :
+       Pour les déploiements autogérés, ainsi que pour les déploiements Cloud dédié qui n’utilisent pas [ce module Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), suivez ces étapes pour provisionner un conteneur Azure Blob Storage dans votre abonnement Azure :
 
        1. Créez un conteneur avec le nom de votre choix. Vous pouvez également créer un dossier que vous pouvez configurer comme sous-chemin pour stocker tous les fichiers W&amp;B.
        2. Configurez la stratégie CORS sur le conteneur.
 
-          Pour définir la stratégie CORS dans l’interface utilisateur, accédez à blob storage, faites défiler jusqu’à `Settings/Resource Sharing (CORS)`, puis définissez les valeurs suivantes :
+          Pour définir la stratégie CORS dans l’interface utilisateur, accédez à blob storage, faites défiler jusqu’à `Settings/Resource Sharing (CORS)`, puis définissez les valeurs suivantes :
 
           | Paramètre           | Valeur               |
           | ------------------- | -------------------- |
@@ -422,11 +422,14 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
             Si les données de votre bucket expirent en raison d’une [stratégie de gestion du cycle de vie des objets](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal), vous risquez de ne plus pouvoir consulter l’historique de certains runs.
           </Note>
 
-    2. Générez une clé d’accès au compte de stockage et notez son nom ainsi que le nom du compte de stockage. Si vous utilisez [Dedicated Cloud](/fr/platform/hosting/hosting-options/dedicated-cloud), partagez le nom du compte de stockage et la clé d’accès avec votre équipe W&amp;B via un mécanisme de partage sécurisé.
+    2. Choisissez une méthode d’authentification :
+
+       * **Clé de compte de stockage** : générez une clé d’accès au compte de stockage et notez la clé ainsi que le nom du compte de stockage. Pour les organisations sur Cloud dédié, partagez ces valeurs avec votre équipe de compte W&amp;B via un mécanisme de partage sécurisé.
+       * **Workload identity** : accordez à une identité managée Azure l’accès à votre compte de stockage et configurez W&amp;B pour qu’il l’utilise. Vous n’avez pas besoin de partager de clé de compte de stockage. Suivez les [instructions relatives à Workload Identity correspondant à votre type de déploiement](#set-up-azure-workload-identity).
 
     **BYOB au niveau de l’équipe**:
 
-    Pour les déploiements Cloud dédié, W&amp;B recommande d’utiliser [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) pour provisionner le conteneur Azure Blob Storage avec le mécanisme d’accès et les autorisations nécessaires. Pour les déploiements Cloud dédié qui n’utilisent pas Terraform, ou pour les déploiements autogérés, provisionnez le bucket en suivant les étapes de provisionnement du stockage au niveau de l’instance. Fournissez l’URL de l’émetteur OIDC de votre instance. Notez les informations suivantes :
+    Pour les déploiements Cloud dédié, W&amp;B recommande d’utiliser [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) pour provisionner le conteneur Azure Blob Storage avec le mécanisme d’accès et les autorisations nécessaires. Pour les déploiements Cloud dédié qui n’utilisent pas Terraform, ou pour les déploiements autogérés, provisionnez le bucket en suivant les étapes de provisionnement du stockage au niveau de l’instance. Fournissez l’URL de l’émetteur OIDC de votre instance. Notez les informations suivantes :
 
     * Nom du compte de stockage
     * Nom du conteneur de stockage
@@ -434,8 +437,8 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
     * ID du locataire Azure
   </Tab>
 
-  <Tab title="compatible S3">
-    Créez votre bucket compatible S3. Notez les éléments suivants :
+  <Tab title="compatible avec S3">
+    Créez votre bucket compatible S3. Notez les éléments suivants :
 
     * Clé d’accès
     * Clé d’accès secrète
@@ -531,23 +534,62 @@ Après avoir [provisionné votre bucket](#provision-your-bucket) et [déterminé
 </div>
 
 <Note>
-  Pour CoreWeave AI Object Storage au niveau de l’instance, contactez [l’assistance W&amp;B](mailto:support@wandb.com) au lieu de suivre ces instructions. La configuration en libre-service n’est pas encore prise en charge.
+  Pour CoreWeave AI Object Storage au niveau de l’instance, contactez l’[assistance W&amp;B](mailto:support@wandb.com) plutôt que de suivre ces instructions. La configuration en libre-service n’est pas encore prise en charge.
 </Note>
 
-Pour **Cloud dédié** : partagez les informations du bucket avec votre équipe W&amp;B, qui configure votre instance Cloud dédié.
+Pour le **Cloud dédié** : communiquez les informations du bucket à votre équipe W&amp;B, qui se charge de configurer votre instance. Pour Azure workload identity, [accordez l’accès à votre compte de stockage](#set-up-azure-workload-identity) et fournissez le nom du compte de stockage, le nom du conteneur ainsi que le chemin facultatif.
 
-Pour **Autogéré**, vous pouvez configurer le BYOB au niveau de l’instance à l’aide de la W&amp;B App :
+Pour le mode **Autogéré**, configurez le BYOB au niveau de l’instance dans la W&amp;B System Console. Pour Azure workload identity, effectuez au préalable la [configuration de l’identité](#set-up-azure-workload-identity).
 
-1. Connectez-vous à W&amp;B en tant qu’utilisateur disposant du rôle `admin`.
-2. Cliquez sur l’icône utilisateur en haut de la page, puis sur **System Console**.
+1. Connectez-vous à W&amp;B en tant qu’utilisateur doté du rôle `admin`.
+2. Cliquez sur l’icône utilisateur en haut, puis sur **System Console**.
 3. Accédez à **Settings** &gt; **System Connections**.
-4. Dans la section **Bucket Storage**, assurez-vous que l’identité indiquée dans le champ **Identity** a accès au nouveau bucket.
-5. Sélectionnez **Provider**.
-6. Saisissez **Bucket Name**.
-7. Facultatif : saisissez le **Path** à utiliser dans le nouveau bucket.
-8. Cliquez sur **Save**.
+4. Dans **Bucket Storage**, sélectionnez le **Provider** et saisissez les informations du bucket. Pour Azure, sélectionnez **Azure Blob Storage (az)**, saisissez le **Storage account**, puis renseignez séparément le **Blob container**.
+5. Facultatif : saisissez le **Path** à utiliser dans le nouveau bucket.
+6. Assurez-vous que l’identité ou les identifiants d’authentification du provider sélectionné disposent d’un accès au bucket. Pour Azure, sélectionnez une méthode d’**Authentication** :
+   * **Storage account key** : saisissez la **Storage account key**.
+   * **Workload identity (user-delegation SAS)** : utilisez l’identité configurée par l’administrateur de votre déploiement. Si cette option n’est pas disponible, effectuez la [configuration de l’identité](#set-up-azure-workload-identity).
+7. Cliquez sur **Save**.
 
-Après l’enregistrement, W&amp;B utilise le bucket configuré comme destination de stockage par défaut pour les nouveaux artefacts et les fichiers de run au niveau de l’instance.
+Une fois l’enregistrement effectué, W&amp;B utilise le bucket configuré comme destination de stockage par défaut pour les nouveaux artifacts et les fichiers de run au niveau de l’instance.
+
+Si un paramètre n’est pas modifiable, contactez l’administrateur de votre déploiement.
+
+<div id="set-up-azure-workload-identity">
+  #### Configurer Azure workload identity
+</div>
+
+Workload Identity permet à W&amp;B d&#39;accéder à votre bucket Azure sans clé de compte de stockage. Sélectionnez votre type de déploiement pour obtenir les instructions de configuration.
+
+<Tabs>
+  <Tab title="Cloud dédié">
+    W&amp;B configure le déploiement. De votre côté, vous configurez l&#39;accès à votre compte de stockage Azure :
+
+    1. Contactez votre équipe W&amp;B en indiquant l&#39;ID de tenant de votre compte de stockage afin de confirmer l&#39;identité gérée à utiliser.
+    2. Si l&#39;identité se trouve dans votre tenant Azure, utilisez son ID de principal pour les attributions de rôles ci-dessous. Sinon, créez ou sélectionnez une identité gérée dans votre tenant, puis configurez ses identifiants d&#39;authentification fédérés à l&#39;aide des valeurs d&#39;issuer, de subject et d&#39;audience fournies par W&amp;B. Une identité gérée [ne peut pas accéder directement au stockage d&#39;un autre tenant](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/managed-identities-faq#can-i-use-a-managed-identity-to-access-a-resource-in-a-different-directorytenant).
+    3. Accordez au principal de l&#39;identité les rôles **Reader** et **Storage Blob Data Contributor** au niveau du compte de stockage, sur votre compte de stockage BYOB.
+    4. Communiquez à votre équipe W&amp;B le nom du compte de stockage, le nom du conteneur, le chemin facultatif, ainsi que l&#39;ID de tenant et l&#39;ID de client de l&#39;identité.
+
+    Une fois que W&amp;B a configuré la connexion, vérifiez l&#39;accès en téléversant puis en téléchargeant un fichier de run ou un artifact.
+  </Tab>
+
+  <Tab title="Autogéré">
+    En tant qu&#39;administrateur du déploiement, configurez Workload Identity dans Azure et Kubernetes, puis sélectionnez-le dans la System Console.
+
+    Utilisez les versions suivantes pour ce flux de travail :
+
+    | Composant                     | Version requise                                                                                                         |
+    | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+    | Serveur W&amp;B               | v0.84.0 ou ultérieure, y compris pour chaque composant qui accède au stockage                                           |
+    | Chart Helm de l&#39;opérateur | [v0.44.13](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.13) ou ultérieure                      |
+    | W&amp;B System Console        | [v2.20.0](https://github.com/wandb/console/releases/tag/v2.20.0) ou ultérieure pour le sélecteur d&#39;authentification |
+
+    1. Activez la fédération de jetons OpenID Connect (OIDC) et Azure workload identity pour le cluster Kubernetes. Pour Azure Kubernetes Service (AKS), suivez [Configure Microsoft Entra Workload ID](https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster).
+    2. Créez ou sélectionnez une identité gérée Azure et notez son ID de tenant, son ID de client et son ID de principal. Accordez à son principal les rôles **Reader** et **Storage Blob Data Contributor** au niveau du compte de stockage, sur votre compte de stockage BYOB.
+    3. Renseignez `global.azureStorageIdentity` dans vos Helm values avec l&#39;ID de tenant, l&#39;ID de client et l&#39;ID de principal de l&#39;identité. Configurez la fédération et l&#39;annotation `azure.workload.identity/client-id` pour les comptes de service Kubernetes qui accèdent au stockage. Pour plus de détails sur la configuration Helm, voir [Azure workload identity configuration](https://github.com/wandb/helm-charts/blob/operator-wandb-0.44.13/charts/operator-wandb/README.md#azure-managed-storage-workload-identity).
+    4. Suivez la [procédure dans la Console](#instance-level-byob) pour sélectionner Workload Identity et enregistrer vos bucket settings. Vérifiez l&#39;accès en téléversant puis en téléchargeant un fichier de run ou un artifact.
+  </Tab>
+</Tabs>
 
 <div id="team-level-byob">
   ### BYOB au niveau de l’équipe

@@ -120,7 +120,7 @@ W&amp;B 중앙 데이터베이스에는 다음 데이터가 저장됩니다:
        3. 열리는 드로어에서 **팀 구성원 초대** 위에 있는 W&amp;B 조직 ID를 복사합니다.
        4. 이 페이지는 열린 상태로 둡니다. 이 페이지를 사용해 [W&amp;B를 구성](#configure-byob)합니다.
 
-    2. <a id="coreweave-customer-namespace" aria-label="CoreWeave 고객 네임스페이스" />**Dedicated Cloud** / **Self-Managed**: 버킷 정책에 필요하므로 고객 네임스페이스를 획득하세요.
+    2. <a id="coreweave-customer-namespace" aria-label="CoreWeave customer namespace" />**Dedicated Cloud** / **Self-Managed**: 버킷 정책에 필요하므로 고객 네임스페이스를 획득하세요.
        1. W&amp;B App에서 사용자 프로필 아이콘을 클릭한 후 **System Console**을 클릭합니다.
        2. **Authentication** 탭을 클릭합니다.
        3. 페이지 하단에서 **Customer Namespace** 값을 복사합니다. 이 값은 버킷 정책을 구성할 때 필요하므로 보관해 두세요.
@@ -422,7 +422,10 @@ W&amp;B 중앙 데이터베이스에는 다음 데이터가 저장됩니다:
             [객체 lifecycle 관리 정책](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal)으로 인해 버킷의 데이터가 만료되면 일부 run의 이력을 조회하지 못할 수 있습니다.
           </Note>
 
-    2. 저장소 계정 액세스 키를 생성하고, 해당 키 이름과 저장소 계정 이름을 기록해 두세요. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)를 사용하는 경우에는 안전한 공유 메커니즘을 사용해 저장소 계정 이름과 액세스 키를 W&amp;B 팀과 공유하세요.
+    2. 인증 방식을 선택하세요:
+
+       * **저장소 계정 키**: 저장소 계정 액세스 키를 생성하고 해당 키와 저장소 계정 이름을 기록해 두세요. Dedicated Cloud를 사용하는 조직의 경우, 안전한 공유 메커니즘을 사용해 이 값들을 W&amp;B 계정 팀과 공유하세요.
+       * **워크로드 ID**: Azure 관리형 ID에 저장소 계정에 대한 액세스 권한을 부여하고 이를 사용하도록 W&amp;B를 설정하세요. 저장소 계정 키를 공유할 필요가 없습니다. [배포 유형에 해당하는 워크로드 ID 지침](#set-up-azure-workload-identity)을 따르세요.
 
     **Team level BYOB**:
 
@@ -532,23 +535,62 @@ W&amp;B 중앙 데이터베이스에는 다음 데이터가 저장됩니다:
 </div>
 
 <Note>
-  인스턴스 수준 CoreWeave AI Object Storage의 경우, 이 안내를 따르지 말고 [W&amp;B 지원팀](mailto:support@wandb.com)에 문의하세요. 셀프서비스 설정은 아직 지원되지 않습니다.
+  인스턴스 수준에서 CoreWeave AI Object Storage를 사용하는 경우에는 이 안내를 따르지 말고 [W&amp;B 지원팀](mailto:support@wandb.com)에 문의하세요. 셀프 서비스 설정은 아직 지원되지 않습니다.
 </Note>
 
-**Dedicated Cloud**의 경우: 버킷 세부 정보를 담당 W&amp;B 팀에 공유하면 담당 팀에서 Dedicated Cloud 인스턴스를 설정합니다.
+**Dedicated Cloud**의 경우: 버킷 세부 정보를 담당 W&amp;B 팀에 공유하면 해당 팀이 인스턴스를 설정합니다. Azure workload identity를 사용하는 경우 [저장소 계정에 대한 액세스 권한을 부여](#set-up-azure-workload-identity)하고 저장소 계정 이름, 컨테이너 이름, 경로(선택 사항)를 알려주세요.
 
-**Self-Managed**의 경우, W&amp;B App을 사용해 인스턴스 수준 BYOB를 설정할 수 있습니다:
+**Self-Managed**의 경우 W&amp;B System Console에서 인스턴스 수준 BYOB를 설정합니다. Azure workload identity를 사용하는 경우 먼저 [ID 설정](#set-up-azure-workload-identity)을 완료하세요.
 
-1. `admin` 역할이 있는 사용자로 W&amp;B에 로그인합니다.
+1. `admin` 역할을 가진 사용자로 W&amp;B에 로그인합니다.
 2. 상단의 사용자 아이콘을 클릭한 다음 **System Console**을 클릭합니다.
 3. **Settings** &gt; **System Connections**로 이동합니다.
-4. **Bucket Storage** 섹션에서 **Identity** 필드의 ID에 새 버킷에 대한 액세스 권한이 부여되어 있는지 확인합니다.
-5. **공급자**를 선택합니다.
-6. **Bucket Name**을 입력합니다.
-7. 필요에 따라 새 버킷에서 사용할 **Path**를 입력합니다.
-8. **Save**를 클릭합니다.
+4. **Bucket Storage**에서 **Provider**를 선택하고 버킷 세부 정보를 입력합니다. Azure의 경우 **Azure Blob Storage (az)**를 선택하고 **Storage account**와 **Blob container**를 각각 입력합니다.
+5. 선택 사항: 새 버킷에서 사용할 **Path**를 입력합니다.
+6. 선택한 공급자의 ID 또는 credentials에 해당 버킷에 대한 액세스 권한이 있는지 확인합니다. Azure의 경우 **Authentication** 방법을 선택합니다.
+   * **Storage account key**: **Storage account key**를 입력합니다.
+   * **Workload identity (user-delegation SAS)**: 배포 관리자가 설정한 ID를 사용합니다. 이 옵션을 사용할 수 없는 경우 [ID 설정](#set-up-azure-workload-identity)을 완료하세요.
+7. **Save**를 클릭합니다.
 
-저장한 후에는 W&amp;B가 인스턴스 수준에서 새 아티팩트와 run 파일의 기본 저장소 대상으로 설정된 버킷을 사용합니다.
+저장하면 W&amp;B는 인스턴스 수준에서 새 아티팩트와 run 파일의 기본 저장소 대상으로 설정한 버킷을 사용합니다.
+
+설정을 편집할 수 없는 경우 배포 관리자에게 문의하세요.
+
+<div id="set-up-azure-workload-identity">
+  #### Azure workload identity 설정
+</div>
+
+Workload identity를 사용하면 저장소 계정 키 없이도 W&amp;B가 Azure 버킷에 액세스할 수 있습니다. 설정 방법을 확인하려면 배포 type을 선택하세요.
+
+<Tabs>
+  <Tab title="Dedicated Cloud">
+    배포는 W&amp;B가 구성하며, Azure 저장소 계정에 대한 액세스는 사용자가 직접 구성합니다.
+
+    1. 저장소 계정의 테넌트 ID를 담당 W&amp;B 팀에 전달하여 사용할 관리 ID를 확인하세요.
+    2. 해당 ID가 사용자의 Azure 테넌트에 있다면 아래 역할 부여에 그 principal ID를 사용하세요. 그렇지 않다면 사용자의 테넌트에서 관리 ID를 생성하거나 선택한 후, W&amp;B가 제공한 issuer, subject, audience 값으로 federated credential을 구성하세요. 관리 ID는 [다른 테넌트의 저장소에 직접 액세스할 수 없습니다](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/managed-identities-faq#can-i-use-a-managed-identity-to-access-a-resource-in-a-different-directorytenant).
+    3. BYOB 저장소 계정에서 저장소 계정 범위로 해당 ID의 principal에 **Reader** 및 **Storage Blob Data Contributor**를 부여하세요.
+    4. 저장소 계정 이름, 컨테이너 이름, 경로(선택 사항), 그리고 해당 ID의 테넌트 ID와 클라이언트 ID를 담당 W&amp;B 팀에 공유하세요.
+
+    W&amp;B가 연결을 구성한 후, run 파일 또는 아티팩트를 업로드하고 다운로드해 액세스가 정상적으로 동작하는지 확인하세요.
+  </Tab>
+
+  <Tab title="Self-Managed">
+    배포 관리자는 Azure와 Kubernetes에서 workload identity를 구성한 다음, System Console에서 이를 선택하세요.
+
+    이 워크플로에는 다음 버전을 사용하세요.
+
+    | 컴포넌트                   | 필요 버전                                                                                   |
+    | ---------------------- | --------------------------------------------------------------------------------------- |
+    | W&amp;B Server         | v0.84.0 이상(저장소에 액세스하는 모든 컴포넌트 포함)                                                       |
+    | Operator Helm chart    | [v0.44.13](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.13) 이상 |
+    | W&amp;B System Console | 인증 선택기를 사용하려면 [v2.20.0](https://github.com/wandb/console/releases/tag/v2.20.0) 이상       |
+
+    1. Kubernetes 클러스터에 OpenID Connect(OIDC) token federation과 Azure workload identity를 활성화하세요. Azure Kubernetes Service(AKS)라면 [Configure Microsoft Entra Workload ID](https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster)를 따르세요.
+    2. Azure 관리 ID를 생성하거나 선택한 후 해당 테넌트 ID, 클라이언트 ID, principal ID를 기록해 두세요. BYOB 저장소 계정에서 저장소 계정 범위로 해당 principal에 **Reader** 및 **Storage Blob Data Contributor**를 부여하세요.
+    3. Helm values에서 `global.azureStorageIdentity`를 해당 ID의 테넌트 ID, 클라이언트 ID, principal ID로 설정하세요. 저장소에 액세스하는 Kubernetes service account에 대해서는 federation과 `azure.workload.identity/client-id` annotation을 설정하세요. Helm 설정에 대한 자세한 내용은 [Azure workload identity configuration](https://github.com/wandb/helm-charts/blob/operator-wandb-0.44.13/charts/operator-wandb/README.md#azure-managed-storage-workload-identity)을 참조하세요.
+    4. [Console 절차](#instance-level-byob)에 따라 workload identity를 선택하고 bucket settings를 저장하세요. run 파일 또는 아티팩트를 업로드하고 다운로드해 액세스가 정상적으로 동작하는지 확인하세요.
+  </Tab>
+</Tabs>
 
 <div id="team-level-byob">
   ### 팀 수준 BYOB
