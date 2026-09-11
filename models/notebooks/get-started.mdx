@@ -1,0 +1,84 @@
+---
+title: Get started
+---
+import ApiKeyCreate from "/snippets/_includes/api-key-create.mdx";
+
+## Sign up and create an API key
+
+To authenticate your machine with W&B, you need an API key.
+
+<ApiKeyCreate/>
+
+## Create your first notebook
+
+1. Navigate to your project's workspace.
+2. Select **Notebooks** from the project sidebar.
+3. Click **Create notebook**.
+
+See the [Create and manage notebooks](./create-notebook.mdx) for more information.
+
+## Install dependencies
+
+1. Select **Manage packages** (<Icon icon="cube"/>) from the notebook sidebar. 
+2. Enter the name of the package you want to install.
+3. Select **Add**. 
+
+## Run a training experiment
+
+This mock training script logs simulated accuracy and loss metrics to W&B. Copy and paste the following code into a Python script or notebook cell and run it:
+
+1. Select **Python** to create a new code cell.
+2. Copy and paste the following code into the cell:
+
+```python
+import random
+import wandb
+
+PROJECT = "your-project-name"
+
+# Dictionary with hyperparameters
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=PROJECT, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+    
+    # Simulate a training run
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
+```
+
+3. Press **Command + Enter** on macOS or **Ctrl+Enter** on Windows or Linux. Alternatively, select the play (<Icon icon="circle-play" iconType="solid" />) button next to the cell.
+
+## View your experiment
+
+View the accuracy and loss metrics logged during the training experiment:
+
+1. Select **Workspace** from the project sidebar.
+2. Review the runs and visualizations in the workspace. The [runs](/models/runs) list shows each run logged to the project and its details. [Workspace panels](/models/app/features/panels) display visualizations of the metrics logged during each run.
+
+## Save the notebook
+
+Notebooks save automatically by default. You can turn off automatic saving, change how often the notebook saves, and configure other save settings in the [notebook preferences](https://docs.marimo.io/guides/configuration/).
+
+To save the notebook manually, press **Command+S** on macOS or **Ctrl+S** on Windows or Linux. Alternatively, select the save (<Icon icon="floppy-disk" iconType="solid"/>) button in the lower-right corner of the notebook.
+
+## Share your notebook
+
+Share your notebook with users outside of W&B. You can publish it as HTML, create a WebAssembly link, or create a molab notebook.
+
+1. Select **action ( <Icon icon="bars" iconType="solid" /> )** in the upper-right corner of the notebook.
+2. Move your cursor to **Share**.
+3. From the dropdown menu, select the desired sharing option: **Publish HTML to web**, **Create WebAssembly link**, or **Create molab notebook**.
+
+For more information on sharing your notebook, see the relevant guides below:
+
+- [Export a notebook as WebAssembly HTML](https://docs.marimo.io/guides/exporting/webassembly_html/)
+- [Export a notebook as static HTML](https://docs.marimo.io/guides/exporting/static_html/?h=static)
+- [Run a notebook in the cloud with molab](https://docs.marimo.io/guides/molab/)

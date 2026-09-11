@@ -1,0 +1,122 @@
+---
+title: Edit a notebook
+---
+
+This page describes common notebook actions, including adding, editing, reordering, and deleting cells, as well as using interactive controls and displaying content.
+
+
+## Edit modes
+
+There are two edit modes:
+
+- **Command mode**: Perform actions on cells, such as adding, deleting, and moving them.
+- **Edit mode**: Modify the contents of a cell.
+
+Press **Escape** (`Esc`) to enter command mode. Press **Enter** (`Enter`) to enter edit mode.
+
+## Add a cell
+
+Notebooks support [Python](#python-cell), [Markdown](#markdown-cell), and [SQL](#sql-cell) cells. Add a cell using the notebook UI or a keyboard shortcut.
+
+<Tabs>
+<Tab title="UI">
+
+Within a notebook, select the `PYTHON`, `MARKDOWN`, or `SQL` button to create a cell of that type.
+
+</Tab>
+<Tab title="Keyboard Shortcuts">
+
+{/* In edit mode:
+
+- Press **Command + Shift + O** to create a new cell above the current cell.
+- Press **Command + Shift + P** to create a new cell below the current cell. */}
+
+Press **Escape** (`Esc`) to enter command mode, then:
+
+- Press **A** to create a new cell above the current cell.
+- Press **B** to create a new cell below the current cell.
+
+See [Keyboard Shortcuts](https://docs.marimo.io/guides/editor_features/overview/?h=keyboar#keyboard-shortcuts) for a full list of available shortcuts.
+
+</Tab>
+</Tabs>
+
+
+{/* ### Python cell
+
+### Markdown cell
+
+Use markdown syntax to format text, create headings, lists, links, and other rich content within a Markdown cell.
+
+<Tip>
+Markdown headers (e.g., `# H1`, `## H2`, `### H3`) appear in your notebook's **Outline**. The outline functions as a table of contents for your notebook. To navigate to a specific section, click on the corresponding header in the outline.
+</Tip>
+
+See [Markdown editor](https://docs.marimo.io/guides/outputs/#markdown-editor) for more information.
+
+### SQL cell
+
+https://docs.marimo.io/guides/working_with_data/sql/?h=sq
+
+## Generate or edit a cell with AI */}
+
+## Reorder cells
+
+Reorder cells using the UI or keyboard shortcuts.
+
+<Tabs>
+<Tab title="UI">
+
+Select the **drag handle** (<Icon icon="grip-dots-vertical" iconType="solid"/>) on the right side of the cell and moving it to the desired position.
+
+</Tab>
+<Tab title="Keyboard Shortcuts">
+
+Press **Escape** (`Esc`) to enter command mode, then:
+
+- Press **Command + Shift + 0** to move the current cell down.
+- Press **Command + Shift + 9** to move the current cell up.
+
+</Tab>
+</Tabs>
+
+## Delete a cell
+ 
+Delete a cell using the UI or a keyboard shortcut.
+
+<Tabs>
+<Tab title="UI">
+
+Use either of the following methods:
+
+- Right-click the cell, then select **Delete** from the context menu.
+- Select the trash can icon next to the cell.
+
+</Tab>
+<Tab title="Keyboard Shortcuts">
+
+Press **Escape** (`Esc`) to enter command mode, then:
+
+- Press **Command + Shift + Backspace** to delete the current cell.
+
+</Tab>
+</Tabs>
+
+
+## Add interactive controls
+
+Add interactive controls, or widgets, to notebook cells. Use widgets such as sliders, dropdowns, and buttons to update notebook content dynamically.
+
+For example, copy the following code into a cell to create a basic interactive slider:
+
+```python
+import marimo as mo
+
+slider = mo.ui.slider(1, 10)
+mo.md(f"Choose a value: {slider}")
+```
+
+For more information, see [Interactive elements](https://docs.marimo.io/guides/interactivity/) in the marimo documentation.
+
+
+## Display tables, plots, and media
