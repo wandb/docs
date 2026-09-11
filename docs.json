@@ -1997,6 +1997,7 @@
                               "fr/platform/hosting/self-managed/rate-limits",
                               "fr/platform/hosting/self-managed/operator",
                               "fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
+                              "fr/platform/hosting/enterprise-licenses",
                               "fr/platform/hosting/server-upgrade-process",
                               "fr/platform/hosting/self-managed/disable-automatic-app-version-updates"
                             ]
@@ -3782,6 +3783,7 @@
                               "ja/platform/hosting/self-managed/rate-limits",
                               "ja/platform/hosting/self-managed/operator",
                               "ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
+                              "ja/platform/hosting/enterprise-licenses",
                               "ja/platform/hosting/server-upgrade-process",
                               "ja/platform/hosting/self-managed/disable-automatic-app-version-updates"
                             ]
@@ -5567,6 +5569,7 @@
                               "ko/platform/hosting/self-managed/rate-limits",
                               "ko/platform/hosting/self-managed/operator",
                               "ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
+                              "ko/platform/hosting/enterprise-licenses",
                               "ko/platform/hosting/server-upgrade-process",
                               "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
                             ]
