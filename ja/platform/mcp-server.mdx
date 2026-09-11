@@ -43,8 +43,9 @@ W&amp;B MCP Server は、2 つのデプロイメントオプションで利用�
 クライアントを設定する前に、次の項目を準備してください。
 
 * [wandb.ai/authorize](https://wandb.ai/authorize) で W&amp;B APIキーを発行します。
-* そのキーを `WANDB_API_KEY` 環境変数に設定するか、Bearerトークンとしてクライアントに渡します。
+* そのキーを `WANDB_API_KEY` 環境変数に設定するか、bearer tokenとしてクライアントに渡します。
 * 専用クラウド、セルフマネージド、またはデフォルト以外のインスタンスを対象とするローカルインストールでは、`WANDB_BASE_URL` 環境変数にインスタンスの URL を設定します。
+* W&amp;B は `mcp` SDK をリリース `2024-11-05` の [1.14.0](https://pypi.org/project/mcp/1.14.0/) に固定しています。クライアントは `mcp` SDK 1.14.x を使用して接続する必要があります。W&amp;B Dedicated Cloud でストリーミング可能な HTTP をサポートするには、リリース `2025-03-26` 以降の `mcp` SDK 1.14.x が必要です。
 
 <div id="use-the-hosted-server">
   ## ホスト型サーバーを使用する

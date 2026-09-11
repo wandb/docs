@@ -45,13 +45,13 @@ Y軸の変数には、`wandb.Run.log()`でログした任意の整数値また�
 **Y range** オプションのデフォルトは、メトリクスの最小の正の値 (0 を含む) からメトリクスの最大値までの範囲です。最小値と最大値はカスタマイズできます。
 
 <div id="point-aggregation-method">
-  ### ポイント集約の method
+  ### Point aggregation method
 </div>
 
 データポイントの表示に使用するサンプリングモードを選択します。
 
-* **ランダムサンプリング** (デフォルト) : [ランダムサンプリング](/ja/models/app/features/panels/line-plot/sampling/#random-sampling)を参照してください。
-* **フルフィデリティ**: [フルフィデリティ](/ja/models/app/features/panels/line-plot/sampling/#full-fidelity)を参照してください。
+* **フルフィデリティ** (デフォルト) : [フルフィデリティ](/ja/models/app/features/panels/line-plot/sampling/#full-fidelity)を参照してください。
+* **ランダムサンプリング**: [ランダムサンプリング](/ja/models/app/features/panels/line-plot/sampling/#random-sampling)を参照してください。
 
 <div id="smoothing">
   ### スムージング
@@ -85,6 +85,24 @@ Y軸の変数には、`wandb.Run.log()`でログした任意の整数値また�
 
 <Note>
   Workspace では、設定に関係なく、最大 1,000 件の run までしか表示できません。
+</Note>
+
+<div id="run-grouping">
+  ### Run のグループ化
+</div>
+
+Runs table がグループ化されている場合、各折れ線グラフではグループ内の runs が1本の線にまとめられます。このグループ化をグラフにどのように適用するかを設定します。
+
+* **チャートで Runs table のグループ化を使用**: Runs table のグループ化を折れ線グラフに適用します。デフォルトでオンです。Runs table がグループ化されているかどうかにかかわらず、すべての run を個別にプロットするにはオフにします。
+* **グループごとに最新の run のみを使用**: グループ内の runs をまとめず、グループごとに1つの run をプロットします。デフォルトでオフです。Workspace レベルでのみ使用できます。
+* **集約**: 各グループで結合された線の値を指定します。オプションは **Mean**、**Min**、**Max** です。**グループごとに最新の run のみを使用** がオンの場合は使用できません。
+
+同じグループで experiment を繰り返し実行する場合は、**グループごとに最新の run のみを使用** をオンにします。各チャートには最新の試行のみが表示され、以前の runs は project に残ります。
+
+グループ内の最新の run とは、run selector でそのグループの先頭に表示される run です。Runs table の並べ替え順序を変更すると、グループごとに異なる run をプロットできます。
+
+<Note>
+  **グループごとに最新の run のみを使用** は、デフォルトの **Point aggregation method** が **フルフィデリティ** の場合にのみ有効です。**ランダムサンプリング** モードでは効果がありません。
 </Note>
 
 <div id="chart-type">

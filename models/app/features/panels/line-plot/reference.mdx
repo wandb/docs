@@ -39,8 +39,8 @@ The **Y range** option defaults to the range from the smallest positive value of
 ### Point aggregation method
 
 Choose the sampling mode for displaying data points:
-* **Random sampling** (default): See [Random sampling](/models/app/features/panels/line-plot/sampling/#random-sampling).
-* **Full fidelity**: See [Full fidelity](/models/app/features/panels/line-plot/sampling/#full-fidelity).
+* **Full fidelity** (default): See [Full fidelity](/models/app/features/panels/line-plot/sampling/#full-fidelity).
+* **Random sampling**: See [Random sampling](/models/app/features/panels/line-plot/sampling/#random-sampling).
 
 ### Smoothing
 
@@ -67,6 +67,22 @@ By default, plots include only the first 10 runs or groups of runs in the run li
 
 <Note>
 A workspace is limited to displaying a maximum of 1,000 runs, regardless of its configuration.
+</Note>
+
+### Run grouping
+
+When the runs table is grouped, each line plot combines the runs in a group into a single line. Configure how that grouping applies to plots:
+
+- **Use grouping from the runs table in charts**: Apply the runs table's grouping to line plots. Turned on by default. Turn it off to plot every run individually, whether or not the runs table is grouped.
+- **Use only latest run per group**: Plot one run for each group instead of combining the group's runs. Turned off by default. Available only at the workspace level.
+- **Aggregation**: The value of the combined line for each group. Options are **Mean**, **Min**, or **Max**. Unavailable while **Use only latest run per group** is turned on.
+
+If you run an experiment repeatedly under the same group, turn on **Use only latest run per group**. Each chart then shows only the most recent attempt, and the earlier runs stay in the project.
+
+The latest run in a group is the first run of that group in the run selector. Change the runs table sort order to plot a different run for each group.
+
+<Note>
+**Use only latest run per group** takes effect only when **Point aggregation method** is **Full fidelity**, the default. It has no effect in **Random sampling** mode.
 </Note>
 
 ### Chart type

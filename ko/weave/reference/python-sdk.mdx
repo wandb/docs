@@ -13,7 +13,9 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/agent/agent.py#L17" />
 
-## <kbd>class</kbd> `Agent`
+<div id="class-agent">
+  ## <kbd>class</kbd> `Agent`
+</div>
 
 **Pydantic 필드:**
 
@@ -27,7 +29,9 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L23" />
 
-### <kbd>방법</kbd> `step`
+<div id="method-step">
+  ### <kbd>방법</kbd> `step`
+</div>
 
 ```python
 step(state: AgentState) → AgentState
@@ -46,7 +50,9 @@ step(state: AgentState) → AgentState
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/agent/agent.py#L12" />
 
-## <kbd>class</kbd> `AgentState`
+<div id="class-agentstate">
+  ## <kbd>class</kbd> `AgentState`
+</div>
 
 **Pydantic 필드:**
 
@@ -59,7 +65,9 @@ step(state: AgentState) → AgentState
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L11" />
 
-## <kbd>class</kbd> `AnnotationSpec`
+<div id="class-annotationspec">
+  ## <kbd>class</kbd> `AnnotationSpec`
+</div>
 
 **Pydantic 필드:**
 
@@ -71,7 +79,9 @@ step(state: AgentState) → AgentState
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L46" />
 
-### <kbd>클래스 메서드</kbd> `preprocess_field_schema`
+<div id="classmethod-preprocess_field_schema">
+  ### <kbd>클래스 메서드</kbd> `preprocess_field_schema`
+</div>
 
 ```python
 preprocess_field_schema(data: Any) → Any
@@ -81,7 +91,9 @@ preprocess_field_schema(data: Any) → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L93" />
 
-### <kbd>클래스 메서드</kbd> `validate_field_schema`
+<div id="classmethod-validate_field_schema">
+  ### <kbd>클래스 메서드</kbd> `validate_field_schema`
+</div>
 
 ```python
 validate_field_schema(schema: dict[str, Any]) → dict[str, Any]
@@ -91,7 +103,9 @@ validate_field_schema(schema: dict[str, Any]) → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L109" />
 
-### <kbd>방법</kbd> `value_is_valid`
+<div id="method-value_is_valid">
+  ### <kbd>방법</kbd> `value_is_valid`
+</div>
 
 ```python
 value_is_valid(payload: Any) → bool
@@ -110,7 +124,9 @@ value_is_valid(payload: Any) → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/Audio/audio.py#L81" />
 
-## <kbd>class</kbd> `Audio`
+<div id="class-audio">
+  ## <kbd>class</kbd> `Audio`
+</div>
 
 지원되는 형식(wav 또는 mp3)의 오디오 데이터를 나타내는 클래스입니다.
 
@@ -134,7 +150,9 @@ value_is_valid(payload: Any) → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/Audio/audio.py#L106" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -148,7 +166,9 @@ __init__(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/Audio/audio.py#L174" />
 
-### <kbd>방법</kbd> `export`
+<div id="method-export">
+  ### <kbd>방법</kbd> `export`
+</div>
 
 ```python
 export(path: 'str | bytes | Path | PathLike') → None
@@ -162,7 +182,9 @@ export(path: 'str | bytes | Path | PathLike') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/Audio/audio.py#L121" />
 
-### <kbd>클래스 메서드</kbd> `from_data`
+<div id="classmethod-from_data">
+  ### <kbd>클래스 메서드</kbd> `from_data`
+</div>
 
 ```python
 from_data(data: 'str | bytes', format: 'str') → Self
@@ -188,7 +210,9 @@ from_data(data: 'str | bytes', format: 'str') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/Audio/audio.py#L146" />
 
-### <kbd>클래스 메서드</kbd> `from_path`
+<div id="classmethod-from_path">
+  ### <kbd>클래스 메서드</kbd> `from_path`
+</div>
 
 ```python
 from_path(path: 'str | bytes | Path | PathLike') → Self
@@ -211,7 +235,9 @@ from_path(path: 'str | bytes | Path | PathLike') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L278" />
 
-## <kbd>class</kbd> `ClassifierMonitor`
+<div id="class-classifiermonitor">
+  ## <kbd>class</kbd> `ClassifierMonitor`
+</div>
 
 여러 Scorer를 단일 분류기로 병합하는 모니터입니다.
 
@@ -234,7 +260,9 @@ from_path(path: 'str | bytes | Path | PathLike') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L141" />
 
-### <kbd>방법</kbd> `activate`
+<div id="method-activate">
+  ### <kbd>방법</kbd> `activate`
+</div>
 
 ```python
 activate() → ObjectRef
@@ -249,7 +277,9 @@ activate() → ObjectRef
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L152" />
 
-### <kbd>방법</kbd> `deactivate`
+<div id="method-deactivate">
+  ### <kbd>방법</kbd> `deactivate`
+</div>
 
 ```python
 deactivate() → ObjectRef
@@ -264,7 +294,9 @@ deactivate() → ObjectRef
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L203" />
 
-### <kbd>클래스 메서드</kbd> `from_obj`
+<div id="classmethod-from_obj">
+  ### <kbd>클래스 메서드</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -274,7 +306,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L302" />
 
-### <kbd>방법</kbd> `get_prompt_footer`
+<div id="method-get_prompt_footer">
+  ### <kbd>방법</kbd> `get_prompt_footer`
+</div>
 
 ```python
 get_prompt_footer() → str
@@ -286,7 +320,9 @@ get_prompt_footer() → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L296" />
 
-### <kbd>방법</kbd> `get_prompt_header`
+<div id="method-get_prompt_header">
+  ### <kbd>방법</kbd> `get_prompt_header`
+</div>
 
 ```python
 get_prompt_header(op_name: str) → str
@@ -298,7 +334,9 @@ get_prompt_header(op_name: str) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L118" />
 
-### <kbd>방법</kbd> `model_post_init`
+<div id="method-model_post_init">
+  ### <kbd>방법</kbd> `model_post_init`
+</div>
 
 ```python
 model_post_init(context: Any) → None
@@ -316,7 +354,9 @@ model_post_init(context: Any) → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L42" />
 
-## <kbd>class</kbd> `Content`
+<div id="class-content">
+  ## <kbd>class</kbd> `Content`
+</div>
 
 다양한 소스의 콘텐츠를 나타내며, 이를 관련 메타데이터와 함께 바이트 기반의 통합 표현으로 변환하는 클래스입니다.
 
@@ -331,7 +371,9 @@ model_post_init(context: Any) → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L87" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-2">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -355,15 +397,21 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 ***
 
 
-#### <kbd>속성</kbd> art
+<div id="property-art">
+  #### <kbd>속성</kbd> art
+</div>
 
-#### <kbd>속성</kbd> ref
+<div id="property-ref">
+  #### <kbd>속성</kbd> ref
+</div>
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L543" />
 
-### <kbd>방법</kbd> `as_string`
+<div id="method-as_string">
+  ### <kbd>방법</kbd> `as_string`
+</div>
 
 ```python
 as_string() → str
@@ -378,7 +426,9 @@ str.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L258" />
 
-### <kbd>클래스 메서드</kbd> `from_base64`
+<div id="classmethod-from_base64">
+  ### <kbd>클래스 메서드</kbd> `from_base64`
+</div>
 
 ```python
 from_base64(
@@ -395,7 +445,9 @@ base64로 인코딩된 문자열 또는 바이트에서 Content를 초기화합�
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L168" />
 
-### <kbd>클래스 메서드</kbd> `from_bytes`
+<div id="classmethod-from_bytes">
+  ### <kbd>클래스 메서드</kbd> `from_bytes`
+</div>
 
 ```python
 from_bytes(
@@ -413,7 +465,9 @@ from_bytes(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L357" />
 
-### <kbd>클래스 메서드</kbd> `from_data_url`
+<div id="classmethod-from_data_url">
+  ### <kbd>클래스 메서드</kbd> `from_data_url`
+</div>
 
 ```python
 from_data_url(url: 'str', metadata: 'dict[str, Any] | None' = None) → Self
@@ -425,7 +479,9 @@ from_data_url(url: 'str', metadata: 'dict[str, Any] | None' = None) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L309" />
 
-### <kbd>클래스 메서드</kbd> `from_path`
+<div id="classmethod-from_path-2">
+  ### <kbd>클래스 메서드</kbd> `from_path`
+</div>
 
 ```python
 from_path(
@@ -442,7 +498,9 @@ from_path(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L209" />
 
-### <kbd>클래스 메서드</kbd> `from_text`
+<div id="classmethod-from_text">
+  ### <kbd>클래스 메서드</kbd> `from_text`
+</div>
 
 ```python
 from_text(
@@ -460,7 +518,9 @@ from_text(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L399" />
 
-### <kbd>클래스 메서드</kbd> `from_url`
+<div id="classmethod-from_url">
+  ### <kbd>클래스 메서드</kbd> `from_url`
+</div>
 
 ```python
 from_url(
@@ -479,7 +539,9 @@ HTTP(S) URL에서 바이트를 가져와 Content를 초기화합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L97" />
 
-### <kbd>클래스 메서드</kbd> `model_validate`
+<div id="classmethod-model_validate">
+  ### <kbd>클래스 메서드</kbd> `model_validate`
+</div>
 
 ```python
 model_validate(
@@ -499,7 +561,9 @@ dict에서 Content를 재구성하는 작업을 처리하도록 model&#95;valida
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L148" />
 
-### <kbd>클래스 메서드</kbd> `model_validate_json`
+<div id="classmethod-model_validate_json">
+  ### <kbd>클래스 메서드</kbd> `model_validate_json`
+</div>
 
 ```python
 model_validate_json(
@@ -518,7 +582,9 @@ JSON에서 Content를 재구성할 수 있도록 model&#95;validate&#95;json을 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L553" />
 
-### <kbd>방법</kbd> `open`
+<div id="method-open">
+  ### <kbd>방법</kbd> `open`
+</div>
 
 ```python
 open() → bool
@@ -536,7 +602,9 @@ open() → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L583" />
 
-### <kbd>방법</kbd> `save`
+<div id="method-save">
+  ### <kbd>방법</kbd> `save`
+</div>
 
 ```python
 save(dest: 'str | Path') → None
@@ -550,7 +618,9 @@ save(dest: 'str | Path') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L535" />
 
-### <kbd>방법</kbd> `serialize_data`
+<div id="method-serialize_data">
+  ### <kbd>방법</kbd> `serialize_data`
+</div>
 
 ```python
 serialize_data(data: 'bytes') → str
@@ -562,7 +632,9 @@ serialize_data(data: 'bytes') → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_wrappers/Content/content.py#L510" />
 
-### <kbd>방법</kbd> `to_data_url`
+<div id="method-to_data_url">
+  ### <kbd>방법</kbd> `to_data_url`
+</div>
 
 ```python
 to_data_url(use_base64: 'bool' = True) → str
@@ -581,7 +653,9 @@ to_data_url(use_base64: 'bool' = True) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1080" />
 
-## <kbd>class</kbd> `Conversation`
+<div id="class-conversation">
+  ## <kbd>class</kbd> `Conversation`
+</div>
 
 대화입니다. conversation&#95;id를 기준으로 turn을 그룹화합니다(span 없음).
 
@@ -602,7 +676,9 @@ to_data_url(use_base64: 'bool' = True) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1157" />
 
-### <kbd>방법</kbd> `end`
+<div id="method-end">
+  ### <kbd>방법</kbd> `end`
+</div>
 
 ```python
 end() → None
@@ -612,7 +688,9 @@ end() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/pydantic/_internal/_model_construction.py#L1112" />
 
-### <kbd>방법</kbd> `model_post_init`
+<div id="method-model_post_init-2">
+  ### <kbd>방법</kbd> `model_post_init`
+</div>
 
 ```python
 model_post_init(context: 'Any') → None
@@ -622,7 +700,9 @@ model_post_init(context: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1116" />
 
-### <kbd>방법</kbd> `start_turn`
+<div id="method-start_turn">
+  ### <kbd>방법</kbd> `start_turn`
+</div>
 
 ```python
 start_turn(
@@ -646,7 +726,9 @@ start_turn(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L26" />
 
-## <kbd>class</kbd> `Dataset`
+<div id="class-dataset">
+  ## <kbd>class</kbd> `Dataset`
+</div>
 
 손쉽게 저장할 수 있고 자동 버전 관리를 지원하는 데이터셋 객체입니다.
 
@@ -679,7 +761,9 @@ example_label = dataset_ref.rows[2]['sentence']
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L129" />
 
-### <kbd>방법</kbd> `add_rows`
+<div id="method-add_rows">
+  ### <kbd>방법</kbd> `add_rows`
+</div>
 
 ```python
 add_rows(rows: Iterable[dict]) → Dataset
@@ -699,7 +783,9 @@ add_rows(rows: Iterable[dict]) → Dataset
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L173" />
 
-### <kbd>클래스 메서드</kbd> `convert_to_table`
+<div id="classmethod-convert_to_table">
+  ### <kbd>클래스 메서드</kbd> `convert_to_table`
+</div>
 
 ```python
 convert_to_table(rows: Any) → Table | WeaveTable
@@ -709,7 +795,9 @@ convert_to_table(rows: Any) → Table | WeaveTable
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L61" />
 
-### <kbd>클래스 메서드</kbd> `from_calls`
+<div id="classmethod-from_calls">
+  ### <kbd>클래스 메서드</kbd> `from_calls`
+</div>
 
 ```python
 from_calls(calls: Iterable[Call]) → Self
@@ -719,7 +807,9 @@ from_calls(calls: Iterable[Call]) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L71" />
 
-### <kbd>클래스 메서드</kbd> `from_hf`
+<div id="classmethod-from_hf">
+  ### <kbd>클래스 메서드</kbd> `from_hf`
+</div>
 
 ```python
 from_hf(hf_dataset: 'HFDataset | HFDatasetDict') → Self
@@ -729,7 +819,9 @@ from_hf(hf_dataset: 'HFDataset | HFDatasetDict') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L52" />
 
-### <kbd>클래스 메서드</kbd> `from_obj`
+<div id="classmethod-from_obj-2">
+  ### <kbd>클래스 메서드</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -739,7 +831,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L66" />
 
-### <kbd>클래스 메서드</kbd> `from_pandas`
+<div id="classmethod-from_pandas">
+  ### <kbd>클래스 메서드</kbd> `from_pandas`
+</div>
 
 ```python
 from_pandas(df: 'DataFrame') → Self
@@ -749,7 +843,9 @@ from_pandas(df: 'DataFrame') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L220" />
 
-### <kbd>방법</kbd> `select`
+<div id="method-select">
+  ### <kbd>방법</kbd> `select`
+</div>
 
 ```python
 select(indices: Iterable[int]) → Self
@@ -767,7 +863,9 @@ select(indices: Iterable[int]) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L115" />
 
-### <kbd>방법</kbd> `to_hf`
+<div id="method-to_hf">
+  ### <kbd>방법</kbd> `to_hf`
+</div>
 
 ```python
 to_hf() → HFDataset
@@ -777,7 +875,9 @@ to_hf() → HFDataset
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/dataset/dataset.py#L107" />
 
-### <kbd>방법</kbd> `to_pandas`
+<div id="method-to_pandas">
+  ### <kbd>방법</kbd> `to_pandas`
+</div>
 
 ```python
 to_pandas() → DataFrame
@@ -787,11 +887,15 @@ to_pandas() → DataFrame
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L192" />
 
-## <kbd>class</kbd> `EasyPrompt`
+<div id="class-easyprompt">
+  ## <kbd>class</kbd> `EasyPrompt`
+</div>
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L200" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-3">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -814,41 +918,57 @@ __init__(
 ***
 
 
-#### <kbd>속성</kbd> as_str
+<div id="property-as_str">
+  #### <kbd>속성</kbd> as_str
+</div>
 
 모든 메시지를 하나의 문자열로 합쳐 반환합니다.
 
 ***
 
-#### <kbd>속성</kbd> is_bound
+<div id="property-is_bound">
+  #### <kbd>속성</kbd> is_bound
+</div>
 
 ***
 
-#### <kbd>속성</kbd> 메시지
+<div id="property-messages">
+  #### <kbd>속성</kbd> 메시지
+</div>
 
-#### <kbd>속성</kbd> 플레이스홀더
+<div id="property-placeholders">
+  #### <kbd>속성</kbd> 플레이스홀더
+</div>
 
 ***
 
-#### <kbd>속성</kbd> system_message
+<div id="property-system_message">
+  #### <kbd>속성</kbd> system_message
+</div>
 
 모든 메시지를 합쳐 하나의 system prompt 메시지로 만듭니다.
 
 ***
 
-#### <kbd>속성</kbd> system_prompt
+<div id="property-system_prompt">
+  #### <kbd>속성</kbd> system_prompt
+</div>
 
 모든 메시지를 시스템 프롬프트 객체로 합칩니다.
 
 ***
 
-#### <kbd>속성</kbd> unbound_placeholders
+<div id="property-unbound_placeholders">
+  #### <kbd>속성</kbd> unbound_placeholders
+</div>
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L230" />
 
-### <kbd>방법</kbd> `append`
+<div id="method-append">
+  ### <kbd>방법</kbd> `append`
+</div>
 
 ```python
 append(item: Any, role: str | None = None, dedent: bool = False) → None
@@ -858,7 +978,9 @@ append(item: Any, role: str | None = None, dedent: bool = False) → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L489" />
 
-### <kbd>방법</kbd> `as_dict`
+<div id="method-as_dict">
+  ### <kbd>방법</kbd> `as_dict`
+</div>
 
 ```python
 as_dict() → dict[str, Any]
@@ -868,7 +990,9 @@ as_dict() → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L486" />
 
-### <kbd>방법</kbd> `as_pydantic_dict`
+<div id="method-as_pydantic_dict">
+  ### <kbd>방법</kbd> `as_pydantic_dict`
+</div>
 
 ```python
 as_pydantic_dict() → dict[str, Any]
@@ -878,7 +1002,9 @@ as_pydantic_dict() → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L321" />
 
-### <kbd>방법</kbd> `bind`
+<div id="method-bind">
+  ### <kbd>방법</kbd> `bind`
+</div>
 
 ```python
 bind(*args: Any, **kwargs: Any) → Prompt
@@ -888,7 +1014,9 @@ bind(*args: Any, **kwargs: Any) → Prompt
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L341" />
 
-### <kbd>방법</kbd> `bind_rows`
+<div id="method-bind_rows">
+  ### <kbd>방법</kbd> `bind_rows`
+</div>
 
 ```python
 bind_rows(dataset: list[dict] | Any) → list['Prompt']
@@ -898,7 +1026,9 @@ bind_rows(dataset: list[dict] | Any) → list['Prompt']
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L447" />
 
-### <kbd>방법</kbd> `config_table`
+<div id="method-config_table">
+  ### <kbd>방법</kbd> `config_table`
+</div>
 
 ```python
 config_table(title: str | None = None) → Table
@@ -908,7 +1038,9 @@ config_table(title: str | None = None) → Table
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L411" />
 
-### <kbd>방법</kbd> `configure`
+<div id="method-configure">
+  ### <kbd>방법</kbd> `configure`
+</div>
 
 ```python
 configure(config: dict | None = None, **kwargs: Any) → Prompt
@@ -918,7 +1050,9 @@ configure(config: dict | None = None, **kwargs: Any) → Prompt
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L527" />
 
-### <kbd>방법</kbd> `dump`
+<div id="method-dump">
+  ### <kbd>방법</kbd> `dump`
+</div>
 
 ```python
 dump(fp: <class 'IO'>) → None
@@ -928,7 +1062,9 @@ dump(fp: <class 'IO'>) → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L530" />
 
-### <kbd>방법</kbd> `dump_file`
+<div id="method-dump_file">
+  ### <kbd>방법</kbd> `dump_file`
+</div>
 
 ```python
 dump_file(filepath: str | Path) → None
@@ -938,7 +1074,9 @@ dump_file(filepath: str | Path) → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L84" />
 
-### <kbd>방법</kbd> `format`
+<div id="method-format">
+  ### <kbd>방법</kbd> `format`
+</div>
 
 ```python
 format(**kwargs: Any) → Any
@@ -948,7 +1086,9 @@ format(**kwargs: Any) → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L496" />
 
-### <kbd>클래스 메서드</kbd> `from_obj`
+<div id="classmethod-from_obj-3">
+  ### <kbd>클래스 메서드</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -958,7 +1098,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L511" />
 
-### <kbd>클래스 메서드</kbd> `load`
+<div id="classmethod-load">
+  ### <kbd>클래스 메서드</kbd> `load`
+</div>
 
 ```python
 load(fp: <class 'IO'>) → Self
@@ -968,7 +1110,9 @@ load(fp: <class 'IO'>) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L521" />
 
-### <kbd>클래스 방법</kbd> `load_file`
+<div id="classmethod-load_file">
+  ### <kbd>클래스 방법</kbd> `load_file`
+</div>
 
 ```python
 load_file(filepath: str | Path) → Self
@@ -978,7 +1122,9 @@ load_file(filepath: str | Path) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L427" />
 
-### <kbd>방법</kbd> `messages_table`
+<div id="method-messages_table">
+  ### <kbd>방법</kbd> `messages_table`
+</div>
 
 ```python
 messages_table(title: str | None = None) → Table
@@ -988,7 +1134,9 @@ messages_table(title: str | None = None) → Table
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L455" />
 
-### <kbd>방법</kbd> `print`
+<div id="method-print">
+  ### <kbd>방법</kbd> `print`
+</div>
 
 ```python
 print() → str
@@ -998,7 +1146,9 @@ print() → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L417" />
 
-### <kbd>방법</kbd> `publish`
+<div id="method-publish">
+  ### <kbd>방법</kbd> `publish`
+</div>
 
 ```python
 publish(
@@ -1012,7 +1162,9 @@ publish(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L407" />
 
-### <kbd>방법</kbd> `require`
+<div id="method-require">
+  ### <kbd>방법</kbd> `require`
+</div>
 
 ```python
 require(param_name: str, **kwargs: Any) → Prompt
@@ -1022,7 +1174,9 @@ require(param_name: str, **kwargs: Any) → Prompt
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L540" />
 
-### <kbd>방법</kbd> `run`
+<div id="method-run">
+  ### <kbd>방법</kbd> `run`
+</div>
 
 ```python
 run() → Any
@@ -1032,7 +1186,9 @@ run() → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L298" />
 
-### <kbd>방법</kbd> `validate_requirement`
+<div id="method-validate_requirement">
+  ### <kbd>방법</kbd> `validate_requirement`
+</div>
 
 ```python
 validate_requirement(key: str, value: Any) → list
@@ -1042,7 +1198,9 @@ validate_requirement(key: str, value: Any) → list
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L315" />
 
-### <kbd>방법</kbd> `validate_requirements`
+<div id="method-validate_requirements">
+  ### <kbd>방법</kbd> `validate_requirements`
+</div>
 
 ```python
 validate_requirements(values: dict[str, Any]) → list
@@ -1052,7 +1210,9 @@ validate_requirements(values: dict[str, Any]) → list
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L439" />
 
-### <kbd>방법</kbd> `values_table`
+<div id="method-values_table">
+  ### <kbd>방법</kbd> `values_table`
+</div>
 
 ```python
 values_table(title: str | None = None) → Table
@@ -1062,7 +1222,9 @@ values_table(title: str | None = None) → Table
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval.py#L147" />
 
-## <kbd>class</kbd> `Evaluation`
+<div id="class-evaluation">
+  ## <kbd>class</kbd> `Evaluation`
+</div>
 
 scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 
@@ -1118,7 +1280,9 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L381" />
 
-### <kbd>방법</kbd> `evaluate`
+<div id="method-evaluate">
+  ### <kbd>방법</kbd> `evaluate`
+</div>
 
 ```python
 evaluate(model: Op | Model) → dict
@@ -1128,7 +1292,9 @@ evaluate(model: Op | Model) → dict
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval.py#L205" />
 
-### <kbd>클래스 방법</kbd> `from_obj`
+<div id="classmethod-from_obj-4">
+  ### <kbd>클래스 방법</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -1138,7 +1304,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval.py#L329" />
 
-### <kbd>방법</kbd> `get_eval_results`
+<div id="method-get_eval_results">
+  ### <kbd>방법</kbd> `get_eval_results`
+</div>
 
 ```python
 get_eval_results(model: Op | Model) → EvaluationResults
@@ -1148,7 +1316,9 @@ get_eval_results(model: Op | Model) → EvaluationResults
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval.py#L397" />
 
-### <kbd>방법</kbd> `get_evaluate_calls`
+<div id="method-get_evaluate_calls">
+  ### <kbd>방법</kbd> `get_evaluate_calls`
+</div>
 
 ```python
 get_evaluate_calls() → PaginatedIterator[CallSchema, WeaveObject]
@@ -1180,7 +1350,9 @@ for call in calls:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval.py#L433" />
 
-### <kbd>방법</kbd> `get_score_calls`
+<div id="method-get_score_calls">
+  ### <kbd>방법</kbd> `get_score_calls`
+</div>
 
 ```python
 get_score_calls() → dict[str, list[Call]]
@@ -1209,7 +1381,9 @@ for trace_id, calls in score_calls.items():
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval.py#L472" />
 
-### <kbd>방법</kbd> `get_scores`
+<div id="method-get_scores">
+  ### <kbd>방법</kbd> `get_scores`
+</div>
 
 ```python
 get_scores() → dict[str, dict[str, list[Any]]]
@@ -1252,7 +1426,9 @@ for trace_id, trace_scores in scores.items():
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/pydantic/_internal/_model_construction.py#L249" />
 
-### <kbd>방법</kbd> `model_post_init`
+<div id="method-model_post_init-3">
+  ### <kbd>방법</kbd> `model_post_init`
+</div>
 
 ```python
 model_post_init(context: Any) → None
@@ -1262,7 +1438,9 @@ model_post_init(context: Any) → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L266" />
 
-### <kbd>방법</kbd> `predict_and_score`
+<div id="method-predict_and_score">
+  ### <kbd>방법</kbd> `predict_and_score`
+</div>
 
 ```python
 predict_and_score(model: Op | Model, example: dict) → dict
@@ -1272,7 +1450,9 @@ predict_and_score(model: Op | Model, example: dict) → dict
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L306" />
 
-### <kbd>방법</kbd> `summarize`
+<div id="method-summarize">
+  ### <kbd>방법</kbd> `summarize`
+</div>
 
 ```python
 summarize(eval_table: EvaluationResults) → dict
@@ -1282,7 +1462,9 @@ summarize(eval_table: EvaluationResults) → dict
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L642" />
 
-## <kbd>class</kbd> `EvaluationLogger`
+<div id="class-evaluationlogger">
+  ## <kbd>class</kbd> `EvaluationLogger`
+</div>
 
 이 클래스는 평가를 로깅하기 위한 명령형 인터페이스를 제공합니다.
 
@@ -1322,7 +1504,9 @@ ev.log_summary({"avg_score": 0.9})
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L684" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-4">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -1337,17 +1521,23 @@ __init__(
 ***
 
 
-#### <kbd>속성</kbd> attributes
+<div id="property-attributes">
+  #### <kbd>속성</kbd> attributes
+</div>
 
 ***
 
-#### <kbd>속성</kbd> ui_url
+<div id="property-ui_url">
+  #### <kbd>속성</kbd> ui_url
+</div>
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L1106" />
 
-### <kbd>방법</kbd> `fail`
+<div id="method-fail">
+  ### <kbd>방법</kbd> `fail`
+</div>
 
 ```python
 fail(exception: 'BaseException') → None
@@ -1359,7 +1549,9 @@ fail(exception: 'BaseException') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L1090" />
 
-### <kbd>방법</kbd> `finish`
+<div id="method-finish">
+  ### <kbd>방법</kbd> `finish`
+</div>
 
 ```python
 finish(exception: 'BaseException | None' = None) → None
@@ -1373,7 +1565,9 @@ summary를 로깅하지 않고 평가 리소스를 명시적으로 정리합니�
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L950" />
 
-### <kbd>방법</kbd> `log_example`
+<div id="method-log_example">
+  ### <kbd>방법</kbd> `log_example`
+</div>
 
 ```python
 log_example(
@@ -1407,7 +1601,9 @@ ev.log_example(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L877" />
 
-### <kbd>방법</kbd> `log_prediction`
+<div id="method-log_prediction">
+  ### <kbd>방법</kbd> `log_prediction`
+</div>
 
 ```python
 log_prediction(inputs: 'dict[str, Any]', output: 'Any' = None) → ScoreLogger
@@ -1436,7 +1632,9 @@ Evaluation에 예측을 로깅합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L989" />
 
-### <kbd>방법</kbd> `log_summary`
+<div id="method-log_summary">
+  ### <kbd>방법</kbd> `log_summary`
+</div>
 
 ```python
 log_summary(summary: 'dict | None' = None, auto_summarize: 'bool' = True) → None
@@ -1450,7 +1648,9 @@ Evaluation에 summary 딕셔너리를 로깅합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/evaluation/eval_imperative.py#L1038" />
 
-### <kbd>방법</kbd> `set_view`
+<div id="method-set_view">
+  ### <kbd>방법</kbd> `set_view`
+</div>
 
 ```python
 set_view(
@@ -1488,13 +1688,17 @@ set_view(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/File/file.py#L30" />
 
-## <kbd>class</kbd> `File`
+<div id="class-file">
+  ## <kbd>class</kbd> `File`
+</div>
 
 경로, MIME 유형, 크기 정보가 있는 파일을 나타내는 클래스입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/File/file.py#L34" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-5">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(path: 'str | Path', mimetype: 'str | None' = None)
@@ -1507,7 +1711,9 @@ File 객체를 초기화합니다.
 ***
 
 
-#### <kbd>속성</kbd> filename
+<div id="property-filename">
+  #### <kbd>속성</kbd> filename
+</div>
 
 파일 이름을 조회합니다.
 
@@ -1522,7 +1728,9 @@ File 객체를 초기화합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/File/file.py#L60" />
 
-### <kbd>방법</kbd> `open`
+<div id="method-open-2">
+  ### <kbd>방법</kbd> `open`
+</div>
 
 ```python
 open() → bool
@@ -1540,7 +1748,9 @@ open() → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/type_handlers/File/file.py#L81" />
 
-### <kbd>방법</kbd> `save`
+<div id="method-save-2">
+  ### <kbd>방법</kbd> `save`
+</div>
 
 ```python
 save(dest: 'str | Path') → None
@@ -1554,7 +1764,9 @@ save(dest: 'str | Path') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L418" />
 
-## <kbd>class</kbd> `LLM`
+<div id="class-llm">
+  ## <kbd>class</kbd> `LLM`
+</div>
 
 LLM API Call 1건입니다. 채팅 OTel span에 해당합니다.
 
@@ -1607,7 +1819,9 @@ LLM API Call 1건입니다. 채팅 OTel span에 해당합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/typing_extensions.py#L257" />
 
-### <kbd>방법</kbd> `add_event`
+<div id="method-add_event">
+  ### <kbd>방법</kbd> `add_event`
+</div>
 
 ```python
 add_event(
@@ -1653,7 +1867,9 @@ attach_media(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L555" />
 
-### <kbd>방법</kbd> `attach_media_url`
+<div id="method-attach_media_url">
+  ### <kbd>방법</kbd> `attach_media_url`
+</div>
 
 ```python
 attach_media_url(url: 'str', modality: 'str' = '') → LLM
@@ -1667,7 +1883,9 @@ attach_media_url(url: 'str', modality: 'str' = '') → LLM
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L690" />
 
-### <kbd>방법</kbd> `end`
+<div id="method-end-2">
+  ### <kbd>방법</kbd> `end`
+</div>
 
 ```python
 end() → None
@@ -1677,7 +1895,9 @@ end() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/pydantic/_internal/_model_construction.py#L448" />
 
-### <kbd>방법</kbd> `model_post_init`
+<div id="method-model_post_init-4">
+  ### <kbd>방법</kbd> `model_post_init`
+</div>
 
 ```python
 model_post_init(context: 'Any') → None
@@ -1687,7 +1907,9 @@ model_post_init(context: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L452" />
 
-### <kbd>방법</kbd> `output`
+<div id="method-output">
+  ### <kbd>방법</kbd> `output`
+</div>
 
 ```python
 output(content: 'str') → LLM
@@ -1699,7 +1921,9 @@ output&#95;messages에 assistant 메시지를 추가합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L572" />
 
-### <kbd>방법</kbd> `record`
+<div id="method-record">
+  ### <kbd>방법</kbd> `record`
+</div>
 
 ```python
 record(
@@ -1725,7 +1949,9 @@ record(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L241" />
 
-### <kbd>방법</kbd> `set_attributes`
+<div id="method-set_attributes">
+  ### <kbd>방법</kbd> `set_attributes`
+</div>
 
 ```python
 set_attributes(attributes: 'dict[str, Any]') → Self
@@ -1741,7 +1967,9 @@ span 시작과 종료 사이, 즉 `with` 블록 내부에서 호출해야 합니
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L457" />
 
-### <kbd>방법</kbd> `think`
+<div id="method-think">
+  ### <kbd>방법</kbd> `think`
+</div>
 
 ```python
 think(content: 'str') → LLM
@@ -1753,7 +1981,9 @@ think(content: 'str') → LLM
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L256" />
 
-## <kbd>class</kbd> `LogResult`
+<div id="class-logresult">
+  ## <kbd>class</kbd> `LogResult`
+</div>
 
 배치 `log_*` Call 결과입니다.
 
@@ -1768,7 +1998,9 @@ think(content: 'str') → LLM
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/rich/markdown.py#L513" />
 
-## <kbd>class</kbd> `Markdown`
+<div id="class-markdown">
+  ## <kbd>class</kbd> `Markdown`
+</div>
 
 렌더링할 수 있는 Markdown입니다.
 
@@ -1782,7 +2014,9 @@ think(content: 'str') → LLM
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/rich/markdown.py#L549" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-6">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -1800,7 +2034,9 @@ __init__(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L243" />
 
-## <kbd>class</kbd> `MediaAttachment`
+<div id="class-mediaattachment">
+  ## <kbd>class</kbd> `MediaAttachment`
+</div>
 
 LLM Call에 포함된 미디어 첨부입니다.
 
@@ -1821,7 +2057,9 @@ LLM Call에 포함된 미디어 첨부입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L158" />
 
-## <kbd>class</kbd> `Message`
+<div id="class-message">
+  ## <kbd>class</kbd> `Message`
+</div>
 
 대화에서 사용하는 단일 메시지입니다.
 
@@ -1843,7 +2081,9 @@ LLM Call에 포함된 미디어 첨부입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L192" />
 
-### <kbd>클래스 메서드</kbd> `assistant`
+<div id="classmethod-assistant">
+  ### <kbd>클래스 메서드</kbd> `assistant`
+</div>
 
 ```python
 assistant(
@@ -1860,7 +2100,9 @@ assistant(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L187" />
 
-### <kbd>클래스 메서드</kbd> `system`
+<div id="classmethod-system">
+  ### <kbd>클래스 메서드</kbd> `system`
+</div>
 
 ```python
 system(text: 'str') → Message
@@ -1872,7 +2114,9 @@ system(text: 'str') → Message
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L214" />
 
-### <kbd>클래스 메서드</kbd> `tool_result`
+<div id="classmethod-tool_result">
+  ### <kbd>클래스 메서드</kbd> `tool_result`
+</div>
 
 ```python
 tool_result(call_id: 'str', output: 'Any') → Message
@@ -1886,7 +2130,9 @@ tool_result(call_id: 'str', output: 'Any') → Message
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L182" />
 
-### <kbd>클래스 메서드</kbd> `user`
+<div id="classmethod-user">
+  ### <kbd>클래스 메서드</kbd> `user`
+</div>
 
 ```python
 user(text: 'str') → Message
@@ -1898,11 +2144,15 @@ user(text: 'str') → Message
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L164" />
 
-## <kbd>class</kbd> `MessagesPrompt`
+<div id="class-messagesprompt">
+  ## <kbd>class</kbd> `MessagesPrompt`
+</div>
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L168" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-7">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(messages: list[dict])
@@ -1917,7 +2167,9 @@ __init__(messages: list[dict])
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L180" />
 
-### <kbd>방법</kbd> `format`
+<div id="method-format-2">
+  ### <kbd>방법</kbd> `format`
+</div>
 
 ```python
 format(**kwargs: Any) → list
@@ -1927,7 +2179,9 @@ format(**kwargs: Any) → list
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L172" />
 
-### <kbd>방법</kbd> `format_message`
+<div id="method-format_message">
+  ### <kbd>방법</kbd> `format_message`
+</div>
 
 ```python
 format_message(message: dict, **kwargs: Any) → dict
@@ -1941,7 +2195,9 @@ format_message(message: dict, **kwargs: Any) → dict
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L183" />
 
-### <kbd>클래스 메서드</kbd> `from_obj`
+<div id="classmethod-from_obj-5">
+  ### <kbd>클래스 메서드</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -1951,7 +2207,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/model.py#L25" />
 
-## <kbd>class</kbd> `Model`
+<div id="class-model">
+  ## <kbd>class</kbd> `Model`
+</div>
 
 입력을 받아 동작하는 코드와 데이터의 조합을 캡처하기 위한 클래스입니다. 예를 들어, 예측을 수행하거나 텍스트를 생성하기 위해 프롬프트와 함께 LLM을 Call할 수 있습니다.
 
@@ -1979,7 +2237,9 @@ class YourModel(Model):
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/model.py#L51" />
 
-### <kbd>방법</kbd> `get_infer_method`
+<div id="method-get_infer_method">
+  ### <kbd>방법</kbd> `get_infer_method`
+</div>
 
 ```python
 get_infer_method() → Callable
@@ -1989,7 +2249,9 @@ get_infer_method() → Callable
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L48" />
 
-## <kbd>class</kbd> `Monitor`
+<div id="class-monitor">
+  ## <kbd>class</kbd> `Monitor`
+</div>
 
 수신되는 Call의 점수를 자동으로 매기는 모니터를 설정합니다.
 
@@ -2042,7 +2304,9 @@ my_monitor.activate()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L141" />
 
-### <kbd>방법</kbd> `activate`
+<div id="method-activate-2">
+  ### <kbd>방법</kbd> `activate`
+</div>
 
 ```python
 activate() → ObjectRef
@@ -2057,7 +2321,9 @@ activate() → ObjectRef
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L152" />
 
-### <kbd>방법</kbd> `deactivate`
+<div id="method-deactivate-2">
+  ### <kbd>방법</kbd> `deactivate`
+</div>
 
 ```python
 deactivate() → ObjectRef
@@ -2072,7 +2338,9 @@ deactivate() → ObjectRef
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L203" />
 
-### <kbd>클래스 메서드</kbd> `from_obj`
+<div id="classmethod-from_obj-6">
+  ### <kbd>클래스 메서드</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -2082,7 +2350,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/monitor.py#L118" />
 
-### <kbd>방법</kbd> `model_post_init`
+<div id="method-model_post_init-5">
+  ### <kbd>방법</kbd> `model_post_init`
+</div>
 
 ```python
 model_post_init(context: Any) → None
@@ -2100,7 +2370,9 @@ SDK를 사용할 때 정규화 없이 monitor가 생성될 수 있는 예외적�
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/object/obj.py#L26" />
 
-## <kbd>class</kbd> `Object`
+<div id="class-object">
+  ## <kbd>class</kbd> `Object`
+</div>
 
 추적 및 버전 관리가 가능한 Weave 객체의 기본 클래스입니다.
 
@@ -2130,7 +2402,9 @@ obj = Object.from_uri("weave:///entity/project/object:digest")
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/object/obj.py#L65" />
 
-### <kbd>클래스 메서드</kbd> `from_uri`
+<div id="classmethod-from_uri">
+  ### <kbd>클래스 메서드</kbd> `from_uri`
+</div>
 
 ```python
 from_uri(uri: str, objectify: bool = True) → Self
@@ -2161,7 +2435,9 @@ obj = MyObject.from_uri("weave:///entity/project/object:digest")
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/object/obj.py#L108" />
 
-### <kbd>클래스 메서드</kbd> `handle_relocatable_object`
+<div id="classmethod-handle_relocatable_object">
+  ### <kbd>클래스 메서드</kbd> `handle_relocatable_object`
+</div>
 
 ```python
 handle_relocatable_object(
@@ -2221,13 +2497,17 @@ Weave 직렬화는 유형 재구성을 위해 dict에 &#95;type, &#95;class&#95;
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L183" />
 
-## <kbd>class</kbd> `ObjectRef`
+<div id="class-objectref">
+  ## <kbd>class</kbd> `ObjectRef`
+</div>
 
 ObjectRef(entity: &#39;str&#39;, project: &#39;str&#39;, name: &#39;str&#39;, &#95;digest: &#39;str | Future[str]&#39;, &#95;extra: &#39;tuple[str | Future[str], ...]&#39; = ())
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/../../../../weave/trace/refs/__init__" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-8">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -2241,21 +2521,29 @@ __init__(
 
 ***
 
-#### <kbd>속성</kbd> digest
+<div id="property-digest">
+  #### <kbd>속성</kbd> digest
+</div>
 
 ***
 
-#### <kbd>속성</kbd> extra
+<div id="property-extra">
+  #### <kbd>속성</kbd> extra
+</div>
 
 ***
 
-#### <kbd>속성</kbd> is_digest_resolved
+<div id="property-is_digest_resolved">
+  #### <kbd>속성</kbd> is_digest_resolved
+</div>
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L191" />
 
-### <kbd>방법</kbd> `as_param_dict`
+<div id="method-as_param_dict">
+  ### <kbd>방법</kbd> `as_param_dict`
+</div>
 
 ```python
 as_param_dict() → dict
@@ -2265,7 +2553,9 @@ as_param_dict() → dict
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L287" />
 
-### <kbd>방법</kbd> `delete`
+<div id="method-delete">
+  ### <kbd>방법</kbd> `delete`
+</div>
 
 ```python
 delete() → None
@@ -2275,7 +2565,9 @@ delete() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L243" />
 
-### <kbd>방법</kbd> `get`
+<div id="method-get">
+  ### <kbd>방법</kbd> `get`
+</div>
 
 ```python
 get(objectify: 'bool' = True) → Any
@@ -2285,7 +2577,9 @@ get(objectify: 'bool' = True) → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L271" />
 
-### <kbd>방법</kbd> `is_descended_from`
+<div id="method-is_descended_from">
+  ### <kbd>방법</kbd> `is_descended_from`
+</div>
 
 ```python
 is_descended_from(potential_ancestor: 'ObjectRef') → bool
@@ -2295,7 +2589,9 @@ is_descended_from(potential_ancestor: 'ObjectRef') → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L93" />
 
-### <kbd>방법</kbd> `maybe_parse_uri`
+<div id="method-maybe_parse_uri">
+  ### <kbd>방법</kbd> `maybe_parse_uri`
+</div>
 
 ```python
 maybe_parse_uri(s: 'str') → AnyRef | None
@@ -2305,7 +2601,9 @@ maybe_parse_uri(s: 'str') → AnyRef | None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L294" />
 
-### <kbd>방법</kbd> `parse_uri`
+<div id="method-parse_uri">
+  ### <kbd>방법</kbd> `parse_uri`
+</div>
 
 ```python
 parse_uri(uri: 'str') → ObjectRef
@@ -2315,7 +2613,9 @@ parse_uri(uri: 'str') → ObjectRef
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L173" />
 
-### <kbd>방법</kbd> `with_attr`
+<div id="method-with_attr">
+  ### <kbd>방법</kbd> `with_attr`
+</div>
 
 ```python
 with_attr(attr: 'str') → Self
@@ -2325,7 +2625,9 @@ with_attr(attr: 'str') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L165" />
 
-### <kbd>방법</kbd> `with_extra`
+<div id="method-with_extra">
+  ### <kbd>방법</kbd> `with_extra`
+</div>
 
 ```python
 with_extra(extra: 'tuple[str | Future[str], ]') → Self
@@ -2335,7 +2637,9 @@ with_extra(extra: 'tuple[str | Future[str], ]') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L176" />
 
-### <kbd>방법</kbd> `with_index`
+<div id="method-with_index">
+  ### <kbd>방법</kbd> `with_index`
+</div>
 
 ```python
 with_index(index: 'int') → Self
@@ -2345,7 +2649,9 @@ with_index(index: 'int') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L179" />
 
-### <kbd>방법</kbd> `with_item`
+<div id="method-with_item">
+  ### <kbd>방법</kbd> `with_item`
+</div>
 
 ```python
 with_item(item_digest: 'str | Future[str]') → Self
@@ -2355,7 +2661,9 @@ with_item(item_digest: 'str | Future[str]') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/refs.py#L170" />
 
-### <kbd>방법</kbd> `with_key`
+<div id="method-with_key">
+  ### <kbd>방법</kbd> `with_key`
+</div>
 
 ```python
 with_key(key: 'str') → Self
@@ -2365,7 +2673,9 @@ with_key(key: 'str') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L83" />
 
-## <kbd>클래스</kbd> `Prompt`
+<div id="class-prompt">
+  ## <kbd>클래스</kbd> `Prompt`
+</div>
 
 **Pydantic 필드:**
 
@@ -2375,7 +2685,9 @@ with_key(key: 'str') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L84" />
 
-### <kbd>방법</kbd> `format`
+<div id="method-format-3">
+  ### <kbd>방법</kbd> `format`
+</div>
 
 ```python
 format(**kwargs: Any) → Any
@@ -2385,13 +2697,17 @@ format(**kwargs: Any) → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L494" />
 
-## <kbd>클래스</kbd> `SavedView`
+<div id="class-savedview">
+  ## <kbd>클래스</kbd> `SavedView`
+</div>
 
 SavedView 객체를 다루기 위한 플루언트 스타일 클래스입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L500" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-9">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(view_type: 'str' = 'traces', label: 'str' = 'SavedView') → None
@@ -2400,25 +2716,35 @@ __init__(view_type: 'str' = 'traces', label: 'str' = 'SavedView') → None
 ***
 
 
-#### <kbd>속성</kbd> entity
+<div id="property-entity">
+  #### <kbd>속성</kbd> entity
+</div>
 
 ***
 
-#### <kbd>속성</kbd> 레이블
+<div id="property-label">
+  #### <kbd>속성</kbd> 레이블
+</div>
 
 ***
 
-#### <kbd>속성</kbd> 프로젝트
+<div id="property-project">
+  #### <kbd>속성</kbd> 프로젝트
+</div>
 
 ***
 
-#### <kbd>속성</kbd> view_type
+<div id="property-view_type">
+  #### <kbd>속성</kbd> view_type
+</div>
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L624" />
 
-### <kbd>방법</kbd> `add_column`
+<div id="method-add_column">
+  ### <kbd>방법</kbd> `add_column`
+</div>
 
 ```python
 add_column(path: 'str | ObjectPath', label: 'str | None' = None) → SavedView
@@ -2428,7 +2754,9 @@ add_column(path: 'str | ObjectPath', label: 'str | None' = None) → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L633" />
 
-### <kbd>방법</kbd> `add_columns`
+<div id="method-add_columns">
+  ### <kbd>방법</kbd> `add_columns`
+</div>
 
 ```python
 add_columns(*columns: 'str') → SavedView
@@ -2440,7 +2768,9 @@ add_columns(*columns: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L525" />
 
-### <kbd>방법</kbd> `add_filter`
+<div id="method-add_filter">
+  ### <kbd>방법</kbd> `add_filter`
+</div>
 
 ```python
 add_filter(
@@ -2454,7 +2784,9 @@ add_filter(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L599" />
 
-### <kbd>방법</kbd> `add_sort`
+<div id="method-add_sort">
+  ### <kbd>방법</kbd> `add_sort`
+</div>
 
 ```python
 add_sort(field: 'str', direction: 'SortDirection') → SavedView
@@ -2464,7 +2796,9 @@ add_sort(field: 'str', direction: 'SortDirection') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L664" />
 
-### <kbd>방법</kbd> `column_index`
+<div id="method-column_index">
+  ### <kbd>방법</kbd> `column_index`
+</div>
 
 ```python
 column_index(path: 'int | str | ObjectPath') → int
@@ -2474,7 +2808,9 @@ column_index(path: 'int | str | ObjectPath') → int
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L579" />
 
-### <kbd>방법</kbd> `filter_op`
+<div id="method-filter_op">
+  ### <kbd>방법</kbd> `filter_op`
+</div>
 
 ```python
 filter_op(op_name: 'str | None') → SavedView
@@ -2484,7 +2820,9 @@ filter_op(op_name: 'str | None') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L849" />
 
-### <kbd>방법</kbd> `get_calls`
+<div id="method-get_calls">
+  ### <kbd>방법</kbd> `get_calls`
+</div>
 
 ```python
 get_calls(
@@ -2502,7 +2840,9 @@ get_calls(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L907" />
 
-### <kbd>방법</kbd> `get_known_columns`
+<div id="method-get_known_columns">
+  ### <kbd>방법</kbd> `get_known_columns`
+</div>
 
 ```python
 get_known_columns(num_calls_to_query: 'int | None' = None) → list[str]
@@ -2514,7 +2854,9 @@ get_known_columns(num_calls_to_query: 'int | None' = None) → list[str]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L917" />
 
-### <kbd>방법</kbd> `get_table_columns`
+<div id="method-get_table_columns">
+  ### <kbd>방법</kbd> `get_table_columns`
+</div>
 
 ```python
 get_table_columns() → list[TableColumn]
@@ -2524,7 +2866,9 @@ get_table_columns() → list[TableColumn]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L618" />
 
-### <kbd>방법</kbd> `hide_column`
+<div id="method-hide_column">
+  ### <kbd>방법</kbd> `hide_column`
+</div>
 
 ```python
 hide_column(col_name: 'str') → SavedView
@@ -2534,7 +2878,9 @@ hide_column(col_name: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L639" />
 
-### <kbd>방법</kbd> `insert_column`
+<div id="method-insert_column">
+  ### <kbd>방법</kbd> `insert_column`
+</div>
 
 ```python
 insert_column(
@@ -2548,7 +2894,9 @@ insert_column(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L977" />
 
-### <kbd>클래스 메서드</kbd> `load`
+<div id="classmethod-load-2">
+  ### <kbd>클래스 메서드</kbd> `load`
+</div>
 
 ```python
 load(ref: 'str') → Self
@@ -2558,7 +2906,9 @@ load(ref: 'str') → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L742" />
 
-### <kbd>방법</kbd> `page_size`
+<div id="method-page_size">
+  ### <kbd>방법</kbd> `page_size`
+</div>
 
 ```python
 page_size(page_size: 'int') → SavedView
@@ -2568,7 +2918,9 @@ page_size(page_size: 'int') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L712" />
 
-### <kbd>방법</kbd> `pin_column_left`
+<div id="method-pin_column_left">
+  ### <kbd>방법</kbd> `pin_column_left`
+</div>
 
 ```python
 pin_column_left(col_name: 'str') → SavedView
@@ -2578,7 +2930,9 @@ pin_column_left(col_name: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L722" />
 
-### <kbd>방법</kbd> `pin_column_right`
+<div id="method-pin_column_right">
+  ### <kbd>방법</kbd> `pin_column_right`
+</div>
 
 ```python
 pin_column_right(col_name: 'str') → SavedView
@@ -2588,7 +2942,9 @@ pin_column_right(col_name: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L684" />
 
-### <kbd>방법</kbd> `remove_column`
+<div id="method-remove_column">
+  ### <kbd>방법</kbd> `remove_column`
+</div>
 
 ```python
 remove_column(path: 'int | str | ObjectPath') → SavedView
@@ -2598,7 +2954,9 @@ remove_column(path: 'int | str | ObjectPath') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L703" />
 
-### <kbd>방법</kbd> `remove_columns`
+<div id="method-remove_columns">
+  ### <kbd>방법</kbd> `remove_columns`
+</div>
 
 ```python
 remove_columns(*columns: 'str') → SavedView
@@ -2610,7 +2968,9 @@ remove_columns(*columns: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L548" />
 
-### <kbd>방법</kbd> `remove_filter`
+<div id="method-remove_filter">
+  ### <kbd>방법</kbd> `remove_filter`
+</div>
 
 ```python
 remove_filter(index_or_field: 'int | str') → SavedView
@@ -2620,7 +2980,9 @@ remove_filter(index_or_field: 'int | str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L563" />
 
-### <kbd>방법</kbd> `remove_filters`
+<div id="method-remove_filters">
+  ### <kbd>방법</kbd> `remove_filters`
+</div>
 
 ```python
 remove_filters() → SavedView
@@ -2632,7 +2994,9 @@ remove_filters() → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L521" />
 
-### <kbd>방법</kbd> `rename`
+<div id="method-rename">
+  ### <kbd>방법</kbd> `rename`
+</div>
 
 ```python
 rename(label: 'str') → SavedView
@@ -2642,7 +3006,9 @@ rename(label: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L678" />
 
-### <kbd>방법</kbd> `rename_column`
+<div id="method-rename_column">
+  ### <kbd>방법</kbd> `rename_column`
+</div>
 
 ```python
 rename_column(path: 'int | str | ObjectPath', label: 'str') → SavedView
@@ -2652,7 +3018,9 @@ rename_column(path: 'int | str | ObjectPath', label: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L834" />
 
-### <kbd>방법</kbd> `save`
+<div id="method-save-3">
+  ### <kbd>방법</kbd> `save`
+</div>
 
 ```python
 save() → SavedView
@@ -2664,7 +3032,9 @@ save() → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L658" />
 
-### <kbd>방법</kbd> `set_columns`
+<div id="method-set_columns">
+  ### <kbd>방법</kbd> `set_columns`
+</div>
 
 ```python
 set_columns(*columns: 'str') → SavedView
@@ -2676,7 +3046,9 @@ set_columns(*columns: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L612" />
 
-### <kbd>방법</kbd> `show_column`
+<div id="method-show_column">
+  ### <kbd>방법</kbd> `show_column`
+</div>
 
 ```python
 show_column(col_name: 'str') → SavedView
@@ -2686,7 +3058,9 @@ show_column(col_name: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L606" />
 
-### <kbd>방법</kbd> `sort_by`
+<div id="method-sort_by">
+  ### <kbd>방법</kbd> `sort_by`
+</div>
 
 ```python
 sort_by(field: 'str', direction: 'SortDirection') → SavedView
@@ -2696,7 +3070,9 @@ sort_by(field: 'str', direction: 'SortDirection') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L890" />
 
-### <kbd>방법</kbd> `to_grid`
+<div id="method-to_grid">
+  ### <kbd>방법</kbd> `to_grid`
+</div>
 
 ```python
 to_grid(limit: 'int | None' = None) → Grid
@@ -2706,7 +3082,9 @@ to_grid(limit: 'int | None' = None) → Grid
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L771" />
 
-### <kbd>방법</kbd> `to_rich_table_str`
+<div id="method-to_rich_table_str">
+  ### <kbd>방법</kbd> `to_rich_table_str`
+</div>
 
 ```python
 to_rich_table_str() → str
@@ -2716,7 +3094,9 @@ to_rich_table_str() → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L754" />
 
-### <kbd>방법</kbd> `ui_url`
+<div id="method-ui_url">
+  ### <kbd>방법</kbd> `ui_url`
+</div>
 
 ```python
 ui_url() → str | None
@@ -2730,7 +3110,9 @@ UI에서 이 저장된 뷰를 표시할 URL입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/saved_view.py#L732" />
 
-### <kbd>방법</kbd> `unpin_column`
+<div id="method-unpin_column">
+  ### <kbd>방법</kbd> `unpin_column`
+</div>
 
 ```python
 unpin_column(col_name: 'str') → SavedView
@@ -2740,7 +3122,9 @@ unpin_column(col_name: 'str') → SavedView
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/scorer.py#L30" />
 
-## <kbd>class</kbd> `Scorer`
+<div id="class-scorer">
+  ## <kbd>class</kbd> `Scorer`
+</div>
 
 **Pydantic 필드:**
 
@@ -2751,11 +3135,15 @@ unpin_column(col_name: 'str') → SavedView
 
 ***
 
-#### <kbd>속성</kbd> display_name
+<div id="property-display_name">
+  #### <kbd>속성</kbd> display_name
+</div>
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/scorer.py#L57" />
 
-### <kbd>클래스 메서드</kbd> `from_obj`
+<div id="classmethod-from_obj-7">
+  ### <kbd>클래스 메서드</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -2765,7 +3153,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/flow/scorer.py#L36" />
 
-### <kbd>방법</kbd> `model_post_init`
+<div id="method-model_post_init-6">
+  ### <kbd>방법</kbd> `model_post_init`
+</div>
 
 ```python
 model_post_init(context: Any) → None
@@ -2775,7 +3165,9 @@ model_post_init(context: Any) → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L49" />
 
-### <kbd>방법</kbd> `score`
+<div id="method-score">
+  ### <kbd>방법</kbd> `score`
+</div>
 
 ```python
 score(output: Any, **kwargs: Any) → Any
@@ -2785,7 +3177,9 @@ score(output: Any, **kwargs: Any) → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L53" />
 
-### <kbd>방법</kbd> `summarize`
+<div id="method-summarize-2">
+  ### <kbd>방법</kbd> `summarize`
+</div>
 
 ```python
 summarize(score_rows: list) → dict | None
@@ -2795,7 +3189,9 @@ summarize(score_rows: list) → dict | None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/_deprecated.py#L119" />
 
-## <kbd>클래스</kbd> `Session`
+<div id="class-session">
+  ## <kbd>클래스</kbd> `Session`
+</div>
 
 :class:`weave.Conversation`의 사용 중단된 별칭입니다.
 
@@ -2803,7 +3199,9 @@ summarize(score_rows: list) → dict | None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/_deprecated.py#L129" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-10">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(**data: 'Any') → None
@@ -2822,13 +3220,17 @@ __init__(**data: 'Any') → None
 * `continue_parent_trace`: `<class 'bool'>`
 * `attributes`: `dict[str, typing.Any]`
 
-#### <kbd>속성</kbd> session_id
+<div id="property-session_id">
+  #### <kbd>속성</kbd> session_id
+</div>
 
 :attr:`conversation_id`의 사용 중단된 별칭입니다.
 
 ***
 
-#### <kbd>속성</kbd> session_name
+<div id="property-session_name">
+  #### <kbd>속성</kbd> session_name
+</div>
 
 :attr:`conversation_name`의 사용 중단 별칭입니다.
 
@@ -2836,11 +3238,15 @@ __init__(**data: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L88" />
 
-## <kbd>클래스</kbd> `StringPrompt`
+<div id="class-stringprompt">
+  ## <kbd>클래스</kbd> `StringPrompt`
+</div>
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L92" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-11">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(content: str)
@@ -2855,7 +3261,9 @@ __init__(content: str)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L96" />
 
-### <kbd>방법</kbd> `format`
+<div id="method-format-4">
+  ### <kbd>방법</kbd> `format`
+</div>
 
 ```python
 format(**kwargs: Any) → str
@@ -2865,7 +3273,9 @@ format(**kwargs: Any) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/prompt/prompt.py#L99" />
 
-### <kbd>클래스 메서드</kbd> `from_obj`
+<div id="classmethod-from_obj-8">
+  ### <kbd>클래스 메서드</kbd> `from_obj`
+</div>
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -2875,7 +3285,9 @@ from_obj(obj: WeaveObject) → Self
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L732" />
 
-## <kbd>클래스</kbd> `SubAgent`
+<div id="class-subagent">
+  ## <kbd>클래스</kbd> `SubAgent`
+</div>
 
 turn 내에서 위임된 에이전트 호출입니다.
 
@@ -2894,7 +3306,9 @@ turn 내에서 위임된 에이전트 호출입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/typing_extensions.py#L257" />
 
-### <kbd>방법</kbd> `add_event`
+<div id="method-add_event-2">
+  ### <kbd>방법</kbd> `add_event`
+</div>
 
 ```python
 add_event(
@@ -2928,7 +3342,9 @@ end() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L749" />
 
-### <kbd>방법</kbd> `llm`
+<div id="method-llm">
+  ### <kbd>방법</kbd> `llm`
+</div>
 
 ```python
 llm(
@@ -2946,7 +3362,9 @@ llm(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L773" />
 
-### <kbd>방법</kbd> `record`
+<div id="method-record-2">
+  ### <kbd>방법</kbd> `record`
+</div>
 
 ```python
 record(
@@ -2969,7 +3387,9 @@ record(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L241" />
 
-### <kbd>방법</kbd> `set_attributes`
+<div id="method-set_attributes-2">
+  ### <kbd>방법</kbd> `set_attributes`
+</div>
 
 ```python
 set_attributes(attributes: 'dict[str, Any]') → Self
@@ -2985,7 +3405,9 @@ span 시작과 종료 사이, 즉 `with` 블록 내부에서 호출해야 합니
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L769" />
 
-### <kbd>방법</kbd> `tool`
+<div id="method-tool">
+  ### <kbd>방법</kbd> `tool`
+</div>
 
 ```python
 tool(name: 'str', arguments: 'str' = '', tool_call_id: 'str' = '') → Tool
@@ -2997,11 +3419,15 @@ tool(name: 'str', arguments: 'str' = '', tool_call_id: 'str' = '') → Tool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/table.py#L9" />
 
-## <kbd>클래스</kbd> `Table`
+<div id="class-table">
+  ## <kbd>클래스</kbd> `Table`
+</div>
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/table.py#L12" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-12">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(rows: 'list[dict]') → None
@@ -3010,13 +3436,17 @@ __init__(rows: 'list[dict]') → None
 ***
 
 
-#### <kbd>속성</kbd> 행
+<div id="property-rows">
+  #### <kbd>속성</kbd> 행
+</div>
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/table.py#L50" />
 
-### <kbd>방법</kbd> `append`
+<div id="method-append-2">
+  ### <kbd>방법</kbd> `append`
+</div>
 
 ```python
 append(row: 'dict') → None
@@ -3028,7 +3458,9 @@ append(row: 'dict') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/table.py#L56" />
 
-### <kbd>방법</kbd> `pop`
+<div id="method-pop">
+  ### <kbd>방법</kbd> `pop`
+</div>
 
 ```python
 pop(index: 'int') → None
@@ -3040,7 +3472,9 @@ pop(index: 'int') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L105" />
 
-## <kbd>class</kbd> `ContextAwareThread`
+<div id="class-contextawarethread">
+  ## <kbd>class</kbd> `ContextAwareThread`
+</div>
 
 호출자 컨텍스트로 함수를 실행하는 스레드입니다.
 
@@ -3061,7 +3495,9 @@ thread.start()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L129" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-13">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -3070,7 +3506,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 ***
 
 
-#### <kbd>속성</kbd> daemon
+<div id="property-daemon">
+  #### <kbd>속성</kbd> daemon
+</div>
 
 이 스레드가 데몬 스레드인지 여부를 나타내는 불리언 값입니다.
 
@@ -3080,7 +3518,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>속성</kbd> ident
+<div id="property-ident">
+  #### <kbd>속성</kbd> ident
+</div>
 
 이 스레드의 식별자입니다. 아직 시작되지 않았다면 `None`입니다.
 
@@ -3088,7 +3528,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>속성</kbd> name
+<div id="property-name">
+  #### <kbd>속성</kbd> name
+</div>
 
 식별 목적으로만 사용되는 문자열입니다.
 
@@ -3096,7 +3538,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>속성</kbd> native_id
+<div id="property-native_id">
+  #### <kbd>속성</kbd> native_id
+</div>
 
 이 스레드의 네이티브 정수형 스레드 ID이며, 아직 시작되지 않은 경우에는 None입니다.
 
@@ -3106,7 +3550,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L133" />
 
-### <kbd>방법</kbd> `run`
+<div id="method-run-2">
+  ### <kbd>방법</kbd> `run`
+</div>
 
 ```python
 run() → None
@@ -3116,13 +3562,17 @@ run() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L535" />
 
-## <kbd>class</kbd> `ThreadContext`
+<div id="class-threadcontext">
+  ## <kbd>class</kbd> `ThreadContext`
+</div>
 
 현재 스레드와 턴 정보에 접근할 수 있는 컨텍스트 객체입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L538" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-14">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(thread_id: 'str | None')
@@ -3135,7 +3585,9 @@ __init__(thread_id: 'str | None')
 ***
 
 
-#### <kbd>속성</kbd> thread_id
+<div id="property-thread_id">
+  #### <kbd>속성</kbd> thread_id
+</div>
 
 이 컨텍스트의 thread&#95;id를 조회합니다.
 
@@ -3145,7 +3597,9 @@ __init__(thread_id: 'str | None')
 
 ***
 
-#### <kbd>속성</kbd> turn_id
+<div id="property-turn_id">
+  #### <kbd>속성</kbd> turn_id
+</div>
 
 활성 컨텍스트에서 현재 turn&#95;id를 조회합니다.
 
@@ -3156,7 +3610,9 @@ __init__(thread_id: 'str | None')
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L45" />
 
-## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+<div id="class-contextawarethreadpoolexecutor">
+  ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+</div>
 
 호출자의 컨텍스트로 함수를 실행하는 ThreadPoolExecutor입니다.
 
@@ -3176,7 +3632,9 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L68" />
 
-### <kbd>방법</kbd> `__init__`
+<div id="method-__init__-15">
+  ### <kbd>방법</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -3186,7 +3644,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L77" />
 
-### <kbd>방법</kbd> `map`
+<div id="method-map">
+  ### <kbd>방법</kbd> `map`
+</div>
 
 ```python
 map(
@@ -3201,7 +3661,9 @@ map(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L73" />
 
-### <kbd>방법</kbd> `submit`
+<div id="method-submit">
+  ### <kbd>방법</kbd> `submit`
+</div>
 
 ```python
 submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
@@ -3211,7 +3673,9 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L326" />
 
-## <kbd>class</kbd> `Tool`
+<div id="class-tool">
+  ## <kbd>class</kbd> `Tool`
+</div>
 
 도구 실행 한 건을 나타냅니다. `execute_tool` OTel span에 매핑됩니다.
 
@@ -3232,7 +3696,9 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/typing_extensions.py#L257" />
 
-### <kbd>방법</kbd> `add_event`
+<div id="method-add_event-3">
+  ### <kbd>방법</kbd> `add_event`
+</div>
 
 ```python
 add_event(
@@ -3266,7 +3732,9 @@ end() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L241" />
 
-### <kbd>방법</kbd> `set_attributes`
+<div id="method-set_attributes-3">
+  ### <kbd>방법</kbd> `set_attributes`
+</div>
 
 ```python
 set_attributes(attributes: 'dict[str, Any]') → Self
@@ -3282,7 +3750,9 @@ span 시작과 종료 사이, 즉 `with` 블록 내부에서 호출해야 합니
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L882" />
 
-## <kbd>class</kbd> `Turn`
+<div id="class-turn">
+  ## <kbd>class</kbd> `Turn`
+</div>
 
 사용자와 에이전트가 한 차례 주고받는 상호작용입니다. `invoke_agent` OTel span에 매핑됩니다.
 
@@ -3304,7 +3774,9 @@ span 시작과 종료 사이, 즉 `with` 블록 내부에서 호출해야 합니
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/typing_extensions.py#L257" />
 
-### <kbd>방법</kbd> `add_event`
+<div id="method-add_event-4">
+  ### <kbd>방법</kbd> `add_event`
+</div>
 
 ```python
 add_event(
@@ -3338,7 +3810,9 @@ end() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L916" />
 
-### <kbd>방법</kbd> `llm`
+<div id="method-llm-2">
+  ### <kbd>방법</kbd> `llm`
+</div>
 
 ```python
 llm(
@@ -3356,7 +3830,9 @@ LLM Call을 시작합니다(채팅 span, 이 턴의 하위 span).
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/pydantic/_internal/_model_construction.py#L907" />
 
-### <kbd>방법</kbd> `model_post_init`
+<div id="method-model_post_init-7">
+  ### <kbd>방법</kbd> `model_post_init`
+</div>
 
 ```python
 model_post_init(context: 'Any') → None
@@ -3366,7 +3842,9 @@ model_post_init(context: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L954" />
 
-### <kbd>방법</kbd> `record`
+<div id="method-record-3">
+  ### <kbd>방법</kbd> `record`
+</div>
 
 ```python
 record(
@@ -3390,7 +3868,9 @@ record(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L241" />
 
-### <kbd>방법</kbd> `set_attributes`
+<div id="method-set_attributes-4">
+  ### <kbd>방법</kbd> `set_attributes`
+</div>
 
 ```python
 set_attributes(attributes: 'dict[str, Any]') → Self
@@ -3406,7 +3886,9 @@ span 시작과 종료 사이, 즉 `with` 블록 내부에서 호출해야 합니
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L940" />
 
-### <kbd>방법</kbd> `subagent`
+<div id="method-subagent">
+  ### <kbd>방법</kbd> `subagent`
+</div>
 
 ```python
 subagent(
@@ -3422,7 +3904,9 @@ subagent(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L936" />
 
-### <kbd>방법</kbd> `도구`
+<div id="method-tool-2">
+  ### <kbd>방법</kbd> `도구`
+</div>
 
 ```python
 tool(name: 'str', arguments: 'str' = '', tool_call_id: 'str' = '') → Tool
@@ -3434,7 +3918,9 @@ tool(name: 'str', arguments: 'str' = '', tool_call_id: 'str' = '') → Tool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L911" />
 
-### <kbd>방법</kbd> `user`
+<div id="method-user">
+  ### <kbd>방법</kbd> `user`
+</div>
 
 ```python
 user(content: 'str') → Turn
@@ -3446,7 +3932,9 @@ user(content: 'str') → Turn
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/types.py#L227" />
 
-## <kbd>class</kbd> `Usage`
+<div id="class-usage">
+  ## <kbd>class</kbd> `Usage`
+</div>
 
 LLM Call의 토큰 사용량입니다.
 
@@ -3462,7 +3950,9 @@ LLM Call의 토큰 사용량입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L270" />
 
-### <kbd>함수</kbd> `add_tags`
+<div id="function-add_tags">
+  ### <kbd>함수</kbd> `add_tags`
+</div>
 
 ```python
 add_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
@@ -3476,7 +3966,9 @@ add_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1477" />
 
-### <kbd>함수</kbd> `as_op`
+<div id="function-as_op">
+  ### <kbd>함수</kbd> `as_op`
+</div>
 
 ```python
 as_op(fn: 'Callable[P, R]') → Op[P, R]
@@ -3499,7 +3991,9 @@ as_op(fn: 'Callable[P, R]') → Op[P, R]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/../../../../weave/trace/api/attributes#L462" />
 
-### <kbd>함수</kbd> `attributes`
+<div id="function-attributes">
+  ### <kbd>함수</kbd> `attributes`
+</div>
 
 ```python
 attributes(attributes: 'dict[str, Any]') → Iterator
@@ -3518,7 +4012,9 @@ with weave.attributes({'env': 'production'}):
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1317" />
 
-### <kbd>함수</kbd> `end_conversation`
+<div id="function-end_conversation">
+  ### <kbd>함수</kbd> `end_conversation`
+</div>
 
 ```python
 end_conversation() → None
@@ -3530,7 +4026,9 @@ contextvar에서 현재 대화를 종료합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1331" />
 
-### <kbd>함수</kbd> `end_llm`
+<div id="function-end_llm">
+  ### <kbd>함수</kbd> `end_llm`
+</div>
 
 ```python
 end_llm() → None
@@ -3542,7 +4040,9 @@ contextvar의 현재 LLM Call을 종료합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/_deprecated.py#L107" />
 
-### <kbd>함수</kbd> `end_session`
+<div id="function-end_session">
+  ### <kbd>함수</kbd> `end_session`
+</div>
 
 ```python
 end_session() → None
@@ -3554,7 +4054,9 @@ end_session() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1324" />
 
-### <kbd>함수</kbd> `end_turn`
+<div id="function-end_turn">
+  ### <kbd>함수</kbd> `end_turn`
+</div>
 
 ```python
 end_turn() → None
@@ -3566,7 +4068,9 @@ contextvar의 현재 턴을 종료합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L612" />
 
-### <kbd>함수</kbd> `finish`
+<div id="function-finish">
+  ### <kbd>함수</kbd> `finish`
+</div>
 
 ```python
 finish() → None
@@ -3580,7 +4084,9 @@ Weave 로깅을 중지합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L436" />
 
-### <kbd>함수</kbd> `get`
+<div id="function-get">
+  ### <kbd>함수</kbd> `get`
+</div>
 
 ```python
 get(uri: 'str | ObjectRef') → Any
@@ -3610,7 +4116,9 @@ dataset2 = weave.get(ref)  # dataset과 동일!
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L332" />
 
-### <kbd>함수</kbd> `get_aliases`
+<div id="function-get_aliases">
+  ### <kbd>함수</kbd> `get_aliases`
+</div>
 
 ```python
 get_aliases(obj_ref: 'ObjectRef | str') → list[str]
@@ -3628,7 +4136,9 @@ get_aliases(obj_ref: 'ObjectRef | str') → list[str]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L184" />
 
-### <kbd>함수</kbd> `get_client`
+<div id="function-get_client">
+  ### <kbd>함수</kbd> `get_client`
+</div>
 
 ```python
 get_client() → WeaveClient | None
@@ -3638,7 +4148,9 @@ get_client() → WeaveClient | None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/context/call_context.py#L119" />
 
-### <kbd>함수</kbd> `get_current_call`
+<div id="function-get_current_call">
+  ### <kbd>함수</kbd> `get_current_call`
+</div>
 
 ```python
 get_current_call() → Call | None
@@ -3657,7 +4169,9 @@ get_current_call() → Call | None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1338" />
 
-### <kbd>함수</kbd> `get_current_conversation`
+<div id="function-get_current_conversation">
+  ### <kbd>함수</kbd> `get_current_conversation`
+</div>
 
 ```python
 get_current_conversation() → Conversation | None
@@ -3669,7 +4183,9 @@ contextvar에서 활성 대화를 반환하며, 없으면 None을 반환합니�
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1348" />
 
-### <kbd>함수</kbd> `get_current_llm`
+<div id="function-get_current_llm">
+  ### <kbd>함수</kbd> `get_current_llm`
+</div>
 
 ```python
 get_current_llm() → LLM | None
@@ -3681,7 +4197,9 @@ contextvar에서 활성 상태의 LLM Call을 반환하거나, 없으면 None을
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/_deprecated.py#L113" />
 
-### <kbd>함수</kbd> `get_current_session`
+<div id="function-get_current_session">
+  ### <kbd>함수</kbd> `get_current_session`
+</div>
 
 ```python
 get_current_session() → Conversation | None
@@ -3693,7 +4211,9 @@ get_current_session() → Conversation | None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1343" />
 
-### <kbd>함수</kbd> `get_current_turn`
+<div id="function-get_current_turn">
+  ### <kbd>함수</kbd> `get_current_turn`
+</div>
 
 ```python
 get_current_turn() → Turn | None
@@ -3705,7 +4225,9 @@ contextvar의 활성 턴을 반환하거나, 없으면 None을 반환합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L294" />
 
-### <kbd>함수</kbd> `get_tags`
+<div id="function-get_tags">
+  ### <kbd>함수</kbd> `get_tags`
+</div>
 
 ```python
 get_tags(obj_ref: 'ObjectRef | str') → list[str]
@@ -3723,7 +4245,9 @@ get_tags(obj_ref: 'ObjectRef | str') → list[str]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L346" />
 
-### <kbd>함수</kbd> `get_tags_and_aliases`
+<div id="function-get_tags_and_aliases">
+  ### <kbd>함수</kbd> `get_tags_and_aliases`
+</div>
 
 ```python
 get_tags_and_aliases(obj_ref: 'ObjectRef | str') → tuple[list[str], list[str]]
@@ -3741,7 +4265,9 @@ get_tags_and_aliases(obj_ref: 'ObjectRef | str') → tuple[list[str], list[str]]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L41" />
 
-### <kbd>함수</kbd> `init`
+<div id="function-init">
+  ### <kbd>함수</kbd> `init`
+</div>
 
 ```python
 init(
@@ -3797,7 +4323,9 @@ wandb 프로젝트에 로깅하도록 Weave 추적을 초기화합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L409" />
 
-### <kbd>함수</kbd> `link_prompt_to_registry`
+<div id="function-link_prompt_to_registry">
+  ### <kbd>함수</kbd> `link_prompt_to_registry`
+</div>
 
 ```python
 link_prompt_to_registry(
@@ -3824,7 +4352,9 @@ link_prompt_to_registry(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L370" />
 
-### <kbd>함수</kbd> `list_aliases`
+<div id="function-list_aliases">
+  ### <kbd>함수</kbd> `list_aliases`
+</div>
 
 ```python
 list_aliases() → list[str]
@@ -3839,7 +4369,9 @@ list_aliases() → list[str]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L360" />
 
-### <kbd>함수</kbd> `list_tags`
+<div id="function-list_tags">
+  ### <kbd>함수</kbd> `list_tags`
+</div>
 
 ```python
 list_tags() → list[str]
@@ -3854,7 +4386,9 @@ list_tags() → list[str]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/log_call.py#L18" />
 
-### <kbd>함수</kbd> `log_call`
+<div id="function-log_call">
+  ### <kbd>함수</kbd> `log_call`
+</div>
 
 ```python
 log_call(
@@ -3969,7 +4503,9 @@ log_conversation(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/_deprecated.py#L78" />
 
-### <kbd>function</kbd> `log_session`
+<div id="function-log_session">
+  ### <kbd>function</kbd> `log_session`
+</div>
 
 ```python
 log_session(
@@ -3992,7 +4528,9 @@ log_session(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1518" />
 
-### <kbd>함수</kbd> `log_turn`
+<div id="function-log_turn">
+  ### <kbd>함수</kbd> `log_turn`
+</div>
 
 ```python
 log_turn(
@@ -4024,7 +4562,9 @@ log_turn(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1240" />
 
-### <kbd>함수</kbd> `op`
+<div id="function-op">
+  ### <kbd>함수</kbd> `op`
+</div>
 
 ```python
 op(
@@ -4051,7 +4591,9 @@ op(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/urls.py#L14" />
 
-### <kbd>함수</kbd> `otel_traces_endpoint`
+<div id="function-otel_traces_endpoint">
+  ### <kbd>함수</kbd> `otel_traces_endpoint`
+</div>
 
 ```python
 otel_traces_endpoint(base_url: str | None = None) → str
@@ -4077,7 +4619,9 @@ Weave GenAI 트레이스 수집을 위한 전체 OTLP HTTP 엔드포인트 URL�
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L188" />
 
-### <kbd>함수</kbd> `publish`
+<div id="function-publish">
+  ### <kbd>함수</kbd> `publish`
+</div>
 
 ```python
 publish(
@@ -4109,7 +4653,9 @@ Python 객체를 저장하고 버전을 관리합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L380" />
 
-### <kbd>함수</kbd> `ref`
+<div id="function-ref">
+  ### <kbd>함수</kbd> `ref`
+</div>
 
 ```python
 ref(location: 'str') → ObjectRef
@@ -4127,7 +4673,9 @@ ref(location: 'str') → ObjectRef
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L320" />
 
-### <kbd>함수</kbd> `remove_aliases`
+<div id="function-remove_aliases">
+  ### <kbd>함수</kbd> `remove_aliases`
+</div>
 
 ```python
 remove_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
@@ -4141,7 +4689,9 @@ remove_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L282" />
 
-### <kbd>함수</kbd> `remove_tags`
+<div id="function-remove_tags">
+  ### <kbd>함수</kbd> `remove_tags`
+</div>
 
 ```python
 remove_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
@@ -4157,7 +4707,9 @@ remove_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/context/call_context.py#L70" />
 
-### <kbd>함수</kbd> `require_current_call`
+<div id="function-require_current_call">
+  ### <kbd>함수</kbd> `require_current_call`
+</div>
 
 ```python
 require_current_call() → Call
@@ -4208,7 +4760,9 @@ print(call.id)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L308" />
 
-### <kbd>함수</kbd> `set_aliases`
+<div id="function-set_aliases">
+  ### <kbd>함수</kbd> `set_aliases`
+</div>
 
 ```python
 set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
@@ -4222,7 +4776,9 @@ set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/api.py#L482" />
 
-### <kbd>함수</kbd> `set_view`
+<div id="function-set_view">
+  ### <kbd>함수</kbd> `set_view`
+</div>
 
 ```python
 set_view(
@@ -4270,7 +4826,9 @@ set_view(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1198" />
 
-### <kbd>함수</kbd> `start_conversation`
+<div id="function-start_conversation">
+  ### <kbd>함수</kbd> `start_conversation`
+</div>
 
 ```python
 start_conversation(
@@ -4292,7 +4850,9 @@ start_conversation(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1262" />
 
-### <kbd>함수</kbd> `start_llm`
+<div id="function-start_llm">
+  ### <kbd>함수</kbd> `start_llm`
+</div>
 
 ```python
 start_llm(
@@ -4312,7 +4872,9 @@ LLM Call을 생성하고 활성화합니다. 사용 가능하면 현재 턴을 �
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/_deprecated.py#L51" />
 
-### <kbd>함수</kbd> `start_session`
+<div id="function-start_session">
+  ### <kbd>함수</kbd> `start_session`
+</div>
 
 ```python
 start_session(
@@ -4334,7 +4896,9 @@ start_session(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1302" />
 
-### <kbd>함수</kbd> `start_subagent`
+<div id="function-start_subagent">
+  ### <kbd>함수</kbd> `start_subagent`
+</div>
 
 ```python
 start_subagent(
@@ -4352,7 +4916,9 @@ SubAgent의 OTel span은 OTel 컨텍스트에서 현재 활성 span의 자식으
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1291" />
 
-### <kbd>함수</kbd> `start_tool`
+<div id="function-start_tool">
+  ### <kbd>함수</kbd> `start_tool`
+</div>
 
 ```python
 start_tool(name: 'str', arguments: 'str' = '', tool_call_id: 'str' = '') → Tool
@@ -4366,7 +4932,9 @@ start_tool(name: 'str', arguments: 'str' = '', tool_call_id: 'str' = '') → Too
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/conversation/conversation.py#L1230" />
 
-### <kbd>함수</kbd> `start_turn`
+<div id="function-start_turn">
+  ### <kbd>함수</kbd> `start_turn`
+</div>
 
 ```python
 start_turn(
@@ -4385,7 +4953,9 @@ start_turn(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/../../../../weave/trace/api/thread#L565" />
 
-### <kbd>함수</kbd> `thread`
+<div id="function-thread">
+  ### <kbd>함수</kbd> `thread`
+</div>
 
 ```python
 thread(
@@ -4424,7 +4994,9 @@ with weave.thread(None) as t:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/integrations/wandb/wandb.py#L9" />
 
-### <kbd>함수</kbd> `wandb_init_hook`
+<div id="function-wandb_init_hook">
+  ### <kbd>함수</kbd> `wandb_init_hook`
+</div>
 
 ```python
 wandb_init_hook() → None

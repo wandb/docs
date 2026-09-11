@@ -6,10 +6,10 @@ title: Projects
 
 import ProjectVisibilitySettings from "/snippets/ja/_includes/project-visibility-settings.mdx";
 
-*プロジェクト* は、結果の可視化、実験の比較、artifact の表示とダウンロード、automation の作成などを行うための中心的な場所です。
+*プロジェクト* は、結果の可視化、実験の比較、アーティファクト の表示とダウンロード、automation の作成などを行うための中心的な場所です。
 
 <Note>
-  各プロジェクトには、アクセスできるユーザーを決定する可視性設定があります。プロジェクトにアクセスできるユーザーの詳細については、[プロジェクトの可視性](/ja/platform/hosting/iam/access-management/restricted-projects)を参照してください。
+  各プロジェクトには、アクセスできるユーザーを決定する可視性設定があります。プロジェクトにアクセスできるユーザーの詳細については、[Project visibility](/ja/platform/hosting/iam/access-management/restricted-projects)を参照してください。
 </Note>
 
 各プロジェクトには、次のタブがあります。
@@ -18,9 +18,9 @@ import ProjectVisibilitySettings from "/snippets/ja/_includes/project-visibility
 * [Workspace](/ja/models/track/project-page/#workspace-tab): 個人用の可視化サンドボックス
 * [Runs](#runs-tab): プロジェクト内のすべての run を一覧表示する表
 * [Automations](#automations-tab): プロジェクトで設定された Automations
-* [Sweeps](/ja/models/sweeps): 自動化された探索と最適化
+* [Sweeps](#sweeps-tab): 自動化された探索と最適化
 * [Reports](/ja/models/track/project-page/#reports-tab): メモ、runs、グラフの保存済みスナップショット
-* [Artifacts](#artifacts-tab): すべての runs と、その run に関連付けられた artifact が含まれます
+* [Artifacts](#artifacts-tab): すべての runs と、その run に関連付けられたアーティファクト が含まれます
 
 <div id="overview-tab">
   ## Overview タブ
@@ -70,11 +70,11 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
   ## Workspace タブ
 </div>
 
-プロジェクトの*Workspace*は、Experiments を比較するための個人用のサンドボックスです。同じ課題に対して、異なるアーキテクチャー、ハイパーパラメーター、データセット、前処理などで取り組む比較可能なモデルを整理するには、プロジェクトを使用します。
+プロジェクトの*Workspace*は、実験 を比較するための個人用のサンドボックスです。同じ課題に対して、異なるアーキテクチャー、ハイパーパラメーター、データセット、前処理などで取り組む比較可能なモデルを整理するには、プロジェクトを使用します。
 
 **Runs サイドバー**: プロジェクト内のすべての run の一覧です。
 
-* **action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニュー: サイドバーの行にカーソルを合わせると、左側にメニューが表示されます。このメニューから、run の名前変更、削除、アクティブな run の停止を行えます。
+* **Action (<Icon icon="ellipsis" iconType="solid" />)** メニュー: サイドバーの行にカーソルを合わせると、左側にメニューが表示されます。このメニューから、run の名前変更、削除、アクティブな run の停止を行えます。
 * **表示アイコン**: 目のアイコンをクリックして、グラフ上で Runs の表示/非表示を切り替えます
 * **色**: run の色を、用意されているプリセットカラーまたはカスタムカラーに変更します
 * **検索**: 名で Runs を検索します。これにより、プロットに表示される Runs もフィルターされます。
@@ -83,7 +83,7 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
 * **並べ替え**: Runs の並べ替えに使用する値を選択します。たとえば、損失が最も低い Runs や accuracy が最も高い Runs です。並べ替えは、グラフに表示される Runs に影響します。
 * **展開ボタン**: サイドバーを完全な表に展開します
 * **最小化**: **Cmd+.** (macOS) または **Ctrl+.** (Windows/Linux) を押して、Runs セレクターを折りたたむか復元します。詳しくは [キーボードショートカット](/ja/models/app/keyboard-shortcuts) を参照してください。
-* **run 数**: 上部の括弧内の数は、プロジェクト内の run の総数です。 (N visualized) の数は、目のアイコンがオンになっていて、各プロットで可視化できる run の数です。以下の例では、183 個の run のうち最初の 10 個だけがグラフに表示されています。グラフを編集して、表示可能な run の最大数を増やしてください。
+* **run 数**: 上部の括弧内の数は、プロジェクト内の run の総数です。 (N selected) の数は、目のアイコンがオンになっていて、各プロットで可視化できる run の数です。以下の例では、183 個の run のうち最初の 10 個だけがグラフに表示されています。グラフを編集して、表示可能な run の最大数を増やしてください。
 
 [Runs タブ](#runs-tab)で列を固定、非表示、または並び順を変更すると、Runs サイドバーにもそれらのカスタマイズが反映されます。
 
@@ -131,14 +131,22 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
 </Frame>
 
 <div id="search-for-metrics">
-  ### メトリクスを検索
+  ### メトリクスを検索する
 </div>
 
-Workspace の検索ボックスを使用して、パネルを絞り込みます。この検索はパネルのタイトルを対象としており、タイトルにはデフォルトで、可視化されているメトリクスの名が使われます。
+Workspace の検索ボックスを使用して、タイトルでパネルをフィルタリングします。
+
+<Note>
+  デフォルトでは、W&amp;B はメトリクス名をパネルのタイトルとして使用します。タイトルを変更するには、パネルの右上にある**歯車** (<Icon icon="gear" iconType="solid" />) アイコンをクリックし、**Chart title** フィールドにタイトルを入力します。
+</Note>
 
 <Frame>
-  <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace の検索" />
+  <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace 検索" />
 </Frame>
+
+検索結果からパネルを除外するには、検索ボックスの横にある**Hide panels** (<Icon icon="sliders" iconType="solid" />) をクリックして、正規表現を入力します。W&amp;B はフィルターをすぐに適用します。フィルターは削除するまで有効です。
+
+フィルターを削除するには、**Hide panels** (<Icon icon="sliders" iconType="solid" />) をもう一度クリックし、正規表現をクリアします。
 
 <div id="runs-tab">
   ## Runs タブ
@@ -351,10 +359,13 @@ W&amp;B App でプロジェクトを作成することも、`wandb.init()` の�
     プログラムからプロジェクトを作成するには、`wandb.init()` の呼び出し時に `project` を指定します。プロジェクトがまだ存在しない場合は自動的に作成され、指定した entity によって所有されます。例:
 
     ```python
-    import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+    import wandb
+
+    with wandb.init(entity="<entity>", project="<project_name>") as run: 
+        run.log({"accuracy": .95})
     ```
 
-    [`wandb.init()` API reference](/ja/models/ref/python/functions/init/#examples) を参照してください。
+    [`wandb.init()` reference](/ja/models/ref/python/functions/init/#examples) を参照してください。
   </Tab>
 </Tabs>
 

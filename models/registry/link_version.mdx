@@ -172,6 +172,64 @@ artifact.link(
 
 You can [view a linked artifact's metadata, version data, usage, lineage information](/models/registry/link_version#view-linked-artifacts-in-a-registry) and more in the Registry App.
   
+
+## Unlink an artifact version from a collection
+
+Use the W&B Python SDK or the W&B Registry to unlink an artifact version from a collection.
+
+Unlinking removes the artifact version from the collection but does not delete the source artifact version or its files.
+
+
+<Warning>
+Linking an artifact version to a registry collection deactivates its time-to-live (TTL) policy and sets its TTL to `None`. If you later unlink the version, W&B does not restore the previous TTL or preserve its original duration. Reconfigure the TTL after unlinking if the version still requires one.
+
+For more information about TTL policies, see [Manage artifact data retention](/models/artifacts/ttl).
+</Warning>
+
+<Tabs>
+<Tab title="Python SDK">
+
+To unlink an artifact version with the W&B Python SDK:
+
+1. Create a Public API client with `wandb.Api()`.
+2. Retrieve the linked artifact version with `wandb.Api.artifact()`.
+3. Call [`wandb.Artifact.unlink()`](/models/ref/python/experiments/artifact#method-artifactunlink) to unlink the artifact version from the collection.
+
+```text
+wandb-registry-<registry_name>/<collection_name>:<version_or_alias>
+```
+
+Replace the placeholder values with your own values:
+
+```python
+import wandb
+
+registry_name = "your-registry-name"  # Replace with the name of the registry
+collection_name = "your-collection-name"  # Replace with the name of the collection
+version = "version-or-alias"  # Replace with the version of the artifact you want to unlink
+
+target_path=f"wandb-registry-{registry_name}/{collection_name}:{version}"
+
+api = wandb.Api()
+linked_artifact = api.artifact(name=target_path)
+
+# Unlink the artifact version from the collection
+linked_artifact.unlink()
+```
+
+</Tab>
+<Tab title="W&B Registry">
+
+1. Navigate to the W&B Registry.
+2. Select the name of the registry that contains the collection.
+3. Select the collection.
+4. Select the artifact version you want to unlink.
+5. From the **Version** tab, select **Unlink version**.
+
+</Tab>
+</Tabs>
+
+
 ## View linked artifacts in a registry
 
 View information about linked artifacts such as metadata, lineage, and usage information in the W&B Registry.

@@ -1,0 +1,147 @@
+---
+title: Configuration BYOB par référence
+---
+
+Utilisez cette technique lorsque le contenu multimédia que vous souhaitez voir dans Weave se trouve déjà dans votre propre bucket :
+
+* Des images issues d&#39;un pipeline vidéo.
+* Des captures d&#39;écran d&#39;un agent de navigateur.
+* Des images qu&#39;un modèle a enregistrées dans S3.
+
+Au lieu de téléverser à nouveau ces octets dans Weave, vous journalisez l&#39;URI de l&#39;objet sous forme de `string`, et Weave affiche l&#39;image ou la vidéo directement depuis votre bucket. Seule l&#39;URI est envoyée à Weave ; les octets restent dans votre bucket. Journaliser une vidéo de 2 Go coûte autant que journaliser son chemin.
+
+Cela diffère du journal de contenus multimédias avec la [Content API](/fr/weave/guides/core-types/media#contents-api), qui lit les octets et les stocke dans Weave.
+
+<Note>
+  Il s&#39;agit d&#39;une fonctionnalité de Weave, distincte de [BYOB de la plateforme (Secure Storage Connector)](/fr/platform/hosting/data-security/secure-storage-connector), qui prend en charge le stockage des artefacts W&amp;B et des runs. Les buckets de médias de référence sont configurés pour chaque équipe et nécessitent uniquement un accès en lecture.
+</Note>
+
+<div id="how-it-works">
+  ## Comment cela fonctionne
+</div>
+
+Le rendu des médias de référence fonctionne en trois étapes :
+
+1. Vous stockez un objet multimédia dans votre bucket, par exemple `s3://[YOUR-BUCKET]/frames/000123.png`.
+2. Vous journalisez cet URI sous forme de chaîne de caractères n’importe où dans une trace : en entrée ou en sortie d’une op, ou comme résultat d’un outil d’agent. Le nom du champ n’a pas d’importance.
+3. Lorsque vous ouvrez la trace, Weave résout l’URI en une [URL présignée](/fr/platform/hosting/data-security/presigned-urls) à durée de vie limitée et l’affiche directement dans la page. L’extension du fichier détermine le mode de rendu. Les formats d’image courants (tels que `.png`, `.jpg`, `.gif`) et les formats vidéo (tels que `.mp4`, `.mov`, `.webm`) s’affichent directement dans la page. Les autres formats s’affichent sous forme de lien de téléchargement.
+
+Weave résout uniquement les URI qui pointent vers un bucket enregistré pour votre équipe. Les schémas pris en charge sont `s3://` et `gs://`.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* Cette fonctionnalité est prise en charge uniquement dans le [Cloud mutualisé de W&amp;B](/fr/platform/hosting/hosting-options/multi_tenant_cloud).
+* Un compte W&amp;B et une [clé API](https://wandb.ai/authorize).
+* Un bucket de stockage cloud que vous contrôlez (S3 ou GCS), contenant au moins un objet.
+* Des autorisations d’administrateur de l’organisation. L’ajout d’un bucket de référence nécessite les mêmes autorisations que la création d’une équipe dans l’organisation.
+
+<div id="configure-your-bucket">
+  ## Configurez votre bucket
+</div>
+
+Accordez à W&amp;B un accès en lecture au bucket et autorisez le navigateur à récupérer les objets avec CORS.
+
+Lorsque vous affichez une trace, W&amp;B génère une URL de téléchargement pré-signée de courte durée pour chaque objet référencé. Accordez au principal de l’intégration W&amp;B un accès en lecture au bucket afin que la génération de ces URL pré-signées fonctionne. Il s’agit d’un accès en lecture seule pour l’affichage intégré.
+
+<Tabs>
+  <Tab title="AWS S3">
+    1. Appliquez une stratégie de bucket qui accorde `s3:GetObject` au principal de l’intégration W&amp;B. Enregistrez le contenu suivant dans `bucket-policy.json`, en remplaçant `[YOUR-BUCKET]` par le nom de votre bucket :
+
+       ```json lines
+       {
+         "Version": "2012-10-17",
+         "Id": "WandBAccess",
+         "Statement": [{
+           "Sid": "WandbAccess",
+           "Effect": "Allow",
+           "Principal": {"AWS": "arn:aws:iam::725579432336:role/WandbIntegration"},
+           "Action": "s3:GetObject",
+           "Resource": "arn:aws:s3:::[YOUR-BUCKET]/*"
+         }]
+       }
+       ```
+
+       Appliquez-la ensuite à votre bucket :
+
+       ```bash
+       aws s3api put-bucket-policy --bucket [YOUR-BUCKET] --policy file://bucket-policy.json
+       ```
+
+    2. Appliquez une configuration CORS afin que l’application puisse récupérer les objets dans le navigateur. Enregistrez le contenu suivant dans `cors.json` :
+
+       ```json lines
+       {
+         "CORSRules": [{
+           "AllowedHeaders": ["*"],
+           "AllowedMethods": ["GET", "HEAD"],
+           "AllowedOrigins": ["https://wandb.ai"],
+           "ExposeHeaders": ["ETag"],
+           "MaxAgeSeconds": 3000
+         }]
+       }
+       ```
+
+       Appliquez-la ensuite à votre bucket :
+
+       ```bash
+       aws s3api put-bucket-cors --bucket [YOUR-BUCKET] --cors-configuration file://cors.json
+       ```
+
+    <Note>
+      Si un objet est chiffré avec une clé KMS gérée par le client, la stratégie de cette clé doit également accorder `kms:Decrypt` à `arn:aws:iam::725579432336:role/WandbIntegration`. La stratégie de bucket seule ne suffit pas.
+    </Note>
+  </Tab>
+
+  <Tab title="Google Cloud Storage">
+    1. Accordez au compte de service de l’intégration W&amp;B le rôle `roles/storage.objectViewer` sur le bucket. Remplacez `[YOUR-BUCKET]` par le nom de votre bucket :
+
+       ```bash
+       gcloud storage buckets add-iam-policy-binding gs://[YOUR-BUCKET] \
+         --member="serviceAccount:wandb-integration@wandb-production.iam.gserviceaccount.com" \
+         --role="roles/storage.objectViewer"
+       ```
+
+    2. Appliquez une configuration CORS afin que l’application puisse récupérer les objets dans le navigateur. Enregistrez le contenu suivant dans `cors.json` :
+
+       ```json lines
+       [{
+         "origin": ["https://wandb.ai"],
+         "method": ["GET", "HEAD"],
+         "responseHeader": ["ETag"],
+         "maxAgeSeconds": 3000
+       }]
+       ```
+
+       Appliquez-la ensuite à votre bucket :
+
+       ```bash
+       gcloud storage buckets update gs://[YOUR-BUCKET] --cors-file=cors.json
+       ```
+  </Tab>
+</Tabs>
+
+À ce stade, W&amp;B peut lire les objets de votre bucket, et l’interface Weave peut les récupérer dans le navigateur.
+
+<div id="register-the-reference-bucket">
+  ## Enregistrer le bucket de référence
+</div>
+
+Enregistrez le bucket dans les paramètres de l’équipe afin que Weave puisse générer des URL présignées et afficher les URI référencées.
+
+1. Accédez à la page des paramètres de l’équipe (`https://wandb.ai/[YOUR-TEAM]/settings`).
+2. Dans la section **Reference buckets**, sélectionnez **Add bucket**.
+3. Sélectionnez votre fournisseur de cloud (**AWS** ou **Google Cloud**).
+4. Pour le nom du bucket, saisissez uniquement `[YOUR-BUCKET]` — sans le préfixe `s3://` ou `gs://`.
+5. Pour la clé de l’objet, saisissez la clé d’un objet existant dans le bucket, par exemple `photos/cat.png` (la clé de l’objet uniquement, pas une URL complète). W&amp;B lit cet objet pour confirmer qu’il dispose d’un accès en lecture et que CORS est correctement configuré. Cette vérification porte uniquement sur l’accès ; une fois celle-ci effectuée, la présignature fonctionne pour n’importe quel objet du bucket.
+6. Si vous le souhaitez, sélectionnez **Test connection** pour valider la configuration sans l’enregistrer.
+7. Sélectionnez **Add bucket** pour enregistrer.
+
+<Frame>
+  ![Boîte de dialogue Add reference bucket dans les paramètres de l’équipe, avec des champs pour le fournisseur de cloud, le nom du bucket et la clé d’un objet existant, ainsi que les boutons Test connection et Add bucket.](/weave/guides/tracking/imgs/add-ref-bucket.png)
+</Frame>
+
+<Warning>
+  Tant que le bucket n’est pas enregistré, les URI référencées ne s’affichent pas. C’est l’enregistrement qui permet à Weave de présigner et d’afficher l’objet.
+</Warning>

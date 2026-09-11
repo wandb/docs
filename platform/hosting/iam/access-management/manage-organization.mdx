@@ -1,7 +1,7 @@
 ---
 title: Manage your organization
 description: "Manage users, teams, roles, seats, and billing within a W&B organization as an organization admin."
-keywords: ["invite users", "org admin", "add team members", "user seats"]
+keywords: ["invite users", "org admin", "add team members", "user seats", "JIT provisioning", "just-in-time provisioning", "auto provisioning"]
 ---
 This page describes how to administer a W&B organization, including how to invite users, manage teams, assign roles and seats, and configure billing. Use these procedures to keep your organization's membership, access, and team structure aligned with how your company uses W&B.
 
@@ -82,7 +82,7 @@ After you select the **Send invite** button, W&B sends an invite link to the use
 
 ### Auto provision users
 
-Auto-provisioning streamlines onboarding by letting users join your organization automatically through SSO, so admins don't need to send individual invitations.
+Auto-provisioning streamlines onboarding by letting users join your organization automatically through SSO, so admins don't need to send individual invitations. This is W&B's equivalent of just-in-time (JIT) provisioning: an account is created the first time a user with a matching email domain signs in through SSO.
 
 If you configure SSO and your SSO provider permits it, a W&B user with a matching email domain can log in to your W&B organization with Single Sign-On (SSO). SSO is available for all Enterprise licenses.
 
@@ -124,17 +124,14 @@ Auto provisioning with SSO is useful for adding users to an organization at scal
 
 ### Domain capture
 
-Domain capture helps your employees join your company's organization to ensure new users don't create assets outside your company's jurisdiction. 
+Domain capture lets you automatically add people with a company email address, such as `@example.com`, to W&B. This helps all your employees join the right organization and ensures that new users don't create assets outside your company jurisdiction. 
 
-<Note>
-**Domains must be unique**
+<Note>Domain capture is not available on free or trial plans.</Note>
 
-Domains are unique identifiers. This means that you can't use a domain that's already in use by another organization.
-</Note>
+Domains must be unique; you can't use a domain that's already in use by another organization.
 
 <Tabs>
 <Tab title="Multi-tenant Cloud">
-Domain capture lets you automatically add people with a company email address, such as `@example.com`, to your W&B Multi-tenant Cloud organization. This helps all your employees join the right organization and ensures that new users don't create assets outside your company jurisdiction. 
 
 This table summarizes the behavior of new and existing users with and without domain capture enabled:
 
@@ -160,7 +157,7 @@ You must enable domain matching within a team's settings before you can automati
 3. Within the **Privacy** section, toggle the **Recommend new users with matching email domains join this team upon signing up** option.
 </Tab>
 <Tab title="Dedicated Cloud or Self-Managed">
-If you use Dedicated Cloud or Self-Managed deployment type, contact your W&B Account Team to configure domain capture. Once configured, your W&B Multi-tenant Cloud instance automatically prompts users who create a W&B account with your company email address to contact your admin to request access to your Dedicated Cloud or Self-Managed instance.
+Contact your W&B Account Team to configure domain capture. Afterward, when a user creates a W&B account with a company email address, your deployment automatically prompts them to contact your admin to request access.
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | -----|
@@ -192,7 +189,7 @@ A user within an organization can have one of the following roles:
 
 Organization roles control administrative actions at the organization scope. They're separate from these other sets of roles:
 
-- [Team roles](#assign-or-update-a-team-members-role)  control what a user can do inside a specific team.
+- [Team roles](#assign-or-update-a-team-members-role) control what a user can do inside a specific team.
 - [Registry roles](https://docs.wandb.ai/models/registry/configure_registry#details-about-registry-roles) control what a user can do in a given registry.
 - [Models seats and Weave access](#assign-or-update-a-users-access) control product access.
 
@@ -361,6 +358,35 @@ Allow new users within your organization to discover teams within your organizat
 
 An organization admin must enable domain claiming. To enable domain capture, see the steps described in [Domain capture](#domain-capture).
 
+
+### View team member status
+
+<Note>
+The **Status** column is available on Dedicated Cloud and Self-Managed deployments only.
+</Note>
+
+The **Status** column in a team's member list shows whether each member can sign in. Use it to tell an active member apart from one who hasn't accepted their invitation yet or whose account an organization admin deactivated.
+
+To view the status of a team's members:
+
+1. Navigate to `https://wandb.ai/<team-name>`.
+2. Select **Team settings** in the left navigation bar.
+3. Select the **Users** tab.
+
+Each member's status is one of the following:
+
+| Status   |   Definition   |
+|-----------|---------------------------|
+| Active | The member accepted their invitation and can sign in. |
+| Invite pending | W&B sent an invitation, but the member hasn't accepted it yet. |
+| Deactivated | An organization admin deactivated the account. The member can't sign in to the organization or any of its teams. |
+
+Deactivated members remain in a team's member list, and any runs they logged to the team remain attributed to them. For a deactivated member, the **Team Role**, **Models Seat**, and **Weave Access** columns also read **Deactivated** instead of a role or seat, and you can't change their role or copy a team invite link.
+
+To filter the list by status, enter a status such as **Deactivated** in the search field.
+
+To review the status of every user in the organization rather than a single team, see [View organization activity](/platform/hosting/monitoring-usage/org_dashboard#view-user-status-and-activity). From here, an organization admin can deactivate or reactivate a user. 
+To deactivate or reactivate a user with SCIM instead, see [Deactivate user](/platform/hosting/iam/scim#deactivate-user) and [Reactivate user](/platform/hosting/iam/scim#reactivate-user).
 
 ### Assign or update a team member's role
 

@@ -1,0 +1,63 @@
+---
+title: "Comment supprimer plusieurs artefacts à la fois ?"
+keywords: ["Artefacts", "Stockage", "API Python"]
+---
+
+Lorsque vous devez supprimer de nombreuses versions d&#39;artefacts, par exemple pour réduire l&#39;utilisation du stockage, utilisez l&#39;[API publique W&amp;B](/fr/models/ref/python/public-api/api) plutôt que l&#39;application W&amp;B. Les suppressions en masse dans l&#39;application peuvent expirer avec l&#39;erreur `context deadline exceeded`, et la liste des artefacts n&#39;est pas conçue pour supprimer des centaines de versions.
+
+Le script suivant supprime toutes les versions d&#39;artefacts d&#39;un type donné dans un projet.
+
+Remplacez les espaces réservés `[YOUR-TEAM]` et `[YOUR-PROJECT]` par vos propres valeurs. Pour `[YOUR-TEAM]`, utilisez le nom de votre équipe ou votre nom d&#39;utilisateur, et non le nom de votre organisation.
+
+<Warning>
+  La suppression d&#39;artefacts est irréversible. Lors de la suppression de versions d&#39;artefacts source, W&amp;B supprime l&#39;artefact et ses fichiers. En passant `delete_aliases=True`, vous autorisez la suppression des versions possédant des alias tels que `latest` et supprimez ces alias.
+
+  Utilisez d&#39;abord `DRY_RUN = True`, vérifiez les noms d&#39;artefacts affichés, puis définissez seulement `DRY&#95;RUN = False`.
+</Warning>
+
+```python
+import wandb
+
+# Suppose que vous avez déjà exécuté `wandb login`.
+entity = "[YOUR-TEAM]"  # Remplacez par votre équipe.
+project = "[YOUR-PROJECT]"  # Remplacez par votre projet.
+artifact_type = "model"  # Remplacez par le type d'artifact à supprimer.
+
+# Conservez la valeur True jusqu'à ce que vous ayez vérifié les versions à supprimer.
+DRY_RUN = True
+
+api = wandb.Api()
+
+for collection in api.artifact_collections(f"{entity}/{project}", artifact_type):
+    for version in collection.artifacts():
+        if DRY_RUN:
+            print(f"[dry-run] supprimerait {version.name}")
+        else:
+            print(f"Suppression de {version.name}")
+            version.delete(delete_aliases=True)
+```
+
+Le script supprime les versions d&#39;artefacts, et non les collections. Une collection vide apparaît toujours dans l&#39;onglet **Artefacts** du projet.
+
+`wandb.Api.artifact_collections()` renvoie à la fois des collections sources et des collections de liens :
+
+* Une collection source contient les versions d&#39;artefacts enregistrées dans les runs du projet.
+* Une collection de liens contient des références à des versions d&#39;artefacts liées à une autre collection, par exemple une collection d&#39;un registre.
+
+Pour plus d&#39;informations, voir [Lier une version d&#39;artefact à une collection](/fr/models/registry/link_version).
+
+Lorsqu&#39;une version provient d&#39;une collection de liens, `version.delete(delete_aliases=True)` supprime uniquement le lien. L&#39;artefact source et ses fichiers restent à leur emplacement ; cette version ne libère donc aucun espace de stockage.
+
+<div id="reclaim-the-space">
+  ## Récupérer de l’espace
+</div>
+
+Les artefacts supprimés sont d’abord supprimés de manière réversible, puis définitivement supprimés lors de la garbage collection. Votre utilisation du stockage ne diminue donc pas immédiatement. Pour connaître le délai et savoir comment vérifier votre utilisation, voir [Pourquoi mon utilisation du stockage ne se met-elle pas à jour après la suppression de runs ?](/fr/support/models/articles/why-does-the-storage-meter-not-update-af) et [Supprimer un artefact](/fr/models/artifacts/delete-artifacts).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Stockage](/fr/support/models/tags/storage)</Badge><Badge stroke shape="pill" color="orange" size="md">[API Python](/fr/support/models/tags/python-api)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}

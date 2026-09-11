@@ -3,24 +3,18 @@ title: "getCurrentLLM"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="getcurrentllm">
-  # getCurrentLLM
-</div>
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-▸ **getCurrentLLM**(): [`LLM`](../classes/llm) | `undefined`
+```ts
+getCurrentLLM(): LLM | undefined
+```
 
-현재 LLM을 반환하며, 없으면 `undefined`를 반환합니다.
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/context.ts#L72" />
+
+현재 LLM을 반환합니다. 없으면 undefined를 반환합니다.
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
-[`LLM`](../classes/llm) | `undefined`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/genai/context.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/context.ts#L72)
-
-***
+[`LLM`](../interfaces/llm) | `undefined`

@@ -1,59 +1,81 @@
 ---
-title: Reports
-namespace: public_apis_namespace
-python_object_type: class
+title: レポート
+kind: クラス
+namespace: wandb.apis.public.reports
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L27" />
 
+<div id="class-wandbapispublicreports">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Reports
+</div>
 
-## <kbd>class</kbd> `Reports`
-
-Reports は `BetaReport` オブジェクトの遅延評価イテレータです。
-
-### <kbd>method</kbd> `Reports.__init__`
+レポート は、`BetaReport` オブジェクトを遅延的に返すイテレーターです。
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    project: 'Project',
-    name: 'str | None' = None,
-    entity: 'str | None' = None,
-    per_page: 'int' = 50
-)
+(service_api: 'ServiceApi',
+project: 'Project',
+name: 'str | None' = None,
+entity: 'str | None' = None,
+per_page: 'int' = 50)
 ```
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
-* `service_api`: このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `project` (`wandb.sdk.internal.Project`): Reports を取得する対象のプロジェクト。
-* `name` (str, optional): フィルター対象のレポート名。`None` の場合は、すべての Reports を取得します。
-* `entity` (str, optional): プロジェクトの entity 名。デフォルトでは、プロジェクトの entity が使用されます。
-* `per_page` (int): 1 ページあたりに取得する Reports の数 (デフォルトは 50) 。
+<ResponseField name="service_api" type="ServiceApi">
+  このコレクションに対する W&amp;B API 呼び出しを実行する wandb-core サービスへのインターフェースです。
+</ResponseField>
 
-***
+<ResponseField name="project" type="Project">
+  レポート の取得元となる project です。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> Reports.length
+<ResponseField name="name" type="str | None">
+  フィルター対象の レポート 名です。`None` の場合は、すべての レポート を取得します。
+</ResponseField>
 
-***
+<ResponseField name="entity" type="str | None">
+  project の entity 名です。デフォルトでは、project の entity が使用されます。
+</ResponseField>
 
-### <kbd>method</kbd> `Reports.convert_objects`
+<ResponseField name="per_page" type="int">
+  ページごとに取得する レポート の数です (デフォルトは 50) 。
+</ResponseField>
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="method-reportsconvert_objects">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Reports.convert_objects()
+</div>
 
 ```python
-convert_objects() → list[BetaReport]
+self
 ```
 
 GraphQL のエッジを File オブジェクトに変換します。
 
-***
-
-
-### <kbd>method</kbd> `Reports.update_variables`
+<div id="method-paginatornext">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
+</div>
 
 ```python
-update_variables() → None
+self
+```
+
+イテレーターから次の項目を返します。要素がなくなった場合は、StopIteration を発生させます
+
+<div id="method-reportsupdate_variables">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Reports.update_variables()
+</div>
+
+```python
+self
 ```
 
 ページネーション用のGraphQLクエリ変数を更新します。

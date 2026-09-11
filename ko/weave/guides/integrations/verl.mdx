@@ -1,0 +1,91 @@
+---
+title: VERL
+description: "Weave에서 VERL 롤아웃을 트레이스하여 RL fine-tuning 중 multi-turn 대화, 도구 Call, 보상 점수화를 살펴보세요."
+---
+
+[VERL](https://github.com/volcengine/verl)(Volcano Engine Reinforcement Learning)은 LLM용 오픈 소스 RL 사후학습(Post-training) 프레임워크입니다. VERL에는 W&amp;B가 이미 기록하는 트레이닝 메트릭과 함께 LLM 생성 및 도구 Call을 트레이스할 수 있는 기본 제공 Weave 트레이스 백엔드가 포함되어 있습니다.
+
+VERL과 함께 Weave를 사용하여 다음 작업을 수행하세요.
+
+* 프롬프트, 모델 응답, 도구 호출을 포함한 각 롤아웃 트래젝터리를 step별로 살펴봅니다.
+* step, 샘플 인덱스, 롤아웃 번호, 실험 이름을 기준으로 트래젝터리를 Filter합니다.
+* 여러 트래젝터리를 나란히 비교하여 트레이닝 step 전반의 에이전트 동작을 디버그합니다.
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* W&amp;B 계정 및 [API 키](/ko/platform/app/settings-page/user-settings#api-keys).
+* 롤아웃 트레이싱을 지원하는 VERL 설치 환경. 롤아웃 트레이싱은 [verl#2345](https://github.com/volcengine/verl/pull/2345)에서 추가되었습니다.
+* 비동기 롤아웃 설정. 트레이싱은 비동기 롤아웃에만 적용되며, 동기 롤아웃은 트레이스되지 않습니다.
+
+<div id="enable-weave-tracing">
+  ## Weave 트레이싱 활성화
+</div>
+
+VERL이 W&amp;B 계정으로 인증할 수 있도록 환경에서 W&amp;B API 키를 설정합니다:
+
+```bash
+export WANDB_API_KEY=[YOUR-WANDB-API-KEY]
+```
+
+그런 다음 VERL 트레이닝 명령에 다음 플래그를 추가하세요:
+
+* `actor_rollout_ref.rollout.trace.backend=weave`: 트레이스 백엔드로 Weave를 선택합니다.
+* `actor_rollout_ref.rollout.mode=async`: vLLM 또는 SGLang에서 비동기 롤아웃을 활성화합니다. 트레이싱은 동기 롤아웃에는 영향을 미치지 않습니다.
+* `trainer.project_name`: 트레이스와 메트릭을 log할 프로젝트를 설정합니다.
+* `trainer.experiment_name`: 실험 이름을 설정합니다.
+* `trainer.logger=['console','wandb']`: Weave와 함께 wandb 로거를 활성화하여 메트릭과 트레이스가 동일한 프로젝트에 표시되도록 합니다.
+
+최종 명령은 다음과 같습니다:
+
+```bash
+python -m verl.trainer.main_ppo \
+  actor_rollout_ref.rollout.trace.backend=weave \
+  actor_rollout_ref.rollout.mode=async \
+  trainer.project_name=[YOUR-PROJECT-NAME] \
+  trainer.experiment_name=[YOUR-EXPERIMENT-NAME] \
+  trainer.logger=['console','wandb'] \
+  # ... 기타 트레이닝 플래그
+```
+
+Weave는 W&amp;B 프로젝트와 실험 이름을 기반으로 자동으로 초기화됩니다. `weave.init()`를 호출할 필요가 없습니다.
+
+<div id="tune-trace-volume">
+  ## 트레이스 볼륨 조정
+</div>
+
+기본적으로 VERL은 모든 rollout의 모든 샘플을 트레이스하므로 매우 많은 양의 트레이스 데이터가 생성될 수 있습니다. `ppo_trainer.yaml` 설정 파일에서 다음 필드를 설정하여 볼륨을 제한할 수 있습니다.
+
+* `max_samples_per_step_per_worker`: worker가 각 트레이닝 step에서 트레이스할 고유 샘플 수입니다. 기본값은 `null`이며, 모든 샘플을 트레이스합니다.
+* `token2text`: 디코딩된 `prompt_text`와 `response_text`를 `ToolAgentLoop.run` 출력에 추가하려면 `True`로 설정합니다. 성능을 위해 기본값은 `False`입니다. Weave UI에서 프롬프트와 Completions를 직접 조회하려면 활성화하세요.
+
+결과 필드는 파일에 다음과 같이 표시됩니다.
+
+```yaml
+actor_rollout_ref:
+  rollout:
+    trace:
+      backend: weave
+      token2text: False
+      max_samples_per_step_per_worker: 5
+```
+
+<div id="view-traces">
+  ## 트레이스 보기
+</div>
+
+트레이닝 중 생성된 트레이스를 보려면 W&amp;B 프로젝트 페이지를 열고 **Traces**를 선택하세요. 각 트레이스는 하나의 롤아웃 트래젝터리에 해당합니다.
+
+여러 트레이스를 선택하고 Weave의 비교 뷰를 사용하여 트래젝터리 간의 차이를 살펴볼 수 있습니다. 이를 통해 트레이닝 step이나 실험 전반에 걸친 에이전트 동작의 변화를 디버깅할 수 있습니다.
+
+<div id="trace-additional-functions">
+  ## 추가 함수 트레이싱
+</div>
+
+VERL은 기본 트레이스 적용 범위를 확장하는 데 사용할 수 있는 두 가지 헬퍼를 제공합니다.
+
+* `rollout_trace_op`: `weave.op`에 매핑되는 데코레이터로, 클래스 인스턴스의 메서드를 트레이싱 대상으로 표시합니다. 기본적으로 데코레이터가 적용되는 메서드는 소수에 불과합니다. 맞춤형 에이전트 루프 또는 도구 구현의 메서드에 이 데코레이터를 추가하여 더 많은 세부 정보를 캡처할 수 있습니다.
+* `rollout_trace_attr`: 트래젝터리 진입을 표시하고 트래젝터리 메타데이터(샘플 인덱스, step, 롤아웃 번호, 실험 이름)를 연결하는 컨텍스트 관리자입니다. 새 에이전트 유형을 도입하는 경우 트레이스가 run과 연결되도록 해당 트래젝터리의 진입점을 `rollout_trace_attr`로 래핑하세요.
+
+자세한 설정 정보는 [VERL의 rollout trace 문서](https://verl.readthedocs.io/en/latest/advance/rollout_trace.html)를 참조하세요.

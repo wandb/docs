@@ -5,7 +5,7 @@
 # supplies the repository root and Mintlify's .mdx fallback extension at runtime.
 
 # Don't check heading anchors (fragments) - Mintlify generates these dynamically
-include_fragments = false
+include_fragments = "none"
 
 # Suppress progress bars in CI for cleaner logs
 no_progress = true
@@ -44,6 +44,12 @@ verbose = "error"
 # Third party URLs that timeout or rate-limit
 # W&B production URLs that timeout or rate-limit
 exclude = [
+  # Internal links, which lychee resolves to file:// paths against the repository
+  # tree. That tree is not the route table: it does not know docs.json redirects or
+  # navigation, so valid routes resolve to missing files and report as broken.
+  # `mint broken-links` in validate-mdx owns internal links and checks them against
+  # the real routes. Leave internal linking to it; lychee covers off-site URLs only.
+  '^file://',
   '(http|https)://0\.0\.0\.0',
   '(http|https)://localhost',
   '(http|https)://127\.0\.0\.1',

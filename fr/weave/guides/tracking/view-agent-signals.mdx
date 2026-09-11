@@ -84,22 +84,10 @@ Chaque catégorie propose des modèles prédéfinis que vous pouvez sélectionne
 | **Qualité de la réponse**            | Si la réponse de l’agent est exacte, complète et répond directement à la requête de l’utilisateur.                                                                |
 
 <div id="custom-signals">
-  ### Signaux personnalisés
+  ### Signals personnalisés
 </div>
 
-Dans le volet latéral **Créer des signaux**, vous pouvez, au bas de chacune des catégories **Tags** et **Scores**, créer un signal personnalisé.
-
-Pour définir votre propre signal, sélectionnez **Tags personnalisés** ou **Score personnalisé**. Cela ouvre un écran de configuration avec les champs suivants.
-
-* **Modèle de prompt** : vous pouvez facultativement baser votre scorer sur un ou plusieurs modèles prédéfinis. La sélection de modèles renseigne le **Prompt du scorer** ; vous pouvez combiner plusieurs modèles ou rédiger un prompt de zéro.
-* **Prompt du scorer** : le prompt envoyé au modèle d&#39;inférence lors du scoring. Weave résout les variables du modèle, telles que `{input_messages}`, `{output_messages}`, `{system_instructions}` et `{agent_name}`, pendant le scoring.
-* **Nom du scorer** : le nom d&#39;affichage de ce signal.
-* **Modèle d&#39;inférence** : le LLM à utiliser pour le scoring. [Serverless Inference](/fr/inference/) est utilisé par défaut ; CoreWeave Serverless Inference consomme des crédits de votre compte W&amp;B.
-* **Avancé** : développez cette section pour configurer des options supplémentaires :
-  * **N&#39;évaluer que les tours de conversation correspondant à** : ajoutez un ou plusieurs filtres pour restreindre les tours de conversation évalués par le signal, par exemple par agent, opération, outil ou modèle. Laissez ce champ vide pour évaluer tous les tours de conversation de l&#39;agent. Weave combine plusieurs filtres avec une logique `AND`.
-  * **Taux d&#39;échantillonnage** : pour les agents à fort trafic, réduisez le taux d&#39;échantillonnage afin de n&#39;évaluer qu&#39;une fraction des tours de conversation correspondants, au lieu de tous les évaluer, et ainsi réduire le coût.
-
-Sélectionnez **Créer un signal** pour enregistrer.
+Pour créer un signal de tag personnalisé à partir d&#39;un onglet Signals vide, voir [Créer un signal personnalisé](/fr/weave/guides/tracking/create-custom-signal).
 
 <div id="manage-and-edit-signals">
   ## Gérer et modifier les signaux

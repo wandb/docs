@@ -1,0 +1,101 @@
+---
+title: "Add custom runtimes"
+description: "Connect OpenAI-compatible inference endpoints to a Weave project as custom runtimes, and manage them from the UI or the Python and TypeScript SDKs."
+keywords: ["custom runtimes", "custom providers", "OpenAI-compatible endpoint", "register_custom_runtime", "LLM playground", "LLM judge"]
+---
+
+Register a custom runtime to connect an OpenAI-compatible inference endpoint to a W&B Weave project. After registration, the endpoint’s models appear in model selectors across Weave. You and your team can then use them in the Playground, Evaluation Playground, and LLM-as-a-judge workflows without writing integration code.
+
+Use a custom runtime to connect any of the following:
+
+- An agent or model prototype your team serves behind an OpenAI-compatible API.
+- A self-hosted or local model (for example, one served by Ollama or vLLM).
+- A provider or model version that Weave doesn't have built-in support for.
+
+You can manage custom runtimes in the W&B UI or programmatically with the Python and TypeScript SDKs. The SDK path is designed for CI/CD: registration is declarative and idempotent, so your pipeline can re-register a runtime on every deploy and Weave converges to the configuration you specify.
+
+## Where you can use custom runtimes
+
+Models from a registered custom runtime appear in the model selector in the following places:
+
+- [Playground](/weave/guides/tools/playground): Chat with the endpoint interactively.
+- [Evaluation Playground](/weave/guides/tools/evaluation_playground): Evaluate and compare the endpoint against other models.
+- [Signals](/weave/guides/evaluation/monitors): Use the endpoint as the judge model that scores incoming traces.
+- Scorer iteration and Agent Signals model selectors.
+- The Weave completions API: Pass the model ID `custom::<runtime-name>::<runtime-id>` to the `completions/create` endpoint to run traced completions against your endpoint programmatically. See the [service API reference](/weave/reference/service-api).
+
+## Add a custom runtime
+
+You can add a custom runtime to your project using code or the Weave UI. To add a custom runtime, you need the following information about your runtime:
+
+| Field | Description |
+|---|---|
+| Name | Identifies the runtime within the project. Appears as the group name in model selectors. |
+| Base URL | The OpenAI-compatible endpoint Weave sends completion requests to. Must be reachable from W&B's servers. |
+| Runtime IDs | One or more model IDs the endpoint serves. Each ID appears as a selectable model. |
+| Max tokens | The maximum number of tokens the model can generate in one response. Set per runtime ID. Defaults to 4096. |
+| API key secret (Optional) | The name of a [team secret](/platform/secrets) that holds the endpoint's API key. |
+| Headers (Optional) | Custom HTTP headers sent with every request to the endpoint. |
+
+### Add a custom runtime using code
+
+Using the runtime's information outlined in the previous section, update the appropriate fields in the following registration request, and then run it to either create or update a custom runtime in your project. Programmatic registration requires the `weave` Python package version 0.53.4 or later, or the `weave` npm package version 0.16.5 or later.
+
+<Tabs>
+<Tab title="Python">
+```python
+import weave
+
+client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+client.register_custom_runtime(
+    name="support-agent",
+    base_url="https://agent.example/v1",
+    api_key_secret="AGENT_API_KEY",
+    headers={"X-Tenant-ID": "customer-1"},
+    runtime_ids=[
+        "support-v12",
+        weave.CustomRuntimeID(id="support-canary", max_tokens=8192),
+    ],
+)
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript
+import * as weave from 'weave';
+
+const client = await weave.init('[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]');
+
+await client.registerCustomRuntime({
+  name: 'support-agent',
+  baseUrl: 'https://agent.example/v1',
+  apiKeySecret: 'AGENT_API_KEY',
+  headers: {'X-Tenant-ID': 'customer-1'},
+  runtimeIds: ['support-v12', {id: 'support-canary', maxTokens: 8192}],
+});
+```
+</Tab>
+</Tabs>
+
+After adding a runtime, its runtime ID is addressed as `custom::<runtime-name>::<runtime-id>`. After the call succeeds, the runtime's models appear in model selectors under the runtime's name, the same as a runtime registered in the UI.
+
+<Note>
+After you update a runtime, inference may continue to use the previous configuration for up to 60 seconds while caches expire.
+</Note>
+
+## Register a custom runtime in the UI
+
+To register a custom runtime from the W&B UI:
+
+1. In the Weave sidebar, select **Project** and then select the **AI Providers** tab. Alternatively, in the Playground model selector, click **Configure providers**.
+2. Click **Add custom runtime**. This opens the configuration drawer.
+3. In the drawer, enter the runtime's name, base URL, and one or more runtime IDs. Optionally add an API key secret and custom headers.
+4. Save the runtime.
+
+<Frame>
+![Custom runtime configuration menu](/weave/guides/tools/imgs/custom-runtime.png)
+</Frame>
+
+The runtime's models then appear in model selectors under a group with the runtime's name. A runtime saved without any runtime IDs remains visible in the selector with an **Add runtime ID** action that reopens the editor.
+
+To edit or remove a runtime, use the edit and delete controls in the runtime's row on the **AI Providers** tab. Deleting a runtime can't be undone.

@@ -75,7 +75,7 @@ def get_typescript_items():
         return items
     
     # Check for different subdirectories
-    for subdir in ["classes", "functions", "interfaces", "type-aliases"]:
+    for subdir in ["classes", "functions", "interfaces", "type-aliases", "variables"]:
         subdir_path = ts_dir / subdir
         if subdir_path.exists():
             items[subdir] = []
@@ -229,6 +229,12 @@ def update_docs_json(python_modules, typescript_items, service_endpoints):
             new_pages.append({
                 "group": "Type Aliases",
                 "pages": _unpinned("type-aliases")
+            })
+
+        if _unpinned("variables"):
+            new_pages.append({
+                "group": "Variables",
+                "pages": _unpinned("variables")
             })
 
         typescript_group["pages"] = new_pages

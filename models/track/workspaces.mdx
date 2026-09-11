@@ -224,7 +224,7 @@ pip install wandb wandb-workspaces
 
 
 ```python
-import wandb_workspaces.reports.v2 as ws
+import wandb_workspaces.workspaces as ws
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()
@@ -237,14 +237,42 @@ existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
 existing_workspace.save()
 ```
 
-### Copy a workspace `saved view` to another workspace
+### Clone a saved workspace view
+Use the Reports and Workspaces API to clone a saved workspace view and use its layout and settings as the basis for a new view.
+
+Before you begin, identify the following:
+
+- The entity and project that contain the source workspace view.
+- The workspace view ID.
+      - To find the view ID, open the saved workspace view in W&B and copy the value of the nw query parameter from the URL. For example, in `https://wandb.ai/awesome-team/mnist?nw=54ro5zcn9d4`, the view ID is `54ro5zcn9d4`.
+- The destination entity and project.
+- The name for the new workspace view.
+
+The following example clones a saved workspace view:
 
 ```python
-old_workspace = ws.Workspace.from_url("old-workspace-url")
-old_workspace_view = old_workspace.views[0]
-new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[old_workspace_view])
+import wandb_workspaces.workspaces as ws
 
-new_workspace.save()
+# Specify the source workspace view
+source_entity = "source-entity"
+source_project = "source-project"
+saved_view = "saved-view-id"
+source_url = f"https://wandb.ai/{source_entity}/{source_project}?nw={saved_view}"
+
+# Specify the destination
+target_entity = "target-entity"
+target_project = "target-project"
+target_view_name = "view-name"
+
+# Load the source workspace view
+workspace = ws.Workspace.from_url(source_url)
+
+# Configure the destination
+workspace.entity = target_entity
+workspace.project = target_project
+workspace.name = target_view_name
+
+# Save the workspace as a new view.
+workspace.save_as_new_view()
 ```
 
-See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. 

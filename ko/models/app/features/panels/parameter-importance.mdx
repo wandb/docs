@@ -8,7 +8,7 @@ keywords: ["하이퍼파라미터 중요도", "특성 중요도", "랜덤 포레
 파라미터 중요도 패널은 어떤 하이퍼파라미터가 원하는 메트릭 값을 가장 잘 예측하고, 해당 값과 높은 상관관계를 보이는지 파악하는 데 도움이 됩니다. 이 패널을 사용해 이후 하이퍼파라미터 검색에서 모델 성능에 가장 큰 영향을 미치는 파라미터에 집중하세요.
 
 <Frame>
-  <img src="/images/general/parameter-importance-1.png" alt="파라미터 중요도 패널" />
+  <img src="/images/app_ui/parameter-importance-1.png" alt="파라미터 중요도 패널" />
 </Frame>
 
 **Correlation**은 하이퍼파라미터와 선택한 메트릭(이 경우 `val_loss`) 사이의 선형 상관관계입니다. 상관관계가 높다는 것은 하이퍼파라미터 값이 높을수록 메트릭 값도 높아지고, 반대의 경우도 마찬가지라는 뜻입니다. 상관관계는 유용한 메트릭이지만 입력 간의 2차 상호작용은 포착할 수 없으며, 범위가 서로 다른 입력을 비교할 때는 해석이 복잡해질 수 있습니다.
@@ -50,7 +50,7 @@ W&amp;B는 **중요도** 메트릭도 계산합니다. W&amp;B는 하이퍼파�
 다음 섹션에서는 패널에 표시된 중요도 및 상관관계 값을 읽는 방법을 설명하므로, 다음 스윕에서 이를 바탕으로 조치할 수 있습니다.
 
 <Frame>
-  <img src="/images/general/parameter-importance-4.png" alt="특성 중요도 분석" />
+  <img src="/images/app_ui/parameter-importance-4.png" alt="특성 중요도 분석" />
 </Frame>
 
 이 패널에는 트레이닝 스크립트에서 [`wandb.Run.config`](/ko/models/track/config/) 객체로 전달된 모든 파라미터가 표시됩니다. 또한 선택한 모델 메트릭(이 경우 `val_loss`)을 기준으로 이러한 설정 파라미터의 특성 중요도와 상관관계를 보여줍니다.

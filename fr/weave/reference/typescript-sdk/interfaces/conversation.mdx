@@ -1,0 +1,182 @@
+---
+title: "Conversation"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72" />
+
+Une conversation regroupe des tours de conversation sous un même `gen_ai.conversation.id`. Elle ne
+constitue pas elle-même un span OTel : les spans enfants y associent l’ID de conversation.
+
+<div id="accessors">
+  ## Accesseurs
+</div>
+
+<div id="agentname">
+  ### agentName
+</div>
+
+<div id="get-signature">
+  #### Signature du getter
+</div>
+
+> **get** **agentName**(): `string`
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="attributes">
+  ### attributs
+</div>
+
+<div id="get-signature-2">
+  #### Signature du getter
+</div>
+
+> **get** **attributes**(): `Attributes`
+
+<div id="returns-2">
+  ##### Renvoie
+</div>
+
+`Attributes`
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+<div id="get-signature-3">
+  #### Signature du getter
+</div>
+
+> **get** **conversationId**(): `string`
+
+<div id="returns-3">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+<div id="get-signature-4">
+  #### Signature du getter
+</div>
+
+> **get** **model**(): `string`
+
+<div id="returns-4">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="sessionid">
+  ### sessionId
+</div>
+
+<Warning>
+  **Obsolète.** Utilisez plutôt [Conversation.conversationId](#conversationid).
+</Warning>
+
+<div id="get-signature-5">
+  #### Signature du getter
+</div>
+
+> **get** **sessionId**(): `string`
+
+<div id="returns-5">
+  ##### Renvoie
+</div>
+
+`string`
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-6">
+  #### Renvoie
+</div>
+
+`void`
+
+***
+
+<div id="startturn">
+  ### startTurn()
+</div>
+
+> **startTurn**(`opts?`) : [`Turn`](./turn)
+
+Démarre un nouveau `Turn` dans cette `Conversation`. Le tour de conversation hérite du `conversationId` de la conversation ; `agentName`, `agentId`, `agentDescription`, `agentVersion` et `model` utilisent les valeurs de la conversation lorsqu’ils ne sont pas fournis dans `opts`.
+
+<div id="parameters-2">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="TurnInit = {}">
+  Voir [`TurnInit`](./turninit).
+</ParamField>
+
+<div id="returns-7">
+  #### Renvoie
+</div>
+
+[`Turn`](./turn)
+
+<div id="examples">
+  #### Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```
