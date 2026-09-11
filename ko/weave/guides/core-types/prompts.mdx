@@ -10,6 +10,10 @@ W&amp;B Weave를 사용하면 프롬프트를 만들고, 게시하고, 시간이
 
 이 페이지는 Weave에서 재사용 가능한 프롬프트 객체를 만들고 게시하여 애플리케이션 코드에서 참조할 수 있게 하려는 AI 엔지니어를 위한 내용입니다. 이 가이드를 따르면 단일 문자열 프롬프트와 멀티턴 프롬프트를 만들고, 런타임 값으로 매개변수화하고, Weave 프로젝트에 게시하는 방법을 배울 수 있습니다. 게시된 프롬프트 버전을 참조하고, 가져오고, 관리하는 방법은 [프롬프트 버전 저장 및 추적](/ko/weave/guides/core-types/prompts-version.mdx)을 참조하세요.
 
+<Info>
+  프롬프트 객체를 [레지스트리](/ko/models/registry)의 [컬렉션](/ko/models/registry/create_collection)에 연결하는 방법은 [프롬프트를 컬렉션에 연결하기](/ko/models/registry/link_prompt)를 참조하세요.
+</Info>
+
 프롬프트 요구 사항이 단순하다면 기본 제공 `weave.StringPrompt` 또는 `weave.MessagesPrompt` 클래스를 사용할 수 있습니다. 요구 사항이 더 복잡하다면 이러한 클래스나 기본 클래스인 `weave.Prompt`를 서브클래싱하고 `format` 방법을 재정의할 수 있습니다.
 
 `weave.publish`로 프롬프트를 게시하면 Weave 프로젝트의 [Prompts 페이지](/ko/weave/guides/core-types/prompts-version.mdx#view-prompts)에 표시되며, 여기서 본인과 공동 작업자가 이를 찾아보고 재사용할 수 있습니다.

@@ -3,37 +3,37 @@ title: "wrapOpenAI"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="wrapopenai">
-  # wrapOpenAI
-</div>
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-▸ **wrapOpenAI**&lt;`T`&gt;(`openai`): `T`
+```ts
+wrapOpenAI<T>(openai: T): T
+```
 
-OpenAI call에 대한 함수 추적을 활성화하기 위해 OpenAI API를 래핑합니다.
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.ts#L760" />
+
+OpenAI API를 wrap하여 OpenAI Call에 대한 함수 Tracing을 활성화합니다.
 
 <div id="type-parameters">
-  #### 타입 매개변수
+  ## 유형 매개변수
 </div>
 
-| 이름  | 유형                  |
-| :-- | :------------------ |
-| `T` | extends `OpenAIAPI` |
+<ParamField path="T" type="extends object" />
 
 <div id="parameters">
-  #### 매개변수
+  ## 매개변수
 </div>
 
-| 이름       | 유형  |
-| :------- | :-- |
-| `openai` | `T` |
+<ParamField path="openai" type="T" required />
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
 `T`
 
-`예시`
+<div id="example">
+  ## 예시
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -43,9 +43,3 @@ const result = await openai.chat.completions.create({
   messages: [{ role: 'user', content: 'Hello, world!' }]
 });
 ```
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/openai.ts:723](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/openai.ts#L723)

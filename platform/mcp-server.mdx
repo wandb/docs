@@ -33,10 +33,6 @@ The W&B MCP Server is available in two deployment options. Use the hosted server
   </Card>
 </CardGroup>
 
-<Tip>
-If you run W&B on Dedicated Cloud or Self-Managed and the hosted MCP server isn't yet enabled on your instance, contact [W&B support](mailto:support@wandb.com) or your W&B account team to request it.
-</Tip>
-
 ## Prerequisites
 
 Before you configure any client, make sure you have the following in place:
@@ -44,6 +40,7 @@ Before you configure any client, make sure you have the following in place:
 - Create a W&B API key at [wandb.ai/authorize](https://wandb.ai/authorize).
 - Set the key as the `WANDB_API_KEY` environment variable, or pass it to your client as a bearer token.
 - For Dedicated Cloud, Self-Managed, and local installs against a non-default instance, set the `WANDB_BASE_URL` environment variable to your instance URL.
+- W&B pins the `mcp` SDK to [1.14.0](https://pypi.org/project/mcp/1.14.0/), release `2024-11-05`. Clients must connect using `mcp` SDK 1.14.x. For streamable HTTP support in W&B Dedicated Cloud, `mcp` SDK 1.14.x release `2025-03-26` or newer is required.
 
 ## Use the hosted server
 

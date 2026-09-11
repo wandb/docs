@@ -44,26 +44,28 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
   </Tab>
 
   <Tab title="複数メトリクスの折れ線グラフ">
-    <Note>
-      この機能はプレビュー版で、招待された場合にのみ利用できます。利用登録を希望する場合は、[support](mailto:support@wandb.com) または担当の AISE にお問い合わせください。
-    </Note>
+    [自動 Workspace](/ja/models/app/features/panels#workspace-modes) では、W&amp;B がログされた各メトリクスに対して単一メトリクスの折れ線グラフを自動的に作成します。
 
-    [自動 Workspace](/ja/models/app/features/panels#workspace-modes) では、W&amp;B がログされた各メトリクスに対して単一メトリクスの折れ線グラフを自動的に作成します。このセクションでは、JavaScript の正規表現で定義した複数のメトリクスをまとめて表示する 1 つの折れ線グラフを作成する方法を説明します。必要に応じて、多数の単一メトリクスのグラフを 1 つの複数メトリクスのグラフに統合することもできます。これにより、多数のメトリクスがログされている Workspace のパフォーマンスを改善し、Runs の結果を分析しやすくできます。
+    このセクションでは、JavaScript の正規表現で選択した複数のメトリクスを表示する折れ線グラフを作成する方法を説明します。複数メトリクスの折れ線グラフを使用すると、複数のパネルにまたがって確認する代わりに、関連するメトリクスを 1 つのパネルで比較できます。
 
     1. Workspace にアクセスします。
     2. 折れ線グラフをグローバルに追加するには、パネル検索フィールドの近くにあるコントロールバーで **Add panels** をクリックします。
 
        代わりに折れ線グラフをセクションに直接追加するには、セクションの **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**+ Add panels** をクリックします。
     3. **Quick panel builder** をクリックし、**Multi-metric panels** タブをクリックします。
-    4. **Regex** に、[JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) 形式の式を入力します。入力に合わせて UI が更新され、どのメトリクスがその式に一致するかが表示されます。デフォルトでは、グラフ名にはそのグラフで使用している正規表現が表示されます。このグラフには、今後ログされるメトリクスも含め、その式に一致するすべてのメトリクスの線が表示されます。
+    4. **Regex** に、[Google&#39;s RE2](https://github.com/google/re2/wiki/Syntax) 形式の式を入力します。入力に合わせて UI が更新され、どのメトリクスがその式に一致するかが表示されます。デフォルトでは、グラフ名にはそのグラフで使用している正規表現が表示されます。このグラフには、今後ログされるメトリクスも含め、その式に一致するすべてのメトリクスの線が表示されます。
     5. 複数メトリクスのグラフを作成する際に、重複する単一メトリクスのパネルを必要に応じて削除するには、**Clean up auto-generated panels** を切り替えます。どのパネルがクリーンアップされるかはプレビューで確認できます。<Note>このオプションをオンにすると、W&amp;B はその式に一致する新たにログされたメトリクスに対して単一メトリクスのグラフを作成しません。代わりに、そのメトリクスはこの複数メトリクスのグラフにのみ表示されます。</Note>
     6. **Create [NUMBER] panels** をクリックします。
 
-    ### 複数メトリクスの正規表現
+    <div id="multi-metric-regular-expressions">
+      ### 複数メトリクスの正規表現
+    </div>
 
-    複数メトリクスの折れ線グラフでは、メトリクス名の一致に [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) を使用します。以下のセクションでは、一般的なユースケースを説明し、キャプチャグループが W&amp;B が作成するパネルにどのような影響を与えるかなど、正規表現の仕組みについてさらに詳しく説明します。
+    複数メトリクスの折れ線グラフでは、メトリクス名の一致に [Google&#39;s RE2](https://github.com/google/re2/wiki/Syntax) 構文を使用します。以下のセクションでは、一般的なユースケースを説明し、キャプチャグループが W&amp;B が作成するパネルにどのような影響を与えるかなど、正規表現の仕組みについてさらに詳しく説明します。
 
-    #### 一般的なユースケース
+    <div id="common-use-cases">
+      #### 一般的なユースケース
+    </div>
 
     以下の例では、実験結果の分析に役立つ複数メトリクスのパネルの使い方をいくつか示します。
 
@@ -90,7 +92,9 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
     **特定のメトリクスのバリエーションに一致させる**
     必要なメトリクスだけに一致させるには、オルタネーションを使用します。たとえば、非キャプチャグループ `(?:layer_0|layer_10)_loss` は、1 層目と 10 層目の損失にのみ一致し、中間の層は除外します。
 
-    #### キャプチャグループ
+    <div id="capture-groups">
+      #### キャプチャグループ
+    </div>
 
     <LinePlotCaptureGroups />
   </Tab>

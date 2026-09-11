@@ -58,11 +58,21 @@ Pre-signed URLs are the only supported blob storage access mechanism in W&B. W&B
 
 ## Determine the user that requested a pre-signed URL
 
-To correlate pre-signed URL activity with specific W&B users when reviewing audit logs, inspect the query parameter that W&B appends to each URL. When W&B returns a pre-signed URL, a query parameter in the URL contains the requester's username:
+To correlate pre-signed URL activity with specific W&B users when reviewing audit logs, inspect the provider-specific query parameter that W&B appends to each URL:
 
-| Storage provider            | Signed URL query parameter |
-|-----------------------------|-----------|
-| CoreWeave AI Object Storage | `X-User`  |
-| AWS S3                      | `X-User`  |
-| Google Cloud Storage        | `X-User`  |
-| Azure Blob Storage          | `scid`    |
+| Storage provider            | Query parameter | Value |
+|-----------------------------|-----------------|-------|
+| CoreWeave AI Object Storage | `X-User`        | W&B username |
+| AWS S3                      | `X-User`        | W&B username |
+| Google Cloud Storage        | `X-User`        | W&B username |
+| Azure Blob Storage          | `scid`          | Deterministic UUID derived from the W&B username |
+
+### Correlate Azure Blob Storage activity with a user
+
+Azure requires `scid` to be a GUID, so W&B derives a stable UUID from the username instead of including the username directly. The UUID doesn't contain the username and you can't decode it. To correlate Azure storage activity with a user, compute or maintain a mapping between W&B usernames and their corresponding `scid` values.
+
+Azure includes `scid` only on user-delegation SAS URLs, which W&B generates when the storage bucket is configured with a managed identity. Shared-key SAS URLs don't include `scid`.
+
+<Note>
+W&B appends attribution parameters to pre-signed URLs by default. To turn off attribution for all storage providers, set the `GORILLA_BUCKET_ATTRIBUTION_DISABLED` environment variable to `true`.  When attribution is off, W&B omits `scid` and `X-User`, and you can't correlate pre-signed URL activity with individual users.
+</Note>

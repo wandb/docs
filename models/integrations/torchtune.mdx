@@ -6,19 +6,23 @@ import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" />
 
-[torchtune](https://meta-pytorch.org/torchtune/stable/index.html) is a PyTorch-based library designed to streamline the authoring, fine-tuning, and experimentation processes for large language models (LLMs). Additionally, torchtune has built-in support for [logging with W&B](https://meta-pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), enhancing tracking and visualization of training processes.
+[torchtune](https://meta-pytorch.org/torchtune/stable/index.html) is a PyTorch-based library that streamlines authoring, fine-tuning, and experimentation for LLMs. torchtune also has built-in support for [logging with W&B](https://meta-pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), which enhances tracking and visualization of training processes.
+
+This guide shows you how to enable W&B logging in torchtune recipes, configure the `WandBLogger` metric logger, understand which metrics torchtune tracks by default, and save model checkpoints to W&B Artifacts.
 
 <Frame>
-    <img src="/images/integrations/torchtune_dashboard.png" alt="TorchTune training dashboard"  />
+    <img src="/images/integrations/torchtune_dashboard.png" alt="torchtune training dashboard"  />
 </Frame>
 
 Check the W&B blog post on [Fine-tuning Mistral 7B using torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
 
-## W&B logging at your fingertips
+## Enable W&B logging
+
+You can enable W&B logging in two ways: override arguments at launch from the command line, or edit the recipe's config file. Choose whichever fits your workflow.
 
 <Tabs>
 <Tab title="Command line">
-Override command line arguments at launch:
+Override command-line arguments at launch:
 
 ```bash
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -44,7 +48,7 @@ log_every_n_steps: 5
 
 Enable W&B logging on the recipe's config file by modifying the `metric_logger` section. Change the `_component_` to `torchtune.utils.metric_logging.WandBLogger` class. You can also pass a `project` name and `log_every_n_steps` to customize the logging behavior.
 
-You can also pass any other `kwargs` as you would to the [wandb.init()](/models/ref/python/functions/init) method. For example, if you are working on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
+You can also pass any other `kwargs` as you would to the [wandb.init()](/models/ref/python/functions/init) method. For example, if you work on a team, you can pass the `entity` argument to the `WandBLogger` class to specify the team name.
 
 <Tabs>
 <Tab title="Recipe">
@@ -59,7 +63,7 @@ metric_logger:
 log_every_n_steps: 5
 ```
 </Tab>
-<Tab title="Command Line">
+<Tab title="Command line">
 ```shell
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
   metric_logger._component_=torchtune.utils.metric_logging.WandBLogger \
@@ -72,14 +76,14 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 </Tab>
 </Tabs>
 
-## What is logged?
+## Logged data
 
-You can explore the W&B dashboard to see the logged metrics. By default W&B logs all of the hyperparameters from the config file and the launch overrides.
+After you enable W&B logging, you can explore the W&B dashboard to see the logged metrics. By default, W&B logs all of the hyperparameters from the config file and the launch overrides, so you have a record of each run's configuration alongside its metrics.
 
 W&B captures the resolved config on the **Overview** tab. W&B also stores the config in YAML format on the [Files tab](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
 <Frame>
-    <img src="/images/integrations/torchtune_config.png" alt="TorchTune configuration"  />
+    <img src="/images/integrations/torchtune_config.png" alt="torchtune configuration"  />
 </Frame>
 
 ### Logged metrics
@@ -88,17 +92,17 @@ Each recipe has its own training loop. Check each individual recipe to see its l
 
 | Metric | Description |
 | --- | --- |
-| `loss` | The loss of the model |
-| `lr` | The learning rate |
-| `tokens_per_second` | The tokens per second of the model |
-| `grad_norm` | The gradient norm of the model |
-| `global_step` | Corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken, the model is updated, the gradients are accumulated and the model is updated once every `gradient_accumulation_steps` |
+| `loss` | The loss of the model. |
+| `lr` | The learning rate. |
+| `tokens_per_second` | The tokens per second of the model. |
+| `grad_norm` | The gradient norm of the model. |
+| `global_step` | Corresponds to the current step in the training loop. Accounts for gradient accumulation. Each time an optimizer step runs, the model updates, the gradients accumulate, and the model updates once every `gradient_accumulation_steps`. |
 
 <Note>
-`global_step` is not the same as the number of training steps. It corresponds to the current step in the training loop. Takes into account gradient accumulation, basically every time an optimizer step is taken the `global_step` is incremented by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2 and run for 3 epochs, the optimizer will step 15 times, in this case `global_step` will range from 1 to 15.
+`global_step` isn't the same as the number of training steps. It corresponds to the current step in the training loop and accounts for gradient accumulation. Each time an optimizer step runs, `global_step` increments by 1. For example, if the dataloader has 10 batches, gradient accumulation steps is 2, and you run for 3 epochs, the optimizer steps 15 times, so `global_step` ranges from 1 to 15.
 </Note>
 
-The streamlined design of torchtune allows to easily add custom metrics or modify the existing ones. It suffices to modify the corresponding [recipe file](https://github.com/meta-pytorch/torchtune/tree/main/recipes), for example, computing one could log `current_epoch` as a percentage of the total number of epochs as following:
+The design of torchtune lets you add custom metrics or modify existing ones. Modify the corresponding [recipe file](https://github.com/meta-pytorch/torchtune/tree/main/recipes). For example, you can log `current_epoch` as a percentage of the total number of epochs like this:
 
 ```python
 # inside `train.py` function in the recipe file
@@ -109,23 +113,25 @@ self._metric_logger.log_dict(
 ```
 
 <Note>
-This is a fast evolving library, the current metrics are subject to change. If you want to add a custom metric, you should modify the recipe and call the corresponding `self._metric_logger.*` function.
+The set of logged metrics can change between torchtune releases. To add a custom metric, modify the recipe and call the corresponding `self._metric_logger.*` function.
 </Note>
 
 ## Save and load checkpoints
 
-The torchtune library supports various [checkpoint formats](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you are using, you should switch to the appropriate [checkpointer class](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
+Save checkpoints to W&B Artifacts to version model weights alongside the metrics and configuration of each run, so you can reproduce results and compare model versions later.
 
-If you want to save the model checkpoints to [W&B Artifacts](/models/artifacts/), the simplest solution is to override the `save_checkpoint` functions inside the corresponding recipe. 
+The torchtune library supports several [checkpoint formats](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Depending on the origin of the model you use, you must switch to the appropriate [checkpointer class](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html).
 
-Here is an example of how you can override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
+To save the model checkpoints to [W&B Artifacts](/models/artifacts/), the recommended approach is to override the `save_checkpoint` functions inside the corresponding recipe.
+
+The following example shows how to override the `save_checkpoint` function to save the model checkpoints to W&B Artifacts.
 
 ```python
 def save_checkpoint(self, epoch: int) -> None:
     ...
-    ## Let's save the checkpoint to W&B
-    ## depending on the Checkpointer Class the file will be named differently
-    ## Here is an example for the full_finetune case
+    ## Save the checkpoint to W&B.
+    ## The file name depends on the Checkpointer Class.
+    ## The following is an example for the full_finetune case.
     checkpoint_file = Path.joinpath(
         self._checkpointer._output_dir, f"torchtune_model_{epoch}"
     ).with_suffix(".pt")

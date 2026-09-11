@@ -1,0 +1,290 @@
+---
+title: "SubAgent"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L84" />
+
+<div id="extends">
+  ## Hérite de
+</div>
+
+* `SpanBase`
+
+<div id="accessors">
+  ## Accesseurs
+</div>
+
+<div id="model">
+  ### model
+</div>
+
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **model**(): `string`
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="name">
+  ### nom
+</div>
+
+<div id="get-signature-2">
+  #### Signature d’obtention
+</div>
+
+> **get** **name**(): `string`
+
+<div id="returns-2">
+  ##### Renvoie
+</div>
+
+`string`
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données avec [setAttributes](#setattributes).
+  OpenTelemetry abandonne progressivement l’API d’événements de span (`Span.addEvent`). Cette
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour signaler des moments ne correspondant pas à des spans, tels que
+la compaction du contexte, la détection de boucles d’outils ou le déclenchement de garde-fous. Émet un avertissement et
+ne fait rien après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns-3">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+Lit les valeurs actuelles des champs (afin de prendre en compte les modifications effectuées via `record()`
+depuis `start`) et clôt le span. Idempotente. Transmettez `error` pour le marquer
+comme ayant échoué ; transmettez `endTime` pour antidater sa clôture.
+
+<div id="parameters-2">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### Renvoie
+</div>
+
+`void`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`) : `this`
+
+Définit à la fois n&#39;importe quel sous-ensemble des champs modifiables. Remplace les valeurs existantes (sans les fusionner).
+Les messages d&#39;entrée et de sortie sont sérialisés à la fin du span.
+
+<div id="parameters-3">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
+
+    <ParamField path="agentId" type="string" />
+
+    <ParamField path="agentVersion" type="string" />
+
+    <ParamField path="messages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="model" type="string" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="outputMessages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-5">
+  #### Renvoie
+</div>
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`) : `this`
+
+Définit simultanément plusieurs attributs sur le span. Émet un avertissement et ne fait rien après
+`end()`. Reproduit `Span.setAttributes` d’OTel (ainsi que
+`set_attributes` du SDK Python).
+
+<div id="parameters-4">
+  #### Paramètres
+</div>
+
+<ParamField path="attributes" type="Attributes" required />
+
+<div id="returns-6">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example-2">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from-2">
+  #### Hérité de
+</div>
+
+`SpanBase.setAttributes`
+
+***
+
+<div id="startllm">
+  ### startLLM()
+</div>
+
+> **startLLM**(`opts`) : [`LLM`](./llm)
+
+Démarre un span LLM enfant imbriqué dans ce SubAgent.
+
+<div id="parameters-5">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="LLMInit" required>
+  Voir [`LLMInit`](./llminit).
+</ParamField>
+
+<div id="returns-7">
+  #### Renvoie
+</div>
+
+[`LLM`](./llm)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`) : `SubAgent`
+
+Démarre un span SubAgent imbriqué dans ce SubAgent.
+
+<div id="parameters-6">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="SubAgentInit" required>
+  Voir [`SubAgentInit`](./subagentinit).
+</ParamField>
+
+<div id="returns-8">
+  #### Renvoie
+</div>
+
+`SubAgent`
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`) : [`Tool`](./tool)
+
+Démarre un span Tool enfant imbriqué dans ce SubAgent.
+
+<div id="parameters-7">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="ToolInit" required>
+  Voir [`ToolInit`](./toolinit).
+</ParamField>
+
+<div id="returns-9">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)

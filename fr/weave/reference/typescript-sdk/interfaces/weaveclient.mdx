@@ -1,0 +1,1416 @@
+---
+title: "WeaveClient"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519" />
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<div id="projectid">
+  ### projectId
+</div>
+
+> **projectId** : `string`
+
+***
+
+<div id="settings">
+  ### settings
+</div>
+
+> **settings** : `object`
+
+<div id="attributes">
+  #### attributes
+</div>
+
+> `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
+
+Un ensemble d&#39;attributs appliqués à chaque trace produite par ce client.
+
+<div id="genai">
+  #### genai
+</div>
+
+> `readonly` **genai** : `objet`
+
+<div id="genaibatchoptions">
+  ##### genai.batchOptions
+</div>
+
+> `optional` **batchOptions** : `BufferConfig`
+
+Configuration de `BatchSpanProcessor`. Ignorée sauf si `spanProcessor === 'batch'`.
+
+<div id="genaispanprocessor">
+  ##### genai.spanProcessor
+</div>
+
+> `optional` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
+
+Mode d&#39;export des spans GenAI.
+
+* `'batch'` (par défaut) : `BatchSpanProcessor`, adapté aux agents en
+  production et aux processus de longue durée.
+* `'simple'` : `SimpleSpanProcessor`, une requête HTTP POST par span. Utile pour
+  les tests et les CLI de courte durée, lorsqu&#39;un vidage déterministe importe plus
+  que le débit.
+* Instance de `SpanProcessor` : un processor fourni par l&#39;utilisateur. L&#39;appelant
+  gère son cycle de vie ; l&#39;exporter OTLP de Weave ciblant `/agents/otel/v1/traces`
+  n&#39;est pas utilisé.
+
+<div id="printcalllink">
+  #### printCallLink
+</div>
+
+> `readonly` **printCallLink**: `boolean`
+
+Affiche dans le terminal les liens vers l&#39;interface Weave pour les ops.
+
+<div id="default">
+  ##### Par défaut
+</div>
+
+`true`
+
+<div id="usecallscomplete">
+  #### useCallsComplete
+</div>
+
+> **useCallsComplete** : `boolean`
+
+Envoie les appels terminés au point de terminaison `calls/complete` (début et fin
+appariés côté client) au lieu de l&#39;ancien chemin `call/upsert_batch`.
+
+<div id="default-2">
+  ##### Par défaut
+</div>
+
+`true`
+
+<div id="useotelv2">
+  #### useOTelV2
+</div>
+
+> **useOTelV2** : `boolean`
+
+Achemine les intégrations compatibles OTel via leur variante OTel.
+
+<div id="default-3">
+  ##### Par défaut
+</div>
+
+`true`
+
+***
+
+<div id="traceserverapi">
+  ### traceServerApi
+</div>
+
+> **traceServerApi**: `Api`&lt;`any`&gt;
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="addscore">
+  ### addScore()
+</div>
+
+> **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`) : `Promise`&lt;`string`&gt;
+
+Ajoute le résultat d’un scorer (par exemple, sa sortie) à un appel.
+Utilisé dans une évaluation impérative pour joindre les résultats du scorer aux appels de prédiction.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<ParamField path="predictCallId" type="string" required>
+  ID de l&#39;appel predict auquel joindre le feedback
+</ParamField>
+
+<ParamField path="scorerCallId" type="string" required>
+  ID de l&#39;appel du scorer ayant généré le feedback
+</ParamField>
+
+<ParamField path="runnableRefUri" type="string" required>
+  URI du scorer (réf. d&#39;op ou d&#39;objet)
+</ParamField>
+
+<ParamField path="scorerOutput" type="any" required>
+  Sortie du scorer
+</ParamField>
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`string`&gt;
+
+***
+
+<div id="createcall">
+  ### createCall()
+</div>
+
+> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`) : `Promise`&lt;`void`&gt;
+
+<div id="parameters-2">
+  #### Paramètres
+</div>
+
+<ParamField path="internalCall" type="InternalCall" required />
+
+<ParamField path="opRef" type="any" required />
+
+<ParamField path="params" type="any[]" required />
+
+<ParamField path="parameterNames" type="undefined | &#x22;useParam0Object&#x22; | string[]" required />
+
+<ParamField path="thisArg" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  Type complet : `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="startTime" type="Date" required />
+
+<ParamField path="displayName" type="string" />
+
+<ParamField path="attributes" type="Record<string, any>" />
+
+<ParamField path="eagerCallStart" type="boolean = false" />
+
+<div id="returns-2">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="finishcall">
+  ### finishCall()
+</div>
+
+> **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
+
+<div id="parameters-3">
+  #### Paramètres
+</div>
+
+<ParamField path="call" type="InternalCall" required />
+
+<ParamField path="result" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  Type complet : `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="summarize" type="((result) => Record<string, any>) | undefined" required />
+
+<ParamField path="endTime" type="Date" required />
+
+<ParamField path="startCallPromise" type="Promise<void>" required />
+
+<div id="returns-3">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="finishcallwithexception">
+  ### finishCallWithException()
+</div>
+
+> **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
+
+<div id="parameters-4">
+  #### Paramètres
+</div>
+
+<ParamField path="call" type="InternalCall" required />
+
+<ParamField path="error" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  Type complet : `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="endTime" type="Date" required />
+
+<ParamField path="startCallPromise" type="Promise<void>" required />
+
+<div id="returns-4">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="flush">
+  ### flush()
+</div>
+
+> **flush**(): `Promise`&lt;`void`&gt;
+
+Transmet au serveur tous les appels mis en mémoire tampon. À attendre avant `process.exit()`.
+
+<div id="returns-5">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="get">
+  ### get()
+</div>
+
+> **get**(`ref`) : `Promise`&lt;`any`&gt;
+
+<div id="parameters-5">
+  #### Paramètres
+</div>
+
+<ParamField path="ref" type="ObjectRef" required>
+  Voir [`ObjectRef`](../classes/objectref).
+</ParamField>
+
+<div id="returns-6">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`any`&gt;
+
+***
+
+<div id="getagentcustomattributes">
+  ### getAgentCustomAttributes()
+</div>
+
+> **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
+
+Découvrez les clés d’attributs personnalisés typés observées dans les spans d’agent du
+projet. Chaque ligne de résultat correspond à un triplet `(source, key, value_type)`, accompagné du
+nombre de spans qui le portent. Les API de requête, de regroupement et de statistiques des
+spans l’utilisent pour référencer les attributs personnalisés.
+
+Filtrez les spans pris en compte en transmettant `query` (un filtre de span
+structuré), `startedAfter` / `startedBefore` (ISO-8601), ou les deux. Utilisez
+`limit` / `offset` pour parcourir les clés découvertes par pages.
+
+<div id="parameters-6">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="limit" type="number">
+      **Min**
+
+      1
+
+      **Max**
+
+      2000
+
+      **Par défaut**
+
+      ```ts twoslash
+      // @noErrors
+      200
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      **Min**
+
+      0
+
+      **Par défaut**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="Query | null">
+      Voir [`Query`](./query).
+    </ParamField>
+
+    <ParamField path="startedAfter" type="string | null" />
+
+    <ParamField path="startedBefore" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-7">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentCustomAttributes({
+  query: {
+    $expr: {
+      $eq: [{$getField: 'agent_name'}, {$literal: 'my-agent'}],
+    },
+  },
+  startedAfter: '2026-06-15T00:00:00Z',
+  limit: 200,
+});
+
+for (const attr of resp.data.attributes ?? []) {
+  console.log(`${attr.source}.${attr.key} (${attr.value_type}): ${attr.span_count}`);
+}
+```
+
+***
+
+<div id="getagents">
+  ### getAgents()
+</div>
+
+> **getAgents**(`options?`): `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
+
+Répertorie les agents avec des statistiques agrégées.
+
+<div id="parameters-7">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="GetAgentsOptions = {}">
+  Voir [`GetAgentsOptions`](./getagentsoptions).
+</ParamField>
+
+<div id="returns-8">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
+
+<div id="example-2">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgents({limit: 20});
+
+for (const agent of resp.data.agents) {
+  console.log(agent.agent_name, agent.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+***
+
+<div id="getagentspans">
+  ### getAgentSpans()
+</div>
+
+> **getAgentSpans**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
+
+Interroge les spans d’agent, éventuellement filtrés par nom d’agent et/ou par une expression de requête de type Mongo.
+
+<div id="parameters-8">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="GetAgentSpansOptions" required>
+  Voir [`GetAgentSpansOptions`](./getagentspansoptions).
+</ParamField>
+
+<div id="returns-9">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
+
+<div id="examples">
+  #### Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpans({agentName: 'my-agent', limit: 20});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+
+const resp = await client.getAgentSpans({
+  agentName: 'my-agent',
+  query: {
+    $expr: {$gt: [{$getField: 'input_tokens'}, {$literal: 1000}]},
+  },
+});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+***
+
+<div id="getagentspanstats">
+  ### getAgentSpanStats()
+</div>
+
+> **getAgentSpanStats**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
+
+Agrégations sur les spans d’agent du projet, renvoyées sous forme de lignes et de métadonnées de colonnes
+adaptées aux visualisations de séries temporelles ou par compartiments.
+
+`start` (requis) et `end` définissent la fenêtre temporelle. Chaque entrée de
+`metrics` indique un champ à extraire et la façon de l’agréger (`sum`,
+`avg`, `count`, percentiles, etc.). Transmettez `granularity` (en secondes) pour
+regrouper les lignes par intervalle temporel, ou `groupBy` pour ventiler les résultats par agent /
+provider / model / etc. `query` filtre les spans sous-jacents avant
+l’agrégation.
+
+<div id="parameters-9">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="end" type="string | null" />
+
+    <ParamField path="granularity" type="number | null" />
+
+    <ParamField path="groupBy" type="object[]" />
+
+    <ParamField path="metrics" type="object[]" required />
+
+    <ParamField path="query" type="Query | null">
+      Voir [`Query`](./query).
+    </ParamField>
+
+    <ParamField path="start" type="string" required />
+
+    <ParamField path="timezone" type="string">
+      **Par défaut**
+
+      ```ts twoslash
+      // @noErrors
+      "UTC"
+      ```
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-10">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
+
+<div id="example-3">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpanStats({
+  start: '2026-06-10T00:00:00Z',
+  end: '2026-06-23T00:00:00Z',
+  granularity: 86400, // une ligne par jour
+  metrics: [
+    {
+      alias: 'total_input_tokens',
+      value_type: 'number',
+      aggregations: ['sum'],
+      value: {source: 'field', key: 'input_tokens'},
+    },
+  ],
+  groupBy: [{key: 'agent_name'}],
+});
+
+for (const row of resp.data.rows ?? []) {
+  console.log(row.started_at_bucket, row.agent_name, row.total_input_tokens);
+}
+```
+
+***
+
+<div id="getagentturn">
+  ### getAgentTurn()
+</div>
+
+> **getAgentTurn**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
+
+Obtient les données (y compris les messages) d&#39;un seul tour de conversation (par traceId).
+
+<div id="parameters-10">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="GetAgentTurnOptions" required>
+  Voir [`GetAgentTurnOptions`](./getagentturnoptions).
+</ParamField>
+
+<div id="returns-11">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
+
+<div id="example-4">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurn({
+  traceId: '01997b8a-2c89-7c4d-9d0e-2f7e5b9a1b2c',
+  includeFeedback: true,
+});
+
+console.log(resp.data.root_span_name, resp.data.total_duration_ms);
+
+for (const message of resp.data.messages ?? []) {
+  if (message.user_message) console.log('user:', message.user_message);
+  if (message.assistant_message) console.log('assistant:', message.assistant_message);
+}
+```
+
+***
+
+<div id="getagentturns">
+  ### getAgentTurns()
+</div>
+
+> **getAgentTurns**(`options`): `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
+
+Obtenir les données (y compris les messages) de nombreux tours de conversation (par conversationId).
+
+<div id="parameters-11">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="GetAgentTurnsOptions" required>
+  Voir [`GetAgentTurnsOptions`](./getagentturnsoptions).
+</ParamField>
+
+<div id="returns-12">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
+
+<div id="example-5">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurns({
+  conversationId: 'trace_c50312356de3487fa90e381c9399b5b4',
+  limit: 20,
+  includeFeedback: true,
+});
+
+for (const turn of resp.data.turns ?? []) {
+  console.log(turn.trace_id, turn.root_span_name);
+  for (const message of turn.messages ?? []) {
+    if (message.user_message) console.log('user:', message.user_message);
+    if (message.assistant_message) console.log('assistant:', message.assistant_message);
+  }
+}
+
+console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_more}`);
+```
+
+***
+
+<div id="getagentversions">
+  ### getAgentVersions()
+</div>
+
+> **getAgentVersions**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
+
+Liste les versions d’un agent donné.
+
+<div id="parameters-12">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="GetAgentVersionsOptions" required>
+  Voir [`GetAgentVersionsOptions`](./getagentversionsoptions).
+</ParamField>
+
+<div id="returns-13">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
+
+<div id="example-6">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentVersions({agentName: 'my-agent', limit: 20});
+
+for (const version of resp.data.versions) {
+  console.log(version.agent_version, version.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+***
+
+<div id="getcall">
+  ### getCall()
+</div>
+
+> **getCall**(`callId`, `includeCosts?`): `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
+
+<div id="parameters-13">
+  #### Paramètres
+</div>
+
+<ParamField path="callId" type="string" required />
+
+<ParamField path="includeCosts" type="boolean = false" />
+
+<div id="returns-14">
+  #### Renvoie
+</div>
+
+`Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
+
+***
+
+<div id="getcalls">
+  ### getCalls()
+</div>
+
+<div id="call-signature">
+  #### Signature de l’appel
+</div>
+
+> **getCalls**(`options?`): `Promise`&lt;`objet`[]&gt;
+
+<div id="parameters-14">
+  ##### Paramètres
+</div>
+
+<ParamField path="options" type="GetCallsOptions">
+  Voir [`GetCallsOptions`](./getcallsoptions).
+</ParamField>
+
+<div id="returns-15">
+  ##### Renvoie
+</div>
+
+`Promise`&lt;`objet`[]&gt;
+
+<div id="call-signature-2">
+  #### Signature de l’appel
+</div>
+
+> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`objet`[]&gt;
+
+<div id="parameters-15">
+  ##### Paramètres
+</div>
+
+<ParamField path="options" type="CallsFilter">
+  Voir [`CallsFilter`](./callsfilter).
+</ParamField>
+
+<ParamField path="includeCosts" type="boolean" />
+
+<ParamField path="limit" type="number" />
+
+<div id="returns-16">
+  ##### Renvoie
+</div>
+
+`Promise`&lt;`objet`[]&gt;
+
+***
+
+<div id="getcallsiterator">
+  ### getCallsIterator()
+</div>
+
+<div id="call-signature-3">
+  #### Signature de l’appel
+</div>
+
+> **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+<div id="parameters-16">
+  ##### Paramètres
+</div>
+
+<ParamField path="options" type="CallsFilter">
+  Voir [`CallsFilter`](./callsfilter).
+</ParamField>
+
+<ParamField path="includeCosts" type="boolean" />
+
+<ParamField path="limit" type="number" />
+
+<div id="returns-17">
+  ##### Renvoie
+</div>
+
+`AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+<div id="call-signature-4">
+  #### Signature d’appel
+</div>
+
+> **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+<div id="parameters-17">
+  ##### Paramètres
+</div>
+
+<ParamField path="options" type="GetCallsOptions">
+  Voir [`GetCallsOptions`](./getcallsoptions).
+</ParamField>
+
+<div id="returns-18">
+  ##### Renvoie
+</div>
+
+`AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+***
+
+<div id="getcallstack">
+  ### getCallStack()
+</div>
+
+> **getCallStack**(): `CallStack`
+
+<div id="returns-19">
+  #### Renvoie
+</div>
+
+`CallStack`
+
+***
+
+<div id="getcurrentattributes">
+  ### getCurrentAttributes()
+</div>
+
+> **getCurrentAttributes**(): `Record`&lt;`string`, `any`&gt;
+
+<div id="returns-20">
+  #### Renvoie
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+***
+
+<div id="linkprompttoregistry">
+  ### linkPromptToRegistry()
+</div>
+
+> **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
+
+Associe une version publiée d’un prompt à un portefeuille de registre.
+
+<div id="parameters-18">
+  #### Paramètres
+</div>
+
+<ParamField path="prompt" type="string | ObjectRef | Prompt" required>
+  Voir [`ObjectRef`](../classes/objectref).
+</ParamField>
+
+<ParamField path="options" type="objet" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="aliases" type="string[]" />
+
+    <ParamField path="targetPath" type="string" required />
+  </Expandable>
+</ParamField>
+
+<div id="returns-21">
+  #### Renvoie
+</div>
+
+`Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
+
+***
+
+<div id="pendingcallcount">
+  ### pendingCallCount()
+</div>
+
+> **pendingCallCount**(): `number`
+
+Appels mis en mémoire tampon côté client, mais pas encore transmis au serveur.
+
+<div id="returns-22">
+  #### Renvoie
+</div>
+
+`number`
+
+***
+
+<div id="publish">
+  ### publish()
+</div>
+
+> **publish**(`obj`, `objId?`): `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
+
+<div id="parameters-19">
+  #### Paramètres
+</div>
+
+<ParamField path="obj" type="any" required />
+
+<ParamField path="objId" type="string" />
+
+<div id="returns-23">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
+
+***
+
+<div id="pushnewcall">
+  ### pushNewCall()
+</div>
+
+> **pushNewCall**() : `objet`
+
+<div id="returns-24">
+  #### Renvoie
+</div>
+
+`objet`
+
+<ResponseField name="currentCall" type="objet" required>
+  <div id="currentcallcallid">
+    ###### currentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="currentcallchildsummary">
+    ###### currentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="currentcalldisplayname">
+    ###### currentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="currentcallopname">
+    ###### currentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="currentcalltraceid">
+    ###### currentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+<ResponseField name="newStack" type="CallStack" required />
+
+<ResponseField name="parentCall" type="objet">
+  <div id="parentcallcallid">
+    ###### parentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="parentcallchildsummary">
+    ###### parentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="parentcalldisplayname">
+    ###### parentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="parentcallopname">
+    ###### parentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="parentcalltraceid">
+    ###### parentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+***
+
+<div id="registercustomruntime">
+  ### registerCustomRuntime()
+</div>
+
+> **registerCustomRuntime**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `objet`[]; &#125;&gt;&gt;
+
+Enregistre un environnement d’exécution personnalisé, en remplaçant l’intégralité de sa configuration s’il existe déjà.
+
+<div id="parameters-20">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="RegisterCustomRuntimeOptions" required>
+  Voir [`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions).
+</ParamField>
+
+<div id="returns-25">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
+
+***
+
+<div id="runwithattributes">
+  ### runWithAttributes()
+</div>
+
+> **runWithAttributes**&lt;`T`&gt;(`attributes`, `fn`): `T`
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+<ParamField path="T" />
+
+<div id="parameters-21">
+  #### Paramètres
+</div>
+
+<ParamField path="attributes" type="Record<string, any>" required />
+
+<ParamField path="fn" type="() => T" required />
+
+<div id="returns-26">
+  #### Renvoie
+</div>
+
+`T`
+
+***
+
+<div id="runwithcallstack">
+  ### runWithCallStack()
+</div>
+
+> **runWithCallStack**&lt;`T`&gt;(`callStack`, `fn`) : `T`
+
+<div id="type-parameters-2">
+  #### Paramètres de type
+</div>
+
+<ParamField path="T" />
+
+<div id="parameters-22">
+  #### Paramètres
+</div>
+
+<ParamField path="callStack" type="CallStack" required />
+
+<ParamField path="fn" type="() => T" required />
+
+<div id="returns-27">
+  #### Renvoie
+</div>
+
+`T`
+
+***
+
+<div id="savecallend">
+  ### saveCallEnd()
+</div>
+
+> **saveCallEnd**(`callEnd`) : `void`
+
+<div id="parameters-23">
+  #### Paramètres
+</div>
+
+<ParamField path="callEnd" type="objet & objet" required />
+
+<div id="returns-28">
+  #### Renvoie
+</div>
+
+`void`
+
+***
+
+<div id="savecallstart">
+  ### saveCallStart()
+</div>
+
+> **saveCallStart**(`callStart`, `opts?`) : `void`
+
+<div id="parameters-24">
+  #### Paramètres
+</div>
+
+<ParamField path="callStart" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" required>
+      Attributs
+    </ParamField>
+
+    <ParamField path="display_name" type="string | null">
+      Nom d&#39;affichage
+    </ParamField>
+
+    <ParamField path="id" type="string | null">
+      ID
+    </ParamField>
+
+    <ParamField path="inputs" type="Record<string, any>" required>
+      Entrées
+    </ParamField>
+
+    <ParamField path="op_name" type="string" required>
+      Nom de l&#39;op
+    </ParamField>
+
+    <ParamField path="otel_dump" type="Record<string, any> | null">
+      Dump Otel
+    </ParamField>
+
+    <ParamField path="parent_id" type="string | null">
+      ID parent
+    </ParamField>
+
+    <ParamField path="project_id" type="string" required>
+      ID du project
+    </ParamField>
+
+    <ParamField path="started_at" type="string" required>
+      Date de démarrage
+
+      **Format**
+
+      date-time
+    </ParamField>
+
+    <ParamField path="thread_id" type="string | null">
+      ID du thread
+    </ParamField>
+
+    <ParamField path="trace_id" type="string | null">
+      ID de la trace
+    </ParamField>
+
+    <ParamField path="turn_id" type="string | null">
+      ID du tour de conversation
+    </ParamField>
+
+    <ParamField path="wb_run_id" type="string | null">
+      ID du run W&amp;B
+    </ParamField>
+
+    <ParamField path="wb_run_step" type="number | null">
+      Étape du run W&amp;B
+    </ParamField>
+
+    <ParamField path="wb_user_id" type="string | null">
+      ID de l&#39;utilisateur W&amp;B
+      Ne définissez pas cette valeur directement. Le serveur renseigne automatiquement ce champ.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="eager" type="boolean" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-29">
+  #### Renvoie
+</div>
+
+`void`
+
+***
+
+<div id="saveop">
+  ### saveOp()
+</div>
+
+> **saveOp**(`op`, `objId?`): `Promise`&lt;`OpRef`&gt;
+
+<div id="parameters-25">
+  #### Paramètres
+</div>
+
+<ParamField path="op" type="Op<(...args) => any>" required>
+  Voir [`Op`](../type-aliases/op).
+</ParamField>
+
+<ParamField path="objId" type="string" />
+
+<div id="returns-30">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`OpRef`&gt;
+
+***
+
+<div id="searchagents">
+  ### searchAgents()
+</div>
+
+> **searchAgents**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `results`: `objet`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
+
+Recherche en texte intégral parmi les messages d’agent du projet. Renvoie les résultats
+regroupés par conversation, avec un aperçu de chaque message correspondant.
+
+`query` correspond au terme de recherche en texte intégral. Transmettez une chaîne vide pour récupérer
+tous les messages correspondant aux filtres structurés (`agentName`,
+`conversationId`, `traceId`) sans effectuer de recherche textuelle. Utilisez `limit` /
+`offset` pour parcourir les résultats page par page.
+
+<div id="parameters-26">
+  #### Paramètres
+</div>
+
+<ParamField path="options" type="objet" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="agentName" type="string | null" />
+
+    <ParamField path="conversationId" type="string | null" />
+
+    <ParamField path="limit" type="number">
+      Limite
+
+      **Min**
+
+      0
+
+      **Max**
+
+      1000
+
+      **Par défaut**
+
+      ```ts twoslash
+      // @noErrors
+      20
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      Décalage
+
+      **Min**
+
+      0
+
+      **Par défaut**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="string" required />
+
+    <ParamField path="traceId" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-31">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `results`: `objet`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
+
+<div id="example-7">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.searchAgents({
+  query: 'Liverpool',
+  agentName: 'Assistant',
+  limit: 20,
+});
+
+for (const conversation of resp.data.results ?? []) {
+  console.log(`${conversation.conversation_id} (${conversation.agent_name})`);
+  for (const match of conversation.matched_messages) {
+    console.log(`  [${match.role}] ${match.content_preview}`);
+  }
+}
+
+console.log(`total conversations: ${resp.data.total_conversations}`);
+```
+
+***
+
+<div id="serializeaudio">
+  ### serializeAudio()
+</div>
+
+> **serializeAudio**(`data`, `audioType?`): `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
+
+Téléverse des octets audio bruts vers le magasin de contenu Weave et renvoie l’espace réservé
+`CustomWeaveType` pouvant être intégré à une sortie d’appel.
+
+Utilisez cette méthode lorsque vous créez manuellement des sorties d’appel (par ex. via `saveCallEnd`)
+et que le pipeline de sérialisation automatique de `finishCall` n’est pas utilisé.
+
+<div id="parameters-27">
+  #### Paramètres
+</div>
+
+<ParamField path="data" type="Buffer" required>
+  Données audio brutes (WAV pour une compatibilité optimale avec les navigateurs)
+</ParamField>
+
+<ParamField path="audioType" type="&#x22;wav&#x22; = DEFAULT_AUDIO_TYPE">
+  Format de fichier — seul &#39;wav&#39; est actuellement pris en charge
+</ParamField>
+
+<div id="returns-32">
+  #### Renvoie
+</div>
+
+`Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
+
+***
+
+<div id="updatecall">
+  ### updateCall()
+</div>
+
+> **updateCall**(`callId`, `displayName`) : `Promise`&lt;`void`&gt;
+
+<div id="parameters-28">
+  #### Paramètres
+</div>
+
+<ParamField path="callId" type="string" required />
+
+<ParamField path="displayName" type="string" required />
+
+<div id="returns-33">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="waitforbatchprocessing">
+  ### waitForBatchProcessing()
+</div>
+
+> **waitForBatchProcessing**(): `Promise`&lt;`void`&gt;
+
+<div id="returns-34">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;

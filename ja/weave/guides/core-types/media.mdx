@@ -36,6 +36,10 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 以下のセクションでは、各タイプのメディアをログする例を紹介します。各セクションは最小限の例から始まり、その後より高度なシナリオへと展開します。
 
+<Note>
+  バイトデータを Weave にアップロードせずに、ご自身のクラウド バケットにすでにあるメディアを表示するには、[Reference media in your own bucket (BYOB)](/ja/weave/guides/tracking/byob-references)を参照してください。
+</Note>
+
 <div id="log-images">
   ## 画像をログする
 </div>
@@ -83,7 +87,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     Weave は画像をログして、画像を表示できるトレースへのリンクを返します。
 
-    ### 応用例: DALL-E で画像を生成して Weave にログする
+    <div id="advanced-example-generate-an-image-with-dall-e-and-log-it-to-weave">
+      ### 応用例: DALL-E で画像を生成して Weave にログする
+    </div>
 
     次の例では、猫の画像を生成して Weave にログします。
 
@@ -113,7 +119,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     generate_image("a cat with a pumpkin hat")
     ```
 
-    ### 高度な例: ログする前に大きな画像をリサイズする
+    <div id="advanced-example-resize-large-images-before-logging">
+      ### 高度な例: ログする前に大きな画像をリサイズする
+    </div>
 
     UI のレンダリングコストやストレージへの影響を抑えるため、ログする前に画像をリサイズしておくと便利です。画像をリサイズするには、`@weave.op` で `postprocess_output` を使用できます。
 
@@ -180,7 +188,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     Weave は画像をログし、その画像を確認できるトレースへのリンクを返します。
 
-    ### 応用例: OpenAI DALL-E API で生成した画像をログする
+    <div id="advanced-example-log-an-image-generated-with-the-openai-dall-e-api">
+      ### 応用例: OpenAI DALL-E API で生成した画像をログする
+    </div>
 
     次の例では、`weaveImage` 関数を使用して、OpenAI DALL-E API で生成した画像をログします。
 
@@ -257,7 +267,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     Weave は動画をログし、動画を確認できるトレースへのリンクを返します。
 
-    ### 応用例: 動画解析 project で動画をログする
+    <div id="advanced-example-log-a-video-within-a-video-analysis-project">
+      ### 応用例: 動画解析 project で動画をログする
+    </div>
 
     次の例では、動画理解 project 内で動画をログする方法を示します。
 
@@ -324,11 +336,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 以下の例では、ドキュメントを生成し、Weave の UI にログします。
 
-<Frame>![Weave での PDF ドキュメントのログ](/images/weave/pdf.png)</Frame>
+<Frame>
+  ![Weave での PDF ドキュメントのログ](/images/weave/pdf.png)
+</Frame>
 
 <Tabs>
   <Tab title="Python">
-    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['text']]` でドキュメントのタイプを指定して、ドキュメントをログできます。
+    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['text']]]` でドキュメントのタイプを指定して、ドキュメントをログできます。
 
     Weave は `pdf`、`csv`、`md`、`text`、`json`、`xml` のファイルタイプを自動的に処理します。`Annotated[str, Content]` を使って、ファイルパス経由でログすることもできます。
 
@@ -354,7 +368,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
         df = pd.DataFrame({
             'Name': ['Alice', 'Bob', 'Charlie'],
             'Age': [25, 30, 35],
-            'City': ['New York', 'London', '東京']
+            'City': ['New York', 'London', 'Tokyo']
         })
         df.to_csv("sample_data.csv", index=False)
 
@@ -370,7 +384,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     csv_result = load_document("sample_data.csv")
     ```
 
-    ### 応用例: RAG システム内でドキュメントをログする
+    <div id="advanced-example-log-documents-within-a-rag-system">
+      ### 応用例: RAG システム内でドキュメントをログする
+    </div>
 
     この例では、Retrieval-Augmented Generation (RAG) システム内でドキュメントをログする方法を示します。
 
@@ -387,7 +403,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     weave.init('your-team-name/your-project-name')
 
     def create_absurd_company_handbook():
-        """Create a fictional company handbook with ridiculous policies"""
+        """ばかげたポリシーを含む架空の会社ハンドブックを作成する"""
         c = canvas.Canvas("company_handbook.pdf", pagesize=letter)
         
         c.drawString(100, 750, "ACME Corp Employee Handbook")
@@ -402,7 +418,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     @weave.op
     def create_and_query_document(pdf_path: Annotated[str, Content], question: str) -> str:
-        """Extract text from PDF and use RAG to answer questions"""
+        """PDF からテキストを抽出し、RAG を使用して質問に回答する"""
         with open(pdf_path, 'rb') as file:
             pdf_reader = PyPDF2.PdfReader(file)
             text = ""
@@ -484,7 +500,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result = load_audio("beep.wav")
     ```
 
-    ### 高度な例: AI 作成のオーディオを生成してログする
+    <div id="advanced-example-generate-and-log-ai-created-audio">
+      ### 高度な例: AI 作成のオーディオを生成してログする
+    </div>
 
     この例では、`Content` アノテーションを使用して、AI 作成のオーディオを生成してログします。
 
@@ -578,7 +596,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     main();
     ```
 
-    ### 応用例: OpenAI のTTS API を使用してオーディオを生成し、Weave にログする
+    <div id="advanced-example-generate-audio-using-openais-tts-api-and-log-it-to-weave">
+      ### 応用例: OpenAI のTTS API を使用してオーディオを生成し、Weave にログする
+    </div>
 
     次の例では、OpenAI のTTS API を使用してオーディオを生成し、Weave にログします。
 
@@ -662,7 +682,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result = create_simple_html()
     ```
 
-    ### 高度な例: Serverless Inference を使用して単体で完結する HTML ページを生成し、Weave にログする
+    <div id="advanced-example-generate-self-contained-html-pages-using-serverless-inference-and-log-them-to-weave">
+      ### 高度な例: Serverless Inference を使用して単体で完結する HTML ページを生成し、Weave にログする
+    </div>
 
     この例では、[Serverless Inference](/ja/inference) を使用して単体で完結する HTML ページを生成し、それらのページを Weave にログします。
 

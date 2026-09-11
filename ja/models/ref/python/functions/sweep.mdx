@@ -1,40 +1,56 @@
 ---
 title: sweep()
-namespace: python_sdk_actions
-python_object_type: function
+kind: function
+namespace: wandb.sdk.wandb_sweep
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L25" />
 
-
-### <kbd>関数</kbd> `sweep`
-
-```python
-sweep(
-    sweep: 'dict | Callable',
-    entity: 'str | None' = None,
-    project: 'str | None' = None,
-    prior_runs: 'list[str] | None' = None
-) → str
-```
+<div id="function-wandbsweep">
+  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.sweep()
+</div>
 
 ハイパーパラメーター探索の sweep を初期化します。
 
 さまざまな組み合わせを試して、機械学習モデルのコスト関数を最適化するハイパーパラメーターを探索します。
 
-返される一意の ID `sweep_id` を控えておいてください。後の step で `sweep_id` を sweep agent に指定します。
+返される一意の ID `sweep_id` を控えておいてください。
+後の step で `sweep_id` を sweep agent に指定します。
 
-sweep の定義方法については、[Sweep 設定の構造](https://docs.wandb.ai/models/sweeps/define-sweep-configuration)を参照してください。
+sweep の定義方法については、[Sweep 設定の構造](https://docs.wandb.ai/models/sweeps/define-sweep-configuration)
+を参照してください。
 
-**引数:**
+```python
+sweep: 'dict | Callable',
+entity: 'str | None' = None,
+project: 'str | None' = None,
+prior_runs: 'list[str] | None' = None
+```
 
-* `sweep`:  ハイパーパラメーター探索の設定です (または設定ジェネレーター) 。callable を指定する場合は、その callable が引数を取らず、W&amp;B sweep config spec に準拠した辞書を返すことを確認してください。
-* `entity`:  sweep によって作成された W&amp;B run の送信先となるユーザー名またはチーム名です。指定する entity がすでに存在していることを確認してください。entity を指定しない場合、run はデフォルトの entity (通常はユーザー名) に送信されます。
-* `project`:  sweep から作成された W&amp;B run の送信先となるプロジェクトの名です。project を指定しない場合、run は &#39;Uncategorized&#39; というラベルの付いたプロジェクトに送信されます。
-* `prior_runs`:  この sweep に追加する既存の run ID です。
+<div id="args">
+  ## 引数
+</div>
 
-**戻り値:**
+<ResponseField name="sweep" type="dict | Callable">
+  ハイパーパラメーター探索の設定です (または設定ジェネレーター) 。callable を指定する場合は、その callable が引数を取らず、W&amp;B sweep config spec に準拠した辞書を返すことを確認してください。
+</ResponseField>
 
-* `str`:  sweep の一意の ID です。 
+<ResponseField name="entity" type="str | None">
+  sweep によって作成された W&amp;B run の送信先となるユーザー名またはチーム名です。指定する entity がすでに存在していることを確認してください。entity を指定しない場合、run はデフォルトの entity (通常はユーザー名) に送信されます。
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  sweep から作成された W&amp;B run の送信先となるprojectの名です。project を指定しない場合、run は &#39;Uncategorized&#39; というラベルの付いたprojectに送信されます。
+</ResponseField>
+
+<ResponseField name="prior_runs" type="list[str] | None">
+  この sweep に追加する既存の run ID です。
+</ResponseField>
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+`str`: sweep の一意の ID です。

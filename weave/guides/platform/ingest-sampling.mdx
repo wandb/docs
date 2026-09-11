@@ -1,0 +1,96 @@
+---
+title: "Configure ingest sampling for Weave Self-Managed"
+description: "Keep only a share of incoming traces to control storage and LLM scoring costs on a self-managed Weave instance"
+keywords: ["ingest sampling", "sample rate", "self-managed", "trace server", "WEAVE_INGEST_SAMPLE_RATE", "dry run", "agents"]
+---
+
+Ingest sampling lets you control the share of traces that arrive at a [self-managed Weave instance](/weave/guides/platform/weave-self-managed) and drop the rest. This can help alleviate storage and processing costs for high-volume clusters by only keeping a specified percentage of traces.
+
+This guide walks you through how to enable the feature on your self-managed Weave instance.
+
+<Note>
+Ingest sampling requires a Weave server version that includes the sampler. Sampling of `@weave.op` calls also requires the Weave Python SDK 0.53.0 or later, or the Weave TypeScript SDK 0.16.0 or later. Agent spans have no SDK requirement. For details, see [Requirements and limitations](#requirements-and-limitations).
+</Note>
+
+Ingest sampling is independent of client-side sampling. The `tracing_sample_rate` parameter in the `@weave.op` decorator still lets an individual traced function sample its own calls, but only a server-side rate applies across the whole deployment and can't be changed or ignored by individual clients. For more information, see [Control sampling rate](/weave/guides/tracking/ops#control-sampling-rate).
+
+## Why use ingest sampling
+
+By default, Weave keeps every trace that your applications send, and at higher volumes, maintaining complete records can become expensive. Because ingest sampling drops a trace on the server before it's stored or scored, your costs scale roughly with the share of traffic that you keep.
+
+You define the ingest sampling rate by setting a number between `0` and `1`:
+
+- `1.0` keeps all traces and sampling is off (default).
+- `0.1` keeps 10% of traces and drops the rest.
+- `0.0` drops all traces, except for evaluations.
+
+## What ingest sampling applies to
+
+Ingest sampling applies to two kinds of traffic, and the rate you set applies to both:
+
+- Calls from the `@weave.op` decorator, which appear in the **Traces** tab.
+- Agent spans sent to the agent tracing endpoint (`/agents/otel/v1/traces`), which appear in the **Agents** tab. For more information, see [Trace your agents](/weave/guides/tracking/trace-agents).
+
+The following traffic is never sampled and is always kept in full:
+
+- Evaluations from the Weave SDK. Weave keeps these because they are deliberate quality measurements, and their scores would be wrong if computed over partial data.
+- Traces sent with your own OpenTelemetry tooling to the raw OTel endpoint (`/otel/v1/traces`). Raw OpenTelemetry traffic carries no evaluation marker, so sampling it could silently drop evaluations. For more information, see [Send OpenTelemetry traces to Weave](/weave/guides/tracking/otel).
+- Calls from Weave SDK versions earlier than the supported versions. See [Requirements and limitations](#requirements-and-limitations).
+
+## How it works
+
+The server uses the trace's ID and [deterministic hash-based sampling](https://opentelemetry.io/docs/concepts/sampling/) to decide which traces to drop and keep. If a trace contains several calls that have the same `trace_id`, the server's verdict to keep or drop a trace extends to any nested calls or spans that share the same trace ID. A trace is kept whole or dropped whole, never stored partway.
+
+<Warning>
+The verdict is stable only while the rate is fixed. A trace that's in flight when the rate changes can be split across the change. Change the sample rate during a low-traffic window.
+</Warning>
+
+## Configure ingest sampling
+
+To configure ingest sampling, set the following environment variables on the trace server deployment, for example through your Helm values:
+
+| Variable | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `WEAVE_INGEST_SAMPLE_RATE` | float | `1.0` | The share of traces to keep. An invalid or out-of-range value defaults back to `1.0`. |
+| `WEAVE_INGEST_SAMPLE_DRY_RUN` | bool | `false` | When `true`, the server makes the keep or drop decision and counts what it would drop, but drops nothing. |
+
+Set `WEAVE_INGEST_SAMPLE_RATE` to the share of traces that you want to keep, for example `0.1`.
+
+### Optional: Preview with a dry run
+
+You can preview the effect of a sample rate before dropping anything using a dry run. Its only output is the server's sampling metrics, emitted as counters to a metrics backend such as Datadog. If your deployment doesn't collect those metrics, a dry run has no visible effect, and you can skip it and set the rate directly.
+
+If you do collect the metrics, run with `WEAVE_INGEST_SAMPLE_RATE=0.1` and `WEAVE_INGEST_SAMPLE_DRY_RUN=true` for a period that covers representative peak traffic, such as one full day, to see how much traffic the server would drop and how much traffic isn't eligible for sampling. Then set `WEAVE_INGEST_SAMPLE_DRY_RUN=false` to begin dropping traces.
+
+Calls and agent spans report separate counters, and the two sets count different things and should not be combined. Each counter carries a `route` tag that identifies the endpoint. The call counters count call records and the agent counters count spans, not whole traces, so ratios within a set reflect message volume rather than trace counts.
+
+The following counters cover calls:
+
+| Metric | What it counts |
+| --- | --- |
+| `ingest_sampling.seen.otel` | Call records the sampler evaluated. |
+| `ingest_sampling.evals_kept.otel` | Evaluation calls kept. |
+| `ingest_sampling.dropped.otel` | Records dropped. Carries a `dry_run` tag. |
+| `ingest_sampling.dropped_bytes.otel` | Bytes dropped. Carries a `dry_run` tag. |
+| `ingest_sampling.unsupported.otel` | Traffic from clients too old to be sampled. |
+| `ingest_sampling.parse_failures.otel` | Messages received without a usable trace id. |
+
+The following counters cover agent spans:
+
+| Metric | What it counts |
+| --- | --- |
+| `weave_trace_server.ingest_sampling.spans.seen` | Spans the sampler evaluated. |
+| `weave_trace_server.ingest_sampling.spans.evals_kept` | Evaluation spans kept. |
+| `weave_trace_server.ingest_sampling.spans.dropped` | Spans dropped. Carries a `dry_run` tag. |
+| `weave_trace_server.ingest_sampling.spans.dropped_bytes` | Bytes dropped. Carries a `dry_run` tag. |
+| `weave_trace_server.ingest_sampling.spans.parse_failures` | Spans received without a usable trace id. |
+
+## Requirements and limitations
+
+Before you enable ingest sampling, review the following requirements, limitations, and behaviors:
+
+- **SDK version requirements**: The server samples calls only from the Weave Python SDK 0.53.0 or later, or the Weave TypeScript SDK 0.16.0 or later. These versions add the signals the server uses to group a trace's messages and recognize evaluation calls. Calls from older SDKs aren't sampled and aren't rejected, so until your apps upgrade, the rate has no effect on their traffic. Agent spans carry a trace ID as part of the OpenTelemetry protocol, so sampling them has no SDK requirement.
+- **Server version**: Support for agent spans was added after support for calls. If you already set a rate below `1.0`, upgrading to a server version that samples agent spans starts sampling your agent traffic at the same rate.
+- **Savings depend on your client mix**: Traffic that isn't sampled, such as traffic from older SDKs and raw OpenTelemetry, doesn't reduce cost. If much of your traffic comes from those sources, savings are smaller than the rate implies. A dry run is the best way to measure this first.
+- **Monitors and scoring**: A dropped trace is neither stored nor scored. If you rely on monitors covering 100% of traffic, account for this before you enable sampling.
+- **No drop signal to the client**: A dropped trace receives a normal success response. The client isn't notified that its trace was dropped.

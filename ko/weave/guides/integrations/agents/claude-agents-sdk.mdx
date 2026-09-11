@@ -18,7 +18,9 @@ Claude Agent SDK를 사용하면 Claude를 사용해 에이전트 애플리케�
 
     이 가이드에서는 Weave를 초기화하고 `ClaudeSDKClient`를 통해 MCP 도구와 함께 Claude 에이전트를 실행하는 방법을 설명합니다. Weave는 대화, 모델 Call, 도구 Call을 엔드 투 엔드로 자동 트레이스합니다.
 
-    ### 사전 요구 사항
+    <div id="prerequisites">
+      ### 사전 요구 사항
+    </div>
 
     * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정과 [API 키](https://wandb.ai/authorize)
     * `ANTHROPIC_API_KEY` 환경 변수로 설정된 Anthropic API 키
@@ -28,7 +30,9 @@ Claude Agent SDK를 사용하면 Claude를 사용해 에이전트 애플리케�
   <Tab title="TypeScript">
     Weave는 [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk)와 통합되어, agent span, 모델 응답, 도구 Call을 포함한 `query()` Call을 자동으로 트레이스합니다.
 
-    ### 사전 요구 사항
+    <div id="prerequisites-2">
+      ### 사전 요구 사항
+    </div>
 
     * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정과 [API 키](https://wandb.ai/authorize)
     * `ANTHROPIC_API_KEY` 환경 변수로 설정된 Anthropic API 키

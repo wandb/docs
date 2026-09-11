@@ -3,21 +3,22 @@ title: "GetAgentSpansResult"
 description: "TypeScript SDK reference"
 ---
 
-# GetAgentSpansResult
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-Ƭ **GetAgentSpansResult**: `Object`
+> **GetAgentSpansResult** = `object`
 
-Result shape returned by [WeaveClient.getAgentSpans](../classes/weaveclient#getagentspans).
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L210" />
 
-#### Type declaration
+Result shape returned by [WeaveClient.getAgentSpans](../interfaces/weaveclient#getagentspans).
 
-| Name | Type |
-| :------ | :------ |
-| `spans` | [`AgentSpan`](./agentspan)[] |
-| `total_count?` | `number` |
+## Properties
 
-#### Defined in
+### spans
 
-[src/weaveClient.ts:183](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L183)
+> **spans**: [`AgentSpan`](./agentspan)[]
 
-___
+***
+
+### total\_count
+
+> `optional` **total\_count**: `number`

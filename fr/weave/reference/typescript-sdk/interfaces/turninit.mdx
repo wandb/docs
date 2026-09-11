@@ -1,43 +1,63 @@
 ---
-title: "Interface : TurnInit"
+title: "TurnInit"
 description: "Référence du SDK TypeScript"
 ---
 
-[weave](../) / TurnInit
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<div id="hierarchy">
-  ## Hiérarchie
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L32" />
+
+<div id="extends">
+  ## Étend
 </div>
 
 * `SpanInitBase`
 
-  ↳ `TurnInit`
-
-<div id="table-of-contents">
-  ## Table des matières
-</div>
-
 <div id="properties">
-  ### Propriétés
+  ## Propriétés
 </div>
 
-* [agentName](./turninit#agentname)
-* [model](./turninit#model)
-* [startTime](./turninit#starttime)
+<div id="agentdescription">
+  ### agentDescription
+</div>
 
-## Propriétés
+> `facultatif` **agentDescription**: `string`
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+> `facultatif` **agentId** : `string`
+
+***
 
 <div id="agentname">
   ### agentName
 </div>
 
-• `Facultatif` **agentName**: `string`
+> `facultatif` **agentName** : `string`
 
-<div id="defined-in">
-  #### Défini dans
+***
+
+<div id="agentversion">
+  ### agentVersion
 </div>
 
-[src/genai/turn.ts:26](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L26)
+> `facultatif` **agentVersion**: `string`
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `optional` **attributes** : `Attributes`
+
+Attributs personnalisés définis sur ce tour de conversation et transmis à chaque span enfant.
+Ils sont normalement hérités de la conversation via `startConversation({ attributes })` ;
+définissez-les ici pour un `startTurn({ attributes })` sans racine, c&#39;est-à-dire sans conversation.
 
 ***
 
@@ -45,13 +65,7 @@ description: "Référence du SDK TypeScript"
   ### model
 </div>
 
-• `Facultatif` **model**: `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/turn.ts:27](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L27)
+> `facultatif` **model**: `string`
 
 ***
 
@@ -59,16 +73,26 @@ description: "Référence du SDK TypeScript"
   ### startTime
 </div>
 
-• `Facultatif` **startTime**: `TimeInput`
+> `facultatif` **startTime**: `TimeInput`
 
 <div id="inherited-from">
   #### Hérité de
 </div>
 
-SpanInitBase.startTime
+`SpanInitBase.startTime`
 
-<div id="defined-in">
-  #### Défini dans
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
 </div>
 
-[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L17)
+> `facultatif` **systemInstructions**: `string`[]
+
+***
+
+<div id="usermessage">
+  ### userMessage
+</div>
+
+> `facultatif` **userMessage**: `string`

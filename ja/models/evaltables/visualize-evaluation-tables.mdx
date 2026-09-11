@@ -1,0 +1,154 @@
+---
+title: Eval Tables の表示
+---
+
+Eval Table を作成するときは、どの列に入力、出力、スコアが含まれるかを指定します。W&amp;B はそれらの列を、Eval Table 内の対応するセクションごとに分類します。
+
+次の例は、EvalTable オブジェクトの基本的な構造を示しています。
+
+```python
+import wandb
+
+wandb.EvalTable(
+    input_columns=["column1", "column2"],
+    output_columns=["output_column1", "output_column2"],
+    score_columns=["score_column1", "score_column2"],
+)
+```
+
+次の各引数に、1 つ以上の列名を渡します。
+
+* `input_columns`: 画像、プロンプト、または正解ラベルなど、モデルに渡されるデータ。
+* `output_columns`: 予測や生成された応答など、モデルが生成する値。
+* `score_columns`: 出力の評価に使用するメトリクスやその他の値。
+
+W&amp;B は、これらの列を Eval Table の Inputs、Outputs、Scores セクションに表示します。
+
+<Info>
+  このページの例では、[Create an Eval Table](/ja/models/evaltables/create-an-evaluation-table) のコードを使用しています。完全な例を表示またはコピーするには、**View code** を展開してください。
+
+  <Accordion title="View code" defaultOpen={false}>
+    ```python
+    import pandas as pd
+    import wandb
+
+    df = pd.DataFrame(
+        [
+            {
+                "image_id": "img_001",
+                "true_label": "cat",
+                "predicted_label": "cat",
+                "confidence": 0.97,
+                "correct": True,
+            },
+            {
+                "image_id": "img_002",
+                "true_label": "dog",
+                "predicted_label": "cat",
+                "confidence": 0.72,
+                "correct": False,
+            },
+            {
+                "image_id": "img_003",
+                "true_label": "car",
+                "predicted_label": "car",
+                "confidence": 0.89,
+                "correct": True,
+            },
+        ]
+    )
+
+    df["correct"] = df["correct"].astype(object)  # ネイティブの Python bool を保持します
+
+    with wandb.init(project="classifier-eval-table-demo") as run:
+        eval_table = wandb.EvalTable(
+            dataframe=df,
+            input_columns=["image_id", "true_label"],
+            output_columns=["predicted_label"],
+            score_columns=["correct", "confidence"],
+        )
+        run.log({"validation_predictions_eval": eval_table})
+    ```
+  </Accordion>
+</Info>
+
+たとえば、[Create an Eval Table](/ja/models/evaltables/create-an-evaluation-table) のコード例を見てみましょう。
+
+```python
+import wandb
+
+with wandb.init(project="classifier-eval-table-demo") as run:
+    eval_table = wandb.EvalTable(
+        dataframe=df,
+        input_columns=["image_id", "true_label"],
+        output_columns=["predicted_label"],
+        score_columns=["correct", "confidence"],
+    )
+    run.log({"validation_predictions_eval": eval_table})
+```
+
+その例では、以下のようになります。
+
+* **Inputs** セクションには、`image_id` 列と `true_label` 列があります。
+* **Outputs** セクションには、`predicted_label` 列があります。
+* **Scores** セクションには、`correct` 列と `confidence` 列があります。
+
+次の画像では、これらのセクションを示しています。
+
+<Frame>
+  <img src="/images/evaltables/single_run_eval_table_labled.png" alt="Eval Tableビュー" />
+</Frame>
+
+<div id="detail-view">
+  ## 詳細ビュー
+</div>
+
+行を選択すると、その例の詳細ビューが開きます。詳細ビューには、その例の入力、出力、スコアが表示されます。
+
+次の画像は、Eval Table の最初の行の詳細ビューを示しています。
+
+<Frame>
+  <img src="/images/evaltables/single_run_eval_table_panel.png" alt="Eval Table の例の詳細" />
+</Frame>
+
+表に多数の列がある場合や、複数の Runs にまたがって結果を比較する場合は、詳細ビューを使用して例を確認できます。
+
+現在の表ビューで例の間を移動するには、**Inputs** セクションの上にある上矢印または下矢印を選択します。
+
+<div id="filter-data">
+  ## データをフィルタリングする
+</div>
+
+フィルターを使用して、特定の条件に一致する行だけを表示できます。
+
+フィルターを追加するには、次の手順に従います。
+
+1. 表の上にある **Filter** ボタンを選択します。
+2. ドロップダウンから、フィルターする列を選択します。
+3. 演算子を選択します。
+4. 値を指定します。
+
+W&amp;B はフィルターを自動的に表に適用し、条件に一致する行だけを表示します。
+
+<Frame>
+  <img src="/images/evaltables/filter.png" alt="Eval Table フィルター" />
+</Frame>
+
+複数のフィルターを適用できます。フィルターを削除するには、その横にある `X` を選択します。
+
+<div id="show-or-hide-columns">
+  ## 列の表示/非表示
+</div>
+
+**Columns** メニューを使用して、Eval Table に表示する列を指定します。利用可能な列は、表にログされたデータによって異なります。
+
+列を表示または非表示にするには:
+
+1. 表の上にある **Columns** を選択します。
+2. 表示するには列を選択し、非表示にするには列の選択を解除します。
+
+次の画像は、利用可能なすべての列が選択されている **Columns** メニューを示しています:
+
+<Frame>
+  <img src="/images/evaltables/eval_column_options.png" alt="Eval Table の列" />
+</Frame>

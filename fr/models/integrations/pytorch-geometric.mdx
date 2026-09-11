@@ -5,7 +5,9 @@ description: "Intégrez W&B à PyTorch Geometric pour la visualisation de graphe
 
 import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
 
-[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric), ou PyG, est l’une des bibliothèques les plus populaires pour le deep learning géométrique, et W&amp;B s’y intègre extrêmement bien pour visualiser des graphes et suivre les expériences.
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) (PyG) est une bibliothèque de deep learning géométrique, et W&amp;B s’y intègre bien pour visualiser des graphes et suivre les expériences.
+
+Ce guide vous montre comment vous authentifier à W&amp;B, installer la bibliothèque `wandb`, visualiser des graphes PyG avec PyVis ou Plotly, et journaliser les métriques d’entraînement de vos flux de travail PyG. Utilisez-le pour suivre les expériences et partager des visualisations de graphes dans W&amp;B.
 
 Après avoir installé PyTorch Geometric, suivez ces étapes pour démarrer.
 
@@ -28,7 +30,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API. Remplacez les valeurs entre `<>` par les vôtres :
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -36,7 +38,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
 
     2. Installez la bibliothèque `wandb` et connectez-vous.
 
-       ```shell
+       ```bash
        pip install wandb
 
        wandb login
@@ -55,7 +57,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   </Tab>
 
   <Tab title="Python notebook">
-    ```notebook
+    ```python
     !pip install wandb
 
     import wandb
@@ -65,10 +67,12 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
 </Tabs>
 
 <div id="visualize-the-graphs">
-  ## Visualiser les graphes
+  ## Visualisez les graphes
 </div>
 
-Vous pouvez enregistrer des informations sur les graphes en entrée, notamment le nombre d’arêtes, le nombre de nœuds, etc. W&amp;B prend en charge la consignation de graphiques Plotly et de panneaux HTML, de sorte que toutes les visualisations que vous créez pour votre graphe peuvent également être consignées dans W&amp;B.
+Après vous être connecté, vous pouvez commencer à envoyer des visualisations de graphes et des données d&#39;exécution à W&amp;B.
+
+Vous pouvez enregistrer des informations sur les graphes d&#39;entrée, notamment le nombre d&#39;arêtes, le nombre de nœuds, etc. W&amp;B prend en charge la journalisation des graphiques Plotly et des panneaux HTML, vous pouvez donc également journaliser dans W&amp;B toutes les visualisations que vous créez pour votre graphe. Les sections suivantes présentent deux approches courantes : PyVis pour les visualisations HTML interactives et Plotly pour les visualisations sous forme de graphiques.
 
 <div id="use-pyvis">
   ### Utiliser PyVis
@@ -80,7 +84,7 @@ L’extrait suivant montre comment procéder avec PyVis et HTML.
 from pyvis.network import Network
 import wandb
 
-with wandb.init(project=’graph_vis’) as run:
+with wandb.init(project="graph_vis") as run:
     net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
     # Ajouter les arêtes du graphe PyG au réseau PyVis
@@ -99,14 +103,14 @@ with wandb.init(project=’graph_vis’) as run:
 ```
 
 <Frame>
-  <img src="/images/integrations/pyg_graph_wandb.png" alt="Visualisation interactive de graphes" />
+  <img src="/images/integrations/pyg_graph_wandb.png" alt="Visualisation interactive de graphe" />
 </Frame>
 
 <div id="use-plotly">
   ### Utiliser Plotly
 </div>
 
-Pour utiliser Plotly afin de créer une visualisation de graphe, vous devez d’abord convertir le graphe PyG en objet NetworkX. Vous devrez ensuite créer des graphiques de dispersion Plotly pour les nœuds et les arêtes. L’extrait ci-dessous peut être utilisé pour cette tâche.
+Pour utiliser Plotly afin de créer une visualisation de graphe, convertissez d’abord le graphe PyG en objet NetworkX. Créez ensuite des graphiques de dispersion Plotly pour les nœuds et les arêtes. Utilisez l’extrait suivant pour cette tâche.
 
 ```python
 def create_vis(graph):
@@ -151,8 +155,8 @@ def create_vis(graph):
     return fig
 
 
-with wandb.init(project=’visualize_graph’) as run:
-    run.log({‘graph’: wandb.Plotly(create_vis(graph))})
+with wandb.init(project="visualize_graph") as run:
+    run.log({"graph": wandb.Plotly(create_vis(graph))})
 ```
 
 <Frame>
@@ -160,10 +164,10 @@ with wandb.init(project=’visualize_graph’) as run:
 </Frame>
 
 <div id="log-metrics">
-  ## Consigner des métriques
+  ## Journaliser des métriques
 </div>
 
-Vous pouvez utiliser W&amp;B pour suivre vos expériences et les métriques associées, comme les fonctions de perte, la précision, entre autres. Ajoutez la ligne suivante à votre boucle d&#39;entraînement :
+En plus des visualisations de graphe, vous pouvez utiliser W&amp;B pour suivre vos expériences et les métriques associées, comme les fonctions de perte, la précision, entre autres. Ajoutez les lignes suivantes à votre boucle d&#39;entraînement :
 
 ```python
 with wandb.init(project="my_project", entity="my_entity") as run:
@@ -179,9 +183,13 @@ with wandb.init(project="my_project", entity="my_entity") as run:
   <img src="/images/integrations/pyg_metrics.png" alt="métriques hits@K au fil des époques" />
 </Frame>
 
+Avec les visualisations de graphes et les métriques d&#39;entraînement journalisées dans W&amp;B, vous pouvez comparer les runs et partager les résultats de vos expériences PyG dans votre espace de travail W&amp;B.
+
 <div id="more-resources">
   ## Plus de ressources
 </div>
+
+Les W&amp;B Reports suivants montrent PyG en action :
 
 * [Recommandation de produits Amazon à l’aide de réseaux neuronaux de graphes avec PyTorch Geometric](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
 * [Classification de nuages de points avec PyTorch Geometric](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)

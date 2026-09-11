@@ -1,27 +1,44 @@
 ---
 title: controller()
-namespace: python_sdk_actions
-python_object_type: fonction
+kind: fonction
+namespace: wandb.sdk.wandb_sweep
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L96" />
 
-
-### <kbd>fonction</kbd> `controller`
-
-```python
-controller(
-    sweep_id_or_config: 'str | dict | None' = None,
-    entity: 'str | None' = None,
-    project: 'str | None' = None
-) → _WandbController
-```
+<div id="function-wandbcontroller">
+  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.controller()
+</div>
 
 Constructeur public du contrôleur de balayage.
 
-**Exemples :**
+```python
+sweep_id_or_config: 'str | dict | None' = None,
+entity: 'str | None' = None,
+project: 'str | None' = None
+```
+
+<div id="args">
+  ## Arguments
+</div>
+
+<ResponseField name="sweep_id_or_config" type="str | dict | None">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  Aucune description fournie.
+</ResponseField>
+
+<div id="examples">
+  ## Exemples
+</div>
 
 ```python
 import wandb

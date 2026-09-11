@@ -3,33 +3,35 @@ description: How to integrate W&B with the Transformers library by Hugging Face.
 title: Hugging Face Simple Transformers
 ---
 
-This library is based on the Transformers library by Hugging Face. Simple Transformers lets you quickly train and evaluate Transformer models. Only 3 lines of code are needed to initialize a model, train the model, and evaluate a model. It supports Sequence Classification, Token Classification \(NER\),Question Answering,Language Model Fine-Tuning, Language Model Training, Language Generation, T5 Model, Seq2Seq Tasks , Multi-Modal Classification and Conversational AI.
+This page shows how to integrate Weights & Biases (W&B) with Simple Transformers so you can visualize and track Transformer model training. By the end, you'll know how to enable W&B logging from a Simple Transformers model and where to find examples for common NLP tasks.
 
-To use W&B for visualizing model training. To use this, set a project name for W&B in the `wandb_project` attribute of the `args` dictionary. This logs all hyperparameter values, training losses, and evaluation metrics to the given project.
+Simple Transformers is based on the Transformers library by Hugging Face and lets you train and evaluate Transformer models. You need only three lines of code to initialize a model, train the model, and evaluate a model. It supports sequence classification, token classification (NER), question answering, language model fine-tuning, language model training, language generation, T5 model, Seq2Seq tasks, multi-modal classification, and conversational AI.
+
+To use W&B for visualizing model training, set a project name for W&B in the `wandb_project` attribute of the `args` dictionary. This logs all hyperparameter values, training losses, and evaluation metrics to the given project.
 
 ```python
 model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
 ```
 
-Any additional arguments that go into `wandb.init()` can be passed as `wandb_kwargs`.
+You can pass any additional arguments that go into `wandb.init()` as `wandb_kwargs`.
 
 ## Structure
 
-The library is designed to have a separate class for every NLP task. The classes that provide similar functionality are grouped together.
+The following section outlines how Simple Transformers organizes its classes, so you know which module to import for a given task. The library is designed to have a separate class for every NLP task. The classes that provide similar functionality are grouped together.
 
-* `simpletransformers.classification` - Includes all Classification models.
+* `simpletransformers.classification` - Includes all classification models.
   * `ClassificationModel`
   * `MultiLabelClassificationModel`
-* `simpletransformers.ner` - Includes all Named Entity Recognition models.
+* `simpletransformers.ner` - Includes all named entity recognition models.
   * `NERModel`
-* `simpletransformers.question_answering` - Includes all Question Answering models.
+* `simpletransformers.question_answering` - Includes all question answering models.
   * `QuestionAnsweringModel`
 
-Here are some minimal examples
+The following sections describe minimal examples for two common tasks, demonstrating how to enable W&B logging through the `wandb_project` argument.
 
-## MultiLabel Classification
+## Multi-label classification
 
-```text
+```python
   model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
     args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
                 'wandb_project': "simpletransformers"},
@@ -43,7 +45,7 @@ Here are some minimal examples
 
 ## Question answering
 
-```text
+```python
   train_args = {
     'learning_rate': wandb.config.learning_rate,
     'num_train_epochs': 2,
@@ -60,10 +62,11 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
+## Global arguments
 
-SimpleTransformers provides classes as well as training scripts for all common natural language tasks. Here is the complete list of global arguments that are supported by the library, with their default arguments.
+SimpleTransformers provides classes as well as training scripts for all common natural language tasks. The following is the complete list of global arguments that the library supports, with their default arguments. Refer to this list when you want to customize training behavior beyond the W&B-specific options shown earlier.
 
-```text
+```python
 global_args = {
   "adam_epsilon": 1e-8,
   "best_model_dir": "outputs/best_model",
@@ -118,6 +121,8 @@ global_args = {
 }
 ```
 
-Refer to [simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) for more detailed documentation.
+## Additional resources
 
-Checkout [this W&B report](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) that covers training transformers on some the most popular GLUE benchmark datasets. [Try it out yourself on colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).
+Refer to [simpletransformers on GitHub](https://github.com/ThilinaRajapakse/simpletransformers) for more detailed documentation.
+
+See [Using simpleTransformer on common NLP applications](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA), a W&B report that covers training transformers on some of the most popular GLUE benchmark datasets. [Try it yourself on Colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).

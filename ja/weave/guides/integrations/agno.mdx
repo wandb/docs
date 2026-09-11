@@ -79,7 +79,7 @@ PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")
 # W&B APIキーは https://wandb.ai/settings で作成してください
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")
 
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
 
 OTEL_EXPORTER_OTLP_HEADERS = {
@@ -89,7 +89,7 @@ OTEL_EXPORTER_OTLP_HEADERS = {
 
 # エンドポイントとヘッダーを指定して OTLP span exporter を作成する
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers=OTEL_EXPORTER_OTLP_HEADERS,
 )
 

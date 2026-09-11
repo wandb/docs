@@ -1,17 +1,17 @@
 ---
-title: "자체 관리형 W&B Weave 인스턴스 설정"
+title: "자체 관리형 W&amp;B Weave 인스턴스 설정"
 description: "자체 인프라에서 Weave 배포 및 관리"
 keywords: ["self-hosted", "ClickHouse", "Altinity", "Keeper", "Kubernetes"]
 ---
 
-W&amp;B Weave를 자체 호스팅하면 환경과 설정을 더욱 세밀하게 제어할 수 있습니다. 이를 통해 더 격리된 환경을 구축하고 추가적인 보안 규정 준수 요구 사항을 충족하는 데 도움이 됩니다. 이 문서에서는 Altinity ClickHouse Operator를 사용해 자체 관리형 환경에서 W&amp;B Weave를 실행하는 데 필요한 컴포넌트를 배포하는 방법을 안내합니다. 이 가이드를 마치면 복제된 ClickHouse 데이터베이스와 S3 호환 객체 저장소를 기반으로, 자체 Kubernetes 클러스터에서 실행되는 프로덕션급 Weave 인스턴스를 구축하게 됩니다. 이 가이드는 조직에서 W&amp;B를 배포하고 운영할 책임이 있는 Kubernetes 관리자와 플랫폼 엔지니어를 위한 문서입니다.
+W&amp;B Weave를 자체 호스팅하면 환경과 설정을 더욱 세밀하게 제어할 수 있습니다. 이를 통해 더 격리된 환경을 구축하고 추가적인 보안 규정 준수 요구 사항을 충족하는 데 도움이 됩니다. 이 문서에서는 Altinity ClickHouse Operator를 사용해 [W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 배포에서 W&amp;B Weave를 실행하는 데 필요한 컴포넌트를 배포하는 방법을 안내합니다. 이 가이드를 마치면 복제된 ClickHouse 데이터베이스와 S3 호환 객체 저장소를 기반으로, 자체 Kubernetes 클러스터에서 실행되는 프로덕션급 Weave 인스턴스를 구축하게 됩니다. 이 가이드는 조직에서 W&amp;B를 배포하고 운영할 책임이 있는 Kubernetes 관리자와 플랫폼 엔지니어를 위한 문서입니다.
 
 자체 관리형 Weave 배포는 백엔드 관리를 위해 [ClickHouseDB](https://clickhouse.com/)를 사용합니다. 이 배포에서는 다음을 사용합니다.
 
 * **Altinity ClickHouse Operator**: Kubernetes용 엔터프라이즈급 ClickHouse 관리 도구
 * **ClickHouse Keeper**: 분산 조정 서비스(ZooKeeper 대체)
-* **ClickHouse Cluster**: 트레이스 저장소를 위한 고가용성 데이터베이스 클러스터
-* **S3-compatible storage**: ClickHouse 데이터 영속성을 위한 객체 저장소
+* **ClickHouse 클러스터**: 트레이스 저장소를 위한 고가용성 데이터베이스 클러스터
+* **S3 호환 저장소**: ClickHouse 데이터 영속성을 위한 객체 저장소
 
 <Tip>
   자세한 레퍼런스 아키텍처는 [W&amp;B Self-Managed Reference Architecture](https://docs.wandb.ai/guides/hosting/self-managed/ref-arch/#models-and-weave)를 참조하세요.
@@ -1202,7 +1202,7 @@ image: clickhouse/clickhouse-server:25.10   # 서버 버전
 호환성을 위해 Keeper와 서버 버전은 동일해야 하거나, Keeper 버전이 서버 버전보다 크거나 같아야 합니다.
 
 <Warning>
-  ClickHouse Server를 업그레이드할 때는 ClickHouse Keeper도 호환되는 버전으로 업그레이드하세요. W&amp;B Self-Managed deployment에서 ClickHouse 버전을 변경하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases) 페이지를 검토하세요. Models OLAP 특성과 Weave는 서로 다른 ClickHouse 버전 요구 사항을 가질 수 있습니다.
+  ClickHouse Server를 업그레이드할 때는 ClickHouse Keeper도 호환되는 버전으로 업그레이드하세요. W&amp;B Self-Managed deployment에서 ClickHouse 버전을 변경하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases) 페이지를 검토하세요.
 </Warning>
 
 <div id="monitor-clickhouse">
@@ -1251,9 +1251,7 @@ ClickHouse 데이터는 S3에 저장되며, S3 버전 관리와 버킷 복제 �
 다음 절차에서는 operator, ClickHouse 서버, Weave Trace 컴포넌트의 일반적인 업그레이드 방법을 설명합니다. 한 번에 하나의 컴포넌트씩 업그레이드하고, 다음 단계로 진행하기 전에 deployment가 정상 상태인지 확인하세요.
 
 <Note>
-  Weave와 Models OLAP 특성 모두에 ClickHouse를 사용하는 Self-Managed 배포 환경은 두 제품의 버전 요구 사항을 모두 충족해야 합니다. Models OLAP 특성과 Weave는 ClickHouse 버전 요구 사항이 서로 다를 수 있습니다.
-
-  ClickHouse 또는 W&amp;B Server를 업그레이드하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases)를 참조하세요. ClickHouse Server와 ClickHouse Keeper는 함께 업그레이드하세요.
+  Weave는 지원되는 ClickHouse 버전이 필요합니다. ClickHouse 또는 W&amp;B Server를 업그레이드하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases)를 참조하세요. ClickHouse Server와 ClickHouse Keeper는 함께 업그레이드하세요.
 </Note>
 
 <div id="upgrade-the-clickhouse-operator">
@@ -1298,6 +1296,7 @@ kubectl get pods -n wandb | grep weave-trace
   ## 추가 자료
 </div>
 
+* [수집 샘플링 설정](/ko/weave/guides/platform/ingest-sampling): 높은 트레이스 볼륨에서 저장소 및 LLM 점수화 비용을 제어하기 위해 유입되는 트레이스의 일부만 유지합니다.
 * [Altinity ClickHouse Operator 문서](https://docs.altinity.com/altinitykubernetesoperator/)
 * [ClickHouse 문서](https://clickhouse.com/docs)
 * [W&amp;B Weave 문서](https://docs.wandb.ai/weave)

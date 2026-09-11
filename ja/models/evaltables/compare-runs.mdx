@@ -1,0 +1,79 @@
+---
+title: Eval Tables を使って Runs を比較する
+---
+
+Eval Tables を使用すると、複数の Runs にまたがって入力、出力、スコアを比較できます。W&amp;B は対応する例を揃えて、選択した Runs の集計スコアとスコア差分を計算します。
+
+<Note>
+  Workspace レベルのサマリー メトリクス、折れ線グラフ、pinned Runs、または baseline run を使って run を比較する方法については、[Pin and compare runs](/ja/models/runs/compare-runs) を参照してください。Eval Tables では、ログされた表内で、対応付けられた例と Eval Table 固有のスコアを比較します。
+</Note>
+
+Runs を比較するには:
+
+1. project の Workspace にアクセスします。
+2. Eval Tables パネルまでスクロールします。
+3. **+** ボタンを選択します。
+4. 追加する run を選択します。
+
+W&amp;B は、選択した Runs 間で role と名前が同じ列をグループ化します。たとえば、2 つの Runs が同じ `input_columns` を使用している場合、W&amp;B はそれらの列を **Inputs** セクションにまとめて表示します。同様に、共通の `output_columns` と `score_columns` は、それぞれ **Outputs** セクションと **Scores** セクションでグループ化されます。
+
+次のスクリーンショットは、`summer-butterfly-9` run と `gentle-flower-8` run を比較する Eval Table を示しています。
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs.png" alt="Eval Table view" />
+</Frame>
+
+<div id="set-the-reference-run">
+  ## 参照 run を設定する
+</div>
+
+複数の Runs を比較する場合、W&amp;B はデフォルトで一番左の run を参照 run に指定します。参照 run は、スコアの差分を計算する際の baseline です。
+
+別の参照 run を選択するには、run にカーソルを合わせてメニューを開き、**Set as reference** を選択します。
+
+<div id="view-aggregate-scores">
+  ## 集計スコアを表示
+</div>
+
+W&amp;B は、選択した各 run の各スコア列ごとに集計値を計算します。計算方法は、スコアのデータ型によって異なります。
+
+| スコアのタイプ                | 集計値            |
+| ---------------------- | -------------- |
+| Boolean                | `true` 値の件数と割合 |
+| Numeric                | 平均             |
+| String または categorical | スカラー集計値なし      |
+| Null                   | 計算から除外         |
+
+次のスクリーンショットでは、correct スコアと confidence スコアの集計値を示しています。
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_labled.png" alt="Eval Table ビュー" />
+</Frame>
+
+<div id="compare-score-deltas">
+  ## スコア差分を比較する
+</div>
+
+各スコア列について、W&amp;B は基準となる run と、選択した他のすべての run との差分を計算します。
+
+W&amp;B は各差分を次のように計算します。
+
+```text
+comparison run value - reference run value
+```
+
+たとえば、`summer-butterfly-9` が参照 run、`gentle-flower-8` が比較対象の run であるとします。W&amp;B は信頼度差分を次のように計算します。
+
+| `summer-butterfly-9` | `gentle-flower-8` | delta |
+| -------------------- | ----------------- | ----- |
+| 0.43                 | 0.62              | +0.19 |
+| 0.92                 | 0.86              | -0.06 |
+| 0.97                 | 0.85              | -0.12 |
+
+差分が正の場合、比較対象の run の値が参照 run より高いことを意味します。差分が負の場合、比較対象の run の値が参照 run より低いことを意味します。
+
+次のスクリーンショットでは、スコア差分が強調表示されています。
+
+<Frame>
+  <img src="/images/evaltables/overview_basic_compare_two_runs_delta_labled.png" alt="Eval Table ビュー" />
+</Frame>

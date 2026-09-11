@@ -3,10 +3,12 @@ description: 대화형 시각화로 run 데이터를 탐색하는 플레이그�
 title: 실험 결과 확인하기
 ---
 
-W&amp;B workspace는 차트를 사용자 지정하고 모델 결과를 탐색할 수 있는 개인용 샌드박스입니다. W&amp;B workspace는 *Tables*와 *Panel sections*로 구성됩니다:
+import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
+
+W&amp;B 워크스페이스는 차트를 사용자 지정하고 모델 결과를 탐색할 수 있는 개인용 샌드박스입니다. W&amp;B 워크스페이스는 *Tables*와 *Panel sections*로 구성됩니다:
 
 * **Tables**: 프로젝트에 로깅된 모든 run이 프로젝트 테이블에 나열됩니다. run을 켜고 끄고, 색상을 변경하고, 테이블을 확장해 각 run의 notes, 설정, summary 메트릭을 확인하세요.
-* **Panel sections**: 하나 이상의 [panels](/ko/models/app/features/panels/)를 포함하는 섹션입니다. 새 패널을 만들고 정리한 다음, Reports로 내보내 workspace의 스냅샷을 저장하세요.
+* **Panel sections**: 하나 이상의 [panels](/ko/models/app/features/panels/)를 포함하는 섹션입니다. 새 패널을 만들고 정리한 다음, Reports로 내보내 워크스페이스의 스냅샷을 저장하세요.
 
 <Frame>
   <img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace 테이블 및 패널" />
@@ -40,6 +42,10 @@ W&amp;B workspace는 차트를 사용자 지정하고 모델 결과를 탐색할
 1. 개인 워크스페이스 또는 저장된 뷰로 이동합니다.
 2. 워크스페이스를 편집합니다.
 3. 워크스페이스 오른쪽 상단의 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭합니다. 그런 다음 **Save as a new view**를 클릭합니다.
+
+ARIA에 현재 워크스페이스 레이아웃을 새 뷰로 저장해 달라고 요청할 수도 있습니다:
+
+<AriaChatBubbles prompt="이 워크스페이스를 LR comparison이라는 새 뷰로 저장해서 팀이 learning-rate 실험을 검토할 수 있게 해줘." response="현재 표시된 Runs와 패널 배치를 포함한 현재 워크스페이스 레이아웃을 LR comparison이라는 이름의 새 저장된 뷰로 저장하겠습니다." />
 
 새로 저장한 뷰는 워크스페이스 내비게이션 메뉴에 표시됩니다.
 
@@ -259,11 +265,11 @@ pip install wandb wandb-workspaces
 ```
 
 <div id="define-and-save-a-workspace-view-programmatically">
-  ### 프로그래밍 방식으로 Workspace 뷰를 정의하고 저장하기
+  ### 프로그래밍 방식으로 워크스페이스 뷰를 정의하고 저장하기
 </div>
 
 ```python
-import wandb_workspaces.reports.v2 as ws
+import wandb_workspaces.workspaces as ws
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()
@@ -279,16 +285,44 @@ existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
 existing_workspace.save()
 ```
 
-<div id="copy-a-workspace-saved-view-to-another-workspace">
-  ### 한 Workspace의 `저장된 뷰`를 다른 Workspace로 복사하기
+<div id="clone-a-saved-workspace-view">
+  ### 저장된 워크스페이스 뷰 복제
 </div>
 
+Reports 및 Workspaces API를 사용하여 저장된 워크스페이스 뷰를 복제하고, 해당 레이아웃과 설정을 새 뷰의 기반으로 사용합니다.
+
+시작하기 전에 다음 정보를 파악하세요.
+
+* 소스 워크스페이스 뷰가 있는 엔터티 및 프로젝트
+* 워크스페이스 뷰 ID
+  * 뷰 ID를 찾으려면 W&amp;B에서 저장된 워크스페이스 뷰를 열고 URL의 nw 쿼리 매개변수 값을 복사하세요. 예를 들어 `https://wandb.ai/awesome-team/mnist?nw=54ro5zcn9d4`에서 뷰 ID는 `54ro5zcn9d4`입니다.
+* 대상 엔터티 및 프로젝트
+* 새 워크스페이스 뷰의 이름
+
+다음 예시에서는 저장된 워크스페이스 뷰를 복제합니다.
+
 ```python
-old_workspace = ws.Workspace.from_url("old-workspace-url")
-old_workspace_view = old_workspace.views[0]
-new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[old_workspace_view])
+import wandb_workspaces.workspaces as ws
 
-new_workspace.save()
+# 소스 워크스페이스 뷰 지정
+source_entity = "source-entity"
+source_project = "source-project"
+saved_view = "saved-view-id"
+source_url = f"https://wandb.ai/{source_entity}/{source_project}?nw={saved_view}"
+
+# 대상 지정
+target_entity = "target-entity"
+target_project = "target-project"
+target_view_name = "view-name"
+
+# 소스 워크스페이스 뷰 로드
+workspace = ws.Workspace.from_url(source_url)
+
+# 대상 설정
+workspace.entity = target_entity
+workspace.project = target_project
+workspace.name = target_view_name
+
+# 워크스페이스를 새 뷰로 저장합니다.
+workspace.save_as_new_view()
 ```
-
-[`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces)에서 다양한 workspace API 예제를 참조하세요.

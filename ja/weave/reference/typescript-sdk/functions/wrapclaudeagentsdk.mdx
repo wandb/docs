@@ -3,39 +3,39 @@ title: "wrapClaudeAgentSdk"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="wrapclaudeagentsdk">
-  # wrapClaudeAgentSdk
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **wrapClaudeAgentSdk**&lt;`T`&gt;(`sdk`): `T`
+```ts
+wrapClaudeAgentSdk<T>(sdk: T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/claudeAgentSdk.ts#L232" />
 
 `@anthropic-ai/claude-agent-sdk` モジュールを手動でインストルメントします。
 
-自動インストルメンテーションを適用できない場合に使用します。たとえば、CJS/ESM の hooks で監視できないモジュール読み込みを行うバンドラを使っている場合や、それらでカバーされない import パスを使用している場合です。`@anthropic-ai/claude-agent-sdk` &gt;= 0.3.178 が必要です。`query` export が trace されるモジュールの view を返します。元の import ではなく、返されたオブジェクトを使用してください (SDK の `query` は getter-only export であるため、元の binding をその場で patch することはできません) :
+自動インストルメンテーションを適用できない場合に使用します。たとえば、CJS/ESM の hooks で監視できないモジュール読み込みを行うバンドラを使っている場合や、それらでカバーされない import パスを使用している場合です。`@anthropic-ai/claude-agent-sdk` &gt;= 0.3.178 が必要です。`query` export がトレースされるモジュールの view を返します。元の import ではなく、返されたオブジェクトを使用してください (SDK の `query` は getter-only export であるため、元の binding をその場で patch することはできません) :
 
 <div id="type-parameters">
-  #### 型パラメーター
+  ## タイプパラメーター
 </div>
 
-| 名   |
-| :-- |
-| `T` |
+<ParamField path="T" />
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名     | タイプ |
-| :---- | :-- |
-| `sdk` | `T` |
+<ParamField path="sdk" type="T" required />
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
 `T`
 
-`例`
+<div id="example">
+  ## 例
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -47,11 +47,3 @@ for await (const message of query({ prompt: 'hi' })) {
   // ...トレース済み
 }
 ```
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/integrations/claudeAgentSdk.ts:209](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/claudeAgentSdk.ts#L209)
-
-***

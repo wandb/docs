@@ -1,80 +1,85 @@
 ---
-title: "Interface: ConversationInit"
+title: "ConversationInit"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../) / ConversationInit
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-
-
-## Table of contents
-
-### Properties
-
-- [agentName](./conversationinit#agentname)
-- [attributes](./conversationinit#attributes)
-- [conversationId](./conversationinit#conversationid)
-- [model](./conversationinit#model)
-- [sessionId](./conversationinit#sessionid)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L8" />
 
 ## Properties
 
+### agentDescription
+
+> `optional` **agentDescription**: `string`
+
+Human-readable agent description. Propagated as the default
+`agentDescription` to every `Turn` created via `startTurn()` unless
+the turn sets its own; emitted on each turn's `invoke_agent` span as
+`gen_ai.agent.description`.
+
+***
+
+### agentId
+
+> `optional` **agentId**: `string`
+
+Stable agent identifier. Propagated as the default `agentId` to every
+`Turn` created via `startTurn()` unless the turn sets its own; emitted
+on each turn's `invoke_agent` span as `gen_ai.agent.id`.
+
+***
+
 ### agentName
 
-• `Optional` **agentName**: `string`
+> `optional` **agentName**: `string`
 
-#### Defined in
+Agent name. Propagated as the default `agentName` to every `Turn`
+created via `startTurn()` unless the turn sets its own; emitted on
+each turn's `invoke_agent` span as `gen_ai.agent.name`.
 
-[src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L9)
+***
 
-___
+### agentVersion
+
+> `optional` **agentVersion**: `string`
+
+Agent version string. Propagated as the default `agentVersion` to
+every `Turn` created via `startTurn()` unless the turn sets its own;
+emitted on each turn's `invoke_agent` span as `gen_ai.agent.version`.
+
+***
 
 ### attributes
 
-• `Optional` **attributes**: `Attributes`
+> `optional` **attributes**: `Attributes`
 
-Custom attributes stamped on every span the conversation emits.
+Custom attributes propagated to every span the conversation emits.
 
 A key here that collides with a span's own `gen_ai.*` / `weave.*`
 attribute is unsupported; the span's value wins.
 
-#### Defined in
-
-[src/genai/conversation.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L20)
-
-___
+***
 
 ### conversationId
 
-• `Optional` **conversationId**: `string`
+> `optional` **conversationId**: `string`
 
 Conversation ID propagated to every span under this conversation as
- `gen_ai.conversation.id`. Auto-generated if omitted.
+`gen_ai.conversation.id`. Auto-generated if omitted.
 
-#### Defined in
-
-[src/genai/conversation.ts:13](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L13)
-
-___
+***
 
 ### model
 
-• `Optional` **model**: `string`
+> `optional` **model**: `string`
 
-#### Defined in
+***
 
-[src/genai/conversation.ts:10](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L10)
-
-___
-
-### sessionId
+### ~~sessionId~~
 
 <Warning>
-  **Deprecated.** Use [ConversationInit.conversationId](./conversationinit#conversationid) instead.
+  **Deprecated.** Use [ConversationInit.conversationId](#conversationid) instead.
 </Warning>
 
-• `Optional` **sessionId**: `string`
-
-#### Defined in
-
-[src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/conversation.ts#L23)
+> `optional` **sessionId**: `string`

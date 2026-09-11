@@ -1,0 +1,2627 @@
+diff --git a/frontends/app/src/agents.md b/frontends/app/src/agents.md
+index ecd12d76eda..48af2ffdf3c 100644
+--- a/frontends/app/src/agents.md
++++ b/frontends/app/src/agents.md
+@@ -271,9 +271,9 @@ bun run generate:workspace-templates
+ 
+ - **Redact sensitive data from Meticulous recordings.** We use [Meticulous](https://meticulous.ai) to record user sessions and run visual regression tests. When adding or modifying UI that displays API keys, secrets, tokens, or other sensitive data, you **must** redact it from recordings. There are two layers:
+ 
+-  **DOM redaction** — Wrap any element that renders sensitive text with the `<SensitiveInfoWrapper>` component from `src/util/SensitiveInfoWrapper.tsx`. This applies the `meticulous-redact-recording` CSS class with `display: contents` so layout is unaffected:
++  **DOM redaction** — Wrap any element that renders sensitive text with the `<SensitiveInfoWrapper>` component from `@wandb/weave/components/SensitiveInfoWrapper`. This applies the `meticulous-redact-recording` CSS class with `display: contents` so layout is unaffected:
+   ```tsx
+-  import {SensitiveInfoWrapper} from '../util/SensitiveInfoWrapper';
++  import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ 
+   <SensitiveInfoWrapper>
+     <SensitiveComponent />
+diff --git a/frontends/app/src/components/ApiKeyViewer.tsx b/frontends/app/src/components/ApiKeyViewer.tsx
+index 29a691d42c7..9e7ae41b7fb 100644
+--- a/frontends/app/src/components/ApiKeyViewer.tsx
++++ b/frontends/app/src/components/ApiKeyViewer.tsx
+@@ -1,4 +1,5 @@
+ import {Icon, IconButton} from '@wandb/components';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import React, {type FC, useMemo} from 'react';
+ import {Button, Divider, Header} from 'semantic-ui-react';
+ 
+@@ -7,7 +8,6 @@ import {
+   useGenerateApiKeyMutation,
+   useViewerApiKeysQuery,
+ } from '../generated/graphql';
+-import {SensitiveInfoWrapper} from '../util/SensitiveInfoWrapper';
+ import CopyableText from './CopyableText';
+ import {SemanticLoader as Loader} from './utility/InstrumentedLoader';
+ 
+diff --git a/frontends/app/src/components/ApiKeyViewerWithSearch.tsx b/frontends/app/src/components/ApiKeyViewerWithSearch.tsx
+index 5f5b7a8ec83..4dc472a89d0 100644
+--- a/frontends/app/src/components/ApiKeyViewerWithSearch.tsx
++++ b/frontends/app/src/components/ApiKeyViewerWithSearch.tsx
+@@ -2,6 +2,7 @@ import {Banner, Button, DropdownMenu, IconButton} from '@wandb/components';
+ import {fuzzyMatchWithMapping} from '@wandb/weave/common/util/fuzzyMatch';
+ import {TextField} from '@wandb/weave/components/Form/TextField';
+ import {Icon as WeaveIcon} from '@wandb/weave/components/Icon';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import _ from 'lodash';
+ import type {FC} from 'react';
+@@ -16,7 +17,6 @@ import {DeleteApiKeyModal} from '../pages/Billing/AccountSettings/APIKeysTab/Del
+ import {EditApiKeyDrawer} from '../pages/Billing/AccountSettings/APIKeysTab/EditApiKeyDrawer';
+ import {MAX_API_KEYS_PER_SCOPE} from '../util/constants';
+ import {DateFormat, format} from '../util/date';
+-import {SensitiveInfoWrapper} from '../util/SensitiveInfoWrapper';
+ import {CreateApiKeyDrawer} from './CreateApiKeyDrawer';
+ import {SemanticLoader as Loader} from './utility/InstrumentedLoader';
+ 
+diff --git a/frontends/app/src/components/CreateApiKeyDrawer.tsx b/frontends/app/src/components/CreateApiKeyDrawer.tsx
+index 6ae908108be..7ea4df507fb 100644
+--- a/frontends/app/src/components/CreateApiKeyDrawer.tsx
++++ b/frontends/app/src/components/CreateApiKeyDrawer.tsx
+@@ -2,6 +2,7 @@ import {Drawer} from '@mui/material';
+ import {Button} from '@wandb/components';
+ import {TextField} from '@wandb/weave/components/Form/TextField';
+ import {Icon} from '@wandb/weave/components/Icon';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import type {FC} from 'react';
+ import React, {useState} from 'react';
+@@ -16,7 +17,6 @@ import type {GenerateApiKeyMutationData} from '../graphql/users';
+ import {useHandleScroll} from '../pages/HomePage/HomePageSidebar/useHandleScroll';
+ import {DateFormat, format} from '../util/date';
+ import {extractErrorMessageFromApolloError} from '../util/errors';
+-import {SensitiveInfoWrapper} from '../util/SensitiveInfoWrapper';
+ import {Banner, BannerFlexWrapper, BannerTextWrapper} from './Banner';
+ import {ResizableDrawer} from './common/ResizableDrawer/ResizableDrawer';
+ 
+diff --git a/frontends/app/src/components/Launch/JobDrawer/JobDrawerContent.tsx b/frontends/app/src/components/Launch/JobDrawer/JobDrawerContent.tsx
+index 7f7a0a467da..eee64bfb765 100644
+--- a/frontends/app/src/components/Launch/JobDrawer/JobDrawerContent.tsx
++++ b/frontends/app/src/components/Launch/JobDrawer/JobDrawerContent.tsx
+@@ -61,7 +61,7 @@ const getViewConfig = (view: JobDrawerView): ViewConfig => {
+       };
+     case JobDrawerView.Secrets:
+       return {
+-        title: '',
++        title: 'Add secret',
+         showBackButton: true,
+       };
+   }
+diff --git a/frontends/app/src/components/Launch/JobDrawer/JobDrawerSecretsSubview.test.tsx b/frontends/app/src/components/Launch/JobDrawer/JobDrawerSecretsSubview.test.tsx
+new file mode 100644
+index 00000000000..8f656e49a0d
+--- /dev/null
++++ b/frontends/app/src/components/Launch/JobDrawer/JobDrawerSecretsSubview.test.tsx
+@@ -0,0 +1,113 @@
++import {render, screen, waitFor} from '@testing-library/react';
++import userEvent from '@testing-library/user-event';
++import React from 'react';
++import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
++
++import {type Secret} from '../../../generated/graphql';
++import {
++  JobDrawerSecretsContext,
++  type JobDrawerSecretsContextType,
++} from './JobDrawerSecretsContext';
++import {JobDrawerSecretsSubview} from './JobDrawerSecretsSubview';
++
++const mockUpsertTeamSecret = vi.hoisted(() => vi.fn());
++
++vi.mock('../../../generated/graphql', () => ({
++  useUpsertTeamSecretMutation: () => [mockUpsertTeamSecret, {loading: false}],
++}));
++
++const makeSecret = (name: string): Secret => ({name}) as Secret;
++
++const renderSubview = ({
++  contextOverrides,
++  onClose = vi.fn(),
++}: {
++  contextOverrides?: Partial<JobDrawerSecretsContextType>;
++  onClose?: () => void;
++} = {}) => {
++  const contextValue: JobDrawerSecretsContextType = {
++    secretsData: [],
++    secretsLoading: false,
++    secretsError: false,
++    refetchSecrets: vi.fn(),
++    ...contextOverrides,
++  };
++
++  render(
++    <JobDrawerSecretsContext.Provider value={contextValue}>
++      <JobDrawerSecretsSubview entityName="test-team" onClose={onClose} />
++    </JobDrawerSecretsContext.Provider>
++  );
++
++  return {contextValue, onClose};
++};
++
++const fillValidSecretForm = async () => {
++  const user = userEvent.setup();
++
++  await user.type(
++    screen.getByPlaceholderText('Ex. OPENAI_API_KEY'),
++    'OPENAI_API_KEY'
++  );
++  await user.type(
++    screen.getByPlaceholderText('Paste your secret value'),
++    'secret-value'
++  );
++
++  return user;
++};
++
++describe('JobDrawerSecretsSubview', () => {
++  beforeEach(() => {
++    mockUpsertTeamSecret.mockResolvedValue({
++      data: {upsertTeamSecret: {secret: {name: 'OPENAI_API_KEY'}}},
++    });
++  });
++
++  afterEach(() => {
++    vi.clearAllMocks();
++  });
++
++  it('warns on duplicate team secret names case-insensitively and blocks creation', async () => {
++    renderSubview({
++      contextOverrides: {secretsData: [makeSecret('openai_api_key')]},
++    });
++
++    await fillValidSecretForm();
++
++    expect(
++      screen.getByText(
++        'A secret with this name already exists. Choose a different name or edit the existing secret.'
++      )
++    ).toBeInTheDocument();
++    expect(screen.getByRole('button', {name: 'Add secret'})).toBeDisabled();
++    expect(mockUpsertTeamSecret).not.toHaveBeenCalled();
++  });
++
++  it('creates a team secret when the name is valid and not duplicated', async () => {
++    const refetchSecrets = vi.fn();
++    const onClose = vi.fn();
++    renderSubview({
++      contextOverrides: {
++        secretsData: [makeSecret('OTHER_SECRET')],
++        refetchSecrets,
++      },
++      onClose,
++    });
++
++    const user = await fillValidSecretForm();
++    await user.click(screen.getByRole('button', {name: 'Add secret'}));
++
++    await waitFor(() =>
++      expect(mockUpsertTeamSecret).toHaveBeenCalledWith({
++        variables: {
++          entityName: 'test-team',
++          secretName: 'OPENAI_API_KEY',
++          secretValue: 'secret-value',
++        },
++      })
++    );
++    expect(refetchSecrets).toHaveBeenCalled();
++    expect(onClose).toHaveBeenCalled();
++  });
++});
+diff --git a/frontends/app/src/components/Launch/JobDrawer/JobDrawerSecretsSubview.tsx b/frontends/app/src/components/Launch/JobDrawer/JobDrawerSecretsSubview.tsx
+index f23a2e79b12..9fd16093c14 100644
+--- a/frontends/app/src/components/Launch/JobDrawer/JobDrawerSecretsSubview.tsx
++++ b/frontends/app/src/components/Launch/JobDrawer/JobDrawerSecretsSubview.tsx
+@@ -1,23 +1,12 @@
+-import {Button} from '@wandb/components';
+-import {Checkbox} from '@wandb/weave/components/Checkbox';
+-import {TextArea} from '@wandb/weave/components/Form/TextArea';
+-import {TextField} from '@wandb/weave/components/Form/TextField';
+-import {TailwindContents} from '@wandb/weave/components/Tailwind';
+-import React, {useContext, useState} from 'react';
++import {Alert} from '@wandb/weave/components/Alert';
++import {CreateSecretFormContent} from '@wandb/weave/components/Secrets';
++import React, {useContext} from 'react';
+ import {toast} from 'react-toastify';
+ 
+-import {useInsertSecretMutation} from '../../../generated/graphql';
++import {useUpsertTeamSecretMutation} from '../../../generated/graphql';
+ import {extractErrorMessageFromApolloError} from '../../../util/errors';
+-import {SensitiveInfoWrapper} from '../../../util/SensitiveInfoWrapper';
+-import * as TeamSettingsStyles from '../../TeamSettings/TeamSettingsSecrets.styles';
+ import {JobDrawerSecretsContext} from './JobDrawerSecretsContext';
+ 
+-const validateSecretName = (name: string) => {
+-  // Any alphanumeric+underscore string starting with an alphabet character or underscore
+-  const re = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+-  return re.test(String(name));
+-};
+-
+ export const JobDrawerSecretsSubview = ({
+   entityName,
+   onClose,
+@@ -25,115 +14,46 @@ export const JobDrawerSecretsSubview = ({
+   entityName: string;
+   onClose?: () => void;
+ }) => {
+-  const [secretName, setSecretName] = useState('');
+-  const [secretValue, setSecretValue] = useState('');
+-  const [showSecret, setShowSecret] = useState(false);
+-
+-  const {refetchSecrets} = useContext(JobDrawerSecretsContext);
++  const {refetchSecrets, secretsData} = useContext(JobDrawerSecretsContext);
+ 
+-  // Prevent initial input error when the secret name is empty
+-  const [isSecretNameModified, setIsSecretNameModified] = useState(false);
++  const [upsertTeamSecret, {loading: isSaving}] = useUpsertTeamSecretMutation();
+ 
+-  const [insertSecret] = useInsertSecretMutation();
+-
+-  const onClickAddSecret = async () => {
++  const handleSave = async (input: {
++    secretName: string;
++    secretValue: string;
++  }) => {
+     try {
+-      await insertSecret({
+-        variables: {entityName, secretName, secretValue},
++      await upsertTeamSecret({
++        variables: {
++          entityName,
++          secretName: input.secretName,
++          secretValue: input.secretValue,
++        },
+       });
+-      toast.success(
+-        <TeamSettingsStyles.SecretName>
+-          Added secret {secretName}
+-        </TeamSettingsStyles.SecretName>
+-      );
++      toast.success(`Added secret ${input.secretName}`);
+       refetchSecrets();
+       onClose?.();
+     } catch (err) {
+       const errMsg = extractErrorMessageFromApolloError(err);
+       console.error(errMsg);
+-      toast.error(`Problem adding secret ${secretName}: ${errMsg}`);
++      toast.error(`Problem adding secret ${input.secretName}: ${errMsg}`);
+     }
+   };
+ 
+-  const inputError = isSecretNameModified && !validateSecretName(secretName);
+-  const canAddSecret =
+-    !inputError && secretValue.length > 0 && secretName.length > 0;
+-
+   return (
+-    <TailwindContents>
+-      <div className="w-full h-full pt-16 pb-20 pl-24 pr-24">
+-        <div className="flex flex-col w-full h-full">
+-          <div className="font-semibold text-xl leading-8 mb-16">
+-            Add secret
+-          </div>
+-          <div className="flex-1 grow shrink">
+-            <div className="text-sm">
+-              This secret will be created for <strong>{entityName}</strong>,
+-              owner of the destination project for your launch. Team secrets can
+-              be managed in team settings by team admins.
+-            </div>
+-            <div className="flex align-center mt-16">
+-              <div className="font-semibold text-base leading-8">
+-                Secret name
+-              </div>
+-            </div>
+-            <TextField
+-              placeholder="Ex. OPENAI_API_KEY"
+-              value={secretName ?? ''}
+-              onChange={e => {
+-                setSecretName(e);
+-                setIsSecretNameModified(true);
+-              }}
+-            />
+-            {inputError && (
+-              <div className="text-red-500 text-sm leading-8">
+-                Secret names can only contain alphanumeric characters ([a-z],
+-                [A-Z], [0-9]) or underscores (_) and start with a letter ([a-z],
+-                [A-Z]) or underscores (_).
+-              </div>
+-            )}
+-            <div className="flex align-center mt-16">
+-              <div className="font-semibold text-base leading-8">Secret</div>
+-            </div>
+-            <SensitiveInfoWrapper>
+-              <TextArea
+-                style={{
+-                  height: '80px',
+-                  minHeight: '80px',
+-                  // @ts-ignore: WebkitTextSecurity is a non-standard CSS property
+-                  WebkitTextSecurity: showSecret ? 'none' : 'disc',
+-                }}
+-                className={'resize-none'}
+-                value={secretValue}
+-                placeholder="Paste your key or token here"
+-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+-                  setSecretValue(e.target.value)
+-                }
+-              />
+-            </SensitiveInfoWrapper>
+-            <div className="flex align-center gap-8">
+-              <Checkbox
+-                id="reveal-secret-checkbox"
+-                checked={showSecret}
+-                onCheckedChange={() => {
+-                  setShowSecret(!showSecret);
+-                }}
+-                size="small"
+-              />
+-              <label htmlFor="reveal-secret-checkbox">Reveal secret</label>
+-            </div>
+-          </div>
+-          <div className="bg-moon-250 h-px -mx-30" />
+-          <div className="flex align-center pt-20">
+-            <Button
+-              fullWidth
+-              isDisabled={!canAddSecret}
+-              onPress={onClickAddSecret}>
+-              Add secret
+-            </Button>
+-          </div>
+-        </div>
+-      </div>
+-    </TailwindContents>
++    <CreateSecretFormContent
++      existingSecretNames={secretsData.map(secret => secret.name)}
++      isSaving={isSaving}
++      onSave={handleSave}
++      onCancel={() => onClose?.()}
++      saveLabel="Add secret"
++      banner={
++        <Alert severity="info">
++          This secret will be created for <strong>{entityName}</strong>, owner
++          of the destination project for your launch. Team secrets can be
++          managed in team settings by team admins.
++        </Alert>
++      }
++    />
+   );
+ };
+diff --git a/frontends/app/src/components/Launch/Triggers/TriggerExecutionsTable/ViewTriggerExecutionDrawer.tsx b/frontends/app/src/components/Launch/Triggers/TriggerExecutionsTable/ViewTriggerExecutionDrawer.tsx
+index cb4de38fcba..8197c43b4bc 100644
+--- a/frontends/app/src/components/Launch/Triggers/TriggerExecutionsTable/ViewTriggerExecutionDrawer.tsx
++++ b/frontends/app/src/components/Launch/Triggers/TriggerExecutionsTable/ViewTriggerExecutionDrawer.tsx
+@@ -3,6 +3,7 @@ import {assertUnreachable} from '@wandb/weave/common/util/types';
+ import {Button} from '@wandb/weave/components';
+ import {Icon} from '@wandb/weave/components/Icon';
+ import {RunState} from '@wandb/weave/components/RunState';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import {Timestamp} from '@wandb/weave/components/Timestamp';
+ import React, {useState} from 'react';
+@@ -14,7 +15,6 @@ import {
+   TriggerResultType,
+ } from '../../../../generated/graphql';
+ import {createDismissibleBanner} from '../../../../pages/Billing/AccountSettings/WarningBanner/DismissibleBanner';
+-import {SensitiveInfoWrapper} from '../../../../util/SensitiveInfoWrapper';
+ import {
+   BannerFlexWrapper,
+   BannerTextWrapper,
+diff --git a/frontends/app/src/components/Launch/Triggers/TriggersTable/ViewTriggerDrawer.tsx b/frontends/app/src/components/Launch/Triggers/TriggersTable/ViewTriggerDrawer.tsx
+index 02bdb4e67d1..b7c042cc689 100644
+--- a/frontends/app/src/components/Launch/Triggers/TriggersTable/ViewTriggerDrawer.tsx
++++ b/frontends/app/src/components/Launch/Triggers/TriggersTable/ViewTriggerDrawer.tsx
+@@ -1,12 +1,12 @@
+ import {Drawer} from '@mui/material';
+ import {Link} from '@wandb/components';
+ import {Button} from '@wandb/weave/components';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import {Timestamp} from '@wandb/weave/components/Timestamp';
+ import React, {useState} from 'react';
+ import {useParams} from 'react-router-dom';
+ 
+-import {SensitiveInfoWrapper} from '../../../../util/SensitiveInfoWrapper';
+ import {useScopeLabels} from '../../../Automations/tabs/scopeLabels';
+ import {HelpWebhookAutomation} from '../../../Webhooks/HelpWebhookAutomation';
+ import {ResizableDrawer} from '../../../Webhooks/ResizableDrawer';
+diff --git a/frontends/app/src/components/MobileLoginModal.tsx b/frontends/app/src/components/MobileLoginModal.tsx
+index 2aacd010651..6d19e8626b5 100644
+--- a/frontends/app/src/components/MobileLoginModal.tsx
++++ b/frontends/app/src/components/MobileLoginModal.tsx
+@@ -1,4 +1,5 @@
+ import {Button, Dialog, DotProgress} from '@wandb/components';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import {toCanvas} from 'qrcode';
+ import React from 'react';
+@@ -6,7 +7,6 @@ import React from 'react';
+ import {backendHost} from '../config';
+ import {useGenerateApiKeyMutation} from '../generated/graphql';
+ import {propagateErrorsContext} from '../util/errors';
+-import {SensitiveInfoWrapper} from '../util/SensitiveInfoWrapper';
+ 
+ interface MobileLoginModalProps {
+   isOpen: boolean;
+diff --git a/frontends/app/src/components/TeamSettings/SecretsDrawer.styles.ts b/frontends/app/src/components/TeamSettings/SecretsDrawer.styles.ts
+deleted file mode 100644
+index a7c228e1ee9..00000000000
+--- a/frontends/app/src/components/TeamSettings/SecretsDrawer.styles.ts
++++ /dev/null
+@@ -1,101 +0,0 @@
+-import * as Colors from '@wandb/weave/common/css/color.styles';
+-import {TextField} from '@wandb/weave/components/Form/TextField';
+-import styled from 'styled-components';
+-
+-import {FixedSizeTextArea} from '../Form/FixedSizeTextArea';
+-
+-export const DrawerContents = styled.div`
+-  padding: 0 20px 20px 20px;
+-  width: 100%;
+-  height: 100%;
+-`;
+-DrawerContents.displayName = 'S.DrawerContents';
+-
+-export const SecretsDrawer = styled.div`
+-  display: flex;
+-  width: 100%;
+-  height: 100%;
+-  flex-direction: column;
+-`;
+-SecretsDrawer.displayName = 'S.SecretsDrawer';
+-
+-export const SecretsDrawerMain = styled.div`
+-  flex: 1 1 auto;
+-  padding: 4px;
+-  padding-bottom: 300px;
+-  margin-top: 20px;
+-`;
+-SecretsDrawerMain.displayName = 'S.SecretsDrawerMain';
+-
+-export const Header = styled.div`
+-  font-weight: 600;
+-  font-size: 20px;
+-  line-height: 32px;
+-  padding: 20px 0;
+-`;
+-Header.displayName = 'S.Header';
+-
+-export const CloseButton = styled.div`
+-  text-align: right;
+-  flex: 1 1 auto;
+-`;
+-CloseButton.displayName = 'S.CloseButton';
+-
+-export const LabelRow = styled.div`
+-  display: flex;
+-  align-items: center;
+-  margin-top: 16px;
+-  margin-bottom: 4px;
+-`;
+-LabelRow.displayName = 'S.LabelRow';
+-
+-export const Label = styled.div`
+-  font-weight: 600;
+-  font-size: 16px;
+-  line-height: 32px;
+-`;
+-Label.displayName = 'S.Label';
+-
+-export const CenteredFlex = styled.div`
+-  display: flex;
+-  align-items: center;
+-  gap: 4px;
+-`;
+-CenteredFlex.displayName = 'S.CenteredFlex';
+-
+-export const Footer = styled.div`
+-  display: flex;
+-  padding-top: 20px;
+-  align-items: center;
+-`;
+-Footer.displayName = 'S.Footer';
+-
+-export const Divider = styled.div`
+-  background-color: ${Colors.MOON_250};
+-  height: 1px;
+-  margin-left: -20px;
+-  margin-right: -20px;
+-`;
+-
+-export const StyledTextField = styled(TextField)`
+-  font-family: "Source Sans Pro";
+-  font-weight: 400;
+-  font-size: 16px;
+-  line-height: 24px;
+-`;
+-StyledTextField.displayName = 'S.StyledTextField';
+-
+-export const StyledTextArea = styled(FixedSizeTextArea)<{
+-  showSecret?: boolean;
+-}>`
+-  min-height: 80px;
+-  -webkit-text-security: ${props => (props.showSecret ? 'none' : 'disc')};
+-`;
+-StyledTextArea.displayName = 'S.StyledTextArea';
+-
+-export const ErrorText = styled.div`
+-  color: ${Colors.RED_500};
+-  line-height: 24px;
+-  margin-top: 8px;
+-`;
+-ErrorText.displayName = 'S.ErrorText';
+diff --git a/frontends/app/src/components/TeamSettings/SecretsDrawer.tsx b/frontends/app/src/components/TeamSettings/SecretsDrawer.tsx
+deleted file mode 100644
+index ce2d218b866..00000000000
+--- a/frontends/app/src/components/TeamSettings/SecretsDrawer.tsx
++++ /dev/null
+@@ -1,119 +0,0 @@
+-import {Drawer} from '@mui/material';
+-import {Button} from '@wandb/weave/components/Button';
+-import {Checkbox} from '@wandb/weave/components/Checkbox';
+-import React, {type ChangeEvent} from 'react';
+-
+-import {SensitiveInfoWrapper} from '../../util/SensitiveInfoWrapper';
+-import {ResizableDrawer} from '../common/ResizableDrawer/ResizableDrawer';
+-import * as S from './SecretsDrawer.styles';
+-import {type DrawerMode, type PopupType} from './types';
+-
+-type SecretsDrawerProps = {
+-  popupType: PopupType;
+-  drawerMode: DrawerMode;
+-  secretName: string;
+-  secretValue: string;
+-  showSecret: boolean;
+-  handleSecretValueChange: (val: string) => void;
+-  handleSecretNameChange: (name: string) => void;
+-  setShowSecret: (s: boolean) => void;
+-  inputError: boolean;
+-  buttonClickable: boolean;
+-  onClickAddSecret: () => void;
+-  onDrawerClose: () => void;
+-};
+-
+-export const SecretsDrawer = ({
+-  popupType,
+-  drawerMode,
+-  secretName,
+-  secretValue,
+-  showSecret,
+-  handleSecretValueChange,
+-  handleSecretNameChange,
+-  setShowSecret,
+-  inputError,
+-  buttonClickable,
+-  onClickAddSecret,
+-  onDrawerClose,
+-}: SecretsDrawerProps) => {
+-  const isDrawerOpen = popupType === 'AddSecret';
+-
+-  return (
+-    <Drawer anchor="right" open={isDrawerOpen} onClose={onDrawerClose}>
+-      <ResizableDrawer startWidth={600} minWidth={500}>
+-        <S.DrawerContents>
+-          <S.SecretsDrawer>
+-            <S.CenteredFlex>
+-              <S.Header>
+-                {drawerMode === 'Creating'
+-                  ? 'Create a new secret'
+-                  : 'Edit secret'}
+-              </S.Header>
+-              <S.CloseButton>
+-                <Button
+-                  icon="close"
+-                  size="large"
+-                  variant="ghost"
+-                  onClick={onDrawerClose}
+-                />
+-              </S.CloseButton>
+-            </S.CenteredFlex>
+-            <S.Divider />
+-            <S.SecretsDrawerMain>
+-              <S.LabelRow>
+-                <S.Label>Secret name</S.Label>
+-              </S.LabelRow>
+-              {/*The name field will only be enabled while creating secrets. They can't be edited using the EditSecret drawer.*/}
+-              <S.StyledTextField
+-                placeholder="Enter secret name"
+-                value={secretName ?? ''}
+-                onChange={handleSecretNameChange}
+-                disabled={drawerMode === 'Editing'}
+-              />
+-              {inputError && (
+-                <S.ErrorText>
+-                  Secret names can only contain alphanumeric characters ([a-z],
+-                  [A-Z], [0-9]) or underscores (_) and start with a letter
+-                  ([a-z], [A-Z]) or underscores (_).
+-                </S.ErrorText>
+-              )}
+-              <S.LabelRow>
+-                <S.Label>Secret</S.Label>
+-              </S.LabelRow>
+-              <SensitiveInfoWrapper>
+-                <S.StyledTextArea
+-                  showSecret={showSecret}
+-                  value={secretValue}
+-                  placeholder="Enter secret value"
+-                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+-                    handleSecretValueChange(event.target.value)
+-                  }
+-                />
+-              </SensitiveInfoWrapper>
+-              <S.CenteredFlex>
+-                <Checkbox
+-                  id="reveal-secret-checkbox"
+-                  checked={showSecret}
+-                  onCheckedChange={() => {
+-                    setShowSecret(!showSecret);
+-                  }}
+-                />
+-                <label htmlFor="reveal-secret-checkbox">Reveal secret</label>
+-              </S.CenteredFlex>
+-            </S.SecretsDrawerMain>
+-            <S.Divider />
+-            <S.Footer>
+-              <Button
+-                className="w-full"
+-                disabled={!buttonClickable}
+-                onClick={onClickAddSecret}>
+-                Add secret
+-              </Button>
+-            </S.Footer>
+-          </S.SecretsDrawer>
+-        </S.DrawerContents>
+-      </ResizableDrawer>
+-    </Drawer>
+-  );
+-};
+diff --git a/frontends/app/src/components/TeamSettings/TeamSettings.tsx b/frontends/app/src/components/TeamSettings/TeamSettings.tsx
+index 76fa2dde2ef..a562f020ca3 100644
+--- a/frontends/app/src/components/TeamSettings/TeamSettings.tsx
++++ b/frontends/app/src/components/TeamSettings/TeamSettings.tsx
+@@ -855,25 +855,27 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+                     title={
+                       parsedOrgFlags.is_hidden ? SET_AT_ORG_LEVEL_MESSAGE : ''
+                     }>
+-                    <Checkbox
+-                      toggle
+-                      label="Hide this team from all non-members."
+-                      checked={entity.settings.hidden}
+-                      disabled={
+-                        !viewerCanEditTeamSettings || parsedOrgFlags.is_hidden
+-                      }
+-                      onChange={(_, {checked}) => {
+-                        if (checked) {
+-                          setActiveModal(
+-                            ActiveModalType.HideTeamFromNonTeamMembersConfirmationModal
+-                          );
+-                        } else {
+-                          updateEntitySettings({
+-                            hidden: checked,
+-                          });
++                    <span>
++                      <Checkbox
++                        toggle
++                        label="Hide this team from all non-members."
++                        checked={entity.settings.hidden}
++                        disabled={
++                          !viewerCanEditTeamSettings || parsedOrgFlags.is_hidden
+                         }
+-                      }}
+-                    />
++                        onChange={(_, {checked}) => {
++                          if (checked) {
++                            setActiveModal(
++                              ActiveModalType.HideTeamFromNonTeamMembersConfirmationModal
++                            );
++                          } else {
++                            updateEntitySettings({
++                              hidden: checked,
++                            });
++                          }
++                        }}
++                      />
++                    </span>
+                   </Tooltip>
+ 
+                   <Dialog.Root
+@@ -949,20 +951,22 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+                     ? SET_AT_ORG_LEVEL_MESSAGE
+                     : ''
+                 }>
+-                <Checkbox
+-                  toggle
+-                  label="Make all future team projects private (public sharing not allowed)."
+-                  checked={entity.privateOnly}
+-                  disabled={
+-                    !viewerCanEditTeamSettings ||
+-                    parsedOrgFlags.private_projects
+-                  }
+-                  onChange={(_, {checked}) =>
+-                    updateEntityFields({
+-                      privateOnly: checked,
+-                    })
+-                  }
+-                />
++                <span>
++                  <Checkbox
++                    toggle
++                    label="Make all future team projects private (public sharing not allowed)."
++                    checked={entity.privateOnly}
++                    disabled={
++                      !viewerCanEditTeamSettings ||
++                      parsedOrgFlags.private_projects
++                    }
++                    onChange={(_, {checked}) =>
++                      updateEntityFields({
++                        privateOnly: checked,
++                      })
++                    }
++                  />
++                </span>
+               </Tooltip>
+             </div>
+             <Divider />
+@@ -973,20 +977,22 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+                     ? SET_AT_ORG_LEVEL_MESSAGE
+                     : ''
+                 }>
+-                <Checkbox
+-                  toggle
+-                  label="Allow any team member to invite other members (not just admins)."
+-                  checked={entity.settings.membersCanInvite ?? false}
+-                  disabled={
+-                    !viewerCanEditTeamSettings ||
+-                    parsedOrgFlags.only_admins_can_invite
+-                  }
+-                  onChange={(_, {checked}) =>
+-                    updateEntitySettings({
+-                      membersCanInvite: checked,
+-                    })
+-                  }
+-                />
++                <span>
++                  <Checkbox
++                    toggle
++                    label="Allow any team member to invite other members (not just admins)."
++                    checked={entity.settings.membersCanInvite ?? false}
++                    disabled={
++                      !viewerCanEditTeamSettings ||
++                      parsedOrgFlags.only_admins_can_invite
++                    }
++                    onChange={(_, {checked}) =>
++                      updateEntitySettings({
++                        membersCanInvite: checked,
++                      })
++                    }
++                  />
++                </span>
+               </Tooltip>
+             </div>
+             <Divider />
+@@ -997,31 +1003,33 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+                     ? SET_AT_ORG_LEVEL_MESSAGE
+                     : ''
+                 }>
+-                <Checkbox
+-                  toggle
+-                  label="Disable public sharing to outside of team for reports in private projects. This disables existing magic links."
+-                  checked={entity.settings.disableMagicLinkSharing ?? false}
+-                  disabled={
+-                    !viewerCanEditTeamSettings ||
+-                    parsedOrgFlags.disable_magic_link_sharing
+-                  }
+-                  onChange={(_, {checked}) => {
+-                    Analytics.track(
+-                      `DisableMagicLinkSettings ${
+-                        checked ? 'enabled' : 'disabled'
+-                      }`,
+-                      {
+-                        organizationName:
+-                          teamOrganizationQuery.data?.entity?.organization
+-                            ?.name,
+-                        entityName: entity?.name,
+-                      }
+-                    );
+-                    updateEntitySettings({
+-                      disableMagicLinkSharing: checked,
+-                    });
+-                  }}
+-                />
++                <span>
++                  <Checkbox
++                    toggle
++                    label="Disable public sharing to outside of team for reports in private projects. This disables existing magic links."
++                    checked={entity.settings.disableMagicLinkSharing ?? false}
++                    disabled={
++                      !viewerCanEditTeamSettings ||
++                      parsedOrgFlags.disable_magic_link_sharing
++                    }
++                    onChange={(_, {checked}) => {
++                      Analytics.track(
++                        `DisableMagicLinkSettings ${
++                          checked ? 'enabled' : 'disabled'
++                        }`,
++                        {
++                          organizationName:
++                            teamOrganizationQuery.data?.entity?.organization
++                              ?.name,
++                          entityName: entity?.name,
++                        }
++                      );
++                      updateEntitySettings({
++                        disableMagicLinkSharing: checked,
++                      });
++                    }}
++                  />
++                </span>
+               </Tooltip>
+             </div>
+ 
+@@ -1041,40 +1049,42 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+                               ? 'Claim your email domain before enabling users to join teams based on your corporate email domain automatically.'
+                               : 'Your primary email must be set to corporate to claim an email domain. Visit your settings page to add a work email.'
+                       }>
+-                      <Checkbox
+-                        toggle
+-                        data-test="is-team-joinable-toggle"
+-                        label={label}
+-                        checked={
+-                          entity.settings?.openToMatchingOrgEmailDomainUsers ??
+-                          false
+-                        }
+-                        disabled={
+-                          entity.id ===
+-                            parsedOrgFlags.default_entity_id_for_domain_matching ||
+-                          (!viewerUsingAdminPrivileges() &&
+-                            (entity.readOnlyAdmin ||
+-                              !orgHasVerifiedEmailDomain)) ||
+-                          !viewerCanEditTeamSettings ||
+-                          parsedOrgFlags.restrict_matching_org_email_domain_users
+-                        }
+-                        onChange={(_, {checked}) => {
+-                          updateEntitySettings({
+-                            openToMatchingOrgEmailDomainUsers: checked,
+-                          });
+-                          if (checked) {
+-                            Analytics.track(
+-                              'Allow Org Members to Join Team Enabled',
+-                              {
+-                                organizationName:
+-                                  teamOrganizationQuery.data?.entity
+-                                    ?.organization?.name,
+-                                entityName: entity?.name,
+-                              }
+-                            );
++                      <span>
++                        <Checkbox
++                          toggle
++                          data-test="is-team-joinable-toggle"
++                          label={label}
++                          checked={
++                            entity.settings
++                              ?.openToMatchingOrgEmailDomainUsers ?? false
+                           }
+-                        }}
+-                      />
++                          disabled={
++                            entity.id ===
++                              parsedOrgFlags.default_entity_id_for_domain_matching ||
++                            (!viewerUsingAdminPrivileges() &&
++                              (entity.readOnlyAdmin ||
++                                !orgHasVerifiedEmailDomain)) ||
++                            !viewerCanEditTeamSettings ||
++                            parsedOrgFlags.restrict_matching_org_email_domain_users
++                          }
++                          onChange={(_, {checked}) => {
++                            updateEntitySettings({
++                              openToMatchingOrgEmailDomainUsers: checked,
++                            });
++                            if (checked) {
++                              Analytics.track(
++                                'Allow Org Members to Join Team Enabled',
++                                {
++                                  organizationName:
++                                    teamOrganizationQuery.data?.entity
++                                      ?.organization?.name,
++                                  entityName: entity?.name,
++                                }
++                              );
++                            }
++                          }}
++                        />
++                      </span>
+                     </Tooltip>
+                   </div>
+                 </>
+@@ -1087,20 +1097,22 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+                     ? SET_AT_ORG_LEVEL_MESSAGE
+                     : ''
+                 }>
+-                <Checkbox
+-                  toggle
+-                  label="Enable code saving by default."
+-                  checked={entity.codeSavingEnabled}
+-                  disabled={
+-                    !viewerCanEditTeamSettings ||
+-                    parsedOrgFlags.code_saving_disabled
+-                  }
+-                  onChange={(_, {checked}) =>
+-                    updateEntityFields({
+-                      codeSavingEnabled: checked,
+-                    })
+-                  }
+-                />
++                <span>
++                  <Checkbox
++                    toggle
++                    label="Enable code saving by default."
++                    checked={entity.codeSavingEnabled}
++                    disabled={
++                      !viewerCanEditTeamSettings ||
++                      parsedOrgFlags.code_saving_disabled
++                    }
++                    onChange={(_, {checked}) =>
++                      updateEntityFields({
++                        codeSavingEnabled: checked,
++                      })
++                    }
++                  />
++                </span>
+               </Tooltip>
+             </div>
+           </Segment>
+diff --git a/frontends/app/src/components/TeamSettings/TeamSettingsSecrets.tsx b/frontends/app/src/components/TeamSettings/TeamSettingsSecrets.tsx
+index 1db86ce60ef..1b05d6a4081 100644
+--- a/frontends/app/src/components/TeamSettings/TeamSettingsSecrets.tsx
++++ b/frontends/app/src/components/TeamSettings/TeamSettingsSecrets.tsx
+@@ -1,6 +1,10 @@
+ import {Button} from '@wandb/weave/components/Button';
+ import {Icon} from '@wandb/weave/components/Icon';
+-import React, {type FC, useEffect, useState} from 'react';
++import {
++  SecretDrawer,
++  type SecretFormMode,
++} from '@wandb/weave/components/Secrets';
++import React, {type FC, useState} from 'react';
+ import {useParams} from 'react-router';
+ import {toast} from 'react-toastify';
+ import {Modal, Table} from 'semantic-ui-react';
+@@ -8,25 +12,18 @@ import {Modal, Table} from 'semantic-ui-react';
+ import {
+   type Secret,
+   useDeleteSecretMutation,
+-  useInsertSecretMutation,
+   useSecretsQuery,
++  useUpsertTeamSecretMutation,
+ } from '../../generated/graphql';
+ import {useViewer} from '../../state/viewer/hooks';
+ import {
+   extractErrorMessageFromApolloError,
+   propagateErrorsContext,
+ } from '../../util/errors';
++import {useNavbarBottom} from '../../util/hooks/useNavbarBottom';
+ import {maybePluralize} from '../../util/uihelpers';
+-import {SecretsDrawer} from './SecretsDrawer';
+ import * as TeamSettingsStyles from './TeamSettings.styles';
+ import * as S from './TeamSettingsSecrets.styles';
+-import {type DrawerMode, type PopupType} from './types';
+-
+-const validateSecretName = (name: string) => {
+-  // Any alphanumeric+underscore string starting with an alphabet character or underscore
+-  const re = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+-  return re.test(String(name));
+-};
+ 
+ export const useSecrets = (entityName: string) => {
+   const {data, loading, error, refetch} = useSecretsQuery({
+@@ -91,24 +88,22 @@ export const SecretsList: FC<SecretsListProps> = ({
+ };
+ 
+ interface DeleteSecretDialogProps {
+-  popupType: PopupType;
+-  secretToBeDeletedName: string;
+-  onClickDeleteSecret: () => void;
+-  onDeleteModalClose: () => void;
++  isOpen: boolean;
++  secretName: string;
++  onConfirm: () => void;
++  onClose: () => void;
+ }
+ 
+ const DeleteSecretDialog: FC<DeleteSecretDialogProps> = ({
+-  popupType,
+-  secretToBeDeletedName,
+-  onClickDeleteSecret,
+-  onDeleteModalClose,
++  isOpen,
++  secretName,
++  onConfirm,
++  onClose,
+ }) => {
+-  const isDeleteModalOpen = popupType === 'DeleteSecret';
+-
+   return (
+-    <Modal open={isDeleteModalOpen} onClose={onDeleteModalClose}>
++    <Modal open={isOpen} onClose={onClose}>
+       <Modal.Header style={{display: 'flex'}}>
+-        Delete secret "<S.SecretName>{secretToBeDeletedName}</S.SecretName>"?
++        Delete secret "<S.SecretName>{secretName}</S.SecretName>"?
+       </Modal.Header>
+       <Modal.Content>
+         <p>
+@@ -118,10 +113,10 @@ const DeleteSecretDialog: FC<DeleteSecretDialogProps> = ({
+         </p>
+       </Modal.Content>
+       <Modal.Actions>
+-        <Button variant="ghost" onClick={onDeleteModalClose} className="mr-8">
++        <Button variant="ghost" onClick={onClose} className="mr-8">
+           Cancel
+         </Button>
+-        <Button variant="destructive" onClick={onClickDeleteSecret}>
++        <Button variant="destructive" onClick={onConfirm}>
+           Delete
+         </Button>
+       </Modal.Actions>
+@@ -134,94 +129,81 @@ export const TeamSettingsSecrets: FC = React.memo(() => {
+   const {entityName: routeEntityName} = useParams<{entityName: string}>();
+   const entityName = routeEntityName ?? viewer?.username ?? '';
+ 
+-  const [popupType, setPopupType] = useState<PopupType>(null);
+-  const [secretToBeDeletedName, setSecretToBeDeletedName] = useState('');
+-  const [inputError, setInputError] = useState(false);
+-  const [secretName, setSecretName] = useState('');
+-  const [secretValue, setSecretValue] = useState('');
+-  const [showSecret, setShowSecret] = useState(false);
+-  const [buttonClickable, setButtonClickable] = useState(false);
+-  const [drawerMode, setDrawerMode] = useState<DrawerMode>('Creating');
++  const navbarBottom = useNavbarBottom();
++  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
++  const [drawerMode, setDrawerMode] = useState<SecretFormMode>('create');
++  const [editingSecretName, setEditingSecretName] = useState('');
++  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
++
+   const {secrets, refetch} = useSecrets(entityName);
+-  const [insertSecret] = useInsertSecretMutation({
++  const [upsertTeamSecret, {loading: isSaving}] = useUpsertTeamSecretMutation({
+     context: propagateErrorsContext(),
+   });
+   const [deleteSecret] = useDeleteSecretMutation({
+     context: propagateErrorsContext(),
+   });
+ 
+-  useEffect(() => {
+-    setButtonClickable(
+-      secretName !== '' && secretValue !== '' && validateSecretName(secretName)
+-    );
+-  }, [secretName, secretValue]);
+-
+   const onClickNewSecret = () => {
+-    setDrawerMode('Creating');
+-    setPopupType('AddSecret');
++    setDrawerMode('create');
++    setEditingSecretName('');
++    setIsDrawerOpen(true);
+   };
+ 
+   const onClickEdit = (secret: Secret) => {
+-    setSecretName(secret.name);
+-    setDrawerMode('Editing');
+-    setPopupType('AddSecret');
++    setDrawerMode('edit');
++    setEditingSecretName(secret.name);
++    setIsDrawerOpen(true);
+   };
+ 
+   const onClickDelete = (secret: Secret) => {
+-    setSecretToBeDeletedName(secret.name);
+-    setPopupType('DeleteSecret');
++    setDeleteTarget(secret.name);
+   };
+ 
+-  const onClickAddSecret = async () => {
++  const handleSave = async (input: {
++    secretName: string;
++    secretValue: string;
++  }) => {
++    const isEditing = drawerMode === 'edit';
+     try {
+-      await insertSecret({
+-        variables: {entityName, secretName, secretValue},
++      await upsertTeamSecret({
++        variables: {
++          entityName,
++          secretName: input.secretName,
++          secretValue: input.secretValue,
++        },
+       });
+-      toast.success(<S.SecretName>Added secret {secretName}</S.SecretName>);
++      toast.success(
++        `${isEditing ? 'Updated' : 'Added'} secret ${input.secretName}`
++      );
++      setIsDrawerOpen(false);
++      refetch();
+     } catch (err) {
+       const errMsg = extractErrorMessageFromApolloError(err);
+       console.error(errMsg);
+-      toast.error(`Problem adding secret ${secretName}: ${errMsg}`);
++      toast.error(
++        `Problem ${isEditing ? 'updating' : 'adding'} secret ${input.secretName}: ${errMsg}`
++      );
+     }
+-    onDrawerClose();
+-    refetch();
+   };
+ 
+-  const onClickDeleteSecret = async () => {
++  const handleDelete = async () => {
++    if (!deleteTarget) {
++      return;
++    }
+     try {
+       await deleteSecret({
+-        variables: {entityName, secretName: secretToBeDeletedName},
++        variables: {entityName, secretName: deleteTarget},
+       });
+-      toast.success(`Deleted secret ${secretToBeDeletedName}`);
++      toast.success(`Deleted secret ${deleteTarget}`);
+     } catch (err) {
+       const errMsg = extractErrorMessageFromApolloError(err);
+       console.error(errMsg);
+-      toast.error(
+-        `Problem deleting secret ${secretToBeDeletedName}: ${errMsg}`
+-      );
++      toast.error(`Problem deleting secret ${deleteTarget}: ${errMsg}`);
+     }
+-    setPopupType(null);
++    setDeleteTarget(null);
+     refetch();
+   };
+ 
+-  const onDrawerClose = () => {
+-    setSecretName('');
+-    setSecretValue('');
+-    setShowSecret(false);
+-    setPopupType(null);
+-  };
+-
+-  const onDeleteModalClose = () => {
+-    setPopupType(null);
+-  };
+-
+-  const handleSecretNameChange = (name: string) => {
+-    setSecretName(name);
+-    setInputError(!validateSecretName(name));
+-  };
+-
+-  const handleSecretValueChange = (value: string) => setSecretValue(value);
+-
+   return (
+     <>
+       <TeamSettingsStyles.SectionHeader smallMargin>
+@@ -249,24 +231,21 @@ export const TeamSettingsSecrets: FC = React.memo(() => {
+         onClickDelete={onClickDelete}
+       />
+       <DeleteSecretDialog
+-        popupType={popupType}
+-        secretToBeDeletedName={secretToBeDeletedName}
+-        onClickDeleteSecret={onClickDeleteSecret}
+-        onDeleteModalClose={onDeleteModalClose}
++        isOpen={deleteTarget != null}
++        secretName={deleteTarget ?? ''}
++        onConfirm={handleDelete}
++        onClose={() => setDeleteTarget(null)}
+       />
+-      <SecretsDrawer
+-        popupType={popupType}
+-        drawerMode={drawerMode}
+-        secretName={secretName}
+-        secretValue={secretValue}
+-        showSecret={showSecret}
+-        handleSecretValueChange={handleSecretValueChange}
+-        handleSecretNameChange={handleSecretNameChange}
+-        setShowSecret={setShowSecret}
+-        inputError={inputError}
+-        buttonClickable={buttonClickable}
+-        onClickAddSecret={onClickAddSecret}
+-        onDrawerClose={onDrawerClose}
++      <SecretDrawer
++        isOpen={isDrawerOpen}
++        mode={drawerMode}
++        secretName={editingSecretName}
++        existingSecretNames={secrets?.map(secret => secret.name) ?? []}
++        isSaving={isSaving}
++        offsetTop={navbarBottom}
++        saveLabel={drawerMode === 'edit' ? 'Replace secret' : 'Add secret'}
++        onClose={() => setIsDrawerOpen(false)}
++        onSave={handleSave}
+       />
+     </>
+   );
+diff --git a/frontends/app/src/components/TeamSettings/types.ts b/frontends/app/src/components/TeamSettings/types.ts
+deleted file mode 100644
+index 96602bbbb47..00000000000
+--- a/frontends/app/src/components/TeamSettings/types.ts
++++ /dev/null
+@@ -1,6 +0,0 @@
+-/**
+- * Shared types for TeamSettings components
+- */
+-
+-export type DrawerMode = 'Creating' | 'Editing';
+-export type PopupType = 'AddSecret' | 'DeleteSecret' | null;
+diff --git a/frontends/app/src/components/UserSettings/UserSecretDrawer.tsx b/frontends/app/src/components/UserSettings/UserSecretDrawer.tsx
+index 67c9a14c426..e07904c13ee 100644
+--- a/frontends/app/src/components/UserSettings/UserSecretDrawer.tsx
++++ b/frontends/app/src/components/UserSettings/UserSecretDrawer.tsx
+@@ -1,31 +1,19 @@
++import {Banner} from '@wandb/components';
++import {Alert} from '@wandb/weave/components/Alert';
+ import {
+-  Banner,
+-  Button,
+-  Dialog,
+-  Icon,
+-  IconButton,
+-  TextField,
+-} from '@wandb/components';
+-import {Tailwind} from '@wandb/weave/components/Tailwind';
+-import React, {type ChangeEvent, type FC, useMemo, useState} from 'react';
+-import styled from 'styled-components';
++  SecretDrawer,
++  type SecretFormMode,
++} from '@wandb/weave/components/Secrets';
++import React, {type FC} from 'react';
+ 
+ import {envIsServerDeployment} from '../../config';
+ import {useNavbarBottom} from '../../util/hooks/useNavbarBottom';
+-import {SensitiveInfoWrapper} from '../../util/SensitiveInfoWrapper';
+-import {FixedSizeTextArea} from '../Form/FixedSizeTextArea';
+ import {
+   getTeamSecretNameCollisions,
+   type TeamSecretNameCollisionCandidate,
+ } from './userSecretNameCollisions';
+ 
+-const SECRET_NAME_PATTERN = /^[A-Za-z_][A-Za-z0-9_]*$/;
+-const SECRET_NAME_ERROR =
+-  'Secret names can only contain letters, numbers, and underscores, and must start with a letter or underscore.';
+-const DUPLICATE_USER_SECRET_NAME_WARNING =
+-  'A secret with this name already exists. Choose a different name or edit the existing secret.';
+-
+-export type UserSecretDrawerMode = 'create' | 'edit';
++export type UserSecretDrawerMode = SecretFormMode;
+ 
+ type UserSecretDrawerProps = {
+   isOpen: boolean;
+@@ -39,12 +27,6 @@ type UserSecretDrawerProps = {
+   onSave: (input: {secretName: string; secretValue: string}) => Promise<void>;
+ };
+ 
+-type UserSecretDrawerContentProps = UserSecretDrawerProps & {
+-  initialSecretName: string;
+-};
+-
+-const validateSecretName = (name: string) => SECRET_NAME_PATTERN.test(name);
+-
+ const TeamSecretNameCollisionWarning = ({teamNames}: {teamNames: string[]}) => {
+   if (teamNames.length === 0) {
+     return null;
+@@ -66,37 +48,10 @@ const TeamSecretNameCollisionWarning = ({teamNames}: {teamNames: string[]}) => {
+   );
+ };
+ 
+-const SecretValueTextArea = styled(FixedSizeTextArea)<{
+-  $isSecretValueVisible: boolean;
+-}>`
+-  -webkit-text-security: ${props =>
+-    props.$isSecretValueVisible ? 'none' : 'disc'};
+-`;
+-
+ export const UserSecretDrawer: FC<UserSecretDrawerProps> = ({
+   isOpen,
+   mode,
+   secretName,
+-  ...props
+-}) => {
+-  const initialSecretName = mode === 'edit' ? (secretName ?? '') : '';
+-  const drawerScopeKey = `${mode}:${initialSecretName}:${isOpen ? 'open' : 'closed'}`;
+-
+-  return (
+-    <UserSecretDrawerContent
+-      key={drawerScopeKey}
+-      isOpen={isOpen}
+-      mode={mode}
+-      initialSecretName={initialSecretName}
+-      {...props}
+-    />
+-  );
+-};
+-
+-const UserSecretDrawerContent: FC<UserSecretDrawerContentProps> = ({
+-  isOpen,
+-  mode,
+-  initialSecretName,
+   organizationName,
+   existingUserSecretNames,
+   teamSecretNameCollisionCandidates,
+@@ -104,240 +59,43 @@ const UserSecretDrawerContent: FC<UserSecretDrawerContentProps> = ({
+   onClose,
+   onSave,
+ }) => {
+-  const isEditing = mode === 'edit';
+   const offsetTop = useNavbarBottom();
+-  const [secretName, setSecretName] = useState(initialSecretName);
+-  const [secretValue, setSecretValue] = useState('');
+-  const [isSecretValueVisible, setIsSecretValueVisible] = useState(false);
+-
+-  const isNameValid = useMemo(
+-    () => validateSecretName(secretName),
+-    [secretName]
+-  );
+-  const hasDuplicateUserSecretName = useMemo(
+-    () =>
+-      !isEditing &&
+-      existingUserSecretNames.some(
+-        existingSecretName =>
+-          existingSecretName.toLowerCase() === secretName.toLowerCase()
+-      ),
+-    [existingUserSecretNames, isEditing, secretName]
+-  );
+-  const showNameError = !isEditing && secretName !== '' && !isNameValid;
+-  const showDuplicateUserSecretNameWarning =
+-    secretName !== '' && hasDuplicateUserSecretName;
+-  const teamSecretNameCollisions = useMemo(
+-    () =>
+-      isEditing
+-        ? []
+-        : getTeamSecretNameCollisions(
+-            secretName,
+-            teamSecretNameCollisionCandidates
+-          ),
+-    [isEditing, secretName, teamSecretNameCollisionCandidates]
+-  );
+-  const canSave =
+-    secretName !== '' &&
+-    isNameValid &&
+-    !hasDuplicateUserSecretName &&
+-    secretValue !== '' &&
+-    !isSaving;
+-
+-  const title = isEditing ? 'Edit secret' : 'Create new secret';
+-  const valueLabel = isEditing ? 'New value' : 'Value';
+-  const saveLabel = isEditing ? 'Replace secret' : 'Save secret';
+   const organizationLabel = organizationName ?? 'the selected';
+-  const visibilityToggleLabel = isSecretValueVisible
+-    ? 'Hide secret value'
+-    : 'Reveal secret value';
+ 
+-  const handleClose = () => {
+-    setSecretName('');
+-    setSecretValue('');
+-    setIsSecretValueVisible(false);
+-    onClose();
+-  };
+-
+-  const handleSave = async () => {
+-    if (!canSave) {
+-      return;
++  const renderNameWarning = (currentName: string) => {
++    if (mode === 'edit') {
++      return null;
+     }
+-
+-    await onSave({secretName, secretValue});
++    const collisions = getTeamSecretNameCollisions(
++      currentName,
++      teamSecretNameCollisionCandidates
++    );
++    return <TeamSecretNameCollisionWarning teamNames={collisions} />;
+   };
++
+   return (
+-    <Dialog.Drawer
++    <SecretDrawer
+       isOpen={isOpen}
++      mode={mode}
++      secretName={secretName}
++      existingSecretNames={existingUserSecretNames}
++      isSaving={isSaving}
+       offsetTop={offsetTop}
+-      onOpenChange={open => {
+-        if (!open) {
+-          handleClose();
+-        }
+-      }}>
+-      <Tailwind>
+-        <div className="flex min-h-[56px] items-center justify-between border-b border-moon-250 px-20 py-16 text-xl font-semibold text-moon-800">
+-          <Dialog.Heading mb={0}>{title}</Dialog.Heading>
+-          <IconButton
+-            icon="close"
+-            aria-label="Close drawer"
+-            tooltip={{children: 'Close drawer'}}
+-            variant="ghost"
+-            onPress={handleClose}
+-          />
+-        </div>
+-      </Tailwind>
+-
+-      <Dialog.Content>
+-        <Tailwind>
+-          <div className="flex min-h-[420px] flex-col px-20 py-16">
+-            <div className="mb-20 flex items-start gap-12 rounded-md bg-moon-100 px-16 py-12 text-sm leading-5 text-moon-600">
+-              <Icon icon="lightbulb-info" />
+-              {envIsServerDeployment ? (
+-                <p className="m-0">This secret is private to you.</p>
+-              ) : (
+-                <p className="m-0">
+-                  This secret is private to you but only available within the{' '}
+-                  <strong>{organizationLabel}</strong> org.
+-                </p>
+-              )}
+-            </div>
+-
+-            <div className="flex flex-col gap-16">
+-              <div>
+-                <label
+-                  htmlFor="user-secret-name"
+-                  className="mb-4 block text-sm font-semibold text-moon-800">
+-                  Name
+-                </label>
+-                {isEditing ? (
+-                  <SensitiveInfoWrapper>
+-                    <div className="[&_input:disabled]:!bg-moon-200 [&_input:disabled]:!text-moon-500">
+-                      <TextField
+-                        id="user-secret-name"
+-                        aria-label="Name"
+-                        value={secretName}
+-                        isReadOnly
+-                        isDisabled
+-                        fullWidth
+-                      />
+-                    </div>
+-                  </SensitiveInfoWrapper>
+-                ) : (
+-                  <SensitiveInfoWrapper>
+-                    <TextField
+-                      id="user-secret-name"
+-                      aria-label="Name"
+-                      placeholder="Eg : OPENAI_API_KEY"
+-                      value={secretName}
+-                      onChange={setSecretName}
+-                      isDisabled={isSaving}
+-                      isInvalid={showNameError}
+-                      fullWidth
+-                      maxLength={255}
+-                      autoComplete="off"
+-                    />
+-                  </SensitiveInfoWrapper>
+-                )}
+-                {!isEditing && showNameError && (
+-                  <p className="mt-4 text-sm leading-5 text-red-550">
+-                    {SECRET_NAME_ERROR}
+-                  </p>
+-                )}
+-                {showDuplicateUserSecretNameWarning && (
+-                  <p className="mt-4 text-sm leading-5 text-gold-650">
+-                    {DUPLICATE_USER_SECRET_NAME_WARNING}
+-                  </p>
+-                )}
+-              </div>
+-
+-              <TeamSecretNameCollisionWarning
+-                teamNames={teamSecretNameCollisions}
+-              />
+-
+-              <SensitiveInfoWrapper>
+-                <div>
+-                  <label
+-                    htmlFor="user-secret-value"
+-                    className="mb-4 block text-sm font-semibold text-moon-800">
+-                    {valueLabel}
+-                  </label>
+-                  {isEditing && (
+-                    <p className="mb-8 text-sm leading-5 text-moon-500">
+-                      This will replace the current value immediately. Any
+-                      feature using this secret will use the new value on its
+-                      next call.
+-                    </p>
+-                  )}
+-                  <div className="relative">
+-                    <SecretValueTextArea
+-                      id="user-secret-value"
+-                      aria-label={valueLabel}
+-                      placeholder={
+-                        isEditing
+-                          ? 'Paste the new secret value'
+-                          : 'Paste your secret value'
+-                      }
+-                      value={secretValue}
+-                      onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+-                        setSecretValue(event.target.value)
+-                      }
+-                      disabled={isSaving}
+-                      className="pr-40"
+-                      $isSecretValueVisible={isSecretValueVisible}
+-                      autoComplete="new-password"
+-                    />
+-                    <div className="absolute right-0 top-1/2 -translate-y-1/2">
+-                      <IconButton
+-                        icon={
+-                          isSecretValueVisible
+-                            ? 'visibility-checked'
+-                            : 'visibility-unchecked'
+-                        }
+-                        aria-label={visibilityToggleLabel}
+-                        tooltip={{children: visibilityToggleLabel}}
+-                        variant="ghost"
+-                        isDisabled={isSaving}
+-                        onPress={() =>
+-                          setIsSecretValueVisible(visible => !visible)
+-                        }
+-                      />
+-                    </div>
+-                  </div>
+-                </div>
+-              </SensitiveInfoWrapper>
+-            </div>
+-          </div>
+-        </Tailwind>
+-      </Dialog.Content>
+-
+-      <Tailwind>
+-        <Dialog.Footer>
+-          <div className="flex w-full gap-16 border-t border-moon-250 px-20 py-16">
+-            <div className="min-w-0 flex-1">
+-              <Button
+-                fullWidth
+-                variant="secondary"
+-                size="md"
+-                isDisabled={isSaving}
+-                onPress={handleClose}>
+-                Cancel
+-              </Button>
+-            </div>
+-            <div className="min-w-0 flex-1">
+-              <Button
+-                fullWidth
+-                variant="primary"
+-                size="md"
+-                isDisabled={!canSave}
+-                isPending={isSaving}
+-                isPendingAriaLabel="Saving secret"
+-                onPress={handleSave}>
+-                {saveLabel}
+-              </Button>
+-            </div>
+-          </div>
+-        </Dialog.Footer>
+-      </Tailwind>
+-    </Dialog.Drawer>
++      onClose={onClose}
++      onSave={onSave}
++      renderNameWarning={renderNameWarning}
++      banner={
++        <Alert severity="info">
++          {envIsServerDeployment ? (
++            'This secret is private to you.'
++          ) : (
++            <>
++              This secret is private to you but only available within the{' '}
++              <strong>{organizationLabel}</strong> org.
++            </>
++          )}
++        </Alert>
++      }
++    />
+   );
+ };
+diff --git a/frontends/app/src/components/UserSettings/UserSettingsUserSecrets.tsx b/frontends/app/src/components/UserSettings/UserSettingsUserSecrets.tsx
+index 3c992cad57e..ef68d535bd7 100644
+--- a/frontends/app/src/components/UserSettings/UserSettingsUserSecrets.tsx
++++ b/frontends/app/src/components/UserSettings/UserSettingsUserSecrets.tsx
+@@ -9,6 +9,7 @@ import {
+   TextField,
+   toast,
+ } from '@wandb/components';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import React, {type FC, useEffect, useMemo, useState} from 'react';
+ import {Divider} from 'semantic-ui-react';
+@@ -23,7 +24,6 @@ import {
+   extractErrorMessageFromApolloError,
+   propagateErrorsContext,
+ } from '../../util/errors';
+-import {SensitiveInfoWrapper} from '../../util/SensitiveInfoWrapper';
+ import {maybePluralize} from '../../util/uihelpers';
+ import {SemanticLoader as Loader} from '../utility/InstrumentedLoader';
+ import {UserSecretDrawer, type UserSecretDrawerMode} from './UserSecretDrawer';
+diff --git a/frontends/app/src/components/Webhooks/TestWebhookDrawerInner.tsx b/frontends/app/src/components/Webhooks/TestWebhookDrawerInner.tsx
+index 038168a6ee8..34e9fe3376b 100644
+--- a/frontends/app/src/components/Webhooks/TestWebhookDrawerInner.tsx
++++ b/frontends/app/src/components/Webhooks/TestWebhookDrawerInner.tsx
+@@ -2,6 +2,7 @@ import {toast} from '@wandb/weave/common/components/elements/Toast';
+ import WandbLoader from '@wandb/weave/common/components/WandbLoader';
+ import {Button} from '@wandb/weave/components/Button';
+ import {Icon} from '@wandb/weave/components/Icon';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Content, List, Root, Trigger} from '@wandb/weave/components/Tabs';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import copyToClipboard from 'copy-to-clipboard';
+@@ -9,7 +10,6 @@ import React, {useCallback, useEffect, useState} from 'react';
+ 
+ import {type TestGenericWebhookIntegrationMutation} from '../../generated/graphql';
+ import {type ExecutionResult} from '../../state/graphql/apolloWithAbort';
+-import {SensitiveInfoWrapper} from '../../util/SensitiveInfoWrapper';
+ import {Banner, BannerFlexWrapper} from '../Banner';
+ import {CodeEditor} from '../Launch/CodeEditor';
+ import {useTestGenericWebhook} from './hooks';
+diff --git a/frontends/app/src/graphql/secrets.ts b/frontends/app/src/graphql/secrets.ts
+index cb70486d89e..706acd7c4fc 100644
+--- a/frontends/app/src/graphql/secrets.ts
++++ b/frontends/app/src/graphql/secrets.ts
+@@ -1,19 +1,21 @@
+ import gql from 'graphql-tag';
+ 
+-export const INSERT_SECRET_MUTATION = gql`
+-  mutation insertSecret(
++export const UPSERT_TEAM_SECRET_MUTATION = gql`
++  mutation upsertTeamSecret(
+     $entityName: String!
+     $secretName: String!
+     $secretValue: String!
+   ) {
+-    insertSecret(
++    upsertTeamSecret(
+       input: {
+         entityName: $entityName
+         secretName: $secretName
+         secretValue: $secretValue
+       }
+     ) {
+-      success
++      secret {
++        name
++      }
+     }
+   }
+ `;
+diff --git a/frontends/app/src/pages/Billing/AccountSettings/APIKeysTab/APIKeysTabContent.tsx b/frontends/app/src/pages/Billing/AccountSettings/APIKeysTab/APIKeysTabContent.tsx
+index 9825a6a250e..4115f0f1c03 100644
+--- a/frontends/app/src/pages/Billing/AccountSettings/APIKeysTab/APIKeysTabContent.tsx
++++ b/frontends/app/src/pages/Billing/AccountSettings/APIKeysTab/APIKeysTabContent.tsx
+@@ -8,6 +8,7 @@ import {
+ } from '@wandb/components';
+ import {TargetBlank} from '@wandb/weave/common/util/links';
+ import {Icon} from '@wandb/weave/components/Icon';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {Tailwind} from '@wandb/weave/components/Tailwind';
+ import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
+ import {Link as RouterLink, useHistory, useLocation} from 'react-router-dom';
+@@ -34,7 +35,6 @@ import {NetworkStatus} from '../../../../state/graphql/apolloWithAbort';
+ import DocUrls from '../../../../util/doc_urls';
+ import {propagateErrorsContext} from '../../../../util/errors';
+ import {useStatsigGateCreateOrgScopedKeys} from '../../../../util/rampFeatureFlags/rampFeatureFlags';
+-import {SensitiveInfoWrapper} from '../../../../util/SensitiveInfoWrapper';
+ import {checkIsServiceAccount} from '../../../../util/serviceAccounts';
+ import {settingsApiKeys} from '../../../../util/urls';
+ import {decideDate} from '../util';
+diff --git a/frontends/app/src/pages/ProjectPageOnboarding.tsx b/frontends/app/src/pages/ProjectPageOnboarding.tsx
+index 62369cb4762..06bcb72b216 100644
+--- a/frontends/app/src/pages/ProjectPageOnboarding.tsx
++++ b/frontends/app/src/pages/ProjectPageOnboarding.tsx
+@@ -1,11 +1,11 @@
+ import {MOON_150} from '@wandb/weave/common/css/color.styles';
+ import {TargetBlank} from '@wandb/weave/common/util/links';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import React from 'react';
+ 
+ import {CodeSnippet} from '../components/CodeSnippet';
+ import {SemanticLoader as Loader} from '../components/utility/InstrumentedLoader';
+ import {useViewerApiKeyQuery} from '../generated/graphql';
+-import {SensitiveInfoWrapper} from '../util/SensitiveInfoWrapper';
+ 
+ interface WandbLoginExampleProps {
+   apiKey: string;
+diff --git a/frontends/app/src/services/meticulous/privacy.ts b/frontends/app/src/services/meticulous/privacy.ts
+index 0c7b790689a..0a676d7c770 100644
+--- a/frontends/app/src/services/meticulous/privacy.ts
++++ b/frontends/app/src/services/meticulous/privacy.ts
+@@ -10,7 +10,7 @@ export const METICULOUS_IGNORE = 'meticulous-ignore';
+ // Redact the element's contents at recording time so sensitive data never
+ // leaves the user's browser: it's excluded from DOM snapshots, click-target
+ // text, and keyboard events. Prefer wrapping with `<SensitiveInfoWrapper>`
+-// (src/util/SensitiveInfoWrapper.tsx), which applies this class alongside the
+-// equivalent Datadog masking.
++// from `@wandb/weave/components/Secrets`, which applies this class alongside
++// the equivalent Datadog masking.
+ // https://app.meticulous.ai/docs/session-recording/redaction
+ export const METICULOUS_REDACT_RECORDING = 'meticulous-redact-recording';
+diff --git a/frontends/app/src/weave/common/hooks/useSecrets.ts b/frontends/app/src/weave/common/hooks/useSecrets.ts
+index 20f959d7b40..85080efd52d 100644
+--- a/frontends/app/src/weave/common/hooks/useSecrets.ts
++++ b/frontends/app/src/weave/common/hooks/useSecrets.ts
+@@ -24,23 +24,25 @@ const SECRETS_QUERY = gql`
+   }
+ `;
+ 
+-const SECRETS_MUTATION = gql`
+-  mutation insertSecret(
++const UPSERT_TEAM_SECRET_MUTATION = gql`
++  mutation upsertTeamSecret(
+     $entityName: String!
+     $secretName: String!
+     $secretValue: String!
+   ) {
+-    insertSecret(
++    upsertTeamSecret(
+       input: {
+         entityName: $entityName
+         secretName: $secretName
+         secretValue: $secretValue
+       }
+     ) {
+-      success
++      secret {
++        name
++      }
+     }
+   }
+-` as TypedDocumentNode<InsertSecretResponse, InsertSecretVariables>;
++` as TypedDocumentNode<UpsertTeamSecretResponse, UpsertTeamSecretVariables>;
+ 
+ type SecretResponseLoading = {
+   loading: true;
+@@ -113,23 +115,20 @@ export const useSecrets = ({
+   return {...response, refetch: () => fetchSecrets()};
+ };
+ 
+-interface InsertSecretResponse {
+-  insertSecret: {
+-    success: boolean;
++interface UpsertTeamSecretResponse {
++  upsertTeamSecret: {
++    secret: {name: string} | null;
+   };
+ }
+ 
+-type InsertSecretVariables = {
++type UpsertTeamSecretVariables = {
+   entityName: string;
+   secretName: string;
+   secretValue: string;
+ };
+ 
+-export const useInsertSecret = () => {
+-  const [insertSecret] = useMutation<
+-    InsertSecretResponse,
+-    InsertSecretVariables
+-  >(SECRETS_MUTATION);
+-
+-  return insertSecret;
++export const useUpsertTeamSecret = () => {
++  return useMutation<UpsertTeamSecretResponse, UpsertTeamSecretVariables>(
++    UPSERT_TEAM_SECRET_MUTATION
++  );
+ };
+diff --git a/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/ModsPage.tsx b/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/ModsPage.tsx
+index 7a211513787..91fac7b086a 100644
+--- a/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/ModsPage.tsx
++++ b/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/ModsPage.tsx
+@@ -7,8 +7,8 @@ import {
+   TextField,
+ } from '@mui/material';
+ import {
+-  useInsertSecret,
+   useSecrets,
++  useUpsertTeamSecret,
+ } from '@wandb/weave/common/hooks/useSecrets';
+ import {TargetBlank} from '@wandb/weave/common/util/links';
+ import {TailwindContents} from '@wandb/weave/components/Tailwind';
+@@ -234,7 +234,7 @@ export const SecretSettings: React.FC<{
+   const {secrets: existingSecrets, loading} = useSecrets({
+     entityName: entity,
+   });
+-  const insertSecret = useInsertSecret();
++  const [upsertTeamSecret] = useUpsertTeamSecret();
+   const [secrets, setSecrets] = useState<Record<string, string>>({});
+   const missingSecrets: string[] = useMemo(() => {
+     return secretNames.filter(
+@@ -265,7 +265,7 @@ export const SecretSettings: React.FC<{
+     setError(null);
+     await Promise.all(
+       Object.entries(secrets).map(([name, value]) =>
+-        insertSecret({
++        upsertTeamSecret({
+           variables: {entityName: entity, secretName: name, secretValue: value},
+         })
+       )
+diff --git a/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/OverviewPage/CreateSecretSubview.tsx b/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/OverviewPage/CreateSecretSubview.tsx
+index b42bdbe5413..72e28570d4e 100644
+--- a/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/OverviewPage/CreateSecretSubview.tsx
++++ b/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/OverviewPage/CreateSecretSubview.tsx
+@@ -1,149 +1,59 @@
+-import {Typography} from '@mui/material';
+ import {toast} from '@wandb/weave/common/components/elements/Toast';
+-import {useInsertSecret} from '@wandb/weave/common/hooks/useSecrets';
++import {
++  useSecrets,
++  useUpsertTeamSecret,
++} from '@wandb/weave/common/hooks/useSecrets';
+ import {Alert} from '@wandb/weave/components/Alert';
+-import {Button} from '@wandb/weave/components/Button';
+-import {Checkbox} from '@wandb/weave/components/Checkbox';
+-import {TextArea} from '@wandb/weave/components/Form/TextArea';
+-import {TextField} from '@wandb/weave/components/Form/TextField';
+-import {TailwindContents} from '@wandb/weave/components/Tailwind';
+-import React, {useState} from 'react';
++import React from 'react';
+ 
+-import {sharedTypographyStyle} from './AddProviderDrawerFormComponents';
+-
+-const validateSecretName = (name: string) => {
+-  // Any alphanumeric+underscore string starting with an alphabet character or underscore
+-  const re = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+-  return re.test(String(name));
+-};
++import {CreateSecretFormContent} from '@wandb/weave/components/Secrets';
+ 
+ export const CreateSecretSubview: React.FC<{
+   entityName: string;
+   onClose: () => void;
+   onSecretCreated?: (secretName: string) => void;
+ }> = ({entityName, onClose, onSecretCreated}) => {
+-  const [secretName, setSecretName] = useState('');
+-  const [secretValue, setSecretValue] = useState('');
+-  const [showSecret, setShowSecret] = useState(false);
+-  const [isSecretNameModified, setIsSecretNameModified] = useState(false);
++  const {secrets: existingSecretNames} = useSecrets({entityName});
++  const [upsertTeamSecret, {loading: isSaving}] = useUpsertTeamSecret();
+ 
+-  const insertSecret = useInsertSecret();
+-
+-  const onClickAddSecret = async () => {
++  const handleSave = async (input: {
++    secretName: string;
++    secretValue: string;
++  }) => {
+     try {
+-      await insertSecret({
+-        variables: {entityName, secretName, secretValue},
+-      });
+-      toast(`Added secret ${secretName}`, {
+-        type: 'success',
++      await upsertTeamSecret({
++        variables: {
++          entityName,
++          secretName: input.secretName,
++          secretValue: input.secretValue,
++        },
+       });
+-      onSecretCreated?.(secretName);
++      toast(`Added secret ${input.secretName}`, {type: 'success'});
++      onSecretCreated?.(input.secretName);
+       onClose();
+     } catch (err: any) {
+       const errMsg = err?.message || 'Unknown error';
+       console.error(errMsg);
+-      toast(`Problem adding secret ${secretName}: ${errMsg}`, {
++      toast(`Problem adding secret ${input.secretName}: ${errMsg}`, {
+         type: 'error',
+       });
+     }
+   };
+ 
+-  const inputError = isSecretNameModified && !validateSecretName(secretName);
+-  const canAddSecret =
+-    !inputError && secretValue.length > 0 && secretName.length > 0;
+-
+   return (
+-    <TailwindContents>
+-      <div className="flex h-full flex-col">
+-        <div className="flex flex-1 flex-col gap-16 overflow-auto p-16">
+-          <Alert severity="info">
+-            This secret will be created for <strong>{entityName}</strong>, owner
+-            of the destination project.
+-            <br />
+-            Team secrets can be managed in settings by team admins.
+-          </Alert>
+-
+-          <div>
+-            <Typography
+-              sx={{...sharedTypographyStyle, mb: 1, fontWeight: '600'}}>
+-              Secret name
+-            </Typography>
+-            <TextField
+-              placeholder="Ex. MY_API_APP_KEY"
+-              value={secretName}
+-              onChange={value => {
+-                setSecretName(value);
+-                setIsSecretNameModified(true);
+-              }}
+-              errorState={inputError}
+-            />
+-            {inputError && (
+-              <Typography
+-                variant="caption"
+-                color="error"
+-                sx={{...sharedTypographyStyle, mt: 0.5, display: 'block'}}>
+-                Secret names can only contain alphanumeric characters ([a-z],
+-                [A-Z], [0-9]) or underscores (_) and start with a letter ([a-z],
+-                [A-Z]) or underscores (_).
+-              </Typography>
+-            )}
+-          </div>
+-
+-          <div>
+-            <Typography
+-              sx={{...sharedTypographyStyle, mb: 1, fontWeight: '600'}}>
+-              Secret
+-            </Typography>
+-            <TextArea
+-              style={{
+-                height: '80px',
+-                minHeight: '80px',
+-                // @ts-ignore: WebkitTextSecurity is a non-standard CSS property
+-                WebkitTextSecurity: showSecret ? 'none' : 'disc',
+-              }}
+-              value={secretValue}
+-              placeholder="Paste your key or token here"
+-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+-                setSecretValue(e.target.value)
+-              }
+-            />
+-            <div className="mt-8 flex items-center gap-8">
+-              <Checkbox
+-                id="reveal-secret-checkbox"
+-                checked={showSecret}
+-                onCheckedChange={() => setShowSecret(!showSecret)}
+-                size="small"
+-              />
+-              <Typography
+-                component="label"
+-                htmlFor="reveal-secret-checkbox"
+-                sx={{...sharedTypographyStyle, cursor: 'pointer'}}>
+-                Reveal secret
+-              </Typography>
+-            </div>
+-          </div>
+-        </div>
+-
+-        <div className="sticky bottom-0 flex w-full shrink-0 border-t border-solid border-[rgba(0,0,0,0.12)] bg-[#fff] px-0 py-16">
+-          <div className="mx-16 flex w-full gap-16">
+-            <Button
+-              onClick={onClose}
+-              variant="secondary"
+-              style={{flex: 1}}
+-              twWrapperStyles={{flex: 1}}>
+-              Cancel
+-            </Button>
+-            <Button
+-              onClick={onClickAddSecret}
+-              disabled={!canAddSecret}
+-              variant="primary"
+-              style={{flex: 1}}
+-              twWrapperStyles={{flex: 1}}>
+-              Add secret
+-            </Button>
+-          </div>
+-        </div>
+-      </div>
+-    </TailwindContents>
++    <CreateSecretFormContent
++      existingSecretNames={existingSecretNames}
++      isSaving={isSaving}
++      onSave={handleSave}
++      onCancel={onClose}
++      saveLabel="Add secret"
++      banner={
++        <Alert severity="info">
++          This secret will be created for <strong>{entityName}</strong>, owner
++          of the destination project. Team secrets can be managed in settings by
++          team admins.
++        </Alert>
++      }
++    />
+   );
+ };
+diff --git a/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/PlaygroundPage/PlaygroundChat/ProviderConfigDrawer.tsx b/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/PlaygroundPage/PlaygroundChat/ProviderConfigDrawer.tsx
+index 4c39b9b7d79..d8a23724520 100644
+--- a/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/PlaygroundPage/PlaygroundChat/ProviderConfigDrawer.tsx
++++ b/frontends/app/src/weave/components/PagePanelComponents/Home/Browse3/pages/PlaygroundPage/PlaygroundChat/ProviderConfigDrawer.tsx
+@@ -1,9 +1,10 @@
+ import {toast} from '@wandb/weave/common/components/elements/Toast';
+ import {MOON_200, MOON_500} from '@wandb/weave/common/css/color.styles';
+-import {useInsertSecret} from '@wandb/weave/common/hooks/useSecrets';
++import {useUpsertTeamSecret} from '@wandb/weave/common/hooks/useSecrets';
+ import {Button} from '@wandb/weave/components/Button';
+ import {Select} from '@wandb/weave/components/Form/Select';
+ import {TextField} from '@wandb/weave/components/Form/TextField';
++import {SensitiveInfoWrapper} from '@wandb/weave/components/SensitiveInfoWrapper';
+ import {TailwindContents} from '@wandb/weave/components/Tailwind';
+ import React, {useEffect, useState} from 'react';
+ 
+@@ -41,7 +42,7 @@ export const ProviderConfigDrawer: React.FC<ProviderConfigDrawerProps> = ({
+   const [apiKeys, setApiKeys] = useState<string[]>(
+     LLM_PROVIDER_SECRETS[defaultProvider]?.map(secret => '') || ['']
+   );
+-  const insertSecret = useInsertSecret();
++  const [upsertTeamSecret] = useUpsertTeamSecret();
+ 
+   const providerOptions = LLM_PROVIDERS.filter(
+     provider => provider !== 'coreweave'
+@@ -58,7 +59,7 @@ export const ProviderConfigDrawer: React.FC<ProviderConfigDrawerProps> = ({
+     }
+     secretNames.forEach(async (secretName, index) => {
+       try {
+-        await insertSecret({
++        await upsertTeamSecret({
+           variables: {
+             entityName: entity,
+             secretName,
+@@ -176,30 +177,32 @@ export const ProviderConfigDrawer: React.FC<ProviderConfigDrawerProps> = ({
+               <div className="mb-8 text-[14px]" style={{color: MOON_500}}>
+                 {getSecretKeyLabel(selectedProvider, isConfigured)}
+               </div>
+-              <div className="flex flex-col gap-8">
+-                {apiKeys.map((apiKey, index) => (
+-                  // oxlint-disable-next-line react/no-array-index-key -- https://oxc.rs/docs/guide/usage/linter/rules/react/no-array-index-key.html
+-                  <div key={index}>
+-                    <div className="mb-4 text-[14px] font-normal">
+-                      {LLM_PROVIDER_SECRETS[selectedProvider]?.[index]}
++              <SensitiveInfoWrapper>
++                <div className="flex flex-col gap-8">
++                  {apiKeys.map((apiKey, index) => (
++                    // oxlint-disable-next-line react/no-array-index-key -- https://oxc.rs/docs/guide/usage/linter/rules/react/no-array-index-key.html
++                    <div key={index}>
++                      <div className="mb-4 text-[14px] font-normal">
++                        {LLM_PROVIDER_SECRETS[selectedProvider]?.[index]}
++                      </div>
++                      <TextField
++                        value={apiKey}
++                        onChange={value => {
++                          const newApiKeys = [...apiKeys];
++                          newApiKeys[index] = value;
++                          setApiKeys(newApiKeys);
++                        }}
++                        placeholder={
++                          isConfigured
++                            ? 'Enter new API key to update'
++                            : 'Enter API key'
++                        }
++                        type="password"
++                      />
+                     </div>
+-                    <TextField
+-                      value={apiKey}
+-                      onChange={value => {
+-                        const newApiKeys = [...apiKeys];
+-                        newApiKeys[index] = value;
+-                        setApiKeys(newApiKeys);
+-                      }}
+-                      placeholder={
+-                        isConfigured
+-                          ? 'Enter new API key to update'
+-                          : 'Enter API key'
+-                      }
+-                      type="password"
+-                    />
+-                  </div>
+-                ))}
+-              </div>
++                  ))}
++                </div>
++              </SensitiveInfoWrapper>
+             </div>
+           </div>
+         </div>
+diff --git a/frontends/app/src/weave/components/Secrets/SecretDrawer.tsx b/frontends/app/src/weave/components/Secrets/SecretDrawer.tsx
+new file mode 100644
+index 00000000000..3e585265b38
+--- /dev/null
++++ b/frontends/app/src/weave/components/Secrets/SecretDrawer.tsx
+@@ -0,0 +1,119 @@
++import {Dialog, IconButton} from '@wandb/components';
++import React, {type FC} from 'react';
++
++import {Tailwind} from '../Tailwind';
++import {
++  SecretFormFields,
++  SecretFormFooter,
++  type SecretFormMode,
++  useSecretFormState,
++} from './SecretFormContent';
++
++type SecretDrawerProps = {
++  isOpen: boolean;
++  mode: SecretFormMode;
++  secretName?: string;
++  existingSecretNames: string[];
++  isSaving: boolean;
++  /** Distance from the top of the viewport, e.g. to sit below a navbar. */
++  offsetTop?: number;
++  onClose: () => void;
++  onSave: (input: {secretName: string; secretValue: string}) => Promise<void>;
++  banner?: React.ReactNode;
++  renderNameWarning?: (secretName: string) => React.ReactNode;
++  saveLabel?: string;
++};
++
++type SecretDrawerContentProps = Omit<SecretDrawerProps, 'secretName'> & {
++  initialSecretName: string;
++};
++
++const SecretDrawerContent: FC<SecretDrawerContentProps> = ({
++  isOpen,
++  mode,
++  initialSecretName,
++  existingSecretNames,
++  isSaving,
++  offsetTop,
++  onClose,
++  onSave,
++  banner,
++  renderNameWarning,
++  saveLabel,
++}) => {
++  const state = useSecretFormState({
++    mode,
++    initialSecretName,
++    existingSecretNames,
++    isSaving,
++    onSave,
++  });
++
++  const title = mode === 'edit' ? 'Edit secret' : 'Create new secret';
++
++  return (
++    <Dialog.Drawer
++      isOpen={isOpen}
++      offsetTop={offsetTop}
++      onOpenChange={open => {
++        if (!open) {
++          onClose();
++        }
++      }}>
++      <Tailwind>
++        <div className="flex min-h-[56px] items-center justify-between border-b border-moon-250 px-20 py-16 text-xl font-semibold text-moon-800">
++          <Dialog.Heading mb={0}>{title}</Dialog.Heading>
++          <IconButton
++            icon="close"
++            aria-label="Close drawer"
++            tooltip={{children: 'Close drawer'}}
++            variant="ghost"
++            onPress={onClose}
++          />
++        </div>
++      </Tailwind>
++
++      <Dialog.Content>
++        <SecretFormFields
++          mode={mode}
++          state={state}
++          banner={banner}
++          renderNameWarning={renderNameWarning}
++        />
++      </Dialog.Content>
++
++      <Tailwind>
++        <Dialog.Footer>
++          <SecretFormFooter
++            mode={mode}
++            state={state}
++            saveLabel={saveLabel}
++            onCancel={onClose}
++          />
++        </Dialog.Footer>
++      </Tailwind>
++    </Dialog.Drawer>
++  );
++};
++
++export const SecretDrawer: FC<SecretDrawerProps> = ({
++  mode,
++  secretName,
++  ...props
++}) => {
++  const initialSecretName = mode === 'edit' ? (secretName ?? '') : '';
++  // Remount the drawer content so form state resets whenever the drawer is
++  // reopened or retargeted at a different secret.
++  const drawerScopeKey = `${mode}:${initialSecretName}:${
++    props.isOpen ? 'open' : 'closed'
++  }`;
++
++  return (
++    <SecretDrawerContent
++      key={drawerScopeKey}
++      mode={mode}
++      initialSecretName={initialSecretName}
++      {...props}
++    />
++  );
++};
+diff --git a/frontends/app/src/weave/components/Secrets/SecretFormContent.tsx b/frontends/app/src/weave/components/Secrets/SecretFormContent.tsx
+new file mode 100644
+index 00000000000..4b3d210ffdb
+--- /dev/null
++++ b/frontends/app/src/weave/components/Secrets/SecretFormContent.tsx
+@@ -0,0 +1,314 @@
++import {Button, IconButton} from '@wandb/components';
++import React, {type ChangeEvent, type FC, useMemo, useState} from 'react';
++
++import {TextArea} from '../Form/TextArea';
++import {TextField} from '../Form/TextField';
++import {SensitiveInfoWrapper} from '../SensitiveInfoWrapper';
++import {Tailwind} from '../Tailwind';
++import {
++  DUPLICATE_SECRET_NAME_WARNING,
++  hasDuplicateSecretName,
++  SECRET_NAME_ERROR,
++  validateSecretName,
++} from './validation';
++
++export type SecretFormMode = 'create' | 'edit';
++
++export type SecretFormState = {
++  secretName: string;
++  setSecretName: (name: string) => void;
++  secretValue: string;
++  setSecretValue: (value: string) => void;
++  isSecretValueVisible: boolean;
++  setIsSecretValueVisible: React.Dispatch<React.SetStateAction<boolean>>;
++  showNameError: boolean;
++  isDuplicate: boolean;
++  isSaving: boolean;
++  canSave: boolean;
++  handleSave: () => Promise<void>;
++};
++
++export function useSecretFormState({
++  mode,
++  initialSecretName,
++  existingSecretNames,
++  isSaving,
++  onSave,
++}: {
++  mode: SecretFormMode;
++  initialSecretName: string;
++  existingSecretNames: string[];
++  isSaving: boolean;
++  onSave: (input: {secretName: string; secretValue: string}) => Promise<void>;
++}): SecretFormState {
++  const isEditing = mode === 'edit';
++  const [secretName, setSecretName] = useState(initialSecretName);
++  const [secretValue, setSecretValue] = useState('');
++  const [isSecretValueVisible, setIsSecretValueVisible] = useState(false);
++
++  const isNameValid = validateSecretName(secretName);
++  const isDuplicate =
++    !isEditing && hasDuplicateSecretName(secretName, existingSecretNames);
++  const showNameError = !isEditing && secretName !== '' && !isNameValid;
++  const canSave =
++    secretName !== '' &&
++    isNameValid &&
++    !isDuplicate &&
++    secretValue !== '' &&
++    !isSaving;
++
++  const handleSave = async () => {
++    if (!canSave) {
++      return;
++    }
++    await onSave({secretName, secretValue});
++  };
++
++  return {
++    secretName,
++    setSecretName,
++    secretValue,
++    setSecretValue,
++    isSecretValueVisible,
++    setIsSecretValueVisible,
++    showNameError,
++    isDuplicate,
++    isSaving,
++    canSave,
++    handleSave,
++  };
++}
++
++type SecretFormFieldsProps = {
++  mode: SecretFormMode;
++  state: SecretFormState;
++  banner?: React.ReactNode;
++  renderNameWarning?: (secretName: string) => React.ReactNode;
++};
++
++export const SecretFormFields: FC<SecretFormFieldsProps> = ({
++  mode,
++  state,
++  banner,
++  renderNameWarning,
++}) => {
++  const isEditing = mode === 'edit';
++  const {isSaving} = state;
++  const valueLabel = isEditing ? 'New value' : 'Value';
++  const valuePlaceholder = isEditing
++    ? 'Paste the new secret value'
++    : 'Paste your secret value';
++  const visibilityToggleLabel = state.isSecretValueVisible
++    ? 'Hide secret value'
++    : 'Reveal secret value';
++  const valueTextAreaStyle = useMemo(
++    () => ({
++      height: '80px',
++      minHeight: '80px',
++      // @ts-ignore: WebkitTextSecurity is a non-standard CSS property
++      WebkitTextSecurity: state.isSecretValueVisible ? 'none' : 'disc',
++    }),
++    [state.isSecretValueVisible]
++  );
++
++  return (
++    <Tailwind>
++      <div className="flex flex-col gap-16 px-16 py-16">
++        {banner}
++
++        <div>
++          <label
++            htmlFor="secret-form-name"
++            className="block mb-4 text-base font-semibold text-moon-800">
++            Name
++          </label>
++          <SensitiveInfoWrapper>
++            {isEditing ? (
++              <div className="rounded-[5px] [&_input:disabled]:!bg-moon-200 [&_input:disabled]:!text-moon-500">
++                <TextField
++                  id="secret-form-name"
++                  ariaLabel="Name"
++                  value={state.secretName}
++                  disabled
++                />
++              </div>
++            ) : (
++              <div className="rounded-[5px]">
++                <TextField
++                  id="secret-form-name"
++                  ariaLabel="Name"
++                  placeholder="Ex. OPENAI_API_KEY"
++                  value={state.secretName}
++                  onChange={state.setSecretName}
++                  disabled={isSaving}
++                  errorState={state.showNameError}
++                  maxLength={255}
++                  autoComplete="off"
++                />
++              </div>
++            )}
++          </SensitiveInfoWrapper>
++          {state.showNameError && (
++            <p className="mt-4 text-sm leading-5 text-red-550">
++              {SECRET_NAME_ERROR}
++            </p>
++          )}
++          {state.isDuplicate && (
++            <p className="mt-4 text-sm leading-5 text-gold-650">
++              {DUPLICATE_SECRET_NAME_WARNING}
++            </p>
++          )}
++        </div>
++
++        {renderNameWarning?.(state.secretName)}
++
++        <SensitiveInfoWrapper>
++          <div>
++            <label
++              htmlFor="secret-form-value"
++              className="block mb-4 text-base font-semibold text-moon-800">
++              {valueLabel}
++            </label>
++            {isEditing && (
++              <p className="mb-8 text-sm leading-5 text-moon-500">
++                This will replace the current value immediately. Any feature
++                using this secret will use the new value on its next call.
++              </p>
++            )}
++            <div className="relative rounded-[5px]">
++              <TextArea
++                id="secret-form-value"
++                aria-label={valueLabel}
++                placeholder={valuePlaceholder}
++                value={state.secretValue}
++                onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
++                  state.setSecretValue(event.target.value)
++                }
++                disabled={isSaving}
++                className="resize-none rounded-[5px] pr-56"
++                style={valueTextAreaStyle}
++                autoComplete="new-password"
++              />
++              <div className="absolute right-12 top-1/2 -translate-y-1/2">
++                <IconButton
++                  icon={
++                    state.isSecretValueVisible
++                      ? 'visibility-checked'
++                      : 'visibility-unchecked'
++                  }
++                  aria-label={visibilityToggleLabel}
++                  tooltip={{children: visibilityToggleLabel}}
++                  variant="ghost"
++                  isDisabled={isSaving}
++                  onPress={() =>
++                    state.setIsSecretValueVisible(visible => !visible)
++                  }
++                />
++              </div>
++            </div>
++          </div>
++        </SensitiveInfoWrapper>
++      </div>
++    </Tailwind>
++  );
++};
++
++type SecretFormFooterProps = {
++  mode: SecretFormMode;
++  state: SecretFormState;
++  saveLabel?: string;
++  onCancel: () => void;
++};
++
++/** Cancel/save buttons for the secret form. Must be rendered inside a `Tailwind` scope. */
++export const SecretFormFooter: FC<SecretFormFooterProps> = ({
++  mode,
++  state,
++  saveLabel,
++  onCancel,
++}) => (
++  <div className="flex w-full gap-16 border-t border-moon-250 px-16 py-16">
++    <div className="min-w-0 flex-1">
++      <Button
++        fullWidth
++        variant="secondary"
++        size="md"
++        isDisabled={state.isSaving}
++        onPress={onCancel}>
++        Cancel
++      </Button>
++    </div>
++    <div className="min-w-0 flex-1">
++      <Button
++        fullWidth
++        variant="primary"
++        size="md"
++        isDisabled={!state.canSave}
++        isPending={state.isSaving}
++        isPendingAriaLabel="Saving secret"
++        onPress={state.handleSave}>
++        {saveLabel ?? (mode === 'edit' ? 'Replace secret' : 'Save secret')}
++      </Button>
++    </div>
++  </div>
++);
++
++const fullHeightStyle = {height: '100%'} as const;
++
++type CreateSecretFormContentProps = {
++  existingSecretNames: string[];
++  isSaving?: boolean;
++  onSave: (input: {secretName: string; secretValue: string}) => Promise<void>;
++  onCancel: () => void;
++  banner?: React.ReactNode;
++  renderNameWarning?: (secretName: string) => React.ReactNode;
++  saveLabel?: string;
++};
++
++/**
++ * Full-height secret form (fields plus footer) for embedding inside a drawer
++ * subview that provides its own chrome. Create-only: editing an existing
++ * secret is supported via `SecretDrawer`, which seeds the initial name.
++ */
++export const CreateSecretFormContent: FC<CreateSecretFormContentProps> = ({
++  existingSecretNames,
++  isSaving = false,
++  onSave,
++  onCancel,
++  banner,
++  renderNameWarning,
++  saveLabel,
++}) => {
++  const state = useSecretFormState({
++    mode: 'create',
++    initialSecretName: '',
++    existingSecretNames,
++    isSaving,
++    onSave,
++  });
++
++  // Utility classes are compiled to `.tw-style ...` descendant selectors, so
++  // they don't apply to the `Tailwind` element itself. Use an inline style for
++  // the outer height and put the flex layout on an inner div so this works on
++  // surfaces without a `.tw-style` ancestor (e.g. the Launch job drawer).
++  return (
++    <Tailwind style={fullHeightStyle}>
++      <div className="flex h-full flex-col">
++        <div className="min-h-0 flex-1 overflow-auto">
++          <SecretFormFields
++            mode="create"
++            state={state}
++            banner={banner}
++            renderNameWarning={renderNameWarning}
++          />
++        </div>
++        <SecretFormFooter
++          mode="create"
++          state={state}
++          saveLabel={saveLabel}
++          onCancel={onCancel}
++        />
++      </div>
++    </Tailwind>
++  );
++};
+diff --git a/frontends/app/src/weave/components/Secrets/index.ts b/frontends/app/src/weave/components/Secrets/index.ts
+new file mode 100644
+index 00000000000..db1b4537634
+--- /dev/null
++++ b/frontends/app/src/weave/components/Secrets/index.ts
+@@ -0,0 +1,5 @@
++export {SecretDrawer} from './SecretDrawer';
++export {
++  CreateSecretFormContent,
++  type SecretFormMode,
++} from './SecretFormContent';
+diff --git a/frontends/app/src/weave/components/Secrets/validation.ts b/frontends/app/src/weave/components/Secrets/validation.ts
+new file mode 100644
+index 00000000000..3688edb7599
+--- /dev/null
++++ b/frontends/app/src/weave/components/Secrets/validation.ts
+@@ -0,0 +1,19 @@
++const SECRET_NAME_PATTERN = /^[A-Za-z_][A-Za-z0-9_]*$/;
++
++export const SECRET_NAME_ERROR =
++  'Secret names can only contain letters, numbers, and underscores, and must start with a letter or underscore.';
++
++export const DUPLICATE_SECRET_NAME_WARNING =
++  'A secret with this name already exists. Choose a different name or edit the existing secret.';
++
++export const validateSecretName = (name: string) =>
++  SECRET_NAME_PATTERN.test(name);
++
++export const hasDuplicateSecretName = (
++  secretName: string,
++  existingSecretNames: readonly string[]
++) =>
++  secretName !== '' &&
++  existingSecretNames.some(
++    existing => existing.toLowerCase() === secretName.toLowerCase()
++  );
+diff --git a/frontends/app/src/util/SensitiveInfoWrapper.test.tsx b/frontends/app/src/weave/components/SensitiveInfoWrapper.test.tsx
+similarity index 90%
+rename from frontends/app/src/util/SensitiveInfoWrapper.test.tsx
+rename to frontends/app/src/weave/components/SensitiveInfoWrapper.test.tsx
+index d0873a54220..23927abf055 100644
+--- a/frontends/app/src/util/SensitiveInfoWrapper.test.tsx
++++ b/frontends/app/src/weave/components/SensitiveInfoWrapper.test.tsx
+@@ -1,8 +1,10 @@
+ import {render, screen} from '@testing-library/react';
+ import React from 'react';
+ 
+-import {METICULOUS_REDACT_RECORDING} from '../services/meticulous/privacy';
+-import {SensitiveInfoWrapper} from './SensitiveInfoWrapper';
++import {
++  METICULOUS_REDACT_RECORDING,
++  SensitiveInfoWrapper,
++} from './SensitiveInfoWrapper';
+ 
+ describe('SensitiveInfoWrapper', () => {
+   it('wraps children in a div with the meticulous-redact-recording class', () => {
+diff --git a/frontends/app/src/util/SensitiveInfoWrapper.tsx b/frontends/app/src/weave/components/SensitiveInfoWrapper.tsx
+similarity index 72%
+rename from frontends/app/src/util/SensitiveInfoWrapper.tsx
+rename to frontends/app/src/weave/components/SensitiveInfoWrapper.tsx
+index 3cf46e35407..04bbbba7252 100644
+--- a/frontends/app/src/util/SensitiveInfoWrapper.tsx
++++ b/frontends/app/src/weave/components/SensitiveInfoWrapper.tsx
+@@ -1,6 +1,8 @@
+ import React, {type ReactNode} from 'react';
+ 
+-import {METICULOUS_REDACT_RECORDING} from '../services/meticulous/privacy';
++import {METICULOUS_REDACT_RECORDING} from '../../services/meticulous/privacy';
++
++export {METICULOUS_REDACT_RECORDING};
+ 
+ const displayContents = {display: 'contents'} as const;
+ 

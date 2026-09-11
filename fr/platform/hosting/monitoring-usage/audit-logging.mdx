@@ -6,13 +6,13 @@ keywords: ["piste d’audit", "journalisation de conformité", "journal d’acti
 
 Utilisez les journaux d’audit W&amp;B pour suivre l’activité des utilisateurs au sein de votre organisation et répondre à vos exigences de gouvernance d’entreprise. Cette page s’adresse aux administrateurs de l’organisation qui doivent accéder aux données des journaux d’audit, les récupérer et les analyser pour les différents types de déploiement W&amp;B. Les journaux d’audit sont disponibles au format JSON. Reportez-vous à [Schéma du journal d’audit](#audit-log-schema).
 
-La manière dont vous accédez aux journaux d’audit dépend du type de déploiement de votre plateforme W&amp;B :
+La manière dont vous accédez aux journaux d’audit dépend du type de déploiement de votre plateforme W&amp;B :
 
-| Type de déploiement de la plateforme W&amp;B                            | Mécanisme d’accès aux journaux d’audit                                                                                                                                                                                                                                                                                                                                     |
-| ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud)        | <ul><li>[BYOB au niveau de l’instance](/fr/platform/hosting/data-security/secure-storage-connector) : synchronisé dans le bucket de l’instance (BYOB) toutes les 10 minutes. Également disponible avec [l’API](#fetch-audit-logs-using-api).</li><li>Stockage par défaut au niveau de l’instance : disponible uniquement avec [l’API](#fetch-audit-logs-using-api).</li></ul> |
-| [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) | Disponible uniquement pour les plans Enterprise. Disponible uniquement avec [l’API](#fetch-audit-logs-using-api).                                                                                                                                                                                                                                                          |
-| [Autogéré](/fr/platform/hosting/hosting-options/self-managed)              | Synchronisé dans le bucket de l’instance toutes les 10 minutes. Également disponible avec [l’API](#fetch-audit-logs-using-api).                                                                                                                                                                                                                                            |
+| Type de déploiement de la plateforme W&amp;B                            | Mécanisme d’accès aux journaux d’audit                                                                                                                                                                                                                                                                                                                 |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud)        | <ul><li>[BYOB au niveau de l’instance](/fr/platform/hosting/data-security/secure-storage-connector) : synchronisé dans le bucket de l’instance (BYOB) toutes les 10 minutes. Également disponible avec [l’API](#fetch-audit-logs).</li><li>Stockage par défaut au niveau de l’instance : disponible uniquement avec [l’API](#fetch-audit-logs).</li></ul> |
+| [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) | Disponible uniquement pour les plans Enterprise. Disponible uniquement avec [l’API](#fetch-audit-logs).                                                                                                                                                                                                                                                |
+| [Autogéré](/fr/platform/hosting/hosting-options/self-managed)              | Synchronisé dans le bucket de l’instance toutes les 10 minutes. Également disponible avec [l’API](#fetch-audit-logs).                                                                                                                                                                                                                                  |
 
 Après avoir récupéré les journaux d’audit, vous pouvez les analyser avec des outils comme [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery) ou [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric). Certains outils d’analyse des journaux d’audit ne prennent pas en charge le format JSON. Reportez-vous à la documentation de votre outil d’analyse pour connaître les recommandations et les exigences relatives à la transformation des journaux d’audit au format JSON avant l’analyse.
 
@@ -88,43 +88,170 @@ Avant de récupérer les journaux d’audit, confirmez que vous remplissez les p
   ## Récupérer les journaux d’audit
 </div>
 
-Pour récupérer les journaux d’audit à partir de l’API W&amp;B Audit Logging, suivez ces étapes. Une fois cette procédure terminée, vous disposerez d’un ensemble d’objets JSON séparés par des sauts de ligne que vous pourrez analyser à l’aide des outils de votre choix.
+Utilisez l’API Audit Logging de W&amp;B pour récupérer les journaux d’audit. Le point de terminaison, les paramètres de requête et le format de réponse dépendent de votre type de déploiement.
 
-1. Déterminez le point de terminaison d’API approprié pour votre instance :
+<Tabs>
+  <Tab title="Cloud dédié ou autogéré">
+    Utilisez cet onglet pour les instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogérées](/fr/platform/hosting/hosting-options/self-managed). Le point de terminaison de l&#39;API Audit Logging utilise l&#39;URL de votre instance :
 
-   * [Autogéré](/fr/platform/hosting/hosting-options/self-managed): `[WANDB-PLATFORM-URL]/admin/audit_logs`
-   * [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud): `[INSTANCE-NAME].wandb.io/admin/audit_logs`
-   * [Cloud mutualisé (Enterprise requis)](/fr/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
+    * Cloud dédié : `https://[INSTANCE-NAME].wandb.io/admin/audit_logs`.
+    * Autogéré : `https://[WANDB-PLATFORM-URL]/admin/audit_logs`.
 
-   Dans les étapes suivantes, remplacez `[API-ENDPOINT]` par votre point de terminaison d’API.
-2. Facultatif : construisez les paramètres de requête à ajouter à l’point de terminaison. Dans les étapes suivantes, remplacez `[PARAMETERS]` par la chaîne obtenue.
-   * `anonymize` : si l’URL inclut le paramètre `anonymize=true`, W&amp;B supprime toute PII. Sinon, la PII est incluse. Référez-vous à [Exclure la PII lors de la récupération des journaux d’audit](#exclude-pii-when-fetching-audit-logs). Non pris en charge pour le Cloud mutualisé, où tous les champs sont inclus, y compris la PII.
-   * Configurez la plage de dates des journaux à récupérer à l’aide d’une combinaison de `numDays` et `startDate`. Chaque paramètre est facultatif, et ils interagissent entre eux.
-     * Si aucun des deux paramètres n’est inclus, seuls les journaux du jour sont récupérés.
-     * `numDays` : entier indiquant le nombre de jours à remonter à partir de `startDate` pour récupérer les journaux. S’il est omis ou défini sur `0`, les journaux ne sont récupérés que pour `startDate`. Sur **Multi-tenant Cloud**, vous pouvez récupérer au maximum 7 jours de journaux d’audit, même si vous définissez `numDays` sur une valeur supérieure.
-     * `startDate` : facultatif. Utilisez `startDate=YYYY-MM-DD` pour définir le jour calendaire le plus récent de l’intervalle. Si vous l’omettez ou le définissez sur la date du jour, l’intervalle se termine aujourd’hui et `numDays` compte à rebours à partir de ce jour.
-       * Pris en charge dans **Multi-tenant Cloud** uniquement avec une Enterprise license.
-       * Pris en charge dans **Cloud dédié** et **Autogéré** v0.80.0 et versions ultérieures.
-3. Construisez l’URL complète du point de terminaison au format `[API-ENDPOINT]?[PARAMETERS]`.
-4. Exécutez une requête HTTP `GET` sur le point de terminaison d’API complet à l’aide d’un navigateur web ou d’un outil comme [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), ou cURL.
+    Dans les exemples suivants, remplacez :
 
-La réponse de l’API contient des objets JSON séparés par des sauts de ligne. Les objets incluent les champs décrits dans le [schéma](#audit-log-schema), comme lorsque les journaux d’audit sont synchronisés avec un bucket de l’instance. Dans ce cas, les journaux d’audit se trouvent dans le répertoire `/wandb-audit-logs` de votre bucket.
+    * `[INSTANCE-NAME]` : le nom de votre instance de Cloud dédié.
+    * `[WANDB-PLATFORM-URL]` : l&#39;URL de votre instance Autogérée.
+    * `[API-ENDPOINT]` : le point de terminaison de votre instance.
+    * `[BASE64-USERNAME-API-KEY]` : la chaîne encodée en base64 au format `[USERNAME]:[API-KEY]`.
+    * `[NEXT-CURSOR]` : la valeur `next_cursor` issue de la réponse précédente.
+
+    Les paramètres de requête suivants sont pris en charge :
+
+    * `anonymize` : si l&#39;URL inclut `anonymize=true`, W&amp;B n&#39;ajoute pas de champs PII aux journaux d’audit. Sinon, les PII sont incluses. Pour plus d&#39;informations, voir [Exclure les PII lors de la récupération des journaux d’audit](#exclude-pii).
+    * `startDate` : début inclus de la plage de dates, en UTC. Les formats pris en charge sont `YYYY-MM-DD`, `YYYY-MM-DDTHH`, `YYYY-MM-DDTHH:mm` et `YYYY-MM-DDTHH:mm:ss`. Les composantes horaires omises valent zéro par défaut. Par exemple, `2026-08-03T01` correspond à `2026-08-03T01:00:00Z`. Si vous omettez `startDate`, la plage commence aujourd&#39;hui à minuit UTC, ou `numDays` jours avant aujourd&#39;hui si vous définissez `numDays`.
+    * `numDays` : entier non négatif. W&amp;B récupère les journaux depuis `startDate` sur les `numDays` jours suivants. Si vous omettez `numDays` ou le définissez à `0`, W&amp;B récupère uniquement les journaux de la journée `startDate`. Vous ne pouvez pas utiliser `numDays` avec `endDate`.
+    * `endDate` : fin exclue de la plage de dates, en UTC. Les formats pris en charge sont les mêmes que pour `startDate`. Définir `endDate` renvoie une réponse JSON paginée, même si vous ne définissez pas `limit`. Vous ne pouvez pas utiliser `endDate` avec `numDays`.
+    * `limit` : nombre maximum d&#39;entrées de journaux d’audit à renvoyer dans une réponse paginée. Utilisez un entier positif jusqu&#39;à `20,000`. Si vous définissez `limit`, W&amp;B renvoie une réponse JSON paginée. Dans les requêtes paginées, la valeur par défaut est `20,000`.
+    * `cursor` : curseur opaque provenant du champ `next_cursor` de la réponse précédente. Réutilisez ce curseur avec la même plage de dates résolue et la même valeur `anonymize`. Si vous définissez `cursor`, vous devez également définir `limit` ou `endDate`.
+
+    Si vous ne définissez ni `limit` ni `endDate`, l&#39;API conserve le format de réponse en streaming d&#39;origine. La réponse contient des objets JSON séparés par des sauts de ligne. Chaque objet comprend les champs décrits dans [Schéma du journal d&#39;audit](#audit-log-schema), soit les mêmes que ceux des journaux synchronisés vers un bucket de l&#39;instance.
+
+    Pour récupérer en flux continu une réponse JSON dont les objets sont séparés par des sauts de ligne, sur une plage de trois jours, en excluant les données personnelles (PII), exécutez :
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "[API-ENDPOINT]?startDate=2026-08-01&numDays=2&anonymize=true"
+    ```
+
+    Si vous définissez `limit` ou `endDate`, l&#39;API renvoie un objet JSON contenant les champs suivants :
+
+    * `audit_logs` : un tableau d&#39;entrées du journal d&#39;audit. Chaque entrée contient les champs décrits dans [Schéma du journal d&#39;audit](#audit-log-schema).
+    * `range_start_time` : le début de la plage de dates résolue, en UTC.
+    * `range_end_time` : la fin exclusive de la plage de dates résolue, en UTC.
+    * `count` : le nombre d&#39;entrées du journal d&#39;audit renvoyées dans cette réponse.
+    * `next_cursor` : un curseur opaque pointant vers la page de résultats suivante. Si ce champ vaut `null`, il n&#39;y a plus de résultats pour la plage de dates sélectionnée.
+
+    Pour récupérer une réponse paginée sur une plage de deux heures, exécutez :
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000"
+    ```
+
+    La réponse ressemble à l&#39;exemple suivant :
+
+    ```json
+    {
+      "audit_logs": [
+        {
+          "action": "project:read",
+          "actor_email": "admin@example.com",
+          ...
+          "timestamp": "2026-08-01T14:00:00Z",
+        }
+      ],
+      "range_start_time": "2026-08-01T13:00:00Z",
+      "range_end_time": "2026-08-01T15:00:00Z",
+      "count": 1,
+      "next_cursor": "eyJ2ZXJzaW9uIjox..."
+    }
+    ```
+
+    Pour récupérer la page suivante, réexécutez la requête avec la même plage de dates résolue et la même valeur `anonymize`. Définissez `cursor` sur la valeur `next_cursor` renvoyée par la réponse précédente. Répétez l&#39;opération jusqu&#39;à ce que `next_cursor` soit `null`.
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000&cursor=[NEXT-CURSOR]"
+    ```
+
+    <div id="exclude-pii-when-fetching-audit-logs">
+      ### Exclure les informations personnelles (PII) lors de la récupération des journaux d’audit <a id="exclude-pii" />
+    </div>
+
+    Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d&#39;organisation ou d&#39;instance W&amp;B peut exclure les informations personnelles identifiables (PII) lors de la récupération des journaux d&#39;audit. Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), l&#39;API endpoint renvoie toujours les champs pertinents des journaux d&#39;audit, y compris les PII. Ce comportement n&#39;est pas configurable.
+
+    Pour exclure les données personnelles (PII), transmettez le paramètre d’URL `anonymize=true`. Par exemple, pour obtenir les journaux d’audit de l’activité des utilisateurs au cours de la dernière semaine en excluant les PII, si l’URL de votre instance W&amp;B est `https://mycompany.wandb.io`, utilisez un point de terminaison d’API tel que :
+
+    ```text
+    https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETERS].
+    ```
+  </Tab>
+
+  <Tab title="Cloud mutualisé">
+    Utilisez cet onglet pour le [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud). Les journaux d&#39;audit multilocataires sont disponibles uniquement pour les plans Enterprise. L&#39;API endpoint de l&#39;API Audit Logging est le suivant :
+
+    ```text
+    https://api.wandb.ai/audit_logs
+    ```
+
+    Les paramètres de requête suivants sont pris en charge :
+
+    * `startDate` : le premier jour calendaire UTC de la plage de dates. Utilisez le format `YYYY-MM-DD`. Si vous omettez `startDate`, la plage commence aujourd&#39;hui à minuit UTC, ou `numDays` jours avant aujourd&#39;hui si vous définissez `numDays`.
+    * `numDays` : un entier compris entre `0` et `7`. W&amp;B récupère les journaux à partir de `startDate` et pour les `numDays` jours suivants. Si vous omettez `numDays` ou le définissez sur `0`, W&amp;B récupère les journaux d&#39;une seule journée.
+    * `limit` : le nombre maximum d&#39;entrées de journal d&#39;audit à renvoyer. Utilisez un entier positif jusqu&#39;à `1,000,000`. La valeur par défaut est `1,000,000`.
+    * `cursor` : un curseur opaque provenant du champ `next_cursor` de la réponse précédente. Réutilisez le curseur avec la même plage de dates résolue.
+
+    Le point de terminaison Cloud mutualisé renvoie toujours les champs pertinents pour les journaux d&#39;audit, y compris les données personnelles. Ce comportement n&#39;est pas configurable.
+
+    La réponse est un objet JSON comportant les champs suivants :
+
+    * `audit_logs` : un tableau d&#39;entrées de journal d&#39;audit. Chaque entrée inclut les champs décrits dans [Schéma du journal d&#39;audit](#audit-log-schema).
+    * `range_start_time` : le début de la plage de dates résolue, en UTC.
+    * `range_end_time` : la fin exclusive de la plage de dates résolue, en UTC.
+    * `count` : le nombre d&#39;entrées de journal d&#39;audit renvoyées dans cette réponse.
+    * `next_cursor` : un curseur opaque pointant vers la page de résultats suivante. Si ce champ vaut `null`, il n&#39;y a plus de résultats pour la plage de dates sélectionnée.
+
+    Dans les exemples suivants, remplacez :
+
+    * `[BASE64-USERNAME-API-KEY]` : la chaîne encodée en base64 au format `[USERNAME]:[API-KEY]`.
+    * `[NEXT-CURSOR]` : la valeur `next_cursor` de la réponse précédente.
+
+    Pour récupérer les journaux d&#39;audit d&#39;une plage, exécutez :
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "https://api.wandb.ai/audit_logs?startDate=2026-08-01&numDays=2&limit=1000"
+    ```
+
+    La réponse ressemble à l&#39;exemple suivant :
+
+    ```json
+    {
+      "audit_logs": [
+        {
+          "action": "project:read",
+          "actor_email": "admin@example.com",
+          ...
+          "timestamp": "2026-08-01T13:12:14Z"
+        }
+      ],
+      "range_start_time": "2026-08-01T00:00:00Z",
+      "range_end_time": "2026-08-04T00:00:00Z",
+      "count": 1,
+      "next_cursor": "eyJyb3dfa2V5Ijoi..."
+    }
+    ```
+
+    Pour récupérer la page suivante, répétez la requête avec la même plage de dates résolue. Définissez `cursor` sur la valeur de `next_cursor` renvoyée par la réponse précédente. Continuez jusqu&#39;à ce que `next_cursor` vaille `null`.
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "https://api.wandb.ai/audit_logs?startDate=2026-08-01&numDays=2&limit=1000&cursor=[NEXT-CURSOR]"
+    ```
+
+    <a id="1">1</a> : Sur le [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), les journaux d’audit ne sont pas collectés pour :
+
+    * Les projects Open ou publics.
+    * L’action `report:read`.
+    * Les actions `User` qui ne sont pas rattachées à une organisation spécifique.
+  </Tab>
+</Tabs>
 
 <div id="use-basic-authentication">
   ### Utiliser l’authentification de base
 </div>
 
 Vous devez authentifier chaque requête adressée à l’API des journaux d’audit. Pour utiliser l’authentification de base avec votre clé API afin d’accéder à l’API des journaux d’audit, définissez l’en-tête `Authorization` de la requête HTTP sur la chaîne `Basic`, suivie d’un espace, puis de la chaîne encodée en base64 au format `[USERNAME]:[API-KEY]`. En d’autres termes, remplacez le nom d’utilisateur et la clé API par vos valeurs, séparées par le caractère `:`, puis encodez le résultat en base64. Par exemple, pour vous authentifier en tant que `demo:p@55w0rd`, définissez l’en-tête sur `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
-
-### Exclure les PII lors de la récupération des journaux d’audit <a id="exclude-pii" />
-
-Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d’organisation ou d’instance W&amp;B peut exclure les PII lors de la récupération des journaux d’audit. Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), le point de terminaison d’API renvoie toujours les champs pertinents des journaux d’audit, y compris les PII. Ce comportement n’est pas configurable.
-
-Pour exclure les PII, passez le paramètre d’URL `anonymize=true`. Par exemple, pour obtenir les journaux d’audit de l’activité des utilisateurs sur la dernière semaine tout en excluant les PII, si l’URL de votre instance W&amp;B est `https://mycompany.wandb.io`, utilisez un point de terminaison d’API comme :
-
-```text
-https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETERS].
-```
 
 <div id="actions">
   ## Actions
@@ -138,6 +265,7 @@ Chaque entrée de journal d’audit enregistre l’une des actions suivantes. Ut
 | `artifact:delete`             | Artifact est supprimé.                                                                           |
 | `artifact:read`               | Artifact est lu.                                                                                 |
 | `project:delete`              | Le projet est supprimé.                                                                          |
+| `organization:update_member`  | Le rôle ou la licence du membre dans l’organisation est mis à jour.                              |
 | `project:read`                | Le projet est lu.                                                                                |
 | `report:read`                 | Le rapport est lu. <sup><a href="#1">1</a></sup>                                                 |
 | `run:delete_many`             | Un lot de runs est supprimé.                                                                     |
@@ -163,9 +291,3 @@ Chaque entrée de journal d’audit enregistre l’une des actions suivantes. Ut
 | `user:reactivate`             | L’utilisateur est réactivé. <sup><a href="#1">1</a></sup>                                        |
 | `user:read`                   | Le profil de l’utilisateur est lu. <sup><a href="#1">1</a></sup>                                 |
 | `user:update`                 | L’utilisateur est mis à jour. <sup><a href="#1">1</a></sup>                                      |
-
-<a id="1">1</a>: Sur [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), les journaux d’audit ne sont pas collectés pour :
-
-* Les projets Open ou Public.
-* L’action `report:read`.
-* Les actions `Users` qui ne sont pas liées à une organisation spécifique.

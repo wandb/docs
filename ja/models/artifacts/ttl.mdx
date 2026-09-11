@@ -7,17 +7,13 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" />
 
-W&amp;B Artifact の Time-to-Live (TTL) ポリシーを使用すると、W&amp;B で artifact が削除されるタイミングをスケジュールできます。artifact を削除すると、W&amp;B はその artifact を *ソフト削除* としてマークします。つまり、artifact は削除対象としてマークされますが、ファイルは storage からすぐには削除されません。W&amp;B が artifact をどのように削除するかについて詳しくは、[Delete artifacts](./delete-artifacts) ページを参照してください。
+W&amp;B アーティファクト の Time-to-Live (TTL) ポリシーを使用すると、W&amp;B でアーティファクト が削除されるタイミングをスケジュールできます。アーティファクト を削除すると、W&amp;B はその アーティファクト を *ソフト削除* としてマークします。つまり、アーティファクト は削除対象としてマークされますが、ファイルは storage からすぐには削除されません。W&amp;B がアーティファクト をどのように削除するかについて詳しくは、[Delete artifacts](./delete-artifacts) ページを参照してください。
 
 W&amp;B App で Artifacts TTL を使ってデータ保持を管理する方法については、動画チュートリアルの [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) をご覧ください。
 
 <Note>
-  W&amp;B は、Registry にリンクされた artifact に対して TTL ポリシーを設定するオプションを無効化します。これは、本番ワークフローで使用されるリンク済み artifact が誤って期限切れにならないようにするためです。
-</Note>
-
-<Note>
   * [チームの設定](/ja/platform/app/settings-page/teams) を表示し、(1) TTL ポリシーを設定または編集できるユーザーの許可や、(2) チームのデフォルト TTL の設定など、チームレベルの TTL 設定にアクセスできるのはチーム管理者のみです。
-  * W&amp;B App UI で artifact の詳細に TTL ポリシーを設定または編集するオプションが表示されない場合、またはプログラムで TTL を設定しても artifact の TTL プロパティが正常に変更されない場合は、チーム管理者から必要な権限が付与されていません。
+  * W&amp;B App UI でアーティファクト の詳細に TTL ポリシーを設定または編集するオプションが表示されない場合、またはプログラムで TTL を設定してもアーティファクト の TTL プロパティが正常に変更されない場合は、チーム管理者から必要な権限が付与されていません。
 </Note>
 
 <div id="auto-generated-artifacts">
@@ -267,3 +263,11 @@ Python SDK または W&amp;B App UI を使用して、artifact の TTL ポリシ
     </Frame>
   </Tab>
 </Tabs>
+
+<div id="ttl-policies-for-linked-artifact-versions">
+  ## リンクされたアーティファクトバージョンの TTL ポリシー
+</div>
+
+W&amp;B は、本番ワークフローで使用されるアーティファクトの有効期限切れを防ぐため、リンクされたアーティファクトバージョンの TTL ポリシーを無効にします。
+
+アーティファクトバージョンを Registry のコレクションにリンクすると、W&amp;B はその TTL ポリシーを無効にし、TTL を `None` に設定します。後でアーティファクトバージョンのリンクを解除しても、W&amp;B は以前の TTL ポリシーやその期間を復元しません。アーティファクトバージョンに引き続き TTL ポリシーが必要な場合は、リンク解除後に新しい TTL ポリシーを設定してください。

@@ -40,7 +40,11 @@ Un administrateur d’équipe peut afficher et gérer les instances et les canau
   ## Créer une automatisation
 </div>
 
-Après avoir [ajouté une intégration Slack](#add-a-slack-integration), vous pouvez créer une automatisation qui l’utilise pour envoyer des notifications. Sélectionnez **Registre** ou **Projet** selon le niveau auquel vous voulez que l’automatisation s’applique. Puis suivez ces étapes pour créer une automatisation qui envoie une notification au canal Slack.
+Après avoir [ajouté une intégration Slack](#add-a-slack-integration), vous pouvez créer une automatisation qui l’utilise pour envoyer des notifications. Sélectionnez **Registre** ou **Projet** selon la portée à laquelle vous voulez que l’automatisation s’applique. Puis suivez ces étapes pour créer une automatisation qui envoie une notification au canal Slack.
+
+<Note>
+  Pour appliquer une automatisation plus largement, créez-la depuis le hub **Automations** global et sélectionnez la portée **Équipe** ou **Organisation**. Les étapes sont les mêmes que celles qui suivent. À ces portées, W&amp;B App ne prend en charge que les événements d&#39;artifact et de collection. Voir [Hub Automations](/fr/models/automations#automations-hub).
+</Note>
 
 <Tabs>
   <Tab title="Registre">
@@ -48,7 +52,7 @@ Après avoir [ajouté une intégration Slack](#add-a-slack-integration), vous po
 
     1. Connectez-vous à W&amp;B.
     2. Cliquez sur le nom d&#39;un registre pour en afficher les détails.
-    3. Pour créer une automatisation limitée au registre, cliquez sur l&#39;onglet **Automations**, puis sur **Créer une automatisation**. Une automatisation limitée à un registre s&#39;applique automatiquement à toutes ses collections (y compris celles qui seront créées ultérieurement).
+    3. Pour créer une automatisation portée au registre, cliquez sur l&#39;onglet **Automations**, puis sur **Créer une automatisation**. Une automatisation portée à un registre s&#39;applique automatiquement à toutes ses collections (y compris celles qui seront créées ultérieurement).
     4. Choisissez l&#39;[événement](/fr/models/automations/automation-events/#registry-events) à surveiller.
 
        Renseignez tous les champs supplémentaires qui s&#39;affichent, selon l&#39;événement. Par exemple, si vous sélectionnez **Un alias d&#39;artifact est ajouté**, vous devez spécifier le **Regex d&#39;alias**.

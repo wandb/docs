@@ -16,7 +16,7 @@ W&amp;B Python SDK를 사용해 머신 러닝 실험을 추적하세요. 그런 
 1. [W&amp;B run 초기화](#initialize-a-wb-run)
 2. [하이퍼파라미터 딕셔너리 캡처](#capture-a-dictionary-of-hyperparameters)
 3. [트레이닝 루프 안에서 메트릭 기록](#log-metrics-inside-your-training-loop)
-4. [artifact를 W&amp;B에 기록](#log-an-artifact-to-wb)
+4. [W&amp;B에 아티팩트 로깅하기](/ko/models/track/create-an-experiment#log-an-artifact-to-w%26b)
 
 <div id="initialize-a-wb-run">
   ### W&amp;B run 초기화
@@ -68,13 +68,13 @@ accuracy, loss와 같은 각 트레이닝 step의 메트릭을 로깅하려면 [
 ```python
 model, dataloader = get_model(), get_data()
 
-for epoch in range(run.config.epochs):
+for epoch in range(run.config["epochs"]):
     for batch in dataloader:
         loss, accuracy = model.training_step()
         run.log({"accuracy": accuracy, "loss": loss})
 ```
 
-W&amp;B에 로깅할 수 있는 다양한 데이터 유형에 대한 자세한 내용은 [Experiments 중 데이터 로깅하기](/ko/models/track/log/)를 참조하세요.
+W&amp;B에 로깅할 수 있는 다양한 데이터 유형에 대한 자세한 내용은 [객체 및 미디어 로깅하기](/ko/models/track/log/)를 참조하세요.
 
 <div id="log-an-artifact-to-wb">
   ### W&amp;B에 Artifact 로깅하기
@@ -125,37 +125,37 @@ with wandb.init(
   ## 다음 단계: 실험 시각화
 </div>
 
-W&amp;B 대시보드를 머신 러닝 모델의 결과를 정리하고 시각화하는 중앙 공간으로 활용하세요. 몇 번만 클릭하면 [병렬 좌표 플롯](/ko/models/app/features/panels/parallel-coordinates/), [파라미터 중요도 분석](/ko/models/app/features/panels/parameter-importance/), [기타 차트 유형](/ko/models/app/features/panels/)과 같은 풍부한 대화형 차트를 만들 수 있습니다.
+프로젝트의 Workspace를 머신 러닝 모델의 결과를 정리하고 시각화하는 공간으로 활용하세요. [병렬 좌표 플롯](/ko/models/app/features/panels/parallel-coordinates/), [파라미터 중요도 분석](/ko/models/app/features/panels/parameter-importance/), [기타 차트 유형](/ko/models/app/features/panels/)과 같은 대화형 차트를 만들 수 있습니다.
 
 <Frame>
-  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="퀵스타트 Sweeps 대시보드 예시" />
+  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="퀵스타트 Sweeps Workspace 예시" />
 </Frame>
 
-실험과 특정 run을 확인하는 방법에 대한 자세한 내용은 [실험 결과 시각화](/ko/models/track/workspaces/)를 참조하세요.
+실험과 특정 run을 확인하는 방법에 대한 자세한 내용은 [실험 결과 보기](/ko/models/track/workspaces/)를 참조하세요.
 
 <div id="best-practices">
   ## 모범 사례
 </div>
 
-다음은 Experiments를 만들 때 고려할 만한 몇 가지 권장 사항입니다:
+다음은 실험을 만들 때 고려할 수 있는 몇 가지 권장 지침입니다.
 
-1. **run 완료하기**: `wandb.init()`를 `with` 문에서 사용하면 코드 실행이 끝나거나 예외가 발생했을 때 run이 자동으로 완료된 것으로 표시됩니다.
-   * Jupyter notebook에서는 Run 객체를 직접 관리하는 편이 더 편리할 수 있습니다. 이 경우 Run 객체에서 `finish()`를 명시적으로 호출해 완료된 것으로 표시할 수 있습니다:
+* **컨텍스트 관리자로 Runs 관리**: `with` 문에서 `wandb.init()`를 사용하면 코드 실행이 끝나거나 예외가 발생했을 때 run이 자동으로 종료됩니다.
+  * Jupyter notebook에서는 run object를 직접 관리하는 편이 더 나을 수 있습니다. 이 경우 `finish()`를 호출해 완료로 표시하세요.
 
-     ```python
-     # notebook cell에서:
-     run = wandb.init()
+    ```python
+    # notebook cell에서:
+    run = wandb.init()
 
-     # 다른 cell에서:
-     run.finish()
-     ```
-2. **설정**: 하이퍼파라미터, 아키텍처, 데이터셋, 그리고 모델을 재현하는 데 필요한 기타 정보를 Track하세요. 이 정보는 column에 표시되며, 앱에서 설정 column을 사용해 run을 동적으로 그룹화, 정렬, Filter할 수 있습니다.
-3. **프로젝트**: 프로젝트는 함께 비교할 수 있는 실험의 집합입니다. 각 프로젝트에는 전용 대시보드 페이지가 제공되며, 서로 다른 모델 버전을 비교할 수 있도록 여러 run 그룹을 쉽게 켜고 끌 수 있습니다.
-4. **Notes**: 스크립트에서 바로 간단한 커밋 메시지를 설정하세요. W&amp;B App의 run에 있는 Overview section에서 notes를 편집하고 확인할 수 있습니다.
-5. **Tags**: 기준 run과 중요 run을 파악하세요. tags를 사용해 run을 Filter할 수 있습니다. W&amp;B App의 프로젝트 대시보드에 있는 Overview section에서 나중에 tags를 편집할 수도 있습니다.
-6. **실험 비교를 위해 여러 run 세트 만들기**: 실험을 비교할 때는 메트릭을 더 쉽게 비교할 수 있도록 여러 run 세트를 만드세요. 동일한 차트 또는 차트 그룹에서 run 세트를 켜거나 끌 수 있습니다.
+    # 다른 cell에서:
+    run.finish()
+    ```
+* **Config**: 모델을 재현하는 데 필요한 하이퍼파라미터, 모델 아키텍처, 데이터셋 정보 및 기타 값을 추적하세요. 자세한 내용은 [View the config in the Overview section of a run in the W&amp;B App](/ko/models/track/config#view-config-values-in-the-w\&b-app)을 참고하세요.
+* **Project**: [projects](/ko/models/track/project-page)를 사용해 실험을 한곳에서 구성하세요. 여기에서 결과를 시각화하고, Runs를 비교하고, 아티팩트를 보고 다운로드하고, 자동화를 만들 수 있습니다.
+* **Notes**: `baseline model` 또는 `tuned hyperparameters`처럼 run의 목적을 설명하는 notes를 추가하세요. 나중에 W&amp;B App의 run 개요에서 notes를 편집할 수 있습니다.
+* **Job types**: 작업(`train`, `test`, `inference` 등)별로 Runs를 구성하고 필터링할 수 있도록 [Runs에 job type 추가](/ko/models/runs/grouping#organize-runs-by-job-type)하세요.
+* **Tags**: 로깅된 메트릭이나 아티팩트만으로는 분명하지 않을 수 있는 특성이나 속성으로 Runs에 레이블을 지정하려면 [Runs에 tags 추가](/ko/models/runs/tags)하세요.
 
-다음 코드 스니펫은 위에 나열한 모범 사례에 따라 W&amp;B 실험을 정의하는 방법을 보여줍니다:
+다음 예시에서는 이러한 모범 사례를 사용해 W&amp;B run을 초기화하는 방법을 보여줍니다.
 
 ```python
 import wandb
@@ -176,4 +176,4 @@ with wandb.init(
     ...
 ```
 
-W&amp;B 실험을 정의할 때 사용 가능한 매개변수에 대한 자세한 내용은 [API 레퍼런스 가이드](/ko/models/ref/python/)의 [`wandb.init()`](/ko/models/ref/python/functions/init) API 문서를 참조하세요.
+사용 가능한 Parameter에 대한 자세한 내용은 [Python SDK 레퍼런스 가이드](/ko/models/ref/python/)의 [`wandb.init()`](/ko/models/ref/python/functions/init)을 참조하세요.

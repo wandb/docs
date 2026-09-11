@@ -1250,37 +1250,16 @@ Plan a maintenance window and notify users before you begin. Contact [Customer S
 
 Self-Managed deployments that use an external ClickHouse cluster must verify ClickHouse compatibility before upgrading W&B Server.
 
-### Unsupported ClickHouse versions
+### Supported ClickHouse versions
 
-W&B Self-Managed deployments using W&B Weave or Models OLAP features require a supported version of both ClickHouse Server and ClickHouse Keeper.
+W&B Weave requires a supported version of both ClickHouse Server and ClickHouse Keeper.
 
+- Weave supports ClickHouse 25.8 through 25.12, and 26.3 or newer.
 - Weave does not work with ClickHouse 26.1 or 26.2.
-- The Models OLAP features described in the next section require ClickHouse 26.2+.
-- Deployments using both Weave and Models OLAP features require ClickHouse 26.3.
 
-If your W&B Self-Managed deployment uses neither Weave nor Models OLAP features, ClickHouse is not required.
+**_Before_ you upgrade W&B Self-Managed**, verify that both ClickHouse Server and ClickHouse Keeper run a version that Weave supports. If you must change ClickHouse versions, upgrade both components together.
 
-
-### Models OLAP features
-
-W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.2+. These migrations run when any of the following Models OLAP features are enabled in your Helm values:
-
-```yaml
-global:
-  olap:
-    registrySearch:
-      enabled: true
-    runStoreAccelerator:
-      enabled: true
-    history:
-      enabled: true
-```
-
-**_Before_ upgrading to W&B Self-Managed to Server v0.81+**, you must _either_:
-- Set these to `false` in your Helm values, _or_:
-- Upgrade both ClickHouse Server and ClickHouse Keeper to 26.2 or newer (26.3 or newer if your deployment also uses Weave).
-
-If these features are disabled or you do not use ClickHouse for Models OLAP workloads, this requirement does not apply to your upgrade.
+If your W&B Self-Managed deployment does not use Weave, ClickHouse is not required and this requirement does not apply to your upgrade.
 
 Dedicated Cloud and Multi-tenant Cloud deployments already run a compatible ClickHouse version and are not affected.
 
