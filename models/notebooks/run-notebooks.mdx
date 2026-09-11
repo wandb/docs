@@ -3,6 +3,33 @@ title: Run a notebook
 ---
 
 ## Understand reactive execution
+
+Notebooks statically analyzes each cell to determine its references, the global variables it reads but doesn't define; definitions, the global variables it defines.
+It then forms a directed acyclic graph (DAG) on cells, with an edge from one cell to another if the latter references any of the definitions of the former. When a cell is run, its descendants are marked for execution.
+
+## View cell dependencies
+
+Use the the [Dependencies panel](https://docs.marimo.io/guides/editor_features/dataflow/#dependencies-panel) to understand relationships between cells.
+
+1. From the sidebar, select **Explore dependencies** (<Icon icon="sitemap" iconType="solid"/>). 
+2. Select **MINIMAP** or **GRAPH**.
+
+[Graph view](https://docs.marimo.io/guides/editor_features/dataflow/#graph-view) displays dependencies between cells as a directed acyclic graph (DAG). You can zoom in and out, drag, and rearrange nodes to better understand the relationships between cells.
+
+<Frame>
+    <img src="/images/notebooks/variable_dependencies.png" alt="Variable dependencies diagram showing how variables flow between cells in a notebook" />
+</Frame>
+
+
+## View variable dependencies
+
+Use [Variables explorer](https://docs.marimo.io/guides/editor_features/dataflow/#variables-explorer) to view defined variables, their types, where they were declared, and where they are being referenced.
+
+
+
+- Cell symbols: https://docs.marimo.io/guides/editor_features/dataflow/#cell-symbols
+- Cell connections: https://docs.marimo.io/guides/editor_features/dataflow/#reading-cell-connections
+
 ## Run a cell and its dependent cells
 ## Run all cells
 ## Stop a running cell
