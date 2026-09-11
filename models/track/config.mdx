@@ -391,7 +391,7 @@ with wandb.init(project="my_project", config=config) as run:
     ...
 ```
 
-Some W&B App views display nested config keys in dotted form (for example, `EPISODE_BUDGET.cramped_room`). Public API filters also use dotted keys. In Python, access nested values with normal dictionary indexing: `run.config["EPISODE_BUDGET"]["cramped_room"]`.
+Some W&B App views display nested config keys in dotted form (for example, `EPISODE_BUDGET.cramped_room`). Public API filters prefix these paths with `config.` (for example, `config.EPISODE_BUDGET.cramped_room`). In Python, access nested values with normal dictionary indexing: `run.config["EPISODE_BUDGET"]["cramped_room"]`.
 
 ### Example use case for file-based configs
 Suppose you have a YAML file with some metadata for the run, and then a dictionary of hyperparameters in your Python script. You can save both in the nested `config` object:
