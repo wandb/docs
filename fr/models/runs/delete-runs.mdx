@@ -14,30 +14,77 @@ Supprimez des runs d’un projet avec W&amp;B App ou l’API Python.
     1. Accédez au projet qui contient les runs que vous souhaitez supprimer.
     2. Sélectionnez l’onglet **Runs**.
     3. Cochez la case à côté des runs que vous souhaitez supprimer.
-    4. Cliquez sur le bouton **Delete** (icône de corbeille) au-dessus du tableau.
-    5. Dans le volet latéral qui s’affiche, choisissez **Delete**.
+    4. Cliquez sur le bouton **Supprimer** (icône de corbeille) au-dessus du tableau.
+    5. Dans le volet latéral qui s’affiche, choisissez **Supprimer**.
 
     Pour les projets qui contiennent un grand nombre de runs, vous pouvez utiliser soit la barre de recherche pour filtrer les runs que vous souhaitez supprimer à l’aide d’expressions régulières, soit le bouton de filtre pour filtrer les runs en fonction de leur statut, de leurs tags ou d’autres propriétés.
   </Tab>
 
   <Tab title="Python" value="python">
-    Vous pouvez supprimer des runs par programmation avec [`Run.delete()`](/fr/models/ref/python/public-api/run#method-run-delete). Définissez `delete_artifacts=True` si vous souhaitez également supprimer les artefacts associés au run.
+    Utilisez l’API publique de W&amp;B pour supprimer des runs par programmation. Les opérations de suppression peuvent porter sur un seul run ou sur plusieurs runs à la fois.
+
+    Utilisez [`wandb.Api.Run.delete()`](/fr/models/ref/python/public-api/run#method-run-delete) pour supprimer un seul run. Indiquez le chemin du run au format `entity/project/runID`.
 
     ```python
     import wandb
 
     api = wandb.Api()
-    runs = api.runs("<entity>/<project>")
-    for run in runs:
-        if run.state == "finished":  # Remplacez par votre propre condition
-            run.delete(delete_artifacts=False)
+
+    run_path = "entity/project/runID"
+    run = api.run(path=run_path)
+    run.delete()
     ```
 
-    Pour la signature complète de la méthode et son comportement, consultez la [`référence de Run.delete`](/fr/models/ref/python/public-api/run#method-run-delete).
+    Utilisez `wandb.Api.runs()` pour récupérer plusieurs runs d’un projet, puis supprimez chaque run. L’exemple suivant supprime tous les runs d’un projet :
 
-    Pour supprimer des fichiers individuels attachés à un run, comme des médias enregistrés :
+    ```python
+    import wandb
 
-    1. Obtenez les références de fichier pertinentes avec [`Run.files()`](/fr/models/ref/python/public-api/run#method-run-files).
+    api = wandb.Api()
+
+    entity = "entity"
+    project = "project"
+
+    runs = api.runs(
+        path=f"{entity}/{project}")
+
+    for run in runs:
+        run.delete()
+    ```
+
+    Vous pouvez utiliser des filtres pour ne supprimer que les runs correspondant à des critères précis, comme leur date de création, leurs tags ou d’autres métadonnées. L’exemple suivant prévisualise puis supprime les runs créés avant un horodatage UTC donné :
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    entity = "entity"
+    project = "project"
+    cutoff = "2024-01-01T00:00:00Z"  # supprime les runs créés avant cet horodatage UTC
+
+    runs = api.runs(
+        path=f"{entity}/{project}",
+        filters={"createdAt": {"$lt": cutoff}},
+        order="+created_at",
+    )
+
+    # Simulation à blanc d'abord
+    runs_to_delete = list(runs)
+    print(f"Found {len(runs_to_delete)} runs to delete:")
+    for run in runs_to_delete:
+        print(run.id, run.name, run.created_at)
+
+    confirm = input("Type DELETE to permanently delete these runs: ")
+    if confirm == "DELETE":
+        for run in runs_to_delete:
+            print(f"Deleting {run.path}")
+            run.delete()  # ou run.delete(delete_artifacts=True)
+    ```
+
+    Pour supprimer des fichiers individuels attachés à un run, comme des médias enregistrés :
+
+    1. Obtenez les références de fichier pertinentes avec [`wandb.Api.Run.files()`](/fr/models/ref/python/public-api/run#method-run-files).
     2. Utilisez [`File.delete()`](/fr/models/ref/python/public-api/file#method-file-delete) pour supprimer des fichiers individuels.
   </Tab>
 </Tabs>

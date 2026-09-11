@@ -374,24 +374,89 @@ python train.py --configs other-config.yaml
 
 ### Nested dictionaries in config
 
-`config-defaults.yaml` supports nested dictionaries when a nested mapping is the `value` of a top-level key. You can also pass a nested dictionary directly to `wandb.init()`:
+To store nested values in a run config, pass a nested dictionary to `wandb.init()`. The following example defines nested `optimizer` and `training` dictionaries in `config`:
 
 ```python
-import wandb
-
 config = {
-    "EPISODE_BUDGET": {
-        "cramped_room": 5000,
-        "coordination_ring": 5000,
-        "counter_circuit_o_1order": 5000,
-    }
+    "optimizer": {
+        "type": "adamw",
+        "learning_rate": 0.0001,
+        "weight_decay": 0.01,
+    },
+    "training": {
+        "epochs": 20,
+        "batch_size": 64,
+    },
 }
 
-with wandb.init(project="my_project", config=config) as run:
+with wandb.init(project="project", config=config) as run:
     ...
 ```
 
-Some W&B App views display nested config keys in dotted form (for example, `EPISODE_BUDGET.cramped_room`). Public API filters prefix these paths with `config.` (for example, `config.EPISODE_BUDGET.cramped_room`). In Python, access nested values with normal dictionary indexing: `run.config["EPISODE_BUDGET"]["cramped_room"]`.
+Each top-level key must contain a `value` field. Assign the nested dictionary to value:
+
+```yaml
+optimizer:
+  value:
+    type: adamw
+    learning_rate: 0.0001
+    weight_decay: 0.01
+
+training:
+  value:
+    epochs: 20
+    batch_size: 64
+```
+
+In Python, use dictionary indexing to access nested values.
+
+The following example retrieves the `learning_rate` value from the nested optimizer dictionary in the run config:
+
+```python
+with wandb.init(project="project", config=config) as run:
+    run.config["optimizer"]["learning_rate"]
+```
+
+In contexts that refer to config values by path, such as Public API filters or line plot expressions, use dot notation. For example, use `config.optimizer.learning_rate` in a Public API filter and `${config:optimizer.learning_rate}` in a line plot expression.
+
+The following example creates a run with a nested config and logs loss for each training epoch. It then uses the Public API to find runs with a learning rate of `1e-4` and prints each run's name and learning rate.
+
+```python
+import random
+import wandb
+
+config = {
+    "optimizer": {
+        "type": "adamw",
+        "learning_rate": 1e-4,
+        "weight_decay": 0.01,
+    },
+    "training": {
+        "epochs": 3,
+        "batch_size": 64,
+    },
+}
+
+with wandb.init(project="nested-config-example", config=config) as run:
+    lr = run.config["optimizer"]["learning_rate"]
+
+    for epoch in range(run.config["training"]["epochs"]):
+        loss = 1.0 / (epoch + 1) + random.random() * 0.05
+        run.log({"epoch": epoch, "train/loss": loss})
+
+api = wandb.Api()
+runs = api.runs(
+    "wandb/nested-config-example",
+    filters={"config.optimizer.learning_rate": 1e-4},
+)
+
+for run in runs:
+    print(run.name, run.config["optimizer"]["learning_rate"])
+```
+
+<Info>
+In practice, you typically use separate scripts to create runs and query them later with filters.
+</Info>
 
 ### Example use case for file-based configs
 Suppose you have a YAML file with some metadata for the run, and then a dictionary of hyperparameters in your Python script. You can save both in the nested `config` object:
