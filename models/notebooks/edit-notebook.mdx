@@ -2,19 +2,95 @@
 title: Edit a notebook
 ---
 
+
+
+The following page describes a subset of the actions you can perform within a notebook. It covers adding, editing, reordering, and deleting cells, as well as using interactive controls and displaying content.
+
+For more information, see [Marimo Documentation](https://docs.marimo.io/guides/).
+
+
 ## Add a cell
 
-### Python cell
+Notebooks support [Python](#python-cell), [Markdown](#markdown-cell), and [SQL](#sql-cell) cells. You can create a cell interactively within the notebook interface or by using keyboard shortcuts.
+
+
+<Tabs>
+<Tab title="UI">
+
+Within your notebook, select the `PYTHON`, `MARKDOWN`, or `SQL` button to create a new cell of the corresponding type.
+
+</Tab>
+<Tab title="Keyboard Shortcuts">
+
+While a cell is active, press **Command + Shift + O** to create a new cell above the current cell. Press **Command + Shift + P** to create a new cell below the current cell.
+
+Enter **Escape** first, then press **B** to create a new cell below the current cell. Press **A** to create a new cell above the current cell.
+
+See [Keyboard Shortcuts](https://docs.marimo.io/guides/editor_features/overview/?h=keyboar#keyboard-shortcuts) for a full list of available shortcuts.
+
+</Tab>
+</Tabs>
+
+
+{/* ### Python cell
 
 ### Markdown cell
 
-### SQL cell
+### SQL cell */}
 
 
-## Generate or edit a cell with AI
+{/* ## Generate or edit a cell with AI */}
+
 ## Reorder cells
-## Disable or enable a cell
+
+<Tabs>
+<Tab title="UI">
+
+Select the **drag handle** (<Icon icon="grip-dots-vertical" iconType="solid"/>) on the right side of the cell and moving it to the desired position.
+
+</Tab>
+<Tab title="Keyboard Shortcuts">
+
+**Command + Shift + 0** to move cell down
+**Command + Shift + 9** to move cell up
+
+</Tab>
+</Tabs>
+
+
+
 ## Delete a cell
+ 
+Delete a cell interactively using the UI or with keyboard shortcuts.
+
+<Tabs>
+<Tab title="UI">
+
+Right click the cell you want to delete and select **Delete** from the context menu.
+Select the trash can icon next to the cell you want to delete.
+
+</Tab>
+<Tab title="Keyboard Shortcuts">
+
+**Command + Shift + Backspace** to delete the current cell.
+
+</Tab>
+</Tabs>
+
+
 ## Add interactive controls
+
+Add one or more interactive controls known as *widgets* to your notebook cells. Use widgets to create interactive elements such as sliders, dropdowns, and buttons that can dynamically update the content of your notebook.
+
+Copy and paste the following code snippet into a cell to add an interactive control:
+
+```python
+import marimo as mo
+slider = mo.ui.slider(1, 10)
+mo.md(f"Choose a value: {slider}")
+```
+
+For more information, see [Interactive elements](https://docs.marimo.io/guides/interactivity/) in the marimo documentation.
+
+
 ## Display tables, plots, and media
-## Use keyboard shortcuts
