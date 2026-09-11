@@ -1,0 +1,222 @@
+---
+title: "SubAgent"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L84" />
+
+## Extends
+
+- `SpanBase`
+
+## Accessors
+
+### model
+
+#### Get Signature
+
+> **get** **model**(): `string`
+
+##### Returns
+
+`string`
+
+***
+
+### name
+
+#### Get Signature
+
+> **get** **name**(): `string`
+
+##### Returns
+
+`string`
+
+## Methods
+
+### ~~addEvent()~~
+
+<Warning>
+  **Deprecated.** Record this data via [setAttributes](#setattributes) instead.
+OpenTelemetry is phasing out the Span Event API (`Span.addEvent`). This
+method still works and existing span-event data stays valid.
+See https://opentelemetry.io/blog/2026/deprecating-span-events/
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Inherited from
+
+`SpanBase.addEvent`
+
+***
+
+### end()
+
+> **end**(`opts?`): `void`
+
+Read current field values (to reflect mutations made via `record()`
+since `start`) and close the span. Idempotent. Pass `error` to mark
+it as failed; pass `endTime` to backdate the close.
+
+#### Parameters
+
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+#### Returns
+
+`void`
+
+***
+
+### record()
+
+> **record**(`opts`): `this`
+
+Bulk-set any subset of the mutable fields. Replaces (does not merge).
+Input and output messages are serialized when the span ends.
+
+#### Parameters
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
+
+    <ParamField path="agentId" type="string" />
+
+    <ParamField path="agentVersion" type="string" />
+
+    <ParamField path="messages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="model" type="string" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="outputMessages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
+
+#### Returns
+
+`this`
+
+***
+
+### setAttributes()
+
+> **setAttributes**(`attributes`): `this`
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+<ParamField path="attributes" type="Attributes" required />
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+`SpanBase.setAttributes`
+
+***
+
+### startLLM()
+
+> **startLLM**(`opts`): [`LLM`](./llm)
+
+Start a child LLM span nested under this SubAgent.
+
+#### Parameters
+
+<ParamField path="opts" type="LLMInit" required>
+  See [`LLMInit`](./llminit).
+</ParamField>
+
+#### Returns
+
+[`LLM`](./llm)
+
+***
+
+### startSubagent()
+
+> **startSubagent**(`opts`): `SubAgent`
+
+Start a nested SubAgent span under this SubAgent.
+
+#### Parameters
+
+<ParamField path="opts" type="SubAgentInit" required>
+  See [`SubAgentInit`](./subagentinit).
+</ParamField>
+
+#### Returns
+
+`SubAgent`
+
+***
+
+### startTool()
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+Start a child Tool span nested under this SubAgent.
+
+#### Parameters
+
+<ParamField path="opts" type="ToolInit" required>
+  See [`ToolInit`](./toolinit).
+</ParamField>
+
+#### Returns
+
+[`Tool`](./tool)

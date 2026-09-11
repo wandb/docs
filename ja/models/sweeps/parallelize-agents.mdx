@@ -1,61 +1,64 @@
 ---
-description: マルチコアまたはマルチGPUマシンで W&B Sweep エージェントを並列化します。
-title: エージェントを並列化する
+description: マルチコアまたはマルチGPUマシンで sweep エージェントを並列化します。
+title: エージェントの並列化
 ---
 
-マルチコアまたはマルチGPUマシンで W&amp;B Sweep エージェントを並列化できます。始める前に、W&amp;B Sweep が初期化されていることを確認してください。W&amp;B Sweep の初期化方法の詳細については、[Sweeps を初期化する](./initialize-sweeps)を参照してください。
+マルチコアまたはマルチGPUマシンで sweep エージェントを並列化すると、複数の sweep の run を同時に実行できます。並列化により、ハイパーパラメーター空間の探索にかかる時間を短縮できます。このページでは、単一ホスト上の利用可能な計算リソースを最大限に活用できるように、マルチCPUおよびマルチGPUマシンでエージェントを並列起動する方法を説明します。
+
+開始する前に、sweep を初期化する必要があります。詳細は、[Initialize sweeps](/ja/models/sweeps/initialize-sweeps)を参照してください。
 
 <div id="parallelize-on-a-multi-cpu-machine">
-  ### マルチCPUマシンで並列化する
+  ## 複数の CPU コアを備えたマシンで並列化する
 </div>
 
-ユースケースに応じて、以下のタブで、CLI または Jupyter Notebook で W&amp;B Sweep エージェント を並列化する方法を確認してください。
+以下のタブでは、同じマシン上で複数の sweep エージェント を並列実行する方法を説明します。並列エージェントは、各エージェントをそれぞれ別の CPU コアで実行できる、複数の CPU コアを備えたマシンで特に効果的です。ワークフローに応じて、CLI または Jupyter Notebook のタブを選択してください。
 
 <Tabs>
   <Tab title="CLI">
-    [`wandb agent`](/ja/models/ref/cli/wandb-agent) command を使用すると、ターミナルから複数の CPU で W&amp;B Sweep エージェント を並列実行できます。[sweep を初期化](./initialize-sweeps)したときに返された sweep ID を指定してください。
+    ターミナルで sweep エージェント を複数の CPU にまたがって並列実行するには、[`wandb agent`](/ja/models/ref/cli/wandb-agent) コマンドを使用します。[sweep を初期化](/ja/models/sweeps/initialize-sweeps)した際に W&amp;B から返された sweep ID を指定してください。
 
     1. ローカルマシンで複数のターミナルウィンドウを開きます。
-    2. 以下の コードスニペット をコピー＆ペーストし、`sweep_id` を自分の sweep ID に置き換えます。
+    2. 次のコードスニペットをコピー＆ペーストし、`[SWEEP-ID]` を sweep ID に置き換えます。
 
-    ```bash
-    wandb agent sweep_id
-    ```
+       ```bash
+       wandb agent [SWEEP-ID]
+       ```
   </Tab>
 
-  <Tab title="Jupyter Notebook">
-    W&amp;B Python SDK library を使用すると、Jupyter Notebook で複数の CPU にわたって W&amp;B Sweep エージェント を並列実行できます。[sweep を初期化](./initialize-sweeps)したときに返された sweep ID を用意してください。さらに、`function` パラメーターには、sweep が実行する function の名を指定します。
+  <Tab title="Notebook">
+    Jupyter Notebook 内で sweep エージェント を複数の CPU にまたがって並列実行するには、W&amp;B Python SDK ライブラリを使用します。[sweep を初期化](/ja/models/sweeps/initialize-sweeps)した際に W&amp;B から返された sweep ID を指定し、`function` パラメーターに sweep が実行する関数名を設定します。
 
-    1. 複数の Jupyter Notebook を開きます。
-    2. W&amp;B Sweep を並列化するには、複数の Jupyter Notebook に W&amp;B Sweep ID をコピー＆ペーストします。たとえば、sweep ID が `sweep_id` という変数に格納されており、function の名が `function_name` の場合は、以下の コードスニペット を複数の Jupyter Notebook に貼り付けることで sweep を並列化できます。
+    1. 複数のノートブックを開きます。
+    2. 複数のノートブックに同じ sweep ID をコピー＆ペーストして、sweep を並列化します。たとえば、sweep ID が `sweep_id` という変数に格納されていて、関数名が `function_name` の場合は、次のコードスニペットを複数のノートブックに貼り付けることで sweep を並列化できます。
 
-    ```python
-    wandb.agent(sweep_id=sweep_id, function=function_name)
-    ```
+       ```python
+       wandb.agent(sweep_id=sweep_id, function=function_name)
+       ```
   </Tab>
 </Tabs>
 
 <div id="parallelize-on-a-multi-gpu-machine">
-  ### マルチGPUマシンで並列実行する
+  ## マルチ GPU マシンで並列化する
 </div>
 
-CUDA Toolkit を使用して、ターミナルから複数の GPU で W&amp;B Sweep エージェント を並列実行するには、次の手順に従います。
+`CUDA_VISIBLE_DEVICES` を使用して各 [`wandb agent`](/ja/models/ref/cli/wandb-agent) を別々の GPU に割り当てると、同じマシン上の複数の GPU で sweep エージェントを並列実行できます。これにより、同じデバイスを取り合うことなく、エージェントを並列に実行できます。
 
-1. ローカルマシンで複数のターミナルウィンドウを開きます。
-2. W&amp;B Sweep ジョブを開始するときに、`CUDA_VISIBLE_DEVICES` を使って使用する GPU を指定します ([`wandb agent`](/ja/models/ref/cli/wandb-agent)) 。`CUDA_VISIBLE_DEVICES` には、使用する GPU に対応する整数値を設定します。
+この手順を実行するには、次が必要です。
 
-たとえば、ローカルマシンに 2 つの NVIDIA GPU があるとします。ターミナルウィンドウを開き、`CUDA_VISIBLE_DEVICES` を `0` に設定します (`CUDA_VISIBLE_DEVICES=0`) 。次の例の `sweep_ID` は、W&amp;B Sweep を初期化したときに返される W&amp;B Sweep ID に置き換えてください。
+* 2 基以上の GPU を搭載したマシン。
+* NVIDIA CUDA Toolkit がインストールされていること。
+* ターミナル。
 
-ターミナル 1
+たとえば、ローカル マシンに 2 基の NVIDIA GPU があるとします。各コマンド内の `[SWEEP-ID]` は、sweep の初期化時に W&amp;B が返す sweep ID に置き換えてください。
 
-```bash
-CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
-```
+1. 1 つ目のターミナルで、`CUDA_VISIBLE_DEVICES` を `0` に設定し、エージェントを起動します。
 
-2つ目のターミナルウィンドウを開きます。`CUDA_VISIBLE_DEVICES` を `1` に設定します (`CUDA_VISIBLE_DEVICES=1`) 。以下のコードスニペットの `sweep_ID` には、同じ W&amp;B Sweep ID を貼り付けます。
+   ```bash
+   CUDA_VISIBLE_DEVICES=0 wandb agent [SWEEP-ID]
+   ```
 
-ターミナル 2
+2. 別のターミナルで、`CUDA_VISIBLE_DEVICES` を `1` に設定し、同じ sweep ID でもう 1 つのエージェントを起動します。
 
-```bash
-CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID
-```
+   ```bash
+   CUDA_VISIBLE_DEVICES=1 wandb agent [SWEEP-ID]
+   ```

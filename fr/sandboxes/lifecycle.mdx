@@ -4,9 +4,9 @@ description: Découvrez le cycle de vie d’un Serverless Sandbox, y compris ses
 keywords: ["SandboxState", "wait_until_complete", "wait_until_ready", "expiration du sandbox", "nettoyage des ressources"]
 ---
 
-<Warning>
-  Serverless Sandboxes est en préversion publique.
-</Warning>
+import SandboxesPreview from '/snippets/fr/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesPreview />
 
 Cette page décrit le cycle de vie d’un Serverless Sandbox afin de vous aider à choisir la bonne méthode pour attendre les changements d’état, arrêter un sandbox et structurer votre code en fonction de sa durée de vie. Comprendre ce cycle de vie vous aide à éviter les conditions de concurrence, à distinguer les échecs au démarrage des erreurs d’exécution et à nettoyer les ressources de manière prévisible.
 

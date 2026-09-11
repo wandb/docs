@@ -1,0 +1,147 @@
+---
+title: BYOB Reference の設定
+---
+
+Weave で表示したいメディアが、すでにご自身のバケットにある場合は、この方法を使用します。
+
+* 動画パイプラインのフレーム
+* ブラウザエージェントのスクリーンショット
+* モデルが S3 に書き込んだ画像
+
+それらのバイト列を Weave に再アップロードする代わりに、オブジェクトの URI を string としてログすると、Weave はその画像や動画をご自身のバケットからインライン表示します。Weave に送信されるのは URI のみで、バイト列はバケット内に保持されます。2 GB の動画をログするコストは、そのパスをログする場合と同じです。
+
+これは [Content API](/ja/weave/guides/core-types/media#contents-api) を使ってメディアをログする方法とは異なります。Content API ではバイト列を読み取って Weave に保存します。
+
+<Note>
+  これは Weave の機能であり、W&amp;B artifact と run のストレージを支える [platform BYOB (secure storage connector)](/ja/platform/hosting/data-security/secure-storage-connector) とは別のものです。参照メディア用のバケットはチームごとに設定され、必要なのは読み取りアクセスのみです。
+</Note>
+
+<div id="how-it-works">
+  ## 仕組み
+</div>
+
+参照メディアのレンダリングは、次の 3 つの手順で行われます。
+
+1. メディアオブジェクトをバケットに保存します。たとえば `s3://[YOUR-BUCKET]/frames/000123.png` です。
+2. その URI を、トレース内の任意の場所に string 値としてログします。たとえば、Op の input または output、あるいはエージェント tool の結果です。フィールド名は問いません。
+3. トレースを開くと、Weave は URI を有効期限の短い [事前署名付き URL](/ja/platform/hosting/data-security/presigned-urls) に解決し、インラインでレンダリングします。レンダリング方法はファイル拡張子によって決まります。一般的な画像形式 (`.png`、`.jpg`、`.gif` など) や動画形式 (`.mp4`、`.mov`、`.webm` など) はインラインでレンダリングされます。その他の形式はダウンロードリンクとしてレンダリングされます。
+
+Weave が解決するのは、チームに登録されたバケットを指す URI のみです。サポートされるスキームは `s3://` と `gs://` です。
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+* この機能は、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) でのみサポートされます。
+* W&amp;Bアカウントと[APIキー](https://wandb.ai/authorize)。
+* ご自身で管理しているクラウドストレージバケット (S3 または GCS) 。少なくとも 1 つのオブジェクトが含まれている必要があります。
+* 組織管理者権限。参照バケットを追加するには、組織でチームを作成する場合と同じ権限が必要です。
+
+<div id="configure-your-bucket">
+  ## バケットを設定する
+</div>
+
+W&amp;B にバケットへの読み取りアクセスを付与し、ブラウザが CORS 経由でオブジェクトを取得できるようにします。
+
+トレースを表示すると、W&amp;B は参照先の各オブジェクトに対して、有効期限の短い署名付きダウンロード URL を生成します。署名付き URL を生成できるよう、W&amp;B インテグレーションのプリンシパルにバケットへの読み取りアクセスを付与してください。これはインライン表示のための読み取り専用アクセスです。
+
+<Tabs>
+  <Tab title="AWS S3">
+    1. W&amp;B インテグレーションのプリンシパルに `s3:GetObject` を付与するバケットポリシーを適用します。`[YOUR-BUCKET]` をバケット名に置き換え、以下を `bucket-policy.json` として保存します。
+
+       ```json lines
+       {
+         "Version": "2012-10-17",
+         "Id": "WandBAccess",
+         "Statement": [{
+           "Sid": "WandbAccess",
+           "Effect": "Allow",
+           "Principal": {"AWS": "arn:aws:iam::725579432336:role/WandbIntegration"},
+           "Action": "s3:GetObject",
+           "Resource": "arn:aws:s3:::[YOUR-BUCKET]/*"
+         }]
+       }
+       ```
+
+       次に、これをバケットに適用します。
+
+       ```bash
+       aws s3api put-bucket-policy --bucket [YOUR-BUCKET] --policy file://bucket-policy.json
+       ```
+
+    2. アプリがブラウザでオブジェクトを取得できるように、CORS 設定を適用します。以下を `cors.json` として保存します。
+
+       ```json lines
+       {
+         "CORSRules": [{
+           "AllowedHeaders": ["*"],
+           "AllowedMethods": ["GET", "HEAD"],
+           "AllowedOrigins": ["https://wandb.ai"],
+           "ExposeHeaders": ["ETag"],
+           "MaxAgeSeconds": 3000
+         }]
+       }
+       ```
+
+       次に、これをバケットに適用します。
+
+       ```bash
+       aws s3api put-bucket-cors --bucket [YOUR-BUCKET] --cors-configuration file://cors.json
+       ```
+
+    <Note>
+      オブジェクトが顧客管理の KMS キーで暗号化されている場合は、そのキーポリシーでも `arn:aws:iam::725579432336:role/WandbIntegration` に `kms:Decrypt` を付与する必要があります。バケットポリシーだけでは不十分です。
+    </Note>
+  </Tab>
+
+  <Tab title="Google Cloud Storage">
+    1. バケットに対して、W&amp;B インテグレーションのサービスアカウントに `roles/storage.objectViewer` を付与します。`[YOUR-BUCKET]` をバケット名に置き換えてください。
+
+       ```bash
+       gcloud storage buckets add-iam-policy-binding gs://[YOUR-BUCKET] \
+         --member="serviceAccount:wandb-integration@wandb-production.iam.gserviceaccount.com" \
+         --role="roles/storage.objectViewer"
+       ```
+
+    2. アプリがブラウザでオブジェクトを取得できるように、CORS 設定を適用します。以下を `cors.json` として保存します。
+
+       ```json lines
+       [{
+         "origin": ["https://wandb.ai"],
+         "method": ["GET", "HEAD"],
+         "responseHeader": ["ETag"],
+         "maxAgeSeconds": 3000
+       }]
+       ```
+
+       次に、これをバケットに適用します。
+
+       ```bash
+       gcloud storage buckets update gs://[YOUR-BUCKET] --cors-file=cors.json
+       ```
+  </Tab>
+</Tabs>
+
+これで、W&amp;B はバケット内のオブジェクトを読み取ることができ、Weave UI はブラウザでそれらを取得できます。
+
+<div id="register-the-reference-bucket">
+  ## 参照バケットを登録する
+</div>
+
+Weave が参照 URI に対して事前署名付き URL を生成して表示できるように、Team settings でバケットを登録します。
+
+1. Team settings ページ (`https://wandb.ai/[YOUR-TEAM]/settings`) に移動します。
+2. **Reference buckets** セクションで、**Add bucket** を選択します。
+3. クラウドプロバイダ (**AWS** または **Google Cloud**) を選択します。
+4. バケット名には `[YOUR-BUCKET]` のみを入力します。`s3://` または `gs://` の接頭辞は含めないでください。
+5. オブジェクトキーには、バケット内の既存オブジェクトのキーを入力します。たとえば `photos/cat.png` です (完全な URL ではなく、オブジェクトキーのみ) 。W&amp;B はこの 1 つのオブジェクトを読み取って、読み取りアクセス権があること、および CORS が正しく設定されていることを確認します。ここで確認するのはアクセス権のみです。検証が完了すると、バケット内の任意のオブジェクトで事前署名が機能するようになります。
+6. 必要に応じて、**Test connection** を選択し、保存せずに設定を検証します。
+7. **Add bucket** を選択して保存します。
+
+<Frame>
+  ![Team settings の Add reference bucket ダイアログ。クラウドプロバイダ、バケット名、既存のオブジェクトキーの各フィールドに加え、Test connection ボタンと Add bucket ボタンがあります。](/weave/guides/tracking/imgs/add-ref-bucket.png)
+</Frame>
+
+<Warning>
+  バケットが登録されるまで、参照 URI は表示されません。登録すると、Weave がそのオブジェクトに対して事前署名付き URL を生成し、表示できるようになります。
+</Warning>

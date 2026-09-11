@@ -1,106 +1,160 @@
 ---
 title: BetaReport
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.reports
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
-
-## <kbd>classe</kbd> `BetaReport`
+<div id="class-wandbapispublicbetareport">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.BetaReport
+</div>
 
 BetaReport est une classe associée aux rapports créés dans W&amp;B.
 
-Elle fournit un accès aux attributs du rapport (nom, description, utilisateur, spec, horodatages), ainsi qu&#39;à des méthodes permettant de récupérer les runs et les sections associés et d&#39;effectuer le rendu du rapport en HTML.
-
-**Attributs :**
-
-* `id` (string) :  Identifiant unique du rapport.
-* `display_name` (string) :  Nom d&#39;affichage du rapport, lisible par l&#39;utilisateur.
-* `name` (string) :  Nom du rapport. Utilisez `display_name` pour un nom plus convivial.
-* `description` (string) :  Description du rapport.
-* `user` (User) :  Dictionnaire contenant les informations de l&#39;utilisateur (nom d&#39;utilisateur, e-mail) ayant créé le rapport.
-* `spec` (dict) :  Spécification du rapport.
-* `url` (string) :  URL du rapport.
-* `updated_at` (string) :  Timestamp de la dernière mise à jour.
-* `created_at` (string) :  Timestamp de création du rapport. 
-
-### <kbd>méthode</kbd> `BetaReport.__init__`
+Elle fournit un accès aux attributs du rapport (nom, description, utilisateur, spec,
+horodatages), ainsi qu&#39;à des méthodes permettant de récupérer les runs et les sections associés et d&#39;effectuer le rendu du rapport en HTML.
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    attrs: 'dict',
-    entity: 'str | None' = None,
-    project: 'str | None' = None
-)
+(service_api: 'ServiceApi',
+attrs: 'dict',
+entity: 'str | None' = None,
+project: 'str | None' = None)
 ```
 
-***
+<div id="args">
+  ## Arguments
+</div>
 
-### <kbd>propriété</kbd> BetaReport.created_at
+<ResponseField name="service_api" type="ServiceApi">
+  Aucune description fournie.
+</ResponseField>
 
-***
+<ResponseField name="attrs" type="dict">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> BetaReport.description
+<ResponseField name="entity" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-***
+<ResponseField name="project" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> BetaReport.display_name
+<div id="attributes">
+  ## Attributs
+</div>
 
-***
+* `id` (`string`) : ID unique du rapport.
+* `display_name` (`string`) : Nom d’affichage lisible du rapport.
+* `name` (`string`) : Nom du rapport. Utilisez `display_name` pour un nom plus convivial.
+* `description` (`string`) : Description du rapport.
+* `user` (`User`) : Dictionnaire contenant les informations de l’utilisateur (nom d’utilisateur, e-mail) ayant créé le rapport.
+* `spec` (`dict`) : Spécification du rapport.
+* `url` (`string`) : URL du rapport.
+* `updated_at` (`string`) : Horodatage de la dernière mise à jour.
+* `created_at` (`string`) : Horodatage de la création du rapport.
 
-### <kbd>propriété</kbd> BetaReport.id
+<div id="properties">
+  ## Propriétés
+</div>
 
-***
+<ResponseField name="created_at" type="">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> BetaReport.nom
+<ResponseField name="description" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-***
+<ResponseField name="display_name" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> BetaReport.sections
+<ResponseField name="id" type="str">
+  Aucune description fournie.
+</ResponseField>
 
-Obtient les sections (groupes) de panneaux du rapport.
+<ResponseField name="name" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-***
+<ResponseField name="sections" type="">
+  Obtenir les sections de panneaux (groupes) du rapport.
+</ResponseField>
 
-### <kbd>propriété</kbd> BetaReport.spec
+<ResponseField name="spec" type="dict[str, Any]">
+  Aucune description fournie.
+</ResponseField>
 
-***
+<ResponseField name="updated_at" type="">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> BetaReport.updated_at
+<ResponseField name="url" type="str | None">
+  Aucune description fournie.
+</ResponseField>
 
-***
+<ResponseField name="user" type="">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>propriété</kbd> BetaReport.url
+<div id="methods">
+  ## Méthodes
+</div>
 
-***
-
-### <kbd>propriété</kbd> BetaReport.user
-
-***
-
-### <kbd>méthode</kbd> `BetaReport.runs`
+<div id="method-betareportruns">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> BetaReport.runs()
+</div>
 
 ```python
-runs(
-    section: 'dict[str, Any]',
-    per_page: 'int' = 50,
-    only_selected: 'bool' = True
-) → public.Runs
+self,
+section: 'dict[str, Any]',
+per_page: 'int' = 50,
+only_selected: 'bool' = True
 ```
 
 Obtenir les runs associés à une section de rapports.
 
-***
+<div id="arguments">
+  ##### Arguments
+</div>
 
+<ResponseField name="section" type="dict[str, Any]">
+  Aucune description fournie.
+</ResponseField>
 
-### <kbd>méthode</kbd> `BetaReport.to_html`
+<ResponseField name="per_page" type="int">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="only_selected" type="bool">
+  Aucune description fournie.
+</ResponseField>
+
+<div id="method-betareportto_html">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> BetaReport.to_html()
+</div>
 
 ```python
-to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
+self,
+height: 'int' = 1024,
+hidden: 'bool' = False
 ```
 
 Générez du code HTML contenant une iframe qui affiche ce rapport.
+
+<div id="arguments-2">
+  ##### Arguments
+</div>
+
+<ResponseField name="height" type="int">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  Aucune description fournie.
+</ResponseField>

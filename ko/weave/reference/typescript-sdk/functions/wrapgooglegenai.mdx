@@ -3,38 +3,28 @@ title: "wrapGoogleGenAI"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="wrapgooglegenai">
-  # wrapGoogleGenAI
-</div>
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-▸ **wrapGoogleGenAI**&lt;`T`&gt;(`googleGenAI`): `T`
+```ts
+wrapGoogleGenAI<T>(googleGenAI: T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/googleGenAI.ts#L241" />
 
 <div id="type-parameters">
-  #### 유형 파라미터
+  ## 유형 파라미터
 </div>
 
-| 이름  | 유형                       |
-| :-- | :----------------------- |
-| `T` | extends `GoogleGenAIAPI` |
+<ParamField path="T" type="extends object" />
 
 <div id="parameters">
-  #### 파라미터
+  ## 파라미터
 </div>
 
-| 이름            | 유형  |
-| :------------ | :-- |
-| `googleGenAI` | `T` |
+<ParamField path="googleGenAI" type="T" required />
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
 `T`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/integrations/googleGenAI.ts:239](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/integrations/googleGenAI.ts#L239)
-
-***

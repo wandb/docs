@@ -76,26 +76,21 @@ Cette section explique comment configurer les rôles des membres du registre. Po
 Les sections suivantes donnent plus d’informations sur les rôles du registre.
 
 <Note>
-  Votre [rôle au sein d’une équipe](/fr/platform/app/settings-page/teams/#team-roles-and-permissions) n’a aucune incidence et n’a aucun lien avec votre rôle dans un registre.
+  Le rôle du registre d’une équipe est distinct du [rôle de chaque membre au sein de l’équipe](/fr/platform/app/settings-page/teams/#team-roles-and-permissions). Si vous appartenez à une équipe qui a été ajoutée à un registre, W&amp;B prend en compte le rôle du registre attribué à l’équipe et non votre rôle au sein de l’équipe lorsqu’il calcule votre rôle effectif dans le registre.
 </Note>
 
-<div id="default-roles">
-  ### Rôles par défaut
+<div id="role-types">
+  ### Types de rôles
 </div>
 
-W&amp;B attribue automatiquement un **rôle du registre** par défaut aux Users ou aux Teams lorsqu’ils sont ajoutés à un registre. Ce rôle détermine ce qu’ils peuvent y faire.
+W&amp;B Registry propose les rôles suivants :
 
-| Entité                                | Rôle du registre par défaut<br />(Cloud dédié / Autogéré)                   | Rôle du registre par défaut<br />(Cloud mutualisé)         |
-| ------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Team                                  | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
-| User ou compte de service (non admin) | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
-| Compte de service (non admin)         | membre<sup><a href="#service_account_footnote">1</a></sup>                  | membre<sup><a href="#service_account_footnote">1</a></sup> |
-| Administrateur de l’organisation      | Admin                                                                       | Admin                                                      |
+* **Restricted Viewer** : Accorde un accès en lecture seule aux métadonnées des artifacts du registre. Les Restricted Viewers peuvent consulter les détails des artifacts, mais ne peuvent pas accéder au contenu de leurs fichiers ni créer, mettre à jour ou supprimer des collections, des automatisations ou d’autres ressources du registre. [Ce rôle est disponible sur Cloud dédié et Autogéré Server v0.75.0 ou version ultérieure](/fr/models/registry/configure_registry#restricted-viewer-role-details).
+* **Viewer** : Accorde un accès en lecture seule aux artifacts du registre et permet de consulter les détails des collections et des artifacts liés, de télécharger des artifacts et d’utiliser des artifacts avec `wandb.Run.use_artifact()` dans le SDK W&amp;B.
+* **membre** : Autorise la création, la mise à jour et la suppression de collections, d’automatisations et d’autres ressources du registre. Accorde également un accès en lecture aux artifacts du registre.
+* **Admin** : Accorde toutes les autorisations d’un membre, ainsi que celles nécessaires pour gérer les paramètres du registre et les rôles des utilisateurs.
 
-<a id="service_account_footnote">1</a> : Les comptes de service ne peuvent pas avoir les rôles **Viewer** ou **Restricted Viewer**. Voir [Accès des comptes de service](#service-account-access) pour savoir comment l’accès d’un compte de service est déterminé.
-
-Un administrateur du registre peut attribuer ou modifier les rôles des Users et des Teams dans le registre.
-Voir [Configurer les rôles des Users dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) pour en savoir plus.
+Voir [Autorisations par rôle](#role-permissions) pour plus d’informations sur les autorisations accordées par chaque rôle.
 
 <div id="role-permissions">
   ### Autorisations par rôle
@@ -133,21 +128,66 @@ Le tableau suivant répertorie chaque rôle du registre ainsi que les autorisati
 | Ajouter des Users à un registre                                                                           | Admin                      |                                                          |         |        |   ✓   |
 | Attribuer ou modifier le rôle d&#39;un User dans un registre                                              | Admin                      |                                                          |         |        |   ✓   |
 
-<div id="inherited-registry-role">
-  ### Rôle hérité dans le registre
+<div id="default-roles">
+  ### Rôles par défaut
 </div>
 
-La liste des membres du registre affiche, pour chaque utilisateur, son rôle hérité (effectif) dans le registre (en gris clair) à côté du menu déroulant du rôle sur sa ligne.
+W&amp;B attribue automatiquement un **rôle du registre** par défaut aux Users ou aux équipes lorsqu’ils sont ajoutés à un registre. Le rôle par défaut est le rôle initial qui apparaît dans le menu déroulant des rôles du registre. Il ne s’agit pas toujours du rôle effectif final de l’utilisateur.
+
+| Entité                           | Rôle du registre par défaut<br />(Cloud dédié / Autogéré)                   | Rôle du registre par défaut<br />(Cloud mutualisé)         |
+| -------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| équipe                             | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
+| User (non admin)                 | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
+| Compte de service (non admin)    | membre<sup><a href="#service_account_footnote">1</a></sup>                  | membre<sup><a href="#service_account_footnote">1</a></sup> |
+| Administrateur de l’organisation | Admin                                                                       | Admin                                                      |
+
+<a id="service_account_footnote">1</a> : Les comptes de service ne peuvent pas avoir les rôles **Viewer** ou **Restricted Viewer**. Voir [Accès des comptes de service](#service-account-access) pour savoir comment l’accès d’un compte de service est déterminé.
+
+Un administrateur du registre peut attribuer ou modifier les rôles des Users et des équipes dans le registre.
+Voir [Configurer les rôles des Users dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) pour en savoir plus.
+
+<div id="effective-and-inherited-registry-roles">
+  ### Rôles de registre effectifs et hérités
+</div>
+
+Le *rôle de registre effectif* d&#39;un utilisateur détermine ce qu&#39;il peut réellement faire dans un registre. La liste des membres du registre affiche ce rôle en gris clair, à côté de la liste déroulante des rôles sur la ligne de l&#39;utilisateur.
 
 <Frame>
-  <img src="/images/registry/role_conflict.png" alt="Liste des membres du registre affichant le rôle effectif de l'utilisateur dans le registre" />
+  <img src="/images/registry/role_conflict.png" alt="Liste des membres du registre affichant le rôle de registre effectif de l'utilisateur" />
 </Frame>
 
-Le rôle effectif d&#39;un utilisateur dans un registre donné correspond à son rôle *le plus élevé* parmi son rôle dans l&#39;organisation, dans le registre et dans l&#39;équipe propriétaire du registre, qu&#39;il soit hérité ou explicitement attribué. Par exemple :
+W&amp;B calcule le rôle effectif en sélectionnant le rôle applicable le plus élevé de l&#39;utilisateur parmi les sources suivantes :
 
-* Un **Admin** d&#39;équipe ou un **Admin** d&#39;organisation ayant le rôle **Viewer** dans un registre donné appartenant à l&#39;équipe est, en pratique, **Admin** du registre.
-* Un **Viewer** du registre ayant le rôle **Member** dans l&#39;équipe est, en pratique, **Member** du registre.
-* Un **Viewer** d&#39;équipe ayant le rôle **Member** dans un registre donné est, en pratique, **Member** du registre.
+* Le rôle de registre par défaut de l&#39;organisation, s&#39;il ne s&#39;agit pas d&#39;un registre restreint.
+* Le rôle qui lui est attribué dans le registre.
+* Le ou les rôles attribués dans le registre aux équipes dont il fait partie.
+
+Si un rôle plus élevé provient du rôle de registre par défaut de l&#39;organisation ou d&#39;une équipe ajoutée au registre, l&#39;utilisateur hérite de ce rôle. Par exemple :
+
+* Un utilisateur ayant le rôle **Viewer** dans un registre a en pratique le rôle **Admin** s&#39;il appartient à une équipe ayant le rôle **Admin** dans ce registre.
+* Un utilisateur ayant le rôle **Viewer** dans un registre a en pratique le rôle **membre** s&#39;il appartient à une équipe ayant le rôle **membre** dans ce registre.
+* Un utilisateur ayant le rôle **membre** dans un registre a en pratique le rôle **membre**, même s&#39;il appartient à une équipe ayant le rôle **Viewer** dans ce registre.
+
+Autrement dit, le rôle de registre par défaut ou attribué peut être inférieur au rôle effectif de l&#39;utilisateur.
+
+<Note>
+  Les comptes de service n&#39;héritent pas d&#39;autorisations de registre plus étendues de leurs équipes. Voir [Accès au compte de service](#service-account-access) pour plus d&#39;informations.
+</Note>
+
+<div id="service-account-access">
+  ### Accès des comptes de service
+</div>
+
+Les comptes de service font exception aux rôles de registre hérités. Un compte de service n’hérite pas des autorisations de registre élevées de son équipe. Par exemple, si une équipe dispose d’un accès **Admin** à un registre, les comptes de service de cette équipe reçoivent uniquement le niveau d’accès automatique des comptes de service, et non un accès **Admin**.
+
+Un administrateur du registre peut explicitement accorder un niveau d’accès supérieur à un compte de service en [ajoutant le compte de service au registre avec le rôle membre ou Admin](/fr/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry).
+
+L’accès automatique des comptes de service dépend de la visibilité du registre :
+
+* **Visibilité de l’organisation** : un compte de service dispose automatiquement d’un accès **membre**.
+* **Visibilité restreinte** : un compte de service dispose automatiquement d’un accès **membre** uniquement si l’une de ses équipes dispose d’un accès **membre** ou **Admin** au registre. Si toutes les équipes du compte de service disposent d’un accès **Viewer** ou **Restricted Viewer**, le compte de service ne reçoit pas automatiquement d’accès.
+
+Voir [Types de visibilité](/fr/models/registry/create_registry#visibility-types) pour plus d’informations sur les types de visibilité des registres.
 
 <div id="restricted-viewer-role-details">
   ### Détails du rôle Restricted Viewer

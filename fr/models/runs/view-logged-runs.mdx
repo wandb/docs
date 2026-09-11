@@ -3,18 +3,18 @@ title: Afficher un run spécifique dans un projet
 description: Découvrez comment afficher un run enregistré spécifique et ses propriétés à l’aide de la W&B App ou de l’interface de terminal LEET.
 ---
 
-Affichez les informations d’un run spécifique, telles que son état actuel, ses artifacts, ses métriques, et plus encore. Vous pouvez afficher et surveiller des runs à l’aide de la W&amp;B App ou de l’interface de terminal `wandb beta leet`.
+Affichez les informations d’un run spécifique, telles que son état actuel, ses artifacts, ses métriques, et plus encore. Vous pouvez afficher et surveiller des runs à l’aide de la W&amp;B App ou de l’interface de terminal `wandb leet`.
 
 <Tabs>
-  <Tab title="WA&B App">
-    Pour afficher un run spécifique dans la W&amp;B App :
+  <Tab title="W&B App">
+    Pour afficher un run spécifique dans la W&amp;B App :
 
     1. Accédez à la [W&amp;B App](https://wandb.ai/home).
     2. Accédez au projet W&amp;B que vous avez spécifié lorsque vous avez initialisé le run.
     3. Dans la barre latérale du projet, sélectionnez l’onglet **Workspace**.
     4. Dans le sélecteur de run, cliquez sur le run que vous souhaitez afficher, ou saisissez une partie du nom du run pour filtrer les runs correspondants.
 
-    Vous pouvez également accéder directement au workspace d’un run spécifique en saisissant son URL dans votre navigateur. Le chemin d’URL d’un run spécifique a le format suivant :
+    Vous pouvez également accéder directement au workspace d’un run spécifique en saisissant son URL dans votre navigateur. Le chemin d’URL d’un run spécifique a le format suivant :
 
     ```text
     https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
@@ -22,43 +22,49 @@ Affichez les informations d’un run spécifique, telles que son état actuel, s
 
     Remplacez les valeurs entre chevrons (`< >`) par les valeurs réelles du nom de l’équipe, du nom du projet et de l’[ID du run](/fr/models/runs/run-identifiers#run-id).
 
-    Explorez les propriétés du run en naviguant entre les onglets : [Aperçu](/fr/models/runs/view-logged-runs#overview), [Journaux](/fr/models/runs/view-logged-runs#logs), [Fichier](/fr/models/runs/view-logged-runs#files), [Code](/fr/models/runs/view-logged-runs#code) et [Artifacts](/fr/models/runs/view-logged-runs#artifacts).
+    Explorez les propriétés du run en naviguant entre les onglets : [Aperçu](/fr/models/runs/view-logged-runs#overview), [Journaux](/fr/models/runs/view-logged-runs#logs), [Fichier](/fr/models/runs/view-logged-runs#files), [Code](/fr/models/runs/view-logged-runs#code) et [Artifacts](/fr/models/runs/view-logged-runs#artifacts).
   </Tab>
 
   <Tab title="LEET">
-    Pour afficher un run localement dans votre terminal à l’aide de l’interface de terminal `wandb beta leet` :
+    Pour afficher un run localement dans votre terminal à l’aide de l’interface de terminal `wandb leet` :
 
     1. Si vous avez démarré le run localement à partir d’un script, accédez au répertoire dans lequel vous avez exécuté votre code. Il contient un répertoire `wandb/` avec un sous-répertoire par run et un lien symbolique `latest-run/`. Chaque répertoire de run contient un journal des transactions nommé au format `run-<run-ID>.wandb`.
 
        Si vous n’avez pas démarré le run localement mais avez téléchargé à la place un fichier journal des transactions `.wandb`, notez son emplacement.
-    2. Démarrez `wandb beta leet` à l’aide de l’une de ces commandes :
+    2. Démarrez `wandb leet` à l’aide de l’une de ces commandes :
 
        ```bash
-       # Afficher le dernier run, stocké dans ./wandb/latest-run/
-       wandb beta leet
+       # Ouvrir le workspace et sélectionner le dernier run local
+       wandb leet
 
        # Spécifier un répertoire de run
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+       wandb leet ./wandb/run-20250813_124246-n67z9ude
 
        # Spécifier un fichier .wandb
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       wandb leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
        ```
 
-    LEET affiche une interface à trois panneaux :
+    Sans chemin du run, LEET ouvre la vue workspace par défaut. Appuyez sur `enter` sur un run mis en surbrillance pour ouvrir la vue run unique. Un répertoire de run ou un fichier `.wandb` ouvre directement la vue run unique. Ses panneaux par défaut sont :
 
-    * **Panneau de gauche** : aperçu du run avec variables d’environnement, configuration et statistiques récapitulatives
-    * **Panneau central** : grille de métriques avec graphiques linéaires en style Braille affichant vos métriques enregistrées
-    * **Panneau de droite** : métriques système, y compris l’utilisation du GPU, du CPU et de la RAM
+    * **Panneau de gauche** : aperçu du run avec variables d’environnement, configuration et statistiques récapitulatives
+    * **Panneau central** : grille de métriques avec graphiques linéaires en style Braille affichant vos métriques enregistrées
+    * **Panneau de droite** : métriques système, y compris l’utilisation du GPU, du CPU et de la RAM
 
-    Pour commencer, utilisez ces raccourcis clavier :
+    Pour commencer, utilisez ces raccourcis clavier :
 
-    * `h` ou `?` - Afficher tous les raccourcis clavier
-    * `/` - Filtrer les métriques par motif
-    * `[` / `]` - Basculer les panneaux gauche/droite
-    * `n` / `N` - Naviguer entre les pages de métriques
-    * `q` / `CMD+C` - Quitter
+    * `h` ou `?` : afficher les raccourcis clavier de la vue actuelle.
+    * `/` : filtrer les métriques par motif.
+    * `[` et `]` : basculer les barres latérales.
+    * `n` et `N` : naviguer entre les pages de métriques.
+    * `q` ou `ctrl+c` : quitter.
 
-    Voir l’[interface de terminal LEET](/fr/models/app/leet-tui) pour un guide complet, ou la référence CLI [`wandb beta leet`](/fr/models/ref/cli/wandb-beta/wandb-beta-leet) pour des détails sur les raccourcis et la configuration.
+    Pour afficher un run synchronisé sans fichiers locaux, passez son URL. LEET utilise l’authentification par clé API pour le serveur du run. Remplacez `[RUN-URL]` par l’URL du run :
+
+    ```bash
+    wandb leet "[RUN-URL]"
+    ```
+
+    Les runs distants prennent en charge l’historique et la synthèse des scalaires. Pour connaître les fonctionnalités prises en charge et les limitations des runs distants, voir [interface de terminal LEET](/fr/models/app/leet-tui#remote-runs). Pour la syntaxe de la commande, voir la référence CLI [`wandb leet`](/fr/models/ref/cli/wandb-leet).
   </Tab>
 </Tabs>
 
@@ -101,7 +107,7 @@ Vous pouvez utiliser la boîte de recherche au-dessus des sections Config et Sum
   W&amp;B ne recherche pas dans les paramètres imbriqués de Config ou de Summary. Par exemple, si vous enregistrez un paramètre de configuration imbriqué avec `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&amp;B ne renvoie pas le paramètre `learning_rate` si vous recherchez `learning_rate` dans la boîte de recherche. Vous ne pouvez trouver le paramètre `learning_rate` qu’en recherchant `model`.
 </Note>
 
-Consultez un exemple d’aperçu de projet [ici](https://wandb.ai/stacey/deep-drive/overview).
+Consultez un exemple d’aperçu de projet [ici](https://wandb.ai/stacey/deep-drive/overview). 
 
 <div id="logs">
   ## Journaux

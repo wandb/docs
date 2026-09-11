@@ -1,47 +1,25 @@
 ---
-title: "インターフェース: CallsFilter"
+title: "CallsFilter"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / CallsFilter
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L2205" />
 
 CallsFilter
 
-<div id="table-of-contents">
-  ## 目次
-</div>
-
 <div id="properties">
-  ### プロパティ
+  ## プロパティ
 </div>
-
-* [call&#95;ids](./callsfilter#call_ids)
-* [input&#95;refs](./callsfilter#input_refs)
-* [op&#95;names](./callsfilter#op_names)
-* [output&#95;refs](./callsfilter#output_refs)
-* [parent&#95;ids](./callsfilter#parent_ids)
-* [thread&#95;ids](./callsfilter#thread_ids)
-* [trace&#95;ids](./callsfilter#trace_ids)
-* [trace&#95;roots&#95;only](./callsfilter#trace_roots_only)
-* [turn&#95;ids](./callsfilter#turn_ids)
-* [wb&#95;run&#95;ids](./callsfilter#wb_run_ids)
-* [wb&#95;user&#95;ids](./callsfilter#wb_user_ids)
-
-## プロパティ
 
 <div id="call_ids">
   ### call_ids
 </div>
 
-• `Optional` **call&#95;ids**: `null` | `string`[]
+> `optional` **call&#95;ids**: `string`[] | `null`
 
-call IDs
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2052](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2052)
+Call ID
 
 ***
 
@@ -49,15 +27,9 @@ call IDs
   ### input_refs
 </div>
 
-• `Optional` **input&#95;refs**: `null` | `string`[]
+> `optional` **input&#95;refs**: `string`[] | `null`
 
-入力リファレンス
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2044](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2044)
+入力 ref
 
 ***
 
@@ -65,15 +37,9 @@ call IDs
   ### op_names
 </div>
 
-• `Optional` **op&#95;names**: `null` | `string`[]
+> `optional` **op&#95;names**: `string`[] | `null`
 
-op名
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2042](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2042)
+Op 名
 
 ***
 
@@ -81,15 +47,9 @@ op名
   ### output_refs
 </div>
 
-• `Optional` **output&#95;refs**: `null` | `string`[]
+> `optional` **output&#95;refs**: `string`[] | `null`
 
-出力リファレンス
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2046](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2046)
+出力 ref
 
 ***
 
@@ -97,15 +57,9 @@ op名
   ### parent_ids
 </div>
 
-• `Optional` **parent&#95;ids**: `null` | `string`[]
+> `optional` **parent&#95;ids**: `string`[] | `null`
 
 親 ID
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2048](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2048)
 
 ***
 
@@ -113,15 +67,9 @@ op名
   ### thread_ids
 </div>
 
-• `Optional` **thread&#95;ids**: `null` | `string`[]
+> `optional` **thread&#95;ids**: `string`[] | `null`
 
-thread ID の一覧
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2054](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2054)
+スレッド ID
 
 ***
 
@@ -129,15 +77,9 @@ thread ID の一覧
   ### trace_ids
 </div>
 
-• `Optional` **trace&#95;ids**: `null` | `string`[]
+> `optional` **trace&#95;ids**: `string`[] | `null`
 
 トレース ID
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2050](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2050)
 
 ***
 
@@ -145,15 +87,9 @@ thread ID の一覧
   ### trace_roots_only
 </div>
 
-• `Optional` **trace&#95;roots&#95;only**: `null` | `boolean`
+> `optional` **trace&#95;roots&#95;only**: `boolean` | `null`
 
-ルートのみをトレース
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2058](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2058)
+トレースルートのみ
 
 ***
 
@@ -161,15 +97,9 @@ thread ID の一覧
   ### turn_ids
 </div>
 
-• `Optional` **turn&#95;ids**: `null` | `string`[]
+> `optional` **turn&#95;ids**: `string`[] | `null`
 
-ターン IDs
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2056](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2056)
+ターン ID
 
 ***
 
@@ -177,15 +107,9 @@ thread ID の一覧
   ### wb_run_ids
 </div>
 
-• `Optional` **wb&#95;run&#95;ids**: `null` | `string`[]
+> `optional` **wb&#95;run&#95;ids**: `string`[] | `null`
 
-Wb Run IDs
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2062](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2062)
+W&amp;B run ID
 
 ***
 
@@ -193,12 +117,6 @@ Wb Run IDs
   ### wb_user_ids
 </div>
 
-• `Optional` **wb&#95;user&#95;ids**: `null` | `string`[]
+> `optional` **wb&#95;user&#95;ids**: `string`[] | `null`
 
-Wb ユーザー ID
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/generated/traceServerApi.ts:2060](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2060)
+W&amp;B ユーザー ID

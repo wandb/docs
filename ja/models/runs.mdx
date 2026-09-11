@@ -123,17 +123,37 @@ wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 
 W&amp;B は、`jolly-haze-4` という 1 つの run 内に、シミュレートされたトレーニングループを記録します。これは、スクリプトが `wandb.init()` method を 1 回しか呼び出さないためです。
 
-前の出力で W&amp;B が表示した URL をブラウザにコピー＆ペーストしてください。その URL を開くと、W&amp;B App UI の 해당 run の Workspace が表示されます。たとえば、次の画像は run `jolly-haze-4` の Workspace を示しています。
+前の出力から W&amp;B が表示した URL をコピー＆ペーストしてブラウザで開いてください。URL は W&amp;B App UI の run の Workspace に移動します。たとえば、次の画像は run `jolly-haze-4` の Workspace を示しています。
 
 <Frame>
-  <img src="/images/runs/run_log_example_2.png" alt="メトリクスがログされたトレーニング run" />
+  <img src="/images/runs/run_log_example_2.png" alt="メトリクスがログされたトレーニングの run" />
 </Frame>
 
-{/* ## run にメモを追加する
-  特定の run に追加したメモは、run ページの **Overview** タブと、プロジェクト ページの Runs の表に表示されます。
+<div id="run-summary">
+  ## Run のサマリー
+</div>
 
-  1. W&B のプロジェクトにアクセスする
-  2. プロジェクトのサイドバーから **Workspace** タブを選択する
-  3. run selector で、メモを追加したい run を選択する
-  4. **Overview** タブを選択する
-  5. **Description** フィールドの横にある鉛筆アイコンを選択し、メモを入力する */}
+run の [`summary`](/ja/models/ref/python/experiments/run#attributes) 属性を使用して、モデル、トレーニング プロセス、または前処理ステップを要約する値を保存します。時間とともに変化するメトリクスとは異なり、サマリー値は通常、最終的な結果または集計結果を表します。
+
+実行中の run でサマリー値をログすることも、run の終了後に更新することもできます。W&amp;B Python SDK を使用してプログラムからアクセスすることも、W&amp;B App で表示することもできます。
+
+詳細は、[サマリー メトリクスをログする](/ja/models/track/log/log-summary)を参照してください。
+
+<div id="run-configuration">
+  ## Run の設定
+</div>
+
+run の設定には、ハイパーパラメーター、モデルアーキテクチャ、データセット名など、experiment の入力値と設定を保存します。設定値を使用すると、run の結果を生成した条件をトラッキングできます。
+
+アクティブな run 中に設定値をログすることも、run の終了後に更新することもできます。W&amp;B Python SDK を使用してプログラムからアクセスするか、W&amp;B App で表示できます。
+
+詳細は、[experiment の設定](/ja/models/track/config) を参照してください。
+
+{/* ## run にメモを追加する
+  特定の run に追加したメモは、Run page の **Overview** タブと、Project page の run の表に表示されます。
+
+  1. W&B のプロジェクトにアクセスします
+  2. プロジェクトのサイドバーから **Workspace** タブを選択します
+  3. run selector からメモを追加する run を選択します
+  4. **Overview** タブを選択します
+  5. **Description** フィールドの横にある鉛筆アイコンを選択し、メモを追加します */}

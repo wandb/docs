@@ -1,0 +1,110 @@
+---
+title: "맞춤형 런타임 추가"
+description: "OpenAI-compatible 추론 엔드포인트를 맞춤형 런타임으로 Weave 프로젝트에 연결하고 UI 또는 Python 및 TypeScript SDK에서 관리합니다."
+keywords: ["맞춤형 런타임", "사용자 정의 프로바이더", "OpenAI-compatible 엔드포인트", "register_custom_runtime", "LLM 플레이그라운드", "LLM 평가자"]
+---
+
+맞춤형 런타임을 등록하여 OpenAI-compatible 추론 엔드포인트를 W&amp;B Weave 프로젝트에 연결합니다. 등록한 후에는 해당 엔드포인트의 모델이 Weave 전반의 모델 선택기에 표시됩니다. 인테그레이션 코드를 작성하지 않고도 팀원과 함께 플레이그라운드, Evaluation 플레이그라운드 및 LLM-as-a-judge 워크플로에서 이 모델들을 사용할 수 있습니다.
+
+맞춤형 런타임을 사용하여 다음을 연결할 수 있습니다.
+
+* 팀에서 OpenAI-compatible API를 통해 서빙하는 에이전트 또는 모델 프로토타입
+* 자체 호스팅 또는 로컬 모델(예: Ollama 또는 vLLM으로 서빙하는 모델)
+* Weave에서 기본적으로 지원하지 않는 공급자 또는 모델 버전
+
+W&amp;B UI에서 맞춤형 런타임을 관리하거나 Python 및 TypeScript SDK를 사용해 프로그래밍 방식으로 관리할 수 있습니다. SDK 방식은 CI/CD를 위해 설계되었습니다. 등록은 선언적이고 멱등적이므로 파이프라인에서 배포할 때마다 런타임을 다시 등록할 수 있으며, Weave는 지정한 설정 상태로 수렴합니다.
+
+<div id="where-you-can-use-custom-runtimes">
+  ## 맞춤형 런타임을 사용할 수 있는 곳
+</div>
+
+등록된 맞춤형 런타임의 모델은 다음 위치의 모델 선택기에 표시됩니다.
+
+* [플레이그라운드](/ko/weave/guides/tools/playground): 엔드포인트와 대화형으로 채팅합니다.
+* [Evaluation 플레이그라운드](/ko/weave/guides/tools/evaluation_playground): 엔드포인트를 다른 모델과 비교하고 평가합니다.
+* [Signals](/ko/weave/guides/evaluation/monitors): 수신 트레이스에 점수를 매기는 평가 모델로 엔드포인트를 사용합니다.
+* Scorer 반복 및 Agent Signals 모델 선택기
+* Weave completions API: 모델 ID `custom::<runtime-name>::<runtime-id>`를 `completions/create` 엔드포인트에 전달하여 프로그래밍 방식으로 엔드포인트에 대해 트레이스된 completions를 실행합니다. [Service API 레퍼런스](/ko/weave/reference/service-api)를 참조하세요.
+
+<div id="add-a-custom-runtime">
+  ## 맞춤형 런타임 추가
+</div>
+
+코드 또는 Weave UI를 사용하여 프로젝트에 맞춤형 런타임을 추가할 수 있습니다. 맞춤형 런타임을 추가하려면 다음 런타임 정보가 필요합니다.
+
+| 필드               | 설명                                                                          |
+| ---------------- | --------------------------------------------------------------------------- |
+| 이름               | 프로젝트 내에서 런타임을 식별합니다. 모델 선택기에서는 그룹 이름으로 표시됩니다.                               |
+| 기본 URL           | Weave가 완료 요청을 전송하는 OpenAI-compatible 엔드포인트입니다. W&amp;B 서버에서 액세스할 수 있어야 합니다. |
+| 런타임 ID           | 엔드포인트가 서빙하는 하나 이상의 모델 ID입니다. 각 ID는 선택 가능한 모델로 표시됩니다.                        |
+| 최대 토큰 수          | 모델이 한 응답에서 생성할 수 있는 최대 토큰 수입니다. 런타임 ID별로 설정합니다. 기본값은 4096입니다.               |
+| API 키 시크릿(선택 사항) | 엔드포인트의 API 키를 저장하는 [팀 시크릿](/ko/platform/secrets)의 이름입니다.                       |
+| 헤더(선택 사항)        | 엔드포인트에 대한 모든 요청과 함께 전송되는 맞춤형 HTTP 헤더입니다.                                    |
+
+<div id="add-a-custom-runtime-using-code">
+  ### 코드를 사용하여 맞춤형 런타임 추가
+</div>
+
+이전 섹션에서 설명한 런타임 정보를 바탕으로 다음 등록 요청의 적절한 필드를 업데이트한 후 실행하여 프로젝트에서 맞춤형 런타임을 생성하거나 업데이트합니다. 프로그래밍 방식으로 등록하려면 `weave` Python 패키지 버전 0.53.4 이상 또는 `weave` npm 패키지 버전 0.16.5 이상이 필요합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import weave
+
+    client = weave.init("[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]")
+
+    client.register_custom_runtime(
+        name="support-agent",
+        base_url="https://agent.example/v1",
+        api_key_secret="AGENT_API_KEY",
+        headers={"X-Tenant-ID": "customer-1"},
+        runtime_ids=[
+            "support-v12",
+            weave.CustomRuntimeID(id="support-canary", max_tokens=8192),
+        ],
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    import * as weave from 'weave';
+
+    const client = await weave.init('[YOUR-TEAM-NAME]/[YOUR-PROJECT-NAME]');
+
+    await client.registerCustomRuntime({
+      name: 'support-agent',
+      baseUrl: 'https://agent.example/v1',
+      apiKeySecret: 'AGENT_API_KEY',
+      headers: {'X-Tenant-ID': 'customer-1'},
+      runtimeIds: ['support-v12', {id: 'support-canary', maxTokens: 8192}],
+    });
+    ```
+  </Tab>
+</Tabs>
+
+런타임을 추가하면 해당 런타임 ID는 `custom::<runtime-name>::<runtime-id>` 형식으로 참조합니다. 호출이 성공하면 UI에서 등록한 런타임과 마찬가지로 해당 런타임의 모델이 런타임 이름 아래의 모델 선택기에 표시됩니다.
+
+<Note>
+  런타임을 업데이트한 후 캐시가 만료될 때까지 최대 60초 동안 추론에 이전 설정이 계속 사용될 수 있습니다.
+</Note>
+
+<div id="register-a-custom-runtime-in-the-ui">
+  ## UI에서 맞춤형 런타임 등록
+</div>
+
+W&amp;B UI에서 맞춤형 런타임을 등록하려면 다음 단계를 따르세요.
+
+1. Weave 사이드바에서 **Project**를 선택한 후 **AI Providers** 탭을 선택합니다. 또는 플레이그라운드 모델 선택기에서 **Configure providers**를 클릭합니다.
+2. **Add custom runtime**을 클릭합니다. 설정 패널이 열립니다.
+3. 패널에서 런타임 이름, 기본 URL, 하나 이상의 런타임 ID를 입력합니다. 필요에 따라 API 키 시크릿과 맞춤형 헤더를 추가합니다.
+4. 런타임을 저장합니다.
+
+<Frame>
+  ![맞춤형 런타임 설정 메뉴](/weave/guides/tools/imgs/custom-runtime.png)
+</Frame>
+
+이제 런타임의 모델이 런타임 이름으로 된 그룹 아래의 모델 선택기에 표시됩니다. 런타임 ID 없이 저장한 런타임도 선택기에 계속 표시되며, **Add runtime ID** 액션을 선택하면 편집기가 다시 열립니다.
+
+런타임을 편집하거나 삭제하려면 **AI Providers** 탭의 런타임 행에서 편집 및 삭제 컨트롤을 사용합니다. 런타임을 삭제하면 되돌릴 수 없습니다.

@@ -1,9 +1,11 @@
 ---
-title: "クラス: ObjectRef"
+title: "ObjectRef"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / ObjectRef
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L24" />
 
 保存された Weave オブジェクトへの参照を表します。
 
@@ -12,7 +14,9 @@ description: "TypeScript SDK リファレンス"
 ObjectRef には、保存されたオブジェクトを Weave のストレージシステム内で一意に識別するための
 プロジェクト ID、オブジェクト ID、ダイジェストが含まれます。
 
-`Example`
+<div id="example">
+  ## 例
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -20,76 +24,37 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="table-of-contents">
-  ## 目次
+<div id="constructor">
+  ## コンストラクター
 </div>
 
-<div id="constructors">
-  ### コンストラクター
-</div>
-
-* [constructor](./objectref#constructor)
-
-<div id="properties">
-  ### プロパティ
-</div>
-
-* [digest](./objectref#digest)
-* [objectId](./objectref#objectid)
-* [projectId](./objectref#projectid)
-
-<div id="methods">
-  ### method
-</div>
-
-* [get](./objectref#get)
-* [ui&#95;url](./objectref#ui_url)
-* [uri](./objectref#uri)
-* [fromUri](./objectref#fromuri)
-
-## コンストラクター
-
-<div id="constructors">
-  ### コンストラクター
-</div>
-
-• **new ObjectRef**(`projectId`, `objectId`, `digest`): [`ObjectRef`](./objectref)
+> **new ObjectRef**(`projectId`, `objectId`, `digest`): `ObjectRef`
 
 <div id="parameters">
-  #### パラメーター
+  ### パラメーター
 </div>
 
-| 名           | タイプ      |
-| :---------- | :------- |
-| `projectId` | `string` |
-| `objectId`  | `string` |
-| `digest`    | `string` |
+<ParamField path="projectId" type="string" required />
+
+<ParamField path="objectId" type="string" required />
+
+<ParamField path="digest" type="string" required />
 
 <div id="returns">
-  #### 戻り値
+  ### 戻り値
 </div>
 
-[`ObjectRef`](./objectref)
+`ObjectRef`
 
-<div id="defined-in">
-  #### 定義場所
+<div id="properties">
+  ## プロパティ
 </div>
-
-[src/weaveObject.ts:24](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L24)
-
-## プロパティ
 
 <div id="digest">
-  ### digest
+  ### ダイジェスト
 </div>
 
-• **digest**: `string`
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveObject.ts:27](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L27)
+> **ダイジェスト**: `string`
 
 ***
 
@@ -97,13 +62,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   ### objectId
 </div>
 
-• **objectId**: `string`
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveObject.ts:26](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L26)
+> **objectId**: `string`
 
 ***
 
@@ -111,113 +70,89 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
   ### projectId
 </div>
 
-• **projectId**: `string`
+> **projectId**: `string`
 
-<div id="defined-in">
-  #### 定義場所
+<div id="methods">
+  ## method
 </div>
-
-[src/weaveObject.ts:25](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L25)
-
-## method
 
 <div id="get">
-  ### get
+  ### get()
 </div>
 
-▸ **get**(): `Promise`&lt;`any`&gt;
+> **get**(): `Promise`&lt;`any`&gt;
 
-<div id="returns">
+<div id="returns-2">
   #### 戻り値
 </div>
 
 `Promise`&lt;`any`&gt;
 
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveObject.ts:64](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L64)
-
 ***
 
 <div id="ui_url">
-  ### ui_url
+  ### ui_url()
 </div>
 
-▸ **ui&#95;url**(): `string`
+> **ui&#95;url**(): `string`
 
-<div id="returns">
+<div id="returns-3">
   #### 戻り値
 </div>
 
 `string`
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveObject.ts:59](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L59)
 
 ***
 
 <div id="uri">
-  ### uri
+  ### uri()
 </div>
 
-▸ **uri**(): `string`
+> **uri**(): `string`
 
-<div id="returns">
+<div id="returns-4">
   #### 戻り値
 </div>
 
 `string`
 
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveObject.ts:55](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L55)
-
 ***
 
 <div id="fromuri">
-  ### fromUri
+  ### fromUri()
 </div>
 
-▸ **fromUri**(`uri`): [`ObjectRef`](./objectref)
+> `static` **fromUri**(`uri`): `ObjectRef`
 
-Weave URI 文字列からObjectRefを生成します。
+Weave URI 文字列から ObjectRef を作成します。
 
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-| 名     | タイプ      | 説明                                                             |
-| :---- | :------- | :------------------------------------------------------------- |
-| `uri` | `string` | 以下の形式の Weave URI: `weave:///entity/project/object/name:digest` |
+<ParamField path="uri" type="string" required>
+  以下の形式の Weave URI: weave:///entity/project/object/name:digest
+</ParamField>
 
-<div id="returns">
+<div id="returns-5">
   #### 戻り値
 </div>
 
-[`ObjectRef`](./objectref)
+`ObjectRef`
 
 新しい ObjectRef インスタンス
 
-`Throws`
+<div id="throws">
+  #### Throws
+</div>
 
 URI 形式が無効、または object ref ではない場合はエラー
 
-`Example`
+<div id="example-2">
+  #### 例
+</div>
 
 ```ts twoslash
 // @noErrors
 const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
 ```
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveObject.ts:42](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveObject.ts#L42)

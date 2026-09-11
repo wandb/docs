@@ -3,27 +3,28 @@ title: "GetAgentSpansResult"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="getagentspansresult">
-  # GetAgentSpansResult
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+> **GetAgentSpansResult** = `object`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L210" />
+
+[WeaveClient.getAgentSpans](../interfaces/weaveclient#getagentspans) によって返される結果の形式です。
+
+<div id="properties">
+  ## プロパティ
 </div>
 
-Ƭ **GetAgentSpansResult**: `Object`
-
-[WeaveClient.getAgentSpans](../classes/weaveclient#getagentspans) が返す結果の型です。
-
-<div id="type-declaration">
-  #### 型定義
+<div id="spans">
+  ### スパン
 </div>
 
-| 名              | タイプ                          |
-| :------------- | :--------------------------- |
-| `spans`        | [`AgentSpan`](./agentspan)[] |
-| `total_count?` | `number`                     |
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveClient.ts:183](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L183)
+> **スパン**: [`AgentSpan`](./agentspan)[]
 
 ***
+
+<div id="total_count">
+  ### total_count
+</div>
+
+> `optional` **total&#95;count**: `数値`

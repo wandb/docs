@@ -4,13 +4,15 @@ description: "Weave의 배포 옵션, IAM 관리, 데이터 보안 기능에 대
 keywords: ["배포", "IAM", "SSO", "Dedicated Cloud", "데이터 보안"]
 ---
 
+import WeaveByob from "/snippets/ko/_includes/weave-byob.mdx";
+
 이 페이지에서는 Weave를 배포하고 액세스를 관리하며 데이터를 보호하는 방법을 설명하므로, 조직의 요구 사항에 맞는 배포 옵션과 보안 제어를 선택할 수 있습니다.
 
 Weave는 다음 배포 옵션으로 제공됩니다:
 
 * **[W&amp;B Multi-tenant Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/multi_tenant_cloud):** 북미 리전의 W&amp;B Google Cloud Platform(Google Cloud) 계정에 배포되는 멀티 테넌트 완전 관리형 플랫폼입니다.
 * **[W&amp;B Dedicated Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated-cloud):** AWS, Google Cloud, Azure에서 정식 제공됩니다.
-* **[Self-Managed instances](/ko/weave/guides/platform/weave-self-managed):** Weave를 독립적으로 호스팅하려는 팀을 위해, 배포 옵션을 평가할 수 있도록 담당 W&amp;B 팀에서 가이드를 제공합니다.
+* **[Self-Managed instances](/ko/weave/guides/platform/weave-self-managed):** Weave를 독립적으로 호스팅하려는 팀을 위해, 담당 W&amp;B 팀에서 배포 옵션 평가를 위한 가이드를 제공합니다. Self-Managed 인스턴스는 높은 트레이스 볼륨에서 비용을 제어하기 위해 [ingest sampling](/ko/weave/guides/platform/ingest-sampling)을 사용할 수 있습니다.
 
 <div id="identity-and-access-management">
   ## ID 및 액세스 관리
@@ -39,9 +41,7 @@ Weave는 다음 배포 옵션으로 제공됩니다:
   * **[Data encryption](/ko/platform/hosting/data-security/data-encryption):** W&amp;B는 고유한 W&amp;B 관리형 암호화 키를 사용해 저장 데이터를 암호화합니다.
   * **ClickHouse cluster security:** W&amp;B는 클라우드 제공업체의 프라이빗 네트워크를 통해 Dedicated Cloud 인스턴스용 전용 ClickHouse Cloud 클러스터에 연결합니다. 또한 ClickHouse의 파일 수준 암호화를 활용하면서, 고유한 W&amp;B 관리형 암호화 키로 클러스터를 암호화합니다.
 
-<Warning>
-  [W&amp;B Platform secure storage connector 또는 BYOB](/ko/platform/hosting/data-security/secure-storage-connector)는 Weave에서 사용할 수 없습니다.
-</Warning>
+<WeaveByob />
 
 <div id="maintenance">
   ## 유지 관리

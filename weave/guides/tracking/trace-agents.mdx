@@ -61,11 +61,11 @@ Weave models agent behavior as a hierarchy of one-to-many relationships. Each ag
 | Concept | Weave SDK class | OTel span type | Description | Reference page |
 |---|---|---|---|---|
 | Agent | *(no class)* | *(no span, grouped by the `agent_name` attribute)* | An agentic application in the Agents tab that contains one or more conversations. | 
-| Conversation | `Conversation` | *(no span, turns are grouped by the `conversation_id` attribute)* | A conversation or run that contains one or more turns. | [Python](/weave/reference/python-sdk#class-conversation) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/conversation) |  
-| Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response. | [Python](/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/turn) |
-| LLM call | `LLM` | `chat` | One call to a language model API. | [Python](/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/llm) |
-| Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response. | [Python](/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/tool) |
-| Sub-agent call | `SubAgent` | `invoke_agent` | A nested agent invocation, typically when one agent delegates to another. | [Python](/weave/reference/python-sdk#class-subagent) <br /> [TypeScript](/weave/reference/typescript-sdk/classes/subagent) |
+| Conversation | `Conversation` | *(no span, turns are grouped by the `conversation_id` attribute)* | A conversation or run that contains one or more turns. | [Python](/weave/reference/python-sdk#class-conversation) <br /> [TypeScript](/weave/reference/typescript-sdk/interfaces/conversation) |  
+| Turn | `Turn` | `invoke_agent` | One user message and the agent's complete response. | [Python](/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/weave/reference/typescript-sdk/interfaces/turn) |
+| LLM call | `LLM` | `chat` | One call to a language model API. | [Python](/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/weave/reference/typescript-sdk/interfaces/llm) |
+| Tool call | `Tool` | `execute_tool` | One tool call triggered by an LLM response. | [Python](/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/weave/reference/typescript-sdk/interfaces/tool) |
+| Sub-agent call | `SubAgent` | `invoke_agent` | A nested agent invocation, typically when one agent delegates to another. | [Python](/weave/reference/python-sdk#class-subagent) <br /> [TypeScript](/weave/reference/typescript-sdk/interfaces/subagent) |
 
 The following diagram shows how one agent spans many conversations, one conversation spans many turns, and so on.
 
@@ -107,7 +107,7 @@ flowchart TB
 A conversation groups turns by a shared `conversation_id` attribute rather than a parent span, so each turn starts its own OTel trace. This design supports distributed tracing and parallel execution. The client sends spans directly to the OTel collector without any server-side aggregation.
 
 <Tip>
-To integrate Weave with SDKs or harnesses such as the Claude Agent SDK or Codex, see [Trace agent integrations](/weave/guides/tracking/trace-agent-integrations). Weave autopatches into several agent-building SDKs and agent harnesses for quick integration.
+To integrate Weave with SDKs or harnesses such as the Claude Agent SDK or Codex, see [Choose an agent integration](/weave/agent-integration-quickstart). Weave autopatches into several agent-building SDKs and agent harnesses for quick integration.
 </Tip>
 
 ## Agent tracing APIs

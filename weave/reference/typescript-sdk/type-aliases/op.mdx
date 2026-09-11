@@ -1,20 +1,44 @@
 ---
-title: "Op"
+title: "Op<T>"
 description: "TypeScript SDK reference"
 ---
 
-# Op
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-Ƭ **Op**\<`T`\>: \{ `__boundThis?`: [`WeaveObject`](../classes/weaveobject) ; `__isOp`: ``true`` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` \| `Promise`\<`OpRef`\> ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`\<`T`\>  } & `T` & (...`args`: `Parameters`\<`T`\>) => `ReturnType`\<`T`\> extends `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
+> **Op**\<`T`\> = `object` & `T` & (...`args`) => `ReturnType`\<`T`\> *extends* `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
 
-#### Type parameters
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L8" />
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+## Type Declaration
 
-#### Defined in
+### \_\_boundThis
 
-[src/opType.ts:7](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/opType.ts#L7)
+> `optional` **\_\_boundThis**: [`WeaveObject`](../classes/weaveobject)
 
-___
+### \_\_isOp
+
+> **\_\_isOp**: `true`
+
+### \_\_name
+
+> **\_\_name**: `string`
+
+### \_\_parameterNames
+
+> `optional` **\_\_parameterNames**: `"useParam0Object"` \| `string`[]
+
+### \_\_savedRef
+
+> `optional` **\_\_savedRef**: `OpRef` \| `Promise`\<`OpRef`\>
+
+### \_\_wrappedFunction
+
+> **\_\_wrappedFunction**: `T`
+
+### invoke
+
+> **invoke**: `CallMethod`\<`T`\>
+
+## Type Parameters
+
+<ParamField path="T" type="extends (...args) => any" />
