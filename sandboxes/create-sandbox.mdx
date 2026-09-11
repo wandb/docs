@@ -13,12 +13,18 @@ Create W&B Serverless Sandboxes to run code in isolated environments. Start a si
 <Info>
 By default, sandboxes use `python:3.11` as the base image. To use a different image, pass `container_image` to [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) or [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults). W&B supports public container images only.
 
-The following code snippet creates a sandbox with the `python:3.15` image and runs `python --version` inside it.
+Verify that the image and tag exist in the public registry before you use them. If the sandbox can't pull the image, it doesn't start and the client raises `SandboxFailedError`.
+
+<Info>
+`SandboxFailedError` can occur for multiple reasons and doesn't specifically identify an unavailable image. If you encounter this error, verify that the image and tag are available.
+</Info>
+
+The following code snippet creates a sandbox with the `python:3.14` image and runs `python --version` inside it.
 
 ```python
 from wandb.sandbox import Sandbox
 
-with Sandbox.run(container_image="python:3.15") as sandbox:
+with Sandbox.run(container_image="python:3.14") as sandbox:
     sandbox.exec(["python", "--version"]).result()
 ```
 </Info>

@@ -4,14 +4,14 @@ title: Forker un run
 ---
 
 <Note>
-  Le fork d’un run est en préversion publique pour le Cloud mutualisé et le Cloud dédié. Il n’est pas actuellement disponible pour les déploiements autogérés.
+  Le fork d’un run est en préversion pour le Cloud mutualisé et le Cloud dédié. Contactez l’assistance pour obtenir des conseils concernant le Cloud dédié. Il n’est pas actuellement disponible pour les déploiements autogérés.
 
-  Les fonctionnalités en préversion publique sont disponibles pour une évaluation en production, mais les fonctionnalités, les API et le comportement sont en cours de développement actif et peuvent changer avant la disponibilité générale.
+  Les fonctionnalités en préversion sont disponibles pour une évaluation en production, mais les fonctionnalités, les API et le comportement sont en cours de développement actif et peuvent changer avant la disponibilité générale.
 </Note>
 
 Vous pouvez explorer différents hyperparamètres ou modèles à partir d’un point précis d’une expérience sans affecter le run original. Pour cela, forkez à partir d’un run W&amp;B existant.
 
-Lorsque vous forkez un run, W&amp;B crée un nouveau run en utilisant l’[ID unique](/fr/models/runs/run-identifiers#unique-run-identifiers) du run source et une étape spécifiée. Les métriques récapitulatives du run source sont copiées dans le run forké. Le run forké partage l’ensemble de l’historique et des fichiers du run source jusqu’à l’étape spécifiée.
+Lorsque vous forkez à partir d’un run, W&amp;B crée un nouveau run en utilisant l’[ID unique](/fr/models/runs/run-identifiers#unique-run-identifiers) du run source et une étape spécifiée. Les métriques récapitulatives du run source sont copiées dans le run forké. Le run forké partage l’ensemble de l’historique et des fichiers du run source jusqu’à l’étape spécifiée.
 
 Après l’étape de fork, vous pouvez journaliser de nouvelles données dans le run forké indépendamment du run original.
 

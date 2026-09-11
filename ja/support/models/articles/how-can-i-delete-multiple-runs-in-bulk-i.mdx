@@ -5,16 +5,47 @@ keywords: ["Projects", "Runs"]
 
 Workspace の **Runs** タブで、削除する各 run の横にあるチェックボックスを選択し、**Delete** をクリックします。
 
-手動で選択する代わりに、条件で run をフィルタリングする場合は、[public API](/ja/models/ref/python/public-api/api)を使用して、複数の run を1回の操作で削除できます。`[ENTITY]` と `[PROJECT]` は entity 名と project 名に置き換え、`[CONDITION]` は削除したい run に対して `True` と評価される Python 式に置き換えます。
+手動で選択する代わりに、条件で run をフィルタリングする場合は、[public API](/ja/models/ref/python/public-api/api)を使用して、複数の run を1回の操作で削除できます。`"entity"` と &quot;project&quot; は entity 名と project 名に置き換え、`[CONDITION]` は削除したい run に対して `True` と評価される Python 式に置き換えます。
 
 ```python
 import wandb
 
 api = wandb.Api()
-runs = api.runs('[ENTITY]/[PROJECT]')
+runs = api.runs("entity/project")
 for run in runs:
     if [CONDITION]:
         run.delete()
+```
+
+たとえば、特定の日付より前に作成された run を削除したい場合は次のようにします。
+
+```python
+import wandb
+from datetime import datetime
+
+api = wandb.Api()
+
+entity = "wandb"
+project = "project"
+cutoff = "2024-01-01T00:00:00Z"  # この UTC timestamp より前に作成された run を削除します
+
+runs = api.runs(
+    path=f"{entity}/{project}",
+    filters={"createdAt": {"$lt": cutoff}},
+    order="+created_at",
+)
+
+# まず dry run を実行します
+runs_to_delete = list(runs)
+print(f"Found {len(runs_to_delete)} runs to delete:")
+for run in runs_to_delete:
+    print(run.id, run.name, run.created_at)
+
+confirm = input("Type DELETE to permanently delete these runs: ")
+if confirm == "DELETE":
+    for run in runs_to_delete:
+        print(f"Deleting {run.path}")
+        run.delete()  # または run.delete(delete_artifacts=True)
 ```
 
 ***

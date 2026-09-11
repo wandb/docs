@@ -67,12 +67,14 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const sha = context.payload.deployment?.sha;
+            const ref = context.payload.deployment?.ref;
             const deployUrl =
               context.payload.deployment_status?.environment_url ||
               context.payload.deployment_status?.target_url ||
               '';
 
             core.info(`Deployment SHA: ${sha}`);
+            core.info(`Deployment ref: ${ref}`);
             core.info(`Deployment URL: ${deployUrl}`);
 
             // Find PR(s) associated with this deployment commit SHA
@@ -82,9 +84,19 @@ jobs:
               commit_sha: sha,
             });
 
-            const pr = prsResp.data?.[0];
+            // A commit can belong to several PRs at once (e.g. one PR branch merged
+            // into another), and this endpoint's ordering is not stable over time, so
+            // data[0] can bind the run to an unrelated PR. Match the deployment's own
+            // branch instead. There is deliberately no data[0] fallback: picking an
+            // arbitrary PR is the failure mode we are removing, so prefer to skip.
+            const prs = prsResp.data ?? [];
+            const pr =
+              prs.find((p) => p.head?.ref === ref && p.head?.repo?.fork !== true) ??
+              prs.find((p) => p.head?.sha === sha) ??
+              null;
+
             if (!pr) {
-              core.warning(`No PR associated with commit ${sha}. Skipping linkcheck + PR comment.`);
+              core.warning(`No PR matched deployment ref '${ref}' at commit ${sha} (${prs.length} PR(s) contain this commit). Skipping linkcheck + PR comment.`);
               core.setOutput('pr_number', '');
               core.setOutput('pr_closed', 'false');
               core.setOutput('deploy_url', deployUrl);
@@ -104,7 +116,10 @@ jobs:
             core.setOutput('pr_number', String(pr.number));
             core.setOutput('pr_closed', 'false');
             core.setOutput('base_sha', pr.base.sha);
-            core.setOutput('head_sha', pr.head.sha);
+            // Diff the commit Mintlify actually built and is serving at the preview
+            // URL, not the PR tip: the branch can move between the deploy and this
+            // run, and pr.head.sha may name a commit that is no longer fetchable.
+            core.setOutput('head_sha', sha);
             core.setOutput('deploy_url', deployUrl);
 
       - name: Resolve GitHub-style PR diff
@@ -120,11 +135,29 @@ jobs:
         run: |
           set -euo pipefail
 
-          if ! merge_base_sha=$(git merge-base "$TARGET_SHA" "$HEAD_SHA"); then
-            echo "::error::No merge base between target $TARGET_SHA and head $HEAD_SHA"
-            exit 1
+          # Skip rather than fail: a link check that cannot resolve its own refs is an
+          # infrastructure hiccup, and failing here puts a red X on an unrelated docs PR.
+          missing=""
+          for sha_name in TARGET_SHA HEAD_SHA; do
+            sha_value="${!sha_name}"
+            if [ -z "$sha_value" ] || ! git cat-file -e "${sha_value}^{commit}" 2>/dev/null; then
+              missing="$missing $sha_name=${sha_value:-<empty>}"
+            fi
+          done
+
+          if [ -n "$missing" ]; then
+            echo "::warning::Link check skipped - commit(s) not in this checkout:$missing (branch force-pushed or deleted since the deployment?)"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
+          if ! merge_base_sha=$(git merge-base "$TARGET_SHA" "$HEAD_SHA"); then
+            echo "::warning::Link check skipped - no merge base between target $TARGET_SHA and head $HEAD_SHA"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "merge_base_sha=$merge_base_sha" >> "$GITHUB_OUTPUT"
           echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
           echo "PR diff: $merge_base_sha...$HEAD_SHA (target tip: $TARGET_SHA)"
@@ -134,12 +167,13 @@ jobs:
         # Skip this for fork PRs with no doc changes (already checked above)
         # For deployment_status and workflow_dispatch, always run
         if: |
-          (github.event_name == 'pull_request' && 
-           github.event.pull_request.head.repo.fork == true && 
-           steps.fork-docs-check.outputs.any_changed == 'true') ||
-          (github.event_name == 'deployment_status' && 
-           steps.pr-context.outputs.pr_number != '') ||
-          github.event_name == 'workflow_dispatch'
+          steps.pr-diff.outputs.skip != 'true' &&
+          ((github.event_name == 'pull_request' && 
+            github.event.pull_request.head.repo.fork == true && 
+            steps.fork-docs-check.outputs.any_changed == 'true') ||
+           (github.event_name == 'deployment_status' && 
+            steps.pr-context.outputs.pr_number != '') ||
+           github.event_name == 'workflow_dispatch')
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           base_sha: ${{ steps.pr-diff.outputs.merge_base_sha }}
@@ -160,38 +194,31 @@ jobs:
               return prNumber;
             }
             
-            // For deployment_status events, find PR from commit SHA
+            // For deployment_status events, reuse the PR that "Resolve PR and
+            // deployment URL" already resolved. Repeating the lookup here let the two
+            // steps disagree, so the diff could come from one PR while the results
+            // comment landed on another.
             if (context.eventName === 'deployment_status') {
-              const sha = context.payload.deployment?.sha;
-              if (!sha) {
-                core.warning('No deployment SHA found');
+              const prNumber = '${{ steps.pr-context.outputs.pr_number }}';
+              if (!prNumber) {
+                core.warning('No PR resolved for this deployment. Skipping PR comment.');
                 return null;
               }
-              
-              const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                commit_sha: sha,
-              });
-              
-              const pr = prs[0];
-              if (pr) {
-                core.info(`Found PR #${pr.number} for deployment`);
-                core.setOutput('pr_number', pr.number);
-                return pr.number;
-              } else {
-                core.warning(`No PR found for commit ${sha}`);
-                return null;
-              }
+              core.info(`PR number from pr-context step: ${prNumber}`);
+              core.setOutput('pr_number', prNumber);
+              return prNumber;
             }
             
             core.warning(`Unsupported event type: ${context.eventName}`);
             return null;
 
       - name: Clear stale comment when no documentation changed
+        # Guard on pr-diff skip too: when the diff could not be resolved, changed-files
+        # never ran, and an unset any_changed must not be reported as "no .mdx changed".
         if: |
           github.event_name == 'deployment_status' &&
           steps.pr-context.outputs.pr_number != '' &&
+          steps.pr-diff.outputs.skip != 'true' &&
           steps.changed-files.outputs.any_changed != 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
@@ -224,6 +251,7 @@ jobs:
       - name: Debug - Show lychee config being used
         if: |
           steps.pr-context.outputs.pr_closed != 'true' &&
+          steps.pr-diff.outputs.skip != 'true' &&
           ((github.event_name == 'pull_request' && 
             github.event.pull_request.head.repo.fork == true && 
             steps.fork-docs-check.outputs.any_changed == 'true') ||
@@ -262,6 +290,7 @@ jobs:
         # (avoids: Argument list too long / ARG_MAX).
         if: |
           steps.pr-context.outputs.pr_closed != 'true' &&
+          steps.pr-diff.outputs.skip != 'true' &&
           ((github.event_name == 'pull_request' &&
             github.event.pull_request.head.repo.fork == true &&
             steps.fork-docs-check.outputs.any_changed == 'true') ||
@@ -307,6 +336,7 @@ jobs:
         # - Manual workflow dispatch
         if: |
           steps.pr-context.outputs.pr_closed != 'true' &&
+          steps.pr-diff.outputs.skip != 'true' &&
           ((github.event_name == 'pull_request' && 
             github.event.pull_request.head.repo.fork == true && 
             steps.fork-docs-check.outputs.any_changed == 'true') ||

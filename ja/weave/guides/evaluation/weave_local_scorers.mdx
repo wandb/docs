@@ -66,7 +66,9 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
 
 `WeaveBiasScorerV1` は、ファインチューニング済みの [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。モデル、データセット、およびキャリブレーションプロセスの詳細については、[WeaveBiasScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw) を参照してください。
 
-### 使用上の注意
+<div id="usage-notes">
+  ### 使用上の注意
+</div>
 
 * `score` method では、`output` パラメーターに文字列を渡す必要があります。
   * score が高いほど、そのテキストにバイアスが含まれているという予測が強いことを意味します。
@@ -103,7 +105,9 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
 
 `WeaveToxicityScorerV1` は、PleIAs のオープンソースの [Celadon](https://huggingface.co/PleIAs/celadon) モデルを使用します。詳細は、[WeaveToxicityScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ)を参照してください。
 
-### 使用上のメモ
+<div id="usage-notes-2">
+  ### 使用上のメモ
+</div>
 
 * `score` method では、`output` パラメーターに文字列を渡す必要があります。
   * モデルは、5 つの異なるカテゴリに対して `0` から `3` のスコアを返します。
@@ -111,7 +115,7 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
     * いずれか 1 つのカテゴリのスコアが `category_threshold` (デフォルトは `2`) を超える場合、入力は有害であると判定されます。
   * フィルタリングをより厳しくするには、初期化時に `category_threshold` または `total_threshold` を上書きします。
 
-<div id="usage-example">
+<div id="usage-example-2">
   ### 使用例
 </div>
 
@@ -136,14 +140,16 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
 
 `WeaveHallucinationScorerV1` は、Vectara のオープンソースの [HHEM 2.1 モデル](https://huggingface.co/vectara/hallucination_evaluation_model) を使用します。詳細は、[WeaveHallucinationScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA)をご覧ください。
 
-### 使用時のメモ
+<div id="usage-notes-3">
+  ### 使用時のメモ
+</div>
 
 * `score` method では、`query` パラメーターと `output` パラメーターに値を渡す必要があります。
   * コンテキストは `output` パラメーターに渡します (文字列または文字列のリストとして) 。
   * output のスコアが高いほど、その出力にハルシネーションが含まれている可能性が高いことを示します。
   * `threshold` パラメーターにはデフォルト値が設定されていますが、初期化時に上書きできます。
 
-<div id="usage-example">
+<div id="usage-example-3">
   ### 使用例
 </div>
 
@@ -173,7 +179,7 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
 
 `WeaveContextRelevanceScorerV1` は、tasksource のファインチューニング済み [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。詳細は、[WeaveContextRelevanceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA) を参照してください。
 
-<div id="usage-notes">
+<div id="usage-notes-4">
   ### 使用に関するメモ
 </div>
 
@@ -182,7 +188,7 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
   * スコアが高いほど、そのコンテキストがクエリに関連しているという予測がより強いことを意味します。
   * `score` method に `verbose=True` を渡すと、チャンクごとのスコアを取得できます。
 
-<div id="usage-example">
+<div id="usage-example-4">
   ### 使用例
 </div>
 
@@ -211,12 +217,14 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
 
 `WeaveCoherenceScorerV1` は、tasksource のファインチューニング済み [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。詳細は、[WeaveCoherenceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA)を参照してください。
 
-### 使用上のメモ
+<div id="usage-notes-5">
+  ### 使用上のメモ
+</div>
 
 * `score` method は、`query` パラメーターと `output` パラメーターにテキストが渡されることを想定しています。
   * 出力スコアが高いほど、一貫性が高いという予測がより強いことを示します。
 
-<div id="usage-example">
+<div id="usage-example-5">
   ### 使用例
 </div>
 
@@ -245,12 +253,14 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
 
 `WeaveFluencyScorerV1` は、AnswerDotAI のファインチューニング済み [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) モデルを使用します。詳細は、[WeaveFluencyScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng)を参照してください。
 
-### 使用時のメモ
+<div id="usage-notes-6">
+  ### 使用時のメモ
+</div>
 
 * `score` method には、`output` パラメーターにテキストを渡します。
   * 出力スコアが高いほど、流暢であることを示します。
 
-<div id="usage-example">
+<div id="usage-example-6">
   ### 使用例
 </div>
 
@@ -295,12 +305,14 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
     * `WeaveFluencyScorerV1`
     * `WeaveCoherenceScorerV1`
 
-### 使用上の注意
+<div id="usage-notes-7">
+  ### 使用上の注意
+</div>
 
 * RAG パイプラインを評価するには、この Scorer を使用します。
   * 正しくスコアリングを行うには、`query`、`context`、`output` のキーが必要です。
 
-<div id="usage-example">
+<div id="usage-example-7">
   ### 使用例
 </div>
 
@@ -345,13 +357,15 @@ Weave のローカルScorer を使用する前に、必須の Scorer ライブ�
 
 このScorerは、[Presidioライブラリ](https://github.com/microsoft/presidio) を使用して、AI システムの入力と出力に含まれる Personally Identifiable Information (PII) を検出します。
 
-### 使用上のメモ
+<div id="usage-notes-8">
+  ### 使用上のメモ
+</div>
 
 * メールアドレスや電話番号などの特定のエンティティタイプを検出するには、Presidio エンティティのリストを `selected_entities` パラメーターに渡します。指定しない場合、Presidio はデフォルトのエンティティリストに含まれるすべてのエンティティタイプを検出します。
   * `custom_recognizers` パラメーターには、`presidio.EntityRecognizer` インスタンスのリストとしてカスタム認識器を渡せます。
   * 英語以外の入力を処理するには、`language` パラメーターを使用して言語を指定します。
 
-<div id="usage-example">
+<div id="usage-example-8">
   ### 使用例
 </div>
 

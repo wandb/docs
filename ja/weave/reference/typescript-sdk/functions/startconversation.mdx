@@ -3,25 +3,27 @@ title: "startConversation"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **startConversation**(`opts?`): [`Conversation`](../interfaces/conversation)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+startConversation(opts?: ConversationInit = {}): Conversation
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L26" />
 
 新しい Conversation を開始し、現在の Conversation として設定します。
 以降 `startTurn` を呼び出すと、自動的にこの Conversation が使用されます。
 
 `attributes` を渡すと、Conversation が生成するすべての
-span にカスタム (semconv 以外の) 属性を付与できます。
-
-定義元: [src/genai/api.ts:26](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L26)
+span にカスタム (semconv 以外の) 属性を伝播できます。
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
-
-[`ConversationInit`](../interfaces/conversationinit) = `{}`
+<ParamField path="opts" type="ConversationInit = {}">
+  [`ConversationInit`](../interfaces/conversationinit) を参照してください。
+</ParamField>
 
 <div id="returns">
   ## 戻り値

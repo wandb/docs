@@ -3,14 +3,20 @@ title: "withAttributes"
 description: "Référence du SDK TypeScript"
 ---
 
-> **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `T` | `Promise`&lt;`T`&gt;
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+withAttributes<T>(attrs: Record<string, any>, fn: () => T | Promise<T>): T | Promise<T>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238" />
 
 Associe des attributs au contexte d’exécution actuel afin que tous les appels créés
 dans `fn` en héritent automatiquement. Les attributs sont écrits dans l’enregistrement de l’appel
 sur le serveur de trace et apparaissent dans Weave UI/le filtrage. Ils sont donc
 idéaux pour étiqueter des Runs avec des ID de requête, des tenants, des Experiments, etc.
 
-Exemple :
+Exemple :
 
 ```ts twoslash
 // @noErrors
@@ -19,33 +25,19 @@ await withAttributes({requestId: 'abc'}, async () => {
 });
 ```
 
-Défini dans : [src/clientApi.ts:209](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L209)
-
 <div id="type-parameters">
   ## Paramètres de type
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T`
+<ParamField path="T" />
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="attrs">
-  ### attrs
-</div>
+<ParamField path="attrs" type="Record<string, any>" required />
 
-`Record`&lt;`string`, `any`&gt;
-
-<div id="fn">
-  ### fn
-</div>
-
-() =&gt; `T` | `Promise`&lt;`T`&gt;
+<ParamField path="fn" type="() => T | Promise<T>" required />
 
 <div id="returns">
   ## Renvoie

@@ -13,12 +13,18 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
 <Info>
   デフォルトでは、サンドボックスは `python:3.11` をベースイメージとして使用します。別のイメージを使用するには、[`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) または [`SandboxDefaults`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox-defaults) に `container_image` を渡してください。W&amp;B はパブリックなコンテナーイメージのみをサポートします。
 
-  次のコードスニペットは、`python:3.15` イメージでサンドボックスを作成し、その中で `python --version` を実行します。
+  使用する前に、イメージとタグがパブリックレジストリに存在することを確認してください。サンドボックスがイメージをプルできない場合、起動せず、クライアントは `SandboxFailedError` を発生させます。
+
+  <Info>
+    `SandboxFailedError` は複数の理由で発生する可能性があり、利用できないイメージを特定するものではありません。このエラーが発生した場合は、イメージとタグが利用可能であることを確認してください。
+  </Info>
+
+  次のコードスニペットは、`python:3.14` イメージでサンドボックスを作成し、その中で `python --version` を実行します。
 
   ```python
   from wandb.sandbox import Sandbox
 
-  with Sandbox.run(container_image="python:3.15") as sandbox:
+  with Sandbox.run(container_image="python:3.14") as sandbox:
       sandbox.exec(["python", "--version"]).result()
   ```
 </Info>

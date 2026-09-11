@@ -7,17 +7,11 @@ namespace: wandb.apis.public.projects
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
 
 
 
-## <kbd>class</kbd> wandb.apis.public.Project
-```python
-service_api: 'ServiceApi',
-entity: 'str',
-project: 'str',
-attrs: 'Mapping[str, Any]'
-```
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.Project
 
 
 
@@ -25,12 +19,31 @@ A project is a namespace for runs.
 
 
 
+```python
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+attrs: 'Mapping[str, Any]'
+```
+
 ## Args
 
-- `service_api`: The service API used to query W&B.
-- `entity`: The entity which owns the project.
-- `project`: The name of the project to query.
-- `attrs`: The attributes of the project.
+<ResponseField name="service_api" type="ServiceApi">
+The service API used to query W&B.
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+The entity which owns the project.
+</ResponseField>
+
+<ResponseField name="project" type="str">
+The name of the project to query.
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+The attributes of the project.
+</ResponseField>
+
 
 
 
@@ -39,28 +52,29 @@ A project is a namespace for runs.
 
 ## Properties
 
-### <kbd>property</kbd> id
+<ResponseField name="id" type="str">
+No description provided.
+</ResponseField>
 
-
-
-### <kbd>property</kbd> owner
-
+<ResponseField name="owner" type="public.User">
 Returns the project owner as a User object.
+</ResponseField>
 
-### <kbd>property</kbd> path
-
+<ResponseField name="path" type="list[str]">
 Returns the path of the project. The path is a list containing the
 entity and project name.
+</ResponseField>
 
-### <kbd>property</kbd> url
-
+<ResponseField name="url" type="str">
 Returns the URL of the project.
+</ResponseField>
 
 
 
 ## Methods
 
-### <kbd>method</kbd> Project.artifacts_types()
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.artifacts_types()
 
 ```python
 self,
@@ -71,12 +85,18 @@ Returns all artifact types associated with this project.
 
 ##### Arguments
 
-- `per_page`: 
+<ResponseField name="per_page" type="int">
+No description provided.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Project.collections()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.collections()
 
 ```python
 self,
@@ -89,14 +109,26 @@ Returns all artifact collections associated with this project.
 
 ##### Arguments
 
-- `filters`: Optional mapping of filters to apply to the query.
-- `order`: Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
-- `per_page`: The number of artifact collections to fetch per page. Default is 50.
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+Optional mapping of filters to apply to the query.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+Optional string to specify the order of the results. If you prepend order with a + order is ascending (default). If you prepend order with a - order is descending.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+The number of artifact collections to fetch per page. Default is 50.
+</ResponseField>
 
 
 
 
-### <kbd>method</kbd> Project.sweeps()
+
+
+
+
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.sweeps()
 
 ```python
 self,
@@ -109,9 +141,19 @@ Return a paginated collection of sweeps in this project.
 
 ##### Arguments
 
-- `per_page`: The number of sweeps to fetch per request to the API.
-- `filters`: (dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
-- `order`: 
+<ResponseField name="per_page" type="int">
+The number of sweeps to fetch per request to the API.
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+(dict) queries for specific sweeps using the runs filters, See wandb/apis/public/api.py:runs for more details.
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+No description provided.
+</ResponseField>
+
+
 
 
 

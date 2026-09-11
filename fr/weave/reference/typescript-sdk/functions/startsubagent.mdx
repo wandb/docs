@@ -3,21 +3,23 @@ title: "startSubagent"
 description: "Référence du SDK TypeScript"
 ---
 
-> **startSubagent**(`opts`) : [`SubAgent`](../interfaces/subagent)
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Démarre un span SubAgent. Applique les mêmes règles de résolution du parent que `startTool`.
+```ts
+startSubagent(opts: SubAgentInit): SubAgent
+```
 
-Défini dans : [src/genai/api.ts:137](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L137)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L137" />
+
+Démarre un span SubAgent. Mêmes règles de résolution du parent que pour `startTool`.
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="opts">
-  ### opts
-</div>
-
-[`SubAgentInit`](../interfaces/subagentinit)
+<ParamField path="opts" type="SubAgentInit" required>
+  Voir [`SubAgentInit`](../interfaces/subagentinit).
+</ParamField>
 
 <div id="returns">
   ## Renvoie

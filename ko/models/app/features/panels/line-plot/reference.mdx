@@ -50,8 +50,8 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 데이터 포인트를 표시하는 샘플링 모드를 선택하세요:
 
-* **랜덤 샘플링** (기본값): [랜덤 샘플링](/ko/models/app/features/panels/line-plot/sampling/#random-sampling)을 참조하세요.
-* **Full fidelity**: [Full fidelity](/ko/models/app/features/panels/line-plot/sampling/#full-fidelity)를 참조하세요.
+* **Full fidelity** (기본값): [Full fidelity](/ko/models/app/features/panels/line-plot/sampling/#full-fidelity)를 참조하세요.
+* **랜덤 샘플링**: [랜덤 샘플링](/ko/models/app/features/panels/line-plot/sampling/#random-sampling)을 참조하세요.
 
 <div id="smoothing">
   ### 스무딩
@@ -85,6 +85,24 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 <Note>
   Workspace는 설정과 관계없이 최대 1,000개의 run까지만 표시할 수 있습니다.
+</Note>
+
+<div id="run-grouping">
+  ### Run 그룹화
+</div>
+
+Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하나의 선으로 결합됩니다. 이 그룹화가 플롯에 적용되는 방식을 설정하세요.
+
+* **차트에서 Runs 테이블의 그룹화 사용**: Runs 테이블의 그룹화를 선형 플롯에 적용합니다. 기본적으로 켜져 있습니다. Runs 테이블의 그룹화 여부와 관계없이 모든 run을 개별적으로 플롯하려면 이 옵션을 끄세요.
+* **그룹당 최신 run만 사용**: 그룹 내 Runs를 결합하는 대신 각 그룹에서 run 하나만 플롯합니다. 기본적으로 꺼져 있습니다. Workspace 수준에서만 사용할 수 있습니다.
+* **집계**: 각 그룹에서 결합된 선의 값입니다. 옵션은 **평균**, **최소**, **최대**입니다. **그룹당 최신 run만 사용**이 켜져 있으면 사용할 수 없습니다.
+
+동일한 그룹에서 실험을 반복 실행하는 경우 **그룹당 최신 run만 사용**을 켜세요. 그러면 각 차트에는 가장 최근 시도만 표시되며, 이전 Runs는 프로젝트에 유지됩니다.
+
+그룹의 최신 run은 run 선택기에서 해당 그룹의 첫 번째 run입니다. 각 그룹에서 다른 run을 플롯하려면 Runs 테이블의 정렬 순서를 변경하세요.
+
+<Note>
+  **그룹당 최신 run만 사용**은 기본값인 **포인트 집계 방법**이 **Full fidelity**로 설정된 경우에만 적용됩니다. **랜덤 샘플링** 모드에서는 적용되지 않습니다.
 </Note>
 
 <div id="chart-type">

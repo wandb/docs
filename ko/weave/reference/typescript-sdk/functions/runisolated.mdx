@@ -3,7 +3,13 @@ title: "runIsolated"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **runIsolated**&lt;`T`&gt;(`fn`): `T`
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+```ts
+runIsolated<T>(fn: () => T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/context.ts#L54" />
 
 새롭고 격리된 GenAI 상태 프레임에서 `fn`을 실행합니다. `fn` 내부에서 시작된 모든 Conversation / Turn / LLM은
 이 프레임 안에서만 유지됩니다. 즉, 동시에 실행 중인 다른 `runIsolated` 프레임과 충돌하지 않으며,
@@ -21,27 +27,17 @@ description: "TypeScript SDK 레퍼런스"
 순차적인 single-flight 사용에는 이 래퍼가 필요하지 않습니다 —
 프로세스 전체의 기본 상태가 이를 처리합니다.
 
-정의 위치: [src/genai/context.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/context.ts#L54)
-
 <div id="type-parameters">
   ## 유형 매개변수
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T`
+<ParamField path="T" />
 
 <div id="parameters">
   ## 매개변수
 </div>
 
-<div id="fn">
-  ### fn
-</div>
-
-() =&gt; `T`
+<ParamField path="fn" type="() => T" required />
 
 <div id="returns">
   ## 반환값

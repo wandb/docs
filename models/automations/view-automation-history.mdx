@@ -14,7 +14,7 @@ Each executed automation generates a record that includes:
 - **Execution timestamp**: When the automation triggered.
 - **Triggering event**: The specific event that triggered the automation.
 - **Status**: The execution's status. See [Execution status](#execution-status).
-- **Action details**: Information about which action ran, such as notifying a Slack channel or running a webhook.
+- **Action details**: Information about which action ran, such as notifying a Slack channel, running a webhook, or sending a prompt to ARIA.
 - **Result details**: Additional information, if any, about the final outcome of the automation, including the error for a failed execution.
 
 Automation history is available for automations at any scope. On any deployment type, you can view history from a registry's or project's **Automations** tab. Select the **Registry** or **Project** tab for detailed instructions.
@@ -48,6 +48,7 @@ Each automation execution has one of the following statuses:
 - **Finished**: The automation completed all actions successfully.
 - **Failed**: The automation encountered an error and didn't complete.
 - **Pending**: The automation is queued for execution.
+- **Skipped**: The automation matched the event but didn't run its action. An [ARIA automation](/models/automations/create-automations/aria) is skipped when it exceeds its limit of three conversations per minute.
 
 ### Execution metadata
 
@@ -58,9 +59,9 @@ Click any execution in the history to view the following details:
   - Entity information, such as run ID or artifact name.
   - User who triggered the event (if applicable).
 - **Action details**: Information about what the automation attempted:
-  - Action type (Slack notification or webhook).
+  - Action type (Slack notification, webhook, or ARIA).
   - Target (Slack channel or webhook URL).
-  - Payload sent (for webhooks).
+  - Payload sent (for webhooks) or prompt sent (for ARIA).
 - **Result information**:
   - Response status (for webhooks).
   - Any error messages or stack traces (for failed executions).

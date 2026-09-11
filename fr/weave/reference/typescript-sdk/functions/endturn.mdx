@@ -3,21 +3,27 @@ title: "endTurn"
 description: "Référence du SDK TypeScript"
 ---
 
-> **endTurn**(`opts?`): `void`
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Termine le tour de conversation actuel. Ne fait rien si aucun tour de conversation n’est actif.
+```ts
+endTurn(opts?: object): void
+```
 
-Défini dans : [src/genai/api.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L183)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L183" />
+
+Termine le tour de conversation en cours. Sans effet si aucun tour de conversation n&#39;est actif.
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## Renvoie
