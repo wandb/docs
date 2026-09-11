@@ -1,6 +1,6 @@
 ---
 title: "Runs"
-tag: "31"
+tag: "32"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -61,6 +61,9 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 <Card title="How do I page through large API results in W&B?" href="/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
   You can page through API result using the standard lazy-iterator pattern and per_page parameter. Additionally, you can u ...
+</Card>
+<Card title="How do I preserve run data from ephemeral environments?" href="/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env" arrow="true" horizontal>
+  Set WANDB_DIR to a directory on persistent storage to preserve local run data and diagnostic logs in ephemeral environme ...
 </Card>
 <Card title="How do I rerun a grid search?" href="/support/models/articles/how-do-i-rerun-a-grid-search" arrow="true" horizontal>
   If a grid search completes but some W&B Runs crashed, delete those runs to rerun them. Then select the Resume button on  ...

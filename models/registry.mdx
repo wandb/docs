@@ -20,7 +20,10 @@ In summary, use W&B Registry to:
 
 {/* - Quickly find or reference important artifacts with a unique identifier known as aliases. */}
 
-The following image shows the W&B Registry landing page. A registry called `Model` is starred. Two collections are shown `DemoModels` and `Zoo_Classifier_Models`.
+The following image shows the W&B Registry landing page.
+
+From top to bottom, the image shows starred registries and the most recently updated registries and collections.
+
 
 <Frame>
     <img src="/images/registry/registry_landing_page.png" alt="W&B Registry"  />
@@ -47,8 +50,9 @@ As an example, the following code example logs and links a model artifact called
 
 1. Initialize a W&B Run with `wandb.init()`.
 2. Log the artifact to W&B with `wandb.Run.log()`.
-3. Specify the name of the collection and registry to link your artifact version to.
-4. Link the artifact to the collection using `wandb.Run.link_artifact()`.
+3. Check that the registry exists.
+4. Specify the name of the collection and registry to link your artifact version to.
+5. Link the artifact to the collection using `wandb.Run.link_artifact()`.
 
 Save this Python code to a script and run it. W&B Python SDK version 0.18.6 or newer is required.
 
@@ -65,7 +69,7 @@ with wandb.init(project="registry_quickstart") as run:
     # Log the artifact to W&B
     logged_artifact = run.log_artifact(
         artifact_or_path="./my_model.txt", 
-        name="gemma-finetuned", 
+        name="mnist_model", 
         type="model" # Specifies artifact type
     )
 
@@ -108,7 +112,7 @@ Depending on your use case, explore the following resources to get started with
 
 * Check out the tutorial video:
     * [Getting started with Registry from W&B](https://www.youtube.com/watch?v=p4XkVOsjIeM)
-* Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
+* Take the W&B [Model CI/CD](https://www.youtube.com/watch?v=VWdRQL0CsAk&list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6) course and learn how to:
     * Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
     * Automate your model management workflows using webhooks.
     * Integrate the registry with external ML systems and tools for model evaluation, monitoring, and deployment.

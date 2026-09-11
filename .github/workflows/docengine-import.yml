@@ -1,25 +1,31 @@
 name: DocEngine - data import
 
-# Scheduled refresh of the DocEngine database (validated YAML data) from upstream
-# sources, running IN-REPO on the pinned `docengine` submodule. Opens one same-repo
-# PR updating docengine-site/data/**. That PR's push then triggers docengine-build
-# (atomic output), which regenerates the snippets and runs the host validations —
-# this workflow does NOT build (clean separation of concerns).
+# Thin shell for the published prepare-matrix + docengine-import actions: a
+# Prepare job lists the importers, then a matrix job (fail-fast off) runs
+# each importer in its own job and opens its own static per-importer PR.
+# Each data PR's push triggers docengine-build (atomic output) — import
+# never builds.
 #
-# Hello World note: there are no importers yet (docengine-site/importers/ is an
-# empty stub), so `docengine import --all` is a no-op until importers are added.
+# DORMANT: docengine-site/importers/ is empty, so the schedule is
+# deliberately off and a manual dispatch is a clean no-op (prepare-matrix
+# emits [] and the matrix spawns zero jobs). To enable once importers
+# exist: uncomment the schedule and wire the issue-report failure reporter
+# (see docengine-build.yml for the pattern).
 #
-# Auth:
-#   - Engine submodule checkout (PRIVATE coreweave/docengine): DOCENGINE_TOKEN via
-#     url.insteadOf.
-#   - PR auth (push branch + open PR with a workflow-triggering identity): the
-#     wandb-docs-pr-writer App token, so the docengine-site/data/** change fires
-#     docengine-build.yml.
+# Auth: the docengine-bootstrap action fetches the private engine submodule
+# with DOCENGINE_TOKEN and owns the single git URL rewrite rule. The App
+# token is only the checkout push credential and the PR identity, so data
+# PRs trigger docengine-build.
 
 on:
   # schedule:
   #   - cron: "17 6 * * *"   # ~06:17 UTC daily (PR only on change)
   workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry run: preview the import and skip the PR'
+        default: false
+        type: boolean
 
 concurrency:
   group: docengine-import
@@ -30,8 +36,45 @@ permissions:
   pull-requests: write
 
 jobs:
-  DocEngineImport:
+  Prepare:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # The published actions ship inside the submodule; the bootstrap puts
+      # them on disk and owns the single git URL rewrite rule.
+      - name: Fetch DocEngine (engine + published actions)
+        id: bootstrap
+        uses: ./.github/actions/docengine-bootstrap
+        with:
+          read-token: ${{ secrets.DOCENGINE_TOKEN }}
+
+      - name: Require DocEngine
+        if: steps.bootstrap.outputs.available != 'true'
+        run: |
+          echo "::error::prepare-matrix runs from the DocEngine submodule, which the bootstrap could not fetch. Check the DOCENGINE_TOKEN secret."
+          exit 1
+
+      - name: List importers
+        id: prepare
+        uses: ./docengine/host-actions/prepare-matrix
+        with:
+          subsystem: importers
+
+  Import:
+    needs: Prepare
+    if: needs.Prepare.outputs.matrix != '[]'
+    strategy:
+      # Failures are isolated: one importer failing neither blocks nor hides
+      # the others.
+      fail-fast: false
+      matrix:
+        importer: ${{ fromJson(needs.Prepare.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    env:
+      # Only a manual dispatch can be dry: `inputs` is empty on schedule.
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs['dry-run'] || false }}
     steps:
       - name: Require app credentials
         run: |
@@ -56,55 +99,31 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        id: checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          # App token persists as the push credential; peter-evans uses it explicitly
-          # for the PR. No `submodules:` here — `recursive` would also try the
-          # unrelated `.claude` (docs-skills) submodule.
+          # App token persists as the push credential. No `submodules:` — the
+          # bootstrap inits docengine alone (recursive would hit the
+          # unreadable .claude submodule).
           token: ${{ steps.app_token.outputs.token }}
 
-      - name: Authenticate git for the private coreweave docengine submodule
-        env:
-          TOKEN: ${{ secrets.DOCENGINE_TOKEN }}
+      - name: Fetch DocEngine (engine + published actions)
+        id: bootstrap
+        uses: ./.github/actions/docengine-bootstrap
+        with:
+          read-token: ${{ secrets.DOCENGINE_TOKEN }}
+
+      - name: Require DocEngine
+        if: steps.bootstrap.outputs.available != 'true'
         run: |
-          git config --global url."https://x-access-token:${TOKEN}@github.com/".insteadOf "https://github.com/"
+          echo "::error::The import runs the engine from the DocEngine submodule, which the bootstrap could not fetch. Check the DOCENGINE_TOKEN secret."
+          exit 1
 
-      - name: Initialize the engine submodule (docengine only; skip .claude)
-        run: git submodule update --init --depth 1 docengine
-
-      - name: Set up Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - name: Import and open the data PR
+        uses: ./docengine/host-actions/docengine-import
         with:
-          python-version: '3.12'
-
-      - name: Install DocEngine from the submodule
-        run: pip install -e ./docengine
-
-      - name: Run all data importers
-        # Slim descriptor (docengine-site/docengine.yaml) selects the single site; no
-        # --site needed. Every discovered importer runs in one job for a consistent
-        # snapshot, writing validated YAML into docengine-site/data/<table>/.
-        run: docengine import --all
-
-      - name: Open PR with YAML updates
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
-        with:
-          token: ${{ steps.app_token.outputs.token }}
-          branch: docengine/data-import
-          delete-branch: true
-          add-paths: |
-            docengine-site/data/**
-          commit-message: |
-            Scheduled data import
-
-            Automated refresh of DocEngine database tables from upstream sources.
-          title: "Scheduled data import"
-          labels: auto-generated
-          body: |
-            Automated refresh of DocEngine database tables from their upstream sources.
-
-            All importers ran together in one job for a consistent snapshot. The
-            `docengine-site/data/**` change in this PR triggers the DocEngine build
-            workflow, which regenerates the snippets and runs the site validations.
-
-            **Workflow run:** [View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          importer: ${{ matrix.importer }}
+          push-token: ${{ steps.app_token.outputs.token }}
+          git-user-name: 'wandb-docs-pr-writer[bot]'
+          git-user-email: 'wandb-docs-pr-writer[bot]@users.noreply.github.com'
+          dry-run: ${{ env.DRY_RUN }}

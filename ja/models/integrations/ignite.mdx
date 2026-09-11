@@ -1,16 +1,22 @@
 ---
-description: "PyTorch Ignite と W&B を統合して、トレーニング メトリクス、モデル パラメーター、実験設定を自動的にログします。"
+description: "PyTorch Ignite と W&B を統合して、トレーニング メトリクス、モデル パラメーター、実験の設定を自動的にログします。"
 title: PyTorch Ignite
 ---
 
-* この[W&amp;B レポートの例 →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg)で、生成される可視化を確認できます
-* この[ホストされたノートブックの例 →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr)で、コードを自分で実行してみてください
+このページでは、PyTorch Ignite で W&amp;B ハンドラを使用して、実験中のトレーニングおよび検証のメトリクス、モデルとオプティマイザーのパラメーター、勾配、モデル チェックポイントを自動的にログする方法を説明します。
 
-Ignite は、トレーニングおよび検証中にメトリクス、モデル/オプティマイザーのパラメーター、勾配をログするための W&amp;B ハンドラーをサポートしています。また、モデル チェックポイントを W&amp;B クラウドにログするためにも使用できます。このクラスは wandb モジュールのラッパーでもあります。つまり、このラッパーを使って任意の wandb 関数を呼び出せます。モデル パラメーターと勾配の保存方法については、例を参照してください。
+Ignite は、トレーニングおよび検証中にメトリクス、モデルとオプティマイザーのパラメーター、勾配をログするための W&amp;B ハンドラをサポートしています。これを使用して、モデル チェックポイントを W&amp;B クラウドにログすることもできます。このクラスは W&amp;B Python SDK (`wandb`) をラップしているため、このラッパーを使用して任意の `wandb` 関数を呼び出せます。モデル パラメーターと勾配を保存する方法については、例を参照してください。
+
+追加のコンテキストについては、次のリソースを参照してください。
+
+* この [example W&amp;B report](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg) で、生成される可視化を確認してください。
+* この [example hosted notebook](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr) で、コードを自分で実行してみてください。
 
 <div id="basic-setup">
   ## 基本セットアップ
 </div>
+
+次の例では、MNIST 用のシンプルな畳み込みモデルとデータローダーを定義します。この後のログの例では、これらを使用します。
 
 ```python
 from argparse import ArgumentParser
@@ -115,14 +121,15 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     trainer,
     event_name=Events.ITERATION_STARTED,
     optimizer=optimizer,
-    param_name='lr'  # オプション
+    param_name='lr'  # optional
     )
 
     wandb_logger.watch(model)
 ```
 
-必要に応じて、ignite `EVENTS` を使ってメトリクスをターミナルに直接ログできます
+logger をアタッチすると、Ignite はトレーニングおよび検証のメトリクス、オプティマイザーのパラメーター、モデルの勾配を自動的に W&amp;B project にログします。
 
+必要に応じて、ignite `EVENTS` を使ってメトリクスをターミナルに直接ログできます。
 
 ```python
     @trainer.on(Events.ITERATION_COMPLETED(every=log_interval))
@@ -138,7 +145,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
         avg_accuracy = metrics['accuracy']
         avg_nll = metrics['nll']
         tqdm.write(
-            "トレーニング結果 - エポック: {}  平均精度: {:.2f} 平均損失: {:.2f}"
+            "Training Results - Epoch: {}  Avg accuracy: {:.2f} Avg loss: {:.2f}"
             .format(engine.state.epoch, avg_accuracy, avg_nll)
         )
 
@@ -149,7 +156,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
         avg_accuracy = metrics['accuracy']
         avg_nll = metrics['nll']
         tqdm.write(
-            "検証結果 - エポック: {}  平均精度: {:.2f} 平均損失: {:.2f}"
+            "Validation Results - Epoch: {}  Avg accuracy: {:.2f} Avg loss: {:.2f}"
             .format(engine.state.epoch, avg_accuracy, avg_nll))
 
         pbar.n = pbar.last_print_n = 0
@@ -161,23 +168,23 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('--batch_size', type=int, default=64,
-                        help='トレーニング用の入力バッチサイズ (デフォルト: 64)')
+                        help='input batch size for training (default: 64)')
     parser.add_argument('--val_batch_size', type=int, default=1000,
-                        help='検証用の入力バッチサイズ (デフォルト: 1000)')
+                        help='input batch size for validation (default: 1000)')
     parser.add_argument('--epochs', type=int, default=10,
-                        help='トレーニングのエポック数 (デフォルト: 10)')
+                        help='number of epochs to train (default: 10)')
     parser.add_argument('--lr', type=float, default=0.01,
-                        help='学習率 (デフォルト: 0.01)')
+                        help='learning rate (default: 0.01)')
     parser.add_argument('--momentum', type=float, default=0.5,
-                        help='SGDモメンタム (デフォルト: 0.5)')
+                        help='SGD momentum (default: 0.5)')
     parser.add_argument('--log_interval', type=int, default=10,
-                        help='トレーニングステータスをログするまでに待機するバッチ数')
+                        help='how many batches to wait before logging training status')
 
     args = parser.parse_args()
     run(args.batch_size, args.val_batch_size, args.epochs, args.lr, args.momentum, args.log_interval)
 ```
 
-このコードにより、次の可視化が生成されます::
+このコードは次の可視化を生成します:
 
 <Frame>
   <img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite トレーニングダッシュボード" />
@@ -188,11 +195,11 @@ if __name__ == "__main__":
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite ハイパーパラメーターの調整結果" />
+  <img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite ハイパーパラメーター調整結果" />
 </Frame>
 
 <Frame>
   <img src="/images/integrations/pytorch-ignite-4.png" alt="PyTorch Ignite モデル比較ダッシュボード" />
 </Frame>
 
-詳細については、[Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger)を参照してください。
+詳細については、[Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) を参照してください。

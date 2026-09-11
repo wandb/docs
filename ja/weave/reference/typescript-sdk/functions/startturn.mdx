@@ -3,50 +3,50 @@ title: "startTurn"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="startturn">
-  # startTurn
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
+```ts
+startTurn(opts?: TurnInit = {}): Turn
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L54" />
 
 新しいターンを開始します。Conversation がアクティブな場合、ターンはその
 `conversationId` を引き継ぎます。アクティブでない場合、ターンには conversation ID がありません。
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名      | タイプ                                  |
-| :----- | :----------------------------------- |
-| `opts` | [`TurnInit`](../interfaces/turninit) |
+<ParamField path="opts" type="TurnInit = {}">
+  [`TurnInit`](../interfaces/turninit) を参照してください。
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
-[`Turn`](../classes/turn)
+[`Turn`](../interfaces/turn)
 
-`例`
+<div id="examples">
+  ## 例
+</div>
 
 ```ts twoslash
 // @noErrors
-weave.startTurn({agentName: 'research-bot'});
+weave.startTurn();
 ```
-
-`例`
 
 ```ts twoslash
 // @noErrors
 weave.startTurn({
+  agentId: 'research-bot-prod',
   agentName: 'research-bot',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  model: 'gpt-4o',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/genai/api.ts:48](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/api.ts#L48)
-
-***

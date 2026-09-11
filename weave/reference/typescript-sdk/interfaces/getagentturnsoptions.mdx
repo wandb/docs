@@ -1,85 +1,60 @@
 ---
-title: "Interface: GetAgentTurnsOptions"
+title: "GetAgentTurnsOptions"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../) / GetAgentTurnsOptions
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L264" />
 
-
-Options for [WeaveClient.getAgentTurns](../classes/weaveclient#getagentturns).
-
-## Table of contents
-
-### Properties
-
-- [conversationId](./getagentturnsoptions#conversationid)
-- [includeFeedback](./getagentturnsoptions#includefeedback)
-- [limit](./getagentturnsoptions#limit)
-- [offset](./getagentturnsoptions#offset)
+Options for [WeaveClient.getAgentTurns](./weaveclient#getagentturns).
 
 ## Properties
 
 ### conversationId
 
-• **conversationId**: `string`
+> **conversationId**: `string`
 
-#### Defined in
-
-[src/weaveClient.ts:234](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L234)
-
-___
+***
 
 ### includeFeedback
 
-• `Optional` **includeFeedback**: `boolean`
+> `optional` **includeFeedback**: `boolean`
 
-#### Defined in
-
-[src/weaveClient.ts:246](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L246)
-
-___
+***
 
 ### limit
 
-• `Optional` **limit**: `number`
+> `optional` **limit**: `number`
 
-`Min`
+#### Min
 
 0
 
-`Max`
+#### Max
 
 50
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 50
 ```
 
-#### Defined in
-
-[src/weaveClient.ts:240](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L240)
-
-___
+***
 
 ### offset
 
-• `Optional` **offset**: `number`
+> `optional` **offset**: `number`
 
-`Min`
+#### Min
 
 0
 
-`Default`
+#### Default
 
 ```ts twoslash
 // @noErrors
 0
 ```
-
-#### Defined in
-
-[src/weaveClient.ts:245](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L245)

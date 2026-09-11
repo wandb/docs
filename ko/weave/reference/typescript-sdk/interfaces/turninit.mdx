@@ -1,57 +1,71 @@
 ---
-title: "인터페이스: TurnInit"
+title: "TurnInit"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / TurnInit
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<div id="hierarchy">
-  ## 계층 구조
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L32" />
+
+<div id="extends">
+  ## 확장
 </div>
 
 * `SpanInitBase`
 
-  ↳ `TurnInit`
-
-<div id="table-of-contents">
-  ## 목차
-</div>
-
 <div id="properties">
-  ### 속성
+  ## 속성
 </div>
 
-* [agentName](./turninit#agentname)
-* [model](./turninit#model)
-* [startTime](./turninit#starttime)
+<div id="agentdescription">
+  ### agentDescription
+</div>
 
-## 속성
+> `선택` **agentDescription**: `string`
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+> `선택` **agentId**: `string`
+
+***
 
 <div id="agentname">
   ### agentName
 </div>
 
-• `선택` **agentName**: `string`
+> `선택` **agentName**: `string`
 
-<div id="defined-in">
-  #### 정의 위치
+***
+
+<div id="agentversion">
+  ### agentVersion
 </div>
 
-[src/genai/turn.ts:26](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L26)
+> `선택` **agentVersion**: `string`
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `optional` **attributes**: `Attributes`
+
+이 turn에 설정되어 모든 하위 span으로 전달되는 맞춤형 속성입니다.
+일반적으로 `startConversation({ attributes })`를 통해 conversation에서 값을 상속받습니다.
+conversation 없이 루트 없는 `startTurn({ attributes })`을 사용하는 경우에는 여기에서 직접 설정하세요.
 
 ***
 
 <div id="model">
-  ### model
+  ### 모델
 </div>
 
-• `선택` **model**: `string`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/genai/turn.ts:27](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/turn.ts#L27)
+> `선택` **모델**: `string`
 
 ***
 
@@ -59,16 +73,26 @@ description: "TypeScript SDK 레퍼런스"
   ### startTime
 </div>
 
-• `선택` **startTime**: `TimeInput`
+> `선택` **startTime**: `TimeInput`
 
 <div id="inherited-from">
   #### 상속됨
 </div>
 
-SpanInitBase.startTime
+`SpanInitBase.startTime`
 
-<div id="defined-in">
-  #### 정의 위치
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
 </div>
 
-[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L17)
+> `선택` **systemInstructions**: `string`[]
+
+***
+
+<div id="usermessage">
+  ### userMessage
+</div>
+
+> `선택` **userMessage**: `string`

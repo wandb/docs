@@ -1,66 +1,35 @@
 ---
-title: "인터페이스: HttpResponse<D, E>"
+title: "HttpResponse<D, E>"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / HttpResponse
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L6479" />
+
+<div id="extends">
+  ## 확장
+</div>
+
+* `Response`
 
 <div id="type-parameters">
   ## 유형 매개변수
 </div>
 
-| 이름  | 유형                            |
-| :-- | :---------------------------- |
-| `D` | extends `unknown`             |
-| `E` | extends `unknown` = `unknown` |
+<ParamField path="D" type="extends unknown" />
 
-<div id="hierarchy">
-  ## 계층 구조
-</div>
-
-* `Response`
-
-  ↳ `HttpResponse`
-
-<div id="table-of-contents">
-  ## 목차
-</div>
+<ParamField path="E" type="extends unknown = unknown" />
 
 <div id="properties">
-  ### 속성
+  ## 속성
 </div>
-
-* [body](./httpresponse#body)
-* [bodyUsed](./httpresponse#bodyused)
-* [data](./httpresponse#data)
-* [error](./httpresponse#error)
-* [headers](./httpresponse#headers)
-* [ok](./httpresponse#ok)
-* [redirected](./httpresponse#redirected)
-* [status](./httpresponse#status)
-* [statusText](./httpresponse#statustext)
-* [type](./httpresponse#type)
-* [url](./httpresponse#url)
-
-<div id="methods">
-  ### 메서드
-</div>
-
-* [arrayBuffer](./httpresponse#arraybuffer)
-* [blob](./httpresponse#blob)
-* [bytes](./httpresponse#bytes)
-* [clone](./httpresponse#clone)
-* [formData](./httpresponse#formdata)
-* [json](./httpresponse#json)
-* [text](./httpresponse#text)
-
-## 속성
 
 <div id="body">
   ### body
 </div>
 
-• `Readonly` **body**: `null` | `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+> `readonly` **body**: `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt; | `null`
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/body)
 
@@ -68,13 +37,7 @@ description: "TypeScript SDK 레퍼런스"
   #### 상속됨
 </div>
 
-Response.body
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4468
+`Response.body`
 
 ***
 
@@ -82,21 +45,15 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4468
   ### bodyUsed
 </div>
 
-• `Readonly` **bodyUsed**: `boolean`
+> `readonly` **bodyUsed**: `boolean`
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### 상속됨
 </div>
 
-Response.bodyUsed
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4470
+`Response.bodyUsed`
 
 ***
 
@@ -104,13 +61,7 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4470
   ### data
 </div>
 
-• **data**: `D`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L5991)
+> **data**: `D`
 
 ***
 
@@ -118,13 +69,7 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4470
   ### error
 </div>
 
-• **error**: `E`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L5992)
+> **error**: `E`
 
 ***
 
@@ -132,23 +77,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:4470
   ### headers
 </div>
 
-• `Readonly` **headers**: `Headers`
+> `readonly` **headers**: `Headers`
 
 응답과 함께 제공되는 `headers` 읽기 전용 속성입니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/headers)
 
-<div id="inherited-from">
+<div id="inherited-from-3">
   #### 상속됨
 </div>
 
-Response.headers
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26322
+`Response.headers`
 
 ***
 
@@ -156,23 +95,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26322
   ### ok
 </div>
 
-• `Readonly` **ok**: `boolean`
+> `readonly` **ok**: `boolean`
 
 Response 인터페이스의 `ok` 읽기 전용 속성은 응답이 성공했는지 여부(상태 코드가 200~299 범위인지)를 나타내는 불리언 값입니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/ok)
 
-<div id="inherited-from">
+<div id="inherited-from-4">
   #### 상속됨
 </div>
 
-Response.ok
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26328
+`Response.ok`
 
 ***
 
@@ -180,23 +113,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26328
   ### redirected
 </div>
 
-• `Readonly` **redirected**: `boolean`
+> `readonly` **redirected**: `boolean`
 
 Response 인터페이스의 `redirected` 읽기 전용 속성은 응답이 사용자가 보낸 요청이 리디렉션된 결과로 생성되었는지 여부를 나타냅니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/redirected)
 
-<div id="inherited-from">
+<div id="inherited-from-5">
   #### 상속됨
 </div>
 
-Response.redirected
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26334
+`Response.redirected`
 
 ***
 
@@ -204,23 +131,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26334
   ### status
 </div>
 
-• `Readonly` **status**: `number`
+> `readonly` **status**: `number`
 
 `Response` 인터페이스의 읽기 전용 `status` 속성은 응답의 HTTP 상태 코드를 나타냅니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/status)
 
-<div id="inherited-from">
+<div id="inherited-from-6">
   #### 상속됨
 </div>
 
-Response.status
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26340
+`Response.status`
 
 ***
 
@@ -228,23 +149,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26340
   ### statusText
 </div>
 
-• `Readonly` **statusText**: `string`
+> `readonly` **statusText**: `string`
 
 Response 인터페이스의 읽기 전용 `statusText` 속성에는 Response.status의 HTTP 상태 코드에 대응하는 상태 메시지가 포함됩니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/statusText)
 
-<div id="inherited-from">
+<div id="inherited-from-7">
   #### 상속됨
 </div>
 
-Response.statusText
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26346
+`Response.statusText`
 
 ***
 
@@ -252,23 +167,17 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26346
   ### 유형
 </div>
 
-• `Readonly` **type**: `ResponseType`
+> `readonly` **type**: `ResponseType`
 
 Response 인터페이스의 읽기 전용 `type` 속성에는 응답의 유형이 포함됩니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/type)
 
-<div id="inherited-from">
+<div id="inherited-from-8">
   #### 상속됨
 </div>
 
-Response.type
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26352
+`Response.type`
 
 ***
 
@@ -276,31 +185,27 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26352
   ### url
 </div>
 
-• `Readonly` **url**: `string`
+> `readonly` **url**: `string`
 
 Response 인터페이스의 `url` 읽기 전용 속성은 응답의 URL을 나타냅니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/url)
 
-<div id="inherited-from">
+<div id="inherited-from-9">
   #### 상속됨
 </div>
 
-Response.url
+`Response.url`
 
-<div id="defined-in">
-  #### 정의 위치
+<div id="methods">
+  ## 메서드
 </div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26358
-
-## 메서드
 
 <div id="arraybuffer">
-  ### arrayBuffer
+  ### arrayBuffer()
 </div>
 
-▸ **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
+> **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
 
@@ -310,184 +215,142 @@ node&#95;modules/typescript/lib/lib.dom.d.ts:26358
 
 `Promise`&lt;`ArrayBuffer`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-10">
   #### 상속됨
 </div>
 
-Response.arrayBuffer
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4472
+`Response.arrayBuffer`
 
 ***
 
 <div id="blob">
-  ### blob
+  ### blob()
 </div>
 
-▸ **blob**(): `Promise`&lt;`Blob`&gt;
+> **blob**(): `Promise`&lt;`Blob`&gt;
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/blob)
 
-<div id="returns">
+<div id="returns-2">
   #### 반환값
 </div>
 
 `Promise`&lt;`Blob`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-11">
   #### 상속됨
 </div>
 
-Response.blob
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4474
+`Response.blob`
 
 ***
 
 <div id="bytes">
-  ### bytes
+  ### bytes()
 </div>
 
-▸ **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
+> **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/bytes)
 
-<div id="returns">
+<div id="returns-3">
   #### 반환값
 </div>
 
 `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-12">
   #### 상속됨
 </div>
 
-Response.bytes
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4476
+`Response.bytes`
 
 ***
 
 <div id="clone">
-  ### clone
+  ### clone()
 </div>
 
-▸ **clone**(): `Response`
+> **clone**(): `Response`
 
 Response 인터페이스의 `clone()` 방법은 응답 객체의 복제본을 생성합니다. 이 복제본은 모든 면에서 동일하지만 다른 변수에 저장됩니다.
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Response/clone)
 
-<div id="returns">
+<div id="returns-4">
   #### 반환값
 </div>
 
 `Response`
 
-<div id="inherited-from">
+<div id="inherited-from-13">
   #### 상속됨
 </div>
 
-Response.clone
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:26364
+`Response.clone`
 
 ***
 
 <div id="formdata">
-  ### formData
+  ### formData()
 </div>
 
-▸ **formData**(): `Promise`&lt;`FormData`&gt;
+> **formData**(): `Promise`&lt;`FormData`&gt;
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/formData)
 
-<div id="returns">
+<div id="returns-5">
   #### 반환값
 </div>
 
 `Promise`&lt;`FormData`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-14">
   #### 상속됨
 </div>
 
-Response.formData
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4478
+`Response.formData`
 
 ***
 
 <div id="json">
-  ### json
+  ### json()
 </div>
 
-▸ **json**(): `Promise`&lt;`any`&gt;
+> **json**(): `Promise`&lt;`any`&gt;
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/json)
 
-<div id="returns">
+<div id="returns-6">
   #### 반환값
 </div>
 
 `Promise`&lt;`any`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-15">
   #### 상속됨
 </div>
 
-Response.json
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4480
+`Response.json`
 
 ***
 
 <div id="text">
-  ### text
+  ### text()
 </div>
 
-▸ **text**(): `Promise`&lt;`string`&gt;
+> **text**(): `Promise`&lt;`string`&gt;
 
 [MDN 레퍼런스](https://developer.mozilla.org/docs/Web/API/Request/text)
 
-<div id="returns">
+<div id="returns-7">
   #### 반환값
 </div>
 
 `Promise`&lt;`string`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-16">
   #### 상속됨
 </div>
 
-Response.text
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-node&#95;modules/typescript/lib/lib.dom.d.ts:4482
+`Response.text`

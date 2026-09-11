@@ -1,24 +1,41 @@
 ---
 title: Find registry items
-description: "Learn how to search for registries, collections, and artifact versions in the W&B Registry using the global search bar or queries."
+description: "Learn how to search for registries, collections, and artifact versions interactively with the UI or programmatically with queries."
 ---
 
-Use the [global search bar in the W&B Registry](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use queries to [filter registries, collections, and artifact versions](/models/registry/search_registry#query-registry-items) based on specific criteria using the W&B Python SDK.
+Find registries, collections, and artifact versions [interavtively with the W&B Registry](/models/registry/search_registry#search-for-registry-items) or programmatically with the [W&B Python SDK](/models/registry/search_registry#query-registry-items). 
+
+Only items that you have permission to view appear in the search results.
 
 <Info>
 The syntax and available operators you can use to query W&B Registry is similar, but not identical, to MongoDB queries.
 </Info>
 
-Only items that you have permission to view appear in the search results.
 
 ## Search for registry items
 
-Use the W&B App to search for a registry item:
+Use the [search bar on the W&B Registry homepage](/models/registry/search_registry#basic-search) to find collections and registries by name. Use the [advanced search](/models/registry/search_registry#advanced-search) to find registries, collections, or artifact versions with specific attributes such as name, tag, description, creation date, and more.
+
+
+### Basic search
+
+Search for registries and collections from the W&B Registry homepage:
 
 1. Navigate to the W&B Registry.
-2. Specify the search term in the search bar at the top of the page. Press Enter to search.
+2. Enter a search term in the search bar at the top of the page.
+3. Press Enter to search.
 
-Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
+### Advanced search
+
+Use the advanced search to search for registries, collections, or artifact versions. Use filters to search for specific registry items based on attributes such as name, tag, description, creation date, and more.
+
+1. Navigate to the W&B Registry.
+2. Click **Advanced** at the top of the homepage.
+3. Select **Registries**, **Collections**, or **Versions** button.
+4. Click **Filters**.
+5. From left to right, select the attribute you want to filter by, the operator, and the value. You can add multiple filters to narrow down your search results.
+6. Press Enter to apply the filter.
+
 
 ## Query registry items
 

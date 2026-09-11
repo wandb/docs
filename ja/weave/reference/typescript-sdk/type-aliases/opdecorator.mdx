@@ -1,13 +1,13 @@
 ---
-title: "OpDecorator"
+title: "OpDecorator<T>"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="opdecorator">
-  # OpDecorator
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-Ƭ **OpDecorator**&lt;`T`&gt;: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) =&gt; `T` | `void` &amp; (`target`: `object`, `propertyKey`: `string` | `symbol`, `descriptor`: `TypedPropertyDescriptor`&lt;`T`&gt;) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
+> **OpDecorator**&lt;`T`&gt; = (`value`, `context`) =&gt; `T` | `void` &amp; (`target`, `propertyKey`, `descriptor`) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L43" />
 
 デコレータ用のヘルパータイプです。
 これは、従来のデコレータと Stage 3 デコレータの両方で使用できるデコレータ関数を表します。
@@ -22,17 +22,7 @@ propertyKey: method名
 descriptor: method を含むプロパティディスクリプタ
 
 <div id="type-parameters">
-  #### 型パラメーター
+  ## 型パラメーター
 </div>
 
-| 名   | タイプ                                      |
-| :-- | :--------------------------------------- |
-| `T` | extends (...`args`: `any`[]) =&gt; `any` |
-
-<div id="defined-in">
-  #### 定義箇所
-</div>
-
-[src/opType.ts:41](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/opType.ts#L41)
-
-***
+<ParamField path="T" type="extends (...args) => any" />

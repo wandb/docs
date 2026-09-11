@@ -1,44 +1,29 @@
 ---
-title: "Interface : ToolInit"
+title: "ToolInit"
 description: "Référence du SDK TypeScript"
 ---
 
-[weave](../) / ToolInit
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<div id="hierarchy">
-  ## Hiérarchie
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L18" />
+
+<div id="extends">
+  ## Étend
 </div>
 
 * `SpanInitBase`
 
-  ↳ `ToolInit`
-
-<div id="table-of-contents">
-  ## Table des matières
-</div>
-
 <div id="properties">
-  ### Propriétés
+  ## Propriétés
 </div>
-
-* [Arguments](./toolinit#args)
-* [nom](./toolinit#name)
-* [startTime](./toolinit#starttime)
-* [toolCallId](./toolinit#toolcallid)
-
-## Propriétés
 
 <div id="args">
-  ### Arguments
+  ### args
 </div>
 
-• `Facultatif` **Arguments**: `string`
+> `facultatif` **args**: `string` | [`JsonObject`](../type-aliases/jsonobject)
 
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/tool.ts:19](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L19)
+Un objet JSON, ou une chaîne pré-sérialisée enregistrée telle quelle.
 
 ***
 
@@ -46,13 +31,7 @@ description: "Référence du SDK TypeScript"
   ### nom
 </div>
 
-• **nom**: `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/tool.ts:18](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L18)
+> **nom**: `string`
 
 ***
 
@@ -60,19 +39,13 @@ description: "Référence du SDK TypeScript"
   ### startTime
 </div>
 
-• `Facultatif` **startTime**: `TimeInput`
+> `facultatif` **startTime**: `TimeInput`
 
 <div id="inherited-from">
   #### Hérité de
 </div>
 
-SpanInitBase.startTime
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L17)
+`SpanInitBase.startTime`
 
 ***
 
@@ -80,10 +53,4 @@ SpanInitBase.startTime
   ### toolCallId
 </div>
 
-• `Facultatif` **toolCallId**: `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/tool.ts:20](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/tool.ts#L20)
+> `facultatif` **toolCallId**: `string`

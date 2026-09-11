@@ -1,47 +1,68 @@
 ---
 title: MetricChangeFilter
-namespace: automations_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.automations._run_metric_filters
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L152" />
 
-
-## <kbd>class</kbd> `MetricChangeFilter`
+<div id="class-wandbautomationsmetricchangefilter">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.MetricChangeFilter
+</div>
 
 Filtre qui compare une **variation** de la valeur d’une métrique à un seuil défini par l’utilisateur.
 
 La variation est calculée sur des fenêtres « tumbling », c.-à-d. comme la différence
 entre la fenêtre actuelle et la fenêtre précédente, sans chevauchement.
 
-### <kbd>méthode</kbd> `MetricChangeFilter.__init__`
-
 ```python
-__init__(
-    name: 'str',
-    agg: 'wandb.automations._filters.run_metrics.Agg | None' = None,
-    window: 'int' = 1,
-    cmp: 'None' = None,
-    threshold: 'Annotated | Annotated',
-    prior_window: 'int' = None,
-    change_type: 'ChangeType',
-    change_dir: 'ChangeDir'
-) → None
+*,
+name: str,
+agg_op: wandb.automations._run_metric_filters.Agg | None = None,
+current_window_size: Annotated[int, Gt(gt=0)] = 1,
+cmp: NoneType = None,
+change_amount: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]],
+prior_window_size: Annotated[int, Gt(gt=0)] = <factory>,
+change_type: wandb.automations._run_metric_filters.ChangeType,
+change_dir: wandb.automations._run_metric_filters.ChangeDir
 ```
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `name` (str):
-* `agg` (wandb.automations.&#95;filters.run&#95;metrics.Agg | None):
-* `window` (int):
-* `cmp` (None): Ignoré.
-* `threshold` (Union[Annotated, Annotated]):
-* `prior_window` (int): Taille de la fenêtre d’agrégation de la métrique « précédente » (ignorée si `agg` est `None`).
-  Si elle est omise, sa taille correspond par défaut à celle de la fenêtre actuelle.
-* `change_type` (ChangeType):
-* `change_dir` (ChangeDir):
+<ResponseField name="name" type="str">
+  Aucune description fournie.
+</ResponseField>
 
-**Retourne :**
-Un objet `MetricChangeFilter`.
+<ResponseField name="agg_op" type="wandb.automations._run_metric_filters.Agg | None">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="current_window_size" type="Annotated">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="cmp" type="NoneType">
+  Ignoré.
+</ResponseField>
+
+<ResponseField name="change_amount" type="Union">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="prior_window_size" type="Annotated">
+  Taille de la fenêtre d’agrégation antérieure de la métrique (ignorée si `agg` vaut `None`).
+
+  Si elle est omise, la taille de la fenêtre actuelle est utilisée par défaut.
+</ResponseField>
+
+<ResponseField name="change_type" type="ChangeType">
+  Aucune description fournie.
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+  Aucune description fournie.
+</ResponseField>

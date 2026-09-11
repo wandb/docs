@@ -24,10 +24,10 @@ description: Découvrez comment évaluer des modèles d’apprentissage automati
 * **Suivi des coûts** : Surveillez les coûts d’API et l’utilisation des tokens sur l’ensemble des évaluations
 
 <div id="getting-started-evaluate-a-model-from-wb-registry">
-  ### Premiers pas : évaluer un modèle à partir du W&amp;B Registry
+  ### Premiers pas : évaluer un modèle à partir du registre W&amp;B
 </div>
 
-Téléchargez un modèle depuis le registre W&amp;B Models et évaluez-le à l’aide de Weave :
+Téléchargez un modèle depuis le registre de W&amp;B Models et évaluez-le avec Weave :
 
 ```python
 import weave
@@ -37,16 +37,16 @@ from typing import Any
 # Initialiser Weave
 weave.init("your-entity/your-project")
 
-# Définir un ChatModel qui se charge depuis W&B Registry
+# Définir un ChatModel qui se charge depuis le registre W&B
 class ChatModel(weave.Model):
     model_name: str
     
     def model_post_init(self, __context):
-        # Télécharger le modèle depuis W&B Models Registry
+        # Télécharger le modèle depuis le registre de W&B Models
         with wandb.init(project="your-project", job_type="model_download") as run:
             artifact = run.use_artifact(self.model_name)
             self.model_path = artifact.download()
-            # Initialiser votre modèle ici
+            # Initialisez votre modèle ici
     
     @weave.op()
     async def predict(self, query: str) -> str:
@@ -77,17 +77,17 @@ results = await evaluation.evaluate(model)
   ### Intégrer les évaluations Weave à W&amp;B Models
 </div>
 
-La [démo d’intégration Models and Weave](/fr/weave/cookbooks/Models_and_Weave_Integration_Demo) présente le flux de travail complet pour :
+La [exemple d’intégration entre Models et Weave](/fr/weave/cookbooks/Models_and_Weave_Integration_Demo) présente le flux de travail complet pour :
 
 1. **Charger des modèles depuis le registre** : téléchargez des modèles affinés stockés dans le registre de W&amp;B Models
 2. **Créer des pipelines d’évaluation** : créez des évaluations complètes avec des évaluateurs personnalisés
-3. **Consigner les résultats dans W&amp;B** : associez les métriques d’évaluation aux runs de vos modèles
+3. **Journaliser les résultats dans W&amp;B** : associez les métriques d’évaluation aux runs de vos modèles
 4. **Versionner les modèles évalués** : enregistrez les modèles améliorés dans le registre
 
-Consignez les résultats d’évaluation à la fois dans Weave et W&amp;B Models :
+Journalisez les résultats d’évaluation à la fois dans Weave et W&amp;B Models :
 
 ```python
-# Lancer l'évaluation avec le suivi W&B
+# Exécuter l'évaluation avec le suivi W&B
 with weave.attributes({"wandb-run-id": wandb.run.id}):
     summary, call = await evaluation.evaluate.call(evaluation, model)
 
@@ -156,7 +156,7 @@ Utilisez W&amp;B Tables pour :
 </Frame>
 
 <div id="basic-example-log-evaluation-results">
-  ### Exemple de base : journaliser les résultats d’évaluation
+  ### Exemple de base : Enregistrer les résultats d’évaluation
 </div>
 
 ```python
@@ -196,7 +196,7 @@ run.log({"evaluation_results": eval_table})
   #### Comparer plusieurs modèles
 </div>
 
-Enregistrez les tableaux d’Évaluation de différents modèles avec la même clé afin de les comparer directement :
+Journalisez les tableaux d’eval de différents modèles avec la même clé afin de les comparer directement :
 
 ```python
 # Évaluation du modèle A
@@ -218,13 +218,13 @@ with wandb.init(project="model-comparison", name="model_b") as run:
   #### Suivre les prédictions au fil du temps
 </div>
 
-Enregistrez des tableaux dans le journal à différentes époques d&#39;entraînement pour visualiser les améliorations :
+Journalisez des tableaux dans le journal à différentes époques d&#39;entraînement pour visualiser les améliorations :
 
 ```python
 for epoch in range(num_epochs):
     train_model(model, train_data)
     
-    # Évaluer et enregistrer les prédictions pour cette époque
+    # Évaluez et journalisez les prédictions pour cette époque
     eval_table = wandb.Table(columns=["image", "truth", "prediction"])
     for image, label in test_subset:
         pred = model(image)
@@ -249,7 +249,7 @@ Une fois les résultats enregistrés, vous pouvez :
 </Frame>
 
 <div id="example-error-analysis-with-enriched-tables">
-  ### Exemple : analyse des erreurs avec des Tables enrichies
+  ### Exemple : Analyse d’erreurs avec des tableaux enrichis
 </div>
 
 ```python

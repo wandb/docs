@@ -1,0 +1,80 @@
+---
+title: "エージェント スパンを使用して独自のバケット（BYOB）内のメディアを参照する"
+sidebarTitle: "独自のバケット内のメディアを参照する"
+description: "Weave にバイトをインポートすることなく、エージェントのツール スパンからその URI を返すことで、独自のクラウド バケット内の画像や動画を Weave の Agents ビューに表示します。"
+keywords: ["BYOB", "reference bucket", "agent spans", "tool result", "media", "Agents view"]
+---
+
+import ByobReferenceSetup from "/snippets/ja/_includes/byob-reference-setup.mdx";
+
+<ByobReferenceSetup />
+
+<div id="log-a-media-reference-using-agent-spans">
+  ## エージェント スパンを使用してメディア参照をログする
+</div>
+
+エージェント ツールの結果としてバケット URI を返すと、Weave はその URI を、生成元の tool call の **Agents** ビューにインライン表示します。次の例では、会話、ターン、ツール スパンを開始し、ツールの結果としてバケット URI を設定します。[YOUR-TEAM]、[YOUR-PROJECT]、[YOUR-BUCKET] はご自身の値に置き換えてください。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    # すでに自分のバケット内にあるオブジェクトを返すツール。
+    def get_frame(frame_id: int) -> str:
+        return f"s3://[YOUR-BUCKET]/frames/{frame_id:06d}.png"
+
+    with weave.start_conversation(agent_name="frame-labeler") as conversation:
+        with weave.start_turn(user_message="Show me frame 123", model="gpt-4o-mini"):
+            with weave.start_tool(
+                name="get_frame",
+                arguments='{"frame_id": 123}',
+                tool_call_id="call_1",
+            ) as tool:
+                # 結果はバケット URI 文字列で、Agents ビューにインライン表示されます。
+                tool.result = get_frame(123)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    // すでに自分のバケット内にあるオブジェクトを返すツール。
+    function getFrame(frameId: number): string {
+      return `s3://[YOUR-BUCKET]/frames/${String(frameId).padStart(6, '0')}.png`;
+    }
+
+    const conversation = weave.startConversation({agentName: 'frame-labeler'});
+    const turn = weave.startTurn({model: 'gpt-4o-mini'});
+    const tool = weave.startTool({
+      name: 'getFrame',
+      args: JSON.stringify({frameId: 123}),
+      toolCallId: 'call_1',
+    });
+    // 結果はバケット URI 文字列で、Agents ビューにインライン表示されます。
+    tool.result = getFrame(123);
+    tool.end();
+    turn.end();
+    conversation.end();
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  この例では Weave のエージェント スパンを使用しています。LLM calls や完全なエージェント ループを含むマルチターンのセットアップ全体については、[カスタム エージェントのクイックスタート](/ja/weave/custom-agents-quickstart)を参照してください。
+</Note>
+
+<div id="view-the-reference-in-weave-agents">
+  ## Weave Agents で参照を表示する
+</div>
+
+`weave.init()` が出力するリンクから会話を開きます。参照先の画像または動画は、URI を返した tool call の **Agents** ビュー内にインラインで表示されます。Weave が URI を解決できない場合 (たとえば、オブジェクト が存在しない、または バケット が登録されていない場合) 、URI 文字列がそのまま表示されます。
+
+<Frame>
+  ![独自のクラウド バケット 内の オブジェクト を指す バケット URI から解決され、Weave Agents ビューの tool call にインライン表示された参照画像。](/weave/guides/tracking/imgs/agents-byob.png)
+</Frame>

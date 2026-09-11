@@ -1,0 +1,88 @@
+---
+title: Eval Table 만들기
+description: "W&B에서 Eval Table을 만드는 방법을 알아보세요."
+---
+
+W&amp;B Python SDK를 사용해 Eval Table을 만들거나, [ARIA](/ko/aria)로 기존 [W&amp;B Table](/ko/models/tables)을 변환하세요.
+
+<div id="create-an-eval-table">
+  ## Eval Table 만들기
+</div>
+
+`wandb.EvalTable` 클래스를 사용해 Eval Table을 만드세요.
+
+예를 들어, 다음과 같은 pandas 데이터프레임이 있다고 가정해 보겠습니다:
+
+```python
+import pandas as pd
+import wandb
+
+df = pd.DataFrame(
+    [
+        {
+            "image_id": "img_001",
+            "true_label": "cat",
+            "predicted_label": "cat",
+            "confidence": 0.97,
+            "correct": True,
+        },
+        {
+            "image_id": "img_002",
+            "true_label": "dog",
+            "predicted_label": "cat",
+            "confidence": 0.72,
+            "correct": False,
+        },
+        {
+            "image_id": "img_003",
+            "true_label": "car",
+            "predicted_label": "car",
+            "confidence": 0.89,
+            "correct": True,
+        },
+    ]
+)
+```
+
+{/* ```python
+  with wandb.init(project="classifier-table-demo") as run:
+    table = wandb.Table(dataframe=df)
+    run.log({"validation_predictions": table})
+  ``` */}
+
+데이터프레임을 `wandb.EvalTable`에 전달해 Eval Table을 생성하세요. `input_columns`, `output_columns`, `score_columns` 인수를 사용해 각 column의 역할을 지정하세요.
+
+다음 예시에서는 다음을 사용합니다.
+
+* 입력으로 `image_id`
+* 출력으로 `predicted_label`
+* 점수로 `correct` 및 `confidence`
+
+```python
+with wandb.init(project="classifier-eval-table-demo") as run:
+    eval_table = wandb.EvalTable(
+        dataframe=df,
+        input_columns=["image_id"],
+        output_columns=["predicted_label"],
+        score_columns=["correct", "confidence"],
+    )
+    run.log({"validation_predictions_eval": eval_table})    
+```
+
+<div id="convert-a-wb-table-to-an-eval-table">
+  ## W&amp;B Table을 Eval Table로 변환하기
+</div>
+
+변환 배너를 사용해 기존 W&amp;B Table을 Eval Table로 변환하세요:
+
+1. W&amp;B Table이 있는 프로젝트로 이동하세요.
+2. 변환 배너에서 **Try now** 버튼을 선택하세요. 이 버튼을 선택하면 변환할 테이블 정보와 함께 [ARIA](/ko/aria)가 열립니다.
+3. ARIA의 대화 창에 표시되는 안내를 따르세요.
+
+배너를 닫았거나 보이지 않는 경우에는 ARIA를 수동으로 여세요:
+
+1. 페이지 오른쪽 상단의 파란색 원을 선택해 ARIA를 여세요.
+2. ARIA 대화에 `/convert-eval-table`을 입력하세요.
+3. 대화 창 오른쪽 하단에서 위쪽 화살표(<Icon icon="arrow-up" iconType="solid" />)로 표시된 Send를 선택하세요.
+
+W&amp;B Table을 변환해도 원본 테이블은 수정되지 않습니다.

@@ -1,56 +1,40 @@
 ---
-title: "Interface: LLMInit"
+title: "LLMInit"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../) / LLMInit
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L36" />
 
-
-## Hierarchy
+## Extends
 
 - `SpanInitBase`
-
-  ↳ `LLMInit`
-
-## Table of contents
-
-### Properties
-
-- [model](./llminit#model)
-- [providerName](./llminit#providername)
-- [startTime](./llminit#starttime)
 
 ## Properties
 
 ### model
 
-• **model**: `string`
+> **model**: `string`
 
-#### Defined in
-
-[src/genai/llm.ts:32](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L32)
-
-___
+***
 
 ### providerName
 
-• `Optional` **providerName**: `string`
+> `optional` **providerName**: `string`
 
-#### Defined in
-
-[src/genai/llm.ts:33](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/llm.ts#L33)
-
-___
+***
 
 ### startTime
 
-• `Optional` **startTime**: `TimeInput`
+> `optional` **startTime**: `TimeInput`
 
 #### Inherited from
 
-SpanInitBase.startTime
+`SpanInitBase.startTime`
 
-#### Defined in
+***
 
-[src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/genai/spanBase.ts#L17)
+### systemInstructions
+
+> `optional` **systemInstructions**: `string`[]

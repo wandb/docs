@@ -1,0 +1,137 @@
+---
+title: "Conversation"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72" />
+
+A Conversation groups Turns under a single `gen_ai.conversation.id`. It is
+not itself an OTel span — children stamp the conversation id onto theirs.
+
+## Accessors
+
+### agentName
+
+#### Get Signature
+
+> **get** **agentName**(): `string`
+
+##### Returns
+
+`string`
+
+***
+
+### attributes
+
+#### Get Signature
+
+> **get** **attributes**(): `Attributes`
+
+##### Returns
+
+`Attributes`
+
+***
+
+### conversationId
+
+#### Get Signature
+
+> **get** **conversationId**(): `string`
+
+##### Returns
+
+`string`
+
+***
+
+### model
+
+#### Get Signature
+
+> **get** **model**(): `string`
+
+##### Returns
+
+`string`
+
+***
+
+### sessionId
+
+<Warning>
+  **Deprecated.** Use [Conversation.conversationId](#conversationid) instead.
+</Warning>
+
+#### Get Signature
+
+> **get** **sessionId**(): `string`
+
+##### Returns
+
+`string`
+
+## Methods
+
+### end()
+
+> **end**(`opts?`): `void`
+
+#### Parameters
+
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+#### Returns
+
+`void`
+
+***
+
+### startTurn()
+
+> **startTurn**(`opts?`): [`Turn`](./turn)
+
+Start a new `Turn` under this `Conversation`. The turn inherits the
+conversation's `conversationId`; `agentName`, `agentId`, `agentDescription`,
+`agentVersion` and `model` fall back to the conversation's values when not
+provided on `opts`.
+
+#### Parameters
+
+<ParamField path="opts" type="TurnInit = {}">
+  See [`TurnInit`](./turninit).
+</ParamField>
+
+#### Returns
+
+[`Turn`](./turn)
+
+#### Examples
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn();
+```
+
+```ts twoslash
+// @noErrors
+const turn = conversation.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

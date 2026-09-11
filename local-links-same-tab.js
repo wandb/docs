@@ -35,132 +35,153 @@
  */
 
 (function () {
-    /**
-     * Determines whether an href should be treated as local (same-origin / in-doc).
-     * Local links should open in the same tab; external links may keep target="_blank".
-     *
-     * @param {string | null | undefined} href - The href value from the anchor (e.g. getAttribute('href')).
-     * @returns {boolean} - True if the link is local and safe to open in the same tab.
-     */
-    function isLocalHref(href) {
-      // Missing or empty href: treat as local (e.g. placeholder or JS-handled link).
-      if (!href || typeof href !== 'string') return true;
-  
-      var trimmed = href.trim();
-      // Fragment-only links (e.g. #section) are in-page and always local.
-      if (trimmed === '' || trimmed.startsWith('#')) return true;
-  
-      // Compare case-insensitively so HTTP: and https: are both treated as external.
-      var lower = trimmed.toLowerCase();
-      // Local: relative paths (/foo), path-only, or protocol-relative that we treat as same-site.
-      // External: explicit http: or https: (and we do not change those).
-      return !lower.startsWith('http:') && !lower.startsWith('https:');
+  /**
+   * Determines whether an href should be treated as local (same-origin / in-doc).
+   * Local links should open in the same tab; external links may keep target="_blank".
+   *
+   * @param {string | null | undefined} href - The href value from the anchor (e.g. getAttribute('href')).
+   * @returns {boolean} - True if the link is local and safe to open in the same tab.
+   */
+  function isLocalHref(href) {
+    // Missing or empty href: treat as local (e.g. placeholder or JS-handled link).
+    if (!href || typeof href !== 'string') return true;
+
+    var trimmed = href.trim();
+    // Fragment-only links (e.g. #section) are in-page and always local.
+    if (trimmed === '' || trimmed.startsWith('#')) return true;
+
+    // Compare case-insensitively so HTTP: and https: are both treated as external.
+    var lower = trimmed.toLowerCase();
+    // Local: relative paths (/foo), path-only, or protocol-relative that we treat as same-site.
+    // External: explicit http: or https: (and we do not change those).
+    return !lower.startsWith('http:') && !lower.startsWith('https:');
+  }
+
+  /** Chevron path matching Mintlify's sidebar group chevron (ChevronRightIcon, 18x18). */
+  var CHEVRON_PATH = 'M6.5 2.75L12.75 9L6.5 15.25';
+
+  /**
+   * Classes matching Mintlify's own sidebar group chevron (DropdownArrowIcon):
+   * its base ChevronRightIcon classes plus the sizing overrides the sidebar
+   * adds (w-2 wins over size-3 in the compiled CSS, giving the 8px width).
+   */
+  var CHEVRON_CLASS = 'size-3 transition-transform text-gray-400 group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-400 shrink-0 w-2 h-[1lh] -mr-0.5';
+
+  /**
+   * Replaces the arrow (external-link) icon with a chevron on a sidebar nav link.
+   * Matches the chevron Mintlify renders on expandable sidebar groups.
+   *
+   * @param {HTMLAnchorElement} a - The nav link element.
+   */
+  function swapArrowToChevron(a) {
+    // Only sidebar entries get the swap. Heading anchors and cards also pass
+    // the group/flex class check but must keep their own icons.
+    if (!a.closest || !a.closest('#navigation-items')) return;
+
+    // Every icon in Mintlify's current set renders with viewBox="0 0 18 18".
+    // The trailing external-link arrow is the last such svg in the row (a
+    // leading item icon, if any, comes first), so match by position rather
+    // than the arrow's path geometry - the geometry has changed upstream
+    // before and silently broke this swap (DOCS-3053).
+    var svgs = a.querySelectorAll('svg[viewBox="0 0 18 18"]');
+    if (!svgs.length) return;
+
+    var svg = svgs[svgs.length - 1];
+    if (svg.getAttribute('data-chevron') === '1') return;
+
+    var paths = svg.querySelectorAll('path');
+    if (!paths.length) return;
+
+    // Attribute-only mutation: React owns these nodes, and adding or removing
+    // children makes its next reconciliation throw and unmount the sidebar.
+    // The arrow icon has two paths; give both the same chevron geometry so
+    // they overlap and render as a single chevron.
+    svg.setAttribute('class', CHEVRON_CLASS);
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke-width', '2');
+    for (var i = 0; i < paths.length; i++) {
+      paths[i].setAttribute('d', CHEVRON_PATH);
+      paths[i].setAttribute('stroke', 'currentColor');
+      paths[i].setAttribute('stroke-width', '2');
+      paths[i].setAttribute('stroke-linecap', 'round');
+      paths[i].setAttribute('stroke-linejoin', 'round');
     }
-  
-    /** Chevron (greater-than) path and dimensions matching expandable section icons. */
-    var CHEVRON_PATH = 'M0 0L3 3L0 6';
-  
-    /**
-     * Replaces the arrow (external-link) icon with a chevron on a nav link.
-     * Matches the expandable section chevron: width="8" height="24" viewBox="0 -9 3 24".
-     *
-     * @param {HTMLAnchorElement} a - The nav link element.
-     */
-    function swapArrowToChevron(a) {
-      var svg = a.querySelector('svg[viewBox="0 0 384 512"]');
-      if (!svg) return;
-  
-      var path = svg.querySelector('path');
-      if (!path) return;
-  
-      var d = path.getAttribute('d') || '';
-      if (d.indexOf('M328 96') !== 0) return;
-      if (d === CHEVRON_PATH) return;
-  
-      svg.setAttribute('viewBox', '0 -9 3 24');
-      svg.setAttribute('width', '8');
-      svg.setAttribute('height', '24');
-      svg.setAttribute('class', 'transition-transform text-gray-400 overflow-visible group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-400 w-2 h-5 -mr-0.5 flex-shrink-0');
-      path.setAttribute('d', CHEVRON_PATH);
-      path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', 'currentColor');
-      path.setAttribute('stroke-width', '1.5');
-      path.setAttribute('stroke-linecap', 'round');
-    }
-  
-    /**
-     * Finds all "group flex" nav links with a local href, removes target="_blank"
-     * so they open in the same tab, and swaps the arrow icon to a chevron.
-     * Marks all processed links so hidden arrows on external links can be revealed.
-     *
-     * Safe to call multiple times; idempotent for already-processed links.
-     */
-    function stripTargetBlankFromLocalGroupFlexLinks() {
-      var links = document.querySelectorAll('a[href]');
-  
-      for (var i = 0; i < links.length; i++) {
-        var a = links[i];
-        var cls = a.className;
-  
-        if (typeof cls !== 'string') continue;
-        if (cls.indexOf('group') === -1 || cls.indexOf('flex') === -1) continue;
-  
-        var href = a.getAttribute('href');
-        if (isLocalHref(href)) {
-          a.removeAttribute('target');
-          swapArrowToChevron(a);
-        }
-        a.setAttribute('data-nav-processed', '1');
+    svg.setAttribute('data-chevron', '1');
+  }
+
+  /**
+   * Finds all "group flex" nav links with a local href, removes target="_blank"
+   * so they open in the same tab, and swaps the arrow icon to a chevron.
+   * Marks all processed links so hidden arrows on external links can be revealed.
+   *
+   * Safe to call multiple times; idempotent for already-processed links.
+   */
+  function stripTargetBlankFromLocalGroupFlexLinks() {
+    var links = document.querySelectorAll('a[href]');
+
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      var cls = a.className;
+
+      if (typeof cls !== 'string') continue;
+      if (cls.indexOf('group') === -1 || cls.indexOf('flex') === -1) continue;
+
+      var href = a.getAttribute('href');
+      if (isLocalHref(href)) {
+        a.removeAttribute('target');
+        swapArrowToChevron(a);
       }
+      a.setAttribute('data-nav-processed', '1');
     }
-  
-    // Debounced run: schedule a single stripper run after mutations stop.
-    var scheduleId = null;
-    var debounceMs = 120;
-    function scheduleStrip() {
-      if (scheduleId) clearTimeout(scheduleId);
-      scheduleId = setTimeout(function () {
-        scheduleId = null;
-        stripTargetBlankFromLocalGroupFlexLinks();
-      }, debounceMs);
-    }
-  
-    // Run as soon as the DOM is ready.
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () {
-        stripTargetBlankFromLocalGroupFlexLinks();
-      });
-    } else {
+  }
+
+  // Debounced run: schedule a single stripper run after mutations stop.
+  var scheduleId = null;
+  var debounceMs = 120;
+  function scheduleStrip() {
+    if (scheduleId) clearTimeout(scheduleId);
+    scheduleId = setTimeout(function () {
+      scheduleId = null;
       stripTargetBlankFromLocalGroupFlexLinks();
-    }
-  
-    // Delayed runs to catch nav that appears only after framework hydration.
-    [300, 800, 1500, 3000].forEach(function (ms) {
-      setTimeout(stripTargetBlankFromLocalGroupFlexLinks, ms);
-    });
-  
-    // Whenever the framework adds nodes or sets target on a link, run the stripper
-    // (debounced) so we fix links as soon as they appear or get target="_blank".
-    function startObserving() {
-      if (!document.body) return;
-      var observer = new MutationObserver(function () {
-        scheduleStrip();
-      });
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['target']
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', startObserving);
-    } else {
-      startObserving();
-    }
-  
-    // When the user hits "back", re-run so links are fixed after bfcache or re-render.
-    window.addEventListener('pageshow', function () {
+    }, debounceMs);
+  }
+
+  // Run as soon as the DOM is ready.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
       stripTargetBlankFromLocalGroupFlexLinks();
     });
-  })();
+  } else {
+    stripTargetBlankFromLocalGroupFlexLinks();
+  }
+
+  // Delayed runs to catch nav that appears only after framework hydration.
+  [300, 800, 1500, 3000].forEach(function (ms) {
+    setTimeout(stripTargetBlankFromLocalGroupFlexLinks, ms);
+  });
+
+  // Whenever the framework adds nodes or sets target on a link, run the stripper
+  // (debounced) so we fix links as soon as they appear or get target="_blank".
+  function startObserving() {
+    if (!document.body) return;
+    var observer = new MutationObserver(function () {
+      scheduleStrip();
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['target']
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startObserving);
+  } else {
+    startObserving();
+  }
+
+  // When the user hits "back", re-run so links are fixed after bfcache or re-render.
+  window.addEventListener('pageshow', function () {
+    stripTargetBlankFromLocalGroupFlexLinks();
+  });
+})();

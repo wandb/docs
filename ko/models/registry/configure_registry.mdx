@@ -76,26 +76,21 @@ description: "사용자와 팀을 관리하고, 역할을 할당하고, 역할 �
 다음 섹션에서는 레지스트리 역할에 대해 더 자세히 설명합니다.
 
 <Note>
-  [팀에서의 역할](/ko/platform/app/settings-page/teams/#team-roles-and-permissions)은 어떤 레지스트리에서든 맡은 역할과는 무관하며, 아무런 영향도 주지 않습니다.
+  팀의 레지스트리 역할은 각 멤버의 [팀 역할](/ko/platform/app/settings-page/teams/#team-roles-and-permissions)과는 별개입니다. 레지스트리에 추가된 팀에 속한 경우, W&amp;B는 유효 레지스트리 역할을 계산할 때 팀 내 역할이 아니라 팀에 부여된 레지스트리 역할을 고려합니다.
 </Note>
 
-<div id="default-roles">
-  ### 기본 역할
+<div id="role-types">
+  ### 역할 유형
 </div>
 
-W&amp;B는 사용자 또는 팀이 레지스트리에 추가되면 기본 **레지스트리 역할**을 자동으로 할당합니다. 이 역할은 해당 레지스트리에서 수행할 수 있는 작업을 결정합니다.
+W&amp;B 레지스트리에는 다음 역할이 있습니다.
 
-| 대상                    | 기본 레지스트리 역할<br />(Dedicated Cloud / Self-Managed)                    | 기본 레지스트리 역할<br />(Multi-tenant Cloud)                      |
-| --------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------- |
-| 팀                     | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 이하) | Restricted Viewer                                          |
-| 사용자 또는 서비스 계정(관리자 아님) | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 이하) | Restricted Viewer                                          |
-| 서비스 계정(관리자 아님)        | Member<sup><a href="#service_account_footnote">1</a></sup>           | Member<sup><a href="#service_account_footnote">1</a></sup> |
-| 조직 관리자                | Admin                                                                | Admin                                                      |
+* **Restricted Viewer**: 레지스트리 아티팩트 메타데이터에 대한 읽기 전용 액세스를 제공합니다. Restricted Viewer는 아티팩트 세부 정보를 볼 수 있지만, 아티팩트 파일 내용에는 액세스할 수 없으며 컬렉션, 자동화 또는 기타 레지스트리 리소스를 생성, 업데이트, 삭제할 수 없습니다. [이 역할은 Dedicated Cloud 및 Self-Managed Server v0.75.0 이상에서 사용할 수 있습니다](/ko/models/registry/configure_registry#restricted-viewer-role-details).
+* **Viewer**: 레지스트리 아티팩트에 대한 읽기 전용 액세스를 제공하며, 컬렉션 세부 정보와 연결된 아티팩트 세부 정보를 확인하고, 아티팩트를 다운로드하거나 W&amp;B SDK에서 `wandb.Run.use_artifact()`를 사용하여 아티팩트를 사용할 수 있습니다.
+* **Member**: 컬렉션, 자동화 및 기타 레지스트리 리소스를 생성, 업데이트, 삭제할 수 있는 권한을 제공합니다. 또한 레지스트리 아티팩트에 대한 조회 액세스 권한도 제공합니다.
+* **Admin**: Member가 보유한 모든 권한과 레지스트리 설정 및 사용자 역할을 관리할 수 있는 권한을 제공합니다.
 
-<a id="service_account_footnote">1</a>: 서비스 계정에는 **Viewer** 또는 **Restricted Viewer** 역할을 부여할 수 없습니다. 서비스 계정의 액세스가 어떻게 결정되는지는 [Service account access](#service-account-access)를 참조하세요.
-
-레지스트리 관리자는 레지스트리의 사용자와 팀에 대한 역할을 할당하거나 수정할 수 있습니다.
-자세한 내용은 [레지스트리에서 사용자 역할 구성](/ko/models/registry/configure_registry/#configure-registry-roles)을 참조하세요.
+각 역할에 제공되는 권한에 대한 자세한 내용은 [역할 권한](#role-permissions)을 참조하세요.
 
 <div id="role-permissions">
   ### 역할 권한
@@ -133,21 +128,68 @@ W&amp;B는 사용자 또는 팀이 레지스트리에 추가되면 기본 **레�
 | 레지스트리에 사용자 추가                                                               | Admin  |                                                    |        |        |   ✓   |
 | 레지스트리에서 사용자 역할 할당 또는 변경                                                     | Admin  |                                                    |        |        |   ✓   |
 
-<div id="inherited-registry-role">
-  ### 상속된 레지스트리 역할
+<div id="default-roles">
+  ### 기본 역할
 </div>
 
-레지스트리의 멤버십 목록에는 각 사용자의 상속된(유효) 레지스트리 역할이 해당 행의 역할 드롭다운 옆에 연한 회색으로 표시됩니다.
+W&amp;B는 사용자 또는 팀이 레지스트리에 추가되면 기본 **레지스트리 역할**을 자동으로 할당합니다. 기본 역할은 레지스트리의 역할 드롭다운에 표시되는 초기 역할입니다. 항상 사용자의 최종 유효 역할인 것은 아닙니다.
+
+기본 역할은 배포 유형과 엔터티 유형에 따라 달라집니다.
+
+| 대상             | 기본 레지스트리 역할<br />(Dedicated Cloud / Self-Managed)                    | 기본 레지스트리 역할<br />(Multi-tenant Cloud)                      |
+| -------------- | -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 팀              | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 이하) | Restricted Viewer                                          |
+| 사용자(관리자 아님)    | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 이하) | Restricted Viewer                                          |
+| 서비스 계정(관리자 아님) | Member<sup><a href="#service_account_footnote">1</a></sup>           | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| 조직 관리자         | Admin                                                                | Admin                                                      |
+
+<a id="service_account_footnote">1</a>: 서비스 계정에는 **Viewer** 또는 **Restricted Viewer** 역할을 부여할 수 없습니다. 서비스 계정의 액세스가 어떻게 결정되는지는 [Service account access](#service-account-access)를 참조하세요.
+
+레지스트리 관리자는 레지스트리의 사용자와 팀에 대한 역할을 할당하거나 수정할 수 있습니다.
+자세한 내용은 [레지스트리에서 사용자 역할 구성](/ko/models/registry/configure_registry/#configure-registry-roles)을 참조하세요.
+
+<div id="effective-and-inherited-registry-roles">
+  ### 유효 역할 및 상속된 레지스트리 역할
+</div>
+
+사용자의 *유효 레지스트리 역할*은 레지스트리에서 실제로 수행할 수 있는 작업을 결정하는 역할입니다. 레지스트리의 구성원 목록에서는 사용자 행의 역할 드롭다운 옆에 이 역할이 연한 회색으로 표시됩니다.
 
 <Frame>
-  <img src="/images/registry/role_conflict.png" alt="사용자의 유효 레지스트리 역할이 표시된 레지스트리 멤버십 목록" />
+  <img src="/images/registry/role_conflict.png" alt="사용자의 유효 레지스트리 역할을 보여주는 레지스트리 구성원 목록" />
 </Frame>
 
-특정 레지스트리에서 사용자의 유효 역할은 상속 여부나 명시적 할당 여부와 관계없이, 조직에서의 역할, 레지스트리에서의 역할, 그리고 해당 레지스트리를 소유한 팀에서의 역할 중 *가장 높은* 역할과 일치합니다. 예를 들어 다음과 같습니다.
+W&amp;B는 다음 소스에서 사용자에게 적용되는 가장 높은 역할을 선택해 유효 역할을 계산합니다.
 
-* 팀 **Admin** 또는 조직 **Admin**이 팀가 소유한 특정 레지스트리에서 **Viewer** 역할을 가지고 있으면, 해당 사용자의 실제 레지스트리 역할은 **Admin**입니다.
-* 레지스트리 **Viewer**가 팀에서 **Member** 역할을 가지고 있으면, 해당 사용자의 실제 레지스트리 역할은 **Member**입니다.
-* 팀 **Viewer**가 특정 레지스트리에서 **Member** 역할을 가지고 있으면, 해당 사용자의 실제 레지스트리 역할은 **Member**입니다.
+* 제한된 레지스트리가 아닌 경우 조직의 기본 레지스트리 역할
+* 레지스트리에서 사용자에게 부여된 역할
+* 사용자가 속한 팀에 레지스트리에서 부여된 역할
+
+더 높은 역할이 조직의 기본 레지스트리 역할이나 레지스트리에 추가된 팀에서 비롯된 경우, 사용자는 해당 상위 역할을 상속받습니다. 예를 들면 다음과 같습니다.
+
+* 레지스트리에서 **Viewer** 역할을 가진 사용자가 해당 레지스트리에서 **Admin** 역할을 가진 팀에 속해 있으면, 유효 역할은 **Admin**입니다.
+* 레지스트리에서 **Viewer** 역할을 가진 사용자가 해당 레지스트리에서 **Member** 역할을 가진 팀에 속해 있으면, 유효 역할은 **Member**입니다.
+* 레지스트리에서 **Member** 역할을 가진 사용자는 해당 레지스트리에서 **Viewer** 역할을 가진 팀에 속해 있어도 유효 역할이 **Member**로 유지됩니다.
+
+즉, 기본 또는 부여된 레지스트리 역할은 사용자의 유효 역할보다 낮을 수 있습니다.
+
+<Note>
+  서비스 계정은 팀으로부터 상위 레지스트리 권한을 상속받지 않습니다. 자세한 내용은 [서비스 계정 액세스](#service-account-access)를 참조하세요.
+</Note>
+
+<div id="service-account-access">
+  ### 서비스 계정 액세스
+</div>
+
+서비스 계정은 상속되는 레지스트리 역할의 예외입니다. 서비스 계정은 소속 팀의 상위 레지스트리 권한을 상속하지 않습니다. 예를 들어 팀에 레지스트리에 대한 **Admin** 액세스 권한이 있더라도, 해당 팀의 서비스 계정에는 **Admin** 액세스가 아닌 자동 서비스 계정 액세스 수준만 부여됩니다.
+
+레지스트리 관리자는 [서비스 계정을 Member 또는 Admin 역할로 레지스트리에 추가](/ko/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry)하여 서비스 계정에 더 높은 액세스 권한을 명시적으로 부여할 수 있습니다.
+
+자동 서비스 계정 액세스는 레지스트리 공개 범위에 따라 달라집니다.
+
+* **조직 공개 범위**: 서비스 계정에 자동으로 **Member** 액세스 권한이 부여됩니다.
+* **제한된 공개 범위**: 서비스 계정의 팀 중 하나라도 레지스트리에 대한 **Member** 또는 **Admin** 액세스 권한이 있는 경우에만 서비스 계정에 자동으로 **Member** 액세스 권한이 부여됩니다. 서비스 계정의 모든 팀에 **Viewer** 또는 **Restricted Viewer** 액세스 권한만 있는 경우, 서비스 계정에는 자동으로 액세스 권한이 부여되지 않습니다.
+
+레지스트리 공개 범위 유형에 대한 자세한 내용은 [공개 범위 유형](/ko/models/registry/create_registry#visibility-types)을 참조하세요.
 
 <div id="restricted-viewer-role-details">
   ### Restricted Viewer 역할 세부 정보

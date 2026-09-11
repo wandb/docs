@@ -1,0 +1,147 @@
+---
+title: BYOB 레퍼런스 설정
+---
+
+Weave에서 보려는 미디어가 이미 자체 버킷에 있는 경우 이 방식을 사용하세요:
+
+* 비디오 파이프라인의 프레임
+* 브라우저 에이전트의 스크린샷
+* 모델이 S3에 쓴 이미지
+
+이 바이트를 Weave에 다시 업로드하는 대신, 객체의 URI를 string으로 로깅하면 Weave가 해당 버킷의 이미지나 비디오를 인라인으로 렌더링합니다. Weave로 전송되는 것은 URI뿐이며 바이트는 버킷에 그대로 남아 있습니다. 2 GB 비디오를 로깅하는 비용은 해당 경로를 로깅하는 비용과 같습니다.
+
+이 방식은 [Content API](/ko/weave/guides/core-types/media#contents-api)로 미디어를 로깅하는 것과 다릅니다. Content API는 바이트를 읽어 Weave에 저장합니다.
+
+<Note>
+  이 기능은 Weave 기능이며, W&amp;B 아티팩트 및 run 저장소를 지원하는 [platform BYOB (secure storage connector)](/ko/platform/hosting/data-security/secure-storage-connector)와는 별개입니다. 레퍼런스 미디어 버킷은 팀별로 구성되며 조회 액세스만 있으면 됩니다.
+</Note>
+
+<div id="how-it-works">
+  ## 작동 방식
+</div>
+
+레퍼런스 미디어 렌더링은 다음 세 단계로 이루어집니다:
+
+1. 버킷에 미디어 객체를 저장합니다. 예를 들어 `s3://[YOUR-BUCKET]/frames/000123.png`와 같습니다.
+2. 해당 URI를 트레이스 내 어디에서나 `string` 값으로 기록합니다. Op 입력이나 출력 또는 에이전트 도구 결과여도 됩니다. 필드 이름은 중요하지 않습니다.
+3. 트레이스를 열면 Weave가 해당 URI를 수명이 짧은 [사전 서명된 URL](/ko/platform/hosting/data-security/presigned-urls)로 해석해 인라인으로 렌더링합니다. 렌더링 방식은 파일 확장자에 따라 결정됩니다. 일반적인 이미지 형식(예: `.png`, `.jpg`, `.gif`)과 비디오 형식(예: `.mp4`, `.mov`, `.webm`)은 인라인으로 렌더링됩니다. 그 외 형식은 다운로드 링크로 렌더링됩니다.
+
+Weave는 팀에 등록된 버킷을 가리키는 URI만 해석합니다. 지원되는 스킴은 `s3://` 및 `gs://`입니다.
+
+<div id="prerequisites">
+  ## 사전 요구 사항
+</div>
+
+* 이 기능은 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서만 지원됩니다.
+* W&amp;B 계정 및 [API 키](https://wandb.ai/authorize).
+* 사용자가 직접 관리하는 클라우드 저장소 버킷(S3 또는 GCS)으로, 하나 이상의 객체가 포함되어 있어야 합니다.
+* 조직 관리자 권한. 레퍼런스 버킷을 추가하려면 조직에서 팀을 생성할 때와 동일한 권한이 필요합니다.
+
+<div id="configure-your-bucket">
+  ## 버킷 설정
+</div>
+
+W&amp;B에 버킷에 대한 조회 액세스를 부여하고, 브라우저가 CORS를 통해 객체를 가져올 수 있도록 허용하세요.
+
+트레이스를 볼 때 W&amp;B는 참조된 각 객체에 대해 짧은 수명의 사전 서명된 다운로드 URL을 생성합니다. 사전 서명이 성공하도록 버킷에서 W&amp;B integration principal에 조회 액세스를 부여하세요. 이는 인라인 렌더링을 위한 읽기 전용 액세스입니다.
+
+<Tabs>
+  <Tab title="AWS S3">
+    1. W&amp;B integration principal에 `s3:GetObject`를 부여하는 버킷 정책을 적용하세요. 다음 내용을 `bucket-policy.json`으로 저장하고 `[YOUR-BUCKET]`을 버킷 이름으로 바꾸세요.
+
+       ```json lines
+       {
+         "Version": "2012-10-17",
+         "Id": "WandBAccess",
+         "Statement": [{
+           "Sid": "WandbAccess",
+           "Effect": "Allow",
+           "Principal": {"AWS": "arn:aws:iam::725579432336:role/WandbIntegration"},
+           "Action": "s3:GetObject",
+           "Resource": "arn:aws:s3:::[YOUR-BUCKET]/*"
+         }]
+       }
+       ```
+
+       그런 다음 이를 버킷에 적용하세요.
+
+       ```bash
+       aws s3api put-bucket-policy --bucket [YOUR-BUCKET] --policy file://bucket-policy.json
+       ```
+
+    2. 앱이 브라우저에서 객체를 가져올 수 있도록 CORS 설정을 적용하세요. 다음 내용을 `cors.json`으로 저장하세요.
+
+       ```json lines
+       {
+         "CORSRules": [{
+           "AllowedHeaders": ["*"],
+           "AllowedMethods": ["GET", "HEAD"],
+           "AllowedOrigins": ["https://wandb.ai"],
+           "ExposeHeaders": ["ETag"],
+           "MaxAgeSeconds": 3000
+         }]
+       }
+       ```
+
+       그런 다음 이를 버킷에 적용하세요.
+
+       ```bash
+       aws s3api put-bucket-cors --bucket [YOUR-BUCKET] --cors-configuration file://cors.json
+       ```
+
+    <Note>
+      객체가 고객 관리형 KMS 키로 암호화된 경우 해당 키 정책에서도 `arn:aws:iam::725579432336:role/WandbIntegration`에 `kms:Decrypt`를 부여해야 합니다. 버킷 정책만으로는 충분하지 않습니다.
+    </Note>
+  </Tab>
+
+  <Tab title="Google Cloud Storage">
+    1. 버킷에서 W&amp;B integration service account에 `roles/storage.objectViewer`를 부여하세요. `[YOUR-BUCKET]`을 버킷 이름으로 바꾸세요.
+
+       ```bash
+       gcloud storage buckets add-iam-policy-binding gs://[YOUR-BUCKET] \
+         --member="serviceAccount:wandb-integration@wandb-production.iam.gserviceaccount.com" \
+         --role="roles/storage.objectViewer"
+       ```
+
+    2. 앱이 브라우저에서 객체를 가져올 수 있도록 CORS 설정을 적용하세요. 다음 내용을 `cors.json`으로 저장하세요.
+
+       ```json lines
+       [{
+         "origin": ["https://wandb.ai"],
+         "method": ["GET", "HEAD"],
+         "responseHeader": ["ETag"],
+         "maxAgeSeconds": 3000
+       }]
+       ```
+
+       그런 다음 이를 버킷에 적용하세요.
+
+       ```bash
+       gcloud storage buckets update gs://[YOUR-BUCKET] --cors-file=cors.json
+       ```
+  </Tab>
+</Tabs>
+
+이제 W&amp;B는 버킷에서 객체를 조회할 수 있고, Weave UI는 브라우저에서 이를 가져올 수 있습니다.
+
+<div id="register-the-reference-bucket">
+  ## 레퍼런스 버킷 등록
+</div>
+
+Weave가 참조 URI를 사전 서명하고 표시할 수 있도록 팀 settings에 버킷을 등록하세요.
+
+1. 팀 settings 페이지로 이동하세요 (`https://wandb.ai/[YOUR-TEAM]/settings`).
+2. **Reference buckets** 섹션에서 **Add bucket**을 선택하세요.
+3. 클라우드 제공업체(**AWS** 또는 **Google Cloud**)를 선택하세요.
+4. 버킷 이름에는 `[YOUR-BUCKET]`만 입력하세요. `s3://` 또는 `gs://` 접두사는 포함하지 마세요.
+5. 객체 키에는 버킷에 있는 기존 객체의 키를 입력하세요. 예를 들어 `photos/cat.png`입니다(전체 URL이 아니라 객체 키만 입력). W&amp;B는 이 객체 하나를 조회해 조회 액세스 권한이 있는지, 그리고 CORS가 올바르게 설정되어 있는지 확인합니다. 여기서는 액세스만 확인하며, 검증이 완료되면 버킷의 모든 객체에 대해 사전 서명이 작동합니다.
+6. 선택 사항으로, 저장하지 않고 설정을 검증하려면 **Test connection**을 선택하세요.
+7. 저장하려면 **Add bucket**을 선택하세요.
+
+<Frame>
+  ![팀 settings의 Add reference bucket 대화 상자입니다. 클라우드 제공업체, 버킷 이름, 기존 객체 키 필드와 Test connection 및 Add bucket 버튼이 있습니다.](/weave/guides/tracking/imgs/add-ref-bucket.png)
+</Frame>
+
+<Warning>
+  버킷이 등록되기 전에는 참조 URI가 렌더링되지 않습니다. 등록해야 Weave가 해당 객체를 사전 서명하고 표시할 수 있습니다.
+</Warning>

@@ -1,47 +1,25 @@
 ---
-title: "인터페이스: CallsFilter"
+title: "CallsFilter"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / CallsFilter
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L2205" />
 
 CallsFilter
 
-<div id="table-of-contents">
-  ## 목차
-</div>
-
 <div id="properties">
-  ### 속성
+  ## 속성
 </div>
-
-* [call&#95;ids](./callsfilter#call_ids)
-* [input&#95;refs](./callsfilter#input_refs)
-* [op&#95;names](./callsfilter#op_names)
-* [output&#95;refs](./callsfilter#output_refs)
-* [parent&#95;ids](./callsfilter#parent_ids)
-* [thread&#95;ids](./callsfilter#thread_ids)
-* [trace&#95;ids](./callsfilter#trace_ids)
-* [trace&#95;roots&#95;only](./callsfilter#trace_roots_only)
-* [turn&#95;ids](./callsfilter#turn_ids)
-* [wb&#95;run&#95;ids](./callsfilter#wb_run_ids)
-* [wb&#95;user&#95;ids](./callsfilter#wb_user_ids)
-
-## 속성
 
 <div id="call_ids">
   ### call_ids
 </div>
 
-• `선택` **call&#95;ids**: `null` | `string`[]
+> `선택` **call&#95;ids**: `string`[] | `null`
 
-call Ids
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2052](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2052)
+Call ID
 
 ***
 
@@ -49,15 +27,9 @@ call Ids
   ### input_refs
 </div>
 
-• `선택` **input&#95;refs**: `null` | `string`[]
+> `선택` **input&#95;refs**: `string`[] | `null`
 
-입력 참조
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2044](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2044)
+입력 Ref
 
 ***
 
@@ -65,15 +37,9 @@ call Ids
   ### op_names
 </div>
 
-• `선택` **op&#95;names**: `null` | `string`[]
+> `선택` **op&#95;names**: `string`[] | `null`
 
-op 이름 목록
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2042](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2042)
+Op 이름
 
 ***
 
@@ -81,15 +47,9 @@ op 이름 목록
   ### output_refs
 </div>
 
-• `선택` **output&#95;refs**: `null` | `string`[]
+> `선택` **output&#95;refs**: `string`[] | `null`
 
-출력 참조
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2046](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2046)
+출력 Ref
 
 ***
 
@@ -97,15 +57,9 @@ op 이름 목록
   ### parent_ids
 </div>
 
-• `선택` **parent&#95;ids**: `null` | `string`[]
+> `선택` **parent&#95;ids**: `string`[] | `null`
 
-상위 ID
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2048](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2048)
+상위 Id
 
 ***
 
@@ -113,15 +67,9 @@ op 이름 목록
   ### thread_ids
 </div>
 
-• `선택` **thread&#95;ids**: `null` | `string`[]
+> `선택` **thread&#95;ids**: `string`[] | `null`
 
-스레드 Ids
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2054](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2054)
+스레드 ID
 
 ***
 
@@ -129,15 +77,9 @@ op 이름 목록
   ### trace_ids
 </div>
 
-• `선택` **trace&#95;ids**: `null` | `string`[]
+> `선택` **trace&#95;ids**: `string`[] | `null`
 
-트레이스 ID
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2050](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2050)
+트레이스 Id
 
 ***
 
@@ -145,15 +87,9 @@ op 이름 목록
   ### trace_roots_only
 </div>
 
-• `선택` **trace&#95;roots&#95;only**: `null` | `boolean`
+> `선택` **trace&#95;roots&#95;only**: `boolean` | `null`
 
 루트 트레이스만
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2058](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2058)
 
 ***
 
@@ -161,15 +97,9 @@ op 이름 목록
   ### turn_ids
 </div>
 
-• `Optional` **turn&#95;ids**: `null` | `string`[]
+> `선택` **turn&#95;ids**: `string`[] | `null`
 
-turn ID 목록
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2056](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2056)
+Turn ID
 
 ***
 
@@ -177,15 +107,9 @@ turn ID 목록
   ### wb_run_ids
 </div>
 
-• `선택` **wb&#95;run&#95;ids**: `null` | `string`[]
+> `선택` **wb&#95;run&#95;ids**: `string`[] | `null`
 
-Wb Run ID
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2062](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2062)
+W&amp;B Run ID
 
 ***
 
@@ -193,12 +117,6 @@ Wb Run ID
   ### wb_user_ids
 </div>
 
-• `선택` **wb&#95;user&#95;ids**: `null` | `string`[]
+> `선택` **wb&#95;user&#95;ids**: `string`[] | `null`
 
-Wb 사용자 ID
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/generated/traceServerApi.ts:2060](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/generated/traceServerApi.ts#L2060)
+W&amp;B 사용자 ID

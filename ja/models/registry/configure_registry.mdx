@@ -76,26 +76,21 @@ Registry 管理者は、**Restricted Viewer** や **Viewer** を含む任意の�
 以下のセクションでは、Registry ロールについて詳しく説明します。
 
 <Note>
-  [チーム内でのロール](/ja/platform/app/settings-page/teams/#team-roles-and-permissions)は、いずれのレジストリでのロールにも影響せず、関連もありません。
+  チームのRegistry ロールは、各メンバーの[チームロール](/ja/platform/app/settings-page/teams/#team-roles-and-permissions)とは別のものです。Registry に追加されたチームに所属している場合、W&amp;B は有効な Registry ロールを計算する際に、チーム内でのあなたのロールではなく、チームに割り当てられたRegistry ロールを考慮します。
 </Note>
 
-<div id="default-roles">
-  ### デフォルトロール
+<div id="role-types">
+  ### ロールの種類
 </div>
 
-W&amp;B では、ユーザーまたはチームが Registry に追加されると、自動的にデフォルトの**Registry ロール**が割り当てられます。このロールによって、その Registry 内で実行できる操作が決まります。
+W&amp;B Registry には、次のロールがあります。
 
-| Entity                   | デフォルトの Registry ロール<br />(専用クラウド / セルフマネージド)                         | デフォルトの Registry ロール<br />(Multi-tenant Cloud)              |
-| ------------------------ | -------------------------------------------------------------------- | ---------------------------------------------------------- |
-| チーム                      | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以前) | Restricted Viewer                                          |
-| ユーザーまたはサービスアカウント (管理者以外) | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以前) | Restricted Viewer                                          |
-| サービスアカウント (管理者以外)        | Member<sup><a href="#service_account_footnote">1</a></sup>           | Member<sup><a href="#service_account_footnote">1</a></sup> |
-| 組織管理者                    | Admin                                                                | Admin                                                      |
+* **Restricted Viewer**: Registry artifact のメタデータに対する読み取り専用アクセス権を付与します。Restricted Viewer は artifact の詳細を表示できますが、artifact file の内容にはアクセスできません。また、コレクション、オートメーション、その他の Registry リソースを作成、更新、削除することもできません。[このロールは、専用クラウドおよびセルフマネージド Server v0.75.0 以降で利用できます](/ja/models/registry/configure_registry#restricted-viewer-role-details)。
+* **Viewer**: Registry artifact に対する読み取り専用アクセス権を付与します。コレクションの詳細やリンクされた artifact の詳細を表示できるほか、artifact をダウンロードし、W&amp;B SDK の `wandb.Run.use_artifact()` で使用できます。
+* **Member**: コレクション、オートメーション、その他の Registry リソースを作成、更新、削除する権限を付与します。また、Registry artifact に対する読み取りアクセス権も付与します。
+* **Admin**: Member が持つすべての権限に加え、Registry 設定とユーザーロールを管理する権限を付与します。
 
-<a id="service_account_footnote">1</a>: サービスアカウントには **Viewer** または **Restricted Viewer** ロールを割り当てることはできません。サービスアカウントのアクセスがどのように決定されるかについては、[Service account access](#service-account-access) を参照してください。
-
-Registry 管理者は、Registry 内の Users および Teams のロールを割り当てたり変更したりできます。
-詳細については、[Registry でユーザーロールを設定する](/ja/models/registry/configure_registry/#configure-registry-roles) を参照してください。
+各ロールに付与される権限の詳細については、[ロール権限](#role-permissions)を参照してください。
 
 <div id="role-permissions">
   ### ロール権限
@@ -133,21 +128,68 @@ Registry 管理者は、Registry 内の Users および Teams のロールを割
 | Registry に Users を追加する                                                                | Admin  |                                                 |        |        |   ✓   |
 | Registry 内のユーザーのロールを割り当てまたは変更する                                                       | Admin  |                                                 |        |        |   ✓   |
 
-<div id="inherited-registry-role">
-  ### 継承された Registry ロール
+<div id="default-roles">
+  ### デフォルトロール
 </div>
 
-Registry のメンバーシップ一覧には、各ユーザーの継承された (有効な) Registry ロールが、各行のロールドロップダウンの横に薄いグレーで表示されます。
+W&amp;B では、ユーザーまたはチームが Registry に追加されると、自動的にデフォルトの**Registry ロール**が割り当てられます。デフォルトロールは、Registry のロールのドロップダウンに最初に表示されるロールです。必ずしもユーザーに最終的に適用されるロールとは限りません。
+
+デフォルトロールは、デプロイメントタイプとエンティティタイプによって異なります。
+
+| Entity            | デフォルトの Registry ロール<br />(専用クラウド / セルフマネージド)                         | デフォルトの Registry ロール<br />(Multi-tenant Cloud)              |
+| ----------------- | -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| チーム               | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以前) | Restricted Viewer                                          |
+| ユーザー (管理者以外)      | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 以前) | Restricted Viewer                                          |
+| サービスアカウント (管理者以外) | Member<sup><a href="#service_account_footnote">1</a></sup>           | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| 組織管理者             | Admin                                                                | Admin                                                      |
+
+<a id="service_account_footnote">1</a>: サービスアカウントには **Viewer** または **Restricted Viewer** ロールを割り当てることはできません。サービスアカウントのアクセスがどのように決定されるかについては、[サービスアカウントのアクセス](#service-account-access) を参照してください。
+
+Registry 管理者は、Registry 内の Users および チーム のロールを割り当てたり変更したりできます。
+詳細については、[Registry でユーザーロールを設定する](/ja/models/registry/configure_registry/#configure-registry-roles) を参照してください。
+
+<div id="effective-and-inherited-registry-roles">
+  ### 有効な Registry ロールと継承された Registry ロール
+</div>
+
+ユーザーの*有効な Registry ロール*とは、Registry 内で実際に実行できる操作を決定するロールです。Registry のメンバー一覧では、ユーザーの行にあるロールのドロップダウンの横に、このロールが薄いグレーで表示されます。
 
 <Frame>
-  <img src="/images/registry/role_conflict.png" alt="ユーザーの有効な Registry ロールを示す Registry メンバーシップ一覧" />
+  <img src="/images/registry/role_conflict.png" alt="ユーザーの有効な Registry ロールを示す Registry メンバー一覧" />
 </Frame>
 
-特定の Registry におけるユーザーの有効ロールは、継承によるものか明示的に割り当てられたものかを問わず、組織、Registry、その Registry を所有するチームで持つロールのうち、*最も高い* ロールになります。たとえば、次のとおりです。
+W&amp;B は、次のソースのうちユーザーに適用される最も上位のロールを選択して、有効なロールを決定します。
 
-* チームの **Admin** または組織の **Admin** が、チームが所有する特定の Registry で **Viewer** ロールを持っている場合、そのユーザーの Registry での実効ロールは **Admin** です。
-* Registry の **Viewer** が、チームで **Member** ロールを持っている場合、そのユーザーの Registry での実効ロールは **Member** です。
-* チームの **Viewer** が、特定の Registry で **Member** ロールを持っている場合、そのユーザーの Registry での実効ロールは **Member** です。
+* 制限付き Registry でない場合は、組織のデフォルト Registry ロール。
+* Registry でユーザーに割り当てられたロール。
+* ユーザーが所属するチームに対して Registry で割り当てられたロール。
+
+組織のデフォルト Registry ロール、または Registry に追加されたチームからより上位のロールが適用される場合、ユーザーはその上位ロールを継承します。例:
+
+* Registry で **Viewer** ロールを持つユーザーが、その Registry で **Admin** ロールを持つチームに所属している場合、有効なロールは **Admin** になります。
+* Registry で **Viewer** ロールを持つユーザーが、その Registry で **Member** ロールを持つチームに所属している場合、有効なロールは **Member** になります。
+* Registry で **Member** ロールを持つユーザーは、その Registry で **Viewer** ロールを持つチームに所属していても、有効なロールは **Member** のままです。
+
+つまり、デフォルトまたは割り当てられた Registry ロールは、ユーザーの有効なロールより下位になる場合があります。
+
+<Note>
+  サービスアカウントは、チームから上位の Registry 権限を継承しません。詳細については、[サービスアカウントのアクセス](#service-account-access)を参照してください。
+</Note>
+
+<div id="service-account-access">
+  ### サービスアカウントのアクセス
+</div>
+
+サービスアカウントは、Registry ロールの継承における例外です。サービスアカウントは、所属チームの上位 Registry 権限を継承しません。たとえば、チームが Registry に対する **Admin** アクセス権を持っている場合でも、そのチームのサービスアカウントには **Admin** アクセスではなく、自動的に付与されるサービスアカウントのアクセスレベルのみが付与されます。
+
+Registry 管理者は、[サービスアカウントを Member または Admin ロールで Registry に追加](/ja/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry)することで、サービスアカウントにより高いアクセス権を明示的に付与できます。
+
+サービスアカウントに自動的に付与されるアクセスは、Registry の可視性によって異なります。
+
+* **組織の可視性**: サービスアカウントには自動的に **Member** アクセスが付与されます。
+* **制限付きの可視性**: サービスアカウントのいずれかのチームが Registry に対して **Member** または **Admin** アクセスを持つ場合にのみ、サービスアカウントには自動的に **Member** アクセスが付与されます。サービスアカウントが所属するすべてのチームが **Viewer** または **Restricted Viewer** アクセスを持つ場合、サービスアカウントにはアクセスが自動的に付与されません。
+
+Registry の可視性タイプの詳細については、[可視性タイプ](/ja/models/registry/create_registry#visibility-types)を参照してください。
 
 <div id="restricted-viewer-role-details">
   ### Restricted Viewer ロールの詳細

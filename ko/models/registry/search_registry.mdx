@@ -1,26 +1,44 @@
 ---
 title: 레지스트리 항목 찾기
-description: "전역 검색창이나 쿼리를 사용해 W&B Registry에서 레지스트리, 컬렉션, 아티팩트 버전을 검색하는 방법을 알아보세요."
+description: "UI에서 대화형으로 또는 쿼리를 사용해 프로그래밍 방식으로 레지스트리, 컬렉션, 아티팩트 버전을 검색하는 방법을 알아보세요."
 ---
 
-[W&amp;B Registry의 전역 검색창](./search_registry#search-for-registry-items)을 사용해 레지스트리, 컬렉션, 아티팩트 버전 태그, 컬렉션 태그 또는 별칭을 찾으세요. W&amp;B Python SDK를 사용하면 쿼리로 특정 기준에 따라 [레지스트리, 컬렉션, 아티팩트 버전을 필터링](/ko/models/registry/search_registry#query-registry-items)할 수 있습니다.
+[W&amp;B Registry에서 대화형으로](/ko/models/registry/search_registry#search-for-registry-items) 또는 [W&amp;B Python SDK](/ko/models/registry/search_registry#query-registry-items)를 사용해 프로그래밍 방식으로 레지스트리, 컬렉션, 아티팩트 버전을 찾으세요.
+
+검색 결과에는 볼 권한이 있는 항목만 표시됩니다.
 
 <Info>
   W&amp;B Registry를 쿼리할 때 사용하는 문법과 사용 가능한 Operator는 MongoDB 쿼리와 유사하지만 동일하지는 않습니다.
 </Info>
 
-검색 결과에는 볼 권한이 있는 항목만 표시됩니다.
-
 <div id="search-for-registry-items">
   ## 레지스트리 항목 검색
 </div>
 
-W&amp;B App을 사용해 레지스트리 항목을 검색하려면 다음과 같이 하세요:
+이름으로 컬렉션과 레지스트리를 찾으려면 [W&amp;B Registry 홈페이지의 검색창](/ko/models/registry/search_registry#basic-search)을 사용하세요. 이름, 태그, 설명, 생성 날짜 등의 특정 속성을 기준으로 레지스트리, 컬렉션 또는 아티팩트 버전을 찾으려면 [고급 검색](/ko/models/registry/search_registry#advanced-search)을 사용하세요.
+
+<div id="basic-search">
+  ### 기본 검색
+</div>
+
+W&amp;B Registry 홈페이지에서 레지스트리와 컬렉션을 검색하려면 다음과 같이 하세요:
 
 1. W&amp;B Registry로 이동합니다.
-2. 페이지 상단의 검색창에 검색어를 입력합니다. Enter 키를 눌러 검색합니다.
+2. 페이지 상단의 검색창에 검색어를 입력합니다.
+3. Enter 키를 눌러 검색합니다.
 
-입력한 검색어가 기존 레지스트리, 컬렉션 이름, 아티팩트 버전 태그, 컬렉션 태그 또는 별칭과 일치하면 검색 결과가 검색창 아래에 표시됩니다.
+<div id="advanced-search">
+  ### 고급 검색
+</div>
+
+고급 검색을 사용해 레지스트리, 컬렉션 또는 아티팩트 버전을 검색하세요. 필터를 사용하면 이름, 태그, 설명, 생성 날짜 등의 속성을 기준으로 특정 레지스트리 항목을 검색할 수 있습니다.
+
+1. W&amp;B Registry로 이동합니다.
+2. 홈 화면 상단에서 **Advanced**를 클릭합니다.
+3. **레지스트리**, **컬렉션** 또는 **아티팩트 버전** 버튼을 선택합니다.
+4. **Filters**를 클릭합니다.
+5. 왼쪽부터 순서대로 필터링할 속성, 연산자, 값을 선택합니다. 필터를 여러 개 추가해 검색 범위를 좁힐 수 있습니다.
+6. Enter 키를 눌러 필터를 적용합니다.
 
 <div id="query-registry-items">
   ## 레지스트리 항목 쿼리

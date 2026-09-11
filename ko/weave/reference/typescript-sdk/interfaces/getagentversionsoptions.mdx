@@ -1,38 +1,23 @@
 ---
-title: "인터페이스: GetAgentVersionsOptions"
+title: "GetAgentVersionsOptions"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[Weave](../) / GetAgentVersionsOptions
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-[WeaveClient.getAgentVersions](../classes/weaveclient#getagentversions)의 옵션입니다.
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L160" />
 
-<div id="table-of-contents">
-  ## 목차
-</div>
+[WeaveClient.getAgentVersions](./weaveclient#getagentversions)의 옵션입니다.
 
 <div id="properties">
-  ### 속성
+  ## 속성
 </div>
-
-* [agentName](./getagentversionsoptions#agentname)
-* [limit](./getagentversionsoptions#limit)
-* [offset](./getagentversionsoptions#offset)
-* [sortBy](./getagentversionsoptions#sortby)
-
-## 속성
 
 <div id="agentname">
   ### agentName
 </div>
 
-• **agentName**: `string`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/weaveClient.ts:134](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L134)
+> **agentName**: `string`
 
 ***
 
@@ -40,28 +25,28 @@ description: "TypeScript SDK 레퍼런스"
   ### limit
 </div>
 
-• `선택` **limit**: `숫자`
+> `선택` **limit**: `숫자`
 
-`최소`
+<div id="min">
+  #### 최소
+</div>
 
 0
 
-`최대`
+<div id="max">
+  #### 최대
+</div>
 
 10000
 
-`기본값`
+<div id="default">
+  #### 기본값
+</div>
 
 ```ts twoslash
 // @noErrors
 100
 ```
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/weaveClient.ts:140](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L140)
 
 ***
 
@@ -69,24 +54,22 @@ description: "TypeScript SDK 레퍼런스"
   ### offset
 </div>
 
-• `선택` **offset**: `숫자`
+> `선택` **offset**: `숫자`
 
-`최소`
+<div id="min-2">
+  #### 최소
+</div>
 
 0
 
-`기본값`
+<div id="default-2">
+  #### 기본값
+</div>
 
 ```ts twoslash
 // @noErrors
 0
 ```
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/weaveClient.ts:145](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L145)
 
 ***
 
@@ -94,10 +77,4 @@ description: "TypeScript SDK 레퍼런스"
   ### sortBy
 </div>
 
-• `선택` **sortBy**: [`SortBy`](./sortby)[]
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[src/weaveClient.ts:146](https://github.com/wandb/weave/blob/9591aba8a5e77309ee0858e5ba94d31c1bd7e404/sdks/node/src/weaveClient.ts#L146)
+> `선택` **sortBy**: [`SortBy`](./sortby)[]
