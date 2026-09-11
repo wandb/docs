@@ -4,10 +4,6 @@ description: Trace Codex agentic sessions, LLM calls, and tool executions in W&B
 keywords: ["OpenAI Codex", "OTEL", "agent tracing", "Stop hook", "rollout"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 The Weave Codex plugin automatically traces every Codex turn and sends the structured data to W&B Weave. Every model call, tool execution, and reasoning step is logged with no changes to your Codex workflow. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
 
 The plugin reads Codex's own rollout session files (`~/.codex/sessions/**/rollout-*.jsonl`) to reconstruct spans. It runs entirely off Codex's critical path through a fire-and-forget Stop hook, so Codex never waits on the network.

@@ -4,10 +4,6 @@ description: Track Claude Code sessions in W&B Weave for observability and debug
 keywords: ["Claude Code", "OTEL", "tracing", "agents", "plugin"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 The Weave Claude Code plugin automatically traces every Claude Code session and sends the structured data to W&B Weave. The plugin logs every turn, tool call, and subagent with no code changes required. Use these traces to debug sessions, audit tool usage, and monitor cost and latency across runs.
 
 This guide walks you through installing the plugin, viewing your Claude Code traces in Weave, configuring the plugin, and managing its lifecycle.
@@ -71,8 +67,9 @@ Install the CLI, run the installer to register the plugin with Claude Code, then
 After running at least one Claude Code session, open your project in the Weave UI:
 
 1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
-2. In the sidebar menu, select **Agents** to view all agent conversations saved for your project.
-3. Select a conversation to inspect the full session tree.
+2. In the sidebar menu, select **Agents**.
+3. Select the **Conversations** tab to view all agent conversations saved for your project.
+4. Select a conversation to inspect the full conversation tree.
 
 For more information about the Agents view, see [View agent activity](/weave/guides/tracking/view-agent-activity).
 
@@ -89,7 +86,7 @@ invoke_agent claude-code               (Root, one trace per user prompt.)
 
 The root `invoke_agent claude-code` span uses the top-level agent name, which defaults to `claude-code`. You can change it with the `agent_name` setting or the `WEAVE_AGENT_NAME` environment variable (see [Configure the plugin](#configure-the-plugin)). Subagents keep their own type names.
 
-Multi-turn conversations are linked server-side by session ID, so you can follow a conversation across multiple traces. Each span includes token usage, model name, tool inputs and outputs, timing, and the textual content of prompts and responses. For more information about traced data, see [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) in GitHub.
+Multi-turn conversations are linked server-side by conversation ID, so you can follow a conversation across multiple traces. Each span includes token usage, model name, tool inputs and outputs, timing, and the textual content of prompts and responses. For more information about traced data, see [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) in GitHub.
 
 ## Configure the plugin
 
@@ -109,7 +106,7 @@ weave-claude-code config set wandb_api_key [YOUR-API-KEY]
 weave-claude-code config set agent_name [YOUR-AGENT-NAME]
 ```
 
-By default, sessions appear under the agent name `claude-code` in the Agents view. Set `agent_name` to use a different name, for example to distinguish teams or projects. The name can't be empty, and surrounding whitespace is trimmed.
+By default, conversations appear under the agent name `claude-code` in the Agents view. Set `agent_name` to use a different name, for example to distinguish teams or projects. The name can't be empty, and surrounding whitespace is trimmed.
 
 Environment variables take precedence over the settings file:
 
@@ -147,7 +144,7 @@ weave-claude-code status
 
 Each line shows `✓` (OK), `✗` (action needed), or `-` (not yet active but not an error).
 
-If sessions aren't appearing in Weave, check the daemon log:
+If conversations aren't appearing in Weave, check the daemon log:
 
 ```bash lines
 weave-claude-code logs

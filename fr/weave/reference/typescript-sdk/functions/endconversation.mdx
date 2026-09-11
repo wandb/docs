@@ -1,0 +1,46 @@
+---
+title: "endConversation"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+endConversation(opts?: object): void
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L159" />
+
+Termine la Conversation en cours. Sans effet si aucune Conversation n&#39;est active.
+
+<div id="parameters">
+  ## Paramètres
+</div>
+
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+`void`
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+weave.endConversation();
+```
+
+```ts twoslash
+// @noErrors
+weave.endConversation({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```

@@ -1,0 +1,54 @@
+---
+title: "GetAgentTurnsResult"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+> **GetAgentTurnsResult** = `object`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L283" />
+
+Result shape returned by [WeaveClient.getAgentTurns](../interfaces/weaveclient#getagentturns).
+
+## Properties
+
+### conversation\_id
+
+> **conversation\_id**: `string`
+
+***
+
+### feedback
+
+> `optional` **feedback**: `Record`\<`string`, `any`\>[] \| `null`
+
+***
+
+### has\_more
+
+> `optional` **has\_more**: `boolean`
+
+***
+
+### limit
+
+> `optional` **limit**: `number`
+
+***
+
+### offset
+
+> `optional` **offset**: `number`
+
+***
+
+### total\_turns
+
+> `optional` **total\_turns**: `number`
+
+***
+
+### turns
+
+> `optional` **turns**: [`AgentTurn`](./agentturn)[]

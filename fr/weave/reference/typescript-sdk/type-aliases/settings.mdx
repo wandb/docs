@@ -1,0 +1,104 @@
+---
+title: "Paramètres"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+> **Paramètres** = `objet`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
+
+Un mappage d&#39;attributs appliqués à chaque trace produite par ce client.
+
+***
+
+<div id="genai">
+  ### genai
+</div>
+
+> `readonly` **genai** : `objet`
+
+<div id="batchoptions">
+  #### batchOptions
+</div>
+
+> `facultatif` **batchOptions**: `BufferConfig`
+
+Configuration de `BatchSpanProcessor`. Ignorée sauf si `spanProcessor === 'batch'`.
+
+<div id="spanprocessor">
+  #### spanProcessor
+</div>
+
+> `facultatif` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
+
+Définit comment les spans GenAI sont exportés.
+
+* `'batch'` (par défaut) : `BatchSpanProcessor`, adapté aux agents de production
+  et aux processus de longue durée.
+* `'simple'` : `SimpleSpanProcessor`, un POST HTTP par span. Utile pour les
+  tests et les CLI de courte durée, où un vidage déterministe importe davantage que le
+  débit.
+* Instance de `SpanProcessor` : un processeur fourni par l&#39;utilisateur. L&#39;appelant est responsable
+  de son cycle de vie ; l&#39;exporter OTLP Weave ciblant `/agents/otel/v1/traces`
+  n&#39;est pas utilisé.
+
+***
+
+<div id="printcalllink">
+  ### printCallLink
+</div>
+
+> `readonly` **printCallLink**: `boolean`
+
+Imprime des liens vers l&#39;interface Weave pour les ops dans le terminal.
+
+<div id="default">
+  #### Par défaut
+</div>
+
+`true`
+
+***
+
+<div id="usecallscomplete">
+  ### useCallsComplete
+</div>
+
+> **useCallsComplete** : `boolean`
+
+Envoie les appels terminés au point de terminaison `calls/complete` (début et fin
+appariés côté client) plutôt qu&#39;à l&#39;ancien chemin `call/upsert_batch`.
+
+<div id="default-2">
+  #### Par défaut
+</div>
+
+`true`
+
+***
+
+<div id="useotelv2">
+  ### useOTelV2
+</div>
+
+> **useOTelV2** : `boolean`
+
+Achemine les intégrations compatibles avec OTel via leur variante OTel.
+
+<div id="default-3">
+  #### Par défaut
+</div>
+
+`true`

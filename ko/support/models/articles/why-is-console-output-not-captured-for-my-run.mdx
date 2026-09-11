@@ -1,0 +1,76 @@
+---
+title: "내 run에서 콘솔 출력이 캡처되지 않는 이유는 무엇인가요?"
+keywords: ["Logs", "Runs"]
+---
+
+W&amp;B는 스크립트의 stdout과 stderr를 캡처해 run의 **Files** 탭에 `output.log`로 저장합니다. 기본적으로 이 파일은 run이 완료될 때 업로드되므로, 로그가 비어 있거나 없더라도 대개 캡처 실패가 아니라 타이밍 문제입니다.
+
+멀티파트 업로드(`console_multipart`), 청크 롤오버, 그리고 이를 언제 활성화해야 하는지는 [콘솔 로그](/ko/models/app/console-logs) 및 [`wandb.Settings`](/ko/models/ref/python/experiments/settings)를 참조하세요. 로그를 다운로드하는 방법은 [run에서 콘솔 로그 파일을 다운로드하려면 어떻게 해야 하나요?](/ko/support/models/articles/how-do-i-download-the-console-log-file-from-a-run)를 참조하세요.
+
+<div id="console-capture-is-disabled">
+  ## 콘솔 캡처가 비활성화되어 있습니다
+</div>
+
+콘솔 캡처는 설정에서 끄거나 환경 변수로 비활성화할 수 있습니다:
+
+```python
+wandb.init(settings=wandb.Settings(console="off"))
+```
+
+```bash
+WANDB_CONSOLE=off python my_script.py
+```
+
+환경 또는 Launch 설정에서 둘 중 하나가 설정되어 있는지 확인하세요. 다시 활성화하려면 해당 설정을 제거하거나 `WANDB_CONSOLE=wrap`로 지정하세요.
+
+<div id="distributed-training-ddp-multiprocessing">
+  ## 분산 트레이닝 (DDP / multiprocessing)
+</div>
+
+**Logs** 탭에는 활성 W&amp;B run을 소유한 프로세스의 출력만 기록됩니다. Lightning/DDP에서는 run을 소유하지 않은 워커 프로세스에서 실행한 `print()` 또는 `wandb.termlog()`는 로컬 터미널에만 표시됩니다. rank 0에서 run을 초기화하고 `console="wrap"`를 사용하세요.
+
+```python
+import wandb
+from lightning.pytorch import Trainer
+from lightning.pytorch.loggers import WandbLogger
+
+wandb_logger = WandbLogger(
+    project="my_project",
+    settings=wandb.Settings(console="wrap"),  # 또는 WANDB_CONSOLE=wrap
+)
+trainer = Trainer(logger=wandb_logger, strategy="ddp", devices=2, accelerator="gpu")
+```
+
+**Logs** 탭이 계속 비어 있으면 `console="redirect"`를 사용해 보세요. 실시간으로 스트리밍되지 않더라도 **Files** 탭의 `output.log`에 출력이 표시될 수 있습니다. rank-0 로깅 패턴은 [분산 실험 로깅](/ko/models/track/log/distributed-training)에서 확인하세요.
+
+<div id="run-still-active-but-no-file-on-files-tab">
+  ## Run은 아직 활성 상태이지만 Files 탭에 파일이 없음
+</div>
+
+Run이 활성 상태인 동안에는 **Logs** 탭에서 출력이 스트리밍되지만, `wandb.init()` 시점에 [멀티파트 console logging](/ko/models/app/console-logs)을 활성화하지 않았다면 일반적으로 Run이 완료될 때까지 **Files 탭**에 `output.log`가 표시되지 않습니다. 업로드 주기는 Run이 시작된 후에는 변경할 수 없습니다.
+
+<div id="run-crashed-before-flush">
+  ## 플러시 전에 run이 중단됨
+</div>
+
+멀티파트 로깅을 사용하지 않으면 강제 종료된 run(OOM, SIGKILL 등)에서 `output.log`가 전혀 업로드되지 않을 수 있으며, 다운로드 버튼도 표시되지 않을 수 있습니다. 충돌 전에 업로드된 청크가 서버에 남아 있도록 run이 시작되기 전에 `console_multipart`를 활성화하세요. 로컬 사본은 항상 `wandb/run-[TIMESTAMP]-[ID]/logs/output.log`에 기록됩니다.
+
+<div id="resumed-runs-lose-earlier-console-output">
+  ## 재개된 Runs에서는 이전 콘솔 출력이 사라집니다
+</div>
+
+이전 SDK에서는 `wandb.init(resume="allow", id=...)`가 단일 `output.log`를 덮어쓸 수 있습니다. `console_multipart=True`를 사용하면 각 세션의 청크가 `logs/` 아래에 별도로 저장됩니다. 설정 방법은 [콘솔 로그](/ko/models/app/console-logs)를 참조하세요.
+
+<div id="logs-tab-shows-fewer-lines-than-expected">
+  ## Logs 탭에 예상보다 적은 줄이 표시됨
+</div>
+
+성능상의 이유로 **Logs** 탭에서 표시되는 줄 수에는 한도가 있습니다. run에는 총 최대 100,000줄까지 저장되며, App에는 한 번에 최대 10,000줄까지만 표시됩니다. 이전 줄을 보려면 로그를 스크롤하세요. 전체 로그는 `output.log` 또는 여러 부분으로 나뉜 청크에 저장되어 있습니다. run 세부 정보의 **Files** 탭이나 API를 통해 다운로드하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/ko/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

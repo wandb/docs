@@ -4,18 +4,49 @@ description: "Track, test, and improve language model apps with W&B Weave"
 mode: wide
 ---
 
-W&B Weave is an observability and evaluation platform that helps you track, evaluate, and improve your LLM application. With Weave, you can:
+W&B Weave is an observability and evaluation platform that helps you track, evaluate, and improve your agents and LLM applications. With Weave, you can:
 
-* [Observe and debug](/weave/quickstart) your LLM application
-* [Evaluate](/weave/tutorial-eval) your application’s responses using LLM judges and custom scorers
+* [Trace and collect metrics about your agents](/weave/agent-integration-quickstart) built with popular SDKs and harnesses using Weave OTel-compatible SDK
+* [Manually instrument your application's LLM calls and arbitrary functions](/weave/quickstart) to trace, version, and collect feedback about your application
+* [Evaluate](/weave/tutorial-eval) your agent's or application's responses using LLM judges and custom scorers
 
 ## Get started
 
-The following docs guide you through the basics of how to use Weave's suite of tools.
+Select your workload type and then use the following docs to guide you through the basics of how to use Weave's suite of tools. For more information about the difference between workloads, see [What is Weave?](/weave/concepts/what-is-weave)
 
+<Tabs>
+<Tab title="Trace an agent">
 <CardGroup cols={3}>
   <Card
-    title="Quickstart: Track LLM inputs & outputs"
+    title="Integrate Weave with an agent"
+    icon="plug"
+    href="/weave/agent-integration-quickstart"
+  >
+    Pick a built-in integration for your agent SDK or harness and start tracing sessions, turns, LLM calls, and tool calls in the Agents view.
+  </Card>
+
+  <Card
+    title="Send OpenTelemetry spans to the Agents view"
+    icon="code"
+    href="/weave/guides/tracking/trace-agents-otel"
+  >
+    Quickly configure your OTel-instrumented agent to send traces to Weave's OTLP endpoint. No Weave SDK installation required.
+  </Card>
+
+  <Card
+    title="View agent metrics in Weave UI"
+    icon="chart-line"
+    href="/weave/guides/tracking/view-agent-activity"
+  >
+    Trace a basic call to an LLM and review the inputs, outputs, and code in your W&B account.
+  </Card>
+
+</CardGroup>
+</Tab>
+<Tab title="Trace functions with Ops and Calls">
+<CardGroup cols={3}>
+  <Card
+    title="Quickstart: Instrument and trace functions"
     icon="chart-line"
     href="/weave/quickstart"
   >
@@ -37,7 +68,10 @@ The following docs guide you through the basics of how to use Weave's suite of t
   >
     Build and evaluate RAG applications using Weave with LLM judges to measure retrieval quality.
   </Card>
+
 </CardGroup>
+</Tab>
+</Tabs>
 
 ## Install Weave
 
@@ -51,7 +85,7 @@ W&B Weave provides Python and TypeScript libraries. To install the Weave library
   </Tab>
   <Tab title="TypeScript">
     ```bash
-    pnpm install weave
+    npm install weave
     ```
   </Tab>
 </Tabs>

@@ -1,0 +1,43 @@
+---
+title: "Comment puis-je mettre à jour la configuration, les tags et les notes d’un run via l’API W&B ?"
+keywords: ["Runs", "Experiments", "API"]
+---
+
+Une fois qu’un run est terminé, utilisez le [guide de l’API publique](/fr/models/track/public-api-guide) pour modifier la configuration, le nom d’affichage, les tags et les notes sans relancer l’expérience. Pour en savoir plus sur les tags et les flux de travail dans l’interface utilisateur, voir [Tags](/fr/models/runs/tags). Pour la configuration pendant un run, voir [Configuration](/fr/models/track/config).
+
+Les exemples ci-dessous utilisent `run.update()` pour enregistrer les modifications en attente en un seul appel d’API.
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("my-entity/my-project/run_id_here")
+
+run.config["post_hoc_label"] = "baseline-v2"
+run.name = "resnet50-lr1e-3-aug-v2"
+run.tags.append("reviewed")
+run.notes = "Final baseline. Val accuracy: 92.4%."
+run.update()
+```
+
+<div id="bulk-updates">
+  ## Mises à jour en masse
+</div>
+
+Pour attribuer un tag ou une annotation à de nombreux runs (par exemple, tous les runs d’un sweep), parcourez-les à l’aide de filtres et appelez `update()` pour chaque run :
+
+```python
+for run in api.runs("my-entity/my-project", filters={"sweep": "sweep_id_here"}):
+    run.tags.append("sweep-reviewed")
+    run.update()
+```
+
+Chaque `update()` correspond à un appel d’API distinct. Pour les gros volumes, ajoutez un court délai entre les appels afin d’éviter d’atteindre les limites de débit.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/fr/support/models/tags/api)</Badge>
+
+{/* END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}

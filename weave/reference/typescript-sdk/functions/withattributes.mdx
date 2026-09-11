@@ -3,9 +3,13 @@ title: "withAttributes"
 description: "TypeScript SDK reference"
 ---
 
-# withAttributes
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-▸ **withAttributes**\<`T`\>(`attrs`, `fn`): `Promise`\<`T`\> \| `T`
+```ts
+withAttributes<T>(attrs: Record<string, any>, fn: () => T | Promise<T>): T | Promise<T>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238" />
 
 Attach attributes to the current execution context so that any calls created
 inside `fn` automatically inherit them. Attributes are written to the call
@@ -13,31 +17,23 @@ record on the trace server and surface in the Weave UI/filtering, so they’re
 ideal for tagging runs with request IDs, tenants, experiments, etc.
 
 Example:
-```ts
+```ts twoslash
+// @noErrors
 await withAttributes({requestId: 'abc'}, async () => {
   await myOp();
 });
 ```
 
-#### Type parameters
+## Type Parameters
 
-| Name |
-| :------ |
-| `T` |
+<ParamField path="T" />
 
-#### Parameters
+## Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `attrs` | `Record`\<`string`, `any`\> |
-| `fn` | () => `T` \| `Promise`\<`T`\> |
+<ParamField path="attrs" type="Record<string, any>" required />
 
-#### Returns
+<ParamField path="fn" type="() => T | Promise<T>" required />
 
-`Promise`\<`T`\> \| `T`
+## Returns
 
-#### Defined in
-
-[clientApi.ts:201](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/clientApi.ts#L201)
-
-___
+`T` \| `Promise`\<`T`\>

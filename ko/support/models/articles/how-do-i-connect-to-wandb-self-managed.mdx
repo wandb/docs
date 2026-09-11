@@ -1,0 +1,53 @@
+---
+title: "W&B Self-Managed에 어떻게 연결하나요?"
+keywords: ["관리자", "사용자 관리", "환경 변수"]
+---
+
+[W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed)는 자체 인프라에서 실행되는 셀프 호스팅 배포입니다. SDK와 CLI가 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) API (`api.wandb.ai`) 대신 사용 중인 인스턴스 URL을 가리키도록 설정하세요. 로그인 명령, `WANDB_BASE_URL`, `--host`에 대한 내용은 [`wandb login`](/ko/models/ref/cli/wandb-login) 및 [환경 변수](/ko/models/track/environment-variables)를 참조하세요.
+
+<div id="verify-the-connection">
+  ## 연결 확인
+</div>
+
+```bash
+wandb status
+```
+
+호스트가 인스턴스 URL과 일치하는지, 그리고 API 키가 마스킹된 상태로 포함되어 있는지 확인하세요.
+
+<div id="ssl-certificate-issues">
+  ## SSL / 인증서 문제
+</div>
+
+인스턴스에서 자체 서명 인증서나 내부 CA 인증서를 사용하는 경우, W&amp;B를 초기화하기 전에 CA 번들을 설정하세요:
+
+```bash
+export REQUESTS_CA_BUNDLE=/path/to/ca-bundle.crt
+```
+
+<div id="switching-between-multi-tenant-cloud-and-self-managed">
+  ## Multi-tenant Cloud와 Self-Managed 간 전환
+</div>
+
+Multi-tenant Cloud를 다시 사용하려면 `WANDB_BASE_URL` 설정을 해제하고 `--host` 없이 `wandb login`을 실행하세요:
+
+```bash
+unset WANDB_BASE_URL
+wandb login
+```
+
+<div id="common-issues">
+  ## 자주 발생하는 문제
+</div>
+
+* **`wandb.init()`에서 401 오류**: API 키는 Multi-tenant Cloud와 Self-Managed 인스턴스 간에 공유되지 않습니다. Self-Managed 인스턴스의 프로필에서 키를 생성하세요.
+* **연결 거부 / 타임아웃**: 인스턴스 URL과 배포 환경에 대한 VPN 또는 네트워크 액세스를 확인하세요.
+* **라이선스가 인식되지 않음**: [내 엔터프라이즈 라이선스가 인식되지 않는 이유는 무엇인가요?](/ko/support/models/articles/enterprise-license-not-recognized)를 참조하세요.
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[관리자](/ko/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[사용자 관리](/ko/support/models/tags/user-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

@@ -4,10 +4,6 @@ description: "Tracez les sessions agentiques de Pi, les appels LLM et les exécu
 keywords: ["Pi", "OpenTelemetry", "OTEL", "TypeScript", "agent de codage"]
 ---
 
-import AgentsPreview from '/snippets/fr/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 [Pi](https://pi.dev/) est un agent de codage en ligne de commande. Weave trace automatiquement les sessions Pi, les appels LLM et les exécutions d’outils à l’aide de l’intégration `createOtelExtension`, qui est conforme aux [conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/). Cette page vous montre comment activer le tracing Weave dans une application Pi afin que vous puissiez observer le comportement de l’agent, déboguer les runs et analyser l’utilisation et le coût des jetons.
 
 <Warning>
@@ -42,7 +38,7 @@ npm install --save-dev @types/node tsx typescript
   ## Tracer un prompt et une réponse dans Pi
 </div>
 
-L’exemple suivant montre la configuration minimale nécessaire pour tracer un seul prompt et une seule réponse dans Pi. Appelez `weave.init()` avant de créer votre session d&#39;agent, puis transmettez `createOtelExtension()` en tant que fabrique d&#39;extensions. Weave trace l&#39;intégralité du cycle de vie de l&#39;agent : la session, chaque cycle prompt/réponse (`invoke_agent`), les appels LLM individuels (`chat`) et les exécutions d&#39;outils (`execute_tool`). `SessionManager.inMemory()` génère automatiquement l&#39;ID de session.
+L’exemple suivant montre la configuration minimale nécessaire pour tracer un seul prompt et une seule réponse dans Pi. Appelez `weave.init()` avant de créer votre session d&#39;agent, puis transmettez `createOtelExtension()` en tant que fabrique d&#39;extensions. Weave trace l&#39;intégralité du cycle de vie de l&#39;agent : la conversation, chaque cycle prompt/réponse (`invoke_agent`), les appels LLM individuels (`chat`) et les exécutions d&#39;outils (`execute_tool`). `SessionManager.inMemory()` génère automatiquement l&#39;ID de session.
 
 ```typescript lines twoslash
 // @noErrors
@@ -79,7 +75,7 @@ async function main() {
   });
 
   // 4. Lier les extensions. Déclenche l'événement session_start afin que l'adaptateur OTEL
-  //    crée le span de session racine et capture l'identifiant de conversation.
+  //    crée le span de conversation racine et capture l'identifiant de conversation.
   await session.bindExtensions({});
 
   // 5. Diffuser la sortie de l'assistant vers stdout
@@ -93,7 +89,7 @@ async function main() {
   });
 
   // 6. Envoyer un prompt et attendre la réponse complète
-  await session.prompt('What files are in the current directory?');
+  await session.prompt('Quels fichiers se trouvent dans le répertoire actuel ?');
   console.log();
 }
 
@@ -112,6 +108,6 @@ Lorsque vous exécutez votre code, vos traces apparaissent dans l’onglet **Age
   ### Étapes suivantes
 </div>
 
-Pour transformer cet exemple en session sur plusieurs tours de conversation, ajoutez d’autres prompts. Weave trace chaque appel à `session.prompt()` sous la forme d’un span `invoke_agent` distinct, tous imbriqués sous un seul span racine. L’agent conserve automatiquement le contexte d’un prompt à l’autre.
+Pour transformer cet exemple en conversation sur plusieurs tours de conversation, ajoutez d’autres prompts. Weave trace chaque appel à `session.prompt()` sous la forme d’un span `invoke_agent` distinct, tous imbriqués sous un seul span racine. L’agent conserve automatiquement le contexte d’un prompt à l’autre.
 
-Après avoir exécuté le code, l’onglet **Agents** affiche la chronologie complète de la session sur plusieurs tours, avec les appels LLM imbriqués, les exécutions d’outils, l’utilisation des jetons et le coût.
+Après avoir exécuté le code, l’onglet **Agents** affiche la chronologie complète de la session sur plusieurs tours de conversation, avec les appels LLM imbriqués, les exécutions d’outils, l’utilisation des jetons et le coût.

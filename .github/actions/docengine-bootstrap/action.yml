@@ -1,0 +1,132 @@
+name: DocEngine bootstrap
+description: >-
+  Set up git access to the private DocEngine repository and fetch the DocEngine
+  submodule, so later steps can run the docs tooling. Reports back instead of
+  failing when no credential is available.
+
+# WHAT THIS IS
+#
+# CoreWeave's documentation tooling is called DocEngine. It lives in its own
+# private repository and is vendored into this one as the `docengine` git
+# submodule, pinned to one exact commit. Nearly every docs CI workflow needs
+# that submodule on disk before it can do anything useful, and getting it there
+# takes two steps that are easy to get subtly wrong. This action is the single
+# place that does them.
+#
+# WHY THIS IS DUPLICATED BETWEEN wandb/docs AND coreweave/docs RATHER THAN SHARED
+#
+# The coreweave/docs repository has its own copy of this action, with the same
+# name, the same input and the same output, but different internals. It uses a
+# different credential and also clones private product repositories beyond
+# DocEngine itself. The duplication is deliberate, for two reasons:
+#
+# - Credentials differ per repository.
+# - A genuinely shared version would have to live inside DocEngine, which is exactly
+#   what this action exists to fetch.
+#
+# So the INTERFACE is the shared promise, and what happens inside belongs to each
+# repository.
+#
+# Background:
+# https://github.com/coreweave/docengine/blob/main/docs/adr/0008-publishing-host-actions.md
+
+inputs:
+  read-token:
+    description: >-
+      A token that can read the private coreweave/docengine repository. In this
+      repository, pass the DOCENGINE_TOKEN secret - the same rolling token the
+      Dependabot gitsubmodule registry uses.
+
+      DocEngine is the only private repository this repository's workflows need
+      to reach, but every private clone in a job goes through the single git
+      rewrite rule this action sets up, so this action must be the only step
+      that creates one.
+
+      It arrives as an input because a composite action cannot read `secrets` on
+      its own. If you leave it empty, the action does nothing and says so
+      through the `available` output rather than failing the job.
+    required: false
+    default: ''
+
+outputs:
+  available:
+    description: >-
+      "true" when the DocEngine submodule is on disk and ready to use, "false"
+      when no token was supplied and it was skipped.
+
+      Steps that need DocEngine should check this rather than assuming the
+      `docengine/` directory exists. Some jobs run in situations where the
+      secret is not available - in this repository that includes fork pull
+      requests - and they should skip the DocEngine part rather than fail the
+      whole run.
+    value: ${{ steps.init.outputs.available }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up git access and fetch the DocEngine submodule
+      id: init
+      shell: bash
+      env:
+        READ_TOKEN: ${{ inputs['read-token'] }}
+      run: |
+        set -euo pipefail
+
+        # No credential: stop cleanly and report it. This is a normal outcome,
+        # not an error, so the job can decide for itself what to do next.
+        if [ -z "${READ_TOKEN}" ]; then
+          echo "available=false" >> "${GITHUB_OUTPUT}"
+          echo "::notice title=DocEngine bootstrap::No read token was supplied, so DocEngine was not fetched. Steps that need it should check the 'available' output."
+          exit 0
+        fi
+
+        # Keep the token out of the logs if anything below prints it.
+        echo "::add-mask::${READ_TOKEN}"
+
+        # The rule below tells git to quietly insert this token into every
+        # https://github.com/... URL it handles from now on. That is what makes
+        # private clones work without configuring each repository separately.
+        #
+        # THERE MUST ONLY EVER BE ONE SUCH RULE.
+        #
+        # Git does not combine two rules that rewrite the same URL prefix; one
+        # of them simply wins, and which one is not obvious. If another step
+        # adds a second rule using a token with narrower access, a clone fails
+        # much later with a "not found" error in a step that looks unrelated to
+        # authentication - a genuinely hard bug to track down. This action owns
+        # the rule, and nothing else should create one. A rule already existing
+        # means some step ran before this action, which is what this check is
+        # here to catch.
+        # Matching on 'url.' alone rather than on the exact rule name is
+        # deliberate: git has a second rewrite setting, pushInsteadOf, which
+        # rewrites push URLs only. A rule of either kind set before this action
+        # runs is the ordering problem described above, so both should be
+        # caught.
+        if git config --global --name-only --get-regexp '^url\.' >/dev/null 2>&1; then
+          echo "::error title=DocEngine bootstrap::A git URL rewrite rule was already set before this action ran. Only one may exist and this action must own it. Remove the earlier 'git config url.*.insteadOf' step, or move what it does into this action."
+          exit 1
+        fi
+
+        git config --global url."https://x-access-token:${READ_TOKEN}@github.com/".insteadOf "https://github.com/"
+
+        # Fetch only the DocEngine submodule, and only its most recent commit.
+        # This repository has a second submodule, `.claude`, which comes from
+        # coreweave/docs-skills. DOCENGINE_TOKEN is not guaranteed to read that
+        # repository, so fetching everything could fail on it.
+        git submodule update --init --depth 1 docengine
+
+        # `git submodule update` can succeed while leaving an empty directory
+        # behind. Later steps would then fail somewhere far away from the real
+        # cause, so confirm DocEngine actually arrived.
+        #
+        # Unlike the empty-token case above, this IS a failure: a token was
+        # supplied and it did not work. The usual cause is a token that cannot
+        # read the private DocEngine repository - with a rolling token like
+        # DOCENGINE_TOKEN, the first suspect is an expired token.
+        if [ ! -f docengine/pyproject.toml ]; then
+          echo "::error title=DocEngine bootstrap::The docengine directory is empty after fetching. Check that the token you passed can read the private coreweave/docengine repository."
+          exit 1
+        fi
+
+        echo "available=true" >> "${GITHUB_OUTPUT}"
+        echo "DocEngine bootstrap: submodule fetched and ready." >> "${GITHUB_STEP_SUMMARY}"

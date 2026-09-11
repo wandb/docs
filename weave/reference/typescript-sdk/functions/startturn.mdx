@@ -3,25 +3,44 @@ title: "startTurn"
 description: "TypeScript SDK reference"
 ---
 
-# startTurn
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
+```ts
+startTurn(opts?: TurnInit = {}): Turn
+```
 
-Start a new Turn. If a Session is active, the turn inherits its
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L54" />
+
+Start a new Turn. If a Conversation is active, the turn inherits its
 `conversationId`; otherwise the turn has no conversation id.
 
-#### Parameters
+## Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `opts` | [`TurnInit`](../interfaces/turninit) |
+<ParamField path="opts" type="TurnInit = {}">
+  See [`TurnInit`](../interfaces/turninit).
+</ParamField>
 
-#### Returns
+## Returns
 
-[`Turn`](../classes/turn)
+[`Turn`](../interfaces/turn)
 
-#### Defined in
+## Examples
 
-[genai/api.ts:20](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L20)
+```ts twoslash
+// @noErrors
+weave.startTurn();
+```
 
-___
+```ts twoslash
+// @noErrors
+weave.startTurn({
+  agentId: 'research-bot-prod',
+  agentName: 'research-bot',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  model: 'gpt-4o',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

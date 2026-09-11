@@ -3,24 +3,49 @@ title: "endTurn"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="endturn">
-  # endTurn
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+endTurn(opts?: object): void
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L183" />
+
+現在の Turn を終了します。実行中の Turn がない場合は no-op となります。
+
+<div id="parameters">
+  ## パラメーター
 </div>
 
-▸ **endTurn**(): `void`
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-現在の Turn を終了します。アクティブな Turn がない場合は何も行われません。
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
 `void`
 
-<div id="defined-in">
-  #### 定義元
+<div id="examples">
+  ## 例
 </div>
 
-[genai/api.ts:92](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L92)
+```ts twoslash
+// @noErrors
+weave.endTurn();
+```
 
-***
+```ts twoslash
+// @noErrors
+weave.endTurn({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+```ts twoslash
+// @noErrors
+weave.endTurn({error: new Error('agent loop diverged')});
+```

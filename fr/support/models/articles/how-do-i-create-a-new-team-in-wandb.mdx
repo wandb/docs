@@ -1,0 +1,44 @@
+---
+title: "Comment puis-je créer une nouvelle équipe dans W&B ?"
+keywords: ["Teams", "Gestion de l’organisation"]
+---
+
+Les Teams constituent la principale unité de collaboration dans W&amp;B. Une équipe possède son propre nom d’entité, des Projects partagés et une liste de membres. Seul un administrateur de l’organisation peut créer une équipe.
+
+Pour connaître la procédure, consultez [Créer une équipe](/fr/platform/hosting/iam/access-management/manage-organization#create-a-team). Pour ajouter des collègues par la suite, consultez [Inviter des utilisateurs dans une équipe](/fr/platform/hosting/iam/access-management/manage-organization#invite-users-to-a-team) ou [Comment puis-je inviter un utilisateur dans mon équipe W&amp;B ?](/fr/support/models/articles/how-do-i-invite-a-user-to-my-wb-team).
+
+**Si vous ne pouvez pas créer d’équipe**
+
+Si le bouton **Create team** est absent ou si vous obtenez une erreur d’autorisations vous demandant de contacter votre administrateur, soit votre organisation limite la création d’équipes aux administrateurs, soit votre compte se trouve dans un état qui la bloque. Voir [J’ai supprimé mon équipe et je ne peux plus en créer une nouvelle — que dois-je faire ?](/fr/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one).
+
+**Choisir un nom d’équipe**
+
+Le nom d’une équipe devient son nom d’entité et fait partie de l’URL de chaque projet et run de cette équipe ; choisissez donc un nom qui restera pertinent à long terme. Les noms d’équipe doivent être uniques dans W&amp;B et ne peuvent pas être modifiés après leur création.
+
+**Comptes personnels vs comptes d’équipe**
+
+Votre compte personnel W&amp;B possède sa propre entité (votre nom d’utilisateur), distincte de toutes les équipes auxquelles vous appartenez. Les runs enregistrés dans votre entité personnelle ne sont pas visibles par votre équipe, sauf si vous les enregistrez explicitement dans l’entité d’équipe :
+
+```python
+import wandb
+
+# Journaliser dans un projet d'équipe (visible par tous les membres de l'équipe)
+wandb.init(entity="my-team", project="shared-project")
+
+# Journaliser dans une entité personnelle (visible uniquement par vous)
+wandb.init(entity="my-username", project="personal-experiments")
+```
+
+**Limites de l’équipe**
+
+Les licences Models sont facturées par utilisateur. Consultez [Licences et tarification](/fr/platform/hosting/iam/access-management/manage-organization#seats-and-pricing) pour en savoir plus sur le fonctionnement des licences, les détails de votre forfait dans **Team settings &gt; Billing** ou sur [wandb.ai/site/pricing](https://wandb.ai/site/pricing).
+
+Les comptes académiques peuvent créer un nombre illimité d’équipes. Si votre compte académique est ancien et que vous ne pouvez pas créer d’autre équipe, il se peut qu’une limite d’équipes faible ait été définie lors de sa création. [Contactez l’assistance](mailto:support@wandb.com) pour augmenter cette limite.
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/fr/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion de l’organisation](/fr/support/models/tags/org-management)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

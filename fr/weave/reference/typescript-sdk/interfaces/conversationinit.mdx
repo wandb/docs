@@ -1,0 +1,103 @@
+---
+title: "ConversationInit"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L8" />
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<div id="agentdescription">
+  ### agentDescription
+</div>
+
+> `facultatif` **agentDescription**: `string`
+
+Description de l’agent compréhensible par un humain. Elle est propagée
+comme valeur `agentDescription` par défaut à chaque `Turn` créé via
+`startTurn()`, sauf si le tour de conversation définit sa propre valeur ;
+elle est émise dans le span `invoke_agent` de chaque tour de conversation
+sous la forme de `gen_ai.agent.description`.
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+> `facultatif` **agentId**: `string`
+
+Identifiant stable de l’agent. Il est propagé comme `agentId` par défaut à chaque
+`Turn` créé via `startTurn()`, sauf si le tour de conversation définit le sien ; il est émis
+dans le span `invoke_agent` de chaque tour de conversation sous la forme de `gen_ai.agent.id`.
+
+***
+
+<div id="agentname">
+  ### agentName
+</div>
+
+> `facultatif` **agentName**: `string`
+
+Nom de l’agent. Propagé comme `agentName` par défaut à chaque `Turn`
+créé via `startTurn()`, sauf si le tour de conversation définit le sien ; émis dans
+le span `invoke_agent` de chaque tour de conversation sous la forme `gen_ai.agent.name`.
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+> `facultatif` **agentVersion**: `string`
+
+Chaîne de version de l’agent. Propagée comme valeur `agentVersion` par défaut pour
+chaque tour de conversation créé via `startTurn()`, sauf si le tour de conversation définit sa propre valeur ;
+elle est émise dans le span `invoke_agent` de chaque tour de conversation sous la forme de `gen_ai.agent.version`.
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `facultatif` **attributes**: `Attributes`
+
+Attributs personnalisés propagés à chaque span émis par la conversation.
+
+Toute clé définie ici qui entre en conflit avec l’attribut `gen_ai.*` / `weave.*` propre à un span n’est pas prise en charge ; la valeur du span prévaut.
+
+***
+
+<div id="conversationid">
+  ### conversationId
+</div>
+
+> `facultatif` **conversationId**: `string`
+
+ID de conversation propagé à chaque span de cette conversation sous la forme de
+`gen_ai.conversation.id`. Généré automatiquement s’il est omis.
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+> `facultatif` **model**: `string`
+
+***
+
+<div id="sessionid">
+  ### ~~sessionId~~
+</div>
+
+<Warning>
+  **Obsolète.** Utilisez plutôt [ConversationInit.conversationId](#conversationid).
+</Warning>
+
+> `facultatif` **sessionId** : `string`

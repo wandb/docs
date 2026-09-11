@@ -3,24 +3,49 @@ title: "endLLM"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="endllm">
-  # endLLM
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+endLLM(opts?: object): void
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L202" />
+
+現在の LLM を終了します。実行中の LLM がない場合は no-op です。
+
+<div id="parameters">
+  ## パラメーター
 </div>
 
-▸ **endLLM**(): `void`
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-現在アクティブなLLMを終了します。アクティブなLLMがない場合は何も行いません。
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
 `void`
 
-<div id="defined-in">
-  #### 定義元
+<div id="examples">
+  ## 例
 </div>
 
-[genai/api.ts:102](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L102)
+```ts twoslash
+// @noErrors
+weave.endLLM();
+```
 
-***
+```ts twoslash
+// @noErrors
+weave.endLLM({endTime: new Date('2026-05-29T10:00:00.800Z')});
+```
+
+```ts twoslash
+// @noErrors
+weave.endLLM({error: new Error('llm call failed')});
+```

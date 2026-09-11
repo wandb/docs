@@ -59,7 +59,7 @@ WANDB_BASE_URL = "https://trace.wandb.ai"
 PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  # Votre nom d'entité/projet W&B, par ex. "myteam/myproject"
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  # Votre clé API W&B
 
-OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+WEAVE_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
 
 OTEL_EXPORTER_OTLP_HEADERS = {
@@ -69,7 +69,7 @@ OTEL_EXPORTER_OTLP_HEADERS = {
 
 # Créer l'exportateur de spans OTLP avec le point de terminaison et les en-têtes
 exporter = OTLPSpanExporter(
-    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    endpoint=WEAVE_OTLP_ENDPOINT,
     headers=OTEL_EXPORTER_OTLP_HEADERS,
 )
 

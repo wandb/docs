@@ -1,12 +1,16 @@
 ---
 title: "Sweeps"
-tag: "19"
+tag: "22"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="ハイパーパラメーター探索を整理するためのベストプラクティス" href="/ja/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
   多数のハイパーパラメーター探索を実行する場合は、Runs にタグを付けておくと、後で関連する実験をグループ化して検索できます。Run にタ ... を付けると
+</Card>
+
+<Card title="sweep 内の run を再開できますか?" href="/ja/support/models/articles/can-i-resume-a-run-inside-a-sweep" arrow="true" horizontal>
+  W&amp;B sweep 内では run の再開はサポートされていません。run&#95;id を渡すか、sweep エージェントの実行中に wandb.init(resume=...) を使用すると、...
 </Card>
 
 <Card title="sweep がローカルにログを保存するディレクトリを変更するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
@@ -57,8 +61,12 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   AWS Batch や ECS などのクラウドインフラストラクチャー上で W&amp;B Sweep を実行するには、任意の W&amp;B Sweep エージェント が ca ... できるように sweep&#95;id を公開します
 </Card>
 
-<Card title="sweep でカスタム CLI コマンドを使用するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  トレーニング設定でコマンドライン引数を渡す場合は、W&amp;B Sweep でカスタム CLI コマンドを使用できます。これにより r ...
+<Card title="sweep でカスタム CLI コマンドを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  トレーニング設定でコマンドライン引数を渡す場合は、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。これにより、r ...
+</Card>
+
+<Card title="W&B で Parallel coordinates チャートを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  Parallel coordinates チャートは、多数の Runs にわたってハイパーパラメーターとメトリクスの関係を示します。各線は 1 つの run を表し、各 ...
 </Card>
 
 <Card title="SLURM で sweep を実行するにはどうすればよいですか？" href="/ja/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
@@ -79,4 +87,8 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="`Est. Runs` 列とは何ですか？" href="/ja/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
   W&amp;B は、離散的な検索空間で W&amp;B Sweep を作成する際に生成される Runs の推定数を提供します。この合計は re ...
+</Card>
+
+<Card title="sweep エージェントが新しい run を取得しないのはなぜですか？" href="/ja/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  sweep エージェントが起動しても新しい Runs の設定を取得しない場合、または 1 つの run を受け取った後で待機状態になる場合は、いくつかの ...
 </Card>

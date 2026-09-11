@@ -1,35 +1,74 @@
 ---
-title: "Interface: TurnInit"
+title: "TurnInit"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../) / TurnInit
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L32" />
 
+## Extends
 
-## Table of contents
-
-### Properties
-
-- [agentName](./turninit#agentname)
-- [model](./turninit#model)
+- `SpanInitBase`
 
 ## Properties
 
+### agentDescription
+
+> `optional` **agentDescription**: `string`
+
+***
+
+### agentId
+
+> `optional` **agentId**: `string`
+
+***
+
 ### agentName
 
-• `Optional` **agentName**: `string`
+> `optional` **agentName**: `string`
 
-#### Defined in
+***
 
-[genai/turn.ts:27](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L27)
+### agentVersion
 
-___
+> `optional` **agentVersion**: `string`
+
+***
+
+### attributes
+
+> `optional` **attributes**: `Attributes`
+
+Custom attributes set on this turn and passed to every child span.
+Normally seeded from the conversation via `startConversation({ attributes })`;
+set here for a rootless `startTurn({ attributes })` with no conversation.
+
+***
 
 ### model
 
-• `Optional` **model**: `string`
+> `optional` **model**: `string`
 
-#### Defined in
+***
 
-[genai/turn.ts:28](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L28)
+### startTime
+
+> `optional` **startTime**: `TimeInput`
+
+#### Inherited from
+
+`SpanInitBase.startTime`
+
+***
+
+### systemInstructions
+
+> `optional` **systemInstructions**: `string`[]
+
+***
+
+### userMessage
+
+> `optional` **userMessage**: `string`

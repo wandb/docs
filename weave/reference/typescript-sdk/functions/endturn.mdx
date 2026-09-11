@@ -3,18 +3,43 @@ title: "endTurn"
 description: "TypeScript SDK reference"
 ---
 
-# endTurn
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-▸ **endTurn**(): `void`
+```ts
+endTurn(opts?: object): void
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L183" />
 
 End the current Turn. No-op if no Turn is active.
 
-#### Returns
+## Parameters
+
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+## Returns
 
 `void`
 
-#### Defined in
+## Examples
 
-[genai/api.ts:92](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L92)
+```ts twoslash
+// @noErrors
+weave.endTurn();
+```
 
-___
+```ts twoslash
+// @noErrors
+weave.endTurn({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```
+
+```ts twoslash
+// @noErrors
+weave.endTurn({error: new Error('agent loop diverged')});
+```

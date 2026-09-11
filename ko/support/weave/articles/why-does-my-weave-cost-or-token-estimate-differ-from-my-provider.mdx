@@ -1,0 +1,46 @@
+---
+title: "내 Weave 비용 또는 토큰 추정치가 공급자와 다른 이유는 무엇인가요?"
+keywords: ["데이터 캡처", "트레이스 데이터"]
+---
+
+Weave는 LLM Call에서 캡처한 데이터를 바탕으로 비용 및 토큰 사용량 추정치를 표시합니다. Weave의 숫자와 공급자의 청구서 사이에 차이가 나는 이유는 다음과 같습니다.
+
+**토큰 수는 Weave가 아니라 공급자 응답에서 가져옵니다**
+
+지원되는 인테그레이션(OpenAI, Anthropic, Google 등)의 경우, Weave는 API 응답 객체에서 토큰 사용량을 직접 읽습니다. 즉, 코드가 받는 것과 동일한 `usage` 필드입니다. 공급자가 청구 페이지에서 다른 개수를 보고한다면 차이는 공급자 측에서 발생한 것입니다(예를 들어, 스트리밍 청크 전반의 토큰을 Call별 보고와는 다른 방식으로 집계할 수 있습니다).
+
+**Weave 비용 추정치는 정적 가격 표를 사용합니다**
+
+Weave는 각 모델의 알려진 토큰당 가격에 토큰 수를 곱해 예상 비용을 계산합니다. 이 표는 주기적으로 업데이트되지만 공급자의 가격 변경을 바로 반영하지 못할 수 있습니다. 공급자가 최근 모델 가격을 변경했다면, 표가 업데이트되는 다음 SDK 릴리스 전까지 Weave의 추정치는 오래된 값일 수 있습니다.
+
+Weave가 사용 중인 모델 가격을 확인하려면 [Weave 소스의 가격 레퍼런스](https://github.com/wandb/weave/blob/master/weave/trace/util/inference_cost)를 참조하세요.
+
+**맞춤형 또는 파인튜닝된 모델에는 가격 항목이 없을 수 있습니다**
+
+파인튜닝된 모델이나 Weave의 가격 표에 없는 모델 ID를 사용하는 경우, 비용 열에는 `—` 또는 `$0.00`이 표시됩니다. 토큰 수는 확인할 수 있지만, Weave는 알 수 없는 모델의 비용은 추정할 수 없습니다.
+
+**샘플링은 캡처되는 총 토큰 수를 줄입니다**
+
+op에서 `tracing_sample_rate`를 설정하면 Call 중 일부만 트레이스됩니다. Weave의 토큰 총계에는 전체 사용량이 아니라 샘플링된 Call만 반영됩니다.
+
+```python
+@weave.op(tracing_sample_rate=0.1)
+def my_llm_call(prompt):
+    ...
+```
+
+이 경우 Weave는 호출의 약 10%만 수집하므로, UI의 토큰 및 비용 총계는 그 비율만 반영합니다.
+
+**프롬프트 캐싱 및 배치 API 호출**
+
+일부 공급자(예: 프롬프트 캐싱이 활성화된 OpenAI)는 캐시된 입력 토큰에 할인을 적용합니다. Weave는 공급자가 반환한 그대로 `usage` 객체를 수집하므로, 공급자가 응답에서 이를 보고하면 캐시된 토큰 가격이 반영되어야 합니다. 하지만 Weave의 정적 가격 표는 각 토큰 범주에 대한 표준(비캐시) 가격을 반영합니다. 프롬프트 캐싱을 많이 사용하면 Weave의 추정치와 실제 청구 금액 간 차이가 더 커질 수 있습니다.
+
+배치 API 요청은 실시간 요청과 다른 방식으로 토큰 사용량을 보고할 수 있습니다. Weave가 이를 수집하기를 기대한다면, 배치 응답에 표준 `usage` 필드가 포함되어 있는지 확인하세요.
+
+***
+
+{/* AUTO-GENERATED: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[데이터 캡처](/ko/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

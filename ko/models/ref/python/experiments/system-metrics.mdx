@@ -16,7 +16,7 @@ aliases:
   ## 시스템 메트릭 보기
 </div>
 
-W&amp;B App 또는 `wandb beta leet` 터미널 UI를 사용해 시스템 메트릭을 확인하고 모니터링할 수 있습니다.
+W&amp;B App 또는 `wandb leet` 터미널 UI를 사용해 시스템 메트릭을 확인하고 모니터링할 수 있습니다.
 
 <Tabs>
   <Tab title="App">
@@ -35,25 +35,27 @@ W&amp;B App 또는 `wandb beta leet` 터미널 UI를 사용해 시스템 메트�
   </Tab>
 
   <Tab title="LEET">
-    `wandb beta leet` 터미널 UI를 사용해 터미널에서 run의 시스템 메트릭을 보려면 다음 단계를 따르세요.
+    `wandb leet` 터미널 UI를 사용해 터미널에서 로컬 run의 시스템 메트릭을 보려면 다음 단계를 따르세요.
 
     1. 스크립트에서 로컬로 run을 시작했다면, 코드를 실행한 디렉터리로 이동합니다. 이 디렉터리에는 run별 하위 디렉터리와 `latest-run/` 심볼릭 링크가 있는 `wandb/` 디렉터리가 포함되어 있습니다. 각 run 디렉터리에는 `run-<run-ID>.wandb` 형식의 이름을 가진 트랜잭션 로그가 들어 있습니다.
 
        로컬에서 run을 시작하지 않고 `.wandb` 트랜잭션 로그 파일을 다운로드한 경우에는 해당 파일의 위치를 메모해 두세요.
-    2. 다음 명령 중 하나로 `wandb beta leet`를 시작합니다.
+    2. 다음 명령 중 하나로 `wandb leet`를 시작합니다.
 
        ```bash
-       # ./wandb/latest-run/에 저장된 최신 run 보기
-       wandb beta leet
+       # 워크스페이스를 열고 최신 로컬 run 선택
+       wandb leet
 
        # run 디렉터리 지정
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+       wandb leet ./wandb/run-20250813_124246-n67z9ude
 
        # .wandb 파일 지정
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       wandb leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
        ```
 
-    LEET는 **오른쪽 사이드바**에 시스템 메트릭을 표시하며, 다음 정보를 보여줍니다.
+    run 경로를 지정하지 않으면 LEET는 기본적으로 워크스페이스 뷰를 엽니다. `2`를 누르면 강조 표시된 run의 시스템 메트릭이 표시됩니다. run 디렉터리나 `.wandb` 파일을 지정하면 단일 run 뷰가 열리며, 기본적으로 오른쪽 사이드바에 시스템 메트릭이 표시됩니다.
+
+    시스템 메트릭 패널에는 다음 정보가 표시됩니다.
 
     * GPU 사용량(%) 및 메모리 사용량(GB)
     * CPU 사용량
@@ -63,13 +65,19 @@ W&amp;B App 또는 `wandb beta leet` 터미널 UI를 사용해 시스템 메트�
 
     다음 키보드 단축키로 시작해 보세요.
 
-    * `h` 또는 `?` - 모든 키보드 단축키 보기
-    * `/` - 패턴으로 메트릭 필터링
-    * `[` / `]` - 왼쪽/오른쪽 사이드바 표시/숨기기
-    * `n` / `N` - 메트릭 페이지 간 이동
-    * `q` / `CMD+C` - 종료
+    * `h` 또는 `?`: 현재 뷰의 키보드 단축키를 봅니다.
+    * `\`: 패턴으로 시스템 메트릭을 필터링합니다.
+    * `y`: 포커스된 차트를 선형, 로그, 그리고 백분율 메트릭의 경우 버킷 heatmap 모드 간에 전환합니다.
+    * `n` 및 `N`: 포커스된 패널의 페이지 간을 이동합니다.
+    * `q` 또는 `ctrl+c`: 종료합니다.
 
-    자세한 내용은 [`wandb beta leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet)를 참조하세요.
+    run 없이 현재 머신을 모니터링하려면 독립 실행형 system monitor(SYMON)를 실행하세요.
+
+    ```bash
+    wandb leet symon --interval 2s
+    ```
+
+    전체 가이드는 [LEET 터미널 UI](/ko/models/app/leet-tui)를, 명령 구문은 [`wandb leet`](/ko/models/ref/cli/wandb-leet) CLI 레퍼런스를 참조하세요.
   </Tab>
 </Tabs>
 
@@ -110,7 +118,7 @@ run = wandb.init(
 ```
 
 <div id="disk-usage-percent">
-  ### 디스크 사용률(%)
+  ### 디스크 사용률
 </div>
 
 지정된 경로의 전체 시스템 디스크 사용률을 백분율로 나타냅니다.
@@ -140,11 +148,11 @@ W&amp;B는 이 메트릭에 `disk.in` 태그를 할당합니다.
 </div>
 
 메가바이트(MB) 단위의 시스템 전체 디스크 쓰기량을 나타냅니다.
-[디스크 In]()과 마찬가지로, 첫 번째 샘플을 수집할 때 초기 디스크 쓰기 바이트 수를 기록합니다. 이후 샘플에서는 현재 쓰기 바이트 수와 초기값의 차이를 계산합니다.
+[디스크 In](#disk-in)과 마찬가지로, 첫 번째 샘플을 수집할 때 초기 디스크 쓰기 바이트 수를 기록합니다. 이후 샘플에서는 현재 쓰기 바이트 수와 초기값의 차이를 계산합니다.
 
-W&amp;B는 이 메트릭에 `disk.out` 태그를 할당합니다.
+W&amp;B는 이 메트릭에 `disk.out` 태그를 부여합니다.
 
-{/* 새 섹션 */}
+{{/* 새 섹션 */}}
 
 <div id="memory">
   ## 메모리
@@ -202,11 +210,11 @@ W&amp;B는 이 메트릭에 `network.sent` 태그를 부여합니다.
 </div>
 
 네트워크를 통해 수신된 총 바이트 수를 나타냅니다.
-[Network Sent]()와 마찬가지로, 메트릭이 처음 초기화될 때 초기 수신 바이트 수가 기록됩니다. 이후 샘플에서는 현재 수신된 바이트 수와 초기값의 차이를 계산합니다.
+[네트워크 전송](#network-sent)와 마찬가지로, 메트릭이 처음 초기화될 때 초기 수신 바이트 수가 기록됩니다. 이후 샘플에서는 현재 수신된 바이트 수와 초기값의 차이를 계산합니다.
 
 W&amp;B는 이 메트릭에 `network.recv` 태그를 부여합니다.
 
-{/* 새 섹션 */}
+{{/* 새 섹션 */}}
 
 <div id="nvidia-gpu">
   ## NVIDIA GPU

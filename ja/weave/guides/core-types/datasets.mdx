@@ -99,7 +99,9 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
   <Tab title="Python">
     Python では、`Dataset` は [Call](../tracking/tracing) のような一般的な Weave オブジェクトや、`pandas.DataFrame` のような Python オブジェクトから作成することもできます。この機能は、特定の例から例示用の `Dataset` を作成したい場合に便利です。
 
-    ### Weave Call
+    <div id="weave-call">
+      ### Weave Call
+    </div>
 
     1 つ以上の Weave Call から `Dataset` を作成するには、Call オブジェクトを取得し、`from_calls` method に list として渡します。
 
@@ -115,7 +117,9 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
     # これで、モデルの評価などに dataset を使用できます。
     ```
 
-    ### Pandas DataFrame
+    <div id="pandas-dataframe">
+      ### Pandas DataFrame
+    </div>
 
     Pandas の `DataFrame` object から `Dataset` を作成するには、`from_pandas` method を使用します。
 
@@ -135,7 +139,9 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
     assert df.equals(df2)
     ```
 
-    ### Hugging Face Datasets
+    <div id="hugging-face-datasets">
+      ### Hugging Face Datasets
+    </div>
 
     Hugging Face の `datasets.Dataset` または `datasets.DatasetDict` object から `Dataset` を作成するには、まず必要な dependencies がインストールされていることを確認します。
 
@@ -293,31 +299,13 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
   ### 新しいエージェントのトレースを `Dataset` に追加する
 </div>
 
-セッション、ターン、ツールコールなどのエージェントのトレースを `Dataset` に追加するには、次の手順に従います。
-
-1. [wandb.ai](http://wandb.ai) にアクセスし、project を選択します。
-
-2. Weave のプロジェクトのサイドバーで、**Agents** をクリックします。
-
-3. 上部のタブバーで、**Conversations** をクリックします。
-
-4. **Conversations** の表で会話の行を選択し、会話の詳細サイドパネルを表示します。会話の詳細サイドパネルのヘッダーには、エージェント名と UUID が表示されます。
-
-5. 会話の詳細サイドパネルのヘッダーで、右側にある表アイコンをクリックして **Add example to dataset** drawer を開きます。
-
-   ![データセットに項目を追加するための表アイコンが表示された Agent conversation details panel header。](/weave/guides/core-types/imgs/agent-conversation-details-header-add-dataset.png)
-
-6. **Choose a dataset** で、ドロップダウンを使用して、トレースの追加先となるデータセットを選択します。
-
-7. **Select context** で、データセットに追加するメッセージを選択します。**Next** をクリックします。
-
-8. 選択内容を確認し、**Add to dataset** をクリックします。
+エージェントのターンやツールコールを `Dataset` に追加するには、[エージェントメッセージをデータセットに追加する](/ja/weave/guides/tracking/view-agent-activity#add-agent-messages-to-a-dataset) を参照してください。
 
 <div id="add-a-new-trace-to-a-dataset">
   ### データセットに新しいトレースを追加する
 </div>
 
-ops と calls から生成されたトレースを `Dataset` に追加するには:
+`@weave.op` デコレータを使用する Ops と Calls から生成されたトレースを `Dataset` に追加するには:
 
 1. 編集したい Weave プロジェクトにアクセスします。
 
@@ -347,7 +335,9 @@ ops と calls から生成されたトレースを `Dataset` に追加するに�
 
 <Tabs>
   <Tab title="Python">
-    ### 行の選択
+    <div id="select-rows">
+      ### 行の選択
+    </div>
 
     `select` method を使用すると、インデックスを指定して `Dataset` から特定の行を選択できます。これは、データのサブセットを作成する際に便利です。たとえば、少数の examples の一部に対して Evaluate したい場合に役立ちます。
 

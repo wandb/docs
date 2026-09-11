@@ -1,0 +1,1399 @@
+---
+title: "WeaveClient"
+description: "TypeScript SDK リファレンス"
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519" />
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+<div id="projectid">
+  ### projectId
+</div>
+
+> **projectId**: `string`
+
+***
+
+<div id="settings">
+  ### settings
+</div>
+
+> **settings**: `object`
+
+<div id="attributes">
+  #### attributes
+</div>
+
+> `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
+
+このクライアントが生成するすべての trace に適用される属性のマップです。
+
+<div id="genai">
+  #### genai
+</div>
+
+> `readonly` **genai**: `object`
+
+<div id="genaibatchoptions">
+  ##### genai.batchOptions
+</div>
+
+> `optional` **batchOptions**: `BufferConfig`
+
+`BatchSpanProcessor` の設定です。`spanProcessor === 'batch'` の場合を除き、無視されます。
+
+<div id="genaispanprocessor">
+  ##### genai.spanProcessor
+</div>
+
+> `optional` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
+
+GenAI のスパンをエクスポートする方法を指定します。
+
+* `'batch'` (デフォルト) : `BatchSpanProcessor`。本番環境のエージェントや
+  長時間稼働するプロセスに適しています。
+* `'simple'`: `SimpleSpanProcessor`。スパンごとに HTTP POST を 1 回実行します。
+  スループットよりも確実な flush が重要となるテストや、短時間で終了する CLI に
+  適しています。
+* `SpanProcessor` インスタンス: ユーザーが指定するプロセッサです。ライフサイクルの管理は
+  呼び出し元の責任となり、`/agents/otel/v1/traces` を送信先とする Weave の OTLP エクスポーターは
+  使用されません。
+
+<div id="printcalllink">
+  #### printCallLink
+</div>
+
+> `readonly` **printCallLink**: `boolean`
+
+op の Weave UI へのリンクをターミナルに出力します。
+
+<div id="default">
+  ##### デフォルト
+</div>
+
+`true`
+
+<div id="usecallscomplete">
+  #### useCallsComplete
+</div>
+
+> **useCallsComplete**: `boolean`
+
+完了した Call を、従来の `call/upsert_batch` パスではなく `calls/complete` エンドポイントに送信します (開始と終了はクライアント側でペアリングされます) 。
+
+<div id="default-2">
+  ##### デフォルト
+</div>
+
+`true`
+
+<div id="useotelv2">
+  #### useOTelV2
+</div>
+
+> **useOTelV2**: `boolean`
+
+OTel に対応したインテグレーションを OTel バリアント経由でルーティングします。
+
+<div id="default-3">
+  ##### デフォルト
+</div>
+
+`true`
+
+***
+
+<div id="traceserverapi">
+  ### traceServerApi
+</div>
+
+> **traceServerApi**: `Api`&lt;`any`&gt;
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="addscore">
+  ### addScore()
+</div>
+
+> **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`&lt;`string`&gt;
+
+Scorer の結果 (Scorer の出力など) を Call に追加します。
+命令型の評価で、Scorer の結果を予測 Call に関連付けるために使用します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<ParamField path="predictCallId" type="string" required>
+  feedback を関連付けるする predict call の ID
+</ParamField>
+
+<ParamField path="scorerCallId" type="string" required>
+  feedback を生成した scorer call の ID
+</ParamField>
+
+<ParamField path="runnableRefUri" type="string" required>
+  scorer の URI (Op または Object ref) 
+</ParamField>
+
+<ParamField path="scorerOutput" type="any" required>
+  scorer の 出力
+</ParamField>
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`string`&gt;
+
+***
+
+<div id="createcall">
+  ### createCall()
+</div>
+
+> **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`): `Promise`&lt;`void`&gt;
+
+<div id="parameters-2">
+  #### パラメーター
+</div>
+
+<ParamField path="internalCall" type="InternalCall" required />
+
+<ParamField path="opRef" type="any" required />
+
+<ParamField path="params" type="any[]" required />
+
+<ParamField path="parameterNames" type="undefined | &#x22;useParam0Object&#x22; | string[]" required />
+
+<ParamField path="thisArg" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  完全なタイプ: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="startTime" type="Date" required />
+
+<ParamField path="displayName" type="string" />
+
+<ParamField path="attributes" type="Record<string, any>" />
+
+<ParamField path="eagerCallStart" type="boolean = false" />
+
+<div id="returns-2">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="finishcall">
+  ### finishCall()
+</div>
+
+> **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
+
+<div id="parameters-3">
+  #### パラメーター
+</div>
+
+<ParamField path="call" type="InternalCall" required />
+
+<ParamField path="result" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  完全なタイプ: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="summarize" type="((result) => Record<string, any>) | undefined" required />
+
+<ParamField path="endTime" type="Date" required />
+
+<ParamField path="startCallPromise" type="Promise<void>" required />
+
+<div id="returns-3">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="finishcallwithexception">
+  ### finishCallWithException()
+</div>
+
+> **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
+
+<div id="parameters-4">
+  #### パラメーター
+</div>
+
+<ParamField path="call" type="InternalCall" required />
+
+<ParamField path="error" type="any" required />
+
+<ParamField path="currentCall" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="callId" type="string" required />
+
+    <ParamField path="childSummary" type="Record<string, any>" required />
+
+    <ParamField path="displayName" type="string" />
+
+    <ParamField path="opName" type="string" />
+
+    <ParamField path="traceId" type="string" required />
+  </Expandable>
+</ParamField>
+
+<ParamField path="parentCall" type="{…} | undefined" required>
+  完全なタイプ: `{ callId: string; childSummary: Record<string, any>; displayName?: string; opName?: string; traceId: string; } | undefined`
+</ParamField>
+
+<ParamField path="endTime" type="Date" required />
+
+<ParamField path="startCallPromise" type="Promise<void>" required />
+
+<div id="returns-4">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="flush">
+  ### flush()
+</div>
+
+> **flush**(): `Promise`&lt;`void`&gt;
+
+バッファされたすべての Call をサーバーに送信します。`process.exit()` の前に await してください。
+
+<div id="returns-5">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="get">
+  ### get()
+</div>
+
+> **get**(`ref`): `Promise`&lt;`any`&gt;
+
+<div id="parameters-5">
+  #### パラメーター
+</div>
+
+<ParamField path="ref" type="ObjectRef" required>
+  [`ObjectRef`](../classes/objectref) を参照してください。
+</ParamField>
+
+<div id="returns-6">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`any`&gt;
+
+***
+
+<div id="getagentcustomattributes">
+  ### getAgentCustomAttributes()
+</div>
+
+> **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
+
+project 内のエージェント スパンで検出された、型付きカスタム属性キーを取得します。各結果行は 1 つの `(source, key, value_type)` トリプルと、そのトリプルを持つスパン数で構成されます。スパンのクエリ、グループ化、統計 API では、この形式でカスタム属性を参照します。
+
+`query` (構造化スパンフィルター) 、`startedAfter` / `startedBefore` (ISO-8601) 、または両方を指定して、対象のスパンをフィルターします。検出されたキーをページングするには、`limit` / `offset` を使用します。
+
+<div id="parameters-6">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="limit" type="number">
+      **Min**
+
+      1
+
+      **Max**
+
+      2000
+
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      200
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      **Min**
+
+      0
+
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="Query | null">
+      [`Query`](./query) を参照してください。
+    </ParamField>
+
+    <ParamField path="startedAfter" type="string | null" />
+
+    <ParamField path="startedBefore" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-7">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
+
+<div id="example">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentCustomAttributes({
+  query: {
+    $expr: {
+      $eq: [{$getField: 'agent_name'}, {$literal: 'my-agent'}],
+    },
+  },
+  startedAfter: '2026-06-15T00:00:00Z',
+  limit: 200,
+});
+
+for (const attr of resp.data.attributes ?? []) {
+  console.log(`${attr.source}.${attr.key} (${attr.value_type}): ${attr.span_count}`);
+}
+```
+
+***
+
+<div id="getagents">
+  ### getAgents()
+</div>
+
+> **getAgents**(`options?`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
+
+集計された統計情報を含むエージェントの一覧を取得します。
+
+<div id="parameters-7">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="GetAgentsOptions = {}">
+  [`GetAgentsOptions`](./getagentsoptions) を参照してください。
+</ParamField>
+
+<div id="returns-8">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
+
+<div id="example-2">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgents({limit: 20});
+
+for (const agent of resp.data.agents) {
+  console.log(agent.agent_name, agent.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+***
+
+<div id="getagentspans">
+  ### getAgentSpans()
+</div>
+
+> **getAgentSpans**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
+
+エージェント スパンをクエリします。必要に応じて、エージェント名や Mongo スタイルのクエリ式でフィルターできます。
+
+<div id="parameters-8">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="GetAgentSpansOptions" required>
+  [`GetAgentSpansOptions`](./getagentspansoptions) を参照してください。
+</ParamField>
+
+<div id="returns-9">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
+
+<div id="examples">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpans({agentName: 'my-agent', limit: 20});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+
+const resp = await client.getAgentSpans({
+  agentName: 'my-agent',
+  query: {
+    $expr: {$gt: [{$getField: 'input_tokens'}, {$literal: 1000}]},
+  },
+});
+
+for (const span of resp.data.spans) {
+  console.log(span.span_id, span.span_name, span.input_tokens);
+}
+```
+
+***
+
+<div id="getagentspanstats">
+  ### getAgentSpanStats()
+</div>
+
+> **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
+
+project 内のエージェント スパンに対する集約結果を、時系列または時間バケットの可視化に適した行と列のメタデータとして返します。
+
+`start` (必須) と`end`で時間範囲を指定します。`metrics`の各エントリでは、抽出するフィールドと集約方法 (`sum`、`avg`、`count`、パーセンタイルなど) を指定します。行を時間単位でバケット化するには`granularity` (秒) を指定し、エージェント／provider／モデルなどごとに結果を分けるには`groupBy`を指定します。`query`は、集約前に対象となるスパンをフィルターします。
+
+<div id="parameters-9">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="end" type="string | null" />
+
+    <ParamField path="granularity" type="number | null" />
+
+    <ParamField path="groupBy" type="object[]" />
+
+    <ParamField path="metrics" type="object[]" required />
+
+    <ParamField path="query" type="Query | null">
+      [`Query`](./query) を参照してください。
+    </ParamField>
+
+    <ParamField path="start" type="string" required />
+
+    <ParamField path="timezone" type="string">
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      "UTC"
+      ```
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-10">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
+
+<div id="example-3">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentSpanStats({
+  start: '2026-06-10T00:00:00Z',
+  end: '2026-06-23T00:00:00Z',
+  granularity: 86400, // 1 日あたり 1 行
+  metrics: [
+    {
+      alias: 'total_input_tokens',
+      value_type: 'number',
+      aggregations: ['sum'],
+      value: {source: 'field', key: 'input_tokens'},
+    },
+  ],
+  groupBy: [{key: 'agent_name'}],
+});
+
+for (const row of resp.data.rows ?? []) {
+  console.log(row.started_at_bucket, row.agent_name, row.total_input_tokens);
+}
+```
+
+***
+
+<div id="getagentturn">
+  ### getAgentTurn()
+</div>
+
+> **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
+
+traceId を指定して、単一の ターン のデータ (メッセージを含む) を取得します。
+
+<div id="parameters-10">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="GetAgentTurnOptions" required>
+  [`GetAgentTurnOptions`](./getagentturnoptions) を参照してください。
+</ParamField>
+
+<div id="returns-11">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
+
+<div id="example-4">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurn({
+  traceId: '01997b8a-2c89-7c4d-9d0e-2f7e5b9a1b2c',
+  includeFeedback: true,
+});
+
+console.log(resp.data.root_span_name, resp.data.total_duration_ms);
+
+for (const message of resp.data.messages ?? []) {
+  if (message.user_message) console.log('user:', message.user_message);
+  if (message.assistant_message) console.log('assistant:', message.assistant_message);
+}
+```
+
+***
+
+<div id="getagentturns">
+  ### getAgentTurns()
+</div>
+
+> **getAgentTurns**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
+
+会話 ID を指定して、複数のターンのデータ (メッセージを含む) を取得します。
+
+<div id="parameters-11">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="GetAgentTurnsOptions" required>
+  [`GetAgentTurnsOptions`](./getagentturnsoptions) を参照してください。
+</ParamField>
+
+<div id="returns-12">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
+
+<div id="example-5">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentTurns({
+  conversationId: 'trace_c50312356de3487fa90e381c9399b5b4',
+  limit: 20,
+  includeFeedback: true,
+});
+
+for (const turn of resp.data.turns ?? []) {
+  console.log(turn.trace_id, turn.root_span_name);
+  for (const message of turn.messages ?? []) {
+    if (message.user_message) console.log('user:', message.user_message);
+    if (message.assistant_message) console.log('assistant:', message.assistant_message);
+  }
+}
+
+console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_more}`);
+```
+
+***
+
+<div id="getagentversions">
+  ### getAgentVersions()
+</div>
+
+> **getAgentVersions**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
+
+指定したエージェントのバージョンを一覧表示します。
+
+<div id="parameters-12">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="GetAgentVersionsOptions" required>
+  [`GetAgentVersionsOptions`](./getagentversionsoptions) を参照してください。
+</ParamField>
+
+<div id="returns-13">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
+
+<div id="example-6">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.getAgentVersions({agentName: 'my-agent', limit: 20});
+
+for (const version of resp.data.versions) {
+  console.log(version.agent_version, version.total_input_tokens);
+}
+
+console.log(`total count: ${resp.data.total_count}`)
+```
+
+***
+
+<div id="getcall">
+  ### getCall()
+</div>
+
+> **getCall**(`callId`, `includeCosts?`): `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
+
+<div id="parameters-13">
+  #### パラメーター
+</div>
+
+<ParamField path="callId" type="string" required />
+
+<ParamField path="includeCosts" type="boolean = false" />
+
+<div id="returns-14">
+  #### 戻り値
+</div>
+
+`Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
+
+***
+
+<div id="getcalls">
+  ### getCalls()
+</div>
+
+<div id="call-signature">
+  #### Call Signature
+</div>
+
+> **getCalls**(`options?`): `Promise`&lt;`object`[]&gt;
+
+<div id="parameters-14">
+  ##### パラメーター
+</div>
+
+<ParamField path="options" type="GetCallsOptions">
+  [`GetCallsOptions`](./getcallsoptions) を参照してください。
+</ParamField>
+
+<div id="returns-15">
+  ##### 戻り値
+</div>
+
+`Promise`&lt;`object`[]&gt;
+
+<div id="call-signature-2">
+  #### Call Signature
+</div>
+
+> **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`object`[]&gt;
+
+<div id="parameters-15">
+  ##### パラメーター
+</div>
+
+<ParamField path="options" type="CallsFilter">
+  [`CallsFilter`](./callsfilter) を参照してください。
+</ParamField>
+
+<ParamField path="includeCosts" type="boolean" />
+
+<ParamField path="limit" type="number" />
+
+<div id="returns-16">
+  ##### 戻り値
+</div>
+
+`Promise`&lt;`object`[]&gt;
+
+***
+
+<div id="getcallsiterator">
+  ### getCallsIterator()
+</div>
+
+<div id="call-signature-3">
+  #### Call Signature
+</div>
+
+> **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+<div id="parameters-16">
+  ##### パラメーター
+</div>
+
+<ParamField path="options" type="CallsFilter">
+  [`CallsFilter`](./callsfilter) を参照してください。
+</ParamField>
+
+<ParamField path="includeCosts" type="boolean" />
+
+<ParamField path="limit" type="number" />
+
+<div id="returns-17">
+  ##### 戻り値
+</div>
+
+`AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+<div id="call-signature-4">
+  #### Call Signature
+</div>
+
+> **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+<div id="parameters-17">
+  ##### パラメーター
+</div>
+
+<ParamField path="options" type="GetCallsOptions">
+  [`GetCallsOptions`](./getcallsoptions) を参照してください。
+</ParamField>
+
+<div id="returns-18">
+  ##### 戻り値
+</div>
+
+`AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
+
+***
+
+<div id="getcallstack">
+  ### getCallStack()
+</div>
+
+> **getCallStack**(): `CallStack`
+
+<div id="returns-19">
+  #### 戻り値
+</div>
+
+`CallStack`
+
+***
+
+<div id="getcurrentattributes">
+  ### getCurrentAttributes()
+</div>
+
+> **getCurrentAttributes**(): `Record`&lt;`string`, `any`&gt;
+
+<div id="returns-20">
+  #### 戻り値
+</div>
+
+`Record`&lt;`string`, `any`&gt;
+
+***
+
+<div id="linkprompttoregistry">
+  ### linkPromptToRegistry()
+</div>
+
+> **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
+
+公開済みの prompt バージョンを Registry ポートフォリオにリンクします。
+
+<div id="parameters-18">
+  #### パラメーター
+</div>
+
+<ParamField path="prompt" type="string | ObjectRef | Prompt" required>
+  [`ObjectRef`](../classes/objectref) を参照してください。
+</ParamField>
+
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="aliases" type="string[]" />
+
+    <ParamField path="targetPath" type="string" required />
+  </Expandable>
+</ParamField>
+
+<div id="returns-21">
+  #### 戻り値
+</div>
+
+`Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
+
+***
+
+<div id="pendingcallcount">
+  ### pendingCallCount()
+</div>
+
+> **pendingCallCount**(): `number`
+
+クライアント側でバッファされていて、まだサーバーに送信されていない Call の数です。
+
+<div id="returns-22">
+  #### 戻り値
+</div>
+
+`number`
+
+***
+
+<div id="publish">
+  ### publish()
+</div>
+
+> **publish**(`obj`, `objId?`): `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
+
+<div id="parameters-19">
+  #### パラメーター
+</div>
+
+<ParamField path="obj" type="any" required />
+
+<ParamField path="objId" type="string" />
+
+<div id="returns-23">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
+
+***
+
+<div id="pushnewcall">
+  ### pushNewCall()
+</div>
+
+> **pushNewCall**(): `object`
+
+<div id="returns-24">
+  #### 戻り値
+</div>
+
+`object`
+
+<ResponseField name="currentCall" type="object" required>
+  <div id="currentcallcallid">
+    ###### currentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="currentcallchildsummary">
+    ###### currentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="currentcalldisplayname">
+    ###### currentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="currentcallopname">
+    ###### currentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="currentcalltraceid">
+    ###### currentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+<ResponseField name="newStack" type="CallStack" required />
+
+<ResponseField name="parentCall" type="object">
+  <div id="parentcallcallid">
+    ###### parentCall.callId
+  </div>
+
+  > **callId**: `string`
+
+  <div id="parentcallchildsummary">
+    ###### parentCall.childSummary
+  </div>
+
+  > **childSummary**: `Record`&lt;`string`, `any`&gt;
+
+  <div id="parentcalldisplayname">
+    ###### parentCall.displayName
+  </div>
+
+  > `optional` **displayName**: `string`
+
+  <div id="parentcallopname">
+    ###### parentCall.opName
+  </div>
+
+  > `optional` **opName**: `string`
+
+  <div id="parentcalltraceid">
+    ###### parentCall.traceId
+  </div>
+
+  > **traceId**: `string`
+</ResponseField>
+
+***
+
+<div id="registercustomruntime">
+  ### registerCustomRuntime()
+</div>
+
+> **registerCustomRuntime**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
+
+custom runtime を登録します。既に存在する場合は、その設定全体を置き換えます。
+
+<div id="parameters-20">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="RegisterCustomRuntimeOptions" required>
+  [`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions) を参照してください。
+</ParamField>
+
+<div id="returns-25">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
+
+***
+
+<div id="runwithattributes">
+  ### runWithAttributes()
+</div>
+
+> **runWithAttributes**&lt;`T`&gt;(`attributes`, `fn`): `T`
+
+<div id="type-parameters">
+  #### タイプパラメーター
+</div>
+
+<ParamField path="T" />
+
+<div id="parameters-21">
+  #### パラメーター
+</div>
+
+<ParamField path="attributes" type="Record<string, any>" required />
+
+<ParamField path="fn" type="() => T" required />
+
+<div id="returns-26">
+  #### 戻り値
+</div>
+
+`T`
+
+***
+
+<div id="runwithcallstack">
+  ### runWithCallStack()
+</div>
+
+> **runWithCallStack**&lt;`T`&gt;(`callStack`, `fn`): `T`
+
+<div id="type-parameters-2">
+  #### タイプパラメーター
+</div>
+
+<ParamField path="T" />
+
+<div id="parameters-22">
+  #### パラメーター
+</div>
+
+<ParamField path="callStack" type="CallStack" required />
+
+<ParamField path="fn" type="() => T" required />
+
+<div id="returns-27">
+  #### 戻り値
+</div>
+
+`T`
+
+***
+
+<div id="savecallend">
+  ### saveCallEnd()
+</div>
+
+> **saveCallEnd**(`callEnd`): `void`
+
+<div id="parameters-23">
+  #### パラメーター
+</div>
+
+<ParamField path="callEnd" type="object & object" required />
+
+<div id="returns-28">
+  #### 戻り値
+</div>
+
+`void`
+
+***
+
+<div id="savecallstart">
+  ### saveCallStart()
+</div>
+
+> **saveCallStart**(`callStart`, `opts?`): `void`
+
+<div id="parameters-24">
+  #### パラメーター
+</div>
+
+<ParamField path="callStart" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>" required>
+      属性
+    </ParamField>
+
+    <ParamField path="display_name" type="string | null">
+      表示名
+    </ParamField>
+
+    <ParamField path="id" type="string | null">
+      ID
+    </ParamField>
+
+    <ParamField path="inputs" type="Record<string, any>" required>
+      入力
+    </ParamField>
+
+    <ParamField path="op_name" type="string" required>
+      op 名
+    </ParamField>
+
+    <ParamField path="otel_dump" type="Record<string, any> | null">
+      Otel ダンプ
+    </ParamField>
+
+    <ParamField path="parent_id" type="string | null">
+      親 ID
+    </ParamField>
+
+    <ParamField path="project_id" type="string" required>
+      project ID
+    </ParamField>
+
+    <ParamField path="started_at" type="string" required>
+      開始日時
+
+      **形式**
+
+      date-time
+    </ParamField>
+
+    <ParamField path="thread_id" type="string | null">
+      thread ID
+    </ParamField>
+
+    <ParamField path="trace_id" type="string | null">
+      trace ID
+    </ParamField>
+
+    <ParamField path="turn_id" type="string | null">
+      turn ID
+    </ParamField>
+
+    <ParamField path="wb_run_id" type="string | null">
+      W&amp;B run ID
+    </ParamField>
+
+    <ParamField path="wb_run_step" type="number | null">
+      W&amp;B run ステップ
+    </ParamField>
+
+    <ParamField path="wb_user_id" type="string | null">
+      W&amp;B ユーザー ID
+      直接設定しないでください。このフィールドはサーバーが自動的に設定します。
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="eager" type="boolean" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-29">
+  #### 戻り値
+</div>
+
+`void`
+
+***
+
+<div id="saveop">
+  ### saveOp()
+</div>
+
+> **saveOp**(`op`, `objId?`): `Promise`&lt;`OpRef`&gt;
+
+<div id="parameters-25">
+  #### パラメーター
+</div>
+
+<ParamField path="op" type="Op<(...args) => any>" required>
+  [`Op`](../type-aliases/op) を参照してください。
+</ParamField>
+
+<ParamField path="objId" type="string" />
+
+<div id="returns-30">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`OpRef`&gt;
+
+***
+
+<div id="searchagents">
+  ### searchAgents()
+</div>
+
+> **searchAgents**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
+
+project 内のエージェントメッセージを全文検索します。一致したメッセージのプレビューを含む結果を、会話ごとにグループ化して返します。
+
+`query` は全文検索の検索語です。空の文字列を渡すと、テキスト検索を行わずに構造化フィルター (`agentName`、`conversationId`、`traceId`) に一致するすべてのメッセージを取得します。`limit` / `offset` を使用して結果をページネーションします。
+
+<div id="parameters-26">
+  #### パラメーター
+</div>
+
+<ParamField path="options" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="agentName" type="string | null" />
+
+    <ParamField path="conversationId" type="string | null" />
+
+    <ParamField path="limit" type="number">
+      取得件数の上限
+
+      **Min**
+
+      0
+
+      **Max**
+
+      1000
+
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      20
+      ```
+    </ParamField>
+
+    <ParamField path="offset" type="number">
+      オフセット
+
+      **Min**
+
+      0
+
+      **デフォルト**
+
+      ```ts twoslash
+      // @noErrors
+      0
+      ```
+    </ParamField>
+
+    <ParamField path="query" type="string" required />
+
+    <ParamField path="traceId" type="string | null" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-31">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
+
+<div id="example-7">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+const client = await weave.init('entity/project');
+const resp = await client.searchAgents({
+  query: 'Liverpool',
+  agentName: 'Assistant',
+  limit: 20,
+});
+
+for (const conversation of resp.data.results ?? []) {
+  console.log(`${conversation.conversation_id} (${conversation.agent_name})`);
+  for (const match of conversation.matched_messages) {
+    console.log(`  [${match.role}] ${match.content_preview}`);
+  }
+}
+
+console.log(`total conversations: ${resp.data.total_conversations}`);
+```
+
+***
+
+<div id="serializeaudio">
+  ### serializeAudio()
+</div>
+
+> **serializeAudio**(`data`, `audioType?`): `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
+
+生のオーディオバイトを Weave コンテンツストアにアップロードし、Call の出力に埋め込み可能な
+`CustomWeaveType` プレースホルダーを返します。
+
+`finishCall` の自動シリアル化パイプラインを使用せずに、`saveCallEnd` 経由などで Call の出力を手動で構築する場合に使用します。
+
+<div id="parameters-27">
+  #### パラメーター
+</div>
+
+<ParamField path="data" type="Buffer" required>
+  生のオーディオバイト (ブラウザとの互換性を最大限確保するには WAV)
+</ParamField>
+
+<ParamField path="audioType" type="&#x22;wav&#x22; = DEFAULT_AUDIO_TYPE">
+  ファイル形式 — 現在は &#39;wav&#39; のみサポートされています
+</ParamField>
+
+<div id="returns-32">
+  #### 戻り値
+</div>
+
+`Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
+
+***
+
+<div id="updatecall">
+  ### updateCall()
+</div>
+
+> **updateCall**(`callId`, `displayName`): `Promise`&lt;`void`&gt;
+
+<div id="parameters-28">
+  #### パラメーター
+</div>
+
+<ParamField path="callId" type="string" required />
+
+<ParamField path="displayName" type="string" required />
+
+<div id="returns-33">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`void`&gt;
+
+***
+
+<div id="waitforbatchprocessing">
+  ### waitForBatchProcessing()
+</div>
+
+> **waitForBatchProcessing**(): `Promise`&lt;`void`&gt;
+
+<div id="returns-34">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`void`&gt;

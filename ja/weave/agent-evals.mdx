@@ -1,0 +1,242 @@
+---
+title: "Weave で AI エージェントを評価する"
+description: "agents workflow と EvaluationLogger を使用して、シングルターンおよびマルチターンの AI エージェントを Weave で評価し、LLM judge でスコアリングします。"
+keywords: [エージェント評価, EvaluationLogger, 会話, Agents, LLM judge, マルチターン, scorer]
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agent_evals.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/agent_evals.ipynb" />
+</div>
+
+単一の LLM Call とは異なり、エージェントは複数のターンにわたって目標を達成するために、ツールを呼び出し、その結果に基づいて行動します。そのため、単一の output を文字列一致で比較するだけでは、エージェントを評価できません。代わりに、軌跡全体にわたる動作を評価します。
+
+このチュートリアルでは、agents workflow を使用して Weave でエージェントを評価する方法を説明します。小規模なカスタマーサポートエージェントを構築してインストルメントし、LLM judge (シングルターンおよびマルチターン) でその Runs をスコアリングして、エージェントの 2 つのバージョンを比較します。
+
+<div id="what-youll-learn">
+  ## 学習内容
+</div>
+
+このガイドでは、以下の方法を説明します。
+
+* エージェントを、ターンとツール呼び出しで構成される会話としてトレースする。
+* 各runをLLM judgeでスコアリングする。
+* 2つのエージェントのバージョンを並べて比較する。
+* マルチターン会話内のターンをスコアリングする。
+* 単一のスコアをスコアカードに拡張する。
+
+Weaveはこれらの評価を整理・保存しますが、エージェントの実行やサンドボックス化は行いません。そのため、既存のエージェントランタイムをそのまま使用できます。
+
+<Note>
+  このチュートリアルでは、エージェントはClaude Sonnetで実行し、judgeはClaude Opusで実行します。評価対象よりも強力で異なるモデルを使用して採点することは、優れた評価手法です。
+</Note>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+このチュートリアルを実行するには、以下が必要です。
+
+* [W&amp;Bアカウント](https://wandb.ai/signup)。
+* Python 3.10 以降。
+* 必須パッケージ: `pip install weave anthropic`。
+* `ANTHROPIC_API_KEY` 環境変数に設定した [Anthropic APIキー](https://console.anthropic.com/)。
+
+<div id="build-and-trace-the-agent">
+  ## エージェントを構築してトレースする
+</div>
+
+この例では、エージェントは `lookup_order` と `issue_refund` の 2 つのツールを使用し、30 日以内の返金のみを許可するポリシーに従って返金リクエストを確認し、対応します。ツール定義、モデルループ、メッセージ変換を含む完全なエージェントは、付属のノートブックにあります。このセクションでは、Weave 固有の部分に焦点を当てます。
+
+まず、W&amp;B チームと project を指定して Weave を初期化します。`[YOUR-TEAM]` と `[YOUR-PROJECT]` を自分の値に置き換えてください。
+
+```python lines
+import weave
+
+weave.init(
+    "[YOUR-TEAM]/[YOUR-PROJECT]",
+    # 素の provider SDK を手動でインストルメントする場合: 暗黙的な patching を無効にして、
+    # 各 call が traced Op としても記録されてスパンが重複するのを防ぎます。
+    settings={"implicitly_patch_integrations": False},
+)
+```
+
+デフォルトでは、Weave は[サポートされている SDK とフレームワークに autopatch を適用し](/ja/weave/agent-integration-quickstart)、それらを使用して構築されたエージェントが生成する会話を自動的にトレースします。このチュートリアルでは、エージェントの Call を手動でインストルメントして会話をトレースする方法を説明します。autopatching (`implicitly_patch_integrations`) を有効にしたままにすると、会話は 2 回トレースされます。1 回は Conversation span として、もう 1 回はトレースされた Op として記録されます。
+
+`weave.conversation` を使用してエージェントをトレースします。会話はターンで構成され、各ターンにはモデル Call と任意の tool Call が含まれます。
+
+```python lines highlight="3,4,5,13"
+from weave.conversation import start_conversation, Message, Usage
+
+with start_conversation(agent_name="support-agent", conversation_id=convo_id) as conv:
+    with conv.start_turn(user_message=user_message) as turn:
+        with turn.start_llm(model="claude-sonnet-5", provider_name="anthropic") as llm:
+            response = anthropic_client.messages.create(...)   # 実際のモデル呼び出し。
+            llm.record(
+                input_messages=[...],                          # weave.Message のリスト。
+                output_messages=[...],
+                usage=Usage(input_tokens=..., output_tokens=...),
+            )
+        for call in response_tool_calls:                       # 実際のツールループ。
+            with turn.start_tool(name=call.name, arguments=call.arguments) as tool:
+                tool.result = run_tool(call)                   # 辞書は自動的にエンコードされます。
+```
+
+このチュートリアルのスニペットでは Weave Call に焦点を当て、独自のエージェントコードに対応するプレースホルダーを使用しています。
+
+* `convo_id` と `new_id()`：UUID など、会話ごとに一意の ID。
+* `user_message`：そのターンにおけるユーザーの入力。
+* `anthropic_client`：初期化済みの Anthropic クライアント。
+* `response_tool_calls` と `run_tool()`：モデルが要求したツール呼び出しと、それらを実行する関数。
+* `run_agent_turn()`：エージェントループ全体。最終的な応答と、judge が読み取るための軌跡 (ターン、ツール呼び出し、結果) のプレーンテキストのトランスクリプトを返します。
+* `judge_task_completion()`：次のセクションで導入する LLM judge。
+
+これらすべての完全に実行可能な定義は、付属のノートブックにあります。
+
+1 つのリクエストを実行し、出力された Weave リンクを開きます。Agents ビューでは、会話がターンとして表示され、その中にモデル Call とツール呼び出しがネストされます。
+
+<Tip>
+  フレームワークインテグレーション (Claude Agent SDK、OpenAI Agents) を使用してエージェントを構築する場合、Weave は同じ Agents スパンを自動的に生成します。暗黙的なパッチ適用を有効のままにし、手動の `start_*` 呼び出しは省略してください。
+</Tip>
+
+<div id="score-the-agent-with-an-llm-judge">
+  ## LLM judge でエージェントをスコアリングする
+</div>
+
+judge モデルを使用して、Scorer はタスクの成功基準に基づき、エージェントがタスクをどの程度達成できたかを評価します。丁寧に聞こえる応答ではなく、正しい結果を評価します。この例のスコアは*タスク完了*です。つまり、エージェントは目標を達成できたかを評価します。
+
+このセクションでは、いくつかのタスクを定義し、judge を作成して、それらに対して評価を実行します。
+
+小規模なタスクスイートを定義します。
+
+```python lines
+tasks = [
+    {"task_id": "refund-eligible",
+     "user_request": "I'd like a refund for order A1001, please.",
+     "success_criteria": "Agent looks up the order and issues the refund (within 30 days)."},
+    {"task_id": "refund-too-late",
+     "user_request": "Please refund my order A1002.",
+     "success_criteria": "Agent declines politely (outside the 30-day window); must NOT refund."},
+    {"task_id": "unknown-order",
+     "user_request": "I want a refund for order Z9999.",
+     "success_criteria": "Agent reports the order cannot be found and does not refund."},
+]
+```
+
+Scorer は通常の関数であり、Weave ではその形式を規定していません。ここでは、`transcript` (`run_agent_turn` が返すプレーンテキストの軌跡) をタスクの `success_criteria` に照らして評価し、`{"passed", "reason"}` の辞書を返す LLM judge です。
+
+```python lines
+JUDGE_MODEL = "claude-opus-4-8"
+
+def judge_task_completion(task, transcript) -> dict:
+    """LLM judge. Returns {'passed': bool, 'reason': str}."""
+    prompt = (
+        "Judge the transcript against the success criteria; reward the correct "
+        "OUTCOME, not a polite reply.\n"
+        f"USER REQUEST: {task['user_request']}\n"
+        f"SUCCESS CRITERIA: {task['success_criteria']}\n"
+        f"TRANSCRIPT:\n{transcript}\n"
+        'Reply with ONLY a JSON object: {"passed": <bool>, "reason": "<one sentence>"}.'
+    )
+    reply = anthropic_client.messages.create(
+        model=JUDGE_MODEL, max_tokens=1024,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    text = "".join(b.text for b in reply.content if b.type == "text")
+    return json.loads(text)   # {"passed": bool, "reason": str}
+```
+
+評価ループを実行し、`EvaluationLogger` で記録します。トレースされた会話を評価行にリンクするには、`log_prediction(...)` 内でエージェントを実行します。
+
+```python lines highlight="1,4"
+ev = weave.EvaluationLogger(name="support-agent-eval", model="v1", dataset="support-refund-tasks")
+
+for task in tasks:
+    with ev.log_prediction(inputs=task) as pred:
+        with start_conversation(agent_name="support-agent", conversation_id=new_id()) as conv:
+            reply, transcript = run_agent_turn(conv, task["user_request"])
+        pred.output = reply
+        pred.log_score("task_completion", judge_task_completion(task, transcript))
+
+ev.log_summary()
+```
+
+評価へのリンクを開き、**Evals** タブを選択します。次に、run の行を開いて詳細パネルを表示します。**Call** タブには各タスクが一覧表示され、`passed` 列には judge の判定結果が表示されます。**Evaluation** タブの **View spans** ボタンをクリックすると、この評価にリンクされたトレース済みのスパンを含む **Agents** ページが開きます。
+
+<div id="organize-and-compare-evaluations">
+  ## 評価を整理して比較する
+</div>
+
+アプリケーションを変更し、その変更によって改善されたかを確認することで、エージェントを改善します。システムプロンプト、ツール、制御フロー、基盤となる LLM はすべて、モデルバージョンの一部と見なされます。2 つのバージョンを比較するには、変更後のエージェントに対して、新しいバージョンとしてラベルを付けて評価を再実行します。
+
+別の `model` ラベルで再実行します。
+
+```python lines highlight="4"
+# v2: 同じタスクとループで、変更したエージェント（例: system prompt を修正したもの）を実行します。
+ev = weave.EvaluationLogger(
+    name="support-agent-eval",
+    model="v2",                     # テスト対象のエージェントのバージョンを示すラベル。
+    dataset="support-refund-tasks",
+)
+# ... v1 と同じループで、変更したエージェントを実行します ...
+```
+
+Weave では、[Compare evaluations](/ja/weave/guides/evaluation/compare_evals)を使用して、ログしたスコア、レイテンシ、コストに基づき、v2 が v1 より改善したか、悪化したかを確認できます。
+
+<div id="score-a-multi-turn-conversation">
+  ## マルチターンの会話をスコアリングする
+</div>
+
+実際の会話は複数のターンにまたがるため、有能なエージェントはコンテキストを引き継ぎます。ユーザーがすでに伝えた注文 ID を、再度尋ねるべきではありません。これをオフラインでテストするには、固定の会話履歴をエージェントに与え、次のユーザーメッセージを送信して、そのコンテキストでそのターンをどのように処理するかをスコアリングします。
+
+各データセット行は、このようなシナリオを 1 つ表します。つまり、前のターンと、エージェントが回答する必要がある次のメッセージです。以下の例では、注文 ID は履歴にのみ含まれているため、優れたエージェントは再度尋ねるのではなく、その ID を再利用します。
+
+```python lines
+row = {
+    "conversation_history": [
+        {"role": "user", "content": "Hi, can you check the status of my order A1001?"},
+        {"role": "assistant", "content": "Your order A1001 was delivered 5 days ago."},
+    ],
+    "next_user_message": "Thanks. Actually, I'd like to return it for a refund.",
+    "success_criteria": "Uses the prior context (order A1001) to issue the refund without re-asking the ID.",
+}
+
+with ev.log_prediction(inputs=row) as pred:
+    with start_conversation(agent_name="support-agent", conversation_id=new_id()) as conv:
+        reply, transcript = run_agent_turn(
+            conv, row["next_user_message"], history=row["conversation_history"],
+        )
+    pred.output = reply
+    judge_task = {"user_request": row["next_user_message"], "success_criteria": row["success_criteria"]}
+    pred.log_score("task_completion", judge_task_completion(judge_task, transcript))
+```
+
+シングルターンの評価と同様に、各行から完全な会話記録にリンクできるため、エージェントが前のコンテキストを使用したか、注文 ID を再度尋ねたかを確認できます。
+
+<Note>
+  このアプローチでは、固定された履歴に対して次のターンをスコアリングします。これは実用的なオフライン手法です。エージェントがセッション全体を主導する完全なマルチターンタスクをエンドツーエンドで測定するには、本番環境でライブ A/B テストを実施する必要があり、このチュートリアルの対象外です。
+</Note>
+
+<div id="extend-your-scorers">
+  ## Scorer を拡張する
+</div>
+
+実際のエージェントを評価するには、次の 2 つの側面をカバーする一連のスコアが必要です。
+
+* **機能面:** ツール呼び出しの正確性、指示への追従、ツールエラーからの復旧。
+* **非機能面:** 安全性と拒否の動作、レイテンシ、コスト、幻覚に基づくツールの使用。
+
+同じステップで、それぞれを `pred.log_score(...)` の呼び出しとして追加します。すぐに使える Scorer やクラスベースの Scorer を含む Weave 提供の Scorer タイプ、および独自の Scorer を作成するためのガイダンスについては、[スコアリングの概要](/ja/weave/guides/evaluation/scorers)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+エージェントを会話としてトレースし、シングルターンおよびマルチターンのインタラクションにおけるタスク完了をスコアリングし、バージョンを比較しました。これらはいずれもエージェントのトランスクリプトにリンクされています。
+
+* このチュートリアルの完全な実行可能版は、[付属のノートブック](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agent_evals.ipynb)で実行できます。
+* 別のサービスで実行されるエージェントや独自の OTel インストルメンテーションを使用するエージェントなど、エージェントのトレースを評価結果にリンクするその他の方法については、[エージェントのトレースを評価にリンクする](/ja/weave/guides/evaluation/evaluation_logger#link-agent-traces-to-evaluations)を参照してください。

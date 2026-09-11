@@ -1,16 +1,14 @@
 ---
 title: エージェントをトレースする
 description: Weave SDK を使用してマルチターンのエージェント型アプリケーションにトレースを組み込み、Agents タブで確認します。
-keywords: ["マルチターン", "セッション", "OTel", "invoke_agent", "conversation_id"]
+keywords: ["マルチターン", "会話", "OTel", "invoke_agent", "conversation_id"]
 ---
 
-import AgentsPreview from '/snippets/ja/_includes/agents-public-preview.mdx';
+W&amp;B Weave SDK を使用してマルチターンのエージェント型アプリケーションを計装し、エージェントの動作を確認、デバッグ、評価する方法を学びます。このガイドは、エージェントを構築または統合し、会話、ターン、LLM Call、ツール実行を構造化された形で可視化したい開発者を対象としています。
 
-<AgentsPreview />
+Agents 向けの Weave SDK は、マルチターンのエージェント会話のライフサイクル全体をモデル化します。これには、多数の会話を持つエージェント、ターンをグループ化する会話、ユーザーとエージェントの各やり取り (ターン) 、ターン内の LLM Call、そして LLM によってトリガーされるツール実行が含まれます。トレースは Weave プロジェクトの **Agents** タブに表示されます。各会話には、ネストされたツール呼び出し、トークン使用量、feedback を含むマルチターンのタイムラインが表示されます。
 
-W&amp;B Weave SDK を使用してマルチターンのエージェント型アプリケーションを計装し、エージェントの動作を確認、デバッグ、評価する方法を学びます。このガイドは、エージェントを構築または統合し、セッション、ターン、LLM calls、ツール実行を構造化された形で可視化したい開発者を対象としています。
-
-Agents 向けの Weave SDK は、マルチターンのエージェント会話のライフサイクル全体をモデル化します。これには、多数のセッションを持つエージェント、ターンをグループ化するセッション、ユーザーとエージェントの各やり取り (ターン) 、ターン内の LLM calls、そして LLM によってトリガーされるツール実行が含まれます。トレースは Weave プロジェクトの **Agents** タブに表示されます。各セッションには、ネストされた tool calls、トークン使用量、feedback を含むマルチターンのタイムラインが表示されます。
+Weave は、分散トレースのオープン標準である [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) を基盤としています。各ターン、LLM Call、ツール呼び出し はそれぞれ OTel の *スパン* (1 つの操作を表す構造化レコード) を生成します。各 スパン には、`gen_ai.agent.name` や `gen_ai.conversation.id` などの [GenAI semantic-convention](https://opentelemetry.io/docs/specs/semconv/gen-ai/) 属性 がタグ付けされます。
 
 個々の関数を `@weave.op` デコレーターで Ops としてトレースしている場合は、代わりに [LLM アプリケーションをトレースする](/ja/weave/guides/tracking/tracing) を参照してください。
 
@@ -34,7 +32,7 @@ Agents 向けの Weave SDK は、マルチターンのエージェント会話�
     weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
     ```
 
-    `start_session()`、`start_turn()`、`start_llm()`、`start_tool()` を呼び出す前に、`weave.init()` を呼び出してください。トレースが無効になっている場合、または init 呼び出しがない場合、すべてのエージェント トレース関数は何もせずに終了します。そのため、インストルメンテーションは本番コードに残したまま、設定で制御できます。
+    `start_conversation()`、`start_turn()`、`start_llm()`、`start_tool()`、`start_subagent()` を呼び出す前に、`weave.init()` を呼び出してください。トレースが無効になっている場合、または init 呼び出しがない場合、すべてのエージェント トレース関数は何もせずに終了します。そのため、インストルメンテーションは本番コードに残したまま、設定で制御できます。
   </Tab>
 
   <Tab title="TypeScript">
@@ -51,7 +49,7 @@ Agents 向けの Weave SDK は、マルチターンのエージェント会話�
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
     ```
 
-    `startSession()`、`startTurn()`、`startLLM()`、`startTool()` を呼び出す前に、`weave.init()` を呼び出してください。トレースが無効になっている場合、または init 呼び出しがない場合、すべてのエージェント トレース関数は何もせずに終了します。そのため、インストルメンテーションは本番コードに残したまま、設定で制御できます。
+    `startConversation()`、`startTurn()`、`startLLM()`、`startTool()`、`startSubagent()` を呼び出す前に、`weave.init()` を呼び出してください。トレースが無効になっている場合、または init 呼び出しがない場合、すべてのエージェント トレース関数は何もせずに終了します。そのため、インストルメンテーションは本番コードに残したまま、設定で制御できます。
   </Tab>
 </Tabs>
 
@@ -59,17 +57,18 @@ Agents 向けの Weave SDK は、マルチターンのエージェント会話�
   ## エージェントのデータモデル
 </div>
 
-Weave では、エージェントの動作を 1 対多の関係からなる階層としてモデル化します。各エージェントは複数のセッションを持つことができ、各セッションは複数のターンを持つことができ、各ターンは複数の LLM Call を持つことができ、各 LLM Call は複数のツール呼び出しをトリガーできます。
+Weave では、エージェントの動作を 1 対多の関係からなる階層としてモデル化します。各エージェントは複数の会話を持つことができ、各会話は複数のターンを持つことができ、各ターンは複数の LLM Call を持つことができ、各 LLM Call は複数のツール呼び出しをトリガーできます。
 
-| 概念       | Weave SDK クラス | OTel span タイプ                                       | 説明                                          |
-| -------- | ------------- | --------------------------------------------------- | ------------------------------------------- |
-| エージェント   | *(no class)*  | *(no span, grouped by `agent_name`)*                | Agents タブ内のエージェント型アプリケーション。1 つ以上のセッションを含みます |
-| セッション    | `Session`     | *(no span, turns are grouped by `conversation_id`)* | 1 つ以上のターンを含む会話または run                       |
-| ターン      | `Turn`        | `invoke_agent`                                      | 1 つのユーザーメッセージと、それに対するエージェントの完全な応答           |
-| LLM Call | `LLM`         | `chat`                                              | 言語モデル API への 1 回の Call                      |
-| ツール呼び出し  | `Tool`        | `execute_tool`                                      | LLM の応答によってトリガーされる 1 回のツール呼び出し              |
+| 概念           | Weave SDK クラス  | OTel スパン タイプ                                              | 説明                                                  | 参照ページ                                                                                                                                       |
+| ------------ | -------------- | --------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| エージェント       | *(no class)*   | *(no スパン, grouped by the `agent_name` 属性)*                | Agents タブ内のエージェント型アプリケーション。1 つ以上の会話を含みます            |                                                                                                                                             |
+| 会話           | `Conversation` | *(no スパン, turns are grouped by the `conversation_id` 属性)* | 1 つ以上のターンを含む会話または run                               | [Python](/ja/weave/reference/python-sdk#class-conversation) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/interfaces/conversation) |
+| ターン          | `Turn`         | `invoke_agent`                                            | 1 つのユーザーメッセージと、それに対するエージェントの完全な応答                   | [Python](/ja/weave/reference/python-sdk#class-turn) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/interfaces/turn)                 |
+| LLM Call     | `LLM`          | `chat`                                                    | 言語モデル API への 1 回の Call                              | [Python](/ja/weave/reference/python-sdk#class-llm) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/interfaces/llm)                   |
+| ツール呼び出し      | `Tool`         | `execute_tool`                                            | LLM の応答によってトリガーされる 1 回のツール呼び出し                      | [Python](/ja/weave/reference/python-sdk#class-tool) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/interfaces/tool)                 |
+| サブエージェント呼び出し | `SubAgent`     | `invoke_agent`                                            | ネストされたエージェント呼び出し。通常は、あるエージェントが別のエージェントに委譲する場合に発生します | [Python](/ja/weave/reference/python-sdk#class-subagent) <br /> [TypeScript](/ja/weave/reference/typescript-sdk/interfaces/subagent)         |
 
-次の図は、1 つのエージェントに複数のセッションが含まれ、1 つのセッションに複数のターンが含まれ、その後も同様に続くことを示しています。
+次の図は、1 つのエージェントに複数の会話が含まれ、1 つの会話に複数のターンが含まれ、その後も同様に続くことを示しています。
 
 ```mermaid
 flowchart TB
@@ -77,8 +76,8 @@ flowchart TB
 
     Agent --> S1 & S2
 
-    S1["セッション 1<br/>conversation_id<br/>(OTelスパンなし)"]
-    S2["セッション 2<br/>conversation_id<br/>(OTelスパンなし)"]
+    S1["会話 1<br/>conversation_id<br/>(OTel スパンなし)"]
+    S2["会話 2<br/>conversation_id<br/>(OTel スパンなし)"]
 
     S1 --> T1 & T2
     S2 --> T3
@@ -88,56 +87,56 @@ flowchart TB
     T3["ターン 1<br/>invoke_agent<br/>(ルートスパン、独自のトレース)"]
 
     T1 --> L1 & L2
-    L1["LLM呼び出し<br/>chat"]
-    L2["LLM呼び出し<br/>chat"]
+    L1["LLM Call<br/>chat"]
+    L2["LLM Call<br/>chat"]
 
     L1 --> Tool1["ツール呼び出し<br/>execute_tool"]
 
     classDef agent fill:#DE72FF33,stroke:#454B52,stroke-width:2px
-    classDef session fill:#FFD95C33,stroke:#454B52,stroke-width:2px
+    classDef conversation fill:#FFD95C33,stroke:#454B52,stroke-width:2px
     classDef turn fill:#00CDDB33,stroke:#454B52,stroke-width:2px
     classDef llm fill:#FFCBAD33,stroke:#454B52,stroke-width:2px
     classDef tool fill:#f4f4f5,stroke:#454B52,stroke-width:2px
 
     class Agent agent
-    class S1,S2 session
+    class S1,S2 conversation
     class T1,T2,T3 turn
     class L1,L2 llm
     class Tool1 tool
 ```
 
-セッションは、親 span ではなく、共有された `conversation_id` 属性によって ターン をグループ化します。そのため、各 ターン はそれぞれ独立した OTel トレースを開始します。この設計は、分散トレースと並列実行をサポートします。クライアントは、サーバー側での集約を行わずに、span を OTel collector に直接送信します。
+会話は、親 スパン ではなく、共有された `conversation_id` 属性によって ターン をグループ化します。そのため、各 ターン はそれぞれ独立した OTel トレースを開始します。この設計は、分散トレースと並列実行をサポートします。クライアントは、サーバー側での集約を行わずに、スパン を OTel collector に直接送信します。
 
 <Tip>
-  Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合するには、[Trace agent integrations](/ja/weave/guides/tracking/trace-agent-integrations) を参照してください。Weave は、エージェント構築 SDK やエージェントハーネスのいくつかに自動でパッチを適用するため、すばやく統合できます。
+  Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合するには、[エージェント インテグレーションを選択](/ja/weave/agent-integration-quickstart) を参照してください。Weave は、エージェント構築 SDK やエージェントハーネスのいくつかに自動でパッチを適用するため、すばやく統合できます。
 </Tip>
 
 <div id="agent-tracing-apis">
   ## エージェントのトレース API
 </div>
 
-以下のセクションでは、各トップレベルのトレース関数と、その関数が受け入れる引数について説明します。これらを使用して、前のセクションで説明したデータモデルの セッション、turn、LLM Call、および ツール呼び出し の各レイヤーを計測します。
+以下のセクションでは、各トップレベルのトレース関数と、その関数が受け入れる引数について説明します。これらを使用して、前のセクションで説明したデータモデルの 会話、turn、LLM Call、および ツール呼び出し の各レイヤーを計測します。
 
 Weave では、次のトップレベル関数を提供しています。各関数は、コンテキストマネージャーとして動作するオブジェクト (Python では `with`、TypeScript では `try/finally` を使用) を返すか、`.end()` を呼び出して手動で終了できます。
 
-<div id="start-a-session">
-  ### セッションを開始する
+<div id="start-a-conversation">
+  ### 会話を開始する
 </div>
 
-`start_session()` / `startSession()` は、すべての子 span に `conversation_id` 属性を設定し、Agents タブでターンがグループ化されるようにします。`session_id` を渡す場合は、会話全体を通じて変わらない安定した値である必要があります。同じ ID を再利用すると、既存のセッションに新しいターンを追加できます。`session_id` を省略すると、SDK が自動的に UUID を生成します。
+`start_conversation()` (Python) または `startConversation()` (TypeScript) は、すべての子スパンに `conversation_id` 属性を付与し、ターンが Agents タブでグループ化されるようにします。`conversation_id` / `conversationId` を渡す場合は、会話のライフタイム全体で不変である必要があります。同じ ID を再利用すると、既存の会話に新しいターンを追加できます。省略した場合は、SDK が UUID を自動的に生成します。
 
-アクティブなセッションはコンテキスト (Python の `ContextVar` または Node.js の `AsyncLocalStorage`) に保存されるため、同じ非同期コンテキスト内で実行されるコードであれば、セッションオブジェクトを明示的に渡さなくても `weave.get_current_session()` / `weave.getCurrentSession()` で取得できます。
+アクティブな会話はコンテキスト (Python の `ContextVar` または Node.js の `AsyncLocalStorage`) に格納されるため、同じ非同期コンテキストで実行されるコードであれば、会話オブジェクトを明示的に渡さなくても `weave.get_current_conversation()` / `weave.getCurrentConversation()` で取得できます。
 
 <Tabs>
   <Tab title="Python">
     ```python lines
-    session = weave.start_session(
-        agent_name="my-agent",    # 必須: UI でエージェントを識別します。
-        session_id="",            # 任意: ターンをグループ化するための安定した ID。空の場合は自動生成されます。
-        model="",                 # 任意: このセッション内のターンに使用するデフォルトのモデル。
-        session_name="",          # 任意: UI に表示される、わかりやすいラベル。
-        include_content=True,     # 任意: span からメッセージ本文を除外するには False に設定します。
-        continue_parent_trace=False,  # 任意: 新しい OTel trace を開始せず、既存の trace に関連付けます。
+    conversation = weave.start_conversation(
+        agent_name="my-agent",    # オプション: UI でエージェントを識別します。省略すると、会話は名前付きエージェントの下にグループ化されません。
+        conversation_id="",       # オプション: ターンをグループ化するための安定した ID。空の場合は自動生成されます。
+        model="",                 # オプション: この会話内のターンに使用するデフォルトのモデル。
+        conversation_name="",     # オプション: UI に表示される、人が読みやすいラベル。
+        include_content=True,     # オプション: False に設定すると、スパンからメッセージ本文を除外します。
+        continue_parent_trace=False,  # オプション: 新しいトレースを開始せず、既存の OTel トレースに接続します。
     )
     ```
   </Tab>
@@ -145,10 +144,10 @@ Weave では、次のトップレベル関数を提供しています。各関�
   <Tab title="TypeScript">
     ```typescript lines twoslash
     // @noErrors
-    const session = weave.startSession({
-      agentName: 'my-agent',  // 任意: UI でエージェントを識別します。
-      sessionId: '',          // 任意: ターンをグループ化するための安定した ID。空の場合は自動生成されます。
-      model: '',              // 任意: このセッション内のターンに使用するデフォルトのモデル。
+    const conversation = weave.startConversation({
+      agentName: 'my-agent',  // オプション: UI でエージェントを識別します。省略すると、会話は名前付きエージェントの下にグループ化されません。
+      conversationId: '',     // オプション: ターンをグループ化するための安定した ID。空の場合は自動生成されます。
+      model: '',              // オプション: この会話内のターンに使用するデフォルトのモデル。
     });
     ```
   </Tab>
@@ -158,16 +157,19 @@ Weave では、次のトップレベル関数を提供しています。各関�
   ### ターンを開始する
 </div>
 
-`start_turn()` / `startTurn()` は、新しい OTel トレースのルートとなる `invoke_agent` span を新しく作成します。Weave は、この span を使用して、タイムラインビュー内で 1 回の完全なユーザーとエージェントのやり取りを表現します。
+`start_turn()` (Python) と `startTurn()` (TypeScript) は、新しい OTel トレースのルートとなる `invoke_agent` スパン を新しく作成します。Weave は、この スパン を使用して、タイムラインビュー内で 1 回の完全なユーザーとエージェントのやり取りを表現します。
 
-トップレベル関数として呼び出すと、コンテキストからアクティブなセッションを取得し、その会話 ID を継承します。アクティブなセッションがない場合、Weave は `conversation_id` なしでターンを作成し、ほかのターンとグループ化しません。
+呼び出し方法は 2 とおりあります。
+
+* **トップレベル関数として** (`weave.start_turn(...)` / `weave.startTurn(...)`)。以下の例で示す形式です。コンテキストからアクティブな会話を取得し、その会話 ID を継承します。アクティブな会話がない場合、ターンは `conversation_id` なしで作成され、ほかのターンとグループ化されません。
+* **参照を保持している会話のインスタンスメソッドとして** (`conversation.start_turn(...)` / `conversation.startTurn(...)`)。コンテキストマネージャーブロック内など、スコープ内に明示的な会話オブジェクトがある場合に便利です。以下の「コンテキストマネージャーまたは try-finally パターン」の例では、この形式を使用しています。両方の SDK の `Conversation`、`Turn`、`LLM`、`Tool`、`SubAgent` のリファレンスページへの直接リンクについては、上記のデータモデル表を参照してください。
 
 <Tabs>
   <Tab title="Python">
     ```python lines
     turn = weave.start_turn(
         user_message="What is the weather in Tokyo?",  # ユーザーの入力テキスト。
-        agent_name="my-agent",   # 省略可能: セッション レベルのエージェント名を上書きします。
+        agent_name="my-agent",   # 省略可能: 会話レベルのエージェント名を上書きします。
         model="gpt-4o",          # 省略可能: このターンで使用されるモデル。
     )
     ```
@@ -177,7 +179,7 @@ Weave では、次のトップレベル関数を提供しています。各関�
     ```typescript lines twoslash
     // @noErrors
     const turn = weave.startTurn({
-      agentName: 'my-agent',  // 省略可能: セッション レベルのエージェント名を上書きします。
+      agentName: 'my-agent',  // 省略可能: 会話レベルのエージェント名を上書きします。
       model: 'gpt-4o',        // 省略可能: このターンで使用されるモデル。
     });
     ```
@@ -195,7 +197,7 @@ Weave では、次のトップレベル関数を提供しています。各関�
     ```python lines
     llm = weave.start_llm(
         model="gpt-4o",             # モデル識別子。
-        provider_name="openai",     # 必須: provider 名。例: "openai"、"anthropic"。
+        provider_name="openai",     # 任意: provider 名。例: "openai"、"anthropic"。下記のメモを参照してください。
         system_instructions=["Be concise."],  # 任意: system prompt の文字列。
     )
     ```
@@ -206,7 +208,7 @@ Weave では、次のトップレベル関数を提供しています。各関�
     // @noErrors
     const llm = weave.startLLM({
       model: 'gpt-4o',          // モデル識別子。
-      providerName: 'openai',   // 任意: provider 名。例: "openai"、"anthropic"。
+      providerName: 'openai',   // 任意: provider 名。例: "openai"、"anthropic"。下記のメモを参照してください。
     });
     ```
   </Tab>
@@ -234,16 +236,20 @@ LLM Call が完了したら、閉じる前にレスポンスデータを `llm` �
     const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
     try {
       const response = await openaiClient.chat.completions.create({ ... });
-      llm.inputMessages = [{ role: 'user', content: '...' }];
-      llm.outputMessages = [{ role: 'assistant', content: response.choices[0].message.content ?? '' }];
-      llm.usage = {
-        inputTokens: response.usage?.prompt_tokens,
-        outputTokens: response.usage?.completion_tokens,
-      };
+      llm.record({
+        inputMessages: [{ role: 'user', content: '...' }],
+        outputMessages: [{ role: 'assistant', content: response.choices[0].message.content ?? '' }],
+        usage: {
+          inputTokens: response.usage?.prompt_tokens,
+          outputTokens: response.usage?.completion_tokens,
+        },
+      });
     } finally {
       llm.end();
     }
     ```
+
+    `llm.record()` は、`inputMessages`、`outputMessages`、`usage`、`reasoning` を 1 回の呼び出しで割り当てるためのショートカットです。必要に応じて、各プロパティを個別に設定することもできます。Python SDK では、同じメソッドが `llm.record(...)` として snake&#95;case のキーワード引数付きで提供されています。
   </Tab>
 </Tabs>
 
@@ -310,24 +316,24 @@ LLM Call が完了したら、閉じる前にレスポンスデータを `llm` �
 
 以下の例では、Weave SDK の 2 つのタイプを使用します。
 
-* `Message` は、会話内の 1 つのエントリ (ユーザー入力、アシスタントの応答、system prompt、または tool の結果) を表します。モデルが受け取った内容と生成した内容を記録するには、`llm.input_messages` / `llm.inputMessages` に割り当てます。
-* `Usage` は、LLM の応答から token 数を取得し、`llm.usage` に割り当てられます。
+* `Message` ([Python](/ja/weave/reference/python-sdk#class-message) · [TypeScript](/ja/weave/reference/typescript-sdk/interfaces/message)) は、会話内の 1 つのエントリ (ユーザー入力、アシスタントの応答、system prompt、または tool の結果) を表します。モデルが受け取った内容を記録するには、メッセージのリストを `llm.input_messages` / `llm.inputMessages` に割り当て、生成した内容を記録するには `llm.output_messages` / `llm.outputMessages` に割り当てます。
+* `Usage` ([Python](/ja/weave/reference/python-sdk#class-usage) · [TypeScript](/ja/weave/reference/typescript-sdk/interfaces/usage)) は、LLM の応答から token 数を取得し、`llm.usage` に割り当てられます。
 
-Weave はこの両方を使用して、各 LLM Call の入力、出力、token 使用量を Agents ビュー に表示します。サポートされるすべてのデータ タイプについては、API リファレンスを参照してください。
+Weave はこの両方を使用して、各 LLM Call の入力、出力、token 使用量を Agents ビュー に表示します。
 
 <div id="context-manager-or-try-finally-pattern">
   ### コンテキストマネージャーまたは try-finally パターン
 </div>
 
-ほとんどのエージェントでは、Python ではコンテキストマネージャーパターン、TypeScript では try-finally パターンを使用します。span は、例外が発生した場合でも、ブロックの最後でクローズされて送信されます。
+ほとんどのエージェントでは、Python ではコンテキストマネージャーパターン、TypeScript では try-finally パターンを使用します。スパン は、例外が発生した場合でも、ブロックの最後でクローズされて送信されます。
 
-Weave はアクティブな セッション、ターン、LLM Call をコンテキストに保持するため、ブロック内で呼び出される任意の関数は、親への明示的な参照を持たなくても `start_llm()` / `startLLM()` または `start_tool()` / `startTool()` を呼び出せます。これは、コードが同じ async コンテキスト内で実行されている限り、モジュール境界をまたいでも機能します。コールスタック内のどこからでも現在アクティブなオブジェクトを取得するには、`weave.get_current_session()` / `weave.getCurrentSession()`、`weave.get_current_turn()` / `weave.getCurrentTurn()`、および `weave.get_current_llm()` / `weave.getCurrentLLM()` を使用します。
+Weave はアクティブな 会話、ターン、LLM Call をコンテキストに保持するため、ブロック内で呼び出される任意の関数は、親への明示的な参照を持たなくても `start_llm()` / `startLLM()` または `start_tool()` / `startTool()` を呼び出せます。これは、コードが同じ async コンテキスト内で実行されている限り、モジュール境界をまたいでも機能します。コールスタック内のどこからでも現在アクティブなオブジェクトを取得するには、`weave.get_current_conversation()` / `weave.getCurrentConversation()`、`weave.get_current_turn()` / `weave.getCurrentTurn()`、および `weave.get_current_llm()` / `weave.getCurrentLLM()` を使用します。
 
 <Tabs>
   <Tab title="Python">
     ```python lines highlight="13,14,17,25,29"
     import weave
-    from weave.session.session import Message, Usage
+    from weave.conversation import Message, Usage
 
     # プレースホルダー関数: 実際の実装に置き換えてください。
     def call_openai(*args, **kwargs):
@@ -338,8 +344,8 @@ Weave はアクティブな セッション、ターン、LLM Call をコンテ�
 
     weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
-    with weave.start_session(agent_name="weather-bot") as session:
-        with session.start_turn(user_message="What is the weather in Tokyo?") as turn:
+    with weave.start_conversation(agent_name="weather-bot") as conversation:
+        with conversation.start_turn(user_message="What is the weather in Tokyo?") as turn:
 
             # 1 回目の LLM Call: ツール呼び出しを返します。
             with weave.start_llm(model="gpt-4o", provider_name="openai") as llm:
@@ -374,9 +380,9 @@ Weave はアクティブな セッション、ターン、LLM Call をコンテ�
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
-    const session = weave.startSession({ agentName: 'weather-bot' });
+    const conversation = weave.startConversation({ agentName: 'weather-bot' });
     try {
-      const turn = session.startTurn({ agentName: 'weather-bot' });
+      const turn = conversation.startTurn({ agentName: 'weather-bot' });
       try {
         // 1 回目の LLM Call: ツール呼び出しを返します。
         const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
@@ -410,7 +416,7 @@ Weave はアクティブな セッション、ターン、LLM Call をコンテ�
         turn.end();
       }
     } finally {
-      session.end();
+      conversation.end();
     }
     ```
   </Tab>
@@ -420,13 +426,13 @@ Weave はアクティブな セッション、ターン、LLM Call をコンテ�
   ### 手動で開始・終了するパターン
 </div>
 
-`with` ブロックや `try/finally` を使用できない場合は、`.end()` を明示的に使用します。たとえば、span の開始と終了が別々の関数呼び出しにまたがる場合や、コルーチンの外で非同期ライフサイクルを管理する場合です。作成したすべてのオブジェクトに対して `.end()` を呼び出し、span が終了して collector に flush されるようにする責任はユーザーにあります。
+`with` ブロックや `try/finally` を使用できない場合は、`.end()` を明示的に使用します。たとえば、スパン の開始と終了が別々の関数呼び出しにまたがる場合や、コルーチンの外で非同期ライフサイクルを管理する場合です。作成したすべてのオブジェクトに対して `.end()` を呼び出し、スパン が終了して collector に flush されるようにする責任はユーザーにあります。
 
 <Tabs>
   <Tab title="Python">
     ```python lines highlight="1,2,4,9,15"
-    session = weave.start_session(agent_name="weather-bot")
-    turn = session.start_turn(user_message="What is the weather?")
+    conversation = weave.start_conversation(agent_name="weather-bot")
+    turn = conversation.start_turn(user_message="What is the weather?")
 
     llm = weave.start_llm(model="gpt-4o", provider_name="openai")
     llm.input_messages = [Message(role="user", content="What is the weather?")]
@@ -445,15 +451,15 @@ Weave はアクティブな セッション、ターン、LLM Call をコンテ�
     llm2.end()
 
     turn.end()
-    session.end()
+    conversation.end()
     ```
   </Tab>
 
   <Tab title="TypeScript">
     ```typescript lines highlight="1,2,4,9,15" twoslash
     // @noErrors
-    const session = weave.startSession({ agentName: 'weather-bot' });
-    const turn = session.startTurn({ agentName: 'weather-bot' });
+    const conversation = weave.startConversation({ agentName: 'weather-bot' });
+    const turn = conversation.startTurn({ agentName: 'weather-bot' });
 
     const llm = weave.startLLM({ model: 'gpt-4o', providerName: 'openai' });
     llm.inputMessages = [{ role: 'user', content: 'What is the weather?' }];
@@ -472,7 +478,7 @@ Weave はアクティブな セッション、ターン、LLM Call をコンテ�
     llm2.end();
 
     turn.end();
-    session.end();
+    conversation.end();
     ```
   </Tab>
 </Tabs>
@@ -483,15 +489,13 @@ Weave はアクティブな セッション、ターン、LLM Call をコンテ�
 
 Weave SDK は、[GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) および [GenAI agent span conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) に準拠する OTel span を出力します。Weave はあらゆる OTel span を受け付け、すべての属性を保存し、クエリできるようにします。標準の OTel span API を Weave のトレース オブジェクトと併用して、span に任意の属性を追加できます。
 
-<div id="how-spans-appear-in-the-weave-ui">
-  ## Weave UI で span がどのように表示されるか
+<div id="how-data-appears-in-the-weave-ui">
+  ## Weave UI でデータがどのように表示されるか
 </div>
 
-先述のパターンでエージェントをインストルメントして実行すると、トレースは Weave プロジェクトの **Agents** タブ (`https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`) に表示されます。
+前述のパターンを使ってエージェントをインストルメントし、実行すると、トレースは Weave プロジェクトの **Agents** タブ (`https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`) に表示されます。
 
-* **Sessions list** には、ターンのアクティビティを示すミニマップとともに、すべてのセッションが表示されます。
-* **multi-turn session view** は、セッションをクリックすると開き、各ターン、LLM calls、ツール実行、token 数、関連付けられたフィードバックを表示します。
-* 各 `chat` span には、入力メッセージ、出力メッセージ、モデル名、使用量が表示されます。
-* 各 `execute_tool` span には、tool 名、引数、結果が表示されます。
+* **Conversations** タブには、すべての会話と、ターンのアクティビティを示すミニマップが表示されます。
+* **Conversation detail view** は会話をクリックすると開き、すべてのターン、LLM Call、ツール実行、トークン数、関連付けられたフィードバックが表示されます。
 
-Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity)をご覧ください。
+Weave で Agents データを表示する方法の詳細については、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity) を参照してください。

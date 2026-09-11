@@ -1,0 +1,53 @@
+---
+title: "W&B で大量の API 結果をページ単位で取得するにはどうすればよいですか?"
+keywords: ["Runs", "Experiments", "API", "Artifacts"]
+---
+
+[標準的な遅延イテレーターパターンと `per_page` パラメーター](/ja/models/track/public-api-guide)を使用して、API の結果をページ単位で取得できます。さらに、次のチェックポイントと一括ダウンロードのヒントを使用すると、結果をより効率的に取得できます。
+
+<div id="checkpoint-processed-run-ids">
+  ## 処理済みの run ID をチェックポイントに記録する
+</div>
+
+非常に大規模な project では、すでに処理した ID を記録しておき、再開時にはそれらをスキップします:
+
+```python
+import json
+import pathlib
+import wandb
+
+checkpoint_file = pathlib.Path("processed_ids.json")
+processed = set(json.loads(checkpoint_file.read_text())) if checkpoint_file.exists() else set()
+
+api = wandb.Api()
+for run in api.runs("my-entity/my-project"):
+    if run.id in processed:
+        continue
+    process(run)
+    processed.add(run.id)
+    checkpoint_file.write_text(json.dumps(list(processed)))
+```
+
+ランダムアクセスが必要な場合を除き、大規模な project で `list(api.runs(...))` は使用しないでください。すべてのページがメモリに読み込まれてしまいます。
+
+<div id="rate-limits-on-bulk-downloads">
+  ## 一括ダウンロード時のレート制限
+</div>
+
+各 run で追加の API 呼び出しが発生する場合 (たとえば `run.file("output.log").download()`) 、`429` エラーを避けるため、短い待機時間を入れてください。
+
+```python
+import time
+
+for run in api.runs("my-entity/my-project"):
+    run.file("output.log").download()
+    time.sleep(0.1)
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/ja/support/models/tags/api)</Badge><Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

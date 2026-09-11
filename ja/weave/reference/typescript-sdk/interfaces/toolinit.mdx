@@ -1,35 +1,29 @@
 ---
-title: "インターフェース: ToolInit"
+title: "ToolInit"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / ToolInit
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<div id="table-of-contents">
-  ## 目次
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L18" />
+
+<div id="extends">
+  ## 拡張元
 </div>
+
+* `SpanInitBase`
 
 <div id="properties">
-  ### プロパティ
+  ## プロパティ
 </div>
-
-* [引数](./toolinit#args)
-* [名](./toolinit#name)
-* [toolCallId](./toolinit#toolcallid)
-
-## プロパティ
 
 <div id="args">
-  ### 引数
+  ### args
 </div>
 
-• `Optional` **引数**: `string`
+> `optional` **args**: `string` | [`JsonObject`](../type-aliases/jsonobject)
 
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[genai/tool.ts:17](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L17)
+JSON オブジェクト、またはそのまま記録される事前シリアライズ済みの文字列です。
 
 ***
 
@@ -37,13 +31,21 @@ description: "TypeScript SDK リファレンス"
   ### 名
 </div>
 
-• **name**: `string`
+> **名**: `string`
 
-<div id="defined-in">
-  #### 定義場所
+***
+
+<div id="starttime">
+  ### startTime
 </div>
 
-[genai/tool.ts:16](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L16)
+> `optional` **startTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanInitBase.startTime`
 
 ***
 
@@ -51,10 +53,4 @@ description: "TypeScript SDK リファレンス"
   ### toolCallId
 </div>
 
-• `任意` **toolCallId**: `string`
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[genai/tool.ts:18](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L18)
+> `optional` **toolCallId**: `string`

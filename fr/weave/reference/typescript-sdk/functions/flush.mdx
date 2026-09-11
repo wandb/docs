@@ -1,0 +1,20 @@
+---
+title: "flush"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+flush(): Promise<void>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L163" />
+
+Envoie au serveur tous les appels mis en mémoire tampon. À attendre avant `process.exit()`.
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;

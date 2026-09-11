@@ -1,35 +1,58 @@
 ---
-title: "Interface: SubAgentInit"
+title: "SubAgentInit"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../) / SubAgentInit
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L29" />
 
+## Extends
 
-## Table of contents
-
-### Properties
-
-- [model](./subagentinit#model)
-- [name](./subagentinit#name)
+- `SpanInitBase`
 
 ## Properties
 
+### agentDescription
+
+> `optional` **agentDescription**: `string`
+
+***
+
+### agentId
+
+> `optional` **agentId**: `string`
+
+***
+
+### agentVersion
+
+> `optional` **agentVersion**: `string`
+
+***
+
 ### model
 
-• `Optional` **model**: `string`
+> `optional` **model**: `string`
 
-#### Defined in
-
-[genai/subagent.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L15)
-
-___
+***
 
 ### name
 
-• **name**: `string`
+> **name**: `string`
 
-#### Defined in
+***
 
-[genai/subagent.ts:14](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L14)
+### startTime
+
+> `optional` **startTime**: `TimeInput`
+
+#### Inherited from
+
+`SpanInitBase.startTime`
+
+***
+
+### systemInstructions
+
+> `optional` **systemInstructions**: `string`[]

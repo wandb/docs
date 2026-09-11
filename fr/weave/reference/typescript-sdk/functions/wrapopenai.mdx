@@ -3,49 +3,43 @@ title: "wrapOpenAI"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="wrapopenai">
-  # wrapOpenAI
-</div>
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-▸ **wrapOpenAI**&lt;`T`&gt;(`openai`): `T`
+```ts
+wrapOpenAI<T>(openai: T): T
+```
 
-Encapsule l’API OpenAI pour activer le tracing des fonctions lors des appels à OpenAI.
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.ts#L760" />
+
+Encapsule l&#39;API OpenAI afin d&#39;activer le traçage des fonctions pour les appels OpenAI.
 
 <div id="type-parameters">
-  #### Paramètres de type
+  ## Paramètres de type
 </div>
 
-| Nom | Type                |
-| :-- | :------------------ |
-| `T` | extends `OpenAIAPI` |
+<ParamField path="T" type="extends object" />
 
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom      | Type |
-| :------- | :--- |
-| `openai` | `T`  |
+<ParamField path="openai" type="T" required />
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
 `T`
 
-`Example`
+<div id="example">
+  ## Exemple
+</div>
 
-```ts
+```ts twoslash
+// @noErrors
 const openai = wrapOpenAI(new OpenAI());
 const result = await openai.chat.completions.create({
   model: 'gpt-3.5-turbo',
   messages: [{ role: 'user', content: 'Hello, world!' }]
 });
 ```
-
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[integrations/openai.ts:703](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/openai.ts#L703)

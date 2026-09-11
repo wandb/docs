@@ -22,7 +22,7 @@ The W&B Kubernetes Operator is the recommended way to deploy W&B Server on Kuber
 Before deploying W&B with the Kubernetes Operator, ensure your infrastructure meets all requirements:
 
 1. **Review infrastructure requirements**: See the [Self-Managed infrastructure requirements](/platform/hosting/self-managed/requirements/) page for details on:
-  - Software version requirements (Kubernetes, MySQL, Redis, Helm)
+  - Software version requirements (Kubernetes, MySQL, Redis, Helm, ClickHouse)
   - Hardware requirements (CPU architecture, sizing recommendations)
   - Kubernetes cluster configuration
   - Networking, SSL/TLS, and DNS requirements
@@ -332,7 +332,7 @@ Kubernetes is the same whether it runs on-premises or in the cloud. The main dif
 
 ### On-premises and bare metal
 
-When deploying on on-premises or bare-metal Kubernetes, pay attention to the following.
+When deploying to on-premises or bare-metal Kubernetes, pay attention to the following.
 
 #### Load balancer configuration
 
@@ -1233,6 +1233,25 @@ Plan a maintenance window and notify users before you begin. Contact [Customer S
 6. When MySQL is up, run `wandb verify` to validate your W&B deployment. The command runs a series of checks and reports results to `STDOUT`. If it reports problems, make adjustments and run it again. For setup and login steps, see [Verify the installation](#verify-the-installation).
 7. After validation completes, users can resume normal operations.
 
+## ClickHouse compatibility for upgrades
+
+Self-Managed deployments that use an external ClickHouse cluster must verify ClickHouse compatibility before upgrading W&B Server.
+
+### Supported ClickHouse versions
+
+W&B Weave requires a supported version of both ClickHouse Server and ClickHouse Keeper.
+
+- Weave supports ClickHouse 25.8 through 25.12, and 26.3 or newer.
+- Weave does not work with ClickHouse 26.1 or 26.2.
+
+**_Before_ you upgrade W&B Self-Managed**, verify that both ClickHouse Server and ClickHouse Keeper run a version that Weave supports. If you must change ClickHouse versions, upgrade both components together.
+
+If your W&B Self-Managed deployment does not use Weave, ClickHouse is not required and this requirement does not apply to your upgrade.
+
+Dedicated Cloud and Multi-tenant Cloud deployments already run a compatible ClickHouse version and are not affected.
+
+For version-specific release notes, see [Supported W&B Server releases](/release-notes/server-releases).
+
 ## Migrate self-managed instances to W&B Operator
 
 The following section describes how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. Migrating lets the operator handle reconciliation and W&B Server upgrades automatically, so you no longer have to coordinate manifest changes or Helm upgrades for the application. The migration process depends on how you installed W&B Server:
@@ -1811,7 +1830,7 @@ Refer to the following table for more detail:
 | --- | --- | --- |
 | `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM` | `5` | Default filestream requests. |
 | `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_COUNT` | `5` | Filestream requests per second. |
-| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per per run per second. |
+| `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_PER_RUN_COUNT` | `0.8` | Filestream requests per run per second. |
 | `GORILLA_DEFAULT_RATE_LIMITS_FILESTREAM_SIZE` | `10` | Filestream ingestion limit in MB per second. |
 | `GORILLA_DEFAULT_RATE_LIMITS_RUN_UPDATE_COUNT` | `10` | Run metadata update requests per second. |
 

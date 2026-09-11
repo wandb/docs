@@ -1,106 +1,159 @@
 ---
 title: BetaReport
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.reports
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
-
-## <kbd>class</kbd> `BetaReport`
+<div id="class-wandbapispublicbetareport">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.BetaReport
+</div>
 
 BetaReport は、W&amp;B で作成された Reports に関連付けられたクラスです。
 
-レポートの属性 (name、description、user、spec、timestamps) にアクセスし、関連する run やセクションを取得したり、レポートを HTML として表示したりするための method を提供します。
-
-**属性:**
-
-* `id` (string):  レポートの一意の識別子。
-* `display_name` (string):  人が読める形式のレポートの表示名。
-* `name` (string):  レポートの名。よりわかりやすい名前には `display_name` を使用します。
-* `description` (string):  レポートの説明。
-* `user` (User):  レポートを作成したユーザーの情報 (ユーザー名、メールアドレス) を含む辞書。
-* `spec` (dict):  レポートの spec。
-* `url` (string):  レポートの URL。
-* `updated_at` (string):  最終更新の Timestamp。
-* `created_at` (string):  レポートが作成された Timestamp。 
-
-### <kbd>method</kbd> `BetaReport.__init__`
+レポートの属性 (name、description、user、spec、timestamps) にアクセスし、関連する run やセクションを取得したり、レポートを HTML として表示したりするための メソッド を提供します。
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    attrs: 'dict',
-    entity: 'str | None' = None,
-    project: 'str | None' = None
-)
+(service_api: 'ServiceApi',
+attrs: 'dict',
+entity: 'str | None' = None,
+project: 'str | None' = None)
 ```
 
-***
+<div id="args">
+  ## 引数
+</div>
 
-### <kbd>プロパティ</kbd> BetaReport.created_at
+<ResponseField name="service_api" type="ServiceApi">
+  説明はありません。
+</ResponseField>
 
-***
+<ResponseField name="attrs" type="dict">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> BetaReport.description
+<ResponseField name="entity" type="str | None">
+  説明はありません。
+</ResponseField>
 
-***
+<ResponseField name="project" type="str | None">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> BetaReport.display_name
+<div id="attributes">
+  ## 属性
+</div>
 
-***
+* `id` (`string`): report の一意の ID。
+* `display_name` (`string`): report の人が読める表示名。
+* `name` (`string`): report の名前です。よりユーザーフレンドリーな名前には `display_name` を使用します。
+* `description` (`string`): report の説明。
+* `user` (`User`): report を作成したユーザーの情報 (ユーザー名、メールアドレス) を含む辞書。
+* `spec` (`dict`): report の仕様。
+* `url` (`string`): report の URL。
+* `updated_at` (`string`): 最終更新のタイムスタンプ。
+* `created_at` (`string`): report が作成された日時のタイムスタンプ。
 
-### <kbd>プロパティ</kbd> BetaReport.id
+<div id="properties">
+  ## プロパティ
+</div>
 
-***
+<ResponseField name="created_at" type="">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> BetaReport.name
+<ResponseField name="description" type="str | None">
+  説明はありません。
+</ResponseField>
 
-***
+<ResponseField name="display_name" type="str | None">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> BetaReport.sections
+<ResponseField name="id" type="str">
+  説明はありません。
+</ResponseField>
 
-レポートからパネルのセクション (グループ) を取得します。
+<ResponseField name="name" type="str | None">
+  説明はありません。
+</ResponseField>
 
-***
+<ResponseField name="sections" type="">
+  report からパネルのセクション (グループ) を取得します。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> BetaReport.spec
+<ResponseField name="spec" type="dict[str, Any]">
+  説明はありません。
+</ResponseField>
 
-***
+<ResponseField name="updated_at" type="">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> BetaReport.updated_at
+<ResponseField name="url" type="str | None">
+  説明はありません。
+</ResponseField>
 
-***
+<ResponseField name="user" type="">
+  説明はありません。
+</ResponseField>
 
-### <kbd>プロパティ</kbd> BetaReport.url
+<div id="methods">
+  ## メソッド
+</div>
 
-***
-
-### <kbd>プロパティ</kbd> BetaReport.user
-
-***
-
-### <kbd>method</kbd> `BetaReport.runs`
+<div id="method-betareportruns">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.runs()
+</div>
 
 ```python
-runs(
-    section: 'dict[str, Any]',
-    per_page: 'int' = 50,
-    only_selected: 'bool' = True
-) → public.Runs
+self,
+section: 'dict[str, Any]',
+per_page: 'int' = 50,
+only_selected: 'bool' = True
 ```
 
-レポートのセクションに関連付けられたrunを取得します。
+reportのセクションに関連付けられたrunを取得します。
 
-***
+<div id="arguments">
+  ##### 引数
+</div>
 
+<ResponseField name="section" type="dict[str, Any]">
+  説明は提供されていません。
+</ResponseField>
 
-### <kbd>method</kbd> `BetaReport.to_html`
+<ResponseField name="per_page" type="int">
+  説明は提供されていません。
+</ResponseField>
+
+<ResponseField name="only_selected" type="bool">
+  説明は提供されていません。
+</ResponseField>
+
+<div id="method-betareportto_html">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.to_html()
+</div>
 
 ```python
-to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
+self,
+height: 'int' = 1024,
+hidden: 'bool' = False
 ```
 
-このレポートを表示するためのiframeを含むHTMLを生成します。
+このreportを表示するためのiframeを含むHTMLを生成します。
+
+<div id="arguments-2">
+  ##### 引数
+</div>
+
+<ResponseField name="height" type="int">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="hidden" type="bool">
+  説明はありません。
+</ResponseField>

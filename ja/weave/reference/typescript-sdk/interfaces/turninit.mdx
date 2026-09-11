@@ -1,45 +1,98 @@
 ---
-title: "インターフェース: TurnInit"
+title: "TurnInit"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / TurnInit
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<div id="table-of-contents">
-  ## 目次
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L32" />
+
+<div id="extends">
+  ## 継承元
 </div>
+
+* `SpanInitBase`
 
 <div id="properties">
-  ### プロパティ
+  ## プロパティ
 </div>
 
-* [agentName](./turninit#agentname)
-* [model](./turninit#model)
+<div id="agentdescription">
+  ### agentDescription
+</div>
 
-## プロパティ
+> `optional` **agentDescription**: `string`
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+> `optional` **agentId**: `string`
+
+***
 
 <div id="agentname">
   ### agentName
 </div>
 
-• `省略可能` **agentName**: `string`
+> `optional` **agentName**: `string`
 
-<div id="defined-in">
-  #### 定義箇所
+***
+
+<div id="agentversion">
+  ### agentVersion
 </div>
 
-[genai/turn.ts:27](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L27)
+> `optional` **agentVersion**: `string`
+
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `optional` **attributes**: `Attributes`
+
+この turn に設定され、すべての子 span に渡されるカスタム属性です。
+通常は `startConversation({ attributes })` によって会話から継承されます。
+会話を伴わないルートレスな `startTurn({ attributes })` の場合は、ここで設定します。
 
 ***
 
 <div id="model">
-  ### モデル
+  ### model
 </div>
 
-• `省略可能` **モデル**: `string`
+> `optional` **model**: `string`
 
-<div id="defined-in">
-  #### 定義箇所
+***
+
+<div id="starttime">
+  ### startTime
 </div>
 
-[genai/turn.ts:28](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/turn.ts#L28)
+> `optional` **startTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 継承元:
+</div>
+
+`SpanInitBase.startTime`
+
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
+</div>
+
+> `optional` **systemInstructions**: `string`[]
+
+***
+
+<div id="usermessage">
+  ### userMessage
+</div>
+
+> `optional` **userMessage**: `string`

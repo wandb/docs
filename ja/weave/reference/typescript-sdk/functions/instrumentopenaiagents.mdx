@@ -3,42 +3,46 @@ title: "instrumentOpenAIAgents"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="instrumentopenaiagents">
-  # instrumentOpenAIAgents
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **instrumentOpenAIAgents**(): `Promise`&lt;`boolean`&gt;
+```ts
+instrumentOpenAIAgents(): Promise<boolean>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.agent.ts#L169" />
 
 パッケージが利用可能な場合、OpenAI Agents に Weave のトレースを手動で登録します。
 
-**注: 通常、この関数を呼び出す必要はありません。** Weave を import すると、OpenAI Agents はモジュールローダーフックを通じて自動的にインストルメンテーションされます。この関数は、自動インストルメンテーションが機能しないエッジケース (例: 動的 import や、フックをバイパスするバンドラー) のために用意されています。
+**注: 通常、この関数を呼び出す必要はありません。** Weave を import すると、OpenAI Agents はモジュールローダーフックを通じて自動的にインストルメントされます。この関数は、自動インストルメンテーションが機能しないエッジケース (例: 動的 import や、フックをバイパスするバンドラー) のために用意されています。
 
 この関数は、利用側の node&#95;modules から @openai/agents を動的に import し、TracingProcessor の登録を試みます。パッケージがインストールされていない場合は、エラーをスローせずに false を返します。
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
 `Promise`&lt;`boolean`&gt;
 
 `Promise<boolean>` - 登録に成功した場合は `true`、`@openai/agents` を利用できない場合は `false`
 
-`例`
+<div id="examples">
+  ## 例
+</div>
 
-```typescript
+```typescript twoslash
+// @noErrors
 // ✅ 推奨: Weave を import するだけで、インストルメンテーションが自動的に行われます！
 import * as weave from 'weave';
 await weave.init('my-project');
 
-// OpenAI Agents はフック経由でインストルメントされているため、手動での setup は不要です
+// OpenAI Agents はフック経由でインストルメントされるため、手動での setup は不要です
 import { Agent } from '@openai/agents';
 const agent = new Agent({ ... });
 await agent.run(input); // Weave で自動的にトレースされます
 ```
 
-`例`
-
-```typescript
+```typescript twoslash
+// @noErrors
 // ⚠️ 自動フックが機能しないエッジケースでのみ必要
 import { instrumentOpenAIAgents } from 'weave';
 
@@ -48,7 +52,9 @@ if (!registered) {
 }
 ```
 
-`Remarks`
+<div id="remarks">
+  ## 備考
+</div>
 
 **自動インストルメンテーションの仕組み**: Weave を import すると、`addCJSInstrumentation()` と `addESMInstrumentation()` を通じてモジュールローダーフックが登録されます。その後、コードで `@openai/agents` を import すると、これらのフックが import を捕捉し、Weave のトレースを追加するためのパッチをモジュールに自動的に適用します。これは透過的に行われるため、特別な対応は不要です。
 
@@ -61,18 +67,11 @@ if (!registered) {
 **カスタム processor ロジックの代替手段**: カスタムのトレース動作が必要な場合は、
 `createOpenAIAgentsTracingProcessor()` を使用して手動で登録してください：
 
-```typescript
+```typescript twoslash
+// @noErrors
 import { addTraceProcessor } from '@openai/agents';
 import { createOpenAIAgentsTracingProcessor } from 'weave';
 
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[integrations/openai.agent.ts:727](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/openai.agent.ts#L727)
-
-***

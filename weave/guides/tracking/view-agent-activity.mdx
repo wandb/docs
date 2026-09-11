@@ -4,10 +4,6 @@ description: "Use W&B Weave's Agents view to understand what your agent did, how
 keywords: ["agent observability", "conversation traces", "spans", "token usage", "agent debugging"]
 ---
 
-import AgentsPreview from '/snippets/_includes/agents-public-preview.mdx';
-
-<AgentsPreview />
-
 The Agents view gives you a turn-by-turn record of every conversation your agent had, along with token usage, tool invocations, and execution spans.
 
 Agent applications are hard to debug because the interesting behavior happens between the user's request and the final response. The Agents view in W&B Weave makes that middle layer visible. Every conversation your agent had is captured here, with the full message history, span-level execution detail, and token costs attached. You can see at a glance whether an agent completed its task, how many tool calls it made, and where time or budget was spent. For teams building and iterating on agents, this is the starting point for understanding behavior in production.
@@ -19,7 +15,15 @@ To open the Agents view for your project:
 1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
 2. In the sidebar menu, select **Agents** to view all agent conversations saved for your project.
 
-The Agents view opens on the **Agents** tab, where each agent that has logged traces to the project appears as a card. From here, you can drill into individual conversations, spans, and signals using the tabs described in the following sections.
+The Agents view is organized into a row of tabs across the top: **Dashboard**, **Agents**, **Conversations**, **Spans**, and **Signals**. The **Dashboard** tab gives a project-wide overview of agent activity, while the other tabs let you drill into individual agents, conversations, spans, and signals.
+
+## Dashboard tab
+
+The **Dashboard** tab is a project-wide overview of all agent activity. It's designed to be read at a glance, so teams use it as the starting point for a daily health check before drilling into a specific agent or conversation.
+
+![The Dashboard tab showing summary stat cards, time-series volume charts, and top-N breakdowns for agent activity across the project.](./imgs/agent-view-dashboard.png)
+
+At the top, summary cards report totals for the selected time window: **Spans**, **Conversations**, **Tokens**, **Cost**, **Error rate**, and **Agents**. Below the cards, time-series charts plot span, conversation, token, and cost volume over time, alongside error counts and signal activity. The bottom row breaks down the top tools, agents, models, and providers by usage. A list of recent conversations or spans appears on the left, toggleable between **Conversations** and **Spans**, and the time window selector controls the period that every panel reflects.
 
 ## Agents tab
 
@@ -28,7 +32,7 @@ traces to this project. Use it to spot which agents are active and to compare
 latency and error rates across agents. It also helps you identify agents that need
 attention before drilling into individual conversations.
 
-![The Agents tab showing a grid of agent cards, each displaying conversation count, span count, average latency, and error rate.](./imgs/agent-view-agent.png)
+![The Agents tab showing a grid of agent cards, each displaying conversation count, span count, cost, average latency, and error rate.](./imgs/agent-view-agent.png)
 
 It's useful for scenarios such as:
 
@@ -60,12 +64,13 @@ Each agent is represented as a card showing:
 | **Activity histogram** | A bar chart of recent conversation volume, giving a quick sense of usage trends. |
 | **Conversations** | Total number of conversations recorded. |
 | **Spans** | Total number of spans recorded across all conversations. |
+| **Cost** | Total cost incurred across the agent's conversations. Shows a dash (`-`) when cost data isn't available. |
 | **Latency (avg.)** | Average end-to-end duration per invocation. |
 | **Error rate** | Percentage of invocations that returned an error. Displays in red when greater than 0%. |
 
 ### Find and sort agents
 
-Use the **Search agents** field to filter cards by agent name.
+Use the **Search and filter agents** field to find agents by name.
 
 Use the sort dropdown (default: **Last seen**) to reorder the grid. The
 available sort options are:
@@ -99,13 +104,21 @@ appear by default:
 |---|---|
 | **Conversation** | The conversation ID and a preview of the first message. |
 | **Last message** | A preview of the most recent message, with a role indicator. |
+| **Spans** | Total number of spans recorded, shown alongside a color-coded strip (described below). Higher span counts indicate more branching or tool use. |
+| **Tags** | Signal tags and ratings applied to the conversation. |
 | **Agent** | The name of the agent or agents involved. |
 | **Invocations** | How many times the agent was invoked during the conversation. |
-| **Spans** | Total number of spans recorded. Higher span counts indicate more branching or tool use. |
 | **In tokens** | Input tokens consumed. |
 | **Out tokens** | Output tokens generated. |
+| **Cost** | Total cost of the conversation. |
 | **Started** | When the conversation began. |
 | **Last activity** | How long ago the last message was recorded. |
+
+The **Spans** column also renders a color-coded strip that previews the
+sequence of events in the conversation, using the same event colors as the
+[Events timeline](#events). This lets you tell at a glance whether a
+conversation was tool-heavy, LLM-heavy, or involved sub-agent delegation
+without opening it.
 
 To show or hide additional columns, click **Columns** in the toolbar.
 
@@ -113,6 +126,14 @@ To show or hide additional columns, click **Columns** in the toolbar.
 
 Use the **Filter** bar to narrow results by agent, model, error status, or
 other attributes.
+
+Custom attributes that you stamp on agent spans with the SDK are also
+filterable here. You can filter the conversation
+list to a specific value for a specific attribute. 
+
+To show a custom attribute as its own column, click
+**Columns** in the toolbar. For how to set these attributes, see [Set
+attributes and events on agent spans](/weave/guides/tracking/trace-agents-attributes).
 
 Use the time window selector (**1m**, **1h**, **6h**, **24h**, **7d**, or
 **30d**) to restrict the list to conversations that were active within that
@@ -124,7 +145,7 @@ a specific value or range.
 
 ### Agent conversation detail
 
-Click a conversation row to open a detail panel with two sub-tabs: **Turns** and **Events**.
+Click a conversation row to open a detail panel with two sub-panels: **Turns** and **Events**. The panel header shows the agent name and conversation ID, along with **Summarize** (to generate a summary of the conversation) and **Add to dataset** actions.
 
 ![A conversation selected in the Conversations tab, with the detail panel open showing the turn-by-turn message thread, tool calls, reasoning, and the Events timeline on the right.](./imgs/agent-view-conversation-detail.png)
 
@@ -146,7 +167,7 @@ references.
 
 - The agent name and the model used (for example, `gpt-5.5-2026-04-23`).
 - Timestamp and duration.
-- Input and output token counts (for example, `16086 in 295 out`).
+- Input and output token counts and cost (for example, `18823 in · 96 out · $0.0717`).
 - An expandable **Reasoning** section when the model used extended thinking.
 - The response text, which collapses automatically for long responses.
 
@@ -198,9 +219,10 @@ conversation.
 | Field | Description |
 |---|---|
 | **Tokens** | Total input and output tokens. |
+| **Cost** | Total cost of the conversation. |
 | **Tool calls** | Number of tool calls across all turns. |
 | **Messages** | Total message count. |
-| **Session time** | Wall-clock duration from first to last message. |
+| **Conversation time** | Wall-clock duration from first to last message. |
 | **Turn page** | Which turns are currently displayed, and the total turn count. |
 
 ##### Token breakdown
@@ -221,6 +243,15 @@ selected conversation.
 The **Participants** section lists the agents and models involved in the
 conversation. In multi-agent conversations, different turns may show different
 model names here.
+
+#### Add agent messages to a dataset
+
+To add agent messages to a `Dataset`:
+
+1. In the conversation details panel header, click **Add to dataset** to open the **Add example to dataset** drawer.
+1. In **Choose a dataset**, use the dropdown to choose the dataset you want to add traces to.
+1. In **Select context**, select which messages to add to the dataset. Click **Next**.
+1. Review your selections and click **Add to dataset**.
 
 ## Spans tab
 
@@ -243,7 +274,9 @@ tool, token counts, status). Some columns unique to this view are:
 | **Span** | The span name and ID, with its trace ID below. |
 | **Kind** | The OpenTelemetry span kind for this operation (such as `INTERNAL`, `SERVER`, or `CLIENT`). |
 | **Operation** | The operation type (such as `chat`, `execute_tool`, or `invoke_agent`). |
-| **Finished** | The finish reason returned by the model (such as `stop` or `max_tokens`). Populated only for `chat` spans where the model reports a finish reason. |
+| **Ratings & Tags** | Signal ratings and tags applied to the span. |
+| **Finish** | The finish reason returned by the model (such as `stop` or `max_tokens`). Populated only for `chat` spans where the model reports a finish reason. |
+| **Error type** | The type of error returned by the span, when one occurred. |
 
 Additional columns for cache token breakdowns, reasoning tokens, LLM
 parameters, and W&B run metadata are available through the **Columns** button.
@@ -257,7 +290,7 @@ Conversations tab doesn't provide:
 - **Debugging a specific operation type.** Filter by **Operation** to isolate
   all `execute_tool` spans and check error rates, or all `chat` spans for a
   specific model.
-- **Investigating truncation.** Filter **Finished** by `max_tokens` to find
+- **Investigating truncation.** Filter **Finish** by `max_tokens` to find
   spans where the model hit its token limit rather than completing normally.
 - **Correlating with a W&B run.** Hidden-by-default columns expose W&B run IDs
   and run steps, letting you link a specific span back to a training or
@@ -271,20 +304,22 @@ Click any row to select its trace and highlight all other spans that share the s
 
 Click a row in the **Spans** table to open a detail panel populated with data from the complete agent invocation.
 
-At the top of the detail panel, a flame graph shows the wall-clock
-position and relative duration of every span in the selected trace. Each span
-appears as a colored block scaled to its actual duration, positioned at its start
-time in milliseconds from the beginning of the trace. Use the timeline to:
+At the top of the detail panel, a bar chart shows the wall-clock
+position and relative duration of every span in the selected trace, arranged as
+a waterfall. The parent invocation spans the full width, and each child span
+appears below it as a colored bar scaled to its actual duration, positioned at
+its start time in milliseconds from the beginning of the trace. Use the timeline
+to:
 
-- **Spot the longest operation at a glance.** Wide blocks indicate spans that
+- **Spot the longest operation at a glance.** Wide bars indicate spans that
   dominated total latency.
-- **See parallelism.** Overlapping blocks indicate spans that executed
+- **See parallelism.** Overlapping bars indicate spans that executed
   concurrently rather than sequentially.
-- **Inspect any span inline.** Click a block in the timeline to load that
+- **Inspect any span inline.** Click a bar in the timeline to load that
   span's details into view, including its input messages and output messages,
   token counts, and other metadata.
 
-![The Spans tab with a trace selected, highlighting a group of related spans in the table and showing the flame graph in the detail panel on the right.](./imgs/agent-view-spans-detail.png)
+![The Spans tab with a trace selected, highlighting a group of related spans in the table and showing the waterfall bar chart in the detail panel on the right.](./imgs/agent-view-spans-detail.png)
 
 You can alternatively view the child spans as a hierarchical trace tree by selecting the **Show trace tree** icon in the detail panel header.
 

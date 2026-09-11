@@ -1,0 +1,53 @@
+---
+title: "W&B에서 대용량 API 결과를 페이지 단위로 조회하려면 어떻게 하나요?"
+keywords: ["Runs", "Experiments", "API", "Artifacts"]
+---
+
+[표준 지연 반복자 패턴과 `per_page` 매개변수](/ko/models/track/public-api-guide)를 사용해 API 결과를 페이지 단위로 조회할 수 있습니다. 또한 아래의 체크포인트 및 대량 다운로드 팁을 활용하면 결과를 더 효율적으로 페이지 단위로 조회할 수 있습니다.
+
+<div id="checkpoint-processed-run-ids">
+  ## 처리한 run ID 체크포인트
+</div>
+
+매우 큰 프로젝트의 경우 이미 처리한 ID를 기록해 두고 다시 시작할 때는 이를 건너뛰세요:
+
+```python
+import json
+import pathlib
+import wandb
+
+checkpoint_file = pathlib.Path("processed_ids.json")
+processed = set(json.loads(checkpoint_file.read_text())) if checkpoint_file.exists() else set()
+
+api = wandb.Api()
+for run in api.runs("my-entity/my-project"):
+    if run.id in processed:
+        continue
+    process(run)
+    processed.add(run.id)
+    checkpoint_file.write_text(json.dumps(list(processed)))
+```
+
+랜덤 액세스가 꼭 필요한 경우가 아니라면 대규모 프로젝트에서 `list(api.runs(...))`를 사용하지 마세요 — 모든 페이지가 메모리에 로드됩니다.
+
+<div id="rate-limits-on-bulk-downloads">
+  ## 대량 다운로드 시 요청 속도 제한
+</div>
+
+각 run에서 추가 호출(예: `run.file("output.log").download()`)이 발생하는 경우 `429` 오류를 방지하려면 짧은 지연을 추가하세요:
+
+```python
+import time
+
+for run in api.runs("my-entity/my-project"):
+    run.file("output.log").download()
+    time.sleep(0.1)
+```
+
+***
+
+{/* 자동 생성: 탭 배지 */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/ko/support/models/tags/api)</Badge><Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>
+
+{/* 종료 AUTO-GENERATED: 탭 배지 */}

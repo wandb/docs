@@ -3,11 +3,13 @@ title: "flushOTel"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="flushotel">
-  # flushOTel
-</div>
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-▸ **flushOTel**(): `Promise`&lt;`void`&gt;
+```ts
+flushOTel(): Promise<void>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/flush.ts#L15" />
 
 활성 span 프로세서에 버퍼링된 모든 GenAI span을 강제로 플러시합니다.
 
@@ -20,15 +22,7 @@ description: "TypeScript SDK 레퍼런스"
 확인해야 하는 테스트에서 호출하세요.
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
 `Promise`&lt;`void`&gt;
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[genai/flush.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/flush.ts#L15)
-
-***

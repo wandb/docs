@@ -1,12 +1,16 @@
 ---
 title: "스윕"
-tag: "19"
+tag: "22"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
 
 <Card title="하이퍼파라미터 검색을 구성하는 모범 사례" href="/ko/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
   하이퍼파라미터 검색을 많이 실행하는 경우 나중에 관련 실험을 그룹화하고 검색할 수 있도록 run에 태그를 지정하세요. run에 태그를 지 ...
+</Card>
+
+<Card title="스윕 내부에서 run을 재개할 수 있나요?" href="/ko/support/models/articles/can-i-resume-a-run-inside-a-sweep" arrow="true" horizontal>
+  W&amp;B 스윕 내부에서는 run 재개가 지원되지 않습니다. 스윕 에이전트가 실행 중일 때 `run_id`를 전달하거나 `wandb.init(resume=...)`를 사용하면 ...
 </Card>
 
 <Card title="스윕 로그가 로컬에 기록되는 디렉터리를 어떻게 변경하나요?" href="/ko/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
@@ -57,20 +61,24 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   AWS Batch 또는 ECS와 같은 클라우드 인프라에서 W&amp;B 스윕을 실행하려면 `sweep_id`를 게시하여 모든 W&amp;B Sweep 에이전트가 ca ...
 </Card>
 
-<Card title="스윕에서 맞춤형 CLI 명령을 사용하려면 어떻게 하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  트레이닝 설정이 command-line argument를 전달하는 경우 맞춤형 CLI 명령과 함께 W&amp;B 스윕를 사용할 수 있습니다. 이를 통해 r ...
+<Card title="맞춤형 CLI 명령을 스윕과 함께 사용하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  트레이닝 설정이 명령줄 인수를 전달하는 경우 W&amp;B 스윕을 맞춤형 CLI 명령과 함께 사용할 수 있습니다. 이렇게 하면 r ...
+</Card>
+
+<Card title="W&B에서 병렬 좌표 차트를 사용하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  병렬 좌표 차트는 여러 run에서 하이퍼파라미터가 메트릭과 어떤 관계가 있는지 보여줍니다. 각 선은 하나의 run이며 각  ...
 </Card>
 
 <Card title="SLURM에서 스윕를 실행하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
-  SLURM 스케줄링 시스템에서 스윕를 사용하려면 스케줄된 각 작업에서 wandb agent --count 1 SWEEP&#95;ID를 실행하세요. 이 명령은 e ...
+  SLURM 스케줄링 시스템에서 W&amp;B 스윕을 사용하려면 스케줄된 각 작업에서 wandb agent --count 1 SWEEP&#95;ID를 실행하세요. 이 명령은 e ...
 </Card>
 
 <Card title="스윕에 값을 추가할 수 있나요, 아니면 새로 시작해야 하나요?" href="/ko/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
-  W&amp;B Sweep가 시작되면 스윕 설정을 변경할 수 없습니다. 하지만 아무 table 뷰로 이동하여 r ...를 선택할 수 있습니다.
+  W&amp;B 스윕이 시작되면 스윕 설정을 변경할 수 없습니다. 하지만 아무 table 뷰로 이동하여 r ...를 선택할 수 있습니다.
 </Card>
 
 <Card title="여러 메트릭 최적화" href="/ko/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  W&amp;B 스윕는 단일 목표 메트릭을 최적화합니다. 단일 run에서 여러 메트릭을 최적화하려면 이를 가중치가 적용된 ...로 결합하세요.
+  W&amp;B 스윕은 단일 목표 메트릭을 최적화합니다. 단일 run에서 여러 메트릭을 최적화하려면 이를 가중치가 적용된 ...로 결합하세요.
 </Card>
 
 <Card title="스윕이 실행되는 동안 Python 파일을 편집하면 어떻게 되나요?" href="/ko/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
@@ -78,5 +86,9 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="`Est. Runs` 열이란 무엇인가요?" href="/ko/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
-  W&amp;B는 이산 검색 공간으로 W&amp;B Sweep를 만들 때 생성되는 Runs의 예상 개수를 제공합니다. 이 총계는 re ...
+  W&amp;B는 이산 검색 공간으로 W&amp;B 스윕을 만들 때 생성되는 Runs의 예상 개수를 제공합니다. 이 총계는 re ...
+</Card>
+
+<Card title="내 스윕 에이전트가 새 run을 가져오지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  스윕 에이전트가 시작되지만 새 run 설정을 받지 못하거나 하나의 run만 받은 뒤 유휴 상태가 되면, se ...
 </Card>

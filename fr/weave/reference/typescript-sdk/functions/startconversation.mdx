@@ -1,0 +1,50 @@
+---
+title: "startConversation"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+startConversation(opts?: ConversationInit = {}): Conversation
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L26" />
+
+Démarrez une nouvelle conversation et définissez-la comme conversation active.
+Les appels ultérieurs à `startTurn` l’utiliseront automatiquement.
+
+Passez `attributes` pour propager des attributs personnalisés (non semconv) à chaque
+span émis par la conversation.
+
+<div id="parameters">
+  ## Paramètres
+</div>
+
+<ParamField path="opts" type="ConversationInit = {}">
+  Voir [`ConversationInit`](../interfaces/conversationinit).
+</ParamField>
+
+<div id="returns">
+  ## Renvoie
+</div>
+
+[`Conversation`](../interfaces/conversation)
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+weave.startConversation({agentName: 'research-bot'});
+```
+
+```ts twoslash
+// @noErrors
+weave.startConversation({
+  agentName: 'research-bot',
+  conversationId: '019efa53-8a65-711c-b4c1-7c1cb72c0bb7',
+  attributes: {'myagent.version': '1.23'},
+});
+```

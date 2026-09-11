@@ -1,0 +1,59 @@
+---
+title: "How do I delete many artifacts at once?"
+keywords: ["Artifacts", "Storage", "Python API"]
+---
+
+When you need to delete many artifact versions, such as to reduce storage usage, use the [W&B Public API](/models/ref/python/public-api/api) instead of the W&B App. Bulk deletions in the App can time out with a `context deadline exceeded` error, and the artifact list is not designed for deleting hundreds of versions.
+
+The following script deletes all artifact versions of a specified type in a project.
+
+Replace the `[YOUR-TEAM]` and `[YOUR-PROJECT]` placeholders with your own values. Use your team or username for `[YOUR-TEAM]`, not your organization name.
+
+<Warning>
+Artifact deletion is destructive. When deleting source artifact versions, W&B deletes the artifact and its files. Passing `delete_aliases=True` enables deletion of versions with aliases such as `latest`, and removes those aliases. 
+
+Use `DRY_RUN = True` first, review the printed artifact names, and only then set DRY_RUN = False.
+</Warning>
+
+```python
+import wandb
+
+# Assumes you've run `wandb login` already.
+entity = "[YOUR-TEAM]"  # Replace with your team.
+project = "[YOUR-PROJECT]"  # Replace with your project.
+artifact_type = "model"  # Replace with the artifact type to delete.
+
+# Keep this set to True until you review the versions to delete.
+DRY_RUN = True
+
+api = wandb.Api()
+
+for collection in api.artifact_collections(f"{entity}/{project}", artifact_type):
+    for version in collection.artifacts():
+        if DRY_RUN:
+            print(f"[dry-run] would delete {version.name}")
+        else:
+            print(f"Deleting {version.name}")
+            version.delete(delete_aliases=True)
+```
+
+The script deletes artifact versions, not collections. An emptied collection still appears in the project's **Artifacts** tab.
+
+`wandb.Api.artifact_collections()` returns both source collections and link collections:
+
+- A source collection contains artifact versions logged to runs in the project.
+- A link collection contains references to artifact versions linked to another collection, such as a collection in a registry.
+
+For more information, see [Link an artifact version to a collection](/models/registry/link_version).
+
+When a version comes from a link collection, `version.delete(delete_aliases=True)` removes only the link. The source artifact and its files stay where they are, so that version frees no storage.
+
+## Reclaim the space
+
+Deleted artifacts are soft-deleted first, then removed during garbage collection, so your storage usage doesn't drop immediately. For the timing and how to verify your usage, see [Why doesn't my storage usage update after deleting runs?](/support/models/articles/why-does-the-storage-meter-not-update-af) and [Delete an artifact](/models/artifacts/delete-artifacts).
+
+---
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Storage](/support/models/tags/storage)</Badge><Badge stroke shape="pill" color="orange" size="md">[Python API](/support/models/tags/python-api)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

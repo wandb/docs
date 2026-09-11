@@ -16,42 +16,76 @@ keywords: ["コードの保存", "チームの可視性", "report の共有", "�
   ## すべてのチームにプライバシー設定を適用する
 </div>
 
-組織管理者は、アカウントまたは組織のダッシュボードにある **Settings** タブの **Privacy** セクションから、組織内のすべてのチームにプライバシー設定を適用できます。組織管理者が設定を適用すると、チーム管理者は各チームでその設定を行えません。
-
-* **チームの可視性制限を適用する**: 組織全体で、メンバー以外にはすべてのチームを非表示にします。
-* **今後のprojectのプライバシーを適用する**: すべてのチームで新規作成されるすべてのprojectを、非公開または[restricted](./iam/access-management/restricted-projects)にすることを必須にします。
-* **招待制御を適用する**: 管理者以外のメンバーがチームにメンバーを招待できないようにします。
-* **レポート共有制御を適用する**: 非公開project内のレポートの公開共有を無効にし、既存のマジックリンクも無効化します。
-* **チームへの自動参加制限を適用する**: 組織のメールドメインと一致するユーザーが、自動的にチームへ参加できないように制限します。
-  <Note>この設定は、[Multi-tenant Cloud](./hosting-options/multi_tenant_cloud)デプロイでのみ利用できます。</Note>
-* **デフォルトのコードの保存制限を適用する**: すべてのチームで、デフォルトでコードの保存を無効にします。
+組織管理者は、組織設定の **Privacy** タブから、組織内のすべてのチームにプライバシー設定を適用できます。適用された設定は組織内のすべてのチームに反映され、チーム管理者はチームスコープでそれを上書きできません。適用中の設定をチーム管理者が開くと、W&amp;B は次のメッセージを表示します: 「This setting is locked because it&#39;s enforced org-wide. To make changes, please contact your org admin.」
 
 組織のプライバシー設定を開くには、次の手順に従います。
 
 1. 組織管理者としてサインインします。
 2. Multi-tenant Cloud では、`https://wandb.ai/account-settings/[ORGANIZATION]/settings` にアクセスします。`[ORGANIZATION]` はご自身の組織名に置き換えてください。専用クラウドまたはセルフマネージドのデプロイでは、インスタンスの組織ダッシュボードを開きます。環境固有のURLについては、[Add and manage users](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-users)を参照してください。
-3. **Privacy** セクションを開き、**Enforce default code saving restrictions** と、必要なその他の組織全体の制御を設定します。
+3. 左側のナビゲーションで **Privacy** を選択します。
 
-変更を保存すると、適用された設定が組織内のすべてのチームに反映され、チーム管理者はチームスコープでそれらを上書きできなくなります。
+以下のセクションでは、**Privacy** タブの設定について説明します。各設定はトグルで、W&amp;B は変更を即座に保存します。
 
-<div id="configure-privacy-settings-for-a-team">
-  ## チームのプライバシー設定を構成する
+<div id="access-control">
+  ### アクセス制御
 </div>
 
-設定が組織スコープで強制されていない場合、チーム管理者はチームの **Settings** タブ内にある **Privacy** セクションから、自分のチームの設定を管理できます。各設定は、組織スコープで強制されていない限り構成可能です。
+チームの可視性とメンバーの参加プロセスを管理します。
 
-* **Hide this team from all non-members**: メンバー以外のユーザーにはこのチームを表示しません。
-* **Make all future team projects private**: 今後チーム内で作成されるすべての新しい Projects を非公開にします (公開共有はできません) 。
-* **Allow any team member to invite other members**: 管理者だけでなく、すべてのチームメンバーが新しいメンバーを招待できるようにします。
-* **Turn off public sharing for reports in private projects**: 非公開の Projects 内の レポート について公開共有を無効にし、既存の magic links も無効にします。
-* **Allow users with matching organization email domain to join this team**: 組織のメールドメインが一致するユーザーが、このチームに自動的に参加できるようにします。
-  <Note>この設定は [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) deployment でのみ使用できます。</Note>
-* **Enable code saving by default**: チーム内のすべての Runs でコードの保存を自動的に行います。
+* **チームの可視性制限を強制する**: 各ユーザーは、自分が所属するチームとチームメンバーのプロフィールのみを表示できます。所属していないチームやユーザーは非表示になります。
+* **チームへの自動参加を防止する**: 組織のメールドメインが一致するユーザーでも、どのチームにも自動的に参加できません。明示的な招待が必要です。
+* **招待権限を制限する**: どのチームでも、新しいメンバーを招待できるのは管理者のみです。
+* **招待をクレーム済みドメインに制限する**: 組織がクレーム済みのメールドメインで終わるメールアドレスを持つユーザーのみを、組織に招待できます。
+  <Note>この設定は、メールドメインをクレーム済みの Enterprise 組織の場合に限り、[Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) でのみ表示されます。[Domain capture](./iam/access-management/manage-organization#domain-capture) を参照してください。</Note>
+* **APIキーの作成を無効にする**: ユーザーおよびチームのサービスアカウントは、新しいAPIキーを作成できなくなります。組織のサービスアカウントは引き続きキーを作成でき、既存のキーもそのまま機能します。[APIキーの作成を無効にする](./iam/api-keys#disable-api-key-creation) を参照してください。
+  <Note>この設定は、専用クラウドおよびセルフマネージド v0.84.0 以降でのみ表示されます。</Note>
 
-チームのプライバシー設定を開くには、次の手順に従います。
+<div id="project-and-content-security">
+  ### 非公開 project とコンテンツのセキュリティ
+</div>
 
-1. `https://wandb.ai/[TEAM]` にアクセスします。`[TEAM]` はチーム名に置き換えてください。
+project のプライバシーを制御し、コンテンツの共有を管理します。
+
+* **プライベート project を強制する**: すべてのチームの新規 project がプライベートまたは [restricted](./iam/access-management/restricted-projects) に設定され、チームスコープでは公開 (public) や open に変更できなくなります。
+* **report の公開共有を無効にする**: 非公開 project の report の公開共有をオフにし、既存の公開リンクを無効化します。
+* **デフォルトのコードの保存を無効にする**: すべてのチームで、デフォルトのコードの保存をオフにします。[コードの保存](/ja/models/app/features/panels/code) を参照してください。
+
+<div id="smart-features">
+  ### Smart features
+</div>
+
+**Smart features** セクションでは、LLM を活用した機能とデータ共有を制御します。このセクションは、組織が W&amp;B AI 機能へのアクセス権を持つ場合にのみ **Privacy** タブに表示されます。[ガバナンスとセキュリティ](/ja/aria/governance)を参照してください。
+
+<div id="aria">
+  ### ARIA
+</div>
+
+**ARIA** セクションでは、組織の projects 全体で ARIA が実行できる操作を制御します。このセクションは、組織で project memory が有効になっている場合にのみ **Privacy** タブに表示されます。
+
+* **Enable project memory**: 規約や過去の修正内容といった project の詳細を ARIA が記憶し、以降の会話で活用できるようにします。ARIA は project のメモリを、その project を所有するチームと共有します。この設定がオフの場合、ARIA はメモリを使用せず、新たな記録も行いませんが、既存のメモリは保持されます。詳細は [project メモリの表示と管理](/ja/aria/overview#view-and-manage-project-memories) を参照してください。
+
+<div id="configure-privacy-settings-for-a-team">
+  ## チームのプライバシー設定を行う
+</div>
+
+組織スコープで設定が強制されていない場合、チーム管理者はチームの **Settings** ページの **Privacy** セクションで、自分のチームの設定を管理できます。
+
+チームのプライバシー設定を開くには、次の手順を実行します。
+
+1. `https://wandb.ai/[TEAM]` にアクセスします。`[TEAM]` はご自身のチーム名に置き換えてください。
 2. 左側のナビゲーションで **Team settings** を選択します。
-3. **Privacy** セクションを開き、**Enable code saving by default** を構成します。
+3. **Privacy** セクションを開きます。
 
-変更を保存すると、選択した設定がチームに適用されます。
+**Privacy** セクションには次の設定が含まれます。変更内容は W&amp;B によって即座に保存されます。
+
+* **Default visibility for new projects in [TEAM]**: チーム内の新しい project に W&amp;B が適用する可視性スコープを設定します。[Visibility scopes](./iam/access-management/restricted-projects#visibility-scopes) を参照してください。
+* **Hide this team from all non-members**: メンバー以外のユーザーからチームを非表示にします。
+  <Warning>チームを非表示にすると、そのチームに属するすべての公開 project および report への一般公開アクセスもブロックされます。この設定を適用する前に、W&amp;B が確認を求めます。</Warning>
+* **Make all future team projects private (public sharing not allowed)**: チーム内で今後作成されるすべての project を非公開にします。
+* **Allow any team member to invite other members (not just admins)**: 管理者だけでなく、すべてのチームメンバーが新しいメンバーを招待できるようにします。
+* **Disable public sharing to outside of team for reports in private projects**: チームの非公開 project 内の report の公開共有を無効にします。既存のマジックリンクも無効化されます。
+* **Automatically recommend new users with matching email domains (`[DOMAIN]`) join this team upon signup**: メールアドレスが組織で取得済みの email domain と一致する新規ユーザーに対し、サインアップ時にこのチームへの参加を促します。W&amp;B App では、`[DOMAIN]` には組織が取得済みの email domain が表示されます。
+  <Note>この設定は [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) でのみ表示され、変更できるのは組織管理者のみです。組織が email domain を取得していない場合は、この設定の代わりに組織設定の **Enable domain capture** へのリンクが表示されます。[Domain capture](./iam/access-management/manage-organization#domain-capture) を参照してください。</Note>
+* **Enable code saving by default**: チーム内のすべての run のコードを自動的に保存します。[Code saving](/ja/models/app/features/panels/code) を参照してください。
+
+ここで設定した内容はこのチームにのみ適用され、組織内の他のチームには影響しません。

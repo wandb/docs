@@ -3,32 +3,45 @@ title: "startSubagent"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="startsubagent">
-  # startSubagent
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **startSubagent**(`opts`): [`SubAgent`](../classes/subagent)
+```ts
+startSubagent(opts: SubAgentInit): SubAgent
+```
 
-SubAgent の span を開始します。親の解決ルールは `startTool` と同じです。
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L137" />
+
+SubAgent span を開始します。親の解決ルールは `startTool` と同じです。
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名      | タイプ                                          |
-| :----- | :------------------------------------------- |
-| `opts` | [`SubAgentInit`](../interfaces/subagentinit) |
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](../interfaces/subagentinit) を参照してください。
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
-[`SubAgent`](../classes/subagent)
+[`SubAgent`](../interfaces/subagent)
 
-<div id="defined-in">
-  #### 定義元
+<div id="examples">
+  ## 例
 </div>
 
-[genai/api.ts:66](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L66)
+```ts twoslash
+// @noErrors
+weave.startSubagent({name: 'critic'});
+```
 
-***
+```ts twoslash
+// @noErrors
+weave.startSubagent({
+  name: 'critic',
+  model: 'gpt-4o',
+  systemInstructions: ['Critique the proposed plan.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

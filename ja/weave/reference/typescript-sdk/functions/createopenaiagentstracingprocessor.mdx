@@ -3,37 +3,33 @@ title: "createOpenAIAgentsTracingProcessor"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="createopenaiagentstracingprocessor">
-  # createOpenAIAgentsTracingProcessor
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **createOpenAIAgentsTracingProcessor**(): `TracingProcessor`
+```ts
+createOpenAIAgentsTracingProcessor(): TracingProcessor
+```
 
-OpenAI Agents 向けの新しい Weave トレースプロセッサを作成します。
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.agent.ts#L102" />
+
+OpenAI Agents 用の新しい Weave トレースプロセッサを作成します。
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
 `TracingProcessor`
 
 OpenAI Agents に登録可能な `TracingProcessor` インスタンスです
 
-`例`
+<div id="example">
+  ## 例
+</div>
 
-```typescript
+```typescript twoslash
+// @noErrors
 import { addTraceProcessor } from '@openai/agents';
 import { createOpenAIAgentsTracingProcessor } from 'weave';
 
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
-
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[integrations/openai.agent.ts:665](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/openai.agent.ts#L665)
-
-***

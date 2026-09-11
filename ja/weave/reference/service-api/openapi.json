@@ -60,6 +60,12 @@
             "title": "Tool Definitions"
           }
         },
+        "required": [
+          "model",
+          "system_instructions",
+          "tool_definitions",
+          "status"
+        ],
         "title": "AgentChatAgentStart",
         "type": "object"
       },
@@ -84,6 +90,17 @@
             ],
             "title": "Duration Ms"
           },
+          "input_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Cost Usd"
+          },
           "input_tokens": {
             "anyOf": [
               {
@@ -105,6 +122,17 @@
               }
             ],
             "title": "Model"
+          },
+          "output_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Cost Usd"
           },
           "output_tokens": {
             "anyOf": [
@@ -158,10 +186,32 @@
           "text": {
             "title": "Text",
             "type": "string"
+          },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
           }
         },
         "required": [
-          "text"
+          "text",
+          "model",
+          "reasoning_content",
+          "reasoning_tokens",
+          "input_tokens",
+          "output_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "total_cost_usd",
+          "duration_ms",
+          "status",
+          "content_refs"
         ],
         "title": "AgentChatAssistantMessage",
         "type": "object"
@@ -203,7 +253,175 @@
             "title": "Compaction Summary"
           }
         },
+        "required": [
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after"
+        ],
         "title": "AgentChatContextCompacted",
+        "type": "object"
+      },
+      "AgentChatFeedback": {
+        "description": "agent chat の `include_feedback` プロジェクションによるフィードバック行。\n\nフィールド名は FEEDBACK_QUERY_FIELDS と一致します。これは feedback\nテーブルの行でも FeedbackCreateReq でもありません。project_id と span_* は\n選択されていません。",
+        "properties": {
+          "annotation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotation Ref"
+          },
+          "call_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Call Ref"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "creator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Creator"
+          },
+          "feedback_type": {
+            "title": "Feedback Type",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "runnable_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
+          },
+          "weave_ref": {
+            "title": "Weave Ref",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "feedback_type",
+          "weave_ref",
+          "payload",
+          "creator",
+          "created_at",
+          "wb_user_id",
+          "runnable_ref",
+          "call_ref",
+          "trigger_ref",
+          "annotation_ref",
+          "scorer_tags",
+          "scorer_tag_reasons",
+          "scorer_tag_confidences",
+          "scorer_ratings",
+          "scorer_rating_reasons",
+          "scorer_rating_confidences"
+        ],
+        "title": "AgentChatFeedback",
         "type": "object"
       },
       "AgentChatMessage": {
@@ -240,6 +458,17 @@
               }
             ]
           },
+          "agent_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Version"
+          },
           "assistant_message": {
             "anyOf": [
               {
@@ -264,8 +493,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -297,6 +525,22 @@
               }
             ],
             "title": "Started At"
+          },
+          "status_code": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Code"
           },
           "tool_call": {
             "anyOf": [
@@ -332,7 +576,19 @@
           }
         },
         "required": [
-          "type"
+          "type",
+          "span_id",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "started_at",
+          "user_message",
+          "assistant_message",
+          "tool_call",
+          "agent_start",
+          "agent_handoff",
+          "context_compacted",
+          "feedback"
         ],
         "title": "AgentChatMessage",
         "type": "object"
@@ -408,6 +664,14 @@
             "title": "Tool Result"
           }
         },
+        "required": [
+          "tool_name",
+          "tool_arguments",
+          "tool_result",
+          "duration_ms",
+          "status",
+          "content_refs"
+        ],
         "title": "AgentChatToolCall",
         "type": "object"
       },
@@ -427,7 +691,8 @@
           }
         },
         "required": [
-          "text"
+          "text",
+          "content_refs"
         ],
         "title": "AgentChatUserMessage",
         "type": "object"
@@ -482,8 +747,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -508,6 +772,17 @@
             "title": "Offset",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_turns": {
             "default": 0,
             "title": "Total Turns",
@@ -522,7 +797,14 @@
           }
         },
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "turns",
+          "total_turns",
+          "has_more",
+          "limit",
+          "offset",
+          "total_cost_usd",
+          "feedback"
         ],
         "title": "AgentConversationChatRes",
         "type": "object"
@@ -531,7 +813,10 @@
         "description": "グループ化された会話行に対する、先頭または末尾メッセージの切り詰められたスニペットです。\n\n`role` はチャット タイムラインのメッセージ タイプ（例: \"user_message\"、\"assistant_message\"）であり、クライアントは完全なチャット ビューと一貫したスタイルで表示できます。`text` は、トリミングされ長さ上限が適用されたプレビュー コンテンツです。",
         "properties": {
           "role": {
-            "default": "",
+            "enum": [
+              "user_message",
+              "assistant_message"
+            ],
             "title": "Role",
             "type": "string"
           },
@@ -541,7 +826,241 @@
             "type": "string"
           }
         },
+        "required": [
+          "role",
+          "text"
+        ],
         "title": "AgentConversationMessagePreview",
+        "type": "object"
+      },
+      "AgentConversationSpan": {
+        "description": "会話のトレース内の 1 つのスパンです。\n\n`agent_conversation_spans` によって返されます。この関数はスパンのスカラー列のみを読み取り、メッセージ本文は読み取りません。スパンは `started_at` 順に並べられます。これは詳細チャットビューの親子ツリー走査順に近いものの、完全には一致しません。`operation_name` は生の OTel 値であり、クライアントが表示カテゴリにマッピングします。",
+        "properties": {
+          "duration_ms": {
+            "title": "Duration Ms",
+            "type": "integer"
+          },
+          "operation_name": {
+            "title": "Operation Name",
+            "type": "string"
+          },
+          "span_id": {
+            "title": "Span Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "UNSET",
+              "OK",
+              "ERROR"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation_name",
+          "trace_id",
+          "span_id",
+          "status",
+          "duration_ms"
+        ],
+        "title": "AgentConversationSpan",
+        "type": "object"
+      },
+      "AgentConversationSpanFeedback": {
+        "description": "会話のターン（または会話全体）に適用されたタグと評価です。\n\nクライアント側で `trace_id`（ターン）をスパンと照合して配置されます。会話レベルのフィードバックでは `trace_id` は None です。",
+        "properties": {
+          "feedback_type": {
+            "enum": [
+              "wandb.agent_user_feedback",
+              "wandb.agent_monitor"
+            ],
+            "title": "Feedback Type",
+            "type": "string"
+          },
+          "ratings": {
+            "description": "このフィードバックに適用される数値の Scorer 評価です。",
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpanRating"
+            },
+            "title": "Ratings",
+            "type": "array"
+          },
+          "tags": {
+            "description": "このフィードバックに適用される任意の説明用タグです。",
+            "examples": [
+              [
+                "👍",
+                "needs-review"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "このフィードバックの基準となるターンです。会話レベルの場合は None です。",
+            "title": "Trace Id"
+          }
+        },
+        "required": [
+          "trace_id",
+          "feedback_type",
+          "tags",
+          "ratings"
+        ],
+        "title": "AgentConversationSpanFeedback",
+        "type": "object"
+      },
+      "AgentConversationSpanRating": {
+        "description": "ターンまたは会話に適用される 1 つの数値評価（Scorer スコア）です。",
+        "properties": {
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "reason",
+          "confidence"
+        ],
+        "title": "AgentConversationSpanRating",
+        "type": "object"
+      },
+      "AgentConversationSpans": {
+        "description": "1 つの会話のスパンシーケンスとそのフィードバックマーカーです。",
+        "properties": {
+          "conversation_id": {
+            "title": "Conversation Id",
+            "type": "string"
+          },
+          "spans": {
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpan"
+            },
+            "title": "Spans",
+            "type": "array"
+          },
+          "spans_feedback": {
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpanFeedback"
+            },
+            "title": "Spans Feedback",
+            "type": "array"
+          }
+        },
+        "required": [
+          "conversation_id",
+          "spans",
+          "spans_feedback"
+        ],
+        "title": "AgentConversationSpans",
+        "type": "object"
+      },
+      "AgentConversationSpansReq": {
+        "description": "明示的に指定した会話セットについて、スパンシーケンスを取得します。\n\n指定された `conversation_ids` について、スパンのスカラー列のみを読み取ります（メッセージ本文は含みません）。これは会話リストのスパンミニマップを支えるものです。",
+        "properties": {
+          "conversation_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10000,
+            "title": "Conversation Ids",
+            "type": "array"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "started_after": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started After"
+          },
+          "started_before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started Before"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "title": "AgentConversationSpansReq",
+        "type": "object"
+      },
+      "AgentConversationSpansRes": {
+        "description": "スパンシーケンスとフィードバックマーカーです。リクエストされた各会話につき 1 エントリです。",
+        "properties": {
+          "conversations": {
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpans"
+            },
+            "title": "Conversations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "conversations"
+        ],
+        "title": "AgentConversationSpansRes",
         "type": "object"
       },
       "AgentCustomAttrSchemaItem": {
@@ -672,6 +1191,12 @@
             "type": "integer"
           }
         },
+        "required": [
+          "attributes",
+          "limit",
+          "offset",
+          "has_more"
+        ],
         "title": "AgentCustomAttrsSchemaRes",
         "type": "object"
       },
@@ -760,6 +1285,17 @@
             "title": "Span Count",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "title": "Total Duration Ms",
             "type": "integer"
@@ -783,7 +1319,8 @@
           "total_duration_ms",
           "error_count",
           "first_seen",
-          "last_seen"
+          "last_seen",
+          "total_cost_usd"
         ],
         "title": "AgentSchema",
         "type": "object"
@@ -838,17 +1375,24 @@
             "type": "string"
           },
           "role": {
-            "enum": [
-              "",
-              "user",
-              "assistant",
-              "system",
-              "tool",
-              "tool_call",
-              "tool_result"
+            "anyOf": [
+              {
+                "enum": [
+                  "",
+                  "user",
+                  "assistant",
+                  "system",
+                  "tool",
+                  "tool_call",
+                  "tool_result"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
             ],
-            "title": "Role",
-            "type": "string"
+            "title": "Role"
           },
           "span_id": {
             "title": "Span Id",
@@ -876,7 +1420,7 @@
         "type": "object"
       },
       "AgentSearchReq": {
-        "description": "メッセージ内容とスパン メタデータに対する全文検索。\n\n`messages` 表（メッセージの出現ごとに 1 行で、スパン からの MV によって生成）を走査し、一致したスパン レベルのヒットを返します。レスポンスの形式では、呼び出し元が会話ごとにグループ化します。",
+        "description": "内容および/またはスパンレベルのフィルターで `messages` 表をクエリします。\n\n`messages` 表をスキャンし（一度出現した各メッセージにつき 1 行で、スパンからの MV によって生成されます）、一致するスパンレベルのヒットを返します。全文検索では `query` を設定します。構造化取得（たとえばトレース内のすべてのメッセージ）では `query` を空のままにし、以下のフィルターを使用します。呼び出し元はレスポンス形式に合わせて会話ごとにグループ化します。",
         "properties": {
           "agent_name": {
             "anyOf": [
@@ -929,6 +1473,7 @@
             "title": "Provider Name"
           },
           "query": {
+            "default": "",
             "title": "Query",
             "type": "string"
           },
@@ -989,11 +1534,26 @@
               }
             ],
             "title": "Started Before"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          },
+          "truncate_content": {
+            "default": true,
+            "title": "Truncate Content",
+            "type": "boolean"
           }
         },
         "required": [
-          "project_id",
-          "query"
+          "project_id"
         ],
         "title": "AgentSearchReq",
         "type": "object"
@@ -1015,9 +1575,30 @@
           }
         },
         "required": [
-          "results"
+          "results",
+          "total_conversations"
         ],
         "title": "AgentSearchRes",
+        "type": "object"
+      },
+      "AgentSignalFilter": {
+        "properties": {
+          "ratings": {
+            "items": {
+              "$ref": "#/components/schemas/RatingCondition"
+            },
+            "title": "Ratings",
+            "type": "array"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "title": "AgentSignalFilter",
         "type": "object"
       },
       "AgentSortBy": {
@@ -1142,7 +1723,13 @@
           "alias",
           "source",
           "key",
-          "value_type"
+          "value_type",
+          "total_count",
+          "present_count",
+          "missing_count",
+          "other_count",
+          "bins",
+          "values"
         ],
         "title": "AgentSpanGroupDistributionItem",
         "type": "object"
@@ -1418,15 +2005,48 @@
             "title": "Total Cache Read Input Tokens",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "default": 0,
             "title": "Total Duration Ms",
             "type": "integer"
           },
+          "total_input_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Input Cost Usd"
+          },
           "total_input_tokens": {
             "default": 0,
             "title": "Total Input Tokens",
             "type": "integer"
+          },
+          "total_output_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Output Cost Usd"
           },
           "total_output_tokens": {
             "default": 0,
@@ -1439,6 +2059,33 @@
             "type": "integer"
           }
         },
+        "required": [
+          "group_keys",
+          "span_count",
+          "invocation_count",
+          "conversation_count",
+          "total_input_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_duration_ms",
+          "error_count",
+          "total_cost_usd",
+          "total_input_cost_usd",
+          "total_output_cost_usd",
+          "agent_names",
+          "agent_versions",
+          "provider_names",
+          "request_models",
+          "conversation_names",
+          "first_seen",
+          "last_seen",
+          "first_message",
+          "last_message",
+          "metrics",
+          "distributions"
+        ],
         "title": "AgentSpanGroupRow",
         "type": "object"
       },
@@ -1563,6 +2210,17 @@
             "title": "Artifact Refs",
             "type": "array"
           },
+          "cache_creation_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Creation Cost Usd"
+          },
           "cache_creation_input_tokens": {
             "anyOf": [
               {
@@ -1573,6 +2231,17 @@
               }
             ],
             "title": "Cache Creation Input Tokens"
+          },
+          "cache_read_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Read Cost Usd"
           },
           "cache_read_input_tokens": {
             "anyOf": [
@@ -1698,12 +2367,100 @@
             ],
             "title": "Error Type"
           },
+          "eval_evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Evaluation Name"
+          },
+          "eval_example_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Example Id"
+          },
+          "eval_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Kind"
+          },
+          "eval_predict_and_score_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Predict And Score Call Id"
+          },
+          "eval_row_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Row Digest"
+          },
+          "eval_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Run Id"
+          },
+          "eval_trial_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Trial Index"
+          },
           "finish_reasons": {
             "items": {
               "type": "string"
             },
             "title": "Finish Reasons",
             "type": "array"
+          },
+          "input_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Cost Usd"
           },
           "input_messages": {
             "items": {
@@ -1741,6 +2498,17 @@
             ],
             "title": "Operation Name"
           },
+          "output_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Cost Usd"
+          },
           "output_messages": {
             "items": {
               "$ref": "#/components/schemas/NormalizedMessage"
@@ -1769,6 +2537,28 @@
               }
             ],
             "title": "Output Type"
+          },
+          "parent_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Id"
+          },
+          "parent_call_trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Trace Id"
           },
           "parent_span_id": {
             "anyOf": [
@@ -2125,6 +2915,17 @@
             ],
             "title": "Tool Type"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "trace_id": {
             "title": "Trace Id",
             "type": "string"
@@ -2177,7 +2978,83 @@
         "required": [
           "project_id",
           "trace_id",
-          "span_id"
+          "span_id",
+          "parent_span_id",
+          "span_name",
+          "span_kind",
+          "started_at",
+          "ended_at",
+          "status_code",
+          "status_message",
+          "operation_name",
+          "provider_name",
+          "agent_name",
+          "agent_id",
+          "agent_description",
+          "agent_version",
+          "eval_run_id",
+          "eval_predict_and_score_call_id",
+          "eval_kind",
+          "eval_row_digest",
+          "eval_example_id",
+          "eval_trial_index",
+          "eval_evaluation_name",
+          "parent_call_id",
+          "parent_call_trace_id",
+          "request_model",
+          "response_model",
+          "response_id",
+          "input_tokens",
+          "output_tokens",
+          "reasoning_tokens",
+          "cache_creation_input_tokens",
+          "cache_read_input_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "cache_read_cost_usd",
+          "cache_creation_cost_usd",
+          "total_cost_usd",
+          "reasoning_content",
+          "conversation_id",
+          "conversation_name",
+          "tool_name",
+          "tool_type",
+          "tool_call_id",
+          "tool_description",
+          "tool_definitions",
+          "finish_reasons",
+          "error_type",
+          "request_temperature",
+          "request_max_tokens",
+          "request_top_p",
+          "request_frequency_penalty",
+          "request_presence_penalty",
+          "request_seed",
+          "request_stop_sequences",
+          "request_choice_count",
+          "output_type",
+          "input_messages",
+          "output_messages",
+          "system_instructions",
+          "tool_call_arguments",
+          "tool_call_result",
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after",
+          "content_refs",
+          "artifact_refs",
+          "object_refs",
+          "custom_attrs_string",
+          "custom_attrs_int",
+          "custom_attrs_float",
+          "custom_attrs_bool",
+          "server_address",
+          "server_port",
+          "wb_user_id",
+          "wb_run_id",
+          "wb_run_step",
+          "wb_run_step_end",
+          "raw_span_dump"
         ],
         "title": "AgentSpanSchema",
         "type": "object"
@@ -2235,7 +3112,9 @@
         "required": [
           "name",
           "role",
-          "value_type"
+          "value_type",
+          "metric",
+          "aggregation"
         ],
         "title": "AgentSpanStatsColumn",
         "type": "object"
@@ -2463,6 +3342,16 @@
               }
             ]
           },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "start": {
             "format": "date-time",
             "title": "Start",
@@ -2559,7 +3448,11 @@
         "required": [
           "start",
           "end",
-          "timezone"
+          "granularity",
+          "timezone",
+          "bucket_type",
+          "columns",
+          "rows"
         ],
         "title": "AgentSpanStatsRes",
         "type": "object"
@@ -2643,6 +3536,11 @@
             "title": "Group Filters",
             "type": "array"
           },
+          "include_costs": {
+            "default": false,
+            "title": "Include Costs",
+            "type": "boolean"
+          },
           "include_details": {
             "default": false,
             "title": "Include Details",
@@ -2676,6 +3574,16 @@
             "anyOf": [
               {
                 "$ref": "#/components/schemas/Query"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
               },
               {
                 "type": "null"
@@ -2750,6 +3658,11 @@
             "type": "integer"
           }
         },
+        "required": [
+          "spans",
+          "groups",
+          "total_count"
+        ],
         "title": "AgentSpansQueryRes",
         "type": "object"
       },
@@ -2780,12 +3693,45 @@
       "AgentTraceChatRes": {
         "description": "構造化チャットビュー: 単一の trace におけるエージェントの軌跡を表す、メッセージの線形シーケンスです。",
         "properties": {
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          },
+          "agent_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Version"
+          },
+          "ended_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
           "feedback": {
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -2824,6 +3770,55 @@
             ],
             "title": "Root Span Name"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status_code": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Code"
+          },
+          "total_cache_creation_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Creation Input Tokens",
+            "type": "integer"
+          },
+          "total_cache_read_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Read Input Tokens",
+            "type": "integer"
+          },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "anyOf": [
               {
@@ -2836,13 +3831,56 @@
             "description": "trace ルート スパンの実時間の継続時間（ミリ秒）です。これは子スパンの継続時間の合計ではありません。",
             "title": "Total Duration Ms"
           },
+          "total_input_tokens": {
+            "default": 0,
+            "title": "Total Input Tokens",
+            "type": "integer"
+          },
+          "total_output_tokens": {
+            "default": 0,
+            "title": "Total Output Tokens",
+            "type": "integer"
+          },
+          "total_reasoning_tokens": {
+            "default": 0,
+            "title": "Total Reasoning Tokens",
+            "type": "integer"
+          },
           "trace_id": {
             "title": "Trace Id",
             "type": "string"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
           }
         },
         "required": [
-          "trace_id"
+          "trace_id",
+          "root_span_name",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "provider",
+          "started_at",
+          "ended_at",
+          "wb_user_id",
+          "total_duration_ms",
+          "total_cost_usd",
+          "total_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "messages",
+          "feedback"
         ],
         "title": "AgentTraceChatRes",
         "type": "object"
@@ -2898,6 +3936,17 @@
             "title": "Span Count",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "title": "Total Duration Ms",
             "type": "integer"
@@ -2922,6 +3971,7 @@
           "error_count",
           "first_seen",
           "last_seen",
+          "total_cost_usd",
           "agent_version"
         ],
         "title": "AgentVersionSchema",
@@ -2933,6 +3983,11 @@
           "agent_name": {
             "title": "Agent Name",
             "type": "string"
+          },
+          "include_costs": {
+            "default": false,
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "limit": {
             "default": 100,
@@ -2990,7 +4045,8 @@
           }
         },
         "required": [
-          "versions"
+          "versions",
+          "total_count"
         ],
         "title": "AgentVersionsQueryRes",
         "type": "object"
@@ -3025,6 +4081,11 @@
                 "type": "null"
               }
             ]
+          },
+          "include_costs": {
+            "default": false,
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "limit": {
             "default": 100,
@@ -3081,7 +4142,8 @@
           }
         },
         "required": [
-          "agents"
+          "agents",
+          "total_count"
         ],
         "title": "AgentsQueryRes",
         "type": "object"
@@ -3132,6 +4194,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -3174,7 +4239,6 @@
         "type": "object"
       },
       "AnnotationQueueAddCallsBody": {
-        "additionalProperties": false,
         "description": "アノテーションキューにコールを追加するためのリクエストボディ（queue_id はパスから取得）。",
         "properties": {
           "call_ids": {
@@ -3241,7 +4305,6 @@
         "type": "object"
       },
       "AnnotationQueueCreateReq": {
-        "additionalProperties": false,
         "description": "新しいアノテーションキューを作成するためのリクエスト。",
         "properties": {
           "description": {
@@ -3328,7 +4391,6 @@
         "type": "object"
       },
       "AnnotationQueueItemProgressUpdateBody": {
-        "additionalProperties": false,
         "description": "アノテーションの進捗を更新するためのリクエストボディ（queue_id と item_id はパスから取得）。\n\n注: wb_user_id はボディに含まれません。認証済みセッションに基づいてサーバー側で設定されます。",
         "properties": {
           "annotation_state": {
@@ -3589,7 +4651,6 @@
         "type": "object"
       },
       "AnnotationQueueItemsQueryBody": {
-        "additionalProperties": false,
         "description": "アノテーションキュー内の項目をクエリするためのリクエストボディ（queue_id はパスから取得）。",
         "properties": {
           "filter": {
@@ -3793,7 +4854,6 @@
         "type": "object"
       },
       "AnnotationQueueUpdateBody": {
-        "additionalProperties": false,
         "description": "アノテーションキューを更新するためのリクエスト本文（queue_id はパスから取得します）。\n\nproject_id を除くすべてのフィールドは任意で、指定されたフィールドのみ更新されます。",
         "properties": {
           "description": {
@@ -3872,7 +4932,6 @@
         "type": "object"
       },
       "AnnotationQueuesQueryReq": {
-        "additionalProperties": false,
         "description": "プロジェクトのannotation queueをクエリするためのリクエスト。",
         "properties": {
           "limit": {
@@ -3948,7 +5007,6 @@
         "type": "object"
       },
       "AnnotationQueuesStatsReq": {
-        "additionalProperties": false,
         "description": "複数のannotation queueの統計を取得するためのリクエスト。",
         "properties": {
           "project_id": {
@@ -4012,8 +5070,19 @@
       },
       "Body_file_create_file_create_post": {
         "properties": {
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest"
+          },
           "file": {
-            "format": "binary",
+            "contentMediaType": "application/octet-stream",
             "title": "File",
             "type": "string"
           },
@@ -4110,7 +5179,6 @@
         "type": "object"
       },
       "CallEndReq": {
-        "additionalProperties": false,
         "properties": {
           "end": {
             "$ref": "#/components/schemas/EndedCallSchemaForInsert"
@@ -4128,7 +5196,6 @@
         "type": "object"
       },
       "CallMetricSpec": {
-        "additionalProperties": false,
         "description": "集計対象のcallレベルのメトリクスの仕様（モデルごとにはグループ化しない）。",
         "properties": {
           "aggregations": {
@@ -4169,7 +5236,6 @@
         "type": "object"
       },
       "CallReadReq": {
-        "additionalProperties": false,
         "properties": {
           "id": {
             "title": "Id",
@@ -4471,7 +5537,6 @@
         "type": "object"
       },
       "CallStartReq": {
-        "additionalProperties": false,
         "properties": {
           "start": {
             "$ref": "#/components/schemas/StartedCallSchemaForInsert"
@@ -4502,7 +5567,6 @@
         "type": "object"
       },
       "CallStatsReq": {
-        "additionalProperties": false,
         "description": "一定期間における集計済みcall統計のリクエスト。",
         "properties": {
           "call_metrics": {
@@ -4650,7 +5714,6 @@
         "type": "object"
       },
       "CallUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -4697,7 +5760,6 @@
         "type": "object"
       },
       "CallsDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "items": {
@@ -4745,7 +5807,6 @@
         "type": "object"
       },
       "CallsFilter": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "anyOf": [
@@ -4903,7 +5964,6 @@
         "type": "object"
       },
       "CallsQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "columns": {
             "anyOf": [
@@ -5086,7 +6146,6 @@
         "type": "object"
       },
       "CallsQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "expand_columns": {
             "anyOf": [
@@ -5193,7 +6252,6 @@
         "type": "object"
       },
       "CallsScoreReq": {
-        "additionalProperties": false,
         "description": "Call のリストに対するスコアリング ジョブをキューに追加するリクエスト。\n\nスコアリングは call_scoring_worker によって非同期に実行されます。call_scoring_worker は Kafka からメッセージを受信し、各 call_id に各 scorer_ref を適用します。",
         "properties": {
           "call_ids": {
@@ -5243,8 +6301,30 @@
         "title": "CallsScoreRes",
         "type": "object"
       },
+      "CallsUpsertCompleteReq": {
+        "description": "完了済みの Call のバッチをアップサートするためのリクエストです。",
+        "properties": {
+          "batch": {
+            "items": {
+              "$ref": "#/components/schemas/CompletedCallSchemaForInsert"
+            },
+            "title": "Batch",
+            "type": "array"
+          }
+        },
+        "required": [
+          "batch"
+        ],
+        "title": "CallsUpsertCompleteReq",
+        "type": "object"
+      },
+      "CallsUpsertCompleteRes": {
+        "description": "完了済みの Call のバッチをアップサートするためのレスポンスです。",
+        "properties": {},
+        "title": "CallsUpsertCompleteRes",
+        "type": "object"
+      },
       "CallsUsageReq": {
-        "additionalProperties": false,
         "description": "複数のルート call の集計された使用状況を計算するリクエスト。\n\nこの Endpoint は、リクエストされた各ルート call の使用状況メトリクスを返します。各ルートのメトリクスには、そのルート自身の使用状況の合計に加えて、すべての子孫の使用状況の合計も含まれます。\n\n注: 集計のために、条件に一致するすべての call がメモリに読み込まれます。結果セットが非常に大きい場合（>10k calls）は、ルート call ID をバッチ処理するか、application レイヤーでより限定的なフィルターを使用することを検討してください。",
         "properties": {
           "call_ids": {
@@ -5319,6 +6399,184 @@
         "title": "CatalogModelsRes",
         "type": "object"
       },
+      "CompletedCallSchemaForInsert": {
+        "description": "完了済みの Call を直接挿入するためのスキーマです。\n\nこれは、挿入時点ですでに完了している Call を表し、開始情報と終了情報の両方がまとめて提供されます。calls_complete エンドポイントで使用されます。",
+        "properties": {
+          "attributes": {
+            "additionalProperties": true,
+            "title": "Attributes",
+            "type": "object"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "ended_at": {
+            "format": "date-time",
+            "title": "Ended At",
+            "type": "string"
+          },
+          "exception": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exception"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "inputs": {
+            "additionalProperties": true,
+            "title": "Inputs",
+            "type": "object"
+          },
+          "op_name": {
+            "title": "Op Name",
+            "type": "string"
+          },
+          "otel_dump": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Otel Dump"
+          },
+          "output": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/SummaryInsertMap"
+          },
+          "thread_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Id"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          },
+          "turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Turn Id"
+          },
+          "wb_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Id"
+          },
+          "wb_run_step": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step"
+          },
+          "wb_run_step_end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step End"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "直接設定しないでください。サーバーがこのフィールドを自動的に設定します。",
+            "title": "Wb User Id"
+          }
+        },
+        "required": [
+          "project_id",
+          "id",
+          "trace_id",
+          "op_name",
+          "started_at",
+          "ended_at",
+          "attributes",
+          "inputs",
+          "summary"
+        ],
+        "title": "CompletedCallSchemaForInsert",
+        "type": "object"
+      },
       "ContainsOperation": {
         "description": "大文字と小文字を区別しない部分文字列一致。\n\nMongoDB の一部ではありません。Weave 固有の拡張です。\n\n例:\n    ```\n    {\n        \"$contains\": {\n            \"input\": {\"$getField\": \"display_name\"},\n            \"substr\": {\"$literal\": \"llm\"},\n            \"case_insensitive\": true\n        }\n    }\n    ```",
         "properties": {
@@ -5357,6 +6615,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -5401,6 +6662,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -5471,6 +6735,9 @@
                 "$ref": "#/components/schemas/ConvertOperation"
               },
               {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
                 "$ref": "#/components/schemas/AndOperation"
               },
               {
@@ -5522,8 +6789,88 @@
         "title": "ConvertSpec",
         "type": "object"
       },
+      "Cost": {
+        "description": "コストは 100 万トークンあたりの USD で表されます。",
+        "properties": {
+          "cache_read": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "キャッシュされた read トークン 100 万件あたりのコスト（USD）。",
+            "title": "Cache Read"
+          },
+          "cache_write": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "キャッシュされた write トークン 100 万件あたりのコスト（USD）。",
+            "title": "Cache Write"
+          },
+          "input": {
+            "description": "100 万入力トークンあたりのコスト（USD）。",
+            "title": "Input",
+            "type": "number"
+          },
+          "input_audio": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "オーディオ入力トークン 100 万件あたりのコスト（USD）。",
+            "title": "Input Audio"
+          },
+          "output": {
+            "description": "100 万出力トークンあたりのコスト（USD）。",
+            "title": "Output",
+            "type": "number"
+          },
+          "output_audio": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "オーディオ出力トークン 100 万件あたりのコスト（USD）。",
+            "title": "Output Audio"
+          },
+          "reasoning": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "100 万推論トークンあたりのコスト（USD）。",
+            "title": "Reasoning"
+          }
+        },
+        "required": [
+          "input",
+          "output"
+        ],
+        "title": "Cost",
+        "type": "object"
+      },
       "CostCreateInput": {
-        "additionalProperties": false,
         "properties": {
           "cache_creation_input_token_cost": {
             "default": 0,
@@ -5603,7 +6950,6 @@
         "type": "object"
       },
       "CostCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "costs": {
             "additionalProperties": {
@@ -5666,7 +7012,6 @@
         "type": "object"
       },
       "CostPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -5693,6 +7038,34 @@
       },
       "CostQueryOutput": {
         "properties": {
+          "cache_creation_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Creation Input Token Cost"
+          },
+          "cache_read_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Read Input Token Cost"
+          },
           "completion_token_cost": {
             "anyOf": [
               {
@@ -5811,7 +7184,6 @@
         "type": "object"
       },
       "CostQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -5990,6 +7362,147 @@
         "title": "CreateAndLinkWeaveAssetRes",
         "type": "object"
       },
+      "CustomRuntimeApplyBody": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "エンドポイントの API キーとして使用するチームシークレットの名前。シークレット値ではありません",
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "description": "公開 OpenAI 互換エンドポイントのベース URL",
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "エンドポイントにそのまま転送されるヘッダー",
+            "title": "Headers",
+            "type": "object"
+          },
+          "runtime_ids": {
+            "description": "エンドポイントで公開される ID の完全なリスト",
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeID"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "base_url",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyBody",
+        "type": "object"
+      },
+      "CustomRuntimeApplyRes": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Headers",
+            "type": "object"
+          },
+          "name": {
+            "description": "安定したカスタムランタイム名",
+            "title": "Name",
+            "type": "string"
+          },
+          "runtime_ids": {
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeIDRes"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "base_url",
+          "api_key_secret",
+          "headers",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyRes",
+        "type": "object"
+      },
+      "CustomRuntimeID": {
+        "properties": {
+          "id": {
+            "description": "OpenAI 互換リクエストのモデルフィールドで送信される値",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "このランタイム ID がサポートする最大トークン数",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "CustomRuntimeID",
+        "type": "object"
+      },
+      "CustomRuntimeIDRes": {
+        "properties": {
+          "id": {
+            "description": "OpenAI 互換リクエストのモデルフィールドで送信される値",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "このランタイム ID がサポートする最大トークン数",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          },
+          "playground_id": {
+            "title": "Playground Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "playground_id"
+        ],
+        "title": "CustomRuntimeIDRes",
+        "type": "object"
+      },
       "Datacenter": {
         "properties": {
           "country_code": {
@@ -6142,6 +7655,41 @@
         "title": "DatasetReadRes",
         "type": "object"
       },
+      "DeletedObjVersion": {
+        "properties": {
+          "base_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Object Class"
+          },
+          "digest": {
+            "title": "Digest",
+            "type": "string"
+          },
+          "leaf_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Class"
+          }
+        },
+        "required": [
+          "digest"
+        ],
+        "title": "DeletedObjVersion",
+        "type": "object"
+      },
       "EndedCallSchemaForInsert": {
         "properties": {
           "ended_at": {
@@ -6163,6 +7711,17 @@
           "id": {
             "title": "Id",
             "type": "string"
+          },
+          "is_eval": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Eval"
           },
           "output": {
             "anyOf": [
@@ -6191,6 +7750,17 @@
           },
           "summary": {
             "$ref": "#/components/schemas/SummaryInsertMap"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
           },
           "wb_run_step_end": {
             "anyOf": [
@@ -6230,6 +7800,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -6273,6 +7846,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -6356,6 +7932,30 @@
             ],
             "title": "Model Ref"
           },
+          "predict_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "この評価における試行ごとの予測専用コストの合計です（モデルの predict() コストのみで、LLM-as-a-judge scorer のコストは含みません）。いずれの試行でもコストが報告されない場合は None です。",
+            "title": "Predict Total Cost"
+          },
+          "predict_total_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "この評価における、試行ごとの predict 専用トークン使用量の合計です（モデルの predict() トークンのみを含み、LLM-as-a-judge scorer の使用量は除外）。どの試行でも使用量が報告されない場合は None です。",
+            "title": "Predict Total Tokens"
+          },
           "scorer_stats": {
             "items": {
               "$ref": "#/components/schemas/EvalResultsScorerStats"
@@ -6398,7 +7998,6 @@
         "type": "object"
       },
       "EvalResultsFilter": {
-        "additionalProperties": false,
         "description": "省略可能な評価にスコープされたフィルターです。",
         "properties": {
           "evaluation_call_id": {
@@ -6425,7 +8024,6 @@
         "type": "object"
       },
       "EvalResultsQueryBody": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_call_ids": {
             "anyOf": [
@@ -6457,6 +8055,16 @@
             "description": "Evaluation Runs API の評価 Call ID のエイリアス。",
             "title": "Evaluation Run Ids"
           },
+          "filter_logic_operator": {
+            "default": "or",
+            "description": "評価間でフィルターをどのように結合するかを指定します: 'and'（すべて一致 - 行はすべての eval に一致する必要があります）または 'or'（いずれか一致 - 行はいずれかの eval に一致する必要があります）。デフォルトは 'or'（いずれか一致）です。",
+            "enum": [
+              "and",
+              "or"
+            ],
+            "title": "Filter Logic Operator",
+            "type": "string"
+          },
           "filters": {
             "anyOf": [
               {
@@ -6471,6 +8079,12 @@
             ],
             "description": "グループ化された行に適用されるフィルターです。複数のフィルターは AND 条件で結合されます。",
             "title": "Filters"
+          },
+          "include_costs": {
+            "default": false,
+            "description": "true の場合、各試行の predict Call のコストを算出し、各行と summary report で予測専用のコスト（`total_cost` / `predict_total_cost`）をレポートします。Scorer のコストは除外されます。明示的に有効化した場合のみ適用され、それ以外の呼び出し元ではコスト計算をスキップします。",
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "include_predict_and_score_children": {
             "default": true,
@@ -6742,7 +8356,6 @@
         "type": "object"
       },
       "EvalResultsSortBy": {
-        "additionalProperties": false,
         "description": "評価結果の並べ替え指定です。SortBy を拡張します。",
         "properties": {
           "direction": {
@@ -6868,6 +8481,17 @@
             "title": "Scores",
             "type": "object"
           },
+          "total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost"
+          },
           "total_tokens": {
             "anyOf": [
               {
@@ -6887,7 +8511,6 @@
         "type": "object"
       },
       "EvaluateModelReq": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_ref": {
             "title": "Evaluation Ref",
@@ -7363,7 +8986,6 @@
         "type": "object"
       },
       "EvaluationStatusComplete": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "complete",
@@ -7384,7 +9006,6 @@
         "type": "object"
       },
       "EvaluationStatusFailed": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "failed",
@@ -7408,7 +9029,6 @@
         "type": "object"
       },
       "EvaluationStatusNotFound": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "not_found",
@@ -7421,7 +9041,6 @@
         "type": "object"
       },
       "EvaluationStatusReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -7466,7 +9085,6 @@
         "type": "object"
       },
       "EvaluationStatusRunning": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "running",
@@ -7490,8 +9108,250 @@
         "title": "EvaluationStatusRunning",
         "type": "object"
       },
+      "FeedbackAggregateBucket": {
+        "description": "集計された Scorer フィードバックの 1 つの（時間バケット, group）行です。",
+        "properties": {
+          "group": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "この行の group-by ディメンション値です（例: {'scorer_id': '...'}）。",
+            "title": "Group",
+            "type": "object"
+          },
+          "rating_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "各 rating キーを持つ行数です（例: '_rating_'）。",
+            "title": "Rating Counts",
+            "type": "object"
+          },
+          "rating_sums": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "各 rating キーの値の合計です。avg = sum/count はクライアント側で算出します。",
+            "title": "Rating Sums",
+            "type": "object"
+          },
+          "scored_count": {
+            "description": "スコアを出力した行です（少なくとも 1 つのタグまたは rating）。何もスコア付けしなかった agent-monitor 行は除外されます。スコア数の確認にはこれを使用します。",
+            "title": "Scored Count",
+            "type": "integer"
+          },
+          "tag_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "各 Scorer タグの件数です。",
+            "title": "Tag Counts",
+            "type": "object"
+          },
+          "time_bucket_start_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "時間バケットの開始時刻（Unix エポックミリ秒、UTC）です。バケット化されていない場合は None です。",
+            "title": "Time Bucket Start Ms"
+          },
+          "total_count": {
+            "description": "この bucket/group 内のフィードバック行数です。",
+            "title": "Total Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_count",
+          "scored_count"
+        ],
+        "title": "FeedbackAggregateBucket",
+        "type": "object"
+      },
+      "FeedbackAggregateReq": {
+        "description": "時間バケットおよびディメンションごとの集計スコアをクエリするためのクエリです。",
+        "properties": {
+          "after_ms": {
+            "description": "created_at の下限（この値を含む、エポックからのミリ秒）。",
+            "minimum": 0,
+            "title": "After Ms",
+            "type": "integer"
+          },
+          "before_ms": {
+            "description": "created_at の上限（この値を含まない、エポックからのミリ秒）。",
+            "minimum": 0,
+            "title": "Before Ms",
+            "type": "integer"
+          },
+          "feedback_types": {
+            "description": "feedback_type を接頭辞でフィルターします",
+            "items": {
+              "type": "string"
+            },
+            "title": "Feedback Types",
+            "type": "array"
+          },
+          "group_by": {
+            "description": "使用可能な値: ['scorer_id', 'span_agent_name', 'span_agent_version', 'span_status_code']。",
+            "items": {
+              "enum": [
+                "scorer_id",
+                "span_agent_name",
+                "span_agent_version",
+                "span_status_code"
+              ],
+              "type": "string"
+            },
+            "title": "Group By",
+            "type": "array"
+          },
+          "monitor_ids": {
+            "description": "これらの monitor id でフィルターします（完全一致。接頭辞一致にするには末尾に '*' を付けます）。",
+            "items": {
+              "type": "string"
+            },
+            "title": "Monitor Ids",
+            "type": "array"
+          },
+          "project_id": {
+            "examples": [
+              "entity/project"
+            ],
+            "title": "Project Id",
+            "type": "string"
+          },
+          "rating_max": {
+            "anyOf": [
+              {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "rating がこの値以下の行のみを含めます",
+            "title": "Rating Max"
+          },
+          "rating_min": {
+            "anyOf": [
+              {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "rating がこの値以上の行のみを含めます",
+            "title": "Rating Min"
+          },
+          "scorer_ids": {
+            "description": "これらの scorer id でフィルターします（完全一致。接頭辞一致にするには末尾に '*' を付けます）。",
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Ids",
+            "type": "array"
+          },
+          "span_agent_names": {
+            "description": "span_agent_name がこれらのいずれかに一致するフィードバックにフィルターします（完全一致）。",
+            "items": {
+              "type": "string"
+            },
+            "title": "Span Agent Names",
+            "type": "array"
+          },
+          "span_types": {
+            "description": "span のタイプでフィルターします（turn または conversation）。",
+            "items": {
+              "enum": [
+                "agent_turn",
+                "agent_conversation"
+              ],
+              "type": "string"
+            },
+            "title": "Span Types",
+            "type": "array"
+          },
+          "tags": {
+            "description": "指定されたタグのいずれかを含むフィードバックにフィルターします",
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          },
+          "time_bucket_seconds": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "時間バケットのサイズ（秒）です。たとえば 1 時間バケットの場合は 3600 です",
+            "title": "Time Bucket Seconds"
+          }
+        },
+        "required": [
+          "project_id",
+          "after_ms",
+          "before_ms"
+        ],
+        "title": "FeedbackAggregateReq",
+        "type": "object"
+      },
+      "FeedbackAggregateRes": {
+        "description": "集計された Scorer フィードバックの疎な時系列です（空のバケットは省略されます）。",
+        "properties": {
+          "after_ms": {
+            "description": "解決後の下限（この値を含む、Unix エポックミリ秒、UTC）。",
+            "title": "After Ms",
+            "type": "integer"
+          },
+          "before_ms": {
+            "description": "解決後の上限（この値を含まない、Unix エポックミリ秒、UTC）。",
+            "title": "Before Ms",
+            "type": "integer"
+          },
+          "buckets": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackAggregateBucket"
+            },
+            "title": "Buckets",
+            "type": "array"
+          },
+          "time_bucket_seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "使用された時間バケットのサイズ（秒）です。バケット化されていない場合は None です。",
+            "title": "Time Bucket Seconds"
+          }
+        },
+        "required": [
+          "after_ms",
+          "before_ms"
+        ],
+        "title": "FeedbackAggregateRes",
+        "type": "object"
+      },
       "FeedbackCreateBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "batch": {
             "items": {
@@ -7524,7 +9384,6 @@
         "type": "object"
       },
       "FeedbackCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -7715,6 +9574,51 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "このフィードバックを生成した Scorer（judge）invocation のトレース（judge Call の spans.trace_id）。スコアリング対象のターンである span_trace_id とは異なります。Call モデルを結合せずに、シグナルが judge スパンに基づいて invocation のコストを算出できます。",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
+          "span_agent_name": {
+            "default": "",
+            "description": "スコア付けされたエージェントの表示名（spans.agent_name から）",
+            "examples": [
+              "midi-generator"
+            ],
+            "title": "Span Agent Name",
+            "type": "string"
+          },
+          "span_agent_version": {
+            "default": "",
+            "description": "スコア付けされたエージェントのバージョン（spans.agent_version から）",
+            "examples": [
+              "1.2.0"
+            ],
+            "title": "Span Agent Version",
+            "type": "string"
+          },
+          "span_conversation_id": {
+            "default": "",
+            "description": "フィードバックが属する会話（spans.conversation_id から）",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
+          "span_status_code": {
+            "default": "UNSET",
+            "description": "スコア付けされたターンのステータス（spans.status_code から）",
+            "examples": [
+              "OK"
+            ],
+            "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "フィードバックが属するターン（spans.trace_id から）",
+            "title": "Span Trace Id",
+            "type": "string"
+          },
           "trigger_ref": {
             "anyOf": [
               {
@@ -7789,7 +9693,6 @@
         "type": "object"
       },
       "FeedbackMetricSpec": {
-        "additionalProperties": false,
         "description": "集約するフィードバックペイロードメトリクスの仕様。",
         "properties": {
           "aggregations": {
@@ -7832,7 +9735,6 @@
         "type": "object"
       },
       "FeedbackPayloadPath": {
-        "additionalProperties": false,
         "description": "推定された型を持つ、フィードバック ペイロード内で検出されたパス。",
         "properties": {
           "json_path": {
@@ -7859,7 +9761,6 @@
         "type": "object"
       },
       "FeedbackPayloadSchemaReq": {
-        "additionalProperties": false,
         "description": "フィードバックのペイロード スキーマを検出するためのリクエスト。",
         "properties": {
           "end": {
@@ -7941,7 +9842,6 @@
         "type": "object"
       },
       "FeedbackPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -7967,7 +9867,6 @@
         "type": "object"
       },
       "FeedbackQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -8065,16 +9964,21 @@
             },
             "title": "Result",
             "type": "array"
+          },
+          "total_count": {
+            "minimum": 0,
+            "title": "Total Count",
+            "type": "integer"
           }
         },
         "required": [
-          "result"
+          "result",
+          "total_count"
         ],
         "title": "FeedbackQueryRes",
         "type": "object"
       },
       "FeedbackReplaceReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -8269,6 +10173,51 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "このフィードバックを生成した Scorer（judge）invocation のトレース（judge Call の spans.trace_id）。スコアリング対象のターンである span_trace_id とは異なります。Call モデルを結合せずに、シグナルが judge スパンに基づいて invocation のコストを算出できます。",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
+          "span_agent_name": {
+            "default": "",
+            "description": "スコア付けされたエージェントの表示名（spans.agent_name から）",
+            "examples": [
+              "midi-generator"
+            ],
+            "title": "Span Agent Name",
+            "type": "string"
+          },
+          "span_agent_version": {
+            "default": "",
+            "description": "スコア付けされたエージェントのバージョン（spans.agent_version から）",
+            "examples": [
+              "1.2.0"
+            ],
+            "title": "Span Agent Version",
+            "type": "string"
+          },
+          "span_conversation_id": {
+            "default": "",
+            "description": "フィードバックが属する会話（spans.conversation_id から）",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
+          "span_status_code": {
+            "default": "UNSET",
+            "description": "スコア付けされたターンのステータス（spans.status_code から）",
+            "examples": [
+              "OK"
+            ],
+            "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "フィードバックが属するターン（spans.trace_id から）",
+            "title": "Span Trace Id",
+            "type": "string"
+          },
           "trigger_ref": {
             "anyOf": [
               {
@@ -8344,7 +10293,6 @@
         "type": "object"
       },
       "FeedbackStatsReq": {
-        "additionalProperties": false,
         "description": "時間バケットごとの集約フィードバック統計のリクエスト。",
         "properties": {
           "end": {
@@ -8498,7 +10446,6 @@
         "type": "object"
       },
       "FileContentReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -8530,7 +10477,6 @@
         "type": "object"
       },
       "FilesStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "title": "Project Id",
@@ -8694,6 +10640,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -8735,6 +10684,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -8798,6 +10750,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -8839,6 +10794,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -9011,6 +10969,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9055,6 +11016,9 @@
                       "$ref": "#/components/schemas/ConvertOperation"
                     },
                     {
+                      "$ref": "#/components/schemas/SizeOperation"
+                    },
+                    {
                       "$ref": "#/components/schemas/AndOperation"
                     },
                     {
@@ -9097,6 +11061,25 @@
           "$in"
         ],
         "title": "InOperation",
+        "type": "object"
+      },
+      "Interleaved": {
+        "description": "推論インターリーブのサポート詳細です。",
+        "properties": {
+          "field": {
+            "description": "インターリーブされた推論の形式識別子です。",
+            "enum": [
+              "reasoning_content",
+              "reasoning_details"
+            ],
+            "title": "Field",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field"
+        ],
+        "title": "Interleaved",
         "type": "object"
       },
       "LLMAggregatedUsage": {
@@ -9275,8 +11258,9 @@
           },
           "lifecycleStage": {
             "enum": [
-              "general-availability",
               "experimental",
+              "general-availability",
+              "deprecated",
               "retired"
             ],
             "title": "Lifecyclestage",
@@ -9306,6 +11290,10 @@
             },
             "title": "Modalitiesoutput",
             "type": "array"
+          },
+          "openRouterPermaslug": {
+            "title": "Openrouterpermaslug",
+            "type": "string"
           },
           "parameterCountActive": {
             "title": "Parametercountactive",
@@ -9343,6 +11331,37 @@
               "fp32"
             ],
             "title": "Quantization",
+            "type": "string"
+          },
+          "reasoningArgument": {
+            "title": "Reasoningargument",
+            "type": "string"
+          },
+          "reasoningEfforts": {
+            "items": {
+              "enum": [
+                "none",
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ],
+              "type": "string"
+            },
+            "title": "Reasoningefforts",
+            "type": "array"
+          },
+          "reasoningSupport": {
+            "enum": [
+              "unsupported",
+              "default-off",
+              "adaptive",
+              "default-on",
+              "always-on"
+            ],
+            "title": "Reasoningsupport",
             "type": "string"
           },
           "status": {
@@ -9491,6 +11510,33 @@
         "title": "LLMUsageSchema",
         "type": "object"
       },
+      "Limit": {
+        "description": "モデルのトークン制限です。",
+        "properties": {
+          "context": {
+            "description": "トークン単位の最大コンテキストウィンドウです。",
+            "title": "Context",
+            "type": "integer"
+          },
+          "input": {
+            "description": "最大入力トークン数です。",
+            "title": "Input",
+            "type": "integer"
+          },
+          "output": {
+            "description": "最大出力トークン数です。",
+            "title": "Output",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "context",
+          "input",
+          "output"
+        ],
+        "title": "Limit",
+        "type": "object"
+      },
       "LiteralOperation": {
         "description": "クエリ言語における定数値を表します。\n\n標準的な JSON シリアライズ可能な任意の値を指定できます。\n\n例:\n    ```\n    {\"$literal\": \"predict\"}\n    ```",
         "properties": {
@@ -9552,6 +11598,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9593,6 +11642,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -9656,6 +11708,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9699,6 +11754,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9739,6 +11797,33 @@
           "$lte"
         ],
         "title": "LteOperation",
+        "type": "object"
+      },
+      "Modalities": {
+        "description": "サポートされる入出力モダリティです。",
+        "properties": {
+          "input": {
+            "description": "サポートされる入力タイプ（例: テキスト、画像、オーディオ、動画、pdf）です。",
+            "items": {
+              "type": "string"
+            },
+            "title": "Input",
+            "type": "array"
+          },
+          "output": {
+            "description": "サポートされる出力タイプです。",
+            "items": {
+              "type": "string"
+            },
+            "title": "Output",
+            "type": "array"
+          }
+        },
+        "required": [
+          "input",
+          "output"
+        ],
+        "title": "Modalities",
         "type": "object"
       },
       "ModelCreateBody": {
@@ -9902,8 +11987,265 @@
         "title": "ModelReadRes",
         "type": "object"
       },
+      "ModelsDevModel": {
+        "description": "models.dev スキーマ内の単一のモデルエントリです。",
+        "properties": {
+          "attachment": {
+            "description": "ファイル添付のサポートです。",
+            "title": "Attachment",
+            "type": "boolean"
+          },
+          "cost": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Cost"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "価格情報です。"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "モデルの説明（人が読んで理解しやすい形式）です。",
+            "title": "Description"
+          },
+          "id": {
+            "description": "AI SDK で使用されるモデル ID です。",
+            "title": "Id",
+            "type": "string"
+          },
+          "interleaved": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "$ref": "#/components/schemas/Interleaved"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "推論インターリーブのサポートです。",
+            "title": "Interleaved"
+          },
+          "knowledge": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "YYYY-MM または YYYY-MM-DD 形式の知識カットオフです。",
+            "title": "Knowledge"
+          },
+          "last_updated": {
+            "description": "最新の更新日（YYYY-MM-DD）です。",
+            "title": "Last Updated",
+            "type": "string"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Limit"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "トークン制限です。"
+          },
+          "modalities": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Modalities"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "サポートされる入出力モダリティです。"
+          },
+          "name": {
+            "description": "表示名です。",
+            "title": "Name",
+            "type": "string"
+          },
+          "open_weights": {
+            "description": "公開された重みの利用可否です。",
+            "title": "Open Weights",
+            "type": "boolean"
+          },
+          "reasoning": {
+            "description": "Chain-of-thought 推論のサポートです。",
+            "title": "Reasoning",
+            "type": "boolean"
+          },
+          "reasoning_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ReasoningToggle"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningEffortOption"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningBudgetTokens"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "推論をどのように制御するかを示します。推論がサポートされる場合に設定されます（空のリストを指定でき、その場合は常時有効を意味します）。それ以外の場合は省略されます。",
+            "title": "Reasoning Options"
+          },
+          "release_date": {
+            "description": "最初の一般公開日（YYYY-MM-DD）です。",
+            "title": "Release Date",
+            "type": "string"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "alpha",
+                  "beta",
+                  "deprecated"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "モデルのライフサイクルステータスです。",
+            "title": "Status"
+          },
+          "structured_output": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "専用の構造化出力機能です。",
+            "title": "Structured Output"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "temperature 制御のサポートです。",
+            "title": "Temperature"
+          },
+          "tool_call": {
+            "description": "ツール呼び出しのサポートです。",
+            "title": "Tool Call",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "attachment",
+          "reasoning",
+          "tool_call",
+          "release_date",
+          "last_updated",
+          "open_weights"
+        ],
+        "title": "ModelsDevModel",
+        "type": "object"
+      },
+      "ModelsDevProvider": {
+        "description": "models.dev スキーマ内のプロバイダ エントリです。",
+        "properties": {
+          "api": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "OpenAI 互換 API エンドポイント。@ai-sdk/openai-compatible を使用する場合にのみ必須です。",
+            "title": "Api"
+          },
+          "doc": {
+            "description": "プロバイダのドキュメントへのリンク。",
+            "title": "Doc",
+            "type": "string"
+          },
+          "env": {
+            "description": "認証用の環境変数キー。",
+            "items": {
+              "type": "string"
+            },
+            "title": "Env",
+            "type": "array"
+          },
+          "id": {
+            "description": "フォルダ名から導出されるプロバイダ識別子。",
+            "title": "Id",
+            "type": "string"
+          },
+          "models": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ModelsDevModel"
+            },
+            "description": "モデル ID からモデルへのマッピング。",
+            "title": "Models",
+            "type": "object"
+          },
+          "name": {
+            "description": "プロバイダの表示名。",
+            "title": "Name",
+            "type": "string"
+          },
+          "npm": {
+            "description": "AI SDK のパッケージ名。",
+            "title": "Npm",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "npm",
+          "env",
+          "doc"
+        ],
+        "title": "ModelsDevProvider",
+        "type": "object"
+      },
       "NormalizedMessage": {
-        "description": "任意の provider 形式から正規化された単一のメッセージです。\n\nClickHouse の ``Tuple(role String, content String, finish_reason String)`` にマップされます。\n\n- role: メッセージの role（user、assistant、tool、system）\n- content: 単純なメッセージではプレーンテキスト、マルチモーダル/構造化メッセージでは JSON にシリアライズされた parts 配列\n- finish_reason: メッセージごとの終了理由（output メッセージのみ）",
+        "description": "任意の provider 形式から正規化された単一のメッセージです。\n\nClickHouse の ``Tuple(role String, content String, finish_reason String)`` にマップされます。\n\n- role: メッセージの role（user、assistant、tool、system）\n- content: 単純なメッセージではプレーンテキスト、マルチモーダル/構造化メッセージでは JSON にシリアライズされた parts 配列\n- finish_reason: メッセージごとの終了理由（output メッセージのみ）\n\nシリアライズの JSON Schema では、デフォルト値が設定されたフィールドが必須としてマークされます。パブリック OpenAPI ドキュメントでは、このクラスは AgentSpanSchema のメッセージ要素としてのみ表示されます。取り込み時の検証に変更はありません。",
         "properties": {
           "content": {
             "title": "Content",
@@ -9921,7 +12263,9 @@
           }
         },
         "required": [
-          "content"
+          "role",
+          "content",
+          "finish_reason"
         ],
         "title": "NormalizedMessage",
         "type": "object"
@@ -9943,6 +12287,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -10068,7 +12415,6 @@
         "type": "object"
       },
       "ObjCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "obj": {
             "$ref": "#/components/schemas/ObjSchemaForInsert"
@@ -10105,7 +12451,6 @@
         "type": "object"
       },
       "ObjDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -10140,6 +12485,21 @@
       },
       "ObjDeleteRes": {
         "properties": {
+          "deleted_versions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DeletedObjVersion"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "削除された各オブジェクトのバージョンのメタデータです。ダイジェストのエイリアスはコンテンツダイジェストに解決されます。バックエンドサーバーから報告されない場合は None です。",
+            "title": "Deleted Versions"
+          },
           "num_deleted": {
             "title": "Num Deleted",
             "type": "integer"
@@ -10152,7 +12512,6 @@
         "type": "object"
       },
       "ObjQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "filter": {
             "anyOf": [
@@ -10297,7 +12656,6 @@
         "type": "object"
       },
       "ObjReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -10359,7 +12717,6 @@
         "type": "object"
       },
       "ObjRemoveAliasesBody": {
-        "additionalProperties": false,
         "description": "エイリアスを削除するためのリクエストボディです（object_id はパスから取得されます）。",
         "properties": {
           "aliases": {
@@ -10603,7 +12960,6 @@
         "type": "object"
       },
       "ObjSetAliasesBody": {
-        "additionalProperties": false,
         "description": "エイリアスを設定するためのリクエストボディです（object_id はパスから取得されます）。",
         "properties": {
           "aliases": {
@@ -10648,7 +13004,6 @@
         "type": "object"
       },
       "ObjTagsBody": {
-        "additionalProperties": false,
         "description": "タグを追加または削除するためのリクエストボディです（object_id と digest はパスから取得されます）。",
         "properties": {
           "project_id": {
@@ -10680,7 +13035,6 @@
         "type": "object"
       },
       "ObjectVersionFilter": {
-        "additionalProperties": false,
         "properties": {
           "aliases": {
             "anyOf": [
@@ -10968,6 +13322,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -11196,7 +13553,6 @@
         "type": "object"
       },
       "ProjectsInfoReq": {
-        "additionalProperties": false,
         "properties": {
           "project_ids": {
             "description": "'entity/project' 形式の外部プロジェクト ID。",
@@ -11284,8 +13640,128 @@
         "title": "Query",
         "type": "object"
       },
+      "RatingCondition": {
+        "properties": {
+          "op": {
+            "enum": [
+              "gte",
+              "gt",
+              "lte",
+              "lt",
+              "eq"
+            ],
+            "title": "Op",
+            "type": "string"
+          },
+          "scorer_key": {
+            "title": "Scorer Key",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "scorer_key",
+          "op",
+          "value"
+        ],
+        "title": "RatingCondition",
+        "type": "object"
+      },
+      "ReasoningBudgetTokens": {
+        "description": "推論はトークン予算で制御されます。",
+        "properties": {
+          "max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "推論予算の最大値です。",
+            "title": "Max"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "推論予算の最小値です。",
+            "title": "Min"
+          },
+          "type": {
+            "const": "budget_tokens",
+            "default": "budget_tokens",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningBudgetTokens",
+        "type": "object"
+      },
+      "ReasoningEffortOption": {
+        "description": "推論の強度は、複数のレベルから選択できます。",
+        "properties": {
+          "type": {
+            "const": "effort",
+            "default": "effort",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "description": "使用可能な強度レベルです（null は暗黙のデフォルトを示します）。",
+            "items": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "none",
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "max",
+                    "default"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values"
+        ],
+        "title": "ReasoningEffortOption",
+        "type": "object"
+      },
+      "ReasoningToggle": {
+        "description": "推論はオンまたはオフにできます。",
+        "properties": {
+          "type": {
+            "const": "toggle",
+            "default": "toggle",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningToggle",
+        "type": "object"
+      },
       "RefsReadBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "refs": {
             "items": {
@@ -11788,8 +14264,64 @@
         "title": "ServerInfoRes",
         "type": "object"
       },
+      "SizeOperation": {
+        "description": "コレクション内の要素数または string の文字数を返します。\n\n例:\n    ```\n    {\"$size\": {\"$getField\": \"scorer_tags\"}}\n    ```",
+        "properties": {
+          "$size": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LiteralOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GetFieldOperator"
+              },
+              {
+                "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
+                "$ref": "#/components/schemas/AndOperation"
+              },
+              {
+                "$ref": "#/components/schemas/OrOperation"
+              },
+              {
+                "$ref": "#/components/schemas/NotOperation"
+              },
+              {
+                "$ref": "#/components/schemas/EqOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/InOperation"
+              },
+              {
+                "$ref": "#/components/schemas/ContainsOperation"
+              }
+            ],
+            "title": "$Size"
+          }
+        },
+        "required": [
+          "$size"
+        ],
+        "title": "SizeOperation",
+        "type": "object"
+      },
       "SortBy": {
-        "additionalProperties": false,
         "properties": {
           "direction": {
             "enum": [
@@ -12010,7 +14542,6 @@
         "type": "object"
       },
       "TableCreateFromDigestsReq": {
-        "additionalProperties": false,
         "properties": {
           "expected_digest": {
             "anyOf": [
@@ -12057,7 +14588,6 @@
         "type": "object"
       },
       "TableCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "table": {
             "$ref": "#/components/schemas/TableSchemaForInsert"
@@ -12147,7 +14677,6 @@
         "type": "object"
       },
       "TableQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "クエリ対象の表のダイジェスト",
@@ -12262,7 +14791,6 @@
         "type": "object"
       },
       "TableQueryStatsBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -12329,7 +14857,6 @@
         "type": "object"
       },
       "TableQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "クエリ対象の表のダイジェスト",
@@ -12366,7 +14893,6 @@
         "type": "object"
       },
       "TableRowFilter": {
-        "additionalProperties": false,
         "properties": {
           "row_digests": {
             "anyOf": [
@@ -12485,7 +15011,6 @@
         "type": "object"
       },
       "TableUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "base_digest": {
             "title": "Base Digest",
@@ -12558,8 +15083,92 @@
         "title": "TagsListRes",
         "type": "object"
       },
+      "ThreadSchema": {
+        "properties": {
+          "first_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "このスレッド内で最初のターンのターン ID（最も早い start_time）",
+            "title": "First Turn Id"
+          },
+          "last_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "このスレッド内で最後のターンのターン ID（最も遅い end_time）",
+            "title": "Last Turn Id"
+          },
+          "last_updated": {
+            "description": "このスレッド内のターン Call の最も遅い終了時刻",
+            "format": "date-time",
+            "title": "Last Updated",
+            "type": "string"
+          },
+          "p50_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "このスレッド内のターン所要時間（ミリ秒）の第 50 パーセンタイル（中央値）",
+            "title": "P50 Turn Duration Ms"
+          },
+          "p99_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "このスレッド内のターン所要時間（ミリ秒）の第 99 パーセンタイル",
+            "title": "P99 Turn Duration Ms"
+          },
+          "start_time": {
+            "description": "このスレッド内のターン Call の最も早い開始時刻",
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          },
+          "thread_id": {
+            "title": "Thread Id",
+            "type": "string"
+          },
+          "turn_count": {
+            "description": "このスレッド内のターン Call 数",
+            "title": "Turn Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "thread_id",
+          "turn_count",
+          "start_time",
+          "last_updated",
+          "first_turn_id",
+          "last_turn_id",
+          "p50_turn_duration_ms",
+          "p99_turn_duration_ms"
+        ],
+        "title": "ThreadSchema",
+        "type": "object"
+      },
       "ThreadsQueryFilter": {
-        "additionalProperties": false,
         "properties": {
           "after_datetime": {
             "anyOf": [
@@ -12620,7 +15229,6 @@
         "type": "object"
       },
       "ThreadsQueryReq": {
-        "additionalProperties": false,
         "description": "turn call のみを基に集約した統計情報でスレッドをクエリします。\n\nturn call は、スレッドコンテキストの直接の子です（call.id == turn_id の場合）。\nこれにより、ネストされた実装の詳細をすべて含めるのではなく、会話レベルで意味のある統計情報を取得できます。",
         "properties": {
           "filter": {
@@ -12707,7 +15315,6 @@
         "type": "string"
       },
       "TraceUsageReq": {
-        "additionalProperties": false,
         "description": "子孫のロールアップを含めて、trace の call ごとの使用量を計算するためのリクエストです。\n\nこの Endpoint は、trace 内の各 call の使用量メトリクスを返します。各\ncall のメトリクスには、その call 自身の使用量に加えて、すべての子孫の使用量の合計が含まれます。\ncall ごとにロールアップされたメトリクスを確認したい Trace view で使用してください。\n\n注: 一致するすべての calls は、集約のためにメモリに読み込まれます。結果セットが非常に大きい場合\n（>10k calls）は、より具体的なフィルターを使用するか、application レイヤーでページネーションを検討してください。",
         "properties": {
           "filter": {
@@ -12780,7 +15387,6 @@
         "type": "object"
       },
       "UsageMetricSpec": {
-        "additionalProperties": false,
         "description": "集約する使用量メトリクスの仕様（モデルごとにグループ化）。",
         "properties": {
           "aggregations": {
@@ -12827,6 +15433,13 @@
       },
       "ValidationError": {
         "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
           "loc": {
             "items": {
               "anyOf": [
@@ -12860,10 +15473,6 @@
       }
     },
     "securitySchemes": {
-      "HTTPBasic": {
-        "scheme": "basic",
-        "type": "http"
-      },
       "HTTPBearer": {
         "scheme": "bearer",
         "type": "http"
@@ -12911,14 +15520,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAI Agent Versionsクエリ",
         "tags": [
           "Agents"
@@ -12960,15 +15561,48 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAI Conversationチャット",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/conversations/spans": {
+      "post": {
+        "operationId": "genai_conversation_spans_agents_conversations_spans_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentConversationSpansReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentConversationSpansRes"
+                }
+              }
+            },
+            "description": "正常なレスポンス"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "検証エラー"
+          }
+        },
+        "summary": "Genai 会話スパン",
         "tags": [
           "Agents"
         ]
@@ -13029,14 +15663,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAI Agentsクエリ",
         "tags": [
           "Agents"
@@ -13078,14 +15704,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAI検索",
         "tags": [
           "Agents"
@@ -13128,14 +15746,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAIカスタム属性スキーマ",
         "tags": [
           "Agents"
@@ -13178,14 +15788,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAI Spansクエリ",
         "tags": [
           "Agents"
@@ -13228,14 +15830,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAI Spans統計",
         "tags": [
           "Agents"
@@ -13277,14 +15871,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "GenAI Tracesチャット",
         "tags": [
           "Agents"
@@ -13328,14 +15914,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "エイリアス一覧",
         "tags": [
           "Objects"
@@ -13378,14 +15956,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキュー作成",
         "tags": [
           "Annotation Queues"
@@ -13426,14 +15996,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキュークエリストリーム",
         "tags": [
           "Annotation Queues"
@@ -13476,14 +16038,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキュー統計",
         "tags": [
           "Annotation Queues"
@@ -13536,14 +16090,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキューの削除",
         "tags": [
           "Annotation Queues"
@@ -13594,14 +16140,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキュー取得",
         "tags": [
           "Annotation Queues"
@@ -13653,14 +16191,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキューの更新",
         "tags": [
           "Annotation Queues"
@@ -13714,14 +16244,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキューにcallを追加",
         "tags": [
           "Annotation Queues"
@@ -13775,14 +16297,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキュー項目クエリ",
         "tags": [
           "Annotation Queues"
@@ -13845,14 +16359,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "アノテーションキュー項目進捗更新",
         "tags": [
           "Annotation Queues"
@@ -13894,14 +16400,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "call の終了",
         "tags": [
           "Calls"
@@ -13943,14 +16441,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "call の読み取り",
         "tags": [
           "Calls"
@@ -13992,14 +16482,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "call の開始",
         "tags": [
           "Calls"
@@ -14041,14 +16523,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "call の更新",
         "tags": [
           "Calls"
@@ -14090,14 +16564,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "call 開始バッチ",
         "tags": [
           "Calls"
@@ -14139,14 +16605,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "calls の削除",
         "tags": [
           "Calls"
@@ -14188,14 +16646,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "calls クエリ統計",
         "tags": [
           "Calls"
@@ -14237,14 +16687,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Call スコア",
         "tags": [
           "Scores"
@@ -14286,14 +16728,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "call統計",
         "tags": [
           "Calls"
@@ -14345,14 +16779,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "calls クエリストリーム",
         "tags": [
           "Calls"
@@ -14395,14 +16821,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "calls 使用量",
         "tags": [
           "Calls"
@@ -14444,14 +16862,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "コスト作成",
         "tags": [
           "Costs"
@@ -14493,14 +16903,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "コストパージ",
         "tags": [
           "Costs"
@@ -14542,14 +16944,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "コストクエリ",
         "tags": [
           "Costs"
@@ -14591,14 +16985,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "モデル評価",
         "tags": [
           "Evaluations"
@@ -14641,14 +17027,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価を再スコアリング",
         "tags": [
           "Evaluations"
@@ -14690,17 +17068,51 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価ステータス",
         "tags": [
           "Evaluations"
+        ]
+      }
+    },
+    "/feedback/aggregate": {
+      "post": {
+        "description": "型付き Scorer フィードバック（タグ、評価）を時間バケットごとに集計します。",
+        "operationId": "feedback_aggregate_feedback_aggregate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackAggregateReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackAggregateRes"
+                }
+              }
+            },
+            "description": "正常なレスポンス"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "検証エラー"
+          }
+        },
+        "summary": "フィードバック集計",
+        "tags": [
+          "Feedback"
         ]
       }
     },
@@ -14740,14 +17152,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "フィードバック一括作成",
         "tags": [
           "Feedback"
@@ -14790,14 +17194,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "フィードバック作成",
         "tags": [
           "Feedback"
@@ -14840,14 +17236,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "フィードバックのペイロードスキーマ",
         "tags": [
           "Feedback"
@@ -14890,14 +17278,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "フィードバックパージ",
         "tags": [
           "Feedback"
@@ -14940,14 +17320,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "フィードバッククエリ",
         "tags": [
           "Feedback"
@@ -14989,14 +17361,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "フィードバック置換",
         "tags": [
           "Feedback"
@@ -15039,14 +17403,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "フィードバック統計",
         "tags": [
           "Feedback"
@@ -15086,14 +17442,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "ファイルの内容",
         "tags": [
           "Files"
@@ -15135,14 +17483,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "ファイルの作成",
         "tags": [
           "Files"
@@ -15184,14 +17524,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "ファイル統計",
         "tags": [
           "Files"
@@ -15307,14 +17639,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "画像作成",
         "tags": [
           "Images"
@@ -15361,6 +17685,33 @@
           }
         },
         "summary": "Inference Catalog Models",
+        "tags": [
+          "Inference"
+        ],
+        "x-exclude": true
+      }
+    },
+    "/inference/modelsdev/models": {
+      "get": {
+        "description": "models.dev の `api.json` スキーマで利用可能なモデルを返します。\n\nこの API は認証なしで利用できます。",
+        "operationId": "inference_modelsdev_models_inference_modelsdev_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/ModelsDevProvider"
+                  },
+                  "title": "Response Inference Modelsdev Models Inference Modelsdev Models Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "正常なレスポンス"
+          }
+        },
+        "summary": "Inference Modelsdev Models",
         "tags": [
           "Inference"
         ],
@@ -15476,14 +17827,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Registry へのリンク",
         "tags": [
           "Registry"
@@ -15525,14 +17868,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトの作成",
         "tags": [
           "Objects"
@@ -15574,14 +17909,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトの削除",
         "tags": [
           "Objects"
@@ -15623,14 +17950,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトの読み取り",
         "tags": [
           "Objects"
@@ -15672,14 +17991,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトのクエリ",
         "tags": [
           "Objects"
@@ -15733,14 +18044,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトのエイリアスを設定",
         "tags": [
           "Objects"
@@ -15794,14 +18097,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトからエイリアスを削除",
         "tags": [
           "Objects"
@@ -15864,14 +18159,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトにタグを追加",
         "tags": [
           "Objects"
@@ -15934,14 +18221,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "オブジェクトからタグを削除",
         "tags": [
           "Objects"
@@ -16002,14 +18281,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Refs 読み取りバッチ",
         "tags": [
           "Refs"
@@ -16076,14 +18347,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Projects の情報",
         "tags": [
           "Service"
@@ -16125,14 +18388,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "表の作成",
         "tags": [
           "Tables"
@@ -16174,14 +18429,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "ダイジェストから表を作成",
         "tags": [
           "Tables"
@@ -16223,14 +18470,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "表のクエリ",
         "tags": [
           "Tables"
@@ -16272,14 +18511,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "表のクエリ統計",
         "tags": [
           "Tables"
@@ -16321,14 +18552,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "表クエリ統計バッチ",
         "tags": [
           "Tables"
@@ -16370,14 +18593,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "表の更新",
         "tags": [
           "Tables"
@@ -16421,14 +18636,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "タグ一覧",
         "tags": [
           "Objects"
@@ -16451,11 +18658,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSchema"
+                }
               }
             },
-            "description": "成功レスポンス"
+            "description": "JSONL形式のデータストリーム"
           },
           "422": {
             "content": {
@@ -16468,14 +18677,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スレッドクエリストリーム",
         "tags": [
           "Threads"
@@ -16518,15 +18719,69 @@
             "description": "検証エラー"
           }
         },
-        "security": [
+        "summary": "トレース使用量",
+        "tags": [
+          "Calls"
+        ]
+      }
+    },
+    "/v2/{entity}/{project}/calls/complete": {
+      "post": {
+        "description": "完了済みの Call のバッチを `calls_complete` 表に直接アップサートします。\n\nバッチ内の各 Call には、開始情報と終了情報の両方が含まれます。\nこのエンドポイントは、Call がクライアント側でバッファされ、完了レコードとして送信される場合に使用されます。",
+        "operationId": "calls_complete_v2__entity___project__calls_complete_post",
+        "parameters": [
           {
-            "HTTPBasic": []
+            "in": "path",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "title": "Entity",
+              "type": "string"
+            }
           },
           {
-            "HTTPBearer": []
+            "in": "path",
+            "name": "project",
+            "required": true,
+            "schema": {
+              "title": "Project",
+              "type": "string"
+            }
           }
         ],
-        "summary": "トレース使用量",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CallsUpsertCompleteReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallsUpsertCompleteRes"
+                }
+              }
+            },
+            "description": "正常なレスポンス"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "検証エラー"
+          }
+        },
+        "summary": "Call 完了",
         "tags": [
           "Calls"
         ]
@@ -16595,11 +18850,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetReadRes"
+                }
               }
             },
-            "description": "正常な応答"
+            "description": "JSONL形式のデータストリーム"
           },
           "422": {
             "content": {
@@ -16612,14 +18869,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "データセット一覧",
         "tags": [
           "Datasets"
@@ -16680,14 +18929,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "データセット作成",
         "tags": [
           "Datasets"
@@ -16770,14 +19011,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "データセット削除",
         "tags": [
           "Datasets"
@@ -16848,14 +19081,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "データセット取得",
         "tags": [
           "Datasets"
@@ -16918,14 +19143,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Eval 結果クエリ",
         "tags": [
           "Eval Results"
@@ -16992,14 +19209,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価 run の削除",
         "tags": [
           "Evaluation Runs"
@@ -17132,10 +19341,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/EvaluationRunReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/EvaluationRunReadRes"
                 }
               }
             },
@@ -17152,14 +19358,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価 run の一覧",
         "tags": [
           "Evaluation Runs"
@@ -17220,14 +19418,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価 run の作成",
         "tags": [
           "Evaluation Runs"
@@ -17289,14 +19479,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価 run の取得",
         "tags": [
           "Evaluation Runs"
@@ -17368,14 +19550,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価 run の完了",
         "tags": [
           "Evaluation Runs"
@@ -17404,16 +19578,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "返す評価の最大数",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "返す評価の最大数",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "スキップする評価の数",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "スキップする評価の数",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationReadRes"
+                }
               }
             },
-            "description": "正常なレスポンス"
+            "description": "JSONL 形式のデータストリーム"
           },
           "422": {
             "content": {
@@ -17426,14 +19638,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価の一覧",
         "tags": [
           "Evaluations"
@@ -17494,14 +19698,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価の作成",
         "tags": [
           "Evaluations"
@@ -17584,14 +19780,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価の削除",
         "tags": [
           "Evaluations"
@@ -17662,14 +19850,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "評価の取得",
         "tags": [
           "Evaluations"
@@ -17739,11 +19919,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelReadRes"
+                }
               }
             },
-            "description": "正常なレスポンス"
+            "description": "JSONL 形式のデータストリーム"
           },
           "422": {
             "content": {
@@ -17756,14 +19938,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "モデルの一覧",
         "tags": [
           "Models"
@@ -17824,14 +19998,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "モデルの作成",
         "tags": [
           "Models"
@@ -17914,14 +20080,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "モデルの削除",
         "tags": [
           "Models"
@@ -17992,14 +20150,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "モデルの取得",
         "tags": [
           "Models"
@@ -18069,11 +20219,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpReadRes"
+                }
               }
             },
-            "description": "正常なレスポンス"
+            "description": "JSONL形式のデータストリーム"
           },
           "422": {
             "content": {
@@ -18086,14 +20238,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "op一覧",
         "tags": [
           "Ops"
@@ -18154,14 +20298,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "op作成",
         "tags": [
           "Ops"
@@ -18244,14 +20380,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "op削除",
         "tags": [
           "Ops"
@@ -18334,14 +20462,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "op取得",
         "tags": [
           "Ops"
@@ -18408,14 +20528,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "予測の削除",
         "tags": [
           "Predictions"
@@ -18503,10 +20615,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/PredictionReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/PredictionReadRes"
                 }
               }
             },
@@ -18523,14 +20632,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "予測の一覧",
         "tags": [
           "Predictions"
@@ -18591,14 +20692,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "予測の作成",
         "tags": [
           "Predictions"
@@ -18660,14 +20753,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "予測の取得",
         "tags": [
           "Predictions"
@@ -18729,17 +20814,85 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "予測の完了",
         "tags": [
           "Predictions"
+        ]
+      }
+    },
+    "/v2/{entity}/{project}/runtimes/{runtime_name}": {
+      "put": {
+        "description": "カスタムランタイム設定を作成または置換します。",
+        "operationId": "custom_runtime_apply_v2__entity___project__runtimes__runtime_name__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "title": "Entity",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project",
+            "required": true,
+            "schema": {
+              "title": "Project",
+              "type": "string"
+            }
+          },
+          {
+            "description": "作成または置換するカスタムランタイムの固定名",
+            "in": "path",
+            "name": "runtime_name",
+            "required": true,
+            "schema": {
+              "description": "作成または置換するカスタムランタイムの固定名",
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[^\\s:]*(?::[^\\s:]+)*:?$",
+              "title": "Runtime Name",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomRuntimeApplyBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomRuntimeApplyRes"
+                }
+              }
+            },
+            "description": "成功レスポンス"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "検証エラー"
+          }
+        },
+        "summary": "カスタムランタイムを適用",
+        "tags": [
+          "Custom Runtimes"
         ]
       }
     },
@@ -18765,16 +20918,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "返すScorerの最大数",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "返すScorerの最大数",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "スキップするScorerの数",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "スキップするScorerの数",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScorerReadRes"
+                }
               }
             },
-            "description": "正常な応答"
+            "description": "JSONL 形式のデータストリーム"
           },
           "422": {
             "content": {
@@ -18787,14 +20978,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアラー一覧",
         "tags": [
           "Scorers"
@@ -18855,14 +21038,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアラー作成",
         "tags": [
           "Scorers"
@@ -18945,14 +21120,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアラー削除",
         "tags": [
           "Scorers"
@@ -19023,14 +21190,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアラー取得",
         "tags": [
           "Scorers"
@@ -19097,14 +21256,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアの削除",
         "tags": [
           "Scores"
@@ -19192,10 +21343,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ScoreReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/ScoreReadRes"
                 }
               }
             },
@@ -19212,14 +21360,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアの一覧",
         "tags": [
           "Scores"
@@ -19280,14 +21420,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアの作成",
         "tags": [
           "Scores"
@@ -19349,14 +21481,6 @@
             "description": "検証エラー"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "スコアの取得",
         "tags": [
           "Scores"

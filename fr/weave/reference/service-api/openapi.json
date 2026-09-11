@@ -60,6 +60,12 @@
             "title": "Tool Definitions"
           }
         },
+        "required": [
+          "model",
+          "system_instructions",
+          "tool_definitions",
+          "status"
+        ],
         "title": "AgentChatAgentStart",
         "type": "object"
       },
@@ -84,6 +90,17 @@
             ],
             "title": "Duration Ms"
           },
+          "input_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Cost Usd"
+          },
           "input_tokens": {
             "anyOf": [
               {
@@ -105,6 +122,17 @@
               }
             ],
             "title": "Model"
+          },
+          "output_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Cost Usd"
           },
           "output_tokens": {
             "anyOf": [
@@ -158,10 +186,32 @@
           "text": {
             "title": "Text",
             "type": "string"
+          },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
           }
         },
         "required": [
-          "text"
+          "text",
+          "model",
+          "reasoning_content",
+          "reasoning_tokens",
+          "input_tokens",
+          "output_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "total_cost_usd",
+          "duration_ms",
+          "status",
+          "content_refs"
         ],
         "title": "AgentChatAssistantMessage",
         "type": "object"
@@ -203,7 +253,175 @@
             "title": "Compaction Summary"
           }
         },
+        "required": [
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after"
+        ],
         "title": "AgentChatContextCompacted",
+        "type": "object"
+      },
+      "AgentChatFeedback": {
+        "description": "Ligne de feedback issue de la projection `include_feedback` du chat de l’agent.\n\nLes noms des champs correspondent à FEEDBACK_QUERY_FIELDS. Il ne s’agit ni de la ligne du tableau de feedback ni de FeedbackCreateReq : project_id et span_* ne sont pas sélectionnés.",
+        "properties": {
+          "annotation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotation Ref"
+          },
+          "call_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Call Ref"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "creator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Creator"
+          },
+          "feedback_type": {
+            "title": "Feedback Type",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "runnable_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runnable Ref"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Rating Confidences",
+            "type": "object"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Rating Reasons",
+            "type": "object"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Ratings",
+            "type": "object"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Scorer Tag Confidences",
+            "type": "object"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Scorer Tag Reasons",
+            "type": "object"
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Tags",
+            "type": "array"
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
+          },
+          "weave_ref": {
+            "title": "Weave Ref",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "feedback_type",
+          "weave_ref",
+          "payload",
+          "creator",
+          "created_at",
+          "wb_user_id",
+          "runnable_ref",
+          "call_ref",
+          "trigger_ref",
+          "annotation_ref",
+          "scorer_tags",
+          "scorer_tag_reasons",
+          "scorer_tag_confidences",
+          "scorer_ratings",
+          "scorer_rating_reasons",
+          "scorer_rating_confidences"
+        ],
+        "title": "AgentChatFeedback",
         "type": "object"
       },
       "AgentChatMessage": {
@@ -240,6 +458,17 @@
               }
             ]
           },
+          "agent_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Version"
+          },
           "assistant_message": {
             "anyOf": [
               {
@@ -264,8 +493,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -297,6 +525,22 @@
               }
             ],
             "title": "Started At"
+          },
+          "status_code": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Code"
           },
           "tool_call": {
             "anyOf": [
@@ -332,7 +576,19 @@
           }
         },
         "required": [
-          "type"
+          "type",
+          "span_id",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "started_at",
+          "user_message",
+          "assistant_message",
+          "tool_call",
+          "agent_start",
+          "agent_handoff",
+          "context_compacted",
+          "feedback"
         ],
         "title": "AgentChatMessage",
         "type": "object"
@@ -408,6 +664,14 @@
             "title": "Tool Result"
           }
         },
+        "required": [
+          "tool_name",
+          "tool_arguments",
+          "tool_result",
+          "duration_ms",
+          "status",
+          "content_refs"
+        ],
         "title": "AgentChatToolCall",
         "type": "object"
       },
@@ -427,7 +691,8 @@
           }
         },
         "required": [
-          "text"
+          "text",
+          "content_refs"
         ],
         "title": "AgentChatUserMessage",
         "type": "object"
@@ -482,8 +747,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -508,6 +772,17 @@
             "title": "Offset",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_turns": {
             "default": 0,
             "title": "Total Turns",
@@ -522,7 +797,14 @@
           }
         },
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "turns",
+          "total_turns",
+          "has_more",
+          "limit",
+          "offset",
+          "total_cost_usd",
+          "feedback"
         ],
         "title": "AgentConversationChatRes",
         "type": "object"
@@ -531,7 +813,10 @@
         "description": "Extrait tronqué du premier ou du dernier message pour une ligne de conversation groupée.\n\n`role` est le type de message de la chronologie du chat (par ex. \"user_message\",\n\"assistant_message\") afin que les clients puissent le styliser de manière cohérente avec la vue de\nchat complète ; `text` est le contenu d’aperçu tronqué et limité en longueur.",
         "properties": {
           "role": {
-            "default": "",
+            "enum": [
+              "user_message",
+              "assistant_message"
+            ],
             "title": "Role",
             "type": "string"
           },
@@ -541,7 +826,241 @@
             "type": "string"
           }
         },
+        "required": [
+          "role",
+          "text"
+        ],
         "title": "AgentConversationMessagePreview",
+        "type": "object"
+      },
+      "AgentConversationSpan": {
+        "description": "Un span dans la trace d’une conversation.\n\nRenvoyé par `agent_conversation_spans`, qui lit uniquement les colonnes scalaires des spans\n(sans corps de message). Les spans sont ordonnés par `started_at`, ce qui\napproxime — sans correspondre exactement — l’ordre de parcours de l’arborescence\nparent/enfant dans la vue détaillée du chat. `operation_name` est la valeur OTel brute ; le\nclient l’associe à une catégorie d’affichage.",
+        "properties": {
+          "duration_ms": {
+            "title": "Duration Ms",
+            "type": "integer"
+          },
+          "operation_name": {
+            "title": "Operation Name",
+            "type": "string"
+          },
+          "span_id": {
+            "title": "Span Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "UNSET",
+              "OK",
+              "ERROR"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation_name",
+          "trace_id",
+          "span_id",
+          "status",
+          "duration_ms"
+        ],
+        "title": "AgentConversationSpan",
+        "type": "object"
+      },
+      "AgentConversationSpanFeedback": {
+        "description": "Tags et scores appliqués à un tour de conversation (ou à la conversation elle-même).\n\nPositionnés côté client en faisant correspondre `trace_id` (tour de conversation) aux spans ;\n`trace_id` vaut None pour le feedback au niveau de la conversation.",
+        "properties": {
+          "feedback_type": {
+            "enum": [
+              "wandb.agent_user_feedback",
+              "wandb.agent_monitor"
+            ],
+            "title": "Feedback Type",
+            "type": "string"
+          },
+          "ratings": {
+            "description": "Scores numériques du scorer appliqués à ce feedback.",
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpanRating"
+            },
+            "title": "Ratings",
+            "type": "array"
+          },
+          "tags": {
+            "description": "Tags descriptifs arbitraires appliqués à ce feedback.",
+            "examples": [
+              [
+                "👍",
+                "needs-review"
+              ]
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tour de conversation auquel ce feedback est rattaché ; None au niveau de la conversation.",
+            "title": "Trace Id"
+          }
+        },
+        "required": [
+          "trace_id",
+          "feedback_type",
+          "tags",
+          "ratings"
+        ],
+        "title": "AgentConversationSpanFeedback",
+        "type": "object"
+      },
+      "AgentConversationSpanRating": {
+        "description": "Un score numérique (score de scorer) appliqué à un tour de conversation ou à une conversation.",
+        "properties": {
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "reason",
+          "confidence"
+        ],
+        "title": "AgentConversationSpanRating",
+        "type": "object"
+      },
+      "AgentConversationSpans": {
+        "description": "Séquence de spans d’une conversation et ses marqueurs de feedback.",
+        "properties": {
+          "conversation_id": {
+            "title": "Conversation Id",
+            "type": "string"
+          },
+          "spans": {
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpan"
+            },
+            "title": "Spans",
+            "type": "array"
+          },
+          "spans_feedback": {
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpanFeedback"
+            },
+            "title": "Spans Feedback",
+            "type": "array"
+          }
+        },
+        "required": [
+          "conversation_id",
+          "spans",
+          "spans_feedback"
+        ],
+        "title": "AgentConversationSpans",
+        "type": "object"
+      },
+      "AgentConversationSpansReq": {
+        "description": "Demandez les séquences de spans pour un ensemble explicite de conversations.\n\nLit uniquement les colonnes scalaires des spans (sans corps de message) pour les\n`conversation_ids` donnés. Alimente la mini-carte des spans dans la liste des conversations.",
+        "properties": {
+          "conversation_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10000,
+            "title": "Conversation Ids",
+            "type": "array"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "started_after": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started After"
+          },
+          "started_before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started Before"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "title": "AgentConversationSpansReq",
+        "type": "object"
+      },
+      "AgentConversationSpansRes": {
+        "description": "Séquences de spans + marqueurs de feedback, une entrée par conversation demandée.",
+        "properties": {
+          "conversations": {
+            "items": {
+              "$ref": "#/components/schemas/AgentConversationSpans"
+            },
+            "title": "Conversations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "conversations"
+        ],
+        "title": "AgentConversationSpansRes",
         "type": "object"
       },
       "AgentCustomAttrSchemaItem": {
@@ -672,6 +1191,12 @@
             "type": "integer"
           }
         },
+        "required": [
+          "attributes",
+          "limit",
+          "offset",
+          "has_more"
+        ],
         "title": "AgentCustomAttrsSchemaRes",
         "type": "object"
       },
@@ -760,6 +1285,17 @@
             "title": "Span Count",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "title": "Total Duration Ms",
             "type": "integer"
@@ -783,7 +1319,8 @@
           "total_duration_ms",
           "error_count",
           "first_seen",
-          "last_seen"
+          "last_seen",
+          "total_cost_usd"
         ],
         "title": "AgentSchema",
         "type": "object"
@@ -838,17 +1375,24 @@
             "type": "string"
           },
           "role": {
-            "enum": [
-              "",
-              "user",
-              "assistant",
-              "system",
-              "tool",
-              "tool_call",
-              "tool_result"
+            "anyOf": [
+              {
+                "enum": [
+                  "",
+                  "user",
+                  "assistant",
+                  "system",
+                  "tool",
+                  "tool_call",
+                  "tool_result"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
             ],
-            "title": "Role",
-            "type": "string"
+            "title": "Role"
           },
           "span_id": {
             "title": "Span Id",
@@ -876,7 +1420,7 @@
         "type": "object"
       },
       "AgentSearchReq": {
-        "description": "Recherche en texte intégral dans le contenu des messages et les métadonnées des spans.\n\nAnalyse le tableau `messages` (une ligne par occurrence de message, alimentée\npar une vue matérialisée à partir des spans) et renvoie les correspondances au niveau du span. L’appelant\neffectue le regroupement par conversation pour la forme de la réponse.",
+        "description": "Interrogez la table `messages` par contenu et/ou à l’aide de filtres au niveau des spans.\n\nAnalyse la table `messages` (une ligne par occurrence de message, alimentée par une\nvue matérialisée issue des spans) et renvoie les correspondances au niveau des spans. La recherche en texte intégral renseigne\n`query` ; la récupération structurée (par ex. tous les messages d’une trace) laisse `query`\nvide et utilise les filtres ci-dessous. L’appelant regroupe par conversation pour la\nstructure de la réponse.",
         "properties": {
           "agent_name": {
             "anyOf": [
@@ -929,6 +1473,7 @@
             "title": "Provider Name"
           },
           "query": {
+            "default": "",
             "title": "Query",
             "type": "string"
           },
@@ -989,11 +1534,26 @@
               }
             ],
             "title": "Started Before"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          },
+          "truncate_content": {
+            "default": true,
+            "title": "Truncate Content",
+            "type": "boolean"
           }
         },
         "required": [
-          "project_id",
-          "query"
+          "project_id"
         ],
         "title": "AgentSearchReq",
         "type": "object"
@@ -1015,9 +1575,30 @@
           }
         },
         "required": [
-          "results"
+          "results",
+          "total_conversations"
         ],
         "title": "AgentSearchRes",
+        "type": "object"
+      },
+      "AgentSignalFilter": {
+        "properties": {
+          "ratings": {
+            "items": {
+              "$ref": "#/components/schemas/RatingCondition"
+            },
+            "title": "Ratings",
+            "type": "array"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "title": "AgentSignalFilter",
         "type": "object"
       },
       "AgentSortBy": {
@@ -1142,7 +1723,13 @@
           "alias",
           "source",
           "key",
-          "value_type"
+          "value_type",
+          "total_count",
+          "present_count",
+          "missing_count",
+          "other_count",
+          "bins",
+          "values"
         ],
         "title": "AgentSpanGroupDistributionItem",
         "type": "object"
@@ -1418,15 +2005,48 @@
             "title": "Total Cache Read Input Tokens",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "default": 0,
             "title": "Total Duration Ms",
             "type": "integer"
           },
+          "total_input_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Input Cost Usd"
+          },
           "total_input_tokens": {
             "default": 0,
             "title": "Total Input Tokens",
             "type": "integer"
+          },
+          "total_output_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Output Cost Usd"
           },
           "total_output_tokens": {
             "default": 0,
@@ -1439,6 +2059,33 @@
             "type": "integer"
           }
         },
+        "required": [
+          "group_keys",
+          "span_count",
+          "invocation_count",
+          "conversation_count",
+          "total_input_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_duration_ms",
+          "error_count",
+          "total_cost_usd",
+          "total_input_cost_usd",
+          "total_output_cost_usd",
+          "agent_names",
+          "agent_versions",
+          "provider_names",
+          "request_models",
+          "conversation_names",
+          "first_seen",
+          "last_seen",
+          "first_message",
+          "last_message",
+          "metrics",
+          "distributions"
+        ],
         "title": "AgentSpanGroupRow",
         "type": "object"
       },
@@ -1563,6 +2210,17 @@
             "title": "Artifact Refs",
             "type": "array"
           },
+          "cache_creation_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Creation Cost Usd"
+          },
           "cache_creation_input_tokens": {
             "anyOf": [
               {
@@ -1573,6 +2231,17 @@
               }
             ],
             "title": "Cache Creation Input Tokens"
+          },
+          "cache_read_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Read Cost Usd"
           },
           "cache_read_input_tokens": {
             "anyOf": [
@@ -1698,12 +2367,100 @@
             ],
             "title": "Error Type"
           },
+          "eval_evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Evaluation Name"
+          },
+          "eval_example_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Example Id"
+          },
+          "eval_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Kind"
+          },
+          "eval_predict_and_score_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Predict And Score Call Id"
+          },
+          "eval_row_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Row Digest"
+          },
+          "eval_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Run Id"
+          },
+          "eval_trial_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Trial Index"
+          },
           "finish_reasons": {
             "items": {
               "type": "string"
             },
             "title": "Finish Reasons",
             "type": "array"
+          },
+          "input_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Cost Usd"
           },
           "input_messages": {
             "items": {
@@ -1741,6 +2498,17 @@
             ],
             "title": "Operation Name"
           },
+          "output_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Cost Usd"
+          },
           "output_messages": {
             "items": {
               "$ref": "#/components/schemas/NormalizedMessage"
@@ -1769,6 +2537,28 @@
               }
             ],
             "title": "Output Type"
+          },
+          "parent_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Id"
+          },
+          "parent_call_trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Trace Id"
           },
           "parent_span_id": {
             "anyOf": [
@@ -2125,6 +2915,17 @@
             ],
             "title": "Tool Type"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "trace_id": {
             "title": "Trace Id",
             "type": "string"
@@ -2177,7 +2978,83 @@
         "required": [
           "project_id",
           "trace_id",
-          "span_id"
+          "span_id",
+          "parent_span_id",
+          "span_name",
+          "span_kind",
+          "started_at",
+          "ended_at",
+          "status_code",
+          "status_message",
+          "operation_name",
+          "provider_name",
+          "agent_name",
+          "agent_id",
+          "agent_description",
+          "agent_version",
+          "eval_run_id",
+          "eval_predict_and_score_call_id",
+          "eval_kind",
+          "eval_row_digest",
+          "eval_example_id",
+          "eval_trial_index",
+          "eval_evaluation_name",
+          "parent_call_id",
+          "parent_call_trace_id",
+          "request_model",
+          "response_model",
+          "response_id",
+          "input_tokens",
+          "output_tokens",
+          "reasoning_tokens",
+          "cache_creation_input_tokens",
+          "cache_read_input_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "cache_read_cost_usd",
+          "cache_creation_cost_usd",
+          "total_cost_usd",
+          "reasoning_content",
+          "conversation_id",
+          "conversation_name",
+          "tool_name",
+          "tool_type",
+          "tool_call_id",
+          "tool_description",
+          "tool_definitions",
+          "finish_reasons",
+          "error_type",
+          "request_temperature",
+          "request_max_tokens",
+          "request_top_p",
+          "request_frequency_penalty",
+          "request_presence_penalty",
+          "request_seed",
+          "request_stop_sequences",
+          "request_choice_count",
+          "output_type",
+          "input_messages",
+          "output_messages",
+          "system_instructions",
+          "tool_call_arguments",
+          "tool_call_result",
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after",
+          "content_refs",
+          "artifact_refs",
+          "object_refs",
+          "custom_attrs_string",
+          "custom_attrs_int",
+          "custom_attrs_float",
+          "custom_attrs_bool",
+          "server_address",
+          "server_port",
+          "wb_user_id",
+          "wb_run_id",
+          "wb_run_step",
+          "wb_run_step_end",
+          "raw_span_dump"
         ],
         "title": "AgentSpanSchema",
         "type": "object"
@@ -2235,7 +3112,9 @@
         "required": [
           "name",
           "role",
-          "value_type"
+          "value_type",
+          "metric",
+          "aggregation"
         ],
         "title": "AgentSpanStatsColumn",
         "type": "object"
@@ -2463,6 +3342,16 @@
               }
             ]
           },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "start": {
             "format": "date-time",
             "title": "Start",
@@ -2559,7 +3448,11 @@
         "required": [
           "start",
           "end",
-          "timezone"
+          "granularity",
+          "timezone",
+          "bucket_type",
+          "columns",
+          "rows"
         ],
         "title": "AgentSpanStatsRes",
         "type": "object"
@@ -2643,6 +3536,11 @@
             "title": "Group Filters",
             "type": "array"
           },
+          "include_costs": {
+            "default": false,
+            "title": "Include Costs",
+            "type": "boolean"
+          },
           "include_details": {
             "default": false,
             "title": "Include Details",
@@ -2676,6 +3574,16 @@
             "anyOf": [
               {
                 "$ref": "#/components/schemas/Query"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
               },
               {
                 "type": "null"
@@ -2750,6 +3658,11 @@
             "type": "integer"
           }
         },
+        "required": [
+          "spans",
+          "groups",
+          "total_count"
+        ],
         "title": "AgentSpansQueryRes",
         "type": "object"
       },
@@ -2780,12 +3693,45 @@
       "AgentTraceChatRes": {
         "description": "Vue de chat structurée : une séquence linéaire de messages représentant la trajectoire de l'agent pour une seule trace.",
         "properties": {
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          },
+          "agent_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Version"
+          },
+          "ended_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
           "feedback": {
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -2824,6 +3770,55 @@
             ],
             "title": "Root Span Name"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status_code": {
+            "anyOf": [
+              {
+                "enum": [
+                  "UNSET",
+                  "OK",
+                  "ERROR"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Code"
+          },
+          "total_cache_creation_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Creation Input Tokens",
+            "type": "integer"
+          },
+          "total_cache_read_input_tokens": {
+            "default": 0,
+            "title": "Total Cache Read Input Tokens",
+            "type": "integer"
+          },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "anyOf": [
               {
@@ -2836,13 +3831,56 @@
             "description": "Durée réelle du span racine de la trace, en millisecondes. Il ne s'agit pas d'une somme des durées des spans enfants.",
             "title": "Total Duration Ms"
           },
+          "total_input_tokens": {
+            "default": 0,
+            "title": "Total Input Tokens",
+            "type": "integer"
+          },
+          "total_output_tokens": {
+            "default": 0,
+            "title": "Total Output Tokens",
+            "type": "integer"
+          },
+          "total_reasoning_tokens": {
+            "default": 0,
+            "title": "Total Reasoning Tokens",
+            "type": "integer"
+          },
           "trace_id": {
             "title": "Trace Id",
             "type": "string"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
           }
         },
         "required": [
-          "trace_id"
+          "trace_id",
+          "root_span_name",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "provider",
+          "started_at",
+          "ended_at",
+          "wb_user_id",
+          "total_duration_ms",
+          "total_cost_usd",
+          "total_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "messages",
+          "feedback"
         ],
         "title": "AgentTraceChatRes",
         "type": "object"
@@ -2898,6 +3936,17 @@
             "title": "Span Count",
             "type": "integer"
           },
+          "total_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost Usd"
+          },
           "total_duration_ms": {
             "title": "Total Duration Ms",
             "type": "integer"
@@ -2922,6 +3971,7 @@
           "error_count",
           "first_seen",
           "last_seen",
+          "total_cost_usd",
           "agent_version"
         ],
         "title": "AgentVersionSchema",
@@ -2933,6 +3983,11 @@
           "agent_name": {
             "title": "Agent Name",
             "type": "string"
+          },
+          "include_costs": {
+            "default": false,
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "limit": {
             "default": 100,
@@ -2990,7 +4045,8 @@
           }
         },
         "required": [
-          "versions"
+          "versions",
+          "total_count"
         ],
         "title": "AgentVersionsQueryRes",
         "type": "object"
@@ -3025,6 +4081,11 @@
                 "type": "null"
               }
             ]
+          },
+          "include_costs": {
+            "default": false,
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "limit": {
             "default": 100,
@@ -3081,7 +4142,8 @@
           }
         },
         "required": [
-          "agents"
+          "agents",
+          "total_count"
         ],
         "title": "AgentsQueryRes",
         "type": "object"
@@ -3132,6 +4194,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -3174,7 +4239,6 @@
         "type": "object"
       },
       "AnnotationQueueAddCallsBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour ajouter des appels à une file d'attente d'annotation (queue_id provient du chemin).",
         "properties": {
           "call_ids": {
@@ -3241,7 +4305,6 @@
         "type": "object"
       },
       "AnnotationQueueCreateReq": {
-        "additionalProperties": false,
         "description": "Requête pour créer une nouvelle file d'attente d'annotation.",
         "properties": {
           "description": {
@@ -3328,7 +4391,6 @@
         "type": "object"
       },
       "AnnotationQueueItemProgressUpdateBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour mettre à jour la progression de l’annotation (queue_id et item_id proviennent du chemin).\n\nRemarque : wb_user_id n’est pas inclus dans le corps de la requête ; il est défini côté serveur à partir de la session authentifiée.",
         "properties": {
           "annotation_state": {
@@ -3589,7 +4651,6 @@
         "type": "object"
       },
       "AnnotationQueueItemsQueryBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour interroger les éléments d’une file d'attente d'annotation (queue_id provient du chemin).",
         "properties": {
           "filter": {
@@ -3793,7 +4854,6 @@
         "type": "object"
       },
       "AnnotationQueueUpdateBody": {
-        "additionalProperties": false,
         "description": "Corps de la requête pour la mise à jour d’une file d’annotation (queue_id provient du chemin).\n\nTous les champs sauf project_id sont facultatifs : seuls les champs fournis seront mis à jour.",
         "properties": {
           "description": {
@@ -3872,7 +4932,6 @@
         "type": "object"
       },
       "AnnotationQueuesQueryReq": {
-        "additionalProperties": false,
         "description": "Requête pour interroger les files d'attente d’annotation d’un projet.",
         "properties": {
           "limit": {
@@ -3948,7 +5007,6 @@
         "type": "object"
       },
       "AnnotationQueuesStatsReq": {
-        "additionalProperties": false,
         "description": "Requête pour obtenir les statistiques de plusieurs files d'attente d’annotation.",
         "properties": {
           "project_id": {
@@ -4012,8 +5070,19 @@
       },
       "Body_file_create_file_create_post": {
         "properties": {
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest"
+          },
           "file": {
-            "format": "binary",
+            "contentMediaType": "application/octet-stream",
             "title": "File",
             "type": "string"
           },
@@ -4110,7 +5179,6 @@
         "type": "object"
       },
       "CallEndReq": {
-        "additionalProperties": false,
         "properties": {
           "end": {
             "$ref": "#/components/schemas/EndedCallSchemaForInsert"
@@ -4128,7 +5196,6 @@
         "type": "object"
       },
       "CallMetricSpec": {
-        "additionalProperties": false,
         "description": "Spécification d’une métrique au niveau des appels à agréger (non groupée par modèle).",
         "properties": {
           "aggregations": {
@@ -4169,7 +5236,6 @@
         "type": "object"
       },
       "CallReadReq": {
-        "additionalProperties": false,
         "properties": {
           "id": {
             "title": "Id",
@@ -4471,7 +5537,6 @@
         "type": "object"
       },
       "CallStartReq": {
-        "additionalProperties": false,
         "properties": {
           "start": {
             "$ref": "#/components/schemas/StartedCallSchemaForInsert"
@@ -4502,7 +5567,6 @@
         "type": "object"
       },
       "CallStatsReq": {
-        "additionalProperties": false,
         "description": "Requête pour obtenir des statistiques d’appels agrégées sur une plage temporelle.",
         "properties": {
           "call_metrics": {
@@ -4650,7 +5714,6 @@
         "type": "object"
       },
       "CallUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -4697,7 +5760,6 @@
         "type": "object"
       },
       "CallsDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "items": {
@@ -4745,7 +5807,6 @@
         "type": "object"
       },
       "CallsFilter": {
-        "additionalProperties": false,
         "properties": {
           "call_ids": {
             "anyOf": [
@@ -4903,7 +5964,6 @@
         "type": "object"
       },
       "CallsQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "columns": {
             "anyOf": [
@@ -5086,7 +6146,6 @@
         "type": "object"
       },
       "CallsQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "expand_columns": {
             "anyOf": [
@@ -5193,7 +6252,6 @@
         "type": "object"
       },
       "CallsScoreReq": {
-        "additionalProperties": false,
         "description": "Requête permettant de mettre en file d'attente des jobs de scoring pour une liste d'appels.\n\nLe scoring est effectué de manière asynchrone par le call_scoring_worker, qui consomme des messages de Kafka et applique chaque scorer_ref à chaque call_id.",
         "properties": {
           "call_ids": {
@@ -5243,8 +6301,30 @@
         "title": "CallsScoreRes",
         "type": "object"
       },
+      "CallsUpsertCompleteReq": {
+        "description": "Requête pour l’insertion ou la mise à jour d’un lot d’appels terminés.",
+        "properties": {
+          "batch": {
+            "items": {
+              "$ref": "#/components/schemas/CompletedCallSchemaForInsert"
+            },
+            "title": "Batch",
+            "type": "array"
+          }
+        },
+        "required": [
+          "batch"
+        ],
+        "title": "CallsUpsertCompleteReq",
+        "type": "object"
+      },
+      "CallsUpsertCompleteRes": {
+        "description": "Réponse pour l’insertion ou la mise à jour d’un lot d’appels terminés.",
+        "properties": {},
+        "title": "CallsUpsertCompleteRes",
+        "type": "object"
+      },
       "CallsUsageReq": {
-        "additionalProperties": false,
         "description": "Requête pour calculer l’utilisation agrégée de plusieurs appels racine.\n\nCet endpoint renvoie les métriques d’utilisation pour chaque appel racine demandé, où les métriques de chaque racine incluent la somme de sa propre utilisation et de celle de tous ses descendants.\n\nRemarque : tous les appels correspondants sont chargés en mémoire pour l’agrégation. Pour des ensembles de résultats très volumineux (>10k appels), envisagez de traiter les ID des appels racine par lots ou d’utiliser des filtres plus restrictifs au niveau de l’application.",
         "properties": {
           "call_ids": {
@@ -5319,6 +6399,184 @@
         "title": "CatalogModelsRes",
         "type": "object"
       },
+      "CompletedCallSchemaForInsert": {
+        "description": "Schéma pour insérer directement un appel terminé.\n\nReprésente un appel déjà terminé au moment de l’insertion, avec les informations\nde début et de fin fournies ensemble. Utilisé par le point de terminaison calls_complete.",
+        "properties": {
+          "attributes": {
+            "additionalProperties": true,
+            "title": "Attributes",
+            "type": "object"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "ended_at": {
+            "format": "date-time",
+            "title": "Ended At",
+            "type": "string"
+          },
+          "exception": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exception"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "inputs": {
+            "additionalProperties": true,
+            "title": "Inputs",
+            "type": "object"
+          },
+          "op_name": {
+            "title": "Op Name",
+            "type": "string"
+          },
+          "otel_dump": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Otel Dump"
+          },
+          "output": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/SummaryInsertMap"
+          },
+          "thread_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Id"
+          },
+          "trace_id": {
+            "title": "Trace Id",
+            "type": "string"
+          },
+          "turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Turn Id"
+          },
+          "wb_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Id"
+          },
+          "wb_run_step": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step"
+          },
+          "wb_run_step_end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step End"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement.",
+            "title": "Wb User Id"
+          }
+        },
+        "required": [
+          "project_id",
+          "id",
+          "trace_id",
+          "op_name",
+          "started_at",
+          "ended_at",
+          "attributes",
+          "inputs",
+          "summary"
+        ],
+        "title": "CompletedCallSchemaForInsert",
+        "type": "object"
+      },
       "ContainsOperation": {
         "description": "Correspondance de sous-chaîne insensible à la casse.\n\nNe fait pas partie de MongoDB. Ajout spécifique à Weave.\n\nExemple :\n    ```\n    {\n        \"$contains\": {\n            \"input\": {\"$getField\": \"display_name\"},\n            \"substr\": {\"$literal\": \"llm\"},\n            \"case_insensitive\": true\n        }\n    }\n    ```",
         "properties": {
@@ -5357,6 +6615,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -5401,6 +6662,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -5471,6 +6735,9 @@
                 "$ref": "#/components/schemas/ConvertOperation"
               },
               {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
                 "$ref": "#/components/schemas/AndOperation"
               },
               {
@@ -5522,8 +6789,88 @@
         "title": "ConvertSpec",
         "type": "object"
       },
+      "Cost": {
+        "description": "Les coûts sont exprimés en USD par million de jetons.",
+        "properties": {
+          "cache_read": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Coût par million de jetons de lecture en cache (USD).",
+            "title": "Cache Read"
+          },
+          "cache_write": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Coût par million de jetons d’écriture en cache (USD).",
+            "title": "Cache Write"
+          },
+          "input": {
+            "description": "Coût par million de jetons d’entrée (USD).",
+            "title": "Input",
+            "type": "number"
+          },
+          "input_audio": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Coût par million de jetons d’entrée audio (USD).",
+            "title": "Input Audio"
+          },
+          "output": {
+            "description": "Coût par million de jetons de sortie (USD).",
+            "title": "Output",
+            "type": "number"
+          },
+          "output_audio": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Coût par million de jetons de sortie audio (USD).",
+            "title": "Output Audio"
+          },
+          "reasoning": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Coût par million de jetons de raisonnement (USD).",
+            "title": "Reasoning"
+          }
+        },
+        "required": [
+          "input",
+          "output"
+        ],
+        "title": "Cost",
+        "type": "object"
+      },
       "CostCreateInput": {
-        "additionalProperties": false,
         "properties": {
           "cache_creation_input_token_cost": {
             "default": 0,
@@ -5603,7 +6950,6 @@
         "type": "object"
       },
       "CostCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "costs": {
             "additionalProperties": {
@@ -5666,7 +7012,6 @@
         "type": "object"
       },
       "CostPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -5693,6 +7038,34 @@
       },
       "CostQueryOutput": {
         "properties": {
+          "cache_creation_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Creation Input Token Cost"
+          },
+          "cache_read_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              1
+            ],
+            "title": "Cache Read Input Token Cost"
+          },
           "completion_token_cost": {
             "anyOf": [
               {
@@ -5811,7 +7184,6 @@
         "type": "object"
       },
       "CostQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -5990,6 +7362,147 @@
         "title": "CreateAndLinkWeaveAssetRes",
         "type": "object"
       },
+      "CustomRuntimeApplyBody": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Nom du secret de l’équipe utilisé comme clé API du point de terminaison ; jamais la valeur du secret",
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "description": "URL de base du point de terminaison public compatible avec OpenAI",
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "En-têtes littéraux transmis au point de terminaison",
+            "title": "Headers",
+            "type": "object"
+          },
+          "runtime_ids": {
+            "description": "Liste complète des ID souhaités exposés par le point de terminaison",
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeID"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "base_url",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyBody",
+        "type": "object"
+      },
+      "CustomRuntimeApplyRes": {
+        "properties": {
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key Secret"
+          },
+          "base_url": {
+            "title": "Base Url",
+            "type": "string"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Headers",
+            "type": "object"
+          },
+          "name": {
+            "description": "Nom stable de l’environnement d’exécution personnalisé",
+            "title": "Name",
+            "type": "string"
+          },
+          "runtime_ids": {
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeIDRes"
+            },
+            "title": "Runtime Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "base_url",
+          "api_key_secret",
+          "headers",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyRes",
+        "type": "object"
+      },
+      "CustomRuntimeID": {
+        "properties": {
+          "id": {
+            "description": "Valeur envoyée dans le champ model de la requête compatible avec OpenAI",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "Nombre maximal de jetons pris en charge par cet ID de runtime",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "CustomRuntimeID",
+        "type": "object"
+      },
+      "CustomRuntimeIDRes": {
+        "properties": {
+          "id": {
+            "description": "Valeur envoyée dans le champ model de la requête compatible avec OpenAI",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_tokens": {
+            "default": 4096,
+            "description": "Nombre maximal de jetons pris en charge par cet ID de runtime",
+            "exclusiveMinimum": 0,
+            "title": "Max Tokens",
+            "type": "integer"
+          },
+          "playground_id": {
+            "title": "Playground Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "playground_id"
+        ],
+        "title": "CustomRuntimeIDRes",
+        "type": "object"
+      },
       "Datacenter": {
         "properties": {
           "country_code": {
@@ -6142,6 +7655,41 @@
         "title": "DatasetReadRes",
         "type": "object"
       },
+      "DeletedObjVersion": {
+        "properties": {
+          "base_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Object Class"
+          },
+          "digest": {
+            "title": "Digest",
+            "type": "string"
+          },
+          "leaf_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Class"
+          }
+        },
+        "required": [
+          "digest"
+        ],
+        "title": "DeletedObjVersion",
+        "type": "object"
+      },
       "EndedCallSchemaForInsert": {
         "properties": {
           "ended_at": {
@@ -6163,6 +7711,17 @@
           "id": {
             "title": "Id",
             "type": "string"
+          },
+          "is_eval": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Eval"
           },
           "output": {
             "anyOf": [
@@ -6191,6 +7750,17 @@
           },
           "summary": {
             "$ref": "#/components/schemas/SummaryInsertMap"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
           },
           "wb_run_step_end": {
             "anyOf": [
@@ -6230,6 +7800,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -6273,6 +7846,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -6356,6 +7932,30 @@
             ],
             "title": "Model Ref"
           },
+          "predict_total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Somme des coûts de prédiction seule par trial pour cette évaluation (uniquement le coût de `predict()` du modèle, hors coût du Scorer LLM-as-a-judge) ; `None` lorsqu'aucun trial ne signale de coût.",
+            "title": "Predict Total Cost"
+          },
+          "predict_total_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Somme de l’utilisation des jetons predict-only par essai pour cette évaluation (jetons de predict() du modèle uniquement, hors utilisation du Scorer LLM-as-a-judge) ; None lorsqu’aucun essai ne signale d’utilisation.",
+            "title": "Predict Total Tokens"
+          },
           "scorer_stats": {
             "items": {
               "$ref": "#/components/schemas/EvalResultsScorerStats"
@@ -6398,7 +7998,6 @@
         "type": "object"
       },
       "EvalResultsFilter": {
-        "additionalProperties": false,
         "description": "Un filtre limité à une évaluation facultative.",
         "properties": {
           "evaluation_call_id": {
@@ -6425,7 +8024,6 @@
         "type": "object"
       },
       "EvalResultsQueryBody": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_call_ids": {
             "anyOf": [
@@ -6457,6 +8055,16 @@
             "description": "Alias des ID d'appel d'évaluation provenant de l'API Evaluation Runs.",
             "title": "Evaluation Run Ids"
           },
+          "filter_logic_operator": {
+            "default": "or",
+            "description": "Comment combiner les filtres entre les évaluations : 'and' (correspond à tous - la ligne doit correspondre dans TOUTES les évaluations) ou 'or' (correspond à au moins une - la ligne doit correspondre dans N’IMPORTE QUELLE évaluation). Valeur par défaut : 'or' (correspond à au moins une).",
+            "enum": [
+              "and",
+              "or"
+            ],
+            "title": "Filter Logic Operator",
+            "type": "string"
+          },
           "filters": {
             "anyOf": [
               {
@@ -6471,6 +8079,12 @@
             ],
             "description": "Filtres appliqués aux lignes groupées. Plusieurs filtres sont combinés avec AND.",
             "title": "Filters"
+          },
+          "include_costs": {
+            "default": false,
+            "description": "Lorsque la valeur est `true`, évaluez le coût de l’appel `predict` de chaque essai afin que les lignes et la synthèse indiquent le coût de la prédiction seule (`total_cost` / `predict_total_cost`) ; les coûts du scorer sont exclus. Activation facultative : les autres appelants ignorent le calcul du coût.",
+            "title": "Include Costs",
+            "type": "boolean"
           },
           "include_predict_and_score_children": {
             "default": true,
@@ -6742,7 +8356,6 @@
         "type": "object"
       },
       "EvalResultsSortBy": {
-        "additionalProperties": false,
         "description": "Spécification de tri pour les résultats d’évaluation, étendant SortBy",
         "properties": {
           "direction": {
@@ -6868,6 +8481,17 @@
             "title": "Scores",
             "type": "object"
           },
+          "total_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Cost"
+          },
           "total_tokens": {
             "anyOf": [
               {
@@ -6887,7 +8511,6 @@
         "type": "object"
       },
       "EvaluateModelReq": {
-        "additionalProperties": false,
         "properties": {
           "evaluation_ref": {
             "title": "Evaluation Ref",
@@ -7363,7 +8986,6 @@
         "type": "object"
       },
       "EvaluationStatusComplete": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "complete",
@@ -7384,7 +9006,6 @@
         "type": "object"
       },
       "EvaluationStatusFailed": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "failed",
@@ -7408,7 +9029,6 @@
         "type": "object"
       },
       "EvaluationStatusNotFound": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "not_found",
@@ -7421,7 +9041,6 @@
         "type": "object"
       },
       "EvaluationStatusReq": {
-        "additionalProperties": false,
         "properties": {
           "call_id": {
             "title": "Call Id",
@@ -7466,7 +9085,6 @@
         "type": "object"
       },
       "EvaluationStatusRunning": {
-        "additionalProperties": false,
         "properties": {
           "code": {
             "const": "running",
@@ -7490,8 +9108,250 @@
         "title": "EvaluationStatusRunning",
         "type": "object"
       },
+      "FeedbackAggregateBucket": {
+        "description": "Une ligne (intervalle de temps, groupe) de feedback agrégé du scorer.",
+        "properties": {
+          "group": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Valeurs des dimensions de group-by pour cette ligne (par ex. {'scorer_id': '...'}).",
+            "title": "Group",
+            "type": "object"
+          },
+          "rating_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "Nombre de lignes portant chaque clé de score (par ex. '_rating_').",
+            "title": "Rating Counts",
+            "type": "object"
+          },
+          "rating_sums": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "Somme des valeurs de chaque clé de score ; le client calcule avg = sum/count.",
+            "title": "Rating Sums",
+            "type": "object"
+          },
+          "scored_count": {
+            "description": "Lignes ayant émis un score (au moins un tag ou une note). Exclut les lignes d’agent-monitor qui n’ont émis aucun score — à utiliser pour le volume de scores.",
+            "title": "Scored Count",
+            "type": "integer"
+          },
+          "tag_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "Nombre de chaque tag de scorer.",
+            "title": "Tag Counts",
+            "type": "object"
+          },
+          "time_bucket_start_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Début de l’intervalle de temps, époque Unix en ms (UTC). None en l’absence d’intervalles.",
+            "title": "Time Bucket Start Ms"
+          },
+          "total_count": {
+            "description": "Nombre de lignes de feedback dans cet intervalle/groupe.",
+            "title": "Total Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_count",
+          "scored_count"
+        ],
+        "title": "FeedbackAggregateBucket",
+        "type": "object"
+      },
+      "FeedbackAggregateReq": {
+        "description": "Requête pour agréger les scores par intervalle de temps et dimension.",
+        "properties": {
+          "after_ms": {
+            "description": "Borne inférieure incluse sur created_at (millisecondes depuis l’époque Unix).",
+            "minimum": 0,
+            "title": "After Ms",
+            "type": "integer"
+          },
+          "before_ms": {
+            "description": "Borne supérieure exclue sur created_at (millisecondes depuis l’époque Unix).",
+            "minimum": 0,
+            "title": "Before Ms",
+            "type": "integer"
+          },
+          "feedback_types": {
+            "description": "Filtre sur feedback_type par préfixe",
+            "items": {
+              "type": "string"
+            },
+            "title": "Feedback Types",
+            "type": "array"
+          },
+          "group_by": {
+            "description": "Valeurs autorisées : ['scorer_id', 'span_agent_name', 'span_agent_version', 'span_status_code'].",
+            "items": {
+              "enum": [
+                "scorer_id",
+                "span_agent_name",
+                "span_agent_version",
+                "span_status_code"
+              ],
+              "type": "string"
+            },
+            "title": "Group By",
+            "type": "array"
+          },
+          "monitor_ids": {
+            "description": "Filtre sur ces ID de monitor (correspondance exacte ; ajoutez '*' en suffixe pour une correspondance par préfixe).",
+            "items": {
+              "type": "string"
+            },
+            "title": "Monitor Ids",
+            "type": "array"
+          },
+          "project_id": {
+            "examples": [
+              "entity/project"
+            ],
+            "title": "Project Id",
+            "type": "string"
+          },
+          "rating_max": {
+            "anyOf": [
+              {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Inclure uniquement les lignes avec un score <= à cette valeur",
+            "title": "Rating Max"
+          },
+          "rating_min": {
+            "anyOf": [
+              {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Inclure uniquement les lignes avec un score >= à cette valeur",
+            "title": "Rating Min"
+          },
+          "scorer_ids": {
+            "description": "Filtre sur ces ID de scorer (correspondance exacte ; ajoutez '*' en suffixe pour une correspondance par préfixe).",
+            "items": {
+              "type": "string"
+            },
+            "title": "Scorer Ids",
+            "type": "array"
+          },
+          "span_agent_names": {
+            "description": "Filtre sur les feedbacks dont span_agent_name correspond à l’une de ces valeurs (exact).",
+            "items": {
+              "type": "string"
+            },
+            "title": "Span Agent Names",
+            "type": "array"
+          },
+          "span_types": {
+            "description": "Filtre par type de span (tour de conversation ou conversation).",
+            "items": {
+              "enum": [
+                "agent_turn",
+                "agent_conversation"
+              ],
+              "type": "string"
+            },
+            "title": "Span Types",
+            "type": "array"
+          },
+          "tags": {
+            "description": "Filtre sur les feedbacks incluant l’un des tags indiqués",
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          },
+          "time_bucket_seconds": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Taille de l’intervalle de temps en secondes, par ex. 3600 pour des intervalles d’1 h",
+            "title": "Time Bucket Seconds"
+          }
+        },
+        "required": [
+          "project_id",
+          "after_ms",
+          "before_ms"
+        ],
+        "title": "FeedbackAggregateReq",
+        "type": "object"
+      },
+      "FeedbackAggregateRes": {
+        "description": "Série temporelle clairsemée de feedback agrégé du scorer (intervalles vides omis).",
+        "properties": {
+          "after_ms": {
+            "description": "Borne inférieure incluse résolue, époque Unix en ms (UTC).",
+            "title": "After Ms",
+            "type": "integer"
+          },
+          "before_ms": {
+            "description": "Borne supérieure exclue résolue, époque Unix en ms (UTC).",
+            "title": "Before Ms",
+            "type": "integer"
+          },
+          "buckets": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackAggregateBucket"
+            },
+            "title": "Buckets",
+            "type": "array"
+          },
+          "time_bucket_seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Taille de l’intervalle de temps utilisée (secondes). None en l’absence d’intervalles.",
+            "title": "Time Bucket Seconds"
+          }
+        },
+        "required": [
+          "after_ms",
+          "before_ms"
+        ],
+        "title": "FeedbackAggregateRes",
+        "type": "object"
+      },
       "FeedbackCreateBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "batch": {
             "items": {
@@ -7524,7 +9384,6 @@
         "type": "object"
       },
       "FeedbackCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -7715,6 +9574,51 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "Trace de l’invocation du scorer (juge) ayant produit ce feedback (spans.trace_id de l’appel du juge). À distinguer de span_trace_id, qui correspond au tour de conversation évalué. Permet aux signals de calculer le coût de l’invocation à partir du span du juge sans effectuer de jointure avec le modèle d’appels.",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
+          "span_agent_name": {
+            "default": "",
+            "description": "Nom d’affichage de l’agent évalué (issu de spans.agent_name)",
+            "examples": [
+              "midi-generator"
+            ],
+            "title": "Span Agent Name",
+            "type": "string"
+          },
+          "span_agent_version": {
+            "default": "",
+            "description": "Version de l’agent évalué (à partir de spans.agent_version)",
+            "examples": [
+              "1.2.0"
+            ],
+            "title": "Span Agent Version",
+            "type": "string"
+          },
+          "span_conversation_id": {
+            "default": "",
+            "description": "Conversation à laquelle appartient le feedback (provenant de spans.conversation_id)",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
+          "span_status_code": {
+            "default": "UNSET",
+            "description": "Statut du tour de conversation évalué (à partir de spans.status_code)",
+            "examples": [
+              "OK"
+            ],
+            "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "Tour de conversation auquel appartient le feedback (provenant de spans.trace_id)",
+            "title": "Span Trace Id",
+            "type": "string"
+          },
           "trigger_ref": {
             "anyOf": [
               {
@@ -7789,7 +9693,6 @@
         "type": "object"
       },
       "FeedbackMetricSpec": {
-        "additionalProperties": false,
         "description": "Spécification d'une métrique de payload de feedback à agréger.",
         "properties": {
           "aggregations": {
@@ -7832,7 +9735,6 @@
         "type": "object"
       },
       "FeedbackPayloadPath": {
-        "additionalProperties": false,
         "description": "Chemin découvert dans le payload de feedback avec type inféré.",
         "properties": {
           "json_path": {
@@ -7859,7 +9761,6 @@
         "type": "object"
       },
       "FeedbackPayloadSchemaReq": {
-        "additionalProperties": false,
         "description": "Requête de découverte du schéma de payload du feedback.",
         "properties": {
           "end": {
@@ -7941,7 +9842,6 @@
         "type": "object"
       },
       "FeedbackPurgeReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "examples": [
@@ -7967,7 +9867,6 @@
         "type": "object"
       },
       "FeedbackQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "fields": {
             "anyOf": [
@@ -8065,16 +9964,21 @@
             },
             "title": "Result",
             "type": "array"
+          },
+          "total_count": {
+            "minimum": 0,
+            "title": "Total Count",
+            "type": "integer"
           }
         },
         "required": [
-          "result"
+          "result",
+          "total_count"
         ],
         "title": "FeedbackQueryRes",
         "type": "object"
       },
       "FeedbackReplaceReq": {
-        "additionalProperties": false,
         "properties": {
           "annotation_ref": {
             "anyOf": [
@@ -8269,6 +10173,51 @@
             "title": "Scorer Tags",
             "type": "array"
           },
+          "scorer_trace_id": {
+            "default": "",
+            "description": "Trace de l’invocation du scorer (juge) ayant produit ce feedback (spans.trace_id de l’appel du juge). À distinguer de span_trace_id, qui correspond au tour de conversation évalué. Permet aux signals de calculer le coût de l’invocation à partir du span du juge sans effectuer de jointure avec le modèle d’appels.",
+            "title": "Scorer Trace Id",
+            "type": "string"
+          },
+          "span_agent_name": {
+            "default": "",
+            "description": "Nom d’affichage de l’agent évalué (à partir de spans.agent_name)",
+            "examples": [
+              "midi-generator"
+            ],
+            "title": "Span Agent Name",
+            "type": "string"
+          },
+          "span_agent_version": {
+            "default": "",
+            "description": "Version de l’agent évalué (à partir de spans.agent_version)",
+            "examples": [
+              "1.2.0"
+            ],
+            "title": "Span Agent Version",
+            "type": "string"
+          },
+          "span_conversation_id": {
+            "default": "",
+            "description": "Conversation à laquelle appartient le feedback (provenant de spans.conversation_id)",
+            "title": "Span Conversation Id",
+            "type": "string"
+          },
+          "span_status_code": {
+            "default": "UNSET",
+            "description": "Statut du tour de conversation évalué (à partir de spans.status_code)",
+            "examples": [
+              "OK"
+            ],
+            "title": "Span Status Code",
+            "type": "string"
+          },
+          "span_trace_id": {
+            "default": "",
+            "description": "Tour de conversation auquel appartient le feedback (provenant de spans.trace_id)",
+            "title": "Span Trace Id",
+            "type": "string"
+          },
           "trigger_ref": {
             "anyOf": [
               {
@@ -8344,7 +10293,6 @@
         "type": "object"
       },
       "FeedbackStatsReq": {
-        "additionalProperties": false,
         "description": "Requête pour des statistiques agrégées de feedback par buckets temporels.",
         "properties": {
           "end": {
@@ -8498,7 +10446,6 @@
         "type": "object"
       },
       "FileContentReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -8530,7 +10477,6 @@
         "type": "object"
       },
       "FilesStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "project_id": {
             "title": "Project Id",
@@ -8694,6 +10640,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -8735,6 +10684,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -8798,6 +10750,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -8839,6 +10794,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -9011,6 +10969,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9055,6 +11016,9 @@
                       "$ref": "#/components/schemas/ConvertOperation"
                     },
                     {
+                      "$ref": "#/components/schemas/SizeOperation"
+                    },
+                    {
                       "$ref": "#/components/schemas/AndOperation"
                     },
                     {
@@ -9097,6 +11061,25 @@
           "$in"
         ],
         "title": "InOperation",
+        "type": "object"
+      },
+      "Interleaved": {
+        "description": "Détails de la prise en charge de l’entrelacement du raisonnement.",
+        "properties": {
+          "field": {
+            "description": "Identifiant du format pour le raisonnement entrelacé.",
+            "enum": [
+              "reasoning_content",
+              "reasoning_details"
+            ],
+            "title": "Field",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field"
+        ],
+        "title": "Interleaved",
         "type": "object"
       },
       "LLMAggregatedUsage": {
@@ -9275,8 +11258,9 @@
           },
           "lifecycleStage": {
             "enum": [
-              "general-availability",
               "experimental",
+              "general-availability",
+              "deprecated",
               "retired"
             ],
             "title": "Lifecyclestage",
@@ -9306,6 +11290,10 @@
             },
             "title": "Modalitiesoutput",
             "type": "array"
+          },
+          "openRouterPermaslug": {
+            "title": "Openrouterpermaslug",
+            "type": "string"
           },
           "parameterCountActive": {
             "title": "Parametercountactive",
@@ -9343,6 +11331,37 @@
               "fp32"
             ],
             "title": "Quantization",
+            "type": "string"
+          },
+          "reasoningArgument": {
+            "title": "Reasoningargument",
+            "type": "string"
+          },
+          "reasoningEfforts": {
+            "items": {
+              "enum": [
+                "none",
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ],
+              "type": "string"
+            },
+            "title": "Reasoningefforts",
+            "type": "array"
+          },
+          "reasoningSupport": {
+            "enum": [
+              "unsupported",
+              "default-off",
+              "adaptive",
+              "default-on",
+              "always-on"
+            ],
+            "title": "Reasoningsupport",
             "type": "string"
           },
           "status": {
@@ -9491,6 +11510,33 @@
         "title": "LLMUsageSchema",
         "type": "object"
       },
+      "Limit": {
+        "description": "Limites de jetons d’un modèle.",
+        "properties": {
+          "context": {
+            "description": "Fenêtre de contexte maximale, en jetons.",
+            "title": "Context",
+            "type": "integer"
+          },
+          "input": {
+            "description": "Nombre maximum de jetons d’entrée.",
+            "title": "Input",
+            "type": "integer"
+          },
+          "output": {
+            "description": "Nombre maximum de jetons de sortie.",
+            "title": "Output",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "context",
+          "input",
+          "output"
+        ],
+        "title": "Limit",
+        "type": "object"
+      },
       "LiteralOperation": {
         "description": "Représente une valeur constante dans le langage de requête.\n\nIl peut s'agir de n'importe quelle valeur standard sérialisable en JSON.\n\nExemple :\n    ```\n    {\"$literal\": \"predict\"}\n    ```",
         "properties": {
@@ -9552,6 +11598,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9593,6 +11642,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -9656,6 +11708,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9699,6 +11754,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -9739,6 +11797,33 @@
           "$lte"
         ],
         "title": "LteOperation",
+        "type": "object"
+      },
+      "Modalities": {
+        "description": "Modalités d’entrée et de sortie prises en charge.",
+        "properties": {
+          "input": {
+            "description": "Types d’entrée pris en charge (par ex. texte, image, audio, vidéo, PDF).",
+            "items": {
+              "type": "string"
+            },
+            "title": "Input",
+            "type": "array"
+          },
+          "output": {
+            "description": "Types de sortie pris en charge.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Output",
+            "type": "array"
+          }
+        },
+        "required": [
+          "input",
+          "output"
+        ],
+        "title": "Modalities",
         "type": "object"
       },
       "ModelCreateBody": {
@@ -9902,8 +11987,265 @@
         "title": "ModelReadRes",
         "type": "object"
       },
+      "ModelsDevModel": {
+        "description": "Une entrée de modèle dans le schéma models.dev.",
+        "properties": {
+          "attachment": {
+            "description": "Prise en charge des pièces jointes.",
+            "title": "Attachment",
+            "type": "boolean"
+          },
+          "cost": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Cost"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Informations sur la tarification."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description du modèle compréhensible par l'humain.",
+            "title": "Description"
+          },
+          "id": {
+            "description": "ID du modèle utilisé par l’AI SDK.",
+            "title": "Id",
+            "type": "string"
+          },
+          "interleaved": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "$ref": "#/components/schemas/Interleaved"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Prise en charge de l’entrelacement du raisonnement.",
+            "title": "Interleaved"
+          },
+          "knowledge": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Date de coupure des connaissances au format AAAA-MM ou AAAA-MM-JJ.",
+            "title": "Knowledge"
+          },
+          "last_updated": {
+            "description": "Date de mise à jour la plus récente (AAAA-MM-JJ).",
+            "title": "Last Updated",
+            "type": "string"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Limit"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Limites de jetons."
+          },
+          "modalities": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Modalities"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Modalités d’entrée et de sortie prises en charge."
+          },
+          "name": {
+            "description": "Nom d’affichage.",
+            "title": "Name",
+            "type": "string"
+          },
+          "open_weights": {
+            "description": "Disponibilité publique des poids du modèle.",
+            "title": "Open Weights",
+            "type": "boolean"
+          },
+          "reasoning": {
+            "description": "Prise en charge du raisonnement de type chain-of-thought.",
+            "title": "Reasoning",
+            "type": "boolean"
+          },
+          "reasoning_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ReasoningToggle"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningEffortOption"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReasoningBudgetTokens"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indique comment le reasoning est contrôlé. Défini (éventuellement comme une liste vide, ce qui signifie qu'il est toujours activé) lorsque le reasoning est pris en charge ; omis sinon.",
+            "title": "Reasoning Options"
+          },
+          "release_date": {
+            "description": "Date de première publication publique (AAAA-MM-JJ).",
+            "title": "Release Date",
+            "type": "string"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "alpha",
+                  "beta",
+                  "deprecated"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Statut du cycle de vie du modèle.",
+            "title": "Status"
+          },
+          "structured_output": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Fonction dédiée de sortie structurée.",
+            "title": "Structured Output"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Prise en charge du contrôle de la température.",
+            "title": "Temperature"
+          },
+          "tool_call": {
+            "description": "Prise en charge des appels d’outils.",
+            "title": "Tool Call",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "attachment",
+          "reasoning",
+          "tool_call",
+          "release_date",
+          "last_updated",
+          "open_weights"
+        ],
+        "title": "ModelsDevModel",
+        "type": "object"
+      },
+      "ModelsDevProvider": {
+        "description": "Une entrée de fournisseur dans le schéma models.dev.",
+        "properties": {
+          "api": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "API endpoint compatible avec OpenAI. Requis uniquement lors de l’utilisation de @ai-sdk/openai-compatible.",
+            "title": "Api"
+          },
+          "doc": {
+            "description": "Lien vers la documentation du fournisseur.",
+            "title": "Doc",
+            "type": "string"
+          },
+          "env": {
+            "description": "Clés des variables d’environnement pour l’authentification.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Env",
+            "type": "array"
+          },
+          "id": {
+            "description": "Identifiant du fournisseur, dérivé du nom du dossier.",
+            "title": "Id",
+            "type": "string"
+          },
+          "models": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ModelsDevModel"
+            },
+            "description": "Mappage de l’ID du modèle -> modèle.",
+            "title": "Models",
+            "type": "object"
+          },
+          "name": {
+            "description": "Nom d’affichage du fournisseur.",
+            "title": "Name",
+            "type": "string"
+          },
+          "npm": {
+            "description": "Nom du package AI SDK.",
+            "title": "Npm",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "npm",
+          "env",
+          "doc"
+        ],
+        "title": "ModelsDevProvider",
+        "type": "object"
+      },
       "NormalizedMessage": {
-        "description": "Un message unique normalisé à partir de n'importe quel format de fournisseur.\n\nCorrespond au `Tuple(role String, content String, finish_reason String)` de ClickHouse.\n\n- role : rôle du message (utilisateur, assistant, outil, system)\n- content : texte brut pour les messages simples, ou tableau de parties sérialisé en JSON\n  pour les messages multimodaux/structurés\n- finish_reason : motif de fin du message (messages de sortie uniquement)",
+        "description": "Un message unique normalisé à partir de n'importe quel format de fournisseur.\n\nCorrespond au `Tuple(role String, content String, finish_reason String)` de ClickHouse.\n\n- role : rôle du message (utilisateur, assistant, outil, system)\n- content : texte brut pour les messages simples, ou tableau de parties sérialisé en JSON\n  pour les messages multimodaux/structurés\n- finish_reason : motif de fin du message (messages de sortie uniquement)\n\nLe schéma JSON de sérialisation marque les champs ayant une valeur par défaut comme requis. Dans le document OpenAPI public, cette classe apparaît uniquement comme élément de message AgentSpanSchema. La validation lors de l’ingestion reste inchangée.",
         "properties": {
           "content": {
             "title": "Content",
@@ -9921,7 +12263,9 @@
           }
         },
         "required": [
-          "content"
+          "role",
+          "content",
+          "finish_reason"
         ],
         "title": "NormalizedMessage",
         "type": "object"
@@ -9943,6 +12287,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -10068,7 +12415,6 @@
         "type": "object"
       },
       "ObjCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "obj": {
             "$ref": "#/components/schemas/ObjSchemaForInsert"
@@ -10105,7 +12451,6 @@
         "type": "object"
       },
       "ObjDeleteReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -10140,6 +12485,21 @@
       },
       "ObjDeleteRes": {
         "properties": {
+          "deleted_versions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DeletedObjVersion"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Métadonnées de chaque version d’objet supprimée, avec les alias de digest résolus en digests de contenu. None lorsque le serveur sous-jacent ne les signale pas.",
+            "title": "Deleted Versions"
+          },
           "num_deleted": {
             "title": "Num Deleted",
             "type": "integer"
@@ -10152,7 +12512,6 @@
         "type": "object"
       },
       "ObjQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "filter": {
             "anyOf": [
@@ -10297,7 +12656,6 @@
         "type": "object"
       },
       "ObjReadReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "title": "Digest",
@@ -10359,7 +12717,6 @@
         "type": "object"
       },
       "ObjRemoveAliasesBody": {
-        "additionalProperties": false,
         "description": "corps de la requête pour supprimer des alias (object_id provient du chemin).",
         "properties": {
           "aliases": {
@@ -10603,7 +12960,6 @@
         "type": "object"
       },
       "ObjSetAliasesBody": {
-        "additionalProperties": false,
         "description": "corps de la requête pour définir des alias (object_id provient du chemin).",
         "properties": {
           "aliases": {
@@ -10648,7 +13004,6 @@
         "type": "object"
       },
       "ObjTagsBody": {
-        "additionalProperties": false,
         "description": "corps de la requête pour ajouter ou supprimer des tags (object_id et empreinte proviennent du chemin).",
         "properties": {
           "project_id": {
@@ -10680,7 +13035,6 @@
         "type": "object"
       },
       "ObjectVersionFilter": {
-        "additionalProperties": false,
         "properties": {
           "aliases": {
             "anyOf": [
@@ -10968,6 +13322,9 @@
                   "$ref": "#/components/schemas/ConvertOperation"
                 },
                 {
+                  "$ref": "#/components/schemas/SizeOperation"
+                },
+                {
                   "$ref": "#/components/schemas/AndOperation"
                 },
                 {
@@ -11196,7 +13553,6 @@
         "type": "object"
       },
       "ProjectsInfoReq": {
-        "additionalProperties": false,
         "properties": {
           "project_ids": {
             "description": "ID de projet externes au format 'entity/project'.",
@@ -11284,8 +13640,128 @@
         "title": "Query",
         "type": "object"
       },
+      "RatingCondition": {
+        "properties": {
+          "op": {
+            "enum": [
+              "gte",
+              "gt",
+              "lte",
+              "lt",
+              "eq"
+            ],
+            "title": "Op",
+            "type": "string"
+          },
+          "scorer_key": {
+            "title": "Scorer Key",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "scorer_key",
+          "op",
+          "value"
+        ],
+        "title": "RatingCondition",
+        "type": "object"
+      },
+      "ReasoningBudgetTokens": {
+        "description": "Le reasoning est contrôlé via un budget de jetons.",
+        "properties": {
+          "max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Budget maximum de reasoning.",
+            "title": "Max"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Budget minimum de reasoning.",
+            "title": "Min"
+          },
+          "type": {
+            "const": "budget_tokens",
+            "default": "budget_tokens",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningBudgetTokens",
+        "type": "object"
+      },
+      "ReasoningEffortOption": {
+        "description": "Le niveau d'effort du reasoning peut être choisi parmi un ensemble de niveaux.",
+        "properties": {
+          "type": {
+            "const": "effort",
+            "default": "effort",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "description": "Niveaux d'effort acceptés (`null` indique une valeur par défaut implicite).",
+            "items": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "none",
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh",
+                    "max",
+                    "default"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values"
+        ],
+        "title": "ReasoningEffortOption",
+        "type": "object"
+      },
+      "ReasoningToggle": {
+        "description": "Le reasoning peut être activé ou désactivé.",
+        "properties": {
+          "type": {
+            "const": "toggle",
+            "default": "toggle",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "title": "ReasoningToggle",
+        "type": "object"
+      },
       "RefsReadBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "refs": {
             "items": {
@@ -11788,8 +14264,64 @@
         "title": "ServerInfoRes",
         "type": "object"
       },
+      "SizeOperation": {
+        "description": "Renvoyer le nombre d’éléments d’une collection ou de caractères d’une chaîne.\n\nExemple :\n    ```\n    {\"$size\": {\"$getField\": \"scorer_tags\"}}\n    ```",
+        "properties": {
+          "$size": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LiteralOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GetFieldOperator"
+              },
+              {
+                "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
+                "$ref": "#/components/schemas/AndOperation"
+              },
+              {
+                "$ref": "#/components/schemas/OrOperation"
+              },
+              {
+                "$ref": "#/components/schemas/NotOperation"
+              },
+              {
+                "$ref": "#/components/schemas/EqOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/InOperation"
+              },
+              {
+                "$ref": "#/components/schemas/ContainsOperation"
+              }
+            ],
+            "title": "$Size"
+          }
+        },
+        "required": [
+          "$size"
+        ],
+        "title": "SizeOperation",
+        "type": "object"
+      },
       "SortBy": {
-        "additionalProperties": false,
         "properties": {
           "direction": {
             "enum": [
@@ -12010,7 +14542,6 @@
         "type": "object"
       },
       "TableCreateFromDigestsReq": {
-        "additionalProperties": false,
         "properties": {
           "expected_digest": {
             "anyOf": [
@@ -12057,7 +14588,6 @@
         "type": "object"
       },
       "TableCreateReq": {
-        "additionalProperties": false,
         "properties": {
           "table": {
             "$ref": "#/components/schemas/TableSchemaForInsert"
@@ -12147,7 +14677,6 @@
         "type": "object"
       },
       "TableQueryReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "L’empreinte du tableau à interroger",
@@ -12262,7 +14791,6 @@
         "type": "object"
       },
       "TableQueryStatsBatchReq": {
-        "additionalProperties": false,
         "properties": {
           "digests": {
             "anyOf": [
@@ -12329,7 +14857,6 @@
         "type": "object"
       },
       "TableQueryStatsReq": {
-        "additionalProperties": false,
         "properties": {
           "digest": {
             "description": "L’empreinte du tableau à interroger",
@@ -12366,7 +14893,6 @@
         "type": "object"
       },
       "TableRowFilter": {
-        "additionalProperties": false,
         "properties": {
           "row_digests": {
             "anyOf": [
@@ -12485,7 +15011,6 @@
         "type": "object"
       },
       "TableUpdateReq": {
-        "additionalProperties": false,
         "properties": {
           "base_digest": {
             "title": "Base Digest",
@@ -12558,8 +15083,92 @@
         "title": "TagsListRes",
         "type": "object"
       },
+      "ThreadSchema": {
+        "properties": {
+          "first_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID du premier tour de conversation dans ce thread (valeur start_time la plus ancienne)",
+            "title": "First Turn Id"
+          },
+          "last_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID du dernier tour de conversation dans ce thread (valeur end_time la plus récente)",
+            "title": "Last Turn Id"
+          },
+          "last_updated": {
+            "description": "Heure de fin la plus récente des appels de tours de conversation dans ce thread",
+            "format": "date-time",
+            "title": "Last Updated",
+            "type": "string"
+          },
+          "p50_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "50e percentile (médiane) des durées des tours de conversation en millisecondes dans ce thread",
+            "title": "P50 Turn Duration Ms"
+          },
+          "p99_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "99e percentile des durées des tours de conversation en millisecondes dans ce thread",
+            "title": "P99 Turn Duration Ms"
+          },
+          "start_time": {
+            "description": "Heure de début la plus ancienne des appels de tours de conversation dans ce thread",
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          },
+          "thread_id": {
+            "title": "Thread Id",
+            "type": "string"
+          },
+          "turn_count": {
+            "description": "Nombre d’appels de tours de conversation dans ce thread",
+            "title": "Turn Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "thread_id",
+          "turn_count",
+          "start_time",
+          "last_updated",
+          "first_turn_id",
+          "last_turn_id",
+          "p50_turn_duration_ms",
+          "p99_turn_duration_ms"
+        ],
+        "title": "ThreadSchema",
+        "type": "object"
+      },
       "ThreadsQueryFilter": {
-        "additionalProperties": false,
         "properties": {
           "after_datetime": {
             "anyOf": [
@@ -12620,7 +15229,6 @@
         "type": "object"
       },
       "ThreadsQueryReq": {
-        "additionalProperties": false,
         "description": "Interroger les threads avec des statistiques agrégées fondées uniquement sur les appels de tour.\n\nLes appels de tour sont les enfants immédiats des contextes de thread (où call.id == turn_id).\nCela fournit des statistiques pertinentes au niveau de la conversation, plutôt que d’inclure tous\nles détails d’implémentation imbriqués.",
         "properties": {
           "filter": {
@@ -12707,7 +15315,6 @@
         "type": "string"
       },
       "TraceUsageReq": {
-        "additionalProperties": false,
         "description": "Requête visant à calculer l’Utilisation par appel pour une trace, avec cumul des descendants.\n\nCet Endpoint renvoie des métriques d’Utilisation pour chaque appel de la trace, où les\nmétriques de chaque appel incluent la somme de sa propre Utilisation et de celle de tous ses descendants.\nUtilisez-le pour la Vue de trace lorsque vous souhaitez afficher des métriques cumulées par appel.\n\nRemarque : tous les appels correspondants sont chargés en Mémoire pour l’agrégation. Pour des ensembles de\nrésultats très volumineux (>10k appels), envisagez d’utiliser des filtres plus spécifiques ou une pagination\nau niveau de l’application.",
         "properties": {
           "filter": {
@@ -12780,7 +15387,6 @@
         "type": "object"
       },
       "UsageMetricSpec": {
-        "additionalProperties": false,
         "description": "Spécification d’une métrique d’Utilisation à agréger (regroupée par modèle).",
         "properties": {
           "aggregations": {
@@ -12827,6 +15433,13 @@
       },
       "ValidationError": {
         "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
           "loc": {
             "items": {
               "anyOf": [
@@ -12860,10 +15473,6 @@
       }
     },
     "securitySchemes": {
-      "HTTPBasic": {
-        "scheme": "basic",
-        "type": "http"
-      },
       "HTTPBearer": {
         "scheme": "bearer",
         "type": "http"
@@ -12911,14 +15520,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête sur les versions d’agent Genai",
         "tags": [
           "Agents"
@@ -12960,15 +15561,48 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Chat de la conversation Genai",
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/agents/conversations/spans": {
+      "post": {
+        "operationId": "genai_conversation_spans_agents_conversations_spans_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentConversationSpansReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentConversationSpansRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "summary": "Spans de conversation GenAI",
         "tags": [
           "Agents"
         ]
@@ -13029,14 +15663,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête sur les agents Genai",
         "tags": [
           "Agents"
@@ -13078,14 +15704,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Recherche Genai",
         "tags": [
           "Agents"
@@ -13128,14 +15746,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Schéma des attributs personnalisés Genai",
         "tags": [
           "Agents"
@@ -13178,14 +15788,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête sur les spans Genai",
         "tags": [
           "Agents"
@@ -13228,14 +15830,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statistiques des spans Genai",
         "tags": [
           "Agents"
@@ -13277,14 +15871,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Chat des traces Genai",
         "tags": [
           "Agents"
@@ -13328,14 +15914,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Liste des alias",
         "tags": [
           "Objects"
@@ -13378,14 +15956,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création de file d'attente d'annotation",
         "tags": [
           "Annotation Queues"
@@ -13426,14 +15996,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Flux de requête des files d'attente d'annotation",
         "tags": [
           "Annotation Queues"
@@ -13476,14 +16038,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statistiques des files d'attente d'annotation",
         "tags": [
           "Annotation Queues"
@@ -13536,14 +16090,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Suppression de la file d’annotation",
         "tags": [
           "Annotation Queues"
@@ -13594,14 +16140,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire la file d'attente d'annotation",
         "tags": [
           "Annotation Queues"
@@ -13653,14 +16191,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Mise à jour de la file d’annotation",
         "tags": [
           "Annotation Queues"
@@ -13714,14 +16244,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Ajouter des calls à la file d'attente d'annotation",
         "tags": [
           "Annotation Queues"
@@ -13775,14 +16297,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête des éléments de la file d'attente d'annotation",
         "tags": [
           "Annotation Queues"
@@ -13845,14 +16359,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Mise à jour de la progression d'un élément de la file d'attente d'annotation",
         "tags": [
           "Annotation Queues"
@@ -13894,14 +16400,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Fin de l’appel",
         "tags": [
           "Calls"
@@ -13943,14 +16441,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire l’appel",
         "tags": [
           "Calls"
@@ -13992,14 +16482,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Début de l’appel",
         "tags": [
           "Calls"
@@ -14041,14 +16523,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Mettre à jour l’appel",
         "tags": [
           "Calls"
@@ -14090,14 +16564,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Début de lot d’appels",
         "tags": [
           "Calls"
@@ -14139,14 +16605,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Supprimer des appels",
         "tags": [
           "Calls"
@@ -14188,14 +16646,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statistiques des requêtes d’appels",
         "tags": [
           "Calls"
@@ -14237,14 +16687,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Score des appels",
         "tags": [
           "Scores"
@@ -14286,14 +16728,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statistiques des appels",
         "tags": [
           "Calls"
@@ -14345,14 +16779,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Flux de requêtes d’appels",
         "tags": [
           "Calls"
@@ -14395,14 +16821,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Utilisation des appels",
         "tags": [
           "Calls"
@@ -14444,14 +16862,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création de coût",
         "tags": [
           "Costs"
@@ -14493,14 +16903,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Purge de coût",
         "tags": [
           "Costs"
@@ -14542,14 +16944,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête de coût",
         "tags": [
           "Costs"
@@ -14591,14 +16985,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Évaluer le modèle",
         "tags": [
           "Evaluations"
@@ -14641,14 +17027,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Recalculer le score de l’évaluation",
         "tags": [
           "Evaluations"
@@ -14690,17 +17068,51 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statut de l'évaluation",
         "tags": [
           "Evaluations"
+        ]
+      }
+    },
+    "/feedback/aggregate": {
+      "post": {
+        "description": "Agréger le feedback typé du scorer (tags, scores) par intervalles de temps.",
+        "operationId": "feedback_aggregate_feedback_aggregate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackAggregateReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackAggregateRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "summary": "Agrégat de feedback",
+        "tags": [
+          "Feedback"
         ]
       }
     },
@@ -14740,14 +17152,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création par lot de feedback",
         "tags": [
           "Feedback"
@@ -14790,14 +17194,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création de feedback",
         "tags": [
           "Feedback"
@@ -14840,14 +17236,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Schéma de payload de feedback",
         "tags": [
           "Feedback"
@@ -14890,14 +17278,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Purge de feedback",
         "tags": [
           "Feedback"
@@ -14940,14 +17320,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête de feedback",
         "tags": [
           "Feedback"
@@ -14989,14 +17361,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Remplacement de feedback",
         "tags": [
           "Feedback"
@@ -15039,14 +17403,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statistiques de feedback",
         "tags": [
           "Feedback"
@@ -15086,14 +17442,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Contenu du fichier",
         "tags": [
           "Files"
@@ -15135,14 +17483,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer un fichier",
         "tags": [
           "Files"
@@ -15184,14 +17524,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statistiques des fichiers",
         "tags": [
           "Files"
@@ -15307,14 +17639,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création d'image",
         "tags": [
           "Images"
@@ -15361,6 +17685,33 @@
           }
         },
         "summary": "Modèles du catalogue d’inférence",
+        "tags": [
+          "Inference"
+        ],
+        "x-exclude": true
+      }
+    },
+    "/inference/modelsdev/models": {
+      "get": {
+        "description": "Renvoie les modèles disponibles dans le schéma `api.json` de Models.dev.\n\nCette API est disponible sans authentification.",
+        "operationId": "inference_modelsdev_models_inference_modelsdev_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/ModelsDevProvider"
+                  },
+                  "title": "Response Inference Modelsdev Models Inference Modelsdev Models Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          }
+        },
+        "summary": "Modèles d’inférence Models.dev",
         "tags": [
           "Inference"
         ],
@@ -15476,14 +17827,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lien vers le Registry",
         "tags": [
           "Registry"
@@ -15525,14 +17868,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer un objet",
         "tags": [
           "Objects"
@@ -15574,14 +17909,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Supprimer l’objet",
         "tags": [
           "Objects"
@@ -15623,14 +17950,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire l’objet",
         "tags": [
           "Objects"
@@ -15672,14 +17991,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête sur les objets",
         "tags": [
           "Objects"
@@ -15733,14 +18044,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Obj Définir des alias",
         "tags": [
           "Objects"
@@ -15794,14 +18097,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Obj Supprimer des alias",
         "tags": [
           "Objects"
@@ -15864,14 +18159,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Obj Ajouter des tags",
         "tags": [
           "Objects"
@@ -15934,14 +18221,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Obj Supprimer des tags",
         "tags": [
           "Objects"
@@ -16002,14 +18281,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lecture par lot des références",
         "tags": [
           "Refs"
@@ -16076,14 +18347,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Informations sur Projects",
         "tags": [
           "Service"
@@ -16125,14 +18388,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer un tableau",
         "tags": [
           "Tables"
@@ -16174,14 +18429,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer un tableau à partir de condensés",
         "tags": [
           "Tables"
@@ -16223,14 +18470,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête sur le tableau",
         "tags": [
           "Tables"
@@ -16272,14 +18511,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Statistiques des requêtes sur le tableau",
         "tags": [
           "Tables"
@@ -16321,14 +18552,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lot de statistiques des requêtes sur le tableau",
         "tags": [
           "Tables"
@@ -16370,14 +18593,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Mettre à jour le tableau",
         "tags": [
           "Tables"
@@ -16421,14 +18636,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Liste des tags",
         "tags": [
           "Objects"
@@ -16451,11 +18658,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSchema"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -16468,14 +18677,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Flux de requête des threads",
         "tags": [
           "Threads"
@@ -16518,15 +18719,69 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
+        "summary": "Utilisation de la trace",
+        "tags": [
+          "Calls"
+        ]
+      }
+    },
+    "/v2/{entity}/{project}/calls/complete": {
+      "post": {
+        "description": "Insérez ou mettez à jour un lot d’appels terminés directement dans la table calls_complete.\n\nChaque appel du lot contient à la fois les informations de début et de fin.\nCe point de terminaison est utilisé lorsque les appels sont mis en mémoire tampon côté client et envoyés comme enregistrements complets.",
+        "operationId": "calls_complete_v2__entity___project__calls_complete_post",
+        "parameters": [
           {
-            "HTTPBasic": []
+            "in": "path",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "title": "Entity",
+              "type": "string"
+            }
           },
           {
-            "HTTPBearer": []
+            "in": "path",
+            "name": "project",
+            "required": true,
+            "schema": {
+              "title": "Project",
+              "type": "string"
+            }
           }
         ],
-        "summary": "Utilisation de la trace",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CallsUpsertCompleteReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallsUpsertCompleteRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "summary": "Appels terminés",
         "tags": [
           "Calls"
         ]
@@ -16595,11 +18850,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -16612,14 +18869,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Liste des jeux de données",
         "tags": [
           "Datasets"
@@ -16680,14 +18929,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création de jeu de données",
         "tags": [
           "Datasets"
@@ -16770,14 +19011,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Suppression du jeu de données",
         "tags": [
           "Datasets"
@@ -16848,14 +19081,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire le jeu de données",
         "tags": [
           "Datasets"
@@ -16918,14 +19143,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Requête sur les résultats d’évaluation",
         "tags": [
           "Eval Results"
@@ -16992,14 +19209,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Supprimer le run d’évaluation",
         "tags": [
           "Evaluation Runs"
@@ -17132,10 +19341,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/EvaluationRunReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/EvaluationRunReadRes"
                 }
               }
             },
@@ -17152,14 +19358,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lister les runs d’évaluation",
         "tags": [
           "Evaluation Runs"
@@ -17220,14 +19418,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer un run d’évaluation",
         "tags": [
           "Evaluation Runs"
@@ -17289,14 +19479,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire le run d’évaluation",
         "tags": [
           "Evaluation Runs"
@@ -17368,14 +19550,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Terminer le run d’évaluation",
         "tags": [
           "Evaluation Runs"
@@ -17404,16 +19578,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "Nombre maximal d’évaluations à renvoyer",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre maximal d’évaluations à renvoyer",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "Nombre d’évaluations à ignorer",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre d’évaluations à ignorer",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -17426,14 +19638,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lister les évaluations",
         "tags": [
           "Evaluations"
@@ -17494,14 +19698,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer une évaluation",
         "tags": [
           "Evaluations"
@@ -17584,14 +19780,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Supprimer l’évaluation",
         "tags": [
           "Evaluations"
@@ -17662,14 +19850,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire l’évaluation",
         "tags": [
           "Evaluations"
@@ -17739,11 +19919,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -17756,14 +19938,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lister les modèles",
         "tags": [
           "Models"
@@ -17824,14 +19998,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer un modèle",
         "tags": [
           "Models"
@@ -17914,14 +20080,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Supprimer le modèle",
         "tags": [
           "Models"
@@ -17992,14 +20150,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire le modèle",
         "tags": [
           "Models"
@@ -18069,11 +20219,13 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -18086,14 +20238,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Liste des op",
         "tags": [
           "Ops"
@@ -18154,14 +20298,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création d'op",
         "tags": [
           "Ops"
@@ -18244,14 +20380,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Suppression de l'op",
         "tags": [
           "Ops"
@@ -18334,14 +20462,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire l'op",
         "tags": [
           "Ops"
@@ -18408,14 +20528,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Supprimer la prédiction",
         "tags": [
           "Predictions"
@@ -18503,10 +20615,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/PredictionReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/PredictionReadRes"
                 }
               }
             },
@@ -18523,14 +20632,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lister les prédictions",
         "tags": [
           "Predictions"
@@ -18591,14 +20692,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer une prédiction",
         "tags": [
           "Predictions"
@@ -18660,14 +20753,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire la prédiction",
         "tags": [
           "Predictions"
@@ -18729,17 +20814,85 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Terminer la prédiction",
         "tags": [
           "Predictions"
+        ]
+      }
+    },
+    "/v2/{entity}/{project}/runtimes/{runtime_name}": {
+      "put": {
+        "description": "Créez ou remplacez une configuration d’environnement d’exécution personnalisé.",
+        "operationId": "custom_runtime_apply_v2__entity___project__runtimes__runtime_name__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "title": "Entity",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project",
+            "required": true,
+            "schema": {
+              "title": "Project",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Nom stable de l’environnement d’exécution personnalisé à créer ou à remplacer",
+            "in": "path",
+            "name": "runtime_name",
+            "required": true,
+            "schema": {
+              "description": "Nom stable de l’environnement d’exécution personnalisé à créer ou à remplacer",
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[^\\s:]*(?::[^\\s:]+)*:?$",
+              "title": "Runtime Name",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomRuntimeApplyBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomRuntimeApplyRes"
+                }
+              }
+            },
+            "description": "Réponse réussie"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Erreur de validation"
+          }
+        },
+        "summary": "Appliquer l’environnement d’exécution personnalisé",
+        "tags": [
+          "Custom Runtimes"
         ]
       }
     },
@@ -18765,16 +20918,54 @@
               "title": "Project",
               "type": "string"
             }
+          },
+          {
+            "description": "Nombre maximal d’évaluateurs à renvoyer",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre maximal d’évaluateurs à renvoyer",
+              "title": "Limit"
+            }
+          },
+          {
+            "description": "Nombre d’évaluateurs à ignorer",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre d’évaluateurs à ignorer",
+              "title": "Offset"
+            }
           }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScorerReadRes"
+                }
               }
             },
-            "description": "Réponse réussie"
+            "description": "Flux de données au format JSONL"
           },
           "422": {
             "content": {
@@ -18787,14 +20978,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Liste des scorers",
         "tags": [
           "Scorers"
@@ -18855,14 +21038,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Création de scorer",
         "tags": [
           "Scorers"
@@ -18945,14 +21120,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Suppression du scorer",
         "tags": [
           "Scorers"
@@ -19023,14 +21190,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire le scorer",
         "tags": [
           "Scorers"
@@ -19097,14 +21256,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Supprimer le score",
         "tags": [
           "Scores"
@@ -19192,10 +21343,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ScoreReadRes"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/ScoreReadRes"
                 }
               }
             },
@@ -19212,14 +21360,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lister les scores",
         "tags": [
           "Scores"
@@ -19280,14 +21420,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Créer un score",
         "tags": [
           "Scores"
@@ -19349,14 +21481,6 @@
             "description": "Erreur de validation"
           }
         },
-        "security": [
-          {
-            "HTTPBasic": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "summary": "Lire le score",
         "tags": [
           "Scores"

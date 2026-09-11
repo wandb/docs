@@ -1,0 +1,49 @@
+---
+title: "APIキーで「40文字である必要があります」と表示されて失敗するのはなぜですか？"
+keywords: ["APIキー", "認証", "SDK"]
+---
+
+W&amp;B では現在、より長い APIキー (約 86 文字) を発行しています。古い `wandb` SDK バージョンでは、長さがちょうど 40 文字であることを検証するため、新しい形式のキーは受け付けられません。
+
+`ValueError: API key must be 40 characters long, yours was 86`
+
+[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) インスタンスでは、代わりに `ERROR API key must be 40 characters long, yours was 86` というメッセージが表示される場合があります。
+
+<div id="upgrade-the-wandb-sdk">
+  ## wandb SDKをアップグレードする
+</div>
+
+`wandb` v0.22.3 でより長いAPIキーのサポートが追加されたため、このエラーはそのバージョン以降にアップグレードすることで解消されます。
+
+```bash
+pip install -U wandb
+wandb login --relogin
+```
+
+<div id="if-you-cannot-upgrade-the-sdk">
+  ## SDKをアップグレードできない場合
+</div>
+
+* アカウントで従来の40文字のキーがまだ有効であれば、そのまま使用してください。新形式のキーを作成しても、従来のキーが自動的に無効になることはありません。
+* 従来のキーを削除してしまい、アップグレードできない場合は、[support@wandb.com](mailto:support@wandb.com) までお問い合わせください。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) および [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは、従来形式のキーを発行できる場合があります。
+* 回避策として、`wandb login` を使わずに、環境変数 `WANDB_API_KEY` を設定してください。古いSDKバージョンの一部では、ローカルでの長さチェックがスキップされます。`[API-KEY]` はお使いの W&amp;B APIキーに置き換えてください。
+
+  ```bash
+  export WANDB_API_KEY=[API-KEY]
+  ```
+
+<div id="different-error-key-reported-as-too-short">
+  ## 別のエラー: キーが短すぎると表示される
+</div>
+
+特定の SDK バージョンでは、`wandb.Api().viewer.generate_api_key()` を呼び出すと、`API key must have 40+ characters, has 20` というエラーが表示されることがあります。これは、より長いキー形式への移行とは別の問題です。SDK をアップグレードしてください。アップグレード後もエラーが解消しない場合は、[support@wandb.com](mailto:support@wandb.com) までお問い合わせください。
+
+詳細は、[APIキーはどうすれば見つけられますか？](/ja/support/models/articles/how-do-i-find-my-api-key) および [SDK リリースノート](/ja/release-notes/sdk-releases) をご覧ください。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[APIキー](/ja/support/models/tags/api-keys)</Badge><Badge stroke shape="pill" color="orange" size="md">[認証](/ja/support/models/tags/authentication)</Badge><Badge stroke shape="pill" color="orange" size="md">[SDK](/ja/support/models/tags/sdk)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

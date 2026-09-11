@@ -1,7 +1,7 @@
 ---
 title: "Utiliser le Playground pour tester des prompts"
 description: "Simplifiez l'itération sur les prompts et les réponses de LLM"
-keywords: ["playground LLM", "prompt engineering", "comparaison de modèles", "fournisseurs personnalisés", "modèles enregistrés"]
+keywords: ["playground LLM", "prompt engineering", "comparaison de modèles", "environnements d’exécution personnalisés", "fournisseurs personnalisés", "modèles enregistrés"]
 ---
 
 <Tip>
@@ -11,7 +11,7 @@ keywords: ["playground LLM", "prompt engineering", "comparaison de modèles", "f
   * [Page produit](https://wandb.ai/site/inference)
 </Tip>
 
-Évaluer les prompts et les réponses de LLM est complexe. Le Weave Playground simplifie l&#39;itération sur les prompts et les réponses de LLM, et ainsi facilite l&#39;expérimentation avec différents modèles et prompts. Grâce à des fonctionnalités comme la modification des prompts, le réessai des messages et la comparaison de modèles, Playground vous aide à tester et à améliorer rapidement vos applications LLM. Playground est destiné aux développeurs et aux prompt engineers qui souhaitent tester, comparer et affiner des prompts de LLM avant de les intégrer dans des applications. Playground prend en charge des modèles de fournisseurs tels qu&#39;OpenAI, Anthropic et Google, ainsi que des [fournisseurs personnalisés](#add-a-custom-provider).
+Évaluer les prompts et les réponses de LLM est complexe. Le Weave Playground simplifie l&#39;itération sur les prompts et les réponses de LLM, et ainsi facilite l&#39;expérimentation avec différents modèles et prompts. Grâce à des fonctionnalités comme la modification des prompts, le réessai des messages et la comparaison de modèles, Playground vous aide à tester et à améliorer rapidement vos applications LLM. Playground est destiné aux développeurs et aux prompt engineers qui souhaitent tester, comparer et affiner des prompts de LLM avant de les intégrer dans des applications. Playground prend en charge des modèles de fournisseurs tels qu&#39;OpenAI, Anthropic et Google, ainsi que des [environnements d’exécution personnalisés](#custom-runtimes).
 
 * **Accès rapide :** Ouvrez le **Playground** depuis le menu latéral de Weave pour démarrer une nouvelle session, ou depuis la page Appel pour tester un projet existant.
 * **Contrôles des messages :** Modifiez, réessayez ou supprimez des messages directement dans le chat.
@@ -19,7 +19,7 @@ keywords: ["playground LLM", "prompt engineering", "comparaison de modèles", "f
 * **Paramètres personnalisables :** Configurez votre fournisseur LLM préféré et ajustez les paramètres du modèle.
 * **Prise en charge de plusieurs LLM :** Passez d&#39;un modèle à l&#39;autre, avec une gestion des clés API au niveau de l&#39;équipe.
 * **Comparer les modèles :** Comparez la manière dont différents modèles répondent aux prompts.
-* **Fournisseurs personnalisés :** Testez des points de terminaison d’API compatibles OpenAI pour des modèles personnalisés.
+* **Environnements d’exécution personnalisés :** Testez des points de terminaison d’API compatibles avec OpenAI pour des modèles personnalisés.
 * **Modèles enregistrés :** Créez et configurez un préréglage de modèle réutilisable pour votre flux de travail.
 
 Commencez avec le Playground pour optimiser vos interactions avec les LLM et rationaliser votre processus de prompt engineering ainsi que le développement d&#39;applications LLM. Les sections suivantes décrivent comment configurer et utiliser le Playground :
@@ -30,7 +30,7 @@ Commencez avec le Playground pour optimiser vos interactions avec les LLM et rat
 * [Personnaliser les paramètres du Playground](#customize-playground-settings)
 * [Contrôles des messages](#message-controls)
 * [Comparer des LLM](#compare-llms)
-* [Fournisseurs personnalisés](#custom-providers)
+* [Environnements d’exécution personnalisés](#custom-runtimes)
 * [Modèles enregistrés](#saved-models)
 
 <div id="add-provider-credentials-and-information">
@@ -189,74 +189,16 @@ Lorsque vous sélectionnez un élément dans l’historique, il se charge dans u
 Playground vous permet de comparer des LLM côte à côte afin d’évaluer comment différents modèles répondent aux mêmes prompts. Pour effectuer une comparaison, cliquez sur le bouton **Add Chat (<Icon icon="plus" iconType="solid" />)** dans la barre d’outils de Playground, à droite. Une deuxième fenêtre de chat s’ouvre à côté du chat original.
 Dans cette deuxième fenêtre de chat, vous disposez des mêmes fonctionnalités que dans le chat original, comme choisir le modèle, ajuster les paramètres et ajouter des fonctions.
 
-<div id="custom-providers">
-  ## Fournisseurs personnalisés
+<div id="custom-runtimes">
+  ## Environnements d’exécution personnalisés
 </div>
 
-En plus des fournisseurs intégrés, le Playground prend en charge des fournisseurs personnalisés qui exposent des points de terminaison d’API compatibles avec OpenAI. Les sections suivantes expliquent comment ajouter, modifier, supprimer et utiliser des fournisseurs personnalisés.
+Outre les fournisseurs intégrés, le Playground prend en charge les environnements d’exécution personnalisés : des points de terminaison d’API compatibles avec OpenAI que vous enregistrez dans votre projet. Les environnements d’exécution personnalisés étaient auparavant appelés *fournisseurs personnalisés*. Utilisez un environnement d’exécution personnalisé pour tester des modèles, par exemple un prototype d’agent hébergé par votre équipe, un modèle local ou une version antérieure du modèle d’un fournisseur pris en charge.
 
-<div id="add-a-custom-provider">
-  ### Ajouter un fournisseur personnalisé
-</div>
+Pour enregistrer un environnement d’exécution personnalisé dans l’interface utilisateur ou avec le SDK Python, voir [Environnements d’exécution personnalisés](/fr/weave/guides/tools/custom-runtimes). Après avoir enregistré un environnement d’exécution personnalisé, sélectionnez ses modèles dans la liste déroulante **Select a model** et testez-les à l’aide des fonctionnalités standard du Playground.
 
-En plus des fournisseurs intégrés, vous pouvez utiliser le playground pour tester des points de terminaison d’API compatibles OpenAI pour des modèles personnalisés. Par exemple :
-
-* D’anciennes versions de fournisseurs de modèles pris en charge
-* Des modèles locaux
-
-Pour ajouter un fournisseur personnalisé au playground, procédez comme suit :
-
-1. Dans le en-tête du prompt (en haut du panneau principal), cliquez sur la liste déroulante **Select a model**.
-2. Sélectionnez **+ Add AI provider**.
-3. Sélectionnez **Custom Provider**.
-4. Dans la fenêtre modale, saisissez les informations du fournisseur :
-   * **Provider name** : un nom pour le fournisseur, comme `openai` ou `ollama`.
-   * **clé API** : la clé API du fournisseur, par exemple une clé API OpenAI.
-   * **Base URL** : l’endpoint de base du fournisseur, comme `https://api.openai.com/v1/` ou une URL ngrok telle que `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
-   * **Headers** (facultatif) : une ou plusieurs paires clé-valeur d’en-têtes HTTP personnalisés.
-   * **Models** : un ou plusieurs modèles pour le fournisseur, comme `deepseek-r1` ou `qwq`.
-   * **Max tokens** (facultatif) : pour chaque modèle, le nombre maximal de tokens que le modèle peut générer dans une réponse.
-5. Après avoir saisi les informations du fournisseur, cliquez sur **Add provider**.
-6. Sélectionnez votre nouveau fournisseur et les modèles disponibles dans la liste déroulante **Select a model**.
-
-<Warning>
-  En raison des restrictions CORS, vous ne pouvez pas appeler directement des URL localhost ou 127.0.0.1 depuis le playground. Si vous exécutez un serveur de modèle local (comme Ollama), utilisez un service de tunneling comme ngrok pour l’exposer de manière sécurisée. Pour plus d’informations, voir [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider).
-</Warning>
-
-Après avoir ajouté un fournisseur personnalisé, vous pouvez tester les modèles du fournisseur personnalisé à l’aide des fonctionnalités standard du playground. Vous pouvez également [modifier](#edit-a-custom-provider) ou [supprimer](#remove-a-custom-provider) le fournisseur personnalisé.
-
-<div id="edit-a-custom-provider">
-  ### Modifier un fournisseur personnalisé
-</div>
-
-Pour modifier les informations d’un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
-
-1. Dans l’en-tête du prompt, cliquez sur la liste déroulante **Select a model**. Sélectionnez ensuite **+Configurer les fournisseurs**.
-
-* Vous pouvez également sélectionner **Project** dans le menu latéral, puis l’onglet **Fournisseurs d’IA**.
-
-2. Dans le tableau **Fournisseurs personnalisés**, repérez le fournisseur personnalisé que vous souhaitez mettre à jour.
-3. Dans la colonne **Last Updated** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton Modifier (l’icône en forme de crayon).
-4. Dans la fenêtre modale, modifiez les informations du fournisseur.
-5. Cliquez sur **Enregistrer**.
-
-<div id="remove-a-custom-provider">
-  ### Supprimer un fournisseur personnalisé
-</div>
-
-Pour supprimer un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
-
-1. Dans le en-tête du prompt, cliquez sur la liste déroulante **Select a model**. Sélectionnez ensuite **+Configure providers**.
-
-* Vous pouvez également, dans le menu latéral, sélectionner **Project**, puis l’onglet **Fournisseurs d’IA**.
-
-2. Dans le tableau **Fournisseurs personnalisés**, repérez le fournisseur personnalisé que vous souhaitez supprimer.
-3. Dans la colonne **Last Updated** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de suppression (l’icône de corbeille).
-4. Dans la fenêtre modale, confirmez que vous souhaitez supprimer le fournisseur. Vous ne pouvez pas annuler cette action.
-5. Cliquez sur **Delete**.
-
-<div id="use-a-local-model-as-a-custom-provider">
-  ### Utiliser un modèle local comme fournisseur personnalisé
+<div id="use-a-local-model-as-a-custom-runtime">
+  ### Utiliser un modèle local comme environnement d’exécution personnalisé
 </div>
 
 Pour tester un modèle qui s’exécute en local dans le Playground, utilisez ngrok et Ollama pour créer une URL publique temporaire qui évite les restrictions CORS. Cela permet au Playground d’accéder à un modèle exécuté sur votre propre machine sans enfreindre les politiques de sécurité du navigateur.
@@ -277,7 +219,7 @@ Pour le mettre en place, procédez comme suit :
    ngrok http 11434 --response-header-add "Access-Control-Allow-Origin: *" --host-header rewrite
    ```
 
-4. Une fois ngrok lancé, une URL publique s’affiche, par exemple `https://xxxx-xxxx.ngrok-free.app`. Utilisez cette URL comme **Base URL** lorsque vous [ajoutez un fournisseur personnalisé](#add-a-custom-provider) dans le Playground.
+4. Une fois ngrok lancé, une URL publique s’affiche, par exemple `https://xxxx-xxxx.ngrok-free.app`. Utilisez cette URL comme **Base URL** lorsque vous [enregistrez un environnement d’exécution personnalisé](/fr/weave/guides/tools/custom-runtimes#register-a-custom-runtime-in-the-ui).
 
 Le schéma suivant illustre le flux de données entre votre environnement local, le proxy ngrok et les services cloud de W&amp;B :
 

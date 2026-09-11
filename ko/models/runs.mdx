@@ -123,17 +123,37 @@ wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 
 W&amp;B는 `jolly-haze-4`라는 하나의 run 내에서 시뮬레이션된 트레이닝 루프를 캡처합니다. 이는 스크립트에서 `wandb.init()`을 한 번만 호출하기 때문입니다.
 
-이전 출력에서 W&amp;B가 표시한 URL을 복사해 브라우저에 붙여 넣으세요. 이 URL을 열면 W&amp;B App UI의 해당 run Workspace로 이동합니다. 예를 들어, 다음 이미지는 run `jolly-haze-4`의 Workspace를 보여줍니다:
+이전 출력에서 W&amp;B가 출력한 URL을 복사하여 브라우저에 붙여넣으세요. 해당 URL은 W&amp;B App UI의 run Workspace로 연결됩니다. 예를 들어, 다음 이미지는 `jolly-haze-4` run의 Workspace를 보여줍니다:
 
 <Frame>
   <img src="/images/runs/run_log_example_2.png" alt="메트릭이 로깅된 트레이닝 run" />
 </Frame>
 
+<div id="run-summary">
+  ## Run summary
+</div>
+
+run의 [`summary`](/ko/models/ref/python/experiments/run#attributes) 속성을 사용하여 모델, 트레이닝 프로세스 또는 전처리 단계를 요약하는 값을 저장하세요. 시간에 따라 변하는 메트릭과 달리 summary 값은 일반적으로 최종 결과나 집계 결과를 나타냅니다.
+
+활성 run 중에 summary 값을 로깅하거나 run이 완료된 후 업데이트할 수 있습니다. W&amp;B Python SDK를 통해 프로그래밍 방식으로 액세스하거나 W&amp;B App에서 확인하세요.
+
+자세한 내용은 [summary 메트릭 로깅](/ko/models/track/log/log-summary)을 참조하세요.
+
+<div id="run-configuration">
+  ## Run 설정
+</div>
+
+run 설정을 사용하여 하이퍼파라미터, 모델 아키텍처, 데이터셋 이름 등 실험의 입력 값과 설정을 저장하세요. 설정 값은 run 결과를 생성하는 데 사용된 조건을 추적하는 데 도움이 됩니다.
+
+활성 run 중에 설정 값을 로깅하거나 run이 완료된 후 업데이트할 수 있습니다. W&amp;B Python SDK를 사용하여 프로그래밍 방식으로 액세스하거나 W&amp;B App에서 확인하세요.
+
+자세한 내용은 [실험 구성](/ko/models/track/config)을 참조하세요.
+
 {/* ## run에 메모 추가
   특정 run에 추가한 메모는 run 페이지의 **Overview** 탭과 프로젝트 페이지의 run 테이블에 표시됩니다.
 
-  1. W&B 프로젝트로 이동합니다
-  2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다
-  3. run selector에서 메모를 추가할 run을 선택합니다
-  4. **Overview** 탭을 선택합니다
-  5. **설명** 필드 옆의 연필 아이콘을 선택한 다음 메모를 추가합니다 */}
+  1. W&B 프로젝트로 이동합니다.
+  2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
+  3. run 선택기에서 메모를 추가할 run을 선택합니다.
+  4. **Overview** 탭을 선택합니다.
+  5. **Description** 필드 옆의 연필 아이콘을 선택하고 메모를 추가합니다. */}

@@ -1,0 +1,41 @@
+---
+title: "W&B で NLP メトリクスとテキスト出力をログするにはどうすればよいですか？"
+keywords: ["Experiments", "メトリクス", "Runs"]
+---
+
+コーパスレベルの NLP スコア (BLEU、ROUGE、パープレキシティ) は `wandb.log()` でログでき、各サンプルの出力は `wandb.Table` でログできます。一般的なログ パターンについては、[オブジェクトとメディアをログする](/ja/models/track/log) と [テーブルをログする](/ja/models/track/log/log-tables) を参照してください。
+
+次の例では、損失をログするのと同じように、BLEU、ROUGE、パープレキシティ、その他のスカラー スコアをログする方法を示します。
+
+```python lines
+import wandb
+from sacrebleu.metrics import BLEU
+from rouge_score import rouge_scorer
+
+with wandb.init(project="nmt-project") as run:
+    bleu = BLEU()
+    scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"])
+
+    for epoch in range(num_epochs):
+        train(model)
+        hypotheses, references = evaluate(model, val_set)
+
+        bleu_score = bleu.corpus_score(hypotheses, [references])
+        rouge_scores = [scorer.score(ref, hyp) for ref, hyp in zip(references, hypotheses)]
+
+        run.log({
+            "epoch": epoch,
+            "val/bleu": bleu_score.score,
+            "val/rouge1": sum(s["rouge1"].fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/rougeL": sum(s["rougeL"].fmeasure for s in rouge_scores) / len(rouge_scores),
+            "val/perplexity": compute_perplexity(model, val_loader),
+        })
+```
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

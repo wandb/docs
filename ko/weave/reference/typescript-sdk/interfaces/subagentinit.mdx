@@ -1,34 +1,51 @@
 ---
-title: "인터페이스: SubAgentInit"
+title: "SubAgentInit"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / SubAgentInit
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<div id="table-of-contents">
-  ## 목차
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L29" />
+
+<div id="extends">
+  ## 확장
 </div>
+
+* `SpanInitBase`
 
 <div id="properties">
-  ### 속성
+  ## 속성
 </div>
 
-* [모델](./subagentinit#model)
-* [이름](./subagentinit#name)
+<div id="agentdescription">
+  ### agentDescription
+</div>
 
-## 속성
+> `선택` **agentDescription**: `string`
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+> `선택` **agentId**: `string`
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+> `선택` **agentVersion**: `string`
+
+***
 
 <div id="model">
-  ### model
+  ### 모델
 </div>
 
-• `선택` **모델**: `string`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[genai/subagent.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L15)
+> `선택` **모델**: `string`
 
 ***
 
@@ -36,10 +53,26 @@ description: "TypeScript SDK 레퍼런스"
   ### name
 </div>
 
-• **name**: `string`
+> **name**: `string`
 
-<div id="defined-in">
-  #### 정의 위치
+***
+
+<div id="starttime">
+  ### startTime
 </div>
 
-[genai/subagent.ts:14](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L14)
+> `선택` **startTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### 상속됨
+</div>
+
+`SpanInitBase.startTime`
+
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
+</div>
+
+> `선택` **systemInstructions**: `string`[]

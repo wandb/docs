@@ -1,0 +1,11 @@
+---
+title: セルフマネージド ClickHouse アップグレードに関する注意事項
+---
+
+<Note>
+  **W&amp;B Weave を使用するセルフマネージドのデプロイの場合:** W&amp;B Server をアップグレードする前に、ClickHouse のバージョンを確認してください。Weave がサポートするのは ClickHouse 25.8 から 25.12、および 26.3 以降です。ClickHouse 26.1 および 26.2 では Weave は動作しません。
+
+  ClickHouse のバージョンを変更する必要がある場合は、ClickHouse Server と ClickHouse Keeper の**両方**をアップグレードしてください。詳細は [アップグレード時の ClickHouse の互換性](/ja/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) を参照してください。
+
+  専用クラウドのデプロイでは、すでに互換性のある ClickHouse バージョンが稼働しているため、影響はありません。
+</Note>

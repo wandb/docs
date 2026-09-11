@@ -1,0 +1,36 @@
+---
+title: "Pourquoi mon agent de balayage ne récupère-t-il pas de nouveaux runs ?"
+keywords: ["Sweeps", "Experiments"]
+---
+
+Si votre agent de balayage démarre mais ne reçoit pas de nouvelles configurations de run, ou s&#39;il reçoit un run puis reste inactif, plusieurs causes fréquentes sont possibles.
+
+**Le balayage a épuisé son espace de recherche (recherche sur grille)**
+
+Dans une recherche `grid`, le contrôleur du balayage attribue chaque combinaison de valeurs d&#39;hyperparamètres une seule fois. Une fois toutes les combinaisons attribuées, aucun nouveau run n&#39;est généré. Si vous avez démarré plusieurs agents simultanément, ils ont peut-être consommé collectivement toutes les configurations avant qu&#39;un agent donné ait terminé son run en cours.
+
+Pour le confirmer : ouvrez la page du balayage dans l&#39;interface utilisateur W&amp;B et comparez le nombre de runs à la taille totale de la grille. S&#39;ils correspondent, le balayage est terminé.
+
+**L&#39;option `--count` limite l&#39;agent**
+
+L&#39;exécution de `wandb agent --count [COUNT] [SWEEP-ID]` indique à l&#39;agent d&#39;accepter au maximum `[COUNT]` runs avant de quitter. Si vous définissez `--count 1`, l&#39;agent s&#39;arrête après un seul run. C&#39;est intentionnel avec SLURM et d&#39;autres ordonnanceurs de tâches, mais cela peut surprendre si vous vous attendiez à ce que l&#39;agent continue en boucle.
+
+Supprimez `--count` (ou augmentez sa valeur) pour permettre à l&#39;agent de continuer à récupérer des runs. Remplacez `[SWEEP-ID]` par l&#39;ID du balayage affiché dans l&#39;interface utilisateur W&amp;B ou par la valeur renvoyée par `wandb.sweep()` :
+
+```bash
+wandb agent [SWEEP-ID]
+```
+
+**Le sweep est en pause ou arrêté**
+
+Vérifiez le statut du sweep dans l’interface utilisateur W&amp;B (**Sweeps &gt; votre sweep &gt; Status**). Si le sweep a été mis en pause ou arrêté manuellement, les agents ne recevront pas de nouvelles configurations tant que le sweep n’aura pas été repris.
+
+Pour en savoir plus sur les causes possibles et les correctifs, voir [Résoudre les problèmes liés aux sweeps](/fr/models/sweeps/troubleshoot-sweeps). Pour les jobs distribués avec SLURM, voir [Comment exécuter des sweeps sur SLURM ?](/fr/support/models/articles/how-should-i-run-sweeps-on-slurm).
+
+***
+
+{/* GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet */}

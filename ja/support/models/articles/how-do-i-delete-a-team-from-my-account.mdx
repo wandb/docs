@@ -1,16 +1,36 @@
 ---
-title: "アカウントからTeamsを削除するにはどうすればよいですか？"
+title: "アカウントからチームを削除するにはどうすればよいですか？"
 keywords: ["Administrator", "Team Management"]
 ---
 
-チーム管理者として、W&amp;Bアカウントからチームを完全に削除できます。不要になったチームを削除する必要がある場合は、この手順を使用します。
+<div id="delete-a-team">
+  ## チームを削除する
+</div>
 
-アカウントからTeamsを削除するには、次の手順を実行します。
+1. チーム Admin としてログインします。
+2. W&amp;B UI のチームページから **チーム settings** を開きます。
+3. 設定ページの一番下までスクロールし、**Delete チーム** をクリックします。
+4. 確認を求められたら、削除を確定します。
 
-1. 管理者としてTeam settingsにアクセスします。
-2. ページ下部の**Delete**ボタンをクリックします。
+<Warning>
+  *唯一の* チームを削除すると、[support@wandb.com](mailto:support@wandb.com) がアクセスを復旧するまで、アカウントはロックされます。ログイン時に &quot;rate limit exceeded&quot; エラーが表示される場合もあります。W&amp;B アカウントは、サインアップ時に作成される個人チームを含め、Projects を作成して Experiments を実行するために、少なくとも 1 つのチームに所属している必要があります。
+</Warning>
 
-W&amp;Bはアカウントからチームを削除します。
+復旧手順については、[チームを削除してしまい、新しいチームを作成できなくなりました。どうすればよいですか？](/ja/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one) を参照してください。
+
+<div id="if-you-want-a-different-team-name">
+  ## 別のチーム名を使用したい場合
+</div>
+
+チーム名は作成後に変更できません。アカウントがロックされることなく新しい名前を使用するには、次の手順を実行します。
+
+1. 希望する名前で[新しいチームを作成](/ja/support/models/articles/how-do-i-create-a-new-team-in-wandb)します。
+2. 必要に応じて、ProjectsとRunsを新しいチームに移動します。
+3. 少なくともほかに1つのチーム (個人チームを含む) に引き続き所属している場合にのみ、古いチームを削除します。
+
+古いチームが唯一のチームだった場合は、アクセスを失わずに移行できるようサポートが支援しますので、削除する前に[support@wandb.com](mailto:support@wandb.com)までご連絡ください。
+
+[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)または[セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)をご利用の場合は、チームを削除する前に、名前変更のリクエストについてアカウントチームまたはサポートにお問い合わせください。
 
 ***
 

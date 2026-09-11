@@ -16,42 +16,76 @@ Les Administrateurs de l’organisation peuvent configurer les paramètres de co
   ## Appliquer les paramètres de confidentialité à tous les équipes
 </div>
 
-Les Administrateurs de l’organisation peuvent appliquer des paramètres de confidentialité à tous les équipes de leur organisation depuis la section **Confidentialité** de l’onglet **Settings** du tableau de bord du compte ou de l’organisation. Si les Administrateurs de l’organisation appliquent un paramètre, les Administrateurs d’équipe ne peuvent pas le configurer dans leurs équipes respectifs.
+Les Administrateurs de l’organisation peuvent appliquer des paramètres de confidentialité à tous les équipes de leur organisation depuis l’onglet **Confidentialité** des paramètres de l’organisation. Un paramètre appliqué vaut pour chaque équipe de l’organisation, et les Administrateurs d’équipe ne peuvent pas le redéfinir au niveau de l’équipe. Lorsqu’un Administrateur d’équipe ouvre un paramètre que vous appliquez, W&amp;B affiche le message suivant : « This setting is locked because it&#39;s enforced org-wide. To make changes, please contact your org admin. »
 
-* **Appliquer les restrictions de visibilité de l&#39;équipe** : Masque tous les équipes pour les non-membres dans l’ensemble de l’organisation.
-* **Appliquer la confidentialité aux futurs projets** : Exige que tous les nouveaux projets de tous les équipes soient privés ou [restreints](./iam/access-management/restricted-projects).
-* **Appliquer le contrôle des invitations** : Empêche les non-administrateurs d’inviter des membres dans une équipe.
-* **Appliquer le contrôle du partage des Reports** : Désactive le partage public des Reports dans les projets privés et désactive les liens magiques existants.
-* **Appliquer les restrictions d’adhésion autonome aux équipes** : Empêche les utilisateurs dont le domaine de messagerie correspond à celui de l’organisation de rejoindre automatiquement une équipe.
-  <Note>Ce paramètre est disponible uniquement dans les déploiements [Cloud mutualisé](./hosting-options/multi_tenant_cloud).</Note>
-* **Appliquer les restrictions par défaut pour l’enregistrement du code** : Désactive l’enregistrement du code par défaut pour tous les équipes.
-
-Pour ouvrir les paramètres de confidentialité de l’organisation :
+Pour ouvrir les paramètres de confidentialité de l’organisation, procédez comme suit :
 
 1. Connectez-vous en tant qu’Administrateur de l’organisation.
 2. Sur Cloud mutualisé, accédez à `https://wandb.ai/account-settings/[ORGANIZATION]/settings`. Remplacez `[ORGANIZATION]` par le nom de votre organisation. Sur les déploiements Cloud dédié ou Autogéré, ouvrez le tableau de bord de l’organisation de votre instance. Pour les URL propres à chaque environnement, voir [Add and manage users](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-users).
-3. Ouvrez la section **Confidentialité** et configurez **Appliquer les restrictions par défaut pour l’enregistrement du code** ainsi que tout autre contrôle à l’échelle de l’organisation dont vous avez besoin.
+3. Dans la navigation de gauche, sélectionnez **Confidentialité**.
 
-Après avoir enregistré les modifications, les paramètres appliqués s’appliquent à toutes les équipes de l’organisation, et les Administrateurs d’équipe ne peuvent plus les redéfinir au niveau de l’équipe.
+Les sections suivantes décrivent les paramètres de l’onglet **Confidentialité**. Chaque paramètre est un commutateur, et W&amp;B enregistre vos modifications immédiatement.
+
+<div id="access-control">
+  ### Contrôle d&#39;accès
+</div>
+
+Gérez la visibilité de l&#39;équipe et les processus d&#39;adhésion des membres.
+
+* **Appliquer les restrictions de visibilité de l&#39;équipe** : chaque utilisateur ne voit que les équipes auxquelles il appartient et les profils de ses coéquipiers. Les équipes et les utilisateurs extérieurs à ses équipes sont masqués.
+* **Empêcher l&#39;adhésion automatique aux équipes** : les utilisateurs dont le domaine d&#39;adresse e-mail correspond à celui de l&#39;organisation ne peuvent rejoindre automatiquement aucune équipe. Une invitation explicite est requise.
+* **Limiter les droits d&#39;invitation** : seuls les administrateurs peuvent inviter de nouveaux membres dans une équipe.
+* **Restreindre les invitations au domaine revendiqué** : seuls les utilisateurs dont l&#39;adresse e-mail se termine par le domaine d’adresse e-mail revendiqué par votre organisation peuvent être invités dans l&#39;organisation.
+  <Note>Ce paramètre n&#39;apparaît que dans [Cloud mutualisé](./hosting-options/multi_tenant_cloud), pour les organisations Enterprise ayant revendiqué un domaine d’adresse e-mail. Voir [Capture de domaine](./iam/access-management/manage-organization#domain-capture).</Note>
+* **Désactiver la création de clés API** : les utilisateurs et les comptes de service d&#39;équipe ne peuvent pas créer de nouvelles clés API. Les comptes de service d&#39;organisation peuvent toujours en créer, et les clés existantes continuent de fonctionner. Voir [Désactiver la création de clés API](./iam/api-keys#disable-api-key-creation).
+  <Note>Ce paramètre n&#39;apparaît que dans Cloud dédié et Autogéré v0.84.0 et versions ultérieures.</Note>
+
+<div id="project-and-content-security">
+  ### Sécurité des projets et du contenu
+</div>
+
+Contrôlez la confidentialité des projets et encadrez le partage de contenu.
+
+* **Enforce private projects** : tous les nouveaux projets, dans toutes les équipes, sont définis comme privés ou [restricted](./iam/access-management/restricted-projects) et ne peuvent pas être rendus publics ou ouverts au niveau de l&#39;équipe.
+* **Disable public report sharing** : désactive le partage public des reports issus de projets privés, ainsi que les liens publics existants.
+* **Disable default enregistrement du code** : désactive par défaut l&#39;enregistrement du code pour toutes les équipes. Voir [enregistrement du code](/fr/models/app/features/panels/code).
+
+<div id="smart-features">
+  ### Fonctionnalités intelligentes
+</div>
+
+La section **Smart features** contrôle les fonctionnalités reposant sur les LLM et le partage de données. Cette section n&#39;apparaît sous l&#39;onglet **Confidentialité** que si votre organisation a accès aux fonctionnalités d&#39;IA de W&amp;B. Voir [Gouvernance et sécurité](/fr/aria/governance).
+
+<div id="aria">
+  ### ARIA
+</div>
+
+La section **ARIA** contrôle ce qu&#39;ARIA peut faire dans les projets de votre organisation. Cette section n&#39;apparaît sous l&#39;onglet **Privacy** que si la mémoire de projet est activée pour votre organisation.
+
+* **Enable project memory** : permet à ARIA de mémoriser les détails d&#39;un projet, comme les conventions et les corrections passées, et de les appliquer lors des conversations ultérieures. ARIA partage la mémoire d&#39;un projet avec l&#39;équipe propriétaire de ce projet. Lorsque ce paramètre est désactivé, ARIA n&#39;utilise aucune mémoire et n&#39;en enregistre aucune nouvelle, mais les mémoires existantes sont conservées. Voir [Afficher et gérer les mémoires de projet](/fr/aria/overview#view-and-manage-project-memories).
 
 <div id="configure-privacy-settings-for-a-team">
   ## Configurer les paramètres de confidentialité d’une équipe
 </div>
 
-Si un paramètre n’est pas appliqué à l’échelle de l’organisation, les administrateurs d’équipe peuvent le gérer pour leur propre équipe depuis la section **Confidentialité** de l’onglet **Paramètres** de l’équipe. Chaque paramètre peut être configuré tant qu’il n’est pas appliqué à l’échelle de l’organisation :
+Si un paramètre n’est pas appliqué à l’échelle de l’organisation, les administrateurs d’équipe peuvent le gérer pour leur propre équipe depuis la section **Confidentialité** de la page **Settings** de l’équipe.
 
-* **Masquer cette équipe à tous les non-membres** : masque l’équipe pour les utilisateurs qui n’en sont pas membres.
-* **Rendre privés tous les futurs projets de l’équipe** : garantit que tous les nouveaux Projects créés dans l’équipe sont privés (le partage public n’est pas autorisé).
-* **Autoriser tout membre de l’équipe à inviter d’autres membres** : permet à tous les membres de l’équipe d’inviter de nouveaux membres, et pas uniquement aux administrateurs.
-* **Désactiver le partage public des Reports dans les projets privés** : désactive le partage public des Reports et les liens magiques existants.
-* **Autoriser les utilisateurs dont le domaine d’adresse e-mail de l’organisation correspond à rejoindre cette équipe** : permet aux utilisateurs ayant le même domaine d’adresse e-mail de rejoindre l’équipe automatiquement.
-  <Note>Ce paramètre est disponible uniquement dans les déploiements [Cloud mutualisé](./hosting-options/multi_tenant_cloud).</Note>
-* **Activer l’enregistrement du code par défaut** : enregistre automatiquement le code pour tous les runs de l’équipe.
-
-Pour ouvrir les paramètres de confidentialité de l’équipe :
+Pour ouvrir les paramètres de confidentialité de l’équipe, procédez comme suit :
 
 1. Accédez à `https://wandb.ai/[TEAM]`. Remplacez `[TEAM]` par le nom de votre équipe.
-2. Sélectionnez **Paramètres de l’équipe** dans la navigation de gauche.
-3. Ouvrez la section **Confidentialité** et configurez **Activer l’enregistrement du code par défaut**.
+2. Dans la navigation de gauche, sélectionnez **Team settings**.
+3. Ouvrez la section **Confidentialité**.
 
-Après avoir enregistré les modifications, les paramètres sélectionnés s’appliquent à votre équipe.
+La section **Confidentialité** contient les paramètres suivants. W&amp;B enregistre vos modifications immédiatement.
+
+* **Default visibility for new projets in [TEAM]** : définit la portée de visibilité que W&amp;B applique aux nouveaux projets de l’équipe. Voir [Portées de visibilité](./iam/access-management/restricted-projects#visibility-scopes).
+* **Hide this team from all non-members** : masque l’équipe aux utilisateurs qui n’en sont pas membres.
+  <Warning>Masquer une équipe bloque également l’accès public à tous les projets et reports ouverts appartenant à cette équipe. W&amp;B vous demande de confirmer avant d’appliquer ce paramètre.</Warning>
+* **Make all future team projets private (public sharing not allowed)** : garantit que tous les nouveaux projets créés dans l’équipe sont privés.
+* **Allow any team member to invite other members (not just admins)** : permet à tous les membres de l’équipe, et pas seulement aux administrateurs, d’inviter de nouveaux membres.
+* **Disable public sharing to outside of team for reports in private projets** : désactive le partage public des reports contenus dans les projets privés de l’équipe. Les magic links existants sont également désactivés.
+* **Automatically recommend new users with matching email domains (`[DOMAIN]`) join this team upon signup** : propose aux nouveaux utilisateurs dont l’adresse e-mail correspond au domaine d’adresse e-mail revendiqué par votre organisation de rejoindre cette équipe lors de leur inscription. Dans la W&amp;B App, `[DOMAIN]` correspond au domaine d’adresse e-mail revendiqué par votre organisation.
+  <Note>Ce paramètre n’apparaît que dans le [Cloud mutualisé](./hosting-options/multi_tenant_cloud), et seuls les administrateurs de l’organisation peuvent le modifier. Si votre organisation n’a revendiqué aucun domaine d’adresse e-mail, le paramètre renvoie à la place vers **Enable domain capture** dans les paramètres de l’organisation. Voir [Capture de domaine](./iam/access-management/manage-organization#domain-capture).</Note>
+* **Enable code saving by default** : enregistre automatiquement le code pour tous les runs de l’équipe. Voir [Enregistrement du code](/fr/models/app/features/panels/code).
+
+Les paramètres que vous configurez ici s’appliquent uniquement à cette équipe et n’ont aucune incidence sur les autres équipes de l’organisation.

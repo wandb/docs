@@ -1,0 +1,11 @@
+---
+title: Note sur la mise à niveau de ClickHouse en autogéré
+---
+
+<Note>
+  **Déploiements autogérés utilisant W&amp;B Weave :** vérifiez votre version de ClickHouse avant de mettre à niveau le serveur W&amp;B. Weave prend en charge ClickHouse 25.8 à 25.12, ainsi que 26.3 ou version ultérieure. Weave ne fonctionne pas avec ClickHouse 26.1 ni 26.2.
+
+  Si vous devez modifier la version de ClickHouse, mettez à niveau **à la fois** le serveur ClickHouse et ClickHouse Keeper. Voir [Compatibilité ClickHouse pour les mises à niveau](/fr/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades).
+
+  Les déploiements Cloud dédié utilisent déjà une version compatible de ClickHouse et ne sont pas concernés.
+</Note>

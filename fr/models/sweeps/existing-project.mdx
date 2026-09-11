@@ -1,74 +1,92 @@
 ---
-description: Tutoriel expliquant comment créer des jobs de balayage à partir d'un projet W&B existant.
-title: 'Tutoriel : créer un job de balayage à partir d’un projet'
+description: Tutoriel expliquant comment créer des jobs de sweep à partir d'un projet W&B existant.
+title: 'Tutoriel : créer un job de sweep à partir d’un projet'
 ---
 
-Ce tutoriel explique comment créer des jobs de balayage à partir d&#39;un projet W&amp;B existant. Nous utiliserons le [jeu de données Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) pour entraîner un réseau neuronal convolutif PyTorch à classer des images. Le code et le jeu de données requis se trouvent dans le [dépôt d’exemples W&amp;B (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+Ce tutoriel explique comment créer des jobs de sweep à partir d&#39;un projet W&amp;B existant. Il vous guide dans la création d’un projet de référence, la configuration d’un sweep d’hyperparamètres et le lancement d’agents qui exécutent des tâches d’entraînement en parallèle.
+
+Vous utilisez le [jeu de données Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) pour entraîner un réseau neuronal convolutif PyTorch à classer des images. Le [dépôt W&amp;B examples (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) fournit le code et le jeu de données requis.
 
 Explorez les résultats dans ce [tableau de bord W&amp;B](https://app.wandb.ai/carey/pytorch-cnn-fashion).
 
-<div id="1-create-a-project">
-  ## 1. Créer un projet
+<div id="create-a-project">
+  ## Créer un projet
 </div>
 
-Commencez par établir une base de référence. Téléchargez le modèle d’exemple MNIST de PyTorch depuis le dépôt GitHub des exemples W&amp;B. Ensuite, entraînez le modèle. Le script d’entraînement se trouve dans le répertoire `examples/pytorch/pytorch-cnn-fashion`.
+Commencez par créer un projet de référence en entraînant le modèle d’exemple au moins une fois. Cette référence fournit au sweep une base de configuration pour les étapes suivantes. Téléchargez le modèle d’exemple PyTorch pour le dataset MNIST depuis le dépôt GitHub W&amp;B examples. Ensuite, entraînez le modèle. Le script d’entraînement se trouve dans le répertoire `examples/pytorch/pytorch-cnn-fashion`.
 
-1. Clonez ce dépôt `git clone https://github.com/wandb/examples.git`
-2. Ouvrez cet exemple `cd examples/pytorch/pytorch-cnn-fashion`
-3. Lancez un run manuellement `python train.py`
+Pour télécharger et entraîner le modèle d’exemple :
 
-Vous pouvez également, si vous le souhaitez, explorer l’exemple dans le tableau de bord W&amp;B App UI.
+1. Clonez le dépôt :
 
-[Voir une page de projet d’exemple →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+   ```bash
+   git clone https://github.com/wandb/examples.git
+   ```
 
-<div id="2-create-a-sweep">
-  ## 2. Créer un balayage
+2. Accédez au répertoire de l’exemple :
+
+   ```bash
+   cd examples/pytorch/pytorch-cnn-fashion
+   ```
+
+3. Exécutez manuellement le script d’entraînement :
+
+   ```bash
+   python train.py
+   ```
+
+4. Facultatif : explorez l’exemple dans le tableau de bord de W&amp;B App. [Voir une page de projet d’exemple](https://app.wandb.ai/carey/pytorch-cnn-fashion).
+
+Une fois cette exécution initiale terminée, vous disposez d’un projet de référence dans W&amp;B sur lequel le sweep peut s’appuyer.
+
+<div id="create-a-sweep">
+  ## Créer un sweep
 </div>
 
-Depuis la page de votre projet, ouvrez l&#39;[onglet Balayage](./visualize-sweep-results) dans la barre latérale du projet et sélectionnez **Create Balayage**.
+Une fois votre projet de référence en place, vous pouvez configurer un sweep à partir de ses runs. Depuis la page de votre projet, ouvrez l’[onglet **Sweep**](/fr/models/sweeps/visualize-sweep-results) dans la barre latérale du projet et sélectionnez **Create Sweep**.
 
 <Frame>
-  <img src="/images/sweeps/sweep1.png" alt="Aperçu du balayage" />
+  <img src="/images/sweeps/sweep1.png" alt="Page de projet W&B avec l’onglet Sweep ouvert et le bouton Create Sweep mis en évidence" />
 </Frame>
 
-La configuration générée automatiquement propose des valeurs à balayer en fonction des runs que vous avez déjà effectués. Modifiez la configuration pour préciser les plages d&#39;hyperparamètres que vous souhaitez essayer. Lorsque vous lancez le balayage, un nouveau processus démarre sur le serveur de balayage W&amp;B hébergé. Ce service centralisé coordonne les agents — les machines qui exécutent les tâches d&#39;entraînement.
+La configuration générée automatiquement suggère des valeurs à tester pour le sweep en fonction des runs que vous avez déjà effectués. Modifiez la configuration pour spécifier les plages d’hyperparamètres que vous voulez essayer. Lorsque vous lancez le sweep, un nouveau processus démarre sur le serveur de sweep hébergé par W&amp;B. Ce service centralisé coordonne les agents (les machines qui exécutent les tâches d&#39;entraînement).
 
 <Frame>
-  <img src="/images/sweeps/sweep2.png" alt="Configuration du balayage" />
+  <img src="/images/sweeps/sweep2.png" alt="Éditeur de configuration de sweep générée automatiquement affichant des plages d’hyperparamètres" />
 </Frame>
 
-<div id="3-launch-agents">
-  ## 3. Lancez des agents
+<div id="launch-agents">
+  ## Lancez des agents
 </div>
 
-Ensuite, lancez un agent localement. Vous pouvez lancer jusqu’à 20 agents en parallèle sur différentes machines si vous souhaitez répartir le travail et terminer le job de balayage plus rapidement. L’agent affichera ensuite le jeu de paramètres qu’il va essayer.
+Après avoir configuré le sweep, lancez un ou plusieurs agents pour exécuter les runs. Vous pouvez lancer jusqu&#39;à 20 agents en parallèle sur différentes machines pour terminer la tâche de sweep plus rapidement. Chaque agent affiche le prochain ensemble de paramètres à utiliser.
 
 <Frame>
-  <img src="/images/sweeps/sweep3.png" alt="Lancez des agents" />
+  <img src="/images/sweeps/sweep3.png" alt="Sortie du terminal d'un agent de balayage affichant le prochain ensemble d'hyperparamètres" />
 </Frame>
 
-Le balayage est maintenant en cours. L’image suivante montre à quoi ressemble le tableau de bord pendant l’exécution du job de balayage de l’exemple. [Voir un exemple de page de projet →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+Vous avez maintenant un sweep en cours d&#39;exécution qui coordonne les tâches d&#39;entraînement entre vos agents et transmet les résultats à W&amp;B. L&#39;image suivante montre le tableau de bord avec la tâche de sweep d&#39;exemple en cours d&#39;exécution.
 
 <Frame>
-  <img src="/images/sweeps/sweep4.png" alt="Tableau de bord du balayage" />
+  <img src="/images/sweeps/sweep4.png" alt="Tableau de bord du sweep affichant les métriques de runs d'entraînement parallèles" />
 </Frame>
 
 <div id="seed-a-new-sweep-with-existing-runs">
-  ## Initialiser un nouveau balayage avec des runs existants
+  ## Amorcer un nouveau sweep avec des runs existants
 </div>
 
-Lancez un nouveau balayage à l’aide de runs existants que vous avez déjà enregistrés.
+Pour réutiliser des résultats antérieurs comme point de départ, lancez un nouveau sweep à l’aide de runs existants que vous avez précédemment enregistrés :
 
 1. Ouvrez le tableau de votre projet.
-2. Sélectionnez les runs que vous souhaitez utiliser à l’aide des cases à cocher sur le côté gauche du tableau.
-3. Cliquez sur le menu déroulant pour créer un nouveau balayage.
+2. Cliquez sur la case à cocher de la ligne du run pour sélectionner ce run.
+3. Dans le menu déroulant, sélectionnez l’option pour créer un nouveau sweep.
 
-Votre balayage est maintenant configuré sur notre serveur. Il vous suffit de lancer un ou plusieurs agents pour démarrer les runs.
+Votre sweep est maintenant configuré sur le serveur. Lancez un ou plusieurs agents pour démarrer les runs.
 
 <Frame>
-  <img src="/images/sweeps/tutorial_sweep_runs.png" alt="Initialiser un balayage à partir de runs" />
+  <img src="/images/sweeps/tutorial_sweep_runs.png" alt="Tableau des runs du projet avec des lignes sélectionnées et l'option de création d'un sweep dans le menu déroulant" />
 </Frame>
 
 <Note>
-  Si vous lancez le nouveau balayage en mode bayésien, les runs sélectionnés serviront aussi à initialiser le processus gaussien.
+  Si vous démarrez le nouveau sweep en tant que sweep bayésien, les runs sélectionnés servent également à initialiser le processus gaussien.
 </Note>

@@ -3,15 +3,17 @@ title: "instrumentOpenAIAgents"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="instrumentopenaiagents">
-  # instrumentOpenAIAgents
-</div>
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-▸ **instrumentOpenAIAgents**(): `Promise`&lt;`boolean`&gt;
+```ts
+instrumentOpenAIAgents(): Promise<boolean>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.agent.ts#L169" />
 
 Enregistrez manuellement le Tracing Weave avec OpenAI Agents si le package est disponible.
 
-**Remarque : vous n&#39;avez généralement pas besoin d&#39;appeler cette fonction !** OpenAI Agents est automatiquement
+**Remarque : vous n&#39;avez généralement pas besoin d&#39;appeler cette fonction !** OpenAI Agents est automatiquement
 instrumenté via des hooks du chargeur de modules lorsque vous importez Weave. Cette fonction est fournie pour les
 cas limites où l&#39;instrumentation automatique ne fonctionne pas (par ex., imports dynamiques, bundlers
 qui contournent les hooks).
@@ -21,16 +23,19 @@ et enregistre un TracingProcessor. Si le package n&#39;est pas installé, elle r
 lever d&#39;erreur.
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
 `Promise`&lt;`boolean`&gt;
 
 `Promise<boolean>` - `true` si l’enregistrement a réussi, `false` si `@openai/agents` n’est pas disponible
 
-`Exemple`
+<div id="examples">
+  ## Exemples
+</div>
 
-```typescript
+```typescript twoslash
+// @noErrors
 // ✅ Recommandé : importez simplement Weave - l'instrumentation se fait automatiquement !
 import * as weave from 'weave';
 await weave.init('my-project');
@@ -41,9 +46,8 @@ const agent = new Agent({ ... });
 await agent.run(input); // Automatiquement tracé dans Weave
 ```
 
-`Exemple`
-
-```typescript
+```typescript twoslash
+// @noErrors
 // ⚠️ Uniquement nécessaire pour les cas limites où les hooks automatiques ne fonctionnent pas
 import { instrumentOpenAIAgents } from 'weave';
 
@@ -53,7 +57,9 @@ if (!registered) {
 }
 ```
 
-`Remarques`
+<div id="remarks">
+  ## Remarques
+</div>
 
 **Comment fonctionne l’instrumentation automatique** : Lorsque vous importez Weave, celui-ci enregistre des hooks du chargeur de modules via `addCJSInstrumentation()` et `addESMInstrumentation()`. Lorsque votre code importe ensuite `@openai/agents`, ces hooks interceptent l’import et modifient automatiquement le module pour ajouter le tracing Weave. Cela se fait de manière transparente - aucune action de votre part n’est nécessaire !
 
@@ -63,20 +69,14 @@ if (!registered) {
 * Utilisation de bundlers qui ne prennent pas en charge import-in-the-middle
 * Besoin d’un contrôle explicite sur le moment où l’instrumentation a lieu
 
-**Alternative pour une logique de processeur personnalisée** : Si vous avez besoin d’un comportement de tracing personnalisé, utilisez `createOpenAIAgentsTracingProcessor()` et enregistrez-le manuellement :
+**Alternative pour une logique de processeur personnalisée** : Si vous avez besoin d’un comportement de tracing personnalisé,
+utilisez `createOpenAIAgentsTracingProcessor()` et enregistrez-le manuellement :
 
-```typescript
+```typescript twoslash
+// @noErrors
 import { addTraceProcessor } from '@openai/agents';
 import { createOpenAIAgentsTracingProcessor } from 'weave';
 
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[integrations/openai.agent.ts:727](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/integrations/openai.agent.ts#L727)
-
-***

@@ -9,9 +9,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prereqs.mdx";
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/quickstart-inference.ipynb" />
 
-  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/quickstart-inference.ipynb" />
 </div>
 
 このガイドでは、[Serverless Inference](/ja/inference) で W&amp;B Weave を使って Weave の基本を学ぶ方法を紹介します。Serverless Inference を使うと、自前のインフラストラクチャーを用意したり、複数のプロバイダーの APIキー を管理したりすることなく、すぐに使えるオープンソースモデルで LLM アプリケーションを構築し、トレースできます。W&amp;B APIキー があれば、[Serverless Inference でホストされているすべてのモデル](/ja/inference/models) を利用できます。このガイドを終えるころには、LLM Call をトレースし、モデルを比較し、Weave UI で確認できる評価を実行できるようになります。
@@ -79,8 +79,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -187,8 +186,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -301,8 +299,7 @@ Weave の一般的なユースケースの 1 つは、異なるモデルが同�
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 

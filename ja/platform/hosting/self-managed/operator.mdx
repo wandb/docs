@@ -27,7 +27,7 @@ Kubernetes Operator を使用して W&amp;B をデプロイする前に、イン
 
 1. **インフラストラクチャー要件を確認する**: 次の項目の詳細については、[セルフマネージドのインフラストラクチャー要件](/ja/platform/hosting/self-managed/requirements/)ページを参照してください。
 
-* ソフトウェアのバージョン要件 (Kubernetes、MySQL、Redis、Helm)
+* ソフトウェアのバージョン要件 (Kubernetes、MySQL、Redis、Helm、ClickHouse)
   * ハードウェア要件 (CPU アーキテクチャー、推奨サイジング)
   * Kubernetes クラスターの設定
   * ネットワーク、SSL/TLS、DNS の要件
@@ -193,7 +193,9 @@ api:
 
     デプロイ固有の考慮事項については、[環境ごとの考慮事項](#environment-specific-considerations) と [パブリッククラウドで Terraform を使用してデプロイする](#deploy-with-terraform-on-public-cloud) を参照してください。切り離された環境については、[Air-Gapped Kubernetes へのデプロイ](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/) を参照してください。
 
-    #### Helm Terraform Module
+    <div id="helm-terraform-module">
+      #### Helm Terraform Module
+    </div>
 
     この method は、Terraform の Infrastructure as Code アプローチを使用して一貫性と再現性を確保しながら、特定の要件に合わせてカスタマイズしたデプロイをサポートします。公式の W&amp;B [Helm ベースの Terraform Module](https://registry.terraform.io/modules/wandb/wandb/helm/latest) は Terraform Registry で利用できます。
 
@@ -237,7 +239,9 @@ api:
     * [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
     * [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
-    #### クラウド Terraform モジュール
+    <div id="cloud-terraform-modules">
+      #### クラウド Terraform モジュール
+    </div>
 
     W&amp;B は、AWS、Google Cloud、Azure 向けの Terraform モジュール一式を提供しています。これらのモジュールは、Kubernetes クラスター、ロードバランサー、MySQL データベースを含む完全なインフラストラクチャーに加えて、W&amp;B Server アプリケーションもデプロイします。W&amp;B Kubernetes Operator は、以下のバージョンでこれらの公式 W&amp;B クラウド向け Terraform モジュールに含まれています。
 
@@ -366,10 +370,10 @@ MCP server が正常に稼働したら、Bearer token に W&amp;B APIキーを�
 Kubernetes 自体は、オンプレミスでもクラウドでも変わりません。主な違いは、名称やマネージドサービス (たとえば、MySQL と RDS、または S3 とオンプレミスのオブジェクトストレージ) にあります。このセクションでは、環境によって異なる考慮事項について説明します。
 
 <div id="on-premises-and-bare-metal">
-  ### オンプレミス環境およびベアメタル
+  ### オンプレミスおよびベアメタル
 </div>
 
-オンプレミス環境またはベアメタルの Kubernetes にデプロイする場合は、以下の点に注意してください。
+オンプレミスまたはベアメタルの Kubernetes にデプロイする場合は、以下の点に注意してください。
 
 <div id="load-balancer-configuration">
   #### ロードバランサーの設定
@@ -529,11 +533,15 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     * Elastic Cache for Redis
     * SQS
 
-    ### 前提条件の権限
+    <div id="prerequisite-permissions">
+      ### 前提条件の権限
+    </div>
 
     Terraformを実行するアカウントには、前のセクションに記載されたすべてのコンポーネントを作成する権限に加え、**IAMポリシー**および**IAMロール**を作成してリソースにロールを割り当てる権限が必要です。
 
-    ### General steps
+    <div id="general-steps">
+      ### General steps
+    </div>
 
     このセクションの手順は、どのデプロイオプションにも共通です。
 
@@ -634,7 +642,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        }
        ```
 
-    ### 推奨デプロイ
+    <div id="recommended-deployment">
+      ### 推奨デプロイ
+    </div>
 
     これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
@@ -704,7 +714,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redisを有効にする
+    <div id="enable-redis">
+      ### Redisを有効にする
+    </div>
 
     Redisを使用してSQLクエリをキャッシュし、メトリクス読み込み時のアプリケーションのレスポンスを高速化するには、`main.tf`ファイルに`create_elasticache_subnet = true`オプションを追加します。
 
@@ -722,7 +734,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     [...]
     ```
 
-    ### メッセージブローカー (キュー) を有効にする
+    <div id="enable-message-broker-queue">
+      ### メッセージブローカー (キュー) を有効にする
+    </div>
 
     SQSを使用して外部メッセージブローカーを有効にするには、`main.tf` ファイルにオプション `use_internal_queue = false` を追加します。
 
@@ -745,7 +759,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     }
     ```
 
-    ### 追加リソース
+    <div id="additional-resources">
+      ### 追加リソース
+    </div>
 
     * [AWS Terraform Module のドキュメント](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
     * [AWS Terraform Moduleのソースコード](https://github.com/wandb/terraform-aws-wandb)
@@ -773,11 +789,15 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
 
     * Pub/Sub メッセージング システム
 
-    ### 前提条件の権限
+    <div id="prerequisite-permissions-2">
+      ### 前提条件の権限
+    </div>
 
     Terraformを実行するアカウントには、使用するGoogle Cloudプロジェクトに対して`roles/owner`ロールが必要です。
 
-    ### General steps
+    <div id="general-steps-2">
+      ### General steps
+    </div>
 
     このセクションの手順は、どのデプロイオプションにも共通です。
 
@@ -846,7 +866,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        }
        ```
 
-    ### 推奨デプロイ
+    <div id="recommended-deployment-2">
+      ### 推奨デプロイ
+    </div>
 
     これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
@@ -917,7 +939,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redisを有効にする
+    <div id="enable-redis-2">
+      ### Redisを有効にする
+    </div>
 
     Redisを使用してSQLクエリをキャッシュし、メトリクス読み込み時のアプリケーションのレスポンスを高速化するには、`main.tf`ファイルに`create_redis = true`オプションを追加します。
 
@@ -937,7 +961,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     [...]
     ```
 
-    ### メッセージブローカー (キュー) を有効にする
+    <div id="enable-message-broker-queue-2">
+      ### メッセージブローカー (キュー) を有効にする
+    </div>
 
     Pub/Sub を使用して外部メッセージブローカーを有効にするには、`main.tf` ファイルにオプション `use_internal_queue = false` を追加します。
 
@@ -962,7 +988,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     [...]
     ```
 
-    ### 追加リソース
+    <div id="additional-resources-2">
+      ### 追加リソース
+    </div>
 
     * [Google Cloud Terraform モジュールのドキュメント](https://registry.terraform.io/modules/wandb/wandb/google/latest)
     * [Google Cloud Terraform モジュールのソースコード](https://github.com/wandb/terraform-google-wandb)
@@ -987,13 +1015,17 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     * Azure Cache for Redis
     * Azure Event Grid
 
-    ### 前提条件の権限
+    <div id="prerequisite-permissions-3">
+      ### 前提条件の権限
+    </div>
 
     AzureRM プロバイダーを設定する最もシンプルな方法は [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) を使用することです。オートメーションの場合は、[Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) を使用することもできます。
 
     使用する認証方法に関わらず、Terraformを実行するアカウントには、前のセクションに記載されたすべてのコンポーネントを作成する権限が必要です。
 
-    ### General steps
+    <div id="general-steps-3">
+      ### General steps
+    </div>
 
     このセクションの手順は、どのデプロイオプションにも共通です。
 
@@ -1070,7 +1102,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
            }
        ```
 
-    ### 推奨デプロイ
+    <div id="recommended-deployment-3">
+      ### 推奨デプロイ
+    </div>
 
     これは、すべての必須コンポーネントを作成し、Kubernetes クラスターに W&amp;B の最新バージョンをインストールする、最もシンプルなデプロイオプションの設定です。
 
@@ -1135,7 +1169,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
        terraform apply -var-file=terraform.tfvars
        ```
 
-    ### Redisを有効にする
+    <div id="enable-redis-3">
+      ### Redisを有効にする
+    </div>
 
     Redisを使用してSQLクエリをキャッシュし、メトリクス読み込み時のアプリケーションのレスポンスを高速化するには、`main.tf`ファイルに`create_redis = true`オプションを追加します。
 
@@ -1156,7 +1192,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     }
     ```
 
-    ### メッセージブローカー (キュー) を有効にする
+    <div id="enable-message-broker-queue-3">
+      ### メッセージブローカー (キュー) を有効にする
+    </div>
 
     Azure Event Gridを使用して外部メッセージブローカーを有効にするには、`main.tf`ファイルに`use_internal_queue = false`オプションを追加します。
 
@@ -1181,7 +1219,9 @@ W&amp;B は、パブリッククラウドプロバイダー上にプラットフ
     }
     ```
 
-    ### 追加リソース
+    <div id="additional-resources-3">
+      ### 追加リソース
+    </div>
 
     * [Azure Terraform Module ドキュメント](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
     * [Azure Terraform Module のソースコード](https://github.com/wandb/terraform-azurerm-wandb)
@@ -1290,6 +1330,29 @@ MySQL 8.0.x はサポート終了です。セルフマネージドのデプロ�
 5. MySQL を再起動し、正常に稼働していることを確認します。
 6. MySQL の起動後、`wandb verify` を実行して W&amp;B デプロイを検証します。このコマンドは一連のチェックを実行し、結果を `STDOUT` に出力します。問題が報告された場合は、必要な調整を行ってから再度実行してください。セットアップとログインの手順については、[インストールを確認する](#verify-the-installation) を参照してください。
 7. 検証が完了したら、ユーザーは通常の運用を再開できます。
+
+<div id="clickhouse-compatibility-for-upgrades">
+  ## アップグレード時の ClickHouse 互換性
+</div>
+
+外部 ClickHouse クラスターを使用するセルフマネージドのデプロイでは、W&amp;B Server をアップグレードする前に ClickHouse との互換性を確認する必要があります。
+
+<div id="supported-clickhouse-versions">
+  ### サポートされる ClickHouse バージョン
+</div>
+
+W&amp;B Weave には、ClickHouse Server と ClickHouse Keeper の両方でサポートされるバージョンが必要です。
+
+* Weave は ClickHouse 25.8 から 25.12、および 26.3 以降をサポートします。
+* Weave は ClickHouse 26.1 および 26.2 では動作しません。
+
+***W&amp;B セルフマネージドをアップグレードする前に***、ClickHouse Server と ClickHouse Keeper の両方が Weave のサポートするバージョンで実行されていることを確認してください。ClickHouse のバージョンを変更する必要がある場合は、両方のコンポーネントを一緒にアップグレードしてください。
+
+W&amp;B セルフマネージドのデプロイで Weave を使用していない場合、ClickHouse は不要であり、この要件はアップグレードには適用されません。
+
+専用クラウドおよび Multi-tenant Cloud のデプロイは、すでに互換性のある ClickHouse バージョンで実行されているため、影響を受けません。
+
+バージョン固有のリリースノートについては、[サポートされる W&amp;B Server リリース](/ja/release-notes/server-releases)を参照してください。
 
 <div id="migrate-self-managed-instances-to-wb-operator">
   ## セルフマネージド インスタンスから W&amp;B Operator へ移行する

@@ -1,0 +1,37 @@
+---
+title: "W&B チームにユーザーを招待するにはどうすればよいですか？"
+keywords: ["Teams", "ユーザー管理"]
+---
+
+招待を送信できるのはチーム管理者のみです。招待された相手にはメールが送信され、承諾後にアクティブなチームメンバーとして表示されます。
+
+**メールで招待する**
+
+1. `wandb.ai/<team-name>` にある自分のチームのページにアクセスします。
+2. **Team settings** (歯車アイコン、またはサイドバーの Settings) をクリックします。
+3. **Members** タブを選択します。
+4. **Invite members** をクリックし、招待する相手のメールアドレスを入力します。
+5. 付与するロールとして **Member** または **Admin** を選択します。
+6. **Send invite** をクリックします。
+
+招待された相手には、承諾用リンクを含むメールが届きます。承諾すると、Members リストに表示され、チームの Projects にアクセスできるようになります。
+
+**すでに W&amp;B アカウントを持っている相手を招待する**
+
+相手が別のメールアドレスで既存の W&amp;B アカウントを持っている場合は、その既存アカウントに関連付けられているメールアドレスで招待してください。相手は W&amp;B にログインし、チームの URL に直接アクセスして承諾することもできます。保留中の招待はバナーとして表示されます。
+
+**招待メールが届かない場合**
+
+招待された相手に、`no-reply@wandb.ai` からのメールが迷惑メールフォルダに入っていないか確認してもらってください。それでもメールが見つからない場合は、チーム管理者が保留中の招待を取り消して再送できます。**Team settings &gt; Members** で **Pending** セクションを探し、招待相手のアドレスの横にある **Resend** をクリックします。
+
+**特定の project のみに招待する**
+
+W&amp;B Teams には project レベルのメンバーシップはありません。アクセスはチームレベルで制御されるため、すべてのチームメンバーはそのチーム内の非公開ではないすべての projects を表示できます。アクセスを制限するには、**Project settings &gt; Privacy** から project の公開設定を **Private** に設定してください (表示できるのは、チーム管理者と明示的に追加されたメンバーのみです) 。
+
+***
+
+{/* AUTO-GENERATED: tab badges */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Teams](/ja/support/models/tags/teams)</Badge><Badge stroke shape="pill" color="orange" size="md">[ユーザー管理](/ja/support/models/tags/user-management)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

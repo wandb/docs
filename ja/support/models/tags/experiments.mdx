@@ -1,6 +1,6 @@
 ---
 title: "Experiments"
-tag: "39"
+tag: "51"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -61,23 +61,35 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   現在の run を保存するには、Run オブジェクトの .save() メソッドを呼び出します。名前は Run オブジェクトの name 属性から取得します。
 </Card>
 
-<Card title="1 つのスクリプトから複数の run を起動するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
-  1 つのスクリプト内で複数の run をログするには、新しい run を開始する前に、前の run をそれぞれ終了する必要があります。以下 ...
+<Card title="1 つのスクリプトから複数の Runs を起動するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
+  1 つのスクリプト内で複数の Runs をログするには、新しい Run を開始する前に、前の Run をそれぞれ終了する必要があります。以下 ...
+</Card>
+
+<Card title="W&B で NLP メトリクスとテキスト出力をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-nlp-metrics-and-text-outputs-in-wandb" arrow="true" horizontal>
+  `wandb.log()` でコーパス レベルの NLP スコア (BLEU、ROUGE、パープレキシティ) をログし、`wandb.Table` で各例の出力をログできます。 ...
 </Card>
 
 <Card title="値のリストをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
   `wandb.Run.log()` を使用すると、step ごとの損失などの値のリストをログできます。以下の例では、一般的な 2 つの方法を示 ...
 </Card>
 
+<Card title="`wandb.watch()` で gradient とモデルの重みをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-gradients-and-model-weights-with-wandb-watch" arrow="true" horizontal>
+  `wandb.watch()` は PyTorch モデルのパラメーターと gradient に hook し、それらの値のヒストグラムを一定間隔でログし ...
+</Card>
+
 <Card title="2 つの異なる時間スケールでメトリクスをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-metrics-on-two-time-scales" arrow="true" horizontal>
   2 つの異なる時間スケールでメトリクスをログするには、メトリクスとあわせて batch や エポック などのインデックスをログします。たとえば、 ...
+</Card>
+
+<Card title="W&B で大規模な API 結果をページネーションするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  標準的な遅延イテレーター パターンと `per_page` パラメーターを使用して、API の結果をページごとに取得できます。さらに、u ...
 </Card>
 
 <Card title="凡例付きの plot に複数の線を表示するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
   `wandb.plot.line_series()` を使用して、複数の線を持つカスタム チャートを作成します。線チャートを表示するには、project ページに移動します。凡例を追加するには ...
 </Card>
 
-<Card title="人が読みやすい run 名にプログラムからアクセスするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
+<Card title="人が読みやすい Run 名にプログラムからアクセスするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
   `wandb.Run` の `.name` 属性にアクセスするには、次のコードを使用します。
 </Card>
 
@@ -85,12 +97,32 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   インターネットにアクセスできないマシンでトレーニングし、後で結果を W&amp;B にアップロードするには、次の step に従う: 1. 環境 ...
 </Card>
 
-<Card title="run 名を Run ID に設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-set-the-run-name-to-the-run-id" arrow="true" horizontal>
-  run 名を Run ID で上書きするには、次のコード スニペットを使用します。
+<Card title="Run 名を Run ID に設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-set-the-run-name-to-the-run-id" arrow="true" horizontal>
+  Run 名を Run ID で上書きするには、次のコード スニペットを使用します。
 </Card>
 
-<Card title="run に名前を付けていません。run 名はどこから来るのですか？" href="/ja/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
-  run に明示的な名前が付けられていない場合、W&amp;B は project 内で識別するためにランダムな名前を割り当てます。ランダムな名前の例は ...
+<Card title="W&B Alerts と notifications を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-set-up-wandb-alerts-and-notifications" arrow="true" horizontal>
+  W&amp;B Settings ページを使用して、アラートと notifications を設定できます。W&amp;B は User Settings で自動アラートをサポートします ( ...
+</Card>
+
+<Card title="W&B API を介して Run の config、tags、notes を更新するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-update-run-config-tags-and-notes-via-the-wandb-api" arrow="true" horizontal>
+  Run の完了後、実験を再実行せずに config、display name、tags、notes を編集するには、Public API ガイドを使用します ...
+</Card>
+
+<Card title="JAX で W&B を使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-wandb-with-jax" arrow="true" horizontal>
+  W&amp;B には JAX 固有のインテグレーションはありません。ただし、JAX の device array を Python スカラーに変換してから、`wandb.log ...` を使用できます。
+</Card>
+
+<Card title="W&B で parallel coordinates チャートを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-the-parallel-coordinates-chart-in-wandb" arrow="true" horizontal>
+  parallel coordinates チャートは、多数の Runs にまたがるハイパーパラメーターとメトリクスの関係を示します。各線は 1 つの Run を表し、各 ...
+</Card>
+
+<Card title="SLURM で sweeps を実行するにはどうすればよいですか？" href="/ja/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  SLURM スケジューリング システムで W&amp;B sweeps を実行する場合は、スケジュールされた各ジョブで `wandb agent --count 1 SWEEP_ID` を実行します。エージェント は実行 ...
+</Card>
+
+<Card title="Run に名前を付けていません。Run 名はどこから来るのですか？" href="/ja/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
+  Run に明示的な名前が付けられていない場合、W&amp;B は project 内で識別するためにランダムな名前を割り当てます。ランダムな名前の例は ...
 </Card>
 
 <Card title="InitStartError: wandb プロセス との通信エラー" href="/ja/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
@@ -101,7 +133,7 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドに sync する プロセス を開始します。インターネット接続がない環境で Experiments を実行する必要がある場合は ...
 </Card>
 
-<Card title="UI では run の状態が `crashed` ですが、マシン上ではまだ実行中です。データを取り戻すにはどうすればよいですか？" href="/ja/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+<Card title="UI では Run の状態が `crashed` ですが、マシン上ではまだ実行中です。データを取り戻すにはどうすればよいですか？" href="/ja/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
   この状態は通常、トレーニング中にマシンとの接続が失われたことを意味します。データを復旧するには、`wandb sync PATH_ ...` を実行します。
 </Card>
 
@@ -117,20 +149,24 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   送信される points の数は、UI でのグラフの読み込み時間に影響します。1,000 points を超える線については、バックエンドが ...
 </Card>
 
-<Card title="W&B を自分の project に統合したいものの、画像やメディアはまったくアップロードしたくない場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
-  W&amp;B では、アップロードする file やデータを指定することで、スカラーのみをログする Projects もサポートしています。logg ... の例については
+<Card title="W&B を自分の project に統合したいものの、画像やメディアは一切アップロードしたくない場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
+  W&amp;B は、アップロードする file やデータを指定できるため、スカラーのみをログする projects もサポートします。ログの例について ...
 </Card>
 
-<Card title="バッチごとにログするメトリクスと、エポックごとにのみログするメトリクスがある場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  各バッチで特定のメトリクスをログし、プロットを標準化するには、目的の X-axis の値をメトリクスと一緒にログします。... では
+<Card title="一部のメトリクスは batch ごとに、別のメトリクスは エポック ごとにのみログしたい場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  各 batch で特定のメトリクスをログし、plot を標準化するには、必要な X-axis の値をメトリクスとあわせてログします。次の ...
 </Card>
 
-<Card title="wandb.init の mode の違いは何ですか？" href="/ja/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
-  wandb.init を呼び出すと、クライアントが W&amp;B Server とどのように通信するかを制御する mode を選択できます。以下 ... です
+<Card title="`wandb.init` の mode の違いは何ですか？" href="/ja/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
+  `wandb.init` を呼び出すときは、クライアントが W&amp;B Server とどのように通信するかを制御する mode を選択できます。以下 ...
 </Card>
 
-<Card title="ログした数よりもデータポイントが少なく表示されるのはなぜですか？" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
-  Step 以外の X-axis に対してメトリクスを可視化する場合、表示されるデータポイントが少なくなることがあります。メトリクスは ... でログする必要があります
+<Card title="ログした数よりもデータ points が少なく表示されるのはなぜですか？" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Step 以外の X-axis に対してメトリクスを可視化すると、表示されるデータ points が少なくなることがあります。メトリクスは ... でログする必要があります。
+</Card>
+
+<Card title="wandb.log() でメトリクスが表示されないのはなぜですか？" href="/ja/support/models/articles/why-are-my-metrics-missing-from-wandb-log" arrow="true" horizontal>
+  `wandb.log()` でログしたメトリクスが W&amp;B UI に表示されない場合、一般的な原因がいくつかあります。オフラインモードで ...
 </Card>
 
 <Card title="CSV のメトリクス エクスポートで step が欠けるのはなぜですか？" href="/ja/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
@@ -141,12 +177,24 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   W&amp;B のメトリクス名は、UI で並べ替えやフィルターができるよう、GraphQL の命名規則に従う必要があります。有効なメトリクス ... は
 </Card>
 
+<Card title="Workspace settings が sessions 間で保持されないのはなぜですか？" href="/ja/support/models/articles/why-do-my-workspace-settings-not-persist" arrow="true" horizontal>
+  Workspace layout (パネル、フィルター、Grouping) は、view を保存した場合にのみ保持されます。保存していない変更はブラウザーの se ...
+</Card>
+
 <Card title="W&B と一緒に Hydra を使用すると、プロセスが応答しなくなるのはなぜですか？" href="/ja/support/models/articles/process-hangs-when-using-hydra-with-wan" arrow="true" horizontal>
   このページでは、W&amp;B と併用して Hydra でプロセスを開始したときに発生する、プロセスが応答しなくなる問題の解決方法を説明します。I ...
 </Card>
 
 <Card title="分散トレーニングでトレーニングが停止するのはなぜですか？" href="/ja/support/models/articles/training-hangs-with-distributed-trainin" arrow="true" horizontal>
   この記事では、分散トレーニング フレームワークで W&amp;B を使用する際にトレーニングが停止する問題を解決し、Runs を st ... できるようにします
+</Card>
+
+<Card title="W&B Run の初期化やアップロードが遅いのはなぜですか？" href="/ja/support/models/articles/why-is-my-wandb-run-slow-to-initialize-or-upload" arrow="true" horizontal>
+  wandb.init() が遅い場合やメトリクスのアップロードが遅い場合は、通常、ネットワーク遅延、大きなメディア payload、高い logging f ... が原因です
+</Card>
+
+<Card title="sweep エージェント が新しい Runs を取得しないのはなぜですか？" href="/ja/support/models/articles/why-is-my-sweep-agent-not-picking-up-new-runs" arrow="true" horizontal>
+  sweep エージェント が起動しても新しい Run の設定を受け取らない場合や、1 つの Run を受け取ったあとでアイドル状態になる場合は、いくつかの se ...
 </Card>
 
 <Card title="グラフに何も表示されないのはなぜですか？" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>

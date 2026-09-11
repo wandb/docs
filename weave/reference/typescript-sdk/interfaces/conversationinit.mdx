@@ -1,0 +1,85 @@
+---
+title: "ConversationInit"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L8" />
+
+## Properties
+
+### agentDescription
+
+> `optional` **agentDescription**: `string`
+
+Human-readable agent description. Propagated as the default
+`agentDescription` to every `Turn` created via `startTurn()` unless
+the turn sets its own; emitted on each turn's `invoke_agent` span as
+`gen_ai.agent.description`.
+
+***
+
+### agentId
+
+> `optional` **agentId**: `string`
+
+Stable agent identifier. Propagated as the default `agentId` to every
+`Turn` created via `startTurn()` unless the turn sets its own; emitted
+on each turn's `invoke_agent` span as `gen_ai.agent.id`.
+
+***
+
+### agentName
+
+> `optional` **agentName**: `string`
+
+Agent name. Propagated as the default `agentName` to every `Turn`
+created via `startTurn()` unless the turn sets its own; emitted on
+each turn's `invoke_agent` span as `gen_ai.agent.name`.
+
+***
+
+### agentVersion
+
+> `optional` **agentVersion**: `string`
+
+Agent version string. Propagated as the default `agentVersion` to
+every `Turn` created via `startTurn()` unless the turn sets its own;
+emitted on each turn's `invoke_agent` span as `gen_ai.agent.version`.
+
+***
+
+### attributes
+
+> `optional` **attributes**: `Attributes`
+
+Custom attributes propagated to every span the conversation emits.
+
+A key here that collides with a span's own `gen_ai.*` / `weave.*`
+attribute is unsupported; the span's value wins.
+
+***
+
+### conversationId
+
+> `optional` **conversationId**: `string`
+
+Conversation ID propagated to every span under this conversation as
+`gen_ai.conversation.id`. Auto-generated if omitted.
+
+***
+
+### model
+
+> `optional` **model**: `string`
+
+***
+
+### ~~sessionId~~
+
+<Warning>
+  **Deprecated.** Use [ConversationInit.conversationId](#conversationid) instead.
+</Warning>
+
+> `optional` **sessionId**: `string`

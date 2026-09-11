@@ -3,25 +3,40 @@ title: "startLLM"
 description: "TypeScript SDK reference"
 ---
 
-# startLLM
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-▸ **startLLM**(`opts`): [`LLM`](../classes/llm)
+```ts
+startLLM(opts: LLMInit): LLM
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L77" />
 
 Start an LLM span as a child of the current Turn. Throws if no Turn is
 active.
 
-#### Parameters
+## Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `opts` | [`LLMInit`](../interfaces/llminit) |
+<ParamField path="opts" type="LLMInit" required>
+  See [`LLMInit`](../interfaces/llminit).
+</ParamField>
 
-#### Returns
+## Returns
 
-[`LLM`](../classes/llm)
+[`LLM`](../interfaces/llm)
 
-#### Defined in
+## Examples
 
-[genai/api.ts:32](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/api.ts#L32)
+```ts twoslash
+// @noErrors
+weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+```
 
-___
+```ts twoslash
+// @noErrors
+weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+```

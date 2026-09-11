@@ -1,46 +1,42 @@
 ---
-title: "Interface: ToolInit"
+title: "ToolInit"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../) / ToolInit
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L18" />
 
+## Extends
 
-## Table of contents
-
-### Properties
-
-- [args](./toolinit#args)
-- [name](./toolinit#name)
-- [toolCallId](./toolinit#toolcallid)
+- `SpanInitBase`
 
 ## Properties
 
 ### args
 
-• `Optional` **args**: `string`
+> `optional` **args**: `string` \| [`JsonObject`](../type-aliases/jsonobject)
 
-#### Defined in
+A JSON object, or a pre-serialized string recorded as-is.
 
-[genai/tool.ts:17](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L17)
-
-___
+***
 
 ### name
 
-• **name**: `string`
+> **name**: `string`
 
-#### Defined in
+***
 
-[genai/tool.ts:16](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L16)
+### startTime
 
-___
+> `optional` **startTime**: `TimeInput`
+
+#### Inherited from
+
+`SpanInitBase.startTime`
+
+***
 
 ### toolCallId
 
-• `Optional` **toolCallId**: `string`
-
-#### Defined in
-
-[genai/tool.ts:18](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/tool.ts#L18)
+> `optional` **toolCallId**: `string`

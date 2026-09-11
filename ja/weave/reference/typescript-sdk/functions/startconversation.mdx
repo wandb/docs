@@ -1,0 +1,50 @@
+---
+title: "startConversation"
+description: "TypeScript SDK リファレンス"
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+startConversation(opts?: ConversationInit = {}): Conversation
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L26" />
+
+新しい Conversation を開始し、現在の Conversation として設定します。
+以降 `startTurn` を呼び出すと、自動的にこの Conversation が使用されます。
+
+`attributes` を渡すと、Conversation が生成するすべての
+span にカスタム (semconv 以外の) 属性を伝播できます。
+
+<div id="parameters">
+  ## パラメーター
+</div>
+
+<ParamField path="opts" type="ConversationInit = {}">
+  [`ConversationInit`](../interfaces/conversationinit) を参照してください。
+</ParamField>
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+[`Conversation`](../interfaces/conversation)
+
+<div id="examples">
+  ## 例
+</div>
+
+```ts twoslash
+// @noErrors
+weave.startConversation({agentName: 'research-bot'});
+```
+
+```ts twoslash
+// @noErrors
+weave.startConversation({
+  agentName: 'research-bot',
+  conversationId: '019efa53-8a65-711c-b4c1-7c1cb72c0bb7',
+  attributes: {'myagent.version': '1.23'},
+});
+```

@@ -1,13 +1,15 @@
 ---
 title: "withAttributes"
-description: "TypeScript SDK のリファレンス"
+description: "TypeScript SDK リファレンス"
 ---
 
-<div id="withattributes">
-  # withAttributes
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
+```ts
+withAttributes<T>(attrs: Record<string, any>, fn: () => T | Promise<T>): T | Promise<T>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238" />
 
 現在の実行コンテキストに属性を追加すると、`fn` 内で作成されるすべての calls が
 自動的にその属性を継承します。属性は trace サーバー上の call レコードに書き込まれ、
@@ -16,40 +18,29 @@ runs にタグ付けするのに適しています。
 
 例:
 
-```ts
+```ts twoslash
+// @noErrors
 await withAttributes({requestId: 'abc'}, async () => {
   await myOp();
 });
 ```
 
-
 <div id="type-parameters">
-  #### タイプパラメーター
+  ## タイプパラメーター
 </div>
 
-| 名   |
-| :-- |
-| `T` |
+<ParamField path="T" />
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名       | タイプ                                 |
-| :------ | :---------------------------------- |
-| `attrs` | `Record`&lt;`string`, `any`&gt;     |
-| `fn`    | () =&gt; `T` | `Promise`&lt;`T`&gt; |
+<ParamField path="attrs" type="Record<string, any>" required />
+
+<ParamField path="fn" type="() => T | Promise<T>" required />
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
-`Promise`&lt;`T`&gt; | `T`
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[clientApi.ts:201](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/clientApi.ts#L201)
-
-***
+`T` | `Promise`&lt;`T`&gt;

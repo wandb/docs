@@ -1,35 +1,66 @@
 ---
 title: summary 메트릭 로깅
-description: "run.summary를 사용해 W&B run에서 최고 accuracy 또는 최소 loss와 같은 단일 summary 메트릭을 추적하고 사용자 지정합니다."
+description: "run.summary를 사용하여 W&B run에서 최고 정확도 또는 최소 손실과 같은 개별 summary 메트릭을 추적하고 사용자 지정합니다."
 ---
 
-트레이닝 중 시간에 따라 변하는 값 외에도 모델이나 전처리 step을 요약하는 단일 값을 추적하는 것이 중요한 경우가 많습니다. 이 정보는 W&amp;B run의 `summary` dictionary에 로깅하세요. run의 summary dictionary는 numpy 배열, PyTorch 텐서 또는 TensorFlow 텐서를 처리할 수 있습니다. 값이 이러한 유형 중 하나인 경우 전체 텐서를 바이너리 파일에 저장하고, min, mean, variance, percentiles 등과 같은 상위 수준 메트릭은 summary 객체에 저장합니다.
+트레이닝 중 시간에 따라 변하는 값 외에도 모델이나 전처리 단계를 요약하는 값을 추적해야 하는 경우가 많습니다. 이 정보는 run의 `summary` 속성에 저장합니다. run의 summary 속성은 NumPy 배열, PyTorch 텐서 또는 TensorFlow 텐서를 처리할 수 있습니다. W&amp;B는 NumPy 배열, PyTorch 텐서 및 TensorFlow 텐서를 바이너리 파일로 유지합니다.
 
-`wandb.Run.log()`로 마지막에 로깅한 값은 자동으로 W&amp;B run의 summary dictionary에 설정됩니다. summary 메트릭 dictionary를 수정하면 이전 값은 사라집니다.
+`wandb.Run.log()`로 마지막으로 로깅한 값은 자동으로 run의 summary 딕셔너리에 설정됩니다. summary 메트릭 딕셔너리를 수정하면 이전 값은 손실됩니다.
 
-다음 code snippet은 W&amp;B에 맞춤형 summary 메트릭을 제공하는 방법을 보여줍니다:
+활성 run 중 또는 run이 완료된 후에 summary 메트릭을 로깅할 수 있습니다.
 
-```python
-import wandb
-import argparse
+<Tabs>
+  <Tab title="run 중">
+    다음 코드 스니펫은 W&amp;B에 맞춤형 summary 메트릭을 제공하는 방법을 보여 줍니다.
 
-with wandb.init(config=args) as run:
-  best_accuracy = 0
-  for epoch in range(1, args.epochs + 1):
-      test_loss, test_accuracy = test()
-      if test_accuracy > best_accuracy:
-          run.summary["best_accuracy"] = test_accuracy
-          best_accuracy = test_accuracy
-```
+    ```python
+    import wandb
+    import random
 
-트레이닝이 완료된 후에는 기존 W&amp;B Run의 summary 속성을 업데이트할 수 있습니다. [W&amp;B Public API](/ko/models/ref/python/public-api/)를 사용해 summary 속성을 업데이트하세요:
+    # run이 기록되는 프로젝트
+    project = "summary-demo"
+    entity = "<your-entity>" # W&B entity 이름으로 바꾸세요
 
-```python
-api = wandb.Api()
-run = api.run("username/project/run_id")
-run.summary["tensor"] = np.random.random(1000)
-run.summary.update()
-```
+    # 하이퍼파라미터 딕셔너리
+    config = {
+        'epochs' : 10,
+        'lr' : 0.01
+    }
+
+    with wandb.init(entity=entity, project=project, config=config) as run:
+        offset = random.random() / 5
+        print(f"lr: {config['lr']}")
+
+        # 트레이닝 run 시뮬레이션
+        for epoch in range(2, config['epochs']):
+            acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+            loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+            print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+            run.log({"accuracy": acc, "loss": loss})
+
+            if epoch % 5 == 0:
+                run.summary["best_accuracy"] = acc
+                run.summary["best_loss"] = loss
+    ```
+  </Tab>
+
+  <Tab title="run 후">
+    트레이닝이 완료된 후 기존 W&amp;B Run의 summary 속성을 업데이트할 수 있습니다. summary 속성을 업데이트하려면 [W&amp;B Public API](/ko/models/ref/python/public-api/)를 사용하세요.
+
+    ```python
+    api = wandb.Api()
+    run = api.run("entity/project/run_id")
+    run.summary["tensor"] = np.random.random(1000)
+    run.summary.update()
+    ```
+  </Tab>
+</Tabs>
+
+다음 이미지는 위 코드 스니펫을 복사하여 실행했을 때 summary 메트릭이 어떻게 표시될 수 있는지 보여 줍니다.
+
+<Frame>
+  <img src="/images/track/summary_demo.png" alt="Run summary" />
+</Frame>
 
 <div id="customize-summary-metrics">
   ## summary 메트릭 사용자 지정
@@ -77,30 +108,47 @@ with wandb.init() as run:
   ## summary 메트릭 보기
 </div>
 
-run의 **Overview** 페이지 또는 프로젝트의 Runs 테이블에서 요약 값을 확인할 수 있습니다.
+활성 run 중이거나 기존 run 또는 로컬 파일 시스템에서 W&amp;B App을 통해 run summary에 액세스할 수 있습니다.
 
 <Tabs>
-  <Tab title="Run Overview">
+  <Tab title="Run 개요">
     1. W&amp;B App으로 이동합니다.
     2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
-    3. 요약 값을 로깅한 run을 클릭합니다. run 페이지가 열리면 기본적으로 **Overview** 탭이 표시됩니다.
-    4. **Summary** 섹션에서 요약 값을 확인합니다.
+    3. summary 값을 로깅한 run을 클릭합니다. 기본적으로 **개요** 탭이 표시된 run 페이지가 열립니다.
+    4. **Summary** 섹션에서 summary 값을 확인합니다.
+
+    다음 이미지는 위 코드 스니펫을 복사해 실행했을 때 **개요** 탭에 표시될 수 있는 summary 메트릭의 예시를 보여 줍니다.
 
     <Frame>
-      <img src="/images/track/customize_summary.png" alt="Run overview" />
+      <img src="/images/track/customize_summary.png" alt="Run 개요" />
     </Frame>
   </Tab>
 
-  <Tab title="Run Table">
+  <Tab title="Run 테이블">
     1. W&amp;B App으로 이동합니다.
     2. **Runs** 탭을 선택합니다.
-    3. Runs 테이블에서 요약 값 이름에 해당하는 열에서 요약 값을 확인할 수 있습니다.
+    3. Runs 테이블에서 summary 값의 이름을 기준으로 해당 열의 summary 값을 확인할 수 있습니다.
   </Tab>
 
-  <Tab title="W&B Public API">
-    W&amp;B Public API를 사용하여 run의 요약 값을 가져올 수 있습니다.
+  <Tab title="run 중">
+    활성 run 중에 run의 summary 값에 액세스하려면 `wandb.Run.summary`를 사용합니다. 이 속성은 키-값 쌍으로 구성된 딕셔너리를 반환합니다.
 
-    다음 코드 예제는 W&amp;B Public API와 pandas를 사용해 특정 run에 로깅된 요약 값을 조회하는 한 가지 방법을 보여줍니다.
+    다음 예시는 run summary에 액세스하는 방법을 보여 줍니다. `"<my-project>"`를 W&amp;B 프로젝트 이름으로 바꾸세요.
+
+    ```python
+    import wandb
+
+    with wandb.init(project="<my-project>", config=config) as run:
+      run.log({"accuracy": 0.9, "loss": 0.1})
+
+      print(run.summary)  # summary 딕셔너리를 출력합니다
+    ```
+  </Tab>
+
+  <Tab title="기존 run">
+    W&amp;B Public API를 사용하여 `wandb.Api.Run.summary` 속성으로 summary 메트릭에 액세스합니다.
+
+    다음 코드 예시는 W&amp;B Public API와 pandas를 사용해 특정 run에 로깅된 summary 값을 조회하는 방법을 보여 줍니다.
 
     ```python
     import wandb
@@ -108,7 +156,7 @@ run의 **Overview** 페이지 또는 프로젝트의 Runs 테이블에서 요약
 
     entity = "<your-entity>"
     project = "<your-project>"
-    run_name = "<your-run-name>" # 요약 값이 있는 run 이름
+    run_name = "<your-run-name>" # summary 값이 있는 run의 이름
 
     all_runs = []
 
@@ -141,5 +189,38 @@ run의 **Overview** 페이지 또는 프로젝트의 Runs 테이블에서 요약
     # 열 이름(run)을 기준으로 행을 가져와 딕셔너리로 변환
     df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
     ```
+
+    프로젝트의 여러 run에 대한 summary 메트릭에 액세스하려면 `api.runs()`에서 반환된 run을 반복합니다.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+
+    for run in runs:
+        print(f"Run name: {run.name}")
+        print(f"Run ID: {run.id}")
+        print(f"Run summary: {dict(run.summary)}")
+        print("----------")
+    ```
+
+    다음 JSON 객체는 run summary의 예시를 보여 줍니다.
+
+    ```shell
+    Run name: clean-oath-11
+    Run ID: mt2dasoz
+    Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1778541534.834642, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.25498124957084656}
+
+    Run name: zesty-snowball-7
+    Run ID: qne08r7u
+    Run summary: {'_runtime': 3, '_step': 1000, '_timestamp': 1776714833.636171, '_wandb.runtime': 3, 'train/epoch_ndx': 1000, 'train/train_loss': 0.24914199113845825}
+    ```
+  </Tab>
+
+  <Tab title="로컬 파일 시스템">
+    W&amp;B는 run 디렉터리의 `wandb-summary.json` 파일에 run summary 값을 저장합니다. 로컬에서 summary 값을 확인하려면 `wandb-summary.json` 파일을 엽니다.
+
+    기본적으로 W&amp;B는 다음 위치에 run 디렉터리를 저장합니다: `./wandb/run-<timestamp>-<run_id>`.
   </Tab>
 </Tabs>

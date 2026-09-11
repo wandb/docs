@@ -48,11 +48,16 @@ def download_weave_source(version="main"):
                 text=True,
                 check=True
             )
-            # Parse the output to get the latest version tag
+            # Parse the output to get the latest version tag. The weave repo
+            # tags Python releases as vX.Y.Z and TypeScript SDK releases as
+            # vX.Y.Z-ts; only -ts tags correspond to npm releases of the SDK
+            # documented here, so anything else must be skipped (a newer
+            # Python tag would otherwise win the sort and document
+            # unreleased TS APIs).
             for line in result.stdout.strip().split('\n'):
                 if '\trefs/tags/' in line and not line.endswith('^{}'):
                     tag = line.split('\trefs/tags/')[-1]
-                    if tag.startswith('v') and not 'dev' in tag and not 'rc' in tag:
+                    if tag.startswith('v') and tag.endswith('-ts') and not 'dev' in tag and not 'rc' in tag:
                         version = tag
                         print(f"  Using latest release: {version}")
                         break
@@ -118,14 +123,14 @@ def setup_typescript_project(weave_source):
     try:
         # Install dependencies
         print("  Installing dependencies...")
-        subprocess.run(["npm", "install"], check=True)
-        
+        subprocess.run(["npm", "install", "--legacy-peer-deps"], check=True)
+
         # Install typedoc and markdown plugin with compatible versions
         print("  Installing typedoc...")
         subprocess.run([
-            "npm", "install", "--save-dev",
-            "typedoc@0.25.13",
-            "typedoc-plugin-markdown@3.17.1"
+            "npm", "install", "--save-dev", "--legacy-peer-deps",
+            "typedoc@0.28.20",
+            "typedoc-plugin-markdown@4.12.0"
         ], check=True)
         
         print("  ✓ Dependencies installed")
@@ -153,7 +158,16 @@ def generate_typedoc(sdk_path, output_path):
         "excludeProtected": True,
         "excludeInternal": True,
         "disableSources": False,
-        "cleanOutputDir": True
+        "cleanOutputDir": True,
+        "hideBreadcrumbs": True,
+        # The Weave repo currently ships a type error in the googleAdk
+        # integration (duplicate @google/genai versions in its dependency
+        # tree). Docs generation doesn't require the project to type-check,
+        # so don't let that abort the build.
+        "skipErrorChecking": True,
+        # typedoc-plugin-markdown v4 also prepends a bold package-name
+        # header to every page; Mintlify provides its own page chrome.
+        "hidePageHeader": True
     }
     
     config_path = sdk_path / "typedoc.json"
@@ -174,6 +188,586 @@ def generate_typedoc(sdk_path, output_path):
             config_path.unlink()
 
 
+def _escape_mdx_hostile_chars(content):
+    """Escape raw `<`, `{`, and `}` in prose so MDX doesn't parse them as JSX.
+
+    TypeDoc escapes these in the output it generates itself, but comment text
+    inherited from third-party .d.ts files passes through verbatim (e.g.
+    @google/adk ships a corrupted doc comment containing raw code, which
+    TypeDoc 0.28 inherits onto WeaveAdkPlugin's members via its `implements`
+    clause). Fenced code blocks and inline code spans are left untouched;
+    already-escaped characters are not double-escaped.
+    """
+    out_lines = []
+    in_fence = False
+    for line in content.split('\n'):
+        if line.lstrip().startswith('```'):
+            in_fence = not in_fence
+            out_lines.append(line)
+            continue
+        if in_fence:
+            out_lines.append(line)
+            continue
+        # Even indices are prose; odd indices are inline code spans.
+        parts = re.split(r'(``[^`]*``|`[^`]*`)', line)
+        for i in range(0, len(parts), 2):
+            p = re.sub(r'(?<!\\)<(?=[A-Za-z/])', r'\\<', parts[i])
+            p = re.sub(r'(?<!\\)([{}])', r'\\\1', p)
+            parts[i] = p
+        out_lines.append(''.join(parts))
+    return '\n'.join(out_lines)
+
+
+def _strip_redundant_optional_markers(content):
+    """Drop the trailing `?` from optional members' headings and bold names.
+
+    typedoc-plugin-markdown v4 marks an optional property twice: the heading
+    and bold signature name carry a trailing `?` (`### display_name?`) AND
+    the signature line carries an `optional` tag. Keep the tag, drop the
+    `?`. Only headings whose signature line has the `optional` tag are
+    touched — on function-parameter headings (`### host?`) the `?` is the
+    sole optionality marker, so it stays.
+
+    Anchor slugs are unaffected: slug generation strips `?` anyway.
+    """
+    # Heading directly followed by an `optional`-tagged signature blockquote.
+    content = re.sub(
+        r'(?m)^(#{1,6} (?:~~)?[^\n?]+)\?((?:~~)?)\n\n(?=> (?:`[a-z]+` )*`optional` )',
+        r'\1\2\n\n',
+        content,
+    )
+    # The bold name inside the signature line itself.
+    content = re.sub(
+        r'(?m)^(> (?:`[a-z]+` )*`optional` \*\*[^*\n]+?)\?((?:~~)?\*\*)',
+        r'\1\2',
+        content,
+    )
+    return content
+
+
+def _delink_and_unescape_type(text):
+    """Reduce a TypeDoc type expression to plain TypeScript text.
+
+    TypeDoc renders types as a mix of code spans, markdown links, and
+    escaped punctuation (`` `Promise`\\<[`WeaveClient`](../interfaces/weaveclient)\\> ``).
+    JSX attributes and code fences need the plain form
+    (`Promise<WeaveClient>`).
+    """
+    text = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', text)
+    text = text.replace('`', '')
+    text = re.sub(r'\\([<>{}|_\[\]])', r'\1', text)
+    return ' '.join(text.split())
+
+
+def _compact_type(plain, limit=60):
+    """Collapse brace bodies of an over-long type to `{…}` for display.
+
+    Long inline object types (`Partial<{ attributes: Record<string, any>;
+    ... }>`) would otherwise wrap across several lines inside a ParamField
+    type chip or a signature line. A type that collapses to nothing but
+    `{…}` is reported as `object`.
+    """
+    # Innermost-out: collapsed bodies use a brace-free placeholder so the
+    # next pass can match the enclosing brace pair.
+    placeholder = '\x00'
+    while len(plain) > limit:
+        collapsed = re.sub(r'\{[^{}]*\}', placeholder, plain)
+        if collapsed == plain:
+            break
+        plain = collapsed
+    plain = plain.replace(placeholder, '{…}')
+    if plain in ('{…}', '{}'):
+        return 'object'
+    return plain
+
+
+def _jsx_attr(value):
+    """Quote a string as a JSX attribute value."""
+    if '"' in value:
+        if "'" in value:
+            value = value.replace('"', '’')
+            return f'"{value}"'
+        return f"'{value}'"
+    return f'"{value}"'
+
+
+# A line is a type expression (rather than description prose) when it opens
+# with a code span, a linked code span, an escaped inline-object brace, or a
+# paren that starts type syntax: a quoted parameter, rest args, an empty
+# list, or a parenthesized object/linked union. Prose like "(Optional) The
+# host name..." opens its paren with a bare word and fails every branch.
+_TYPE_LINE_RE = re.compile(
+    r'^(?:`|\[`|\\\{|\((?:`|\)|\\\{|\[|\(|\.\.\.)|(?:keyof|typeof|readonly|new) )'
+)
+
+_PARAMS_HEADING_RE = re.compile(r'^(#{2,5}) Parameters$')
+
+# One-line call-signature blockquote on a function page:
+#   > **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](...)\>
+# Property blockquotes (`> **callId**: `string``) have no paren list and
+# don't match.
+_CALL_SIG_RE = re.compile(
+    r'^> \*\*(?P<name>[A-Za-z_$][\w$]*)\*\*(?P<gen>\\<.*?\\>)?'
+    r'\((?P<params>[^)]*)\): (?P<ret>.+)$'
+)
+
+
+def _fence_mask(lines):
+    """Per-line flags: True while inside a fenced code block."""
+    mask = []
+    in_fence = False
+    for line in lines:
+        if line.lstrip().startswith('```'):
+            in_fence = not in_fence
+            mask.append(True)  # fence delimiters count as inside
+        else:
+            mask.append(in_fence)
+    return mask
+
+
+def _parse_param_entries(lines, mask, start, end, level):
+    """Parse one Parameters section body into param-entry dicts.
+
+    Each entry heading sits at `level`; nested members (inline-expanded or
+    destructured object properties) sit one level deeper, where TypeDoc
+    also flattens deeper nesting into dotted names (`streamReducer.reduceFn`).
+    Returns a list of dicts with name/optional/type_line/description/members.
+    """
+    head_re = re.compile(r'^#{%d} (.+)$' % level)
+    marks = [i for i in range(start, end)
+             if not mask[i] and head_re.match(lines[i])]
+    entries = []
+    for n, i in enumerate(marks):
+        body_start = i + 1
+        body_end = marks[n + 1] if n + 1 < len(marks) else end
+        raw_name = head_re.match(lines[i]).group(1).strip()
+        name = raw_name.replace('\\_', '_').replace('`', '')
+        optional = name.endswith('?')
+        name = name.rstrip('?')
+
+        member_head_re = re.compile(r'^#{%d} .+$' % (level + 1))
+        member_marks = [j for j in range(body_start, body_end)
+                        if not mask[j] and member_head_re.match(lines[j])]
+        own_end = member_marks[0] if member_marks else body_end
+
+        type_line = None
+        desc_lines = []
+        for j in range(body_start, own_end):
+            line = lines[j]
+            if type_line is None and not desc_lines:
+                if line == '':
+                    continue
+                if not mask[j] and _TYPE_LINE_RE.match(line):
+                    type_line = line
+                    continue
+            desc_lines.append(line if mask[j] else line.lstrip())
+        while desc_lines and desc_lines[0] == '':
+            desc_lines.pop(0)
+        while desc_lines and desc_lines[-1] == '':
+            desc_lines.pop()
+
+        members = (_parse_param_entries(lines, mask, member_marks[0],
+                                        body_end, level + 1)
+                   if member_marks else [])
+
+        entries.append({
+            'name': name,
+            'optional': optional,
+            'type_line': type_line,
+            'description': desc_lines,
+            'members': members,
+        })
+    return entries
+
+
+def _nest_dotted_members(members):
+    """Attach `parent.child` members beneath their `parent` entry.
+
+    TypeDoc flattens second-level object nesting into dotted headings at
+    the same depth as the parent; ParamField/Expandable can express the
+    real hierarchy, so rebuild it.
+    """
+    by_name = {}
+    nested = []
+    for m in members:
+        if '.' in m['name']:
+            prefix, rest = m['name'].split('.', 1)
+            parent = by_name.get(prefix)
+            if parent is not None:
+                m = dict(m, name=rest)
+                parent['members'] = parent['members'] + [m]
+                continue
+        by_name[m['name']] = m
+        nested.append(m)
+    return nested
+
+
+def _render_param_field(entry):
+    """Render one param entry (and nested members) as ParamField MDX lines."""
+    type_line = entry['type_line']
+    members = _nest_dotted_members(entry['members'])
+
+    plain = _delink_and_unescape_type(type_line) if type_line else None
+    if plain is None and members:
+        plain = 'object'
+    compact = _compact_type(plain) if plain else None
+
+    attrs = f' path={_jsx_attr(entry["name"])}'
+    if compact:
+        attrs += f' type={_jsx_attr(compact)}'
+    if not entry['optional']:
+        attrs += ' required'
+
+    body = []
+    if entry['description']:
+        body.extend(entry['description'])
+
+    # Keep navigability the type chip can't express: cross-reference links
+    # from the original type expression, and the full text of a type that
+    # was abbreviated for display.
+    if type_line:
+        links = re.findall(r'\[`?([^`\]]+)`?\]\(([^)]+)\)', type_line)
+        if links:
+            refs = ', '.join(f'[`{label}`]({href})' for label, href in links)
+            body.extend(['', f'See {refs}.'] if body else [f'See {refs}.'])
+        if compact and plain != compact:
+            note = f'Full type: `{plain}`'
+            body.extend(['', note] if body else [note])
+
+    if members:
+        exp = ['<Expandable title="properties" defaultOpen>']
+        for i, m in enumerate(members):
+            if i:
+                exp.append('')
+            exp.extend(f'  {l}' if l else '' for l in _render_param_field(m))
+        exp.append('</Expandable>')
+        body.extend([''] + exp if body else exp)
+
+    if not body:
+        return [f'<ParamField{attrs} />']
+    lines = [f'<ParamField{attrs}>']
+    lines.extend(f'  {b}' if b else '' for b in body)
+    lines.append('</ParamField>')
+    return lines
+
+
+def _convert_parameters_sections_to_paramfields(content):
+    """Rewrite every `Parameters` section from floating headings to
+    Mintlify <ParamField> markup.
+
+    TypeDoc renders each parameter as a bare heading with an orphaned type
+    line below it, which reads as disconnected fragments and pollutes the
+    on-page TOC with per-parameter anchors. ParamField renders the
+    name/type/required row these sections actually are; inline-expanded or
+    destructured members nest inside an <Expandable>. Optionality is shown
+    by the absence of the `required` badge (plus the `?` in the signature
+    code block), matching OpenAPI-reference convention.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    out = []
+    i = 0
+    while i < len(lines):
+        m = None if mask[i] else _PARAMS_HEADING_RE.match(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        level = len(m.group(1))
+        end_re = re.compile(r'^#{1,%d} ' % level)
+        end = len(lines)
+        for j in range(i + 1, len(lines)):
+            if not mask[j] and (end_re.match(lines[j]) or lines[j] == '***'):
+                end = j
+                break
+        entries = _parse_param_entries(lines, mask, i + 1, end, level + 1)
+        if not entries:
+            out.append(lines[i])
+            i += 1
+            continue
+        out.append(lines[i])
+        out.append('')
+        for n, entry in enumerate(entries):
+            if n:
+                out.append('')
+            out.extend(_render_param_field(entry))
+        out.append('')
+        i = end
+    return '\n'.join(out)
+
+
+_TYPE_PARAMS_HEADING_RE = re.compile(r'^(#{2,5}) Type Parameters$')
+
+
+def _section_end(lines, mask, start, level):
+    """Index of the line that ends a section opened by a heading at `level`:
+    the next heading at the same or shallower level, a `***` member
+    separator, or end of file."""
+    end_re = re.compile(r'^#{1,%d} ' % level)
+    for j in range(start, len(lines)):
+        if not mask[j] and (end_re.match(lines[j]) or lines[j] == '***'):
+            return j
+    return len(lines)
+
+
+def _convert_type_parameters_sections(content):
+    """Rewrite `Type Parameters` sections into <ParamField> rows.
+
+    TypeDoc emits one heading per type parameter with its constraint below
+    as chip fragments — and for an unconstrained parameter the "constraint"
+    is just the name again (`### T` followed by a lone `T` chip). Render a
+    single row instead: the name, with `extends ...` as the type text when
+    a constraint exists and nothing when there isn't one. No required
+    badge — optionality doesn't apply to generics.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    out = []
+    i = 0
+    while i < len(lines):
+        m = None if mask[i] else _TYPE_PARAMS_HEADING_RE.match(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        level = len(m.group(1))
+        end = _section_end(lines, mask, i + 1, level)
+        entries = _parse_param_entries(lines, mask, i + 1, end, level + 1)
+        if not entries:
+            out.append(lines[i])
+            i += 1
+            continue
+        out.append(lines[i])
+        out.append('')
+        for n, entry in enumerate(entries):
+            if n:
+                out.append('')
+            type_attr = None
+            if entry['type_line']:
+                plain = _delink_and_unescape_type(
+                    entry['type_line'].replace('*extends*', 'extends'))
+                if plain != entry['name']:
+                    prefix = entry['name'] + ' '
+                    if plain.startswith(prefix):
+                        plain = plain[len(prefix):]
+                    type_attr = _compact_type(plain)
+            attrs = f' path={_jsx_attr(entry["name"])}'
+            if type_attr:
+                attrs += f' type={_jsx_attr(type_attr)}'
+            desc = entry['description']
+            if not desc:
+                out.append(f'<ParamField{attrs} />')
+            else:
+                out.append(f'<ParamField{attrs}>')
+                out.extend(f'  {d}' if d else '' for d in desc)
+                out.append('</ParamField>')
+        out.append('')
+        i = end
+    return '\n'.join(out)
+
+
+_RETURNS_HEADING_RE = re.compile(r'^(#{2,5}) Returns$')
+
+# Property signature blockquote: `> `optional` **displayName**: `string``.
+# The leading tags (`optional`, `readonly`, ...) are TypeDoc modifier chips.
+_PROP_SIG_RE = re.compile(r'^> ((?:`[a-z]+` )*)\*\*([^*~]+)\*\*: (.+)$')
+
+
+def _collapse_constructor_group_heading(content):
+    """Collapse TypeDoc's redundant constructor heading pair.
+
+    A TS class has at most one constructor, but TypeDoc still emits a
+    plural group heading over it (`## Constructors` followed by a lone
+    `### Constructor`), which renders as a stuttering double header
+    (review feedback on wandb/docs#3103). Collapse the pair into a single
+    `## Constructor` section and promote the section's sub-headings one
+    level so the outline stays contiguous. A group holding anything other
+    than that single entry is left untouched.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    for i, line in enumerate(lines):
+        if mask[i] or line != '## Constructors':
+            continue
+        j = i + 1
+        while j < len(lines) and not mask[j] and lines[j] == '':
+            j += 1
+        if j >= len(lines) or mask[j] or lines[j] != '### Constructor':
+            return content
+        # The constructor section runs until the next h2.
+        end = next(
+            (k for k in range(j + 1, len(lines))
+             if not mask[k] and lines[k].startswith('## ')),
+            len(lines),
+        )
+        # Bail if the group holds more than the single constructor entry.
+        if any(not mask[k] and lines[k].startswith('### ')
+               for k in range(j + 1, end)):
+            return content
+        promoted = [
+            l[1:] if not mask[k] and re.match(r'^#{4,6} ', l) else l
+            for k, l in zip(range(j + 1, end), lines[j + 1:end])
+        ]
+        return '\n'.join(lines[:i] + ['## Constructor'] + promoted + lines[end:])
+    return content
+
+
+def _convert_returns_members_to_responsefields(content):
+    """Rewrite documented members of an object return type into
+    <ResponseField> rows.
+
+    A function returning an anonymous object gets one heading per member
+    under `Returns`, each holding a property-signature blockquote —
+    Mintlify renders those as quote bars, which reads as a misplaced
+    callout. ResponseField is the ParamField sibling purpose-built for
+    return payloads; the same badge policy applies (always-present members
+    get `required`, optional ones are unbadged). Sections where any member
+    doesn't parse cleanly (e.g. deprecated strikethrough names) are left
+    untouched rather than half-converted.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+    out = []
+    i = 0
+    while i < len(lines):
+        m = None if mask[i] else _RETURNS_HEADING_RE.match(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        level = len(m.group(1))
+        end = _section_end(lines, mask, i + 1, level)
+        head_re = re.compile(r'^#{%d} (.+)$' % (level + 1))
+        marks = [j for j in range(i + 1, end)
+                 if not mask[j] and head_re.match(lines[j])]
+        if not marks:
+            out.append(lines[i])
+            i += 1
+            continue
+
+        fields = []
+        parsed_all = True
+        for n, j in enumerate(marks):
+            body_end = marks[n + 1] if n + 1 < len(marks) else end
+            name = head_re.match(lines[j]).group(1).strip()
+            name = name.replace('\\_', '_').rstrip('?')
+            sig = None
+            desc = []
+            for k in range(j + 1, body_end):
+                pm = None if mask[k] else _PROP_SIG_RE.match(lines[k])
+                if sig is None and pm:
+                    sig = pm
+                    continue
+                desc.append(lines[k] if mask[k] else lines[k].lstrip())
+            if sig is None or '~~' in name:
+                parsed_all = False
+                break
+            while desc and desc[0] == '':
+                desc.pop(0)
+            while desc and desc[-1] == '':
+                desc.pop()
+            optional = '`optional`' in sig.group(1)
+            type_attr = _compact_type(_delink_and_unescape_type(sig.group(3)))
+            attrs = f' name={_jsx_attr(name)} type={_jsx_attr(type_attr)}'
+            if not optional:
+                attrs += ' required'
+            if desc:
+                field = [f'<ResponseField{attrs}>']
+                field.extend(f'  {d}' if d else '' for d in desc)
+                field.append('</ResponseField>')
+            else:
+                field = [f'<ResponseField{attrs} />']
+            fields.append(field)
+
+        if not parsed_all:
+            out.append(lines[i])
+            i += 1
+            continue
+
+        # Keep the section prefix (the `object` type chip and any
+        # description) as-is, then emit the converted member rows.
+        out.append(lines[i])
+        out.extend(lines[i + 1:marks[0]])
+        if out and out[-1] != '':
+            out.append('')
+        for n, field in enumerate(fields):
+            if n:
+                out.append('')
+            out.extend(field)
+        out.append('')
+        i = end
+    return '\n'.join(out)
+
+
+def _convert_function_signatures_to_code_blocks(content):
+    """Replace call-signature blockquotes with syntax-highlighted fences.
+
+    The signature is the most important element on a function page, but
+    TypeDoc renders it as a blockquote of mixed bold text and code chips.
+    Emit a ```ts fence instead, enriching each parameter with its
+    (display-compacted) type from the Parameters section that follows the
+    signature — the blockquote itself only carries parameter names.
+    Twoslash is deliberately not enabled: a bare signature is not a valid
+    standalone statement.
+    """
+    lines = content.split('\n')
+    mask = _fence_mask(lines)
+
+    sig_indices = [i for i, line in enumerate(lines)
+                   if not mask[i] and _CALL_SIG_RE.match(line)]
+    if not sig_indices:
+        return content
+
+    # Map each signature to the Parameters section that documents it: the
+    # first one after the signature and before the next signature (an
+    # overloaded function page repeats signature/Parameters pairs).
+    types_for_sig = {}
+    for n, i in enumerate(sig_indices):
+        limit = sig_indices[n + 1] if n + 1 < len(sig_indices) else len(lines)
+        for j in range(i + 1, limit):
+            m = None if mask[j] else _PARAMS_HEADING_RE.match(lines[j])
+            if not m:
+                continue
+            level = len(m.group(1))
+            end_re = re.compile(r'^#{1,%d} ' % level)
+            end = limit
+            for k in range(j + 1, limit):
+                if not mask[k] and (end_re.match(lines[k]) or lines[k] == '***'):
+                    end = k
+                    break
+            entries = _parse_param_entries(lines, mask, j + 1, end, level + 1)
+            types_for_sig[i] = {e['name']: e for e in entries}
+            break
+
+    for i in sig_indices:
+        m = _CALL_SIG_RE.match(lines[i])
+        gen = _delink_and_unescape_type(m.group('gen')) if m.group('gen') else ''
+        ret = _compact_type(_delink_and_unescape_type(m.group('ret')), limit=80)
+        entry_by_name = types_for_sig.get(i, {})
+
+        rendered_params = []
+        for raw in re.findall(r'`([^`]+)`', m.group('params')):
+            pname = raw.rstrip('?').replace('\\_', '_')
+            suffix = '?' if raw.endswith('?') else ''
+            entry = entry_by_name.get(pname)
+            ptype = None
+            if entry:
+                if entry['type_line']:
+                    ptype = _compact_type(
+                        _delink_and_unescape_type(entry['type_line']))
+                elif entry['members']:
+                    ptype = 'object'
+            rendered = f'{pname}{suffix}'
+            if ptype:
+                rendered += f': {ptype}'
+            rendered_params.append(rendered)
+
+        signature = f"{m.group('name')}{gen}({', '.join(rendered_params)}): {ret}"
+        lines[i] = f'```ts\n{signature}\n```'
+
+    return '\n'.join(lines)
+
+
 def convert_to_mintlify_format(docs_dir):
     """Convert TypeDoc markdown to Mintlify MDX format."""
     print(f"\nConverting to Mintlify format...")
@@ -187,7 +781,11 @@ def convert_to_mintlify_format(docs_dir):
         # Skip if already has frontmatter
         if content.startswith("---"):
             continue
-        
+
+        # Remove TypeDoc's in-page breadcrumb line. Mintlify manages breadcrumbs already.
+        content = re.sub(r'^\[weave\]\([^)]+\)(?: / [^\n]+)+\n+', '', content, flags=re.MULTILINE)
+        content = re.sub(r'\Aweave(?: / [^\n]+)*\n+', '', content)
+
         # Extract title from content
         title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
         title = title_match.group(1) if title_match else md_file.stem
@@ -198,6 +796,42 @@ def convert_to_mintlify_format(docs_dir):
         
         # Fix escaped angle brackets in title (TypeDoc escapes them as \< and \>)
         title_fixed = title.replace('\\<', '<').replace('\\>', '>')
+
+        # typedoc-plugin-markdown v4 wraps deprecated symbols' titles in
+        # strikethrough (`# ~~Variable: startSession~~`); the deprecation is
+        # surfaced via the hoisted <Warning> callout instead.
+        title_fixed = title_fixed.replace('~~', '')
+
+        # Strip TypeDoc's reflection-kind prefix ("Class: LLM" → "LLM") so the
+        # left nav shows bare symbol names; the nav group already conveys the kind.
+        # v4 writes "Type Alias"; v3 wrote "Type alias".
+        title_fixed = re.sub(
+            r'^(?:Class|Interface|Function|Type [Aa]lias|Enumeration|Namespace|Variable|Module):\s+',
+            '',
+            title_fixed,
+        )
+
+        # v4 suffixes function/method titles with call parens ("login()");
+        # drop them to keep bare symbol names in the nav.
+        title_fixed = re.sub(r'\(\)$', '', title_fixed)
+
+        # When two exports share a name, TypeDoc disambiguates the *filename*
+        # with a -N suffix (Session.md / Session-1.md) but keeps the same
+        # in-page title, which would surface as identical entries in the
+        # nav. Carry the suffix into the title so the pages stay
+        # distinguishable.
+        collision = re.match(r'^(.*)-(\d+)$', md_file.stem)
+        if collision and title_fixed.lower() == collision.group(1).lower():
+            title_fixed = f"{title_fixed}-{collision.group(2)}"
+
+        # Escape MDX-hostile characters in the body before the frontmatter is
+        # prepended (the quoted YAML title must keep its bare < and >).
+        content = _escape_mdx_hostile_chars(content)
+
+        # De-duplicate v4's optional markers. (Source links used to be
+        # relocated below descriptions here for reading order; now only
+        # the page-level one survives, as a GitHubLink button.)
+        content = _strip_redundant_optional_markers(content)
         
         # Add Mintlify frontmatter
         frontmatter = f"""---
@@ -243,15 +877,18 @@ description: "TypeScript SDK reference"
         content = re.sub(r'\]\(\.\./interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(\.\./functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](../functions/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(\.\./type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](../type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
-        
+        content = re.sub(r'\]\(\.\./variables/([^)#]+)(#[^)]+)?\)', lambda m: f'](../variables/{m.group(1).lower()}{m.group(2) or ""})', content)
+
         # 4. Fix relative links without ../ prefix (same directory or subdirectory)
         content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](../functions/{m.group(1).lower()}{m.group(2) or ""})', content)
         content = re.sub(r'\]\(type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](../type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
-        
+        content = re.sub(r'\]\(variables/([^)#]+)(#[^)]+)?\)', lambda m: f'](../variables/{m.group(1).lower()}{m.group(2) or ""})', content)
+
         # 5. Fix same-directory class/interface links (start with capital letter, no path separator)
-        content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', lambda m: f'](./{m.group(1).lower()}{m.group(2) or ""})', content)
+        # Allow digits and hyphens for TypeDoc's name-collision suffixes (e.g. Session-1)
+        content = re.sub(r'\]\(([A-Z][a-zA-Z0-9-]+)(#[^)]+)?\)', lambda m: f'](./{m.group(1).lower()}{m.group(2) or ""})', content)
         
         # 6. Special fix for README/landing page - it becomes typescript-sdk.mdx at parent level
         if md_file.name == 'README.md':
@@ -261,7 +898,8 @@ description: "TypeScript SDK reference"
             content = re.sub(r'\]\(\.\./interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
             content = re.sub(r'\]\(\.\./functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/functions/{m.group(1).lower()}{m.group(2) or ""})', content)
             content = re.sub(r'\]\(\.\./type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
-            
+            content = re.sub(r'\]\(\.\./variables/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/variables/{m.group(1).lower()}{m.group(2) or ""})', content)
+
             # Fix self-referential anchor links like (README#anchor) that appear in Table of Contents
             # We'll scan the content to determine if each anchor refers to a function or type alias
             # First, extract all type alias names (they have the Ƭ symbol)
@@ -289,6 +927,68 @@ description: "TypeScript SDK reference"
             # Just ensure .md extension is removed (already done above)
             pass
         
+        # Where a link's label matches the base name of a collision-suffixed
+        # target (e.g. [~~Session~~](.../session-1)), carry the suffix into
+        # the label — mirroring the frontmatter-title disambiguation — so
+        # index lists don't show identical labels for different pages.
+        def _dedupe_collision_link_label(m):
+            strike, label, target = m.group(1) or '', m.group(2), m.group(3)
+            stem_match = re.match(r'^(.*)-(\d+)$', target.split('/')[-1])
+            if stem_match and stem_match.group(1) == label.lower():
+                return f'[{strike}{label}-{stem_match.group(2)}{strike}]({target})'
+            return m.group(0)
+
+        content = re.sub(
+            r'\[(~~)?([A-Za-z_$][\w$]*)\1?\]\(([^)#\s]+)\)',
+            _dedupe_collision_link_label,
+            content,
+        )
+
+        # Visual restructuring passes. These run last so the markup they
+        # emit (JSX components, plain-TS code fences) is exempt from the
+        # escaping/twoslash/link rewrites above, while the prose they carry
+        # along has already been through them.
+        if title.startswith("Function:"):
+            content = _convert_function_signatures_to_code_blocks(content)
+        content = _convert_parameters_sections_to_paramfields(content)
+        content = _convert_type_parameters_sections(content)
+        content = _convert_returns_members_to_responsefields(content)
+        content = _collapse_constructor_group_heading(content)
+
+        # Render source-link metadata following the Models Python
+        # reference pattern (review feedback on wandb/docs#3103): only the
+        # page's primary symbol keeps a source link — the first
+        # `Defined in:` line becomes the site's shared GitHubLink button
+        # (styled by `.github-source-link` in css/styles.css) — and every
+        # later occurrence (members, overload signatures, inherited
+        # symbols) is dropped as visual noise. The import is only added
+        # when a link was actually converted.
+        content, n_source_links = re.subn(
+            r'^Defined in: \[[^\]]+\]\(([^)\s]+)\)$',
+            r'<GitHubLink url="\1" />',
+            content,
+            count=1,
+            flags=re.MULTILINE,
+        )
+        if n_source_links:
+            content = re.sub(
+                r'\A(---\n.*?\n---\n)',
+                r"\1\nimport { GitHubLink } from '/snippets/_includes/github-source-link.mdx';\n",
+                content,
+                count=1,
+                flags=re.DOTALL,
+            )
+
+        # Drop the remaining source-metadata lines (linked or not — members
+        # inherited from TypeScript's own lib .d.ts files carry no GitHub
+        # URL) together with the blank line that follows them.
+        content = re.sub(
+            r'^Defined in: .*\n\n?',
+            '',
+            content,
+            flags=re.MULTILINE,
+        )
+
         # Write as .mdx file with lowercase filename (avoid Git case sensitivity issues)
         lowercase_stem = md_file.stem.lower()
         mdx_file = md_file.parent / f"{lowercase_stem}.mdx"
@@ -298,6 +998,91 @@ description: "TypeScript SDK reference"
         md_file.unlink()
         
         print(f"  ✓ Converted {md_file.name} → {mdx_file.name}")
+
+
+# Matches anchor links that point at the README/landing page in any of the
+# forms TypeDoc + earlier conversion steps leave behind: `](README#X)`,
+# `](./README#X)`, `](readme#X)`, `](./readme#X)`, `](typescript-sdk#X)`,
+# `](./typescript-sdk#X)`.
+_LANDING_ANCHOR_LINK_RE = re.compile(
+    r'\]\((?:\./)?(?:readme|README|typescript-sdk)#([A-Za-z][A-Za-z0-9-]*)\)'
+)
+
+
+_HEADING_KIND_RE = re.compile(r'^### ([A-Za-z][A-Za-z0-9]*)\n\n(\S)', re.MULTILINE)
+
+
+def _build_landing_anchor_map(landing_content):
+    """Walk every `### Name` heading on the consolidated README/landing page
+    and return a dict mapping each heading's original anchor slug (with the
+    `-N` disambiguator TypeDoc uses for duplicates) to a (kind, segment)
+    tuple, where kind is 'function' | 'type-alias' | 'other'.
+
+    For headings that will be extracted (functions, type aliases), `segment`
+    is the lowercased base name — that's the extracted file's stem. For
+    headings that survive on the landing page, `segment` is the
+    **post-extraction** slug: once same-base function/type-alias siblings
+    are pulled out, the surviving 'other' heading collapses back to the
+    plain base slug. That's why `[X](./readme#session-1)`, where `session`
+    is the extracted type alias and `session-1` is the surviving Variable,
+    must resolve to `#session`, not `#session-1`.
+    """
+    heads = []
+    orig_counter = {}
+    for m in _HEADING_KIND_RE.finditer(landing_content):
+        name = m.group(1)
+        first = m.group(2)
+        if first == '▸':
+            kind = 'function'
+        elif first == 'Ƭ':
+            kind = 'type-alias'
+        else:
+            kind = 'other'
+        base = name.lower()
+        n = orig_counter.get(base, 0)
+        orig_slug = base if n == 0 else f'{base}-{n}'
+        orig_counter[base] = n + 1
+        heads.append((base, kind, orig_slug))
+
+    target_by_slug = {}
+    post_counter = {}
+    for base, kind, orig_slug in heads:
+        if kind in ('function', 'type-alias'):
+            target_by_slug[orig_slug] = (kind, base)
+        else:
+            n = post_counter.get(base, 0)
+            post_slug = base if n == 0 else f'{base}-{n}'
+            post_counter[base] = n + 1
+            target_by_slug[orig_slug] = ('other', post_slug)
+    return target_by_slug
+
+
+def _make_landing_anchor_resolver(target_by_slug, functions_prefix,
+                                   type_aliases_prefix, fallback_prefix):
+    """Return a `re.sub` callback that rewrites a landing-page anchor link
+    (e.g. `](README#getCurrentConversation)`) to the right cross-file or
+    in-page link.
+
+    Pre-0.53.0 the extractor could assume every README anchor target was a
+    type alias. v0.53.0 added Conversation-replacement *functions* and a
+    backwards-compat `Session` Variable export — so we now consult the
+    pre-built kind map and route accordingly. Unknown anchors are left
+    untouched so the broken-link checker surfaces them rather than having
+    us silently route them to a wrong path.
+    """
+    def resolve(match):
+        anchor = match.group(1).lower()
+        info = target_by_slug.get(anchor)
+        if info is None:
+            return match.group(0)
+        kind, segment = info
+        if kind == 'function':
+            return f']({functions_prefix}{segment})'
+        if kind == 'type-alias':
+            return f']({type_aliases_prefix}{segment})'
+        return f']({fallback_prefix}{segment})'
+
+    return resolve
 
 
 def extract_members_to_separate_files(docs_path):
@@ -311,17 +1096,41 @@ def extract_members_to_separate_files(docs_path):
         index_file = docs_path / "index.mdx"
         if not index_file.exists():
             return
-    
+
     content = index_file.read_text()
-    
+
     # Check if we need to extract anything
     has_functions = "### Functions" in content
     has_type_aliases = "### Type Aliases" in content or "### Type aliases" in content
-    
+
     if not has_functions and not has_type_aliases:
         return
-    
+
     print("  Extracting consolidated members to separate files...")
+
+    # Pre-scan once so the per-file extraction loops and the post-extraction
+    # landing-page rewrite below can all disambiguate README anchor links
+    # against the same set of symbol kinds (and post-extraction slugs).
+    landing_anchor_map = _build_landing_anchor_map(content)
+
+    resolver_for_function_pages = _make_landing_anchor_resolver(
+        landing_anchor_map,
+        functions_prefix='./',
+        type_aliases_prefix='../type-aliases/',
+        fallback_prefix='../typescript-sdk#',
+    )
+    resolver_for_type_alias_pages = _make_landing_anchor_resolver(
+        landing_anchor_map,
+        functions_prefix='../functions/',
+        type_aliases_prefix='./',
+        fallback_prefix='../typescript-sdk#',
+    )
+    resolver_for_landing_page = _make_landing_anchor_resolver(
+        landing_anchor_map,
+        functions_prefix='./typescript-sdk/functions/',
+        type_aliases_prefix='./typescript-sdk/type-aliases/',
+        fallback_prefix='#',
+    )
     
     # Extract functions
     if has_functions:
@@ -348,14 +1157,11 @@ def extract_members_to_separate_files(docs_path):
             func_content = func_content.replace('./typescript-sdk/interfaces/', '../interfaces/')
             func_content = func_content.replace('./typescript-sdk/type-aliases/', '../type-aliases/')
             func_content = func_content.replace('./typescript-sdk/functions/', './')
-            
-            # Fix anchor links to readme/landing page
-            # Links like (./readme#anchor) need to point to type-aliases (which is where they're extracted to)
-            func_content = re.sub(r'\]\(\./readme#([^)]+)\)', r'](../type-aliases/\1)', func_content)
-            func_content = re.sub(r'\]\(readme#([^)]+)\)', r'](../type-aliases/\1)', func_content)
-            
-            # Fix TypeDoc-generated anchor links like (typescript-sdk#op) -> (../type-aliases/op)
-            func_content = re.sub(r'\]\(typescript-sdk#([^)]+)\)', r'](../type-aliases/\1)', func_content)
+
+            # Rewrite anchor links to README/landing-page headings based on
+            # what each anchor actually refers to (function, type alias, or
+            # surviving landing-page symbol).
+            func_content = _LANDING_ANCHOR_LINK_RE.sub(resolver_for_function_pages, func_content)
             
             # Create the function file content
             func_title = func_name
@@ -416,14 +1222,11 @@ description: "TypeScript SDK reference"
             alias_content = alias_content.replace('./typescript-sdk/interfaces/', '../interfaces/')
             alias_content = alias_content.replace('./typescript-sdk/functions/', '../functions/')
             alias_content = alias_content.replace('./typescript-sdk/type-aliases/', './')
-            
-            # Fix anchor links to readme/landing page
-            # Links like (./readme#anchor) stay within type-aliases (self-referential)
-            alias_content = re.sub(r'\]\(\./readme#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
-            alias_content = re.sub(r'\]\(readme#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
-            
-            # Fix TypeDoc-generated anchor links like (typescript-sdk#op) -> (./op)
-            alias_content = re.sub(r'\]\(typescript-sdk#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
+
+            # Same disambiguating rewrite as for function pages — except a
+            # same-kind reference here means another type alias (sibling
+            # file), and a different-kind reference is a function.
+            alias_content = _LANDING_ANCHOR_LINK_RE.sub(resolver_for_type_alias_pages, alias_content)
                 
             # Create the type alias file content
             alias_file_content = f"""---
@@ -457,6 +1260,16 @@ description: "TypeScript SDK reference"
                     flags=re.DOTALL
                 )
     
+    # Rewrite any remaining README/landing-page anchor links on the landing
+    # page itself. The earlier `fix_readme_anchor` pass in
+    # convert_to_mintlify_format only catches uppercase `](README#X)`, but
+    # the general lowercasing rule rewrites those to `](./readme#X)` before
+    # it runs — so links like `[Session](./readme#session-1)` survive until
+    # here. Using the post-extraction symbol-kind sets also lets us route
+    # surviving landing-page headings (e.g. backwards-compat Variables) to
+    # an in-page anchor rather than a non-existent extracted file.
+    content = _LANDING_ANCHOR_LINK_RE.sub(resolver_for_landing_page, content)
+
     # Write updated content back
     index_file.write_text(content)
     if index_file.name == "typescript-sdk.mdx":
@@ -503,8 +1316,127 @@ def organize_for_mintlify(temp_output, final_output):
     
     # Extract functions and type aliases to separate files if they're consolidated
     extract_members_to_separate_files(final_path)
-    
+
+    # Promote `@deprecated` JSDoc tags into prominent Mintlify <Warning>
+    # callouts hoisted under each symbol's heading. Must run AFTER extraction
+    # so the `### name\n\n▸` pattern that extraction relies on is still intact.
+    hoist_deprecation_callouts(final_path)
+
     print("  ✓ Documentation organized")
+
+
+# Matches TypeDoc's @deprecated output. typedoc-plugin-markdown v4 renders it
+# as a heading section whose level depends on nesting depth (`## Deprecated`
+# at page level, `#### Deprecated` under a member, `##### Deprecated` under an
+# accessor signature):
+#   ## Deprecated
+#
+#   <message paragraph, possibly multiline>
+#
+# (v3 rendered an inline `` `Deprecated` `` label instead; that form is also
+# still matched.) Stops at the next heading or `***`/`___` separator (or end
+# of file). The non-greedy `.+?` plus the lookahead lets the message itself
+# span multiple soft-wrapped lines without swallowing the section that
+# follows it.
+_DEPRECATED_BLOCK_RE = re.compile(
+    r'\n\n(?:(#{2,5}) Deprecated|`Deprecated`)\n\n(.+?)(?=\n\n(?:#{1,6} |\*\*\*|___)|\n*\Z)',
+    re.DOTALL,
+)
+
+# Symbol-level headings only. H4 (`#### Returns`, `#### Defined in`) is a
+# *sub*section of a symbol and is deliberately excluded — anchoring the
+# warning there would put it back where TypeDoc already placed it. The
+# `Deprecated` headings themselves are excluded too: they belong to the very
+# blocks being removed, so anchoring a later warning to one would insert
+# text into a deleted span.
+_SYMBOL_HEADING_RE = re.compile(r'^#{1,3} (?!Deprecated$).+$', re.MULTILINE)
+
+# Frontmatter block at the very start of a converted .mdx file.
+_FRONTMATTER_RE = re.compile(r'\A---\n.*?\n---\n', re.DOTALL)
+
+
+def hoist_deprecation_callouts(docs_root):
+    """Convert inline `Deprecated` markers into hoisted Mintlify <Warning>s.
+
+    TypeDoc renders `@deprecated` as a plain inline label after the Returns
+    block, which is easy to overlook. For each `Deprecated` marker we:
+      1. Replace it with a Mintlify <Warning> callout for visual weight.
+      2. Move it directly under the nearest preceding symbol heading
+         (H1-H3) so it's the first thing a reader sees for that symbol.
+    """
+    docs_root = Path(docs_root)
+    targets = list(docs_root.rglob("*.mdx"))
+    landing = docs_root.parent / "typescript-sdk.mdx"
+    if landing.exists():
+        targets.append(landing)
+
+    updated = 0
+    for mdx_file in targets:
+        original = mdx_file.read_text()
+        new_content = _hoist_deprecations_in_text(original)
+        if new_content != original:
+            mdx_file.write_text(new_content)
+            updated += 1
+
+    if updated:
+        print(f"  ✓ Hoisted deprecation callouts in {updated} file(s)")
+
+
+def _hoist_deprecations_in_text(content):
+    deprecations = list(_DEPRECATED_BLOCK_RE.finditer(content))
+    if not deprecations:
+        return content
+
+    headings = list(_SYMBOL_HEADING_RE.finditer(content))
+
+    # A page-level deprecation can precede every heading (the H1 was already
+    # moved into frontmatter during conversion), so the fallback anchor must
+    # sit after the frontmatter, never at position 0.
+    fm = _FRONTMATTER_RE.match(content)
+    default_anchor = fm.end() if fm else 0
+
+    edits = []
+    inserts_by_pos = {}
+
+    for dep in deprecations:
+        message = dep.group(2).strip()
+        warning = f'\n\n<Warning>\n  **Deprecated.** {message}\n</Warning>'
+
+        # An `## Deprecated` (H2) section deprecates the page's own symbol —
+        # its H1 heading is already gone (moved into frontmatter), and any H2
+        # headings preceding it (`## Parameters`, `## Examples`, ...) are
+        # sections of the same symbol, not other symbols. Hoist it to the top
+        # of the page. Deeper levels (H4/H5) belong to a member documented
+        # under an H2/H3 heading, so those anchor to the nearest one.
+        if dep.group(1) == '##':
+            anchor = default_anchor
+        else:
+            anchor = default_anchor
+            for h in headings:
+                if h.start() < dep.start():
+                    anchor = h.end()
+                else:
+                    break
+
+        edits.append((dep.start(), dep.end(), ''))
+        # Heading-anchored inserts land before the blank line that already
+        # follows the heading; a top-of-page insert lands right before the
+        # first content line, so it needs its own trailing blank line to
+        # keep the following markdown block separate from the JSX element.
+        if anchor == default_anchor:
+            warning += '\n'
+        inserts_by_pos.setdefault(anchor, []).append(warning)
+
+    for pos, warns in inserts_by_pos.items():
+        edits.append((pos, pos, ''.join(warns)))
+
+    # Reverse-order application keeps earlier offsets valid.
+    edits.sort(key=lambda e: (e[0], e[1]), reverse=True)
+
+    for start, end, replacement in edits:
+        content = content[:start] + replacement + content[end:]
+
+    return content
 
 
 def cleanup_temp_dirs(*paths):
@@ -526,7 +1458,7 @@ def main():
     original_cwd = os.getcwd()
     
     # Download Weave source
-    weave_source = download_weave_source(weave_version)
+    weave_source = download_weave_source("drtangible/wip-test-inline-tag")
     
     try:
         # Set up TypeScript project

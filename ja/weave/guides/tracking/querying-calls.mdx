@@ -47,7 +47,7 @@ UI の外部で Calls をフィルター、並べ替え、または処理する�
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript API を使用して Calls を取得するには、[`client.getCalls`](/ja/weave/reference/typescript-sdk/classes/weaveclient#getcalls) メソッドを使用します。
+    TypeScript API を使用して Calls を取得するには、[`client.getCalls`](/ja/weave/reference/typescript-sdk/interfaces/weaveclient#getcalls) メソッドを使用します。
 
     ```typescript lines
     import * as weave from 'weave'
@@ -181,8 +181,7 @@ Call のプロパティとフィールドの詳細については、[Call スキ
   print(json.dumps(response.json(), indent=2))
   ```
 
-  ```typescript twoslash TypeScript lines {6-7,13-20}
-  // @noErrors
+  ```typescript TypeScript lines {6-7,13-20}
   const url = "https://trace.wandb.ai/calls/stats";
 
   const payload = {

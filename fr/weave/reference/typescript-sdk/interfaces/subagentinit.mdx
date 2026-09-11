@@ -1,34 +1,51 @@
 ---
-title: "Interface : SubAgentInit"
+title: "SubAgentInit"
 description: "Référence du SDK TypeScript"
 ---
 
-[weave](../) / SubAgentInit
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<div id="table-of-contents">
-  ## Table des matières
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L29" />
+
+<div id="extends">
+  ## Étend
 </div>
+
+* `SpanInitBase`
 
 <div id="properties">
-  ### Propriétés
+  ## Propriétés
 </div>
 
-* [model](./subagentinit#model)
-* [nom](./subagentinit#name)
+<div id="agentdescription">
+  ### agentDescription
+</div>
 
-## Propriétés
+> `facultatif` **agentDescription**: `string`
+
+***
+
+<div id="agentid">
+  ### agentId
+</div>
+
+> `facultatif` **agentId** : `string`
+
+***
+
+<div id="agentversion">
+  ### agentVersion
+</div>
+
+> `facultatif` **agentVersion**: `string`
+
+***
 
 <div id="model">
   ### model
 </div>
 
-• `Facultatif` **model**: `string`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[genai/subagent.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L15)
+> `facultatif` **model**: `string`
 
 ***
 
@@ -36,10 +53,26 @@ description: "Référence du SDK TypeScript"
   ### nom
 </div>
 
-• **nom**: `string`
+> **nom** : `string`
 
-<div id="defined-in">
-  #### Défini dans
+***
+
+<div id="starttime">
+  ### startTime
 </div>
 
-[genai/subagent.ts:14](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/subagent.ts#L14)
+> `facultatif` **startTime**: `TimeInput`
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+`SpanInitBase.startTime`
+
+***
+
+<div id="systeminstructions">
+  ### systemInstructions
+</div>
+
+> `facultatif` **systemInstructions**: `string`[]

@@ -1,6 +1,6 @@
 ---
 title: "Artifacts"
-tag: "14"
+tag: "16"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -17,6 +17,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   Pour enregistrer des modèles dans un sweep, créez un artefact de modèle pour le sweep. Chaque version représente un run différent du sweep. ...
 </Card>
 
+<Card title="Comment puis-je supprimer de nombreux artefacts en une seule fois ?" href="/fr/support/models/articles/how-do-i-delete-many-artifacts-at-once" arrow="true" horizontal>
+  Lorsque vous devez supprimer de nombreuses versions d’artefact, par exemple pour réduire l’utilisation du stockage, utilisez l’API publique de W&amp;B au lieu de W ...
+</Card>
+
 <Card title="Comment puis-je désactiver W&B pendant que je teste mon code ?" href="/fr/support/models/articles/how-do-i-disable-wandb-when-testing-my-code" arrow="true" horizontal>
   Pour configurer W&amp;B afin qu’il n’effectue aucune opération pendant les tests, utilisez wandb.init(mode=&quot;disabled&quot;) ou définissez WANDB&#95;MODE=disabled. Même lorsque vous utilisez w ...
 </Card>
@@ -27,6 +31,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="Comment puis-je enregistrer un artefact dans un run existant ?" href="/fr/support/models/articles/how-do-i-log-an-artifact-to-an-existing-" arrow="true" horizontal>
   Parfois, vous devez marquer un artefact comme la sortie d’un run précédemment enregistré. Par exemple, vous pouvez générer un nouveau m ...
+</Card>
+
+<Card title="Comment puis-je parcourir de grands résultats d’API dans W&B ?" href="/fr/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
+  Vous pouvez parcourir les résultats de l’API par pages en utilisant le modèle standard d’itérateur paresseux et le paramètre per&#95;page. De plus, vous pouvez u ...
 </Card>
 
 <Card title="Comment puis-je enregistrer le code ?‌" href="/fr/support/models/articles/how-do-i-save-code" arrow="true" horizontal>
@@ -53,8 +61,8 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   Par défaut, W&amp;B télécharge les artefacts dans le dossier artifacts/. Pour modifier l’emplacement : transmettez le chemin à wandb.Artifact(). ...
 </Card>
 
-<Card title="Qui a accès à mes artefacts ?" href="/fr/support/models/articles/who-has-access-to-my-artifacts" arrow="true" horizontal>
-  Cette page explique comment W&amp;B détermine l’accès aux artefacts, afin que vous puissiez savoir qui, dans votre organisation, peut les lire ou les modifier ...
+<Card title="Qui peut accéder à mes artefacts ?" href="/fr/support/models/articles/who-has-access-to-my-artifacts" arrow="true" horizontal>
+  Cette page explique comment W&amp;B détermine l’accès aux artefacts, afin que vous sachiez qui, dans votre organisation, peut les lire ou les modifier ...
 </Card>
 
 <Card title="Pourquoi ne puis-je pas lier mon artefact au Registry ?" href="/fr/support/models/articles/cannot-link-artifact-to-registry-from-p" arrow="true" horizontal>

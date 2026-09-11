@@ -4,7 +4,7 @@ description: "W&B Weave와 이를 사용해 LLM 애플리케이션을 구축, �
 keywords: ["LLM 관측성", "에이전트 트레이싱", "프롬프트 버전 관리", "Weave Ops"]
 ---
 
-W&amp;B Weave는 신뢰할 수 있는 LLM 애플리케이션을 구축하기 위한 관측성 및 평가 플랫폼입니다. Weave를 사용하면 AI 애플리케이션이 실제로 무엇을 하고 있는지 파악하고, 성능을 측정하며, 시간이 지남에 따라 체계적으로 개선할 수 있습니다.
+W&amp;B Weave는 신뢰할 수 있는 에이전트 및 LLM 애플리케이션을 구축하기 위한 관측성 및 평가 플랫폼입니다. Weave를 사용하면 AI 애플리케이션이 실제로 무엇을 하고 있는지 파악하고, 성능을 측정하며, 시간이 지남에 따라 체계적으로 개선할 수 있습니다.
 
 LLM 애플리케이션을 구축하는 일은 기존 소프트웨어 개발과 근본적으로 다릅니다. LLM의 출력은 비결정적이어서 디버깅이 더 어렵습니다. 품질은 주관적이며 맥락에 따라 달라집니다. 프롬프트를 조금만 바꿔도 예상치 못한 동작 변화가 발생할 수 있습니다. 기존의 테스트 방식만으로는 한계가 있습니다.
 
@@ -21,21 +21,32 @@ Weave는 다음과 같은 핵심 기능을 제공합니다:
 * 사람의 판단과 어노테이션을 수집하기 위한 **피드백 수집**.
 * LLM의 안전성과 품질을 위해 프로덕션 환경에서 가드레일과 Scorer를 사용하는 **모니터링**.
 
-<div id="agentic-tracing">
+<div id="choose-a-workflow">
+  ## 워크플로 선택하기
+</div>
+
+Weave는 이 기능을 두 가지 서로 다른 워크플로를 통해 제공합니다:
+
+* 자동 에이전트 트레이싱
+* 애플리케이션의 임의의 LLM Call 및 함수를 계측하여 입력, 출력, 코드를 트레이스
+
+<div id="trace-an-agent">
   ### 에이전트 트레이싱
 </div>
 
-Weave는 세션, LLM Call, 도구 실행을 포함한 에이전트 대화의 전체 라이프사이클 전반에 대한 관측성을 제공합니다.
+Weave는 세션, LLM Call, 도구 실행을 포함한 에이전트 대화의 전체 라이프사이클 전반에 대한 에이전트 관측성을 제공합니다.
 
-에이전트를 개발 중이라면 [에이전트 트레이싱 퀵스타트](weave/agents-quickstart.mdx)를 따라 하거나, Weave SDK를 사용해 [에이전트를 트레이스하는 방법](/ko/weave/guides/tracking/trace-agents)을 알아보세요.
+에이전트 트레이싱은 [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) 및 [GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)를 기반으로 구축됩니다. 에이전트가 이미 OTel로 계측되어 있다면 코드를 다시 계측하지 않고도 기존 span을 Weave로 보낼 수 있습니다. Weave는 모든 OTel span을 받아 속성을 저장하므로 이를 쿼리할 수 있습니다. `invoke_agent` 및 `execute_tool`처럼 GenAI 에이전트 규약을 따르는 span은 **Agents** 뷰에서 대화, 턴, 도구 Call로 렌더링됩니다. 직접 만든 에이전트에서 이러한 span을 내보내는 방법을 알아보려면 [맞춤형 에이전트 퀵스타트](/ko/weave/custom-agents-quickstart)를 확인하세요.
+
+에이전트를 개발 중이라면 기본 제공 인테그레이션을 선택할 수 있는 [에이전트 인테그레이션 퀵스타트](/ko/weave/agent-integration-quickstart)부터 시작하거나, 직접 만든 에이전트를 수동으로 계측하려면 [맞춤형 에이전트 퀵스타트](/ko/weave/custom-agents-quickstart)를 따라 하세요. Weave SDK가 에이전트를 어떻게 모델링하는지 알아보려면 [에이전트를 트레이스하는 방법](/ko/weave/guides/tracking/trace-agents)을 확인하세요.
 
 Claude Code 또는 OpenAI Agent SDK와 같이 지원되는 타사 에이전트 하니스를 사용 중이라면, Weave가 별도의 코드 추가 없이 자동으로 계측합니다. 지원되는 모든 프레임워크는 [Integrations](/ko/weave/guides/integrations)에서 확인하세요.
 
-<div id="application-tracing">
-  ### 애플리케이션 트레이싱
+<div id="instrument-and-trace-functions">
+  ### 함수 계측 및 트레이싱
 </div>
 
-개별 함수 Call, 애플리케이션 코드 또는 맞춤형 로직을 트레이스하려면 Weave Ops와 Call를 사용하세요. 함수에 한 줄만 추가하면 입력, 출력, 비용, 토큰 수, 지연 시간을 추적할 수 있습니다.
+개별 함수 Call, 애플리케이션 코드 또는 맞춤형 로직을 트레이스하려면 Weave Ops와 Call를 사용하세요. 함수에 한 줄만 추가하면 입력, 출력, 비용, 토큰 수, 지연 시간을 추적할 수 있습니다. 또한 다음도 가능합니다:
 
 * 데이터가 LLM 애플리케이션 전반에서 어떻게 흐르는지 엔드 투 엔드로 추적하세요.
 * LLM 피드백을 생성하는 데 사용된 원본 문서를 확인하세요.
@@ -43,13 +54,27 @@ Claude Code 또는 OpenAI Agent SDK와 같이 지원되는 타사 에이전트 �
 
 개별 함수를 트레이스하려면 Weave [Op 트레이싱 퀵스타트](/ko/weave/quickstart)를 따르거나 Weave [Ops and Call](/ko/weave/guides/tracking/tracing) 사용법을 알아보세요.
 
-Claude Code와 같은 지원되는 타사 에이전트 프레임워크를 사용 중이라면, Weave가 추가 코드 없이 자동으로 계측합니다. 지원되는 모든 프레임워크는 [Integrations](/ko/weave/guides/integrations)에서 확인하세요.
+Weave SDK는 다양한 프레임워크와 LLM 공급자에 대해 자동 패치도 지원하며, 이를 통해 코드의 LLM Call에서 트레이스를 자동으로 캡처합니다. 지원되는 모든 공급자와 프레임워크는 [Integrations](/ko/weave/guides/integrations)에서 확인하세요.
 
-<div id="evaluations">
-  ### 평가
+<div id="when-to-use-agent-tracing-and-when-to-use-application-instrumentation">
+  ### 에이전트 트레이싱과 애플리케이션 계측을 언제 사용해야 하는지
 </div>
 
-평가를 통해 LLM 애플리케이션의 성능을 벤치마크하고 모니터링하여 품질과 안정성을 반복적으로 개선할 수 있습니다.
+관찰하려는 대상에 따라 사용할 워크플로를 선택하세요:
+
+* **에이전트를 구축하거나 실행하는 경우에는 에이전트 트레이싱을 사용하세요.** 지원되는 에이전트 하니스나 에이전트 SDK를 사용하거나, 직접 계측할 수 있는 맞춤형 에이전트를 구축한 경우에 적합합니다.
+
+* **애플리케이션 코드를 트레이싱하는 경우에는 애플리케이션 계측을 사용하세요.** RAG 파이프라인, 요약 엔드포인트, 맞춤형 비즈니스 로직처럼 대화보다는 개별 Call을 중심으로 구성된 애플리케이션에 적합합니다.
+
+각 방식은 UI의 서로 다른 위치에 트레이스를 기록합니다. 에이전트 트레이스는 **Agents** 페이지에 표시되고, `weave.op` Call은 **Traces** 페이지에 표시됩니다. 같은 Weave 프로젝트에서 두 방식을 모두 사용할 수 있지만, 각각 별도의 트레이스를 생성합니다.
+
+어디서 시작해야 할지 잘 모르겠고 시스템에 에이전트가 포함되어 있다면 [에이전트 인테그레이션 퀵스타트](/ko/weave/agent-integration-quickstart)로 에이전트 트레이싱부터 시작하세요. 그렇지 않다면 [Op 트레이싱 퀵스타트](/ko/weave/quickstart)로 시작하세요.
+
+<div id="evaluations">
+  ## 평가
+</div>
+
+평가를 통해 에이전트 또는 LLM 애플리케이션의 성능을 벤치마크하고 모니터링하여 품질과 안정성을 반복적으로 개선할 수 있습니다.
 
 * 어떤 모델 및 프롬프트 버전이 어떤 성능으로 이어졌는지 추적할 수 있습니다.
 * 하나 이상의 scoring function을 사용해 응답을 평가하는 메트릭을 정의합니다.
@@ -58,7 +83,7 @@ Claude Code와 같은 지원되는 타사 에이전트 프레임워크를 사용
 [평가 파이프라인 구축하기](/ko/weave/tutorial-eval)
 
 <div id="version-everything">
-  ### 모든 요소를 버전 관리하세요
+  ## 모든 요소를 버전 관리하세요
 </div>
 
 Weave는 프롬프트, 데이터셋, 모델 설정의 버전을 추적합니다. 문제가 생기면 정확히 무엇이 바뀌었는지 확인할 수 있습니다. 잘 작동했다면 그대로 재현할 수 있습니다.
@@ -66,7 +91,7 @@ Weave는 프롬프트, 데이터셋, 모델 설정의 버전을 추적합니다.
 [버전 관리에 대해 알아보기](/ko/weave/guides/tracking/objects)
 
 <div id="experiment-with-prompts-and-models">
-  ### 프롬프트와 모델 실험하기
+  ## 프롬프트와 모델 실험하기
 </div>
 
 API 키를 준비하고 플레이그라운드에서 프롬프트를 테스트하며 서로 다른 상용 모델의 응답을 비교해 보세요.

@@ -3,40 +3,45 @@ title: "weaveAudio"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="weaveaudio">
-  # weaveAudio
-</div>
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-▸ **weaveAudio**(`options`): [`WeaveAudio`](../interfaces/weaveaudio)
+```ts
+weaveAudio(options: object): WeaveAudio
+```
 
-WeaveAudio オブジェクトを新規作成します
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L85" />
+
+新しい WeaveAudio オブジェクトを作成します
 
 <div id="parameters">
-  #### パラメーター
+  ## パラメーター
 </div>
 
-| 名         | タイプ               | 説明                                                                                                              |
-| :-------- | :---------------- | :-------------------------------------------------------------------------------------------------------------- |
-| `options` | `WeaveAudioInput` | このメディアタイプのオプションです - data: Buffer 形式の生のオーディオデータ - audioType:  (任意) オーディオファイルの種類。現在サポートされているのは &#39;wav&#39; のみです |
+<ParamField path="options" type="object" required>
+  このメディアタイプのオプションです
+
+  * data: Buffer 形式の生のオーディオデータ
+  * audioType: (任意) オーディオファイルの種類。現在サポートされているのは &#39;wav&#39; のみです
+
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="audioType" type="&#x22;wav&#x22;" />
+
+    <ParamField path="data" type="Buffer" required />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ## 戻り値
 </div>
 
 [`WeaveAudio`](../interfaces/weaveaudio)
 
-`例`
+<div id="example">
+  ## 例
+</div>
 
-```ts
+```ts twoslash
+// @noErrors
 const audioBuffer = fs.readFileSync('path/to/audio.wav');
 const weaveAudio = weaveAudio({ data: audioBuffer });
 ```
-
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[media.ts:62](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/media.ts#L62)
-
-***

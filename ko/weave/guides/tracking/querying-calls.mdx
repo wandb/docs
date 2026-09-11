@@ -46,7 +46,7 @@ UI 외부에서 Call를 필터링, 정렬 또는 처리하려면 Weave SDK 중 �
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript API를 사용해 Call를 조회하려면 [`client.getCalls`](/ko/weave/reference/typescript-sdk/classes/weaveclient#getcalls) 메서드를 사용하세요:
+    TypeScript API를 사용해 Call를 조회하려면 [`client.getCalls`](/ko/weave/reference/typescript-sdk/interfaces/weaveclient#getcalls) 메서드를 사용하세요:
 
     ```typescript lines
     import * as weave from 'weave'
@@ -180,8 +180,7 @@ Call 데이터 자체를 조회하지 않고도 Call에 대한 메트릭을 조�
   print(json.dumps(response.json(), indent=2))
   ```
 
-  ```typescript twoslash TypeScript lines {6-7,13-20}
-  // @noErrors
+  ```typescript TypeScript lines {6-7,13-20}
   const url = "https://trace.wandb.ai/calls/stats";
 
   const payload = {

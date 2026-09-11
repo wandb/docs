@@ -16,42 +16,76 @@ keywords: ["코드 저장", "팀 가시성", "리포트 공유", "초대 제어"
   ## 모든 팀에 개인정보 보호 설정 강제 적용
 </div>
 
-조직 관리자는 계정 또는 조직 대시보드의 **Settings** 탭에 있는 **개인정보 보호** 섹션에서 조직 내 모든 팀의 개인정보 보호 설정을 강제 적용할 수 있습니다. 조직 관리자가 설정을 강제 적용하면 각 팀의 관리자는 해당 설정을 팀 내에서 구성할 수 없습니다.
+조직 관리자는 조직 설정의 **개인정보 보호** 탭에서 조직 내 모든 팀의 개인정보 보호 설정을 강제 적용할 수 있습니다. 강제 적용된 설정은 조직의 모든 팀에 적용되며, 팀 관리자는 팀 범위에서 이를 재정의할 수 없습니다. 팀 관리자가 강제 적용된 설정을 열면 W&amp;B는 다음 메시지를 표시합니다: &quot;This setting is locked because it&#39;s enforced org-wide. To make changes, please contact your org admin.&quot;
 
-* **팀 가시성 제한 강제 적용**: 조직 전체에서 멤버가 아닌 사용자에게 모든 팀를 숨깁니다.
-* **향후 프로젝트에 대한 개인정보 보호 강제 적용**: 모든 팀의 모든 새 프로젝트를 비공개 또는 [제한됨](./iam/access-management/restricted-projects)으로 설정하도록 요구합니다.
-* **초대 제어 강제 적용**: 관리자가 아닌 사용자가 어떤 팀에도 멤버를 초대하지 못하도록 합니다.
-* **Reports 공유 제어 강제 적용**: 비공개 프로젝트에서 Reports의 공개 공유를 비활성화하고 기존 매직 링크도 비활성화합니다.
-* **팀 자동 참여 제한 강제 적용**: 조직 이메일 도메인이 일치하는 Users가 어떤 팀에도 자동으로 참여하지 못하도록 제한합니다.
-  <Note>이 설정은 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) 배포에서만 사용할 수 있습니다.</Note>
-* **기본 코드 저장 제한 강제 적용**: 모든 팀에서 기본적으로 코드 저장을 비활성화합니다.
-
-조직 개인정보 보호 설정을 열려면:
+조직 개인정보 보호 설정을 열려면 다음 단계를 수행하세요:
 
 1. 조직 관리자로 로그인하세요.
 2. Multi-tenant Cloud에서는 `https://wandb.ai/account-settings/[ORGANIZATION]/settings`로 이동하세요. `[ORGANIZATION]`을 조직 이름으로 바꾸세요. Dedicated Cloud 또는 Self-Managed 배포에서는 인스턴스 조직 대시보드를 여세요. 환경별 URL은 [Add and manage users](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-users)를 참조하세요.
-3. **개인정보 보호** 섹션을 열고 **기본 코드 저장 제한 강제 적용**과 필요한 기타 조직 전체 제어를 구성하세요.
+3. 왼쪽 내비게이션에서 **개인정보 보호**를 선택하세요.
 
-변경 사항을 저장하면 강제 적용된 설정이 조직의 모든 팀에 적용되며, 팀 관리자는 더 이상 팀 범위에서 이를 재정의할 수 없습니다.
+다음 섹션에서는 **개인정보 보호** 탭의 설정을 설명합니다. 각 설정은 표시/숨기기 방식이며, W&amp;B는 변경 사항을 즉시 저장합니다.
+
+<div id="access-control">
+  ### Access Control
+</div>
+
+팀 가시성과 구성원 참여 프로세스를 관리합니다.
+
+* **Enforce team visibility restrictions**: 각 사용자는 자신이 속한 팀과 같은 팀 구성원의 프로필만 볼 수 있습니다. 소속되지 않은 팀과 사용자는 표시되지 않습니다.
+* **Prevent automatic team joining**: 조직 이메일 도메인이 일치하는 사용자라도 어떤 팀에도 자동으로 참여할 수 없으며, 반드시 명시적인 초대를 받아야 합니다.
+* **Limit invitation privileges**: Admin만 팀에 새 구성원을 초대할 수 있습니다.
+* **Restrict invitations to claimed domain**: 이메일 주소가 조직이 확보한 이메일 도메인으로 끝나는 사용자만 조직에 초대할 수 있습니다.
+  <Note>이 설정은 이메일 도메인을 확보한 Enterprise 조직에 한해 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud)에서만 표시됩니다. [Domain capture](./iam/access-management/manage-organization#domain-capture)를 참조하세요.</Note>
+* **Disable API key creation**: 사용자와 팀 service account는 새 API 키를 만들 수 없습니다. 조직 service account는 계속 키를 만들 수 있으며, 기존 키도 그대로 작동합니다. [Disable API key creation](./iam/api-keys#disable-api-key-creation)을 참조하세요.
+  <Note>이 설정은 Dedicated Cloud와 Self-Managed v0.84.0 이상에서만 표시됩니다.</Note>
+
+<div id="project-and-content-security">
+  ### 프로젝트 및 콘텐츠 보안
+</div>
+
+프로젝트 개인정보 보호 설정을 제어하고 콘텐츠 공유를 관리합니다.
+
+* **Enforce private projects**: 모든 팀의 새 프로젝트가 비공개 또는 [restricted](./iam/access-management/restricted-projects)로 설정되며, team 범위에서는 public 또는 open으로 변경할 수 없습니다.
+* **Disable public report sharing**: 비공개 프로젝트의 report에 대한 공개 공유를 해제하고 기존 공개 링크를 비활성화합니다.
+* **Disable default code saving**: 모든 팀에 대해 기본 코드 저장을 해제합니다. [Code saving](/ko/models/app/features/panels/code)을 참조하세요.
+
+<div id="smart-features">
+  ### 스마트 특성
+</div>
+
+**Smart features** 섹션에서는 LLM 기반 특성과 데이터 공유를 제어합니다. 이 섹션은 조직에 W&amp;B AI 특성에 대한 액세스 권한이 있는 경우에만 **개인정보 보호** 탭에 표시됩니다. [거버넌스 및 보안](/ko/aria/governance)을 참조하세요.
+
+<div id="aria">
+  ### ARIA
+</div>
+
+**ARIA** 섹션에서는 조직의 프로젝트 전반에서 ARIA가 수행할 수 있는 작업을 제어합니다. 이 섹션은 조직에 프로젝트 메모리가 활성화된 경우에만 **개인정보 보호** 탭에 표시됩니다.
+
+* **Enable project memory**: ARIA가 컨벤션이나 과거 수정 사항과 같은 프로젝트 세부 정보를 기억했다가 이후 대화에서 활용하도록 합니다. ARIA는 프로젝트의 메모리를 해당 프로젝트를 소유한 팀과 공유합니다. 이 설정을 끄면 ARIA는 메모리를 사용하지 않고 새로운 내용도 기록하지 않지만, 기존 메모리는 그대로 유지됩니다. [프로젝트 메모리 보기 및 관리](/ko/aria/overview#view-and-manage-project-memories)를 참조하세요.
 
 <div id="configure-privacy-settings-for-a-team">
   ## 팀의 개인정보 보호 설정 구성
 </div>
 
-설정이 조직 범위에서 강제 적용되지 않은 경우, 팀 관리자는 팀 **Settings** 탭의 **개인정보 보호** 섹션에서 자신의 팀 설정을 관리할 수 있습니다. 각 설정은 조직 범위에서 강제 적용되지 않은 경우에 한해 구성할 수 있습니다.
+조직 범위에서 강제 적용되지 않는 설정은 팀 관리자가 팀 **Settings** 페이지의 **개인정보 보호** 섹션에서 자신의 팀에 맞게 관리할 수 있습니다.
 
-* **이 팀을 모든 비구성원에게 숨기기**: 팀 구성원이 아닌 사용자에게 이 팀을 숨깁니다.
-* **앞으로 생성되는 모든 팀 Projects를 비공개로 만들기**: 팀에서 새로 생성되는 모든 Projects가 비공개가 되도록 합니다(공개 공유는 허용되지 않음).
-* **모든 팀 구성원이 다른 구성원을 초대할 수 있도록 허용하기**: 관리자뿐만 아니라 모든 팀 구성원이 새 구성원을 초대할 수 있게 합니다.
-* **비공개 프로젝트의 Reports에 대한 공개 공유 끄기**: Reports의 공개 공유를 비활성화하고 기존 매직 링크를 비활성화합니다.
-* **조직 이메일 도메인이 일치하는 사용자가 이 팀에 참여할 수 있도록 허용하기**: 동일한 이메일 도메인을 사용하는 사용자가 자동으로 팀에 참여할 수 있게 합니다.
-  <Note>이 설정은 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) 배포에서만 사용 가능합니다.</Note>
-* **기본적으로 코드 저장 활성화하기**: 팀의 모든 Runs에 대해 코드를 자동으로 저장합니다.
+팀 개인정보 보호 설정을 열려면 다음 단계를 수행하세요.
 
-팀 개인정보 보호 설정을 열려면 다음과 같이 하세요.
+1. `https://wandb.ai/[TEAM]`으로 이동합니다. `[TEAM]`은 팀 이름으로 바꾸세요.
+2. 왼쪽 내비게이션에서 **Team settings**를 선택합니다.
+3. **개인정보 보호** 섹션을 엽니다.
 
-1. `https://wandb.ai/[TEAM]`로 이동하세요. `[TEAM]`을 팀 이름으로 바꾸세요.
-2. 왼쪽 내비게이션에서 **팀 settings**를 선택하세요.
-3. **개인정보 보호** 섹션을 열고 **기본적으로 코드 저장 활성화하기**를 구성하세요.
+**개인정보 보호** 섹션에는 다음 설정이 있습니다. 변경 사항은 W&amp;B가 즉시 저장합니다.
 
-변경 사항을 저장하면 선택한 설정이 팀에 적용됩니다.
+* **Default visibility for new projects in [TEAM]**: 팀에 새로 생성되는 프로젝트에 W&amp;B가 적용하는 visibility 범위를 설정합니다. [Visibility scopes](./iam/access-management/restricted-projects#visibility-scopes)를 참조하세요.
+* **Hide this team from all non-members**: 구성원이 아닌 사용자에게 팀을 숨깁니다.
+  <Warning>팀을 숨기면 해당 팀에 속한 open 프로젝트 및 report에 대한 공개 액세스도 차단됩니다. W&amp;B는 이 설정을 적용하기 전에 확인을 요청합니다.</Warning>
+* **Make all future team projects private (public sharing not allowed)**: 팀에서 새로 생성되는 모든 프로젝트를 비공개로 만듭니다.
+* **Allow any team member to invite other members (not just admins)**: admin뿐 아니라 모든 팀 구성원이 새 구성원을 초대할 수 있도록 합니다.
+* **Disable public sharing to outside of team for reports in private projects**: 팀의 비공개 프로젝트에 있는 report의 공개 공유를 끕니다. 기존 magic link도 함께 비활성화됩니다.
+* **Automatically recommend new users with matching 이메일 도메인s (`[DOMAIN]`) join this team upon signup**: 조직이 소유권을 확인한 이메일 도메인과 email 주소가 일치하는 신규 사용자에게 가입 시 이 팀 참여를 권장합니다. W&amp;B App에서 `[DOMAIN]`은 조직이 소유권을 확인한 이메일 도메인을 가리킵니다.
+  <Note>이 설정은 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud)에서만 표시되며, 조직 관리자만 변경할 수 있습니다. 조직이 이메일 도메인의 소유권을 확인하지 않은 경우, 이 설정은 대신 조직 설정의 **Enable domain capture**로 연결됩니다. [Domain capture](./iam/access-management/manage-organization#domain-capture)를 참조하세요.</Note>
+* **Enable code saving by default**: 팀의 모든 run에 대해 코드를 자동으로 저장합니다. [Code saving](/ko/models/app/features/panels/code)을 참조하세요.
+
+여기서 구성한 설정은 이 팀에만 적용되며, 조직 내 다른 팀에는 영향을 주지 않습니다.

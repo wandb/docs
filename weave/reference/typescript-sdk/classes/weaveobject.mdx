@@ -1,107 +1,71 @@
 ---
-title: "Class: WeaveObject"
+title: "WeaveObject"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../) / WeaveObject
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L71" />
 
+## Extended by
 
-## Hierarchy
+- [`Dataset`](./dataset)
+- [`Evaluation`](./evaluation)
 
-- `WeaveObject`
+## Constructor
 
-  ↳ [`Dataset`](./dataset)
+> **new WeaveObject**(`_baseParameters`): `WeaveObject`
 
-  ↳ [`Evaluation`](./evaluation)
+### Parameters
 
-## Table of contents
+<ParamField path="_baseParameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="description" type="string" />
 
-### Constructors
+    <ParamField path="name" type="string" />
+  </Expandable>
+</ParamField>
 
-- [constructor](./weaveobject#constructor)
+### Returns
 
-### Properties
-
-- [\_\_savedRef](./weaveobject#__savedref)
-
-### Accessors
-
-- [description](./weaveobject#description)
-- [name](./weaveobject#name)
-
-### Methods
-
-- [saveAttrs](./weaveobject#saveattrs)
-
-## Constructors
-
-### constructor
-
-• **new WeaveObject**(`_baseParameters`): [`WeaveObject`](./weaveobject)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `_baseParameters` | `WeaveObjectParameters` |
-
-#### Returns
-
-[`WeaveObject`](./weaveobject)
-
-#### Defined in
-
-[weaveObject.ts:75](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L75)
+`WeaveObject`
 
 ## Properties
 
 ### \_\_savedRef
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
-
-#### Defined in
-
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L73)
+> `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
 ## Accessors
 
 ### description
 
-• `get` **description**(): `undefined` \| `string`
+#### Get Signature
 
-#### Returns
+> **get** **description**(): `string` \| `undefined`
 
-`undefined` \| `string`
+##### Returns
 
-#### Defined in
+`string` \| `undefined`
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L100)
-
-___
+***
 
 ### name
 
-• `get` **name**(): `string`
+#### Get Signature
 
-#### Returns
+> **get** **name**(): `string`
+
+##### Returns
 
 `string`
 
-#### Defined in
-
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L96)
-
 ## Methods
 
-### saveAttrs
+### saveAttrs()
 
-▸ **saveAttrs**(): `Object`
+> **saveAttrs**(): `object`
 
 #### Returns
 
-`Object`
-
-#### Defined in
-
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L77)
+`object`

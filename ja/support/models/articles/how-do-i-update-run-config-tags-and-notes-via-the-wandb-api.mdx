@@ -1,0 +1,43 @@
+---
+title: "W&B API で run の設定、タグ、メモを更新するにはどうすればよいですか？"
+keywords: ["Runs", "Experiments", "API"]
+---
+
+run の完了後は、[Public API ガイド](/ja/models/track/public-api-guide)を使用して、実験を再実行せずに設定、表示名、タグ、メモを更新できます。タグの概念と UI のワークフローについては、[Tags](/ja/models/runs/tags)を参照してください。run の実行中の設定については、[Configuration](/ja/models/track/config)を参照してください。
+
+以下の例では、保留中の変更を 1 回の API 呼び出しで保存するために `run.update()` を使用します。
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("my-entity/my-project/run_id_here")
+
+run.config["post_hoc_label"] = "baseline-v2"
+run.name = "resnet50-lr1e-3-aug-v2"
+run.tags.append("reviewed")
+run.notes = "Final baseline. Val accuracy: 92.4%."
+run.update()
+```
+
+<div id="bulk-updates">
+  ## 一括更新
+</div>
+
+多数のRunsにタグや注釈を追加するには (たとえば、sweep のすべてのRuns) 、フィルターを使って反復処理し、各runに対して `update()` を呼び出します。
+
+```python
+for run in api.runs("my-entity/my-project", filters={"sweep": "sweep_id_here"}):
+    run.tags.append("sweep-reviewed")
+    run.update()
+```
+
+各 `update()` は、それぞれ個別の API 呼び出しです。大規模なセットでは、レート制限を避けるため、Call の間に短いスリープを入れてください。
+
+***
+
+{/* 自動生成: タブバッジ */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[API](/ja/support/models/tags/api)</Badge>
+
+{/* END AUTO-GENERATED: tab badges */}

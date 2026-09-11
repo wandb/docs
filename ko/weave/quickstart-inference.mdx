@@ -9,9 +9,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prereqs.mdx";
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/quickstart-inference.ipynb" />
 
-  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/quickstart-inference.ipynb" />
 </div>
 
 이 가이드에서는 [Serverless Inference](/ko/inference)와 함께 W&amp;B Weave를 사용해 Weave의 기초를 익히는 방법을 안내합니다. Serverless Inference를 사용하면 자체 인프라를 설정하거나 여러 공급자의 API 키를 관리할 필요 없이 라이브 오픈소스 모델을 사용해 LLM 애플리케이션을 구축하고 트레이스할 수 있습니다. W&amp;B API 키를 사용하면 [Serverless Inference에서 호스팅되는 모든 모델](/ko/inference/models)과 상호작용할 수 있습니다. 이 가이드를 마치면 LLM Call을 트레이스하고, 모델을 비교하고, Weave UI에서 검토할 수 있는 평가를 실행하게 됩니다.
@@ -79,8 +79,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -187,8 +186,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -301,8 +299,7 @@ Weave의 일반적인 사용 사례 중 하나는 서로 다른 모델이 동일
   </Tab>
 
   <Tab title="TypeScript">
-    ```typescript twoslash lines
-    // @noErrors
+    ```typescript lines
     import * as weave from 'weave';
     import OpenAI from 'openai';
 

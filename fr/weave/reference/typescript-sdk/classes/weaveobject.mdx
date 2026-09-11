@@ -1,110 +1,72 @@
 ---
-title: "Classe : WeaveObject"
+title: "WeaveObject"
 description: "Référence du SDK TypeScript"
 ---
 
-[weave](../) / WeaveObject
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<div id="hierarchy">
-  ## Hiérarchie
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L71" />
+
+<div id="extended-by">
+  ## Étendu par
 </div>
 
-* `WeaveObject`
-
-  ↳ [`Jeu de données`](./dataset)
-
-  ↳ [`Évaluation`](./evaluation)
-
-<div id="table-of-contents">
-  ## Table des matières
-</div>
-
-<div id="constructors">
-  ### Constructeurs
-</div>
-
-* [constructeur](./weaveobject#constructor)
-
-<div id="properties">
-  ### Propriétés
-</div>
-
-* [&#95;&#95;savedRef](./weaveobject#__savedref)
-
-<div id="accessors">
-  ### Accesseurs
-</div>
-
-* [description](./weaveobject#description)
-* [nom](./weaveobject#name)
-
-<div id="methods">
-  ### Méthodes
-</div>
-
-* [saveAttrs](./weaveobject#saveattrs)
-
-## Constructeurs
+* [`Jeu de données`](./dataset)
+* [`Évaluation`](./evaluation)
 
 <div id="constructor">
-  ### constructor
+  ## Constructeur
 </div>
 
-• **new WeaveObject**(`_baseParameters`) : [`WeaveObject`](./weaveobject)
+> **new WeaveObject**(`_baseParameters`) : `WeaveObject`
 
 <div id="parameters">
-  #### Paramètres
+  ### Paramètres
 </div>
 
-| Nom               | Type                    |
-| :---------------- | :---------------------- |
-| `_baseParameters` | `WeaveObjectParameters` |
+<ParamField path="_baseParameters" type="objet" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="description" type="string" />
+
+    <ParamField path="nom" type="string" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### Renvoie
+  ### Renvoie
 </div>
 
-[`WeaveObject`](./weaveobject)
+`WeaveObject`
 
-<div id="defined-in">
-  #### Défini dans
+<div id="properties">
+  ## Propriétés
 </div>
-
-[weaveObject.ts:75](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L75)
-
-## Propriétés
 
 <div id="__savedref">
   ### __savedRef
 </div>
 
-• `Facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
+> `facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="defined-in">
-  #### Défini dans
+<div id="accessors">
+  ## Accesseurs
 </div>
-
-[weaveObject.ts:73](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L73)
-
-## Accesseurs
 
 <div id="description">
   ### description
 </div>
 
-• `get` **description**(): `undefined` | `string`
-
-<div id="returns">
-  #### Renvoie
+<div id="get-signature">
+  #### Signature d’obtention
 </div>
 
-`undefined` | `string`
+> **get** **description**(): `string` | `undefined`
 
-<div id="defined-in">
-  #### Défini dans
+<div id="returns-2">
+  ##### Renvoie
 </div>
 
-[weaveObject.ts:100](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L100)
+`string` | `undefined`
 
 ***
 
@@ -112,36 +74,30 @@ description: "Référence du SDK TypeScript"
   ### nom
 </div>
 
-• `get` **name**(): `string`
+<div id="get-signature-2">
+  #### Signature d’obtention
+</div>
 
-<div id="returns">
-  #### Renvoie
+> **get** **nom**(): `string`
+
+<div id="returns-3">
+  ##### Renvoie
 </div>
 
 `string`
 
-<div id="defined-in">
-  #### Défini dans
+<div id="methods">
+  ## Méthodes
 </div>
-
-[weaveObject.ts:96](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L96)
-
-## Méthodes
 
 <div id="saveattrs">
-  ### saveAttrs
+  ### saveAttrs()
 </div>
 
-▸ **saveAttrs**(): `Objet`
+> **saveAttrs**() : `objet`
 
-<div id="returns">
+<div id="returns-4">
   #### Renvoie
 </div>
 
 `objet`
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[weaveObject.ts:77](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/weaveObject.ts#L77)

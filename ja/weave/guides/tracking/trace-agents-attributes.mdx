@@ -1,0 +1,141 @@
+---
+title: "エージェント スパン に属性とイベントを設定する"
+description: "エージェント スパン（Turn、LLM、Tool、SubAgent）にカスタム属性を付与し、イベントを記録して、Weave で エージェント のアクティビティをフィルタリングおよび分析します。"
+keywords: ["set_attributes", "setAttributes", "add_event", "addEvent", "agent attributes", "conversation attributes", "OTel attributes"]
+---
+
+Weave SDK で エージェント をインストルメントすると、各 スパン オブジェクト (`Turn`、`LLM`、`Tool`、`SubAgent`) でカスタム メタデータを追加するメソッドを使用できます。これらのメソッドを使用して、ユーザー ID、テナント、experiment 名、環境ラベルなどのコンテキスト情報を エージェント スパン に付与し、そのメタデータに基づいて Weave UI で エージェント のアクティビティをフィルタリングしたりグループ化したりできます。
+
+このメタデータには 2 つの形式があります。
+
+* **属性**: スパン 全体に付くキーと値のプロパティです。`set_attributes()` (Python) または `setAttributes()` (TypeScript) を使用して単一の スパン に属性を付与することも、会話 が出力するすべての スパン に適用される 会話 全体の属性を設定することもできます。
+* **イベント**: スパン の存続期間中に発生する時点のマーカーです。たとえば、権限プロンプトやライフサイクル遷移などがあります。`add_event()` (Python) または `addEvent()` (TypeScript) を使用します。
+
+これらのメソッドは、[OpenTelemetry (OTel) span API](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) に対応しています。`set_attributes` は OTel の `Span.set_attributes` に対応し、`add_event` は OTel の `Span.add_event` に対応します。Weave SDK は OTel スパン を出力し、すべての属性を保存するため、それらは Weave で引き続きクエリ可能です。
+
+<div id="set-attributes-on-a-span">
+  ## スパン に属性を設定する
+</div>
+
+単一の スパン に任意の属性を付与するには、`set_attributes()` (Python) または `setAttributes()` (TypeScript) を使用します。キーが 1 つでも複数でも、辞書またはオブジェクトを渡します。このメソッドは スパン を返すため、呼び出しをチェーンできます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
+
+    with weave.start_conversation(agent_name="my-agent"):
+        with weave.start_turn(user_message="What is the weather in Tokyo?") as turn:
+            # この turn span に属性を付与します
+            turn.set_attributes({"user_id": "12345", "tenant": "acme", "env": "production"})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    import * as weave from 'weave';
+
+    await weave.init('[TEAM-NAME]/[PROJECT-NAME]');
+
+    const conversation = weave.startConversation({ agentName: 'my-agent' });
+    const turn = weave.startTurn({ agentName: 'my-agent' });
+
+    // この turn span に属性を付与します
+    turn.setAttributes({ user_id: '12345', tenant: 'acme', env: 'production' });
+
+    turn.end();
+    conversation.end();
+    ```
+  </Tab>
+</Tabs>
+
+同じメソッドは、すべての スパン クラスで使用できます。たとえば、個別の tool call や LLM Call にタグを付けることができます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    with weave.start_turn(user_message="What is the weather in Tokyo?") as turn:
+        with turn.tool(name="get_weather") as tool:
+            tool.set_attributes({"weave.display_name": "Weather lookup"})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    const turn = weave.startTurn({ agentName: 'my-agent' });
+    const tool = turn.startTool({ name: 'get_weather' });
+
+    tool.setAttributes({ 'weave.display_name': 'Weather lookup' });
+
+    tool.end();
+    turn.end();
+    ```
+  </Tab>
+</Tabs>
+
+ほとんどの属性キーは任意のカスタム メタデータですが、Weave では特別な処理のために 2 つの接頭辞を予約しています。`weave.*` 配下のキーは Weave の組み込みフィールドにマップされ、`gen_ai.*` 配下のキーは OpenTelemetry GenAI のセマンティック規約フィールドにマップされます。前述の例では、`weave.display_name` は予約済みキーであり、Agents および Traces UI で スパン の表示名を設定します。フィルターやグループ化に使用したい任意のメタデータには、`user_id` や `tenant` などの独自キーを使用してください。Weave はそれらをフィルタリング可能なカスタム属性として保存します。
+
+<div id="set-attributes-on-every-span-in-a-conversation">
+  ## 会話内のすべての スパン に属性を設定する
+</div>
+
+スパン ごとに 1 つずつ属性を付与する方法は、スパン 固有のメタデータには適していますが、メタデータの中には会話全体に適用されるものもあります。会話から生成されるすべての スパン に同じ属性を適用するには、会話の開始時に `attributes` を渡します。これは、インテグレーションのアイデンティティやデプロイ環境など、会話全体にわたるメタデータを伝播する場合に便利です。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[TEAM-NAME]/[PROJECT-NAME]")
+
+    conversation = weave.start_conversation(
+        agent_name="my-agent",
+        attributes={"weave.integration.name": "my-harness", "env": "production"},
+    )
+    # このセッション内のすべての turn、LLM、tool、sub-agent の span に、これらの属性が付与されます。
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines twoslash
+    // @noErrors
+    import * as weave from 'weave';
+
+    await weave.init('[TEAM-NAME]/[PROJECT-NAME]');
+
+    const conversation = weave.startConversation({
+      agentName: 'my-agent',
+      attributes: { 'weave.integration.name': 'my-harness', env: 'production' },
+    });
+    // この会話内のすべての turn、LLM、tool、sub-agent の span に、これらの属性が付与されます。
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  スパン ごとの属性と同様に、会話属性には独自のカスタムキーを使用してください。agent 名、conversation 名、model などのセマンティック規約フィールドは、`attributes` ではなく、対応する型付きパラメーター (`agent_name`、`conversation_name`、`model`) で設定してください。予約済みの `gen_ai.*` および `weave.*` 接頭辞配下のキーは避けてください。Weave は取り込み時にそれらを型付きフィールドとして抽出するため、予約済みキー配下のカスタム値はサポートされません。
+</Note>
+
+<div id="when-you-can-set-attributes">
+  ## 属性を設定できるタイミング
+</div>
+
+属性は、スパン の記録中、つまり スパン の開始後から終了前までの間に設定してください。Python では `with` ブロック内、TypeScript では `start*()` の後から `end()` の前までです。
+
+まだ開始していない、またはすでに終了した スパン に対して `set_attributes()`、またはそれに対応する TypeScript の関数を呼び出すと、その呼び出しは no-op となり、対処方法を示す警告がログされます。
+
+呼び出しが何も出力しない (警告も出ない) のは、OTel がインストールされていない場合、または Weave が無効になっている場合だけです。
+
+<Tip>
+  ライブ実行中ではなく、完了済みのエージェントアクティビティを 1 つのバッチとしてログする際に属性を付加するには、スパン オブジェクトで宣言されたフィールドに直接値を設定し、そのオブジェクトを `log_turn` または `log_conversation` に渡してください。詳しくは、[Log agent activity in batches](/ja/weave/guides/tracking/trace-agents-batch)を参照してください。
+</Tip>
+
+<div id="view-and-filter-attributes-in-the-ui">
+  ## UI で属性を表示・フィルターする
+</div>
+
+属性の追加は最初のステップにすぎません。属性の価値は、エージェントのアクティビティを分析する際に活用してこそ発揮されます。エージェントのスパンに属性を付けると、Weave プロジェクトの **Agents** タブで、それらの属性を使ってエージェントの会話をフィルターしたり、グループ化したりできます。詳しくは、[エージェントのアクティビティを表示する](/ja/weave/guides/tracking/view-agent-activity)をご覧ください。

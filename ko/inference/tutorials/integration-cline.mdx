@@ -29,10 +29,10 @@ npm install -g cline
 
 이 지침은 Cline CLI 버전 `2.5.1`에서 테스트되었습니다. 설치된 버전을 확인하려면 `cline version`을 실행하세요.
 
-다음으로, Cline이 Serverless Inference 엔드포인트에 인증하도록 설정하세요. 다음 명령어는 Cline이 Serverless Inference의 OpenAI 호환 엔드포인트와 Kimi K2.5 모델을 사용하도록 설정합니다. `[YOUR-API-KEY]`를 W&amp;B API 키로 바꾸세요.
+다음으로, Cline이 Serverless Inference 엔드포인트에 인증하도록 설정하세요. 다음 명령어는 Cline이 Serverless Inference의 OpenAI 호환 엔드포인트와 Kimi K2.6 모델을 사용하도록 설정합니다. `[YOUR-API-KEY]`를 W&amp;B API 키로 바꾸세요.
 
 ```bash
-cline auth -k [YOUR-API-KEY] -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
+cline auth -k [YOUR-API-KEY] -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.6
 ```
 
 모델 사용 가능 여부와 가격은 [W&amp;B Inference 모델 카탈로그](https://wandb.ai/inference)에서 확인하세요.
@@ -72,9 +72,9 @@ Activity Bar에 새로 추가된 Cline 아이콘을 클릭해 Cline 사이드바
 | API 공급자                 | `OpenAI Compatible`                 |
 | Base URL                | `https://api.inference.wandb.ai/v1` |
 | OpenAI Compatible API 키 | `[API-KEY]`                         |
-| 모델 ID                   | `moonshotai/Kimi-K2.5`              |
+| 모델 ID                   | `moonshotai/Kimi-K2.6`              |
 
-**Model Configuration**을 펼쳐 가격 정보를 입력하세요.
+**Model Configuration**을 펼쳐 가격을 입력하세요.
 
 **Continue**를 클릭하세요.
 

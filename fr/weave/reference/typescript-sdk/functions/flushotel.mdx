@@ -3,11 +3,13 @@ title: "flushOTel"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="flushotel">
-  # flushOTel
-</div>
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-▸ **flushOTel**(): `Promise`&lt;`void`&gt;
+```ts
+flushOTel(): Promise<void>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/flush.ts#L15" />
 
 Force le vidage de tous les spans GenAI mis en tampon par le processeur de spans actif.
 
@@ -20,15 +22,7 @@ d&#39;avoir des opérations en cours, ou dans des tests qui doivent observer les
 de manière synchrone.
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
 `Promise`&lt;`void`&gt;
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[genai/flush.ts:15](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/genai/flush.ts#L15)
-
-***

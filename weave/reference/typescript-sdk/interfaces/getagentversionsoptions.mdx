@@ -1,0 +1,60 @@
+---
+title: "GetAgentVersionsOptions"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L160" />
+
+Options for [WeaveClient.getAgentVersions](./weaveclient#getagentversions).
+
+## Properties
+
+### agentName
+
+> **agentName**: `string`
+
+***
+
+### limit
+
+> `optional` **limit**: `number`
+
+#### Min
+
+0
+
+#### Max
+
+10000
+
+#### Default
+
+```ts twoslash
+// @noErrors
+100
+```
+
+***
+
+### offset
+
+> `optional` **offset**: `number`
+
+#### Min
+
+0
+
+#### Default
+
+```ts twoslash
+// @noErrors
+0
+```
+
+***
+
+### sortBy
+
+> `optional` **sortBy**: [`SortBy`](./sortby)[]

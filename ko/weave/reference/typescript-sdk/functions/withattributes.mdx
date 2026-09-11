@@ -3,11 +3,13 @@ title: "withAttributes"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="withattributes">
-  # withAttributes
-</div>
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
+```ts
+withAttributes<T>(attrs: Record<string, any>, fn: () => T | Promise<T>): T | Promise<T>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L238" />
 
 현재 실행 컨텍스트에 속성을 추가하여 `fn` 내부에서 생성된 모든 calls가
 자동으로 이를 상속하도록 합니다. 속성은 트레이스 서버의 call 기록에
@@ -16,40 +18,29 @@ description: "TypeScript SDK 레퍼런스"
 
 예시:
 
-```ts
+```ts twoslash
+// @noErrors
 await withAttributes({requestId: 'abc'}, async () => {
   await myOp();
 });
 ```
 
-
 <div id="type-parameters">
-  #### 유형 매개변수
+  ## 유형 매개변수
 </div>
 
-| 이름  |
-| :-- |
-| `T` |
+<ParamField path="T" />
 
 <div id="parameters">
-  #### 매개변수
+  ## 파라미터
 </div>
 
-| 이름      | 유형                                  |
-| :------ | :---------------------------------- |
-| `attrs` | `Record`&lt;`string`, `any`&gt;     |
-| `fn`    | () =&gt; `T` | `Promise`&lt;`T`&gt; |
+<ParamField path="attrs" type="Record<string, any>" required />
+
+<ParamField path="fn" type="() => T | Promise<T>" required />
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
-`Promise`&lt;`T`&gt; | `T`
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[clientApi.ts:201](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/clientApi.ts#L201)
-
-***
+`T` | `Promise`&lt;`T`&gt;

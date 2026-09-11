@@ -3,40 +3,45 @@ title: "weaveAudio"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-<div id="weaveaudio">
-  # weaveAudio
-</div>
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-▸ **weaveAudio**(`options`): [`WeaveAudio`](../interfaces/weaveaudio)
+```ts
+weaveAudio(options: object): WeaveAudio
+```
 
-새로운 WeaveAudio 객체를 생성합니다
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L85" />
+
+새 WeaveAudio 객체를 생성합니다
 
 <div id="parameters">
-  #### 매개변수
+  ## Parameters
 </div>
 
-| Name      | Type              | 설명                                                                                                     |
-| :-------- | :---------------- | :----------------------------------------------------------------------------------------------------- |
-| `options` | `WeaveAudioInput` | 이 미디어 유형의 옵션입니다. - data: Buffer 형식의 원시 오디오 데이터 - audioType: (선택) 오디오 파일 유형으로, 현재는 &#39;wav&#39;만 지원됩니다 |
+<ParamField path="options" type="object" required>
+  이 미디어 유형의 옵션입니다
+
+  * data: Buffer 형식의 원시 오디오 데이터
+  * audioType: (선택) 오디오 파일 유형으로, 현재는 &#39;wav&#39;만 지원됩니다
+
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="audioType" type="&#x22;wav&#x22;" />
+
+    <ParamField path="data" type="Buffer" required />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 반환값
+  ## 반환값
 </div>
 
 [`WeaveAudio`](../interfaces/weaveaudio)
 
-`예시`
+<div id="example">
+  ## 예시
+</div>
 
-```ts
+```ts twoslash
+// @noErrors
 const audioBuffer = fs.readFileSync('path/to/audio.wav');
 const weaveAudio = weaveAudio({ data: audioBuffer });
 ```
-
-
-<div id="defined-in">
-  #### 정의 위치
-</div>
-
-[media.ts:62](https://github.com/wandb/weave/blob/6538626556c93d6f31ae725fdefe4e6b8b71bc2c/sdks/node/src/media.ts#L62)
-
-***
