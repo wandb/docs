@@ -11,18 +11,24 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Note>
 
 <Update label="0.52.37" description="17 avril 2026">
-  ## Ajouts
+  <div id="added">
+    ## Ajouts
+  </div>
 
   * Les intégrations OpenTelemetry suivent les dernières conventions sémantiques.
   * Les calculs de coûts et les intégrations de fournisseurs incluent l’utilisation des jetons de cache.
 
-  ## Modifications
+  <div id="changed">
+    ## Modifications
+  </div>
 
   * Amélioration des performances de certaines requêtes d’appels grâce à la possibilité d’ignorer une sous-requête imbriquée.
   * `ClassifierMonitor` est exporté depuis le package `weave` de premier niveau.
   * L’API des appels accepte un paramètre `query` facultatif pour un filtrage plus riche.
 
-  ## Correctifs
+  <div id="fixed">
+    ## Correctifs
+  </div>
 
   * Correction du SQL de l’API des résultats d’évaluation pour certaines combinaisons de filtres.
   * Correction d’un bug où le SDK TypeScript pouvait supprimer à tort le schéma d’URL de `WANDB_BASE_URL`.
@@ -35,19 +41,25 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.36" description="1er avril 2026">
-  ## Ajouts
+  <div id="added-2">
+    ## Ajouts
+  </div>
 
   * Les requêtes d’appels peuvent résoudre des noms d’utilisateur lisibles par l’humain.
   * `ref.get()` fonctionne sans initialiser explicitement le client dans certains flux.
   * API et chemins de stockage pour les résultats d’évaluation textuels, y compris une meilleure gestion des grands ensembles d’évaluation.
 
-  ## Modifications
+  <div id="changed-2">
+    ## Modifications
+  </div>
 
   * LiteLLM est épinglé pour assurer la compatibilité avec les intégrations groupées.
   * Moonshot est disponible comme fournisseur de modèles.
   * L’infrastructure sous-jacente de journal à écriture anticipée améliore la durabilité des écritures de traces.
 
-  ## Correctifs
+  <div id="fixed-2">
+    ## Correctifs
+  </div>
 
   * Correction d’un bug où l’abandon d’un générateur de streaming pouvait faire remonter `GeneratorExit` à tort.
   * Correction de la désérialisation lorsque les objets stockés incluent des champs de métadonnées supplémentaires.
@@ -58,17 +70,23 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.35" description="19 mars 2026">
-  ## Ajouts
+  <div id="added-3">
+    ## Ajouts
+  </div>
 
   * Prise en charge du journal à écriture anticipée pour l’ingestion des traces.
   * Requêtes de statistiques de feedback pour l’analyse des données de feedback.
 
-  ## Modifications
+  <div id="changed-3">
+    ## Modifications
+  </div>
 
   * `Ref.uri` peut être lu comme une propriété (`ref.uri`) sans appeler `ref.uri()`.
   * Vous pouvez configurer la taille maximale de l’historique de scoring temporisé via des variables d’environnement.
 
-  ## Correctifs
+  <div id="fixed-3">
+    ## Correctifs
+  </div>
 
   * Correction du transtypage ClickHouse pour les valeurs de filtre numériques négatives.
   * Correction des erreurs du moteur de base de données répliqué lors des migrations sur cluster.
@@ -79,12 +97,16 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.33" description="12 mars 2026">
-  ## Ajouts
+  <div id="added-4">
+    ## Ajouts
+  </div>
 
   * Méthodes du SDK Python et modèles HTTP pour les tags et alias d’objets.
   * Instrumentation pour l’API Realtime d’OpenAI, y compris les appels d’outil ainsi que la capture facultative d’audio, de texte et de voix (voir les exemples TypeScript dans les notes de version amont).
 
-  ## Correctifs
+  <div id="fixed-4">
+    ## Correctifs
+  </div>
 
   * Correction de l’accumulation des complétions de streaming Anthropic dans les traces.
   * Correction des requêtes `PUT` authentifiées dans `RemoteHTTPTraceServer`.
@@ -92,18 +114,24 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.31" description="10 mars 2026">
-  ## Ajouts
+  <div id="added-5">
+    ## Ajouts
+  </div>
 
   * Prise en charge par le serveur de traces des tags et alias sur les objets stockés.
   * Intégration de tracing pour Claude Agents.
   * Horodatages et métriques de délai avant le premier jeton pour les sessions Realtime.
   * Les moniteurs peuvent utiliser des évaluateurs fusionnés.
 
-  ## Modifications
+  <div id="changed-4">
+    ## Modifications
+  </div>
 
   * Amélioration des performances d’OpenTelemetry grâce à un cache inter-requêtes de références d’opération.
 
-  ## Correctifs
+  <div id="fixed-5">
+    ## Correctifs
+  </div>
 
   * Correction de plusieurs problèmes dans la construction des requêtes de coût, notamment l’échappement des champs internes et les configurations ClickHouse distribuées.
   * Correction de la gestion de l’intégration LangChain pour les objets `Run` de Pydantic v2.
@@ -112,17 +140,23 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.30" description="10 mars 2026">
-  ## Ajouts
+  <div id="added-6">
+    ## Ajouts
+  </div>
 
   * API de backfill des scores pour recalculer les scores stockés.
   * Suivi des requêtes Gemini dans le SDK TypeScript.
 
-  ## Modifications
+  <div id="changed-5">
+    ## Modifications
+  </div>
 
   * Partitionnement des tables d’appels distribuées par shard selon `trace_id` ou `project_id` afin d’améliorer les performances des requêtes.
   * Simplification des plans de requête `calls_complete` pour réduire la latence.
 
-  ## Correctifs
+  <div id="fixed-6">
+    ## Correctifs
+  </div>
 
   * Correction d’un bug qui empêchait parfois le rendu des médias Gemini dans l’interface Weave.
   * Les insertions par lot OpenTelemetry utilisent désormais des insertions asynchrones dans ClickHouse.
@@ -131,7 +165,9 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.29" description="27 février 2026">
-  ## Ajouts
+  <div id="added-7">
+    ## Ajouts
+  </div>
 
   * Les API d’utilisation exposent les métadonnées des appels non terminés.
   * Intégration facultative de `python-magic` pour une détection MIME plus riche.
@@ -139,12 +175,16 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
   * Prise en charge du schéma pour les tags et alias sur les objets Weave.
   * API de requête `eval_results` structurée pour les tableaux d’évaluation.
 
-  ## Modifications
+  <div id="changed-6">
+    ## Modifications
+  </div>
 
   * Amélioration de l’indexation en stockant les horodatages sous forme de chaînes dans ClickHouse.
   * Réduction du travail dupliqué lors de la création par lots de fichiers pendant l’upsert d’appels.
 
-  ## Correctifs
+  <div id="fixed-7">
+    ## Correctifs
+  </div>
 
   * Correction d’un bug à cause duquel les générateurs ne respectaient pas les taux d’échantillonnage configurés.
   * Correction de la mise en mémoire tampon afin que les flux soient vidés immédiatement à la fin d’un appel.
@@ -153,18 +193,24 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.28" description="14 février 2026">
-  ## Ajouts
+  <div id="added-8">
+    ## Ajouts
+  </div>
 
   * Les attributs de ressource OpenTelemetry peuvent transporter des variables W&amp;B de run et de project.
   * L’ORM prend en charge les comparaisons `$lt` et `$lte`.
   * Les projects OpenTelemetry peuvent écrire directement dans la table `calls_complete`.
   * Améliorations de disponibilité générale pour le tracing OpenAI Realtime.
 
-  ## Modifications
+  <div id="changed-7">
+    ## Modifications
+  </div>
 
   * Amélioration des performances des scans de tables et des requêtes de statistiques d’appels.
 
-  ## Correctifs
+  <div id="fixed-8">
+    ## Correctifs
+  </div>
 
   * Correction du filtrage des appels par ID de thread, y compris les cas où les filtres étaient incorrectement éliminés par optimisation.
   * Correction des mises à jour idempotentes de l’état de la file d’annotation.
@@ -173,18 +219,24 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.26" description="3 février 2026">
-  ## Ajouts
+  <div id="added-9">
+    ## Ajouts
+  </div>
 
   * API de statistiques d’utilisation, ainsi que les points de terminaison `/trace/usage` et `/calls/usage` pour l’utilisation agrégée.
   * Indicateur facultatif de mode performance pour les déploiements à haut débit.
   * Correctif pour l’analyse structurée Anthropic.
   * Les vues enregistrées prennent en charge un champ `column_order`.
 
-  ## Modifications
+  <div id="changed-8">
+    ## Modifications
+  </div>
 
   * Amélioration de l’optimisation `PREWHERE` pour les requêtes sur cluster distribué.
 
-  ## Correctifs
+  <div id="fixed-9">
+    ## Correctifs
+  </div>
 
   * Correction d’un bug à cause duquel des insertions ClickHouse échouées pouvaient laisser fuiter des lignes mises en mémoire tampon.
   * Correction d’un bug à cause duquel l’importation d’IPython au chargement pouvait ralentir les démarrages à froid.
@@ -193,7 +245,9 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.25" description="20 janvier 2026">
-  ## Correctifs
+  <div id="fixed-10">
+    ## Correctifs
+  </div>
 
   * Suppression de la capture redondante des réponses HTTP dans certaines intégrations.
   * Le tracing Google GenAI enregistre désormais les instructions système.
@@ -201,7 +255,9 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.24" description="15 janvier 2026">
-  ## Ajouts
+  <div id="added-10">
+    ## Ajouts
+  </div>
 
   * API utilitaires TypeScript pour travailler avec les prompts dans le SDK Node.
   * Le serveur de traces convertit automatiquement et en toute sécurité les charges utiles Base64 lorsque c’est approprié.
@@ -209,7 +265,9 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
   * Paramètre `redact_pii_exclude_fields` pour affiner le masquage des PII.
   * Entrées Audio dans `LLMAsAJudgeScorer` et métadonnées d’opération enrichies (types et couleurs) pour les intégrations.
 
-  ## Correctifs
+  <div id="fixed-11">
+    ## Correctifs
+  </div>
 
   * Correction des caractères non valides qui bloquaient la création d’opérations dans certains cas limites.
   * Correction de la gestion des proxys HTTP et HTTPS pour le client HTTPX.
@@ -217,11 +275,15 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.23" description="8 janvier 2026">
-  ## Ajouts
+  <div id="added-11">
+    ## Ajouts
+  </div>
 
   * Fonctions utilitaires de parsing pour les entrées et sorties de l’instrumentation Logfire Pydantic AI.
 
-  ## Correctifs
+  <div id="fixed-12">
+    ## Correctifs
+  </div>
 
   * Correction de l’ordre non déterministe pour les évaluations sur de grands tableaux.
   * Correction des requêtes de coût qui omettaient les jetons d’entrée et de sortie.
@@ -229,17 +291,23 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
 </Update>
 
 <Update label="0.52.22" description="8 janvier 2026">
-  ## Ajouts
+  <div id="added-12">
+    ## Ajouts
+  </div>
 
   * Les prompts et les variables de template de `LLMStructuredCompletionModels` sont conservés lors des appels de complétion.
 
-  ## Correctifs
+  <div id="fixed-13">
+    ## Correctifs
+  </div>
 
   * Correction de problèmes de compatibilité liés à l’import de ClickHouse dans certains environnements.
 </Update>
 
 <Update label="0.52.20" description="26 novembre 2025">
-  ## Ajouts
+  <div id="added-13">
+    ## Ajouts
+  </div>
 
   * Les API de streaming de complétion acceptent les prompts et les variables de template.
   * `ObjectRef.from_uri` reconstruit des objets à partir d’URI Weave.
@@ -247,7 +315,9 @@ Cette page inclut les notes de version du [SDK Python Weave](https://pypi.org/pr
   * Prise en charge élargie de l’intégration Bedrock Agents.
   * Fonction utilitaire `withAttributes` du SDK TypeScript pour les métadonnées de span.
 
-  ## Correctifs
+  <div id="fixed-14">
+    ## Correctifs
+  </div>
 
   * Correction d’une fuite de mémoire dans le processeur de Tracing OpenAI Agents.
   * Correction d’un bug où les refs pouvaient encore publier lorsque Weave était désactivé.

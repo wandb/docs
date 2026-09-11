@@ -3,177 +3,251 @@ title: "op"
 description: "Référence du SDK TypeScript"
 ---
 
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
 <div id="call-signature">
+  ## Signature d’appel
+</div>
+
+```ts
+op<T>(fn: T, options?: object): Op<T>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392" />
+
+<div id="type-parameters">
+  ### Paramètres de type
+</div>
+
+<ParamField path="T" type="extends (...args) => any" />
+
+<div id="parameters">
+  ### Paramètres
+</div>
+
+<ParamField path="fn" type="T" required />
+
+<ParamField path="options" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      Attributs par défaut appliqués à chaque appel créé par cette op. Les intégrations
+      renseignent cette valeur pour marquer la provenance `attributes.integration`. Fusionnés sous `kind`/
+      `color`, qui ont la priorité en cas de conflit de clé.
+    </ParamField>
+
+    <ParamField path="bindThis" type="WeaveObject">
+      Voir [`WeaveObject`](../classes/weaveobject).
+    </ParamField>
+
+    <ParamField path="callDisplayName" type="(...args) => string" />
+
+    <ParamField path="isDecorator" type="boolean" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="opColor" type="string">
+      Couleur personnalisée de l’opération dans l’interface utilisateur
+    </ParamField>
+
+    <ParamField path="opKind" type="string">
+      Type d’opération (par exemple, &#39;llm&#39;, &#39;agent&#39;, &#39;tool&#39;, &#39;search&#39;) utilisé pour la catégorisation dans l’interface utilisateur
+    </ParamField>
+
+    <ParamField path="originalFunction" type="T" />
+
+    <ParamField path="parameterNames" type="&#x22;useParam0Object&#x22; | string[]" />
+
+    <ParamField path="shouldAdoptThis" type="boolean" />
+
+    <ParamField path="streamReducer" type="object">
+      Type complet : `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
+
+      <Expandable title="propriétés" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
+
+        <ParamField path="initialStateFn" type="() => any" required />
+
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
+
+<div id="returns">
+  ### Renvoie
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="call-signature-2">
+  ## Signature d’appel
+</div>
+
+```ts
+op<T>(thisArg: any, fn: T, options?: object): Op<T>
+```
+
+<div id="type-parameters-2">
+  ### Paramètres de type
+</div>
+
+<ParamField path="T" type="extends (...args) => any" />
+
+<div id="parameters-2">
+  ### Paramètres
+</div>
+
+<ParamField path="thisArg" type="any" required />
+
+<ParamField path="fn" type="T" required />
+
+<ParamField path="options" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      Attributs par défaut appliqués à chaque appel créé par cette op. Les intégrations
+      renseignent cette valeur pour inscrire la provenance `attributes.integration`. Ils sont fusionnés sous `kind`/
+      `color`, qui l’emportent en cas de conflit de clé.
+    </ParamField>
+
+    <ParamField path="bindThis" type="WeaveObject">
+      Voir [`WeaveObject`](../classes/weaveobject).
+    </ParamField>
+
+    <ParamField path="callDisplayName" type="(...args) => string" />
+
+    <ParamField path="isDecorator" type="boolean" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="opColor" type="string">
+      Couleur personnalisée de l’opération dans l’interface utilisateur
+    </ParamField>
+
+    <ParamField path="opKind" type="string">
+      Le type d’opération (par exemple, &#39;llm&#39;, &#39;agent&#39;, &#39;tool&#39;, &#39;search&#39;) utilisé pour la catégorisation dans l’interface utilisateur
+    </ParamField>
+
+    <ParamField path="originalFunction" type="T" />
+
+    <ParamField path="parameterNames" type="&#x22;useParam0Object&#x22; | string[]" />
+
+    <ParamField path="shouldAdoptThis" type="boolean" />
+
+    <ParamField path="streamReducer" type="object">
+      Type complet : `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
+
+      <Expandable title="propriétés" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
+
+        <ParamField path="initialStateFn" type="() => any" required />
+
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-2">
+  ### Renvoie
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="call-signature-3">
   ## Signature d&#39;appel
 </div>
 
-> **op**&lt;`T`&gt;(`fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+```ts
+op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>
+```
 
-Défini dans : [src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L380)
-
-<div id="type-parameters">
-  ### Paramètres de type
-</div>
-
-<div id="t">
-  #### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
-
-<div id="parameters">
+<div id="parameters-3">
   ### Paramètres
 </div>
 
-<div id="fn">
-  #### fn
-</div>
+<ParamField path="target" type="object" required />
 
-`T`
+<ParamField path="propertyKey" type="string | symbol" required />
 
-<div id="options">
-  #### options ?
-</div>
+<ParamField path="descriptor" type="TypedPropertyDescriptor<any>" required />
 
-`OpOptions`&lt;`T`&gt;
-
-<div id="returns">
-  ### Renvoie
-</div>
-
-[`Op`](../type-aliases/op)&lt;`T`&gt;
-
-## Signature d’appel
-
-> **op**&lt;`T`&gt;(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
-
-Défini dans : [src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L385)
-
-<div id="type-parameters">
-  ### Paramètres de type
-</div>
-
-<div id="t">
-  #### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
-
-<div id="parameters">
-  ### Paramètres
-</div>
-
-<div id="thisarg">
-  #### thisArg
-</div>
-
-`any`
-
-<div id="fn">
-  #### fn
-</div>
-
-`T`
-
-<div id="options">
-  #### options ?
-</div>
-
-`OpOptions`&lt;`T`&gt;
-
-<div id="returns">
-  ### Renvoie
-</div>
-
-[`Op`](../type-aliases/op)&lt;`T`&gt;
-
-## Signature d’appel
-
-> **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`&lt;`any`&gt;
-
-Défini dans : [src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L391)
-
-<div id="parameters">
-  ### Paramètres
-</div>
-
-<div id="target">
-  #### target
-</div>
-
-`objet`
-
-<div id="propertykey">
-  #### propertyKey
-</div>
-
-`string` | `symbol`
-
-<div id="descriptor">
-  #### descriptor
-</div>
-
-`TypedPropertyDescriptor`&lt;`any`&gt;
-
-<div id="returns">
+<div id="returns-3">
   ### Renvoie
 </div>
 
 `TypedPropertyDescriptor`&lt;`any`&gt;
 
-## Signature d’appel
+<div id="call-signature-4">
+  ## Signature d’appel
+</div>
 
-> **op**&lt;`T`&gt;(`value`, `context`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+```ts
+op<T>(value: T, context: object): Op<T>
+```
 
-Défini dans : [src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L397)
-
-<div id="type-parameters">
+<div id="type-parameters-3">
   ### Paramètres de type
 </div>
 
-<div id="t">
-  #### T
-</div>
+<ParamField path="T" type="extends (...args) => any" />
 
-`T` *extends* (...`args`) =&gt; `any`
-
-<div id="parameters">
+<div id="parameters-4">
   ### Paramètres
 </div>
 
-<div id="value">
-  #### valeur
-</div>
+<ParamField path="value" type="T" required />
 
-`T`
+<ParamField path="context" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="access" type="{ get: Function; has: boolean; }">
+      <Expandable title="propriétés" defaultOpen>
+        <ParamField path="get" required />
 
-<div id="context">
-  #### context
-</div>
+        <ParamField path="has" required />
+      </Expandable>
+    </ParamField>
 
-`MethodDecoratorContext`
+    <ParamField path="class" type="Function" />
 
-<div id="returns">
+    <ParamField path="kind" type="&#x22;method&#x22;" required />
+
+    <ParamField path="metadata" type="any" />
+
+    <ParamField path="name" type="string | symbol" required />
+
+    <ParamField path="private" type="boolean" />
+
+    <ParamField path="static" type="boolean" />
+
+    <ParamField path="addInitializer" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
   ### Renvoie
 </div>
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-## Signature d’appel
+<div id="call-signature-5">
+  ## Signature d’appel
+</div>
 
-> **op**(`options`): `MethodDecorator`
+```ts
+op(options: Partial<OpOptions<any>>): MethodDecorator
+```
 
-Défini dans : [src/op.ts:402](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L402)
-
-<div id="parameters">
+<div id="parameters-5">
   ### Paramètres
 </div>
 
-#### options
+<ParamField path="options" type="Partial<OpOptions<any>>" required />
 
-`Partial`&lt;`OpOptions`&lt;`any`&gt;&gt;
-
-<div id="returns">
+<div id="returns-5">
   ### Renvoie
 </div>
 

@@ -1,0 +1,470 @@
+"""Triage, finding assembly, and report rendering."""
+
+from __future__ import annotations
+
+import tempfile
+import unittest
+# Explicit: `unittest` does not re-export `mock`, so `unittest.mock.patch` below
+# only resolved when another test module in the same run happened to import it.
+# Running this module on its own -- which its __main__ block invites -- failed.
+import unittest.mock
+from datetime import date
+from pathlib import Path
+
+from .. import build, config, docsindex, extract, finding, report, structure
+from .test_docsindex import build_temp_index
+
+FIXTURES = Path(__file__).parent / "fixtures"
+TODAY = date(2026, 8, 12)
+
+
+def make(**kw) -> finding.Finding:
+    base = dict(
+        kind=finding.KIND_RENAME,
+        surface="Members table",
+        old_string="MODELS SEAT",
+        new_string="Models Seat",
+        literal_kind="jsx",
+        literal_key="_",
+        settled=True,
+        docs={
+            "coverage": finding.COVERAGE_COVERED,
+            "replace_targets": [{"page": "a.mdx", "line": 290, "context": "bold"}],
+            "corpus_frequency": 1,
+            "code_context_only": False,
+        },
+    )
+    base.update(kw)
+    return finding.Finding(**base)
+
+
+class TestTriageLanes(unittest.TestCase):
+
+    def test_clean_rename_reaches_the_agent_lane(self):
+        self.assertEqual(finding.triage(make())[0], finding.TRIAGE_AGENT)
+
+    def test_new_setting_needs_a_human(self):
+        f = make(kind=finding.KIND_NEW_SETTING, old_string="")
+        self.assertEqual(finding.triage(f)[0], finding.TRIAGE_HUMAN)
+
+    def test_removal_of_a_documented_control_needs_a_human(self):
+        self.assertEqual(
+            finding.triage(make(kind=finding.KIND_REMOVED, new_string=""))[0],
+            finding.TRIAGE_HUMAN,
+        )
+
+    def test_gated_change_pairs_rather_than_shipping(self):
+        # Docs must not describe a control users cannot see yet.
+        self.assertEqual(finding.triage(make(not_yet_visible=True))[0], finding.TRIAGE_PAIR)
+
+    def test_unsettled_change_pairs(self):
+        self.assertEqual(finding.triage(make(settled=False))[0], finding.TRIAGE_PAIR)
+
+    def test_moved_string_pairs(self):
+        self.assertEqual(finding.triage(make(kind=finding.KIND_MOVED))[0], finding.TRIAGE_PAIR)
+
+    def test_ambiguous_pairing_pairs(self):
+        self.assertEqual(
+            finding.triage(make(signals=["ambiguous_pairing"]))[0], finding.TRIAGE_PAIR
+        )
+
+    def test_changed_slug_pairs(self):
+        self.assertEqual(finding.triage(make(signals=["url_changed"]))[0], finding.TRIAGE_PAIR)
+
+    def test_release_notes_only_pairs(self):
+        f = make(docs={**make().docs, "replace_targets": []})
+        lane, reason = finding.triage(f)
+        self.assertEqual(lane, finding.TRIAGE_PAIR)
+        self.assertIn("release notes", reason)
+
+    def test_code_context_only_pairs(self):
+        # A backticked string may be an API value rather than a control.
+        f = make(docs={**make().docs, "code_context_only": True})
+        self.assertEqual(finding.triage(f)[0], finding.TRIAGE_PAIR)
+
+    def test_too_many_pages_pairs(self):
+        f = make(docs={**make().docs, "corpus_frequency": config.MAX_DOCS_PAGES + 1})
+        self.assertEqual(finding.triage(f)[0], finding.TRIAGE_PAIR)
+
+    def test_degraded_evidence_never_reaches_agent(self):
+        f = make(degradations=["literal is interpolated or a ternary branch"])
+        self.assertEqual(finding.triage(f)[0], finding.TRIAGE_HUMAN)
+
+    def test_mixed_bold_and_prose_still_reaches_agent(self):
+        # Bold references must track the UI; prose answers to the style guide.
+        # A page ending up mixed is correct, so it must not block the lane.
+        f = make(docs={**make().docs, "all_occurrences_emphasized": False,
+                       "match_confidence": "medium"})
+        self.assertEqual(finding.triage(f)[0], finding.TRIAGE_AGENT)
+
+    def test_every_lane_gives_a_reason(self):
+        for f in (make(), make(not_yet_visible=True), make(kind=finding.KIND_NEW_SETTING)):
+            self.assertTrue(finding.triage(f)[1].strip())
+
+
+class TestFindingIdentity(unittest.TestCase):
+
+    def test_same_rename_on_different_surfaces_is_one_finding(self):
+        # Three member tables render the same column. The docs page says it
+        # once, so it is one edit.
+        a = make(surface="Organization members table")
+        b = make(surface="Team members table")
+        self.assertEqual(a.id, b.id)
+
+    def test_different_renames_are_different_findings(self):
+        self.assertNotEqual(make().id, make(old_string="WEAVE ACCESS").id)
+
+
+class BuildTestCase(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.index = build_temp_index(self._tmp.name)
+
+    def run_diff(self, diff: str, when: str, *, sha: str, message: str):
+        surviving = extract.surviving_deltas(extract.extract_deltas(diff))
+        added, removed, moved = extract.commit_net_change(surviving)
+        commit = {
+            "sha": sha,
+            "commit": {"message": message, "author": {"date": when, "name": "tester"}},
+        }
+        return build.build_findings(
+            commit, added, removed, moved, diff, self.index,
+            today=TODAY, resolve_owners=False,
+        )
+
+    def run_fixture(self, stem: str, when: str):
+        return self.run_diff(
+            (FIXTURES / f"{stem}.diff").read_text(), when,
+            sha=stem + "0" * 33, message=f"test: {stem}",
+        )
+
+
+class TestBuildSuppressesNonDrift(BuildTestCase):
+
+    def test_undocumented_rename_is_counted_not_listed(self):
+        # Renaming a label no page mentions makes nothing wrong. Listing each
+        # one buried the real findings under twenty rows of empty-state copy.
+        findings, gaps, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        listed = {f.old_string for f in findings}
+        self.assertNotIn("PROFILE", listed)
+        self.assertNotIn("EMAIL", listed)
+        self.assertIn("PROFILE", set(gaps))
+
+    def test_documented_rename_is_listed(self):
+        findings, _gaps, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        self.assertIn("MODELS SEAT", {f.old_string for f in findings})
+
+    def test_incidental_new_copy_is_not_a_finding(self):
+        findings, gaps, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        self.assertNotIn("Loading members", {f.new_string for f in findings})
+        self.assertIn("Loading members", set(gaps))
+
+    def test_new_settings_panel_is_one_row_not_many(self):
+        findings, _gaps, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
+        settings = [f for f in findings if f.kind == finding.KIND_NEW_SETTING]
+        self.assertEqual(len(settings), 1, "a new settings panel is one docs task")
+        self.assertEqual(settings[0].new_string, "Enable project memory")
+
+
+# `Billing` is a single capitalized token, so `docsindex.is_specific_enough`
+# refuses to look it up -- yet the test corpus really does say `Billing Admin`.
+# That combination is the whole point: the detector cannot claim the docs are
+# silent about a label it never searched for.
+_UNSEARCHABLE_RENAME_DIFF = (
+    "diff --git a/frontends/app/src/components/BillingPanel.tsx "
+    "b/frontends/app/src/components/BillingPanel.tsx\n"
+    "--- a/frontends/app/src/components/BillingPanel.tsx\n"
+    "+++ b/frontends/app/src/components/BillingPanel.tsx\n"
+    "@@ -10,6 +10,6 @@\n"
+    "   return (\n"
+    '-    <Tab label="Billing" />\n'
+    '+    <Tab label="Payments" />\n'
+    "   );\n"
+)
+
+
+class TestUnsearchableLiteralsAreNotCoverageGaps(BuildTestCase):
+    """A literal too generic to search is not evidence that the docs are silent.
+
+    Both populations come back from `docsindex.find` with zero occurrences, so
+    counting them together let the report assert "matches no documentation at
+    all, so nothing in the docs became wrong" about labels it had never looked
+    for. `Runs` and `Inference` are real wandb/core labels that land here.
+    """
+
+    def _run(self):
+        return self.run_diff(
+            _UNSEARCHABLE_RENAME_DIFF, "2026-07-01T13:52:32-07:00",
+            sha="c" * 40, message="test: rename a single-token label",
+        )
+
+    def test_the_premise_holds_docs_do_mention_it(self):
+        # If this ever fails the fixture has drifted and the test below proves
+        # nothing: the point is that the label IS documented.
+        self.assertTrue(
+            any("Billing" in body for body in self.index.text),
+            "corpus must mention the literal for this test to mean anything",
+        )
+        self.assertFalse(docsindex.is_specific_enough("Billing")[0])
+
+    def test_it_is_not_counted_as_an_undocumented_surface(self):
+        _findings, gaps, unattributable = self._run()
+        self.assertIn("Billing", unattributable)
+        self.assertNotIn("Billing", gaps)
+
+    def test_it_is_still_not_silently_dropped(self):
+        # Not a finding, but not invisible either -- the count is the only
+        # signal that the eligibility filter is eating real drift.
+        _findings, _gaps, unattributable = self._run()
+        self.assertTrue(unattributable)
+
+    def test_searched_and_unfound_literals_stay_in_gaps(self):
+        # The other half of the split: `PROFILE` is all-caps, so it IS searched,
+        # and it genuinely appears on no page.
+        _findings, gaps, unattributable = self.run_fixture(
+            "f4861ad", "2026-07-01T13:52:32-07:00"
+        )
+        self.assertIn("PROFILE", gaps)
+        self.assertNotIn("PROFILE", unattributable)
+
+
+class TestBuildSignals(BuildTestCase):
+
+    def test_gated_new_setting_is_flagged_not_visible(self):
+        findings, _, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
+        f = next(f for f in findings if f.kind == finding.KIND_NEW_SETTING)
+        self.assertTrue(f.not_yet_visible)
+        self.assertIsNotNone(f.gate)
+
+    def test_recent_change_is_unsettled(self):
+        findings, _, _ = self.run_fixture("e1bc1e6", "2026-08-10T10:00:00-07:00")
+        self.assertFalse(any(f.settled for f in findings))
+
+    def test_old_change_is_settled(self):
+        findings, _, _ = self.run_fixture("f4861ad", "2026-07-01T13:52:32-07:00")
+        self.assertTrue(all(f.settled for f in findings))
+
+
+# A label change inside a conditional that ALREADY existed, in a commit that
+# adds that gate's key to the ramp registry. `conditional_added` is False here,
+# so the registry-add path is the only thing that can call this not-yet-visible.
+_GATE_ADDED_DIFF = (
+    "diff --git a/frontends/app/src/components/MembersTable.tsx "
+    "b/frontends/app/src/components/MembersTable.tsx\n"
+    "--- a/frontends/app/src/components/MembersTable.tsx\n"
+    "+++ b/frontends/app/src/components/MembersTable.tsx\n"
+    "@@ -10,6 +10,6 @@\n"
+    "   const shouldShowSeats = useStatsigGateSeats(orgName);\n"
+    "   if (shouldShowSeats) {\n"
+    '-    return <Column header="MODELS SEAT" />;\n'
+    '+    return <Column header="Models Seat" />;\n'
+    "   }\n"
+)
+
+_REGISTRY_ADD = (
+    "diff --git a/frontends/app/src/util/useRampFlag.ts "
+    "b/frontends/app/src/util/useRampFlag.ts\n"
+    "--- a/frontends/app/src/util/useRampFlag.ts\n"
+    "+++ b/frontends/app/src/util/useRampFlag.ts\n"
+    "@@ -1,2 +1,3 @@\n"
+    "   | 'existing_gate'\n"
+    "+  | 'models_seat_rollout'\n"
+)
+
+
+class TestGateKeyResolution(BuildTestCase):
+    """The gate's Statsig key is not in the diff, so `build` has to resolve it.
+
+    `gate_scope` is pure and leaves `GateScope.key` unset. Until `build`
+    resolved it, `lifecycle.get(gate.key)` was always a lookup on None, so the
+    "gate entered the registry in this commit" half of the visibility signal
+    could never fire -- a label users cannot see yet was reported as live drift.
+    """
+
+    def _run(self, diff, key):
+        with unittest.mock.patch.object(
+            structure, "resolve_gate_key", return_value=key
+        ) as resolver:
+            findings, _, _ = self.run_diff(
+                diff, "2026-08-10T10:00:00-07:00",
+                sha="b" * 40, message="test: gated rename",
+            )
+        return findings, resolver
+
+    def test_gate_entering_the_registry_marks_the_finding_not_visible(self):
+        findings, _ = self._run(
+            _GATE_ADDED_DIFF + _REGISTRY_ADD, "models_seat_rollout"
+        )
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertFalse(f.gate["conditional_added"], "the `if` pre-existed")
+        self.assertTrue(f.not_yet_visible)
+
+    def test_resolved_key_names_the_gate_consistently(self):
+        # `gate:<name>` and `flag_added:<key>` described the same gate under two
+        # different identifiers while the key went unresolved.
+        findings, _ = self._run(
+            _GATE_ADDED_DIFF + _REGISTRY_ADD, "models_seat_rollout"
+        )
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertEqual("models_seat_rollout", f.gate["name"])
+        self.assertIn("gate:models_seat_rollout", f.signals)
+        self.assertIn("flag_added:models_seat_rollout", f.signals)
+
+    def test_unresolvable_key_degrades_rather_than_claiming_visibility(self):
+        # The resolver returns None on any failure. That must fall back to the
+        # hook name and leave the finding visible, not crash or over-claim.
+        findings, _ = self._run(_GATE_ADDED_DIFF + _REGISTRY_ADD, None)
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertFalse(f.not_yet_visible)
+        self.assertEqual("useStatsigGateSeats", f.gate["name"])
+
+    def test_commit_without_a_registry_change_never_reads_the_repo(self):
+        # Resolution costs a `git show` against the watched repo. No registry
+        # change means no lifecycle entry can match, so it must not be paid.
+        findings, resolver = self._run(_GATE_ADDED_DIFF, "models_seat_rollout")
+        resolver.assert_not_called()
+        f = next(f for f in findings if f.old_string == "MODELS SEAT")
+        self.assertFalse(f.not_yet_visible)
+
+    def test_one_lookup_per_hook_per_commit(self):
+        findings, resolver = self._run(
+            _GATE_ADDED_DIFF + _REGISTRY_ADD, "models_seat_rollout"
+        )
+        self.assertTrue(findings)
+        self.assertEqual(1, resolver.call_count)
+
+
+class TestSurfaceNaming(unittest.TestCase):
+
+    def test_acronyms_survive(self):
+        self.assertEqual(
+            build.surface_from_path("a/LLMAsAJudgeScorerForm.tsx"),
+            "LLM As A Judge Scorer Form",
+        )
+
+    def test_camel_case_is_split(self):
+        self.assertEqual(
+            build.surface_from_path("a/OrganizationMembersTable.tsx"),
+            "Organization Members Table",
+        )
+
+
+class TestReport(unittest.TestCase):
+
+    def _render(self, findings, gaps=0, unattributable=0):
+        return report.render(
+            findings, scanned_range="a..b", today=TODAY,
+            commits=1, ui_commits=1, candidates=1, docs_pages=10, gaps=gaps,
+            unattributable=unattributable,
+        )
+
+    def test_empty_report_says_so_explicitly(self):
+        out = self._render([])
+        self.assertIn("No drift to act on", out)
+        self.assertIn("real result", out, "an empty table must not read as a broken run")
+
+    def test_agent_rows_are_listed_first(self):
+        f = make()
+        f.triage, f.triage_reason = finding.triage(f)
+        out = self._render([f])
+        self.assertLess(out.index("Agent can fix unattended"), out.index("MODELS SEAT"))
+
+    def test_pipes_in_strings_do_not_break_the_table(self):
+        f = make(old_string="a | b", new_string="c")
+        f.triage, f.triage_reason = finding.triage(f)
+        row = [l for l in self._render([f]).splitlines() if "`a \\| b`" in l]
+        self.assertTrue(row, "pipe must be escaped or the markdown table collapses")
+
+    def test_merged_surfaces_are_disclosed(self):
+        f = make()
+        f.surfaces = ["Users table", "Team members table", "Organization members table"]
+        f.triage, f.triage_reason = finding.triage(f)
+        self.assertIn("(+2 more)", self._render([f]))
+
+    def test_gap_count_is_reported_without_rows(self):
+        f = make()
+        f.triage, f.triage_reason = finding.triage(f)
+        out = self._render([f], gaps=890)
+        self.assertIn("890", out)
+        self.assertIn("Undocumented surfaces", out)
+
+    def test_unsearchable_count_gets_its_own_section(self):
+        # Reported apart from the gap count because only the gap count supports
+        # the claim that nothing in the docs became wrong.
+        out = self._render([], gaps=12, unattributable=34)
+        self.assertIn("Undocumented surfaces", out)
+        self.assertIn("Not attributable", out)
+        self.assertIn("34", out)
+        self.assertLess(out.index("Undocumented surfaces"), out.index("Not attributable"))
+
+    def test_unsearchable_section_does_not_claim_the_docs_are_silent(self):
+        out = self._render([], unattributable=34)
+        self.assertNotIn("Undocumented surfaces", out)
+        section = out[out.index("Not attributable"):]
+        self.assertIn("never searched", section)
+        self.assertNotIn("nothing in the docs became wrong", section)
+
+    def test_gap_section_claims_only_what_was_searched(self):
+        section = self._render([], gaps=12)
+        self.assertIn("were searched for and appear on no page", section)
+
+    def test_neither_section_appears_when_both_are_zero(self):
+        out = self._render([])
+        self.assertNotIn("Undocumented surfaces", out)
+        self.assertNotIn("Not attributable", out)
+
+
+class TestLandingDate(unittest.TestCase):
+    """Settledness measures time on master, not time since authoring.
+
+    `_vendor/gitsource` reads the author date, which rebase and cherry-pick
+    preserve. A commit authored months ago and landed today would arrive
+    already older than SETTLED_DAYS and skip the churn protection entirely --
+    straight into the lane that says "safe to apply unattended".
+    """
+
+    def test_committer_date_is_preferred(self):
+        commit = {
+            "sha": "a" * 40,
+            "commit": {
+                "message": "x",
+                "author": {"name": "Ada", "date": "2026-03-01T00:00:00+00:00"},
+                "committer": {"date": "2026-08-16T00:00:00+00:00"},
+            },
+        }
+        self.assertEqual("2026-08-16T00:00:00+00:00", build._landed_date(commit))
+
+    def test_author_date_is_the_fallback(self):
+        # `scan` fills the committer date in from the clone; anything that skips
+        # that step still has to produce a date rather than raise.
+        commit = {
+            "sha": "a" * 40,
+            "commit": {
+                "message": "x",
+                "author": {"name": "Ada", "date": "2026-03-01T00:00:00+00:00"},
+            },
+        }
+        self.assertEqual("2026-03-01T00:00:00+00:00", build._landed_date(commit))
+
+    def test_a_freshly_landed_old_commit_is_not_settled(self):
+        # The bug this guards: authored in March, landed yesterday. Judged by
+        # the author date it is long settled; judged by when it reached master
+        # it is still moving.
+        commit = {
+            "sha": "a" * 40,
+            "commit": {
+                "message": "x",
+                "author": {"name": "Ada", "date": "2026-03-01T00:00:00+00:00"},
+                "committer": {"date": "2026-08-16T00:00:00+00:00"},
+            },
+        }
+        today = date(2026, 8, 17)
+        self.assertFalse(build._is_settled(build._landed_date(commit), today))
+        self.assertTrue(
+            build._is_settled(commit["commit"]["author"]["date"], today)
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

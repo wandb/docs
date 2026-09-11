@@ -20,11 +20,31 @@ date: 2026-07-23
 
 {/* new-articles:start */}
 
+<div id="september-2026">
+  ## 2026년 9월
+</div>
+
+<div id="weave">
+  ### Weave
+</div>
+
+<Card title="맞춤형 시그널 만들기" href="/ko/weave/guides/tracking/create-custom-signal/" arrow="true" horizontal>
+  직접 정의한 동작에 따라 에이전트 턴에 태그를 지정하는 맞춤형 W&amp;B Weave 시그널을 만들어 보세요.
+</Card>
+
+<div id="support">
+  ### 지원팀
+</div>
+
+<Card title="CommonJS 형식에서 Weave TypeScript 빌드가 실패하는 이유는 무엇인가요?" href="/ko/support/weave/articles/typescript-build-fails-after-commonjs-setup/" arrow="true" horizontal>
+  tsconfig.json 파일에 &quot;verbatimModuleSyntax&quot;: true가 설정되어 있으면 (TypeScript SDK 인테그레이션 가이드에 따라) W&amp;B Weave CommonJS 프로젝트를 컴파일할 때 다음 오류가 발생합니다:
+</Card>
+
 <div id="august-2026">
   ## 2026년 8월
 </div>
 
-<div id="weave">
+<div id="weave-2">
   ### Weave
 </div>
 
@@ -36,9 +56,17 @@ date: 2026-07-23
   반복 쿼리와 제한된 대역폭 환경에서 Weave 서버 응답 캐싱으로 성능을 향상하세요.
 </Card>
 
-<div id="support">
+<div id="support-2">
   ### 지원팀
 </div>
+
+<Card title="프로젝트를 다른 팀이나 조직으로 이동하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-move-a-project-to-a-different-team-or-organization/" arrow="true" horizontal>
+  W&amp;B 지원팀는 Multi-tenant Cloud에서만 프로젝트를 팀 또는 조직 간에 이동할 수 있습니다.
+</Card>
+
+<Card title="Academic과 Pro, Team, Enterprise 계정 유형 간에 어떻게 변경할 수 있나요?" href="/ko/support/models/articles/how-can-i-change-my-account-type/" arrow="true" horizontal>
+  이 페이지에서는 W&amp;B 계정 플랜을 변경하는 방법을 설명합니다.
+</Card>
 
 <Card title="임시 환경에서 run 데이터를 보존하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env/" arrow="true" horizontal>
   임시 환경에서 로컬 run 데이터와 진단 로그를 보존하려면 WANDBDIR을 영구 저장소의 디렉터리로 설정하세요.
@@ -84,7 +112,7 @@ date: 2026-07-23
   W&amp;B에서 Eval Tables를 만들고 비교하며 시각화하는 방법을 알아보세요.
 </Card>
 
-<div id="weave">
+<div id="weave-3">
   ### Weave
 </div>
 
@@ -116,7 +144,7 @@ date: 2026-07-23
   ## 2026년 6월
 </div>
 
-<div id="models">
+<div id="models-2">
   ### Models
 </div>
 
@@ -124,7 +152,7 @@ date: 2026-07-23
   LEET(Lightweight Experiment Exploration Tool) TUI를 사용해 터미널에서 로컬 W&amp;B run을 살펴보고 비교하세요.
 </Card>
 
-<div id="weave">
+<div id="weave-4">
   ### Weave
 </div>
 
@@ -200,7 +228,9 @@ date: 2026-07-23
   AI 코딩 세션을 위한 공유 대시보드입니다. 리더보드, 팀 뷰, 효율성 인사이트를 통해 Claude Code, Cursor, Codex, Gemini CLI 등의 활동, 비용, 결과를 추적하세요.
 </Card>
 
-### 지원
+<div id="support-3">
+  ### 지원
+</div>
 
 <Card title="Weave 비용 또는 토큰 추정치가 공급자와 다른 이유는 무엇인가요?" href="/ko/support/weave/articles/why-does-my-weave-cost-or-token-estimate-differ-from-my-provider/" arrow="true" horizontal>
   Weave는 LLM Call에서 캡처한 데이터를 기반으로 비용 및 토큰 사용량 추정치를 표시합니다. Weave의 수치와 공급자 청구서 간 차이는 다음과 같은 문제로 발생할 수 있습니다.
@@ -310,7 +340,7 @@ date: 2026-07-23
   ## 2026년 5월
 </div>
 
-<div id="models">
+<div id="models-3">
   ### Models
 </div>
 
@@ -334,7 +364,7 @@ date: 2026-07-23
   ## 2026년 4월
 </div>
 
-<div id="weave">
+<div id="weave-5">
   ### Weave
 </div>
 
@@ -398,7 +428,9 @@ date: 2026-07-23
   W&amp;B Serverless Sandboxes를 사용하면 Python에서 온디맨드 격리 컴퓨팅 환경을 생성하고, 사용하고, 폐기할 수 있습니다.
 </Card>
 
-### 지원
+<div id="support-4">
+  ### 지원팀
+</div>
 
 <Card title="`.call()`이 예외를 발생시키지 않는 이유는 무엇인가요?" href="/ko/support/weave/articles/weave-call-does-not-raise-exceptions/" arrow="true" horizontal>
   기본적으로 Weave의 .call() 메서드는 예외를 발생시키는 대신 캡처하여 call.exception에 저장합니다.
@@ -442,74 +474,6 @@ date: 2026-07-23
 
 <Card title="스윕 중 `anaconda 400 error`는 어떻게 해결하나요?" href="/ko/support/models/articles/anaconda-400-error-during-a-sweep/" arrow="true" horizontal>
   스윕 중 anaconda 400 오류는 최적화하려는 메트릭을 로깅하지 않았음을 의미하는 경우가 많습니다.
-</Card>
-
-<div id="march-2026">
-  ## 2026년 3월
-</div>
-
-<div id="models">
-  ### Models
-</div>
-
-<Card title="시그널 처리 및 스윕 run" href="/ko/models/sweeps/signal-handling-sweep-runs/" arrow="true" horizontal>
-  W&amp;B Sweeps가 스윕 run에서 UNIX 시그널, 종료 코드, 선점을 처리하는 방법을 알아보세요.
-</Card>
-
-<div id="weave">
-  ### Weave
-</div>
-
-<Card title="OpenAI Realtime API" href="/ko/weave/guides/integrations/openai-realtime-audio/" arrow="true" horizontal>
-  Weave를 사용하여 OpenAI Realtime API Call을 자동으로 트레이스하세요.
-</Card>
-
-<Card title="프롬프트 버전 저장 및 추적" href="/ko/weave/guides/core-types/prompts-version/" arrow="true" horizontal>
-  LLM 애플리케이션의 프롬프트 버전을 가져와 관리하세요.
-</Card>
-
-<Card title="annotation queue의 항목 검토" href="/ko/weave/guides/tracking/annotation-review/" arrow="true" horizontal>
-  간소화된 검토 인터페이스를 사용하여 트레이스 항목을 평가하고 구조화된 피드백을 제출하세요.
-</Card>
-
-<Card title="annotation queue 설정" href="/ko/weave/guides/tracking/annotation-queues/" arrow="true" horizontal>
-  annotation queue를 생성하고, 트레이스를 도메인 전문가에게 라우팅하며, 구조화된 피드백을 내보내세요.
-</Card>
-
-<div id="platform">
-  ### 플랫폼
-</div>
-
-<Card title="W&B 모바일 앱(iOS)" href="/ko/platform/hosting/monitoring-usage/mobile-app/" arrow="true" horizontal>
-  iPhone 또는 iPad에서 트레이닝 Runs을 추적하고, 콘솔 로그를 검토하며, 선형 플롯과 시스템 메트릭을 확인하고, W&amp;B Models 프로젝트를 살펴보세요.
-</Card>
-
-<Card title="W&B Skills 사용" href="/ko/platform/wb-skills/" arrow="true" horizontal>
-  W&amp;B Skills를 설치하여 코딩 에이전트가 W&amp;B의 AI 개발 플랫폼을 사용해 모델을 트레이닝하고, 에이전트를 구축하며, 실험을 분석하는 방법을 익히도록 하세요.
-</Card>
-
-<Card title="요청 속도 제한" href="/ko/platform/hosting/self-managed/rate-limits/" arrow="true" horizontal>
-  안정성을 위한 Self-Managed 인스턴스의 선택적 요청 속도 제한
-</Card>
-
-<Card title="지원되는 Dedicated Cloud 리전" href="/ko/platform/hosting/hosting-options/dedicated-cloud/regions/" arrow="true" horizontal>
-  W&amp;B Dedicated Cloud 인스턴스에서 사용할 수 있는 모든 지원 AWS, Google Cloud, Azure 리전을 확인하세요.
-</Card>
-
-<Card title="요청 속도 제한" href="/ko/platform/hosting/hosting-options/dedicated-cloud/rate-limits/" arrow="true" horizontal>
-  Dedicated Cloud의 기본 요청 속도 제한 및 변경 요청 방법
-</Card>
-
-<Card title="Dedicated Cloud에서 데이터 내보내기" href="/ko/platform/hosting/hosting-options/dedicated-cloud/export-data/" arrow="true" horizontal>
-  Python SDK API를 사용하여 W&amp;B Dedicated Cloud 인스턴스에서 Runs, 메트릭, 아티팩트 및 Reports를 내보내세요.
-</Card>
-
-<div id="inference">
-  ### Inference
-</div>
-
-<Card title="Serverless Inference와 함께 Cline 사용하기" href="/ko/inference/tutorials/integration-cline/" arrow="true" horizontal>
-  >
 </Card>
 
 {/* new-articles:end */}

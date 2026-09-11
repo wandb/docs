@@ -66,7 +66,9 @@ Weave의 로컬 스코어러를 사용하려면 먼저 필요한 Scorer 라이�
 
 `WeaveBiasScorerV1`는 파인튜닝된 [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) 모델을 사용합니다. 모델, 데이터셋, 보정 과정에 대한 자세한 내용은 [WeaveBiasScorerV1 W&amp;B 리포트](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw)를 참조하세요.
 
-### 사용 참고 사항
+<div id="usage-notes">
+  ### 사용 참고 사항
+</div>
 
 * `score` 방법은 `output` 매개변수로 문자열을 받습니다.
   * score가 높을수록 텍스트에 편향이 있다는 예측이 더 강하다는 의미입니다.
@@ -103,7 +105,7 @@ Weave의 로컬 스코어러를 사용하려면 먼저 필요한 Scorer 라이�
 
 `WeaveToxicityScorerV1`는 PleIAs의 오픈 소스 [Celadon](https://huggingface.co/PleIAs/celadon) 모델을 사용합니다. 자세한 내용은 [WeaveToxicityScorerV1 W&amp;B 리포트](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ)를 참조하세요.
 
-<div id="usage-notes">
+<div id="usage-notes-2">
   ### 사용 시 참고 사항
 </div>
 
@@ -113,7 +115,9 @@ Weave의 로컬 스코어러를 사용하려면 먼저 필요한 Scorer 라이�
     * 단일 카테고리의 점수가 `category_threshold`(기본값 `2`)보다 높으면 입력은 유해한 것으로 표시됩니다.
   * 필터링을 더 엄격하게 하려면 초기화 시 `category_threshold` 또는 `total_threshold`를 재정의하세요.
 
-### 사용 예시
+<div id="usage-example-2">
+  ### 사용 예시
+</div>
 
 ```python lines
     import weave
@@ -136,7 +140,7 @@ Weave의 로컬 스코어러를 사용하려면 먼저 필요한 Scorer 라이�
 
 `WeaveHallucinationScorerV1`는 Vectara의 오픈 소스 [HHEM 2.1 모델](https://huggingface.co/vectara/hallucination_evaluation_model)을 사용합니다. 자세한 내용은 [WeaveHallucinationScorerV1 W&amp;B 리포트](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA)를 참조하세요.
 
-<div id="usage-notes">
+<div id="usage-notes-3">
   ### 사용 시 참고 사항
 </div>
 
@@ -145,7 +149,9 @@ Weave의 로컬 스코어러를 사용하려면 먼저 필요한 Scorer 라이�
   * 출력 점수가 높을수록 출력에 환각이 포함되었을 가능성이 더 큽니다.
   * `threshold` 매개변수는 설정되어 있지만 초기화 시 재정의할 수 있습니다.
 
-### 사용 예시
+<div id="usage-example-3">
+  ### 사용 예시
+</div>
 
 ```python lines
     import weave
@@ -173,7 +179,7 @@ RAG 시스템을 평가할 때 이 스코어러를 사용하세요. 쿼리에 �
 
 `WeaveContextRelevanceScorerV1`는 tasksource의 파인튜닝된 [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) 모델을 사용합니다. 자세한 내용은 [WeaveContextRelevanceScorerV1 W&amp;B 리포트](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA)를 참조하세요.
 
-<div id="usage-notes">
+<div id="usage-notes-4">
   ### 사용 시 참고 사항
 </div>
 
@@ -182,7 +188,9 @@ RAG 시스템을 평가할 때 이 스코어러를 사용하세요. 쿼리에 �
   * 점수가 높을수록 해당 컨텍스트가 쿼리와 관련 있다는 예측이 더 강하다는 뜻입니다.
   * 청크별 점수를 조회하려면 `score` 방법에 `verbose=True`를 전달하면 됩니다.
 
-### 사용 예시
+<div id="usage-example-4">
+  ### 사용 예시
+</div>
 
 ```python lines
     import weave
@@ -209,14 +217,14 @@ RAG 시스템을 평가할 때 이 스코어러를 사용하세요. 쿼리에 �
 
 `WeaveCoherenceScorerV1`는 tasksource의 파인튜닝된 [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) 모델을 사용합니다. 자세한 내용은 [WeaveCoherenceScorerV1 W&amp;B 리포트](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA)를 참조하세요.
 
-<div id="usage-notes">
+<div id="usage-notes-5">
   ### 사용 시 참고 사항
 </div>
 
 * `score` 방법은 `query` 및 `output` 매개변수에 텍스트를 전달해야 합니다.
   * `output` 점수가 높을수록 일관성이 높다는 예측이 더 강하다는 뜻입니다.
 
-<div id="usage-example">
+<div id="usage-example-5">
   ### 사용 예제
 </div>
 
@@ -245,14 +253,16 @@ RAG 시스템을 평가할 때 이 스코어러를 사용하세요. 쿼리에 �
 
 `WeaveFluencyScorerV1`는 AnswerDotAI의 파인튜닝된 [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) 모델을 사용합니다. 자세한 내용은 [WeaveFluencyScorerV1 W&amp;B 리포트](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng)를 참조하세요.
 
-<div id="usage-notes">
+<div id="usage-notes-6">
   ### 사용 시 참고 사항
 </div>
 
 * `score` 방법은 텍스트를 `output` 매개변수로 전달받아야 합니다.
   * 출력 점수가 높을수록 유창성이 높습니다.
 
-### 사용 예시
+<div id="usage-example-6">
+  ### 사용 예시
+</div>
 
 ```python lines
     import weave
@@ -295,14 +305,16 @@ Critical 스코어러 중 하나라도 실패하면 `low` 신뢰 수준이 됩�
     * `WeaveFluencyScorerV1`
     * `WeaveCoherenceScorerV1`
 
-<div id="usage-notes">
+<div id="usage-notes-7">
   ### 사용 시 참고 사항
 </div>
 
 * RAG 파이프라인을 평가하려면 이 Scorer를 사용하세요.
   * 정확한 점수 산정을 위해서는 `query`, `context`, `output` 키가 필요합니다.
 
-### 사용 예시
+<div id="usage-example-7">
+  ### 사용 예시
+</div>
 
 ```python lines
     import weave
@@ -345,13 +357,17 @@ Critical 스코어러 중 하나라도 실패하면 `low` 신뢰 수준이 됩�
 
 이 스코어러는 [Presidio 라이브러리](https://github.com/microsoft/presidio)를 사용해 AI 시스템의 입력과 출력에서 personally identifiable information (PII)을 감지합니다.
 
-### 사용 참고 사항
+<div id="usage-notes-8">
+  ### 사용 참고 사항
+</div>
 
 * 이메일이나 전화번호 같은 특정 entity 유형을 감지하려면 Presidio entity 목록을 `selected_entities` 매개변수로 전달하세요. 그렇지 않으면 Presidio는 기본 entity 목록에 있는 모든 entity 유형을 감지합니다.
   * `custom_recognizers` 매개변수를 통해 `presidio.EntityRecognizer` 인스턴스 목록 형태로 맞춤형 recognizer를 전달할 수 있습니다.
   * 영어 이외의 입력을 처리하려면 `language` 매개변수로 언어를 지정하세요.
 
-### 사용 예시
+<div id="usage-example-8">
+  ### 사용 예시
+</div>
 
 ```python lines
     import weave

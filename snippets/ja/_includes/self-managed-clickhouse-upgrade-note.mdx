@@ -1,22 +1,11 @@
 ---
-title: セルフマネージド ClickHouse アップグレードに関する注意
+title: セルフマネージド ClickHouse アップグレードに関する注意事項
 ---
 
 <Note>
-  W&amp;B Server 0.81.0+ ではスキーマ移行が導入されており、Helm values で以下の Models OLAP 機能のいずれかを有効にしている場合は、ClickHouse 26.3 以降が必要です。
+  **W&amp;B Weave を使用するセルフマネージドのデプロイの場合:** W&amp;B Server をアップグレードする前に、ClickHouse のバージョンを確認してください。Weave がサポートするのは ClickHouse 25.8 から 25.12、および 26.3 以降です。ClickHouse 26.1 および 26.2 では Weave は動作しません。
 
-  ```yaml
-  global:
-    olap:
-      registrySearch:
-        enabled: true
-      runStoreAccelerator:
-        enabled: true
-      history:
-        enabled: true
-  ```
+  ClickHouse のバージョンを変更する必要がある場合は、ClickHouse Server と ClickHouse Keeper の**両方**をアップグレードしてください。詳細は [アップグレード時の ClickHouse の互換性](/ja/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) を参照してください。
 
-  ***W&amp;B Self-Managed を Server v0.81+ にアップグレードする前に***、Helm values でこれらを `false` に設定するか、**ClickHouse Server と ClickHouse Keeper の両方**を 26.3 にアップグレードする必要があります。
-
-  専用クラウドのデプロイでは、すでに互換性のある ClickHouse バージョンを実行しているため、影響はありません。
+  専用クラウドのデプロイでは、すでに互換性のある ClickHouse バージョンが稼働しているため、影響はありません。
 </Note>
