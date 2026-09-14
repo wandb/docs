@@ -1,0 +1,90 @@
+---
+title: "Neon AI Gateway"
+description: "Trace calls to Neon AI Gateway, the OpenAI-compatible inference endpoint provided by Neon"
+keywords: ["Neon", "Neon AI Gateway", "OpenAI SDK compatibility", "branch-scoped credentials"]
+---
+
+This guide shows you how to use Weave to automatically trace calls to models served by Neon AI Gateway, so you can monitor, debug, and evaluate model usage from a single dashboard.
+
+[Neon AI Gateway](https://neon.com/docs/ai-gateway/overview) is an OpenAI-compatible inference endpoint provided by Neon. A single Neon credential reaches models from OpenAI, Google, Meta, Databricks, and Alibaba, with no provider API keys. Weave detects the OpenAI SDK, so existing OpenAI code works after changing the API key and base URL.
+
+<Note>
+Neon AI Gateway is in beta. It requires a paid Neon plan and a project in the AWS US East (Ohio) region (`aws-us-east-2`).
+</Note>
+
+## Prerequisites
+
+Unlike most providers, Neon does not have one shared hostname. Each database branch gets its own gateway host, so you need two values:
+
+- **A credential** with the `ai_gateway:invoke` scope. Create it in the Neon Console under **Credentials**, or through the Neon API. See [AI Gateway authentication](https://neon.com/docs/ai-gateway/authentication).
+- **The branch host**, shown in the Neon Console as `NEON_AI_GATEWAY_BASE_URL`. It is a per-branch
+  URL of the form `https://<your-neon-branch-host>`.
+
+Running `neon env pull --file .env` writes both as `NEON_AI_GATEWAY_TOKEN` and `NEON_AI_GATEWAY_BASE_URL`.
+
+## Trace a Neon AI Gateway call
+
+Set `api_key` to your Neon credential, set `base_url` to the branch host plus `/v1`, and use a short Neon model ID such as `gpt-5-mini`. When you call `weave.init()`, provide a project name for your traces. If you don't specify one, Weave uses your default entity. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
+
+```python lines {5,10-13}
+import os
+import openai
+import weave
+
+weave.init('neon-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("NEON_AI_GATEWAY_TOKEN"),
+    base_url=f"{os.environ.get('NEON_AI_GATEWAY_BASE_URL')}/v1",
+)
+chat_completion = client.chat.completions.create(
+    model="gpt-5-mini",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Model response:\n", response)
+```
+
+Weave captures the call as a trace in your project, including the model ID, messages, and the token counts Neon returns.
+
+## Trace across branches
+
+A Neon credential is valid on the branch it was created on and on every branch descended from it, so a credential created on `main` also works in preview and CI branches forked from it. Only `NEON_AI_GATEWAY_BASE_URL` changes between environments.
+
+Because the branch host lives in the client configuration rather than in the request, traces from different branches look the same in Weave. Pass separate project names to `weave.init()`, or attach the branch as an attribute, if you want to tell them apart:
+
+```python
+with weave.attributes({"neon_branch": "preview/feature-x"}):
+    chat_completion = client.chat.completions.create(
+        model="gpt-5-mini",
+        messages=[{"role": "user", "content": user_content}],
+    )
+```
+
+## Choosing a model
+
+Neon uses short model IDs, for example `gpt-5-mini`, `gemini-3-flash`, `llama-4-maverick`, and `qwen3-next-80b-a3b-instruct`. List what a branch can serve:
+
+```bash
+curl "$NEON_AI_GATEWAY_BASE_URL/v1/models" \
+  -H "Authorization: Bearer $NEON_AI_GATEWAY_TOKEN"
+```
+
+Context windows and prices are in the [Neon model catalog](https://neon.com/docs/ai-gateway/models), also published as the [`neon` provider on Models.dev](https://models.dev/providers/neon/).
+
+Two constraints affect which model you pick:
+
+- A few models are served only on Neon's Responses API path, `{NEON_AI_GATEWAY_BASE_URL}/openai/v1`, and return a `400` on chat completions. The Endpoints column in Neon's [model catalog](https://neon.com/docs/ai-gateway/models) marks which ones, and the set changes; at the time of writing it is `gpt-5-3-codex` and `gpt-5-5-pro`. Every model the column lists with `chat/completions` works on the chat completions path.
+- For Gemini 3.x, `gpt-oss-120b`, and `qwen35-122b-a10b`, `message.content` comes back as an array of content blocks rather than a string.
+
+Neon does not return a cost field and reports `pricing` as `null` in `GET /v1/models`, so traces show token counts without cost. Inference is free during the beta.
+
+While this is a basic example to get started, see the [OpenAI](/weave/guides/integrations/openai#track-your-own-ops) guide for more details on how to integrate Weave with your own functions for more complex use cases.
