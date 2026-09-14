@@ -4,9 +4,9 @@ title: run をフォークする
 ---
 
 <Note>
-  run のフォークは、Multi-tenant Cloud と専用クラウドで Public Preview として提供されています。現在、セルフマネージドのデプロイでは利用できません。
+  run のフォークは、Multi-tenant Cloud と専用クラウドで Preview として提供されています。専用クラウドについては、サポートにお問い合わせください。現在、セルフマネージドのデプロイでは利用できません。
 
-  Public Preview の機能は本番環境での評価に利用できますが、機能、API、および動作は活発に開発中であり、一般提供開始前に変更される場合があります。
+  Preview の機能は本番環境での評価に利用できますが、機能、API、および動作は活発に開発中であり、一般提供開始前に変更される場合があります。
 </Note>
 
 元の run に影響を与えることなく、実験内の特定の時点から別のハイパーパラメーターやモデルを試すことができます。これを行うには、既存の W&amp;B run からフォークします。
@@ -19,7 +19,7 @@ run からフォークすると、W&amp;B はソース run の[一意の ID](/ja
 
 <Note>
   * run のフォークには [`wandb`](https://pypi.org/project/wandb/) SDK バージョン &gt;= 0.16.5 が必要です
-  * run のフォークでは、step が単調増加する必要があります。[`define_metric()`](/ja/models/ref/python/experiments/run#define_metric) で定義された非単調な step を使用する run からはフォークできません。非単調な step は、run history とシステムメトリクスの時系列順を崩します。
+  * run のフォークでは、step が単調増加する必要があります。[`define_metric()`](/ja/models/ref/python/experiments/run#define_metric) で定義された非単調な step を使用する run からはフォークできません。非単調な step は、run の履歴とシステムメトリクスの時系列順を崩します。
 </Note>
 
 フォークした run を開始するソース run の一意の `run ID` と `step` を、[`wandb.init()`](/ja/models/ref/python/functions/init) の `fork_from` に引数として指定します。

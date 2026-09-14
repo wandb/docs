@@ -18,7 +18,12 @@ L&#39;utilisation du mode de fidélité totale pour l&#39;agrégation des points
 
 * Préserver les valeurs extrêmes et les pics : conservez les valeurs extrêmes et les pics dans vos données.
 * Configurer le rendu des points minimum et maximum : utilisez le W&amp;B App pour choisir de manière interactive si vous souhaitez afficher les valeurs extrêmes (min/max) sous forme de zone ombrée.
-* Explorer vos données sans perte de fidélité : W&amp;B recalcule la taille des buckets du axe X lorsque vous zoomez sur des points de données spécifiques. Cela vous permet d&#39;explorer vos données sans perdre en précision. W&amp;B met en cache les agrégations précédemment calculées afin de réduire les temps de chargement, ce qui est utile lorsque vous parcourez de grands jeux de données.
+* Explorer vos données sans perte de fidélité des données : W&amp;B recalcule la taille des buckets du axe X lorsque vous zoomez sur des points de données spécifiques. Cela vous permet d&#39;explorer vos données sans perdre en précision. W&amp;B met en cache les agrégations précédemment calculées afin de réduire les temps de chargement, ce qui est utile lorsque vous parcourez de grands jeux de données.
+
+Il existe deux façons d’afficher des graphiques en courbes en fidélité totale :
+
+* **Bande** (par défaut) : affiche les valeurs minimale et maximale dans chaque bucket sous forme de bande ombrée, tandis que la ligne montre la tendance générale.
+* **Ligne** : relie directement les points, ce qui facilite l’identification des pics et des creux.
 
 <div id="turn-on-full-fidelity">
   ### Activer la fidélité totale
@@ -30,11 +35,12 @@ W&amp;B utilise le mode de fidélité totale par défaut. Pour le configurer man
   <Tab title="Tous les graphiques dans un Workspace">
     1. Accédez à votre Workspace.
     2. Sélectionnez l’icône d’engrenage dans le coin supérieur droit de l’écran, à gauche du bouton **Add panels**.
-    3. Dans le panneau de l’interface qui s’affiche, sélectionnez **graphique en courbes**.
+    3. Dans le volet qui s’affiche, sélectionnez **graphique en courbes**.
     4. Choisissez **fidélité totale** dans la section **agrégation des points**.
-    5. Configurez l’algorithme et les paramètres de **lissage**.
-    6. Réglez **Aggregation** sur **Mean**, **Min** ou **Max**.
-    7. Cliquez sur **Apply**.
+    5. Dans la liste déroulante **Affichage de fidélité totale**, sélectionnez **Bande** ou **Ligne**.
+    6. Configurez l’algorithme et les paramètres de **lissage**.
+    7. Réglez **Aggregation** sur **Mean**, **Min** ou **Max**.
+    8. Cliquez sur **Apply**.
   </Tab>
 
   <Tab title="Graphique individuel dans un Workspace">
@@ -42,8 +48,9 @@ W&amp;B utilise le mode de fidélité totale par défaut. Pour le configurer man
     2. Sélectionnez l’icône **Workspace** dans l’onglet de gauche.
     3. Survolez le panneau de graphique linéaire que vous souhaitez configurer, puis cliquez sur l’icône d’engrenage.
     4. Dans la fenêtre modale qui s’affiche, définissez **Méthode d’agrégation des points** sur **fidélité totale**.
-    5. Configurez l’algorithme et les paramètres de **lissage**.
-    6. Cliquez sur **Apply**.
+    5. Dans la liste déroulante **Affichage de fidélité totale**, sélectionnez **Bande** ou **Ligne**.
+    6. Configurez l’algorithme et les paramètres de **lissage**.
+    7. Cliquez sur **Apply**.
   </Tab>
 </Tabs>
 

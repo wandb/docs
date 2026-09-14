@@ -90,16 +90,20 @@ La section **Équipes** répertorie toutes vos équipes.
 
 La section **Clés API** vous permet de gérer vos clés API personnelles pour vous authentifier auprès des services W&amp;B. Dans cette section, vous pouvez consulter les clés existantes, en créer de nouvelles et révoquer celles dont vous n&#39;avez plus besoin.
 
+<Note>
+  Cette section affiche uniquement vos clés API personnelles. Pour voir toutes les clés que vous pouvez gérer dans votre organisation, y compris les clés API d&#39;organisation et les clés de compte de service, utilisez l&#39;onglet **Clés API** décrit dans [Gérer les clés API](/fr/platform/hosting/iam/api-keys).
+</Note>
+
 <div id="view-your-api-keys">
   ### Consultez vos clés API
 </div>
 
-Le tableau des clés API affiche :
+Le tableau des clés API affiche :
 
-* **ID de la clé** : La première partie de chaque clé API, utilisée pour l’identifier.
-* **Nom** : Un nom descriptif que vous avez donné lorsque vous avez créé la clé.
-* **Créée le** : La date de création de la clé.
-* **Dernière utilisation** : La date et l’heure de la dernière utilisation.
+* **ID de la clé** : La première partie de chaque clé API, utilisée pour l’identifier.
+* **Nom** : Un nom descriptif facultatif pour la clé.
+* **Créée le** : La date de création de la clé.
+* **Dernière utilisation** : La date et l’heure de la dernière utilisation.
 
 <Note>
   Pour des raisons de sécurité, le tableau n’affiche que l’ID de la clé (la première partie de la clé). La clé API secrète complète n’apparaît qu’une seule fois, au moment de sa création.
@@ -113,14 +117,24 @@ Pour filtrer la liste des clés API, saisissez une partie du nom de la clé ou d
 
 <ApiKeyCreate />
 
+<div id="rename-an-api-key">
+  ### Renommer une clé API
+</div>
+
+Pour modifier le nom d’affichage d’une clé API sans en modifier le matériel cryptographique :
+
+1. Trouvez la clé que vous souhaitez supprimer dans le tableau des clés API.
+2. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** et choisissez **Edit**.
+3. Mettez à jour le **Nom** de la clé, puis cliquez sur **enregistrer**.
+
 <div id="delete-an-api-key">
   ### Supprimer une clé API
 </div>
 
-Supprimez une clé API lorsque vous n’en avez plus besoin ou si elle a pu être compromise. Pour révoquer l’accès en supprimant une clé API :
+Supprimez une clé API lorsque vous n’en avez plus besoin ou si elle a pu être compromise. Pour révoquer l’accès en supprimant une clé API :
 
 1. Trouvez la clé que vous souhaitez supprimer dans le tableau des clés API.
-2. Cliquez sur le bouton Supprimer à côté de la clé.
+2. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** et choisissez **supprimer**.
 3. Confirmez la suppression.
 
 W&amp;B supprime la clé du tableau et vous ne pouvez plus l’utiliser pour vous authentifier.

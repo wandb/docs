@@ -6,9 +6,15 @@ namespace: wandb.apis.public.projects
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
-## <kbd>class</kbd> wandb.apis.public.Projects
+<div id="class-wandbapispublicprojects">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Projects
+</div>
+
+`Project` オブジェクトの遅延イテレーター。
+
+entity が作成して保存したプロジェクトにアクセスするためのイテラブルなインターフェース。
 
 ```python
 service_api: 'ServiceApi',
@@ -16,17 +22,21 @@ entity: 'str',
 per_page: 'int' = 50
 ```
 
-`Project` オブジェクトの遅延イテレーター。
-
-entity が作成して保存したプロジェクトにアクセスするためのイテラブルなインターフェース。
-
 <div id="args">
   ## 引数
 </div>
 
-* `service_api`: このコレクションに対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `entity`: プロジェクトを所有する entity。
-* `per_page`: API へのリクエストごとに取得するプロジェクト数。
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B をクエリするために使用するサービス API。
+</ResponseField>
+
+<ResponseField name="entity" type="str">
+  プロジェクト を所有する entity。
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  API リクエストごとに取得する プロジェクト の数。
+</ResponseField>
 
 <div id="examples">
   ## 例
@@ -50,7 +60,9 @@ for project in projects:
   ## メソッド
 </div>
 
-### <kbd>メソッド</kbd> RelayPaginator.convert_objects()
+<div id="method-relaypaginatorconvert_objects">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> RelayPaginator.convert_objects()
+</div>
 
 ```python
 self
@@ -58,7 +70,9 @@ self
 
 最後に取得したレスポンスデータを、イテレートされるオブジェクトに変換します。
 
-### <kbd>メソッド</kbd> Paginator.**next**()
+<div id="method-paginatornext">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
+</div>
 
 ```python
 self
@@ -66,7 +80,9 @@ self
 
 イテレーターから次の項目を返します。要素がなくなった場合は StopIteration を送出します
 
-### <kbd>メソッド</kbd> Paginator.update_variables()
+<div id="method-paginatorupdate_variables">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.update_variables()
+</div>
 
 ```python
 self

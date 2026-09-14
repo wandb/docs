@@ -66,11 +66,23 @@ W&amp;B では、[W&amp;B 監査ログ](../monitoring-usage/audit-logging)を bl
   ## 事前署名付き URL をリクエストしたユーザーを特定する
 </div>
 
-監査ログを確認する際に、事前署名付き URL のアクティビティを特定の W&amp;B ユーザーに関連付けるには、W&amp;B が各 URL に追加するクエリパラメーターを確認します。W&amp;B が事前署名付き URL を返す際、URL のクエリパラメーターには、リクエストしたユーザーのユーザー名が含まれます。
+監査ログを確認する際に、事前署名付き URL のアクティビティを特定の W&amp;B ユーザーに関連付けるには、W&amp;B が各 URL に追加するプロバイダー固有のクエリパラメーターを確認します。
 
-| ストレージプロバイダー                 | 署名付き URL のクエリパラメーター |
-| --------------------------- | ------------------- |
-| CoreWeave AI Object Storage | `X-User`            |
-| AWS S3                      | `X-User`            |
-| Google Cloud Storage        | `X-User`            |
-| Azure Blob Storage          | `scid`              |
+| ストレージプロバイダー                 | クエリパラメーター | 値                              |
+| --------------------------- | --------- | ------------------------------ |
+| CoreWeave AI Object Storage | `X-User`  | W&amp;B ユーザー名                  |
+| AWS S3                      | `X-User`  | W&amp;B ユーザー名                  |
+| Google Cloud Storage        | `X-User`  | W&amp;B ユーザー名                  |
+| Azure Blob Storage          | `scid`    | W&amp;B ユーザー名から決定論的に生成された UUID |
+
+<div id="correlate-azure-blob-storage-activity-with-a-user">
+  ### Azure Blob Storage のアクティビティをユーザーに関連付ける
+</div>
+
+Azure では `scid` に GUID を指定する必要があるため、W&amp;B はユーザー名を直接含めるのではなく、ユーザー名から安定した UUID を導出します。この UUID にユーザー名は含まれておらず、デコードすることもできません。Azure Storage のアクティビティをユーザーに関連付けるには、W&amp;B のユーザー名と対応する `scid` 値のマッピングを算出または管理します。
+
+Azure が `scid` を含めるのは、ストレージバケットがマネージドアイデンティティで設定されている場合に W&amp;B が生成するユーザー委任 SAS URL のみです。共有キー SAS URL には `scid` は含まれません。
+
+<Note>
+  W&amp;B はデフォルトで、事前署名付き URL に帰属情報用のパラメーターを追加します。すべてのストレージプロバイダーで帰属情報を無効にするには、環境変数 `GORILLA_BUCKET_ATTRIBUTION_DISABLED` を `true` に設定します。帰属情報を無効にすると、W&amp;B は `scid` と `X-User` を省略するため、事前署名付き URL のアクティビティを個々のユーザーに関連付けることはできません。
+</Note>

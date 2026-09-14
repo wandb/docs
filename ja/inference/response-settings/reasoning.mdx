@@ -25,35 +25,36 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
 | モデル ID (API 用)                                 | 推論 サポート            |
 | ---------------------------------------------- | ------------------ |
 | `deepseek-ai/DeepSeek-V4-Flash`                | デフォルトで無効           |
-| `deepseek-ai/DeepSeek-V4-Flash-0731`           | デフォルトで無効           |
+| `deepseek-ai/DeepSeek-V4-Flash-0731`           | デフォルトで有効           |
 | `deepseek-ai/DeepSeek-V4-Pro`                  | デフォルトで無効           |
+| `deepseek-ai/DeepSeek-V4-Pro-0813`             | デフォルトで有効           |
 | `google/gemma-4-31B-it`                        | デフォルトで無効           |
+| `ibm-granite/granite-4.2-8b`                   | デフォルトで有効           |
 | `MiniMaxAI/MiniMax-M3`                         | 適応型; デフォルトではモデルが選択 |
-| `MiniMaxAI/MiniMax-M2.5`                       | 常時有効               |
 | `moonshotai/Kimi-K2.7-Code`                    | 常時有効               |
 | `moonshotai/Kimi-K2.6`                         | 常時有効               |
 | `nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B` | デフォルトで有効           |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | デフォルトで有効           |
 | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B`     | デフォルトで有効           |
 | `openai/gpt-oss-120b`                          | 常時有効               |
 | `openai/gpt-oss-20b`                           | 常時有効               |
+| `Qwen/Qwen3.8-27B`                             | デフォルトで有効           |
 | `Qwen/Qwen3.6-35B-A3B`                         | デフォルトで有効           |
 | `Qwen/Qwen3.6-27B`                             | デフォルトで有効           |
 | `Qwen/Qwen3.5-35B-A3B`                         | デフォルトで有効           |
+| `zai-org/GLM-5.3-Flash`                        | 常時有効               |
 | `zai-org/GLM-5.2`                              | デフォルトで有効           |
-| `zai-org/GLM-5.1`                              | デフォルトで有効           |
 
 <div id="models-with-always-on-reasoning">
   ### 推論が `常時有効` のモデル
 </div>
 
-前述の[サポートされるモデル](#supported-models)表でモデルが`常時有効`と記載されている場合、そのモデルには常に推論が含まれており、これを無効にすることはできません。
+前述の[サポートされるモデル](#supported-models-with-reasoning)表でモデルが`常時有効`と記載されている場合、そのモデルには常に推論が含まれており、これを無効にすることはできません。
 
 <div id="disable-reasoning">
   ### 推論を無効にする
 </div>
 
-モデルが前述の [サポートされるモデル](#supported-models) の表で `デフォルトで有効` として記載されている場合は、トークン使用量を減らしたり、応答を簡潔にしたりするために、推論を無効にできます。リクエストで推論を無効にするには、`chat_template_kwargs` で `enable_thinking` フラグを `False` (Python) または `false` (Bash) に設定します。リクエストが完了すると、レスポンスには推論コンテンツが含まれません。
+モデルが前述の [サポートされるモデル](#supported-models-with-reasoning) の表で `デフォルトで有効` として記載されている場合は、トークン使用量を減らしたり、応答を簡潔にしたりするために、推論を無効にできます。リクエストで推論を無効にするには、`chat_template_kwargs` で `enable_thinking` フラグを `False` (Python) または `false` (Bash) に設定します。リクエストが完了すると、応答には推論コンテンツが含まれません。
 
 <Tabs>
   <Tab title="Python">
@@ -99,4 +100,4 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
   ### 推論 を有効にする
 </div>
 
-モデルが前述の[サポートされるモデル](#supported-models)の表で`デフォルトで無効`と記載されている場合は、前述のコードスニペットで`enable_thinking`フラグを`True` (Python) または`true` (Bash) に設定すると、推論 を有効にできます。
+モデルが前述の[サポートされるモデル](#supported-models-with-reasoning)の表で`デフォルトで無効`と記載されている場合は、前述のコードスニペットで`enable_thinking`フラグを`True` (Python) または`true` (Bash) に設定すると、推論 を有効にできます。

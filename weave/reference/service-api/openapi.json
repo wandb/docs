@@ -2509,10 +2509,12 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadSchema"
+                }
               }
             }
           },
@@ -3450,10 +3452,12 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpReadRes"
+                }
               }
             }
           },
@@ -3760,10 +3764,12 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetReadRes"
+                }
               }
             }
           },
@@ -3932,6 +3938,82 @@
         }
       }
     },
+    "/v2/{entity}/{project}/runtimes/{runtime_name}": {
+      "put": {
+        "tags": [
+          "Custom Runtimes"
+        ],
+        "summary": "Custom Runtime Apply",
+        "description": "Create or replace a custom runtime configuration.",
+        "operationId": "custom_runtime_apply_v2__entity___project__runtimes__runtime_name__put",
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Entity"
+            }
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project"
+            }
+          },
+          {
+            "name": "runtime_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[^\\s:]*(?::[^\\s:]+)*:?$",
+              "description": "Stable name of the custom runtime to create or replace",
+              "title": "Runtime Name"
+            },
+            "description": "Stable name of the custom runtime to create or replace"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomRuntimeApplyBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomRuntimeApplyRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/{entity}/{project}/scorers": {
       "post": {
         "tags": [
@@ -4018,14 +4100,52 @@
               "type": "string",
               "title": "Project"
             }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum number of scorers to return",
+              "title": "Limit"
+            },
+            "description": "Maximum number of scorers to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Number of scorers to skip",
+              "title": "Offset"
+            },
+            "description": "Number of scorers to skip"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScorerReadRes"
+                }
               }
             }
           },
@@ -4280,14 +4400,52 @@
               "type": "string",
               "title": "Project"
             }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum number of evaluations to return",
+              "title": "Limit"
+            },
+            "description": "Maximum number of evaluations to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Number of evaluations to skip",
+              "title": "Offset"
+            },
+            "description": "Number of evaluations to skip"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationReadRes"
+                }
               }
             }
           },
@@ -4582,10 +4740,12 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/x-ndjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelReadRes"
+                }
               }
             }
           },
@@ -4947,10 +5107,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EvaluationRunReadRes"
-                  }
+                  "$ref": "#/components/schemas/EvaluationRunReadRes"
                 }
               }
             }
@@ -5312,10 +5469,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PredictionReadRes"
-                  }
+                  "$ref": "#/components/schemas/PredictionReadRes"
                 }
               }
             }
@@ -5667,10 +5821,7 @@
             "content": {
               "application/jsonl": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ScoreReadRes"
-                  }
+                  "$ref": "#/components/schemas/ScoreReadRes"
                 }
               }
             }
@@ -5937,6 +6088,12 @@
           }
         },
         "type": "object",
+        "required": [
+          "model",
+          "system_instructions",
+          "tool_definitions",
+          "status"
+        ],
         "title": "AgentChatAgentStart",
         "description": "Payload for an agent lifecycle boundary."
       },
@@ -6071,7 +6228,18 @@
         },
         "type": "object",
         "required": [
-          "text"
+          "text",
+          "model",
+          "reasoning_content",
+          "reasoning_tokens",
+          "input_tokens",
+          "output_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "total_cost_usd",
+          "duration_ms",
+          "status",
+          "content_refs"
         ],
         "title": "AgentChatAssistantMessage",
         "description": "Payload for assistant text emitted by an agent or LLM span."
@@ -6113,8 +6281,176 @@
           }
         },
         "type": "object",
+        "required": [
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after"
+        ],
         "title": "AgentChatContextCompacted",
         "description": "Payload for a context-window compaction event."
+      },
+      "AgentChatFeedback": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "feedback_type": {
+            "type": "string",
+            "title": "Feedback Type"
+          },
+          "weave_ref": {
+            "type": "string",
+            "title": "Weave Ref"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload"
+          },
+          "creator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Creator"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
+          },
+          "runnable_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runnable Ref"
+          },
+          "call_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Call Ref"
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref"
+          },
+          "annotation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotation Ref"
+          },
+          "scorer_tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Tags"
+          },
+          "scorer_tag_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Tag Reasons"
+          },
+          "scorer_tag_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Tag Confidences"
+          },
+          "scorer_ratings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Ratings"
+          },
+          "scorer_rating_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Rating Reasons"
+          },
+          "scorer_rating_confidences": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Scorer Rating Confidences"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "feedback_type",
+          "weave_ref",
+          "payload",
+          "creator",
+          "created_at",
+          "wb_user_id",
+          "runnable_ref",
+          "call_ref",
+          "trigger_ref",
+          "annotation_ref",
+          "scorer_tags",
+          "scorer_tag_reasons",
+          "scorer_tag_confidences",
+          "scorer_ratings",
+          "scorer_rating_reasons",
+          "scorer_rating_confidences"
+        ],
+        "title": "AgentChatFeedback",
+        "description": "Feedback row from the agent chat `include_feedback` projection.\n\nField names match FEEDBACK_QUERY_FIELDS. This is not the feedback\ntable row and not FeedbackCreateReq: project_id and span_* are not\nselected."
       },
       "AgentChatMessage": {
         "properties": {
@@ -6255,8 +6591,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -6269,7 +6604,19 @@
         },
         "type": "object",
         "required": [
-          "type"
+          "type",
+          "span_id",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "started_at",
+          "user_message",
+          "assistant_message",
+          "tool_call",
+          "agent_start",
+          "agent_handoff",
+          "context_compacted",
+          "feedback"
         ],
         "title": "AgentChatMessage",
         "description": "A single element in the structured agent trajectory / chat view.\n\nCommon event fields live at the top level. Type-specific fields are\ngrouped under the payload matching `type`, and exactly one payload must be\nset. This keeps subtype nullability explicit while preserving a single\nordered timeline model for callers."
@@ -6345,6 +6692,14 @@
           }
         },
         "type": "object",
+        "required": [
+          "tool_name",
+          "tool_arguments",
+          "tool_result",
+          "duration_ms",
+          "status",
+          "content_refs"
+        ],
         "title": "AgentChatToolCall",
         "description": "Payload for a tool call timeline event."
       },
@@ -6364,7 +6719,8 @@
         },
         "type": "object",
         "required": [
-          "text"
+          "text",
+          "content_refs"
         ],
         "title": "AgentChatUserMessage",
         "description": "Payload for a user prompt in the chat timeline."
@@ -6456,8 +6812,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -6470,7 +6825,14 @@
         },
         "type": "object",
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "turns",
+          "total_turns",
+          "has_more",
+          "limit",
+          "offset",
+          "total_cost_usd",
+          "feedback"
         ],
         "title": "AgentConversationChatRes",
         "description": "Multi-turn chat view: an ordered list of per-turn chat responses.\n\nEach entry in `turns` corresponds to one trace_id, which Weave treats as\none conversation turn. This is not necessarily one `invoke_agent` span:\na turn can contain zero, one, or many agent invocations. The frontend can\nrender turn-number dividers between entries and still reuse\n`AgentTraceChatRes` rendering for each individual turn."
@@ -6479,8 +6841,11 @@
         "properties": {
           "role": {
             "type": "string",
-            "title": "Role",
-            "default": ""
+            "enum": [
+              "user_message",
+              "assistant_message"
+            ],
+            "title": "Role"
           },
           "text": {
             "type": "string",
@@ -6489,6 +6854,10 @@
           }
         },
         "type": "object",
+        "required": [
+          "role",
+          "text"
+        ],
         "title": "AgentConversationMessagePreview",
         "description": "A truncated first/last message snippet for a grouped conversation row.\n\n`role` is the chat-timeline message type (e.g. \"user_message\",\n\"assistant_message\") so clients can style it consistently with the full\nchat view; `text` is the trimmed, length-capped preview content."
       },
@@ -6579,7 +6948,9 @@
         "type": "object",
         "required": [
           "trace_id",
-          "feedback_type"
+          "feedback_type",
+          "tags",
+          "ratings"
         ],
         "title": "AgentConversationSpanFeedback",
         "description": "Tags and ratings applied to a conversation's turn (or the conversation).\n\nPositioned client-side by matching `trace_id` (turn) against the spans;\n`trace_id` is None for conversation-level feedback."
@@ -6620,7 +6991,9 @@
         "type": "object",
         "required": [
           "name",
-          "value"
+          "value",
+          "reason",
+          "confidence"
         ],
         "title": "AgentConversationSpanRating",
         "description": "One numeric rating (a scorer score) applied to a turn or conversation."
@@ -6648,7 +7021,9 @@
         },
         "type": "object",
         "required": [
-          "conversation_id"
+          "conversation_id",
+          "spans",
+          "spans_feedback"
         ],
         "title": "AgentConversationSpans",
         "description": "One conversation's span sequence and its feedback markers."
@@ -6710,6 +7085,9 @@
           }
         },
         "type": "object",
+        "required": [
+          "conversations"
+        ],
         "title": "AgentConversationSpansRes",
         "description": "Span sequences + feedback markers, one entry per requested conversation."
       },
@@ -6841,6 +7219,12 @@
           }
         },
         "type": "object",
+        "required": [
+          "attributes",
+          "limit",
+          "offset",
+          "has_more"
+        ],
         "title": "AgentCustomAttrsSchemaRes",
         "description": "Typed custom attribute keys available for spans query/group/stats APIs."
       },
@@ -6963,7 +7347,8 @@
           "total_duration_ms",
           "error_count",
           "first_seen",
-          "last_seen"
+          "last_seen",
+          "total_cost_usd"
         ],
         "title": "AgentSchema",
         "description": "Aggregated per-agent stats from the agents table."
@@ -7017,15 +7402,22 @@
             "title": "Trace Id"
           },
           "role": {
-            "type": "string",
-            "enum": [
-              "",
-              "user",
-              "assistant",
-              "system",
-              "tool",
-              "tool_call",
-              "tool_result"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "",
+                  "user",
+                  "assistant",
+                  "system",
+                  "tool",
+                  "tool_call",
+                  "tool_result"
+                ]
+              },
+              {
+                "type": "string"
+              }
             ],
             "title": "Role"
           },
@@ -7211,10 +7603,31 @@
         },
         "type": "object",
         "required": [
-          "results"
+          "results",
+          "total_conversations"
         ],
         "title": "AgentSearchRes",
         "description": "Response from a full-text search across agent messages."
+      },
+      "AgentSignalFilter": {
+        "properties": {
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
+          "ratings": {
+            "items": {
+              "$ref": "#/components/schemas/RatingCondition"
+            },
+            "type": "array",
+            "title": "Ratings"
+          }
+        },
+        "type": "object",
+        "title": "AgentSignalFilter"
       },
       "AgentSortBy": {
         "properties": {
@@ -7338,7 +7751,13 @@
           "alias",
           "source",
           "key",
-          "value_type"
+          "value_type",
+          "total_count",
+          "present_count",
+          "missing_count",
+          "other_count",
+          "bins",
+          "values"
         ],
         "title": "AgentSpanGroupDistributionItem",
         "description": "Distribution data for one span-group/custom-attribute pair."
@@ -7668,6 +8087,33 @@
           }
         },
         "type": "object",
+        "required": [
+          "group_keys",
+          "span_count",
+          "invocation_count",
+          "conversation_count",
+          "total_input_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_duration_ms",
+          "error_count",
+          "total_cost_usd",
+          "total_input_cost_usd",
+          "total_output_cost_usd",
+          "agent_names",
+          "agent_versions",
+          "provider_names",
+          "request_models",
+          "conversation_names",
+          "first_seen",
+          "last_seen",
+          "first_message",
+          "last_message",
+          "metrics",
+          "distributions"
+        ],
         "title": "AgentSpanGroupRow",
         "description": "A single row in a grouped spans query response.\n\n`group_keys` maps each group_by ref's alias to its value for this row.\nThe remaining fields are a fixed aggregate bundle computed per group."
       },
@@ -7909,6 +8355,105 @@
               }
             ],
             "title": "Agent Version"
+          },
+          "eval_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Run Id"
+          },
+          "eval_predict_and_score_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Predict And Score Call Id"
+          },
+          "eval_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Kind"
+          },
+          "eval_row_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Row Digest"
+          },
+          "eval_example_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Example Id"
+          },
+          "eval_trial_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Trial Index"
+          },
+          "eval_evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Evaluation Name"
+          },
+          "parent_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Id"
+          },
+          "parent_call_trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Call Trace Id"
           },
           "request_model": {
             "anyOf": [
@@ -8461,7 +9006,83 @@
         "required": [
           "project_id",
           "trace_id",
-          "span_id"
+          "span_id",
+          "parent_span_id",
+          "span_name",
+          "span_kind",
+          "started_at",
+          "ended_at",
+          "status_code",
+          "status_message",
+          "operation_name",
+          "provider_name",
+          "agent_name",
+          "agent_id",
+          "agent_description",
+          "agent_version",
+          "eval_run_id",
+          "eval_predict_and_score_call_id",
+          "eval_kind",
+          "eval_row_digest",
+          "eval_example_id",
+          "eval_trial_index",
+          "eval_evaluation_name",
+          "parent_call_id",
+          "parent_call_trace_id",
+          "request_model",
+          "response_model",
+          "response_id",
+          "input_tokens",
+          "output_tokens",
+          "reasoning_tokens",
+          "cache_creation_input_tokens",
+          "cache_read_input_tokens",
+          "input_cost_usd",
+          "output_cost_usd",
+          "cache_read_cost_usd",
+          "cache_creation_cost_usd",
+          "total_cost_usd",
+          "reasoning_content",
+          "conversation_id",
+          "conversation_name",
+          "tool_name",
+          "tool_type",
+          "tool_call_id",
+          "tool_description",
+          "tool_definitions",
+          "finish_reasons",
+          "error_type",
+          "request_temperature",
+          "request_max_tokens",
+          "request_top_p",
+          "request_frequency_penalty",
+          "request_presence_penalty",
+          "request_seed",
+          "request_stop_sequences",
+          "request_choice_count",
+          "output_type",
+          "input_messages",
+          "output_messages",
+          "system_instructions",
+          "tool_call_arguments",
+          "tool_call_result",
+          "compaction_summary",
+          "compaction_items_before",
+          "compaction_items_after",
+          "content_refs",
+          "artifact_refs",
+          "object_refs",
+          "custom_attrs_string",
+          "custom_attrs_int",
+          "custom_attrs_float",
+          "custom_attrs_bool",
+          "server_address",
+          "server_port",
+          "wb_user_id",
+          "wb_run_id",
+          "wb_run_step",
+          "wb_run_step_end",
+          "raw_span_dump"
         ],
         "title": "AgentSpanSchema",
         "description": "A normalized agent span returned by query APIs."
@@ -8519,7 +9140,9 @@
         "required": [
           "name",
           "role",
-          "value_type"
+          "value_type",
+          "metric",
+          "aggregation"
         ],
         "title": "AgentSpanStatsColumn",
         "description": "Metadata describing one column in an agent span stats result row."
@@ -8755,6 +9378,16 @@
             },
             "type": "array",
             "title": "Group Filters"
+          },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
@@ -8843,7 +9476,11 @@
         "required": [
           "start",
           "end",
-          "timezone"
+          "granularity",
+          "timezone",
+          "bucket_type",
+          "columns",
+          "rows"
         ],
         "title": "AgentSpanStatsRes",
         "description": "Response containing chart-ready agent span stats rows."
@@ -9007,6 +9644,16 @@
               }
             ],
             "title": "Started Before"
+          },
+          "signal_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentSignalFilter"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
@@ -9039,6 +9686,11 @@
           }
         },
         "type": "object",
+        "required": [
+          "spans",
+          "groups",
+          "total_count"
+        ],
         "title": "AgentSpansQueryRes",
         "description": "Response from a spans query.\n\nExactly one of `spans` or `groups` will be populated, based on\nwhether the request specified `group_by`."
       },
@@ -9132,6 +9784,41 @@
             ],
             "title": "Provider"
           },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "ended_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id"
+          },
           "total_duration_ms": {
             "anyOf": [
               {
@@ -9155,6 +9842,31 @@
             ],
             "title": "Total Cost Usd"
           },
+          "total_input_tokens": {
+            "type": "integer",
+            "title": "Total Input Tokens",
+            "default": 0
+          },
+          "total_output_tokens": {
+            "type": "integer",
+            "title": "Total Output Tokens",
+            "default": 0
+          },
+          "total_reasoning_tokens": {
+            "type": "integer",
+            "title": "Total Reasoning Tokens",
+            "default": 0
+          },
+          "total_cache_creation_input_tokens": {
+            "type": "integer",
+            "title": "Total Cache Creation Input Tokens",
+            "default": 0
+          },
+          "total_cache_read_input_tokens": {
+            "type": "integer",
+            "title": "Total Cache Read Input Tokens",
+            "default": 0
+          },
           "messages": {
             "items": {
               "$ref": "#/components/schemas/AgentChatMessage"
@@ -9166,8 +9878,7 @@
             "anyOf": [
               {
                 "items": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "$ref": "#/components/schemas/AgentChatFeedback"
                 },
                 "type": "array"
               },
@@ -9180,7 +9891,24 @@
         },
         "type": "object",
         "required": [
-          "trace_id"
+          "trace_id",
+          "root_span_name",
+          "agent_name",
+          "agent_version",
+          "status_code",
+          "provider",
+          "started_at",
+          "ended_at",
+          "wb_user_id",
+          "total_duration_ms",
+          "total_cost_usd",
+          "total_input_tokens",
+          "total_output_tokens",
+          "total_reasoning_tokens",
+          "total_cache_creation_input_tokens",
+          "total_cache_read_input_tokens",
+          "messages",
+          "feedback"
         ],
         "title": "AgentTraceChatRes",
         "description": "Structured chat view: a linear sequence of messages representing\nthe agent trajectory for a single trace."
@@ -9271,6 +9999,7 @@
           "error_count",
           "first_seen",
           "last_seen",
+          "total_cost_usd",
           "agent_version"
         ],
         "title": "AgentVersionSchema",
@@ -9344,7 +10073,8 @@
         },
         "type": "object",
         "required": [
-          "versions"
+          "versions",
+          "total_count"
         ],
         "title": "AgentVersionsQueryRes",
         "description": "Response containing agent version stats."
@@ -9440,7 +10170,8 @@
         },
         "type": "object",
         "required": [
-          "agents"
+          "agents",
+          "total_count"
         ],
         "title": "AgentsQueryRes",
         "description": "Response containing aggregated agent stats."
@@ -9488,6 +10219,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/ConvertOperation"
+                },
+                {
+                  "$ref": "#/components/schemas/SizeOperation"
                 },
                 {
                   "$ref": "#/components/schemas/AndOperation"
@@ -9570,7 +10304,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -9649,7 +10382,6 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -9706,7 +10438,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -10017,7 +10748,6 @@
             "default": false
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -10209,7 +10939,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -10298,7 +11027,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -10330,7 +11058,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -10377,7 +11104,7 @@
           },
           "file": {
             "type": "string",
-            "format": "binary",
+            "contentMediaType": "application/octet-stream",
             "title": "File"
           },
           "expected_digest": {
@@ -10485,7 +11212,6 @@
             "$ref": "#/components/schemas/EndedCallSchemaForInsert"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "end"
@@ -10530,7 +11256,6 @@
             "default": []
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "metric"
@@ -10585,7 +11310,6 @@
             "default": false
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -10846,7 +11570,6 @@
             "$ref": "#/components/schemas/StartedCallSchemaForInsert"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "start"
@@ -10955,7 +11678,6 @@
             "default": "UTC"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -11053,7 +11775,6 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -11092,7 +11813,6 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -11268,7 +11988,6 @@
             "title": "Wb Run Ids"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "title": "CallsFilter"
       },
@@ -11448,7 +12167,6 @@
             "default": true
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -11526,7 +12244,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -11597,7 +12314,6 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -11663,7 +12379,6 @@
             "default": 10000
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -11917,6 +12632,9 @@
                 "$ref": "#/components/schemas/ConvertOperation"
               },
               {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
                 "$ref": "#/components/schemas/AndOperation"
               },
               {
@@ -11959,6 +12677,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -12039,6 +12760,9 @@
               },
               {
                 "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
               },
               {
                 "$ref": "#/components/schemas/AndOperation"
@@ -12246,7 +12970,6 @@
             "description": "The provider of the LLM, e.g. 'openai' or 'mistral'. If not provided, the provider_id will be set to 'default'"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "prompt_token_cost",
@@ -12283,7 +13006,6 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -12330,7 +13052,6 @@
             "$ref": "#/components/schemas/Query"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -12397,6 +13118,34 @@
               }
             ],
             "title": "Completion Token Cost",
+            "examples": [
+              1.0
+            ]
+          },
+          "cache_read_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Read Input Token Cost",
+            "examples": [
+              1.0
+            ]
+          },
+          "cache_creation_input_token_cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Creation Input Token Cost",
             "examples": [
               1.0
             ]
@@ -12550,7 +13299,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -12641,6 +13389,147 @@
         },
         "type": "object",
         "title": "CreateAndLinkWeaveAssetRes"
+      },
+      "CustomRuntimeApplyBody": {
+        "properties": {
+          "base_url": {
+            "type": "string",
+            "title": "Base Url",
+            "description": "Public OpenAI-compatible endpoint base URL"
+          },
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key Secret",
+            "description": "Team secret name used as the endpoint API key; never the secret value"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Headers",
+            "description": "Literal headers forwarded to the endpoint"
+          },
+          "runtime_ids": {
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeID"
+            },
+            "type": "array",
+            "title": "Runtime Ids",
+            "description": "Complete desired list of IDs exposed by the endpoint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "base_url",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyBody"
+      },
+      "CustomRuntimeApplyRes": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Stable custom runtime name"
+          },
+          "base_url": {
+            "type": "string",
+            "title": "Base Url"
+          },
+          "api_key_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key Secret"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Headers"
+          },
+          "runtime_ids": {
+            "items": {
+              "$ref": "#/components/schemas/CustomRuntimeIDRes"
+            },
+            "type": "array",
+            "title": "Runtime Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "base_url",
+          "api_key_secret",
+          "headers",
+          "runtime_ids"
+        ],
+        "title": "CustomRuntimeApplyRes"
+      },
+      "CustomRuntimeID": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "description": "Value sent in the OpenAI-compatible request model field"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Max Tokens",
+            "description": "Maximum tokens supported by this runtime ID",
+            "default": 4096
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "CustomRuntimeID"
+      },
+      "CustomRuntimeIDRes": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S+$",
+            "title": "Id",
+            "description": "Value sent in the OpenAI-compatible request model field"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Max Tokens",
+            "description": "Maximum tokens supported by this runtime ID",
+            "default": 4096
+          },
+          "playground_id": {
+            "type": "string",
+            "title": "Playground Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "playground_id"
+        ],
+        "title": "CustomRuntimeIDRes"
       },
       "Datacenter": {
         "properties": {
@@ -12794,6 +13683,41 @@
         ],
         "title": "DatasetReadRes"
       },
+      "DeletedObjVersion": {
+        "properties": {
+          "digest": {
+            "type": "string",
+            "title": "Digest"
+          },
+          "base_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Object Class"
+          },
+          "leaf_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Class"
+          }
+        },
+        "type": "object",
+        "required": [
+          "digest"
+        ],
+        "title": "DeletedObjVersion"
+      },
       "EndedCallSchemaForInsert": {
         "properties": {
           "project_id": {
@@ -12903,6 +13827,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -12944,6 +13871,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -13114,7 +14044,6 @@
             "description": "Filter expression. Supported field prefixes: scores.<name>, inputs.<path>, outputs.<path>."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "query"
@@ -13205,7 +14134,7 @@
           "include_costs": {
             "type": "boolean",
             "title": "Include Costs",
-            "description": "When true, enrich the predict-and-score child calls with cost so the summary can report predict-only `predict_total_cost`. Opt-in: other callers skip the cost computation.",
+            "description": "When true, price each trial's predict call so rows and summary report predict-only cost (`total_cost` / `predict_total_cost`); scorer costs are excluded. Opt-in: other callers skip the cost computation.",
             "default": false
           },
           "sort_by": {
@@ -13267,7 +14196,6 @@
             "default": 0
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "title": "EvalResultsQueryBody"
       },
@@ -13492,7 +14420,6 @@
             "default": "value"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "field",
@@ -13638,7 +14565,6 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -14101,7 +15027,6 @@
             "title": "Output"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "output"
@@ -14128,7 +15053,6 @@
             "title": "Error"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "title": "EvaluationStatusFailed"
       },
@@ -14141,7 +15065,6 @@
             "default": "not_found"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "title": "EvaluationStatusNotFound"
       },
@@ -14156,7 +15079,6 @@
             "title": "Call Id"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -14207,7 +15129,6 @@
             "title": "Total Rows"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "completed_rows",
@@ -14409,7 +15330,6 @@
             "description": "Allowed: ['scorer_id', 'span_agent_name', 'span_agent_version', 'span_status_code']."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -14469,7 +15389,6 @@
             "title": "Batch"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "batch"
@@ -14728,8 +15647,26 @@
             "description": "Status of the scored turn (from spans.status_code)",
             "default": "UNSET",
             "examples": [
-              "SUCCESS"
+              "OK"
             ]
+          },
+          "span_conversation_id": {
+            "type": "string",
+            "title": "Span Conversation Id",
+            "description": "Conversation the feedback belongs to (from spans.conversation_id)",
+            "default": ""
+          },
+          "span_trace_id": {
+            "type": "string",
+            "title": "Span Trace Id",
+            "description": "Turn the feedback belongs to (from spans.trace_id)",
+            "default": ""
+          },
+          "scorer_trace_id": {
+            "type": "string",
+            "title": "Scorer Trace Id",
+            "description": "Trace of the scorer (judge) invocation that produced this feedback (spans.trace_id of the judge call). Distinct from span_trace_id, which is the scored turn. Lets signals price the invocation off the judge span without joining the calls model.",
+            "default": ""
           },
           "wb_user_id": {
             "anyOf": [
@@ -14744,7 +15681,6 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -14819,7 +15755,6 @@
             "description": "Percentile values to compute (0\u2013100), e.g. [5, 50, 95]. Only applicable for numeric value_type fields; ignored for boolean/categorical."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "json_path"
@@ -14846,7 +15781,6 @@
             "default": "numeric"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "json_path"
@@ -14912,7 +15846,6 @@
             "default": 2000
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -14949,7 +15882,6 @@
             "$ref": "#/components/schemas/Query"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -15045,7 +15977,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -15061,11 +15992,17 @@
             },
             "type": "array",
             "title": "Result"
+          },
+          "total_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Count"
           }
         },
         "type": "object",
         "required": [
-          "result"
+          "result",
+          "total_count"
         ],
         "title": "FeedbackQueryRes"
       },
@@ -15305,8 +16242,26 @@
             "description": "Status of the scored turn (from spans.status_code)",
             "default": "UNSET",
             "examples": [
-              "SUCCESS"
+              "OK"
             ]
+          },
+          "span_conversation_id": {
+            "type": "string",
+            "title": "Span Conversation Id",
+            "description": "Conversation the feedback belongs to (from spans.conversation_id)",
+            "default": ""
+          },
+          "span_trace_id": {
+            "type": "string",
+            "title": "Span Trace Id",
+            "description": "Turn the feedback belongs to (from spans.trace_id)",
+            "default": ""
+          },
+          "scorer_trace_id": {
+            "type": "string",
+            "title": "Scorer Trace Id",
+            "description": "Trace of the scorer (judge) invocation that produced this feedback (spans.trace_id of the judge call). Distinct from span_trace_id, which is the scored turn. Lets signals price the invocation off the judge span without joining the calls model.",
+            "default": ""
           },
           "wb_user_id": {
             "anyOf": [
@@ -15325,7 +16280,6 @@
             "title": "Feedback Id"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -15442,7 +16396,6 @@
             "description": "Metrics to aggregate from payload_dump."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -15531,7 +16484,6 @@
             "title": "Digest"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -15559,7 +16511,6 @@
             "title": "Project Id"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -15714,6 +16665,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -15755,6 +16709,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -15818,6 +16775,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -15859,6 +16819,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -16031,6 +16994,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -16073,6 +17039,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/ConvertOperation"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SizeOperation"
                     },
                     {
                       "$ref": "#/components/schemas/AndOperation"
@@ -16248,6 +17217,10 @@
             "type": "string",
             "title": "Labelopenrouter"
           },
+          "openRouterPermaslug": {
+            "type": "string",
+            "title": "Openrouterpermaslug"
+          },
           "status": {
             "type": "string",
             "title": "Status"
@@ -16312,6 +17285,37 @@
           "featureTrainableServerlessRL": {
             "type": "boolean",
             "title": "Featuretrainableserverlessrl"
+          },
+          "reasoningSupport": {
+            "type": "string",
+            "enum": [
+              "unsupported",
+              "default-off",
+              "adaptive",
+              "default-on",
+              "always-on"
+            ],
+            "title": "Reasoningsupport"
+          },
+          "reasoningEfforts": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "none",
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "type": "array",
+            "title": "Reasoningefforts"
+          },
+          "reasoningArgument": {
+            "type": "string",
+            "title": "Reasoningargument"
           },
           "parameterCountTotal": {
             "type": "integer",
@@ -16619,6 +17623,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -16660,6 +17667,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -16723,6 +17733,9 @@
                     "$ref": "#/components/schemas/ConvertOperation"
                   },
                   {
+                    "$ref": "#/components/schemas/SizeOperation"
+                  },
+                  {
                     "$ref": "#/components/schemas/AndOperation"
                   },
                   {
@@ -16764,6 +17777,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -17275,10 +18291,12 @@
         },
         "type": "object",
         "required": [
-          "content"
+          "role",
+          "content",
+          "finish_reason"
         ],
         "title": "NormalizedMessage",
-        "description": "A single message normalized from any provider format.\n\nMaps to ClickHouse ``Tuple(role String, content String, finish_reason String)``.\n\n- role: message role (user, assistant, tool, system)\n- content: plain text for simple messages, or JSON-serialized parts\n  array for multimodal/structured messages\n- finish_reason: per-message finish reason (output messages only)"
+        "description": "A single message normalized from any provider format.\n\nMaps to ClickHouse ``Tuple(role String, content String, finish_reason String)``.\n\n- role: message role (user, assistant, tool, system)\n- content: plain text for simple messages, or JSON-serialized parts\n  array for multimodal/structured messages\n- finish_reason: per-message finish reason (output messages only)\n\nSerialization JSON Schema marks defaulted fields required. In the public\nOpenAPI document this class appears only as an AgentSpanSchema message\nelement. Ingest validation is unchanged."
       },
       "NotOperation": {
         "properties": {
@@ -17294,6 +18312,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/ConvertOperation"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SizeOperation"
                   },
                   {
                     "$ref": "#/components/schemas/AndOperation"
@@ -17427,7 +18448,6 @@
             "$ref": "#/components/schemas/ObjSchemaForInsert"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "obj"
@@ -17484,7 +18504,6 @@
             "description": "List of digests to delete. If not provided, all digests for the object will be deleted."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -17497,6 +18516,21 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted"
+          },
+          "deleted_versions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DeletedObjVersion"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted Versions",
+            "description": "Metadata for each deleted object version, with digest aliases resolved to content digests. None when the backing server does not report it."
           }
         },
         "type": "object",
@@ -17627,7 +18661,6 @@
             "default": false
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -17691,7 +18724,6 @@
             "default": false
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -17734,7 +18766,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -17986,7 +19017,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -18024,7 +19054,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -18190,7 +19219,6 @@
             "description": "Filter objects that have any of the specified aliases"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "title": "ObjectVersionFilter"
       },
@@ -18319,6 +19347,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/ConvertOperation"
+                },
+                {
+                  "$ref": "#/components/schemas/SizeOperation"
                 },
                 {
                   "$ref": "#/components/schemas/AndOperation"
@@ -18566,7 +19597,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_ids"
@@ -18637,6 +19667,36 @@
           "$expr"
         ],
         "title": "Query"
+      },
+      "RatingCondition": {
+        "properties": {
+          "scorer_key": {
+            "type": "string",
+            "title": "Scorer Key"
+          },
+          "op": {
+            "type": "string",
+            "enum": [
+              "gte",
+              "gt",
+              "lte",
+              "lt",
+              "eq"
+            ],
+            "title": "Op"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scorer_key",
+          "op",
+          "value"
+        ],
+        "title": "RatingCondition"
       },
       "ReasoningBudgetTokens": {
         "properties": {
@@ -18739,7 +19799,6 @@
             "title": "Refs"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "refs"
@@ -19233,6 +20292,63 @@
         ],
         "title": "ServerInfoRes"
       },
+      "SizeOperation": {
+        "properties": {
+          "$size": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LiteralOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GetFieldOperator"
+              },
+              {
+                "$ref": "#/components/schemas/ConvertOperation"
+              },
+              {
+                "$ref": "#/components/schemas/SizeOperation"
+              },
+              {
+                "$ref": "#/components/schemas/AndOperation"
+              },
+              {
+                "$ref": "#/components/schemas/OrOperation"
+              },
+              {
+                "$ref": "#/components/schemas/NotOperation"
+              },
+              {
+                "$ref": "#/components/schemas/EqOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LtOperation"
+              },
+              {
+                "$ref": "#/components/schemas/GteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/LteOperation"
+              },
+              {
+                "$ref": "#/components/schemas/InOperation"
+              },
+              {
+                "$ref": "#/components/schemas/ContainsOperation"
+              }
+            ],
+            "title": "$Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "$size"
+        ],
+        "title": "SizeOperation",
+        "description": "Return the number of elements in a collection or characters in a string.\n\nExample:\n    ```\n    {\"$size\": {\"$getField\": \"scorer_tags\"}}\n    ```"
+      },
       "SortBy": {
         "properties": {
           "field": {
@@ -19248,7 +20364,6 @@
             "title": "Direction"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "field",
@@ -19480,7 +20595,6 @@
             "description": "Client-computed table digest for server-side validation."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -19507,7 +20621,6 @@
             "$ref": "#/components/schemas/TableSchemaForInsert"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "table"
@@ -19682,7 +20795,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -19750,7 +20862,6 @@
             "default": false
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -19789,7 +20900,6 @@
             "description": "The digest of the table to query"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -19834,7 +20944,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "title": "TableRowFilter"
       },
@@ -19957,7 +21066,6 @@
             "title": "Updates"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -20002,6 +21110,91 @@
           "tags"
         ],
         "title": "TagsListRes"
+      },
+      "ThreadSchema": {
+        "properties": {
+          "thread_id": {
+            "type": "string",
+            "title": "Thread Id"
+          },
+          "turn_count": {
+            "type": "integer",
+            "title": "Turn Count",
+            "description": "Number of turn calls in this thread"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Time",
+            "description": "Earliest start time of turn calls in this thread"
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Updated",
+            "description": "Latest end time of turn calls in this thread"
+          },
+          "first_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Turn Id",
+            "description": "Turn ID of the first turn in this thread (earliest start_time)"
+          },
+          "last_turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Turn Id",
+            "description": "Turn ID of the latest turn in this thread (latest end_time)"
+          },
+          "p50_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P50 Turn Duration Ms",
+            "description": "50th percentile (median) of turn durations in milliseconds within this thread"
+          },
+          "p99_turn_duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P99 Turn Duration Ms",
+            "description": "99th percentile of turn durations in milliseconds within this thread"
+          }
+        },
+        "type": "object",
+        "required": [
+          "thread_id",
+          "turn_count",
+          "start_time",
+          "last_updated",
+          "first_turn_id",
+          "last_turn_id",
+          "p50_turn_duration_ms",
+          "p99_turn_duration_ms"
+        ],
+        "title": "ThreadSchema"
       },
       "ThreadsQueryFilter": {
         "properties": {
@@ -20060,7 +21253,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "title": "ThreadsQueryFilter"
       },
@@ -20133,7 +21325,6 @@
             ]
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -20192,7 +21383,6 @@
             "default": 10000
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -20262,7 +21452,6 @@
             "default": []
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
           "metric"
@@ -20293,6 +21482,13 @@
           "type": {
             "type": "string",
             "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
           }
         },
         "type": "object",

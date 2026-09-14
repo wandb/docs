@@ -13,7 +13,9 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L105" />
 
-## <kbd>class</kbd> `ContextAwareThread`
+<div id="class-contextawarethread">
+  ## <kbd>class</kbd> `ContextAwareThread`
+</div>
 
 呼び出し元のコンテキストで関数を実行するスレッド。
 
@@ -34,7 +36,9 @@ thread.start()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L129" />
 
-### <kbd>method</kbd> `__init__`
+<div id="method-__init__">
+  ### <kbd>method</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -43,7 +47,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 ***
 
 
-#### <kbd>プロパティ</kbd> daemon
+<div id="property-daemon">
+  #### <kbd>プロパティ</kbd> daemon
+</div>
 
 このスレッドがデーモンスレッドであるかどうかを示すブール値です。
 
@@ -53,7 +59,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>プロパティ</kbd> ident
+<div id="property-ident">
+  #### <kbd>プロパティ</kbd> ident
+</div>
 
 このスレッドのスレッド識別子です。まだ開始されていない場合は None です。
 
@@ -61,7 +69,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>プロパティ</kbd> 名
+<div id="property-name">
+  #### <kbd>プロパティ</kbd> 名
+</div>
 
 識別のためだけに使用される文字列です。
 
@@ -69,7 +79,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-#### <kbd>プロパティ</kbd> native_id
+<div id="property-native_id">
+  #### <kbd>プロパティ</kbd> native_id
+</div>
 
 このスレッドのネイティブな整数のスレッド ID です。まだ開始されていない場合は None になります。
 
@@ -79,7 +91,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L133" />
 
-### <kbd>method</kbd> `run`
+<div id="method-run">
+  ### <kbd>method</kbd> `run`
+</div>
 
 ```python
 run() → None
@@ -89,7 +103,9 @@ run() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L45" />
 
-## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+<div id="class-contextawarethreadpoolexecutor">
+  ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+</div>
 
 呼び出し元のコンテキストで関数を実行する ThreadPoolExecutor。
 
@@ -109,7 +125,9 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L68" />
 
-### <kbd>method</kbd> `__init__`
+<div id="method-__init__-2">
+  ### <kbd>method</kbd> `__init__`
+</div>
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -119,7 +137,9 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L77" />
 
-### <kbd>method</kbd> `map`
+<div id="method-map">
+  ### <kbd>method</kbd> `map`
+</div>
 
 ```python
 map(
@@ -134,7 +154,9 @@ map(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L73" />
 
-### <kbd>method</kbd> `submit`
+<div id="method-submit">
+  ### <kbd>method</kbd> `submit`
+</div>
 
 ```python
 submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
@@ -144,7 +166,9 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L164" />
 
-### <kbd>関数</kbd> `deprecated`
+<div id="function-deprecated">
+  ### <kbd>関数</kbd> `deprecated`
+</div>
 
 ```python
 deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
@@ -156,7 +180,9 @@ deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L137" />
 
-### <kbd>関数</kbd> `is_colab`
+<div id="function-is_colab">
+  ### <kbd>関数</kbd> `is_colab`
+</div>
 
 ```python
 is_colab()
@@ -166,7 +192,9 @@ is_colab()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L146" />
 
-### <kbd>関数</kbd> `is_notebook`
+<div id="function-is_notebook">
+  ### <kbd>関数</kbd> `is_notebook`
+</div>
 
 ```python
 is_notebook() → bool
@@ -176,7 +204,9 @@ is_notebook() → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L21" />
 
-### <kbd>関数</kbd> `log_once`
+<div id="function-log_once">
+  ### <kbd>関数</kbd> `log_once`
+</div>
 
 ```python
 log_once(log_method: 'Callable[[str], None]', message: 'str') → None

@@ -67,16 +67,22 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
 </Frame>
 
 <div id="example-filter-runs-with-a-timestamp">
-  ### 例: タイムスタンプでRunsをフィルタリングする
+  ### 例: タイムスタンプでRunsをフィルターする
 </div>
 
 MongoDB Query Language を使用してフィルタリングできます。
 
-次の例では、W&amp;B Public API を使用して、2つのタイムスタンプの間に作成されたRunsをフィルタリングします。
+次の例では、W&amp;B Public API を使用して、2つのタイムスタンプの間に作成されたRunsをフィルターします。
 
 ```python
+import wandb
+
+api = wandb.Api()
+entity = "your-entity"
+project = "your-project"
+
 runs = api.runs(
-    "<entity>/<project>",
+    f"{entity}/{project}",
     {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
 )
 ```
@@ -119,6 +125,35 @@ run の[設定](/ja/models/track/config)フィールドに特定の値が含ま�
 <Frame>
   <img src="/images/runs/contains_filter.png" alt="run の設定で Runs をフィルタリング" />
 </Frame>
+
+<div id="example-filter-runs-that-are-part-of-a-sweep">
+  ### 例: sweep に含まれる Runs をフィルターする
+</div>
+
+次の例では、W&amp;B Public API を使用して、sweep に含まれる Runs をフィルターします。
+
+```python
+import wandb
+
+project_name="your-project"
+entity="your-entity"
+
+api = wandb.Api()
+project = api.project(project_name, entity=entity)
+
+# project 内のすべての sweep を取得します
+sweep_ids = list(map(lambda s: s.id, project.sweeps()))
+
+# project 内でいずれかの sweep に属する finished 状態の runs をすべて取得します
+all_runs_lists = api.runs(
+    path=f"{entity}/{project_name}",
+    filters={"$and": [{"sweep": {"$in": sweep_ids}}, {"state": "finished"}]},
+    per_page=1000,
+    include_sweeps=False,
+)
+```
+
+API を使用して Runs をフィルタリングするその他の例については、[API ガイド](/ja/models/ref/python/public-api/api#method-api-runs)を参照してください。
 
 <div id="default-filters">
   ## デフォルトのフィルター

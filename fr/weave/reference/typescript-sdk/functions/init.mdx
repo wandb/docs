@@ -3,33 +3,31 @@ title: "init"
 description: "Référence du SDK TypeScript"
 ---
 
-> **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Initialise le client Weave, nécessaire au fonctionnement du tracing Weave.
+```ts
+init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
+```
 
-Défini dans : [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L86" />
+
+Initialise le client Weave, requis pour le fonctionnement du weave tracing.
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="project">
-  ### projet
-</div>
+<ParamField path="project" type="string" required>
+  Le nom du projet W&amp;B (peut être projet ou entité/projet). Si vous ne
+  spécifiez pas d&#39;équipe W&amp;B (par exemple, &#39;équipe/projet&#39;), votre entité par défaut est utilisée.
+  Pour trouver ou mettre à jour votre entité par défaut, référez-vous aux Paramètres utilisateur[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)t-team
+</ParamField>
 
-`string`
+<ParamField path="settings" type="Partial<{…}>">
+  (Facultatif) Paramètres de Weave tracing
 
-Le nom du projet W&amp;B (peut être projet ou entité/projet). Si vous ne
-spécifiez pas d&#39;équipe W&amp;B (par exemple, &#39;équipe/projet&#39;), votre entité par défaut est utilisée.
-Pour trouver ou mettre à jour votre défau[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)/platform/app/settings-page/user-settings#default-team
-
-<div id="settings">
-  ### settings?
-</div>
-
-`Partial`&lt;[`Settings`](../type-aliases/settings)&gt;
-
-(Facultatif) Paramètres de Tracing Weave
+  Type complet : `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
+</ParamField>
 
 <div id="returns">
   ## Renvoie

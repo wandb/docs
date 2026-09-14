@@ -67,16 +67,22 @@ title: run 필터링
 </Frame>
 
 <div id="example-filter-runs-with-a-timestamp">
-  ### 예시: 타임스탬프를 사용하여 Runs 필터링
+  ### 예시: timestamp를 사용하여 Runs 필터링
 </div>
 
 MongoDB 쿼리 언어를 사용하여 필터링할 수 있습니다.
 
-다음 예시에서는 W&amp;B Public API를 사용하여 두 타임스탬프 사이에 생성된 Runs를 필터링합니다:
+다음 예시에서는 W&amp;B Public API를 사용하여 두 timestamp 사이에 생성된 Runs를 필터링합니다:
 
 ```python
+import wandb
+
+api = wandb.Api()
+entity = "your-entity"
+project = "your-project"
+
 runs = api.runs(
-    "<entity>/<project>",
+    f"{entity}/{project}",
     {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
 )
 ```
@@ -119,6 +125,35 @@ run [설정](/ko/models/track/config) 필드에 특정 값이 포함되어 있�
 <Frame>
   <img src="/images/runs/contains_filter.png" alt="run 설정으로 run 필터링" />
 </Frame>
+
+<div id="example-filter-runs-that-are-part-of-a-sweep">
+  ### 예시: 스윕에 포함된 Runs 필터링
+</div>
+
+다음 예시에서는 W&amp;B Public API를 사용하여 스윕에 포함된 Runs를 필터링합니다.
+
+```python
+import wandb
+
+project_name="your-project"
+entity="your-entity"
+
+api = wandb.Api()
+project = api.project(project_name, entity=entity)
+
+# 프로젝트의 모든 스윕 조회
+sweep_ids = list(map(lambda s: s.id, project.sweeps()))
+
+# 프로젝트에서 스윕에 속한 완료된 run 모두 조회
+all_runs_lists = api.runs(
+    path=f"{entity}/{project_name}",
+    filters={"$and": [{"sweep": {"$in": sweep_ids}}, {"state": "finished"}]},
+    per_page=1000,
+    include_sweeps=False,
+)
+```
+
+API로 run을 필터링하는 더 많은 예시는 [API 가이드](/ko/models/ref/python/public-api/api#method-api-runs)를 참조하세요.
 
 <div id="default-filters">
   ## 기본 필터

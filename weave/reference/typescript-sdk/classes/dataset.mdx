@@ -3,9 +3,11 @@ title: "Dataset<R>"
 description: "TypeScript SDK reference"
 ---
 
-Dataset object with easy saving and automatic versioning
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-Defined in: [src/dataset.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L52)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/dataset.ts#L53" />
+
+Dataset object with easy saving and automatic versioning
 
 ## Example
 
@@ -34,29 +36,29 @@ const ref = await dataset.save()
 
 ## Type Parameters
 
-### R
+<ParamField path="R" type="extends DatasetRow" />
 
-`R` *extends* `DatasetRow`
-
-## Constructors
-
-### Constructor
+## Constructor
 
 > **new Dataset**\<`R`\>(`parameters`): `Dataset`\<`R`\>
 
-Defined in: [src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L55)
+### Parameters
 
-#### Parameters
+<ParamField path="parameters" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="description" type="string" />
 
-##### parameters
+    <ParamField path="name" type="string" />
 
-`DatasetParameters`\<`R`\>
+    <ParamField path="rows" type="R[]" required />
+  </Expandable>
+</ParamField>
 
-#### Returns
+### Returns
 
 `Dataset`\<`R`\>
 
-#### Overrides
+### Overrides
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
 
@@ -65,8 +67,6 @@ Defined in: [src/dataset.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c
 ### \_\_savedRef
 
 > `optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
-
-Defined in: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 #### Inherited from
 
@@ -78,8 +78,6 @@ Defined in: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077e
 
 > **rows**: `Table`\<`R`\>
 
-Defined in: [src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L53)
-
 ## Accessors
 
 ### description
@@ -87,8 +85,6 @@ Defined in: [src/dataset.ts:53](https://github.com/wandb/weave/blob/8c5f077eb11c
 #### Get Signature
 
 > **get** **description**(): `string` \| `undefined`
-
-Defined in: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
 
 ##### Returns
 
@@ -106,8 +102,6 @@ Defined in: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077e
 
 > **get** **length**(): `number`
 
-Defined in: [src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L68)
-
 ##### Returns
 
 `number`
@@ -119,8 +113,6 @@ Defined in: [src/dataset.ts:68](https://github.com/wandb/weave/blob/8c5f077eb11c
 #### Get Signature
 
 > **get** **name**(): `string`
-
-Defined in: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
 
 ##### Returns
 
@@ -136,8 +128,6 @@ Defined in: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077e
 
 > **\[asyncIterator\]**(): `AsyncIterator`\<`any`\>
 
-Defined in: [src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L72)
-
 #### Returns
 
 `AsyncIterator`\<`any`\>
@@ -148,13 +138,9 @@ Defined in: [src/dataset.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c
 
 > **getRow**(`index`): `R`
 
-Defined in: [src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L78)
-
 #### Parameters
 
-##### index
-
-`number`
+<ParamField path="index" type="number" required />
 
 #### Returns
 
@@ -166,8 +152,6 @@ Defined in: [src/dataset.ts:78](https://github.com/wandb/weave/blob/8c5f077eb11c
 
 > **save**(): `Promise`\<[`ObjectRef`](./objectref)\>
 
-Defined in: [src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/dataset.ts#L64)
-
 #### Returns
 
 `Promise`\<[`ObjectRef`](./objectref)\>
@@ -177,8 +161,6 @@ Defined in: [src/dataset.ts:64](https://github.com/wandb/weave/blob/8c5f077eb11c
 ### saveAttrs()
 
 > **saveAttrs**(): `object`
-
-Defined in: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
 
 #### Returns
 

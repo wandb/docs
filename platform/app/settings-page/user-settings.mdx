@@ -77,12 +77,16 @@ To create or manage a team, see [Manage teams](/platform/app/settings-page/teams
 
 The **API Keys** section lets you manage your personal API keys for authenticating with W&B services. From this section, you can review existing keys, create new ones, and revoke keys you no longer need.
 
+<Note>
+This section shows only your personal API keys. To see every key you can manage in your organization, including organization API keys and service account keys, use the **API Keys** tab described in [Manage API keys](/platform/hosting/iam/api-keys).
+</Note>
+
 ### View your API keys
 
 The API keys table displays:
 
 - **Key ID**: The first part of each API key, used for identification.
-- **Name**: A descriptive name you provided when you created the key.
+- **Name**: An optional descriptive name for the key.
 - **Created**: When the key was created.
 - **Last used**: The most recent usage timestamp.
 
@@ -96,12 +100,21 @@ To filter the list of API keys, enter a partial key name or ID.
 
 <ApiKeyCreate/>
 
+### Rename an API key
+
+To change an API key's display name without modifying the key material:
+
+1. Find the key you want to delete in the API keys table.
+1. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu and choose **Edit**.
+1. Update the key's **Name**, then click **Save**.
+
+
 ### Delete an API key
 
 Delete an API key when you no longer need it or when it may have been exposed. To revoke access by deleting an API key:
 
 1. Find the key you want to delete in the API keys table.
-1. Click the delete button next to the key.
+1. Click the **action (<Icon icon="ellipsis" iconType="solid"/>)** menu and choose **Delete**.
 1. Confirm the deletion.
 
 W&B removes the key from the table, and you can no longer use it to authenticate.

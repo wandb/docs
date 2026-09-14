@@ -1,0 +1,36 @@
+---
+title: "맞춤형 시그널 만들기"
+description: "직접 정의한 동작을 기준으로 에이전트 턴에 태그를 지정하는 맞춤형 W&B Weave 시그널을 만드세요."
+keywords: ["signals", "custom signal", "agent monitoring", "tags"]
+---
+
+맞춤형 시그널은 직접 정의한 동작을 기준으로 에이전트 턴에 점수를 매기고, 그 결과를 [Agents 뷰](/ko/weave/guides/tracking/view-agent-activity)에 태그로 표시합니다. W&amp;B Weave는 사용자 불만이나 탈옥(jailbreaking)과 같은 일반적인 사례에 대해 [기본 제공 시그널](/ko/weave/guides/tracking/view-agent-signals)도 제공합니다. 기본 제공 시그널만으로 원하는 모니터링 항목을 다룰 수 없다면 맞춤형 시그널을 만드세요. 이 페이지에서는 Weave UI에서 이러한 맞춤형 태그 시그널을 만드는 방법을 설명합니다.
+
+<div id="create-a-custom-tag-signal">
+  ## 맞춤형 태그 시그널 만들기
+</div>
+
+맞춤형 태그 시그널을 만들려면 다음 단계를 따르세요.
+
+1. [wandb.ai](https://wandb.ai/)로 이동하여 프로젝트를 선택하세요.
+2. **Weave 프로젝트 사이드바**에서 **Agents**를 클릭하세요.
+3. 탭 바에서 **Signals**를 클릭하세요.
+4. Signals 탭에서 **+ Create your first signal** 또는 **New signal**을 클릭하세요.
+5. 드로어에서 **Custom Signal**을 클릭하세요.
+
+<Frame>
+  ![맞춤형 시그널을 만들기 위한 Tag name, Definition, Scorer name, Inference model 필드가 있는 Custom tags 드로어.](/weave/guides/tracking/imgs/custom-signal.png)
+</Frame>
+
+1. **Custom tags** 드로어에서 다음 필드를 설정하세요.
+   * **Tag name**: 모니터링하려는 동작에 대해 Agents 뷰에 표시되는 레이블입니다.
+   * **Definition**: 시그널이 감지할 동작을 설명하는 프롬프트입니다. Weave는 이 프롬프트를 LLM judge에 전달하며, LLM judge는 각 에이전트 턴을 점수화하고 해당 턴이 그 동작과 일치하면 태그를 적용합니다. 예를 들어 특정 제품의 장애를 포착하려면 &quot;사용자가 Product X에 관한 오류나 문제를 논의하고 있습니다.&quot;와 같이 작성합니다.
+   * **+ Add tag**(선택): 동일한 시그널에 태그를 추가로 정의하려면 클릭하세요. 예를 들어 여러 제품을 지원한다면 제품별로 태그를 따로 추가해 전체 집계가 아닌 제품 단위로 사용자 불만을 추적할 수 있습니다.
+   * **Scorer name**: 기반이 되는 Scorer 오브젝트의 이름입니다.
+   * **Inference model or custom runtime**: 일치하는 턴을 점수화하는 데 사용할 모델입니다. 기본값은 [Serverless Inference](/ko/inference/)입니다. CoreWeave Serverless Inference는 W&amp;B 계정의 크레딧을 소모합니다.
+   * **Include tool calls**(선택): **Advanced**를 펼친 다음 체크박스를 선택하면 점수화 모델에 전달되는 컨텍스트에 해당 턴의 도구 Call이 포함됩니다.
+   * **Only score turns matching**(선택): **Advanced**를 펼친 다음 필터를 하나 이상 추가하여 시그널이 점수화할 턴을 제한하세요. 예를 들어 에이전트, 오퍼레이션, 도구, 모델을 기준으로 제한할 수 있습니다. 비워 두면 모든 에이전트 턴을 점수화합니다. Weave는 여러 필터를 `AND` 로직으로 결합합니다.
+   * **Sample rate**(선택): **Advanced**를 펼친 다음 시그널이 점수화할 일치 에이전트 턴의 비율을 설정하세요. 트래픽이 많은 에이전트라면 sample rate를 낮춰 모든 턴이 아닌 일부 일치 턴만 점수화하여 비용을 줄일 수 있습니다.
+2. **Custom tags** 드로어에서 **Create signal**을 클릭하세요.
+
+시그널을 만들면 Weave가 일치하는 턴을 점수화합니다. 태그는 Signals 탭을 포함한 Agents 뷰에 표시됩니다.

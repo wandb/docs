@@ -3,22 +3,24 @@ title: "startLLM"
 description: "Référence du SDK TypeScript"
 ---
 
-> **startLLM**(`opts`): [`LLM`](../interfaces/llm)
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+startLLM(opts: LLMInit): LLM
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L77" />
 
 Démarre un span LLM enfant du tour de conversation actuel. Génère une erreur si aucun tour de conversation n’est
 actif.
-
-Défini dans : [src/genai/api.ts:77](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L77)
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="opts">
-  ### opts
-</div>
-
-[`LLMInit`](../interfaces/llminit)
+<ParamField path="opts" type="LLMInit" required>
+  Voir [`LLMInit`](../interfaces/llminit).
+</ParamField>
 
 <div id="returns">
   ## Renvoie

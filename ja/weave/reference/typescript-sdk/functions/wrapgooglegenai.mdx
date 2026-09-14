@@ -3,29 +3,25 @@ title: "wrapGoogleGenAI"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **wrapGoogleGenAI**&lt;`T`&gt;(`googleGenAI`): `T`
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-定義元: [src/integrations/googleGenAI.ts:239](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/googleGenAI.ts#L239)
+```ts
+wrapGoogleGenAI<T>(googleGenAI: T): T
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/googleGenAI.ts#L241" />
 
 <div id="type-parameters">
   ## タイプパラメーター
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T` *extends* `GoogleGenAIAPI`
+<ParamField path="T" type="extends object" />
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="googlegenai">
-  ### googleGenAI
-</div>
-
-`T`
+<ParamField path="googleGenAI" type="T" required />
 
 <div id="returns">
   ## 戻り値

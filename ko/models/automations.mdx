@@ -9,7 +9,7 @@ import AutomationsActionsList from "/snippets/ko/_includes/automations/actions-l
 import AutomationsBestPractices from "/snippets/ko/_includes/automations/best-practices.mdx";
 import AutomationsWhereToFind from "/snippets/ko/_includes/automations/where-to-find-automations.mdx";
 
-*자동화*는 W&amp;B의 특정 이벤트에 대응하여 Slack 알림을 보내거나 웹훅을 실행합니다. 자동화의 범위는 조직, 팀, 프로젝트, 레지스트리 또는 컬렉션으로 지정할 수 있습니다. 자동화는 나중에 생성되는 프로젝트, 레지스트리 및 컬렉션을 포함해 범위 내의 모든 항목에서 이벤트를 감시합니다. 자동화를 만드는 step과 사용 가능한 이벤트는 범위에 따라 다릅니다. 범위별 이벤트 유형은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
+*자동화*는 W&amp;B의 특정 이벤트에 대응하여 Slack 알림을 보내거나, 웹훅을 실행하거나, ARIA에 프롬프트를 보냅니다. 자동화의 범위는 조직, 팀, 프로젝트, 레지스트리 또는 컬렉션으로 지정할 수 있습니다. 자동화는 나중에 생성되는 프로젝트, 레지스트리 및 컬렉션을 포함해 범위 내의 모든 항목에서 이벤트를 감시합니다. 자동화를 만드는 step과 사용 가능한 이벤트는 범위에 따라 다릅니다. 범위별 이벤트 유형은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
 
 <Note>
   팀 범위 및 조직 범위 자동화와 [Automations 허브](#automations-hub)는 W&amp;B Multi-tenant Cloud 및 W&amp;B Dedicated Cloud(Server v0.83.0 이상)에서 사용할 수 있습니다.
@@ -55,18 +55,19 @@ flowchart LR
 * **run 모니터링 및 알림**: run이 실패하거나 메트릭이 임곗값을 넘을 때(예: loss가 NaN이 되거나 정확도가 떨어질 때) 팀에 알림을 보냅니다.
 * **레지스트리 CI/CD**: 새 모델 버전이 연결되거나 별칭(예: `staging` 또는 `production`)이 추가되면, 테스트를 실행하거나 배포하도록 웹훅을 트리거합니다.
 * **프로젝트 아티팩트 워크플로**: 새 아티팩트 버전이 생성되거나 프로젝트에 별칭이 추가되면, 후속 작업을 실행하거나 Slack에 게시합니다.
+* **자동 분석**: run이 실패하거나 새 모델 버전이 연결되면, [ARIA](/ko/aria/overview)에 프롬프트를 보내 실패 원인을 진단하거나 새 버전을 프로덕션과 비교합니다.
 
 전체 이벤트 및 범위에 대한 자세한 내용은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
 
 <div id="automation-actions">
-  ## 자동화 작업
+  ## 자동화 액션
 </div>
 
-이벤트로 자동화가 트리거되면 다음 작업 중 하나를 수행할 수 있습니다:
+이벤트로 자동화가 트리거되면 다음 액션 중 하나를 수행할 수 있습니다:
 
 <AutomationsActionsList />
 
-구현 세부 정보는 [Slack 자동화 만들기](/ko/models/automations/create-automations/slack) 및 [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook)를 참조하세요.
+구현 세부 정보는 [Slack 자동화 만들기](/ko/models/automations/create-automations/slack), [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook) 또는 [ARIA 자동화 만들기](/ko/models/automations/create-automations/aria)를 참조하세요.
 
 <div id="how-automations-work">
   ## Automations의 작동 방식
@@ -75,10 +76,10 @@ flowchart LR
 [자동화를 생성](/ko/models/automations/create-automations)하려면 다음을 수행합니다.
 
 1. 필요한 경우 액세스 토큰, 비밀번호, 민감한 설정 세부 정보 등 자동화에 필요한 민감한 문자열에 대해 [시크릿](/ko/platform/secrets)를 설정합니다. 시크릿은 **Team Settings**에 정의되어 있습니다. 시크릿은 웹훅 Automations에서 자격 증명이나 토큰을 평문으로 노출하거나 웹훅 페이로드에 하드코딩하지 않고 웹훅의 외부 서비스로 안전하게 전달하는 데 가장 자주 사용됩니다.
-2. 팀 수준의 웹훅 또는 Slack 인테그레이션을 설정하여 W&amp;B가 사용자를 대신해 Slack에 게시하거나 웹훅을 실행할 수 있도록 승인합니다. 단일 자동화 작업(웹훅 또는 Slack 알림)은 여러 Automations에서 사용할 수 있습니다. 이러한 작업은 **Team Settings**에 정의되어 있습니다.
+2. 팀 수준의 웹훅 또는 Slack 인테그레이션을 설정하여 W&amp;B가 사용자를 대신해 Slack에 게시하거나 웹훅을 실행할 수 있도록 승인합니다. 단일 자동화 액션(웹훅 또는 Slack 알림)은 여러 Automations에서 사용할 수 있습니다. 이러한 액션은 **Team Settings**에 정의되어 있습니다. ARIA 액션에는 인테그레이션이 필요하지 않습니다.
 3. 프로젝트 또는 레지스트리에서 자동화를 생성합니다.
    1. 새 아티팩트 버전이 추가될 때와 같이 모니터링할 [이벤트](/ko/models/automations/automation-events)를 정의합니다.
-   2. 이벤트가 발생할 때 수행할 작업(Slack 채널에 게시하거나 웹훅 실행)을 정의합니다. 웹훅의 경우 필요하다면 액세스 토큰에 사용할 시크릿 및/또는 페이로드와 함께 전송할 시크릿을 지정합니다.
+   2. 이벤트가 발생할 때 수행할 액션(예: Slack 채널에 게시, 웹훅 실행 또는 ARIA에 프롬프트 전송)을 정의합니다. 웹훅의 경우 필요하다면 액세스 토큰에 사용할 시크릿 및/또는 페이로드와 함께 전송할 시크릿을 지정합니다.
 
 <div id="recommendations">
   ## 권장 사항

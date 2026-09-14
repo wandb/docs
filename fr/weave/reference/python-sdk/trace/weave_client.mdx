@@ -13,7 +13,9 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L217" />
 
-## <kbd>classe</kbd> `CrossProjectRefError`
+<div id="class-crossprojectreferror">
+  ## <kbd>classe</kbd> `CrossProjectRefError`
+</div>
 
 Levée lorsque le calcul de digest côté client rencontre une référence à un autre projet qui ne peut pas être résolue en ID interne.
 
@@ -21,7 +23,9 @@ Levée lorsque le calcul de digest côté client rencontre une référence à un
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L3433" />
 
-## <kbd>classe</kbd> `FlushStatus`
+<div id="class-flushstatus">
+  ## <kbd>classe</kbd> `FlushStatus`
+</div>
 
 Informations sur le statut de l’opération de vidage en cours.
 
@@ -29,7 +33,9 @@ Informations sur le statut de l’opération de vidage en cours.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L211" />
 
-## <kbd>classe</kbd> `NoInternalProjectIDError`
+<div id="class-nointernalprojectiderror">
+  ## <kbd>classe</kbd> `NoInternalProjectIDError`
+</div>
 
 Levée lorsque le calcul du digest côté client ne peut pas se poursuivre, car aucun ID de projet interne n’a encore été résolu.
 
@@ -37,7 +43,9 @@ Levée lorsque le calcul du digest côté client ne peut pas se poursuivre, car 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L3423" />
 
-## <kbd>classe</kbd> `PendingJobCounts`
+<div id="class-pendingjobcounts">
+  ## <kbd>classe</kbd> `PendingJobCounts`
+</div>
 
 Nombre de jobs en attente par type.
 
@@ -45,11 +53,15 @@ Nombre de jobs en attente par type.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L420" />
 
-## <kbd>classe</kbd> `WeaveClient`
+<div id="class-weaveclient">
+  ## <kbd>classe</kbd> `WeaveClient`
+</div>
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L445" />
 
-### <kbd>méthode</kbd> `__init__`
+<div id="method-__init__">
+  ### <kbd>méthode</kbd> `__init__`
+</div>
 
 ```python
 __init__(
@@ -66,7 +78,9 @@ __init__(
 
 ***
 
-#### <kbd>propriété</kbd> num_outstanding_jobs
+<div id="property-num_outstanding_jobs">
+  #### <kbd>propriété</kbd> num_outstanding_jobs
+</div>
 
 Renvoie le nombre total de jobs en attente sur l’ensemble des exécuteurs et le serveur.
 
@@ -78,13 +92,17 @@ Cette propriété permet de suivre l’avancement des tâches en arrière-plan s
 
 ***
 
-#### <kbd>propriété</kbd> project_id
+<div id="property-project_id">
+  #### <kbd>propriété</kbd> project_id
+</div>
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1312" />
 
-### <kbd>méthode</kbd> `add_calls_to_annotation_queue`
+<div id="method-add_calls_to_annotation_queue">
+  ### <kbd>méthode</kbd> `add_calls_to_annotation_queue`
+</div>
 
 ```python
 add_calls_to_annotation_queue(
@@ -102,7 +120,9 @@ Ajoutez des appels dans une file d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L2253" />
 
-### <kbd>méthode</kbd> `add_cost`
+<div id="method-add_cost">
+  ### <kbd>méthode</kbd> `add_cost`
+</div>
 
 ```python
 add_cost(
@@ -144,7 +164,9 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, compl
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1961" />
 
-### <kbd>méthode</kbd> `add_tags`
+<div id="method-add_tags">
+  ### <kbd>méthode</kbd> `add_tags`
+</div>
 
 ```python
 add_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
@@ -158,7 +180,9 @@ Ajoutez des tags à une version d’objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L1803" />
 
-### <kbd>méthode</kbd> `clear_wandb_run_context`
+<div id="method-clear_wandb_run_context">
+  ### <kbd>méthode</kbd> `clear_wandb_run_context`
+</div>
 
 ```python
 clear_wandb_run_context() → None
@@ -184,7 +208,9 @@ client.clear_wandb_run_context()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1225" />
 
-### <kbd>méthode</kbd> `create_annotation_queue`
+<div id="method-create_annotation_queue">
+  ### <kbd>méthode</kbd> `create_annotation_queue`
+</div>
 
 ```python
 create_annotation_queue(
@@ -208,7 +234,9 @@ Créez une file d’annotation pour ce projet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1374" />
 
-### <kbd>méthode</kbd> `create_call`
+<div id="method-create_call">
+  ### <kbd>méthode</kbd> `create_call`
+</div>
 
 ```python
 create_call(
@@ -241,7 +269,9 @@ Créer, journaliser et empiler un appel sur la pile d’exécution.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1879" />
 
-### <kbd>méthode</kbd> `delete_all_object_versions`
+<div id="method-delete_all_object_versions">
+  ### <kbd>méthode</kbd> `delete_all_object_versions`
+</div>
 
 ```python
 delete_all_object_versions(object_name: 'str') → int
@@ -259,7 +289,9 @@ Supprime toutes les versions d’un objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2143" />
 
-### <kbd>méthode</kbd> `delete_all_op_versions`
+<div id="method-delete_all_op_versions">
+  ### <kbd>méthode</kbd> `delete_all_op_versions`
+</div>
 
 ```python
 delete_all_op_versions(op_name: 'str') → int
@@ -277,7 +309,9 @@ Supprime toutes les versions d’une op.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1304" />
 
-### <kbd>méthode</kbd> `delete_annotation_queue`
+<div id="method-delete_annotation_queue">
+  ### <kbd>méthode</kbd> `delete_annotation_queue`
+</div>
 
 ```python
 delete_annotation_queue(queue_id: 'str') → AnnotationQueueSchema
@@ -289,7 +323,9 @@ Supprimer de manière réversible une file d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1844" />
 
-### <kbd>méthode</kbd> `delete_call`
+<div id="method-delete_call">
+  ### <kbd>méthode</kbd> `delete_call`
+</div>
 
 ```python
 delete_call(call: 'Call') → None
@@ -299,7 +335,9 @@ delete_call(call: 'Call') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1853" />
 
-### <kbd>méthode</kbd> `delete_calls`
+<div id="method-delete_calls">
+  ### <kbd>méthode</kbd> `delete_calls`
+</div>
 
 ```python
 delete_calls(call_ids: 'list[str]') → None
@@ -315,7 +353,9 @@ La suppression d’un appel supprime également tous ses appels enfants.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1869" />
 
-### <kbd>méthode</kbd> `delete_object_version`
+<div id="method-delete_object_version">
+  ### <kbd>méthode</kbd> `delete_object_version`
+</div>
 
 ```python
 delete_object_version(object: 'ObjectRef') → None
@@ -325,7 +365,9 @@ delete_object_version(object: 'ObjectRef') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1898" />
 
-### <kbd>méthode</kbd> `delete_object_versions`
+<div id="method-delete_object_versions">
+  ### <kbd>méthode</kbd> `delete_object_versions`
+</div>
 
 ```python
 delete_object_versions(object_name: 'str', digests: 'list[str]') → int
@@ -346,7 +388,9 @@ Supprime des versions spécifiques d’un objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2133" />
 
-### <kbd>méthode</kbd> `delete_op_version`
+<div id="method-delete_op_version">
+  ### <kbd>méthode</kbd> `delete_op_version`
+</div>
 
 ```python
 delete_op_version(op: 'OpRef') → None
@@ -356,7 +400,9 @@ delete_op_version(op: 'OpRef') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1774" />
 
-### <kbd>méthode</kbd> `fail_call`
+<div id="method-fail_call">
+  ### <kbd>méthode</kbd> `fail_call`
+</div>
 
 ```python
 fail_call(call: 'Call', exception: 'BaseException') → None
@@ -368,7 +414,9 @@ Signale l&#39;échec d&#39;un appel avec une exception. Il s&#39;agit d&#39;une 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L3229" />
 
-### <kbd>méthode</kbd> `finish`
+<div id="method-finish">
+  ### <kbd>méthode</kbd> `finish`
+</div>
 
 ```python
 finish(
@@ -387,7 +435,9 @@ Cette méthode bloque jusqu&#39;à ce que tous les jobs actuellement en file d&#
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1600" />
 
-### <kbd>méthode</kbd> `finish_call`
+<div id="method-finish_call">
+  ### <kbd>méthode</kbd> `finish_call`
+</div>
 
 ```python
 finish_call(
@@ -407,7 +457,9 @@ Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière r
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L3267" />
 
-### <kbd>méthode</kbd> `flush`
+<div id="method-flush">
+  ### <kbd>méthode</kbd> `flush`
+</div>
 
 ```python
 flush() → None
@@ -419,7 +471,9 @@ Effectue le vidage des tâches asynchrones en arrière-plan ; peut être appelé
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L568" />
 
-### <kbd>méthode</kbd> `get`
+<div id="method-get">
+  ### <kbd>méthode</kbd> `get`
+</div>
 
 ```python
 get(ref: 'ObjectRef', objectify: 'bool' = True) → Any
@@ -429,7 +483,9 @@ get(ref: 'ObjectRef', objectify: 'bool' = True) → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1131" />
 
-### <kbd>méthode</kbd> `get_agent_custom_attributes`
+<div id="method-get_agent_custom_attributes">
+  ### <kbd>méthode</kbd> `get_agent_custom_attributes`
+</div>
 
 ```python
 get_agent_custom_attributes(
@@ -475,7 +531,9 @@ for attr in resp.attributes:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1079" />
 
-### <kbd>méthode</kbd> `get_agent_span_stats`
+<div id="method-get_agent_span_stats">
+  ### <kbd>méthode</kbd> `get_agent_span_stats`
+</div>
 
 ```python
 get_agent_span_stats(
@@ -518,7 +576,9 @@ for row in resp.rows:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L943" />
 
-### <kbd>méthode</kbd> `get_agent_spans`
+<div id="method-get_agent_spans">
+  ### <kbd>méthode</kbd> `get_agent_spans`
+</div>
 
 ```python
 get_agent_spans(
@@ -558,7 +618,9 @@ for span in client.get_agent_spans(agent_name="my-agent"):
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1002" />
 
-### <kbd>méthode</kbd> `get_agent_turn`
+<div id="method-get_agent_turn">
+  ### <kbd>méthode</kbd> `get_agent_turn`
+</div>
 
 ```python
 get_agent_turn(
@@ -591,7 +653,9 @@ for message in resp.messages:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1037" />
 
-### <kbd>méthode</kbd> `get_agent_turns`
+<div id="method-get_agent_turns">
+  ### <kbd>méthode</kbd> `get_agent_turns`
+</div>
 
 ```python
 get_agent_turns(
@@ -629,7 +693,9 @@ for turn in resp.turns:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L888" />
 
-### <kbd>méthode</kbd> `get_agent_versions`
+<div id="method-get_agent_versions">
+  ### <kbd>méthode</kbd> `get_agent_versions`
+</div>
 
 ```python
 get_agent_versions(
@@ -667,7 +733,9 @@ for version in client.get_agent_versions(agent_name="my-agent"):
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L827" />
 
-### <kbd>méthode</kbd> `get_agents`
+<div id="method-get_agents">
+  ### <kbd>méthode</kbd> `get_agents`
+</div>
 
 ```python
 get_agents(
@@ -705,7 +773,9 @@ for agent in client.get_agents(limit=20):
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2090" />
 
-### <kbd>méthode</kbd> `get_aliases`
+<div id="method-get_aliases">
+  ### <kbd>méthode</kbd> `get_aliases`
+</div>
 
 ```python
 get_aliases(obj_ref: 'ObjectRef | str') → list[str]
@@ -723,7 +793,9 @@ Obtenir les alias d’une version d’objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1253" />
 
-### <kbd>méthode</kbd> `get_annotation_queue`
+<div id="method-get_annotation_queue">
+  ### <kbd>méthode</kbd> `get_annotation_queue`
+</div>
 
 ```python
 get_annotation_queue(queue_id: 'str') → AnnotationQueueSchema
@@ -735,7 +807,9 @@ Lire une file d’annotation à partir de son ID.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1364" />
 
-### <kbd>méthode</kbd> `get_annotation_queue_stats`
+<div id="method-get_annotation_queue_stats">
+  ### <kbd>méthode</kbd> `get_annotation_queue_stats`
+</div>
 
 ```python
 get_annotation_queue_stats(
@@ -749,7 +823,9 @@ Obtenir les statistiques d’achèvement des éléments des files d’annotation
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L790" />
 
-### <kbd>méthode</kbd> `get_call`
+<div id="method-get_call">
+  ### <kbd>méthode</kbd> `get_call`
+</div>
 
 ```python
 get_call(
@@ -775,7 +851,9 @@ Obtenir un appel unique par son ID.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L707" />
 
-### <kbd>méthode</kbd> `get_calls`
+<div id="method-get_calls">
+  ### <kbd>méthode</kbd> `get_calls`
+</div>
 
 ```python
 get_calls(
@@ -839,7 +917,9 @@ for call in calls:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L633" />
 
-### <kbd>méthode</kbd> `get_evaluation`
+<div id="method-get_evaluation">
+  ### <kbd>méthode</kbd> `get_evaluation`
+</div>
 
 ```python
 get_evaluation(uri: 'str') → Evaluation
@@ -876,7 +956,9 @@ print(evaluation.name)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L668" />
 
-### <kbd>méthode</kbd> `get_evaluations`
+<div id="method-get_evaluations">
+  ### <kbd>méthode</kbd> `get_evaluations`
+</div>
 
 ```python
 get_evaluations() → list[Evaluation]
@@ -902,7 +984,9 @@ for eval in evaluations:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L2162" />
 
-### <kbd>méthode</kbd> `get_feedback`
+<div id="method-get_feedback">
+  ### <kbd>méthode</kbd> `get_feedback`
+</div>
 
 ```python
 get_feedback(
@@ -956,7 +1040,9 @@ client.get_feedback(query=query)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1999" />
 
-### <kbd>méthode</kbd> `get_tags`
+<div id="method-get_tags">
+  ### <kbd>méthode</kbd> `get_tags`
+</div>
 
 ```python
 get_tags(obj_ref: 'ObjectRef | str') → list[str]
@@ -974,7 +1060,9 @@ Obtenir les tags d’une version d’objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2022" />
 
-### <kbd>méthode</kbd> `get_tags_and_aliases`
+<div id="method-get_tags_and_aliases">
+  ### <kbd>méthode</kbd> `get_tags_and_aliases`
+</div>
 
 ```python
 get_tags_and_aliases(obj_ref: 'ObjectRef | str') → tuple[list[str], list[str]]
@@ -992,7 +1080,9 @@ Obtenir les tags et les alias d&#39;une version d&#39;objet en un appel unique.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1925" />
 
-### <kbd>méthode</kbd> `link_prompt_to_registry`
+<div id="method-link_prompt_to_registry">
+  ### <kbd>méthode</kbd> `link_prompt_to_registry`
+</div>
 
 ```python
 link_prompt_to_registry(
@@ -1019,7 +1109,9 @@ Liez une version de prompt publiée au Registry.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2123" />
 
-### <kbd>méthode</kbd> `list_aliases`
+<div id="method-list_aliases">
+  ### <kbd>méthode</kbd> `list_aliases`
+</div>
 
 ```python
 list_aliases() → list[str]
@@ -1034,7 +1126,9 @@ Liste de tous les alias du projet sous forme de chaînes.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1339" />
 
-### <kbd>méthode</kbd> `list_annotation_queue_items`
+<div id="method-list_annotation_queue_items">
+  ### <kbd>méthode</kbd> `list_annotation_queue_items`
+</div>
 
 ```python
 list_annotation_queue_items(
@@ -1053,7 +1147,9 @@ Lister les appels attribués à une file d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1261" />
 
-### <kbd>méthode</kbd> `list_annotation_queues`
+<div id="method-list_annotation_queues">
+  ### <kbd>méthode</kbd> `list_annotation_queues`
+</div>
 
 ```python
 list_annotation_queues(
@@ -1070,7 +1166,9 @@ Lister les files d’annotation de ce projet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2113" />
 
-### <kbd>méthode</kbd> `list_tags`
+<div id="method-list_tags">
+  ### <kbd>méthode</kbd> `list_tags`
+</div>
 
 ```python
 list_tags() → list[str]
@@ -1085,7 +1183,9 @@ Liste de toutes les chaînes de caractères des tags du projet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L2299" />
 
-### <kbd>méthode</kbd> `purge_costs`
+<div id="method-purge_costs">
+  ### <kbd>méthode</kbd> `purge_costs`
+</div>
 
 ```python
 purge_costs(ids: 'list[str] | str') → None
@@ -1106,7 +1206,9 @@ client.purge_costs(ids)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L2323" />
 
-### <kbd>méthode</kbd> `query_costs`
+<div id="method-query_costs">
+  ### <kbd>méthode</kbd> `query_costs`
+</div>
 
 ```python
 query_costs(
@@ -1145,7 +1247,9 @@ client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2069" />
 
-### <kbd>méthode</kbd> `remove_aliases`
+<div id="method-remove_aliases">
+  ### <kbd>méthode</kbd> `remove_aliases`
+</div>
 
 ```python
 remove_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
@@ -1159,7 +1263,9 @@ Supprimez un ou plusieurs alias d’un objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1980" />
 
-### <kbd>méthode</kbd> `remove_tags`
+<div id="method-remove_tags">
+  ### <kbd>méthode</kbd> `remove_tags`
+</div>
 
 ```python
 remove_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
@@ -1175,7 +1281,9 @@ Supprimez les tags d’une version d’objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L539" />
 
-### <kbd>méthode</kbd> `save`
+<div id="method-save">
+  ### <kbd>méthode</kbd> `save`
+</div>
 
 ```python
 save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
@@ -1200,7 +1308,9 @@ N’appelez pas directement cette méthode ; utilisez plutôt weave.publish().
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1176" />
 
-### <kbd>méthode</kbd> `search_agents`
+<div id="method-search_agents">
+  ### <kbd>méthode</kbd> `search_agents`
+</div>
 
 ```python
 search_agents(
@@ -1241,7 +1351,9 @@ for conversation in resp.results:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L2047" />
 
-### <kbd>méthode</kbd> `set_aliases`
+<div id="method-set_aliases">
+  ### <kbd>méthode</kbd> `set_aliases`
+</div>
 
 ```python
 set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
@@ -1255,7 +1367,9 @@ Définissez un ou plusieurs alias pour une version d’objet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L1779" />
 
-### <kbd>méthode</kbd> `set_wandb_run_context`
+<div id="method-set_wandb_run_context">
+  ### <kbd>méthode</kbd> `set_wandb_run_context`
+</div>
 
 ```python
 set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
@@ -1289,7 +1403,9 @@ client.set_wandb_run_context(run_id="my-run-id")
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/telemetry/trace_sentry.py#L1283" />
 
-### <kbd>méthode</kbd> `update_annotation_queue`
+<div id="method-update_annotation_queue">
+  ### <kbd>méthode</kbd> `update_annotation_queue`
+</div>
 
 ```python
 update_annotation_queue(
@@ -1306,7 +1422,9 @@ Mettre à jour les métadonnées de la file d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L332" />
 
-### <kbd>fonction</kbd> `get_obj_name`
+<div id="function-get_obj_name">
+  ### <kbd>fonction</kbd> `get_obj_name`
+</div>
 
 ```python
 get_obj_name(val: 'Any') → str
@@ -1316,7 +1434,9 @@ get_obj_name(val: 'Any') → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L3450" />
 
-### <kbd>fonction</kbd> `get_parallelism_settings`
+<div id="function-get_parallelism_settings">
+  ### <kbd>fonction</kbd> `get_parallelism_settings`
+</div>
 
 ```python
 get_parallelism_settings() → tuple[int | None, int | None]
@@ -1326,7 +1446,9 @@ get_parallelism_settings() → tuple[int | None, int | None]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L363" />
 
-### <kbd>fonction</kbd> `map_to_refs`
+<div id="function-map_to_refs">
+  ### <kbd>fonction</kbd> `map_to_refs`
+</div>
 
 ```python
 map_to_refs(obj: 'Any') → Any
@@ -1336,7 +1458,9 @@ map_to_refs(obj: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L226" />
 
-### <kbd>fonction</kbd> `print_call_link`
+<div id="function-print_call_link">
+  ### <kbd>fonction</kbd> `print_call_link`
+</div>
 
 ```python
 print_call_link(call: 'Call') → None
@@ -1346,7 +1470,9 @@ print_call_link(call: 'Call') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L3491" />
 
-### <kbd>fonction</kbd> `redact_sensitive_keys`
+<div id="function-redact_sensitive_keys">
+  ### <kbd>fonction</kbd> `redact_sensitive_keys`
+</div>
 
 ```python
 redact_sensitive_keys(obj: 'Any') → Any
@@ -1356,7 +1482,9 @@ redact_sensitive_keys(obj: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/weave_client.py#L3527" />
 
-### <kbd>fonction</kbd> `sanitize_object_name`
+<div id="function-sanitize_object_name">
+  ### <kbd>fonction</kbd> `sanitize_object_name`
+</div>
 
 ```python
 sanitize_object_name(name: 'str') → str

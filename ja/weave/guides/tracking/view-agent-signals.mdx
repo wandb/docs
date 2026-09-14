@@ -87,19 +87,7 @@ project のシグナルを表示するには、次の手順を実行します。
   ### カスタムシグナル
 </div>
 
-**Create signals** ドロワーでは、**タグ** と **評価** の各カテゴリの下部に、カスタムシグナルを作成するオプションがあります。
-
-独自のシグナルを定義するには、**Custom Tags** または **Custom Rating** を選択します。すると、次のフィールドを含む設定画面が開きます。
-
-* **Prompt template**: 必要に応じて、1 つ以上のプリセットテンプレートをベースに Scorer を設定できます。テンプレートを選択すると、**Scorer prompt** に内容が自動入力されます。複数のテンプレートを組み合わせることも、プロンプトを最初から作成することもできます。
-* **Scorer prompt**: スコアリング時に Inference モデルへ送信されるプロンプトです。Weave は、`{input_messages}`、`{output_messages}`、`{system_instructions}`、`{agent_name}` などのテンプレート変数を、スコアリング時に解決します。
-* **Scorer name**: このシグナルの表示名です。
-* **Inference model**: スコアリングに使用する LLM です。デフォルトは [Serverless Inference](/ja/inference/) です。CoreWeave Serverless Inference を使用すると、W&amp;B アカウントのクレジットが消費されます。
-* **Advanced**: 展開して追加オプションを設定します。
-  * **Only score turns matching**: 1 つ以上のフィルターを追加して、シグナルがスコアリングするターンを絞り込めます。たとえば、エージェント、operation、tool、またはモデルで条件を指定できます。空のままにすると、すべてのエージェントターンがスコアリングされます。Weave は複数のフィルターを `AND` ロジックで結合します。
-  * **Sample rate**: トラフィックの多いエージェントでは、サンプルレートを下げることで、すべてのターンではなく条件に一致したターンの一部のみをスコアリングし、コストを削減できます。
-
-保存するには、**Create signal** を選択します。
+空の シグナル タブからカスタムタグシグナルを作成する方法については、[カスタムシグナルを作成する](/ja/weave/guides/tracking/create-custom-signal)を参照してください。
 
 <div id="manage-and-edit-signals">
   ## シグナルの管理と編集

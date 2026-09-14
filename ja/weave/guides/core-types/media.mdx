@@ -87,7 +87,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     Weave は画像をログして、画像を表示できるトレースへのリンクを返します。
 
-    ### 応用例: DALL-E で画像を生成して Weave にログする
+    <div id="advanced-example-generate-an-image-with-dall-e-and-log-it-to-weave">
+      ### 応用例: DALL-E で画像を生成して Weave にログする
+    </div>
 
     次の例では、猫の画像を生成して Weave にログします。
 
@@ -117,7 +119,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     generate_image("a cat with a pumpkin hat")
     ```
 
-    ### 高度な例: ログする前に大きな画像をリサイズする
+    <div id="advanced-example-resize-large-images-before-logging">
+      ### 高度な例: ログする前に大きな画像をリサイズする
+    </div>
 
     UI のレンダリングコストやストレージへの影響を抑えるため、ログする前に画像をリサイズしておくと便利です。画像をリサイズするには、`@weave.op` で `postprocess_output` を使用できます。
 
@@ -184,7 +188,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     Weave は画像をログし、その画像を確認できるトレースへのリンクを返します。
 
-    ### 応用例: OpenAI DALL-E API で生成した画像をログする
+    <div id="advanced-example-log-an-image-generated-with-the-openai-dall-e-api">
+      ### 応用例: OpenAI DALL-E API で生成した画像をログする
+    </div>
 
     次の例では、`weaveImage` 関数を使用して、OpenAI DALL-E API で生成した画像をログします。
 
@@ -261,7 +267,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     Weave は動画をログし、動画を確認できるトレースへのリンクを返します。
 
-    ### 応用例: 動画解析 project で動画をログする
+    <div id="advanced-example-log-a-video-within-a-video-analysis-project">
+      ### 応用例: 動画解析 project で動画をログする
+    </div>
 
     次の例では、動画理解 project 内で動画をログする方法を示します。
 
@@ -376,7 +384,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     csv_result = load_document("sample_data.csv")
     ```
 
-    ### 応用例: RAG システム内でドキュメントをログする
+    <div id="advanced-example-log-documents-within-a-rag-system">
+      ### 応用例: RAG システム内でドキュメントをログする
+    </div>
 
     この例では、Retrieval-Augmented Generation (RAG) システム内でドキュメントをログする方法を示します。
 
@@ -490,7 +500,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result = load_audio("beep.wav")
     ```
 
-    ### 高度な例: AI 作成のオーディオを生成してログする
+    <div id="advanced-example-generate-and-log-ai-created-audio">
+      ### 高度な例: AI 作成のオーディオを生成してログする
+    </div>
 
     この例では、`Content` アノテーションを使用して、AI 作成のオーディオを生成してログします。
 
@@ -584,7 +596,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     main();
     ```
 
-    ### 応用例: OpenAI のTTS API を使用してオーディオを生成し、Weave にログする
+    <div id="advanced-example-generate-audio-using-openais-tts-api-and-log-it-to-weave">
+      ### 応用例: OpenAI のTTS API を使用してオーディオを生成し、Weave にログする
+    </div>
 
     次の例では、OpenAI のTTS API を使用してオーディオを生成し、Weave にログします。
 
@@ -668,7 +682,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result = create_simple_html()
     ```
 
-    ### 高度な例: Serverless Inference を使用して単体で完結する HTML ページを生成し、Weave にログする
+    <div id="advanced-example-generate-self-contained-html-pages-using-serverless-inference-and-log-them-to-weave">
+      ### 高度な例: Serverless Inference を使用して単体で完結する HTML ページを生成し、Weave にログする
+    </div>
 
     この例では、[Serverless Inference](/ja/inference) を使用して単体で完結する HTML ページを生成し、それらのページを Weave にログします。
 

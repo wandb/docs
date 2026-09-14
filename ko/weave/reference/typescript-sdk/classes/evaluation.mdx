@@ -3,15 +3,19 @@ title: "Evaluation<R, E, M>"
 description: "TypeScript SDK 레퍼런스"
 ---
 
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/evaluation.ts#L145" />
+
 scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 
 `evaluation.evaluate(model)`을 호출하면 데이터셋의 각 행이 모델에 전달되며, 데이터셋의 column 이름이 `model.predict`의 argument 이름에 맞게 매핑됩니다.
 
 그런 다음 모든 scorer를 호출하고 결과를 weave에 저장합니다.
 
-정의 위치: [src/evaluation.ts:139](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L139)
-
-## 예시
+<div id="example">
+  ## 예시
+</div>
 
 ```ts twoslash
 // @noErrors
@@ -52,53 +56,59 @@ const results = await evaluation.evaluate({ model });
 * [`WeaveObject`](./weaveobject)
 
 <div id="type-parameters">
-  ## 유형 매개변수
+  ## Type Parameters
 </div>
 
-<div id="r">
-  ### R
-</div>
+<ParamField path="R" type="extends DatasetRow" />
 
-`R` *extends* `DatasetRow`
+<ParamField path="E" type="extends DatasetRow" />
 
-<div id="e">
-  ### E
-</div>
-
-`E` *extends* `DatasetRow`
-
-<div id="m">
-  ### M
-</div>
-
-`M`
-
-<div id="constructors">
-  ## 생성자
-</div>
+<ParamField path="M" />
 
 <div id="constructor">
-  ### 생성자
+  ## 생성자
 </div>
 
 > **new Evaluation**&lt;`R`, `E`, `M`&gt;(`parameters`): `Evaluation`&lt;`R`, `E`, `M`&gt;
 
-정의 위치: [src/evaluation.ts:150](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L150)
-
-#### 매개변수
-
 <div id="parameters">
-  ##### parameters
+  ### 매개변수
 </div>
 
-`EvaluationParameters`&lt;`R`, `E`, `M`&gt;
+<ParamField path="parameters" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="columnMapping" type="{[key: string]: keyof R; __savedRef?: keyof R; }">
+      <Expandable title="속성" defaultOpen>
+        <ParamField path="__savedRef" type="keyof R" />
+      </Expandable>
+    </ParamField>
 
-#### 반환값
+    <ParamField path="dataset" type="Dataset<R>" required>
+      [`Dataset`](./dataset)을 참조하세요.
+    </ParamField>
+
+    <ParamField path="description" type="string" />
+
+    <ParamField path="maxConcurrency" type="number" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="scorers" type="(Op<(...args) => any> | {…})[]" required>
+      [`Op`](../type-aliases/op)를 참조하세요.
+
+      전체 유형: `(Op<(...args) => any> | { id: string; invoke: (...args) => any; })[]`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns">
+  ### 반환값
+</div>
 
 `Evaluation`&lt;`R`, `E`, `M`&gt;
 
 <div id="overrides">
-  #### 재정의
+  ### 재정의
 </div>
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
@@ -112,8 +122,6 @@ const results = await evaluation.evaluate({ model });
 </div>
 
 > `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
-
-정의 위치: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 <div id="inherited-from">
   #### 상속됨
@@ -135,15 +143,13 @@ const results = await evaluation.evaluate({ model });
 
 > **get** **description**(): `string` | `undefined`
 
-정의 위치: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
-
-<div id="returns">
+<div id="returns-2">
   ##### 반환값
 </div>
 
 `string` | `undefined`
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### 상속됨
 </div>
 
@@ -155,21 +161,19 @@ const results = await evaluation.evaluate({ model });
   ### 이름
 </div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### 조회 시그니처
 </div>
 
 > **get** **name**(): `string`
 
-정의 위치: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
-<div id="returns">
+<div id="returns-3">
   ##### 반환값
 </div>
 
 `string`
 
-<div id="inherited-from">
+<div id="inherited-from-3">
   #### 상속됨
 </div>
 
@@ -185,33 +189,27 @@ const results = await evaluation.evaluate({ model });
 
 > **evaluate**(`__namedParameters`): `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
-정의 위치: [src/evaluation.ts:165](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L165)
-
-#### 매개변수
-
-<div id="__namedparameters">
-  ##### __namedParameters
+<div id="parameters-2">
+  #### 매개변수
 </div>
 
-<div id="maxconcurrency">
-  ###### maxConcurrency?
+<ParamField path="__namedParameters" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="maxConcurrency" type="number = 5" />
+
+    <ParamField path="model" type="Op<(...args) => Promise<M>> | {…}" required>
+      [`Op`](../type-aliases/op)를 참조하세요.
+
+      전체 유형: `Op<(...args) => Promise<M>> | { id: string; invoke: (...args) => Promise<M>; }`
+    </ParamField>
+
+    <ParamField path="nTrials" type="number = 1" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### 반환값
 </div>
-
-`number` = `5`
-
-<div id="model">
-  ###### 모델
-</div>
-
-`WeaveCallable`&lt;(...`args`) =&gt; `Promise`&lt;`M`&gt;&gt;
-
-<div id="ntrials">
-  ###### nTrials?
-</div>
-
-`숫자` = `1`
-
-#### 반환값
 
 `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
@@ -223,33 +221,31 @@ const results = await evaluation.evaluate({ model });
 
 > **predictAndScore**(`__namedParameters`): `Promise`&lt;&#123; `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: &#123;[`key`: `string`]: `any`; &#125;; &#125;&gt;
 
-정의 위치: [src/evaluation.ts:244](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/evaluation.ts#L244)
-
-#### 매개변수
-
-<div id="__namedparameters">
-  ##### __namedParameters
+<div id="parameters-3">
+  #### 매개변수
 </div>
 
-<div id="columnmapping">
-  ###### columnMapping?
+<ParamField path="__namedParameters" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="columnMapping" type="{[key: string]: keyof R; __savedRef?: keyof R; }">
+      <Expandable title="속성" defaultOpen>
+        <ParamField path="__savedRef" type="keyof R" />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="example" type="R" required />
+
+    <ParamField path="model" type="Op<(...args) => Promise<M>> | {…}" required>
+      [`Op`](../type-aliases/op)를 참조하세요.
+
+      전체 유형: `Op<(...args) => Promise<M>> | { id: string; invoke: (...args) => Promise<M>; }`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-5">
+  #### 반환값
 </div>
-
-`ColumnMapping`&lt;`R`, `E`&gt;
-
-<div id="example">
-  ###### 예시
-</div>
-
-`R`
-
-<div id="model">
-  ###### 모델
-</div>
-
-`WeaveCallable`&lt;(...`args`) =&gt; `Promise`&lt;`M`&gt;&gt;
-
-#### 반환값
 
 `Promise`&lt;&#123; `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: &#123;[`key`: `string`]: `any`; &#125;; &#125;&gt;
 
@@ -261,13 +257,13 @@ const results = await evaluation.evaluate({ model });
 
 > **saveAttrs**(): `object`
 
-정의 위치: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
-
-#### 반환값
+<div id="returns-6">
+  #### 반환값
+</div>
 
 `object`
 
-<div id="inherited-from">
+<div id="inherited-from-4">
   #### 상속됨
 </div>
 

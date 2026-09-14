@@ -15,20 +15,20 @@ W&amp;B を使用して、コードを保存し、Runs 間でコードを比較�
 チームまたは組織のコードの保存を設定します。チームおよび組織での設定方法については、[プライバシー設定を構成する](/ja/platform/hosting/privacy-settings)を参照してください。
 
 <Info>
-  デフォルトでは、W&amp;B はすべての Teams でコードの保存を無効にしています。チームでこれを有効にするには、まず組織管理者が組織レベルで有効にする必要があります。[組織](#organization)セクションをご覧ください。
+  デフォルトでは、W&amp;B はすべての チーム でコードの保存を無効にしています。チームでこれを有効にするには、組織管理者が組織の **Disable default code saving** をオフのままにしておく必要があります。[組織](#organization)セクションをご覧ください。
 </Info>
 
 <div id="team">
   ### チーム
 </div>
 
-チーム管理者としてチームのコードの保存を有効にするには、チームの **Settings** ページを開き、**Privacy** セクションに移動して、そのチームの Runs に対する **Enable code saving by default** を設定します。このオプションは、組織管理者が組織全体にコードの保存に関する制限を適用していない場合にのみ利用できます。画面の移動手順については、[チームのプライバシー設定を構成する](/ja/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team)をご覧ください。
+チーム管理者としてチームのコードの保存を有効にするには、チームの **Settings** ページを開き、**Privacy** セクションに移動して、そのチームの Runs に対する **Enable code saving by default** を設定します。このオプションは、組織管理者が組織全体に対して **Disable default code saving** を有効にしていない場合にのみ利用できます。画面の移動手順については、[チームのプライバシー設定を構成する](/ja/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team)をご覧ください。
 
 <div id="organization">
   ### 組織
 </div>
 
-組織管理者として組織のコードの保存を有効にするには、組織の **Settings** を開いて **Privacy** セクションに移動し、**Enforce default code saving restrictions** を有効にすることで、すべてのチームでコードの保存がデフォルトでオフのままになるよう設定します。この強制設定が有効な間、チーム管理者はチームに対して **Enable code saving by default** をオンにできません。組織で利用できる制御項目の一覧については、[Enforce privacy settings for all teams](/ja/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) を参照してください。
+組織管理者として **Settings** を開き、**Privacy** を選択して、**Project and content security** セクションの **Disable default code saving** を使用することで、すべてのチームでコードの保存をデフォルトでオフにするかどうかを制御できます。この設定が有効な間、チーム管理者はチームに対して **Enable code saving by default** をオンにできません。組織で利用できる制御項目の一覧については、[Enforce privacy settings for all teams](/ja/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) を参照してください。
 
 <div id="save-code">
   ## コードを保存

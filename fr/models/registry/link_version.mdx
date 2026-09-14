@@ -41,7 +41,9 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
     ```
 
-    ##### Lier un artefact depuis un run
+    <div id="link-an-artifact-from-a-run">
+      ##### Lier un artefact depuis un run
+    </div>
 
     Utilisez `wandb.Run.link_artifact()` pour créer et lier une version d’artefact pendant un run actif. W&amp;B journalise les brouillons d’artefacts en tant que sorties du run avant de les lier.
 
@@ -80,7 +82,9 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
       run.link_artifact(artifact = artifact, target_path = target_path)
     ```
 
-    ##### Créer et lier un artefact
+    <div id="create-and-link-an-artifact">
+      ##### Créer et lier un artefact
+    </div>
 
     Utilisez `wandb.Artifact.link()` pour créer et lier un brouillon d’artefact sans initialiser explicitement un run. W&amp;B crée automatiquement un run si nécessaire pour enregistrer l’artefact avant de le lier.
 
@@ -112,7 +116,9 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
     artifact.link(target_path = target_path)
     ```
 
-    ##### Lier un artifact existant
+    <div id="link-an-existing-artifact">
+      ##### Lier un artifact existant
+    </div>
 
     Utilisez `wandb.Artifact.link()` sur un artifact récupéré avec `wandb.Api().artifact()` pour lier une version existante d’un artifact déjà validé sans créer de nouveau run.
 

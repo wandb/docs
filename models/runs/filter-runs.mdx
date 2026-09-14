@@ -68,8 +68,14 @@ You can filter by using the MongoDB Query Language.
 The following example filters runs created between two timestamps using the W&B Public API:
 
 ```python
+import wandb
+
+api = wandb.Api()
+entity = "your-entity"
+project = "your-project"
+
 runs = api.runs(
-    "<entity>/<project>",
+    f"{entity}/{project}",
     {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
 )
 ```
@@ -110,12 +116,39 @@ The following image shows a filter configured to display runs where the `epochs`
     <img src="/images/runs/contains_filter.png" alt="Filter runs by run config" />
 </Frame>
 
+### Example: Filter runs that are part of a sweep
+
+The following example filters runs that are part of a sweep using the W&B Public API:
+
+```python
+import wandb
+
+project_name="your-project"
+entity="your-entity"
+
+api = wandb.Api()
+project = api.project(project_name, entity=entity)
+
+# Get all sweeps in the project
+sweep_ids = list(map(lambda s: s.id, project.sweeps()))
+
+# Get all finished runs in the project that are part of any sweep
+all_runs_lists = api.runs(
+    path=f"{entity}/{project_name}",
+    filters={"$and": [{"sweep": {"$in": sweep_ids}}, {"state": "finished"}]},
+    per_page=1000,
+    include_sweeps=False,
+)
+```
+
+See the [API guide](/models/ref/python/public-api/api#method-api-runs) for more examples of filtering runs with the API.
+
 
 ## Default filters
 
 By default, W&B provides the following filters:
 
-* **Show only my works**: Shows only runs created by the current user.
+* **Show only my work**: Shows only runs created by the current user.
 * **Hide crashed runs**: Hides runs with the `crashed` state.
 
 Default filters appear as toggles below the **New filter** button in the filter expression editor.

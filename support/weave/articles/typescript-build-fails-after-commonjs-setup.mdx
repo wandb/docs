@@ -1,0 +1,32 @@
+---
+title: "Why does my Weave TypeScript build fail for CommonJS format?"
+keywords: ["TypeScript"]
+---
+
+## `TS1295` and `TS1287`: ECMAScript imports and exports cannot be written in a CommonJS file
+
+If your `tsconfig.json` file sets `"verbatimModuleSyntax": true`, compiling a W&B Weave CommonJS project (per the [TypeScript SDK integration guide](/weave/guides/integrations/js)) fails with:
+
+```text
+error TS1295: ECMAScript imports and exports cannot be written in a CommonJS file under 'verbatimModuleSyntax'.
+error TS1287: A top-level 'export' modifier cannot be used on value declarations in a CommonJS module when 'verbatimModuleSyntax' is enabled.
+```
+
+The setting defaults to `false`, which the TypeScript SDK integration guide assumes.
+
+Set the `verbatimModuleSyntax` field to `false` alongside your CommonJS `module` setting:
+
+```json lines
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "verbatimModuleSyntax": false
+  }
+}
+```
+
+`"verbatimModuleSyntax": false` allows ESM-style `import`/`export` syntax in your source files while TypeScript still emits CommonJS output. For details, see [TypeScript - Verbatim Module Syntax](https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax).
+
+{/* AUTO-GENERATED: tab badges */}
+<Badge stroke shape="pill" color="orange" size="md">[TypeScript](/support/weave/tags/typescript)</Badge>
+{/* END AUTO-GENERATED: tab badges */}

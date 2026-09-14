@@ -3,101 +3,158 @@ title: Raccourcis clavier de Leet
 ---
 
 <div id="workspace">
-  ### Espace de travail
+  ### Workspace
 </div>
 
-| Clé                              | Action                                                                                 |
-| -------------------------------- | -------------------------------------------------------------------------------------- |
-| `h`, `?`                         | Basculer l’affichage de l’aide.                                                        |
-| `q`, `ctrl+c`                    | Quitter.                                                                               |
-| `alt+r`                          | Redémarrer LEET.                                                                       |
-| `esc`                            | Placer le focus sur la liste des runs.                                                 |
-| `enter`                          | Ouvrir le run mis en surbrillance dans la vue run unique.                              |
-| `1`                              | Basculer la grille des métriques.                                                      |
-| `[`                              | Basculer la barre latérale des runs.                                                   |
-| `2`                              | Basculer le volet des métriques système.                                               |
-| `]`                              | Basculer la barre latérale d’aperçu du run.                                            |
-| `3`                              | Basculer le volet multimédia.                                                          |
-| `4`                              | Basculer le volet des journaux de la console.                                          |
-| `f`                              | Filtrer les runs par nom ou métadonnées.                                               |
-| `ctrl+f`                         | Effacer le filtre des runs.                                                            |
-| `space`                          | Sélectionner ou désélectionner le run.                                                 |
-| `p`                              | Épingler ou désépingler le run.                                                        |
-| `/`                              | Filtrer les métriques.                                                                 |
-| `\`                              | Filtrer les métriques système.                                                         |
-| `ctrl+/`, `ctrl+l`               | Effacer le filtre des métriques.                                                       |
-| `ctrl+\`                         | Effacer le filtre des métriques système.                                               |
-| `o`                              | Filtrer les éléments de l’aperçu du run.                                               |
-| `ctrl+o`                         | Effacer le filtre d’aperçu.                                                            |
-| `y`                              | Faire défiler les modes du graphique actif.                                            |
-| `c`                              | Définir les colonnes de la grille active.                                              |
-| `r`                              | Définir les lignes de la grille active.                                                |
-| `tab`, `shift+tab`               | Parcourir les volets visibles en changeant le focus.                                   |
-| `w`, `a`, `s`, `d` or arrow keys | Se déplacer dans le volet actif.                                                       |
-| `N`, `pgup`                      | Page précédente.                                                                       |
-| `n`, `pgdown`                    | Page suivante.                                                                         |
-| `home`                           | Aller au premier élément, à la première page ou à la première image multimédia.        |
-| `end`                            | Aller au dernier élément, à la dernière page ou à l’image multimédia la plus récente. |
+| Clé                                    | Action                                                                                                                                    |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `h`, `?`                               | Basculer l&#39;aide.                                                                                                                     |
+| `q`, `ctrl+c`                          | Quitter.                                                                                                                                  |
+| `alt+r`                                | Redémarrer LEET.                                                                                                                          |
+| `esc`                                  | Quitter le filtre actif ou le média en plein écran, puis placer le focus sur la liste des runs (ou effacer le focus si elle est masquée). |
+| `enter`                                | Ouvrir le run sélectionné dans la vue run unique lorsque la liste des runs a le focus.                                                    |
+| `1`                                    | Basculer la grille de métriques.                                                                                                         |
+| `[`                                    | Basculer la barre latérale des runs.                                                                                                     |
+| `2`                                    | Basculer le volet des métriques système.                                                                                                 |
+| `]`                                    | Basculer la barre latérale d&#39;aperçu du run.                                                                                          |
+| `3`                                    | Basculer le volet multimédia.                                                                                                            |
+| `4`                                    | Basculer le volet des journaux de la console.                                                                                            |
+| `0`                                    | Réinitialiser la taille des volets et des sections d&#39;aperçu pour cette vue.                                                           |
+| `f`                                    | Filtrer les runs par nom ou métadonnées.                                                                                                  |
+| `ctrl+f`                               | Effacer le filtre des runs.                                                                                                               |
+| `space`                                | Sélectionner ou désélectionner un run.                                                                                                    |
+| `p`                                    | Épingler ou désépingler un run.                                                                                                           |
+| `/`                                    | Filtrer les métriques, ou les journaux de la console lorsque le volet des journaux a le focus.                                            |
+| `\`                                    | Filtrer les métriques système.                                                                                                            |
+| `ctrl+/`, `ctrl+l`                     | Effacer le filtre des métriques, ou le filtre de la console lorsque le volet des journaux a le focus.                                     |
+| `ctrl+\`                               | Effacer le filtre des métriques système.                                                                                                  |
+| `o`                                    | Filtrer les éléments de l&#39;aperçu du run.                                                                                              |
+| `ctrl+o`                               | Effacer le filtre de l&#39;aperçu.                                                                                                        |
+| `y`                                    | Passer au mode du graphique actif suivant.                                                                                                |
+| `g`                                    | Passer au type de repères du graphique suivant : désactivés, points, horizontaux.                                                         |
+| `c`                                    | Définir les colonnes de la grille active.                                                                                                 |
+| `r`                                    | Définir les lignes de la grille active.                                                                                                   |
+| `tab`, `shift+tab`                     | Déplacer le focus d&#39;un volet visible à l&#39;autre.                                                                                   |
+| `w`, `a`, `s`, `d` ou touches fléchées | Se déplacer dans le volet actif. Dans les médias, les flèches parcourent les images et WASD sélectionne les tuiles.                       |
+| `N`, `pgup`                            | Page précédente.                                                                                                                          |
+| `n`, `pgdown`                          | Page suivante.                                                                                                                            |
+| `home`                                 | Aller au premier élément, à la première page ou à la première image multimédia.                                                           |
+| `end`                                  | Aller au dernier élément, à la dernière page ou à la dernière image multimédia.                                                           |
 
 <div id="single-run">
   ### Run unique
 </div>
 
-| Clé                                        | Action                                                                                |
-| ------------------------------------------ | ------------------------------------------------------------------------------------- |
-| `h`, `?`                                   | Basculer l’affichage de l’aide.                                                       |
-| `q`, `ctrl+c`                              | Quitter.                                                                              |
-| `alt+r`                                    | Redémarrer LEET.                                                                      |
-| `esc`                                      | Revenir à la vue de l’espace de travail.                                              |
-| `1`                                        | Basculer l’affichage de la grille des métriques.                                      |
-| `[`                                        | Basculer l’affichage de la barre latérale d’aperçu du run.                            |
-| `]`                                        | Basculer l’affichage de la barre latérale des métriques système.                      |
-| `3`                                        | Basculer l’affichage du volet multimédia.                                             |
-| `4`                                        | Basculer l’affichage du volet des journaux de la console.                             |
-| `/`                                        | Filtrer les métriques.                                                                |
-| `\`                                        | Filtrer les métriques système.                                                        |
-| `ctrl+/`, `ctrl+l`                         | Effacer le filtre des métriques.                                                      |
-| `ctrl+\`                                   | Effacer le filtre des métriques système.                                              |
-| `o`                                        | Filtrer les éléments de l’aperçu du run.                                              |
-| `ctrl+o`                                   | Effacer le filtre d’aperçu.                                                           |
-| `y`                                        | Parcourir les modes du graphique actif.                                               |
-| `c`                                        | Définir les colonnes de la grille active.                                             |
-| `r`                                        | Définir les lignes de la grille active.                                               |
-| `tab`, `shift+tab`                         | Parcourir les volets visibles pour changer le focus.                                  |
-| `w`, `a`, `s`, `d` ou les touches fléchées | Se déplacer dans le volet actif.                                                      |
-| `N`, `pgup`                                | Page précédente.                                                                      |
-| `n`, `pgdown`                              | Page suivante.                                                                        |
-| `home`                                     | Aller au premier élément, à la première page ou à la première image multimédia.       |
-| `end`                                      | Aller au dernier élément, à la dernière page ou à l’image multimédia la plus récente. |
+| Clé                                    | Action                                                                                                                         |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `h`, `?`                               | Bascule l&#39;aide.                                                                                                             |
+| `q`, `ctrl+c`                          | Quitte.                                                                                                                        |
+| `alt+r`                                | Redémarre LEET.                                                                                                                |
+| `esc`                                  | Quitte le filtre actif ou le média en plein écran, puis retire le focus du volet, puis revient au workspace local.             |
+| `i`                                    | Ouvre l&#39;inspecteur d&#39;enregistrements pour le run local en cours.                                                       |
+| `1`                                    | Bascule la grille de métriques.                                                                                                 |
+| `[`                                    | Bascule la barre latérale d&#39;aperçu du run.                                                                                  |
+| `]`, `2`                               | Bascule la barre latérale des métriques système.                                                                                |
+| `3`                                    | Bascule le volet multimédia.                                                                                                    |
+| `4`                                    | Bascule le volet des journaux de la console.                                                                                    |
+| `0`                                    | Réinitialise la taille des volets et des sections d&#39;aperçu pour cette vue.                                                 |
+| `/`                                    | Filtre les métriques, ou les journaux de la console lorsque le volet des journaux est actif.                                   |
+| `\`                                    | Filtre les métriques système.                                                                                                  |
+| `ctrl+/`, `ctrl+l`                     | Efface le filtre de métriques, ou le filtre de console lorsque le volet des journaux est actif.                                |
+| `ctrl+\`                               | Efface le filtre de métriques système.                                                                                         |
+| `o`                                    | Filtre les éléments de l&#39;aperçu du run.                                                                                    |
+| `ctrl+o`                               | Efface le filtre d&#39;aperçu.                                                                                                 |
+| `y`                                    | Parcourt les modes du graphique actif.                                                                                         |
+| `g`                                    | Parcourt les repères de graphique : désactivés, points, horizontaux.                                                           |
+| `c`                                    | Définit les colonnes de la grille active.                                                                                      |
+| `r`                                    | Définit les lignes de la grille active.                                                                                        |
+| `tab`, `shift+tab`                     | Déplace le focus entre les volets visibles.                                                                                    |
+| `w`, `a`, `s`, `d` ou touches fléchées | Se déplace dans le volet actif. Dans le volet multimédia, les flèches parcourent les images et WASD sélectionne les vignettes. |
+| `N`, `pgup`                            | Page précédente.                                                                                                               |
+| `n`, `pgdown`                          | Page suivante.                                                                                                                 |
+| `home`                                 | Accède au premier élément, à la première page ou à la première image multimédia.                                               |
+| `end`                                  | Accède au dernier élément, à la dernière page ou à la dernière image multimédia.                                               |
 
 <div id="symon">
   ### SYMON
 </div>
 
-| Clé                                        | Action                                            |
-| ------------------------------------------ | ------------------------------------------------- |
-| `h`, `?`                                   | Afficher ou masquer l’aide.                       |
-| `q`, `ctrl+c`                              | Quitter.                                          |
-| `alt+r`                                    | Redémarrer.                                       |
-| `y`                                        | Faire défiler les modes du graphique actif. |
-| `\`                                        | Filtrer les métriques système.                    |
-| `ctrl+\`                                   | Effacer le filtre des métriques système.          |
-| `c`, `C`                                   | Définir les colonnes de la grille.                |
-| `r`, `R`                                   | Définir les lignes de la grille.                  |
-| `w`, `a`, `s`, `d` ou les touches fléchées | Déplacer la sélection du graphique.               |
-| `N`, `pgup`                                | Page de graphiques précédente.                    |
-| `n`, `pgdown`                              | Page de graphiques suivante.                      |
-| `home`                                     | Première page de graphiques.                      |
-| `end`                                      | Dernière page de graphiques.                      |
+| Clé                                        | Action                                                                    |
+| ------------------------------------------ | ------------------------------------------------------------------------- |
+| `h`, `?`                                   | Basculer l’aide.                                                          |
+| `q`, `ctrl+c`                              | Quitter.                                                                  |
+| `alt+r`                                    | Redémarrer.                                                               |
+| `y`                                        | Faire défiler les modes du graphique actif.                               |
+| `g`                                        | Faire défiler les repères du graphique : désactivés, points, horizontaux. |
+| `\`                                        | Filtrer les métriques système.                                            |
+| `ctrl+\`                                   | Effacer le filtre des métriques système.                                  |
+| `c`, `C`                                   | Définir les colonnes de la grille.                                        |
+| `r`, `R`                                   | Définir les lignes de la grille.                                          |
+| `w`, `a`, `s`, `d` ou les touches fléchées | Déplacer la sélection du graphique.                                       |
+| `N`, `pgup`                                | Page de graphiques précédente.                                            |
+| `n`, `pgdown`                              | Page de graphiques suivante.                                              |
+| `home`                                     | Première page de graphiques.                                              |
+| `end`                                      | Dernière page de graphiques.                                              |
+
+<div id="media">
+  ### Média
+</div>
+
+Ces raccourcis s&#39;appliquent lorsque le volet multimédia est actif dans le Workspace ou la vue de run unique.
+
+| Clé                          | Action                                                                                                                       |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `w`, `a`, `s`, `d`           | Sélectionner une vignette d&#39;image.                                                                                       |
+| Flèche gauche, flèche droite | Reculer ou avancer d&#39;une image multimédia.                                                                               |
+| Flèche haut, flèche bas      | Reculer ou avancer de 10 images multimédia.                                                                                  |
+| `home`, `end`                | Première ou dernière image multimédia.                                                                                       |
+| `N`, `pgup` / `n`, `pgdown`  | Page précédente ou suivante de la série d&#39;images.                                                                        |
+| `enter`                      | Basculer le plein écran pour l&#39;image sélectionnée.                                                                       |
+| `esc`                        | Quitter le média en plein écran.                                                                                             |
+| `l`                          | Basculer le défilement lié entre les séries d&#39;images.                                                                    |
+| `k`                          | Basculer entre le rendu ANSI et le rendu haute résolution dans les terminaux prenant en charge le protocole graphique Kitty. |
+
+<div id="record-inspector">
+  ### Inspecteur d&#39;enregistrements
+</div>
+
+Ouvrez l&#39;inspecteur avec `wandb leet inspect` ou appuyez sur `i` dans la vue run unique d&#39;un run local.
+
+| Clé                               | Action                                                                                                                                                    |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `h`, `?`                          | Afficher ou masquer l&#39;aide.                                                                                                                           |
+| `q`, `ctrl+c`                     | Quitter LEET.                                                                                                                                             |
+| `esc`                             | Quitter l&#39;édition du filtre, puis placer le focus sur la liste d&#39;enregistrements. Depuis la liste, revenir au run s&#39;il a été ouvert avec `i`. |
+| `tab`, `shift+tab`                | Basculer le focus entre la liste d&#39;enregistrements et le volet de détail.                                                                             |
+| `w`, `s`, flèche haut, flèche bas | Sélectionner un enregistrement ou faire défiler le volet de détail.                                                                                       |
+| `N`, `pgup` / `n`, `pgdown`       | Page précédente ou suivante.                                                                                                                              |
+| `home`                            | Premier enregistrement ou haut du volet de détail.                                                                                                        |
+| `end`                             | Dernier enregistrement ou bas du volet de détail. Au dernier enregistrement, suivre les mises à jour en direct.                                           |
+| `/`                               | Filtrer les enregistrements par type ou par synthèse.                                                                                                     |
+| `ctrl+/`                          | Effacer le filtre d&#39;enregistrements.                                                                                                                  |
+| `0`                               | Réinitialiser la taille des volets de l&#39;inspecteur.                                                                                                   |
+
+<div id="filter-editing">
+  ### Modification des filtres
+</div>
+
+Ces raccourcis s&#39;appliquent lorsqu&#39;un champ de filtre est actif.
+
+| Clé     | Action                                                          |
+| ------- | --------------------------------------------------------------- |
+| `tab`   | Basculer entre la correspondance regex et glob.                 |
+| `enter` | Appliquer le filtre et quitter le mode modification.            |
+| `esc`   | Abandonner la requête en cours et quitter le mode modification. |
 
 <div id="mouse">
   ### Souris
 </div>
 
-| Entrée                       | Action                                                                |
-| ---------------------------- | --------------------------------------------------------------------- |
-| Clic                         | Donner le focus à un graphique ou sélectionner une vignette de média. |
-| Molette                      | Zoomer sur le graphique ayant le focus.                               |
-| Clic droit + glisser         | Inspecter le point le plus proche sur un graphique.                   |
-| `alt` + clic droit + glisser | Inspecter tous les graphiques visibles de façon synchronisée.         |
-| `shift` + glisser            | Sélectionner le texte du terminal.                                    |
+| Entrée                                                 | Action                                                                                                                            |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| Clic                                                   | Donner le focus à un graphique ou sélectionner une vignette de média.                                                             |
+| Clic gauche + glisser sur une bordure ou un séparateur | Redimensionner les volets, les barres latérales ou les sections de l’aperçu du run.                                               |
+| Molette                                                | Zoomer sur le graphique actif.                                                                                                    |
+| Clic droit + glisser                                   | Inspecter le point le plus proche sur un graphique.                                                                               |
+| `alt` + clic droit + glisser                           | Inspecter de façon synchronisée les graphiques visibles de la même grille. Les graphiques de métriques doivent partager un axe X. |
+| `shift` + glisser                                      | Sélectionner le texte du terminal.                                                                                                |
