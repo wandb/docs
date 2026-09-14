@@ -5,7 +5,7 @@ keywords: ["application iPhone", "application iPad", "application iOS", "App Sto
 ---
 
 <Info>
-  Dernière version : 26.24 (publiée le 8 septembre 2026). [Notes de version de l’App Store](https://apps.apple.com/us/app/6755162576).
+  Dernière version : 26.25 (publiée le 14 septembre 2026). [Notes de version de l’App Store](https://apps.apple.com/us/app/6755162576).
 </Info>
 
 <Columns cols={4}>
@@ -101,6 +101,7 @@ Les fonctionnalités suivantes sont disponibles dans l’application mobile.
   * **Mettre des panneaux en favoris** : Repérez vos panneaux les plus importants en un coup d’œil. Lorsque vous consultez un run ou un projet, appuyez sur l’icône en forme d’étoile en haut d’un panneau pour le mettre en favoris. Pour filtrer la liste et n’afficher que les panneaux favoris, appuyez sur l’onglet **Starred** en haut de la liste.
   * **Mettre des métriques en favoris** : Lorsque vous consultez une métrique importante dans la vue détaillée, appuyez sur l’icône en forme d’étoile pour la mettre en favoris. Les cartes de run de la page **Runs** donnent la priorité à vos métriques favorites lorsqu’elles choisissent la métrique à afficher.
   * **Rechercher des panneaux** : Lorsque vous consultez un run ou un projet, utilisez le champ **panel search** en bas de l’écran pour filtrer les runs qui apparaissent dans chaque graphique. Vous pouvez utiliser la [syntaxe RE2](https://github.com/google/re2/wiki/Syntax) pour faire correspondre des motifs dans les noms de run.
+  * **Fidélité totale** : Lorsqu’un graphique comporte plus de points de données qu’il ne peut en afficher, l’application regroupe les données en buckets et trace autour de la courbe une bande ombrée indiquant les valeurs minimale et maximale de chaque bucket, ce qui vous permet de repérer la variance en un coup d’œil. Il s’agit du même rendu en [fidélité totale](/fr/models/app/features/panels/line-plot/sampling#full-fidelity) que celui utilisé dans l’application web W&amp;B. Activez **Show bin range in tooltip** (voir [Modifier les paramètres des graphiques en courbes](#change-line-plot-settings)) pour afficher la plage complète d’un bucket lorsque vous appuyez sur un point.
   * **Info-bulles des graphiques** : Dans les graphiques en courbes, les info-bulles affichent les valeurs des métriques avec jusqu’à quatre décimales afin que vous puissiez lire précisément les petites variations.
   * **Zoomer sur les graphiques** : Pincez verticalement ou horizontalement sur un graphique en courbes pour zoomer sur l’un ou l’autre axe, ou appuyez deux fois pour parcourir les niveaux de zoom. L’axe Y se redimensionne automatiquement pour s’adapter à la partie visible de la courbe, afin que les petites variations en fin de run restent lisibles.
   * **Afficher les métriques d’image** : Les images que vous journalisez dans un run apparaissent dans l’onglet **Metrics** sous forme de panneaux avec lesquels vous pouvez interagir. Appuyez pour afficher une seule image, puis pincez pour zoomer ou faites glisser pour vous déplacer. Voir [Afficher les métriques d’image](#view-image-metrics).
@@ -137,6 +138,7 @@ Le volet des paramètres indique sa portée sous le titre, ce qui vous permet de
 
 * **Log scale (Y)** : affiche l&#39;axe Y selon une échelle logarithmique afin de comparer une métrique sur plusieurs ordres de grandeur. Un axe logarithmique ne peut pas représenter de valeurs nulles ou négatives. Si un graphique n&#39;a aucune valeur positive à représenter, l&#39;application remplace le graphique par le message « No positive values to plot on a log scale ».
 * **Smoothing** : applique un lissage par [moyenne mobile exponentielle pondérée dans le temps (TWEMA)](/fr/models/app/features/panels/line-plot/smoothing#time-weighted-exponential-moving-average-twema-smoothing-default), de `0` (désactivé) à `0.99`. Cet algorithme est également celui utilisé par défaut dans l&#39;application web W&amp;B.
+* **Show bin range in tooltip** : affiche les valeurs min et max qu&#39;un bucket masque lorsque vous appuyez sur un point d&#39;un graphique affiché en [fidélité totale](#features). Désactivé par défaut, comme dans l&#39;application web W&amp;B.
 
 Pour rétablir les valeurs par défaut, appuyez sur **Reset this line plot** ou **Reset to defaults**, selon la portée depuis laquelle vous avez ouvert les paramètres.
 
