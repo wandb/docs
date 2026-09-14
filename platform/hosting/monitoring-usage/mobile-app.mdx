@@ -96,7 +96,7 @@ The following features are available in the mobile app.
     - **Star panels**: See your most important panels at a glance. When viewing a run or a project, tap the star icon at the top of a panel to star it. To filter the list to only starred panels, tap the **Starred** tab at the top of the list.
     - **Star metrics**: When viewing an important metric in detail view, tap the star icon to star it. Run cards on the **Runs** page prioritize your starred metrics when choosing which metric to display.
     - **Search panels**: When viewing a run or a project, use the **panel search** field at the bottom of the screen to filter which runs appear in each chart. You can search with [RE2 syntax](https://github.com/google/re2/wiki/Syntax) to match patterns in run names.
-    - **Ranged bins on charts**: When a chart has more data points than it can render, the app downsamples into bins and draws a shaded band around the line showing the range of values each bin hides, so you can spot variance at a glance. This matches how the W&B web app renders downsampled charts. Turn on the **ranged bin tooltip** (see [Change line plot settings](#change-line-plot-settings)) to see a bin's full range when you tap a point.
+    - **Full fidelity**: When a chart has more data points than it can render, the app buckets the data and draws a shaded band around the line showing the minimum and maximum value in each bucket, so you can spot variance at a glance. This is the same [full fidelity](/models/app/features/panels/line-plot/sampling#full-fidelity) rendering used in the W&B web app. Turn on the full fidelity tooltip (see [Change line plot settings](#change-line-plot-settings)) to see a bucket's full range when you tap a point.
     - **Chart tooltips**: On line charts, tooltips show metric values with up to four decimal places so you can read small changes accurately.
     - **Zoom charts**: Pinch vertically or horizontally on a line chart to zoom in on either axis, or double-tap to step through zoom levels. The Y-axis rescales automatically to fit the visible portion of the curve, so small variations late in a run stay readable.
     - **View image metrics**: Images you log to a run appear on the **Metrics** tab as panels you can interact with. Tap to view a single image, then pinch to zoom or drag to pan. See [View image metrics](#view-image-metrics).
@@ -129,7 +129,7 @@ The settings sheet names its scope below the title, so you can confirm what a ch
 
 - **Log scale (Y)**: Draw the Y-axis logarithmically to compare a metric across orders of magnitude. A logarithmic axis can't plot zero or negative values. If a plot has no positive values to draw, the app replaces the chart with the message "No positive values to plot on a log scale".
 - **Smoothing**: Apply [time-weighted exponential moving average (TWEMA)](/models/app/features/panels/line-plot/smoothing#time-weighted-exponential-moving-average-twema-smoothing-default) smoothing, from `0` (off) to `0.99`. This algorithm is also the default in the W&B web app.
-- **Ranged bin tooltip**: Show the min and max values a bin hides when you tap a point on a chart with [ranged bins](#features). Off by default, matching the W&B web app.
+- **Full fidelity tooltip**: Show the min and max values a bucket hides when you tap a point on a chart rendered with [full fidelity](#features). Off by default, matching the W&B web app.
 
 To restore the defaults, tap **Reset this line plot** or **Reset to defaults**, depending on the scope you opened the settings from.
 
