@@ -387,6 +387,94 @@ with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
 python train.py --configs other-config.yaml
 ```
 
+<div id="nested-dictionaries-in-config">
+  ### config의 중첩 딕셔너리
+</div>
+
+run config에 중첩된 값을 저장하려면 `wandb.init()`에 중첩 딕셔너리를 전달하세요. 다음 예시는 `config`에 중첩된 `optimizer`와 `training` 딕셔너리를 정의합니다.
+
+```python
+config = {
+    "optimizer": {
+        "type": "adamw",
+        "learning_rate": 0.0001,
+        "weight_decay": 0.01,
+    },
+    "training": {
+        "epochs": 20,
+        "batch_size": 64,
+    },
+}
+
+with wandb.init(project="project", config=config) as run:
+    ...
+```
+
+각 최상위 키에는 `value` 필드가 포함되어야 합니다. 중첩된 딕셔너리를 value에 부여하세요:
+
+```yaml
+optimizer:
+  value:
+    type: adamw
+    learning_rate: 0.0001
+    weight_decay: 0.01
+
+training:
+  value:
+    epochs: 20
+    batch_size: 64
+```
+
+Python에서는 딕셔너리 인덱싱을 사용하여 중첩된 값에 액세스합니다.
+
+다음 예시는 run config의 중첩된 optimizer 딕셔너리에서 `learning_rate` 값을 가져옵니다.
+
+```python
+with wandb.init(project="project", config=config) as run:
+    run.config["optimizer"]["learning_rate"]
+```
+
+Public API 필터나 선형 플롯 표현식처럼 설정 값을 경로로 참조하는 컨텍스트에서는 점 표기법을 사용하세요. 예를 들어 Public API 필터에서는 `config.optimizer.learning_rate`를, 선형 플롯 표현식에서는 `${config:optimizer.learning_rate}`를 사용합니다.
+
+다음 예시는 중첩된 설정으로 run을 생성하고 각 트레이닝 에포크마다 loss를 기록합니다. 이어서 Public API를 사용해 학습률이 `1e-4`인 run을 찾고, 각 run의 이름과 학습률을 출력합니다.
+
+```python
+import random
+import wandb
+
+config = {
+    "optimizer": {
+        "type": "adamw",
+        "learning_rate": 1e-4,
+        "weight_decay": 0.01,
+    },
+    "training": {
+        "epochs": 3,
+        "batch_size": 64,
+    },
+}
+
+with wandb.init(project="nested-config-example", config=config) as run:
+    lr = run.config["optimizer"]["learning_rate"]
+
+    for epoch in range(run.config["training"]["epochs"]):
+        loss = 1.0 / (epoch + 1) + random.random() * 0.05
+        run.log({"epoch": epoch, "train/loss": loss})
+
+api = wandb.Api()
+runs = api.runs(
+    "wandb/nested-config-example",
+    filters={"config.optimizer.learning_rate": 1e-4},
+)
+
+for run in runs:
+    print(run.name, run.config["optimizer"]["learning_rate"])
+```
+
+<Info>
+  실제로는 보통 별도의 스크립트에서 run을 생성한 뒤, 나중에 필터를 사용해 해당 run을 쿼리합니다.
+</Info>
+
 <div id="example-use-case-for-file-based-configs">
   ### 파일 기반 설정 사용 예
 </div>

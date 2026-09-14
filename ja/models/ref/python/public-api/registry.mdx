@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
-## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Registry
+<div id="class-wandbapispublicregistry">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Registry
+</div>
 
 Registry 内の 1 つの Registry です。
 
@@ -118,7 +120,9 @@ attrs: 'RegistryFragment | None' = None)
   ## メソッド
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.add_members()
+<div id="method-registryadd_members">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.add_members()
+</div>
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -161,7 +165,9 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.collections()
+<div id="method-registrycollections">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.collections()
+</div>
 
 ```python
 self,
@@ -173,7 +179,7 @@ start: 'str | None' = None
 
 この Registry に属するコレクションを返します。
 
-<div id="arguments">
+<div id="arguments-2">
   ##### 引数
 </div>
 
@@ -193,7 +199,9 @@ start: 'str | None' = None
   過去のクエリを再開するためのページネーションカーソルです。以前のページネーターの `.cursor` 属性から取得します。
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.create()
+<div id="method-registrycreate">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.create()
+</div>
 
 ```python
 api: 'Api',
@@ -209,7 +217,7 @@ artifact_types: 'list[str] | None' = None
 Registry名は、組織内で一意である必要があります。
 この関数は `api.create_registry()` を使用して呼び出してください。
 
-<div id="arguments">
+<div id="arguments-3">
   ##### 引数
 </div>
 
@@ -237,13 +245,15 @@ Registry名は、組織内で一意である必要があります。
   許可するアーティファクト タイプの任意のリスト。
 </ResponseField>
 
-<div id="raises">
+<div id="raises-2">
   ##### 送出される例外
 </div>
 
 * `ValueError`: 組織内に同じ名のRegistryがすでに存在する場合、または作成に失敗した場合。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.delete()
+<div id="method-registrydelete">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.delete()
+</div>
 
 ```python
 self
@@ -251,7 +261,9 @@ self
 
 Registry を削除します。この操作は元に戻せません。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.load()
+<div id="method-registryload">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.load()
+</div>
 
 ```python
 self
@@ -259,7 +271,9 @@ self
 
 バックエンドから Registry の属性を読み込みます。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.members()
+<div id="method-registrymembers">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.members()
+</div>
 
 ```python
 self
@@ -267,7 +281,9 @@ self
 
 この Registry の現在のメンバー (Users と Teams) を返します。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.remove_members()
+<div id="method-registryremove_members">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.remove_members()
+</div>
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -275,7 +291,7 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 この Registry からUsersまたはTeamsを削除します。
 
-<div id="arguments">
+<div id="arguments-4">
   ##### 引数
 </div>
 
@@ -283,14 +299,14 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
   Registry から削除するUsersまたはTeams。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列IDを受け付けます。
 </ResponseField>
 
-<div id="raises">
+<div id="raises-3">
   ##### 送出される例外
 </div>
 
 * `TypeError`: 引数としてメンバーが1つも渡されなかった場合。
 * `ValueError`: ユーザーまたはチームのIDを推定または解析できない場合。
 
-<div id="examples">
+<div id="examples-2">
   ##### 例
 </div>
 
@@ -310,7 +326,9 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.save()
+<div id="method-registrysave">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.save()
+</div>
 
 ```python
 self
@@ -318,7 +336,9 @@ self
 
 Registry の属性をバックエンドへ保存します。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.team_members()
+<div id="method-registryteam_members">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.team_members()
+</div>
 
 ```python
 self
@@ -326,7 +346,9 @@ self
 
 この Registry に現在所属しているTeamsを返します。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.update_member()
+<div id="method-registryupdate_member">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.update_member()
+</div>
 
 ```python
 self,
@@ -336,7 +358,7 @@ role: 'MemberRole | str'
 
 このRegistry内のメンバー (ユーザーまたはチーム) のロールを更新します。
 
-<div id="arguments">
+<div id="arguments-5">
   ##### 引数
 </div>
 
@@ -353,13 +375,13 @@ role: 'MemberRole | str'
   * &quot;restricted&#95;viewer&quot; (W&amp;B サーバーでサポートされる場合)
 </ResponseField>
 
-<div id="raises">
+<div id="raises-4">
   ##### 送出される例外
 </div>
 
 * `ValueError`: ユーザーまたはチームの ID を特定できない場合。
 
-<div id="examples">
+<div id="examples-3">
   ##### 例
 </div>
 
@@ -377,7 +399,9 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.user_members()
+<div id="method-registryuser_members">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.user_members()
+</div>
 
 ```python
 self
@@ -385,7 +409,9 @@ self
 
 このRegistryに現在所属しているメンバーUsersを返します。
 
-### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.versions()
+<div id="method-registryversions">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.versions()
+</div>
 
 ```python
 self,
@@ -397,7 +423,7 @@ start: 'str | None' = None
 
 このRegistryに属するアーティファクト versionを返します。
 
-<div id="arguments">
+<div id="arguments-6">
   ##### 引数
 </div>
 

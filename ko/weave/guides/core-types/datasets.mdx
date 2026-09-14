@@ -99,7 +99,9 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
   <Tab title="Python">
     Python에서는 [Call](../tracking/tracing) 같은 일반적인 Weave 객체나 `pandas.DataFrame` 같은 Python 객체로도 `Dataset`을 생성할 수 있습니다. 이 기능은 특정 예시들로 예시 `Dataset`을 만들고 싶을 때 유용합니다.
 
-    ### Weave call
+    <div id="weave-call">
+      ### Weave call
+    </div>
 
     하나 이상의 Weave call에서 `Dataset`을 만들려면 call 객체를 조회한 뒤, `from_calls` 메서드에 전달하는 목록에 추가합니다.
 
@@ -115,7 +117,9 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
     # 이제 데이터셋을 사용해 모델을 평가하는 등의 작업을 할 수 있습니다.
     ```
 
-    ### Pandas DataFrame
+    <div id="pandas-dataframe">
+      ### Pandas DataFrame
+    </div>
 
     Pandas `DataFrame` 객체에서 `Dataset`을 만들려면 `from_pandas` 메서드를 사용합니다. 다시 `Dataset`을 `DataFrame`으로 변환하려면 `to_pandas`를 사용합니다.
 
@@ -133,7 +137,9 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
     assert df.equals(df2)
     ```
 
-    ### Hugging Face Datasets
+    <div id="hugging-face-datasets">
+      ### Hugging Face Datasets
+    </div>
 
     Hugging Face `datasets.Dataset` 또는 `datasets.DatasetDict` 객체에서 `Dataset`을 만들려면 먼저 필요한 의존성이 설치되어 있는지 확인합니다:
 
@@ -327,7 +333,9 @@ UI에서 `데이터셋`을 생성, 수정 및 삭제할 수 있습니다. Weave 
 
 <Tabs>
   <Tab title="Python">
-    ### 행 선택
+    <div id="select-rows">
+      ### 행 선택
+    </div>
 
     `select` 메서드를 사용하면 인덱스를 기준으로 `Dataset`에서 특정 행을 선택할 수 있습니다. 예를 들어 더 적은 수의 예시를 대상으로 평가하려는 경우처럼 데이터의 하위 집합을 만들 때 유용합니다.
 

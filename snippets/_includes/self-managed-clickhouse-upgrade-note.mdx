@@ -1,18 +1,7 @@
 <Note>
-W&B Server 0.81.0+ introduces schema migrations that require ClickHouse 26.3 or newer when any of the following Models OLAP features are enabled in your Helm values:
+**Self-Managed deployments that use W&B Weave:** Verify your ClickHouse version before you upgrade W&B Server. Weave supports ClickHouse 25.8 through 25.12, and 26.3 or newer. Weave does not work with ClickHouse 26.1 or 26.2.
 
-```yaml
-global:
-  olap:
-    registrySearch:
-      enabled: true
-    runStoreAccelerator:
-      enabled: true
-    history:
-      enabled: true
-```
-
-**_Before_ upgrading W&B Self-Managed to Server v0.81+**, you must either set these to `false` in your Helm values, or upgrade **both** ClickHouse Server and ClickHouse Keeper to 26.3.
+If you must change ClickHouse versions, upgrade **both** ClickHouse Server and ClickHouse Keeper. See [ClickHouse compatibility for upgrades](/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades).
 
 Dedicated Cloud deployments already run a compatible ClickHouse version and are not affected.
 </Note>

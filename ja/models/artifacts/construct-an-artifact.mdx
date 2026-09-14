@@ -30,20 +30,40 @@ Amazon S3 に保存されたファイルなどの外部ファイルをトラッ�
   W&amp;B は、指定した &quot;name&quot; と &quot;type&quot; を使用して、W&amp;B App に有向非巡回グラフを作成します。詳細は、[アーティファクト グラフの探索とたどり方](./explore-and-traverse-an-artifact-graph)を参照してください。
 </Note>
 
-<Warning>
-  Artifacts には、タイプに関係なく同じ名前を付けることはできません。つまり、`dataset` タイプの `cats` という名前の アーティファクト と、`model` タイプの同じ名前の アーティファクト を別に作成することはできません。
-</Warning>
-
-アーティファクト オブジェクトを初期化する際に、必要に応じて説明やメタデータを指定することもできます。使用可能な属性とパラメーターの詳細については、Python SDK Reference Guide の [`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) クラス定義を参照してください。
-
-次の コードスニペット をコピー＆ペーストして アーティファクト オブジェクトを作成します。`<name>` と `<type>` のプレースホルダーを自分の値に置き換えてください。
+次の コードスニペット をコピー＆ペーストして アーティファクト オブジェクトを作成します。`"artifact-name"` と `"artifact-type"` のプレースホルダーを自分の値に置き換えてください。
 
 ```python
 import wandb
 
 # アーティファクト オブジェクトを作成する
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 ```
+
+<Info>
+  Artifacts は、タイプが異なっていても同じ名前を共有することはできません。たとえば、`dataset` タイプの `cats` という名前の アーティファクト と、`model` タイプの `cats` という名前の アーティファクト を作成することはできません。
+</Info>
+
+アーティファクト オブジェクトを初期化する際に、必要に応じて説明、メタデータ、ダイジェスト アルゴリズム、その他のパラメーターを指定することもできます。
+
+たとえば、次の コードスニペット は、名前、タイプ、説明、メタデータ、ダイジェスト アルゴリズムを指定して アーティファクト オブジェクトを作成します。
+
+```python
+import wandb
+# アーティファクト オブジェクトを作成する
+artifact = wandb.Artifact(
+    name="my-dataset",
+    type="dataset",
+    description="This is my dataset artifact",
+    metadata={"source": "generated", "version": 1},
+    digest_algorithm="XXH128"
+)
+```
+
+<Note>
+  デフォルトの ダイジェスト アルゴリズムは引き続き MD5 です。W&amp;B Python SDK 0.29.0 以降では、`digest_algorithm="XXH128"` を設定すると、新しい アーティファクト でより高速なハッシュ処理を利用できます。MD5 を使用している既存の アーティファクト コレクション は引き続き MD5 を使用します。0.29.0 より前の SDK バージョンでは、XXH128 のエントリを含む アーティファクト を `Artifact.verify()` で検証できません。
+</Note>
+
+使用可能な属性とパラメーターの詳細については、Python SDK Reference Guide の [`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) クラス定義を参照してください。
 
 <div id="add-one-or-more-files-to-the-artifact">
   ### アーティファクト に 1 つ以上のファイルを追加する
@@ -54,13 +74,13 @@ artifact = wandb.Artifact(name="<name>", type="<type>")
 単一のファイルを追加するには、アーティファクト オブジェクトの [`Artifact.add_file()`](/ja/models/ref/python/experiments/artifact#add_file) method を使用します。
 
 ```python
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
+artifact.add_file(local_path="path/to/file.txt", name="artifact-name")
 ```
 
 ディレクトリを追加するには、[`Artifact.add_dir()`](/ja/models/ref/python/experiments/artifact#add_dir) methodを使用します。
 
 ```python
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact.add_dir(local_path="path/to/directory", name="artifact-name")
 ```
 
 アーティファクト に種類の異なるファイルを追加する方法について詳しくは、次のセクション「[アーティファクト へのファイルの追加](/ja/models/artifacts/construct-an-artifact#add-files-to-an-artifact)」を参照してください。
@@ -88,9 +108,9 @@ with wandb.init(project="<project>", job_type="<job-type>") as run:
 ```python
 import wandb
 
-artifact = wandb.Artifact(name="<name>", type="<type>")
-artifact.add_file(local_path="path/to/file.txt", name="<name>")
-artifact.add_dir(local_path="path/to/directory", name="<name>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
+artifact.add_file(local_path="path/to/file.txt", name="filename")
+artifact.add_dir(local_path="path/to/directory", name="filename")
 
 with wandb.init(project="<project>", job_type="<job-type>") as run:
     run.log_artifact(artifact)
@@ -145,7 +165,7 @@ root-directory
 import wandb
 
 # アーティファクト オブジェクトを初期化する
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 
 # 単一ファイルを追加する
 artifact.add_file(local_path="path/file.format")
@@ -178,7 +198,7 @@ artifact.add_file(
 new/path/hello_world.txt
 ```
 
-次の表は、異なる API 呼び出しによって アーティファクト に格納される内容がどのように変わるかを示しています。
+次の表は、異なる API Call によって アーティファクト に格納される内容がどのように変わるかを示しています。
 
 | API 呼び出し                                                  | 生成される アーティファクト      |
 | --------------------------------------------------------- | ------------------- |
@@ -197,13 +217,13 @@ new/path/hello_world.txt
 import wandb
 
 # アーティファクト オブジェクトを初期化する
-artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact = wandb.Artifact(name="artifact-name", type="artifact-type")
 
 # ローカルディレクトリをアーティファクトに追加する
 artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 ```
 
-次の表は、異なるAPI callによって生成されるアーティファクトの内容がどのように異なるかを示しています。
+次の表は、異なるAPI Callによって生成されるアーティファクトの内容がどのように異なるかを示しています。
 
 | API 呼び出し                                    | 生成されるアーティファクト                                                        |
 | ------------------------------------------- | -------------------------------------------------------------------- |

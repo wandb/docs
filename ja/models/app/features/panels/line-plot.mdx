@@ -57,11 +57,15 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
     5. 複数メトリクスのグラフを作成する際に、重複する単一メトリクスのパネルを必要に応じて削除するには、**Clean up auto-generated panels** を切り替えます。どのパネルがクリーンアップされるかはプレビューで確認できます。<Note>このオプションをオンにすると、W&amp;B はその式に一致する新たにログされたメトリクスに対して単一メトリクスのグラフを作成しません。代わりに、そのメトリクスはこの複数メトリクスのグラフにのみ表示されます。</Note>
     6. **Create [NUMBER] panels** をクリックします。
 
-    ### 複数メトリクスの正規表現
+    <div id="multi-metric-regular-expressions">
+      ### 複数メトリクスの正規表現
+    </div>
 
     複数メトリクスの折れ線グラフでは、メトリクス名の一致に [Google&#39;s RE2](https://github.com/google/re2/wiki/Syntax) 構文を使用します。以下のセクションでは、一般的なユースケースを説明し、キャプチャグループが W&amp;B が作成するパネルにどのような影響を与えるかなど、正規表現の仕組みについてさらに詳しく説明します。
 
-    #### 一般的なユースケース
+    <div id="common-use-cases">
+      #### 一般的なユースケース
+    </div>
 
     以下の例では、実験結果の分析に役立つ複数メトリクスのパネルの使い方をいくつか示します。
 
@@ -88,7 +92,9 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
     **特定のメトリクスのバリエーションに一致させる**
     必要なメトリクスだけに一致させるには、オルタネーションを使用します。たとえば、非キャプチャグループ `(?:layer_0|layer_10)_loss` は、1 層目と 10 層目の損失にのみ一致し、中間の層は除外します。
 
-    #### キャプチャグループ
+    <div id="capture-groups">
+      #### キャプチャグループ
+    </div>
 
     <LinePlotCaptureGroups />
   </Tab>

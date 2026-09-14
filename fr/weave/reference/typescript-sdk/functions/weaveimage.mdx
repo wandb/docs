@@ -3,26 +3,33 @@ title: "weaveImage"
 description: "Référence du SDK TypeScript"
 ---
 
-> **weaveImage**(`options`): [`WeaveImage`](../interfaces/weaveimage)
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Créer un nouvel objet WeaveImage
+```ts
+weaveImage(options: object): WeaveImage
+```
 
-Défini dans : [src/media.ts:28](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/media.ts#L28)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/media.ts#L31" />
+
+Créer un objet WeaveImage
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="options">
-  ### options
-</div>
+<ParamField path="options" type="object" required>
+  Les options de ce type de média
 
-`WeaveImageInput`
+  * data : les données brutes de l’image sous forme de Buffer
+  * imageType : (Facultatif) le format de l’image : &#39;png&#39; (par défaut), &#39;jpeg&#39; ou &#39;webp&#39;.
+    Lors de la publication, le fichier stocké est toujours nommé image.png
 
-Les options de ce type de média
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="data" type="Buffer" required />
 
-* data : les données brutes de l’image sous forme de Buffer
-  * imageType : (Facultatif) le type de fichier image ; actuellement, seul &#39;png&#39; est pris en charge
+    <ParamField path="imageType" type="&#x22;png&#x22; | &#x22;jpeg&#x22; | &#x22;webp&#x22;" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## Renvoie

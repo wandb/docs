@@ -1202,7 +1202,7 @@ image: clickhouse/clickhouse-server:25.10   # 서버 버전
 호환성을 위해 Keeper와 서버 버전은 동일해야 하거나, Keeper 버전이 서버 버전보다 크거나 같아야 합니다.
 
 <Warning>
-  ClickHouse Server를 업그레이드할 때는 ClickHouse Keeper도 호환되는 버전으로 업그레이드하세요. W&amp;B Self-Managed deployment에서 ClickHouse 버전을 변경하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases) 페이지를 검토하세요. Models OLAP 특성과 Weave는 서로 다른 ClickHouse 버전 요구 사항을 가질 수 있습니다.
+  ClickHouse Server를 업그레이드할 때는 ClickHouse Keeper도 호환되는 버전으로 업그레이드하세요. W&amp;B Self-Managed deployment에서 ClickHouse 버전을 변경하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases) 페이지를 검토하세요.
 </Warning>
 
 <div id="monitor-clickhouse">
@@ -1251,9 +1251,7 @@ ClickHouse 데이터는 S3에 저장되며, S3 버전 관리와 버킷 복제 �
 다음 절차에서는 operator, ClickHouse 서버, Weave Trace 컴포넌트의 일반적인 업그레이드 방법을 설명합니다. 한 번에 하나의 컴포넌트씩 업그레이드하고, 다음 단계로 진행하기 전에 deployment가 정상 상태인지 확인하세요.
 
 <Note>
-  Weave와 Models OLAP 특성 모두에 ClickHouse를 사용하는 Self-Managed 배포 환경은 두 제품의 버전 요구 사항을 모두 충족해야 합니다. Models OLAP 특성과 Weave는 ClickHouse 버전 요구 사항이 서로 다를 수 있습니다.
-
-  ClickHouse 또는 W&amp;B Server를 업그레이드하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases)를 참조하세요. ClickHouse Server와 ClickHouse Keeper는 함께 업그레이드하세요.
+  Weave는 지원되는 ClickHouse 버전이 필요합니다. ClickHouse 또는 W&amp;B Server를 업그레이드하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases)를 참조하세요. ClickHouse Server와 ClickHouse Keeper는 함께 업그레이드하세요.
 </Note>
 
 <div id="upgrade-the-clickhouse-operator">

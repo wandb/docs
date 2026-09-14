@@ -3,21 +3,23 @@ title: "startSubagent"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **startSubagent**(`opts`): [`SubAgent`](../interfaces/subagent)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-SubAgent の span を開始します。親の解決ルールは `startTool` と同じです。
+```ts
+startSubagent(opts: SubAgentInit): SubAgent
+```
 
-定義元: [src/genai/api.ts:137](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L137)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L137" />
+
+SubAgent span を開始します。親の解決ルールは `startTool` と同じです。
 
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts
-</div>
-
-[`SubAgentInit`](../interfaces/subagentinit)
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](../interfaces/subagentinit) を参照してください。
+</ParamField>
 
 <div id="returns">
   ## 戻り値

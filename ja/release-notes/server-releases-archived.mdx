@@ -20,17 +20,23 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.72.0" description="2025年8月6日">
   W&amp;B 0.72 には、折れ線グラフとメディアパネルの修正に加え、OpenTelemetry および Google Agent Development Kit 向け Weave インテグレーションの改善が含まれています。
 
-  ## サポート終了
+  <div id="support-and-end-of-life">
+    ## サポート終了
+  </div>
 
   * W&amp;B Server v0.58 はサポート終了となりました。
 
-  ## 今後の変更
+  <div id="upcoming-changes">
+    ## 今後の変更
+  </div>
 
   * 多数のパネルを含む Workspace の読み込みを高速化し、Workspace 内でのパネルのドラッグ＆ドロップをより応答性が高く正確にするため、Workspace のレンダリング動作を最適化しています。**この一環として、次回 (0.73) のリリースで Workspace セクションの「Custom grid」レイアウトを削除する予定です。** Custom grid は レポート では引き続き利用できます。ご質問やご懸念がある場合は、W&amp;B チームまたは[サポート](mailto:support@wandb.ai)までお問い合わせください。
   * 今後のリリースでは、複数 run と単一 run の Workspace ビューを統一します。これにより、単一 run の詳細を確認した際に、カスタム チャート、レイアウト、設定を含め、複数 run ビュー用に設定したものと同じパネルのレイアウトと設定が表示されます。これは、コンテキストを維持し、ビューの設定をやり直す手間を省くことを目的としています。ただし、これにより、Workspace の他の部分から独立した固有の単一 run ビューをカスタマイズする機能は削除されます。移行についてご質問がある場合は、W&amp;B チームまたは[サポート](mailto:support@wandb.ai)までお問い合わせください。
   * 今後数回のリリースにわたり、既存のチームレベルの Model Registry を W&amp;B Registry に引き続き移行します。
 
-  ## 修正
+  <div id="fixes">
+    ## 修正
+  </div>
 
   * 0.71.0 で発表された折れ線グラフの動作変更を元に戻しました。各線にポイントが 1 つしかない折れ線グラフは、設定を変更しても棒グラフに変換されます。
   * メディアパネルで、境界ボックスがメディアに重ねて表示されず、メディアの外側にレンダリングされる可能性があるバグを修正しました。
@@ -41,17 +47,23 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.71.0" description="2025年7月29日">
   W&amp;B Server 0.71 では、すべての組織で Registry がデフォルトで有効になりました。Registry の段階的な提供については、Features の該当する注記を参照してください。本リリースでは、Workspace に複数の改善と修正が加えられています。共通の step スライダーでメディアパネルを同期できるようになり、全画面パネル間の移動もより効率的になりました。また、Run Overview ページで run の合計時間と実際に実行されていた時間の詳細を確認できます。オートメーションも強化され、artifact バージョンのタグを条件にオートメーションをトリガーできるようになりました。 {/* more */}
 
-  ## サポートとサポート終了 (EOL)
+  <div id="support-and-end-of-life-2">
+    ## サポートとサポート終了 (EOL)
+  </div>
 
   * W&amp;B Server v0.57 はサポート終了となりました。
 
-  ## 今後の変更予定
+  <div id="upcoming-changes-2">
+    ## 今後の変更予定
+  </div>
 
   * 多数のパネルを含む Workspace での読み込みを高速化し、パネルのドラッグ＆ドロップの応答性と精度を向上させるため、Workspace のレンダリング動作を最適化しています。**これに伴い、次回のリリース (0.72) で Workspace セクションの「Custom grid」レイアウトを削除する予定です。**カスタム グリッドは Reports では引き続き利用できます。ご質問やご懸念がある場合は、W&amp;B チームまたは[サポート](mailto:support@wandb.ai)までお問い合わせください。
   * 今後のリリースで、複数 run と単一 run の Workspace ビューを統一します。これにより、単一の run を詳細表示したときに、カスタム チャート、レイアウト、設定を含め、複数 run ビューで設定したものと同じパネルのレイアウトと設定が表示されます。これにより、コンテキストを維持し、ビューの設定をやり直す手間を省くことを目指しています。ただし、Workspace の他の部分から独立した固有の単一 run ビューをカスタマイズする機能は削除されます。移行に関するご質問は、W&amp;B チームまたは[サポート](mailto:support@wandb.ai)までお問い合わせください。
   * 今後数回のリリースにわたり、既存のチームレベルの Model Registry を W&amp;B Registry に引き続き移行します。詳細およびスケジュールの再確認については、以下の[W&amp;B Registry GA 発表](#registry_ga_announcement)をご覧ください。
 
-  ## 機能
+  <div id="features">
+    ## 機能
+  </div>
 
   * <a id="registry_ga_announcement" aria-label="W&B Registry GA のお知らせ" /> 今後数回のリリースにわたり、既存のチームレベルの Model Registry を段階的に W&amp;B Registry に移行します。**お客様側での操作は不要です。W&amp;B が各チームの Model Registry アセットを、対応する自動作成のチームレベルのプライベート Registry に自動的にコピーします。**  以前のチームレベルの Model Registry 内のモデルコレクションへの既存の参照は、引き続き機能します。
 
@@ -66,7 +78,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 同じステップスライダーキーを持つメディアパネルを同期できるようになりました。1 つのメディアパネルでステップスライダーを進めると、他のパネルのステップスライダーも連動して進みます。Workspace またはセクションの設定を開き、**Media** に移動して **Sync** タブをクリックし、**Sync slider by key (Step)** をオンにします。
   * Run Comparer に、コマンド、Python バージョン、GPU タイプなどの run メタデータを含む新しい **Meta** セクションが追加されました。
 
-  ### Weave
+  <div id="weave">
+    ### Weave
+  </div>
 
   * **Trace plots** ツールでは、カスタムのインタラクティブなチャートを使用して、レイテンシ、コスト、トークンなどのトレースレベルのメトリクスを時系列で探索、可視化、デバッグできます。[詳細](/ja/weave/guides/tracking/trace-plots)。
   * **Online Evaluations**: 受信トレースにモニターをアタッチして、専用クラウド内のトレースを監視します。モニターは LLM ジャッジモデルとしてバックグラウンドで実行され、指定した Call の一部をスコアリングします。モニターを使用して、本番環境での動作をトラッキングし、リグレッションを検出し、実際の本番データを収集できます。[詳細](/ja/weave/guides/tracking/trace-plots)。
@@ -78,7 +92,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * TypeScript SDK でプロンプトを作成・公開できるようになりました。[詳細](/ja/weave/guides/core-types/prompts)。
   * 新しい `Content` クラスでは、任意の MIME タイプのデータを安全にアップロードできます。Base64 エンコードやメタデータの抽出などが自動的に行われます。
 
-  ## Fixes
+  <div id="fixes-2">
+    ## Fixes
+  </div>
 
   * run の **Overview** ページに、run の稼働時間とトラッキング時間が表示されるようになりました。run の*稼働時間*は開始から終了までの合計時間を示し、*トラッキング時間*は run が Experiments または計算をアクティブに実行していた時間を示します。
   * 折れ線グラフを拡大してから全画面モードで開いた場合、全画面のグラフでも同じ拡大表示が正しく維持されるようになりました。
@@ -102,7 +118,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.70.1" description="2025年7月9日">
-  ## 修正
+  <div id="fixes-3">
+    ## 修正
+  </div>
 
   * アップグレード後に、クラッシュした run のステータスが **Crashed** に更新されないバグを修正しました。
   * **Sweeps** Runs table で **State** 列が表示されないバグを修正しました。
@@ -115,16 +133,22 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.70.0" description="2025年7月7日">
   W&amp;B Server v0.70 には、インサイトをより効率的に取得・共有するための新機能、機能強化、およびパフォーマンス改善が含まれています。以下に例を示します。
 
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-3">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.56 はサポートが終了しました。
 
-  ## 今後の変更点
+  <div id="upcoming-changes-3">
+    ## 今後の変更点
+  </div>
 
   * 今後のリリースで、複数 run の Workspace ビューと単一 run ビューの動作を統一する予定です。これにより、単一 run をドリルダウンしたときに、カスタム チャート、レイアウト、設定を含め、複数 run ビューで設定したものと同じパネルのレイアウトと設定が表示されるようになります。これは、コンテキストを維持したまま、ビュー設定のやり直しを避けられるようにするためです。ただし、Workspace の他の部分から独立した単一 run ビューを個別にカスタマイズすることはできなくなります。移行についてご不明な点がありましたら、W&amp;B のチームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
   * 今後数回のリリースにわたり、既存のチーム レベルの Model Registry を W&amp;B Registry に移行します。詳細とスケジュールについては、以下の [W&amp;B Registry GA announcement](#registry_ga_announcement) を参照してください。
 
-  ## 機能
+  <div id="features-2">
+    ## 機能
+  </div>
 
   * <a id="registry_ga_announcement" aria-label="W&B Registry 一般提供開始のお知らせ" /> **W&amp;B Registry の一般提供を開始しました**！Registry では、アセットの多様性、アクセス管理、スケーラビリティが向上し、大規模で多様なチーム全体で AI の取り組みを共同で進めるための真のハブとなります。
     * Registry は現在、`ENABLE_REGISTRY_UI` 環境変数を使用するか、W&amp;B のサポートチームへお問い合わせいただくことで有効にできます。
@@ -142,7 +166,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * **Workspace テンプレート**を使用すると、既存の Workspace と同じ設定で Workspace をすばやく作成できます。現在、Workspace テンプレートではカスタムの折れ線グラフ設定を定義できます。詳しくは [Workspace templates](/ja/models/track/workspaces/#workspace-templates) をご覧ください。
   * **段階的な表のログ**を使用すると、機械学習 experiment の実行中に rows のバッチを表にログできます。これは、長時間実行されるジョブを監視する場合や、更新のために run 中にログするには非効率な大きな表を扱う場合に最適です。UI では、rows がログされるたびに表が新しい rows で更新されるため、run 全体の完了を待たずに最新のデータを確認できます。増分ごとに確認して、異なる時点での表を表示できます。詳しくは [表をログする](/ja/models/track/log/log-tables/#adding-data-incrementally) をご覧ください。
 
-  ## Fixes
+  <div id="fixes-4">
+    ## Fixes
+  </div>
 
   * 表示される行が一部のみの場合、ログビューアーの上部にバナーを表示するようにしました。
   * データ境界での移動平均の計算に関するバグを修正しました。
@@ -170,7 +196,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.69.1" description="2025年6月10日">
-  ## 修正
+  <div id="fixes-5">
+    ## 修正
+  </div>
 
   * `state` パラメーターを `pending` または `running` に設定することで、`Run.create()` を使用して run を作成する際の初期状態を設定できるようになりました。
   * **Action History** をクリックすると **Version** ビューが誤って読み込まれるバグを修正しました。
@@ -178,11 +206,15 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.69.0" description="2025年5月28日">
-  ## サポートとサポート終了
+  <div id="support-and-end-of-life-4">
+    ## サポートとサポート終了
+  </div>
 
   * W&amp;B Server v0.56 はサポート終了しました。
 
-  ## Upgrading
+  <div id="upgrading">
+    ## Upgrading
+  </div>
 
   W&amp;B v0.69.x に[アップグレード](/ja/platform/hosting/server-upgrade-process/#update-with-helm)するには、`operator-wandb` Helm chart の v0.31.4 以降を使用する必要があります。これを行わないと、アップグレード後に `weave-cache-clear` コンテナーが起動に失敗する場合があります。デプロイメントに以下の値が設定されていることを確認してください。
 
@@ -195,7 +227,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   アップグレードに関するご質問や問題が発生した場合は、[サポート](mailto:support@wandb.com)までお問い合わせください。
 
-  ## 機能
+  <div id="features-3">
+    ## 機能
+  </div>
 
   * Workspace で、run のカスタム表示名を直接設定できるようになりました。カスタマイズした run 名はすべてのプロットと表に表示されますが、反映されるのはご自身の Workspace 内のみで、チームメイトの表示には影響しません。これにより、Workspace をよりすっきり見やすく保てるようになり、すべての凡例やプロットに `*...v6-final-restart...`* のようなラベルが並ぶこともなくなります。
   * run をフィルタリングまたはグループ化すると、カラーが重なって区別しにくくなることがあります。run セレクターに追加された新しい **Randomize Colors** オプションでは、現在選択している run またはグループに、デフォルトパレットからランダムにカラーを再割り当てできるため、カラーをより見分けやすくできます。
@@ -206,14 +240,18 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * チームレベルおよび組織レベルのサービスアカウントが、Registry を操作できるようになりました。
   * 改良された指数加重移動平均 (EMA) スムージングにより、完全な未ビニングデータを扱う場合でも、より信頼性の高い[スムージング済みの線](/ja/models/app/features/panels/line-plot/smoothing)を表示できます。ほとんどの場合、パフォーマンス向上のため、スムージングはバックエンドで処理されます。この機能は v0.68.x ではプライベートプレビューでした。
 
-  ### プライベートプレビュー
+  <div id="private-preview">
+    ### プライベートプレビュー
+  </div>
 
   プライベートプレビュー機能は招待制でのみご利用いただけます。プライベートプレビューへの参加をご希望の場合は、[サポート](mailto:support@wandb.com)またはAISEまでお問い合わせください。
 
   * すべてのRunsを、損失やカスタムの効率メトリクスなどのセカンダリメトリクスに基づいて色分けできるようになりました。これにより、すべてのプロットでRuns全体にわたって明確なグラデーションの色分けが適用され、パターンをよりすばやく見つけられます。[動画デモを見る](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d)。
   * [個人用Workspaceテンプレート](/ja/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */}を使用すると、基本的な折れ線グラフの設定を保存し、新しいビューで自動的に再適用できます。これらの設定には、X軸キー、スムージングアルゴリズム、スムージング係数、表示する線の最大数、run セレクターの Grouping を使用するかどうか、適用する集約が含まれます。
 
-  ### Weave
+  <div id="weave-2">
+    ### Weave
+  </div>
 
   * [保存済みビュー](/ja/weave/guides/tools/saved-views) を使うと、チームでの共同作業がしやすくなり、フィルターや列の設定を保存できます。
   * PDF と一般的なファイルがサポートされるようになりました。
@@ -225,12 +263,16 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 新しい[`dataset.add_rows`](/ja/weave/reference/python-sdk/#method-add-rows)ヘルパーにより、既存のデータセットへの行の追加がより効率的になります。
   * 利用状況を把握しやすくするため、UI で trace と object のサイズを確認できるようになりました。
 
-  ## パフォーマンス
+  <div id="performance">
+    ## パフォーマンス
+  </div>
 
   * [`wandb` SDK](/ja/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11 では、artifact のダウンロード速度が平均で 3〜5 倍向上しました。たとえば、以前は約 100 MB/秒 だった artifact でも、現在は 450 MB/秒 以上でダウンロードできる場合があります。実際のダウンロード速度は、ネットワークやストレージ インフラストラクチャーなどの要因によって異なります。
   * [Project](/ja/models/track/project-page) ページと [User Settings](/ja/platform/app/settings-page/user-settings) ページでのキャッシュを改善しました。
 
-  ## 修正
+  <div id="fixes-6">
+    ## 修正
+  </div>
 
   * Python 仮想環境との互換性を確保できるよう、`weave-cache-clear` コンテナーの起動プロセスを改善しました。
   * コンソールログをより密に表示するオプションを追加しました。
@@ -249,7 +291,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.68.2" description="2025年5月7日">
-  ## 修正
+  <div id="fixes-7">
+    ## 修正
+  </div>
 
   * `state` パラメーターを `pending` または `running` に設定することで、`Run.create()` を使用して run を作成する際の初期状態を設定できるようになりました。
   * **Action History** をクリックすると **Version** ビューが誤って読み込まれるバグを修正しました。
@@ -257,7 +301,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.68.1" description="2025年5月2日">
-  ## 修正
+  <div id="fixes-8">
+    ## 修正
+  </div>
 
   * v0.68.0 で導入された、メディアパネルでメディアが読み込まれなくなる可能性があるバグを修正しました。
 </Update>
@@ -267,7 +313,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     v0.68.0 でバグが発生し、[v0.68.1](#0_68_1) で修正されました。このバグにより、メディアパネルでメディアを読み込めない場合がありました。このバグを回避するには、修正が含まれるパッチをインストールするか、そのバージョンにアップグレードしてください。サポートが必要な場合は、[サポート](mailto:support@wandb.com) にお問い合わせください。
   </Note>
 
-  ## 機能
+  <div id="features-4">
+    ## 機能
+  </div>
 
   * Registry 管理者は、開発パイプラインの主要な段階を表すために、[*保護されたエイリアス*](/ja/models/registry/aliases#protected-aliases)を定義して割り当てることができます。保護されたエイリアスを割り当てられるのは、Registry 管理者のみです。W&amp;B では、他のユーザーが API または UI を使用して Registry 内のバージョンに保護されたエイリアスを追加または削除することはできません。
   * run の `x_label` 値に基づいて、コンソールログをフィルターできるようになりました。[分散トレーニング](/ja/models/track/log/distributed-training/#track-all-processes-to-a-single-run)中、このオプションのパラメーターは、run をログしたノードをトラッキングします。
@@ -278,14 +326,18 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * `runs` または `runs.history` の式を使用する [Query Panels](/ja/models/app/features/panels/query-panels) 内の Tables とプロットでは、ステップスライダーを使って、Runs 全体を通じたメトリクス、テキスト、またはメディアの変化を順に確認できます。このスライダーは、`_step` 以外のメトリクスでもステップ移動をサポートします。
   * フォントサイズの設定を使って、[棒チャート](/ja/models/app/features/panels/bar-plot)のラベルをカスタマイズできるようになりました。
 
-  ### プライベートプレビュー
+  <div id="private-preview-2">
+    ### プライベートプレビュー
+  </div>
 
   プライベートプレビュー機能は招待制でのみご利用いただけます。プライベートプレビューへの参加をご希望の場合は、[サポート](mailto:support@wandb.com)またはAISEまでお問い合わせください。
 
   * **Personal workspace templates** を使用すると、Workspace の設定を保存し、新しい [projects](/ja/models/track/project-page) に自動的に適用できます。現時点では、デフォルトの X 軸メトリクス、スムージング アルゴリズム、スムージング係数など、一部の折れ線グラフ設定を行えます。
   * **改良された指数加重移動平均 (EMA) スムージング**により、完全な未ビニングデータを処理する場合でも、より信頼性の高い[平滑化ライン](/ja/models/app/features/panels/line-plot/smoothing)を利用できます。ほとんどの場合、スムージングはパフォーマンス向上のため、バックエンドで処理されます。
 
-  ### Weave
+  <div id="weave-3">
+    ### Weave
+  </div>
 
   * W&amp;B インスタンス内から、ファインチューニングしたモデルとチャットできるようになりました。[Playground](/ja/weave/guides/tools/playground) が専用クラウドでサポートされるようになりました。Playground は、過去のトレースに対してさまざまな LLM を比較するためのチャットインターフェースです。管理者は、さまざまなモデルプロバイダに APIキーを追加したり、[カスタムホスト型の LLM プロバイダ](/ja/weave/guides/tools/playground/#add-a-custom-provider) を接続したりできるため、チームは Weave 内からそれらを利用できます。
   * OpenTelemetry サポート。OpenTelemetry (OTel) 経由でトレースをログできるようになりました。詳細は、[OpenTelemetry によるトレース](/ja/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink)をご覧ください。
@@ -293,11 +345,15 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Playground は新しい[OpenAI モデル](/ja/weave/guides/tools/playground/#openai)に対応しています: GPT‑4.1、GPT‑4.1 mini、GPT‑4.1 nano。
   * トレースからラベル付きデータセットを直接作成でき、アノテーションは自動的にデータセットの列へ変換されます。詳しくは、[トレースからのデータセット作成](/ja/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui)をご覧ください。
 
-  ## セキュリティ
+  <div id="security">
+    ## セキュリティ
+  </div>
 
   * Registry 管理者は、Registry 内の[サービスアカウント](/ja/platform/hosting/iam/service-accounts)を、Registry 管理者 または Member のいずれかに指定できるようになりました。以前は、サービスアカウントのロールは常に Registry 管理者 でした。詳細は、[Registry のサービスアカウント設定](/ja/models/registry/configure_registry)を参照してください。
 
-  ## パフォーマンス
+  <div id="performance-2">
+    ## パフォーマンス
+  </div>
 
   * 多くの Workspace 操作のパフォーマンスを改善しました。特に大規模な Workspace で効果があります。たとえば、セクションの展開や run セレクターの操作への応答性が大幅に向上しました。
   * Fork と Rewind のパフォーマンスが向上しました。
@@ -306,7 +362,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
     fork が多重にネストされた project では、キャッシュの改善により、新しい run の fork が大幅に効率化されました。
 
-  ## Fixes
+  <div id="fixes-9">
+    ## Fixes
+  </div>
 
   * 組織のサービスアカウントを新しいチームに追加できないことがあるバグを修正しました。
   * グループ化されたラインでホバーマークが表示されなくなることがあるバグを修正しました。
@@ -320,7 +378,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.67.0" description="2025年3月28日">
-  ## 機能
+  <div id="features-5">
+    ## 機能
+  </div>
 
   * Reports では、パネルグリッドごとに run にカスタム表示名を付けられるようになりました。これにより、run の (長くて分かりにくいことが多い) トレーニング時の名前を、閲覧者にとってより意味のある名前に置き換えられます。レポート内のすべてのパネルグリッドでその名前が更新されるため、苦労して得た実験の知見を、簡潔で読みやすい形で同僚に伝えやすくなります。元の run 名はプロジェクト内でそのまま維持されるため、これを行っても共同作業者の作業を妨げることはありません。
   * Workspace でパネルを展開すると、より広いスペースを使える全画面モードで開くようになりました。このビューでは、折れ線グラフが最大 10,000 bins を使用して、より細かな粒度で表示されるようになりました。パネルの横には run selector が表示され、コンテキスト内で run の切り替え、グループ化、フィルターを簡単に行えます。
@@ -348,20 +408,26 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Weave Python SDK では、機密データがネットワーク境界外に出ないように、Weave データの入力と出力をフィルターできるようになりました。機密データをマスクするように設定することもできます。詳細はこちら: /weave/guides/tracking/redact-pii/
   * 操作性向上のため、個別のrunのWorkspaceビューにあるSystemタブは、今後のversionで削除されます。システムメトリクスの詳細情報は、WorkspaceのSystemセクションで確認してください。ご質問がある場合は、[support@wandb.com](mailto:support@wandb.com)までお問い合わせください。
 
-  ## セキュリティ
+  <div id="security-2">
+    ## セキュリティ
+  </div>
 
   * `golang crypto` が v0.36.0 にアップグレードされました。
   * `golang oauth2` が v0.28.0 に更新されました。
   * Weave では、`pyarrow` のバージョンが v17.0.0 に固定されました。
 
-  ## パフォーマンス
+  <div id="performance-3">
+    ## パフォーマンス
+  </div>
 
   * フロントエンドの更新により、アクセスのたびに必要なデータをブラウザーのキャッシュに保持することで、Workspace の再読み込み時間が大幅に短縮されます。この更新では、保存済みビュー、メトリクス名、run selector、run 数、W&amp;B の設定の詳細の読み込みと、Workspace ビューの再計算が最適化されます。
   * Registryの概要ページの読み込みが大幅に高速化されました。
   * 数千のrunまたは数百のメトリクスがあるWorkspaceで、散布図のX、Y、Zの値に使用するメトリクスを選択する際のパフォーマンスを改善しました。
   * Weave の評価ログのパフォーマンス改善。
 
-  ## 修正
+  <div id="fixes-10">
+    ## 修正
+  </div>
 
   * Reports で、レポート内のセクションへのリンクをたどってもそのセクションが開かない不具合を修正しました。
   * Gaussianスムージングにおけるインデックス反射の処理挙動を改善し、SciPy のデフォルトの &quot;reflect&quot; モードに合わせました。
@@ -373,18 +439,24 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.66.0" description="2025年3月06日">
-  ## 機能
+  <div id="features-6">
+    ## 機能
+  </div>
 
   * テーブルおよび Query panel で、他の列から導出した列が保持されるようになり、フィルタリングや Query panel のプロットに使用できるようになりました。
 
-  ## セキュリティ
+  <div id="security-3">
+    ## セキュリティ
+  </div>
 
   * GraphQL ドキュメントの最大深度を 20 に制限しました。
   * pyarrow を v17.0.0 にアップグレードしました。
 </Update>
 
 <Update label="v0.65.0" description="2025年1月30日">
-  ## 機能
+  <div id="features-7">
+    ## 機能
+  </div>
 
   * Registry の **Settings** から、所有者を Admin ロールを持つ別のユーザーに変更できるようになりました。ユーザーの **Role** メニューから **Owner** を選択します。
   * 同じプロジェクト内で、run を別のグループに移動できるようになりました。run リスト内の run にカーソルを合わせ、**action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューをクリックして、**Move to another group** を選択します。
@@ -394,7 +466,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.63.0" description="2024年12月10日">
-  ## 機能
+  <div id="features-8">
+    ## 機能
+  </div>
 
   **[W&amp;B Weave](https://wandb.ai/site/weave/) が、AWS 上の専用クラウドで一般提供 (GA) になりました。チーム で 生成 AI アプリ を安心して構築し、本番環境に導入したい場合は、W&amp;B の担当チームにお問い合わせください。**
 
@@ -409,7 +483,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * ***近日公開*** 今週のパッチ version で、インスタンス内のすべての チーム にまたがる W&amp;B ワークロードの自動化に、組織レベルのサービスアカウントを使用できるようになります。サービスアカウントの access スコープをより細かく制御したい場合は、既存のチームレベルのサービスアカウントも引き続き使用できます。
     * 組織レベルのサービスアカウントが Registry を操作できるようになります。これらのサービスアカウントは invite modal を使って Registry に招待でき、それぞれの組織ロールとともに members table に表示されます。
 
-  ## 修正
+  <div id="fixes-11">
+    ## 修正
+  </div>
 
   * `Create Artifact` 権限を含む custom role を作成したユーザーが、プロジェクトに artifact をログできなかった問題を修正しました。
   * BYOB 向けに subpath support が設定されているインスタンスで、ファイルの metadata logging に関する問題を修正しました。
@@ -417,7 +493,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.61.0" description="2024年10月17日">
-  ## 機能
+  <div id="features-9">
+    ## 機能
+  </div>
 
   **これは、月次の W&amp;B server メジャーリリースとは異なるスケジュールで提供される、小規模な機能追加およびパッチリリースです**
 
@@ -425,7 +503,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * [Weave](/ja/weave/) の料金体系は、使用シート数ではなく従量課金ベースです。シート管理は Models プロダクトにのみ適用されます。
   * [チームおよび restricted スコープのプロジェクトに対するプロジェクトレベルのアクセスロール](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/) を設定できるようになりました。これにより、同じチーム内でもプロジェクトごとにユーザーへ異なるアクセスロールを割り当てられるようになり、エンタープライズガバナンス要件に対応するための強力な制御がさらに加わります。
 
-  ## 修正
+  <div id="fixes-12">
+    ## 修正
+  </div>
 
   * バージョン のアップグレードに伴う基盤データベースのスキーマ変更が、プラットフォームの起動時にタイムアウトすることがある問題を修正しました。
   * 基盤となる parquet store service にさらなるパフォーマンス改善を加え、ユーザーのチャート読み込み時間をさらに短縮しました。Parquet store service は、専用クラウドおよび [W&amp;B kubernetes operator](/ja/platform/hosting/self-managed/operator) を使用するセルフマネージドインスタンスでのみ利用できます。
@@ -437,19 +517,25 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     バージョン のバージョン管理上の問題により、0.60.0 は 0.58.0 の次のメジャーリリースです。0.59.0 は 0.58.0 向けのパッチリリースの 1 つでした。
   </Note>
 
-  ## 機能
+  <div id="features-10">
+    ## 機能
+  </div>
 
   * Web Content Accessibility Guidelines (WCAG) 標準の Level AA 2.2 における 1.1.1 準拠に向けた最終更新。
   * W&amp;B は、W&amp;B kubernetes operator を使用するセルフマネージドインスタンスで、自動 バージョン アップグレードを無効にできるようになりました。これは担当の W&amp;B チームに依頼できます。
     W&amp;B では、各 バージョン のサポート終了期間が 6 か月であるため、すべてのインスタンスで定期的なアップグレードが必要です。W&amp;B は 6 か月より古い バージョン をサポートしません。
 
-  ## 修正
+  <div id="fixes-13">
+    ## 修正
+  </div>
 
   * 専用クラウドおよびセルフマネージドインスタンスのインスタンス管理者が、個人 Entities 内の Workspace にアクセスできるようにするための bug を修正しました。
   * SCIM Groups および Users の GET endpoints で、Response からサービスアカウントを除外するようになりました。これらの endpoints では、サービスアカウントではないユーザーのみが返されます。
   * チーム管理者が、チームから削除するのと同時にインスタンス全体からもユーザーを削除できていた問題を修正しました。インスタンス全体または組織からユーザーを削除する責任は、インスタンス管理者または組織管理者にあります。
 
-  ## パフォーマンス改善
+  <div id="performance-improvements">
+    ## パフォーマンス改善
+  </div>
 
   * メトリクスが多い Workspace で、パネル追加時のレイテンシを最大 90% 削減しました。
   * Runs の再開が頻繁に行われる場合の、blob storage への parquet エクスポートの信頼性とパフォーマンスを改善しました。
@@ -457,7 +543,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.58.1" description="2024年9月4日">
-  ## 機能
+  <div id="features-11">
+    ## 機能
+  </div>
 
   * W&amp;B で、**Secure storage connector i.e. Bring your own bucket** 機能のサブパスがサポートされるようになりました。インスタンスレベルまたはチームレベルで bucket を設定する際に、サブパスを指定できます。これは新規の bucket 設定でのみ利用可能で、既存の設定済み bucket では利用できません。
   * Google Cloud と Azure の新しい 専用クラウド instances では、W&amp;B 管理 storage がデフォルトで **W&amp;B managed cloud-native keys** によって暗号化されるようになりました。これは AWS instances ではすでに利用可能です。各インスタンスの storage は、そのインスタンス固有のキーで暗号化されます。これまでは、Google Cloud と Azure 上のすべての instances が、クラウドプロバイダー管理のデフォルト暗号化キーに依存していました。
@@ -465,12 +553,16 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * セルフマネージド インスタンスで W&amp;B kubernetes operator を使用している場合、controller manager でカスタム CA をオプションで使用できるようになりました。
   * W&amp;B kubernetes operator がデフォルトで non-root コンテキストで実行されるように変更し、OpenShift の Security Context Constraints (SCCs) に合わせました。この変更により、OpenShift のセキュリティポリシーに準拠しつつ、OpenShift 上でのセルフマネージド インスタンスのデプロイがよりスムーズになります。
 
-  ## 修正
+  <div id="fixes-14">
+    ## 修正
+  </div>
 
   * Workspace から レポート へパネルをエクスポートする際に、パネル検索 regex が正しく反映されない問題を修正しました。
   * `GORILLA_DISABLE_PERSONAL_ENTITY` を `true` に設定しても、Users が personal entities でプロジェクトを作成したり、既存のプロジェクトに書き込んだりできてしまう問題を修正しました。
 
-  ## パフォーマンス改善
+  <div id="performance-improvements-2">
+    ## パフォーマンス改善
+  </div>
 
   * 100k+ のログ済みポイントを含む experiment におけるパフォーマンスと安定性を大幅に改善しました。セルフマネージド インスタンスでは、デプロイが W&amp;B kubernetes operator で管理されている場合に利用できます。
   * 大規模な Workspace で変更の保存に非常に時間がかかったり、失敗したりする問題を修正しました。
@@ -478,7 +570,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.57.2" description="2024年7月24日">
-  ## 機能
+  <div id="features-12">
+    ## 機能
+  </div>
 
   **identity federation 機能を使用して、wandb SDK または CLI から W&amp;B インスタンスにアクセスするために JWTs (JSON Web Tokens) を使用できるようになりました。この機能はプレビュー版です。** 詳細は [Identity federation](https://docs.wandb.ai/platform/hosting/iam/identity_federation) を参照し、ご不明な点は W&amp;B チームまでお問い合わせください。
 
@@ -491,14 +585,18 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * チームレベルのサービスアカウントが、team settings view の新しいタブに分けて表示されるようになりました。サービスアカウントは Members タブには表示されなくなりました。また、APIキー は非表示になり、チーム管理者のみがコピーできるようになりました。
   * 専用クラウド が Google Cloud のソウル region で利用可能になりました。
 
-  ## 修正
+  <div id="fixes-15">
+    ## 修正
+  </div>
 
   * 多くのプロットで Gaussian smoothing が過度に強く適用される問題を修正しました。
   * UI workspace で `Ignore Outliers in Chart Scaling` ボタンを押しても効果がない問題を修正しました。
   * 無効化された Users を組織に招待できないようにしました。
   * SCIM API を使用してインスタンスに追加された Users が正常にオンボーディングできない問題を修正しました。
 
-  ## パフォーマンス改善
+  <div id="performance-improvements-3">
+    ## パフォーマンス改善
+  </div>
 
   * パネルの設定を編集して変更を適用する際のパフォーマンスを大幅に改善しました。
   * 大規模な Workspace での run 表示切り替えの応答性を改善しました。
@@ -511,7 +609,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     リリースのバージョン管理上の問題により、0.56.0 は 0.54.0 の次の major release です。0.55.0 は 0.54.0 向けのパッチリリースでした。
   </Note>
 
-  ## 機能
+  <div id="features-13">
+    ## 機能
+  </div>
 
   * W&amp;B Experiments の新しい Full Fidelity 折れ線グラフでは、x-axis に沿ったすべてのデータを集約し、各 bucket の最小値、最大値、最後の値を表示します (最後の値がメインの線として描画されます) 。これにより、トレーニングメトリクスが見やすくなり、ダウンサンプリングによる情報損失なしで外れ値を簡単に見つけたり、高忠実度の詳細にズームインしたりできます。[詳しくはドキュメントをご覧ください](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling)。
   * 専用クラウドおよびセルフマネージド インスタンスで、[チームレベルの BYOB (secure storage connector) にクロスクラウドの storage bucket を使用](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob)できるようになりました。たとえば AWS 上の W&amp;B インスタンスでは、チームレベルの BYOB 向けに Azure Blob Storage や Google Cloud Storage を設定でき、他のクロスクラウドの組み合わせでも同様に利用できます。
@@ -521,7 +621,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     認証に失敗した場合、API がより適切なエラーメッセージを返すようになりました。
     関連する endpoints は、利用可能な場合、SCIM User object にユーザーのフルネームを返すようになりました。
 
-  ## 修正
+  <div id="fixes-16">
+    ## 修正
+  </div>
 
   * この修正により、コピー/ペースト操作中に選択テキストを適切に処理することで、レポート内の runset から検索語句を削除した際にパネルが削除されたり、レポートがクラッシュしたりする問題を解消しました。
   * この修正により、slate のアップグレードと要素の正規化処理における追加チェックが原因で発生していた、レポート内の箇条書き項目のインデントの問題に対処しました。
@@ -537,7 +639,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.54.0" description="2024年5月24日">
-  ## 機能
+  <div id="features-14">
+    ## 機能
+  </div>
 
   * Microsoft Azure 上の専用クラウドまたはセルフマネージド環境で、チーム単位の Secure storage connector (BYOB) を設定できるようになりました。
     [この Terraform Module](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector)を参照し、ご不明な点があれば W&amp;B の担当チームまでお問い合わせください。
@@ -548,7 +652,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     W&amp;B では、この設定を有効にする前に、十分に注意し、影響を十分に理解することを推奨しています。ご不明な点があれば W&amp;B の担当チームまでお問い合わせください。
   * AWS 上の専用クラウドが、ソウル (韓国) リージョンでも利用可能になりました。
 
-  ## 修正
+  <div id="fixes-17">
+    ## 修正
+  </div>
 
   * モバイルで Reports の読み込みに失敗していた問題を修正。
   * run の概要で git diff ファイルへのリンクを修正。
@@ -556,14 +662,18 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.52.2" description="2024年4月25日">
-  ## 機能
+  <div id="features-15">
+    ## 機能
+  </div>
 
   * SSO プロバイダーの OIDC クレームを使用して、組織内の Users のユーザー名とフルネームを強制できるようになりました。ご希望の場合は、W&amp;B の担当チームまたはサポートにお問い合わせください。
   * 組織内で個人プロジェクトの使用を無効にし、すべてのプロジェクトが W&amp;B Teams 内に作成され、管理者が適用するガイドラインに従って管理されるようにできるようになりました。ご希望の場合は、W&amp;B の担当チームまたはサポートにお問い合わせください。
   * Artifacts Lineage DAG ビューで、Runs または Artifacts のクラスター内にあるすべてのバージョンを展開するオプションを追加。
   * Artifacts Lineage DAG の UI を改善し、クラスター内の各エントリでタイプが表示されるようになりました。
 
-  ## 修正
+  <div id="fixes-18">
+    ## 修正
+  </div>
 
   * メディアバンクの画像パネルにページネーションを追加し、1ページあたり最大 32 枚の画像を表示できるようにしました。あわせて、グリッドの見た目とページネーション操作を改善し、offset の不整合が起こりうる問題への回避策も導入しました。
   * `isHovered` パラメーターを強制することで、system chart のツールチップが表示されていなかった問題を解消しました。これは crosshair UI の表示に不可欠です。
@@ -573,7 +683,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.51.0" description="2024年3月20日">
-  ## 機能
+  <div id="features-16">
+    ## 機能
+  </div>
 
   * Workspaceバーの**アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューで「新しいビューとして保存」をクリックすると、任意のWorkspaceで複数のビューを保存できるようになりました。
     詳細は、[保存済みWorkspaceビュー](/ja/models/app/features/cascade-settings)を参照してください。
@@ -595,7 +707,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   > **事前のお知らせ**: Automations で Webhooks を使用しているすべてのお客様は、各 endpoint に有効な A レコードを追加することを強くお勧めします。次の バージョン 以降、IP アドレスベースの Webhook URL は使用できなくなる予定です。これは、SSRF 脆弱性および関連するその他の脅威ベクトルから保護するためです。
 
-  ## 修正
+  <div id="fixes-19">
+    ## 修正
+  </div>
 
   * 式タブが折れ線グラフで表示されない問題を修正しました。
   * グラフおよび Runs table で Sweeps ごとにグループ化した場合に、sweeps の表示名を使用するようにしました。
@@ -603,7 +717,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.50.2" description="2024年2月26日">
-  ## 機能
+  <div id="feature">
+    ## 機能
+  </div>
 
   * 検索結果を自動展開するためのパネルバンク設定を追加
   * run queue 項目の問題をより見やすく改善
@@ -613,7 +729,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * AWS および Azure 上のすべての専用クラウドインスタンスが、新しい W&amp;B Kubernetes Operator によって管理されるようになりました。これに伴い、新しい Parquet Store サービスも利用可能になりました。このサービスでは、blob storage に run history データを parquet 形式で高性能かつコスト効率よく保存できます。その結果、runs の評価に使用される charts や plots で、関連する history データをより高速に読み込めるようになります。
   * W&amp;B Kubernetes Operator と、それに伴う Parquet Store サービスが、セルフマネージドインスタンスでも利用できるようになりました。すでに Kubernetes を使用して W&amp;B をホストしているお客様には、operator の利用方法についてご利用の W&amp;B チームにお問い合わせいただくことをお勧めします。また、今後 operator 経由で最新のパフォーマンス改善や新しいサービスを利用できるようにするため、その他のお客様にも Kubernetes への移行を強くお勧めします。このような移行計画についても、喜んで支援いたします。
 
-  ## 修正
+  <div id="fixes-20">
+    ## 修正
+  </div>
 
   * テンプレート変数が sweep scheduler を正しく通過するよう修正
   * Scheduler が sweep yaml generator を汚染する問題を修正
@@ -623,7 +741,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.49.0" description="2024年1月18日">
-  ## 機能
+  <div id="features-17">
+    ## 機能
+  </div>
 
   * team settings ページで、チームのデフォルト TTL (time-to-live、またはスケジュール削除) ポリシーを設定できるようになりました。
     TTL ポリシーの設定または編集を、admin のみ、または admin と members の両方に制限できます。
@@ -637,7 +757,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * AWS 上の専用クラウドのデプロイで Kubernetes Operator を有効化。
   * Google Cloud 上の専用クラウドのデプロイで使用される managed cache に対して、競合しない IP アドレス範囲を設定。
 
-  ## 修正
+  <div id="fixes-21">
+    ## 修正
+  </div>
 
   * Reports で add runset ボタンのクリック可能領域を更新
   * truncate grouping メッセージが適切に表示されるよう修正
@@ -653,7 +775,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.48.0" description="2023年12月20日">
-  ## 機能
+  <div id="features-18">
+    ## 機能
+  </div>
 
   * Launch の優先度設定に必要なフロントエンド変更をすべて追加
     Launch を使って、他のジョブよりも重要なジョブを実行する方法については、[こちらのブログ](https://wandb.ai/wandb_fc/launch-releases/reports/Introducing-Priority-Based-Job-Management-with-W-B-Launch--Vmlldzo2MzE2NjI2)を参照してください。
@@ -662,14 +786,18 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * トレーニング環境でチームが設定されておらず、サービスアカウントが使用されている場合、run はそのサービスアカウントのチーム内にある指定 project にログされます。また、環境で `WANDB_USERNAME` または `WANDB_USER_EMAIL` 変数が設定されており、かつそのユーザーがそのチームに所属している場合に限り、それらの run をそのユーザーに帰属させることができます。
     * チームのサービスアカウントは、別のチームのプライベートprojectには run をログ**できません**が、別のチームのパブリックprojectには run をログできます。
 
-  ## 修正
+  <div id="fixes-22">
+    ## 修正
+  </div>
 
   * 大きすぎる run セレクターの列幅を縮小
   * Custom Roles のプレビュー機能に関連するいくつかの bug を修正
 </Update>
 
 <Update label="v0.47.2" description="2023年12月1日">
-  ## 機能
+  <div id="features-19">
+    ## 機能
+  </div>
 
   * **特定の権限を持つカスタムロールを使用して、チーム内のアクセス制御をカスタマイズ**
     Enterprise のお客様向けにプレビュー提供されています。ご不明な点があれば、W&amp;B の account team またはサポートまでお問い合わせください。
@@ -677,7 +805,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 長いテキストに対応するため、run 検索のサイズを自動調整
   * webhook automation の webhook 詳細 (URL、シークレット、作成日を含む) を automations table から直接表示
 
-  ## 修正
+  <div id="fixes-23">
+    ## 修正
+  </div>
 
   * グループ値が数値のように見える文字列である場合の run のグループ化
   * レポートパネルのドラッグ操作がぎこちない問題
@@ -687,7 +817,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.46.0" description="2023年11月15日">
-  ## 機能
+  <div id="features-20">
+    ## 機能
+  </div>
 
   * AWS 上のデプロイで、Webhooks および Automations とともに W&amp;B Secrets を使用できるようになりました
     シークレットは AWS Secret Manager に安全に保存されます。terraform-aws-wandb module を使用してプロビジョニングしてください。
@@ -701,7 +833,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 何らかの理由で招待メールを送信できない場合でも、ユーザー招待が成功するよう変更
   * エージェント概要ページに関連付けられたキューの一覧を追加
 
-  ## 修正
+  <div id="fixes-24">
+    ## 修正
+  </div>
 
   * パネルオーバーレイの copy function で値が欠落する問題を修正
   * レポート作成時の import modal の CSS を整理
@@ -713,13 +847,17 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.45.0" description="2023年10月25日">
-  ## 機能
+  <div id="features-21">
+    ## 機能
+  </div>
 
   * 環境変数 `GORILLA_ARTIFACT_GC_ENABLED=true` とクラウドオブジェクトのバージョン管理またはソフト削除を使用して、アーティファクトのガベージコレクションを有効化。
   * Terraform モジュール terrraform-azurerm-wandb が、シークレットストアとして Azure Key Vault をサポートするようになりました。
     Azure 上のデプロイで、Webhooks および Automations とともに W&amp;B Secrets を使用できるようになりました。シークレットは Azure Key Vault に安全に保存されます。
 
-  ## 修正
+  <div id="fixes-25">
+    ## 修正
+  </div>
 
   * history の削除を妨げていた無効な早期終了を削除
   * run の移動/コピー時に key-set 情報が欠落しないよう修正
@@ -728,7 +866,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.44.1" description="2023年10月12日">
-  ## 機能
+  <div id="features-22">
+    ## 機能
+  </div>
 
   **W&amp;B に OpenAI プロキシ UI を追加**
 
@@ -742,7 +882,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Customer Secret Store で AWS Secret Manager をサポート。terraform モジュール terrraform-aws-wandb の更新・リリース後に有効化できます
   * Customer Secret Store で Azure Key Vault をサポート。terraform モジュール terrraform-azurerm-wandb の更新・リリース後に有効化できます
 
-  ## 修正
+  <div id="fixes-26">
+    ## 修正
+  </div>
 
   * model registry UI の使い勝手を改善
   * run が sweep の最適化目標を達成したかどうかの判定時に、int 値が無視されないよう修正
@@ -768,7 +910,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     ![修正された Runs table のデモ](https://github.com/wandb/server/assets/117778861/e4fe9656-b382-4328-80e4-edc4fcae1c88)
   </Frame>
 
-  ## 修正
+  <div id="fixes-27">
+    ## 修正
+  </div>
 
   * Workspace の読み込みパフォーマンスを大幅に改善
   * 無効化された add panel メニュー内の壊れた docs リンクを修正
@@ -782,7 +926,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.42.0" description="2023年9月14日">
-  ## 機能
+  <div id="features-23">
+    ## 機能
+  </div>
 
   * W&amp;B アーティファクト が time-to-live (TTL) ポリシーをサポートするようになりました。
 
@@ -800,7 +946,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * CustomerSecretStore を有効化
   * CustomerSecretStore のバックエンドとして Kubernetes を追加
 
-  ## 修正
+  <div id="fixes-28">
+    ## 修正
+  </div>
 
   * 進行中の storage 計算リファクタリングに伴い、storage と アーティファクト の請求を無効化
   * Panel 削除の bug を修正
@@ -813,7 +961,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.41.0" description="2023年8月28日">
-  ## 機能
+  <div id="features-24">
+    ## 機能
+  </div>
 
   * 新しい Launch ランディングページ
 
@@ -826,7 +976,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * エージェントの概要ページにエージェントのバージョンを表示
   * 新しいモデルレジストリ workflow を、すべてのユーザー向けに feature flag の対象外に変更
 
-  ## 修正
+  <div id="fixes-29">
+    ## 修正
+  </div>
 
   * 空のプロジェクトが storage explorer で無限読み込みを引き起こす問題
   * run キュー項目が失敗したときに Runs が failed とマークされる問題
@@ -838,7 +990,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.40.0" description="2023年8月18日">
-  ## 機能
+  <div id="features-25">
+    ## 機能
+  </div>
 
   * Webhooks により、特定のイベントが発生した際に CI/CD パイプライン内の特定のアクションをトリガーする Webhook Automations を使用して、シームレスなモデル CI/CD workflow を実現できます。webhooks を使用すると、ML エンジニアリングと devops の間に明確な引き継ぎポイントを設けられます。これが [Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74) と [Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA) で実際にどのように機能するかは、リンク先のデモ動画をご覧ください。詳細は[ドキュメント](/ja/models/automations/create-automations/webhook/)を参照してください。
     <Frame>
@@ -846,7 +1000,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     </Frame>
   * すべての顧客向けに新しいユーザーアクティビティダッシュボードを追加。
 
-  ## 修正
+  <div id="fixes-30">
+    ## 修正
+  </div>
 
   * 組織が保持できる Registered Models の数の上限を削除。
   * workspaces に検索履歴を追加し、よく使うプロットを見つけやすくしました。
@@ -860,7 +1016,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.39.0" description="2023年7月27日">
-  ## 機能
+  <div id="features-26">
+    ## 機能
+  </div>
 
   **刷新された Organization Dashboard**
 
@@ -872,7 +1030,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   専用クラウドのお客様では、この機能は有効になっています。セルフマネージド W&amp;B のお客様は、W&amp;B サポートまでお問い合わせいただければ、有効化をお手伝いします。
 
-  ## 修正
+  <div id="fixes-31">
+    ## 修正
+  </div>
 
   * サービス APIキー をチーム管理者に制限
   * Launch エージェントの設定が Agents ページに表示されるようになりました
@@ -885,7 +1045,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.38.0" description="2023年7月13日">
-  ## 機能
+  <div id="features-27">
+    ## 機能
+  </div>
 
   * メトリクス可視化の強化
 
@@ -895,7 +1057,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
     メトリクス可視化の中核機能を引き続き強化しています。正規表現に一致するメトリクスのうち、どれをプロットに表示するかを指定できるようになり、一度に最大100件のメトリクスを扱えます。さらに、大規模データをより正確に表現できるよう、プロットのスムージングに新しい時間加重指数移動平均アルゴリズムを追加しました ([サポートされているすべてのアルゴリズムを見る](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)) 。
 
-  ## 修正
+  <div id="fixes-32">
+    ## 修正
+  </div>
 
   * artifact のダウンロード速度を大幅に改善しました。100万ファイルの artifact ベンチマークで6倍を超える高速化を実現しています。SDK バージョン 0.15.5 以降にアップグレードしてください。
   * (Launch) [Launch 上の Sweeps で使用する sweeps scheduler](https://docs.wandb.ai/guides/launch/sweeps-on-launch#create-a-custom-sweep-scheduler) として Optuna が利用可能になり、ハイパーパラメーターをより効率的に探索できるようになりました。
@@ -925,7 +1089,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.36.0" description="2023年6月14日">
-  ## 機能
+  <div id="features-28">
+    ## 機能
+  </div>
 
   * Launch で Runs を複製
 
@@ -935,7 +1101,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
     run を再実行したいものの、いくつかのハイパーパラメーターだけ調整したい場合、たとえばより大きなマシンを活用するためにバッチサイズを増やしたい場合でも、W&amp;B Launch を使えば run を簡単に複製できるようになりました。run の概要に移動して Clone をクリックすると、新しいハイパーパラメーターを設定し、ジョブの実行先となる新しいインフラストラクチャーを選択できます。詳細は [Launch documentation](https://docs.wandb.ai/guides/launch) を参照してください。
 
-  ## 修正
+  <div id="fixes-33">
+    ## 修正
+  </div>
 
   * 監査ログに レポート の作成および更新アクションを追加しました。
   * SDK 経由で読み取られた Artifacts が [audit logs](https://docs.wandb.ai/platform/hosting/audit-logging/) に記録されるようになりました。
@@ -952,11 +1120,15 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.35.0" description="2023年6月7日">
-  ## セキュリティ
+  <div id="security-4">
+    ## セキュリティ
+  </div>
 
   最近ログインしたユーザーの APIキー がログに記録される問題を修正しました。デバッグバンドル内の `gorilla.log` で `FetchAuthUserByAPIKey` を確認し、見つかったキーはローテーションしてください。
 
-  ## 機能
+  <div id="features-29">
+    ## 機能
+  </div>
 
   * Launch エージェントのログを W&amp;B App で確認できるようになりました。
 
@@ -966,7 +1138,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
     [W&amp;B Launch](https://docs.wandb.ai/guides/launch) を使うと、機械学習ジョブを幅広い専用コンピュート環境に送信できます。今回の更新により、AWS や Google Cloud のコンソールにログインしなくても、これらのリモート環境で実行中のジョブを W&amp;B 上で監視し、デバッグできるようになりました。
 
-  ## 修正
+  <div id="fixes-34">
+    ## 修正
+  </div>
 
   * Logs タブが 1000 行で切り詰められなくなりました。
   * artifact ファイルのページネーションが無限ループに入ることがある問題を修正しました
@@ -975,7 +1149,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.34.0" description="2023年5月31日">
-  ## 機能
+  <div id="features-30">
+    ## 機能
+  </div>
 
   * 新しい Model Registry UI
 
@@ -993,7 +1169,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 一部のメタデータ列と詳細をプレビューで確認する
   * モデルのアクセス制御を変更する
 
-  ## 修正
+  <div id="fixes-35">
+    ## 修正
+  </div>
 
   * ユニバーサル検索のランキング結果が向上するよう、検索機能を改善しました。
   * Model Registry で複数のタグを一度に追加 / 削除できる機能を追加しました
@@ -1020,7 +1198,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.33.0" description="2023年5月10日">
-  ## 機能
+  <div id="features-31">
+    ## 機能
+  </div>
 
   * Prompts: ズームとパン
     <Frame>
@@ -1044,7 +1224,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * ナビゲーションの更新
     W&amp;B がカバーする ML ワークフローの範囲が広がるにつれ、アプリケーション内を移動しづらいというフィードバックをいただいていました。そこで、ナビゲーションサイドバーを更新し、各プロダクト領域のラベルをよりわかりやすくするとともに、一部の詳細画面には戻りリンクを追加しました。また、この機能の強力さをより適切に表すため、“Triggers” を “Automations” に名称変更しました。
 
-  ## 修正
+  <div id="fixes-36">
+    ## 修正
+  </div>
 
   * Workspace またはレポートでプロットにホバーした際、ホバーコントロールに表示される run 名とプロット値を Cmd+C または Ctrl+C でコピーできるようになりました。
   * デフォルト Workspace への変更が自動保存されなくなりました。

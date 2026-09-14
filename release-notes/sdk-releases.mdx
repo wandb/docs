@@ -6,6 +6,61 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package) used with W&B Models. For the Weave Python SDK (`weave` package), see [Weave SDK releases](/release-notes/weave-sdk-releases). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.30.0" description="September 8, 2026">
+## Notable changes
+- `wandb.InternalApi`, the `wandb.PublicApi` and `wandb.apis.PublicApi` aliases, and the `wandb.apis.internal` and `wandb.sdk.internal.internal_api` modules are removed. Use `wandb.Api()` instead.
+- `wandb.api` and `wandb.ensure_configured()` are deprecated. Use `wandb.login(prompt=False)` to check whether a user is logged in, and `wandb.Api()` for everything else.
+- The legacy `wandb sync` options are removed. Run `wandb sync` with no arguments instead of `wandb sync --sync-all`, and use `--job-type` instead of `--job_type`. To list the current options, run `wandb sync --help`.
+
+## Added
+- `wandb.login(prompt=False)` uses the configured credentials if there are any and returns `False` otherwise, without asking for an API key or switching to offline mode. Use it to check whether a user is logged in without blocking.
+- The Automations API supports sending a prompt to ARIA as an automation action with `SendPromptToAria`. For more information, see [Create an ARIA automation](/models/automations/create-automations/aria).
+- W&B LEET TUI features:
+  - Charts support custom x-axes that you set with `run.define_metric()`, including glob definitions such as `run.define_metric("train/*", step_metric="train/step")`. The chart header shows the axis name as `[x: train/step]`. This applies to runs that you open from local `.wandb` files.
+  - To filter console logs, focus the logs pane, press `/`, then type a regular expression, or press **Tab** and type a glob pattern. Only matching lines are shown, and new matches are followed as they arrive. Press `Ctrl+/` to clear the filter.
+  - The metrics, system metrics, and runs filters are saved for each `wandb` directory and applied again the next time you open it, in both the workspace and the single-run view. The filters are stored in `.wandb-leet.json` inside the directory. Clearing a filter removes it from the saved filters.
+  - The border or separator line that you drag to resize a pane or sidebar is highlighted while you drag it.
+
+## Changed
+- `wandb status --settings` no longer prints the API key, and `wandb projects` no longer prints project descriptions.
+- System metrics on Apple Silicon Macs start about 1.5 seconds sooner after a run starts.
+- The W&B LEET TUI is faster on long runs. A run with 100 metrics and 400,000 steps opens 10 times faster, frames render about 30 percent faster, and live chart updates no longer redraw every point.
+
+## Deprecated
+- `wandb.api` and `wandb.ensure_configured()` are deprecated and will be removed in a later release. `wandb.api` now provides only `api_key`, `default_entity`, and `viewer()`. Use `wandb.login(prompt=False)` to check whether a user is logged in, and `wandb.Api()` for everything else.
+- `wandb.sandbox` and the `wandb beta sandbox` commands are deprecated and will be removed in a later release. Use the `cwsandbox` package directly.
+
+## Removed
+- Removed `wandb.InternalApi`, the `wandb.PublicApi` and `wandb.apis.PublicApi` aliases, and the `wandb.apis.internal` and `wandb.sdk.internal.internal_api` modules. Use `wandb.Api()` instead.
+- Removed the legacy `wandb sync` options. Run `wandb sync` with no arguments instead of `wandb sync --sync-all`, and use `--job-type` instead of `--job_type`.
+
+## Fixed
+- File uploads and downloads that take longer than 20 seconds no longer fail with `CommError: Failed to execute API request: the service process is busy and did not respond in time`. This was a regression in v0.29.0.
+- `wandb.init()` and `wandb.Api()` no longer stall for up to 10 seconds when the W&B server is slow to respond. This was a regression in v0.29.0.
+- Requests that are rejected with HTTP `402 Payment Required`, which indicates a plan or quota limit such as an artifact usage limit, are no longer retried. The error is reported immediately.
+- Syncing a run whose artifacts were already uploaded no longer fails when the artifact files are no longer on disk. This was a regression in v0.29.0.
+- A failed artifact upload no longer deletes the files it was uploading, so `wandb sync` can retry it. After a successful upload, only files in the artifact's staging directory are cleaned up.
+- When a `.wandb` file ends with an incomplete record, which happens while a run is still writing or after a run is stopped abruptly mid-write, `wandb sync` now explains what to do instead of reporting an internal error.
+- Passing `aliases` or `tags` to `Run.log_artifact()` in the public API no longer fails with a server error.
+- `wandb.Image` masks that you provide as float arrays with values outside the range [0, 255] now raise `TypeError`, as integer arrays already did, instead of being saved with incorrect class IDs.
+- System metrics are collected as soon as a run starts instead of one sampling interval later, which is 15 seconds by default. Short runs now record system metrics, and system charts no longer start with a gap.
+- `wandb.init()` no longer waits up to 5 seconds for the GPU and TPU metrics collector to start.
+- In Jupyter notebooks, system metrics are collected while a cell runs and paused between cells. Since v0.19.10 the two were swapped, so system metrics were collected only while the notebook was idle.
+- On machines with AMD GPUs, system metrics monitoring no longer runs `rocm-smi` up front, which took 1 to 3 seconds, and no longer crashes when `rocm-smi` reports no GPUs.
+- System metrics on Apple Silicon Macs:
+    - CPU utilization, frequency, and power now cover the whole sampling interval instead of a snapshot of about 10 milliseconds. The snapshot made utilization and frequency noisy and overstated power by about 25 percent.
+    - Macs with 256 GB or more of RAM no longer report a memory size of 0 GB.
+    - CPU and GPU temperatures are no longer skewed by invalid sensor readings.
+    - M5 Pro and M5 Max Macs no longer report 0 efficiency cores.
+    - CPU frequencies on the MacBook Neo are no longer reported about 1,000 times too high.
+    - CPU utilization and frequency are now collected for the efficiency cores of M5 Macs and the performance cores of M5 Pro and M5 Max Macs, which were missing.
+- W&B LEET TUI:
+    - `wandb leet` prints an error when it cannot start, for example when no terminal is available, instead of exiting with status 1 and no output. Debug logs (`WANDB_DEBUG=true`) are written next to the LEET config file instead of to the current directory.
+    - `wandb leet` no longer sends usage telemetry in offline or disabled mode (`WANDB_MODE=offline` or `WANDB_MODE=disabled`), like the rest of the SDK.
+    - In narrow terminals, the workspace hides the run overview sidebar, and then the runs list, when they would leave the charts fewer than 24 columns wide. Previously, an 80-column terminal showed the charts as a one-column sliver between the two sidebars.
+    - The top y-axis label of a chart is no longer cut off when it is wider than the other labels. For example, the label now shows `1.09e+03` instead of `+03`.
+</Update>
+
 <Update label="0.29.0" description="August 26, 2026">
 ## Notable changes
 - On macOS, `wandb` now requires macOS 13 (Ventura) or newer.

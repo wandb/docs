@@ -57,11 +57,15 @@ Les sections suivantes expliquent comment créer un graphique en courbes pour un
     5. Pour supprimer éventuellement les panneaux à métrique unique en double lors de la création du graphique multi-métrique, activez **Clean up auto-generated panels**. Un aperçu indique quels panneaux seront supprimés. <Note>Lorsque cette option est activée, W&amp;B ne crée pas de graphique à métrique unique pour une métrique nouvellement enregistrée qui correspond à l’expression. Elle apparaît uniquement dans ce graphique multi-métrique.</Note>
     6. Cliquez sur **Create [NUMBER] panels**.
 
-    ### Expressions régulières multi-métriques
+    <div id="multi-metric-regular-expressions">
+      ### Expressions régulières multi-métriques
+    </div>
 
     Les graphiques en courbes multi-métriques utilisent la [syntaxe RE2 de Google](https://github.com/google/re2/wiki/Syntax) pour faire correspondre les noms de métriques. Les sections suivantes décrivent des cas d’usage courants et donnent plus de détails sur le fonctionnement des expressions régulières, notamment sur la manière dont les groupes de capture affectent les panneaux créés par W&amp;B.
 
-    #### Cas d’usage courants
+    <div id="common-use-cases">
+      #### Cas d’usage courants
+    </div>
 
     Les exemples suivants montrent différentes façons d’utiliser des panneaux multi-métriques pour vous aider à analyser les résultats de vos expériences.
 
@@ -88,7 +92,9 @@ Les sections suivantes expliquent comment créer un graphique en courbes pour un
     **Faire correspondre des variantes de métriques spécifiques**
     Utilisez l’alternance pour ne faire correspondre que les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, en excluant les couches intermédiaires.
 
-    #### Groupes de capture
+    <div id="capture-groups">
+      #### Groupes de capture
+    </div>
 
     <LinePlotCaptureGroups />
   </Tab>

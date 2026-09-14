@@ -120,7 +120,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
        3. 開いたドロワーで、**Invite team members** の上にある W&amp;B 組織 ID をコピーします。
        4. このページは開いたままにしておきます。後で [W&amp;B を設定](#configure-byob) する際に使用します。
 
-    2. <a id="coreweave-customer-namespace" aria-label="CoreWeave カスタマーネームスペース" />**専用クラウド** / **セルフマネージド**: バケットポリシーに必要なカスタマーネームスペースを取得します。
+    2. <a id="coreweave-customer-namespace" aria-label="CoreWeave customer namespace" />**専用クラウド** / **セルフマネージド**: バケットポリシーに必要なカスタマーネームスペースを取得します。
        1. W&amp;B App で、ユーザーのプロフィールアイコンをクリックし、**System Console** をクリックします。
        2. **Authentication** タブをクリックします。
        3. ページ下部で、**Customer Namespace** の値をコピーします。bucket ポリシーの設定で使用するため、この値は控えておいてください。
@@ -422,11 +422,14 @@ W&amp;B の中央データベースには、次のデータが保存されます
             [object lifecycle management policy](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal) によって bucket 内のデータが期限切れになると、一部の run の履歴を参照できなくなる可能性があります。
           </Note>
 
-    2. ストレージ アカウントのアクセス キーを生成し、その名前とストレージ アカウント名を控えておいてください。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) を使用している場合は、安全な共有手段を使用してストレージ アカウント名とアクセス キーを W&amp;B チームに共有してください。
+    2. 認証方式を選択します。
+
+       * **ストレージ アカウント キー**: ストレージ アカウントのアクセス キーを生成し、そのキーとストレージ アカウント名を控えておきます。専用クラウドをご利用の組織の場合は、安全な共有手段を使用してこれらの値を W&amp;B の account team に共有してください。
+       * **ワークロード アイデンティティ**: Azure マネージド アイデンティティにストレージ アカウントへのアクセスを付与し、それを使用するように W&amp;B を設定します。ストレージ アカウント キーを共有する必要はありません。[デプロイメントタイプに応じたワークロード アイデンティティの手順](#set-up-azure-workload-identity)に従ってください。
 
     **チームレベル BYOB**:
 
-    専用クラウドのデプロイでは、必要なアクセス メカニズムと権限を備えた Azure Blob Storage コンテナーをプロビジョニングするために、W&amp;B は [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) の使用を推奨しています。Terraform を使用しない専用クラウドのデプロイ、またはセルフマネージドのデプロイでは、インスタンス レベルのストレージをプロビジョニングする手順に従って bucket をプロビジョニングしてください。インスタンスの OIDC issuer URL を提供してください。以下の詳細を控えておいてください。
+    専用クラウドのデプロイでは、必要なアクセス メカニズムと権限を備えた Azure Blob Storage コンテナーをプロビジョニングするために、W&amp;B は [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) の使用を推奨しています。Terraform を使用しない専用クラウドのデプロイ、またはセルフマネージドのデプロイでは、インスタンス レベルのストレージをプロビジョニングする手順に従って bucket をプロビジョニングしてください。インスタンスの OIDC 発行者 URL を提供してください。以下の詳細を控えておいてください。
 
     * ストレージ アカウント名
     * ストレージ コンテナー名
@@ -532,23 +535,62 @@ W&amp;B の中央データベースには、次のデータが保存されます
 </div>
 
 <Note>
-  インスタンス レベルで CoreWeave AI Object Storage を使用する場合は、この手順には従わず、[W&amp;B サポート](mailto:support@wandb.com) にお問い合わせください。セルフサービスでの設定はまだサポートされていません。
+  インスタンス レベルで CoreWeave AI オブジェクトストレージを使用する場合は、以下の手順ではなく [W&amp;B サポート](mailto:support@wandb.com) にお問い合わせください。セルフサービスでの設定はまだサポートされていません。
 </Note>
 
-**専用クラウド** の場合: バケットの詳細を担当の W&amp;B チームに共有してください。担当チームが専用クラウド インスタンスを設定します。
+**専用クラウド** の場合: バケットの詳細を W&amp;B チームに共有してください。W&amp;B チームがインスタンスを設定します。Azure ワークロード アイデンティティを使用する場合は、[ストレージ アカウントへのアクセスを許可](#set-up-azure-workload-identity) し、ストレージ アカウント名、コンテナー名、および必要に応じてパスをお知らせください。
 
-**セルフマネージド** の場合は、W&amp;B App を使用してインスタンス レベルの BYOB を設定できます。
+**セルフマネージド** の場合は、W&amp;B System Console でインスタンス レベルの BYOB を設定します。Azure ワークロード アイデンティティを使用する場合は、先に [アイデンティティのセットアップ](#set-up-azure-workload-identity) を完了してください。
 
 1. `admin` ロールを持つユーザーとして W&amp;B にログインします。
 2. 上部のユーザーアイコンをクリックし、**System Console** をクリックします。
 3. **Settings** &gt; **System Connections** にアクセスします。
-4. **Bucket Storage** セクションで、**Identity** フィールドに指定されたアイデンティティに、新しいバケットへのアクセス権が付与されていることを確認します。
-5. **Provider** を選択します。
-6. **Bucket Name** を入力します。
-7. 必要に応じて、新しいバケットで使用する **Path** を入力します。
-8. **Save** をクリックします。
+4. **Bucket Storage** で **Provider** を選択し、バケットの詳細を入力します。Azure の場合は **Azure Blob Storage (az)** を選択し、**Storage account** と **Blob container** をそれぞれ入力します。
+5. 任意: 新しいバケットで使用する **Path** を入力します。
+6. 選択したプロバイダーのアイデンティティまたは認証情報がバケットにアクセスできることを確認します。Azure の場合は、**Authentication** の方式を選択します。
+   * **Storage account key**: **Storage account key** を入力します。
+   * **Workload identity (user-delegation SAS)**: デプロイメント管理者が設定したアイデンティティを使用します。このオプションが表示されない場合は、[アイデンティティのセットアップ](#set-up-azure-workload-identity) を完了してください。
+7. **Save** をクリックします。
 
-保存後、W&amp;B は設定されたバケットを、インスタンス レベルにおける新しいアーティファクト と run ファイル のデフォルトのストレージ保存先として使用します。
+保存すると、W&amp;B はインスタンス レベルで、新しい アーティファクト と run ファイルのデフォルトのストレージ送信先として、設定したバケットを使用します。
+
+設定を編集できない場合は、デプロイメント管理者にお問い合わせください。
+
+<div id="set-up-azure-workload-identity">
+  #### Azure ワークロード アイデンティティを設定する
+</div>
+
+ワークロード アイデンティティを使用すると、ストレージアカウントキーなしで W&amp;B が Azure バケットにアクセスできます。設定手順を確認するには、デプロイメントタイプを選択してください。
+
+<Tabs>
+  <Tab title="専用クラウド">
+    デプロイメントは W&amp;B が設定します。お客様は Azure ストレージアカウントへのアクセスを設定します。
+
+    1. ストレージアカウントのテナント ID を添えて W&amp;B チームに連絡し、使用するマネージド ID を確認します。
+    2. その ID がお客様の Azure テナント内にある場合は、そのプリンシパル ID を以下のロール割り当てに使用します。テナント外にある場合は、お客様のテナント内でマネージド ID を作成または選択し、W&amp;B から提供される issuer、subject、オーディエンスの値を使用してフェデレーション認証情報を設定します。マネージド ID から[別のテナント内のストレージに直接アクセスすることはできません](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/managed-identities-faq#can-i-use-a-managed-identity-to-access-a-resource-in-a-different-directorytenant)。
+    3. BYOB ストレージアカウントに対して、ストレージアカウント スコープで ID のプリンシパルに **Reader** と **Storage Blob Data Contributor** を付与します。
+    4. ストレージアカウント名、コンテナー名、パス (任意) 、および ID のテナント ID とクライアント ID を W&amp;B チームに共有します。
+
+    W&amp;B が接続を設定した後、run ファイルまたは アーティファクト のアップロードとダウンロードを実行して、アクセスできることを確認します。
+  </Tab>
+
+  <Tab title="セルフマネージド">
+    デプロイメント管理者として、Azure と Kubernetes でワークロード アイデンティティを設定し、System Console で選択します。
+
+    このワークフローでは以下のバージョンを使用してください。
+
+    | コンポーネント                | 必須バージョン                                                                                 |
+    | ---------------------- | --------------------------------------------------------------------------------------- |
+    | W&amp;B Server         | v0.84.0 以降 (ストレージにアクセスするすべてのコンポーネントを含む)                                                 |
+    | Operator Helm chart    | [v0.44.13](https://github.com/wandb/helm-charts/releases/tag/operator-wandb-0.44.13) 以降 |
+    | W&amp;B System Console | 認証セレクターを使用するには [v2.20.0](https://github.com/wandb/console/releases/tag/v2.20.0) 以降      |
+
+    1. Kubernetes クラスターで OpenID Connect (OIDC) トークン フェデレーションと Azure ワークロード アイデンティティを有効にします。Azure Kubernetes Service (AKS) の場合は、[Configure Microsoft Entra Workload ID](https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster) に従ってください。
+    2. Azure マネージド ID を作成または選択し、そのテナント ID、クライアント ID、プリンシパル ID を記録します。BYOB ストレージアカウントに対して、ストレージアカウント スコープでそのプリンシパルに **Reader** と **Storage Blob Data Contributor** を付与します。
+    3. Helm values で `global.azureStorageIdentity` に ID のテナント ID、クライアント ID、プリンシパル ID を設定します。ストレージにアクセスする Kubernetes サービスアカウントには、フェデレーションと `azure.workload.identity/client-id` アノテーションを設定します。Helm の設定の詳細については、[Azure workload identity configuration](https://github.com/wandb/helm-charts/blob/operator-wandb-0.44.13/charts/operator-wandb/README.md#azure-managed-storage-workload-identity) を参照してください。
+    4. [Console の手順](#instance-level-byob)に従ってワークロード アイデンティティを選択し、バケット設定を保存します。run ファイルまたは アーティファクト のアップロードとダウンロードを実行して、アクセスできることを確認します。
+  </Tab>
+</Tabs>
 
 <div id="team-level-byob">
   ### チームレベル BYOB

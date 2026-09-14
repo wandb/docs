@@ -3,20 +3,24 @@ title: "patchRealtimeSession"
 description: "Référence du SDK TypeScript"
 ---
 
-> **patchRealtimeSession**(): `Promise`&lt;`boolean`&gt;
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+```ts
+patchRealtimeSession(): Promise<boolean>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.realtime.agent.ts#L861" />
 
 Patchez manuellement la classe `RealtimeSession` de `@openai/agents-realtime` afin que
 chaque nouvelle instance soit automatiquement tracée par Weave.
 
-**Remarque : vous n’avez généralement pas besoin d’appeler cette fonction !** `@openai/agents-realtime` est
+**Remarque : vous n’avez généralement pas besoin d’appeler cette fonction !** `@openai/agents-realtime` est
 automatiquement instrumenté via des hooks du chargeur de modules lorsque vous importez Weave. Cette fonction
 est fournie pour les cas limites où l’instrumentation automatique ne fonctionne pas (par ex. importations
 dynamiques, bundlers qui contournent les hooks).
 
 Appelez cette fonction **une seule fois** au démarrage de l’application, avant qu’une `RealtimeSession` ne soit créée.
-La fonction est idempotente : vous pouvez l’appeler en toute sécurité à plusieurs reprises.
-
-Défini dans : [src/integrations/openai.realtime.agent.ts:836](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.realtime.agent.ts#L836)
+La fonction est idempotente : vous pouvez l’appeler en toute sécurité à plusieurs reprises.
 
 <div id="returns">
   ## Renvoie

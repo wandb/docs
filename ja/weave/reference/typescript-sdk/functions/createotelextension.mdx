@@ -3,23 +3,29 @@ title: "createOtelExtension"
 description: "TypeScript SDK リファレンス"
 ---
 
-> **createOtelExtension**(`opts?`): (`pi`) =&gt; `void`
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+```ts
+createOtelExtension(opts?: object): (pi) => void
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/piCodingAgent.ts#L658" />
 
 GenAI のセマンティック規約に準拠し、エージェントのライフサイクル全体にわたって OTEL スパンを送出する piコーディングエージェント拡張機能を作成します。
 
 `weave.init(...)` が呼び出されている場合、スパンは自動的に Weave トレースサーバーの `/agents/otel/v1/traces` にエクスポートされます。そうでない場合は、`opts` にカスタム `tracer` を渡してください。
 
-定義元: [src/integrations/piCodingAgent.ts:654](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/piCodingAgent.ts#L654)
-
 <div id="parameters">
   ## パラメーター
 </div>
 
-<div id="opts">
-  ### opts?
-</div>
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="captureContent" type="boolean" />
 
-`OtelExtensionOptions` = `{}`
+    <ParamField path="tracer" type="Tracer" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
   ## 戻り値

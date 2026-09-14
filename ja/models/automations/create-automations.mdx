@@ -4,7 +4,7 @@ description: W&B Automations を作成・管理して、ML ワークフローを
 keywords: ["Automations", "Slack 通知", "webhooks", "Registry イベント", "W&B シークレット"]
 ---
 
-このページでは、W&amp;B の[オートメーション](/ja/models/automations)を作成および管理する方法を説明します。オートメーションは、W&amp;B 内の特定のイベントに応じて開始されます。組織、チーム、project、Registry、またはコレクション内で特定のイベントが発生すると、オートメーションは Slack チャンネルに通知するか、webhook を実行します。まずこの概要で前提条件と大まかなワークフローを把握し、その後、[Slack オートメーションを作成する](/ja/models/automations/create-automations/slack) または [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook) の詳細な手順に従ってください。
+このページでは、W&amp;B の[オートメーション](/ja/models/automations)を作成および管理する方法を説明します。オートメーションは、W&amp;B 内の特定のイベントに応じて開始されます。組織、チーム、project、Registry、またはコレクション内で特定のイベントが発生すると、オートメーションは Slack チャンネルに通知するか、webhook を実行するか、ARIA にプロンプトを送信します。まずこの概要で前提条件と大まかなワークフローを把握し、その後、[Slack オートメーションを作成する](/ja/models/automations/create-automations/slack)、[webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook)、または [ARIA オートメーションを作成する](/ja/models/automations/create-automations/aria) の詳細な手順に従ってください。
 
 <Note>
   オートメーションの関連チュートリアルをお探しですか？
@@ -59,6 +59,7 @@ Workspace の折れ線グラフから、そのグラフに表示されている�
 
 * [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack)
 * [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook)
+* [ARIA オートメーションを作成する](/ja/models/automations/create-automations/aria)
 
 <div id="view-and-manage-automations">
   ## オートメーションの表示と管理
@@ -81,8 +82,9 @@ project または Registry の **Automations** タブで、オートメーショ
 * [Automation events and scopes](/ja/models/automations/automation-events)。
 * [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack)。
 * [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook)。
+* [ARIA オートメーションを作成する](/ja/models/automations/create-automations/aria)。
 * [シークレット を作成する](/ja/platform/secrets)。
 
-{/* Python SDK の `create_automation` のリグレッションが修正されたら元に戻します（内部 WB-34263）:
+{/* Python SDK の `create_automation` のリグレッションが修正されたら復元します（内部 WB-34263）:
   - [API でオートメーションを管理する](/models/automations/api).
   */}

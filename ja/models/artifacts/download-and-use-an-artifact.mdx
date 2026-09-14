@@ -10,18 +10,18 @@ W&amp;B サーバー にすでに保存されている アーティファクト 
 </Note>
 
 <div id="download-and-use-an-artifact-stored-on-wb">
-  ### W&amp;B に保存されているアーティファクトをダウンロードして使用する
+  ## W&amp;B に保存されているアーティファクトをダウンロードして使用する
 </div>
 
 アーティファクトが run の依存関係である場合は、追跡対象の run 入力としてダウンロードします。リネージのトラッキングが不要なワークフローでは、直接取得します。
 
 <Info>
-  W&amp;B が処理できるスキームを持つ参照は、アーティファクト内のファイルと同様にダウンロードされます。詳細は、[外部ファイルをトラッキングする](/ja/models/artifacts/track-external-files/)を参照してください。
+  W&amp;B が処理できるスキームを持つ参照は、アーティファクト内の file と同様にダウンロードされます。詳細は、[外部fileをトラッキングする](/ja/models/artifacts/track-external-files/)を参照してください。
 </Info>
 
-アーティファクト内のすべてのファイルをダウンロードすることも、個別のファイルをダウンロードすることもできます。
+アーティファクト内のすべての file をダウンロードすることも、個別の file をダウンロードすることもできます。
 
-* すべてのファイルをダウンロードするには、[`Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) を使用します。
+* すべての file をダウンロードするには、[`Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) を使用します。
 * 特定のエントリを取得するには、[`Artifact.get_entry()`](/ja/models/ref/python/experiments/artifact#get_entry) を使用し、その後 `.download()` を呼び出してダウンロードします。
 
 <Tabs>
@@ -30,12 +30,12 @@ W&amp;B サーバー にすでに保存されている アーティファクト 
 
     1. W&amp;B Python SDK をインポートし、W&amp;B [Run](/ja/models/ref/python/experiments/run) を初期化します。
     2. `wandb.Run.use_artifact()` を使用してアーティファクトのバージョンを取得します。
-    3. 返された `Artifact` オブジェクトから、すべてのファイルまたは特定のファイルをダウンロードします。
+    3. 返された `Artifact` オブジェクトから、すべての file または特定の file をダウンロードします。
 
     ```python
     import wandb    
 
-    with wandb.init(project="<example>", job_type="<job-type>") as run:
+    with wandb.init(project="project-name", job_type="job-type") as run:
         # 使用するアーティファクトを指定します。形式は "name:alias" です
         artifact = run.use_artifact("bike-dataset:latest")
 
@@ -53,7 +53,7 @@ W&amp;B サーバー にすでに保存されている アーティファクト 
 
     1. W&amp;B Python SDK をインポートし、`wandb.Api()` でクライアントオブジェクトを作成します。
     2. `wandb.Api.artifact()` を使用してアーティファクトのバージョンを取得します。
-    3. 返された `Artifact` オブジェクトから、すべてのファイルまたは特定のファイルをダウンロードします。
+    3. 返された `Artifact` オブジェクトから、すべての file または特定の file をダウンロードします。
 
     アーティファクトのパスは `entity/project/artifact:alias` 形式で指定します。
 
@@ -76,13 +76,13 @@ W&amp;B サーバー にすでに保存されている アーティファクト 
 </Tabs>
 
 <div id="partially-download-an-artifact">
-  ### artifact を部分的にダウンロードする
+  ## アーティファクト を部分的にダウンロードする
 </div>
 
-プレフィックスを指定して、artifact の一部だけを必要に応じてダウンロードできます。単一のファイルまたはサブフォルダーの内容をダウンロードするには、`path_prefix=` (`wandb.Artifact.download(path_prefix=)`) パラメーターを使用します。
+プレフィックスを指定して、アーティファクト の一部だけを必要に応じてダウンロードできます。単一の file またはサブフォルダーの内容をダウンロードするには、`path_prefix=` (`wandb.Artifact.download(path_prefix=)`) パラメーターを使用します。
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="project-name", job_type="job-type") as run:
     # 使用する artifact を指定します。形式は "name:alias"
     artifact = run.use_artifact("bike-dataset:latest")
 
@@ -90,15 +90,42 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     artifact.download(path_prefix="bike.png") # bike.png のみをダウンロードする
 ```
 
-また、特定のディレクトリからファイルをダウンロードすることもできます。その場合は、`path_prefix=` パラメーターにディレクトリを指定します。前のコードスニペットに続けて、次のように記述します。
+また、特定のディレクトリから file をダウンロードすることもできます。その場合は、`path_prefix=` パラメーターにディレクトリを指定します。前のコードスニペットに続けて、次のように記述します。
 
 ```python
 # images/bikes ディレクトリ内のファイルをダウンロードする
 artifact.download(path_prefix="images/bikes/") 
 ```
 
+<div id="verify-downloaded-artifact-files">
+  ## ダウンロードしたアーティファクト の file を検証する
+</div>
+
+アーティファクト をダウンロードしたら、`wandb.Artifact.verify()` を呼び出して、ディスク上のローカル file がアーティファクト の manifest と一致するかどうかを確認します。
+
+次の例では、run の一部としてアーティファクト をダウンロードし、ダウンロードした file を検証します。
+
+```python
+import wandb
+
+with wandb.init(project="project-name", job_type="job-type") as run:
+    artifact = run.use_artifact("entity/project/my-dataset:latest")
+    artifact_dir = artifact.download()
+    artifact.verify(artifact_dir)
+```
+
+[`wandb.Artifact.verify()`](/ja/models/ref/python/experiments/artifact#method-artifact-verify) は、ローカル file のチェックサムを再計算し、アーティファクト の manifest に記録されているチェックサムと比較します。file が欠落または変更されている場合、あるいはアーティファクト に含まれていない file がディレクトリに存在する場合、検証は失敗します。
+
+<Note>
+  **アーティファクト の検証に関する考慮事項**
+
+  * `wandb.Artifact.verify()` は [reference エントリ](/ja/models/artifacts/track-external-files)を検証しません。
+
+  * `digest_algorithm="XXH128"` で作成されたアーティファクト に対して `wandb.Artifact.verify()` を使用するには、W&amp;B Python SDK バージョン 0.29.0 以降が必要です。これより前の SDK バージョンは XXH128 の manifest エントリをサポートしていないため、検証は失敗します。
+</Note>
+
 <div id="use-an-artifact-from-a-different-project">
-  ### 別のプロジェクトのアーティファクトを使用する
+  ## 別のプロジェクトのアーティファクトを使用する
 </div>
 
 アーティファクトを参照するには、そのアーティファクトの名をプロジェクト名とあわせて指定します。アーティファクトの名にentity名も指定すると、entityをまたいでアーティファクトを参照することもできます。
@@ -106,7 +133,7 @@ artifact.download(path_prefix="images/bikes/")
 以下のコード例は、現在のW&amp;B runへの入力として別のプロジェクトのアーティファクトをクエリする方法を示しています。
 
 ```python
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="project-name", job_type="job-type") as run:
     # 別のプロジェクトのartifactをW&BにクエリしてこのrunへのInputとしてマークする
     #
     artifact = run.use_artifact("my-project/artifact:alias")
@@ -114,22 +141,21 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     # 別のentityのartifactを使用してこのrunへのInputとしてマークする
     #
     artifact = run.use_artifact("my-entity/my-project/artifact:alias")
-
 ```
 
 <div id="construct-and-use-an-artifact-simultaneously">
-  ### artifact を作成して同時に使用する
+  ## アーティファクト を作成して同時に使用する
 </div>
 
-artifact を作成すると同時に使用できます。artifact オブジェクトを作成し、`use_artifact` に渡します。これにより、まだ存在していない場合は W&amp;B に artifact が作成されます。[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) API は冪等であるため、何度呼び出しても問題ありません。
+アーティファクト を作成すると同時に使用できます。アーティファクト オブジェクトを作成し、use&#95;artifact に渡します。これにより、まだ存在していない場合は W&amp;B にアーティファクト が作成されます。[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) API は冪等であるため、何度呼び出しても問題ありません。
 
 ```python
 import wandb
 
-with wandb.init(project="<example>", job_type="<job-type>") as run:
+with wandb.init(project="project-name", job_type="job-type") as run:
     artifact = wandb.Artifact("reference model")
     artifact.add_file("model.h5")
     run.use_artifact(artifact)
 ```
 
-artifact の作成について詳しくは、[artifact を作成する](/ja/models/artifacts/construct-an-artifact/)を参照してください。
+アーティファクト の作成について詳しくは、[アーティファクト を作成する](/ja/models/artifacts/construct-an-artifact/)を参照してください。

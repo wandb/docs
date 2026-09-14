@@ -3,9 +3,11 @@ title: "会話"
 description: "TypeScript SDK リファレンス"
 ---
 
-Conversation は、単一の `gen_ai.conversation.id` の下に複数のターンをグループ化します。Conversation 自体は OTel span ではなく、子 span に会話 ID が記録されます。
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-定義元: [src/genai/conversation.ts:72](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L72)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L72" />
+
+Conversation は、単一の `gen_ai.conversation.id` の下に複数のターンをグループ化します。Conversation 自体は OTel span ではなく、子 span に会話 ID が記録されます。
 
 <div id="accessors">
   ## アクセサー
@@ -21,8 +23,6 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
 
 > **get** **agentName**(): `string`
 
-定義元: [src/genai/conversation.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L94)
-
 <div id="returns">
   ##### 戻り値
 </div>
@@ -35,15 +35,13 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
   ### 属性
 </div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### 取得アクセサのシグネチャ
 </div>
 
 > **get** **attributes**(): `Attributes`
 
-定義元: [src/genai/conversation.ts:106](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L106)
-
-<div id="returns">
+<div id="returns-2">
   ##### 戻り値
 </div>
 
@@ -55,15 +53,13 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
   ### conversationId
 </div>
 
-<div id="get-signature">
+<div id="get-signature-3">
   #### 取得アクセサのシグネチャ
 </div>
 
 > **get** **conversationId**(): `string`
 
-定義元: [src/genai/conversation.ts:102](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L102)
-
-<div id="returns">
+<div id="returns-3">
   ##### 戻り値
 </div>
 
@@ -75,15 +71,13 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
   ### モデル
 </div>
 
-<div id="get-signature">
+<div id="get-signature-4">
   #### 取得アクセサのシグネチャ
 </div>
 
 > **get** **model**(): `string`
 
-定義元: [src/genai/conversation.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L98)
-
-<div id="returns">
+<div id="returns-4">
   ##### 戻り値
 </div>
 
@@ -99,15 +93,13 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
   **非推奨です。** 代わりに [Conversation.conversationId](#conversationid) を使用してください。
 </Warning>
 
-<div id="get-signature">
+<div id="get-signature-5">
   #### 取得アクセサのシグネチャ
 </div>
 
 > **get** **sessionId**(): `string`
 
-定義元: [src/genai/conversation.ts:111](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L111)
-
-<div id="returns">
+<div id="returns-5">
   ##### 戻り値
 </div>
 
@@ -123,19 +115,21 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
 
 > **end**(`opts?`): `void`
 
-定義元: [src/genai/conversation.ts:168](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L168)
-
 <div id="parameters">
   #### パラメーター
 </div>
 
-<div id="opts">
-  ##### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-6">
+  #### 戻り値
 </div>
-
-`SpanEndOptions`
-
-#### 戻り値
 
 `void`
 
@@ -149,19 +143,17 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
 
 この `Conversation` 内で新しい `Turn` を開始します。このターンは会話の `conversationId` を継承します。`agentName`、`agentId`、`agentDescription`、`agentVersion`、`model` が `opts` で指定されていない場合は、会話の値が使用されます。
 
-定義元: [src/genai/conversation.ts:156](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L156)
-
-<div id="parameters">
+<div id="parameters-2">
   #### パラメーター
 </div>
 
-<div id="opts">
-  ##### opts?
+<ParamField path="opts" type="TurnInit = {}">
+  [`TurnInit`](./turninit) を参照してください。
+</ParamField>
+
+<div id="returns-7">
+  #### 戻り値
 </div>
-
-[`TurnInit`](./turninit) = `{}`
-
-#### 戻り値
 
 [`Turn`](./turn)
 

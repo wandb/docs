@@ -1,0 +1,928 @@
+diff --git a/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.styles.ts b/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.styles.ts
+new file mode 100644
+index 00000000000..72b8957f891
+--- /dev/null
++++ b/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.styles.ts
+@@ -0,0 +1,19 @@
++import * as globals from '@wandb/weave/common/css/globals.styles';
++import styled from 'styled-components';
++
++export const HeaderRow = styled.div`
++  display: flex;
++  align-items: flex-start;
++  justify-content: space-between;
++  gap: 16px;
++`;
++
++export const HeaderText = styled.div`
++  min-width: 0;
++`;
++
++export const EmptyState = styled.div`
++  color: ${globals.gray600};
++  font-size: 14px;
++  padding: 0;
++`;
+diff --git a/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.test.tsx b/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.test.tsx
+new file mode 100644
+index 00000000000..dc3ef8008e2
+--- /dev/null
++++ b/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.test.tsx
+@@ -0,0 +1,274 @@
++import {MockedProvider, type MockedResponse} from '../../test/mocks';
++import {render, screen, waitFor} from '@testing-library/react';
++import userEvent from '@testing-library/user-event';
++import React from 'react';
++import {describe, expect, it, beforeEach, vi} from 'vitest';
++
++import {CloudProvider, ErrorSeverity} from '../../generated/graphql';
++import {
++  ADD_REFERENCE_BUCKET_TO_TEAM,
++  TEST_REFERENCE_BUCKET_CONNECTION,
++} from '../../graphql/teams';
++import {
++  ReferenceBucketSettings,
++  type ReferenceBucketInfo,
++} from './ReferenceBucketSettings';
++
++const toastMock = vi.hoisted(() => ({
++  success: vi.fn(),
++}));
++
++vi.mock('@wandb/components', async importOriginal => {
++  const ReactActual = await import('react');
++  const actual = await importOriginal<typeof import('@wandb/components')>();
++  const Modal = ({
++    children,
++    isOpen,
++    'data-test': dataTest,
++  }: {
++    children: React.ReactNode;
++    isOpen?: boolean;
++    'data-test'?: string;
++  }) =>
++    isOpen
++      ? ReactActual.createElement('div', {'data-test': dataTest}, children)
++      : null;
++  const Heading = ({children}: {children: React.ReactNode}) =>
++    ReactActual.createElement('h2', null, children);
++  const Content = ({children}: {children: React.ReactNode}) =>
++    ReactActual.createElement('div', null, children);
++  const Footer = ({children}: {children: React.ReactNode}) =>
++    ReactActual.createElement('div', null, children);
++
++  return {
++    ...actual,
++    Dialog: {...actual.Dialog, Modal, Heading, Content, Footer},
++    toast: toastMock,
++  };
++});
++
++const referenceBucket: ReferenceBucketInfo = {
++  ID: 'bucket-store-1',
++  provider: CloudProvider.Aws,
++  name: 'ref-bucket',
++  path: 'team-a',
++};
++
++const testInput = {
++  bucket: {
++    provider: CloudProvider.Aws,
++    name: 'ref-bucket',
++    path: null,
++    organizationID: 'org-1',
++  },
++  objectKey: 'probe/owned.txt',
++};
++
++const addInput = {
++  entityID: 'entity-1',
++  ...testInput,
++};
++
++const renderReferenceBucketSettings = ({
++  referenceBuckets = [],
++  canManage = true,
++  mocks = [],
++  onChanged = vi.fn().mockResolvedValue(undefined),
++}: {
++  referenceBuckets?: ReferenceBucketInfo[];
++  canManage?: boolean;
++  mocks?: MockedResponse[];
++  onChanged?: ReturnType<typeof vi.fn>;
++} = {}) => {
++  render(
++    <MockedProvider mocks={mocks} addTypename={false}>
++      <ReferenceBucketSettings
++        entityID="entity-1"
++        organizationID="org-1"
++        referenceBuckets={referenceBuckets}
++        canManage={canManage}
++        onChanged={onChanged}
++      />
++    </MockedProvider>
++  );
++  return {onChanged};
++};
++
++const queryByDataTest = (name: string) =>
++  document.querySelector(`[data-test="${name}"]`);
++
++const getByDataTest = (name: string) => {
++  const element = queryByDataTest(name);
++  if (element == null) {
++    throw new Error(`Unable to find data-test="${name}"`);
++  }
++  return element as HTMLElement;
++};
++
++const openAndFillModal = async () => {
++  const user = userEvent.setup();
++  await user.click(getByDataTest('reference-bucket-add-button'));
++  await user.type(screen.getByLabelText('Bucket name'), 'ref-bucket');
++  await user.type(screen.getByLabelText('Probe object key'), 'probe/owned.txt');
++  return user;
++};
++
++describe('ReferenceBucketSettings', () => {
++  beforeEach(() => {
++    vi.clearAllMocks();
++  });
++
++  it('shows an empty state and add control for managers', () => {
++    renderReferenceBucketSettings();
++
++    expect(getByDataTest('reference-bucket-settings')).toBeInTheDocument();
++    expect(getByDataTest('reference-bucket-empty')).toHaveTextContent(
++      'No reference buckets configured.'
++    );
++    expect(getByDataTest('reference-bucket-add-button')).toBeInTheDocument();
++  });
++
++  it('shows placeholders without a path field in the add dialog', async () => {
++    const user = userEvent.setup();
++    renderReferenceBucketSettings();
++
++    await user.click(getByDataTest('reference-bucket-add-button'));
++
++    expect(screen.getByLabelText('Bucket name')).toHaveAttribute(
++      'placeholder',
++      'my-reference-bucket'
++    );
++    expect(screen.getByLabelText('Probe object key')).toHaveAttribute(
++      'placeholder',
++      'team-a/probe/owned.txt'
++    );
++    expect(screen.queryByLabelText('Path')).not.toBeInTheDocument();
++    expect(queryByDataTest('reference-bucket-path')).toBeNull();
++    expect(
++      screen.getByText(
++        'Enter only the bucket name. Do not include a URL scheme such as s3:// or gs://.'
++      )
++    ).toBeInTheDocument();
++    expect(
++      screen.getByText(
++        'Enter the key of an existing object inside the bucket. Do not include the bucket name or a URL scheme.'
++      )
++    ).toBeInTheDocument();
++  });
++
++  it('renders existing buckets without add controls for non-managers', () => {
++    renderReferenceBucketSettings({
++      referenceBuckets: [referenceBucket],
++      canManage: false,
++    });
++
++    expect(queryByDataTest('reference-bucket-add-button')).toBeNull();
++    expect(getByDataTest('reference-bucket-table')).toBeInTheDocument();
++    expect(screen.getByText('ref-bucket')).toBeInTheDocument();
++    expect(screen.getByText('team-a')).toBeInTheDocument();
++    expect(screen.queryByText('KMS key ID')).not.toBeInTheDocument();
++    expect(screen.queryByText('AWS external ID')).not.toBeInTheDocument();
++  });
++
++  it('clicking Add tests the current input before adding the bucket', async () => {
++    const onChanged = vi.fn().mockResolvedValue(undefined);
++    renderReferenceBucketSettings({
++      onChanged,
++      mocks: [
++        {
++          request: {
++            query: TEST_REFERENCE_BUCKET_CONNECTION,
++            variables: {input: testInput},
++          },
++          result: {data: {testReferenceBucketConnection: []}},
++        },
++        {
++          request: {
++            query: ADD_REFERENCE_BUCKET_TO_TEAM,
++            variables: {input: addInput},
++          },
++          result: {
++            data: {
++              addReferenceBucketToTeam: {
++                success: true,
++                bucketStoreID: 'bucket-store-2',
++                entity: {id: 'entity-1', name: 'team-a'},
++                clientMutationID: null,
++              },
++            },
++          },
++        },
++      ],
++    });
++
++    const user = await openAndFillModal();
++    await user.click(getByDataTest('reference-bucket-submit-button'));
++
++    await waitFor(() => expect(onChanged).toHaveBeenCalledTimes(1));
++    expect(toastMock.success).toHaveBeenCalledWith('Reference bucket added.');
++  });
++
++  it('does not add when the connection test returns errors', async () => {
++    const onChanged = vi.fn().mockResolvedValue(undefined);
++    renderReferenceBucketSettings({
++      onChanged,
++      mocks: [
++        {
++          request: {
++            query: TEST_REFERENCE_BUCKET_CONNECTION,
++            variables: {input: testInput},
++          },
++          result: {
++            data: {
++              testReferenceBucketConnection: [
++                {
++                  message: 'Cannot read probe object.',
++                  severity: ErrorSeverity.Error,
++                },
++              ],
++            },
++          },
++        },
++      ],
++    });
++
++    const user = await openAndFillModal();
++    await user.click(getByDataTest('reference-bucket-submit-button'));
++
++    await waitFor(() =>
++      expect(screen.getByText('Cannot read probe object.')).toBeInTheDocument()
++    );
++    expect(onChanged).not.toHaveBeenCalled();
++    expect(toastMock.success).not.toHaveBeenCalled();
++  });
++
++  it('stops Add when its connection-test input changes in flight', async () => {
++    const onChanged = vi.fn().mockResolvedValue(undefined);
++    renderReferenceBucketSettings({
++      onChanged,
++      mocks: [
++        {
++          request: {
++            query: TEST_REFERENCE_BUCKET_CONNECTION,
++            variables: {input: testInput},
++          },
++          delay: 30,
++          result: {data: {testReferenceBucketConnection: []}},
++        },
++      ],
++    });
++
++    const user = await openAndFillModal();
++    await user.click(getByDataTest('reference-bucket-submit-button'));
++    expect(screen.getByText('Testing connection...')).toBeInTheDocument();
++
++    await user.clear(screen.getByLabelText('Bucket name'));
++    await user.type(screen.getByLabelText('Bucket name'), 'another-bucket');
++
++    await new Promise(resolve => setTimeout(resolve, 50));
++    expect(queryByDataTest('reference-bucket-connection-status')).toBeNull();
++    expect(queryByDataTest('reference-bucket-submit-error')).toBeNull();
++    expect(onChanged).not.toHaveBeenCalled();
++    expect(toastMock.success).not.toHaveBeenCalled();
++  });
++});
+diff --git a/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.tsx b/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.tsx
+new file mode 100644
+index 00000000000..6b3eb4ba092
+--- /dev/null
++++ b/frontends/app/src/components/TeamSettings/ReferenceBucketSettings.tsx
+@@ -0,0 +1,415 @@
++import {
++  Banner,
++  Button as DesignSystemButton,
++  Dialog,
++  TextField,
++  toast,
++} from '@wandb/components';
++import {Button} from '@wandb/weave/components/Button';
++import {TailwindContents} from '@wandb/weave/components/Tailwind';
++import React, {useRef, useState} from 'react';
++import {Segment, Table} from 'semantic-ui-react';
++
++import {cloudProviderValuesToDisplayNames} from '../../components/CreateTeam/hooks';
++import {
++  CloudProvider,
++  ErrorSeverity,
++  type StorageBucketInfo,
++  type StorageBucketInfoInput,
++  type TestReferenceBucketConnectionInput,
++  useAddReferenceBucketToTeamMutation,
++  useTestReferenceBucketConnectionMutation,
++} from '../../generated/graphql';
++import {
++  extractErrorMessageFromApolloError,
++  propagateErrorsContext,
++} from '../../util/errors';
++import * as S from './ReferenceBucketSettings.styles';
++import * as TeamSettingsS from './TeamSettings.styles';
++
++// The subset of StorageBucketInfo selected by the referenceBucketInfos query
++// field (see ENTITY_QUERY). KMS/AWS external-ID fields are intentionally omitted.
++export type ReferenceBucketInfo = Pick<
++  StorageBucketInfo,
++  'ID' | 'provider' | 'name' | 'path'
++>;
++
++type ConnectionMessage = {
++  message: string;
++  severity: ErrorSeverity;
++};
++
++type ConnectionState =
++  | {state: 'idle'}
++  | {state: 'loading'}
++  | {
++      state: 'invalid';
++      errors: ConnectionMessage[];
++      warnings: ConnectionMessage[];
++    }
++  | {state: 'valid'; warnings: ConnectionMessage[]};
++
++type Props = {
++  entityID: string;
++  organizationID: string | null;
++  referenceBuckets: ReferenceBucketInfo[];
++  canManage: boolean;
++  onChanged: () => Promise<unknown>;
++};
++
++const referenceProviderOptions = [CloudProvider.Aws, CloudProvider.Gcp];
++
++const displayValue = (value?: string | null) => value || '-';
++
++export const ReferenceBucketSettings = ({
++  entityID,
++  organizationID,
++  referenceBuckets,
++  canManage,
++  onChanged,
++}: Props) => {
++  const [isModalOpen, setIsModalOpen] = useState(false);
++  const [provider, setProvider] = useState<CloudProvider>(CloudProvider.Aws);
++  const [bucketName, setBucketName] = useState('');
++  const [objectKey, setObjectKey] = useState('');
++  const [connectionState, setConnectionState] = useState<ConnectionState>({
++    state: 'idle',
++  });
++  const [testedFingerprint, setTestedFingerprint] = useState<string | null>(
++    null
++  );
++  const [serverError, setServerError] = useState<string | null>(null);
++  const validationGeneration = useRef(0);
++
++  const [testReferenceBucketConnection, {loading: testLoading}] =
++    useTestReferenceBucketConnectionMutation();
++  const [addReferenceBucketToTeam, {loading: addLoading}] =
++    useAddReferenceBucketToTeamMutation();
++
++  const resetConnectionState = () => {
++    validationGeneration.current += 1;
++    setConnectionState({state: 'idle'});
++    setTestedFingerprint(null);
++    setServerError(null);
++  };
++
++  const closeModal = () => {
++    setIsModalOpen(false);
++    setProvider(CloudProvider.Aws);
++    setBucketName('');
++    setObjectKey('');
++    resetConnectionState();
++  };
++
++  // KMS and AWS external-ID configuration has not been tested end-to-end for
++  // reference buckets, so this UI intentionally does not imply it is supported.
++  const buildBucketInput = (): StorageBucketInfoInput => ({
++    provider,
++    name: bucketName.trim(),
++    path: null,
++    organizationID,
++  });
++
++  const buildReferenceInput = (): TestReferenceBucketConnectionInput => ({
++    bucket: buildBucketInput(),
++    objectKey: objectKey.trim(),
++  });
++
++  const fingerprint = JSON.stringify(buildReferenceInput());
++
++  const requiredFieldsPresent =
++    bucketName.trim() !== '' && objectKey.trim() !== '';
++  const canSubmit =
++    canManage && requiredFieldsPresent && !testLoading && !addLoading;
++
++  const testConnection = async (): Promise<boolean> => {
++    const currentValidationGeneration = ++validationGeneration.current;
++    setConnectionState({state: 'loading'});
++    setServerError(null);
++
++    try {
++      const {data} = await testReferenceBucketConnection({
++        variables: {input: buildReferenceInput()},
++        context: propagateErrorsContext(),
++      });
++
++      if (validationGeneration.current !== currentValidationGeneration) {
++        return false;
++      }
++
++      const messages = data?.testReferenceBucketConnection ?? [];
++      const errors = messages.filter(
++        message => message.severity === ErrorSeverity.Error
++      );
++      const warnings = messages.filter(
++        message => message.severity === ErrorSeverity.Warn
++      );
++
++      if (errors.length > 0) {
++        setConnectionState({state: 'invalid', errors, warnings});
++        setTestedFingerprint(null);
++        return false;
++      }
++
++      setConnectionState({state: 'valid', warnings});
++      setTestedFingerprint(fingerprint);
++      return true;
++    } catch (e) {
++      if (validationGeneration.current !== currentValidationGeneration) {
++        return false;
++      }
++
++      const message = extractErrorMessageFromApolloError(e) ?? `${e}`;
++      setConnectionState({
++        state: 'invalid',
++        errors: [{message, severity: ErrorSeverity.Error}],
++        warnings: [],
++      });
++      setTestedFingerprint(null);
++      return false;
++    }
++  };
++
++  const handleAdd = async () => {
++    if (!canSubmit) {
++      return;
++    }
++
++    if (
++      testedFingerprint !== fingerprint ||
++      connectionState.state !== 'valid'
++    ) {
++      const ok = await testConnection();
++      if (!ok) {
++        return;
++      }
++    }
++
++    setServerError(null);
++    try {
++      await addReferenceBucketToTeam({
++        variables: {
++          input: {
++            entityID,
++            ...buildReferenceInput(),
++          },
++        },
++        context: propagateErrorsContext(),
++      });
++    } catch (e) {
++      setServerError(extractErrorMessageFromApolloError(e) ?? `${e}`);
++      return;
++    }
++
++    // The bucket was added; commit to the success path regardless of whether
++    // the follow-up refetch succeeds, so a transient refetch failure is not
++    // surfaced as an add failure or left in a stuck-open modal.
++    toast.success('Reference bucket added.');
++    closeModal();
++    await onChanged();
++  };
++
++  const renderMessageList = (
++    messages: ConnectionMessage[],
++    variant: 'error' | 'warning'
++  ) => (
++    <Banner
++      aria-label="Connection test status"
++      data-test="reference-bucket-connection-status"
++      isDismissible={false}
++      variant={variant}>
++      <Banner.Body>
++        <ul>
++          {messages.map(message => (
++            <li key={message.message}>{message.message}</li>
++          ))}
++        </ul>
++      </Banner.Body>
++    </Banner>
++  );
++
++  const statusMessage = () => {
++    if (connectionState.state === 'loading') {
++      return (
++        <Banner
++          aria-label="Connection test status"
++          data-test="reference-bucket-connection-status"
++          isDismissible={false}
++          variant="info">
++          <Banner.Body>Testing connection...</Banner.Body>
++        </Banner>
++      );
++    }
++
++    if (connectionState.state === 'invalid') {
++      return renderMessageList(connectionState.errors, 'error');
++    }
++
++    if (connectionState.state === 'valid') {
++      if (connectionState.warnings.length > 0) {
++        return renderMessageList(connectionState.warnings, 'warning');
++      }
++
++      return (
++        <Banner
++          aria-label="Connection test status"
++          data-test="reference-bucket-connection-status"
++          isDismissible={false}
++          variant="success">
++          <Banner.Body>Connection test passed.</Banner.Body>
++        </Banner>
++      );
++    }
++
++    return null;
++  };
++
++  return (
++    <Segment data-test="reference-bucket-settings">
++      <S.HeaderRow>
++        <S.HeaderText>
++          <TeamSettingsS.SectionHeader smallMargin>
++            Reference buckets
++          </TeamSettingsS.SectionHeader>
++          <TeamSettingsS.SectionSubheader smallMargin>
++            External object storage for Weave references.
++          </TeamSettingsS.SectionSubheader>
++        </S.HeaderText>
++        {canManage && (
++          <Button
++            data-test="reference-bucket-add-button"
++            icon="add-new"
++            onClick={() => setIsModalOpen(true)}
++            size="small">
++            Add bucket
++          </Button>
++        )}
++      </S.HeaderRow>
++
++      {referenceBuckets.length === 0 ? (
++        <S.EmptyState data-test="reference-bucket-empty">
++          No reference buckets configured.
++        </S.EmptyState>
++      ) : (
++        <Table data-test="reference-bucket-table" basic="very">
++          <Table.Header>
++            <Table.Row>
++              <Table.HeaderCell>Cloud Provider</Table.HeaderCell>
++              <Table.HeaderCell>Bucket name</Table.HeaderCell>
++              <Table.HeaderCell>Path</Table.HeaderCell>
++            </Table.Row>
++          </Table.Header>
++          <Table.Body>
++            {referenceBuckets.map(bucket => (
++              <Table.Row data-test="reference-bucket-row" key={bucket.ID}>
++                <Table.Cell>
++                  {cloudProviderValuesToDisplayNames[bucket.provider]}
++                </Table.Cell>
++                <Table.Cell>{bucket.name}</Table.Cell>
++                <Table.Cell>{displayValue(bucket.path)}</Table.Cell>
++              </Table.Row>
++            ))}
++          </Table.Body>
++        </Table>
++      )}
++
++      <Dialog.Modal
++        data-test="reference-bucket-add-modal"
++        isOpen={isModalOpen}
++        onOpenChange={open => {
++          if (!open) {
++            closeModal();
++          }
++        }}>
++        <Dialog.Heading>Add reference bucket</Dialog.Heading>
++        <Dialog.Content>
++          <TailwindContents>
++            <div className="flex flex-col gap-16 text-moon-800 dark:text-moon-200">
++              <div className="flex flex-col gap-6">
++                <label
++                  className="text-sm font-semibold"
++                  htmlFor="reference-bucket-provider">
++                  Provider
++                </label>
++                <select
++                  className="h-40 w-full rounded-md border border-moon-250 bg-white px-12 text-base text-moon-800 outline-none hover:border-teal-350 focus:border-teal-450 dark:border-moon-700 dark:bg-moon-900 dark:text-moon-200 dark:hover:border-teal-650 dark:focus:border-teal-550"
++                  data-test="reference-bucket-provider"
++                  id="reference-bucket-provider"
++                  value={provider}
++                  onChange={event => {
++                    const nextProvider = event.target.value as CloudProvider;
++                    setProvider(nextProvider);
++                    resetConnectionState();
++                  }}>
++                  {referenceProviderOptions.map(option => (
++                    <option key={option} value={option}>
++                      {cloudProviderValuesToDisplayNames[option]}
++                    </option>
++                  ))}
++                </select>
++              </div>
++
++              <TextField
++                data-test="reference-bucket-name"
++                description="Enter only the bucket name. Do not include a URL scheme such as s3:// or gs://."
++                fullWidth
++                label="Bucket name"
++                value={bucketName}
++                onChange={value => {
++                  setBucketName(value);
++                  resetConnectionState();
++                }}
++                placeholder="my-reference-bucket"
++              />
++
++              <TextField
++                data-test="reference-bucket-object-key"
++                description="Enter the key of an existing object inside the bucket. Do not include the bucket name or a URL scheme."
++                fullWidth
++                label="Probe object key"
++                placeholder="team-a/probe/owned.txt"
++                value={objectKey}
++                onChange={value => {
++                  setObjectKey(value);
++                  resetConnectionState();
++                }}
++              />
++
++              {statusMessage()}
++              {serverError && (
++                <Banner
++                  data-test="reference-bucket-submit-error"
++                  isDismissible={false}
++                  variant="error">
++                  <Banner.Body>{serverError}</Banner.Body>
++                </Banner>
++              )}
++            </div>
++          </TailwindContents>
++        </Dialog.Content>
++        <Dialog.Footer>
++          <DesignSystemButton variant="secondary" onPress={closeModal}>
++            Cancel
++          </DesignSystemButton>
++          <DesignSystemButton
++            data-test="reference-bucket-test-button"
++            isDisabled={!requiredFieldsPresent || testLoading || addLoading}
++            isPending={testLoading}
++            isPendingAriaLabel="Testing connection"
++            onPress={testConnection}
++            variant="secondary">
++            Test connection
++          </DesignSystemButton>
++          <DesignSystemButton
++            data-test="reference-bucket-submit-button"
++            isDisabled={!canSubmit}
++            isPending={addLoading}
++            isPendingAriaLabel="Adding reference bucket"
++            onPress={handleAdd}>
++            Add bucket
++          </DesignSystemButton>
++        </Dialog.Footer>
++      </Dialog.Modal>
++    </Segment>
++  );
++};
+diff --git a/frontends/app/src/components/TeamSettings/TeamSettings.tsx b/frontends/app/src/components/TeamSettings/TeamSettings.tsx
+index ee9663cf71d..52a41a875c2 100644
+--- a/frontends/app/src/components/TeamSettings/TeamSettings.tsx
++++ b/frontends/app/src/components/TeamSettings/TeamSettings.tsx
+@@ -39,6 +39,7 @@ import {
+   useEntityQuery,
+   useEntityStorageBytesQuery,
+   useOrganizationFlagsQuery,
++  useOrganizationMemberRoleQuery,
+   useTeamOrganizationQuery,
+   useUpdateEntityMutation,
+ } from '../../generated/graphql';
+@@ -68,7 +69,10 @@ import {
+ } from '../../util/errors';
+ import {jsonParseSafe} from '../../util/json';
+ import {type AccessOptions} from '../../util/permissions';
+-import {useStatsigGateAutomationFree} from '../../util/rampFeatureFlags/rampFeatureFlags';
++import {
++  useStatsigGateAutomationFree,
++  useStatsigGateReferenceBucketByob,
++} from '../../util/rampFeatureFlags/rampFeatureFlags';
+ import {organizationComputeSecondUsageQuery} from '../../util/trackedHour';
+ import {accountSettingsTab, storageFilePath} from '../../util/urls';
+ import {useUserEmails} from '../../util/useUserEmails';
+@@ -80,12 +84,14 @@ import {
+   ttlInputErrorMsg,
+ } from '../ArtifactTTL/utils';
+ import {TeamMemberRole} from '../MembersTable/TeamMembersTable/utils';
++import {OrganizationMemberRole} from '../MembersTable/util';
+ import {TeamSettingsSecrets} from '../TeamSettings/TeamSettingsSecrets';
+ import {WebhooksTable} from '../Webhooks/WebhooksTable';
+ import {WeRecommendAlertAutomations} from '../WeRecommendAlertAutomations';
+ import {InstrumentedLoader as Loader} from './../../components/utility/InstrumentedLoader';
+ import {LoaderProxy} from './../../containers/AppLoader';
+ import {DeleteTeamModal} from './DeleteTeamModal';
++import {ReferenceBucketSettings} from './ReferenceBucketSettings';
+ import {SetEntityArtifactTTLModal} from './SetEntityArtifactTTLModal';
+ import * as S from './TeamSettings.styles';
+ 
+@@ -269,22 +275,25 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+   const orgHasVerifiedEmailDomain =
+     parsedOrgFlags.email_domain != null && parsedOrgFlags.email_domain !== '';
+ 
+-  const viewerIsOrgAdmin = useMemo(() => {
+-    if (teamOrganizationQuery.data?.entity?.organization?.members == null) {
+-      return false;
+-    }
+-    return (
+-      teamOrganizationQuery.data?.entity?.organization?.members.find(
+-        mem => mem.username != null && mem.username === viewer?.username
+-      )?.role === 'admin'
+-    );
+-  }, [
+-    teamOrganizationQuery.data?.entity?.organization?.members,
+-    viewer?.username,
+-  ]);
+-
+-  const organizationID =
+-    teamOrganizationQuery.data?.entity?.organization?.id ?? '';
++  const organizationID = teamOrganizationQuery.data?.entity?.organization?.id;
++  const {data: organizationMemberRoleData} = useOrganizationMemberRoleQuery({
++    variables: {
++      orgID: organizationID ?? '',
++      username: viewer?.username ?? '',
++    },
++    skip: organizationID == null || !viewer?.username,
++  });
++  const viewerIsOrgAdmin =
++    organizationMemberRoleData?.organization?.member?.role ===
++    OrganizationMemberRole.ADMIN;
++  const referenceBucketByobGateEnabled =
++    useStatsigGateReferenceBucketByob(organizationID ?? null) ?? false;
++  // On SaaS, a null org ID makes the flag hook check every viewer org. Mask
++  // that result until the target team's org resolves so another org's flag
++  // cannot make this section appear transiently while the query is loading.
++  const referenceBucketByobEnabled =
++    (envIsServerDeployment || organizationID != null) &&
++    referenceBucketByobGateEnabled;
+ 
+   const organizationName =
+     teamOrganizationQuery.data?.entity?.organization?.name;
+@@ -371,6 +380,23 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+   const viewerCanEditTeamSettings =
+     viewerMember?.role === TeamMemberRole.ADMIN ||
+     (isAdminModeActive && !viewer?.instanceAdminTeamAccessDisabled);
++  const viewerCanManageReferenceBuckets =
++    viewerIsOrgAdmin ||
++    (isAdminModeActive && !viewer?.instanceAdminTeamAccessDisabled);
++  const referenceBuckets = entity.settings.referenceBucketInfos ?? [];
++  const showReferenceBuckets =
++    entity.isTeam &&
++    (referenceBuckets.length > 0 || referenceBucketByobEnabled);
++  const referenceBucketOrganizationID = envIsServerDeployment
++    ? null
++    : (organizationID ?? null);
++  // SaaS requires the target team's organization ID. Do not offer the add
++  // action until the team-organization query has resolved it; server accepts
++  // the intentionally empty value above.
++  const canManageLoadedReferenceBuckets =
++    referenceBucketByobEnabled &&
++    viewerCanManageReferenceBuckets &&
++    (envIsServerDeployment || referenceBucketOrganizationID != null);
+ 
+   if (!viewerCanReadTeamSettings) {
+     return <NoMatch />;
+@@ -477,6 +503,15 @@ export const TeamSettings = React.memo(({entityName, isTeam}: Props) => {
+             </Table>
+           </Segment>
+         )}
++        {showReferenceBuckets && (
++          <ReferenceBucketSettings
++            entityID={entity.id}
++            organizationID={referenceBucketOrganizationID}
++            referenceBuckets={referenceBuckets}
++            canManage={canManageLoadedReferenceBuckets}
++            onChanged={teamQueryRefetch}
++          />
++        )}
+         <Segment>
+           <S.SectionHeader>Team profile</S.SectionHeader>
+           {entitySettings != null && (
+diff --git a/frontends/app/src/graphql/teams.ts b/frontends/app/src/graphql/teams.ts
+index f5d0c936f99..5eb7057bb19 100644
+--- a/frontends/app/src/graphql/teams.ts
++++ b/frontends/app/src/graphql/teams.ts
+@@ -96,6 +96,31 @@ export const TEST_BUCKET_STORE_CONNECTION = gql`
+   }
+ `;
+ 
++export const TEST_REFERENCE_BUCKET_CONNECTION = gql`
++  mutation testReferenceBucketConnection(
++    $input: TestReferenceBucketConnectionInput!
++  ) {
++    testReferenceBucketConnection(input: $input) {
++      message
++      severity
++    }
++  }
++`;
++
++export const ADD_REFERENCE_BUCKET_TO_TEAM = gql`
++  mutation addReferenceBucketToTeam($input: AddReferenceBucketToTeamInput!) {
++    addReferenceBucketToTeam(input: $input) {
++      success
++      bucketStoreID
++      entity {
++        id
++        name
++      }
++      clientMutationID
++    }
++  }
++`;
++
+ export const DELETE_TEAM = gql`
+   mutation deleteTeam($teamName: String!) {
+     deleteTeam(input: {teamName: $teamName}) {
+diff --git a/frontends/app/src/graphql/users.ts b/frontends/app/src/graphql/users.ts
+index a19df21f8d7..f5b820e6b42 100644
+--- a/frontends/app/src/graphql/users.ts
++++ b/frontends/app/src/graphql/users.ts
+@@ -132,6 +132,14 @@ export const ENTITY_QUERY = gql`
+           awsExternalID
+           path
+         }
++        referenceBucketInfos {
++          # KMS and AWS external-ID flows have not been tested end-to-end for
++          # reference buckets, so do not expose configuration this UI cannot set.
++          ID
++          provider
++          name
++          path
++        }
+         disableMembersEditArtifactTTL
+       }
+       defaultAccess
+diff --git a/frontends/app/src/util/rampFeatureFlags/rampFeatureFlags.ts b/frontends/app/src/util/rampFeatureFlags/rampFeatureFlags.ts
+index c2b2bca8a11..563720a19df 100644
+--- a/frontends/app/src/util/rampFeatureFlags/rampFeatureFlags.ts
++++ b/frontends/app/src/util/rampFeatureFlags/rampFeatureFlags.ts
+@@ -745,6 +745,9 @@ export const useRampFlagMediaFilesQueryWithUrls = () => {
+ export const useRampFlagSandboxes = (orgId?: string | null) =>
+   useOrgIdRampFlag('sandboxes', RampIdType.OrgId, orgId ?? null);
+ 
++export const useStatsigGateReferenceBucketByob = (orgId?: string | null) =>
++  useOrgIdRampFlag('reference_bucket_byob', RampIdType.OrgId, orgId ?? null);
++
+ export const useRampFlagInferenceCachedUncachedCSV = () => {
+   return useOrgIdRampFlag(
+     'inference_csv_cached_uncached_columns',
+diff --git a/frontends/app/src/util/useRampFlag.ts b/frontends/app/src/util/useRampFlag.ts
+index 35239515548..63459996f10 100644
+--- a/frontends/app/src/util/useRampFlag.ts
++++ b/frontends/app/src/util/useRampFlag.ts
+@@ -139,6 +139,7 @@ export type RampKey =
+   | 'pro_plan_monthly_option'
+   | 'react_concurrent_mode'
+   | 'react_concurrent_mode_rollback'
++  | 'reference_bucket_byob'
+   | 'registry_homepage_adjustments'
+   | 'registry_ui_phase_2'
+   | 'registry_ui_phase_3'

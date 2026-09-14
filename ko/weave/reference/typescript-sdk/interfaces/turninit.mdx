@@ -3,7 +3,9 @@ title: "TurnInit"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-정의 위치: [src/genai/turn.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L31)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L32" />
 
 <div id="extends">
   ## 확장
@@ -21,8 +23,6 @@ description: "TypeScript SDK 레퍼런스"
 
 > `선택` **agentDescription**: `string`
 
-정의 위치: [src/genai/turn.ts:37](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L37)
-
 ***
 
 <div id="agentid">
@@ -30,8 +30,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `선택` **agentId**: `string`
-
-정의 위치: [src/genai/turn.ts:35](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L35)
 
 ***
 
@@ -41,8 +39,6 @@ description: "TypeScript SDK 레퍼런스"
 
 > `선택` **agentName**: `string`
 
-정의 위치: [src/genai/turn.ts:36](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L36)
-
 ***
 
 <div id="agentversion">
@@ -51,7 +47,17 @@ description: "TypeScript SDK 레퍼런스"
 
 > `선택` **agentVersion**: `string`
 
-정의 위치: [src/genai/turn.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L38)
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `optional` **attributes**: `Attributes`
+
+이 turn에 설정되어 모든 하위 span으로 전달되는 맞춤형 속성입니다.
+일반적으로 `startConversation({ attributes })`를 통해 conversation에서 값을 상속받습니다.
+conversation 없이 루트 없는 `startTurn({ attributes })`을 사용하는 경우에는 여기에서 직접 설정하세요.
 
 ***
 
@@ -61,8 +67,6 @@ description: "TypeScript SDK 레퍼런스"
 
 > `선택` **모델**: `string`
 
-정의 위치: [src/genai/turn.ts:32](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L32)
-
 ***
 
 <div id="starttime">
@@ -70,8 +74,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `선택` **startTime**: `TimeInput`
-
-정의 위치: [src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
 
 <div id="inherited-from">
   #### 상속됨
@@ -87,8 +89,6 @@ description: "TypeScript SDK 레퍼런스"
 
 > `선택` **systemInstructions**: `string`[]
 
-정의 위치: [src/genai/turn.ts:33](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L33)
-
 ***
 
 <div id="usermessage">
@@ -96,5 +96,3 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `선택` **userMessage**: `string`
-
-정의 위치: [src/genai/turn.ts:34](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L34)

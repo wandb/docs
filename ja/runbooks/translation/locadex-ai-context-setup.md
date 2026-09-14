@@ -45,7 +45,7 @@ title: Locadex AI Contextのセットアップ
 </div>
 
 <div id="legacy-tooling-wandb_docs_translation">
-  ### レガシーツール (`wandb_docs_translation`)
+  ### レガシーツール (`wandb_docs_translation`) 
 </div>
 
 * **human&#95;prompt.txt**: **絶対に**翻訳してはならない W&amp;B のプロダクト名／機能名を列挙します (英語のまま保持) : Artifacts, Entities, Projects, Runs, Experiments, Datasets, Reports, Sweeps, Weave, Launch, Models, Teams, Users, Workspace, Registered Models。`[**word**](link)` のような link/list の文脈でも同様です。
@@ -123,7 +123,7 @@ title: Locadex AI Contextのセットアップ
 Locale ContextをSaveします。
 
 <div id="6-set-style-controls-project-wide">
-  ### 6. Style Controls を行う (プロジェクト全体)
+  ### 6. Style Controls を行う (プロジェクト全体) 
 </div>
 
 * **プロジェクトの説明**: 例: 「Weights &amp; Biases (W&amp;B) に関するドキュメント: ML の実験管理、モデルレジストリ、LLM ops 向けの Weave、および関連プロダクト。」

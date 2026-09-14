@@ -8,11 +8,11 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
 
 監査ログへのアクセス方法は、W&amp;B プラットフォームのデプロイメントタイプによって異なります。
 
-| W&amp;B Platform deployment type                                           | Audit logs access mechanism                                                                                                                                                                                                                                       |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)                | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): 10 分ごとにインスタンスレベルのバケット (BYOB) に同期されます。[API](#fetch-audit-logs-using-api) でも利用できます。</li><li>デフォルトのインスタンスレベル ストレージ: [API](#fetch-audit-logs-using-api) でのみ利用できます。</li></ul> |
-| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用できます。[API](#fetch-audit-logs-using-api) でのみ利用できます。                                                                                                                                                                                             |
-| [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)                 | 10 分ごとにインスタンスレベルのバケットに同期されます。[API](#fetch-audit-logs-using-api) でも利用できます。                                                                                                                                                                                         |
+| W&amp;B Platform deployment type                                           | Audit logs access mechanism                                                                                                                                                                                                                   |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)                | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): 10 分ごとにインスタンスレベルのバケット (BYOB) に同期されます。[API](#fetch-audit-logs) でも利用できます。</li><li>デフォルトのインスタンスレベル ストレージ: [API](#fetch-audit-logs) でのみ利用できます。</li></ul> |
+| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用できます。[API](#fetch-audit-logs) でのみ利用できます。                                                                                                                                                                                   |
+| [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)                 | 10 分ごとにインスタンスレベルのバケットに同期されます。[API](#fetch-audit-logs) でも利用できます。                                                                                                                                                                               |
 
 監査ログを取得した後は、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、[Microsoft Fabric](https://www.microsoft.com/microsoft-fabric) などのツールで分析できます。一部の監査ログ分析ツールは JSON をサポートしていません。分析前に JSON 形式の監査ログを変換するためのガイドラインや要件については、使用する分析ツールのドキュメントを参照してください。
 
@@ -88,27 +88,164 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
   ## 監査ログを取得する
 </div>
 
-W&amp;B Audit Logging API から監査ログを取得するには、次の手順に従います。この手順を完了すると、任意のツールで分析できる改行区切りの JSON オブジェクト一式が得られます。
+監査ログを取得するには、W&amp;B Audit Logging API を使用します。エンドポイント、クエリパラメーター、レスポンス形式は、デプロイメントタイプによって異なります。
 
-1. ご利用のインスタンスに対応する正しい API endpoint を確認します。
+<Tabs>
+  <Tab title="専用クラウドまたはセルフマネージド">
+    このタブは [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のインスタンス向けです。Audit Logging API のエンドポイントには、お使いのインスタンスの URL を使用します。
 
-   * [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed): `[WANDB-PLATFORM-URL]/admin/audit_logs`
-   * [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud): `[INSTANCE-NAME].wandb.io/admin/audit_logs`
-   * [Multi-tenant Cloud (Enterprise が必要)](/ja/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
+    * 専用クラウド: `https://[INSTANCE-NAME].wandb.io/admin/audit_logs`
+    * セルフマネージド: `https://[WANDB-PLATFORM-URL]/admin/audit_logs`
 
-   以下の手順では、`[API-ENDPOINT]` を実際の API endpoint に置き換えてください。
-2. 任意: エンドポイントに追加するクエリパラメーターを作成します。以下の手順では、`[PARAMETERS]` をその結果の文字列に置き換えてください。
-   * `anonymize`: URL に `anonymize=true` パラメーターが含まれている場合は、PII を削除します。含まれていない場合は、PII も含まれます。[監査ログ取得時に PII を除外する](#exclude-pii-when-fetching-audit-logs) を参照してください。Multi-tenant Cloud では、PII を含むすべてのフィールドが含まれるため、サポートされていません。
-   * `numDays` と `startDate` を組み合わせて、取得するログの日付範囲を設定します。各パラメーターは任意で、相互に影響します。
-     * どちらのパラメーターも含まれない場合は、当日のログのみが取得されます。
-     * `numDays`: `startDate` からさかのぼって何日分のログを取得するかを示す整数です。省略した場合、または `0` に設定した場合は、`startDate` のログのみが取得されます。**Multi-tenant Cloud** では、`numDays` にそれより大きい値を設定しても、取得できる監査ログは最大 7 日分です。
-     * `startDate`: 任意です。`startDate=YYYY-MM-DD` を使用して、範囲内の最新の暦日を設定します。省略した場合、または当日の日付に設定した場合、範囲は当日で終わり、`numDays` はその日からさかのぼって数えられます。
-       * **Multi-tenant Cloud** では、Enterprise ライセンスがある場合にのみサポートされます。
-       * **専用クラウド** および **セルフマネージド** v0.80.0 以降でサポートされます。
-3. `[API-ENDPOINT]?[PARAMETERS]` の形式で完全修飾エンドポイント URL を作成します。
-4. Web ブラウザーまたは [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使用して、完全修飾 API endpoint に HTTP `GET` リクエストを送信します。
+    以下の例では、次の値を置き換えてください。
 
-API レスポンスには、改行区切りの JSON オブジェクトが含まれます。これらのオブジェクトには、監査ログがインスタンスレベルのバケットに同期される場合と同様に、[スキーマ](#audit-log-schema) に記載されたフィールドが含まれます。その場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリーに保存されます。
+    * `[INSTANCE-NAME]`: 専用クラウドインスタンスの名前。
+    * `[WANDB-PLATFORM-URL]`: セルフマネージドインスタンスの URL。
+    * `[API-ENDPOINT]`: インスタンスのエンドポイント。
+    * `[BASE64-USERNAME-API-KEY]`: `[USERNAME]:[API-KEY]` 形式の文字列を base64 エンコードしたもの。
+    * `[NEXT-CURSOR]`: 前回のレスポンスに含まれる `next_cursor` の値。
+
+    次のクエリパラメーターがサポートされています。
+
+    * `anonymize`: URL に `anonymize=true` が含まれる場合、W&amp;B は監査ログに PII フィールドを追加しません。含まれない場合は PII が含まれます。詳細は, [監査ログ取得時に PII を除外する](#exclude-pii) を参照してください。
+    * `startDate`: 日付範囲の開始日時 (この日時を含む) を UTC で指定します。サポートされる形式は `YYYY-MM-DD`、`YYYY-MM-DDTHH`、`YYYY-MM-DDTHH:mm`、`YYYY-MM-DDTHH:mm:ss` です。省略された時刻部分は 0 として扱われます。たとえば、`2026-08-03T01` は `2026-08-03T01:00:00Z` を意味します。`startDate` を省略した場合、範囲は本日の UTC 午前 0 時から開始します。`numDays` を設定している場合は、本日の `numDays` 日前から開始します。
+    * `numDays`: 0 以上の整数です。W&amp;B は `startDate` からその後 `numDays` 日分のログを取得します。`numDays` を省略するか `0` に設定した場合、W&amp;B は `startDate` 当日分のログのみを取得します。`numDays` は `endDate` と併用できません。
+    * `endDate`: 日付範囲の終了日時 (この日時を含まない) を UTC で指定します。サポートされる形式は `startDate` と同じです。`endDate` を設定すると、`limit` を設定していなくてもページ分割された JSON レスポンスが返されます。`endDate` は `numDays` と併用できません。
+    * `limit`: ページ分割されたレスポンスで返す監査ログエントリの最大数です。`20,000` までの正の整数を指定してください。`limit` を設定すると、W&amp;B はページ分割された JSON レスポンスを返します。ページ分割されたリクエストでのデフォルトは `20,000` です。
+    * `cursor`: 前回のレスポンスの `next_cursor` フィールドで返された不透明なカーソルです。カーソルを再利用する際は、解決済みの日付範囲と `anonymize` の値を前回と同じにしてください。`cursor` を設定する場合は、`limit` または `endDate` も設定する必要があります。
+
+    `limit` または `endDate` を設定しない場合、API は元のストリーミングレスポンス形式を維持します。レスポンスには、改行区切りの JSON オブジェクトが含まれます。各オブジェクトには [Audit log schema](#audit-log-schema) に記載のフィールドが含まれ、instance-level bucket に同期されるログと同じ内容になります。
+
+    3 日間の範囲について、改行区切り JSON のストリーミングレスポンスを取得し、PII を除外するには、次を実行します。
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "[API-ENDPOINT]?startDate=2026-08-01&numDays=2&anonymize=true"
+    ```
+
+    `limit` または `endDate` を設定した場合、API は次のフィールドを持つ JSON オブジェクトを返します。
+
+    * `audit_logs`: 監査ログエントリの配列です。各エントリには [Audit log schema](#audit-log-schema) に記載されているフィールドが含まれます。
+    * `range_start_time`: 解決された日付範囲の開始時刻 (UTC) です。
+    * `range_end_time`: 解決された日付範囲の終了時刻 (UTC) です。この時刻は範囲に含まれません。
+    * `count`: このレスポンスで返された監査ログエントリの数です。
+    * `next_cursor`: 次のページの結果を取得するための不透明なカーソルです。このフィールドが `null` の場合、選択した日付範囲にはこれ以上の結果がありません。
+
+    2 時間分の範囲でページ分割されたレスポンスを取得するには、次のコマンドを実行します。
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000"
+    ```
+
+    レスポンスは次の例のようになります。
+
+    ```json
+    {
+      "audit_logs": [
+        {
+          "action": "project:read",
+          "actor_email": "admin@example.com",
+          ...
+          "timestamp": "2026-08-01T14:00:00Z",
+        }
+      ],
+      "range_start_time": "2026-08-01T13:00:00Z",
+      "range_end_time": "2026-08-01T15:00:00Z",
+      "count": 1,
+      "next_cursor": "eyJ2ZXJzaW9uIjox..."
+    }
+    ```
+
+    次のページを取得するには、解決済みの日付範囲と `anonymize` の値を同じにしてリクエストを再実行します。`cursor` には、前回のレスポンスの `next_cursor` の値を設定してください。`next_cursor` が `null` になるまで繰り返します。
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000&cursor=[NEXT-CURSOR]"
+    ```
+
+    <div id="exclude-pii-when-fetching-audit-logs">
+      ### 監査ログの取得時に PII を除外する <a id="exclude-pii" />
+    </div>
+
+    [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) では、W&amp;B の組織管理者またはインスタンス管理者が、監査ログの取得時に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API endpoint は PII を含む監査ログの関連フィールドを常に返します。この動作は変更できません。
+
+    PII を除外するには、URL パラメーター `anonymize=true` を指定します。たとえば、過去 1 週間のユーザーアクティビティの監査ログを PII を除外して取得する場合、W&amp;B インスタンスの URL が `https://mycompany.wandb.io` であれば、次のような API endpoint を使用します:
+
+    ```text
+    https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETERS].
+    ```
+  </Tab>
+
+  <Tab title="Multi-tenant Cloud">
+    このタブは [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 向けです。Multi-tenant の監査ログは Enterprise プランでのみ利用可能です。Audit Logging API endpoint は次のとおりです。
+
+    ```text
+    https://api.wandb.ai/audit_logs
+    ```
+
+    以下のクエリパラメーターがサポートされます。
+
+    * `startDate`: 日付範囲の最初の UTC 暦日。`YYYY-MM-DD` 形式を使用します。`startDate` を省略した場合、範囲は本日の UTC 午前 0 時から始まります。ただし `numDays` を設定している場合は、本日より `numDays` 日前から始まります。
+    * `numDays`: `0` から `7` までの整数。W&amp;B は `startDate` から `numDays` 日分のログを取得します。`numDays` を省略するか `0` を設定した場合、W&amp;B は 1 日分のログを取得します。
+    * `limit`: 返す監査ログエントリの最大数。`1,000,000` までの正の整数を使用します。デフォルトは `1,000,000` です。
+    * `cursor`: 前回のレスポンスの `next_cursor` フィールドで返される不透明なカーソル。同じ日付範囲に解決される場合に限り、このカーソルを再利用してください。
+
+    Multi-tenant Cloud のエンドポイントは、PII を含む監査ログの関連フィールドを常に返します。この動作は設定できません。
+
+    レスポンスは、次のフィールドを持つ JSON オブジェクトです。
+
+    * `audit_logs`: 監査ログエントリの配列。各エントリには [Audit log schema](#audit-log-schema) に記載のフィールドが含まれます。
+    * `range_start_time`: 解決された日付範囲の開始時刻 (UTC)。
+    * `range_end_time`: 解決された日付範囲の終了時刻 (UTC、この値は含みません)。
+    * `count`: このレスポンスで返された監査ログエントリの数。
+    * `next_cursor`: 次のページの結果を取得するための不透明なカーソル。このフィールドが `null` の場合、選択した日付範囲にこれ以上の結果はありません。
+
+    以下の例では、次の箇所を置き換えてください。
+
+    * `[BASE64-USERNAME-API-KEY]`: `[USERNAME]:[API-KEY]` 形式の文字列を base64 エンコードしたもの。
+    * `[NEXT-CURSOR]`: 前回のレスポンスの `next_cursor` の値。
+
+    範囲を指定して監査ログを取得するには、次を実行します。
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "https://api.wandb.ai/audit_logs?startDate=2026-08-01&numDays=2&limit=1000"
+    ```
+
+    レスポンスは次の例のようになります。
+
+    ```json
+    {
+      "audit_logs": [
+        {
+          "action": "project:read",
+          "actor_email": "admin@example.com",
+          ...
+          "timestamp": "2026-08-01T13:12:14Z"
+        }
+      ],
+      "range_start_time": "2026-08-01T00:00:00Z",
+      "range_end_time": "2026-08-04T00:00:00Z",
+      "count": 1,
+      "next_cursor": "eyJyb3dfa2V5Ijoi..."
+    }
+    ```
+
+    次のページを取得するには、同じ解決済みの日付範囲で同じリクエストを再度実行します。`cursor` には、前回のレスポンスの `next_cursor` の値を指定します。`next_cursor` が `null` になるまでこれを繰り返します。
+
+    ```bash
+    curl -H "Authorization: Basic [BASE64-USERNAME-API-KEY]" \
+      "https://api.wandb.ai/audit_logs?startDate=2026-08-01&numDays=2&limit=1000&cursor=[NEXT-CURSOR]"
+    ```
+
+    <a id="1">1</a>: [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、以下については監査ログが収集されません。
+
+    * Open または Public の project
+    * `report:read` action
+    * 特定の組織に紐付かない `User` の action
+  </Tab>
+</Tabs>
 
 <div id="use-basic-authentication">
   ### 基本認証を使用する
@@ -116,21 +253,11 @@ API レスポンスには、改行区切りの JSON オブジェクトが含ま�
 
 監査ログ API への各リクエストは認証する必要があります。APIキーを使用して基本認証で 監査ログ API にアクセスするには、HTTP リクエストの `Authorization` ヘッダーに、文字列 `Basic`、半角スペース 1 つ、続けて `[USERNAME]:[API-KEY]` 形式の文字列をbase64エンコードした値を設定します。つまり、`username` と `API-KEY` を `:` で区切った実際の値に置き換え、その結果をbase64エンコードします。たとえば、`demo:p@55w0rd` として認証する場合、ヘッダーを `Authorization: Basic ZGVtbzpwQDU1dzByZA==` に設定します。
 
-### 監査ログ取得時に PII を除外する <a id="exclude-pii" />
-
-[セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) と [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) では、W&amp;B の組織またはインスタンス管理者は、監査ログの取得時に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API endpoint は常に PII を含む監査ログの関連フィールドを返します。これは設定できません。
-
-PII を除外するには、URL パラメーター `anonymize=true` を指定します。たとえば、過去 1 週間のユーザーアクティビティに関する監査ログを取得し、PII を除外するには、W&amp;B インスタンスの URL が `https://mycompany.wandb.io` の場合、次のような API endpoint を使用します。
-
-```text
-https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETERS].
-```
-
 <div id="actions">
   ## アクション
 </div>
 
-各監査ログのエントリには、以下のいずれかのアクションが記録されます。ログエントリの `action` フィールドを解釈する際は、このリファレンスを参照してください。この表では、W&amp;B が記録できるアクションをアルファベット順に示します。
+各監査ログエントリには、以下のいずれかのアクションが記録されます。ログエントリの `action` フィールドを解釈する際は、このリファレンスを参照してください。この表では、W&amp;B が記録できるアクションをアルファベット順に示します。
 
 | Action                        | Definition                                                   |
 | ----------------------------- | ------------------------------------------------------------ |
@@ -138,8 +265,9 @@ https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETER
 | `artifact:delete`             | アーティファクトが削除されます。                                             |
 | `artifact:read`               | アーティファクトが閲覧されます。                                             |
 | `project:delete`              | プロジェクトが削除されます。                                               |
+| `organization:update_member`  | メンバーの組織ロールまたはシートが更新されます。                                     |
 | `project:read`                | プロジェクトが閲覧されます。                                               |
-| `report:read`                 | レポートが閲覧されます。 <sup><a href="#1">1</a></sup>                   |
+| `report:read`                 | report が閲覧されます。 <sup><a href="#1">1</a></sup>                   |
 | `run:delete_many`             | run の一括削除が実行されます。                                            |
 | `run:delete`                  | run が削除されます。                                                 |
 | `run:stop`                    | run が停止されます。                                                 |
@@ -163,9 +291,3 @@ https://mycompany.wandb.io/admin/audit_logs?anonymize=true&[ADDITIONAL-PARAMETER
 | `user:reactivate`             | ユーザーが再度有効化されます。 <sup><a href="#1">1</a></sup>                |
 | `user:read`                   | ユーザープロフィールが閲覧されます。 <sup><a href="#1">1</a></sup>             |
 | `user:update`                 | ユーザーが更新されます。 <sup><a href="#1">1</a></sup>                   |
-
-<a id="1">1</a>: [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、次の対象については 監査ログ は収集されません。
-
-* Open または Public のプロジェクト。
-* `report:read` アクション。
-* 特定の組織に紐付いていない `User` アクション。

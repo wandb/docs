@@ -1,0 +1,33 @@
+---
+title: SendPromptToAria
+kind: class
+namespace: wandb.automations.actions
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L243" />
+
+<div id="class-wandbautomationssendprompttoaria">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.SendPromptToAria
+</div>
+
+ARIA에 프롬프트를 전송하는 자동화 액션을 정의합니다.
+
+```python
+*,
+prompt: Annotated[str, AfterValidator(func=<function _validate_aria_prompt>)],
+action_type: Literal[ARIA] = ARIA
+```
+
+<div id="args">
+  ## 인수
+</div>
+
+<ResponseField name="prompt" type="Annotated">
+  이 자동화가 트리거될 때 ARIA가 받는 프롬프트입니다.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>
