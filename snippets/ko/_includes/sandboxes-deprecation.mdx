@@ -1,0 +1,14 @@
+---
+title: 샌드박스 사용 중단
+---
+
+<Warning>
+  **`wandb.sandbox`는 사용이 중단되었으며** W&amp;B Python SDK의 향후 릴리스에서 제거됩니다. 대신 `cwsandbox` 패키지를 사용하세요. 자세한 내용은 [CoreWeave 샌드박스 문서](https://docs.coreweave.com/products/sandboxes)를 참조하세요.
+
+  마이그레이션하면 다음 두 가지가 달라집니다.
+
+  * **임포트 방식.** W&amp;B extra와 함께 `cwsandbox`를 설치하고(`pip install "cwsandbox[wandb]"`), `wandb.sandbox` 대신 `cwsandbox`에서 임포트하세요.
+  * **credential.** `cwsandbox`는 기본적으로 `CWSANDBOX_API_KEY`에 지정된 CoreWeave API access token으로 인증하므로, 기존 W&amp;B API 키를 계속 사용하려면 `auth=AuthStrategy.WANDB`를 전달하세요. [Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential)을 참조하세요.
+
+  이 페이지의 예시는 아직 `wandb.sandbox`를 사용합니다. 이에 해당하는 `cwsandbox` 코드는 [Migrate to `cwsandbox`](/ko/sandboxes#migrate-to-cwsandbox)를 참조하세요.
+</Warning>

@@ -4,7 +4,10 @@ description: W&B Serverless Sandboxes を使用すると、Python から必要�
 mode: wide
 ---
 
+import SandboxesDeprecation from '/snippets/ja/_includes/sandboxes-deprecation.mdx';
 import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesDeprecation />
 
 <SandboxesPreview />
 
@@ -60,6 +63,52 @@ Serverless Sandboxes は CoreWeave Sandbox ライブラリを使用して構築�
    コンソールに `Hello from Serverless Sandboxes!` と出力されます。
 
    サンドボックスは、コンテキストマネージャー (`with` ブロック) を抜けると自動的に停止します。サンドボックスのライフサイクルと状態の詳細については、[サンドボックスのライフサイクル](/ja/sandboxes/lifecycle)を参照してください。
+
+<div id="migrate-to-cwsandbox">
+  ## cwsandbox への移行
+</div>
+
+`wandb.sandbox` は非推奨であり、W&amp;B Python SDK の将来のリリースで削除されます。代わりに `cwsandbox` パッケージを使用してください。`cwsandbox` は W&amp;B APIキーと CoreWeave API アクセストークンのどちらも使用できます。リファレンスドキュメントは [CoreWeave sandbox のドキュメント](https://docs.coreweave.com/products/sandboxes) を参照してください。
+
+移行するには、パッケージのインストール方法、インポート方法、および使用する認証情報の選択方法を変更します。
+
+1. W&amp;B の extra を指定して `cwsandbox` をインストールします。この extra により `wandb` ライブラリが同時にインストールされます。`cwsandbox` はこのライブラリを使用して W&amp;B の認証情報を解決します。
+
+   ```bash
+   pip install "cwsandbox[wandb]"
+   ```
+
+2. `wandb.sandbox` ではなく `cwsandbox` からインポートし、サンドボックスまたはセッションを作成する際に `auth=AuthStrategy.WANDB` を渡します。`cwsandbox` はデフォルトで `CWSANDBOX_API_KEY` から CoreWeave API アクセストークンを読み取るため、W&amp;B 認証を使用する場合は明示的に指定する必要があります。
+
+   ```python title="変更前: wandb.sandbox"
+   from wandb.sandbox import Sandbox
+
+   with Sandbox.run() as sandbox:
+       process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
+       print(process.stdout)
+   ```
+
+   ```python title="変更後: cwsandbox"
+   from cwsandbox import AuthStrategy, Sandbox
+
+   with Sandbox.run(auth=AuthStrategy.WANDB) as sandbox:
+       process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
+       print(process.stdout)
+   ```
+
+W&amp;B の認証情報は従来と同じ方法で解決されます。具体的には、実行中の `wandb login` セッション、`WANDB_API_KEY` 環境変数、または `~/.netrc` 内の `api.wandb.ai` エントリのいずれかです。サンドボックスの料金を W&amp;B ではなく CoreWeave アカウントに請求する場合は、`auth` を省略し、`CWSANDBOX_API_KEY` に CoreWeave API アクセストークンを設定します。2 つの認証情報の比較については、[Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential) を参照してください。
+
+<div id="behavior-that-changes-after-you-migrate">
+  ### 移行後に変わる動作
+</div>
+
+`wandb.sandbox` は `cwsandbox` をラップし、`cwsandbox` パッケージ単体では適用されない W&amp;B Serverless のデフォルトを適用します。移行の際は、以下の相違点に注意してください。
+
+| 動作               | `wandb.sandbox`                                   | `cwsandbox`                              |
+| ---------------- | ------------------------------------------------- | ---------------------------------------- |
+| サンドボックスの最大ライフタイム | デフォルトは 12 時間                                      | デフォルトなし。`max_lifetime_seconds` を自分で設定します |
+| シークレットストア        | `Secret` はデフォルトで W&amp;B チームのシークレットストアを使用します      | `Secret` には明示的な `store` 引数が必要です          |
+| 配置に関する引数         | `profile_ids`、`profile_names`、`runner_ids` を拒否します | CoreWeave のサンドボックスランナー向けにこれらを受け入れます      |
 
 <div id="serverless-sandboxes-tutorials">
   ## Serverless Sandboxes のチュートリアル
