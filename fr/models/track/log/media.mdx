@@ -331,7 +331,11 @@ Journalisez des nuages de points 3D et des scènes LiDAR avec des boîtes englob
 
 Les nuages de points enregistrés sont entièrement interactifs dans l’application W&amp;B. Par exemple, le [rapport LIDAR Point Clouds of Driving Scenes](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg) intégré ci-dessous montre des scènes du jeu de données Lyft avec des boîtes englobantes 3D. Faites glisser pour faire pivoter la vue et zoomer dans le visualiseur.
 
-{/* <WandbReport src="https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg" title="rapport LIDAR point clouds of driving scenes" height={720} /> */}
+{/* <WandbReport
+  src="https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg"
+  title="rapport LIDAR point clouds of driving scenes"
+  height={720}
+  /> */}
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
@@ -340,7 +344,7 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
 <Note>
-  L&#39;UI de W&amp;B tronque les données au-delà de 300 000 points.
+  L&#39;UI de W&amp;B tronque les données au-delà de 300 000 points.
 </Note>
 
 <div id="numpy-array-formats">
