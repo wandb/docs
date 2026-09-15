@@ -2,9 +2,103 @@
 title: Manage packages and environments
 ---
 
-## Default environment
+Manage Python packages and environments in your notebook. Install, update, and remove packages as needed.
+
+By default, Notebooks come pre-installed with the [W&B Python SDK](/models/ref/python), [Reports and Workspaces API](/models/ref/wandb_workspaces/reports), [marimo](https://docs.marimo.io/), and other essential packages for running experiments.
+
+{/* https://docs.marimo.io/guides/package_management/ */}
+
+## Install packages
+
+Install packages using either the sidebar or the terminal.
+
+<Tabs>
+<Tab title="UI">
+To install a package from the sidebar:
+
+1. Select **Manage packages** (<Icon icon="cube"/>) from the notebook sidebar. 
+2. Enter the name of the package you want to install.
+3. Select **Add**.
+</Tab>
+<Tab title="Terminal">
+Open the **Developer Tool** panel and navigate to the **Terminal** tab. You can then use standard `uv` commands to install a package, for example:
+
+```bash
+uv pip install <package_name>
+```
+</Tab>
+</Tabs>
+
 ## View installed packages
-## Install a package from the sidebar
-## Install a package from a notebook cell
-## Pin package versions
-## Update or remove packages
+
+View installed packages using either the sidebar or the terminal.
+
+<Tabs>
+<Tab title="UI">
+Select the **Manage packages** (<Icon icon="cube"/>) option from the notebook sidebar to view and manage the installed packages.
+
+Select either **List** or **Tree** view to see the installed packages. Tree view shows the hierarchical structure of package dependencies. For example, if package A depends requires package B, the tree view will display package B as a child of package A.
+
+The following image shows `wandb-workspaces` in the **Manage packages** sidebar. Packages nested under it are the dependencies of `wandb-workspaces`.
+
+<Frame>
+  <img
+    src="/images/notebooks/hello_package_management.png"
+    alt="Manage packages sidebar in the notebook"
+  />
+</Frame>
+
+</Tab>
+<Tab title="Terminal">
+
+Open the **Developer Tool** panel and navigate to the **Terminal** tab. You can then use standard `uv` commands to list packages, for example:
+
+```bash
+uv pip list
+```
+
+</Tab>
+</Tabs>
+
+
+## Update a package
+
+Update an existing package using either the sidebar or the terminal.
+
+<Tabs>
+<Tab title="UI">
+To update a package from the sidebar:
+
+1. Select **Manage packages** (<Icon icon="cube"/>) from the notebook sidebar.
+2. Find the package you want to update.
+3. Select **Upgrade** next to the package name.
+</Tab>
+<Tab title="Terminal">
+Open the **Developer Tool** panel and navigate to the **Terminal** tab. You can then use standard `uv` commands to update a package, for example:
+
+```bash
+uv pip install --upgrade <package_name>
+```
+</Tab>
+</Tabs>
+
+{/* ## Pin package versions */}
+
+## Remove packages
+
+<Tabs>
+<Tab title="UI">
+To remove a package from the sidebar:
+
+1. Select **Manage packages** (<Icon icon="cube"/>) from the notebook sidebar.
+2. Find the package you want to remove.
+3. Select **Remove** next to the package name.
+</Tab>
+<Tab title="Terminal">
+Open the **Developer Tool** panel and navigate to the **Terminal** tab. You can then use standard `uv` commands to remove a package, for example:
+
+```bash
+uv pip uninstall <package_name>
+```
+</Tab>
+</Tabs>
