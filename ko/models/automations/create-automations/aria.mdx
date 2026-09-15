@@ -23,7 +23,7 @@ ARIA에 W&amp;B 자동화 생성과 관리를 대신 맡길 수도 있습니다.
 <Note>
   <MultiTenantCloudOnly />
 
-  ARIA는 개인 entity가 아닌 팀 프로젝트에서 동작합니다. 또한 organization admin이 **Smart features**를 활성화해야 합니다. [거버넌스 및 보안](/ko/aria/governance)을 참고하세요.
+  ARIA는 개인 entity가 아닌 팀 프로젝트에서 동작합니다. 또한 조직 관리자가 **Smart features**를 활성화해야 합니다. [거버넌스 및 보안](/ko/aria/governance)을 참고하세요.
 </Note>
 
 <div id="requirements">
@@ -60,7 +60,7 @@ ARIA 자동화가 실행될 때마다 ARIA 대화가 시작되며, 직접 시작
        이벤트에 따라 추가로 표시되는 필드를 입력합니다. 예를 들어 **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
 
        **Next step**을 클릭합니다.
-    5. ARIA 대화를 호스팅할 팀을 선택합니다. [자동화로 생성된 대화 보기](#view-conversations-created-by-automations)를 참조하세요.
+    5. ARIA 대화를 호스팅할 팀을 선택합니다. 레지스트리는 팀이 아니라 조직에 속하지만, ARIA 대화는 반드시 특정 팀에 속해야 합니다. [자동화로 생성된 대화 보기](#view-conversations-created-by-automations)를 참조하세요.
     6. **Action type**을 **Trigger ARIA**로 설정합니다.
     7. **Prompt** 필드에 ARIA로 전송할 프롬프트를 작성합니다. [프롬프트 작성](#write-the-prompt)을 참조하세요. **Next step**을 클릭합니다.
     8. 자동화의 이름을 입력합니다. 필요에 따라 설명도 입력합니다.
@@ -97,6 +97,8 @@ ARIA 자동화가 실행될 때마다 ARIA 대화가 시작되며, 직접 시작
   ## ARIA로 자동화 만들기 및 관리하기
 </div>
 
+{/* 확인: "delete, enable, and disable" — ARIA의 자동화 기능은 list/get/integrations/template-vars/create 하위 명령어만 제공하며, update나 delete는 제공하지 않습니다. 범용 execute_graphql 이스케이프 해치도 있으므로 이러한 작업이 여전히 가능할 수 있습니다. 이 문장을 신뢰하기 전에 제품에서 테스트하세요. */}
+
 ARIA는 필요할 때 자동화를 생성, 삭제, 활성화, 비활성화할 수 있습니다.
 
 ARIA에게 자동화를 만들어 달라고 요청해 보세요:
@@ -106,6 +108,38 @@ ARIA에게 자동화를 만들어 달라고 요청해 보세요:
 기존 자동화에 대해 ARIA에게 물어보세요:
 
 <AriaChatBubbles prompt="이 프로젝트에는 어떤 자동화가 있어?" response="프로젝트 수준 자동화가 2개 있으며, 둘 다 활성화되어 있습니다...." />
+
+ARIA에게 자동화 이름을 변경해 달라고 요청해 보세요:
+
+<AriaChatBubbles prompt="old-name을 production-alert로 이름 변경해 줘." response="이름 변경을 진행할까요?" />
+
+확인하면 ARIA가 자동화의 이름을 변경합니다.
+
+<div id="view-your-aria-automations-in-chat">
+  ### 채팅에서 ARIA 자동화 보기
+</div>
+
+ARIA를 열고 채팅 헤더에서 **Reveal chat history**를 클릭한 다음, 채팅 이력 사이드바 하단의 **Customize** 섹션을 열고 **My automations**를 선택하세요.
+
+**My automations**는 ARIA 메인 패널 옆에 함께 열리는 것이 아니라 대화 뷰를 대체합니다. 대화를 선택하거나 새 채팅을 시작하면 다시 대화로 돌아갑니다. 이 패널은 다시 로드해도 유지되지 않으므로, 페이지를 새로고침하면 대화 화면으로 돌아갑니다.
+
+이 패널에는 사용자가 만든 자동화 중 ARIA에 프롬프트를 보내는 자동화만 표시됩니다. 다른 액션을 사용하는 자동화나 팀원의 ARIA 자동화는 표시되지 않습니다.
+
+이 패널은 읽기 전용입니다. 자동화의 활성화 여부는 확인할 수 있지만, 활성화, 비활성화, 편집, 삭제를 하려면 **View all automations**를 클릭해 새 탭에서 전체 Automations 페이지를 여세요. [자동화 보기 및 관리](#view-and-manage-automations)를 참조하세요.
+
+이름으로 검색하거나, **Previous**와 **Next**를 사용해 한 번에 20개씩 결과를 넘겨 볼 수 있습니다. 목록에는 각 자동화의 이름, **Event type**, **Scope**가 표시됩니다.
+
+자동화를 클릭하면 상세 뷰가 열리며 **Description**, **Scope**, **Created by**, **Created**, **Status**(**Enabled** 또는 **Disabled**), **Event type**, 그리고 전송되는 **Prompt ARIA**가 표시됩니다.
+
+**Automation history** 섹션에는 각 실행의 **Triggered** 시간과 **Status**, 그리고 **Conversation** 열이 표시됩니다. **Open thread**를 클릭하면 해당 실행이 생성한 대화가 열립니다. **No thread** 값은 해당 실행이 대화를 생성하지 않았음을 의미합니다. 실행 내역은 최대 6개월까지 표시됩니다.
+
+목록이나 상세 뷰에서 돌아가려면 **Back to chat** 또는 **Back to My automations**를 사용하세요.
+
+자동화를 새로 만들려면 **Create automation**을 클릭하세요. 이때 양식이 열리지는 않습니다. 대신 다음 프롬프트가 사용자를 대신해 이미 전송된 상태로 새 ARIA 채팅이 시작됩니다.
+
+<AriaChatBubbles prompt="Guide me through creating an automation that prompts ARIA. Ask what I want to automate, help me choose its scope and trigger, and draft the prompt with me." response="Happy to help. What event should trigger this, and should the automation live in a project or a registry? Once we settle that, I'll help you word the prompt." />
+
+읽기 전용 billing 액세스 권한만 있는 경우 **Create automation**은 비활성화됩니다. **My automations**는 개인 계정에서는 사용할 수 없습니다. 자동화를 보려면 조직을 선택하세요. 이 패널에는 별도의 기능 플래그가 필요하지 않으며, [요구 사항](#requirements)에 설명된 것과 동일한 액세스 검사에 따라 사용할 수 있습니다.
 
 <div id="write-the-prompt">
   ## 프롬프트 작성하기
@@ -172,7 +206,7 @@ ${artifact_version_string}을(를) 현재 프로덕션 별칭과 비교하세요
   ## 자동화가 생성한 대화 보기
 </div>
 
-자동화는 이벤트를 트리거한 액션을 수행한 사용자가 아니라, 해당 자동화를 만든 사용자의 계정으로 ARIA 대화를 생성합니다. 이 대화는 그 사용자의 ARIA 채팅 이력에서 **Past conversations** 아래에, 본인이 직접 시작한 대화와 함께 표시됩니다. 이벤트를 발생시킨 사용자를 파악하려면 프롬프트에 `${event_author}`를 포함하세요.
+자동화는 해당 자동화를 만든 사용자의 계정으로 ARIA 대화를 생성합니다. 이 대화는 그 사용자의 ARIA 채팅 이력 사이드바에, 본인이 직접 시작한 대화와 함께 표시됩니다. 이벤트를 발생시킨 사용자를 파악하려면 프롬프트에 `${event_author}`를 포함하세요.
 
 대화가 저장되는 위치는 자동화의 범위에 따라 달라집니다.
 
@@ -181,7 +215,7 @@ ${artifact_version_string}을(를) 현재 프로덕션 별칭과 비교하세요
 
   `wandb_agent_default_project`는 사용자가 연 프로젝트와 연결되지 않은 대화를 보관하기 위해 W&amp;B가 각 팀마다 유지하는 자리 표시자 프로젝트입니다. 직접 만들 필요가 없으며, 이러한 대화를 제외하면 일반적으로 비어 있습니다.
 
-자동화가 실행되었는지 확인하려면 해당 자동화의 [실행 이력](/ko/models/automations/view-automation-history)을 여세요. ARIA 실행이 성공하면 W&amp;B가 전송한 프롬프트와 대화의 `thread_id`가 포함된 응답 본문이 표시됩니다. W&amp;B는 실행에서 대화로 연결되는 링크를 제공하지 않으며, 자동화로 생성된 대화가 채팅 이력에서 별도로 구분되어 표시되지도 않습니다.
+자동화가 실행되었는지 확인하려면 해당 자동화의 [실행 이력](/ko/models/automations/view-automation-history)을 여세요. ARIA 실행이 성공하면 W&amp;B가 전송한 프롬프트와 대화의 `thread_id`가 포함된 응답 본문이 표시됩니다. 해당 대화를 열려면 ARIA의 [My automations](#view-your-aria-automations-in-chat) 패널에 있는 **Open thread** 링크를 사용하세요. 이 링크는 동일한 `thread_id`를 기반으로 생성됩니다. 자동화로 생성된 대화가 채팅 이력에서 별도로 구분되어 표시되지는 않습니다.
 
 <div id="view-and-manage-automations">
   ## 자동화 보기 및 관리
@@ -197,15 +231,20 @@ ARIA 대화는 자동화를 만든 사용자 권한으로 실행되므로, ARIA�
   ## 제한 사항
 </div>
 
+ARIA 자동화에는 다음과 같은 제한 사항이 있습니다.
+
 * ARIA 자동화는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/#wb-multi-tenant-cloud)의 팀 프로젝트에서, 조직 관리자가 **Smart features**를 활성화한 경우에만 사용할 수 있습니다.
 * 각 자동화는 분당 최대 3개의 ARIA 대화를 시작할 수 있습니다. 이 한도를 초과한 실행은 자동화 이력에 **Skipped** 상태로 기록되며, 이는 자동화가 이벤트와 일치했지만 해당 액션을 실행하지 않았음을 의미합니다.
 * 자동화를 만든 사용자가 해당 프로젝트에 대한 쓰기 액세스를 잃거나 계정이 비활성화되면 이후의 모든 실행이 실패합니다. 실패 내역은 자동화의 실행 이력에 표시됩니다.
 * 자동화는 생성자만 편집할 수 있습니다.
 * `wandb` Python 라이브러리는 ARIA 자동화를 지원하지 않습니다. [API로 자동화 관리](/ko/models/automations/api)를 참조하세요.
+* 챗 내의 [My automations](#view-your-aria-automations-in-chat) 패널은 읽기 전용입니다. 자동화를 활성화, 비활성화, 편집 또는 삭제하려면 **Automations** 탭이나 허브를 사용하세요.
 
 <div id="next-steps">
   ## 다음 step
 </div>
+
+다음 리소스를 이어서 확인하세요:
 
 * [Automation events and scopes](/ko/models/automations/automation-events)
 * [자동화 이력 보기](/ko/models/automations/view-automation-history)
