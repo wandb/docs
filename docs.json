@@ -397,7 +397,6 @@
                         "pages": [
                           "models/notebooks",
                           "models/notebooks/get-started",
-                          "models/notebooks/get-started-v2",
                           "models/notebooks/reactive-info",
                           "models/notebooks/create-notebook",
                           "models/notebooks/edit-notebook",
