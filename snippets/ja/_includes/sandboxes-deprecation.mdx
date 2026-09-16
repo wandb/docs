@@ -1,0 +1,14 @@
+---
+title: サンドボックスの非推奨化
+---
+
+<Warning>
+  **`wandb.sandbox` は非推奨です。** W&amp;B Python SDK の将来のリリースで削除されます。代わりに `cwsandbox` パッケージを使用してください。詳細は [CoreWeave サンドボックスのドキュメント](https://docs.coreweave.com/products/sandboxes)を参照してください。
+
+  移行にあたっては、次の 2 点が変わります。
+
+  * **import**: W&amp;B の extra を指定して `cwsandbox` をインストールし (`pip install "cwsandbox[wandb]"`)、`wandb.sandbox` ではなく `cwsandbox` から import します。
+  * **認証情報**: `cwsandbox` はデフォルトで `CWSANDBOX_API_KEY` に設定された CoreWeave API アクセストークンで認証します。引き続き W&amp;B APIキーを使用する場合は、`auth=AuthStrategy.WANDB` を渡してください。[認証情報の選択](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential)を参照してください。
+
+  このページの例では引き続き `wandb.sandbox` を使用しています。同等の `cwsandbox` のコードについては、[`cwsandbox` への移行](/ja/sandboxes#migrate-to-cwsandbox)を参照してください。
+</Warning>
