@@ -143,7 +143,7 @@ rss: true
     ## 보안
   </div>
 
-  * 이제 `artifact.files()` 또는 `artifact.checkout()`을 사용해 아티팩트를 다운로드할 때 상대 경로를 포함하는 파일 및 아티팩트 이름은 허용되지 않습니다.
+  * 이제 `artifact.files()` 또는 `artifact.checkout()`을 사용해 아티팩트를 다운로드할 때 상대 경로를 포함하는 파일 및 아티팩트 이름은 허용되지 않습니다. 이를 통해 [CVE-2026-91771](https://www.tenable.com/cve/CVE-2026-91771)에 설명된 경로 탐색 취약점이 수정되었습니다.
 </Update>
 
 <Update label="0.28.2" description="2026년 8월 12일">
