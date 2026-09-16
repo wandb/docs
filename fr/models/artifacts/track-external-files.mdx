@@ -3,16 +3,16 @@ description: Suivez les fichiers enregistrés dans un bucket externe, un serveur
 title: Suivre des fichiers externes
 ---
 
-Utilisez des *artifacts de référence* pour suivre et utiliser des fichiers enregistrés en dehors des serveurs W&amp;B. Les solutions courantes de stockage externe incluent : CoreWeave AI Object Storage, un bucket Amazon Simple Storage Service (Amazon S3), un bucket GCS, un blob Azure, un serveur de fichiers HTTP ou un partage NFS.
+Utilisez des *artifacts de référence* pour suivre et utiliser des fichiers enregistrés en dehors des serveurs W&amp;B. Les solutions courantes de stockage externe incluent : CoreWeave AI Object Storage, Backblaze B2 Cloud Storage, un bucket Amazon Simple Storage Service (Amazon S3), un bucket GCS, un blob Azure, un serveur de fichiers HTTP ou un partage NFS.
 
 Les artifacts de référence se comportent comme les artifacts non référencés. La principale différence est que les artifacts de référence ne contiennent que des métadonnées sur les fichiers, telles que leur taille et leurs sommes de contrôle MD5. Les fichiers eux-mêmes ne quittent jamais votre système.
 
 Vous pouvez interagir avec un artifact de référence comme avec un artifact non référencé. Dans la W&amp;B App, vous pouvez parcourir le contenu de l’artifact de référence à l’aide du navigateur de fichiers, explorer le graphe de dépendances complet et parcourir l’historique versionné de votre artifact. Cependant, l’UI ne peut pas afficher de médias enrichis tels que des images ou de l’audio, car les données elles-mêmes ne sont pas contenues dans l’artifact.
 
 <Note>
-  Si vous enregistrez un artifact qui ne suit pas de fichiers externes, W&amp;B enregistre les fichiers de l’artifact sur les serveurs W&amp;B. Il s’agit du comportement par défaut lorsque vous enregistrez des artifacts avec le W&amp;B Python SDK.
+  Si vous journalisez un artifact qui ne suit pas de fichiers externes, W&amp;B enregistre les fichiers de l’artifact sur les serveurs W&amp;B. Il s’agit du comportement par défaut lorsque vous journalisez des artifacts avec le SDK Python W&amp;B.
 
-  Si vous enregistrez un artifact qui suit des fichiers externes, W&amp;B enregistre des métadonnées sur l’objet, telles que l’ETag et la taille de l’objet. Si la gestion des versions des objets est activée sur le bucket, l’ID de version est également enregistré.
+  Si vous journalisez un artifact qui suit des fichiers externes, W&amp;B journalise des métadonnées sur l’objet, telles que l’ETag et la taille de l’objet. Si la gestion des versions des objets est activée sur le bucket, l’ID de version est également journalisé.
 </Note>
 
 Les sections suivantes décrivent comment suivre des artifacts de référence externes.
@@ -21,12 +21,12 @@ Les sections suivantes décrivent comment suivre des artifacts de référence ex
   ## Suivre un artifact dans un bucket externe
 </div>
 
-Utilisez le SDK Python de W&amp;B pour suivre des références vers des fichiers stockés en dehors de W&amp;B.
+Utilisez le SDK Python W&amp;B pour suivre des références vers des fichiers stockés en dehors de W&amp;B.
 
 1. Initialisez un run avec `wandb.init()`.
 2. Créez un objet artifact avec `wandb.Artifact()`.
 3. Indiquez la référence au chemin du bucket avec la méthode `wandb.Artifact.add_reference()` de l&#39;objet artifact.
-4. Enregistrez les métadonnées de l&#39;artifact avec `run.log_artifact()`.
+4. Journalisez les métadonnées de l&#39;artifact avec `run.log_artifact()`.
 
 ```python
 import wandb
@@ -40,11 +40,11 @@ with wandb.init(project="my-project") as run:
   # Ajouter une référence au chemin du bucket
   artifact.add_reference(uri = "uri/to/your/bucket/path")
 
-  # Enregistrer les métadonnées de l'artifact
+  # Journaliser les métadonnées de l'artifact
   run.log_artifact(artifact)
 ```
 
-Par exemple, supposons que votre bucket ait la structure de répertoires suivante :
+Par exemple, supposons que votre bucket ait la structure de répertoires suivante :
 
 ```text
 s3://my-bucket
@@ -55,14 +55,14 @@ s3://my-bucket
   |-- cnn/
 ```
 
-Le répertoire `datasets/mnist/` contient une collection d’images. Pour suivre le répertoire d’images `datasets/mnist/` en tant qu’artifact de jeu de données, spécifiez :
+Le répertoire `datasets/mnist/` contient une collection d’images. Pour suivre le répertoire d’images `datasets/mnist/` en tant qu’artifact de jeu de données, spécifiez :
 
 1. Donnez un nom à l’artifact, par exemple `"mnist"`.
 2. Définissez le paramètre `type` sur `"dataset"` lorsque vous créez l’objet artifact (`wandb.Artifact(type="dataset")`).
 3. Indiquez le chemin du répertoire `datasets/mnist/` sous forme d’URI Amazon S3 (`s3://my-bucket/datasets/mnist/`) lorsque vous appelez `wandb.Artifact.add_reference()`.
-4. Enregistrez l’artifact avec `run.log_artifact()`.
+4. Journalisez l’artifact avec `run.log_artifact()`.
 
-L’exemple de code suivant crée un artifact de référence `mnist:latest` :
+L’exemple de code suivant crée un artifact de référence `mnist:latest` :
 
 ```python
 import wandb
@@ -76,12 +76,11 @@ with wandb.init(project="my-project") as run:
 Dans la W&amp;B App, vous pouvez parcourir le contenu de l’artifact de référence à l’aide du navigateur de fichiers, [explorer le graphe de dépendances complet](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/), et consulter l’historique versionné de votre artifact. La W&amp;B App n’affiche pas les médias enrichis tels que les images, l’audio, etc., car les données elles-mêmes ne sont pas contenues dans l’artifact.
 
 <Note>
-  Les W&amp;B Artifacts prennent en charge toute interface compatible avec Amazon S3, y compris CoreWeave Storage et MinIO. Les scripts décrits ci-dessous fonctionnent tels quels avec les deux fournisseurs, lorsque vous définissez la variable d’environnement `AWS_S3_ENDPOINT_URL`
-  de sorte qu’elle pointe vers votre serveur CoreWeave Storage ou MinIO.
+  Les W&amp;B Artifacts prennent en charge toute interface compatible avec Amazon S3, y compris CoreWeave Storage, Backblaze B2 Cloud Storage et MinIO. Les scripts décrits ci-dessous fonctionnent tels quels avec ces fournisseurs lorsque vous définissez la variable d’environnement `AWS_S3_ENDPOINT_URL` de sorte qu’elle pointe vers votre serveur compatible S3 (par exemple, `https://s3.us-west-001.backblazeb2.com` pour Backblaze B2).
 </Note>
 
 <Warning>
-  Par défaut, W&amp;B impose une limite de 10 000 objets lors de l’ajout d’un préfixe d’objet. Vous pouvez ajuster cette limite en spécifiant `max_objects=` lorsque vous appelez `wandb.Artifact.add_reference()`.
+  Par défaut, W&amp;B impose une limite de 10 000 objets lors de l’ajout d’un préfixe d’objet. Vous pouvez ajuster cette limite en spécifiant `max_objects=` lorsque vous appelez `wandb.Artifact.add_reference()`.
 </Warning>
 
 <div id="download-an-artifact-from-an-external-bucket">
@@ -151,11 +150,12 @@ with wandb.init() as run:
   ## Identifiants pour le stockage cloud
 </div>
 
-W&amp;B utilise le mécanisme par défaut pour rechercher les identifiants correspondant au fournisseur cloud que vous utilisez. Consultez la documentation de votre fournisseur cloud pour en savoir plus sur les identifiants utilisés :
+W&amp;B utilise le mécanisme par défaut pour rechercher les identifiants correspondant au fournisseur cloud que vous utilisez. Consultez la documentation de votre fournisseur cloud pour en savoir plus sur les identifiants utilisés :
 
 | Fournisseur cloud           | Documentation sur les identifiants                                                                                                                          |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CoreWeave AI Object Storage | [documentation CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
+| Backblaze B2 Cloud Storage  | [documentation Backblaze B2 Application Keys](https://www.backblaze.com/docs/cloud-storage-application-keys)                                                |
 | AWS                         | [documentation Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials)                               |
 | Google Cloud                | [documentation Google Cloud](https://cloud.google.com/docs/authentication/provide-credentials-adc)                                                          |
 | Azure                       | [documentation Azure](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python)                        |

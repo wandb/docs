@@ -5,7 +5,7 @@ keywords: ["iPhone 앱", "iPad 앱", "iOS 앱", "App Store", "모바일 모니�
 ---
 
 <Info>
-  최신 버전: 26.24(2026년 9월 8일 릴리스). [App Store 릴리스 노트](https://apps.apple.com/us/app/6755162576).
+  최신 버전: 26.25(2026년 9월 14일 릴리스). [App Store 릴리스 노트](https://apps.apple.com/us/app/6755162576).
 </Info>
 
 <Columns cols={4}>
@@ -101,6 +101,7 @@ iOS용 W&amp;B 모바일 앱을 사용하면 어디서든 W&amp;B Models 프로�
   * **패널에 별표 표시**: 가장 중요한 패널을 한눈에 확인하세요. run 또는 프로젝트를 보고 있을 때 패널 상단의 별표 아이콘을 탭해 별표를 표시하세요. 별표가 표시된 패널만 보려면 목록 상단의 **Starred** 탭을 탭하세요.
   * **메트릭에 별표 표시**: 중요한 메트릭을 상세 보기에서 보고 있을 때 별표 아이콘을 탭해 별표를 표시하세요. **Runs** 페이지의 run 카드는 표시할 메트릭을 선택할 때 별표 표시한 메트릭을 우선합니다.
   * **패널 검색**: run 또는 프로젝트를 보고 있을 때 화면 하단의 **panel search** 필드를 사용해 각 차트에 표시되는 run을 필터링하세요. [RE2 구문](https://github.com/google/re2/wiki/Syntax)을 사용해 run 이름의 패턴을 검색할 수 있습니다.
+  * **full fidelity**: 차트에 렌더링할 수 있는 것보다 많은 데이터 포인트가 있으면 앱이 데이터를 버킷으로 묶고 선 주위에 각 버킷의 최소값과 최대값을 나타내는 음영 밴드를 그려, 변동을 한눈에 파악할 수 있습니다. 이는 W&amp;B 웹 앱에서 사용하는 것과 동일한 [full fidelity](/ko/models/app/features/panels/line-plot/sampling#full-fidelity) 렌더링입니다. 포인트를 탭했을 때 버킷의 전체 범위를 보려면 **Show bin range in tooltip**을 켜세요([선형 플롯 설정 변경](#change-line-plot-settings) 참조).
   * **차트 툴팁**: 선형 차트에서는 툴팁에 메트릭 값이 소수점 넷째 자리까지 표시되므로 작은 변화도 정확하게 확인할 수 있습니다.
   * **차트 확대/축소**: 선형 차트에서 세로 또는 가로로 두 손가락을 오므리거나 벌려 어느 축이든 확대하거나 축소하고, 두 번 탭하여 확대/축소 수준을 단계적으로 전환하세요. Y축은 곡선의 표시된 부분에 맞게 자동으로 크기가 조정되므로 run 후반의 작은 변화도 계속 확인할 수 있습니다.
   * **이미지 메트릭 보기**: run에 로깅한 이미지는 **Metrics** 탭에 상호작용할 수 있는 패널로 표시됩니다. 탭하여 단일 이미지를 확인한 다음, 두 손가락으로 확대하거나 드래그하여 이동하세요. [이미지 메트릭 보기](#view-image-metrics)를 참조하세요.
@@ -137,6 +138,7 @@ iOS용 W&amp;B 모바일 앱을 사용하면 어디서든 W&amp;B Models 프로�
 
 * **Log scale (Y)**: Y축을 로그 스케일로 그려 자릿수 규모가 크게 다른 메트릭을 비교합니다. 로그 축에는 0 또는 음수 값을 표시할 수 없습니다. 플롯에 그릴 양수 값이 없으면 앱이 차트 대신 &quot;No positive values to plot on a log scale&quot; 메시지를 표시합니다.
 * **Smoothing**: [시간 가중 지수 이동 평균(TWEMA)](/ko/models/app/features/panels/line-plot/smoothing#time-weighted-exponential-moving-average-twema-smoothing-default) 스무딩을 `0`(끄기)부터 `0.99`까지 적용합니다. 이 알고리즘은 W&amp;B web app의 기본 알고리즘이기도 합니다.
+* **Show bin range in tooltip**: [full fidelity](#features)로 렌더링된 차트에서 포인트를 탭하면 버킷에 가려진 최소 및 최대 값을 표시합니다. W&amp;B web app과 동일하게 기본적으로 꺼져 있습니다.
 
 기본값으로 되돌리려면 설정을 연 범위에 따라 **Reset this line plot** 또는 **Reset to defaults**를 탭하세요.
 

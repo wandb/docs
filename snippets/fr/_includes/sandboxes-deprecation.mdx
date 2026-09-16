@@ -1,0 +1,14 @@
+---
+title: Dépréciation des sandboxes
+---
+
+<Warning>
+  **`wandb.sandbox` est obsolète** et sera supprimé dans une prochaine version du SDK Python W&amp;B. Utilisez plutôt le package `cwsandbox`, décrit dans la [documentation des sandboxes CoreWeave](https://docs.coreweave.com/products/sandboxes).
+
+  La migration implique deux changements :
+
+  * **L&#39;import.** Installez `cwsandbox` avec l&#39;extra W&amp;B (`pip install "cwsandbox[wandb]"`) et importez depuis `cwsandbox` au lieu de `wandb.sandbox`.
+  * **L&#39;identifiant d&#39;authentification.** Par défaut, `cwsandbox` s&#39;authentifie avec un CoreWeave API access token défini dans `CWSANDBOX_API_KEY` ; passez donc `auth=AuthStrategy.WANDB` pour continuer à utiliser votre clé API W&amp;B. Voir [Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential).
+
+  Les exemples de cette page utilisent encore `wandb.sandbox`. Pour le code `cwsandbox` équivalent, voir [Migrer vers `cwsandbox`](/fr/sandboxes#migrate-to-cwsandbox).
+</Warning>

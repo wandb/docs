@@ -6,8 +6,81 @@ rss: true
 
 이 페이지에서는 W&amp;B Models와 함께 사용하는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트를 제공합니다. Weave Python SDK(`weave` 패키지)는 [Weave SDK 릴리스](/ko/release-notes/weave-sdk-releases)를 참조하세요. W&amp;B Server는 [W&amp;B Server 릴리스 노트](/ko/release-notes/server-releases)를 참조하세요.
 
-<Update label="0.29.0" description="2026년 8월 26일">
+<Update label="0.30.0" description="2026년 9월 8일">
   <div id="notable-changes">
+    ## 주요 변경 사항
+  </div>
+
+  * `wandb.InternalApi`, `wandb.PublicApi` 및 `wandb.apis.PublicApi` 별칭, 그리고 `wandb.apis.internal`과 `wandb.sdk.internal.internal_api` 모듈이 제거되었습니다. 대신 `wandb.Api()`를 사용하세요.
+  * `wandb.api`와 `wandb.ensure_configured()`는 사용이 중단되었습니다. 사용자의 로그인 여부를 확인하려면 `wandb.login(prompt=False)`를 사용하고, 그 외의 모든 경우에는 `wandb.Api()`를 사용하세요.
+  * 레거시 `wandb sync` 옵션이 제거되었습니다. `wandb sync --sync-all` 대신 인수 없이 `wandb sync`를 실행하고, `--job_type` 대신 `--job-type`을 사용하세요. 현재 사용할 수 있는 옵션 목록을 확인하려면 `wandb sync --help`를 실행하세요.
+
+  <div id="added">
+    ## Added
+  </div>
+
+  * `wandb.login(prompt=False)`는 설정된 credential이 있으면 이를 사용하고, 없으면 API 키를 요청하거나 offline mode로 전환하지 않고 `False`를 반환합니다. 흐름을 차단하지 않고 사용자의 로그인 여부를 확인하려면 이 방식을 사용하세요.
+  * Automations API는 `SendPromptToAria`를 사용해 ARIA에 prompt를 전송하는 자동화 액션을 지원합니다. 자세한 내용은 [ARIA 자동화 만들기](/ko/models/automations/create-automations/aria)를 참조하세요.
+  * W&amp;B LEET TUI 특성:
+    * 차트는 `run.define_metric()`으로 설정하는 맞춤형 x축을 지원하며, `run.define_metric("train/*", step_metric="train/step")`과 같은 glob 정의도 사용할 수 있습니다. 차트 헤더에는 축 이름이 `[x: train/step]` 형식으로 표시됩니다. 이는 로컬 `.wandb` 파일에서 여는 run에도 적용됩니다.
+    * 콘솔 로그를 필터링하려면 로그 패널에 포커스를 두고 `/`를 누른 다음 정규 표현식을 입력하거나, **Tab**을 누르고 glob 패턴을 입력하세요. 일치하는 줄만 표시되며, 이후 새로 들어오는 일치 항목도 계속 추적됩니다. 필터를 지우려면 `Ctrl+/`를 누르세요.
+    * 메트릭, 시스템 메트릭, Runs 필터는 `wandb` 디렉토리별로 저장되어, 다음에 해당 디렉토리를 열 때 Workspace와 단일 run 뷰 모두에 다시 적용됩니다. 필터는 해당 디렉토리 내의 `.wandb-leet.json`에 저장됩니다. 필터를 지우면 저장된 필터에서도 제거됩니다.
+    * 패널이나 사이드바 크기를 조정하기 위해 드래그하는 경계선 또는 구분선은 드래그하는 동안 강조 표시됩니다.
+
+  <div id="changed">
+    ## 변경 사항
+  </div>
+
+  * `wandb status --settings`는 더 이상 API 키를 출력하지 않으며, `wandb projects`는 더 이상 프로젝트 설명을 출력하지 않습니다.
+  * Apple Silicon Mac에서 system metrics가 run 시작 후 약 1.5초 더 빨리 수집을 시작합니다.
+  * W&amp;B LEET TUI가 긴 run에서 더 빨라졌습니다. 메트릭 100개와 400,000 step으로 이루어진 run이 10배 빠르게 열리고, frame 렌더링이 약 30% 빨라졌으며, 실시간 chart 업데이트 시 모든 점을 다시 그리지 않습니다.
+
+  <div id="deprecated">
+    ## 사용 중단
+  </div>
+
+  * `wandb.api`와 `wandb.ensure_configured()`는 사용 중단되었으며 향후 릴리스에서 제거될 예정입니다. 이제 `wandb.api`는 `api_key`, `default_entity`, `viewer()`만 제공합니다. 사용자의 로그인 여부를 확인하려면 `wandb.login(prompt=False)`를 사용하고, 그 외의 모든 작업에는 `wandb.Api()`를 사용하세요.
+  * `wandb.sandbox`와 `wandb beta sandbox` 명령어는 사용 중단되었으며 향후 릴리스에서 제거될 예정입니다. `cwsandbox` 패키지를 직접 사용하세요.
+
+  <div id="removed">
+    ## Removed
+  </div>
+
+  * `wandb.InternalApi`, `wandb.PublicApi` 및 `wandb.apis.PublicApi` 별칭, 그리고 `wandb.apis.internal`과 `wandb.sdk.internal.internal_api` 모듈이 제거되었습니다. 대신 `wandb.Api()`를 사용하세요.
+  * 레거시 `wandb sync` 옵션이 제거되었습니다. `wandb sync --sync-all` 대신 인수 없이 `wandb sync`를 실행하고, `--job_type` 대신 `--job-type`을 사용하세요.
+
+  <div id="fixed">
+    ## 수정 사항
+  </div>
+
+  * 20초 이상 걸리는 파일 업로드 및 다운로드가 더 이상 `CommError: Failed to execute API request: the service process is busy and did not respond in time` 오류로 실패하지 않습니다. v0.29.0에서 발생한 회귀 문제였습니다.
+  * W&amp;B 서버의 응답이 느릴 때 `wandb.init()`과 `wandb.Api()`가 더 이상 최대 10초간 멈추지 않습니다. v0.29.0에서 발생한 회귀 문제였습니다.
+  * 아티팩트 사용량 한도와 같은 플랜 또는 쿼터 한도를 나타내는 HTTP `402 Payment Required`로 거부된 요청은 더 이상 재시도하지 않습니다. 오류가 즉시 보고됩니다.
+  * 아티팩트가 이미 업로드된 run을 동기화할 때, 해당 아티팩트 파일이 디스크에 남아 있지 않아도 더 이상 실패하지 않습니다. v0.29.0에서 발생한 회귀 문제였습니다.
+  * 아티팩트 업로드가 실패해도 업로드 중이던 파일을 더 이상 삭제하지 않으므로 `wandb sync`로 재시도할 수 있습니다. 업로드에 성공한 후에는 아티팩트의 스테이징 디렉터리에 있는 파일만 정리됩니다.
+  * `.wandb` 파일이 불완전한 레코드로 끝나는 경우(run이 아직 기록 중이거나 기록 도중에 run이 갑작스럽게 중단되면 발생), 이제 `wandb sync`가 내부 오류를 보고하는 대신 어떻게 해야 하는지 안내합니다.
+  * Public API에서 `Run.log_artifact()`에 `aliases` 또는 `tags`를 전달해도 더 이상 서버 오류로 실패하지 않습니다.
+  * [0, 255] 범위를 벗어난 값이 포함된 부동소수점 배열로 전달한 `wandb.Image` 마스크는 이제 정수 배열과 마찬가지로 `TypeError`를 발생시키며, 더 이상 올바르지 않은 클래스 ID로 저장되지 않습니다.
+  * 시스템 메트릭이 기본값 15초인 샘플링 간격이 한 번 지난 후가 아니라 run이 시작되는 즉시 수집됩니다. 이제 짧은 run도 시스템 메트릭을 기록하며, 시스템 차트가 빈 구간으로 시작하지 않습니다.
+  * `wandb.init()`이 GPU 및 TPU 메트릭 collector가 시작될 때까지 최대 5초간 기다리지 않습니다.
+  * Jupyter Notebook에서 시스템 메트릭은 셀이 실행되는 동안 수집되고 셀 사이에는 일시 중지됩니다. v0.19.10부터는 이 둘이 뒤바뀌어 노트북이 유휴 상태일 때만 시스템 메트릭이 수집되었습니다.
+  * AMD GPU가 장착된 머신에서 시스템 메트릭 모니터링이 1~3초가 걸리던 `rocm-smi`를 미리 실행하지 않으며, `rocm-smi`가 GPU를 보고하지 않을 때 더 이상 크래시가 발생하지 않습니다.
+  * Apple Silicon Mac의 시스템 메트릭:
+    * CPU 사용량, 주파수, 전력이 이제 약 10밀리초 스냅샷이 아니라 샘플링 간격 전체를 기준으로 측정됩니다. 기존 스냅샷 방식에서는 사용량과 주파수가 불안정하게 나타나고 전력이 약 25% 과다 보고되었습니다.
+    * RAM이 256 GB 이상인 Mac에서 메모리 크기가 0 GB로 보고되던 문제가 해결되었습니다.
+    * CPU 및 GPU 온도가 잘못된 센서 측정값으로 인해 왜곡되던 문제가 해결되었습니다.
+    * M5 Pro 및 M5 Max Mac에서 효율 코어 수가 0으로 보고되던 문제가 해결되었습니다.
+    * MacBook Neo의 CPU 주파수가 약 1,000배 높게 보고되던 문제가 해결되었습니다.
+    * 그동안 누락되어 있던 M5 Mac의 효율 코어와 M5 Pro 및 M5 Max Mac의 성능 코어에 대해서도 이제 CPU 사용량과 주파수를 수집합니다.
+  * W&amp;B LEET TUI:
+    * `wandb leet`는 시작할 수 없는 경우(예: 사용 가능한 터미널이 없는 경우) 출력 없이 상태 1로 종료하지 않고 오류를 출력합니다. 디버그 로그(`WANDB_DEBUG=true`)는 현재 디렉토리가 아니라 LEET 설정 파일과 같은 위치에 기록됩니다.
+    * `wandb leet`는 SDK의 다른 기능과 마찬가지로 오프라인 또는 disabled 모드(`WANDB_MODE=offline` 또는 `WANDB_MODE=disabled`)에서 더 이상 사용 telemetry를 전송하지 않습니다.
+    * 좁은 터미널에서는 차트 너비가 24열 미만이 되는 경우 Workspace가 run 개요 사이드바를 숨기고, 그래도 부족하면 Runs 목록까지 숨깁니다. 이전에는 80열 터미널에서 차트가 두 사이드바 사이에 한 열짜리 조각으로 표시되었습니다.
+    * 차트의 최상단 y축 레이블이 다른 레이블보다 길어도 더 이상 잘리지 않습니다. 예를 들어 이제 레이블이 `+03` 대신 `1.09e+03`으로 표시됩니다.
+</Update>
+
+<Update label="0.29.0" description="2026년 8월 26일">
+  <div id="notable-changes-2">
     ## 주요 변경 사항
   </div>
 
@@ -17,7 +90,7 @@ rss: true
   * `Api.runs()`, `Api.sweeps()`, `run.files()`와 같은 페이지 매김된 객체의 `.length` 속성이 제거되었습니다. 대신 `len(...)`을 사용하세요.
   * 다음 사용 중단된 API가 제거되었습니다. `start_method` 설정, `run.define_metric()`의 `summary="best"` 옵션 및 `goal` 인수, `run.finish()` 및 `wandb.finish()`의 `quiet` 인수, `run.project_name()`, `run.get_url()`, `run.get_project_url()`, `run.get_sweep_url()` 메서드입니다.
 
-  <div id="added">
+  <div id="added-2">
     ## 추가됨
   </div>
 
@@ -32,7 +105,7 @@ rss: true
     * `g`를 눌러 선 차트 뒤에 점선 배경 또는 축 눈금에 맞춘 가로선 가이드를 표시하세요. 선택한 설정은 저장되며, `wandb leet config`에서 `chart_guides`로도 설정할 수 있습니다.
     * run 개요 섹션 사이의 구분선을 드래그해 마우스로 크기를 조절하세요. 비율은 각 뷰에 저장됩니다. 다른 패널 크기와 함께 재설정하려면 `0`을 누르세요.
 
-  <div id="changed">
+  <div id="changed-2">
     ## 변경됨
   </div>
 
@@ -43,7 +116,7 @@ rss: true
   * 이제 macOS wheel에는 macOS 13(Ventura) 이상이 필요합니다. macOS 12는 2024년에 지원이 종료되었습니다.
   * W&amp;B LEET TUI에서 run 개요 섹션(**환경**, **설정**, **요약**)은 이제 사이드바 높이를 비례적으로 나누어 사용 가능한 공간을 모두 활용합니다. 이전에는 고정된 크기 이상으로 늘어나지 않아 높이가 큰 터미널의 하단이 비어 있었습니다.
 
-  <div id="removed">
+  <div id="removed-2">
     ## 제거됨
   </div>
 
@@ -55,7 +128,7 @@ rss: true
   * 사용 중단된 `run.project_name()`, `run.get_url()`, `run.get_project_url()`, `run.get_sweep_url()` 메서드를 제거했습니다. 대신 `run.project`, `run.url`, `run.project_url`, `run.sweep_url` 속성을 사용하세요.
   * `wandb.Image`에서 사용 중단된 `normalize` 인수를 제거했습니다. NumPy 배열 및 PyTorch 텐서의 픽셀 값이 이미 [0, 255] 범위에 있는지 확인하세요.
 
-  <div id="fixed">
+  <div id="fixed-2">
     ## 수정 사항
   </div>
 
@@ -74,14 +147,14 @@ rss: true
 </Update>
 
 <Update label="0.28.2" description="2026년 8월 12일">
-  <div id="notable-changes-2">
+  <div id="notable-changes-3">
     ## 주요 변경 사항
   </div>
 
   * 이제 `wandb sync --clean` 명령은 종료 코드 1로 종료되며, 대신 새 `wandb clean` 명령을 사용하라는 안내를 출력합니다.
   * 이제 `wandb login`은 기본적으로 자격 증명을 확인합니다. 확인을 비활성화하려면 명령줄에서 `--no-verify`를 전달하거나 `wandb.login()`에 `verify=False`를 전달하세요.
 
-  <div id="added-2">
+  <div id="added-3">
     ## 추가됨
   </div>
 
@@ -89,7 +162,7 @@ rss: true
   * `wandb agent` 명령에 새 `--term-timeout` 플래그가 추가되었습니다.
   * 새 속성 `run.sync_dir`는 run의 동기화 디렉터리를 반환합니다.
 
-  <div id="changed-2">
+  <div id="changed-3">
     ## 변경됨
   </div>
 
@@ -102,19 +175,19 @@ rss: true
   * `local-process` 리소스에 대한 `wandb launch`의 인수 처리가 강화되어 작업에서 제공한 값은 항상 셸 인용 처리됩니다.
   * Launch 에이전트는 이제 작업의 Git 소스 URL을 HTTPS 및 SSH 원격 URL로 제한하고, 소스를 가져오고 하위 모듈을 업데이트할 때 Git의 프로토콜 허용 목록을 고정합니다.
 
-  <div id="deprecated">
+  <div id="deprecated-2">
     ## 사용 중단
   </div>
 
   * `wandb sync --sync-tensorboard`는 사용 중단되었으며 향후 릴리스에서 제거될 예정입니다.
 
-  <div id="removed-2">
+  <div id="removed-3">
     ## Removed
   </div>
 
   * 릴리스에는 더 이상 32비트 Windows(`win32`)용 휠이 포함되지 않습니다. Windows에서는 64비트 Python을 사용하세요.
 
-  <div id="fixed-2">
+  <div id="fixed-3">
     ## 수정 사항
   </div>
 
@@ -144,14 +217,14 @@ rss: true
 </Update>
 
 <Update label="0.28.1" description="2026년 7월 16일">
-  <div id="notable-changes-3">
+  <div id="notable-changes-4">
     ## 주요 변경 사항
   </div>
 
   * 이 버전에는 protobuf v5+가 필요하며 protobuf v4 지원이 중단됩니다.
   * 이 버전에서는 W&amp;B Server v0.69.x 이하와의 호환성이 중단됩니다.
 
-  <div id="added-3">
+  <div id="added-4">
     ## 추가됨
   </div>
 
@@ -159,7 +232,7 @@ rss: true
   * 새 Public API 방법 `Run.stop()`(`wandb.Api().run(...).stop()`)는 W&amp;B App의 **run 중지** 버튼과 마찬가지로 활성 run이 정상적으로 중지되도록 요청합니다.
   * 새 방법 `wandb.Api().organization()`은 이름으로 `Organization`을 반환합니다. 이름을 생략하면 현재 기본 조직을 반환합니다.
 
-  <div id="changed-3">
+  <div id="changed-4">
     ## 변경됨
   </div>
 
@@ -171,7 +244,7 @@ rss: true
   * 이제 임시 Unix 소켓 파일과 디렉터리는 종료 시 제거됩니다.
   * protobuf v4는 더 이상 지원되지 않습니다.
 
-  <div id="removed-3">
+  <div id="removed-4">
     ## 제거됨
   </div>
 
@@ -179,7 +252,7 @@ rss: true
   * v0.70.0 이전 W&amp;B Server 릴리스에서 이름으로 아티팩트를 가져오기 위한 레거시 폴백 구현을 제거했습니다. 이러한 서버에서는 `wandb.Api().artifact()` 및 경로로 아티팩트를 가져오는 다른 방법이 더 이상 작동하지 않습니다. 이러한 오퍼레이션을 계속 사용하려면 W&amp;B Server를 v0.70.0 이상으로 업그레이드하세요.
   * `GitPython` 종속성을 제거했습니다. 이제 Git 메타데이터는 `git` 실행 파일을 직접 호출하여 수집됩니다. `GIT_PYTHON_GIT_EXECUTABLE` 환경 변수는 실행 파일의 위치를 찾는 데 계속 적용됩니다.
 
-  <div id="fixed-3">
+  <div id="fixed-4">
     ## 수정됨
   </div>
 
@@ -191,13 +264,13 @@ rss: true
 </Update>
 
 <Update label="0.28.0" description="2026년 6월 22일">
-  <div id="notable-changes-4">
+  <div id="notable-changes-5">
     ## 주요 변경 사항
   </div>
 
   * 이 버전부터는 0.65.0 미만 서버 버전과의 호환성이 지원되지 않습니다.
 
-  <div id="added-4">
+  <div id="added-5">
     ## Added
   </div>
 
@@ -207,7 +280,7 @@ rss: true
     * `wandb leet [run-url]`을 통한 기본적인 원격 run 지원.
   * 다음 페이지 매김된 아티팩트 및 레지스트리 API 메서드는 이제 선택적 `order` string을 키워드 인수로 받을 수 있습니다: `Api.artifacts()`, `Api.artifact_collections()`, `Api.registries()`, `Api.registries().collections()`, `Registry.collections()`.
 
-  <div id="changed-4">
+  <div id="changed-5">
     ## Changed
   </div>
 
@@ -216,7 +289,7 @@ rss: true
     * 이제 단일 키로 로깅된 이미지 목록이 W&amp;B LEET 미디어 패널에 이미지당 하나의 타일로 표시됩니다.
   * 쿼리 성능을 개선하기 위해 `wandb.Api().runs()`는 이제 기본적으로 각 run의 Sweeps를 로드하지 않습니다. 스윕 데이터는 `sweep` 속성에 처음 액세스할 때 로드됩니다.
 
-  <div id="fixed-4">
+  <div id="fixed-5">
     ## Fixed
   </div>
 
@@ -233,7 +306,7 @@ rss: true
 </Update>
 
 <Update label="0.27.2" description="2026년 6월 6일">
-  <div id="fixed-5">
+  <div id="fixed-6">
     ## Fixed
   </div>
 
@@ -241,13 +314,13 @@ rss: true
 </Update>
 
 <Update label="0.27.1" description="2026년 6월 4일">
-  <div id="added-5">
+  <div id="added-6">
     ## Added
   </div>
 
   * 이제 Automations API가 아티팩트 태그, 컬렉션 태그 및 아티팩트 연결 해제 이벤트를 지원합니다.
 
-  <div id="changed-5">
+  <div id="changed-6">
     ## Changed
   </div>
 
@@ -255,7 +328,7 @@ rss: true
     * 이제 `wandb.Api` GraphQL 오퍼레이션의 실패는 `requests` HTTP 예외 대신 `WandbApiFailedError`를 발생시킵니다.
   * 이제 `Run.scan_history()`는 사용 가능한 경우 내보낸 Parquet 이력에서 읽어오므로, 이력이 큰 run의 처리량을 크게 개선할 수 있습니다. 이 기능은 SDK `v0.23.1`에서 `beta_scan_history`로 도입되었습니다.
 
-  <div id="removed-4">
+  <div id="removed-5">
     ## Removed
   </div>
 
@@ -263,7 +336,7 @@ rss: true
   * 레거시 자동 로깅 및 Tracing API를 포함하여 오래된 OpenAI, Cohere 및 LangChain LLM 인테그레이션을 제거했습니다.
   * 사용 중단된 Keras `WandbCallback` 및 레거시 `wandb.integration.yolov8` callback 패키지를 제거했습니다.
 
-  <div id="fixed-6">
+  <div id="fixed-7">
     ## Fixed
   </div>
 
@@ -271,13 +344,13 @@ rss: true
 </Update>
 
 <Update label="0.27.0" description="2026년 5월 13일">
-  <div id="notable-changes-5">
+  <div id="notable-changes-6">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 Python 3.9 및 Pydantic v1 지원이 중단됩니다. 이제 Pydantic v2.6 이상이 필요합니다.
 
-  <div id="added-6">
+  <div id="added-7">
     ## 추가됨
   </div>
 
@@ -287,7 +360,7 @@ rss: true
   * 새 설정 `capture_loggers`를 사용하면 로거 이름에서 최소 로그 수준으로의 매핑을 사용해 run의 **Logs** 탭에 캡처할 Python 로거를 지정할 수 있습니다. 해당 로거에서 출력된 로그 레코드는 `stdout`/`stderr` 캡처와 비슷하게 run에 콘솔 출력으로 게시됩니다.
   * 새 메서드 `run.write_logs()`는 `stdout`/`stderr`의 자동 캡처에 의존하지 않고 텍스트를 run의 **Logs** 탭에 직접 기록합니다.
 
-  <div id="changed-6">
+  <div id="changed-7">
     ## 변경됨
   </div>
 
@@ -297,20 +370,20 @@ rss: true
 </Update>
 
 <Update label="0.26.1" description="2026년 4월 23일">
-  <div id="added-7">
+  <div id="added-8">
     ## 추가됨
   </div>
 
   * 아티팩트, 레지스트리, 자동화 및 관련 페이지네이터를 반환하는 `wandb.Api` 메서드는 선택적 `start` 인수를 받아 저장된 커서에서 반복을 재개할 수 있습니다.
   * `wandb.Settings`의 `stop_fn` 설정은 run 중지 요청이 있을 때 SDK가 Python 프로세스에 중지를 요청하는 방식을 사용자 지정합니다(기본값은 SIGINT를 보냄). `wandb.setup(settings=...)` 또는 `wandb.init(settings=...)`로 이 설정을 전달하세요. 값이 callable이므로 환경 변수로는 설정할 수 없습니다.
 
-  <div id="changed-7">
+  <div id="changed-8">
     ## 변경됨
   </div>
 
   * `wandb beta leet`에서는 각 패널 내에서 포커스를 이동할 때 WASD 키와 화살표 키를 서로 바꿔 사용할 수 있습니다(차트 그리드, 목록 내비게이션). **Home**, **End**, **Page Up**, **Page Down** 키도 일관되게 동작합니다. 미디어 패널은 여전히 화살표 키로 X축을 스크럽하고 WASD 키로 이미지 타일 사이를 이동합니다.
 
-  <div id="fixed-7">
+  <div id="fixed-8">
     ## 수정됨
   </div>
 
@@ -319,13 +392,13 @@ rss: true
 </Update>
 
 <Update label="0.26.0" description="2026년 4월 13일">
-  <div id="notable-changes-6">
+  <div id="notable-changes-7">
     ## 주요 변경 사항
   </div>
 
   이 버전부터 Dedicated Cloud 및 Self-Managed W&amp;B 배포에서는 0.63.0보다 오래된 Server 버전과의 호환성이 중단됩니다.
 
-  <div id="added-8">
+  <div id="added-9">
     ## 추가됨
   </div>
 
@@ -352,7 +425,7 @@ rss: true
 
       `wandb beta leet config`로 설정하세요.
 
-  <div id="changed-8">
+  <div id="changed-9">
     ## 변경됨
   </div>
 
@@ -360,7 +433,7 @@ rss: true
   * `wandb beta leet` TUI에서 다중 시리즈 오버레이, 검사, 실시간/이력 확대 기능으로 시스템 메트릭의 가시성이 향상되었습니다.
   * `wandb beta leet`에서 run 기본 색상 충돌 가능성을 줄였습니다. 이제 workspace 범위의 run 색상 할당기가 해시된 팔레트 선호도를 유지하면서, 인접한 HSL 변형으로 충돌을 해결합니다.
 
-  <div id="fixed-8">
+  <div id="fixed-9">
     ## 수정됨
   </div>
 
@@ -373,7 +446,7 @@ rss: true
 </Update>
 
 <Update label="0.25.1" description="2026년 3월 10일">
-  <div id="added-9">
+  <div id="added-10">
     ## 추가됨
   </div>
 
@@ -385,7 +458,7 @@ rss: true
   * 새로운 메서드 `Project.collections()`는 프로젝트에서 필터링되고 정렬된 artifact collection을 가져옵니다.
   * 새로운 `wandb purge-cache` CLI 명령어로 캐시된 파일을 정리할 수 있습니다.
 
-  <div id="fixed-9">
+  <div id="fixed-10">
     ## 수정됨
   </div>
 
@@ -399,13 +472,13 @@ rss: true
 </Update>
 
 <Update label="0.25.0" description="2026년 2월 12일">
-  <div id="notable-changes-7">
+  <div id="notable-changes-8">
     ## 주요 변경 사항
   </div>
 
   * Python 3.8은 더 이상 지원되지 않습니다.
 
-  <div id="added-10">
+  <div id="added-11">
     ## 추가됨
   </div>
 
@@ -413,7 +486,7 @@ rss: true
   * `wandb beta leet config` 명령어를 사용해 `wandb beta leet`의 영구 설정을 대화형으로 구성할 수 있습니다.
   * `wandb.apis.public.Project`의 `owner` 속성을 통해 프로젝트 소유자의 사용자 정보에 액세스할 수 있습니다.
 
-  <div id="fixed-10">
+  <div id="fixed-11">
     ## 수정됨
   </div>
 
@@ -423,13 +496,13 @@ rss: true
 </Update>
 
 <Update label="0.24.2" description="2026년 2월 4일">
-  <div id="added-11">
+  <div id="added-12">
     ## 추가됨
   </div>
 
   * 이제 `wandb.Api()`에서 Federated Auth(JWT 기반 인증)를 지원합니다.
 
-  <div id="fixed-11">
+  <div id="fixed-12">
     ## 수정됨
   </div>
 
@@ -437,25 +510,25 @@ rss: true
 </Update>
 
 <Update label="0.24.1" description="2026년 1월 29일">
-  <div id="notable-changes-8">
+  <div id="notable-changes-9">
     ## 주요 변경 사항
   </div>
 
   * `wandb==0.24.0`으로 생성된 Runs는 일부 데이터 업로드에 실패할 수 있었으며, 이 릴리스에서 해당 문제를 수정했습니다. 누락된 데이터는 run의 `.wandb` 파일에 저장되며 `wandb sync`로 다시 업로드할 수 있습니다.
 
-  <div id="added-12">
+  <div id="added-13">
     ## 추가됨
   </div>
 
   * parquet 파일 형식으로 내보낸 run 이력을 다운로드하는 `api.Run` 클래스의 `download_history_exports`.
 
-  <div id="changed-9">
+  <div id="changed-10">
     ## 변경됨
   </div>
 
   * 설정 파일(예: `./wandb/settings` 또는 `~/.config/wandb/settings`)에 잘못된 설정이 포함되어 있으면 모든 설정 파일을 무시하고 오류를 출력합니다.
 
-  <div id="fixed-12">
+  <div id="fixed-13">
     ## 수정됨
   </div>
 
@@ -471,26 +544,26 @@ rss: true
     이 릴리스는 PyPI에서 제거되었습니다. 이 버전은 사용하지 마세요. 현재 이 버전을 사용 중이라면 즉시 v0.24.1 이상으로 업그레이드하세요. v0.24.1에서 수정된 회귀 문제로 인해 `wandb==0.24.0`으로 생성된 run은 일부 데이터 업로드에 실패할 수 있습니다.
   </Warning>
 
-  <div id="notable-changes-9">
+  <div id="notable-changes-10">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 레거시이면서 사용 중단된 `wandb.beta.workflows` 모듈과 그 안의 `log_model()`/`use_model()`/`link_model()` 함수를 제거합니다. 이는 공식적인 브레이킹 체인지입니다.
 
-  <div id="added-13">
+  <div id="added-14">
     ## 추가됨
   </div>
 
   * 이제 `wandb agent`와 `wandb.agent()`는 `forward_signals` 플래그(CLI: `--forward-signals/-f`)를 지원합니다. 이 플래그를 사용하면 에이전트에서 sweep 하위 run으로 SIGINT/SIGTERM 및 기타 처리 가능한 시그널을 전달할 수 있어, 에이전트 프로세스를 중단할 때 더 깔끔하게 종료할 수 있습니다.
   * 이제 `wandb beta sync`는 run이 로깅되는 동안 동기화할 수 있는 `--live` 옵션을 지원합니다.
 
-  <div id="removed-5">
+  <div id="removed-6">
     ## 제거됨
   </div>
 
   * 사용 중단된 `wandb.beta.workflows` 모듈과 그 안의 `log_model()`, `use_model()`, `link_model()` 함수를 제거했습니다. 각각의 최신 대체 항목은 `Run.log_artifact`, `Run.use_artifact`, `Run.link_artifact` methods입니다.
 
-  <div id="fixed-13">
+  <div id="fixed-14">
     ## 수정됨
   </div>
 
@@ -503,7 +576,7 @@ rss: true
 </Update>
 
 <Update label="v0.23.1" description="2025년 12월 2일">
-  <div id="added-14">
+  <div id="added-15">
     ## 추가됨
   </div>
 
@@ -513,19 +586,19 @@ rss: true
   * 이제 Automations API는 기본 zscore automation 이벤트를 지원합니다.
   * `wandb.Api`에서 더 빠르게 이력을 스캔할 수 있도록 `Run` 객체에 `beta_history_scan` method가 추가되었습니다.
 
-  <div id="changed-10">
+  <div id="changed-11">
     ## 변경됨
   </div>
 
   * 이제 `WANDB_IDENTITY_TOKEN_FILE`이 설정되어 있고 명시적인 API 키가 제공되지 않으면 `wandb.Api()`가 `UsageError` 예외를 발생시킵니다.
 
-  <div id="deprecated-2">
+  <div id="deprecated-3">
     ## 사용 중단됨
   </div>
 
   * 익명 모드는 사용 중단되었으며 경고를 출력합니다. 이 사용 중단에는 `anonymous` 설정, `WANDB_ANONYMOUS` 환경 변수, `wandb.init(anonymous=...)`, 그리고 `wandb login --anonymously` 및 `wandb.login(anonymous=...)` 명령어가 포함됩니다.
 
-  <div id="fixed-14">
+  <div id="fixed-15">
     ## 수정됨
   </div>
 
@@ -541,7 +614,7 @@ rss: true
 </Update>
 
 <Update label="v0.23.0" description="2025년 11월 11일">
-  <div id="added-15">
+  <div id="added-16">
     ## 추가됨
   </div>
 
@@ -549,7 +622,7 @@ rss: true
   * 이제 레지스트리 API에서 개별 레지스트리의 사용자와 팀 구성원을 프로그래밍 방식으로 관리할 수 있습니다.
   * `Registry.id`가 `Registry` 객체의 (읽기 전용) 속성으로 추가되었습니다.
 
-  <div id="fixed-15">
+  <div id="fixed-16">
     ## 수정됨
   </div>
 
@@ -561,20 +634,20 @@ rss: true
 </Update>
 
 <Update label="v0.22.3" description="2025년 10월 28일">
-  <div id="added-16">
+  <div id="added-17">
     ## 추가됨
   </div>
 
   * 크기 및 시간 기반 multipart 콘솔 로그 파일 청크 분할을 위한 Settings `console_chunk_max_seconds` 및 `console_chunk_max_bytes`.
   * 이제 Registry API 쿼리 방법 (`Api.registries()`, `Registry.{collections,versions}()`, `Api.registries().{collections,versions}()`)에서 페이지 처리된 결과의 기본 batch size를 재정의할 수 있도록 `per_page` keyword arg를 받습니다.
 
-  <div id="changed-11">
+  <div id="changed-12">
     ## 변경됨
   </div>
 
   * 이제 40자를 초과하는 API 키도 지원됩니다.
 
-  <div id="fixed-16">
+  <div id="fixed-17">
     ## 수정됨
   </div>
 
@@ -592,7 +665,7 @@ rss: true
 </Update>
 
 <Update label="v0.22.2" description="2025년 10월 07일">
-  <div id="fixed-17">
+  <div id="fixed-18">
     ## 수정됨
   </div>
 
@@ -603,7 +676,7 @@ rss: true
 </Update>
 
 <Update label="v0.22.1" description="2025년 9월 29일">
-  <div id="added-17">
+  <div id="added-18">
     ## 추가됨
   </div>
 
@@ -611,7 +684,7 @@ rss: true
   * run 목록 조회 시 성능이 향상되도록 `Api().runs()`에 lazy loading 지원을 추가했습니다. 새로운 `lazy=True` parameter(기본값)는 처음에는 필수 메타데이터만 로드하고, 접근 시 config 및 summary 같은 무거운 필드를 자동으로 필요할 때 로드합니다.
   * artifacts 생성 시 `storage_region` 옵션을 추가했습니다. 사용자는 wandb.ai를 사용할 때 `wandb.Artifact(storage_region="coreweave-us")`를 지정해 [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage)를 사용할 수 있으며, 이를 통해 CoreWeave 인프라에서 artifact 업로드/다운로드를 더 빠르게 수행할 수 있습니다.
 
-  <div id="fixed-18">
+  <div id="fixed-19">
     ## 수정됨
   </div>
 
@@ -621,19 +694,19 @@ rss: true
 </Update>
 
 <Update label="v0.22.0" description="2025년 9월 18일">
-  <div id="notable-changes-10">
+  <div id="notable-changes-11">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 MacOS 10 지원이 제거되었습니다.
 
-  <div id="removed-6">
+  <div id="removed-7">
     ## 제거됨
   </div>
 
   * 여러 보안 및 공급망 관련 고려 사항으로 인해 MacOS 10.x 대상 빌드가 제거되었습니다.
 
-  <div id="fixed-19">
+  <div id="fixed-20">
     ## 수정됨
   </div>
 
@@ -645,7 +718,7 @@ rss: true
 </Update>
 
 <Update label="v0.21.4" description="2025년 9월 11일">
-  <div id="added-18">
+  <div id="added-19">
     ## 추가됨
   </div>
 
@@ -655,13 +728,13 @@ rss: true
 </Update>
 
 <Update label="v0.21.3" description="2025년 8월 30일">
-  <div id="changed-12">
+  <div id="changed-13">
     ## 변경됨
   </div>
 
   * `click` 의존성 제약이 `>=7.1`에서 `>=8.0.1`로 업데이트되었습니다.
 
-  <div id="fixed-20">
+  <div id="fixed-21">
     ## 수정됨
   </div>
 
@@ -671,27 +744,27 @@ rss: true
 </Update>
 
 <Update label="v0.21.2" description="2025년 8월 28일">
-  <div id="notable-changes-11">
+  <div id="notable-changes-12">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 이전에 `Artifact.link()` 또는 `Run.link_artifact()` 호출 중 숨겨졌던 오류가 이제 발생합니다. 이로 인해 해당 방법에서 감지되지 않은 실패를 방지할 수 있지만, 동시에 호환성이 깨지는 변경이기도 합니다.
 
-  <div id="added-19">
+  <div id="added-20">
     ## 추가됨
   </div>
 
   * `max_end_of_run_history_metrics` 및 `max_end_of_run_summary_metrics`를 위한 새 설정.
   * W&amp;B run이 활성 상태이고 `weave`가 임포트되면 Weave를 자동으로 초기화하는 새로운 `wandb.integration.weave` 모듈.
 
-  <div id="changed-13">
+  <div id="changed-14">
     ## 변경됨
   </div>
 
   * artifact를 연결하는 동안 발생한 오류가 더 이상 억제되거나 숨겨지지 않으며, `Artifact.link()`와 `Run.link_artifact()`는 더 이상 `None`을 반환하지 않습니다.
   * 이제 run 종료 시 출력되는 &quot;Run history&quot;와 &quot;Run summary&quot;는 각각 10개의 메트릭으로 제한됩니다.
 
-  <div id="fixed-21">
+  <div id="fixed-22">
     ## 수정됨
   </div>
 
@@ -702,13 +775,13 @@ rss: true
 </Update>
 
 <Update label="v0.21.1" description="2025년 8월 7일">
-  <div id="notable-changes-12">
+  <div id="notable-changes-13">
     ## 주요 변경 사항
   </div>
 
   이제 `Api().runs(...)` 및 `Api().sweeps(...)`의 기본 정렬 순서는 run의 `created_at` 시간을 기준으로 오름차순입니다.
 
-  <div id="added-20">
+  <div id="added-21">
     ## 추가됨
   </div>
 
@@ -717,7 +790,7 @@ rss: true
   * `Api().run().files`에 `pattern` parameter가 추가되어 W&amp;B 백엔드에서 지정한 패턴과 일치하는 파일만 조회할 수 있습니다.
   * secret 형식의 문자열을 지정할 수 있도록 Launch 입력 JSONSchema에 선택적 `format` 키를 추가했습니다.
 
-  <div id="changed-14">
+  <div id="changed-15">
     ## 변경됨
   </div>
 
@@ -726,13 +799,13 @@ rss: true
   * 큰 파일(&gt;2GB)이 포함된 Artifact는 코어 수가 많은 시스템에서 병렬 해싱을 사용해 더 빠르게 업로드됩니다.
   * Python lazy iterator와 동작을 맞추기 위해 레지스트리 iterator의 `__bool__` 구현을 제거했습니다.
 
-  <div id="deprecated-3">
+  <div id="deprecated-4">
     ## 사용 중단
   </div>
 
   * `wandb.beta.workflows` 모듈과 그 내용(`log_model()`, `use_model()`, `link_model()` 포함)은 사용 중단되었으며, 향후 릴리스에서 제거될 예정입니다.
 
-  <div id="fixed-22">
+  <div id="fixed-23">
     ## 수정됨
   </div>
 
@@ -749,13 +822,13 @@ rss: true
 </Update>
 
 <Update label="v0.21.0" description="2025년 7월 1일">
-  <div id="notable-changes-13">
+  <div id="notable-changes-14">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 `service` 프로세스의 레거시 구현이 제거되었습니다. 이는 호환되지 않는 변경 사항입니다.
 
-  <div id="added-21">
+  <div id="added-22">
     ## 추가됨
   </div>
 
@@ -763,7 +836,7 @@ rss: true
   * 이제 run을 재개하면 노트가 클라이언트에 반환됩니다.
   * API를 통해 맞춤형 Vega 차트 프리셋을 생성하는 기능이 추가되었습니다. 이제 사용자는 맞춤형 차트 사양을 정의하고 업로드한 뒤, 이를 wandb.plot&#95;table()과 함께 여러 run에서 재사용할 수 있습니다.
 
-  <div id="changed-15">
+  <div id="changed-16">
     ## 변경됨
   </div>
 
@@ -772,7 +845,7 @@ rss: true
   * 이제 `Api.artifact()`는 마이그레이션된 모델 레지스트리 collection에서 아티팩트를 가져오는 동안 경고를 표시합니다.
   * `wandb.Api`에서 조회한 객체의 `.length`는 사용 중단되었습니다. 대신 `len(...)`을 사용하세요.
 
-  <div id="removed-7">
+  <div id="removed-8">
     ## 제거됨
   </div>
 
@@ -780,7 +853,7 @@ rss: true
 
   * 비공개 `wandb.Run._metadata` 속성이 제거되었습니다. 자동 감지된 CPU 및 GPU 개수와 GPU 유형을 재정의하려면 새 설정 `x_stats_{cpu_count,cpu_logical_count,gpu_count,gpu_type}`을 사용하세요.
 
-  <div id="fixed-23">
+  <div id="fixed-24">
     ## 수정됨
   </div>
 
@@ -795,7 +868,7 @@ rss: true
 </Update>
 
 <Update label="v0.20.1" description="2025년 6월 4일">
-  <div id="fixed-24">
+  <div id="fixed-25">
     ## 수정됨
   </div>
 
@@ -809,13 +882,13 @@ rss: true
 </Update>
 
 <Update label="v0.20.0" description="2025년 6월 03일">
-  <div id="notable-changes-14">
+  <div id="notable-changes-15">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 `service` 프로세스를 비활성화하는 기능이 제거되었습니다. 이는 호환성이 깨지는 변경 사항입니다.
 
-  <div id="added-22">
+  <div id="added-23">
     ## 추가됨
   </div>
 
@@ -829,7 +902,7 @@ rss: true
   * 트랜잭션 로그를 건너뛸 수 있는 새 설정 `x_skip_transaction_log`가 추가되었습니다. 참고: 이 설정을 사용하면 복구 가능성에 대한 보장이 사라지므로 주의해서 사용해야 합니다.
   * numpy array 또는 pytorch tensor로 초기화된 Images의 픽셀 값을 정규화하기 위한 `normalize` 매개변수가 `wandb.Image` 초기화에 추가되었습니다.
 
-  <div id="changed-16">
+  <div id="changed-17">
     ## 변경됨
   </div>
 
@@ -837,7 +910,7 @@ rss: true
   * 이제 여러 Artifacts 및 Automations API는 서버 오류가 발생했을 때 서버 오류 메시지를 표시할 수 있도록 `ValueError` 대신 `CommError` 예외를 발생시킵니다.
   * 이제 `wandb.sdk.wandb_run.Run::save` 방법에서는 `glob_str` 인수가 필수입니다.
 
-  <div id="removed-8">
+  <div id="removed-9">
     ## 제거됨
   </div>
 
@@ -848,14 +921,14 @@ rss: true
   * 사용 중단된 `wandb.sdk.wandb_run.Run.mode` 속성이 제거되었습니다.
   * 사용 중단된 `wandb.sdk.wandb_run.Run::join` 방법이 제거되었습니다.
 
-  <div id="deprecated-4">
+  <div id="deprecated-5">
     ## 사용 중단
   </div>
 
   * `start_method` 설정은 사용 중단되었으며 아무런 효과가 없습니다. 안전하게 무시됩니다.
   * `Artifact.use_as` 속성과 `run.use_artifact()`의 `use_as` 매개변수는 W&amp;B Launch에서 사용되지 않았으므로 사용 중단되었습니다.
 
-  <div id="fixed-25">
+  <div id="fixed-26">
     ## 수정됨
   </div>
 
@@ -872,7 +945,7 @@ rss: true
 </Update>
 
 <Update label="v0.19.11" description="2025년 5월 7일">
-  <div id="added-23">
+  <div id="added-24">
     ## 추가됨
   </div>
 
@@ -889,7 +962,7 @@ rss: true
   * `RUN_METRIC_CHANGE` 이벤트, 즉 run 메트릭 값의 변경(절대 또는 상대 delta)에 따라 트리거되는 automation을 생성하고 수정하는 기능이 추가되었습니다.
   * DCGM을 사용해 Nvidia GPU의 프로파일링 메트릭을 수집하는 기능이 추가되었습니다. 이 기능을 활성화하려면 `WANDB_ENABLE_DCGM_PROFILING` 환경 변수를 `true`로 설정하세요. 이 기능을 사용하려면 머신에서 `nvidia-dcgm` 서비스가 실행 중이어야 합니다. 이 기능을 활성화하면 리소스 사용량이 증가할 수 있습니다.
 
-  <div id="fixed-26">
+  <div id="fixed-27">
     ## 수정됨
   </div>
 
@@ -905,7 +978,7 @@ rss: true
 </Update>
 
 <Update label="v0.19.10" description="2025년 4월 22일">
-  <div id="added-24">
+  <div id="added-25">
     ## 추가됨
   </div>
 
@@ -913,19 +986,19 @@ rss: true
   * 아티팩트의 source run에서 이력 메트릭이 로깅된 가장 가까운 run step을 반환하는 `Artifact.history_step`이 추가되었습니다.
   * 파일을 가리키는 문자열로 `wandb.Html`을 초기화할 때 파일 검사를 건너뛸 수 있는 `data_is_not_path` 플래그가 추가되었습니다.
 
-  <div id="changed-17">
+  <div id="changed-18">
     ## 변경됨
   </div>
 
   * 이제 `Artifact.download()`는 `WANDB_MODE=offline`을 사용하거나 오프라인 run이 있는 경우 오류를 발생시키지 않습니다.
 
-  <div id="removed-9">
+  <div id="removed-10">
     ## 제거됨
   </div>
 
   * IPython / Jupyter의 `wandb` magic에서 `-q` / `--quiet` 인수가 제거되었습니다. 대신 `quiet` run 설정을 사용하세요.
 
-  <div id="deprecated-5">
+  <div id="deprecated-6">
     ## 사용 중단됨
   </div>
 
@@ -935,7 +1008,7 @@ rss: true
     * `run.get_project_url()` 메서드는 `run.project_url`로 대체되어 사용 중단되었습니다.
     * `run.get_sweep_url()` 메서드는 `run.sweep_url`로 대체되어 사용 중단되었습니다.
 
-  <div id="fixed-27">
+  <div id="fixed-28">
     ## 수정됨
   </div>
 
@@ -947,14 +1020,14 @@ rss: true
 </Update>
 
 <Update label="v0.19.9" description="2025년 4월 01일">
-  <div id="added-25">
+  <div id="added-26">
     ## 추가됨
   </div>
 
   * `reinit` 설정을 `"default"`로 지정할 수 있습니다.
   * 새 URL 체계를 사용해 artifact collection 멤버십 컨텍스트와 함께 artifact 파일 다운로드 URL을 생성하는 기능이 추가되었습니다.
 
-  <div id="changed-18">
+  <div id="changed-19">
     ## 변경됨
   </div>
 
@@ -967,7 +1040,7 @@ rss: true
   * 이제 서버는 추가 collection 정보를 제공해 artifact 파일을 가져올 수 있으며, 이에 맞춰 artifacts API도 새 endpoints를 사용하도록 업데이트되었습니다.
   * `per_page` 인수를 받는 페이지네이션 메서드(및 내부 paginator)는 이제 `int` 값만 허용합니다. 기본 `per_page` 값은 메서드 시그니처에 직접 설정되며, `None`을 명시적으로 전달하는 방식은 더 이상 지원되지 않습니다.
 
-  <div id="fixed-28">
+  <div id="fixed-29">
     ## 수정됨
   </div>
 
@@ -983,13 +1056,13 @@ rss: true
 </Update>
 
 <Update label="v0.19.8" description="2025년 3월 04일">
-  <div id="fixed-29">
+  <div id="fixed-30">
     ## 수정됨
   </div>
 
   * 특수 문자(?, *, ], [ 또는 )가 포함된 미디어 파일 경로 때문에 `wandb-core`에서 파일 업로드가 실패하던 문제가 더 이상 발생하지 않습니다.
 
-  <div id="changed-19">
+  <div id="changed-20">
     ## 변경됨
   </div>
 
@@ -999,26 +1072,26 @@ rss: true
 </Update>
 
 <Update label="v0.19.7" description="2025년 2월 21일">
-  <div id="added-26">
+  <div id="added-27">
     ## 추가됨
   </div>
 
   * 레지스트리 검색 API.
 
-  <div id="changed-20">
+  <div id="changed-21">
     ## 변경됨
   </div>
 
   * moviepy 제약 조건이 &gt;=1.0.0으로 변경되었습니다.
   * `wandb.init()`가 더 자세한 정보를 표시하며, 특히 HTTP 오류 재시도로 멈춰 있을 때 유용합니다.
 
-  <div id="removed-10">
+  <div id="removed-11">
     ## 제거됨
   </div>
 
   * 비공개 `x_show_operation_stats` 설정이 제거되었습니다.
 
-  <div id="fixed-30">
+  <div id="fixed-31">
     ## 수정됨
   </div>
 
@@ -1030,19 +1103,19 @@ rss: true
 </Update>
 
 <Update label="v0.19.6" description="2025년 2월 05일">
-  <div id="added-27">
+  <div id="added-28">
     ## 추가됨
   </div>
 
   * Nvidia DCGM GPU 메트릭 수집을 위한 Prometheus API 지원.
 
-  <div id="changed-21">
+  <div id="changed-22">
     ## 변경됨
   </div>
 
   * Nvidia GPU ECC 카운터가 집계 방식에서 휘발성 방식으로 변경되었습니다.
 
-  <div id="fixed-31">
+  <div id="fixed-32">
     ## 수정됨
   </div>
 
@@ -1055,19 +1128,19 @@ rss: true
 </Update>
 
 <Update label="v0.19.5" description="2025년 1월 29일">
-  <div id="added-28">
+  <div id="added-29">
     ## 추가됨
   </div>
 
   * `wandb login --base-url {host_url}`를 `wandb login --host {host_url}`의 login 별칭으로 추가했습니다.
 
-  <div id="changed-22">
+  <div id="changed-23">
     ## 변경됨
   </div>
 
   * 코어별 CPU 사용량 통계 수집이 일시적으로 비활성화되었습니다.
 
-  <div id="fixed-32">
+  <div id="fixed-33">
     ## 수정됨
   </div>
 
@@ -1079,7 +1152,7 @@ rss: true
 </Update>
 
 <Update label="v0.19.4" description="2025년 1월 16일">
-  <div id="fixed-33">
+  <div id="fixed-34">
     ## 수정됨
   </div>
 
@@ -1090,7 +1163,7 @@ rss: true
 </Update>
 
 <Update label="v0.19.3" description="2025년 1월 13일">
-  <div id="fixed-34">
+  <div id="fixed-35">
     ## 수정됨
   </div>
 
@@ -1100,20 +1173,20 @@ rss: true
 </Update>
 
 <Update label="v0.19.2" description="2025년 1월 07일">
-  <div id="added-29">
+  <div id="added-30">
     ## 추가됨
   </div>
 
   * wandb-core에서 JWT 인증을 지원합니다.
   * 중첩된 맞춤형 차트 로깅을 지원하도록 추가했습니다.
 
-  <div id="changed-23">
+  <div id="changed-24">
     ## 변경됨
   </div>
 
   * `wandb.init(mode="disabled")`를 호출해도 이제 기본적으로 이후의 모든 run이 비활성화되지 않습니다. 대신 `wandb.setup(settings=wandb.Settings(mode="disabled"))`를 사용하거나 `wandb.init()`를 호출할 때마다 `mode="disabled"`를 명시적으로 설정하세요.
 
-  <div id="fixed-35">
+  <div id="fixed-36">
     ## 수정됨
   </div>
 
@@ -1126,7 +1199,7 @@ rss: true
   * 이전 버전의 `botocore &lt;  1.5.76`에 있던 버그로 인한 오류를 방지합니다.
   * 올바르지 않은 `anonymous` 설정값에 대한 여러 검사를 수정했습니다.
 
-  <div id="removed-11">
+  <div id="removed-12">
     ## 제거됨
   </div>
 
@@ -1144,13 +1217,13 @@ rss: true
 </Update>
 
 <Update label="v0.19.1" description="2024년 12월 13일">
-  <div id="fixed-36">
+  <div id="fixed-37">
     ## 수정됨
   </div>
 
   * WANDB&#95;&#95;SERVICE&#95;WAIT를 설정하면 wandb.init() 중 예외가 발생하던 버그를 수정했습니다.
 
-  <div id="changed-24">
+  <div id="changed-25">
     ## 변경됨
   </div>
 
@@ -1168,14 +1241,14 @@ rss: true
 </Update>
 
 <Update label="v0.19.0" description="2024년 12월 05일">
-  <div id="notable-changes-15">
+  <div id="notable-changes-16">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 Python 3.7 지원을 중단하고 `wandb.Run.plot_table` method를 제거했습니다.
   이 버전에서는 pydantic&gt;=2.6,&lt;33을 종속성으로 추가했습니다.
 
-  <div id="changed-25">
+  <div id="changed-26">
     ## 변경됨
   </div>
 
@@ -1183,14 +1256,14 @@ rss: true
   * pydantic&gt;=2.6,&lt;33을 종속성으로 추가했습니다 (@dmitryduev [https://github.com/wandb/wandb/pull/8649](https://github.com/wandb/wandb/pull/8649)649 &amp; estellazx.
     [https://github.com/wandb/wandb/pull/8905](https://github.com/wandb/wandb/pull/8905)8905)
 
-  <div id="removed-12">
+  <div id="removed-13">
     ## 제거됨
   </div>
 
   * `wandb.Run.plot_table` method를 제거했습니다. 기능은 계속 사용 가능하며, 이제 이 기능의 권장 사용 방법인 `wandb.plot_table`을 통해 액세스해야 합니다.
   * Python 3.7 지원을 중단했습니다.
 
-  <div id="fixed-37">
+  <div id="fixed-38">
     ## 수정됨
   </div>
 
@@ -1202,25 +1275,25 @@ rss: true
 </Update>
 
 <Update label="v0.18.7" description="2024년 11월 13일">
-  <div id="added-30">
+  <div id="added-31">
     ## 추가됨
   </div>
 
   * public API로 노출하기 위해 `wandb/sdk/launch/__init__.py`의 `__all__`에 `create_and_run_agent`를 추가했습니다.
 
-  <div id="changed-26">
+  <div id="changed-27">
     ## 변경됨
   </div>
 
   * 이제 오프라인 모드에서 로깅된 Tables는 동기화 시 아티팩트 경로로 업데이트된 키를 사용합니다. 이전 동작으로 되돌리려면 `allow_offline_artifacts = False` 설정을 사용하세요.
 
-  <div id="deprecated-6">
+  <div id="deprecated-7">
     ## 사용 중단
   </div>
 
   * `wandb.run.finish()`의 `quiet` 인자는 사용 중단되었으며, 대신 `wandb.Settings(quiet=...)`로 설정하세요.
 
-  <div id="fixed-38">
+  <div id="fixed-39">
     ## 수정됨
   </div>
 
@@ -1230,13 +1303,13 @@ rss: true
 </Update>
 
 <Update label="v0.18.6" description="2024년 11월 06일">
-  <div id="added-31">
+  <div id="added-32">
     ## 추가됨
   </div>
 
   * 이전에 추가한 아티팩트 파일을 덮어쓸 수 있도록 `Artifact.add()`/`Artifact.add_file()`에 불리언 `overwrite` 파라미터를 추가합니다.
 
-  <div id="fixed-39">
+  <div id="fixed-40">
     ## 수정됨
   </div>
 
@@ -1248,7 +1321,7 @@ rss: true
   * `Artifact.new_file()`에서 `mode='x'`/`mode='w'`의 동작이 Python 내장 파일 모드와 일치하도록 수정했습니다.
   * SDK에서 sweep 파라미터를 설정할 때 `distribution` 파라미터를 무시하지 않도록 합니다.
 
-  <div id="changed-27">
+  <div id="changed-28">
     ## 변경됨
   </div>
 
@@ -1259,7 +1332,7 @@ rss: true
 </Update>
 
 <Update label="v0.18.5" description="2024년 10월 17일">
-  <div id="fixed-40">
+  <div id="fixed-41">
     ## 수정됨
   </div>
 
@@ -1269,7 +1342,7 @@ rss: true
 </Update>
 
 <Update label="v0.18.4" description="2024년 10월 17일">
-  <div id="added-32">
+  <div id="added-33">
     ## 추가됨
   </div>
 
@@ -1279,7 +1352,7 @@ rss: true
   * `Run` 클래스의 `logged_artifacts` 및 `used_artifacts` 메서드의 docstring을 업데이트합니다.
   * `_show_operation_stats` 설정으로 더 나은 `run.finish()` UX의 미리보기를 활성화할 수 있습니다.
 
-  <div id="fixed-41">
+  <div id="fixed-42">
     ## 수정됨
   </div>
 
@@ -1287,7 +1360,7 @@ rss: true
   * `wandb.Api`의 타이핑 문제를 수정했습니다.
   * `Artifact.save()` 시 아티팩트 객체가 완전히 업데이트되도록 합니다.
 
-  <div id="changed-28">
+  <div id="changed-29">
     ## 변경됨
   </div>
 
@@ -1297,13 +1370,13 @@ rss: true
 </Update>
 
 <Update label="v0.18.3" description="2024년 10월 01일">
-  <div id="added-33">
+  <div id="added-34">
     ## 추가됨
   </div>
 
   * Google Cloud TPU 디바이스의 사용량 메트릭을 모니터링하는 기능을 추가합니다.
 
-  <div id="fixed-42">
+  <div id="fixed-43">
     ## 수정됨
   </div>
 
@@ -1313,7 +1386,7 @@ rss: true
   * rdkit의 미디어 종속성을 `rdkit-pypi`에서 `rdkit`로 업데이트했습니다.
   * 대용량 파일이 많은 아티팩트를 저장해도 더 이상 OS 스레드가 고갈되지 않습니다.
 
-  <div id="changed-29">
+  <div id="changed-30">
     ## 변경됨
   </div>
 
@@ -1323,14 +1396,14 @@ rss: true
 </Update>
 
 <Update label="v0.18.2" description="2024년 9월 27일">
-  <div id="added-34">
+  <div id="added-35">
     ## 추가됨
   </div>
 
   * `wandb.Api`에 `upsert_run_queue` 메서드를 추가합니다.
   * 태그로 아티팩트를 필터링할 수 있도록 `wandb.Api.artifacts()`에 `tags` 매개변수를 추가합니다.
 
-  <div id="fixed-43">
+  <div id="fixed-44">
     ## 수정됨
   </div>
 
@@ -1347,7 +1420,7 @@ rss: true
 </Update>
 
 <Update label="v0.18.1" description="2024년 9월 16일">
-  <div id="fixed-44">
+  <div id="fixed-45">
     ## 수정됨
   </div>
 
@@ -1355,7 +1428,7 @@ rss: true
   * TensorBoard에 로깅된 무한대 스칼라가 건너뛰지지 않고 성공적으로 업로드됩니다.
   * `WANDB_ERROR_REPORTING=false`를 올바르게 적용합니다. 이는 0.18.0에서 도입된 회귀를 수정합니다.
 
-  <div id="changed-30">
+  <div id="changed-31">
     ## 변경됨
   </div>
 
@@ -1366,25 +1439,25 @@ rss: true
 </Update>
 
 <Update label="v0.18.0" description="2024년 9월 11일">
-  <div id="notable-changes-16">
+  <div id="notable-changes-17">
     ## 주요 변경 사항
   </div>
 
   이 버전에서는 기본적으로 `wandb.require("core")`를 활성화해 `wandb`를 새 백엔드로 전환합니다. 이는 호환성이 깨지는 변경은 아니어야 하지만, 새 백엔드는 레거시 기능이나 드문 예외 상황에서 동작상 예상치 못한 차이가 있을 수 있습니다.
 
-  <div id="added-35">
+  <div id="added-36">
     ## 추가됨
   </div>
 
   * `Artifact.tags` 및 `Run.log_artifact()`를 통해 artifact 태그를 지원합니다.
 
-  <div id="fixed-45">
+  <div id="fixed-46">
     ## 수정됨
   </div>
 
   * VS Code의 내장 jupyter 서버에서 노트북 이름을 감지합니다.
 
-  <div id="changed-31">
+  <div id="changed-32">
     ## 변경됨
   </div>
 
@@ -1394,13 +1467,13 @@ rss: true
 </Update>
 
 <Update label="v0.17.9" description="2024년 9월 05일">
-  <div id="changed-32">
+  <div id="changed-33">
     ## 변경됨
   </div>
 
   * `wandb.init(settings=wandb.Settings(_stats_sampling_interval=...))`를 통해 맞춤형 간격을 지정할 수 있도록 하면서, 기본 시스템 메트릭 샘플링 간격을 평균 없이 10초로 변경했습니다.
 
-  <div id="deprecated-7">
+  <div id="deprecated-8">
     ## 사용 중단
   </div>
 
@@ -1410,7 +1483,7 @@ rss: true
 </Update>
 
 <Update label="v0.17.8" description="2024년 8월 28일">
-  <div id="added-36">
+  <div id="added-37">
     ## 추가됨
   </div>
 
@@ -1419,7 +1492,7 @@ rss: true
   * core가 활성화된 상태에서 TensorBoard를 사용할 때 PR 곡선, 이미지, 히스토그램을 지원합니다.
   * `wandb.require("core")`에 대한 옵트아웃용 대응 옵션으로 `wandb.require("legacy-service")`를 추가했습니다.
 
-  <div id="fixed-46">
+  <div id="fixed-47">
     ## 수정됨
   </div>
 
@@ -1427,7 +1500,7 @@ rss: true
   * `numpy.reshape`에서 `newshape` argument를 제거해 NumPy &gt;= 2.1에서 발생하는 사용 중단 경고를 수정합니다.
   * 폴더에 해당하는 GCS 레퍼런스 artifact manifest 항목의 업로드/다운로드를 건너뜁니다.
 
-  <div id="deprecated-8">
+  <div id="deprecated-9">
     ## 사용 중단
   </div>
 
@@ -1437,7 +1510,7 @@ rss: true
 </Update>
 
 <Update label="v0.17.7" description="2024년 8월 15일">
-  <div id="fixed-47">
+  <div id="fixed-48">
     ## 수정됨
   </div>
 
@@ -1450,7 +1523,7 @@ rss: true
 </Update>
 
 <Update label="v0.17.6" description="2024년 8월 08일">
-  <div id="added-37">
+  <div id="added-38">
     ## 추가됨
   </div>
 
@@ -1458,7 +1531,7 @@ rss: true
   * 항목이 100k개를 초과하는 매니페스트를 core 프로세스로 전송할 때 protobuf 메시지 대신 파일 시스템을 사용합니다.
   * `Box3D`용 `box3d` 생성자를 추가합니다.
 
-  <div id="changed-33">
+  <div id="changed-34">
     ## 변경됨
   </div>
 
@@ -1466,7 +1539,7 @@ rss: true
   * 비활성화 모드에서는 제거된 `wandb.sdk.wandb_run.RunDisabled` 대신 `wandb.sdk.wandb_run.Run` 클래스를 사용합니다.
   * `WANDB_MODE = offline`일 때 `artifact.download()`를 호출하면 이제 멈추는 대신 오류를 발생시킵니다.
 
-  <div id="fixed-48">
+  <div id="fixed-49">
     ## 수정됨
   </div>
 
@@ -1477,20 +1550,20 @@ rss: true
 </Update>
 
 <Update label="v0.17.5" description="2024년 7월 19일">
-  <div id="added-38">
+  <div id="added-39">
     ## 추가됨
   </div>
 
   * wandb-core를 사용할 때 S3 멀티파트 업로드를 지원합니다.
 
-  <div id="changed-34">
+  <div id="changed-35">
     ## 변경됨
   </div>
 
   * 이전에는 `os._exit()`를 호출하던 경우에 이제 `run.finish()`가 예외를 발생시킬 수 있습니다.
   * 이제 `run.link_artifact()`에서 서버 오류가 표시될 수 있습니다.
 
-  <div id="fixed-49">
+  <div id="fixed-50">
     ## 수정됨
   </div>
 
@@ -1502,13 +1575,13 @@ rss: true
 </Update>
 
 <Update label="v0.17.4" description="2024년 7월 03일">
-  <div id="added-39">
+  <div id="added-40">
     ## 추가됨
   </div>
 
   * launch sweep 스케줄러 작업에서 큐 템플릿 변수를 지원합니다.
 
-  <div id="fixed-50">
+  <div id="fixed-51">
     ## 수정됨
   </div>
 
@@ -1520,7 +1593,7 @@ rss: true
 </Update>
 
 <Update label="v0.17.3" description="2024년 6월 24일">
-  <div id="fixed-51">
+  <div id="fixed-52">
     ## 수정됨
   </div>
 
@@ -1532,13 +1605,13 @@ rss: true
 </Update>
 
 <Update label="v0.17.2" description="2024년 6월 17일">
-  <div id="added-40">
+  <div id="added-41">
     ## 추가됨
   </div>
 
   * CLI에서 스윕을 생성할 때 이전 Runs를 추가합니다.
 
-  <div id="fixed-52">
+  <div id="fixed-53">
     ## 수정됨
   </div>
 
@@ -1547,7 +1620,7 @@ rss: true
   * 연결된 아티팩트에서 `Artifact.delete()`를 실행할 때 소스 아티팩트는 삭제하지 않고 링크만 제거하도록 했습니다.
   * Sweep runs no longer appear to be resumed when they are not by @TimH98 [https://github.com/wandb/wandb/pull/7684](https://github.com/wandb/wandb/pull/7684).
 
-  <div id="changed-35">
+  <div id="changed-36">
     ## 변경됨
   </div>
 
@@ -1557,7 +1630,7 @@ rss: true
 </Update>
 
 <Update label="v0.17.1" description="2024년 6월 07일">
-  <div id="added-41">
+  <div id="added-42">
     ## 추가됨
   </div>
 
@@ -1572,7 +1645,7 @@ rss: true
     * Charts show up in W&amp;B, possibly better than when running without core.
     * Not all types of data are supported yet. Unsupported data is not shown in charts.
 
-  <div id="fixed-53">
+  <div id="fixed-54">
     ## 수정됨
   </div>
 
@@ -1585,7 +1658,7 @@ rss: true
   * Add missing docstrings for any public methods in `Api` class.
   * Correctly add latest alias to jobs built by the job builder @KyleGoyette [https://github.com/wandb/wandb/pull/7727](https://github.com/wandb/wandb/pull/7727).
 
-  <div id="changed-36">
+  <div id="changed-37">
     ## 변경됨
   </div>
 
@@ -1594,7 +1667,7 @@ rss: true
   * Update order in api.runs() to ascending to prevent duplicate responses by @thanos-wandb [https://github.com/wandb/wandb/pull/7675](https://github.com/wandb/wandb/pull/7675).
   * Eliminate signed URL timeout errors during artifact file uploads in core.
 
-  <div id="deprecated-9">
+  <div id="deprecated-10">
     ## 사용 중단
   </div>
 
@@ -1604,7 +1677,7 @@ rss: true
 </Update>
 
 <Update label="v0.17.0" description="2024년 5월 07일">
-  <div id="notable-changes-17">
+  <div id="notable-changes-18">
     ## 주요 변경 사항
   </div>
 
@@ -1612,7 +1685,7 @@ rss: true
 
   이 버전에는 이전에 PyPI의 `wandb-core` Python 패키지를 통해 설치되던 `wandb-core` 바이너리가 포함되어 있습니다. 이제 `wandb-core` 패키지는 더 이상 사용되지 않으므로 제거할 수 있습니다.
 
-  <div id="added-42">
+  <div id="added-43">
     ## 추가됨
   </div>
 
@@ -1623,7 +1696,7 @@ rss: true
   * Artifact 또는 collection이 존재하는지 확인할 수 있도록 Api에 artifact&#95;exists() 및 artifact&#95;collection&#95;exists() 메서드가 추가되었습니다.
   * `wandb launch -u <git-uri | local-path> `는 지정된 소스 코드로부터 작업을 생성하고 실행합니다.
 
-  <div id="fixed-54">
+  <div id="fixed-55">
     ## 수정됨
   </div>
 
@@ -1634,14 +1707,14 @@ rss: true
   * Kaniko builder와 함께 ECR 및 GAR 이외의 레지스트리를 사용할 때 실패하는 대신 경고를 표시하도록 했습니다.
   * `None`을 포함하는 `wandb.init()` 유형 시그니처를 수정했습니다.
 
-  <div id="changed-37">
+  <div id="changed-38">
     ## 변경됨
   </div>
 
   * `wandb-core`를 사용할 때는 이를 활성화하기 위해 필수 플래그(`wandb.require("core")`)를 지정해야 합니다. 이전에는 자동으로 활성화되었습니다.
   * GCS 참조 아티팩트에 MD5 해시 대신 ETags를 사용합니다.
 
-  <div id="removed-13">
+  <div id="removed-14">
     ## 제거됨
   </div>
 
@@ -1653,7 +1726,7 @@ rss: true
 </Update>
 
 <Update label="v0.16.6" description="2024년 4월 03일">
-  <div id="added-43">
+  <div id="added-44">
     ## 추가됨
   </div>
 
@@ -1664,14 +1737,14 @@ rss: true
   * OpenAI Fine-Tuning 인테그레이션의 `WandbLogger.sync`에 `log_datasets` 불리언 인수가 새로 추가되어, Datasets를 Artifacts에 자동 logging하지 않도록 설정할 수 있습니다.
   * Launch 에이전트의 기본 status 출력 빈도를 줄였습니다. status 출력 빈도를 높이고 stdout에 디버그 정보를 출력할 수 있도록 상세도 제어가 추가되었습니다.
 
-  <div id="changed-38">
+  <div id="changed-39">
     ## 변경됨
   </div>
 
   * artifact cli의 put()에서 policy 옵션을 [&quot;mutable&quot;, &quot;immutable&quot;] 선택지로 제한했습니다.
   * gorilla 서버 변경에 따라 ArtifactSequence/ArtifactCollection 유형의 nullable Project 필드를 처리하도록 artifact Public API 메서드를 업데이트했습니다.
 
-  <div id="fixed-55">
+  <div id="fixed-56">
     ## 수정됨
   </div>
 
@@ -1685,7 +1758,7 @@ rss: true
 </Update>
 
 <Update label="v0.16.5" description="2024년 3월 25일">
-  <div id="added-44">
+  <div id="added-45">
     ## 추가됨
   </div>
 
@@ -1695,19 +1768,19 @@ rss: true
   * `wandb.init(fork_from=...)`를 사용해 run을 포크하는 예비 지원을 추가했습니다.
   * `run.save()`가 `pathlib.Path` 값을 허용합니다.
 
-  <div id="changed-39">
+  <div id="changed-40">
     ## 변경됨
   </div>
 
   * run 링크를 출력할 때 워크스페이스를 명시적으로 가리키도록 했습니다.
 
-  <div id="fixed-56">
+  <div id="fixed-57">
     ## 수정됨
   </div>
 
   * wandb API 키 Kubernetes secret를 생성하는 중 일시적인 서버 문제가 발생하면 최대 5회까지 재시도합니다.
 
-  <div id="removed-14">
+  <div id="removed-15">
     ## 제거됨
   </div>
 
@@ -1717,7 +1790,7 @@ rss: true
 </Update>
 
 <Update label="v0.16.4" description="2024년 3월 05일">
-  <div id="added-45">
+  <div id="added-46">
     ## 추가됨
   </div>
 
@@ -1726,14 +1799,14 @@ rss: true
   * 사용자가 제공한 pvc 및 docker config를 사용하는 kaniko build를 지원합니다.
   * W&amp;B 인스턴스 간에 runs를 임포트하는 기능을 추가했습니다.
 
-  <div id="changed-40">
+  <div id="changed-41">
     ## 변경됨
   </div>
 
   * Wandb-core가 백엔드로 전송되는 요청에 속도 제한을 적용하고 RateLimit-* 헤더를 준수합니다.
     작성자: @timoffex [https://github.com/wandb/wandb/pull/7065](https://github.com/wandb/wandb/pull/7065)065
 
-  <div id="fixed-57">
+  <div id="fixed-58">
     ## 수정됨
   </div>
 
@@ -3573,7 +3646,7 @@ rss: true
 </Update>
 
 <Update label="v0.11.1" description="2021년 7월 29일">
-  <div id="deprecated-10">
+  <div id="deprecated-11">
     ## 사용 중단
   </div>
 

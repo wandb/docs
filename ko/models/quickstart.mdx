@@ -33,13 +33,13 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <Tabs>
   <Tab title="명령줄">
-    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 설정합니다.
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 설정합니다:
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
        ```
 
-    2. `wandb` 라이브러리를 설치하고 로그인합니다.
+    2. `wandb` 라이브러리를 설치하고 로그인합니다:
 
        ```shell
        pip install wandb
@@ -63,14 +63,14 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
        ```
   </Tab>
 
-  <Tab title="Python notebook">
+  <Tab title="Python 노트북">
     1. 셸 이스케이프(`!`)를 사용해 W&amp;B Python SDK를 설치합니다:
 
        ```notebook
        !pip install wandb
        ```
 
-    2. W&amp;B Python SDK를 임포트한 다음, Python notebook에서 `wandb.login()`으로 W&amp;B에 로그인합니다
+    2. W&amp;B Python SDK를 임포트한 다음, Python 노트북에서 `wandb.login()`으로 W&amp;B에 로그인합니다:
 
        ```notebook
        import wandb
@@ -106,9 +106,11 @@ with wandb.init(project=project, config=config) as run:
     run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-트레이닝 run을 시뮬레이션하고 정확도 및 손실 메트릭을 W&amp;B에 기록하는 전체 예제는 다음 섹션을 참조하세요.
+트레이닝 run을 시뮬레이션하고 정확도 및 손실 메트릭을 W&amp;B에 기록하는 전체 예제는 [머신러닝 트레이닝 실험 만들기](#create-a-machine-learning-training-experiment)를 참조하세요.
 
-<Info>[run](/ko/models/runs/)은 W&amp;B의 핵심 요소입니다. run을 사용해 [메트릭을 추적](/ko/models/track/)하고, [로그를 생성](/ko/models/track/log/)하고, 아티팩트를 추적하는 등 다양한 작업을 수행할 수 있습니다.</Info>
+<Info>
+  [run](/ko/models/runs/)은 W&amp;B의 핵심 요소입니다. run을 사용해 [메트릭을 추적](/ko/models/track/)하고, [로그를 생성](/ko/models/track/log/)하고, 아티팩트를 추적할 수 있습니다.
+</Info>
 
 <div id="create-a-machine-learning-training-experiment">
   ## 머신 러닝 트레이닝 실험 만들기
@@ -134,7 +136,7 @@ config = {
 with wandb.init(project=project, config=config) as run:
     offset = random.random() / 5
     print(f"lr: {config['lr']}")
-    
+
     # 트레이닝 run 시뮬레이션
     for epoch in range(2, config['epochs']):
         acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
@@ -143,22 +145,22 @@ with wandb.init(project=project, config=config) as run:
         run.log({"accuracy": acc, "loss": loss})
 ```
 
-기록된 정확도, 손실 등의 메트릭과 각 트레이닝 step 동안 값이 어떻게 변했는지 보려면 [wandb.ai/home](https://wandb.ai/home)으로 이동하세요. 다음 이미지는 각 run에서 추적된 손실와 정확도를 보여줍니다. 각 run 객체는 자동으로 생성된 이름과 함께 **Runs** column에 표시됩니다.
+기록된 정확도, 손실 등의 메트릭과 각 트레이닝 step 동안 값이 어떻게 변하는지 보려면 [W&amp;B 홈 페이지](https://wandb.ai/home)로 이동하세요. 다음 이미지는 각 run에서 추적된 손실와 정확도를 보여줍니다. 각 run 객체는 자동으로 생성된 이름과 함께 **Runs** column에 표시됩니다.
 
 <Frame>
-  <img src="/images/quickstart/quickstart_image.png" alt="각 run에서 추적된 손실와 정확도를 보여줍니다." />
+  <img src="/images/quickstart/quickstart_image.png" alt="각 run에서 추적된 손실와 정확도" />
 </Frame>
 
 <div id="next-steps">
   ## 다음 단계
 </div>
 
-W&amp;B 생태계의 다양한 기능을 더 살펴보세요:
+W&amp;B의 다양한 특성을 살펴보세요:
 
-1. [run](/ko/models/runs)에 대해 알아보고 첫 번째 run을 만들어 보세요.
-2. [W&amp;B Artifacts](/ko/models/artifacts)로 모델, 데이터셋, 기타 파일을 추적하세요.
-3. [W&amp;B Sweeps](/ko/models/sweeps)로 하이퍼파라미터 검색을 자동화하고 모델을 최적화하세요.
-4. [W&amp;B Registry](/ko/models/registry)로 모델, 프롬프트, 데이터셋을 공유하세요.
-5. 프로젝트의 [대시보드](/ko/models/track/workspaces)에서 Runs를 분석하고, 모델 예측을 시각화하고, 아티팩트를 확인하세요.
-6. [W&amp;B Reports](/ko/models/reports)로 결과를 요약하고 협업자와 업데이트를 공유하세요.
-7. [W&amp;B Weave](/ko/weave/quickstart)로 LLM 애플리케이션을 트레이스하고 평가하세요.
+* [run](/ko/models/runs)에 대해 알아보고 첫 run을 생성해 보세요.
+* [W&amp;B Artifacts](/ko/models/artifacts)로 모델, 데이터셋, 기타 파일을 추적하세요.
+* [W&amp;B Sweeps](/ko/models/sweeps)로 하이퍼파라미터 검색을 자동화하고 모델을 최적화하세요.
+* [W&amp;B Registry](/ko/models/registry)로 모델, 프롬프트, 데이터셋을 공유하세요.
+* 프로젝트 [대시보드](/ko/models/track/workspaces)에서 run을 분석하고, 모델 예측을 시각화하고, 아티팩트를 확인하세요.
+* [W&amp;B Reports](/ko/models/reports)로 발견 사항을 요약하고 공동 작업자와 업데이트를 공유하세요.
+* [W&amp;B Weave](/ko/weave/quickstart)로 LLM 애플리케이션을 트레이스하고 평가하세요.

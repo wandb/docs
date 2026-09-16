@@ -11,7 +11,7 @@ Use a W&B automation to send a prompt to ARIA when a specific event occurs. Each
 An automation that sends a prompt to ARIA consists of two main parts:
 
 - The [event](/models/automations/automation-events) that triggers the automation.
-- The prompt that ARIA receives when the event occurs. 
+- The prompt that ARIA receives when the event occurs.
 
 Use this workflow to explore experiment results, summarize or report on runs, or investigate metrics that cross a threshold.
 
@@ -55,7 +55,7 @@ A Registry admin can create automations in that registry.
    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
    Click **Next step**.
-1. Select the team that hosts the ARIA conversation. See [View conversations created by automations](#view-conversations-created-by-automations).
+1. Select the team that hosts the ARIA conversation. Registries belong to your organization, not a team, but ARIA conversations must belong to one. See [View conversations created by automations](#view-conversations-created-by-automations).
 1. Set **Action type** to **Trigger ARIA**.
 1. In the **Prompt** field, write the prompt to send to ARIA. See [Write the prompt](#write-the-prompt). Click **Next step**.
 1. Provide a name for the automation. Optionally, provide a description.
@@ -89,6 +89,7 @@ The automation is now active and starts a new ARIA conversation whenever the cho
 
 ## Create and manage automations with ARIA
 
+{/* VERIFY: "delete, enable, and disable" — ARIA's automation skill exposes only list/get/integrations/template-vars/create subcommands, no update or delete. It also has a generic execute_graphql escape hatch, so these may still work. Test in product before trusting this sentence. */}
 ARIA can create, delete, enable, and disable automations on demand.
 
 Ask ARIA to create an automation:
@@ -104,6 +105,42 @@ Ask ARIA about your existing automations:
   prompt="What automations exist in this project?"
   response="You have 2 project-level automations, both enabled...."
 />
+
+Ask ARIA to rename an automation:
+
+<AriaChatBubbles
+  prompt="Rename old-name to production-alert."
+  response="Proceed with the rename?"
+/>
+
+After you confirm, ARIA renames the automation.
+
+### View your ARIA automations in chat
+
+Open ARIA, click **Reveal chat history** in the chat header, then open the **Customize** section at the bottom of the chat history sidebar and select **My automations**.
+
+**My automations** replaces the conversation view in ARIA's main panel rather than opening beside it. Selecting a conversation or starting a new chat returns you to the conversation. The pane isn't persisted across reloads, so refreshing the page also returns you to your conversation.
+
+The pane lists only the automations you created that send prompts to ARIA. It omits automations that use other actions, and your teammates' ARIA automations.
+
+The pane is read-only. You can see whether an automation is enabled or disabled, but to enable, disable, edit, or delete one, click **View all automations** to open the full Automations page in a new tab. See [View and manage automations](#view-and-manage-automations).
+
+Search by name, or page through results 20 at a time with **Previous** and **Next**. The list shows each automation's name, **Event type**, and **Scope**.
+
+Click an automation to open its detail view, which shows its **Description**, **Scope**, **Created by**, **Created**, **Status** (**Enabled** or **Disabled**), **Event type**, and the **Prompt ARIA** it sends.
+
+The **Automation history** section lists each execution's **Triggered** time and **Status**, plus a **Conversation** column. Click **Open thread** to open the conversation an execution created. A **No thread** value means the execution didn't create one. Executions are shown for up to 6 months.
+
+Use **Back to chat** or **Back to My automations** to return from the list or a detail view.
+
+Click **Create automation** to start one. This doesn't open a form. Instead, it starts a new ARIA chat with the following prompt already sent on your behalf:
+
+<AriaChatBubbles
+  prompt="Guide me through creating an automation that prompts ARIA. Ask what I want to automate, help me choose its scope and trigger, and draft the prompt with me."
+  response="Happy to help. What event should trigger this, and should the automation live in a project or a registry? Once we settle that, I'll help you word the prompt."
+/>
+
+**Create automation** is disabled if you have read-only billing access. **My automations** isn't available for personal accounts. Select an organization to view your automations. The pane requires no separate feature flag. It's available under the same access checks described in [Requirements](#requirements).
 
 ## Write the prompt
 
@@ -167,7 +204,7 @@ For the events available at each scope, see [Automation events and scopes](/mode
 
 ## View conversations created by automations
 
-The automation creates the ARIA conversation under the account of the user who created the automation, not the user whose action triggered the event. The conversation appears in that person's ARIA chat history under **Past conversations**, alongside conversations they started themselves. To identify the user that caused the event, include `${event_author}` in the prompt.
+The automation creates the ARIA conversation under the account of the user who created the automation. The conversation appears in that person's ARIA chat history sidebar, alongside conversations they started themselves. To identify the user that caused the event, include `${event_author}` in the prompt.
 
 Where the conversation lives depends on the automation's scope:
 
@@ -176,7 +213,7 @@ Where the conversation lives depends on the automation's scope:
 
     `wandb_agent_default_project` is a placeholder project that W&B maintains for each team to hold conversations that aren't tied to a project you opened. You don't create it, and it's normally empty apart from these conversations.
 
-To confirm that the automation ran, open its [execution history](/models/automations/view-automation-history). A successful ARIA execution shows the prompt that W&B sent and a response body containing the conversation's `thread_id`. W&B doesn't link from the execution to the conversation, and an automation-created conversation isn't marked differently in your chat history.
+To confirm that the automation ran, open its [execution history](/models/automations/view-automation-history). A successful ARIA execution shows the prompt that W&B sent and a response body containing the conversation's `thread_id`. To open that conversation, use the **Open thread** link in ARIA's [My automations](#view-your-aria-automations-in-chat) pane, which is built from the same `thread_id`. An automation-created conversation isn't marked differently in your chat history.
 
 ## View and manage automations
 
@@ -188,13 +225,18 @@ You can't transfer ownership of the automation. Instead, delete it and have the 
 
 ## Limitations
 
+ARIA automations have the following limitations:
+
 - ARIA automations are available only on [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud), in team projects, and only when your organization admin has enabled **Smart features**.
 - Each automation can start at most three ARIA conversations per minute. W&B records executions above that limit in the automation's history with the status **Skipped**, meaning the automation matched the event but didn't run its action.
 - If the person who created the automation loses write access to the project or their account is deactivated, every subsequent execution fails. The failure appears in the automation's execution history.
 - Only the automation's creator can edit it.
 - The `wandb` Python library doesn't support ARIA automations. See [Manage automations with the API](/models/automations/api).
+- The in-chat [My automations](#view-your-aria-automations-in-chat) pane is read-only. Enable, disable, edit, or delete an automation from the **Automations** tab or hub instead.
 
 ## Next steps
+
+Continue with the following resources:
 
 - [Automation events and scopes](/models/automations/automation-events)
 - [View an automation's history](/models/automations/view-automation-history)
