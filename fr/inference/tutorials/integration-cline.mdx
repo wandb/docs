@@ -27,7 +27,25 @@ npm install -g cline
 
 Voir [les instructions d’installation de Cline](https://docs.cline.bot/cline-cli/installation) en cas de problème.
 
-Ces instructions ont été testées avec la version `2.5.1` du CLI Cline. Exécutez `cline version` pour vérifier la version installée.
+Exécutez `cline version` pour vérifier la version installée.
+
+<div id="use-the-native-wb-provider">
+  ### Utiliser le provider W&amp;B natif
+</div>
+
+Cette configuration a été testée avec la version `3.0.61` du CLI Cline sur macOS. Définissez la variable d&#39;environnement `WANDB_API_KEY` sur votre clé API W&amp;B, puis exécutez :
+
+```bash
+cline -P wandb -m zai-org/GLM-5.3-Flash "What is 2 + 2?"
+```
+
+L&#39;ID en ligne de commande du provider est `wandb`. Selon votre version de Cline, le provider s&#39;affiche sous le nom **Weights &amp; Biases** ou **W&amp;B**. Cline utilise le point de terminaison Serverless Inference configuré pour ce provider. Si Cline renvoie une réponse, la connexion fonctionne.
+
+<div id="use-the-openai-compatible-provider">
+  ### Utiliser le provider compatible OpenAI
+</div>
+
+Les instructions suivantes ont été testées avec la version `2.5.1` du CLI Cline.
 
 Ensuite, authentifiez Cline auprès du point de terminaison Serverless Inference. La commande suivante configure Cline pour utiliser le point de terminaison compatible OpenAI de Serverless Inference et le modèle Kimi K2.6. Remplacez `[YOUR-API-KEY]` par votre clé API W&amp;B.
 
@@ -37,7 +55,7 @@ cline auth -k [YOUR-API-KEY] -p openai -b https://api.inference.wandb.ai/v1 -m m
 
 Pour connaître la disponibilité des modèles et la tarification, voir le [catalogue de modèles W&amp;B Inference](https://wandb.ai/inference).
 
-Exécutez un test pour vérifier que tout fonctionne :
+Exécutez un test pour vérifier que tout fonctionne :
 
 ```bash
 cline "What is 2 + 2?"

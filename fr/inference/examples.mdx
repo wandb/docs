@@ -69,10 +69,10 @@ Après avoir exécuté le code, affichez la trace dans Weave à l’aide de l’
 Une fois la trace de base en place, vous pouvez passer à un flux de travail plus complet, qui va au-delà de l’inspection des appels individuels.
 
 <div id="advanced-example-use-weave-evaluations-and-leaderboards">
-  ## Exemple avancé : utiliser Weave évaluations et les leaderboards
+  ## Exemple avancé : utiliser Weave évaluations et les leaderboards
 </div>
 
-En plus du tracing des appels de modèle, vous pouvez évaluer les performances et publier des leaderboards. Cet exemple compare deux modèles sur un jeu de données de questions-réponses pour montrer comment Llama 3.1 8B et DeepSeek-V3 se comportent avec les mêmes prompts.
+En plus du traçage des appels de modèle, vous pouvez évaluer les performances et publier des leaderboards. Cet exemple compare deux modèles sur un jeu de données de questions-réponses pour montrer comment Llama 3.1 8B et DeepSeek V3.1 se comportent avec les mêmes prompts.
 
 ```python
 import os
@@ -113,7 +113,7 @@ class WBInferenceModel(weave.Model):
         return resp.choices[0].message.content
 
 llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
-deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3.1")
 
 def preprocess_model_input(example):
     return {"prompt": example["input"]}
@@ -146,7 +146,7 @@ spec = leaderboard.Leaderboard(
 weave.publish(spec)
 ```
 
-Après avoir exécuté ce code, accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/) et effectuez les opérations suivantes :
+Après avoir exécuté ce code, accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/) et effectuez les opérations suivantes :
 
 * Sélectionnez l’onglet **Traces** pour [consulter vos traces](/fr/weave/guides/tracking/tracing).
 * Sélectionnez l’onglet **Evals** pour [consulter les évaluations de votre modèle](/fr/weave/guides/core-types/evaluations).
