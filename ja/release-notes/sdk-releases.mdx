@@ -143,7 +143,7 @@ rss: true
     ## セキュリティ
   </div>
 
-  * `artifact.files()` または `artifact.checkout()` によるアーティファクトのダウンロードで、相対パスを含む file 名およびアーティファクト名が拒否されるようになりました。
+  * `artifact.files()` または `artifact.checkout()` によるアーティファクトのダウンロードで、相対パスを含む file 名およびアーティファクト名が拒否されるようになりました。これにより、[CVE-2026-91771](https://www.tenable.com/cve/CVE-2026-91771) に記載されているパストラバーサルの脆弱性が修正されます。
 </Update>
 
 <Update label="0.28.2" description="2026年8月12日">

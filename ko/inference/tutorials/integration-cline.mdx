@@ -27,7 +27,25 @@ npm install -g cline
 
 문제가 발생하면 [Cline 설치 지침](https://docs.cline.bot/cline-cli/installation)을 참조하세요.
 
-이 지침은 Cline CLI 버전 `2.5.1`에서 테스트되었습니다. 설치된 버전을 확인하려면 `cline version`을 실행하세요.
+설치된 버전을 확인하려면 `cline version`을 실행하세요.
+
+<div id="use-the-native-wb-provider">
+  ### 네이티브 W&amp;B 공급자 사용
+</div>
+
+이 설정은 macOS에서 Cline CLI 버전 `3.0.61`로 테스트되었습니다. `WANDB_API_KEY` 환경 변수에 W&amp;B API 키를 설정한 후 다음 명령을 실행하세요:
+
+```bash
+cline -P wandb -m zai-org/GLM-5.3-Flash "What is 2 + 2?"
+```
+
+이 공급자의 명령줄 ID는 `wandb`입니다. Cline 버전에 따라 공급자가 **Weights &amp; Biases** 또는 **W&amp;B**로 표시됩니다. Cline은 해당 공급자에 설정된 Serverless Inference 엔드포인트를 사용합니다. Cline이 답변을 반환하면 연결이 정상적으로 작동하는 것입니다.
+
+<div id="use-the-openai-compatible-provider">
+  ### OpenAI 호환 공급자 사용하기
+</div>
+
+다음 지침은 Cline CLI 버전 `2.5.1`에서 테스트되었습니다.
 
 다음으로, Cline이 Serverless Inference 엔드포인트에 인증하도록 설정하세요. 다음 명령어는 Cline이 Serverless Inference의 OpenAI 호환 엔드포인트와 Kimi K2.6 모델을 사용하도록 설정합니다. `[YOUR-API-KEY]`를 W&amp;B API 키로 바꾸세요.
 
