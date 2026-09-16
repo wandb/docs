@@ -3,28 +3,26 @@ title: "OpDecorator<T>"
 description: "Référence du SDK TypeScript"
 ---
 
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
 > **OpDecorator**&lt;`T`&gt; = (`value`, `context`) =&gt; `T` | `void` &amp; (`target`, `propertyKey`, `descriptor`) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/opType.ts#L43" />
 
 Type d’assistance pour les décorateurs
 Il s’agit d’une fonction décorateur qui peut être utilisée à la fois avec les décorateurs hérités et les décorateurs Stage 3.
 
-Pour les décorateurs Stage 3 :
+Pour les décorateurs Stage 3 :
 target: La fonction décorée (T)
 context: MethodDecoratorContext
 
-Pour les décorateurs hérités :
+Pour les décorateurs hérités :
 target: Le prototype (méthodes d’instance) ou le constructeur (méthodes statiques)
 propertyKey: Le nom de la méthode
 descriptor: Le descripteur de propriété contenant la méthode
-
-Défini dans : [src/opType.ts:41](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/opType.ts#L41)
 
 <div id="type-parameters">
   ## Paramètres de type
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T` *extends* (...`args`) =&gt; `any`
+<ParamField path="T" type="extends (...args) => any" />

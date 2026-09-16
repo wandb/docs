@@ -151,6 +151,47 @@ git commit -m "Sync code examples from docs-code-eval"
 git push
 ```
 
+## UI label drift
+
+**Workflow**: `uidrift-scan.yml`
+
+Watches `wandb/core` for user-facing label changes that leave this repo's docs stale, and carries the resulting report in one rolling draft PR. The detector is `scripts/uidrift`; see [`scripts/uidrift/ADAPTING.md`](../../scripts/uidrift/ADAPTING.md) for what it looks for and why. This workflow is only the sink.
+
+### Setup required before the first run
+
+`wandb-docs-source-reader` is installed on `wandb/docs-code-eval` and `wandb/weave-internal` only, so **it cannot read `wandb/core` yet**. Pick one:
+
+- **Preferred**: install `wandb-docs-source-reader` on `wandb/core` with **Contents: read**. Needs a `wandb` org owner. No secret changes here; the workflow already asks for `repositories: core`.
+- **Fallback**: add a repository secret `WANDB_CORE_TOKEN` holding a token that can read `wandb/core`. The workflow prefers the App and falls back to this, so adding the App install later needs no edit.
+
+With neither in place the first step fails immediately and names both options, rather than burning four minutes on a clone that cannot authenticate.
+
+### Triggers
+
+- **Scheduled**: weekdays at 13:00 UTC (6am PT), so a report is waiting at standup
+- **Manual**: `workflow_dispatch` with `since` (window start for a non-incremental run), `seed` (ignore existing reports and rescan the whole window), and `dry-run` (report to the job summary, open no PR)
+
+### What it does
+
+1. Clones `wandb/core` — full history, single branch, no working tree. The ADAPTING.md table records why shallow and blobless clones were both rejected; do not "optimize" this without reading it.
+2. Runs the scan. `--incremental` by default, taking its base from the head SHA in the newest report filename under `uidrift/reports/`; falls back to `--since` when no report exists yet.
+3. Writes the report to the job summary, so a run is readable even when it opens no PR.
+4. If there are findings (or a reopened decision), opens or updates a **draft PR** on the rolling branch `uidrift/drift-report` with the funnel counts, lane breakdown, and how to record a decision.
+5. Fails the run — after the PR exists — if any stored decision reopened. That means a writer's earlier dismissal no longer matches the docs, which only a human can settle.
+
+Merging the PR advances the watermark. Closing it unmerged is also safe: the next run rescans the same range and supersedes the report.
+
+### Reviewing a report
+
+Each row lands in one of three lanes: **agent** (mechanical rename, safe to apply), **pair** (a writer scopes it, an agent applies it), **human** (prose has to be written). Rows that are wrong get recorded rather than deleted:
+
+```bash
+PYTHONPATH=scripts python3 -m uidrift.scan decide <id> \
+    --status dismissed --by <you> --agreement false_positive --note '<why>'
+```
+
+`--agreement` is the detector's only feedback channel and cannot be reconstructed later. A dismissal reopens by itself if docs later start covering that surface, so it suppresses a row without hiding it forever.
+
 ## Readability delta
 
 **Workflow**: `readability-delta.yml`

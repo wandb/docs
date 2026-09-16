@@ -181,7 +181,9 @@ Weave では、Scorers が AI の出力を評価し、評価メトリクスを�
 
     * **Output:** AI システムの出力にアクセスするには、Scorer 関数のシグネチャに `output` パラメーターを含めます。
 
-    ### `column_map` を使用した列名のマッピング
+    <div id="mapping-column-names-with-column_map">
+      ### `column_map` を使用した列名のマッピング
+    </div>
 
     `score` メソッドの引数名がデータセット内の列名と一致しないことがあります。その場合は、`column_map` を使用して対応できます。
 
@@ -248,7 +250,9 @@ Weave では、Scorers が AI の出力を評価し、評価メトリクスを�
     );
     ```
 
-    ### `columnMapping` を使用した列名のマッピング
+    <div id="mapping-column-names-with-columnmapping">
+      ### `columnMapping` を使用した列名のマッピング
+    </div>
 
     <Warning>
       TypeScript では、この機能は個々の Scorer ではなく `Evaluation` オブジェクト側にあります。

@@ -1,5 +1,6 @@
 ---
 title: "Chat with ARIA"
+description: "ARIA との会話を管理します。チャットの開始、メッセージのキューイング、コンテキストの追加、履歴の整理、フィードバックの提供などを行えます。"
 ---
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -10,7 +11,7 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
   <MultiTenantCloudOnly />
 </Note>
 
-このページでは、チャットの開始と再開、フォローアップメッセージのキューイング、Runs や画像などのコンテキストの追加、応答に対するフィードバックの提供など、ARIA との会話を管理する方法について説明します。
+このページでは、チャットの開始と再開、フォローアップメッセージのキューイング、Runs や画像などのコンテキストの追加、応答に対するフィードバックの提供など、ARIA との会話を管理する方法について説明します。また、会話の名前変更、ピン留め、削除によってチャット履歴を整理する方法についても説明します。
 
 <div id="start-a-new-chat">
   ## 新しいチャットを開始する
@@ -20,7 +21,7 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
 
 複数のチャットを同時並行で進めることができます。チャットウィンドウを閉じていても、チャットに返信があると ARIA から通知されます。
 
-新しいチャットを開始しても、以前の会話は削除されません。[以前の会話を表示する](/ja/aria/chat#view-chat-history)には、チャットウィンドウの左上にある 3 本線をクリックしてチャット履歴を開きます。
+新しいチャットを開始しても、以前の会話は削除されません。[以前の会話を表示する](/ja/aria/chat#view-chat-history)には、**<Icon icon="sidebar-reveal" iconType="solid" />** (**Reveal chat history**) をクリックしてチャット履歴のサイドバーを開きます。
 
 <div id="send-a-message">
   ## メッセージを送信する
@@ -34,6 +35,10 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
 * より柔軟に操作するには、テキストエディターで複雑なメッセージを作成して貼り付けます。プレーンテキストに対応しており、貼り付けた `@` 文字は run 参照として解決されません。
 
 現在の操作をキャンセルし、次の[キューに入っているメッセージ](#queue-messages)を&#95;すぐに&#95;送信するには、テキスト入力欄の右にある停止アイコンを押します。
+
+コンテキストを保ちやすくするため、ARIA は折れ線グラフや棒グラフをチャット内に直接レンダリングし、全画面表示にも対応しています。Workspace の **Runs** タブで run にカーソルを合わせると、ARIA 内でその run のグラフがハイライトされ、ARIA 内のパネルにカーソルを合わせると **Runs** タブで該当の run がハイライトされます。
+
+<Frame>![ARIA の折れ線グラフ操作を示すアニメーション](/images/agent/aria-line-plot-interactions.gif)</Frame>
 
 <div id="queue-messages">
   ## キュー内のメッセージ
@@ -67,33 +72,77 @@ ARIA の処理中に、追加のリクエストをチャットウィンドウに
 
 ARIA が続行前に確認への回答や許可を求める場合、応答するまでキューは一時停止します。先に応答せずにキュー内のメッセージを実行するには、その横にある上矢印アイコンをクリックします。
 
-<div id="view-chat-history">
-  ## チャット履歴を表示する
+<div id="manage-conversations">
+  ## 会話を管理する
 </div>
 
-以前の会話を表示するには、次の手順に従います。
+以下のセクションでは、会話の表示、リネーム、ピン留め、削除の方法について説明します。
+
+<div id="view-chat-history">
+  ### チャット履歴 を表示する
+</div>
+
+過去の会話を表示するには、次の手順に従います。
 
 1. ARIA を開きます。
-2. チャットウィンドウの左上にある 3 本線をクリックして、チャット履歴を開きます。
-3. 会話を選択します。
+2. **<Icon icon="sidebar-reveal" iconType="solid" />** (**Reveal chat history**) をクリックして、チャット履歴 サイドバーを開きます。デフォルトでは折りたたまれています。サイドバーが開いている間、同じコントロールの表示は **Collapse chat history** に変わります。
+3. 再開したい会話を選択します。
 
-W&amp;B では、ARIA との会話は project ごと、および日付ごとに整理されます。チャット履歴から選択すると、以前の会話を再開できます。また、会話の横にあるごみ箱アイコンをクリックして、[会話を削除する](/ja/aria/chat#delete-previous-conversations)こともできます。
+ピン留めされた会話は日付ごとにグループ化されず、単一の **Pinned** ヘッダーの下にまとめて先頭に表示されます。その後にピン留めされていない会話が続き、**Today**、**Yesterday**、**Last 7 Days**、**Last 30 Days**、さらに月単位、1 年より古い会話は年月単位でグループ化されます。各グループ内では、直近に活動があった会話が先頭に表示されます。
+
+会話の行にマウスオーバーするか、キーボードでフォーカスすると、次の 3 つのコントロールが表示されます。
+
+* **<Icon icon="pencil" iconType="solid" />** (**Rename chat**) : [会話をリネームする](#rename-a-conversation) を参照してください。
+* **<Icon icon="thumbtack" iconType="solid" />** (**Pin chat** / **Unpin chat**) : [会話をピン留めする](#pin-a-conversation) を参照してください。
+* **<Icon icon="trash" iconType="solid" />** (**Delete chat**) : [過去の会話を削除する](#delete-previous-conversations) を参照してください。
+
+チャット履歴 サイドバーの **Customize** セクションには、作成した ARIA のオートメーションも一覧表示されます。[ARIA でオートメーションを使用する](/ja/models/automations/create-automations/aria) を参照してください。
+
+<div id="rename-a-conversation">
+  ### 会話をリネームする
+</div>
+
+デフォルトでは、会話のタイトルには最初の プロンプト の抜粋が使われます。
+
+1. チャット履歴 サイドバーで、リネームしたい会話にカーソルを合わせます。
+2. **<Icon icon="pencil" iconType="solid" />** (**Rename chat**) をクリックします。タイトルが編集可能なフィールドになり、`Enter a title` というプレースホルダーが表示されます。
+3. 255 文字以内でタイトルを入力します。または **<Icon icon="wand-magic-sparkles" iconType="solid" />** (**Generate chat title**) をクリックすると、ARIA が会話を読み取り、会話の始まり方だけでなく実際にどのようなやり取りが行われたかを表すタイトルを作成します。
+4. **Enter** を押すか、**<Icon icon="check" iconType="solid" />** (**Save chat title**) をクリックして保存します。変更を破棄するには、**Escape** を押すか **<Icon icon="xmark" iconType="solid" />** (**Cancel rename**) をクリックします。
+
+フィールドを空にして保存すると、プロンプト の抜粋によるタイトルに戻ります。抜粋が存在しない場合は **Untitled conversation** になります。空白のみを入力して保存した場合は、タイトルがクリアされるのではなく、リネームがキャンセルされます。
+
+手動でのリネームも **Generate chat title** によるリネームも、ユーザーが実行したときにのみ行われます。最初の turn 以降に ARIA が会話のタイトルを自動で付け替えることはありません。
+
+リネームしたタイトルは、開いているブラウザータブ間で同期されます。スマートフォンから chat をリネームすることもできます。モバイルアプリのドキュメントの [Chat with ARIA](/ja/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) を参照してください。
+
+<div id="pin-a-conversation">
+  ### 会話をピン留めする
+</div>
+
+会話をピン留めすると、新しい chat が増えても下に流れてしまうことなく、チャット履歴 サイドバーの最上部に固定できます。
+
+1. チャット履歴 サイドバーで、ピン留めする会話にカーソルを合わせます。
+2. **<Icon icon="thumbtack" iconType="solid" />** (**Pin chat**) をクリックします。会話が **Pinned** ヘッダーの下に移動します。
+3. ピン留めを解除するには、ピン留め済みの会話で **<Icon icon="thumbtack" iconType="solid" />** (**Unpin chat**) をクリックします。
+
+ピン留めできる会話の数に制限はなく、ピン留めの変更は開いているブラウザータブ間で同期されます。ピン留めが影響するのは自分の会話リストのみで、同じ project にアクセスできるチームメンバーの表示には影響しません。
 
 <div id="delete-previous-conversations">
-  ## 以前の会話を削除する
+  ### 以前の会話を削除する
 </div>
 
 以前の会話を削除するには、次の手順に従ってください。
 
 1. ARIA を開きます。
-2. チャットウィンドウの左上にある 3 本線をクリックして、チャット履歴を開きます。
-3. 削除したい会話の横にあるごみ箱アイコンをクリックします。
+2. **<Icon icon="sidebar-reveal" iconType="solid" />** (**Reveal chat history**) をクリックして、チャット履歴のサイドバーを開きます。
+3. 削除したい会話にカーソルを合わせ、**<Icon icon="trash" iconType="solid" />** (**Delete chat**) をクリックします。
+4. **Delete** をクリックして確定します。会話を残す場合は **<Icon icon="xmark" iconType="solid" />** (**Cancel delete**) をクリックします。
 
 <div id="undock-chat-window">
   ## チャットウィンドウを切り離す
 </div>
 
-チャットウィンドウを別ウィンドウとして切り離すことができます。これにより、エージェントの応答を project データと並べて表示できます。
+チャットウィンドウを別ウィンドウとして切り離すことができます。これにより、ARIA の応答を project データと並べて表示できます。
 
 チャットを切り離すには、チャットウィンドウの右上にある閉じる (**X**) ボタンの横の切り離しアイコンをクリックします。
 

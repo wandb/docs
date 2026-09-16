@@ -106,10 +106,10 @@ with wandb.init(project=project, config=config) as run:
     run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-トレーニングの run をシミュレートし、精度と損失のメトリクスを W&amp;B にログする完全な例については、次のセクションを参照してください。
+トレーニング run をシミュレートし、精度と損失のメトリクスを W&amp;B にログする完全な例については、[機械学習のトレーニング実験を作成する](#create-a-machine-learning-training-experiment)を参照してください。
 
 <Info>
-  A [run](/ja/models/runs/) は W&amp;B の中核となる要素です。run を使って、[メトリクスをトラッキングしたり](/ja/models/track/)、[ログを作成したり](/ja/models/track/log/)、artifact をトラッキングしたりできます。
+  [run](/ja/models/runs/) は W&amp;B の中核となる要素です。run を使って、[メトリクスをトラッキングしたり](/ja/models/track/)、[ログを作成したり](/ja/models/track/log/)、アーティファクトをトラッキングしたりできます。
 </Info>
 
 <div id="create-a-machine-learning-training-experiment">
@@ -136,7 +136,7 @@ config = {
 with wandb.init(project=project, config=config) as run:
     offset = random.random() / 5
     print(f"lr: {config['lr']}")
-    
+
     # トレーニング run をシミュレートする
     for epoch in range(2, config['epochs']):
         acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
@@ -145,26 +145,22 @@ with wandb.init(project=project, config=config) as run:
         run.log({"accuracy": acc, "loss": loss})
 ```
 
-[wandb.ai/home](https://wandb.ai/home) にアクセスして、精度 や損失などの記録されたメトリクスと、それらが各トレーニング step でどのように変化したかを確認します。次の画像は、各 run でトラッキングされた損失と 精度 を示しています。各 run オブジェクトは、自動生成された名とともに **Runs** 列に表示されます。
+[W&amp;B のホームページ](https://wandb.ai/home) にアクセスして、精度 や損失などの記録されたメトリクスと、それらが各トレーニング step でどのように変化するかを確認します。次の画像は、各 run でトラッキングされた損失と 精度 を示しています。各 run オブジェクトは、自動生成された名とともに **Runs** 列に表示されます。
 
 <Frame>
-  <img src="/images/quickstart/quickstart_image.png" alt="各 run でトラッキングされた損失と 精度 を示しています。" />
+  <img src="/images/quickstart/quickstart_image.png" alt="各 run でトラッキングされた損失と 精度" />
 </Frame>
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-W&amp;B エコシステムの機能をさらに活用しましょう。
+W&amp;B のその他の機能もぜひご覧ください。
 
-1. [run](/ja/models/runs) について学び、最初の run を作成しましょう。
-2. [W&amp;B Artifacts](/ja/models/artifacts) を使って、モデル、データセット、その他のファイルをトラッキングしましょう。
-3. [W&amp;B Sweeps](/ja/models/sweeps) でハイパーパラメーター探索を自動化し、モデルを最適化しましょう。
-4. [W&amp;B Registry](/ja/models/registry) でモデル、プロンプト、データセットを共有しましょう。
-5. Runs を分析し、モデルの予測を可視化し、project の [ダッシュボード](/ja/models/track/workspaces) で Artifacts を表示しましょう。
-6. [W&amp;B Reports](/ja/models/reports) を使って知見を要約し、共同作業者と更新情報を共有しましょう。
-7. [W&amp;B Weave](/ja/weave/quickstart) で LLM アプリケーションをトレースして評価しましょう。
-
-{/* これはまだ必要ですか？ */}
-
-{/* 6. 実践的なコースを通じて LLM、MLOps、W&B Models について学ぶには、[W&B AI Academy](https://wandb.ai/site/courses/) をご覧ください。 */}
+* [run](/ja/models/runs) について学び、最初の run を作成する。
+* [W&amp;B Artifacts](/ja/models/artifacts) でモデル、データセット、その他のファイルをトラッキングする。
+* [W&amp;B Sweeps](/ja/models/sweeps) でハイパーパラメーター探索を自動化し、モデルを最適化する。
+* [W&amp;B Registry](/ja/models/registry) でモデル、プロンプト、データセットを共有する。
+* project の [ダッシュボード](/ja/models/track/workspaces) で run を分析し、モデルの予測を可視化し、アーティファクトを確認する。
+* [W&amp;B Reports](/ja/models/reports) で検出結果をまとめ、共同作業者と進捗を共有する。
+* [W&amp;B Weave](/ja/weave/quickstart) で LLM アプリケーションのトレースと評価を行う。

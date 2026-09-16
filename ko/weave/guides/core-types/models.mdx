@@ -43,7 +43,9 @@ keywords: ["weave.Model", "모델 버전 관리", "predict op", "weave serve", "
 
     이렇게 하면 `predict()`를 호출할 때마다 모델 설정이 입력 및 출력과 함께 추적됩니다. 이제 모델이 수행하는 모든 예측을 기록하는 버전 관리된 Weave `Model`이 준비되었으며, 다음 섹션에서는 이를 바탕으로 설명합니다.
 
-    ## 모델 자동 버전 관리
+    <div id="automatic-versioning-of-models">
+      ## 모델 자동 버전 관리
+    </div>
 
     모델을 정의하는 매개변수나 코드를 변경하면 Weave가 이러한 변경 사항을 로그로 기록하고 버전을 업데이트합니다.
     그러면 모델 버전별 예측을 비교할 수 있습니다. 프롬프트를 반복 개선하거나 다른 LLM을 사용해 보고, 설정별 예측을 비교할 때 활용하세요.
@@ -60,7 +62,9 @@ keywords: ["weave.Model", "모델 버전 관리", "predict op", "weave serve", "
 
     이렇게 호출하고 나면 UI에서 이 모델의 두 가지 버전을 확인할 수 있으며, 각 버전에는 서로 다른 추적된 Call이 기록됩니다.
 
-    ## 모델 서빙
+    <div id="serve-models">
+      ## 모델 서빙
+    </div>
 
     모델을 서빙하면 `predict` 함수를 HTTP로 노출할 수 있으므로, 기본 코드를 배포하지 않고도 다른 애플리케이션에서 테스트하거나 팀원과 공유할 때 유용합니다. Weave 모델용 FastAPI 서버를 시작하려면 `[MODEL-REF]`를 모델 레퍼런스로 바꾸고 다음 명령을 실행하세요.
 
@@ -70,7 +74,9 @@ keywords: ["weave.Model", "모델 버전 관리", "predict op", "weave serve", "
 
     추가 지침은 [serve](/ko/weave/guides/tools/serve)를 참조하세요.
 
-    ## 프로덕션 Call 추적
+    <div id="track-production-calls">
+      ## 프로덕션 Call 추적
+    </div>
 
     모델을 둘 이상의 환경에서 사용하기 시작하면 프로덕션 트래픽을 개발 또는 evaluation run과 구분해 두는 것이 도움이 됩니다. 그러면 각각을 별도로 분석할 수 있습니다. 프로덕션 Call을 분리하려면 UI 또는 API에서 필터링할 수 있도록 예측에 속성을 추가하세요.
 

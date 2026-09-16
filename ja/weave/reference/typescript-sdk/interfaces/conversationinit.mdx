@@ -3,7 +3,9 @@ title: "ConversationInit"
 description: "TypeScript SDK リファレンス"
 ---
 
-定義元: [src/genai/conversation.ts:8](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L8)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L8" />
 
 <div id="properties">
   ## プロパティ
@@ -19,8 +21,6 @@ description: "TypeScript SDK リファレンス"
 `agentDescription` として引き継がれます。また、各 ターン の `invoke_agent` スパン に
 `gen_ai.agent.description` として出力されます。
 
-定義元: [src/genai/conversation.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L31)
-
 ***
 
 <div id="agentid">
@@ -33,8 +33,6 @@ description: "TypeScript SDK リファレンス"
 `Turn` にデフォルトの `agentId` として引き継がれます。また、各 ターン の `invoke_agent` スパン で
 `gen_ai.agent.id` として出力されます。
 
-定義元: [src/genai/conversation.ts:16](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L16)
-
 ***
 
 <div id="agentname">
@@ -44,8 +42,6 @@ description: "TypeScript SDK リファレンス"
 > `optional` **agentName**: `string`
 
 エージェント名。各ターンで独自の値を設定しない限り、`startTurn()` で作成されるすべての `Turn` にデフォルトの `agentName` として引き継がれます。また、各ターンの `invoke_agent` スパンでは `gen_ai.agent.name` として出力されます。
-
-定義元: [src/genai/conversation.ts:23](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L23)
 
 ***
 
@@ -57,8 +53,6 @@ description: "TypeScript SDK リファレンス"
 
 エージェントのバージョン文字列です。各 `Turn` で独自の値が設定されていない限り、`startTurn()` で作成されるすべての `Turn` にデフォルトの `agentVersion` として引き継がれます。また、各 `Turn` の `invoke_agent` スパン で `gen_ai.agent.version` として出力されます。
 
-定義元: [src/genai/conversation.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L38)
-
 ***
 
 <div id="attributes">
@@ -67,12 +61,10 @@ description: "TypeScript SDK リファレンス"
 
 > `optional` **属性**: `Attributes`
 
-会話で生成されるすべての スパン に付与されるカスタム属性です。
+会話で生成されるすべての スパン に伝播されるカスタム属性です。
 
 ここで指定したキーが スパン 自身の `gen_ai.*` / `weave.*`
 属性と衝突する場合はサポートされず、スパン 側の値が優先されます。
-
-定義元: [src/genai/conversation.ts:52](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L52)
 
 ***
 
@@ -84,8 +76,6 @@ description: "TypeScript SDK リファレンス"
 
 この会話に属するすべての スパン に `gen_ai.conversation.id` として伝播される会話 ID です。省略した場合は自動生成されます。
 
-定義元: [src/genai/conversation.ts:44](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L44)
-
 ***
 
 <div id="model">
@@ -93,8 +83,6 @@ description: "TypeScript SDK リファレンス"
 </div>
 
 > `optional` **モデル**: `string`
-
-定義元: [src/genai/conversation.ts:9](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L9)
 
 ***
 
@@ -107,5 +95,3 @@ description: "TypeScript SDK リファレンス"
 </Warning>
 
 > `optional` **sessionId**: `string`
-
-定義元: [src/genai/conversation.ts:55](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/conversation.ts#L55)

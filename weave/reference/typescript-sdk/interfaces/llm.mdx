@@ -3,6 +3,10 @@ title: "LLM"
 description: "TypeScript SDK reference"
 ---
 
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
+
 An LLM call. Emits a `chat` span with `gen_ai.*` attributes.
 
 Created by `weave.startLLM()` (or `turn.startLLM()`) and terminated with
@@ -13,8 +17,6 @@ Populate `inputMessages` / `outputMessages` / `usage` / `reasoning` directly,
 or via the helper functions (`output`, `think`, `attachMedia`, `record`).
 
 All recorded data is flushed to the span at `end()`.
-
-Defined in: [src/genai/llm.ts:86](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L86)
 
 ## Examples
 
@@ -61,15 +63,11 @@ try {
 Input messages sent to the model. Flushed to `gen_ai.input.messages` on
 `end()`.
 
-Defined in: [src/genai/llm.ts:93](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L93)
-
 ***
 
 ### model
 
 > `readonly` **model**: `string`
-
-Defined in: [src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L117)
 
 ***
 
@@ -80,15 +78,11 @@ Defined in: [src/genai/llm.ts:117](https://github.com/wandb/weave/blob/8c5f077eb
 Assistant messages returned by the model. Flushed to
 `gen_ai.output.messages` on `end()`.
 
-Defined in: [src/genai/llm.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L98)
-
 ***
 
 ### providerName
 
 > `readonly` **providerName**: `string`
-
-Defined in: [src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L118)
 
 ***
 
@@ -99,8 +93,6 @@ Defined in: [src/genai/llm.ts:118](https://github.com/wandb/weave/blob/8c5f077eb
 Chain-of-thought content. Folded into the last assistant message as a
 ReasoningPart at serialization time.
 
-Defined in: [src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L105)
-
 ***
 
 ### usage
@@ -108,8 +100,6 @@ Defined in: [src/genai/llm.ts:105](https://github.com/wandb/weave/blob/8c5f077eb
 > **usage**: [`Usage`](./usage) = `{}`
 
 Token counts and cache stats. Flushed to `gen_ai.usage.*` on `end()`.
-
-Defined in: [src/genai/llm.ts:100](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L100)
 
 ## Methods
 
@@ -128,21 +118,13 @@ Add a named event to the span. Useful for marking non-span moments such as
 context compaction, tool-loop detection, or guardrail trips. Warns and
 no-ops after `end()`. Mirrors OTel `Span.addEvent`.
 
-Defined in: [src/genai/spanBase.ts:82](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L82)
-
 #### Parameters
 
-##### name
+<ParamField path="name" type="string" required />
 
-`string`
+<ParamField path="attributes" type="Attributes" />
 
-##### attributes?
-
-`Attributes`
-
-##### startTime?
-
-`TimeInput`
+<ParamField path="startTime" type="TimeInput" />
 
 #### Returns
 
@@ -170,13 +152,13 @@ Stage a media attachment for the LLM call. Pick exactly one of
  (pre-uploaded file id). The attachment is glued onto the last user
  message in `inputMessages` on `end()`.
 
-Defined in: [src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L183)
-
 #### Parameters
 
-##### opts
+<ParamField path="opts" type="{…} | {…} | {…}" required>
+  See [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality).
 
-`AttachMediaOpts`
+  Full type: `{ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; }`
+</ParamField>
 
 #### Returns
 
@@ -190,19 +172,17 @@ Defined in: [src/genai/llm.ts:183](https://github.com/wandb/weave/blob/8c5f077eb
 
 Convenience for `attachMedia({uri, modality})`.
 
-Defined in: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L192)
-
 #### Parameters
 
-##### url
+<ParamField path="url" type="string" required />
 
-`string`
-
-##### opts
-
-###### modality
-
-[`Modality`](../type-aliases/modality)
+<ParamField path="opts" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="modality" type="Modality" required>
+      See [`Modality`](../type-aliases/modality).
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -216,13 +196,15 @@ Defined in: [src/genai/llm.ts:192](https://github.com/wandb/weave/blob/8c5f077eb
 
 Flush accumulated state and close the span. Idempotent. Pass `error` to mark failed; pass `endTime` to backdate the close.
 
-Defined in: [src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L274)
-
 #### Parameters
 
-##### opts?
+<ParamField path="opts" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
 
-`SpanEndOptions`
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -236,13 +218,9 @@ Defined in: [src/genai/llm.ts:274](https://github.com/wandb/weave/blob/8c5f077eb
 
 Append an assistant message to the response.
 
-Defined in: [src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L155)
-
 #### Parameters
 
-##### content
-
-`string`
+<ParamField path="content" type="string" required />
 
 #### Returns
 
@@ -257,47 +235,41 @@ Defined in: [src/genai/llm.ts:155](https://github.com/wandb/weave/blob/8c5f077eb
 Bulk-set any subset of the mutable fields. Replaces (does not merge).
 Useful for assigning everything at once after a provider call returns.
 
-Defined in: [src/genai/llm.ts:203](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L203)
-
 #### Parameters
 
-##### opts
+<ParamField path="opts" type="object" required>
+  <Expandable title="properties" defaultOpen>
+    <ParamField path="finishReasons" type="string[]" />
 
-###### finishReasons?
+    <ParamField path="inputMessages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
 
-`string`[]
+    <ParamField path="mediaAttachments" type="({…} | {…} | {…})[]">
+      See [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality).
 
-###### inputMessages?
+      Full type: `({ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; })[]`
+    </ParamField>
 
-[`Message`](./message)[]
+    <ParamField path="outputMessages" type="Message[]">
+      See [`Message`](./message).
+    </ParamField>
 
-###### mediaAttachments?
+    <ParamField path="outputType" type="string" />
 
-`AttachMediaOpts`[]
+    <ParamField path="reasoning" type="Reasoning">
+      See [`Reasoning`](./reasoning).
+    </ParamField>
 
-###### outputMessages?
+    <ParamField path="responseId" type="string" />
 
-[`Message`](./message)[]
+    <ParamField path="responseModel" type="string" />
 
-###### outputType?
-
-`string`
-
-###### reasoning?
-
-[`Reasoning`](./reasoning)
-
-###### responseId?
-
-`string`
-
-###### responseModel?
-
-`string`
-
-###### usage?
-
-[`Usage`](./usage)
+    <ParamField path="usage" type="Usage">
+      See [`Usage`](./usage).
+    </ParamField>
+  </Expandable>
+</ParamField>
 
 #### Returns
 
@@ -313,13 +285,9 @@ Set multiple attributes on the span at once. Warns and no-ops after
 `end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
 `set_attributes`).
 
-Defined in: [src/genai/spanBase.ts:63](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L63)
-
 #### Parameters
 
-##### attributes
-
-`Attributes`
+<ParamField path="attributes" type="Attributes" required />
 
 #### Returns
 
@@ -344,13 +312,11 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 
 Start a child SubAgent span nested under this LLM.
 
-Defined in: [src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L261)
-
 #### Parameters
 
-##### opts
-
-[`SubAgentInit`](./subagentinit)
+<ParamField path="opts" type="SubAgentInit" required>
+  See [`SubAgentInit`](./subagentinit).
+</ParamField>
 
 #### Returns
 
@@ -364,13 +330,11 @@ Defined in: [src/genai/llm.ts:261](https://github.com/wandb/weave/blob/8c5f077eb
 
 Start a child Tool span nested under this LLM.
 
-Defined in: [src/genai/llm.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L252)
-
 #### Parameters
 
-##### opts
-
-[`ToolInit`](./toolinit)
+<ParamField path="opts" type="ToolInit" required>
+  See [`ToolInit`](./toolinit).
+</ParamField>
 
 #### Returns
 
@@ -387,13 +351,9 @@ Set or extend the model's reasoning/chain-of-thought content. Accumulates
  a `ReasoningPart` at serialization time, matching the Python SDK's
  on-the-wire shape.
 
-Defined in: [src/genai/llm.ts:167](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/llm.ts#L167)
-
 #### Parameters
 
-##### content
-
-`string`
+<ParamField path="content" type="string" required />
 
 #### Returns
 

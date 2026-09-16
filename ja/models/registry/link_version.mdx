@@ -40,7 +40,9 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
     ```
 
-    ##### run からアーティファクトをリンクする
+    <div id="link-an-artifact-from-a-run">
+      ##### run からアーティファクトをリンクする
+    </div>
 
     アクティブな run 中にアーティファクト バージョンを作成してリンクするには、`wandb.Run.link_artifact()` を使用します。W&amp;B は、リンクする前にドラフト アーティファクトを run の出力としてログします。
 
@@ -79,7 +81,9 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
       run.link_artifact(artifact = artifact, target_path = target_path)
     ```
 
-    ##### アーティファクトを作成してリンクする
+    <div id="create-and-link-an-artifact">
+      ##### アーティファクトを作成してリンクする
+    </div>
 
     `wandb.Artifact.link()` を使用すると、run を明示的に初期化しなくても、ドラフト アーティファクトを作成してリンクできます。リンク前にアーティファクトを保存する必要がある場合は、W&amp;B が必要に応じて自動的に run を作成します。
 
@@ -111,7 +115,9 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
     artifact.link(target_path = target_path)
     ```
 
-    ##### 既存のアーティファクトをリンクする
+    <div id="link-an-existing-artifact">
+      ##### 既存のアーティファクトをリンクする
+    </div>
 
     `wandb.Api().artifact()` で取得したアーティファクトに対して `wandb.Artifact.link()` を使用すると、新しい run を作成せずに、既存のコミット済みアーティファクトバージョンをリンクできます。
 

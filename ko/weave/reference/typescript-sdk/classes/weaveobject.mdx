@@ -3,7 +3,9 @@ title: "WeaveObject"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-정의 위치: [src/weaveObject.ts:70](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L70)
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveObject.ts#L71" />
 
 <div id="extended-by">
   ## 확장하는 항목
@@ -12,29 +14,27 @@ description: "TypeScript SDK 레퍼런스"
 * [`데이터셋`](./dataset)
 * [`평가`](./evaluation)
 
-<div id="constructors">
-  ## 생성자
-</div>
-
 <div id="constructor">
-  ### 생성자
+  ## 생성자
 </div>
 
 > **new WeaveObject**(`_baseParameters`): `WeaveObject`
 
-정의 위치: [src/weaveObject.ts:73](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L73)
-
 <div id="parameters">
-  #### 매개변수
+  ### Parameters
 </div>
 
-<div id="_baseparameters">
-  ##### _baseParameters
+<ParamField path="_baseParameters" type="object" required>
+  <Expandable title="속성" defaultOpen>
+    <ParamField path="description" type="string" />
+
+    <ParamField path="name" type="string" />
+  </Expandable>
+</ParamField>
+
+<div id="returns">
+  ### 반환값
 </div>
-
-`WeaveObjectParameters`
-
-#### 반환값
 
 `WeaveObject`
 
@@ -47,8 +47,6 @@ description: "TypeScript SDK 레퍼런스"
 </div>
 
 > `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
-
-정의 위치: [src/weaveObject.ts:71](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L71)
 
 <div id="accessors">
   ## 접근자
@@ -64,9 +62,7 @@ description: "TypeScript SDK 레퍼런스"
 
 > **get** **description**(): `string` | `undefined`
 
-정의 위치: [src/weaveObject.ts:98](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L98)
-
-<div id="returns">
+<div id="returns-2">
   ##### 반환값
 </div>
 
@@ -78,15 +74,13 @@ description: "TypeScript SDK 레퍼런스"
   ### 이름
 </div>
 
-<div id="get-signature">
+<div id="get-signature-2">
   #### 조회 시그니처
 </div>
 
 > **get** **name**(): `string`
 
-정의 위치: [src/weaveObject.ts:94](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L94)
-
-<div id="returns">
+<div id="returns-3">
   ##### 반환값
 </div>
 
@@ -102,8 +96,8 @@ description: "TypeScript SDK 레퍼런스"
 
 > **saveAttrs**(): `object`
 
-정의 위치: [src/weaveObject.ts:75](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveObject.ts#L75)
-
-#### 반환값
+<div id="returns-4">
+  #### 반환값
+</div>
 
 `object`

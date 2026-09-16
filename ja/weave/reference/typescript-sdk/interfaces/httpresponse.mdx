@@ -3,7 +3,9 @@ title: "HttpResponse<D, E>"
 description: "TypeScript SDK リファレンス"
 ---
 
-定義元: [src/generated/traceServerApi.ts:5989](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5989)
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/generated/traceServerApi.ts#L6479" />
 
 <div id="extends">
   ## 継承
@@ -12,20 +14,12 @@ description: "TypeScript SDK リファレンス"
 * `Response`
 
 <div id="type-parameters">
-  ## 型パラメーター
+  ## タイプパラメーター
 </div>
 
-<div id="d">
-  ### D
-</div>
+<ParamField path="D" type="extends unknown" />
 
-`D` *extends* `unknown`
-
-<div id="e">
-  ### E
-</div>
-
-`E` *extends* `unknown` = `unknown`
+<ParamField path="E" type="extends unknown = unknown" />
 
 <div id="properties">
   ## プロパティ
@@ -36,8 +30,6 @@ description: "TypeScript SDK リファレンス"
 </div>
 
 > `readonly` **body**: `ReadableStream`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt; | `null`
-
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4468
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/body)
 
@@ -55,11 +47,9 @@ description: "TypeScript SDK リファレンス"
 
 > `readonly` **bodyUsed**: `boolean`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4470
-
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/bodyUsed)
 
-<div id="inherited-from">
+<div id="inherited-from-2">
   #### 継承元
 </div>
 
@@ -73,8 +63,6 @@ description: "TypeScript SDK リファレンス"
 
 > **data**: `D`
 
-定義元: [src/generated/traceServerApi.ts:5991](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5991)
-
 ***
 
 <div id="error">
@@ -82,8 +70,6 @@ description: "TypeScript SDK リファレンス"
 </div>
 
 > **error**: `E`
-
-定義元: [src/generated/traceServerApi.ts:5992](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/generated/traceServerApi.ts#L5992)
 
 ***
 
@@ -93,13 +79,11 @@ description: "TypeScript SDK リファレンス"
 
 > `readonly` **headers**: `Headers`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26322
-
 `headers` は、レスポンス に関連付けられたヘッダーを表す読み取り専用プロパティです。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/headers)
 
-<div id="inherited-from">
+<div id="inherited-from-3">
   #### 継承元
 </div>
 
@@ -113,13 +97,11 @@ description: "TypeScript SDK リファレンス"
 
 > `readonly` **ok**: `boolean`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26328
-
 Response インターフェースの `ok` 読み取り専用プロパティには、レスポンスが成功したかどうか (ステータスが 200～299 の範囲内にあるかどうか) を示す Boolean 値が含まれます。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/ok)
 
-<div id="inherited-from">
+<div id="inherited-from-4">
   #### 継承元
 </div>
 
@@ -133,13 +115,11 @@ Response インターフェースの `ok` 読み取り専用プロパティに�
 
 > `readonly` **redirected**: `boolean`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26334
-
 Response インターフェースの読み取り専用プロパティ `redirected` は、このレスポンスが、リダイレクトされたリクエストの結果であるかどうかを示します。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/redirected)
 
-<div id="inherited-from">
+<div id="inherited-from-5">
   #### 継承元
 </div>
 
@@ -153,13 +133,11 @@ Response インターフェースの読み取り専用プロパティ `redirecte
 
 > `readonly` **ステータス**: `number`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26340
-
 `Response` インターフェースの読み取り専用プロパティ `status` には、レスポンスの HTTP ステータスコードが格納されます。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/status)
 
-<div id="inherited-from">
+<div id="inherited-from-6">
   #### 継承元
 </div>
 
@@ -173,13 +151,11 @@ Response インターフェースの読み取り専用プロパティ `redirecte
 
 > `readonly` **statusText**: `string`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26346
-
 Response インターフェースの読み取り専用プロパティ `statusText` には、Response.status の HTTP ステータス コードに対応するステータス メッセージが含まれます。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/statusText)
 
-<div id="inherited-from">
+<div id="inherited-from-7">
   #### 継承元
 </div>
 
@@ -193,13 +169,11 @@ Response インターフェースの読み取り専用プロパティ `statusTex
 
 > `readonly` **type**: `ResponseType`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26352
-
 Response インターフェースの `type` 読み取り専用プロパティには、レスポンスのタイプが格納されます。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/type)
 
-<div id="inherited-from">
+<div id="inherited-from-8">
   #### 継承元
 </div>
 
@@ -213,13 +187,11 @@ Response インターフェースの `type` 読み取り専用プロパティに
 
 > `readonly` **url**: `string`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26358
-
 Response インターフェースの読み取り専用 `url` プロパティには、レスポンスの URL が含まれます。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/url)
 
-<div id="inherited-from">
+<div id="inherited-from-9">
   #### 継承元
 </div>
 
@@ -235,8 +207,6 @@ Response インターフェースの読み取り専用 `url` プロパティに�
 
 > **arrayBuffer**(): `Promise`&lt;`ArrayBuffer`&gt;
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4472
-
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/arrayBuffer)
 
 <div id="returns">
@@ -245,7 +215,7 @@ Response インターフェースの読み取り専用 `url` プロパティに�
 
 `Promise`&lt;`ArrayBuffer`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-10">
   #### 継承元
 </div>
 
@@ -259,17 +229,15 @@ Response インターフェースの読み取り専用 `url` プロパティに�
 
 > **blob**(): `Promise`&lt;`Blob`&gt;
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4474
-
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/blob)
 
-<div id="returns">
+<div id="returns-2">
   #### 戻り値
 </div>
 
 `Promise`&lt;`Blob`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-11">
   #### 継承元
 </div>
 
@@ -283,17 +251,15 @@ Response インターフェースの読み取り専用 `url` プロパティに�
 
 > **bytes**(): `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4476
-
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/bytes)
 
-<div id="returns">
+<div id="returns-3">
   #### 戻り値
 </div>
 
 `Promise`&lt;`Uint8Array`&lt;`ArrayBuffer`&gt;&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-12">
   #### 継承元
 </div>
 
@@ -307,19 +273,17 @@ Response インターフェースの読み取り専用 `url` プロパティに�
 
 > **clone**(): `Response`
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:26364
-
 Response インターフェースの `clone()` メソッドは、あらゆる点で同一のレスポンスオブジェクトの複製を作成し、それを別の変数に格納します。
 
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Response/clone)
 
-<div id="returns">
+<div id="returns-4">
   #### 戻り値
 </div>
 
 `Response`
 
-<div id="inherited-from">
+<div id="inherited-from-13">
   #### 継承元
 </div>
 
@@ -333,17 +297,15 @@ Response インターフェースの `clone()` メソッドは、あらゆる点
 
 > **formData**(): `Promise`&lt;`FormData`&gt;
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4478
-
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/formData)
 
-<div id="returns">
+<div id="returns-5">
   #### 戻り値
 </div>
 
 `Promise`&lt;`FormData`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-14">
   #### 継承元
 </div>
 
@@ -357,17 +319,15 @@ Response インターフェースの `clone()` メソッドは、あらゆる点
 
 > **json**(): `Promise`&lt;`any`&gt;
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4480
-
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/json)
 
-<div id="returns">
+<div id="returns-6">
   #### 戻り値
 </div>
 
 `Promise`&lt;`any`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-15">
   #### 継承元
 </div>
 
@@ -381,17 +341,15 @@ Response インターフェースの `clone()` メソッドは、あらゆる点
 
 > **text**(): `Promise`&lt;`string`&gt;
 
-定義元: node&#95;modules/typescript/lib/lib.dom.d.ts:4482
-
 [MDN リファレンス](https://developer.mozilla.org/docs/Web/API/Request/text)
 
-<div id="returns">
+<div id="returns-7">
   #### 戻り値
 </div>
 
 `Promise`&lt;`string`&gt;
 
-<div id="inherited-from">
+<div id="inherited-from-16">
   #### 継承元
 </div>
 

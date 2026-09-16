@@ -15,7 +15,9 @@ OpenAI Agents SDK는 OpenAI API를 기반으로 에이전트와 멀티 에이전
   <Tab title="Python">
     Weave SDK는 [Python용 OpenAI Agents SDK](https://github.com/openai/openai-agents-python)와 자동으로 패치되어, 최소한의 설정만으로 에이전트의 트레이스를 캡처할 수 있습니다. 이 가이드에서는 Weave를 초기화한 다음 OpenAI Agents SDK로 구축한 멀티턴 리서치 에이전트를 실행하여, Weave가 Session 전반에서 모든 에이전트 호출, 모델 Call, 도구 Call을 캡처하도록 설정하는 방법을 설명합니다.
 
-    ### 사전 요구 사항
+    <div id="prerequisites">
+      ### 사전 요구 사항
+    </div>
 
     시작하기 전에 다음 사항을 준비하세요:
 
@@ -27,7 +29,9 @@ OpenAI Agents SDK는 OpenAI API를 기반으로 에이전트와 멀티 에이전
   <Tab title="TypeScript">
     Weave는 [OpenAI Agents Node SDK](https://github.com/openai/openai-agents-js) (`@openai/agents`)와 통합되어 에이전트 Runs를 자동으로 트레이스합니다. `@openai/agents` 버전 `0.4.15` 이상이 필요합니다.
 
-    ### 사전 요구 사항
+    <div id="prerequisites-2">
+      ### 사전 요구 사항
+    </div>
 
     시작하기 전에 다음 사항을 준비하세요:
 
@@ -191,7 +195,9 @@ OpenAI Agents SDK는 OpenAI API를 기반으로 에이전트와 멀티 에이전
     node --import=weave/instrument main.mjs
     ```
 
-    ### 수동 계측
+    <div id="manual-instrumentation">
+      ### 수동 계측
+    </div>
 
     수동 계측은 모듈 로더 훅을 실행할 수 없는 경우에만 필요합니다. 예를 들어 의존성을 단일 파일로 번들링하는 번들러를 사용하는 경우, Node CLI 플래그를 지원하지 않는 환경, 또는 로더 훅을 우회하는 동적 모듈 로딩 패턴을 사용하는 경우가 이에 해당합니다.
 

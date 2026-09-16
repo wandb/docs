@@ -3,7 +3,9 @@ title: "TurnInit"
 description: "Référence du SDK TypeScript"
 ---
 
-Défini dans : [src/genai/turn.ts:31](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L31)
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L32" />
 
 <div id="extends">
   ## Étend
@@ -21,17 +23,13 @@ Défini dans : [src/genai/turn.ts:31](https://github.com/wandb/weave/blob/8c5f0
 
 > `facultatif` **agentDescription**: `string`
 
-Défini dans : [src/genai/turn.ts:37](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L37)
-
 ***
 
 <div id="agentid">
   ### agentId
 </div>
 
-> `facultatif` **agentId** : `string`
-
-Défini dans : [src/genai/turn.ts:35](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L35)
+> `facultatif` **agentId** : `string`
 
 ***
 
@@ -39,9 +37,7 @@ Défini dans : [src/genai/turn.ts:35](https://github.com/wandb/weave/blob/8c5f0
   ### agentName
 </div>
 
-> `facultatif` **agentName** : `string`
-
-Défini dans : [src/genai/turn.ts:36](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L36)
+> `facultatif` **agentName** : `string`
 
 ***
 
@@ -51,7 +47,17 @@ Défini dans : [src/genai/turn.ts:36](https://github.com/wandb/weave/blob/8c5f0
 
 > `facultatif` **agentVersion**: `string`
 
-Défini dans : [src/genai/turn.ts:38](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L38)
+***
+
+<div id="attributes">
+  ### attributes
+</div>
+
+> `optional` **attributes** : `Attributes`
+
+Attributs personnalisés définis sur ce tour de conversation et transmis à chaque span enfant.
+Ils sont normalement hérités de la conversation via `startConversation({ attributes })` ;
+définissez-les ici pour un `startTurn({ attributes })` sans racine, c&#39;est-à-dire sans conversation.
 
 ***
 
@@ -61,8 +67,6 @@ Défini dans : [src/genai/turn.ts:38](https://github.com/wandb/weave/blob/8c5f0
 
 > `facultatif` **model**: `string`
 
-Défini dans : [src/genai/turn.ts:32](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L32)
-
 ***
 
 <div id="starttime">
@@ -70,8 +74,6 @@ Défini dans : [src/genai/turn.ts:32](https://github.com/wandb/weave/blob/8c5f0
 </div>
 
 > `facultatif` **startTime**: `TimeInput`
-
-Défini dans : [src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/spanBase.ts#L17)
 
 <div id="inherited-from">
   #### Hérité de
@@ -87,8 +89,6 @@ Défini dans : [src/genai/spanBase.ts:17](https://github.com/wandb/weave/blob/8
 
 > `facultatif` **systemInstructions**: `string`[]
 
-Défini dans : [src/genai/turn.ts:33](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L33)
-
 ***
 
 <div id="usermessage">
@@ -96,5 +96,3 @@ Défini dans : [src/genai/turn.ts:33](https://github.com/wandb/weave/blob/8c5f0
 </div>
 
 > `facultatif` **userMessage**: `string`
-
-Défini dans : [src/genai/turn.ts:34](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/turn.ts#L34)

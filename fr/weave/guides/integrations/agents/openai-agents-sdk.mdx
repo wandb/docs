@@ -15,7 +15,9 @@ Le SDK OpenAI Agents est un framework léger qui permet de créer des agents et 
   <Tab title="Python">
     Le SDK Weave effectue un patching automatique avec le [SDK OpenAI Agents pour Python](https://github.com/openai/openai-agents-python), ce qui vous permet de capturer les traces de vos agents avec une configuration minimale. Ce guide explique comment initialiser Weave, puis exécuter un agent de recherche multitour créé avec le SDK OpenAI Agents afin que Weave capture chaque appel d’agent, chaque appel de modèle et chaque appel d’outil pendant toute la session.
 
-    ### Prérequis
+    <div id="prerequisites">
+      ### Prérequis
+    </div>
 
     Avant de commencer, assurez-vous de disposer des éléments suivants :
 
@@ -27,7 +29,9 @@ Le SDK OpenAI Agents est un framework léger qui permet de créer des agents et 
   <Tab title="TypeScript">
     Weave s’intègre au [SDK OpenAI Agents pour Node.js](https://github.com/openai/openai-agents-js) (`@openai/agents`) pour tracer automatiquement les exécutions de vos agents. Nécessite la version `0.4.15` ou ultérieure de `@openai/agents`.
 
-    ### Prérequis
+    <div id="prerequisites-2">
+      ### Prérequis
+    </div>
 
     Avant de commencer, assurez-vous de disposer des éléments suivants :
 
@@ -191,7 +195,9 @@ Installez les packages suivants dans votre environnement de développement afin 
     node --import=weave/instrument main.mjs
     ```
 
-    ### Instrumentation manuelle
+    <div id="manual-instrumentation">
+      ### Instrumentation manuelle
+    </div>
 
     L&#39;instrumentation manuelle n&#39;est nécessaire que lorsque les hook du chargeur de modules ne peuvent pas s&#39;exécuter, par exemple lors de l&#39;utilisation d&#39;un bundler qui regroupe les dépendances en un seul fichier, dans des environnements qui ne prennent pas en charge les indicateurs CLI de Node, ou avec des modèles de chargement de modules dynamiques qui contournent les hook du chargeur.
 

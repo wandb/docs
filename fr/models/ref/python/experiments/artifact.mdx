@@ -8,7 +8,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py#L128" />
 
-## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Artifact
+<div id="class-wandbartifact">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Artifact
+</div>
 
 Composant flexible et léger pour la gestion des versions des jeux de données et des modèles.
 
@@ -277,7 +279,9 @@ digest_algorithm: "Literal['MD5', 'XXH128']" = 'MD5'
   ## Méthodes
 </div>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add()
+<div id="method-artifactadd">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add()
+</div>
 
 ```python
 self,
@@ -310,7 +314,9 @@ Ajoute `obj` de type wandb.WBValue à l&#39;artifact.
 
 * `ArtifactFinalizedError`: Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add_dir()
+<div id="method-artifactadd_dir">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add_dir()
+</div>
 
 ```python
 self,
@@ -323,7 +329,7 @@ merge: 'bool' = False
 
 Ajouter un répertoire local à l&#39;artifact.
 
-<div id="arguments">
+<div id="arguments-2">
   ##### Arguments
 </div>
 
@@ -351,14 +357,16 @@ Ajouter un répertoire local à l&#39;artifact.
   Si `False` (par défaut), lève une ValueError si un fichier a déjà été ajouté lors d&#39;un précédent appel à add&#95;dir et que son contenu a changé. Si `True`, écrase les fichiers existants dont le contenu a changé. Ajoute toujours les nouveaux fichiers et ne supprime jamais de fichiers. Pour remplacer un répertoire entier, passez un nom lors de l&#39;ajout du répertoire avec `add_dir(local_path, name=my_prefix)` et appelez `remove(my_prefix)` pour supprimer le répertoire, puis ajoutez-le de nouveau.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-2">
   ##### Exceptions levées
 </div>
 
 * `ArtifactFinalizedError`: Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Créez plutôt une nouvelle version de l&#39;artifact.
 * `ValueError`: La stratégie doit être &quot;mutable&quot; ou &quot;immutable&quot;
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add_file()
+<div id="method-artifactadd_file">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add_file()
+</div>
 
 ```python
 self,
@@ -372,7 +380,7 @@ overwrite: 'bool' = False
 
 Ajoutez un fichier local à l&#39;artifact.
 
-<div id="arguments">
+<div id="arguments-3">
   ##### Arguments
 </div>
 
@@ -400,14 +408,16 @@ Ajoutez un fichier local à l&#39;artifact.
   Si la valeur est `True`, remplacez le fichier s&#39;il existe déjà.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-3">
   ##### Exceptions levées
 </div>
 
 * `ArtifactFinalizedError`: Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Créez plutôt une nouvelle version de l&#39;artifact.
 * `ValueError`: La stratégie doit être &quot;mutable&quot; ou &quot;immutable&quot;
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add_reference()
+<div id="method-artifactadd_reference">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.add_reference()
+</div>
 
 ```python
 self,
@@ -432,7 +442,7 @@ Par défaut, les schémas suivants sont pris en charge :
 
 Pour tout autre schéma, le digest est simplement un hachage de l&#39;URI et la taille reste vide.
 
-<div id="arguments">
+<div id="arguments-4">
   ##### Arguments
 </div>
 
@@ -452,13 +462,15 @@ Pour tout autre schéma, le digest est simplement un hachage de l&#39;URI et la 
   le nombre maximal d&#39;objets à prendre en compte lors de l&#39;ajout d&#39;une référence pointant vers un répertoire ou un préfixe de stockage de bucket. Par défaut, le nombre maximal d&#39;objets autorisé pour Amazon S3, GCS, Azure et les fichiers locaux est de 10,000,000. Les autres schémas d&#39;URI n&#39;ont pas de limite.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-4">
   ##### Exceptions levées
 </div>
 
 * `ArtifactFinalizedError`: Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.checkout()
+<div id="method-artifactcheckout">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.checkout()
+</div>
 
 ```python
 self,
@@ -469,7 +481,7 @@ Remplace le répertoire racine spécifié par le contenu de l&#39;artifact.
 
 AVERTISSEMENT : cette opération supprimera tous les fichiers dans `root` qui ne sont pas inclus dans l&#39;artifact.
 
-<div id="arguments">
+<div id="arguments-5">
   ##### Arguments
 </div>
 
@@ -477,13 +489,15 @@ AVERTISSEMENT : cette opération supprimera tous les fichiers dans `root` qui n
   le répertoire à remplacer par les fichiers de cet artifact.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-5">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.delete()
+<div id="method-artifactdelete">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.delete()
+</div>
 
 ```python
 self,
@@ -496,7 +510,7 @@ Si cette méthode est appelée sur un artifact lié, seul le lien est supprimé,
 
 Utilisez `Artifact.unlink()` au lieu de `Artifact.delete()` pour supprimer le lien entre un artifact source et une collection.
 
-<div id="arguments">
+<div id="arguments-6">
   ##### Arguments
 </div>
 
@@ -504,13 +518,15 @@ Utilisez `Artifact.unlink()` au lieu de `Artifact.delete()` pour supprimer le li
   Si défini sur `True`, supprime tous les alias associés à l’artifact. Si `False`, lève une exception si l’artifact possède déjà des alias. Ce paramètre est ignoré si l’artifact est récupéré depuis une collection à laquelle il est lié.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-6">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.download()
+<div id="method-artifactdownload">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.download()
+</div>
 
 ```python
 self,
@@ -526,7 +542,7 @@ Télécharge le contenu de l&#39;artifact dans le répertoire racine spécifié.
 Les fichiers existants dans `root` ne sont pas modifiés. Supprimez explicitement `root`
 avant d&#39;appeler `download` si vous voulez que son contenu corresponde exactement à celui de l&#39;artifact.
 
-<div id="arguments">
+<div id="arguments-7">
   ##### Arguments
 </div>
 
@@ -550,13 +566,15 @@ avant d&#39;appeler `download` si vous voulez que son contenu corresponde exacte
   Si défini sur `None` (par défaut), l&#39;artifact sera téléchargé en parallèle à l&#39;aide d&#39;un téléchargement multipart si la taille d&#39;un fichier individuel dépasse 2 Go. Si défini sur `True` ou `False`, l&#39;artifact sera téléchargé en parallèle ou en série, quelle que soit la taille du fichier.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-7">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.file()
+<div id="method-artifactfile">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.file()
+</div>
 
 ```python
 self,
@@ -565,7 +583,7 @@ root: 'str | None' = None
 
 Télécharge un artifact contenant un seul fichier dans le répertoire spécifié par `root`.
 
-<div id="arguments">
+<div id="arguments-8">
   ##### Arguments
 </div>
 
@@ -573,14 +591,16 @@ Télécharge un artifact contenant un seul fichier dans le répertoire spécifi�
   Le répertoire racine dans lequel stocker le fichier. Valeur par défaut : `./artifacts/self.name/`.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-8">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError` :  Si l&#39;artifact n&#39;est pas enregistré.
 * `ValueError` :  Si l&#39;artifact contient plus d&#39;un fichier.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.files()
+<div id="method-artifactfiles">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.files()
+</div>
 
 ```python
 self,
@@ -591,7 +611,7 @@ start: 'str | None' = None
 
 Parcourez tous les fichiers stockés dans cet artifact.
 
-<div id="arguments">
+<div id="arguments-9">
   ##### Arguments
 </div>
 
@@ -607,13 +627,15 @@ Parcourez tous les fichiers stockés dans cet artifact.
   Curseur de pagination pour reprendre une requête précédente, capturé à partir de l’attribut `.cursor` d’un paginateur précédent.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-9">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.finalize()
+<div id="method-artifactfinalize">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.finalize()
+</div>
 
 ```python
 self
@@ -626,7 +648,9 @@ est journalisé en tant que version d&#39;artifact spécifique. Créez une nouve
 pour y journaliser davantage de données. Un artifact est automatiquement finalisé
 lorsque vous le journalisez avec `log_artifact`.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get()
+<div id="method-artifactget">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get()
+</div>
 
 ```python
 self,
@@ -635,7 +659,7 @@ name: 'str'
 
 Obtient l&#39;objet WBValue situé à l&#39;emplacement relatif `name` dans l&#39;artifact.
 
-<div id="arguments">
+<div id="arguments-10">
   ##### Arguments
 </div>
 
@@ -643,13 +667,15 @@ Obtient l&#39;objet WBValue situé à l&#39;emplacement relatif `name` dans l&#3
   Le nom relatif dans l&#39;artifact à récupérer.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-10">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: si l’artifact n’est pas enregistré ou si le run est hors ligne.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get_added_local_path_name()
+<div id="method-artifactget_added_local_path_name">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get_added_local_path_name()
+</div>
 
 ```python
 self,
@@ -658,7 +684,7 @@ local_path: 'str'
 
 Obtenir le nom relatif dans l&#39;artifact d’un fichier ajouté à partir d’un chemin local du système de fichiers.
 
-<div id="arguments">
+<div id="arguments-11">
   ##### Arguments
 </div>
 
@@ -666,7 +692,9 @@ Obtenir le nom relatif dans l&#39;artifact d’un fichier ajouté à partir d’
   Le chemin local à convertir en nom relatif dans l&#39;artifact.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get_entry()
+<div id="method-artifactget_entry">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get_entry()
+</div>
 
 ```python
 self,
@@ -675,7 +703,7 @@ name: 'StrPath'
 
 Récupère l’entrée portant le nom indiqué.
 
-<div id="arguments">
+<div id="arguments-12">
   ##### Arguments
 </div>
 
@@ -683,14 +711,16 @@ Récupère l’entrée portant le nom indiqué.
   Le nom relatif de l’artifact à récupérer
 </ResponseField>
 
-<div id="raises">
+<div id="raises-11">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: si l’artifact n’est pas enregistré ou si le run est hors ligne.
 * `KeyError`: si l’artifact ne contient pas d’entrée portant le nom indiqué.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get_path()
+<div id="method-artifactget_path">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.get_path()
+</div>
 
 ```python
 self,
@@ -699,7 +729,7 @@ name: 'StrPath'
 
 Obsolète. Utilisez `get_entry(name)`.
 
-<div id="arguments">
+<div id="arguments-13">
   ##### Arguments
 </div>
 
@@ -707,7 +737,9 @@ Obsolète. Utilisez `get_entry(name)`.
   Aucune description fournie.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.is_draft()
+<div id="method-artifactis_draft">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.is_draft()
+</div>
 
 ```python
 self
@@ -715,7 +747,9 @@ self
 
 Vérifie si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.json_encode()
+<div id="method-artifactjson_encode">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.json_encode()
+</div>
 
 ```python
 self
@@ -723,7 +757,9 @@ self
 
 Retourne l&#39;artifact encodé au format JSON.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.link()
+<div id="method-artifactlink">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.link()
+</div>
 
 ```python
 self,
@@ -733,7 +769,7 @@ aliases: 'Iterable[str] | None' = None
 
 Liez cet artifact à une collection.
 
-<div id="arguments">
+<div id="arguments-14">
   ##### Arguments
 </div>
 
@@ -745,13 +781,15 @@ Liez cet artifact à une collection.
   Ajoutez un ou plusieurs alias à l&#39;artifact lié. L&#39;alias &quot;latest&quot; est automatiquement appliqué à l&#39;artifact le plus récent que vous liez.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-12">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.logged_by()
+<div id="method-artifactlogged_by">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.logged_by()
+</div>
 
 ```python
 self
@@ -759,13 +797,15 @@ self
 
 Obtient le run W&amp;B qui a enregistré l&#39;artifact à l&#39;origine.
 
-<div id="raises">
+<div id="raises-13">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.new_draft()
+<div id="method-artifactnew_draft">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.new_draft()
+</div>
 
 ```python
 self
@@ -775,13 +815,15 @@ Créez un nouvel artifact brouillon avec le même contenu que cet artifact valid
 
 La modification d’un artifact existant crée une nouvelle version d’artifact appelée « artifact incrémentiel ». L’artifact renvoyé peut être enrichi ou modifié, puis enregistré comme nouvelle version.
 
-<div id="raises">
+<div id="raises-14">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.new_file()
+<div id="method-artifactnew_file">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.new_file()
+</div>
 
 ```python
 self,
@@ -793,7 +835,7 @@ policy: "Literal['mutable', 'immutable']" = 'mutable'
 
 Ouvrez un nouveau fichier temporaire et ajoutez-le à l&#39;artifact.
 
-<div id="arguments">
+<div id="arguments-15">
   ##### Arguments
 </div>
 
@@ -813,13 +855,15 @@ Ouvrez un nouveau fichier temporaire et ajoutez-le à l&#39;artifact.
   Par défaut, la valeur est définie sur &quot;mutable&quot;. Si elle est définie sur &quot;mutable&quot;, créez une copie temporaire du fichier pour éviter toute corruption pendant le téléversement. Si elle est définie sur &quot;immutable&quot;, désactivez la protection et supposez que l&#39;utilisateur ne supprimera pas et ne modifiera pas le fichier.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-15">
   ##### Exceptions levées
 </div>
 
 * `ArtifactFinalizedError`: Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.remove()
+<div id="method-artifactremove">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.remove()
+</div>
 
 ```python
 self,
@@ -828,7 +872,7 @@ item: 'StrPath | ArtifactManifestEntry'
 
 Supprime un élément de l&#39;artifact.
 
-<div id="arguments">
+<div id="arguments-16">
   ##### Arguments
 </div>
 
@@ -836,14 +880,16 @@ Supprime un élément de l&#39;artifact.
   Élément à supprimer. Il peut s&#39;agir d&#39;une entrée de manifeste spécifique ou du nom d&#39;un chemin relatif à l&#39;artifact. Si l&#39;élément correspond à un répertoire, tous les éléments de ce répertoire seront supprimés.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-16">
   ##### Exceptions levées
 </div>
 
 * `ArtifactFinalizedError`: Vous ne pouvez pas modifier la version actuelle de l&#39;artifact, car elle est finalisée. Enregistrez plutôt une nouvelle version de l&#39;artifact.
 * `FileNotFoundError`: Si l&#39;élément est introuvable dans l&#39;artifact.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.save()
+<div id="method-artifactsave">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.save()
+</div>
 
 ```python
 self,
@@ -855,7 +901,7 @@ Enregistrez toutes les modifications apportées à l&#39;artifact.
 
 Si vous êtes actuellement dans un run, ce run journalisera cet artifact. Sinon, un run de type &quot;auto&quot; est créé pour suivre cet artifact.
 
-<div id="arguments">
+<div id="arguments-17">
   ##### Arguments
 </div>
 
@@ -867,7 +913,9 @@ Si vous êtes actuellement dans un run, ce run journalisera cet artifact. Sinon,
   Objet de paramètres à utiliser lors de l&#39;initialisation d&#39;un run automatique. Principalement utilisé dans une infrastructure de test.
 </ResponseField>
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.unlink()
+<div id="method-artifactunlink">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.unlink()
+</div>
 
 ```python
 self
@@ -875,14 +923,16 @@ self
 
 Dissociez cet artifact s&#39;il est lié en tant que membre d&#39;une collection d&#39;artifacts.
 
-<div id="raises">
+<div id="raises-17">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 * `ValueError`: Si l’artifact n’est pas lié à aucune collection.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.used_by()
+<div id="method-artifactused_by">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.used_by()
+</div>
 
 ```python
 self
@@ -890,13 +940,15 @@ self
 
 Obtenir la liste des runs ayant utilisé cet artifact et les artifacts qui lui sont liés.
 
-<div id="raises">
+<div id="raises-18">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.verify()
+<div id="method-artifactverify">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.verify()
+</div>
 
 ```python
 self,
@@ -908,7 +960,7 @@ Vérifier que le contenu d’un artifact correspond au manifeste.
 Une somme de contrôle est calculée pour tous les fichiers du répertoire, puis ces sommes sont
 comparées à celles du manifeste de l’artifact. Les références ne sont pas vérifiées.
 
-<div id="arguments">
+<div id="arguments-18">
   ##### Arguments
 </div>
 
@@ -916,14 +968,16 @@ comparées à celles du manifeste de l’artifact. Les références ne sont pas 
   Le répertoire à vérifier. Si `None`, l’artifact sera téléchargé dans &#39;./artifacts/self.name/&#39;.
 </ResponseField>
 
-<div id="raises">
+<div id="raises-19">
   ##### Exceptions levées
 </div>
 
 * `ArtifactNotLoggedError`: Si l’artifact n’est pas enregistré.
 * `ValueError`: Si la vérification échoue.
 
-### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.wait()
+<div id="method-artifactwait">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Artifact.wait()
+</div>
 
 ```python
 self,
@@ -932,7 +986,7 @@ timeout: 'int | None' = None
 
 Si nécessaire, attendez que cet artifact ait fini d’être enregistré.
 
-<div id="arguments">
+<div id="arguments-19">
   ##### Arguments
 </div>
 

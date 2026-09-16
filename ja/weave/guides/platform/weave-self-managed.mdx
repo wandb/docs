@@ -1192,7 +1192,7 @@ ClickHouse の容量を増やすには、次の方法があります。
   ### 異なるバージョンの ClickHouse を使用する
 </div>
 
-別のバージョンの ClickHouse を使用するには、`ch-keeper.yaml` と `ch-server.yaml` の両方でイメージタグを更新します。
+別の ClickHouse バージョンを使用するには、`ch-keeper.yaml` と `ch-server.yaml` の両方でイメージタグを更新します。
 
 ```yaml
 image: clickhouse/clickhouse-keeper:25.10   # Keeper のバージョン
@@ -1202,7 +1202,7 @@ image: clickhouse/clickhouse-server:25.10   # Server のバージョン
 互換性を確保するには、Keeper とサーバーのバージョンを一致させるか、Keeper のバージョンをサーバーのバージョン以上にする必要があります。
 
 <Warning>
-  ClickHouse Server をアップグレードする際は、ClickHouse Keeper も互換性のあるバージョンにアップグレードしてください。W&amp;B セルフマネージド デプロイメントで ClickHouse のバージョンを変更する前に、[アップグレード時の ClickHouse の互換性](/ja/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades)と[サポートされる W&amp;B Server リリース](/ja/release-notes/server-releases)のページを確認してください。Models の OLAP 機能と Weave では、必要な ClickHouse のバージョンが異なる場合があります。
+  ClickHouse Server をアップグレードする際は、ClickHouse Keeper も互換性のあるバージョンにアップグレードしてください。W&amp;B セルフマネージド デプロイメントで ClickHouse バージョンを変更する前に、[アップグレード時の ClickHouse 互換性](/ja/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades)と[サポートされる W&amp;B Server リリース](/ja/release-notes/server-releases)のページを確認してください。
 </Warning>
 
 <div id="monitor-clickhouse">
@@ -1251,9 +1251,7 @@ ClickHouse のデータは S3 に保存されており、S3 のバージョン�
 以下の手順では、operator、ClickHouse サーバー、Weave Trace コンポーネントの日常的なアップグレードについて説明します。コンポーネントは一度に 1 つずつアップグレードし、次に進む前に deployment が正常な状態であることを確認してください。
 
 <Note>
-  ClickHouse を Weave と Models の OLAP 機能の両方で使用するセルフマネージドのデプロイでは、両方のプロダクトのバージョン要件を満たす必要があります。Models の OLAP 機能と Weave では、必要な ClickHouse のバージョン要件が異なる場合があります。
-
-  ClickHouse または W&amp;B Server をアップグレードする前に、[アップグレード時の ClickHouse 互換性](/ja/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades)と[サポートされる W&amp;B Server リリース](/ja/release-notes/server-releases)を参照してください。ClickHouse Server と ClickHouse Keeper は一緒にアップグレードしてください。
+  Weave では、サポートされる ClickHouse バージョンが必要です。ClickHouse または W&amp;B Server をアップグレードする前に、[アップグレード時の ClickHouse 互換性](/ja/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades)と[サポートされる W&amp;B Server リリース](/ja/release-notes/server-releases)を参照してください。ClickHouse Server と ClickHouse Keeper は一緒にアップグレードしてください。
 </Note>
 
 <div id="upgrade-the-clickhouse-operator">

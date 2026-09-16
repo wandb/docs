@@ -105,7 +105,7 @@ Ce scorer évalue la toxicité du texte fourni en entrée selon cinq dimensions�
 
 Le `WeaveToxicityScorerV1` utilise le modèle open source [Celadon](https://huggingface.co/PleIAs/celadon) de PleIAs. Pour plus d&#39;informations, voir le [W&amp;B rapport WeaveToxicityScorerV1](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ).
 
-<div id="usage-notes">
+<div id="usage-notes-2">
   ### Notes d’utilisation
 </div>
 
@@ -115,7 +115,7 @@ Le `WeaveToxicityScorerV1` utilise le modèle open source [Celadon](https://hugg
     * Si une catégorie obtient à elle seule un score supérieur à `category_threshold` (par défaut : `2`), l’entrée est signalée comme toxique.
   * Pour rendre le filtrage plus agressif, remplacez `category_threshold` ou `total_threshold` lors de l’initialisation.
 
-<div id="usage-example">
+<div id="usage-example-2">
   ### Exemple d’utilisation
 </div>
 
@@ -140,7 +140,7 @@ Ce scorer vérifie si la sortie de votre système d&#39;IA contient des hallucin
 
 Le `WeaveHallucinationScorerV1` utilise le [modèle HHEM 2.1 open source](https://huggingface.co/vectara/hallucination_evaluation_model) de Vectara. Pour plus d&#39;informations, voir le [rapport W&amp;B WeaveHallucinationScorerV1](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA).
 
-<div id="usage-notes">
+<div id="usage-notes-3">
   ### Notes d’utilisation
 </div>
 
@@ -149,7 +149,7 @@ Le `WeaveHallucinationScorerV1` utilise le [modèle HHEM 2.1 open source](https:
   * Un score de sortie plus élevé indique une probabilité plus forte d’hallucination dans la sortie.
   * Le paramètre `threshold` est défini, mais peut être redéfini lors de l’initialisation.
 
-<div id="usage-example">
+<div id="usage-example-3">
   ### Exemple d’utilisation
 </div>
 
@@ -179,7 +179,7 @@ Utilisez ce scorer pour évaluer les systèmes RAG. Il évalue la pertinence du 
 
 Le `WeaveContextRelevanceScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné sur tasksource. Pour plus de détails, voir le [W&amp;B rapport WeaveContextRelevanceScorerV1](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA).
 
-<div id="usage-notes">
+<div id="usage-notes-4">
   ### Notes d’utilisation
 </div>
 
@@ -188,7 +188,7 @@ Le `WeaveContextRelevanceScorerV1` utilise un modèle [deberta-small-long-nli](h
   * Un score plus élevé indique plus fortement que le contexte est pertinent pour la requête.
   * Vous pouvez passer `verbose=True` à la méthode `score` pour obtenir des scores pour chaque segment.
 
-<div id="usage-example">
+<div id="usage-example-4">
   ### Exemple d’utilisation
 </div>
 
@@ -217,14 +217,14 @@ Ce scorer vérifie si le texte d’entrée est cohérent.
 
 `WeaveCoherenceScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné de tasksource. Pour plus d&#39;informations, voir le [W&amp;B rapport de WeaveCoherenceScorerV1](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA).
 
-<div id="usage-notes">
+<div id="usage-notes-5">
   ### Notes d’utilisation
 </div>
 
 * La méthode `score` attend du texte dans les paramètres `query` et `output`.
   * Plus le score de sortie est élevé, plus la prédiction de cohérence est forte.
 
-<div id="usage-example">
+<div id="usage-example-5">
   ### Exemple d’utilisation
 </div>
 
@@ -253,14 +253,14 @@ Ce scorer vérifie si le texte d&#39;entrée est fluide (lisible et proche du la
 
 Le `WeaveFluencyScorerV1` utilise un modèle [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) affiné par AnswerDotAI. Pour plus d&#39;informations, voir le [rapport W&amp;B WeaveFluencyScorerV1](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng).
 
-<div id="usage-notes">
+<div id="usage-notes-6">
   ### Notes d’utilisation
 </div>
 
 * La méthode `score` attend qu’un texte soit transmis au paramètre `output`.
   * Un score plus élevé en sortie indique une meilleure fluidité.
 
-<div id="usage-example">
+<div id="usage-example-6">
   ### Exemple d’utilisation
 </div>
 
@@ -305,14 +305,14 @@ Toute entrée qui ne satisfait pas un évaluateur Critical entraîne un niveau d
     * `WeaveFluencyScorerV1`
     * `WeaveCoherenceScorerV1`
 
-<div id="usage-notes">
+<div id="usage-notes-7">
   ### Notes d’utilisation
 </div>
 
 * Utilisez ce scorer pour évaluer les pipelines RAG.
   * Il nécessite les clés `query`, `context` et `output` pour calculer correctement le score.
 
-<div id="usage-example">
+<div id="usage-example-7">
   ### Exemple d’utilisation
 </div>
 
@@ -357,7 +357,7 @@ Toute entrée qui ne satisfait pas un évaluateur Critical entraîne un niveau d
 
 Ce scorer utilise la [bibliothèque Presidio](https://github.com/microsoft/presidio) pour détecter les personally identifiable information (PII) dans les `inputs` et les sorties de votre système d’IA.
 
-<div id="usage-notes">
+<div id="usage-notes-8">
   ### Notes d’utilisation
 </div>
 
@@ -365,7 +365,7 @@ Ce scorer utilise la [bibliothèque Presidio](https://github.com/microsoft/presi
   * Vous pouvez passer des recognizers personnalisés via le paramètre `custom_recognizers`, sous la forme d’une liste d’instances `presidio.EntityRecognizer`.
   * Pour traiter du texte non anglais, utilisez le paramètre `language` pour préciser la langue.
 
-<div id="usage-example">
+<div id="usage-example-8">
   ### Exemple d’utilisation
 </div>
 

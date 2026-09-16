@@ -161,57 +161,52 @@ W&amp;B には、単一のローテーション操作はありません。キー
   ## メンバーによるAPIキーの使用を制限する
 </div>
 
-組織管理者は、APIキーの作成と使用を制限できます。利用できる制限はデプロイメントタイプによって異なり、各制限はW&amp;B Appではなく、`updateOrganizationPrivacySettings` GraphQLミューテーションを使用して設定します。
+組織管理者は、W&amp;B Appの組織設定からAPIキーの作成と使用を制限できます。これらの制限により、組織のリソースにアクセスできるキーと、新しいキーを作成できるユーザーを限定できます。以下のセクションでは、利用できる制限について説明します。制限内容はデプロイメントタイプによって異なります。
 
-<div id="require-organization-api-keys">
-  ### 組織のAPIキーを必須にする
+<div id="enforce-organization-scoped-api-keys">
+  ### 組織スコープの APIキーを強制する
 </div>
 
-Enterprise 組織では **Multi-tenant Cloud** で利用できます。
+Enterprise 組織向けの **Multi-tenant Cloud** で利用できます。この設定は W&amp;B が組織ごとに有効化します。表示されない場合は、W&amp;B のアカウントチームにお問い合わせください。
 
-有効にすると、組織のAPIキーのみで組織のリソースにアクセスできるようになります。メンバーが複数の組織で使用している個人用APIキーは、この組織では使用できなくなります。これにより、他所で漏洩したキーからデータにアクセスされるのを防止できます。
+強制すると、組織 APIキーと、その組織内のサービスアカウントに属するキーのみが組織のリソースにアクセスできます。メンバーが複数の組織にまたがって使用している個人用 APIキーはこの組織に対して使用できなくなるため、他所から漏洩したキーによってデータにアクセスされることを防げます。
 
-`[ORGANIZATION-ID]` を組織のIDに置き換えます。
+<Warning>
+  この設定を強制すると、個人用 APIキーは直ちに組織への読み取りおよび書き込みアクセスを失い、個人用キーを使用しているインテグレーションは動作しなくなります。強制する前にユーザーに通知してください。
+</Warning>
 
-```graphql
-mutation RequireOrgScopedAPIKeys {
-  updateOrganizationPrivacySettings(
-    input: {organizationId: "[ORGANIZATION-ID]", requireOrgScopedAPIKeys: true}
-  ) {
-    success
-  }
-}
+組織スコープの APIキーを強制するには、次の手順を実行します。
+
+1. 組織管理者としてサインインします。
+2. 組織の設定を開き、左側のナビゲーションで **Authentication** を選択します。
+3. **Enforce organization-scoped API keys** の横にある **Enforce** をクリックします。
+4. 確認のために組織名を入力し、**Enforce Organization-Scoped API Keys** をクリックします。
+
+設定の横に **Enforced** ラベルが表示されます。強制を停止するには、**Authentication** に戻り、**Disable** をクリックします。
+
+<div id="disable-api-key-creation">
+  ### APIキーの作成を無効にする
+</div>
+
+**専用クラウド** および **セルフマネージド** v0.84.0 以降で利用できます。
+
+有効にすると、ユーザーおよびチームサービスアカウントは新しいAPIキーを作成できなくなります。組織サービスアカウントは引き続きキーを作成でき、既存のキーもそのまま使用できるため、この設定をオンにしても実行中のジョブが中断されることはありません。管理されたプロセスを通じて組織がキーを発行しており、メンバーが独自にキーを作成することを防ぎたい場合に使用してください。
+
+APIキーの作成を無効にするには、次の手順を実行します。
+
+1. 組織管理者としてサインインします。
+2. 組織のダッシュボードを開き、左側のナビゲーションで **Privacy** を選択します。
+3. **Access Control** セクションで、**APIキーの作成を無効にする** をオンにします。
+
+変更内容は W&amp;B によってただちに保存されます。このタブのその他の設定については、[プライバシー設定の構成](/ja/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams) を参照してください。
+
+この設定がオンの間、**APIキー** タブでは **New key** ボタンが無効になり、次のメッセージが表示されます。
+
+```text
+APIキーの作成は組織の管理者によって無効にされています。既存のAPIキーの編集、削除、使用は引き続き可能です。
 ```
 
-この設定を使用するには、組織のAPIキーがすでに有効になっている必要があります。詳細はW&amp;Bのアカウントチームにお問い合わせください。
-
-{/*
-  ### APIキーの作成を無効にする
-
-  **専用クラウド** および **セルフマネージド** v0.84.0 以降で利用できます。
-
-  有効にすると、組織のメンバーは新しいAPIキーを作成できなくなります。既存のキーは引き続き使用できるため、この設定を有効にしても実行中のジョブは中断されません。組織で管理されたプロセスを通じてキーを発行しており、メンバーが独自にキーを作成するのを防ぎたい場合に使用します。
-
-  `[ORGANIZATION-ID]` を組織のIDに置き換えます。
-
-  ```graphql
-  mutation DisableAPIKeyCreation {
-  updateOrganizationPrivacySettings(
-    input: {organizationId: "[ORGANIZATION-ID]", disableApiKeyCreation: true}
-  ) {
-    success
-  }
-  }
-  ```
-
-  この設定を有効にした後にキーを作成しようとすると、メンバーには次のエラーが表示されます。
-
-  ```text
-  組織の管理者によってAPIキーの作成が無効にされています
-  ```
-
-  サービスアカウントの作成も制限するには、[`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/platform/hosting/iam/advanced_env_vars) を参照してください。これは、専用クラウドおよびセルフマネージド v0.83.0 以降で、新しいチームスコープのサービスアカウントの作成を防止します。
-  */}
+サービスアカウントの作成も制限するには、[`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/ja/platform/hosting/iam/advanced_env_vars) を参照してください。この環境変数を使用すると、専用クラウドおよびセルフマネージド v0.83.0 以降で、新しいチームスコープのサービスアカウントが作成されないようにできます。
 
 <div id="availability">
   ## 利用可能性

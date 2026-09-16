@@ -11,18 +11,24 @@ rss: true
 </Note>
 
 <Update label="0.52.37" description="2026년 4월 17일">
-  ## Added
+  <div id="added">
+    ## Added
+  </div>
 
   * OpenTelemetry 인테그레이션이 최신 시맨틱 규약을 따릅니다.
   * 비용 계산 및 공급자 인테그레이션에 캐시 토큰 사용량이 포함됩니다.
 
-  ## Changed
+  <div id="changed">
+    ## Changed
+  </div>
 
   * 중첩된 하위 쿼리를 선택적으로 건너뛰어 일부 Call 쿼리의 성능을 개선했습니다.
   * `ClassifierMonitor`를 최상위 `weave` 패키지에서 내보냅니다.
   * Call API가 더 정교한 필터링을 위해 선택적 `query` 매개변수를 허용합니다.
 
-  ## Fixed
+  <div id="fixed">
+    ## Fixed
+  </div>
 
   * 일부 필터 조합에서 평가 results API SQL을 수정했습니다.
   * TypeScript SDK가 `WANDB_BASE_URL`에서 URL 스킴을 누락할 수 있던 버그를 수정했습니다.
@@ -35,19 +41,25 @@ rss: true
 </Update>
 
 <Update label="0.52.36" description="2026년 4월 1일">
-  ## Added
+  <div id="added-2">
+    ## Added
+  </div>
 
   * Call 쿼리에서 사람이 읽기 쉬운 사용자 이름을 확인할 수 있습니다.
   * 일부 흐름에서는 클라이언트를 명시적으로 초기화하지 않아도 `ref.get()`이 작동합니다.
   * 텍스트 기반 평가 결과를 위한 API 및 저장소 경로와 대규모 평가 세트에 대한 개선된 처리 기능이 추가되었습니다.
 
-  ## Changed
+  <div id="changed-2">
+    ## Changed
+  </div>
 
   * LiteLLM은 번들된 인테그레이션과의 호환성을 위해 버전이 고정되었습니다.
   * Moonshot을 모델 공급자로 사용할 수 있습니다.
   * 기반이 되는 쓰기 전 로그 인프라가 트레이스 쓰기의 내구성을 개선합니다.
 
-  ## Fixed
+  <div id="fixed-2">
+    ## Fixed
+  </div>
 
   * 스트리밍 generator를 중단할 때 `GeneratorExit`가 잘못 노출될 수 있던 버그를 수정했습니다.
   * 저장된 객체에 추가 메타데이터 필드가 포함된 경우의 역직렬화를 수정했습니다.
@@ -58,17 +70,23 @@ rss: true
 </Update>
 
 <Update label="0.52.35" description="2026년 3월 19일">
-  ## Added
+  <div id="added-3">
+    ## Added
+  </div>
 
   * 트레이스 수집을 위한 쓰기 전 로그 지원.
   * feedback 데이터 분석을 위한 feedback 통계 쿼리.
 
-  ## Changed
+  <div id="changed-3">
+    ## Changed
+  </div>
 
   * `Ref.uri`는 `ref.uri()`를 호출하지 않고 속성(`ref.uri`)으로 조회할 수 있습니다.
   * 환경 변수를 통해 디바운스된 scoring 이력의 최대 크기를 설정할 수 있습니다.
 
-  ## Fixed
+  <div id="fixed-3">
+    ## Fixed
+  </div>
 
   * 음수 숫자 필터 값에 대한 ClickHouse 형 변환을 수정했습니다.
   * 온클러스터 마이그레이션 중 replicated database engine 오류를 수정했습니다.
@@ -79,12 +97,16 @@ rss: true
 </Update>
 
 <Update label="0.52.33" description="2026년 3월 12일">
-  ## Added
+  <div id="added-4">
+    ## Added
+  </div>
 
   * 객체 태그 및 별칭을 위한 Python SDK 방법과 HTTP 모델.
   * OpenAI Realtime API를 위한 계측. 여기에는 도구 호출과 선택적인 오디오, 텍스트, 음성 캡처가 포함됩니다(상위 릴리스 노트의 TypeScript 예시 참조).
 
-  ## Fixed
+  <div id="fixed-4">
+    ## Fixed
+  </div>
 
   * 트레이스에서 Anthropic 스트리밍 completions 누적을 수정했습니다.
   * `RemoteHTTPTraceServer`의 인증된 `PUT` 요청을 수정했습니다.
@@ -92,18 +114,24 @@ rss: true
 </Update>
 
 <Update label="0.52.31" description="2026년 3월 10일">
-  ## 추가됨
+  <div id="added-5">
+    ## 추가됨
+  </div>
 
   * 저장된 객체의 태그 및 별칭에 대한 Trace server 지원.
   * Claude Agents 트레이싱 인테그레이션.
   * Realtime 세션의 Timestamp 및 첫 토큰까지 걸리는 시간 메트릭.
   * Monitor에서 병합된 Scorer를 사용할 수 있습니다.
 
-  ## 변경됨
+  <div id="changed-4">
+    ## 변경됨
+  </div>
 
   * 요청 간 오퍼레이션 레퍼런스 캐시를 통해 OpenTelemetry 성능을 개선했습니다.
 
-  ## 수정됨
+  <div id="fixed-5">
+    ## 수정됨
+  </div>
 
   * 내부 필드 이스케이프 및 분산 ClickHouse 설정을 포함해 비용 쿼리 구성의 여러 문제를 수정했습니다.
   * Pydantic v2 `Run` 객체에 대한 LangChain 인테그레이션 처리 문제를 수정했습니다.
@@ -112,17 +140,23 @@ rss: true
 </Update>
 
 <Update label="0.52.30" description="2026년 3월 10일">
-  ## 추가됨
+  <div id="added-6">
+    ## 추가됨
+  </div>
 
   * 저장된 점수를 다시 계산하기 위한 점수 백필 API.
   * TypeScript SDK에서 Gemini 요청 추적.
 
-  ## 변경됨
+  <div id="changed-5">
+    ## 변경됨
+  </div>
 
   * 쿼리 성능 향상을 위해 분산 Call 테이블을 `trace_id` 또는 `project_id` 기준으로 샤딩했습니다.
   * 지연 시간을 줄이기 위해 `calls_complete` 쿼리 계획을 단순화했습니다.
 
-  ## 수정됨
+  <div id="fixed-6">
+    ## 수정됨
+  </div>
 
   * Weave UI에서 Gemini 미디어가 렌더링되지 않을 수 있던 버그를 수정했습니다.
   * 이제 OpenTelemetry 배치 삽입에 비동기 ClickHouse 삽입을 사용합니다.
@@ -131,7 +165,9 @@ rss: true
 </Update>
 
 <Update label="0.52.29" description="2026년 2월 27일">
-  ## 추가됨
+  <div id="added-7">
+    ## 추가됨
+  </div>
 
   * 사용 API가 완료되지 않은 Call의 메타데이터를 노출합니다.
   * 더 풍부한 MIME 감지를 위한 선택적 `python-magic` 인테그레이션.
@@ -139,12 +175,16 @@ rss: true
   * Weave 객체의 태그 및 별칭에 대한 스키마 지원.
   * evaluation 테이블용 구조화된 `eval_results` 쿼리 API.
 
-  ## 변경됨
+  <div id="changed-6">
+    ## 변경됨
+  </div>
 
   * ClickHouse에서 Timestamp를 string으로 저장해 인덱싱을 개선했습니다.
   * Call upsert 시 배치 파일 생성 중 중복 작업을 줄였습니다.
 
-  ## 수정됨
+  <div id="fixed-7">
+    ## 수정됨
+  </div>
 
   * generator가 구성된 샘플링 비율을 따르지 않던 버그를 수정했습니다.
   * Call이 끝날 때 스트림이 즉시 flush되도록 버퍼링을 수정했습니다.
@@ -153,18 +193,24 @@ rss: true
 </Update>
 
 <Update label="0.52.28" description="2026년 2월 14일">
-  ## 추가됨
+  <div id="added-8">
+    ## 추가됨
+  </div>
 
   * OpenTelemetry 리소스 속성에 W&amp;B run 및 프로젝트 변수를 포함할 수 있습니다.
   * ORM이 `$lt` 및 `$lte` 비교를 지원합니다.
   * OpenTelemetry 프로젝트가 `calls_complete` 테이블에 직접 쓸 수 있습니다.
   * OpenAI Realtime 트레이싱의 정식 출시를 위한 개선 사항.
 
-  ## 변경됨
+  <div id="changed-7">
+    ## 변경됨
+  </div>
 
   * 테이블 스캔 및 Call 통계 쿼리 성능을 개선했습니다.
 
-  ## 수정됨
+  <div id="fixed-8">
+    ## 수정됨
+  </div>
 
   * 필터가 잘못 최적화되어 제거된 경우를 포함해 스레드 ID로 Call을 필터링하는 문제를 수정했습니다.
   * 멱등적인 annotation queue 상태 업데이트를 수정했습니다.
@@ -173,18 +219,24 @@ rss: true
 </Update>
 
 <Update label="0.52.26" description="2026년 2월 3일">
-  ## 추가됨
+  <div id="added-9">
+    ## 추가됨
+  </div>
 
   * 집계된 사용량을 위한 사용 통계 API와 `/trace/usage` 및 `/calls/usage` endpoints.
   * 고처리량 deployment를 위한 선택적 성능 모드 플래그.
   * Anthropic structured-parse 패칭.
   * 저장된 뷰가 `column_order` 필드를 지원합니다.
 
-  ## 변경됨
+  <div id="changed-8">
+    ## 변경됨
+  </div>
 
   * 분산 cluster 쿼리를 위한 `PREWHERE` 최적화를 개선했습니다.
 
-  ## 수정됨
+  <div id="fixed-9">
+    ## 수정됨
+  </div>
 
   * 실패한 ClickHouse 삽입으로 버퍼링된 행이 누수될 수 있던 버그를 수정했습니다.
   * 임포트 시점에 IPython을 임포트하면 콜드 스타트가 느려질 수 있던 버그를 수정했습니다.
@@ -193,7 +245,9 @@ rss: true
 </Update>
 
 <Update label="0.52.25" description="2026년 1월 20일">
-  ## 수정됨
+  <div id="fixed-10">
+    ## 수정됨
+  </div>
 
   * 일부 인테그레이션에서 중복된 HTTP 응답 캡처를 제거했습니다.
   * 이제 Google GenAI 트레이싱이 시스템 지침을 기록합니다.
@@ -201,7 +255,9 @@ rss: true
 </Update>
 
 <Update label="0.52.24" description="2026년 1월 15일">
-  ## 추가됨
+  <div id="added-10">
+    ## 추가됨
+  </div>
 
   * Node SDK에서 프롬프트 작업을 위한 TypeScript helper API.
   * 적절한 경우 Trace server가 Base64 페이로드를 안전하게 자동 변환합니다.
@@ -209,7 +265,9 @@ rss: true
   * PII 마스킹을 세밀하게 조정하기 위한 `redact_pii_exclude_fields` 설정.
   * `LLMAsAJudgeScorer`의 오디오 입력과 인테그레이션용 더 풍부한 op 메타데이터(kind 및 color).
 
-  ## 수정됨
+  <div id="fixed-11">
+    ## 수정됨
+  </div>
 
   * 예외 사례에서 올바르지 않은 문자가 op 생성을 막던 문제를 수정했습니다.
   * HTTPX 클라이언트의 HTTP 및 HTTPS 프록시 처리 문제를 수정했습니다.
@@ -217,11 +275,15 @@ rss: true
 </Update>
 
 <Update label="0.52.23" description="2026년 1월 8일">
-  ## 추가
+  <div id="added-11">
+    ## 추가
+  </div>
 
   * Logfire Pydantic AI 계측 입력 및 출력을 위한 파싱 헬퍼.
 
-  ## 수정
+  <div id="fixed-12">
+    ## 수정
+  </div>
 
   * 대규모 테이블 evaluation의 비결정적 정렬 순서를 수정했습니다.
   * 입력 및 출력 토큰이 누락되던 비용 쿼리를 수정했습니다.
@@ -229,17 +291,23 @@ rss: true
 </Update>
 
 <Update label="0.52.22" description="2026년 1월 8일">
-  ## 추가
+  <div id="added-12">
+    ## 추가
+  </div>
 
   * `LLMStructuredCompletionModels`의 프롬프트와 템플릿 변수가 completion 호출 전반에 걸쳐 유지됩니다.
 
-  ## 수정
+  <div id="fixed-13">
+    ## 수정
+  </div>
 
   * 일부 환경에서 발생하던 ClickHouse 임포트 호환성 문제를 수정했습니다.
 </Update>
 
 <Update label="0.52.20" description="2025년 11월 26일">
-  ## 추가
+  <div id="added-13">
+    ## 추가
+  </div>
 
   * Completions 스트리밍 API가 프롬프트와 템플릿 변수를 지원합니다.
   * `ObjectRef.from_uri`가 Weave URI에서 객체를 재구성합니다.
@@ -247,7 +315,9 @@ rss: true
   * Bedrock Agents 인테그레이션 지원 범위 확대.
   * 스팬 메타데이터용 TypeScript SDK `withAttributes` 헬퍼.
 
-  ## 수정
+  <div id="fixed-14">
+    ## 수정
+  </div>
 
   * OpenAI Agents tracing 프로세서의 메모리 누수를 수정했습니다.
   * Weave가 비활성화된 상태에서도 ref를 게시할 수 있던 버그를 수정했습니다.

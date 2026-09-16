@@ -69,7 +69,7 @@ La visualisation par défaut constitue un bon point de départ, mais vous pouvez
   <img src="/images/app_ui/custom-charts-1.png" alt="Sélection d’un graphique personnalisé" />
 </Frame>
 
-Mettez à jour la spécification Vega pour personnaliser la visualisation :
+Mettez à jour la spécification Vega pour personnaliser la visualisation :
 
 * Ajoutez des titres pour le graphique, la légende, l’axe X et l’axe Y (définissez &quot;title&quot; pour chaque champ).
 * Remplacez la valeur de &quot;mark&quot; de &quot;point&quot; par &quot;line&quot;.
@@ -86,10 +86,10 @@ Enregistrez un préréglage pour réutiliser la même configuration de graphique
 </Frame>
 
 <div id="bonus-composite-histograms">
-  ## Bonus : histogrammes composites
+  ## Bonus : histogrammes composites
 </div>
 
-Cette section montre comment créer un graphique personnalisé plus avancé : un histogramme composite qui superpose deux distributions dans une même vue, afin d’illustrer ce qu’il est possible de faire une fois que vous maîtrisez la modification de la spécification Vega.
+Cette section montre comment créer un graphique personnalisé plus avancé : un histogramme composite qui superpose deux distributions dans une même vue, afin d’illustrer ce qu’il est possible de faire une fois que vous maîtrisez la modification de la spécification Vega.
 
 Les histogrammes permettent de visualiser des distributions numériques pour vous aider à mieux comprendre des jeux de données plus volumineux. Les histogrammes composites affichent plusieurs distributions sur les mêmes intervalles, ce qui vous permet de comparer deux métriques ou plus entre différents modèles, ou entre différentes classes au sein d’un même modèle. Pour un modèle de segmentation sémantique qui détecte des objets dans des scènes de conduite, vous pouvez par exemple comparer l’efficacité d’une optimisation axée sur la précision à celle basée sur l’Intersection over Union (IoU), ou chercher à savoir dans quelle mesure différents modèles détectent les voitures (régions larges et fréquentes dans les données) par rapport aux panneaux de signalisation (régions bien plus petites et moins fréquentes). Dans la [démo Colab](https://bit.ly/custom-charts-colab), vous pouvez comparer les scores de confiance de deux des dix classes d’êtres vivants.
 
@@ -97,14 +97,14 @@ Les histogrammes permettent de visualiser des distributions numériques pour vou
   <img src="/images/app_ui/composite_histograms.png" alt="Histogramme composite" />
 </Frame>
 
-Pour créer votre propre version du panneau d’histogramme composite personnalisé :
+Pour créer votre propre version du panneau d’histogramme composite personnalisé :
 
 1. Créez un nouveau panneau de graphique personnalisé dans votre espace de travail ou votre rapport (en ajoutant une visualisation **Graphique personnalisé**). Cliquez sur **Edit** en haut à droite pour modifier la spécification Vega à partir de n’importe quel type de panneau intégré.
 2. Remplacez cette spécification Vega intégrée par le [code de départ d’un histogramme composite en Vega](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21). Vous pouvez modifier directement dans cette spécification Vega le titre principal, les titres des axes, le domaine d’entrée et tout autre détail [en utilisant la syntaxe Vega](https://vega.github.io/). Par exemple, vous pouvez modifier les couleurs ou ajouter un troisième histogramme.
 3. Modifiez la requête dans le panneau de droite pour charger les bonnes données depuis vos journaux wandb. Ajoutez le champ `summaryTable` et définissez la valeur `tableKey` correspondante sur `class_scores` pour récupérer le `wandb.Table` enregistré par votre run. Cela vous permet d’alimenter les deux ensembles d’intervalles de l’histogramme (`red_bins` et `blue_bins`) via les menus déroulants avec les colonnes du `wandb.Table` enregistré sous le nom `class_scores`. Par exemple, vous pouvez choisir les scores de prédiction de la classe `animal` pour les intervalles rouges et `plant` pour les bleus.
 4. Vous pouvez continuer à modifier la spécification Vega et la requête jusqu’à ce que le graphique affiché dans l’aperçu corresponde à ce que vous souhaitez. Une fois terminé, cliquez sur **Save as** en haut et donnez un nom à votre graphique personnalisé afin de pouvoir le réutiliser. Cliquez ensuite sur **Apply from panel library** pour finaliser votre graphique.
 
-Voici un exemple de résultat issu d’une brève expérience : un entraînement sur seulement 1 000 exemples pendant une époque génère un modèle qui est sûr que la plupart des images ne sont pas des plantes, mais incertain quant à celles qui pourraient être des animaux.
+Voici un exemple de résultat issu d’une brève expérience : un entraînement sur seulement 1 000 exemples pendant une époque génère un modèle qui est sûr que la plupart des images ne sont pas des plantes, mais incertain quant à celles qui pourraient être des animaux.
 
 <Frame>
   <img src="/images/app_ui/custom-charts-3.png" alt="Configuration du graphique" />

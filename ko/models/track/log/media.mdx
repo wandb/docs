@@ -333,7 +333,11 @@ pip install wandb[media]
 
 로깅된 포인트 클라우드는 W&amp;B 앱에서 완전히 대화형으로 사용할 수 있습니다. 예를 들어, 아래에 임베드된 [LIDAR Point Clouds of Driving Scenes report](https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg)는 3D 바운딩 박스가 포함된 Lyft 데이터셋의 장면을 보여줍니다. 뷰어에서 드래그하여 회전하거나 확대/축소하세요.
 
-<WandbReport src="https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg" title="LIDAR point clouds of driving scenes report" height={720} />
+{/* <WandbReport
+  src="https://wandb.ai/stacey/lyft/reports/LIDAR-Point-Clouds-of-Driving-Scenes--Vmlldzo2MzA5Mg"
+  title="LIDAR point clouds of driving scenes report"
+  height={720}
+  /> */}
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
@@ -647,7 +651,7 @@ run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)}
 
 step당 최대 100개의 오디오 클립을 로깅할 수 있습니다. 자세한 사용 정보는 [`audio-file`](/ko/models/ref/query-panel/audio-file)을 참조하세요.
 
-<div id="video">
+<div id="video-2">
   ### 비디오
 </div>
 

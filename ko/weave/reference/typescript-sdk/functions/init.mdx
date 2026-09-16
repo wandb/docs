@@ -3,33 +3,31 @@ title: "init"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-> **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-Weave 트레이싱에 필요한 Weave 클라이언트를 초기화합니다.
+```ts
+init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
+```
 
-정의 위치: [src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L86" />
+
+Weave 클라이언트를 초기화합니다. 트레이싱이 동작하려면 반드시 필요합니다.
 
 <div id="parameters">
-  ## 매개변수
+  ## Parameters
 </div>
 
-<div id="project">
-  ### 프로젝트
-</div>
+<ParamField path="project" type="string" required>
+  W&amp;B 프로젝트 이름입니다(`project` 또는 `entity/project` 형식일 수 있습니다). W&amp;B 팀(예: `team/project`)을
+  지정하지 않으면 기본 entity가 사용됩니다.
+  기본 entity를 확인하거나 업데이트하려면 User Settings[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)t-team 를 참고하세요
+</ParamField>
 
-`string`
+<ParamField path="settings" type="Partial<{…}>">
+  (선택) 트레이싱 설정
 
-W&amp;B 프로젝트 이름입니다(`project` 또는 `entity/project` 형식일 수 있습니다). W&amp;B 팀(예: `team/project`)을
-지정하지 않으면 기본 entity가 사용됩니다.
-기본 defaul[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)/platform/app/settings-page/user-settings#default-team
-
-<div id="settings">
-  ### settings?
-</div>
-
-`Partial`&lt;[`Settings`](../type-aliases/settings)&gt;
-
-(선택) Weave 트레이싱 설정
+  Full type: `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
+</ParamField>
 
 <div id="returns">
   ## 반환값

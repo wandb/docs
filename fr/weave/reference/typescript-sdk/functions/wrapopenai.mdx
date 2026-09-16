@@ -3,31 +3,27 @@ title: "wrapOpenAI"
 description: "Référence du SDK TypeScript"
 ---
 
-> **wrapOpenAI**&lt;`T`&gt;(`openai`): `T`
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-Encapsule l’API OpenAI afin d’activer le traçage des fonctions pour les appels OpenAI.
+```ts
+wrapOpenAI<T>(openai: T): T
+```
 
-Défini dans : [src/integrations/openai.ts:723](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/integrations/openai.ts#L723)
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/integrations/openai.ts#L760" />
+
+Encapsule l&#39;API OpenAI afin d&#39;activer le traçage des fonctions pour les appels OpenAI.
 
 <div id="type-parameters">
   ## Paramètres de type
 </div>
 
-<div id="t">
-  ### T
-</div>
-
-`T` *extends* `OpenAIAPI`
+<ParamField path="T" type="extends object" />
 
 <div id="parameters">
   ## Paramètres
 </div>
 
-<div id="openai">
-  ### openai
-</div>
-
-`T`
+<ParamField path="openai" type="T" required />
 
 <div id="returns">
   ## Renvoie
