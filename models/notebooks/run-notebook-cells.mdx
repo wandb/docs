@@ -1,0 +1,68 @@
+---
+title: Run notebook cells
+---
+
+Run individual cells, all stale cells, or every cell in a notebook. Notebooks use a reactive execution model that determines execution order from variable dependencies rather than cell position.
+
+## Run all stale cells
+
+Run all [stale cells](./reactive-info#understand-stale-and-blocked-cells) without rerunning cells that already use the latest code and inputs.
+
+<Tabs>
+<Tab title="UI">
+
+Select **Run all stale cells** (<Icon icon="circle-play" iconType="solid"/>) in the lower-right corner of the notebook.
+
+</Tab>
+<Tab title="Keyboard shortcut">
+
+Press **Esc** to enter command mode, then press **Command+Shift+R** on macOS or **Control+Shift+R** on Windows or Linux.
+
+</Tab>
+</Tabs>
+
+## Rerun all cells
+
+Rerun every cell in the notebook:
+
+1. Press **Command+K** on macOS or **Control+K** on Windows or Linux to open the command palette.
+2. Select **Re-run all cells**.
+
+## Stop a running cell
+
+<Tabs>
+<Tab title="UI">
+
+Select the **Stop** button (<Icon icon="circle-stop" iconType="solid"/>) in the cell's toolbar to stop the running cell.
+
+</Tab>
+<Tab title="Keyboard shortcut">
+
+Press **Command+I** on macOS or **Control+I** on Windows or Linux to stop the running cell.
+
+</Tab>
+</Tabs>
+
+## Disable or enable a cell
+
+Prevent a cell, and its dependencies, from running. 
+
+1. Press **Esc** to enter command mode.
+2. Press **Command+P** on macOS or **Control+P** on Windows or Linux to open the command palette
+3. From the dropdown menu, select **Disable execution**.
+
+## Restart the notebook runtime
+
+Restart a notebook's kernel to stop the current kernel and start a new one.
+
+1. Select **action ( <Icon icon="bars" iconType="solid" /> )** in the upper-right corner of the notebook.
+2. From the dropdown menu, select **Restart kernel**.
+
+For more information, see [Disabling cells](https://docs.marimo.io/guides/reactivity/#disabling-cells).
+
+{/* ## Manage long-running or side-effecting cells */}
+
+
+
+
+
