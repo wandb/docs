@@ -69,10 +69,10 @@ print(output)
 기본 트레이스가 작동하면 개별 call 확인을 넘어서는 더 풍부한 워크플로로 진행할 수 있습니다.
 
 <div id="advanced-example-use-weave-evaluations-and-leaderboards">
-  ## 고급 예제: Weave 평가 및 리더보드 사용
+  ## 고급 예시: Weave 평가 및 리더보드 사용
 </div>
 
-모델 call을 추적하는 것 외에도 성능을 평가하고 리더보드를 게시할 수 있습니다. 이 예제는 질의응답 데이터셋에서 두 모델을 비교하여 동일한 프롬프트에 대해 Llama 3.1 8B와 DeepSeek-V3가 어떤 성능을 보이는지 보여줍니다.
+모델 call을 트레이싱하는 것 외에도 성능을 평가하고 리더보드를 게시할 수 있습니다. 이 예시는 질의응답 데이터셋에서 두 모델을 비교하여 동일한 프롬프트에 대해 Llama 3.1 8B와 DeepSeek V3.1이 어떤 성능을 보이는지 보여줍니다.
 
 ```python
 import os
@@ -113,7 +113,7 @@ class WBInferenceModel(weave.Model):
         return resp.choices[0].message.content
 
 llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
-deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3.1")
 
 def preprocess_model_input(example):
     return {"prompt": example["input"]}
@@ -160,7 +160,7 @@ weave.publish(spec)
   <img src="/images/inference/inference-advanced-leaderboard.png" alt="리더보드 보기" />
 </Frame>
 
-두 예제를 모두 완료하면, 트레이스된 모델 call 세트와 게시된 평가, 그리고 데이터셋의 모델을 비교하는 리더보드를 얻게 됩니다.
+두 예시를 모두 완료하면, 트레이싱된 모델 call 세트와 게시된 평가, 그리고 데이터셋의 모델을 비교하는 리더보드를 얻게 됩니다.
 
 <div id="next-steps">
   ## 다음 단계
