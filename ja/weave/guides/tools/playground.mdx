@@ -1,7 +1,7 @@
 ---
 title: "Playground を使ってプロンプトを試す"
 description: "LLM のプロンプトと応答を反復的に改善するプロセスをシンプルにします"
-keywords: ["LLM playground", "プロンプトエンジニアリング", "モデル比較", "カスタムプロバイダー", "保存済みモデル"]
+keywords: ["LLM playground", "プロンプトエンジニアリング", "モデル比較", "カスタムランタイム", "カスタムプロバイダー", "保存済みモデル"]
 ---
 
 <Tip>
@@ -11,15 +11,15 @@ keywords: ["LLM playground", "プロンプトエンジニアリング", "モデ�
   * [プロダクトページ](https://wandb.ai/site/inference)
 </Tip>
 
-LLM のプロンプトと応答を評価するのは簡単ではありません。Weave Playground は、LLM のプロンプトと応答を反復的に改善するプロセスをシンプルにし、さまざまなモデルやプロンプトを試せるようにします。プロンプトの編集、メッセージの再試行、モデル比較などの機能により、Playground を使って LLM アプリケーションをテストし、改善できます。Playground は、LLM のプロンプトをアプリケーションに組み込む前にテスト、比較、改良したい開発者やプロンプトエンジニアを対象としています。Playground は OpenAI、Anthropic、Google などのプロバイダーのモデルに加え、[カスタムプロバイダー](#add-a-custom-provider) もサポートしています。
+LLM のプロンプトと応答を評価するのは簡単ではありません。Weave Playground は、LLM のプロンプトと応答を反復的に改善するプロセスをシンプルにし、さまざまなモデルやプロンプトを試せるようにします。プロンプトの編集、メッセージの再試行、モデル比較などの機能により、Playground を使って LLM アプリケーションをテストし、改善できます。Playground は、LLM のプロンプトをアプリケーションに組み込む前にテスト、比較、改良したい開発者やプロンプトエンジニアを対象としています。Playground は OpenAI、Anthropic、Google などのプロバイダーのモデルに加え、[カスタムランタイム](#custom-runtimes) もサポートしています。
 
 * **クイックアクセス:** 新しいセッションを開始するには Weave のサイドバーメニューから **Playground** を開き、既存の project をテストするには Call ページから開きます。
-* **メッセージ操作:** チャット内でメッセージを直接編集、再試行、削除できます。
+* **Message controls:** チャット内でメッセージを直接編集、再試行、削除できます。
 * **柔軟なメッセージング:** 新しいメッセージをユーザー入力またはシステム入力として追加し、LLM に送信できます。
 * **カスタマイズ可能な設定:** 使用する LLM プロバイダーを設定し、モデル設定を調整できます。
 * **複数 LLM のサポート:** チーム単位で APIキー を管理しながら、モデルを切り替えられます。
 * **モデルの比較:** 同じプロンプトに対して異なるモデルがどのように応答するかを比較できます。
-* **カスタムプロバイダー:** カスタムモデル用の OpenAI 互換 API endpoints をテストできます。
+* **カスタムランタイム:** カスタムモデル用の OpenAI 互換 API エンドポイント をテストできます。
 * **保存済みモデル:** ワークフローで再利用できるモデルプリセットを作成して設定できます。
 
 Playground を使い始めて LLM とのやり取りを最適化し、プロンプトエンジニアリングと LLM アプリケーション開発を効率化しましょう。以下のセクションでは、Playground の設定方法と使用方法を説明します。
@@ -27,10 +27,10 @@ Playground を使い始めて LLM とのやり取りを最適化し、プロン�
 * [プロバイダーの認証情報と情報を追加する](#add-provider-credentials-and-information)
 * [Playground にアクセスする](#access-the-playground)
 * [LLM を選択する](#select-an-llm)
-* [Playground の設定をカスタマイズする](#customize-playground-settings)
-* [メッセージ操作](#message-controls)
+* [Playground の Settings をカスタマイズする](#customize-playground-settings)
+* [Message controls](#message-controls)
 * [LLM を比較する](#compare-llms)
-* [カスタムプロバイダー](#custom-providers)
+* [カスタムランタイム](#custom-runtimes)
 * [保存済みモデル](#saved-models)
 
 <div id="add-provider-credentials-and-information">
@@ -188,74 +188,16 @@ Playground のチャット インターフェースは、prompt 定義エリア�
 
 Playground では、LLM を並べて比較して、異なるモデルが同じプロンプトにどう応答するかを評価できます。比較するには、Playground の右側のツールバーにある **チャットを追加 (<Icon icon="plus" iconType="solid" />)** ボタンをクリックします。元のチャットの横に 2 つ目のチャットが開きます。2 つ目のチャットでは、モデルの選択、Settings の調整、関数の追加など、元のチャットと同じ機能を利用できます。
 
-<div id="custom-providers">
-  ## カスタムプロバイダー
+<div id="custom-runtimes">
+  ## カスタムランタイム
 </div>
 
-組み込みプロバイダーに加えて、Playground は OpenAI 互換の API endpoint を提供するカスタムプロバイダーもサポートしています。以下のセクションでは、カスタムプロバイダーの追加、編集、削除、使用の方法について説明します。
+Playground では、組み込みプロバイダーに加えて、project に登録できる OpenAI 互換 API エンドポイントであるカスタムランタイムもサポートしています。カスタムランタイムは以前、*カスタムプロバイダー*と呼ばれていました。カスタムランタイムを使用して、チームが提供するエージェントのプロトタイプ、ローカルモデル、サポートされるプロバイダーのモデルの旧バージョンなどをテストできます。
 
-<div id="add-a-custom-provider">
-  ### カスタムプロバイダー を追加する
-</div>
+UI または Python SDK を使用してカスタムランタイムを登録する方法については、[カスタムランタイム](/ja/weave/guides/tools/custom-runtimes)を参照してください。カスタムランタイムを登録した後、**Select a model** ドロップダウンからモデルを選択し、標準の Playground 機能を使用してテストします。
 
-組み込みのプロバイダーに加えて、Playground を使用して、カスタムモデル用の OpenAI 互換 API endpoints をテストできます。たとえば、次のようなものがあります。
-
-* サポートされているモデルプロバイダーの旧バージョン
-* ローカルモデル
-
-Playground に カスタムプロバイダー を追加するには、次の手順に従います。
-
-1. プロンプトヘッダー (メインパネル上部) で、**Select a model** ドロップダウンをクリックします。
-2. **+ Add AI provider** を選択します。
-3. **Custom Provider** を選択します。
-4. ポップアップモーダルで、プロバイダー情報を入力します。
-   * **Provider name**: `openai` や `ollama` などのプロバイダー名。
-   * **API key**: OpenAI の APIキー など、プロバイダーの APIキー。
-   * **Base URL**: `https://api.openai.com/v1/` や `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app` のような ngrok URL など、プロバイダーのベース API endpoint。
-   * **Headers** (オプション): 1 つ以上のカスタム HTTP ヘッダーのキーと値のペア。
-   * **Models**: `deepseek-r1` や `qwq` など、プロバイダーで使用する 1 つ以上のモデル。
-   * **Max tokens** (オプション): 各モデルについて、レスポンスでモデルが生成できる token の最大数。
-5. プロバイダー情報を入力したら、**Add provider** をクリックします。
-6. **Select a model** ドロップダウンから、新しいプロバイダーと利用可能なモデルを選択します。
-
-<Warning>
-  CORS の制限により、Playground から localhost または 127.0.0.1 の URL を直接呼び出すことはできません。ローカルのモデルサーバー (Ollama など) を実行している場合は、ngrok のようなトンネリングサービスを使用して安全に公開してください。詳細については、[Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider) を参照してください。
-</Warning>
-
-カスタムプロバイダー を追加すると、標準の Playground 機能を使用して カスタムプロバイダー のモデルをテストできます。また、カスタムプロバイダー を[編集](#edit-a-custom-provider)または[削除](#remove-a-custom-provider)することもできます。
-
-<div id="edit-a-custom-provider">
-  ### カスタムプロバイダーを編集する
-</div>
-
-[以前に作成したカスタムプロバイダー](#add-a-custom-provider)の情報を編集するには、次の手順を実行します。
-
-1. プロンプトヘッダー で **Select a model** ドロップダウンをクリックし、**+Configure providers** を選択します。
-
-* または、サイドバーメニューで **プロジェクト** を選択し、**AI Providers** タブを選択することもできます。
-
-2. **Custom providers** 表で、更新するカスタムプロバイダーを検索します。
-3. カスタムプロバイダーのエントリの **Last Updated** 列で、編集ボタン (鉛筆アイコン) をクリックします。
-4. ポップアップモーダルで、プロバイダー情報を編集します。
-5. **Save** をクリックします。
-
-<div id="remove-a-custom-provider">
-  ### カスタムプロバイダーを削除する
-</div>
-
-[以前に作成したカスタムプロバイダー](#add-a-custom-provider)を削除するには、次の手順に従います。
-
-1. プロンプトヘッダーで **Select a model** ドロップダウンをクリックします。次に、**+Configure providers** を選択します。
-
-* または、サイドバーメニューで **Project** を選択し、**AI Providers** タブを選択することもできます。
-
-2. **Custom providers** 表で、削除したいカスタムプロバイダーを見つけます。
-3. カスタムプロバイダーのエントリの **Last Updated** 列で、削除ボタン (ゴミ箱アイコン) をクリックします。
-4. ポップアップモーダルで、そのプロバイダーを削除することを確認します。この操作は元に戻せません。
-5. **Delete** をクリックします。
-
-<div id="use-a-local-model-as-a-custom-provider">
-  ### ローカルモデルをカスタムプロバイダーとして使用する
+<div id="use-a-local-model-as-a-custom-runtime">
+  ### ローカルモデルをカスタムランタイムとして使用する
 </div>
 
 Playground でローカルで実行中のモデルをテストするには、ngrok と Ollama を使って、CORS の制限を回避する一時的な公開 URL を作成します。これにより、ブラウザのセキュリティポリシーに違反することなく、Playground からご利用のマシン上で実行されているモデルにアクセスできます。
@@ -276,7 +218,7 @@ Playground でローカルで実行中のモデルをテストするには、ngr
    ngrok http 11434 --response-header-add "Access-Control-Allow-Origin: *" --host-header rewrite
    ```
 
-4. ngrok を起動すると、`https://xxxx-xxxx.ngrok-free.app` のような公開 URL が表示されます。Playground で [カスタムプロバイダーを追加](#add-a-custom-provider) する際は、この URL を **Base URL** として使用します。
+4. ngrok を起動すると、`https://xxxx-xxxx.ngrok-free.app` のような公開 URL が表示されます。UI で [カスタムランタイムを登録](/ja/weave/guides/tools/custom-runtimes#register-a-custom-runtime-in-the-ui) する際は、この URL を **Base URL** として使用します。
 
 次の図は、ローカル環境、ngrok プロキシ、W&amp;B クラウドサービス間のデータフローを示しています。
 

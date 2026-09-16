@@ -1,0 +1,368 @@
+---
+title: "Turn"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/turn.ts#L98" />
+
+Un appel d&#39;agent. Encapsule généralement le traitement nécessaire pour répondre à un
+seul message utilisateur. Émet un span `invoke_agent` et sert de racine à la
+trace de ce tour de conversation : il est toujours démarré sous `ROOT_CONTEXT`, afin de
+n&#39;hériter jamais accidentellement d&#39;un parent provenant d&#39;une autre bibliothèque instrumentée avec OTel.
+
+Créé par `weave.startTurn()` (ou `conversation.startTurn()`) et
+terminé avec `end()`. Un seul tour de conversation peut être actif dans une chaîne asynchrone.
+Les enfants (LLM, Tool, SubAgent) s&#39;y rattachent via les méthodes `startLLM`, `startTool`
+et `startSubagent`.
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+const turn = weave.startTurn();
+
+try {
+  const llm = turn.startLLM({model: 'gpt-4o', providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+```ts twoslash
+// @noErrors
+const turn = weave.startTurn({
+  model: 'gpt-4o',
+  agentName: 'research-bot',
+  agentId: 'research-bot-prod',
+  agentDescription: 'Looks up facts on Wikipedia.',
+  agentVersion: '1.4.2',
+  userMessage: 'What is the weather in Tokyo?',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  const llm = turn.startLLM({model: 'gpt-4o', providerName: 'openai'});
+  // ...
+  llm.end();
+} finally {
+  turn.end();
+}
+```
+
+<div id="extends">
+  ## Hérite de
+</div>
+
+* `SpanBase`
+
+<div id="accessors">
+  ## Accesseurs
+</div>
+
+<div id="agentname">
+  ### nomAgent
+</div>
+
+<div id="get-signature">
+  #### Signature d’obtention
+</div>
+
+> **get** **agentName**(): `string`
+
+<div id="returns">
+  ##### Renvoie
+</div>
+
+`string`
+
+***
+
+<div id="model">
+  ### model
+</div>
+
+<div id="get-signature-2">
+  #### Signature d’obtention
+</div>
+
+> **get** **model**(): `string`
+
+<div id="returns-2">
+  ##### Renvoie
+</div>
+
+`string`
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données via [setAttributes](#setattributes).
+  OpenTelemetry abandonne progressivement l’API d’événements de span (`Span.addEvent`). Cette
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour marquer des moments ne correspondant pas à des spans, tels que
+la compaction du contexte, la détection de boucles d’outils ou le déclenchement de guardrails. Émet un avertissement et
+ne fait rien après `end()`. Reproduit `Span.addEvent` d’OTel.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns-3">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`) : `void`
+
+Lisez les valeurs actuelles des champs (afin de refléter les modifications apportées via `record()`
+depuis `start`) et fermez le span. Cette opération est idempotente. Transmettez `error` pour le marquer
+comme ayant échoué ; transmettez `endTime` pour antidater sa fermeture.
+
+<div id="parameters-2">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### Renvoie
+</div>
+
+`void`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`) : `this`
+
+Définit en bloc n’importe quel sous-ensemble de champs modifiables. Remplace les valeurs existantes (sans les fusionner).
+Utile pour tout attribuer en une seule fois après le retour d’un appel de fournisseur.
+
+<div id="parameters-3">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
+
+    <ParamField path="agentId" type="string" />
+
+    <ParamField path="agentName" type="string" />
+
+    <ParamField path="agentVersion" type="string" />
+
+    <ParamField path="messages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="model" type="string" />
+
+    <ParamField path="outputMessages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-5">
+  #### Renvoie
+</div>
+
+`this`
+
+***
+
+<div id="setattribute">
+  ### ~~setAttribute()~~
+</div>
+
+<Warning>
+  **Obsolète.** Utilisez plutôt [setAttributes](#setattributes), qui correspond à `set_attributes`
+  du SDK Python et à `Span.setAttributes` d&#39;OTel. Conservée comme simple
+  alias pour que les appels existants avec un seul attribut continuent de fonctionner. Seul `tour de conversation`
+  propose cette méthode ; les autres émetteurs n&#39;ont jamais eu de forme au singulier.
+</Warning>
+
+> **setAttribute**(`key`, `value`) : `this`
+
+<div id="parameters-4">
+  #### Paramètres
+</div>
+
+<ParamField path="key" type="string" required />
+
+<ParamField path="value" type="AttributeValue" required />
+
+<div id="returns-6">
+  #### Renvoie
+</div>
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`) : `this`
+
+Définit plusieurs attributs sur le span à la fois. Émet un avertissement et ne fait rien après
+`end()`. Reproduit le comportement de `Span.setAttributes` d’OTel (et de
+`set_attributes` du SDK Python).
+
+<div id="parameters-5">
+  #### Paramètres
+</div>
+
+<ParamField path="attributes" type="Attributes" required />
+
+<div id="returns-7">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example-2">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from-2">
+  #### Hérité de
+</div>
+
+`SpanBase.setAttributes`
+
+***
+
+<div id="startllm">
+  ### startLLM()
+</div>
+
+> **startLLM**(`opts`): [`LLM`](./llm)
+
+Démarre un span LLM enfant dans ce tour de conversation.
+
+<div id="parameters-6">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="LLMInit" required>
+  Voir [`LLMInit`](./llminit).
+</ParamField>
+
+<div id="returns-8">
+  #### Renvoie
+</div>
+
+[`LLM`](./llm)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`) : [`SubAgent`](./subagent)
+
+Démarre un span SubAgent enfant dans le cadre de ce tour de conversation.
+
+<div id="parameters-7">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="SubAgentInit" required>
+  Voir [`SubAgentInit`](./subagentinit).
+</ParamField>
+
+<div id="returns-9">
+  #### Renvoie
+</div>
+
+[`SubAgent`](./subagent)
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`) : [`Tool`](./tool)
+
+Démarre un span Tool enfant dans ce tour de conversation.
+
+<div id="parameters-8">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="ToolInit" required>
+  Voir [`ToolInit`](./toolinit).
+</ParamField>
+
+<div id="returns-10">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)

@@ -1,7 +1,7 @@
 ---
 title: "Use the Playground to experiment with prompts"
 description: "Simplify the process of iterating on LLM prompts and responses"
-keywords: ["LLM playground", "prompt engineering", "model comparison", "custom providers", "saved models"]
+keywords: ["LLM playground", "prompt engineering", "model comparison", "custom runtimes", "custom providers", "saved models"]
 ---
 
 <Tip>
@@ -10,7 +10,7 @@ For a limited time, Serverless Inference is included in your free tier. Serverle
 - [Product page](https://wandb.ai/site/inference)
 </Tip>
 
-Evaluating LLM prompts and responses is challenging. The Weave Playground simplifies the process of iterating on LLM prompts and responses, helping you experiment with different models and prompts. With features like prompt editing, message retrying, and model comparison, Playground helps you test and improve your LLM applications. Playground is intended for developers and prompt engineers who want to test, compare, and refine LLM prompts before integrating them into applications. Playground supports models from providers such as OpenAI, Anthropic, and Google, as well as [custom providers](#add-a-custom-provider).
+Evaluating LLM prompts and responses is challenging. The Weave Playground simplifies the process of iterating on LLM prompts and responses, helping you experiment with different models and prompts. With features like prompt editing, message retrying, and model comparison, Playground helps you test and improve your LLM applications. Playground is intended for developers and prompt engineers who want to test, compare, and refine LLM prompts before integrating them into applications. Playground supports models from providers such as OpenAI, Anthropic, and Google, as well as [custom runtimes](#custom-runtimes).
 
 - **Quick access:** Open the **Playground** from the Weave sidebar menu for a fresh session or from the Call page to test an existing project.
 - **Message controls:** Edit, retry, or delete messages directly within the chat.
@@ -18,7 +18,7 @@ Evaluating LLM prompts and responses is challenging. The Weave Playground simpli
 - **Customizable settings:** Configure your preferred LLM provider and adjust model settings.
 - **Multi-LLM support:** Switch between models, with team-level API key management.
 - **Compare models:** Compare how different models respond to prompts.
-- **Custom providers:** Test OpenAI-compatible API endpoints for custom models.
+- **Custom runtimes:** Test OpenAI-compatible API endpoints for custom models.
 - **Saved models:** Create and configure a reusable model preset for your workflow.
 
 Get started with the Playground to optimize your LLM interactions and streamline your prompt engineering process and LLM application development. The following sections describe how to configure and use the Playground:
@@ -29,7 +29,7 @@ Get started with the Playground to optimize your LLM interactions and streamline
 - [Customize Playground settings](#customize-playground-settings)
 - [Message controls](#message-controls)
 - [Compare LLMs](#compare-llms)
-- [Custom providers](#custom-providers)
+- [Custom runtimes](#custom-runtimes)
 - [Saved models](#saved-models)
 
 
@@ -172,61 +172,13 @@ Selecting an item from the history loads it into an additional chat panel for co
 Playground lets you compare LLMs side by side so you can evaluate how different models respond to the same prompts. To perform a comparison, click the **Add Chat (<Icon icon="plus" iconType="solid" />)** button in the right-side Playground toolbar. A second chat opens next to the original chat. The second chat has the same functionality as the original chat, such as choosing the model, adjusting the settings, and adding functions.
 
 
-## Custom providers
+## Custom runtimes
 
-In addition to the built-in providers, the Playground supports custom providers that expose OpenAI-compatible API endpoints. The following sections describe how to add, edit, remove, and use custom providers.
+In addition to the built-in providers, the Playground supports custom runtimes: OpenAI-compatible API endpoints that you register to your project. Custom runtimes were previously called *custom providers*. Use a custom runtime to test models such as an agent prototype your team serves, a local model, or an older version of a supported provider's model.
 
-### Add a custom provider
+To register a custom runtime in the UI or with the Python SDK, see [Custom runtimes](/weave/guides/tools/custom-runtimes). After you register a custom runtime, select its models from the **Select a model** dropdown and test them using standard Playground features.
 
-In addition to the built-in providers, you can use the Playground to test OpenAI-compatible API endpoints for custom models. Examples include:
-
-- Older versions of supported model providers
-- Local models
-
-To add a custom provider to the Playground, do the following:
-
-1. In the prompt header (top of main panel), click the **Select a model** dropdown.
-2. Select **+ Add AI provider**.
-3. Select **Custom Provider**.
-4. In the pop-up modal, enter the provider information:
-   - **Provider name**: A name for the provider, such as `openai` or `ollama`.
-   - **API key**: The API key for the provider, such as an OpenAI API key.
-   - **Base URL**: The base endpoint for the provider, such as `https://api.openai.com/v1/` or an ngrok URL like `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
-   - **Headers** (Optional): One or more custom HTTP header key-value pairs.
-   - **Models**: One or more models for the provider, such as `deepseek-r1` or `qwq`.
-   - **Max tokens** (Optional): For each model, the maximum number of tokens the model can generate in a response.
-5. After you've entered your provider information, click **Add provider**.
-6. Select your new provider and available models from the **Select a model** dropdown.
-
-<Warning>
-Because of CORS restrictions, you can't call localhost or 127.0.0.1 URLs directly from the Playground. If you're running a local model server (such as Ollama), use a tunneling service like ngrok to expose it securely. For details, see [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider).
-</Warning>
-
-After you add a custom provider, you can test the custom provider models using standard Playground features. You can also [edit](#edit-a-custom-provider) or [remove](#remove-a-custom-provider) the custom provider.
-
-### Edit a custom provider
-
-To edit information for a [previously created custom provider](#add-a-custom-provider), do the following:
-
-1. In the prompt header, click the **Select a model** dropdown. Then select **+Configure providers**.
-  * Alternatively, in the sidebar menu, you can select **Project**, and then select the **AI Providers** tab.
-2. In the **Custom providers** table, find the custom provider you want to update.
-3. In the **Last Updated** column of the entry for your custom provider, click the edit button (the pencil icon).
-4. In the pop-up modal, edit the provider information.
-5. Click **Save**.
-
-### Remove a custom provider
-
-To remove a [previously created custom provider](#add-a-custom-provider), do the following:
-
-1. In the prompt header, click the **Select a model** dropdown. Then select **+Configure providers**.
-  * Alternatively, in the sidebar menu, you can select **Project**, and then select the **AI Providers** tab.
-2. In the **Custom providers** table, find the custom provider you want to update.
-3. In the **Last Updated** column of the entry for your custom provider, click the delete button (the trashcan icon).
-4. In the pop-up modal, confirm that you want to delete the provider. You can't undo this action.
-5. Click **Delete**.
-
-### Use a local model as a custom provider
+### Use a local model as a custom runtime
 
 To test a locally running model in the Playground, use ngrok and Ollama to create a temporary public URL that avoids CORS restrictions. This lets the Playground reach a model that is running on your own machine without violating browser security policies.
 
@@ -244,7 +196,7 @@ To set it up, do the following:
    ```bash
    ngrok http 11434 --response-header-add "Access-Control-Allow-Origin: *" --host-header rewrite
    ```
-4. After ngrok starts, it displays a public URL, such as `https://xxxx-xxxx.ngrok-free.app`. Use this URL as the **Base URL** when you [add a custom provider](#add-a-custom-provider) in the Playground.
+4. After ngrok starts, it displays a public URL, such as `https://xxxx-xxxx.ngrok-free.app`. Use this URL as the **Base URL** when you [register a custom runtime](/weave/guides/tools/custom-runtimes#register-a-custom-runtime-in-the-ui).
 
 The following diagram illustrates the data flow between your local environment, the ngrok proxy, and the W&B cloud services:
 

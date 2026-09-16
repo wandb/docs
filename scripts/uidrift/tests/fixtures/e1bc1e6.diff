@@ -1,0 +1,126 @@
+diff --git a/frontends/app/src/graphql/organizations.ts b/frontends/app/src/graphql/organizations.ts
+index a3a949e373c..98bcb50b061 100644
+--- a/frontends/app/src/graphql/organizations.ts
++++ b/frontends/app/src/graphql/organizations.ts
+@@ -713,6 +713,7 @@ export const UPDATE_ORGANIZATION_PRIVACY_SETTINGS = gql`
+     $enableLLMPoweredFeatures: Boolean
+     $shareAITracesWithWB: Boolean
+     $allowModelTrainingOnSharedData: Boolean
++    $ariaProjectMemoryEnabled: Boolean
+     $restrictInvitesToClaimedDomain: Boolean
+     $clientMutationId: String
+   ) {
+@@ -728,6 +729,7 @@ export const UPDATE_ORGANIZATION_PRIVACY_SETTINGS = gql`
+         enableLLMPoweredFeatures: $enableLLMPoweredFeatures
+         shareAITracesWithWB: $shareAITracesWithWB
+         allowModelTrainingOnSharedData: $allowModelTrainingOnSharedData
++        ariaProjectMemoryEnabled: $ariaProjectMemoryEnabled
+         restrictInvitesToClaimedDomain: $restrictInvitesToClaimedDomain
+         clientMutationId: $clientMutationId
+       }
+diff --git a/frontends/app/src/pages/Billing/AccountSettings/SettingsTab/OrganizationSettingsTabs.tsx b/frontends/app/src/pages/Billing/AccountSettings/SettingsTab/OrganizationSettingsTabs.tsx
+index 37931cab2f4..7b6a7efa840 100644
+--- a/frontends/app/src/pages/Billing/AccountSettings/SettingsTab/OrganizationSettingsTabs.tsx
++++ b/frontends/app/src/pages/Billing/AccountSettings/SettingsTab/OrganizationSettingsTabs.tsx
+@@ -108,7 +108,7 @@ export const OrganizationSettingsTabs = () => {
+         ))}
+       </div>
+       {TabComponent != null && (
+-        <div className="ml-32 flex w-full flex-col">
++        <div className="ml-32 flex w-full flex-col pb-32">
+           <TabComponent />
+         </div>
+       )}
+diff --git a/frontends/app/src/pages/OrgDashboard/PrivacySettings/OrgPrivacySettings.tsx b/frontends/app/src/pages/OrgDashboard/PrivacySettings/OrgPrivacySettings.tsx
+index 04ffcf754b0..40b1dbe6812 100644
+--- a/frontends/app/src/pages/OrgDashboard/PrivacySettings/OrgPrivacySettings.tsx
++++ b/frontends/app/src/pages/OrgDashboard/PrivacySettings/OrgPrivacySettings.tsx
+@@ -11,6 +11,7 @@ import {
+   AccountPlanType,
+   AccountType,
+ } from '../../../components/Search/SearchNav/types';
++import {AGENT_NAME} from '../../../components/WBAgent/constants';
+ import {envIsPublicCloud} from '../../../config';
+ import {
+   type UpdateOrganizationPrivacySettingsInput,
+@@ -23,7 +24,10 @@ import {
+   type SmartFeatureOverrides,
+ } from '../../../util/dynamicConfigs/smartFeatureOverrides';
+ import {propagateErrorsContext} from '../../../util/errors';
+-import {useStatsigGateSmartFeatureSettings} from '../../../util/rampFeatureFlags/rampFeatureFlags';
++import {
++  useStatsigGateARIAProjectMemory,
++  useStatsigGateSmartFeatureSettings,
++} from '../../../util/rampFeatureFlags/rampFeatureFlags';
+ import {useOrganizationDynamicConfigWithLoadingAndError} from '../../../util/useDynamicConfig';
+ import {SettingsCard} from '../../Billing/AccountSettings/SettingsTab/SettingsCard';
+ import {DEFAULT_ONPREM_ORGANIZATION_NAME} from '../OrgRoles/RolesDashboard';
+@@ -43,7 +47,8 @@ const OrgPrivacySettings: React.FC = () => {
+ 
+   const {data, refetch} = useOrganizationPrivacySettings(orgName);
+ 
+-  const showSmartFeatures = useStatsigGateSmartFeatureSettings(orgName);
++  const shouldShowSmartFeatures = useStatsigGateSmartFeatureSettings(orgName);
++  const shouldShowARIAProjectMemory = useStatsigGateARIAProjectMemory(orgName);
+ 
+   // `error` is intentionally ignored: an undefined config renders toggles
+   // unlocked, but the mutation path still rejects bad writes.
+@@ -169,6 +174,20 @@ const OrgPrivacySettings: React.FC = () => {
+     });
+   }
+ 
++  const ariaRows: PrivacySettingRow[] = [];
++
++  if (shouldShowARIAProjectMemory) {
++    ariaRows.push({
++      title: 'Enable project memory',
++      description: `Allow ${AGENT_NAME} to remember project details, such as conventions and past corrections, and apply them in future conversations. Memory is shared amongst the project's owning team. When off, no memories are used and nothing new is recorded, but existing memory is kept.`,
++      checked: data.ariaProjectMemoryEnabled,
++      onCheckedChange: (isEnabled: boolean) => {
++        updateOrgPrivacySettings({ariaProjectMemoryEnabled: isEnabled});
++      },
++      id: 'aria-project-memory-enabled',
++    });
++  }
++
+   const privacySettingsSections: PrivacySettingsSection[] = [
+     {
+       title: 'Access Control',
+@@ -219,7 +238,7 @@ const OrgPrivacySettings: React.FC = () => {
+         },
+       ],
+     },
+-    ...(showSmartFeatures
++    ...(shouldShowSmartFeatures
+       ? [
+           {
+             title: 'Smart features',
+@@ -287,6 +306,15 @@ const OrgPrivacySettings: React.FC = () => {
+           },
+         ]
+       : []),
++    ...(ariaRows.length > 0
++      ? [
++          {
++            title: AGENT_NAME,
++            description: `Manage what ${AGENT_NAME} can do across your organization's projects.`,
++            privacySettingRows: ariaRows,
++          },
++        ]
++      : []),
+   ];
+ 
+   return (
+diff --git a/frontends/app/src/pages/OrgDashboard/PrivacySettings/getOrganizationPrivacySettings.ts b/frontends/app/src/pages/OrgDashboard/PrivacySettings/getOrganizationPrivacySettings.ts
+index 8bf8555012c..439da19f63a 100644
+--- a/frontends/app/src/pages/OrgDashboard/PrivacySettings/getOrganizationPrivacySettings.ts
++++ b/frontends/app/src/pages/OrgDashboard/PrivacySettings/getOrganizationPrivacySettings.ts
+@@ -33,6 +33,8 @@ export function useOrganizationPrivacySettings(orgName: string) {
+       shareAITracesWithWB: parsedOrgFlags.share_ai_traces_with_wb ?? false,
+       allowModelTrainingOnSharedData:
+         parsedOrgFlags.allow_model_training_on_shared_data ?? false,
++      ariaProjectMemoryEnabled:
++        parsedOrgFlags.aria_project_memory_enabled ?? false,
+       restrictInvitesToClaimedDomain:
+         parsedOrgFlags.restrict_invites_to_claimed_domain ?? false,
+       emailDomain: parsedOrgFlags.email_domain ?? null,

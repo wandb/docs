@@ -3,39 +3,42 @@ title: "init"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="init">
-  # init
-</div>
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-▸ **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+```ts
+init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
+```
 
-Initialise le client Weave, nécessaire au fonctionnement du Tracing Weave.
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/clientApi.ts#L86" />
+
+Initialise le client Weave, requis pour le fonctionnement du weave tracing.
 
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom         | Type                                                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| :---------- | :------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project`   | `string`                                                | Le nom du projet W&amp;B (peut être `project` ou `entity/project`). Si vous ne spécifiez pas d&#39;équipe W&amp;B (par exemple, `team/project`), votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à Paramètres utilisateur à l&#39;adresse [https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team) |
-| `settings?` | `Partial`&lt;[`Settings`](../type-aliases/settings)&gt; | (Facultatif) Paramètres de Tracing Weave                                                                                                                                                                                                                                                                                                                                                                                                                       |
+<ParamField path="project" type="string" required>
+  Le nom du projet W&amp;B (peut être projet ou entité/projet). Si vous ne
+  spécifiez pas d&#39;équipe W&amp;B (par exemple, &#39;équipe/projet&#39;), votre entité par défaut est utilisée.
+  Pour trouver ou mettre à jour votre entité par défaut, référez-vous aux Paramètres utilisateur[https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team](https://docs.wandb.ai/platform/app/settings-page/user-settings#default-team)t-team
+</ParamField>
+
+<ParamField path="settings" type="Partial<{…}>">
+  (Facultatif) Paramètres de Weave tracing
+
+  Type complet : `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
+</ParamField>
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
-`Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+`Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
 
 Une promesse qui renvoie le client Weave initialisé.
 
-`Throws`
-
-Si l&#39;initialisation échoue
-
-<div id="defined-in">
-  #### Défini dans
+<div id="throws">
+  ## Erreurs
 </div>
 
-[src/clientApi.ts:87](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/clientApi.ts#L87)
-
-***
+Si l&#39;initialisation échoue

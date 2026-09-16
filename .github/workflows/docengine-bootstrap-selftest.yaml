@@ -1,0 +1,100 @@
+---
+# Proves that .github/actions/docengine-bootstrap works, in both of the
+# situations it is designed to handle.
+#
+# That action is what fetches CoreWeave's documentation tooling (DocEngine) for
+# the docs workflows, so it needs to be verifiable on its own - not only
+# through the workflows that call it.
+#
+# The two cases:
+#   1. Given a token, it fetches DocEngine and reports available=true.
+#   2. Given no token, it reports available=false and does NOT fail. Workflows
+#      that can run without DocEngine rely on that, so it matters as much as
+#      the success case.
+#
+# These are two separate JOBS rather than two steps in one job, because each job
+# gets a clean machine. The action refuses to run if a git URL rewrite rule
+# already exists, so calling it twice on the same machine would correctly fail
+# the second call.
+
+name: DocEngine bootstrap self-test
+
+on:
+  # workflow_dispatch on its own would not be enough to check this before
+  # merging: GitHub only offers a workflow for manual runs once it exists on the
+  # default branch. The narrow pull_request trigger lets the pull request that
+  # introduces the action prove both cases up front, and afterwards it only runs
+  # again when the action or this test changes.
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/actions/docengine-bootstrap/**'
+      - '.github/workflows/docengine-bootstrap-selftest.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  WithCredential:
+    name: available=true with a read token
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Bootstrap
+        id: boot
+        uses: ./.github/actions/docengine-bootstrap
+        with:
+          # Each host defines exactly one of these two secrets; the fallback
+          # is what lets this file stay identical across hosts. coreweave/docs
+          # defines ORG_REPO_READ_ONLY; wandb/docs defines DOCENGINE_TOKEN.
+          read-token: ${{ secrets.ORG_REPO_READ_ONLY || secrets.DOCENGINE_TOKEN }}
+
+      - name: Check that DocEngine is usable
+        env:
+          AVAILABLE: ${{ steps.boot.outputs.available }}
+        run: |
+          set -euo pipefail
+          if [ "${AVAILABLE}" != "true" ]; then
+            echo "::error::Expected available=true, got '${AVAILABLE}'."
+            exit 1
+          fi
+          if [ ! -f docengine/pyproject.toml ]; then
+            echo "::error::The action reported success but the docengine directory is not populated."
+            exit 1
+          fi
+          # DocEngine also publishes the shared CI actions this repository runs,
+          # under host-actions/. Reaching them through the pin is the whole point
+          # of fetching the submodule. Every DocEngine release from v3.5.0 onward
+          # contains that directory, and the pin guard only allows releases, so
+          # if it is missing then a pin got past the guard.
+          if [ ! -d docengine/host-actions ]; then
+            echo "::error::docengine/host-actions is missing. Every release since v3.5.0 includes it, so this pin is probably not a published release."
+            exit 1
+          fi
+          echo "DocEngine is present and its shared actions are reachable."
+
+  WithoutCredential:
+    name: available=false with no read token
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Bootstrap with no token
+        id: boot
+        uses: ./.github/actions/docengine-bootstrap
+        with:
+          read-token: ''
+
+      - name: Check that it reported back instead of failing
+        env:
+          AVAILABLE: ${{ steps.boot.outputs.available }}
+        run: |
+          set -euo pipefail
+          if [ "${AVAILABLE}" != "false" ]; then
+            echo "::error::Expected available=false, got '${AVAILABLE}'."
+            exit 1
+          fi
+          echo "Reported available=false without failing, as intended."

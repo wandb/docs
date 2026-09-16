@@ -3,24 +3,17 @@ title: "W&B で新しいチームを作成するにはどうすればよいで�
 keywords: ["Teams", "組織管理"]
 ---
 
-Teams は、W&amp;B におけるコラボレーションの基本単位です。各チームには固有の entity 名、共有の Projects、メンバー一覧があります。W&amp;B アカウントを持つユーザーであれば、誰でもチームを作成できます。
+Teams は、W&amp;B におけるコラボレーションの基本単位です。各チームには固有の entity 名、共有の Projects、メンバー一覧があります。チームを作成できるのは組織管理者のみです。
 
-**チームの作成**
+手順については、[チームを作成する](/ja/platform/hosting/iam/access-management/manage-organization#create-a-team) を参照してください。後から同僚を追加するには、[ユーザーをチームに招待する](/ja/platform/hosting/iam/access-management/manage-organization#invite-users-to-a-team) または [How do I invite a user to my W&amp;B team?](/ja/support/models/articles/how-do-i-invite-a-user-to-my-wb-team) を参照してください。
 
-1. [wandb.ai](https://wandb.ai) にログインします。
-2. 左サイドバーの **+** アイコンまたは **Create new team** をクリックします (または [wandb.ai/create-team](https://wandb.ai/create-team) にアクセスします) 。
-3. **team name** を入力します。これがチームの entity 名になります (例: `wandb.ai/my-team`) 。チーム名はグローバルで一意である必要があり、小文字を使用し、文字、数値、ハイフンを含めることができます。
-4. **Create team** をクリックします。
+**チームを作成できない場合**
 
-新しいチームの管理者には自動的にあなたが設定されます。
-
-**作成後のメンバー招待**
-
-チームを作成したら、**Team settings &gt; Members &gt; Invite members** に移動して同僚を追加します。詳しくは、[How do I invite a user to my W&amp;B team?](/ja/support/models/articles/how-do-i-invite-a-user-to-my-wb-team) を参照してください。
+**Create team** ボタンが表示されない場合や、管理者に問い合わせるよう求める権限エラーが表示される場合は、組織でチームの作成が管理者のみに制限されているか、アカウントがチームの作成を妨げる状態にあります。[I deleted my team and now I can&#39;t create a new one — what do I do?](/ja/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one) を参照してください。
 
 **チーム名の選び方**
 
-チーム名は、そのチーム配下のすべての project と run の URL の一部になるため、長期的に見ても意味のある名前を選んでください。チーム名は、W&amp;B サポートに連絡しない限り、作成後に変更できません。
+チーム名はチームの entity 名となり、そのチーム配下のすべての project と run の URL の一部になるため、長期的に見ても意味のある名前を選んでください。チーム名は W&amp;B 全体で一意である必要があり、作成後に変更できません。
 
 **個人アカウントとチームアカウント**
 
@@ -38,7 +31,9 @@ wandb.init(entity="my-username", project="personal-experiments")
 
 **チームの制限**
 
-無料プランでは、チームで利用できるユーザー数とストレージ容量に制限があります。プランの詳細は、**Team settings &gt; Billing** または [wandb.ai/site/pricing](https://wandb.ai/site/pricing) で確認してください。
+Models では、シートはユーザーごとに課金されます。シートの仕組みについては [Seats and pricing](/ja/platform/hosting/iam/access-management/manage-organization#seats-and-pricing) を、プランの詳細については **Team settings &gt; Billing** または [wandb.ai/site/pricing](https://wandb.ai/site/pricing) を参照してください。
+
+学術アカウントでは、無制限にチームを作成できます。古い学術アカウントで別のチームを作成できない場合は、アカウント作成時に設定されたチーム数の少ない制限が適用されている可能性があります。制限を引き上げるには、[サポートにお問い合わせください](mailto:support@wandb.com)。
 
 ***
 

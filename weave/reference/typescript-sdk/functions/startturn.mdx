@@ -3,31 +3,33 @@ title: "startTurn"
 description: "TypeScript SDK reference"
 ---
 
-# startTurn
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-▸ **startTurn**(`opts?`): [`Turn`](../classes/turn)
+```ts
+startTurn(opts?: TurnInit = {}): Turn
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L54" />
 
 Start a new Turn. If a Conversation is active, the turn inherits its
 `conversationId`; otherwise the turn has no conversation id.
 
-#### Parameters
+## Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `opts` | [`TurnInit`](../interfaces/turninit) |
+<ParamField path="opts" type="TurnInit = {}">
+  See [`TurnInit`](../interfaces/turninit).
+</ParamField>
 
-#### Returns
+## Returns
 
-[`Turn`](../classes/turn)
+[`Turn`](../interfaces/turn)
 
-`Example`
+## Examples
 
 ```ts twoslash
 // @noErrors
 weave.startTurn();
 ```
-
-`Example`
 
 ```ts twoslash
 // @noErrors
@@ -42,9 +44,3 @@ weave.startTurn({
   startTime: new Date('2026-05-29T10:00:00.000Z'),
 });
 ```
-
-#### Defined in
-
-[src/genai/api.ts:54](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L54)
-
-___

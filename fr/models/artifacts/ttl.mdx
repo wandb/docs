@@ -1,5 +1,5 @@
 ---
-description: "Définissez des stratégies de durée de vie (TTL) sur les Artifacts W&B afin de planifier leur suppression automatique et de gérer la consommation de stockage."
+description: "Définissez des politiques TTL sur les Artifacts W&B afin de planifier leur suppression automatique et de gérer la consommation de stockage."
 title: Gérer la rétention des données des Artifacts
 ---
 
@@ -9,11 +9,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 Planifiez le moment où les artifacts sont supprimés de W&amp;B à l’aide d’une politique de durée de vie (TTL) des Artifacts W&amp;B. Lorsque vous supprimez un artifact, W&amp;B marque cet artifact comme une *suppression logique*. En d’autres termes, l’artifact est marqué pour suppression, mais les fichiers ne sont pas immédiatement supprimés du stockage. Pour plus d’informations sur la façon dont W&amp;B supprime les artifacts, voir la page [Supprimer des artifacts](./delete-artifacts).
 
-Regardez le tutoriel vidéo [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) pour apprendre à gérer la conservation des données avec Artifacts TTL dans W&amp;B App.
-
-<Note>
-  W&amp;B désactive l’option permettant de définir une politique TTL pour les artifacts liés au registre. Cela permet de garantir que les artifacts liés n’expirent pas accidentellement s’ils sont utilisés dans des flux de travail de Production.
-</Note>
+Regardez le tutoriel vidéo [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) pour apprendre à gérer la rétention des données avec Artifacts TTL dans W&amp;B App.
 
 <Note>
   * Seuls les Administrateurs d’équipe peuvent consulter les [paramètres d’une équipe](/fr/platform/app/settings-page/teams) et accéder aux paramètres TTL au niveau de l’équipe, notamment pour (1) définir qui peut créer ou modifier une politique TTL ou (2) définir une valeur TTL par défaut pour l’équipe.
@@ -267,3 +263,11 @@ Consultez les politiques TTL des artifacts avec le SDK Python ou l&#39;interface
     </Frame>
   </Tab>
 </Tabs>
+
+<div id="ttl-policies-for-linked-artifact-versions">
+  ## Politiques TTL pour les versions d&#39;artifacts liées
+</div>
+
+W&amp;B désactive les politiques TTL des versions d&#39;artifacts liées afin d&#39;éviter l&#39;expiration des artifacts utilisés dans les flux de travail de production.
+
+Lorsque vous liez une version d&#39;artifact à une collection du Registry, W&amp;B désactive sa politique TTL et définit sa valeur TTL sur `None`. Si vous dissociez ultérieurement la version d&#39;artifact, W&amp;B ne restaure ni la politique TTL précédente ni sa durée. Définissez une nouvelle politique TTL après l&#39;avoir dissociée si la version d&#39;artifact en nécessite toujours une.

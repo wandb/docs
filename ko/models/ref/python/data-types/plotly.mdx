@@ -1,28 +1,27 @@
 ---
 title: Plotly
-namespace: python_sdk_data_type
-python_object_type: class
+kind: 클래스
+namespace: wandb.sdk.data_types.plotly
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py#L36" />
 
+<div id="class-wandbplotly">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Plotly
+</div>
 
-## <kbd>class</kbd> `Plotly`
-
-Plotly 플롯을 위한 W&amp;B 클래스. 
-
-### <kbd>방법</kbd> `Plotly.__init__`
+Plotly 플롯용 W&amp;B 클래스입니다.
 
 ```python
-__init__(val: 'plotly.Figure | matplotlib.artist.Artist')
+(val: 'plotly.Figure | matplotlib.artist.Artist')
 ```
 
-Plotly 객체를 초기화합니다.
+<div id="args">
+  ## 인수
+</div>
 
-**매개변수:**
-
-* `val`: Matplotlib 또는 Plotly figure 객체.
-
-***
+<ResponseField name="val" type="plotly.Figure | matplotlib.artist.Artist">
+  Matplotlib 또는 Plotly figure입니다.
+</ResponseField>

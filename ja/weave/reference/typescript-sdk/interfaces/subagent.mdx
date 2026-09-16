@@ -1,0 +1,286 @@
+---
+title: "SubAgent"
+description: "TypeScript SDK リファレンス"
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/subagent.ts#L84" />
+
+<div id="extends">
+  ## 継承元
+</div>
+
+* `SpanBase`
+
+<div id="accessors">
+  ## アクセサー
+</div>
+
+<div id="model">
+  ### モデル
+</div>
+
+<div id="get-signature">
+  #### 取得シグネチャ
+</div>
+
+> **get** **model**(): `string`
+
+<div id="returns">
+  ##### 戻り値
+</div>
+
+`string`
+
+***
+
+<div id="name">
+  ### 名
+</div>
+
+<div id="get-signature-2">
+  #### 取得シグネチャ
+</div>
+
+> **get** **name**(): `string`
+
+<div id="returns-2">
+  ##### 戻り値
+</div>
+
+`string`
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **非推奨。** このデータは代わりに [setAttributes](#setattributes) で記録してください。
+  OpenTelemetry では Span Event API (`Span.addEvent`) の段階的な廃止が進められています。
+  このメソッドは引き続き動作し、既存のspanイベントデータも有効です。
+  [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/) を参照してください。
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+名前付きイベントをspanに追加します。コンテキストの圧縮、ツールループの検出、ガードレールのトリガーなど、span以外のタイミングを示す際に役立ちます。
+`end()` の呼び出し後は警告を出力し、何も実行しません。OTel の `Span.addEvent` と同様の動作をします。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns-3">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="example">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+現在のフィールド値を読み取り (`start` 以降に `record()` で行われた変更を反映) 、span を閉じます。冪等です。`error` を渡すと失敗としてマークされ、`endTime` を渡すと終了時刻を過去に設定できます。
+
+<div id="parameters-2">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### 戻り値
+</div>
+
+`void`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`): `this`
+
+可変フィールドの任意のサブセットを一括設定します。既存の値はマージではなく置換されます。
+入力メッセージと出力メッセージは、span の終了時にシリアライズされます。
+
+<div id="parameters-3">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="agentDescription" type="string" />
+
+    <ParamField path="agentId" type="string" />
+
+    <ParamField path="agentVersion" type="string" />
+
+    <ParamField path="messages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
+
+    <ParamField path="model" type="string" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="outputMessages" type="Message[]">
+      [`Message`](./message) を参照してください。
+    </ParamField>
+
+    <ParamField path="systemInstructions" type="string[]" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-5">
+  #### 戻り値
+</div>
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`): `this`
+
+span に複数の属性をまとめて設定します。`end()` の後に呼び出すと、警告が表示され何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) と同様です。
+
+<div id="parameters-4">
+  #### パラメーター
+</div>
+
+<ParamField path="attributes" type="Attributes" required />
+
+<div id="returns-6">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="example-2">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from-2">
+  #### 継承元
+</div>
+
+`SpanBase.setAttributes`
+
+***
+
+<div id="startllm">
+  ### startLLM()
+</div>
+
+> **startLLM**(`opts`): [`LLM`](./llm)
+
+この SubAgent の配下にネストされた子 LLM span を開始します。
+
+<div id="parameters-5">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="LLMInit" required>
+  [`LLMInit`](./llminit) を参照してください。
+</ParamField>
+
+<div id="returns-7">
+  #### 戻り値
+</div>
+
+[`LLM`](./llm)
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`): `SubAgent`
+
+この SubAgent の配下に、ネストされた SubAgent span を開始します。
+
+<div id="parameters-6">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="SubAgentInit" required>
+  [`SubAgentInit`](./subagentinit) を参照してください。
+</ParamField>
+
+<div id="returns-8">
+  #### 戻り値
+</div>
+
+`SubAgent`
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+この SubAgent の配下にネストされた子 Tool span を開始します。
+
+<div id="parameters-7">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="ToolInit" required>
+  [`ToolInit`](./toolinit) を参照してください。
+</ParamField>
+
+<div id="returns-9">
+  #### 戻り値
+</div>
+
+[`Tool`](./tool)

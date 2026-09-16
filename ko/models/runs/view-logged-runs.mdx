@@ -3,18 +3,18 @@ title: 프로젝트에서 특정 run 보기
 description: W&B App 또는 LEET 터미널 UI를 사용해 특정 로깅된 run과 해당 속성을 보는 방법을 알아보세요.
 ---
 
-현재 상태, Artifacts, 메트릭 등 특정 run에 대한 정보를 확인할 수 있습니다. W&amp;B App 또는 `wandb beta leet` 터미널 UI를 사용해 run을 확인하고 모니터링할 수 있습니다.
+현재 상태, Artifacts, 메트릭 등 특정 run에 대한 정보를 확인할 수 있습니다. W&amp;B App 또는 `wandb leet` 터미널 UI를 사용해 run을 확인하고 모니터링할 수 있습니다.
 
 <Tabs>
-  <Tab title="WA&B App">
+  <Tab title="W&B App">
     W&amp;B App에서 특정 run을 보려면 다음 단계를 따르세요.
 
     1. [W&amp;B App](https://wandb.ai/home)으로 이동합니다.
     2. run을 초기화할 때 지정한 W&amp;B 프로젝트로 이동합니다.
-    3. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
+    3. 프로젝트 사이드바에서 **워크스페이스** 탭을 선택합니다.
     4. run selector에서 보려는 run을 클릭하거나, 일치하는 run을 필터링할 수 있도록 run 이름의 일부를 입력합니다.
 
-    또는 브라우저에 URL을 입력해 특정 run의 Workspace에 직접 접근할 수도 있습니다. 특정 run의 URL 경로 형식은 다음과 같습니다.
+    또는 브라우저에 URL을 입력해 특정 run의 워크스페이스에 직접 접근할 수도 있습니다. 특정 run의 URL 경로 형식은 다음과 같습니다.
 
     ```text
     https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
@@ -26,39 +26,45 @@ description: W&B App 또는 LEET 터미널 UI를 사용해 특정 로깅된 run�
   </Tab>
 
   <Tab title="LEET">
-    `wandb beta leet` 터미널 UI를 사용해 터미널에서 로컬 run을 보려면 다음 단계를 따르세요.
+    `wandb leet` 터미널 UI를 사용해 터미널에서 로컬 run을 보려면 다음 단계를 따르세요.
 
     1. 스크립트에서 run을 로컬로 시작했다면 코드를 실행한 디렉터리로 이동합니다. 이 디렉터리에는 run별 하위 디렉터리와 `latest-run/` 심볼릭 링크가 있는 `wandb/` 디렉터리가 들어 있습니다. 각 run 디렉터리에는 `run-<run-ID>.wandb` 형식의 이름을 가진 트랜잭션 로그가 들어 있습니다.
 
        run을 로컬에서 시작하지 않고 `.wandb` 트랜잭션 로그 파일만 다운로드한 경우에는 해당 파일의 위치를 기록해 두세요.
-    2. 다음 명령 중 하나로 `wandb beta leet`를 시작합니다.
+    2. 다음 명령 중 하나로 `wandb leet`를 시작합니다.
 
        ```bash
-       # ./wandb/latest-run/에 저장된 최신 run 보기
-       wandb beta leet
+       # 워크스페이스를 열고 최신 로컬 run 선택
+       wandb leet
 
        # run 디렉터리 지정
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+       wandb leet ./wandb/run-20250813_124246-n67z9ude
 
        # .wandb 파일 지정
-       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       wandb leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
        ```
 
-    LEET는 3개 패널로 구성된 인터페이스를 표시합니다.
+    run 경로를 지정하지 않으면 LEET는 기본적으로 워크스페이스 뷰를 엽니다. 강조 표시된 run에서 `enter`를 누르면 단일 run 뷰가 열립니다. run 디렉터리나 `.wandb` 파일을 지정하면 단일 run 뷰가 바로 열립니다. 기본 패널은 다음과 같습니다.
 
-    * **왼쪽 패널**: 환경 변수, 설정, summary 통계가 포함된 run Overview
+    * **왼쪽 패널**: 환경 변수, 설정, summary 통계가 포함된 run 개요
     * **가운데 패널**: 로깅한 메트릭을 점자 스타일 선 차트로 보여주는 메트릭 그리드
     * **오른쪽 패널**: GPU/CPU/RAM 사용량을 포함한 시스템 메트릭
 
     다음 키보드 단축키로 시작하세요.
 
-    * `h` 또는 `?` - 모든 키보드 단축키 보기
-    * `/` - 패턴으로 메트릭 필터링
-    * `[` / `]` - 왼쪽/오른쪽 패널 표시/숨기기
-    * `n` / `N` - 메트릭 페이지 간 이동
-    * `q` / `CMD+C` - 종료
+    * `h` 또는 `?`: 현재 뷰의 키보드 단축키를 봅니다.
+    * `/`: 패턴으로 메트릭을 필터링합니다.
+    * `[` 및 `]`: 사이드바를 표시/숨기기합니다.
+    * `n` 및 `N`: 메트릭 페이지 간을 이동합니다.
+    * `q` 또는 `ctrl+c`: 종료합니다.
 
-    전체 가이드는 [LEET 터미널 UI](/ko/models/app/leet-tui)를, 단축키와 설정에 대한 자세한 내용은 [`wandb beta leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet) CLI 레퍼런스를 참조하세요.
+    로컬 파일 없이 동기화된 run을 보려면 해당 URL을 전달하세요. LEET는 해당 run의 서버에 대해 API 키 인증을 사용합니다. `[RUN-URL]`을 run의 URL로 바꾸세요.
+
+    ```bash
+    wandb leet "[RUN-URL]"
+    ```
+
+    원격 run은 스칼라 이력과 summary를 지원합니다. 지원되는 특성과 원격 run의 제한 사항은 [LEET 터미널 UI](/ko/models/app/leet-tui#remote-runs)를 참조하세요. 명령어 구문은 [`wandb leet`](/ko/models/ref/cli/wandb-leet) CLI 레퍼런스를 참조하세요.
   </Tab>
 </Tabs>
 
@@ -101,7 +107,7 @@ Config 및 Summary 섹션 위의 search box를 사용해 특정 parameter를 필
   W&amp;B는 중첩된 config 또는 summary parameter는 검색하지 않습니다. 예를 들어 `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`로 중첩된 config parameter를 로깅한 경우, search box에서 `learning_rate`를 검색해도 W&amp;B는 `learning_rate` parameter를 반환하지 않습니다. `learning_rate` parameter는 `model`을 검색해야만 찾을 수 있습니다.
 </Note>
 
-예시 프로젝트 Overview는 [여기](https://wandb.ai/stacey/deep-drive/overview)에서 확인할 수 있습니다.
+예시 프로젝트 Overview는 [여기](https://wandb.ai/stacey/deep-drive/overview)에서 확인할 수 있습니다. 
 
 <div id="logs">
   ## 로그

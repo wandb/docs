@@ -1,129 +1,143 @@
 ---
 title: Project
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
 
+<div id="class-wandbapispublicproject">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Project
+</div>
 
-## <kbd>class</kbd> `Project`
-
-プロジェクトは、run の名前空間です。
-
-### <kbd>method</kbd> `Project.__init__`
-
-```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    project: 'str',
-    attrs: 'Mapping[str, Any]'
-) → Project
-```
-
-**引数:**
-
-* `service_api`:  この project に対して W&amp;B API Call を実行する wandb-core サービスへのインターフェース。
-* `name` (str):  project の名。
-* `entity` (str):  project を所有する entity の名。
-
-entity に紐づく単一の project。
-
-**引数:**
-
-* `service_api`:  W&amp;B をクエリするために使用する service API。
-* `entity`:  project を所有する entity。
-* `project`:  クエリする project の名。
-* `attrs`:  project の属性。
-
-***
-
-### <kbd>プロパティ</kbd> Project.id
-
-***
-
-### <kbd>プロパティ</kbd> Project.owner
-
-プロジェクトの所有者を User オブジェクトとして返します。
-
-**例外:**
-
-* `ValueError`: プロジェクトのユーザー情報が見つからない場合。
-
-**戻り値:**
-
-* `public.User`: `owner` プロパティの値。
-
-***
-
-### <kbd>プロパティ</kbd> Project.path
-
-プロジェクトのパスを返します。パスは、entity とプロジェクト名を含むリストです。
-
-**戻り値:**
-
-* `list[str]`: パスのプロパティ値。
-
-***
-
-### <kbd>プロパティ</kbd> Project.url
-
-プロジェクトのURLを返します。
-
-**戻り値:**
-
-* `str`: URLプロパティの値。
-
-***
-
-### <kbd>method</kbd> `Project.artifacts_types`
+project は run の名前空間です。
 
 ```python
-artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
+service_api: 'ServiceApi',
+entity: 'str',
+project: 'str',
+attrs: 'Mapping[str, Any]'
 ```
 
-このプロジェクトに関連付けられているすべてのアーティファクトタイプを返します。
+<div id="args">
+  ## 引数
+</div>
 
-***
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B のクエリに使用するサービス API。
+</ResponseField>
 
+<ResponseField name="entity" type="str">
+  project を所有する entity。
+</ResponseField>
 
-### <kbd>method</kbd> `Project.collections`
+<ResponseField name="project" type="str">
+  クエリする project の名。
+</ResponseField>
+
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  project の属性。
+</ResponseField>
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+<ResponseField name="id" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="owner" type="public.User">
+  projectの所有者をUserオブジェクトとして返します。
+</ResponseField>
+
+<ResponseField name="path" type="list[str]">
+  projectのパスを返します。パスは、entity とproject名を含むリストです。
+</ResponseField>
+
+<ResponseField name="url" type="str">
+  projectのURLを返します。
+</ResponseField>
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="method-projectartifacts_types">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.artifacts_types()
+</div>
 
 ```python
-collections(
-    filters: 'Mapping[str, Any] | None' = None,
-    order: 'str | None' = None,
-    per_page: 'int' = 50
-) → public.ProjectArtifactCollections
+self,
+per_page: 'int' = 50
 ```
 
-このプロジェクトに関連付けられているすべてのアーティファクトコレクションを返します。
+このprojectに関連付けられているすべてのアーティファクトタイプを返します。
 
-**引数:**
+<div id="arguments">
+  ##### 引数
+</div>
 
-* `filters`:  クエリに適用するフィルターのオプションのマッピング。
-* `order`:  結果の順序を指定するオプションの文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
-* `per_page`:  1 ページあたりに取得するアーティファクトコレクションの数です。デフォルトは 50 です。
+<ResponseField name="per_page" type="int">
+  説明はありません。
+</ResponseField>
 
-***
-
-
-### <kbd>method</kbd> `Project.sweeps`
+<div id="method-projectcollections">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.collections()
+</div>
 
 ```python
-sweeps(per_page: 'int' = 50) → Sweeps
+self,
+filters: 'Mapping[str, Any] | None' = None,
+order: 'str | None' = None,
+per_page: 'int' = 50
 ```
 
-このプロジェクト内の sweep を、ページ分割されたコレクションとして返します。
+このprojectに関連付けられているすべてのアーティファクトコレクションを返します。
 
-**引数:**
+<div id="arguments-2">
+  ##### 引数
+</div>
 
-* `per_page`:  API リクエストごとに取得する sweep の数。
+<ResponseField name="filters" type="Mapping[str, Any] | None">
+  クエリに適用するフィルターのオプションのマッピング。
+</ResponseField>
 
-**戻り値:**
-反復可能な `Sweep` オブジェクトのコレクションである `Sweeps` オブジェクト。
+<ResponseField name="order" type="str | None">
+  結果の順序を指定するオプションの文字列です。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
+</ResponseField>
 
-***
+<ResponseField name="per_page" type="int">
+  1 ページあたりに取得するアーティファクトコレクションの数です。デフォルトは 50 です。
+</ResponseField>
+
+<div id="method-projectsweeps">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.sweeps()
+</div>
+
+```python
+self,
+per_page: 'int' = 50,
+filters: 'dict[str, Any] | None' = None,
+order: 'str | None' = None
+```
+
+このproject内の sweep を、ページ分割されたコレクションとして返します。
+
+<div id="arguments-3">
+  ##### 引数
+</div>
+
+<ResponseField name="per_page" type="int">
+  API リクエストごとに取得する sweep の数。
+</ResponseField>
+
+<ResponseField name="filters" type="dict[str, Any] | None">
+  (dict) Runs のフィルターを使用して特定の sweep をクエリします。詳細は wandb/apis/public/api.py:runs を参照してください。
+</ResponseField>
+
+<ResponseField name="order" type="str | None">
+  説明はありません。
+</ResponseField>

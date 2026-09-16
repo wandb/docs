@@ -4,9 +4,12 @@ description: Des environnements de calcul isolés à la demande, que vous pouvez
 mode: wide
 ---
 
-<Warning>
-  Serverless Sandboxes est en préversion publique.
-</Warning>
+import SandboxesDeprecation from '/snippets/fr/_includes/sandboxes-deprecation.mdx';
+import SandboxesPreview from '/snippets/fr/_includes/sandboxes-public-preview.mdx';
+
+<SandboxesDeprecation />
+
+<SandboxesPreview />
 
 Serverless Sandboxes vous offre des environnements de calcul isolés à la demande, que vous pouvez créer, utiliser et supprimer avec Python.
 
@@ -61,6 +64,52 @@ Suivez ces étapes pour créer un sandbox et y exécuter une commande :
 
    Le sandbox s’arrête automatiquement à la sortie du gestionnaire de contexte (le bloc `with`). Pour plus d’informations sur le cycle de vie et les états du sandbox, voir [Cycle de vie des sandboxes](/fr/sandboxes/lifecycle).
 
+<div id="migrate-to-cwsandbox">
+  ## Migrer vers cwsandbox
+</div>
+
+`wandb.sandbox` est obsolète et sera supprimé dans une future version du SDK Python W&amp;B. Le package `cwsandbox` le remplace et accepte soit une clé API W&amp;B, soit un CoreWeave API access token. Sa documentation de référence se trouve dans la [documentation CoreWeave sandbox](https://docs.coreweave.com/products/sandboxes).
+
+Pour migrer, modifiez la manière dont vous installez le package, dont vous l&#39;importez et dont vous sélectionnez votre identifiant d’authentification :
+
+1. Installez `cwsandbox` avec l&#39;extra W&amp;B. Cet extra installe la bibliothèque `wandb`, que `cwsandbox` utilise pour résoudre les credentials W&amp;B :
+
+   ```bash
+   pip install "cwsandbox[wandb]"
+   ```
+
+2. Importez depuis `cwsandbox` plutôt que depuis `wandb.sandbox`, et passez `auth=AuthStrategy.WANDB` lors de la création d&#39;un sandbox ou d&#39;une Session. Par défaut, `cwsandbox` lit un CoreWeave API access token depuis `CWSANDBOX_API_KEY` ; l&#39;authentification W&amp;B doit donc être sélectionnée explicitement :
+
+   ```python title="Avant : wandb.sandbox"
+   from wandb.sandbox import Sandbox
+
+   with Sandbox.run() as sandbox:
+       process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
+       print(process.stdout)
+   ```
+
+   ```python title="Après : cwsandbox"
+   from cwsandbox import AuthStrategy, Sandbox
+
+   with Sandbox.run(auth=AuthStrategy.WANDB) as sandbox:
+       process = sandbox.exec(["echo", "Hello from Serverless Sandboxes!"]).result()
+       print(process.stdout)
+   ```
+
+Vos credentials W&amp;B sont résolus comme aujourd&#39;hui : à partir d&#39;une Session `wandb login` active, de la variable d&#39;environnement `WANDB_API_KEY` ou de l&#39;entrée `api.wandb.ai` du fichier `~/.netrc`. Pour facturer les sandboxes à un Compte CoreWeave à la place, omettez `auth` et définissez `CWSANDBOX_API_KEY` avec un CoreWeave API access token. Pour comparer les deux credentials, voir [Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential).
+
+<div id="behavior-that-changes-after-you-migrate">
+  ### Comportements qui changent après la migration
+</div>
+
+`wandb.sandbox` encapsule `cwsandbox` et applique les valeurs par défaut de W&amp;B Serverless que le package `cwsandbox` n&#39;applique pas de lui-même. Tenez compte de ces différences lors de la migration :
+
+| Comportement                     | `wandb.sandbox`                                                           | `cwsandbox`                                                            |
+| -------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Durée de vie maximale du sandbox | 12 heures par défaut                                                      | Aucune valeur par défaut ; définissez vous-même `max_lifetime_seconds` |
+| Magasin de secrets               | `Secret` utilise par défaut le magasin de secrets de l&#39;équipe W&amp;B | `Secret` exige un argument `store` explicite                           |
+| Arguments de placement           | Rejette `profile_ids`, `profile_names` et `runner_ids`                    | Les accepte pour les runners de sandbox CoreWeave                      |
+
 <div id="serverless-sandboxes-tutorials">
   ## Tutoriels Serverless Sandboxes
 </div>
@@ -69,3 +118,11 @@ Pour des exemples plus détaillés, voir :
 
 * [Tutoriel : invoquer un agent dans un Serverless Sandbox](/fr/sandboxes/invoke-agent-sandbox-tutorial)
 * [Tutoriel : entraîner un modèle PyTorch dans un Serverless Sandbox](/fr/sandboxes/mltrain-in-sandbox-tutorial)
+
+<div id="integrations">
+  ## Integrations
+</div>
+
+Les frameworks tiers suivants prennent en charge Serverless Sandboxes en tant que fournisseur de sandbox.
+
+* [Harbor](https://github.com/harbor-framework/harbor)

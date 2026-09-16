@@ -39,7 +39,7 @@ project = "my-project-name"  # Set project to your W&B project name
 # When this block exits, it waits for logged data to finish uploading.
 # If an exception is raised, the run is marked failed.
 with wandb.init(entity=entity, project="my-project-name") as run:
-  # Save mode inputs and hyperparameters.
+  # Save model inputs and hyperparameters.
   run.config.learning_rate = 0.01
 
   # Run your experiment code.

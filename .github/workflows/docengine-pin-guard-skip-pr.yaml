@@ -1,0 +1,60 @@
+---
+# Reports a passing PinGuard check on pull requests that do not touch the
+# DocEngine pin, so the real pin guard can be a required check without
+# stalling every unrelated pull request.
+#
+#
+# WHY THIS EXISTS
+#
+# The real check, docengine-pin-guard-pr.yaml, uses a paths filter so it only
+# runs when a pull request changes the `docengine` submodule or .gitmodules.
+# That is right for validation but fatal for a required status check: GitHub
+# does not count a path-skipped workflow as passed. It shows the required
+# check as "Expected - Waiting for status to be reported" and blocks the
+# merge forever, on every pull request the filter excludes.
+#
+# This is GitHub's documented remedy (see "Handling skipped but required
+# checks" in the GitHub docs): a second workflow that triggers on the OPPOSITE
+# filter - the paths-ignore list here mirrors the paths list there - and
+# succeeds immediately under the same job name. Between the two workflows,
+# every pull request reports a PinGuard verdict:
+#
+#   - The pin is untouched: only this workflow runs, and passes at once.
+#   - Only the pin changes: only the real guard runs.
+#   - The pin changes alongside other files: both run. GitHub goes by the
+#     newest check run with a given name, and the real guard always finishes
+#     after this instant no-op, so the real verdict is the one that counts.
+#
+# KEEP IN SYNC with docengine-pin-guard-pr.yaml: the job name must stay
+# identical, and the paths-ignore list below must stay the exact mirror of
+# the paths list there. Change one, change the other.
+#
+# The workflow name below is deliberately DIFFERENT from the real guard's.
+# Only the JOB name has to match: a required status check matches the check
+# run's name, and GitHub Actions names check runs after the job, never the
+# workflow. Both files' PinGuard jobs therefore report under the identical
+# check name, and either satisfies a required check called "PinGuard". (The
+# same scheme is visible in this repository's other required checks, whose
+# contexts are bare job names such as ValidatePublicDocsPr.) The distinct
+# workflow names exist for the mixed case: when a pull request changes the
+# pin alongside other files, BOTH workflows run and both report PinGuard,
+# and the workflow name is then the only at-a-glance way to tell which run
+# produced which verdict.
+
+name: DocEngine pin guard (pin untouched)
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docengine'
+      - '.gitmodules'
+
+# This job reads nothing and writes nothing, so it gets no token scopes.
+permissions: {}
+
+jobs:
+  PinGuard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Nothing to validate
+        run: echo "This pull request does not change the DocEngine pin, so there is nothing to check."

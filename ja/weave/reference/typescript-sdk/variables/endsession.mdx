@@ -1,0 +1,48 @@
+---
+title: "endSession"
+description: "TypeScript SDK リファレンス"
+---
+
+<Warning>
+  **非推奨。** 代わりに [endConversation](../functions/endconversation) を使用してください。
+</Warning>
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+> `const` **endSession**: (`opts?`) =&gt; `void` = `endConversation`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L169" />
+
+現在の会話を終了します。アクティブな会話がない場合は何も行いません。
+
+<div id="parameters">
+  ## パラメーター
+</div>
+
+<ParamField path="opts" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns">
+  ## 戻り値
+</div>
+
+`void`
+
+<div id="examples">
+  ## 例
+</div>
+
+```ts twoslash
+// @noErrors
+weave.endConversation();
+```
+
+```ts twoslash
+// @noErrors
+weave.endConversation({endTime: new Date('2026-05-29T10:00:01.700Z')});
+```

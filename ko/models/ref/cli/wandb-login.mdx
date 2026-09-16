@@ -4,7 +4,7 @@ title: wandb login
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L282" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/v0.30.0/wandb/cli/cli.py#L277" />
 
 <div id="usage">
   ## 사용
@@ -50,10 +50,10 @@ wandb login
 wandb login WANDB_API_KEY_EXAMPLE
 ```
 
-로그인하고 API 키가 유효한지 확인하려면 다음을 수행하세요:
+로그인하고 API 키 확인을 건너뛰려면:
 
 ```bash
-wandb login --verify
+wandb login --no-verify
 ```
 
 현재 설정된 자체 호스팅 인스턴스 대신 W&amp;B 퍼블릭 클라우드에 로그인하려면:
@@ -68,21 +68,11 @@ wandb login --cloud
 wandb login --host https://my-wandb-server.example.com
 ```
 
-이미 인증된 상태여도 새 로그인 창을 강제로 표시하려면:
+이미 인증된 상태여도 새 로그인 프롬프트를 강제로 표시하려면:
 
 ```bash
 wandb login --relogin
 ```
-
-<div id="api-key-formats">
-  ## API 키 형식
-</div>
-
-W&amp;B는 `wandb_v1_` 형식(약 92자)의 API 키를 발급합니다. 이전 SDK 버전은 정확히 40자 길이만 허용하므로 새 형식은 `API key must be 40 characters long` 오류와 함께 거부됩니다. SDK를 업그레이드하고(`pip install -U wandb`) `wandb login --relogin`을 실행하세요.
-
-[wandb.ai/authorize](https://wandb.ai/authorize)에서 생성한 키는 생성 시 한 번만 표시됩니다. 즉시 복사하세요. 대화 상자를 닫으면 다시 확인할 수 없습니다.
-
-고정된 SDK 버전, 레거시 키 및 관련 오류에 대해서는 [내 API 키가 &#39;must be 40 characters long&#39; 오류와 함께 실패하는 이유는 무엇인가요?](/ko/support/models/articles/why-does-my-api-key-fail-with-must-be-40-characters)를 참조하세요.
 
 <div id="arguments">
   ## 인수
@@ -101,4 +91,4 @@ W&amp;B는 `wandb_v1_` 형식(약 92자)의 API 키를 발급합니다. 이전 S
 | `--cloud`            | BOOL Flag | W&amp;B 퍼블릭 클라우드([https://api.wandb.ai](https://api.wandb.ai))에 로그인합니다. `--host`와는 함께 사용할 수 없습니다. **기본값**: False                               |
 | `--host, --base-url` | STR       | URL을 사용해 특정 W&amp;B 서버 인스턴스에 로그인합니다(예: [https://my-wandb.example.com](https://my-wandb.example.com)). `--cloud`와는 함께 사용할 수 없습니다. **기본값**: None |
 | `--relogin`          | BOOL Flag | 기존 자격 증명을 무시하고 새 로그인 프롬프트를 강제로 표시합니다. **기본값**: None                                                                                            |
-| `--verify`           | BOOL Flag | 저장한 후 W&amp;B에서 API 키를 확인합니다. 확인에 성공하면 자격 증명의 출처와 기본 팀을 표시합니다. **기본값**: False                                                                  |
+| `--verify`           | BOOL Flag | 저장한 후 W&amp;B에서 API 키를 확인합니다. 확인에 성공하면 자격 증명의 출처와 기본 팀을 표시합니다. **기본값**: True                                                                   |

@@ -3,53 +3,49 @@ title: "endTurn"
 description: "Référence du SDK TypeScript"
 ---
 
-<div id="endturn">
-  # endTurn
-</div>
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-▸ **endTurn**(`opts?`): `void`
+```ts
+endTurn(opts?: object): void
+```
 
-Met fin au tour de conversation en cours. Sans effet si aucun tour de conversation n’est actif.
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/api.ts#L183" />
+
+Termine le tour de conversation en cours. Sans effet si aucun tour de conversation n&#39;est actif.
 
 <div id="parameters">
-  #### Paramètres
+  ## Paramètres
 </div>
 
-| Nom     | Type             |
-| :------ | :--------------- |
-| `opts?` | `SpanEndOptions` |
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### Renvoie
+  ## Renvoie
 </div>
 
 `void`
 
-`Exemple`
+<div id="examples">
+  ## Exemples
+</div>
 
 ```ts twoslash
 // @noErrors
 weave.endTurn();
 ```
 
-`Exemple`
-
 ```ts twoslash
 // @noErrors
 weave.endTurn({endTime: new Date('2026-05-29T10:00:01.700Z')});
 ```
 
-`Exemple`
-
 ```ts twoslash
 // @noErrors
 weave.endTurn({error: new Error('agent loop diverged')});
 ```
-
-<div id="defined-in">
-  #### Défini dans
-</div>
-
-[src/genai/api.ts:183](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/genai/api.ts#L183)
-
-***

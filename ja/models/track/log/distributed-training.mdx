@@ -173,7 +173,7 @@ W&amp;B の初期化時に `job_type` パラメーター (`wandb.init(job_type='
   * W&amp;B Server v0.68 以降
 </Note>
 
-この方法では、プライマリノードと 1 つ以上のワーカーノードを使用します。プライマリノード内で W&amp;B run を初期化します。各ワーカーノードでは、プライマリノードで使用している run ID を使って run を初期化します。トレーニング中、各ワーカーノードはプライマリノードと同じ run ID にログします。W&amp;B はすべてのノードのメトリクスを集約し、W&amp;B App UI に表示します。
+この方法では、プライマリノードと 1 つ以上のワーカーノードを使用します。分散ジョブを開始する前に一意の run ID を生成し、すべてのプロセスがその run ID を使用するように設定します。トレーニング中、各ワーカーノードはプライマリノードと同じ run ID にログします。W&amp;B はすべてのノードのメトリクスを集約し、W&amp;B App UI に表示します。
 
 プライマリノードでは、[`wandb.init()`](/ja/models/ref/python/functions/init) を使って W&amp;B run を初期化します。`settings` パラメーターに `wandb.Settings` オブジェクト (`wandb.init(settings=wandb.Settings()`) を渡し、以下を設定します。
 
@@ -182,10 +182,10 @@ W&amp;B の初期化時に `job_type` パラメーター (`wandb.init(job_type='
 3. これがプライマリノードであることを示すため、[`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) パラメーターを `True` に設定します。
 4. 必要に応じて、W&amp;B がどの GPU のメトリクスをトラッキングするかを指定するため、GPU インデックスのリスト ([0,1,2]) を `x_stats_gpu_device_ids` に指定します。リストを指定しない場合、W&amp;B はそのマシン上のすべての GPU のメトリクスをトラッキングします。
 
-プライマリノードの run ID を控えておいてください。各ワーカーノードで、プライマリノードの run ID が必要になります。
+各プロセスを開始する前に、`WANDB_RUN_ID` 環境変数を生成した run ID に設定します。プロセスが `wandb.init()` を呼び出すと、W&amp;B は `WANDB_RUN_ID` を自動的に読み取ります。
 
 <Note>
-  `x_primary=True` は、プライマリノードとワーカーノードを区別するための設定です。設定ファイルやテレメトリーなど、ノード間で共有されるファイルを upload できるのはプライマリノードだけです。ワーカーノードはこれらのファイルを upload しません。
+  `x_primary=True` は、プライマリノードとワーカーノードを区別するための設定です。設定ファイルやテレメトリーなど、ノード間で共有されるファイルをアップロードできるのはプライマリノードだけです。ワーカーノードはこれらのファイルをアップロードしません。
 </Note>
 
 各ワーカーノードでは、[`wandb.init()`](/ja/models/ref/python/functions/init) で W&amp;B run を初期化し、以下を指定します。
@@ -194,56 +194,64 @@ W&amp;B の初期化時に `job_type` パラメーター (`wandb.init(job_type='
    * 共有モードを有効にするため、`mode` パラメーターを `"shared"` に設定します。
    * `x_label` に一意のラベルを設定します。`x_label` に指定した値は、ログおよび W&amp;B App UI のシステムメトリクスで、データがどのノードから送られてきたかを識別するために使用されます。指定しない場合、W&amp;B はホスト名とランダムなハッシュを使ってラベルを作成します。
    * これがワーカーノードであることを示すため、`x_primary` パラメーターを `False` に設定します。
-2. プライマリノードで使用している run ID を `id` パラメーターに渡します。
+2. ワーカープロセスを開始する前に、`WANDB_RUN_ID` をプライマリノードが使用する生成済みの run ID と同じ値に設定します。
 3. 必要に応じて、[`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) を `False` に設定します。これにより、非プライマリノードが [run の状態](/ja/models/runs/run-states#run-states) を早い段階で `finished` に更新してしまうのを防ぎ、run の状態を一貫してプライマリノードで管理できます。
 
-<Note>
-  * すべてのノードで同じ entity とプロジェクトを使用してください。これにより、正しい run ID を確実に見つけやすくなります。
-  * プライマリノードの run ID を設定するために、各ワーカーノードで環境変数を定義することを検討してください。
-</Note>
+<Tip>
+  * すべてのノードで同じ entity と project を使用してください。これにより、正しい run ID を確実に見つけやすくなります。
+  * 分散ジョブを開始する前に run ID を生成してください。ランチャー、スケジューラー、またはオーケストレーションフレームワークを使用して、各プロセスの `WANDB_RUN_ID` を設定します。
+  * 各プロセスを開始する前に W&amp;B 環境変数を設定してください。W&amp;B SDK が変更を検出しない可能性があるため、実行時に `os.environ` を変更しないでください。
+</Tip>
 
-以下のサンプルコードは、複数のプロセスを単一の run にトラッキングするための大まかな要件を示しています。
+run ID の生成と配布の方法は、ノードのオーケストレーションに使用するフレームワークによって異なります。このガイドでは、汎用的なランチャーの例は提供しません。以下のスニペットは、オーケストレーションレイヤーが `WANDB_RUN_ID` を設定した後の各プロセス内での W&amp;B 設定を示しています。
+
+以下の例では、プライマリノードで run を初期化します。
 
 ```python
 import wandb
 
-entity = "<team_entity>"
-project = "<project_name>"
+entity = "your-entity"
+project = "your-project"
 
 # プライマリノードで run を初期化する
-run = wandb.init(
+with wandb.init(
     entity=entity,
     project=project,
-	settings=wandb.Settings(
+    settings=wandb.Settings(
         x_label="rank_0",
         mode="shared",
         x_primary=True,
         x_stats_gpu_device_ids=[0, 1],  # (オプション) GPU 0 と 1 のメトリクスのみをトラッキングする
-        )
-)
-
-# プライマリノードの run ID を記録する。
-# 各ワーカーノードにはこの run ID が必要。
-run_id = run.id
-
-# プライマリノードの run ID を使用してワーカーノードで run を初期化する
-run = wandb.init(
-    entity=entity, # プライマリノードと同じ entity を使用する
-    project=project, # プライマリノードと同じ project を使用する
-	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
-	id=run_id,
-)
-
-# プライマリノードの run ID を使用してワーカーノードで run を初期化する
-run = wandb.init(
-    entity=entity, # プライマリノードと同じ entity を使用する
-    project=project, # プライマリノードと同じ project を使用する
-	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
-	id=run_id,
-)
+    )
+) as run:
+    # ここにプライマリノードの処理を記述する
 ```
 
-実際の環境では、各ワーカーノードがそれぞれ別のマシン上にある場合があります。
+次の例は、ワーカーノード用の対応する設定を示しています。使用しているオーケストレーションフレームワークに基づいて、rank をワーカーの一意の ID に設定します。
+
+```python
+import wandb
+
+entity = "your-entity"
+project = "your-project"
+rank = 1
+
+# ワーカーノードで run を初期化する。
+# W&B はワーカープロセスの環境から WANDB_RUN_ID を自動的に読み取る。
+with wandb.init(
+    entity=entity,  # プライマリノードと同じ entity を使用する
+    project=project,  # プライマリノードと同じ project を使用する
+    settings=wandb.Settings(
+        x_label=f"rank_{rank}",
+        mode="shared",
+        x_primary=False,
+        x_update_finish_state=False,
+    ),
+) as run:
+    # ここにワーカーノードのロジックを記述する
+```
+
+分散デプロイメントでは、ワーカーノードを別々のマシン上で実行できます。
 
 <Note>
   GKE 上のマルチノードかつマルチ GPU の Kubernetes クラスターでモデルを

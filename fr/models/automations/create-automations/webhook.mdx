@@ -49,6 +49,10 @@ Vous pouvez maintenant [créer une automatisation](#create-an-automation) qui ut
 
 Après avoir [configuré un webhook](#create-a-webhook), créez une automatisation qui définit quel événement W&amp;B déclenche le webhook et quelle charge utile envoyer. Sélectionnez **Registry** ou **Project** selon la portée souhaitée, puis suivez ces étapes pour créer une automatisation qui déclenche le webhook.
 
+<Note>
+  Pour appliquer une automatisation à une portée plus large, créez-la depuis le hub global **Automations** et sélectionnez la portée **Team** ou **Organization**. Les étapes sont les mêmes que celles qui suivent. À ces portées, W&amp;B App prend uniquement en charge les événements d&#39;artifact et de collection. Voir le [hub Automations](/fr/models/automations#automations-hub).
+</Note>
+
 <Tabs>
   <Tab title="Registry">
     Un administrateur du Registry peut créer des automatisations dans ce registre. Les automatisations au niveau du registre s&#39;appliquent à toutes les collections du registre, y compris celles qui seront ajoutées ultérieurement.
@@ -76,7 +80,7 @@ Après avoir [configuré un webhook](#create-a-webhook), créez une automatisati
     9. Indiquez un nom pour l&#39;automatisation. Vous pouvez également fournir une description. Cliquez sur **Create automation**.
   </Tab>
 
-  <Tab title="projet">
+  <Tab title="Project">
     Un administrateur W&amp;B peut créer des automatisations dans un projet.
 
     1. Connectez-vous à W&amp;B et accédez à la page du projet.

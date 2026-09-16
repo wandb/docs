@@ -621,6 +621,10 @@ Ajoutez du Markdown pour mettre en forme le texte narratif, les titres et l’em
 
 Ajoutez à votre rapport des éléments HTML tels que des titres et des listes pour le structurer, de manière interactive avec l’interface de l’application ou le SDK W&amp;B.
 
+<Note>
+  Lorsque vous journalisez une image avec `wandb.Image`, W&amp;B journalise le fichier sous un nom généré qui inclut un hachage de contenu, tel que `media/images/[key]_[step]_[hash].png`, au lieu du nom de fichier d’origine. Par conséquent, une balise `<img>` ou une image Markdown qui fait référence au nom de fichier d’origine ne peut pas être résolue. Pour intégrer une image journalisée dans un rapport, journalisez d’abord l’image, puis utilisez le chemin du fichier généré comme valeur `src` de l’image.
+</Note>
+
 <Tabs>
   <Tab title="interface de l’application">
     Saisissez une barre oblique (`/`) dans le rapport pour afficher un menu déroulant. Dans ce menu, sélectionnez un type de bloc de texte. Par exemple, pour créer un bloc de titre H2, sélectionnez l’option `Heading 2`.
@@ -662,7 +666,9 @@ Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio 
   <Tab title="interface de l’application">
     Copiez-collez des URL dans les rapports pour y intégrer des médias enrichis. Les animations suivantes montrent comment copier-coller des URL depuis Twitter, YouTube et SoundCloud.
 
-    ### Twitter
+    <div id="twitter">
+      ### Twitter
+    </div>
 
     Copiez-collez l’URL d’un Tweet dans un rapport pour afficher le Tweet dans le rapport.
 
@@ -670,7 +676,9 @@ Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio 
       <img src="/images/reports/twitter.gif" alt="Intégration de contenu Twitter" />
     </Frame>
 
-    ### YouTube
+    <div id="youtube">
+      ### YouTube
+    </div>
 
     Copiez-collez l’URL d’une vidéo YouTube pour intégrer une vidéo dans le rapport.
 
@@ -678,7 +686,9 @@ Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio 
       <img src="/images/reports/youtube.gif" alt="Intégration de vidéos YouTube" />
     </Frame>
 
-    ### SoundCloud
+    <div id="soundcloud">
+      ### SoundCloud
+    </div>
 
     Copiez-collez un lien SoundCloud pour intégrer un fichier audio dans un rapport.
 

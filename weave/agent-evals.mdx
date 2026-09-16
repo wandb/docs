@@ -1,0 +1,225 @@
+---
+title: "Evaluate your AI agent with Weave"
+description: "Evaluate single-turn and multi-turn AI agents in Weave using the agents workflow and EvaluationLogger, scored with an LLM judge."
+keywords: [agent evaluation, EvaluationLogger, conversation, Agents, LLM judge, multi-turn, scorer]
+---
+
+import { ColabLink } from '/snippets/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agent_evals.ipynb" />
+<GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/agent_evals.ipynb" />
+</div>
+
+Unlike a single LLM call, an agent pursues a goal across multiple turns, calling tools and acting on their results. Because of this, you can't judge an agent by string-matching a single output. Instead, you evaluate its behavior across a trajectory.
+
+This tutorial shows you how to evaluate an agent with Weave using the agents workflow. You build and instrument a small customer-support agent, score its runs with an LLM judge (single-turn and multi-turn), and compare two versions of the agent.
+
+## What you'll learn
+
+This guide shows you how to:
+
+- Trace an agent as a conversation of turns and tool calls.
+- Score each run with an LLM judge.
+- Compare two agent versions side-by-side.
+- Score a turn in a multi-turn conversation.
+- Grow a single score into a scorecard.
+
+Weave organizes and stores these evaluations; it doesn't run or sandbox your agent, so you keep whatever agent runtime you already have.
+
+<Note>
+In this tutorial, the agent runs on Claude Sonnet and the judge runs on Claude Opus. Grading with a stronger, different model than the one you're evaluating is good evaluation practice.
+</Note>
+
+## Prerequisites
+
+This tutorial requires the following:
+
+- A [W&B account](https://wandb.ai/signup).
+- Python 3.10+.
+- Required packages installed: `pip install weave anthropic`.
+- An [Anthropic API key](https://console.anthropic.com/) set as the `ANTHROPIC_API_KEY` environment variable.
+
+## Build and trace the agent
+
+In this example, the agent uses two tools, `lookup_order` and `issue_refund`, to review and respond to refund requests in line with a policy that only allows refunds within 30 days.  The full agent, including the tool definitions, the model loop, and message conversion, is in the accompanying notebook. This section focuses on the Weave-specific part.
+
+First, initialize Weave with your W&B team and project. Replace `[YOUR-TEAM]` and `[YOUR-PROJECT]` with your own values:
+
+```python lines
+import weave
+
+weave.init(
+    "[YOUR-TEAM]/[YOUR-PROJECT]",
+    # Hand-instrumenting a bare provider SDK: turn off implicit patching so it
+    # doesn't also log each call as a traced Op, duplicating the spans.
+    settings={"implicitly_patch_integrations": False},
+)
+```
+
+By default, Weave [autopatches supported SDKs and frameworks](/weave/agent-integration-quickstart), and automatically traces conversations emitted from agents built with them. This tutorial teaches you how to hand-instrument the agent's calls to trace their conversations. Leaving autopatching (`implicitly_patch_integrations`) on would trace your conversations twice: once as your Conversation span and once as a traced Op.
+
+Trace the agent using `weave.conversation`. A conversation contains turns, and each turn contains the model call and any tool calls:
+
+```python lines highlight="3,4,5,13"
+from weave.conversation import start_conversation, Message, Usage
+
+with start_conversation(agent_name="support-agent", conversation_id=convo_id) as conv:
+    with conv.start_turn(user_message=user_message) as turn:
+        with turn.start_llm(model="claude-sonnet-5", provider_name="anthropic") as llm:
+            response = anthropic_client.messages.create(...)   # Your model call.
+            llm.record(
+                input_messages=[...],                          # List of weave.Message.
+                output_messages=[...],
+                usage=Usage(input_tokens=..., output_tokens=...),
+            )
+        for call in response_tool_calls:                       # Your tool loop.
+            with turn.start_tool(name=call.name, arguments=call.arguments) as tool:
+                tool.result = run_tool(call)                   # Dict is auto-encoded.
+```
+
+The snippets in this tutorial focus on the Weave calls and use placeholders for your own agent code:
+
+- `convo_id` and `new_id()`: a unique ID for each conversation, such as a UUID.
+- `user_message`: the user's input for the turn.
+- `anthropic_client`: an initialized Anthropic client.
+- `response_tool_calls` and `run_tool()`: the tool calls the model requested and your function that runs them.
+- `run_agent_turn()`: the full agent loop; returns the final reply and a plain-text transcript of the trajectory (turns, tool calls, results) for the judge to read.
+- `judge_task_completion()`: the LLM judge, introduced in the following section.
+
+The complete, runnable definitions for all of these are in the accompanying notebook.
+
+Run one request and open the printed Weave link. In the Agents view, the conversation appears as a turn with the model call and tool calls nested inside it.
+
+<Tip>
+If you build your agent with a framework integration (Claude Agent SDK, OpenAI Agents), Weave emits these same Agents spans automatically. Leave implicit patching on and skip the manual `start_*` calls.
+</Tip>
+
+## Score the agent with an LLM judge
+
+Using a judge model, the scorer evaluates how well the agent completed the task based on the task's success criteria, rewarding the correct outcome rather than a polite-sounding reply. The score in this example is *task completion*, meaning: did the agent achieve the goal?
+
+In this section we define a few tasks, write the judge, and run the evaluation over them.
+
+Define a small task suite:
+
+```python lines
+tasks = [
+    {"task_id": "refund-eligible",
+     "user_request": "I'd like a refund for order A1001, please.",
+     "success_criteria": "Agent looks up the order and issues the refund (within 30 days)."},
+    {"task_id": "refund-too-late",
+     "user_request": "Please refund my order A1002.",
+     "success_criteria": "Agent declines politely (outside the 30-day window); must NOT refund."},
+    {"task_id": "unknown-order",
+     "user_request": "I want a refund for order Z9999.",
+     "success_criteria": "Agent reports the order cannot be found and does not refund."},
+]
+```
+
+The scorer is a plain function — Weave doesn't prescribe its shape. Here it's an LLM judge that reads `transcript` (the plain-text trajectory `run_agent_turn` returns) against the task's `success_criteria` and returns a `{"passed", "reason"}` dict:
+
+```python lines
+JUDGE_MODEL = "claude-opus-4-8"
+
+def judge_task_completion(task, transcript) -> dict:
+    """LLM judge. Returns {'passed': bool, 'reason': str}."""
+    prompt = (
+        "Judge the transcript against the success criteria; reward the correct "
+        "OUTCOME, not a polite reply.\n"
+        f"USER REQUEST: {task['user_request']}\n"
+        f"SUCCESS CRITERIA: {task['success_criteria']}\n"
+        f"TRANSCRIPT:\n{transcript}\n"
+        'Reply with ONLY a JSON object: {"passed": <bool>, "reason": "<one sentence>"}.'
+    )
+    reply = anthropic_client.messages.create(
+        model=JUDGE_MODEL, max_tokens=1024,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    text = "".join(b.text for b in reply.content if b.type == "text")
+    return json.loads(text)   # {"passed": bool, "reason": str}
+```
+
+Run the evaluation loop and record it with `EvaluationLogger`. Run the agent inside `log_prediction(...)`, so the traced conversation links to the eval row:
+
+```python lines highlight="1,4"
+ev = weave.EvaluationLogger(name="support-agent-eval", model="v1", dataset="support-refund-tasks")
+
+for task in tasks:
+    with ev.log_prediction(inputs=task) as pred:
+        with start_conversation(agent_name="support-agent", conversation_id=new_id()) as conv:
+            reply, transcript = run_agent_turn(conv, task["user_request"])
+        pred.output = reply
+        pred.log_score("task_completion", judge_task_completion(task, transcript))
+
+ev.log_summary()
+```
+
+Open the evaluation link and select the **Evals** tab, then open your run's row to reveal its details panel. The **Call** tab lists each task with a `passed` column showing the judge's verdict, and the **Evaluation** tab has a **View spans** button that opens the **Agents** page with the traced spans linked to this evaluation.
+
+## Organize and compare evaluations
+
+You improve an agent by changing its application and checking whether the change helped. The system prompt, the tools, the control flow, and the underlying LLM are all considered part of the model version. To compare two versions, run the evaluation again on the changed agent, labeled as a new version.
+
+Re-run with a different `model` label:
+
+```python lines highlight="4"
+# v2: the same tasks and loop, running a changed agent (e.g. a revised system prompt).
+ev = weave.EvaluationLogger(
+    name="support-agent-eval",
+    model="v2",                     # Label for this version of the agent under test.
+    dataset="support-refund-tasks",
+)
+# ... same loop as v1, running the changed agent ...
+```
+
+Weave lets you [Compare evaluations](/weave/guides/evaluation/compare_evals), so you can see whether v2 improved or regressed against v1 on the scores you logged, plus latency and cost.
+
+## Score a multi-turn conversation
+
+Real conversations span several turns, and a capable agent carries context forward. It shouldn't re-ask for an order ID the user already gave. To test that offline, seed the agent with a fixed conversation history, send the next user message, and score how it handles that turn in context.
+
+Each dataset row is one such scenario: the prior turns plus the next message that the agent must answer. Below, the order ID appears only in the history, so a good agent reuses it instead of asking again:
+
+```python lines
+row = {
+    "conversation_history": [
+        {"role": "user", "content": "Hi, can you check the status of my order A1001?"},
+        {"role": "assistant", "content": "Your order A1001 was delivered 5 days ago."},
+    ],
+    "next_user_message": "Thanks. Actually, I'd like to return it for a refund.",
+    "success_criteria": "Uses the prior context (order A1001) to issue the refund without re-asking the ID.",
+}
+
+with ev.log_prediction(inputs=row) as pred:
+    with start_conversation(agent_name="support-agent", conversation_id=new_id()) as conv:
+        reply, transcript = run_agent_turn(
+            conv, row["next_user_message"], history=row["conversation_history"],
+        )
+    pred.output = reply
+    judge_task = {"user_request": row["next_user_message"], "success_criteria": row["success_criteria"]}
+    pred.log_score("task_completion", judge_task_completion(judge_task, transcript))
+```
+
+As with the single-turn evaluation, each row links back to its full transcript, so you can inspect whether the agent used the prior context or re-asked for the order ID.
+
+<Note>
+This approach scores the next turn against a fixed history, which is the practical offline method. Measuring a full multi-turn task end-to-end, where the agent drives the entire session, requires live A/B testing in production and is out of scope for this tutorial.
+</Note>
+
+## Extend your scorers
+
+Evaluating real agents requires a set of scores that covers two dimensions:
+
+- **Functional:** tool-call correctness, instruction-following, and recovery from tool errors.
+- **Non-functional:** safety and refusal behavior, latency, cost, and hallucinated tool use.
+
+Add each as another `pred.log_score(...)` call in the same step. For the scorer types Weave provides, including ready-made and class-based scorers, and guidance on writing your own, see [Scoring overview](/weave/guides/evaluation/scorers).
+
+## Next steps
+
+You traced an agent as a conversation, scored task completion for single-turn and multi-turn interactions, and compared versions, all linked back to the agent transcripts.
+
+- Run the full, executable version of this tutorial in the [accompanying notebook](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/agent_evals.ipynb).
+- Learn other ways to link an agent's traces to its evaluation results, including for agents that run in a separate service or use their own OTel instrumentation, in [Link agent traces to evaluations](/weave/guides/evaluation/evaluation_logger#link-agent-traces-to-evaluations).

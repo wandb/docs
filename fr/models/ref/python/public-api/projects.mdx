@@ -1,37 +1,46 @@
 ---
 title: Projects
-namespace: public_apis_namespace
-python_object_type: class
+kind: class
+namespace: wandb.apis.public.projects
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
-
-## <kbd>class</kbd> `Projects`
+<div id="class-wandbapispublicprojects">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Projects
+</div>
 
 Un itérateur paresseux d’objets `Project`.
 
 Une interface itérable permettant d’accéder aux projets créés et enregistrés par l’entité.
 
-### <kbd>méthode</kbd> `Projects.__init__`
-
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    entity: 'str',
-    per_page: 'int' = 50
-) → Projects
+service_api: 'ServiceApi',
+entity: 'str',
+per_page: 'int' = 50
 ```
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `service_api` :  Interface vers le service wandb-core qui effectue les appels à l’API W&amp;B pour cette collection.
-* `entity` (str) :  Le nom de l’entité (nom d’utilisateur ou équipe) pour laquelle récupérer des projets.
-* `per_page` (int) :  Le nombre de projets à récupérer par requête (50 par défaut).
+<ResponseField name="service_api" type="ServiceApi">
+  L’API de service utilisée pour interroger W&amp;B.
+</ResponseField>
 
-**Exemple :**
+<ResponseField name="entity" type="str">
+  L’entité propriétaire des projets.
+</ResponseField>
+
+<ResponseField name="per_page" type="int">
+  Le nombre de projets à récupérer par requête auprès de l’API.
+</ResponseField>
+
+<div id="examples">
+  ## Exemples
+</div>
 
 ```python
 from wandb.apis.public.api import Api
@@ -47,26 +56,36 @@ for project in projects:
     print(f"- Is benchmark: {project.is_benchmark}")
 ```
 
-Une collection itérable d’objets `Project`.
+<div id="methods">
+  ## Méthodes
+</div>
 
-**Arguments :**
+<div id="method-relaypaginatorconvert_objects">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> RelayPaginator.convert_objects()
+</div>
 
-* `service_api`:  Interface du service wandb-core qui effectue les appels à l’API W&amp;B pour cette collection.
-* `entity`:  L’entité propriétaire des projets.
-* `per_page`:  Le nombre de projets à récupérer à chaque requête à l’API.
+```python
+self
+```
 
-***
+Convertissez les données de la dernière réponse récupérée en objets parcourus lors de l’itération.
 
-### <kbd>propriété</kbd> Projects.cursor
+<div id="method-paginatornext">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
+</div>
 
-Un curseur opaque qui indique le début de la page suivante à récupérer.
+```python
+self
+```
 
-Cette valeur peut être enregistrée et transmise via `start=` dans une requête paginée ultérieure pour reprendre l’itération là où ce paginateur s’est arrêté.
+Renvoie l’élément suivant de l’itérateur. Lorsqu’il est épuisé, lève StopIteration
 
-**Retourne :**
+<div id="method-paginatorupdate_variables">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
+</div>
 
-* `str | None`: La valeur de la propriété `cursor`.
+```python
+self
+```
 
-***
-
-### <kbd>propriété</kbd> Projects.more
+Mettez à jour les variables de requête pour récupérer la page suivante.

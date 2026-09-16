@@ -1,27 +1,44 @@
 ---
 title: controller()
-namespace: python_sdk_actions
-python_object_type: function
+kind: function
+namespace: wandb.sdk.wandb_sweep
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L96" />
 
-
-### <kbd>関数</kbd> `controller`
-
-```python
-controller(
-    sweep_id_or_config: 'str | dict | None' = None,
-    entity: 'str | None' = None,
-    project: 'str | None' = None
-) → _WandbController
-```
+<div id="function-wandbcontroller">
+  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.controller()
+</div>
 
 sweep コントローラー用の公開コンストラクタです。
 
-**例:**
+```python
+sweep_id_or_config: 'str | dict | None' = None,
+entity: 'str | None' = None,
+project: 'str | None' = None
+```
+
+<div id="args">
+  ## 引数
+</div>
+
+<ResponseField name="sweep_id_or_config" type="str | dict | None">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="entity" type="str | None">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="project" type="str | None">
+  説明はありません。
+</ResponseField>
+
+<div id="examples">
+  ## 例
+</div>
 
 ```python
 import wandb

@@ -1,0 +1,80 @@
+---
+title: "agent spans를 사용해 자체 버킷(BYOB)의 미디어 참조하기"
+sidebarTitle: "자체 버킷의 미디어 참조하기"
+description: "바이트를 Weave로 임포트하지 않고, agent 도구 spans에서 해당 URI를 반환하여 자체 클라우드 버킷에 있는 이미지와 비디오를 Weave Agents 뷰에서 렌더링합니다."
+keywords: ["BYOB", "reference bucket", "agent spans", "tool result", "media", "Agents view"]
+---
+
+import ByobReferenceSetup from "/snippets/ko/_includes/byob-reference-setup.mdx";
+
+<ByobReferenceSetup />
+
+<div id="log-a-media-reference-using-agent-spans">
+  ## agent spans를 사용해 미디어 참조 로깅하기
+</div>
+
+버킷 URI를 에이전트 도구 결과로 반환하면, Weave가 이를 해당 결과를 생성한 도구 Call의 **Agents** 뷰에 인라인으로 표시합니다. 다음 예시에서는 conversation, turn, 도구 span을 시작하고 도구의 결과로 버킷 URI를 설정합니다. `[YOUR-TEAM]`, `[YOUR-PROJECT]`, `[YOUR-BUCKET]`를 자신의 값으로 바꾸세요.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+    # 버킷에 이미 있는 객체를 반환하는 도구입니다.
+    def get_frame(frame_id: int) -> str:
+        return f"s3://[YOUR-BUCKET]/frames/{frame_id:06d}.png"
+
+    with weave.start_conversation(agent_name="frame-labeler") as conversation:
+        with weave.start_turn(user_message="Show me frame 123", model="gpt-4o-mini"):
+            with weave.start_tool(
+                name="get_frame",
+                arguments='{"frame_id": 123}',
+                tool_call_id="call_1",
+            ) as tool:
+                # 결과는 버킷 URI string이며 Agents 뷰에 인라인으로 표시됩니다.
+                tool.result = get_frame(123)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+
+    await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
+
+    // 버킷에 이미 있는 객체를 반환하는 도구입니다.
+    function getFrame(frameId: number): string {
+      return `s3://[YOUR-BUCKET]/frames/${String(frameId).padStart(6, '0')}.png`;
+    }
+
+    const conversation = weave.startConversation({agentName: 'frame-labeler'});
+    const turn = weave.startTurn({model: 'gpt-4o-mini'});
+    const tool = weave.startTool({
+      name: 'getFrame',
+      args: JSON.stringify({frameId: 123}),
+      toolCallId: 'call_1',
+    });
+    // 결과는 버킷 URI string이며 Agents 뷰에 인라인으로 표시됩니다.
+    tool.result = getFrame(123);
+    tool.end();
+    turn.end();
+    conversation.end();
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  이 예제는 Weave agent spans를 사용합니다. LLM calls와 전체 에이전트 루프를 포함한 완전한 multi-turn 설정은 [맞춤형 에이전트 퀵스타트](/ko/weave/custom-agents-quickstart) 를 참고하세요.
+</Note>
+
+<div id="view-the-reference-in-weave-agents">
+  ## Weave Agents에서 레퍼런스 보기
+</div>
+
+`weave.init()`가 출력하는 링크를 열어 대화를 확인하세요. 참조된 이미지나 비디오는 URI를 반환한 도구 Call의 **Agents** 뷰에서 인라인으로 렌더링됩니다. 예를 들어 object가 없거나 버킷이 등록되지 않아 Weave가 URI를 확인할 수 없는 경우에는 일반 텍스트 URI string이 표시됩니다.
+
+<Frame>
+  ![사용자 자신의 클라우드 버킷에 있는 object를 가리키는 버킷 URI에서 확인된 참조 이미지가 Weave Agents 뷰의 도구 Call에 인라인으로 렌더링되는 모습입니다.](/weave/guides/tracking/imgs/agents-byob.png)
+</Frame>

@@ -1,35 +1,43 @@
 ---
 title: MetricZScoreFilter
-namespace: automations_namespace
-python_object_type: class
+kind: class
+namespace: wandb.automations._run_metric_filters
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/_run_metric_filters.py#L201" />
 
+<div id="class-wandbautomationsmetriczscorefilter">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.MetricZScoreFilter
+</div>
 
-## <kbd>class</kbd> `MetricZScoreFilter`
-
-메트릭의 z-score를 사용자 정의 임계값과 비교하는 필터입니다.
-
-### <kbd>방법</kbd> `MetricZScoreFilter.__init__`
+메트릭의 z-점수를 사용자 정의 임계값과 비교하는 필터입니다.
 
 ```python
-__init__(
-    name: 'str',
-    window: 'int' = 30,
-    threshold: 'Annotated | Annotated' = 3.0,
-    change_dir: 'ChangeDir' = ANY
-) → None
+*,
+name: str,
+window_size: Annotated[int, Gt(gt=0)] = 30,
+threshold: Union[Annotated[int, Gt(gt=0)], Annotated[float, Gt(gt=0)]] = 3.0,
+change_dir: wandb.automations._run_metric_filters.ChangeDir = ANY
 ```
 
-**매개변수:**
+<div id="args">
+  ## 인수
+</div>
 
-* `name` (str): 관찰할 메트릭의 이름입니다.
-* `window` (int): 메트릭의 평균과 표준편차를 계산할 윈도우 크기입니다.
-* `threshold` (Union[Annotated, Annotated]): z-score의 임계값입니다.
-* `change_dir` (ChangeDir): 모니터링할 z-score 변화 방향입니다.
+<ResponseField name="name" type="str">
+  관찰 대상 메트릭의 이름입니다.
+</ResponseField>
 
-**반환값:**
-`MetricZScoreFilter` 객체입니다.
+<ResponseField name="window_size" type="Annotated">
+  메트릭의 평균과 표준편차를 계산하는 윈도우 크기입니다.
+</ResponseField>
+
+<ResponseField name="threshold" type="Union">
+  z-점수의 임곗값입니다.
+</ResponseField>
+
+<ResponseField name="change_dir" type="ChangeDir">
+  모니터링할 z-점수 변화의 방향입니다.
+</ResponseField>

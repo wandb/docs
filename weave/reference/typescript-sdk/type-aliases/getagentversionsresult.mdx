@@ -3,21 +3,22 @@ title: "GetAgentVersionsResult"
 description: "TypeScript SDK reference"
 ---
 
-# GetAgentVersionsResult
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-Ƭ **GetAgentVersionsResult**: `Object`
+> **GetAgentVersionsResult** = `object`
 
-Result shape returned by [WeaveClient.getAgentVersions](../classes/weaveclient#getagentversions).
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L179" />
 
-#### Type declaration
+Result shape returned by [WeaveClient.getAgentVersions](../interfaces/weaveclient#getagentversions).
 
-| Name | Type |
-| :------ | :------ |
-| `total_count?` | `number` |
-| `versions` | [`AgentVersion`](./agentversion)[] |
+## Properties
 
-#### Defined in
+### total\_count
 
-[src/weaveClient.ts:152](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L152)
+> `optional` **total\_count**: `number`
 
-___
+***
+
+### versions
+
+> **versions**: [`AgentVersion`](./agentversion)[]

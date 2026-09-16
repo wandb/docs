@@ -36,6 +36,10 @@ W&amp;B Weave prend en charge le journal et l&#39;affichage de nombreux types de
 
 Les sections suivantes proposent des exemples de journalisation pour chaque type de média. Chaque section commence par un exemple minimal, puis s’étend à des scénarios plus avancés.
 
+<Note>
+  Pour afficher des médias déjà stockés dans votre propre bucket cloud sans téléverser les octets vers Weave, voir [Référencer des médias dans votre propre bucket (BYOB)](/fr/weave/guides/tracking/byob-references).
+</Note>
+
 <div id="log-images">
   ## Journaliser des images
 </div>
@@ -83,7 +87,9 @@ Les exemples suivants montrent comment générer et journaliser des images dans 
 
     Weave journalise l’image et renvoie un lien vers la trace où vous pouvez consulter l’image.
 
-    ### Exemple avancé : générer une image avec DALL-E et la journaliser dans Weave
+    <div id="advanced-example-generate-an-image-with-dall-e-and-log-it-to-weave">
+      ### Exemple avancé : générer une image avec DALL-E et la journaliser dans Weave
+    </div>
 
     L’exemple suivant génère une image de chat et la journalise dans Weave :
 
@@ -113,7 +119,9 @@ Les exemples suivants montrent comment générer et journaliser des images dans 
     generate_image("a cat with a pumpkin hat")
     ```
 
-    ### Exemple avancé : redimensionner les grandes images avant de les journaliser
+    <div id="advanced-example-resize-large-images-before-logging">
+      ### Exemple avancé : redimensionner les grandes images avant de les journaliser
+    </div>
 
     Redimensionnez les images avant de les journaliser afin de réduire le coût de rendu de l’interface utilisateur et l’impact sur le stockage. Utilisez `postprocess_output` dans votre `@weave.op` pour redimensionner une image.
 
@@ -180,7 +188,9 @@ Les exemples suivants montrent comment générer et journaliser des images dans 
 
     Weave journalise l’image et renvoie un lien vers la trace, où vous pouvez consulter l’image.
 
-    ### Exemple avancé : journaliser une image générée avec l’API DALL-E d’OpenAI
+    <div id="advanced-example-log-an-image-generated-with-the-openai-dall-e-api">
+      ### Exemple avancé : journaliser une image générée avec l’API DALL-E d’OpenAI
+    </div>
 
     L’exemple suivant journalise une image générée avec l’API DALL-E d’OpenAI à l’aide de la fonction `weaveImage` :
 
@@ -257,7 +267,9 @@ Les exemples suivants montrent comment générer des vidéos et les journaliser 
 
     Weave journalise la vidéo et renvoie un lien vers la trace, où vous pouvez la consulter.
 
-    ### Exemple avancé : journaliser une vidéo dans un projet d’analyse vidéo
+    <div id="advanced-example-log-a-video-within-a-video-analysis-project">
+      ### Exemple avancé : journaliser une vidéo dans un projet d’analyse vidéo
+    </div>
 
     L’exemple suivant montre comment journaliser une vidéo dans un projet de compréhension vidéo :
 
@@ -322,7 +334,7 @@ Les exemples suivants montrent comment générer des vidéos et les journaliser 
   ## Journaliser des documents
 </div>
 
-Les exemples suivants génèrent des documents et les journalisent dans l&#39;interface utilisateur de Weave.
+Les exemples suivants génèrent des documents et les journalisent dans l’interface utilisateur de Weave.
 
 <Frame>
   ![Journalisation de documents PDF dans Weave](/images/weave/pdf.png)
@@ -330,11 +342,11 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
 
 <Tabs>
   <Tab title="Python">
-    Journalisez des documents en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type de document avec `Annotated[str, Content[Literal['text']]`.
+    Journalisez des documents en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type de document avec `Annotated[str, Content[Literal['text']]]`.
 
     Weave gère automatiquement les types de fichiers `pdf`, `csv`, `md`, `text`, `json` et `xml`. Vous pouvez également journaliser des fichiers en utilisant leurs chemins avec `Annotated[str, Content]`.
 
-    L&#39;exemple suivant montre comment stocker des copies des fichiers PDF et CSV en entrée, puis stocker le contenu des fichiers renvoyé par la fonction :
+    L’exemple suivant montre comment stocker des copies des fichiers PDF et CSV en entrée, puis stocker le contenu des fichiers renvoyé par la fonction :
 
     ```python lines {25}
     import weave
@@ -372,7 +384,9 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
     csv_result = load_document("sample_data.csv")
     ```
 
-    ### Exemple avancé : journaliser des documents dans un système RAG
+    <div id="advanced-example-log-documents-within-a-rag-system">
+      ### Exemple avancé : journaliser des documents dans un système RAG
+    </div>
 
     Cet exemple montre comment journaliser des documents dans un système de génération augmentée par récupération (RAG) :
 
@@ -431,7 +445,7 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
     )
     ```
 
-    Weave journalise à la fois le PDF source et la réponse générée, afin que vous puissiez auditer le document à l&#39;origine de chaque réponse.
+    Weave journalise à la fois le PDF source et la réponse générée, afin que vous puissiez auditer le document à l’origine de chaque réponse.
   </Tab>
 
   <Tab title="TypeScript">
@@ -453,7 +467,7 @@ Les exemples suivants montrent comment journaliser de l’audio vers Weave.
 
 <Tabs>
   <Tab title="Python">
-    Journalisez l’audio dans Weave en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type audio avec `Annotated[str, Content[Literal['mp3']]`.
+    Journalisez l’audio dans Weave en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type audio avec `Annotated[str, Content[Literal['mp3']]]`.
 
     Weave gère automatiquement les types de fichiers `mp3`, `wav`, `flac`, `ogg` et `m4a`. Vous pouvez également journaliser à partir de chemins de fichiers avec `Annotated[str, Content]`.
 
@@ -486,7 +500,9 @@ Les exemples suivants montrent comment journaliser de l’audio vers Weave.
     result = load_audio("beep.wav")
     ```
 
-    ### Exemple avancé : générer et journaliser de l’audio généré par l’IA
+    <div id="advanced-example-generate-and-log-ai-created-audio">
+      ### Exemple avancé : générer et journaliser de l’audio généré par l’IA
+    </div>
 
     Cet exemple génère et journalise de l’audio généré par l’IA à l’aide de l’annotation `Content` :
 
@@ -580,7 +596,9 @@ Les exemples suivants montrent comment journaliser de l’audio vers Weave.
     main();
     ```
 
-    ### Exemple avancé : générer de l’audio avec l’API TTS d’OpenAI et le journaliser dans Weave
+    <div id="advanced-example-generate-audio-using-openais-tts-api-and-log-it-to-weave">
+      ### Exemple avancé : générer de l’audio avec l’API TTS d’OpenAI et le journaliser dans Weave
+    </div>
 
     L’exemple suivant génère de l’audio avec l’API TTS d’OpenAI et le journalise dans Weave :
 
@@ -664,7 +682,9 @@ Les exemples suivants montrent comment générer et journaliser du HTML dans l�
     result = create_simple_html()
     ```
 
-    ### Exemple avancé : générer des pages HTML autonomes avec Serverless Inference et les journaliser dans Weave
+    <div id="advanced-example-generate-self-contained-html-pages-using-serverless-inference-and-log-them-to-weave">
+      ### Exemple avancé : générer des pages HTML autonomes avec Serverless Inference et les journaliser dans Weave
+    </div>
 
     Cet exemple génère des pages HTML autonomes avec [Serverless Inference](/fr/inference) et les journalise dans Weave :
 

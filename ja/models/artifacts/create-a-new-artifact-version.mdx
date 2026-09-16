@@ -26,7 +26,9 @@ title: アーティファクトバージョンを作成する
   <img src="/images/artifacts/single_distributed_artifacts.png" alt="アーティファクトワークフローの比較" />
 </Frame>
 
-### 単一の run
+<div id="single-run">
+  ### 単一の run
+</div>
 
 アーティファクト内のすべてのファイルを 1 つの run で生成する場合は、その run を使って アーティファクト の新しいバージョンをログします。これは、1 つの run が アーティファクト 内のすべてのファイルを生成するケースです。
 
@@ -150,7 +152,7 @@ with wandb.init() as run:
 
 単一の run を使用して、または新しいバージョンに反映される複数の Runs をまたいで、段階的アーティファクトを作成できます。以下のセクションでは、それぞれの場合に段階的アーティファクトを作成する方法を説明します。
 
-<div id="single-run">
+<div id="single-run-2">
   ### Single run
 </div>
 
@@ -200,13 +202,13 @@ with wandb.init() as run:
   </Tab>
 </Tabs>
 
-<div id="distributed-runs">
+<div id="distributed-runs-2">
   ### 分散 run
 </div>
 
-複数の run から 1 つの アーティファクト version に file が追加される場合は、`Artifact.upsert_artifact()` と `Artifact.finish_artifact()` を使用します。
+複数の run から 1 つの アーティファクト バージョン に file が追加される場合は、`Artifact.upsert_artifact()` と `Artifact.finish_artifact()` を使用します。
 
-以下の例では、アーティファクト が [run への入力](/ja/models/artifacts/create-a-new-artifact-version#use-as-run-input) として使用されるケースで、分散 run から新しい アーティファクト version を作成する方法を示します。同じ方法は、Public API を使用して アーティファクト を [直接フェッチする](/ja/models/artifacts/create-a-new-artifact-version#fetch-directly) 場合にも適用できます。
+以下の例では、アーティファクト が [run への入力](/ja/models/artifacts/create-a-new-artifact-version#use-as-run-input) として使用されるケースで、分散 run から新しい アーティファクト バージョン を作成する方法を示します。同じ方法は、Public API を使用して アーティファクト を [直接フェッチする](/ja/models/artifacts/create-a-new-artifact-version#fetch-directly) 場合にも適用できます。
 
 ```python
 import wandb
@@ -237,7 +239,7 @@ with wandb.init(project=project, group=distributed_id) as run:
 ```
 
 <Tip title="Draft と Upsert">
-  コミット済みの アーティファクト version を変更する場合は、`Artifact.new_draft()` を使用してください。
+  コミット済みの アーティファクト バージョン を変更する場合は、`Artifact.new_draft()` を使用してください。
 
-  複数の Runs で、確定前の 1 つの アーティファクト version を共同で更新する必要がある場合は、`Artifact.upsert_artifact()` と `Artifact.finish_artifact()` を使用してください。
+  複数の Runs で、確定前の 1 つの アーティファクト バージョン を共同で更新する必要がある場合は、`Artifact.upsert_artifact()` と `Artifact.finish_artifact()` を使用してください。
 </Tip>

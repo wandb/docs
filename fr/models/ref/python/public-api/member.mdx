@@ -1,39 +1,51 @@
 ---
 title: Member
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.teams
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
-
-## <kbd>class</kbd> `Member`
+<div id="class-wandbapispublicmember">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Member
+</div>
 
 Un membre d’une équipe.
 
-### <kbd>méthode</kbd> `Member.__init__`
-
 ```python
-__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
 ```
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `service_api` :  l’instance de l’API de service à utiliser pour interroger W&amp;B.
-* `team` (str) :  le nom de l’équipe à laquelle appartient ce membre
-* `attrs` (dict) :  les attributs du membre
+<ResponseField name="service_api" type="ServiceApi">
+  L’instance d’API de service à utiliser pour effectuer des requêtes sur W&amp;B.
+</ResponseField>
 
-***
+<ResponseField name="team" type="str">
+  Le nom de l’équipe à laquelle appartient ce membre
+</ResponseField>
 
-### <kbd>méthode</kbd> `Member.delete`
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  Les attributs du membre
+</ResponseField>
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="method-memberdelete">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Member.delete()
+</div>
 
 ```python
-delete()
+(self)
 ```
 
 Supprime un membre d’une équipe.
-
-**Retourne :**
-Booléen indiquant si l’opération a réussi

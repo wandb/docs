@@ -1,0 +1,50 @@
+diff --git a/frontends/app/src/components/RunSelectAll.tsx b/frontends/app/src/components/RunSelectAll.tsx
+index 3328131a977..2e7e34ce72c 100644
+--- a/frontends/app/src/components/RunSelectAll.tsx
++++ b/frontends/app/src/components/RunSelectAll.tsx
+@@ -108,9 +108,9 @@ const RunSelectAllComp: React.FC<RunSelectAllProps> = ({
+                 'dropdown'
+               );
+             }}>
+-            <span className="pr-10">Hide manually hidden runs</span>
++            <span className="pr-10">List only visible runs</span>
+             {!isInReport && (
+-              <Hotkey keys={['Alt', 'KeyV']} name="Hide manually hidden runs" />
++              <Hotkey keys={['Alt', 'KeyV']} name="List only visible runs" />
+             )}
+             <Switch.Root checked={onlyShowSelected}>
+               <Switch.Thumb checked={onlyShowSelected ? true : false} />
+diff --git a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx
+index f752db4717f..f089d87ce60 100644
+--- a/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx
++++ b/frontends/app/src/components/RunSelector/RunsFilterTableAction/RunsFilterTableAction.tsx
+@@ -57,7 +57,7 @@ export const RunsFilterTableAction = ({
+             onChange: (checked: boolean) => {
+               setOnlyShowSelected(checked);
+               // event name kept as 'Only show visualized toggled' despite the
+-              // renamed UI label ('Hide manually hidden runs') for analytic continuity
++              // renamed UI label ('List only visible runs') for analytic continuity
+               trackRunVisibilityMenu({
+                 action: 'Only show visualized toggled',
+                 method: 'filter_modal',
+diff --git a/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx b/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx
+index 1785f797efe..be57eb81201 100644
+--- a/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx
++++ b/frontends/app/src/components/RunSelector/WBTable/WBTableActionsFilter.tsx
+@@ -372,14 +372,14 @@ const WBTableActionFilterPickerDefaultToggles = ({
+         ))}
+         {hideManuallyHidden && (
+           <div className="flex items-center justify-between">
+-            <span>Hide manually hidden runs</span>
++            <span>List only visible runs</span>
+             <div className="flex items-center gap-8">
+               {!isInReport && (
+                 // TODO: remove once --reverse-app-filter
+                 <span className="night-aware">
+                   <Hotkey
+                     keys={['Alt', 'KeyV']}
+-                    name="Hide manually hidden runs"
++                    name="List only visible runs"
+                   />
+                 </span>
+               )}

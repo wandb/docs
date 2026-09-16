@@ -24,19 +24,18 @@ To authenticate your machine with W&B, you need an API key.
 
 <ApiKeyCreate/>
 
-
 ## Install the `wandb` library and log in
 
 <Tabs>
-<Tab title="Command Line">
+<Tab title="Command line">
 
-1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/).
+1. Set the `WANDB_API_KEY` [environment variable](/models/track/environment-variables/):
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-2. Install the `wandb` library and log in.
+2. Install the `wandb` library and log in:
 
     ```shell
     pip install wandb
@@ -67,7 +66,7 @@ To authenticate your machine with W&B, you need an API key.
     !pip install wandb
     ```
 
-2. Import the W&B Python SDK and log in to W&B from your notebook with `wandb.login()`
+2. Import the W&B Python SDK and log in to W&B from your notebook with `wandb.login()`:
 
     ```notebook
     import wandb
@@ -101,10 +100,10 @@ with wandb.init(project=project, config=config) as run:
     run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-See the next section for a complete example that simulates a training run and logs accuracy and loss metrics to W&B.
+For a complete example that simulates a training run and logs accuracy and loss metrics to W&B, see [Create a machine learning training experiment](#create-a-machine-learning-training-experiment).
 
 <Info>
-A [run](/models/runs/) is a core element of W&B. You use runs to [track metrics](/models/track/), [create logs](/models/track/log/), track artifacts, and more.
+A [run](/models/runs/) is a core element of W&B. You use runs to [track metrics](/models/track/), [create logs](/models/track/log/), and track artifacts.
 </Info>
 
 ## Create a machine learning training experiment
@@ -129,7 +128,7 @@ config = {
 with wandb.init(project=project, config=config) as run:
     offset = random.random() / 5
     print(f"lr: {config['lr']}")
-    
+
     # Simulate a training run
     for epoch in range(2, config['epochs']):
         acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
@@ -137,23 +136,21 @@ with wandb.init(project=project, config=config) as run:
         print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
         run.log({"accuracy": acc, "loss": loss})
 ```
-Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
+
+Visit [your W&B home page](https://wandb.ai/home) to view recorded metrics such as accuracy and loss, and to see how they change during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with a generated name.
 
 <Frame>
-    <img src="/images/quickstart/quickstart_image.png" alt="Shows loss and accuracy tracked from each run."  />
+    <img src="/images/quickstart/quickstart_image.png" alt="Loss and accuracy tracked from each run" />
 </Frame>
 
 ## Next steps
 
-Explore more features of the W&B ecosystem:
+Explore more W&B features:
 
-1. Learn about and create your first [run](/models/runs).
-2. Track models, datasets, and other files with [W&B Artifacts](/models/artifacts).
-3. Automate hyperparameter searches and optimize models with [W&B Sweeps](/models/sweeps).
-4. Share models, prompts, and datasets with [W&B Registry](/models/registry).
-5. Analyze runs, visualize model predictions, view artifacts in your project's [dashboard](/models/track/workspaces).
-6. Summarize findings and share updates with collaborators using [W&B Reports](/models/reports).
-7. Trace and evaluate LLM applications with [W&B Weave](/weave/quickstart).
-
-{/* Is this still relevant? */}
-{/* 6. Visit [W&B AI Academy](https://wandb.ai/site/courses/) to learn about LLMs, MLOps, and W&B Models through hands-on courses. */}
+- Learn about and create your first [run](/models/runs).
+- Track models, datasets, and other files with [W&B Artifacts](/models/artifacts).
+- Automate hyperparameter searches and optimize models with [W&B Sweeps](/models/sweeps).
+- Share models, prompts, and datasets with [W&B Registry](/models/registry).
+- Analyze runs, visualize model predictions, and view artifacts in your project's [dashboard](/models/track/workspaces).
+- Summarize findings and share updates with collaborators with [W&B Reports](/models/reports).
+- Trace and evaluate LLM applications with [W&B Weave](/weave/quickstart).

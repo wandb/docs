@@ -49,7 +49,7 @@ W&amp;B Python SDK を使用してプログラムから、または W&amp;B App 
     4. 表示したい run を選択します。
     5. **Overview** タブを選択します。
 
-    W&amp;B では、**Run path** フィールドに run ID が表示されます。run path は、チーム名、プロジェクト名、および run ID で構成されます。一意の ID は run path の最後の部分です。
+    W&amp;B では、**Run path** フィールドに run ID が表示されます。run パスは、チーム名、プロジェクト名、および run ID で構成されます。一意の ID は run パスの最後の部分です。
 
     たとえば、次の画像では一意の run ID は `9mxi1arc` です。
 
@@ -109,6 +109,22 @@ with wandb.init(entity="<project>", project="<project>", name="<run-name>") as r
     # ここにコードを記述
 ```
 
+<div id="find-the-run-path">
+  ### run パスを検索する
+</div>
+
+run パスは、entity、project、run ID で run を識別します。
+
+```text
+`<entity>/<project>/<run_id>`. 
+```
+
+1. W&amp;B プロジェクトにアクセスします。
+2. **Workspace** または **Runs** タブを選択します。
+3. run パスを確認したい run を検索するか、スクロールして探します。
+4. run をクリックして、run の **Overview** ページを開きます。
+5. **Run path** フィールドから run パスをコピー＆ペーストします。
+
 <div id="rename-a-run">
   ### run の名前を変更する
 </div>
@@ -139,7 +155,7 @@ Python SDK を使ってプログラムで初期化した後、または W&amp;B 
     1. W&amp;B プロジェクトにアクセスします。
     2. **Workspace** または **Runs** タブを選択します。
     3. 名前を変更したい run を検索するか、スクロールして探します。
-    4. run 名にカーソルを合わせ、**action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューをクリックしてから、**Rename run** をクリックします。
+    4. run 名にカーソルを合わせ、**action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックしてから、**run 名を編集** をクリックします。
     5. run 名を変更するには、**Run name** フィールドを更新します。
     6. **Save** をクリックします。
   </Tab>
@@ -168,7 +184,7 @@ W&amp;B App で run の表示名を変更するには、次の手順に従いま
 1. W&amp;B プロジェクトにアクセスします。
 2. **Workspace** または **Runs** タブを選択します。
 3. 名前を変更する run を検索するか、スクロールして探します。
-4. run 名にカーソルを合わせ、**action (<Icon icon="ellipsis-vertical" iconType="solid" />)** メニューをクリックしてから、**Rename run** をクリックします。
+4. run 名にカーソルを合わせ、**action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックしてから、**run 名を編集** をクリックします。
 5. **Display name** フィールドに新しい値を入力します。
 6. **Save** をクリックします。
 

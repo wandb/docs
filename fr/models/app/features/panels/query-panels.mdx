@@ -6,18 +6,18 @@ keywords: ["expressions de requête", "panneaux Weave", "requêtes ad hoc", "obj
 ---
 
 <Note>
-  Vous cherchez W&amp;B Weave, la suite d’outils de W&amp;B pour créer des applications d’IA générative ? Consultez la [documentation de Weave](https://wandb.github.io/weave/?utm_source=wandb_docs\&utm_medium=docs\&utm_campaign=weave-nudge).
+  Vous cherchez W&amp;B Weave, la suite d’outils de W&amp;B pour créer des applications d’IA générative ? Consultez la [documentation de Weave](https://wandb.github.io/weave/?utm_source=wandb_docs\&utm_medium=docs\&utm_campaign=weave-nudge).
 </Note>
 
-Utilisez les panneaux de requête pour interroger vos données et les visualiser de manière interactive. Avec un panneau de requête, vous pouvez rassembler dans une seule vue des runs, des artefacts, des tableaux et d’autres objets W&amp;B spécifiques, puis les explorer sous forme de tableaux ou de graphiques sans quitter votre espace de travail ou votre rapport. Cette page s’adresse aux utilisateurs qui souhaitent composer des requêtes ad hoc sur des données W&amp;B enregistrées et afficher les résultats dans un espace de travail ou un rapport.
+Utilisez les panneaux de requête pour interroger vos données et les visualiser de manière interactive. Avec un panneau de requête, vous pouvez rassembler dans une seule vue des runs, des artefacts, des tableaux et d’autres objets W&amp;B spécifiques, puis les explorer sous forme de tableaux ou de graphiques sans quitter votre Workspace ou votre rapport. Cette page s’adresse aux utilisateurs qui souhaitent composer des requêtes ad hoc sur des données W&amp;B enregistrées et afficher les résultats dans un Workspace ou un rapport.
 
-Un panneau de requête combine trois éléments :
+Un panneau de requête combine trois éléments :
 
-* **[Expression](#expressions)** : Les données que vous sélectionnez.
-* **[Configuration](#configurations)** : Les paramètres facultatifs du panneau, comme le type de panneau et les options du menu en forme d’engrenage.
-* **[Panneau de résultat](#result-panels)** : La façon d’afficher les résultats, par exemple dans un tableau ou un graphique.
+* **[Expression](#expressions)** : Les données que vous sélectionnez.
+* **[Configuration](#configurations)** : Les paramètres facultatifs du panneau, comme le type de panneau et les options du menu en forme d’engrenage.
+* **[Panneau de résultat](#result-panels)** : La façon d’afficher les résultats, par exemple dans un tableau ou un graphique.
 
-Pour voir un ensemble d’exemples interactifs à essayer, consultez ce [rapport d’exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2). Pour un guide pas à pas sur la syntaxe des requêtes, consultez le [rapport tutoriel sur les panneaux de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2). Les types et opérations générés sont répertoriés dans l’[aperçu du langage d’expression des requêtes](/fr/models/ref/query-panel).
+Pour des exemples interactifs à essayer et un guide pas à pas sur la syntaxe des requêtes, consultez le [rapport d’exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr) public. Les types et opérations générés sont répertoriés dans l’[aperçu du langage d’expression des requêtes](/fr/models/ref/query-panel).
 
 <Frame>
   <img src="/images/weave/pretty_panel.png" alt="Panneau de requête" />
@@ -109,7 +109,7 @@ Dans le coin supérieur gauche du panneau, cliquez sur l’icône d’engrenage 
   #### Options du panneau
 </div>
 
-Le menu de configuration peut inclure des options qui modifient la manière dont le panneau combine ou charge les résultats de type tableau. Les libellés exacts et leur disponibilité dépendent de votre expression et du type de panneau. Pour voir des configurations concrètes, voir le [rapport d&#39;exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2).
+Le menu de configuration peut inclure des options qui modifient la manière dont le panneau combine ou charge les résultats de type tableau. Les libellés exacts et leur disponibilité dépendent de votre expression et du type de panneau. Pour voir des configurations concrètes, voir le [rapport d&#39;exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
 **Concat**
 
@@ -117,7 +117,7 @@ Utilisez **Concat** dans la configuration si vous souhaitez que le panneau fusio
 
 **Paginate**
 
-Utilisez **Paginate** lorsqu&#39;un résultat de tableau risque d&#39;être trop volumineux pour être affiché en une seule fois. La pagination charge les lignes par blocs afin que le panneau reste réactif. Associez cette option à des expressions qui renvoient de longues listes de lignes. Pour les approches qui fonctionnent bien avec la pagination, voir le [rapport d&#39;exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2).
+Utilisez **Paginate** lorsqu&#39;un résultat de tableau risque d&#39;être trop volumineux pour être affiché en une seule fois. La pagination charge les lignes par blocs afin que le panneau reste réactif. Associez cette option à des expressions qui renvoient de longues listes de lignes. Pour les approches qui fonctionnent bien avec la pagination, voir le [rapport d&#39;exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
 <div id="result-panels">
   ### Panneaux de résultats
@@ -137,7 +137,7 @@ Le panneau de résultat de la requête affiche le résultat de l’expression de
   ### Parcourir l’historique des exécutions
 </div>
 
-Dans les tableaux et graphiques construits à partir de `runs` ou de `runs.history`, l’application peut afficher un contrôle d’**étape** (par exemple un curseur) pour vous permettre de parcourir les étapes enregistrées et d’inspecter les métriques, le texte ou les médias au fil de vos runs. Après avoir modifié l’expression, modifiez la configuration du panneau de requête et définissez **Render As** sur **Stepper**. Le contrôle peut suivre une métrique autre que `_step` si cela correspond mieux à la manière dont vous avez enregistré les données. Pour obtenir des exemples d’expressions, voir le [rapport d’exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Query-Panel-Examples---Vmlldzo1NzIxOTY2).
+Dans les tableaux et graphiques construits à partir de `runs` ou de `runs.history`, l’application peut afficher un contrôle d’**étape** (par exemple un curseur) pour vous permettre de parcourir les étapes enregistrées et d’inspecter les métriques, le texte ou les médias au fil de vos runs. Après avoir modifié l’expression, modifiez la configuration du panneau de requête et définissez **Render As** sur **Stepper**. Le contrôle peut suivre une métrique autre que `_step` si cela correspond mieux à la manière dont vous avez enregistré les données. Pour obtenir des exemples d’expressions, voir le [rapport d’exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
 <div id="basic-operations">
   ## Opérations de base
@@ -244,11 +244,11 @@ Où :
   ## Objet `runs`
 </div>
 
-Utilisez les panneaux de requête pour accéder à l’objet `runs`. Les objets run stockent les enregistrements de vos expériences. Pour plus de détails, voir [Accéder à l’objet runs](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#3.-accessing-runs-object). Pour un aperçu rapide, voici ce qui est disponible dans l’objet `runs` :
+Utilisez les panneaux de requête pour accéder à l’objet `runs`. Les objets run stockent les enregistrements de vos expériences. Pour plus de détails, voir [Accéder à l’objet runs](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object). Pour un aperçu rapide, voici ce qui est disponible dans l’objet `runs` :
 
-* `summary` : un dictionnaire d’informations qui résume les résultats du run. Il peut s’agir de scalaires comme l’accuracy et la perte, ou de fichiers volumineux. Par défaut, `wandb.Run.log()` définit `summary` sur la valeur finale d’une série temporelle enregistrée. Vous pouvez aussi définir directement le contenu de `summary`. Considérez `summary` comme les sorties du run.
-* `history` : une liste de dictionnaires destinée à stocker les valeurs qui changent pendant l’entraînement du modèle, comme la perte. La commande `wandb.Run.log()` ajoute des éléments à cet objet.
-* `config` : un dictionnaire contenant les informations de configuration du run, comme les hyperparamètres d’un run d’entraînement ou les méthodes de prétraitement d’un run qui crée un artifact de jeu de données. Considérez-les comme les « entrées » du run.
+* `summary` : un dictionnaire d’informations qui résume les résultats du run. Il peut s’agir de scalaires comme l’accuracy et la perte, ou de fichiers volumineux. Par défaut, `wandb.Run.log()` définit `summary` sur la valeur finale d’une série temporelle enregistrée. Vous pouvez aussi définir directement le contenu de `summary`. Considérez `summary` comme les sorties du run.
+* `history` : une liste de dictionnaires destinée à stocker les valeurs qui changent pendant l’entraînement du modèle, comme la perte. La commande `wandb.Run.log()` ajoute des éléments à cet objet.
+* `config` : un dictionnaire contenant les informations de configuration du run, comme les hyperparamètres d’un run d’entraînement ou les méthodes de prétraitement d’un run qui crée un artifact de jeu de données. Considérez-les comme les « entrées » du run.
 
 <Frame>
   <img src="/images/weave/weave_runs_object.png" alt="Structure de l’objet Runs" />
@@ -258,12 +258,12 @@ Utilisez les panneaux de requête pour accéder à l’objet `runs`. Les objets 
   ## Accéder aux artefacts
 </div>
 
-Les artefacts sont un concept central de W&amp;B. Ce sont des collections de fichiers et de répertoires, nommées et versionnées. Utilisez les artefacts pour suivre les poids de modèle, les Datasets et tout autre fichier ou répertoire. W&amp;B stocke les artefacts, et vous pouvez les télécharger ou les utiliser dans d’autres runs. Pour plus de détails et des exemples, voir [Accéder aux artefacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2#4.-accessing-artifacts). En général, vous accédez aux artefacts à partir de l’objet `project` :
+Les artefacts sont un concept central de W&amp;B. Ce sont des collections de fichiers et de répertoires, nommées et versionnées. Utilisez les artefacts pour suivre les poids de modèle, les Datasets et tout autre fichier ou répertoire. W&amp;B stocke les artefacts, et vous pouvez les télécharger ou les utiliser dans d’autres runs. Pour plus de détails et des exemples, voir [Accéder aux artefacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts). En général, vous accédez aux artefacts à partir de l’objet `project` :
 
-* `project.artifactVersion()` : Renvoie la version spécifique de l’artefact pour un nom et une version donnés dans un projet.
-* `project.artifact("")` : Renvoie l’artefact correspondant à un nom donné dans un projet. Vous pouvez ensuite utiliser `.versions` pour obtenir la liste de toutes les versions de cet artefact.
-* `project.artifactType()` : Renvoie le `artifactType` correspondant à un nom donné dans un projet. Vous pouvez ensuite utiliser `.artifacts` pour obtenir la liste de tous les artefacts de ce type.
-* `project.artifactTypes` : Renvoie la liste de tous les types d’artefacts du projet.
+* `project.artifactVersion()` : Renvoie la version spécifique de l’artefact pour un nom et une version donnés dans un projet.
+* `project.artifact("")` : Renvoie l’artefact correspondant à un nom donné dans un projet. Vous pouvez ensuite utiliser `.versions` pour obtenir la liste de toutes les versions de cet artefact.
+* `project.artifactType()` : Renvoie le `artifactType` correspondant à un nom donné dans un projet. Vous pouvez ensuite utiliser `.artifacts` pour obtenir la liste de tous les artefacts de ce type.
+* `project.artifactTypes` : Renvoie la liste de tous les types d’artefacts du projet.
 
 <Frame>
   <img src="/images/weave/weave_artifacts.png" alt="Méthodes d’accès aux artefacts" />

@@ -18,8 +18,8 @@ Chaque projet contient les onglets suivants :
 * [Workspace](/fr/models/track/project-page/#workspace-tab) : espace personnel de visualisation
 * [Runs](#runs-tab) : tableau répertoriant tous les runs de votre projet
 * [Automations](#automations-tab) : Automations configurées dans votre projet
-* [Sweeps](/fr/models/sweeps) : exploration et optimisation automatisées
-* [Rapports](/fr/models/track/project-page/#reports-tab) : instantanés enregistrés des notes, des runs et des graphiques
+* [Sweeps](#sweeps-tab) : exploration et optimisation automatisées
+* [Reports](/fr/models/track/project-page/#reports-tab) : instantanés enregistrés des notes, des runs et des graphiques
 * [Artifacts](#artifacts-tab) : contient tous les runs et les Artifacts associés à ces runs
 
 <div id="overview-tab">
@@ -74,7 +74,7 @@ Le *workspace* d’un projet vous offre un espace personnel pour comparer des ex
 
 **Barre latérale Runs** : liste de tous les runs de votre projet.
 
-* **Menu d’actions (<Icon icon="ellipsis-vertical" iconType="solid" />)** : survolez une ligne dans la barre latérale pour faire apparaître le menu sur le côté gauche. Utilisez ce menu pour renommer un run, supprimer un run ou arrêter un run actif.
+* **Menu d’actions (<Icon icon="ellipsis" iconType="solid" />)** : survolez une ligne dans la barre latérale pour faire apparaître le menu sur le côté gauche. Utilisez ce menu pour renommer un run, supprimer un run ou arrêter un run actif.
 * **Icône de visibilité** : cliquez sur l’œil pour afficher ou masquer les runs sur les graphiques
 * **Couleur** : modifiez la couleur du run en choisissant l’un de nos préréglages ou une couleur personnalisée
 * **Recherche** : recherchez des runs par nom. Cela filtre également les runs visibles dans les graphiques.
@@ -83,7 +83,7 @@ Le *workspace* d’un projet vous offre un espace personnel pour comparer des ex
 * **Trier** : choisissez une valeur selon laquelle trier vos runs, par exemple les runs avec la perte la plus faible ou la précision la plus élevée. Le tri détermine quels runs s’affichent sur les graphiques.
 * **Bouton d’extension** : développez la barre latérale pour afficher le tableau complet
 * **Réduire** : appuyez sur **Cmd+.** (macOS) ou **Ctrl+.** (Windows/Linux) pour réduire ou restaurer le sélecteur de Runs. Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts) pour plus de détails.
-* **Nombre de runs** : le nombre entre parenthèses en haut correspond au nombre total de runs du projet. Le nombre (N visualisés) correspond au nombre de runs dont l’œil est activé et qui peuvent être affichés dans chaque graphique. Dans l’exemple ci-dessous, les graphiques n’affichent que les 10 premiers runs sur 183. Modifiez un graphique pour augmenter le nombre maximal de runs visibles.
+* **Nombre de runs** : le nombre entre parenthèses en haut correspond au nombre total de runs du projet. Le nombre (N sélectionnés) correspond au nombre de runs dont l’œil est activé et qui peuvent être affichés dans chaque graphique. Dans l’exemple ci-dessous, les graphiques n’affichent que les 10 premiers runs sur 183. Modifiez un graphique pour augmenter le nombre maximal de runs visibles.
 
 Si vous épinglez, masquez ou modifiez l’ordre des colonnes dans l’[onglet Runs](#runs-tab), la barre latérale Runs reflète ces personnalisations.
 
@@ -134,11 +134,19 @@ Redimensionnez la section en cliquant sur son coin inférieur droit et en le fai
   ### Rechercher des métriques
 </div>
 
-Utilisez la zone de recherche du Workspace pour filtrer les panneaux. La recherche s’effectue sur les titres des panneaux, qui correspondent par défaut au nom des métriques visualisées.
+Utilisez la zone de recherche de l&#39;Workspace pour filtrer les panneaux par titre.
+
+<Note>
+  Par défaut, W&amp;B utilise le nom de la métrique comme titre du panneau. Pour modifier ce titre, cliquez sur l&#39;icône **d&#39;engrenage** (<Icon icon="gear" iconType="solid" />) située dans le coin supérieur droit du panneau, puis saisissez un titre dans le champ **Titre du graphique**.
+</Note>
 
 <Frame>
-  <img src="/images/app_ui/search_in_the_workspace.png" alt="Recherche dans le Workspace" />
+  <img src="/images/app_ui/search_in_the_workspace.png" alt="Recherche dans l'espace de travail" />
 </Frame>
+
+Pour exclure des panneaux des résultats de recherche, cliquez sur **Masquer les panneaux** (<Icon icon="sliders" iconType="solid" />) à côté de la zone de recherche, puis saisissez une expression régulière. W&amp;B applique le filtre immédiatement. Le filtre reste actif jusqu&#39;à ce que vous le supprimiez.
+
+Pour supprimer le filtre, cliquez de nouveau sur **Masquer les panneaux** (<Icon icon="sliders" iconType="solid" />) et effacez l&#39;expression régulière.
 
 <div id="runs-tab">
   ## Onglet Runs
@@ -331,7 +339,7 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
     3. Cliquez sur **Create new project**.
     4. Définissez **Team** sur le nom de l’équipe qui sera propriétaire du projet.
     5. Indiquez un nom pour votre projet dans le champ **Name**.
-    6. Définissez **Project visibility**, qui est définie par défaut sur **Team**.
+    6. Définissez **Visibilité du projet**, qui est définie par défaut sur **Team**.
     7. Vous pouvez également ajouter une **Description**.
     8. Cliquez sur **Create project**.
 
@@ -342,7 +350,7 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
     3. Sur la page d’accueil, cliquez sur **Create new project**.
     4. **Team** est automatiquement défini sur l’équipe propriétaire de la page d’accueil que vous consultez. Si nécessaire, changez d’équipe.
     5. Indiquez un nom pour votre projet dans le champ **Name**.
-    6. Définissez **Project visibility**, qui est définie par défaut sur **Team**.
+    6. Définissez **Visibilité du projet**, qui est définie par défaut sur **Team**.
     7. Vous pouvez également ajouter une **Description**.
     8. Cliquez sur **Create project**.
   </Tab>
@@ -351,10 +359,13 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
     Pour créer un projet par programmation, spécifiez un `project` lors de l’appel à `wandb.init()`. Si le projet n’existe pas encore, il est créé automatiquement et appartient à l’entité spécifiée. Par exemple :
 
     ```python
-    import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+    import wandb
+
+    with wandb.init(entity="<entity>", project="<project_name>") as run: 
+        run.log({"accuracy": .95})
     ```
 
-    Consultez la [référence de l’API `wandb.init()`](/fr/models/ref/python/functions/init/#examples).
+    Consultez la [référence `wandb.init()`](/fr/models/ref/python/functions/init/#examples).
   </Tab>
 </Tabs>
 
@@ -380,12 +391,12 @@ Ajoutez une étoile à un projet pour indiquer qu’il est important.
 
 Les projets marqués d’une étoile sont regroupés en **haut de la page Projects**. Dans le **menu de navigation globale** en haut à gauche, vous pouvez accéder rapidement à jusqu’à 10 projets récents dans la liste **Projects**, les projets favoris apparaissant en premier.
 
-Il existe deux façons de marquer un projet comme important : dans l’onglet Aperçu d’un projet ou sur la page de profil de votre équipe.
+Il existe deux façons de marquer un projet comme important : dans l’onglet Vue d’ensemble d’un projet ou sur la page de profil de votre équipe.
 
 <Tabs>
   <Tab title="Aperçu du projet">
     1. Accédez à votre projet W&amp;B dans la W&amp;B App à l’adresse `https://wandb.ai/<team>/<project-name>`.
-    2. Sélectionnez l’onglet **Aperçu** dans la barre latérale du projet.
+    2. Sélectionnez l’onglet **Vue d’ensemble** dans la barre latérale du projet.
     3. Cliquez sur l’icône en forme d’étoile dans le coin supérieur droit, à côté du bouton **Edit**.
 
     <Frame>

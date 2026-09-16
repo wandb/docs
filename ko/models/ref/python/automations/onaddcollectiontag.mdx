@@ -1,32 +1,38 @@
 ---
 title: OnAddCollectionTag
-namespace: automations_namespace
-python_object_type: 클래스
+kind: 클래스
+namespace: wandb.automations.events
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L324" />
 
-## <kbd>클래스</kbd> `OnAddCollectionTag`
+<div id="class-wandbautomationsonaddcollectiontag">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.OnAddCollectionTag
+</div>
 
 아티팩트 컬렉션에 새 태그가 부여됩니다.
 
-### <kbd>방법</kbd> `OnAddCollectionTag.__init__`
-
 ```python
-__init__(
-    event_type: 'Literal[ADD_COLLECTION_TAG]' = ADD_COLLECTION_TAG,
-    scope: 'wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope',
-    filter: 'wandb.automations._filters.operators.And | wandb.automations._filters.operators.Or | wandb.automations._filters.operators.Nor | wandb.automations._filters.operators.Not | wandb.automations._filters.operators.Lt | wandb.automations._filters.operators.Gt | wandb.automations._filters.operators.Lte | wandb.automations._filters.operators.Gte | wandb.automations._filters.operators.Eq | wandb.automations._filters.operators.Ne | wandb.automations._filters.operators.In | wandb.automations._filters.operators.NotIn | wandb.automations._filters.operators.Exists | wandb.automations._filters.operators.Regex | wandb.automations._filters.operators.Contains | wandb.automations._filters.expressions.FilterExpr | dict[str, Any]' = And(())
-) → None
+*,
+event_type: Literal[ADD_COLLECTION_TAG] = ADD_COLLECTION_TAG,
+scope: Annotated[Union[Annotated[wandb.automations.scopes._ArtifactSequenceScope | wandb.automations.scopes._ArtifactPortfolioScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)], Annotated[wandb.automations.scopes.RegistryScope | wandb.automations.scopes.ProjectScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='is_registry', custom_error_type=None, custom_error_message=None, custom_error_context=None)], Annotated[wandb.automations.scopes.TeamScope | wandb.automations.scopes.OrgScope, BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='entity_type', custom_error_type=None, custom_error_message=None, custom_error_context=None)]], BeforeValidator(func=<function parse_scope>, json_schema_input_type=PydanticUndefined), Discriminator(discriminator='typename__', custom_error_type=None, custom_error_message=None, custom_error_context=None)],
+filter: Annotated[wandb._filters.operators.And | wandb._filters.operators.Or | wandb._filters.operators.Nor | wandb._filters.operators.Not | wandb._filters.operators.Lt | wandb._filters.operators.Gt | wandb._filters.operators.Lte | wandb._filters.operators.Gte | wandb._filters.operators.Eq | wandb._filters.operators.Ne | wandb._filters.operators.In | wandb._filters.operators.NotIn | wandb._filters.operators.Exists | wandb._filters.operators.Regex | wandb._filters.operators.Contains | wandb._filters.operators.Size | wandb._filters.operators.All | wandb._filters.expressions.FilterExpr | dict[str, Any], Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always'), AfterValidator(func=<function wrap_mutation_event_filter>)] = And(())
 ```
 
-**인수:**
+<div id="args">
+  ## 인수
+</div>
 
-* `event_type` (Literal[ADD&#95;COLLECTION&#95;TAG]):
-* `scope` (wandb.automations.scopes.&#95;ArtifactSequenceScope | wandb.automations.scopes.&#95;ArtifactPortfolioScope | wandb.automations.scopes.ProjectScope): 이벤트의 범위입니다.
-* `filter` (wandb.automations.&#95;filters.operators.And | wandb.automations.&#95;filters.operators.Or | wandb.automations.&#95;filters.operators.Nor | wandb.automations.&#95;filters.operators.Not | wandb.automations.&#95;filters.operators.Lt | wandb.automations.&#95;filters.operators.Gt | wandb.automations.&#95;filters.operators.Lte | wandb.automations.&#95;filters.operators.Gte | wandb.automations.&#95;filters.operators.Eq | wandb.automations.&#95;filters.operators.Ne | wandb.automations.&#95;filters.operators.In | wandb.automations.&#95;filters.operators.NotIn | wandb.automations.&#95;filters.operators.Exists | wandb.automations.&#95;filters.operators.Regex | wandb.automations.&#95;filters.operators.Contains | wandb.automations.&#95;filters.expressions.FilterExpr | dict[str, Any]): 이 이벤트가 트리거되기 위해 필요한 추가 조건이 있으면 지정합니다.
+<ResponseField name="event_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>
 
-**반환값:**
-`OnAddCollectionTag` 객체입니다.
+<ResponseField name="scope" type="Annotated">
+  이벤트의 범위입니다.
+</ResponseField>
+
+<ResponseField name="filter" type="Annotated">
+  이 이벤트가 트리거되기 위해 필요한 추가 조건이 있으면 지정합니다.
+</ResponseField>

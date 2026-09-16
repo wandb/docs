@@ -1,0 +1,447 @@
+---
+title: "LLM"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/llm.ts#L90" />
+
+Un appel LLM. Émet un span `chat` avec des attributs `gen_ai.*`.
+
+Créé par `weave.startLLM()` (ou `turn.startLLM()`) et terminé par
+`end()`. Un seul LLM peut être actif à la fois dans un contexte asynchrone ; imbriquez
+les appels d&#39;outil ou de sous-agent en dessous via `startTool` / `startSubagent`.
+
+Renseignez directement `inputMessages` / `outputMessages` / `usage` / `reasoning`,
+ou utilisez les fonctions utilitaires (`output`, `think`, `attachMedia`, `record`).
+
+Toutes les données enregistrées font l’objet d’un vidage dans le span lors de `end()`.
+
+<div id="examples">
+  ## Exemples
+</div>
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({model: 'gpt-4o-mini', providerName: 'openai'});
+
+try {
+  llm.inputMessages = [{role: 'user', content: prompt}];
+  const resp = await openai.chat.completions.create({...});
+  llm.output(resp.choices[0].message.content ?? '');
+  llm.record({usage: {inputTokens: resp.usage?.prompt_tokens}});
+} finally {
+  llm.end();
+}
+```
+
+```ts twoslash
+// @noErrors
+const llm = weave.startLLM({
+  model: 'gpt-4o-mini',
+  providerName: 'openai',
+  systemInstructions: ['You are a helpful weather bot.'],
+  startTime: new Date('2026-05-29T10:00:00.000Z'),
+});
+
+try {
+  // ... appelez le LLM, renseignez llm.outputMessages / usage ...
+} finally {
+  llm.end();
+}
+```
+
+<div id="extends">
+  ## Étend
+</div>
+
+* `SpanBase`
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<div id="inputmessages">
+  ### inputMessages
+</div>
+
+> **inputMessages** : [`Message`](./message)[] = `[]`
+
+Messages d’entrée envoyés au modèle. Font l’objet d’un vidage dans `gen_ai.input.messages` lors de
+`end()`.
+
+***
+
+<div id="model">
+  ### modèle
+</div>
+
+> `readonly` **modèle**: `string`
+
+***
+
+<div id="outputmessages">
+  ### outputMessages
+</div>
+
+> **outputMessages** : [`Message`](./message)[] = `[]`
+
+Messages de l’assistant renvoyés par le modèle. Font l’objet d’un vidage dans
+`gen_ai.output.messages` lors de l’appel à `end()`.
+
+***
+
+<div id="providername">
+  ### nom du fournisseur
+</div>
+
+> `readonly` **nom du fournisseur** : `string`
+
+***
+
+<div id="reasoning">
+  ### raisonnement
+</div>
+
+> `facultatif` **raisonnement** : [`Reasoning`](./reasoning)
+
+Contenu de chaîne de pensée. Intégré au dernier message de l’assistant sous forme de
+ReasoningPart lors de la sérialisation.
+
+***
+
+<div id="usage">
+  ### utilisation
+</div>
+
+> **utilisation** : [`Usage`](./usage) = `{}`
+
+Nombre de jetons et statistiques du cache. Font l’objet d’un vidage dans `gen_ai.usage.*` lors de l’appel à `end()`.
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données avec [setAttributes](#setattributes).
+  OpenTelemetry abandonne progressivement l’API d’événements de span (`Span.addEvent`). Cette
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour marquer des moments qui ne correspondent pas à des spans, tels que
+la compaction du contexte, la détection de boucles d’outils ou le déclenchement de garde-fous. Émet un avertissement et
+ne fait rien après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="attachmedia">
+  ### attachMedia()
+</div>
+
+> **attachMedia**(`opts`) : `this`
+
+Prépare une pièce jointe multimédia pour l’appel LLM. Choisissez exactement l’un des éléments suivants :
+`content` (octets base64 intégrés), `uri` (référence URI) ou `fileId`
+(ID de fichier déjà téléversé). La pièce jointe est ajoutée au dernier
+message utilisateur d’`inputMessages` lors de l’appel à `end()`.
+
+<div id="parameters-2">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="{…} | {…} | {…}" required>
+  Voir [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality).
+
+  Type complet : `{ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; }`
+</ParamField>
+
+<div id="returns-2">
+  #### Renvoie
+</div>
+
+`this`
+
+***
+
+<div id="attachmediaurl">
+  ### attachMediaUrl()
+</div>
+
+> **attachMediaUrl**(`url`, `opts`) : `this`
+
+Méthode pratique pour `attachMedia({uri, modality})`.
+
+<div id="parameters-3">
+  #### Paramètres
+</div>
+
+<ParamField path="url" type="string" required />
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="modality" type="Modality" required>
+      Voir [`Modality`](../type-aliases/modality).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-3">
+  #### Renvoie
+</div>
+
+`this`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+Effectue le vidage de l’état accumulé et ferme le span. Idempotente. Transmettez `error` pour signaler un échec ; transmettez `endTime` pour antidater la fermeture.
+
+<div id="parameters-4">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="object">
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="endTime" type="TimeInput" />
+
+    <ParamField path="error" type="Error" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  #### Renvoie
+</div>
+
+`void`
+
+***
+
+<div id="output">
+  ### output()
+</div>
+
+> **output**(`content`) : `this`
+
+Ajoute un message de l’assistant à la réponse.
+
+<div id="parameters-5">
+  #### Paramètres
+</div>
+
+<ParamField path="content" type="string" required />
+
+<div id="returns-5">
+  #### Renvoie
+</div>
+
+`this`
+
+***
+
+<div id="record">
+  ### record()
+</div>
+
+> **record**(`opts`) : `this`
+
+Définit en bloc n’importe quel sous-ensemble des champs modifiables. Remplace les valeurs existantes (sans les fusionner).
+Utile pour attribuer toutes les valeurs en une seule fois après le retour d’un appel à un fournisseur.
+
+<div id="parameters-6">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="object" required>
+  <Expandable title="propriétés" defaultOpen>
+    <ParamField path="finishReasons" type="string[]" />
+
+    <ParamField path="inputMessages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="mediaAttachments" type="({…} | {…} | {…})[]">
+      Voir [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality).
+
+      Type complet : `({ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; })[]`
+    </ParamField>
+
+    <ParamField path="outputMessages" type="Message[]">
+      Voir [`Message`](./message).
+    </ParamField>
+
+    <ParamField path="outputType" type="string" />
+
+    <ParamField path="reasoning" type="Reasoning">
+      Voir [`Reasoning`](./reasoning).
+    </ParamField>
+
+    <ParamField path="responseId" type="string" />
+
+    <ParamField path="responseModel" type="string" />
+
+    <ParamField path="usage" type="Usage">
+      Voir [`Usage`](./usage).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<div id="returns-6">
+  #### Renvoie
+</div>
+
+`this`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`) : `this`
+
+Définit plusieurs attributs du span à la fois. Émet un avertissement et ne fait rien après
+`end()`. Correspond à `Span.setAttributes` d’OTel (ainsi qu’à la méthode
+`set_attributes` du SDK Python).
+
+<div id="parameters-7">
+  #### Paramètres
+</div>
+
+<ParamField path="attributes" type="Attributes" required />
+
+<div id="returns-7">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example-2">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from-2">
+  #### Hérité de
+</div>
+
+`SpanBase.setAttributes`
+
+***
+
+<div id="startsubagent">
+  ### startSubagent()
+</div>
+
+> **startSubagent**(`opts`) : [`SubAgent`](./subagent)
+
+Démarre un span SubAgent enfant imbriqué dans ce LLM.
+
+<div id="parameters-8">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="SubAgentInit" required>
+  Voir [`SubAgentInit`](./subagentinit).
+</ParamField>
+
+<div id="returns-8">
+  #### Renvoie
+</div>
+
+[`SubAgent`](./subagent)
+
+***
+
+<div id="starttool">
+  ### startTool()
+</div>
+
+> **startTool**(`opts`): [`Tool`](./tool)
+
+Démarre un span Tool enfant imbriqué dans ce LLM.
+
+<div id="parameters-9">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="ToolInit" required>
+  Voir [`ToolInit`](./toolinit).
+</ParamField>
+
+<div id="returns-9">
+  #### Renvoie
+</div>
+
+[`Tool`](./tool)
+
+***
+
+<div id="think">
+  ### think()
+</div>
+
+> **think**(`content`) : `this`
+
+Définit ou complète le contenu de raisonnement/chaîne de pensée du modèle. Ce contenu est accumulé
+dans `this.reasoning.content`. Lors de la sérialisation, il est intégré au dernier message de l’assistant
+sous la forme d’un `ReasoningPart`, conformément au format transmis par le SDK Python.
+
+<div id="parameters-10">
+  #### Paramètres
+</div>
+
+<ParamField path="content" type="string" required />
+
+<div id="returns-10">
+  #### Renvoie
+</div>
+
+`this`

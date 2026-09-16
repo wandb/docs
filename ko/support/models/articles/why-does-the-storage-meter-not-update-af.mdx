@@ -1,13 +1,27 @@
 ---
-title: "Runs를 삭제한 후 저장소 미터가 업데이트되지 않는 이유는 무엇인가요?"
+title: "Runs를 삭제한 후 저장소 사용량이 업데이트되지 않는 이유는 무엇인가요?"
 keywords: ["저장소"]
 ---
 
-Runs, 아티팩트 또는 파일을 삭제한 직후에는 저장소 미터가 바로 업데이트되지 않습니다. UI 또는 CLI에서 데이터를 삭제하면 백엔드가 백그라운드에서 삭제를 처리하므로, 사용량에 변경 사항이 반영되기까지 몇 시간이 걸릴 수 있습니다. 이는 정상적인 동작입니다.
+Runs, 아티팩트 또는 파일을 삭제한 직후에는 저장소 사용량이 바로 업데이트되지 않습니다. UI 또는 CLI에서 데이터를 삭제하면 백엔드가 백그라운드에서 삭제를 처리합니다. 가비지 컬렉션 프로세스는 몇 시간마다 실행되므로, 회수된 공간이 사용 가능한 저장소에 표시되기까지 최대 24시간이 걸릴 수 있습니다. 이는 정상적인 동작입니다.
 
-저장소 한도를 초과한 경우, 사용량이 한도 아래로 내려가고 미터에 반영되면 모든 액세스 제한이 자동으로 해제됩니다. 처리가 완료될 때까지는 별도의 조치를 취하지 않아도 됩니다.
+저장소 한도를 초과한 경우, 사용량이 한도 아래로 내려가고 W&amp;B가 삭제 처리를 완료하면 모든 액세스 제한이 자동으로 해제됩니다. 처리가 완료될 때까지는 별도의 조치를 취하지 않아도 됩니다.
 
-몇 시간이 지난 뒤에도 미터가 여전히 업데이트되지 않았다면, `https://wandb.ai/account-settings/[ENTITY]/usage/manage/`의 **Manage storage** 페이지에서 실제 사용량을 확인하세요. 여기서 `[ENTITY]`를 팀 이름 또는 사용자 이름으로 바꾸세요. 이 페이지에서는 어떤 Projects와 Runs가 가장 많은 공간을 차지하는지 보여주므로, 다음에 무엇을 삭제할지 판단하는 데 도움이 됩니다. 해당 페이지의 사용량이 이미 한도 이하인데도 경고가 계속 표시되면 [지원팀에 문의하세요](mailto:support@wandb.com).
+<div id="if-your-usage-still-looks-too-high">
+  ## 사용량이 여전히 너무 높은 경우
+</div>
+
+run을 삭제할 때 해당 run에서 로깅한 아티팩트도 함께 삭제할지는 선택할 수 있습니다. W&amp;B App에서 run을 삭제하면 연결된 아티팩트도 삭제할지 묻는 메시지가 표시되며, [`Run.delete()`](/ko/models/ref/python/public-api/run#method-run-delete)의 `delete_artifacts` 인수 기본값은 `False`입니다. [run 삭제](/ko/models/runs/delete-runs)를 참조하세요.
+
+보관 중인 아티팩트는 별도로 삭제할 때까지 저장소를 계속 사용하므로, 파일이 없는 것처럼 보이는 프로젝트도 저장소 사용량에 포함될 수 있습니다.
+
+한도에 계속 포함되는 데이터를 찾아 제거하려면 다음을 수행하세요.
+
+1. `https://wandb.ai/account-settings/[ENTITY]/usage/manage/`의 **Manage storage** 페이지에서 실제 사용량을 확인하세요. `[ENTITY]`는 팀 또는 사용자 이름으로 바꾸세요. 이 페이지에는 가장 많은 공간을 사용하는 프로젝트와 Runs가 표시됩니다.
+2. 예상보다 많은 저장소를 사용하는 프로젝트에서는 **Artifacts** 탭을 열고 더 이상 필요하지 않은 아티팩트 버전을 삭제하세요. W&amp;B는 삭제된 아티팩트를 먼저 소프트 삭제로 표시한 다음, 가비지 컬렉션 과정에서 기본 파일을 회수합니다. 자세한 내용은 [아티팩트 삭제](/ko/models/artifacts/delete-artifacts)를 참조하세요.
+3. 한 번에 많은 파일을 삭제하는 작업이 실패하거나 시간 초과되면 [한 번에 많은 아티팩트를 삭제하려면 어떻게 해야 하나요?](/ko/support/models/articles/how-do-i-delete-many-artifacts-at-once)를 참조하세요.
+
+**Manage storage** 페이지의 사용량이 이미 한도 미만인데도 24시간 후에도 경고가 계속 표시되면 [지원팀에 문의하세요](mailto:support@wandb.com).
 
 ***
 
@@ -15,4 +29,4 @@ Runs, 아티팩트 또는 파일을 삭제한 직후에는 저장소 미터가 �
 
 <Badge stroke shape="pill" color="orange" size="md">[저장소](/ko/support/models/tags/storage)</Badge>
 
-{/* 종료 AUTO-GENERATED: tab badges */}
+{/* END AUTO-GENERATED: tab badges */}

@@ -620,6 +620,10 @@ Markdown を追加すると、レポート内の説明文、見出し、イン�
 
 見出しやリストなどの HTML 要素を追加して、レポートを構造化します。これらは App UI を使用してインタラクティブに追加することも、W&amp;B SDK を使用してプログラムで追加することもできます。
 
+<Note>
+  `wandb.Image` で画像をログすると、W&amp;B は元のファイル名ではなく、`media/images/[key]_[step]_[hash].png` のようにコンテンツ ハッシュを含む生成名で file を保存します。そのため、元のファイル名を参照する `<img>` タグや Markdown 画像は正しく解決されません。ログした画像をレポートに埋め込むには、まず画像をログしてから、生成された file パスを画像の `src` 値として使用します。
+</Note>
+
 <Tabs>
   <Tab title="App UI">
     レポート内でスラッシュ (`/`) を入力すると、ドロップダウンメニューが表示されます。ドロップダウンからテキストブロックのタイプを選択します。たとえば、H2 の見出しブロックを作成するには、`Heading 2` オプションを選択します。
@@ -661,7 +665,9 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
   <Tab title="App UI">
     URL を Reports にコピー＆ペーストして、レポート内にリッチメディアを埋め込みます。以下のアニメーションは、Twitter、YouTube、SoundCloud から URL をコピー＆ペーストする方法を示しています。
 
-    ### Twitter
+    <div id="twitter">
+      ### Twitter
+    </div>
 
     Tweet のリンク URL をレポートにコピー＆ペーストすると、その Tweet をレポート内に表示できます。
 
@@ -669,7 +675,9 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
       <img src="/images/reports/twitter.gif" alt="Twitter コンテンツの埋め込み" />
     </Frame>
 
-    ### YouTube
+    <div id="youtube">
+      ### YouTube
+    </div>
 
     YouTube の動画 URL リンクをコピー＆ペーストして、レポートに動画を埋め込みます。
 
@@ -677,7 +685,9 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
       <img src="/images/reports/youtube.gif" alt="YouTube 動画の埋め込み" />
     </Frame>
 
-    ### SoundCloud
+    <div id="soundcloud">
+      ### SoundCloud
+    </div>
 
     SoundCloud のリンクをコピー＆ペーストして、オーディオファイルをレポートに埋め込みます。
 

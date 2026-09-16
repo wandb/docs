@@ -1,0 +1,194 @@
+---
+title: "Tool"
+description: "Référence du SDK TypeScript"
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65" />
+
+Une invocation d&#39;outil. Émet un span `execute_tool` contenant le nom de l&#39;outil,
+les arguments, l&#39;ID de l&#39;appel d&#39;outil et le résultat. Les arguments et les
+résultats de type chaîne sont enregistrés tels quels ; les autres valeurs JSON sont sérialisées.
+
+Créée par `weave.startTool()` (ou `turn.startTool()`, ou
+`llm.startTool()`) et terminée par `end()`, qui accepte le résultat et
+des métadonnées d&#39;erreur facultatives.
+
+<div id="example">
+  ## Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+const tool = weave.startTool({name: 'get_weather', args: {city: 'Tokyo'}});
+try {
+  const result = await getWeather('Tokyo');
+  tool.end({result});
+} catch (error) {
+  tool.end({error: error as Error, errorType: 'weather_error'});
+  throw error;
+}
+```
+
+<div id="extends">
+  ## Hérite de
+</div>
+
+* `SpanBase`
+
+<div id="properties">
+  ## Propriétés
+</div>
+
+<div id="args">
+  ### args
+</div>
+
+> `readonly` **args** : `string`
+
+***
+
+<div id="name">
+  ### nom
+</div>
+
+> `readonly` **nom**: `string`
+
+***
+
+<div id="result">
+  ### ~~result~~
+</div>
+
+<Warning>
+  **Obsolète.** Passez plutôt `result` à `end()`.
+</Warning>
+
+> `facultatif` **result**: `string`
+
+Sortie de l’outil sous forme de chaîne. Préférez passer `result` à `end()`.
+
+***
+
+<div id="toolcallid">
+  ### toolCallId
+</div>
+
+> `readonly` **toolCallId**: `string`
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **Obsolète.** Enregistrez plutôt ces données avec [setAttributes](#setattributes).
+  OpenTelemetry abandonne progressivement l’API d’événements de span (`Span.addEvent`). Cette
+  méthode fonctionne toujours et les données d’événements de span existantes restent valides.
+  Voir [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/)
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Ajoute un événement nommé au span. Utile pour marquer des moments non associés à un span, tels que
+la compaction du contexte, la détection de boucles d’outils ou le déclenchement de guardrails. Émet un avertissement et
+ne fait rien après `end()`. Reproduit `Span.addEvent` d’OTel.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example-2">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### Hérité de
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`) : `void`
+
+Enregistrez un résultat et un type d&#39;erreur facultatifs, puis fermez le span. Idempotent.
+Transmettez `error` pour marquer le span comme ayant échoué et `endTime` pour antidater la fermeture.
+
+<div id="parameters-2">
+  #### Paramètres
+</div>
+
+<ParamField path="opts" type="ToolEndOptions">
+  Voir [`ToolEndOptions`](./toolendoptions).
+</ParamField>
+
+<div id="returns-2">
+  #### Renvoie
+</div>
+
+`void`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`) : `this`
+
+Définit simultanément plusieurs attributs sur le span. Émet un avertissement et ne fait rien après
+`end()`. Correspond à `Span.setAttributes` d’OTel (ainsi qu’à
+`set_attributes` du SDK Python).
+
+<div id="parameters-3">
+  #### Paramètres
+</div>
+
+<ParamField path="attributes" type="Attributes" required />
+
+<div id="returns-3">
+  #### Renvoie
+</div>
+
+`this`
+
+<div id="example-3">
+  #### Exemple
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from-2">
+  #### Hérité de
+</div>
+
+`SpanBase.setAttributes`

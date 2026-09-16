@@ -1,39 +1,51 @@
 ---
 title: Member
-namespace: public_apis_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.apis.public.teams
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L24" />
 
-
-## <kbd>class</kbd> `Member`
+<div id="class-wandbapispublicmember">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Member
+</div>
 
 チームのメンバー。
 
-### <kbd>method</kbd> `Member.__init__`
-
 ```python
-__init__(service_api: 'ServiceApi', team: 'str', attrs: 'Mapping[str, Any]')
+(service_api: 'ServiceApi',
+team: 'str',
+attrs: 'Mapping[str, Any]')
 ```
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
-* `service_api`:  W&amp;B をクエリするために使用するサービス API のインスタンス
-* `team` (str):  このメンバーが所属するチームの名
-* `attrs` (dict):  メンバーの属性
+<ResponseField name="service_api" type="ServiceApi">
+  W&amp;B のクエリに使用するサービス API インスタンス。
+</ResponseField>
 
-***
+<ResponseField name="team" type="str">
+  このメンバーが所属するチーム名
+</ResponseField>
 
-### <kbd>method</kbd> `Member.delete`
+<ResponseField name="attrs" type="Mapping[str, Any]">
+  メンバーの属性
+</ResponseField>
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="method-memberdelete">
+  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Member.delete()
+</div>
 
 ```python
-delete()
+(self)
 ```
 
 チームからメンバーを削除します。
-
-**戻り値:**
-成功したかどうかを示すブール値

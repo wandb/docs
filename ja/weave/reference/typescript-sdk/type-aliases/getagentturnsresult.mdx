@@ -3,32 +3,68 @@ title: "GetAgentTurnsResult"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="getagentturnsresult">
-  # GetAgentTurnsResult
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+> **GetAgentTurnsResult** = `object`
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L283" />
+
+[WeaveClient.getAgentTurns](../interfaces/weaveclient#getagentturns) によって返される結果の形状です。
+
+<div id="properties">
+  ## プロパティ
 </div>
 
-Ƭ **GetAgentTurnsResult**: `Object`
-
-[WeaveClient.getAgentTurns](../classes/weaveclient#getagentturns) が返す結果の型です。
-
-<div id="type-declaration">
-  #### 型宣言
+<div id="conversation_id">
+  ### conversation_id
 </div>
 
-| 名                 | タイプ                                        |
-| :---------------- | :----------------------------------------- |
-| `conversation_id` | `string`                                   |
-| `feedback?`       | `Record`&lt;`string`, `any`&gt;[] | `null` |
-| `has_more?`       | `boolean`                                  |
-| `limit?`          | `number`                                   |
-| `offset?`         | `number`                                   |
-| `total_turns?`    | `number`                                   |
-| `turns?`          | [`AgentTurn`](./agentturn)[]               |
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/weaveClient.ts:252](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L252)
+> **conversation&#95;id**: `string`
 
 ***
+
+<div id="feedback">
+  ### feedback
+</div>
+
+> `optional` **feedback**: `Record`&lt;`string`, `any`&gt;[] | `null`
+
+***
+
+<div id="has_more">
+  ### has_more
+</div>
+
+> `optional` **has&#95;more**: `boolean`
+
+***
+
+<div id="limit">
+  ### limit
+</div>
+
+> `optional` **limit**: `number`
+
+***
+
+<div id="offset">
+  ### offset
+</div>
+
+> `optional` **offset**: `number`
+
+***
+
+<div id="total_turns">
+  ### total_turns
+</div>
+
+> `optional` **total&#95;ターン**: `number`
+
+***
+
+<div id="turns">
+  ### ターン
+</div>
+
+> `optional` **ターン**: [`AgentTurn`](./agentturn)[]

@@ -47,7 +47,11 @@ keywords: ["HTTP 요청", "GitHub Actions", "repository dispatch", "CI/CD 파이
   ## 자동화 생성
 </div>
 
-[웹훅을 구성한](#create-a-webhook) 후 어떤 W&amp;B 이벤트가 웹훅을 트리거하고 어떤 페이로드를 보낼지 정의하는 자동화를 생성합니다. 원하는 범위에 따라 **레지스트리** 또는 **프로젝트**를 선택한 다음, 아래 단계에 따라 웹훅을 트리거하는 자동화를 생성하세요.
+[웹훅을 설정한](#create-a-webhook) 후 어떤 W&amp;B 이벤트가 웹훅을 트리거하고 어떤 페이로드를 보낼지 정의하는 자동화를 생성합니다. 원하는 범위에 따라 **레지스트리** 또는 **프로젝트**를 선택한 다음, 아래 단계에 따라 웹훅을 트리거하는 자동화를 생성하세요.
+
+<Note>
+  자동화를 더 광범위하게 적용하려면 전역 **Automations** 허브에서 생성하고 **Team** 또는 **Organization** 범위를 선택합니다. 단계는 아래 단계와 동일합니다. 이러한 범위에서는 W&amp;B App이 artifact 및 collection 이벤트만 지원합니다. [Automations 허브](/ko/models/automations#automations-hub)를 참조하세요.
+</Note>
 
 <Tabs>
   <Tab title="레지스트리">
@@ -69,7 +73,7 @@ keywords: ["HTTP 요청", "GitHub Actions", "repository dispatch", "CI/CD 파이
 
     6. **Action type**을 **Webhooks**로 설정한 다음, 사용할 [웹훅](#create-a-webhook)을 선택합니다.
 
-    7. 웹훅용 액세스 토큰을 구성한 경우 `${ACCESS_TOKEN}` [페이로드 변수](#payload-variables)에서 해당 토큰에 액세스할 수 있습니다. 웹훅용 시크릿을 구성한 경우 이름 앞에 `$`를 붙여 페이로드에서 액세스할 수 있습니다. 웹훅의 requirements는 웹훅 서비스에 따라 달라집니다.
+    7. 웹훅용 액세스 토큰을 설정한 경우 `${ACCESS_TOKEN}` [페이로드 변수](#payload-variables)에서 해당 토큰에 액세스할 수 있습니다. 웹훅용 시크릿을 설정한 경우 이름 앞에 `$`를 붙여 페이로드에서 액세스할 수 있습니다. 웹훅의 요구 사항은 웹훅 서비스에 따라 달라집니다.
 
     8. **Next step**을 클릭합니다.
 
@@ -100,7 +104,7 @@ keywords: ["HTTP 요청", "GitHub Actions", "repository dispatch", "CI/CD 파이
        2. **Next step**을 클릭합니다.
     4. [웹훅](#create-a-webhook)을 소유한 팀을 선택합니다.
     5. **Action type**을 **Webhooks**로 설정한 다음, 사용할 [웹훅](#create-a-webhook)을 선택합니다.
-    6. 웹훅에 페이로드가 필요한 경우 페이로드를 구성해 **Payload** 필드에 붙여넣습니다. 웹훅용 액세스 토큰을 구성한 경우 `${ACCESS_TOKEN}` [페이로드 변수](#payload-variables)에서 해당 토큰에 액세스할 수 있습니다. 웹훅용 시크릿을 구성한 경우 이름 앞에 `$`를 붙여 페이로드에서 액세스할 수 있습니다. 웹훅의 requirements는 웹훅 서비스에 따라 달라집니다.
+    6. 웹훅에 페이로드가 필요한 경우 페이로드를 구성해 **Payload** 필드에 붙여넣습니다. 웹훅용 액세스 토큰을 설정한 경우 `${ACCESS_TOKEN}` [페이로드 변수](#payload-variables)에서 해당 토큰에 액세스할 수 있습니다. 웹훅용 시크릿을 설정한 경우 이름 앞에 `$`를 붙여 페이로드에서 액세스할 수 있습니다. 웹훅의 요구 사항은 웹훅 서비스에 따라 달라집니다.
     7. **Next step**을 클릭합니다.
     8. 자동화 이름을 입력합니다. 필요하면 설명도 입력합니다. **Create automation**을 클릭합니다.
   </Tab>

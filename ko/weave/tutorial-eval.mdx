@@ -9,14 +9,14 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prereqs.mdx";
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/tutorial-eval.ipynb" />
 
-  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/tutorial-eval.ipynb" />
 </div>
 
 이 튜토리얼에서는 Weave에서 엔드투엔드 평가 파이프라인을 구축하는 방법을 안내합니다. 이를 통해 LLM 애플리케이션을 반복적으로 개선하는 과정에서 품질을 측정하고 추적할 수 있습니다. 평가는 일관된 예시 세트를 기준으로 변경 사항을 비교하고, 문제가 사용자에게 영향을 미치기 전에 회귀를 감지하는 데 도움이 됩니다. 이 튜토리얼은 LLM 기반 애플리케이션을 구축하며, 이를 반복적으로 테스트할 수 있는 재현 가능한 방법을 원하는 개발자를 대상으로 합니다.
 
-Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`평가`](/ko/weave/guides/core-types/evaluations) 클래스를 통해 평가 추적을 기본적으로 지원합니다. API는 전제를 최소화하도록 설계되어 있어 다양한 사용 사례에 적합합니다.
+Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 통해 평가 추적을 기본적으로 지원합니다. API는 전제를 최소화하도록 설계되어 있어 다양한 사용 사례에 적합합니다.
 
 ![Evals hero](/images/evals-hero.png)
 

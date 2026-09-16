@@ -1,6 +1,6 @@
 ---
 title: "Runs"
-tag: "31"
+tag: "32"
 generator: "knowledgebase-nav"
 template: "docengine-site/templates/support_tag.mdx.j2"
 ---
@@ -17,8 +17,8 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   태그나 맞춤형 메타데이터로 Runs를 분류할 수 있습니다. 이러한 값으로 Runs를 정리하려면 projec ...에서 Group 버튼을 사용하세요.
 </Card>
 
-<Card title="system metrics 로깅 빈도를 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
-  system metrics 로깅 빈도를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자(float)로 설정하 ...
+<Card title="system 메트릭 로깅 빈도를 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
+  system 메트릭 로깅 빈도를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자(float)로 설정하 ...
 </Card>
 
 <Card title="같은 그룹에 있는 각 run의 색상을 변경하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-change-the-colors-of-each-run-" arrow="true" horizontal>
@@ -29,8 +29,8 @@ template: "docengine-site/templates/support_tag.mdx.j2"
   Workspace의 Runs 탭에서 삭제할 각 run 옆의 체크박스를 선택한 다음 Delete를 클릭하세요. Runs를 필터링하려면 b ...
 </Card>
 
-<Card title="W&B에 system metrics 로깅을 비활성화하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
-  system metrics 로깅을 비활성화하려면 &#95;disable&#95;stats를 True로 설정하세요:
+<Card title="W&B에 system 메트릭 로깅을 비활성화하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
+  system 메트릭 로깅을 비활성화하려면 &#95;disable&#95;stats를 True로 설정하세요:
 </Card>
 
 <Card title="최종 Evaluation 정확도처럼 시간에 따라 변하지 않는 메트릭을 로깅하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-log-a-metric-that-doesnt-chang" arrow="true" horizontal>
@@ -79,6 +79,10 @@ template: "docengine-site/templates/support_tag.mdx.j2"
 
 <Card title="W&B에서 대량의 API 결과를 어떻게 페이지 단위로 조회하나요?" href="/ko/support/models/articles/how-do-i-paginate-through-large-api-results-in-wandb" arrow="true" horizontal>
   표준 지연 iterator 패턴과 per&#95;page 파라미터를 사용해 API 결과를 페이지 단위로 조회할 수 있습니다. 또한 u ...할 수도 있습니다.
+</Card>
+
+<Card title="임시 환경에서 run 데이터를 어떻게 보존하나요?" href="/ko/support/models/articles/how-do-i-preserve-run-data-from-ephemeral-env" arrow="true" horizontal>
+  임시 환경에서 로컬 run 데이터와 진단 로그를 보존하려면 WANDB&#95;DIR를 영구 저장소의 디렉터리로 설정하세요. ...
 </Card>
 
 <Card title="grid search를 어떻게 다시 실행하나요?" href="/ko/support/models/articles/how-do-i-rerun-a-grid-search" arrow="true" horizontal>

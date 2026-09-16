@@ -24,7 +24,7 @@ title: ライセンスに関する通知
 * **lazydocs** (MIT): W&amp;Bが管理しているドキュメント生成ツール
 
 <div id="transitive-dependencies-via-lazydocs">
-  ### 推移的依存関係 (lazydocs 経由)
+  ### 推移的依存関係 (lazydocs 経由) 
 </div>
 
 * **setuptools** (MIT、LGPL-3.0 コンポーネントをベンダリングして含む) : ビルドシステム

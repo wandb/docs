@@ -3,36 +3,21 @@ title: "GetAgentVersionsOptions"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / GetAgentVersionsOptions
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-[WeaveClient.getAgentVersions](../classes/weaveclient#getagentversions) のオプション。
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L160" />
 
-<div id="table-of-contents">
-  ## 目次
-</div>
+[WeaveClient.getAgentVersions](./weaveclient#getagentversions) のオプション。
 
 <div id="properties">
-  ### プロパティ
+  ## プロパティ
 </div>
-
-* [agentName](./getagentversionsoptions#agentname)
-* [limit](./getagentversionsoptions#limit)
-* [offset](./getagentversionsoptions#offset)
-* [sortBy](./getagentversionsoptions#sortby)
-
-## プロパティ
 
 <div id="agentname">
   ### agentName
 </div>
 
-• **agentName**: `string`
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:134](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L134)
+> **agentName**: `string`
 
 ***
 
@@ -40,28 +25,28 @@ description: "TypeScript SDK リファレンス"
   ### limit
 </div>
 
-• `任意` **limit**: `数値`
+> `optional` **limit**: `数値`
 
-`最小値`
+<div id="min">
+  #### 最小値
+</div>
 
 0
 
-`Max`
+<div id="max">
+  #### Max
+</div>
 
 10000
 
-`デフォルト`
+<div id="default">
+  #### デフォルト
+</div>
 
 ```ts twoslash
 // @noErrors
 100
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:140](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L140)
 
 ***
 
@@ -69,24 +54,22 @@ description: "TypeScript SDK リファレンス"
   ### offset
 </div>
 
-• `任意` **offset**: `数値`
+> `optional` **offset**: `数値`
 
-`最小値`
+<div id="min-2">
+  #### 最小値
+</div>
 
 0
 
-`デフォルト`
+<div id="default-2">
+  #### デフォルト
+</div>
 
 ```ts twoslash
 // @noErrors
 0
 ```
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:145](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L145)
 
 ***
 
@@ -94,10 +77,4 @@ description: "TypeScript SDK リファレンス"
   ### sortBy
 </div>
 
-• `任意` **sortBy**: [`SortBy`](./sortby)[]
-
-<div id="defined-in">
-  #### 定義元
-</div>
-
-[src/weaveClient.ts:146](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/weaveClient.ts#L146)
+> `optional` **sortBy**: [`SortBy`](./sortby)[]

@@ -3,148 +3,250 @@ title: "op"
 description: "TypeScript SDK リファレンス"
 ---
 
-<div id="op">
-  # op
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<div id="call-signature">
+  ## 呼び出しシグネチャ
 </div>
 
-▸ **op**&lt;`T`&gt;(`fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+```ts
+op<T>(fn: T, options?: object): Op<T>
+```
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392" />
 
 <div id="type-parameters">
-  #### 型パラメーター
+  ### タイプパラメーター
 </div>
 
-| 名   | タイプ                                      |
-| :-- | :--------------------------------------- |
-| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+<ParamField path="T" type="extends (...args) => any" />
 
 <div id="parameters">
-  #### パラメーター
+  ### パラメーター
 </div>
 
-| 名          | タイプ                    |
-| :--------- | :--------------------- |
-| `fn`       | `T`                    |
-| `options?` | `OpOptions`&lt;`T`&gt; |
+<ParamField path="fn" type="T" required />
+
+<ParamField path="options" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      この op が作成するすべての call に適用されるデフォルト属性です。インテグレーションでは、
+      `attributes.integration` に来歴情報を記録するためにこの値を設定します。`kind`/`color` の下位にマージされ、
+      キーが衝突した場合は `kind`/`color` が優先されます。
+    </ParamField>
+
+    <ParamField path="bindThis" type="WeaveObject">
+      [`WeaveObject`](../classes/weaveobject) を参照してください。
+    </ParamField>
+
+    <ParamField path="callDisplayName" type="(...args) => string" />
+
+    <ParamField path="isDecorator" type="boolean" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="opColor" type="string">
+      UI 上での operation のカスタム色
+    </ParamField>
+
+    <ParamField path="opKind" type="string">
+      UI 上で分類するための operation の種類 (例: &#39;llm&#39;、&#39;agent&#39;、&#39;tool&#39;、&#39;search&#39;) 
+    </ParamField>
+
+    <ParamField path="originalFunction" type="T" />
+
+    <ParamField path="parameterNames" type="&#x22;useParam0Object&#x22; | string[]" />
+
+    <ParamField path="shouldAdoptThis" type="boolean" />
+
+    <ParamField path="streamReducer" type="object">
+      完全なタイプ: `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
+
+      <Expandable title="プロパティ" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
+
+        <ParamField path="initialStateFn" type="() => any" required />
+
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
 
 <div id="returns">
-  #### 戻り値
+  ### 戻り値
 </div>
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="defined-in">
-  #### 定義場所
+<div id="call-signature-2">
+  ## 呼び出しシグネチャ
 </div>
 
-[src/op.ts:380](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L380)
+```ts
+op<T>(thisArg: any, fn: T, options?: object): Op<T>
+```
 
-▸ **op**&lt;`T`&gt;(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
-
-<div id="type-parameters">
-  #### 型パラメーター
+<div id="type-parameters-2">
+  ### タイプパラメーター
 </div>
 
-| 名   | タイプ                                      |
-| :-- | :--------------------------------------- |
-| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+<ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters">
-  #### パラメーター
+<div id="parameters-2">
+  ### パラメーター
 </div>
 
-| 名          | タイプ                    |
-| :--------- | :--------------------- |
-| `thisArg`  | `any`                  |
-| `fn`       | `T`                    |
-| `options?` | `OpOptions`&lt;`T`&gt; |
+<ParamField path="thisArg" type="any" required />
 
-<div id="returns">
-  #### 戻り値
+<ParamField path="fn" type="T" required />
+
+<ParamField path="options" type="object">
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="attributes" type="Record<string, any>">
+      この op が作成するすべての call に適用されるデフォルトの属性です。インテグレーションでは、`attributes.integration` に来歴情報を記録するためにこれを設定します。`kind`/`color` の下にマージされるため、キーが衝突した場合は `kind`/`color` が優先されます。
+    </ParamField>
+
+    <ParamField path="bindThis" type="WeaveObject">
+      [`WeaveObject`](../classes/weaveobject) を参照してください。
+    </ParamField>
+
+    <ParamField path="callDisplayName" type="(...args) => string" />
+
+    <ParamField path="isDecorator" type="boolean" />
+
+    <ParamField path="name" type="string" />
+
+    <ParamField path="opColor" type="string">
+      UI 上での operation のカスタム色
+    </ParamField>
+
+    <ParamField path="opKind" type="string">
+      UI 上で分類するための operation の種類 (例: &#39;llm&#39;、&#39;agent&#39;、&#39;tool&#39;、&#39;search&#39;) 
+    </ParamField>
+
+    <ParamField path="originalFunction" type="T" />
+
+    <ParamField path="parameterNames" type="&#x22;useParam0Object&#x22; | string[]" />
+
+    <ParamField path="shouldAdoptThis" type="boolean" />
+
+    <ParamField path="streamReducer" type="object">
+      完全なタイプ: `{ finalizeFn: (state) => void; initialStateFn: () => any; reduceFn: (state, chunk) => any; }`
+
+      <Expandable title="プロパティ" defaultOpen>
+        <ParamField path="finalizeFn" type="(state) => void" required />
+
+        <ParamField path="initialStateFn" type="() => any" required />
+
+        <ParamField path="reduceFn" type="(state, chunk) => any" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="summarize" type="(result) => Record<string, any>" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-2">
+  ### 戻り値
 </div>
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="defined-in">
-  #### 定義場所
+<div id="call-signature-3">
+  ## 呼び出しシグネチャ
 </div>
 
-[src/op.ts:385](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L385)
+```ts
+op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>
+```
 
-▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`&lt;`any`&gt;
-
-<div id="parameters">
-  #### パラメーター
+<div id="parameters-3">
+  ### パラメーター
 </div>
 
-| 名             | タイプ                                    |          |
-| :------------ | :------------------------------------- | -------- |
-| `target`      | `object`                               |          |
-| `propertyKey` | `string`                               | `symbol` |
-| `descriptor`  | `TypedPropertyDescriptor`&lt;`any`&gt; |          |
+<ParamField path="target" type="object" required />
 
-<div id="returns">
-  #### 戻り値
+<ParamField path="propertyKey" type="string | symbol" required />
+
+<ParamField path="descriptor" type="TypedPropertyDescriptor<any>" required />
+
+<div id="returns-3">
+  ### 戻り値
 </div>
 
 `TypedPropertyDescriptor`&lt;`any`&gt;
 
-<div id="defined-in">
-  #### 定義場所
+<div id="call-signature-4">
+  ## 呼び出しシグネチャ
 </div>
 
-[src/op.ts:391](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L391)
+```ts
+op<T>(value: T, context: object): Op<T>
+```
 
-▸ **op**&lt;`T`&gt;(`value`, `context`): [`Op`](../type-aliases/op)&lt;`T`&gt;
-
-<div id="type-parameters">
-  #### 型パラメーター
+<div id="type-parameters-3">
+  ### タイプパラメーター
 </div>
 
-| 名   | タイプ                                      |
-| :-- | :--------------------------------------- |
-| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+<ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters">
-  #### パラメーター
+<div id="parameters-4">
+  ### パラメーター
 </div>
 
-| 名         | タイプ                      |
-| :-------- | :----------------------- |
-| `value`   | `T`                      |
-| `context` | `MethodDecoratorContext` |
+<ParamField path="value" type="T" required />
 
-<div id="returns">
-  #### 戻り値
+<ParamField path="context" type="object" required>
+  <Expandable title="プロパティ" defaultOpen>
+    <ParamField path="access" type="{ get: Function; has: boolean; }">
+      <Expandable title="プロパティ" defaultOpen>
+        <ParamField path="get" required />
+
+        <ParamField path="has" required />
+      </Expandable>
+    </ParamField>
+
+    <ParamField path="class" type="Function" />
+
+    <ParamField path="kind" type="&#x22;method&#x22;" required />
+
+    <ParamField path="metadata" type="any" />
+
+    <ParamField path="name" type="string | symbol" required />
+
+    <ParamField path="private" type="boolean" />
+
+    <ParamField path="static" type="boolean" />
+
+    <ParamField path="addInitializer" />
+  </Expandable>
+</ParamField>
+
+<div id="returns-4">
+  ### 戻り値
 </div>
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="defined-in">
-  #### 定義場所
+<div id="call-signature-5">
+  ## 呼び出しシグネチャ
 </div>
 
-[src/op.ts:397](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L397)
+```ts
+op(options: Partial<OpOptions<any>>): MethodDecorator
+```
 
-▸ **op**(`options`): `MethodDecorator`
-
-<div id="parameters">
-  #### パラメーター
+<div id="parameters-5">
+  ### パラメーター
 </div>
 
-| 名         | タイプ                                       |
-| :-------- | :---------------------------------------- |
-| `options` | `Partial`&lt;`OpOptions`&lt;`any`&gt;&gt; |
+<ParamField path="options" type="Partial<OpOptions<any>>" required />
 
-<div id="returns">
-  #### 戻り値
+<div id="returns-5">
+  ### 戻り値
 </div>
 
 `MethodDecorator`
-
-<div id="defined-in">
-  #### 定義場所
-</div>
-
-[src/op.ts:402](https://github.com/wandb/weave/blob/8c5f077eb11c42b84000726ff20504abc728d3fb/sdks/node/src/op.ts#L402)
-
-***

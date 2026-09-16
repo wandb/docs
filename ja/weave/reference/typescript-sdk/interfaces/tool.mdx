@@ -1,0 +1,190 @@
+---
+title: "Tool"
+description: "TypeScript SDK リファレンス"
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65" />
+
+ツール の invocation です。ツール 名、引数、ツール-call id、結果を含む `execute_tool` span を出力します。string 型の引数と結果はそのまま記録され、それ以外の JSON 値はシリアライズされます。
+
+`weave.startTool()` (または `turn.startTool()`、`llm.startTool()`) で作成し、`end()` で終了します。`end()` は結果とオプションの error metadata を受け入れます。
+
+<div id="example">
+  ## 例
+</div>
+
+```ts twoslash
+// @noErrors
+const tool = weave.startTool({name: 'get_weather', args: {city: 'Tokyo'}});
+try {
+  const result = await getWeather('Tokyo');
+  tool.end({result});
+} catch (error) {
+  tool.end({error: error as Error, errorType: 'weather_error'});
+  throw error;
+}
+```
+
+<div id="extends">
+  ## 継承
+</div>
+
+* `SpanBase`
+
+<div id="properties">
+  ## プロパティ
+</div>
+
+<div id="args">
+  ### args
+</div>
+
+> `readonly` **args**: `string`
+
+***
+
+<div id="name">
+  ### 名
+</div>
+
+> `readonly` **名**: `string`
+
+***
+
+<div id="result">
+  ### ~~result~~
+</div>
+
+<Warning>
+  **非推奨。** 代わりに `end()` に `result` を渡してください。
+</Warning>
+
+> `optional` **result**: `string`
+
+ツールの出力を文字列として表します。`end()` に `result` を渡す方法を推奨します。
+
+***
+
+<div id="toolcallid">
+  ### toolCallId
+</div>
+
+> `readonly` **toolCallId**: `string`
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="addevent">
+  ### ~~addEvent()~~
+</div>
+
+<Warning>
+  **非推奨。** このデータは代わりに [setAttributes](#setattributes) で記録してください。
+  OpenTelemetry では Span Event API (`Span.addEvent`) の段階的な廃止が進められています。この
+  メソッドは引き続き動作し、既存の span イベントデータも引き続き有効です。
+  [https://opentelemetry.io/blog/2026/deprecating-span-events/](https://opentelemetry.io/blog/2026/deprecating-span-events/) を参照してください。
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+名前付きイベントを span に追加します。コンテキストの圧縮、ツールループの検出、guardrail のトリガーなど、
+span 以外のタイミングを記録する場合に便利です。`end()` の後に呼び出すと警告が出力され、
+何も実行されません。OTel の `Span.addEvent` と同様の動作です。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="example-2">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+`SpanBase.addEvent`
+
+***
+
+<div id="end">
+  ### end()
+</div>
+
+> **end**(`opts?`): `void`
+
+任意の結果と error のタイプを記録し、span を閉じます。冪等です。
+span を失敗としてマークするには `error` を渡し、終了時刻を過去に設定するには `endTime` を渡します。
+
+<div id="parameters-2">
+  #### パラメーター
+</div>
+
+<ParamField path="opts" type="ToolEndOptions">
+  [`ToolEndOptions`](./toolendoptions) を参照してください。
+</ParamField>
+
+<div id="returns-2">
+  #### 戻り値
+</div>
+
+`void`
+
+***
+
+<div id="setattributes">
+  ### setAttributes()
+</div>
+
+> **setAttributes**(`attributes`): `this`
+
+span に複数の属性をまとめて設定します。`end()` の呼び出し後は警告を出力し、
+何も実行しません。OTel の `Span.setAttributes` (および Python SDK の
+`set_attributes`) と同様です。
+
+<div id="parameters-3">
+  #### パラメーター
+</div>
+
+<ParamField path="attributes" type="Attributes" required />
+
+<div id="returns-3">
+  #### 戻り値
+</div>
+
+`this`
+
+<div id="example-3">
+  #### 例
+</div>
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+<div id="inherited-from-2">
+  #### 継承元
+</div>
+
+`SpanBase.setAttributes`

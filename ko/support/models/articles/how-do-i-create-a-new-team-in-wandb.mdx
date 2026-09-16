@@ -3,24 +3,17 @@ title: "W&B에서 새 팀을 만들려면 어떻게 하나요?"
 keywords: ["Teams", "조직 관리"]
 ---
 
-Teams는 W&amp;B에서 협업의 기본 단위입니다. 팀에는 자체 entity 이름, 공유 프로젝트, 그리고 구성원 목록이 있습니다. W&amp;B 계정이 있는 누구나 팀을 만들 수 있습니다.
+Teams는 W&amp;B에서 협업의 기본 단위입니다. 팀에는 자체 entity 이름, 공유 프로젝트, 그리고 구성원 목록이 있습니다. 조직 관리자만 팀을 만들 수 있습니다.
 
-**팀 만들기**
+절차는 [팀 만들기](/ko/platform/hosting/iam/access-management/manage-organization#create-a-team)를 참조하세요. 이후 동료를 추가하려면 [팀에 사용자 초대하기](/ko/platform/hosting/iam/access-management/manage-organization#invite-users-to-a-team) 또는 [내 W&amp;B 팀에 사용자를 초대하려면 어떻게 하나요?](/ko/support/models/articles/how-do-i-invite-a-user-to-my-wb-team)를 참조하세요.
 
-1. [wandb.ai](https://wandb.ai)에 로그인하세요.
-2. 왼쪽 사이드바에서 **+** 아이콘 또는 **Create new team**을 클릭하세요(또는 [wandb.ai/create-team](https://wandb.ai/create-team)으로 이동하세요).
-3. **팀 이름**을 입력하세요. 이 이름은 팀의 entity 이름이 됩니다(예: `wandb.ai/my-team`). 팀 이름은 전역적으로 고유해야 하며, 소문자만 사용할 수 있고 문자, 숫자, 하이픈을 포함할 수 있습니다.
-4. **Create team**을 클릭하세요.
+**팀을 만들 수 없는 경우**
 
-새 팀의 관리자로 자동 지정됩니다.
-
-**생성 후 구성원 초대하기**
-
-팀을 만든 후 **Team settings &gt; Members &gt; Invite members**로 이동해 동료를 추가하세요. 자세한 내용은 [내 W&amp;B 팀에 사용자를 초대하려면 어떻게 하나요?](/ko/support/models/articles/how-do-i-invite-a-user-to-my-wb-team)를 참조하세요.
+**Create team** 버튼이 없거나 관리자에게 문의하라는 권한 오류가 표시되면, 조직에서 팀 생성을 관리자만 할 수 있도록 제한했거나 계정 상태로 인해 팀을 만들 수 없을 수 있습니다. [팀을 삭제한 후 새 팀을 만들 수 없습니다. 어떻게 해야 하나요?](/ko/support/models/articles/i-deleted-my-team-and-now-i-cant-create-a-new-one)를 참조하세요.
 
 **팀 이름 선택하기**
 
-팀 이름은 해당 팀 아래의 모든 프로젝트와 run URL의 일부가 되므로, 장기적으로도 의미가 유지될 이름을 선택하세요. 팀 이름은 생성 후 W&amp;B 지원팀에 문의하지 않는 한 변경할 수 없습니다.
+팀 이름은 팀의 entity 이름이자 해당 팀 아래의 모든 프로젝트와 run URL의 일부가 되므로, 장기적으로도 의미가 유지될 이름을 선택하세요. 팀 이름은 W&amp;B 전체에서 고유해야 하며, 생성 후 변경할 수 없습니다.
 
 **개인 계정과 팀 계정**
 
@@ -38,7 +31,9 @@ wandb.init(entity="my-username", project="personal-experiments")
 
 **팀 한도**
 
-무료 플랜에서는 팀에서 사용할 수 있는 시트 수와 저장소 용량이 제한됩니다. **팀 settings &gt; Billing** 또는 [wandb.ai/site/pricing](https://wandb.ai/site/pricing)에서 **플랜 세부 정보**를 확인하세요.
+Models에서는 사용자당 시트 요금이 청구됩니다. 시트의 작동 방식은 [Seats and pricing](/ko/platform/hosting/iam/access-management/manage-organization#seats-and-pricing)을 참조하고, 플랜 세부 정보는 **팀 settings &gt; Billing** 또는 [wandb.ai/site/pricing](https://wandb.ai/site/pricing)에서 확인하세요.
+
+학술 계정은 무제한으로 팀을 만들 수 있습니다. 이전에 만든 학술 계정을 사용 중이며 다른 팀을 만들 수 없다면, 계정 생성 시 낮은 팀 한도가 설정되어 있을 수 있습니다. 한도를 높이려면 [지원팀에 문의하세요](mailto:support@wandb.com).
 
 ***
 

@@ -46,6 +46,8 @@ Avant de configurer un client, assurez-vous de disposer des éléments suivants�
 * Définissez cette clé comme variable d’environnement `WANDB_API_KEY`, ou transmettez-la à votre client sous forme de jeton Bearer.
 * Pour Cloud dédié, Autogéré et les installations locales sur une instance autre que l’instance par défaut, définissez la variable d’environnement `WANDB_BASE_URL` sur l’URL de votre instance.
 
+- W&amp;B fixe la version du SDK `mcp` à [1.14.0](https://pypi.org/project/mcp/1.14.0/), version `2024-11-05`. Les clients doivent se connecter à l’aide du SDK `mcp` 1.14.x. Pour la prise en charge de HTTP avec diffusion en continu dans le Cloud dédié de W&amp;B, la version `2025-03-26` ou une version ultérieure du SDK `mcp` 1.14.x est requise.
+
 <div id="use-the-hosted-server">
   ## Utiliser le serveur hébergé
 </div>

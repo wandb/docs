@@ -1,51 +1,85 @@
 ---
 title: SendNotification
-namespace: automations_namespace
-python_object_type: class
+kind: 클래스
+namespace: wandb.automations.actions
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L151" />
 
+<div id="class-wandbautomationssendnotification">
+  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.SendNotification
+</div>
 
-## <kbd>class</kbd> `SendNotification`
-
-(Slack) 알림을 보내는 자동화 액션을 정의합니다.
-
-### <kbd>방법</kbd> `SendNotification.__init__`
+(Slack) 알림을 전송하는 자동화 액션을 정의합니다.
 
 ```python
-__init__(
-    integration_id: 'str',
-    message: 'str' = '',
-    severity: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>,
-    title: 'str' = '',
-    action_type: 'Literal[NOTIFICATION]' = NOTIFICATION
-) → None
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+text: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+level: Annotated[wandb.automations._generated.enums.AlertSeverity, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined), BeforeValidator(func=<function upper_if_str>, json_schema_input_type=PydanticUndefined)] = <AlertSeverity.INFO: 'INFO'>,
+title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
-**매개변수:**
+<div id="args">
+  ## 인수
+</div>
 
-* `integration_id` (str): 알림 전송에 사용할 Slack 인테그레이션의 ID입니다.
-* `message` (str): 전송되는 알림의 메시지 본문입니다.
-* `severity` (AlertSeverity): 전송되는 알림의 심각도(`INFO`, `WARN`, `ERROR`)입니다.
-* `title` (str): 전송되는 알림의 제목입니다.
-* `action_type` (Literal[NOTIFICATION]):
+<ResponseField name="integration_id" type="Annotated">
+  알림 전송에 사용할 Slack 인테그레이션의 ID입니다.
+</ResponseField>
 
-**반환값:**
-`SendNotification` 객체입니다.
+<ResponseField name="text" type="Annotated">
+  전송되는 알림의 메시지 본문입니다.
+</ResponseField>
 
+<ResponseField name="level" type="Annotated">
+  전송되는 알림의 심각도(`INFO`, `WARN`, `ERROR`)입니다.
+</ResponseField>
 
-### <kbd>클래스 메서드</kbd> `SendNotification.from_integration`
+<ResponseField name="title" type="Annotated">
+  전송되는 알림의 제목입니다.
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  설명이 제공되지 않았습니다.
+</ResponseField>
+
+<div id="methods">
+  ## 메서드
+</div>
+
+<div id="method-sendnotificationfrom_integration">
+  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> SendNotification.from_integration()
+</div>
 
 ```python
-from_integration(
-    integration: 'SlackIntegration',
-    title: 'str' = '',
-    text: 'str' = '',
-    level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
-) → Self
+integration: 'SlackIntegration', *,
+title: 'str' = '',
+text: 'str' = '',
+level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
 ```
 
 지정된 (Slack) 인테그레이션으로 전송할 알림 액션을 정의합니다.
+
+<div id="arguments">
+  ##### 인수
+</div>
+
+<ResponseField name="integration" type="SlackIntegration">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="text" type="str">
+  설명이 없습니다.
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+  설명이 없습니다.
+</ResponseField>

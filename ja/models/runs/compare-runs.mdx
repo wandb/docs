@@ -182,86 +182,93 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
   3. 折れ線グラフを使用して、各 run をベースラインと視覚的に比較します。
   4. より良い設定が見つかるたびに、ベースラインを更新します。
 
-<div id="example-workflow">
-  ## ワークフローの例
+<div id="example-compare-runs-from-hyperparameter-tuning-experiments">
+  ## 例: ハイパーパラメーター調整実験の run を比較する
 </div>
 
 このセクションでは、ピン留めした run とベースライン run を使って run を比較する方法を示します。
 
-1. 一連の run によるハイパーパラメーター調整のシナリオをシミュレートする、このサンプルコードを実行します。山かっこ (`<>`) で囲まれたプレースホルダーは、ご自身の値に置き換えてください。
+たとえば、次のコードは一連の run によるハイパーパラメーター調整のシナリオをシミュレートします。
 
-   ```python
-   import wandb
-   import random
-   import math
+```python expandable
+import wandb
+import random
+import math
 
-   def train_model(learning_rate, batch_size, run_name, tags=None):
-       """Simulate training a model with given hyperparameters."""
-       config = {
-           "learning_rate": learning_rate,
-           "batch_size": batch_size,
-           "optimizer": "adam",
-           "architecture": "resnet50"
-       }
-       
-       with wandb.init(
-         # ご自身のチーム名とプロジェクト名に置き換えてください
-           project="hyperparameter-tuning",
-           entity="<team>",
-           name=run_name,
-           config=config,
-           tags=tags or []
-       ) as run:
-           # トレーニングループをシミュレート
-           for epoch in range(50):
-               # メトリクスをシミュレート
-               accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
-               loss = 1.0 * math.exp(-learning_rate * epoch / 10)
-               
-               run.log({
-                   "epoch": epoch,
-                   "accuracy": accuracy,
-                   "loss": loss
-               })
+def train_model(learning_rate, batch_size, run_name, tags=None):
+    """Simulate training a model with given hyperparameters."""
+    config = {
+        "learning_rate": learning_rate,
+        "batch_size": batch_size,
+        "optimizer": "adam",
+        "architecture": "resnet50"
+    }
+    
+    with wandb.init(
+      # ご自身のチーム名とプロジェクト名に置き換えてください
+        project="hyperparameter-tuning",
+        entity="your-team-name", # ご自身のチーム名に置き換えてください
+        name=run_name,
+        config=config,
+        tags=tags or []
+    ) as run:
+        # トレーニングループをシミュレート
+        for epoch in range(50):
+            # メトリクスをシミュレート
+            accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+            loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+            
+            run.log({
+                "epoch": epoch,
+                "accuracy": accuracy,
+                "loss": loss
+            })
 
-   # 標準設定でベースライン run を作成
-   train_model(
-       learning_rate=0.001,
-       batch_size=64,
-       run_name="baseline-config",
-       tags=["baseline", "production"]
-   )
+# 標準設定でベースライン run を作成
+train_model(
+    learning_rate=0.001,
+    batch_size=64,
+    run_name="baseline-config",
+    tags=["baseline", "production"]
+)
 
-   # 異なる学習率で実験
-   train_model(
-       learning_rate=0.003,
-       batch_size=64,
-       run_name="lr-experiment-0.003",
-       tags=["experiment"]
-   )
+# 異なる学習率で実験
+train_model(
+    learning_rate=0.003,
+    batch_size=64,
+    run_name="lr-experiment-0.003",
+    tags=["experiment"]
+)
 
-   train_model(
-       learning_rate=0.0001,
-       batch_size=64,
-       run_name="lr-experiment-0.0001",
-       tags=["experiment"]
-   )
-   ```
+train_model(
+    learning_rate=0.0001,
+    batch_size=64,
+    run_name="lr-experiment-0.0001",
+    tags=["experiment"]
+)
+```
 
-   このコードを実行すると、Workspace に 3 つの run が作成されます。
+run の完了後、W&amp;B App にアクセスして、Workspace で run を表示します。有望な実験をピン留めし、ベースライン run を設定して、新しい run のパフォーマンスを比較できます。
 
-2. `baseline-config` をベースライン run に設定します。
+1. W&amp;B project にアクセスします。
+2. **Runs** タブを選択します。
+3. `baseline` タグを持つ run を[フィルター](/ja/models/runs/filter-runs)し、[ベースライン](#set-a-baseline-run) run として設定します。
+4. `baseline-config` を[ピン留め](#pin-runs)して、Runs table の上部に表示します。
+5. 実験 run をベースラインと比較します。
 
-3. `baseline-config` を常に表示しておくためにピン留めします。
+   * `accuracy` 列の横にある縦の省略記号メニューを選択し、**Metric directionality** を **Higher values are best** に設定します。各 run の accuracy の差分が Runs table に表示されます。
+   * `loss` 列の横にある縦の省略記号メニューを選択し、**Metric directionality** を **Lower values are best** に設定します。各 run の loss の差分が Runs table に表示されます。
 
-4. 実験 run をベースラインと比較します。
+   <Frame>
+     <img src="/images/runs/compare_metric_deltas.png" />
+   </Frame>
+6. 折れ線グラフを使用して、run をベースラインと視覚的に比較します。ベースライン run は太い破線で表示され、グラフにカーソルを合わせると、特定のエポックで各 run がベースラインとどのように比較されるかを確認できます。
 
-* Runs table で、各 run の値の横に表示される summary メトリクスの差分を確認し、ベースラインと比較します。
-  * 折れ線グラフでは、常に表示されるベースラインと 1 つ以上の run のパフォーマンスを比較します。
+   たとえば、次の画像は、run `lr-experiment-0.003` および `lr-experiment-0.0001` がベースライン run `baseline-config` とどのように比較されるかを示しています。
 
-5. 有望な実験をピン留めして、さらに調査します。この例では、50 エポック後には `lr-experiment-0.003` が最も高い accuracy (`~0.64`) と最も低い loss (`~0.86`) を示します。
-
-{/* TODO スクリーンショットを追加 */}
+   <Frame>
+     <img src="/images/runs/example_compare_pinned_runs.png" />
+   </Frame>
 
 <div id="limitations">
   ## 制限事項

@@ -1,51 +1,85 @@
 ---
 title: SendNotification
-namespace: automations_namespace
-python_object_type: class
+kind: クラス
+namespace: wandb.automations.actions
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L151" />
 
+<div id="class-wandbautomationssendnotification">
+  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendNotification
+</div>
 
-## <kbd>class</kbd> `SendNotification`
-
- (Slack) 通知を送信する自動化アクションを定義します。
-
-### <kbd>method</kbd> `SendNotification.__init__`
+(Slack) 通知を送信するオートメーションアクションを定義します。
 
 ```python
-__init__(
-    integration_id: 'str',
-    message: 'str' = '',
-    severity: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>,
-    title: 'str' = '',
-    action_type: 'Literal[NOTIFICATION]' = NOTIFICATION
-) → None
+*,
+integration_id: Annotated[str, Strict(strict=True)],
+text: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+level: Annotated[wandb.automations._generated.enums.AlertSeverity, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined), BeforeValidator(func=<function upper_if_str>, json_schema_input_type=PydanticUndefined)] = <AlertSeverity.INFO: 'INFO'>,
+title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_schema_input_type=PydanticUndefined)] = '',
+action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
-**引数:**
+<div id="args">
+  ## 引数
+</div>
 
-* `integration_id` (str): 通知の送信に使用する Slack インテグレーションの ID。
-* `message` (str): 送信する通知の本文。
-* `severity` (AlertSeverity): 送信する通知の重要度 (`INFO`、`WARN`、`ERROR`) 。
-* `title` (str): 送信する通知のタイトル。
-* `action_type` (Literal[NOTIFICATION]):
+<ResponseField name="integration_id" type="Annotated">
+  通知の送信に使用する Slack インテグレーションの ID。
+</ResponseField>
 
-**戻り値:**
-`SendNotification` オブジェクト。
+<ResponseField name="text" type="Annotated">
+  送信する通知のメッセージ本文。
+</ResponseField>
 
+<ResponseField name="level" type="Annotated">
+  送信する通知の重要度 (`INFO`、`WARN`、`ERROR`) 。
+</ResponseField>
 
-### <kbd>クラスメソッド</kbd> `SendNotification.from_integration`
+<ResponseField name="title" type="Annotated">
+  送信する通知のタイトル。
+</ResponseField>
+
+<ResponseField name="action_type" type="Literal">
+  説明はありません。
+</ResponseField>
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="method-sendnotificationfrom_integration">
+  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendNotification.from_integration()
+</div>
 
 ```python
-from_integration(
-    integration: 'SlackIntegration',
-    title: 'str' = '',
-    text: 'str' = '',
-    level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
-) → Self
+integration: 'SlackIntegration', *,
+title: 'str' = '',
+text: 'str' = '',
+level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
 ```
 
 指定された (Slack) インテグレーションに通知を送信するアクションを定義します。
+
+<div id="arguments">
+  ##### 引数
+</div>
+
+<ResponseField name="integration" type="SlackIntegration">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="title" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="text" type="str">
+  説明はありません。
+</ResponseField>
+
+<ResponseField name="level" type="AlertSeverity">
+  説明はありません。
+</ResponseField>

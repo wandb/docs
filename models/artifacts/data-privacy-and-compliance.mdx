@@ -4,7 +4,7 @@ description: Learn where W&B files are stored by default. Explore how to save, s
 title: Artifact data privacy and compliance
 ---
 
-Files are uploaded to a Google Cloud bucket managed by W&B when you log artifacts. The contents of the bucket are encrypted both at rest and in transit. Artifact files are only visible to users who have access to the corresponding project.
+When you log artifacts, W&B uploads the files to a Google Cloud bucket. The contents of the bucket are encrypted at rest and in transit. Only users with access to the project can see the files.
 
 <Frame>
     <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B Client Server diagram"  />

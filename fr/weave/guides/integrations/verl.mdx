@@ -1,0 +1,91 @@
+---
+title: VERL
+description: "Tracez les rollouts VERL dans Weave afin d’inspecter les conversations sur plusieurs tours de conversation, les appels d’outil et l’évaluation des récompenses lors du fine-tuning RL."
+---
+
+[VERL](https://github.com/volcengine/verl) (Volcano Engine Reinforcement Learning) est un framework open source de post-entraînement RL pour les LLM. VERL intègre un backend de traçage Weave qui vous permet de tracer la génération des LLM et les appels d’outil, ainsi que les métriques d’entraînement déjà enregistrées par W&amp;B.
+
+Utilisez Weave avec VERL pour :
+
+* Inspecter chaque étape d’une trajectoire de rollout, y compris les prompts, les réponses du modèle et les invocations d’outils.
+* Filtrer les trajectoires par étape, index d’échantillon, numéro de rollout et nom d’expérience.
+* Comparer plusieurs trajectoires côte à côte afin de déboguer le comportement des agents à différentes étapes de l’entraînement.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* Un compte W&amp;B et une [clé API](/fr/platform/app/settings-page/user-settings#api-keys).
+* Une installation de VERL prenant en charge le traçage des rollouts. Le traçage des rollouts a été ajouté dans [verl#2345](https://github.com/volcengine/verl/pull/2345).
+* Une configuration de rollouts asynchrones. Le traçage s’applique uniquement aux rollouts asynchrones ; les rollouts synchrones ne sont pas tracés.
+
+<div id="enable-weave-tracing">
+  ## Activer le traçage Weave
+</div>
+
+Définissez votre clé API W&amp;B dans l&#39;environnement afin que VERL puisse s&#39;authentifier auprès de votre compte W&amp;B :
+
+```bash
+export WANDB_API_KEY=[YOUR-WANDB-API-KEY]
+```
+
+Ajoutez ensuite les options suivantes à votre commande d’entraînement VERL :
+
+* `actor_rollout_ref.rollout.trace.backend=weave` : sélectionne Weave comme backend de traçage.
+* `actor_rollout_ref.rollout.mode=async` : active le rollout asynchrone pour vLLM ou SGLang. Le traçage n’a aucun effet sur les rollouts synchrones.
+* `trainer.project_name` : définit le projet dans lequel vous souhaitez enregistrer les traces et les métriques.
+* `trainer.experiment_name` : définit le nom de votre expérience.
+* `trainer.logger=['console','wandb']` : active le journal wandb en plus de Weave afin que les métriques et les traces apparaissent dans le même projet.
+
+La commande obtenue se présente comme suit :
+
+```bash
+python -m verl.trainer.main_ppo \
+  actor_rollout_ref.rollout.trace.backend=weave \
+  actor_rollout_ref.rollout.mode=async \
+  trainer.project_name=[YOUR-PROJECT-NAME] \
+  trainer.experiment_name=[YOUR-EXPERIMENT-NAME] \
+  trainer.logger=['console','wandb'] \
+  # ... vos autres options d'entraînement
+```
+
+Weave est initialisé automatiquement à partir de votre projet W&amp;B et du nom de votre expérience. Il n’est pas nécessaire d’appeler `weave.init()`.
+
+<div id="tune-trace-volume">
+  ## Ajuster le volume de traces
+</div>
+
+Par défaut, VERL trace chaque échantillon à chaque rollout, ce qui peut générer de très grandes quantités de données de trace. Vous pouvez limiter ce volume en définissant les champs suivants dans votre fichier de configuration `ppo_trainer.yaml` :
+
+* `max_samples_per_step_per_worker` : le nombre d’échantillons uniques tracés par les workers à chaque étape d’entraînement. Par défaut, cette valeur est définie sur `null` afin de tracer tous les échantillons.
+* `token2text` : définissez cette valeur sur `True` pour ajouter les valeurs décodées de `prompt_text` et `response_text` à la sortie de `ToolAgentLoop.run`. Par défaut, cette valeur est définie sur `False` pour préserver les performances. Activez cette option si vous souhaitez lire directement les prompts et les complétions dans l’interface Weave.
+
+Les champs obtenus se présentent comme suit dans le fichier :
+
+```yaml
+actor_rollout_ref:
+  rollout:
+    trace:
+      backend: weave
+      token2text: False
+      max_samples_per_step_per_worker: 5
+```
+
+<div id="view-traces">
+  ## Afficher les traces
+</div>
+
+Pour afficher les traces émises pendant l’entraînement, ouvrez la Page du projet de votre projet W&amp;B et sélectionnez **Traces**. Chaque trace correspond à une trajectoire de rollout.
+
+Vous pouvez sélectionner plusieurs traces et utiliser la vue de comparaison de Weave pour examiner les différences entre les trajectoires. Cela peut vous aider à déboguer les changements de comportement de l’agent au fil des étapes d’entraînement ou des expériences.
+
+<div id="trace-additional-functions">
+  ## Tracer des fonctions supplémentaires
+</div>
+
+VERL propose deux outils pour étendre la couverture de traçage par défaut :
+
+* `rollout_trace_op` : un décorateur qui correspond à `weave.op` et marque une méthode d&#39;une instance de classe pour le traçage. Par défaut, seules quelques méthodes sont décorées. Vous pouvez ajouter ce décorateur aux méthodes de votre boucle d&#39;agent personnalisée ou de vos implémentations d&#39;outils afin de capturer davantage de détails.
+* `rollout_trace_attr` : un gestionnaire de contexte qui marque le point d&#39;entrée d&#39;une trajectoire et joint des métadonnées de trajectoire (index de l&#39;échantillon, étape, numéro de rollout, nom de l&#39;expérience). Si vous introduisez un nouveau type d&#39;agent, encapsulez le point d&#39;entrée de sa trajectoire avec `rollout_trace_attr` afin que la trace soit associée au run.
+
+Voir la [documentation de VERL sur le traçage des rollouts](https://verl.readthedocs.io/en/latest/advance/rollout_trace.html) pour plus d&#39;informations sur la configuration.

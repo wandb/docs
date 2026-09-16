@@ -1,0 +1,152 @@
+---
+title: "Tool"
+description: "TypeScript SDK reference"
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/tool.ts#L65" />
+
+A tool invocation. Emits an `execute_tool` span carrying the tool name,
+the arguments, the tool-call id, and the result. String arguments and
+results are recorded as-is; other JSON values are serialized.
+
+Created by `weave.startTool()` (or `turn.startTool()`, or
+`llm.startTool()`) and terminated with `end()`, which accepts the result and
+optional error metadata.
+
+## Example
+
+```ts twoslash
+// @noErrors
+const tool = weave.startTool({name: 'get_weather', args: {city: 'Tokyo'}});
+try {
+  const result = await getWeather('Tokyo');
+  tool.end({result});
+} catch (error) {
+  tool.end({error: error as Error, errorType: 'weather_error'});
+  throw error;
+}
+```
+
+## Extends
+
+- `SpanBase`
+
+## Properties
+
+### args
+
+> `readonly` **args**: `string`
+
+***
+
+### name
+
+> `readonly` **name**: `string`
+
+***
+
+### ~~result~~
+
+<Warning>
+  **Deprecated.** Pass `result` to `end()` instead.
+</Warning>
+
+> `optional` **result**: `string`
+
+Tool output as a string. Prefer passing `result` to `end()`.
+
+***
+
+### toolCallId
+
+> `readonly` **toolCallId**: `string`
+
+## Methods
+
+### ~~addEvent()~~
+
+<Warning>
+  **Deprecated.** Record this data via [setAttributes](#setattributes) instead.
+OpenTelemetry is phasing out the Span Event API (`Span.addEvent`). This
+method still works and existing span-event data stays valid.
+See https://opentelemetry.io/blog/2026/deprecating-span-events/
+</Warning>
+
+> **addEvent**(`name`, `attributes?`, `startTime?`): `this`
+
+Add a named event to the span. Useful for marking non-span moments such as
+context compaction, tool-loop detection, or guardrail trips. Warns and
+no-ops after `end()`. Mirrors OTel `Span.addEvent`.
+
+#### Parameters
+
+<ParamField path="name" type="string" required />
+
+<ParamField path="attributes" type="Attributes" />
+
+<ParamField path="startTime" type="TimeInput" />
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.addEvent('context_compacted', {removedMessages: 12});
+```
+
+#### Inherited from
+
+`SpanBase.addEvent`
+
+***
+
+### end()
+
+> **end**(`opts?`): `void`
+
+Record an optional result and error type, then close the span. Idempotent.
+Pass `error` to mark the span as failed and `endTime` to backdate the close.
+
+#### Parameters
+
+<ParamField path="opts" type="ToolEndOptions">
+  See [`ToolEndOptions`](./toolendoptions).
+</ParamField>
+
+#### Returns
+
+`void`
+
+***
+
+### setAttributes()
+
+> **setAttributes**(`attributes`): `this`
+
+Set multiple attributes on the span at once. Warns and no-ops after
+`end()`. Mirrors OTel `Span.setAttributes` (and the Python SDK's
+`set_attributes`).
+
+#### Parameters
+
+<ParamField path="attributes" type="Attributes" required />
+
+#### Returns
+
+`this`
+
+#### Example
+
+```ts twoslash
+// @noErrors
+span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
+```
+
+#### Inherited from
+
+`SpanBase.setAttributes`

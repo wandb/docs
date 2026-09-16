@@ -4,7 +4,7 @@ description: "Découvrez W&B Weave et comment il vous aide à créer, évaluer e
 keywords: ["observabilité LLM", "traçage d’agent", "gestion des versions des prompts", "opérations Weave"]
 ---
 
-W&amp;B Weave est une plateforme d’observabilité et d’évaluation conçue pour créer des applications LLM fiables. Weave vous aide à comprendre ce que fait votre application d’IA, à mesurer ses performances et à l’améliorer de manière systématique au fil du temps.
+W&amp;B Weave est une plateforme d’observabilité et d’évaluation conçue pour créer des agents fiables et des applications LLM fiables. Weave vous aide à comprendre ce que fait votre application d’IA, à mesurer ses performances et à l’améliorer de manière systématique au fil du temps.
 
 Le développement d’applications LLM est fondamentalement différent du développement logiciel traditionnel. Les résultats des LLM sont non déterministes, ce qui complique le débogage. La qualité est subjective et dépend du contexte. De petites modifications des prompts peuvent entraîner des comportements inattendus. Les approches de test traditionnelles montrent vite leurs limites.
 
@@ -21,35 +21,62 @@ Weave offre les fonctionnalités clés suivantes :
 * **Collecte de retours** pour recueillir des jugements humains et des annotations.
 * **Surveillance** en production à l’aide de garde-fous et d’évaluateurs pour assurer la sécurité et la qualité des LLM.
 
-<div id="agentic-tracing">
-  ### Traçage agentique
+<div id="choose-a-workflow">
+  ## Choisir un flux de travail
 </div>
 
-Weave fournit une observabilité agentique sur l’ensemble du cycle de vie des conversations des agents, y compris les sessions, les appels LLM et les exécutions d’outils.
+Weave fournit cette fonctionnalité au moyen de deux flux de travail différents :
+
+* Le traçage automatique des agents
+* L&#39;instrumentation des appels LLM arbitraires et des fonctions de votre application afin de tracer leurs entrées, leurs sorties et leur code
+
+<div id="trace-an-agent">
+  ### Tracer un agent
+</div>
+
+Weave fournit une observabilité des agents sur l’ensemble du cycle de vie des conversations des agents, y compris les sessions, les appels LLM et les exécutions d’outils.
+
+Le traçage des agents repose sur [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concepts/) et les [conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/). Si votre agent est déjà instrumenté avec OTel, vous pouvez envoyer ses spans existants vers Weave sans réinstrumenter votre code. Weave accepte n’importe quel span OTel et stocke ses attributs pour vous permettre de les interroger. Les spans qui suivent les conventions d’agent GenAI, comme `invoke_agent` et `execute_tool`, s’affichent sous forme de conversations, de tours de conversation et d’appels d’outils dans la vue **Agents**. Pour savoir comment émettre ces spans à partir de votre propre agent, voir le [Démarrage rapide des agents personnalisés](/fr/weave/custom-agents-quickstart).
 
 Si vous créez un agent, commencez par le [Démarrage rapide de l’intégration d’agent](/fr/weave/agent-integration-quickstart) pour choisir une intégration intégrée, ou suivez le [Démarrage rapide des agents personnalisés](/fr/weave/custom-agents-quickstart) pour instrumenter manuellement le vôtre. Pour découvrir comment le SDK Weave modélise les agents, voir [tracer vos agents](/fr/weave/guides/tracking/trace-agents).
 
-Si vous utilisez un framework tiers pour agents pris en charge, comme Claude Code ou OpenAI Agent SDK, Weave l’instrumente automatiquement, sans code supplémentaire. Voir [Intégrations](/fr/weave/guides/integrations) pour la liste complète des frameworks pris en charge.
+Si vous utilisez un harness d’agent tiers pris en charge, comme Claude Code ou OpenAI Agent SDK, Weave l’instrumente automatiquement, sans code supplémentaire. Voir [Intégrations](/fr/weave/guides/integrations) pour la liste complète des frameworks pris en charge.
 
-<div id="application-tracing">
-  ### Traçage des applications
+<div id="instrument-and-trace-functions">
+  ### Instrumenter et tracer des fonctions
 </div>
 
-Pour tracer des appels de fonction individuels, le code de l&#39;application ou une logique personnalisée, utilisez Weave opérations and Calls. Ajoutez une ligne à n&#39;importe quelle fonction pour suivre les entrées, les sorties, le coût, le nombre de jetons et la latence.
+Pour tracer des appels de fonction individuels, le code de l&#39;application ou une logique personnalisée, utilisez opérations Weave and Calls. Ajoutez une ligne à n&#39;importe quelle fonction pour suivre les entrées, les sorties, le coût, le nombre de jetons et la latence.
+
+Vous pouvez aussi :
 
 * Suivez de bout en bout le flux des données dans votre application LLM.
 * Consultez les documents source utilisés pour produire le feedback du LLM.
 * Analysez en détail des prompts spécifiques et la manière dont les réponses sont produites.
 
-Pour tracer des fonctions individuelles, suivez le [démarrage rapide du traçage des opérations](/fr/weave/quickstart) de Weave ou apprenez à utiliser les [opérations and Calls](/fr/weave/guides/tracking/tracing) de Weave.
+Pour tracer des fonctions individuelles, suivez le [démarrage rapide du traçage des op](/fr/weave/quickstart) de Weave ou apprenez à utiliser les [opérations and Calls](/fr/weave/guides/tracking/tracing) de Weave.
 
-Si vous utilisez un framework d&#39;agent tiers pris en charge, tel que Claude Code, Weave l&#39;instrumente automatiquement sans code supplémentaire. Voir [Intégrations](/fr/weave/guides/integrations) pour la liste complète des frameworks pris en charge.
+Le SDK Weave applique également automatiquement des patchs à de nombreux frameworks et fournisseurs de LLM afin de capturer automatiquement les traces des appels LLM dans votre code. Voir [Intégrations](/fr/weave/guides/integrations) pour tous les fournisseurs et frameworks pris en charge.
 
-<div id="evaluations">
-  ### Évaluations
+<div id="when-to-use-agent-tracing-and-when-to-use-application-instrumentation">
+  ### Quand utiliser le traçage des agents et quand utiliser l’instrumentation des applications
 </div>
 
-Évaluez et surveillez les performances de votre application LLM à l&#39;aide d&#39;évaluations afin d&#39;améliorer de manière itérative la qualité et la fiabilité.
+Choisissez le flux de travail à utiliser en fonction de ce que vous souhaitez observer :
+
+* **Utilisez le traçage des agents si vous développez ou exécutez un agent.** C’est le bon choix si vous utilisez un harness d’agent ou un SDK d’agent pris en charge, ou si vous avez développé un agent personnalisé que vous pouvez instrumenter vous-même.
+
+* **Utilisez l’instrumentation des applications si vous tracez du code applicatif.** C’est le bon choix pour les applications structurées autour d’appels distincts plutôt que de conversations, comme un pipeline RAG, un point de terminaison de synthèse ou une logique métier personnalisée.
+
+Chaque approche enregistre des traces dans sa propre partie de l’interface utilisateur : les traces d’agent apparaissent sur la page **Agents**, et les appels `weave.op` apparaissent sur la page **Traces**. Vous pouvez utiliser les deux approches dans le même projet Weave, mais elles produisent des traces distinctes.
+
+Si vous ne savez pas par où commencer et que votre système implique un agent, commencez par le [démarrage rapide de l’intégration d’agents](/fr/weave/agent-integration-quickstart). Sinon, commencez par le [démarrage rapide du traçage des op](/fr/weave/quickstart).
+
+<div id="evaluations">
+  ## Évaluations
+</div>
+
+Évaluez et surveillez les performances de votre agent ou de votre application LLM à l&#39;aide d&#39;évaluations afin d&#39;améliorer de manière itérative la qualité et la fiabilité.
 
 * Suivez facilement quelles versions du modèle/prompt ont produit quelles performances.
 * Définissez des métriques pour évaluer les réponses à l&#39;aide d&#39;une ou plusieurs fonctions de scoring.
@@ -58,7 +85,7 @@ Si vous utilisez un framework d&#39;agent tiers pris en charge, tel que Claude C
 [Créer un pipeline d&#39;évaluation](/fr/weave/tutorial-eval)
 
 <div id="version-everything">
-  ### Versionnez tout
+  ## Versionnez tout
 </div>
 
 Weave assure le suivi des versions de vos prompts, jeux de données et configurations de modèle. Si quelque chose casse, vous pouvez voir exactement ce qui a changé. Si quelque chose fonctionne, vous pouvez le reproduire.
@@ -66,7 +93,7 @@ Weave assure le suivi des versions de vos prompts, jeux de données et configura
 [En savoir plus sur la gestion des versions](/fr/weave/guides/tracking/objects)
 
 <div id="experiment-with-prompts-and-models">
-  ### Expérimentez avec des prompts et des modèles
+  ## Expérimentez avec des prompts et des modèles
 </div>
 
 Munissez-vous de vos clés API pour tester des prompts et comparer les réponses de différents modèles commerciaux dans le playground.

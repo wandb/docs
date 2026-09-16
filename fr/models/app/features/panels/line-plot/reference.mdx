@@ -50,8 +50,8 @@ L’option **Plage Y** s’étend par défaut de la plus petite valeur positive 
 
 Choisissez le mode d’échantillonnage pour afficher les points de données :
 
-* **Échantillonnage aléatoire** (par défaut) : Voir [Échantillonnage aléatoire](/fr/models/app/features/panels/line-plot/sampling/#random-sampling).
-* **Fidélité totale** : Voir [Fidélité totale](/fr/models/app/features/panels/line-plot/sampling/#full-fidelity).
+* **Fidélité totale** (par défaut) : Voir [Fidélité totale](/fr/models/app/features/panels/line-plot/sampling/#full-fidelity).
+* **Échantillonnage aléatoire** : Voir [Échantillonnage aléatoire](/fr/models/app/features/panels/line-plot/sampling/#random-sampling).
 
 <div id="smoothing">
   ### Lissage
@@ -85,6 +85,24 @@ Par défaut, les graphiques incluent seulement les 10 premiers runs ou groupes d
 
 <Note>
   Un Workspace ne peut afficher que 1 000 runs maximum, quelle que soit sa configuration.
+</Note>
+
+<div id="run-grouping">
+  ### Regroupement des runs
+</div>
+
+Lorsque la Runs table est regroupée, chaque graphique en courbes fusionne les runs d’un même groupe en une seule courbe. Configurez l’application de ce regroupement aux graphiques :
+
+* **Utiliser le regroupement de la Runs table dans les graphiques** : Applique le regroupement de la Runs table aux graphiques en courbes. Activé par défaut. Désactivez cette option pour représenter chaque run individuellement, que la Runs table soit regroupée ou non.
+* **Utiliser uniquement le dernier run par groupe** : Représente un run par groupe au lieu de combiner les runs du groupe. Désactivé par défaut. Disponible uniquement au niveau du Workspace.
+* **Agrégation** : Définit la valeur de la courbe combinée pour chaque groupe. Les options sont **moyenne**, **minimum** ou **maximum**. Indisponible lorsque **Utiliser uniquement le dernier run par groupe** est activé.
+
+Si vous exécutez une expérience plusieurs fois dans le même groupe, activez **Utiliser uniquement le dernier run par groupe**. Chaque graphique affiche alors uniquement la tentative la plus récente, tandis que les runs précédents restent dans le projet.
+
+Le dernier run d’un groupe est le premier run de ce groupe dans le sélecteur de runs. Modifiez l’ordre de tri de la Runs table pour représenter un run différent pour chaque groupe.
+
+<Note>
+  **Utiliser uniquement le dernier run par groupe** ne prend effet que lorsque la **Méthode d’agrégation des points** est définie sur **fidélité totale**, la valeur par défaut. Cette option n’a aucun effet en mode **échantillonnage aléatoire**.
 </Note>
 
 <div id="chart-type">

@@ -1,0 +1,115 @@
+---
+title: Lier un prompt Weave à une collection
+---
+
+Suivez, versionnez et gérez vos prompts d&#39;IA dans le W&amp;B Registry en liant des objets de prompt Weave à une collection. *Le fait de lier* un objet de prompt à une [collection](/fr/models/registry/create_collection) déplace la version du prompt d&#39;une [portée privée à l&#39;échelle du projet vers une portée partagée à l&#39;échelle de l&#39;organisation](/fr/models/registry/create_registry#visibility-types).
+
+<Note>
+  Avant de commencer, vérifiez les points suivants :
+
+  * Les types d&#39;objet autorisés par la collection. Pour plus d&#39;informations sur les types de collection, voir &quot;Types de collection&quot; dans [Créer une collection](./create_collection).
+  * Le registre auquel appartient la collection existe déjà. Pour vérifier que le registre existe, accédez à la [Registry App pour rechercher](/fr/models/registry/search_registry) le nom du registre.
+</Note>
+
+Pour suivre et gérer vos prompts d&#39;IA, utilisez le SDK Python Weave. Le SDK Python Weave vous permet de créer, publier et lier des objets de prompt à une collection dans un registre.
+
+Les étapes suivantes expliquent comment lier un prompt à une collection dans un registre :
+
+1. Initialisez un client Weave avec `weave.init()`.
+2. Créez un objet de prompt Weave avec une classe de prompt intégrée telle que [`weave.StringPrompt()`](/fr/weave/reference/python-sdk#class-stringprompt).
+   <Tip>
+     `weave.StringPrompt` est une classe de prompt intégrée pour les prompts à chaîne unique, tels qu&#39;un prompt système, un prompt utilisateur ou un modèle de texte réutilisable. Pour plus d&#39;informations sur la création d&#39;objets de prompt dans Weave et sur les types de prompt pris en charge, voir [Créer des objets prompt](/fr/weave/guides/core-types/prompts).
+   </Tip>
+3. Publiez le prompt dans Weave avec [`weave.publish()`](/fr/weave/reference/python-sdk#method-publish).
+4. Liez la version publiée du prompt à une collection dans un registre avec [`weave_client.link_prompt_to_registry()`](/fr/weave/reference/python-sdk/trace/weave_client#method-link_prompt_to_registry). Transmettez le chemin de la collection de destination au paramètre `target_path`. Le chemin se compose du préfixe `wandb-registry-`, du nom du registre et du nom de la collection :
+   ```text
+   wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+   ```
+
+Copiez-collez l&#39;extrait de code suivant dans votre script Python en remplaçant les valeurs d&#39;espace réservé entre `<>` par les vôtres :
+
+```python
+import weave
+
+# Initialiser le client Weave
+weave_client = weave.init(project="<project>")
+
+prompt = "<You are a helpful assistant...>"
+
+# Publier l'objet prompt vers Weave
+weave_prompt_ref = weave.publish(
+    obj=weave.StringPrompt(prompt),
+    name="<prompt_name>",
+)
+
+# Spécifier la collection et le registre auxquels lier la version du prompt
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+registry_target = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+# Lier la version du prompt publiée à une collection dans le registre spécifié
+weave_client.link_prompt_to_registry(
+    prompt=weave_prompt_ref,
+    target_path=registry_target,
+)
+```
+
+<div id="view-linked-prompts-in-a-registry">
+  ## Voir les prompts liés dans un registre
+</div>
+
+1. Accédez à W&amp;B Registry.
+2. Sélectionnez le nom du registre auquel vous avez lié le prompt.
+3. Sélectionnez le nom de la collection.
+4. Dans la liste des versions du prompt, sélectionnez la version à laquelle vous souhaitez accéder. Les numéros de version sont attribués de manière incrémentielle à chaque version de prompt liée, à partir de `v0`.
+5. Pour voir les détails d&#39;une version de prompt, cliquez sur la version. Dans les onglets de cette page, vous pouvez consulter l&#39;aperçu, le prompt et l&#39;utilisation de cette version.
+
+<div id="use-a-prompt-linked-to-a-registry">
+  ## Utiliser un prompt lié à un registre
+</div>
+
+Utilisez la méthode `weave.get()` pour récupérer un objet de prompt lié à un registre. Vous pouvez récupérer un prompt à l’aide de son alias ou de son numéro de version. L’extrait de code suivant montre comment récupérer un prompt à l’aide de son alias et de son numéro de version.
+
+Pour récupérer un objet de prompt à l’aide de son alias, utilisez le chemin URI suivant :
+
+```text
+registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION-OR-ALIAS}
+```
+
+Remplacez les valeurs d’espace réservé entre `<>` par les vôtres :
+
+<Tabs>
+  <Tab title="Récupérer par alias">
+    ```python
+    # Récupérer par alias
+    URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{ALIAS}"
+
+    # Récupérer par alias
+    prompt = weave.get(URI_path)
+
+    # Utiliser le prompt
+    print(prompt.content)
+    ```
+  </Tab>
+
+  <Tab title="Récupérer par version">
+    ```python
+    # Récupérer par version
+    URI_path = f"registry:///{ORG}/{REGISTRY_NAME}/{COLLECTION_NAME}:{VERSION}"
+
+    # Récupérer par version
+    prompt = weave.get(URI_path)
+
+    # Utiliser le prompt
+    print(prompt.content)
+    ```
+  </Tab>
+</Tabs>
+
+W&amp;B génère automatiquement le chemin d’URI et un exemple de code pour récupérer votre objet de prompt. Pour afficher cet exemple de code :
+
+1. Accédez au W&amp;B Registry.
+2. Sélectionnez le nom du registre auquel vous avez associé le prompt.
+3. Sélectionnez le nom de la collection.
+4. Dans la liste des versions du prompt, sélectionnez la version à laquelle vous souhaitez accéder.
+5. Sélectionnez l’onglet **Use** pour afficher l’exemple de code permettant de récupérer votre prompt par alias ou par numéro de version.

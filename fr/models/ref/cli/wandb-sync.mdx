@@ -2,114 +2,87 @@
 title: wandb sync
 ---
 
-import { GitHubLink } from "/snippets/fr/_includes/github-source-link.mdx"
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/v0.28.0/wandb/cli/cli.py#L561" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/v0.30.0/wandb/cli/cli.py#L521" />
 
 <div id="usage">
   ## Utilisation
 </div>
 
 ```bash
-sync [OPTIONS] [PATH]...
+sync [OPTIONS] [PATHS]...
 ```
 
 <div id="description">
   ## Description
 </div>
 
-Téléversez vers le cloud des données locales existantes d&#39;un run W&amp;B.
+Téléversez vers le cloud des données de run W&amp;B existantes en local.
 
-Synchronisez des run hors ligne ou incomplets depuis le répertoire local `wandb` vers
-le serveur W&amp;B. Si PATH est fourni, synchronisez les run à cet emplacement. Si aucun
-chemin n&#39;est indiqué, recherchez un répertoire ./wandb, puis un sous-répertoire
-wandb/.
+Synchronisez vers le serveur W&amp;B les runs hors ligne ou incomplets. Fournissez PATHS pour synchroniser
+des runs spécifiques, ou lancez la commande sans arguments pour synchroniser les runs non téléversés du
+dossier wandb.
 
-Exécutez la commande sans argument pour afficher une synthèse des
-run synchronisés et non synchronisés sans rien téléverser.
+Si aucun PATHS n&#39;est fourni, une confirmation est demandée avant la
+synchronisation. Passez --yes pour ignorer la confirmation ou --dry-run pour quitter sans
+synchroniser.
 
-Lorsque vous synchronisez un chemin spécifique, les fichiers d&#39;événements TensorBoard
-sont inclus par défaut. Lorsque vous utilisez `--sync-all`, TensorBoard est
-désactivé par défaut (utilisez `--sync-tensorboard` pour l&#39;activer).
+PATHS doit correspondre à des répertoires de run, généralement au format
 
-PATH est un fichier .wandb ou un répertoire de run qui contient un fichier .wandb.
-Un chemin typique ressemble à :
+./wandb/run-YYYYMMDD&#95;HHMMSS-RUN&#95;ID
 
-./wandb/run-YYYYMMDD&#95;HHMMSS-RUN&#95;ID/run-RUN&#95;ID.wandb
+YYYYMMDD&#95;HHMMSS est l&#39;horodatage de création du run et RUN&#95;ID
+son ID unique.
 
-où run-YYYYMMDD&#95;HHMMSS-RUN&#95;ID est le répertoire du run et
-run-RUN&#95;ID.wandb est le fichier .wandb. YYYYMMDD&#95;HHMMSS correspond à l&#39;horodatage
-de création du run et RUN&#95;ID est l&#39;ID unique
-du run.
-
-Par exemple, pour afficher une synthèse des run locaux et de leur statut de synchronisation :
+Par exemple, pour afficher une synthèse des runs locaux et de leur statut de synchronisation :
 
 ```bash
-wandb sync
+wandb sync --dry-run
 ```
 
-Pour synchroniser l’ID du run abcd1234 enregistré localement dans
-le répertoire ./wandb/run-20170617&#95;000000-abcd1234 :
+Pour synchroniser le run avec l&#39;ID du run abcd1234 enregistré dans ./wandb/run-20170617&#95;000000-abcd1234 :
 
 ```bash
 wandb sync ./wandb/run-20170617_000000-abcd1234
 ```
 
-Pour synchroniser le run abcd1234 à partir du chemin local de son fichier `.wandb`
-(./wandb/run-20170617&#95;000000-abcd1234/run-abcd1234.wandb):
+Pour synchroniser tous les runs non synchronisés du dossier wandb :
 
 ```bash
-wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
+wandb sync
 ```
 
-Pour synchroniser toutes les run pas encore synchronisées dans le répertoire local wandb :
+Utilisez `wandb clean` pour supprimer les données locales des runs déjà synchronisés. Voir
 
 ```bash
-wandb sync --sync-all
+wandb clean --help
 ```
 
-Pour supprimer les données locales des run déjà synchronisées :
-
-```bash
-wandb sync --clean
-```
-
-Pour supprimer les run synchronisées datant de plus de 48 heures sans demander de confirmation :
-
-```bash
-wandb sync --clean --clean-old-hours 48 --clean-force
-```
+pour plus d&#39;informations.
 
 <div id="arguments">
   ## Arguments
 </div>
 
-| Nom    | Par défaut | Type  |
-| ------ | ---------- | ----- |
-| `path` | PATH       | False |
+| Nom     | Par défaut | Type  |
+| ------- | ---------- | ----- |
+| `paths` | PATH       | False |
 
 <div id="options">
   ## Options
 </div>
 
-| Flag                 | Type      | Description                                                                                                                                 |
-| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--id`               | STR       | Téléverser vers un ID de run existant. **Par défaut** : None                                                                                |
-| `--project, -p`      | STR       | Définir le projet dans lequel téléverser le run. **Par défaut** : None                                                                      |
-| `--entity, -e`       | STR       | Définir l’entité à laquelle le projet est rattaché. **Par défaut** : None                                                                   |
-| `--job_type`         | STR       | Définir le type de job pour regrouper les runs associés. **Par défaut** : None                                                              |
-| `--sync-tensorboard` | BOOL Flag | Synchroniser les fichiers tfevent TensorBoard. Activé par défaut pour certains chemins, désactivé pour --sync-all. **Par défaut** : None    |
-| `--include-globs`    | STR       | Inclure uniquement les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut** : None                               |
-| `--exclude-globs`    | STR       | Exclure les runs correspondant à ces motifs glob (séparés par des virgules). **Par défaut** : None                                          |
-| `--include-online`   | BOOL Flag | Inclure les runs créés en mode en ligne. **Par défaut** : None                                                                              |
-| `--include-offline`  | BOOL Flag | Inclure les runs créés en mode hors ligne. **Par défaut** : None                                                                            |
-| `--include-synced`   | BOOL Flag | Inclure les runs déjà synchronisés. **Par défaut** : None                                                                                   |
-| `--mark-synced`      | BOOL Flag | Marquer les runs comme synchronisés après le téléversement. **Par défaut** : True                                                           |
-| `--sync-all`         | BOOL Flag | Synchroniser tous les runs non synchronisés dans le répertoire local wandb. **Par défaut** : False                                          |
-| `--clean`            | BOOL Flag | Supprimer les données locales des runs déjà synchronisés. **Par défaut** : False                                                            |
-| `--clean-old-hours`  | INT       | Supprimer uniquement les runs synchronisés datant de plus de ce nombre d’heures (à utiliser avec --clean). **Par défaut** : 24              |
-| `--clean-force`      | BOOL Flag | Ignorer la confirmation si --clean est spécifié. **Par défaut** : False                                                                     |
-| `--show`             | INT       | Définir le nombre de runs à afficher dans la synthèse. **Par défaut** : 5                                                                   |
-| `--append`           | BOOL Flag | Ajouter des données à un run existant au lieu d’en créer un nouveau. **Par défaut** : False                                                 |
-| `--skip-console`     | BOOL Flag | Ne pas téléverser les journaux de la console. **Par défaut** : False                                                                        |
-| `--replace-tags`     | STR       | Renommer les tags pendant la synchronisation. Utilisez des paires &#39;ancien=nouveau&#39; séparées par des virgules. **Par défaut** : None |
+| Flag                                 | Type      | Description                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-v, --verbose`                      | Flag BOOL | Affiche davantage d&#39;informations. **Par défaut** : False                                                                                                                                                                                                                                                                                                           |
+| `--yes`                              | Flag BOOL | Ne pas demander de confirmation. **Par défaut** : False                                                                                                                                                                                                                                                                                                                |
+| `--id`                               | STR       | Téléverse vers un ID du run existant. Si cette option est définie lors de la synchronisation de plusieurs fichiers (avec la même entité et le même projet), les fichiers sont synchronisés par ordre d&#39;heure de démarrage. **Par défaut** : None                                                                                                                   |
+| `--project, -p`                      | STR       | Redéfinit le projet pour tous les runs synchronisés. **Par défaut** : None                                                                                                                                                                                                                                                                                             |
+| `--entity, -e`                       | STR       | Redéfinit l&#39;entité pour tous les runs synchronisés. **Par défaut** : None                                                                                                                                                                                                                                                                                          |
+| `--job-type`                         | STR       | Redéfinit le type de job pour tous les runs synchronisés. **Par défaut** : None                                                                                                                                                                                                                                                                                        |
+| `--include-online, --no-skip-online` | Flag BOOL | Inclut les runs créés en mode en ligne. **Par défaut** : None                                                                                                                                                                                                                                                                                                          |
+| `--include-synced, --no-skip-synced` | Flag BOOL | Inclut les runs déjà synchronisés. **Par défaut** : None                                                                                                                                                                                                                                                                                                               |
+| `--replace-tags`                     | STR       | Renomme les tags au format &#39;old1=new1,old2=new2&#39;. **Par défaut** : None                                                                                                                                                                                                                                                                                        |
+| `--dry-run`                          | Flag BOOL | Affiche ce qui se passerait sans rien téléverser. **Par défaut** : False                                                                                                                                                                                                                                                                                               |
+| `-n`                                 | INT       | Nombre maximal de runs à synchroniser en même temps. Lors de la synchronisation de plusieurs fichiers appartenant au même run, les fichiers sont synchronisés séquentiellement par ordre d&#39;heure de démarrage, quelle que soit la valeur de ce paramètre. C&#39;est le cas pour les runs repris ou lors de l&#39;utilisation du paramètre --id. **Par défaut** : 5 |

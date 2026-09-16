@@ -1,93 +1,140 @@
 ---
 title: Team
-namespace: public_apis_namespace
-python_object_type: class
+kind: classe
+namespace: wandb.apis.public.teams
 ---
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+<GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
-
-## <kbd>class</kbd> `Team`
+<div id="class-wandbapispublicteam">
+  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Team
+</div>
 
 Classe représentant une équipe W&amp;B.
 
-Cette classe fournit des méthodes pour gérer les équipes W&amp;B, notamment pour créer des équipes, inviter des membres et gérer des comptes de service. Elle hérite de Attrs pour gérer les attributs de l’équipe.
-
-### <kbd>méthode</kbd> `Team.__init__`
+Cette classe fournit des méthodes pour gérer les équipes W&amp;B, notamment pour créer des équipes,
+inviter des membres et gérer des comptes de service. Elle hérite de Attrs
+pour gérer les attributs de l’équipe.
 
 ```python
-__init__(
-    service_api: 'ServiceApi',
-    name: 'str',
-    attrs: 'Mapping[str, Any] | None' = None
-)
+(service_api: 'ServiceApi',
+name: 'str',
+attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-**Arguments :**
+<div id="args">
+  ## Arguments
+</div>
 
-* `service_api` :  L’instance d’API de service à utiliser pour interroger W&amp;B.
-* `name` (str) :  Le nom de la équipe
-* `attrs` (dict) :  Dictionnaire facultatif des attributs de la équipe
+<ResponseField name="service_api" type="ServiceApi">
+  Instance de l’API de service à utiliser pour interroger W&amp;B.
+</ResponseField>
 
-**Remarque :**
+<ResponseField name="name" type="str">
+  Nom de l’équipe
+</ResponseField>
 
-> La gestion des équipes requiert les autorisations appropriées.
+<ResponseField name="attrs" type="Mapping[str, Any] | None">
+  Dictionnaire facultatif des attributs de l’équipe
+</ResponseField>
 
-***
+<div id="examples">
+  ## Exemples
+</div>
 
-### <kbd>méthode de classe</kbd> `Team.create`
+Recherchez une équipe et invitez un membre.
 
 ```python
-create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Team
+import wandb
+
+api = wandb.Api()
+team = api.team("my-team")
+team.invite("user@example.com")
+```
+
+Créez une équipe et ajoutez un compte de service.
+
+```python
+import wandb
+
+api = wandb.Api()
+team = api.create_team("my-team")
+team.create_service_account("CI service account")
+```
+
+<div id="methods">
+  ## Méthodes
+</div>
+
+<div id="method-teamcreate">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create()
+</div>
+
+```python
+api: 'Api',
+team: 'str',
+admin_username: 'str | None' = None
 ```
 
 Créer une nouvelle équipe.
 
-**Arguments :**
+<div id="arguments">
+  ##### Arguments
+</div>
 
-* `api`:  (`Api`) L&#39;instance d&#39;API à utiliser
-* `team`:  (str) Le nom de la équipe
-* `admin_username`:  (str) nom d&#39;utilisateur facultatif de l&#39;administrateur de la équipe ; par défaut, l&#39;utilisateur actuel.
+<ResponseField name="api" type="Api">
+  (`Api`) L&#39;instance d&#39;API à utiliser
+</ResponseField>
 
-**Retourne :**
-Un objet `Team`
+<ResponseField name="team" type="str">
+  (str) Le nom de la équipe
+</ResponseField>
 
-***
+<ResponseField name="admin_username" type="str | None">
+  (str) nom d&#39;utilisateur facultatif de l&#39;administrateur de la équipe ; par défaut, l&#39;utilisateur actuel.
+</ResponseField>
 
-### <kbd>méthode</kbd> `Team.create_service_account`
+<div id="method-teamcreate_service_account">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create_service_account()
+</div>
 
 ```python
-create_service_account(description: 'str') → Member | None
+self,
+description: 'str'
 ```
 
-Créez un compte de service pour la équipe.
+Créez un compte de service pour l’équipe.
 
-**Arguments :**
+<div id="arguments-2">
+  ##### Arguments
+</div>
 
-* `description`:  (str) Une description de ce compte de service
+<ResponseField name="description" type="str">
+  (str) Une description de ce compte de service
+</ResponseField>
 
-**Retourne :**
-L’objet `Member` du compte de service, ou None en cas d’échec
-
-***
-
-
-### <kbd>méthode</kbd> `Team.invite`
+<div id="method-teaminvite">
+  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.invite()
+</div>
 
 ```python
-invite(username_or_email: 'str', admin: 'bool' = False) → bool
+self,
+username_or_email: 'str',
+admin: 'bool' = False
 ```
 
 Invitez un utilisateur dans une équipe.
 
-**Arguments :**
+<div id="arguments-3">
+  ##### Arguments
+</div>
 
-* `username_or_email`:  (str) Le nom d’utilisateur ou l’adresse e-mail de l’utilisateur que vous souhaitez inviter.
-* `admin`:  (bool) Indique si cet utilisateur doit devenir administrateur de la équipe.  La valeur par défaut est `False`.
+<ResponseField name="username_or_email" type="str">
+  (str) Le nom d’utilisateur ou l’adresse e-mail de l’utilisateur que vous souhaitez inviter.
+</ResponseField>
 
-**Retourne :**
-`True` en cas de succès, `False` si l’utilisateur avait déjà été invité ou n’existait pas.
-
-***
+<ResponseField name="admin" type="bool">
+  (bool) Indique si cet utilisateur doit devenir administrateur de la équipe. La valeur par défaut est `False`.
+</ResponseField>

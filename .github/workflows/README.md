@@ -20,6 +20,12 @@ The workflows use `actions/create-github-app-token@v3` to create short-lived ins
 
 Workflows that push back to a same-repo PR branch with this token (instead of the default workflow `GITHUB_TOKEN`) include **Compress Images** (`calibreapp-image-actions.yml`), **Build CSS** (`build-css.yml`), and **Knowledgebase Nav** (`knowledgebase-nav.yml`). That way downstream `pull_request` checks (for example **Validate MDX**) still run on the automation commit.
 
+## Action pinning
+
+Every third-party `uses:` in workflows and composite actions pins a full commit SHA with a trailing version comment (`@3d3c42e5… # v7`), never a mutable tag or branch — a tag can be moved to different code after review; a SHA cannot. Do not add tag- or branch-pinned actions.
+
+Renovate keeps the SHAs and version comments current, configured by `.github/renovate.json5` via the org-wide [`wandb/renovate-config`](https://github.com/wandb/renovate-config) preset. That preset also enforces update policy: a 7-day minimum release age (defense against tag-repointing attacks) and Dependency Dashboard approval for major bumps. Do not add a `github-actions` entry to `.github/dependabot.yml` for this because Dependabot would duplicate Renovate's PRs and propose updates before the 7-day gate, bypassing that protection.
+
 ## Sync Code Examples
 
 **Workflow**: `sync-code-examples.yml`
@@ -144,3 +150,88 @@ git add .
 git commit -m "Sync code examples from docs-code-eval"
 git push
 ```
+
+## UI label drift
+
+**Workflow**: `uidrift-scan.yml`
+
+Watches `wandb/core` for user-facing label changes that leave this repo's docs stale, and carries the resulting report in one rolling draft PR. The detector is `scripts/uidrift`; see [`scripts/uidrift/ADAPTING.md`](../../scripts/uidrift/ADAPTING.md) for what it looks for and why. This workflow is only the sink.
+
+### Setup required before the first run
+
+`wandb-docs-source-reader` is installed on `wandb/docs-code-eval` and `wandb/weave-internal` only, so **it cannot read `wandb/core` yet**. Pick one:
+
+- **Preferred**: install `wandb-docs-source-reader` on `wandb/core` with **Contents: read**. Needs a `wandb` org owner. No secret changes here; the workflow already asks for `repositories: core`.
+- **Fallback**: add a repository secret `WANDB_CORE_TOKEN` holding a token that can read `wandb/core`. The workflow prefers the App and falls back to this, so adding the App install later needs no edit.
+
+With neither in place the first step fails immediately and names both options, rather than burning four minutes on a clone that cannot authenticate.
+
+### Triggers
+
+- **Scheduled**: weekdays at 13:00 UTC (6am PT), so a report is waiting at standup
+- **Manual**: `workflow_dispatch` with `since` (window start for a non-incremental run), `seed` (ignore existing reports and rescan the whole window), and `dry-run` (report to the job summary, open no PR)
+
+### What it does
+
+1. Clones `wandb/core` — full history, single branch, no working tree. The ADAPTING.md table records why shallow and blobless clones were both rejected; do not "optimize" this without reading it.
+2. Runs the scan. `--incremental` by default, taking its base from the head SHA in the newest report filename under `uidrift/reports/`; falls back to `--since` when no report exists yet.
+3. Writes the report to the job summary, so a run is readable even when it opens no PR.
+4. If there are findings (or a reopened decision), opens or updates a **draft PR** on the rolling branch `uidrift/drift-report` with the funnel counts, lane breakdown, and how to record a decision.
+5. Fails the run — after the PR exists — if any stored decision reopened. That means a writer's earlier dismissal no longer matches the docs, which only a human can settle.
+
+Merging the PR advances the watermark. Closing it unmerged is also safe: the next run rescans the same range and supersedes the report.
+
+### Reviewing a report
+
+Each row lands in one of three lanes: **agent** (mechanical rename, safe to apply), **pair** (a writer scopes it, an agent applies it), **human** (prose has to be written). Rows that are wrong get recorded rather than deleted:
+
+```bash
+PYTHONPATH=scripts python3 -m uidrift.scan decide <id> \
+    --status dismissed --by <you> --agreement false_positive --note '<why>'
+```
+
+`--agreement` is the detector's only feedback channel and cannot be reconstructed later. A dismissal reopens by itself if docs later start covering that surface, so it suppresses a row without hiding it forever.
+
+## Readability delta
+
+**Workflow**: `readability-delta.yml`
+
+Posts an informational, **non-blocking** PR comment describing how the PR affects the readability of the English docs it changes (DOCS-2626). It reports the *delta* (before/after) for well-established formulas (Flesch-Kincaid grade, Flesch reading ease, Gunning fog, SMOG), word-weighted across the changed pages, plus an optional AI-agent-comprehension rating from a W&B Inference LLM judge.
+
+### Triggers
+
+- **Pull request**: `opened`, `synchronize`, `reopened` on PRs that touch `**/*.mdx`
+- **Manual**: `workflow_dispatch` (writes the report to the job summary instead of a comment)
+
+### What it does
+
+1. Diffs the PR base and head, scoring each changed English `.mdx` file (localized content under `ja/`, `ko/`, and `fr/` is skipped).
+2. Extracts narrative prose and scores it with `textstat` via the analyzer in the `coreweave/docs-skills` submodule (`.claude/scripts/_readability.py`).
+3. Optionally runs the AI agent comprehension judge (W&B Inference) when `WANDB_API_KEY` is set.
+4. Upserts a single PR comment identified by the `<!-- readability-delta-report -->` marker.
+
+The check **never fails** a PR. If scoring is unavailable it posts a brief notice and exits successfully.
+
+### Configuration
+
+- **Python**: 3.11
+- **Permissions**: `contents: read`, `pull-requests: write`
+- **Report glue**: `scripts/readability/pr_report.py`
+- **Scoring logic**: `.claude/scripts/_readability.py` and `_docs_eval_lib.py` (submodule)
+
+### Authentication
+
+- The main checkout uses the default `GITHUB_TOKEN`.
+- The private, cross-org `coreweave/docs-skills` submodule is initialized in a separate step with the `DOCENGINE_TOKEN` secret (the same `x-access-token` credential used for the `gitsubmodule` ecosystem in `.github/dependabot.yml`; it rotates ~every 30 days and needs no `wandb/docs` scope).
+- The AI agent comprehension judge calls W&B Inference with the `WANDB_DOCS_INFERENCE_API_KEY` secret (a W&B API key whose entity has Inference credits), passed to the scorer as `WANDB_API_KEY`. When that secret is absent, the deterministic `textstat` delta still runs.
+
+### Forks
+
+Fork PRs have no access to repo secrets, so the first step detects a fork, posts an Actions notice, and makes the whole job a no-op (still reporting success). Forks are uncommon in `wandb/docs` and coreweave repos cannot use forks at all.
+
+### Related Files
+
+- **Report glue**: `scripts/readability/pr_report.py`
+- **Dependencies**: `scripts/readability/requirements.txt`
+- **Tests**: `scripts/readability/tests/`
+- **Documentation**: `scripts/readability/README.md`

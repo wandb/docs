@@ -182,86 +182,93 @@ run을 베이스라인으로 설정하면, 기본적으로 기준 run과 동일�
   3. 선형 플롯을 사용해 기준 run과 다른 run을 시각적으로 비교합니다.
   4. 더 나은 설정을 찾을 때마다 기준 run을 계속 업데이트합니다.
 
-<div id="example-workflow">
-  ## 예제 워크플로
+<div id="example-compare-runs-from-hyperparameter-tuning-experiments">
+  ## 예시: 하이퍼파라미터 튜닝 실험의 run 비교
 </div>
 
-이 섹션에서는 고정된 run과 기준 run을 사용해 run을 비교하는 방법을 설명합니다.
+이 섹션에서는 고정된 run과 베이스라인 run을 사용해 run을 비교하는 방법을 설명합니다.
 
-1. 일련의 run으로 하이퍼파라미터 튜닝 시나리오를 시뮬레이션하는 다음 예제 코드를 실행합니다. 꺾쇠괄호(`<>`)로 둘러싸인 플레이스홀더를 자신의 값으로 바꾸세요.
+예를 들어, 다음 코드는 일련의 run으로 하이퍼파라미터 튜닝 시나리오를 시뮬레이션합니다.
 
-   ```python
-   import wandb
-   import random
-   import math
+```python expandable
+import wandb
+import random
+import math
 
-   def train_model(learning_rate, batch_size, run_name, tags=None):
-       """Simulate training a model with given hyperparameters."""
-       config = {
-           "learning_rate": learning_rate,
-           "batch_size": batch_size,
-           "optimizer": "adam",
-           "architecture": "resnet50"
-       }
-       
-       with wandb.init(
-         # 팀 및 프로젝트 이름으로 바꾸세요
-           project="hyperparameter-tuning",
-           entity="<team>",
-           name=run_name,
-           config=config,
-           tags=tags or []
-       ) as run:
-           # 트레이닝 루프 시뮬레이션
-           for epoch in range(50):
-               # 메트릭 시뮬레이션
-               accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
-               loss = 1.0 * math.exp(-learning_rate * epoch / 10)
-               
-               run.log({
-                   "epoch": epoch,
-                   "accuracy": accuracy,
-                   "loss": loss
-               })
+def train_model(learning_rate, batch_size, run_name, tags=None):
+    """Simulate training a model with given hyperparameters."""
+    config = {
+        "learning_rate": learning_rate,
+        "batch_size": batch_size,
+        "optimizer": "adam",
+        "architecture": "resnet50"
+    }
+    
+    with wandb.init(
+      # 팀 및 프로젝트 이름으로 바꾸세요
+        project="hyperparameter-tuning",
+        entity="your-team-name", # 팀 이름으로 바꾸세요
+        name=run_name,
+        config=config,
+        tags=tags or []
+    ) as run:
+        # 트레이닝 루프 시뮬레이션
+        for epoch in range(50):
+            # 메트릭 시뮬레이션
+            accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+            loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+            
+            run.log({
+                "epoch": epoch,
+                "accuracy": accuracy,
+                "loss": loss
+            })
 
-   # 표준 설정으로 기준 run 생성
-   train_model(
-       learning_rate=0.001,
-       batch_size=64,
-       run_name="baseline-config",
-       tags=["baseline", "production"]
-   )
+# 표준 설정으로 베이스라인 run 생성
+train_model(
+    learning_rate=0.001,
+    batch_size=64,
+    run_name="baseline-config",
+    tags=["baseline", "production"]
+)
 
-   # 서로 다른 학습률로 실험
-   train_model(
-       learning_rate=0.003,
-       batch_size=64,
-       run_name="lr-experiment-0.003",
-       tags=["experiment"]
-   )
+# 서로 다른 학습률로 실험
+train_model(
+    learning_rate=0.003,
+    batch_size=64,
+    run_name="lr-experiment-0.003",
+    tags=["experiment"]
+)
 
-   train_model(
-       learning_rate=0.0001,
-       batch_size=64,
-       run_name="lr-experiment-0.0001",
-       tags=["experiment"]
-   )
-   ```
+train_model(
+    learning_rate=0.0001,
+    batch_size=64,
+    run_name="lr-experiment-0.0001",
+    tags=["experiment"]
+)
+```
 
-   이 코드를 실행하면 워크스페이스에 run이 세 개 생성됩니다.
+run이 완료되면 W&amp;B App으로 이동하여 워크스페이스에서 run을 확인합니다. 유망한 실험을 고정하고 베이스라인 run을 설정하여 새 run의 성능을 베이스라인 run과 비교할 수 있습니다.
 
-2. `baseline-config`를 기준 run으로 설정합니다.
+1. W&amp;B 프로젝트로 이동합니다.
+2. **Runs** 탭을 선택합니다.
+3. `baseline` 태그가 있는 run을 [필터링](/ko/models/runs/filter-runs)하고 [베이스라인 run](#set-a-baseline-run)으로 설정합니다.
+4. `baseline-config`를 [고정](#pin-runs)하여 Runs 테이블 상단에 표시되도록 합니다.
+5. 실험 run을 베이스라인과 비교합니다.
 
-3. `baseline-config`를 계속 표시되도록 고정합니다.
+   * `accuracy` 열 옆의 세로 줄임표 메뉴를 선택한 다음 **Metric directionality**를 **Higher values are best**로 설정합니다. 이제 각 run의 정확도 델타가 Runs 테이블에 표시됩니다.
+   * `loss` 열 옆의 세로 줄임표 메뉴를 선택한 다음 **Metric directionality**를 **Lower values are best**로 설정합니다. 이제 각 run의 loss 델타가 Runs 테이블에 표시됩니다.
 
-4. 실험 run을 baseline과 비교합니다.
+   <Frame>
+     <img src="/images/runs/compare_metric_deltas.png" />
+   </Frame>
+6. 선형 플롯을 사용하여 run을 베이스라인과 시각적으로 비교합니다. 베이스라인 run은 굵은 점선으로 표시되며, 플롯 위에 마우스를 올리면 특정 에포크에서 각 run이 베이스라인과 어떻게 비교되는지 확인할 수 있습니다.
 
-* Runs 테이블에서 각 run 값 옆에 표시되는 요약 메트릭 델타를 확인해 baseline과 비교합니다.
-  * 선형 플롯에서는 하나 이상의 run 성능을 baseline과 비교할 수 있으며, baseline은 항상 표시됩니다.
+   예를 들어, 다음 이미지는 run `lr-experiment-0.003` 및 `lr-experiment-0.0001`이 베이스라인 run `baseline-config`와 어떻게 비교되는지 보여 줍니다.
 
-5. 추가로 조사할 유망한 실험을 고정합니다. 이 예제에서는 50 에포크 후 `lr-experiment-0.003`이 가장 높은 정확도(`~0.64`)와 가장 낮은 loss(`~0.86`)를 보입니다.
-
-{/* TODO 스크린샷 */}
+   <Frame>
+     <img src="/images/runs/example_compare_pinned_runs.png" />
+   </Frame>
 
 <div id="limitations">
   ## 제한 사항
