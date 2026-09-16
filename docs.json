@@ -404,7 +404,6 @@
                           "models/notebooks/run-notebook-cells",
                           "models/notebooks/manage-packages-environments",
                           "models/notebooks/data-files",
-                          "models/notebooks/share-notebooks",
                           "models/notebooks/configure-notebook",
                           "models/notebooks/developer-tools"
                         ]

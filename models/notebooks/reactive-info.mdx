@@ -2,79 +2,82 @@
 title: Understand reactive execution
 ---
 
-Notebooks run cells according to variable dependencies, not the order cells appear on the page. If cell B reads a variable defined in cell A, cell B depends on cell A. When cell A runs, the notebook can rerun cell B so that its output reflects the latest value.
+Notebooks run cells according to variable dependencies, not the order in which cells appear on the page. If cell B reads a variable defined in cell A, cell B depends on cell A. Cell A is upstream of cell B, and cell B is downstream of cell A.
 
-A cell's *definitions* are the global names it creates, such as variables, functions, classes, and imported names. A cell's *references* are the global names it reads from other cells. Notebooks use definitions and references to determine which cells depend on each other.
+When an upstream cell runs, the notebook can rerun downstream cells so that their outputs reflect the latest values. Whether the cells run automatically depends on the notebook's [runtime settings](/models/notebooks/configure-notebook#configure-startup-behavior).
 
-For more detail, see marimo's [How marimo runs cells](https://docs.marimo.io/guides/reactivity/#how-marimo-runs-cells).
+Notebooks determine dependencies by tracking definitions and references:
 
-## Understand stale and blocked cells
+- A *definition* is a global name that a cell creates, such as a variable, function, class, or imported name.
+- A *reference* is a global name that a cell reads from another cell.
 
-A cell is *stale* if it hasn't run with its latest code and inputs. A cell that has never run is considered stale. After a cell runs with its current code and inputs, it is no longer stale.
+To learn more, see marimo's [How marimo runs cells](https://docs.marimo.io/guides/reactivity/#how-marimo-runs-cells).
 
-A cell is *blocked* if it or one of its ancestor cells is disabled. Blocked cells do not run automatically, even if their inputs change. When the disabled cell is re-enabled, the notebook can run any blocked cells that need updated outputs.
+## Understand cell states
 
-A cell becomes stale when:
+### Stale cells
+
+A cell is *stale* if it hasn't run with its latest code or inputs. A cell that has never run is also stale. After the cell runs with its current code and inputs, it is no longer stale.
+
+A cell becomes stale in any of the following situations:
 
 - You edit the cell's code.
-- An ancestor cell runs while the notebook uses [lazy execution](/models/notebooks/configure-notebook#configure-startup-behavior). In this mode, the notebook marks dependent cells as stale instead of automatically running them.
-- A Python module used by the cell changes while lazy module autoreloading is enabled.
+- An upstream cell runs while the notebook uses [lazy execution](/models/notebooks/configure-notebook#configure-startup-behavior). In this mode, the notebook marks downstream cells as stale instead of running them automatically.
+- A Python module that the cell uses changes while lazy module autoreloading is enabled.
 
-Run a stale cell to update its output. If the cell has stale ancestors, the notebook runs those cells first. You can also run all stale cells at once.
+Run a stale cell to update its output. If any upstream cells are stale, the notebook runs them first. You can also run all stale cells at once.
 
-<Info>
-In-place mutations don't mark dependent cells as stale because notebooks don't track mutations to objects.
-</Info>
+### Blocked cells
 
-To unblock a cell, re-enable the disabled cell that it depends on. For steps, see [Disable or enable a cell](/models/notebooks/run-notebook-cells#disable-or-enable-a-cell).
+A cell is *blocked* if the cell or one of its upstream cells is disabled. Blocked cells don't run automatically, even when their inputs change.
 
-## Deleting cells
+To unblock a cell, re-enable the disabled cell that it depends on. The notebook can then run any downstream cells that need updated outputs. For instructions, see [Disable or enable a cell](/models/notebooks/run-notebook-cells#disable-or-enable-a-cell).
 
-If you delete a cell, the global variables defined in that cell are also deleted. Cells that reference deleted variables are rerun, invalidated, or marked stale depending on [runtime settings](/models/notebooks/configure-notebook#configure-startup-behavior).
+## Delete cells
 
-## Avoid multiple global variable definitions
+When you delete a cell, the notebook also deletes the global variables that the cell defined. Depending on the [runtime settings](/models/notebooks/configure-notebook#configure-startup-behavior), the notebook reruns, invalidates, or marks as stale any cells that reference the deleted variables.
 
-Define each global variable in only one cell. If two cells define the same global name, the notebook can't determine a single source of truth for downstream cells. This includes functions, classes, and imported package names.
+## Define each global name once
 
-For temporary variables, [prefix the variable name with a single underscore](https://docs.marimo.io/guides/reactivity/#creating-local-variables) to make it local to that cell. You can also [define temporary variables within a function](https://docs.marimo.io/guides/reactivity/#encapsulating-code-in-functions).
+Define each global name in only one cell. If two cells define the same global name, the notebook can't determine a single source of truth for downstream cells. This restriction applies to variables, functions, classes, and imported package names.
 
-For more information, see [Creating local variables](https://docs.marimo.io/guides/reactivity/#creating-temporary-variables).
+For temporary variables, [prefix the variable name with a single underscore](https://docs.marimo.io/guides/reactivity/#creating-local-variables) to make it local to the cell. You can also [define temporary variables inside a function](https://docs.marimo.io/guides/reactivity/#encapsulating-code-in-functions).
 
-## Avoid untracked object mutations
+## Avoid mutations across cells
 
-Avoid mutating objects that are used across multiple cells. Notebooks do not track mutations to objects. 
+Avoid mutating objects that multiple cells use. Notebooks don't track object mutations, so mutating an object doesn't mark dependent cells as stale.
 
-For example, if one cell adds a column to a DataFrame object defined in another cell, cells that reference the DataFrame don't automatically rerun. To keep the notebook state consistent, mutate an object in the cell that defines it or assign the updated value to a new variable.
+For example, suppose one cell adds a column to a DataFrame defined in another cell. Cells that reference the DataFrame don't automatically rerun. To keep the notebook state consistent, create a new object and assign it to a new variable. If you must mutate an object, mutate it in the cell that defines it.
 
-If you need to update an object, consider creating a new object instead of modifying the existing one. 
+To learn more, see [Variable mutations are not tracked](https://docs.marimo.io/guides/reactivity/#variable-mutations-are-not-tracked).
 
-For more information, see [Variable mutations are not tracked](https://docs.marimo.io/guides/reactivity/#variable-mutations-are-not-tracked).
+## Inspect variables and dependencies
 
-## View variables
+### View variables
 
-Use [Variables explorer](https://docs.marimo.io/guides/editor_features/dataflow/#variables-explorer) to view defined variables, their types, where they were declared, and where they are being referenced.
+Use the [Variables explorer](https://docs.marimo.io/guides/editor_features/dataflow/#variables-explorer) to view defined variables, their types, where they are declared, and where they are referenced.
 
 <Frame>
-    <img src="/images/notebooks/variable_dependencies.png" alt="Variable dependencies diagram showing how variables flow between cells in a notebook" />
+  <img src="/images/notebooks/variable_dependencies.png" alt="Variables flowing between dependent notebook cells" />
 </Frame>
 
-For information on symbols and connections between cells, refer to the following sections:
+To learn more about the symbols and connections between cells, see:
 
 - [Cell symbols](https://docs.marimo.io/guides/editor_features/dataflow/#cell-symbols)
 - [Reading cell connections](https://docs.marimo.io/guides/editor_features/dataflow/#reading-cell-connections)
 
-## Navigate cell relationships with the minimap
+### View cell relationships in the minimap
 
-Use the [Dependencies panel](https://docs.marimo.io/guides/editor_features/dataflow/#dependencies-panel) to understand relationships between cells.
+Use the [Dependencies panel](https://docs.marimo.io/guides/editor_features/dataflow/#dependencies-panel) to inspect relationships between cells:
 
-1. From the sidebar, select **Explore dependencies** (<Icon icon="sitemap" iconType="solid"/>). 
+1. In the sidebar, select **Explore dependencies** (<Icon icon="sitemap" iconType="solid" />).
 2. Select **MINIMAP**.
 
-## View the dependency graph
+### View the dependency graph
 
-Use the [Graph view](https://docs.marimo.io/guides/editor_features/dataflow/#graph-view) to visualize dependencies between cells as a directed acyclic graph (DAG).
+Use the [Graph view](https://docs.marimo.io/guides/editor_features/dataflow/#graph-view) to visualize cell dependencies as a directed acyclic graph (DAG):
 
-1. From the sidebar, select **Explore dependencies** (<Icon icon="sitemap" iconType="solid"/>). 
+1. In the sidebar, select **Explore dependencies** (<Icon icon="sitemap" iconType="solid" />).
 2. Select **GRAPH**.
 
-You can zoom in and out, drag, and rearrange nodes to better understand the relationships between cells.
+Pan, zoom, and rearrange nodes to explore the relationships between cells.
