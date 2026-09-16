@@ -15,6 +15,8 @@ To learn more, see marimo's [How marimo runs cells](https://docs.marimo.io/guide
 
 ## Understand cell states
 
+Notebooks track the state of each cell to determine whether it needs to run. The main cell states are *stale* and *blocked*.
+
 ### Stale cells
 
 A cell is *stale* if it hasn't run with its latest code or inputs. A cell that has never run is also stale. After the cell runs with its current code and inputs, it is no longer stale.
@@ -22,7 +24,7 @@ A cell is *stale* if it hasn't run with its latest code or inputs. A cell that h
 A cell becomes stale in any of the following situations:
 
 - You edit the cell's code.
-- An upstream cell runs while the notebook uses [lazy execution](/models/notebooks/configure-notebook#configure-startup-behavior). In this mode, the notebook marks downstream cells as stale instead of running them automatically.
+- An upstream cell runs while the notebook uses [lazy](/models/notebooks/configure-notebook#lazy-mode) mode. In this mode, the notebook marks downstream cells as stale instead of running them automatically.
 - A Python module that the cell uses changes while lazy module autoreloading is enabled.
 
 Run a stale cell to update its output. If any upstream cells are stale, the notebook runs them first. You can also run all stale cells at once.
