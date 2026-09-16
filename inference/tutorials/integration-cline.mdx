@@ -5,7 +5,7 @@ description: >
 keywords: ["Cline CLI", "VS Code extension", "AI coding assistant", "cline auth", "open-weight models"]
 ---
 
-[Cline](https://cline.bot) is an AI-powered coding assistant. This tutorial demonstrates how to configure Cline to use models provided by Serverless Inference, so that you can use open-weight models hosted on W&B Inference for your coding tasks.
+[Cline](https://cline.bot) is an AI-powered coding assistant. This tutorial demonstrates how to configure Cline to use models provided by Serverless Inference, so that you can use open-weight models hosted by CoreWeave for your coding tasks.
 
 The Cline agent is available as a command line tool or as an integration with many IDEs. The following sections describe configuration with the Cline CLI and with Cline as a Visual Studio Code extension. Configuration in other IDEs is similar.
 
@@ -23,7 +23,21 @@ npm install -g cline
 
 See [Cline's installation instructions](https://docs.cline.bot/cline-cli/installation) for troubleshooting.
 
-These instructions were tested with Cline CLI version `2.5.1`. Run `cline version` to verify what you have installed.
+Run `cline version` to verify what you have installed.
+
+### Use the native CoreWeave provider
+
+This configuration was tested with Cline CLI version `3.0.61` on macOS. Set the `WANDB_API_KEY` environment variable to your W&B API key. Then run:
+
+```bash
+cline -P wandb -m zai-org/GLM-5.3-Flash "What is 2 + 2?"
+```
+
+The provider's command-line ID is `wandb`. Cline versions that use the older branding can display the provider as **Weights & Biases** or **W&B**. Cline uses that provider's configured Serverless Inference endpoint. If Cline responds with an answer, the connection is working.
+
+### Use the OpenAI-compatible provider
+
+The following instructions were tested with Cline CLI version `2.5.1`.
 
 Next, authenticate Cline against the Serverless Inference endpoint. The following command configures Cline to use the Serverless Inference OpenAI-compatible endpoint and the Kimi K2.6 model. Substitute `[YOUR-API-KEY]` with your W&B API key.
 
