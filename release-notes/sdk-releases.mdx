@@ -107,7 +107,7 @@ This page includes release notes for the W&B Python SDK (`wandb` package) used w
     - Media panels no longer paint black bars around images in the ANSI view or flash black when you switch to the full-resolution view. The area around the image now shows the terminal background, and switching modes no longer flashes or moves the image.
 
 ## Security
-- Downloading artifacts with `artifact.files()` or `artifact.checkout()` now rejects file and artifact names that contain relative paths.
+- Downloading artifacts with `artifact.files()` or `artifact.checkout()` now rejects file and artifact names that contain relative paths. This fixes a path traversal vulnerability described in [CVE-2026-91771](https://www.tenable.com/cve/CVE-2026-91771).
 </Update>
 
 <Update label="0.28.2" description="August 12, 2026">
