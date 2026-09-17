@@ -27,7 +27,25 @@ npm install -g cline
 
 トラブルシューティングについては、[Cline のインストール手順](https://docs.cline.bot/cline-cli/installation)を参照してください。
 
-これらの手順は、Cline CLI バージョン `2.5.1` で検証されています。インストールされているバージョンを確認するには、`cline version` を実行してください。
+インストールされているバージョンを確認するには、`cline version` を実行してください。
+
+<div id="use-the-native-wb-provider">
+  ### ネイティブの W&amp;B プロバイダー を使用する
+</div>
+
+この設定は、macOS 上の Cline CLI バージョン `3.0.61` で検証済みです。`WANDB_API_KEY` 環境変数に W&amp;B APIキーを設定し、次のコマンドを実行します。
+
+```bash
+cline -P wandb -m zai-org/GLM-5.3-Flash "What is 2 + 2?"
+```
+
+このプロバイダーのコマンドライン ID は `wandb` です。Cline のバージョンによって、プロバイダーは **Weights &amp; Biases** または **W&amp;B** と表示されます。Cline は、そのプロバイダーに設定された Serverless Inference エンドポイントを使用します。Cline から回答が返ってくれば、接続は正常に機能しています。
+
+<div id="use-the-openai-compatible-provider">
+  ### OpenAI 互換のプロバイダーを使用する
+</div>
+
+以下の手順は、Cline CLI バージョン `2.5.1` で検証されています。
 
 次に、Serverless Inference エンドポイントに対して Cline を認証します。次のコマンドは、Cline が Serverless Inference の OpenAI 互換エンドポイントと Kimi K2.6 モデルを使用するように設定します。`[YOUR-API-KEY]` は、お使いの W&amp;B APIキーに置き換えてください。
 

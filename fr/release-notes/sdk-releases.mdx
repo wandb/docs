@@ -84,11 +84,11 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
     ## Modifications notables
   </div>
 
-  * Sur macOS, `wandb` requiert désormais macOS 13 (Ventura) ou une version ultérieure.
+  * Sur macOS, `wandb` requiert désormais macOS 13 (Ventura) ou une version ultérieure.
   * `wandb.Image` ne normalise plus les valeurs des pixels. Assurez-vous que vos données sont déjà comprises dans la plage [0, 255].
   * `wandb.Video()` requiert désormais l’argument `format` lorsque vous l’initialisez à partir d’un tableau NumPy ou d’un objet IO.
   * La propriété `.length` des objets paginés, tels que `Api.runs()`, `Api.sweeps()` et `run.files()`, a été supprimée. Utilisez plutôt `len(...)`.
-  * Les API obsolètes suivantes ont été supprimées : le paramètre `start_method`, l’option `summary="best"` et l’argument `goal` de `run.define_metric()`, l’argument `quiet` de `run.finish()` et `wandb.finish()`, ainsi que les méthodes `run.project_name()`, `run.get_url()`, `run.get_project_url()` et `run.get_sweep_url()`.
+  * Les API obsolètes suivantes ont été supprimées : le paramètre `start_method`, l’option `summary="best"` et l’argument `goal` de `run.define_metric()`, l’argument `quiet` de `run.finish()` et `wandb.finish()`, ainsi que les méthodes `run.project_name()`, `run.get_url()`, `run.get_project_url()` et `run.get_sweep_url()`.
 
   <div id="added-2">
     ## Ajouts
@@ -100,7 +100,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * `wandb.Artifact` accepte un nouvel argument `digest_algorithm`, soit `"MD5"` (par défaut), soit `"XXH128"`. Transmettez `digest_algorithm="XXH128"` pour utiliser le hachage XXH128 pour un artifact lorsque cela est possible. Pour les artifacts créés avec `digest_algorithm="XXH128"`, `artifact.verify()` échoue avec les versions du SDK antérieures à v0.29.0.
   * La nouvelle propriété `Artifact.linked_at` renvoie la date et l’heure auxquelles une version a été liée à la collection concernée. Elle s’applique uniquement aux versions liées et renvoie `None` pour les artifacts sources.
   * Les requêtes de versions du Registry (`Api.registries().versions()`, `Api.registries().collections().versions()`, `Registry.versions()` et `Registry.collections().versions()`) acceptent une chaîne `order` facultative comme argument nommé pour les organisations disposant de la recherche avancée. Vous pouvez trier les versions selon `created_at`, `artifact_size` ou `linked_at`.
-  * Fonctionnalités de W&amp;B LEET TUI :
+  * Fonctionnalités de W&amp;B LEET TUI :
     * La nouvelle commande `wandb leet inspect [PATH]` permet de parcourir les enregistrements bruts du journal de transactions `.wandb` d’un run. Elle affiche une liste filtrable d’enregistrements et une vue texte de l’enregistrement sélectionné, et suit les runs en direct à mesure qu’ils écrivent. Appuyez sur `i` dans la vue de run unique pour inspecter le run actuel. Utilisez un pipe ou redirigez la sortie pour afficher les enregistrements, par exemple : `wandb leet inspect | less`.
     * Appuyez sur `g` pour afficher des repères derrière les graphiques linéaires : un arrière-plan en pointillés ou des lignes horizontales alignées sur les graduations de l’axe. Votre choix est enregistré ; vous pouvez également le définir avec `chart_guides` dans `wandb leet config`.
     * Faites glisser les lignes de séparation entre les sections de l’aperçu du run pour les redimensionner à l’aide de la souris. Les proportions sont enregistrées pour chaque vue. Appuyez sur `0` pour les réinitialiser, ainsi que les tailles des autres volets.
@@ -113,7 +113,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * `wandb.sandbox` autorise désormais les demandes de ressources GPU pour les sandboxes au lieu de rejeter `resources.gpu` côté client.
   * Les méthodes de recherche du Registry `Api.registries()`, `.collections()` et `.versions()` valident désormais les noms de champs de filtre et rejettent les noms non pris en charge.
   * `Api.create_automation()` et `Api.update_automation()` lèvent désormais une `UnsupportedError` au lieu d’une `CommError` lorsque le serveur ne prend pas en charge l’automatisation indiquée.
-  * Les wheels macOS nécessitent désormais macOS 13 (Ventura) ou une version ultérieure. macOS 12 a atteint sa fin de vie en 2024.
+  * Les wheels macOS nécessitent désormais macOS 13 (Ventura) ou une version ultérieure. macOS 12 a atteint sa fin de vie en 2024.
   * Dans le TUI W&amp;B LEET, les sections d’aperçu du run (**Environnement**, **Configuration** et **Synthèse**) se partagent désormais proportionnellement la hauteur de la barre latérale et utilisent tout l’espace disponible. Auparavant, leur taille était limitée, ce qui laissait vide le bas des terminaux de grande taille.
 
   <div id="removed-2">
@@ -135,7 +135,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * `Artifact.new_file()` fonctionne désormais pour les artefacts téléversés avec `wandb sync`.
   * `Run.scan_history(keys=...)` n’échoue plus pour les runs contenant des valeurs imbriquées.
   * Pour certaines largeurs de volet, par exemple lors du redimensionnement d’une barre latérale, le TUI W&amp;B LEET affichait des graphiques de métriques plus larges que l’espace disponible, ce qui repoussait la barre latérale droite hors de l’écran.
-  * W&amp;B LEET TUI :
+  * W&amp;B LEET TUI :
     * `wandb leet config` fonctionne désormais dans les fenêtres de terminal peu hautes. La liste des champs défile avec la sélection, et la touche **Espace** bascule les paramètres booléens.
     * Les volets multimédias n&#39;affichent plus de bandes noires autour des images dans la vue ANSI et ne clignotent plus en noir lorsque vous passez à la vue en résolution complète. La zone autour de l&#39;image affiche désormais l&#39;arrière-plan du terminal, et le changement de mode ne fait plus clignoter ni déplacer l&#39;image.
 
@@ -143,7 +143,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
     ## Sécurité
   </div>
 
-  * Le téléchargement d’artefacts avec `artifact.files()` ou `artifact.checkout()` rejette désormais les noms de fichiers et d’artefacts contenant des chemins relatifs.
+  * Le téléchargement d’artefacts avec `artifact.files()` ou `artifact.checkout()` rejette désormais les noms de fichiers et d’artefacts contenant des chemins relatifs. Cela corrige une vulnérabilité de traversée de chemin décrite dans [CVE-2026-91771](https://www.tenable.com/cve/CVE-2026-91771).
 </Update>
 
 <Update label="0.28.2" description="12 août 2026">

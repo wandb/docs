@@ -72,7 +72,7 @@ print(output)
   ## 高度な例: Weave 評価とリーダーボードを使用する
 </div>
 
-モデルのcallのトレースに加えて、パフォーマンスを評価し、リーダーボードを公開できます。この例では、質問応答データセット上で2つのモデルを比較し、同じプロンプトに対して Llama 3.1 8B と DeepSeek-V3 がどのようなパフォーマンスを示すかを確認します。
+モデルのcallのトレースに加えて、パフォーマンスを評価し、リーダーボードを公開できます。この例では、質問応答データセット上で2つのモデルを比較し、同じプロンプトに対して Llama 3.1 8B と DeepSeek V3.1 がどのようなパフォーマンスを示すかを確認します。
 
 ```python
 import os
@@ -113,7 +113,7 @@ class WBInferenceModel(weave.Model):
         return resp.choices[0].message.content
 
 llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
-deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3.1")
 
 def preprocess_model_input(example):
     return {"prompt": example["input"]}
