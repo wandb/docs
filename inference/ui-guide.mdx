@@ -1,92 +1,62 @@
 ---
 title: "UI guide"
 description: >
-  Access Serverless Inference models through the web interface
-keywords: ["Playground", "compare models", "interactive testing", "wandb.ai/inference"]
+  Browse and compare model information, and test Serverless Inference models in CoreWeave Forge
+keywords: ["Playground", "compare models", "interactive testing", "CoreWeave Forge"]
 ---
 
-Learn how to use the Serverless Inference service through the web UI. This guide shows you how to access the service, try models in the Playground, compare models side by side, and monitor billing and usage. Use the UI when you want to experiment with models interactively without writing code.
+Use CoreWeave Forge to browse Serverless Inference models, compare their capabilities and prices, and test responses in the Playground. This guide covers the Inference catalog and Playground in Forge.
 
 Before you use the UI, complete the [prerequisites](/inference/prerequisites).
 
 ## Access the Inference service
 
-The following sections describe three ways to access the Inference service. Choose whichever entry point best matches your current workflow.
+Open [Inference in Forge](https://forge.coreweave.com/inference/) and sign in to your account. The Inference sidebar provides these pages:
 
-### Direct link
+- **Getting started** introduces the available services and links to the Playground, code quickstart, and model catalog.
+- **Models** lists available models, prices, context windows, and model actions.
+- **Playground** lets you send prompts to a selected model.
 
-Navigate to [https://wandb.ai/inference](https://wandb.ai/inference).
+### Browse models
 
-### From the Inference tab
+To find a model, open **Models** in the Inference sidebar:
 
-1. Navigate to your W&B account at [https://wandb.ai/](https://wandb.ai/).
-2. Select **Inference** from the project sidebar. A page appears with available models and model information.
+1. Use **Search models**, **Filters**, or the sort menu to narrow the catalog.
+2. Select a project with the project selector. The selected project affects which models are available.
+3. Select a model name to open its details, including its capabilities, prices, and context window.
 
-<Frame>
-    <img src="/images/inference/inference-playground-single.png" alt="Using an Inference model in the Playground"  />
-</Frame>
-
-### From the Playground tab
-
-1. Select **Playground** from the project sidebar. The Playground chat UI appears.
-2. Hover over **Serverless Inference** in the LLM dropdown list. A dropdown with available models appears on the right.
-3. From the models dropdown, you can:
-   - Click any model name to [try it in the Playground](#try-a-model-in-the-playground).
-   - [Compare multiple models](#compare-multiple-models)
-
-<Frame>
-    <img src="/images/inference/inference-playground.png" alt="The Inference models dropdown in Playground"  />
-</Frame>
+Use **Connection settings > Manage connections** to inspect the serving connections available to your account.
 
 ## Try a model in the Playground
 
-After you [select a model](#access-the-inference-service), you can test it in the Playground to evaluate its responses and tune its behavior before you integrate it elsewhere. Available actions include:
+To test a model's response, open it from the catalog:
 
-- [Customize model settings and parameters](/weave/guides/tools/playground#customize-playground-settings).
-- [Add, retry, edit, and delete messages](/weave/guides/tools/playground#message-controls).
-- [Save and reuse a model with custom settings](/weave/guides/tools/playground#saved-models).
-- [Compare multiple models](#compare-multiple-models).
+1. In **Models**, select the model name to open its details.
+2. Select **Try in playground**. The Playground opens with that model selected.
+3. Confirm the selected model and project. The project controls the available models and where W&B Weave traces are logged.
+4. Enter a prompt and send the request. The response appears in the conversation.
+
+You can also open **Playground** from the Inference sidebar and use the model selector. Open **Settings** to adjust the model's generation parameters. Use **Trace calls with Weave** to control tracing, and **View call** on a traced response to inspect its saved request.
 
 ## Compare multiple models
 
-You can compare Inference models side by side in the Playground to evaluate quality, latency, and output style for the same prompt. You can access the Compare view from two places, described in the following sections.
+The **Compare models** page displays model information side by side, including capabilities, prices, and context windows. To compare model responses, test each model with your prompt in the [Playground](#try-a-model-in-the-playground).
 
-### From the Inference tab
+To open the comparison page, select models from the catalog:
 
-1. Select **Inference** from the project sidebar. The available models page appears.
-2. Click anywhere on a model card (except the model name) to select it. The card is highlighted to show it's selected.
-3. Repeat for each model you want to compare.
-4. Click **Compare [N] models in the Playground** on any selected card, where `[N]` is the number of models you selected. The comparison view opens.
+1. Open **Models** in the Inference sidebar.
+2. In a model's **Actions** column, open **Model actions** and select **Select for Comparison**. Selection checkboxes appear in the catalog.
+3. Select another model using its checkbox or **Model actions > Select for Comparison**.
+4. Select **Compare 2 selected**, or the corresponding button for your selected model count. The **Compare models** page opens.
 
-Now you can compare models and use all features from [Try a model in the Playground](#try-a-model-in-the-playground).
-
-<Frame>
-    <img src="/images/inference/inference-playground-compare.png" alt="Select multiple models to compare in Playground"  />
-</Frame>
-
-### From the Playground tab
-
-1. Select **Playground** from the project sidebar. The Playground chat UI appears.
-2. Hover over **Serverless Inference** in the LLM dropdown list. The models dropdown appears on the right.
-3. Select **Compare** from the dropdown. The **Inference** tab appears.
-4. Click anywhere on a model card (except the model name) to select it. The card is highlighted to show it's selected.
-5. Repeat for each model you want to compare.
-6. Click **Compare [N] models in the Playground** on any selected card. The comparison view opens.
-
-Now you can compare models and use all features from [Try a model in the Playground](#try-a-model-in-the-playground).
+On the comparison page, use **Add model** to add another model or the removal control in a model's column to remove it. If you remove every model, use **Add model** to start a new comparison.
 
 ## View billing and usage information
 
-Organization admins can track credit balance, usage history, and upcoming bills from the W&B UI. Use this view to monitor spend and forecast upcoming charges.
-
-1. Navigate to the W&B **Billing** page in the UI.
-2. Find the **Inference** billing information card.
-3. From here you can:
-   - Click **View usage** to see your usage over time.
-   - View upcoming inference charges (for paid plans).
+Organization and billing administrators can review their organization's usage and charges in the W&B **Billing** settings. See [Manage billing settings](/platform/app/settings-page/billing-settings) for the available views and access requirements. If **Billing** is unavailable, ask your organization's billing administrator for access or usage information.
 
 <Tip>
-Visit the [Inference pricing page](https://wandb.ai/site/pricing/inference) for per-model pricing details.
+Visit the [token pricing page](https://wandb.ai/site/pricing/tokens/) for per-model pricing details.
 </Tip>
 
 ## Next steps
