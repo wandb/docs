@@ -4,7 +4,7 @@ title: Understand reactive execution
 
 Notebooks run cells according to variable dependencies, not the order in which cells appear on the page. If cell B reads a variable defined in cell A, cell B depends on cell A. Cell A is upstream of cell B, and cell B is downstream of cell A.
 
-When an upstream cell runs, the notebook can rerun downstream cells so that their outputs reflect the latest values. Whether the cells run automatically depends on the notebook's [runtime settings](/models/notebooks/configure-notebook#configure-startup-behavior).
+When an upstream cell runs, the notebook can run downstream cells again so that their outputs reflect the latest values. Whether the cells run automatically depends on the notebook's [runtime settings](/models/notebooks/configure-notebook#configure-startup-behavior).
 
 Notebooks determine dependencies by tracking definitions and references:
 
@@ -19,7 +19,7 @@ Notebooks track the state of each cell to determine whether it needs to run. The
 
 ### Stale cells
 
-A cell is *stale* if it hasn't run with its latest code or inputs. A cell that has never run is also stale. After the cell runs with its current code and inputs, it is no longer stale.
+A cell is *stale* if it has never run or if it hasn't run with its latest code or inputs. After the cell runs with its current code and inputs, it is no longer stale.
 
 A cell becomes stale in any of the following situations:
 
@@ -33,11 +33,11 @@ Run a stale cell to update its output. If any upstream cells are stale, the note
 
 A cell is *blocked* if the cell or one of its upstream cells is disabled. Blocked cells don't run automatically, even when their inputs change.
 
-To unblock a cell, re-enable the disabled cell that it depends on. The notebook can then run any downstream cells that need updated outputs. For instructions, see [Disable or enable a cell](/models/notebooks/run-notebook-cells#disable-or-enable-a-cell).
+To unblock a cell, re-enable the disabled cell that it depends on. The notebook can then run any downstream cells that are stale and need updated outputs. For instructions, see [Disable or enable a cell](/models/notebooks/run-notebook-cells#disable-or-enable-a-cell).
 
 ## Delete cells
 
-When you delete a cell, the notebook also deletes the global variables that the cell defined. Depending on the [runtime settings](/models/notebooks/configure-notebook#configure-startup-behavior), the notebook reruns, invalidates, or marks as stale any cells that reference the deleted variables.
+When you delete a cell, the notebook also deletes the global variables that the cell defined. Depending on the [runtime settings](/models/notebooks/configure-notebook#configure-startup-behavior), the notebook re-runs, invalidates, or marks as stale any cells that reference the deleted variables.
 
 ## Define each global name once
 
@@ -49,7 +49,7 @@ For temporary variables, [prefix the variable name with a single underscore](htt
 
 Avoid mutating objects that multiple cells use. Notebooks don't track object mutations, so mutating an object doesn't mark dependent cells as stale.
 
-For example, suppose one cell adds a column to a DataFrame defined in another cell. Cells that reference the DataFrame don't automatically rerun. To keep the notebook state consistent, create a new object and assign it to a new variable. If you must mutate an object, mutate it in the cell that defines it.
+For example, suppose one cell adds a column to a DataFrame defined in another cell. Cells that reference the DataFrame don't automatically re-run. To keep the notebook state consistent, create a new object and assign it to a new variable. If you must mutate an object, mutate it in the cell that defines it.
 
 To learn more, see [Variable mutations are not tracked](https://docs.marimo.io/guides/reactivity/#variable-mutations-are-not-tracked).
 

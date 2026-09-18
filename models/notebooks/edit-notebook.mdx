@@ -9,10 +9,9 @@ This page describes common notebook actions, including adding, editing, reorderi
 
 There are two edit modes:
 
-- **Command mode**: Perform actions on cells, such as adding, deleting, and moving them.
-- **Edit mode**: Modify the contents of a cell.
+- **Command mode**: Perform actions on cells, such as adding, deleting, and moving them. Press **Escape** (`Esc`) to enter command mode. 
+- **Edit mode**: Modify the contents of a cell. Press **Enter** (`Enter`) to enter edit mode.
 
-Press **Escape** (`Esc`) to enter command mode. Press **Enter** (`Enter`) to enter edit mode.
 
 ## Add a cell
 
@@ -31,10 +30,12 @@ Within a notebook, select the `PYTHON`, `MARKDOWN`, or `SQL` button to create a 
 - Press **Command + Shift + O** to create a new cell above the current cell.
 - Press **Command + Shift + P** to create a new cell below the current cell. */}
 
-Press **Escape** (`Esc`) to enter command mode, then:
+Press **Escape** (`Esc`) to enter command mode then use one of the following shortcuts:
 
-- Press **A** to create a new cell above the current cell.
-- Press **B** to create a new cell below the current cell.
+| Action | Shortcut |
+|--------|----------|
+| Create a new cell above the current cell | **Command + Shift + O** |
+| Create a new cell below the current cell | **Command + Shift + P** |
 
 See [Keyboard Shortcuts](https://docs.marimo.io/guides/editor_features/overview/?h=keyboar#keyboard-shortcuts) for a full list of available shortcuts.
 
@@ -60,9 +61,9 @@ https://docs.marimo.io/guides/working_with_data/sql/?h=sq
 
 ## Generate or edit a cell with AI */}
 
-## Reorder cells
+## Change cell order
 
-Reorder cells using the UI or keyboard shortcuts.
+Change the order of cells within a notebook using the drag handle or keyboard shortcuts.
 
 <Tabs>
 <Tab title="UI">
@@ -72,10 +73,12 @@ Select the **drag handle** (<Icon icon="grip-dots-vertical" iconType="solid"/>) 
 </Tab>
 <Tab title="Keyboard Shortcuts">
 
-Press **Escape** (`Esc`) to enter command mode, then:
+Press **Escape** (`Esc`) to enter command mode. Then use one of the following shortcuts:
 
-- Press **Command + Shift + 0** to move the current cell down.
-- Press **Command + Shift + 9** to move the current cell up.
+| Action | Shortcut |
+|--------|----------|
+| Move cell up | **Command + Shift + 9** |
+| Move cell down | **Command + Shift + 0** |
 
 </Tab>
 </Tabs>
@@ -89,22 +92,23 @@ Delete a cell using the UI or a keyboard shortcut.
 
 Use either of the following methods:
 
-- Right-click the cell, then select **Delete** from the context menu.
-- Select the trash can icon next to the cell.
+1. Right-click the cell, then select **Delete** from the context menu.
+2. Select the trash can icon next to the cell.
 
 </Tab>
 <Tab title="Keyboard Shortcuts">
 
-Press **Escape** (`Esc`) to enter command mode, then:
+Use the following keyboard shortcut to delete a cell:
 
-- Press **Command + Shift + Backspace** to delete the current cell.
+1. Press **Escape** (`Esc`) to enter command mode.
+2. Press **Command + Shift + Backspace** to delete the current cell.
 
 </Tab>
 </Tabs>
 
 ## Add interactive controls
 
-Add interactive controls, or widgets, to notebook cells. Use widgets such as sliders, dropdowns, and buttons to update notebook content dynamically.
+Add interactive elements, such as sliders, dropdowns, and buttons, to notebook cells. When you interact with an element, the notebook updates cells that depend on its value.
 
 For example, copy the following code into a cell to create a basic interactive slider:
 

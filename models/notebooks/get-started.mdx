@@ -30,29 +30,29 @@ This mock training script logs simulated accuracy and loss metrics to W&B. Copy 
 1. Select **Python** to create a new code cell.
 2. Copy and paste the following code into the cell:
 
-```python
-import random
-import wandb
+    ```python
+    import random
+    import wandb
 
-PROJECT = "your-project-name"
+    PROJECT = "your-project-name"
 
-# Dictionary with hyperparameters
-config = {
-    'epochs' : 10,
-    'lr' : 0.01
-}
+    # Dictionary with hyperparameters
+    config = {
+        'epochs' : 10,
+        'lr' : 0.01
+    }
 
-with wandb.init(project=PROJECT, config=config) as run:
-    offset = random.random() / 5
-    print(f"lr: {config['lr']}")
-    
-    # Simulate a training run
-    for epoch in range(2, config['epochs']):
-        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
-        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
-        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
-        run.log({"accuracy": acc, "loss": loss})
-```
+    with wandb.init(project=PROJECT, config=config) as run:
+        offset = random.random() / 5
+        print(f"lr: {config['lr']}")
+        
+        # Simulate a training run
+        for epoch in range(2, config['epochs']):
+            acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+            loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+            print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+            run.log({"accuracy": acc, "loss": loss})
+    ```
 
 3. Press **Command + Enter** on macOS or **Ctrl+Enter** on Windows or Linux. Alternatively, select the play (<Icon icon="circle-play" iconType="solid" />) button next to the cell.
 
