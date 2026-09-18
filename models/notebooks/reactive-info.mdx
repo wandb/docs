@@ -1,5 +1,5 @@
 ---
-title: Understand reactive execution
+title: Reactive execution in notebooks
 ---
 
 Notebooks run cells according to variable dependencies, not the order in which cells appear on the page. If cell B reads a variable defined in cell A, cell B depends on cell A. Cell A is upstream of cell B, and cell B is downstream of cell A.
@@ -13,7 +13,7 @@ Notebooks determine dependencies by tracking definitions and references:
 
 To learn more, see marimo's [How marimo runs cells](https://docs.marimo.io/guides/reactivity/#how-marimo-runs-cells).
 
-## Understand cell states
+## Stale and blocked cells
 
 Notebooks track the state of each cell to determine whether it needs to run. The main cell states are *stale* and *blocked*.
 
