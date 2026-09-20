@@ -1,0 +1,286 @@
+---
+title: "Score agent turns with a remote scorer"
+description: "Score W&B Weave agent turns with your own HTTP endpoint and see the results as tags or ratings on the Signals tab."
+keywords: ["remote scorer", "remote scoring", "signals", "agent monitoring", "agent turns", "tags", "ratings"]
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+import RemoteScorerEnable from "/snippets/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerRequestCommon from "/snippets/_includes/weave-remote-scorer-request-common.mdx";
+import RemoteScorerResponse from "/snippets/_includes/weave-remote-scorer-response.mdx";
+import RemoteScorerAuth from "/snippets/_includes/weave-remote-scorer-auth.mdx";
+
+A remote scorer signal scores each completed agent turn with an HTTP endpoint that you host, instead of with an LLM judge. When a turn ends, the W&B Weave agent scoring worker sends the turn to your endpoint in an HTTP `POST` and records the response as feedback on the turn. The result appears as a tag or rating on the **Signals** tab of the [Agents view](/weave/guides/tracking/view-agent-signals).
+
+This page covers remote scorers for agent turns. To score calls traced with `@weave.op`, see [Score calls with remote scorers](/weave/guides/evaluation/remote-scorers). You configure remote scorers with the Python SDK or the Weave UI. The TypeScript SDK doesn't include `RemoteScorer`.
+
+## How agent turn scoring works
+
+An agent turn is scored in the following sequence:
+
+1. A turn ends. When a root span (a span with no parent) ends, Weave treats it as a completed turn and emits a `weave.genai.turn_ended` event.
+2. The agent scoring worker loads the project's active signals that target `weave.genai.turn_ended`, then applies each signal's filters and sample rate.
+3. For each `RemoteScorer` on a matching signal, the worker builds a `schema_version: 2` request from the turn's span, including its messages, resolves the scorer's credentials, checks the endpoint URL against the allowed hosts, and sends the `POST`.
+4. The worker validates the response and writes the result as feedback on the turn. Tags and ratings appear on the **Signals** tab.
+
+Weave scores only completed turns. Individual LLM and tool spans, and whole conversations, aren't remote scoring targets. A remote scorer signal is a `Monitor` whose `op_names` is `["weave.genai.turn_ended"]`, whether you create it in the UI or with the SDK.
+
+If the endpoint returns `5xx`, `408`, or `429`, or the request times out, the worker sends the request again with the same `Idempotency-Key`, up to three attempts within about 30 seconds. Any other `4xx` response isn't retried. Agent turn scoring requires the structured result format, because Weave stores the tags and ratings as typed feedback columns.
+
+## Enable remote scoring
+
+<RemoteScorerEnable />
+
+## Build the scorer endpoint
+
+Your endpoint accepts a JSON `POST` from Weave and returns a JSON score.
+
+### Request
+
+<RemoteScorerRequestCommon />
+
+For an agent turn, `schema_version` is `2` and the scored data is under `scoring_target`, a tagged union with three fields:
+
+- `type`: The kind of target. `agent_turn` for a turn, or `call` for a traced call.
+- `schema_version`: The version of the payload for that type, independent of the top-level version.
+- `payload`: The data for that type.
+
+Dispatch on the top-level `schema_version` first, then on the pair of `scoring_target.type` and `scoring_target.schema_version`. Return `4xx` for a pair your endpoint doesn't implement. The `call` payload at version `1` is the same object that a V1 request sends as `original_call`, so one endpoint can accept both by unwrapping the envelope first. Call monitors send V1.
+
+The `agent_turn` payload at version `1` has these fields:
+
+| Field | Description |
+|---|---|
+| `event_type` | `weave.genai.turn_ended`. |
+| `project_id` | The project, as `entity/project`. |
+| `trace_id`, `span_id` | Identifiers of the turn's root span. |
+| `span_name` | The span name, for example `invoke_agent sample-support-agent`. |
+| `operation_name` | The GenAI operation name, for example `invoke_agent`. `null` if the trace didn't record it. |
+| `started_at`, `ended_at` | ISO 8601 timestamps. |
+| `conversation` | `id` and `name`. Each is `null` if the trace didn't record it. |
+| `agent` | `name`, `version`, and `description`. Each is `null` if the trace didn't record it. |
+| `status` | `code`, `message`, and `error_type`. `code` is `UNSET`, `OK`, or `ERROR`. `message` and `error_type` are `null` if the trace didn't record them. |
+| `messages` | `system_instructions`, `input`, and `output`. Each is a list, `[]` when the turn has no messages of that kind. |
+
+A turn that ends without an explicit status arrives with `status.code` set to `UNSET`. Treat `UNSET` as a normal completed turn and `ERROR` as the failure signal. Each message in `input` and `output` has `role`, `content`, and `finish_reason`. `content` is plain text, or a JSON-encoded array of parts when the message carries structured content such as tool calls.
+
+```json lines
+{
+  "schema_version": 2,
+  "scoring_target": {
+    "type": "agent_turn",
+    "schema_version": 1,
+    "payload": {
+      "event_type": "weave.genai.turn_ended",
+      "project_id": "entity/project",
+      "trace_id": "0af7651916cd43dd8448eb211c80319c",
+      "span_id": "b7ad6b7169203331",
+      "span_name": "invoke_agent sample-support-agent",
+      "operation_name": "invoke_agent",
+      "started_at": "2026-06-08T12:00:00+00:00",
+      "ended_at": "2026-06-08T12:00:01+00:00",
+      "conversation": {
+        "id": "conversation-0001",
+        "name": "Support session"
+      },
+      "agent": {
+        "name": "sample-support-agent",
+        "version": "2026-06-08",
+        "description": "Answers support questions"
+      },
+      "status": {
+        "code": "UNSET",
+        "message": null,
+        "error_type": null
+      },
+      "messages": {
+        "system_instructions": [
+          "Answer the user accurately and concisely."
+        ],
+        "input": [
+          {
+            "role": "user",
+            "content": "What are your support hours?",
+            "finish_reason": ""
+          }
+        ],
+        "output": [
+          {
+            "role": "assistant",
+            "content": "Our support team is available Monday through Friday, 9am to 5pm Eastern.",
+            "finish_reason": "stop"
+          }
+        ]
+      }
+    }
+  },
+  "scoring_call_id": "018f8d6c-8d5f-7000-8000-000000000005",
+  "scoring_trace_id": "018f8d6c-8d5f-7000-8000-000000000006",
+  "monitor": {
+    "name": "example_remote_scorer_agent_monitor",
+    "version_digest": "monitor-version-digest"
+  },
+  "scorer": {
+    "name": "example_remote_scorer",
+    "ref": "weave:///entity/project/object/example_remote_scorer:scorer-version-digest",
+    "config": {
+      "example_threshold": 0.8
+    }
+  },
+  "triggered_at": "2026-06-08T12:00:02+00:00"
+}
+```
+
+Weave adds optional fields to a payload without changing its version. Weave removes, renames, or changes the meaning of a field only with a new `scoring_target.schema_version` for that type, or a new top-level `schema_version` for changes to the envelope. A new target type joins the V2 union at inner version `1`.
+
+### Response
+
+<RemoteScorerResponse />
+
+For an agent turn request, the response's `schema_version` is `2`, and `result` must use one of the three structured shapes:
+
+```json lines
+{
+  "schema_version": 2,
+  "result": {
+    "value": "concise",
+    "reason": "72 characters.",
+    "confidence": 0.9
+  }
+}
+```
+
+## Authenticate requests from Weave
+
+<RemoteScorerAuth />
+
+## Create a remote scorer signal
+
+Create the signal in the Weave UI or with the Python SDK. Both create a `RemoteScorer` attached to a monitor that targets `weave.genai.turn_ended`.
+
+### Weave UI
+
+Create the signal from the Agents view:
+
+1. In the Weave project sidebar, click **Agents**.
+2. In the tab bar, click **Signals**.
+3. Click **New signal**, then click **Remote scorer**. If the project has no inference provider and no signals yet, click **Use a remote scorer** instead.
+4. In the **Remote scorer** drawer, **Scored by** is set to **Remote scorer**. Configure the following fields:
+    - **Scorer name**: The name shown in the **Scorer** column of the Signals table. Up to 128 characters.
+    - **Scoring endpoint URL**: The URL Weave sends the `POST` to.
+    - **Authentication**: **Static bearer** or **OAuth client credentials**. For static bearer, select or enter the **Bearer token secret name**. For OAuth, enter the **Token endpoint URL**, **Client ID**, **Client secret name**, and optional **Scope**. Secret fields take team secret names, not values.
+    - **Config (JSON, optional)**: A JSON object passed to your endpoint as `scorer.config`.
+    - **Only score turns matching** (Optional): Expand **Advanced**, then add filters to restrict which turns the signal scores, for example by agent name, agent version, operation name, tool name, or status code. To score every turn, leave it empty. Weave combines multiple filters with `AND` logic.
+    - **Sample rate** (Optional): Expand **Advanced**, then set the fraction of matching turns the signal scores.
+5. Click **Create signal**.
+
+The remote scorer form has no tag or rating fields. Your endpoint determines what it returns, and the Signals table shows the tags and ratings it receives. In the **Scorer** column, a remote scorer signal shows a webhook icon.
+
+### Python SDK
+
+Publish a `RemoteScorer`, then activate a `Monitor` that lists it in `scorers` and targets `weave.genai.turn_ended` in `op_names`.
+
+```python lines
+import weave
+from weave.flow.monitor import Monitor
+from weave.scorers.remote_scorer import RemoteScorer, StaticBearerAuthConfig
+
+weave.init("my-team/my-weave-project")
+
+scorer = RemoteScorer(
+    name="policy_remote_scorer",
+    endpoint_url="https://scoring.example.com/weave/score",
+    config={"threshold": 0.9},  # Sent to your endpoint as scorer.config
+    auth_config=StaticBearerAuthConfig(
+        mode="static_bearer",
+        bearer_secret_name="WEAVE_REMOTE_SCORER_BEARER_TOKEN",
+    ),
+)
+weave.publish(scorer, name="policy_remote_scorer")
+
+monitor = Monitor(
+    name="policy_remote_signal",
+    scorers=[scorer],
+    op_names=["weave.genai.turn_ended"],  # Score completed agent turns
+    sampling_rate=1.0,
+)
+monitor.activate()
+```
+
+For OAuth client credentials, pass an `OAuthClientCredentialsConfig` as `auth_config` instead. For both authentication classes, see [Register a remote scorer](/weave/guides/evaluation/remote-scorers#python-sdk).
+
+## Test the signal
+
+Log one completed turn, then check the **Signals** tab. Scoring is asynchronous, so the result appears after a delay.
+
+```python lines
+import uuid
+
+from opentelemetry import trace
+
+import weave
+from weave.conversation import Message, log_turn
+
+weave.init("my-team/my-weave-project")
+
+result = log_turn(
+    conversation_id=f"sample-{uuid.uuid4().hex}",
+    agent_name="sample-support-agent",
+    system_instructions=["Answer the user accurately and concisely."],
+    messages=[Message.user("What are your support hours?")],
+    output_messages=[
+        Message.assistant(
+            "Our support team is available Monday through Friday, 9am to 5pm Eastern."
+        )
+    ],
+)
+
+# weave.init exports spans from a background thread. Flush before a short script exits.
+trace.get_tracer_provider().force_flush(30_000)
+print(result.conversation_id, result.trace_ids)
+```
+
+Your endpoint receives a V2 request with `scoring_target.type` set to `agent_turn`, and Weave records the result as feedback on that turn.
+
+## Troubleshooting
+
+| Symptom | What to check |
+|---|---|
+| **Remote scorer** doesn't appear in the **New signal** drawer | Remote scoring is enabled in the owning organization's **Remote scoring** settings, or by your deployment administrator. |
+| The endpoint URL is rejected | The scorer host, and the token endpoint host for OAuth, are in the allowed hosts. Check for a port mismatch, a non-HTTPS URL, or a private or internal address. |
+| The endpoint returns `401` or `403` | The secret name, the OAuth client credentials, audience, and scope, and your endpoint's token validation. |
+| The endpoint returns `400` for agent turns | The endpoint dispatches on the top-level `schema_version` and accepts `scoring_target.type` `agent_turn` with inner `schema_version` `1`. |
+| No result appears on the **Signals** tab | Scoring is asynchronous. Confirm the turn matched the signal's filters and sample rate, and that the turn's root span ended. |
+| No result after a `200` response | The response's `schema_version` is `2`, and `result` uses one of the three structured shapes. |
+
+## Sample code
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. One endpoint in that sample accepts V1 call requests, V2 call requests, and V2 agent turn requests. For agent turns, these files apply:
+
+- `scoring_logic.py`: Unwraps either envelope with `extract_scoring_target`, then scores the turn's last output message.
+- `sample_request_v2_agent_turn.json`: A complete V2 agent turn request.
+- `register_remote_scorer.py --agent-turn`: Publishes a `RemoteScorer` and activates a monitor for completed agent turns.
+- `trigger_test_agent_turn.py`: Logs one turn with `weave.conversation.log_turn`.
+
+To run the endpoint locally and send it a V2 agent turn request without Weave, start the app, then send the sample request:
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 2" \
+  --data @sample_request_v2_agent_turn.json
+```
+
+The sample requires Weave `0.53.0` or later. A local run verifies only the contract. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as described in [Create a remote scorer signal](#create-a-remote-scorer-signal).

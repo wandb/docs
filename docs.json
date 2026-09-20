@@ -570,6 +570,7 @@
                           "weave/guides/tracking/view-agent-activity",
                           "weave/guides/tracking/view-agent-signals",
                           "weave/guides/tracking/create-custom-signal",
+                          "weave/guides/tracking/remote-scorer-signals",
                           "weave/guides/tracking/trace-agents-attributes",
                           "weave/guides/tracking/trace-agents-batch",
                           "weave/guides/tracking/trace-sub-agents",
@@ -730,6 +731,7 @@
                           "weave/guides/tracking/redact-pii",
                           "weave/guides/evaluation/monitors",
                           "weave/guides/evaluation/custom-monitors",
+                          "weave/guides/evaluation/remote-scorers",
                           "weave/guides/evaluation/automations",
                           "weave/guides/evaluation/guardrails"
                         ]

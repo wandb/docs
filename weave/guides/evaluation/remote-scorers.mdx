@@ -1,0 +1,234 @@
+---
+title: "Score calls with remote scorers"
+description: "Score W&B Weave calls with a scorer that runs on your own infrastructure and records the result as call feedback."
+keywords: ["remote scorer", "remote scoring", "monitors", "scorers", "feedback", "calls"]
+---
+
+import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
+import RemoteScorerEnable from "/snippets/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerRequestCommon from "/snippets/_includes/weave-remote-scorer-request-common.mdx";
+import RemoteScorerResponse from "/snippets/_includes/weave-remote-scorer-response.mdx";
+import RemoteScorerAuth from "/snippets/_includes/weave-remote-scorer-auth.mdx";
+
+A remote scorer is a scorer that runs on your infrastructure instead of inside W&B Weave. When a monitor selects a call, the Weave scoring worker sends the call to your HTTPS endpoint in an HTTP `POST` and records the response as feedback on that call. Use a remote scorer when your scoring logic can't run in Weave, such as a policy check against internal data or a model you host yourself.
+
+This page covers remote scorers for calls traced with `@weave.op`. To score agent turns in the Agents view, see [Score agent turns with a remote scorer](/weave/guides/tracking/remote-scorer-signals). You configure remote scorers with the Python SDK or the Weave UI. The TypeScript SDK doesn't include `RemoteScorer`.
+
+## How remote scoring works
+
+A call is scored in the following sequence:
+
+1. A call to a monitored op ends.
+2. The scoring worker finds the active monitors whose operations include that op, then applies each monitor's filter and sampling rate.
+3. For each `RemoteScorer` on a matching monitor, the worker builds a `schema_version: 1` request that contains the call, resolves the scorer's credentials, checks the endpoint URL against the allowed hosts, and sends the `POST`.
+4. The worker validates the response and writes the result as feedback on the call. It also records the scoring attempt as a call, whether or not the attempt succeeded.
+
+A remote scorer runs only through a monitor. `weave.Evaluation` and `call.apply_scorer()` don't invoke it, and calling `RemoteScorer.score()` in your code raises `NotImplementedError`. Each selected call produces one request, sent once. If the request times out or gets no response, Weave doesn't retry it. The default timeout is 30 seconds.
+
+## Enable remote scoring
+
+<RemoteScorerEnable />
+
+## Build the scorer endpoint
+
+Your endpoint accepts a JSON `POST` from Weave and returns a JSON score.
+
+### Request
+
+<RemoteScorerRequestCommon />
+
+For a call, `schema_version` is `1` and the scored call is at the top level under `original_call`:
+
+| Field | Description |
+|---|---|
+| `project_id` | The project, as `entity/project`. |
+| `call_id`, `trace_id` | Identifiers of the scored call. |
+| `op_name` | The op ref of the scored call. |
+| `inputs` | The call's inputs. |
+| `output` | The call's output. |
+| `started_at`, `ended_at` | ISO 8601 timestamps. |
+
+```json lines
+{
+  "schema_version": 1,
+  "original_call": {
+    "project_id": "entity/project",
+    "call_id": "018f8d6c-8d5f-7000-8000-000000000001",
+    "trace_id": "018f8d6c-8d5f-7000-8000-000000000002",
+    "op_name": "weave:///entity/project/op/sample_remote_scorer_target:*",
+    "inputs": {
+      "message": "test message for scoring"
+    },
+    "started_at": "2026-06-08T12:00:00+00:00",
+    "ended_at": "2026-06-08T12:00:01+00:00",
+    "output": {
+      "reply": "received: test message for scoring",
+      "status": "ok"
+    }
+  },
+  "scoring_call_id": "018f8d6c-8d5f-7000-8000-000000000003",
+  "scoring_trace_id": "018f8d6c-8d5f-7000-8000-000000000004",
+  "monitor": {
+    "name": "example_remote_scorer_monitor",
+    "version_digest": "monitor-version-digest"
+  },
+  "scorer": {
+    "name": "example_remote_scorer",
+    "ref": "weave:///entity/project/object/example_remote_scorer:scorer-version-digest",
+    "config": {
+      "example_threshold": 0.8
+    }
+  },
+  "triggered_at": "2026-06-08T12:00:02+00:00"
+}
+```
+
+### Response
+
+<RemoteScorerResponse />
+
+For a call request, the response's `schema_version` is `1`. This response returns one rating and one tag:
+
+```json lines
+{
+  "schema_version": 1,
+  "result": [
+    {
+      "value": 1.0,
+      "reason": "Message is 32 characters; concise messages score best.",
+      "confidence": 1.0
+    },
+    {
+      "value": "concise",
+      "reason": "Message length category is concise.",
+      "confidence": 0.9
+    }
+  ]
+}
+```
+
+## Authenticate requests from Weave
+
+<RemoteScorerAuth />
+
+## Register a remote scorer
+
+A remote scorer is a `RemoteScorer` object attached to a monitor. Create it with the Python SDK or in the Weave UI.
+
+### Python SDK
+
+Publish a `RemoteScorer`, then activate a `Monitor` that lists it in `scorers` and names the ops to score in `op_names`. `endpoint_url` is required. `config` and `auth_config` are optional.
+
+```python lines
+import weave
+from weave.flow.monitor import Monitor
+from weave.scorers.remote_scorer import (
+    OAuthClientCredentialsConfig,
+    RemoteScorer,
+    StaticBearerAuthConfig,
+)
+
+weave.init("my-team/my-weave-project")
+
+# Static bearer token, read from the team secret named WEAVE_REMOTE_SCORER_BEARER_TOKEN
+auth = StaticBearerAuthConfig(
+    mode="static_bearer",
+    bearer_secret_name="WEAVE_REMOTE_SCORER_BEARER_TOKEN",
+)
+
+# OAuth client credentials instead:
+# auth = OAuthClientCredentialsConfig(
+#     mode="oauth_client_credentials",
+#     token_endpoint_url="https://idp.example.com/oauth2/token",
+#     client_id="weave-remote-scorer",
+#     client_secret_name="WEAVE_REMOTE_SCORER_CLIENT_SECRET",
+#     scope="score:remote",
+# )
+
+scorer = RemoteScorer(
+    name="policy_remote_scorer",
+    endpoint_url="https://scoring.example.com/weave/score",
+    config={"threshold": 0.9},  # Sent to your endpoint as scorer.config
+    auth_config=auth,
+)
+weave.publish(scorer, name="policy_remote_scorer")
+
+monitor = Monitor(
+    name="policy_remote_monitor",
+    scorers=[scorer],
+    op_names=["generate_response"],  # Op names in this project, or full weave:/// op refs
+    sampling_rate=1.0,
+)
+monitor.activate()
+```
+
+`monitor.activate()` publishes the monitor as active and expands bare op names into full op refs for the current project.
+
+### Weave UI
+
+Create the remote scorer as part of a new monitor:
+
+1. In the Weave project sidebar, click **Monitors**, then **+ New Monitor**.
+2. Configure the monitor's name, operations, filter, and sampling rate. For the fields, see [Set up custom monitors](/weave/guides/evaluation/custom-monitors#create-a-monitor-in-weave).
+3. Under **Scorer**, select **New remote scorer**.
+4. Under **Remote scorer configuration**, configure the following fields:
+    - **Scorer Name**: Must start with a letter or number. Can contain letters, numbers, hyphens, and underscores.
+    - **Scoring endpoint URL**: The URL Weave sends the `POST` to.
+    - **Authentication**: **Static bearer** or **OAuth client credentials**. Then enter the secret name and, for OAuth, the **Token endpoint URL**, **Client ID**, and optional **Scope**. Secret fields take team secret names, not values.
+    - **Config (JSON, optional)**: A JSON object passed to your endpoint as `scorer.config`.
+5. Click **Create monitor**.
+
+## Test the scorer
+
+Trigger a scored call and confirm the result:
+
+1. Call the monitored op at least once.
+2. Confirm that your endpoint received a request. Scoring is asynchronous, so the request arrives after the call ends.
+3. In the **Traces** tab, open the call and check its feedback.
+
+Your endpoint receives a V1 request with the call under `original_call`, and Weave records the result as feedback on that call.
+
+## Troubleshooting
+
+| Symptom | What to check |
+|---|---|
+| Remote scorer options don't appear in the UI | Remote scoring is enabled in the owning organization's **Remote scoring** settings, or by your deployment administrator. |
+| The endpoint URL is rejected | The scorer host, and the token endpoint host for OAuth, are in the allowed hosts. Check for a port mismatch, a non-HTTPS URL, or a private or internal address. |
+| The endpoint returns `401` or `403` | The secret name, the OAuth client credentials, audience, and scope, and your endpoint's token validation. |
+| The token request succeeds but scoring fails, or the reverse | Each URL separately. The token endpoint and scorer endpoint are validated independently and can use different hosts. |
+| No feedback appears | Scoring is asynchronous. Confirm the call matched the monitor's operation, filter, and sampling rate. |
+| No feedback after a `200` response | The response's `schema_version` equals the request's, and `result` uses one of the three structured shapes. |
+
+## Sample code
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. It's deployment independent: the Python service shows the contract, not a hosting recommendation. The sample includes the following files:
+
+- `remote_scorer_app.py`: A FastAPI app with `GET /health` and `POST /score` that accepts V1 and V2 requests.
+- `scoring_logic.py`: Framework-independent request parsing and scoring, written to be copied into your own service.
+- `auth.py`: A development-only bearer token check against the `REMOTE_SCORER_DEV_BEARER_TOKEN` environment variable.
+- `register_remote_scorer.py`: Publishes a `RemoteScorer` and activates a `Monitor` for an op, or for agent turns with `--agent-turn`.
+- `trigger_test_trace.py` and `trigger_test_agent_turn.py`: Create a traced call or an agent turn that a monitor can select.
+- `sample_request.json`, `sample_request_v2_call.json`, and `sample_request_v2_agent_turn.json`: Example request bodies.
+
+To run the endpoint locally and check the contract without Weave, start the app, then send it the sample request:
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 1" \
+  --data @sample_request.json
+```
+
+The sample requires Weave `0.53.0` or later. A local run verifies only the contract. The Weave scoring worker rejects loopback addresses, and hosted deployments don't permit insecure HTTP. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as described in [Register a remote scorer](#register-a-remote-scorer).

@@ -1,0 +1,25 @@
+Weave sends one HTTP `POST` per scored target to the scorer's endpoint URL, with these headers:
+
+| Header | Value |
+|---|---|
+| `Content-Type` | `application/json` |
+| `Authorization` | `Bearer [TOKEN]` |
+| `Idempotency-Key` | A key derived from the scored target, the monitor version, and the scorer version. |
+| `X-Correlation-ID` | A correlation ID for this request. |
+| `X-Weave-Schema-Version` | `1` or `2`, equal to `schema_version` in the body. |
+
+Weave might deliver the same scoring attempt more than once. If your endpoint has side effects, use `Idempotency-Key` to deduplicate. The key is stable for one request version, so a V1 and a V2 request for the same call carry different keys.
+
+Every request body has these top-level fields:
+
+| Field | Description |
+|---|---|
+| `schema_version` | Integer, `1` or `2`. |
+| `scoring_call_id`, `scoring_trace_id` | Identifiers for this scoring attempt. |
+| `monitor` | `name` and `version_digest` of the monitor that selected the target. |
+| `scorer` | `name`, `ref`, and optional `config`. `config` is the mapping set on the `RemoteScorer`, passed through unchanged. |
+| `triggered_at` | Optional ISO 8601 timestamp. |
+
+Weave omits an optional field with no value rather than sending it as `null`. Weave might add optional fields to a version without changing its number, so ignore fields you don't recognize.
+
+Request and response bodies are limited to 1 MiB each and contain JSON text only, never images, audio, or video. A target that exceeds these limits isn't sent, so it isn't scored. Each request carries one target.

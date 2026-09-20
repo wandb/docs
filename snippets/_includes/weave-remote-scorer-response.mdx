@@ -1,0 +1,14 @@
+Return HTTP `200` with a JSON object that has two fields:
+
+- `schema_version`: Integer equal to the request's `schema_version`.
+- `result`: One score object, a list of score objects, or an object of the form `{"scores": [...]}`.
+
+A score object has these fields:
+
+| Field | Required | Description |
+|---|---|---|
+| `value` | Yes | A tag, as a string of at most 36 characters, or a rating, as a number from `0.0` to `1.0`. |
+| `reason` | No | A string that explains the score. |
+| `confidence` | No | A number from `0.0` to `1.0`. |
+
+Weave treats any non-`200` response as a scorer failure and records no feedback for that attempt. Weave doesn't follow redirects, so a redirect is also a failure. Weave doesn't parse the body of an error response. Return `4xx` for requests your endpoint never accepts and `5xx` for temporary problems.
