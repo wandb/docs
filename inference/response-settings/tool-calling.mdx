@@ -80,3 +80,118 @@ The following example defines a `get_weather` function and asks the model a ques
     ```
   </Tab>
 </Tabs>
+
+## Run tool loops with agent SDKs
+
+Agent software development kits (SDKs) execute the requested functions and send their results back to the model. The following Python examples use `zai-org/GLM-5.3-Flash` with the Serverless Inference Chat Completions endpoint.
+
+Before you start, complete the [Serverless Inference prerequisites](/inference/prerequisites) and set the `WANDB_API_KEY` environment variable to your W&B API key. Use Python 3.12 in a virtual environment for these examples.
+
+### OpenHands SDK
+
+The [OpenHands SDK](https://docs.openhands.dev/sdk/getting-started) example reads, edits, and reads a temporary file again. It uses the file editor tool and checks the resulting file contents. Install the matching SDK and tools versions used in this example:
+
+```bash
+python -m pip install "openhands-sdk==1.21.0" "openhands-tools==1.21.0"
+```
+
+The `openai/` prefix in `model` selects the OpenAI-compatible provider. The request sent to Serverless Inference uses `zai-org/GLM-5.3-Flash` as the model ID.
+
+```python
+import os
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from openhands.sdk import LLM, Agent, Conversation, Tool
+from openhands.tools.file_editor import FileEditorTool
+from pydantic import SecretStr
+
+llm = LLM(
+    model="openai/zai-org/GLM-5.3-Flash",
+    base_url="https://api.inference.wandb.ai/v1",
+    api_key=SecretStr(os.environ["WANDB_API_KEY"]),
+    native_tool_calling=True,
+    max_input_tokens=1048576,
+    max_output_tokens=2048,
+    num_retries=0,
+    timeout=35,
+    reasoning_effort=None,
+    caching_prompt=False,
+)
+agent = Agent(llm=llm, tools=[Tool(name=FileEditorTool.name)])
+
+with TemporaryDirectory() as workspace:
+    target = Path(workspace) / "greeting.txt"
+    target.write_text("Hello before OpenHands.\n", encoding="utf-8")
+    conversation = Conversation(
+        agent=agent,
+        workspace=workspace,
+        persistence_dir=None,
+        max_iteration_per_run=4,
+    )
+    try:
+        conversation.send_message(
+            f"Use the file editor to view {target}, replace only the text "
+            "'Hello before OpenHands.' with 'Hello from Serverless Inference.', "
+            "then view the file again. Use a separate tool call for each operation. "
+            "Do not access other files. Then finish immediately."
+        )
+        conversation.run()
+        assert target.read_text(encoding="utf-8") == "Hello from Serverless Inference.\n"
+        print("File edit verified.")
+    finally:
+        conversation.close()
+```
+
+The script prints `File edit verified.` after the file contents pass the check. This example configures the Python SDK directly.
+
+### smolagents
+
+The [smolagents `ToolCallingAgent`](https://huggingface.co/docs/smolagents/v1.26.0/en/reference/agents#smolagents.ToolCallingAgent) calls Python functions that you register with `@tool`. This example looks up a quantity in sample inventory data and returns the answer.
+
+Install the package with its OpenAI client dependency:
+
+```bash
+python -m pip install "smolagents[openai]==1.26.0"
+```
+
+Configure [`OpenAIModel`](https://huggingface.co/docs/smolagents/v1.26.0/en/reference/models#smolagents.OpenAIModel) with the endpoint and the model ID, then pass your function to the agent:
+
+```python
+import os
+
+from smolagents import OpenAIModel, ToolCallingAgent, tool
+
+
+@tool
+def get_stock(product: str) -> int:
+    """Return the available quantity from sample inventory data.
+
+    Args:
+        product: Product name, either notebook or pen.
+    """
+    inventory = {"notebook": 12, "pen": 30}
+    return inventory[product]
+
+
+model = OpenAIModel(
+    model_id="zai-org/GLM-5.3-Flash",
+    api_base="https://api.inference.wandb.ai/v1",
+    api_key=os.environ["WANDB_API_KEY"],
+    client_kwargs={"max_retries": 0, "timeout": 35},
+    retry=False,
+    max_tokens=2048,
+)
+agent = ToolCallingAgent(
+    tools=[get_stock],
+    model=model,
+    max_steps=3,
+    verbosity_level=0,
+)
+answer = agent.run(
+    "Call get_stock with product 'notebook', then return the quantity in stock."
+)
+print(answer)
+```
+
+The answer reports that 12 notebooks are in stock. `ToolCallingAgent` executes `get_stock()` locally and sends its result to the model to produce the final answer.
