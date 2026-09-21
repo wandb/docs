@@ -6,5 +6,3 @@ Weave authenticates to your endpoint with a bearer token. The request carries no
 | `static_bearer` | Sends a fixed token to your scorer endpoint. | The name of the secret that holds the token. |
 
 Store the client secret or bearer token in the secret store of the team that owns the project before you register the scorer. The `RemoteScorer` configuration holds only the secret name. The scoring worker resolves the value at scoring time.
-
-The Weave UI also offers **Deployment default**, which stores no authentication configuration for the scorer and relies on a fallback credential set by the deployment operator. Multi-tenant Cloud sets no fallback credential. Use one of the two explicit modes.

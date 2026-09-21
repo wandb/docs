@@ -13,27 +13,3 @@ An organization admin or billing admin enables remote scoring for the organizati
 **Dedicated Cloud**
 
 Ask W&B to enable remote scoring for your deployment and configure its allowed hosts.
-
-**Self-Managed**
-
-If you run W&B Weave in a [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) deployment, set these values on the Weave trace server Helm chart under `weave_workers.remoteScoring`. The chart renders them as environment variables on each worker that can call a remote scorer: the online evaluation worker, the call scoring worker, and the agent scoring worker.
-
-| Helm value | Environment variable | Default | Effect |
-|---|---|---|---|
-| `enabled` | `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED` | `false` | Turns on outbound requests to remote scorers. When `false`, no remote scorer runs, regardless of other settings. |
-| `httpTimeoutSeconds` | `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS` | `30` | Timeout for each request to a scorer endpoint. |
-| `allowedHosts` | `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` | empty | Operator allowlist of `host` or `host:port` entries. Comma-separated in the environment variable. |
-| `validateHosts` | `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS` | `true` | Enforces the allowlist and the address checks under **Allowed host rules**. |
-| `allowInsecureHttp` | `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP` | `false` | Permits `http://` endpoint URLs. |
-| `requireStructuredResultSchema` | `WF_SCORING_WORKER_REMOTE_SCORER_REQUIRE_STRUCTURED_RESULT_SCHEMA` | `true` | Rejects responses whose `result` isn't in the structured score format. |
-
-**Allowed host rules**
-
-The scoring worker checks every scorer endpoint URL, and separately the OAuth token endpoint URL when a scorer uses OAuth, against these rules:
-
-- An entry matches an exact host, with an optional port. An entry without a port allows any port on that host.
-- An entry that starts with `*.` matches subdomains at any depth, but not the domain itself. `*.corp.example.com` matches `a.corp.example.com` and `a.b.corp.example.com`, not `corp.example.com`. The suffix after `*.` must contain at least two labels, so `*.com` is rejected. A wildcard can't be combined with an IP address.
-- When both an operator allowlist and an organization allowlist exist, the URL must satisfy both. An empty operator allowlist adds no restriction. When no allowlist exists at all, the worker rejects every host.
-- Loopback, private, internal, and cloud metadata addresses are rejected.
-- HTTPS is required unless the deployment permits insecure HTTP.
-- Redirects aren't followed.

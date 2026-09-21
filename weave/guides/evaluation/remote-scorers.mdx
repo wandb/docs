@@ -6,6 +6,7 @@ keywords: ["remote scorer", "remote scoring", "monitors", "scorers", "feedback",
 
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 import RemoteScorerEnable from "/snippets/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerAllowedHosts from "/snippets/_includes/weave-remote-scorer-allowed-hosts.mdx";
 import RemoteScorerRequestCommon from "/snippets/_includes/weave-remote-scorer-request-common.mdx";
 import RemoteScorerResponse from "/snippets/_includes/weave-remote-scorer-response.mdx";
 import RemoteScorerAuth from "/snippets/_includes/weave-remote-scorer-auth.mdx";
@@ -28,6 +29,24 @@ A remote scorer runs only through a monitor. You can't use it in `weave.Evaluati
 ## Enable remote scoring
 
 <RemoteScorerEnable />
+
+**Self-Managed**
+
+If you run W&B Weave in a [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) deployment, set these environment variables through `extraEnv` on each scoring worker: the online evaluation worker, the call scoring worker, and the agent scoring worker.
+
+| Environment variable | Default | Effect |
+|---|---|---|
+| `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED` | `false` | Turns on outbound requests to remote scorers. When `false`, no remote scorer runs, regardless of other settings. |
+| `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS` | `30` | Timeout for each request to a scorer endpoint. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` | empty | Comma-separated operator allowlist of `host` or `host:port` entries. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS` | `true` | Enforces the allowed hosts lists. Private, loopback, and cloud metadata addresses are rejected regardless of this setting. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP` | `false` | Permits `http://` endpoint URLs. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS` | empty | Comma-separated CIDR networks, such as `10.0.0.0/8`, whose private addresses remote scorers may call. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_REQUIRE_STRUCTURED_RESULT_SCHEMA` | `true` | Rejects responses whose `result` isn't in the structured score format. |
+
+To show the remote scoring settings and scorer options in the Weave UI, also set `GORILLA_GATE_WEAVE_REMOTE_SCORING=true` on the W&B server.
+
+<RemoteScorerAllowedHosts />
 
 ## Build the scorer endpoint
 

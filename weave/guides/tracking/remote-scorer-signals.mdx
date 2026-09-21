@@ -6,6 +6,7 @@ keywords: ["remote scorer", "remote scoring", "signals", "agent monitoring", "ag
 
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 import RemoteScorerEnable from "/snippets/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerAllowedHosts from "/snippets/_includes/weave-remote-scorer-allowed-hosts.mdx";
 import RemoteScorerRequestCommon from "/snippets/_includes/weave-remote-scorer-request-common.mdx";
 import RemoteScorerResponse from "/snippets/_includes/weave-remote-scorer-response.mdx";
 import RemoteScorerAuth from "/snippets/_includes/weave-remote-scorer-auth.mdx";
@@ -25,11 +26,28 @@ An agent turn is scored in the following sequence:
 
 Weave scores only completed turns. Individual LLM and tool spans, and whole conversations, aren't remote scoring targets. A remote scorer signal is a `Monitor` whose `op_names` is `["weave.genai.turn_ended"]`, whether you create it in the UI or with the SDK.
 
-If the endpoint returns `5xx`, `408`, or `429`, or the request times out, the worker sends the request again with the same `Idempotency-Key`, up to three attempts within about 30 seconds. Any other `4xx` response isn't retried. Agent turn scoring requires the structured result format, because Weave stores the tags and ratings as typed feedback columns.
+The worker retries a failed attempt with the same `Idempotency-Key`, up to three attempts within 30 seconds of the first attempt. A `5xx`, `408`, or `429` response is retried. A timeout uses the whole 30 seconds, so a timed-out request isn't retried. Any other `4xx` response isn't retried. If your endpoint can't score a turn in time, return `503` quickly rather than letting the request time out, so that Weave retries it. Agent turn scoring requires the structured result format, because Weave stores the tags and ratings as typed feedback columns.
 
 ## Enable remote scoring
 
 <RemoteScorerEnable />
+
+**Self-Managed**
+
+If you run W&B Weave in a [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) deployment, set these environment variables through `extraEnv` on each scoring worker: the online evaluation worker, the call scoring worker, and the agent scoring worker.
+
+| Environment variable | Default | Effect |
+|---|---|---|
+| `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED` | `false` | Turns on outbound requests to remote scorers. When `false`, no remote scorer runs, regardless of other settings. |
+| `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS` | `30` | Timeout for each request to a scorer endpoint. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS` | empty | Comma-separated operator allowlist of `host` or `host:port` entries. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS` | `true` | Enforces the allowed hosts lists. Private, loopback, and cloud metadata addresses are rejected regardless of this setting. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP` | `false` | Permits `http://` endpoint URLs. |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS` | empty | Comma-separated CIDR networks, such as `10.0.0.0/8`, whose private addresses remote scorers may call. |
+
+To show the remote scoring settings and scorer options in the Weave UI, also set `GORILLA_GATE_WEAVE_REMOTE_SCORING=true` on the W&B server.
+
+<RemoteScorerAllowedHosts />
 
 ## Build the scorer endpoint
 
@@ -150,6 +168,8 @@ For an agent turn request, the response's `schema_version` is `2`. The following
 }
 ```
 
+Weave normalizes the tags and reasons in the result before storing them. See [How Weave normalizes scores](/weave/guides/tracking/view-agent-signals#how-weave-normalizes-scores).
+
 ## Authenticate requests from Weave
 
 <RemoteScorerAuth />
@@ -215,6 +235,8 @@ For OAuth client credentials, pass an `OAuthClientCredentialsConfig` as `auth_co
 
 The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. One endpoint in that sample accepts V1 Call requests, V2 Call requests, and V2 agent turn requests. For agent turns, these files apply:
 
+- `remote_scorer_app.py`: A FastAPI app with `GET /health` and `POST /score`.
+- `auth.py`: A development-only bearer token check against the `REMOTE_SCORER_DEV_BEARER_TOKEN` environment variable.
 - `scoring_logic.py`: Unwraps either envelope with `extract_scoring_target`, then scores the turn's last output message.
 - `sample_request_v2_agent_turn.json`: A complete V2 agent turn request.
 - `register_remote_scorer.py --agent-turn`: Publishes a `RemoteScorer` and activates a monitor for completed agent turns.
@@ -285,4 +307,5 @@ Your endpoint receives a V2 request with `scoring_target.type` set to `agent_tur
 | The endpoint returns `401` or `403` | The secret name, the OAuth client credentials, audience, and scope, and your endpoint's token validation. |
 | The endpoint returns `400` for agent turns | The endpoint checks the envelope version and accepts `scoring_target.type` `agent_turn` at payload version `1`. |
 | No result appears on the **Signals** tab | Scoring is asynchronous. Confirm the turn matched the signal's filters and sample rate, and that the turn's root span ended. |
+| The turn matched the signal but no tag or rating appears | Weave records nothing for a failed scoring attempt. Check your endpoint's request logs for the `X-Correlation-ID` header. If the endpoint received no request, the URL failed the allowed host rules or the secret didn't resolve. If it received a request, the response failed validation. |
 | No result after a `200` response | The response's `schema_version` is `2`, and `result` uses one of the three structured shapes. |

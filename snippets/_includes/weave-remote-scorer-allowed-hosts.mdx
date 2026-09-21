@@ -1,0 +1,14 @@
+**Allowed host rules**. |
+| `allowInsecureHttp` | `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP` | `false` | Permits `http://` endpoint URLs. |
+| `requireStructuredResultSchema` | `WF_SCORING_WORKER_REMOTE_SCORER_REQUIRE_STRUCTURED_RESULT_SCHEMA` | `true` | Rejects responses whose `result` isn't in the structured score format. |
+
+**Allowed host rules**
+
+The scoring worker checks every scorer endpoint URL, and separately the OAuth token endpoint URL when a scorer uses OAuth, against these rules:
+
+- An entry matches an exact host, with an optional port. An entry without a port allows any port on that host.
+- An entry that starts with `*.` matches subdomains at any depth, but not the domain itself. `*.corp.example.com` matches `a.corp.example.com` and `a.b.corp.example.com`, not `corp.example.com`. The suffix after `*.` must contain at least two labels, so `*.com` is rejected. A wildcard can't be combined with an IP address.
+- When both an operator allowlist and an organization allowlist exist, the URL must satisfy both. An empty operator allowlist adds no restriction. When no allowlist exists at all, the worker rejects every host.
+- Loopback, private, internal, and cloud metadata addresses are rejected. On Self-Managed, private addresses in the networks listed in `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS` are allowed.
+- HTTPS is required unless the deployment permits insecure HTTP.
+- Redirects aren't followed.
