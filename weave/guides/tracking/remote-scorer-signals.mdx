@@ -12,7 +12,7 @@ import RemoteScorerAuth from "/snippets/_includes/weave-remote-scorer-auth.mdx";
 
 A remote scorer signal scores each completed agent turn with an HTTP endpoint that you host, instead of with an LLM judge. When a turn ends, the W&B Weave agent scoring worker sends the turn to your endpoint in an HTTP `POST` and records the response as feedback on the turn. The result appears as a tag or rating on the **Signals** tab of the [Agents view](/weave/guides/tracking/view-agent-signals).
 
-This page covers remote scorers for agent turns. To score calls traced with `@weave.op`, see [Score calls with remote scorers](/weave/guides/evaluation/remote-scorers). You configure remote scorers with the Python SDK or the Weave UI. The TypeScript SDK doesn't include `RemoteScorer`.
+This page covers remote scorers for agent turns. To score Calls traced with `@weave.op`, see [Score Calls with remote scorers](/weave/guides/evaluation/remote-scorers). You configure remote scorers with the Python SDK or the Weave UI. The TypeScript SDK doesn't include `RemoteScorer`.
 
 ## How agent turn scoring works
 
@@ -257,7 +257,7 @@ Your endpoint receives a V2 request with `scoring_target.type` set to `agent_tur
 
 <GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
 
-The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. One endpoint in that sample accepts V1 call requests, V2 call requests, and V2 agent turn requests. For agent turns, these files apply:
+The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. One endpoint in that sample accepts V1 Call requests, V2 Call requests, and V2 agent turn requests. For agent turns, these files apply:
 
 - `scoring_logic.py`: Unwraps either envelope with `extract_scoring_target`, then scores the turn's last output message.
 - `sample_request_v2_agent_turn.json`: A complete V2 agent turn request.
