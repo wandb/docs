@@ -6,9 +6,9 @@ description: >
 keywords: ["Weave tracing", "model evaluation", "leaderboard", "trace LLM calls"]
 ---
 
-Use Serverless Inference with W&B Weave to trace model calls, evaluate performance, and compare models. You can also connect coding agents to edit files with models hosted on Serverless Inference.
+Use Serverless Inference with W&B Weave to trace model calls, evaluate performance, and compare models. You can also connect coding agents and chat backends to models hosted on Serverless Inference.
 
-The following sections cover tracing, evaluation, and coding-agent configuration. Before running an example, complete the [prerequisites](/inference/prerequisites/).
+The following sections cover tracing, evaluation, coding agents, and chat backends. Before running an example, complete the [prerequisites](/inference/prerequisites/).
 
 ## Basic example: trace Llama 3.1 8B with Weave
 
@@ -158,7 +158,7 @@ After completing both examples, you have a set of traced model calls, a publishe
 
 ## Use coding agents
 
-You can connect coding agents to Serverless Inference through their OpenAI-compatible providers. The following configurations were tested with `zai-org/GLM-5.3-Flash`: Continue CLI `1.5.47`, Aider `0.86.2`, Zed `1.20.2`, Pi `0.86.1`, and Qwen Code `0.24.3`.
+You can connect coding agents to Serverless Inference through their OpenAI-compatible providers. The following configurations were tested with `zai-org/GLM-5.3-Flash`: Continue CLI `1.5.47`, Aider `0.86.2`, Zed `1.20.2`, Pi `0.86.1`, Qwen Code `0.24.3`, and OpenClaude `0.30.0`.
 
 Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-account-and-project) and set the `WANDB_API_KEY` environment variable to your W&B API key. Check the [model catalog](https://wandb.ai/inference) for availability and pricing. These examples cap response length for small edits. The caps aren't the model's maximum output length.
 
@@ -188,10 +188,6 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
         defaultCompletionOptions:
           contextLength: 131072
           maxTokens: 2048
-        requestOptions:
-          extraBodyProperties:
-            chat_template_kwargs:
-              enable_thinking: false
     ```
 
     Start Continue with this configuration:
@@ -216,9 +212,6 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
       edit_format: diff
       extra_params:
         max_tokens: 1024
-        extra_body:
-          thinking:
-            type: disabled
     ```
 
     Save the following as `aider-model-metadata.json` to register the catalog's token limits and input and output prices. Prices are in US dollars per token. The 1,024-token response cap in the settings file remains in effect.
@@ -388,9 +381,62 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
 
     Omit `--bare` because it skips saved settings. Set the output cap with `generationConfig.samplingParams.max_tokens`, as shown. This configuration uses a 131,072-token client context budget. Validation covered a short file-read, file-edit, and reread workflow in safe mode. For more options, see [Qwen Code model providers](https://qwenlm.github.io/qwen-code-docs/en/users/configuration/model-providers/).
   </Tab>
+  <Tab title="OpenClaude">
+    [OpenClaude](https://github.com/Gitlawb/openclaude) supports an OpenAI-compatible provider. Install Node.js 22 or later before using the tested version:
+
+    1. Install OpenClaude `0.30.0`:
+
+       ```bash
+       npm install -g @gitlawb/openclaude@0.30.0
+       ```
+
+    2. Export your W&B API key, the API endpoint, and the model ID:
+
+       ```bash
+       export OPENAI_API_KEY="$WANDB_API_KEY"
+       export OPENAI_BASE_URL="https://api.inference.wandb.ai/v1"
+       export OPENAI_MODEL="zai-org/GLM-5.3-Flash"
+       export OPENAI_API_FORMAT="chat_completions"
+       export CLAUDE_CODE_USE_OPENAI=1
+       export CLAUDE_CODE_MAX_OUTPUT_TOKENS=2048
+       export CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS='{"zai-org/GLM-5.3-Flash":1048576}'
+       export CLAUDE_CODE_OPENAI_MAX_OUTPUT_TOKENS='{"zai-org/GLM-5.3-Flash":2048}'
+       ```
+
+    3. Start OpenClaude in your project directory:
+
+       ```bash
+       openclaude --provider openai
+       ```
+
+    OpenClaude doesn't load a project's `.env` file automatically. Export the variables in the shell that starts the CLI, or pass an explicit provider environment file with `--provider-env-file`.
+
+    The provider flag, endpoint, and model variables override saved provider profiles. Clear conflicting provider variables when switching to a different provider.
+
+    The context override matches the model catalog. The 2,048-token output limit is a per-response budget for this example. Increase it for larger coding tasks. OpenClaude's cost display can use fallback prices for models outside its built-in catalog. Use your Serverless Inference usage records for billing.
+  </Tab>
 </Tabs>
 
 To verify your setup, ask the agent to read a small file, make a change, and read it again. Review the file contents and diff to confirm the requested edit. These configurations were validated on small file-edit tasks, not full-project benchmarks.
+
+## Configure Tabby chat
+
+[Tabby](https://tabby.tabbyml.com/docs/quick-start/installation/docker/) supports Serverless Inference as an OpenAI-compatible chat backend. This configuration was tested with the chat API in Tabby `0.32.0`.
+
+On an existing Tabby server, merge the following section into `~/.tabby/config.toml`, or `config.toml` in your configured `TABBY_ROOT` directory. Replace `[YOUR-API-KEY]` with your W&B API key. The `api_key` field accepts a literal value and doesn't expand shell environment variables.
+
+```toml
+[model.chat.http]
+kind = "openai/chat"
+model_name = "zai-org/GLM-5.3-Flash"
+supported_models = ["zai-org/GLM-5.3-Flash"]
+api_endpoint = "https://api.inference.wandb.ai/v1"
+api_key = "[YOUR-API-KEY]"
+```
+
+Keep your existing completion and embedding model configuration. Tabby `0.32.0` initializes an embedding backend at startup, even when you only use chat. This chat configuration doesn't provide code completion or embeddings.
+
+Remove any `--chat-model` argument from your server startup command because it overrides the chat configuration. Restart the server to load your changes. Omit `/chat/completions` from `api_endpoint` because Tabby appends it. Validation covered authentication and streamed chat responses through the server API. Editor interfaces, retrieval, and file edits weren't tested. For backend options, see [Tabby's OpenAI HTTP model documentation](https://tabby.tabbyml.com/docs/references/models-http-api/openai/).
 
 ## Next steps
 
