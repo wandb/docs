@@ -45,7 +45,7 @@ An agent turn request carries two version numbers. The top-level `schema_version
 - `schema_version`: The payload version for that type. It counts independently of the envelope version. The `agent_turn` payload is at payload version `1`.
 - `payload`: The data for that type.
 
-Dispatch on the envelope version first, then on the pair of `scoring_target.type` and `scoring_target.schema_version`. Return `4xx` for a pair your endpoint doesn't implement, such as `call` if you score only agent turns.
+Check the envelope version first, then check `scoring_target.type` together with `scoring_target.schema_version` to choose how to score the payload. Return `4xx` for a combination your endpoint doesn't handle, such as `call` if you score only agent turns.
 
 The `agent_turn` payload at payload version `1` has these fields:
 
@@ -249,7 +249,7 @@ Your endpoint receives a V2 request with `scoring_target.type` set to `agent_tur
 | **Remote scorer** doesn't appear in the **New signal** drawer | Remote scoring is enabled in the owning organization's **Remote scoring** settings, or by your deployment administrator. |
 | The endpoint URL is rejected | The scorer host, and the token endpoint host for OAuth, are in the allowed hosts. Check for a port mismatch, a non-HTTPS URL, or a private or internal address. |
 | The endpoint returns `401` or `403` | The secret name, the OAuth client credentials, audience, and scope, and your endpoint's token validation. |
-| The endpoint returns `400` for agent turns | The endpoint dispatches on the top-level `schema_version` and accepts `scoring_target.type` `agent_turn` at payload version `1`. |
+| The endpoint returns `400` for agent turns | The endpoint checks the envelope version and accepts `scoring_target.type` `agent_turn` at payload version `1`. |
 | No result appears on the **Signals** tab | Scoring is asynchronous. Confirm the turn matched the signal's filters and sample rate, and that the turn's root span ended. |
 | No result after a `200` response | The response's `schema_version` is `2`, and `result` uses one of the three structured shapes. |
 
