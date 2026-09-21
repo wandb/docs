@@ -6,9 +6,9 @@ description: >
 keywords: ["Weave tracing", "model evaluation", "leaderboard", "trace LLM calls"]
 ---
 
-These examples show how to use Serverless Inference with Weave for tracing, evaluation, and comparison. Work through them to learn how to instrument model calls so you can observe their behavior, measure performance against a dataset, and compare models side by side.
+Use Serverless Inference with W&B Weave to trace model calls, evaluate performance, and compare models. You can also connect coding agents to edit files with models hosted on Serverless Inference.
 
-The following sections walk through a basic tracing example and a more advanced evaluation workflow. Before running either example, complete the [prerequisites](/inference/prerequisites/).
+The following sections cover tracing, evaluation, and coding-agent configuration. Before running an example, complete the [prerequisites](/inference/prerequisites/).
 
 ## Basic example: trace Llama 3.1 8B with Weave
 
@@ -155,6 +155,175 @@ After running this code, navigate to your W&B account at [https://wandb.ai/](htt
 </Frame>
 
 After completing both examples, you have a set of traced model calls, a published evaluation, and a leaderboard comparing models on your dataset.
+
+## Use coding agents
+
+You can connect coding agents to Serverless Inference through their OpenAI-compatible providers. The following configurations were tested with `zai-org/GLM-5.3-Flash`: Continue CLI `1.5.47`, Aider `0.86.2`, Zed `1.20.2`, and Pi `0.86.1`.
+
+Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-account-and-project) and set the `WANDB_API_KEY` environment variable to your W&B API key. Check the [model catalog](https://wandb.ai/inference) for availability and pricing. These examples cap response length for small edits. The caps aren't the model's maximum output length.
+
+<Tabs>
+  <Tab title="Continue CLI">
+    With Node.js 20 or later installed, install the tested [Continue CLI](https://docs.continue.dev/cli/quickstart) version:
+
+    ```bash
+    npm install -g @continuedev/cli@1.5.47
+    ```
+
+    Save the following configuration as `coreweave.yaml`. Continue resolves the secret from the `WANDB_API_KEY` environment variable. `useResponsesApi: false` selects Chat Completions, and `tool_use` enables agent tools.
+
+    ```yaml
+    name: Serverless Inference
+    version: 1.0.0
+    schema: v1
+    models:
+      - name: GLM 5.3 Flash
+        provider: openai
+        model: zai-org/GLM-5.3-Flash
+        apiBase: https://api.inference.wandb.ai/v1
+        apiKey: ${{ secrets.WANDB_API_KEY }}
+        roles: [chat, edit]
+        capabilities: [tool_use]
+        useResponsesApi: false
+        defaultCompletionOptions:
+          contextLength: 131072
+          maxTokens: 2048
+        requestOptions:
+          extraBodyProperties:
+            chat_template_kwargs:
+              enable_thinking: false
+    ```
+
+    Start Continue with this configuration:
+
+    ```bash
+    cn --config ./coreweave.yaml
+    ```
+
+    This configuration was validated with the CLI's file-read and file-edit tools. Editor extensions, autocomplete, and embeddings require separate configuration. For more options, see [Continue configuration](https://docs.continue.dev/cli/configuration).
+  </Tab>
+  <Tab title="Aider">
+    Install the tested [Aider](https://aider.chat/docs/install.html) version in a Python 3.12 virtual environment:
+
+    ```bash
+    python -m pip install aider-chat==0.86.2
+    ```
+
+    Save the following configuration as `aider-model-settings.yml`. The `openai/` prefix selects Aider's OpenAI-compatible adapter. `diff` selects its SEARCH/REPLACE edit format.
+
+    ```yaml
+    - name: openai/zai-org/GLM-5.3-Flash
+      edit_format: diff
+      extra_params:
+        max_tokens: 1024
+        extra_body:
+          thinking:
+            type: disabled
+    ```
+
+    Replace `[FILE-PATH]` with the file you want to edit, then start Aider:
+
+    ```bash
+    OPENAI_API_BASE=https://api.inference.wandb.ai/v1 \
+    OPENAI_API_KEY="$WANDB_API_KEY" \
+      aider --model openai/zai-org/GLM-5.3-Flash \
+      --edit-format diff \
+      --model-settings-file ./aider-model-settings.yml \
+      "[FILE-PATH]"
+    ```
+
+    Aider can report that this model's context window and costs are unknown. This doesn't prevent the tested edit workflow, but its cost display isn't a billing estimate. See [Aider's OpenAI-compatible provider guide](https://aider.chat/docs/llms/openai-compat.html) and [advanced model settings](https://aider.chat/docs/config/adv-model-settings.html).
+  </Tab>
+  <Tab title="Zed">
+    Install [Zed](https://zed.dev/docs/installation) and its [command-line interface](https://zed.dev/docs/reference/cli). Merge the following fields into your Zed settings. Keep other providers and preferences you already use.
+
+    ```json
+    {
+      "agent": {
+        "default_model": {
+          "provider": "coreweave",
+          "model": "zai-org/GLM-5.3-Flash"
+        }
+      },
+      "language_models": {
+        "openai_compatible": {
+          "coreweave": {
+            "api_url": "https://api.inference.wandb.ai/v1",
+            "available_models": [
+              {
+                "name": "zai-org/GLM-5.3-Flash",
+                "display_name": "GLM 5.3 Flash",
+                "max_tokens": 131072,
+                "max_output_tokens": 2048,
+                "capabilities": {
+                  "tools": true,
+                  "images": false,
+                  "chat_completions": true,
+                  "max_tokens_parameter": true,
+                  "parallel_tool_calls": false,
+                  "prompt_cache_key": false,
+                  "interleaved_reasoning": false
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+    ```
+
+    The provider ID `coreweave` determines the API key variable `COREWEAVE_API_KEY`. On macOS, quit Zed completely before launching it from a terminal so that it inherits the variable. Replace `[PROJECT-DIRECTORY]` with your project's directory:
+
+    ```bash
+    COREWEAVE_API_KEY="$WANDB_API_KEY" zed "[PROJECT-DIRECTORY]"
+    ```
+
+    In the **Agent** panel, select the **Write** profile to enable file edits. The **Minimal** profile doesn't provide file tools. Keep all the capability fields shown here when you use Zed `1.20.2`. The tested workflow uses text and file tools. For other configuration options, see [Zed API access](https://zed.dev/docs/ai/use-api-access).
+  </Tab>
+  <Tab title="Pi">
+    With Node.js 22.19 or later installed, use the maintained `@earendil-works/pi-coding-agent` package. Merge this provider into `~/.pi/agent/models.json`:
+
+    ```json
+    {
+      "providers": {
+        "coreweave": {
+          "baseUrl": "https://api.inference.wandb.ai/v1",
+          "api": "openai-completions",
+          "apiKey": "$WANDB_API_KEY",
+          "models": [
+            {
+              "id": "zai-org/GLM-5.3-Flash",
+              "name": "GLM 5.3 Flash",
+              "reasoning": true,
+              "input": ["text", "image"],
+              "contextWindow": 1048576,
+              "maxTokens": 1536,
+              "compat": {
+                "supportsDeveloperRole": false,
+                "supportsReasoningEffort": false,
+                "maxTokensField": "max_tokens"
+              }
+            }
+          ]
+        }
+      }
+    }
+    ```
+
+    Pi `0.86.1` requires the `$` prefix in `"$WANDB_API_KEY"` to read the environment variable. A bare variable name is treated as a literal key.
+
+    Start Pi from the directory you want to work on:
+
+    ```bash
+    npx --yes @earendil-works/pi-coding-agent@0.86.1 \
+      --provider coreweave --model zai-org/GLM-5.3-Flash
+    ```
+
+    The context window and input types reflect the model catalog. Validation covered a short text-only file-edit workflow. This configuration omits Pi's `cost` object because a cache-write price isn't published. Pi defaults missing costs to zero, so use your Serverless Inference usage records for billing. See [Pi custom-model configuration](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/models.md).
+  </Tab>
+</Tabs>
+
+To verify your setup, ask the agent to read a small file, make a change, and read it again. Review the file contents and diff to confirm the requested edit. These configurations were validated on small file-edit tasks, not full-project benchmarks.
 
 ## Next steps
 
