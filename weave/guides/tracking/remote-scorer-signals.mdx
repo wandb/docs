@@ -207,7 +207,7 @@ monitor = Monitor(
 monitor.activate()
 ```
 
-For OAuth client credentials, pass an `OAuthClientCredentialsConfig` as `auth_config` instead. For both authentication classes, see [Register a remote scorer](/weave/guides/evaluation/remote-scorers#python-sdk).
+For OAuth client credentials, pass an `OAuthClientCredentialsConfig` as `auth_config` instead.
 
 ## Test the signal
 
@@ -283,4 +283,4 @@ curl -sS http://127.0.0.1:8000/score \
   --data @sample_request_v2_agent_turn.json
 ```
 
-The sample requires Weave `0.53.0` or later. A local run verifies only the contract. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as described in [Create a remote scorer signal](#create-a-remote-scorer-signal).
+The sample requires Weave `0.53.0` or later. A local run verifies only the contract. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as previously described in [Create a remote scorer signal](#create-a-remote-scorer-signal).
