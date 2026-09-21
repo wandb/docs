@@ -33,7 +33,7 @@ If the endpoint returns `5xx`, `408`, or `429`, or the request times out, the wo
 
 ## Build the scorer endpoint
 
-Your endpoint accepts a JSON `POST` from Weave and returns a JSON score.
+Your endpoint accepts a JSON `POST` from Weave and returns a JSON score. For a reference implementation, see [Sample code](#sample-code).
 
 ### Request
 
@@ -209,6 +209,38 @@ monitor.activate()
 
 For OAuth client credentials, pass an `OAuthClientCredentialsConfig` as `auth_config` instead.
 
+## Sample code
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. One endpoint in that sample accepts V1 Call requests, V2 Call requests, and V2 agent turn requests. For agent turns, these files apply:
+
+- `scoring_logic.py`: Unwraps either envelope with `extract_scoring_target`, then scores the turn's last output message.
+- `sample_request_v2_agent_turn.json`: A complete V2 agent turn request.
+- `register_remote_scorer.py --agent-turn`: Publishes a `RemoteScorer` and activates a monitor for completed agent turns.
+- `trigger_test_agent_turn.py`: Logs one turn with `weave.conversation.log_turn`.
+
+To run the endpoint locally and send it a V2 agent turn request without Weave, start the app, then send the sample request:
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 2" \
+  --data @sample_request_v2_agent_turn.json
+```
+
+The sample requires Weave `0.53.0` or later. A local run verifies only the contract. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it, then continue to [Test the signal](#test-the-signal).
+
 ## Test the signal
 
 Log one completed turn, then check the **Signals** tab. Scoring is asynchronous, so the result appears after a delay.
@@ -252,35 +284,3 @@ Your endpoint receives a V2 request with `scoring_target.type` set to `agent_tur
 | The endpoint returns `400` for agent turns | The endpoint checks the envelope version and accepts `scoring_target.type` `agent_turn` at payload version `1`. |
 | No result appears on the **Signals** tab | Scoring is asynchronous. Confirm the turn matched the signal's filters and sample rate, and that the turn's root span ended. |
 | No result after a `200` response | The response's `schema_version` is `2`, and `result` uses one of the three structured shapes. |
-
-## Sample code
-
-<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
-
-The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. One endpoint in that sample accepts V1 Call requests, V2 Call requests, and V2 agent turn requests. For agent turns, these files apply:
-
-- `scoring_logic.py`: Unwraps either envelope with `extract_scoring_target`, then scores the turn's last output message.
-- `sample_request_v2_agent_turn.json`: A complete V2 agent turn request.
-- `register_remote_scorer.py --agent-turn`: Publishes a `RemoteScorer` and activates a monitor for completed agent turns.
-- `trigger_test_agent_turn.py`: Logs one turn with `weave.conversation.log_turn`.
-
-To run the endpoint locally and send it a V2 agent turn request without Weave, start the app, then send the sample request:
-
-```bash lines
-python3 -m venv .venv && source .venv/bin/activate
-python -m pip install -r requirements.txt
-export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
-uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
-```
-
-```bash lines
-curl -sS http://127.0.0.1:8000/score \
-  -H "Authorization: Bearer dev-token" \
-  -H "Content-Type: application/json" \
-  -H "Idempotency-Key: local-contract-check" \
-  -H "X-Correlation-ID: local-contract-check" \
-  -H "X-Weave-Schema-Version: 2" \
-  --data @sample_request_v2_agent_turn.json
-```
-
-The sample requires Weave `0.53.0` or later. A local run verifies only the contract. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as previously described in [Create a remote scorer signal](#create-a-remote-scorer-signal).

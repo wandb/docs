@@ -31,7 +31,7 @@ A remote scorer runs only through a monitor. You can't use it in `weave.Evaluati
 
 ## Build the scorer endpoint
 
-Your endpoint accepts a JSON `POST` from Weave and returns a JSON score.
+Your endpoint accepts a JSON `POST` from Weave and returns a JSON score. For a reference implementation, see [Sample code](#sample-code).
 
 ### Request
 
@@ -178,27 +178,6 @@ Create the remote scorer as part of a new monitor:
     - **Config (JSON, optional)**: A JSON object passed to your endpoint as `scorer.config`.
 5. Click **Create monitor**.
 
-## Test the scorer
-
-Trigger a scored Call and confirm the result:
-
-1. Call the monitored Op at least once.
-2. Confirm that your endpoint received a request. Scoring is asynchronous, so the request arrives after the Call ends.
-3. In the **Traces** tab, open the Call and check its feedback.
-
-Your endpoint receives a V1 request with the Call under `original_call`, and Weave records the result as feedback on that Call.
-
-## Troubleshooting
-
-| Symptom | What to check |
-|---|---|
-| Remote scorer options don't appear in the UI | Remote scoring is enabled in the owning organization's **Remote scoring** settings, or by your deployment administrator. |
-| The endpoint URL is rejected | The scorer host, and the token endpoint host for OAuth, are in the allowed hosts. Check for a port mismatch, a non-HTTPS URL, or a private or internal address. |
-| The endpoint returns `401` or `403` | The secret name, the OAuth client credentials, audience, and scope, and your endpoint's token validation. |
-| The token request succeeds but scoring fails, or the reverse | Each URL separately. The token endpoint and scorer endpoint are validated independently and can use different hosts. |
-| No feedback appears | Scoring is asynchronous. Confirm the Call matched the monitor's operation, filter, and sampling rate. |
-| No feedback after a `200` response | The response's `schema_version` equals the request's, and `result` uses one of the three structured shapes. |
-
 ## Sample code
 
 <GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
@@ -231,4 +210,25 @@ curl -sS http://127.0.0.1:8000/score \
   --data @sample_request.json
 ```
 
-The sample requires Weave `0.53.0` or later. A local run verifies only the contract. The Weave scoring worker rejects loopback addresses, and hosted deployments don't permit insecure HTTP. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as previously described in [Register a remote scorer](#register-a-remote-scorer).
+The sample requires Weave `0.53.0` or later. A local run verifies only the contract. The Weave scoring worker rejects loopback addresses, and hosted deployments don't permit insecure HTTP. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it, then continue to [Test the scorer](#test-the-scorer).
+
+## Test the scorer
+
+Trigger a scored Call and confirm the result:
+
+1. Call the monitored Op at least once.
+2. Confirm that your endpoint received a request. Scoring is asynchronous, so the request arrives after the Call ends.
+3. In the **Traces** tab, open the Call and check its feedback.
+
+Your endpoint receives a V1 request with the Call under `original_call`, and Weave records the result as feedback on that Call.
+
+## Troubleshooting
+
+| Symptom | What to check |
+|---|---|
+| Remote scorer options don't appear in the UI | Remote scoring is enabled in the owning organization's **Remote scoring** settings, or by your deployment administrator. |
+| The endpoint URL is rejected | The scorer host, and the token endpoint host for OAuth, are in the allowed hosts. Check for a port mismatch, a non-HTTPS URL, or a private or internal address. |
+| The endpoint returns `401` or `403` | The secret name, the OAuth client credentials, audience, and scope, and your endpoint's token validation. |
+| The token request succeeds but scoring fails, or the reverse | Each URL separately. The token endpoint and scorer endpoint are validated independently and can use different hosts. |
+| No feedback appears | Scoring is asynchronous. Confirm the Call matched the monitor's operation, filter, and sampling rate. |
+| No feedback after a `200` response | The response's `schema_version` equals the request's, and `result` uses one of the three structured shapes. |
