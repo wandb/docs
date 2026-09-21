@@ -41,7 +41,7 @@ Weave는 OTel 리소스 속성 또는 요청 헤더를 사용해 span을 프로�
   ## Agents 뷰용 span 구성하기
 </div>
 
-Weave는 모든 OTel span을 허용하고 해당 span의 모든 속성을 저장하지만, Agents 뷰에서는 [OTel GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)을 따르는 span을 렌더링합니다. 각 span에 `gen_ai.operation.name`을 설정하여 Weave에 해당 span이 무엇을 나타내는지 알려 주세요.
+Weave는 모든 OTel span을 허용하고 해당 span의 모든 속성을 저장하지만, Agents 뷰에서는 [OTel GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md)을 따르는 span을 렌더링합니다. 각 span에 `gen_ai.operation.name`을 설정하여 Weave에 해당 span이 무엇을 나타내는지 알려 주세요.
 
 | `gen_ai.operation.name` | 나타내는 항목               | 렌더링 형식        |
 | ----------------------- | --------------------- | ------------- |

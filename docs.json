@@ -3374,6 +3374,7 @@
                   {
                     "group": "Models",
                     "pages": [
+                      "fr/serverless-training/api-reference/models/list-base-models",
                       "fr/serverless-training/api-reference/models/create-model",
                       "fr/serverless-training/api-reference/models/list-model-checkpoints",
                       "fr/serverless-training/api-reference/models/delete-model-checkpoints",
@@ -5160,6 +5161,7 @@
                   {
                     "group": "モデル",
                     "pages": [
+                      "ja/serverless-training/api-reference/models/list-base-models",
                       "ja/serverless-training/api-reference/models/create-model",
                       "ja/serverless-training/api-reference/models/list-model-checkpoints",
                       "ja/serverless-training/api-reference/models/delete-model-checkpoints",
@@ -6946,6 +6948,7 @@
                   {
                     "group": "모델",
                     "pages": [
+                      "ko/serverless-training/api-reference/models/list-base-models",
                       "ko/serverless-training/api-reference/models/create-model",
                       "ko/serverless-training/api-reference/models/list-model-checkpoints",
                       "ko/serverless-training/api-reference/models/delete-model-checkpoints",
