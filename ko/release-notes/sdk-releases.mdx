@@ -554,14 +554,14 @@ rss: true
     ## 추가됨
   </div>
 
-  * 이제 `wandb agent`와 `wandb.agent()`는 `forward_signals` 플래그(CLI: `--forward-signals/-f`)를 지원합니다. 이 플래그를 사용하면 에이전트에서 sweep 하위 run으로 SIGINT/SIGTERM 및 기타 처리 가능한 시그널을 전달할 수 있어, 에이전트 프로세스를 중단할 때 더 깔끔하게 종료할 수 있습니다.
+  * 이제 `wandb agent`와 `wandb.agent()`는 `forward_signals` 플래그(CLI: `--forward-signals/-f`)를 지원합니다. 이 플래그를 사용하면 에이전트에서 스윕 하위 run으로 SIGINT/SIGTERM 및 기타 처리 가능한 시그널을 전달할 수 있어, 에이전트 프로세스를 중단할 때 더 깔끔하게 종료할 수 있습니다.
   * 이제 `wandb beta sync`는 run이 로깅되는 동안 동기화할 수 있는 `--live` 옵션을 지원합니다.
 
   <div id="removed-6">
     ## 제거됨
   </div>
 
-  * 사용 중단된 `wandb.beta.workflows` 모듈과 그 안의 `log_model()`, `use_model()`, `link_model()` 함수를 제거했습니다. 각각의 최신 대체 항목은 `Run.log_artifact`, `Run.use_artifact`, `Run.link_artifact` methods입니다.
+  * 사용 중단된 `wandb.beta.workflows` 모듈과 그 안의 `log_model()`, `use_model()`, `link_model()` 함수를 제거했습니다. 각각의 최신 대체 항목은 `Run.log_artifact`, `Run.use_artifact`, `Run.link_artifact` 방법입니다.
 
   <div id="fixed-14">
     ## 수정됨
@@ -580,11 +580,11 @@ rss: true
     ## 추가됨
   </div>
 
-  * `wandb beta leet` 명령어의 메트릭 및 run Overview 필터에서 정규식을 지원합니다.
+  * `wandb beta leet` 명령어의 메트릭 및 run 개요 필터에서 정규식을 지원합니다.
   * `wandb beta leet` 명령어에 chart 검사 기능이 추가되었습니다. 마우스 오른쪽 버튼을 누른 채 드래그하면 가장 가까운 데이터 포인트의 (x, y)를 표시하고, Alt를 누르면 표시 중인 모든 chart에서 동기화된 검사를 수행할 수 있습니다.
   * 이제 Automations API는 run states를 트리거로 하는 automation의 생성 및 편집을 지원합니다.
   * 이제 Automations API는 기본 zscore automation 이벤트를 지원합니다.
-  * `wandb.Api`에서 더 빠르게 이력을 스캔할 수 있도록 `Run` 객체에 `beta_history_scan` method가 추가되었습니다.
+  * `wandb.Api`에서 더 빠르게 이력을 스캔할 수 있도록 `Run` 객체에 `beta_history_scan` 방법이 추가되었습니다.
 
   <div id="changed-11">
     ## 변경됨
@@ -628,9 +628,9 @@ rss: true
 
   * 이제 `names` parameter로 필터링할 때 `Artifact.files()`의 `len()`이 올바르게 계산됩니다.
   * 파일 업로드 진행률의 분자가 더 이상 간헐적으로 전체 파일 크기를 초과하지 않습니다.
-  * 이제 `Artifact.link()`는 오류를 발생시키는 대신 저장되지 않은 artifact를 로깅하며, `Run.link_artifact()`의 동작과 일치합니다.
-  * 이제 VSCode의 Jupyter notebook 확장에서 ipython notebook을 실행할 때 자동 code saving이 동작합니다.
-  * 이제 `Artifact.metadata`에 무한대 float가 포함된 artifact를 로깅하면 request 재시도가 시간 초과될 때까지 기다리는 대신 초기에 `ValueError` 예외를 발생시킵니다.
+  * 이제 `Artifact.link()`는 오류를 발생시키는 대신 저장되지 않은 아티팩트를 로깅하며, `Run.link_artifact()`의 동작과 일치합니다.
+  * 이제 VSCode의 Jupyter notebook 확장에서 ipython notebook을 실행할 때 자동 코드 저장이 동작합니다.
+  * 이제 `Artifact.metadata`에 무한대 float가 포함된 아티팩트를 로깅하면 request 재시도가 시간 초과될 때까지 기다리는 대신 초기에 `ValueError` 예외를 발생시킵니다.
 </Update>
 
 <Update label="v0.22.3" description="2025년 10월 28일">
@@ -653,13 +653,13 @@ rss: true
 
   * 이제 v0.22.1에서 `artifact.logged_by()`를 호출할 때 `run.config`가 dict를 올바르게 반환합니다.
   * 이제 `wandb.Api(api_key=...)`는 스레드 로컬에 캐시된 자격 증명보다 명시적으로 제공된 API 키를 우선 사용합니다.
-  * `console_capture.py`의 드문 deadlock 문제를 수정했습니다.
+  * `console_capture.py`의 드문 교착 상태 문제를 수정했습니다.
 
-    deadlock 중에 스레드 트레이스백을 덤프했을 때 `wandb-AsyncioManager-main` 스레드가 `console_capture.py`의 특정 줄에서 멈춰 있는 것이 보였다면, 이제 수정되었습니다.
+    교착 상태 중에 스레드 트레이스백을 덤프했을 때 `wandb-AsyncioManager-main` 스레드가 `console_capture.py`의 특정 줄에서 멈춰 있는 것이 보였다면, 이제 수정되었습니다.
   * tfevents 파일이 실시간으로 기록되는 경우 TensorBoard sync가 간헐적으로 중단되던 문제를 수정했습니다.
-  * 이제 `Artifact.manifest`는 artifact manifest를 처음 사용할 때까지 다운로드와 다운로드 URL 생성 **모두**를 지연합니다. manifest가 로컬에서 수정되지 않았다면 `Artifact.size`와 `Artifact.digest`는 전체 manifest를 가져오기를 기다리지 않고 반환될 수 있습니다.
+  * 이제 `Artifact.manifest`는 아티팩트 manifest를 처음 사용할 때까지 다운로드와 다운로드 URL 생성 **모두**를 지연합니다. manifest가 로컬에서 수정되지 않았다면 `Artifact.size`와 `Artifact.digest`는 전체 manifest를 가져오기를 기다리지 않고 반환될 수 있습니다.
   * `artifact.add_reference`를 통한 GCS 폴더 레퍼런스 업로드 문제를 수정했습니다.
-  * 이제 SDK가 Jupyter 세션에서 서버의 루트 디렉터리를 사용해 notebook 경로를 올바르게 추론하므로, 하위 디렉터리(예: `code/nested/<notebook>.ipynb`)에서도 code saving이 동작합니다.
+  * 이제 SDK가 Jupyter 세션에서 서버의 루트 디렉터리를 사용해 notebook 경로를 올바르게 추론하므로, 하위 디렉터리(예: `code/nested/<notebook>.ipynb`)에서도 코드 저장이 동작합니다.
 
   GitHub에서 [v0.22.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.3)을 확인하세요.
 </Update>
@@ -680,9 +680,9 @@ rss: true
     ## 추가됨
   </div>
 
-  * 체크섬 캐싱을 사용해 artifacts 다운로드 재검증을 최적화했습니다.
+  * 체크섬 캐싱을 사용해 아티팩트 다운로드 재검증을 최적화했습니다.
   * run 목록 조회 시 성능이 향상되도록 `Api().runs()`에 lazy loading 지원을 추가했습니다. 새로운 `lazy=True` parameter(기본값)는 처음에는 필수 메타데이터만 로드하고, 접근 시 config 및 summary 같은 무거운 필드를 자동으로 필요할 때 로드합니다.
-  * artifacts 생성 시 `storage_region` 옵션을 추가했습니다. 사용자는 wandb.ai를 사용할 때 `wandb.Artifact(storage_region="coreweave-us")`를 지정해 [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage)를 사용할 수 있으며, 이를 통해 CoreWeave 인프라에서 artifact 업로드/다운로드를 더 빠르게 수행할 수 있습니다.
+  * 아티팩트 생성 시 `storage_region` 옵션을 추가했습니다. 사용자는 wandb.ai를 사용할 때 `wandb.Artifact(storage_region="coreweave-us")`를 지정해 [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage)를 사용할 수 있으며, 이를 통해 CoreWeave 인프라에서 아티팩트 업로드/다운로드를 더 빠르게 수행할 수 있습니다.
 
   <div id="fixed-19">
     ## 수정됨
@@ -761,7 +761,7 @@ rss: true
     ## 변경됨
   </div>
 
-  * artifact를 연결하는 동안 발생한 오류가 더 이상 억제되거나 숨겨지지 않으며, `Artifact.link()`와 `Run.link_artifact()`는 더 이상 `None`을 반환하지 않습니다.
+  * 아티팩트를 연결하는 동안 발생한 오류가 더 이상 억제되거나 숨겨지지 않으며, `Artifact.link()`와 `Run.link_artifact()`는 더 이상 `None`을 반환하지 않습니다.
   * 이제 run 종료 시 출력되는 &quot;Run history&quot;와 &quot;Run summary&quot;는 각각 10개의 메트릭으로 제한됩니다.
 
   <div id="fixed-22">
@@ -1843,7 +1843,7 @@ rss: true
   * Launch 지원을 추가합니다.
   * Reports에서 그룹화된 샘플 run 수를 제어하는 옵션을 추가했습니다.
   * 동일한 run에 여러 독립적인 writer가 쓸 수 있도록 shared 모드를 추가합니다.
-  * 선택적 캐시 복사와 스레드를 통해 artifact 다운로드 지연 시간을 줄입니다.
+  * 선택적 캐시 복사와 스레드를 통해 아티팩트 다운로드 지연 시간을 줄입니다.
   * 디렉터리 접두사를 통한 부분 파일 다운로드를 추가합니다.
   * Diffusers 인테그레이션을 업데이트합니다.
   * Ultralytics 인테그레이션을 업데이트합니다.
@@ -1868,16 +1868,16 @@ rss: true
   * `wandb.Api().run()`에 id만 전달될 때 &#95;parse&#95;path를 수정합니다.
   * video.py 업데이트: fps 버그를 수정합니다.
   * 임시 폴더를 정리합니다.
-  * Windows에서 긴 artifact 경로 문제를 수정합니다.
+  * Windows에서 긴 아티팩트 경로 문제를 수정합니다.
   * pydantic2.6에서 동작하도록 Report API를 업데이트합니다.
   * sha로 체크아웃할 수 있도록 모든 커밋을 가져옵니다.
   * pyagent에서 예외가 묻히지 않도록 합니다.
-  * nexus에서 artifact 파일 업로드 진행률을 개선합니다.
+  * nexus에서 아티팩트 파일 업로드 진행률을 개선합니다.
   * AMD GPU가 없는 시스템에 rocm-smi가 설치된 경우 시스템 모니터가 신중하게 처리하도록 합니다.
   * cli.py의 오타를 수정합니다.
   * accelerator build step에서 deadsnakes를 제거합니다.
 
-  GitHub에서 [v0.16.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.3)을 확인하세요.
+  GitHub에서 [v0.16.3 변경 로그](https://github.com/wandb/wandb/releases/tag/v0.16.3)을 확인하세요.
 </Update>
 
 <Update label="v0.16.2" description="2024년 1월 9일">
@@ -1912,7 +1912,7 @@ rss: true
   * 재개를 수정하고 테스트를 추가합니다.
   * yaml에서 k8s 작업을 생성할 때 발생하는 오류를 캡처합니다.
   * 템플릿 변수를 확인하기 전에 기본 entity를 조회합니다.
-  * core를 사용하지 않는 경우 artifact 다운로드를 위한 run 생성을 제거합니다.
+  * core를 사용하지 않는 경우 아티팩트 다운로드를 위한 run 생성을 제거합니다.
   * 버전 관리되는 bucket의 경우 Object 대신 ObjectVersion의 ETag를 조회합니다.
   * #6759를 되돌리고 해당 위치에서 객체 버전 etag를 읽습니다.
   * 업로드 파일 수를 다시 추가합니다.
@@ -1920,11 +1920,11 @@ rss: true
   * 메모리 모니터링의 오류를 확인합니다.
   * job&#95;type override를 허용하도록 CLI에 job&#95;type 플래그를 추가합니다.
   * ultralytics utils 임포트 리팩터링을 처리합니다.
-  * 활성 run 없이 wandb-core로 artifact를 다운로드합니다.
+  * 활성 run 없이 wandb-core로 아티팩트를 다운로드합니다.
   * plotly 라이브러리의 최소 버전 요구 사항을 충족하지 못할 때 matplotlib scatter plot의 오류 로깅 문제를 수정합니다.
   * NETRC 환경 변수로 기본 .netrc 위치를 override할 수 있도록 허용합니다.
 
-  GitHub에서 [v0.16.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.2)을 확인하세요.
+  GitHub에서 [v0.16.2 변경 로그](https://github.com/wandb/wandb/releases/tag/v0.16.2)을 확인하세요.
 </Update>
 
 <Update label="v0.16.1" description="2023년 12월 05일">
@@ -1973,10 +1973,10 @@ rss: true
   * artifact saver를 완성합니다.
   * footer에 Sync 파일 수를 추가합니다.
   * 디렉터리 watcher 및 관련 기능을 구현합니다.
-  * 이벤트 루프에서 agent를 실행합니다.
+  * 이벤트 루프에서 에이전트를 실행합니다.
   * 샘플링된 이력을 추가합니다.
   * Models API용 프로토타입을 추가합니다.
-  * sweep scheduler 가상 agent를 비동기로 등록합니다.
+  * sweep scheduler 가상 에이전트를 비동기로 등록합니다.
   * 로컬에서 파일 upload가 작동하도록 합니다.
   * 사용자가 다른 section에 맞춤형 chart table을 로깅할 수 있도록 허용합니다.
   * 다운로드를 허용하도록 uploader를 filemanager로 일반화합니다.
@@ -1993,7 +1993,7 @@ rss: true
   * SageMaker에서 전체 run.config가 캡처되도록 보장합니다.
   * FileNotFoundErrors에 대한 gitlib 오류 처리를 개선합니다.
   * 최대 메시지 크기를 늘리고 오류를 처리합니다.
-  * agent가 여러 큐 간의 균형을 더 잘 맞추도록 개선합니다.
+  * 에이전트가 여러 큐 간의 균형을 더 잘 맞추도록 개선합니다.
   * GCS 레퍼런스 핸들러에서 버전 관리 활성화 확인을 제거합니다.
   * Launch shard에 google-cloud-aiplatform을 추가합니다.
   * passthrough 메시지에 use&#95;artifact를 추가합니다.
@@ -2019,7 +2019,7 @@ rss: true
   </div>
 
   * config 디바운싱 메커니즘을 구현합니다.
-  * ultrlytics classification 작업의 채널 스와핑 문제를 수정합니다.
+  * ultralytics classification 작업의 채널 스와핑 문제를 수정합니다.
   * nexus alpha cpp 인터페이스를 구현합니다.
   * run 객체에 시스템 메트릭을 노출합니다(PoC).
   * ultralytics 버전 지원을 `v8.0.186`으로 고정합니다.
@@ -2030,7 +2030,7 @@ rss: true
 
   * 실패한 k8s 파드에서 로그를 조회합니다.
   * s3 bucket을 레퍼런스 artifact로 추가할 수 있도록 허용합니다.
-  * agent thread 정리 과정의 race condition을 수정합니다.
+  * 에이전트 thread 정리 과정의 race condition을 수정합니다.
   * run과 해당 i/o artifacts가 같은 프로젝트에 있다고 가정하지 않도록 수정합니다.
   * wandb.Api().run(run&#95;name).log&#95;artifact(artifact)를 수정합니다.
   * sweep에서 None 값으로 인해 발생하는 ValueError를 수정합니다.

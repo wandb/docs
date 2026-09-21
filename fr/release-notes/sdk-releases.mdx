@@ -545,31 +545,31 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   </Warning>
 
   <div id="notable-changes-10">
-    ## Changements notables
+    ## Modifications notables
   </div>
 
   Cette version supprime le module hérité et obsolète `wandb.beta.workflows`, y compris ses fonctions `log_model()`/`use_model()`/`link_model()`. Il s&#39;agit officiellement d&#39;un changement incompatible.
 
   <div id="added-14">
-    ## Ajouté
+    ## Ajouts
   </div>
 
-  * `wandb agent` et `wandb.agent()` acceptent désormais un indicateur `forward_signals` (CLI : `--forward-signals/-f`) pour relayer SIGINT/SIGTERM et d&#39;autres signaux interceptables de l&#39;agent vers les runs enfants de son sweep, ce qui permet des arrêts plus propres lorsque vous interrompez un processus d&#39;agent.
+  * `wandb agent` et `wandb.agent()` acceptent désormais un indicateur `forward_signals` (CLI : `--forward-signals/-f`) pour relayer SIGINT/SIGTERM et d&#39;autres signaux interceptables de l&#39;agent vers les runs enfants de son balayage, ce qui permet des arrêts plus propres lorsque vous interrompez un processus d&#39;agent.
   * `wandb beta sync` prend désormais en charge l&#39;option `--live` pour synchroniser un run pendant son enregistrement.
 
   <div id="removed-6">
-    ## Supprimé
+    ## Suppression
   </div>
 
   * Suppression du module obsolète `wandb.beta.workflows`, y compris ses fonctions `log_model()`, `use_model()` et `link_model()`, dont les successeurs modernes sont respectivement les méthodes `Run.log_artifact`, `Run.use_artifact` et `Run.link_artifact`.
 
   <div id="fixed-14">
-    ## Corrigé
+    ## Correctif
   </div>
 
   * Correction des annotations de type de `Run.__exit__` pour accepter des valeurs `None`, transmises lorsqu&#39;aucune exception n&#39;est levée.
-  * Correction de l&#39;erreur `Invalid Client ID digest` lors de la création d&#39;artefacts après l&#39;appel à `random.seed()`. Les ID client pouvaient entrer en collision lorsque l&#39;état aléatoire était initialisé de façon déterministe.
-  * Correction d&#39;une erreur CLI lors de l&#39;affichage d&#39;artefacts vides.
+  * Correction de l&#39;erreur `Invalid Client ID digest` lors de la création d&#39;artifacts après l&#39;appel à `random.seed()`. Les ID client pouvaient entrer en collision lorsque l&#39;état aléatoire était initialisé de façon déterministe.
+  * Correction d&#39;une erreur CLI lors de l&#39;affichage d&#39;artifacts vides.
   * Correction d&#39;une régression lors de l&#39;appel à `api.run()` sur un run Sweeps.
   * Correction du message &quot;View run at&quot; affiché à la fin d&#39;un run, qui n&#39;incluait parfois pas d&#39;URL.
   * Les Runs interrogés via `wandb.Api()` affichent désormais une représentation sous forme de chaîne dans les notebooks VSCode au lieu d&#39;une fenêtre HTML défectueuse.
@@ -577,17 +577,17 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
 
 <Update label="v0.23.1" description="2 décembre 2025">
   <div id="added-15">
-    ## Ajouté
+    ## Ajouts
   </div>
 
   * Prise en charge des expressions régulières dans les filtres de métriques et d&#39;aperçu des runs de la commande `wandb beta leet`.
-  * Inspection des graphiques dans la commande `wandb beta leet` : cliquez avec le bouton droit et faites glisser pour afficher (x, y) au point de données le plus proche ; maintenez Alt pour une inspection synchronisée sur tous les graphiques visibles.
+  * Inspection des graphiques dans la commande `wandb beta leet` : cliquez avec le bouton droit et faites glisser pour afficher (x, y) au point de données le plus proche ; maintenez Alt pour une inspection synchronisée sur tous les graphiques visibles.
   * L&#39;API Automations prend désormais en charge la création et la modification d&#39;automations qui se déclenchent sur les états des runs.
   * L&#39;API Automations prend désormais en charge les événements d&#39;automatisation zscore de base.
   * Ajout de la méthode `beta_history_scan` aux objets `Run` pour accélérer le balayage de l&#39;historique avec `wandb.Api`.
 
   <div id="changed-11">
-    ## Modifié
+    ## Modification
   </div>
 
   * `wandb.Api()` lève désormais une `UsageError` si `WANDB_IDENTITY_TOKEN_FILE` est défini et qu&#39;aucune clé API explicite n&#39;est fournie.
@@ -599,18 +599,18 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * Le mode anonyme est obsolète et émettra des avertissements. Cette obsolescence inclut le paramètre `anonymous`, la variable d&#39;environnement `WANDB_ANONYMOUS`, `wandb.init(anonymous=...)`, ainsi que les commandes `wandb login --anonymously` et `wandb.login(anonymous=...)`.
 
   <div id="fixed-15">
-    ## Corrigé
+    ## Correctif
   </div>
 
   * `wandb.Image()` n&#39;affiche plus d&#39;avertissement d&#39;obsolescence.
   * `Registry.description` et `ArtifactCollection.description` ne rejettent plus les chaînes vides.
   * L&#39;instanciation des objets `Artifact` est désormais nettement plus rapide.
   * `wandb.Run.save()` se rabat désormais sur les liens physiques et, si nécessaire, sur la copie (en rétrogradant la politique de fichier &#39;live&#39; à &#39;now&#39;, le cas échéant) lorsque les liens symboliques sont désactivés ou indisponibles (par ex., entre volumes ou sans Developer Mode sur Windows).
-  * Les alias des collections d&#39;artefacts sont désormais récupérés à la demande lors de l&#39;accès à `ArtifactCollection.aliases`, plutôt qu&#39;à l&#39;instanciation de `ArtifactCollection`, ce qui améliore les performances de `Api.artifact_collections()`, `Api.registries().collections()`, etc.
-  * La clé API explicitement fournie dans `wandb.init(settings=wandb.Settings(api_key="..."))` est désormais utilisée pour la connexion. La clé du run est utilisée lors de l&#39;enregistrement d&#39;artefacts via `run.log_artifact()`.
+  * Les alias des collections d&#39;artifacts sont désormais récupérés à la demande lors de l&#39;accès à `ArtifactCollection.aliases`, plutôt qu&#39;à l&#39;instanciation de `ArtifactCollection`, ce qui améliore les performances de `Api.artifact_collections()`, `Api.registries().collections()`, etc.
+  * La clé API explicitement fournie dans `wandb.init(settings=wandb.Settings(api_key="..."))` est désormais utilisée pour la connexion. La clé du run est utilisée lors de l&#39;enregistrement d&#39;artifacts via `run.log_artifact()`.
   * Le TUI W&amp;B LEET affiche correctement les valeurs négatives des graduations de l&#39;axe Y ainsi que les unités de base et d&#39;affichage de certaines métriques système.
   * Correction d&#39;une rare boucle infinie dans `console_capture.py`.
-  * Le téléversement et le téléchargement de fichiers respectent désormais `WANDB_X_EXTRA_HTTP_HEADERS`, sauf pour les [artefacts de référence](/fr/models/artifacts/track-external-files).
+  * Le téléversement et le téléchargement de fichiers respectent désormais `WANDB_X_EXTRA_HTTP_HEADERS`, sauf pour les [artifacts de référence](/fr/models/artifacts/track-external-files).
 </Update>
 
 <Update label="v0.23.0" description="11 novembre 2025">
@@ -623,7 +623,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * `Registry.id` a été ajouté en tant que propriété (lecture seule) des objets `Registry`.
 
   <div id="fixed-16">
-    ## Corrections
+    ## Correctif
   </div>
 
   * `Artifact.files()` renvoie désormais un `len()` correct lors du filtrage avec le paramètre `names`.
@@ -648,7 +648,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * Les clés API de plus de 40 caractères sont désormais prises en charge.
 
   <div id="fixed-17">
-    ## Corrections
+    ## Correctif
   </div>
 
   * `run.config` renvoie désormais correctement un dict lors de l’appel à `artifact.logged_by()` dans la v0.22.1.
@@ -666,7 +666,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
 
 <Update label="v0.22.2" description="07 octobre 2025">
   <div id="fixed-18">
-    ## Corrections
+    ## Correctif
   </div>
 
   * Correction possible de certains cas où le fichier `output.log` n’était pas uploadé.
@@ -685,7 +685,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * Ajout de l’option `storage_region` lors de la création d’artifacts. Les utilisateurs peuvent utiliser le [stockage d’objets AI de CoreWeave](https://docs.coreweave.com/docs/products/storage/object-storage) en spécifiant `wandb.Artifact(storage_region="coreweave-us")` lors de l’utilisation de wandb.ai pour accélérer l’upload et le téléchargement d’artifacts sur l’infrastructure de CoreWeave.
 
   <div id="fixed-19">
-    ## Corrections
+    ## Correctif
   </div>
 
   * `Api.artifact_exists()` et `Api.artifact_collection_exists()` lèvent désormais une exception lorsqu’ils rencontrent des erreurs de délai d’attente, au lieu de renvoyer `False` (potentiellement à tort).
@@ -701,7 +701,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   Cette version supprime la prise en charge de MacOS 10.
 
   <div id="removed-7">
-    ## Supprimé
+    ## Suppression
   </div>
 
   * Suppression d’une build ciblant MacOS 10.x en raison de plusieurs considérations liées à la sécurité et à la chaîne d’approvisionnement.
@@ -712,24 +712,24 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
 
   * Reprendre un run alors qu’un autre run est actif lèvera désormais une erreur, sauf si vous appelez d’abord `run.finish()` ou si vous appelez `wandb.init()` avec le paramètre `reinit='create_new'`.
   * Correction de `Api().runs()` pour wandb server &lt;  0.51.0 (lors de l’ajout de `project.internalId` à l’API gql).
-  * Sweeps : les scripts `command` de run qui `import readline`, directement ou indirectement (par ex. `import torch` avec Python 3.13), ne devraient plus provoquer d’interblocage.
+  * Sweeps : les scripts `command` de run qui `import readline`, directement ou indirectement (par ex. `import torch` avec Python 3.13), ne devraient plus provoquer d’interblocage.
 
   Consultez le [journal des modifications v0.22.0](https://github.com/wandb/wandb/releases/tag/v0.22.0) sur GitHub.
 </Update>
 
 <Update label="v0.21.4" description="11 septembre 2025">
   <div id="added-19">
-    ## Ajouté
+    ## Ajouts
   </div>
 
-  * Ajout de l’intégration DSPy : suivez les métriques d’Évaluation au fil du temps, consignez les prédictions et l’évolution de la signature du programme dans W&amp;B Tables, et enregistrez les programmes DSPy en tant que W&amp;B Artifacts (programme complet ou état au format JSON/PKL).
+  * Ajout de l’intégration DSPy : suivez les métriques d’Évaluation au fil du temps, consignez les prédictions et l’évolution de la signature du programme dans W&amp;B Tables, et enregistrez les programmes DSPy en tant que W&amp;B Artifacts (programme complet ou état au format JSON/PKL).
 
   Consultez le [journal des modifications v0.21.4](https://github.com/wandb/wandb/releases/tag/v0.21.4) sur GitHub.
 </Update>
 
 <Update label="v0.21.3" description="30 août 2025">
   <div id="changed-13">
-    ## Modifié
+    ## Modification
   </div>
 
   * Mise à jour de la contrainte de dépendance `click` de `>=7.1` à `>=8.0.1`.
@@ -751,14 +751,14 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   Cette version fait désormais remonter des erreurs qui auraient auparavant été masquées lors des appels à `Artifact.link()` ou `Run.link_artifact()`. Bien que cela évite les échecs non détectés dans ces méthodes, il s’agit également d’un changement incompatible.
 
   <div id="added-20">
-    ## Ajouté
+    ## Ajouts
   </div>
 
   * Nouveaux paramètres pour `max_end_of_run_history_metrics` et `max_end_of_run_summary_metrics`.
   * Nouveau module `wandb.integration.weave` pour initialiser automatiquement Weave lorsqu’un run W&amp;B est actif et que `weave` est importé.
 
   <div id="changed-14">
-    ## Modifié
+    ## Modification
   </div>
 
   * Les erreurs rencontrées lors de la création d’un lien vers un artifact ne sont plus masquées, et `Artifact.link()` ainsi que `Run.link_artifact()` ne renvoient plus `None`.
@@ -1863,16 +1863,16 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * Corriger la logique de nouvelle tentative dans wandb-core et le conftest de system&#95;tests.
   * Utiliser des verrous RW dans la gestion des assets du moniteur système.
   * Définir le contexte de build sur le répertoire de l’entrypoint s’il contient Dockerfile.wandb.
-  * Sécurité (launch) : monter la clé API wandb dans les pods de launch job à partir d’un secret k8s.
+  * Sécurité (launch) : monter la clé API wandb dans les pods de launch job à partir d’un secret k8s.
   * wandb job create ne doit pas rechercher requirements.txt si Dockerfile.wandb se trouve à côté de l’entrypoint.
   * Corriger &#95;parse&#95;path lorsque seul l’id est passé à wandb.Api().run().
-  * Mettre à jour video.py : corriger le bug de fps.
+  * Mettre à jour video.py : corriger le bug de fps.
   * Nettoyer les dossiers temporaires.
   * Corriger les chemins d’artifact trop longs sous Windows.
   * Mettre à jour l’API Report pour fonctionner avec pydantic2.6.
   * Récupérer tous les commits pour permettre le checkout par sha.
   * Ne pas masquer les exceptions dans pyagent.
-  * Progression de l’upload des fichiers d’artifact dans nexus.
+  * Progression du téléversement des fichiers d’artifact dans nexus.
   * Faire preuve de prudence dans le moniteur système lorsque rocm-smi est installé sur un système sans GPU AMD.
   * Corriger une faute de frappe dans cli.py.
   * Supprimer deadsnakes de l’étape de build de l’accélérateur.
@@ -1887,7 +1887,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
 
   * Refactoriser la logique du store et ajouter un writer pour le store.
   * Ajouter la surveillance des GPU AMD.
-  * Ajouter l’upload du fichier journal de la console.
+  * Ajouter le téléversement du fichier journal de la console.
   * Ajouter un champ d’URI de registre aux builders.
   * Ajouter la fonctionnalité `wandb beta sync` pour téléverser des runs vers W&amp;B.
   * Le CLI prend en charge les paramètres de file d’attente figurant sur liste blanche.
@@ -1897,7 +1897,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * Ajouter une fonctionnalité de vérification à wandb login.
   * Les Sweeps sur Launch respectent la priorité de job sélectionnée pour les runs de sweep.
   * Démarrer l’opération SDKrab.
-  * Rendre la requête d’upload asynchrone pour prendre en charge le suivi de la progression.
+  * Rendre la requête de téléversement asynchrone pour prendre en charge le suivi de la progression.
   * Ajouter un observateur de répertoire de journaux TensorBoard.
   * Téléverser les fichiers wandb-summary.json et config.yaml.
 
@@ -1951,7 +1951,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
 
   * Faire en sorte que la synchronisation hors ligne fonctionne correctement.
   * Corriger la vérification de l’existence du run pour qu’elle ne dépende pas du téléversement de fichiers dans le run.
-  * Échec de la vérification de l’URI de stockage GCP en raison d’un encapsulage async incorrect.
+  * Échec de la vérification de l’URI de stockage GCP en raison d’un encapsulage asynchrone incorrect.
   * La mise à jour du summary avec des dict imbriqués ne génère plus d’erreur.
   * Ajouter un mode de priorisation à la création de RunQueue.
   * Créer un lien symbolique vers les journaux du serveur dans le dossier runs.
@@ -1981,7 +1981,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   * Permettre aux utilisateurs d’enregistrer des tableaux de chart personnalisés dans une autre section.
   * Généraliser l’uploader en filemanager pour permettre les téléchargements.
   * Abandonner la prise en charge de Python 3.6.
-  * Supprimer les fichiers de préproduction dans Nexus.
+  * Supprimer les fichiers de staging dans Nexus.
   * Configurer les téléchargements d’artifact pour utiliser le cœur SDK Nexus.
   * Ajouter une barre de progression pour le téléversement des fichiers et faire du callback de fin une liste de callbacks.
   * Ajouter le libellé wandb.ai/run-id aux jobs.
@@ -2019,7 +2019,7 @@ Cette page contient les notes de version du SDK Python W&amp;B (package `wandb`)
   </div>
 
   * Implémenter un mécanisme d’anti-rebond pour la configuration.
-  * Corriger l’inversion des canaux dans la tâche de classification ultrlytics.
+  * Corriger l’inversion des canaux dans la tâche de classification ultralytics.
   * Implémenter l’interface C++ alpha de Nexus.
   * Exposer les métriques système dans l’objet run (PoC).
   * Épingler la prise en charge de la version d’ultralytics sur `v8.0.186`.
