@@ -541,7 +541,7 @@ rss: true
 
 <Update label="0.24.0" description="2026年1月13日">
   <Warning>
-    このリリースは PyPI から削除されました。このバージョンは使用しないでください。現在このバージョンを使用している場合は、直ちに v0.24.1 以降にアップグレードしてください。v0.24.1 で修正されたリグレッションにより、`wandb==0.24.0` で作成された run では一部のデータの upload に失敗する可能性があります。
+    このリリースは PyPI から削除されました。このバージョンは使用しないでください。現在このバージョンを使用している場合は、直ちに v0.24.1 以降にアップグレードしてください。v0.24.1 で修正されたリグレッションにより、`wandb==0.24.0` で作成された run では一部のデータの アップロード に失敗する可能性があります。
   </Warning>
 
   <div id="notable-changes-10">
@@ -580,8 +580,8 @@ rss: true
     ## Added
   </div>
 
-  * `wandb beta leet` command のメトリクスおよび run overview フィルターで Regex をサポートしました。
-  * `wandb beta leet` command に chart 検査機能を追加しました。右クリックしてドラッグすると最も近いデータポイントの (x, y) を表示し、Alt キーを押しながら操作すると表示中のすべての chart で同期して検査できます。
+  * `wandb beta leet` コマンド のメトリクスおよび run overview フィルターで Regex をサポートしました。
+  * `wandb beta leet` コマンド に chart 検査機能を追加しました。右クリックしてドラッグすると最も近いデータポイントの (x, y) を表示し、Alt キーを押しながら操作すると表示中のすべての chart で同期して検査できます。
   * Automations API で、run states を trigger とする automation の作成と編集をサポートするようになりました。
   * Automations API で、基本的な zscore automation イベントをサポートするようになりました。
   * `wandb.Api` で history をより高速にスキャンできるよう、`Run` オブジェクトに `beta_history_scan` method を追加しました。
@@ -596,7 +596,7 @@ rss: true
     ## Deprecated
   </div>
 
-  * 匿名モードは非推奨となり、警告が出力されるようになります。この非推奨には、`anonymous` 設定、`WANDB_ANONYMOUS` 環境変数、`wandb.init(anonymous=...)`、および `wandb login --anonymously` と `wandb.login(anonymous=...)` command が含まれます。
+  * 匿名モードは非推奨となり、警告が出力されるようになります。この非推奨には、`anonymous` 設定、`WANDB_ANONYMOUS` 環境変数、`wandb.init(anonymous=...)`、および `wandb login --anonymously` と `wandb.login(anonymous=...)` コマンド が含まれます。
 
   <div id="fixed-15">
     ## Fixed
@@ -610,7 +610,7 @@ rss: true
   * `wandb.init(settings=wandb.Settings(api_key="..."))` で明示的に指定した APIキー をログインに使用するようになりました。`run.log_artifact()` で artifact を logging する際には run のキーを使用します。
   * W&amp;B LEET TUI が、負の Y 軸目盛り値と一部のシステムメトリクスの基準単位/表示単位を正しく表示するようになりました。
   * `console_capture.py` におけるまれな無限ループを修正しました。
-  * ファイルの upload/download が、[reference artifacts](/ja/models/artifacts/track-external-files) を除き `WANDB_X_EXTRA_HTTP_HEADERS` を尊重するようになりました。
+  * ファイルの アップロード/ダウンロード が、[reference artifacts](/ja/models/artifacts/track-external-files) を除き `WANDB_X_EXTRA_HTTP_HEADERS` を尊重するようになりました。
 </Update>
 
 <Update label="v0.23.0" description="2025年11月11日">
@@ -619,7 +619,7 @@ rss: true
   </div>
 
   * 実験的な `wandb beta leet` コマンド - Lightweight Experiment Exploration Tool - ローカルで W&amp;B の Runs を表示し、リアルタイムのメトリクス可視化とシステム監視を行えるターミナル UI。
-  * レジストリ API で、各レジストリのユーザーおよびチームメンバーをプログラムから管理できるようになりました。
+  * Registry API で、各レジストリのユーザーおよびチームメンバーをプログラムから管理できるようになりました。
   * `Registry.id` が `Registry` オブジェクトの (読み取り専用) プロパティとして追加されました。
 
   <div id="fixed-16">
@@ -711,7 +711,7 @@ rss: true
   </div>
 
   * 別のアクティブな run がある状態で run を再開すると、先に `run.finish()` を呼び出すか、`reinit='create_new'` パラメーターを指定して `wandb.init()` を呼び出さない限り、エラーが発生するようになりました。
-  * wandb server &lt;  0.51.0 における `Api().runs()` を修正しました (`project.internalId` が gql API に追加された際の問題) 。
+  * wandb サーバー &lt;  0.51.0 における `Api().runs()` を修正しました (`project.internalId` が gql API に追加された際の問題) 。
   * Sweeps: 直接または間接的に `import readline` する `command` run スクリプト (例: Python 3.13 での `import torch`) で、デッドロックが発生しなくなりました。
 
   GitHub で [v0.22.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.0) を参照してください。
@@ -769,7 +769,7 @@ rss: true
   </div>
 
   * run の `config` 内の dataclass について、dataclass のフィールドに実際のクラスが含まれている場合でも `Object of type ... is not JSON serializable` が発生しなくなりました。
-  * server version 0.74.0+ では `Artifact.link()` と `Run.link_artifact()` が高速化され、不要なブロッキング GraphQL リクエストが 4～5 回減りました。
+  * サーバー バージョン 0.74.0+ では `Artifact.link()` と `Run.link_artifact()` が高速化され、不要なブロッキング GraphQL リクエストが 4～5 回減りました。
 
   GitHub で [v0.21.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.2) を参照してください。
 </Update>
@@ -1854,7 +1854,7 @@ rss: true
     ## 修正
   </div>
 
-  * agent 設定から project フィールドと runner フィールドを削除。
+  * エージェント 設定から project フィールドと runner フィールドを削除。
   * 削除された k8s ジョブを失敗として認識するよう修正。
   * environment ブロック内の余分なフィールドで、エラーではなく警告を出すように変更。
   * ENVVAR が kwargs より優先される entity override の bug を修正。
@@ -1868,11 +1868,11 @@ rss: true
   * wandb.Api().run() に id のみが渡された場合の &#95;parse&#95;path を修正。
   * video.py を更新: fps の bug を修正。
   * 一時フォルダーをクリーンアップ。
-  * Windows での長い artifact パスを修正。
+  * Windows での長い アーティファクト パス を修正。
   * pydantic2.6 で動作するように Report API を更新。
   * sha によるチェックアウトを可能にするため、すべてのコミットを取得。
   * pyagent で例外を握りつぶさないように修正。
-  * nexus での artifact ファイル upload の進捗表示を修正。
+  * nexus での artifact ファイル アップロード の進捗表示を修正。
   * amd gpu がないシステムに rocm-smi がインストールされている場合、system monitor が慎重に動作するよう改善。
   * cli.py の誤字を修正。
   * accelerator build step から deadsnakes を削除。
@@ -1887,9 +1887,9 @@ rss: true
 
   * store ロジックをリファクタリングし、store writer を追加。
   * AMD GPU モニタリングを追加。
-  * コンソールログファイルの upload を追加。
+  * コンソールログファイルの アップロード を追加。
   * builder に registry uri フィールドを追加。
-  * run を W&amp;B に upload する `wandb beta sync` 機能を追加。
+  * run を W&amp;B に アップロード する `wandb beta sync` 機能を追加。
   * CLI で許可リストに登録されたキューのパラメーターをサポート。
   * requirements と patch.diff のサポートを追加。
   * メタデータに SLURM 関連の環境変数を取得。
@@ -1897,9 +1897,9 @@ rss: true
   * wandb login に verify 機能を追加。
   * Launch 上の Sweeps で、選択したジョブ優先度が sweep run に反映されるように変更。
   * operation SDKrab を開始。
-  * 進捗レポートをサポートするため、upload request を非同期化。
+  * 進捗レポートをサポートするため、アップロード request を非同期化。
   * TensorBoard ログディレクトリ watcher を追加。
-  * wandb-summary.json と config.yaml ファイルを upload。
+  * wandb-summary.json と config.yaml ファイルを アップロード。
 
   <div id="fixes-2">
     ## 修正
@@ -1915,7 +1915,7 @@ rss: true
   * core を使用していない場合、artifact ダウンロード時に run を作成しないように変更。
   * versioned bucket では Object ではなく ObjectVersion の ETag を取得。
   * #6759 を元に戻し、その場で object version etag を読み取るように変更。
-  * upload ファイル数を元に戻す。
+  * アップロード ファイル数を元に戻す。
   * sender に送信キャンセル request を追加。
   * メモリモニタリングのエラーを確認。
   * job&#95;type の override を可能にするため、CLI に job&#95;type フラグを追加。
@@ -1973,17 +1973,17 @@ rss: true
   * artifact saver を完成。
   * フッターに Sync ファイル数を追加。
   * directory watcher と関連機能を実装。
-  * event loop 上で agent を実行。
+  * event loop 上で エージェント を実行。
   * サンプリングされた history を追加。
   * Models api のプロトタイプを追加。
-  * sweep scheduler の virtual agent を async で登録。
-  * ローカル環境でファイル upload が動作するように修正。
+  * sweep scheduler の virtual エージェント を async で登録。
+  * ローカル環境でファイル アップロード が動作するように修正。
   * ユーザーが別のセクションに custom chart table をログできるように変更。
   * ダウンロードを可能にするため、uploader を filemanager に一般化。
   * Python 3.6 のサポートを終了。
   * Nexus で staging ファイルを削除。
   * artifact ダウンロードで sdk nexus core を使用するよう設定。
-  * ファイル upload の進行状況を追加し、完了 callback を callback のリストに変更。
+  * ファイル アップロード の進行状況を追加し、完了 callback を callback のリストに変更。
   * ジョブに wandb.ai/run-id label を追加。
 
   <div id="fixes-4">
@@ -1993,7 +1993,7 @@ rss: true
   * SageMaker で完全な run.config が確実に取得されるように修正。
   * FileNotFoundErrors に対する gitlib のエラー処理を改善。
   * 最大メッセージサイズを増やし、エラーを処理。
-  * agent が複数のキューをより適切にバランスするよう改善。
+  * エージェント が複数のキューをより適切にバランスするよう改善。
   * GCS reference handler のバージョン管理有効化チェックを削除。
   * Launch shard に google-cloud-aiplatform を追加。
   * use&#95;artifact をパススルーメッセージとして追加。
@@ -2019,9 +2019,9 @@ rss: true
   </div>
 
   * 設定のデバウンス機構を実装。
-  * ultrlytics 分類タスクでの channel swapping を修正。
+  * ultralytics 分類タスクでの channel swapping を修正。
   * nexus alpha cpp interface を実装。
-  * run object に system metrics を公開 (PoC) 。
+  * run object に システムメトリクス を公開 (PoC) 。
   * ultralytics のサポート version を `v8.0.186` に固定。
 
   <div id="fixes-5">
@@ -2030,13 +2030,13 @@ rss: true
 
   * 失敗した k8s pod からログを取得。
   * s3 bucket を reference artifact として追加できるように変更。
-  * agent thread のクリーンアップにおける race condition を修正。
+  * エージェント thread のクリーンアップにおける 競合状態 を修正。
   * run とその i/o artifact が同じプロジェクトにあるとは仮定しないよう修正。
   * wandb.Api().run(run&#95;name).log&#95;artifact(artifact) を修正。
   * sweep で None 値により発生する ValueError を修正。
   * s3 handler の typo を修正。
   * 新しい argument `target_fraction` の argument 順序を修正。
-  * 設定デバウンサーにおける潜在的な race を修正。
+  * 設定デバウンサーにおける潜在的な 競合状態 を修正。
   * graphql のタイプマッピングを修正。
   * uploader の同時実行制限を修正。
 

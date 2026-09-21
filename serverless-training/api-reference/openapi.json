@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://api.training.wandb.ai"
+      "url": "https://forge.coreweave.com/api/training"
     }
   ],
   "paths": {
@@ -55,6 +55,32 @@
             "HTTPBearer": []
           }
         ]
+      }
+    },
+    "/v1/preview/base-models": {
+      "get": {
+        "tags": [
+          "models"
+        ],
+        "summary": "List Base Models",
+        "description": "Models this deployment can train, including architecture validation.",
+        "operationId": "list_base_models_v1_preview_base_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "title": "Response List Base Models V1 Preview Base Models Get"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/preview/models": {
@@ -2426,7 +2452,9 @@
           "batch_size": {
             "anyOf": [
               {
-                "type": "integer"
+                "type": "integer",
+                "maximum": 32.0,
+                "minimum": 1.0
               },
               {
                 "type": "string",
