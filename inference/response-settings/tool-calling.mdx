@@ -195,3 +195,82 @@ print(answer)
 ```
 
 The answer reports that 12 notebooks are in stock. `ToolCallingAgent` executes `get_stock()` locally and sends its result to the model to produce the final answer.
+
+### Pydantic AI
+
+[Pydantic AI](https://pydantic.dev/docs/ai/models/openai/) executes your Python tools and validates the final result against a Python type. This example calls an inventory tool and returns a `StockResult` object.
+
+Install the packages used in this example:
+
+```bash
+python -m pip install "pydantic-ai-slim[openai]==2.46.0" "openai==3.16.2"
+```
+
+Configure `OpenAIChatModel` with a custom `OpenAIProvider`. The model profile selects `max_tokens` and turns off strict tool definitions. [`ToolOutput`](https://pydantic.dev/docs/ai/core-concepts/output/#tool-output) returns structured data through a tool call, which Pydantic validates locally. This example doesn't use server-enforced JSON schema output.
+
+```python
+import asyncio
+import os
+from typing import Literal
+
+from openai import AsyncOpenAI
+from pydantic import BaseModel
+from pydantic_ai import Agent, ToolOutput
+from pydantic_ai.models.openai import OpenAIChatModel
+from pydantic_ai.profiles.openai import OpenAIModelProfile
+from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.usage import UsageLimits
+
+
+class StockResult(BaseModel):
+    product: Literal["notebook"]
+    quantity: int
+
+
+async def main():
+    async with AsyncOpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key=os.environ["WANDB_API_KEY"],
+        max_retries=0,
+        timeout=35,
+    ) as client:
+        model = OpenAIChatModel(
+            "zai-org/GLM-5.3-Flash",
+            provider=OpenAIProvider(openai_client=client),
+            profile=OpenAIModelProfile(
+                openai_chat_supports_max_completion_tokens=False,
+                openai_supports_strict_tool_definition=False,
+            ),
+        )
+        agent = Agent(
+            model,
+            output_type=ToolOutput(StockResult, strict=False),
+            instructions=(
+                "Use get_stock to look up inventory. Return its product and "
+                "quantity as structured output. Do not guess the quantity."
+            ),
+            model_settings={"max_tokens": 2048},
+            retries=0,
+        )
+
+        @agent.tool_plain
+        def get_stock(product: Literal["notebook", "pen"]) -> int:
+            """Return available units from sample inventory data."""
+            return {"notebook": 12, "pen": 30}[product]
+
+        async with agent.run_stream(
+            "How many notebooks are available?",
+            usage_limits=UsageLimits(request_limit=4, tool_calls_limit=3),
+        ) as result:
+            output = await result.get_output()
+            print(output.model_dump_json())
+
+
+asyncio.run(main())
+```
+
+The script uses streaming requests and prints the validated inventory result:
+
+```text
+{"product":"notebook","quantity":12}
+```
