@@ -8,7 +8,7 @@ Weave sends one HTTP `POST` per scored target to the scorer's endpoint URL, with
 | `X-Correlation-ID` | A correlation ID for this request. |
 | `X-Weave-Schema-Version` | `1` or `2`, equal to `schema_version` in the body. |
 
-Weave might deliver the same scoring attempt more than once. If your endpoint has side effects, use `Idempotency-Key` to deduplicate. The key is stable for one request version, so a V1 and a V2 request for the same call carry different keys.
+Weave might deliver the same scoring attempt more than once. Use `Idempotency-Key` to deduplicate if needed for your endpoint. The key is stable for one request version, so a V1 and a V2 request for the same Call carry different keys.
 
 Every request body has these top-level fields:
 
