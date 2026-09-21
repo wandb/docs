@@ -158,7 +158,7 @@ After completing both examples, you have a set of traced model calls, a publishe
 
 ## Use coding agents
 
-You can connect coding agents to Serverless Inference through their OpenAI-compatible providers. The following configurations were tested with `zai-org/GLM-5.3-Flash`: Continue CLI `1.5.47`, Aider `0.86.2`, Zed `1.20.2`, and Pi `0.86.1`.
+You can connect coding agents to Serverless Inference through their OpenAI-compatible providers. The following configurations were tested with `zai-org/GLM-5.3-Flash`: Continue CLI `1.5.47`, Aider `0.86.2`, Zed `1.20.2`, Pi `0.86.1`, and Qwen Code `0.24.3`.
 
 Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-account-and-project) and set the `WANDB_API_KEY` environment variable to your W&B API key. Check the [model catalog](https://wandb.ai/inference) for availability and pricing. These examples cap response length for small edits. The caps aren't the model's maximum output length.
 
@@ -200,7 +200,7 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
     cn --config ./coreweave.yaml
     ```
 
-    This configuration was validated with the CLI's file-read and file-edit tools. Editor extensions, autocomplete, and embeddings require separate configuration. For more options, see [Continue configuration](https://docs.continue.dev/cli/configuration).
+    This example uses a 131,072-token client context budget, below the model catalog's 1,048,576-token context window. It was validated with the CLI's file-read and file-edit tools. Editor extensions, autocomplete, and embeddings require separate configuration. For more options, see [Continue configuration](https://docs.continue.dev/cli/configuration).
   </Tab>
   <Tab title="Aider">
     Install the tested [Aider](https://aider.chat/docs/install.html) version in a Python 3.12 virtual environment:
@@ -221,6 +221,22 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
             type: disabled
     ```
 
+    Save the following as `aider-model-metadata.json` to register the catalog's token limits and input and output prices. Prices are in US dollars per token. The 1,024-token response cap in the settings file remains in effect.
+
+    ```json
+    {
+      "openai/zai-org/GLM-5.3-Flash": {
+        "max_tokens": 1048576,
+        "max_input_tokens": 1048576,
+        "max_output_tokens": 1048576,
+        "input_cost_per_token": 0.00000015,
+        "output_cost_per_token": 0.0000005,
+        "litellm_provider": "openai",
+        "mode": "chat"
+      }
+    }
+    ```
+
     Replace `[FILE-PATH]` with the file you want to edit, then start Aider:
 
     ```bash
@@ -229,10 +245,11 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
       aider --model openai/zai-org/GLM-5.3-Flash \
       --edit-format diff \
       --model-settings-file ./aider-model-settings.yml \
+      --model-metadata-file ./aider-model-metadata.json \
       "[FILE-PATH]"
     ```
 
-    Aider can report that this model's context window and costs are unknown. This doesn't prevent the tested edit workflow, but its cost display isn't a billing estimate. See [Aider's OpenAI-compatible provider guide](https://aider.chat/docs/llms/openai-compat.html) and [advanced model settings](https://aider.chat/docs/config/adv-model-settings.html).
+    Keep these values synchronized with the model catalog. Aider's cost display is an estimate and doesn't account for Serverless Inference cache billing. Use your Serverless Inference usage records for billing. See [Aider's OpenAI-compatible provider guide](https://aider.chat/docs/llms/openai-compat.html) and [advanced model settings](https://aider.chat/docs/config/adv-model-settings.html).
   </Tab>
   <Tab title="Zed">
     Install [Zed](https://zed.dev/docs/installation) and its [command-line interface](https://zed.dev/docs/reference/cli). Merge the following fields into your Zed settings. Keep other providers and preferences you already use.
@@ -320,6 +337,56 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
     ```
 
     The context window and input types reflect the model catalog. Validation covered a short text-only file-edit workflow. This configuration omits Pi's `cost` object because a cache-write price isn't published. Pi defaults missing costs to zero, so use your Serverless Inference usage records for billing. See [Pi custom-model configuration](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/models.md).
+  </Tab>
+  <Tab title="Qwen Code">
+    With Node.js 22 or later installed, install the tested [Qwen Code](https://github.com/QwenLM/qwen-code) version:
+
+    ```bash
+    npm install -g @qwen-code/qwen-code@0.24.3
+    ```
+
+    Merge the following fields into `~/.qwen/settings.json`, preserving other providers and preferences. The `coreweave` provider reads your key from `WANDB_API_KEY` and uses the OpenAI-compatible Chat Completions protocol.
+
+    ```json
+    {
+      "$version": 4,
+      "modelProviders": {
+        "coreweave": [
+          {
+            "id": "zai-org/GLM-5.3-Flash",
+            "name": "CoreWeave GLM-5.3-Flash",
+            "envKey": "WANDB_API_KEY",
+            "baseUrl": "https://api.inference.wandb.ai/v1",
+            "generationConfig": {
+              "contextWindowSize": 131072,
+              "samplingParams": {
+                "max_tokens": 2048
+              }
+            }
+          }
+        ]
+      },
+      "providerProtocol": {
+        "coreweave": "openai"
+      },
+      "security": {
+        "auth": {
+          "selectedType": "openai"
+        }
+      },
+      "model": {
+        "name": "zai-org/GLM-5.3-Flash"
+      }
+    }
+    ```
+
+    Start Qwen Code from the directory you want to work on:
+
+    ```bash
+    qwen
+    ```
+
+    Omit `--bare` because it skips saved settings. Set the output cap with `generationConfig.samplingParams.max_tokens`, as shown. This configuration uses a 131,072-token client context budget. Validation covered a short file-read, file-edit, and reread workflow in safe mode. For more options, see [Qwen Code model providers](https://qwenlm.github.io/qwen-code-docs/en/users/configuration/model-providers/).
   </Tab>
 </Tabs>
 
