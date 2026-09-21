@@ -203,14 +203,14 @@ Your endpoint receives a V1 request with the Call under `original_call`, and Wea
 
 <GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
 
-The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. It's deployment independent: the Python service shows the contract, not a hosting recommendation. The sample includes the following files:
+The [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) directory in the `weave` repository is the reference implementation of this contract and the source of truth for the sample code. It's deployment independent: the Python service shows the contract, not a hosting recommendation. For Calls, these files apply:
 
-- `remote_scorer_app.py`: A FastAPI app with `GET /health` and `POST /score` that accepts V1 and V2 requests.
-- `scoring_logic.py`: Framework-independent request parsing and scoring, written to be copied into your own service.
+- `remote_scorer_app.py`: A FastAPI app with `GET /health` and `POST /score`.
+- `scoring_logic.py`: Framework-independent request parsing and scoring, written to be copied into your own service. For a Call, it scores the `inputs.message` value.
 - `auth.py`: A development-only bearer token check against the `REMOTE_SCORER_DEV_BEARER_TOKEN` environment variable.
-- `register_remote_scorer.py`: Publishes a `RemoteScorer` and activates a `Monitor` for an Op, or for agent turns with `--agent-turn`.
-- `trigger_test_trace.py` and `trigger_test_agent_turn.py`: Create a traced Call or an agent turn that a monitor can select.
-- `sample_request.json`, `sample_request_v2_call.json`, and `sample_request_v2_agent_turn.json`: Example request bodies.
+- `register_remote_scorer.py --op-name`: Publishes a `RemoteScorer` and activates a `Monitor` for an Op.
+- `trigger_test_trace.py`: Creates a traced Call that the monitor can select.
+- `sample_request.json`: A complete V1 request for a Call.
 
 To run the endpoint locally and check the contract without Weave, start the app, then send it the sample request:
 
