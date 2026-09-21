@@ -1587,6 +1587,7 @@
                   {
                     "group": "models",
                     "pages": [
+                      "serverless-training/api-reference/models/list-base-models",
                       "serverless-training/api-reference/models/create-model",
                       "serverless-training/api-reference/models/list-model-checkpoints",
                       "serverless-training/api-reference/models/delete-model-checkpoints",
