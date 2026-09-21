@@ -52,7 +52,7 @@ The `agent_turn` payload at payload version `1` has these fields:
 | Field | Description |
 |---|---|
 | `event_type` | `weave.genai.turn_ended`. |
-| `project_id` | The project, as `entity/project`. |
+| `project_id` | The project, as `[YOUR-TEAM]/[YOUR-PROJECT]`. |
 | `trace_id`, `span_id` | Identifiers of the turn's root span. |
 | `span_name` | The span name, for example `invoke_agent sample-support-agent`. |
 | `operation_name` | The GenAI operation name, for example `invoke_agent`. `null` if the trace didn't record it. |
@@ -72,7 +72,7 @@ A turn that ends without an explicit status arrives with `status.code` set to `U
     "schema_version": 1,
     "payload": {
       "event_type": "weave.genai.turn_ended",
-      "project_id": "entity/project",
+      "project_id": "[YOUR-TEAM]/[YOUR-PROJECT]",
       "trace_id": "0af7651916cd43dd8448eb211c80319c",
       "span_id": "b7ad6b7169203331",
       "span_name": "invoke_agent sample-support-agent",
@@ -122,7 +122,7 @@ A turn that ends without an explicit status arrives with `status.code` set to `U
   },
   "scorer": {
     "name": "example_remote_scorer",
-    "ref": "weave:///entity/project/object/example_remote_scorer:scorer-version-digest",
+    "ref": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/object/example_remote_scorer:scorer-version-digest",
     "config": {
       "example_threshold": 0.8
     }
@@ -164,7 +164,7 @@ Create the signal from the Agents view:
 
 1. In the Weave project sidebar, click **Agents**.
 2. In the tab bar, click **Signals**.
-3. Click **New signal**, then click **Remote scorer**. If the project has no inference provider and no signals yet, click **Use a remote scorer** instead.
+3. Click **New signal**, then click **Remote scorer**. 
 4. In the **Remote scorer** drawer, **Scored by** is set to **Remote scorer**. Configure the following fields:
     - **Scorer name**: The name shown in the **Scorer** column of the Signals table. Up to 128 characters.
     - **Scoring endpoint URL**: The URL Weave sends the `POST` to.
@@ -185,7 +185,7 @@ import weave
 from weave.flow.monitor import Monitor
 from weave.scorers.remote_scorer import RemoteScorer, StaticBearerAuthConfig
 
-weave.init("my-team/my-weave-project")
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 scorer = RemoteScorer(
     name="policy_remote_scorer",
@@ -221,7 +221,7 @@ from opentelemetry import trace
 import weave
 from weave.conversation import Message, log_turn
 
-weave.init("my-team/my-weave-project")
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 result = log_turn(
     conversation_id=f"sample-{uuid.uuid4().hex}",

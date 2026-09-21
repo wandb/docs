@@ -41,7 +41,7 @@ For a Call, `schema_version` is `1` and the scored Call is at the top level unde
 
 | Field | Description |
 |---|---|
-| `project_id` | The project, as `entity/project`. |
+| `project_id` | The project, as `[YOUR-TEAM]/[YOUR-PROJECT]`. |
 | `call_id`, `trace_id` | Identifiers of the scored Call. |
 | `op_name` | The Op ref of the scored Call. |
 | `inputs` | The Call's inputs. |
@@ -52,10 +52,10 @@ For a Call, `schema_version` is `1` and the scored Call is at the top level unde
 {
   "schema_version": 1,
   "original_call": {
-    "project_id": "entity/project",
+    "project_id": "[YOUR-TEAM]/[YOUR-PROJECT]",
     "call_id": "018f8d6c-8d5f-7000-8000-000000000001",
     "trace_id": "018f8d6c-8d5f-7000-8000-000000000002",
-    "op_name": "weave:///entity/project/op/sample_remote_scorer_target:*",
+    "op_name": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/op/sample_remote_scorer_target:*",
     "inputs": {
       "message": "test message for scoring"
     },
@@ -74,7 +74,7 @@ For a Call, `schema_version` is `1` and the scored Call is at the top level unde
   },
   "scorer": {
     "name": "example_remote_scorer",
-    "ref": "weave:///entity/project/object/example_remote_scorer:scorer-version-digest",
+    "ref": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/object/example_remote_scorer:scorer-version-digest",
     "config": {
       "example_threshold": 0.8
     }
@@ -128,7 +128,7 @@ from weave.scorers.remote_scorer import (
     StaticBearerAuthConfig,
 )
 
-weave.init("my-team/my-weave-project")
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
 
 # Static bearer token, read from the team secret named WEAVE_REMOTE_SCORER_BEARER_TOKEN
 auth = StaticBearerAuthConfig(
@@ -231,4 +231,4 @@ curl -sS http://127.0.0.1:8000/score \
   --data @sample_request.json
 ```
 
-The sample requires Weave `0.53.0` or later. A local run verifies only the contract. The Weave scoring worker rejects loopback addresses, and hosted deployments don't permit insecure HTTP. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as described in [Register a remote scorer](#register-a-remote-scorer).
+The sample requires Weave `0.53.0` or later. A local run verifies only the contract. The Weave scoring worker rejects loopback addresses, and hosted deployments don't permit insecure HTTP. To test with Weave, deploy the endpoint at an HTTPS URL on the allowed hosts and register it as previously described in [Register a remote scorer](#register-a-remote-scorer).
