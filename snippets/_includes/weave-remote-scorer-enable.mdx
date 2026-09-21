@@ -7,7 +7,7 @@ An organization admin or billing admin enables remote scoring for the organizati
 1. Open `https://wandb.ai/account-settings/[ORG]/settings`, replacing `[ORG]` with the organization that owns your project.
 2. Select the **Remote scoring** tab.
 3. Turn on **Enable remote scoring**.
-4. Under **Allowed hosts**, click **Add host** and enter each host that remote scorers may call. Leave the port blank to allow any port on that host. Saving with remote scoring enabled requires at least one host.
+4. Under **Allowed hosts**, click **Add host** and enter each host that remote scorers may call. Saving with remote scoring enabled requires at least one host. Leave the port blank to allow any port on that host.
 5. Click **Save settings**.
 
 **Dedicated Cloud**
@@ -16,7 +16,7 @@ Ask W&B to enable remote scoring for your deployment and configure its allowed h
 
 **Self-Managed**
 
-Set these values on the Weave trace server Helm chart under `weave_workers.remoteScoring`. The chart renders them as environment variables on each worker that can call a remote scorer: the online evaluation worker, the call scoring worker, and the agent scoring worker.
+If you run W&B Weave in a [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) deployment, set these values on the Weave trace server Helm chart under `weave_workers.remoteScoring`. The chart renders them as environment variables on each worker that can call a remote scorer: the online evaluation worker, the call scoring worker, and the agent scoring worker.
 
 | Helm value | Environment variable | Default | Effect |
 |---|---|---|---|
@@ -32,7 +32,7 @@ Set these values on the Weave trace server Helm chart under `weave_workers.remot
 The scoring worker checks every scorer endpoint URL, and separately the OAuth token endpoint URL when a scorer uses OAuth, against these rules:
 
 - An entry matches an exact host, with an optional port. An entry without a port allows any port on that host.
-- An entry that starts with `*.` matches subdomains at any depth, but not the apex domain. `*.corp.example.com` matches `a.corp.example.com` and `a.b.corp.example.com`, not `corp.example.com`. The suffix after `*.` must contain at least two labels, so `*.com` is rejected. A wildcard can't be combined with an IP address.
+- An entry that starts with `*.` matches subdomains at any depth, but not the domain itself. `*.corp.example.com` matches `a.corp.example.com` and `a.b.corp.example.com`, not `corp.example.com`. The suffix after `*.` must contain at least two labels, so `*.com` is rejected. A wildcard can't be combined with an IP address.
 - When both an operator allowlist and an organization allowlist exist, the URL must satisfy both. An empty operator allowlist adds no restriction. When no allowlist exists at all, the worker rejects every host.
 - Loopback, private, internal, and cloud metadata addresses are rejected.
 - HTTPS is required unless the deployment permits insecure HTTP.
