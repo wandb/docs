@@ -837,6 +837,7 @@
                     "group": "Tutorials",
                     "pages": [
                       "inference/tutorials/integration-cline",
+                      "inference/tutorials/integration-opencode",
                       "inference/tutorials/creating-lora"
                     ]
                   },

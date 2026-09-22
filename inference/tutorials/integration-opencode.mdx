@@ -1,0 +1,88 @@
+---
+title: "OpenCode with Serverless Inference"
+description: "Configure OpenCode to use Serverless Inference, select a model, and verify a file edit."
+keywords: ["OpenCode", "CoreWeave", "coding agent", "WANDB_API_KEY", "open-weight models"]
+---
+
+[OpenCode](https://opencode.ai/) is a coding agent that runs in your terminal. This tutorial connects OpenCode to W&B Inference, selects a model, and verifies that the agent can read and edit a file.
+
+These instructions were tested with OpenCode `1.18.31` on macOS using `zai-org/GLM-5.3-Flash`. They cover the command-line tool and terminal UI, not the separate desktop application.
+
+## Prerequisites
+
+Before you start, you need the following items:
+
+- A W&B account and API key with access to Serverless Inference. See [account and key setup](/inference/prerequisites#set-up-your-wb-account-and-project).
+- [OpenCode installed](https://opencode.ai/docs/#install). Run `opencode --version` to check your version.
+- A project directory where OpenCode can read and edit files.
+
+For model availability and pricing, see the [Inference model catalog](https://wandb.ai/inference).
+
+## Connect the provider
+
+OpenCode displays this provider as **CoreWeave**. Its configuration ID remains `wandb`, and it uses `https://api.inference.wandb.ai/v1`. Keep `wandb` in saved credentials and model IDs.
+
+To store your API key, run the following command and enter the key at the prompt:
+
+```bash
+opencode auth login --provider wandb
+```
+
+Alternatively, in the terminal UI, run `/connect`, select **CoreWeave**, and enter your W&B API key. OpenCode stores the credential in `~/.local/share/opencode/auth.json`. You don't need a custom provider or base URL override.
+
+To use an environment variable instead of a stored credential, set `WANDB_API_KEY` in the shell where you start OpenCode. Don't put the API key in a project configuration file or commit it to Git.
+
+## Select a model
+
+Refresh the model catalog to get the provider name and available model IDs:
+
+```bash
+opencode models wandb --refresh
+```
+
+The output lists IDs in the form `wandb/[MODEL-ID]`, including `wandb/zai-org/GLM-5.3-Flash` when that model is available.
+
+In your project directory, add the following settings to `opencode.json`. If the file already exists, merge these fields into it and preserve your other settings:
+
+```json opencode.json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "wandb/zai-org/GLM-5.3-Flash",
+  "share": "disabled"
+}
+```
+
+The `model` field saves your selection for this project. The `share` setting turns off session sharing. For a default across projects, merge the same settings into `~/.config/opencode/opencode.json` instead. Project settings override the global settings.
+
+Start OpenCode from the project directory:
+
+```bash
+opencode
+```
+
+The prompt should show **GLM 5.3 Flash** and **CoreWeave**. Run `/models` to confirm the selection or choose another available model.
+
+## Verify a file edit
+
+Use a disposable project to verify tool use before working on your code. In that directory, create a file named `status.txt` with the following contents and a trailing newline:
+
+```text
+status=pending
+```
+
+Start OpenCode in the same directory with the model configuration from [Select a model](#select-a-model). In the **Build** agent, submit the following prompt:
+
+```text
+Read status.txt, then change its entire contents to exactly status=verified followed by a single newline. Do not change any other file.
+```
+
+If OpenCode requests permission to read or edit the file, review and approve that operation. The agent should use its file tools and update `status.txt`. Open the file yourself and confirm it contains `status=verified` followed by a single newline. A response that only describes the edit doesn't verify file editing.
+
+## Troubleshoot the setup
+
+- If **CoreWeave** is missing or the provider name is outdated, run `opencode models wandb --refresh` and restart OpenCode. Don't rename the `wandb` configuration ID.
+- If authentication fails, check your W&B API key and Inference access. Run `opencode auth list` to confirm the stored provider. If you use `WANDB_API_KEY`, check the value in the shell that starts OpenCode.
+- If a model isn't found, copy its full ID from `opencode models wandb` into the `model` setting. OpenCode requires the `wandb/` prefix before the Inference model ID.
+- If the agent returns text without an edit, confirm that **Build** is selected and file editing is permitted. Tool-use behavior varies by model. The test for this guide used `zai-org/GLM-5.3-Flash`.
+
+For more configuration options, see the [OpenCode configuration reference](https://opencode.ai/docs/config/) and [provider documentation](https://opencode.ai/docs/providers/).
