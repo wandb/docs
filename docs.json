@@ -836,6 +836,7 @@
                   {
                     "group": "Tutorials",
                     "pages": [
+                      "inference/tutorials/integration-kilo",
                       "inference/tutorials/integration-cline",
                       "inference/tutorials/creating-lora"
                     ]

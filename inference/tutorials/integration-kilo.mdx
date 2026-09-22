@@ -1,0 +1,97 @@
+---
+title: "Kilo Code with Serverless Inference"
+description: "Connect Kilo Code to Serverless Inference in the CLI or VS Code extension and verify a file edit."
+keywords: ["Kilo Code", "CoreWeave", "VS Code extension", "WANDB_API_KEY", "coding agent"]
+---
+
+[Kilo Code](https://kilo.ai/) is a coding agent available in the terminal and as an editor extension. This tutorial connects Kilo Code to W&B Inference and verifies that the selected model can read and edit a file.
+
+The provider connection and file-editing workflow were verified with Kilo Code `7.7.3` in both the CLI and VS Code extension on macOS using `zai-org/GLM-5.3-Flash`. Model capabilities vary, so verify tool use with the model you select.
+
+## Prerequisites
+
+Before you start, you need the following items:
+
+- A W&B account and API key with access to Serverless Inference. See [account and key setup](/inference/prerequisites#set-up-your-wb-account-and-project).
+- The [Kilo Code CLI](https://kilo.ai/docs/code-with-ai/platforms/cli) or [VS Code extension](https://kilo.ai/docs/getting-started/installing) installed.
+- A project directory where Kilo can read and edit files.
+
+For model availability and pricing, see the [Inference model catalog](https://wandb.ai/inference).
+
+## Connect the CLI
+
+The provider appears as **CoreWeave** in Kilo, but its configuration ID remains `wandb`. It uses your W&B API key and the endpoint `https://api.inference.wandb.ai/v1`. Keep the `wandb` ID in saved credentials and model selections.
+
+Check the installed version, then open the provider sign-in prompt:
+
+```bash
+kilo --version
+kilo auth login
+```
+
+Search for **CoreWeave**, select it, and enter your W&B API key. To confirm that the provider is stored, run:
+
+```bash
+kilo auth list
+```
+
+The list should include **CoreWeave** with an API credential. Alternatively, set `WANDB_API_KEY` in the shell where you start Kilo. Keep your key out of project files and Git.
+
+Refresh the model catalog:
+
+```bash
+kilo models wandb --refresh
+```
+
+Kilo model selections use `wandb/[MODEL-ID]`, where `[MODEL-ID]` is the exact Inference model ID. For example, select GLM 5.3 Flash with `wandb/zai-org/GLM-5.3-Flash`.
+
+To save the model selection, merge the following setting into your project's `kilo.json`. Preserve any existing settings:
+
+```json kilo.json
+{
+  "$schema": "https://kilo.ai/config.json",
+  "model": "wandb/zai-org/GLM-5.3-Flash"
+}
+```
+
+For an interactive session, run `kilo` in the project directory and use `/models` to check the selection. You can also pass the full model ID to `kilo run`, as shown in [Verify a file edit](#verify-a-file-edit).
+
+## Connect the VS Code extension
+
+The following steps use the Kilo `7.7.3` extension interface. Follow [Kilo's installation instructions](https://kilo.ai/docs/getting-started/installing) to select the appropriate extension release channel.
+
+To configure the provider:
+
+1. Open your project in VS Code and open the Kilo Code panel.
+2. In Kilo **Settings > Providers**, select **CoreWeave**.
+3. Enter your W&B API key in the **Connect CoreWeave** form and click **Submit**. To replace an existing credential, select **Change API key**.
+4. Return to the chat panel and use the model selector to choose **CoreWeave** and **GLM 5.3 Flash** (`zai-org/GLM-5.3-Flash`).
+5. [Verify a file edit](#verify-a-file-edit), then restart VS Code and confirm that the provider and model remain selected without entering the key again.
+
+## Verify a file edit
+
+Use a disposable project to check the connection and file tools. Create `status.txt` in that project with the following contents and a single final newline:
+
+```text
+status=pending
+```
+
+For the CLI, run this command from the project directory:
+
+```bash
+kilo run --model wandb/zai-org/GLM-5.3-Flash \
+  "Read status.txt, change its entire contents to exactly status=verified followed by one newline, then read it again to verify. Do not use other files or tools."
+```
+
+For the VS Code extension, submit the same prompt in the chat panel with the model selected in [Connect the VS Code extension](#connect-the-vs-code-extension).
+
+Review any requested file-edit approval. After the task finishes, open `status.txt` and confirm that it contains `status=verified` with one final newline. A response that only describes the edit doesn't verify that the file changed.
+
+## Troubleshoot the setup
+
+- If the provider name is outdated or a model is missing in the CLI, run `kilo models wandb --refresh` and restart Kilo. Don't rename the `wandb` configuration ID to `coreweave`.
+- If authentication fails, check your W&B API key and Inference access. Confirm that you selected **CoreWeave** and the intended model.
+- If the CLI reports that a model isn't found, copy its full ID from `kilo models wandb`. Include the `wandb/` prefix.
+- If the model responds without editing the file, check that file editing is permitted for the active agent. Test with `zai-org/GLM-5.3-Flash` before assuming that every listed model supports the same workflow.
+
+For additional configuration options, see the [Kilo CLI reference](https://kilo.ai/docs/code-with-ai/platforms/cli) and [model configuration documentation](https://kilo.ai/docs/code-with-ai/agents/custom-models).
