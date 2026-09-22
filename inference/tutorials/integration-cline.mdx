@@ -141,7 +141,12 @@ Use a test workspace to confirm that the selected model can read and edit files,
 2. Submit this prompt in Cline:
 
    ```text
-   Read greeting.txt using the file-reading tool. Then use the editor to replace status=pending with status=verified, preserving the final newline. Read the file again to verify. Work only on greeting.txt in this workspace. Do not run commands, access the network, read other files, create tasks, or spawn agents. Finish with a short confirmation.
+   Read greeting.txt using the file-reading tool. Then use the
+   editor to replace status=pending with status=verified,
+   preserving the final newline. Read the file again to verify.
+   Work only on greeting.txt in this workspace. Do not run
+   commands, access the network, read other files, create
+   tasks, or spawn agents. Finish with a short confirmation.
    ```
 
 3. Review any requested file-edit approval, then inspect the resulting file. It should contain `status=verified` with one final newline and no extra blank line.
