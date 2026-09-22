@@ -1,0 +1,67 @@
+---
+title: 노트북 셀 실행
+---
+
+개별 셀, 오래된(stale) 셀 전체, 또는 노트북의 모든 셀을 실행할 수 있습니다. 노트북은 셀의 위치가 아닌 변수 의존성을 기준으로 실행 순서를 결정하는 반응형 실행 모델을 사용합니다.
+
+<div id="run-all-stale-cells">
+  ## 오래된 셀 모두 실행
+</div>
+
+이미 최신 코드와 입력을 사용하는 셀은 다시 실행하지 않고, [오래된 셀](./reactive-info#understand-stale-and-blocked-cells)만 모두 실행합니다.
+
+<Tabs>
+  <Tab title="UI">
+    노트북 오른쪽 아래 모서리에 있는 **Run all stale cells**(<Icon icon="circle-play" iconType="solid" />)를 클릭하세요.
+  </Tab>
+
+  <Tab title="키보드 단축키">
+    `Esc`를 눌러 명령 모드로 전환한 다음, macOS에서는 **Command+Shift+R**, Windows 또는 Linux에서는 **Control+Shift+R**을 누르세요.
+  </Tab>
+</Tabs>
+
+<div id="rerun-all-cells">
+  ## 모든 셀 다시 실행
+</div>
+
+노트북의 모든 셀을 다시 실행하려면 다음을 수행하세요.
+
+1. macOS에서는 **Command+K**, Windows 또는 Linux에서는 **Control+K**를 눌러 명령 팔레트를 엽니다.
+2. **Re-run all cells**를 선택하세요.
+
+<div id="stop-a-running-cell">
+  ## 실행 중인 셀 중지
+</div>
+
+<Tabs>
+  <Tab title="UI">
+    셀 툴바에서 **Stop**(<Icon icon="circle-stop" iconType="solid" />)을 클릭하여 실행 중인 셀을 중지하세요.
+  </Tab>
+
+  <Tab title="키보드 단축키">
+    macOS에서는 **Command+I**, Windows 또는 Linux에서는 **Control+I**를 눌러 실행 중인 셀을 중지하세요.
+  </Tab>
+</Tabs>
+
+<div id="disable-or-enable-a-cell">
+  ## 셀 비활성화 또는 활성화
+</div>
+
+셀을 비활성화하면 해당 셀과 그 의존성이 모두 실행되지 않습니다.
+
+1. `Esc`를 눌러 명령 모드로 전환합니다.
+2. 명령 팔레트를 열려면 macOS에서는 **Command+P**를, Windows에서는 **Control+P**를 누릅니다.
+3. 드롭다운 메뉴에서 **Disable execution**을 선택합니다.
+
+<div id="restart-the-notebook-runtime">
+  ## 노트북 런타임 재시작
+</div>
+
+노트북의 변수와 기타 메모리 내 상태를 초기화하려면 런타임을 재시작하세요.
+
+1. 노트북 오른쪽 위 모서리에 있는 **액션( <Icon icon="bars" iconType="solid" /> )** 메뉴를 클릭합니다.
+2. 드롭다운 메뉴에서 **Restart kernel**을 선택합니다.
+
+자세한 내용은 [Disabling cells](https://docs.marimo.io/guides/reactivity/#disabling-cells)를 참조하세요.
+
+{/* ## 장시간 실행되거나 부작용을 일으키는 셀 관리 */}

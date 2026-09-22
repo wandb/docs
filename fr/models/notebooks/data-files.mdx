@@ -1,0 +1,112 @@
+---
+title: Travailler avec des fichiers de données
+---
+
+Utilisez la barre latérale du notebook pour gérer les fichiers du sandbox du notebook et vous connecter à des sources de données distantes. Vous pouvez également télécharger des [artefacts W&amp;B](/fr/models/artifacts/download-and-use-an-artifact) dans le notebook.
+
+<div id="notebook-storage-and-persistence">
+  ## Stockage et persistance des notebooks
+</div>
+
+Chaque notebook s&#39;exécute dans un [CoreWeave Sandbox](https://docs.coreweave.com/products/sandboxes) temporaire. Les fichiers que vous créez, téléversez ou téléchargez apparaissent sous **Files** dans la barre latérale du notebook et n&#39;existent que dans le sandbox.
+
+Le stockage d&#39;objets, les bases de données et les catalogues de données connectés apparaissent sous **Remote storage**.
+
+<Warning>
+  Les fichiers du sandbox du notebook sont temporaires. Copiez les fichiers que vous souhaitez conserver vers un stockage persistant avant la réinitialisation ou la suppression du sandbox.
+</Warning>
+
+<div id="view-files">
+  ## Afficher les fichiers
+</div>
+
+Pour afficher les fichiers dans la barre latérale du notebook :
+
+1. Dans la barre latérale du notebook, sélectionnez **View files** (<Icon icon="folder-tree" iconType="solid" />).
+2. Développez l&#39;une des sections suivantes :
+   * **Files** pour afficher les fichiers du sandbox du notebook.
+   * **Remote storage** pour parcourir les sources de données distantes connectées.
+
+<div id="manage-files-and-folders">
+  ## Gérer les fichiers et les dossiers
+</div>
+
+Pour téléverser ou créer un fichier ou un dossier :
+
+1. Dans la barre latérale du notebook, sélectionnez **View files** (<Icon icon="folder-tree" iconType="solid" />).
+2. Développez **Files**.
+3. Sélectionnez l&#39;une des actions suivantes :
+   * **Upload file** (<Icon icon="arrow-up-from-bracket" iconType="solid" />) pour téléverser un fichier existant dans le sandbox.
+   * **Add file** (<Icon icon="file-plus" iconType="solid" />) pour créer un fichier.
+   * **Add folder** (<Icon icon="folder-plus" iconType="solid" />) pour créer un dossier.
+
+<div id="download-a-wb-artifact">
+  ## Télécharger un artefact W&amp;B
+</div>
+
+Vous pouvez [télécharger et utiliser un artefact W&amp;B](/fr/models/artifacts/download-and-use-an-artifact) dans un notebook. Les fichiers téléchargés sont stockés dans le sandbox du notebook.
+
+Par exemple, le code suivant télécharge un artefact de modèle depuis W&amp;B Registry :
+
+```python
+import wandb
+
+REGISTRY_NAME = "Zoo"
+MODEL_COLLECTION_NAME = "Classifier_Models"
+MODEL_VERSION = 0
+
+artifact_name = (
+    f"wandb-registry-{REGISTRY_NAME}/"
+    f"{MODEL_COLLECTION_NAME}:v{MODEL_VERSION}"
+)
+
+with wandb.init() as run:
+    artifact = run.use_artifact(artifact_name)
+    artifact_path = artifact.download()
+    print(artifact_path)
+```
+
+La commande renvoie le chemin du répertoire de l&#39;artefact téléchargé. Par exemple :
+
+```text
+/workspace/artifacts/zoo-pznwefqb:v0
+```
+
+L&#39;artefact téléchargé apparaît dans le répertoire `artifacts` :
+
+<Tree>
+  <Tree.Folder name="artifacts" defaultOpen>
+    <Tree.Folder name="zoo-pznwefqb:v0">
+      <Tree.File name="zoo_wandb.pth" />
+    </Tree.Folder>
+  </Tree.Folder>
+
+  <Tree.Folder name="wandb">
+    <Tree.Folder name="latest-run">
+      <Tree.Folder name="files">
+        <Tree.File name="config.yaml" />
+      </Tree.Folder>
+    </Tree.Folder>
+
+    <Tree.File name="debug.log" />
+  </Tree.Folder>
+
+  <Tree.File name="notebook.py" />
+</Tree>
+
+{/* ## Connecter une source de données distante
+
+  Pour connecter un stockage d’objets, une base de données ou un catalogue de données :
+
+  1. Dans la barre latérale du notebook, sélectionnez **View files** (<Icon icon="folder-tree" iconType="solid" />).
+  2. Sélectionnez **Remote storage** (<Icon icon="hard-drive" iconType="solid" />).
+  3. Sélectionnez **Add remote storage**.
+  4. Sélectionnez le type de source approprié :
+   - **Remote Storages** pour un stockage d’objets distant.
+   - **Database & Catalogs** pour une base de données ou un catalogue de données.
+  5. Sélectionnez le fournisseur auquel vous souhaitez vous connecter, puis suivez les instructions.
+
+  Pour en savoir plus, consultez la documentation marimo suivante :
+
+  - [Remote storage](https://docs.marimo.io/guides/working_with_data/remote_storage/)
+  - [Connect to a custom database](https://docs.marimo.io/guides/working_with_data/sql/#connecting-to-a-custom-database) */}

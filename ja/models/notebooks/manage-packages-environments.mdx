@@ -1,0 +1,115 @@
+---
+title: パッケージを管理する
+---
+
+**Manage packages** サイドバーまたはノートブックのターミナルから、Python パッケージのインストール、表示、更新、削除を行えます。
+
+<Info>
+  デフォルトのノートブックのサンドボックス環境には、[W&amp;B Python SDK](/ja/models/ref/python)、[Reports and Workspaces API](/ja/models/ref/wandb_workspaces/reports)、[marimo](https://docs.marimo.io/) をはじめ、一般的によく使用されるパッケージが含まれています。
+</Info>
+
+{/* https://docs.marimo.io/guides/package_management/ */}
+
+<div id="install-a-package">
+  ## パッケージをインストールする
+</div>
+
+サイドバーまたはターミナルを使用して Python パッケージをインストールします。
+
+<Tabs>
+  <Tab title="サイドバー">
+    サイドバーからパッケージをインストールするには、次の手順に従います。
+
+    1. ノートブックのサイドバーで **Manage packages** (<Icon icon="cube" />) を選択します。
+    2. パッケージ名を入力します。
+    3. **Add** を選択します。
+  </Tab>
+
+  <Tab title="ターミナル">
+    開発者パネルを開き、**Terminal** タブを選択します。次のコマンドを実行します。
+
+    ```bash
+    uv pip install <package_name>
+    ```
+  </Tab>
+</Tabs>
+
+詳細については、[marimo のドキュメント](https://docs.marimo.io/guides/package_management/)を参照してください。
+
+<div id="view-installed-packages">
+  ## インストール済みパッケージの表示
+</div>
+
+インストール済みパッケージは、サイドバーまたはターミナルから確認できます。
+
+<Tabs>
+  <Tab title="サイドバー">
+    インストール済みパッケージを表示するには、次の手順に従います。
+
+    1. ノートブックのサイドバーで、<Icon icon="cube" /> **Manage packages** を選択します。
+    2. 次のいずれかのビューを選択します。
+
+    * **List**: インストール済みパッケージをフラットな一覧で表示します。
+    * **Tree**: パッケージの依存関係の階層を表示します。各依存関係は、それを必要とするパッケージの子として表示されます。
+
+    次の画像は、**Manage packages** サイドバーに表示された `wandb-workspaces` を示しています。その下にネストされているパッケージが `wandb-workspaces` の依存関係です。
+
+    <Frame>
+      <img src="/images/notebooks/hello_package_management.png" alt="Manage packages sidebar in the notebook" />
+    </Frame>
+  </Tab>
+
+  <Tab title="ターミナル">
+    開発者パネルを開き、**Terminal** タブを選択します。次のコマンドを実行します。
+
+    ```bash
+    uv pip list
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-a-package">
+  ## パッケージを更新する
+</div>
+
+サイドバーまたはターミナルのいずれかを使用して、パッケージを更新します。
+
+<Tabs>
+  <Tab title="サイドバー">
+    1. ノートブックのサイドバーから **Manage packages** (<Icon icon="cube" />) を選択します。
+    2. パッケージ名を入力するか、検索します。
+    3. **Upgrade** を選択します。
+  </Tab>
+
+  <Tab title="ターミナル">
+    開発者パネルを開き、**Terminal** タブを選択します。次のコマンドを実行します。
+
+    ```bash
+    uv pip install --upgrade <package_name>
+    ```
+  </Tab>
+</Tabs>
+
+{/* ## パッケージのバージョンを固定 */}
+
+<div id="remove-a-package">
+  ## パッケージを削除する
+</div>
+
+サイドバーまたはノートブックのターミナルからパッケージを削除できます。
+
+<Tabs>
+  <Tab title="サイドバー">
+    1. ノートブックのサイドバーから **Manage packages** (<Icon icon="cube" />) を選択します。
+    2. 削除するパッケージを検索します。
+    3. パッケージ名の横にある **Remove** を選択します。
+  </Tab>
+
+  <Tab title="ターミナル">
+    開発者パネル を開き、**Terminal** タブを選択します。次のコマンドを実行します。
+
+    ```bash
+    uv pip uninstall <package_name>
+    ```
+  </Tab>
+</Tabs>
