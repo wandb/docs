@@ -1,7 +1,3 @@
-**Allowed host rules**. |
-| `allowInsecureHttp` | `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP` | `false` | Permits `http://` endpoint URLs. |
-| `requireStructuredResultSchema` | `WF_SCORING_WORKER_REMOTE_SCORER_REQUIRE_STRUCTURED_RESULT_SCHEMA` | `true` | Rejects responses whose `result` isn't in the structured score format. |
-
 **Allowed host rules**
 
 The scoring worker checks every scorer endpoint URL, and separately the OAuth token endpoint URL when a scorer uses OAuth, against these rules:

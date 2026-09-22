@@ -24,7 +24,7 @@ A Call is scored in the following sequence:
 3. For each `RemoteScorer` on a matching monitor, the worker builds a `schema_version: 1` request that contains the Call, resolves the scorer's credentials, checks the endpoint URL against the allowed hosts, and sends the `POST`.
 4. The worker validates the response and writes the result as feedback on the Call. It also records the scoring attempt as a Call, whether or not the attempt succeeded.
 
-A remote scorer runs only through a monitor. You can't use it in `weave.Evaluation` or with `call.apply_scorer()`. Both call the scorer's `score()` method, which for `RemoteScorer` raises `NotImplementedError`, because only the scoring worker sends the request. Each selected Call produces one request, sent once. If the request times out or gets no response, Weave doesn't retry it. The default timeout is 30 seconds.
+A remote scorer runs only through a monitor. You can't use it in `weave.Evaluation` or with `call.apply_scorer()`. Both call the scorer's `score()` method, which for `RemoteScorer` raises `NotImplementedError`, because only the scoring worker sends the request. The **Score calls** action in the Weave UI also rejects a `RemoteScorer`, with the message `RemoteScorer requires a monitor`. Each selected Call produces one request, sent once. If the request times out or gets no response, Weave doesn't retry it. The default timeout is 30 seconds.
 
 ## Enable remote scoring
 
@@ -251,5 +251,5 @@ Your endpoint receives a V1 request with the Call under `original_call`, and Wea
 | The endpoint URL is rejected | The scorer host, and the token endpoint host for OAuth, are in the allowed hosts. Check for a port mismatch, a non-HTTPS URL, or a private or internal address. |
 | The endpoint returns `401` or `403` | The secret name, the OAuth client credentials, audience, and scope, and your endpoint's token validation. |
 | The token request succeeds but scoring fails, or the reverse | Each URL separately. The token endpoint and scorer endpoint are validated independently and can use different hosts. |
-| No feedback appears | Scoring is asynchronous. Confirm the Call matched the monitor's operation, filter, and sampling rate. |
+| No feedback appears | Scoring is asynchronous. Confirm the Call matched the monitor's operation, filter, and sampling rate. Weave records every attempt as a scorer Call in the **Traces** tab. A failed attempt appears as an errored scorer Call that carries the failure reason. |
 | No feedback after a `200` response | The response's `schema_version` equals the request's, and `result` uses one of the three structured shapes. |
