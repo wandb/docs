@@ -419,6 +419,24 @@ Complete the [account prerequisites](/inference/prerequisites#set-up-your-wb-acc
 
 To verify your setup, ask the agent to read a small file, make a change, and read it again. Review the file contents and diff to confirm the requested edit. These configurations were validated on small file-edit tasks, not full-project benchmarks.
 
+## Configure bolt.diy
+
+[bolt.diy](https://github.com/stackblitz-labs/bolt.diy/tree/v1.0.0#running-the-application) supports Serverless Inference through its **OpenAILike** provider. This setup was tested with bolt.diy `1.0.0` and `zai-org/GLM-5.3-Flash` in the browser's WebContainer runtime.
+
+Follow the bolt.diy installation instructions, then set your W&B API key in `WANDB_API_KEY`. From your local bolt.diy directory, configure the endpoint and start the app:
+
+```bash
+export OPENAI_LIKE_API_BASE_URL="https://api.inference.wandb.ai/v1"
+export OPENAI_LIKE_API_KEY="$WANDB_API_KEY"
+pnpm run dev
+```
+
+In the app, select **OpenAILike** and the exact model ID `zai-org/GLM-5.3-Flash`. The provider discovers model IDs from `/models`, so this setup doesn't require a custom model row. In version `1.0.0`, OpenAILike assigns an 8,000-token output allowance to discovered models. This client allowance isn't the model's context window.
+
+If a response appears as text but no file is created, check the artifact format. bolt.diy expects an outer `boltArtifact` element with `id` and `title`, containing a `boltAction` with `type="file"` and `filePath`. Ask the model to use those exact elements, include the complete file content, and close both tags. An `artifact` element with separate `type`, `path`, and `content` elements doesn't trigger a file action.
+
+Verify the resulting file in the workbench after generation. A small live file-edit test preserved the expected content and trailing newline after explicit artifact-format guidance. This result doesn't establish consistent first-response compliance across models or larger tasks.
+
 ## Configure Tabby chat
 
 [Tabby](https://tabby.tabbyml.com/docs/quick-start/installation/docker/) supports Serverless Inference as an OpenAI-compatible chat backend. This configuration was tested with the chat API in Tabby `0.32.0`.
