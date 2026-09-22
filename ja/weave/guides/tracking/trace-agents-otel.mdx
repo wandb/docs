@@ -41,7 +41,7 @@ Weave は、OTel のリソース属性またはリクエストヘッダーを使
   ## Agents ビュー向けにスパンを整形する
 </div>
 
-Weave は任意の OTel スパンを受け入れ、すべての属性を保存しますが、Agents ビューで表示されるのは [OTel GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) に従ったスパンです。各スパンが何を表すかを Weave に伝えるには、各スパンで `gen_ai.operation.name` を設定します。
+Weave は任意の OTel スパンを受け入れ、すべての属性を保存しますが、Agents ビューで表示されるのは [OTel GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md) に従ったスパンです。各スパンが何を表すかを Weave に伝えるには、各スパンで `gen_ai.operation.name` を設定します。
 
 | `gen_ai.operation.name` | 表すもの                      | 表示形式                 |
 | ----------------------- | ------------------------- | -------------------- |

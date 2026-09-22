@@ -1,0 +1,63 @@
+---
+title: Configure a notebook
+---
+
+Configure a notebook's settings to control its appearance, runtime behavior, and editor preferences.
+
+## Open notebook settings
+
+Notebook settings apply only to the current notebook. You can configure display and export options, add custom CSS and HTML, and change other notebook-specific behavior.
+
+To open notebook settings:
+
+1. In the upper-right corner of the notebook, select **Notebook Settings** (<Icon icon="gear" iconType="solid" />).
+2. In the settings menu, change the settings as needed.
+
+To learn more, see marimo's [Notebook settings](https://docs.marimo.io/guides/configuration).
+
+## Configure runtime behavior
+
+Runtime settings control how the notebook responds when it starts, when a cell changes, and when an imported Python module changes.
+
+### Execution modes
+
+The runtime supports the following execution modes:
+
+#### Autorun mode
+
+In autorun mode, the notebook automatically runs dependent cells when any of the following events occur:
+
+- You run or edit a cell.
+- You interact with a UI element.
+- An imported Python module changes while module autoreloading is enabled.
+
+#### Lazy mode
+
+In lazy mode, running a cell marks its downstream cells as stale but does not run them automatically.
+
+When you run a cell that has stale upstream cells, the notebook runs the upstream cells first. This process ensures that the cell receives up-to-date inputs.
+
+### Change runtime settings
+
+To change the runtime settings:
+
+1. In the notebook footer, select **Runtime reactivity** (<Icon icon="bolt-lightning" iconType="solid" />).
+2. Configure the applicable settings:
+
+    | Setting | Behavior | Options |
+    | --- | --- | --- |
+    | **On startup** | Whether the notebook runs automatically when it starts | **Autorun** or **Lazy** |
+    | **On cell changes** | Whether dependent cells run automatically after a cell runs | **Autorun** or **Lazy** |
+    | **On module changes** | Whether affected cells run when an imported module changes | **Off**, **Autorun**, or **Lazy** |
+
+To learn more, see marimo's [Runtime configuration](https://docs.marimo.io/guides/configuration/runtime_configuration/).
+
+## Configure editor preferences
+
+To configure editor preferences:
+
+1. In the upper-right corner of the notebook, select **Notebook Settings** (<Icon icon="gear" iconType="solid" />).
+2. In the settings menu, select **Editor**.
+3. Configure preferences such as code font size, line numbers, and syntax highlighting.
+
+To learn more, see marimo's [Editor features](https://docs.marimo.io/guides/editor_features/overview/).
