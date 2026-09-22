@@ -396,6 +396,21 @@
                         ]
                       },
                       {
+                        "group": "Notebooks",
+                        "pages": [
+                          "models/notebooks",
+                          "models/notebooks/get-started",
+                          "models/notebooks/reactive-info",
+                          "models/notebooks/create-notebook",
+                          "models/notebooks/edit-notebook",
+                          "models/notebooks/run-notebook-cells",
+                          "models/notebooks/manage-packages-environments",
+                          "models/notebooks/data-files",
+                          "models/notebooks/configure-notebook",
+                          "models/notebooks/developer-tools"
+                        ]
+                      },
+                      {
                         "group": "Automations",
                         "pages": [
                           "models/automations",
@@ -1588,6 +1603,7 @@
                   {
                     "group": "models",
                     "pages": [
+                      "serverless-training/api-reference/models/list-base-models",
                       "serverless-training/api-reference/models/create-model",
                       "serverless-training/api-reference/models/list-model-checkpoints",
                       "serverless-training/api-reference/models/delete-model-checkpoints",
@@ -2180,6 +2196,21 @@
                           "fr/models/reports/embed-reports",
                           "fr/models/reports/cross-project-reports",
                           "fr/models/reports/reports-gallery"
+                        ]
+                      },
+                      {
+                        "group": "Notebooks",
+                        "pages": [
+                          "fr/models/notebooks",
+                          "fr/models/notebooks/get-started",
+                          "fr/models/notebooks/reactive-info",
+                          "fr/models/notebooks/create-notebook",
+                          "fr/models/notebooks/edit-notebook",
+                          "fr/models/notebooks/run-notebook-cells",
+                          "fr/models/notebooks/manage-packages-environments",
+                          "fr/models/notebooks/data-files",
+                          "fr/models/notebooks/configure-notebook",
+                          "fr/models/notebooks/developer-tools"
                         ]
                       },
                       {
@@ -3374,6 +3405,7 @@
                   {
                     "group": "Models",
                     "pages": [
+                      "fr/serverless-training/api-reference/models/list-base-models",
                       "fr/serverless-training/api-reference/models/create-model",
                       "fr/serverless-training/api-reference/models/list-model-checkpoints",
                       "fr/serverless-training/api-reference/models/delete-model-checkpoints",
@@ -3966,6 +3998,21 @@
                           "ja/models/reports/embed-reports",
                           "ja/models/reports/cross-project-reports",
                           "ja/models/reports/reports-gallery"
+                        ]
+                      },
+                      {
+                        "group": "ノートブック",
+                        "pages": [
+                          "ja/models/notebooks",
+                          "ja/models/notebooks/get-started",
+                          "ja/models/notebooks/reactive-info",
+                          "ja/models/notebooks/create-notebook",
+                          "ja/models/notebooks/edit-notebook",
+                          "ja/models/notebooks/run-notebook-cells",
+                          "ja/models/notebooks/manage-packages-environments",
+                          "ja/models/notebooks/data-files",
+                          "ja/models/notebooks/configure-notebook",
+                          "ja/models/notebooks/developer-tools"
                         ]
                       },
                       {
@@ -5160,6 +5207,7 @@
                   {
                     "group": "モデル",
                     "pages": [
+                      "ja/serverless-training/api-reference/models/list-base-models",
                       "ja/serverless-training/api-reference/models/create-model",
                       "ja/serverless-training/api-reference/models/list-model-checkpoints",
                       "ja/serverless-training/api-reference/models/delete-model-checkpoints",
@@ -5755,11 +5803,26 @@
                         ]
                       },
                       {
+                        "group": "노트북",
+                        "pages": [
+                          "ko/models/notebooks",
+                          "ko/models/notebooks/get-started",
+                          "ko/models/notebooks/reactive-info",
+                          "ko/models/notebooks/create-notebook",
+                          "ko/models/notebooks/edit-notebook",
+                          "ko/models/notebooks/run-notebook-cells",
+                          "ko/models/notebooks/manage-packages-environments",
+                          "ko/models/notebooks/data-files",
+                          "ko/models/notebooks/configure-notebook",
+                          "ko/models/notebooks/developer-tools"
+                        ]
+                      },
+                      {
                         "group": "자동화",
                         "pages": [
                           "ko/models/automations",
                           {
-                            "group": "자동화 만들기",
+                            "group": "만들기",
                             "pages": [
                               "ko/models/automations/create-automations",
                               "ko/models/automations/create-automations/slack",
@@ -6946,6 +7009,7 @@
                   {
                     "group": "모델",
                     "pages": [
+                      "ko/serverless-training/api-reference/models/list-base-models",
                       "ko/serverless-training/api-reference/models/create-model",
                       "ko/serverless-training/api-reference/models/list-model-checkpoints",
                       "ko/serverless-training/api-reference/models/delete-model-checkpoints",

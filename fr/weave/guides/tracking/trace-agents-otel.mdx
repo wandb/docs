@@ -41,7 +41,7 @@ Si les deux sont présents, les attributs de ressource priment. Les spans reçus
   ## Structurer les spans pour la vue Agents
 </div>
 
-Weave accepte n’importe quel span OTel et stocke tous ses attributs, mais la vue Agents affiche les spans conformes aux [conventions sémantiques OTel GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/). Définissez `gen_ai.operation.name` sur chaque span pour indiquer à Weave ce que représente ce span :
+Weave accepte n’importe quel span OTel et stocke tous ses attributs, mais la vue Agents affiche les spans conformes aux [conventions sémantiques OTel GenAI](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md). Définissez `gen_ai.operation.name` sur chaque span pour indiquer à Weave ce que représente ce span :
 
 | `gen_ai.operation.name` | Représente                                         | Affiché comme                              |
 | ----------------------- | -------------------------------------------------- | ------------------------------------------ |
@@ -49,10 +49,10 @@ Weave accepte n’importe quel span OTel et stocke tous ses attributs, mais la v
 | `chat`                  | Un appel à une API de modèle de langage.           | Un appel LLM dans un tour de conversation. |
 | `execute_tool`          | Une exécution d’outil.                             | Un appel d’outil.                          |
 
-Deux attributs supplémentaires contrôlent le regroupement :
+Deux attributs supplémentaires contrôlent le regroupement :
 
-* `gen_ai.conversation.id` : regroupe les tours de conversation au sein d’une conversation. Utilisez un ID stable pendant toute la durée de vie de la conversation.
-* `gen_ai.agent.name` : regroupe les conversations sous un agent nommé dans l’onglet Agents.
+* `gen_ai.conversation.id` : regroupe les tours de conversation au sein d’une conversation. Utilisez un ID stable pendant toute la durée de vie de la conversation.
+* `gen_ai.agent.name` : regroupe les conversations sous un agent nommé dans l’onglet Agents.
 
 D’autres attributs des conventions sémantiques GenAI, comme `gen_ai.request.model`, `gen_ai.usage.input_tokens` et `gen_ai.usage.output_tokens`, enrichissent le rendu avec les noms des modèles et le nombre de jetons, mais sont facultatifs. Pour le modèle de données d’agent auquel ces spans sont associés, voir [Trace your agents](/fr/weave/guides/tracking/trace-agents#the-agent-data-model).
 

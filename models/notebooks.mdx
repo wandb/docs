@@ -1,0 +1,80 @@
+---
+title: Notebooks overview
+description: Use W&B Notebooks to develop, debug, and share interactive model workflows in W&B.
+---
+
+Use W&B Notebooks to create interactive, reactive Python notebooks inside W&B. Notebooks are useful for exploring data, prototyping model workflows, analyzing W&B runs and artifacts, and sharing reproducible work with collaborators.
+
+Each notebook runs in a temporary [CoreWeave Sandbox](https://docs.coreweave.com/products/sandboxes), which provides isolated compute for notebook cells, packages, files, and terminal commands.
+
+Notebooks use [marimo](https://docs.marimo.io/) as the notebook runtime and editor. Unlike traditional notebooks that run from top to bottom, Notebooks track dependencies between cells. When a value changes, the notebook can identify the downstream cells that depend on it and keep outputs consistent with the current notebook state.
+
+## Get started
+
+If you are new to notebooks, start with the [Get started](/models/notebooks/get-started) guide. The guide walks you through creating a notebook, running code, viewing logged metrics in a W&B workspace, and sharing the result.
+
+If you already know the workflow you want, use the following pages:
+
+<CardGroup cols={2}>
+  <Card title="Create and manage notebooks" icon="square-plus" href="/models/notebooks/create-notebook">
+    Create, rename, duplicate, or delete notebooks from a team overview page or project workspace.
+  </Card>
+  <Card title="Edit a notebook" icon="pen-to-square" href="/models/notebooks/edit-notebook">
+    Add Python, Markdown, and SQL cells; reorder cells; delete cells; and add interactive controls.
+  </Card>
+  <Card title="Run notebook cells" icon="circle-play" href="/models/notebooks/run-notebook-cells">
+    Run stale cells, rerun every cell, stop a running cell, disable execution, or restart the runtime.
+  </Card>
+  <Card title="Manage packages" icon="cube" href="/models/notebooks/manage-packages-environments">
+    Install, view, update, and remove Python packages from the notebook sidebar or terminal.
+  </Card>
+</CardGroup>
+
+## Understand the notebook model
+
+Notebooks are reactive. A cell runs based on the variables it defines and references, not only on where it appears in the notebook. This model helps keep outputs current, but it also means that notebook structure matters:
+
+- Define each global name in only one cell.
+- Avoid mutating shared objects across cells.
+- Use runtime settings to choose whether downstream cells run automatically or become stale.
+- Use the dependency tools to inspect how cells relate to each other.
+
+For a deeper explanation, see [Understand reactive execution](/models/notebooks/reactive-info) and [Configure a notebook](/models/notebooks/configure-notebook).
+
+{/* ## Work with data and W&B
+
+Use notebooks with the same W&B objects you use elsewhere in your model development workflow:
+
+- Log metrics, configs, media, and artifacts with the [W&B Python SDK](/models/ref/python).
+- Query and analyze run data from a project workspace.
+- Use files, datasets, model checkpoints, and generated outputs in notebook workflows.
+- Connect to data sources such as object storage, databases, SQL queries, and W&B Artifacts.
+
+For data-specific workflows, see [Work with data files](/models/notebooks/data-files). */}
+
+## Debug and inspect notebooks
+
+Use the developer panel to investigate notebook behavior without leaving the editor. The panel includes errors and warnings, a scratchpad for temporary code, execution traces, logs, and a terminal connected to the notebook workspace.
+
+For details, see [Developer tools](/models/notebooks/developer-tools).
+
+{/* ## Share and publish
+
+Share notebooks with collaborators or publish them outside W&B. Depending on your audience, you can present a notebook, open it in app mode, share it within W&B, download the source, export static HTML, export WebAssembly HTML, or publish to Molab.
+
+For more information, see [Present, export, and publish notebooks](/models/notebooks/share-notebooks). */}
+
+## Billing and usage
+
+Notebooks use W&B storage and sandbox compute. Notebook data contributes to your organization's storage usage, while running a notebook consumes sandbox compute. Notebook workflows can also create product-specific usage when they call other W&B services such as Weave, Inference, or Training.
+
+Organization and billing admins can review plan details, monitor usage, configure usage and spending alerts, manage payment methods, and access invoices from [Billing settings](/platform/app/settings-page/billing-settings). For plan and pricing information, see [W&B Pricing](https://wandb.ai/site/pricing/).
+
+If your account does not have sufficient storage or sandbox capacity, you may need to free storage, purchase additional usage, upgrade your plan, or contact [W&B Sales](https://wandb.ai/site/contact/).
+
+## Next steps
+
+- [Get started](/models/notebooks/get-started)
+- [Understand reactive execution](/models/notebooks/reactive-info)
+- [Create and manage notebooks](/models/notebooks/create-notebook)
+- [Developer tools](/models/notebooks/developer-tools)

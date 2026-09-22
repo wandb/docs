@@ -35,7 +35,7 @@ If both are present, the resource attributes take precedence. Spans that arrive 
 
 ## Shape spans for the Agents view
 
-Weave accepts any OTel span and stores all of its attributes, but the Agents view renders spans that follow the [OTel GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/). Set `gen_ai.operation.name` on each span to tell Weave what the span represents:
+Weave accepts any OTel span and stores all of its attributes, but the Agents view renders spans that follow the [OTel GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md). Set `gen_ai.operation.name` on each span to tell Weave what the span represents:
 
 | `gen_ai.operation.name` | Represents | Rendered as |
 |---|---|---|
@@ -203,4 +203,3 @@ await provider.shutdown(); // Flush all pending spans before exit.
 To add more turns to the same conversation, emit more `invoke_agent` spans with the same `gen_ai.conversation.id`. Each turn is the root span of its own trace, so turns don't need to share a parent span.
 
 After your application exports spans, open the **Agents** tab of your Weave project.
-

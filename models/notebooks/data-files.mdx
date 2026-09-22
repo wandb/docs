@@ -1,0 +1,101 @@
+---
+title: Work with data files
+---
+
+Use the notebook sidebar to manage files in the notebook sandbox and connect to remote data sources. You can also download [W&B Artifacts](/models/artifacts/download-and-use-an-artifact) into the notebook.
+
+## Notebook storage and persistence
+
+Each notebook runs in a temporary [CoreWeave Sandbox](https://docs.coreweave.com/products/sandboxes). Files that you create, upload, or download appear under **Files** in the notebook sidebar and exist only in the sandbox.
+
+Connected object storage, databases, and data catalogs appear under **Remote storage**.
+
+<Warning>
+Files in the notebook sandbox are temporary. Copy files that you want to keep to persistent storage before the sandbox is reset or deleted.
+</Warning>
+
+## View files
+
+To view files in the notebook sidebar:
+
+1. In the notebook sidebar, select **View files** (<Icon icon="folder-tree" iconType="solid" />).
+2. Expand one of the following sections:
+   - **Files** to view files in the notebook sandbox.
+   - **Remote storage** to browse connected remote data sources.
+
+## Manage files and folders
+
+To upload or create a file or folder:
+
+1. In the notebook sidebar, select **View files** (<Icon icon="folder-tree" iconType="solid" />).
+2. Expand **Files**.
+3. Select one of the following actions:
+   - **Upload file** (<Icon icon="arrow-up-from-bracket" iconType="solid" />) to upload an existing file to the sandbox.
+   - **Add file** (<Icon icon="file-plus" iconType="solid" />) to create a file.
+   - **Add folder** (<Icon icon="folder-plus" iconType="solid" />) to create a folder.
+
+## Download a W&B Artifact
+
+You can [download and use a W&B Artifact](/models/artifacts/download-and-use-an-artifact) in a notebook. The downloaded files are stored in the notebook sandbox.
+
+For example, the following code downloads a model Artifact from W&B Registry:
+
+```python
+import wandb
+
+REGISTRY_NAME = "Zoo"
+MODEL_COLLECTION_NAME = "Classifier_Models"
+MODEL_VERSION = 0
+
+artifact_name = (
+    f"wandb-registry-{REGISTRY_NAME}/"
+    f"{MODEL_COLLECTION_NAME}:v{MODEL_VERSION}"
+)
+
+with wandb.init() as run:
+    artifact = run.use_artifact(artifact_name)
+    artifact_path = artifact.download()
+    print(artifact_path)
+```
+
+The command returns the path to the downloaded Artifact directory. For example:
+
+```text
+/workspace/artifacts/zoo-pznwefqb:v0
+```
+
+The downloaded Artifact appears in the `artifacts` directory:
+
+<Tree>
+  <Tree.Folder name="artifacts" defaultOpen>
+    <Tree.Folder name="zoo-pznwefqb:v0">
+      <Tree.File name="zoo_wandb.pth" />
+    </Tree.Folder>
+  </Tree.Folder>
+  <Tree.Folder name="wandb">
+    <Tree.Folder name="latest-run">
+      <Tree.Folder name="files">
+        <Tree.File name="config.yaml" />
+      </Tree.Folder>
+    </Tree.Folder>
+    <Tree.File name="debug.log" />
+  </Tree.Folder>
+  <Tree.File name="notebook.py" />
+</Tree>
+
+{/* ## Connect a remote data source
+
+To connect object storage, a database, or a data catalog:
+
+1. In the notebook sidebar, select **View files** (<Icon icon="folder-tree" iconType="solid" />).
+2. Select **Remote storage** (<Icon icon="hard-drive" iconType="solid" />).
+3. Select **Add remote storage**.
+4. Select the applicable source type:
+   - **Remote Storages** for remote object storage.
+   - **Database & Catalogs** for a database or data catalog.
+5. Select the provider that you want to connect and follow the prompts.
+
+To learn more, see the following marimo documentation:
+
+- [Remote storage](https://docs.marimo.io/guides/working_with_data/remote_storage/)
+- [Connect to a custom database](https://docs.marimo.io/guides/working_with_data/sql/#connecting-to-a-custom-database) */}

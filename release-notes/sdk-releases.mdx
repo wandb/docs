@@ -161,7 +161,7 @@ This page includes release notes for the W&B Python SDK (`wandb` package) used w
 
 <Update label="0.28.1" description="July 16, 2026">
 ## Notable changes
-- This version requires protobuf v5+ and drops support for probuf v4.
+- This version requires protobuf v5+ and drops support for protobuf v4.
 - This version drops compatibility with W&B Server v0.69.x and older.
 
 ## Added
@@ -411,7 +411,7 @@ This version removes the legacy, deprecated `wandb.beta.workflows` module, inclu
 
 ## Fixed
 - Fixed `Run.__exit__` type annotations to accept `None` values, which are passed when no exception is raised.
-- Fixed `Invalid Client ID digest` error when creating artifacts after calling `random.seed()`. Client IDs could collide when random state was seeded deterministically..
+- Fixed `Invalid Client ID digest` error when creating artifacts after calling `random.seed()`. Client IDs could collide when random state was seeded deterministically.
 - Fixed CLI error when listing empty artifacts.
 - Fixed regression for calling `api.run()` on a Sweeps run.
 - Fixed the "View run at" message printed at the end of a run which sometimes did not include a URL.
@@ -484,7 +484,7 @@ This version removes the legacy, deprecated `wandb.beta.workflows` module, inclu
 - Fixed an issue where TensorBoard sync would sometimes stop working if the tfevents files were being written live.
 - `Artifact.manifest` delays downloading **and** generating the download URL for the artifact manifest until it's first used. If the manifest has not been locally modified, `Artifact.size` and `Artifact.digest` can return without waiting to fetch the full manifest.
 - Fixed uploading GCS folder references via `artifact.add_reference`.
-- The SDK now correctly infers notebooks paths in Jupyter sessions, using th server's root directory, so code saving works in subdirectories (e.g. `code/nested/<notebook>.ipynb`).
+- The SDK now correctly infers notebooks paths in Jupyter sessions, using the server's root directory, so code saving works in subdirectories (e.g. `code/nested/<notebook>.ipynb`).
 
 View the [v0.22.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.3) on GitHub.
 
@@ -592,7 +592,7 @@ This version raises errors that would previously have been suppressed during cal
 
 ## Fixed
 
-- Dataclasses in a run's `config` no long raise `Object of type ... is not JSON serializable` when containing real classes as fields to the dataclass.
+- Dataclasses in a run's `config` no longer raise `Object of type ... is not JSON serializable` when containing real classes as fields to the dataclass.
 - `Artifact.link()` and `Run.link_artifact()` should be faster on server versions 0.74.0+, requiring 4-5 fewer unnecessary blocking GraphQL requests.
 
 View the [v0.21.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.2) on GitHub.
@@ -1619,7 +1619,7 @@ View the [v0.16.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.4
 - Fix long artifact paths on Windows.
 - Update Report API to work with pydantic2.6.
 - Fetch all commits to enable checking out by sha.
-- Dont swallow exceptions in pyagent.
+- Don't swallow exceptions in pyagent.
 - Artifact file upload progress in nexus.
 - Exercise caution in system monitor when rocm-smi is installed on a system with no amd gpus.
 - Typo in cli.py.
@@ -1697,7 +1697,7 @@ View the [v0.16.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.2
 
 - Make offline sync work properly.
 - Fix run existence check to not depend on files being uploaded in the run.
-- Gcp storage uri verifaction failed due to improper async wrapping.
+- Gcp storage uri verification failed due to improper async wrapping.
 - Updating summary with nested dicts now doesn't throw an error.
 - Add prioritization mode to RunQueue create.
 - Create symlink to the server logs in the runs folder.
@@ -1765,7 +1765,7 @@ View the [v0.16.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.0
 ## Enhancements
 
 - Implement config debouncing mechanism.
-- Fix channel swapping on ultrlytics classification task.
+- Fix channel swapping on ultralytics classification task.
 - Implement nexus alpha cpp interface.
 - Expose system metrics in the run object (PoC).
 - Pin ultralytics version support to `v8.0.186`.

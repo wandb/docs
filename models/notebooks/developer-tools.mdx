@@ -1,0 +1,78 @@
+---
+title: Developer tools
+---
+
+Use the developer panel to troubleshoot notebook code, inspect execution, view logs, and access the terminal.
+
+<Frame>
+  <img
+    src="/images/notebooks/hello_world_dev_panel.png"
+    alt="Developer panel open at the bottom of the notebook editor"
+  />
+</Frame>
+
+## Open the developer panel
+
+Use one of the following methods:
+
+- In the notebook footer, select **Developer panel**.
+- Press **Command+J** on macOS or **Ctrl+J** on Windows or Linux. This shortcut opens or closes the panel.
+
+## Inspect errors and warnings
+
+The **Errors** tab shows errors and warnings throughout the notebook, including Python exceptions, syntax errors, cycles, invalid reactive dependencies, and variables defined in multiple cells.
+
+{/* Select an error or warning to go to the affected cell. */}
+
+## Use the scratchpad
+
+Use the **Scratchpad** tab to run temporary Python code without adding it to the notebook's reactive graph. The scratchpad can access variables defined by notebook cells.
+
+Unlike notebook cells, the scratchpad doesn't enforce unique global variable names. Code and variables defined in the scratchpad are not saved. Copy any code that you want to keep into a notebook cell.
+
+To run the scratchpad code, press **Command+Enter** on macOS or **Control+Enter** on Windows or Linux. Alternatively, select **Run** (<Icon icon="circle-play" iconType="solid" />).
+
+Scratchpad output appears to the right of the code.
+
+<Frame>
+  <img src="/images/notebooks/hello_world_scratchpad.png" alt="Code and output displayed in the Scratchpad tab"/>
+</Frame>
+
+## Inspect execution traces
+
+Use the **Tracing** tab to inspect the order and duration of cell executions. Traces can help you identify slow or failed cells and determine which cells ran during a reactive execution event.
+
+Each **Run** heading groups cells that ran during the same execution event. The horizontal bars show when each cell ran and compare its duration with other cells in the event. Each entry includes a cell link, code preview, duration, and status icon. The status icon indicates whether execution succeeded, failed, or was interrupted.
+
+Short executions might display `0 ms` because durations are rounded. Hover over a trace entry to view precise start and end times. Select a cell link to open the corresponding notebook cell.
+
+Select **Clear** to remove the displayed trace history. Clearing the history doesn't remove notebook cells or variables.
+
+Enable **Inline chart** to display execution timing near the corresponding notebook cells.
+
+The following image shows the "Hello World" notebook with the **Tracing** tab open in the developer panel. `cell-4` defines the variable pet, and `cell-5` uses it to produce the output "Do you have a cat?". Both cells completed successfully. The trace shows a duration of 14 ms for `cell-4` and `0 ms` for `cell-5`. A tooltip shows the precise start and end times for `cell-5`.
+
+<Frame>
+  <img
+    src="/images/notebooks/hello_world_tracing.png" alt="Tracing tab showing cell execution order, status, and duration"/>
+</Frame>
+
+## View logs
+
+Use the **Logs** tab to view standard output (`stdout`) and standard error (`stderr`) from notebook cells and the scratchpad. Use the logs to investigate execution failures that don't produce a clear inline error.
+
+The following image shows the output `"Do you have a cat?"` logged at `[5:42:51 PM]` by the corresponding notebook cell.
+
+<Frame>
+  <img
+    src="/images/notebooks/hello_world_logs.png" alt="Logs tab showing standard output and error output from the notebook"/>
+</Frame>
+
+<Note>
+The **Logs** tab also includes output and errors from the [**Scratchpad**](/models/notebooks/developer-tools#use-the-scratchpad). In the image, the entry at `[5:44:00 PM]` is identified as `cell--1` and comes from the scratchpad.
+</Note>
+
+
+## Use the terminal
+
+Use the **Terminal** tab to open a shell in the same sandbox environment as the notebook runtime. From the terminal, you can inspect files, run command-line tools, manage packages, and execute scripts. Changes made in the terminal apply to the same workspace as the notebook.

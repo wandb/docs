@@ -1,0 +1,67 @@
+---
+title: ノートブックのセルを実行する
+---
+
+個別のセル、古くなったすべてのセル、またはノートブック内のすべてのセルを実行できます。ノートブックはリアクティブな実行モデルを採用しており、実行順序はセルの位置ではなく変数の依存関係によって決定されます。
+
+<div id="run-all-stale-cells">
+  ## 古くなったセルをすべて実行する
+</div>
+
+最新のコードと入力をすでに使用しているセルは再実行せずに、[古くなったセル](./reactive-info#understand-stale-and-blocked-cells)をすべて実行します。
+
+<Tabs>
+  <Tab title="UI">
+    ノートブックの右下にある **Run all stale cells** (<Icon icon="circle-play" iconType="solid" />) をクリックします。
+  </Tab>
+
+  <Tab title="キーボードショートカット">
+    `Esc` を押してコマンドモードに切り替え、macOS では **Command+Shift+R**、Windows または Linux では **Control+Shift+R** を押します。
+  </Tab>
+</Tabs>
+
+<div id="rerun-all-cells">
+  ## すべてのセルを再実行する
+</div>
+
+ノートブック内のすべてのセルを再実行するには、次の手順に従います。
+
+1. macOS では **Command+K**、Windows または Linux では **Control+K** を押してコマンドパレットを開きます。
+2. **Re-run all cells** を選択します。
+
+<div id="stop-a-running-cell">
+  ## 実行中のセルを停止する
+</div>
+
+<Tabs>
+  <Tab title="UI">
+    セルのツールバーにある **Stop** (<Icon icon="circle-stop" iconType="solid" />) をクリックすると、実行中のセルを停止できます。
+  </Tab>
+
+  <Tab title="キーボードショートカット">
+    macOS では **Command+I**、Windows または Linux では **Control+I** を押すと、実行中のセルを停止できます。
+  </Tab>
+</Tabs>
+
+<div id="disable-or-enable-a-cell">
+  ## セルを無効化または有効化する
+</div>
+
+セルを無効にすると、そのセルとその依存関係のどちらも実行されなくなります。
+
+1. `Esc` キーを押してコマンドモードに入ります。
+2. コマンドパレットを開くには、macOS では **Command+P**、Windows では **Control+P** を押します。
+3. ドロップダウンメニューから **Disable execution** を選択します。
+
+<div id="restart-the-notebook-runtime">
+  ## ノートブックのランタイムを再起動する
+</div>
+
+ランタイムを再起動して、ノートブックの変数やその他のインメモリの状態をクリアします。
+
+1. ノートブックの右上隅にある **action ( <Icon icon="bars" iconType="solid" /> )&#x20;**&#x20;メニューをクリックします。
+2. ドロップダウンメニューから **Restart kernel** を選択します。
+
+詳細は、[Disabling cells](https://docs.marimo.io/guides/reactivity/#disabling-cells) を参照してください。
+
+{{/* ## 長時間実行されるセルや副作用のあるセルを管理する */}}

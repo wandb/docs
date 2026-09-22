@@ -1,0 +1,115 @@
+---
+title: 패키지 관리
+---
+
+**Manage packages** 사이드바 또는 노트북 터미널에서 Python 패키지를 설치, 조회, 업데이트하거나 제거할 수 있습니다.
+
+<Info>
+  기본 노트북 샌드박스 환경에는 [W&amp;B Python SDK](/ko/models/ref/python), [Reports and Workspaces API](/ko/models/ref/wandb_workspaces/reports), [marimo](https://docs.marimo.io/) 및 기타 자주 사용되는 패키지가 포함되어 있습니다.
+</Info>
+
+{/* https://docs.marimo.io/guides/package_management/ */}
+
+<div id="install-a-package">
+  ## 패키지 설치
+</div>
+
+사이드바 또는 터미널을 사용하여 Python 패키지를 설치하세요.
+
+<Tabs>
+  <Tab title="사이드바">
+    사이드바에서 패키지를 설치하려면 다음 단계를 따르세요.
+
+    1. 노트북 사이드바에서 **Manage packages**(<Icon icon="cube" />)를 선택합니다.
+    2. 패키지 이름을 입력합니다.
+    3. **Add**를 선택합니다.
+  </Tab>
+
+  <Tab title="터미널">
+    개발자 패널을 열고 **Terminal** 탭을 선택한 후, 다음 명령어를 실행하세요.
+
+    ```bash
+    uv pip install <package_name>
+    ```
+  </Tab>
+</Tabs>
+
+자세한 내용은 [marimo 문서](https://docs.marimo.io/guides/package_management/)를 참고하세요.
+
+<div id="view-installed-packages">
+  ## 설치된 패키지 보기
+</div>
+
+사이드바 또는 터미널을 사용해 설치된 패키지를 확인하세요.
+
+<Tabs>
+  <Tab title="사이드바">
+    설치된 패키지를 확인하려면 다음을 수행하세요.
+
+    1. 노트북 사이드바에서 <Icon icon="cube" /> **Manage packages**를 선택하세요.
+    2. 다음 뷰 중 하나를 선택하세요.
+
+    * **List**: 설치된 패키지를 단순 목록으로 표시합니다.
+    * **Tree**: 패키지 의존성 계층 구조를 표시합니다. 각 의존성은 해당 의존성을 필요로 하는 패키지의 하위 항목으로 표시됩니다.
+
+    다음 이미지는 **Manage packages** 사이드바에 표시된 `wandb-workspaces`를 보여줍니다. 그 아래에 중첩된 패키지는 `wandb-workspaces`의 의존성입니다.
+
+    <Frame>
+      <img src="/images/notebooks/hello_package_management.png" alt="Manage packages sidebar in the notebook" />
+    </Frame>
+  </Tab>
+
+  <Tab title="터미널">
+    개발자 패널을 연 다음 **Terminal** 탭을 선택하세요. 다음 명령어를 실행하세요.
+
+    ```bash
+    uv pip list
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-a-package">
+  ## 패키지 업데이트
+</div>
+
+사이드바 또는 터미널을 사용하여 패키지를 업데이트할 수 있습니다.
+
+<Tabs>
+  <Tab title="사이드바">
+    1. 노트북 사이드바에서 **Manage packages**(<Icon icon="cube" />)를 선택하세요.
+    2. 패키지 이름을 입력하거나 검색하세요.
+    3. **Upgrade**를 선택하세요.
+  </Tab>
+
+  <Tab title="터미널">
+    개발자 패널을 열고 **Terminal** 탭을 선택한 다음, 아래 명령어를 실행하세요.
+
+    ```bash
+    uv pip install --upgrade <package_name>
+    ```
+  </Tab>
+</Tabs>
+
+{/* ## 패키지 버전 고정 */}
+
+<div id="remove-a-package">
+  ## 패키지 제거
+</div>
+
+사이드바 또는 노트북 터미널을 사용하여 패키지를 제거할 수 있습니다.
+
+<Tabs>
+  <Tab title="사이드바">
+    1. 노트북 사이드바에서 **Manage packages**(<Icon icon="cube" />)를 선택하세요.
+    2. 제거할 패키지를 찾으세요.
+    3. 패키지 이름 옆의 **Remove**를 선택하세요.
+  </Tab>
+
+  <Tab title="터미널">
+    개발자 패널을 열고 **Terminal** 탭을 선택한 다음, 다음 명령어를 실행하세요.
+
+    ```bash
+    uv pip uninstall <package_name>
+    ```
+  </Tab>
+</Tabs>

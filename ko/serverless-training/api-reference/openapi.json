@@ -1829,6 +1829,8 @@
           "batch_size": {
             "anyOf": [
               {
+                "maximum": 32,
+                "minimum": 1,
                 "type": "integer"
               },
               {
@@ -2324,6 +2326,32 @@
         "summary": "헬스 체크",
         "tags": [
           "health"
+        ]
+      }
+    },
+    "/v1/preview/base-models": {
+      "get": {
+        "description": "아키텍처 검증을 포함하여 이 배포에서 학습할 수 있는 모델입니다.",
+        "operationId": "list_base_models_v1_preview_base_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response List Base Models V1 Preview Base Models Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "성공 응답"
+          }
+        },
+        "summary": "기본 모델 목록",
+        "tags": [
+          "models"
         ]
       }
     },
@@ -2860,7 +2888,7 @@
   },
   "servers": [
     {
-      "url": "https://api.training.wandb.ai"
+      "url": "https://forge.coreweave.com/api/training"
     }
   ]
 }
