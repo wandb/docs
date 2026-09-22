@@ -1,0 +1,77 @@
+---
+title: 노트북 설정하기
+---
+
+노트북의 설정을 구성하여 표시 형식, 런타임 동작, 에디터 환경설정을 제어하세요.
+
+<div id="open-notebook-settings">
+  ## 노트북 설정 열기
+</div>
+
+노트북 설정은 현재 노트북에만 적용됩니다. 표시 및 내보내기 옵션을 설정하고, 맞춤형 CSS와 HTML을 추가하며, 그 밖의 노트북별 동작을 변경할 수 있습니다.
+
+노트북 설정을 열려면 다음을 수행하세요.
+
+1. 노트북 오른쪽 위에서 **Notebook Settings**(<Icon icon="gear" iconType="solid" />)를 선택하세요.
+2. 설정 메뉴에서 필요에 따라 설정을 변경하세요.
+
+자세한 내용은 marimo의 [Notebook settings](https://docs.marimo.io/guides/configuration)를 참조하세요.
+
+<div id="configure-runtime-behavior">
+  ## 런타임 동작 설정
+</div>
+
+런타임 설정은 노트북이 시작될 때, 셀이 변경될 때, 임포트한 Python 모듈이 변경될 때 노트북이 어떻게 동작할지를 제어합니다.
+
+<div id="execution-modes">
+  ### 실행 모드
+</div>
+
+런타임은 다음 실행 모드를 지원합니다.
+
+<div id="autorun-mode">
+  #### Autorun 모드
+</div>
+
+Autorun 모드에서는 다음 이벤트 중 하나가 발생하면 노트북이 종속 셀을 자동으로 실행합니다.
+
+* 셀을 실행하거나 편집하는 경우
+* UI 요소와 상호작용하는 경우
+* 모듈 자동 리로드가 활성화된 상태에서 임포트한 Python 모듈이 변경되는 경우
+
+<div id="lazy-mode">
+  #### 지연 모드
+</div>
+
+지연 모드에서는 셀을 실행하면 해당 셀의 다운스트림 셀이 오래된 상태로 표시될 뿐, 자동으로 실행되지는 않습니다.
+
+오래된 업스트림 셀이 있는 셀을 실행하면 노트북이 업스트림 셀을 먼저 실행합니다. 이를 통해 해당 셀이 항상 최신 입력을 받도록 보장합니다.
+
+<div id="change-runtime-settings">
+  ### 런타임 설정 변경
+</div>
+
+런타임 설정을 변경하려면 다음을 수행하세요.
+
+1. 노트북 하단 표시줄에서 **Runtime reactivity**(<Icon icon="bolt-lightning" iconType="solid" />)를 선택하세요.
+2. 필요한 설정을 지정하세요.
+
+   | 설정                    | 동작                               | 옵션                               |
+   | --------------------- | -------------------------------- | -------------------------------- |
+   | **On startup**        | 노트북이 시작될 때 자동으로 실행할지 여부          | **Autorun** 또는 **Lazy**          |
+   | **On cell changes**   | 셀 실행 후 종속 셀을 자동으로 실행할지 여부        | **Autorun** 또는 **Lazy**          |
+   | **On module changes** | 임포트한 모듈이 변경될 때 영향을 받는 셀을 실행할지 여부 | **Off**, **Autorun** 또는 **Lazy** |
+
+자세한 내용은 marimo의 [Runtime configuration](https://docs.marimo.io/guides/configuration/runtime_configuration/)을 참조하세요.
+
+<div id="configure-editor-preferences">
+  ## 에디터 환경설정
+</div>
+
+에디터 환경설정을 설정하려면 다음 단계를 따르세요.
+
+1. 노트북 오른쪽 상단에서 **Notebook Settings**(<Icon icon="gear" iconType="solid" />)를 선택하세요.
+2. 설정 메뉴에서 **Editor**를 선택하세요.
+3. 코드 글꼴 크기, 줄 번호, 구문 강조 등의 환경설정을 지정하세요.
+
+자세한 내용은 marimo의 [Editor features](https://docs.marimo.io/guides/editor_features/overview/) 를 참조하세요.

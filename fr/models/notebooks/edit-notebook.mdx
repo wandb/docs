@@ -1,0 +1,122 @@
+---
+title: Modifier un notebook
+---
+
+Cette page décrit les actions courantes dans un notebook : ajout, modification, réorganisation et suppression de cellules, utilisation des contrôles interactifs et affichage de contenu.
+
+<div id="edit-modes">
+  ## Modes d&#39;édition
+</div>
+
+Il existe deux modes d&#39;édition :
+
+* **Mode commande** : effectuez des actions sur les cellules, comme les ajouter, les supprimer ou les déplacer. Appuyez sur `Esc` pour passer en mode commande.
+* **Mode édition** : modifiez le contenu de la cellule sélectionnée. Appuyez sur `Enter` pour passer en mode édition.
+
+<div id="add-a-cell">
+  ## Ajouter une cellule
+</div>
+
+Les notebooks prennent en charge les cellules [Python](#python-cell), [Markdown](#markdown-cell) et [SQL](#sql-cell). Ajoutez une cellule depuis l&#39;interface utilisateur du notebook ou à l&#39;aide d&#39;un raccourci clavier.
+
+<Tabs>
+  <Tab title="Interface utilisateur">
+    Dans un notebook, sélectionnez le bouton `PYTHON`, `MARKDOWN` ou `SQL` pour créer une cellule de ce type.
+  </Tab>
+
+  <Tab title="Raccourcis clavier">
+    {/* In edit mode:
+
+          - Press **Command + Shift + O** to create a new cell above the current cell.
+          - Press **Command + Shift + P** to create a new cell below the current cell. */}
+
+    Appuyez sur `Esc` pour passer en mode commande, puis utilisez l&#39;un des raccourcis suivants :
+
+    | Action                                              | Raccourci               |
+    | --------------------------------------------------- | ----------------------- |
+    | Créer une cellule au-dessus de la cellule actuelle  | **Command + Shift + O** |
+    | Créer une cellule en dessous de la cellule actuelle | **Command + Shift + P** |
+
+    Voir [Raccourcis clavier](https://docs.marimo.io/guides/editor_features/overview/?h=keyboar#keyboard-shortcuts) pour la liste complète des raccourcis disponibles.
+  </Tab>
+</Tabs>
+
+{/* ### Cellule Python
+
+  ### Cellule Markdown
+
+  Utilisez la syntaxe Markdown pour mettre en forme du texte, créer des titres, des listes, des liens et d'autres contenus enrichis dans une cellule Markdown.
+
+  <Tip>
+  Les titres Markdown (par exemple, `# H1`, `## H2`, `### H3`) apparaissent dans le **plan** de votre notebook. Le plan fait office de table des matières pour votre notebook. Pour accéder à une section spécifique, cliquez sur le titre correspondant dans le plan.
+  </Tip>
+
+  Voir [l'éditeur Markdown](https://docs.marimo.io/guides/outputs/#markdown-editor) pour plus d'informations.
+
+  ### Cellule SQL
+
+  https://docs.marimo.io/guides/working_with_data/sql/?h=sq
+
+  ## Générer ou modifier une cellule avec l'IA */}
+
+<div id="change-cell-order">
+  ## Modifier l&#39;ordre des cellules
+</div>
+
+Modifiez l&#39;ordre des cellules d&#39;un notebook à l&#39;aide de la poignée de déplacement ou des raccourcis clavier.
+
+<Tabs>
+  <Tab title="Interface utilisateur">
+    Sélectionnez la poignée de déplacement (<Icon icon="grip-dots-vertical" iconType="solid" />) située à droite de la cellule et faites-la glisser jusqu&#39;à la position souhaitée.
+  </Tab>
+
+  <Tab title="Raccourcis clavier">
+    Appuyez sur `Esc` pour passer en mode commande. Utilisez ensuite l&#39;un des raccourcis suivants :
+
+    | Action                           | Raccourci               |
+    | -------------------------------- | ----------------------- |
+    | Déplacer la cellule vers le haut | **Command + Shift + 9** |
+    | Déplacer la cellule vers le bas  | **Command + Shift + 0** |
+  </Tab>
+</Tabs>
+
+<div id="delete-a-cell">
+  ## Supprimer une cellule
+</div>
+
+Supprimez une cellule depuis l&#39;interface utilisateur ou à l&#39;aide d&#39;un raccourci clavier.
+
+<Tabs>
+  <Tab title="Interface utilisateur">
+    Utilisez l&#39;une des méthodes suivantes :
+
+    1. Effectuez un clic droit sur la cellule, puis sélectionnez **supprimer** dans le menu contextuel.
+    2. Sélectionnez l&#39;icône de corbeille située à côté de la cellule.
+  </Tab>
+
+  <Tab title="Raccourcis clavier">
+    Utilisez le raccourci clavier suivant pour supprimer une cellule :
+
+    1. Appuyez sur `Esc` pour passer en mode commande.
+    2. Appuyez sur **Command + Shift + Backspace** pour supprimer la cellule active.
+  </Tab>
+</Tabs>
+
+<div id="add-interactive-controls">
+  ## Ajouter des contrôles interactifs
+</div>
+
+Ajoutez des éléments interactifs, tels que des curseurs, des listes déroulantes et des boutons, aux cellules de notebook. Lorsque vous interagissez avec un élément, le notebook met à jour les cellules qui dépendent de sa valeur.
+
+Par exemple, copiez le code suivant dans une cellule pour créer un curseur interactif de base :
+
+```python
+import marimo as mo
+
+slider = mo.ui.slider(1, 10)
+mo.md(f"Choose a value: {slider}")
+```
+
+Pour plus d&#39;informations, voir [Interactive elements](https://docs.marimo.io/guides/interactivity/) dans la documentation marimo.
+
+{/* ## Afficher des tableaux, des graphiques et des contenus multimédias */}
