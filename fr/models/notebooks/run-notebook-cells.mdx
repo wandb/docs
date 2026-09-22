@@ -1,0 +1,67 @@
+---
+title: Exécuter des cellules de notebook
+---
+
+Exécutez des cellules individuelles, toutes les cellules obsolètes ou l&#39;ensemble des cellules d&#39;un notebook. Les notebooks utilisent un modèle d&#39;exécution réactif qui détermine l&#39;ordre d&#39;exécution en fonction des dépendances entre variables, et non de la position des cellules.
+
+<div id="run-all-stale-cells">
+  ## Exécuter toutes les cellules obsolètes
+</div>
+
+Exécutez toutes les [cellules obsolètes](./reactive-info#understand-stale-and-blocked-cells) sans réexécuter celles qui utilisent déjà la dernière version du code et des entrées.
+
+<Tabs>
+  <Tab title="Interface utilisateur">
+    Cliquez sur **Run all stale cells** (<Icon icon="circle-play" iconType="solid" />) dans le coin inférieur droit du notebook.
+  </Tab>
+
+  <Tab title="Raccourci clavier">
+    Appuyez sur `Esc` pour passer en mode commande, puis sur **Command+Shift+R** sous macOS ou sur **Control+Shift+R** sous Windows ou Linux.
+  </Tab>
+</Tabs>
+
+<div id="rerun-all-cells">
+  ## Réexécuter toutes les cellules
+</div>
+
+Réexécutez toutes les cellules du notebook :
+
+1. Appuyez sur **Command+K** sous macOS ou sur **Control+K** sous Windows ou Linux pour ouvrir la palette de commandes.
+2. Sélectionnez **Re-run all cells**.
+
+<div id="stop-a-running-cell">
+  ## Arrêter une cellule en cours d’exécution
+</div>
+
+<Tabs>
+  <Tab title="Interface utilisateur">
+    Cliquez sur **Stop** (<Icon icon="circle-stop" iconType="solid" />) dans la barre d’outils de la cellule pour en arrêter l’exécution.
+  </Tab>
+
+  <Tab title="Raccourci clavier">
+    Appuyez sur **Command+I** sous macOS ou sur **Control+I** sous Windows ou Linux pour arrêter l’exécution de la cellule.
+  </Tab>
+</Tabs>
+
+<div id="disable-or-enable-a-cell">
+  ## Désactiver ou activer une cellule
+</div>
+
+Désactivez une cellule pour empêcher son exécution ainsi que celle de ses dépendances.
+
+1. Appuyez sur `Esc` pour passer en mode commande.
+2. Pour ouvrir la palette de commandes, appuyez sur **Command+P** sous macOS ou sur **Control+P** sous Windows.
+3. Dans le menu déroulant, sélectionnez **Disable execution**.
+
+<div id="restart-the-notebook-runtime">
+  ## Redémarrer le runtime du notebook
+</div>
+
+Redémarrez le runtime pour effacer les variables du notebook ainsi que tout autre état en mémoire.
+
+1. Cliquez sur le menu **action ( <Icon icon="bars" iconType="solid" /> )** dans le coin supérieur droit du notebook.
+2. Dans le menu déroulant, sélectionnez **Restart kernel**.
+
+Pour plus d&#39;informations, voir [Disabling cells](https://docs.marimo.io/guides/reactivity/#disabling-cells).
+
+{{/* ## Gérer les cellules à longue exécution ou ayant des effets secondaires */}}

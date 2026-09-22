@@ -1,0 +1,112 @@
+---
+title: 데이터 파일 다루기
+---
+
+노트북 사이드바를 사용하여 노트북 샌드박스의 파일을 관리하고 원격 데이터 소스에 연결하세요. [W&amp;B Artifacts](/ko/models/artifacts/download-and-use-an-artifact)를 노트북으로 다운로드할 수도 있습니다.
+
+<div id="notebook-storage-and-persistence">
+  ## 노트북 저장소 및 지속성
+</div>
+
+각 노트북은 임시 [CoreWeave 샌드박스](https://docs.coreweave.com/products/sandboxes)에서 실행됩니다. 생성, 업로드 또는 다운로드한 파일은 노트북 사이드바의 **Files**에 표시되며, 해당 샌드박스 내에서만 존재합니다.
+
+연결된 객체 저장소, 데이터베이스, 데이터 카탈로그는 **Remote storage**에 표시됩니다.
+
+<Warning>
+  노트북 샌드박스의 파일은 임시로 유지됩니다. 보관해야 할 파일은 샌드박스가 재설정되거나 삭제되기 전에 영구 저장소로 복사하세요.
+</Warning>
+
+<div id="view-files">
+  ## 파일 보기
+</div>
+
+노트북 사이드바에서 파일을 보려면 다음을 수행하세요.
+
+1. 노트북 사이드바에서 **View files**(<Icon icon="folder-tree" iconType="solid" />)를 선택하세요.
+2. 다음 섹션 중 하나를 펼치세요.
+   * **Files**: 노트북 샌드박스에 있는 파일을 확인합니다.
+   * **Remote storage**: 연결된 원격 데이터 소스를 탐색합니다.
+
+<div id="manage-files-and-folders">
+  ## 파일 및 폴더 관리
+</div>
+
+파일 또는 폴더를 업로드하거나 생성하려면 다음을 수행하세요.
+
+1. 노트북 사이드바에서 **View files**(<Icon icon="folder-tree" iconType="solid" />)를 선택하세요.
+2. **Files**를 펼치세요.
+3. 다음 작업 중 하나를 선택하세요.
+   * **Upload file**(<Icon icon="arrow-up-from-bracket" iconType="solid" />): 기존 파일을 샌드박스에 업로드합니다.
+   * **Add file**(<Icon icon="file-plus" iconType="solid" />): 파일을 생성합니다.
+   * **Add folder**(<Icon icon="folder-plus" iconType="solid" />): 폴더를 생성합니다.
+
+<div id="download-a-wb-artifact">
+  ## W&amp;B 아티팩트 다운로드
+</div>
+
+노트북에서 [W&amp;B 아티팩트를 다운로드하여 사용](/ko/models/artifacts/download-and-use-an-artifact)할 수 있습니다. 다운로드한 파일은 노트북 샌드박스에 저장됩니다.
+
+예를 들어, 다음 코드는 W&amp;B Registry에서 모델 아티팩트를 다운로드합니다:
+
+```python
+import wandb
+
+REGISTRY_NAME = "Zoo"
+MODEL_COLLECTION_NAME = "Classifier_Models"
+MODEL_VERSION = 0
+
+artifact_name = (
+    f"wandb-registry-{REGISTRY_NAME}/"
+    f"{MODEL_COLLECTION_NAME}:v{MODEL_VERSION}"
+)
+
+with wandb.init() as run:
+    artifact = run.use_artifact(artifact_name)
+    artifact_path = artifact.download()
+    print(artifact_path)
+```
+
+이 명령은 다운로드한 아티팩트 디렉터리의 경로를 반환합니다. 예를 들면 다음과 같습니다.
+
+```text
+/workspace/artifacts/zoo-pznwefqb:v0
+```
+
+다운로드한 아티팩트는 `artifacts` 디렉터리에 표시됩니다.
+
+<Tree>
+  <Tree.Folder name="artifacts" defaultOpen>
+    <Tree.Folder name="zoo-pznwefqb:v0">
+      <Tree.File name="zoo_wandb.pth" />
+    </Tree.Folder>
+  </Tree.Folder>
+
+  <Tree.Folder name="wandb">
+    <Tree.Folder name="latest-run">
+      <Tree.Folder name="files">
+        <Tree.File name="config.yaml" />
+      </Tree.Folder>
+    </Tree.Folder>
+
+    <Tree.File name="debug.log" />
+  </Tree.Folder>
+
+  <Tree.File name="notebook.py" />
+</Tree>
+
+{/* ## 원격 데이터 소스 연결
+
+  객체 저장소, 데이터베이스 또는 데이터 카탈로그를 연결하려면 다음 단계를 따르세요.
+
+  1. 노트북 사이드바에서 **View files** (<Icon icon="folder-tree" iconType="solid" />)를 선택합니다.
+  2. **Remote storage** (<Icon icon="hard-drive" iconType="solid" />)를 선택합니다.
+  3. **Add remote storage**를 선택합니다.
+  4. 해당 소스 유형을 선택합니다.
+   - 원격 객체 저장소에는 **Remote Storages**를 선택합니다.
+   - 데이터베이스 또는 데이터 카탈로그에는 **Database & Catalogs**를 선택합니다.
+  5. 연결할 공급자를 선택하고 안내에 따릅니다.
+
+  자세한 내용은 다음 marimo 문서를 참조하세요.
+
+  - [Remote storage](https://docs.marimo.io/guides/working_with_data/remote_storage/)
+  - [맞춤형 데이터베이스에 연결](https://docs.marimo.io/guides/working_with_data/sql/#connecting-to-a-custom-database) */}

@@ -1,0 +1,77 @@
+---
+title: ノートブックを設定する
+---
+
+ノートブックの設定を変更して、外観、ランタイムの動作、エディタの設定を制御します。
+
+<div id="open-notebook-settings">
+  ## ノートブック設定を開く
+</div>
+
+ノートブック設定は、現在のノートブックにのみ適用されます。表示やエクスポートのオプションの設定、カスタム CSS や HTML の追加のほか、ノートブック固有のその他の動作も変更できます。
+
+ノートブック設定を開くには、次の手順に従います。
+
+1. ノートブックの右上で、**Notebook Settings** (<Icon icon="gear" iconType="solid" />) を選択します。
+2. 設定メニューで、必要に応じて設定を変更します。
+
+詳細については、marimo の [Notebook settings](https://docs.marimo.io/guides/configuration) を参照してください。
+
+<div id="configure-runtime-behavior">
+  ## ランタイムの動作を設定する
+</div>
+
+ランタイム設定では、ノートブックの起動時、セルの変更時、インポート済みの Python モジュールの変更時に、ノートブックがどのように動作するかを制御します。
+
+<div id="execution-modes">
+  ### 実行モード
+</div>
+
+ランタイムは以下の実行モードをサポートします。
+
+<div id="autorun-mode">
+  #### 自動実行モード
+</div>
+
+自動実行モードでは、次のいずれかのイベントが発生すると、ノートブックが依存先のセルを自動的に実行します。
+
+* セルを実行または編集したとき。
+* UI 要素を操作したとき。
+* モジュールの自動リロードが有効な状態で、インポート済みの Python モジュールが変更されたとき。
+
+<div id="lazy-mode">
+  #### 遅延モード
+</div>
+
+遅延モードでは、セルを実行すると下流のセルは古い状態としてマークされるだけで、自動的には実行されません。
+
+上流に古い状態のセルがあるセルを実行すると、ノートブックは先に上流のセルを実行します。これにより、対象のセルは常に最新の入力を受け取れます。
+
+<div id="change-runtime-settings">
+  ### ランタイム設定の変更
+</div>
+
+ランタイム設定を変更するには、次の手順に従います。
+
+1. ノートブックのフッターで、**Runtime reactivity** (<Icon icon="bolt-lightning" iconType="solid" />) を選択します。
+2. 必要に応じて次の設定を構成します。
+
+   | 設定                    | 動作                                  | オプション                            |
+   | --------------------- | ----------------------------------- | -------------------------------- |
+   | **On startup**        | ノートブックの起動時に自動的に実行するかどうか             | **Autorun** または **Lazy**         |
+   | **On cell changes**   | セルの実行後に依存先のセルを自動的に実行するかどうか          | **Autorun** または **Lazy**         |
+   | **On module changes** | インポート済みモジュールの変更時に、影響を受けるセルを実行するかどうか | **Off**、**Autorun**、または **Lazy** |
+
+詳細については、marimo の [Runtime configuration](https://docs.marimo.io/guides/configuration/runtime_configuration/) を参照してください。
+
+<div id="configure-editor-preferences">
+  ## エディタの設定を構成する
+</div>
+
+エディタの設定を構成するには、次の手順を実行します。
+
+1. ノートブックの右上で、**Notebook Settings** (<Icon icon="gear" iconType="solid" />) を選択します。
+2. 設定メニューで **Editor** を選択します。
+3. コードのフォントサイズ、行番号、構文ハイライトなどの設定を構成します。
+
+詳細については、marimo の [Editor features](https://docs.marimo.io/guides/editor_features/overview/) を参照してください。

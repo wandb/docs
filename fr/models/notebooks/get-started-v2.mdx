@@ -1,0 +1,658 @@
+---
+title: Premiers pas (v2)
+---
+
+import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
+
+Dans ce guide, vous apprendrez à récupérer le dataset Zoo, à le convertir en tenseurs, à entraîner un classifieur simple basé sur un réseau de neurones, puis à publier le modèle obtenu dans le W&amp;B Registry.
+
+Dans ce guide, vous apprendrez à télécharger et à utiliser des artifacts liés au Registry. Pour cela, vous téléchargerez un modèle de classification pré-entraîné ainsi que les tenseurs du dataset correspondant. Vous utiliserez ensuite ces artifacts pour effectuer des inférences et évaluer les performances du modèle.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+Avant de commencer, assurez-vous de disposer d&#39;une clé API W&amp;B. Si vous souhaitez exécuter vous-même l&#39;exemple de notebook décrit sur cette page, exécutez le [script d&#39;entraînement Python](#run-training-script-optional) joint. Ce script couvre la première partie du flux de travail : récupération du dataset, conversion de celui-ci en tenseurs, définition d&#39;un modèle de réseau de neurones et entraînement de ce modèle, puis publication du modèle obtenu dans le W&amp;B Registry.
+
+<div id="sign-up-and-create-an-api-key">
+  ### S’inscrire et créer une clé API
+</div>
+
+Pour authentifier votre machine auprès de W&amp;B, vous avez besoin d’une clé API.
+
+<ApiKeyCreate />
+
+<div id="run-training-script-optional">
+  ### Exécuter le script d&#39;entraînement (facultatif)
+</div>
+
+Copiez le code suivant dans un fichier nommé `train.py` et enregistrez-le en local sur votre machine :
+
+```python expandable train.py
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["pandas", "scikit-learn", "torch", "ucimlrepo", "wandb"]
+# ///
+
+"""Publish Zoo dataset tensors and a trained model to W&B Registry.
+
+This script is a Python conversion of ``zoo_wandb.ipynb`` through the
+"Publish model to registry" section. Downloading artifacts for inference is
+left for a later phase.
+"""
+
+from __future__ import annotations
+
+import argparse
+import logging
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Sequence, TypeAlias
+
+import pandas as pd
+import torch
+import wandb
+from sklearn.model_selection import train_test_split
+from torch import nn
+from ucimlrepo import fetch_ucirepo
+
+
+SCRIPT_PATH = Path(__file__).resolve()
+SCRIPT_DIR = SCRIPT_PATH.parent
+LOGGER = logging.getLogger(__name__)
+ConfigValue: TypeAlias = bool | int | float | str
+
+DEFAULT_ENTITY = "wandb"
+DEFAULT_PROJECT = "Zoo_Demo"
+DEFAULT_REGISTRY = "Zoo"
+
+FULL_DATASET_COLLECTION = "dataset-tensors"
+SPLIT_DATASET_COLLECTION = "dataset-tensors-split"
+MODEL_COLLECTION = "Classifier_Models"
+
+DATASET_FILENAME = "zoo_dataset.pt"
+LABELS_FILENAME = "zoo_labels.pt"
+X_TRAIN_FILENAME = "zoo_dataset_X_train.pt"
+Y_TRAIN_FILENAME = "zoo_labels_y_train.pt"
+X_TEST_FILENAME = "zoo_dataset_X_test.pt"
+Y_TEST_FILENAME = "zoo_labels_y_test.pt"
+MODEL_FILENAME = "zoo_wandb.pth"
+SCRIPT_ARTIFACT_NAME = "zoo_wandb_script"
+
+DATASET_ARTIFACT_NAME = "zoo_dataset"
+SPLIT_DATASET_ARTIFACT_NAME = "split_zoo_dataset"
+DATASET_ARTIFACT_FILE = "zoo_dataset"
+LABELS_ARTIFACT_FILE = "zoo_labels"
+X_TRAIN_ARTIFACT_FILE = "zoo_dataset_X_train"
+Y_TRAIN_ARTIFACT_FILE = "zoo_labels_y_train"
+X_TEST_ARTIFACT_FILE = "zoo_dataset_X_test"
+Y_TEST_ARTIFACT_FILE = "zoo_labels_y_test"
+
+
+@dataclass(frozen=True, slots=True)
+class WandbUser:
+    """W&B entity and project used for registry publishing runs."""
+
+    entity: str
+    project: str
+
+
+@dataclass(frozen=True, slots=True)
+class ArtifactFile:
+    """A local file and its name inside a W&B artifact."""
+
+    path: Path
+    name: str
+
+
+@dataclass(frozen=True, slots=True)
+class WandbRegistryEntry:
+    """An artifact version to link into a W&B Registry collection."""
+
+    registry: str
+    collection: str
+    artifact_name: str
+    artifact_type: str
+    description: str
+    job_type: str
+    files: tuple[ArtifactFile, ...]
+
+    @property
+    def target_path(self) -> str:
+        return f"wandb-registry-{self.registry}/{self.collection}"
+
+
+class NeuralNetwork(nn.Module):
+    """Simple neural network classifier from the Zoo registry notebook."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.linear_stack = nn.Sequential(
+            nn.Linear(in_features=16, out_features=16),
+            nn.Sigmoid(),
+            nn.Linear(in_features=16, out_features=7),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.linear_stack(x)
+
+
+def fetch_data() -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Fetch the Zoo dataset from the UCI Machine Learning Repository."""
+
+    zoo = fetch_ucirepo(id=111)
+    features = zoo.data.features
+    labels = zoo.data.targets
+
+    LOGGER.info("features: %s type: %s", features.shape, type(features))
+    LOGGER.info("labels: %s type: %s", labels.shape, type(labels))
+
+    return features, labels
+
+
+def process_data(
+    features: pd.DataFrame,
+    labels: pd.DataFrame,
+    output_dir: Path,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Convert the Zoo dataset to tensors and save the processed files."""
+
+    dataset = torch.as_tensor(features.to_numpy(copy=True), dtype=torch.float32)
+    label_tensor = torch.as_tensor(labels.to_numpy(copy=True), dtype=torch.long) - 1
+
+    LOGGER.info("dataset: %s dtype: %s", dataset.shape, dataset.dtype)
+    LOGGER.info("labels: %s dtype: %s", label_tensor.shape, label_tensor.dtype)
+
+    torch.save(dataset, output_dir / DATASET_FILENAME)
+    torch.save(label_tensor, output_dir / LABELS_FILENAME)
+
+    return dataset, label_tensor
+
+
+def split_data(
+    dataset: torch.Tensor,
+    labels: torch.Tensor,
+    output_dir: Path,
+    *,
+    random_state: int = 42,
+    test_size: float = 0.25,
+    shuffle: bool = True,
+) -> dict[str, ConfigValue]:
+    """Split the tensors into train/test files and return the split config.
+
+    Args:
+        dataset: The input feature tensor.
+        labels: The input label tensor.
+        output_dir: The directory to save the split files.
+        random_state: The random seed for reproducibility.
+        test_size: The proportion of the dataset to include in the test split.
+        shuffle: Whether to shuffle the data before splitting.
+
+    Returns:
+        A dictionary containing the split configuration.
+    """
+
+    config: dict[str, ConfigValue] = {
+        "random_state": random_state,
+        "test_size": test_size,
+        "shuffle": shuffle,
+    }
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        dataset,
+        labels,
+        random_state=random_state,
+        test_size=test_size,
+        shuffle=shuffle,
+    )
+
+    torch.save(X_train, output_dir / X_TRAIN_FILENAME)
+    torch.save(y_train, output_dir / Y_TRAIN_FILENAME)
+    torch.save(X_test, output_dir / X_TEST_FILENAME)
+    torch.save(y_test, output_dir / Y_TEST_FILENAME)
+
+    return config
+
+
+def publish_dataset_registry(
+    entry: WandbRegistryEntry,
+    user: WandbUser,
+    *,
+    config: dict[str, ConfigValue] | None = None,
+) -> None:
+    """Publish a dataset artifact and link it to a W&B Registry collection.
+
+    Args:
+        entry: The W&B Registry entry describing the dataset artifact.
+        user: The W&B user information.
+        config: Optional configuration dictionary for the W&B run.
+    """
+
+    LOGGER.info(
+        "Publishing artifact %r to registry collection %r",
+        entry.artifact_name,
+        entry.target_path,
+    )
+
+    with wandb.init(
+        entity=user.entity,
+        project=user.project,
+        job_type=entry.job_type,
+        config=config,
+    ) as run:
+        artifact = wandb.Artifact(
+            name=entry.artifact_name,
+            type=entry.artifact_type,
+            description=entry.description,
+        )
+
+        for artifact_file in entry.files:
+            artifact.add_file(
+                local_path=str(artifact_file.path),
+                name=artifact_file.name,
+            )
+
+        run.link_artifact(artifact=artifact, target_path=entry.target_path)
+
+
+def build_registry_entries(output_dir: Path, registry: str) -> tuple[
+    WandbRegistryEntry,
+    WandbRegistryEntry,
+]:
+    """Define the dataset artifacts published by this phase of the notebook.
+
+    Args:
+        output_dir: The directory where the dataset files are stored.
+        registry: The W&B registry to which the artifacts will be published.
+
+    Returns:
+        A tuple containing the full dataset entry and the split dataset entry.
+    """
+    full_dataset_entry = WandbRegistryEntry(
+        registry=registry,
+        collection=FULL_DATASET_COLLECTION,
+        artifact_name=DATASET_ARTIFACT_NAME,
+        artifact_type="dataset",
+        description="Processed dataset and labels.",
+        job_type="publish_dataset",
+        files=(
+            ArtifactFile(output_dir / DATASET_FILENAME, DATASET_ARTIFACT_FILE),
+            ArtifactFile(output_dir / LABELS_FILENAME, LABELS_ARTIFACT_FILE),
+        ),
+    )
+
+    split_dataset_entry = WandbRegistryEntry(
+        registry=registry,
+        collection=SPLIT_DATASET_COLLECTION,
+        artifact_name=SPLIT_DATASET_ARTIFACT_NAME,
+        artifact_type="dataset",
+        description=(
+            "Artifact contains `zoo_dataset` split into 4 datasets. "
+            "For training, use `zoo_dataset_X_train` and `zoo_labels_y_train`. "
+            "For testing, use `zoo_dataset_X_test` and `zoo_labels_y_test`."
+        ),
+        job_type="publish_split_dataset",
+        files=(
+            ArtifactFile(output_dir / X_TRAIN_FILENAME, X_TRAIN_ARTIFACT_FILE),
+            ArtifactFile(output_dir / Y_TRAIN_FILENAME, Y_TRAIN_ARTIFACT_FILE),
+            ArtifactFile(output_dir / X_TEST_FILENAME, X_TEST_ARTIFACT_FILE),
+            ArtifactFile(output_dir / Y_TEST_FILENAME, Y_TEST_ARTIFACT_FILE),
+        ),
+    )
+
+    return full_dataset_entry, split_dataset_entry
+
+
+def build_model() -> NeuralNetwork:
+    """Build the same neural network classifier used in the notebook."""
+
+    model = NeuralNetwork()
+    LOGGER.info("Model architecture:\n%s", model)
+    return model
+
+
+def build_hyperparameter_config(
+    *,
+    learning_rate: float,
+    epochs: int,
+) -> dict[str, ConfigValue]:
+    """Define the hyperparameters logged with the model training run."""
+    return {
+        "learning_rate": learning_rate,
+        "epochs": epochs,
+        "model_type": "Multivariate_neural_network_classifier",
+    }
+
+
+def load_tensor(path: Path) -> torch.Tensor:
+    """Load a tensor file from disk."""
+    return torch.load(path, weights_only=True)
+
+
+def train_model_from_registry(
+    user: WandbUser,
+    *,
+    registry: str,
+    split_collection: str,
+    dataset_version: int,
+    output_dir: Path,
+    model_filename: str,
+    hyperparameter_config: dict[str, ConfigValue],
+) -> str:
+    """Train a Zoo classifier using the split dataset artifact from Registry."""
+
+    model = build_model()
+    loss_fn = nn.CrossEntropyLoss()
+    optimizer = torch.optim.SGD(
+        model.parameters(),
+        lr=float(hyperparameter_config["learning_rate"]),
+    )
+    model_path = output_dir / model_filename
+
+    with wandb.init(
+        entity=user.entity,
+        project=user.project,
+        job_type="training",
+        config=hyperparameter_config,
+    ) as run:
+        artifact_name = (
+            f"wandb-registry-{registry.lower()}/{split_collection}:v{dataset_version}"
+        )
+        dataset_artifact = run.use_artifact(artifact_or_name=artifact_name)
+
+        X_train_path = Path(
+            dataset_artifact.download(path_prefix=X_TRAIN_ARTIFACT_FILE)
+        )
+        y_train_path = Path(
+            dataset_artifact.download(path_prefix=Y_TRAIN_ARTIFACT_FILE)
+        )
+
+        X_train = load_tensor(X_train_path / X_TRAIN_ARTIFACT_FILE)
+        y_train = load_tensor(y_train_path / Y_TRAIN_ARTIFACT_FILE)
+
+        prev_best_loss = float("inf")
+        model_artifact_name = f"zoo-{run.id}"
+
+        for epoch in range(int(hyperparameter_config["epochs"]) + 1):
+            pred = model(X_train)
+            loss = loss_fn(pred, y_train.squeeze(1))
+
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+
+            loss_value = loss.item()
+            run.log(
+                {
+                    "train/epoch_ndx": epoch,
+                    "train/train_loss": loss_value,
+                }
+            )
+
+            if epoch % 100 == 0 and loss_value <= prev_best_loss:
+                LOGGER.info("epoch: %s loss: %s", epoch, loss_value)
+                torch.save(model.state_dict(), model_path)
+                prev_best_loss = loss_value
+
+        LOGGER.info("Saving model artifact %s", model_artifact_name)
+        model_artifact = wandb.Artifact(
+            name=model_artifact_name,
+            type="model",
+            metadata={
+                "num_classes": 7,
+                "model_type": hyperparameter_config["model_type"],
+            },
+        )
+        model_artifact.add_file(str(model_path))
+        logged_artifact = run.log_artifact(model_artifact)
+        logged_artifact.wait()
+
+    return model_artifact_name
+
+
+def save_script_artifact(
+    user: WandbUser,
+    *,
+    script_path: Path,
+    artifact_name: str = SCRIPT_ARTIFACT_NAME,
+) -> str:
+    """Save this Python script as a standalone W&B code artifact."""
+    with wandb.init(
+        entity=user.entity,
+        project=user.project,
+        job_type="save_script",
+    ) as run:
+        script_artifact = wandb.Artifact(
+            name=artifact_name,
+            type="code",
+            description="Python script used for the Zoo registry workflow.",
+            metadata={
+                "filename": script_path.name,
+            },
+        )
+        script_artifact.add_file(str(script_path), name=script_path.name)
+        logged_artifact = run.log_artifact(script_artifact)
+        logged_artifact.wait()
+
+    return artifact_name
+
+
+def publish_model_registry(
+    user: WandbUser,
+    *,
+    registry: str,
+    collection: str,
+    model_artifact_name: str,
+    version: int = 0,
+) -> None:
+    """Link the trained model artifact into a W&B Registry collection."""
+    artifact_name = f"{user.entity}/{user.project}/{model_artifact_name}:v{version}"
+    target_path = f"wandb-registry-{registry}/{collection}"
+
+    LOGGER.info("Artifact name: %s", artifact_name)
+    LOGGER.info("Target path: %s", target_path)
+
+    with wandb.init(entity=user.entity, project=user.project) as run:
+        model_artifact = run.use_artifact(
+            artifact_or_name=artifact_name,
+            type="model",
+        )
+        run.link_artifact(artifact=model_artifact, target_path=target_path)
+
+
+def positive_int(value: str) -> int:
+    """Parse a positive integer CLI argument."""
+    parsed = int(value)
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("must be 1 or greater")
+    return parsed
+
+
+def non_negative_int(value: str) -> int:
+    """Parse a non-negative integer CLI argument."""
+    parsed = int(value)
+    if parsed < 0:
+        raise argparse.ArgumentTypeError("must be 0 or greater")
+    return parsed
+
+
+def positive_float(value: str) -> float:
+    """Parse a positive float CLI argument."""
+    parsed = float(value)
+    if parsed <= 0:
+        raise argparse.ArgumentTypeError("must be greater than 0")
+    return parsed
+
+
+def output_dir_path(value: str) -> Path:
+    """Parse an output directory CLI argument."""
+    path = Path(value).expanduser()
+    if path.exists() and not path.is_dir():
+        raise argparse.ArgumentTypeError(
+            f"must be a directory, got file: {path}"
+        )
+    return path
+
+
+def resolve_output_dir(path: Path) -> Path:
+    """Resolve and create the output directory for generated files."""
+    output_dir = path.expanduser().resolve()
+    if output_dir.exists() and not output_dir.is_dir():
+        raise NotADirectoryError(
+            f"--output-dir must be a directory, got file: {output_dir}"
+        )
+    output_dir.mkdir(parents=True, exist_ok=True)
+    return output_dir
+
+
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Publish Zoo dataset tensors and a trained model to W&B Registry.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--entity",
+        default=DEFAULT_ENTITY,
+        help="W&B entity that owns the publishing project.",
+    )
+    parser.add_argument(
+        "--project",
+        default=DEFAULT_PROJECT,
+        help="W&B project used for the publishing runs.",
+    )
+    parser.add_argument(
+        "--registry",
+        default=DEFAULT_REGISTRY,
+        help="W&B Registry name to link the dataset artifacts into.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=output_dir_path,
+        default=SCRIPT_DIR,
+        help="Directory where the tensor files are written before publishing.",
+    )
+    parser.add_argument(
+        "--skip-publish",
+        action="store_true",
+        help="Create local tensor files without publishing to W&B or training.",
+    )
+    parser.add_argument(
+        "--skip-dataset-publish",
+        action="store_true",
+        help=(
+            "Do not publish dataset artifacts before training. Use this when "
+            "the split dataset artifact is already available in the registry."
+        ),
+    )
+    parser.add_argument(
+        "--dataset-version",
+        type=non_negative_int,
+        default=0,
+        help="Version of the split dataset registry artifact to train on.",
+    )
+    parser.add_argument(
+        "--model-collection",
+        default=MODEL_COLLECTION,
+        help="Registry collection to link the trained model artifact into.",
+    )
+    parser.add_argument(
+        "--learning-rate",
+        type=positive_float,
+        default=0.1,
+        help="SGD learning rate for model training.",
+    )
+    parser.add_argument(
+        "--epochs",
+        type=positive_int,
+        default=1000,
+        help="Number of training epochs.",
+    )
+    parser.add_argument(
+        "--model-filename",
+        default=MODEL_FILENAME,
+        help="Filename used when saving the trained PyTorch state dict.",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: Sequence[str] | None = None) -> None:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    args = parse_args(argv)
+    output_dir = resolve_output_dir(args.output_dir)
+
+    user = WandbUser(entity=args.entity, project=args.project)
+    full_dataset_entry, split_dataset_entry = build_registry_entries(
+        output_dir=output_dir,
+        registry=args.registry,
+    )
+
+    features, labels = fetch_data()
+    dataset, label_tensor = process_data(features, labels, output_dir)
+    split_config = split_data(dataset, label_tensor, output_dir)
+
+    if args.skip_publish:
+        LOGGER.info("Created dataset tensors in %s", output_dir)
+        return
+
+    if not args.skip_dataset_publish:
+        publish_dataset_registry(full_dataset_entry, user)
+        publish_dataset_registry(split_dataset_entry, user, config=split_config)
+
+    hyperparameter_config = build_hyperparameter_config(
+        learning_rate=args.learning_rate,
+        epochs=args.epochs,
+    )
+    model_artifact_name = train_model_from_registry(
+        user,
+        registry=args.registry,
+        split_collection=split_dataset_entry.collection,
+        dataset_version=args.dataset_version,
+        output_dir=output_dir,
+        model_filename=args.model_filename,
+        hyperparameter_config=hyperparameter_config,
+    )
+    save_script_artifact(user, script_path=SCRIPT_PATH)
+    publish_model_registry(
+        user,
+        registry=args.registry,
+        collection=args.model_collection,
+        model_artifact_name=model_artifact_name,
+    )
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Ensuite, exécutez le script d&#39;entraînement avec `uv` :
+
+```bash
+uv train.py
+```
+
+<div id="create-your-first-notebook">
+  ## Créer votre premier notebook
+</div>
+
+1. Accédez au Workspace de votre projet.
+2. Sélectionnez **Notebooks** dans la barre latérale du projet.
+3. Cliquez sur **Create notebook**.
+
+Pour plus d&#39;informations, voir [Créer et gérer des notebooks](/fr/models/notebooks/create-notebook).
+
+<div id="install-dependencies">
+  ## Installer les dépendances
+</div>
+
+Dans votre notebook, installez les dépendances requises :
+
+1. Sélectionnez **Manage packages** (<Icon icon="cube" />) dans la barre latérale du notebook.
+2. Saisissez `torch`, `ucimlrepo` et `scikit-learn`.
+3. Sélectionnez **Add**.
+
+Pour plus d&#39;informations, voir le guide [Gérer les paquets et les environnements](/fr/models/notebooks/manage-packages-environments) ou se référer à la [documentation de marimo](https://docs.marimo.io/guides/package_management/).
+
+<div id="run-the-notebook-example">
+  ## Exécuter l&#39;exemple de notebook
+</div>

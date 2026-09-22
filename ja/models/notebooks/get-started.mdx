@@ -1,0 +1,97 @@
+---
+title: はじめに
+---
+
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+
+以下のガイドでは、最初のノートブックの作成からトレーニング experiment の実行まで、W&amp;B ノートブックの使い始め方を説明します。
+
+<div id="create-your-first-notebook">
+  ## 最初のノートブックを作成する
+</div>
+
+1. project の Workspace にアクセスします。
+2. プロジェクトのサイドバーで **Notebooks** を選択します。
+3. **Create notebook** をクリックします。
+
+詳細については、[ノートブックの作成と管理](/ja/models/notebooks/create-notebook)を参照してください。
+
+{/* ## 依存関係をインストールする
+
+  この例では、依存関係をインストールする必要はありません。
+
+  1. ノートブックのサイドバーで **Manage packages** (<Icon icon="cube"/>) を選択します。 
+  2. インストールするパッケージ名を入力します。
+  3. **Add** を選択します。
+
+  詳細は、[Manage packages and environments](/models/notebooks/manage-packages-environments) ガイドまたは [marimo documentation](https://docs.marimo.io/guides/package_management/) を参照してください。 */}
+
+<div id="run-a-training-experiment">
+  ## トレーニング experiment を実行する
+</div>
+
+このモックのトレーニングスクリプトは、シミュレートした accuracy と損失のメトリクスを W&amp;B にログします。以下のコードを Python スクリプトまたはノートブックのセルにコピー＆ペーストして実行してください。
+
+1. **Python** を選択して、新しいコードセルを作成します。
+
+2. 以下のコードをセルにコピー＆ペーストします。
+
+   ```python
+   import random
+   import wandb
+
+   PROJECT = "your-project-name"
+
+   # ハイパーパラメーターの辞書
+   config = {
+       'epochs' : 10,
+       'lr' : 0.01
+   }
+
+   with wandb.init(project=PROJECT, config=config) as run:
+       offset = random.random() / 5
+       print(f"lr: {config['lr']}")
+       
+       # トレーニング run をシミュレートする
+       for epoch in range(2, config['epochs']):
+           acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+           loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+           print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+           run.log({"accuracy": acc, "loss": loss})
+   ```
+
+3. macOS では **Command + Enter**、Windows または Linux では **Ctrl+Enter** を押します。あるいは、セルの横にある **Play** (<Icon icon="circle-play" iconType="solid" />) をクリックします。
+
+<div id="view-your-experiment">
+  ## experiment を表示する
+</div>
+
+トレーニング experiment 中にログされた accuracy と損失のメトリクスを表示します。
+
+1. プロジェクトのサイドバーから **Workspace** を選択します。
+2. Workspace 内の runs と可視化を確認します。[runs](/ja/models/runs) のリストには、project にログされた各 run とその詳細が表示されます。[Workspace panels](/ja/models/app/features/panels) には、各 run 中にログされたメトリクスの可視化が表示されます。
+
+<div id="save-the-notebook">
+  ## ノートブックを保存する
+</div>
+
+W&amp;B はノートブックを [W&amp;B Artifact](/ja/models/artifacts) として保存し、30 秒ごと、およびノートブックのコンピュートセッションが停止したときに、変更を新しい [Artifact バージョン](/ja/models/artifacts/create-a-new-artifact-version) として自動的に保存します。
+
+最新の変更をすぐに保存するには、次のいずれかの方法を使用します。
+
+* macOS では **Command+S**、Windows または Linux では **Ctrl+S** を押します。
+* ノートブックのフッターで **Save** (<Icon icon="floppy-disk" iconType="solid" />) をクリックします。
+
+{/* ## ノートブックを共有する
+
+  W&B 外のユーザーとノートブックを共有できます。HTML として公開したり、WebAssembly リンクや molab ノートブックを作成したりできます。
+
+  1. ノートブックの右上にある **action ( <Icon icon="bars" iconType="solid" /> )** を選択します。
+  2. **Share** にカーソルを合わせます。
+  3. ドロップダウン メニューから、必要な共有オプションを選択します：**Publish HTML to web**、**Create WebAssembly link**、または **Create molab notebook**。
+
+  ノートブックの共有について詳しくは、以下の関連ガイドを参照してください。
+
+  - [ノートブックを WebAssembly HTML としてエクスポートする](https://docs.marimo.io/guides/exporting/webassembly_html/)
+  - [ノートブックを静的 HTML としてエクスポートする](https://docs.marimo.io/guides/exporting/static_html/?h=static)
+  - [molab を使用してクラウドでノートブックを実行する](https://docs.marimo.io/guides/molab/) */}

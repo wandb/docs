@@ -1,0 +1,84 @@
+---
+title: 開発者ツール
+---
+
+開発者パネルを使用すると、ノートブックコードのトラブルシューティング、実行内容の確認、ログの表示、ターミナルへのアクセスが行えます。
+
+<Frame>
+  <img src="/images/notebooks/hello_world_dev_panel.png" alt="Developer panel open at the bottom of the notebook editor" />
+</Frame>
+
+<div id="open-the-developer-panel">
+  ## 開発者パネルを開く
+</div>
+
+次のいずれかの方法を使用します。
+
+* ノートブックのフッターで **Developer panel** を選択します。
+* macOS では **Command+J**、Windows または Linux では **Ctrl+J** を押します。このショートカットで、パネルの表示と非表示を切り替えられます。
+
+<div id="inspect-errors-and-warnings">
+  ## エラーと警告を確認する
+</div>
+
+**Errors** タブには、Python の例外、構文エラー、循環参照、無効なリアクティブ依存関係、複数のセルで定義された変数など、ノートブック全体のエラーと警告が表示されます。
+
+{/* エラーまたは警告を選択すると、該当するセルに移動します。 */}
+
+<div id="use-the-scratchpad">
+  ## スクラッチパッドを使用する
+</div>
+
+ノートブックのリアクティブグラフに追加せずに一時的な Python コードを実行するには、**Scratchpad** タブを使用します。スクラッチパッドからは、ノートブックのセルで定義された変数にアクセスできます。
+
+ノートブックのセルとは異なり、スクラッチパッドではグローバル変数名の一意性は強制されません。スクラッチパッドで定義したコードや変数は保存されません。残しておきたいコードは、ノートブックのセルにコピーしてください。
+
+スクラッチパッドのコードを実行するには、macOS では **Command+Enter**、Windows または Linux では **Control+Enter** を押します。または、**Run** (<Icon icon="circle-play" iconType="solid" />) を選択します。
+
+スクラッチパッドの出力は、コードの右側に表示されます。
+
+<Frame>
+  <img src="/images/notebooks/hello_world_scratchpad.png" alt="Scratchpad タブに表示されたコードと出力" />
+</Frame>
+
+<div id="inspect-execution-traces">
+  ## 実行トレースを確認する
+</div>
+
+**Tracing** タブでは、セル実行の順序と所要時間を確認できます。トレースを使用すると、処理の遅いセルや失敗したセルを特定したり、リアクティブな実行イベントでどのセルが実行されたかを把握したりできます。
+
+**Run** の見出しごとに、同じ実行イベントで実行されたセルがまとめて表示されます。横棒は各セルが実行されたタイミングを示し、同じイベント内の他のセルとの所要時間の比較にも使用できます。各エントリには、セルへのリンク、コードのプレビュー、所要時間、ステータスアイコンが含まれます。ステータスアイコンは、実行が成功したか、失敗したか、中断されたかを示します。
+
+所要時間は丸められるため、実行時間が短い場合は `0 ms` と表示されることがあります。トレースのエントリにカーソルを合わせると、正確な開始時刻と終了時刻を確認できます。セルのリンクを選択すると、対応するノートブックのセルが開きます。
+
+**Clear** を選択すると、表示されているトレース履歴が削除されます。履歴を消去しても、ノートブックのセルや変数は削除されません。
+
+**Inline chart** を有効にすると、対応するノートブックのセルの近くに実行時間が表示されます。
+
+次の画像は、開発者パネルで **Tracing** タブを開いた「Hello World」ノートブックを示しています。`cell-4` は変数 pet を定義し、`cell-5` はそれを使用して &quot;Do you have a cat?&quot; という出力を生成します。どちらのセルも正常に完了しています。トレースでは、`cell-4` の所要時間が 14 ms、`cell-5` が `0 ms` と表示されています。ツールチップには `cell-5` の正確な開始時刻と終了時刻が表示されています。
+
+<Frame>
+  <img src="/images/notebooks/hello_world_tracing.png" alt="Tracing tab showing cell execution order, status, and duration" />
+</Frame>
+
+<div id="view-logs">
+  ## ログの表示
+</div>
+
+**Logs** タブでは、ノートブックのセルおよびスクラッチパッドからの標準出力 (`stdout`) と標準エラー出力 (`stderr`) を確認できます。インラインに明確なエラーが表示されない実行失敗を調査する際に、ログをご活用ください。
+
+次の画像では、対応するノートブックのセルが `[5:42:51 PM]` にログした出力 `"Do you have a cat?"` が表示されています。
+
+<Frame>
+  <img src="/images/notebooks/hello_world_logs.png" alt="Logs tab showing standard output and error output from the notebook" />
+</Frame>
+
+<Note>
+  **Logs** タブには、[**Scratchpad**](/ja/models/notebooks/developer-tools#use-the-scratchpad) からの出力やエラーも含まれます。画像内の `[5:44:00 PM]` のエントリは `cell--1` として識別されており、スクラッチパッドから出力されたものです。
+</Note>
+
+<div id="use-the-terminal">
+  ## ターミナルを使用する
+</div>
+
+**Terminal** タブを使用すると、ノートブックのランタイムと同じサンドボックス環境でシェルを開けます。ターミナルでは、ファイルの確認、コマンドラインツールの実行、パッケージの管理、スクリプトの実行を行えます。ターミナルで加えた変更は、ノートブックと同じ workspace に適用されます。
