@@ -1,0 +1,115 @@
+---
+title: Gérer les packages
+---
+
+Installez, affichez, mettez à jour ou supprimez des packages Python depuis la barre latérale **Manage packages** ou le terminal du notebook.
+
+<Info>
+  L&#39;environnement sandbox par défaut du notebook inclut le [SDK Python W&amp;B](/fr/models/ref/python), l&#39;[API Reports and Workspaces](/fr/models/ref/wandb_workspaces/reports), [marimo](https://docs.marimo.io/) et d&#39;autres packages couramment utilisés.
+</Info>
+
+{/* https://docs.marimo.io/guides/package_management/ */}
+
+<div id="install-a-package">
+  ## Installer un package
+</div>
+
+Installez des packages Python via la barre latérale ou le terminal.
+
+<Tabs>
+  <Tab title="Barre latérale">
+    Pour installer un package depuis la barre latérale :
+
+    1. Dans la barre latérale du notebook, sélectionnez **Manage packages** (<Icon icon="cube" />).
+    2. Saisissez le nom du package.
+    3. Sélectionnez **Add**.
+  </Tab>
+
+  <Tab title="Terminal">
+    Ouvrez le panneau développeur, puis sélectionnez l&#39;onglet **Terminal**. Exécutez la commande suivante :
+
+    ```bash
+    uv pip install <package_name>
+    ```
+  </Tab>
+</Tabs>
+
+Référez-vous à la [documentation marimo](https://docs.marimo.io/guides/package_management/).
+
+<div id="view-installed-packages">
+  ## Afficher les packages installés
+</div>
+
+Affichez les packages installés depuis la barre latérale ou depuis le terminal.
+
+<Tabs>
+  <Tab title="Barre latérale">
+    Pour afficher les packages installés :
+
+    1. Dans la barre latérale du notebook, sélectionnez <Icon icon="cube" /> **Manage packages**.
+    2. Sélectionnez l&#39;une des vues suivantes :
+
+    * **List** : affiche une liste à plat des packages installés.
+    * **Tree** : affiche la hiérarchie des dépendances des packages. Chaque dépendance apparaît comme enfant du package qui la requiert.
+
+    L&#39;image suivante montre `wandb-workspaces` dans la barre latérale **Manage packages**. Les packages imbriqués dans celui-ci sont les dépendances de `wandb-workspaces`.
+
+    <Frame>
+      <img src="/images/notebooks/hello_package_management.png" alt="Barre latérale Manage packages dans le notebook" />
+    </Frame>
+  </Tab>
+
+  <Tab title="Terminal">
+    Ouvrez le panneau développeur, puis sélectionnez l&#39;onglet **Terminal**. Exécutez la commande suivante :
+
+    ```bash
+    uv pip list
+    ```
+  </Tab>
+</Tabs>
+
+<div id="update-a-package">
+  ## Mettre à jour un package
+</div>
+
+Mettez à jour un package depuis la barre latérale ou depuis le terminal.
+
+<Tabs>
+  <Tab title="Barre latérale">
+    1. Sélectionnez **Manage packages** (<Icon icon="cube" />) dans la barre latérale du notebook.
+    2. Saisissez le nom du package ou recherchez-le.
+    3. Sélectionnez **Upgrade**.
+  </Tab>
+
+  <Tab title="Terminal">
+    Ouvrez le panneau développeur, puis sélectionnez l&#39;onglet **Terminal**. Exécutez la commande suivante :
+
+    ```bash
+    uv pip install --upgrade <package_name>
+    ```
+  </Tab>
+</Tabs>
+
+{/* ## Épingler les versions des packages */}
+
+<div id="remove-a-package">
+  ## Supprimer un package
+</div>
+
+Supprimez un package depuis la barre latérale ou depuis le terminal du notebook.
+
+<Tabs>
+  <Tab title="Barre latérale">
+    1. Sélectionnez **Manage packages** (<Icon icon="cube" />) dans la barre latérale du notebook.
+    2. Repérez le package à supprimer.
+    3. Sélectionnez **Remove** à côté du nom du package.
+  </Tab>
+
+  <Tab title="Terminal">
+    Ouvrez le panneau développeur, puis sélectionnez l&#39;onglet **Terminal**. Exécutez la commande suivante :
+
+    ```bash
+    uv pip uninstall <package_name>
+    ```
+  </Tab>
+</Tabs>

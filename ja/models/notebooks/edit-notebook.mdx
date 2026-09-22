@@ -1,0 +1,122 @@
+---
+title: ノートブックを編集する
+---
+
+このページでは、セルの追加、編集、並べ替え、削除をはじめ、インタラクティブなコントロールの使用やコンテンツの表示など、ノートブックでよく行う操作について説明します。
+
+<div id="edit-modes">
+  ## 編集モード
+</div>
+
+編集モードは 2 種類あります。
+
+* **コマンドモード**: セルの追加、削除、移動などの操作を行います。`Esc` を押すとコマンドモードに切り替わります。
+* **編集モード**: 選択したセルの内容を変更します。`Enter` を押すと編集モードに切り替わります。
+
+<div id="add-a-cell">
+  ## セルを追加する
+</div>
+
+ノートブックは [Python](#python-cell)、[Markdown](#markdown-cell)、[SQL](#sql-cell) のセルをサポートしています。セルは、ノートブックの UI またはキーボードショートカットで追加できます。
+
+<Tabs>
+  <Tab title="UI">
+    ノートブック内で `PYTHON`、`MARKDOWN`、`SQL` のいずれかのボタンを選択すると、そのタイプのセルが作成されます。
+  </Tab>
+
+  <Tab title="キーボードショートカット">
+    {/* In edit mode:
+
+          - Press **Command + Shift + O** to create a new cell above the current cell.
+          - Press **Command + Shift + P** to create a new cell below the current cell. */}
+
+    `Esc` を押してコマンドモードに切り替え、次のいずれかのショートカットを使用します。
+
+    | アクション              | ショートカット                 |
+    | ------------------ | ----------------------- |
+    | 現在のセルの上に新しいセルを作成する | **Command + Shift + O** |
+    | 現在のセルの下に新しいセルを作成する | **Command + Shift + P** |
+
+    利用可能なショートカットの一覧については、[キーボードショートカット](https://docs.marimo.io/guides/editor_features/overview/?h=keyboar#keyboard-shortcuts) を参照してください。
+  </Tab>
+</Tabs>
+
+{/* ### Python セル
+
+  ### Markdown セル
+
+  Markdown 構文を使用して、Markdown セル内のテキストを整形し、見出し、リスト、リンク、その他のリッチコンテンツを作成します。
+
+  <Tip>
+  Markdown の見出し（例: `# H1`、`## H2`、`### H3`）は、ノートブックの **Outline** に表示されます。Outline はノートブックの目次として機能します。特定のセクションに移動するには、Outline 内の対応する見出しをクリックします。
+  </Tip>
+
+  詳細については、[Markdown editor](https://docs.marimo.io/guides/outputs/#markdown-editor) を参照してください。
+
+  ### SQL セル
+
+  https://docs.marimo.io/guides/working_with_data/sql/?h=sq
+
+  ## AI を使用してセルを生成または編集 */}
+
+<div id="change-cell-order">
+  ## セルの順序を変更する
+</div>
+
+ドラッグハンドルまたはキーボードショートカットを使用して、ノートブック内のセルの順序を変更します。
+
+<Tabs>
+  <Tab title="UI">
+    セルの右側にあるドラッグハンドル (<Icon icon="grip-dots-vertical" iconType="solid" />) を選択し、目的の位置までドラッグします。
+  </Tab>
+
+  <Tab title="キーボードショートカット">
+    `Esc` を押してコマンドモードに入ります。次に、以下のいずれかのショートカットを使用します。
+
+    | アクション   | ショートカット                 |
+    | ------- | ----------------------- |
+    | セルを上へ移動 | **Command + Shift + 9** |
+    | セルを下へ移動 | **Command + Shift + 0** |
+  </Tab>
+</Tabs>
+
+<div id="delete-a-cell">
+  ## セルを削除する
+</div>
+
+UI またはキーボードショートカットでセルを削除します。
+
+<Tabs>
+  <Tab title="UI">
+    次のいずれかの方法を使用します。
+
+    1. セルを右クリックし、コンテキストメニューから **Delete** を選択します。
+    2. セルの横にあるゴミ箱アイコンを選択します。
+  </Tab>
+
+  <Tab title="キーボードショートカット">
+    次のキーボードショートカットでセルを削除します。
+
+    1. `Esc` を押してコマンドモードに入ります。
+    2. **Command + Shift + Backspace** を押して現在のセルを削除します。
+  </Tab>
+</Tabs>
+
+<div id="add-interactive-controls">
+  ## インタラクティブなコントロールを追加する
+</div>
+
+スライダー、ドロップダウン、ボタンなどのインタラクティブな要素をノートブックのセルに追加できます。要素を操作すると、その値に依存するセルがノートブックによって更新されます。
+
+たとえば、次のコードをセルにコピーすると、基本的なインタラクティブなスライダーを作成できます。
+
+```python
+import marimo as mo
+
+slider = mo.ui.slider(1, 10)
+mo.md(f"Choose a value: {slider}")
+```
+
+詳細は、marimo ドキュメントの [Interactive elements](https://docs.marimo.io/guides/interactivity/) を参照してください。
+
+{/* ## 表、プロット、メディアを表示する */}
