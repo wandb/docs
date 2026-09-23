@@ -13,6 +13,43 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.85.0" description="September 23, 2026">
+
+W&B Server 0.85 expands BYOB storage options with AWS-to-AWS S3 role assumption and a configurable IP address range for Azure Blob Storage signed URLs. In Weave, calls and agent spans now link to each other in both directions. Also in this release: collapsed workspace sections keep their controls within reach, you can choose how line plots display single-point metrics, and query panels have a new parallelism budget that lets deployments trade some request concurrency for lower peak memory.
+
+## Support and end of life
+
+- W&B Server v0.73 has reached end of life.
+
+## Features
+- Added support for AWS-to-AWS S3 role assumption for BYOB storage. Instead of granting a W&B AWS identity direct access to your bucket and KMS key, you can let a specific W&B workload temporarily assume a role that you own, which then accesses the bucket and key.
+- For BYOB storage in Azure Blob Storage, you can now restrict the IP address range that can use signed URLs by setting the `GORILLA_AZURE_PRESIGNED_URL_IP_RANGE` environment variable. Azure Blob Storage enforces this restriction when a client accesses a blob. It is independent of any IP allowlist for the W&B application and API.
+- A collapsed workspace section now keeps its settings, overflow menu, and pin control visible, so you can use them without expanding the section.
+- Choose whether line plots display single-point metrics as scatter plots or bar charts. Set **Single-point metrics** to **Scatter** or **Bar chart** in the **Data** settings tab of a workspace, section, or panel. By default, automated workspaces show bar charts and manual workspaces show scatter plots. In scatter plots, larger markers make single data points easier to find and inspect.
+
+    <Frame>![Line plot settings with the Single-point metrics control set to Scatter](/images/release-notes/v0-85-0/single-point-metrics.png)</Frame>
+- [Line mode](/models/app/features/panels/line-plot/sampling#full-fidelity) for full-fidelity line plots is now available for grouped line plots. To use it, set **Full fidelity display** to **Line** on the panel itself. A grouped panel that inherits a Line setting from its section or workspace continues to display in Band mode.
+- To reduce peak memory usage when processing large, text-heavy `wandb.Table` files, you can now configure the process-wide parallelism budget for mapped operations, at the cost of some request concurrency. Set the `QUERY_ENGINE_PARALLELISM_BUDGET` environment variable to `1`, `2`, `4`, `8`, or `16`. Lower values reduce concurrent conversion work and can help avoid out-of-memory errors in Weave workloads that load many large table files at once. The default is `16`, so behavior is unchanged unless you set the variable.
+
+### Sweeps
+- The `Sweep.priorRuns` field in the GraphQL API now supports pagination options, for more scalable access to previous runs.
+- Requests to the sweep provider now retry automatically, so sweeps recover more gracefully from transient network failures.
+
+### Weave
+- A Weave call now links to the agent spans it produced, and an agent span now links to the Weave calls it invoked.
+- When you create a custom signal, you now define only its tags, and W&B composes the rest of the judge prompt for you. This prevents accidental changes to required scoring instructions. Editing existing signals is unchanged.
+
+## Performance improvements
+- Ungrouped line plots now render the newest lines first and fill in lines incrementally. This speeds up loading a workspace or report and reduces load on your deployment.
+- Highlighting a line in a line plot no longer rebuilds the underlying plot, and hidden tooltip copies are no longer rendered.
+
+## Fixes
+- Fixed bugs that could cause tooltips, including bounding-box tooltips, or axis labels to appear outside the chart area, be obstructed, or cover plotted data.
+- Fixed a bug where X-axis labels on line plots and scatter plots did not update immediately or accurately.
+- The smoothing slider now resets when you change the smoothing type, to prevent stale settings and produce more predictable results.
+
+</Update>
+
 <Update label="v0.84.1" description="September 2, 2026">
 
 ## Fixes
@@ -1002,61 +1039,4 @@ W&B v0.74 delivers SCIM API improvements for enterprise identity management, inc
 - Fixed a UI bug that could prevent code from being copied from a report.
 - Fixed a bug in the order of min and max values in a line plot tooltip.
 - Fixed a bug that could prevent a grouped plot from rendering if the X-axis key was a substring of the Y-axis key.
-</Update>
-
-<Update label="v0.73.1" description="September 10, 2025">
-## Fixes
-- Fixed a bug introduced in v0.73.0, where resizing or reordering workspace panels was not always reflected in saved views.
-- Fixed a bug in the Registry UI where paging through the list of registries could fail if an organization has hundreds of registries.
-- Fixed a bug where bounding boxes did not always display for media that was logged with bounding boxes.
-- Fixed a bug where export tasks could get stuck in a pending state and never execute.
-- Fixed a bug where `wandb verify` could fail when downloading files with special characters in their names.
-- Fixed a performance regression when fetching system events, especially when plotting a large number of system events in a chart. This regression was introduced in v0.73.0.
-</Update>
-
-<Update label="v0.73.0" description="September 10, 2025">
-W&B v0.73 marks a significant milestone in the migration to W&B Registry from team-level Model Registry; most organizations will be migrated automatically during the upgrade. UI improvements include colorblind-safe run color palettes, continuous color options metric-based run coloring, and smoother panel reorganization. This release also provides service principal authentication for BYOB (Bring Your Own Bucket) setups with CoreWeave AI Object Storage, along with improved console log handling and additional enhancements.
-
-## Upcoming changes
-- In an upcoming release, we will align multi-run and single-run workspace views, so when you drill into a single run, you'll see the same layout and configuration of panels as you've configured for the multi-run view, including any custom charts, layouts, and settings. The goal is help you stay in context and avoid re-work around configuring your views. However, this will remove the ability to customize unique single-run views, isolated from the rest of the workspace. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
-- Over the next several releases, we will continue migrating existing team-level Model Registry to W&B Registry. For details and a reminder about the timeline, see the [W&B Registry GA announcement](#registry_ga_announcement) below.
-
-## Known issues
-In v0.73.0, resizing or reordering workspace panels may not be reflected in saved views. This bug is fixed in v0.73.1. If you experience this issue, upgrade to v0.73.1, which includes the fix. If you can't upgrade, contact [support](mailto:support@wandb.ai) for a workaround.
-
-## Features
-- <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement"></a>We're migrating existing team-level Model Registry to W&B Registry in stages over the next several releases. **No action is needed on your end; W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.** Existing references to model collections in your old team-level Model Registry will still work.
-    1. Server v0.73 (this release) includes an opt-out environment variable that will migrate the team's Model Registry automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old Model Registry or the new Registry will fail with an error. **Artifact logging and retrieval will not be affected**.
-    2. In Server v0.74 (end of September), we will remove the opt-out flag and migration will happen during the upgrade.
-
-    We're optimizing for a seamless upgrade to a powerful new experience. Contact your W&B account team or [support](mailto:support@wandb.ai) if you have any questions about the migration.
-- Added a copy button to the [Run Logs console page](/models/app/console-logs) and improved paste behavior.
-- W&B now offers two new colorblind-safe color palettes for runs. Set these in the **Runs** section of the [Workspace settings](/models/app/features/cascade-settings/#workspace-settings).
-- When [coloring runs by metrics or numeric configs](/models/runs/color-code-runs), you can now choose from five new continuous color palettes.
-- During a [W&B run](/models/runs), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. This integration is now available on Dedicated Cloud.
-- BYOB with CoreWeave AI Object Storage now supports authentication with service principals in Multi-tenant Cloud, Dedicated Cloud, and Self-Managed deployments. This helps you to avoid using static credentials in your deployment. Learn more at [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector).
-
-### Weave
-- You can now group sessions or conversations across multiple traces with [Weave Threads](/weave/guides/tracking/threads).
-- The **Trace view**'s new [Graph view](/weave/guides/tracking/trace-tree#graph-view) visualizes the call tree structure as a graph.
-- The **Trace view** includes new specialized views for [documents](/weave/guides/core-types/media#documents) retrieved with ChromaDB and Langchain improves handling of schemas such as chats. In **Trace view**, click a document to open its detailed view in a drawer to the right. Learn more at [Navigate the trace view](/weave/guides/tracking/trace-tree).
-- You can now attach [HTML](/weave/guides/core-types/media#html) to a trace as a media type.
-- From the **Assets** tab, you can now create and edit prompts. Click **Assets**, then in the navigation, click **Prompts**. Click **New prompt** or click the name of an existing prompt to view its details. From there, click the pencil icon to edit and republish the prompt.
-
-## Fixes
-- Improved the smoothness and accuracy of [dragging and dropping panels](/models/app/features/panels/#move-a-panel) within a section and between sections.
-- In [full screen panel view](/models/app/features/panels/#view-a-panel-in-full-screen-mode), the **Esc** key now returns you to the workspace.
-- Fixed a bug that could cause a panel in a workspace to zoom unexpectedly after returning from full screen.
-- In [plot settings](/models/app/features/panels/line-plot/#edit-line-plot-settings), chart and legend settings have been consolidated to a single tab.
-- Fixed a bug where panel legends were ordered incorrectly after polling updates.
-- Improved the formatting of panels with long exponential Y-axis values and those with a large number of significant digits.
-- [Overlays for panels](/models/app/features/panels/media/#overlays) without matching runs are now hidden.
-- Fixed a bug where clicking on a run's tag in a workspace's **Runs** tab or **Runs** list did not filter by the tag.
-- Fixed a bug that could allow a user to bypass the max runs limit.
-- When you toggle runs on or off, W&B no longer reloads the media for other runs in the panel.
-- Fixed a bug that could cause a report to crash when expanding or collapsing a section after pressing **Tab**.
-- Fixed a bug on mobile displays where scrolling could cause logged videos to automatically play in full screen.
-
-## Other changes
-- The custom grid layout was removed from W&B Workspaces with Server release v0.73.0. Previously, custom grid layout allowed you to adjust the size of individual panels within a section. Now, resizing a panel in a workspace section resizes all panels in that section, whether you configure the workspace using the [W&B App](/models/app/features/panels/#manage-a-sections-panels) or the [Workspace API](/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings). Custom grid layout remains available in [W&B Reports](/models/reports) and the [Reports API](/models/ref/wandb_workspaces/reports).
 </Update>
