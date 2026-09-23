@@ -46,7 +46,8 @@ df = pd.DataFrame(
   with wandb.init(project="classifier-table-demo") as run:
     table = wandb.Table(dataframe=df)
     run.log({"validation_predictions": table})
-  ``` */}
+  ```
+  */}
 
 데이터프레임을 `wandb.EvalTable`에 전달해 Eval Table을 생성하세요. `input_columns`, `output_columns`, `score_columns` 인수를 사용해 각 column의 역할을 지정하세요.
 

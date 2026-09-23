@@ -219,7 +219,7 @@ api_run.update()
 
 Utilisez [`wandb.Run.pin_config_keys`](/fr/models/ref/python/experiments/run#method-run-pin_config_keys) pour épingler une ou plusieurs clés de configuration avec le SDK Python.
 
-Par exemple, si vous utilisez un tableau de bord Grafana pour surveiller des runs d’entraînement, ajoutez l’URL du tableau de bord à votre configuration et épinglez la clé `grafana_url` :
+Par exemple, si vous utilisez un tableau de bord Grafana pour surveiller des runs d’entraînement, ajoutez l’URL du tableau de bord à votre configuration et épinglez la clé `grafana_url` :
 
 ```python
 config = {
@@ -245,7 +245,8 @@ with wandb.init(config=config) as run:
   flags.DEFINE_string("model", None, "modèle à exécuter")  # nom, valeur par défaut, aide
 
   run.config.update(flags.FLAGS)  # ajoute les flags absl à la configuration
-  ``` */}
+  ```
+  */}
 
 ## Afficher les valeurs de configuration {#view-config-values}
 

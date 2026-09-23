@@ -46,7 +46,8 @@ df = pd.DataFrame(
   with wandb.init(project="classifier-table-demo") as run:
     table = wandb.Table(dataframe=df)
     run.log({"validation_predictions": table})
-  ``` */}
+  ```
+  */}
 
 DataFrame を `wandb.EvalTable` に渡して、Eval Table を作成します。各列の役割は、`input_columns`、`output_columns`、`score_columns` の各引数で指定します。
 

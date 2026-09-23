@@ -12,7 +12,7 @@ W&amp;B Python SDK를 사용해 메트릭, 미디어 또는 맞춤형 객체의 
   키-값 쌍은 각 step에 동일한 값을 전달한 경우에만 하나의 통합 딕셔너리에 저장됩니다. `step`에 서로 다른 값을 로깅하면 W&amp;B는 수집된 모든 키와 값을 메모리에 기록합니다.
 </Note>
 
-기본적으로 `wandb.Run.log()`를 호출할 때마다 새로운 `step`이 생성됩니다. W&amp;B는 차트와 패널을 만들 때 step을 기본 x축으로 사용합니다. 필요에 따라 맞춤형 x축을 만들어 사용할 수도 있고, 맞춤형 summary 메트릭을 캡처할 수도 있습니다. 자세한 내용은 [로그 축 사용자 지정](/ko/models/track/log/customize-logging-axes/)을 참조하세요.
+기본적으로 `wandb.Run.log()`를 호출할 때마다 새로운 `step`이 생성됩니다. W&amp;B는 차트와 패널을 만들 때 step을 기본 x-axis로 사용합니다. 필요에 따라 맞춤형 x-axis를 만들어 사용할 수도 있고, 맞춤형 summary 메트릭을 캡처할 수도 있습니다. 자세한 내용은 [로그 축 사용자 지정](/ko/models/track/log/customize-logging-axes/)을 참조하세요.
 
 {/* [더 나은 예시 삽입] */}
 
@@ -20,7 +20,8 @@ W&amp;B Python SDK를 사용해 메트릭, 미디어 또는 맞춤형 객체의 
 
   ```python
   run.log({'loss': 0.2}, step=step)
-  ``` */}
+  ```
+  */}
 
 {/* [예시 삽입] */}
 
@@ -34,7 +35,8 @@ W&amp;B Python SDK를 사용해 메트릭, 미디어 또는 맞춤형 객체의 
   run.log({'loss': 0.2}, commit=False)
   # 이 step을 기록할 준비가 되면 다른 곳에서:
   run.log({'accuracy': 0.8})
-  ``` */}
+  ```
+  */}
 
 ## 자동으로 로깅되는 데이터 {#automatically-logged-data}
 

@@ -307,7 +307,7 @@ Démarrez maintenant l’agent avec `wandb launch-agent`.
 
 Votre agent Launch est maintenant en cours d’exécution et interroge la file d’attente SageMaker à la recherche de jobs.
 
-## Facultatif : Téléversez l’image Docker de votre job Launch vers Amazon ECR {#optional-push-your-launch-job-docker-image-to-amazon-ecr}
+## Facultatif : Téléversez l’image Docker de votre job Launch vers Amazon ECR {#optional-push-your-launch-job-docker-image-to-amazon-ecr}
 
 <Note>
   Cette section s’applique uniquement si votre agent Launch utilise des images Docker existantes qui contiennent votre logique d’entraînement ou d’inférence. [Votre agent Launch prend en charge deux options de comportement.](#decide-if-you-want-the-launch-agent-to-build-a-docker-image)
@@ -319,8 +319,9 @@ Envoyez vers votre dépôt Amazon ECR l’image Docker qui contient votre job La
 
   ```bash
   wandb job create image [YOUR-IMAGE-URI] --p [PROJECT] ...
-  ``` */}
+  ```
+  */}
 
 {/* ## Lancer des jobs depuis W&B
 
-    Si vous vous rendez dans l’interface W&B, votre file d’attente Launch SageMaker sera désormais active. Vous pouvez y soumettre des jobs depuis l’UI ou le CLI. */}
+  Si vous vous rendez dans l’interface W&B, votre file d’attente Launch SageMaker sera désormais active. Vous pouvez y soumettre des jobs depuis l’UI ou le CLI. */}

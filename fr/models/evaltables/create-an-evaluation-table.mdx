@@ -9,7 +9,7 @@ Créez un tableau d’évaluation à l’aide du SDK Python W&amp;B ou convertis
 
 Utilisez la classe `wandb.EvalTable` pour créer un tableau d’évaluation.
 
-Par exemple, supposons que vous disposiez du dataframe pandas suivant :
+Par exemple, supposons que vous disposiez du dataframe pandas suivant :
 
 ```python
 import pandas as pd
@@ -46,11 +46,12 @@ df = pd.DataFrame(
   with wandb.init(project="classifier-table-demo") as run:
     table = wandb.Table(dataframe=df)
     run.log({"validation_predictions": table})
-  ``` */}
+  ```
+  */}
 
 Créez une tableau d’évaluation en passant le DataFrame à `wandb.EvalTable`. Utilisez les arguments `input_columns`, `output_columns` et `score_columns` pour identifier le rôle de chaque colonne.
 
-L’exemple suivant utilise :
+L’exemple suivant utilise :
 
 * `image_id` comme entrée
 * `predicted_label` comme sortie

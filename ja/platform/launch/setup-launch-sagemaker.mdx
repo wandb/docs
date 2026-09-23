@@ -310,7 +310,7 @@ builder:
 ## 任意: Launch ジョブ の Docker イメージを Amazon ECR にプッシュする {#optional-push-your-launch-job-docker-image-to-amazon-ecr}
 
 <Note>
-  このセクションは、Launch エージェントがトレーニングまたは Inference のロジックを含む既存の Docker イメージを使用する場合にのみ該当します。[Launch エージェントは 2 つの動作オプションをサポートします。](#decide-if-you-want-the-launch-agent-to-build-a-docker-image)
+  このセクションは、Launch エージェントがトレーニングまたは推論のロジックを含む既存の Docker イメージを使用する場合にのみ該当します。[Launch エージェントは 2 つの動作オプションをサポートします。](#decide-if-you-want-the-launch-agent-to-build-a-docker-image)
 </Note>
 
 Launch ジョブ を含む Docker イメージを Amazon ECR リポジトリにアップロードします。イメージベースのジョブを使用している場合は、新しい Launch ジョブ を送信する前に、その Docker イメージが ECR レジストリに存在している必要があります。
@@ -319,7 +319,8 @@ Launch ジョブ を含む Docker イメージを Amazon ECR リポジトリに�
 
   ```bash
   wandb job create image [YOUR-IMAGE-URI] --p [PROJECT] ...
-  ``` */}
+  ```
+  */}
 
 {/* ## W&B から Launch ジョブを実行する
 
