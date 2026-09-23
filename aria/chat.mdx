@@ -1,6 +1,6 @@
 ---
 title: "Chat with ARIA"
-description: "Manage ARIA conversations: start chats, queue messages, add context from across W&B, organize history, and give feedback."
+description: "Manage ARIA conversations: start chats, queue messages, add context from across W&B, grant network access, organize history, and give feedback."
 ---
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -11,7 +11,7 @@ import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.md
 <MultiTenantCloudOnly />
 </Note>
 
-This page describes how to manage your conversations with ARIA: starting and resuming chats, queueing follow-up messages, adding context such as runs, workspace panels, Weave traces, and images, and giving feedback on responses. It also covers organizing your chat history by renaming, pinning, and deleting conversations.
+This page describes how to manage your conversations with ARIA: starting and resuming chats, queueing follow-up messages, adding context such as runs, workspace panels, Weave traces, and images, granting network access, and giving feedback on responses. It also covers organizing your chat history by renaming, pinning, and deleting conversations.
 
 ## Start a new chat
 
@@ -170,6 +170,31 @@ Why did the model score lower on these examples than in the previous evaluation?
 ## Add an image to a conversation
 
 Click the plus icon (`+`) in the lower left corner of the chat window to add an image to your conversation. You can then ask ARIA to analyze the image or provide information about it.
+
+## Grant network access
+
+ARIA runs code in a sandbox that can reach W&B services but blocks most other domains on the internet. When a task needs another domain, such as `pypi.org` and `files.pythonhosted.org` to install a Python package, ARIA asks you for access and waits for your answer.
+
+The request appears in the chat under **The agent is requesting network access**. It shows why ARIA needs access and lists the domains it wants to reach, all selected.
+
+- To grant access, clear any domains you don't want to allow, then click **Grant access**. ARIA continues its work and can reach the granted domains.
+- To deny access, click **Deny**. ARIA continues without the extra access.
+
+While a request is waiting, you can't send messages, and [queued messages](#queue-messages) don't run.
+
+Code that runs in the sandbox can send data to any domain you grant. Grant access only to domains you trust.
+
+Granted domains stay available for the rest of the conversation until you revoke them. Each new chat starts with only the default access. You can't add domains yourself. ARIA requests them when a task needs them.
+
+### Review or revoke network access
+
+After you grant access in a conversation, **<Icon icon="link" iconType="solid"/>** (**Manage network access**) appears in the message box, next to **+**. To revoke access:
+
+1. Click **<Icon icon="link" iconType="solid"/>** (**Manage network access**). A list of the conversation's granted domains opens.
+1. Clear the domains you want to revoke.
+1. Click **Update access**.
+
+W&B sends ARIA a message listing the revoked domains, and ARIA runs without them from then on. You can't change network access while ARIA is working.
 
 ## Provide feedback
 
