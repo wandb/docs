@@ -1,6 +1,6 @@
 ---
 title: "Chat with ARIA"
-description: "Manage ARIA conversations: start chats, queue messages, add context, organize history, and give feedback."
+description: "Start and organize ARIA chats, queue messages, add context, grant network access, and give feedback."
 ---
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -11,7 +11,7 @@ import MultiTenantCloudOnly from "/snippets/_includes/multi-tenant-cloud-only.md
 <MultiTenantCloudOnly />
 </Note>
 
-This page describes how to manage your conversations with ARIA: starting and resuming chats, queueing follow-up messages, adding context such as runs and images, and giving feedback on responses. It also covers organizing your chat history by renaming, pinning, and deleting conversations.
+This page describes how to manage your conversations with ARIA: starting and resuming chats, queueing follow-up messages, adding context, granting network access, and giving feedback on responses. Context can include runs, workspace panels, W&B Weave traces, and images. It also covers organizing your chat history by renaming, pinning, and deleting conversations.
 
 ## Start a new chat
 
@@ -82,26 +82,25 @@ To view previous conversations:
 
 Pinned conversations appear first, under a single **Pinned** header, not grouped by date. Unpinned conversations follow, grouped **Today**, **Yesterday**, **Last 7 Days**, **Last 30 Days**, then by month, then by month and year for conversations older than a year. Within each group, the most recently active conversation appears first.
 
-Hover over a conversation row, or focus it with the keyboard, to reveal three controls:
+Hover over a conversation row, or focus it with the keyboard, to reveal two controls:
 
-- **<Icon icon="pencil" iconType="solid"/>** (**Rename chat**): see [Rename a conversation](#rename-a-conversation).
 - **<Icon icon="thumbtack" iconType="solid"/>** (**Pin chat** / **Unpin chat**): see [Pin a conversation](#pin-a-conversation).
-- **<Icon icon="trash" iconType="solid"/>** (**Delete chat**): see [Delete previous conversations](#delete-previous-conversations).
+- **<Icon icon="ellipsis" iconType="solid"/>** (**Chat actions**): opens a menu with **Rename chat** and **Delete chat**. See [Rename a conversation](#rename-a-conversation) and [Delete previous conversations](#delete-previous-conversations).
 
 The chat history sidebar's **Customize** section also lists the ARIA automations you've created. See [Use automations with ARIA](/models/automations/create-automations/aria).
 
 ### Rename a conversation
 
-By default, a conversation's title is an excerpt of your first prompt.
+When you send the first message in a new chat, ARIA generates a title for the conversation. The title shimmers in the chat history sidebar while ARIA writes it. If ARIA can't generate a title, the conversation keeps an excerpt of your first prompt as its title. ARIA titles a conversation only once. Follow-up messages don't change the title.
+
+To give a conversation a different title:
 
 1. In the chat history sidebar, hover over the conversation you want to rename.
-2. Click **<Icon icon="pencil" iconType="solid"/>** (**Rename chat**). The title becomes an editable field with the placeholder `Enter a title`.
-3. Type a title, up to 255 characters, or click **<Icon icon="wand-magic-sparkles" iconType="solid"/>** (**Generate chat title**) to have ARIA read the conversation and write a title that describes what actually happened in it, not just how it started.
+2. Click **<Icon icon="ellipsis" iconType="solid"/>** (**Chat actions**), then select **Rename chat**. The title becomes an editable field.
+3. Type a title, up to 255 characters.
 4. Press **Enter** or click **<Icon icon="check" iconType="solid"/>** (**Save chat title**) to save. Press **Escape** or click **<Icon icon="xmark" iconType="solid"/>** (**Cancel rename**) to discard your change.
 
-Clearing the field and saving restores the prompt-excerpt title, falling back to **Untitled conversation** if none exists. Saving whitespace-only input cancels the rename instead of clearing the title.
-
-Renaming, by hand or with **Generate chat title**, only happens when you trigger it. ARIA never retitles a conversation on its own after the first turn.
+Clearing the field and saving replaces the title with an excerpt of your first prompt, or **Untitled conversation** if no excerpt exists. Saving whitespace-only input cancels the rename instead of clearing the title.
 
 Renamed titles sync across your open browser tabs. You can also rename a chat from your phone. See [Chat with ARIA](/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) in the mobile app docs.
 
@@ -121,8 +120,8 @@ To delete a previous conversation:
 
 1. Open ARIA.
 2. Click **<Icon icon="sidebar-reveal" iconType="solid"/>** (**Reveal chat history**) to open the chat history sidebar.
-3. Hover over the conversation you want to delete, then click **<Icon icon="trash" iconType="solid"/>** (**Delete chat**).
-4. Click **Delete** to confirm, or **<Icon icon="xmark" iconType="solid"/>** (**Cancel delete**) to keep the conversation.
+3. Hover over the conversation you want to delete, click **<Icon icon="ellipsis" iconType="solid"/>** (**Chat actions**), then select **Delete chat**.
+4. In the **Delete this chat?** dialog, click **Delete** to confirm. You can't undo this action.
 
 ## Undock chat window
 
@@ -132,15 +131,76 @@ To undock the chat, click the undock icon in the upper right corner of the chat 
 
 ## Add context to a conversation
 
-You can use the `@` symbol to specify a specific run in your prompt. For example, you can ask ARIA to analyze a specific run by including the run's name in your prompt:
+Attach runs, workspace panels, and Weave traces and evaluations to a chat to give ARIA the exact context for your question. Each item appears in the message box as a removable tag. You can attach several items to a message. Adding context doesn't send the message on its own. When you're ready, click **Send**.
+
+When you add context from a page, ARIA adds it to the conversation that's open in the chat window. If no conversation is open, ARIA starts a new one.
+
+### Mention a run
+
+Type `@` in the message box and select a run. For example, you can ask ARIA to analyze a specific run by including the run's name in your prompt:
 
 ```text title="User prompt"
 Analyze the run @run-20230615_123456-abcdefg and summarize the results
 ```
 
+You can also add a run from the workspace's **Runs** table. Hover over the run, click its **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then select **Ask ARIA**.
+
+### Add a workspace panel
+
+To attach a workspace panel to a chat:
+
+1. In your workspace, hover over the panel and click its **action (<Icon icon="ellipsis" iconType="solid"/>)** menu.
+2. Select **Ask ARIA**. ARIA opens with the panel attached.
+3. Type your question, such as `Why does loss spike after step 2,000?`, then send it.
+
+**Ask ARIA** appears in panel menus in workspaces you can edit. It doesn't appear in panels in reports.
+
+### Add Weave traces and evaluations
+
+In Weave, click the ARIA button to attach traces, evaluations, or evaluation results to a chat. Hover over the button to see its label, such as **Ask ARIA about this trace** or **Ask ARIA about these evals**. The button appears in these places:
+
+- **Traces** or **Evals** table: Select one or more rows. The button appears in the table toolbar and attaches every selected row.
+- **Trace or evaluation details page**: The button appears in the page header.
+- **Evaluation comparison**: When you compare evaluations and view an example's details, the button attaches the predictions and scores for that example.
+
+ARIA uses the attached traces and evaluations to answer your question. For example:
+
+```text title="User prompt"
+Why did the model score lower on these examples than in the previous evaluation?
+```
+
 ## Add an image to a conversation
 
 Click the plus icon (`+`) in the lower left corner of the chat window to add an image to your conversation. You can then ask ARIA to analyze the image or provide information about it.
+
+## Grant network access
+
+When a task needs a domain that ARIA's sandbox blocks, ARIA asks you for network access and waits for your answer. For example, a task that installs a Python package needs `pypi.org` and `files.pythonhosted.org`. By default, the sandbox where ARIA runs code can reach W&B services but blocks most other domains on the internet.
+
+The request appears in the chat under **The agent is requesting network access**. It shows the reason for the request and lists the requested domains, all selected. Respond to the request in one of these ways:
+
+- To grant access, clear any domains you don't want to allow, then click **Grant access**. ARIA continues its work and can reach the granted domains.
+- To deny access, click **Deny**. ARIA continues without the extra access.
+
+While a request is waiting, you can't send messages, and queued messages don't run.
+
+<Warning>
+Code that runs in the sandbox can send data to any domain you grant. Grant access only to domains you trust.
+</Warning>
+
+Granted domains stay available for the rest of the conversation until you revoke them. Each new chat starts with only the default access. You can't add domains yourself. ARIA requests them when a task needs them.
+
+### Review or revoke network access
+
+After you grant access in a conversation, **<Icon icon="link" iconType="solid"/>** (**Manage network access**) appears in the message box, next to the plus icon (`+`).
+
+To revoke access:
+
+1. Click **<Icon icon="link" iconType="solid"/>** (**Manage network access**). A list of the conversation's granted domains opens.
+2. Clear the domains you want to revoke.
+3. Click **Update access**.
+
+W&B sends ARIA a message listing the revoked domains, and ARIA runs without them from then on. You can't change network access while ARIA is working.
 
 ## Provide feedback
 
