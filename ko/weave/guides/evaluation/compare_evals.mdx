@@ -8,9 +8,7 @@ W&amp;B Weave의 **Compare evaluations** 뷰에서는 로깅된 평가 두 개 �
 
 이 가이드는 Weave UI에서 로깅된 평가를 비교하려는 Weave 사용자를 위한 문서입니다. **Compare evaluations** 뷰를 여는 방법, 요약 차트와 결과 테이블에 표시되는 내용, 그리고 베이스라인 설정, 평가 순서 변경, 비교에서 평가 제거를 포함해 비교를 원하는 방식으로 조정할 때 수행할 수 있는 작업을 다룹니다.
 
-<div id="access-the-compare-evaluations-view">
-  ## Compare 평가 뷰에 액세스하기
-</div>
+## Compare 평가 뷰에 액세스하기 {#access-the-compare-evaluations-view}
 
 Compare 평가 뷰를 열려면 다음 단계를 따르세요.
 
@@ -24,9 +22,7 @@ Compare 평가 뷰를 열려면 다음 단계를 따르세요.
 
 **Compare 평가** 뷰가 열리면 선택한 각 평가가 페이지 상단의 *비교 막대*에 토큰으로 표시됩니다. 기본적으로 가장 왼쪽의 평가가 베이스라인이 되며, 다른 각 평가는 이를 기준으로 비교됩니다.
 
-<div id="review-the-comparison">
-  ## 비교 결과 검토
-</div>
+## 비교 결과 검토 {#review-the-comparison}
 
 Compare 평가 뷰에는 두 개의 탭이 있습니다:
 
@@ -37,9 +33,7 @@ Compare 평가 뷰에는 두 개의 탭이 있습니다:
   <img src="/weave/guides/evaluation/img/eval-compare.png" alt="세 개의 평가를 비교하는 Compare 평가 뷰입니다. Summary 탭에는 상단에 집계 차트가 표시되고 하단에 속성 및 메트릭 테이블이 표시됩니다." />
 </Frame>
 
-<div id="summary-tab">
-  ### Summary 탭
-</div>
+### Summary 탭 {#summary-tab}
 
 **Summary** 탭은 기본적으로 열립니다. 이 탭에는 두 개의 영역이 있습니다.
 
@@ -65,9 +59,7 @@ Weave는 비교를 해석하는 방식에 영향을 줄 수 있는 차이를 감
 
 Weave는 요약을 간결하게 유지하기 위해 비교된 모든 평가에 공통으로 존재하지 않는 점수 필드도 숨깁니다. 필드가 숨겨진 경우, 뷰 상단의 정보 배너에 그 개수가 표시됩니다. 어떤 필드를 표시할지 선택하려면 **Manage fields**를 선택하세요.
 
-<div id="dataset-results-tab">
-  ### Dataset results 탭
-</div>
+### Dataset results 탭 {#dataset-results-tab}
 
 선택한 평가들에서 개별 데이터셋 예시를 비교하려면 **Dataset results**를 선택하세요. 각 행은 하나의 데이터셋 예시에 해당하며, 데이터셋 입력과 함께 각 평가의 출력 및 Scorer 메트릭을 표시하므로 특정 예시에서 어디서 차이가 나는지 확인할 수 있습니다. 행을 선택하면 나란히 비교하는 상세 뷰가 열립니다.
 
@@ -75,15 +67,11 @@ Weave는 요약을 간결하게 유지하기 위해 비교된 모든 평가에 �
 
 Dataset results 탭을 사용하려면 비교하는 평가들이 데이터셋 행을 공유해야 합니다. 해당 데이터셋들에 공통 행이 없으면 결과 표가 표시되지 않습니다.
 
-<div id="customize-the-compare-evaluations-view">
-  ## Compare evaluations 뷰 사용자 지정
-</div>
+## Compare evaluations 뷰 사용자 지정 {#customize-the-compare-evaluations-view}
 
 Compare evaluations 뷰에서는 평가의 정렬 순서와 비교에 포함할 평가를 조정할 수 있습니다. 다음 섹션에서는 사용 가능한 작업을 설명합니다.
 
-<div id="set-a-baseline">
-  ### 베이스라인 설정
-</div>
+### 베이스라인 설정 {#set-a-baseline}
 
 기본적으로 비교 막대에서 가장 왼쪽에 있는 평가가 베이스라인이며, 다른 모든 평가는 이를 기준으로 비교됩니다. 모든 비교의 기준점으로 특정 평가를 사용하려면 다른 평가를 베이스라인으로 지정할 수 있습니다.
 
@@ -103,9 +91,7 @@ Compare evaluations 뷰에서는 평가의 정렬 순서와 비교에 포함할 
      <img src="/weave/guides/evaluation/img/comparison-evals-baseline-set.png" alt="비교 막대의 가장 왼쪽에 선택한 베이스라인 평가가 표시된 Compare evaluations 뷰." />
    </Frame>
 
-<div id="change-the-comparison-order">
-  ### 비교 순서 변경
-</div>
+### 비교 순서 변경 {#change-the-comparison-order}
 
 비교 막대에서 평가를 끌어 순서를 변경하세요. 그러면 비교 테이블의 해당 열 순서도 함께 바뀝니다.
 
@@ -115,9 +101,7 @@ Compare evaluations 뷰에서는 평가의 정렬 순서와 비교에 포함할 
 2. ID 왼쪽의 점 6개를 클릭한 채 필요에 따라 왼쪽이나 오른쪽으로 드래그하세요.
 3. 원하는 순서에 ID를 놓으세요. 업데이트된 비교 순서에 맞춰 비교 데이터가 새로 고쳐집니다.
 
-<div id="remove-from-comparison">
-  ### 비교에서 제거
-</div>
+### 비교에서 제거 {#remove-from-comparison}
 
 이 옵션은 세 개 이상의 평가를 비교할 때만 사용할 수 있습니다.
 

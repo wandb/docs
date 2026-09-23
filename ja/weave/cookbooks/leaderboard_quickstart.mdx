@@ -11,9 +11,7 @@ keywords: [leaderboard, モデル比較, Weave 評価, スコアリング関数]
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 </Note>
 
-<div id="leaderboard-quickstart">
-  # Leaderboard クイックスタート
-</div>
+# Leaderboard クイックスタート {#leaderboard-quickstart}
 
 このクイックスタートでは、W&amp;B Weave Leaderboard を使って、複数のデータセットやスコアリング関数にまたがるモデル性能を比較する方法を紹介します。最後には、複数のモデルを共通の評価セットに対してランク付けした leaderboard を公開できるようになります。これにより、各メトリクスでどのモデルが最も優れているかを特定できます。このガイドは、Weave で評価を実行したことがあり、その結果を並べて比較したい開発者を対象としています。
 
@@ -24,9 +22,7 @@ keywords: [leaderboard, モデル比較, Weave 評価, スコアリング関数]
 3. これらの手法を使って、複数のモデルと評価の組み合わせを評価します。
 4. Weave UI で leaderboard を確認します。
 
-<div id="step-1-generate-a-dataset-of-fake-zip-code-data">
-  ## Step 1: ダミーの郵便番号データのデータセットを生成する
-</div>
+## Step 1: ダミーの郵便番号データのデータセットを生成する {#step-1-generate-a-dataset-of-fake-zip-code-data}
 
 まず、ダミーの郵便番号データのリストを生成する関数 `generate_dataset_rows` を作成します。この合成データセットにより、leaderboard で各モデルをスコアリングする際に使用する、一貫した入力セットと期待値が得られます。
 
@@ -78,9 +74,7 @@ import weave
 weave.init("leaderboard-demo")
 ```
 
-<div id="step-2-author-scoring-functions">
-  ## Step 2: スコアリング関数を作成する
-</div>
+## Step 2: スコアリング関数を作成する {#step-2-author-scoring-functions}
 
 次に、3 つのスコアリング関数を作成します。各 scorer はモデルの出力の異なる側面を評価するため、leaderboard では品質の異なる観点に基づいてモデルを順位付けできます。
 
@@ -135,9 +129,7 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
     return json.loads(completion.choices[0].message.content)
 ```
 
-<div id="step-3-create-an-evaluation">
-  ## Step 3: 評価を作成する
-</div>
+## Step 3: 評価を作成する {#step-3-create-an-evaluation}
 
 次に、ダミーデータとスコアリング関数を使って、評価を定義します。`Evaluation` オブジェクトはデータセットと scorers を組み合わせるため、同じベンチマークに対して任意のモデルを実行できます。
 
@@ -154,9 +146,7 @@ evaluation = weave.Evaluation(
 )
 ```
 
-<div id="step-4-evaluate-a-baseline-model">
-  ## Step 4: ベースラインモデルを評価する
-</div>
+## Step 4: ベースラインモデルを評価する {#step-4-evaluate-a-baseline-model}
 
 ここでは、静的なレスポンスを返すベースラインモデルを評価します。ベースラインを確立すると、leaderboard上の基準点が得られるため、後続の各モデルが静的な実装からどれだけ改善したかを測定できます。
 
@@ -175,9 +165,7 @@ def baseline_model(zip_code: str):
 await evaluation.evaluate(baseline_model)
 ```
 
-<div id="step-5-create-more-models">
-  ## Step 5: モデルをさらに作成する
-</div>
+## Step 5: モデルをさらに作成する {#step-5-create-more-models}
 
 次に、ベースラインと比較するために、さらに2つのモデルを作成します。1つのモデルには追加のプロンプトなしで郵便番号だけを与え、もう1つのモデルには構造化されたプロンプトを与えます。leaderboard でそれらを比較すると、回答品質に対するプロンプトのコンテキストの影響がわかります。
 
@@ -235,9 +223,7 @@ def gpt_4o_mini_with_context(zip_code: str):
 await evaluation.evaluate(gpt_4o_mini_with_context)
 ```
 
-<div id="step-6-create-more-evaluations">
-  ## Step 6: さらに評価を作成する
-</div>
+## Step 6: さらに評価を作成する {#step-6-create-more-evaluations}
 
 ここでは、モデルと評価の組み合わせをマトリクスとして評価します。各モデルを複数のデータセット (異なる地域や年) に対して実行すると、leaderboard が複数の条件にわたってモデルを順位付けするために必要なデータが生成されます。
 
@@ -285,9 +271,7 @@ for evaluation in evaluations:
         )
 ```
 
-<div id="step-7-review-the-leaderboard">
-  ## ステップ 7: Leaderboard を確認する
-</div>
+## ステップ 7: Leaderboard を確認する {#step-7-review-the-leaderboard}
 
 評価結果を公開したら、それらを Leaderboard にまとめて、並べて比較できるようになります。
 

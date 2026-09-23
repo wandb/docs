@@ -16,7 +16,7 @@ description: "W&B 레지스트리 내에서 연결된 아티팩트 버전으로 
 </Note>
 
 <div id="collection-types">
-  ## 컬렉션 유형
+  ## 컬렉션 유형 {#collection-types}
 </div>
 
 각 컬렉션은 오직 하나의 아티팩트 &#95;유형&#95;만 허용합니다. 지정한 유형에 따라 여러분과 조직의 다른 구성원이 해당 컬렉션에 연결할 수 있는 아티팩트의 종류가 제한됩니다.
@@ -52,7 +52,7 @@ description: "W&B 레지스트리 내에서 연결된 아티팩트 버전으로 
 아티팩트를 컬렉션에 연결하거나 새 컬렉션을 만들기 전에 [해당 컬렉션이 허용하는 아티팩트 유형을 확인하세요](#check-the-types-of-artifact-that-a-collection-accepts).
 
 <div id="check-the-types-of-artifact-that-a-collection-accepts">
-  ### 컬렉션이 허용하는 아티팩트 유형 확인
+  ### 컬렉션이 허용하는 아티팩트 유형 확인 {#check-the-types-of-artifact-that-a-collection-accepts}
 </div>
 
 컬렉션에 연결하기 전에 해당 컬렉션이 어떤 아티팩트 유형을 허용하는지 확인하세요. 컬렉션이 허용하는 아티팩트 유형은 W&amp;B Python SDK를 사용해 프로그래밍 방식으로 확인하거나, W&amp;B App에서 대화형으로 확인할 수 있습니다.
@@ -102,13 +102,13 @@ description: "W&B 레지스트리 내에서 연결된 아티팩트 버전으로 
 컬렉션이 허용하는 아티팩트 유형을 확인했다면, [컬렉션을 생성](#create-a-collection)할 수 있습니다.
 
 <div id="create-a-collection">
-  ## 컬렉션 만들기
+  ## 컬렉션 만들기 {#create-a-collection}
 </div>
 
 대화형 또는 프로그래밍 방식으로 레지스트리 내에서 컬렉션을 만들 수 있습니다. 컬렉션을 만든 후에는 해당 컬렉션이 허용하는 아티팩트 유형을 변경할 수 없습니다.
 
 <div id="programmatically-create-a-collection">
-  ### 프로그래밍 방식으로 컬렉션 만들기
+  ### 프로그래밍 방식으로 컬렉션 만들기 {#programmatically-create-a-collection}
 </div>
 
 아티팩트를 컬렉션에 연결하려면 `wandb.Run.link_artifact()`를 사용하세요. 다음 형식의 경로로 `target_path` 필드에 컬렉션과 레지스트리를 모두 지정하세요.
@@ -145,9 +145,7 @@ with wandb.init(entity = "<team_entity>", project = "<project>") as run:
   run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 
-<div id="interactively-create-a-collection">
-  ### 대화형으로 컬렉션 만들기
-</div>
+### 대화형으로 컬렉션 만들기 {#interactively-create-a-collection}
 
 다음 단계에서는 W&amp;B 레지스트리를 사용해 대화형으로 컬렉션을 만드는 방법을 설명합니다.
 

@@ -9,9 +9,7 @@ import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-strea
 
 単一のトレーニングスクリプトやノートブックではなく、再利用可能なライブラリコードに統合する場合は、このガイドを使用してください。W&amp;B の概要については、[Experiment Tracking](/ja/models/track) を参照してください。
 
-<div id="design-the-integration">
-  ## インテグレーションを設計する
-</div>
+## インテグレーションを設計する {#design-the-integration}
 
 ライブラリに W&amp;B を追加する前に、以下を決定します。
 
@@ -24,15 +22,11 @@ import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-strea
 
 これらの決定により、ライブラリでの W&amp;B のインポート方法、run のライフサイクル管理方法、および W&amp;B が利用できない場合の動作が決まります。
 
-<div id="decide-how-to-install-wb">
-  ## W&amp;B のインストール方法を決める
-</div>
+## W&amp;B のインストール方法を決める {#decide-how-to-install-wb}
 
 W&amp;B をライブラリとともに自動でインストールするか、オプション機能として提供するかを選択します。
 
-<div id="require-wb-as-a-dependency">
-  ### W&amp;B を依存関係として指定する
-</div>
+### W&amp;B を依存関係として指定する {#require-wb-as-a-dependency}
 
 W&amp;B がライブラリの中核となる場合は、依存関係に `wandb` を追加します。
 
@@ -57,9 +51,7 @@ dependencies = [
 
 インテグレーションで使用する W&amp;B の機能に応じて、互換性のあるバージョン範囲を指定することを検討してください。
 
-<div id="make-wb-an-optional-dependency">
-  ### W&amp;B をオプションの依存関係として扱う
-</div>
+### W&amp;B をオプションの依存関係として扱う {#make-wb-an-optional-dependency}
 
 W&amp;B がオプション機能の場合、`wandb` をインストールせずにライブラリをインストールできるようにします。
 
@@ -86,22 +78,18 @@ pip install "my_awesome_lib[wandb]"
 ```
 
 <div id="authenticate-users">
-  ## ユーザー認証
+  ## ユーザー認証 {#authenticate-users}
 </div>
 
 W&amp;B では、APIキーを使用してユーザーやマシンを認証します。ライブラリから Runs をログするには、事前に APIキーを発行し、`wandb` クライアントで使用できるようにしておく必要があります。
 
 W&amp;B は、CLI、環境変数、`wandb.login()` による認証をサポートしています。
 
-<div id="create-an-api-key">
-  ### APIキーを発行する
-</div>
+### APIキーを発行する {#create-an-api-key}
 
 <ApiKeyCreateStreamlined />
 
-<div id="authenticate-from-the-command-line">
-  ### コマンドラインから認証する
-</div>
+### コマンドラインから認証する {#authenticate-from-the-command-line}
 
 ターミナルで次を実行します。
 
@@ -119,9 +107,7 @@ export WANDB_API_KEY="<api_key>"
 
 詳細は、[環境変数](/ja/models/track/environment-variables)をご覧ください。
 
-<div id="authenticate-from-python">
-  ### Python から認証する
-</div>
+### Python から認証する {#authenticate-from-python}
 
 インタラクティブな Python 環境またはノートブックで、次を呼び出します。
 
@@ -133,9 +119,7 @@ wandb.login()
 
 再利用可能なライブラリコードから [`wandb.login()`](/ja/models/ref/python/functions/login) を自動的に呼び出さないでください。非対話型ワークフローが中断される可能性があります。
 
-<div id="make-wb-logging-optional">
-  ## W&amp;B をログすることを任意にする
-</div>
+## W&amp;B をログすることを任意にする {#make-wb-logging-optional}
 
 W&amp;B で run データを保存またはアップロードするかどうかを選択します。
 
@@ -146,9 +130,7 @@ W&amp;B で run データを保存またはアップロードするかどうか�
 
 run データを保存しない場合は `disabled` を使用します。後でアップロードするためにデータをローカルに保存する場合は `offline` を使用します。
 
-<div id="use-disabled-mode">
-  ### `disabled` モードを使用する
-</div>
+### `disabled` モードを使用する {#use-disabled-mode}
 
 `wandb.init()` に `mode="disabled"` を渡します。
 
@@ -169,9 +151,7 @@ W&amp;B CLI でもモードを設定できます。
 wandb disabled
 ```
 
-<div id="use-offline-mode">
-  ### `offline` モードを使用する
-</div>
+### `offline` モードを使用する {#use-offline-mode}
 
 `wandb.init()` に `mode="offline"` を指定します。
 
@@ -206,9 +186,7 @@ wandb offline
 wandb sync <run_directory>
 ```
 
-<div id="initialize-a-run">
-  ## run を初期化する
-</div>
+## run を初期化する {#initialize-a-run}
 
 認証後、[run](/ja/models/runs) を初期化し、ライブラリからメトリクス、[設定](/ja/models/track/config)値、[アーティファクト](/ja/models/artifacts) をログします。
 
@@ -285,15 +263,11 @@ with wandb.init(entity="your-entity", project="your-project-name", config=config
 
 [次のセクション](#log-configuration-and-metrics)では、ライブラリから設定値とメトリクスをログする方法を詳しく説明します。
 
-<div id="log-configuration-and-metrics">
-  ## 設定とメトリクスをログする
-</div>
+## 設定とメトリクスをログする {#log-configuration-and-metrics}
 
 設定値とメトリクスを W&amp;B にログすることで、自分やチームのメンバーが実験を[比較](/ja/models/runs/compare-runs)、[フィルター](/ja/models/runs/filter-runs#example-filter-run-configuration-values-with-contains)、[グループ化](/ja/models/runs/grouping)、[再現](/ja/models/track/reproduce_experiments)できるようになります。
 
-<div id="log-configuration-values">
-  ### 設定値をログする
-</div>
+### 設定値をログする {#log-configuration-values}
 
 [設定](/ja/models/track/config)辞書を`wandb.init()`に渡して、ハイパーパラメーターやその他のメタデータを記録します。
 
@@ -334,9 +308,7 @@ run.config.update(
 
 詳細は、[実験を設定する](/ja/models/track/config)を参照してください。
 
-<div id="log-metrics">
-  ### メトリクスをログする
-</div>
+### メトリクスをログする {#log-metrics}
 
 トレーニング中に、損失やaccuracyなどのメトリクスをログします。キーをメトリクスの名、値をメトリクス値とする辞書を作成します。この辞書を[`wandb.Run.log()`](/ja/models/ref/python/experiments/run#method-run-log)に渡します。
 
@@ -361,9 +333,7 @@ with wandb.init(entity="your-entity", project="your-project-name") as run:
 
 モデルとデータセットをトラッキングするには、[artifact を使用してモデルとデータセットをトラッキングする](#track-models-and-datasets-with-artifacts)セクションを参照してください。
 
-<div id="define-a-custom-log-axis">
-  ### カスタムログ軸を定義する
-</div>
+### カスタムログ軸を定義する {#define-a-custom-log-axis}
 
 デフォルトでは、W&amp;B はログしたメトリクスを自動的に増加するステップに対してプロットします。`wandb.Run.log()` を呼び出すたびに、ステップが進みます。
 
@@ -388,9 +358,7 @@ with wandb.init() as run:
 
 詳細は、[カスタムログ軸を定義する](/ja/models/track/log/customize-logging-axes)をご覧ください。
 
-<div id="track-models-and-datasets-with-artifacts">
-  ## アーティファクト でモデルとデータセットをトラッキングする
-</div>
+## アーティファクト でモデルとデータセットをトラッキングする {#track-models-and-datasets-with-artifacts}
 
 メトリクスに加えて、自分自身とチームのメンバーが Runs を再現して比較できるように、ライブラリが生成または使用するモデルとデータセットを永続的に保存できます。
 
@@ -404,9 +372,7 @@ with wandb.init() as run:
 * アーティファクトとエイリアスの命名方法。
 * run の入力と出力を表すアーティファクト。
 
-<div id="log-model-checkpoints">
-  ### モデル チェックポイントをログする
-</div>
+### モデル チェックポイントをログする {#log-model-checkpoints}
 
 トレーニング済みの重みを復元、バージョン管理、共有できるように、モデル チェックポイントをアーティファクトとしてログします。各チェックポイントをソースrunに関連付けるため、アーティファクト名にrun IDを含めます。
 
@@ -432,9 +398,7 @@ with wandb.init(entity="your-entity", project="your-project-name") as run:
         run.log_artifact(artifact, aliases=f"epoch_{epoch}")
 ```
 
-<div id="track-run-inputs">
-  ### run の入力をトラッキングする
-</div>
+### run の入力をトラッキングする {#track-run-inputs}
 
 run がデータセットやモデル チェックポイントなどのアーティファクトを使用する場合は、[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#method-run-use_artifact) を使用します。W&amp;B はアーティファクトをrun の入力として記録します。
 
@@ -449,9 +413,7 @@ with wandb.init(entity="your-entity", project="your-project") as run:
   artifact = run.use_artifact(artifact_or_name="artifact_name:alias_or_version")
 ```
 
-<div id="track-run-outputs">
-  ### run の出力をトラッキングする
-</div>
+### run の出力をトラッキングする {#track-run-outputs}
 
 [`wandb.Run.log_artifact()`](/ja/models/ref/python/experiments/run#method-run-log_artifact) を使用して、アーティファクト を run の出力としてログします。
 
@@ -475,9 +437,7 @@ with wandb.init(entity="your-entity", project="project-name") as run:
 
 アーティファクト の作成、管理、使用方法について詳しくは、[Artifacts](/ja/models/artifacts)を参照してください。
 
-<div id="download-artifacts">
-  ### アーティファクト をダウンロードする
-</div>
+### アーティファクト をダウンロードする {#download-artifacts}
 
 [W&amp;B Public API](/ja/models/ref/python/public-api) を使用すると、run を作成したり、run の入力関係を記録したりせずに アーティファクト をダウンロードできます。
 
@@ -495,9 +455,7 @@ local_path = artifact.download()
 
 詳細については、[アーティファクトのダウンロードと使用](/ja/models/registry/download_use_artifact)を参照してください。
 
-<div id="link-artifacts-to-the-wb-registry">
-  ## アーティファクト を W&amp;B Registry にリンクする
-</div>
+## アーティファクト を W&amp;B Registry にリンクする {#link-artifacts-to-the-wb-registry}
 
 [W&amp;B Registry](/ja/models/registry) を使用すると、チーム間で アーティファクト バージョンを共有・管理できます。
 
@@ -543,9 +501,7 @@ with wandb.init(project="project-name") as run:
 
 詳細は、[アーティファクトバージョンをコレクションにリンクする](/ja/models/registry/link_version)を参照してください。
 
-<div id="tune-hyperparameters">
-  ## ハイパーパラメーターを調整する
-</div>
+## ハイパーパラメーターを調整する {#tune-hyperparameters}
 
 ライブラリがハイパーパラメーター調整をサポートしている場合は、[W&amp;B Sweeps](/ja/models/sweeps) を統合して、グリッド探索、ランダム探索、またはベイズ探索を実行します。
 
@@ -555,9 +511,7 @@ with wandb.init(project="project-name") as run:
 
 詳細は、[Sweeps](/ja/models/sweeps) を参照してください。
 
-<div id="support-distributed-training">
-  ## 分散トレーニングをサポートする
-</div>
+## 分散トレーニングをサポートする {#support-distributed-training}
 
 ライブラリが複数のプロセスまたはマシンをサポートする場合は、どのプロセスでrunを作成し、データをログするかを指定します。
 

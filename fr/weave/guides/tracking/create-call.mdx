@@ -14,9 +14,7 @@ Pour voir votre code en cours d’exécution sous forme de traces détaillées d
 
 Choisissez l’approche qui correspond au niveau de contrôle dont vous avez besoin sur les éléments à tracer.
 
-<div id="automatic-tracking-of-llm-library-calls">
-  ## Suivi automatique des Appels aux bibliothèques LLM
-</div>
+## Suivi automatique des Appels aux bibliothèques LLM {#automatic-tracking-of-llm-library-calls}
 
 Weave s’intègre automatiquement à de nombreuses bibliothèques et frameworks courants, tels que `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`. Importez la bibliothèque LLM ou le framework, puis initialisez votre projet Weave. Weave trace ensuite automatiquement tous les Appels adressés au LLM ou à la plateforme dans votre projet, sans nécessiter de modification de code supplémentaire. Pour obtenir la liste complète des intégrations de bibliothèques prises en charge, voir [Aperçu des intégrations](/fr/weave/guides/integrations/).
 
@@ -77,9 +75,7 @@ Weave s’intègre automatiquement à de nombreuses bibliothèques et frameworks
 
 Si vous souhaitez mieux contrôler le comportement automatique, voir [Configurer le suivi automatique des Appels LLM](/fr/weave/guides/integrations/autopatching).
 
-<div id="track-custom-functions">
-  ## Suivi des fonctions personnalisées
-</div>
+## Suivi des fonctions personnalisées {#track-custom-functions}
 
 Les applications LLM comportent souvent une logique supplémentaire (comme le prétraitement/post-traitement, les prompts, etc.) que vous souhaitez suivre. Utilisez cette approche lorsque vous souhaitez que Weave capture vos propres fonctions en plus des Appels LLM qu’il trace automatiquement.
 
@@ -145,9 +141,7 @@ Les applications LLM comportent souvent une logique supplémentaire (comme le pr
   </Tab>
 </Tabs>
 
-<div id="track-class-and-object-methods">
-  ### Suivre les méthodes de classe et d’instance
-</div>
+### Suivre les méthodes de classe et d’instance {#track-class-and-object-methods}
 
 En plus des fonctions autonomes, vous pouvez également suivre les méthodes de classe et d’instance. Vous pouvez suivre n’importe quelle méthode d’une classe en la décorant avec `weave.op`.
 
@@ -208,9 +202,7 @@ En plus des fonctions autonomes, vous pouvez également suivre les méthodes de 
   </Tab>
 </Tabs>
 
-<div id="trace-parallel-multi-threaded-function-calls">
-  ### Tracer des appels de fonction parallèles (multithread)
-</div>
+### Tracer des appels de fonction parallèles (multithread) {#trace-parallel-multi-threaded-function-calls}
 
 Par défaut, les appels parallèles apparaissent tous dans Weave comme des appels racine distincts, ce qui rend la hiérarchie de trace difficile à suivre. Pour obtenir un imbriquement correct sous le même op parent, utilisez un `ThreadPoolExecutor`.
 
@@ -249,9 +241,7 @@ Dans la Weave UI, cela produit un seul appel parent avec cinq appels enfants imb
 
 ![La Trace UI, montrant un seul appel parent pour outer, avec cinq appels enfants imbriqués.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
-<div id="manual-call-tracking">
-  ## Suivi manuel des appels
-</div>
+## Suivi manuel des appels {#manual-call-tracking}
 
 Si ni l’intégration automatique ni le décorateur `weave.op` ne conviennent à votre flux de travail, vous pouvez créer manuellement des appels directement via l’API. Cette approche vous donne un contrôle complet sur le moment où un appel commence et se termine, au prix de davantage de code standard.
 

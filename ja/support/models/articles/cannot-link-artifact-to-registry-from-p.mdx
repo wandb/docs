@@ -5,9 +5,7 @@ keywords: ["Artifacts"]
 
 アーティファクトをW&amp;B Registryにリンクできない場合、最も一般的な原因は、そのアーティファクトがチーム entity ではなく個人 entityでログされていることです。組織のRegistryにリンクできるのは、組織のチーム内でログされたアーティファクトのみです。このページでは、アーティファクトをチーム entity の下でログしてRegistryにリンクできるようにする方法と、すでにアーティファクトを個人 entity の下でログしている場合の対処方法について説明します。
 
-<div id="log-artifacts-with-a-team-entity">
-  ## チーム entity でアーティファクトをログする
-</div>
+## チーム entity でアーティファクトをログする {#log-artifacts-with-a-team-entity}
 
 アーティファクトを Registry にリンクできるようにするには、組織に属するチーム entity の下でアーティファクトをログする必要があります。run を初期化する際に、`entity` にチームを指定してください。
 
@@ -23,15 +21,11 @@ with wandb.init(entity="[TEAM-ENTITY]", project="[PROJECT-NAME]") as run:
 
 `entity` を指定しない場合、run にはデフォルトの entity が使用されます。これは個人のアカウントである可能性があります。
 
-<div id="find-your-team-entity">
-  ## チーム entity を検索する
-</div>
+## チーム entity を検索する {#find-your-team-entity}
 
 チーム entity はチーム名と同じです。確認するには、チームの W&amp;B プロフィールページにアクセスしてください。URL は `https://wandb.ai/[TEAM]` の形式で、`[TEAM]` がチーム entity です。
 
-<div id="re-log-artifacts-logged-to-a-personal-entity">
-  ## 個人 entity にログされたアーティファクトを再度ログする
-</div>
+## 個人 entity にログされたアーティファクトを再度ログする {#re-log-artifacts-logged-to-a-personal-entity}
 
 アーティファクトをすでに個人 entity にログしている場合は、組織内のチーム entity に再度ログしてください。
 

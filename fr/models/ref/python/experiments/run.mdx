@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L405" />
 
-<div id="class-wandbrun">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Run
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Run {#class-wandbrun}
 
 Une unité de calcul journalisée par W&amp;B. Il s&#39;agit généralement d&#39;une expérience de machine learning.
 
@@ -35,15 +33,11 @@ Il existe un autre objet `Run` dans l&#39;espace de noms
 Utilisez cet objet pour interagir avec des runs déjà
 créés.
 
-<div id="attributes">
-  ## Attributs
-</div>
+## Attributs {#attributes}
 
 * `summary`: (Synthèse) Synthèse du run, sous la forme d&#39;un objet de type dictionnaire. Pour plus d&#39;informations, voir [Log summary metrics](https://docs.wandb.ai/models/track/log/log-summary).
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Créez un run avec `wandb.init()` :
 
@@ -56,9 +50,7 @@ with wandb.init(entity="entity", project="project") as run:
     run.log({"accuracy": acc, "loss": loss})
 ```
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
 <ResponseField name="config" type="wandb_config.Config">
   Objet de configuration associé à ce run.
@@ -194,13 +186,9 @@ with wandb.init(entity="entity", project="project") as run:
   Les runs hors ligne n&#39;ont pas d&#39;URL.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-runalert">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.alert()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.alert() {#method-runalert}
 
 ```python
 self,
@@ -212,9 +200,7 @@ wait_duration: 'int | float | timedelta | None' = None
 
 Crée une alerte avec le titre et le texte indiqués.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="title" type="str">
   Le titre de l’alerte, qui doit comporter moins de 64 caractères.
@@ -232,9 +218,7 @@ Crée une alerte avec le titre et le texte indiqués.
   Le délai d’attente (en secondes) avant d’envoyer une autre alerte avec ce titre.
 </ResponseField>
 
-<div id="method-rundefine_metric">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.define_metric()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.define_metric() {#method-rundefine_metric}
 
 ```python
 self,
@@ -248,9 +232,7 @@ overwrite: 'bool | None' = None
 
 Personnalisez les métriques journalisées avec `wandb.Run.log()`.
 
-<div id="arguments-2">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-2}
 
 <ResponseField name="name" type="str">
   Le nom de la métrique à personnaliser.
@@ -276,9 +258,7 @@ Personnalisez les métriques journalisées avec `wandb.Run.log()`.
   Si false, cet appel est fusionné avec les appels `define_metric` précédents pour la même métrique, en utilisant leurs valeurs pour tous les paramètres non spécifiés. Si true, les paramètres non spécifiés remplacent les valeurs définies par les appels précédents.
 </ResponseField>
 
-<div id="method-rundisplay">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.display()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.display() {#method-rundisplay}
 
 ```python
 self,
@@ -288,9 +268,7 @@ hidden: 'bool' = False
 
 Affiche ce run dans Jupyter.
 
-<div id="arguments-3">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-3}
 
 <ResponseField name="height" type="int">
   Aucune description fournie.
@@ -300,9 +278,7 @@ Affiche ce run dans Jupyter.
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-runfinish">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.finish()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.finish() {#method-runfinish}
 
 ```python
 self,
@@ -322,17 +298,13 @@ Run States:
 * Failed : run terminé avec des erreurs (`exit_code!=0`).
 * Killed : run arrêté de force avant d’avoir pu se terminer.
 
-<div id="arguments-4">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-4}
 
 <ResponseField name="exit_code" type="int | None">
   Entier indiquant le statut de sortie du run. Utilisez 0 pour signaler une réussite ; toute autre valeur marque le run comme échoué.
 </ResponseField>
 
-<div id="method-runfinish_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.finish_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.finish_artifact() {#method-runfinish_artifact}
 
 ```python
 self,
@@ -347,9 +319,7 @@ Finalise un artifact non finalisé comme sortie d’un run.
 
 Les &quot;upserts&quot; ultérieurs avec le même ID distribué créeront une nouvelle version.
 
-<div id="arguments-5">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-5}
 
 <ResponseField name="artifact_or_path" type="Artifact | str">
   Chemin vers le contenu de cet artifact,
@@ -384,9 +354,7 @@ Les &quot;upserts&quot; ultérieurs avec le même ID distribué créeront une no
   Chaîne unique partagée par tous les jobs distribués. Si None, la valeur par défaut est le nom du groupe du run.
 </ResponseField>
 
-<div id="method-runlink_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.link_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.link_artifact() {#method-runlink_artifact}
 
 ```python
 self,
@@ -401,9 +369,7 @@ Le terme « link » désigne des pointeurs qui relient l’emplacement où W&a
 
 Affichez les artifacts liés dans l’interface utilisateur du registre pour la collection spécifiée.
 
-<div id="arguments-6">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-6}
 
 <ResponseField name="artifact" type="Artifact">
   L’objet artifact à lier à la collection.
@@ -417,9 +383,7 @@ Affichez les artifacts liés dans l’interface utilisateur du registre pour la 
   Ajoutez un ou plusieurs alias à l&#39;artifact lié. L’alias « latest » est automatiquement appliqué à l&#39;artifact le plus récent que vous liez.
 </ResponseField>
 
-<div id="examples-2">
-  ##### Exemples
-</div>
+##### Exemples {#examples-2}
 
 ```python
 import wandb
@@ -446,9 +410,7 @@ with wandb.init(entity=entity, project=project) as run:
     run.link_artifact(artifact=artifact, target_path=target_path)
 ```
 
-<div id="method-runlink_model">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.link_model()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.link_model() {#method-runlink_model}
 
 ```python
 self,
@@ -472,9 +434,7 @@ Cette méthode :
 * Lie la version de l’artifact de modèle &#39;name&#39; au modèle enregistré &#39;registered&#95;model&#95;name&#39;.
 * Attache les alias de la liste &#39;aliases&#39; à la version de l’artifact de modèle nouvellement liée.
 
-<div id="arguments-7">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-7}
 
 <ResponseField name="path" type="StrPath">
   (str) Chemin vers le contenu de ce modèle, pouvant prendre les
@@ -497,16 +457,12 @@ Cette méthode :
   Alias appliqués uniquement à cet artifact lié dans le modèle enregistré. L’alias &quot;latest&quot; est toujours appliqué à la version la plus récente d’un artifact lié.
 </ResponseField>
 
-<div id="raises">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises}
 
 * `AssertionError`: Si registered&#95;model&#95;name est un chemin ou si l’artifact de modèle &#39;name&#39; est d’un type ne contenant pas la sous-chaîne &#39;model&#39;.
 * `ValueError`: Si name contient des caractères spéciaux non valides.
 
-<div id="method-runlog">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log() {#method-runlog}
 
 ```python
 self,
@@ -596,9 +552,7 @@ with wandb.init() as run:
     run.log({"accuracy": 0.9}, step=current_step, commit=True)
 ```
 
-<div id="arguments-8">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-8}
 
 <ResponseField name="data" type="dict[str, Any]">
   Un `dict` avec des clés `str` et des valeurs qui sont des objets Python sérialisables, y compris : `int`, `float` et `string` ; n’importe lequel des `wandb.data_types` ; des listes, tuples et tableaux NumPy d’objets Python sérialisables ; d’autres `dict` de cette structure.
@@ -612,16 +566,12 @@ with wandb.init() as run:
   Si vrai, finalisez et téléversez l’étape. Si faux, accumulez les données pour l’étape. Voir les notes dans la description. Si `step` est `None`, la valeur par défaut est `commit=True` ; sinon, la valeur par défaut est `commit=False`.
 </ResponseField>
 
-<div id="raises-2">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-2}
 
 * `wandb.Error` : si la méthode est appelée avant `wandb.init()`.
 * `ValueError` : si des données non valides sont transmises.
 
-<div id="examples-3">
-  ##### Exemples
-</div>
+##### Exemples {#examples-3}
 
 Pour davantage d’exemples, plus détaillés, voir
 [nos guides sur la journalisation](https://docs.wandb.ai/models/track/log).
@@ -753,9 +703,7 @@ with wandb.init() as run:
     )
 ```
 
-<div id="method-runlog_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_artifact() {#method-runlog_artifact}
 
 ```python
 self,
@@ -768,9 +716,7 @@ tags: 'list[str] | None' = None
 
 Déclare un artifact comme sortie d’un run.
 
-<div id="arguments-9">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-9}
 
 <ResponseField name="artifact_or_path" type="Artifact | StrPath">
   (str ou Artifact) Chemin vers le contenu de cet artifact,
@@ -804,9 +750,7 @@ Déclare un artifact comme sortie d’un run.
   (list, facultatif) Tags à appliquer à cet artifact, le cas échéant.
 </ResponseField>
 
-<div id="method-runlog_code">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_code()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_code() {#method-runlog_code}
 
 ```python
 self,
@@ -820,9 +764,7 @@ Enregistre l’état actuel de votre code dans un Artifact W&amp;B.
 
 Par défaut, la méthode parcourt le répertoire courant et journalise tous les fichiers dont le nom se termine par `.py`.
 
-<div id="arguments-10">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-10}
 
 <ResponseField name="root" type="str | None">
   Le chemin relatif (par rapport à `os.getcwd()`) ou absolu à partir duquel rechercher le code de manière récursive.
@@ -840,9 +782,7 @@ Par défaut, la méthode parcourt le répertoire courant et journalise tous les 
   Une fonction qui accepte un chemin de fichier et, éventuellement, un chemin racine, puis renvoie `True` s’il doit être exclu et `False` sinon. Par défaut, une fonction exclut tous les fichiers des répertoires `<root>/.wandb/` et `<root>/wandb/`.
 </ResponseField>
 
-<div id="examples-4">
-  ##### Exemples
-</div>
+##### Exemples {#examples-4}
 
 Utilisation de base
 
@@ -868,9 +808,7 @@ with wandb.init() as run:
     )
 ```
 
-<div id="method-runlog_model">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_model()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.log_model() {#method-runlog_model}
 
 ```python
 self,
@@ -884,9 +822,7 @@ Journalise un artifact de modèle contenant le contenu du &#39;path&#39; dans un
 Le nom de l&#39;artifact de modèle ne peut contenir que des caractères alphanumériques,
 des traits de soulignement et des traits d&#39;union.
 
-<div id="arguments-11">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-11}
 
 <ResponseField name="path" type="StrPath">
   (str) Chemin vers le contenu de ce modèle,
@@ -905,15 +841,11 @@ des traits de soulignement et des traits d&#39;union.
   Alias à appliquer à l&#39;artifact de modèle créé, avec `["latest"]` comme valeur par défaut
 </ResponseField>
 
-<div id="raises-3">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-3}
 
 * `ValueError`: Si `name` contient des caractères spéciaux non valides.
 
-<div id="method-runmark_preempting">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.mark_preempting()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.mark_preempting() {#method-runmark_preempting}
 
 ```python
 self
@@ -923,9 +855,7 @@ Marquez cette run comme préemptée.
 
 Indique également au processus interne de le signaler immédiatement au serveur.
 
-<div id="method-runpin_config_keys">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.pin_config_keys()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.pin_config_keys() {#method-runpin_config_keys}
 
 ```python
 self,
@@ -936,17 +866,13 @@ keys: 'Sequence[str]' = ()
 
 Les clés épinglées apparaissent bien en évidence au-dessus de Notes sur la page Run Aperçu. Les valeurs de type chaîne sont affichées en markdown ; les valeurs non textuelles sont affichées en texte brut. Un nouvel appel remplace la liste précédemment épinglée.
 
-<div id="arguments-12">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-12}
 
 <ResponseField name="keys" type="Sequence[str]">
   Noms des clés de configuration à épingler, correspondant aux clés définies via `run.config`. Il s’agit de chaînes de clés exactes (les points et les barres obliques sont interprétés littéralement, et non comme des séparateurs de chemin). L’ordre est conservé et détermine l’ordre d’affichage.
 </ResponseField>
 
-<div id="method-runrestore">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.restore()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.restore() {#method-runrestore}
 
 ```python
 self,
@@ -961,9 +887,7 @@ Télécharge le fichier spécifié depuis le stockage cloud.
 Le fichier est placé dans le répertoire courant ou dans le répertoire du run.
 Par défaut, il n’est téléchargé que s’il n’existe pas déjà.
 
-<div id="arguments-13">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-13}
 
 <ResponseField name="name" type="str">
   Le nom du fichier.
@@ -981,16 +905,12 @@ Par défaut, il n’est téléchargé que s’il n’existe pas déjà.
   Le répertoire dans lequel télécharger le fichier.  Valeur par défaut : le répertoire courant, ou le répertoire du run si wandb.init a été appelé.
 </ResponseField>
 
-<div id="raises-4">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-4}
 
 * `CommError`: Si W&amp;B ne peut pas se connecter au backend W&amp;B.
 * `ValueError`: Si le fichier est introuvable ou si `run_path` est introuvable.
 
-<div id="method-runsave">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.save() {#method-runsave}
 
 ```python
 self,
@@ -1022,9 +942,7 @@ Lorsqu&#39;un chemin absolu ou un glob est fourni sans `base_path`, un niveau de
 
 Les fichiers sont automatiquement dédupliqués : appeler `save()` plusieurs fois sur le même fichier sans le modifier ne le téléverse pas à nouveau.
 
-<div id="arguments-14">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-14}
 
 <ResponseField name="glob_str" type="str | os.PathLike">
   Un chemin relatif ou absolu, ou un glob Unix.
@@ -1046,9 +964,7 @@ Les fichiers sont automatiquement dédupliqués : appeler `save()` plusieurs fo
   Indique s&#39;il faut traiter `glob_str` comme un motif glob. La valeur par défaut est `True` pour assurer la compatibilité descendante. Définissez `False` pour traiter `glob_str` comme un chemin littéral, par exemple lorsque son nom contient des métacaractères de glob comme `[`, `]`, `*` ou `?` que vous ne souhaitez pas voir interprétés comme un motif.
 </ResponseField>
 
-<div id="method-runstatus">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.status()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.status() {#method-runstatus}
 
 ```python
 self
@@ -1056,9 +972,7 @@ self
 
 Obtenir les informations de synchronisation du run actuel depuis le backend interne.
 
-<div id="method-rununwatch">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.unwatch()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.unwatch() {#method-rununwatch}
 
 ```python
 self,
@@ -1067,17 +981,13 @@ models: 'torch.nn.Module | Sequence[torch.nn.Module] | None' = None
 
 Supprime la topologie du modèle PyTorch ainsi que les hooks de gradient et de paramètres.
 
-<div id="arguments-15">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-15}
 
 <ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module] | None">
   Liste facultative de modèles PyTorch sur lesquels `watch` a été appelé.
 </ResponseField>
 
-<div id="method-runupsert_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.upsert_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.upsert_artifact() {#method-runupsert_artifact}
 
 ```python
 self,
@@ -1093,9 +1003,7 @@ Déclarez (ou ajoutez à) un artifact non finalisé comme sortie d’un run.
 Notez que vous devez appeler run.finish&#95;artifact() pour finaliser l’artifact.
 Cela est utile lorsque plusieurs jobs distribués doivent tous contribuer au même artifact.
 
-<div id="arguments-16">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-16}
 
 <ResponseField name="artifact_or_path" type="Artifact | str">
   Chemin vers le contenu de cet artifact. Il peut prendre les formes suivantes :
@@ -1125,9 +1033,7 @@ Cela est utile lorsque plusieurs jobs distribués doivent tous contribuer au mê
   Chaîne unique partagée par tous les jobs distribués. Si `None`, la valeur par défaut est le nom du groupe du run.
 </ResponseField>
 
-<div id="method-runuse_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_artifact() {#method-runuse_artifact}
 
 ```python
 self,
@@ -1141,9 +1047,7 @@ Déclare un artifact comme entrée d’un run.
 
 Appelez `download` ou `file` sur l’objet renvoyé pour récupérer son contenu en local.
 
-<div id="arguments-17">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-17}
 
 <ResponseField name="artifact_or_name" type="str | Artifact">
   Le nom de l&#39;artifact à utiliser. Il peut être préfixé
@@ -1168,9 +1072,7 @@ Appelez `download` ou `file` sur l’objet renvoyé pour récupérer son contenu
   Cet argument est obsolète et n&#39;a aucun effet.
 </ResponseField>
 
-<div id="examples-5">
-  ##### Exemples
-</div>
+##### Exemples {#examples-5}
 
 ```python
 import wandb
@@ -1197,9 +1099,7 @@ artifact_d = run.use_artifact(
 run.finish()
 ```
 
-<div id="method-runuse_model">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_model()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.use_model() {#method-runuse_model}
 
 ```python
 self,
@@ -1208,9 +1108,7 @@ name: 'str'
 
 Télécharge les fichiers enregistrés dans un artifact de modèle `name`.
 
-<div id="arguments-18">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-18}
 
 <ResponseField name="name" type="str">
   nom d’un artifact de modèle. `name` doit correspondre au nom d’un artifact de modèle existant déjà enregistré. Peut être préfixé par `entity/project/`. Les noms valides peuvent prendre les formes suivantes
@@ -1219,15 +1117,11 @@ Télécharge les fichiers enregistrés dans un artifact de modèle `name`.
   * model&#95;artifact&#95;name:alias
 </ResponseField>
 
-<div id="raises-5">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-5}
 
 * `AssertionError`: si l’artifact de modèle `name` est d’un type qui ne contient pas la sous-chaîne `model`.
 
-<div id="method-runwatch">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.watch()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.watch() {#method-runwatch}
 
 ```python
 self,
@@ -1243,9 +1137,7 @@ Ajoutez un hook au modèle PyTorch donné pour surveiller les gradients et le gr
 
 Cette fonction peut suivre les paramètres, les gradients, ou les deux pendant l&#39;entraînement.
 
-<div id="arguments-19">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-19}
 
 <ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module]">
   Un modèle unique ou une séquence de modèles à surveiller.
@@ -1271,15 +1163,11 @@ Cette fonction peut suivre les paramètres, les gradients, ou les deux pendant l
   Indique s’il faut journaliser le graphe de calcul du modèle. (par défaut=False)
 </ResponseField>
 
-<div id="raises-6">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-6}
 
 * `ValueError`: Si `wandb.init()` n&#39;a pas été appelé ou si l&#39;un des modèles n&#39;est pas une instance de `torch.nn.Module`.
 
-<div id="method-runwrite_logs">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.write_logs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Run.write_logs() {#method-runwrite_logs}
 
 ```python
 self,
@@ -1295,9 +1183,7 @@ simplement ignorés.
 Vous pouvez utiliser le paramètre `capture_loggers`, qui s&#39;intègre au module
 `logging` de Python.
 
-<div id="arguments-20">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-20}
 
 <ResponseField name="text" type="str">
   Le texte à écrire. Un saut de ligne final est ajouté s&#39;il n&#39;est pas déjà présent.

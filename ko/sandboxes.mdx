@@ -15,9 +15,7 @@ Serverless Sandboxes는 Python으로 생성하고 사용한 뒤 삭제할 수 �
 
 Serverless Sandboxes는 CoreWeave Sandbox 라이브러리를 기반으로 합니다. 기반이 되는 API 레퍼런스와 라이브러리 문서는 [CoreWeave Sandbox documentation](https://docs.coreweave.com/products/coreweave-sandbox)을 참조하세요.
 
-<div id="how-it-works">
-  ## 작동 방식
-</div>
+## 작동 방식 {#how-it-works}
 
 &#95;샌드박스&#95;는 하나의 격리된 컴퓨팅 환경입니다. [생성](/ko/sandboxes/create-sandbox)하고, [내부에서 명령을 실행](/ko/sandboxes/run-commands)하고, 작업이 끝나면 중지합니다. 각 샌드박스는 자체 파일 시스템, 네트워크, 프로세스 공간을 갖춘 별도의 컨테이너에서 실행됩니다.
 
@@ -29,9 +27,7 @@ Serverless Sandboxes는 CoreWeave Sandbox 라이브러리를 기반으로 합니
 
 공유 설정을 사용하는 여러 샌드박스를 관리하려면 *session* 을 사용하세요. 세션이 닫히면 해당 세션의 모든 샌드박스가 자동으로 중지됩니다. 자세한 내용은 [여러 샌드박스 관리](/ko/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session)를 참조하세요.
 
-<div id="basic-usage">
-  ## 기본 사용법
-</div>
+## 기본 사용법 {#basic-usage}
 
 다음 단계에 따라 샌드박스를 생성하고 그 안에서 명령어를 실행하세요:
 
@@ -64,9 +60,7 @@ Serverless Sandboxes는 CoreWeave Sandbox 라이브러리를 기반으로 합니
 
    컨텍스트 관리자(`with` 블록)를 벗어나면 샌드박스가 자동으로 중지됩니다. 샌드박스 라이프사이클 및 상태에 대한 자세한 내용은 [샌드박스의 라이프사이클](/ko/sandboxes/lifecycle)을 참조하세요.
 
-<div id="migrate-to-cwsandbox">
-  ## cwsandbox로 마이그레이션
-</div>
+## cwsandbox로 마이그레이션 {#migrate-to-cwsandbox}
 
 `wandb.sandbox`는 사용 중단되었으며 향후 W&amp;B Python SDK 릴리스에서 제거됩니다. 이를 대체하는 `cwsandbox` 패키지는 W&amp;B API 키와 CoreWeave API access token 중 어느 것이든 사용할 수 있습니다. 레퍼런스 문서는 [CoreWeave sandbox 문서](https://docs.coreweave.com/products/sandboxes)에서 확인할 수 있습니다.
 
@@ -98,9 +92,7 @@ Serverless Sandboxes는 CoreWeave Sandbox 라이브러리를 기반으로 합니
 
 W&amp;B credential은 현재와 동일한 방식으로, 즉 active 상태인 `wandb login` 세션, `WANDB_API_KEY` 환경 변수 또는 `~/.netrc`의 `api.wandb.ai` 항목에서 확인됩니다. 샌드박스 비용을 CoreWeave 계정으로 청구하려면 `auth`를 생략하고 `CWSANDBOX_API_KEY`에 CoreWeave API access token을 설정하세요. 두 credential의 비교는 [Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential)을 참조하세요.
 
-<div id="behavior-that-changes-after-you-migrate">
-  ### 마이그레이션 후 달라지는 동작
-</div>
+### 마이그레이션 후 달라지는 동작 {#behavior-that-changes-after-you-migrate}
 
 `wandb.sandbox`는 `cwsandbox`를 래핑하면서, `cwsandbox` 패키지만 사용할 때는 적용되지 않는 W&amp;B Serverless 기본값을 적용합니다. 마이그레이션할 때 다음 차이점을 고려하세요.
 
@@ -110,18 +102,14 @@ W&amp;B credential은 현재와 동일한 방식으로, 즉 active 상태인 `wa
 | 시크릿 저장소             | `Secret`이 기본적으로 W&amp;B 팀 시크릿 저장소를 사용                 | `Secret`에 `store` 인수를 명시적으로 지정해야 함        |
 | 배치 인수               | `profile_ids`, `profile_names`, `runner_ids`를 허용하지 않음 | CoreWeave 샌드박스 러너용으로 허용                |
 
-<div id="serverless-sandboxes-tutorials">
-  ## Serverless Sandboxes 튜토리얼
-</div>
+## Serverless Sandboxes 튜토리얼 {#serverless-sandboxes-tutorials}
 
 더 자세한 예시는 다음을 참조하세요.
 
 * [Serverless Sandbox에서 에이전트 호출하기 튜토리얼](/ko/sandboxes/invoke-agent-sandbox-tutorial)
 * [Serverless Sandbox에서 PyTorch 모델 학습하기 튜토리얼](/ko/sandboxes/mltrain-in-sandbox-tutorial)
 
-<div id="integrations">
-  ## Integrations
-</div>
+## Integrations {#integrations}
 
 다음 타사 프레임워크는 샌드박스 공급자로 Serverless Sandboxes를 지원합니다.
 

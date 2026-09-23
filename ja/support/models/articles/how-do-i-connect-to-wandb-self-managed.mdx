@@ -5,9 +5,7 @@ keywords: ["管理者", "ユーザー管理", "環境変数"]
 
 [W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed) は、お使いのインフラストラクチャー上で実行されるセルフマネージド型のデプロイメントです。SDK と CLI の接続先を、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) API (`api.wandb.ai`) ではなく、お使いのインスタンスの URL に設定してください。ログイン コマンド、`WANDB_BASE_URL`、および `--host` については、[`wandb login`](/ja/models/ref/cli/wandb-login) と [Environment variables](/ja/models/track/environment-variables) を参照してください。
 
-<div id="verify-the-connection">
-  ## 接続を確認する
-</div>
+## 接続を確認する {#verify-the-connection}
 
 ```bash
 wandb status
@@ -15,9 +13,7 @@ wandb status
 
 ホストがインスタンスのURLと一致し、APIキーが存在すること (値はマスクされています) を確認してください。
 
-<div id="ssl-certificate-issues">
-  ## SSL / 証明書の問題
-</div>
+## SSL / 証明書の問題 {#ssl-certificate-issues}
 
 インスタンスで自己署名証明書または内部 CA 証明書を使用している場合は、W&amp;B を初期化する前に CA バンドルを設定してください。
 
@@ -25,9 +21,7 @@ wandb status
 export REQUESTS_CA_BUNDLE=/path/to/ca-bundle.crt
 ```
 
-<div id="switching-between-multi-tenant-cloud-and-self-managed">
-  ## Multi-tenant Cloud とセルフマネージドの切り替え
-</div>
+## Multi-tenant Cloud とセルフマネージドの切り替え {#switching-between-multi-tenant-cloud-and-self-managed}
 
 再び Multi-tenant Cloud を使用するには、`WANDB_BASE_URL` の設定を解除し、`--host` を付けずに `wandb login` を実行します:
 
@@ -36,9 +30,7 @@ unset WANDB_BASE_URL
 wandb login
 ```
 
-<div id="common-issues">
-  ## よくある問題
-</div>
+## よくある問題 {#common-issues}
 
 * **`wandb.init()` で 401 エラー**: APIキーは Multi-tenant Cloud とセルフマネージド インスタンス間で共有されません。セルフマネージド インスタンスのプロフィールでキーを作成してください。
 * **接続拒否 / タイムアウト**: インスタンスのURLと、デプロイメントへの VPN またはネットワークアクセスを確認してください。

@@ -8,15 +8,11 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
-<div id="class-wandbapispublicartifactcollection">
-  ## <Badge color="yellow" size="lg" shape="rounded">classe</Badge> wandb.apis.public.ArtifactCollection
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">classe</Badge> wandb.apis.public.ArtifactCollection {#class-wandbapispublicartifactcollection}
 
 Une collection d&#39;artifacts représentant un groupe d&#39;artifacts associés.
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
 <ResponseField name="aliases" type="list[str]">
   Les alias de toutes les versions d&#39;artifact de cette collection.
@@ -69,13 +65,9 @@ Une collection d&#39;artifacts représentant un groupe d&#39;artifacts associés
   La date de la dernière mise à jour de la collection d&#39;artifacts.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-artifactcollectionartifacts">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.artifacts()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.artifacts() {#method-artifactcollectionartifacts}
 
 ```python
 self,
@@ -85,9 +77,7 @@ start: 'str | None' = None
 
 Obtenir tous les artifacts de la collection.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="per_page" type="int">
   Le nombre d&#39;artifacts à récupérer par page.
@@ -97,9 +87,7 @@ Obtenir tous les artifacts de la collection.
   Curseur de pagination pour reprendre une requête antérieure, capturé à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
 </ResponseField>
 
-<div id="method-artifactcollectionchange_type">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.change_type()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.change_type() {#method-artifactcollectionchange_type}
 
 ```python
 self,
@@ -108,17 +96,13 @@ new_type: 'str'
 
 Obsolète : modifiez directement le type avec `save`.
 
-<div id="arguments-2">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-2}
 
 <ResponseField name="new_type" type="str">
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-artifactcollectiondelete">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.delete() {#method-artifactcollectiondelete}
 
 ```python
 self
@@ -126,9 +110,7 @@ self
 
 Supprimez toute la collection d&#39;artifacts.
 
-<div id="method-artifactcollectionis_sequence">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.is_sequence()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.is_sequence() {#method-artifactcollectionis_sequence}
 
 ```python
 self
@@ -136,9 +118,7 @@ self
 
 Indique si la collection d&#39;artifacts est une séquence.
 
-<div id="method-artifactcollectionsave">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> ArtifactCollection.save() {#method-artifactcollectionsave}
 
 ```python
 self

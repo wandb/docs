@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
 
-<div id="function-wandbplotline_series">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.line_series()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.line_series() {#function-wandbplotline_series}
 
 Construit un graphique de série de lignes.
 
@@ -23,9 +21,7 @@ xname: 'str' = 'x',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="xs" type="Iterable[Iterable[Any]] | Iterable[Any]">
   Séquence de valeurs x. Si un seul tableau est fourni, toutes les valeurs y sont tracées en fonction de ce tableau x. Si un tableau de tableaux est fourni, chaque valeur y est tracée en fonction du tableau x correspondant.
@@ -51,15 +47,11 @@ split_table: 'bool' = False
   Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau s’affiche dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
 </ResponseField>
 
-<div id="returns">
-  ## Retourne
-</div>
+## Retourne {#returns}
 
 `CustomChart`: Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Journalisation d’un seul tableau x, toutes les séries y étant tracées selon les mêmes valeurs x :
 

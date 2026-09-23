@@ -8,15 +8,11 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
-<div id="class-wandbapispublicartifactcollection">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.ArtifactCollection
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.ArtifactCollection {#class-wandbapispublicartifactcollection}
 
 関連する アーティファクト のグループを表す アーティファクト コレクション。
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="aliases" type="list[str]">
   このコレクションに含まれるすべてのアーティファクト バージョンのエイリアス。
@@ -69,13 +65,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
   アーティファクト コレクションが最後に更新された日付。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-artifactcollectionartifacts">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.artifacts()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.artifacts() {#method-artifactcollectionartifacts}
 
 ```python
 self,
@@ -85,9 +77,7 @@ start: 'str | None' = None
 
 コレクション内のすべてのアーティファクトを取得します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="per_page" type="int">
   1 ページあたりに取得するアーティファクト数。
@@ -97,9 +87,7 @@ start: 'str | None' = None
   過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得した値を指定します。
 </ResponseField>
 
-<div id="method-artifactcollectionchange_type">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.change_type()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.change_type() {#method-artifactcollectionchange_type}
 
 ```python
 self,
@@ -108,17 +96,13 @@ new_type: 'str'
 
 非推奨です。代わりに `save` でタイプを直接変更してください。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="new_type" type="str">
   説明は提供されていません。
 </ResponseField>
 
-<div id="method-artifactcollectiondelete">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.delete() {#method-artifactcollectiondelete}
 
 ```python
 self
@@ -126,9 +110,7 @@ self
 
 アーティファクト コレクション 全体を削除します。
 
-<div id="method-artifactcollectionis_sequence">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.is_sequence()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.is_sequence() {#method-artifactcollectionis_sequence}
 
 ```python
 self
@@ -136,9 +118,7 @@ self
 
 アーティファクト コレクション がシーケンスかどうかを返します。
 
-<div id="method-artifactcollectionsave">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ArtifactCollection.save() {#method-artifactcollectionsave}
 
 ```python
 self

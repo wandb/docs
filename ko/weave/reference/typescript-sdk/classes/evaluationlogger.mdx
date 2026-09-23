@@ -12,9 +12,7 @@ EvaluationLogger를 사용하면 예측과 점수를 점진적으로 로깅할 �
 사전에 데이터셋을 준비하고 일괄 처리해야 하는 기존 Evaluation 클래스와 달리,
 EvaluationLogger를 사용하면 예측이 발생하는 대로 유연하게 점수를 매기며 로깅할 수 있습니다.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -33,15 +31,11 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-<div id="constructor">
-  ## 생성자
-</div>
+## 생성자 {#constructor}
 
 > **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-<div id="parameters">
-  ### 매개변수
-</div>
+### 매개변수 {#parameters}
 
 <ParamField path="options" type="object" required>
   <Expandable title="속성" defaultOpen>
@@ -63,19 +57,13 @@ await ev.logSummary();
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### 반환값
-</div>
+### 반환값 {#returns}
 
 `EvaluationLogger`
 
-<div id="methods">
-  ## 방법
-</div>
+## 방법 {#methods}
 
-<div id="logprediction">
-  ### logPrediction()
-</div>
+### logPrediction() {#logprediction}
 
 > **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
 
@@ -86,23 +74,17 @@ await ev.logSummary();
 이 방법은 ScoreLogger를 동기적으로 반환합니다. ScoreLogger에 대한 오퍼레이션(`logScore`, `finish`)은
 큐에 들어가며 초기화가 완료되면 실행됩니다.
 
-<div id="parameters-2">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-2}
 
 <ParamField path="inputs" type="Record<string, any>" required />
 
 <ParamField path="output" type="any" required />
 
-<div id="returns-2">
-  #### 반환값
-</div>
+#### 반환값 {#returns-2}
 
 [`ScoreLogger`](./scorelogger)
 
-<div id="example-2">
-  #### 예시
-</div>
+#### 예시 {#example-2}
 
 ```ts twoslash
 // @noErrors
@@ -115,9 +97,7 @@ await evalLogger.logSummary(); // 모든 작업이 완료될 때까지 대기
 
 ***
 
-<div id="logpredictionasync">
-  ### logPredictionAsync()
-</div>
+### logPredictionAsync() {#logpredictionasync}
 
 > **logPredictionAsync**(`inputs`, `output`): `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
@@ -127,23 +107,17 @@ resolve되는 Promise를 반환합니다.
 
 계속 진행하기 전에 초기화가 완료될 때까지 await해야 하는 경우 이 방법을 사용하세요.
 
-<div id="parameters-3">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-3}
 
 <ParamField path="inputs" type="Record<string, any>" required />
 
 <ParamField path="output" type="any" required />
 
-<div id="returns-3">
-  #### 반환값
-</div>
+#### 반환값 {#returns-3}
 
 `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
-<div id="example-3">
-  #### 예시
-</div>
+#### 예시 {#example-3}
 
 ```ts twoslash
 // @noErrors
@@ -155,9 +129,7 @@ await scoreLogger.finish();
 
 ***
 
-<div id="logsummary">
-  ### logSummary()
-</div>
+### logSummary() {#logsummary}
 
 > **logSummary**(`summary?`): `Promise`&lt;`void`&gt;
 
@@ -167,14 +139,10 @@ summarize call을 생성하고 evaluate call을 마무리합니다.
 이 방법은 await 없이도 호출할 수 있지만(fire-and-forget), 내부적으로는
 대기 중인 모든 오퍼레이션이 완료될 때까지 기다립니다.
 
-<div id="parameters-4">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-4}
 
 <ParamField path="summary" type="Record<string, any>" />
 
-<div id="returns-4">
-  #### 반환값
-</div>
+#### 반환값 {#returns-4}
 
 `Promise`&lt;`void`&gt;

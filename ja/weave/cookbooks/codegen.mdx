@@ -17,18 +17,14 @@ keywords: ["HumanEval", "structured outputs", "Pydantic", "code generation", "Op
   ![コード生成の Runs を比較する Weave 評価ダッシュボード](/media/codegen/eval_dash.png)
 </Frame>
 
-<div id="why-use-weave">
-  ## Weave を使用する理由
-</div>
+## Weave を使用する理由 {#why-use-weave}
 
 このチュートリアルでは、Weave を使用してコード生成パイプラインを実装し、評価します。以下のことを学びます。
 
 * **LLM パイプラインをトラッキングする**: コード生成プロセスの入力、出力、中間 step をログします。
 * **LLM の出力を評価する**: デバッグツールと可視化機能を使用して、生成したコードの評価を作成し、比較します。
 
-<div id="set-up-the-environment">
-  ## 環境を設定する
-</div>
+## 環境を設定する {#set-up-the-environment}
 
 環境を設定し、必要なライブラリをインポートします。これらの依存関係には、パイプライン全体で使用する書式設定ツール、データセットローダー、OpenAI クライアント、Weave クライアントが含まれます。
 
@@ -75,9 +71,7 @@ selected_examples = human_eval["test"][:3]
   Weave は、inputs、outputs、メタデータを含む OpenAI API の Call を自動的にトラッキングします。OpenAI とのやり取りのために、追加でログ記録用のコードを書く必要はありません。Weave がバックグラウンドで処理します。
 </Note>
 
-<div id="structured-outputs-and-pydantic-models">
-  ## structured outputs と Pydantic モデル
-</div>
+## structured outputs と Pydantic モデル {#structured-outputs-and-pydantic-models}
 
 このコード生成パイプラインでは、言語モデルから一貫性があり、適切に整形されたレスポンスを得るために、OpenAI の [structured outputs mode](https://platform.openai.com/docs/guides/structured-outputs) と Pydantic モデルを使用します。このアプローチには、いくつかの利点があります。
 
@@ -97,9 +91,7 @@ class FormattedGeneratedCode(BaseModel):
     full_code: str
 ```
 
-<div id="implement-a-code-formatter">
-  ## コードフォーマッターを実装する
-</div>
+## コードフォーマッターを実装する {#implement-a-code-formatter}
 
 一貫性があり、読みやすいコード出力を実現するために、オペレーションを使用して`CodeFormatter`クラスを実装します。このフォーマッターは、生成されたコード、プログラムランナー、ユニットテストに対して、リンティングとスタイルのルールを適用します。
 
@@ -200,9 +192,7 @@ class CodeFormatter(BaseModel):
 * PEP 8 に準拠した形式を適用する。
 * 不足している import を追加する。
 
-<div id="define-the-codegenerationpipeline">
-  ## `CodeGenerationPipeline` を定義する
-</div>
+## `CodeGenerationPipeline` を定義する {#define-the-codegenerationpipeline}
 
 <Frame>
   ![コード生成パイプライン run の Weave trace](/media/codegen/codegen_trace.png)
@@ -261,9 +251,7 @@ class CodeGenerationPipeline(weave.Model):
 * ハイパーパラメーター管理: モデルの属性 (`model_name` など) は異なる run にまたがって定義・トラッキングされるため、実験を進めやすくなります。
 * Weave エコシステムとのインテグレーション: `weave.Model` を使用すると、パイプラインを評価やサービング機能など、他の Weave ツールと連携できます。
 
-<div id="implement-evaluation-metrics">
-  ## 評価メトリクスを実装する
-</div>
+## 評価メトリクスを実装する {#implement-evaluation-metrics}
 
 生成されたコードの品質を評価するには、`weave.Scorer` のサブクラスを使用して評価メトリクスを実装します。これにより、データセット内のすべての `model_output` に対して `score` が実行されます。`model_output` は `weave.Model` の `predict` 関数の出力です。`prompt` は `human-eval` データセットから取得されます。
 
@@ -329,9 +317,7 @@ async def score_humaneval_test(test: str, entry_point: str, output: str):
   ![生成されたコードを評価する HumanEval Scorer の Weave Trace](/media/codegen/eval_trace.png)
 </Frame>
 
-<div id="create-a-weave-dataset-and-run-evaluation">
-  ## Weave データセットを作成して評価を実行する
-</div>
+## Weave データセットを作成して評価を実行する {#create-a-weave-dataset-and-run-evaluation}
 
 パイプラインとScorerを定義したら、最後のステップは評価用データセットを組み立てて、エンドツーエンドで実行することです。パイプラインを評価するため、Weave データセットを作成して評価を実行します。
 
@@ -391,9 +377,7 @@ for model_name in ["gpt-4o-2024-08-06"]:
   ![HumanEval Scorerの結果を表示する Weave 評価ダッシュボード](/media/codegen/eval_dash.png)
 </Frame>
 
-<div id="conclusion">
-  ## 結論
-</div>
+## 結論 {#conclusion}
 
 この例では、Weave と OpenAI の言語モデルを使ってコード生成パイプラインを実装する方法を示しました。次のことを学びました。
 

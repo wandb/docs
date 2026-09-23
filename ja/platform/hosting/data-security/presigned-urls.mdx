@@ -24,9 +24,7 @@ W&amp;B は、AI ワークロードやユーザーのブラウザーから Blob 
 * **読み取り操作**: 1 時間。
 * **書き込み操作**: 24 時間。大きなオブジェクトをチャンク単位でアップロードするために、より長い時間が確保されています。
 
-<div id="team-level-access-control">
-  ## チームレベルのアクセス制御
-</div>
+## チームレベルのアクセス制御 {#team-level-access-control}
 
 各事前署名付き URL は、W&amp;B プラットフォームの[チームレベルのアクセス制御](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)に基づき、特定のバケットにのみ制限されます。1 つのチームにのみ所属するユーザーを考えてみてください。そのチームが [secure storage connector](./secure-storage-connector) を使用してストレージバケットに関連付けられている場合、そのユーザーのリクエストに対して生成される事前署名付き URL には、他のチームに関連付けられたストレージバケットへアクセスする権限は含まれません。
 
@@ -34,9 +32,7 @@ W&amp;B は、AI ワークロードやユーザーのブラウザーから Blob 
   W&amp;B では、ユーザーは実際に所属すべきチームにのみ追加することを推奨しています。
 </Note>
 
-<div id="network-restriction">
-  ## ネットワーク制限
-</div>
+## ネットワーク制限 {#network-restriction}
 
 W&amp;B では、IAM ポリシーを使用して、事前署名付き URL による外部ストレージへのアクセスを許可するネットワークを制限することを推奨しています。これにより、W&amp;B 専用のバケットには、AI ワークロードが実行されているネットワーク、またはユーザーの端末に対応するゲートウェイ IP アドレスからのみアクセスできるようになります。
 
@@ -45,9 +41,7 @@ W&amp;B では、IAM ポリシーを使用して、事前署名付き URL によ
 * CoreWeave AI Object Storage については、CoreWeave のドキュメントにある [Bucket policy reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy#condition) を参照してください。
 * AWS S3、またはオンプレミスでホストされる MinIO のような S3 互換ストレージについては、[Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities)、[MinIO documentation](https://github.com/minio/minio)、または利用中の S3 互換ストレージプロバイダーのドキュメントを参照してください。
 
-<div id="audit-logs">
-  ## 監査ログ
-</div>
+## 監査ログ {#audit-logs}
 
 W&amp;B では、[W&amp;B 監査ログ](../monitoring-usage/audit-logging)を blob storage 固有の監査ログとあわせて使用することを推奨しています。blob storage の監査ログについては、各クラウドプロバイダのドキュメントを参照してください。
 
@@ -62,9 +56,7 @@ W&amp;B では、[W&amp;B 監査ログ](../monitoring-usage/audit-logging)を bl
   事前署名付き URL は、W&amp;B でサポートされる唯一の blob storage へのアクセス手段です。W&amp;B では、組織のニーズに応じて、前述のセキュリティ制御の一部またはすべてを設定することを推奨しています。
 </Note>
 
-<div id="determine-the-user-that-requested-a-pre-signed-url">
-  ## 事前署名付き URL をリクエストしたユーザーを特定する
-</div>
+## 事前署名付き URL をリクエストしたユーザーを特定する {#determine-the-user-that-requested-a-pre-signed-url}
 
 監査ログを確認する際に、事前署名付き URL のアクティビティを特定の W&amp;B ユーザーに関連付けるには、W&amp;B が各 URL に追加するプロバイダー固有のクエリパラメーターを確認します。
 
@@ -75,9 +67,7 @@ W&amp;B では、[W&amp;B 監査ログ](../monitoring-usage/audit-logging)を bl
 | Google Cloud Storage        | `X-User`  | W&amp;B ユーザー名                  |
 | Azure Blob Storage          | `scid`    | W&amp;B ユーザー名から決定論的に生成された UUID |
 
-<div id="correlate-azure-blob-storage-activity-with-a-user">
-  ### Azure Blob Storage のアクティビティをユーザーに関連付ける
-</div>
+### Azure Blob Storage のアクティビティをユーザーに関連付ける {#correlate-azure-blob-storage-activity-with-a-user}
 
 Azure では `scid` に GUID を指定する必要があるため、W&amp;B はユーザー名を直接含めるのではなく、ユーザー名から安定した UUID を導出します。この UUID にユーザー名は含まれておらず、デコードすることもできません。Azure Storage のアクティビティをユーザーに関連付けるには、W&amp;B のユーザー名と対応する `scid` 値のマッピングを算出または管理します。
 

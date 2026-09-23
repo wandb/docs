@@ -6,9 +6,7 @@ keywords: ["CallSchema", "synthèse", "trace", "latency_ms", "utilisation"]
 
 Cette référence décrit le schéma de l&#39;objet Appel dans W&amp;B Weave, notamment ses propriétés, la manière d&#39;écrire des données personnalisées dans le dictionnaire `summary` pendant l&#39;exécution, et comment lire les données de synthèse une fois un Appel terminé. Utilisez cette page lorsque vous devez inspecter, filtrer ou enrichir les données que Weave enregistre pour chaque Appel. Pour plus d&#39;informations sur la requête d&#39;appels, voir [Interroger et exporter les appels](/fr/weave/guides/tracking/querying-calls).
 
-<div id="call-properties">
-  ## Propriétés de l’Appel
-</div>
+## Propriétés de l’Appel {#call-properties}
 
 Le tableau suivant présente les principales propriétés d’un Appel dans Weave. Pour l’implémentation complète, voir ce qui suit :
 
@@ -34,9 +32,7 @@ Le tableau suivant présente les principales propriétés d’un Appel dans Weav
 | `wb_run_id`    | Optional[str]         | ID de run W&amp;B associé                                                                                                               |
 | `deleted_at`   | datetime (facultatif) | Horodatage de suppression de l’Appel, le cas échéant                                                                                    |
 
-<div id="property-details">
-  ## Détails des propriétés
-</div>
+## Détails des propriétés {#property-details}
 
 Les propriétés de `CallSchema` vous aident à suivre et à gérer les appels :
 
@@ -47,9 +43,7 @@ Les propriétés de `CallSchema` vous aident à suivre et à gérer les appels 
 
 Ensemble, ces propriétés permettent un suivi et une analyse détaillés des appels tout au long de votre projet.
 
-<div id="use-call-summary">
-  ## Utiliser la synthèse d’un Appel
-</div>
+## Utiliser la synthèse d’un Appel {#use-call-summary}
 
 Utilisez la propriété `summary` pour associer à un Appel des données personnalisées que vous pourrez analyser après l’exécution, en parallèle des métriques intégrées de Weave. La propriété `summary` est un dictionnaire dans lequel vous pouvez écrire pendant l’exécution d’un Appel. Lorsque l’Appel se termine, Weave fusionne en profondeur vos valeurs avec ses propres données calculées et stocke le résultat.
 
@@ -69,9 +63,7 @@ Champs calculés par Weave dans `summary["weave"]` :
 | `costs`      | Répartition des coûts par modèle, déduite de `summary["usage"]` et des données de tarification des jetons. Voir [Track costs](/fr/weave/guides/tracking/costs). |
 | `trace_name` | Nom d’Op lisible, extrait de l’URI de référence interne de l’Op. Utilisé pour l’affichage et le filtrage.                                                    |
 
-<div id="write-during-a-call">
-  ### Ajouter des données pendant un Appel
-</div>
+### Ajouter des données pendant un Appel {#write-during-a-call}
 
 Vous pouvez ajouter des données personnalisées pendant votre Appel à l’aide du dictionnaire `summary`.
 
@@ -115,9 +107,7 @@ Vous pouvez ajouter des données personnalisées pendant votre Appel à l’aide
   </Tab>
 </Tabs>
 
-<div id="read-summary-data">
-  ### Lire les données de synthèse
-</div>
+### Lire les données de synthèse {#read-summary-data}
 
 Utilisez `getCall` pour récupérer un Appel unique par son ID, ou `getCalls` pour récupérer plusieurs appels. Dans les deux cas, `summary` correspond au même dictionnaire fusionné.
 

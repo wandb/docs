@@ -13,9 +13,7 @@ Les Teams qui effectuent des évaluations dans W&amp;B Weave ont souvent besoin 
 
 L’[Evaluation REST API v2](https://trace.wandb.ai/docs) expose des concepts d’évaluation spécifiques : runs d’évaluation, prédictions, scores et évaluateurs. Elle fournit ainsi une sortie plus riche et mieux structurée, avec des statistiques typées pour les évaluateurs et des entrées de jeu de données résolues, par rapport à l’API Calls généraliste.
 
-<div id="api-endpoints-used">
-  ## Points de terminaison API utilisés
-</div>
+## Points de terminaison API utilisés {#api-endpoints-used}
 
 Les extraits de code de cette page utilisent les points de terminaison suivants de la [v2 Evaluation REST API](https://trace.wandb.ai/docs) :
 
@@ -26,9 +24,7 @@ Les extraits de code de cette page utilisent les points de terminaison suivants 
 
 L’authentification utilise HTTP Basic, avec `api` comme nom d’utilisateur et votre clé API W&amp;B comme mot de passe.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Les exemples de cette page utilisent Python, mais l&#39;Evaluation REST API est indépendante du langage : vous pouvez appeler les mêmes points de terminaison depuis TypeScript ou depuis n&#39;importe quel client HTTP.
 
@@ -38,9 +34,7 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 * La bibliothèque `requests`. Installez-la avec `pip install requests`.
 * Une clé API W&amp;B, définie dans la variable d&#39;environnement `WANDB_API_KEY`. Obtenez votre clé sur [wandb.ai/settings](https://wandb.ai/settings).
 
-<div id="set-up-authentication">
-  ## Configurer l’authentification
-</div>
+## Configurer l’authentification {#set-up-authentication}
 
 L’extrait suivant importe les bibliothèques utilisées tout au long de cette page et configure l’URL de base, le tuple d’authentification, ainsi que l’entité et le projet cibles. Chaque exemple suivant réutilise ces variables.
 
@@ -59,9 +53,7 @@ project = "my-project"
 
 Une fois l’authentification configurée, vous pouvez appeler n’importe quel point de terminaison décrit dans les sections suivantes.
 
-<div id="list-evaluation-runs">
-  ## Lister les runs d’évaluation
-</div>
+## Lister les runs d’évaluation {#list-evaluation-runs}
 
 La liste des runs d’évaluation est généralement la première chose dont vous avez besoin dans un flux de travail d’exportation, car elle vous fournit les valeurs `evaluation_run_id` requises par les autres points de terminaison. Récupérez les runs d’évaluation récents d’un projet et affichez, pour chacun, des détails tels que l’ID et le statut.
 
@@ -76,9 +68,7 @@ for run in runs:
     print(run["evaluation_run_id"], run.get("status"))
 ```
 
-<div id="read-a-single-evaluation-run">
-  ## Lire un run d’évaluation spécifique
-</div>
+## Lire un run d’évaluation spécifique {#read-a-single-evaluation-run}
 
 Après avoir obtenu un `evaluation_run_id`, vous pouvez récupérer l’enregistrement complet de ce run. Récupérez les détails d’un run d’évaluation spécifique, notamment son modèle, sa référence d’évaluation, son statut et ses horodatages. Remplacez `[EVALUATION_RUN_ID]` par l’ID du run d’évaluation que vous souhaitez récupérer.
 
@@ -93,9 +83,7 @@ eval_run = resp.json()
 print(eval_run["evaluation_run_id"], eval_run.get("status"), eval_run.get("model"))
 ```
 
-<div id="get-predictions-and-scores">
-  ## Obtenir les prédictions et les scores
-</div>
+## Obtenir les prédictions et les scores {#get-predictions-and-scores}
 
 Lorsque vous avez besoin des données sous-jacentes d’un run, par exemple pour des exportations vers des feuilles de calcul ou des analyses au niveau des lignes, utilisez le point de terminaison `eval_results/query` pour récupérer les résultats ligne par ligne d’un run d’Évaluation. Chaque ligne inclut les entrées résolues du jeu de données, la sortie du modèle et les résultats individuels du scorer. Définissez `include_rows`, `include_raw_data_rows` et `resolve_row_refs` pour obtenir le niveau de détail complet pour chaque ligne. Remplacez `[EVALUATION_RUN_ID]` par l’ID du run d’Évaluation que vous souhaitez interroger.
 
@@ -125,9 +113,7 @@ for row in results["rows"]:
             print("Scores:", scores)
 ```
 
-<div id="get-aggregated-scores">
-  ## Obtenir des scores agrégés
-</div>
+## Obtenir des scores agrégés {#get-aggregated-scores}
 
 Lorsque vous n’avez besoin que de métriques de haut niveau, par exemple pour des tableaux de bord ou des contrôles CI/CD, demandez des statistiques de synthèse plutôt que des données ligne par ligne. Le même point de terminaison `eval_results/query` peut également renvoyer des statistiques agrégées sur les évaluateurs au lieu de données ligne par ligne. Définissez `include_summary` pour obtenir des métriques de synthèse, comme les taux de réussite pour les évaluateurs binaires et les moyennes pour les évaluateurs continus.
 
@@ -148,9 +134,7 @@ for ev in results["summary"]["evaluations"]:
         print(stat["scorer_key"], stat.get("value_type"), stat.get("pass_rate") or stat.get("numeric_mean"))
 ```
 
-<div id="read-a-single-prediction">
-  ## Lire une seule prédiction
-</div>
+## Lire une seule prédiction {#read-a-single-prediction}
 
 Pour examiner une ligne séparément, par exemple pour analyser un score inattendu, vous pouvez récupérer directement une prédiction à l’aide de son ID. Récupérez les informations complètes d’une prédiction donnée, y compris ses entrées, sa sortie et la référence du modèle. Remplacez `[PREDICTION_ID]` par l’ID de la prédiction que vous souhaitez récupérer.
 
@@ -165,9 +149,7 @@ prediction = resp.json()
 print(prediction)
 ```
 
-<div id="row-digests">
-  ## Empreintes de ligne
-</div>
+## Empreintes de ligne {#row-digests}
 
 Au-delà des données brutes que chaque point de terminaison renvoie, la réponse à `eval_results/query` inclut un identifiant supplémentaire qui vous aide à corréler les lignes entre les runs. Chaque ligne de résultat du point de terminaison `eval_results/query` inclut un `row_digest`, un hachage de contenu qui identifie de manière unique une entrée spécifique dans le jeu de données d&#39;évaluation en fonction de son contenu, et non de sa position. Les empreintes de ligne sont utiles pour :
 

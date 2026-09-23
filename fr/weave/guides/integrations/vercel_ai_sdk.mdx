@@ -10,9 +10,7 @@ Ce guide vous montre comment configurer OTel pour envoyer des traces du Vercel A
 
 Pour plus d’informations sur le traçage OTel dans Weave, voir [Send OTel traces to Weave](../tracking/otel).
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, effectuez la configuration suivante. Les exemples Next.js et Node.js de ce guide nécessitent tous deux les mêmes dépendances :
 
@@ -31,15 +29,11 @@ Avant de commencer, effectuez la configuration suivante. Les exemples Next.js et
 
    Vous pouvez obtenir votre clé API W&amp;B dans les [Paramètres utilisateur](https://wandb.ai/settings).
 
-<div id="configure-otel-tracing-for-nextjs">
-  ## Configurer le traçage OTel pour Next.js
-</div>
+## Configurer le traçage OTel pour Next.js {#configure-otel-tracing-for-nextjs}
 
 Cette section explique comment configurer Weave dans une application Next.js. L’exemple ne contient pas d’application complète, seulement la configuration de l’instrumentation et la façon d’invoquer l’instrumentation sur une fonction du Vercel AI SDK (en l’occurrence, un appel à OpenAI).
 
-<div id="configure-instrumentation">
-  ### Configurer l’instrumentation
-</div>
+### Configurer l’instrumentation {#configure-instrumentation}
 
 Les applications Next.js utilisent un fichier `instrumentation.ts` pour configurer OTel. Ce fichier s’exécute une seule fois au démarrage du serveur et configure le fournisseur de traceurs utilisé par l’AI SDK.
 
@@ -76,9 +70,7 @@ export function register() {
 
 Cela crée un exporter OTLP configuré pour envoyer des données de trace vers le point de terminaison OTel de Weave, avec authentification via votre clé API W&amp;B.
 
-<div id="configure-telemetry-on-a-function">
-  ### Configurer la télémétrie sur une fonction
-</div>
+### Configurer la télémétrie sur une fonction {#configure-telemetry-on-a-function}
 
 Après avoir ajouté l’instrumentation, utilisez l’option `experimental_telemetry` de Vercel sur n’importe quel appel de fonction de l’AI SDK pour émettre des spans OTel :
 
@@ -103,9 +95,7 @@ export async function POST(req: Request) {
 
 Tous les appels `generateText` avec la télémétrie activée génèrent des spans OTel exportés vers Weave. Votre application Next.js est désormais configurée pour envoyer les traces du Vercel AI SDK vers Weave.
 
-<div id="configure-otel-tracing-for-nodejs">
-  ## Configurer le traçage OTel pour Node.js
-</div>
+## Configurer le traçage OTel pour Node.js {#configure-otel-tracing-for-nodejs}
 
 Si vous n’utilisez pas Next.js, vous pouvez configurer OTel directement dans une application Node.js autonome. Pour les applications Node.js autonomes, configurez le fournisseur de traceurs au début de votre fichier d’entrée, avant tout appel à l’AI SDK, afin que les appels suivants à l’AI SDK soient capturés.
 

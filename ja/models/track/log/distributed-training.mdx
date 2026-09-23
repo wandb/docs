@@ -26,9 +26,7 @@ title: 分散トレーニング実験をログする
   これらの例で使用しているコードは、W&B の GitHub examples リポジトリの[こちら](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp)で確認できます。特に、1 プロセス方式およびマルチプロセス方式の実装方法については、[`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python スクリプトを参照してください。
   </Note> */}
 
-<div id="track-a-single-process">
-  ## 単一プロセスをトラッキングする
-</div>
+## 単一プロセスをトラッキングする {#track-a-single-process}
 
 このセクションでは、rank 0 プロセスで利用可能な値やメトリクスをトラッキングする方法について説明します。このアプローチは、単一のプロセスからしか取得できないメトリクスをトラッキングする場合に使用します。代表的なメトリクスには、GPU/CPU 使用率、共有の検証セットでの挙動、勾配やパラメーター、代表的なデータサンプルに対する損失値などがあります。
 
@@ -73,18 +71,14 @@ if __name__ == "__main__":
   <img src="/images/experiments/loss_function_single_gpu.png" alt="損失関数のプロット" />
 </Frame>
 
-<div id="track-multiple-processes">
-  ## 複数のプロセスをトラッキングする
-</div>
+## 複数のプロセスをトラッキングする {#track-multiple-processes}
 
 W&amp;B で複数のプロセスをトラッキングするには、次のいずれかの方法を使用します。
 
 * 各プロセスごとに run を作成して、[各プロセスを個別にトラッキングする](/ja/models/track/log/distributed-training/#track-each-process-separately)。
 * [すべてのプロセスを 1 つの run にトラッキングする](/ja/models/track/log/distributed-training/#track-all-processes-to-a-single-run)。
 
-<div id="track-each-process-separately">
-  ### 各プロセスを個別にトラッキングする
-</div>
+### 各プロセスを個別にトラッキングする {#track-each-process-separately}
 
 このセクションでは、各プロセスごとに run を作成して、各プロセスを個別にトラッキングする方法を説明します。各 run では、それぞれの run にメトリクスや Artifacts などをログします。すべてのプロセスが正常に終了するよう、トレーニングの最後に `wandb.Run.finish()` を呼び出して、run が完了したことを示します。
 
@@ -120,9 +114,7 @@ W&amp;B App UI で、複数のプロセスからトラッキングされたメ�
 
 上の画像は、W&amp;B App UI のダッシュボードを示しています。サイドバーには 2 つの実験が表示されています。1 つは &#39;null&#39; というラベルで、もう 1 つは &#39;DPP&#39; です (黄色の枠で囲まれています) 。グループを展開すると (Group ドロップダウンを選択) 、その実験に関連付けられた W&amp;B Runs を確認できます。
 
-<div id="organize-distributed-runs">
-  ### 分散 run を整理する
-</div>
+### 分散 run を整理する {#organize-distributed-runs}
 
 W&amp;B の初期化時に `job_type` パラメーター (`wandb.init(job_type='type-name')`) を設定すると、各ノードをその役割に応じて分類できます。たとえば、全体を制御するメインノードと、結果を報告する複数のワーカーノードで構成される場合があります。メインノードでは `job_type` を `main` に、結果を報告するワーカーノードでは `worker` に設定できます。
 
@@ -155,9 +147,7 @@ W&amp;B の初期化時に `job_type` パラメーター (`wandb.init(job_type='
 
 保存済みビューを開くには、プロジェクトのサイドバーで **Workspaces** をクリックし、次にメニューをクリックします。Workspaces はリストの上部に、保存済みビューは下部に表示されます。
 
-<div id="track-all-processes-to-a-single-run">
-  ### すべてのプロセスを単一の run にトラッキングする
-</div>
+### すべてのプロセスを単一の run にトラッキングする {#track-all-processes-to-a-single-run}
 
 <Warning>
   `x_` 接頭辞が付いたパラメーター (`x_label` など) はパブリックプレビューです。フィードバックを提供するには、[W&amp;B リポジトリの GitHub issue](https://github.com/wandb/wandb) を作成してください。
@@ -281,15 +271,11 @@ W&amp;B はすべてのノードのシステムメトリクスを集約し、W&a
 
 ラインプロットパネルをカスタマイズする方法については、[Line plots](/ja/models/app/features/panels/line-plot/) を参照してください。
 
-<div id="example-use-cases">
-  ## 使用例
-</div>
+## 使用例 {#example-use-cases}
 
 以下のコードスニペットは、高度な分散処理の利用でよくあるシナリオを示しています。
 
-<div id="spawn-process">
-  ### プロセスの生成
-</div>
+### プロセスの生成 {#spawn-process}
 
 spawn されたプロセスで run を開始する場合は、メイン関数内で `wandb.setup()` method を使用します。
 
@@ -310,9 +296,7 @@ if __name__ == "__main__":
     main()
 ```
 
-<div id="share-a-run">
-  ### run を共有する
-</div>
+### run を共有する {#share-a-run}
 
 プロセス間で run を共有するには、run オブジェクトを引数として渡します。
 
@@ -335,9 +319,7 @@ if __name__ == "__main__":
 
 W&amp;B ではログの順序は保証されません。同期はスクリプトの作成者側で行ってください。
 
-<div id="troubleshooting">
-  ## トラブルシューティング
-</div>
+## トラブルシューティング {#troubleshooting}
 
 W&amp;B と分散トレーニングを使用する際に発生しやすい一般的な問題は、主に 2 つあります。
 
@@ -345,21 +327,15 @@ W&amp;B と分散トレーニングを使用する際に発生しやすい一般
 2. **トレーニング終了時にハングする** - `wandb` プロセスがいつ終了すべきかを認識できない場合、トレーニング ジョブがハングすることがあります。Python スクリプトの最後で `wandb.Run.finish()` API を呼び出して、run が終了したことを W&amp;B に通知してください。`wandb.Run.finish()` API はデータのアップロードを完了し、W&amp;B を終了させます。
    W&amp;B では、分散ジョブの信頼性を向上させるために `wandb service` コマンドを使用することを推奨しています。前述の 2 つのトレーニングの問題は、wandb service を利用できないバージョンの W&amp;B SDK でよく見られます。
 
-<div id="enable-wb-service">
-  ### W&amp;B Service を有効にする
-</div>
+### W&amp;B Service を有効にする {#enable-wb-service}
 
 使用している W&amp;B SDK のバージョンによっては、W&amp;B Service はデフォルトで既に有効になっている場合があります。
 
-<div id="wb-sdk-0130-and-above">
-  #### W&amp;B SDK 0.13.0 以降
-</div>
+#### W&amp;B SDK 0.13.0 以降 {#wb-sdk-0130-and-above}
 
 W&amp;B SDK `0.13.0` 以降では、W&amp;B Service はデフォルトで有効です。
 
-<div id="wb-sdk-0125-and-above">
-  #### W&amp;B SDK 0.12.5 以降
-</div>
+#### W&amp;B SDK 0.12.5 以降 {#wb-sdk-0125-and-above}
 
 W&amp;B SDK バージョン 0.12.5 以降で W&amp;B Service を有効にするには、Python スクリプトを修正します。メイン関数内で `wandb.require()` method を使用し、文字列 `"service"` を渡してください。
 

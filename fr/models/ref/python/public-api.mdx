@@ -11,9 +11,7 @@ L’API publique W&amp;B offre un accès programmatique permettant d’effectuer
 
 <PublicApiUse />
 
-<div id="available-components">
-  ## Composants disponibles
-</div>
+## Composants disponibles {#available-components}
 
 | Composant                                             | Description                                                                                                                      |
 | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,45 +28,33 @@ L’API publique W&amp;B offre un accès programmatique permettant d’effectuer
 | [`Automations`](./automations/)                       | Gérez les flux de travail et les actions automatisés.                                                                            |
 | [`Integrations`](/fr/models/integrations)                | Configurez et gérez les intégrations tierces.                                                                                    |
 
-<div id="common-use-cases">
-  ## Cas d’usage courants
-</div>
+## Cas d’usage courants {#common-use-cases}
 
-<div id="data-export-and-analysis">
-  ### Export et analyse des données
-</div>
+### Export et analyse des données {#data-export-and-analysis}
 
 * Exportez l&#39;historique des runs sous forme de DataFrames pour les analyser dans des notebooks Jupyter
 * Téléchargez des métriques pour une visualisation ou la création de rapports personnalisés
 * Agrégez les résultats de plusieurs expériences
 
-<div id="post-hoc-updates">
-  ### Mises à jour a posteriori
-</div>
+### Mises à jour a posteriori {#post-hoc-updates}
 
 * Mettez à jour les métadonnées du run une fois terminé
 * Ajoutez des tags ou des notes aux expériences terminées
 * Modifiez la configuration ou le résumé du run
 
-<div id="artifact-management">
-  ### Gestion des Artifacts
-</div>
+### Gestion des Artifacts {#artifact-management}
 
 * Effectuer une requête sur des Artifacts par version ou alias
 * Télécharger des points de contrôle du modèle par programmation
 * Suivre la traçabilité et les dépendances des Artifacts
 
-<div id="sweep-analysis">
-  ### Analyse du balayage
-</div>
+### Analyse du balayage {#sweep-analysis}
 
 * Accédez aux résultats du balayage et aux meilleurs runs
 * Exportez les résultats de la recherche d&#39;hyperparamètres
 * Analysez l&#39;importance des paramètres
 
-<div id="authentication">
-  ## Authentification
-</div>
+## Authentification {#authentication}
 
 L’API publique utilise le même mécanisme d’authentification que le SDK Python. Vous pouvez vous authentifier de plusieurs manières :
 
@@ -93,13 +79,9 @@ wandb.login()
 api = Api()
 ```
 
-<div id="example-usage">
-  ## Exemple d’utilisation
-</div>
+## Exemple d’utilisation {#example-usage}
 
-<div id="download-an-artifact-by-name-and-alias">
-  ### Télécharger un Artifact par son nom et son alias
-</div>
+### Télécharger un Artifact par son nom et son alias {#download-an-artifact-by-name-and-alias}
 
 L’exemple suivant montre comment récupérer un Artifact enregistré dans W&amp;B à partir de son nom et de son alias, puis en télécharger le contenu.
 
@@ -111,9 +93,7 @@ artifact = api.artifact("entity/project/artifact:alias")
 artifact.download()
 ```
 
-<div id="download-an-artifact-from-a-registry">
-  ### Télécharger un Artifact à partir d’un registre
-</div>
+### Télécharger un Artifact à partir d’un registre {#download-an-artifact-from-a-registry}
 
 L’exemple suivant montre comment récupérer un artifact lié à partir d’un registre W&amp;B
 
@@ -134,9 +114,7 @@ fetched_artifact = api.artifact(name = artifact_name)
 downloaded_path = fetched_artifact.download()
 ```
 
-<div id="query-wb-registry">
-  ### requête le registre W&amp;B
-</div>
+### requête le registre W&amp;B {#query-wb-registry}
 
 Utilisez des filtres de type Mongo pour interroger les registres, les collections et les Artifacts W&amp;B. L’exemple suivant montre comment filtrer les collections par nom à l’aide d’une expression régulière.
 

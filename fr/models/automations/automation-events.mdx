@@ -16,9 +16,7 @@ Pour vous protéger contre les déclenchements excessifs dans les portées éten
   Les portées équipe et organisation sont disponibles sur W&amp;B Cloud mutualisé et sur W&amp;B Cloud dédié (Server v0.83.0 et versions ultérieures). Les portées registre et projet sont disponibles sur tous les types de déploiement.
 </Note>
 
-<div id="scope-reference">
-  ## Référence des portées
-</div>
+## Référence des portées {#scope-reference}
 
 | Portée                        | Ce que l’automatisation surveille                                                                                      | Événements disponibles dans la W&amp;B App                                                                                                                                                                     |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -29,29 +27,21 @@ Pour vous protéger contre les déclenchements excessifs dans les portées éten
 
 Les sections suivantes décrivent chaque portée plus en détail.
 
-<div id="organization">
-  ## Organisation
-</div>
+## Organisation {#organization}
 
 Utilisez la portée de l’organisation pour définir une politique une seule fois et l’appliquer partout. Par exemple, notifiez un canal Slack dédié à la conformité chaque fois que l’alias `production` est ajouté à un artifact de l’organisation.
 
 Les événements basés sur les runs (les événements [de changement de statut d’un run](#run-status-change) et [de modification des métriques d’un run](#run-metrics-change)) ne sont pas disponibles à l’échelle de l’organisation dans W&amp;B App.
 
-<div id="team">
-  ## Équipe
-</div>
+## Équipe {#team}
 
 Utilisez la portée Équipe pour appliquer une politique à toutes les ressources détenues par une équipe. Une automatisation limitée à une équipe surveille les mêmes événements d’artefacts et de collections que la portée Organisation. Les événements basés sur les runs ne sont pas disponibles à la portée Équipe dans W&amp;B App.
 
-<div id="registry">
-  ## Registre
-</div>
+## Registre {#registry}
 
 Une automatisation de [registre](/fr/models/registry) surveille l’événement qui se produit dans n’importe quelle collection d’un registre donné, y compris les collections ajoutées ultérieurement.
 
-<div id="events">
-  ### Événements <a id="registry-events" aria-label="Événements du registre" />
-</div>
+### Événements <a id="registry-events" aria-label="Événements du registre" /> {#events}
 
 Une automatisation du registre peut surveiller ces événements :
 
@@ -60,15 +50,11 @@ Une automatisation du registre peut surveiller ces événements :
 
 Lorsque l&#39;automatisation appelle un webhook, elle peut accéder aux mêmes configurations de webhook au niveau de l&#39;équipe et aux [secrets d&#39;équipe](/fr/platform/secrets) que les automatisations limitées au projet.
 
-<div id="project">
-  ## Projet
-</div>
+## Projet {#project}
 
 Une automatisation au niveau du projet surveille l’événement qui se produit sur n’importe quelle collection du [projet](/fr/models/track/project-page). Selon l’événement que vous spécifiez, vous pouvez encore restreindre la portée de l’automatisation.
 
-<div id="artifact-events">
-  ### Événements d&#39;artifact
-</div>
+### Événements d&#39;artifact {#artifact-events}
 
 Cette section décrit les événements liés à un artifact qui peuvent déclencher une automatisation.
 
@@ -76,15 +62,11 @@ Cette section décrit les événements liés à un artifact qui peuvent déclenc
 * **Un alias d&#39;artifact est ajouté** : déclenchez une étape spécifique de votre flux de travail lorsqu&#39;une nouvelle version d&#39;artifact dans un projet se voit attribuer un alias correspondant à la **regex d&#39;alias** que vous spécifiez. Par exemple, exécutez une série d&#39;étapes de traitement en aval lorsqu&#39;un artifact se voit attribuer l&#39;alias `test-set-quality-check`, ou exécutez un flux de travail chaque fois qu&#39;une nouvelle version d&#39;artifact reçoit l&#39;alias `latest`. Une seule version d&#39;artifact peut avoir un alias donné à un instant donné.
 * **Un tag d&#39;artifact est ajouté** : déclenchez une étape spécifique de votre flux de travail lorsqu&#39;une version d&#39;artifact dans un projet se voit attribuer un tag correspondant à la **regex de tag** que vous spécifiez. Par exemple, spécifiez `^europe.*` pour déclencher un flux de travail géospécifique lorsqu&#39;un tag commençant par la chaîne `europe` est ajouté à une version d&#39;artifact. Utilisez les tags d&#39;artifact pour le regroupement et le filtrage. Vous pouvez attribuer le même tag à plusieurs versions d&#39;artifact.
 
-<div id="run-events">
-  ### Événements de run
-</div>
+### Événements de run {#run-events}
 
 Les sections suivantes décrivent comment configurer une automatisation qui se déclenche par une modification du [statut d&#39;un run](/fr/models/runs/run-states) ou par une modification de la [valeur d&#39;une métrique d&#39;un run](/fr/models/track/log#what-data-is-logged-with-specific-wb-api-calls).
 
-<div id="run-status-change">
-  #### Changement du statut d&#39;un run
-</div>
+#### Changement du statut d&#39;un run {#run-status-change}
 
 <Note>
   * <MultiTenantAndDedicatedCloudOnly />
@@ -99,9 +81,7 @@ Déclenchez un flux de travail lorsqu&#39;un run change de [statut](/fr/models/r
 
 Comme le statut d&#39;un run est une propriété du run dans son ensemble, vous ne pouvez créer une automatisation de statut de run que depuis la page **Automations**, et non depuis un workspace.
 
-<div id="run-metrics-change">
-  #### Changement des métriques de run
-</div>
+#### Changement des métriques de run {#run-metrics-change}
 
 <Note>
   <MultiTenantAndDedicatedCloudOnly />
@@ -115,9 +95,7 @@ Pour configurer une automatisation de métrique de run, définissez comment comp
 
 Vous pouvez également limiter davantage les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou sur le nom du run.
 
-<div id="threshold">
-  ##### Seuil
-</div>
+##### Seuil {#threshold}
 
 Utilisez un événement de seuil pour démarrer une automatisation lorsqu&#39;une métrique franchit une valeur fixe. Pour les événements **Seuil des métriques du run atteint**, vous configurez :
 
@@ -137,9 +115,7 @@ Par exemple, déclenchez une automation lorsque la moyenne de `accuracy` est sup
   ![Capture d'écran montrant une automation de seuil des métriques du run](/images/automations/run_metrics_threshold_automation.png)
 </Frame>
 
-<div id="change-threshold">
-  ##### Seuil de variation
-</div>
+##### Seuil de variation {#change-threshold}
 
 Utilisez un événement de seuil de variation pour démarrer une automatisation lorsqu’une métrique varie entre deux fenêtres récentes de valeurs. Pour les événements **Seuil de variation des métriques de run atteint**, l’automatisation utilise deux « fenêtres » de valeurs pour déterminer si elle doit se déclencher :
 
@@ -164,9 +140,7 @@ Par exemple, déclenchez une automatisation lorsque la moyenne de `loss` diminue
   ![Capture d’écran montrant une automatisation de seuil de variation des métriques de run](/images/automations/run_metrics_change_threshold_automation.png)
 </Frame>
 
-<div id="run-metrics-z-score-change">
-  #### Variation du z-score des métriques de run
-</div>
+#### Variation du z-score des métriques de run {#run-metrics-z-score-change}
 
 <Note>
   <MultiTenantAndDedicatedCloudOnly />
@@ -198,9 +172,7 @@ Les valeurs de z-score ont les significations suivantes :
 * Un z-score de -2.0 signifie que la métrique se situe à 2 écarts types en dessous de la moyenne.
 * Les valeurs au-delà de ±2 sont souvent considérées comme des valeurs aberrantes statistiquement significatives.
 
-<div id="run-filters">
-  #### Filtres des runs
-</div>
+#### Filtres des runs {#run-filters}
 
 Cette section décrit comment l&#39;automatisation sélectionne les runs à évaluer.
 
@@ -219,9 +191,7 @@ L&#39;automatisation évalue chaque run comme suit :
 
 Pour plus de détails, voir [Créer des automatisations](/fr/models/automations/create-automations).
 
-<div id="next-steps">
-  ## Prochaines étapes
-</div>
+## Prochaines étapes {#next-steps}
 
 * [Créer une automatisation Slack](/fr/models/automations/create-automations/slack)
 * [Créer une automatisation par webhook](/fr/models/automations/create-automations/webhook)

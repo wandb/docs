@@ -11,7 +11,7 @@ keywords: ["サブエージェント", "invoke_agent", "OTel スパン", "マル
 Weave でこれらをインストルメンテーションすると、サブエージェント は親 ターン と同じ トレース 内にネストされた `invoke_agent` OpenTelemetry (OTel) スパン を出力します。**Agents** ビューでは、このネストは、それをトリガーした ターン の下に サブエージェント 呼び出しとして表示され、その配下に固有の LLM Calls と tool calls がグループ化されます。
 
 <div id="sub-agent-data-model">
-  ## サブエージェントのデータモデル
+  ## サブエージェントのデータモデル {#sub-agent-data-model}
 </div>
 
 コードをインストルメンテーションする前に、Weave が トレース 内でサブエージェントをどのように表現するかを理解しておくと役立ちます。`weave.start_subagent` スパン は OTel の `invoke_agent` スパン に対応しており、親 ターン と同じ operation 名を出力します。Weave では、トレース 内での親子関係によってこの 2 つを区別します。
@@ -37,7 +37,7 @@ sub = weave.start_subagent(
 `weave.start_subagent` は `invoke_agent` スパン を作成します。この スパン は、OTel コンテキスト内で現在アクティブな スパン (通常は親 ターン や、委譲のきっかけとなった LLM Call) の子として自動的に関連付けられます。親子関係は OTel コンテキストの伝播によって処理されるため、明示的に委譲を指定する必要はありません。
 
 <div id="trace-a-single-sub-agent">
-  ## 単一のサブエージェントをトレースする
+  ## 単一のサブエージェントをトレースする {#trace-a-single-sub-agent}
 </div>
 
 次の例では、リクエストを受け取る supervisor agent を実行し、回答を見つけるために Wikipedia の検索ツールを使用するリサーチ専門のサブエージェントに処理を委任します。
@@ -84,7 +84,7 @@ with weave.start_conversation(agent_name="supervisor") as conversation:
 Agents ビュー では、サブエージェントは ターン 内でネストされた `invoke_agent` ブロックとして表示され、その配下にサブエージェント自身の LLM Calls と tool calls がグループ化されます。スーパーバイザーが直接行う LLM Calls は、サブエージェントと同じ階層に残ります。
 
 <div id="trace-multiple-sub-agents">
-  ## 複数のサブエージェントをトレースする
+  ## 複数のサブエージェントをトレースする {#trace-multiple-sub-agents}
 </div>
 
 次の例では、1 つのリクエストを処理するために、3 つの兄弟サブエージェントに順番に委譲するコンテンツパイプライン エージェントを実行します。3 つのサブエージェントは、事実を収集する `researcher`、投稿の下書きを作成する `writer`、最終出力を仕上げる `reviewer` です。
@@ -123,7 +123,7 @@ with weave.start_conversation(agent_name="content-pipeline") as conversation:
 Agents ビュー では、このターンに 3 つの兄弟関係にあるサブエージェント呼び出しが含まれており、それぞれの配下に独自の LLM Call がネストされています。また、`researcher` には tool call も含まれています。これらのサブエージェント同士に親子関係はありません。
 
 <div id="trace-nested-sub-agents">
-  ## ネストしたサブエージェントをトレースする
+  ## ネストしたサブエージェントをトレースする {#trace-nested-sub-agents}
 </div>
 
 サブエージェントは、さらに別のサブエージェントに委譲することもできます。`start_subagent` の各呼び出しは、OTel コンテキストで現在アクティブなスパンの下にネストされます。

@@ -13,9 +13,7 @@ title: アルゴリズムをローカルで管理する
   この機能は、Sweeps ツール向けの新しいアルゴリズムをすばやく開発およびデバッグするためのものです。ハイパーパラメーター最適化のワークロードには適していません。
 </Warning>
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 ローカルコントローラーのコマンドを利用できるように、W&amp;B SDK (`wandb`) をインストールしてください。
 
@@ -25,9 +23,7 @@ pip install wandb sweeps
 
 以下の例では、PythonスクリプトまたはJupyter Notebook内で、設定ファイルとトレーニングループがすでに定義されていることを前提としています。詳細は、[sweepの設定を定義する](/ja/models/sweeps/define-sweep-configuration)を参照してください。
 
-<div id="run-a-local-controller-from-the-command-line">
-  ## コマンドラインからローカルコントローラーを実行する
-</div>
+## コマンドラインからローカルコントローラーを実行する {#run-a-local-controller-from-the-command-line}
 
 W&amp;B がクラウドサービスとして提供するハイパーパラメーターコントローラーを使用する場合と同じ方法で sweep を初期化しますが、ローカルコントローラーを使用するには `--controller` フラグを指定します。
 
@@ -64,9 +60,7 @@ controller:
 wandb sweep config.yaml
 ```
 
-<div id="run-a-local-controller-with-wb-python-sdk">
-  ## W&amp;B Python SDK でローカル コントローラーを実行する
-</div>
+## W&amp;B Python SDK でローカル コントローラーを実行する {#run-a-local-controller-with-wb-python-sdk}
 
 次のコードスニペットでは、W&amp;B Python SDK でローカル コントローラーを指定して使用する方法を示します。各例では段階的に制御の自由度が高くなるため、探索やスケジューリングをどの程度カスタマイズする必要があるかに応じて、適切な方法を選択できます。
 

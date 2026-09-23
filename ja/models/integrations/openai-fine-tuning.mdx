@@ -15,9 +15,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 OpenAI でのファインチューニングに W&amp;B を統合する方法についての補足情報は、OpenAI ドキュメントの [W&amp;B Integration](https://developers.openai.com/cookbook/examples/third_party/gpt_finetuning_with_wandb) セクションを参照してください。
 
-<div id="install-or-update-openai-python-api">
-  ## OpenAI Python API をインストールまたは更新する
-</div>
+## OpenAI Python API をインストールまたは更新する {#install-or-update-openai-python-api}
 
 ファインチューニングの結果を Sync する前に、互換性のあるバージョンの OpenAI Python クライアントがインストールされていることを確認してください。W&amp;B の OpenAI ファインチューニング インテグレーションは、OpenAI バージョン 1.0 以降に対応しています。最新バージョンについては、[OpenAI Python API](https://pypi.org/project/openai/) ライブラリの PyPI ドキュメントを参照してください。
 
@@ -33,9 +31,7 @@ OpenAI Python API がすでにインストールされている場合は、以�
 pip install -U openai
 ```
 
-<div id="sync-your-openai-fine-tuning-results">
-  ## OpenAI のファインチューニング結果を同期する
-</div>
+## OpenAI のファインチューニング結果を同期する {#sync-your-openai-fine-tuning-results}
 
 このセクションでは、OpenAI のファインチューニング ジョブのメトリクスと設定を W&amp;B に送信し、他の Experiments とあわせて確認する方法を説明します。これを行うには、`wandb.integration.openai.fine_tuning` モジュールの `WandbLogger` クラスを使用します。
 
@@ -51,9 +47,7 @@ WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
   <img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI の自動スキャン機能" />
 </Frame>
 
-<div id="sync-your-fine-tunes">
-  ### ファインチューニングを同期する
-</div>
+### ファインチューニングを同期する {#sync-your-fine-tunes}
 
 スクリプトから結果を同期できます。次の例では、最小限の 1 行の呼び出しと、同期の挙動を制御するために指定できる省略可能なパラメーター一式の両方を示します。
 
@@ -76,9 +70,7 @@ WandbLogger.sync(
 )
 ```
 
-<div id="reference">
-  ### 参照
-</div>
+### 参照 {#reference}
 
 次の表では、`WandbLogger.sync` が受け付ける各引数について説明します。
 
@@ -95,15 +87,11 @@ WandbLogger.sync(
 | `model_artifact_type`  | ログされたモデル artifact のタイプです。デフォルトは `"model"` です。                                                                                                                                                                    |
 | `**kwargs_wandb_init`  | [`wandb.init()`](/ja/models/ref/python/functions/init) に直接渡される追加の引数です。                                                                                                                                              |
 
-<div id="dataset-versioning-and-visualization">
-  ## データセットのバージョン管理と可視化
-</div>
+## データセットのバージョン管理と可視化 {#dataset-versioning-and-visualization}
 
 ファインチューニング ジョブを同期すると、W&amp;B はトレーニング データと検証データも取得するため、それらをバージョン管理し、インタラクティブに探索できます。以下の各サブセクションでは、W&amp;B がトラッキングする内容と、その確認方法について説明します。
 
-<div id="versioning">
-  ### バージョン管理
-</div>
+### バージョン管理 {#versioning}
 
 ファインチューニングのためにOpenAIへアップロードするトレーニングデータと検証データは、バージョン管理をしやすくするために、自動的にW&amp;B Artifactsにログされます。次の画像は、Artifacts内のトレーニングファイルの表示例です。ここでは、このファイルをログしたW&amp;B run、ログされた日時、このデータセットのバージョン、メタデータ、そしてトレーニングデータからトレーニング済みモデルまでのDAGリネージを確認できます。
 
@@ -111,9 +99,7 @@ WandbLogger.sync(
   <img src="/images/integrations/openai_data_artifacts.png" alt="トレーニングデータセットを含むW&B Artifacts" />
 </Frame>
 
-<div id="visualization">
-  ### 可視化
-</div>
+### 可視化 {#visualization}
 
 W&amp;B はデータセットを W&amp;B Tables として可視化し、データセットの探索、検索、操作を行えます。以下の画像は、W&amp;B Tables で可視化されたトレーニングサンプルを示しています。
 
@@ -121,9 +107,7 @@ W&amp;B はデータセットを W&amp;B Tables として可視化し、デー�
   <img src="/images/integrations/openai_data_visualization.png" alt="OpenAI データ" />
 </Frame>
 
-<div id="the-fine-tuned-model-and-model-versioning">
-  ## ファインチューニングしたモデルとモデルのバージョン管理
-</div>
+## ファインチューニングしたモデルとモデルのバージョン管理 {#the-fine-tuned-model-and-model-versioning}
 
 OpenAI はファインチューニングしたモデルの基となる重みを公開していないため、W&amp;B は代わりにそのメタデータを取得してモデルをトラッキングします。OpenAI は、ファインチューニングしたモデルの ID を返します。モデルの重みにはアクセスできないため、`WandbLogger` は `fine_tuned_model`` ID` と、モデルのすべての詳細 (ハイパーパラメーター、データファイル ID など) を含む `model_metadata.json` ファイルを作成し、これを W&amp;B Artifact としてログします。
 
@@ -133,15 +117,11 @@ OpenAI はファインチューニングしたモデルの基となる重みを�
   <img src="/images/integrations/openai_model_metadata.png" alt="OpenAI モデルのメタデータ" />
 </Frame>
 
-<div id="frequently-asked-questions">
-  ## よくある質問
-</div>
+## よくある質問 {#frequently-asked-questions}
 
 以下のセクションでは、OpenAI から同期したファインチューニング Runs の共有、整理、復元に関するよくある質問に回答します。
 
-<div id="share-fine-tune-results-with-your-team">
-  ### チームでファインチューニング結果を共有する
-</div>
+### チームでファインチューニング結果を共有する {#share-fine-tune-results-with-your-team}
 
 次を使用して、ファインチューニング ジョブをチームアカウントにログしてください。
 
@@ -149,9 +129,7 @@ OpenAI はファインチューニングしたモデルの基となる重みを�
 WandbLogger.sync(entity="<your-team-name>")
 ```
 
-<div id="organize-your-runs">
-  ### Runs を整理する
-</div>
+### Runs を整理する {#organize-your-runs}
 
 W&amp;B は Runs を自動的に整理します。ジョブタイプ、base model、学習率、トレーニングファイル名、その他のハイパーパラメーターなど、任意の設定パラメーターに基づいてフィルターや並べ替えを行えます。
 
@@ -159,9 +137,7 @@ W&amp;B は Runs を自動的に整理します。ジョブタイプ、base mode
 
 整理できたら、Workspace を保存し、それを使用して report を作成できます。Runs や保存済みの Artifacts (トレーニング/検証ファイル) からデータを取り込めます。
 
-<div id="access-your-fine-tuned-model">
-  ### ファインチューニングしたモデルにアクセスする
-</div>
+### ファインチューニングしたモデルにアクセスする {#access-your-fine-tuned-model}
 
 W&amp;B は、ファインチューニングしたモデルの ID を Artifacts (`model_metadata.json`) および設定としてログします。
 
@@ -181,9 +157,7 @@ with wandb.init(project="OpenAI-Fine-Tune", entity="<your-team-name>") as run:
 
 その後、ダウンロードした `model_metadata.json` file を参照することで、`fine_tuned_model` ID にアクセスできます。
 
-<div id="recover-a-fine-tune-that-didnt-sync">
-  ### Sync されなかったファインチューニングを復元する
-</div>
+### Sync されなかったファインチューニングを復元する {#recover-a-fine-tune-that-didnt-sync}
 
 ファインチューニング の情報が W&amp;B に正常にログされなかった場合は、`overwrite=True` を使用し、ファインチューニング のジョブ ID を渡してください。
 
@@ -194,9 +168,7 @@ WandbLogger.sync(
 )
 ```
 
-<div id="track-datasets-and-models-with-wb">
-  ### W&amp;B でデータセットとモデルをトラッキングする
-</div>
+### W&amp;B でデータセットとモデルをトラッキングする {#track-datasets-and-models-with-wb}
 
 W&amp;B は、トレーニングデータと検証データを自動的に Artifacts としてログします。W&amp;B は、ファインチューニングしたモデルの ID を含むメタデータも Artifacts としてログします。
 
@@ -206,9 +178,7 @@ W&amp;B は、トレーニングデータと検証データを自動的に Artif
   <img src="/images/integrations/open_ai_faq_can_track.png" alt="OpenAI のトラッキングに関する FAQ" />
 </Frame>
 
-<div id="resources">
-  ## リソース
-</div>
+## リソース {#resources}
 
 より詳しい背景情報とエンドツーエンドの例については、以下のリソースを参照してください。
 

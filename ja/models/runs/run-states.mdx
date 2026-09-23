@@ -5,9 +5,7 @@ description: W&B run が取りうるさまざまな状態について説明し�
 
 [Run state](/ja/models/runs/run-states#run-states) は、W&amp;B run の現在のステータスを示します。run の[状態を確認](/ja/models/runs/run-states#view-the-state-of-a-run)するには、W&amp;B App を使用するか、W&amp;B Python SDK を使ってプログラムから確認します。
 
-<div id="run-states">
-  ## run の状態
-</div>
+## run の状態 {#run-states}
 
 次の表は、run が取り得る状態を示しています。
 
@@ -20,9 +18,7 @@ description: W&B run が取りうるさまざまな状態について説明し�
 | `Running`  | run は現在も実行中で、直近でハートビートを送信しています。                             |
 | `Pending`  | run はスケジュール済みですが、まだ開始されていません (sweep や Launch ジョブでよく見られます) 。 |
 
-<div id="run-states-in-sweeps">
-  ### sweep における run の状態
-</div>
+### sweep における run の状態 {#run-states-in-sweeps}
 
 run が [sweep](/ja/models/sweeps/) の一部である場合でも、その状態は sweep のステータスとは独立しています。
 
@@ -33,9 +29,7 @@ run が [sweep](/ja/models/sweeps/) の一部である場合でも、その状�
 
 sweep のステータスと run のステータスがどのように関係するかについて詳しくは、[sweep と run のステータスの関係を理解する](/ja/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses)を参照してください。
 
-<div id="view-the-state-of-a-run">
-  ## run の状態を表示する
-</div>
+## run の状態を表示する {#view-the-state-of-a-run}
 
 Python SDK または W&amp;B App を使用して、run の状態をプログラムまたはインタラクティブに表示できます。
 

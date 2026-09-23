@@ -6,9 +6,7 @@ keywords: ["statut du job", "liste des jobs", "examiner le job", "liste des jobs
 
 Cette page explique comment consulter les informations sur les jobs Launch dans les files d&#39;attente. Vous pouvez examiner les détails d&#39;un job dans la W&amp;B App, afficher la liste des jobs depuis le CLI et interpréter le statut d&#39;un run en file d&#39;attente.
 
-<div id="view-jobs">
-  ## Voir les jobs
-</div>
+## Voir les jobs {#view-jobs}
 
 Pour voir les jobs dans une file d&#39;attente, utilisez la W&amp;B App :
 
@@ -38,9 +36,7 @@ Dans l&#39;UI de la W&amp;B App, vous pouvez trouver des informations supplémen
 * **Start time** : L&#39;horodatage de démarrage du job.
 * **Duration** : Le temps, en secondes, nécessaire pour terminer le run du job.
 
-<div id="list-jobs">
-  ## Lister les jobs
-</div>
+## Lister les jobs {#list-jobs}
 
 Affichez la liste des jobs existant dans un projet avec la CLI W&amp;B. Utilisez la commande `wandb job list` et fournissez, respectivement à l’aide des options `--project` et `--entity`, le nom du projet et de l’entité auxquels le job Launch appartient.
 
@@ -50,9 +46,7 @@ Remplacez `[ENTITY]` par votre entité W&amp;B et `[PROJECT-NAME]` par le nom du
 wandb job list --entity [ENTITY] --project [PROJECT-NAME]
 ```
 
-<div id="check-the-status-of-a-job">
-  ## Vérifier le statut d&#39;un job
-</div>
+## Vérifier le statut d&#39;un job {#check-the-status-of-a-job}
 
 Chaque run en file d&#39;attente possède un statut qui indique sa position dans le cycle de vie de Launch. Le tableau suivant présente les différents statuts possibles d&#39;un run en file d&#39;attente :
 

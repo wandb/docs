@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L193" />
 
-<div id="class-wandbautomationssendwebhook">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendWebhook
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendWebhook {#class-wandbautomationssendwebhook}
 
 Webhook リクエストを送信するオートメーション アクションを定義します。
 
@@ -21,9 +19,7 @@ requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<f
 action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="integration_id" type="Annotated">
   リクエストの送信に使用する webhook インテグレーションの ID。
@@ -37,13 +33,9 @@ action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
   説明はありません。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-sendwebhookfrom_integration">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendWebhook.from_integration()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendWebhook.from_integration() {#method-sendwebhookfrom_integration}
 
 ```python
 integration: 'WebhookIntegration', *,
@@ -52,9 +44,7 @@ payload: 'JsonEncoded[dict[str, Any]] | None' = None
 
 指定した (webhook) インテグレーションに送信する webhook アクションを定義します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="integration" type="WebhookIntegration">
   説明は提供されていません。

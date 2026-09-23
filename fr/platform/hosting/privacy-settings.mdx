@@ -12,9 +12,7 @@ Les Administrateurs de l’organisation peuvent configurer les paramètres de co
   Pour éviter des modifications inattendues dans les flux de travail des équipes, W&amp;B recommande aux Administrateurs de l’organisation d’appliquer un paramètre de confidentialité uniquement après en avoir informé à l’avance tous les Administrateurs d’équipe et utilisateurs de l’organisation.
 </Note>
 
-<div id="enforce-privacy-settings-for-all-teams">
-  ## Appliquer les paramètres de confidentialité à tous les équipes
-</div>
+## Appliquer les paramètres de confidentialité à tous les équipes {#enforce-privacy-settings-for-all-teams}
 
 Les Administrateurs de l’organisation peuvent appliquer des paramètres de confidentialité à tous les équipes de leur organisation depuis l’onglet **Confidentialité** des paramètres de l’organisation. Un paramètre appliqué vaut pour chaque équipe de l’organisation, et les Administrateurs d’équipe ne peuvent pas le redéfinir au niveau de l’équipe. Lorsqu’un Administrateur d’équipe ouvre un paramètre que vous appliquez, W&amp;B affiche le message suivant : « This setting is locked because it&#39;s enforced org-wide. To make changes, please contact your org admin. »
 
@@ -26,9 +24,7 @@ Pour ouvrir les paramètres de confidentialité de l’organisation, procédez c
 
 Les sections suivantes décrivent les paramètres de l’onglet **Confidentialité**. Chaque paramètre est un commutateur, et W&amp;B enregistre vos modifications immédiatement.
 
-<div id="access-control">
-  ### Contrôle d&#39;accès
-</div>
+### Contrôle d&#39;accès {#access-control}
 
 Gérez la visibilité de l&#39;équipe et les processus d&#39;adhésion des membres.
 
@@ -40,9 +36,7 @@ Gérez la visibilité de l&#39;équipe et les processus d&#39;adhésion des memb
 * **Désactiver la création de clés API** : les utilisateurs et les comptes de service d&#39;équipe ne peuvent pas créer de nouvelles clés API. Les comptes de service d&#39;organisation peuvent toujours en créer, et les clés existantes continuent de fonctionner. Voir [Désactiver la création de clés API](./iam/api-keys#disable-api-key-creation).
   <Note>Ce paramètre n&#39;apparaît que dans Cloud dédié et Autogéré v0.84.0 et versions ultérieures.</Note>
 
-<div id="project-and-content-security">
-  ### Sécurité des projets et du contenu
-</div>
+### Sécurité des projets et du contenu {#project-and-content-security}
 
 Contrôlez la confidentialité des projets et encadrez le partage de contenu.
 
@@ -50,23 +44,17 @@ Contrôlez la confidentialité des projets et encadrez le partage de contenu.
 * **Disable public report sharing** : désactive le partage public des reports issus de projets privés, ainsi que les liens publics existants.
 * **Disable default enregistrement du code** : désactive par défaut l&#39;enregistrement du code pour toutes les équipes. Voir [enregistrement du code](/fr/models/app/features/panels/code).
 
-<div id="smart-features">
-  ### Fonctionnalités intelligentes
-</div>
+### Fonctionnalités intelligentes {#smart-features}
 
 La section **Smart features** contrôle les fonctionnalités reposant sur les LLM et le partage de données. Cette section n&#39;apparaît sous l&#39;onglet **Confidentialité** que si votre organisation a accès aux fonctionnalités d&#39;IA de W&amp;B. Voir [Gouvernance et sécurité](/fr/aria/governance).
 
-<div id="aria">
-  ### ARIA
-</div>
+### ARIA {#aria}
 
 La section **ARIA** contrôle ce qu&#39;ARIA peut faire dans les projets de votre organisation. Cette section n&#39;apparaît sous l&#39;onglet **Privacy** que si la mémoire de projet est activée pour votre organisation.
 
 * **Enable project memory** : permet à ARIA de mémoriser les détails d&#39;un projet, comme les conventions et les corrections passées, et de les appliquer lors des conversations ultérieures. ARIA partage la mémoire d&#39;un projet avec l&#39;équipe propriétaire de ce projet. Lorsque ce paramètre est désactivé, ARIA n&#39;utilise aucune mémoire et n&#39;en enregistre aucune nouvelle, mais les mémoires existantes sont conservées. Voir [Afficher et gérer les mémoires de projet](/fr/aria/overview#view-and-manage-project-memories).
 
-<div id="configure-privacy-settings-for-a-team">
-  ## Configurer les paramètres de confidentialité d’une équipe
-</div>
+## Configurer les paramètres de confidentialité d’une équipe {#configure-privacy-settings-for-a-team}
 
 Si un paramètre n’est pas appliqué à l’échelle de l’organisation, les administrateurs d’équipe peuvent le gérer pour leur propre équipe depuis la section **Confidentialité** de la page **Settings** de l’équipe.
 

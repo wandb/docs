@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
-<div id="class-wandbapispublicregistry">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Registry
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Registry {#class-wandbapispublicregistry}
 
 Un seul registre dans le Registre.
 
@@ -22,9 +20,7 @@ name: 'str',
 attrs: 'RegistryFragment | None' = None)
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   Aucune description fournie.
@@ -46,9 +42,7 @@ attrs: 'RegistryFragment | None' = None)
   Aucune description fournie.
 </ResponseField>
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
 <ResponseField name="allow_all_artifact_types" type="bool">
   Indique si tous les types d&#39;artefacts sont autorisés dans le registre.
@@ -116,13 +110,9 @@ attrs: 'RegistryFragment | None' = None)
   Visibilité du registre.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-registryadd_members">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.add_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.add_members() {#method-registryadd_members}
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -130,24 +120,18 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 Ajoute des Users ou des équipes à ce registre.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
   Les Users ou équipes à ajouter au registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
 </ResponseField>
 
-<div id="raises">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises}
 
 * `TypeError`: Si aucun membre n’est passé en argument.
 * `ValueError`: S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
 
-<div id="examples">
-  ##### Exemples
-</div>
+##### Exemples {#examples}
 
 ```python
 import wandb
@@ -165,9 +149,7 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-<div id="method-registrycollections">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.collections()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.collections() {#method-registrycollections}
 
 ```python
 self,
@@ -179,9 +161,7 @@ start: 'str | None' = None
 
 Renvoie les collections appartenant à ce registre.
 
-<div id="arguments-2">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-2}
 
 <ResponseField name="filter" type="dict[str, Any] | None">
   Mappage facultatif des filtres à appliquer à la requête de collections.
@@ -199,9 +179,7 @@ Renvoie les collections appartenant à ce registre.
   Curseur de pagination permettant de reprendre une requête antérieure, obtenu à partir de l&#39;attribut `.cursor` d&#39;un paginateur précédent.
 </ResponseField>
 
-<div id="method-registrycreate">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.create() {#method-registrycreate}
 
 ```python
 api: 'Api',
@@ -217,9 +195,7 @@ Créer un nouveau registre.
 Le nom du registre doit être unique au sein de l’organisation.
 Cette fonction doit être appelée via `api.create_registry()`
 
-<div id="arguments-3">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-3}
 
 <ResponseField name="api" type="Api">
   L’instance d’API W&amp;B.
@@ -245,15 +221,11 @@ Cette fonction doit être appelée via `api.create_registry()`
   Une liste facultative des types d’artefacts autorisés.
 </ResponseField>
 
-<div id="raises-2">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-2}
 
 * `ValueError`: Si un registre portant le même nom existe déjà dans l’organisation, ou si sa création échoue.
 
-<div id="method-registrydelete">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.delete() {#method-registrydelete}
 
 ```python
 self
@@ -261,9 +233,7 @@ self
 
 Supprimez le registre. Cette action est irréversible.
 
-<div id="method-registryload">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.load()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.load() {#method-registryload}
 
 ```python
 self
@@ -271,9 +241,7 @@ self
 
 Charge les attributs du registre à partir du backend.
 
-<div id="method-registrymembers">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.members() {#method-registrymembers}
 
 ```python
 self
@@ -281,9 +249,7 @@ self
 
 Renvoie les membres actuels (Users et équipes) de ce registre.
 
-<div id="method-registryremove_members">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.remove_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.remove_members() {#method-registryremove_members}
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -291,24 +257,18 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 Supprime des Users ou des équipes de ce registre.
 
-<div id="arguments-4">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-4}
 
 <ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
   Les Users ou équipes à supprimer du registre. Accepte des objets `User`, des objets `Team` ou leurs ID sous forme de chaîne.
 </ResponseField>
 
-<div id="raises-3">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-3}
 
 * `TypeError`: Si aucun membre n’est passé en argument.
 * `ValueError`: S’il est impossible de déduire ou d’analyser les ID d’utilisateur ou d’équipe.
 
-<div id="examples-2">
-  ##### Exemples
-</div>
+##### Exemples {#examples-2}
 
 ```python
 import wandb
@@ -326,9 +286,7 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-<div id="method-registrysave">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.save() {#method-registrysave}
 
 ```python
 self
@@ -336,9 +294,7 @@ self
 
 Enregistrer les attributs du registre dans le backend.
 
-<div id="method-registryteam_members">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.team_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.team_members() {#method-registryteam_members}
 
 ```python
 self
@@ -346,9 +302,7 @@ self
 
 Renvoie les équipes actuellement membres de ce registre.
 
-<div id="method-registryupdate_member">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.update_member()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.update_member() {#method-registryupdate_member}
 
 ```python
 self,
@@ -358,9 +312,7 @@ role: 'MemberRole | str'
 
 Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
 
-<div id="arguments-5">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-5}
 
 <ResponseField name="member" type="User | UserMember | Team | TeamMember | str">
   L’utilisateur ou l’équipe dont le rôle doit être mis à jour. Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
@@ -375,15 +327,11 @@ Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
   * &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
 </ResponseField>
 
-<div id="raises-4">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-4}
 
 * `ValueError`: S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
 
-<div id="examples-3">
-  ##### Exemples
-</div>
+##### Exemples {#examples-3}
 
 Faites de tous les utilisateurs du registre des administrateurs
 
@@ -399,9 +347,7 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-<div id="method-registryuser_members">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.user_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.user_members() {#method-registryuser_members}
 
 ```python
 self
@@ -409,9 +355,7 @@ self
 
 Renvoie les utilisateurs actuellement membres de ce registre.
 
-<div id="method-registryversions">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.versions()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Registry.versions() {#method-registryversions}
 
 ```python
 self,
@@ -423,9 +367,7 @@ start: 'str | None' = None
 
 Renvoie les versions d&#39;artifact de ce registre.
 
-<div id="arguments-6">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-6}
 
 <ResponseField name="filter" type="dict[str, Any] | None">
   Mappage facultatif des filtres à appliquer à la requête de versions d&#39;artifact.

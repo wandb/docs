@@ -5,17 +5,13 @@ description: "weave.trace.util용 Python SDK 레퍼런스"
 
 import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
-<div id="api-overview">
-  # API Overview
-</div>
+# API Overview {#api-overview}
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L105" />
 
-<div id="class-contextawarethread">
-  ## <kbd>class</kbd> `ContextAwareThread`
-</div>
+## <kbd>class</kbd> `ContextAwareThread` {#class-contextawarethread}
 
 호출자의 컨텍스트에서 함수를 실행하는 스레드입니다.
 
@@ -36,9 +32,7 @@ thread.start()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L129" />
 
-<div id="method-__init__">
-  ### <kbd>방법</kbd> `__init__`
-</div>
+### <kbd>방법</kbd> `__init__` {#method-__init__}
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -47,9 +41,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 ***
 
 
-<div id="property-daemon">
-  #### <kbd>속성</kbd> daemon
-</div>
+#### <kbd>속성</kbd> daemon {#property-daemon}
 
 이 스레드가 데몬 스레드인지 여부를 나타내는 불리언 값입니다.
 
@@ -59,9 +51,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-<div id="property-ident">
-  #### <kbd>속성</kbd> ident
-</div>
+#### <kbd>속성</kbd> ident {#property-ident}
 
 이 스레드의 스레드 식별자이며, 아직 시작되지 않은 경우에는 None입니다.
 
@@ -69,9 +59,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-<div id="property-name">
-  #### <kbd>속성</kbd> name
-</div>
+#### <kbd>속성</kbd> name {#property-name}
 
 식별 용도로만 사용되는 문자열입니다.
 
@@ -79,9 +67,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-<div id="property-native_id">
-  #### <kbd>속성</kbd> native_id
-</div>
+#### <kbd>속성</kbd> native_id {#property-native_id}
 
 이 스레드의 네이티브 정수형 스레드 ID입니다. 아직 시작되지 않은 경우에는 None입니다.
 
@@ -91,9 +77,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L133" />
 
-<div id="method-run">
-  ### <kbd>방법</kbd> `run`
-</div>
+### <kbd>방법</kbd> `run` {#method-run}
 
 ```python
 run() → None
@@ -103,9 +87,7 @@ run() → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L45" />
 
-<div id="class-contextawarethreadpoolexecutor">
-  ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
-</div>
+## <kbd>class</kbd> `ContextAwareThreadPoolExecutor` {#class-contextawarethreadpoolexecutor}
 
 호출자의 컨텍스트에서 함수를 실행하는 ThreadPoolExecutor입니다.
 
@@ -125,9 +107,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L68" />
 
-<div id="method-__init__-2">
-  ### <kbd>방법</kbd> `__init__`
-</div>
+### <kbd>방법</kbd> `__init__` {#method-__init__-2}
 
 ```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
@@ -137,9 +117,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L77" />
 
-<div id="method-map">
-  ### <kbd>방법</kbd> `map`
-</div>
+### <kbd>방법</kbd> `map` {#method-map}
 
 ```python
 map(
@@ -154,9 +132,7 @@ map(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L73" />
 
-<div id="method-submit">
-  ### <kbd>방법</kbd> `submit`
-</div>
+### <kbd>방법</kbd> `submit` {#method-submit}
 
 ```python
 submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
@@ -166,9 +142,7 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L164" />
 
-<div id="function-deprecated">
-  ### <kbd>함수</kbd> `deprecated`
-</div>
+### <kbd>함수</kbd> `deprecated` {#function-deprecated}
 
 ```python
 deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
@@ -180,9 +154,7 @@ deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L137" />
 
-<div id="function-is_colab">
-  ### <kbd>함수</kbd> `is_colab`
-</div>
+### <kbd>함수</kbd> `is_colab` {#function-is_colab}
 
 ```python
 is_colab()
@@ -192,9 +164,7 @@ is_colab()
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L146" />
 
-<div id="function-is_notebook">
-  ### <kbd>함수</kbd> `is_notebook`
-</div>
+### <kbd>함수</kbd> `is_notebook` {#function-is_notebook}
 
 ```python
 is_notebook() → bool
@@ -204,9 +174,7 @@ is_notebook() → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/util.py#L21" />
 
-<div id="function-log_once">
-  ### <kbd>함수</kbd> `log_once`
-</div>
+### <kbd>함수</kbd> `log_once` {#function-log_once}
 
 ```python
 log_once(log_method: 'Callable[[str], None]', message: 'str') → None

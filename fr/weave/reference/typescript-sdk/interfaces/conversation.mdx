@@ -10,115 +10,77 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 Une conversation regroupe des tours de conversation sous un même `gen_ai.conversation.id`. Elle ne
 constitue pas elle-même un span OTel : les spans enfants y associent l’ID de conversation.
 
-<div id="accessors">
-  ## Accesseurs
-</div>
+## Accesseurs {#accessors}
 
-<div id="agentname">
-  ### agentName
-</div>
+### agentName {#agentname}
 
-<div id="get-signature">
-  #### Signature du getter
-</div>
+#### Signature du getter {#get-signature}
 
 > **get** **agentName**(): `string`
 
-<div id="returns">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns}
 
 `string`
 
 ***
 
-<div id="attributes">
-  ### attributs
-</div>
+### attributs {#attributes}
 
-<div id="get-signature-2">
-  #### Signature du getter
-</div>
+#### Signature du getter {#get-signature-2}
 
 > **get** **attributes**(): `Attributes`
 
-<div id="returns-2">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-2}
 
 `Attributes`
 
 ***
 
-<div id="conversationid">
-  ### conversationId
-</div>
+### conversationId {#conversationid}
 
-<div id="get-signature-3">
-  #### Signature du getter
-</div>
+#### Signature du getter {#get-signature-3}
 
 > **get** **conversationId**(): `string`
 
-<div id="returns-3">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-3}
 
 `string`
 
 ***
 
-<div id="model">
-  ### model
-</div>
+### model {#model}
 
-<div id="get-signature-4">
-  #### Signature du getter
-</div>
+#### Signature du getter {#get-signature-4}
 
 > **get** **model**(): `string`
 
-<div id="returns-4">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-4}
 
 `string`
 
 ***
 
-<div id="sessionid">
-  ### sessionId
-</div>
+### sessionId {#sessionid}
 
 <Warning>
   **Obsolète.** Utilisez plutôt [Conversation.conversationId](#conversationid).
 </Warning>
 
-<div id="get-signature-5">
-  #### Signature du getter
-</div>
+#### Signature du getter {#get-signature-5}
 
 > **get** **sessionId**(): `string`
 
-<div id="returns-5">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-5}
 
 `string`
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
-<div id="parameters">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters}
 
 <ParamField path="opts" type="object">
   <Expandable title="propriétés" defaultOpen>
@@ -128,39 +90,29 @@ constitue pas elle-même un span OTel : les spans enfants y associent l’ID de 
   </Expandable>
 </ParamField>
 
-<div id="returns-6">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-6}
 
 `void`
 
 ***
 
-<div id="startturn">
-  ### startTurn()
-</div>
+### startTurn() {#startturn}
 
 > **startTurn**(`opts?`) : [`Turn`](./turn)
 
 Démarre un nouveau `Turn` dans cette `Conversation`. Le tour de conversation hérite du `conversationId` de la conversation ; `agentName`, `agentId`, `agentDescription`, `agentVersion` et `model` utilisent les valeurs de la conversation lorsqu’ils ne sont pas fournis dans `opts`.
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="opts" type="TurnInit = {}">
   Voir [`TurnInit`](./turninit).
 </ParamField>
 
-<div id="returns-7">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-7}
 
 [`Turn`](./turn)
 
-<div id="examples">
-  #### Exemples
-</div>
+#### Exemples {#examples}
 
 ```ts twoslash
 // @noErrors

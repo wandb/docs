@@ -3,9 +3,7 @@ title: Runs を削除
 description: W&B App または Public API を使用して W&B project から Runs を削除する方法と、削除した run データが storage からどのように削除されるかを学びます。
 ---
 
-<div id="delete-runs">
-  ## Runs を削除
-</div>
+## Runs を削除 {#delete-runs}
 
 W&amp;B App または Python API を使用して、project から run を削除します。
 
@@ -95,9 +93,7 @@ run ID は、run を削除した後でも再利用できません。代わりに
   run を削除するときに関連付けられているアーティファクトも削除するよう選択した場合、それらのアーティファクトは完全に削除され、後で run を復元しても復旧できません。これには Registry にリンクされているアーティファクトも含まれます。
 </Warning>
 
-<div id="run-deletion-flowchart">
-  ## run の削除フローチャート
-</div>
+## run の削除フローチャート {#run-deletion-flowchart}
 
 以下の図は、関連するアーティファクトおよび Registry リンクの処理を含む、run の削除プロセス全体を示しています。
 
@@ -124,9 +120,7 @@ graph TB
     style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
 ```
 
-<div id="when-deleted-run-data-is-removed-from-storage">
-  ## 削除された run データがストレージから削除されるタイミング
-</div>
+## 削除された run データがストレージから削除されるタイミング {#when-deleted-run-data-is-removed-from-storage}
 
 [W&amp;B 専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) と [W&amp;B セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) では、`GORILLA_DATA_RETENTION_PERIOD` 環境変数によって、**削除された run データ**がオブジェクトストレージから完全に削除可能になるまで保持される期間を制御します。**Artifacts はこの設定では削除されません**。Artifacts には、[Delete an artifact](/ja/models/artifacts/delete-artifacts) で説明されている artifact の削除およびガベージコレクションのフローが適用されます。
 

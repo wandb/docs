@@ -15,7 +15,7 @@ Weave OpenClaw プラグインは、OpenClaw ゲートウェイを介して実�
 </Warning>
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 前提条件 {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v22.14 以降。
@@ -24,7 +24,7 @@ Weave OpenClaw プラグインは、OpenClaw ゲートウェイを介して実�
 * トレースの受信先となる Weave プロジェクト (`[YOUR-TEAM]/[YOUR-PROJECT]`)。
 
 <div id="install-the-plugin">
-  ## プラグインをインストールする
+  ## プラグインをインストールする {#install-the-plugin}
 </div>
 
 以下の手順を実行して、プラグインをインストールし、OpenClaw ゲートウェイ に登録して、トレースが Weave project に届くことを確認します。
@@ -68,7 +68,7 @@ Weave OpenClaw プラグインは、OpenClaw ゲートウェイを介して実�
 </Steps>
 
 <div id="view-openclaw-traces-in-weave">
-  ## Weave で OpenClaw のトレースを表示する
+  ## Weave で OpenClaw のトレースを表示する {#view-openclaw-traces-in-weave}
 </div>
 
 プラグインが有効になると、各エージェントセッションで Weave UI で確認できるトレースが生成されます。少なくとも 1 つのエージェントセッションを実行した後、Weave UI で project を開きます。
@@ -89,7 +89,7 @@ Agents ビューの詳細については、[View agent activity](/ja/weave/guide
 | `execute_tool <tool>`  | 各ツール実行ごと       | `gen_ai.tool.name`, `gen_ai.tool.call.id`                                         |
 
 <div id="configuration-reference">
-  ## 設定リファレンス
+  ## 設定リファレンス {#configuration-reference}
 </div>
 
 このセクションでは、`openclaw.json` 内の `weave` プラグイン エントリに関する完全な設定リファレンスを示します。
@@ -139,7 +139,7 @@ Agents ビューの詳細については、[View agent activity](/ja/weave/guide
 コンプライアンス要件または保持ポリシーのために取得を無効にするには、`captureContent` を `false` に設定します。
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B Dedicated Cloud またはセルフホスト環境のインスタンス
+  ### W&amp;B Dedicated Cloud またはセルフホスト環境のインスタンス {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 このプラグインは、エンドポイントと認証を [Weave Node SDK](https://github.com/wandb/weave/tree/master/sdks/node) に委譲します。Weave Python SDK および Node SDK と同じ規則で、次の環境変数を読み取ります。
@@ -150,7 +150,7 @@ Agents ビューの詳細については、[View agent activity](/ja/weave/guide
 | `WF_TRACE_SERVER_URL` | trace-server の完全な URL を上書きします。セルフマネージド環境またはプロキシ経由の構成で使用します。                                          |
 
 <div id="troubleshooting">
-  ## トラブルシューティング
+  ## トラブルシューティング {#troubleshooting}
 </div>
 
 トレースが Weave に届かない場合やコンテンツフィールドが空の場合は、最も一般的な原因を診断するために以下のセクションを使用してください。
@@ -158,7 +158,7 @@ Agents ビューの詳細については、[View agent activity](/ja/weave/guide
 ゲートウェイ のログ は、`openclaw` を実行しているプロセスのターミナル出力、またはデーモン化している場合はプロセスマネージャーのログストリームを指します。
 
 <div id="plugin-loaded-but-no-spans-show-up">
-  ### プラグインは読み込まれているのに、スパン が表示されない
+  ### プラグインは読み込まれているのに、スパン が表示されない {#plugin-loaded-but-no-spans-show-up}
 </div>
 
 1. `/weave status` を実行します。lifecycle が `disabled`、`config-error`、または `not-started` の場合、プラグインは有効になっていません。ゲートウェイ のログに `weave: config.entity is required`、`weave: configuration error`、または `[weave] incompatible plugin SDK` が出ていないか確認してください。
@@ -167,7 +167,7 @@ Agents ビューの詳細については、[View agent activity](/ja/weave/guide
 4. 認証の取得元を確認してください。`/weave status` には `auth=...` と表示されるはずです。`WANDB_API_KEY env` と表示されているのに、キーを別の環境変数に設定している場合は、プラグインが誤ったキーを読み取っています。
 
 <div id="spans-land-but-inputoutput-text-is-empty">
-  ### スパン は届くものの、input/output テキストが空です
+  ### スパン は届くものの、input/output テキストが空です {#spans-land-but-inputoutput-text-is-empty}
 </div>
 
 ゲートウェイ のログ で次を確認してください。
@@ -182,7 +182,7 @@ Agents ビューの詳細については、[View agent activity](/ja/weave/guide
 OpenClaw では、コンテンツを含む hook は operator が明示的に有効化した場合にのみ利用できます。設定で `plugins.entries.weave.hooks.allowConversationAccess: true` を設定し、ゲートウェイを再起動してください。スパン構造とコストおよび使用量データは hook ではなく診断イベント経由で送信されるため、`allowConversationAccess` が `false` の場合でも引き続き動作します。
 
 <div id="errors-sending-traces-to-weave">
-  ### Weave へのトレース送信エラー
+  ### Weave へのトレース送信エラー {#errors-sending-traces-to-weave}
 </div>
 
 プラグインが有効でスパンを生成しているのに Weave に表示されない場合は、エクスポート エラーがないかゲートウェイ のログを確認し、以下の表と照らし合わせてください。

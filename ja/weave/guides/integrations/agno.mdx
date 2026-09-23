@@ -13,7 +13,7 @@ keywords: ["OTEL", "OpenInference", "マルチエージェント", "AgnoInstrume
 </Tip>
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 前提条件 {#prerequisites}
 </div>
 
 1. 必要な依存関係をインストールします：
@@ -30,9 +30,7 @@ keywords: ["OTEL", "OpenInference", "マルチエージェント", "AgnoInstrume
 
 3. [Weave で OTEL トレーシングを構成する](#configure-otel-tracing-in-weave)。
 
-<div id="configure-otel-tracing-in-weave">
-  ### Weave で OTEL トレースを設定する
-</div>
+### Weave で OTEL トレースを設定する {#configure-otel-tracing-in-weave}
 
 Agno から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使って OTEL を設定します。エクスポーターには、認証とプロジェクト識別のための [正しいエンドポイントと HTTP ヘッダー](#required-configuration) を指定します。
 
@@ -40,9 +38,7 @@ Agno から Weave にトレースを送信するには、`TracerProvider` と `O
   APIキーやプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使って読み込んでください。これにより、認証情報を安全に保ち、コードベースに含めずに済みます。
 </Note>
 
-<div id="required-configuration">
-  #### 必要な設定
-</div>
+#### 必要な設定 {#required-configuration}
 
 以下の Endpoint と Headers を使用して、OTLP exporter を設定します。
 
@@ -51,9 +47,7 @@ Agno から Weave にトレースを送信するには、`TracerProvider` と `O
   * `Authorization`: W&amp;B APIキーを使用した Basic 認証。
   * `project_id`: W&amp;B エンティティ / project名 (たとえば、`myteam/myproject`)。
 
-<div id="send-otel-traces-from-agno-to-weave">
-  ## Agno から Weave に OTEL トレースを送信する
-</div>
+## Agno から Weave に OTEL トレースを送信する {#send-otel-traces-from-agno-to-weave}
 
 [前提条件](#prerequisites) を完了したら、Agno から Weave に OTEL トレースを送信できます。次のコードスニペットでは、Agno アプリケーションから Weave に OTEL トレースを送信するために、OTLP span exporter と tracer provider を構成する方法を示します。
 
@@ -101,9 +95,7 @@ tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
 trace.set_tracer_provider(tracer_provider)
 ```
 
-<div id="trace-agno-agents-with-otel">
-  ## OTEL で Agno エージェントをトレースする
-</div>
+## OTEL で Agno エージェントをトレースする {#trace-agno-agents-with-otel}
 
 tracer provider をセットアップしたら、自動トレース付きで Agno エージェントを作成して実行できます。Weave がその後のすべてのエージェントのアクティビティを取得できるように、エージェントを作成する前に Agno をインストルメンテーションしてください。次の例は、ツールを使ったエージェントの作成方法を示しています。
 
@@ -151,9 +143,7 @@ Weave はすべてのエージェント操作を自動的にトレースする�
   ![A trace visualization of an Agno agent](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
 </Frame>
 
-<div id="trace-agno-tools-with-otel">
-  ## OTEL で Agno ツールをトレースする
-</div>
+## OTEL で Agno ツールをトレースする {#trace-agno-tools-with-otel}
 
 Agno でツールを定義して使用すると、トレースはこれらのツール呼び出しも取得します。OTEL インテグレーションは、エージェントの推論プロセスと個々のツール実行の両方を自動的にインストルメンテーションし、エージェントの挙動を包括的に把握できるようにします。
 
@@ -202,9 +192,7 @@ research_agent.print_response(
   ![Agno ツール呼び出しのトレースの可視化](/weave/guides/integrations/imgs/agno/agno_tool_calls.png)
 </Frame>
 
-<div id="trace-multi-agent-teams-with-otel">
-  ## OTEL でマルチエージェント チームをトレースする
-</div>
+## OTEL でマルチエージェント チームをトレースする {#trace-multi-agent-teams-with-otel}
 
 Agno のマルチエージェント アーキテクチャを使うと、連携しながらコンテキストを共有できるエージェント チームを作成できます。Weave は、こうしたチーム内のやり取りも、すべてトレースします:
 
@@ -266,9 +254,7 @@ agent_team.print_response(
   ![Agno マルチエージェントチームのトレース可視化](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
 </Frame>
 
-<div id="work-with-reasoning-agents">
-  ## 推論エージェントを使う
-</div>
+## 推論エージェントを使う {#work-with-reasoning-agents}
 
 Agno には、エージェントが問題を順を追って処理できるようにする組み込みの推論機能があります。トレースもこれらの推論プロセスを取得します。
 
@@ -318,9 +304,7 @@ reasoning_agent.print_response(
   ![Agno 推論エージェントのトレース可視化](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
 </Frame>
 
-<div id="work-with-memory-and-knowledge">
-  ## メモリとナレッジを扱う
-</div>
+## メモリとナレッジを扱う {#work-with-memory-and-knowledge}
 
 Agno エージェントは、メモリを保持し、ナレッジベースにアクセスできます。これにより、エージェントはやり取りをまたいでコンテキストを保持できます。Weave はこれらの操作もトレースします。
 
@@ -367,9 +351,7 @@ memory_agent.print_response("What specific AI companies would you recommend for 
 
 会話履歴の保存や取得を含むメモリ操作は、トレース内に表示されます。
 
-<div id="learn-more">
-  ## 詳細情報
-</div>
+## 詳細情報 {#learn-more}
 
 * [Agno公式ドキュメント](https://docs.agno.com/)
 * [OTEL公式ドキュメント](https://opentelemetry.io/)

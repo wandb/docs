@@ -11,9 +11,7 @@ import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-strea
 
 PyTorch Geometric를 설치한 후 시작하려면 다음 단계를 따르세요.
 
-<div id="sign-up-and-create-an-api-key">
-  ## 가입하고 API 키 생성하기
-</div>
+## 가입하고 API 키 생성하기 {#sign-up-and-create-an-api-key}
 
 API 키는 머신이 W&amp;B에 인증되도록 합니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
 
@@ -22,9 +20,7 @@ API 키는 머신이 W&amp;B에 인증되도록 합니다. 사용자 프로필�
 1. 오른쪽 상단에서 사용자 프로필 아이콘을 클릭합니다.
 2. **User Settings**를 선택한 다음 **API Keys** 섹션으로 스크롤합니다.
 
-<div id="install-the-wandb-library-and-log-in">
-  ## `wandb` 라이브러리 설치 및 로그인
-</div>
+## `wandb` 라이브러리 설치 및 로그인 {#install-the-wandb-library-and-log-in}
 
 로컬에 `wandb` 라이브러리를 설치하고 로그인하려면 다음 단계를 따르세요.
 
@@ -66,17 +62,13 @@ API 키는 머신이 W&amp;B에 인증되도록 합니다. 사용자 프로필�
   </Tab>
 </Tabs>
 
-<div id="visualize-the-graphs">
-  ## 그래프 시각화
-</div>
+## 그래프 시각화 {#visualize-the-graphs}
 
 로그인한 후에는 그래프 시각화와 run 데이터를 W&amp;B로 보내기 시작할 수 있습니다.
 
 에지 수, 노드 수 등 입력 그래프에 대한 세부 정보를 저장할 수 있습니다. W&amp;B는 Plotly 차트와 HTML 패널 로깅을 지원하므로 그래프용으로 만든 모든 시각화도 W&amp;B에 로깅할 수 있습니다. 다음 섹션에서는 일반적으로 사용되는 두 가지 접근 방식을 소개합니다. 하나는 대화형 HTML 시각화를 위한 PyVis이고, 다른 하나는 차트 기반 시각화를 위한 Plotly입니다.
 
-<div id="use-pyvis">
-  ### PyVis 사용하기
-</div>
+### PyVis 사용하기 {#use-pyvis}
 
 다음 스니펫은 PyVis와 HTML을 사용해 이를 수행하는 방법을 보여줍니다.
 
@@ -106,9 +98,7 @@ with wandb.init(project="graph_vis") as run:
   <img src="/images/integrations/pyg_graph_wandb.png" alt="대화형 그래프 시각화" />
 </Frame>
 
-<div id="use-plotly">
-  ### Plotly 사용하기
-</div>
+### Plotly 사용하기 {#use-plotly}
 
 Plotly를 사용해 그래프 시각화를 만들려면 먼저 PyG 그래프를 networkx 객체로 변환하세요. 그런 다음 노드와 엣지 각각에 대한 Plotly scatter plot을 만드세요. 이 작업에는 다음 스니펫을 사용하세요.
 
@@ -163,9 +153,7 @@ with wandb.init(project="visualize_graph") as run:
   <img src="/images/integrations/pyg_graph_plotly.png" alt="예시 함수를 사용해 생성한 뒤 W&B Table에 로깅한 시각화." />
 </Frame>
 
-<div id="log-metrics">
-  ## 메트릭 로깅
-</div>
+## 메트릭 로깅 {#log-metrics}
 
 그래프 시각화에 더해, W&amp;B를 사용해 실험와 관련 메트릭(예: 손실 함수, 정확도 등)을 추적할 수 있습니다. 트레이닝 루프에 다음 줄을 추가하세요:
 
@@ -185,9 +173,7 @@ with wandb.init(project="my_project", entity="my_entity") as run:
 
 그래프 시각화와 트레이닝 메트릭을 W&amp;B에 로깅하면, W&amp;B workspace에서 PyG 실험의 Runs를 비교하고 결과를 공유할 수 있습니다.
 
-<div id="more-resources">
-  ## 추가 자료
-</div>
+## 추가 자료 {#more-resources}
 
 다음 W&amp;B Reports에서는 PyG의 활용 사례를 확인할 수 있습니다:
 

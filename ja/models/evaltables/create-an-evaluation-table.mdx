@@ -5,9 +5,7 @@ description: "W&B で Eval Table を作成する方法を説明します。"
 
 W&amp;B Python SDK を使用して Eval Table を作成するか、既存の [W&amp;B 表](/ja/models/tables) を [ARIA](/ja/aria) を使って変換できます。
 
-<div id="create-an-eval-table">
-  ## Eval Table を作成する
-</div>
+## Eval Table を作成する {#create-an-eval-table}
 
 `wandb.EvalTable` クラスを使用して、Eval Table を作成します。
 
@@ -48,7 +46,8 @@ df = pd.DataFrame(
   with wandb.init(project="classifier-table-demo") as run:
     table = wandb.Table(dataframe=df)
     run.log({"validation_predictions": table})
-  ``` */}
+  ```
+  */}
 
 DataFrame を `wandb.EvalTable` に渡して、Eval Table を作成します。各列の役割は、`input_columns`、`output_columns`、`score_columns` の各引数で指定します。
 
@@ -69,9 +68,7 @@ with wandb.init(project="classifier-eval-table-demo") as run:
     run.log({"validation_predictions_eval": eval_table})    
 ```
 
-<div id="convert-a-wb-table-to-an-eval-table">
-  ## W&amp;B 表を Eval Table に変換する
-</div>
+## W&amp;B 表を Eval Table に変換する {#convert-a-wb-table-to-an-eval-table}
 
 変換バナーを使用して、既存の W&amp;B 表を Eval Table に変換できます。
 

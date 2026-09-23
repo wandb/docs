@@ -14,9 +14,7 @@ AutoGen は、AI エージェントやアプリケーションを構築するた
 
 Weave は [AutoGen](https://microsoft.github.io/autogen/stable/index.html) と統合されており、マルチエージェントアプリケーションの実行をトレースして可視化できます。Weave を初期化すると、`autogen_agentchat`、`autogen_core`、`autogen_ext` 内のやり取りが自動的にトラッキングされます。このガイドでは、AutoGen で Weave を設定する方法を説明し、モデルクライアント、ツールを備えたエージェント、グループチャット、メモリ、RAG ワークフロー、エージェントランタイム、逐次ワークフロー、コードエグゼキューターを扱う具体例を紹介します。最後には、AutoGen アプリケーションの詳細なトレースを Weave で取得し、エージェントの動作をデバッグしたり、LLM の使用状況を監視したり、複雑なワークフロー全体でエージェントがどのように相互作用するかを把握したりできるようになります。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 始める前に、AutoGen と Weave がインストールされている必要があります。また、使用する予定の LLM プロバイダ (たとえば OpenAI または Anthropic) 向けの SDK も必要です。
 
@@ -33,9 +31,7 @@ os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 os.environ["ANTHROPIC_API_KEY"] = "[YOUR-ANTHROPIC-API-KEY]"
 ```
 
-<div id="basic-setup">
-  ## 基本設定
-</div>
+## 基本設定 {#basic-setup}
 
 トレースの取得を開始するには、スクリプトの先頭で Weave を初期化します。Weave を初期化すると、スクリプト内のそれ以降の AutoGen Call は自動的に計装されます。
 
@@ -46,15 +42,11 @@ weave.init("autogen-demo")
 
 このスニペットを実行すると、Weave はトレースを `autogen-demo` project に送信するように設定され、以降、スクリプト内の AutoGen のアクティビティは Weave によって自動的に取得されます。
 
-<div id="traces-for-a-model-client">
-  ## モデルクライアントのトレース
-</div>
+## モデルクライアントのトレース {#traces-for-a-model-client}
 
 以下のセクションでは、単一の call、ストリーミング応答、キャッシュされた応答を含め、Weave が AutoGen 内でモデルクライアントに直接行われる call / calls をどのようにトレースするかを説明します。
 
-<div id="traces-for-a-client-create-call">
-  ### クライアントの create Call のトレース
-</div>
+### クライアントの create Call のトレース {#traces-for-a-client-create-call}
 
 この例では、`OpenAIChatCompletionClient` に対する Call をトレースする方法を示します。
 
@@ -83,9 +75,7 @@ asyncio.run(simple_client_call())
 
 [![autogen-simple-client.png](/weave/guides/integrations/imgs/autogen/autogen-simple-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee09-8dcf-7b72-8cdc-7699608cd6ef%3FhideTraceTree%3D0)
 
-<div id="traces-for-a-client-create-call-with-streaming">
-  ### ストリーミングを使用したクライアントの create call のトレース
-</div>
+### ストリーミングを使用したクライアントの create call のトレース {#traces-for-a-client-create-call-with-streaming}
 
 Weave はストリーミングされる応答のトレースもサポートします。
 
@@ -104,9 +94,7 @@ asyncio.run(simple_client_call_stream())
 
 [![autogen-streaming-client.png](/weave/guides/integrations/imgs/autogen/autogen-streaming-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee0e-24be-7523-b15e-04f87c03ac68%3FhideTraceTree%3D0)
 
-<div id="traces-for-cached-client-calls">
-  ### キャッシュされたクライアント Call のトレース
-</div>
+### キャッシュされたクライアント Call のトレース {#traces-for-cached-client-calls}
 
 AutoGen の `ChatCompletionCache` を使用でき、Weave はこれらのやり取りをトレースして、応答がキャッシュから返されたものか、新しい Call によるものかを表示します。
 
@@ -133,9 +121,7 @@ asyncio.run(run_cache_client())
 
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
-<div id="traces-for-an-agent-with-tool-calls">
-  ## ツールCallを行うエージェントのトレース
-</div>
+## ツールCallを行うエージェントのトレース {#traces-for-an-agent-with-tool-calls}
 
 このセクションでは、Weave がエージェントとそのツールの使用状況をどのようにトレースし、エージェントがどのようにツールを選択して実行しているかを可視化するのかを示します。以下のExampleでは、天気ツールを定義し、それを `AssistantAgent` に関連付けます。
 
@@ -167,9 +153,7 @@ asyncio.run(run_agent_with_tools())
 
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
-<div id="traces-for-a-round-robin-groupchat">
-  ## ラウンドロビン GroupChat のトレース
-</div>
+## ラウンドロビン GroupChat のトレース {#traces-for-a-round-robin-groupchat}
 
 Weave は `RoundRobinGroupChat` などのグループチャット内のやり取りをトレースするため、エージェント間の会話の流れを追跡できます。確認しやすいように、すべてのエージェントのターンを単一の親トレースの下にまとめるには、グループチャット関数を `@weave.op` でラップします。この手順は任意ですが、推奨されます。
 
@@ -216,9 +200,7 @@ asyncio.run(run_round_robin_group_chat())
 
 [![round\_robin\_group\_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
 
-<div id="traces-for-memory">
-  ## メモリのトレース
-</div>
+## メモリのトレース {#traces-for-memory}
 
 Weave は AutoGen のメモリ コンポーネントをトレースできます。`@weave.op()` を使用すると、メモリ操作を 1 つのトレースにまとめて可読性を高められます。これにより、メモリの追加と取得の呼び出しが、それらを使用するエージェントの run と一緒に表示されます。
 
@@ -277,9 +259,7 @@ asyncio.run(run_memory_agent())
 
 [![autogen-memory.png](/weave/guides/integrations/imgs/autogen/autogen-memory.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee18-28b6-7063-90df-77aaedf88dc9%3FhideTraceTree%3D0)
 
-<div id="traces-for-rag-workflows">
-  ## RAG ワークフローのトレース
-</div>
+## RAG ワークフローのトレース {#traces-for-rag-workflows}
 
 Weave では、`ChromaDBVectorMemory` のようなメモリシステムを使用したドキュメントのインデックス作成や取得を含む Retrieval Augmented Generation (RAG) ワークフローをトレースできます。インデックス作成、取得、その結果の LLM Call を 1 つのトレースにまとめて表示できるようにフロー全体を可視化するには、RAG プロセスを `@weave.op()` でデコレートします。
 
@@ -399,9 +379,7 @@ asyncio.run(run_rag_agent())
 
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
-<div id="traces-for-agent-runtimes">
-  ## エージェントランタイムのトレース
-</div>
+## エージェントランタイムのトレース {#traces-for-agent-runtimes}
 
 Weave では、`SingleThreadedAgentRuntime` など、AutoGen のエージェントランタイム内のオペレーションをトレースできます。関連するトレースをグループ化して、ランタイムの実行中に呼び出されるメッセージハンドラーの完全なシーケンスを確認できるようにするには、ランタイムの実行関数を `@weave.op()` でラップしてください。
 
@@ -481,9 +459,7 @@ asyncio.run(run_agent_runtime())
 
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
-<div id="traces-for-sequential-workflows">
-  ## 逐次ワークフローのトレース
-</div>
+## 逐次ワークフローのトレース {#traces-for-sequential-workflows}
 
 エージェント間のやり取りの順序を定義する、複雑なエージェントワークフローをトレースできます。`@weave.op()` を使用すると、ワークフロー全体の高レベルなトレースを提供できます。これにより、各エージェントの寄与は単一の親Callの下にネストされます。次の例では、コンセプト抽出、ライター、整形と校正を行うエージェント、ユーザーエージェントをチェーンして、洗練されたマーケティングコピーを生成します。
 
@@ -619,9 +595,7 @@ asyncio.run(run_agent_workflow())
 
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
-<div id="traces-for-code-executors">
-  ## コードエグゼキュータのトレース
-</div>
+## コードエグゼキュータのトレース {#traces-for-code-executors}
 
 <Warning>
   **Docker が必要です**
@@ -731,9 +705,7 @@ asyncio.run(run_codegen())
 
 [![autogen-codegen.png](/weave/guides/integrations/imgs/autogen/autogen-codegen.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f173-21c2-7540-9dc7-fbab0b94ce0e%3FhideTraceTree%3D0)
 
-<div id="learn-more">
-  ## 詳しくはこちら
-</div>
+## 詳しくはこちら {#learn-more}
 
 Weave のトレースと Ops をよりよく理解するには、以下のガイドをお読みください。
 

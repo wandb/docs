@@ -9,9 +9,7 @@ Lorsqu&#39;une requête partage le même préfixe de prompt qu&#39;une requête 
 
 La mise en cache des préfixes est automatique sur les modèles pris en charge. Vous n&#39;avez donc pas besoin de l&#39;activer dans votre requête. Cette page décrit les cas où la mise en cache des préfixes est la plus efficace et comment contrôler l&#39;isolation du cache avec `cache_salt`.
 
-<div id="when-prefix-caching-helps">
-  ## Quand la mise en cache des préfixes est utile
-</div>
+## Quand la mise en cache des préfixes est utile {#when-prefix-caching-helps}
 
 La mise en cache des préfixes est particulièrement utile lorsque vous envoyez de façon répétée des requêtes qui partagent un long préfixe commun, par exemple :
 
@@ -20,9 +18,7 @@ La mise en cache des préfixes est particulièrement utile lorsque vous envoyez 
 * Des prompts d’évaluation répétés avec seulement de légères modifications d’une requête à l’autre.
 * Des charges de travail sur plusieurs tours de conversation, où une grande partie de l’historique reste inchangée.
 
-<div id="cache-isolation">
-  ## Isolation du cache
-</div>
+## Isolation du cache {#cache-isolation}
 
 Dans certains environnements, vous pouvez avoir besoin d’empêcher la réutilisation du cache entre différents utilisateurs ou différentes applications. Le paramètre `cache_salt` permet ce contrôle.
 
@@ -32,9 +28,7 @@ Pour limiter la réutilisation du cache à un périmètre de confiance spécifiq
 
 Utilisez `cache_salt` lorsque vous souhaitez autoriser la réutilisation du cache au sein d’un même utilisateur, tenant, session ou périmètre d’application, mais pas entre d’autres appelants.
 
-<div id="how-it-works">
-  ### Fonctionnement
-</div>
+### Fonctionnement {#how-it-works}
 
 La présence et la valeur de `cache_salt` influent sur la réutilisation du cache comme suit :
 
@@ -46,9 +40,7 @@ La présence et la valeur de `cache_salt` influent sur la réutilisation du cach
   `cache_salt` doit être une chaîne non vide lorsqu’il est spécifié.
 </Note>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Les exemples suivants montrent comment envoyer une requête de complétion de chat avec `cache_salt` afin d’isoler la réutilisation du cache.
 
@@ -100,15 +92,11 @@ Les exemples suivants montrent comment envoyer une requête de complétion de ch
   </Tab>
 </Tabs>
 
-<div id="response-behavior">
-  ## Comportement de la réponse
-</div>
+## Comportement de la réponse {#response-behavior}
 
 Pour confirmer que la mise en cache des préfixes est active pour une requête, vérifiez les détails d’utilisation de la réponse. Sur certains modèles, les détails d’utilisation peuvent inclure le nombre de jetons mis en cache dans `usage.prompt_tokens_details.cached_tokens` lorsque le cache du préfixe est réutilisé. La disponibilité de ce champ varie selon le modèle et le backend.
 
-<div id="related-pages">
-  ## Pages connexes
-</div>
+## Pages connexes {#related-pages}
 
 Les pages suivantes abordent des sujets connexes :
 

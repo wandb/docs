@@ -9,7 +9,7 @@ keywords: ["custom charts", "Vega spec", "historyTable", "summaryTable", "compos
 이 튜토리얼을 마치면 프로젝트에서 작동하는 맞춤형 차트를 만들 수 있으며, 이를 프리셋으로 저장할 수 있습니다. 또한 자신의 데이터에 맞게 응용할 수 있는 합성 히스토그램도 추가로 얻게 됩니다.
 
 <div id="log-data-to-wb">
-  ## W&amp;B에 데이터 로깅하기
+  ## W&amp;B에 데이터 로깅하기 {#log-data-to-wb}
 </div>
 
 맞춤형 차트에서 무엇이든 시각화하려면 먼저 run에 표시할 데이터를 로깅해야 합니다. 하이퍼파라미터처럼 트레이닝 시작 시점에 설정하는 단일 값에는 [wandb.Run.config](/ko/models/track/config/)를 사용하세요. 시간에 따라 여러 데이터 포인트를 기록할 때는 [wandb.Run.log()](/ko/models/track/log/)를 사용하고, 맞춤형 2D 배열은 `wandb.Table()`로 로깅하세요. 로깅된 키별 데이터 포인트는 최대 10,000개까지를 권장합니다.
@@ -29,7 +29,7 @@ with wandb.init() as run:
 데이터를 로깅했으면 이제 이를 맞춤형 차트 패널로 가져올 준비가 되었습니다.
 
 <div id="create-a-query">
-  ## 쿼리 만들기
+  ## 쿼리 만들기 {#create-a-query}
 </div>
 
 쿼리는 맞춤형 차트에서 어떤 로깅된 데이터를 불러올지 지정합니다. 시각화할 데이터를 로깅한 후 프로젝트 페이지로 이동해 새 패널을 추가하려면 **`+`** 버튼을 클릭한 다음 **Custom Chart**를 선택하세요. [맞춤형 차트 데모 워크스페이스](https://app.wandb.ai/demo-team/custom-charts)에서 함께 따라 할 수 있습니다.
@@ -39,14 +39,14 @@ with wandb.init() as run:
 </Frame>
 
 <div id="add-a-query">
-  ### 쿼리 추가
+  ### 쿼리 추가 {#add-a-query}
 </div>
 
 1. `summary`를 클릭하고 `historyTable`을 선택해 run 이력에서 데이터를 가져오는 새 쿼리를 설정합니다.
 2. `wandb.Table()`을 로깅한 키를 입력합니다. 이전 코드 스니펫에서는 `custom_data_table`이었고, [예시 노트북](https://bit.ly/custom-charts-colab)에서는 키가 `pr_curve`와 `roc_curve`입니다. **`summaryTable`**, **`historyTable`**, **`tableKey`**에 대한 자세한 내용은 [GraphQL 쿼리 구축하기](/ko/models/app/features/custom-charts#build-the-graphql-query)를 참조하세요.
 
 <div id="set-vega-fields">
-  ### Vega 필드 설정
+  ### Vega 필드 설정 {#set-vega-fields}
 </div>
 
 쿼리가 준비되면 Vega 필드 드롭다운 메뉴를 사용해 로깅된 열을 chart의 시각적 인코딩에 매핑할 수 있습니다:
@@ -59,9 +59,7 @@ with wandb.init() as run:
 * **y-axis:** runSets&#95;historyTable&#95;p (정밀도)
 * **color:** runSets&#95;historyTable&#95;c (클래스 레이블)
 
-<div id="customize-the-chart">
-  ## 차트 사용자 지정하기
-</div>
+## 차트 사용자 지정하기 {#customize-the-chart}
 
 기본 시각화도 좋은 시작점이지만, Vega 사양을 편집해 차트 유형을 바꾸고 제목을 추가하며 모양을 더 세밀하게 다듬을 수 있습니다. 산점도에서 선형 플롯으로 전환하려면 **Edit**를 클릭해 이 기본 제공 차트의 Vega 사양을 변경하세요. [맞춤형 차트 데모 워크스페이스](https://app.wandb.ai/demo-team/custom-charts)에서 함께 따라 해보세요.
 
@@ -85,9 +83,7 @@ with wandb.init() as run:
   <img src="/images/app_ui/custom-charts-2.png" alt="PR 곡선 차트" />
 </Frame>
 
-<div id="bonus-composite-histograms">
-  ## 보너스: 합성 히스토그램
-</div>
+## 보너스: 합성 히스토그램 {#bonus-composite-histograms}
 
 이 섹션에서는 Vega 사양 편집에 익숙해진 후 무엇이 가능한지 보여주기 위해, 동일한 뷰에 두 분포를 겹쳐 표시하는 더 고급 맞춤형 차트인 합성 히스토그램을 구축하는 방법을 설명합니다.
 

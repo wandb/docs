@@ -28,15 +28,11 @@ Pour commencer, procédez comme suit :
 3. Consultez les [méthodes disponibles](#redaction-methods-overview) pour identifier, masquer et anonymiser les données PII.
 4. [Appliquez les méthodes aux appels Weave](#apply-the-methods-to-weave-calls).
 
-<div id="overview">
-  ## Aperçu
-</div>
+## Aperçu {#overview}
 
 La section suivante donne un aperçu de la journalisation des données d’entrée et de sortie avec `weave.op`, ainsi que des bonnes pratiques pour travailler avec des données PII dans Weave.
 
-<div id="customize-input-and-output-logging-using-weaveop">
-  ### Personnaliser la journalisation des entrées et sorties à l’aide de `weave.op`
-</div>
+### Personnaliser la journalisation des entrées et sorties à l’aide de `weave.op` {#customize-input-and-output-logging-using-weaveop}
 
 Les ops Weave vous permettent de définir des fonctions de post-traitement pour les entrées et les sorties. Avec ces fonctions, vous pouvez modifier les données transmises à votre appel LLM ou enregistrées dans Weave.
 
@@ -70,38 +66,28 @@ def some_llm_call(a: int, hide_me: str) -> CustomObject:
     return CustomObject(x=a, secret_password=hide_me)
 ```
 
-<div id="best-practices-for-weave-with-pii-data">
-  ### Bonnes pratiques pour Weave avec des données PII
-</div>
+### Bonnes pratiques pour Weave avec des données PII {#best-practices-for-weave-with-pii-data}
 
 Avant d’utiliser Weave avec des données PII, consultez les bonnes pratiques d’utilisation de Weave avec des données PII. Elles sont regroupées par étape du cycle de vie du développement, avec des recommandations supplémentaires sur le chiffrement.
 
-<div id="during-testing">
-  #### Lors des tests
-</div>
+#### Lors des tests {#during-testing}
 
 * Journalisez des données anonymisées pour vérifier la détection des PII.
 * Suivez les processus de gestion des PII avec Weave Traces.
 * Mesurez les performances de l&#39;anonymisation sans exposer de véritables PII.
 
-<div id="in-production">
-  #### En production
-</div>
+#### En production {#in-production}
 
 * Ne journalisez jamais de PII en clair.
 * Chiffrez les champs sensibles avant de les journaliser.
 
-<div id="encryption-tips">
-  #### Conseils en matière de chiffrement
-</div>
+#### Conseils en matière de chiffrement {#encryption-tips}
 
 * Utilisez un chiffrement réversible pour les données que vous devrez déchiffrer ultérieurement.
 * Utilisez un hachage à sens unique pour les ID uniques que vous n&#39;avez pas besoin de rétablir.
 * Envisagez un chiffrement spécialisé pour les données que vous devez analyser tout en restant chiffrées.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant d’appliquer l’une des méthodes de masquage, suivez les étapes de configuration ci-dessous pour installer les dépendances, configurer les clés API, initialiser votre projet Weave et charger les données d’exemple.
 
@@ -159,9 +145,7 @@ pii_data = response.json()
 print('PII data first sample: "' + pii_data[0]["text"] + '"')
 ```
 
-<div id="redaction-methods-overview">
-  ## Aperçu des méthodes de masquage
-</div>
+## Aperçu des méthodes de masquage {#redaction-methods-overview}
 
 Après avoir terminé les [prérequis](#prerequisites), vous pouvez choisir l’une des méthodes suivantes pour détecter et protéger les données PII. Chaque méthode identifie et masque les données PII et, éventuellement, les anonymise :
 
@@ -169,9 +153,7 @@ Après avoir terminé les [prérequis](#prerequisites), vous pouvez choisir l’
 2. **Microsoft [Presidio](https://microsoft.github.io/presidio/)**, un SDK Python de protection des données qui offre des fonctionnalités de masquage et de remplacement.
 3. **[Faker](https://faker.readthedocs.io/en/master/)**, une bibliothèque Python permettant de générer de fausses données.
 
-<div id="method-1-filter-using-regular-expressions">
-  ### Méthode 1 : Filtrer avec des expressions régulières
-</div>
+### Méthode 1 : Filtrer avec des expressions régulières {#method-1-filter-using-regular-expressions}
 
 Les [expressions régulières (regex)](https://docs.python.org/3/library/re.html) constituent une méthode simple pour identifier et masquer les données PII. Les regex vous permettent de définir des motifs capables de correspondre à différents formats d’informations sensibles, comme les numéros de téléphone, les adresses e-mail et les numéros de sécurité sociale. Avec les regex, vous pouvez parcourir de grands volumes de texte et remplacer ou masquer des informations sans recourir à des techniques de NLP plus complexes.
 
@@ -235,9 +217,7 @@ print(f"Raw text:\n\t{test_text}")
 print(f"Redacted text:\n\t{cleaned_text}")
 ```
 
-<div id="method-2-redact-using-microsoft-presidio">
-  ### Méthode 2 : Masquer à l’aide de Microsoft Presidio
-</div>
+### Méthode 2 : Masquer à l’aide de Microsoft Presidio {#method-2-redact-using-microsoft-presidio}
 
 La méthode suivante consiste à supprimer entièrement les données PII à l’aide de [Microsoft Presidio](https://microsoft.github.io/presidio/). Presidio masque les données PII et les remplace par un espace réservé représentant le type de PII. Par exemple, Presidio remplace `Alex` dans `"My name is Alex"` par `<PERSON>`.
 
@@ -278,9 +258,7 @@ print(f"Raw text:\n\t{text}")
 print(f"Redacted text:\n\t{anonymized_text}")
 ```
 
-<div id="method-3-anonymize-with-replacement-using-faker-and-presidio">
-  ### Méthode 3 : anonymiser par remplacement à l’aide de Faker et Presidio
-</div>
+### Méthode 3 : anonymiser par remplacement à l’aide de Faker et Presidio {#method-3-anonymize-with-replacement-using-faker-and-presidio}
 
 Au lieu de masquer le texte, vous pouvez l’anonymiser en utilisant MS Presidio pour remplacer des PII, comme des noms et des numéros de téléphone, par des données factices générées par la bibliothèque Python [Faker](https://faker.readthedocs.io/en/master/). Par exemple, supposons que vous disposiez des données suivantes :
 
@@ -394,9 +372,7 @@ print(f"Raw text:\n\t{text_to_anonymize}")
 print(f"Anonymized text:\n\t{anonymized_text}")
 ```
 
-<div id="method-4-use-autopatch_settings">
-  ### Méthode 4 : Utiliser `autopatch_settings`
-</div>
+### Méthode 4 : Utiliser `autopatch_settings` {#method-4-use-autopatch_settings}
 
 Vous pouvez utiliser `autopatch_settings` pour configurer la gestion des PII directement lors de l&#39;initialisation pour une ou plusieurs intégrations LLM prises en charge. W&amp;B recommande cette approche lorsque vous souhaitez une gestion centralisée des PII sur tous les appels d&#39;une intégration donnée. Les avantages de cette méthode sont les suivants :
 
@@ -431,9 +407,7 @@ client = weave.init(
 )
 ```
 
-<div id="apply-the-methods-to-weave-calls">
-  ## Appliquer les méthodes aux appels Weave
-</div>
+## Appliquer les méthodes aux appels Weave {#apply-the-methods-to-weave-calls}
 
 Maintenant que vous avez vu chaque méthode de masquage prise isolément, les exemples suivants montrent comment les intégrer à Weave Models et comment prévisualiser les résultats dans Weave Traces.
 
@@ -443,9 +417,7 @@ Le modèle inclut une fonction `predict` dans laquelle l&#39;API Anthropic est a
 
 Une fois ce code exécuté, vous obtenez des liens vers la page du projet Weave, ainsi que vers la trace spécifique correspondant aux appels LLM que vous avez exécutés. Utilisez ces liens pour vérifier que les fonctions de post-traitement ont masqué ou anonymisé les données d&#39;entrée comme prévu avant qu&#39;elles n&#39;atteignent le LLM.
 
-<div id="regex-method">
-  ### Méthode regex
-</div>
+### Méthode regex {#regex-method}
 
 Pour commencer, vous pouvez utiliser des regex pour identifier et masquer les données PII dans le texte original.
 
@@ -503,9 +475,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="presidio-redaction-method">
-  ### Méthode de masquage avec Presidio
-</div>
+### Méthode de masquage avec Presidio {#presidio-redaction-method}
 
 Ensuite, utilisez Presidio pour identifier et masquer les données PII dans le texte original.
 
@@ -564,9 +534,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="faker-and-presidio-replacement-method">
-  ### Méthode de remplacement avec Faker et Presidio
-</div>
+### Méthode de remplacement avec Faker et Presidio {#faker-and-presidio-replacement-method}
 
 Dans cet exemple, vous utilisez Faker pour générer des données PII de remplacement anonymisées, puis Presidio pour identifier et remplacer les données PII dans le texte d’origine.
 
@@ -627,9 +595,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="autopatch_settings-method">
-  ### méthode `autopatch_settings`
-</div>
+### méthode `autopatch_settings` {#autopatch_settings-method}
 
 Dans l&#39;exemple suivant, `postprocess_inputs` pour `anthropic` est défini avec la fonction `postprocess_inputs_regex()` lors de l&#39;initialisation. La fonction `postprocess_inputs_regex` applique la méthode `redact_with_regex` définie dans [Méthode 1 : Filtrage à l&#39;aide d&#39;expressions régulières](#method-1-filter-using-regular-expressions). Par conséquent, `redact_with_regex` est appliquée à toutes les entrées de tous les modèles `anthropic`.
 
@@ -692,9 +658,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="optional-encrypt-your-data">
-  ### Facultatif : Chiffrez vos données
-</div>
+### Facultatif : Chiffrez vos données {#optional-encrypt-your-data}
 
 <Frame>
   ![Processus de chiffrement des données PII avec sortie de texte chiffré et gestion de la clé de chiffrement](/media/pii/encrypt.png)

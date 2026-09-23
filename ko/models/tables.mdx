@@ -25,15 +25,11 @@ W&amp;B Tables를 사용해 표 형식 데이터를 시각화하고 쿼리할 �
 
 위 이미지는 시맨틱 세그멘테이션과 사용자 정의 메트릭이 포함된 Table을 보여줍니다. 이 Table은 [W&amp;B ML Course의 샘플 프로젝트](https://wandb.ai/av-team/mlops-course-001)에서 확인할 수 있습니다.
 
-<div id="how-it-works">
-  ## 동작 방식
-</div>
+## 동작 방식 {#how-it-works}
 
 Table은 각 열(column)이 하나의 데이터 타입만 갖는 2차원 데이터 그리드입니다. Table은 원시 타입과 수치 타입뿐 아니라 중첩 리스트, 딕셔너리, 리치 미디어 타입도 지원합니다.
 
-<div id="log-a-table">
-  ## Table 로그하기
-</div>
+## Table 로그하기 {#log-a-table}
 
 몇 줄의 코드로 테이블을 로그합니다:
 
@@ -51,9 +47,7 @@ with wandb.init(project="table-test") as run:
     run.log({"Table Name": my_table})
 ```
 
-<div id="how-to-get-started">
-  ## 시작하기
-</div>
+## 시작하기 {#how-to-get-started}
 
 * [빠른 시작](/ko/models/tables/tables-walkthrough/): 데이터 테이블을 로깅하고, 데이터를 시각화하며, 데이터를 쿼리하는 방법을 알아봅니다.
 * [Tables 갤러리](/ko/models/tables/tables-gallery/): Tables 활용 예시를 확인합니다.

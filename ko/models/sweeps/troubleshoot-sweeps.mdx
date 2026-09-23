@@ -5,9 +5,7 @@ title: 스윕 문제 해결
 
 이 페이지에서는 W&amp;B 스윕를 실행할 때 발생할 수 있는 일반적인 오류 메시지를 진단하고 해결하는 방법을 안내합니다. 다음 섹션에서는 각 오류가 무엇인지, 왜 발생하는지, 그리고 해결 방법을 설명합니다.
 
-<div id="commerror-run-does-not-exist-and-error-error-uploading">
-  ## `CommError, Run does not exist` 및 `ERROR Error uploading`
-</div>
+## `CommError, Run does not exist` 및 `ERROR Error uploading` {#commerror-run-does-not-exist-and-error-error-uploading}
 
 W&amp;B에서 이 두 오류 메시지를 모두 반환하면 W&amp;B run ID가 설정되어 있을 수 있습니다. 예를 들어 Jupyter Notebook이나 Python 스크립트 어딘가에 다음과 비슷한 코드 스니펫이 정의되어 있을 수 있습니다:
 
@@ -27,9 +25,7 @@ wandb.init(name="a helpful readable run name")
 
 `wandb.init()`에서 `id` 인수를 제거하면 스윕이 자체적으로 고유한 run ID를 부여할 수 있게 되고, 업로드 오류도 발생하지 않게 됩니다.
 
-<div id="cuda-out-of-memory">
-  ## `CUDA out of memory`
-</div>
+## `CUDA out of memory` {#cuda-out-of-memory}
 
 이 오류 메시지가 표시되면 코드를 프로세스 기반으로 실행하도록 리팩터링하세요. 각 trial을 별도 프로세스에서 실행하면 W&amp;B가 run 사이에 GPU 메모리를 해제합니다.
 
@@ -72,9 +68,7 @@ wandb.init(name="a helpful readable run name")
 
 트레이닝 코드가 CLI 에이전트 아래에서 스크립트로 실행되면 각 trial이 별도 프로세스에서 실행되므로, W&amp;B가 run 사이에 GPU 메모리를 해제합니다.
 
-<div id="anaconda-400-error">
-  ## `anaconda 400 error`
-</div>
+## `anaconda 400 error` {#anaconda-400-error}
 
 다음 오류는 일반적으로 최적화하려는 메트릭을 로깅하지 않았을 때 발생합니다:
 

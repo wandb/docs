@@ -13,9 +13,7 @@ description: "wandb.init() を使用して W&B run を初期化し、実験の�
   W&amp;B では、`wandb.init()` を呼び出す際にコンテキストマネージャー (`with` ブロック) を使用することを推奨しています。これにより、ブロックの終了時に W&amp;B が run を終了し、そのデータをアップロードします。
 </Note>
 
-<div id="single-run-per-process">
-  ## プロセスごとに 1 つの run
-</div>
+## プロセスごとに 1 つの run {#single-run-per-process}
 
 次の例では、run を初期化します。
 
@@ -36,9 +34,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 
 この例では、W&amp;B は `nico` entity の `awesome-project` project に run `exalted-darkness-6` をログします。W&amp;B はこの run に一意の ID `pgbn9y21` を割り当てます。
 
-<div id="multiple-runs-in-one-process">
-  ## 1 つのプロセス内で複数の run を扱う
-</div>
+## 1 つのプロセス内で複数の run を扱う {#multiple-runs-in-one-process}
 
 `wandb.init()` または `wandb.Settings` の `reinit` パラメーターを使用して、1 つの Python プロセス内で複数の run を管理します。たとえば、プライマリ run をアクティブなまま維持しながら、ほかのタスク用に短時間で終了するセカンダリ run を作成できます。
 
@@ -54,9 +50,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
   1 つの Python プロセス内で複数の run を管理するには、W&amp;B Python SDK バージョン `v0.19.10` 以降が必要です。
 </Note>
 
-<div id="reinit-options">
-  ### `reinit` オプション
-</div>
+### `reinit` オプション {#reinit-options}
 
 `reinit` パラメーターを使用すると、別の run がアクティブな状態で `wandb.init()` を呼び出したときの動作を制御できます。次の表では、利用可能なオプションと一般的なユースケースを比較します。パラメーターの完全な定義については、[`wandb.init()` のリファレンスドキュメント](/ja/models/ref/python/functions/init)を参照してください。
 
@@ -70,9 +64,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
   W&amp;B は、Hugging Face Trainer、Keras コールバック、PyTorch Lightning など、単一のグローバル run を前提とする[W&amp;B インテグレーション](/ja/models/integrations)では `create_new` モードをサポートしていません。これらのインテグレーションを使用する場合は、各サブ実験を個別のプロセスで実行してください。
 </Note>
 
-<div id="configure-reinit">
-  ### `reinit` を設定する
-</div>
+### `reinit` を設定する {#configure-reinit}
 
 * `reinit` 引数を指定して、`wandb.init()` を直接使用します。
   ```python
@@ -125,9 +117,7 @@ with wandb.init() as experiment_results_run:
          experiment_results_run.log(experiment_results)
 ```
 
-<div id="example-concurrent-processes">
-  ### 例: 並行プロセス
-</div>
+### 例: 並行プロセス {#example-concurrent-processes}
 
 スクリプトの実行中ずっと開いたままのプライマリプロセスを維持しつつ、そのプライマリプロセスを終了せずに、短命なセカンダリプロセスを定期的に生成したいとします。たとえばこのパターンは、プライマリ run でモデルをトレーニングしながら、評価の計算やその他の処理を別の run で行いたい場合に役立ちます。
 

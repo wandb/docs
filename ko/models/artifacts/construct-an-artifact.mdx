@@ -7,9 +7,7 @@ W&amp;B Python SDK를 사용해 [W&amp;B Runs](/ko/models/ref/python/experiments
 
 Amazon S3에 저장된 파일과 같은 외부 파일을 추적하는 방법에 대한 자세한 내용은 [외부 파일 추적](./track-external-files) 페이지를 참조하세요.
 
-<div id="construct-an-artifact">
-  ## 아티팩트 생성
-</div>
+## 아티팩트 생성 {#construct-an-artifact}
 
 [W&amp;B Artifact](/ko/models/ref/python/experiments/artifact)를 다음 세 단계로 생성합니다:
 
@@ -17,9 +15,7 @@ Amazon S3에 저장된 파일과 같은 외부 파일을 추적하는 방법에 
 2. [아티팩트에 하나 이상의 파일 추가](/ko/models/artifacts/construct-an-artifact#add-one-or-more-files-to-the-artifact)
 3. [아티팩트를 W&amp;B 서버에 저장](/ko/models/artifacts/construct-an-artifact#save-your-artifact-to-the-w\&b-server)
 
-<div id="create-an-artifact-python-object-with-wandbartifact">
-  ### `wandb.Artifact()`로 아티팩트 Python 객체 생성하기
-</div>
+### `wandb.Artifact()`로 아티팩트 Python 객체 생성하기 {#create-an-artifact-python-object-with-wandbartifact}
 
 아티팩트 객체를 만들려면 [`wandb.Artifact()`](/ko/models/ref/python/experiments/artifact) 클래스를 초기화하세요. 다음 Parameter를 지정합니다.
 
@@ -65,9 +61,7 @@ artifact = wandb.Artifact(
 
 사용 가능한 속성 및 Parameter에 대한 자세한 내용은 Python SDK 레퍼런스 가이드의 [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact) 클래스 정의를 참조하세요.
 
-<div id="add-one-or-more-files-to-the-artifact">
-  ### 아티팩트에 하나 이상의 파일 추가
-</div>
+### 아티팩트에 하나 이상의 파일 추가 {#add-one-or-more-files-to-the-artifact}
 
 [파일, 디렉터리, 외부 URI 레퍼런스(Amazon S3 등) 등을 추가](/ko/models/artifacts/construct-an-artifact#add-files-to-an-artifact)하여 아티팩트 객체에 넣습니다.
 
@@ -85,9 +79,7 @@ artifact.add_dir(local_path="path/to/directory", name="artifact-name")
 
 아티팩트에 다양한 유형의 파일을 추가하는 방법에 대한 자세한 내용은 다음 섹션 [아티팩트에 파일 추가](/ko/models/artifacts/construct-an-artifact#add-files-to-an-artifact)을 참조하세요.
 
-<div id="save-your-artifact-to-the-wb-server">
-  ### 아티팩트를 W&amp;B 서버에 저장하기
-</div>
+### 아티팩트를 W&amp;B 서버에 저장하기 {#save-your-artifact-to-the-wb-server}
 
 아티팩트를 W&amp;B 서버에 저장합니다. 아티팩트를 저장하려면 run 객체의 [`wandb.Run.log_artifact()`](/ko/models/ref/python/experiments/run#log_artifact) 방법을 사용하세요.
 
@@ -137,9 +129,7 @@ with wandb.init(project="<project>", job_type="<job-type>") as run:
   아티팩트가 임의의 순서로 로깅될 수 있으므로, 아티팩트 버전 **v0**의 메타데이터에 있는 index가 0이 아닐 수도 있습니다.
 </Warning>
 
-<div id="add-files-to-an-artifact">
-  ## 아티팩트에 파일 추가
-</div>
+## 아티팩트에 파일 추가 {#add-files-to-an-artifact}
 
 다음 섹션에서는 아티팩트에 여러 유형의 객체를 추가하는 방법을 설명합니다. 예제를 읽어 나가기 전에, 다음과 같은 구조의 디렉터리가 있다고 가정합니다:
 
@@ -155,9 +145,7 @@ root-directory
 | -- | model.h5
 ```
 
-<div id="add-a-single-file">
-  ### 단일 파일 추가
-</div>
+### 단일 파일 추가 {#add-a-single-file}
 
 아티팩트에 로컬 단일 파일 하나를 추가하려면 [`wandb.Artifact.add_file()`](/ko/models/ref/python/experiments/artifact#method-artifact-add-file)을 사용합니다. 파일의 로컬 경로를 `local_path` 매개변수로 지정합니다:
 
@@ -207,9 +195,7 @@ new/path/hello_world.txt
 | `artifact.add_file('checkpoints/model.h5')`               | `model.h5`          |
 | `artifact.add_file('model.h5', name='models/mymodel.h5')` | `models/mymodel.h5` |
 
-<div id="add-multiple-files">
-  ### 여러 파일 추가
-</div>
+### 여러 파일 추가 {#add-multiple-files}
 
 로컬 디렉터리의 여러 파일을 아티팩트에 추가하려면 [`wandb.Artifact.add_dir()`](/ko/models/ref/python/experiments/artifact#method-artifact-add-dir) 방법을 사용하세요. `local_path` Parameter로 디렉터리의 로컬 경로를 지정하세요.
 
@@ -230,9 +216,7 @@ artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 | `artifact.add_dir('images')`                | <p><code>cat.png</code></p><p><code>dog.png</code></p>               |
 | `artifact.add_dir('images', name='images')` | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
 
-<div id="add-a-uri-reference">
-  ### URI 레퍼런스 추가
-</div>
+### URI 레퍼런스 추가 {#add-a-uri-reference}
 
 URI에 W&amp;B 라이브러리가 지원하는 스킴이 있으면, 아티팩트는 재현성을 위해 체크섬과 기타 정보를 추적합니다.
 
@@ -259,9 +243,7 @@ artifact.add_reference(uri="uri", name="optional-name")
 | `artifact.add_reference('s3://my-bucket/images')`                             | <p><code>cat.png</code></p><p><code>dog.png</code></p>               |
 | `artifact.add_reference('s3://my-bucket/images', name='images')`              | <p><code>images/cat.png</code></p><p><code>images/dog.png</code></p> |
 
-<div id="add-files-to-artifacts-from-parallel-runs">
-  ### 병렬 run에서 아티팩트에 파일 추가하기
-</div>
+### 병렬 run에서 아티팩트에 파일 추가하기 {#add-files-to-artifacts-from-parallel-runs}
 
 대규모 데이터셋을 다루거나 분산 트레이닝을 수행하는 경우, 여러 병렬 run이 하나의 아티팩트에 기여해야 할 수 있습니다.
 
@@ -324,9 +306,7 @@ with wandb.init(group=group_name) as run:
     run.finish_artifact(artifact)
 ```
 
-<div id="find-path-for-logged-artifacts-and-other-metadata">
-  ## 로깅된 아티팩트 및 기타 메타데이터의 경로 찾기
-</div>
+## 로깅된 아티팩트 및 기타 메타데이터의 경로 찾기 {#find-path-for-logged-artifacts-and-other-metadata}
 
 다음 코드 스니펫은 [W&amp;B Public API](/ko/models/ref/python/public-api/)를 사용해 run에 있는 파일의 목록(이름과 URL 포함)을 확인하는 방법을 보여줍니다. `<entity/project/run-id>` 자리표시자를 자신의 값으로 바꾸세요:
 

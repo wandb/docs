@@ -6,9 +6,7 @@ keywords: ["Ops", "Calls", "Traces", "Threads", "OpenTelemetry"]
 
 W&amp;B Weave のトレースシステムは、Ops、Call、トレース、スレッド という相互に関連する 4 つの概念に基づいています。このページでは、各概念を定義し、それらの関係を説明します。これにより、アプリケーションをインストルメント化して実行したときに Weave が何を取得するのかを理解できます。
 
-<div id="ops">
-  ## Ops
-</div>
+## Ops {#ops}
 
 **Op** は、バージョン管理され、トラッキングされる関数です。関数を `@weave.op()` (Python) でデコレートするか、`weave.op()` (TypeScript) でラップすると、Weave はそのコード、入力、出力、実行メタデータを自動的に取得します。Ops は、トレース、評価スコアラー、およびトラッキング対象のあらゆる計算の基本構成要素です。
 
@@ -29,9 +27,7 @@ W&amp;B Weave のトレースシステムは、Ops、Call、トレース、ス�
   ```
 </CodeGroup>
 
-<div id="calls">
-  ## Calls
-</div>
+## Calls {#calls}
 
 **Call** は、Op の実行をログしたものです。Op が実行されるたびに、Weave は次の情報を記録する Call を作成します。
 
@@ -48,15 +44,11 @@ Call は、[OpenTelemetry](https://opentelemetry.io) のデータモデルにお
 * 同じ実行コンテキスト内にある複数の Call の collection である トレース に属する。
 * 親 Call と子 Call を持ち、ツリー構造を形成する。
 
-<div id="traces">
-  ## トレース
-</div>
+## トレース {#traces}
 
 トレースは、同じ実行コンテキストを共有する Call の完全なツリー構造です。各トレースには ID (`trace_id`) が含まれており、これを使用して Call ツリー全体を取得できます。Call の情報を Call の ID を使用して取得した場合、Weave は指定した Call に関するデータのみを返し、その子 Call のデータは含まれません。
 
-<div id="threads">
-  ## スレッド
-</div>
+## スレッド {#threads}
 
 スレッドは、1 つのセッションまたは会話に関連するトレースのコレクションです。スレッド を使用すると、個々の Call ではなく、会話全体を分析したり、スコアを付けたりできます。
 

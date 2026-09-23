@@ -9,9 +9,7 @@ import ByobReferenceSetup from "/snippets/ja/_includes/byob-reference-setup.mdx"
 
 <ByobReferenceSetup />
 
-<div id="log-a-media-reference-using-agent-spans">
-  ## エージェント スパンを使用してメディア参照をログする
-</div>
+## エージェント スパンを使用してメディア参照をログする {#log-a-media-reference-using-agent-spans}
 
 エージェント ツールの結果としてバケット URI を返すと、Weave はその URI を、生成元の tool call の **Agents** ビューにインライン表示します。次の例では、会話、ターン、ツール スパンを開始し、ツールの結果としてバケット URI を設定します。[YOUR-TEAM]、[YOUR-PROJECT]、[YOUR-BUCKET] はご自身の値に置き換えてください。
 
@@ -69,9 +67,7 @@ import ByobReferenceSetup from "/snippets/ja/_includes/byob-reference-setup.mdx"
   この例では Weave のエージェント スパンを使用しています。LLM calls や完全なエージェント ループを含むマルチターンのセットアップ全体については、[カスタム エージェントのクイックスタート](/ja/weave/custom-agents-quickstart)を参照してください。
 </Note>
 
-<div id="view-the-reference-in-weave-agents">
-  ## Weave Agents で参照を表示する
-</div>
+## Weave Agents で参照を表示する {#view-the-reference-in-weave-agents}
 
 `weave.init()` が出力するリンクから会話を開きます。参照先の画像または動画は、URI を返した tool call の **Agents** ビュー内にインラインで表示されます。Weave が URI を解決できない場合 (たとえば、オブジェクト が存在しない、または バケット が登録されていない場合) 、URI 文字列がそのまま表示されます。
 

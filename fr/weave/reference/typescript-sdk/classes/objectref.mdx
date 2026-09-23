@@ -14,9 +14,7 @@ En général, les utilisateurs finaux n’auront pas besoin d’interagir direct
 Un ObjectRef contient l’ID du projet, l’ID de l’objet et le digest qui identifient de manière unique
 un objet enregistré dans le système de stockage de Weave.
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 ```ts twoslash
 // @noErrors
@@ -24,15 +22,11 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="constructor">
-  ## Constructeur
-</div>
+## Constructeur {#constructor}
 
 > **new ObjectRef**(`projectId`, `objectId`, `digest`) : `ObjectRef`
 
-<div id="parameters">
-  ### Paramètres
-</div>
+### Paramètres {#parameters}
 
 <ParamField path="projectId" type="string" required />
 
@@ -40,115 +34,81 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 <ParamField path="digest" type="string" required />
 
-<div id="returns">
-  ### Renvoie
-</div>
+### Renvoie {#returns}
 
 `ObjectRef`
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="digest">
-  ### digest
-</div>
+### digest {#digest}
 
 > **digest** : `string`
 
 ***
 
-<div id="objectid">
-  ### objectId
-</div>
+### objectId {#objectid}
 
 > **objectId** : `string`
 
 ***
 
-<div id="projectid">
-  ### projectId
-</div>
+### projectId {#projectid}
 
 > **projectId** : `string`
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="get">
-  ### get()
-</div>
+### get() {#get}
 
 > **get**(): `Promise`&lt;`any`&gt;
 
-<div id="returns-2">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-2}
 
 `Promise`&lt;`any`&gt;
 
-<div id="ui_url">
-  ### ui_url()
-</div>
+### ui_url() {#ui_url}
 
 > **ui&#95;url**(): `string`
 
-<div id="returns-3">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-3}
 
 `string`
 
 ***
 
-<div id="uri">
-  ### uri()
-</div>
+### uri() {#uri}
 
 > **uri**(): `string`
 
-<div id="returns-4">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-4}
 
 `string`
 
 ***
 
-<div id="fromuri">
-  ### fromUri()
-</div>
+### fromUri() {#fromuri}
 
 > `static` **fromUri**(`uri`): `ObjectRef`
 
 Crée un ObjectRef à partir d&#39;une chaîne d&#39;URI Weave.
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="uri" type="string" required>
   Une URI Weave au format : weave:///entity/project/object/name:digest
 </ParamField>
 
-<div id="returns-5">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-5}
 
 `ObjectRef`
 
 Une nouvelle instance d&#39;ObjectRef
 
-<div id="throws">
-  #### Lève
-</div>
+#### Lève {#throws}
 
 Une erreur si le format de l&#39;URI est invalide ou ne correspond pas à une réf. d&#39;objet
 
-<div id="example-2">
-  #### Exemple
-</div>
+#### Exemple {#example-2}
 
 ```ts twoslash
 // @noErrors

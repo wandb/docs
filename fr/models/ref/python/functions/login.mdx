@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py#L20" />
 
-<div id="function-wandblogin">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.login()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.login() {#function-wandblogin}
 
 Connectez-vous à W&amp;B.
 
@@ -44,9 +42,7 @@ prompt: 'bool' = True,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="key" type="str | None">
   La clé API à utiliser.
@@ -84,15 +80,11 @@ anonymous: 'DoNotSet' = DoNotSet
   Aucune description fournie.
 </ResponseField>
 
-<div id="returns">
-  ## Renvoie
-</div>
+## Renvoie {#returns}
 
 True si la session dispose d&#39;identifiants d&#39;authentification après cet appel.
 
-<div id="raises">
-  ## Exceptions levées
-</div>
+## Exceptions levées {#raises}
 
 * `AuthenticationError`: Si les identifiants d’authentification échouent à la vérification auprès du serveur.
 * `UsageError`: Si aucun identifiant d’authentification n&#39;est configuré, que `prompt` vaut True et qu&#39;aucun terminal n&#39;est disponible pour demander une clé API.

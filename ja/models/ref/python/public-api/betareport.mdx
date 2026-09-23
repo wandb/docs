@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py#L170" />
 
-<div id="class-wandbapispublicbetareport">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.BetaReport
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.BetaReport {#class-wandbapispublicbetareport}
 
 BetaReport は、W&amp;B で作成された Reports に関連付けられたクラスです。
 
@@ -23,9 +21,7 @@ entity: 'str | None' = None,
 project: 'str | None' = None)
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   説明はありません。
@@ -43,9 +39,7 @@ project: 'str | None' = None)
   説明はありません。
 </ResponseField>
 
-<div id="attributes">
-  ## 属性
-</div>
+## 属性 {#attributes}
 
 * `id` (`string`): report の一意の ID。
 * `display_name` (`string`): report の人が読める表示名。
@@ -57,9 +51,7 @@ project: 'str | None' = None)
 * `updated_at` (`string`): 最終更新のタイムスタンプ。
 * `created_at` (`string`): report が作成された日時のタイムスタンプ。
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="created_at" type="">
   説明はありません。
@@ -101,13 +93,9 @@ project: 'str | None' = None)
   説明はありません。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-betareportruns">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.runs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.runs() {#method-betareportruns}
 
 ```python
 self,
@@ -118,9 +106,7 @@ only_selected: 'bool' = True
 
 reportのセクションに関連付けられたrunを取得します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="section" type="dict[str, Any]">
   説明は提供されていません。
@@ -134,9 +120,7 @@ reportのセクションに関連付けられたrunを取得します。
   説明は提供されていません。
 </ResponseField>
 
-<div id="method-betareportto_html">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.to_html()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> BetaReport.to_html() {#method-betareportto_html}
 
 ```python
 self,
@@ -146,9 +130,7 @@ hidden: 'bool' = False
 
 このreportを表示するためのiframeを含むHTMLを生成します。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="height" type="int">
   説明はありません。

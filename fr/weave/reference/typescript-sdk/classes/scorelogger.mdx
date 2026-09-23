@@ -10,9 +10,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 ScoreLogger gère l’attribution d’un score à une seule prédiction.
 Renvoyé par EvaluationLogger.logPrediction().
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 ```ts twoslash
 // @noErrors
@@ -22,56 +20,38 @@ await pred.logScore("relevance", 0.8);
 await pred.finish(); // Finalise la prédiction
 ```
 
-<div id="constructor">
-  ## Constructeur
-</div>
+## Constructeur {#constructor}
 
 > **new ScoreLogger**(`evalLogger`) : `ScoreLogger`
 
-<div id="parameters">
-  ### Paramètres
-</div>
+### Paramètres {#parameters}
 
 <ParamField path="evalLogger" type="EvaluationLogger" required>
   Voir [`EvaluationLogger`](./evaluationlogger).
 </ParamField>
 
-<div id="returns">
-  ### Renvoie
-</div>
+### Renvoie {#returns}
 
 `ScoreLogger`
 
-<div id="accessors">
-  ## Accesseurs
-</div>
+## Accesseurs {#accessors}
 
-<div id="isfinishcalled">
-  ### isFinishCalled
-</div>
+### isFinishCalled {#isfinishcalled}
 
-<div id="get-signature">
-  #### Signature d’obtention
-</div>
+#### Signature d’obtention {#get-signature}
 
 > **get** **isFinishCalled**(): `boolean`
 
 Vérifie si finish() a été appelé.
 Utilisé par EvaluationLogger pour détecter les prédictions non finalisées.
 
-<div id="returns-2">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-2}
 
 `boolean`
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="finish">
-  ### finish()
-</div>
+### finish() {#finish}
 
 > **finish**(): `Promise`&lt;`void`&gt;
 
@@ -79,26 +59,20 @@ Termine le processus d’attribution d’un score de la prédiction.
 Finalise l’appel `predict_and_score` avec les scores accumulés.
 Met à jour les agrégats incrémentiels et libère la mémoire.
 
-<div id="returns-3">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-3}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="logscore">
-  ### logScore()
-</div>
+### logScore() {#logscore}
 
 > **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
 Journalisez un score pour cette prédiction.
 Crée un appel de scorer enfant de predict&#95;and&#95;score.
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="scorerName" type="string" required>
   Nom du scorer (par exemple : &quot;accuracy&quot;, &quot;f1&#95;score&quot;)
@@ -108,8 +82,6 @@ Crée un appel de scorer enfant de predict&#95;and&#95;score.
   La valeur du score
 </ParamField>
 
-<div id="returns-4">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-4}
 
 `Promise`&lt;`void`&gt;

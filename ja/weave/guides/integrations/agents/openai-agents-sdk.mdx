@@ -7,17 +7,13 @@ import AgentsViewTraces from '/snippets/ja/_includes/agents-view-traces.mdx';
 
 OpenAI Agents SDK は、OpenAI の API 上でエージェントやマルチエージェント ワークフローを構築するための軽量なフレームワークです。Weave は、OpenAI Agents SDK で構築されたエージェントを自動的にトレースし、各エージェントの呼び出し、サブエージェントへのハンドオフ、モデルの Call、ツール呼び出しを含むデータを取得します。Weave は、取得したデータを project の **Agents** ビューに表示します。
 
-<div id="trace-openai-agents-sdk-agents-with-weave">
-  ## OpenAI Agents SDK のエージェントを Weave でトレースする
-</div>
+## OpenAI Agents SDK のエージェントを Weave でトレースする {#trace-openai-agents-sdk-agents-with-weave}
 
 <Tabs>
   <Tab title="Python">
     Weave SDK は [OpenAI Agents SDK for Python](https://github.com/openai/openai-agents-python) に自動でパッチを適用するため、最小限の設定でエージェントのトレースを取得できます。このガイドでは、Weave を初期化したうえで、OpenAI Agents SDK で構築したマルチターンのリサーチエージェントを実行し、セッション全体を通じて発生するすべてのエージェント呼び出し、Call、ツール呼び出しを Weave で取得する方法を説明します。
 
-    <div id="prerequisites">
-      ### 前提条件
-    </div>
+### 前提条件 {#prerequisites}
 
     開始する前に、以下を用意してください。
 
@@ -29,9 +25,7 @@ OpenAI Agents SDK は、OpenAI の API 上でエージェントやマルチエ�
   <Tab title="TypeScript">
     Weave は [OpenAI Agents Node SDK](https://github.com/openai/openai-agents-js) (`@openai/agents`) と連携し、エージェントの run を自動的にトレースします。`@openai/agents` バージョン `0.4.15` 以降が必要です。
 
-    <div id="prerequisites-2">
-      ### 前提条件
-    </div>
+### 前提条件 {#prerequisites-2}
 
     開始する前に、以下を用意してください。
 
@@ -41,9 +35,7 @@ OpenAI Agents SDK は、OpenAI の API 上でエージェントやマルチエ�
   </Tab>
 </Tabs>
 
-<div id="install-packages">
-  ### パッケージをインストールする
-</div>
+### パッケージをインストールする {#install-packages}
 
 スクリプトで Weave と SDK を利用できるように、開発環境に次のパッケージをインストールします。
 
@@ -58,7 +50,7 @@ OpenAI Agents SDK は、OpenAI の API 上でエージェントやマルチエ�
 </CodeGroup>
 
 <div id="initialize-weave-in-your-code">
-  ### コードで Weave を初期化する
+  ### コードで Weave を初期化する {#initialize-weave-in-your-code}
 </div>
 
 <Tabs>
@@ -195,9 +187,7 @@ OpenAI Agents SDK は、OpenAI の API 上でエージェントやマルチエ�
     node --import=weave/instrument main.mjs
     ```
 
-    <div id="manual-instrumentation">
-      ### 手動インストルメンテーション
-    </div>
+### 手動インストルメンテーション {#manual-instrumentation}
 
     手動インストルメンテーションが必要になるのは、モジュールローダーフックを実行できない場合に限られます。たとえば、バンドラーが依存関係を単一ファイルにまとめる場合、Node の CLI フラグをサポートしない環境の場合、またはローダーフックを回避する動的モジュール読み込みパターンを使用する場合などが該当します。
 

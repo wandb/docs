@@ -7,9 +7,7 @@ keywords: ["메트릭", "Experiments"]
 
 다음 step에 따라 로깅 부하를 줄이고 스로틀링된 데이터를 복구하세요.
 
-<div id="stay-under-the-rate-limit">
-  ## 요청 속도 제한을 넘지 않기
-</div>
+## 요청 속도 제한을 넘지 않기 {#stay-under-the-rate-limit}
 
 1. **W&amp;B SDK를 업데이트하세요**: 최신 버전에는 요청 재시도와 할당량 사용을 더 효율적으로 관리하는 메커니즘이 포함되어 있습니다.
 
@@ -31,9 +29,7 @@ keywords: ["메트릭", "Experiments"]
    wandb sync [RUN-FILE-PATH]
    ```
 
-<div id="rate-limit-headers">
-  ## 요청 속도 제한 헤더
-</div>
+## 요청 속도 제한 헤더 {#rate-limit-headers}
 
 할당량에 얼마나 근접했는지와 언제 로깅을 재개할 수 있는지 파악하려면 응답의 요청 속도 제한 헤더를 확인하세요. 요청 속도 제한에 걸리면 응답에 다음 헤더가 포함됩니다:
 

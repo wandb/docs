@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/custom_chart.py#L76" />
 
-<div id="function-wandbplotplot_table">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.plot_table()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.plot_table() {#function-wandbplotplot_table}
 
 Vega-Lite 仕様と `wandb.Table` を使用してカスタム チャートを作成します。
 
@@ -24,9 +22,7 @@ string_fields: 'dict[str, Any] | None' = None,
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="vega_spec_name" type="str">
   可視化の構造を定義する Vega-Lite spec の名前または識別子。
@@ -48,21 +44,15 @@ split_table: 'bool' = False
   表を W&amp;B UI の別セクションに分割するかどうか。`True` の場合、表は「Custom Chart Tables」というセクションに表示されます。デフォルトは `False` です。
 </ResponseField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `CustomChart`: W&amp;B にログできるカスタム チャートオブジェクト。チャートをログするには、チャートオブジェクトを引数として `wandb.Run.log()` に渡します。
 
-<div id="raises">
-  ## Raises
-</div>
+## Raises {#raises}
 
 * `wandb.Error`: `data_table` が `wandb.Table` オブジェクトではない場合。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```python
 # Vega-Lite の spec とデータ表を使用してカスタム チャートを作成します。

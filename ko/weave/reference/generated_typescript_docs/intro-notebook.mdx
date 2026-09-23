@@ -2,9 +2,7 @@
 title: 입문 노트북
 ---
 
-<div id="weave-with-typescript-quickstart-guide">
-  # TypeScript용 Weave 퀵스타트 가이드
-</div>
+# TypeScript용 Weave 퀵스타트 가이드 {#weave-with-typescript-quickstart-guide}
 
 W&amp;B Weave를 TypeScript와 함께 사용해 다음을 수행할 수 있습니다:
 
@@ -14,9 +12,7 @@ W&amp;B Weave를 TypeScript와 함께 사용해 다음을 수행할 수 있습�
 
 자세한 내용은 [Weave 문서](/ko/)를 참조하세요.
 
-<div id="function-tracking">
-  ## 함수 추적
-</div>
+## 함수 추적 {#function-tracking}
 
 TypeScript 코드에서 Weave를 사용하려면 새 Weave 프로젝트를 초기화하고 추적하려는 함수에 `weave.op` 래퍼를 추가하세요.
 
@@ -46,9 +42,7 @@ async function demonstrateBasicTracking() {
 }
 ```
 
-<div id="openai-integration">
-  ## OpenAI 인테그레이션
-</div>
+## OpenAI 인테그레이션 {#openai-integration}
 
 Weave는 다음을 포함한 모든 OpenAI 호출을 자동으로 추적합니다.
 
@@ -80,9 +74,7 @@ async function demonstrateOpenAITracking() {
 }
 ```
 
-<div id="nested-function-tracking">
-  ## 중첩 함수 추적
-</div>
+## 중첩 함수 추적 {#nested-function-tracking}
 
 Weave를 사용하면 여러 추적된 함수와 LLM 호출을 조합해 복잡한 워크플로를 추적하면서도
 전체 실행 트레이스를 유지할 수 있습니다. 장점은 다음과 같습니다:
@@ -116,9 +108,7 @@ async function demonstrateNestedTracking() {
 }
 ```
 
-<div id="dataset-management">
-  ## 데이터셋 관리
-</div>
+## 데이터셋 관리 {#dataset-management}
 
 [`weave.Dataset`](/ko/weave/guides/core-types/datasets) 클래스를 사용하면 Weave로 데이터셋을 생성하고 관리할 수 있습니다. [Weave `Models`](/ko/weave/guides/core-types/models)와 마찬가지로 `weave.Dataset`는 다음과 같은 작업에 도움이 됩니다:
 
@@ -156,9 +146,7 @@ function createGrammarDataset(): weave.Dataset<GrammarExample> {
 }
 ```
 
-<div id="evaluation-framework">
-  ## 평가 프레임워크
-</div>
+## 평가 프레임워크 {#evaluation-framework}
 
 Weave는 [`Evaluation` 클래스](/ko/weave/guides/core-types/evaluations)를 통해 평가 주도 개발을 지원합니다. 평가를 사용하면 GenAI 애플리케이션을 더 안정적으로 반복 개선할 수 있습니다. `Evaluation` 클래스는 다음을 수행합니다:
 

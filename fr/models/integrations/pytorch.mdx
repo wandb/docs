@@ -13,9 +13,7 @@ Utilisez [W&amp;B](https://wandb.ai) pour le suivi des expériences de machine l
   <img src="/images/tutorials/huggingface-why.png" alt="Avantages de l’utilisation de W&B" />
 </Frame>
 
-<div id="what-this-notebook-covers">
-  ## Ce que vous trouverez dans ce notebook
-</div>
+## Ce que vous trouverez dans ce notebook {#what-this-notebook-covers}
 
 Ce tutoriel explique comment intégrer W&amp;B à votre code d’entraînement PyTorch afin de pouvoir suivre les expériences, consigner des métriques et des gradients, et versionner les modèles. Utilisez-le pour ajouter le suivi des expériences à un pipeline PyTorch existant.
 
@@ -57,9 +55,7 @@ Suivez ce [tutoriel vidéo](https://wandb.me/pytorch-video).
 
 Les sections commençant par *Étape* suffisent pour intégrer W&amp;B à un pipeline existant. Le reste se limite à charger les données et à définir un modèle.
 
-<div id="install-import-and-log-in">
-  ## Installer, importer et se connecter
-</div>
+## Installer, importer et se connecter {#install-import-and-log-in}
 
 Avant de définir l’expérience, configurez l’environnement et connectez-vous à W&amp;B.
 
@@ -90,9 +86,7 @@ torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.
                                       if not mirror.startswith("http://yann.lecun.com")]
 ```
 
-<div id="step-0-install-wb">
-  ### Étape 0 : Installer W&amp;B
-</div>
+### Étape 0 : Installer W&amp;B {#step-0-install-wb}
 
 Pour commencer, vous devez installer la bibliothèque `wandb` avec `pip`.
 
@@ -100,9 +94,7 @@ Pour commencer, vous devez installer la bibliothèque `wandb` avec `pip`.
 !pip install wandb onnx -Uq
 ```
 
-<div id="step-1-import-wb-and-log-in">
-  ### Étape 1 : Importer W&amp;B et vous connecter
-</div>
+### Étape 1 : Importer W&amp;B et vous connecter {#step-1-import-wb-and-log-in}
 
 Pour journaliser des données sur le service W&amp;B, vous devez vous connecter.
 
@@ -114,15 +106,11 @@ import wandb
 wandb.login()
 ```
 
-<div id="define-the-experiment-and-pipeline">
-  ## Définir l’expérience et le pipeline
-</div>
+## Définir l’expérience et le pipeline {#define-the-experiment-and-pipeline}
 
 Une fois W&amp;B installé et votre session authentifiée, définissez la configuration de l’expérience ainsi que le pipeline d’entraînement qui l’utilisera.
 
-<div id="track-metadata-and-hyperparameters-with-wandbinit">
-  ### Suivre les métadonnées et les hyperparamètres avec `wandb.init()`
-</div>
+### Suivre les métadonnées et les hyperparamètres avec `wandb.init()` {#track-metadata-and-hyperparameters-with-wandbinit}
 
 Dans le code, commencez par définir votre expérience. Quels sont les hyperparamètres ? Quelles métadonnées sont associées à ce run ?
 
@@ -200,9 +188,7 @@ def make(config):
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
-<div id="define-the-data-loading-and-model">
-  ### Définir le chargement des données et le modèle
-</div>
+### Définir le chargement des données et le modèle {#define-the-data-loading-and-model}
 
 Ensuite, précisez comment les données sont chargées et à quoi ressemble le modèle.
 
@@ -256,17 +242,13 @@ class ConvNet(nn.Module):
         return out
 ```
 
-<div id="define-training-logic">
-  ### Définir la logique d&#39;entraînement
-</div>
+### Définir la logique d&#39;entraînement {#define-training-logic}
 
 En poursuivant dans le `model_pipeline`, il est temps de préciser comment `entraîner`. C&#39;est là que l’intégration W&amp;B suit les gradients, les paramètres et les métriques au fil de l’entraînement.
 
 Deux fonctions `wandb` entrent en jeu ici : `watch` et `log`.
 
-<div id="track-gradients-with-runwatch-and-everything-else-with-runlog">
-  ### Suivre les gradients avec `run.watch()` et tout le reste avec `run.log()`
-</div>
+### Suivre les gradients avec `run.watch()` et tout le reste avec `run.log()` {#track-gradients-with-runwatch-and-everything-else-with-runlog}
 
 `run.watch()` journalisera les gradients et les paramètres de votre modèle toutes les `log_freq` étapes de l&#39;entraînement.
 
@@ -328,15 +310,11 @@ def train_log(loss, example_ct, epoch):
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
 
-<div id="define-testing-logic">
-  ### Définir la logique de test
-</div>
+### Définir la logique de test {#define-testing-logic}
 
 Une fois l’entraînement du modèle terminé, testez-le : exécutez-le sur de nouvelles données de production, par exemple, ou appliquez-le à des exemples soigneusement sélectionnés à la main. Les tests vous offrent également un moment naturel pour enregistrer le modèle entraîné.
 
-<div id="optional-call-runsave">
-  ### Facultatif : Appelez `run.save()`
-</div>
+### Facultatif : Appelez `run.save()` {#optional-call-runsave}
 
 C’est aussi le bon moment pour enregistrer l’architecture du modèle
 et les paramètres finaux sur le disque.
@@ -375,9 +353,7 @@ def test(model, test_loader):
         run.save("model.onnx")
 ```
 
-<div id="run-training-and-watch-your-metrics-live-on-wandbai">
-  ### Exécutez l&#39;entraînement et regardez vos métriques en direct sur wandb.ai
-</div>
+### Exécutez l&#39;entraînement et regardez vos métriques en direct sur wandb.ai {#run-training-and-watch-your-metrics-live-on-wandbai}
 
 Maintenant que vous avez défini l&#39;ensemble du pipeline et ajouté ces quelques lignes de code W&amp;B, vous êtes prêt à exécuter votre expérience avec un suivi complet.
 
@@ -397,9 +373,7 @@ Une fois le run terminé, à la fin du bloc `with wandb.init()`, W&amp;B affiche
 model = model_pipeline(config)
 ```
 
-<div id="test-hyperparameters-with-sweeps">
-  ### Tester des hyperparamètres avec des balayages
-</div>
+### Tester des hyperparamètres avec des balayages {#test-hyperparameters-with-sweeps}
 
 Cet exemple ne portait que sur un seul ensemble d’hyperparamètres. Or, dans la plupart des flux de travail de ML, il est essentiel de faire varier plusieurs hyperparamètres.
 
@@ -419,15 +393,11 @@ C’est tout ce qu’il faut pour exécuter un balayage d’hyperparamètres.
   <img src="/images/tutorials/pytorch-2.png" alt="tableau de bord d’entraînement PyTorch" />
 </Frame>
 
-<div id="example-gallery">
-  ## Galerie d&#39;exemples
-</div>
+## Galerie d&#39;exemples {#example-gallery}
 
 Explorez des exemples de projets suivis et visualisés avec W&amp;B dans la [Galerie](https://app.wandb.ai/gallery).
 
-<div id="advanced-setup">
-  ## Configuration avancée
-</div>
+## Configuration avancée {#advanced-setup}
 
 Les options suivantes peuvent étendre le flux de travail de base précédent pour les environnements de production, hors ligne ou gérés :
 

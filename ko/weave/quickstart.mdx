@@ -18,7 +18,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 코드에 트레이싱을 추가해 Weave로 LLM Call을 추적하는 방법을 알아보세요. 이 퀵스타트에서는 OpenAI로 보내는 요청을 트레이스하고 Weave UI에서 결과를 확인하는 방법을 안내합니다. Weave를 처음 사용하는 개발자가 디버깅과 모니터링을 위해 LLM 애플리케이션을 계측하려는 경우에 적합합니다.&quot;
 
 <div id="what-youll-learn">
-  ## 배울 내용
+  ## 배울 내용 {#what-youll-learn}
 </div>
 
 이 가이드에서는 다음 방법을 설명합니다:
@@ -30,7 +30,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 <WeaveQuickstartPrereqs />
 
 <div id="log-a-trace-to-a-new-project">
-  ## 새 프로젝트에 트레이스 로깅하기
+  ## 새 프로젝트에 트레이스 로깅하기 {#log-a-trace-to-a-new-project}
 </div>
 
 이 섹션에서는 Weave가 입력, 출력, 코드를 기록할 수 있도록 작은 애플리케이션에 계측을 추가합니다. 코드 추적을 시작하고 Weave에 트레이스를 로깅하려면 다음 단계를 수행하세요.
@@ -154,7 +154,7 @@ weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c
 ```
 
 <div id="see-traces-of-your-application-in-your-project">
-  ## 프로젝트에서 애플리케이션 트레이스 확인하기
+  ## 프로젝트에서 애플리케이션 트레이스 확인하기 {#see-traces-of-your-application-in-your-project}
 </div>
 
 이제 코드가 트레이스를 생성했으므로 Weave UI에서 이를 살펴볼 수 있습니다. 터미널의 링크를 클릭하거나 브라우저에 붙여넣어 Weave UI를 여세요. Weave UI의 **Traces** 패널에서 트레이스를 클릭해 입력, 출력, 지연 시간, token 사용량 등의 데이터를 확인하세요.
@@ -164,15 +164,13 @@ weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c
 이제 첫 번째 Weave 트레이스를 로깅하고 확인했습니다.
 
 <div id="learn-more-about-traces">
-  ## 트레이스에 대해 더 알아보기
+  ## 트레이스에 대해 더 알아보기 {#learn-more-about-traces}
 </div>
 
 * [함수에 데코레이터를 적용하고 call 정보를 조회하는 방법](/ko/weave/guides/tracking/tracing)을 알아보세요.
 * [플레이그라운드](/ko/weave/guides/tools/playground)를 사용해 로깅된 트레이스에서 다양한 모델을 테스트해 보세요.
 * [인테그레이션을 살펴보세요](/ko/weave/guides/integrations/). Weave는 OpenAI, Anthropic 등 다양한 LLM 라이브러리에 대한 call을 자동으로 추적합니다. 현재 사용 중인 LLM 라이브러리가 Weave 인테그레이션 중 하나가 아니더라도, `@weave.op()`로 감싸면 다른 LLM 라이브러리나 프레임워크에 대한 call도 추적할 수 있습니다.
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 [앱 평가 시작하기](/ko/weave/tutorial-eval)를 먼저 살펴본 다음, [RAG 애플리케이션 평가 방법](/ko/weave/tutorial-rag)을 확인하세요.

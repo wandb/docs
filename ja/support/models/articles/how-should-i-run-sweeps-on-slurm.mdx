@@ -9,9 +9,7 @@ keywords: ["Sweeps", "Experiments"]
 
 以下のセクションでは、単一プロセス ジョブのサブミッション コマンド、分散トレーニングを伴うマルチ GPU ジョブでの rank-gating パターン、グローバル rank とローカル rank のどちらでゲートするべきか、そして rank 0 以外からログする方法を説明します。
 
-<div id="single-process-or-single-gpu-jobs">
-  ## 単一プロセスまたは単一 GPU ジョブ
-</div>
+## 単一プロセスまたは単一 GPU ジョブ {#single-process-or-single-gpu-jobs}
 
 スケジュールされた各ジョブで次を送信してください:
 
@@ -19,9 +17,7 @@ keywords: ["Sweeps", "Experiments"]
 wandb agent --count 1 SWEEP_ID
 ```
 
-<div id="multi-gpu-jobs-with-distributed-training">
-  ## 分散トレーニングでのマルチ GPU ジョブ
-</div>
+## 分散トレーニングでのマルチ GPU ジョブ {#multi-gpu-jobs-with-distributed-training}
 
 分散トレーニングで W&amp;B sweep を実行する場合 (たとえば `--gpus-per-node` を使用するマルチ GPU ジョブ) 、`SLURM_PROCID` 環境変数を使って、`wandb.agent()` が 1 つの rank でのみ実行されるようにしてください。ほかの rank では、sweep エージェント や `wandb.init()` を呼び出さずに分散トレーニングを実行してください。分散トレーニング全般における W&amp;B 側の扱いについては、[分散トレーニングの実験をログする](/ja/models/track/log/distributed-training) を参照してください。
 
@@ -51,17 +47,13 @@ else:
 
 `submitit` または同様のランチャーを使用する場合も、`wandb.agent()` を呼び出す前に、トレーニングのエントリポイントで同じチェックを行ってください。
 
-<div id="choose-between-slurm_procid-and-slurm_localid">
-  ### `SLURM_PROCID` と `SLURM_LOCALID` の使い分け
-</div>
+### `SLURM_PROCID` と `SLURM_LOCALID` の使い分け {#choose-between-slurm_procid-and-slurm_localid}
 
 `SLURM_PROCID` は、SLURM ジョブ全体でのグローバルrankです。分散グループ全体に対してエージェントを 1 つだけ起動したい場合は、`SLURM_PROCID == 0` を条件にします。これは、Sweeps で一般的なケースです。
 
 `SLURM_LOCALID` は、単一ノード内でのrankです。ノードごとに 1 つのエージェントを起動したい場合は、`SLURM_LOCALID == 0` を条件にします。たとえば、独立した sweep run をノード間で並列に起動する場合です。
 
-<div id="log-from-non-rank-0-ranks">
-  ### rank 0 以外の rank からログする
-</div>
+### rank 0 以外の rank からログする {#log-from-non-rank-0-ranks}
 
 上記の例は、rank 0 のみが W&amp;B にログする [単一のプロセスをトラッキングする](/ja/models/track/log/distributed-training#track-a-single-process) パターンに従っています。rank ごとのシステムメトリクスも取得したいなど、rank 0 以外の rank も同じ run にログする場合は、shared mode を使用し、rank 0 の Run ID を各ワーカーに渡してください。詳しくは、[すべてのプロセスを単一の run にトラッキングする](/ja/models/track/log/distributed-training#track-all-processes-to-a-single-run) を参照してください。
 

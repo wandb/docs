@@ -12,9 +12,7 @@ LoRA (Low-Rank Adaptation) vous permet de personnaliser de grands modèles de la
 
 Vous pouvez entraîner ou téléverser un LoRA pour ajouter de nouvelles capacités à un modèle de base, par exemple pour le spécialiser pour l’assistance client, l’écriture créative ou un domaine technique particulier. Cela vous permet d’adapter le comportement du modèle sans réentraîner ni redéployer l’ensemble du modèle.
 
-<div id="why-use-serverless-inference-for-loras">
-  ## Pourquoi utiliser Serverless Inference pour les LoRAs
-</div>
+## Pourquoi utiliser Serverless Inference pour les LoRAs {#why-use-serverless-inference-for-loras}
 
 Serverless Inference pour les LoRAs offre les avantages suivants :
 
@@ -22,9 +20,7 @@ Serverless Inference pour les LoRAs offre les avantages suivants :
 * Suivez la version en production grâce à la gestion des versions des artifacts.
 * Mettez à jour les modèles en remplaçant de petits fichiers LoRA plutôt que l’ensemble des poids du modèle.
 
-<div id="workflow">
-  ## Flux de travail
-</div>
+## Flux de travail {#workflow}
 
 Dans les grandes lignes, servir un LoRA personnalisé comporte trois étapes :
 
@@ -54,9 +50,7 @@ print(resp.choices[0].message.content)
 
 Voir ce [notebook premiers pas](https://wandb.me/lora_nb) pour une démonstration interactive montrant comment créer une LoRA et la téléverser vers W&amp;B en tant qu’artifact.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Vous devez disposer des éléments suivants :
 
@@ -64,9 +58,7 @@ Vous devez disposer des éléments suivants :
 * Un [projet W&amp;B](/fr/models/track/project-page).
 * Python 3.8+ avec les paquets `openai` et `wandb` : `pip install wandb openai`.
 
-<div id="add-and-use-loras">
-  ## Ajouter et utiliser des LoRA
-</div>
+## Ajouter et utiliser des LoRA {#add-and-use-loras}
 
 Vous pouvez ajouter des LoRA à votre compte W&amp;B et commencer à les utiliser de deux manières. Choisissez l’onglet correspondant à l’endroit où votre LoRA a été entraîné :
 
@@ -92,9 +84,7 @@ Vous pouvez ajouter des LoRA à votre compte W&amp;B et commencer à les utilise
     run.log_artifact(artifact)
     ```
 
-    <div id="key-requirements">
-      ### Exigences clés
-    </div>
+### Exigences clés {#key-requirements}
 
     Pour utiliser vos propres LoRA avec Inférence, assurez-vous des points suivants :
 
@@ -120,9 +110,7 @@ Après avoir ajouté votre LoRA à votre projet en tant qu&#39;artifact, quelle 
 model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
 ```
 
-<div id="supported-base-models">
-  ## Modèles de base pris en charge
-</div>
+## Modèles de base pris en charge {#supported-base-models}
 
 Votre LoRA doit être entraîné à partir de l’un des modèles de base suivants. Utilisez la chaîne d’ID du modèle exacte lorsque vous définissez `wandb.base_model`, afin que W&amp;B puisse associer votre adaptateur au bon modèle de base au moment de l’inférence.
 
@@ -139,9 +127,7 @@ Votre LoRA doit être entraîné à partir de l’un des modèles de base suivan
 | `Qwen/Qwen3.6-27B`                            | 16                |
 | `Qwen/Qwen3-30B-A3B-Instruct-2507`            | 16                |
 
-<div id="pricing">
-  ## Tarification
-</div>
+## Tarification {#pricing}
 
 Vous ne payez que le stockage et les inférences que vous exécutez, au lieu de payer pour des serveurs toujours actifs ou des instances GPU dédiées. La tarification comporte deux éléments :
 

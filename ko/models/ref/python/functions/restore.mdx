@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4034" />
 
-<div id="function-wandbrestore">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.restore()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.restore() {#function-wandbrestore}
 
 지정한 파일을 클라우드 저장소에서 다운로드합니다.
 
@@ -24,9 +22,7 @@ replace: 'bool' = False,
 root: 'str | None' = None
 ```
 
-<div id="args">
-  ## 매개변수
-</div>
+## 매개변수 {#args}
 
 <ResponseField name="name" type="str">
   파일 이름입니다.
@@ -44,15 +40,11 @@ root: 'str | None' = None
   파일을 다운로드할 디렉터리입니다.  기본값은 현재 디렉터리이며, wandb.init를 호출한 경우에는 run 디렉터리입니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 파일을 찾지 못하면 None을 반환하고, 찾으면 읽기용으로 열린 파일 객체를 반환합니다.
 
-<div id="raises">
-  ## 예외
-</div>
+## 예외 {#raises}
 
 * `CommError`: W&amp;B가 W&amp;B 백엔드에 연결할 수 없는 경우입니다.
 * `ValueError`: 파일을 찾을 수 없거나 run&#95;path를 찾을 수 없는 경우입니다.

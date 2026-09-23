@@ -17,9 +17,7 @@ description: "本番トラフィックを受動的にスコアリングして、
 
 スコアに基づいてアプリケーションの動作に能動的に介入する必要がある場合は、代わりに [guardrails](/ja/weave/guides/evaluation/guardrails) を使用してください。
 
-<div id="signals-and-custom-monitors">
-  ## シグナル と カスタムモニター
-</div>
+## シグナル と カスタムモニター {#signals-and-custom-monitors}
 
 本番環境のモニタリングをすばやく始めるには、まず [シグナル](/ja/weave/guides/evaluation/monitors) を使用します。シグナル は、本番トレース向けにあらかじめ用意された自動 Scorer です。そのうえで、アプリケーション固有の評価基準に合わせて カスタムモニター を追加します。
 
@@ -31,9 +29,7 @@ description: "本番トラフィックを受動的にスコアリングして、
 | **Model**           | Serverless Inference (プリセット)      | 任意の商用モデルまたは Serverless Inference モデル |
 | **Use case**        | 実績のある分類器を使って本番モニタリングをすばやく開始したい場合  | アプリケーション固有のカスタム評価基準を使いたい場合           |
 
-<div id="create-a-monitor-in-weave">
-  ## Weave でモニターを作成する
-</div>
+## Weave でモニターを作成する {#create-a-monitor-in-weave}
 
 Weave でカスタム モニターを作成するには、次の手順に従います。
 
@@ -69,9 +65,7 @@ Weave でカスタム モニターを作成するには、次の手順に従い�
 
 Weave は、すべての Scorer の結果を [Call](/ja/weave/guides/tracking/tracing#calls) オブジェクトの `feedback` フィールドに自動的に保存します。
 
-<div id="example-create-a-truthfulness-monitor">
-  ### 例: 真実性モニターを作成する
-</div>
+### 例: 真実性モニターを作成する {#example-create-a-truthfulness-monitor}
 
 次のエンドツーエンドの例では、生成された文の真実性を評価するモニターを作成します。完了すると、Weave プロジェクト内のサンプル op をスコアするアクティブなモニターが作成され、スコア付きのトレースが W&amp;B UI に表示されます。
 

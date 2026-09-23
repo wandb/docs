@@ -13,26 +13,20 @@ Modifiez les paramètres de votre équipe, notamment les membres, l’avatar, le
   Seuls les comptes de type Administration peuvent modifier les paramètres d’équipe ou supprimer un membre d’une équipe.
 </Note>
 
-<div id="members">
-  ## Membres
-</div>
+## Membres {#members}
 
 La section **Membres** affiche la liste de toutes les invitations en attente ainsi que des membres ayant accepté l’invitation à rejoindre l’équipe. Pour chaque membre, sont affichés son nom, son nom d’utilisateur, son e-mail et son rôle dans l’équipe. La liste affiche également les privilèges d’accès de chaque membre à Models et à W&amp;B Weave, hérités de l’organisation. Vous pouvez choisir parmi les rôles d’équipe standard **Admin**, **Membre** et **Lecture seule**. Si votre organisation a créé des [rôles personnalisés](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles), vous pouvez attribuer un rôle personnalisé à la place.
 
 Voir [Ajouter et gérer les Teams](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) pour savoir comment créer une équipe, gérer les Teams, ainsi que gérer les membres de l’équipe et les rôles. Pour configurer qui peut inviter de nouveaux membres et d’autres paramètres de confidentialité de l’équipe, voir [Confidentialité](#privacy).
 
-<div id="avatar">
-  ## Avatar
-</div>
+## Avatar {#avatar}
 
 Un avatar d’équipe aide les membres à identifier visuellement l’équipe dans la W&amp;B App. Définissez un avatar en accédant à la section **Avatar** et en téléversant une image.
 
 1. Sélectionnez **Update Avatar** pour ouvrir une boîte de dialogue de sélection de fichier.
 2. Dans la boîte de dialogue, choisissez l&#39;image que vous souhaitez utiliser.
 
-<div id="alerts">
-  ## Alertes
-</div>
+## Alertes {#alerts}
 
 Envoyez des alertes à votre équipe lorsqu’un run plante ou se termine, ou définissez des alertes personnalisées. Votre équipe peut recevoir ces alertes par e-mail ou dans Slack.
 
@@ -43,9 +37,7 @@ Basculez l’interrupteur à côté du type d’événement pour lequel vous sou
 
 Pour plus d’informations sur la configuration et la gestion des alertes, voir [Envoyer des alertes avec `wandb.Run.alert()`](/fr/models/runs/alert).
 
-<div id="slack-notifications">
-  ## Notifications Slack
-</div>
+## Notifications Slack {#slack-notifications}
 
 Configurez des destinations Slack auxquelles les automatisations de votre équipe peuvent envoyer des notifications lorsqu’un événement se produit dans un registre ou un projet, par exemple lorsqu’un nouvel artifact est créé ou lorsqu’une métrique de run atteint un seuil défini. Voir [Créer une automatisation Slack](/fr/models/automations/create-automations/slack/) et les [automatisations](/fr/models/automations/).
 
@@ -53,9 +45,7 @@ Configurez des destinations Slack auxquelles les automatisations de votre équip
   <EnterpriseOnly />
 </Info>
 
-<div id="webhooks">
-  ## Webhooks
-</div>
+## Webhooks {#webhooks}
 
 Configurez les webhooks que les [automatisations](/fr/models/automations/) de votre équipe peuvent exécuter lorsqu’un événement se produit dans un registre ou un projet, par exemple lorsqu’un nouvel artifact est créé ou lorsqu’une métrique d’un run atteint un seuil défini. Voir [Créer une automatisation de webhook](/fr/models/automations/create-automations/slack/).
 
@@ -63,9 +53,7 @@ Configurez les webhooks que les [automatisations](/fr/models/automations/) de vo
   <EnterpriseOnly />
 </Info>
 
-<div id="privacy">
-  ## Confidentialité
-</div>
+## Confidentialité {#privacy}
 
 Accédez à la section **Confidentialité** de la page **Paramètres** de l’équipe pour modifier les paramètres de confidentialité par défaut. Les administrateurs d’équipe peuvent modifier ces contrôles, sauf si un administrateur de l’organisation a [verrouillé la même politique pour chaque équipe](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams). Les administrateurs de l’organisation peuvent toujours ouvrir la page pour consulter les paramètres.
 
@@ -75,14 +63,10 @@ Accédez à la section **Confidentialité** de la page **Paramètres** de l’é
 
 Pour les étapes de navigation et le contrôle **Disable default code saving** au niveau de l’organisation, voir [Configurer les paramètres de confidentialité](/fr/platform/hosting/privacy-settings).
 
-<div id="usage">
-  ## Utilisation
-</div>
+## Utilisation {#usage}
 
 La section **Utilisation** décrit la quantité totale de mémoire utilisée par l&#39;équipe sur les serveurs W&amp;B. Le plan de stockage par défaut est de 100 Go. Pour plus d&#39;informations sur le stockage et la tarification, consultez la page [Tarification](https://wandb.ai/site/pricing).
 
-<div id="storage">
-  ## Stockage
-</div>
+## Stockage {#storage}
 
 La section **Stockage** décrit la configuration du bucket de stockage cloud utilisée pour les données de l&#39;équipe. Pour plus d&#39;informations, voir [Secure Storage Connector](/fr/platform/app/settings-page/teams/#secure-storage-connector), ou consultez la documentation de [W&amp;B Server](/fr/platform/hosting/data-security/secure-storage-connector) si vous utilisez un hébergement autogéré.

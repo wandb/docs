@@ -17,18 +17,14 @@ keywords: ["HumanEval", "구조화된 출력", "Pydantic", "코드 생성", "Ope
   ![코드 생성 Runs를 비교하는 Weave 평가 대시보드](/media/codegen/eval_dash.png)
 </Frame>
 
-<div id="why-use-weave">
-  ## 왜 Weave를 사용해야 하나요
-</div>
+## 왜 Weave를 사용해야 하나요 {#why-use-weave}
 
 이 튜토리얼에서는 Weave를 사용해 코드 생성 파이프라인을 구현하고 평가하는 방법을 알아봅니다. 다음 내용을 배우게 됩니다:
 
 * **LLM 파이프라인 추적**: 코드 생성 과정의 입력, 출력, 중간 step을 기록합니다.
 * **LLM 출력 평가**: 디버깅 도구와 시각화를 활용해 생성한 코드의 평가를 만들고 비교합니다.
 
-<div id="set-up-the-environment">
-  ## 환경 설정
-</div>
+## 환경 설정 {#set-up-the-environment}
 
 환경을 설정하고 필요한 라이브러리를 임포트하세요. 이러한 의존성에는 파이프라인 전반에서 사용하는 서식 지정 도구, 데이터셋 로더, OpenAI 및 Weave 클라이언트가 포함됩니다.
 
@@ -75,9 +71,7 @@ selected_examples = human_eval["test"][:3]
   Weave는 입력, 출력, 메타데이터를 포함한 OpenAI API 호출을 자동으로 추적합니다. OpenAI와 상호작용할 때 별도의 로깅 코드를 추가할 필요가 없습니다. Weave가 백그라운드에서 이를 처리합니다.
 </Note>
 
-<div id="structured-outputs-and-pydantic-models">
-  ## 구조화된 출력과 Pydantic 모델
-</div>
+## 구조화된 출력과 Pydantic 모델 {#structured-outputs-and-pydantic-models}
 
 이 코드 생성 파이프라인은 OpenAI의 [structured outputs mode](https://platform.openai.com/docs/guides/structured-outputs)와 Pydantic 모델을 사용해 언어 모델이 일관되고 형식이 잘 갖춰진 응답을 반환하도록 합니다. 이 접근 방식에는 다음과 같은 장점이 있습니다:
 
@@ -97,9 +91,7 @@ class FormattedGeneratedCode(BaseModel):
     full_code: str
 ```
 
-<div id="implement-a-code-formatter">
-  ## 코드 포매터 구현
-</div>
+## 코드 포매터 구현 {#implement-a-code-formatter}
 
 일관되고 깔끔한 코드 출력을 위해 Weave 오퍼레이션을 사용해 `CodeFormatter` 클래스를 구현하세요. 이 포매터는 생성된 코드, 프로그램 러너, 단위 테스트에 린팅 및 스타일 규칙을 적용합니다.
 
@@ -200,9 +192,7 @@ class CodeFormatter(BaseModel):
 * PEP 8 포맷 적용하기.
 * 누락된 임포트 추가하기.
 
-<div id="define-the-codegenerationpipeline">
-  ## `CodeGenerationPipeline` 정의
-</div>
+## `CodeGenerationPipeline` 정의 {#define-the-codegenerationpipeline}
 
 <Frame>
   ![코드 생성 파이프라인 run의 Weave 트레이스](/media/codegen/codegen_trace.png)
@@ -261,9 +251,7 @@ class CodeGenerationPipeline(weave.Model):
 * 하이퍼파라미터 관리: 모델 속성(`model_name` 등)이 여러 run 전반에서 정의되고 추적되므로 실험을 더 쉽게 수행할 수 있습니다.
 * Weave 생태계와의 인테그레이션: `weave.Model`을 사용하면 파이프라인을 평가 및 서빙 기능과 같은 다른 Weave 도구와 연결할 수 있습니다.
 
-<div id="implement-evaluation-metrics">
-  ## 평가 메트릭 구현
-</div>
+## 평가 메트릭 구현 {#implement-evaluation-metrics}
 
 생성된 코드의 품질을 평가하려면 `weave.Scorer` 하위 클래스를 사용해 평가 메트릭을 구현하세요. 이렇게 하면 데이터셋의 각 `model_output`에 대해 `score`가 실행됩니다. `model_output`은 `weave.Model`의 `predict` 함수 출력에서 가져오고, `prompt`는 `human-eval` 데이터셋에서 가져옵니다.
 
@@ -329,9 +317,7 @@ async def score_humaneval_test(test: str, entry_point: str, output: str):
   ![생성된 코드를 평가하는 HumanEval Scorer의 Weave 트레이스](/media/codegen/eval_trace.png)
 </Frame>
 
-<div id="create-a-weave-dataset-and-run-evaluation">
-  ## Weave 데이터셋 만들기 및 평가 실행
-</div>
+## Weave 데이터셋 만들기 및 평가 실행 {#create-a-weave-dataset-and-run-evaluation}
 
 파이프라인과 Scorer를 정의했으므로, 마지막 단계는 평가 데이터셋을 구성하고 전체 흐름을 실행하는 것입니다. 파이프라인을 평가하려면 Weave 데이터셋을 만들고 평가를 실행하세요:
 
@@ -391,9 +377,7 @@ for model_name in ["gpt-4o-2024-08-06"]:
   ![HumanEval Scorer 결과를 보여주는 Weave 평가 대시보드](/media/codegen/eval_dash.png)
 </Frame>
 
-<div id="conclusion">
-  ## 결론
-</div>
+## 결론 {#conclusion}
 
 이 예제에서는 Weave와 OpenAI의 언어 모델을 사용해 코드 생성 파이프라인을 구현하는 방법을 보여줍니다. 다음을 배웠습니다.
 

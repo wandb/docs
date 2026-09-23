@@ -7,17 +7,13 @@ Cette page explique comment résoudre les problèmes de processus qui ne répond
 
 Pour corriger cela, modifiez le protocole de multiprocessing de W&amp;B en `"thread"`. Cela évite le conflit afin que votre processus puisse démarrer correctement. Vous pouvez le faire de l&#39;une des deux manières suivantes :
 
-<div id="pass-a-settings-parameter-to-wandbinit">
-  ## Passez le paramètre settings à wandb.init
-</div>
+## Passez le paramètre settings à wandb.init {#pass-a-settings-parameter-to-wandbinit}
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
-<div id="set-a-global-environment-variable">
-  ## Définir une variable d’environnement globale
-</div>
+## Définir une variable d’environnement globale {#set-a-global-environment-variable}
 
 ```bash
 export WANDB_START_METHOD=thread

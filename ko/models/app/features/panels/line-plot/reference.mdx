@@ -8,15 +8,11 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 이 페이지에서는 선형 플롯 설정에 관한 자세한 내용을 확인할 수 있습니다. 선형 플롯 사용에 대한 자세한 내용은 [선형 플롯 Overview](/ko/models/app/features/panels/line-plot)를 참조하세요.
 
-<div id="data-settings">
-  ## 데이터 설정
-</div>
+## 데이터 설정 {#data-settings}
 
 데이터 설정에서는 플롯에 어떤 메트릭을 표시할지와 데이터 포인트를 샘플링, 스무딩, 집계하는 방식을 제어합니다.
 
-<div id="x-axis">
-  ### X축
-</div>
+### X축 {#x-axis}
 
 <Frame>
   <img src="/images/app_ui/reference_x_axis.png" alt="X축 선택" />
@@ -32,9 +28,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 * **Wall Time**: 그래프에서 첫 번째 run이 시작된 이후 경과한 시간(분)입니다.
 * **X range**: 기본적으로 x축의 최솟값부터 최댓값까지 표시됩니다. 최소값과 최대값은 사용자 지정할 수 있습니다.
 
-<div id="y-axis">
-  ### Y축
-</div>
+### Y축 {#y-axis}
 
 `wandb.Run.log()`로 로깅한 임의의 정수 또는 부동소수점 값을 y축 변수로 설정할 수 있습니다. 단일 값, 값 배열 또는 값의 히스토그램을 지정할 수 있습니다. 변수에 대해 1,500개가 넘는 포인트를 로깅한 경우, W&amp;B는 1,500개 포인트로 다운샘플링합니다.
 
@@ -44,18 +38,14 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 **Y range** 옵션의 기본값은 메트릭의 가장 작은 양수 값(0 포함)부터 가장 큰 값까지입니다. 최소값과 최대값은 사용자 지정할 수 있습니다.
 
-<div id="point-aggregation-method">
-  ### 포인트 집계 방법
-</div>
+### 포인트 집계 방법 {#point-aggregation-method}
 
 데이터 포인트를 표시하는 샘플링 모드를 선택하세요:
 
 * **Full fidelity** (기본값): [Full fidelity](/ko/models/app/features/panels/line-plot/sampling/#full-fidelity)를 참조하세요.
 * **랜덤 샘플링**: [랜덤 샘플링](/ko/models/app/features/panels/line-plot/sampling/#random-sampling)을 참조하세요.
 
-<div id="smoothing">
-  ### 스무딩
-</div>
+### 스무딩 {#smoothing}
 
 [스무딩 계수](/ko/support/models/articles/what-formula-do-you-use-for-your-smoothi)를 0과 1 사이로 설정합니다. 0은 스무딩을 적용하지 않음을, 1은 최대 스무딩을 의미합니다.
 
@@ -68,18 +58,14 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
 
 자세한 내용은 [선형 플롯 스무딩](/ko/models/app/features/panels/line-plot/smoothing)을 참조하세요。
 
-<div id="ignore-outliers">
-  ### 이상치 무시
-</div>
+### 이상치 무시 {#ignore-outliers}
 
 기본 플롯의 최소/최대 스케일 계산에서 이상치를 제외하도록 플롯 크기를 다시 조정합니다. 이 설정의 효과는 플롯의 샘플링 모드에 따라 달라집니다.
 
 * **랜덤 샘플링 모드**: 이상치를 무시하면 플롯에서 하위 5%와 상위 95%에 해당하는 지점이 제외됩니다.
 * **full fidelity 모드**: 이상치를 무시하면 모든 지점이 표시되지만, 각 bucket의 마지막 값으로 집약되어 표시되며 하위 5%와 상위 95% 영역은 음영 처리됩니다.
 
-<div id="max-runs-or-groups">
-  ### 최대 run 또는 그룹 수
-</div>
+### 최대 run 또는 그룹 수 {#max-runs-or-groups}
 
 기본적으로 플롯에는 run 목록 또는 run 세트에서 처음 10개의 run 또는 run 그룹만 포함됩니다. 어떤 run 또는 그룹을 표시할지 제어하려면 정렬 순서를 변경하세요.
 
@@ -87,9 +73,7 @@ import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-grou
   Workspace는 설정과 관계없이 최대 1,000개의 run까지만 표시할 수 있습니다.
 </Note>
 
-<div id="run-grouping">
-  ### Run 그룹화
-</div>
+### Run 그룹화 {#run-grouping}
 
 Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하나의 선으로 결합됩니다. 이 그룹화가 플롯에 적용되는 방식을 설정하세요.
 
@@ -105,9 +89,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
   **그룹당 최신 run만 사용**은 기본값인 **포인트 집계 방법**이 **Full fidelity**로 설정된 경우에만 적용됩니다. **랜덤 샘플링** 모드에서는 적용되지 않습니다.
 </Note>
 
-<div id="chart-type">
-  ### 차트 유형
-</div>
+### 차트 유형 {#chart-type}
 
 플롯 스타일을 선택하세요:
 
@@ -126,9 +108,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 
 **Data** 탭에서 차트 유형을 설정하세요. [개별 선형 플롯](/ko/models/app/features/panels/line-plot#individual-line-plot)을 참고하세요.
 
-<div id="grouping-settings">
-  ## 그룹화 설정
-</div>
+## 그룹화 설정 {#grouping-settings}
 
 그룹화를 켜면 모든 run을 집계할 수 있고, 개별 변수를 기준으로 그룹화할 수도 있습니다. Runs table에서 그룹화를 켜면 그룹이 그래프에 자동으로 반영됩니다.
 
@@ -137,9 +117,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 * **집계**: 그래프 선의 값을 지정합니다. 옵션은 그룹의 평균, 중앙값, 최솟값, 최댓값입니다. 이 컨트롤은 **run 그룹화**가 켜져 있을 때만 적용됩니다.
 * **범위**: full fidelity 선형 플롯의 음영 영역을 설정합니다. 옵션은 Min/Max, Std Dev, Std Err 또는 None입니다.
 
-<div id="chart-settings">
-  ## 차트 설정
-</div>
+## 차트 설정 {#chart-settings}
 
 제목과 범례 표시 여부를 설정합니다:
 
@@ -148,15 +126,11 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 * **Y축 제목**: Y축 레이블입니다.
 * **범례**: 범례를 표시하거나 숨기고 위치를 설정합니다.
 
-<div id="legend-settings">
-  ## 범례 설정
-</div>
+## 범례 설정 {#legend-settings}
 
 범례를 사용자 지정해 생성 시간이나 run을 만든 사용자와 같은 run 메타데이터와 로깅된 설정 값을 표시할 수 있습니다.
 
-<div id="legend-template">
-  ### 범례 템플릿
-</div>
+### 범례 템플릿 {#legend-template}
 
 범례 이름에 사용할 템플릿을 정의합니다.
 
@@ -169,9 +143,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 
   `${run:displayName} - ${config:dropout}`는 `royal-sweep - 0.5`와 같은 범례 이름을 생성합니다. 여기서 `royal-sweep`는 run 이름이고 `0.5`는 `dropout`이라는 이름의 설정 파라미터입니다. */}
 
-<div id="point-specific-values">
-  ### 포인트별 값
-</div>
+### 포인트별 값 {#point-specific-values}
 
 차트 위에 마우스를 올렸을 때 십자선에 포인트별 값이 표시되도록 하려면 `[[ ]]` 안에 값을 설정합니다.
 
@@ -195,9 +167,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 | `${max}`      | 그룹화된 run의 최댓값           |
 | `${percent}`  | 전체 대비 백분율(누적 영역 차트의 경우) |
 
-<div id="expressions">
-  ## 표현식
-</div>
+## 표현식 {#expressions}
 
 수학 표현식을 사용해 로깅한 메트릭, 설정 값, 요약 통계를 바탕으로 선형 플롯을 만들거나 변환할 수 있습니다. 예를 들어 두 메트릭의 차이를 계산하거나, 설정 값으로 메트릭의 스케일을 조정하거나, 메트릭의 로그값을 플롯할 수 있습니다. 표현식은 각 step을 로깅할 때마다 평가됩니다.
 
@@ -205,9 +175,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 
 일반적인 사용 사례와 예시 표현식은 [예시 표현식](#example-expressions)을 참조하세요.
 
-<div id="create-new-line-plots-with-expressions">
-  ### 표현식을 사용해 새 선형 플롯 만들기
-</div>
+### 표현식을 사용해 새 선형 플롯 만들기 {#create-new-line-plots-with-expressions}
 
 1. 프로젝트의 Workspace로 이동합니다.
 2. **+ Add panel** 버튼을 클릭하고 **Line plot**을 선택합니다.
@@ -216,9 +184,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 5. **Y-axis** 필드 또는 **X-axis** 필드에 표현식을 입력합니다.
 6. **Apply**를 클릭하여 설정을 저장하고 선형 플롯을 확인합니다.
 
-<div id="transform-existing-line-plots-with-expressions">
-  ### 표현식을 사용해 기존 선형 플롯 변환하기
-</div>
+### 표현식을 사용해 기존 선형 플롯 변환하기 {#transform-existing-line-plots-with-expressions}
 
 1. 변환할 선형 플롯을 여세요.
 2. 패널을 편집하려면 플롯 오른쪽 상단의 톱니바퀴 아이콘을 클릭하세요.
@@ -242,9 +208,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
   * `_step`: 기본 x축 값입니다.
   * `${summary:value}`: summary 값을 참조합니다. */}
 
-<div id="referencing-values">
-  ### 값 참조
-</div>
+### 값 참조 {#referencing-values}
 
 다음 표는 선형 플롯 표현식에서 로깅된 메트릭, 설정 파라미터, 요약 통계를 참조하는 방법을 설명합니다.
 
@@ -258,9 +222,7 @@ Runs 테이블이 그룹화되면 각 선형 플롯에서 그룹 내 Runs가 하
 
 예를 들어 `val/accuracy`라는 이름의 메트릭을 로깅한 경우, 나눗셈 연산자와의 혼동을 피하려면 `${val/accuracy}`로 참조하세요. `dropout-rate`라는 이름의 설정 파라미터를 로깅한 경우에는 `${config:dropout-rate}`로 참조하세요. `best loss`라는 이름의 요약 필드를 로깅한 경우에는 `${summary:best loss}`로 참조하세요.
 
-<div id="nested-configs">
-  #### 중첩된 설정
-</div>
+#### 중첩된 설정 {#nested-configs}
 
 점 표기법과 다음 구문을 사용해 중첩된 설정 값에 접근하세요:
 
@@ -305,9 +267,7 @@ config:
 
 학습률은 `${config:optimizer.value.lr}`로, 모델의 은닉 크기는 `${config:model.value.hidden_size}`로, 가중치 감쇠는 `${config:optimizer.value.weight_decay}`로 참조하세요.
 
-<div id="available-operators">
-  ### 사용 가능한 연산자
-</div>
+### 사용 가능한 연산자 {#available-operators}
 
 W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
 
@@ -318,15 +278,11 @@ W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
 | 비트 연산 | `\|`, `^`, `&`, `<<`, `>>`, `>>>`              |
 | 논리    | `\|\|`, `&&`                                   |
 
-<div id="math-constants-and-functions">
-  ### 수학 상수 및 함수
-</div>
+### 수학 상수 및 함수 {#math-constants-and-functions}
 
 모든 JavaScript 수학 함수와 상수를 지원합니다. 자세한 내용은 [MDN Math 문서](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)를 참조하세요. 다음 표에서는 선형 플롯 표현식에서 가장 자주 사용되는 함수와 상수를 요약합니다.
 
-<div id="math-constants">
-  #### 수학 상수
-</div>
+#### 수학 상수 {#math-constants}
 
 | 상수        | 설명         |
 | --------- | ---------- |
@@ -339,9 +295,7 @@ W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
 | `sqrt2`   | 2의 제곱근     |
 | `sqrt1_2` | 1/2의 제곱근   |
 
-<div id="arithmetic-and-statistical-functions">
-  #### 산술 및 통계 함수
-</div>
+#### 산술 및 통계 함수 {#arithmetic-and-statistical-functions}
 
 다음 표는 사용 가능한 산술 및 통계 함수를 설명합니다.
 
@@ -355,9 +309,7 @@ W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
 | max(x, y, ...) | 최댓값                  |
 | sqrt(x)        | 제곱근                  |
 
-<div id="logarithmic-and-exponential-functions">
-  #### 로그 함수와 지수 함수
-</div>
+#### 로그 함수와 지수 함수 {#logarithmic-and-exponential-functions}
 
 다음 표에서는 사용 가능한 로그 함수와 지수 함수를 설명합니다.
 
@@ -369,9 +321,7 @@ W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
 | exp(x)    | 지수 함수(e^x)   |
 | pow(x, y) | 거듭제곱 함수(x^y) |
 
-<div id="trigonometric-functions">
-  #### 삼각 함수
-</div>
+#### 삼각 함수 {#trigonometric-functions}
 
 다음 표에서는 사용 가능한 삼각 함수를 설명합니다.
 
@@ -385,9 +335,7 @@ W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
 | atan(x)     | 아크탄젠트(역탄젠트) |
 | atan2(y, x) | 2인수 아크탄젠트   |
 
-<div id="hyperbolic-functions">
-  #### 쌍곡선 함수
-</div>
+#### 쌍곡선 함수 {#hyperbolic-functions}
 
 다음 표는 사용 가능한 쌍곡선 함수를 설명합니다:
 
@@ -397,9 +345,7 @@ W&amp;B는 선형 플롯 표현식에서 다음 연산자를 지원합니다:
 | cosh(x) | 쌍곡선 코사인 |
 | tanh(x) | 쌍곡선 탄젠트 |
 
-<div id="example-expressions">
-  ### 예시 표현식
-</div>
+### 예시 표현식 {#example-expressions}
 
 다음은 선형 플롯 축에 사용할 수 있는 예시 표현식입니다. 이 예시들은 이해를 돕기 위한 것입니다. 필요에 맞는 복잡한 표현식을 만들려면 앞선 섹션에서 설명한 연산자와 함수를 원하는 방식으로 조합해 사용할 수 있습니다.
 
@@ -482,9 +428,7 @@ sqrt(loss*100)+sqrt(loss*100000)
   ```
 </Note>
 
-<div id="multi-metric-panel-expressions">
-  ### 다중 메트릭 패널 표현식
-</div>
+### 다중 메트릭 패널 표현식 {#multi-metric-panel-expressions}
 
 정규식을 사용하면 여러 메트릭을 함께 표시하는 단일 선형 플롯을 만들 수 있습니다(나중에 로깅되는 일치 메트릭도 포함). 자세한 지침은 [선형 플롯 추가하기](/ko/models/app/features/panels/line-plot#multi-metric-line-plot)를 참조하세요.
 
@@ -496,8 +440,6 @@ sqrt(loss*100)+sqrt(loss*100000)
   * `.*_accuracy`는 `train_accuracy`, `val_accuracy`, `test_accuracy`처럼 서로 다른 데이터셋의 accuracy 메트릭과 일치합니다
 * alternation을 사용해 원하는 메트릭만 일치시킬 수 있습니다. 예를 들어 비캡처 그룹 `(?:layer_0|layer_10)_loss`는 중간 레이어를 제외하고 첫 번째와 열 번째 레이어의 loss에만 일치합니다.
 
-<div id="capture-groups">
-  #### 캡처 그룹
-</div>
+#### 캡처 그룹 {#capture-groups}
 
 <LinePlotCaptureGroups />

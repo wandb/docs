@@ -12,9 +12,7 @@ W&amp;B Weave는 AI 애플리케이션 평가를 위한 여러 사전 정의된 
   TypeScript에서 Weave Scorer를 사용하려면 [함수 기반 Scorer](/ko/weave/guides/evaluation/scorers#function-based-scorers)를 참조하세요.
 </Note>
 
-<div id="installation">
-  ## 설치
-</div>
+## 설치 {#installation}
 
 Weave의 사전 정의된 Scorer를 사용하려면 추가 의존성을 몇 가지 설치하세요:
 
@@ -26,9 +24,7 @@ pip install weave[scorers]
 
 LLM을 사용하는 사전 정의된 Scorer는 litellm과 자동으로 통합됩니다. LLM 클라이언트를 전달할 필요가 없습니다. 대신 `model_id`를 설정하세요. [지원되는 모델](https://docs.litellm.ai/docs/providers)을 확인하세요.
 
-<div id="hallucinationfreescorer">
-  ## `HallucinationFreeScorer`
-</div>
+## `HallucinationFreeScorer` {#hallucinationfreescorer}
 
 이 Scorer는 입력 데이터를 바탕으로 AI 시스템의 출력에 할루시네이션이 있는지 확인합니다.
 
@@ -82,9 +78,7 @@ print(result)
 
 ***
 
-<div id="summarizationscorer">
-  ## `SummarizationScorer`
-</div>
+## `SummarizationScorer` {#summarizationscorer}
 
 LLM으로 요약문을 원문과 비교해 요약 품질을 평가합니다.
 
@@ -143,9 +137,7 @@ print(results)
 
 ***
 
-<div id="openaimoderationscorer">
-  ## `OpenAIModerationScorer`
-</div>
+## `OpenAIModerationScorer` {#openaimoderationscorer}
 
 `OpenAIModerationScorer`는 OpenAI의 Moderation API를 사용해 AI 시스템의 출력에 혐오 표현이나 음란물 등 허용되지 않는 콘텐츠가 포함되어 있는지 확인합니다.
 
@@ -190,9 +182,7 @@ print(results)
 
 ***
 
-<div id="embeddingsimilarityscorer">
-  ## `EmbeddingSimilarityScorer`
-</div>
+## `EmbeddingSimilarityScorer` {#embeddingsimilarityscorer}
 
 `EmbeddingSimilarityScorer`는 AI 시스템의 `출력`과 데이터셋의 대상 텍스트 임베딩 간 코사인 유사도를 계산합니다. AI의 `출력`이 레퍼런스 텍스트와 얼마나 유사한지 측정할 때 사용하세요.
 
@@ -250,9 +240,7 @@ print(result)
 
 ***
 
-<div id="validjsonscorer">
-  ## `ValidJSONScorer`
-</div>
+## `ValidJSONScorer` {#validjsonscorer}
 
 `ValidJSONScorer`는 AI 시스템의 출력이 유효한 JSON인지 확인합니다. 출력이 JSON 형식일 것으로 예상되며 그 유효성을 확인해야 할 때 유용한 Scorer입니다.
 
@@ -293,9 +281,7 @@ print(results)
 
 ***
 
-<div id="validxmlscorer">
-  ## `ValidXMLScorer`
-</div>
+## `ValidXMLScorer` {#validxmlscorer}
 
 `ValidXMLScorer`는 AI 시스템의 출력이 유효한 XML인지 확인합니다. XML 형식의 출력이 예상될 때 사용하세요.
 
@@ -335,9 +321,7 @@ print(results)
 
 ***
 
-<div id="pydanticscorer">
-  ## `PydanticScorer`
-</div>
+## `PydanticScorer` {#pydanticscorer}
 
 `PydanticScorer`는 AI 시스템의 출력이 지정된 스키마 또는 데이터 구조를 따르도록, 그 출력이 Pydantic 모델에 맞는지 검증합니다.
 
@@ -354,9 +338,7 @@ pydantic_scorer = PydanticScorer(model=FinancialReport)
 
 ***
 
-<div id="ragas-contextentityrecallscorer">
-  ## RAGAS - `ContextEntityRecallScorer`
-</div>
+## RAGAS - `ContextEntityRecallScorer` {#ragas-contextentityrecallscorer}
 
 `ContextEntityRecallScorer`는 AI 시스템의 출력과 제공된 컨텍스트에서 모두 entity를 추출한 뒤 재현율 점수를 계산해 컨텍스트 재현율을 추정합니다. Retrieval Augmented Generation Assessment([RAGAS](https://github.com/explodinggradients/ragas)) 평가 라이브러리를 기반으로 합니다.
 
@@ -380,9 +362,7 @@ entity_recall_scorer = ContextEntityRecallScorer(
 
 ***
 
-<div id="ragas-contextrelevancyscorer">
-  ## RAGAS - `ContextRelevancyScorer`
-</div>
+## RAGAS - `ContextRelevancyScorer` {#ragas-contextrelevancyscorer}
 
 `ContextRelevancyScorer`는 제공된 컨텍스트가 AI 시스템의 출력과 얼마나 관련성이 있는지 평가합니다. RAGAS 평가 라이브러리를 기반으로 합니다.
 

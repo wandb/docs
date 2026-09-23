@@ -12,9 +12,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
   <Tab title="interface utilisateur">
     Vous pouvez créer, charger, renommer et modifier des vues enregistrées dans l’interface Weave. L’interface utilisateur est le moyen le plus rapide d’enregistrer une configuration ponctuelle de tableau sous forme de vue réutilisable. Pour un contrôle programmatique, sélectionnez l’onglet **Python**.
 
-    <div id="create-a-saved-view">
-      ### Créer une vue enregistrée
-    </div>
+### Créer une vue enregistrée {#create-a-saved-view}
 
     1. Accédez à l’onglet **Traces** ou **Evals**.
     2. Modifiez l’un des paramètres suivants de la configuration de votre tableau :
@@ -27,34 +25,26 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
        * Dans le coin supérieur droit, cliquez sur **Save view**.
        * Cliquez sur le bouton **menu** (<Icon icon="bars" iconType="solid" />) à gauche de **Save view**. Dans le menu déroulant, cliquez sur **+ Save as new view**.
 
-    <div id="load-a-saved-view">
-      ### Charger une vue enregistrée
-    </div>
+### Charger une vue enregistrée {#load-a-saved-view}
 
     1. Accédez à l’onglet **Traces** ou **Evals**.
     2. Cliquez sur le bouton **menu** (<Icon icon="bars" iconType="solid" />) à gauche du titre de l’onglet. Un menu déroulant répertoriant toutes les vues enregistrées s’affiche.
     3. Cliquez sur la vue à ouvrir. La vue enregistrée s’affiche dans l’onglet **Traces** ou **Evals**.
 
-    <div id="rename-a-saved-view">
-      ### Renommer une vue enregistrée
-    </div>
+### Renommer une vue enregistrée {#rename-a-saved-view}
 
     1. Suivez les étapes décrites dans [Charger une vue enregistrée](#load-a-saved-view).
     2. Dans le coin supérieur gauche de l’onglet **Traces** ou **Evals**, cliquez sur le nom de la vue.
     3. Saisissez un nouveau nom pour la vue.
     4. Pour enregistrer le nouveau nom, appuyez sur **Entrée**.
 
-    <div id="edit-a-saved-view">
-      ### Modifier une vue enregistrée
-    </div>
+### Modifier une vue enregistrée {#edit-a-saved-view}
 
     1. Suivez les étapes décrites dans [Charger une vue enregistrée](#load-a-saved-view).
     2. Modifiez la configuration de votre tableau.
     3. Dans le coin supérieur droit, cliquez sur **Save view**.
 
-    <div id="delete-a-saved-view">
-      ### Supprimer une vue enregistrée
-    </div>
+### Supprimer une vue enregistrée {#delete-a-saved-view}
 
     <Warning>
       Vous pouvez supprimer une vue si elle ne vous est plus utile, à vous ou à votre équipe. Cette action est irréversible.
@@ -66,9 +56,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     4. Dans le menu déroulant, cliquez sur **Delete view**.
     5. Dans la fenêtre modale, confirmez en cliquant sur **Delete view**. Vous pouvez également cliquer sur **Cancel** pour annuler la suppression.
 
-    <div id="return-to-the-default-view">
-      ### Revenir à la vue par défaut
-    </div>
+### Revenir à la vue par défaut {#return-to-the-default-view}
 
     1. Accédez à l’onglet **Traces** ou **Evals**.
     2. Cliquez sur le bouton **menu** (<Icon icon="bars" iconType="solid" />) à droite de l’onglet **Traces** ou **Evals**. Un menu déroulant répertoriant toutes les vues enregistrées s’affiche.
@@ -78,9 +66,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
   <Tab title="Python">
     La classe `SavedView` de Weave vous permet d&#39;enregistrer, de filtrer, de trier et de personnaliser des vues des données de traces et d&#39;évaluations. Les sections suivantes détaillent comment initialiser une vue, configurer ses colonnes et ses filtres, puis la rendre persistante afin de pouvoir récupérer ultérieurement les Appels correspondants.
 
-    <div id="initialize-a-savedview">
-      ### Initialiser une `SavedView`
-    </div>
+### Initialiser une `SavedView` {#initialize-a-savedview}
 
     Initialisez une instance `SavedView` dans votre projet Weave :
 
@@ -91,9 +77,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view = weave.SavedView()
     ```
 
-    <div id="visualize-the-savedview-as-a-grid">
-      ### Visualiser la `SavedView` sous forme de grille
-    </div>
+### Visualiser la `SavedView` sous forme de grille {#visualize-the-savedview-as-a-grid}
 
     Utilisez `.to_grid()` pour afficher la vue enregistrée sous forme de grille. Indiquez le nombre maximum de lignes à afficher avec `limit`.
 
@@ -107,9 +91,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view.to_grid().show()
     ```
 
-    <div id="set-displayed-columns">
-      ### Définir les colonnes affichées
-    </div>
+### Définir les colonnes affichées {#set-displayed-columns}
 
     Utilisez `.set_columns()` pour définir les colonnes affichées dans la vue. Indiquez une ou plusieurs colonnes à afficher.
 
@@ -117,9 +99,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view.set_columns("id", "op_name")
     ```
 
-    <div id="add-columns">
-      ### Ajouter des colonnes
-    </div>
+### Ajouter des colonnes {#add-columns}
 
     Utilisez `.add_column()` pour ajouter une ou plusieurs nouvelles colonnes à la vue. Indiquez les colonnes à ajouter.
 
@@ -129,9 +109,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     # Vous pouvez éventuellement ajouter un second argument pour définir un libellé différent pour la nouvelle colonne. Par défaut, c'est le spécificateur de champ qui sert de libellé.
     ```
 
-    <div id="sort-columns">
-      ### Trier les colonnes
-    </div>
+### Trier les colonnes {#sort-columns}
 
     Utilisez `.sort_by()` pour trier les résultats en fonction d&#39;une colonne donnée. Indiquez le nom de la colonne à trier ainsi que l&#39;ordre de tri (`asc` ou `desc`).
 
@@ -139,9 +117,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view.sort_by("started_at", "desc")
     ```
 
-    <div id="filter-by-operation-name">
-      ### Filtrer par nom d&#39;opération
-    </div>
+### Filtrer par nom d&#39;opération {#filter-by-operation-name}
 
     Dans Weave, chaque trace ou évaluation est associée à un nom d&#39;opération.
     Utilisez `.filter_op()` pour filtrer la `SavedView` afin de n&#39;inclure que les Appels dans lesquels cette opération précise a été exécutée.
@@ -150,9 +126,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view.filter_op("Evaluation.predict_and_score")
     ```
 
-    <div id="filter-by-operator-and-condition">
-      ### Filtrer par opérateur et condition
-    </div>
+### Filtrer par opérateur et condition {#filter-by-operator-and-condition}
 
     Utilisez `.add_filter()` pour appliquer un filtre personnalisé à la vue. Définissez le filtre à l&#39;aide de l&#39;un des [opérateurs de filtre pris en charge](#filter-operators) et d&#39;une condition.
 
@@ -160,9 +134,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view.add_filter("output.model_latency", ">=", 5)
     ```
 
-    <div id="filter-operators">
-      #### Opérateurs de filtre
-    </div>
+#### Opérateurs de filtre {#filter-operators}
 
     | Opérateur          | Description                                                     | Exemple                                                 |
     | ------------------ | --------------------------------------------------------------- | ------------------------------------------------------- |
@@ -181,9 +153,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     | `"is empty"`       | Vérifie si un champ est vide (`None` ou `""`).                  | `view.add_filter("comments", "is empty", None)`         |
     | `"n'est pas vide"` | Vérifie si un champ n’est pas vide.                             | `view.add_filter("attachments", "is not empty", None)`  |
 
-    <div id="remove-filters">
-      ### Supprimer des filtres
-    </div>
+### Supprimer des filtres {#remove-filters}
 
     Utilisez `.remove_filter()` pour supprimer un filtre précis de la vue, en indiquant son index ou le nom du champ.
 
@@ -197,9 +167,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view.remove_filters()
     ```
 
-    <div id="save-the-savedview">
-      ### Enregistrer la `SavedView`
-    </div>
+### Enregistrer la `SavedView` {#save-the-savedview}
 
     Utilisez `.save()` pour publier la vue enregistrée vers Weave.
 
@@ -207,9 +175,7 @@ Vous pouvez créer, modifier et enregistrer des vues via l&#39;interface utilisa
     view.save()
     ```
 
-    <div id="retrieve-function-calls">
-      ### Récupérer les appels de fonction
-    </div>
+### Récupérer les appels de fonction {#retrieve-function-calls}
 
     Utilisez `.get_calls()` pour récupérer les appels de fonction qui correspondent aux filtres de la vue enregistrée. Vous pouvez spécifier des paramètres facultatifs tels que `limit` et `offset`.
 

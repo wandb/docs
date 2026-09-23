@@ -17,9 +17,7 @@ Contrairement à un appel LLM unique, un agent poursuit un objectif sur plusieur
 
 Ce tutoriel montre comment évaluer un agent avec Weave à l&#39;aide du flux de travail agents. Vous créez et instrumentez un petit agent d&#39;assistance client, évaluez ses runs à l&#39;aide d&#39;un juge LLM (sur un seul tour et sur plusieurs tours de conversation), puis comparez deux versions de l&#39;agent.
 
-<div id="what-youll-learn">
-  ## Ce que vous allez apprendre
-</div>
+## Ce que vous allez apprendre {#what-youll-learn}
 
 Ce guide vous montre comment :
 
@@ -35,9 +33,7 @@ Weave organise et stocke ces évaluations ; il n’exécute pas votre agent et 
   Dans ce tutoriel, l’agent s’exécute sur Claude Sonnet et le juge sur Claude Opus. Évaluer avec un modèle plus puissant et différent de celui évalué constitue une bonne pratique d’évaluation.
 </Note>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Ce tutoriel nécessite les éléments suivants :
 
@@ -46,9 +42,7 @@ Ce tutoriel nécessite les éléments suivants :
 * Les packages requis installés : `pip install weave anthropic`.
 * Une [clé API Anthropic](https://console.anthropic.com/) définie dans la variable d&#39;environnement `ANTHROPIC_API_KEY`.
 
-<div id="build-and-trace-the-agent">
-  ## Créer et tracer l’agent
-</div>
+## Créer et tracer l’agent {#build-and-trace-the-agent}
 
 Dans cet exemple, l’agent utilise deux outils, `lookup_order` et `issue_refund`, pour examiner les demandes de remboursement et y répondre conformément à une politique qui n’autorise les remboursements que dans les 30 jours. L’agent complet, y compris les définitions des outils, la boucle du modèle et la conversion des messages, se trouve dans le notebook associé. Cette section se concentre sur la partie spécifique à Weave.
 
@@ -103,9 +97,7 @@ Exécutez une requête et ouvrez le lien Weave affiché. Dans la vue Agents, la 
   Si vous créez votre agent à l’aide d’une intégration de framework (Claude Agent SDK, OpenAI Agents), Weave émet automatiquement ces mêmes spans Agents. Laissez le patching implicite activé et n’utilisez pas les appels manuels `start_*`.
 </Tip>
 
-<div id="score-the-agent-with-an-llm-judge">
-  ## Évaluez l’agent avec un juge LLM
-</div>
+## Évaluez l’agent avec un juge LLM {#score-the-agent-with-an-llm-judge}
 
 À l’aide d’un modèle juge, le scorer évalue dans quelle mesure l’agent a accompli la tâche en fonction de ses critères de réussite, en privilégiant le résultat correct plutôt qu’une réponse qui semble polie. Dans cet exemple, le score correspond à la *réalisation de la tâche* : l’agent a-t-il atteint l’objectif ?
 
@@ -167,9 +159,7 @@ ev.log_summary()
 
 Ouvrez le lien de l’évaluation et sélectionnez l’onglet **Evals**, puis ouvrez la ligne de votre run pour afficher son volet de détails. L’onglet **Appel** répertorie chaque tâche avec une colonne `passed` indiquant le verdict du juge, et l’onglet **Évaluation** comporte un bouton **Voir les spans** qui ouvre la page **Agents** avec les spans tracés associés à cette évaluation.
 
-<div id="organize-and-compare-evaluations">
-  ## Organiser et comparer les évaluations
-</div>
+## Organiser et comparer les évaluations {#organize-and-compare-evaluations}
 
 Vous améliorez un agent en modifiant son application et en vérifiant si cette modification a porté ses fruits. Le prompt système, les outils, le flux de contrôle et le LLM sous-jacent font tous partie de la version du modèle. Pour comparer deux versions, relancez l’évaluation sur l’agent modifié en l’étiquetant comme une nouvelle version.
 
@@ -187,9 +177,7 @@ ev = weave.EvaluationLogger(
 
 Weave vous permet de [comparer les évaluations](/fr/weave/guides/evaluation/compare_evals) afin de voir si la v2 a progressé ou régressé par rapport à la v1 en termes de scores enregistrés, de latence et de coût.
 
-<div id="score-a-multi-turn-conversation">
-  ## Évaluer une conversation sur plusieurs tours de conversation
-</div>
+## Évaluer une conversation sur plusieurs tours de conversation {#score-a-multi-turn-conversation}
 
 Les conversations réelles se déroulent sur plusieurs tours de conversation, et un agent performant conserve le contexte. Il ne doit pas redemander un ID de commande que l’utilisateur a déjà fourni. Pour tester ce comportement hors ligne, initialisez l’agent avec un historique de conversation fixe, envoyez le message utilisateur suivant et évaluez sa gestion de ce tour de conversation dans son contexte.
 
@@ -221,9 +209,7 @@ Comme pour l’évaluation sur un seul tour de conversation, chaque ligne renvoi
   Cette approche évalue le tour de conversation suivant par rapport à un historique fixe, ce qui constitue la méthode hors ligne la plus pratique. Mesurer de bout en bout une tâche complète sur plusieurs tours de conversation, où l’agent pilote l’ensemble de la session, nécessite des tests A/B en direct en production et dépasse le cadre de ce tutoriel.
 </Note>
 
-<div id="extend-your-scorers">
-  ## Étendez vos évaluateurs
-</div>
+## Étendez vos évaluateurs {#extend-your-scorers}
 
 L&#39;évaluation d&#39;agents réels nécessite un ensemble de scores couvrant deux dimensions :
 
@@ -232,9 +218,7 @@ L&#39;évaluation d&#39;agents réels nécessite un ensemble de scores couvrant 
 
 Ajoutez chacun sous la forme d&#39;un appel supplémentaire à `pred.log_score(...)` dans la même étape. Pour en savoir plus sur les types d&#39;évaluateurs proposés par Weave, notamment les évaluateurs prêts à l&#39;emploi et basés sur des classes, ainsi que sur la création de vos propres évaluateurs, consultez l&#39;[aperçu du scoring](/fr/weave/guides/evaluation/scorers).
 
-<div id="next-steps">
-  ## Étapes suivantes
-</div>
+## Étapes suivantes {#next-steps}
 
 Vous avez tracé un agent sous forme de conversation, évalué la réalisation de la tâche pour des interactions à un tour de conversation et sur plusieurs tours de conversation, puis comparé des versions, le tout relié aux transcriptions de l’agent.
 

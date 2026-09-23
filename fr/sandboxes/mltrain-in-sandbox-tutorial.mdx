@@ -15,9 +15,7 @@ Dans ce tutoriel, vous entraînez un modèle PyTorch dans un environnement Serve
 
 À la fin de ce tutoriel, vous disposez d&#39;un fichier de modèle PyTorch entraîné enregistré localement. Cela montre comment utiliser un Serverless Sandbox pour exécuter des charges de travail d&#39;entraînement ML isolées sans avoir à configurer d&#39;infrastructure locale. Ce tutoriel s&#39;adresse aux praticiens du ML et aux développeurs qui souhaitent évaluer Serverless Sandboxes pour des tâches d&#39;entraînement reproductibles.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, suivez les étapes de configuration suivantes.
 
@@ -28,11 +26,10 @@ Avant de commencer, suivez les étapes de configuration suivantes.
   ```bash
   python -m venv venv
   source venv/bin/activate  # Sous Windows, utilisez `venv\Scripts\activate`
-  ```  */}
+  ```
+  */}
 
-<div id="install-the-wb-python-sdk">
-  ### Installez le SDK Python de W&amp;B
-</div>
+### Installez le SDK Python de W&amp;B {#install-the-wb-python-sdk}
 
 Le SDK Python de W&amp;B fournit l’interface `Sandbox`, que vous utiliserez plus tard pour créer le Serverless Sandbox et interagir avec lui. Installez-le à l’aide de `pip` :
 
@@ -40,9 +37,7 @@ Le SDK Python de W&amp;B fournit l’interface `Sandbox`, que vous utiliserez pl
 pip install wandb
 ```
 
-<div id="log-in-and-authenticate-with-wb">
-  ### Connectez-vous et authentifiez-vous auprès de W&amp;B
-</div>
+### Connectez-vous et authentifiez-vous auprès de W&amp;B {#log-in-and-authenticate-with-wb}
 
 Les Serverless Sandboxes W&amp;B s’exécutent dans votre compte W&amp;B, vous devez donc vous authentifier avant d’en créer un. Utilisez la commande CLI `wandb login` et suivez les instructions pour vous connecter :
 
@@ -52,9 +47,7 @@ wandb login
 
 Voir la documentation de référence [`wandb login`](/fr/models/ref/cli/wandb-login) pour plus d’informations sur la manière dont W&amp;B recherche les informations d’authentification.
 
-<div id="copy-the-training-script-and-dependencies">
-  ## Copiez le script d&#39;entraînement et les dépendances
-</div>
+## Copiez le script d&#39;entraînement et les dépendances {#copy-the-training-script-and-dependencies}
 
 Préparez les trois fichiers requis pour ce tutoriel : un fichier requirements, un fichier d&#39;hyperparamètres et un script d&#39;entraînement. Ouvrez le menu déroulant ci-dessous, puis copiez chaque exemple de code dans un fichier distinct dans le même répertoire que ce tutoriel.
 
@@ -192,9 +185,7 @@ Dans la section suivante, vous exécuterez un script qui lit ces fichiers et ent
   ```
 </Accordion>
 
-<div id="create-the-sandbox-and-run-the-training-script">
-  ## Créer le sandbox et exécuter le script d’entraînement
-</div>
+## Créer le sandbox et exécuter le script d’entraînement {#create-the-sandbox-and-run-the-training-script}
 
 Une fois vos fichiers d’entraînement en place, créez et gérez un W&amp;B Serverless Sandbox à partir d’un seul script Python. L’extrait de code suivant crée un sandbox, y copie le script d’entraînement et les dépendances, exécute le script d’entraînement, puis télécharge le fichier de modèle généré.
 

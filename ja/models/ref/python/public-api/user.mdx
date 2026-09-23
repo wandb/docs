@@ -8,17 +8,13 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
 
-<div id="class-wandbapispublicuser">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.User
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.User {#class-wandbapispublicuser}
 
 W&amp;B インスタンス上のユーザー。
 
 このクラスでは、ユーザーの APIキーを管理し、チーム への所属情報などにアクセスできます。`create` クラスメソッドを使用して、新しいユーザーを作成できます。
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="api_keys" type="list[str]">
   ユーザーのAPIキーの名前。
@@ -38,13 +34,9 @@ W&amp;B インスタンス上のユーザー。
   ユーザーの認証情報を使用する`wandb.Api`インスタンス。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-usercreate">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> User.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> User.create() {#method-usercreate}
 
 ```python
 api: 'Api',
@@ -56,9 +48,7 @@ admin: 'bool | None' = False
 
 これは内部メソッドです。代わりに `wandb.Api` の `create_user()` メソッドを使用してください。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="api" type="Api">
   ユーザーの作成に使用する API インスタンス。
@@ -72,9 +62,7 @@ admin: 'bool | None' = False
   このユーザーをグローバルインスタンス管理者にするかどうか。
 </ResponseField>
 
-<div id="method-userdelete_api_key">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> User.delete_api_key()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> User.delete_api_key() {#method-userdelete_api_key}
 
 ```python
 self,
@@ -85,17 +73,13 @@ api_key: 'str'
 
 キーの所有者または管理者のみが削除できます。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="api_key" type="str">
   削除するAPIキーの名前。`api_keys` プロパティから返される名前のいずれかを使用してください。
 </ResponseField>
 
-<div id="method-usergenerate_api_key">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> User.generate_api_key()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> User.generate_api_key() {#method-usergenerate_api_key}
 
 ```python
 self,
@@ -104,9 +88,7 @@ description: 'str | None' = None
 
 新しいAPIキーを生成します。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="description" type="str | None">
   新しいAPIキーの説明。APIキーの用途を判別するために使用できます。

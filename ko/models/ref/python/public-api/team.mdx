@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
-<div id="class-wandbapispublicteam">
-  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Team
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Team {#class-wandbapispublicteam}
 
 W&amp;B 팀을 나타내는 클래스입니다.
 
@@ -22,9 +20,7 @@ name: 'str',
 attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   W&amp;B를 쿼리하는 데 사용할 Service API 인스턴스입니다.
@@ -38,9 +34,7 @@ attrs: 'Mapping[str, Any] | None' = None)
   선택적 팀 속성 딕셔너리
 </ResponseField>
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 팀을 찾아보고 구성원을 초대하세요.
 
@@ -62,13 +56,9 @@ team = api.create_team("my-team")
 team.create_service_account("CI service account")
 ```
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="method-teamcreate">
-  ### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Team.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Team.create() {#method-teamcreate}
 
 ```python
 api: 'Api',
@@ -78,9 +68,7 @@ admin_username: 'str | None' = None
 
 새 팀을 생성합니다.
 
-<div id="arguments">
-  ##### 인수
-</div>
+##### 인수 {#arguments}
 
 <ResponseField name="api" type="Api">
   (`Api`) 사용할 API 인스턴스
@@ -94,9 +82,7 @@ admin_username: 'str | None' = None
   (str) 선택 사항. 팀 관리자 사용자 이름으로, 기본값은 현재 사용자입니다.
 </ResponseField>
 
-<div id="method-teamcreate_service_account">
-  ### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Team.create_service_account()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Team.create_service_account() {#method-teamcreate_service_account}
 
 ```python
 self,
@@ -105,17 +91,13 @@ description: 'str'
 
 팀용 서비스 계정을 생성합니다.
 
-<div id="arguments-2">
-  ##### 인수
-</div>
+##### 인수 {#arguments-2}
 
 <ResponseField name="description" type="str">
   (str) 이 서비스 계정에 대한 설명
 </ResponseField>
 
-<div id="method-teaminvite">
-  ### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Team.invite()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">메서드</Badge> Team.invite() {#method-teaminvite}
 
 ```python
 self,
@@ -125,9 +107,7 @@ admin: 'bool' = False
 
 팀에 사용자를 초대합니다.
 
-<div id="arguments-3">
-  ##### 인수
-</div>
+##### 인수 {#arguments-3}
 
 <ResponseField name="username_or_email" type="str">
   (str) 초대할 사용자의 사용자 이름 또는 이메일 주소.

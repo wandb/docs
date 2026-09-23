@@ -16,9 +16,7 @@ Weave は、[LangChain](https://docs.langchain.com/oss/python/langchain/overview
 
 このガイドは、Weave でトレース、評価、可観測性を追加したい LangChain アプリケーション開発者向けです。自動トレースの有効化、メタデータの追加、トレースの手動制御、そして評価のために LangChain のチェーンを Weave モデルとしてラップする方法を説明します。
 
-<div id="getting-started">
-  ## はじめに
-</div>
+## はじめに {#getting-started}
 
 まず、スクリプトの先頭で `weave.init()` を呼び出します。`weave.init()` の引数は、Weave がトレースを整理するために使用するプロジェクト名です。
 
@@ -40,9 +38,7 @@ output = llm_chain.invoke({"number": 2})
 print(output)
 ```
 
-<div id="track-call-metadata">
-  ## Call メタデータをトラッキングする
-</div>
+## Call メタデータをトラッキングする {#track-call-metadata}
 
 カスタムメタデータは、Weave UI でトレースをフィルターして分析するのに役立ちます。LangChain の Call のメタデータをトラッキングするには、[`weave.attributes`](/ja/weave/reference/python-sdk#function-attributes) コンテキストマネージャーを使用します。このコンテキストマネージャーを使用すると、チェーンや単一のリクエストなど、特定のコードブロックにカスタムメタデータを設定できます。
 
@@ -69,9 +65,7 @@ Weave は、LangChain Call のトレースに関連付けてメタデータを�
 
 [![LangChain のトレースのメタデータ属性を表示する Weave UI](/weave/guides/integrations/imgs/langchain_attributes.png)](https://wandb.ai/parambharat/langchain_demo/weave/traces?cols=%7B%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
-<div id="traces">
-  ## トレース
-</div>
+## トレース {#traces}
 
 LLM アプリケーションのトレースを一元的なデータベースに保存すると、開発時にも本番環境でも役立ちます。これらのトレースにより、アプリケーションのデバッグや改善に使用できるデータセットが得られます。
 
@@ -79,9 +73,7 @@ Weave は、LangChain アプリケーションのトレースを自動的に取�
 
 [![LangChain のトレースを表示する Weave UI](/weave/guides/integrations/imgs/langchain_trace.png)](https://wandb.ai/parambharat/langchain_demo/weave/calls)
 
-<div id="trace-calls-manually">
-  ## Call を手動でトレースする
-</div>
+## Call を手動でトレースする {#trace-calls-manually}
 
 自動トレースに加えて、`WeaveTracer` コールバックまたは `weave_tracing_enabled` コンテキストマネージャーを使用して、Call を手動でトレースすることもできます。これらの方法は、LangChain アプリケーション内の個々の部分でリクエスト コールバックを使用するのに似ています。アプリケーション全体ではなく、特定のチェーンや呼び出しをトレースしたい場合に使用します。
 
@@ -89,9 +81,7 @@ Weave は、LangChain アプリケーションのトレースを自動的に取�
 
 注: Weave はデフォルトで LangChain の `Runnables` をトレースします。これは `weave.init()` を呼び出すと有効になります。`weave.init()` を呼び出す前に環境変数 `WEAVE_TRACE_LANGCHAIN` を `"false"` に設定すると、この動作を無効にできます。これにより、アプリケーション内の特定のチェーンや個々のリクエストに対するトレース動作を制御できます。
 
-<div id="use-weavetracer">
-  ### `WeaveTracer` を使用する
-</div>
+### `WeaveTracer` を使用する {#use-weavetracer}
 
 `WeaveTracer` コールバックを個々の LangChain コンポーネントに渡すことで、特定のリクエストをトレースできます。
 
@@ -122,9 +112,7 @@ output = llm_chain.invoke({"number": 2}, config=config) # <-- このチェーン
 llm_chain.invoke({"number": 4})  # <-- LangChainのCallではトレースが有効にならないが、OpenAIのCallは引き続きトレースされる
 ```
 
-<div id="use-the-weave_tracing_enabled-context-manager">
-  ### コンテキストマネージャー `weave_tracing_enabled` を使用する
-</div>
+### コンテキストマネージャー `weave_tracing_enabled` を使用する {#use-the-weave_tracing_enabled-context-manager}
 
 または、`weave_tracing_enabled` コンテキストマネージャーを使用して、特定のコードブロックでトレースを有効にできます。
 
@@ -153,27 +141,19 @@ with weave_tracing_enabled():  # <-- このチェーンの呼び出しに対し�
 llm_chain.invoke({"number": 4})  # <-- langchain の Call ではトレースが有効にならないが、openai の Call は引き続きトレースされる
 ```
 
-<div id="configuration">
-  ## 設定
-</div>
+## 設定 {#configuration}
 
 `weave.init()` を呼び出すと、環境変数 `WEAVE_TRACE_LANGCHAIN` を `"true"` に設定することでトレースが有効になります。これにより、Weave は LangChain アプリケーションのトレースを自動的に取得します。この動作を無効にするには、環境変数を `"false"` に設定します。
 
-<div id="relation-to-langchain-callbacks">
-  ## LangChain のコールバックとの関係
-</div>
+## LangChain のコールバックとの関係 {#relation-to-langchain-callbacks}
 
 このセクションでは、Weave のトレースが LangChain のコールバック システムとどのように連携するのかを説明します。これにより、アプリケーションに最適なアプローチを選択できます。
 
-<div id="auto-logging">
-  ### 自動ロギング
-</div>
+### 自動ロギング {#auto-logging}
 
 `weave.init()` が提供する自動ロギングは、LangChain アプリケーション内のすべてのコンポーネントにコンストラクタのコールバックを渡すのに似ています。つまり、Weave は、プロンプトテンプレート、チェーン、LLM calls、ツール、agent steps を含むすべてのやり取りを、アプリケーション全体でグローバルにトラッキングします。
 
-<div id="manual-logging">
-  ### 手動ログ記録
-</div>
+### 手動ログ記録 {#manual-logging}
 
 手動ログ記録の method (`WeaveTracer` と `weave_tracing_enabled`) は、LangChain アプリケーションの個々の部分でリクエストコールバックを使用するのと似ています。これらの method を使うと、Weave がアプリケーションのどの部分をトレースするかをより細かく制御できます。
 
@@ -184,9 +164,7 @@ Weave を LangChain と統合すると、LLM アプリケーションのログ�
 
 詳細は、[LangChain documentation](https://python.langchain.com/v0.2/docs/how_to/debugging/#tracing)を参照してください。
 
-<div id="models-and-evaluations">
-  ## Modelsと評価
-</div>
+## Modelsと評価 {#models-and-evaluations}
 
 異なるユースケースにわたって LLM を整理して評価することは、プロンプト、モデルの設定、推論パラメーターなどのコンポーネントが増えるほど難しくなります。[`weave.Model`](/ja/weave/guides/core-types/models) を使用すると、system prompt や使用するモデルといった実験の詳細を記録して整理できるため、イテレーションを比較しやすくなります。
 
@@ -244,9 +222,7 @@ print(prediction)
 
 Weave Models は、`serve` や [`評価`](/ja/weave/guides/core-types/evaluations) でも使用できます。
 
-<div id="evaluations">
-  ### 評価
-</div>
+### 評価 {#evaluations}
 
 評価を使うと、モデルのパフォーマンスを測定できます。[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) クラスを使うことで、特定のタスクやデータセットに対してモデルがどの程度うまく機能するかを把握できます。これにより、異なるモデルやアプリケーションの各イテレーションを比較しやすくなります。以下の例では、前述のモデルを評価する方法を示します。
 
@@ -293,8 +269,6 @@ print(scores)
 
 [![LangChain の評価トレースを表示する Weave UI](/weave/guides/integrations/imgs/langchain_eval.png)](https://wandb.ai/parambharat/langchain_demo/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fparambharat%2Flangchain_demo%2Fcalls%2F44c3f26c-d9d3-423e-b434-651ea5174be3)
 
-<div id="known-issues">
-  ## 既知の問題
-</div>
+## 既知の問題 {#known-issues}
 
 **非同期 Call のトレース**: LangChain の `AsyncCallbackManager` 実装のバグにより、非同期 Call が正しい順序でトレースされません。Weave はこの問題を修正するための [PR](https://github.com/langchain-ai/langchain/pull/23909) を提出しています。そのため、LangChain の `Runnables` で `ainvoke`、`astream`、`abatch` メソッドを使用すると、トレース内の Call の順序が正確でない場合があります。

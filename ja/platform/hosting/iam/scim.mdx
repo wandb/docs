@@ -8,9 +8,7 @@ keywords: ["SCIM 2.0", "Okta プロビジョニング", "Microsoft Entra", "自�
   [SCIM の動作を紹介する動画](https://www.youtube.com/watch?v=Nw3QBqV0I-o)をご覧ください (12分)
 </Note>
 
-<div id="overview">
-  ## 概要
-</div>
+## 概要 {#overview}
 
 このページでは、インスタンス管理者および組織管理者が、System for Cross-domain Identity Management (SCIM) API を使用して W&amp;B のアイデンティティ管理を自動化する方法について説明します。SCIM API を使用すると、W&amp;B App で手動操作する代わりに、アイデンティティ プロバイダまたは CI/CD パイプラインを通じて、ユーザーのプロビジョニングとプロビジョニング解除、チーム メンバーシップの管理、カスタムロールの定義をプログラムで実行できます。SCIM グループは W&amp;B Teams にマッピングされます。
 
@@ -18,9 +16,7 @@ W&amp;B の SCIM API は、Okta や Microsoft Entra などのアイデンティ�
 
 SCIM API との連携方法を示す実践的な Python の例については、[`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) リポジトリを参照してください。
 
-<div id="supported-features">
-  ### サポートされている機能
-</div>
+### サポートされている機能 {#supported-features}
 
 SCIM API は次の機能をサポートしています。
 
@@ -38,15 +34,11 @@ SCIM API は次の機能をサポートしています。
   例では `abc` や `def` などのユーザー ID を使用しています。実際のリクエストと応答では、ユーザー ID にはハッシュ化された値が使用されます。
 </Note>
 
-<div id="authentication">
-  ## 認証
-</div>
+## 認証 {#authentication}
 
 すべての SCIM リクエストは、管理者プリンシパルとして認証される必要があります。組織管理者は、**Bearer token** または **HTTP Basic** 認証情報を使用して認証できます。いずれの方式でも、キーを使用する場合は *同じ APIキー文字列* を使用します。次のセクションの主な違いを確認したうえで、ユーザーのアイデンティティまたは組織スコープのサービスアカウントを選択してください。
 
-<div id="key-differences">
-  ### 主な違い
-</div>
+### 主な違い {#key-differences}
 
 次のリストでは、SCIM 認証におけるユーザーの認証情報とサービスアカウントの認証情報を比較します。
 
@@ -57,9 +49,7 @@ SCIM API は次の機能をサポートしています。
 * 認証情報の取得場所: ユーザーは User Settings からAPIキーをコピーします。組織スコープのサービスアカウント のキーは、組織のダッシュボードの **Service account** タブにあります。
 * Multi-tenant Cloud: 複数の Multi-tenant Cloud 組織にアクセスできる場合は、SCIM API 呼び出しが意図した組織にルーティングされるように、Default API organization を設定する必要があります。
 
-<div id="bearer-token">
-  ### Bearer token
-</div>
+### Bearer token {#bearer-token}
 
 APIキーをBearerトークンとして送信します:
 
@@ -100,9 +90,7 @@ curl -s -S -X POST \
 
 詳細は、[Create user](#create-user)を参照してください。
 
-<div id="users">
-  ### Users
-</div>
+### Users {#users}
 
 対話的な管理タスクを実行する際は、個人の管理者用認証情報を使用してください。HTTP `Authorization` ヘッダーは `Basic <base64(username:API-KEY)>` の形式で指定します。
 
@@ -112,9 +100,7 @@ curl -s -S -X POST \
 Authorization: Basic ZGVtbzpwQDU1dzByZA==
 ```
 
-<div id="service-accounts">
-  ### サービスアカウント
-</div>
+### サービスアカウント {#service-accounts}
 
 自動化やインテグレーションには、組織スコープのサービスアカウントを使用してください。HTTP `Authorization` ヘッダーは `Basic <base64(:API-KEY)>` の形式で作成します (先頭にコロンがあり、ユーザー名は空である点に注意してください) 。サービスアカウントのAPIキーは、組織ダッシュボードの **Service account** タブで確認できます。詳細は [組織スコープのサービスアカウント](/ja/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts) を参照してください。
 
@@ -124,17 +110,13 @@ Authorization: Basic ZGVtbzpwQDU1dzByZA==
 Authorization: Basic OnNhLXBANTV3MHJk
 ```
 
-<div id="microsoft-entra-id-configuration">
-  ## Microsoft Entra ID の設定
-</div>
+## Microsoft Entra ID の設定 {#microsoft-entra-id-configuration}
 
 このセクションは、SCIM API を介して Microsoft Entra ID から W&amp;B へのユーザーとグループの自動プロビジョニングを設定する場合に使用します。
 
 Entra SSO の設定については、[Entra で SSO を設定する](/ja/platform/hosting/iam/sso) を参照してください。
 
-<div id="tenant-url">
-  ### テナント URL
-</div>
+### テナント URL {#tenant-url}
 
 Entra エンタープライズ アプリケーションのプロビジョニング設定で、**Tenant URL** には、Entra の機能フラグ用クエリ パラメーター `aadOptscim062020` を付加した W&amp;B SCIM のベース URL を設定します。
 
@@ -152,15 +134,11 @@ Entra エンタープライズ アプリケーションのプロビジョニン�
   テナント URL に `aadOptscim062020` を追加すると、Microsoft Entra 管理センターの **Provision on demand** UI からのユーザー無効化が動作しない場合があります。これは、その UI が依然として string の真偽値を送信するためです。無効化を手動でテストするには、`active` を `false` に置き換える `PatchOp` `Operations` 形式の SCIM `PATCH` リクエストを送信してください ([Deactivate user](#deactivate-user) を参照) 。
 </Note>
 
-<div id="team-names">
-  ### チーム名
-</div>
+### チーム名 {#team-names}
 
 W&amp;B チームに対応付ける Entra グループ名には、`ml-platform` や `data-science` のように、小文字とハイフンを使用してください。W&amp;B に同期するグループの表示名では、スペース、アンダースコア、その他の特殊文字は使用しないでください。
 
-<div id="user-attribute-mappings">
-  ### ユーザー属性マッピング
-</div>
+### ユーザー属性マッピング {#user-attribute-mappings}
 
 SCIM ユーザープロビジョニングのために、Entra で次の属性マッピングを設定します。
 
@@ -175,9 +153,7 @@ SCIM ユーザープロビジョニングのために、Entra で次の属性マ
   **Multi-tenant Cloud** では、ユーザーのアカウントは組織によって管理されません。W&amp;B は Multi-tenant Cloud で、SCIM による `displayName` の更新をサポートしていません。詳しくは、[ユーザーの表示名を更新する](#update-user-display-name) を参照してください。
 </Note>
 
-<div id="group-attribute-mappings">
-  ### Group 属性マッピング
-</div>
+### Group 属性マッピング {#group-attribute-mappings}
 
 Entra で SCIM グループ (チーム) をプロビジョニングするために、次の属性マッピングを設定します。
 
@@ -186,9 +162,7 @@ Entra で SCIM グループ (チーム) をプロビジョニングするため�
 | `displayName`                | `displayName`  | Only on object creation | Yes                |
 | `members`                    | `members`      | Always                  |                    |
 
-<div id="user-management">
-  ## ユーザー管理
-</div>
+## ユーザー管理 {#user-management}
 
 SCIM の user リソースは、W&amp;B Users とサービスアカウントに対応します。このセクションの エンドポイント を使用して、組織内のユーザーとサービスアカウントのプロビジョニング、更新、削除を行います。たとえば、新しい従業員の受け入れ、サービス認証情報のローテーション、退職するユーザーのアクセス削除を行う場合です。
 
@@ -205,32 +179,24 @@ SCIM の user リソースは、W&amp;B Users とサービスアカウントに�
   ユーザーを作成または更新するための Request body では、すでに配列形式が使われており、変更はありません。`list-users` のフィルター `emails.value eq "..."` も変更ありません。
 </Note>
 
-<div id="get-user">
-  ### ユーザーを取得
-</div>
+### ユーザーを取得 {#get-user}
 
 ユーザー ID を使用して、組織内の特定のユーザーまたはサービスアカウントの情報を取得できます。メールアドレスを使用してユーザーの情報を取得することもできます。
 
 サービスアカウントの応答には、`accountType` (チームスコープのサービスアカウントは `SERVICE`、組織スコープのサービスアカウントは `ORG_SERVICE`) が含まれます。サービスアカウントには `emails` は含まれません。
 
-<div id="endpoint">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `GET`
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters}
 
 | パラメーター | タイプ    | 必須  | 説明          |
 | ------ | ------ | --- | ----------- |
 | `id`   | string | Yes | ユーザーの一意の ID |
 
-<div id="example">
-  #### 例
-</div>
+#### 例 {#example}
 
 <Tabs>
   <Tab title="ユーザー取得リクエスト">
@@ -282,40 +248,30 @@ SCIM の user リソースは、W&amp;B Users とサービスアカウントに�
   </Tab>
 </Tabs>
 
-<div id="list-users">
-  ### Usersを一覧表示する
-</div>
+### Usersを一覧表示する {#list-users}
 
 組織内のすべてのユーザーとサービスアカウントの一覧を取得します。各リソースには `accountType` (`USER`、`SERVICE`、または `ORG_SERVICE`) が含まれます。
 
-<div id="filter-users">
-  #### Users をフィルター
-</div>
+#### Users をフィルター {#filter-users}
 
 `/Users` エンドポイントでは、ユーザー名またはメールアドレスで Users をフィルターできます。
 
 * `userName eq "value"`: ユーザー名でフィルター。
 * `emails.value eq "value"`: メールアドレスでフィルター。
 
-<div id="example-2">
-  ##### 例
-</div>
+##### 例 {#example-2}
 
 ```bash
 GET /scim/Users?filter=userName eq "john.doe"
 GET /scim/Users?filter=emails.value eq "john@example.com"
 ```
 
-<div id="endpoint-2">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-2}
 
 * **URL**: `[HOST-URL]/scim/Users`
 * **Method**: `GET`
 
-<div id="example-3">
-  #### 例
-</div>
+#### 例 {#example-3}
 
 <Tabs>
   <Tab title="Users一覧リクエスト">
@@ -377,22 +333,16 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="create-user">
-  ### ユーザーを作成
-</div>
+### ユーザーを作成 {#create-user}
 
 組織内に新しいユーザーを作成します。
 
-<div id="endpoint-3">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-3}
 
 * **URL**: `[HOST-URL]/scim/Users`
 * **method**: `POST`
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 | パラメーター           | タイプ    | 必須  | 説明                                                                                                                                                                           |
 | ---------------- | ------ | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -402,9 +352,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `weaveRole`      | string | いいえ | Weave のロールレベルです。`full`、`viewer`、`none` のいずれかです。デフォルトは `full` です。                                                                                                             |
 | `registryAccess` | string | いいえ | Registry の利用権限です。`enabled` または `none` のいずれかです。省略した場合、実効アクセス権は読み取り時に `modelsSeat` と `weaveRole` から決定されます。**Multi-tenant Cloud**、**専用クラウド**、および **セルフマネージド** v0.83.0+ で利用できます。 |
 
-<div id="example-4">
-  #### 例
-</div>
+#### 例 {#example-4}
 
 <Tabs>
   <Tab title="ユーザー作成リクエスト（専用クラウド/セルフマネージド）">
@@ -458,9 +406,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="response">
-  #### レスポンス
-</div>
+#### レスポンス {#response}
 
 <Tabs>
   <Tab title="ユーザー作成時のレスポンス（専用クラウド/セルフマネージド）">
@@ -539,9 +485,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="provision-service-account">
-  ### サービスアカウントをプロビジョニング
-</div>
+### サービスアカウントをプロビジョニング {#provision-service-account}
 
 組織内に、チームスコープまたは組織スコープのサービスアカウントを作成します。このエンドポイントを使用して、オートメーション、CI/CD、または人間のユーザーに紐付けるべきではないインテグレーション向けのヘッドレスIDを作成します。通常のユーザーを作成する場合は、`accountType` を省略します。[Create user](#create-user) を参照してください。
 
@@ -554,16 +498,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   * サービスアカウントは `PATCH` または `PUT` で更新できず、無効化することもできません。また、SCIM を通じて組織、チーム、または Registry のロールを割り当てることもできません。プロビジョニング後に W&amp;B App でAPIキーを作成してください。
 </Note>
 
-<div id="endpoint-4">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-4}
 
 * **URL**: `[HOST-URL]/scim/Users`
 * **method**: `POST`
 
-<div id="parameters-3">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-3}
 
 | パラメーター                                                  | タイプ    | 必須  | 説明                                                                                                                                                                                                                               |
 | ------------------------------------------------------- | ------ | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -573,9 +513,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `defaultTeam`                                           | string | Yes | Teams 拡張のサブフィールドです。既存の W&amp;B Team の名前を指定します。サービスアカウントはこのチームの Member として作成されます。チームスコープのサービスアカウントが参加するチームは、このチームのみです。組織スコープのサービスアカウントは、後から SCIM によって作成されるチームにも自動的に追加されます。                                                        |
 | `teams`                                                 | array  | No  | **Multi-tenant Cloud のみ。** アカウントを追加するチーム名の配列です。このフィールドを使用する場合は、`defaultTeam` と同じチームも含めてください。                                                                                                                                     |
 
-<div id="example-5">
-  #### 例
-</div>
+#### 例 {#example-5}
 
 <Tabs>
   <Tab title="チーム サービスアカウントをプロビジョニングするリクエスト">
@@ -619,9 +557,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="response-2">
-  #### レスポンス
-</div>
+#### レスポンス {#response-2}
 
 <Tabs>
   <Tab title="チームサービスアカウントのプロビジョニング レスポンス">
@@ -704,9 +640,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 * `409 Conflict`: リクエストに、同じサービスアカウントに対する重複した `userName` キーが含まれています。
 * `400 Bad Request`: リクエストで `defaultTeam` が指定されていないか、無効な値が設定されています。
 
-<div id="deprovision-service-account">
-  ### サービスアカウントのプロビジョニング解除
-</div>
+### サービスアカウントのプロビジョニング解除 {#deprovision-service-account}
 
 サービスアカウントと、その組織へのメンバーシップを完全に削除します。サービスアカウントが不要になった場合 (たとえば、オートメーション パイプラインを廃止した後) は、このエンドポイントを使用してください。これはハード削除であり、SCIM を介してアカウントを再有効化することはできません。
 
@@ -714,24 +648,18 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   **専用クラウド**、**セルフマネージド** v0.81.0+、および **Multi-tenant Cloud** で利用できます。サービスアカウントの SCIM ユーザー `id` は、プロビジョニング時のレスポンス、または [Get user](#get-user) から取得したものを使用してください。プロビジョニングを解除しても、すでに発行済みの APIキー は削除されません。必要に応じて、W&amp;B App でキーを個別に失効してください。
 </Note>
 
-<div id="endpoint-5">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-5}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `DELETE`
 
-<div id="parameters-4">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-4}
 
 | パラメーター | タイプ    | 必須  | 説明                  |
 | ------ | ------ | --- | ------------------- |
 | `id`   | string | Yes | サービスアカウントの一意の IDです。 |
 
-<div id="example-6">
-  #### 例
-</div>
+#### 例 {#example-6}
 
 <Tabs>
   <Tab title="サービスアカウントのプロビジョニング解除リクエスト">
@@ -747,9 +675,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="delete-user">
-  ### ユーザーを削除
-</div>
+### ユーザーを削除 {#delete-user}
 
 <Warning>
   **管理者アクセスを維持する**
@@ -761,24 +687,18 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 組織からユーザーを完全に削除します。サービスアカウントを削除するには、[サービスアカウントのプロビジョニング解除](#deprovision-service-account) を参照してください。
 
-<div id="endpoint-6">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-6}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `DELETE`
 
-<div id="parameters-5">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-5}
 
 | パラメーター | タイプ    | 必須 | 説明              |
 | ------ | ------ | -- | --------------- |
 | `id`   | string | はい | 削除するユーザーの一意の ID |
 
-<div id="example-7">
-  #### 例
-</div>
+#### 例 {#example-7}
 
 <Tabs>
   <Tab title="ユーザーを削除するリクエスト">
@@ -798,23 +718,17 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   ユーザーを一時的に無効化するには、`PATCH` エンドポイントを使用する [ユーザーの無効化](#deactivate-user) API を参照してください。
 </Note>
 
-<div id="update-user-email">
-  ### ユーザーのメールアドレスを更新する
-</div>
+### ユーザーのメールアドレスを更新する {#update-user-email}
 
 ユーザーのメインメールアドレスを更新します。
 **Multi-tenant Cloud ではサポートされていません**。この環境では、ユーザーのアカウントは組織によって管理されません。
 
-<div id="endpoint-7">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-7}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-6">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-6}
 
 | パラメーター  | タイプ    | 必須  | 説明                |
 | ------- | ------ | --- | ----------------- |
@@ -823,9 +737,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | Yes | `emails`          |
 | `value` | array  | Yes | 新しいメールオブジェクトを含む配列 |
 
-<div id="example-8">
-  #### 例
-</div>
+#### 例 {#example-8}
 
 <Tabs>
   <Tab title="メールアドレス更新リクエスト">
@@ -883,24 +795,18 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="update-user-display-name">
-  ### ユーザーの表示名を更新する
-</div>
+### ユーザーの表示名を更新する {#update-user-display-name}
 
 ユーザーの表示名を更新します。
 
 **Multi-tenant Cloud ではサポートされていません**。この環境では、ユーザーのアカウントは組織で管理されません。
 
-<div id="endpoint-8">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-8}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-7">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-7}
 
 | パラメーター  | タイプ    | 必須 | 説明            |
 | ------- | ------ | -- | ------------- |
@@ -909,9 +815,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `displayName` |
 | `value` | string | はい | 新しい表示名        |
 
-<div id="example-9">
-  #### 例
-</div>
+#### 例 {#example-9}
 
 <Tabs>
   <Tab title="表示名の更新リクエスト">
@@ -964,9 +868,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="deactivate-user">
-  ### ユーザーを無効化
-</div>
+### ユーザーを無効化 {#deactivate-user}
 
 組織内のユーザーを無効化します。結果は、デプロイタイプによって異なります。
 
@@ -975,16 +877,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 <Note>この操作はユーザーにのみ使用でき、サービスアカウントには対応していません。サービスアカウントの無効化はサポートされていません。チームのサービスアカウントは、W&amp;B Team の Settings で管理してください。</Note>
 
-<div id="endpoint-9">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-9}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-8">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-8}
 
 | パラメーター  | タイプ    | 必須 | 説明                              |
 | ------- | ------ | -- | ------------------------------- |
@@ -992,9 +890,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `op`    | string | はい | `replace`                       |
 | `value` | object | はい | `{"active": false}` を指定したオブジェクト |
 
-<div id="example-10">
-  #### 例
-</div>
+#### 例 {#example-10}
 
 <Tabs>
   <Tab title="ユーザーの無効化リクエスト (Dedicated/セルフマネージド)">
@@ -1034,9 +930,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="response-3">
-  #### レスポンス
-</div>
+#### レスポンス {#response-3}
 
 <Tabs>
   <Tab title="ユーザー無効化のレスポンス (Dedicated/セルフマネージド)">
@@ -1088,9 +982,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="reactivate-user">
-  ### ユーザーを再有効化
-</div>
+### ユーザーを再有効化 {#reactivate-user}
 
 組織内で以前に無効化したユーザーを再有効化します。
 
@@ -1109,16 +1001,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
     ```
 </Note>
 
-<div id="endpoint-10">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-10}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-9">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-9}
 
 | パラメーター  | タイプ    | 必須 | 説明                             |
 | ------- | ------ | -- | ------------------------------ |
@@ -1126,9 +1014,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `op`    | string | はい | `replace`                      |
 | `value` | object | はい | `{"active": true}` を指定したオブジェクト |
 
-<div id="example-11">
-  #### 例
-</div>
+#### 例 {#example-11}
 
 <Tabs>
   <Tab title="ユーザー再有効化リクエスト">
@@ -1180,24 +1066,18 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="assign-organization-role">
-  ### 組織ロールを割り当てる
-</div>
+### 組織ロールを割り当てる {#assign-organization-role}
 
 ユーザーに組織レベルのロールを割り当てます。
 
 <Note>この操作はユーザーに対してのみ使用でき、サービスアカウントには使用できません。サービスアカウントではカスタムロールはサポートされていません。</Note>
 
-<div id="endpoint-11">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-11}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-10">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-10}
 
 | パラメーター  | タイプ    | 必須 | 説明                          |
 | ------- | ------ | -- | --------------------------- |
@@ -1218,9 +1098,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   `member` または `admin` の組織ロールを割り当てても、ユーザーの `modelsSeat` や `weaveRole` は変更されません。
 </Note>
 
-<div id="example-12">
-  #### 例
-</div>
+#### 例 {#example-12}
 
 <Tabs>
   <Tab title="組織ロール割り当てリクエスト">
@@ -1280,9 +1158,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="update-models-seat">
-  ### シートを更新する
-</div>
+### シートを更新する {#update-models-seat}
 
 ユーザーの シートを更新します。
 
@@ -1292,16 +1168,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   **専用クラウド** と **セルフマネージド** v0.82.0 以前では、Registry へのアクセスは引き続き `modelsSeat` に紐付いています。これらのリリースで Registry へのアクセスを取り消すには、`modelsSeat` を `none` に設定します。
 </Note>
 
-<div id="endpoint-12">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-12}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-11">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-11}
 
 | パラメーター  | タイプ    | 必須 | 説明                                  |
 | ------- | ------ | -- | ----------------------------------- |
@@ -1310,9 +1182,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `modelsSeat`                        |
 | `value` | string | はい | シートレベル (`full`、`viewer`、または `none`) |
 
-<div id="example-13">
-  #### 例
-</div>
+#### 例 {#example-13}
 
 <Tabs>
   <Tab title="シートの更新リクエスト">
@@ -1368,22 +1238,16 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="update-weave-role">
-  ### Weave ロールを更新する
-</div>
+### Weave ロールを更新する {#update-weave-role}
 
 ユーザーの Weave ロールを更新します。
 
-<div id="endpoint-13">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-13}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-12">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-12}
 
 | パラメーター  | タイプ    | 必須 | 説明                                  |
 | ------- | ------ | -- | ----------------------------------- |
@@ -1392,9 +1256,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `weaveRole`                         |
 | `value` | string | はい | ロールレベル (`full`、`viewer`、または `none`) |
 
-<div id="example-14">
-  #### 例
-</div>
+#### 例 {#example-14}
 
 <Tabs>
   <Tab title="Weave ロール更新リクエスト">
@@ -1450,9 +1312,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="update-registry-access">
-  ### Registry アクセスを更新する
-</div>
+### Registry アクセスを更新する {#update-registry-access}
 
 ユーザーに対して、組織レベルの Registry アクセスを付与または取り消します。この権限は [Registry roles](#add-to-registry) (`registryRoles`) とは別です。`registryRoles` は、ユーザーに Registry アクセスが付与された後の Registry ごとの権限を制御します。
 
@@ -1462,16 +1322,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 
 作成時に `registryAccess` を省略すると、ユーザーの `modelsSeat` と `weaveRole` に基づいて API が有効なアクセス権を導出し、ユーザーの読み取り時にそれを返します。`registryAccess` を明示的に指定すると、この導出結果よりもそちらが優先されます。組織ロールが請求専用のユーザーには、この導出によって Registry アクセスは付与されません。
 
-<div id="endpoint-14">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-14}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-13">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-13}
 
 | パラメーター  | タイプ    | 必須 | 説明                                     |
 | ------- | ------ | -- | -------------------------------------- |
@@ -1480,9 +1336,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `registryAccess`                       |
 | `value` | string | はい | Registry の利用権限 (`enabled` または `none`)  |
 
-<div id="example-15">
-  #### 例
-</div>
+#### 例 {#example-15}
 
 <Tabs>
   <Tab title="Registry アクセスの取り消しリクエスト">
@@ -1539,24 +1393,18 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="assign-team-role">
-  ### チームロールを割り当てる
-</div>
+### チームロールを割り当てる {#assign-team-role}
 
 ユーザーにチームレベルのロールを割り当てます。
 
 <Note>この操作はユーザーにのみ適用され、サービスアカウントには対応していません。サービスアカウントではカスタムロールはサポートされていません。</Note>
 
-<div id="endpoint-15">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-15}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-14">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-14}
 
 | パラメーター  | タイプ    | 必須 | 説明                                   |
 | ------- | ------ | -- | ------------------------------------ |
@@ -1565,9 +1413,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | はい | `teamRoles`                          |
 | `value` | array  | はい | `teamName` と `roleName` を含むオブジェクトの配列 |
 
-<div id="example-16">
-  #### 例
-</div>
+#### 例 {#example-16}
 
 <Tabs>
   <Tab title="チームロール割り当てリクエスト">
@@ -1632,24 +1478,18 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="add-to-registry">
-  ### Registry に追加
-</div>
+### Registry に追加 {#add-to-registry}
 
 割り当てられた Registry レベルのロールを付与して、ユーザーを Registry に追加します。
 
 <Note>この操作はユーザーにのみ対応しており、サービスアカウントでは使用できません。サービスアカウントではカスタムロールはサポートされません。</Note>
 
-<div id="endpoint-16">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-16}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-15">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-15}
 
 | パラメーター  | タイプ    | 必須  | 説明                                       |
 | ------- | ------ | --- | ---------------------------------------- |
@@ -1658,9 +1498,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `path`  | string | Yes | `registryRoles`                          |
 | `value` | array  | Yes | `registryName` と `roleName` を含むオブジェクトの配列 |
 
-<div id="example-17">
-  #### 例
-</div>
+#### 例 {#example-17}
 
 <Tabs>
   <Tab title="Registry への追加リクエスト">
@@ -1725,9 +1563,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="remove-from-registry">
-  ### Registry から削除
-</div>
+### Registry から削除 {#remove-from-registry}
 
 ユーザーを Registry から削除します。
 
@@ -1740,16 +1576,12 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   * この操作はユーザーに対してのみ有効で、サービスアカウントには対応していません。サービスアカウントを Registry から削除するには、W&amp;B Team の Settings で行ってください。
 </Note>
 
-<div id="endpoint-17">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-17}
 
 * **URL**: `[HOST-URL]/scim/Users/{id}`
 * **method**: `PATCH`
 
-<div id="parameters-16">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-16}
 
 | パラメーター | タイプ    | 必須 | 説明                                                                           |
 | ------ | ------ | -- | ---------------------------------------------------------------------------- |
@@ -1757,9 +1589,7 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
 | `op`   | string | はい | `remove`                                                                     |
 | `path` | string | はい | `"registryRoles[registryName eq \"{registry_name}\"]"` または `"registryRoles"` |
 
-<div id="example-18">
-  #### 例
-</div>
+#### 例 {#example-18}
 
 <Tabs>
   <Tab title="Registry から削除するリクエスト">
@@ -1869,56 +1699,40 @@ GET /scim/Users?filter=emails.value eq "john@example.com"
   </Tab>
 </Tabs>
 
-<div id="group-resource">
-  ## グループリソース
-</div>
+## グループリソース {#group-resource}
 
 SCIM グループリソースは W&amp;B Team にマッピングされます。このセクションのエンドポイントを使用して、チームの作成、チームメンバーシップの管理、さらにアイデンティティプロバイダまたはオートメーションからのチームレベルのストレージ設定 (任意) を行えます。IAM で SCIM グループを作成すると、対応する W&amp;B Team が作成されてマッピングされ、以降の SCIM グループ操作はそのチームに対して行われます。チームの作成時にカスタムストレージを設定するには、リクエストに `storageBucket` を含めます。
 
-<div id="service-accounts-2">
-  ### サービスアカウント
-</div>
+### サービスアカウント {#service-accounts-2}
 
 SCIM を使用して W&amp;B Team を作成すると、サービスアカウントのチームリソースへのアクセスを維持するため、組織レベルのすべてのサービスアカウントが自動的にそのチームに追加されます。
 
-<div id="filter-groups">
-  ### グループの絞り込み
-</div>
+### グループの絞り込み {#filter-groups}
 
 `/Groups` エンドポイントでは、特定のチームを検索するためのフィルタリングをサポートしています。
 
-<div id="supported-filters">
-  #### サポートされるフィルター
-</div>
+#### サポートされるフィルター {#supported-filters}
 
 `/Groups` エンドポイントでは、次のフィルターがサポートされます:
 
 * `displayName eq "value"`: チームの表示名でフィルターします。
 
-<div id="example-19">
-  #### 例
-</div>
+#### 例 {#example-19}
 
 ```bash
 GET /scim/Groups?filter=displayName eq "engineering-team"
 ```
 
-<div id="get-team">
-  ### チームを取得
-</div>
+### チームを取得 {#get-team}
 
 チームの一意の ID を指定して、チームの情報を取得します。
 
-<div id="endpoint-18">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-18}
 
 * **URL**: `[HOST-URL]/scim/Groups/{id}`
 * **method**: `GET`
 
-<div id="example-20">
-  #### 例
-</div>
+#### 例 {#example-20}
 
 <Tabs>
   <Tab title="リクエスト">
@@ -1958,22 +1772,16 @@ GET /scim/Groups?filter=displayName eq "engineering-team"
   </Tab>
 </Tabs>
 
-<div id="list-teams">
-  ### チームの一覧
-</div>
+### チームの一覧 {#list-teams}
 
 チームの一覧を取得します。
 
-<div id="endpoint-19">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-19}
 
 * **URL**: `[HOST-URL]/scim/Groups`
 * **method**: `GET`
 
-<div id="example-21">
-  #### 例
-</div>
+#### 例 {#example-21}
 
 <Tabs>
   <Tab title="リクエスト">
@@ -2023,22 +1831,16 @@ GET /scim/Groups?filter=displayName eq "engineering-team"
   </Tab>
 </Tabs>
 
-<div id="create-team">
-  ### チーム を作成
-</div>
+### チーム を作成 {#create-team}
 
 新しい チーム リソースを作成します。
 
-<div id="endpoint-20">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-20}
 
 * **URL**: `[HOST-URL]/scim/Groups`
 * **method**: `POST`
 
-<div id="supported-fields">
-  #### サポートされるフィールド
-</div>
+#### サポートされるフィールド {#supported-fields}
 
 | フィールド           | タイプ    | 必須                                          |
 | --------------- | ------ | ------------------------------------------- |
@@ -2055,9 +1857,7 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
 
 `provider` の値が無効な場合は、許可される値を示す SCIM エラーとともに `400 Bad Request` が返されます。
 
-<div id="examples">
-  #### 例
-</div>
+#### 例 {#examples}
 
 以下の例では、カスタム ストレージを使用しないチーム、および特定のプロバイダーで BYOB ストレージを使用するチームの作成方法を示します。リクエスト例を確認するには目的のストレージ設定のタブを選択し、レスポンス例を確認するには **レスポンス** タブを選択してください。
 
@@ -2212,15 +2012,11 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
   </Tab>
 </Tabs>
 
-<div id="update-team">
-  ### チームを更新
-</div>
+### チームを更新 {#update-team}
 
 既存のチームのメンバー一覧を更新します。
 
-<div id="endpoint-21">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-21}
 
 * **URL**: `[HOST-URL]/scim/Groups/{id}`
 * **Method**: `PATCH`
@@ -2240,17 +2036,13 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
   リクエスト内の `{team_id}` は実際のチーム ID に、`{user_id}` は実際のユーザー ID またはメールアドレスに置き換えてください。
 </Info>
 
-<div id="replace-team-members">
-  ### チームメンバーの置き換え
-</div>
+### チームメンバーの置き換え {#replace-team-members}
 
 チームのすべてのメンバーを新しいリストに置き換えます。
 
 <Note>この操作はユーザーにのみ適用され、サービスアカウントには対応していません。サービスアカウントは W&amp;B Team の Settings で管理してください。</Note>
 
-<div id="endpoint-22">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-22}
 
 * **URL**: `[HOST-URL]/scim/Groups/{id}`
 * **Method**: `PUT`
@@ -2314,9 +2106,7 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
   </Tab>
 </Tabs>
 
-<div id="add-a-user-to-a-team">
-  ### チームにユーザーを追加する
-</div>
+### チームにユーザーを追加する {#add-a-user-to-a-team}
 
 `acme-devs` に `dev-user2` を追加する場合:
 
@@ -2383,9 +2173,7 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
   </Tab>
 </Tabs>
 
-<div id="remove-a-specific-user-from-a-team">
-  ### チームから特定のユーザーを削除する
-</div>
+### チームから特定のユーザーを削除する {#remove-a-specific-user-from-a-team}
 
 `acme-devs` から `dev-user2` を削除する場合:
 
@@ -2439,9 +2227,7 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
   </Tab>
 </Tabs>
 
-<div id="remove-all-users-from-a-team">
-  ### チームからすべてのユーザーを削除する
-</div>
+### チームからすべてのユーザーを削除する {#remove-all-users-from-a-team}
 
 `acme-devs` からすべてのユーザーを削除します:
 
@@ -2490,34 +2276,24 @@ W&amp;B は、チーム を作成する前に、そのバケットが存在し�
   </Tab>
 </Tabs>
 
-<div id="delete-team">
-  ### チームを削除
-</div>
+### チームを削除 {#delete-team}
 
 チームには追加のデータが関連付けられているため、SCIM API ではチームを削除できません。すべての関連データを含めて削除してよいことを確認するには、W&amp;B App からチームを削除してください。
 
-<div id="role-resource">
-  ## Role resource
-</div>
+## Role resource {#role-resource}
 
 SCIM のロールリソースは、W&amp;B のカスタムロールに対応しています。このセクションのエンドポイントを使用すると、カスタムロールをプログラムで作成および管理できます (たとえば、ロール定義をアクセスポリシーと同期した状態に保つためです) 。`/Roles` エンドポイントは公式の SCIM スキーマの一部ではありません。W&amp;B では組織内のカスタムロールを自動管理できるようにするため、`/Roles` エンドポイントを追加しています。
 
-<div id="get-custom-role">
-  ### カスタムロール情報を取得
-</div>
+### カスタムロール情報を取得 {#get-custom-role}
 
 ロールの一意の ID を指定して、カスタムロールの情報を取得します。
 
-<div id="endpoint-23">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-23}
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `GET`
 
-<div id="example-22">
-  #### 例
-</div>
+#### 例 {#example-22}
 
 <Tabs>
   <Tab title="リクエスト">
@@ -2564,22 +2340,16 @@ SCIM のロールリソースは、W&amp;B のカスタムロールに対応し�
   </Tab>
 </Tabs>
 
-<div id="list-custom-roles">
-  ### カスタムロールの一覧
-</div>
+### カスタムロールの一覧 {#list-custom-roles}
 
 W&amp;B 組織内のすべてのカスタムロールの情報を取得します。
 
-<div id="endpoint-24">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-24}
 
 * **URL**: `[HOST-URL]/scim/Roles`
 * **Method**: `GET`
 
-<div id="example-23">
-  #### 例
-</div>
+#### 例 {#example-23}
 
 <Tabs>
   <Tab title="リクエスト">
@@ -2663,22 +2433,16 @@ W&amp;B 組織内のすべてのカスタムロールの情報を取得します
   </Tab>
 </Tabs>
 
-<div id="create-custom-role">
-  ### カスタムロールを作成
-</div>
+### カスタムロールを作成 {#create-custom-role}
 
 W&amp;B 組織に新しいカスタムロールを作成します。
 
-<div id="endpoint-25">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-25}
 
 * **URL**: `[HOST-URL]/scim/Roles`
 * **Method**: `POST`
 
-<div id="supported-fields-2">
-  #### サポートされるフィールド
-</div>
+#### サポートされるフィールド {#supported-fields-2}
 
 | フィールド           | タイプ          | 必須                                                                                                                                                   |
 | --------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -2687,9 +2451,7 @@ W&amp;B 組織に新しいカスタムロールを作成します。
 | `permissions`   | Object array | 権限オブジェクトの配列です。各オブジェクトには、値が `w&bobject:operation` 形式の `name` 文字列フィールドが含まれます。たとえば、W&amp;B の run に対する delete 操作の権限オブジェクトでは、`name` は `run:delete` になります。 |
 | `inheritedFrom` | String       | カスタムロールが継承元とする事前定義ロールです。`member` または `viewer` のいずれかを指定できます。                                                                                          |
 
-<div id="example-24">
-  #### 例
-</div>
+#### 例 {#example-24}
 
 <Tabs>
   <Tab title="リクエスト">
@@ -2750,21 +2512,15 @@ W&amp;B 組織に新しいカスタムロールを作成します。
   </Tab>
 </Tabs>
 
-<div id="update-custom-role">
-  ### カスタムロールを更新する
-</div>
+### カスタムロールを更新する {#update-custom-role}
 
 以下のセクションでは、既存のカスタムロールに権限を追加または削除する方法を説明します。
 
-<div id="add-permissions-to-role">
-  #### ロールに権限を追加する
-</div>
+#### ロールに権限を追加する {#add-permissions-to-role}
 
 既存のカスタムロールに権限を追加します。
 
-<div id="endpoint-26">
-  ##### エンドポイント
-</div>
+##### エンドポイント {#endpoint-26}
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `PATCH`
@@ -2805,15 +2561,11 @@ W&amp;B 組織に新しいカスタムロールを作成します。
   </Tab>
 </Tabs>
 
-<div id="remove-a-permission-from-a-role">
-  #### ロールから権限を削除する
-</div>
+#### ロールから権限を削除する {#remove-a-permission-from-a-role}
 
 既存のカスタムロールから権限を削除します。
 
-<div id="endpoint-27">
-  ##### エンドポイント
-</div>
+##### エンドポイント {#endpoint-27}
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `PATCH`
@@ -2851,15 +2603,11 @@ W&amp;B 組織に新しいカスタムロールを作成します。
   </Tab>
 </Tabs>
 
-<div id="replace-custom-role">
-  ### カスタムロールを置き換える
-</div>
+### カスタムロールを置き換える {#replace-custom-role}
 
 カスタムロール定義全体を置き換えます。
 
-<div id="endpoint-28">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-28}
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `PUT`
@@ -2900,22 +2648,16 @@ W&amp;B 組織に新しいカスタムロールを作成します。
   </Tab>
 </Tabs>
 
-<div id="delete-custom-role">
-  ### カスタムロールを削除
-</div>
+### カスタムロールを削除 {#delete-custom-role}
 
 W&amp;B組織内のカスタムロールを削除します。**この操作は注意して使用してください**。削除前にそのカスタムロールが割り当てられていたすべてのユーザーには、カスタムロールの継承元である事前定義ロールが割り当てられます。
 
-<div id="endpoint-29">
-  #### エンドポイント
-</div>
+#### エンドポイント {#endpoint-29}
 
 * **URL**: `[HOST-URL]/scim/Roles/{id}`
 * **Method**: `DELETE`
 
-<div id="example-25">
-  #### 例
-</div>
+#### 例 {#example-25}
 
 <Tabs>
   <Tab title="リクエスト">
@@ -2931,30 +2673,22 @@ W&amp;B組織内のカスタムロールを削除します。**この操作は�
   </Tab>
 </Tabs>
 
-<div id="advanced-features">
-  ## 高度な機能
-</div>
+## 高度な機能 {#advanced-features}
 
 以下のセクションでは、SCIM インテグレーションを本番環境で安全に運用するのに役立つオプション機能 (ETag ベースの同時実行制御と標準エラー応答) について説明します。
 
-<div id="etag-support">
-  ### ETag サポート
-</div>
+### ETag サポート {#etag-support}
 
 SCIM API は、同時変更による競合を防ぐため、条件付き更新で ETags をサポートしています。これは、複数の管理者または自動化システムが同じリソースを更新する場合に重要です。1 つの更新によって別の更新が気付かないうちに上書きされるのを防げるためです。ETags は、レスポンスヘッダー `ETag` と `meta.version` フィールドで返されます。
 
-<div id="etags">
-  #### ETags
-</div>
+#### ETags {#etags}
 
 ETagを使用するには、次のstepに従います:
 
 1. **現在のETagを取得**: リソースをGETした際に、レスポンスのETagヘッダーを確認します。
 2. **条件付き更新**: 更新時に、`If-Match`ヘッダーにETagを含めます。
 
-<div id="example-26">
-  #### 例
-</div>
+#### 例 {#example-26}
 
 ```text
 # ユーザーを取得してETagを記録する
@@ -2979,9 +2713,7 @@ If-Match: W/"xyz123"
 
 `412 Precondition Failed` エラーのレスポンスは、取得後にそのリソースが変更されたことを示します。
 
-<div id="error-handling">
-  ### エラー処理
-</div>
+### エラー処理 {#error-handling}
 
 SCIM APIは標準のSCIMエラーレスポンスを返します。
 
@@ -2998,9 +2730,7 @@ SCIM APIは標準のSCIMエラーレスポンスを返します。
 | `412`    | Precondition Failed: ETag の不一致    |
 | `500`    | Internal Server Error             |
 
-<div id="implementation-differences-per-deployment-type">
-  ## デプロイタイプごとの実装の違い
-</div>
+## デプロイタイプごとの実装の違い {#implementation-differences-per-deployment-type}
 
 W&amp;B では 2 種類の SCIM API 実装を提供しており、利用できる機能はそれぞれ異なります。SCIM と統合する前に以下の表を確認し、利用している操作がご利用のデプロイタイプで使用可能かどうかを確認してください。
 
@@ -3017,9 +2747,7 @@ W&amp;B では 2 種類の SCIM API 実装を提供しており、利用でき�
 | `modelsSeat: none` で Registry へのアクセスを取り消す     | -                  | ✓               |
 | `registryAccess: none` で Registry へのアクセスを取り消す | ✓                  | ✓               |
 
-<div id="limitations">
-  ## 制限事項
-</div>
+## 制限事項 {#limitations}
 
 SCIM インテグレーションを設計する際は、次の制約事項に留意してください:
 

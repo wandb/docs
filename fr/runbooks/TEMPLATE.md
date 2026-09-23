@@ -2,13 +2,9 @@
 title: Modèle
 ---
 
-<div id="agent-prompt-task-title">
-  # Prompt de l’agent : [Titre de la tâche]
-</div>
+# Prompt de l’agent : [Titre de la tâche] {#agent-prompt-task-title}
 
-<div id="requirements">
-  ## Prérequis
-</div>
+## Prérequis {#requirements}
 
 Indiquez les exigences d’accès ou les prérequis à remplir avant de commencer cette tâche :
 
@@ -16,9 +12,7 @@ Indiquez les exigences d’accès ou les prérequis à remplir avant de commence
 * [ ] Autorisations requises (par exemple, accès en écriture au dépôt).
 * [ ] Outils ou dépendances requis.
 
-<div id="agent-prerequisites">
-  ## Prérequis de l’agent
-</div>
+## Prérequis de l’agent {#agent-prerequisites}
 
 Informations à recueillir auprès de l’utilisateur avant de commencer :
 
@@ -26,40 +20,28 @@ Informations à recueillir auprès de l’utilisateur avant de commencer :
 2. **[Informations requises 2]** - Pourquoi ces informations sont nécessaires
 3. **[Informations facultatives]** - Quand et pourquoi elles peuvent être nécessaires
 
-<div id="task-overview">
-  ## Aperçu de la tâche
-</div>
+## Aperçu de la tâche {#task-overview}
 
 Brève description de ce que ce runbook permet de faire et des situations dans lesquelles l’utiliser.
 
 > **Remarque** : tout contexte important ou toute limitation que les utilisateurs doivent connaître au préalable.
 
-<div id="context-and-constraints">
-  ## Contexte et contraintes
-</div>
+## Contexte et contraintes {#context-and-constraints}
 
-<div id="systemtool-limitations">
-  ### Limitations du système/de l’outil
-</div>
+### Limitations du système/de l’outil {#systemtool-limitations}
 
 * Limitation 1 et son impact sur la tâche
 * Limitation 2 et solutions de contournement, le cas échéant
 
-<div id="important-context">
-  ### Contexte important
-</div>
+### Contexte important {#important-context}
 
 * Informations de base essentielles
 * Pièges courants ou cas limites
 * Considérations de sécurité
 
-<div id="step-by-step-process">
-  ## Procédure étape par étape
-</div>
+## Procédure étape par étape {#step-by-step-process}
 
-<div id="1-first-major-step">
-  ### 1. [Première étape principale]
-</div>
+### 1. [Première étape principale] {#1-first-major-step}
 
 Description de ce que permet cette étape.
 
@@ -71,9 +53,7 @@ command --with-flags
 **Résultat attendu** : Ce qui devrait se passer après cette étape.
 
 
-<div id="2-second-major-step">
-  ### 2. [Deuxième étape majeure]
-</div>
+### 2. [Deuxième étape majeure] {#2-second-major-step}
 
 Description et points de décision éventuels.
 
@@ -83,13 +63,9 @@ Description et points de décision éventuels.
 * Procédures de secours en cas de droits insuffisants
 * Comment gérer les variantes courantes
 
-<div id="3-continue-with-remaining-steps">
-  ### 3. [Poursuivez avec les étapes restantes...]
-</div>
+### 3. [Poursuivez avec les étapes restantes...] {#3-continue-with-remaining-steps}
 
-<div id="verification-and-testing">
-  ## Vérification et tests
-</div>
+## Vérification et tests {#verification-and-testing}
 
 Résultats attendus :
 
@@ -97,37 +73,27 @@ Résultats attendus :
 * ✓ Indicateur de succès 2
 * ✗ Indicateur d’échec courant et ce qu’il signifie
 
-<div id="how-to-verify-success">
-  ### Comment vérifier que l’opération a réussi
-</div>
+### Comment vérifier que l’opération a réussi {#how-to-verify-success}
 
 1. Vérifiez que...
 2. Confirmez que...
 3. Testez en...
 
-<div id="common-issues-and-solutions">
-  ## Problèmes courants et solutions
-</div>
+## Problèmes courants et solutions {#common-issues-and-solutions}
 
-<div id="issue-common-problem-1">
-  ### Problème : [Problème courant 1]
-</div>
+### Problème : [Problème courant 1] {#issue-common-problem-1}
 
 * **Symptômes** : Comment ce problème se manifeste
 * **Cause** : Pourquoi cela se produit
 * **Solution** : Résolution étape par étape
 
-<div id="issue-common-problem-2">
-  ### Problème : [Problème courant 2]
-</div>
+### Problème : [Problème courant 2] {#issue-common-problem-2}
 
 * **Symptômes** :
 * **Cause** :
 * **Solution** : 
 
-<div id="cleanup-instructions">
-  ## Consignes de nettoyage
-</div>
+## Consignes de nettoyage {#cleanup-instructions}
 
 Après avoir terminé la tâche :
 
@@ -142,9 +108,7 @@ rm -f temporary-files
 ```
 
 
-<div id="checklist">
-  ## Liste de vérification
-</div>
+## Liste de vérification {#checklist}
 
 Liste de vérification récapitulative pour l’ensemble du processus :
 
@@ -156,9 +120,7 @@ Liste de vérification récapitulative pour l’ensemble du processus :
 * [ ] Les ressources temporaires ont été nettoyées.
 * [ ] Toute modification permanente a été documentée.
 
-<div id="notes">
-  ## Notes
-</div>
+## Notes {#notes}
 
 * Conseils supplémentaires ou informations de contexte.
 * Liens vers la documentation associée.

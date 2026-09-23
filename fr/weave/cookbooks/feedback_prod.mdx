@@ -15,9 +15,7 @@ keywords: ["feedback utilisateur", "pouce vers le haut pouce vers le bas", "chat
 
 Ce notebook montre comment collecter les feedback des utilisateurs sur les réponses d’un chatbot personnalisé. Il utilise Streamlit pour créer l’interface et capturer les interactions avec le LLM ainsi que les feedback dans W&amp;B Weave. À la fin, vous disposerez d’un chatbot opérationnel qui journalise chaque réponse vers Weave, ainsi que les réactions positives ou négatives et les feedback en texte libre de vos utilisateurs, afin de pouvoir examiner les interactions en production et identifier les axes d’amélioration.
 
-<div id="setup">
-  ## Configuration
-</div>
+## Configuration {#setup}
 
 Commencez par installer les packages requis et définir vos clés API OpenAI et W&amp;B afin que le chatbot puisse appeler l’API OpenAI et consigner les appels vers Weave.
 
@@ -184,9 +182,7 @@ Vous pouvez lancer ceci avec `streamlit run chatbot.py`.
 
 Vous pouvez maintenant interagir avec cette application et cliquer sur les boutons de feedback après chaque réponse. Rendez-vous dans la Weave UI pour voir les feedback associés. Chaque échange dans le chat est enregistré en tant qu’appel Weave, et toutes les réactions ou notes que vous soumettez sont liées à l’appel qui a produit la réponse.
 
-<div id="explanation">
-  ## Explications
-</div>
+## Explications {#explanation}
 
 La section suivante présente les principales API Weave utilisées dans le chatbot, afin que vous puissiez appliquer le même schéma à votre propre application.
 
@@ -227,8 +223,6 @@ Une fois que vous avez l&#39;objet `call`, vous pouvez ensuite enregistrer le fe
 call.feedback.add_reaction("👍")  # réaction de l'utilisateur via l'interface de l'application
 ```
 
-<div id="conclusion">
-  ## Conclusion
-</div>
+## Conclusion {#conclusion}
 
 Dans ce tutoriel, vous avez créé une interface de chat avec Streamlit qui enregistre les entrées et les sorties dans Weave, ainsi que des boutons de pouce levé et de pouce baissé pour recueillir les feedback des utilisateurs.

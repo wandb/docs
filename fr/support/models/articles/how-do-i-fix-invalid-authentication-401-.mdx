@@ -5,18 +5,14 @@ keywords: ["Inférence"]
 
 Une erreur `401` « Invalid Authentication » signifie que votre clé API n’est pas valide ou que l’entité ou le nom de votre projet W&amp;B est incorrect. Utilisez les vérifications de cette page pour confirmer que les deux valeurs sont correctes afin que les requêtes puissent s’authentifier.
 
-<div id="verify-your-api-key">
-  ## Vérifiez votre clé API
-</div>
+## Vérifiez votre clé API {#verify-your-api-key}
 
 Assurez-vous que vous disposez d’une clé API valide et à jour avant de rechercher d’autres causes.
 
 1. Créez une nouvelle clé API dans les [Paramètres utilisateur](https://wandb.ai/settings).
 2. Conservez votre clé API en lieu sûr.
 
-<div id="check-your-project-configuration">
-  ## Vérifiez la configuration de votre projet
-</div>
+## Vérifiez la configuration de votre projet {#check-your-project-configuration}
 
 Les requêtes doivent spécifier le projet au format `[YOUR-TEAM]/[YOUR-PROJECT]` afin que le service puisse les acheminer vers l’équipe W&amp;B et le projet appropriés. Remplacez `[YOUR-API-KEY]` par votre clé API W&amp;B, et `[YOUR-TEAM]/[YOUR-PROJECT]` par votre équipe W&amp;B et votre projet.
 
@@ -38,18 +34,14 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
   -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
 ```
 
-<div id="common-mistakes">
-  ## Erreurs courantes
-</div>
+## Erreurs courantes {#common-mistakes}
 
 * Utiliser une entité personnelle au lieu du nom de l’équipe.
 * Faire une faute dans le nom de l’équipe ou du projet.
 * Oublier la barre oblique entre l’équipe et le projet.
 * Utiliser une clé API expirée ou supprimée.
 
-<div id="troubleshoot-remaining-issues">
-  ## Résoudre les problèmes restants
-</div>
+## Résoudre les problèmes restants {#troubleshoot-remaining-issues}
 
 * Vérifiez que l’équipe et le projet existent dans votre compte W&amp;B.
 * Assurez-vous d&#39;avoir accès à l’équipe indiquée.

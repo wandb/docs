@@ -9,15 +9,11 @@ keywords: ["CLI Cline", "extension VS Code", "assistant de codage basé sur l'IA
 
 L&#39;agent Cline est disponible sous forme d&#39;outil en ligne de commande ou d&#39;intégration avec de nombreux IDE. Les sections suivantes décrivent la configuration avec la CLI Cline et avec Cline comme extension Visual Studio Code. La configuration dans d&#39;autres IDE est similaire.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Vous avez besoin de votre [clé API W&amp;B](../prerequisites#set-up-your-wb-account-and-project).
 
-<div id="set-up-cline-in-the-command-line">
-  ## Configurer Cline en ligne de commande
-</div>
+## Configurer Cline en ligne de commande {#set-up-cline-in-the-command-line}
 
 Installez la [CLI Cline](https://docs.cline.bot/cline-cli/installation).
 
@@ -29,9 +25,7 @@ Voir [les instructions d’installation de Cline](https://docs.cline.bot/cline-c
 
 Exécutez `cline version` pour vérifier la version installée.
 
-<div id="use-the-native-wb-provider">
-  ### Utiliser le provider W&amp;B natif
-</div>
+### Utiliser le provider W&amp;B natif {#use-the-native-wb-provider}
 
 Cette configuration a été testée avec la version `3.0.61` du CLI Cline sur macOS. Définissez la variable d&#39;environnement `WANDB_API_KEY` sur votre clé API W&amp;B, puis exécutez :
 
@@ -41,9 +35,7 @@ cline -P wandb -m zai-org/GLM-5.3-Flash "What is 2 + 2?"
 
 L&#39;ID en ligne de commande du provider est `wandb`. Selon votre version de Cline, le provider s&#39;affiche sous le nom **Weights &amp; Biases** ou **W&amp;B**. Cline utilise le point de terminaison Serverless Inference configuré pour ce provider. Si Cline renvoie une réponse, la connexion fonctionne.
 
-<div id="use-the-openai-compatible-provider">
-  ### Utiliser le provider compatible OpenAI
-</div>
+### Utiliser le provider compatible OpenAI {#use-the-openai-compatible-provider}
 
 Les instructions suivantes ont été testées avec la version `2.5.1` du CLI Cline.
 
@@ -65,9 +57,7 @@ Si Cline renvoie une réponse, votre installation et votre authentification sont
 
 Pour plus d’informations sur l’utilisation du CLI Cline, voir le [Démarrage rapide de Cline](https://docs.cline.bot/cline-cli/installation#quick-start).
 
-<div id="set-up-cline-in-visual-studio-code">
-  ## Configurer Cline dans Visual Studio Code
-</div>
+## Configurer Cline dans Visual Studio Code {#set-up-cline-in-visual-studio-code}
 
 Si vous préférez utiliser Cline dans un IDE, vous pouvez l’installer comme extension Visual Studio Code. Recherchez **Cline** dans le Marketplace des extensions de VS Code, ou installez-le depuis le [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
 

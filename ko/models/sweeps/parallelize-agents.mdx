@@ -7,9 +7,7 @@ title: 에이전트 병렬화
 
 시작하기 전에 먼저 스윕을 초기화해야 합니다. 자세한 내용은 [스윕을 초기화](/ko/models/sweeps/initialize-sweeps)를 참조하세요.
 
-<div id="parallelize-on-a-multi-cpu-machine">
-  ## 다중 CPU 머신에서 병렬화하기
-</div>
+## 다중 CPU 머신에서 병렬화하기 {#parallelize-on-a-multi-cpu-machine}
 
 다음 탭에서는 동일한 머신에서 여러 스윕 에이전트를 병렬로 실행하는 방법을 설명합니다. 병렬 에이전트는 각 에이전트가 자체 코어에서 실행될 수 있는 여러 CPU 코어가 있는 머신에서 특히 유용합니다. 워크플로에 따라 CLI 또는 Jupyter Notebook 탭을 선택하세요.
 
@@ -37,9 +35,7 @@ title: 에이전트 병렬화
   </Tab>
 </Tabs>
 
-<div id="parallelize-on-a-multi-gpu-machine">
-  ## 멀티 GPU 머신에서 병렬 실행하기
-</div>
+## 멀티 GPU 머신에서 병렬 실행하기 {#parallelize-on-a-multi-gpu-machine}
 
 `CUDA_VISIBLE_DEVICES`를 사용해 각 [`wandb agent`](/ko/models/ref/cli/wandb-agent)에 서로 다른 GPU를 부여하면, 같은 머신의 여러 GPU에서 스윕 에이전트를 병렬로 실행할 수 있습니다. 이렇게 하면 에이전트가 동일한 디바이스를 두고 서로 경합하지 않습니다.
 

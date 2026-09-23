@@ -13,9 +13,7 @@ keywords: ["Not Diamond", "カスタムルーティング", "LLM ルーティン
 
 このノートブックでは、[Not Diamond のカスタムルーティング](https://docs.notdiamond.ai/docs/router-training-quickstart)と Weave を組み合わせて使用し、評価結果に基づいて LLM の prompt を最適なモデルにルーティングする方法を紹介します。これにより、コーディング向け prompt 用のカスタムルーターをトレーニングし、それを使って新しい prompt の対象モデルを選択し、そのパフォーマンスを最も優れた単一モデルと比較して評価できるようになります。
 
-<div id="routing-prompts">
-  ## プロンプトのルーティング
-</div>
+## プロンプトのルーティング {#routing-prompts}
 
 このセクションでは、複数の LLM を扱う際にカスタムルーティングが有用である理由を説明します。
 
@@ -24,9 +22,7 @@ keywords: ["Not Diamond", "カスタムルーティング", "LLM ルーティン
 
 どのようなデータ分布であっても、1 つのモデルがすべてのクエリで他のすべてのモデルを常に上回ることは、ほとんどありません。複数のモデルを組み合わせて、各 LLM をいつ call するかを学習する「メタモデル」を作ることで、個々のモデルそれぞれを上回るパフォーマンスを実現し、さらにコストとレイテンシを削減することもできます。
 
-<div id="custom-routing">
-  ## カスタムルーティング
-</div>
+## カスタムルーティング {#custom-routing}
 
 プロンプト向けのカスタムルーターをトレーニングするには、次の入力が必須です。
 
@@ -36,9 +32,7 @@ keywords: ["Not Diamond", "カスタムルーティング", "LLM ルーティン
 
 これらを Not Diamond API に送信することで、各ワークフローに合わせて調整されたカスタムルーターをトレーニングできます。
 
-<div id="set-up-the-training-data">
-  ## トレーニングデータを設定する
-</div>
+## トレーニングデータを設定する {#set-up-the-training-data}
 
 このセクションでは、カスタムルーターが学習に使用するトレーニングデータとテストデータを準備します。
 
@@ -81,9 +75,7 @@ for model, evaluation_results in model_evals.items():
     )
 ```
 
-<div id="train-a-custom-router">
-  ## カスタムルーターをトレーニングする
-</div>
+## カスタムルーターをトレーニングする {#train-a-custom-router}
 
 `EvaluationResults` の準備ができたら、それらを Not Diamond に送信してカスタムルーターをトレーニングできます。まず、[アカウントを作成](https://app.notdiamond.ai/keys) し、
 [APIキーを生成](https://app.notdiamond.ai/keys)してから、次のコードに APIキーを入力してください。APIキーはトレーニングリクエストの認証に使用されます。
@@ -168,9 +160,7 @@ print(f"Target Model: {routing_target_model}")
 
 ![カスタムルーティングの Weave UI](/weave/guides/integrations/imgs/notdiamond/weave-trace.png)
 
-<div id="evaluate-your-custom-router">
-  ## カスタムルーターを評価する
-</div>
+## カスタムルーターを評価する {#evaluate-your-custom-router}
 
 このセクションでは、カスタムルーターが最良の単一モデルよりも優れているかどうかを測定する方法を説明します。
 

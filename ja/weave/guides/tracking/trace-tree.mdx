@@ -10,9 +10,7 @@ Weave Trace viewは、LLMやエージェント型アプリにおける複雑な�
 
 以下のセクションでは、Trace viewを開く方法、トレース ページ内での見方、トレース内を移動してフィルターする方法、別の可視化表現に切り替える方法、特定のopの詳細を調べる方法について説明します。
 
-<div id="get-started">
-  ## はじめに
-</div>
+## はじめに {#get-started}
 
 プロジェクトの Trace view を開いてトレースの確認を開始するには、次の手順に従います。
 
@@ -20,9 +18,7 @@ Weave Trace viewは、LLMやエージェント型アプリにおける複雑な�
 2. プロジェクトのサイドバーで **Traces** を選択すると、プロジェクトに保存されているすべてのトレースが表示されます。
 3. トレースを選択して Trace Details view を開きます。Trace Details view には、トレース実行の階層的な内訳を示す追加のパネルが表示されます。
 
-<div id="traces-page-overview">
-  ## トレース ページの概要
-</div>
+## トレース ページの概要 {#traces-page-overview}
 
 トレース ページは、3 つの主要なパネルで構成されています。
 
@@ -36,18 +32,14 @@ Weave Trace viewは、LLMやエージェント型アプリにおける複雑な�
   ![選択したトレースと選択した op の詳細が表示されたトレース ページ](/weave/guides/tracking/imgs/trace-tree-full.png)
 </Frame>
 
-<div id="filter-within-a-trace">
-  ### トレース内でのフィルタリング
-</div>
+### トレース内でのフィルタリング {#filter-within-a-trace}
 
 次のコントロールを使用して、トレースの内容をフィルタリングできます。
 
 * **名前で正規表現フィルター**: トレース ツリーの上部にあるテキスト フィールドを使用して、`tool`、`openai.response.create` などの名前またはタイプで op をフィルタリングします。
 * **メトリクス**: 利用可能な場合は、コスト、トークン、レイテンシなどのデータ メトリクスを表示するかどうかを制御します。
 
-<div id="navigate-a-trace">
-  ### トレースを移動する
-</div>
+### トレースを移動する {#navigate-a-trace}
 
 トレース ツリーには、トレース内でトラッキングされたすべてのmethodの階層が表示されます。ツリー内を上下に移動するには、`Cmd` (macOS) または `Alt` (Windows/Linux) + 上矢印 (↑) または下矢印 (↓) を使用します。
 
@@ -65,23 +57,17 @@ Weave Trace viewは、LLMやエージェント型アプリにおける複雑な�
   ![検索フィルターとスクラバーを表示したトレース ツリー パネル](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
 </Frame>
 
-<div id="alternative-trace-tree-views">
-  ### トレース ツリーの別のビュー
-</div>
+### トレース ツリーの別のビュー {#alternative-trace-tree-views}
 
 パネル上部では、デバッグの目的に応じてトレース ツリーを複数の表示形式で切り替えられます。call のロジックを把握するには**コード構成ビュー**、時間経過に伴うパフォーマンスを確認するには**フレームグラフビュー**、構造を把握するには**グラフ ビュー**を使用します。
 
 以下のセクションでは、利用可能な各ビューについて説明します。
 
-<div id="traces-default">
-  #### トレース (デフォルト)
-</div>
+#### トレース (デフォルト) {#traces-default}
 
 トレース ツリーのデフォルトのビューでは、スタック階層、op ごとのコスト (利用できる場合) 、実行時間、ステータスインジケーターが表示されます。
 
-<div id="code-composition-view">
-  #### コード構成ビュー
-</div>
+#### コード構成ビュー {#code-composition-view}
 
 コード構成ビューでは、各ボックスが op とそのネストされた call を表します。これは、function call の流れを可視化するのに役立ちます。このビューでは、ボックスを選択してその op の詳細を掘り下げたり、call パスをフィルターしたりできます。
 
@@ -89,9 +75,7 @@ Weave Trace viewは、LLMやエージェント型アプリにおける複雑な�
   ![トレースのコードビューを示す Trace view](/weave/guides/tracking/imgs/trace-tree-code-view.png)
 </Frame>
 
-<div id="flame-graph">
-  #### フレームグラフ
-</div>
+#### フレームグラフ {#flame-graph}
 
 フレームグラフビューでは、実行の深さと継続時間をタイムラインベースで可視化できます。これは、時間の経過に伴うパフォーマンス診断を理解したい場合に役立ちます。フレームを選択して、サブトレースに絞り込むことができます。
 
@@ -99,9 +83,7 @@ Weave Trace viewは、LLMやエージェント型アプリにおける複雑な�
   ![トレース内の ops のフレームグラフを表示する Trace view](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
 </Frame>
 
-<div id="graph-view">
-  #### グラフ ビュー
-</div>
+#### グラフ ビュー {#graph-view}
 
 グラフ ビューには、op 間の階層的な関係が表示されます。親子関係を把握するのに役立ちます。
 
@@ -109,9 +91,7 @@ Weave Trace viewは、LLMやエージェント型アプリにおける複雑な�
   ![トレース 内の op と関係を機能的なグラフ ビューで示した Trace view](/weave/guides/tracking/imgs/trace-tree-graph-view.png)
 </Frame>
 
-<div id="view-details-for-a-trace-op">
-  ### トレース op の詳細を表示
-</div>
+### トレース op の詳細を表示 {#view-details-for-a-trace-op}
 
 トレース ツリーで op を選択すると、その op の詳細が右隣のパネルに表示されます。詳細は次のタブに分かれています。
 

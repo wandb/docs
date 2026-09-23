@@ -16,9 +16,7 @@ Launch で Docker を使用する場合、W&amp;B はまずイメージをビル
 
 {/* 今後: 図を挿入予定 */}
 
-<div id="configure-a-docker-queue">
-  ## Docker キューを設定する
-</div>
+## Docker キューを設定する {#configure-a-docker-queue}
 
 Docker ターゲットリソースのキュー設定では、Launch がキューオプションを `docker run` コマンドにどのように変換するかを定義します。
 
@@ -75,9 +73,7 @@ Docker は、値が割り当てられていない環境変数を Launch エー�
     ```
 </Note>
 
-<div id="create-a-queue">
-  ## キューを作成する
-</div>
+## キューを作成する {#create-a-queue}
 
 計算リソースとして Docker を使用するキューを作成するには、次の手順に従います。
 
@@ -91,9 +87,7 @@ Docker は、値が割り当てられていない環境変数を Launch エー�
 
 これで、ジョブを受け取る準備ができた Docker ベースの Launch キューが作成されました。次に、ローカルマシンで Launch エージェント を設定して、このキューからジョブを取得します。
 
-<div id="configure-a-launch-agent-on-a-local-machine">
-  ## ローカルマシン上で Launch エージェントを設定する
-</div>
+## ローカルマシン上で Launch エージェントを設定する {#configure-a-launch-agent-on-a-local-machine}
 
 `launch-config.yaml` という名前の YAML 設定ファイルを使用して、Launch エージェントを設定します。デフォルトでは、W&amp;B は `~/.config/wandb/launch-config.yaml` にある設定ファイルを参照します。必要に応じて、Launch エージェントの起動時に別のディレクトリを指定することもできます。
 
@@ -101,9 +95,7 @@ Docker は、値が割り当てられていない環境変数を Launch エー�
   YAML 設定ファイルの代わりに、W&amp;B CLI を使用して Launch エージェントの主要な設定項目 (ジョブの最大数、W&amp;B entity、Launch キュー) を指定することもできます。詳細については、[`wandb launch-agent`](/ja/models/ref/cli/wandb-launch-agent) コマンドを参照してください。
 </Note>
 
-<div id="core-agent-config-options">
-  ### エージェント の基本設定オプション
-</div>
+### エージェント の基本設定オプション {#core-agent-config-options}
 
 以下のタブでは、W&amp;B CLI と YAML 設定ファイルで エージェント の基本設定オプションを指定する方法を示します。
 
@@ -123,9 +115,7 @@ Docker は、値が割り当てられていない環境変数を Launch エー�
   </Tab>
 </Tabs>
 
-<div id="docker-image-builders">
-  ### Docker image ビルダー
-</div>
+### Docker image ビルダー {#docker-image-builders}
 
 お使いのマシン上の Launch エージェントは、Docker image をビルドするように設定できます。デフォルトでは、これらのイメージはマシン上のローカルイメージリポジトリに保存されます。Launch エージェントで Docker image をビルドできるようにするには、Launch エージェントの設定で `builder` キーを `docker` に設定します。
 
@@ -141,9 +131,7 @@ builder:
   type: noop
 ```
 
-<div id="container-registries">
-  ### コンテナーレジストリ
-</div>
+### コンテナーレジストリ {#container-registries}
 
 Launch では、Docker Hub、Google Container Registry、Azure Container Registry、Amazon ECR などの外部コンテナーレジストリを使用します。ジョブをビルドした環境とは異なる環境で実行する場合は、ローカルでビルドされていないイメージをエージェントが取得できるよう、コンテナーレジストリからプルするようにエージェントを設定してください。
 

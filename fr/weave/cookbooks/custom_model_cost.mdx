@@ -11,9 +11,7 @@ keywords: ["utilisation des jetons", "add_cost", "llm_id", "include_costs"]
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
 </Note>
 
-<div id="set-up-a-custom-cost-model">
-  ## Configurer un modèle de coût personnalisé
-</div>
+## Configurer un modèle de coût personnalisé {#set-up-a-custom-cost-model}
 
 Ce guide vous montre comment définir dans Weave un modèle personnalisé qui indique sa propre utilisation des jetons, enregistrer un coût personnalisé par jeton pour ce modèle, puis récupérer les appels avec les informations de coût associées. Utilisez cette approche lorsque vous travaillez avec un modèle qui n’est pas couvert par les données de coût intégrées de Weave et que vous souhaitez suivre les dépenses en parallèle de vos traces.
 
@@ -22,9 +20,7 @@ Weave récupère cette utilisation et ce modèle dans la sortie, puis les associ
 
 Configurez un modèle personnalisé simple qui calcule lui-même son utilisation des jetons et l&#39;enregistre dans Weave.
 
-<div id="set-up-the-environment">
-  ### Configurer l&#39;environnement
-</div>
+### Configurer l&#39;environnement {#set-up-the-environment}
 
 Installez et importez tous les packages nécessaires.
 Définissez `WANDB_API_KEY` dans votre environnement afin de pouvoir vous connecter avec `wandb.login()` (cette clé doit être fournie à Colab en tant que secret).
@@ -55,9 +51,7 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-<div id="set-up-a-model-with-weave">
-  ### Configurer un modèle avec Weave
-</div>
+### Configurer un modèle avec Weave {#set-up-a-model-with-weave}
 
 Ensuite, définissez une sous-classe Weave `Model` qui effectue son propre comptage des jetons. Le fait de renvoyer les compteurs d’utilisation et le nom du modèle dans le dictionnaire de sortie permet ensuite à Weave d’associer l’appel au coût personnalisé défini dans la section suivante.
 
@@ -104,9 +98,7 @@ class YourModel(Model):
         return outputs["output"]
 ```
 
-<div id="add-a-custom-cost">
-  ### Ajouter un coût personnalisé
-</div>
+### Ajouter un coût personnalisé {#add-a-custom-cost}
 
 Ajoutez un coût personnalisé. Une fois que vous avez ajouté un coût personnalisé et que vos appels comportent des données d’utilisation, vous pouvez récupérer les appels avec `include_cost` et consulter les coûts dans `summary.weave.costs`.
 

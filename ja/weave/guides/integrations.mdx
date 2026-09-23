@@ -11,23 +11,17 @@ Weave では、AI スタックと統合する方法が 2 つあります。
 
 どちらを選べばよいかわからない場合は、新しいマルチターンのエージェント開発には [エージェントをトレースする](/ja/weave/guides/tracking/trace-agents) から、既存の LLM 呼び出しワークフローには [LLM アプリケーションをトレースする](/ja/weave/guides/tracking/tracing) から始めてください。
 
-<div id="trace-agents">
-  ## エージェントをトレースする
-</div>
+## エージェントをトレースする {#trace-agents}
 
 マルチターンのエージェント アプリケーションを構築していて、セッション、ターン、ツールコールを Weave の **Agents** ビューに表示したい場合は、これらのインテグレーションを使用してください。**Agents** ビューに表示されるエージェント SDK、ハーネス、カスタム インストルメンテーションについては、[エージェントのインテグレーションを選択する](/ja/weave/agent-integration-quickstart)を参照してください。
 
-<div id="trace-llm-applications">
-  ## LLM アプリケーションをトレースする
-</div>
+## LLM アプリケーションをトレースする {#trace-llm-applications}
 
 アプリケーションが LLM プロバイダの API を直接呼び出す場合や、オーケストレーション フレームワークを使用する場合、Weave は多くのライブラリやフレームワークで、トレースを自動的にインターセプトできます (パッチ適用 を使用) 。コードに Weave SDK をインポートし、`weave.init` で初期化すると、Weave は各リクエストを入力、出力、レイテンシ、token 使用量、コストを含む **Call** として記録します。
 
 Weave が autopatch していないライブラリについては、コードに [Weave Ops](/ja/weave/guides/tracking/create-call#2-tracking-of-custom-functions) を手動で適用して、トレースを取得できます。
 
-<div id="llm-providers">
-  ### LLM プロバイダ
-</div>
+### LLM プロバイダ {#llm-providers}
 
 LLM プロバイダとは、予測を生成するための大規模言語モデルへのアクセスを提供するベンダーです。Weave はこれらのプロバイダーと連携し、それぞれの API とのやり取りをログし、トレースします。
 
@@ -48,9 +42,7 @@ LLM プロバイダとは、予測を生成するための大規模言語モデ�
 * **[Together AI](/ja/weave/guides/integrations/together_ai)**
 * **[ローカルモデル](/ja/weave/guides/integrations/local_models)** (独自のインフラストラクチャー上で実行されるモデル向け)
 
-<div id="frameworks">
-  ### フレームワーク
-</div>
+### フレームワーク {#frameworks}
 
 フレームワークは、AI アプリケーションで実行パイプラインをオーケストレーションするために役立ちます。複雑なワークフローを構築するためのツールや抽象化を提供します。Weave はこれらのフレームワークと連携し、パイプライン全体をトレースします。
 
@@ -73,17 +65,13 @@ LLM プロバイダとは、予測を生成するための大規模言語モデ�
 * **[Agno](/ja/weave/guides/integrations/agno)**
 * **[Koog](/ja/weave/guides/integrations/koog)**
 
-<div id="reinforcement-learning-frameworks">
-  ### 強化学習フレームワーク
-</div>
+### 強化学習フレームワーク {#reinforcement-learning-frameworks}
 
 Weave は、トレーニングと評価の run をトレースするために、強化学習フレームワークと連携します。
 
 * **[Verifiers](/ja/weave/guides/integrations/verifiers)**
 
-<div id="protocols">
-  ### プロトコル
-</div>
+### プロトコル {#protocols}
 
 Weave は、AI アプリケーションとそれを支えるサービス間の通信を可能にする標準化プロトコルと連携できます。
 

@@ -5,9 +5,7 @@ keywords: ["Inférence"]
 
 Suivez ces bonnes pratiques pour gérer efficacement les erreurs de W&amp;B Serverless Inference et garantir la fiabilité de vos applications.
 
-<div id="always-implement-error-handling">
-  ## Implémentez toujours une gestion des erreurs
-</div>
+## Implémentez toujours une gestion des erreurs {#always-implement-error-handling}
 
 Encapsulez les appels d’API dans des blocs `try-except` :
 
@@ -24,9 +22,7 @@ except Exception as e:
     # Gérer l'erreur de manière appropriée
 ```
 
-<div id="use-retry-logic-with-exponential-backoff">
-  ## Utilisez une logique de nouvelle tentative avec backoff exponentiel
-</div>
+## Utilisez une logique de nouvelle tentative avec backoff exponentiel {#use-retry-logic-with-exponential-backoff}
 
 Réessayez en cas d’échecs transitoires, avec des délais croissants entre les tentatives :
 
@@ -60,17 +56,13 @@ def call_inference_with_retry(
     return None
 ```
 
-<div id="monitor-your-usage">
-  ## Surveillez votre utilisation
-</div>
+## Surveillez votre utilisation {#monitor-your-usage}
 
 * Suivez l’utilisation des crédits sur la page **Billing** de W&amp;B.
 * Configurez des alertes avant d’atteindre les limites.
 * Enregistrez l’utilisation de l’API dans votre application.
 
-<div id="handle-specific-error-codes">
-  ## Gérer les codes d&#39;erreur spécifiques
-</div>
+## Gérer les codes d&#39;erreur spécifiques {#handle-specific-error-codes}
 
 ```python
 def handle_inference_error(error):
@@ -93,9 +85,7 @@ def handle_inference_error(error):
         raise
 ```
 
-<div id="set-appropriate-timeouts">
-  ## Définissez des délais d&#39;expiration adaptés
-</div>
+## Définissez des délais d&#39;expiration adaptés {#set-appropriate-timeouts}
 
 Configurez des délais d&#39;expiration raisonnables pour votre cas d&#39;utilisation :
 
@@ -108,9 +98,7 @@ client = openai.OpenAI(
 )
 ```
 
-<div id="additional-tips">
-  ## Conseils supplémentaires
-</div>
+## Conseils supplémentaires {#additional-tips}
 
 * Journalisez les erreurs avec un horodatage pour faciliter le débogage.
 * Utilisez des opérations asynchrones pour mieux gérer la concurrence.

@@ -8,9 +8,7 @@ keywords: ["Experiments"]
 1 つのスクリプト内で run を順番に実行する 2 つのパターンと、複数の run を
 同時にアクティブな状態に保つための別のパターンについて説明します。
 
-<div id="use-a-context-manager">
-  ## コンテキストマネージャーを使用する
-</div>
+## コンテキストマネージャーを使用する {#use-a-context-manager}
 
 `wandb.init()` をコンテキストマネージャーとして使用します。こうすると、スクリプトで例外が送出された場合に run が終了し、失敗としてマークされます：
 
@@ -23,9 +21,7 @@ for x in range(10):
             run.log({"metric": x + y})
 ```
 
-<div id="call-runfinish-explicitly">
-  ## run.finish を明示的に呼び出す
-</div>
+## run.finish を明示的に呼び出す {#call-runfinish-explicitly}
 
 `run.finish()` を明示的に呼び出すこともできます：
 
@@ -47,9 +43,7 @@ for x in range(10):
         run.finish()
 ```
 
-<div id="multiple-active-runs">
-  ## 同時にアクティブな複数の run
-</div>
+## 同時にアクティブな複数の run {#multiple-active-runs}
 
 `wandb` 0.19.10 以降では、run を順番に実行するのではなく同時に複数アクティブにする必要がある場合は、`reinit` 設定を `"create_new"` にして、複数の run を同時にアクティブに作成できます。
 

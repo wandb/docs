@@ -19,9 +19,7 @@ Sensitive Data Protection 기능은 Python SDK에 다음 기능을 추가합니�
 * 구성 가능한 `redact_pii_fields` 설정으로 마스킹할 필드를 맞춤 설정할 수 있습니다.
 * `redact_pii_exclude_fields` 설정으로 특정 entity를 마스킹 대상에서 제외할 수 있습니다.
 
-<div id="enable-pii-redaction">
-  ## PII 마스킹 활성화
-</div>
+## PII 마스킹 활성화 {#enable-pii-redaction}
 
 이 section에서는 필요한 의존성을 설치하고, `weave.init()`에서 PII 마스킹을 켜고, 필요에 따라 Weave가 마스킹할 entity를 조정하는 방법을 안내합니다. Weave에서 Sensitive Data Protection 기능을 시작하려면 다음 step을 완료하세요:
 
@@ -55,9 +53,7 @@ Sensitive Data Protection 기능은 Python SDK에 다음 기능을 추가합니�
 
 이 step을 완료하면 Weave는 구성된 PII entity를 Weave 서버로 전송하기 전에 트레이스에서 마스킹합니다.
 
-<div id="entities-redacted-by-default">
-  ## 기본적으로 마스킹되는 entity
-</div>
+## 기본적으로 마스킹되는 entity {#entities-redacted-by-default}
 
 이 섹션에는 `redact_pii_fields`를 지정하지 않고 PII 마스킹을 활성화할 때 Weave가 자동으로 마스킹하는 PII entity 유형이 나열되어 있습니다. PII 마스킹이 활성화되면 다음 entity가 자동으로 마스킹됩니다.
 
@@ -80,9 +76,7 @@ Sensitive Data Protection 기능은 Python SDK에 다음 기능을 추가합니�
 * `US_PASSPORT`
 * `US_SSN`
 
-<div id="redact-sensitive-keys-with-redact_keys">
-  ## `REDACT_KEYS`로 민감한 키 마스킹하기
-</div>
+## `REDACT_KEYS`로 민감한 키 마스킹하기 {#redact-sensitive-keys-with-redact_keys}
 
 PII 마스킹 외에도 Weave SDK는 `REDACT_KEYS`를 사용한 맞춤형 키 마스킹을 지원합니다. 이는 PII 범주에 속하지는 않지만 비공개로 유지해야 하는 추가 민감 데이터를 보호하려는 경우에 유용합니다. 예를 들면 다음과 같습니다.
 
@@ -92,9 +86,7 @@ PII 마스킹 외에도 Weave SDK는 `REDACT_KEYS`를 사용한 맞춤형 키 �
 * 내부 ID
 * 설정 값
 
-<div id="pre-defined-redact_keys">
-  ### 사전 정의된 `REDACT_KEYS`
-</div>
+### 사전 정의된 `REDACT_KEYS` {#pre-defined-redact_keys}
 
 Weave는 기본적으로 다음과 같은 민감한 키를 자동으로 마스킹합니다:
 
@@ -106,9 +98,7 @@ Weave는 기본적으로 다음과 같은 민감한 키를 자동으로 마스�
 ]
 ```
 
-<div id="add-your-own-keys">
-  ### 맞춤형 키 추가하기
-</div>
+### 맞춤형 키 추가하기 {#add-your-own-keys}
 
 애플리케이션에서 민감한 값이 포함된 다른 필드 이름을 사용하는 경우, 기본 `REDACT_KEYS` 목록을 확장할 수 있습니다. 트레이스에서 마스킹하려는 맞춤형 키를 직접 추가하세요:
 
@@ -139,9 +129,7 @@ client_id = "REDACTED"
 token = "REDACTED"
 ```
 
-<div id="usage-information">
-  ## 사용 정보
-</div>
+## 사용 정보 {#usage-information}
 
 * 이 기능은 Python SDK에서만 사용할 수 있습니다.
 * 마스킹을 활성화하면 Presidio 의존성으로 인해 처리 시간이 늘어납니다.

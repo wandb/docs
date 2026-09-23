@@ -27,9 +27,7 @@ os.environ["WANDB_MODE"] = "offline"
 os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 ```
 
-<div id="optional-environment-variables">
-  ## Variables d’environnement facultatives
-</div>
+## Variables d’environnement facultatives {#optional-environment-variables}
 
 Utilisez ces variables d’environnement facultatives pour, par exemple, configurer l’authentification sur des machines distantes.
 
@@ -69,14 +67,10 @@ Utilisez ces variables d’environnement facultatives pour, par exemple, configu
 | `WANDB_USERNAME`        | Le nom d’utilisateur d’un membre de votre Teams associé au run. Vous pouvez l’utiliser avec une clé API de compte de service pour attribuer les runs automatisés à des membres de votre Teams.                                                                                                                                                                                                                                                                                                    |
 | `WANDB_USER_EMAIL`      | L’adresse e-mail d’un membre de votre Teams associé au run. Vous pouvez l’utiliser avec une clé API de compte de service pour attribuer les runs automatisés à des membres de votre Teams.                                                                                                                                                                                                                                                                                                        |
 
-<div id="singularity-environments">
-  ## Environnements Singularity
-</div>
+## Environnements Singularity {#singularity-environments}
 
 Si vous exécutez des conteneurs avec [Singularity](https://singularity.lbl.gov/index.html), vous pouvez transmettre des variables d&#39;environnement en ajoutant le préfixe `SINGULARITYENV_` aux variables ci-dessus. Vous trouverez plus de détails sur les variables d&#39;environnement de Singularity [ici](https://singularity.lbl.gov/docs-environment-metadata#environment).
 
-<div id="running-on-aws">
-  ## Exécuter sur AWS
-</div>
+## Exécuter sur AWS {#running-on-aws}
 
 Si vous exécutez des jobs batch sur AWS, vous pouvez facilement authentifier vos machines à l’aide de vos identifiants W&amp;B. Créez une clé API dans les [Paramètres utilisateur](https://wandb.ai/settings), puis définissez la variable d’environnement `WANDB_API_KEY` dans la [spécification de tâche AWS Batch](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters).

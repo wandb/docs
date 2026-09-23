@@ -10,9 +10,7 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
 
 推論情報は、レスポンスの `reasoning` フィールドに表示されます。推論非対応モデルのレスポンスでは、このフィールドの値は `null` です。
 
-<div id="supported-models-with-reasoning">
-  ## サポートされるモデル (推論対応)
-</div>
+## サポートされるモデル (推論対応) {#supported-models-with-reasoning}
 
 次の表は、推論出力を返すことができる Serverless Inference モデルと、それぞれの動作を示しています。
 
@@ -46,15 +44,11 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
 | `zai-org/GLM-5.3-Flash`                        | 常時有効               |
 | `zai-org/GLM-5.2`                              | デフォルトで有効           |
 
-<div id="models-with-always-on-reasoning">
-  ### 推論が `常時有効` のモデル
-</div>
+### 推論が `常時有効` のモデル {#models-with-always-on-reasoning}
 
 前述の[サポートされるモデル](#supported-models-with-reasoning)表でモデルが`常時有効`と記載されている場合、そのモデルには常に推論が含まれており、これを無効にすることはできません。
 
-<div id="disable-reasoning">
-  ### 推論を無効にする
-</div>
+### 推論を無効にする {#disable-reasoning}
 
 モデルが前述の [サポートされるモデル](#supported-models-with-reasoning) の表で `デフォルトで有効` として記載されている場合は、トークン使用量を減らしたり、応答を簡潔にしたりするために、推論を無効にできます。リクエストで推論を無効にするには、`chat_template_kwargs` で `enable_thinking` フラグを `False` (Python) または `false` (Bash) に設定します。リクエストが完了すると、応答には推論コンテンツが含まれません。
 
@@ -98,8 +92,6 @@ keywords: ["chain-of-thought", "thinking mode", "reasoning フィールド", "�
   </Tab>
 </Tabs>
 
-<div id="enable-reasoning">
-  ### 推論 を有効にする
-</div>
+### 推論 を有効にする {#enable-reasoning}
 
 モデルが前述の[サポートされるモデル](#supported-models-with-reasoning)の表で`デフォルトで無効`と記載されている場合は、前述のコードスニペットで`enable_thinking`フラグを`True` (Python) または`true` (Bash) に設定すると、推論 を有効にできます。

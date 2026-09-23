@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L25" />
 
-<div id="function-wandbsweep">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.sweep()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.sweep() {#function-wandbsweep}
 
 하이퍼파라미터 스윕를 초기화합니다.
 
@@ -28,9 +26,7 @@ project: 'str | None' = None,
 prior_runs: 'list[str] | None' = None
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="sweep" type="dict | Callable">
   하이퍼파라미터 검색의 설정입니다.  (또는 설정 generator).  callable을 제공하는 경우, 해당 callable이 인수를 받지 않고 W&amp;B 스윕 config 사양을 준수하는 dictionary를 반환하도록 하세요.
@@ -48,8 +44,6 @@ prior_runs: 'list[str] | None' = None
   이 스윕에 추가할 기존 run ID입니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `str`: 스윕의 고유 식별자입니다.

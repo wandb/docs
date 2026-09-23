@@ -27,9 +27,7 @@ ARIA は次のことを支援できます:
 * インサイトをチームと共有するために、保存済みビューや Reports を作成する。
 * 失敗した run の診断や新しいモデルバージョンのレビューなど、[W&amp;B のイベントに自動的に応答する](/ja/models/automations/create-automations/aria)。
 
-<div id="quick-start">
-  ## クイックスタート
-</div>
+## クイックスタート {#quick-start}
 
 [Chat with ARIA](/ja/aria/chat)には、次の手順を実行します:
 
@@ -37,9 +35,23 @@ ARIA は次のことを支援できます:
 2. チャットウィンドウで、質問またはリクエストを入力します。何を聞けばよいかわからない場合は、提案されたプロンプトを選択します。
 3. チャットウィンドウ右下にある、上向き矢印の **Send** ボタンをクリックします。
 
-<div id="follow-arias-progress">
-  ## ARIA の進行状況を確認する
-</div>
+## 作業中の画面から ARIA を起動する {#start-aria-from-where-you-work}
+
+ページ上部の **Ask ARIA** 以外にも、W&amp;B の各所にあるボタンから ARIA を起動できます。これらのボタンの多くは、メッセージボックスにヒントが表示された状態で新しいチャットを開きます。メッセージを送信する前に、依頼したい内容を入力してください。
+
+| 場所                                   | ボタン                                                        | ARIA が支援する内容                                                                                                              |
+| ------------------------------------ | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| クラッシュまたは失敗した run のページ                | **Debug with ARIA**                                        | run がクラッシュまたは失敗した理由を説明します。このボタンを押すと新しいチャットが開始され、すぐに ARIA への質問が送信されます。                                                     |
+| Workspace の **Runs** 表のツールバー         | **Show most useful columns with ARIA**                     | **Runs** 表の列の表示、非表示、固定、並べ替え、サイズ変更を行います。                                                                                   |
+| **Runs** 表の **Manage columns** ダイアログ | **Manage columns with ARIA**                               | **Runs** 表の列の表示、非表示、固定、並べ替え、サイズ変更を行います。                                                                                   |
+| **Runs** 表の **Filter** メニュー          | **Describe the filters you want ARIA to create** テキストフィールド | **Runs** 表をフィルタリングします。絞り込みたい run の条件を入力して **Enter** を押すと、ARIA が **Run Filter** を提案します。チャット内でそれをクリックすると、Workspace に適用されます。 |
+| 保存済みビューのメニュー                         | **Ask ARIA**                                               | Workspace の保存済みビューを作成します。                                                                                                 |
+| project の **Reports** タブ             | **Draft report with ARIA**                                 | 新しい report を作成します。                                                                                                        |
+| 自分が所有する report                       | **Edit with ARIA**                                         | report を修正します。ARIA は変更内容を既存の report に保存します。                                                                               |
+
+特定の run、Workspace のパネル、または W&amp;B Weave のトレースや評価に関するコンテキストを ARIA に渡すには、[会話にコンテキストを追加する](/ja/aria/chat#add-context-to-a-conversation)を参照してください。
+
+## ARIA の進行状況を確認する {#follow-arias-progress}
 
 ARIA の処理中は応答がストリーミングされるため、完了した回答を待たずに進行状況をステップごとに確認できます。質問の複雑さによっては、ARIA の応答に少し時間がかかることがあります。ARIA の処理中はチャットウィンドウを閉じて、後から戻って応答を確認できます。または、待たずに[次のメッセージをキューに追加](/ja/aria/chat#queue-messages)できます。ARIA がさらに情報を必要とする場合は、補足を求めます。
 
@@ -56,9 +68,7 @@ ARIA の処理中に、**Thinking** ステップと **shell** ステップが表
 
 実際の使用例については、[チャット例](/ja/aria/overview#example-chats) を参照してください。チャットの管理に関する詳細は、[Chat with ARIA](/ja/aria/chat) を参照してください。
 
-<div id="view-and-manage-project-memories">
-  ## project のメモリを表示、管理する
-</div>
+## project のメモリを表示、管理する {#view-and-manage-project-memories}
 
 ARIA は学習した内容を記憶します。作業中、ARIA は project にスコープされた&#95;メモリ&#95;を書き込むため、新しいセッションごとに設定、結論、好みを最初から把握し直す必要がありません。チームが対数スケールのチャートを好むことを一度伝えれば、以後もその内容を記憶します。
 
@@ -76,7 +86,7 @@ ARIA が新しいメモリを学習するのを待たずに、インタラクテ
 <AriaChatBubbles prompt="チャートにはセマンティックカラーリングを使用することを覚えておいてください。" response="まず既存の project メモリを確認し、この設定が重複せず適切なトピックに記録されるようにします ... 新しい project メモリを保存しました: chart-coloring。これは、チャートでは任意のパレット順ではなく、系列やカテゴリの意味またはステータスに基づく一貫したセマンティックカラーを使用する必要があることを記録しています。 " />
 
 <div id="example-chats">
-  ## チャット例
+  ## チャット例 {#example-chats}
 </div>
 
 以下は、ARIA とどのようにやり取りできるか、またどのような応答が返ってくるかを示すための、ARIA との実際のチャット例です。

@@ -5,9 +5,7 @@ title: Sweeps のトラブルシューティング
 
 このページでは、W&amp;B Sweeps の実行時に発生する可能性がある一般的なエラーメッセージの診断方法と解決方法を説明します。以下のセクションでは、各エラーの内容、発生する理由、そして推奨される対処方法を説明します。
 
-<div id="commerror-run-does-not-exist-and-error-error-uploading">
-  ## `CommError, Run does not exist` と `ERROR Error uploading`
-</div>
+## `CommError, Run does not exist` と `ERROR Error uploading` {#commerror-run-does-not-exist-and-error-error-uploading}
 
 W&amp;B がこれら 2 つのエラーメッセージを両方とも返す場合は、W&amp;B run ID を定義している可能性があります。たとえば、Jupyter Notebook や Python スクリプトのどこかに、次のようなコードスニペットがあるかもしれません。
 
@@ -27,9 +25,7 @@ wandb.init(name="a helpful readable run name")
 
 `wandb.init()` から `id` 引数を削除すると、sweep が独自の一意な run ID を割り当てられるようになり、アップロード エラーは発生しなくなります。
 
-<div id="cuda-out-of-memory">
-  ## `CUDA out of memory`
-</div>
+## `CUDA out of memory` {#cuda-out-of-memory}
 
 このエラーメッセージが表示された場合は、プロセスベースの実行を使用するようにコードをリファクタリングしてください。各試行をそれぞれ独立したプロセスで実行すると、W&amp;B は各実行の間に GPU メモリを解放します。
 
@@ -72,9 +68,7 @@ wandb.init(name="a helpful readable run name")
 
 トレーニングコードを CLI エージェントの下でスクリプトとして実行すると、各試行はそれぞれ独立したプロセスで実行され、W&amp;B は各実行の間に GPU メモリを解放します。
 
-<div id="anaconda-400-error">
-  ## `anaconda 400 error`
-</div>
+## `anaconda 400 error` {#anaconda-400-error}
 
 通常、以下のエラーは、最適化対象のメトリクスをログしていない場合に発生します。
 

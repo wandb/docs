@@ -25,15 +25,11 @@ Utilisez W&amp;B Tables pour visualiser et interroger des données tabulaires. P
 
 L&#39;image ci-dessus montre un tableau avec de la segmentation sémantique et des métriques personnalisées. Consultez ce tableau ici, dans cet [exemple de projet du cours de ML de W&amp;B](https://wandb.ai/av-team/mlops-course-001).
 
-<div id="how-it-works">
-  ## Fonctionnement
-</div>
+## Fonctionnement {#how-it-works}
 
 Un tableau est une grille de données en deux dimensions, où chaque colonne ne contient qu’un seul type de données. Les Tables prennent en charge les types primitifs et numériques, ainsi que les listes imbriquées, les dictionnaires et les médias enrichis.
 
-<div id="log-a-table">
-  ## Journaliser un tableau
-</div>
+## Journaliser un tableau {#log-a-table}
 
 Journalisez un tableau avec quelques lignes de code :
 
@@ -51,9 +47,7 @@ with wandb.init(project="table-test") as run:
     run.log({"Table Name": my_table})
 ```
 
-<div id="how-to-get-started">
-  ## Bien démarrer
-</div>
+## Bien démarrer {#how-to-get-started}
 
 * [Démarrage rapide](/fr/models/tables/tables-walkthrough/) : découvrez comment journaliser des tableaux de données, visualiser les données et les interroger.
 * [Galerie Tables](/fr/models/tables/tables-gallery/) : voir des exemples de cas d’usage pour Tables.

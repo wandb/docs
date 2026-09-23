@@ -13,7 +13,7 @@ Weave와 Verifiers를 함께 사용해 평가를 수행할 수도 있습니다.
 이 가이드는 Verifiers 기반 RL 워크플로에 관측성을 추가하려는 ML 엔지니어와 연구자를 위한 것입니다. 이 가이드에서는 Verifiers, W&amp;B, Weave를 설치하는 방법을 설명하고, Verifiers를 Weave 및 W&amp;B와 함께 사용하는 두 가지 예제를 제공합니다. 하나는 평가 중 롤아웃을 트레이싱하는 예제이고, 다른 하나는 실험 추적과 트레이싱을 활성화한 상태로 모델을 파인튜닝하는 예제입니다.
 
 <div id="get-started">
-  ## 시작하기
+  ## 시작하기 {#get-started}
 </div>
 
 Verifiers를 Weave로 통합하려면 `uv`를 사용해 Verifiers 라이브러리를 설치하세요([라이브러리 작성자가 권장](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). 라이브러리를 설치하려면 다음 명령어 중 하나를 사용하세요:
@@ -40,7 +40,7 @@ Weave는 기본적으로 이 라이브러리에 [암시적 패칭](/ko/weave/gui
 라이브러리를 설치했으면 다음 섹션의 예시를 실행할 준비가 되었습니다.
 
 <div id="trace-rollouts-and-evaluate">
-  ### 롤아웃을 트레이스하고 평가하기
+  ### 롤아웃을 트레이스하고 평가하기 {#trace-rollouts-and-evaluate}
 </div>
 
 필요한 라이브러리를 설치한 후에는 Weave와 Verifiers를 함께 사용해 call을 트레이스하고 평가를 실행할 수 있습니다.
@@ -84,7 +84,7 @@ results = env.evaluate(
 ```
 
 <div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
-  ### 실험 추적 및 트레이싱으로 모델 파인튜닝하기
+  ### 실험 추적 및 트레이싱으로 모델 파인튜닝하기 {#fine-tune-a-model-with-experiment-tracking-and-tracing}
 </div>
 
 Weave는 RL 파인튜닝 중 모델의 성능을 파악할 수 있게 해 줍니다. W&amp;B와 함께 사용하면 워크플로 전반에 걸친 관측성을 확보할 수 있습니다. W&amp;B는 트레이닝 메트릭과 성능 차트를 추적하고, Weave는 트레이닝 과정의 각 상호작용에 대한 상세한 트레이스를 캡처합니다.
@@ -136,7 +136,7 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
 트레이스에서는 `Environment.a_generate` 및 `Rubric.score_rollouts` 메서드의 `logprobs`를 제외합니다. 이렇게 하면 트레이닝에 사용할 원본은 그대로 유지하면서도 페이로드 크기를 작게 유지할 수 있습니다.
 
 <div id="see-also">
-  ## 추가 참조
+  ## 추가 참조 {#see-also}
 </div>
 
 Verifiers는 W&amp;B Models와의 인테그레이션을 기본으로 지원합니다. 자세한 내용은 [Verifiers 저장소](https://github.com/willccbb/verifiers)를 참조하세요.

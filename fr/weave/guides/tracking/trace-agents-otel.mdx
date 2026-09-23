@@ -8,9 +8,7 @@ L’observabilité des agents W&amp;B Weave repose sur [OpenTelemetry (OTel)](ht
 
 Cette page explique comment vous authentifier auprès du point de terminaison et lui envoyer des spans.
 
-<div id="authentication">
-  ## Authentification
-</div>
+## Authentification {#authentication}
 
 Vous pouvez envoyer des spans au point de terminaison suivant :
 
@@ -26,9 +24,7 @@ Pour vous authentifier auprès du point de terminaison, définissez votre [clé 
 * `wandb-api-key` : votre clé API W&amp;B comme valeur.
 * `Authorization` : authentification HTTP Basic avec `api` comme nom d’utilisateur et votre clé API W&amp;B comme mot de passe. Ce format est utile lorsque votre exportateur ou votre collecteur ne prend en charge que les en-têtes d’autorisation standard.
 
-<div id="project-routing">
-  ## Acheminement vers un projet
-</div>
+## Acheminement vers un projet {#project-routing}
 
 Weave achemine les spans vers un projet à l’aide soit des attributs de ressource OTel, soit d’un en-tête de requête :
 
@@ -37,9 +33,7 @@ Weave achemine les spans vers un projet à l’aide soit des attributs de ressou
 
 Si les deux sont présents, les attributs de ressource priment. Les spans reçus sans entité ni projet sont ignorés.
 
-<div id="shape-spans-for-the-agents-view">
-  ## Structurer les spans pour la vue Agents
-</div>
+## Structurer les spans pour la vue Agents {#shape-spans-for-the-agents-view}
 
 Weave accepte n’importe quel span OTel et stocke tous ses attributs, mais la vue Agents affiche les spans conformes aux [conventions sémantiques OTel GenAI](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md). Définissez `gen_ai.operation.name` sur chaque span pour indiquer à Weave ce que représente ce span :
 
@@ -56,9 +50,7 @@ Deux attributs supplémentaires contrôlent le regroupement :
 
 D’autres attributs des conventions sémantiques GenAI, comme `gen_ai.request.model`, `gen_ai.usage.input_tokens` et `gen_ai.usage.output_tokens`, enrichissent le rendu avec les noms des modèles et le nombre de jetons, mais sont facultatifs. Pour le modèle de données d’agent auquel ces spans sont associés, voir [Trace your agents](/fr/weave/guides/tracking/trace-agents#the-agent-data-model).
 
-<div id="configure-with-environment-variables-only">
-  ## Configurez uniquement à l’aide de variables d’environnement
-</div>
+## Configurez uniquement à l’aide de variables d’environnement {#configure-with-environment-variables-only}
 
 Si votre application ou votre collecteur lit les variables d’environnement standard de l’exportateur OTel, vous pouvez définir les variables suivantes et acheminer les spans vers Weave sans modifier le code :
 
@@ -68,9 +60,7 @@ export OTEL_EXPORTER_OTLP_TRACES_HEADERS="wandb-api-key=$WANDB_API_KEY"
 export OTEL_RESOURCE_ATTRIBUTES="wandb.entity=[YOUR-TEAM],wandb.project=[YOUR-PROJECT]"
 ```
 
-<div id="example-emit-agent-spans-without-the-weave-sdk">
-  ## Exemple : émettre des spans d’agent sans le SDK Weave
-</div>
+## Exemple : émettre des spans d’agent sans le SDK Weave {#example-emit-agent-spans-without-the-weave-sdk}
 
 L’exemple suivant instrumente un tour de conversation minimal pour un agent en utilisant uniquement des packages OTel. Il émet un span `invoke_agent` pour ce tour de conversation, un span `chat` pour l’appel LLM et un span `execute_tool` pour un appel d’outil, puis les exporte vers le point de terminaison Weave Agents.
 

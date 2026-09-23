@@ -12,9 +12,7 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
 * Weave [Call](../tracking/tracing)와 같은 객체에서 Python 및 TypeScript로 `Dataset`을 생성하는 방법
 * UI에서 `Dataset`에 사용할 수 있는 오퍼레이션
 
-<div id="dataset-quickstart">
-  ## 데이터셋 퀵스타트
-</div>
+## 데이터셋 퀵스타트 {#dataset-quickstart}
 
 다음 코드 예시는 Python 및 TypeScript를 사용해 기본적인 `데이터셋` 오퍼레이션을 수행하는 방법을 보여줍니다. SDK를 사용하면 다음을 수행할 수 있습니다.
 
@@ -89,9 +87,7 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
   </Tab>
 </Tabs>
 
-<div id="create-a-dataset-from-other-objects">
-  ## 다른 객체에서 dataset 만들기
-</div>
+## 다른 객체에서 dataset 만들기 {#create-a-dataset-from-other-objects}
 
 이 섹션에서는 기록된 Weave call이나 기존 표 형식 데이터처럼 이미 가지고 있는 데이터로 `Dataset`을 구축하는 방법을 보여주므로, 예시를 수동으로 다시 입력할 필요가 없습니다.
 
@@ -99,9 +95,7 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
   <Tab title="Python">
     Python에서는 [Call](../tracking/tracing) 같은 일반적인 Weave 객체나 `pandas.DataFrame` 같은 Python 객체로도 `Dataset`을 생성할 수 있습니다. 이 기능은 특정 예시들로 예시 `Dataset`을 만들고 싶을 때 유용합니다.
 
-    <div id="weave-call">
-      ### Weave call
-    </div>
+### Weave call {#weave-call}
 
     하나 이상의 Weave call에서 `Dataset`을 만들려면 call 객체를 조회한 뒤, `from_calls` 메서드에 전달하는 목록에 추가합니다.
 
@@ -117,9 +111,7 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
     # 이제 데이터셋을 사용해 모델을 평가하는 등의 작업을 할 수 있습니다.
     ```
 
-    <div id="pandas-dataframe">
-      ### Pandas DataFrame
-    </div>
+### Pandas DataFrame {#pandas-dataframe}
 
     Pandas `DataFrame` 객체에서 `Dataset`을 만들려면 `from_pandas` 메서드를 사용합니다. 다시 `Dataset`을 `DataFrame`으로 변환하려면 `to_pandas`를 사용합니다.
 
@@ -137,9 +129,7 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
     assert df.equals(df2)
     ```
 
-    <div id="hugging-face-datasets">
-      ### Hugging Face Datasets
-    </div>
+### Hugging Face Datasets {#hugging-face-datasets}
 
     Hugging Face `datasets.Dataset` 또는 `datasets.DatasetDict` 객체에서 `Dataset`을 만들려면 먼저 필요한 의존성이 설치되어 있는지 확인합니다:
 
@@ -186,17 +176,13 @@ Weave 데이터셋은 LLM 애플리케이션 평가와 병렬 비교를 위한 �
   </Tab>
 </Tabs>
 
-<div id="create-edit-and-delete-a-dataset-in-the-ui">
-  ## UI에서 데이터셋 생성, 수정 및 삭제
-</div>
+## UI에서 데이터셋 생성, 수정 및 삭제 {#create-edit-and-delete-a-dataset-in-the-ui}
 
 UI에서 `데이터셋`을 생성, 수정 및 삭제할 수 있습니다. Weave UI에서 데이터셋을 생성하면 코드를 편집하지 않고도 귀하와 팀의 비엔지니어링 구성원이 예시, 질문 및 기타 에이전트 테스트 데이터가 포함된 공유 가능한 데이터셋을 만들고 큐레이션할 수 있습니다.
 
 다음 절차에서는 UI에서 이러한 각 작업을 수행하는 방법을 안내합니다. 평가 데이터를 노트북이나 스크립트가 아니라, 해당 데이터가 나온 트레이스와 함께 관리하려면 이 절차를 사용하세요.
 
-<div id="create-a-new-dataset">
-  ### 새 데이터셋 만들기
-</div>
+### 새 데이터셋 만들기 {#create-a-new-dataset}
 
 다음 절차에서는 Weave 프로젝트의 기존 call 하나 이상을 바탕으로 새 `Dataset`을 만듭니다. 완료하면 evaluation에서 참조하고 팀과 공유할 수 있는 게시된 `Dataset`이 생성됩니다.
 
@@ -228,9 +214,7 @@ UI에서 `데이터셋`을 생성, 수정 및 삭제할 수 있습니다. Weave 
 
 11. 확인 팝업에서 **View the dataset**을 클릭해 새 `Dataset`을 확인합니다. 또는 **Datasets** 탭으로 이동합니다.
 
-<div id="edit-a-dataset">
-  ### 데이터셋 편집
-</div>
+### 데이터셋 편집 {#edit-a-dataset}
 
 다음 절차에 따라 기존 `Dataset`에 새 행을 추가하고 새 버전을 게시하세요. UI에서 편집하면 코드를 변경하지 않고도 평가 데이터를 확장하거나 수정할 때 유용합니다.
 
@@ -271,9 +255,7 @@ UI에서 `데이터셋`을 생성, 수정 및 삭제할 수 있습니다. Weave 
    ![Dataset UI - 게시된 메타데이터.](/weave/guides/core-types/imgs/datasetui-popout-edit-published-meta.png)
    ![Dataset UI - 게시된 행.](/weave/guides/core-types/imgs/datasetui-popout-edit-published-rows.png)
 
-<div id="delete-a-dataset">
-  ### 데이터셋 삭제
-</div>
+### 데이터셋 삭제 {#delete-a-dataset}
 
 더 이상 필요하지 않은 `Dataset`을 Weave 프로젝트에서 제거하려면 다음 절차를 따르세요.
 
@@ -293,15 +275,11 @@ UI에서 `데이터셋`을 생성, 수정 및 삭제할 수 있습니다. Weave 
 
    `Dataset`이 삭제되며, Weave 대시보드의 **Datasets** 탭에 더 이상 표시되지 않습니다.
 
-<div id="add-a-new-agent-trace-to-a-dataset">
-  ### 데이터셋에 새 에이전트 트레이스 추가
-</div>
+### 데이터셋에 새 에이전트 트레이스 추가 {#add-a-new-agent-trace-to-a-dataset}
 
 에이전트 턴과 도구 Call을 `데이터셋`에 추가하려면 [데이터셋에 에이전트 메시지 추가](/ko/weave/guides/tracking/view-agent-activity#add-agent-messages-to-a-dataset)를 참고하세요.
 
-<div id="add-a-new-trace-to-a-dataset">
-  ### 데이터셋에 새 트레이스 추가
-</div>
+### 데이터셋에 새 트레이스 추가 {#add-a-new-trace-to-a-dataset}
 
 `@weave.op` 데코레이터를 사용하는 Ops 및 Calls에서 생성된 트레이스를 `데이터셋`에 추가하려면:
 
@@ -325,17 +303,13 @@ UI에서 `데이터셋`을 생성, 수정 및 삭제할 수 있습니다. Weave 
 
 10. 확인 팝업에서 **View the dataset**을 클릭해 변경 사항을 확인합니다. 또는 **Datasets** 탭으로 이동해 `데이터셋`의 업데이트를 확인합니다.
 
-<div id="other-dataset-operations">
-  ## 기타 데이터셋 오퍼레이션
-</div>
+## 기타 데이터셋 오퍼레이션 {#other-dataset-operations}
 
 이 섹션에서는 이미 작업할 `Dataset`이 있을 때 유용한 추가 SDK 오퍼레이션을 다룹니다.
 
 <Tabs>
   <Tab title="Python">
-    <div id="select-rows">
-      ### 행 선택
-    </div>
+### 행 선택 {#select-rows}
 
     `select` 메서드를 사용하면 인덱스를 기준으로 `Dataset`에서 특정 행을 선택할 수 있습니다. 예를 들어 더 적은 수의 예시를 대상으로 평가하려는 경우처럼 데이터의 하위 집합을 만들 때 유용합니다.
 

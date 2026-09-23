@@ -7,9 +7,7 @@ W&amp;B Python SDK を使用して、機械学習の実験をトラッキング�
 
 このガイドでは、W&amp;B の構成要素を使用して W&amp;B Experiment を作成する方法を説明します。
 
-<div id="how-to-create-a-wb-experiment">
-  ## W&amp;B Experiment の作成方法
-</div>
+## W&amp;B Experiment の作成方法 {#how-to-create-a-wb-experiment}
 
 4 つの step で W&amp;B Experiment を作成します。
 
@@ -18,9 +16,7 @@ W&amp;B Python SDK を使用して、機械学習の実験をトラッキング�
 3. [トレーニングループ内でメトリクスをログする](#log-metrics-inside-your-training-loop)
 4. [Artifact を W&amp;B にログする](/ja/models/track/create-an-experiment#log-an-artifact-to-w%26b)
 
-<div id="initialize-a-wb-run">
-  ### W&amp;B run を初期化する
-</div>
+### W&amp;B run を初期化する {#initialize-a-wb-run}
 
 W&amp;B Run を作成するには、[`wandb.init()`](/ja/models/ref/python/functions/init) を使用します。
 
@@ -43,9 +39,7 @@ with wandb.init(
   注: `wandb.init()` を呼び出した時点ですでにそのプロジェクトが存在する場合、Runs は既存のプロジェクトに追加されます。たとえば、`“cat-classification”` という名前のプロジェクトがすでにある場合、そのプロジェクトは削除されず、引き続き存在します。代わりに、そのプロジェクトに新しい run が追加されます。
 </Note>
 
-<div id="capture-a-dictionary-of-hyperparameters">
-  ### ハイパーパラメーターの辞書を記録する
-</div>
+### ハイパーパラメーターの辞書を記録する {#capture-a-dictionary-of-hyperparameters}
 
 学習率やモデルタイプなどのハイパーパラメーターを辞書として保存します。`config` に記録したモデルの設定は、後で結果を整理したりクエリしたりするのに役立ちます。
 
@@ -59,9 +53,7 @@ with wandb.init(
 
 Experiment の設定方法について詳しくは、[Experiments の設定](./config)を参照してください。
 
-<div id="log-metrics-inside-your-training-loop">
-  ### トレーニングループ内でメトリクスをログする
-</div>
+### トレーニングループ内でメトリクスをログする {#log-metrics-inside-your-training-loop}
 
 各トレーニングstepにおける精度や損失などのメトリクスをログするには、[`run.log()`](/ja/models/ref/python/experiments/run/#method-runlog) を呼び出します。
 
@@ -76,9 +68,7 @@ for epoch in range(run.config["epochs"]):
 
 W&amp;B でログできるさまざまなデータタイプについて詳しくは、[オブジェクトとメディアをログする](/ja/models/track/log/)を参照してください。
 
-<div id="log-an-artifact-to-wb">
-  ### Artifact を W&amp;B にログする
-</div>
+### Artifact を W&amp;B にログする {#log-an-artifact-to-wb}
 
 必要に応じて、W&amp;B Artifact をログできます。Artifacts を使うと、データセットやモデルのバージョン管理が容易になります。
 
@@ -90,9 +80,7 @@ run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 
 [Artifacts](/ja/models/artifacts/) の詳細、または [Registry](/ja/models/registry/) でのモデルのバージョン管理については、こちらをご覧ください。
 
-<div id="putting-it-all-together">
-  ### 以上をまとめると
-</div>
+### 以上をまとめると {#putting-it-all-together}
 
 前述のコードスニペットをすべて含む完全なスクリプトを以下に示します。
 
@@ -120,9 +108,7 @@ with wandb.init(
     run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
 
-<div id="next-steps-visualize-your-experiment">
-  ## 次のステップ: 実験を可視化する
-</div>
+## 次のステップ: 実験を可視化する {#next-steps-visualize-your-experiment}
 
 project の Workspace を使用して、機械学習モデルの結果を整理し、可視化します。[平行座標プロット](/ja/models/app/features/panels/parallel-coordinates/)、[パラメーター重要度分析](/ja/models/app/features/panels/parameter-importance/)、[その他のチャートタイプ](/ja/models/app/features/panels/) などのインタラクティブなチャートを作成できます。
 
@@ -132,9 +118,7 @@ project の Workspace を使用して、機械学習モデルの結果を整理�
 
 実験や特定の run を表示する方法の詳細については、[実験結果を表示する](/ja/models/track/workspaces/) を参照してください。
 
-<div id="best-practices">
-  ## ベストプラクティス
-</div>
+## ベストプラクティス {#best-practices}
 
 Experiments を作成する際に考慮すべき推奨事項を以下に示します。
 

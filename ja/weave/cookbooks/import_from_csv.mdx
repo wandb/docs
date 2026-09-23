@@ -11,9 +11,7 @@ keywords: ["CSV インポート", "トレースのインポート", "過去の�
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
 </Note>
 
-<div id="import-traces-from-third-party-systems">
-  ## サードパーティシステムからトレースをインポート
-</div>
+## サードパーティシステムからトレースをインポート {#import-traces-from-third-party-systems}
 
 このノートブックでは、CSV ファイル内の過去の会話トレースを W&amp;B Weave にインポートして、分析したり、モデルの動作を比較したり、Weave でインストルメントされていないアプリケーションの外部で生成されたデータに対して評価を実行したりする方法を紹介します。
 
@@ -40,9 +38,7 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 ご自身のデータセット、ファイルパス、および W&amp;B project に合わせて、以下のセクションの変数を変更する必要があります。
 
-<div id="set-up-the-environment">
-  ## 環境を設定する
-</div>
+## 環境を設定する {#set-up-the-environment}
 
 必要なパッケージをすべてインストールして `import` します。
 `wandb.login()` でログインできるように、`WANDB_API_KEY` を環境に設定します (Colab にはシークレットとして指定します) 。
@@ -97,9 +93,7 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-<div id="load-the-data">
-  ## データを読み込む
-</div>
+## データを読み込む {#load-the-data}
 
 環境の準備ができたら、Weave が想定する親子構造に合うように、CSV データを読み込んで整形します。
 
@@ -129,9 +123,7 @@ result_df.columns = ["conversation_id", "conversation_data"]
 result_df.head()
 ```
 
-<div id="log-the-traces-to-weave">
-  ## トレースを Weave にログする
-</div>
+## トレースを Weave にログする {#log-the-traces-to-weave}
 
 データを会話とターンの形式に整えたら、次のステップはそれらのレコードを親 Call と子 Call として Weave に書き込むことです。
 
@@ -206,9 +198,7 @@ for _, row in result_df.iterrows():
     weave_client.finish_call(call=parent_call, output=parent_output)
 ```
 
-<div id="result-traces-logged-to-weave">
-  ## 結果: Weave にログされたトレース
-</div>
+## 結果: Weave にログされたトレース {#result-traces-logged-to-weave}
 
 この時点で、CSV データは Weave にインポートされています。これで、定義した `Conversation` および `Turn` オペレーションの下にグループ化された会話とそのターンを Weave UI で確認できます。
 
@@ -224,9 +214,7 @@ for _, row in result_df.iterrows():
   ![Weave UI の Conversation オペレーションと Turn オペレーション](/images/screenshots/csv-2.png)
 </Frame>
 
-<div id="optional-export-your-traces-to-run-evaluations">
-  ## オプション: トレースをエクスポートして評価を実行する
-</div>
+## オプション: トレースをエクスポートして評価を実行する {#optional-export-your-traces-to-run-evaluations}
 
 トレースを Weave に取り込み、会話がどのように見えるかを把握したら、それらを別のプロセスにエクスポートして Weave の評価を実行できます。
 
@@ -298,9 +286,7 @@ dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
 weave.publish(dset)
 ```
 
-<div id="result">
-  ## 結果
-</div>
+## 結果 {#result}
 
 エクスポートしたデータセットは Weave に再び公開され、評価の入力として使用できる状態になりました。
 

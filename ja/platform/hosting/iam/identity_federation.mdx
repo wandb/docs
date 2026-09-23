@@ -19,9 +19,7 @@ keywords: ["JWT認証", "RFC 7523", "フェデレーテッド ログイン", "�
   このドキュメントでは、&quot;アイデンティティプロバイダ&quot;と&quot;JWT issuer&quot;という用語を同じ意味で使用しています。どちらも、この機能の文脈では同じものを指します。
 </Note>
 
-<div id="set-up-the-jwt-issuer">
-  ## JWT issuer を設定する
-</div>
+## JWT issuer を設定する {#set-up-the-jwt-issuer}
 
 ユーザーが JWT で認証できるようになる前に、組織管理者は W&amp;B 組織と公開されている JWT issuer の間でフェデレーションを設定する必要があります。
 
@@ -33,9 +31,7 @@ W&amp;B は、`${ISSUER_URL}/.well-known/openid-configuration` のパスにあ�
 
 この手順を完了すると、W&amp;B 組織は JWT issuer とフェデレーションされます。すると、組織内の Users は、その provider が発行した JWT を使用して W&amp;B に認証できるようになります。
 
-<div id="use-the-jwt-to-access-wb">
-  ## JWT を使用して W&amp;B にアクセスする
-</div>
+## JWT を使用して W&amp;B にアクセスする {#use-the-jwt-to-access-wb}
 
 組織管理者が JWT issuer を設定すると、ユーザーはそのアイデンティティプロバイダが発行した JWT を使用して W&amp;B のプロジェクトにアクセスできるようになります。JWT を使用する仕組みは次のとおりです。
 
@@ -49,9 +45,7 @@ W&amp;B は、`${ISSUER_URL}/.well-known/openid-configuration` のパスにあ�
   W&amp;B アクセストークンにもデフォルトの有効期間があり、その後 SDK または CLI は JWT を使用して更新を試みます。その時点でユーザーの JWT も期限切れになっており、更新されていない場合は、認証に失敗します。可能であれば、JWT の取得と期限切れ後の更新の仕組みを、W&amp;B SDK または CLI を使用する AI ワークロードの一部として実装してください。
 </Note>
 
-<div id="jwt-validation">
-  ### JWT 検証
-</div>
+### JWT 検証 {#jwt-validation}
 
 有効なトークンのみがアクセスを許可することを確実にするため、JWT には次の検証が行われます。これらの検証は、SDK または CLI が JWT を W&amp;B アクセストークンに交換し、その後 project にアクセスする際に実行されます。
 
@@ -70,9 +64,7 @@ W&amp;B は、`${ISSUER_URL}/.well-known/openid-configuration` のパスにあ�
 
 * W&amp;B は JWT の `exp` クレームをチェックして、トークンが有効か、期限切れで更新が必要かどうかを判断します。
 
-<div id="external-service-accounts">
-  ## 外部サービスアカウント
-</div>
+## 外部サービスアカウント {#external-service-accounts}
 
 W&amp;B は、長期間有効な APIキーを持つ組み込みのサービスアカウントを長らくサポートしてきました。SDK と CLI のアイデンティティ フェデレーションにより、認証に JWT を使用する外部サービスアカウントも利用できます。これらの JWT は、組織で設定された issuer によって発行されている必要があります。チーム管理者は、組み込みサービスアカウントと同様に、チームの範囲内で外部サービスアカウントを設定できます。
 
@@ -92,9 +84,7 @@ W&amp;B は、長期間有効な APIキーを持つ組み込みのサービス�
   W&amp;B は、データの機密性レベルが異なる AI ワークロード全体で、組み込みサービスアカウントと外部サービスアカウントを組み合わせて使用することを推奨します。この組み合わせにより、柔軟性とシンプルさのバランスを取ることができます。
 </Note>
 
-<div id="determine-the-subject-value-for-your-identity-provider">
-  ### アイデンティティプロバイダの Subject の値を確認する
-</div>
+### アイデンティティプロバイダの Subject の値を確認する {#determine-the-subject-value-for-your-identity-provider}
 
 **Subject** に入力する値は、サービスアカウントに対して IdP が発行する JWT の `sub` (subject) クレームと完全に一致している必要があります。W&amp;B では、すべてのアイデンティティプロバイダに対して同じ方法で比較を行います。この一致は完全一致で、大文字と小文字、および空白も区別されます。そのため、末尾に空白が 1 つあるだけでも、あるいは大文字・小文字が異なるだけでも、認証は失敗します。
 

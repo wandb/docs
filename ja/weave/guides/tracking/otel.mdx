@@ -16,9 +16,7 @@ Weave は、専用のエンドポイントを通じた OpenTelemetry 互換の�
   このエンドポイントは **Traces** ビューと **スレッド** ビューにデータを送ります。multi-turn エージェント から **Agents** ビューに OTel スパンを送信するには、代わりに agents エンドポイントを使用してください。詳細は、[OpenTelemetry スパンを Agents ビューに送信する](/ja/weave/guides/tracking/trace-agents-otel)を参照してください。
 </Note>
 
-<div id="endpoint-details">
-  ## エンドポイント の詳細
-</div>
+## エンドポイント の詳細 {#endpoint-details}
 
 * **Path**: `/otel/v1/traces`
 * **Method**: `POST`
@@ -30,9 +28,7 @@ Weave は、専用のエンドポイントを通じた OpenTelemetry 互換の�
 
 `<your-subdomain>` は、組織固有のW&amp;Bドメイン (例: `acme.wandb.io`) に置き換えてください。
 
-<div id="authentication-and-routing">
-  ## 認証とルーティング
-</div>
+## 認証とルーティング {#authentication-and-routing}
 
 Weave では、`wandb-api-key` ヘッダーを使用してリクエストを認証し、`TracerProvider` のリソース属性を使用してスパンを適切な エンティティ と project にルーティングします。`wandb-api-key` ヘッダーに W&amp;B APIキーを渡したうえで、`TracerProvider` クラスで次のキーを OpenTelemetry の Resource 属性として指定します。
 
@@ -100,9 +96,7 @@ Weave では、`wandb-api-key` ヘッダーを使用してリクエストを認�
   ```
 </CodeGroup>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 以下の例では、Python と TypeScript を使用して OpenTelemetry トレースを Weave に送信する方法を示します。各例では、OpenInference インストルメンテーション ライブラリを使用する方法、OpenLLMetry インストルメンテーションを使用する方法、またはインストルメンテーション パッケージを使わずに OpenTelemetry SDK を直接使用する方法という、異なるアプローチを取り上げています。
 
@@ -113,9 +107,7 @@ Weave では、`wandb-api-key` ヘッダーを使用してリクエストを認�
 * Project name: プロジェクト名を選択してください。
 * `OPENAI_API_KEY`: これは [OpenAI dashboard](https://platform.openai.com/api-keys) から取得できます。
 
-<div id="openinference-instrumentation">
-  ### OpenInference インストルメンテーション
-</div>
+### OpenInference インストルメンテーション {#openinference-instrumentation}
 
 [OpenInference](https://github.com/Arize-ai/openinference)は、LLM Call を OpenTelemetry のスパンとして取得する、Arize AI のオープンソースのインストルメンテーションライブラリです。この例では、OpenAI インストルメンテーションの使い方を示します。利用可能なものはほかにも多数あり、[公式リポジトリ](https://github.com/Arize-ai/openinference)で確認できます。
 
@@ -290,9 +282,7 @@ Weave では、`wandb-api-key` ヘッダーを使用してリクエストを認�
   </Tab>
 </Tabs>
 
-<div id="openllmetry-instrumentation">
-  ### OpenLLMetry インストルメンテーション
-</div>
+### OpenLLMetry インストルメンテーション {#openllmetry-instrumentation}
 
 [OpenLLMetry](https://github.com/traceloop/openllmetry) は、Traceloop が提供するオープンソースのオブザーバビリティ ライブラリであり、一般的な LLM プロバイダやフレームワーク向けの OpenTelemetry インストルメンテーションを提供します。次の例は、OpenAI インストルメンテーションの使い方を示しています。その他の例は [OpenLLMetry repository](https://github.com/traceloop/openllmetry) で確認できます。
 
@@ -462,9 +452,7 @@ Weave では、`wandb-api-key` ヘッダーを使用してリクエストを認�
   </Tab>
 </Tabs>
 
-<div id="without-instrumentation">
-  ### インストルメンテーションを使用しない場合
-</div>
+### インストルメンテーションを使用しない場合 {#without-instrumentation}
 
 インストルメンテーションパッケージの代わりに OTel を直接使用することもできます。この方法では、各 span に設定する属性を完全に制御できます。Weave は、[https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) で説明されている OpenTelemetry のセマンティック規約に従って span 属性を解析します。
 
@@ -652,15 +640,11 @@ Weave では、`wandb-api-key` ヘッダーを使用してリクエストを認�
 
 Weave は、トレースの解釈時にどの規約を適用するかを判断するために、スパン属性のプレフィックス `gen_ai` と `openinference` を使用します。どちらのキーも検出されない場合は、すべての スパン属性が Trace view に表示されます。トレースを選択すると、サイドパネルで スパン全体を確認できます。
 
-<div id="use-an-opentelemetry-collector">
-  ## OpenTelemetry Collector を使用する
-</div>
+## OpenTelemetry Collector を使用する {#use-an-opentelemetry-collector}
 
 上記の例では、トレースをアプリケーションから Weave に直接エクスポートしています。本番環境では、アプリケーションと Weave の間の中継役として [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) を使用できます。この collector はアプリからトレースを受信し、その後 1 つ以上のバックエンドに転送します。このパターンでは、認証、バッチ処理、ルーティングのロジックをアプリケーションコードの外部に集約でき、単一のパイプラインから複数の オブザーバビリティ バックエンドへトレースを振り分けて送信できます。
 
-<div id="set-up-a-collector">
-  ### collector を設定する
-</div>
+### collector を設定する {#set-up-a-collector}
 
 このセクションでは、Docker でローカルの OpenTelemetry Collector を実行し、アプリケーションがそこにトレースを送信するよう設定する手順を説明します。次の例では、以下の方法を示します。
 
@@ -806,9 +790,7 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
 
 トレースを追加のバックエンドに送信するには、エクスポーターを追加し、それらを `service.pipelines.traces.exporters` リストに含めます。たとえば、同じ Collector インスタンスから Weave と Jaeger の両方にエクスポートできます。
 
-<div id="organize-otel-traces-into-threads">
-  ## OTel トレースをスレッドに整理する
-</div>
+## OTel トレースをスレッドに整理する {#organize-otel-traces-into-threads}
 
 [Weave threads](/ja/weave/guides/tracking/threads) を使用すると、関連するトレースをグループ化して、複数ターンの会話やユーザーセッションを 1 つの単位として分析できます。特定のスパン属性を追加して OpenTelemetry トレースをスレッドに整理すると、Weave の Thread UI を使って、複数ターンの会話やユーザーセッションなどの関連する操作を分析できます。
 
@@ -1299,15 +1281,11 @@ collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設�
 
 これらのトレースを送信すると、Weave UI の **スレッド** タブで確認できます。`thread_id` ごとにグループ化され、各ターンは個別の行として表示されます。
 
-<div id="attribute-mappings">
-  ## 属性マッピング
-</div>
+## 属性マッピング {#attribute-mappings}
 
 Weave は、さまざまなインストルメンテーション フレームワークの OpenTelemetry span 属性を内部データモデルにマッピングします。このマッピングにより、Weave で豊富なビューを得るために既存のインストルメンテーションの属性名を変更したり変換したりする必要はありません。複数の属性名が同じフィールドに対応する場合、Weave は優先順位に従ってそれらを適用するため、同じトレース内で複数のフレームワークを共存させることができます。
 
-<div id="supported-frameworks">
-  ### 対応フレームワーク
-</div>
+### 対応フレームワーク {#supported-frameworks}
 
 Weave は、以下のオブザーバビリティフレームワークおよび SDK の属性規約に対応しています。
 
@@ -1321,9 +1299,7 @@ Weave は、以下のオブザーバビリティフレームワークおよび S
 * **Logfire / Pydantic AI**: Logfire の Pydantic AI 向けインストルメンテーション (`gen_ai.input.messages`, `gen_ai.output.messages`, `pydantic_ai.all_messages`, `final_result`)。
 * **Langfuse**: Langfuse のトレース属性 (`langfuse.startTime`, `langfuse.endTime`)。
 
-<div id="attribute-reference">
-  ### 属性のリファレンス
-</div>
+### 属性のリファレンス {#attribute-reference}
 
 | 属性フィールド名                          | W&amp;B マッピング                 | 説明                                      | タイプ                       | 例                                              |
 | :-------------------------------- | :---------------------------- | :-------------------------------------- | :------------------------ | :--------------------------------------------- |
@@ -1382,8 +1358,6 @@ Weave は、以下のオブザーバビリティフレームワークおよび S
 | `langfuse.startTime`              | `start_time` (上書き)            | スパンの開始タイムスタンプを上書きします。                   | タイムスタンプ (ISO8601/Unix ns) | `"2024-01-01T12:00:00Z"`                       |
 | `langfuse.endTime`                | `end_time` (上書き)              | スパンの終了タイムスタンプを上書きします。                   | タイムスタンプ (ISO8601/Unix ns) | `"2024-01-01T12:00:01Z"`                       |
 
-<div id="limitations">
-  ## 制限事項
-</div>
+## 制限事項 {#limitations}
 
 Weave UI では、Chat view で OTel trace の tool calls をレンダリングできません。代わりに、生の JSON として表示されます。

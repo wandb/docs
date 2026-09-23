@@ -11,18 +11,14 @@ run の履歴を変更するには、run を巻き戻します。run を巻き�
   巻き戻しには既知のパフォーマンス上の制約があるため、W&amp;B は通常、代替手段として [フォークする](./forking) を推奨しています。
 </Note>
 
-<div id="prerequisites">
-  ### 前提条件
-</div>
+### 前提条件 {#prerequisites}
 
 run を巻き戻す前に、以下の前提条件を満たしていることを確認してください。
 
 * run を巻き戻すには、[W&amp;B Python SDK](https://pypi.org/project/wandb/) のバージョン `0.17.1` 以降が必要です。
 * 単調増加する step を使用する必要があります。[`define_metric()`](/ja/models/ref/python/experiments/run#define_metric) で定義した非単調な step は、run の履歴に必要な時系列順を乱すため、使用できません。
 
-<div id="limitations">
-  ### 制限事項
-</div>
+### 制限事項 {#limitations}
 
 巻き戻す機能は以下をサポートしていません。
 
@@ -41,9 +37,7 @@ W&amp;B は、巻き戻した run の summary メトリクスを、新たにロ�
     - **run のアーカイブ**: W&B は元の Runs をアーカイブします。Runs には [Run Overview](./#overview-tab) タブからアクセスできます。
     - **Artifacts の関連付け**: Artifacts は、それを生成した run に関連付けられます。 */}
 
-<div id="rewind-and-forking-compatibility">
-  ### 巻き戻しとフォークの互換性
-</div>
+### 巻き戻しとフォークの互換性 {#rewind-and-forking-compatibility}
 
 フォークは巻き戻しを補完する機能です。
 
@@ -51,9 +45,7 @@ run からフォークすると、W&amp;B は特定の時点の run から新し
 
 run を巻き戻すと、W&amp;B は run の履歴そのものを修正・変更できるようにします。
 
-<div id="rewind-a-run">
-  ## run を巻き戻す
-</div>
+## run を巻き戻す {#rewind-a-run}
 
 特定の step から run を巻き戻し、その時点から新しいデータをログします。[`wandb.init()`](/ja/models/ref/python/functions/init) の `resume_from` パラメーターには、巻き戻したい run の run ID と step の両方を引数として渡します。`resume_from` パラメーターは、`<run ID>?_step=<step>` 形式の文字列を受け取ります。ここで、`<run ID>` は巻き戻したい run の run ID、`<step>` は巻き戻しを開始する step です。
 
@@ -103,9 +95,7 @@ with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_ste
 
 <img src="/images/runs/rewind_run_step200_wmetric.png" alt="左から右: 元の直線と追加のメトリクス" />
 
-<div id="view-an-archived-run">
-  ## アーカイブされた run を表示する
-</div>
+## アーカイブされた run を表示する {#view-an-archived-run}
 
 run を巻き戻した後、W&amp;B App で元のアーカイブ済みの run を確認できます。アーカイブされた run を表示するには、次の step に従ってください。
 
@@ -114,9 +104,7 @@ run を巻き戻した後、W&amp;B App で元のアーカイブ済みの run �
 
 `Forked From` フィールドを使うと、アーカイブされた再開のツリー内を簡単にたどり、各巻き戻しの順序と起点を確認できます。
 
-<div id="fork-from-a-run-that-you-rewind">
-  ## 巻き戻した run からフォークする
-</div>
+## 巻き戻した run からフォークする {#fork-from-a-run-that-you-rewind}
 
 巻き戻した run からフォークするには、`wandb.init()` で [`fork_from`](/ja/models/runs/forking/) 引数を使用し、フォーク元とするソース run ID と、そのソース run の step を指定します。
 

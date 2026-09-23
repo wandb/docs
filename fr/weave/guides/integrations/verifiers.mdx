@@ -13,7 +13,7 @@ Vous pouvez également utiliser Weave et Verifiers ensemble pour effectuer des �
 Ce guide s&#39;adresse aux ingénieurs ML et aux chercheurs qui souhaitent ajouter de l&#39;observabilité à leurs flux de travail RL basés sur Verifiers. Il vous montre comment installer Verifiers, W&amp;B et Weave, et fournit deux exemples d&#39;utilisation de Verifiers avec Weave et W&amp;B : le traçage des rollouts pendant l&#39;évaluation, et le fine-tuning d&#39;un modèle avec le suivi des expériences et le traçage activés.
 
 <div id="get-started">
-  ## Premiers pas
+  ## Premiers pas {#get-started}
 </div>
 
 Pour intégrer Verifiers avec Weave, commencez par installer la bibliothèque Verifiers avec `uv` ([comme le recommandent les auteurs de la bibliothèque](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). Utilisez l’une des commandes suivantes pour installer la bibliothèque :
@@ -40,7 +40,7 @@ Weave active par défaut le [patching implicite](/fr/weave/guides/integrations#a
 Une fois les bibliothèques installées, vous êtes prêt à exécuter les exemples dans les sections suivantes.
 
 <div id="trace-rollouts-and-evaluate">
-  ### Tracer les rollouts et évaluer
+  ### Tracer les rollouts et évaluer {#trace-rollouts-and-evaluate}
 </div>
 
 Une fois les bibliothèques nécessaires installées, vous pouvez utiliser Weave et Verifiers ensemble pour tracer les appels et exécuter des évaluations.
@@ -84,7 +84,7 @@ results = env.evaluate(
 ```
 
 <div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
-  ### Affiner un modèle avec le suivi des expériences et le traçage
+  ### Affiner un modèle avec le suivi des expériences et le traçage {#fine-tune-a-model-with-experiment-tracking-and-tracing}
 </div>
 
 Weave offre une meilleure visibilité sur les performances de vos modèles pendant le fine-tuning RL. Lorsque vous l’utilisez aux côtés de W&amp;B, vous bénéficiez d’une observabilité sur l’ensemble du flux de travail. W&amp;B suit les métriques d’entraînement et les graphiques de performances, tandis que Weave capture des traces détaillées de chaque interaction pendant le processus d’entraînement.
@@ -136,7 +136,7 @@ Une fois l’entraînement lancé, vous pouvez [consulter les traces](/fr/weave/
 Les traces n’incluent pas `logprobs` pour les méthodes `Environment.a_generate` et `Rubric.score_rollouts`. Cela permet de limiter la taille des charges utiles tout en conservant les données d’origine intactes pour l’entraînement.
 
 <div id="see-also">
-  ## Voir aussi
+  ## Voir aussi {#see-also}
 </div>
 
 Verifiers offre une intégration native avec W&amp;B Models. Pour plus d&#39;informations, voir le [dépôt Verifiers](https://github.com/willccbb/verifiers).

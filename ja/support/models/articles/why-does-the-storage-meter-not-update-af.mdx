@@ -7,9 +7,7 @@ Runs、Artifacts、またはファイルを削除しても、ストレージ使�
 
 ストレージ制限を超過していた場合でも、使用量が制限を下回り、W&amp;B による削除処理が完了すると、アクセス制限は自動的に解除されます。処理が完了するまで、追加の対応は必要ありません。
 
-<div id="if-your-usage-still-looks-too-high">
-  ## 使用量が依然として多すぎるように見える場合
-</div>
+## 使用量が依然として多すぎるように見える場合 {#if-your-usage-still-looks-too-high}
 
 run を削除しても、ログした artifact は、削除を選択した場合にのみ削除されます。W&amp;B App で run を削除すると、関連する artifact も削除するかどうかを確認するプロンプトが表示されます。[`Run.delete()`](/ja/models/ref/python/public-api/run#method-run-delete) の `delete_artifacts` 引数のデフォルト値は `False` です。詳細は、[run を削除する](/ja/models/runs/delete-runs)を参照してください。
 

@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py#L19" />
 
-<div id="function-wandbplotpr_curve">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.pr_curve()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.pr_curve() {#function-wandbplotpr_curve}
 
 정밀도-재현율(PR) 곡선을 생성합니다.
 
@@ -26,9 +24,7 @@ title: 'str' = 'Precision-Recall Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="y_true" type="Iterable[T] | None">
   실제 이진 레이블입니다. 형태는 (`num_samples`,)여야 합니다.
@@ -58,21 +54,15 @@ split_table: 'bool' = False
   테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 섹션에 표시됩니다. 기본값은 `False`입니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
 
-<div id="raises">
-  ## 예외
-</div>
+## 예외 {#raises}
 
 * `wandb.Error`:  NumPy, pandas 또는 scikit-learn이 설치되어 있지 않은 경우 예외가 발생합니다.
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 ```python
 import wandb

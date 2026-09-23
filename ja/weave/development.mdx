@@ -11,9 +11,7 @@ keywords: ["Mintlify CLI", "ローカルプレビュー", "mintlify dev", "壊�
   続行する前に `docs.json` に移行し、従来の `mint.json` ファイルを削除してください。
 </Info>
 
-<div id="install-and-run-mintlify">
-  ## Mintlify をインストールして実行する
-</div>
+## Mintlify をインストールして実行する {#install-and-run-mintlify}
 
 お使いのオペレーティングシステムに Mintlify をインストールして実行するには、次の step に従います:
 
@@ -37,9 +35,7 @@ keywords: ["Mintlify CLI", "ローカルプレビュー", "mintlify dev", "壊�
 
 ドキュメントのローカルプレビューは `http://localhost:3000` で確認できます。これで、公開されている Weave ドキュメントサイトを反映したローカル環境が実行されます。
 
-<div id="custom-ports">
-  ### カスタムポート
-</div>
+### カスタムポート {#custom-ports}
 
 デフォルトでは、Mintlify はポート 3000 を使用します。お使いのマシンですでにポート 3000 が使用中である場合や、複数のプレビューを同時に実行したい場合は、`--port` フラグを使うと、Mintlify が使用するポートを変更できます。たとえば、Mintlify をポート 3333 で実行するには、次のコマンドを使用します。
 
@@ -53,9 +49,7 @@ mintlify dev --port 3333
 Port 3000 is already in use. Trying 3001 instead.
 ```
 
-<div id="mintlify-versions">
-  ## Mintlify のバージョン
-</div>
+## Mintlify のバージョン {#mintlify-versions}
 
 CLI を本番の Mintlify バージョンと同期させ、ローカルのプレビューが公開サイトで読者に表示される内容と一致するようにしてください。各 CLI version は、Mintlify の特定のバージョンに対応しています。ローカルの Web サイトが本番バージョンと一致しない場合は、CLI を更新してください。
 
@@ -69,9 +63,7 @@ CLI を本番の Mintlify バージョンと同期させ、ローカルのプレ
   ```
 </CodeGroup>
 
-<div id="validate-links">
-  ## リンクを検証する
-</div>
+## リンクを検証する {#validate-links}
 
 リンク切れは読者の体験を損なうため、プルリクエストを作成する前に、変更内容に無効な参照がないか確認してください。CLI を使うと、ドキュメント内の参照リンクを検証できます。リンク切れを特定するには、`mintlify broken-links` を実行します。
 
@@ -79,9 +71,7 @@ CLI を本番の Mintlify バージョンと同期させ、ローカルのプレ
 mintlify broken-links
 ```
 
-<div id="deployment">
-  ## デプロイ
-</div>
+## デプロイ {#deployment}
 
 <Tip>
   [Pro
@@ -90,15 +80,11 @@ mintlify broken-links
 
 デプロイに成功すると、すべてのチェックにパスしたことを示す確認メッセージが表示されます。
 
-<div id="code-formatting">
-  ## コードのフォーマット
-</div>
+## コードのフォーマット {#code-formatting}
 
 一貫した MDX のフォーマットにより、変更内容のレビューがしやすくなり、意図しない構文エラーも減らせます。IDE で MDX を認識して整形できるよう、拡張機能を使用することをお勧めします。VSCode をお使いの場合は、シンタックスハイライトには [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)、コードのフォーマットには [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の利用を検討してください。
 
-<div id="troubleshooting">
-  ## トラブルシューティング
-</div>
+## トラブルシューティング {#troubleshooting}
 
 以下のセクションでは、Mintlify CLI をローカルで実行する際によく発生する問題と、その解決方法について説明します。
 

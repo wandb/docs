@@ -10,18 +10,14 @@ keywords: ["バージョンを固定", "アップグレードを凍結", "バー
   W&amp;B は、W&amp;B Server のメジャー バージョン を、初回 バージョン のリリース日から 12 か月間サポートします。**セルフマネージド** インスタンスをご利用のお客様は、サポートを維持するために適切なタイミングでアップグレードを行う必要があります。サポート対象外の バージョン を使い続けることは避けてください。W&amp;B は、**セルフマネージド** インスタンスをご利用のお客様に対し、サポートを維持し、最新の features、パフォーマンス改善、修正を利用するために、少なくとも四半期に 1 回はデプロイを最新リリースに更新することを推奨します。
 </Note>
 
-<div id="requirements">
-  ## 要件
-</div>
+## 要件 {#requirements}
 
 * W&amp;B Kubernetes Operator `v1.13.0` 以降
 * System Console `v2.12.2` 以降
 
 これらの要件を満たしていることを確認するには、対象インスタンスの W&amp;B Custom Resource または Helm チャートを参照してください。`operator-wandb` コンポーネントと `system-console` コンポーネントの `バージョン` の値を確認します。
 
-<div id="disable-automatic-updates">
-  ## 自動更新を無効にする
-</div>
+## 自動更新を無効にする {#disable-automatic-updates}
 
 自動更新を無効にするには、System Console を使用して W&amp;B Server を特定のバージョンに固定し、その後 Operator の reconciliation ログを確認して、バージョン固定が有効になっていることを確かめます。
 

@@ -16,9 +16,7 @@ Skills는 다음을 포함한 여러 주요 코딩 에이전트에서 작동합�
 
 지원되는 에이전트의 전체 목록은 [W&amp;B Skills CLI documentation](https://github.com/vercel-labs/skills#supported-agents)을 참조하세요.
 
-<div id="wb-skills-capabilities">
-  ## W&amp;B Skills 기능
-</div>
+## W&amp;B Skills 기능 {#wb-skills-capabilities}
 
 Skills는 [W&amp;B Models SDK](/ko/models/ref) (training Runs, 메트릭, artifacts, sweeps)와 [Weave SDK](/ko/weave/reference/python-sdk) (트레이스, 평가, scorers)를 모두 포괄합니다. 에이전트가 다음 워크플로를 처리할 수 있도록 헬퍼 라이브러리, 레퍼런스 문서, 데이터 분석 패턴도 포함됩니다.
 
@@ -27,9 +25,7 @@ Skills는 [W&amp;B Models SDK](/ko/models/ref) (training Runs, 메트릭, artifa
 | **모델 트레이닝** | <ul><li>트레이닝 및 파인튜닝 중에 메트릭과 리치 미디어를 기록합니다.</li><li>실험를 추적하고 비교합니다.</li><li>Runs과 결과(예: loss 곡선, accuracy 점수)를 분석합니다.</li><li>하이퍼파라미터를 튜닝합니다.</li></ul>    |
 | **에이전트 구축** | <ul><li>에이전트 기반 AI 애플리케이션을 트레이스합니다.</li><li>트레이스를 분석하고 실패 모드를 분류합니다.</li><li>레이블된 데이터셋으로 모델과 에이전트를 평가합니다.</li><li>프로덕션 모니터링을 위해 온라인 평가를 실행합니다.</li></ul> |
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 Skills를 사용하려면 다음이 필요합니다.
 
@@ -40,9 +36,7 @@ Skills를 사용하려면 다음이 필요합니다.
   ```
 * 선택: W&amp;B 프로젝트 이름을 `WANDB_PROJECT` 환경 변수로 설정합니다. 이렇게 하면 매번 따로 지정하지 않아도 에이전트가 올바른 W&amp;B 프로젝트를 대상으로 사용할 수 있습니다.
 
-<div id="install-wb-skills">
-  ## W&amp;B Skills 설치
-</div>
+## W&amp;B Skills 설치 {#install-wb-skills}
 
 전역 설치를 선택하면 모든 프로젝트에서 Skills를 사용할 수 있고, 프로젝트별 설치를 선택하면 Skills를 단일 프로젝트 범위로 제한할 수 있습니다.
 
@@ -68,9 +62,7 @@ npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
 
 설치가 완료되면 에이전트가 W&amp;B Skills에 액세스할 수 있게 되며, W&amp;B 관련 작업을 처리할 준비가 됩니다.
 
-<div id="use-wb-skills">
-  ## W&amp;B Skills 사용하기
-</div>
+## W&amp;B Skills 사용하기 {#use-wb-skills}
 
 설치가 완료되면 에이전트에게 프로젝트와 관련된 W&amp;B 작업을 수행하도록 요청할 수 있습니다. 다음 예시 프롬프트는 에이전트가 W&amp;B Skills로 수행할 수 있는 작업의 일부를 보여줍니다.
 
@@ -81,9 +73,7 @@ npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
 * &quot;가장 최근 평가에서 실패 유형을 찾아 분류해 줘.&quot;
 * &quot;run A와 run B의 설정을 비교하고 차이를 보여줘.&quot;
 
-<div id="usage-tips">
-  ## 사용 팁
-</div>
+## 사용 팁 {#usage-tips}
 
 Skills는 광범위한 개방형 질문보다 구체적인 쿼리에서 더 잘 작동합니다. 다음 표는 권장 프롬프트와 지나치게 모호한 프롬프트를 비교합니다.
 

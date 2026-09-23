@@ -7,9 +7,7 @@ Ce guide fournit des recommandations pour intégrer W&amp;B à votre script d’
 
 Ce guide s’adresse aux praticiens du machine learning qui disposent déjà d’un script d’entraînement Python et souhaitent ajouter la prise en charge des balayages d’hyperparamètres. Les sections suivantes présentent un exemple de script d’entraînement, puis montrent comment le mettre à jour pour qu’il fonctionne avec les balayages W&amp;B.
 
-<div id="original-training-script">
-  ## Script d’entraînement original
-</div>
+## Script d’entraînement original {#original-training-script}
 
 Supposons que vous disposiez d’un script Python qui entraîne un modèle (voir le code ci-dessous). Votre objectif est de trouver les hyperparamètres qui maximisent la précision de validation (`val_acc`).
 
@@ -59,9 +57,7 @@ if __name__ == "__main__":
 
 La section suivante montre comment ajouter W&amp;B à votre script Python afin de suivre les hyperparamètres et les métriques pendant l’entraînement. Vous souhaitez utiliser W&amp;B pour trouver les meilleurs hyperparamètres afin de maximiser la précision de validation (`val_acc`).
 
-<div id="add-wb-to-your-training-script">
-  ## Ajoutez W&amp;B à votre script d&#39;entraînement
-</div>
+## Ajoutez W&amp;B à votre script d&#39;entraînement {#add-wb-to-your-training-script}
 
 Cette section montre comment modifier le script d&#39;entraînement original afin que l&#39;agent de balayage puisse transmettre des valeurs d&#39;hyperparamètre à chaque run et que W&amp;B puisse enregistrer les métriques obtenues. La manière d&#39;intégrer W&amp;B à votre script Python ou notebook dépend de la façon dont vous gérez les Sweeps.
 

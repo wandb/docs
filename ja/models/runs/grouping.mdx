@@ -12,9 +12,7 @@ title: runを整理する
 
   環境変数として `WANDB_RUN_GROUP` を使用し、run のグループを指定します。詳細については、[環境変数](/models/track/environment-variables/) のドキュメントを参照してください。**グループ** はプロジェクト内で一意であり、グループ内のすべての run で共有される必要があります。`wandb.util.generate_id()` を使用すると、すべてのプロセスで使える一意の 8 文字の文字列を生成できます。たとえば、`os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` のようにします。 */}
 
-<div id="organize-runs-into-groups">
-  ## Runs をグループに整理する
-</div>
+## Runs をグループに整理する {#organize-runs-into-groups}
 
 W&amp;B Python SDK を使用してプログラムから Runs をグループに追加することも、W&amp;B App でインタラクティブに追加することもできます。
 
@@ -62,9 +60,7 @@ W&amp;B Python SDK を使用してプログラムから Runs をグループに�
   </Tab>
 </Tabs>
 
-<div id="view-groups">
-  ### グループを表示
-</div>
+### グループを表示 {#view-groups}
 
 W&amp;B App でグループ別に整理された Runs を表示するには、次の手順に従います。
 
@@ -72,9 +68,7 @@ W&amp;B App でグループ別に整理された Runs を表示するには、�
 2. Runs の一覧の上にある **Group** ボタンをクリックします。
 3. ドロップダウンから **Group** を選択します。
 
-<div id="move-runs-between-groups">
-  ### グループ間で run を移動する
-</div>
+### グループ間で run を移動する {#move-runs-between-groups}
 
 run をあるグループから別のグループに移動するには、次の手順に従います。
 
@@ -85,24 +79,18 @@ run をあるグループから別のグループに移動するには、次の�
 5. ドロワー内で、移動先のグループを選択するか、新しいグループを作成します。
 6. **Move** をクリックします。
 
-<div id="remove-runs-from-a-group">
-  ### グループから run を削除する
-</div>
+### グループから run を削除する {#remove-runs-from-a-group}
 
 1. W&amp;B のプロジェクトにアクセスします。
 2. プロジェクトのサイドバーから **Runs** タブを選択します。
 3. run の一覧の上部にある **Group** ボタンをクリックします。
 4. ドロップダウンで、削除したいグループ名の横にある **X** をクリックします。
 
-<div id="delete-a-group">
-  ### グループを削除する
-</div>
+### グループを削除する {#delete-a-group}
 
 グループを削除するには、そのグループからすべての run を削除します。これでグループは自動的に削除されます。
 
-<div id="organize-runs-by-job-type">
-  ## ジョブタイプ別にrunを整理する
-</div>
+## ジョブタイプ別にrunを整理する {#organize-runs-by-job-type}
 
 runを*ジョブタイプ*別に整理します。ジョブタイプは、`preprocessing`、`training`、`evaluation` など、runの役割を示します。
 
@@ -136,9 +124,7 @@ for job_type in ["training", "evaluation"]:
   <img src="/images/runs/group_job_type.png" alt="未グループ化のrun 表" />
 </Frame>
 
-<div id="view-runs-organized-by-job-type">
-  ### ジョブタイプ別に整理された runs を表示する
-</div>
+### ジョブタイプ別に整理された runs を表示する {#view-runs-organized-by-job-type}
 
 W&amp;B App で、グループごとに整理された runs を表示するには、次の手順に従います。
 

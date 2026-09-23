@@ -17,9 +17,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 이 튜토리얼에서는 에이전트 워크플로를 사용해 Weave로 에이전트를 평가하는 방법을 설명합니다. 소규모 고객 지원 에이전트를 구축하고 계측한 후, LLM 평가자(단일 턴 및 멀티턴)를 사용해 해당 Runs에 점수를 매기고 에이전트의 두 버전을 비교합니다.
 
-<div id="what-youll-learn">
-  ## 학습할 내용
-</div>
+## 학습할 내용 {#what-youll-learn}
 
 이 가이드에서는 다음 방법을 알아봅니다.
 
@@ -35,9 +33,7 @@ Weave는 이러한 평가를 구성하고 저장하지만 에이전트를 실행
   이 튜토리얼에서는 에이전트가 Claude Sonnet에서 실행되고 평가자는 Claude Opus에서 실행됩니다. 평가 대상 모델보다 더 강력한 다른 모델로 평가하는 것은 좋은 평가 방법입니다.
 </Note>
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 이 튜토리얼을 사용하려면 다음이 필요합니다.
 
@@ -46,9 +42,7 @@ Weave는 이러한 평가를 구성하고 저장하지만 에이전트를 실행
 * 필수 패키지: `pip install weave anthropic`
 * `ANTHROPIC_API_KEY` 환경 변수로 설정한 [Anthropic API 키](https://console.anthropic.com/)
 
-<div id="build-and-trace-the-agent">
-  ## 에이전트 구축 및 트레이싱
-</div>
+## 에이전트 구축 및 트레이싱 {#build-and-trace-the-agent}
 
 이 예시에서 에이전트는 `lookup_order`와 `issue_refund`라는 두 도구를 사용해 30일 이내의 환불만 허용하는 정책에 따라 환불 요청을 검토하고 응답합니다. 도구 정의, 모델 루프, 메시지 변환을 포함한 전체 에이전트는 함께 제공되는 노트북에 있습니다. 이 섹션에서는 Weave 관련 부분에 중점을 둡니다.
 
@@ -103,9 +97,7 @@ with start_conversation(agent_name="support-agent", conversation_id=convo_id) as
   프레임워크 인테그레이션(Claude Agent SDK, OpenAI Agents)으로 에이전트를 구축하는 경우, Weave는 동일한 Agents span을 자동으로 생성합니다. 암시적 패칭을 켜 둔 상태로 수동 `start_*` Call은 건너뛰세요.
 </Tip>
 
-<div id="score-the-agent-with-an-llm-judge">
-  ## LLM 평가자로 에이전트 점수 매기기
-</div>
+## LLM 평가자로 에이전트 점수 매기기 {#score-the-agent-with-an-llm-judge}
 
 평가 모델을 사용해 Scorer는 작업의 성공 기준을 바탕으로 에이전트가 작업을 얼마나 잘 완료했는지 평가합니다. 정중하게 들리는 응답이 아니라 올바른 결과에 점수를 부여합니다. 이 예시의 점수는 *작업 완료*입니다. 즉, 에이전트가 목표를 달성했는지를 평가합니다.
 
@@ -167,9 +159,7 @@ ev.log_summary()
 
 평가 링크를 열고 **Evals** 탭을 선택한 다음 run 행을 열어 세부정보 패널을 표시합니다. **Call** 탭에는 평가자의 판정 결과를 보여 주는 `passed` 열과 함께 각 작업이 나열됩니다. **Evaluation** 탭의 **View spans** 버튼을 클릭하면 이 평가에 연결된 트레이스 span이 표시된 **Agents** 페이지가 열립니다.
 
-<div id="organize-and-compare-evaluations">
-  ## 평가 구성 및 비교
-</div>
+## 평가 구성 및 비교 {#organize-and-compare-evaluations}
 
 애플리케이션을 변경하고 변경 사항이 개선에 도움이 되었는지 확인하여 에이전트를 개선할 수 있습니다. system 프롬프트, 도구, 제어 흐름, 기반 LLM은 모두 모델 버전의 일부로 간주됩니다. 두 버전을 비교하려면 변경된 에이전트에서 평가를 다시 실행하고 새 버전으로 레이블을 지정하세요.
 
@@ -187,9 +177,7 @@ ev = weave.EvaluationLogger(
 
 Weave에서는 [평가 비교](/ko/weave/guides/evaluation/compare_evals)를 통해 로깅한 점수, 지연 시간, 비용을 기준으로 v2가 v1보다 개선되었는지 또는 성능이 저하되었는지 확인할 수 있습니다.
 
-<div id="score-a-multi-turn-conversation">
-  ## 여러 턴으로 이루어진 대화 점수 매기기
-</div>
+## 여러 턴으로 이루어진 대화 점수 매기기 {#score-a-multi-turn-conversation}
 
 실제 대화는 여러 턴에 걸쳐 진행되며, 유능한 에이전트는 문맥을 이어갑니다. 사용자가 이미 제공한 주문 ID를 다시 묻지 않아야 합니다. 이를 오프라인에서 테스트하려면 고정된 대화 이력으로 에이전트에 정보를 제공하고, 다음 사용자 메시지를 전송한 후 해당 턴을 문맥에 맞게 어떻게 처리하는지 점수를 매기세요.
 
@@ -221,9 +209,7 @@ with ev.log_prediction(inputs=row) as pred:
   이 방식은 고정된 이력을 기준으로 다음 턴을 평가하는 실용적인 오프라인 방법입니다. 에이전트가 전체 Session을 주도하는 멀티턴 작업 전체를 엔드 투 엔드로 측정하려면 프로덕션 환경에서 실시간 A/B 테스트가 필요하며, 이는 이 튜토리얼의 범위를 벗어납니다.
 </Note>
 
-<div id="extend-your-scorers">
-  ## Scorer 확장
-</div>
+## Scorer 확장 {#extend-your-scorers}
 
 실제 에이전트를 평가하려면 다음 두 가지 측면을 포괄하는 점수 집합이 필요합니다.
 
@@ -232,9 +218,7 @@ with ev.log_prediction(inputs=row) as pred:
 
 같은 단계에서 각각을 `pred.log_score(...)` 호출로 추가하세요. Weave에서 제공하는 사전 구축된 Scorer 및 클래스 기반 Scorer를 비롯한 Scorer 유형과 자체 Scorer 작성 방법은 [점수화 개요](/ko/weave/guides/evaluation/scorers)를 참조하세요.
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 에이전트를 대화로 트레이스하고, 단일 턴 및 멀티턴 상호작용의 작업 완료 여부를 평가했으며, 에이전트 전사본에 연결된 버전을 비교했습니다.
 

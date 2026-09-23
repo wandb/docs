@@ -7,9 +7,7 @@ Cette page explique comment contrôler le cycle de vie d’un balayage actif dep
 
 Utilisez la [CLI W&amp;B](/fr/models/ref/cli/wandb-sweep) pour mettre en pause, reprendre, arrêter et annuler un balayage. Chaque commande détermine si le balayage crée de nouvelles run et ce qu’il advient des run déjà en cours. Dans chaque cas, fournissez l’ID du balayage généré par W&amp;B lors de l’initialisation du balayage.
 
-<div id="pause-a-sweep">
-  ## Mettre en pause un balayage
-</div>
+## Mettre en pause un balayage {#pause-a-sweep}
 
 Utilisez la commande [`wandb sweep --pause`](/fr/models/ref/cli/wandb-sweep) pour mettre un balayage en pause, afin qu&#39;il cesse temporairement de créer de nouveaux runs. Les Runs déjà en cours d&#39;exécution se poursuivront jusqu&#39;à leur achèvement. Indiquez l&#39;ID du balayage.
 
@@ -17,9 +15,7 @@ Utilisez la commande [`wandb sweep --pause`](/fr/models/ref/cli/wandb-sweep) pou
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-<div id="resume-a-sweep">
-  ## Reprendre un balayage
-</div>
+## Reprendre un balayage {#resume-a-sweep}
 
 Reprenez un balayage en pause avec la commande [`wandb sweep --resume`](/fr/models/ref/cli/wandb-sweep). Le balayage recommencera alors à créer de nouveaux runs selon sa stratégie de recherche. Saisissez l’ID du balayage.
 
@@ -27,9 +23,7 @@ Reprenez un balayage en pause avec la commande [`wandb sweep --resume`](/fr/mode
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-<div id="stop-a-sweep">
-  ## Arrêter un balayage
-</div>
+## Arrêter un balayage {#stop-a-sweep}
 
 Utilisez la commande [`wandb sweep --stop`](/fr/models/ref/cli/wandb-sweep) pour arrêter un balayage. Un balayage arrêté ne crée plus de nouveaux runs. Les runs déjà en cours d’exécution se poursuivent jusqu’à leur terme. Indiquez l’ID du balayage.
 
@@ -37,9 +31,7 @@ Utilisez la commande [`wandb sweep --stop`](/fr/models/ref/cli/wandb-sweep) pour
 wandb sweep --stop entity/project/sweep_ID
 ```
 
-<div id="cancel-a-sweep">
-  ## Annuler un balayage
-</div>
+## Annuler un balayage {#cancel-a-sweep}
 
 Utilisez la commande [`wandb sweep --cancel`](/fr/models/ref/cli/wandb-sweep) pour annuler un balayage, ce qui met fin de force à toutes les run actives et empêche la création de nouvelles run. Les run s’arrêtent brutalement, sans laisser aux processus en cours la possibilité d’exécuter des gestionnaires de signaux définis par l’utilisateur. Fournissez l’ID du balayage.
 
@@ -53,28 +45,20 @@ Pour plus d’informations sur les signaux et les exécutions de balayage, voir 
   La suppression d’un projet n’arrête pas les [sweeps](/fr/models/sweeps) actifs ni leurs agents. Pour les arrêter, annulez ou arrêtez le balayage avec `wandb sweep --cancel` ou `wandb sweep --stop`, puis arrêtez chaque processus d’agent.
 </Warning>
 
-<div id="sweep-and-run-statuses">
-  ## Statuts des balayages et des runs
-</div>
+## Statuts des balayages et des runs {#sweep-and-run-statuses}
 
 Un balayage orchestre plusieurs runs afin d’explorer des combinaisons d’hyperparamètres. Les sections suivantes décrivent l’interaction entre le statut du balayage et celui du run, afin que vous puissiez gérer efficacement vos optimisations d’hyperparamètres, notamment en comprenant en quoi les deux statuts diffèrent, ce qui se passe lorsque vous arrêtez un run individuel et quelle commande du cycle de vie choisir.
 
-<div id="key-differences">
-  ### Différences clés
-</div>
+### Différences clés {#key-differences}
 
 * **Le statut du balayage** détermine si l’agent crée de nouveaux runs. Le statut du balayage peut être `Running`, `Paused`, `Stopped`, `Cancelled`, `Finished`, `Failed` ou `Crashed`.
 * **Le statut du run** reflète l’état d’exécution de chaque run. Le statut du run peut être `Pending`, `Running`, `Finished`, `Failed`, `Crashed` ou `Killed`.
 
-<div id="stop-an-individual-run">
-  ### Arrêter un run spécifique
-</div>
+### Arrêter un run spécifique {#stop-an-individual-run}
 
 Lorsque vous [arrêtez un run](/fr/models/runs/stop-runs) dans un balayage, l’agent de balayage lance automatiquement le run suivant. Utilisez ce mécanisme pour ignorer les configurations peu performantes sans interrompre la progression globale du balayage.
 
-<div id="recommendations">
-  ### Recommandations
-</div>
+### Recommandations {#recommendations}
 
 Les recommandations suivantes vous aident à choisir la commande de cycle de vie adaptée à la situation, afin d’éviter de perdre du travail utile ou de mobiliser inutilement des ressources de calcul.
 

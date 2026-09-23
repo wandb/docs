@@ -9,9 +9,7 @@ import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-strea
 
 このガイドでは、W&amp;B で認証する方法、インテグレーションをインストールする方法、そして YOLOX の物体検出モデルをトレーニングするときに W&amp;B のロギングを有効にする方法を説明します。これにより、メトリクスをトラッキングし、W&amp;B UI で予測を確認できます。
 
-<div id="sign-up-and-create-an-api-key">
-  ## サインアップしてAPIキーを発行する
-</div>
+## サインアップしてAPIキーを発行する {#sign-up-and-create-an-api-key}
 
 APIキーは、お使いのマシンをW&amp;Bに認証するために使用します。APIキーはプロフィールから発行できます。
 
@@ -20,9 +18,7 @@ APIキーは、お使いのマシンをW&amp;Bに認証するために使用し�
 1. 右上にあるプロフィールアイコンをクリックします。
 2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
 
-<div id="install-the-wandb-library-and-log-in">
-  ## `wandb` ライブラリをインストールしてログインする
-</div>
+## `wandb` ライブラリをインストールしてログインする {#install-the-wandb-library-and-log-in}
 
 `wandb` ライブラリをローカルにインストールしてログインするには、次の手順を実行します。
 
@@ -64,9 +60,7 @@ APIキーは、お使いのマシンをW&amp;Bに認証するために使用し�
   </Tab>
 </Tabs>
 
-<div id="log-metrics">
-  ## メトリクスをログする
-</div>
+## メトリクスをログする {#log-metrics}
 
 `wandb` ライブラリがインストールされ、マシンで認証が完了していれば、YOLOX のトレーニングスクリプトから W&amp;B のログを有効にできます。
 
@@ -99,9 +93,7 @@ python tools/train.py .... --logger wandb \
                 wandb-log_checkpoints <bool>
 ```
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 トレーニング run が開始されると、YOLOX はトレーニング、検証、システムメトリクスを W&amp;B のプロジェクトに送信します。そこで Runs を比較し、予測を確認できます。データが表示されたダッシュボードがどのように見えるかは、次の例をご覧ください。
 

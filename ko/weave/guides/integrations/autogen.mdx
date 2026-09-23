@@ -14,9 +14,7 @@ AutoGen은 AI 에이전트와 애플리케이션을 구축하기 위한 Microsof
 
 Weave는 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)과 통합되어 멀티 에이전트 애플리케이션의 실행을 트레이스하고 시각화할 수 있도록 도와줍니다. Weave를 초기화하면 `autogen_agentchat`, `autogen_core`, `autogen_ext` 내 상호작용을 자동으로 추적합니다. 이 가이드에서는 AutoGen과 함께 Weave를 구성하는 방법을 안내하고, 모델 클라이언트, 도구를 사용하는 에이전트, 그룹 채팅, 메모리, RAG 워크플로, 에이전트 런타임, 순차 워크플로, 코드 실행기를 다루는 예시를 보여줍니다. 이 가이드를 마치면 Weave에서 AutoGen 애플리케이션의 상세한 트레이스를 캡처해 에이전트 동작을 디버그하고, LLM 사용을 모니터링하며, 복잡한 워크플로 전반에서 에이전트가 어떻게 상호작용하는지 이해할 수 있습니다.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 AutoGen과 Weave가 설치되어 있어야 합니다. 또한 사용하려는 LLM 제공업체용 SDK도 필요합니다(예를 들어 OpenAI 또는 Anthropic).
 
@@ -33,9 +31,7 @@ os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 os.environ["ANTHROPIC_API_KEY"] = "[YOUR-ANTHROPIC-API-KEY]"
 ```
 
-<div id="basic-setup">
-  ## 기본 설정
-</div>
+## 기본 설정 {#basic-setup}
 
 트레이스 수집을 시작하려면 스크립트 시작 부분에서 Weave를 초기화하세요. Weave를 초기화하면 스크립트의 나머지 부분에서 이루어지는 AutoGen Call이 자동으로 계측됩니다.
 
@@ -46,15 +42,11 @@ weave.init("autogen-demo")
 
 이 스니펫을 실행하면 Weave가 `autogen-demo` 프로젝트로 트레이스를 전송하도록 설정되고, 이후 스크립트에서 발생하는 모든 AutoGen 활동이 Weave에 의해 자동으로 캡처됩니다.
 
-<div id="traces-for-a-model-client">
-  ## 모델 클라이언트용 트레이스
-</div>
+## 모델 클라이언트용 트레이스 {#traces-for-a-model-client}
 
 다음 섹션에서는 단일 Call, 스트리밍 응답, 캐시된 응답을 포함하여 Weave가 AutoGen 내의 모델 클라이언트에 직접 이루어지는 Call을 어떻게 트레이스하는지 설명합니다.
 
-<div id="traces-for-a-client-create-call">
-  ### 클라이언트 create Call 트레이스
-</div>
+### 클라이언트 create Call 트레이스 {#traces-for-a-client-create-call}
 
 이 예제에서는 `OpenAIChatCompletionClient`의 Call을 트레이스하는 방법을 보여줍니다.
 
@@ -83,9 +75,7 @@ asyncio.run(simple_client_call())
 
 [![autogen-simple-client.png](/weave/guides/integrations/imgs/autogen/autogen-simple-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee09-8dcf-7b72-8cdc-7699608cd6ef%3FhideTraceTree%3D0)
 
-<div id="traces-for-a-client-create-call-with-streaming">
-  ### 스트리밍을 사용하는 클라이언트 create call의 트레이스
-</div>
+### 스트리밍을 사용하는 클라이언트 create call의 트레이스 {#traces-for-a-client-create-call-with-streaming}
 
 Weave는 스트리밍 응답 트레이스도 지원합니다.
 
@@ -104,9 +94,7 @@ asyncio.run(simple_client_call_stream())
 
 [![autogen-streaming-client.png](/weave/guides/integrations/imgs/autogen/autogen-streaming-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee0e-24be-7523-b15e-04f87c03ac68%3FhideTraceTree%3D0)
 
-<div id="traces-for-cached-client-calls">
-  ### 캐시된 클라이언트 call의 트레이스
-</div>
+### 캐시된 클라이언트 call의 트레이스 {#traces-for-cached-client-calls}
 
 AutoGen의 `ChatCompletionCache`를 사용할 수 있으며, Weave는 이러한 상호작용을 트레이스해 응답이 캐시에서 온 것인지 새 call에서 온 것인지 보여줍니다.
 
@@ -133,9 +121,7 @@ asyncio.run(run_cache_client())
 
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
-<div id="traces-for-an-agent-with-tool-calls">
-  ## 도구 call을 사용하는 에이전트의 트레이스
-</div>
+## 도구 call을 사용하는 에이전트의 트레이스 {#traces-for-an-agent-with-tool-calls}
 
 이 섹션에서는 Weave가 에이전트와 그 도구 사용을 트레이스하여, 에이전트가 도구를 어떻게 선택하고 실행하는지에 대한 가시성을 제공하는 방식을 보여줍니다. 다음 예시에서는 날씨 도구를 정의하고 이를 `AssistantAgent`에 연결합니다.
 
@@ -167,9 +153,7 @@ asyncio.run(run_agent_with_tools())
 
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
-<div id="traces-for-a-round-robin-groupchat">
-  ## 라운드 로빈 GroupChat의 트레이스
-</div>
+## 라운드 로빈 GroupChat의 트레이스 {#traces-for-a-round-robin-groupchat}
 
 `RoundRobinGroupChat`과 같은 그룹 채팅에서의 상호작용은 Weave가 트레이스하므로, 에이전트 간 대화 흐름을 트레이스할 수 있습니다. 더 쉽게 확인할 수 있도록 모든 에이전트 턴을 하나의 상위 트레이스 아래로 그룹화하려면 그룹 채팅 함수를 `@weave.op`로 래핑하세요. 이 단계는 선택 사항이지만 권장됩니다.
 
@@ -216,9 +200,7 @@ asyncio.run(run_round_robin_group_chat())
 
 [![round\_robin\_group\_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
 
-<div id="traces-for-memory">
-  ## 메모리용 트레이스
-</div>
+## 메모리용 트레이스 {#traces-for-memory}
 
 AutoGen의 메모리 컴포넌트는 Weave로 트레이스할 수 있습니다. 가독성을 높이기 위해 `@weave.op()`를 사용하여 메모리 오퍼레이션을 하나의 트레이스로 묶으면, 메모리 add 및 조회 Call이 이를 사용하는 에이전트 run과 함께 표시됩니다.
 
@@ -277,9 +259,7 @@ asyncio.run(run_memory_agent())
 
 [![autogen-memory.png](/weave/guides/integrations/imgs/autogen/autogen-memory.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee18-28b6-7063-90df-77aaedf88dc9%3FhideTraceTree%3D0)
 
-<div id="traces-for-rag-workflows">
-  ## RAG 워크플로의 트레이스
-</div>
+## RAG 워크플로의 트레이스 {#traces-for-rag-workflows}
 
 Weave는 `ChromaDBVectorMemory`와 같은 메모리 시스템을 사용한 문서 인덱싱 및 검색을 포함한 Retrieval Augmented Generation(RAG) 워크플로를 트레이싱할 수 있습니다. 인덱싱, 검색, 그리고 그에 따른 LLM Call이 하나의 트레이스에 함께 표시되도록 전체 흐름을 시각화하려면 RAG 프로세스를 `@weave.op()`으로 데코레이팅하세요.
 
@@ -399,9 +379,7 @@ asyncio.run(run_rag_agent())
 
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
-<div id="traces-for-agent-runtimes">
-  ## 에이전트 런타임의 트레이스
-</div>
+## 에이전트 런타임의 트레이스 {#traces-for-agent-runtimes}
 
 Weave는 `SingleThreadedAgentRuntime`와 같은 AutoGen의 에이전트 런타임 내부의 오퍼레이션을 트레이스할 수 있습니다. 런타임 실행 함수를 `@weave.op()`으로 감싸면 관련된 트레이스를 그룹화하여 런타임 run 중에 호출되는 메시지 핸들러의 전체 실행 순서를 확인할 수 있습니다.
 
@@ -481,9 +459,7 @@ asyncio.run(run_agent_runtime())
 
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
-<div id="traces-for-sequential-workflows">
-  ## 순차적 워크플로를 위한 트레이스
-</div>
+## 순차적 워크플로를 위한 트레이스 {#traces-for-sequential-workflows}
 
 에이전트 상호작용의 순서를 정의하는 복잡한 에이전트 워크플로를 트레이스할 수 있습니다. 각 에이전트의 기여가 단일 상위 Call 아래에 중첩되도록 전체 워크플로에 대한 상위 수준의 트레이스를 제공하려면 `@weave.op()`를 사용하세요. 다음 예시에서는 개념 추출기, 작성기, 형식 지정 및 교정 에이전트, 그리고 사용자 에이전트를 체인으로 연결해 완성도 높은 마케팅 카피를 생성합니다.
 
@@ -619,9 +595,7 @@ asyncio.run(run_agent_workflow())
 
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
-<div id="traces-for-code-executors">
-  ## 코드 실행기를 위한 트레이스
-</div>
+## 코드 실행기를 위한 트레이스 {#traces-for-code-executors}
 
 <Warning>
   **Docker 필요**
@@ -731,9 +705,7 @@ asyncio.run(run_codegen())
 
 [![autogen-codegen.png](/weave/guides/integrations/imgs/autogen/autogen-codegen.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f173-21c2-7540-9dc7-fbab0b94ce0e%3FhideTraceTree%3D0)
 
-<div id="learn-more">
-  ## 더 알아보기
-</div>
+## 더 알아보기 {#learn-more}
 
 Weave tracing과 Ops를 더 잘 이해하려면 다음 가이드를 읽어보세요.
 

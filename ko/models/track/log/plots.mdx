@@ -5,9 +5,7 @@ title: 실험에서 플롯 생성 및 추적
 
 W&amp;B Models에서 `wandb.plot` 메서드를 사용하면 `wandb.Run.log()`로 차트를 추적할 수 있으며, 여기에는 트레이닝 중 시간에 따라 변하는 차트도 포함됩니다. 맞춤형 차트 프레임워크에 대해 자세히 알아보려면 [맞춤형 차트 워크스루](/ko/models/app/features/custom-charts/walkthrough/)를 참조하세요.
 
-<div id="basic-charts">
-  ### 기본 차트
-</div>
+### 기본 차트 {#basic-charts}
 
 W&amp;B 차트를 만들려면 다음 단계를 따르세요.
 
@@ -152,9 +150,7 @@ W&amp;B 차트를 만들려면 다음 단계를 따르세요.
   </Tab>
 </Tabs>
 
-<div id="model-evaluation-charts">
-  ### 모델 평가 차트
-</div>
+### 모델 평가 차트 {#model-evaluation-charts}
 
 이 사전 설정 차트에는 `wandb.plot()` 메서드가 기본 제공되어, 스크립트에서 바로 차트를 로깅하고 UI에서 원하는 정확한 정보를 빠르게 확인할 수 있습니다.
 
@@ -248,9 +244,7 @@ W&amp;B 차트를 만들려면 다음 단계를 따르세요.
   </Tab>
 </Tabs>
 
-<div id="interactive-custom-charts">
-  ### 대화형 맞춤형 차트
-</div>
+### 대화형 맞춤형 차트 {#interactive-custom-charts}
 
 전체적으로 맞춤 설정하려면 기본 제공 [맞춤형 차트 사전 설정](/ko/models/app/features/custom-charts/walkthrough/)을 조정하거나 새 사전 설정을 만든 다음 차트를 저장하세요. 차트 ID를 사용해 스크립트에서 바로 해당 맞춤형 사전 설정에 데이터를 로깅할 수 있습니다.
 
@@ -279,9 +273,7 @@ with wandb.init() as run:
 
 [코드를 실행해 보세요](https://tiny.cc/custom-charts)
 
-<div id="matplotlib-and-plotly-plots">
-  ### Matplotlib 및 Plotly 플롯
-</div>
+### Matplotlib 및 Plotly 플롯 {#matplotlib-and-plotly-plots}
 
 `wandb.plot()`으로 W&amp;B [맞춤형 차트](/ko/models/app/features/custom-charts/walkthrough/)를 사용하는 대신, [matplotlib](https://matplotlib.org/)와 [Plotly](https://plotly.com/)로 생성한 차트를 로깅할 수 있습니다.
 
@@ -305,15 +297,11 @@ with wandb.init() as run:
   &quot;You attempted to log an empty plot&quot;와 같은 오류가 발생하면, `fig = plt.figure()`로 figure를 플롯과 별도로 저장한 다음 `wandb.Run.log()`를 호출할 때 `fig`를 로깅하세요.
 </Note>
 
-<div id="log-custom-html-to-wb-tables">
-  ### W&amp;B Tables에 맞춤형 HTML 로깅하기
-</div>
+### W&amp;B Tables에 맞춤형 HTML 로깅하기 {#log-custom-html-to-wb-tables}
 
 W&amp;B에서는 Plotly와 Bokeh의 대화형 차트를 HTML로 로깅해 Tables에 추가할 수 있습니다.
 
-<div id="log-plotly-figures-to-tables-as-html">
-  #### Plotly figure를 HTML로 변환해 Tables에 로깅하기
-</div>
+#### Plotly figure를 HTML로 변환해 Tables에 로깅하기 {#log-plotly-figures-to-tables-as-html}
 
 Plotly 차트를 HTML로 변환하면 대화형 차트를 W&amp;B Tables에 로깅할 수 있습니다.
 
@@ -345,9 +333,7 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
     run.log({"test_table": table})
 ```
 
-<div id="log-bokeh-figures-to-tables-as-html">
-  #### Bokeh figure를 HTML로 변환해 Tables에 로깅하기
-</div>
+#### Bokeh figure를 HTML로 변환해 Tables에 로깅하기 {#log-bokeh-figures-to-tables-as-html}
 
 대화형 Bokeh 차트를 HTML로 변환하면 W&amp;B Tables에 로깅할 수 있습니다.
 

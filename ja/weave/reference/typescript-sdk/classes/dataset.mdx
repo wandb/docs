@@ -9,9 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 簡単に保存でき、自動でバージョン管理される Dataset オブジェクト
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -32,27 +30,19 @@ const exampleLabel = dataset.getRow(2).sentence;
 const ref = await dataset.save()
 ```
 
-<div id="extends">
-  ## 拡張
-</div>
+## 拡張 {#extends}
 
 * [`WeaveObject`](./weaveobject)
 
-<div id="type-parameters">
-  ## タイプパラメーター
-</div>
+## タイプパラメーター {#type-parameters}
 
 <ParamField path="R" type="extends DatasetRow" />
 
-<div id="constructor">
-  ## コンストラクター
-</div>
+## コンストラクター {#constructor}
 
 > **new Dataset**&lt;`R`&gt;(`parameters`): `Dataset`&lt;`R`&gt;
 
-<div id="parameters">
-  ### パラメーター
-</div>
+### パラメーター {#parameters}
 
 <ParamField path="parameters" type="object" required>
   <Expandable title="properties" defaultOpen>
@@ -64,176 +54,118 @@ const ref = await dataset.save()
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### 戻り値
-</div>
+### 戻り値 {#returns}
 
 `Dataset`&lt;`R`&gt;
 
-<div id="overrides">
-  ### オーバーライド
-</div>
+### オーバーライド {#overrides}
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
-<div id="__savedref">
-  ### __savedRef
-</div>
+### __savedRef {#__savedref}
 
 > `optional` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="inherited-from">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from}
 
 [`WeaveObject`](./weaveobject).[`__savedRef`](./weaveobject#__savedref)
 
 ***
 
-<div id="rows">
-  ### rows
-</div>
+### rows {#rows}
 
 > **rows**: `Table`&lt;`R`&gt;
 
-<div id="accessors">
-  ## アクセサ
-</div>
+## アクセサ {#accessors}
 
-<div id="description">
-  ### description
-</div>
+### description {#description}
 
-<div id="get-signature">
-  #### 取得シグネチャ
-</div>
+#### 取得シグネチャ {#get-signature}
 
 > **get** **description**(): `string` | `undefined`
 
-<div id="returns-2">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-2}
 
 `string` | `undefined`
 
-<div id="inherited-from-2">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from-2}
 
 [`WeaveObject`](./weaveobject).[`description`](./weaveobject#description)
 
 ***
 
-<div id="length">
-  ### length
-</div>
+### length {#length}
 
-<div id="get-signature-2">
-  #### 取得シグネチャ
-</div>
+#### 取得シグネチャ {#get-signature-2}
 
 > **get** **length**(): `number`
 
-<div id="returns-3">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-3}
 
 `number`
 
 ***
 
-<div id="name">
-  ### 名
-</div>
+### 名 {#name}
 
-<div id="get-signature-3">
-  #### 取得シグネチャ
-</div>
+#### 取得シグネチャ {#get-signature-3}
 
 > **get** **名**(): `string`
 
-<div id="returns-4">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-4}
 
 `string`
 
-<div id="inherited-from-3">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from-3}
 
 [`WeaveObject`](./weaveobject).[`name`](./weaveobject#name)
 
-<div id="methods">
-  ## Methods
-</div>
+## Methods {#methods}
 
-<div id="asynciterator">
-  ### [asyncIterator]()
-</div>
+### [asyncIterator]() {#asynciterator}
 
 > **[asyncIterator]**(): `AsyncIterator`&lt;`any`&gt;
 
-<div id="returns-5">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-5}
 
 `AsyncIterator`&lt;`any`&gt;
 
 ***
 
-<div id="getrow">
-  ### getRow()
-</div>
+### getRow() {#getrow}
 
 > **getRow**(`index`): `R`
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="index" type="number" required />
 
-<div id="returns-6">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-6}
 
 `R`
 
 ***
 
-<div id="save">
-  ### save()
-</div>
+### save() {#save}
 
 > **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="returns-7">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-7}
 
 `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
 ***
 
-<div id="saveattrs">
-  ### saveAttrs()
-</div>
+### saveAttrs() {#saveattrs}
 
 > **saveAttrs**(): `object`
 
-<div id="returns-8">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-8}
 
 `object`
 
-<div id="inherited-from-4">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from-4}
 
 [`WeaveObject`](./weaveobject).[`saveAttrs`](./weaveobject#saveattrs)

@@ -10,9 +10,7 @@ Intégrez serveur W&amp;B à [Slack](https://slack.com/) afin que votre instance
   Regardez une [vidéo montrant comment configurer les alertes Slack sur un déploiement W&amp;B Dedicated Cloud](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 min).
 </Note>
 
-<div id="create-the-slack-application">
-  ## Créer l&#39;application Slack
-</div>
+## Créer l&#39;application Slack {#create-the-slack-application}
 
 Le serveur W&amp;B utilise une application Slack personnalisée comme passerelle pour acheminer les alertes. Suivez cette procédure pour créer cette application dans l&#39;espace de travail Slack où vous souhaitez recevoir des notifications.
 
@@ -30,9 +28,7 @@ Le serveur W&amp;B utilise une application Slack personnalisée comme passerelle
      <img src="/images/hosting/name_app_workspace.png" alt="Nom de l'application et sélection de l'espace de travail" />
    </Frame>
 
-<div id="configure-the-slack-application">
-  ## Configurer l’application Slack
-</div>
+## Configurer l’application Slack {#configure-the-slack-application}
 
 Après avoir créé l’application Slack, accordez-lui les autorisations nécessaires pour publier des messages et accepter la redirection depuis W&amp;B pendant le processus OAuth.
 
@@ -60,9 +56,7 @@ Après avoir créé l’application Slack, accordez-lui les autorisations néces
 
 5. Facultatif : sous **Restrict API Token Usage**, spécifiez une adresse IP ou une plage d’adresses IP à ajouter à la liste d’autorisation pour vos instances W&amp;B. Le fait de limiter les adresses IP autorisées contribue à sécuriser votre application Slack.
 
-<div id="register-your-slack-application-with-wb">
-  ## Enregistrez votre application Slack auprès de W&amp;B
-</div>
+## Enregistrez votre application Slack auprès de W&amp;B {#register-your-slack-application-with-wb}
 
 Enregistrez l’application Slack que vous avez configurée auprès de votre instance W&amp;B afin que W&amp;B puisse l’utiliser pour envoyer des alertes.
 

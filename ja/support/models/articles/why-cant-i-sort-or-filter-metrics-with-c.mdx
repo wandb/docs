@@ -5,9 +5,7 @@ keywords: ["Experiments", "メトリクス"]
 
 W&amp;B のメトリクス名は、UI で並べ替えやフィルタリングを行えるよう、GraphQL の命名規則に従う必要があります。
 
-<div id="valid-metric-names">
-  ## 有効なメトリクス名
-</div>
+## 有効なメトリクス名 {#valid-metric-names}
 
 メトリクス名は、次のルールに従う必要があります。
 
@@ -17,9 +15,7 @@ W&amp;B のメトリクス名は、UI で並べ替えやフィルタリングを
 
 メトリクスがこれらのルールに従っていない場合、W&amp;B UI で並べ替えやフィルタリングができないことがあります。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 以下の例では、これらのルールに準拠するメトリクス名と、準拠しないメトリクス名を示します。
 
@@ -41,9 +37,7 @@ with wandb.init() as run:
   run.log({"5_fold_cv": 0.8})  # 数値で始まる
 ```
 
-<div id="recommended-solution">
-  ## 推奨される解決策
-</div>
+## 推奨される解決策 {#recommended-solution}
 
 無効な文字は、アンダースコアなどの有効な文字に置き換えてください。
 

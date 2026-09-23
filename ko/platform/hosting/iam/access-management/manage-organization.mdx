@@ -18,9 +18,7 @@ keywords: ["사용자 초대", "조직 관리자", "팀 구성원 추가", "사�
 
 {{/* W&B는 기본적으로 조직의 새 사용자에게 Admin 역할을 부여합니다. */}}
 
-<div id="change-the-name-of-your-organization">
-  ## 조직 이름 변경하기
-</div>
+## 조직 이름 변경하기 {#change-the-name-of-your-organization}
 
 <Note>
   다음 워크플로는 W&amp;B Multi-tenant Cloud에만 적용됩니다.
@@ -32,9 +30,7 @@ keywords: ["사용자 초대", "조직 관리자", "팀 구성원 추가", "사�
 4. **Change name** 버튼을 선택합니다.
 5. 표시되는 모달에서 조직의 새 이름을 입력한 다음 **Save name** 버튼을 선택합니다.
 
-<div id="add-and-manage-users">
-  ## Users 추가 및 관리
-</div>
+## Users 추가 및 관리 {#add-and-manage-users}
 
 관리자는 조직의 대시보드를 사용해 다음 작업을 수행할 수 있습니다.
 
@@ -50,9 +46,7 @@ keywords: ["사용자 초대", "조직 관리자", "팀 구성원 추가", "사�
 
 다음 섹션에서는 각 방법을 설명합니다.
 
-<div id="seats-and-pricing">
-  ### 시트 및 가격
-</div>
+### 시트 및 가격 {#seats-and-pricing}
 
 다음 표는 Models 및 Weave의 시트 운영 방식을 요약한 것입니다.
 
@@ -61,9 +55,7 @@ keywords: ["사용자 초대", "조직 관리자", "팀 구성원 추가", "사�
 | Models  | 시트당 과금 | Models 유료 시트 수와 누적 사용량에 따라 전체 구독 비용이 결정됩니다. 각 사용자에게는 사용 가능한 세 가지 시트 유형(Full, Viewer(엔터프라이즈 전용 기능) 또는 No access) 중 하나를 할당할 수 있습니다. |
 | Weave   | 무료     | 사용량 기준                                                                                                                            |
 
-<div id="invite-a-user">
-  ### 사용자 초대
-</div>
+### 사용자 초대 {#invite-a-user}
 
 관리자는 조직에 사용자를 초대할 수 있으며, 조직 내 특정 팀에도 사용자를 초대할 수 있습니다.
 
@@ -90,9 +82,7 @@ keywords: ["사용자 초대", "조직 관리자", "팀 구성원 추가", "사�
   </Tab>
 </Tabs>
 
-<div id="auto-provision-users">
-  ### 사용자 자동 프로비저닝
-</div>
+### 사용자 자동 프로비저닝 {#auto-provision-users}
 
 자동 프로비저닝을 사용하면 사용자가 SSO를 통해 조직에 자동으로 가입할 수 있어 온보딩이 간소화되며, 관리자가 개별 초대를 보낼 필요가 없습니다. 이는 W&amp;B의 JIT(Just-in-Time) 프로비저닝에 해당하는 기능으로, 이메일 도메인이 일치하는 사용자가 SSO를 통해 처음 로그인할 때 계정이 생성됩니다.
 
@@ -134,9 +124,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
   SSO를 사용한 자동 프로비저닝은 조직 관리자가 개별 사용자 초대를 생성할 필요가 없으므로, 대규모로 사용자를 조직에 추가할 때 유용합니다.
 </Note>
 
-<div id="domain-capture">
-  ### 도메인 캡처
-</div>
+### 도메인 캡처 {#domain-capture}
 
 도메인 캡처를 사용하면 `@example.com`과 같은 회사 이메일 주소를 사용하는 사용자를 W&amp;B에 자동으로 추가할 수 있습니다. 이를 통해 모든 직원이 올바른 조직에 참여할 수 있고, 신규 사용자가 회사의 관리 범위 밖에서 asset을 생성하는 일을 방지할 수 있습니다.
 
@@ -180,9 +168,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
   </Tab>
 </Tabs>
 
-<div id="assign-or-update-a-users-role">
-  ### 사용자 역할 부여 또는 업데이트
-</div>
+### 사용자 역할 부여 또는 업데이트 {#assign-or-update-a-users-role}
 
 사용자의 조직 역할은 다른 사용자를 초대하거나, 팀을 관리하거나, 콘텐츠를 보는 등 조직 전반에서 수행할 수 있는 작업을 제어합니다. 각 사용자에게 적절한 수준의 관리 권한을 부여할 수 있도록 역할을 부여하거나 업데이트하세요.
 
@@ -200,9 +186,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
 | Billing only (Multi-tenant Cloud) | Multi-tenant Cloud 조직을 위한 청구 전용 역할입니다. 이 역할은 조직의 청구 담당 사용자에게만 부여할 수 있습니다. Billing-only 사용자는 구독, 청구서, 결제 수단과 같은 billing 워크플로를 관리할 수 있지만, 사용자를 초대하거나, 팀을 관리하거나, billing 이외의 관리자 작업을 수행할 수는 없습니다. 또한 Billing-only 사용자는 모든 조직 팀에서 제거되며 Models와 Weave 모두에 대해 항상 **No access** 권한을 가집니다. |
 | 커스텀 역할 (Enterprise-only feature)  | 커스텀 역할을 사용하면 조직 관리자가 앞선 **Viewer** 또는 **Member** 조직 역할을 상속하고 추가 권한을 더해 새로운 역할을 구성함으로써 세분화된 액세스 제어를 구현할 수 있습니다. 이후 팀 관리자는 각자의 팀에 속한 사용자에게 이러한 커스텀 역할을 부여할 수 있습니다. [커스텀 역할 추가 및 관리](#add-and-manage-custom-roles)도 참조하세요.                                                            |
 
-<div id="organization-role-permissions">
-  ### 조직 역할 권한
-</div>
+### 조직 역할 권한 {#organization-role-permissions}
 
 조직 역할은 조직 범위에서의 관리 작업을 제어합니다. 이러한 역할은 다음과 같은 다른 역할 집합과는 별개입니다.
 
@@ -216,9 +200,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
   **Viewer** 및 커스텀 역할은 Enterprise에서만 사용할 수 있는 기능입니다. **Viewer**는 자신이 속한 팀에 대해 읽기 전용 액세스 권한을 가지며, 조직 수준이나 팀 수준에서 쓰기 작업을 수행할 수 없습니다. 커스텀 역할은 **Viewer** 또는 **Member**를 상속받아 팀 수준 권한을 추가합니다. 자세한 내용은 [커스텀 역할 추가 및 관리](#add-and-manage-custom-roles)를 참조하세요.
 </Note>
 
-<div id="user-management">
-  #### 사용자 관리
-</div>
+#### 사용자 관리 {#user-management}
 
 | 권한                                   | 권한 그룹 | Member | Admin |
 | ------------------------------------ | ----- | :----: | :---: |
@@ -232,9 +214,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
 
 **Enforce team visibility restrictions**가 활성화되면, 관리자가 아닌 구성원은 본인 또는 같은 팀에 속한 사용자의 프로필만 볼 수 있습니다. 조직 관리자는 모든 구성원의 프로필을 볼 수 있습니다. 자세한 내용은 [개인정보 보호 설정](/ko/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams)을 참조하세요.
 
-<div id="teams">
-  #### Teams
-</div>
+#### Teams {#teams}
 
 | 권한                          | 권한 그룹 | Member | Admin |
 | --------------------------- | ----- | :----: | :---: |
@@ -251,9 +231,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
 
 조직 관리자는 조직 수준에서 표시되는 [레지스트리](/ko/models/registry/configure_registry#role-permissions)에서 **Admin** 역할이 부여됩니다.
 
-<div id="organization-settings">
-  #### 조직 설정
-</div>
+#### 조직 설정 {#organization-settings}
 
 | 권한                                                                                                   | 권한 그룹 |  멤버 | Admin |
 | ---------------------------------------------------------------------------------------------------- | ----- | :-: | :-: |
@@ -263,9 +241,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
 | 커스텀 역할 생성, 편집 및 삭제 (Enterprise)                                                                      | Admin   |     |  X  |
 | 조직 수준에서 외부 저장소 버킷 연결 (Enterprise)                                                                    | Admin   |     |  X  |
 
-<div id="billing">
-  #### 청구
-</div>
+#### 청구 {#billing}
 
 | 권한                          | 권한 그룹 | Member | Admin |
 | --------------------------- | ----- | :----: | :-: |
@@ -278,9 +254,7 @@ SSO를 사용한 사용자 자동 프로비저닝은 Dedicated Cloud 인스턴�
 
 Multi-tenant Cloud에서는 필요에 따라 청구 관리자에게 **Billing only** 조직 역할을 부여할 수 있습니다. 이 역할은 청구 사용자에게만 제한되며, 팀 멤버십을 제거하고 청구 관리 기능은 유지하면서 Models와 Weave 모두에 **No access**를 강제 적용합니다.
 
-<div id="security-and-automation">
-  #### 보안 및 자동화
-</div>
+#### 보안 및 자동화 {#security-and-automation}
 
 | 권한                                         | 권한 그룹 | Member | Admin |
 | ------------------------------------------ | ----- | :----: | :---: |
@@ -297,9 +271,7 @@ SCIM 자동화에 사용되는 조직 범위 서비스 계정은 SCIM 오퍼레�
 3. 목록에서 사용자를 찾으세요. 검색창에서 이름이나 이메일로 필터링할 수 있습니다.
 4. 사용자 이름 옆의 **ORG ROLE** 드롭다운에서 역할을 선택하세요.
 
-<div id="assign-or-update-a-users-access">
-  ### 사용자 액세스 할당 또는 업데이트
-</div>
+### 사용자 액세스 할당 또는 업데이트 {#assign-or-update-a-users-access}
 
 조직 내 사용자는 **Models 시트**와 **Weave 액세스** 수준을 가집니다. 각각 **Full**, **Viewer**, **No access** 중 하나입니다. 이는 조직 전체 권한을 제어하는 조직 **Viewer** 역할과는 별개입니다.
 
@@ -319,9 +291,7 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
   조직 역할과 구독 유형에 따라 조직에서 사용할 수 있는 시트 유형이 결정됩니다.
 </Note>
 
-<div id="remove-a-user">
-  ### 사용자 제거
-</div>
+### 사용자 제거 {#remove-a-user}
 
 1. [https://wandb.ai/home](https://wandb.ai/home)로 이동합니다.
 2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운에서 **Users**를 선택합니다.
@@ -329,18 +299,14 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
 4. **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴가 나타나면 선택합니다.
 5. 드롭다운에서 **멤버 제거**를 선택합니다.
 
-<div id="assign-the-billing-admin">
-  ### 결제 관리자 지정
-</div>
+### 결제 관리자 지정 {#assign-the-billing-admin}
 
 1. [https://wandb.ai/home](https://wandb.ai/home)으로 이동합니다.
 2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운에서 **Users**를 선택합니다.
 3. 검색창에 사용자의 이름 또는 이메일을 입력합니다.
 4. **Billing admin** 열에서 결제 관리자로 지정할 사용자를 선택합니다.
 
-<div id="add-and-manage-teams">
-  ## 팀 추가 및 관리
-</div>
+## 팀 추가 및 관리 {#add-and-manage-teams}
 
 팀는 관련된 사용자를 함께 묶어 조직 내에서 프로젝트에 협업하고 리소스를 공유할 수 있도록 합니다. 다음 섹션에서는 팀을 생성하고, Users를 초대하고, 팀 멤버십과 역할을 관리하는 방법을 설명합니다.
 
@@ -351,9 +317,7 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
 * Users가 조직에 참여할 때 팀에 자동으로 추가되도록 설정합니다.
 * `https://wandb.ai/<team-name>`에 있는 팀의 대시보드에서 팀 저장소를 관리합니다.
 
-<div id="create-a-team">
-  ### 팀 생성
-</div>
+### 팀 생성 {#create-a-team}
 
 조직 대시보드에서 팀을 생성합니다:
 
@@ -372,9 +336,7 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
 
 팀이 생성되면 해당 팀에 사용자를 추가할 수 있습니다.
 
-<div id="invite-users-to-a-team">
-  ### 팀에 사용자 초대
-</div>
+### 팀에 사용자 초대 {#invite-users-to-a-team}
 
 조직 내 팀에 사용자를 초대합니다. 사용자가 이미 W&amp;B 계정을 보유하고 있다면, 팀 대시보드에서 이메일 주소 또는 W&amp;B 사용자 이름으로 사용자를 초대할 수 있습니다.
 
@@ -394,17 +356,13 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
 
 이메일 초대를 사용해 사용자를 수동으로 초대하는 것 외에도, 새 사용자의 [이메일이 조직의 도메인과 일치](#domain-capture)하면 해당 사용자를 팀에 자동으로 추가할 수 있습니다.
 
-<div id="match-members-to-a-team-organization-during-sign-up">
-  ### 가입 시 멤버를 팀 조직에 연결하기
-</div>
+### 가입 시 멤버를 팀 조직에 연결하기 {#match-members-to-a-team-organization-during-sign-up}
 
 조직의 신규 사용자가 가입할 때 조직 내의 팀를 찾을 수 있도록 허용합니다. 신규 사용자는 조직의 인증된 이메일 도메인과 일치하는 인증된 이메일 도메인을 사용해야 합니다. 인증된 신규 사용자는 W&amp;B 계정에 가입할 때 조직에 속한 인증된 팀 목록을 볼 수 있습니다.
 
 조직 관리자가 도메인 클레임을 활성화해야 합니다. 도메인 캡처를 활성화하려면 [Domain capture](#domain-capture)에 설명된 step을 참조하세요.
 
-<div id="view-team-member-status">
-  ### 팀 구성원 상태 보기
-</div>
+### 팀 구성원 상태 보기 {#view-team-member-status}
 
 <Note>
   **Status** 열은 Dedicated Cloud 및 Self-Managed 배포에서만 사용할 수 있습니다.
@@ -433,9 +391,7 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
 단일 팀이 아닌 조직의 모든 사용자 상태를 확인하려면 [조직 활동 보기](/ko/platform/hosting/monitoring-usage/org_dashboard#view-user-status-and-activity)를 참조하세요. 여기에서 조직 관리자는 사용자를 비활성화하거나 다시 활성화할 수 있습니다.
 대신 SCIM을 사용하여 사용자를 비활성화하거나 다시 활성화하려면 [사용자 비활성화](/ko/platform/hosting/iam/scim#deactivate-user) 및 [사용자 다시 활성화](/ko/platform/hosting/iam/scim#reactivate-user)를 참조하세요.
 
-<div id="assign-or-update-a-team-members-role">
-  ### 팀 구성원 역할 할당 또는 업데이트
-</div>
+### 팀 구성원 역할 할당 또는 업데이트 {#assign-or-update-a-team-members-role}
 
 팀 구성원의 역할은 다른 구성원을 관리하거나, 콘텐츠를 작성하거나, 데이터를 조회만 하는 등 팀 내에서 수행할 수 있는 작업을 결정합니다. 팀 내 담당 업무가 변경되면 팀 구성원의 역할을 업데이트하세요.
 
@@ -459,9 +415,7 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
   Dedicated Cloud 또는 Self-Managed 배포의 엔터프라이즈 라이선스에서만 팀 구성원에게 커스텀 역할을 할당할 수 있습니다.
 </Note>
 
-<div id="remove-users-from-a-team">
-  ### 팀에서 사용자 제거
-</div>
+### 팀에서 사용자 제거 {#remove-users-from-a-team}
 
 팀 대시보드에서 사용자를 제거할 수 있습니다. W&amp;B는 run을 만든 멤버가 더 이상 해당 팀에 속해 있지 않더라도, 그 팀에서 생성된 run은 유지합니다.
 
@@ -471,9 +425,7 @@ Models 시트와 Weave 액세스는 조직 수준에서 정의되며 팀에 상�
 4. 삭제하려는 사용자의 이름 옆에 마우스를 올립니다. 표시되면 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 선택합니다.
 5. 드롭다운에서 **Remove user**를 선택합니다.
 
-<div id="add-and-manage-custom-roles">
-  ## 커스텀 역할 추가 및 관리
-</div>
+## 커스텀 역할 추가 및 관리 {#add-and-manage-custom-roles}
 
 커스텀 역할을 사용하면 표준 View-Only, Member, Admin 역할이 조직의 액세스 요구 사항에 맞지 않을 때 기본 제공 역할을 넘어 권한을 맞춤 설정할 수 있습니다. 익숙한 기본 역할을 기반으로 하면서도 특정 권한을 부여하려면 커스텀 역할을 사용하세요.
 

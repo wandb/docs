@@ -9,7 +9,7 @@ Les graphiques personnalisés vous permettent de contrôler à la fois les donn�
 À la fin de ce tutoriel, vous disposerez d&#39;un graphique personnalisé fonctionnel dans votre projet, que vous pourrez enregistrer en tant que préréglage, ainsi que d&#39;un histogramme composite supplémentaire que vous pourrez adapter à vos propres données.
 
 <div id="log-data-to-wb">
-  ## Journalisez des données dans W&amp;B
+  ## Journalisez des données dans W&amp;B {#log-data-to-wb}
 </div>
 
 Avant de pouvoir visualiser quoi que ce soit dans un graphique personnalisé, votre run doit journaliser les données que vous souhaitez afficher. Utilisez [wandb.Run.config](/fr/models/track/config/) pour des valeurs uniques définies au début de l’entraînement, comme les hyperparamètres. Utilisez [wandb.Run.log()](/fr/models/track/log/) pour plusieurs points au fil du temps, et journalisez des tableaux 2D personnalisés avec `wandb.Table()`. Nous vous recommandons de journaliser jusqu’à 10 000 points de données par clé enregistrée.
@@ -29,7 +29,7 @@ with wandb.init() as run:
 Une fois vos données enregistrées, vous êtes prêt à les importer dans un panneau de graphique personnalisé.
 
 <div id="create-a-query">
-  ## Créer une requête
+  ## Créer une requête {#create-a-query}
 </div>
 
 Une requête indique au graphique personnalisé quelles données enregistrées charger. Une fois que vous avez enregistré des données à visualiser, accédez à la page de votre projet et cliquez sur le bouton **`+`** pour ajouter un nouveau panneau, puis sélectionnez **Graphique personnalisé**. Vous pouvez suivre les étapes dans l’[espace de travail de démonstration des graphiques personnalisés](https://app.wandb.ai/demo-team/custom-charts).
@@ -39,14 +39,14 @@ Une requête indique au graphique personnalisé quelles données enregistrées c
 </Frame>
 
 <div id="add-a-query">
-  ### Ajouter une requête
+  ### Ajouter une requête {#add-a-query}
 </div>
 
 1. Cliquez sur `summary` et sélectionnez `historyTable` pour configurer une nouvelle requête qui extrait des données de l’historique du run.
 2. Saisissez la clé sous laquelle vous avez enregistré le `wandb.Table()`. Dans l’extrait de code précédent, c’était `custom_data_table`. Dans le [notebook d’exemple](https://bit.ly/custom-charts-colab), les clés sont `pr_curve` et `roc_curve`. Pour plus d’informations sur **`summaryTable`**, **`historyTable`** et **`tableKey`**, voir [Construire la requête GraphQL](/fr/models/app/features/custom-charts#build-the-graphql-query).
 
 <div id="set-vega-fields">
-  ### Définir les champs Vega
+  ### Définir les champs Vega {#set-vega-fields}
 </div>
 
 Une fois la requête en place, vous pouvez associer vos colonnes enregistrées aux encodages visuels du graphique à l’aide des menus déroulants des champs Vega :
@@ -59,9 +59,7 @@ Une fois la requête en place, vous pouvez associer vos colonnes enregistrées a
 * **axe y :** runSets&#95;historyTable&#95;p (précision)
 * **couleur :** runSets&#95;historyTable&#95;c (étiquette de classe)
 
-<div id="customize-the-chart">
-  ## Personnaliser le graphique
-</div>
+## Personnaliser le graphique {#customize-the-chart}
 
 La visualisation par défaut constitue un bon point de départ, mais vous pouvez modifier la spécification Vega pour changer le type de graphique, ajouter des titres et affiner l’apparence. Pour passer d’un nuage de points à un graphique en courbes, cliquez sur **Edit** afin de modifier la spécification Vega de ce graphique intégré. Suivez l’exemple dans l’[espace de travail de démonstration des graphiques personnalisés](https://app.wandb.ai/demo-team/custom-charts).
 
@@ -85,9 +83,7 @@ Enregistrez un préréglage pour réutiliser la même configuration de graphique
   <img src="/images/app_ui/custom-charts-2.png" alt="Graphique de la courbe PR" />
 </Frame>
 
-<div id="bonus-composite-histograms">
-  ## Bonus : histogrammes composites
-</div>
+## Bonus : histogrammes composites {#bonus-composite-histograms}
 
 Cette section montre comment créer un graphique personnalisé plus avancé : un histogramme composite qui superpose deux distributions dans une même vue, afin d’illustrer ce qu’il est possible de faire une fois que vous maîtrisez la modification de la spécification Vega.
 

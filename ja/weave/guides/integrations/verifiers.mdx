@@ -13,7 +13,7 @@ W&amp;B を使用してトレーニングメトリクスを記録するだけで
 このガイドは、Verifiers ベースの RL ワークフローに可観測性を追加したい ML エンジニアや研究者向けです。Verifiers、W&amp;B、Weave のインストール方法を説明し、Verifiers を Weave および W&amp;B と組み合わせて使う 2 つの例を紹介します。1 つは評価中のロールアウトをトレースする方法、もう 1 つは実験管理とトレースを有効にしてモデルをファインチューニングする方法です。
 
 <div id="get-started">
-  ## はじめに
+  ## はじめに {#get-started}
 </div>
 
 Verifiers を Weave と統合するには、まず `uv` を使って Verifiers ライブラリをインストールします ([ライブラリの作者が推奨しています](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)) 。ライブラリのインストールには、次のいずれかのコマンドを使用してください。
@@ -40,7 +40,7 @@ Weave では、デフォルトでこのライブラリに対して[暗黙的な�
 ライブラリをインストールしたら、以下のセクションの例を実行する準備は完了です。
 
 <div id="trace-rollouts-and-evaluate">
-  ### ロールアウトをトレースして評価する
+  ### ロールアウトをトレースして評価する {#trace-rollouts-and-evaluate}
 </div>
 
 必要なライブラリをインストールしたら、Weave と Verifiers を組み合わせて使用し、call / calls をトレースして評価を実行できます。
@@ -84,7 +84,7 @@ results = env.evaluate(
 ```
 
 <div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
-  ### 実験管理とトレースを使用してモデルをファインチューニングする
+  ### 実験管理とトレースを使用してモデルをファインチューニングする {#fine-tune-a-model-with-experiment-tracking-and-tracing}
 </div>
 
 Weave は、RL のファインチューニング中にモデルがどのようにパフォーマンスしているかを可視化します。W&amp;B と併用すると、ワークフロー全体にわたる可観測性が得られます。W&amp;B はトレーニングのメトリクスやパフォーマンスチャートをトラッキングし、Weave はトレーニングプロセス中の各インタラクションの詳細なトレースを取得します。
@@ -136,7 +136,7 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
 トレースでは、`Environment.a_generate` および `Rubric.score_rollouts` method の `logprobs` は省略されます。これにより、トレーニング用の元のデータはそのまま保持しつつ、ペイロードを小さくできます。
 
 <div id="see-also">
-  ## 関連項目
+  ## 関連項目 {#see-also}
 </div>
 
 Verifiers は W&amp;B Models とネイティブにインテグレーションされています。詳細は、[Verifiers repository](https://github.com/willccbb/verifiers)を参照してください。

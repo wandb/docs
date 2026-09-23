@@ -13,9 +13,7 @@ Lorsque vous travaillez avec des pipelines d’évaluation d’IA, le débogage 
 
 Weave fluidifie ce processus en capturant automatiquement les traces de vos applications [Verdict](https://verdict.readthedocs.io/). Cela vous permet de surveiller et d’analyser les performances de votre pipeline afin de déboguer et d’optimiser vos flux de travail d’évaluation d’IA.
 
-<div id="getting-started">
-  ## Prise en main
-</div>
+## Prise en main {#getting-started}
 
 Pour activer le traçage Weave pour vos pipelines Verdict, appelez `weave.init(project=...)` au début de votre script. Utilisez l’argument `project` pour journaliser vers un nom de Teams W&amp;B spécifique au format `team-name/project-name`, ou utilisez `project-name` pour journaliser vers votre équipe ou entité par défaut.
 
@@ -41,9 +39,7 @@ output = pipeline.run(data)
 print(output)
 ```
 
-<div id="tracking-call-metadata">
-  ## Suivi des métadonnées des appels
-</div>
+## Suivi des métadonnées des appels {#tracking-call-metadata}
 
 Pour associer des métadonnées personnalisées aux appels de votre pipeline Verdict, utilisez le gestionnaire de contexte [`weave.attributes`](/fr/weave/reference/python-sdk#function-attributes). Ce gestionnaire de contexte vous permet de baliser un bloc de code spécifique, comme un run de pipeline ou un lot d’évaluation, afin de pouvoir ensuite filtrer et regrouper les traces associées dans l’interface Weave.
 
@@ -69,9 +65,7 @@ print(output)
 
 Weave suit automatiquement les métadonnées de la trace de l’appel du pipeline Verdict. Vous pouvez afficher les métadonnées dans l’interface web de Weave.
 
-<div id="traces">
-  ## Traces
-</div>
+## Traces {#traces}
 
 Stocker les traces des pipelines d’évaluation d’IA dans une base de données centralisée est utile aussi bien en développement qu’en production. Ces traces facilitent le débogage et l’amélioration de vos flux de travail d’évaluation, et constituent également un jeu de données utile.
 
@@ -85,9 +79,7 @@ Weave capture automatiquement les traces de vos applications Verdict. Il suit et
 
 Vous pouvez consulter les traces dans l’interface web de Weave, qui affiche la structure hiérarchique de l’exécution de votre pipeline.
 
-<div id="pipeline-tracing-example">
-  ## Exemple de traçage de pipeline
-</div>
+## Exemple de traçage de pipeline {#pipeline-tracing-example}
 
 L’exemple suivant montre comment Weave effectue le traçage d’opérations de pipeline imbriquées, afin que vous puissiez voir comment chaque étape d’un pipeline Verdict à plusieurs phases est capturée :
 
@@ -126,9 +118,7 @@ Cela crée une trace détaillée affichant :
 * L’étape d’agrégation de `MeanPoolUnit`.
 * Les informations de durée d’exécution pour chaque opération.
 
-<div id="configuration">
-  ## Configuration
-</div>
+## Configuration {#configuration}
 
 Lorsque vous appelez `weave.init()`, Weave active automatiquement le traçage pour les pipelines Verdict. L’intégration fonctionne en patchant la méthode `Pipeline.__init__()` afin d’injecter un `VerdictTracer` qui transmet toutes les données de trace à Weave.
 
@@ -140,9 +130,7 @@ Vous n’avez besoin d’aucune configuration supplémentaire. Weave effectue au
 * Maintenir la hiérarchie des traces.
 * Gérer l’exécution concurrente des pipelines.
 
-<div id="custom-tracers-and-weave">
-  ## Traceurs personnalisés et Weave
-</div>
+## Traceurs personnalisés et Weave {#custom-tracers-and-weave}
 
 Si vous utilisez déjà des traceurs Verdict personnalisés dans votre application, le `VerdictTracer` de Weave peut être utilisé à leurs côtés afin que vous n&#39;ayez pas à choisir entre les intégrations :
 
@@ -169,9 +157,7 @@ data = Schema.of(text="Sample evaluation text")
 result = pipeline.run(data)
 ```
 
-<div id="models-and-evaluations">
-  ## Models et évaluations
-</div>
+## Models et évaluations {#models-and-evaluations}
 
 Organiser et évaluer des systèmes d’IA composés de plusieurs composants de pipeline peut être complexe. En utilisant [`weave.Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser des informations expérimentales telles que les prompts, les configurations de pipeline et les paramètres d’évaluation, ce qui facilite la comparaison des différentes itérations.
 
@@ -222,9 +208,7 @@ print(prediction)
 
 Ce code crée un modèle que vous pouvez visualiser dans la Weave UI, en affichant à la fois la structure du pipeline et les résultats de l’évaluation.
 
-<div id="evaluations">
-  ### Évaluations
-</div>
+### Évaluations {#evaluations}
 
 Les évaluations vous aident à mesurer les performances de vos propres pipelines d’évaluation. En utilisant la classe [`weave.Evaluation`](/fr/weave/guides/core-types/evaluations), vous pouvez capturer le niveau de performance de vos pipelines Verdict sur des tâches ou des jeux de données spécifiques :
 
@@ -287,15 +271,11 @@ print(scores)
 
 Cela crée une trace d’évaluation qui montre les performances de votre pipeline Verdict sur différents cas de test.
 
-<div id="best-practices">
-  ## Bonnes pratiques
-</div>
+## Bonnes pratiques {#best-practices}
 
 Les sections suivantes décrivent les bonnes pratiques pour surveiller les performances et gérer les erreurs lorsque vous utilisez Weave avec les pipelines Verdict.
 
-<div id="performance-monitoring">
-  ### Suivi des performances
-</div>
+### Suivi des performances {#performance-monitoring}
 
 Weave capture automatiquement les informations de durée d’exécution pour toutes les opérations du pipeline, que vous pouvez utiliser pour identifier les goulots d’étranglement en matière de performances d’un run à l’autre :
 
@@ -322,9 +302,7 @@ for i in range(3):
         result = pipeline.run(data)
 ```
 
-<div id="error-handling">
-  ### Gestion des erreurs
-</div>
+### Gestion des erreurs {#error-handling}
 
 Weave capture automatiquement les exceptions qui se produisent pendant l’exécution du pipeline, de sorte que Weave enregistre les échecs dans la trace même lorsque votre application gère l’exception :
 

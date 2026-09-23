@@ -7,7 +7,7 @@ keywords: ["Keycloak", "SSO Auth0", "SSO Google", "Entra ID", "fournisseur OIDC"
 Ce guide s’adresse aux administrateurs d’instances Cloud dédié de W&amp;B ou autogérées qui souhaitent activer l’authentification unique (SSO) à l’aide d’un fournisseur d’identité compatible avec OpenID Connect (OIDC). À la fin, vous aurez configuré votre fournisseur d’identité, l’aurez connecté à W&amp;B afin que les utilisateurs puissent se connecter via le système d’identité existant de votre organisation, et vous pourrez gérer les identités des utilisateurs et leur appartenance à des groupes via des fournisseurs comme Okta, Keycloak, Auth0, Google et Entra.
 
 <div id="openid-connect">
-  ## OpenID Connect
+  ## OpenID Connect {#openid-connect}
 </div>
 
 W&amp;B prend en charge les flux d’authentification OIDC suivants pour l’intégration avec des fournisseurs d’identité (IdP) externes :
@@ -26,7 +26,7 @@ Vous pouvez utiliser des variables d’environnement pour [configurer les option
 Pour vous aider à configurer des fournisseurs d’identité pour des déploiements [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), suivez ces recommandations. Si vous utilisez le Cloud mutualisé de W&amp;B, contactez [support@wandb.com](mailto:support@wandb.com) pour obtenir de l’assistance.
 
 <div id="configure-your-idp">
-  ## Configurez votre IdP
+  ## Configurez votre IdP {#configure-your-idp}
 </div>
 
 Les sections suivantes expliquent comment configurer votre fournisseur d’identité (IdP) pour OIDC. Commencez par effectuer les étapes de configuration de votre IdP. Vous utiliserez ensuite le **Client ID**, l’**Issuer URL** et, éventuellement, le **Client Secret** pour configurer le SSO dans W&amp;B dans la section suivante. Sélectionnez l’onglet de votre IdP pour plus de détails.
@@ -232,9 +232,7 @@ Les sections suivantes expliquent comment configurer votre fournisseur d’ident
   </Tab>
 </Tabs>
 
-<div id="set-up-sso-in-wb">
-  ## Configurer le SSO dans W&amp;B
-</div>
+## Configurer le SSO dans W&amp;B {#set-up-sso-in-wb}
 
 Après avoir terminé la configuration de votre IdP, effectuez les étapes suivantes dans W&amp;B pour connecter l’IdP et activer le SSO pour votre instance.
 
@@ -277,9 +275,7 @@ Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [v
 
     5. Déconnectez-vous, puis reconnectez-vous, cette fois en utilisant l’écran de connexion de l’IdP.
 
-    <div id="find-your-customer-namespace">
-      ## Trouver votre Customer Namespace
-    </div>
+## Trouver votre Customer Namespace {#find-your-customer-namespace}
 
     Avant de pouvoir configurer BYOB au niveau de l’équipe avec le stockage CoreWeave sur le Cloud dédié de W&amp;B ou en mode Autogéré, vous devez obtenir le **Customer Namespace** de votre organisation. Vous pouvez l’afficher et le copier en bas de l’onglet **Authentification**.
 
@@ -312,7 +308,7 @@ Si votre IdP nécessite un OIDC Client Secret, indiquez-le en définissant la [v
 </Note>
 
 <div id="security-assertion-markup-language-saml">
-  ## Security Assertion Markup Language (SAML)
+  ## Security Assertion Markup Language (SAML) {#security-assertion-markup-language-saml}
 </div>
 
 W&amp;B ne prend pas en charge le protocole SAML.

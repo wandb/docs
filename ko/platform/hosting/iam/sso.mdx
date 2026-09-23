@@ -7,7 +7,7 @@ keywords: ["Keycloak", "Auth0 SSO", "Google SSO", "Entra ID", "OIDC 공급자"]
 이 가이드는 OpenID Connect(OIDC) 호환 ID 공급자를 사용해 single sign-on(SSO)을 활성화하려는 W&amp;B Dedicated Cloud 또는 Self-Managed 인스턴스 관리자를 위한 것입니다. 이 과정을 마치면 ID 공급자를 구성하고 W&amp;B에 연결하여 사용자가 조직의 기존 ID 시스템을 통해 로그인할 수 있게 되며, Okta, Keycloak, Auth0, Google, Entra와 같은 공급자를 통해 사용자 ID와 그룹 멤버십을 관리할 수 있습니다.
 
 <div id="openid-connect">
-  ## OpenID Connect
+  ## OpenID Connect {#openid-connect}
 </div>
 
 W&amp;B는 외부 ID 공급자(IdP)와 통합할 수 있도록 다음 OIDC 인증 플로를 지원합니다:
@@ -26,7 +26,7 @@ W&amp;B에서는 액세스 토큰이 사용자를 대신해 API 요청을 승인
 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 배포에서 ID 공급자를 구성하는 데 도움이 되도록, 아래 가이드라인을 따르세요. W&amp;B Multi-tenant Cloud를 사용 중이라면 지원이 필요할 경우 [support@wandb.com](mailto:support@wandb.com)으로 문의하세요.
 
 <div id="configure-your-idp">
-  ## IdP를 설정하세요
+  ## IdP를 설정하세요 {#configure-your-idp}
 </div>
 
 다음 섹션에서는 OIDC용 ID 공급자(IdP)를 설정하는 방법을 설명합니다. 먼저 IdP 설정 단계를 완료하세요. 다음 섹션에서 W&amp;B에서 SSO를 설정할 때 이 과정에서 얻은 **Client ID**, **Issuer URL**, 그리고 **Client Secret**(선택 사항)을 사용합니다. 자세한 내용은 해당 IdP의 탭을 선택하세요.
@@ -232,9 +232,7 @@ W&amp;B에서는 액세스 토큰이 사용자를 대신해 API 요청을 승인
   </Tab>
 </Tabs>
 
-<div id="set-up-sso-in-wb">
-  ## W&amp;B에서 SSO 설정하기
-</div>
+## W&amp;B에서 SSO 설정하기 {#set-up-sso-in-wb}
 
 IdP 설정을 완료한 후, 인스턴스에서 IdP를 연결하고 SSO를 활성화하려면 W&amp;B에서 다음 단계를 수행하세요.
 
@@ -277,9 +275,7 @@ IdP에 OIDC Client Secret이 필요한 경우, [환경 변수](/ko/platform/host
 
     5. 로그아웃한 다음 다시 로그인합니다. 이번에는 IdP 로그인 화면을 사용하세요.
 
-    <div id="find-your-customer-namespace">
-      ## 고객 네임스페이스 찾기
-    </div>
+## 고객 네임스페이스 찾기 {#find-your-customer-namespace}
 
     W&amp;B Dedicated Cloud 또는 Self-Managed에서 CoreWeave 저장소로 팀 수준 BYOB를 설정하려면 먼저 조직의 **Customer Namespace**를 획득해야 합니다. **Authentication** 탭 하단에서 이를 확인하고 복사할 수 있습니다.
 
@@ -312,7 +308,7 @@ IdP에 OIDC Client Secret이 필요한 경우, [환경 변수](/ko/platform/host
 </Note>
 
 <div id="security-assertion-markup-language-saml">
-  ## Security Assertion Markup Language (SAML)
+  ## Security Assertion Markup Language (SAML) {#security-assertion-markup-language-saml}
 </div>
 
 W&amp;B는 SAML을 지원하지 않습니다.

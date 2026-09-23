@@ -5,9 +5,7 @@ title: Gestion des signaux et des runs de balayage
 
 Cette page explique en détail comment W&amp;B Sweeps gère les signaux système et les codes de sortie des processus. Utilisez ces informations pour exécuter des balayages de manière fiable dans des environnements préemptibles tels que SLURM, EC2 Spot ou les VM préemptibles de Google Cloud. Les sections suivantes décrivent comment interrompre proprement les runs au clavier et fournissent des informations pour vous aider à comprendre et à anticiper le comportement de remise en file d’attente des runs. Cette page s’adresse aux utilisateurs qui exécutent des balayages sur une infrastructure préemptible ou qui ont besoin d’un contrôle fin sur le cycle de vie et le nettoyage des runs. Pour en savoir plus sur la façon dont W&amp;B remet les runs en file d’attente lorsqu’ils sont préemptés, voir [Reprendre les runs de balayages préemptibles](/fr/models/runs/resuming#resume-preemptible-sweeps-runs).
 
-<div id="exit-status-and-signals">
-  ## Code de sortie et signaux
-</div>
+## Code de sortie et signaux {#exit-status-and-signals}
 
 W&amp;B utilise le statut de sortie du processus d’entraînement pour déterminer si un run est remis en file d’attente et comment son état est enregistré.
 
@@ -20,15 +18,11 @@ Cela s’applique que le processus se termine dans un gestionnaire de signal, à
 
 Lorsque le processus se termine à cause d’un [signal interceptable](#catchable-signals-and-preemption), votre gestionnaire peut s’exécuter, appeler [`wandb.run.mark_preempting()`](/fr/models/ref/python/experiments/run#mark_preempting) si vous souhaitez que le run soit remis en file d’attente, effectuer un nettoyage (par exemple, enregistrer un point de contrôle), puis quitter avec un code non nul. Une convention courante est `sys.exit(128 + signum)` pour une terminaison due à un signal. W&amp;B enregistre ce code de sortie et les mêmes [règles de remise en file d’attente](/fr/models/runs/resuming#resume-preemptible-sweeps-runs) s’appliquent. Lorsque le noyau du système d’exploitation tue le processus avec [`SIGKILL`](#sigkill-uncatchable), le processus ne peut pas exécuter de hooks de sortie ; W&amp;B n’écrit donc pas de synthèse finale, et le run peut apparaître comme planté ou tué. L’agent démarre néanmoins le run suivant.
 
-<div id="stale-runs-and-server-side-timeouts">
-  ## Runs inactifs et délais d’expiration côté serveur
-</div>
+## Runs inactifs et délais d’expiration côté serveur {#stale-runs-and-server-side-timeouts}
 
 W&amp;B détermine l’état d’une exécution à la fois selon son code de sortie et son activité. Si une exécution ne se termine pas et ne publie aucune nouvelle métrique pendant environ 5 minutes, W&amp;B la marque comme plantée. Cela peut se produire lorsque le processus d’entraînement cesse de répondre, n’effectue plus de journalisation ou se termine sans sortie propre (par exemple après réception de `SIGKILL`). Consignez des métriques à intervalles réguliers ou quittez avec un code de sortie explicite afin que l’état de l’exécution reflète bien ce qui s’est passé.
 
-<div id="catchable-signals-and-preemption">
-  ## Signaux interceptables et préemption
-</div>
+## Signaux interceptables et préemption {#catchable-signals-and-preemption}
 
 La plupart des signaux dans les environnements préemptibles sont interceptables, ce qui signifie que votre script d’entraînement peut les intercepter et s’arrêter proprement. Vous pouvez enregistrer des gestionnaires de signaux personnalisés dans votre script d’entraînement. Lorsqu’un signal interceptable est reçu, votre gestionnaire s’exécute ; les métriques déjà envoyées à W&amp;B sont conservées, et l’agent détecte l’arrêt du processus et démarre le run suivant.
 
@@ -68,15 +62,11 @@ if __name__ == "__main__":
     train()
 ```
 
-<div id="sigkill-uncatchable">
-  ## `SIGKILL` (impossible à intercepter)
-</div>
+## `SIGKILL` (impossible à intercepter) {#sigkill-uncatchable}
 
 `SIGKILL` provient du noyau du système d’exploitation et ne peut être ni intercepté ni ignoré. Le processus se termine immédiatement, sans possibilité d’exécuter des gestionnaires de signal ou des rappels `atexit`. W&amp;B ne peut pas écrire de résumé final pour le run. L’agent récupère malgré tout et poursuit le balayage, mais les données de ce run sont incomplètes. Utilisez `SIGKILL` uniquement en dernier recours. Privilégiez `SIGTERM` ou `SIGINT` lorsque vous avez besoin d’un arrêt propre.
 
-<div id="signal-forwarding-from-agent-to-child">
-  ## Transmission des signaux de l&#39;agent au processus enfant
-</div>
+## Transmission des signaux de l&#39;agent au processus enfant {#signal-forwarding-from-agent-to-child}
 
 Lorsque vous utilisez la CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent), l&#39;agent exécute votre script d&#39;entraînement en tant que processus enfant. Lorsque vous interrompez l&#39;agent (par exemple avec Ctrl+C, ou lorsqu&#39;un ordonnanceur envoie `SIGTERM` au job), le processus enfant (processus d&#39;entraînement) ne reçoit pas le signal par défaut. Le script d&#39;entraînement ne peut donc pas exécuter son gestionnaire ni appeler `mark_preempting()`. Pour plus d&#39;informations, voir [wandb GitHub issue #3667](https://github.com/wandb/wandb/issues/3667).
 
@@ -92,9 +82,7 @@ Lorsque l&#39;agent CLI reçoit `SIGINT` ou `SIGTERM` avec la transmission activ
 
 Pour plus d&#39;informations, voir la référence CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent).
 
-<div id="preemptible-clusters-like-slurm">
-  ## Clusters préemptibles comme SLURM
-</div>
+## Clusters préemptibles comme SLURM {#preemptible-clusters-like-slurm}
 
 Cette section explique comment configurer les balayages pour que les runs puissent reprendre après une préemption sur des clusters tels que SLURM, EC2 Spot ou les machines virtuelles préemptibles de Google Cloud. En cas de préemption, le processus d’entraînement doit recevoir le signal, marquer le run comme étant en cours de préemption, puis quitter avec un code non nul afin que W&amp;B remette le run en file d’attente. Un nouvel agent (ou le même agent une fois le job remis en file d’attente) peut alors reprendre le run.
 
@@ -111,9 +99,7 @@ Cette section explique comment configurer les balayages pour que les runs puisse
 
 Pour les jobs SLURM multi-GPU où un seul processus doit appeler `wandb.agent()`, voir [How should I run sweeps on SLURM?](/fr/support/models/articles/how-should-i-run-sweeps-on-slurm).
 
-<div id="wandb-sweep-cancel">
-  ## `wandb sweep --cancel`
-</div>
+## `wandb sweep --cancel` {#wandb-sweep-cancel}
 
 Cette section décrit comment la commande `--cancel` interagit avec les signaux et les processus enfants, car l’annulation se comporte différemment de l’envoi direct d’un signal du système d’exploitation. Vous annulez un balayage à l’aide de l’API W&amp;B, et non avec un signal du système d’exploitation. Exécutez une commande comme `wandb sweep --cancel entity/project/sweep_ID`. Le serveur demande à l’agent de quitter, puis l’agent termine les processus enfants en cours d’exécution et s’arrête. Il peut s’écouler un court délai (de l’ordre de l’intervalle d’interrogation de l’API par l’agent) avant que l’annulation ne prenne effet.
 
@@ -121,9 +107,7 @@ L’annulation envoie `SIGKILL` aux runs. Les processus enfants n’ont aucune p
 
 Pour plus d’informations sur les options de mise en pause, de reprise, d’arrêt et d’annulation, voir [Gérer les balayages](/fr/models/sweeps/pause-resume-and-cancel-sweeps).
 
-<div id="signals-to-the-agent-versus-signals-to-the-run">
-  ## Signaux envoyés à l’agent ou au run
-</div>
+## Signaux envoyés à l’agent ou au run {#signals-to-the-agent-versus-signals-to-the-run}
 
 Comprendre la différence entre un signal envoyé à l’agent et un signal envoyé au run d’entraînement vous aide à éviter les processus orphelins et les comportements inattendus. Si vous envoyez un signal au processus de l’agent (et non au processus enfant d’entraînement), l’agent peut s’arrêter tandis que le processus enfant continue de s’exécuter comme processus orphelin. Ce processus orphelin peut continuer à afficher du texte dans votre terminal, et le shell peut ne pas afficher de nouveau prompt tant que vous n’avez pas appuyé sur Entrée.
 
@@ -131,9 +115,7 @@ Sauf si vous utilisez `--forward-signals` avec l’agent CLI, l’arrêt de l’
 
 Pour vérifier que l’agent s’est arrêté, utilisez une commande du système d’exploitation comme `ps -p [AGENT-PID]` ou `pgrep -f "wandb agent"` au lieu de vous fier à l’apparition du prompt.
 
-<div id="reference-mark_preempting-and-final-run-state">
-  ## Référence : `mark_preempting()` et l’état final du run
-</div>
+## Référence : `mark_preempting()` et l’état final du run {#reference-mark_preempting-and-final-run-state}
 
 Le tableau suivant résume comment l’état du run dépend du moment où vous appelez `mark_preempting()` et de la façon dont le processus se termine. Il suppose que vous utilisez la CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent) avec votre programme d’entraînement comme sous-processus.
 

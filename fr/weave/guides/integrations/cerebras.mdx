@@ -6,9 +6,7 @@ keywords: ["Inférence Cerebras", "observabilité LLM", "llama3.1", "ops Weave"]
 
 Weave suit automatiquement et la tenue d’un journal des appels LLM effectués via le [SDK Cerebras Cloud](https://inference-docs.cerebras.ai/introduction).
 
-<div id="traces">
-  ## Traces
-</div>
+## Traces {#traces}
 
 Le suivi des appels LLM est crucial pour le débogage et la surveillance des performances. Weave vous aide à le faire en capturant automatiquement des traces pour le SDK Cerebras Cloud.
 
@@ -40,9 +38,7 @@ Weave va désormais suivre et tenir un journal de tous les appels LLM effectués
 
 [![Vue de trace Weave montrant des appels LLM Cerebras](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
 
-<div id="wrap-with-your-own-ops">
-  ## Encapsulez avec vos propres ops
-</div>
+## Encapsulez avec vos propres ops {#wrap-with-your-own-ops}
 
 Les Weave Ops améliorent la reproductibilité et la traçabilité de vos expériences en assurant automatiquement la gestion des versions de votre code et en capturant les entrées et sorties. Voici un exemple d’utilisation des Weave Ops avec le SDK Cerebras :
 
@@ -72,9 +68,7 @@ animal_speedster("ostrich", "llama3.1-8b")
 animal_speedster("human", "llama3.1-8b")
 ```
 
-<div id="create-a-model-for-easier-experimentation">
-  ## Créez un `Model` pour simplifier l’expérimentation
-</div>
+## Créez un `Model` pour simplifier l’expérimentation {#create-a-model-for-easier-experimentation}
 
 Dans Weave, la classe [Model](/fr/weave/guides/core-types/models) vous aide à organiser et à comparer différentes itérations de votre application. C’est particulièrement utile lorsque vous expérimentez avec des modèles Cerebras. Voici un exemple :
 

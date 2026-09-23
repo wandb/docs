@@ -62,9 +62,7 @@ description: "run.summary를 사용하여 W&B run에서 최고 정확도 또는 
   <img src="/images/track/summary_demo.png" alt="Run summary" />
 </Frame>
 
-<div id="customize-summary-metrics">
-  ## summary 메트릭 사용자 지정
-</div>
+## summary 메트릭 사용자 지정 {#customize-summary-metrics}
 
 맞춤형 summary 메트릭은 트레이닝 중 최적의 step에서 모델 성능을 `run.summary`에 기록하는 데 유용합니다. 예를 들어, 최종 값 대신 최대 정확도나 최소 손실 값을 기록하고 싶을 수 있습니다.
 
@@ -104,9 +102,7 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-<div id="view-summary-metrics">
-  ## summary 메트릭 보기
-</div>
+## summary 메트릭 보기 {#view-summary-metrics}
 
 활성 run 중이거나 기존 run 또는 로컬 파일 시스템에서 W&amp;B App을 통해 run summary에 액세스할 수 있습니다.
 

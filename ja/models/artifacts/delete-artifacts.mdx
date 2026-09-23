@@ -11,9 +11,7 @@ W&amp;B App を使ってインタラクティブに、または W&amp;B Python S
   ガベージコレクションは **ベストエフォート** です。アーティファクト を削除したあと、解放された容量がオブジェクトストレージにどのくらい早く反映されるかについて、W&amp;B は保証しません。大規模な deployment やバックログがある場合は、想定より時間がかかることがあります。これが run データ、保持設定、およびオペレーターによる任意の操作とどのように関係するかについては、[バケット storage とコストを管理する](/ja/platform/hosting/managing-bucket-storage) を参照してください。
 </Note>
 
-<div id="artifact-garbage-collection-workflow">
-  ## アーティファクトのガベージコレクションのワークフロー
-</div>
+## アーティファクトのガベージコレクションのワークフロー {#artifact-garbage-collection-workflow}
 
 次の図は、アーティファクトのガベージコレクションのプロセス全体を示しています。
 
@@ -59,9 +57,7 @@ TTL ポリシーを使用すると、W&amp;B でアーティファクトが削�
   entity、プロジェクト、またはアーティファクトコレクションを削除すると、このページで説明しているアーティファクト削除プロセスが開始されます。run を削除する際に関連するアーティファクトも削除するよう選択した場合、それらのアーティファクトも同じソフト削除とガベージコレクションのワークフローに従います。
 </Note>
 
-<div id="delete-an-artifact-version">
-  ## アーティファクトバージョンを削除する
-</div>
+## アーティファクトバージョンを削除する {#delete-an-artifact-version}
 
 W&amp;B App を使用してインタラクティブに アーティファクトバージョンを削除することも、W&amp;B Python SDK を使用してプログラムで削除することもできます。
 
@@ -93,9 +89,7 @@ W&amp;B App を使用してインタラクティブに アーティファクト�
   </Tab>
 </Tabs>
 
-<div id="delete-multiple-artifact-versions">
-  ## 複数のアーティファクトバージョンを削除する
-</div>
+## 複数のアーティファクトバージョンを削除する {#delete-multiple-artifact-versions}
 
 次のコード例は、複数のアーティファクトバージョンを削除する方法を示しています。アーティファクトを作成した entity、プロジェクト名、run ID を `wandb.Api.run()` の引数として指定します。これにより run オブジェクトが返され、その run で作成されたすべてのアーティファクトバージョンにアクセスできます。次に、アーティファクトバージョンを順に処理し、条件に一致するものを削除します。
 
@@ -126,9 +120,7 @@ for artifact in run.logged_artifacts():
         artifact.delete(delete_aliases=True)
 ```
 
-<div id="delete-multiple-artifact-versions-with-a-specific-alias">
-  ## 特定の エイリアス を持つ複数の アーティファクトバージョン を削除する
-</div>
+## 特定の エイリアス を持つ複数の アーティファクトバージョン を削除する {#delete-multiple-artifact-versions-with-a-specific-alias}
 
 次のコードは、特定の エイリアス を持つ複数の アーティファクトバージョン を削除する方法を示しています。
 
@@ -156,9 +148,7 @@ for artifact in run.logged_artifacts():
             artifact.delete(delete_aliases=True)
 ```
 
-<div id="delete-an-artifact-collection">
-  ## アーティファクト コレクション を削除する
-</div>
+## アーティファクト コレクション を削除する {#delete-an-artifact-collection}
 
 <Tabs>
   <Tab title="W&B App" value="ui">
@@ -191,9 +181,7 @@ for artifact in run.logged_artifacts():
   </Tab>
 </Tabs>
 
-<div id="protected-aliases-and-deletion-permissions">
-  ## 保護されたエイリアスと削除権限
-</div>
+## 保護されたエイリアスと削除権限 {#protected-aliases-and-deletion-permissions}
 
 保護されたエイリアスを持つArtifactsには、特別な削除制限があります。[保護されたエイリアス](/ja/models/registry/aliases#protected-aliases)は、W&amp;B Registry で Registry 管理者が設定できるエイリアスで、許可されていない削除を防ぐために使用されます。
 
@@ -206,9 +194,7 @@ for artifact in run.logged_artifacts():
   * Registry 管理者は、ソース アーティファクト から保護されたエイリアスを削除してから、その アーティファクト を削除できます。
 </Note>
 
-<div id="enable-garbage-collection-based-on-how-wb-is-hosted">
-  ## W&amp;B のホスティング形態に応じてガベージコレクションを有効にする
-</div>
+## W&amp;B のホスティング形態に応じてガベージコレクションを有効にする {#enable-garbage-collection-based-on-how-wb-is-hosted}
 
 <Note>ガベージコレクションの実行タイミングは保証されません。詳細については、[バケットストレージとコストを管理する](/ja/platform/hosting/managing-bucket-storage) を参照してください。</Note>
 

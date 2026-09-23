@@ -24,23 +24,17 @@ Cette page décrit les exigences d’infrastructure et les prérequis logiciels 
 
 Pour des recommandations d’architecture détaillées, voir l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch/).
 
-<div id="software-version-requirements">
-  ## Exigences relatives aux versions logicielles
-</div>
+## Exigences relatives aux versions logicielles {#software-version-requirements}
 
 <SelfManagedVersionRequirements />
 
-<div id="hardware-requirements">
-  ## Configuration matérielle requise
-</div>
+## Configuration matérielle requise {#hardware-requirements}
 
 <SelfManagedHardwareRequirements />
 
 Pour obtenir des recommandations détaillées sur le dimensionnement selon votre cas d’utilisation (Models uniquement, Weave uniquement, ou les deux), consultez la [section sur le dimensionnement de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#sizing).
 
-<div id="kubernetes">
-  ## Kubernetes
-</div>
+## Kubernetes {#kubernetes}
 
 le serveur W&amp;B est déployé sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/self-managed/operator/) qui gère plusieurs pods. Votre cluster Kubernetes doit respecter les exigences suivantes :
 
@@ -53,9 +47,7 @@ W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](
 
 Pour connaître l’ensemble des exigences Kubernetes, y compris la configuration de l’équilibreur de charge et de l’ingress, voir la [section Kubernetes de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#kubernetes).
 
-<div id="mysql-database">
-  ## Base de données MySQL
-</div>
+## Base de données MySQL {#mysql-database}
 
 <SelfManagedMysqlEolUpgrade />
 
@@ -63,9 +55,7 @@ Pour connaître l’ensemble des exigences Kubernetes, y compris la configuratio
 
 W&amp;B recommande d’utiliser des services de base de données managés tels qu’AWS RDS Aurora MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL pour les déploiements en Production. Les services managés assurent des sauvegardes automatisées, la supervision, la haute disponibilité, l’application des correctifs et réduisent la complexité opérationnelle.
 
-<div id="mysql-configuration-parameters">
-  ### Paramètres de configuration MySQL
-</div>
+### Paramètres de configuration MySQL {#mysql-configuration-parameters}
 
 Si vous utilisez votre propre instance MySQL, configurez MySQL avec les paramètres suivants pour assurer la compatibilité avec le serveur W&amp;B :
 
@@ -81,9 +71,7 @@ sync_binlog = 1
 
 W&amp;B a validé ces paramètres en termes de performances et de fiabilité.
 
-<div id="database-creation">
-  ### Création de la base de données
-</div>
+### Création de la base de données {#database-creation}
 
 Si vous n’utilisez pas un service MySQL géré qui provisionne automatiquement la base de données, suivez ces instructions pour créer manuellement la base de données MySQL et l’utilisateur utilisés par le serveur W&amp;B :
 
@@ -91,9 +79,7 @@ Si vous n’utilisez pas un service MySQL géré qui provisionne automatiquement
 
 Pour des considérations supplémentaires, notamment sur les sauvegardes, les performances, la surveillance et la disponibilité, voir la [section MySQL de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#mysql).
 
-<div id="redis">
-  ## Redis
-</div>
+## Redis {#redis}
 
 Le serveur W&amp;B utilise Redis pour la mise en cache et la coordination des tâches en arrière-plan.
 
@@ -106,9 +92,7 @@ W&amp;B peut se connecter à une instance Redis dans l’un des environnements s
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
 * Un déploiement Redis hébergé dans votre cloud ou sur votre infrastructure sur site.
 
-<div id="clickhouse">
-  ## ClickHouse
-</div>
+## ClickHouse {#clickhouse}
 
 W&amp;B Weave dans les déploiements autogérés utilise ClickHouse. ClickHouse n&#39;est pas requis pour chaque installation autogérée.
 
@@ -116,9 +100,7 @@ Avant de mettre à niveau le serveur W&amp;B ou de modifier votre version de Cli
 
 Pour les procédures de déploiement, voir [Déployer Weave dans un environnement autogéré](/fr/weave/guides/platform/weave-self-managed).
 
-<div id="object-storage">
-  ## Stockage d’objets
-</div>
+## Stockage d’objets {#object-storage}
 
 Le serveur W&amp;B nécessite un bucket de stockage d’objets pour stocker des artefacts, des médias et les données d’exécution.
 
@@ -126,51 +108,37 @@ Le serveur W&amp;B nécessite un bucket de stockage d’objets pour stocker des 
 
 <ByobProvisioningLink />
 
-<div id="configure-wb-to-use-your-bucket">
-  ### Configurer W&amp;B pour utiliser votre bucket
-</div>
+### Configurer W&amp;B pour utiliser votre bucket {#configure-wb-to-use-your-bucket}
 
 Une fois votre bucket provisionné, vous devez configurer W&amp;B pour l’utiliser dans les valeurs Helm de l’opérateur afin que le serveur W&amp;B puisse lire depuis le bucket et y écrire. Voir la [section de configuration du stockage d’objets de l’opérateur](/fr/platform/hosting/self-managed/operator/#object-storage-bucket) pour plus de détails.
 
-<div id="networking">
-  ## Réseau
-</div>
+## Réseau {#networking}
 
 La configuration réseau rend le serveur W&amp;B accessible aux utilisateurs et aux charges de travail de machine learning. Les sections suivantes présentent les exigences relatives au DNS, à l’équilibreur de charge et à l’ingress.
 
 <SelfManagedNetworkingRequirements />
 
-<div id="dns">
-  ### DNS
-</div>
+### DNS {#dns}
 
 Le nom de domaine complet (FQDN) du déploiement W&amp;B doit pointer vers l&#39;adresse IP de l&#39;ingress ou de l&#39;équilibreur de charge au moyen d&#39;un enregistrement A.
 
-<div id="load-balancer-and-ingress">
-  ### Équilibreur de charge et ingress
-</div>
+### Équilibreur de charge et ingress {#load-balancer-and-ingress}
 
 L’opérateur Kubernetes W&amp;B expose des services à l’aide d’un contrôleur d’ingress Kubernetes, qui les achemine vers les points de terminaison de service en fonction des chemins d’URL. Le contrôleur d’ingress doit être accessible depuis toutes les machines qui exécutent des charges de travail de machine learning ou accèdent au service via un navigateur web.
 
 Pour plus de détails sur les options d’équilibreur de charge, les exigences du contrôleur d’ingress et des exemples de configuration, voir la [section sur l’équilibreur de charge de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress).
 
-<div id="ssltls">
-  ## SSL/TLS
-</div>
+## SSL/TLS {#ssltls}
 
 <SelfManagedSslTlsRequirements />
 
-<div id="license">
-  ## Licence
-</div>
+## Licence {#license}
 
 Une licence serveur W&amp;B valide est requise pour tous les déploiements autogérés. Sans licence, le serveur W&amp;B ne peut pas démarrer.
 
 <SelfManagedObtainLicense />
 
-<div id="next-steps">
-  ## Étapes suivantes
-</div>
+## Étapes suivantes {#next-steps}
 
 Après avoir confirmé que votre infrastructure répond à ces exigences, consultez le guide de déploiement correspondant à votre environnement :
 

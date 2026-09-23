@@ -10,9 +10,7 @@ keywords: ["Instructor", "Pydantic", "구조화된 추출", "response_model", "F
 
 [Instructor](https://python.useinstructor.com/)는 LLM에서 JSON과 같은 구조화된 데이터를 쉽게 얻을 수 있게 해주는 경량 라이브러리입니다. 이 가이드에서는 Weave로 Instructor 호출을 트레이스하여 구조화된 추출을 디버그하고, Pydantic 검증을 캡처하고, 재시도 로직을 검사하는 방법을 보여줍니다.
 
-<div id="tracing">
-  ## 트레이싱
-</div>
+## 트레이싱 {#tracing}
 
 개발 중이든 프로덕션이든, 언어 모델 애플리케이션의 트레이스를 한곳에 중앙 집중식으로 저장하는 것이 중요합니다. 이러한 트레이스는 디버깅에 유용할 뿐 아니라, 애플리케이션 개선에 도움이 되는 데이터셋으로도 활용할 수 있습니다.
 
@@ -48,9 +46,7 @@ user_info = client.chat.completions.create(
 | --------------------------------------------------------------------------------------------------------------------- |
 | Weave는 Instructor를 사용해 이루어지는 모든 LLM Call을 추적하고 로깅합니다. Weave 웹 인터페이스에서 해당 트레이스를 확인할 수 있습니다.                           |
 
-<div id="track-your-own-ops">
-  ## 직접 만든 ops 추적하기
-</div>
+## 직접 만든 ops 추적하기 {#track-your-own-ops}
 
 함수를 `@weave.op`로 감싸면 입력, 출력, 앱 로직 캡처가 시작되어 앱에서 데이터가 어떻게 흐르는지 디버그할 수 있습니다. ops를 깊게 중첩해 추적하려는 함수들의 트리를 구성할 수 있습니다. 또한 실험하는 동안 코드 버전 관리도 자동으로 시작되어 Git에 커밋되지 않은 임시 세부 정보까지 캡처합니다.
 
@@ -97,9 +93,7 @@ person = extract_person("My name is John and I am 20 years old")
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `extract_person` 함수에 `@weave.op` 데코레이터를 적용하면 함수의 입력, 출력와 함수 내부에서 발생하는 모든 LM Call이 트레이스됩니다. Weave는 또한 Instructor가 생성한 구조화된 객체를 자동으로 추적하고 버전 관리합니다. |
 
-<div id="create-a-model-for-easier-experimentation">
-  ## `Model`로 더 쉽게 실험하기
-</div>
+## `Model`로 더 쉽게 실험하기 {#create-a-model-for-easier-experimentation}
 
 구성 요소가 많아질수록 실험을 체계적으로 정리하기가 어렵습니다. [`Model`](../core-types/models) 클래스를 사용하면 system 프롬프트나 사용 중인 모델처럼 앱 실험의 세부 사항을 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 여러 반복 버전을 더 쉽게 정리하고 비교할 수 있습니다.
 
@@ -163,9 +157,7 @@ asyncio.run(model.predict("John is 30 years old"))
 | --------------------------------------------------------------------------------------------------------------------------------------- |
 | [`Model`](../core-types/models)을 사용해 Call 트레이싱 및 버전 관리                                                                                  |
 
-<div id="serve-a-weave-model">
-  ## Weave Model 서빙하기
-</div>
+## Weave Model 서빙하기 {#serve-a-weave-model}
 
 `weave.Model`을 저장한 후에는 이를 FastAPI 엔드포인트로 서빙하여 노트북 외부에서 테스트하거나 다른 애플리케이션과 통합할 수 있습니다. `weave.Model` 객체를 가리키는 weave 레퍼런스가 있으면 FastAPI 서버를 실행하고 [`서빙`](https://docs.wandb.ai/weave/guides/tools/serve)할 수 있습니다.
 

@@ -3,9 +3,7 @@ title: "Erreurs du système d’exploitation - Trop de fichiers ouverts"
 keywords: ["Performances"]
 ---
 
-<div id="errno-24-too-many-open-files">
-  ## `[Errno 24]: Trop de fichiers ouverts`
-</div>
+## `[Errno 24]: Trop de fichiers ouverts` {#errno-24-too-many-open-files}
 
 Cette erreur se produit lorsque le nombre de fichiers ouverts dépasse la limite définie par votre système d’exploitation. Dans Weave, cela peut arriver parce que vous travaillez avec de grands jeux de données d’images. Weave utilise `PIL` pour le traitement des images, ce qui maintient les descripteurs de fichiers ouverts pendant l’exécution du programme.
 

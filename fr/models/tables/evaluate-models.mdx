@@ -3,9 +3,7 @@ title: Évaluer des modèles avec W&B Weave et W&B Tables
 description: Découvrez comment évaluer des modèles d’apprentissage automatique à l’aide de W&B Weave et de Tables.
 ---
 
-<div id="evaluate-models-with-weave">
-  ## Évaluer des modèles avec Weave
-</div>
+## Évaluer des modèles avec Weave {#evaluate-models-with-weave}
 
 [W&amp;B Weave](/fr/weave) est une boîte à outils spécialement conçue pour évaluer les LLM et les applications d’IA générative. Elle offre des fonctionnalités d’évaluation complètes, notamment des évaluateurs, des juges et un Tracing détaillé, pour vous aider à comprendre et à améliorer les performances du modèle. Weave s’intègre à W&amp;B Models, ce qui vous permet d’évaluer les modèles stockés dans votre registre de modèles.
 
@@ -13,9 +11,7 @@ description: Découvrez comment évaluer des modèles d’apprentissage automati
   <img src="/images/weave/evals.png" alt="Tableau de bord d’évaluation Weave présentant les métriques de performance du modèle et les traces" />
 </Frame>
 
-<div id="key-features-for-model-evaluation">
-  ### Fonctionnalités clés pour l’évaluation des modèles
-</div>
+### Fonctionnalités clés pour l’évaluation des modèles {#key-features-for-model-evaluation}
 
 * **Évaluateurs et juges** : Métriques d’évaluation prédéfinies et personnalisées pour l’exactitude, la pertinence, la cohérence, etc.
 * **Jeux de données d’évaluation** : Ensembles de test structurés avec des valeurs de référence pour une évaluation systématique
@@ -23,9 +19,7 @@ description: Découvrez comment évaluer des modèles d’apprentissage automati
 * **Tracing détaillé** : Déboguez le comportement du modèle à l’aide de traces d’entrée/sortie complètes
 * **Suivi des coûts** : Surveillez les coûts d’API et l’utilisation des tokens sur l’ensemble des évaluations
 
-<div id="getting-started-evaluate-a-model-from-wb-registry">
-  ### Premiers pas : évaluer un modèle à partir du registre W&amp;B
-</div>
+### Premiers pas : évaluer un modèle à partir du registre W&amp;B {#getting-started-evaluate-a-model-from-wb-registry}
 
 Téléchargez un modèle depuis le registre de W&amp;B Models et évaluez-le avec Weave :
 
@@ -73,9 +67,7 @@ evaluation = weave.Evaluation(
 results = await evaluation.evaluate(model)
 ```
 
-<div id="integrate-weave-evaluations-with-wb-models">
-  ### Intégrer les évaluations Weave à W&amp;B Models
-</div>
+### Intégrer les évaluations Weave à W&amp;B Models {#integrate-weave-evaluations-with-wb-models}
 
 La [exemple d’intégration entre Models et Weave](/fr/weave/cookbooks/Models_and_Weave_Integration_Demo) présente le flux de travail complet pour :
 
@@ -98,13 +90,9 @@ wandb.run.config.update({
 })
 ```
 
-<div id="advanced-weave-features">
-  ### Fonctionnalités avancées de Weave
-</div>
+### Fonctionnalités avancées de Weave {#advanced-weave-features}
 
-<div id="custom-scorers-and-judges">
-  #### Évaluateurs et juges personnalisés
-</div>
+#### Évaluateurs et juges personnalisés {#custom-scorers-and-judges}
 
 Créez des métriques d’évaluation sophistiquées adaptées à votre cas d’utilisation :
 
@@ -116,9 +104,7 @@ def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
     return {"judge_score": judgment}
 ```
 
-<div id="batch-evaluations">
-  #### Évaluations par lot
-</div>
+#### Évaluations par lot {#batch-evaluations}
 
 Évaluez plusieurs versions de modèle ou plusieurs configurations :
 
@@ -133,16 +119,12 @@ for model in models:
     print(f"{model.model_name}: {results}")
 ```
 
-<div id="next-steps">
-  ### Étapes suivantes
-</div>
+### Étapes suivantes {#next-steps}
 
 * [Tutoriel complet sur l’évaluation avec Weave](/fr/weave/tutorial-eval/)
 * [Exemple d’intégration entre Models et Weave](/fr/weave/cookbooks/Models_and_Weave_Integration_Demo)
 
-<div id="evaluate-models-with-tables">
-  ## Évaluer des modèles avec W&amp;B Tables
-</div>
+## Évaluer des modèles avec W&amp;B Tables {#evaluate-models-with-tables}
 
 Utilisez W&amp;B Tables pour :
 
@@ -155,9 +137,7 @@ Utilisez W&amp;B Tables pour :
   ![Exemple de tableau de prédictions montrant les sorties du modèle à côté des étiquettes de référence](/images/data_vis/tables_sample_predictions.png)
 </Frame>
 
-<div id="basic-example-log-evaluation-results">
-  ### Exemple de base : Enregistrer les résultats d’évaluation
-</div>
+### Exemple de base : Enregistrer les résultats d’évaluation {#basic-example-log-evaluation-results}
 
 ```python
 import wandb
@@ -188,13 +168,9 @@ for idx, (input_data, label) in enumerate(test_dataset):
 run.log({"evaluation_results": eval_table})
 ```
 
-<div id="advanced-table-workflows">
-  ### Flux de travail avancés avec les tableaux
-</div>
+### Flux de travail avancés avec les tableaux {#advanced-table-workflows}
 
-<div id="compare-multiple-models">
-  #### Comparer plusieurs modèles
-</div>
+#### Comparer plusieurs modèles {#compare-multiple-models}
 
 Journalisez les tableaux d’eval de différents modèles avec la même clé afin de les comparer directement :
 
@@ -214,9 +190,7 @@ with wandb.init(project="model-comparison", name="model_b") as run:
   ![Comparaison côte à côte des prédictions du modèle sur différentes époques d’entraînement](/images/data_vis/table_comparison.png)
 </Frame>
 
-<div id="track-predictions-over-time">
-  #### Suivre les prédictions au fil du temps
-</div>
+#### Suivre les prédictions au fil du temps {#track-predictions-over-time}
 
 Journalisez des tableaux dans le journal à différentes époques d&#39;entraînement pour visualiser les améliorations :
 
@@ -233,9 +207,7 @@ for epoch in range(num_epochs):
     wandb.log({f"predictions_epoch_{epoch}": eval_table})
 ```
 
-<div id="interactive-analysis-in-the-wb-ui">
-  ### Analyse interactive dans l’interface W&amp;B
-</div>
+### Analyse interactive dans l’interface W&amp;B {#interactive-analysis-in-the-wb-ui}
 
 Une fois les résultats enregistrés, vous pouvez :
 
@@ -248,9 +220,7 @@ Une fois les résultats enregistrés, vous pouvez :
   ![Filtrage interactif et requêtes sur les résultats d’évaluation dans W\&B Tables](/images/data_vis/wandb_demo_filter_on_a_table.png)
 </Frame>
 
-<div id="example-error-analysis-with-enriched-tables">
-  ### Exemple : Analyse d’erreurs avec des tableaux enrichis
-</div>
+### Exemple : Analyse d’erreurs avec des tableaux enrichis {#example-error-analysis-with-enriched-tables}
 
 ```python
 # Créer un tableau mutable pour ajouter des colonnes d'analyse

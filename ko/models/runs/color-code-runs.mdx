@@ -7,9 +7,7 @@ title: 의미 있는 run 플롯 범례
 
 run에 메트릭 또는 설정 기반 색상을 사용하려면 두 가지 설정을 구성해야 합니다:
 
-<div id="turn-on-key-based-colors">
-  ### 키 기반 색상 켜기
-</div>
+### 키 기반 색상 켜기 {#turn-on-key-based-colors}
 
 1. W&amp;B 프로젝트로 이동합니다.
 2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
@@ -27,32 +25,24 @@ run에 메트릭 또는 설정 기반 색상을 사용하려면 두 가지 설�
 
 다음 섹션에서는 메트릭과 y 값을 설정하는 방법과 run에 색상을 할당하는 데 사용하는 버킷을 사용자 지정하는 방법을 설명합니다.
 
-<div id="example-key-based-coloring-with-loss-metric">
-  ### 예: loss 메트릭을 사용한 키 기반 색상 지정
-</div>
+### 예: loss 메트릭을 사용한 키 기반 색상 지정 {#example-key-based-coloring-with-loss-metric}
 
 이 예제 plot에서는 각 run이 loss 값에 따라 그라디언트 색상으로 표시되며, 더 어두운 색은 더 높은 loss 값을, 더 밝은 색은 더 낮은 loss 값을 나타냅니다. 각 run의 가장 최근 loss 값을 사용하도록 Y 값은 `latest`로 설정됩니다.
 
 <Image src="/images/app_ui/run-colors-key-based.png" alt="키 기반 색상 지정을 사용해 loss 값에 따라 색상이 지정된 run을 보여주는 W&B Workspace." />
 
-<div id="set-a-metric">
-  ## 메트릭 설정
-</div>
+## 메트릭 설정 {#set-a-metric}
 
 **키** 드롭다운의 메트릭 옵션은 [W&amp;B에 로깅한](/ko/models/runs/color-code-runs/#custom-metrics) 키-값 쌍과 W&amp;B에서 정의한 [기본 메트릭](/ko/models/runs/color-code-runs/#default-metrics)을 기반으로 합니다.
 
-<div id="default-metrics">
-  ### 기본 메트릭
-</div>
+### 기본 메트릭 {#default-metrics}
 
 * `Relative Time (Process)`: run의 상대 시간으로, run 시작 후 경과한 시간을 초 단위로 나타냅니다.
 * `Relative Time (Wall)`: run의 상대 시간으로, run 시작 후 경과한 시간을 벽시계 시간을 기준으로 보정해 초 단위로 나타냅니다.
 * `Wall Time`: run의 벽시계 시간으로, 에포크 이후 경과한 시간을 초 단위로 나타냅니다.
 * `Step`: run의 step 번호로, 일반적으로 트레이닝이나 평가의 진행 상황을 추적하는 데 사용됩니다.
 
-<div id="custom-metrics">
-  ### 커스텀 메트릭
-</div>
+### 커스텀 메트릭 {#custom-metrics}
 
 트레이닝 또는 평가 스크립트에서 로깅한 커스텀 메트릭을 기반으로 run에 색상을 지정하고 의미 있는 플롯 범례를 만드세요. 커스텀 메트릭은 키-값 쌍으로 로깅되며, 여기서 키는 메트릭의 이름이고 값은 메트릭 값입니다.
 
@@ -77,9 +67,7 @@ with wandb.init(project="basic-intro") as run:
 
 **키** 드롭다운에서는 `"acc"`와 `"loss"`를 모두 선택할 수 있습니다.
 
-<div id="set-a-configuration-key">
-  ## 설정 키 지정
-</div>
+## 설정 키 지정 {#set-a-configuration-key}
 
 **키** 드롭다운의 설정 옵션은 W&amp;B run을 초기화할 때 `config` 매개변수에 전달한 키-값 쌍을 기반으로 합니다. 설정 키는 일반적으로 트레이닝 또는 평가 스크립트에서 사용하는 하이퍼파라미터나 기타 설정을 기록하는 데 사용됩니다.
 
@@ -99,9 +87,7 @@ with wandb.init(project="basic-intro", config=config) as run:
 
 **키** 드롭다운에서 사용할 수 있는 옵션은 `"learning_rate"`, `"batch_size"`, `"optimizer"`입니다.
 
-<div id="set-a-y-value">
-  ## Y 값을 설정합니다
-</div>
+## Y 값을 설정합니다 {#set-a-y-value}
 
 다음 옵션 중에서 선택할 수 있습니다:
 
@@ -109,9 +95,7 @@ with wandb.init(project="basic-intro", config=config) as run:
 * **Max**: metric에 로깅된 가장 높은 Y 값을 기준으로 색상을 지정합니다.
 * **Min**: metric에 로깅된 가장 낮은 Y 값을 기준으로 색상을 지정합니다.
 
-<div id="customize-buckets">
-  ## 버킷 사용자 지정
-</div>
+## 버킷 사용자 지정 {#customize-buckets}
 
 버킷은 선택한 메트릭 또는 설정 키를 기준으로 W&amp;B가 run을 분류하는 데 사용하는 값의 범위입니다. 버킷은 지정된 메트릭 또는 설정 키의 전체 값 범위에 걸쳐 균등하게 분포되며, 각 버킷에는 고유한 색상이 할당됩니다. 해당 버킷의 범위에 속하는 run은 그 색상으로 표시됩니다.
 

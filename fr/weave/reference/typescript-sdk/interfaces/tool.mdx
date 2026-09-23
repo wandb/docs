@@ -15,9 +15,7 @@ Créée par `weave.startTool()` (ou `turn.startTool()`, ou
 `llm.startTool()`) et terminée par `end()`, qui accepte le résultat et
 des métadonnées d&#39;erreur facultatives.
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 ```ts twoslash
 // @noErrors
@@ -31,35 +29,25 @@ try {
 }
 ```
 
-<div id="extends">
-  ## Hérite de
-</div>
+## Hérite de {#extends}
 
 * `SpanBase`
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="args">
-  ### args
-</div>
+### args {#args}
 
 > `readonly` **args** : `string`
 
 ***
 
-<div id="name">
-  ### nom
-</div>
+### nom {#name}
 
 > `readonly` **nom**: `string`
 
 ***
 
-<div id="result">
-  ### ~~result~~
-</div>
+### ~~result~~ {#result}
 
 <Warning>
   **Obsolète.** Passez plutôt `result` à `end()`.
@@ -71,19 +59,13 @@ Sortie de l’outil sous forme de chaîne. Préférez passer `result` à `end()`
 
 ***
 
-<div id="toolcallid">
-  ### toolCallId
-</div>
+### toolCallId {#toolcallid}
 
 > `readonly` **toolCallId**: `string`
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="addevent">
-  ### ~~addEvent()~~
-</div>
+### ~~addEvent()~~ {#addevent}
 
 <Warning>
   **Obsolète.** Enregistrez plutôt ces données avec [setAttributes](#setattributes).
@@ -98,9 +80,7 @@ Ajoute un événement nommé au span. Utile pour marquer des moments non associ�
 la compaction du contexte, la détection de boucles d’outils ou le déclenchement de guardrails. Émet un avertissement et
 ne fait rien après `end()`. Reproduit `Span.addEvent` d’OTel.
 
-<div id="parameters">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters}
 
 <ParamField path="name" type="string" required />
 
@@ -108,57 +88,43 @@ ne fait rien après `end()`. Reproduit `Span.addEvent` d’OTel.
 
 <ParamField path="startTime" type="TimeInput" />
 
-<div id="returns">
-  #### Renvoie
-</div>
+#### Renvoie {#returns}
 
 `this`
 
-<div id="example-2">
-  #### Exemple
-</div>
+#### Exemple {#example-2}
 
 ```ts twoslash
 // @noErrors
 span.addEvent('context_compacted', {removedMessages: 12});
 ```
 
-<div id="inherited-from">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from}
 
 `SpanBase.addEvent`
 
 ***
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`) : `void`
 
 Enregistrez un résultat et un type d&#39;erreur facultatifs, puis fermez le span. Idempotent.
 Transmettez `error` pour marquer le span comme ayant échoué et `endTime` pour antidater la fermeture.
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="opts" type="ToolEndOptions">
   Voir [`ToolEndOptions`](./toolendoptions).
 </ParamField>
 
-<div id="returns-2">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-2}
 
 `void`
 
 ***
 
-<div id="setattributes">
-  ### setAttributes()
-</div>
+### setAttributes() {#setattributes}
 
 > **setAttributes**(`attributes`) : `this`
 
@@ -166,29 +132,21 @@ Définit simultanément plusieurs attributs sur le span. Émet un avertissement 
 `end()`. Correspond à `Span.setAttributes` d’OTel (ainsi qu’à
 `set_attributes` du SDK Python).
 
-<div id="parameters-3">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-3}
 
 <ParamField path="attributes" type="Attributes" required />
 
-<div id="returns-3">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-3}
 
 `this`
 
-<div id="example-3">
-  #### Exemple
-</div>
+#### Exemple {#example-3}
 
 ```ts twoslash
 // @noErrors
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from-2">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-2}
 
 `SpanBase.setAttributes`

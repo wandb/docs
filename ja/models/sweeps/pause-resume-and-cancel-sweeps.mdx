@@ -7,9 +7,7 @@ title: Sweeps を管理する
 
 sweep の一時停止、再開、停止、キャンセルには [W&amp;B CLI](/ja/models/ref/cli/wandb-sweep) を使用します。各コマンドは、sweep が新しい Runs を作成するかどうかや、すでに実行中の Runs がどうなるかに影響します。いずれの場合も、sweep の初期化時に W&amp;B によって生成された sweep ID を指定してください。
 
-<div id="pause-a-sweep">
-  ## sweep を一時停止する
-</div>
+## sweep を一時停止する {#pause-a-sweep}
 
 sweep を一時停止するには、[`wandb sweep --pause`](/ja/models/ref/cli/wandb-sweep) コマンドを使用します。これにより、新しい run は一時的に作成されなくなります。すでに実行中の run は、完了するまでそのまま継続して実行されます。sweep ID を指定します。
 
@@ -17,9 +15,7 @@ sweep を一時停止するには、[`wandb sweep --pause`](/ja/models/ref/cli/w
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-<div id="resume-a-sweep">
-  ## sweep を再開する
-</div>
+## sweep を再開する {#resume-a-sweep}
 
 一時停止した sweep は、[`wandb sweep --resume`](/ja/models/ref/cli/wandb-sweep) コマンドを使用して再開します。sweep は、その探索戦略に従って再び新しい run を作成し始めます。sweep ID を指定します。
 
@@ -27,9 +23,7 @@ wandb sweep --pause entity/project/sweep_ID
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-<div id="stop-a-sweep">
-  ## sweep を停止する
-</div>
+## sweep を停止する {#stop-a-sweep}
 
 [`wandb sweep --stop`](/ja/models/ref/cli/wandb-sweep) コマンドを使用して sweep を停止します。停止した sweep では新しいrunは作成されません。すでに実行中のrunは、完了するまでそのまま実行されます。sweep ID を指定します。
 
@@ -37,9 +31,7 @@ wandb sweep --resume entity/project/sweep_ID
 wandb sweep --stop entity/project/sweep_ID
 ```
 
-<div id="cancel-a-sweep">
-  ## sweep をキャンセルする
-</div>
+## sweep をキャンセルする {#cancel-a-sweep}
 
 [`wandb sweep --cancel`](/ja/models/ref/cli/wandb-sweep) コマンドを使用すると、sweep をキャンセルし、アクティブなすべての Runs を強制終了して、新しい Runs が作成されないようにできます。Runs は強制的に即時終了されるため、実行中のプロセスはユーザー定義のシグナルハンドラを実行する機会がありません。sweep ID を指定してください。
 
@@ -53,28 +45,20 @@ wandb sweep --cancel entity/project/sweep_ID
   project を削除しても、アクティブな [sweeps](/ja/models/sweeps) やそれらのエージェントは停止しません。停止するには、`wandb sweep --cancel` または `wandb sweep --stop` を使用して sweep をキャンセルまたは停止してから、各エージェントのプロセスを停止してください。
 </Warning>
 
-<div id="sweep-and-run-statuses">
-  ## sweep ステータスと run ステータス
-</div>
+## sweep ステータスと run ステータス {#sweep-and-run-statuses}
 
 sweep は、ハイパーパラメーターの組み合わせを探索するために、複数の run を管理します。以下のセクションでは、sweep ステータスと run ステータスがどのように関係するか、2 つのステータスの違い、個々の run を停止したときに何が起こるか、そしてどのライフサイクル コマンドを選択すべきかについて説明し、ハイパーパラメーター最適化を効果的に管理できるようにします。
 
-<div id="key-differences">
-  ### 主な違い
-</div>
+### 主な違い {#key-differences}
 
 * **sweep ステータス** は、エージェントが新しい Runs を作成するかどうかを制御します。sweep ステータスには、`Running`、`Paused`、`Stopped`、`Cancelled`、`Finished`、`Failed`、`Crashed` があります。
 * **run ステータス** は、個々の Runs の実行状態を示します。run ステータスには、`Pending`、`Running`、`Finished`、`Failed`、`Crashed`、`Killed` があります。
 
-<div id="stop-an-individual-run">
-  ### 個別の run を停止する
-</div>
+### 個別の run を停止する {#stop-an-individual-run}
 
 sweep 内で [run を停止](/ja/models/runs/stop-runs) すると、sweep エージェントは自動的に sweep 内の次の run を開始します。この仕組みを使用すると、sweep 全体の進行を中断することなく、パフォーマンスの低い設定をスキップできます。
 
-<div id="recommendations">
-  ### 推奨事項
-</div>
+### 推奨事項 {#recommendations}
 
 以下の推奨事項は、状況に応じて適切なライフサイクル コマンドを選ぶのに役立ちます。これにより、有用な作業を失ったり、不要なコンピューティング リソースを占有し続けたりすることを避けられます。
 

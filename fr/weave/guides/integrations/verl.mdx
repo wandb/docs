@@ -11,17 +11,13 @@ Utilisez Weave avec VERL pour :
 * Filtrer les trajectoires par étape, index d’échantillon, numéro de rollout et nom d’expérience.
 * Comparer plusieurs trajectoires côte à côte afin de déboguer le comportement des agents à différentes étapes de l’entraînement.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 * Un compte W&amp;B et une [clé API](/fr/platform/app/settings-page/user-settings#api-keys).
 * Une installation de VERL prenant en charge le traçage des rollouts. Le traçage des rollouts a été ajouté dans [verl#2345](https://github.com/volcengine/verl/pull/2345).
 * Une configuration de rollouts asynchrones. Le traçage s’applique uniquement aux rollouts asynchrones ; les rollouts synchrones ne sont pas tracés.
 
-<div id="enable-weave-tracing">
-  ## Activer le traçage Weave
-</div>
+## Activer le traçage Weave {#enable-weave-tracing}
 
 Définissez votre clé API W&amp;B dans l&#39;environnement afin que VERL puisse s&#39;authentifier auprès de votre compte W&amp;B :
 
@@ -51,9 +47,7 @@ python -m verl.trainer.main_ppo \
 
 Weave est initialisé automatiquement à partir de votre projet W&amp;B et du nom de votre expérience. Il n’est pas nécessaire d’appeler `weave.init()`.
 
-<div id="tune-trace-volume">
-  ## Ajuster le volume de traces
-</div>
+## Ajuster le volume de traces {#tune-trace-volume}
 
 Par défaut, VERL trace chaque échantillon à chaque rollout, ce qui peut générer de très grandes quantités de données de trace. Vous pouvez limiter ce volume en définissant les champs suivants dans votre fichier de configuration `ppo_trainer.yaml` :
 
@@ -71,17 +65,13 @@ actor_rollout_ref:
       max_samples_per_step_per_worker: 5
 ```
 
-<div id="view-traces">
-  ## Afficher les traces
-</div>
+## Afficher les traces {#view-traces}
 
 Pour afficher les traces émises pendant l’entraînement, ouvrez la Page du projet de votre projet W&amp;B et sélectionnez **Traces**. Chaque trace correspond à une trajectoire de rollout.
 
 Vous pouvez sélectionner plusieurs traces et utiliser la vue de comparaison de Weave pour examiner les différences entre les trajectoires. Cela peut vous aider à déboguer les changements de comportement de l’agent au fil des étapes d’entraînement ou des expériences.
 
-<div id="trace-additional-functions">
-  ## Tracer des fonctions supplémentaires
-</div>
+## Tracer des fonctions supplémentaires {#trace-additional-functions}
 
 VERL propose deux outils pour étendre la couverture de traçage par défaut :
 

@@ -23,9 +23,7 @@ keywords: [Weave Service API, トレースのログ, RAG トレース, ストリ
 
 始める前に、[前提条件](#prerequisites-set-variables-and-endpoints)を完了してください。
 
-<div id="prerequisites-set-variables-and-endpoints">
-  ## 前提条件: 変数とエンドポイントを設定する
-</div>
+## 前提条件: 変数とエンドポイントを設定する {#prerequisites-set-variables-and-endpoints}
 
 トレースをログする前に、Service API のエンドポイントを設定し、W&amp;B の認証情報を使用して認証する必要があります。
 
@@ -59,18 +57,14 @@ project_id = ""
 wandb_token = ""
 ```
 
-<div id="simple-trace">
-  ## シンプルなトレース
-</div>
+## シンプルなトレース {#simple-trace}
 
 以下のセクションでは、シンプルなトレースを作成する手順を順に説明します：
 
 1. [シンプルなトレースを開始する](#start-a-simple-trace)
 2. [シンプルなトレースを終了する](#end-a-simple-trace)
 
-<div id="start-a-simple-trace">
-  ### シンプルなトレースを開始する
-</div>
+### シンプルなトレースを開始する {#start-a-simple-trace}
 
 次のコードは、サンプルの LLM call `payload_start` を作成し、`url_start` エンドポイントを使って Weave にログします。`payload_start` オブジェクトは、クエリ `Why is the sky blue?` を含む OpenAI の `gpt-4o` への call を模倣しています。
 
@@ -109,9 +103,7 @@ else:
     exit()
 ```
 
-<div id="end-a-simple-trace">
-  ### シンプルなトレースを終了する
-</div>
+### シンプルなトレースを終了する {#end-a-simple-trace}
 
 シンプルなトレースを完了するには、次のコードでサンプルの LLM call `payload_end` を作成し、`url_end` エンドポイントを使って Weave にログします。`payload_end` オブジェクトは、クエリ `Why is the sky blue?` に対する OpenAI&#39;s `gpt-4o` からの応答を模倣したものです。このオブジェクトは、Weave ダッシュボードの Trace view で料金サマリー情報と Chat Completion が生成されるように整形されています。
 
@@ -161,9 +153,7 @@ else:
     print(response.text)
 ```
 
-<div id="complex-trace">
-  ## 複雑なトレース
-</div>
+## 複雑なトレース {#complex-trace}
 
 シンプルな単一ステップのトレースをログしたので、以下のセクションでは、複数の操作からなるRAGルックアップのように、子スパンを含むより複雑なトレースを作成する手順を説明します。
 
@@ -172,9 +162,7 @@ else:
 3. [LLM completion call用の子スパンを追加する](#add-a-child-span-for-an-llm-completion-call)
 4. [複雑なトレースを終了する](#end-a-complex-trace)
 
-<div id="start-a-complex-trace">
-  ### 複雑なトレースを開始する
-</div>
+### 複雑なトレースを開始する {#start-a-complex-trace}
 
 次のコードは、複数のスパンを含む、より複雑なトレースを作成する方法を示しています。たとえば、Retrieval-Augmented Generation (RAG) のルックアップを行い、その後に LLM の call を実行するケースです。最初の部分では、操作を表す親トレース (`payload_parent_start`) を初期化します。この場合の操作は、ユーザーのクエリ `Can you summarize the key points of this document?` を処理することです。
 
@@ -213,9 +201,7 @@ else:
     exit()
 ```
 
-<div id="add-a-child-span-for-a-rag-document-lookup">
-  ### RAG ドキュメントルックアップ用の子スパンを追加する
-</div>
+### RAG ドキュメントルックアップ用の子スパンを追加する {#add-a-child-span-for-a-rag-document-lookup}
 
 次のコードは、前の step で開始した複雑な親トレースに子スパンを追加する方法を示しています。この step では、ワークフローにおける RAG ドキュメントルックアップのサブ 操作 を表現しています。
 
@@ -285,9 +271,7 @@ else:
     print(response.text)
 ```
 
-<div id="add-a-child-span-for-an-llm-completion-call">
-  ### LLM completion call の子スパンを追加する
-</div>
+### LLM completion call の子スパンを追加する {#add-a-child-span-for-an-llm-completion-call}
 
 次のコードは、複雑な親トレースに別の子スパンを追加し、LLM completion call を表現する方法を示しています。この step では、前の RAG operation で取得したドキュメントコンテキストに基づく LLM の応答生成をモデル化します。
 
@@ -382,9 +366,7 @@ else:
     print(response.text)
 ```
 
-<div id="end-a-complex-trace">
-  ### 複雑なトレースを終了する
-</div>
+### 複雑なトレースを終了する {#end-a-complex-trace}
 
 次のコードは、親トレースを完了してワークフローの終了を示す方法を示しています。この step では、すべての子 スパン (たとえば、RAG ルックアップ や LLM completion) の結果を集約し、最終的な出力とメタデータをログします。
 
@@ -440,9 +422,7 @@ else:
     print(response.text)
 ```
 
-<div id="run-a-lookup-query">
-  ## ルックアップクエリを実行する
-</div>
+## ルックアップクエリを実行する {#run-a-lookup-query}
 
 Weave にログされたトレースは、Service API を使用してプログラムからクエリできます。以下のコードは、前の例で作成したトレースをクエリし、`inputs.model` フィールドが `gpt-4o` と等しいトレースだけをフィルタリングする方法を示しています。
 

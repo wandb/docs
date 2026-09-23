@@ -7,9 +7,7 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
 
-<div id="log-models">
-  # 모델 로깅하기
-</div>
+# 모델 로깅하기 {#log-models}
 
 다음 가이드에서는 W&amp;B run에 모델을 로깅하고 모델과 상호작용하는 방법을 설명합니다.
 
@@ -25,9 +23,7 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
   W&amp;B Artifacts 및 고급 versioning 사용 사례에 대한 자세한 내용은 [Artifacts](/ko/models/artifacts/) 문서를 참조하세요.
 </Note>
 
-<div id="log-a-model-to-a-run">
-  ## 모델을 run에 로깅하기
-</div>
+## 모델을 run에 로깅하기 {#log-a-model-to-a-run}
 
 지정한 디렉터리의 콘텐츠를 포함하는 모델 아티팩트를 로깅하려면 [`log_model`](/ko/models/ref/python/experiments/run#log_model)을 사용하세요. [`log_model`](/ko/models/ref/python/experiments/run#log_model) 방법은 생성된 모델 아티팩트를 W&amp;B run의 출력으로도 표시합니다.
 
@@ -112,9 +108,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
   ```
 </details>
 
-<div id="download-and-use-a-logged-model">
-  ## 로깅된 모델 다운로드 및 사용
-</div>
+## 로깅된 모델 다운로드 및 사용 {#download-and-use-a-logged-model}
 
 이전에 W&amp;B run에 로깅한 모델 파일에 액세스하고 다운로드하려면 [`use_model`](/ko/models/ref/python/experiments/run#use_model) 함수를 사용하세요.
 

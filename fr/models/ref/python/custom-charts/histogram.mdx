@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py#L12" />
 
-<div id="function-wandbplothistogram">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.histogram()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.histogram() {#function-wandbplothistogram}
 
 Construit un histogramme à partir d&#39;un tableau W&amp;B.
 
@@ -21,9 +19,7 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="table" type="wandb.Table">
   Le tableau W&amp;B contenant les données de l&#39;histogramme.
@@ -41,15 +37,11 @@ split_table: 'bool' = False
   Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 </ResponseField>
 
-<div id="returns">
-  ## Retourne
-</div>
+## Retourne {#returns}
 
 `CustomChart`: Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, transmettez-le à `wandb.log()`.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 import math

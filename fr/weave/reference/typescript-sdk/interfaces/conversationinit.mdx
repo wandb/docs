@@ -7,13 +7,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/genai/conversation.ts#L8" />
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="agentdescription">
-  ### agentDescription
-</div>
+### agentDescription {#agentdescription}
 
 > `facultatif` **agentDescription**: `string`
 
@@ -25,9 +21,7 @@ sous la forme de `gen_ai.agent.description`.
 
 ***
 
-<div id="agentid">
-  ### agentId
-</div>
+### agentId {#agentid}
 
 > `facultatif` **agentId**: `string`
 
@@ -37,9 +31,7 @@ dans le span `invoke_agent` de chaque tour de conversation sous la forme de `gen
 
 ***
 
-<div id="agentname">
-  ### agentName
-</div>
+### agentName {#agentname}
 
 > `facultatif` **agentName**: `string`
 
@@ -49,9 +41,7 @@ le span `invoke_agent` de chaque tour de conversation sous la forme `gen_ai.agen
 
 ***
 
-<div id="agentversion">
-  ### agentVersion
-</div>
+### agentVersion {#agentversion}
 
 > `facultatif` **agentVersion**: `string`
 
@@ -61,9 +51,7 @@ elle est émise dans le span `invoke_agent` de chaque tour de conversation sous 
 
 ***
 
-<div id="attributes">
-  ### attributes
-</div>
+### attributes {#attributes}
 
 > `facultatif` **attributes**: `Attributes`
 
@@ -73,9 +61,7 @@ Toute clé définie ici qui entre en conflit avec l’attribut `gen_ai.*` / `wea
 
 ***
 
-<div id="conversationid">
-  ### conversationId
-</div>
+### conversationId {#conversationid}
 
 > `facultatif` **conversationId**: `string`
 
@@ -84,17 +70,13 @@ ID de conversation propagé à chaque span de cette conversation sous la forme d
 
 ***
 
-<div id="model">
-  ### model
-</div>
+### model {#model}
 
 > `facultatif` **model**: `string`
 
 ***
 
-<div id="sessionid">
-  ### ~~sessionId~~
-</div>
+### ~~sessionId~~ {#sessionid}
 
 <Warning>
   **Obsolète.** Utilisez plutôt [ConversationInit.conversationId](#conversationid).

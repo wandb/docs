@@ -11,18 +11,14 @@ run의 이력을 수정하려면 run을 되감으세요. run을 되감으면 W&a
   되감기의 알려진 성능 제한으로 인해, W&amp;B는 일반적으로 대안으로 [포크](./forking)을 권장합니다.
 </Note>
 
-<div id="prerequisites">
-  ### 사전 요구 사항
-</div>
+### 사전 요구 사항 {#prerequisites}
 
 run을 되감기 전에 다음 사전 요구 사항을 충족하는지 확인하세요.
 
 * run을 되감으려면 [W&amp;B Python SDK](https://pypi.org/project/wandb/) 버전이 `0.17.1` 이상이어야 합니다.
 * step은 단조 증가해야 합니다. [`define_metric()`](/ko/models/ref/python/experiments/run#define_metric)으로 정의한 비단조 step에서는 작동하지 않습니다. run 이력에 필요한 시간순 순서가 깨지기 때문입니다.
 
-<div id="limitations">
-  ### 제한 사항
-</div>
+### 제한 사항 {#limitations}
 
 되감기는 다음 기능을 지원하지 않습니다:
 
@@ -41,9 +37,7 @@ W&amp;B는 새로 로깅된 이력을 기준으로 되감은 run의 summary 메�
     - **Run 아카이브**: W&B는 원래 Runs를 아카이브합니다. Runs는 [Run Overview](./#overview-tab) 탭에서 확인할 수 있습니다.
     - **Artifact 연결**: artifact는 이를 생성한 run에 연결됩니다. */}
 
-<div id="rewind-and-forking-compatibility">
-  ### 되감기와 포크의 호환성
-</div>
+### 되감기와 포크의 호환성 {#rewind-and-forking-compatibility}
 
 포크는 되감기 기능을 보완합니다.
 
@@ -51,9 +45,7 @@ run에서 포크하면 W&amp;B는 특정 시점의 run을 기준으로 새 분�
 
 run을 되감으면 W&amp;B에서 run 이력 자체를 바로잡거나 수정할 수 있습니다.
 
-<div id="rewind-a-run">
-  ## run 되감기
-</div>
+## run 되감기 {#rewind-a-run}
 
 특정 step부터 run을 되감고 그 시점부터 새 데이터를 로깅합니다. [`wandb.init()`](/ko/models/ref/python/functions/init)의 `resume_from` 파라미터에 되감을 run ID와 되감기를 시작할 step을 인수로 함께 전달하세요. `resume_from` 파라미터는 `<run ID>?_step=<step>` 형식의 문자열을 받습니다. 여기서 `<run ID>`는 되감으려는 run의 run ID이고, `<step>`은 되감기를 시작할 step입니다.
 
@@ -103,9 +95,7 @@ with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_ste
 
 <img src="/images/runs/rewind_run_step200_wmetric.png" alt="왼쪽부터 오른쪽까지: 원래 직선과 추가 메트릭" />
 
-<div id="view-an-archived-run">
-  ## 아카이브된 run 보기
-</div>
+## 아카이브된 run 보기 {#view-an-archived-run}
 
 run을 되감은 후에는 W&amp;B App에서 원래 아카이브된 run을 확인할 수 있습니다. 아카이브된 run을 보려면 다음 단계를 따르세요:
 
@@ -114,9 +104,7 @@ run을 되감은 후에는 W&amp;B App에서 원래 아카이브된 run을 확�
 
 `Forked From` 필드를 사용하면 아카이브된 재개 트리를 손쉽게 따라가며 각 되감기의 순서와 출발점을 파악할 수 있습니다.
 
-<div id="fork-from-a-run-that-you-rewind">
-  ## 되감기한 run에서 포크하기
-</div>
+## 되감기한 run에서 포크하기 {#fork-from-a-run-that-you-rewind}
 
 되감기한 run에서 포크하려면 `wandb.init()`의 [`fork_from`](/ko/models/runs/forking/) 인자를 사용해 원본 run ID와 포크를 시작할 원본 run의 step을 지정하세요:
 

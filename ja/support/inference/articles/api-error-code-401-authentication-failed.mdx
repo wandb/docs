@@ -5,9 +5,7 @@ keywords: ["認証・アクセス"]
 
 「認証に失敗しました」というメッセージを伴う `401` エラーは、認証情報が正しくないか、W&amp;B プロジェクトの entity または名が正しくないことを意味します。この記事では、Serverless Inference API がこのエラーを返す理由と、解決方法について説明します。
 
-<div id="why-this-happens">
-  ## この問題が発生する理由
-</div>
+## この問題が発生する理由 {#why-this-happens}
 
 Serverless Inference API では、リクエストを処理するために有効な認証情報が必要です。このエラーは、次の場合に発生します。
 
@@ -15,9 +13,7 @@ Serverless Inference API では、リクエストを処理するために有効�
 * W&amp;B プロジェクトの entity 名が正しくない。
 * W&amp;B プロジェクト名が正しくない。
 
-<div id="what-you-can-do">
-  ## できること
-</div>
+## できること {#what-you-can-do}
 
 以下の確認項目を順番に進めてください。各手順で上記の一般的な原因のいずれかを除外できるため、失敗の原因を切り分けて特定できます。
 

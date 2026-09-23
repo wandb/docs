@@ -12,9 +12,7 @@ Weave suit automatiquement et journalise les appels LLM effectués via la [bibli
 
 > Weave prend en charge le SDK Mistral v1.0. Pour plus de détails sur la mise à niveau, consultez le [guide de migration](https://github.com/mistralai/client-python/blob/main/MIGRATION.md).
 
-<div id="traces">
-  ## Traces
-</div>
+## Traces {#traces}
 
 Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu’en production. Vous utilisez ces traces pour le débogage, ainsi que comme jeu de données pour vous aider à améliorer votre application.
 
@@ -50,9 +48,7 @@ Weave suit et journalise désormais tous les appels LLM effectués via la biblio
 
 [![mistral\_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
-<div id="wrap-calls-with-your-own-ops">
-  ## Encapsuler les appels dans vos propres ops
-</div>
+## Encapsuler les appels dans vos propres ops {#wrap-calls-with-your-own-ops}
 
 Une fois que le tracing de base fonctionne, vous pouvez encapsuler vos appels MistralAI dans des ops Weave afin de les rendre reproductibles d&#39;une expérience à l&#39;autre. Les ops Weave rendent les résultats *reproductibles* en assurant automatiquement la gestion des versions du code au fil de vos expérimentations, et elles capturent leurs entrées et leurs sorties. Créez une fonction décorée avec [`@weave.op()`](/fr/weave/guides/tracking/ops) qui appelle [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion), et Weave assure pour vous le suivi des entrées et des sorties. L&#39;exemple suivant montre comment procéder pour un système de recommandation de fromages :
 
@@ -81,9 +77,7 @@ cheese_recommender(region="Netherlands", model="mistral-large-latest")
 
 [![mistral\_ops.png](/weave/guides/integrations/imgs/mistral_ops.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
-<div id="create-a-model-for-easier-experimentation">
-  ## Créez un `Model` pour expérimenter plus facilement
-</div>
+## Créez un `Model` pour expérimenter plus facilement {#create-a-model-for-easier-experimentation}
 
 Il peut être difficile d’organiser une expérimentation quand de nombreux éléments entrent en jeu. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme le prompt système ou le modèle utilisé. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 

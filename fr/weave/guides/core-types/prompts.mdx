@@ -18,9 +18,7 @@ Si vos besoins en prompts sont simples, vous pouvez utiliser les classes intégr
 
 Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre projet Weave sur la [page Prompts](/fr/weave/guides/core-types/prompts-version.mdx#view-prompts), où vous et vos collaborateurs pouvez le parcourir et le réutiliser.
 
-<div id="stringprompt">
-  ## StringPrompt
-</div>
+## StringPrompt {#stringprompt}
 
 `StringPrompt` journalise des prompts sous forme d’une chaîne unique que vous pouvez utiliser pour des messages système, des requêtes utilisateur ou toute entrée de texte autonome destinée à un LLM. Utilisez `StringPrompt` pour gérer des chaînes de prompt individuelles qui ne nécessitent pas la complexité de conversations à plusieurs messages.
 
@@ -94,9 +92,7 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 </Tabs>
 
-<div id="messagesprompt">
-  ## MessagesPrompt
-</div>
+## MessagesPrompt {#messagesprompt}
 
 `MessagesPrompt` vous permet de journaliser des conversations sur plusieurs tours de conversation et des prompts de type chat. Il stocke un tableau d&#39;objets de message (avec des rôles comme `system`, `user` et `assistant`) qui représentent un flux de conversation complet. Utilisez `MessagesPrompt` pour les LLM de type chat lorsque vous devez conserver le contexte sur plusieurs messages, définir des modèles de conversation spécifiques ou créer des modèles de conversation réutilisables.
 
@@ -168,9 +164,7 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   </Tab>
 </Tabs>
 
-<div id="parameterize-prompts">
-  ## Paramétrer les prompts
-</div>
+## Paramétrer les prompts {#parameterize-prompts}
 
 Une fois que vous savez créer des prompts statiques, l’étape suivante consiste à les rendre réutilisables avec différentes entrées. `StringPrompt` et `MessagesPrompt` prennent tous deux en charge le contenu dynamique via le paramétrage. Cela vous permet de créer des modèles de prompt réutilisables avec des emplacements réservés (à l’aide de la syntaxe `{variable}`), que vous remplissez avec différentes valeurs à l’exécution. Le paramétrage est utile lorsque vos prompts doivent s’adapter à différentes entrées, à des données utilisateur ou à des contextes variés, tout en conservant une structure cohérente. La méthode `format()` accepte des paires clé-valeur pour remplacer ces emplacements réservés par des valeurs réelles.
 

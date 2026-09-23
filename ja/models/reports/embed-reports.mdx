@@ -6,9 +6,7 @@ keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 
 W&amp;B report を外部のページやツールに埋め込むと、チームは他のドキュメントと並べて最新の実験結果を確認できます。このページでは、report から埋め込みコードを生成し、それを HTML、Confluence、Notion、または Gradio で使用する方法について説明します。
 
-<div id="html-iframe-element">
-  ## HTML `iframe` 要素
-</div>
+## HTML `iframe` 要素 {#html-iframe-element}
 
 HTML `iframe` 要素を使用すると、カスタム HTML を使用できる任意の Web ページに report を埋め込めます。W&amp;B には、report から直接コピーできる埋め込みコードがあらかじめ用意されています。
 
@@ -22,9 +20,7 @@ report の右上で **Share** ボタンを選択してダイアログを開き�
   <img src="/images/reports/get_embed_url.gif" alt="埋め込みコードの取得" />
 </Frame>
 
-<div id="confluence">
-  ## Confluence
-</div>
+## Confluence {#confluence}
 
 Confluence は、組み込みの `iframe` マクロによる report の埋め込みをサポートしています。以下のアニメーションは、Confluence の `iframe` セルに report への直接リンクを挿入する方法を示しています。
 
@@ -32,9 +28,7 @@ Confluence は、組み込みの `iframe` マクロによる report の埋め込
   <img src="/images/reports/embed_iframe_confluence.gif" alt="Confluence への埋め込み" />
 </Frame>
 
-<div id="notion">
-  ## Notion
-</div>
+## Notion {#notion}
 
 Notion の **Embed** ブロックでは、W&amp;B が提供するものと同じ埋め込みコードを使用できます。次のアニメーションは、Notion の **Embed** ブロックと report の埋め込みコードを使って、Notion ドキュメントに report を埋め込む方法を示しています。
 
@@ -42,9 +36,7 @@ Notion の **Embed** ブロックでは、W&amp;B が提供するものと同じ
   <img src="/images/reports/embed_iframe_notion.gif" alt="Notion への埋め込み" />
 </Frame>
 
-<div id="gradio">
-  ## Gradio
-</div>
+## Gradio {#gradio}
 
 Hugging Face Spaces で hosted されているアプリを含む Gradio アプリに W&amp;B report を埋め込むには、Gradio の `gr.HTML` 要素を使用して、report URL を指す `iframe` をレンダリングします。
 

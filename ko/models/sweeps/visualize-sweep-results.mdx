@@ -5,9 +5,7 @@ title: 스윕 결과 시각화
 
 W&amp;B App에서 W&amp;B 스윕의 결과를 시각화합니다. 스윕 UI는 Runs를 비교하고, 어떤 하이퍼파라미터가 가장 중요한지 파악하고, 스윕 실행을 관리하는 데 도움이 되는 차트와 제어 기능을 제공합니다. 이 페이지를 사용해 App에서 스윕 뷰를 찾고, 기본 차트를 해석하고, 이를 사용자 지정하세요.
 
-<div id="open-the-sweep-ui">
-  ## 스윕 UI 열기
-</div>
+## 스윕 UI 열기 {#open-the-sweep-ui}
 
 스윕 UI를 열려면 [W&amp;B App](https://wandb.ai/home)으로 이동합니다. 스윕를 초기화할 때 지정한 프로젝트를 선택합니다. W&amp;B가 프로젝트 [workspace](/ko/models/track/workspaces)로 리디렉션합니다. 프로젝트 사이드바에서 빗자루(**Sweep**) 아이콘을 선택합니다. 스윕 UI에서 목록에 있는 스윕 이름을 선택합니다. 스윕 UI에는 프로젝트의 모든 스윕가 나열되며, 개별 스윕의 runs와 차트를 살펴보는 진입점 역할을 합니다.
 
@@ -17,15 +15,11 @@ W&amp;B App에서 W&amp;B 스윕의 결과를 시각화합니다. 스윕 UI는 R
   <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="프로젝트 사이드바의 Sweep UI" />
 </Frame>
 
-<div id="default-visualizations">
-  ## 기본 시각화
-</div>
+## 기본 시각화 {#default-visualizations}
 
 기본적으로 W&amp;B는 스윕 작업을 시작하면 병렬 좌표 플롯, 파라미터 중요도 플롯, 산점도를 생성합니다. 다음 섹션에서는 이러한 기본 시각화를 각각 설명하고, 사용자 지정하는 방법도 안내합니다.
 
-<div id="parallel-coordinates-plot">
-  ### 병렬 좌표 플롯
-</div>
+### 병렬 좌표 플롯 {#parallel-coordinates-plot}
 
 병렬 좌표 차트는 많은 수의 하이퍼파라미터와 모델 메트릭 간의 관계를 한눈에 요약해 보여줍니다. 병렬 좌표 플롯에 대한 자세한 내용은 [Parallel coordinates](/ko/models/app/features/panels/parallel-coordinates)를 참조하세요.
 
@@ -33,9 +27,7 @@ W&amp;B App에서 W&amp;B 스윕의 결과를 시각화합니다. 스윕 UI는 R
   <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="병렬 좌표 플롯 예시" />
 </Frame>
 
-<div id="scatter-plot-and-parameter-importance">
-  ### 산점도와 파라미터 중요도
-</div>
+### 산점도와 파라미터 중요도 {#scatter-plot-and-parameter-importance}
 
 산점도(왼쪽)는 스윕 중에 생성된 Runs를 비교합니다. 산점도에 대한 자세한 내용은 [Scatter Plots](/ko/models/app/features/panels/scatter-plot)을 참조하세요.
 
@@ -45,9 +37,7 @@ W&amp;B App에서 W&amp;B 스윕의 결과를 시각화합니다. 스윕 UI는 R
   <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="산점도와 파라미터 중요도" />
 </Frame>
 
-<div id="customize-panels">
-  ## 패널 사용자 지정
-</div>
+## 패널 사용자 지정 {#customize-panels}
 
 기본 축 설정으로 원하는 비교가 표시되지 않으면 W&amp;B가 자동으로 사용하는 종속 변수와 독립 변수(x-axis 및 y-axis)를 변경할 수 있습니다. 각 패널에는 **Edit panel**이라는 연필 아이콘이 있습니다. **Edit panel**을 선택하면 그래프의 동작 방식을 변경할 수 있는 모달이 열립니다.
 

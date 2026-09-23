@@ -3,9 +3,7 @@ description: W&B에 저장한 데이터를 내보내거나 업데이트합니다
 title: 데이터 내보내기 및 업데이트
 ---
 
-<div id="export-data">
-  ## 데이터 내보내기
-</div>
+## 데이터 내보내기 {#export-data}
 
 Public API를 사용해 W&amp;B에 저장한 데이터를 내보내거나 업데이트할 수 있습니다. 이 API를 사용하기 전에 스크립트에서 데이터를 로깅해야 합니다. 자세한 내용은 [퀵스타트](/ko/models/quickstart/)를 확인하세요.
 
@@ -16,9 +14,7 @@ Public API를 사용해 W&amp;B에 저장한 데이터를 내보내거나 업데
 
 자세한 내용은 사용 가능한 함수에 대한 [생성된 레퍼런스 문서](/ko/models/ref/python/public-api/)를 참조하세요.
 
-<div id="export-run-data">
-  ### run 데이터 내보내기
-</div>
+### run 데이터 내보내기 {#export-run-data}
 
 완료되었거나 현재 활성 상태인 run에서 데이터를 다운로드합니다. 일반적으로는 Jupyter 노트북에서 맞춤형 분석에 사용할 데이터프레임을 다운로드하거나, 자동화된 환경에서 맞춤형 로직을 사용하는 경우가 많습니다.
 
@@ -39,9 +35,7 @@ run 객체에서 가장 자주 사용되는 속성은 다음과 같습니다.
 
 과거 run의 데이터도 수정하거나 업데이트할 수 있습니다. 기본적으로 API 객체 인스턴스 하나가 모든 네트워크 요청을 캐시합니다. 실행 중인 스크립트에서 실시간 정보가 필요하다면 `api.flush()`를 호출해 업데이트된 값을 가져오세요.
 
-<div id="querying-multiple-runs">
-  ### 여러 run 쿼리하기
-</div>
+### 여러 run 쿼리하기 {#querying-multiple-runs}
 
 <Tabs>
   <Tab title="데이터프레임 및 CSV">
@@ -96,15 +90,11 @@ run 객체에서 가장 자주 사용되는 속성은 다음과 같습니다.
 
 `api.runs`는 `order` 키워드 인수도 받습니다. 기본 정렬 순서는 `-created_at`입니다. 결과를 오름차순으로 정렬하려면 `+created_at`를 지정하세요. 설정이나 summary 값으로도 정렬할 수 있습니다. 예를 들어 `summary.val_acc` 또는 `config.experiment_name`입니다.
 
-<div id="error-handling">
-  ### 오류 처리
-</div>
+### 오류 처리 {#error-handling}
 
 W&amp;B 서버와 통신하는 중 오류가 발생하면 `wandb.CommError`가 발생합니다. 원본 예외는 `exc` 속성을 통해 확인할 수 있습니다.
 
-<div id="get-a-runs-name-and-id-during-an-active-run">
-  ### 활성 run 중에 run 이름과 ID 조회하기
-</div>
+### 활성 run 중에 run 이름과 ID 조회하기 {#get-a-runs-name-and-id-during-an-active-run}
 
 `wandb.init()`를 호출한 후에는 스크립트에서 다음과 같이 무작위 run ID 또는 사람이 읽을 수 있는 run 이름에 액세스할 수 있습니다:
 
@@ -118,13 +108,9 @@ run에 유용한 식별자를 설정하는 방법을 고민하고 있다면, 다
 * **Run notes**: run에서 무엇을 하고 있는지 간단히 설명하기에 아주 좋은 곳입니다. `wandb.init(notes="여기에 노트 입력")`로 설정할 수 있습니다.
 * **Run tags**: run tags에서 항목을 동적으로 추적하고, UI에서 필터를 사용해 table을 관심 있는 runs만 보이도록 좁혀 보세요. 스크립트에서 tags를 설정한 다음 UI에서 편집할 수 있으며, Runs table과 run 페이지의 Overview 탭 모두에서 가능합니다. 자세한 지침은 [여기](/ko/models/runs/tags/)를 참조하세요.
 
-<div id="public-api-examples">
-  ## Public API 예시
-</div>
+## Public API 예시 {#public-api-examples}
 
-<div id="read-metrics-from-a-run">
-  ### run에서 메트릭 조회
-</div>
+### run에서 메트릭 조회 {#read-metrics-from-a-run}
 
 이 예제는 `"<entity>/<project>/<run_id>"`에 저장된 run에서 `run.log({"accuracy": acc})`로 기록된 타임스탬프와 정확도를 출력합니다.
 
@@ -139,9 +125,7 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-<div id="read-specific-metrics-from-a-run">
-  ### run에서 특정 메트릭 조회
-</div>
+### run에서 특정 메트릭 조회 {#read-specific-metrics-from-a-run}
 
 run에서 특정 메트릭을 가져오려면 `keys` 인수를 사용하세요. `run.history()`를 사용할 때 기본 샘플 수는 500입니다. 특정 메트릭이 포함되지 않은 로깅된 step은 출력 데이터프레임에서 `NaN`으로 표시됩니다. `keys` 인수를 사용하면 API가 나열된 메트릭 키가 포함된 step을 더 자주 샘플링합니다.
 
@@ -156,9 +140,7 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-<div id="compare-two-runs">
-  ### 두 run 비교하기
-</div>
+### 두 run 비교하기 {#compare-two-runs}
 
 이렇게 하면 `run1`과 `run2`의 설정 매개변수 중 서로 다른 항목이 출력됩니다.
 
@@ -188,9 +170,7 @@ n_conv_layers                               5                    4
 optimizer                             rmsprop                 adam
 ```
 
-<div id="update-metrics-for-a-run-after-the-run-has-finished">
-  ### run이 완료된 후 해당 run의 메트릭 업데이트
-</div>
+### run이 완료된 후 해당 run의 메트릭 업데이트 {#update-metrics-for-a-run-after-the-run-has-finished}
 
 이 예제에서는 이전 run의 정확도를 `0.9`로 설정합니다:
 
@@ -204,9 +184,7 @@ run.summary["accuracy"] = 0.9
 run.summary.update()
 ```
 
-<div id="rename-a-metric-in-a-completed-run">
-  ### 완료된 run의 메트릭 이름 바꾸기
-</div>
+### 완료된 run의 메트릭 이름 바꾸기 {#rename-a-metric-in-a-completed-run}
 
 이 예제에서는 테이블의 summary 열 이름을 변경합니다.
 
@@ -225,9 +203,7 @@ run.summary.update()
   열 이름 변경은 테이블에만 적용됩니다. 차트에서는 여전히 메트릭의 원래 이름이 사용됩니다.
 </Note>
 
-<div id="update-config-for-an-existing-run">
-  ### 기존 run의 설정 업데이트
-</div>
+### 기존 run의 설정 업데이트 {#update-config-for-an-existing-run}
 
 이 예제에서는 설정 항목 하나를 업데이트합니다.
 
@@ -243,9 +219,7 @@ run.update()
 
 자세한 내용은 [실험 구성](/ko/models/track/config#existing-run)을 참조하세요.
 
-<div id="export-system-resource-consumptions-to-a-csv-file">
-  ### 시스템 리소스 사용량을 CSV 파일로 내보내기
-</div>
+### 시스템 리소스 사용량을 CSV 파일로 내보내기 {#export-system-resource-consumptions-to-a-csv-file}
 
 아래 스니펫은 시스템 리소스 사용량을 찾아 CSV 파일에 저장합니다.
 
@@ -257,9 +231,7 @@ system_metrics = run.history(stream="events")
 system_metrics.to_csv("sys_metrics.csv")
 ```
 
-<div id="get-unsampled-metric-data">
-  ### 샘플링되지 않은 메트릭 데이터 조회
-</div>
+### 샘플링되지 않은 메트릭 데이터 조회 {#get-unsampled-metric-data}
 
 이력에서 데이터를 가져오면 기본적으로 500개 포인트로 샘플링됩니다. `run.scan_history()`를 사용하면 로깅된 모든 데이터 포인트를 조회할 수 있습니다. 다음은 이력에 로깅된 모든 `loss` 데이터 포인트를 다운로드하는 예제입니다.
 
@@ -273,9 +245,7 @@ history = run.scan_history()
 losses = [row["loss"] for row in history]
 ```
 
-<div id="get-paginated-data-from-history">
-  ### 이력에서 페이지 단위로 데이터 조회
-</div>
+### 이력에서 페이지 단위로 데이터 조회 {#get-paginated-data-from-history}
 
 run의 전체 샘플링되지 않은 이력을 조회하려면 `run.scan_history()`를 사용하세요. 샘플링되지 않은 이력에는 해당 run의 모든 이력 레코드가 포함됩니다. 반면 `run.history()`의 샘플링된 뷰에서는 일부 개별 레코드가 누락될 수 있습니다.
 
@@ -292,9 +262,7 @@ run = api.run("<entity>/<project>/<run_id>")
 run.scan_history(keys=sorted(cols), page_size=100)
 ```
 
-<div id="export-metrics-from-all-runs-in-a-project-to-a-csv-file">
-  ### 프로젝트의 모든 run에서 메트릭을 CSV 파일로 내보내기
-</div>
+### 프로젝트의 모든 run에서 메트릭을 CSV 파일로 내보내기 {#export-metrics-from-all-runs-in-a-project-to-a-csv-file}
 
 이 스크립트는 프로젝트의 run을 가져와 각 run의 이름, 설정, summary 통계를 포함한 데이터프레임과 CSV 파일을 생성합니다. `<entity>`와 `<project>`를 각각 W&amp;B entity와 프로젝트 이름으로 바꾸세요.
 
@@ -327,9 +295,7 @@ runs_df = pd.DataFrame(
 runs_df.to_csv("project.csv")
 ```
 
-<div id="get-the-starting-time-for-a-run">
-  ### run의 시작 시간 조회
-</div>
+### run의 시작 시간 조회 {#get-the-starting-time-for-a-run}
 
 이 코드 예제는 run이 생성된 시점을 조회합니다.
 
@@ -342,9 +308,7 @@ run = api.run("entity/project/run_id")
 start_time = run.created_at
 ```
 
-<div id="upload-files-to-a-finished-run">
-  ### 완료된 run에 파일 업로드
-</div>
+### 완료된 run에 파일 업로드 {#upload-files-to-a-finished-run}
 
 아래 코드 스니펫은 선택한 파일을 완료된 run에 업로드합니다.
 
@@ -357,9 +321,7 @@ run = api.run("entity/project/run_id")
 run.upload_file("file_name.extension")
 ```
 
-<div id="download-a-file-from-a-run">
-  ### run에서 파일 다운로드
-</div>
+### run에서 파일 다운로드 {#download-a-file-from-a-run}
 
 이 예시에서는 cifar 프로젝트의 run ID uxte44z7에 연결된 파일 &quot;model-best.h5&quot;를 찾아 로컬에 저장합니다.
 
@@ -372,9 +334,7 @@ run = api.run("<entity>/<project>/<run_id>")
 run.file("model-best.h5").download()
 ```
 
-<div id="download-all-files-from-a-run">
-  ### run의 모든 파일 다운로드
-</div>
+### run의 모든 파일 다운로드 {#download-all-files-from-a-run}
 
 이 작업은 run에 연결된 모든 파일을 찾아 로컬에 저장합니다.
 
@@ -388,9 +348,7 @@ for file in run.files():
     file.download()
 ```
 
-<div id="get-runs-from-a-specific-sweep">
-  ### 특정 sweep의 run 조회
-</div>
+### 특정 sweep의 run 조회 {#get-runs-from-a-specific-sweep}
 
 이 스니펫은 특정 sweep에 속한 모든 run을 다운로드합니다.
 
@@ -403,9 +361,7 @@ sweep = api.sweep("<entity>/<project>/<sweep_id>")
 sweep_runs = sweep.runs
 ```
 
-<div id="get-the-best-run-from-a-sweep">
-  ### sweep에서 최적의 run 조회
-</div>
+### sweep에서 최적의 run 조회 {#get-the-best-run-from-a-sweep}
 
 다음 스니펫은 지정된 sweep에서 최적의 run을 조회합니다.
 
@@ -420,9 +376,7 @@ best_run = sweep.best_run()
 
 `best_run`은 sweep 설정의 `메트릭` 매개변수에서 정의한 가장 좋은 메트릭을 가진 run입니다.
 
-<div id="download-the-best-model-file-from-a-sweep">
-  ### sweep에서 가장 성능이 좋은 모델 파일 다운로드
-</div>
+### sweep에서 가장 성능이 좋은 모델 파일 다운로드 {#download-the-best-model-file-from-a-sweep}
 
 이 스니펫은 모델 파일을 `model.h5`에 저장한 run들로 구성된 sweep에서 검증 정확도가 가장 높은 모델 파일을 다운로드합니다.
 
@@ -440,9 +394,7 @@ runs[0].file("model.h5").download(replace=True)
 print("Best model saved to model-best.h5")
 ```
 
-<div id="delete-all-files-with-a-given-extension-from-a-run">
-  ### run에서 지정한 확장자의 모든 파일 삭제
-</div>
+### run에서 지정한 확장자의 모든 파일 삭제 {#delete-all-files-with-a-given-extension-from-a-run}
 
 이 스니펫은 run에서 지정한 확장자의 파일을 삭제합니다.
 
@@ -460,9 +412,7 @@ for file in files:
         file.delete()
 ```
 
-<div id="download-system-metrics-data">
-  ### 시스템 메트릭 데이터 다운로드
-</div>
+### 시스템 메트릭 데이터 다운로드 {#download-system-metrics-data}
 
 이 스니펫은 run의 모든 시스템 리소스 사용 메트릭이 담긴 데이터프레임을 생성한 다음 CSV로 저장합니다.
 
@@ -476,9 +426,7 @@ system_metrics = run.history(stream="events")
 system_metrics.to_csv("sys_metrics.csv")
 ```
 
-<div id="update-summary-metrics">
-  ### summary 메트릭 업데이트
-</div>
+### summary 메트릭 업데이트 {#update-summary-metrics}
 
 summary 메트릭을 업데이트하려면 딕셔너리를 전달하면 됩니다.
 
@@ -486,9 +434,7 @@ summary 메트릭을 업데이트하려면 딕셔너리를 전달하면 됩니�
 summary.update({"key": val})
 ```
 
-<div id="get-the-command-that-ran-the-run">
-  ### run을 실행한 명령어 조회
-</div>
+### run을 실행한 명령어 조회 {#get-the-command-that-ran-the-run}
 
 각 run은 run Overview 페이지에 해당 run을 시작한 명령어를 기록합니다. API에서 이 명령어를 가져오려면 다음을 실행하세요:
 

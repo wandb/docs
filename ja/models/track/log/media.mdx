@@ -19,7 +19,7 @@ import { WandbReport } from '/snippets/WandbReport.jsx';
 </Note>
 
 <div id="pre-requisites">
-  ## 前提条件
+  ## 前提条件 {#pre-requisites}
 </div>
 
 W&amp;B SDK でメディアオブジェクトをログするには、追加の依存パッケージのインストールが必要になる場合があります。
@@ -30,7 +30,7 @@ pip install wandb[media]
 ```
 
 <div id="images">
-  ## 画像
+  ## 画像 {#images}
 </div>
 
 入力、出力、フィルターの重み、活性化などをトラッキングするために、画像をログします。
@@ -104,7 +104,7 @@ step から画像をログするたびに、その画像を UI で利用でき�
 </Tabs>
 
 <div id="image-overlays">
-  ## 画像オーバーレイ
+  ## 画像オーバーレイ {#image-overlays}
 </div>
 
 <Tabs>
@@ -223,7 +223,7 @@ step から画像をログするたびに、その画像を UI で利用でき�
 </Tabs>
 
 <div id="image-overlays-in-tables">
-  ## 表 の画像オーバーレイ
+  ## 表 の画像オーバーレイ {#image-overlays-in-tables}
 </div>
 
 <Tabs>
@@ -295,7 +295,7 @@ step から画像をログするたびに、その画像を UI で利用でき�
 </Tabs>
 
 <div id="histograms">
-  ## ヒストグラム
+  ## ヒストグラム {#histograms}
 </div>
 
 <Tabs>
@@ -323,9 +323,7 @@ step から画像をログするたびに、その画像を UI で利用でき�
   </Tab>
 </Tabs>
 
-<div id="3d-visualizations">
-  ## 3D可視化
-</div>
+## 3D可視化 {#3d-visualizations}
 
 3Dポイントクラウドや、バウンディングボックス付きのLiDARシーンをログできます。表示する点の座標と色を含むNumPy配列を渡します。
 
@@ -348,7 +346,7 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 </Note>
 
 <div id="numpy-array-formats">
-  #### NumPy配列の形式
+  #### NumPy配列の形式 {#numpy-array-formats}
 </div>
 
 柔軟な色分けに対応するため、3種類のNumPy配列形式がサポートされています。
@@ -358,7 +356,7 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 * `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b` は、赤・緑・青の各カラーチャネルを表す `[0,255]` の範囲の値です。
 
 <div id="python-object">
-  #### Python オブジェクト
+  #### Python オブジェクト {#python-object}
 </div>
 
 このスキーマを使用すると、Python オブジェクトを定義し、[`from_point_cloud` method](/ja/models/ref/python/#from_point_cloud) に渡せます。
@@ -417,7 +415,7 @@ run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
 ポイントクラウドの表示中は、Controlキーを押したままマウスを使って空間内を移動できます。
 
 <div id="point-cloud-files">
-  #### 点群ファイル
+  #### 点群ファイル {#point-cloud-files}
 </div>
 
 点群データを含む JSON ファイルは、[`from_file` method](/ja/models/ref/python/#from_file)を使用して読み込めます。
@@ -516,7 +514,7 @@ run.log({"my_cloud_from_file": wandb.Object3D.from_file(
 ```
 
 <div id="numpy-arrays">
-  #### NumPy 配列
+  #### NumPy 配列 {#numpy-arrays}
 </div>
 
 [上で定義した配列形式と同じ形式](#numpy-array-formats)を使用すると、[`from_numpy` method](/ja/models/ref/python/#from_numpy)で`numpy`配列を直接使用してポイントクラウドを定義できます。
@@ -595,7 +593,7 @@ run が終了すると、UI で分子の 3D 可視化をインタラクティブ
 </Frame>
 
 <div id="png-image">
-  ### PNG 画像
+  ### PNG 画像 {#png-image}
 </div>
 
 [`wandb.Image`](/ja/models/ref/python/data-types/image) は、デフォルトで `numpy` 配列または `PILImage` のインスタンスを PNG に変換します。
@@ -607,7 +605,7 @@ run.log({"example": [wandb.Image(...) for img in images]})
 ```
 
 <div id="video">
-  ### 動画
+  ### 動画 {#video}
 </div>
 
 動画のログには、[`wandb.Video`](/ja/models/ref/python/)データ型を使用します。
@@ -619,7 +617,7 @@ run.log({"example": wandb.Video("myvideo.mp4")})
 メディアブラウザーで動画を表示できるようになりました。プロジェクトのワークスペース、run のワークスペース、または レポート に移動し、**Add visualization** をクリックしてリッチメディアパネルを追加します。
 
 <div id="2d-view-of-a-molecule">
-  ## 分子の2D表示
+  ## 分子の2D表示 {#2d-view-of-a-molecule}
 </div>
 
 [`wandb.Image`](/ja/models/ref/python/data-types/image) データタイプと [`rdkit`](https://www.rdkit.org/docs/index.html) を使用すると、分子の2D表示をログできます。
@@ -634,13 +632,13 @@ run.log({"acetic_acid": wandb.Image(pil_image)})
 ```
 
 <div id="other-media">
-  ## その他のメディア
+  ## その他のメディア {#other-media}
 </div>
 
 W&amp;B では、他にもさまざまな種類のメディアをログできます。
 
 <div id="audio">
-  ### オーディオ
+  ### オーディオ {#audio}
 </div>
 
 ```python
@@ -650,7 +648,7 @@ run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)}
 1 stepあたり、最大100件のオーディオクリップをログできます。詳しい使用方法については、[`audio-file`](/ja/models/ref/query-panel/audio-file)を参照してください。
 
 <div id="video-2">
-  ### 動画
+  ### 動画 {#video-2}
 </div>
 
 ```python
@@ -664,7 +662,7 @@ W&amp;B の [Run](/ja/models/runs/) ページおよび [プロジェクト](/ja/
 使用方法の詳細については、[`video-file`](/ja/models/ref/query-panel/video-file) を参照してください。
 
 <div id="text">
-  ### テキスト
+  ### テキスト {#text}
 </div>
 
 `wandb.Table` を使用して表にテキストをログすると、UI に表示されます。デフォルトの列ヘッダーは `["Input", "Output", "Expected"]` です。最適な UI パフォーマンスを確保するため、デフォルトの最大行数は 10,000 に設定されています。ただし、`wandb.Table.MAX_ROWS = {DESIRED_MAX}` を使用してこの最大値を明示的に上書きできます。
@@ -693,7 +691,7 @@ table = wandb.Table(dataframe=my_dataframe)
 詳しい使用方法については、[`string`](/ja/models/ref/query-panel/)を参照してください。
 
 <div id="html">
-  ### HTML
+  ### HTML {#html}
 </div>
 
 ```python

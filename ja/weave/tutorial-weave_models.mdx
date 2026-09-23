@@ -13,9 +13,7 @@ keywords: ["weave.Model", "バージョン管理", "モデルのトラッキン�
 * Weave `Model` を使用して、アプリケーションとそのパラメーターをトラッキングし、バージョン管理する方法。
 * すでにログした Weave `Model` をエクスポート、変更、再利用する方法。
 
-<div id="use-weavemodel">
-  ## `weave.Model` の使用
-</div>
+## `weave.Model` の使用 {#use-weavemodel}
 
 <Warning>
   `weave.Model` クラスは Python でのみサポートされています。
@@ -126,23 +124,17 @@ Weave で `Model` を作成するには、次のものが必要です。
 * 他のクラスメソッドを Weave でトラッキングするには、`weave.op()` でラップします。
 * アンダースコアで始まるパラメーターは Weave によって無視され、ログされません。
 
-<div id="export-and-reuse-a-logged-weavemodel">
-  ## ログした `weave.Model` をエクスポートして再利用する
-</div>
+## ログした `weave.Model` をエクスポートして再利用する {#export-and-reuse-a-logged-weavemodel}
 
 これで、モデルは Weave でバージョン管理されるため、コード内で再定義しなくても、以前の任意のバージョンを取得して再実行できます。これは、過去の結果を再現したり、特定のモデル バージョンを他のユーザーと共有したりする際に役立ちます。
 
 Weave では、呼び出した Models が保存され、バージョン管理されるため、それらをエクスポートして再利用できます。
 
-<div id="get-the-model-ref">
-  ### モデル ref を取得する
-</div>
+### モデル ref を取得する {#get-the-model-ref}
 
 Weave UI では、特定のバージョンの モデル ref を取得できます。
 
-<div id="use-the-model">
-  ### モデル を使用する
-</div>
+### モデル を使用する {#use-the-model}
 
 モデル object の URI を取得したら、それをエクスポートして再利用できます。なお、エクスポートされたモデルはすでに初期化されており、すぐに使用できます。
 
@@ -174,8 +166,6 @@ Weave UI では、特定のバージョンの モデル ref を取得できま�
 
 これで、アプリケーションの異なるバージョン間で反復、取得、再利用できる、バージョン管理された Weave `Model` ができました。
 
-<div id="whats-next">
-  ## 次のステップ
-</div>
+## 次のステップ {#whats-next}
 
 * [評価パイプラインを構築するチュートリアル](/ja/weave/tutorial-eval)に沿って、アプリケーションを反復的に改善していきましょう。

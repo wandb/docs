@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4034" />
 
-<div id="function-wandbrestore">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.restore()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.restore() {#function-wandbrestore}
 
 指定したファイルをクラウドストレージからダウンロードします。
 
@@ -24,9 +22,7 @@ replace: 'bool' = False,
 root: 'str | None' = None
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="name" type="str">
   ファイルの名。
@@ -44,15 +40,11 @@ root: 'str | None' = None
   ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または wandb.init が呼び出されている場合は run ディレクトリです。
 </ResponseField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 ファイルが見つからない場合は None、それ以外の場合は読み取り用に開かれたファイルオブジェクトを返します。
 
-<div id="raises">
-  ## Raises
-</div>
+## Raises {#raises}
 
 * `CommError`: W&amp;B が W&amp;B バックエンドに接続できない場合。
 * `ValueError`: ファイルが見つからない場合、または run&#95;path を見つけられない場合。

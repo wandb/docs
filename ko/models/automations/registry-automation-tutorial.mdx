@@ -15,14 +15,14 @@ import TutorialGoFurther from "/snippets/ko/_includes/automations/tutorial-go-fu
 <Tip>프로젝트 자동화를 만드는 방법은 [튜토리얼: 프로젝트 run 실패 알림 자동화](/ko/models/automations/project-automation-tutorial)를 참조하세요.</Tip>
 
 <div id="prerequisites">
-  ## 사전 요구 사항
+  ## 사전 요구 사항 {#prerequisites}
 </div>
 
 * **팀 settings**에서 구성한 [웹훅](/ko/models/automations/create-automations/webhook#create-a-webhook).
 * 하나 이상의 컬렉션이 있는 W&amp;B [레지스트리](/ko/models/registry/create_registry) 또는 기존 레지스트리.
 
 <div id="create-a-registry-automation">
-  ## 레지스트리 자동화 만들기
+  ## 레지스트리 자동화 만들기 {#create-a-registry-automation}
 </div>
 
 레지스트리 범위 자동화를 설정하세요. 그러면 레지스트리의 어떤 컬렉션에 있는 아티팩트에 특정 별칭(예: **프로덕션**)이 지정될 때 W&amp;B가 사용자의 웹훅으로 `POST` 요청을 보냅니다.
@@ -78,7 +78,7 @@ import TutorialGoFurther from "/snippets/ko/_includes/automations/tutorial-go-fu
   */}
 
 <div id="test-the-automation">
-  ## 자동화 테스트하기
+  ## 자동화 테스트하기 {#test-the-automation}
 </div>
 
 자동화가 엔드투엔드로 실행되는지 확인하려면, 아티팩트 버전에 별칭을 추가해 설정된 이벤트를 트리거하세요. W&amp;B App 또는 공개 API를 사용해 레지스트리의 아티팩트 버전에 별칭(예: **프로덕션**)을 추가하세요. 예를 들어 다음과 같습니다:

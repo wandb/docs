@@ -21,17 +21,13 @@ Weave をインポートすると、モジュールローダーフックを介�
 アプリの起動時に、`RealtimeSession` が作成される前に、この関数を **一度だけ** 呼び出してください。
 この関数は冪等です。複数回呼び出しても安全です。
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `Promise`&lt;`boolean`&gt;
 
 パッチが適用された場合 (またはすでに適用済みの場合) は `true`、`@openai/agents-realtime` を読み込めなかった場合は `false` です。
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 ```typescript twoslash
 // @noErrors

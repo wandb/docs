@@ -19,9 +19,7 @@ La propriété `wandb.Run.config` facilite l&#39;analyse de vos expériences et 
   Pour enregistrer les métriques de sortie ou des variables dépendantes comme la perte et l&#39;accuracy, utilisez `wandb.Run.log()` plutôt que `wandb.Run.config`.
 </Note>
 
-<div id="set-up-an-experiment-configuration">
-  ## Configurer la configuration d’une expérience
-</div>
+## Configurer la configuration d’une expérience {#set-up-an-experiment-configuration}
 
 Les configurations sont généralement définies au début d’un script d’entraînement. Toutefois, les flux de travail de machine learning peuvent varier, donc vous n’êtes pas obligé de définir une configuration au début de votre script d’entraînement.
 
@@ -31,9 +29,7 @@ Utilisez la syntaxe d’accès au dictionnaire `["key"]["value"]` plutôt que la
 
 Les sections suivantes présentent différents scénarios courants pour définir la configuration de vos expériences.
 
-<div id="set-the-configuration-at-initialization">
-  ### Définir la configuration à l&#39;initialisation
-</div>
+### Définir la configuration à l&#39;initialisation {#set-the-configuration-at-initialization}
 
 Passez un dictionnaire au début de votre script lorsque vous appelez l&#39;API `wandb.init()` pour créer un processus en arrière-plan chargé de synchroniser et de journaliser les données dans un run W&amp;B.
 
@@ -75,9 +71,7 @@ activation = run.config.get("activation")
 
 <Note>Tout au long du Guide du développeur et des exemples, nous copions les valeurs de configuration dans des variables distinctes. Cette étape est facultative. Cela est fait pour plus de lisibilité.</Note>
 
-<div id="set-the-configuration-with-argparse">
-  ### Définir la configuration avec argparse
-</div>
+### Définir la configuration avec argparse {#set-the-configuration-with-argparse}
 
 Vous pouvez définir votre configuration avec un objet argparse. [argparse](https://docs.python.org/3/library/argparse.html), abréviation de « analyseur d’arguments », est un module de la bibliothèque standard de Python 3.2 et versions ultérieures qui facilite l’écriture de scripts tirant parti de toute la flexibilité et de la puissance des arguments en ligne de commande.
 
@@ -149,9 +143,7 @@ if __name__ == "__main__":
     main(args)
 ```
 
-<div id="set-the-configuration-throughout-your-script">
-  ### Définissez la configuration au fil de votre script
-</div>
+### Définissez la configuration au fil de votre script {#set-the-configuration-throughout-your-script}
 
 Vous pouvez ajouter d’autres paramètres à votre objet de configuration au fil de votre script.
 
@@ -198,9 +190,7 @@ with wandb.init(project="config_example", config=config) as run:
 
 Assurez-vous de définir `allow_val_change=True` si vous souhaitez mettre à jour la valeur d’une clé existante. Si vous ne définissez pas ce paramètre, W&amp;B renverra une erreur si vous essayez de mettre à jour la valeur d’une clé existante.
 
-<div id="set-the-configuration-after-your-run-finishes">
-  ### Définissez la configuration une fois votre run terminé
-</div>
+### Définissez la configuration une fois votre run terminé {#set-the-configuration-after-your-run-finishes}
 
 Utilisez l’[API publique de W&amp;B](/fr/models/ref/python/public-api/) pour mettre à jour la configuration d’un run terminé.
 
@@ -223,15 +213,13 @@ api_run.config["bar"] = 32
 api_run.update()
 ```
 
-<div id="highlight-config-values">
-  ## Mettre en avant les valeurs de configuration
-</div>
+## Mettre en avant les valeurs de configuration {#highlight-config-values}
 
 Épinglez des clés de configuration dans la section **References**, en haut de la page d’aperçu d’un run.
 
 Utilisez [`wandb.Run.pin_config_keys`](/fr/models/ref/python/experiments/run#method-run-pin_config_keys) pour épingler une ou plusieurs clés de configuration avec le SDK Python.
 
-Par exemple, si vous utilisez un tableau de bord Grafana pour surveiller des runs d’entraînement, ajoutez l’URL du tableau de bord à votre configuration et épinglez la clé `grafana_url` :
+Par exemple, si vous utilisez un tableau de bord Grafana pour surveiller des runs d’entraînement, ajoutez l’URL du tableau de bord à votre configuration et épinglez la clé `grafana_url` :
 
 ```python
 config = {
@@ -257,11 +245,10 @@ with wandb.init(config=config) as run:
   flags.DEFINE_string("model", None, "modèle à exécuter")  # nom, valeur par défaut, aide
 
   run.config.update(flags.FLAGS)  # ajoute les flags absl à la configuration
-  ``` */}
+  ```
+  */}
 
-<div id="view-config-values">
-  ## Afficher les valeurs de configuration
-</div>
+## Afficher les valeurs de configuration {#view-config-values}
 
 Accédez à vos valeurs de configuration dans W&amp;B App, pendant l’exécution d’un run ou à partir de runs existants. Vous pouvez également y accéder depuis votre système de fichiers local.
 
@@ -357,9 +344,7 @@ Accédez à vos valeurs de configuration dans W&amp;B App, pendant l’exécutio
   </Tab>
 </Tabs>
 
-<div id="file-based-configs">
-  ## Configurations basées sur des fichiers
-</div>
+## Configurations basées sur des fichiers {#file-based-configs}
 
 Si vous placez un fichier nommé `config-defaults.yaml` dans le même répertoire que votre script de run, le run détecte automatiquement les paires clé-valeur définies dans le fichier et les transmet à `wandb.Run.config`.
 
@@ -387,9 +372,7 @@ Pour charger un fichier de configuration autre que `config-defaults.yaml`, utili
 python train.py --configs other-config.yaml
 ```
 
-<div id="nested-dictionaries-in-config">
-  ### Dictionnaires imbriqués dans config
-</div>
+### Dictionnaires imbriqués dans config {#nested-dictionaries-in-config}
 
 Pour stocker des valeurs imbriquées dans une configuration de run, passez un dictionnaire imbriqué à `wandb.init()`. L&#39;exemple suivant définit les dictionnaires imbriqués `optimizer` et `training` dans `config` :
 
@@ -475,9 +458,7 @@ for run in runs:
   En pratique, vous utilisez généralement des scripts distincts pour créer les runs, puis pour les interroger ultérieurement à l&#39;aide de filtres.
 </Info>
 
-<div id="example-use-case-for-file-based-configs">
-  ### Exemple d’utilisation de configurations basées sur des fichiers
-</div>
+### Exemple d’utilisation de configurations basées sur des fichiers {#example-use-case-for-file-based-configs}
 
 Supposons que vous disposiez d’un fichier YAML contenant des métadonnées sur le run, ainsi que d’un dictionnaire d’hyperparamètres dans votre script Python. Vous pouvez enregistrer les deux dans l’objet `config` imbriqué :
 
@@ -497,9 +478,7 @@ with wandb.init(config=config_dictionary) as run:
     ...
 ```
 
-<div id="tensorflow-v1-flags">
-  ## Flags de TensorFlow v1
-</div>
+## Flags de TensorFlow v1 {#tensorflow-v1-flags}
 
 Vous pouvez transmettre directement les flags TensorFlow à l’objet `wandb.Run.config`.
 

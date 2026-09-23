@@ -10,9 +10,7 @@ Avec W&amp;B Launch, vous placez des [jobs](#launch-job) dans des [files d&#39;a
 
 Les sections suivantes décrivent chacun de ces concepts plus en détail.
 
-<div id="launch-job">
-  ## job Launch
-</div>
+## job Launch {#launch-job}
 
 Un job Launch est un type spécifique d’[artefact W&amp;B](/fr/models/artifacts/) qui représente une tâche à exécuter. Par exemple, parmi les jobs Launch courants, on trouve l’entraînement d’un modèle ou le déclenchement d’une évaluation de modèle. Les définitions de job incluent :
 
@@ -34,15 +32,11 @@ Les trois principaux types de définitions de job sont les suivants :
 
 Retrouvez les jobs que vous avez créés dans la W&amp;B App, sous l’onglet **Jobs** du workspace de votre projet. À partir de là, vous pouvez configurer des jobs et les envoyer vers une [file d’attente Launch](#launch-queue) pour les exécuter sur différentes [ressources cibles](#target-resources).
 
-<div id="launch-queue">
-  ## Launch queue
-</div>
+## Launch queue {#launch-queue}
 
 Les *files d’attente* Launch sont des listes ordonnées de jobs à exécuter sur une ressource cible spécifique. Les files d’attente Launch fonctionnent selon le principe du premier entré, premier sorti (FIFO). Aucune limite pratique ne s’applique au nombre de files d’attente que vous pouvez avoir, mais il est généralement recommandé d’avoir une file d’attente par ressource cible. Vous pouvez mettre des jobs en file d’attente avec la W&amp;B App UI, le W&amp;B CLI ou le SDK Python. Vous pouvez ensuite configurer un ou plusieurs agents Launch pour extraire des éléments de la file d’attente et les exécuter sur la ressource cible de cette dernière.
 
-<div id="target-resources">
-  ## Ressources cibles
-</div>
+## Ressources cibles {#target-resources}
 
 L’environnement de calcul sur lequel une file d’attente Launch exécute des jobs est appelé *ressource cible*.
 
@@ -55,17 +49,13 @@ W&amp;B Launch prend en charge les ressources cibles suivantes :
 
 Chaque ressource cible utilise un ensemble différent de paramètres de configuration appelés *configurations de ressource*. Les configurations de ressource reprennent par défaut les valeurs définies pour chaque file d’attente Launch, mais chaque job peut les remplacer indépendamment. Voir la documentation de chaque ressource cible pour plus de détails.
 
-<div id="launch-agent">
-  ## agent Launch
-</div>
+## agent Launch {#launch-agent}
 
 Les agents Launch sont des programmes légers et persistants qui vérifient régulièrement les files d’attente Launch à la recherche de jobs à exécuter. Lorsqu’un agent Launch reçoit un job, il commence par créer l’image à partir de la définition du job ou par la récupérer, puis l’exécute sur la ressource cible.
 
 Un agent peut interroger plusieurs files d’attente. Cependant, vous devez configurer correctement l’agent pour prendre en charge toutes les ressources cibles sous-jacentes de chaque file d’attente qu’il interroge.
 
-<div id="launch-agent-environment">
-  ## Environnement de l&#39;agent Launch
-</div>
+## Environnement de l&#39;agent Launch {#launch-agent-environment}
 
 L&#39;environnement de l&#39;agent correspond à l&#39;environnement dans lequel un agent Launch s&#39;exécute et interroge la file d&#39;attente à la recherche de jobs.
 

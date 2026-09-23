@@ -14,9 +14,7 @@ Launch の中核となる体験は、ハイパーパラメーターやデータ�
   Launch SDK の関数には `wandb-core` が必要です。詳細については、[`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README) を参照してください。
 </Note>
 
-<div id="reconfigure-the-run-object">
-  ## `Run` オブジェクトを再設定する
-</div>
+## `Run` オブジェクトを再設定する {#reconfigure-the-run-object}
 
 ジョブ内で `wandb.init()` が返す `Run` オブジェクトは、デフォルトで再設定できます。Launch SDK では、ジョブの起動時に `Run.config` オブジェクトのどの部分を再設定可能にするかをカスタマイズできるため、内部設定を隠しつつ、エンドユーザーにとって重要なパラメーターを公開できます。
 
@@ -78,9 +76,7 @@ with wandb.init(config=config):
 
 W&amp;B CLI または UI からジョブを起動する場合、上書きできるのは 4 つの `trainer` パラメーターのみです。
 
-<div id="access-run-config-inputs">
-  ### run config の入力 にアクセスする
-</div>
+### run config の入力 にアクセスする {#access-run-config-inputs}
 
 run config の入力 を指定して起動したジョブでは、`Run.config` を通じて入力値にアクセスできます。ジョブコード内で `wandb.init()` が返す `Run` には、入力値が自動的に設定されます。ジョブコード内のどこからでも run config の入力値を読み込むには、`launch.load_wandb_config()` を使用します:
 
@@ -90,9 +86,7 @@ from wandb.sdk import launch
 run_config_overrides = launch.load_wandb_config()
 ```
 
-<div id="reconfigure-a-file">
-  ## ファイルを再設定する
-</div>
+## ファイルを再設定する {#reconfigure-a-file}
 
 Launch SDK は、ジョブコード内の設定ファイルに保存された入力値を管理することもできます。これは、ディープラーニングや大規模言語モデルの多くのユースケースで一般的なパターンで、たとえばこの [torchtune](https://github.com/meta-pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例や、この [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) などがあります。
 
@@ -137,17 +131,13 @@ dataset: cifar10
 
 `include` および `exclude` キーワード引数を使用して、`launch.manage_wandb_config()` と同様に、設定ファイルで受け付ける入力キーをフィルターします。
 
-<div id="access-config-file-inputs">
-  ### 設定ファイルの入力にアクセスする
-</div>
+### 設定ファイルの入力にアクセスする {#access-config-file-inputs}
 
 Launch によって作成された run で `launch.manage_config_file()` を呼び出すと、`launch` は入力値を使って設定ファイルの内容を書き換えます。書き換え後の設定ファイルはジョブ環境で利用できます。
 
 <Warning>入力値が確実に使用されるよう、ジョブコードで設定ファイルを読み込む前に `launch.manage_config_file()` を呼び出してください。</Warning>
 
-<div id="customize-a-jobs-launch-drawer-ui">
-  ## ジョブの Launch drawer UI をカスタマイズする
-</div>
+## ジョブの Launch drawer UI をカスタマイズする {#customize-a-jobs-launch-drawer-ui}
 
 公開する入力をフィルターするだけでなく、ジョブの入力スキーマを定義して、ジョブの起動用にカスタム UI を作成することもできます。これにより、自由入力のテキストエントリの代わりに、構造化されたフィールド、検証のヒント、ドロップダウンが Launch drawer に表示されます。ジョブのスキーマを定義するには、`launch.manage_wandb_config()` または `launch.manage_config_file()` の呼び出しにスキーマを含めます。スキーマには、[JSON Schema](https://json-schema.org/understanding-json-schema/reference) 形式の Python の `dict`、または Pydantic のモデルクラスを使用できます。
 

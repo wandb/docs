@@ -11,23 +11,17 @@ Weave propose deux façons d’intégrer votre stack IA :
 
 Si vous ne savez pas quelle approche choisir, commencez par [Tracer vos agents](/fr/weave/guides/tracking/trace-agents) pour les nouveaux projets d’agents sur plusieurs tours de conversation, ou [Tracer les applications LLM](/fr/weave/guides/tracking/tracing) pour les flux de travail existants basés sur des appels LLM.
 
-<div id="trace-agents">
-  ## Tracer les agents
-</div>
+## Tracer les agents {#trace-agents}
 
 Utilisez ces intégrations lorsque vous créez des applications agentiques sur plusieurs tours de conversation et que vous souhaitez voir les sessions, les tours de conversation et les appels d’outil apparaître dans la vue **Agents** de Weave. Pour les SDK d&#39;agent, les harness d’agent et l&#39;instrumentation personnalisée, voir [Choisir une intégration d’agent](/fr/weave/agent-integration-quickstart).
 
-<div id="trace-llm-applications">
-  ## Tracer les applications LLM
-</div>
+## Tracer les applications LLM {#trace-llm-applications}
 
 Si votre application appelle directement l’API d’un fournisseur de LLM ou utilise un framework d’orchestration, Weave peut automatiquement intercepter les traces (grâce au patching automatique) pour de nombreuses bibliothèques et de nombreux frameworks. Après avoir importé le SDK Weave dans votre code et l’avoir initialisé avec `weave.init`, Weave enregistre chaque requête comme un **Appel** avec les entrées, les sorties, la latence, l’utilisation des jetons et le coût.
 
 Pour les bibliothèques que Weave ne prend pas en charge via le patching automatique, vous pouvez appliquer manuellement [Weave Ops](/fr/weave/guides/tracking/create-call#2-tracking-of-custom-functions) à votre code pour capturer les traces.
 
-<div id="llm-providers">
-  ### Fournisseurs de LLM
-</div>
+### Fournisseurs de LLM {#llm-providers}
 
 Les fournisseurs de LLM sont les prestataires qui donnent accès à de grands modèles de langage pour générer des prédictions. Weave s’intègre à ces fournisseurs pour journaliser et tracer les interactions avec leurs API :
 
@@ -48,9 +42,7 @@ Les fournisseurs de LLM sont les prestataires qui donnent accès à de grands mo
 * **[Together AI](/fr/weave/guides/integrations/together_ai)**
 * **[Modèles locaux](/fr/weave/guides/integrations/local_models)** (pour les modèles exécutés sur votre propre infrastructure)
 
-<div id="frameworks">
-  ### Frameworks
-</div>
+### Frameworks {#frameworks}
 
 Les frameworks aident à orchestrer les pipelines d’exécution des applications d’IA. Ils fournissent des outils et des abstractions pour créer des flux de travail complexes. Weave s’intègre à ces frameworks pour tracer l’ensemble du pipeline :
 
@@ -73,17 +65,13 @@ Les frameworks aident à orchestrer les pipelines d’exécution des application
 * **[Agno](/fr/weave/guides/integrations/agno)**
 * **[Koog](/fr/weave/guides/integrations/koog)**
 
-<div id="reinforcement-learning-frameworks">
-  ### Frameworks d’apprentissage par renforcement
-</div>
+### Frameworks d’apprentissage par renforcement {#reinforcement-learning-frameworks}
 
 Weave s’intègre aux frameworks d’apprentissage par renforcement pour tracer les runs d’entraînement et d’évaluation :
 
 * **[Verifiers](/fr/weave/guides/integrations/verifiers)**
 
-<div id="protocols">
-  ### Protocoles
-</div>
+### Protocoles {#protocols}
 
 Weave s’intègre à des protocoles standardisés qui permettent la communication entre les applications d’IA et les services qui les prennent en charge :
 

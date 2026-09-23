@@ -33,9 +33,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 * [맞춤형 런타임](#custom-runtimes)
 * [저장된 모델](#saved-models)
 
-<div id="add-provider-credentials-and-information">
-  ## 공급자 자격 증명 및 정보 추가
-</div>
+## 공급자 자격 증명 및 정보 추가 {#add-provider-credentials-and-information}
 
 플레이그라운드를 사용하려면 먼저 공급자 자격 증명을 추가하여 플레이그라운드가 각 모델 공급자에 대한 요청을 대신 인증할 수 있도록 해야 합니다. 플레이그라운드는 현재 여러 공급자의 모델을 지원합니다. 사용 가능한 모델 중 하나를 사용하려면 W&amp;B 설정의 팀 시크릿에 적절한 정보를 추가하세요.
 
@@ -55,9 +53,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 * OpenAI: `OPENAI_API_KEY`
 * X.AI: `XAI_API_KEY`
 
-<div id="access-the-playground">
-  ## 플레이그라운드에 액세스하기
-</div>
+## 플레이그라운드에 액세스하기 {#access-the-playground}
 
 플레이그라운드에 액세스하는 방법은 두 가지입니다.
 
@@ -71,9 +67,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
   ![Open in Playground 버튼의 스크린샷](/weave/guides/tools/imgs/open_chat_in_playground.png)
 </Frame>
 
-<div id="select-an-llm">
-  ## LLM 선택
-</div>
+## LLM 선택 {#select-an-llm}
 
 프롬프트 헤더(메인 플레이그라운드 패널 상단)에 있는 **모델 선택** 드롭다운에서 LLM을 전환할 수 있습니다. 다음 공급자를 사용할 수 있습니다:
 
@@ -89,15 +83,11 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 사용 가능한 모델은 팀에 구성된 공급자에 따라 달라집니다.
 
-<div id="customize-playground-settings">
-  ## 플레이그라운드 설정 사용자 지정
-</div>
+## 플레이그라운드 설정 사용자 지정 {#customize-playground-settings}
 
 선택한 모델의 파라미터를 조정하고 모델이 호출할 함수를 추가할 수 있습니다. 다음 섹션에서는 플레이그라운드 설정을 사용자 지정하는 방법을 설명합니다.
 
-<div id="adjust-llm-parameters">
-  ### LLM 파라미터 조정
-</div>
+### LLM 파라미터 조정 {#adjust-llm-parameters}
 
 선택한 모델에 대해 다양한 파라미터 값을 시험해 볼 수 있습니다. 플레이그라운드에서 파라미터를 조정하려면 다음 단계를 따르세요.
 
@@ -115,21 +105,15 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 플레이그라운드에서는 시행 횟수를 설정해 동일한 입력에 대해 여러 출력을 생성할 수 있습니다. 기본 설정은 `1`입니다. 시행 횟수를 조정하려면 **채팅 설정** 패널을 열고 **Number of trials** 설정을 조정하세요.
 
-<div id="add-a-function">
-  ### 함수 추가
-</div>
+### 함수 추가 {#add-a-function}
 
 플레이그라운드에서는 서로 다른 모델이 사용자 입력에 따라 함수를 어떻게 사용하는지 테스트할 수 있습니다. 플레이그라운드에서 테스트할 함수를 추가하려면 **채팅 설정** 패널에서 **+ Add function**을 클릭합니다. 화면 안내에 따라 함수를 정의하고 변경 사항을 저장합니다.
 
-<div id="message-controls">
-  ## Message controls
-</div>
+## Message controls {#message-controls}
 
 플레이그라운드 채팅 인터페이스는 프롬프트 정의 영역, 메시지 패널, 메시지 작성 영역의 세 부분으로 구성됩니다. 다음 섹션에서 각 영역을 설명합니다.
 
-<div id="prompt-definition-area">
-  ### 프롬프트 정의 영역
-</div>
+### 프롬프트 정의 영역 {#prompt-definition-area}
 
 **프롬프트 정의 영역**에서는 상호작용 전반에서 모델의 동작을 결정하는 지침을 정의할 수 있습니다.
 
@@ -148,9 +132,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 * 응답을 유도하기 위한 Assistant 메시지 예시를 제공합니다(예: few-shot 프롬프팅).
 * 특정 시나리오를 테스트하기 위한 사용자 메시지를 미리 정의합니다.
 
-<div id="messages-panel">
-  ### 메시지 패널
-</div>
+### 메시지 패널 {#messages-panel}
 
 **메시지 패널**에는 실행 중 생성된 대화가 표시됩니다.
 
@@ -162,9 +144,7 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
 
 패널 내에서 메시지를 **복사**, **Delete**, **편집**, **재시도**할 수도 있습니다.
 
-<div id="message-composer-input-field">
-  ### 메시지 작성기(입력 필드)
-</div>
+### 메시지 작성기(입력 필드) {#message-composer-input-field}
 
 **메시지 작성기**를 사용해 모델에 새 메시지를 보냅니다.
 
@@ -174,31 +154,23 @@ LLM 프롬프트와 응답을 평가하는 일은 쉽지 않습니다. Weave 플
   ![상단에 프롬프트 정의 영역, 중간에 메시지 이력, 하단에 새 메시지를 전송하는 메시지 작성기가 표시된 Weave 플레이그라운드.](/weave/guides/tools/imgs/playground_chat_input.png)
 </Frame>
 
-<div id="view-message-history">
-  ## 메시지 이력 보기
-</div>
+## 메시지 이력 보기 {#view-message-history}
 
 메시지 이력을 보려면 오른쪽 플레이그라운드 툴바에서 **이력 (<Icon icon="clock-rotate-left" iconType="light" />)** 버튼을 클릭하세요. 그러면 현재 프로젝트에서 전송된 모든 메시지를 보여주는 이력 패널이 열립니다.
 
 이력에서 항목을 선택하면 비교할 수 있도록 추가 채팅 패널에 해당 항목이 로드됩니다.
 
-<div id="compare-llms">
-  ## LLM 비교
-</div>
+## LLM 비교 {#compare-llms}
 
 플레이그라운드에서는 LLM을 나란히 비교하여 서로 다른 모델이 동일한 프롬프트에 어떻게 응답하는지 평가할 수 있습니다. 비교하려면 오른쪽 플레이그라운드 툴바에서 **채팅 추가 (<Icon icon="plus" iconType="solid" />)** 버튼을 클릭하세요. 기존 채팅 옆에 두 번째 채팅이 열립니다. 두 번째 채팅에서도 모델 선택, 설정 조정, 함수 추가 등 기존 채팅과 동일한 기능을 사용할 수 있습니다.
 
-<div id="custom-runtimes">
-  ## 맞춤형 런타임
-</div>
+## 맞춤형 런타임 {#custom-runtimes}
 
 플레이그라운드에서는 기본 제공 공급자 외에도 프로젝트에 등록할 수 있는 OpenAI 호환 API 엔드포인트인 맞춤형 런타임을 지원합니다. 맞춤형 런타임은 이전에는 *사용자 정의 프로바이더*라고 했습니다. 팀에서 서빙하는 에이전트 프로토타입, 로컬 모델 또는 지원되는 공급자 모델의 이전 버전과 같은 모델을 테스트하려면 맞춤형 런타임을 사용하세요.
 
 UI 또는 Python SDK에서 맞춤형 런타임을 등록하려면 [맞춤형 런타임](/ko/weave/guides/tools/custom-runtimes)을 참조하세요. 맞춤형 런타임을 등록한 후 **모델 선택** 드롭다운에서 해당 모델을 선택하고 표준 플레이그라운드 기능을 사용해 테스트하세요.
 
-<div id="use-a-local-model-as-a-custom-runtime">
-  ### 로컬 모델을 맞춤형 런타임으로 사용
-</div>
+### 로컬 모델을 맞춤형 런타임으로 사용 {#use-a-local-model-as-a-custom-runtime}
 
 플레이그라운드에서 로컬로 실행 중인 모델을 테스트하려면 ngrok와 Ollama를 사용해 CORS 제한을 우회할 수 있는 임시 공개 URL을 만드세요. 이렇게 하면 브라우저 보안 정책을 위반하지 않고도 플레이그라운드가 사용자의 머신에서 실행 중인 모델에 연결할 수 있습니다.
 
@@ -272,15 +244,11 @@ flowchart LR
     linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
 ```
 
-<div id="saved-models">
-  ## 저장된 모델
-</div>
+## 저장된 모델 {#saved-models}
 
 저장된 모델을 사용하면 공급자, 모델, 매개변수, 함수 훅을 재사용 가능한 사전 설정으로 저장할 수 있습니다. 다음 섹션에서는 모델을 저장하고, 사용하고, 업데이트하는 방법을 설명합니다.
 
-<div id="save-a-model">
-  ### 모델 저장
-</div>
+### 모델 저장 {#save-a-model}
 
 워크플로에서 재사용할 수 있는 모델 프리셋을 만들고 구성할 수 있습니다. 모델을 저장하면 선호하는 설정, 매개변수, 함수 훅을 적용한 상태로 빠르게 불러올 수 있습니다.
 
@@ -291,18 +259,14 @@ flowchart LR
    * 원하는 대로 매개변수를 조정합니다. Weave call 추적을 켜거나 끌 수도 있고, [함수를 추가](#add-a-function)할 수도 있습니다.
 4. **모델 게시**를 클릭합니다. 모델이 저장되며 **모델 선택** 드롭다운의 **저장된 모델**에서 사용할 수 있습니다. 그런 다음 저장된 모델을 [사용](#use-a-saved-model)하고 [업데이트](#update-a-saved-model)할 수 있습니다.
 
-<div id="use-a-saved-model">
-  ### 저장된 모델 사용
-</div>
+### 저장된 모델 사용 {#use-a-saved-model}
 
 이전에 [저장한 모델](#save-a-model)로 전환해 실험이나 세션 전반에서 일관성을 유지하세요. 이렇게 하면 중단한 부분부터 이어서 작업할 수 있습니다.
 
 1. 프롬프트 헤더의 **모델 선택** 드롭다운에서 **저장된 모델**을 선택합니다.
 2. 저장된 모델 목록에서 불러올 모델을 선택합니다. 모델이 로드되면 플레이그라운드에서 사용할 수 있습니다.
 
-<div id="update-a-saved-model">
-  ### 저장된 모델 업데이트
-</div>
+### 저장된 모델 업데이트 {#update-a-saved-model}
 
 기존 [저장된 모델](#save-a-model)을 편집해 파라미터를 미세 조정하거나 설정을 새로 고칠 수 있습니다. 이렇게 하면 저장된 모델을 사용 사례 변화에 맞춰 최신 상태로 유지할 수 있습니다.
 

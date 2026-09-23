@@ -5,13 +5,11 @@ description: "Découvrez comment créer un tableau d’évaluation dans W&B."
 
 Créez un tableau d’évaluation à l’aide du SDK Python W&amp;B ou convertissez un [W&amp;B Table](/fr/models/tables) existant avec [ARIA](/fr/aria).
 
-<div id="create-an-eval-table">
-  ## Créer un tableau d’évaluation
-</div>
+## Créer un tableau d’évaluation {#create-an-eval-table}
 
 Utilisez la classe `wandb.EvalTable` pour créer un tableau d’évaluation.
 
-Par exemple, supposons que vous disposiez du dataframe pandas suivant :
+Par exemple, supposons que vous disposiez du dataframe pandas suivant :
 
 ```python
 import pandas as pd
@@ -48,11 +46,12 @@ df = pd.DataFrame(
   with wandb.init(project="classifier-table-demo") as run:
     table = wandb.Table(dataframe=df)
     run.log({"validation_predictions": table})
-  ``` */}
+  ```
+  */}
 
 Créez une tableau d’évaluation en passant le DataFrame à `wandb.EvalTable`. Utilisez les arguments `input_columns`, `output_columns` et `score_columns` pour identifier le rôle de chaque colonne.
 
-L’exemple suivant utilise :
+L’exemple suivant utilise :
 
 * `image_id` comme entrée
 * `predicted_label` comme sortie
@@ -69,9 +68,7 @@ with wandb.init(project="classifier-eval-table-demo") as run:
     run.log({"validation_predictions_eval": eval_table})    
 ```
 
-<div id="convert-a-wb-table-to-an-eval-table">
-  ## Convertir une W&amp;B Table en tableau d’évaluation
-</div>
+## Convertir une W&amp;B Table en tableau d’évaluation {#convert-a-wb-table-to-an-eval-table}
 
 Utilisez la bannière de conversion pour convertir une W&amp;B Table existante en tableau d’évaluation :
 

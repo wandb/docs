@@ -18,9 +18,7 @@ W&amp;B 프로젝트에서 맞춤형 차트를 만드세요. 임의의 데이터
   <img src="/images/app_ui/supported_charts.png" alt="vega.github.io/vega의 지원 차트" max-width="90%" />
 </Frame>
 
-<div id="how-it-works">
-  ## 작동 방식
-</div>
+## 작동 방식 {#how-it-works}
 
 1. **데이터 로깅**: 스크립트에서 [설정](/ko/models/track/config/) 및 summary 데이터를 로깅합니다.
 2. **차트 사용자 지정**: [GraphQL](https://graphql.org) 쿼리로 로깅된 데이터를 가져옵니다. 시각화 문법인 [Vega](https://vega.github.io/vega/)를 사용해 쿼리 결과를 시각화합니다.
@@ -32,15 +30,11 @@ W&amp;B 프로젝트에서 맞춤형 차트를 만드세요. 임의의 데이터
 
 예상한 데이터가 보이지 않으면, 찾는 열이 선택한 run에 로깅되지 않았을 수 있습니다. 차트를 저장한 다음 Runs table로 돌아가 **eye** 아이콘을 사용해 선택한 run을 확인하세요.
 
-<div id="log-charts-from-a-script">
-  ## 스크립트에서 차트 로깅하기
-</div>
+## 스크립트에서 차트 로깅하기 {#log-charts-from-a-script}
 
 다음 섹션에서는 트레이닝 스크립트에서 직접 차트를 로깅하는 두 가지 방법을 설명합니다. 하나는 일반적으로 사용하는 시각화를 지원하는 기본 제공 차트 프리셋이고, 다른 하나는 자체 Vega 사양을 재사용할 수 있도록 하는 맞춤형 프리셋입니다.
 
-<div id="built-in-presets">
-  ### 기본 제공 프리셋
-</div>
+### 기본 제공 프리셋 {#built-in-presets}
 
 W&amp;B에는 스크립트에서 바로 로깅할 수 있는 기본 제공 차트 프리셋이 여러 가지 있습니다. 여기에는 선형 플롯, 산점도, 막대 차트, 히스토그램, PR 곡선, ROC 곡선이 포함됩니다.
 
@@ -202,9 +196,7 @@ W&amp;B에는 스크립트에서 바로 로깅할 수 있는 기본 제공 차�
   </Tab>
 </Tabs>
 
-<div id="custom-presets">
-  ### 맞춤형 프리셋
-</div>
+### 맞춤형 프리셋 {#custom-presets}
 
 기본 제공 프리셋을 조정하거나 새 프리셋을 만든 다음 차트를 저장하세요. 차트 ID를 사용하면 스크립트에서 바로 해당 맞춤형 프리셋에 데이터를 로깅할 수 있습니다. [예제 Google Colab 노트북을 사용해 보세요](https://tiny.cc/custom-charts).
 
@@ -228,9 +220,7 @@ my_custom_chart = wandb.plot_table(
   <img src="/images/app_ui/custom_presets.png" alt="맞춤형 차트 프리셋" max-width="90%" />
 </Frame>
 
-<div id="log-data">
-  ## 데이터 로깅
-</div>
+## 데이터 로깅 {#log-data}
 
 맞춤형 차트에서 무엇이든 시각화하려면 먼저 차트 편집기가 쿼리할 수 있는 형식으로 스크립트가 기반 데이터를 로깅해야 합니다. 스크립트에서 다음 데이터 유형을 로깅하고 맞춤형 차트에서 사용할 수 있습니다.
 
@@ -240,9 +230,7 @@ my_custom_chart = wandb.plot_table(
 * **summaryTable**: 여러 값의 목록을 로깅해야 한다면 `wandb.Table()`을 사용해 해당 데이터를 저장한 다음, 맞춤형 패널에서 쿼리하세요.
 * **historyTable**: 이력 데이터를 확인해야 한다면 맞춤형 차트 패널에서 `historyTable`을 쿼리하세요. `wandb.Table()`을 호출하거나 맞춤형 차트를 로깅할 때마다 해당 step의 이력에 새 테이블이 생성됩니다.
 
-<div id="log-a-custom-table">
-  ### 맞춤형 테이블 로깅
-</div>
+### 맞춤형 테이블 로깅 {#log-a-custom-table}
 
 `wandb.Table()`을 사용해 데이터를 2차원 배열로 로깅합니다. 일반적으로 이 테이블의 각 행은 하나의 데이터 포인트를 나타내며, 각 열은 시각화하려는 각 데이터 포인트의 관련 필드 또는 차원을 나타냅니다. 맞춤형 패널을 설정하면 전체 테이블은 `wandb.Run.log()`에 전달한 키 이름(다음 예시의 `custom_data_table`)으로 접근할 수 있습니다. 개별 필드는 열 이름(`x`, `y`, `z`)으로 접근할 수 있습니다. 실험 전반에 걸쳐 여러 time step에서 테이블을 로깅할 수 있습니다. 각 테이블의 최대 크기는 10,000행입니다. [Google Colab 노트북 예시를 사용해 보세요](https://tiny.cc/custom-charts).
 
@@ -255,9 +243,7 @@ with wandb.init() as run:
   )
 ```
 
-<div id="customize-the-chart">
-  ## 차트 사용자 지정
-</div>
+## 차트 사용자 지정 {#customize-the-chart}
 
 데이터를 로깅한 후, 가져올 로깅된 값과 렌더링 방식을 선택하여 W&amp;B App에서 차트를 만드세요. 시작하려면 새 맞춤형 차트를 추가한 다음, 표시 중인 Runs에서 데이터를 선택하도록 쿼리를 편집합니다. 이 쿼리는 [GraphQL](https://graphql.org)을 사용해 run의 설정, summary, 이력 필드에서 데이터를 가져옵니다.
 
@@ -265,9 +251,7 @@ with wandb.init() as run:
 
 <AriaChatBubbles prompt="표시 중인 Runs에 대해 검증 정확도와 트레이닝 loss의 산점도를 만들고, 점 색상은 학습률에 따라 지정하세요." response="표시 중인 Runs에 대해 x축에는 검증 정확도, y축에는 트레이닝 loss를 표시하고, 각 run의 config에 있는 학습률에 따라 점 색상을 지정하는 맞춤형 차트 패널을 추가하겠습니다." />
 
-<div id="build-the-graphql-query">
-  ### GraphQL 쿼리 작성하기
-</div>
+### GraphQL 쿼리 작성하기 {#build-the-graphql-query}
 
 맞춤형 차트 편집기는 프로젝트 워크스페이스 또는 report에서 선택한 Runs에 대해 GraphQL 쿼리를 실행합니다. 쿼리 편집기에서 필요한 필드를 추가하세요. 대부분의 경우 쿼리를 처음부터 작성하지 않아도 되도록 `config`, `summary`, `history`, `summaryTable`, `historyTable` 중에서 선택할 수 있습니다.
 
@@ -299,9 +283,7 @@ column이 전혀 나타나지 않으면 선택한 Runs에 해당 키가 있는�
   <img src="/images/app_ui/customize_chart.gif" alt="맞춤형 차트 생성" max-width="90%" />
 </Frame>
 
-<div id="custom-visualizations">
-  ### 맞춤형 시각화
-</div>
+### 맞춤형 시각화 {#custom-visualizations}
 
 우측 상단에서 **Chart**를 선택해 기본 프리셋으로 시작합니다. 다음으로 **Chart fields**를 선택하여 쿼리에서 가져온 데이터를 차트의 해당 필드에 매핑합니다.
 
@@ -311,9 +293,7 @@ column이 전혀 나타나지 않으면 선택한 Runs에 해당 키가 있는�
   <img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="맞춤형 막대 차트 만들기" max-width="90%" />
 </Frame>
 
-<div id="edit-vega">
-  ### Vega 편집
-</div>
+### Vega 편집 {#edit-vega}
 
 패널 상단의 **Edit**를 클릭해 [Vega](https://vega.github.io/vega/) 편집 모드로 들어갑니다. 여기에서 UI에서 대화형 차트를 만드는 [Vega specification](https://vega.github.io/vega/docs/specification/)을 정의할 수 있습니다. 차트의 모든 요소를 변경할 수 있습니다. 예를 들어 제목을 바꾸거나, 다른 색상 구성표를 선택하거나, 곡선을 연결된 선 대신 일련의 점으로 표시할 수 있습니다. 또한 Vega transform을 사용해 값 배열을 히스토그램으로 binning하는 것처럼 데이터 자체를 변경할 수도 있습니다. 패널 미리보기는 대화형으로 업데이트되므로 Vega 사양이나 쿼리를 편집하면서 변경 사항이 어떻게 반영되는지 확인할 수 있습니다. 자세한 내용은 [Vega documentation and tutorials](https://vega.github.io/vega/)을 참조하세요.
 
@@ -323,15 +303,11 @@ W&amp;B의 데이터를 차트에 가져오려면 Vega 사양의 아무 위치�
 
 필드의 기본값을 설정하려면 다음 구문을 사용하세요: `"${field:<field-name>:<placeholder text>}"`
 
-<div id="save-chart-presets">
-  ### 차트 프리셋 저장
-</div>
+### 차트 프리셋 저장 {#save-chart-presets}
 
 프리셋을 저장하면 매번 다시 만들지 않고도 패널과 프로젝트 전반에서 동일한 Vega 정의를 재사용할 수 있습니다. 모달 하단의 버튼을 사용해 특정 시각화 패널에 변경 사항을 적용합니다. 또는 Vega 사양을 저장해 프로젝트의 다른 곳에서도 사용할 수 있습니다. 재사용 가능한 차트 정의를 저장하려면 Vega 편집기 상단의 **다른 이름으로 저장**을 클릭한 다음 프리셋 이름을 지정하세요.
 
-<div id="reports-and-guides">
-  ## Reports 및 가이드
-</div>
+## Reports 및 가이드 {#reports-and-guides}
 
 다음 Reports에서는 실제 맞춤형 차트 활용을 보여 주는 엔드투엔드 예시와 더 심층적인 탐구를 확인할 수 있습니다.
 
@@ -340,9 +316,7 @@ W&amp;B의 데이터를 차트에 가져오려면 Vega 사양의 아무 위치�
 * [맞춤형 차트를 사용해 어텐션이 그라디언트 흐름에 미치는 영향 시각화하기](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
 * [임의의 곡선 로깅하기](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
-<div id="common-use-cases">
-  ## 일반적인 사용 사례
-</div>
+## 일반적인 사용 사례 {#common-use-cases}
 
 맞춤형 차트는 기본 Panel로는 필요한 내용을 표현할 수 없을 때 유용합니다. 예를 들면 다음과 같습니다.
 

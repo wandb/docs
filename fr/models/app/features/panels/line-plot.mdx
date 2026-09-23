@@ -18,9 +18,7 @@ Cette page explique comment créer, configurer et gérer des graphiques en courb
   Pour les [runs](/fr/models/runs) qui s’exécutent sur des clusters [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) peut surveiller votre infrastructure de calcul lorsque l’intégration est activée. En cas d’erreur, W&amp;B ajoute des informations sur l’infrastructure aux graphiques de votre run dans le Workspace de votre projet. Pour connaître les prérequis et obtenir plus de détails, voir [Visualiser les alertes d’infrastructure CoreWeave](/fr/models/runs/infrastructure-alerts).
 </Tip>
 
-<div id="add-a-line-plot">
-  ## Ajouter un graphique en courbes
-</div>
+## Ajouter un graphique en courbes {#add-a-line-plot}
 
 Les sections suivantes expliquent comment créer un graphique en courbes pour une métrique unique ou plusieurs métriques.
 
@@ -57,15 +55,11 @@ Les sections suivantes expliquent comment créer un graphique en courbes pour un
     5. Pour supprimer éventuellement les panneaux à métrique unique en double lors de la création du graphique multi-métrique, activez **Clean up auto-generated panels**. Un aperçu indique quels panneaux seront supprimés. <Note>Lorsque cette option est activée, W&amp;B ne crée pas de graphique à métrique unique pour une métrique nouvellement enregistrée qui correspond à l’expression. Elle apparaît uniquement dans ce graphique multi-métrique.</Note>
     6. Cliquez sur **Create [NUMBER] panels**.
 
-    <div id="multi-metric-regular-expressions">
-      ### Expressions régulières multi-métriques
-    </div>
+### Expressions régulières multi-métriques {#multi-metric-regular-expressions}
 
     Les graphiques en courbes multi-métriques utilisent la [syntaxe RE2 de Google](https://github.com/google/re2/wiki/Syntax) pour faire correspondre les noms de métriques. Les sections suivantes décrivent des cas d’usage courants et donnent plus de détails sur le fonctionnement des expressions régulières, notamment sur la manière dont les groupes de capture affectent les panneaux créés par W&amp;B.
 
-    <div id="common-use-cases">
-      #### Cas d’usage courants
-    </div>
+#### Cas d’usage courants {#common-use-cases}
 
     Les exemples suivants montrent différentes façons d’utiliser des panneaux multi-métriques pour vous aider à analyser les résultats de vos expériences.
 
@@ -92,23 +86,17 @@ Les sections suivantes expliquent comment créer un graphique en courbes pour un
     **Faire correspondre des variantes de métriques spécifiques**
     Utilisez l’alternance pour ne faire correspondre que les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, en excluant les couches intermédiaires.
 
-    <div id="capture-groups">
-      #### Groupes de capture
-    </div>
+#### Groupes de capture {#capture-groups}
 
     <LinePlotCaptureGroups />
   </Tab>
 </Tabs>
 
-<div id="edit-line-plot-settings">
-  ## Modifier les paramètres du graphique en courbes
-</div>
+## Modifier les paramètres du graphique en courbes {#edit-line-plot-settings}
 
 Les sections suivantes expliquent comment modifier les paramètres d’un panneau de graphique en courbes donné, de tous les panneaux de graphique en courbes d’une section ou de tous les panneaux de graphique en courbes d’un Workspace. Pour des détails sur les paramètres du graphique en courbes, voir [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
 
-<div id="individual-line-plot">
-  ### Graphique en courbes individuel
-</div>
+### Graphique en courbes individuel {#individual-line-plot}
 
 Les paramètres individuels d’un graphique en courbes remplacent ceux définis pour la section ou le Workspace. Pour personnaliser un graphique en courbes :
 
@@ -127,9 +115,7 @@ Les paramètres du graphique en courbes sont organisés en onglets :
 
 Pour plus d’informations sur chaque paramètre, voir la [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
 
-<div id="all-line-plots-in-a-section">
-  ### Tous les graphiques en courbes d’une section
-</div>
+### Tous les graphiques en courbes d’une section {#all-line-plots-in-a-section}
 
 Pour personnaliser les paramètres par défaut de tous les graphiques en courbes d’une section et remplacer les paramètres du Workspace pour les graphiques en courbes :
 
@@ -137,9 +123,7 @@ Pour personnaliser les paramètres par défaut de tous les graphiques en courbes
 2. Cliquez sur l’icône d’engrenage de la section pour ouvrir ses paramètres.
 3. Dans le volet qui s’affiche, sélectionnez les onglets **Data** ou **Display preferences** pour configurer les paramètres par défaut de la section. Pour plus de détails sur chaque paramètre **Data**, voir la [référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference). Pour plus de détails sur chaque préférence d’affichage, voir [Configurer la mise en page de la section](../#configure-section-layout).
 
-<div id="all-line-plots-in-a-workspace">
-  ### Tous les graphiques en courbes d’un Workspace
-</div>
+### Tous les graphiques en courbes d’un Workspace {#all-line-plots-in-a-workspace}
 
 Pour personnaliser les paramètres par défaut de tous les graphiques en courbes d’un Workspace :
 
@@ -150,9 +134,7 @@ Pour personnaliser les paramètres par défaut de tous les graphiques en courbes
    * Pour plus de détails sur chaque paramètre de **Data**, voir la [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
    * Pour plus de détails sur chaque section de **Display preferences**, voir [Préférences d’affichage du Workspace](../#configure-workspace-layout). Au niveau du Workspace, vous pouvez configurer le comportement **Zooming** par défaut des graphiques en courbes. Ce paramètre détermine si le zoom est synchronisé entre les graphiques en courbes qui ont une même clé d’axe x. Désactivé par défaut.
 
-<div id="visualize-average-values-on-a-plot">
-  ## Visualiser des valeurs moyennes sur un graphique
-</div>
+## Visualiser des valeurs moyennes sur un graphique {#visualize-average-values-on-a-plot}
 
 Si vous avez plusieurs experiments différents et que vous voulez voir la moyenne de leurs valeurs sur un graphique, vous pouvez utiliser la fonctionnalité Grouping dans le tableau. Cliquez sur &quot;Group&quot; au-dessus du tableau des runs et sélectionnez &quot;All&quot; pour afficher les valeurs moyennes dans vos graphiques.
 
@@ -168,9 +150,7 @@ L&#39;image suivante montre un graphique représentant les valeurs moyennes sur 
   <img src="/images/app_ui/demo_average_precision_lines.png" alt="Courbes de précision moyennées" />
 </Frame>
 
-<div id="visualize-nan-value-on-a-plot">
-  ## Visualiser une valeur NaN dans un graphique
-</div>
+## Visualiser une valeur NaN dans un graphique {#visualize-nan-value-on-a-plot}
 
 Pour suivre des métriques qui peuvent parfois être indéfinies, comme une perte qui renvoie `NaN`, vous pouvez les journaliser, et W&amp;B les affiche dans le graphique en courbes. Vous pouvez également tracer des valeurs `NaN`, y compris des tenseurs PyTorch, dans un graphique en courbes avec `wandb.Run.log()`. Par exemple :
 
@@ -184,9 +164,7 @@ with wandb.init() as run:
   <img src="/images/app_ui/visualize_nan.png" alt="Gestion des valeurs NaN" />
 </Frame>
 
-<div id="compare-multiple-metrics-on-one-chart">
-  ## Comparer plusieurs métriques sur un même graphique
-</div>
+## Comparer plusieurs métriques sur un même graphique {#compare-multiple-metrics-on-one-chart}
 
 Pour comparer côte à côte plusieurs métriques provenant d’un ou de plusieurs runs, ajoutez un panneau **Run comparer** à votre Workspace.
 
@@ -199,9 +177,7 @@ Pour comparer côte à côte plusieurs métriques provenant d’un ou de plusieu
 3. Dans le volet qui s’ouvre, développez le menu déroulant **Évaluation**.
 4. Sélectionnez **Run comparer**.
 
-<div id="change-the-colors-of-the-lines">
-  ## Modifier les couleurs des lignes
-</div>
+## Modifier les couleurs des lignes {#change-the-colors-of-the-lines}
 
 Si la couleur par défaut des runs ne facilite pas la comparaison, W&amp;B propose deux façons de modifier les couleurs : depuis le tableau des runs ou depuis les paramètres de la légende d’un graphique.
 
@@ -232,9 +208,7 @@ Si la couleur par défaut des runs ne facilite pas la comparaison, W&amp;B propo
   </Tab>
 </Tabs>
 
-<div id="visualize-on-different-x-axes">
-  ## Visualiser sur différents axes X
-</div>
+## Visualiser sur différents axes X {#visualize-on-different-x-axes}
 
 Par défaut, les graphiques en courbes utilisent les étapes d’entraînement comme axe X, mais vous pouvez passer à un autre axe X pour afficher vos données sous un autre angle. Si vous souhaitez voir le temps absolu qu’a pris une expérience, ou le jour où elle s’est exécutée, vous pouvez changer d’axe X. L’exemple suivant montre le passage des étapes au temps relatif, puis au temps réel.
 
@@ -252,9 +226,7 @@ with wandb.init() as run:
 
 Pour plus de détails, consultez [Personnaliser les axes du journal](/fr/models/track/log/customize-logging-axes#customize-log-axes).
 
-<div id="zoom">
-  ## Zoom
-</div>
+## Zoom {#zoom}
 
 Pour examiner de plus près une zone spécifique d’un graphique en courbes, vous pouvez zoomer simultanément sur les deux axes. Cliquez puis faites glisser pour tracer un rectangle afin de zoomer à la fois verticalement et horizontalement. Cela modifie le zoom des axes X et Y.
 
@@ -262,9 +234,7 @@ Pour examiner de plus près une zone spécifique d’un graphique en courbes, vo
   <img src="/images/app_ui/line_plots_zoom.gif" alt="Fonction de zoom du graphique" />
 </Frame>
 
-<div id="hide-chart-legend">
-  ## Masquer la légende du graphique
-</div>
+## Masquer la légende du graphique {#hide-chart-legend}
 
 Si la légende du graphique occupe de l’espace que vous souhaitez utiliser pour le graphique, vous pouvez la désactiver. Désactivez la légende du graphique en courbes avec cette option :
 
@@ -272,9 +242,7 @@ Si la légende du graphique occupe de l’espace que vous souhaitez utiliser pou
   <img src="/images/app_ui/demo_hide_legend.gif" alt="Option pour masquer la légende" />
 </Frame>
 
-<div id="create-a-run-metrics-notification">
-  ## Créer une notification de métriques de run
-</div>
+## Créer une notification de métriques de run {#create-a-run-metrics-notification}
 
 Utilisez [Automations](/fr/models/automations/) pour notifier votre équipe lorsqu&#39;une métrique de run satisfait à une condition que vous définissez. Une automatisation peut publier dans un canal Slack ou déclencher un webhook.
 

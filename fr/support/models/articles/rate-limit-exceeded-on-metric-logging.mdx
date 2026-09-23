@@ -7,9 +7,7 @@ Si vous recevez une erreur HTTP `429 Rate limit exceeded` lorsque vous appelez `
 
 Utilisez les étapes suivantes pour réduire votre volume de journalisation et récupérer les données dont la journalisation a été limitée.
 
-<div id="stay-under-the-rate-limit">
-  ## Restez sous la limite de débit
-</div>
+## Restez sous la limite de débit {#stay-under-the-rate-limit}
 
 1. **Mettez à jour votre SDK W&amp;B** : la dernière version inclut des mécanismes optimisés pour réessayer les requêtes et gérer l’utilisation du quota.
 
@@ -31,9 +29,7 @@ Utilisez les étapes suivantes pour réduire votre volume de journalisation et r
    wandb sync [RUN-FILE-PATH]
    ```
 
-<div id="rate-limit-headers">
-  ## En-têtes de limite de débit
-</div>
+## En-têtes de limite de débit {#rate-limit-headers}
 
 Pour évaluer à quel point vous êtes proche du quota et à quel moment vous pouvez reprendre la journalisation, inspectez les en-têtes de limite de débit dans la réponse. Lorsque la limite de débit est atteinte, la réponse inclut les en-têtes suivants :
 

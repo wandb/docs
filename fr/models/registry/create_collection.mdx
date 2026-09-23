@@ -16,7 +16,7 @@ Vous êtes libre d&#39;organiser un registre et ses collections comme vous le so
 </Note>
 
 <div id="collection-types">
-  ## Types de collection
+  ## Types de collection {#collection-types}
 </div>
 
 Chaque collection n&#39;accepte qu&#39;un seul *type* d&#39;artifact. Le type que vous spécifiez détermine quels artifacts vous, ainsi que les autres membres de votre organisation, pouvez lier à cette collection.
@@ -52,7 +52,7 @@ Lorsque vous créez une collection, vous pouvez choisir parmi une liste de types
 Avant de lier un artifact à une collection ou de créer une nouvelle collection, [vérifiez les types d&#39;artifact que cette collection accepte](#check-the-types-of-artifact-that-a-collection-accepts).
 
 <div id="check-the-types-of-artifact-that-a-collection-accepts">
-  ### Vérifier les types d’artifact qu’une collection accepte
+  ### Vérifier les types d’artifact qu’une collection accepte {#check-the-types-of-artifact-that-a-collection-accepts}
 </div>
 
 Avant de créer un lien vers une collection, vérifiez le type d’artifact qu’elle accepte. Vous pouvez vérifier par programmation les types d’artifact qu’une collection accepte avec le W&amp;B Python SDK, ou de manière interactive avec la W&amp;B App.
@@ -102,13 +102,13 @@ Avant de créer un lien vers une collection, vérifiez le type d’artifact qu�
 Une fois que vous savez quel type d’artifact une collection accepte, vous pouvez [créer une collection](#create-a-collection).
 
 <div id="create-a-collection">
-  ## Créer une collection
+  ## Créer une collection {#create-a-collection}
 </div>
 
 Créez une collection de manière interactive ou par programmation dans un registre. Vous ne pouvez pas modifier le type d’artifact accepté par une collection après sa création.
 
 <div id="programmatically-create-a-collection">
-  ### Créer une collection par programmation
+  ### Créer une collection par programmation {#programmatically-create-a-collection}
 </div>
 
 Utilisez la méthode `wandb.Run.link_artifact()` pour lier un artifact à une collection. Indiquez la collection et le registre dans le champ `target_path`, sous la forme d’un chemin au format suivant :
@@ -145,9 +145,7 @@ with wandb.init(entity = "<team_entity>", project = "<project>") as run:
   run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 
-<div id="interactively-create-a-collection">
-  ### Créer une collection de manière interactive
-</div>
+### Créer une collection de manière interactive {#interactively-create-a-collection}
 
 Les étapes suivantes expliquent comment créer une collection de manière interactive à l’aide du W&amp;B Registry :
 

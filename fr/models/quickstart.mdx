@@ -19,17 +19,13 @@ Installez W&amp;B pour suivre, visualiser et gérer des expériences de machine 
   Vous recherchez des informations sur W&amp;B Weave ? Voir le [démarrage rapide du SDK Python de Weave](/fr/weave/quickstart) ou le [démarrage rapide du SDK TypeScript de Weave](/fr/weave/reference/generated_typescript_docs/intro-notebook).
 </Note>
 
-<div id="sign-up-and-create-an-api-key">
-  ## Inscrivez-vous et créez une clé API
-</div>
+## Inscrivez-vous et créez une clé API {#sign-up-and-create-an-api-key}
 
 Pour authentifier votre machine auprès de W&amp;B, vous avez besoin d’une clé API.
 
 <ApiKeyCreate />
 
-<div id="install-the-wandb-library-and-log-in">
-  ## Installez la bibliothèque `wandb` et connectez-vous
-</div>
+## Installez la bibliothèque `wandb` et connectez-vous {#install-the-wandb-library-and-log-in}
 
 <Tabs>
   <Tab title="Ligne de commande">
@@ -79,9 +75,7 @@ Pour authentifier votre machine auprès de W&amp;B, vous avez besoin d’une cl�
   </Tab>
 </Tabs>
 
-<div id="initialize-a-run-and-track-hyperparameters">
-  ## Initialisez un run et suivez les hyperparamètres
-</div>
+## Initialisez un run et suivez les hyperparamètres {#initialize-a-run-and-track-hyperparameters}
 
 Dans votre script Python ou notebook, initialisez un objet run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/experiments/run/). Utilisez un dictionnaire pour le paramètre `config`
 afin de définir les noms et les valeurs des hyperparamètres. Dans le bloc `with`, vous pouvez consigner des métriques et d’autres informations dans W&amp;B.
@@ -112,9 +106,7 @@ Pour un exemple complet qui simule un run d&#39;entraînement et enregistre les 
   Un [run](/fr/models/runs/) est un élément central de W&amp;B. Vous utilisez les runs pour [suivre les métriques](/fr/models/track/), [créer des journaux](/fr/models/track/log/), et suivre les artifacts.
 </Info>
 
-<div id="create-a-machine-learning-training-experiment">
-  ## Créer une expérience d&#39;entraînement en machine learning
-</div>
+## Créer une expérience d&#39;entraînement en machine learning {#create-a-machine-learning-training-experiment}
 
 Ce script d&#39;entraînement fictif journalise des métriques simulées de précision et de perte dans W&amp;B. Faites un copier-coller du code suivant dans un script Python ou une cellule de notebook, puis exécutez-le :
 
@@ -151,9 +143,7 @@ Accédez à [votre page d&#39;accueil W&amp;B](https://wandb.ai/home) pour consu
   <img src="/images/quickstart/quickstart_image.png" alt="Valeurs de perte et de précision suivies pour chaque run" />
 </Frame>
 
-<div id="next-steps">
-  ## Étapes suivantes
-</div>
+## Étapes suivantes {#next-steps}
 
 Explorez d&#39;autres fonctionnalités W&amp;B :
 

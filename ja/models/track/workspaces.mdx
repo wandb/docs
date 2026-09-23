@@ -14,9 +14,7 @@ W&amp;B Workspace は、チャートをカスタマイズし、モデルの結�
   <img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace のテーブルとパネル" />
 </Frame>
 
-<div id="workspace-types">
-  ## Workspace の種類
-</div>
+## Workspace の種類 {#workspace-types}
 
 Workspace には大きく分けて **Personal workspaces** と **保存済みビュー** の 2 つのカテゴリがあります。
 
@@ -29,15 +27,11 @@ Workspace には大きく分けて **Personal workspaces** と **保存済みビ
   <img src="/images/app_ui/Menu_No_views.jpg" alt="No saved views" />
 </Frame>
 
-<div id="saved-workspace-views">
-  ## 保存済み Workspace ビュー
-</div>
+## 保存済み Workspace ビュー {#saved-workspace-views}
 
 ニーズに合わせた Workspace ビューで、チームでのコラボレーションを強化しましょう。Saved Views を作成して、好みのチャートやデータのレイアウトを整理しましょう。
 
-<div id="create-a-new-saved-workspace-view">
-  ### 新しい保存済み Workspace ビューを作成する
-</div>
+### 新しい保存済み Workspace ビューを作成する {#create-a-new-saved-workspace-view}
 
 1. パーソナル Workspace または保存済みビューに移動します。
 2. Workspace を編集します。
@@ -53,9 +47,7 @@ ARIA に、現在の Workspace レイアウトを新しいビューとして保�
   <img src="/images/app_ui/Menu_Views.jpg" alt="保存済みビューのメニュー" />
 </Frame>
 
-<div id="update-a-saved-workspace-view">
-  ### 保存済み Workspace ビューを更新する
-</div>
+### 保存済み Workspace ビューを更新する {#update-a-saved-workspace-view}
 
 保存すると、保存済みビューの以前の状態は上書きされます。保存していない変更は保持されません。W&amp;B で保存済み Workspace ビューを更新するには、次の手順に従います。
 
@@ -67,9 +59,7 @@ ARIA に、現在の Workspace レイアウトを新しいビューとして保�
   Workspace ビューへの更新内容を保存すると、確認ダイアログが表示されます。今後このプロンプトを表示したくない場合は、保存を確定する前に **Do not show this modal next time** オプションを選択します。
 </Note>
 
-<div id="delete-a-saved-workspace-view">
-  ### 保存済み Workspace ビューを削除する
-</div>
+### 保存済み Workspace ビューを削除する {#delete-a-saved-workspace-view}
 
 不要になった保存済みビューを削除します。
 
@@ -78,15 +68,11 @@ ARIA に、現在の Workspace レイアウトを新しいビューとして保�
 3. **Delete view** を選択します。
 4. 削除を確定して、そのビューをワークスペース メニューから削除します。
 
-<div id="share-a-workspace-view">
-  ### ワークスペースビューを共有する
-</div>
+### ワークスペースビューを共有する {#share-a-workspace-view}
 
 カスタマイズしたワークスペースの URL をチームと直接共有してください。ワークスペースのプロジェクトにアクセス権を持つすべてのユーザーは、そのワークスペースに保存された Views を表示できます。
 
-<div id="workspace-templates">
-  ## Workspace テンプレート
-</div>
+## Workspace テンプレート {#workspace-templates}
 
 <Note>
   この機能を利用するには [Enterprise](https://wandb.ai/site/pricing/) ライセンスが必要です。
@@ -94,35 +80,25 @@ ARIA に、現在の Workspace レイアウトを新しいビューとして保�
 
 既存のワークスペースと同じ設定を使用してワークスペースを作成するには、[新しいワークスペースのデフォルト設定](#default-workspace-settings) の代わりに *Workspace templates* を使用します。
 
-<div id="default-workspace-settings">
-  ### デフォルトのワークスペース設定
-</div>
+### デフォルトのワークスペース設定 {#default-workspace-settings}
 
 W&amp;B では、ワークスペースには次のデフォルト設定が適用されます。
 
-<div id="hide-empty-sections-during-search">
-  #### 検索中に空のセクションを非表示にする
-</div>
+#### 検索中に空のセクションを非表示にする {#hide-empty-sections-during-search}
 
 デフォルトでは、W&amp;B では Workspace に空のセクションは表示されません。この設定を変更すると、Workspace に空のセクションを表示できます。
 
-<div id="sort-panels-alphabetically">
-  #### パネルをアルファベット順に並べ替える
-</div>
+#### パネルをアルファベット順に並べ替える {#sort-panels-alphabetically}
 
 デフォルトでは、W&amp;B はプロットタイトルでパネルをアルファベット順に並べ替えません。設定を変更して、プロットタイトルに基づいてパネルをアルファベット順に並べ替えることができます。
 
-<div id="section-organization">
-  #### セクションの構成
-</div>
+#### セクションの構成 {#section-organization}
 
 デフォルトでは、W&amp;B はメトリクス名の先頭のプレフィックスに基づいてパネルをセクションにまとめます。たとえば、ワークスペースにメトリクス `a/b/c/d` と `a/e/f` が含まれている場合、W&amp;B はこれらのメトリクスを `a` というセクションにまとめます。ワークスペースにメトリクス `a/b/c/d` と `e/f/g` が含まれている場合、W&amp;B はこれらのメトリクスを `a` と `e` というセクションにまとめます。
 
 セクションのデフォルトの構成方法を変更して、末尾のプレフィックスでグループ化することもできます。たとえば、ワークスペースにメトリクス `a/b/c/d` と `a/e/f` が含まれている場合、W&amp;B はこれらのメトリクスを `d` と `f` というセクションにまとめます。ワークスペースにメトリクス `a/b/c/d` と `e/f/g` が含まれている場合、W&amp;B はこれらのメトリクスを `d` と `g` というセクションにまとめます。
 
-<div id="line-plot-settings">
-  #### ラインプロットの設定
-</div>
+#### ラインプロットの設定 {#line-plot-settings}
 
 既定では、新しいワークスペースではラインプロットに対して次のデフォルト設定が使用されます:
 
@@ -163,18 +139,14 @@ W&amp;B では、ワークスペースには次のデフォルト設定が適用
 | Sync zoom across charts   | Off     |
 | Show highlighted run only | Off     |
 
-<div id="configure-your-workspace-template">
-  ### ワークスペース テンプレートを設定する
-</div>
+### ワークスペース テンプレートを設定する {#configure-your-workspace-template}
 
 1. 任意のワークスペースを開くか、新しいワークスペースを作成します。
 2. ワークスペースの右上にある **Settings** ボタンをクリックします。
 3. パネルから **Workspace layout** を選択します。
 4. 好みに合わせてワークスペースの設定を行います。
 
-<div id="save-your-workspace-template">
-  ### ワークスペース テンプレートを保存する
-</div>
+### ワークスペース テンプレートを保存する {#save-your-workspace-template}
 
 1. ワークスペースの上部で、**Undo** と **Redo** の矢印アイコンの近くにある **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックします。
 2. **Save personal workspace template** をクリックします。
@@ -182,18 +154,14 @@ W&amp;B では、ワークスペースには次のデフォルト設定が適用
 
 新しく作成するワークスペースでは、デフォルト設定ではなく、これらの設定が使用されます。
 
-<div id="view-your-workspace-template">
-  ### ワークスペーステンプレートを表示する
-</div>
+### ワークスペーステンプレートを表示する {#view-your-workspace-template}
 
 ワークスペーステンプレートの現在の設定を表示するには、次の手順を実行します。
 
 1. 任意のページの右上にあるユーザーアイコンを選択します。ドロップダウンから **User Settings** を選択します。
 2. **Personal workspace template** セクションに移動します。ワークスペーステンプレートを使用している場合は、その設定が表示されます。使用していない場合、このセクションには何も表示されません。
 
-<div id="update-your-workspace-template">
-  ### ワークスペース テンプレートを更新する
-</div>
+### ワークスペース テンプレートを更新する {#update-your-workspace-template}
 
 ワークスペース テンプレートを更新するには、次の手順に従います。
 
@@ -202,9 +170,7 @@ W&amp;B では、ワークスペースには次のデフォルト設定が適用
 3. 変更内容をテンプレートに保存するには、**Undo** と **Redo** の矢印アイコン付近にある **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Update personal workspace template** をクリックします。
 4. 設定を確認し、**Update** をクリックします。テンプレートが更新され、それを使用しているすべてのワークスペースに再適用されます。
 
-<div id="delete-your-workspace-template">
-  ### ワークスペース テンプレートを削除する
-</div>
+### ワークスペース テンプレートを削除する {#delete-your-workspace-template}
 
 ワークスペース テンプレートを削除してデフォルトの設定に戻すには、次の手順を実行します。
 
@@ -216,9 +182,7 @@ W&amp;B では、ワークスペースには次のデフォルト設定が適用
   Dedicated Cloud と Self-Managed では、v0.70 以降でワークスペース テンプレートの削除がサポートされています。より古い Server バージョンでは、代わりにワークスペース テンプレートが [default settings](#default-workspace-settings) を使用するように更新してください。
 </Note>
 
-<div id="programmatically-create-workspaces">
-  ## ワークスペースをプログラムで作成する
-</div>
+## ワークスペースをプログラムで作成する {#programmatically-create-workspaces}
 
 <Tip>
   エンドツーエンドの例については、[Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) ノートブックを参照してください。
@@ -254,9 +218,7 @@ W&amp;B では、ワークスペースには次のデフォルト設定が適用
   - **ワークスペース間のインテグレーション:**
   - あるワークスペースから別のワークスペースへビューをコピーして、シームレスなインテグレーションと再利用を行います。 */}
 
-<div id="install-workspace-api">
-  ### Workspace API をインストールする
-</div>
+### Workspace API をインストールする {#install-workspace-api}
 
 `wandb` に加えて、`wandb-workspaces` もインストールしてあることを確認してください。
 
@@ -264,9 +226,7 @@ W&amp;B では、ワークスペースには次のデフォルト設定が適用
 pip install wandb wandb-workspaces
 ```
 
-<div id="define-and-save-a-workspace-view-programmatically">
-  ### Workspace ビューをプログラムから定義して保存する
-</div>
+### Workspace ビューをプログラムから定義して保存する {#define-and-save-a-workspace-view-programmatically}
 
 ```python
 import wandb_workspaces.workspaces as ws
@@ -275,9 +235,7 @@ workspace = ws.Workspace(entity="your-entity", project="your-project", views=[..
 workspace.save()
 ```
 
-<div id="edit-an-existing-view">
-  ### 既存のビューを編集する
-</div>
+### 既存のビューを編集する {#edit-an-existing-view}
 
 ```python
 existing_workspace = ws.Workspace.from_url("workspace-url")
@@ -285,9 +243,7 @@ existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
 existing_workspace.save()
 ```
 
-<div id="clone-a-saved-workspace-view">
-  ### 保存済み Workspace ビューを複製する
-</div>
+### 保存済み Workspace ビューを複製する {#clone-a-saved-workspace-view}
 
 Reports および Workspaces API を使用して保存済み Workspace ビューを複製し、そのレイアウトと設定に基づいて新しいビューを作成します。
 

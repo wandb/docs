@@ -2,9 +2,7 @@
 title: イントロノートブック
 ---
 
-<div id="weave-with-typescript-quickstart-guide">
-  # TypeScript で始める Weave クイックスタートガイド
-</div>
+# TypeScript で始める Weave クイックスタートガイド {#weave-with-typescript-quickstart-guide}
 
 TypeScript で W&amp;B Weave を使用すると、次のことができます。
 
@@ -14,9 +12,7 @@ TypeScript で W&amp;B Weave を使用すると、次のことができます。
 
 詳細は、[Weave ドキュメント](/ja/)を参照してください。
 
-<div id="function-tracking">
-  ## 関数のトラッキング
-</div>
+## 関数のトラッキング {#function-tracking}
 
 TypeScriptコードでWeaveを使用するには、新しいWeaveプロジェクトを初期化し、トラッキングしたい関数に `weave.op` ラッパーを追加します。
 
@@ -46,9 +42,7 @@ async function demonstrateBasicTracking() {
 }
 ```
 
-<div id="openai-integration">
-  ## OpenAI インテグレーション
-</div>
+## OpenAI インテグレーション {#openai-integration}
 
 Weave は、以下を含む OpenAI のすべての呼び出しを自動的にトラッキングします。
 
@@ -80,9 +74,7 @@ async function demonstrateOpenAITracking() {
 }
 ```
 
-<div id="nested-function-tracking">
-  ## ネストした関数のトラッキング
-</div>
+## ネストした関数のトラッキング {#nested-function-tracking}
 
 Weave では、複数のトラッキング対象の関数
 と LLM 呼び出しを組み合わせることで、実行トレース全体を保持したまま複雑なワークフローをトラッキングできます。主な利点は次のとおりです。
@@ -116,9 +108,7 @@ async function demonstrateNestedTracking() {
 }
 ```
 
-<div id="dataset-management">
-  ## データセット管理
-</div>
+## データセット管理 {#dataset-management}
 
 [`weave.Dataset`](/ja/weave/guides/core-types/datasets) クラスを使うと、Weave でデータセットを作成・管理できます。[Weave `Models`](/ja/weave/guides/core-types/models) と同様に、`weave.Dataset` は次のような用途に役立ちます。
 
@@ -156,9 +146,7 @@ function createGrammarDataset(): weave.Dataset<GrammarExample> {
 }
 ```
 
-<div id="evaluation-framework">
-  ## 評価フレームワーク
-</div>
+## 評価フレームワーク {#evaluation-framework}
 
 Weave は、[`Evaluation` クラス](/ja/weave/guides/core-types/evaluations) を使って評価駆動開発をサポートします。評価を行うことで、GenAI アプリケーションを確実に反復改善できます。`Evaluation` クラスでは、次のことができます。
 

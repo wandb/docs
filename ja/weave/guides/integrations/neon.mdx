@@ -1,0 +1,88 @@
+---
+title: "Neon AI Gateway"
+description: "Neon が提供する OpenAI 互換の推論エンドポイントである Neon AI Gateway への Call をトレースします"
+---
+
+このガイドでは、Weave を使用して Neon AI Gateway 経由で提供されるモデルへの Call を自動的にトレースする方法を説明します。これにより、モデルの使用状況を 1 つのダッシュボードでモニター、デバッグ、評価できます。
+
+[Neon AI Gateway](https://neon.com/docs/ai-gateway/overview) は、Neon が提供する OpenAI 互換の推論エンドポイントです。Neon の認証情報 1 つで OpenAI、Google、Meta、Databricks、Alibaba のモデルにアクセスでき、各プロバイダーの APIキーは必要ありません。Weave は OpenAI SDK を検出するため、既存の OpenAI コードは APIキーとベース URL を変更するだけでそのまま動作します。
+
+<Note>
+  Neon AI Gateway は現在ベータ版です。ご利用には、プリペイドクレジットを購入済みの Neon 有料プランと、サポートされる AWS リージョン内の project が必要です。詳細な要件については、[Neon AI Gateway](https://neon.com/docs/ai-gateway/overview) を参照してください。
+</Note>
+
+## 前提条件 {#prerequisites}
+
+ほとんどのプロバイダーとは異なり、Neon には全体で共有される単一のホスト名がありません。データベースブランチごとに専用のゲートウェイホストが割り当てられるため、次の 2 つの値が必要です。
+
+* `ai_gateway:invoke` スコープを持つ **認証情報**。Neon Console の **Credentials** から作成するか、Neon API を使用して作成します。詳しくは [AI Gateway authentication](https://neon.com/docs/ai-gateway/authentication) を参照してください。
+* Neon Console に `NEON_AI_GATEWAY_BASE_URL` として表示される **ブランチのホスト**。ブランチごとに異なる
+  URL で、`https://<your-neon-branch-host>` という形式です。
+
+`neon env pull --file .env` を実行すると、両方の値がそれぞれ `NEON_AI_GATEWAY_TOKEN` と `NEON_AI_GATEWAY_BASE_URL` として書き込まれます。
+
+## Neon AI Gateway の Call をトレースする {#trace-a-neon-ai-gateway-call}
+
+`api_key` に Neon の認証情報を、`base_url` にブランチのホストに `/v1` を付けた値を設定し、`gpt-5-mini` のような短い Neon モデル ID を使用します。`weave.init()` には、トレースの記録先となるプロジェクト名を指定する必要があります。必要に応じて、`<entity>/<project>` の形式で W&amp;B の entity を接頭辞として付けることもできます。entity を省略した場合、Weave はデフォルトの entity を使用します。デフォルトの entity を確認または変更するには、[Default team](/ja/platform/app/settings-page/user-settings/#default-team) を参照してください。
+
+```python lines {5,10-13}
+import os
+import openai
+import weave
+
+weave.init('neon-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("NEON_AI_GATEWAY_TOKEN"),
+    base_url=f"{os.environ.get('NEON_AI_GATEWAY_BASE_URL')}/v1",
+)
+chat_completion = client.chat.completions.create(
+    model="gpt-5-mini",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Model response:\n", response)
+```
+
+Weave は、この Call をプロジェクト内のトレースとして取得します。トレースには、モデル ID、メッセージ、Neon が返すトークン数が含まれます。
+
+## ブランチをまたいだトレース {#trace-across-branches}
+
+Neon の認証情報は、作成元のブランチと、そのブランチから派生したすべてのブランチで有効です。そのため、`main` で作成した認証情報は、`main` からフォークしたプレビューブランチや CI ブランチでもそのまま使用できます。環境ごとに変わるのは `NEON_AI_GATEWAY_BASE_URL` だけです。
+
+ブランチのホストはリクエストではなくクライアントの設定で指定されるため、Weave 上では異なるブランチからのトレースを見分けることができません。ブランチごとに区別したい場合は、`weave.init()` に別々のプロジェクト名を渡すか、ブランチを属性として付与してください。
+
+```python
+with weave.attributes({"neon_branch": "preview/feature-x"}):
+    chat_completion = client.chat.completions.create(
+        model="gpt-5-mini",
+        messages=[{"role": "user", "content": user_content}],
+    )
+```
+
+## モデルを選択する {#choose-a-model}
+
+Neon では、`gpt-5-mini`、`gemini-3-flash`、`llama-4-maverick`、`qwen3-next-80b-a3b-instruct` のような短いモデル ID を使用します。ブランチで提供可能なモデルを一覧表示するには、次のコマンドを実行します。
+
+```bash
+curl "${NEON_AI_GATEWAY_BASE_URL}/v1/models" \
+  -H "Authorization: Bearer $NEON_AI_GATEWAY_TOKEN"
+```
+
+コンテキストウィンドウと料金は [Neon モデルカタログ](https://neon.com/docs/ai-gateway/models) に掲載されています。また、[Models.dev の `neon` プロバイダー](https://models.dev/providers/neon/) としても公開されています。
+
+モデルを選択する際には、次の 2 つの制約に注意してください。
+
+* 一部のモデルは Neon の Responses API パス `{NEON_AI_GATEWAY_BASE_URL}/openai/v1` でのみ提供されており、chat completions では `400` を返します。該当するモデルは Neon の [モデルカタログ](https://neon.com/docs/ai-gateway/models) の Endpoints 列で確認できます。対象となるモデルは変更される場合があり、本稿執筆時点では `gpt-5-3-codex` と `gpt-5-5-pro` が該当します。この列に `chat/completions` と記載されているモデルは、すべて chat completions パスで動作します。
+
+Neon はコストフィールドを返さず、`GET /v1/models` でも `pricing` を `null` として返します。そのため、トレースにはトークン数のみが表示され、コストは表示されません。AI Gateway の使用量は、前払いのクレジット残高から差し引かれます。詳細は [AI Gateway の料金](https://neon.com/docs/ai-gateway/overview#pricing) を参照してください。
+
+より複雑なユースケースで、独自の関数に Weave をインテグレーションする方法の詳細については、[OpenAI インテグレーションガイド](/ja/weave/guides/integrations/openai#track-your-own-ops) を参照してください。

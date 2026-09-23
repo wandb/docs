@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L100" />
 
-<div id="class-wandbapi">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Api
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Api {#class-wandbapi}
 
 Utilisé pour envoyer des requêtes au serveur W&amp;B.
 
@@ -20,9 +18,7 @@ timeout: 'int | None' = None,
 api_key: 'str | None' = None
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="overrides" type="dict[str, Any] | None">
   Vous pouvez définir `base_url` si vous utilisez un serveur W&amp;B autre que `https://api.wandb.ai`. Vous pouvez également définir des valeurs par défaut pour `entity`, `project` et `run`.
@@ -36,9 +32,7 @@ api_key: 'str | None' = None
   Clé API à utiliser pour l’authentification. Si elle n’est pas fournie, la clé API de l’Environnement actuel ou de la configuration sera utilisée. Demande une clé API si aucune n’est fournie ou configurée dans l’Environnement.
 </ResponseField>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 import wandb
@@ -46,9 +40,7 @@ import wandb
 wandb.Api()
 ```
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
 <ResponseField name="default_entity" type="str | None">
   Renvoie l’entité W&amp;B par défaut.
@@ -62,13 +54,9 @@ wandb.Api()
   Renvoie l’objet Viewer.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-apiartifact">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact() {#method-apiartifact}
 
 ```python
 (self,
@@ -78,9 +66,7 @@ type: 'str | None' = None)
 
 Renvoie un artifact unique.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="name" type="str">
   Le nom de l&#39;artifact. Le nom d&#39;un artifact ressemble à un chemin de fichier qui contient, au minimum, le nom du projet dans lequel l&#39;artifact a été enregistré, le nom de l&#39;artifact, ainsi que la version ou l&#39;alias de l&#39;artifact. Vous pouvez éventuellement ajouter en préfixe l&#39;entité qui a enregistré l&#39;artifact, suivie d&#39;une barre oblique. Si aucune entité n&#39;est spécifiée dans le nom, l&#39;entité du run ou du paramètre de l&#39;API est utilisée.
@@ -90,16 +76,12 @@ Renvoie un artifact unique.
   Le type d&#39;artifact à récupérer.
 </ResponseField>
 
-<div id="raises">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises}
 
 * `ValueError`: Si le nom de l&#39;artifact n&#39;est pas spécifié.
 * `ValueError`: Si le type d&#39;artifact est spécifié, mais ne correspond pas au type de l&#39;artifact récupéré.
 
-<div id="examples-2">
-  ##### Exemples
-</div>
+##### Exemples {#examples-2}
 
 Dans les extraits de code suivants, « entity », « project », « artifact »,
 « version » et « alias » sont des espaces réservés pour votre entité W&amp;B, le nom
@@ -122,9 +104,7 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
 
-<div id="method-apiartifact_collection">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_collection()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_collection() {#method-apiartifact_collection}
 
 ```python
 self,
@@ -137,9 +117,7 @@ Renvoie une collection d&#39;artifacts pour un type donné.
 Vous pouvez utiliser l&#39;objet `ArtifactCollection` renvoyé pour récupérer
 des informations sur des artifacts spécifiques dans cette collection, entre autres.
 
-<div id="arguments-2">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-2}
 
 <ResponseField name="type_name" type="str">
   Le type de collection d&#39;artifacts à récupérer.
@@ -149,9 +127,7 @@ des informations sur des artifacts spécifiques dans cette collection, entre aut
   Nom d&#39;une collection d&#39;artifacts. Vous pouvez éventuellement ajouter comme préfixe l&#39;entité qui a enregistré l&#39;artifact, suivie d&#39;une barre oblique.
 </ResponseField>
 
-<div id="examples-3">
-  ##### Exemples
-</div>
+##### Exemples {#examples-3}
 
 Dans l&#39;extrait de code ci-après, &quot;type&quot;, &quot;entity&quot;, &quot;project&quot; et &quot;artifact&#95;name&quot; sont des valeurs fictives représentant respectivement le type de collection, votre entité W&amp;B, le nom du projet dans lequel se trouve l&#39;artifact et le nom de l&#39;artifact.
 
@@ -169,9 +145,7 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-<div id="method-apiartifact_collection_exists">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_collection_exists()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_collection_exists() {#method-apiartifact_collection_exists}
 
 ```python
 self,
@@ -181,9 +155,7 @@ type: 'str'
 
 Indique si une collection d&#39;artifacts existe dans un projet et une entité spécifiés.
 
-<div id="arguments-3">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-3}
 
 <ResponseField name="name" type="str">
   Nom d&#39;une collection d&#39;artifacts. Vous pouvez éventuellement ajouter comme préfixe l&#39;entité qui a enregistré l&#39;artifact, suivie d&#39;une barre oblique. Si l&#39;entité ou le projet n&#39;est pas spécifié, déduisez la collection à partir des paramètres de substitution, s&#39;ils existent. Sinon, l&#39;entité est récupérée depuis les Paramètres utilisateur et le projet prendra par défaut la valeur &quot;uncategorized&quot;.
@@ -193,9 +165,7 @@ Indique si une collection d&#39;artifacts existe dans un projet et une entité s
   Le type de la collection d&#39;artifacts.
 </ResponseField>
 
-<div id="examples-4">
-  ##### Exemples :
-</div>
+##### Exemples : {#examples-4}
 
 Dans l&#39;extrait de code ci-après, &quot;type&quot; et &quot;collection&#95;name&quot; désignent respectivement le type de la collection d&#39;artifacts et le nom de la collection.
 
@@ -205,9 +175,7 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-<div id="method-apiartifact_collections">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_collections()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_collections() {#method-apiartifact_collections}
 
 ```python
 self,
@@ -220,9 +188,7 @@ start: 'str | None' = None
 
 Renvoie une collection de collections d&#39;artifacts correspondantes.
 
-<div id="arguments-4">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-4}
 
 <ResponseField name="project_name" type="str">
   Le nom du projet à filtrer.
@@ -244,9 +210,7 @@ Renvoie une collection de collections d&#39;artifacts correspondantes.
   Curseur de pagination permettant de reprendre une requête précédente, capturé depuis l’attribut `.cursor` d’un paginateur précédent.
 </ResponseField>
 
-<div id="method-apiartifact_exists">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_exists()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_exists() {#method-apiartifact_exists}
 
 ```python
 self,
@@ -256,9 +220,7 @@ type: 'str | None' = None
 
 Indique si une version d&#39;artifact existe dans le projet et l&#39;entité spécifiés.
 
-<div id="arguments-5">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-5}
 
 <ResponseField name="name" type="str">
   Le nom de l&#39;artifact. Ajoutez l&#39;entité et le projet de l&#39;artifact en préfixe. Ajoutez la version ou l&#39;alias de l&#39;artifact après un deux-points. Si l&#39;entité ou le projet n&#39;est pas spécifié, W&amp;B utilise les paramètres d&#39;override s&#39;ils sont renseignés. Sinon, l&#39;entité est récupérée à partir des paramètres utilisateur et le projet est défini sur &quot;Uncategorized&quot;.
@@ -268,9 +230,7 @@ Indique si une version d&#39;artifact existe dans le projet et l&#39;entité sp�
   Le type d&#39;artifact.
 </ResponseField>
 
-<div id="examples-5">
-  ##### Exemples
-</div>
+##### Exemples {#examples-5}
 
 Dans les extraits de code qui suivent, &quot;entity&quot;, &quot;project&quot;, &quot;artifact&quot;,
 &quot;version&quot; et &quot;alias&quot; sont des espaces réservés pour votre entité W&amp;B, le nom du
@@ -284,9 +244,7 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-<div id="method-apiartifact_type">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_type()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_type() {#method-apiartifact_type}
 
 ```python
 self,
@@ -296,9 +254,7 @@ project: 'str | None' = None
 
 Renvoie l&#39;`ArtifactType` correspondant.
 
-<div id="arguments-6">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-6}
 
 <ResponseField name="type_name" type="str">
   Le nom du type d&#39;artifact à récupérer.
@@ -308,9 +264,7 @@ Renvoie l&#39;`ArtifactType` correspondant.
   Si fourni, le nom d&#39;un projet ou un chemin à utiliser comme filtre.
 </ResponseField>
 
-<div id="method-apiartifact_types">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_types()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_types() {#method-apiartifact_types}
 
 ```python
 self,
@@ -320,9 +274,7 @@ start: 'str | None' = None
 
 Renvoie une collection de types d&#39;artifact correspondants.
 
-<div id="arguments-7">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-7}
 
 <ResponseField name="project" type="str | None">
   Le nom du projet ou le chemin à utiliser pour le filtrage.
@@ -332,9 +284,7 @@ Renvoie une collection de types d&#39;artifact correspondants.
   Curseur de pagination pour reprendre une requête précédente, capturé depuis l’attribut `.cursor` d’un paginateur précédent.
 </ResponseField>
 
-<div id="method-apiartifact_versions">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_versions()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifact_versions() {#method-apiartifact_versions}
 
 ```python
 (self, type_name, name, per_page=50)
@@ -342,9 +292,7 @@ Renvoie une collection de types d&#39;artifact correspondants.
 
 Obsolète. Utilisez la méthode `Api.artifacts(type_name, name)` à la place.
 
-<div id="arguments-8">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-8}
 
 <ResponseField name="type_name" type="_empty">
   Aucune description fournie.
@@ -358,9 +306,7 @@ Obsolète. Utilisez la méthode `Api.artifacts(type_name, name)` à la place.
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-apiartifacts">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifacts()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.artifacts() {#method-apiartifacts}
 
 ```python
 self,
@@ -374,9 +320,7 @@ start: 'str | None' = None
 
 Renvoie une collection `Artifacts`.
 
-<div id="arguments-9">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-9}
 
 <ResponseField name="type_name" type="str">
   Le type d’artifacts à récupérer.
@@ -402,9 +346,7 @@ Renvoie une collection `Artifacts`.
   Curseur de pagination permettant de reprendre une requête antérieure, récupéré depuis l’attribut `.cursor` d’un paginateur précédent.
 </ResponseField>
 
-<div id="examples-6">
-  ##### Exemples
-</div>
+##### Exemples {#examples-6}
 
 Dans l&#39;extrait de code ci-après, &quot;type&quot;, &quot;entity&quot;, &quot;project&quot; et
 &quot;artifact&#95;name&quot; sont des paramètres fictifs représentant respectivement le type d&#39;artifact, l&#39;entité W&amp;B,
@@ -447,9 +389,7 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-<div id="method-apiautomation">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.automation() {#method-apiautomation}
 
 ```python
 self,
@@ -459,9 +399,7 @@ entity: 'str | None' = None
 
 Renvoie la seule automatisation correspondant aux paramètres.
 
-<div id="arguments-10">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-10}
 
 <ResponseField name="name" type="str">
   Nom de l’automatisation à récupérer.
@@ -471,15 +409,11 @@ Renvoie la seule automatisation correspondant aux paramètres.
   Entité pour laquelle récupérer l’automatisation.
 </ResponseField>
 
-<div id="raises-2">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-2}
 
 * `ValueError`: Si aucune ou plusieurs automatisations correspondent aux critères de recherche.
 
-<div id="examples-7">
-  ##### Exemples
-</div>
+##### Exemples {#examples-7}
 
 Récupérer une automatisation existante nommée &quot;my-automation&quot; :
 
@@ -496,9 +430,7 @@ Obtenez l’automatisation existante nommée &quot;other-automation&quot; dans l
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-<div id="method-apiautomations">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.automations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.automations() {#method-apiautomations}
 
 ```python
 self,
@@ -513,9 +445,7 @@ Renvoie un itérateur sur toutes les automatisations correspondant aux paramètr
 Si aucun paramètre n’est fourni, l’itérateur renvoyé contiendra toutes les
 automatisations auxquelles l’utilisateur a accès.
 
-<div id="arguments-11">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-11}
 
 <ResponseField name="entity" type="str | None">
   L’entité dont récupérer les automatisations.
@@ -533,9 +463,7 @@ automatisations auxquelles l’utilisateur a accès.
   Curseur de pagination permettant de reprendre une requête précédente, obtenu à partir de l’attribut `.cursor` d’un paginateur précédent.
 </ResponseField>
 
-<div id="examples-8">
-  ##### Exemples
-</div>
+##### Exemples {#examples-8}
 
 Récupérez toutes les automatisations existantes pour l’entité &quot;my-team&quot; :
 
@@ -546,9 +474,7 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-<div id="method-apicreate_automation">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_automation() {#method-apicreate_automation}
 
 ```python
 self,
@@ -558,9 +484,7 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 Créer une nouvelle automatisation.
 
-<div id="arguments-12">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-12}
 
 <ResponseField name="obj" type="NewAutomation">
   L&#39;automatisation à créer.
@@ -574,9 +498,7 @@ Créer une nouvelle automatisation.
   Aucune description fournie.
 </ResponseField>
 
-<div id="examples-9">
-  ##### Exemples
-</div>
+##### Exemples {#examples-9}
 
 Créer une nouvelle automatisation nommée &quot;my-automation&quot; qui envoie une notification Slack
 lorsqu&#39;un run d&#39;un projet spécifique journalise une métrique dépassant un seuil personnalisé :
@@ -605,9 +527,7 @@ automation = api.create_automation(
 )
 ```
 
-<div id="method-apicreate_custom_chart">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_custom_chart()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_custom_chart() {#method-apicreate_custom_chart}
 
 ```python
 self,
@@ -621,9 +541,7 @@ spec: 'str | dict'
 
 Créez un préréglage de graphique personnalisé et renvoyez son ID.
 
-<div id="arguments-13">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-13}
 
 <ResponseField name="entity" type="str">
   L’entité (utilisateur ou équipe) propriétaire du graphique
@@ -652,16 +570,12 @@ Créez un préréglage de graphique personnalisé et renvoyez son ID.
   Spécification Vega/Vega-Lite sous forme de dictionnaire ou de chaîne JSON
 </ResponseField>
 
-<div id="raises-3">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-3}
 
 * `wandb.Error`: Si la création du graphique échoue
 * `UnsupportedError`: Si le serveur ne prend pas en charge les graphiques personnalisés
 
-<div id="examples-10">
-  ##### Exemples
-</div>
+##### Exemples {#examples-10}
 
 ```python
     import wandb
@@ -697,9 +611,7 @@ Créez un préréglage de graphique personnalisé et renvoyez son ID.
     )
 ```
 
-<div id="method-apicreate_project">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_project()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_project() {#method-apicreate_project}
 
 ```python
 self,
@@ -709,9 +621,7 @@ entity: 'str'
 
 Créer un nouveau projet.
 
-<div id="arguments-14">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-14}
 
 <ResponseField name="name" type="str">
   Le nom du nouveau projet.
@@ -721,9 +631,7 @@ Créer un nouveau projet.
   L’entité du nouveau projet.
 </ResponseField>
 
-<div id="method-apicreate_registry">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_registry()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_registry() {#method-apicreate_registry}
 
 ```python
 self,
@@ -736,9 +644,7 @@ artifact_types: 'list[str] | None' = None
 
 Créer un nouveau registre.
 
-<div id="arguments-15">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-15}
 
 <ResponseField name="name" type="str">
   Le nom du registre. Le nom doit être unique au sein de l’organisation.
@@ -760,9 +666,7 @@ Créer un nouveau registre.
   Les types d’artifact acceptés par le registre. Un type ne doit pas dépasser 128 caractères ni inclure les caractères `/` ou `:`. Si ce paramètre n’est pas spécifié, tous les types sont acceptés. Les types autorisés ajoutés au registre ne peuvent pas être supprimés par la suite.
 </ResponseField>
 
-<div id="examples-11">
-  ##### Exemples
-</div>
+##### Exemples {#examples-11}
 
 ```python
 import wandb
@@ -777,9 +681,7 @@ registry = api.create_registry(
 )
 ```
 
-<div id="method-apicreate_run">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_run()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_run() {#method-apicreate_run}
 
 ```python
 self, *,
@@ -790,9 +692,7 @@ entity: 'str | None' = None
 
 Créer un nouveau run.
 
-<div id="arguments-16">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-16}
 
 <ResponseField name="run_id" type="str | None">
   L’ID à attribuer au run. S’il n’est pas spécifié, W&amp;B génère un ID aléatoire.
@@ -806,9 +706,7 @@ Créer un nouveau run.
   L’entité propriétaire du projet. Si aucune entité n’est spécifiée, le run est enregistré dans l’entité par défaut.
 </ResponseField>
 
-<div id="method-apicreate_run_queue">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_run_queue()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_run_queue() {#method-apicreate_run_queue}
 
 ```python
 self,
@@ -822,9 +720,7 @@ template_variables: 'dict | None' = None
 
 Créer une nouvelle file d&#39;attente de run dans W&amp;B Launch.
 
-<div id="arguments-17">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-17}
 
 <ResponseField name="name" type="str">
   Nom de la file d&#39;attente à créer
@@ -850,9 +746,7 @@ Créer une nouvelle file d&#39;attente de run dans W&amp;B Launch.
   Dictionnaire de schémas de variables de modèle à utiliser avec la configuration.
 </ResponseField>
 
-<div id="method-apicreate_team">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_team()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_team() {#method-apicreate_team}
 
 ```python
 self,
@@ -866,9 +760,7 @@ Pour les utilisateurs de W&amp;B Cloud mutualisé, définissez l’organisation 
 vos Paramètres utilisateur de l’interface utilisateur W&amp;B avant d’appeler `create_team()`.
 Ce paramètre détermine l’organisation à laquelle la nouvelle équipe appartiendra.
 
-<div id="arguments-18">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-18}
 
 <ResponseField name="team" type="str">
   Le nom de l’équipe.
@@ -878,9 +770,7 @@ Ce paramètre détermine l’organisation à laquelle la nouvelle équipe appart
   Le nom d’utilisateur de l’administrateur de l’équipe. Par défaut, il s’agit de l’utilisateur actuel.
 </ResponseField>
 
-<div id="method-apicreate_user">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_user()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.create_user() {#method-apicreate_user}
 
 ```python
 self,
@@ -890,9 +780,7 @@ admin: 'bool | None' = False
 
 Créer un nouvel utilisateur.
 
-<div id="arguments-19">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-19}
 
 <ResponseField name="email" type="str">
   L’adresse e-mail de l’utilisateur.
@@ -902,9 +790,7 @@ Créer un nouvel utilisateur.
   Définit l’utilisateur comme administrateur global de l’instance.
 </ResponseField>
 
-<div id="method-apidelete_automation">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.delete_automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.delete_automation() {#method-apidelete_automation}
 
 ```python
 self,
@@ -913,17 +799,13 @@ obj: 'Automation | str'
 
 Supprime une automatisation.
 
-<div id="arguments-20">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-20}
 
 <ResponseField name="obj" type="Automation | str">
   L’automatisation à supprimer, ou son ID.
 </ResponseField>
 
-<div id="method-apiflush">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.flush()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.flush() {#method-apiflush}
 
 ```python
 (self)
@@ -935,9 +817,7 @@ L&#39;objet api conserve un cache local des runs. Si l&#39;état du run
 est susceptible de changer pendant l&#39;exécution de votre script, vous devez donc effacer le cache local
 avec `api.flush()` pour obtenir les dernières valeurs associées au run.
 
-<div id="method-apifrom_path">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.from_path()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.from_path() {#method-apifrom_path}
 
 ```python
 (self,
@@ -946,17 +826,13 @@ path: 'str')
 
 Renvoyer un run, un balayage, un projet ou un rapport à partir d’un chemin.
 
-<div id="arguments-21">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-21}
 
 <ResponseField name="path" type="str">
   Le chemin vers le projet, le run, le balayage ou le rapport
 </ResponseField>
 
-<div id="examples-12">
-  ##### Exemples
-</div>
+##### Exemples {#examples-12}
 
 Dans les extraits de code qui suivent, &quot;project&quot;, &quot;team&quot;, &quot;run&#95;id&quot;, &quot;sweep&#95;id&quot;,
 et &quot;report&#95;name&quot; sont des espaces réservés désignant respectivement le projet, la équipe, le run ID,
@@ -974,9 +850,7 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-<div id="method-apiintegrations">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.integrations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.integrations() {#method-apiintegrations}
 
 ```python
 self,
@@ -987,9 +861,7 @@ start: 'str | None' = None
 
 Renvoyer un itérateur sur toutes les intégrations d’une entité.
 
-<div id="arguments-22">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-22}
 
 <ResponseField name="entity" type="str | None">
   L’entité (par ex. le nom d’équipe) pour laquelle récupérer les intégrations. Si elle n’est pas fournie, l’entité par défaut de l’utilisateur sera utilisée.
@@ -1003,9 +875,7 @@ Renvoyer un itérateur sur toutes les intégrations d’une entité.
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-apijob">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.job()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.job() {#method-apijob}
 
 ```python
 self,
@@ -1015,9 +885,7 @@ path: 'str | None' = None
 
 Renvoyer un objet `Job`.
 
-<div id="arguments-23">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-23}
 
 <ResponseField name="name" type="str | None">
   Le nom du job.
@@ -1027,9 +895,7 @@ Renvoyer un objet `Job`.
   Le chemin racine à partir duquel télécharger l&#39;artifact du job.
 </ResponseField>
 
-<div id="method-apilist_jobs">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.list_jobs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.list_jobs() {#method-apilist_jobs}
 
 ```python
 self,
@@ -1039,9 +905,7 @@ project: 'str'
 
 Renvoyer une liste de jobs, s&#39;il y en a, pour l&#39;entité et le projet indiqués.
 
-<div id="arguments-24">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-24}
 
 <ResponseField name="entity" type="str">
   L’entité associée aux jobs listés.
@@ -1051,9 +915,7 @@ Renvoyer une liste de jobs, s&#39;il y en a, pour l&#39;entité et le projet ind
   Le projet associé aux jobs listés.
 </ResponseField>
 
-<div id="method-apiorganization">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.organization()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.organization() {#method-apiorganization}
 
 ```python
 self,
@@ -1062,17 +924,13 @@ name: 'str | None' = None
 
 Renvoyer l’`Organisation` correspondante.
 
-<div id="arguments-25">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-25}
 
 <ResponseField name="name" type="str | None">
   Nom de l’organisation. Si ce paramètre est omis, cette méthode tente de déterminer et de renvoyer l’organisation par défaut courante.
 </ResponseField>
 
-<div id="method-apiproject">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.project()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.project() {#method-apiproject}
 
 ```python
 self,
@@ -1082,9 +940,7 @@ entity: 'str | None' = None
 
 Renvoyer le `projet` portant le nom indiqué (et l&#39;entité, si elle est renseignée).
 
-<div id="arguments-26">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-26}
 
 <ResponseField name="name" type="str">
   Le nom du projet.
@@ -1094,9 +950,7 @@ Renvoyer le `projet` portant le nom indiqué (et l&#39;entité, si elle est rens
   Nom de l’entité demandée.  Si `None`, utilise l’entité par défaut transmise à `Api`.  S’il n’y a pas d’entité par défaut, lève une `ValueError`.
 </ResponseField>
 
-<div id="method-apiprojects">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.projects()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.projects() {#method-apiprojects}
 
 ```python
 self,
@@ -1106,9 +960,7 @@ per_page: 'int' = 200
 
 Récupère les projets pour une entité donnée.
 
-<div id="arguments-27">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-27}
 
 <ResponseField name="entity" type="str | None">
   Nom de l’entité demandée.  Si `None`, utilise l’entité par défaut transmise à `Api`.  S’il n’y a pas d’entité par défaut, lève une `ValueError`.
@@ -1118,9 +970,7 @@ Récupère les projets pour une entité donnée.
   Définit la taille de page pour la pagination des requêtes. En général, il n’est pas nécessaire de la modifier.
 </ResponseField>
 
-<div id="method-apiqueued_run">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.queued_run()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.queued_run() {#method-apiqueued_run}
 
 ```python
 (self,
@@ -1134,9 +984,7 @@ Renvoyer un seul run en file d&#39;attente à partir du chemin.
 
 Analyse les chemins au format `entity/project/queue_id/run_queue_item_id`.
 
-<div id="arguments-28">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-28}
 
 <ResponseField name="entity" type="str">
   Aucune description fournie.
@@ -1162,9 +1010,7 @@ Analyse les chemins au format `entity/project/queue_id/run_queue_item_id`.
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-apiregistries">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.registries()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.registries() {#method-apiregistries}
 
 ```python
 self,
@@ -1183,9 +1029,7 @@ récupérés de manière différée au fil de l’itération, vous pouvez donc v
 éléments — par exemple, avec :func:`itertools.islice` — sans demander
 le reste.
 
-<div id="arguments-29">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-29}
 
 <ResponseField name="organization" type="str | None">
   Organisation du registre à récupérer. Si elle n’est pas spécifiée, utilisez l’organisation indiquée dans les paramètres de l’utilisateur.
@@ -1207,9 +1051,7 @@ le reste.
   Curseur de pagination pour reprendre une requête précédente, capturé à partir de l’attribut `.cursor` d’un paginateur précédent.
 </ResponseField>
 
-<div id="examples-13">
-  ##### Exemples
-</div>
+##### Exemples {#examples-13}
 
 Trouver tous les registres dont le nom contient &quot;model&quot;
 
@@ -1263,9 +1105,7 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-<div id="method-apiregistry">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.registry()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.registry() {#method-apiregistry}
 
 ```python
 self,
@@ -1275,9 +1115,7 @@ organization: 'str | None' = None
 
 Renvoyer un registre à partir de son nom.
 
-<div id="arguments-30">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-30}
 
 <ResponseField name="name" type="str">
   Le nom du registre. Il ne contient pas le préfixe `wandb-registry-`.
@@ -1287,9 +1125,7 @@ Renvoyer un registre à partir de son nom.
   L’organisation du registre. Si aucune organisation n’est définie dans les paramètres, l’organisation sera récupérée depuis l’entité si celle-ci n’appartient qu’à une seule organisation.
 </ResponseField>
 
-<div id="examples-14">
-  ##### Exemples
-</div>
+##### Exemples {#examples-14}
 
 Récupérer et mettre à jour un registre
 
@@ -1302,9 +1138,7 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-<div id="method-apireports">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.reports()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.reports() {#method-apireports}
 
 ```python
 self,
@@ -1317,9 +1151,7 @@ Obtenir les rapports pour un chemin de projet donné.
 
 Remarque : l&#39;API `wandb.Api.reports()` est en version bêta et changera probablement dans de prochaines versions.
 
-<div id="arguments-31">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-31}
 
 <ResponseField name="path" type="str">
   Chemin vers le projet dans lequel se trouve le rapport. Indiquez en préfixe l&#39;entité qui a créé le projet, suivie d&#39;une barre oblique.
@@ -1333,9 +1165,7 @@ Remarque : l&#39;API `wandb.Api.reports()` est en version bêta et changera pro
   Définit la taille de page pour la pagination des requêtes. Il n&#39;y a généralement aucune raison de modifier cette valeur.
 </ResponseField>
 
-<div id="examples-15">
-  ##### Exemples
-</div>
+##### Exemples {#examples-15}
 
 ```python
 import wandb
@@ -1343,9 +1173,7 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-<div id="method-apirun">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.run()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.run() {#method-apirun}
 
 ```python
 self,
@@ -1354,23 +1182,17 @@ path: 'str' = ''
 
 Renvoyer un run unique en interprétant le chemin au format `entity/project/run_id`.
 
-<div id="arguments-32">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-32}
 
 <ResponseField name="path" type="str">
   Chemin du run au format `entity/project/run_id`. Si `api.entity` est défini, il peut être au format `project/run_id`, et si `api.project` est défini, il peut simplement s’agir du `run_id`.
 </ResponseField>
 
-<div id="raises-4">
-  ##### Exceptions levées
-</div>
+##### Exceptions levées {#raises-4}
 
 * `RunNotFoundError` : Si une run est introuvable ou si ses données ne peuvent pas être chargées.
 
-<div id="method-apirun_queue">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.run_queue()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.run_queue() {#method-apirun_queue}
 
 ```python
 (self,
@@ -1382,9 +1204,7 @@ Renvoyer la `RunQueue` nommée associée à l’entité.
 
 Voir `Api.create_run_queue` pour plus d’informations sur la façon de créer une file d’attente de run.
 
-<div id="arguments-33">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-33}
 
 <ResponseField name="entity" type="str">
   Aucune description fournie.
@@ -1394,9 +1214,7 @@ Voir `Api.create_run_queue` pour plus d’informations sur la façon de créer u
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-apiruns">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.runs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.runs() {#method-apiruns}
 
 ```python
 (self,
@@ -1441,9 +1259,7 @@ Pour des filtres plus complexes, vous pouvez utiliser les opérateurs de requêt
 * `$exists`
 * `$regex`
 
-<div id="arguments-34">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-34}
 
 <ResponseField name="path" type="str | None">
   (str) chemin vers le projet, doit être de la forme : &quot;entity/project&quot;
@@ -1469,9 +1285,7 @@ Pour des filtres plus complexes, vous pouvez utiliser les opérateurs de requêt
   (bool) Indique s’il faut utiliser le chargement différé pour de meilleures performances. Quand True (par défaut), seules les métadonnées essentielles du run sont chargées initialement. Les champs volumineux comme config, summaryMetrics et systemMetrics sont chargés à la demande lors de l’accès. Définissez cette option sur False pour charger toutes les données d’emblée.
 </ResponseField>
 
-<div id="examples-16">
-  ##### Exemples
-</div>
+##### Exemples {#examples-16}
 
 ```python
 import wandb
@@ -1517,9 +1331,7 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-<div id="method-apislack_integrations">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.slack_integrations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.slack_integrations() {#method-apislack_integrations}
 
 ```python
 self, *,
@@ -1530,9 +1342,7 @@ start: 'str | None' = None
 
 Renvoie un itérateur d’intégrations Slack pour une entité.
 
-<div id="arguments-35">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-35}
 
 <ResponseField name="entity" type="str | None">
   L’entité (par ex. le nom d’équipe) pour laquelle récupérer les intégrations. Si elle n’est pas fournie, l’entité par défaut de l’utilisateur sera utilisée.
@@ -1546,9 +1356,7 @@ Renvoie un itérateur d’intégrations Slack pour une entité.
   Aucune description fournie.
 </ResponseField>
 
-<div id="examples-17">
-  ##### Exemples
-</div>
+##### Exemples {#examples-17}
 
 Obtenez toutes les intégrations Slack enregistrées pour l’équipe &quot;my-team&quot; :
 
@@ -1570,9 +1378,7 @@ team_alert_integrations = [
 ]
 ```
 
-<div id="method-apisweep">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.sweep()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.sweep() {#method-apisweep}
 
 ```python
 (self, path='')
@@ -1580,17 +1386,13 @@ team_alert_integrations = [
 
 Renvoyer un balayage en analysant un chemin au format `entity/project/sweep_id`.
 
-<div id="arguments-36">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-36}
 
 <ResponseField name="path" type="_empty">
   Chemin vers le balayage au format entity/project/sweep&#95;id. Si `api.entity` est défini, ce chemin peut être au format project/sweep&#95;id et, si `api.project` est défini, il peut simplement s’agir de sweep&#95;id.
 </ResponseField>
 
-<div id="method-apisync_tensorboard">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.sync_tensorboard()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.sync_tensorboard() {#method-apisync_tensorboard}
 
 ```python
 (self, root_dir, run_id=None, project=None, entity=None)
@@ -1598,9 +1400,7 @@ Renvoyer un balayage en analysant un chemin au format `entity/project/sweep_id`.
 
 Synchroniser un répertoire local contenant des fichiers tfevent avec wandb.
 
-<div id="arguments-37">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-37}
 
 <ResponseField name="root_dir" type="_empty">
   Aucune description n’est fournie.
@@ -1618,9 +1418,7 @@ Synchroniser un répertoire local contenant des fichiers tfevent avec wandb.
   Aucune description n’est fournie.
 </ResponseField>
 
-<div id="method-apiteam">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.team()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.team() {#method-apiteam}
 
 ```python
 self,
@@ -1629,17 +1427,13 @@ team: 'str'
 
 Renvoyer le `Team` correspondant au nom fourni.
 
-<div id="arguments-38">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-38}
 
 <ResponseField name="team" type="str">
   Le nom de l’équipe.
 </ResponseField>
 
-<div id="method-apiupdate_automation">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.update_automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.update_automation() {#method-apiupdate_automation}
 
 ```python
 self,
@@ -1649,9 +1443,7 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 Mettez à jour une automatisation existante.
 
-<div id="arguments-39">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-39}
 
 <ResponseField name="obj" type="Automation">
   L’automatisation à mettre à jour. Il doit s’agir d’une automatisation existante.
@@ -1665,9 +1457,7 @@ Mettez à jour une automatisation existante.
   Aucune description fournie.
 </ResponseField>
 
-<div id="examples-18">
-  ##### Exemples
-</div>
+##### Exemples {#examples-18}
 
 Désactivez et modifiez la description d’une automatisation existante (&quot;my-automation&quot;) :
 
@@ -1699,9 +1489,7 @@ updated_automation = api.update_automation(
 )
 ```
 
-<div id="method-apiupsert_run_queue">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.upsert_run_queue()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.upsert_run_queue() {#method-apiupsert_run_queue}
 
 ```python
 (self,
@@ -1716,9 +1504,7 @@ prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None)
 
 Crée ou met à jour une file d&#39;attente de run dans W&amp;B Launch.
 
-<div id="arguments-40">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-40}
 
 <ResponseField name="name" type="str">
   Nom de la file d&#39;attente à créer
@@ -1748,9 +1534,7 @@ Crée ou met à jour une file d&#39;attente de run dans W&amp;B Launch.
   Version facultative de la priorisation à utiliser : &quot;V0&quot; ou `None`.
 </ResponseField>
 
-<div id="method-apiuser">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.user()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.user() {#method-apiuser}
 
 ```python
 self,
@@ -1762,17 +1546,13 @@ Renvoyer un utilisateur à partir d’un nom d’utilisateur ou d’une adresse 
 Cette fonction ne fonctionne que pour les administrateurs locaux. Utilisez `api.viewer`
 pour récupérer votre propre objet utilisateur.
 
-<div id="arguments-41">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-41}
 
 <ResponseField name="username_or_email" type="str">
   Le nom d’utilisateur ou l’adresse e-mail de l’utilisateur.
 </ResponseField>
 
-<div id="method-apiusers">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.users()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.users() {#method-apiusers}
 
 ```python
 self,
@@ -1784,17 +1564,13 @@ Renvoyer tous les utilisateurs à partir d’une requête partielle sur un nom d
 Cette fonction fonctionne uniquement pour les administrateurs locaux. Utilisez `api.viewer`
 pour obtenir votre propre objet utilisateur.
 
-<div id="arguments-42">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-42}
 
 <ResponseField name="username_or_email" type="str">
   Le préfixe ou le suffixe de l’utilisateur que vous souhaitez trouver.
 </ResponseField>
 
-<div id="method-apiwebhook_integrations">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.webhook_integrations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Api.webhook_integrations() {#method-apiwebhook_integrations}
 
 ```python
 self,
@@ -1805,9 +1581,7 @@ start: 'str | None' = None
 
 Renvoie un itérateur d’intégrations webhook pour une entité.
 
-<div id="arguments-43">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-43}
 
 <ResponseField name="entity" type="str | None">
   L’entité (par ex. le nom d’équipe) pour laquelle récupérer les intégrations. Si elle n’est pas fournie, l’entité par défaut de l’utilisateur sera utilisée.
@@ -1821,9 +1595,7 @@ Renvoie un itérateur d’intégrations webhook pour une entité.
   Aucune description fournie.
 </ResponseField>
 
-<div id="examples-19">
-  ##### Exemples
-</div>
+##### Exemples {#examples-19}
 
 Obtenez toutes les intégrations webhook enregistrées pour l’équipe &quot;my-team&quot; :
 

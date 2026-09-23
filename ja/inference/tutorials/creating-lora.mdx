@@ -13,9 +13,7 @@ Serverless Inference では、一部のベースモデルでカスタム LoRA �
 
 このチュートリアルは 3 つのパートで構成されています。ポストトレーニング用データセットを準備し、LoRA アダプターを生成してアップロードするポストトレーニング スクリプトを実行し、最後に生成された LoRA アダプターを Playground またはコードから試します。
 
-<div id="post-training-dataset">
-  ## ポストトレーニング データセット
-</div>
+## ポストトレーニング データセット {#post-training-dataset}
 
 このセクションでは、モデルのファインチューニングに使用したサンプルデータセットを示します。
 
@@ -82,9 +80,7 @@ Serverless Inference では、一部のベースモデルでカスタム LoRA �
 
 このデータセットを保存したら、ポストトレーニングを実行できます。
 
-<div id="post-training">
-  ## ポストトレーニング
-</div>
+## ポストトレーニング {#post-training}
 
 このセクションでは、データセットから LoRA アダプターを生成し、それを W&amp;B にアップロードするトレーニングスクリプトの実行方法を説明します。
 
@@ -326,9 +322,7 @@ uv run create_lora.py cowboy_examples.jsonl
 
 スクリプトが完了すると、トレーニング済みの LoRA アダプターが W&amp;B アーティファクトとして保存され、Serverless Inference ですぐに使用できます。
 
-<div id="use-the-lora">
-  ## LoRA アダプターを使用する
-</div>
+## LoRA アダプターを使用する {#use-the-lora}
 
 このセクションでは、作成した LoRA アダプターを Playground でインタラクティブに、またはプログラムから試す方法を説明します。
 
@@ -342,9 +336,7 @@ uv run create_lora.py cowboy_examples.jsonl
 
 コードから LoRA アダプターを使用するには、[Serverless LoRA アダプター Inference を使用する](/ja/inference/lora#workflow) ガイドを参照してください。手順を追って説明しています。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 動作する LoRA アダプターができたので、トレーニングの選択が結果にどう影響するかを確認するために、さらに試してみることができます。
 

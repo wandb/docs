@@ -23,9 +23,7 @@ OpenAIは、強い表現のプロンプトを使わなくても、指定したJS
   **ソース**: このクックブックは、[OpenAIのStructured Outputsのサンプルコード](https://cookbook.openai.com/examples/structured_outputs_multi_agent)をベースに、Weaveでの可視化を改善するための変更をいくつか加えたものです。
 </Tip>
 
-<div id="install-the-dependencies">
-  ## 依存関係のインストール
-</div>
+## 依存関係のインストール {#install-the-dependencies}
 
 まず、このチュートリアルで使用するライブラリをインストールします。このチュートリアルでは、次のライブラリを使用します。
 
@@ -82,9 +80,7 @@ client = OpenAI()
 MODEL = "gpt-4o-2024-08-06"
 ```
 
-<div id="set-up-the-agents">
-  ## エージェントを設定する
-</div>
+## エージェントを設定する {#set-up-the-agents}
 
 Weave を初期化したら、システムを構成するエージェントを定義します。このチュートリアルのユースケースは、データ分析タスクです。
 まず、4 つのエージェントで構成されるシステムを設定します。
@@ -377,9 +373,7 @@ visualization_tools = [
 ]
 ```
 
-<div id="enable-multi-agent-tracking-with-weave">
-  ## Weave でマルチエージェントのトラッキングを有効にする
-</div>
+## Weave でマルチエージェントのトラッキングを有効にする {#enable-multi-agent-tracking-with-weave}
 
 エージェントとそのツールを定義したら、次のステップはそれらを連携させ、Weave のトレースを有効にすることです。次の処理を行うコード ロジックを記述します。
 
@@ -680,9 +674,7 @@ def extract_tool_contents(data):
     return contents
 ```
 
-<div id="execute-the-multi-agent-system-and-visualize-in-weave">
-  ## マルチエージェントシステムを実行し、Weaveで可視化する
-</div>
+## マルチエージェントシステムを実行し、Weaveで可視化する {#execute-the-multi-agent-system-and-visualize-in-weave}
 
 各エージェント、ツール、ハンドラーが揃ったので、システムを実行する準備は完了です。最後に、ユーザーの入力を使ってメインの`handle_user_message`関数を実行し、結果を確認します。
 
@@ -701,8 +693,6 @@ Weave の URL をクリックすると、実行トレースを確認できます
 
 最後に、Weave でトレースがどのように処理されるかをもう少し詳しく見てみましょう。
 
-<div id="conclusion">
-  ## 結論
-</div>
+## 結論 {#conclusion}
 
 このチュートリアルでは、OpenAI の構造化出力と Weave を使って、inputs、最終出力、中間出力形式をトラッキングしながら、マルチエージェントシステムを開発する方法を学びました。これで、追加のエージェント、ツール、または構造化された応答スキーマで拡張できる、動作する実例ができました。

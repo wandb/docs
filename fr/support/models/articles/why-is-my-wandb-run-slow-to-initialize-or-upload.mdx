@@ -5,9 +5,7 @@ keywords: ["Runs", "Experiments", "Connectivité"]
 
 Un `wandb.init()` lent ou un téléversement lent des métriques sont généralement dus à la latence réseau, à des charges utiles multimédias volumineuses, à une fréquence de journalisation élevée ou au démarrage lent du processus du service W&amp;B.
 
-<div id="slow-wandbinit">
-  ## `wandb.init()` est lent
-</div>
+## `wandb.init()` est lent {#slow-wandbinit}
 
 `wandb.init()` contacte l’API W&amp;B pour créer le run et vérifier les identifiants d’authentification. S’il reste bloqué plus de quelques secondes :
 
@@ -27,9 +25,7 @@ Un `wandb.init()` lent ou un téléversement lent des métriques sont générale
   wandb sync wandb/run-[TIMESTAMP]-[ID]
   ```
 
-<div id="slow-metric-uploads-during-training">
-  ## Téléversement lent des métriques pendant l’entraînement
-</div>
+## Téléversement lent des métriques pendant l’entraînement {#slow-metric-uploads-during-training}
 
 W&amp;B téléverse les métriques de manière asynchrone dans des threads d’arrière-plan afin de ne pas bloquer votre boucle d’entraînement. Les téléversements peuvent prendre du retard dans les cas suivants :
 
@@ -44,15 +40,11 @@ W&amp;B téléverse les métriques de manière asynchrone dans des threads d’a
 
 * **Limites de débit** : si vous rencontrez l’erreur `429 Rate limit exceeded`, voir [Comment puis-je corriger les erreurs de limite de débit dépassée ?](/fr/support/models/articles/rate-limit-exceeded-on-metric-logging).
 
-<div id="run-finalization-is-slow">
-  ## La finalisation du run est lente
-</div>
+## La finalisation du run est lente {#run-finalization-is-slow}
 
 Une fois que votre script appelle `wandb.finish()` (ou se termine), W&amp;B vide les données restantes encore en mémoire tampon. Cela peut prendre du temps si un volume important de données s’est accumulé pendant l’entraînement. Gardez une fréquence de journalisation raisonnable tout au long de l’entraînement, au lieu de tout regrouper à la fin.
 
-<div id="diagnosing-with-debug-logs">
-  ## Diagnostic à l’aide des journaux de débogage
-</div>
+## Diagnostic à l’aide des journaux de débogage {#diagnosing-with-debug-logs}
 
 Activez la journalisation de débogage pour voir où le temps est passé :
 

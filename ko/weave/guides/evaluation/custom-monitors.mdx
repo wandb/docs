@@ -17,9 +17,7 @@ description: "프로덕션 트래픽을 수동적으로 점수화해 추세와 �
 
 점수에 따라 애플리케이션 동작에 적극적으로 개입해야 한다면, 대신 [guardrails](/ko/weave/guides/evaluation/guardrails)를 사용하세요.&quot;
 
-<div id="signals-and-custom-monitors">
-  ## 시그널과 맞춤형 모니터
-</div>
+## 시그널과 맞춤형 모니터 {#signals-and-custom-monitors}
 
 프로덕션 트레이스용으로 미리 설정된 자동 Scorer인 [시그널](/ko/weave/guides/evaluation/monitors)을 사용해 프로덕션 모니터링을 빠르게 시작한 다음, 애플리케이션별 평가 기준에 맞는 맞춤형 모니터를 추가하세요.
 
@@ -31,9 +29,7 @@ description: "프로덕션 트래픽을 수동적으로 점수화해 추세와 �
 | **모델**      | Serverless Inference (사전 설정)      | 모든 상용 또는 Serverless Inference 모델 |
 | **사용 사례**   | 검증된 분류기를 활용한 빠른 프로덕션 모니터링         | 애플리케이션에 특화된 맞춤형 평가 기준            |
 
-<div id="create-a-monitor-in-weave">
-  ## Weave에서 모니터 만들기
-</div>
+## Weave에서 모니터 만들기 {#create-a-monitor-in-weave}
 
 Weave에서 맞춤형 모니터를 만들려면 다음 단계를 따르세요:
 
@@ -69,9 +65,7 @@ Weave에서 맞춤형 모니터를 만들려면 다음 단계를 따르세요:
 
 Weave는 모든 Scorer 결과를 [Call](/ko/weave/guides/tracking/tracing#calls) 객체의 `feedback` 필드에 자동으로 저장합니다.
 
-<div id="example-create-a-truthfulness-monitor">
-  ### 예시: 진실성 모니터 만들기
-</div>
+### 예시: 진실성 모니터 만들기 {#example-create-a-truthfulness-monitor}
 
 다음 엔드 투 엔드 예시에서는 생성된 문장의 진실성을 평가하는 모니터를 만드는 전체 과정을 안내합니다. 완료하면 Weave 프로젝트에서 샘플 op를 점수화하는 활성 모니터가 준비되고, 점수화된 트레이스를 W&amp;B UI에서 확인할 수 있습니다.
 

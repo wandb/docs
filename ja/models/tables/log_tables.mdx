@@ -13,9 +13,7 @@ W&amp;B Python SDK を使用して、[表オブジェクトを作成してログ
   `INCREMENTAL` モードは、W&amp;B Server v0.70.0 以降でサポートされます。
 </Note>
 
-<div id="create-and-log-a-table">
-  ## 表を作成してログする
-</div>
+## 表を作成してログする {#create-and-log-a-table}
 
 1. `wandb.init()` で新しい run を初期化します。
 2. [`wandb.Table`](/ja/models/ref/python/data-types/table) クラスを使用して 表 オブジェクトを作成します。`columns` パラメーターと `data` パラメーターに、それぞれ表の列とデータを指定します。オプションの `log_mode` パラメーターは、`IMMUTABLE` (デフォルト) 、`MUTABLE`、`INCREMENTAL` の 3 つのモードのいずれかに設定することを推奨します。詳細については、次のセクションの [Table Logging Modes](#logging-modes) を参照してください。
@@ -40,9 +38,7 @@ with wandb.init(project="table-demo") as run:
     run.log({"Table Name": my_table})
 ```
 
-<div id="logging-modes">
-  ## ログモード
-</div>
+## ログモード {#logging-modes}
 
 [`wandb.Table`](/ja/models/ref/python/data-types/table) の `log_mode` パラメーターは、ML 実験中に表がどのようにログされ、更新されるかを決定します。`log_mode` パラメーターには、`IMMUTABLE`、`MUTABLE`、`INCREMENTAL` の 3 つの引数のいずれかを指定できます。各モードによって、表のログ方法、変更可能な範囲、W&amp;B App での表示方法が異なります。
 
@@ -56,9 +52,7 @@ with wandb.init(project="table-demo") as run:
 
 次のセクションでは、各モードのコードスニペット例と、各モードをいつ使用するべきかに関する考慮事項を示します。
 
-<div id="mutable-mode">
-  ### `MUTABLE` モード
-</div>
+### `MUTABLE` モード {#mutable-mode}
 
 `MUTABLE` モードでは、既存の表を新しい表で置き換えることで更新します。`MUTABLE` モードは、反復処理ではないプロセスで既存の表に新しい列や行を追加したい場合に便利です。UI では、初回のログ後に追加された新しい行と列も含め、すべての行と列が表示されます。
 
@@ -106,9 +100,7 @@ with wandb.init(project="mutable-table-demo") as run:
 
 新しい行のバッチだけを (列は追加せずに) トレーニングループのように段階的に追加したい場合は、代わりに [`INCREMENTAL` モード](#INCREMENTAL-mode) の使用を検討してください。
 
-<div id="incremental-mode">
-  ### INCREMENTAL モード
-</div>
+### INCREMENTAL モード {#incremental-mode}
 
 INCREMENTAL モードでは、機械学習の実験中に行のバッチを表にログします。これは、長時間実行されるジョブを監視する場合や、更新のたびに run 中にログすると非効率になる大きな表を扱う場合に適しています。UI では、ログされるたびに新しい行で表が更新されるため、run 全体の完了を待たずに最新のデータを表示できます。また、増分ごとに順にたどって、異なる時点での表を表示することもできます。
 
@@ -182,13 +174,9 @@ with wandb.init(project="combined-logging-example") as run:
 
 この例では、`incr_table` はトレーニング中に段階的にログされます (`log_mode="INCREMENTAL"`) 。これにより、新しいデータが処理されるたびに、表の更新をログして表示できます。トレーニングの最後に、段階的にログした表のすべてのデータを含む不変の表 (`final_table`) が作成されます。不変の表は、後続の分析に備えて完全なデータセットを保持するためにログされ、W&amp;B App ですべての行を表示できるようになります。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
-<div id="enriching-evaluation-results-with-mutable">
-  ### MUTABLE で評価結果を充実させる
-</div>
+### MUTABLE で評価結果を充実させる {#enriching-evaluation-results-with-mutable}
 
 ```python
 import wandb
@@ -218,9 +206,7 @@ with wandb.init(project="mutable-logging") as run:
     run.log({"eval_table": table})
 ```
 
-<div id="resuming-runs-with-incremental-tables">
-  ### INCREMENTAL 表で run を再開する
-</div>
+### INCREMENTAL 表で run を再開する {#resuming-runs-with-incremental-tables}
 
 run を再開するときに、INCREMENTAL 表へのログを継続できます。
 
@@ -245,9 +231,7 @@ resumed_run.finish()
   `wandb.Run.define_metric("<table_key>", summary="none")` または `wandb.Run.define_metric("*", summary="none")` を使用して、段階的な表で使用するキーの summary を無効にすると、増分は新しい表にログされます。
 </Note>
 
-<div id="training-with-incremental-batch-training">
-  ### 段階的バッチトレーニングでトレーニングする
-</div>
+### 段階的バッチトレーニングでトレーニングする {#training-with-incremental-batch-training}
 
 ```python
 

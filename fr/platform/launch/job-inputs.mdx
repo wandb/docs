@@ -12,9 +12,7 @@ Ce guide explique comment contrôler par programmation quelles entrées vous pou
   Les fonctions du SDK Launch nécessitent `wandb-core`. Pour plus d&#39;informations, voir le fichier [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README).
 </Note>
 
-<div id="reconfigure-the-run-object">
-  ## Reconfigurer l’objet `Run`
-</div>
+## Reconfigurer l’objet `Run` {#reconfigure-the-run-object}
 
 Par défaut, vous pouvez reconfigurer l’objet `Run` renvoyé par `wandb.init()` dans un job. Utilisez le SDK Launch pour personnaliser les parties de l’objet `Run.config` que vous pouvez reconfigurer au lancement du job, afin de masquer les paramètres internes tout en exposant les paramètres importants pour les utilisateurs finaux.
 
@@ -76,9 +74,7 @@ Si vous empaquetez et exécutez le code précédent comme un job, les types d&#3
 
 Lors du lancement du job depuis le CLI ou l’interface utilisateur W&amp;B, vous ne pouvez modifier que les quatre paramètres `trainer`.
 
-<div id="access-run-config-inputs">
-  ### Accéder aux entrées de configuration du run
-</div>
+### Accéder aux entrées de configuration du run {#access-run-config-inputs}
 
 Les jobs lancés avec des entrées de configuration du run peuvent accéder à leurs valeurs via `Run.config`. Le `Run` renvoyé par `wandb.init()` dans le code du job a automatiquement les valeurs des entrées définies. Pour charger les valeurs d’entrée de la configuration du run à n’importe quel endroit dans le code du job, utilisez `launch.load_wandb_config()` :
 
@@ -88,9 +84,7 @@ from wandb.sdk import launch
 run_config_overrides = launch.load_wandb_config()
 ```
 
-<div id="reconfigure-a-file">
-  ## Reconfigurer un fichier
-</div>
+## Reconfigurer un fichier {#reconfigure-a-file}
 
 Le SDK Launch peut également gérer les valeurs d&#39;entrée stockées dans des fichiers de configuration au sein du code du job. Il s&#39;agit d&#39;une pratique courante dans de nombreux cas d&#39;usage en deep learning et avec les grands modèles de langage, comme dans cet exemple [torchtune](https://github.com/meta-pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) ou cette [configuration Axolotl](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml).
 
@@ -135,9 +129,7 @@ L’appel à `launch.manage_config_file()` ajoute le fichier `config.yaml` comme
 
 Utilisez les arguments nommés `include` et `exclude` pour filtrer les clés d’entrée acceptées du fichier de configuration, de la même manière que `launch.manage_wandb_config()`.
 
-<div id="access-config-file-inputs">
-  ### Accéder aux entrées du fichier de configuration
-</div>
+### Accéder aux entrées du fichier de configuration {#access-config-file-inputs}
 
 Lorsque vous appelez `launch.manage_config_file()` dans un run créé par Launch, `launch` met à jour le contenu du fichier de configuration avec les valeurs d’entrée. Le fichier de configuration mis à jour est disponible dans l’environnement du job.
 
@@ -145,9 +137,7 @@ Lorsque vous appelez `launch.manage_config_file()` dans un run créé par Launch
   Appelez `launch.manage_config_file()` avant de lire le fichier de configuration dans le code du job pour vous assurer que les valeurs d’entrée sont utilisées.
 </Warning>
 
-<div id="customize-a-jobs-launch-drawer-ui">
-  ## Personnaliser l’interface du volet de lancement d’un job
-</div>
+## Personnaliser l’interface du volet de lancement d’un job {#customize-a-jobs-launch-drawer-ui}
 
 Au-delà du filtrage des entrées que vous exposez, vous pouvez définir un schéma pour les entrées d’un job afin de créer une interface personnalisée pour lancer ce job. Cela affiche des champs structurés, des indications de validation et des listes déroulantes dans le volet de lancement au lieu d’un champ de texte libre. Pour définir le schéma d’un job, incluez-le dans l’appel à `launch.manage_wandb_config()` ou `launch.manage_config_file()`. Le schéma peut être soit un `dict` Python au format [JSON Schema](https://json-schema.org/understanding-json-schema/reference), soit une classe de modèle Pydantic.
 

@@ -9,9 +9,7 @@ Ces classes forment les briques de base du suivi des expériences de machine lea
 
 > Pour plus de détails sur l’utilisation de ces classes dans des expériences de ML, consultez la documentation [Experiments](/fr/models/ref/python/experiments/) et [Artifacts](/fr/models/artifacts/).
 
-<div id="core-classes">
-  ## Classes principales
-</div>
+## Classes principales {#core-classes}
 
 | Classe                                                 | Description                                                                                                                                                   |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -19,13 +17,9 @@ Ces classes forment les briques de base du suivi des expériences de machine lea
 | [`Artifact`](/fr/models/ref/python/experiments/artifact/) | Brique de base légère et flexible pour la gestion des versions des jeux de données et des modèles, avec déduplication automatique et suivi de la traçabilité. |
 | [`Settings`](/fr/models/ref/python/experiments/settings/) | Gestion de la configuration du SDK W&amp;B, qui contrôle le comportement, du logging aux interactions avec l’API.                                             |
 
-<div id="getting-started">
-  ## Prise en main
-</div>
+## Prise en main {#getting-started}
 
-<div id="track-an-experiment">
-  ### Suivre une expérience
-</div>
+### Suivre une expérience {#track-an-experiment}
 
 Créez et suivez une expérience de machine learning avec journalisation des métriques :
 
@@ -50,9 +44,7 @@ with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as ru
     run.summary["best_accuracy"] = max_accuracy
 ```
 
-<div id="version-a-model-artifact">
-  ### Versionner un artifact de modèle
-</div>
+### Versionner un artifact de modèle {#version-a-model-artifact}
 
 Créez et journalisez un artifact de modèle versionné avec des métadonnées :
 
@@ -83,9 +75,7 @@ with wandb.init(project="my-models") as run:
     run.log_artifact(model_artifact)
 ```
 
-<div id="configure-sdk-settings">
-  ### Configurer les paramètres du SDK
-</div>
+### Configurer les paramètres du SDK {#configure-sdk-settings}
 
 Personnalisez le comportement du SDK W&amp;B selon vos besoins spécifiques :
 
@@ -111,9 +101,7 @@ with wandb.init() as run:
     pass
 ```
 
-<div id="link-artifacts-for-lineage-tracking">
-  ### Lier des Artifacts pour assurer la traçabilité
-</div>
+### Lier des Artifacts pour assurer la traçabilité {#link-artifacts-for-lineage-tracking}
 
 Suivez les relations entre les jeux de données, les modèles et les évaluations :
 

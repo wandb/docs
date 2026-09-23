@@ -23,9 +23,7 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
   </Tab>
 </Tabs>
 
-<div id="create-your-own-scorers">
-  ## 나만의 Scorer 만들기
-</div>
+## 나만의 Scorer 만들기 {#create-your-own-scorers}
 
 맞춤형 Scorer를 사용하면 기본 제공 Scorer로는 다루지 못하는, 사용 사례별 평가 기준을 인코딩할 수 있습니다. 다음 섹션에서는 Scorer를 정의하는 두 가지 방법, 즉 함수로 정의하는 방법과 더 복잡한 로직을 위해 클래스로 정의하는 방법을 설명합니다.
 
@@ -40,9 +38,7 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
   * [컨텍스트 관련성 평가(로컬)](./weave_local_scorers#weavecontextrelevancescorerv1)
 </Tip>
 
-<div id="function-based-scorers">
-  ### 함수 기반 Scorer
-</div>
+### 함수 기반 Scorer {#function-based-scorers}
 
 <Tabs>
   <Tab title="Python">
@@ -83,9 +79,7 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
   </Tab>
 </Tabs>
 
-<div id="class-based-scorers">
-  ### 클래스 기반 Scorers
-</div>
+### 클래스 기반 Scorers {#class-based-scorers}
 
 <Tabs>
   <Tab title="Python">
@@ -153,15 +147,11 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
   </Tab>
 </Tabs>
 
-<div id="how-scorers-work">
-  ## Scorer의 작동 방식
-</div>
+## Scorer의 작동 방식 {#how-scorers-work}
 
 이 섹션에서는 Scorer가 평가로부터 데이터를 받는 방식, 데이터셋 열을 Scorer 인수에 매핑하는 방법, 점수화 프롬프트에서 op 변수를 참조하는 방법, 그리고 Weave가 각 행의 점수를 최종 결과로 요약하는 방식을 설명합니다.
 
-<div id="scorer-keyword-arguments">
-  ### Scorer 키워드 인수
-</div>
+### Scorer 키워드 인수 {#scorer-keyword-arguments}
 
 <Tabs>
   <Tab title="Python">
@@ -181,9 +171,7 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
 
     * **출력:** AI 시스템의 출력에 액세스하려면 Scorer 함수의 시그니처에 `output` 파라미터를 포함하세요.
 
-    <div id="mapping-column-names-with-column_map">
-      ### `column_map`으로 열 이름 매핑하기
-    </div>
+### `column_map`으로 열 이름 매핑하기 {#mapping-column-names-with-column_map}
 
     경우에 따라 `score` 메서드의 인수 이름이 데이터셋의 열 이름과 일치하지 않을 수 있습니다. 이럴 때 `column_map`을 사용하면 됩니다.
 
@@ -250,9 +238,7 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
     );
     ```
 
-    <div id="mapping-column-names-with-columnmapping">
-      ### `columnMapping`으로 열 이름 매핑하기
-    </div>
+### `columnMapping`으로 열 이름 매핑하기 {#mapping-column-names-with-columnmapping}
 
     <Warning>
       TypeScript에서는 이 기능이 개별 Scorer가 아니라 `Evaluation` 객체에 있습니다.
@@ -282,9 +268,7 @@ Weave에서 Scorer는 AI 출력을 평가하고 평가 메트릭을 반환합니
   </Tab>
 </Tabs>
 
-<div id="access-variables-from-your-ops-in-scoring-prompts">
-  ### 스코어링 프롬프트에서 ops의 변수에 액세스하기
-</div>
+### 스코어링 프롬프트에서 ops의 변수에 액세스하기 {#access-variables-from-your-ops-in-scoring-prompts}
 
 LLM-as-a-judge scorer의 스코어링 프롬프트에서는 op의 변수를 참조할 수 있습니다. Weave는 scorer가 실행될 때 이러한 값을 자동으로 추출합니다.
 
@@ -323,9 +307,7 @@ def summarize_article(article: str, max_length: int) -> str:
 평점과 근거가 포함된 JSON 객체를 반환하세요.
 ```
 
-<div id="final-summarization-of-the-scorer">
-  ### scorer의 최종 요약
-</div>
+### scorer의 최종 요약 {#final-summarization-of-the-scorer}
 
 <Tabs>
   <Tab title="Python">
@@ -367,9 +349,7 @@ def summarize_article(article: str, max_length: int) -> str:
   </Tab>
 </Tabs>
 
-<div id="apply-scorers-to-a-call">
-  ### Call에 Scorer 적용하기
-</div>
+### Call에 Scorer 적용하기 {#apply-scorers-to-a-call}
 
 `weave.Evaluation`의 일부로 Scorer를 실행하는 것 외에도, 개별 call에 직접 적용할 수 있습니다. 이는 프로덕션 트래픽을 score하거나 특정 op 호출에 Evaluation 메트릭을 연결하려는 경우에 유용합니다.
 
@@ -415,9 +395,7 @@ Weave op에 Scorer를 적용하려면 오퍼레이션의 결과와 tracking 정�
   </Tab>
 </Tabs>
 
-<div id="use-preprocess_model_input">
-  ### `preprocess_model_input` 사용
-</div>
+### `preprocess_model_input` 사용 {#use-preprocess_model_input}
 
 평가 중 데이터셋 예제가 모델에 전달되기 전에 수정하려면 `preprocess_model_input` 매개변수를 사용할 수 있습니다.
 
@@ -429,19 +407,13 @@ Weave op에 Scorer를 적용하려면 오퍼레이션의 결과와 tracking 정�
 
 사용 방법과 예시는 [평가 전에 `preprocess_model_input`을 사용해 데이터셋 행 형식 지정하기](../core-types/evaluations#using-preprocess_model_input-to-format-dataset-rows-before-evaluating)를 참조하세요.
 
-<div id="score-analysis">
-  ## 점수 분석
-</div>
+## 점수 분석 {#score-analysis}
 
 Scorer가 실행된 후에는 모델 동작을 이해하거나 버전을 비교하기 위해 Scorer가 생성한 점수를 확인해야 하는 경우가 많습니다. 다음 섹션에서는 API와 Weave UI를 모두 사용하여 단일 Call, 여러 Call, 그리고 특정 Scorer가 점수를 매긴 모든 Call의 점수를 분석하는 방법을 설명합니다.
 
-<div id="analyze-a-single-calls-scores">
-  ### 단일 Call의 점수 분석하기
-</div>
+### 단일 Call의 점수 분석하기 {#analyze-a-single-calls-scores}
 
-<div id="single-call-api">
-  #### 단일 Call API
-</div>
+#### 단일 Call API {#single-call-api}
 
 단일 Call을 조회하려면 `get_call` 방법을 사용하세요.
 
@@ -455,9 +427,7 @@ call = client.get_call("call-uuid-here")
 feedback = list(call.feedback)
 ```
 
-<div id="single-call-ui">
-  #### 단일 Call UI
-</div>
+#### 단일 Call UI {#single-call-ui}
 
 <Frame>
   ![Call 점수 탭](/weave/guides/evaluation/img/call_scores_tab.png)
@@ -465,13 +435,9 @@ feedback = list(call.feedback)
 
 개별 Call의 점수는 Call details panel의 **점수** 탭에 표시됩니다.
 
-<div id="analyze-multiple-calls-scores">
-  ### 여러 Call의 점수 분석하기
-</div>
+### 여러 Call의 점수 분석하기 {#analyze-multiple-calls-scores}
 
-<div id="multiple-calls-api">
-  #### 여러 Call API
-</div>
+#### 여러 Call API {#multiple-calls-api}
 
 여러 Call을 조회하려면 `get_calls` 방법을 사용하세요.
 
@@ -486,9 +452,7 @@ for call in calls:
     feedback = list(call.feedback)
 ```
 
-<div id="multiple-calls-ui">
-  #### 여러 Call UI
-</div>
+#### 여러 Call UI {#multiple-calls-ui}
 
 <Frame>
   ![여러 Call 탭](/weave/guides/evaluation/img/traces_table_scores.png)
@@ -496,13 +460,9 @@ for call in calls:
 
 트레이스 테이블의 **점수** 열에 여러 Call의 점수가 표시됩니다.
 
-<div id="analyze-all-calls-scored-by-a-specific-scorer">
-  ### 특정 Scorer가 점수를 매긴 모든 Call 분석하기
-</div>
+### 특정 Scorer가 점수를 매긴 모든 Call 분석하기 {#analyze-all-calls-scored-by-a-specific-scorer}
 
-<div id="all-calls-by-scorer-api">
-  #### Scorer별 모든 Call API
-</div>
+#### Scorer별 모든 Call API {#all-calls-by-scorer-api}
 
 특정 Scorer로 점수가 매겨진 모든 Call을 조회하려면 `get_calls` 방법을 사용하세요.
 
@@ -521,9 +481,7 @@ for call in calls:
     feedback = list(call.feedback)
 ```
 
-<div id="all-calls-by-scorer-ui">
-  #### Scorer UI에서 Scorer별 모든 call 보기
-</div>
+#### Scorer UI에서 Scorer별 모든 call 보기 {#all-calls-by-scorer-ui}
 
 마지막으로, Scorer가 점수를 매긴 모든 call을 보려면 UI의 **Scorer** 탭으로 이동해 **Programmatic Scorer** 탭을 선택하세요. Scorer를 클릭해 Scorer 세부 정보 페이지를 여세요.
 

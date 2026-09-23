@@ -9,9 +9,7 @@ import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-strea
 
 Ce guide vous montre comment vous authentifier auprès de W&amp;B, installer l’intégration et activer la journalisation W&amp;B lors de l’entraînement d’un modèle YOLOX de détection d’objets afin de suivre les métriques et d’inspecter les prédictions dans l’interface utilisateur W&amp;B.
 
-<div id="sign-up-and-create-an-api-key">
-  ## Inscrivez-vous et créez une clé API
-</div>
+## Inscrivez-vous et créez une clé API {#sign-up-and-create-an-api-key}
 
 Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
 
@@ -20,9 +18,7 @@ Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouv
 1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
 2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **API Keys**.
 
-<div id="install-the-wandb-library-and-log-in">
-  ## Installez la bibliothèque `wandb` et connectez-vous
-</div>
+## Installez la bibliothèque `wandb` et connectez-vous {#install-the-wandb-library-and-log-in}
 
 Pour installer la bibliothèque `wandb` localement et vous connecter :
 
@@ -64,9 +60,7 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
   </Tab>
 </Tabs>
 
-<div id="log-metrics">
-  ## Consigner des métriques
-</div>
+## Consigner des métriques {#log-metrics}
 
 Une fois la bibliothèque `wandb` installée et votre machine authentifiée, vous pouvez activer la journalisation W&amp;B depuis le script d&#39;entraînement YOLOX.
 
@@ -99,9 +93,7 @@ python tools/train.py .... --logger wandb \
                 wandb-log_checkpoints <bool>
 ```
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 Une fois votre run d&#39;entraînement lancé, YOLOX transmet en continu les métriques d&#39;entraînement, de validation et système à votre projet W&amp;B, où vous pouvez comparer les runs et inspecter les prédictions. Voir l&#39;exemple suivant pour découvrir à quoi ressemble un tableau de bord rempli.
 

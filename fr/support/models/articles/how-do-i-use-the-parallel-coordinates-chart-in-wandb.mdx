@@ -5,9 +5,7 @@ keywords: ["Runs", "Experiments", "Workspace", "Sweeps"]
 
 Le graphique en coordonnées parallèles montre comment les hyperparamètres sont liés aux métriques sur un grand nombre de runs. Chaque ligne correspond à un run ; chaque axe représente une clé de configuration ou une métrique de synthèse. Pour ajouter un panel, configurez les axes, les couleurs et les sélections, consultez [Coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates) et [Visualiser les résultats d’un sweep](/fr/models/sweeps/visualize-sweep-results).
 
-<div id="reading-the-chart">
-  ## Lecture du graphique
-</div>
+## Lecture du graphique {#reading-the-chart}
 
 * Les lignes qui **se croisent** entre des axes adjacents suggèrent une relation inverse entre ces paramètres.
 * Les lignes qui **sont parallèles** suggèrent une corrélation positive.
@@ -15,15 +13,11 @@ Le graphique en coordonnées parallèles montre comment les hyperparamètres son
 
 Colorez les lignes selon une métrique de synthèse (par exemple `val/accuracy`) afin de faire ressortir les runs les plus performantes dans un dégradé de couleurs froides à chaudes.
 
-<div id="filtering-with-brushes">
-  ## Filtrage par sélection
-</div>
+## Filtrage par sélection {#filtering-with-brushes}
 
 Faites glisser le curseur sur un axe pour sélectionner une plage de valeurs. Seules les runs comprises dans cette plage restent mises en évidence. En sélectionnant plusieurs axes, vous limitez les résultats aux runs qui satisfont toutes les plages — utile pour répondre à des questions comme : quelles paires de taux d’apprentissage et de taille de lot dépassent 90 % de précision ?
 
-<div id="sweeps">
-  ## Sweeps
-</div>
+## Sweeps {#sweeps}
 
 Après un sweep, appliquez un filtre sur le sweep (**Filter &gt; Sweep &gt; your-sweep-id**) afin que le panneau n’affiche que les runs d’essai. Utilisez le graphique pour voir l’espace exploré et planifier un sweep de suivi plus ciblé.
 

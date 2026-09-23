@@ -13,9 +13,7 @@ title: 로컬에서 알고리즘 관리하기
   이 기능은 Sweeps 도구용 새 알고리즘을 더 빠르게 개발하고 디버그할 수 있도록 지원합니다. 하이퍼파라미터 최적화 워크로드에는 적합하지 않습니다.
 </Warning>
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 로컬 컨트롤러 명령을 사용할 수 있게 W&amp;B SDK (`wandb`)를 설치하세요:
 
@@ -25,9 +23,7 @@ pip install wandb sweeps
 
 다음 예에서는 Python 스크립트 또는 Jupyter Notebook에 이미 설정 파일과 트레이닝 루프가 정의되어 있다고 가정합니다. 자세한 내용은 [스윕 설정 정의하기](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.
 
-<div id="run-a-local-controller-from-the-command-line">
-  ## 명령줄에서 로컬 컨트롤러 실행
-</div>
+## 명령줄에서 로컬 컨트롤러 실행 {#run-a-local-controller-from-the-command-line}
 
 W&amp;B에서 클라우드 서비스로 제공하는 하이퍼파라미터 컨트롤러를 사용할 때와 같은 방식으로 스윕을 초기화하되, 로컬 컨트롤러를 사용하려면 `--controller` 플래그를 전달하세요:
 
@@ -64,9 +60,7 @@ controller:
 wandb sweep config.yaml
 ```
 
-<div id="run-a-local-controller-with-wb-python-sdk">
-  ## W&amp;B Python SDK로 로컬 컨트롤러 실행하기
-</div>
+## W&amp;B Python SDK로 로컬 컨트롤러 실행하기 {#run-a-local-controller-with-wb-python-sdk}
 
 다음 코드 스니펫은 W&amp;B Python SDK에서 로컬 컨트롤러를 지정하고 사용하는 방법을 보여줍니다. 각 예시는 점차 더 세밀한 제어를 제공하므로, 검색과 스케줄링을 얼마나 사용자 지정해야 하는지에 맞는 접근 방식을 선택할 수 있습니다.
 

@@ -21,9 +21,7 @@ WAL は、プロセスが中断される可能性がある環境や、サーバ�
   ライトアヘッドログは、明示的に有効化する必要があります。今後のリリースではデフォルトで有効になる予定です。
 </Note>
 
-<div id="enable-the-write-ahead-log">
-  ## ライトアヘッドログ (WAL) を有効にする
-</div>
+## ライトアヘッドログ (WAL) を有効にする {#enable-the-write-ahead-log}
 
 Weave クライアントで WAL を有効にするには、`WEAVE_ENABLE_WAL` 環境変数を `true` に設定します:
 
@@ -40,9 +38,7 @@ os.environ["WEAVE_ENABLE_WAL"] = "true"
 
 そのほかのコード変更は不要です。WAL は既存の Weave トレースコードと透過的に連携して動作します。
 
-<div id="how-it-works">
-  ## 仕組み
-</div>
+## 仕組み {#how-it-works}
 
 WAL が有効な場合:
 
@@ -55,9 +51,7 @@ WAL が有効な場合:
 
 クライアントは起動時に、以前の run から残っている既存のログファイルがあるかどうかを確認します。見つかった場合、送信プロセスはそれらを新しいデータとあわせて送信します。つまり、クラッシュしたプロセスによって書き込まれたデータは、次回クライアントの実行時に Weave が自動的に復旧します。
 
-<div id="environment-variables">
-  ## 環境変数
-</div>
+## 環境変数 {#environment-variables}
 
 以下の環境変数は WAL の動作を制御します。
 

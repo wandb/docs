@@ -13,9 +13,7 @@ scorer 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 
 그런 다음 모든 scorer를 호출하고 결과를 weave에 저장합니다.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -49,15 +47,11 @@ const evaluation = new weave.Evaluation({
 const results = await evaluation.evaluate({ model });
 ```
 
-<div id="extends">
-  ## 확장
-</div>
+## 확장 {#extends}
 
 * [`WeaveObject`](./weaveobject)
 
-<div id="type-parameters">
-  ## Type Parameters
-</div>
+## Type Parameters {#type-parameters}
 
 <ParamField path="R" type="extends DatasetRow" />
 
@@ -65,15 +59,11 @@ const results = await evaluation.evaluate({ model });
 
 <ParamField path="M" />
 
-<div id="constructor">
-  ## 생성자
-</div>
+## 생성자 {#constructor}
 
 > **new Evaluation**&lt;`R`, `E`, `M`&gt;(`parameters`): `Evaluation`&lt;`R`, `E`, `M`&gt;
 
-<div id="parameters">
-  ### 매개변수
-</div>
+### 매개변수 {#parameters}
 
 <ParamField path="parameters" type="object" required>
   <Expandable title="속성" defaultOpen>
@@ -101,97 +91,63 @@ const results = await evaluation.evaluate({ model });
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### 반환값
-</div>
+### 반환값 {#returns}
 
 `Evaluation`&lt;`R`, `E`, `M`&gt;
 
-<div id="overrides">
-  ### 재정의
-</div>
+### 재정의 {#overrides}
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
-<div id="__savedref">
-  ### __savedRef
-</div>
+### __savedRef {#__savedref}
 
 > `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="inherited-from">
-  #### 상속됨
-</div>
+#### 상속됨 {#inherited-from}
 
 [`WeaveObject`](./weaveobject).[`__savedRef`](./weaveobject#__savedref)
 
-<div id="accessors">
-  ## 접근자
-</div>
+## 접근자 {#accessors}
 
-<div id="description">
-  ### 설명
-</div>
+### 설명 {#description}
 
-<div id="get-signature">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature}
 
 > **get** **description**(): `string` | `undefined`
 
-<div id="returns-2">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-2}
 
 `string` | `undefined`
 
-<div id="inherited-from-2">
-  #### 상속됨
-</div>
+#### 상속됨 {#inherited-from-2}
 
 [`WeaveObject`](./weaveobject).[`description`](./weaveobject#description)
 
 ***
 
-<div id="name">
-  ### 이름
-</div>
+### 이름 {#name}
 
-<div id="get-signature-2">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature-2}
 
 > **get** **name**(): `string`
 
-<div id="returns-3">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-3}
 
 `string`
 
-<div id="inherited-from-3">
-  #### 상속됨
-</div>
+#### 상속됨 {#inherited-from-3}
 
 [`WeaveObject`](./weaveobject).[`name`](./weaveobject#name)
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="evaluate">
-  ### evaluate()
-</div>
+### evaluate() {#evaluate}
 
 > **evaluate**(`__namedParameters`): `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
-<div id="parameters-2">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-2}
 
 <ParamField path="__namedParameters" type="object" required>
   <Expandable title="속성" defaultOpen>
@@ -207,23 +163,17 @@ const results = await evaluation.evaluate({ model });
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  #### 반환값
-</div>
+#### 반환값 {#returns-4}
 
 `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
 ***
 
-<div id="predictandscore">
-  ### predictAndScore()
-</div>
+### predictAndScore() {#predictandscore}
 
 > **predictAndScore**(`__namedParameters`): `Promise`&lt;&#123; `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: &#123;[`key`: `string`]: `any`; &#125;; &#125;&gt;
 
-<div id="parameters-3">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-3}
 
 <ParamField path="__namedParameters" type="object" required>
   <Expandable title="속성" defaultOpen>
@@ -243,28 +193,20 @@ const results = await evaluation.evaluate({ model });
   </Expandable>
 </ParamField>
 
-<div id="returns-5">
-  #### 반환값
-</div>
+#### 반환값 {#returns-5}
 
 `Promise`&lt;&#123; `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: &#123;[`key`: `string`]: `any`; &#125;; &#125;&gt;
 
 ***
 
-<div id="saveattrs">
-  ### saveAttrs()
-</div>
+### saveAttrs() {#saveattrs}
 
 > **saveAttrs**(): `object`
 
-<div id="returns-6">
-  #### 반환값
-</div>
+#### 반환값 {#returns-6}
 
 `object`
 
-<div id="inherited-from-4">
-  #### 상속됨
-</div>
+#### 상속됨 {#inherited-from-4}
 
 [`WeaveObject`](./weaveobject).[`saveAttrs`](./weaveobject#saveattrs)

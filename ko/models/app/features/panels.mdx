@@ -9,9 +9,7 @@ import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
 
 워크스페이스 패널 시각화를 사용하면 키별로 [로깅된 데이터](/ko/models/ref/python/experiments/run.md/#method-runlog)를 탐색하고, 하이퍼파라미터와 결과 메트릭 간의 관계를 시각화하는 등 다양한 작업을 수행할 수 있습니다. 이 페이지에서는 워크스페이스 모드를 선택하고, 패널을 추가 및 구성하고, 섹션으로 정리하고, 공동 작업자와 공유하는 방법을 설명합니다.
 
-<div id="workspace-modes">
-  ## 워크스페이스 모드
-</div>
+## 워크스페이스 모드 {#workspace-modes}
 
 W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다. 워크스페이스 이름 옆의 아이콘으로 현재 모드를 확인할 수 있습니다.
 
@@ -28,9 +26,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
   워크스페이스의 변경 사항을 실행 취소하려면 Undo 버튼(왼쪽 화살표)을 클릭하거나 **Cmd+Z**(macOS) 또는 **Ctrl+Z**(Windows 또는 Linux)를 누르세요.
 </Note>
 
-<div id="reset-a-workspace">
-  ## 워크스페이스 재설정
-</div>
+## 워크스페이스 재설정 {#reset-a-workspace}
 
 워크스페이스를 재설정하여 모드를 변경하거나 패널을 지우고 새로 시작할 수 있습니다.
 
@@ -39,9 +35,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
 1. 워크스페이스 상단에서 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭합니다.
 2. **워크스페이스 재설정**을 클릭합니다.
 
-<div id="configure-the-workspace-layout">
-  ## 워크스페이스 레이아웃 구성
-</div>
+## 워크스페이스 레이아웃 구성 {#configure-the-workspace-layout}
 
 워크스페이스 레이아웃 설정은 워크스페이스 전체에서 패널과 섹션이 구성되고 표시되는 방식을 제어합니다.
 
@@ -55,9 +49,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
 
 워크스페이스의 선형 플롯 기본값을 구성하려면 [선형 플롯](/ko/models/app/features/panels/line-plot/)을 참고하세요.
 
-<div id="configure-a-sections-layout">
-  ### 섹션의 레이아웃 구성하기
-</div>
+### 섹션의 레이아웃 구성하기 {#configure-a-sections-layout}
 
 섹션의 레이아웃을 구성하려면 해당 섹션의 톱니바퀴 아이콘을 클릭한 다음 **표시 기본 설정**을 클릭합니다. 다음 설정을 사용할 수 있습니다.
 
@@ -66,9 +58,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
 * **툴팁에 표시할 run 수** (단일 run, 모든 run 또는 **Default**)
 * **기본 차트 툴팁에 전체 run 이름 표시** (기본적으로 꺼짐)
 
-<div id="view-a-panel-in-full-screen-mode">
-  ## 패널을 전체 화면 모드로 보기
-</div>
+## 패널을 전체 화면 모드로 보기 {#view-a-panel-in-full-screen-mode}
 
 전체 화면 모드는 패널에 더 많은 공간을 제공하므로 데이터를 더 자세히 살펴볼 때 유용합니다. 전체 화면 모드에서는 run 선택기가 표시됩니다.
 
@@ -91,29 +81,21 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
 
 다른 전체 화면 및 패널 단축키는 [Keyboard shortcuts](/ko/models/app/keyboard-shortcuts)를 참조하세요.
 
-<div id="add-panels">
-  ## 패널 추가
-</div>
+## 패널 추가 {#add-panels}
 
 다음 섹션에서는 워크스페이스에 패널을 추가하는 방법을 설명합니다. 패널을 한 번에 하나씩 추가하거나 선택하는 각 키에 대해 자동으로 추가할 수 있습니다. ARIA에 패널을 추가해 달라고 요청할 수도 있습니다.
 
-<div id="add-a-panel-manually">
-  ### 수동으로 패널 추가하기
-</div>
+### 수동으로 패널 추가하기 {#add-a-panel-manually}
 
 워크스페이스 전역 또는 섹션 수준에서 패널을 한 번에 하나씩 추가할 수 있습니다.
 
-<div id="add-panels-to-a-workspace">
-  #### 워크스페이스에 패널 추가
-</div>
+#### 워크스페이스에 패널 추가 {#add-panels-to-a-workspace}
 
 1. 프로젝트 워크스페이스로 이동합니다.
 2. 패널 검색 필드 오른쪽에 있는 **Add panels**를 클릭합니다.
 3. 표시되는 모달에서 차트, 미디어, 쿼리 패널 등 추가할 패널 유형을 선택합니다.
 
-<div id="add-panels-to-a-section">
-  #### 섹션에 패널 추가하기
-</div>
+#### 섹션에 패널 추가하기 {#add-panels-to-a-section}
 
 1. 프로젝트 워크스페이스로 이동합니다.
 2. 선택 사항: 새 섹션을 만듭니다. 워크스페이스 하단으로 스크롤한 후 **섹션 추가**를 클릭합니다.
@@ -124,9 +106,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
   <img src="/images/app_ui/add_single_panel.gif" alt="패널 추가 데모" />
 </Frame>
 
-<div id="quick-panel-builder">
-  ### 빠른 패널 빌더
-</div>
+### 빠른 패널 빌더 {#quick-panel-builder}
 
 **빠른 패널 빌더**를 사용하면 워크스페이스 또는 섹션 수준에서 선택한 메트릭 키에 대한 패널을 자동으로 만들 수 있습니다.
 
@@ -146,9 +126,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
 * **단일 키 패널**: `train/loss`용 패널 하나와 `val/loss`용 패널 하나, 총 두 개의 패널을 만듭니다.
 * **다중 메트릭 패널**: 정규 표현식 `.*\/loss`를 사용하면 두 메트릭이 모두 포함된 하나의 패널을 만듭니다.
 
-<div id="add-panels-to-the-workspace">
-  #### 워크스페이스에 패널 추가
-</div>
+#### 워크스페이스에 패널 추가 {#add-panels-to-the-workspace}
 
 1. 프로젝트 워크스페이스로 이동합니다.
 2. 패널 검색 필드 옆의 **Add panels**를 선택한 후 **빠른 패널 빌더**를 선택합니다.
@@ -158,9 +136,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
    * **단일 키 패널**: 메트릭 키 위에 마우스를 올린 후 **Add**를 선택합니다. 추가하려는 각 메트릭 키에 대해 반복합니다.
    * **다중 메트릭 패널**: 일치하는 메트릭 키를 포함하는 패널을 만들려면 정규 표현식을 지정합니다. **Add panel**을 클릭합니다.
 
-<div id="add-panels-to-a-section-2">
-  #### 섹션에 패널 추가
-</div>
+#### 섹션에 패널 추가 {#add-panels-to-a-section-2}
 
 1. 프로젝트 워크스페이스로 이동합니다.
 2. 선택 사항: 섹션을 만들려면 워크스페이스 하단으로 스크롤하여 **섹션 추가**를 선택합니다.
@@ -179,9 +155,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
 
 <br />
 
-<div id="share-a-panel">
-  ## 패널 공유
-</div>
+## 패널 공유 {#share-a-panel}
 
 패널을 공유하면 전체 워크스페이스로 이동하지 않고도 공동 작업자가 특정 시각화에 집중된 뷰로 바로 이동할 수 있습니다. 링크로 패널을 공유하려면 다음 중 하나를 수행하세요.
 
@@ -192,9 +166,7 @@ W&amp;B 프로젝트는 두 가지 워크스페이스 모드를 지원합니다.
 
 전체 화면 모드에서 패널의 워크스페이스로 돌아가려면 페이지 상단의 왼쪽 화살표를 클릭합니다.
 
-<div id="compose-a-panels-full-screen-link-programmatically">
-  ### 패널의 전체 화면 링크를 프로그래밍 방식으로 구성하기
-</div>
+### 패널의 전체 화면 링크를 프로그래밍 방식으로 구성하기 {#compose-a-panels-full-screen-link-programmatically}
 
 [Automations 생성](/ko/models/automations/) 또는 유사한 워크플로를 만들 때는 패널의 전체 화면 URL을 포함하는 것이 유용할 수 있습니다. 다음 형식은 패널의 전체 화면 URL을 보여줍니다. 다음 예시에서는 대괄호 안의 entity, 프로젝트, 패널, 섹션 이름을 바꾸세요.
 
@@ -204,9 +176,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 
 같은 섹션에 동일한 이름의 패널이 여러 개 있으면 이 URL은 해당 이름의 첫 번째 패널을 엽니다.
 
-<div id="embed-or-share-a-panel-on-social-media">
-  ### 웹사이트에 패널을 임베드하거나 소셜 미디어에 공유하기
-</div>
+### 웹사이트에 패널을 임베드하거나 소셜 미디어에 공유하기 {#embed-or-share-a-panel-on-social-media}
 
 웹사이트에 패널을 임베드하거나 소셜 미디어에 공유하려면 링크가 있는 누구나 해당 패널을 볼 수 있어야 합니다. 프로젝트가 비공개인 경우에는 프로젝트 멤버만 패널을 볼 수 있습니다. 프로젝트가 공개인 경우에는 링크가 있는 누구나 패널을 볼 수 있습니다.
 
@@ -217,9 +187,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 3. **Only those who are invited have access**를 **Anyone with the link can view**로 변경합니다. 그렇지 않으면 다음 step의 옵션을 사용할 수 없습니다.
 4. **Share on Twitter**, **Share on Reddit**, **Share on LinkedIn** 또는 **Copy embed link**를 선택합니다.
 
-<div id="email-a-panel-report">
-  ### 패널 리포트 이메일로 보내기
-</div>
+### 패널 리포트 이메일로 보내기 {#email-a-panel-report}
 
 단일 패널을 독립형 리포트로 이메일로 보내려면 다음 단계를 따르세요.
 
@@ -232,15 +200,11 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 
 [패널 공유](#share-a-panel)와 달리, 수신자는 이 리포트에서 워크스페이스로 이동할 수 없습니다.
 
-<div id="manage-panels">
-  ## 패널 관리
-</div>
+## 패널 관리 {#manage-panels}
 
 워크스페이스에 패널을 추가한 후에는 시각화를 체계적으로 정리하고 최신 상태로 유지하려면 패널을 편집, 이동, 복제 또는 제거할 수 있습니다.
 
-<div id="edit-a-panel">
-  ### 패널 편집
-</div>
+### 패널 편집 {#edit-a-panel}
 
 패널을 편집하려면 다음과 같이 하세요.
 
@@ -249,9 +213,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 3. 선택 사항: 패널을 다른 유형으로 변경하려면 유형을 선택한 다음 설정을 구성합니다.
 4. **Apply**를 클릭합니다.
 
-<div id="move-a-panel">
-  ### 패널 이동
-</div>
+### 패널 이동 {#move-a-panel}
 
 패널을 다른 섹션으로 이동하려면 패널의 드래그 핸들을 사용할 수 있습니다. 대신 목록에서 새 섹션을 선택하려면 다음 단계를 따르세요.
 
@@ -261,9 +223,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 
 드래그 핸들을 사용해 같은 섹션 내에서 패널 순서를 바꿀 수도 있습니다.
 
-<div id="duplicate-a-panel">
-  ### 패널 복제
-</div>
+### 패널 복제 {#duplicate-a-panel}
 
 패널을 복제하려면 다음 단계를 따르세요.
 
@@ -272,9 +232,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 
 필요한 경우 복제된 패널을 [사용자 지정](#edit-a-panel)하거나 [이동](#move-a-panel)할 수 있습니다.
 
-<div id="remove-panels">
-  ### 패널 제거
-</div>
+### 패널 제거 {#remove-panels}
 
 패널을 제거하려면 다음을 수행합니다.
 
@@ -286,15 +244,11 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 
 자동 또는 수동 워크스페이스에서 모든 패널을 제거하려면 [워크스페이스를 재설정](#reset-a-workspace)할 수 있습니다. 기본 패널 세트로 시작하려면 **Automatic**을 선택하고, 패널이 없는 빈 워크스페이스로 시작하려면 **Manual**을 선택합니다.
 
-<div id="manage-sections">
-  ## 섹션 관리
-</div>
+## 섹션 관리 {#manage-sections}
 
 섹션은 관련된 패널을 함께 묶어 큰 워크스페이스를 더 쉽게 살펴볼 수 있게 합니다. 기본적으로 워크스페이스의 섹션은 키의 logging 계층 구조를 반영합니다. 하지만 수동 워크스페이스에서는 패널을 추가하기 시작해야 섹션이 표시됩니다.
 
-<div id="add-a-section">
-  ### 섹션 추가
-</div>
+### 섹션 추가 {#add-a-section}
 
 섹션을 추가하려면 마지막 섹션 뒤에 있는 **섹션 추가**를 클릭합니다.
 
@@ -304,9 +258,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
   섹션 이름을 &quot;Section&quot;으로 지정하지 마세요. 알려진 제한 사항으로 인해 이름을 변경할 때까지 이 섹션의 패널이 렌더링되지 않습니다.
 </Warning>
 
-<div id="manage-a-sections-panels">
-  ### 섹션의 패널 관리
-</div>
+### 섹션의 패널 관리 {#manage-a-sections-panels}
 
 섹션 내에서 패널 크기를 조정하고, 페이지 나누기를 제어하고, 개별 패널을 삭제할 수 있습니다. 패널 수가 많은 섹션은 기본적으로 페이지로 나뉘어 표시됩니다. 한 페이지에 표시되는 기본 패널 수는 패널의 설정과 섹션 내 패널 크기에 따라 달라집니다.
 
@@ -324,9 +276,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 
 워크스페이스를 자동화된 워크스페이스로 재설정하면 삭제한 모든 패널이 다시 표시됩니다.
 
-<div id="rename-a-section">
-  ### 섹션 이름 바꾸기
-</div>
+### 섹션 이름 바꾸기 {#rename-a-section}
 
 섹션 이름을 바꾸려면 해당 섹션의 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **섹션 이름 바꾸기**를 클릭합니다.
 
@@ -334,8 +284,6 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
   섹션 이름을 &quot;Section&quot;으로 지정하지 마세요. 제한 사항으로 인해 섹션 이름을 바꿀 때까지 이 섹션의 패널이 렌더링되지 않습니다.
 </Warning>
 
-<div id="delete-a-section">
-  ### 섹션 삭제
-</div>
+### 섹션 삭제 {#delete-a-section}
 
 섹션을 삭제하려면 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **섹션 삭제**를 클릭합니다. 그러면 섹션과 그 안의 패널이 삭제됩니다.

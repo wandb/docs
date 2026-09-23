@@ -14,6 +14,10 @@ report の本文は *ブロック* で構成されています。ブロックに
 
 *パネルグリッド* は、パネルと *run set* を保持する特定の種類のブロックです。run set は、W&amp;B の project にログされた Runs のコレクションです。パネルは、run set データを可視化したものです。
 
+<Tip>
+  自分が所有する report を [ARIA](/ja/aria/overview) で修正するには、report を開いて **Edit with ARIA** をクリックし、変更したい内容を入力します。ARIA は変更内容を既存の report に保存します。
+</Tip>
+
 <Note>
   カスタマイズした保存済み Workspace ビューを作成するエンドツーエンドのチュートリアルについては、[Programmatic workspaces notebook](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) を実行してください。
 </Note>
@@ -26,9 +30,7 @@ report の本文は *ブロック* で構成されています。ブロックに
   ```
 </Note>
 
-<div id="add-plots">
-  ## プロットを追加
-</div>
+## プロットを追加 {#add-plots}
 
 プロットを使用すると、レポート内で run のデータを可視化できます。各パネルグリッドには、一連の run set と一連のパネルがあります。パネルグリッド内の run set は、グリッド内の各パネルに表示されるデータを制御します。別の run set からデータを取得するグラフを追加したい場合は、新しいパネルグリッドを作成します。
 
@@ -73,9 +75,7 @@ report の本文は *ブロック* で構成されています。ブロックに
   </Tab>
 </Tabs>
 
-<div id="add-run-sets">
-  ## run set を追加する
-</div>
+## run set を追加する {#add-run-sets}
 
 App UI または W&amp;B SDK を使用して、プロジェクトからインタラクティブに run set を追加します。
 
@@ -186,9 +186,7 @@ App UI または W&amp;B SDK を使用して、プロジェクトからインタ
   </Tab>
 </Tabs>
 
-<div id="freeze-a-run-set">
-  ## run set を固定する
-</div>
+## run set を固定する {#freeze-a-run-set}
 
 レポートでは、プロジェクトの最新データが表示されるよう、run set が自動的に更新されます。後から追加された run によってレポートの表示内容が変わらないよう、特定の時点におけるレポート内の run set の状態を保持するには、run set を固定します。
 
@@ -198,9 +196,7 @@ App UI または W&amp;B SDK を使用して、プロジェクトからインタ
   <img src="/images/reports/freeze_runset.png" alt="run set を固定するボタン" />
 </Frame>
 
-<div id="group-a-run-set-programmatically">
-  ## プログラムで run set をグループ化する
-</div>
+## プログラムで run set をグループ化する {#group-a-run-set-programmatically}
 
 [Workspace and Reports API](/ja/models/ref/wandb_workspaces/reports) を使用して、run set 内の runs をプログラムでグループ化できます。グループ化により、関連する runs がパネル内でまとめて整理されるため、設定と結果を比較しやすくなります。
 
@@ -217,9 +213,7 @@ run set 内の runs は、設定値、run メタデータ、または サマリ�
       2. ドット記法: `"config.model_type"` のように、ドットを使ってネストされた値にアクセスします。
       3. 事前定義されたフィールド: `"Name"`、`"Tags"`、`"State"` などの一部のフィールドは、特別なrunメタデータフィールドです。 */}
 
-<div id="group-runs-by-config-values">
-  ### 設定値で run をグループ化する
-</div>
+### 設定値で run をグループ化する {#group-runs-by-config-values}
 
 類似した設定の run を比較するには、設定値で run をグループ化します。設定値は、run の設定 `(wandb.init(config=))` で指定するパラメーターです。設定値で run をグループ化するには、`config.[KEY]` 構文を使用します。ここで、`[KEY]` はグループ化に使う設定値の名です。
 
@@ -271,9 +265,7 @@ report.blocks = [
 report.save()
 ```
 
-<div id="group-runs-by-run-metadata">
-  ### run のメタデータで run をグループ化する
-</div>
+### run のメタデータで run をグループ化する {#group-runs-by-run-metadata}
 
 run は、ログされた値ではなく、run に固有のプロパティに基づいて整理するために、メタデータでグループ化できます。run は、run の名 (`Name`)、状態 (`State`)、またはジョブタイプ (`JobType`) でグループ化できます。
 
@@ -293,9 +285,7 @@ runset = wr.Runset(
   run の名前は、W&amp;B App の run の **Overview** ページ、または `Api.runs().run.name` を使ってプログラムから確認できます。
 </Note>
 
-<div id="group-runs-by-summary-metrics">
-  ### サマリー メトリクスで run をグループ化する
-</div>
+### サマリー メトリクスで run をグループ化する {#group-runs-by-summary-metrics}
 
 以下の例では、サマリー メトリクスで run をグループ化する方法を示します。サマリー メトリクスとは、`wandb.Run.log()` を使って run にログする値です。run をログした後、サマリー メトリクスの名は、W&amp;B App の run の **Overview** ページにある **Summary** セクションで確認できます。
 
@@ -332,9 +322,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="filter-a-run-set-programmatically">
-  ## run set をプログラムでフィルタリングする
-</div>
+## run set をプログラムでフィルタリングする {#filter-a-run-set-programmatically}
 
 [Workspace and Reports API](/ja/models/ref/wandb_workspaces/reports) を使用すると、run set をプログラムでフィルタリングして report に追加できます。フィルタリングを行うと、設定値、メトリクス、tags、または run のプロパティに基づいて、表示したい特定の Runs のみに run set を絞り込めます。
 
@@ -357,9 +345,7 @@ Filter('[KEY]') operation [VALUE]
 
 以下の例では、report 内で run set をフィルターする方法を示します。角かっこで囲まれた値 (たとえば `[ENTITY]` や `[PROJECT]`) は、ご自身の値に置き換えてください。
 
-<div id="config-filters">
-  ### 設定フィルター
-</div>
+### 設定フィルター {#config-filters}
 
 1 つ以上の設定値を使って run set をフィルターします。設定値は、run の設定 (`wandb.init(config=)`) で指定するパラメーターです。
 
@@ -424,9 +410,7 @@ report.blocks = [
 report.save()
 ```
 
-<div id="metric-filters">
-  ### メトリクスフィルター
-</div>
+### メトリクスフィルター {#metric-filters}
 
 run setを、run のタグ (`tags`)、run の状態 (`state`)、run 名 (`displayName`)、またはジョブ タイプ (`jobType`) に基づいてフィルターします。
 
@@ -482,9 +466,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="summarymetric-filters">
-  ### SummaryMetric フィルター
-</div>
+### SummaryMetric フィルター {#summarymetric-filters}
 
 サマリー メトリクスで run set をフィルターすると、accuracy や loss の値など、特定の結果のしきい値を満たす run に絞り込めます。サマリー メトリクスは、`wandb.Run.log()` を使って run にログする値です。run をログした後、サマリー メトリクスの名は、W&amp;B App の run の **Overview** ページにある **Summary** セクションで確認できます。
 
@@ -504,9 +486,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="tags-filters">
-  ### タグフィルター
-</div>
+### タグフィルター {#tags-filters}
 
 タグで run set をフィルタリングすると、特定のタグを付けた runs のみを表示できます。タグは、run に追加する値です (プログラムから、または W&amp;B App を使って追加できます) 。
 
@@ -518,9 +498,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="add-code-blocks">
-  ## コードブロックを追加する
-</div>
+## コードブロックを追加する {#add-code-blocks}
 
 設定、例、スニペットを結果とあわせて共有するために、コードブロックを追加できます。App UI でインタラクティブに追加することも、W&amp;B SDK を使用してプログラムから追加することもできます。
 
@@ -581,9 +559,7 @@ runset = wr.Runset(
   </Tab>
 </Tabs>
 
-<div id="add-markdown">
-  ## Markdown を追加する
-</div>
+## Markdown を追加する {#add-markdown}
 
 Markdown を追加すると、レポート内の説明文、見出し、インライン強調を整形できます。App UI または W&amp;B SDK を使用して、インタラクティブまたはプログラムから Markdown を追加できます。
 
@@ -614,9 +590,7 @@ Markdown を追加すると、レポート内の説明文、見出し、イン�
   </Tab>
 </Tabs>
 
-<div id="add-html-elements">
-  ## HTML 要素を追加する
-</div>
+## HTML 要素を追加する {#add-html-elements}
 
 見出しやリストなどの HTML 要素を追加して、レポートを構造化します。これらは App UI を使用してインタラクティブに追加することも、W&amp;B SDK を使用してプログラムで追加することもできます。
 
@@ -655,9 +629,7 @@ Markdown を追加すると、レポート内の説明文、見出し、イン�
   </Tab>
 </Tabs>
 
-<div id="embed-rich-media-links">
-  ## リッチメディアのリンクを埋め込む
-</div>
+## リッチメディアのリンクを埋め込む {#embed-rich-media-links}
 
 Tweet、動画、オーディオなどのリッチメディアを埋め込んで、外部のコンテキストを追加し、レポートをより充実させることができます。App UI または W&amp;B SDK を使用して、レポート内にリッチメディアを埋め込みます。
 
@@ -665,9 +637,7 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
   <Tab title="App UI">
     URL を Reports にコピー＆ペーストして、レポート内にリッチメディアを埋め込みます。以下のアニメーションは、Twitter、YouTube、SoundCloud から URL をコピー＆ペーストする方法を示しています。
 
-    <div id="twitter">
-      ### Twitter
-    </div>
+### Twitter {#twitter}
 
     Tweet のリンク URL をレポートにコピー＆ペーストすると、その Tweet をレポート内に表示できます。
 
@@ -675,9 +645,7 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
       <img src="/images/reports/twitter.gif" alt="Twitter コンテンツの埋め込み" />
     </Frame>
 
-    <div id="youtube">
-      ### YouTube
-    </div>
+### YouTube {#youtube}
 
     YouTube の動画 URL リンクをコピー＆ペーストして、レポートに動画を埋め込みます。
 
@@ -685,9 +653,7 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
       <img src="/images/reports/youtube.gif" alt="YouTube 動画の埋め込み" />
     </Frame>
 
-    <div id="soundcloud">
-      ### SoundCloud
-    </div>
+### SoundCloud {#soundcloud}
 
     SoundCloud のリンクをコピー＆ペーストして、オーディオファイルをレポートに埋め込みます。
 
@@ -716,9 +682,7 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
   </Tab>
 </Tabs>
 
-<div id="duplicate-panel-grids">
-  ## パネルグリッドを複製する
-</div>
+## パネルグリッドを複製する {#duplicate-panel-grids}
 
 同じReportsまたは別のReportsでLayoutを再利用するには、パネルグリッドを複製します。パネルグリッドを選択してコピー＆ペーストすることで、同じReports内で複製したり、別のReportsに貼り付けたりできます。
 
@@ -728,9 +692,7 @@ Tweet、動画、オーディオなどのリッチメディアを埋め込んで
   <img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="パネルグリッドをコピーする" />
 </Frame>
 
-<div id="delete-panel-grids">
-  ## パネルグリッドを削除する
-</div>
+## パネルグリッドを削除する {#delete-panel-grids}
 
 report内でレイアウトや内容が不要になった場合は、パネルグリッドを削除します。パネルグリッドを選択し、キーボードの`delete`キーを押すと、パネルグリッドを削除できます。
 
@@ -738,9 +700,7 @@ report内でレイアウトや内容が不要になった場合は、パネル�
   <img src="/images/reports/delete_panel_grid.gif" alt="パネルグリッドを削除する" />
 </Frame>
 
-<div id="collapse-headers-to-organize-reports">
-  ## ヘッダーを折りたたんでレポートを整理する
-</div>
+## ヘッダーを折りたたんでレポートを整理する {#collapse-headers-to-organize-reports}
 
 レポートでは、ヘッダーを折りたたむことでテキストブロック内のコンテンツを非表示にできます。レポートの読み込み時には、展開されているヘッダーのコンテンツのみが表示されます。レポート内でヘッダーを折りたたむと、コンテンツを整理しやすくなり、必要以上のデータを読み込まずに済みます。次のアニメーションは、この手順を示しています。
 
@@ -748,9 +708,7 @@ report内でレイアウトや内容が不要になった場合は、パネル�
   <img src="/images/reports/collapse_headers.gif" alt="レポート内でヘッダーを折りたたむ" />
 </Frame>
 
-<div id="visualize-relationships-across-multiple-dimensions">
-  ## 複数の次元間の関係を可視化する
-</div>
+## 複数の次元間の関係を可視化する {#visualize-relationships-across-multiple-dimensions}
 
 1 つのチャートで 3 つ以上の変数間の関係を明らかにしたい場合、標準的な 2D plot では限界があります。2D plot で表示できる以上の変数を比較するには、追加の次元として色のグラデーションを使用できます。これにより視認性が高まり、パターンをより簡単に読み取れるようになります。
 

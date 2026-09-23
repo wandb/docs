@@ -27,9 +27,7 @@ os.environ["WANDB_MODE"] = "offline"
 os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 ```
 
-<div id="optional-environment-variables">
-  ## 선택적 환경 변수
-</div>
+## 선택적 환경 변수 {#optional-environment-variables}
 
 원격 머신에서 인증을 설정하는 등의 작업에 이 선택적 환경 변수를 사용할 수 있습니다.
 
@@ -69,14 +67,10 @@ os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 | `WANDB_USERNAME`        | run과 연결된 팀 멤버의 사용자 이름입니다. 서비스 계정 API 키와 함께 사용하면 자동화된 run의 소유자를 팀 멤버로 귀속시킬 수 있습니다.                                                                                                                                       |
 | `WANDB_USER_EMAIL`      | run과 연결된 팀 멤버의 이메일입니다. 서비스 계정 API 키와 함께 사용하면 자동화된 run의 소유자를 팀 멤버로 귀속시킬 수 있습니다.                                                                                                                                          |
 
-<div id="singularity-environments">
-  ## Singularity 환경
-</div>
+## Singularity 환경 {#singularity-environments}
 
 [Singularity](https://singularity.lbl.gov/index.html)에서 컨테이너를 실행하는 경우, 위의 변수 이름 앞에 `SINGULARITYENV_`를 붙여 환경 변수를 전달할 수 있습니다. Singularity 환경 변수에 대한 자세한 내용은 [여기](https://singularity.lbl.gov/docs-environment-metadata#environment)에서 확인하세요.
 
-<div id="running-on-aws">
-  ## AWS에서 실행하기
-</div>
+## AWS에서 실행하기 {#running-on-aws}
 
 AWS에서 배치 작업을 실행하는 경우 W&amp;B 자격 증명을 사용해 머신을 쉽게 인증할 수 있습니다. [User Settings](https://wandb.ai/settings)에서 API 키를 생성한 다음, [AWS Batch 작업 사양](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters)에서 `WANDB_API_KEY` 환경 변수를 설정하세요.

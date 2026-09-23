@@ -15,9 +15,7 @@ CrewAI 애플리케이션은 여러 에이전트가 함께 작동하는 경우�
 
 다음 섹션에서는 Crew 트레이싱, 도구 사용 추적, Flow 트레이싱, 그리고 가드레일 함수를 Weave op로 래핑하는 방법을 차례대로 설명합니다.
 
-<div id="get-started-with-crew">
-  ## Crew 시작하기
-</div>
+## Crew 시작하기 {#get-started-with-crew}
 
 이 예제를 실행하려면 CrewAI와 Weave를 설치하세요. CrewAI 설치에 대한 자세한 내용은 [CrewAI 설치 가이드](https://docs.crewai.com/installation)를 참조하세요.
 
@@ -90,9 +88,7 @@ Weave는 CrewAI 라이브러리를 통해 이루어지는 모든 호출을 추�
   CrewAI는 kickoff 프로세스를 더 세밀하게 제어할 수 있도록 여러 방법을 제공합니다: `kickoff()`, `kickoff_for_each()`, `kickoff_async()`, `kickoff_for_each_async()`. 이 인테그레이션은 이러한 모든 방법에서 생성되는 트레이스 로깅을 지원합니다.
 </Note>
 
-<div id="track-tools">
-  ## 도구 추적
-</div>
+## 도구 추적 {#track-tools}
 
 CrewAI 도구를 사용하면 에이전트가 웹 검색, 데이터 분석, 협업, 동료 간 작업 위임과 같은 기능을 활용할 수 있습니다. 이 인테그레이션은 이러한 도구도 트레이스합니다.
 
@@ -132,9 +128,7 @@ researcher = Agent(
   이 인테그레이션은 [`crewAI-tools`](https://github.com/crewAIInc/crewAI-tools) 저장소에서 사용 가능한 모든 도구에 자동으로 패치를 적용합니다.
 </Note>
 
-<div id="get-started-with-flow">
-  ## Flow 시작하기
-</div>
+## Flow 시작하기 {#get-started-with-flow}
 
 다음 예시는 CrewAI Flow를 정의하고 Weave로 트레이스하는 방법을 보여줍니다. Crews와 마찬가지로, Weave가 `Flow.kickoff` 엔트리 포인트와 `@start`, `@listen`, `@router`, `@or_`, `@and_` 데코레이터를 자동으로 캡처할 수 있도록 Flow를 정의하기 전에 `weave.init()`을 호출하세요.
 
@@ -216,9 +210,7 @@ print(result)
 
 <Note>이 인테그레이션은 `Flow.kickoff` 엔트리 포인트와 지원되는 모든 데코레이터(`@start`, `@listen`, `@router`, `@or_`, `@and_`)를 자동으로 패치합니다.</Note>
 
-<div id="crew-guardrail-track-your-own-ops">
-  ## Crew 가드레일: 직접 ops 추적하기
-</div>
+## Crew 가드레일: 직접 ops 추적하기 {#crew-guardrail-track-your-own-ops}
 
 Task 가드레일은 CrewAI가 작업 출력을 다음 작업에 전달하기 전에 이를 검증하고 변환할 수 있게 해줍니다. Python 함수를 사용해 에이전트의 실행을 실시간으로 검증할 수 있습니다.
 
@@ -272,9 +264,7 @@ writing_task = Task(
 
 [![guardrail.png](/weave/guides/integrations/imgs/crewai/crew_with_guardrail.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D\&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c838-38cb-71a2-8a15-651ecddf9d89%3FdescendentCallId%3D0195c838-8632-7173-846d-f230e7272c20\&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
-<div id="conclusion">
-  ## 결론
-</div>
+## 결론 {#conclusion}
 
 이제 에이전트 상호작용, 도구 사용, Flow 실행, 가드레일 검증을 캡처하는 Weave로 트레이스된 CrewAI 애플리케이션이 준비되었습니다. 이 인테그레이션의 개선 사항을 제안하거나 문제를 보고하려면 [GitHub에서 이슈를 등록해 주세요](https://github.com/wandb/weave/issues/new/choose).
 

@@ -12,9 +12,7 @@ LoRA アダプター (Low-Rank Adaptation) を使用すると、完全に新し�
 
 LoRA アダプター をトレーニングするかアップロードすることで、ベースモデルに新しい機能を持たせることができます。たとえば、カスタマー サポート、クリエイティブ ライティング、特定の技術分野向けに特化させることができます。これにより、モデル全体を再トレーニングしたり再デプロイしたりすることなく、モデルの動作を調整できます。
 
-<div id="why-use-serverless-inference-for-loras">
-  ## LoRAs で Serverless Inference を使用する理由
-</div>
+## LoRAs で Serverless Inference を使用する理由 {#why-use-serverless-inference-for-loras}
 
 LoRAs 向けの Serverless Inference には、次の利点があります。
 
@@ -22,9 +20,7 @@ LoRAs 向けの Serverless Inference には、次の利点があります。
 * アーティファクト のバージョン管理により、どのバージョンが本番稼働中かをトラッキングできます。
 * モデル全体の重みではなく、小さな LoRA ファイルを差し替えるだけで、モデルを更新できます。
 
-<div id="workflow">
-  ## ワークフロー
-</div>
+## ワークフロー {#workflow}
 
 大まかには、カスタム LoRA アダプター を提供するには 3 つの手順があります。
 
@@ -54,9 +50,7 @@ print(resp.choices[0].message.content)
 
 LoRA アダプター を作成し、それをアーティファクトとして W&amp;B にアップロードする方法を対話形式で示したデモについては、この[スタートガイドノートブック](https://wandb.me/lora_nb)をご覧ください。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 以下が必要です。
 
@@ -64,9 +58,7 @@ LoRA アダプター を作成し、それをアーティファクトとして W
 * [W&amp;Bプロジェクト](/ja/models/track/project-page)。
 * `openai` と `wandb` パッケージがインストールされた Python 3.8+: `pip install wandb openai`。
 
-<div id="add-and-use-loras">
-  ## LoRA アダプター を追加して使用する
-</div>
+## LoRA アダプター を追加して使用する {#add-and-use-loras}
 
 LoRA アダプター は、2 つの方法で W&amp;B アカウントに追加して使用を開始できます。LoRA アダプター をトレーニングした場所に応じて、対応するタブを選択してください。
 
@@ -92,9 +84,7 @@ LoRA アダプター は、2 つの方法で W&amp;B アカウントに追加し
     run.log_artifact(artifact)
     ```
 
-    <div id="key-requirements">
-      ### 主な要件
-    </div>
+### 主な要件 {#key-requirements}
 
     独自の LoRA アダプター を Inference で使用するには、次の点を満たしていることを確認してください。
 
@@ -120,9 +110,7 @@ LoRA アダプター は、2 つの方法で W&amp;B アカウントに追加し
 model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
 ```
 
-<div id="supported-base-models">
-  ## サポートされているベースモデル
-</div>
+## サポートされているベースモデル {#supported-base-models}
 
 LoRA アダプターは、以下のいずれかのベースモデルに対してトレーニングされている必要があります。`wandb.base_model` を設定する際は、正確なモデル ID の string を使用してください。これにより、W&amp;B は推論時にアダプターを正しいベースモデルと対応付けることができます。
 
@@ -139,9 +127,7 @@ LoRA アダプターは、以下のいずれかのベースモデルに対して
 | `Qwen/Qwen3.6-27B`                  | 16          |
 | `Qwen/Qwen3-30B-A3B-Instruct-2507`  | 16          |
 
-<div id="pricing">
-  ## 料金
-</div>
+## 料金 {#pricing}
 
 常時稼働のサーバーや専用 GPU インスタンスではなく、ストレージと実行した推論分に対してのみ料金が発生します。料金は次の 2 つの要素で構成されます。
 

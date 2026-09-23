@@ -12,9 +12,7 @@ keywords: ["코드 저장", "팀 가시성", "리포트 공유", "초대 제어"
   팀 워크플로에 예기치 않은 변경이 생기지 않도록, W&amp;B는 조직 관리자가 개인정보 보호 설정을 강제 적용하기 전에 조직의 모든 팀 관리자와 사용자에게 미리 안내할 것을 권장합니다.
 </Note>
 
-<div id="enforce-privacy-settings-for-all-teams">
-  ## 모든 팀에 개인정보 보호 설정 강제 적용
-</div>
+## 모든 팀에 개인정보 보호 설정 강제 적용 {#enforce-privacy-settings-for-all-teams}
 
 조직 관리자는 조직 설정의 **개인정보 보호** 탭에서 조직 내 모든 팀의 개인정보 보호 설정을 강제 적용할 수 있습니다. 강제 적용된 설정은 조직의 모든 팀에 적용되며, 팀 관리자는 팀 범위에서 이를 재정의할 수 없습니다. 팀 관리자가 강제 적용된 설정을 열면 W&amp;B는 다음 메시지를 표시합니다: &quot;This setting is locked because it&#39;s enforced org-wide. To make changes, please contact your org admin.&quot;
 
@@ -26,9 +24,7 @@ keywords: ["코드 저장", "팀 가시성", "리포트 공유", "초대 제어"
 
 다음 섹션에서는 **개인정보 보호** 탭의 설정을 설명합니다. 각 설정은 표시/숨기기 방식이며, W&amp;B는 변경 사항을 즉시 저장합니다.
 
-<div id="access-control">
-  ### Access Control
-</div>
+### Access Control {#access-control}
 
 팀 가시성과 구성원 참여 프로세스를 관리합니다.
 
@@ -40,9 +36,7 @@ keywords: ["코드 저장", "팀 가시성", "리포트 공유", "초대 제어"
 * **Disable API key creation**: 사용자와 팀 service account는 새 API 키를 만들 수 없습니다. 조직 service account는 계속 키를 만들 수 있으며, 기존 키도 그대로 작동합니다. [Disable API key creation](./iam/api-keys#disable-api-key-creation)을 참조하세요.
   <Note>이 설정은 Dedicated Cloud와 Self-Managed v0.84.0 이상에서만 표시됩니다.</Note>
 
-<div id="project-and-content-security">
-  ### 프로젝트 및 콘텐츠 보안
-</div>
+### 프로젝트 및 콘텐츠 보안 {#project-and-content-security}
 
 프로젝트 개인정보 보호 설정을 제어하고 콘텐츠 공유를 관리합니다.
 
@@ -50,23 +44,17 @@ keywords: ["코드 저장", "팀 가시성", "리포트 공유", "초대 제어"
 * **Disable public report sharing**: 비공개 프로젝트의 report에 대한 공개 공유를 해제하고 기존 공개 링크를 비활성화합니다.
 * **Disable default code saving**: 모든 팀에 대해 기본 코드 저장을 해제합니다. [Code saving](/ko/models/app/features/panels/code)을 참조하세요.
 
-<div id="smart-features">
-  ### 스마트 특성
-</div>
+### 스마트 특성 {#smart-features}
 
 **Smart features** 섹션에서는 LLM 기반 특성과 데이터 공유를 제어합니다. 이 섹션은 조직에 W&amp;B AI 특성에 대한 액세스 권한이 있는 경우에만 **개인정보 보호** 탭에 표시됩니다. [거버넌스 및 보안](/ko/aria/governance)을 참조하세요.
 
-<div id="aria">
-  ### ARIA
-</div>
+### ARIA {#aria}
 
 **ARIA** 섹션에서는 조직의 프로젝트 전반에서 ARIA가 수행할 수 있는 작업을 제어합니다. 이 섹션은 조직에 프로젝트 메모리가 활성화된 경우에만 **개인정보 보호** 탭에 표시됩니다.
 
 * **Enable project memory**: ARIA가 컨벤션이나 과거 수정 사항과 같은 프로젝트 세부 정보를 기억했다가 이후 대화에서 활용하도록 합니다. ARIA는 프로젝트의 메모리를 해당 프로젝트를 소유한 팀과 공유합니다. 이 설정을 끄면 ARIA는 메모리를 사용하지 않고 새로운 내용도 기록하지 않지만, 기존 메모리는 그대로 유지됩니다. [프로젝트 메모리 보기 및 관리](/ko/aria/overview#view-and-manage-project-memories)를 참조하세요.
 
-<div id="configure-privacy-settings-for-a-team">
-  ## 팀의 개인정보 보호 설정 구성
-</div>
+## 팀의 개인정보 보호 설정 구성 {#configure-privacy-settings-for-a-team}
 
 조직 범위에서 강제 적용되지 않는 설정은 팀 관리자가 팀 **Settings** 페이지의 **개인정보 보호** 섹션에서 자신의 팀에 맞게 관리할 수 있습니다.
 

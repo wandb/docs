@@ -15,9 +15,7 @@ sweep 設定は、[Python の辞書](https://docs.python.org/3/tutorial/datastru
 
 以下のセクションでは、sweep 設定の書式を説明します。最上位レベルの sweep 設定キーの一覧については、[Sweep configuration options](/ja/models/sweeps/sweep-config-keys) を参照してください。
 
-<div id="basic-structure">
-  ## 基本構造
-</div>
+## 基本構造 {#basic-structure}
 
 sweep 設定は、YAML または Python の辞書のいずれかを使用して、キーと値のペアおよびネストされた構造で定義します。
 
@@ -72,9 +70,7 @@ sweep 設定のトップレベルキーを使用して、sweep 検索の特性�
 
 トップレベルの `parameters` キーの中には、`learning_rate`、`batch_size`、`epochs`、`optimizer` の各キーがネストされています。指定した各ネストキーには、1 つ以上の値、分布、確率などを指定できます。詳細は、[Sweep configuration options](/ja/models/sweeps/sweep-config-keys) の [parameters](/ja/models/sweeps/sweep-config-keys#parameters) セクションを参照してください。
 
-<div id="double-nested-parameters">
-  ## 二重にネストしたパラメーター
-</div>
+## 二重にネストしたパラメーター {#double-nested-parameters}
 
 関連するハイパーパラメーターをまとめてグループ化したい場合や、トレーニング コードでネストされた設定構造を想定している場合は、ネストされたパラメーターを使用します。ネストされたパラメーターを定義するには、トップレベルのパラメーター名の下に `parameters` キーを追加します。
 
@@ -248,9 +244,7 @@ sweep 設定のトップレベルキーを使用して、sweep 検索の特性�
   サブツリー (`learning_rate` と `double_nested_param`) が反映されます。これには、`wandb.init(config=...)` で定義された `manual_key` は含まれません。
 </Warning>
 
-<div id="sweep-configuration-template">
-  ## Sweep 設定テンプレート
-</div>
+## Sweep 設定テンプレート {#sweep-configuration-template}
 
 このテンプレートを、新しい sweep 設定の出発点として使用してください。ここでは、最も一般的なパラメーターと早期終了のパターンを示しています。`hyperparameter_name` は使用するハイパーパラメーターの名に置き換え、角括弧で囲まれた値も必要に応じて置き換えてください。
 
@@ -290,9 +284,7 @@ command:
 
 数値を科学表記で表すには、YAMLの`!!float`演算子を追加して、値を浮動小数点数として扱います。たとえば、`min: !!float 1e-5`です。詳細は、[マクロとカスタム コマンド引数の例](#macro-and-custom-command-arguments-example)をご覧ください。
 
-<div id="sweep-configuration-examples">
-  ## sweep 設定例
-</div>
+## sweep 設定例 {#sweep-configuration-examples}
 
 以下の sweep 設定は、一般的なシナリオを示したものです。ご自身のトレーニングスクリプトに合わせて sweep を調整する際の参考として使用してください。
 
@@ -348,9 +340,7 @@ command:
   </Tab>
 </Tabs>
 
-<div id="bayes-hyperband-example">
-  ### Bayes hyperbandの例
-</div>
+### Bayes hyperbandの例 {#bayes-hyperband-example}
 
 次の例では、ベイズ探索と Hyperband の早期終了を組み合わせることで、パフォーマンスの低い run を早い段階で停止し、より有望な設定にリソースを割り当てます。
 
@@ -409,9 +399,7 @@ early_terminate:
   </Tab>
 </Tabs>
 
-<div id="macro-and-custom-command-arguments-example">
-  ### マクロとカスタムコマンド引数の例
-</div>
+### マクロとカスタムコマンド引数の例 {#macro-and-custom-command-arguments-example}
 
 この例では、デフォルトの invocation よりも細かく制御したい場合に、sweep エージェントが各試行で実行するコマンドをどのように構築するかを示します。
 
@@ -469,9 +457,7 @@ with wandb.init(project="test-project") as run:
 
 [sweep 設定で使用できる、あらかじめ定義されたマクロの一覧については、[Sweep configuration options](/ja/models/sweeps/sweep-config-keys) の [コマンドマクロ](/ja/models/sweeps/sweep-config-keys#command-macros) セクションを参照してください。](/models/sweeps/sweep-config-keys#command-macros)
 
-<div id="boolean-arguments">
-  #### ブール引数
-</div>
+#### ブール引数 {#boolean-arguments}
 
 sweep がコマンド引数としてブールフラグを渡す場合、`argparse` はデフォルトではブール値の文字列を解釈しないため、トレーニングスクリプトで追加の処理が必要です。
 

@@ -11,15 +11,11 @@ description: "UI を使用してインタラクティブに、またはクエリ
   W&amp;B Registry のクエリに使用できる構文と演算子は MongoDB のクエリに似ていますが、同一ではありません。
 </Info>
 
-<div id="search-for-registry-items">
-  ## レジストリ項目を検索する
-</div>
+## レジストリ項目を検索する {#search-for-registry-items}
 
 [W&amp;B Registry ホームページの検索バー](/ja/models/registry/search_registry#basic-search)を使用して、名前でコレクションやレジストリを検索します。[高度な検索](/ja/models/registry/search_registry#advanced-search)を使用すると、名前、タグ、説明、作成日などの特定の属性を持つレジストリ、コレクション、または アーティファクト バージョン を検索できます。
 
-<div id="basic-search">
-  ### 基本検索
-</div>
+### 基本検索 {#basic-search}
 
 W&amp;B Registry のホームページから レジストリ と コレクション を検索します。
 
@@ -27,9 +23,7 @@ W&amp;B Registry のホームページから レジストリ と コレクショ
 2. ページ上部の検索バーに検索語を入力します。
 3. Enter キーを押して検索します。
 
-<div id="advanced-search">
-  ### 高度な検索
-</div>
+### 高度な検索 {#advanced-search}
 
 高度な検索を使用して、レジストリ、コレクション、またはアーティファクト バージョンを検索できます。フィルターを使用すると、名、タグ、説明、作成日などの属性に基づいて、特定のレジストリ項目を検索できます。
 
@@ -40,9 +34,7 @@ W&amp;B Registry のホームページから レジストリ と コレクショ
 5. 左から順に、フィルターする属性、演算子、値を選択します。複数のフィルターを追加して、検索結果を絞り込むことができます。
 6. Enterキーを押してフィルターを適用します。
 
-<div id="query-registry-items">
-  ## レジストリ項目をクエリする
-</div>
+## レジストリ項目をクエリする {#query-registry-items}
 
 [`wandb.Api().registries()`](/ja/models/ref/python/public-api/api#registries) と *クエリ述語* を使用して、レジストリ、コレクション、アーティファクト バージョンをフィルターします。クエリ述語は、返される項目が満たすべき条件を指定するものです。
 
@@ -58,9 +50,7 @@ W&amp;B Registry のホームページから レジストリ と コレクショ
 
 以下のセクションでは、レジストリで使用可能な[クエリ名](/ja/models/registry/search_registry#filterable-fields)、[サポートされる演算子](/ja/models/registry/search_registry#supported-operators)、および[クエリの例](/ja/models/registry/search_registry#example-queries)について説明します。
 
-<div id="filterable-fields">
-  ### フィルター可能なフィールド
-</div>
+### フィルター可能なフィールド {#filterable-fields}
 
 次の表は、フィルターする項目のタイプに応じて使用できるクエリ名を示しています。
 
@@ -70,15 +60,11 @@ W&amp;B Registry のホームページから レジストリ と コレクショ
 | コレクション | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | バージョン  | `tag`, `alias`, `created_at`, `updated_at`, `metadata`   |
 
-<div id="supported-operators">
-  ### サポートされている演算子
-</div>
+### サポートされている演算子 {#supported-operators}
 
 W&amp;B は、レジストリ項目を絞り込むために、次の比較演算子および論理演算子をサポートしています。
 
-<div id="comparison-operators">
-  #### 比較演算子
-</div>
+#### 比較演算子 {#comparison-operators}
 
 | 演算子    | 説明    |
 | ------ | ----- |
@@ -89,9 +75,7 @@ W&amp;B は、レジストリ項目を絞り込むために、次の比較演算
 | `$lt`  | より小さい |
 | `$lte` | 以下    |
 
-<div id="logical-operators">
-  #### 論理演算子
-</div>
+#### 論理演算子 {#logical-operators}
 
 | 演算子    | 説明                                                                            |
 | ------ | ----------------------------------------------------------------------------- |
@@ -100,9 +84,7 @@ W&amp;B は、レジストリ項目を絞り込むために、次の比較演算
 | `$nor` | 1 つ以上の条件に対して [NOR](https://en.wikipedia.org/wiki/Logical_NOR) 演算を行います         |
 | `$not` | 条件に対して [NOT](https://en.wikipedia.org/wiki/Negation) 演算を行います                  |
 
-<div id="other-operators">
-  #### その他の演算子
-</div>
+#### その他の演算子 {#other-operators}
 
 | 演算子         | 説明          |
 | ----------- | ----------- |
@@ -110,9 +92,7 @@ W&amp;B は、レジストリ項目を絞り込むために、次の比較演算
 | `$exists`   | フィールドの有無    |
 | `$contains` | 文字列に値を含む    |
 
-<div id="example-queries">
-  ### クエリの例
-</div>
+### クエリの例 {#example-queries}
 
 以下のコード例では、一般的な検索パターンをいくつか示します。
 

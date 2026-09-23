@@ -15,9 +15,7 @@ Serverless Sandboxes vous offre des environnements de calcul isolés à la deman
 
 Serverless Sandboxes repose sur la bibliothèque CoreWeave Sandbox. Pour la référence de l’API sous-jacente et la documentation de la bibliothèque, voir la [documentation CoreWeave Sandbox](https://docs.coreweave.com/products/coreweave-sandbox).
 
-<div id="how-it-works">
-  ## Fonctionnement
-</div>
+## Fonctionnement {#how-it-works}
 
 Un *sandbox* est un environnement de calcul isolé. Vous pouvez le [créer](/fr/sandboxes/create-sandbox), [y exécuter des commandes](/fr/sandboxes/run-commands), puis l’arrêter une fois le traitement terminé. Chaque sandbox s’exécute dans son propre conteneur, avec son propre système de fichiers, son propre réseau et son propre espace de processus.
 
@@ -29,9 +27,7 @@ Un sandbox passe par [plusieurs états au cours de son cycle de vie](/fr/sandbox
 
 Utilisez une *session* pour gérer plusieurs sandboxes qui partagent une configuration. Lorsqu’une session se ferme, tous les sandboxes qu’elle contient sont arrêtés automatiquement. Voir [Gérer plusieurs sandboxes](/fr/sandboxes/create-sandbox#create-multiple-sandboxes-with-a-session) pour plus de détails.
 
-<div id="basic-usage">
-  ## Utilisation de base
-</div>
+## Utilisation de base {#basic-usage}
 
 Suivez ces étapes pour créer un sandbox et y exécuter une commande :
 
@@ -64,9 +60,7 @@ Suivez ces étapes pour créer un sandbox et y exécuter une commande :
 
    Le sandbox s’arrête automatiquement à la sortie du gestionnaire de contexte (le bloc `with`). Pour plus d’informations sur le cycle de vie et les états du sandbox, voir [Cycle de vie des sandboxes](/fr/sandboxes/lifecycle).
 
-<div id="migrate-to-cwsandbox">
-  ## Migrer vers cwsandbox
-</div>
+## Migrer vers cwsandbox {#migrate-to-cwsandbox}
 
 `wandb.sandbox` est obsolète et sera supprimé dans une future version du SDK Python W&amp;B. Le package `cwsandbox` le remplace et accepte soit une clé API W&amp;B, soit un CoreWeave API access token. Sa documentation de référence se trouve dans la [documentation CoreWeave sandbox](https://docs.coreweave.com/products/sandboxes).
 
@@ -98,9 +92,7 @@ Pour migrer, modifiez la manière dont vous installez le package, dont vous l&#3
 
 Vos credentials W&amp;B sont résolus comme aujourd&#39;hui : à partir d&#39;une Session `wandb login` active, de la variable d&#39;environnement `WANDB_API_KEY` ou de l&#39;entrée `api.wandb.ai` du fichier `~/.netrc`. Pour facturer les sandboxes à un Compte CoreWeave à la place, omettez `auth` et définissez `CWSANDBOX_API_KEY` avec un CoreWeave API access token. Pour comparer les deux credentials, voir [Choose a credential](https://docs.coreweave.com/products/sandboxes/get-started#choose-a-credential).
 
-<div id="behavior-that-changes-after-you-migrate">
-  ### Comportements qui changent après la migration
-</div>
+### Comportements qui changent après la migration {#behavior-that-changes-after-you-migrate}
 
 `wandb.sandbox` encapsule `cwsandbox` et applique les valeurs par défaut de W&amp;B Serverless que le package `cwsandbox` n&#39;applique pas de lui-même. Tenez compte de ces différences lors de la migration :
 
@@ -110,18 +102,14 @@ Vos credentials W&amp;B sont résolus comme aujourd&#39;hui : à partir d&#39;un
 | Magasin de secrets               | `Secret` utilise par défaut le magasin de secrets de l&#39;équipe W&amp;B | `Secret` exige un argument `store` explicite                           |
 | Arguments de placement           | Rejette `profile_ids`, `profile_names` et `runner_ids`                    | Les accepte pour les runners de sandbox CoreWeave                      |
 
-<div id="serverless-sandboxes-tutorials">
-  ## Tutoriels Serverless Sandboxes
-</div>
+## Tutoriels Serverless Sandboxes {#serverless-sandboxes-tutorials}
 
 Pour des exemples plus détaillés, voir :
 
 * [Tutoriel : invoquer un agent dans un Serverless Sandbox](/fr/sandboxes/invoke-agent-sandbox-tutorial)
 * [Tutoriel : entraîner un modèle PyTorch dans un Serverless Sandbox](/fr/sandboxes/mltrain-in-sandbox-tutorial)
 
-<div id="integrations">
-  ## Integrations
-</div>
+## Integrations {#integrations}
 
 Les frameworks tiers suivants prennent en charge Serverless Sandboxes en tant que fournisseur de sandbox.
 

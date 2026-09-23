@@ -12,26 +12,20 @@ import EnterpriseOnly from "/snippets/ja/_includes/enterprise-only.mdx";
   チームの設定を変更したり、チームからメンバーを削除したりできるのは、Administration アカウントタイプのみです。
 </Note>
 
-<div id="members">
-  ## メンバー
-</div>
+## メンバー {#members}
 
 メンバー セクションには、保留中の招待の一覧と、チームへの招待を承諾したメンバーが表示されます。一覧の各メンバーには、名前、ユーザー名、メールアドレス、チームロールが表示されます。一覧には、組織から継承される Models と W&amp;B Weave への各メンバーのアクセス権限も表示されます。標準のチームロール **Admin**、**Member**、**View-only** から選択できます。組織で [custom roles](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles) を作成している場合は、代わりにカスタムロールを割り当てることもできます。
 
 チームの作成方法、Teams の管理方法、チームメンバーシップとロールの管理方法については、[Add and Manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。新しいメンバーを招待できるユーザーの設定や、チームのその他のプライバシー設定を行うには、[プライバシー](#privacy) を参照してください。
 
-<div id="avatar">
-  ## アバター
-</div>
+## アバター {#avatar}
 
 チームのアバターを設定すると、メンバーが W&amp;B App でチームを視覚的に識別しやすくなります。**アバター** セクションに移動し、画像をアップロードしてアバターを設定します。
 
 1. **Update Avatar** を選択すると、ファイルダイアログが表示されます。
 2. ファイルダイアログから、使用する画像を選択します。
 
-<div id="alerts">
-  ## アラート
-</div>
+## アラート {#alerts}
 
 run がクラッシュしたときや完了したとき、またはカスタムアラートを設定して、チームに通知できます。チームは、メールまたは Slack のいずれかでアラートを受信できます。
 
@@ -42,9 +36,7 @@ run がクラッシュしたときや完了したとき、またはカスタム�
 
 アラートの設定と管理の方法について詳しくは、[`wandb.Run.alert()` を使用したアラートの送信](/ja/models/runs/alert)を参照してください。
 
-<div id="slack-notifications">
-  ## Slack 通知
-</div>
+## Slack 通知 {#slack-notifications}
 
 新しい artifact が作成されたときや、run のメトリクスが定義したしきい値に達したときなど、Registry またはプロジェクトでイベントが発生した際に、チームの [automations](/ja/models/automations/) が通知を送信する Slack の通知先を設定します。[Slack automation を作成する](/ja/models/automations/create-automations/slack/)を参照してください。
 
@@ -52,9 +44,7 @@ run がクラッシュしたときや完了したとき、またはカスタム�
   <EnterpriseOnly />
 </Info>
 
-<div id="webhooks">
-  ## ウェブフック
-</div>
+## ウェブフック {#webhooks}
 
 Registry またはプロジェクトでイベントが発生した際に、チームの[automations](/ja/models/automations/)から実行されるウェブフックを設定します。たとえば、新しい artifact が作成されたときや、run のメトリクスが設定したしきい値に達したときです。[webhook automation を作成する](/ja/models/automations/create-automations/slack/)を参照してください。
 
@@ -62,9 +52,7 @@ Registry またはプロジェクトでイベントが発生した際に、チ�
   <EnterpriseOnly />
 </Info>
 
-<div id="privacy">
-  ## プライバシー
-</div>
+## プライバシー {#privacy}
 
 プライバシーのデフォルトを変更するには、チームの **Settings** ページにある **プライバシー** セクションにアクセスします。[すべてのチームに同じポリシーが適用されるよう組織管理者がロックしていない](/ja/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams)限り、チーム管理者はこれらの設定を編集できます。組織管理者も、設定を確認するためにこのページを開くことはできます。
 
@@ -74,14 +62,10 @@ Registry またはプロジェクトでイベントが発生した際に、チ�
 
 ナビゲーション手順と、組織レベルの **Disable default code saving** コントロールについては、[プライバシー設定を構成する](/ja/platform/hosting/privacy-settings)を参照してください。
 
-<div id="usage">
-  ## 使用状況
-</div>
+## 使用状況 {#usage}
 
 **使用状況** セクションには、チームが W&amp;B のサーバー上で使用した合計メモリ使用量が表示されます。デフォルトのストレージプランは 100 GB です。ストレージと Pricing の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。
 
-<div id="storage">
-  ## ストレージ
-</div>
+## ストレージ {#storage}
 
 **ストレージ** セクションでは、チームのデータに使用されているクラウドストレージバケットの設定について説明します。詳細は、[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector)を参照してください。セルフホスティングしている場合は、[W&amp;B Server](/ja/platform/hosting/data-security/secure-storage-connector)のドキュメントも参照してください。

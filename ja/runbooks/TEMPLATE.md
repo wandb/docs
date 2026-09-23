@@ -2,13 +2,9 @@
 title: テンプレート
 ---
 
-<div id="agent-prompt-task-title">
-  # エージェントへのプロンプト: [タスクタイトル]
-</div>
+# エージェントへのプロンプト: [タスクタイトル] {#agent-prompt-task-title}
 
-<div id="requirements">
-  ## 要件
-</div>
+## 要件 {#requirements}
 
 このタスクを開始する前に満たしておく必要があるアクセス要件や前提条件を記載してください。
 
@@ -16,9 +12,7 @@ title: テンプレート
 * [ ] 必須の権限 (例: リポジトリへの書き込み権限) 。
 * [ ] 必須のツールまたは依存関係。
 
-<div id="agent-prerequisites">
-  ## エージェント の事前準備
-</div>
+## エージェント の事前準備 {#agent-prerequisites}
 
 開始前にユーザーから収集する情報:
 
@@ -26,40 +20,28 @@ title: テンプレート
 2. **[必須情報 2]** - 必要な理由
 3. **[任意情報]** - 必要になる場合やその理由
 
-<div id="task-overview">
-  ## タスク概要
-</div>
+## タスク概要 {#task-overview}
 
 このランブックの目的と、どのような場合に使用するかを簡潔に説明します。
 
 > **注**: ユーザーが事前に知っておくべき重要な前提や制限事項。
 
-<div id="context-and-constraints">
-  ## 前提と制約
-</div>
+## 前提と制約 {#context-and-constraints}
 
-<div id="systemtool-limitations">
-  ### システム/ツールの制約
-</div>
+### システム/ツールの制約 {#systemtool-limitations}
 
 * 制約 1 と、それがタスクに与える影響
 * 制約 2 と、該当する場合の回避策
 
-<div id="important-context">
-  ### 重要な前提情報
-</div>
+### 重要な前提情報 {#important-context}
 
 * 重要な背景情報
 * よくある落とし穴やエッジケース
 * セキュリティ上の考慮事項
 
-<div id="step-by-step-process">
-  ## stepごとの手順
-</div>
+## stepごとの手順 {#step-by-step-process}
 
-<div id="1-first-major-step">
-  ### 1. [最初の主要なstep]
-</div>
+### 1. [最初の主要なstep] {#1-first-major-step}
 
 このstepで達成する内容の説明。
 
@@ -71,9 +53,7 @@ command --with-flags
 **期待される結果**: この step の後に起こるべきこと。
 
 
-<div id="2-second-major-step">
-  ### 2. [2つ目の主要な step]
-</div>
+### 2. [2つ目の主要な step] {#2-second-major-step}
 
 説明と、必要に応じた判断ポイント。
 
@@ -83,13 +63,9 @@ command --with-flags
 * 権限が不足している場合のフォールバック手順
 * よくあるバリエーションへの対応方法
 
-<div id="3-continue-with-remaining-steps">
-  ### 3. [残りのstepに進みます...]
-</div>
+### 3. [残りのstepに進みます...] {#3-continue-with-remaining-steps}
 
-<div id="verification-and-testing">
-  ## 検証とテスト
-</div>
+## 検証とテスト {#verification-and-testing}
 
 想定される結果:
 
@@ -97,37 +73,27 @@ command --with-flags
 * ✓ 成功の指標 2
 * ✗ よくある失敗の指標とその意味
 
-<div id="how-to-verify-success">
-  ### 成功したことを確認する方法
-</div>
+### 成功したことを確認する方法 {#how-to-verify-success}
 
 1. 次の点を確認します...
 2. 次の点を確認します...
 3. 次の方法でテストします...
 
-<div id="common-issues-and-solutions">
-  ## よくある問題と解決策
-</div>
+## よくある問題と解決策 {#common-issues-and-solutions}
 
-<div id="issue-common-problem-1">
-  ### 問題: [一般的な問題 1]
-</div>
+### 問題: [一般的な問題 1] {#issue-common-problem-1}
 
 * **症状**: この問題の現れ方
 * **原因**: 発生する理由
 * **解決策**: stepごとの対処方法
 
-<div id="issue-common-problem-2">
-  ### 問題: [よくある問題 2]
-</div>
+### 問題: [よくある問題 2] {#issue-common-problem-2}
 
 * **症状**:
 * **原因**:
 * **解決方法**: 
 
-<div id="cleanup-instructions">
-  ## クリーンアップ手順
-</div>
+## クリーンアップ手順 {#cleanup-instructions}
 
 タスク完了後:
 
@@ -142,9 +108,7 @@ rm -f temporary-files
 ```
 
 
-<div id="checklist">
-  ## チェックリスト
-</div>
+## チェックリスト {#checklist}
 
 プロセス全体の確認用チェックリスト:
 
@@ -156,9 +120,7 @@ rm -f temporary-files
 * [ ] 一時リソースを削除した。
 * [ ] 恒久的な変更があれば文書化した。
 
-<div id="notes">
-  ## メモ
-</div>
+## メモ {#notes}
 
 * 追加のヒントや補足情報。
 * 関連ドキュメントへのリンク。

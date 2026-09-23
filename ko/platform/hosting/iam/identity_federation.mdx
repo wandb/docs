@@ -19,9 +19,7 @@ keywords: ["JWT 인증", "RFC 7523", "페더레이션 로그인", "키 없는 �
   이 문서에서는 &quot;ID 공급자&quot;와 &quot;JWT 발급자&quot;라는 용어를 같은 의미로 사용합니다. 이 기능의 맥락에서 두 용어는 모두 동일한 대상을 가리킵니다.
 </Note>
 
-<div id="set-up-the-jwt-issuer">
-  ## JWT 발급자 설정
-</div>
+## JWT 발급자 설정 {#set-up-the-jwt-issuer}
 
 사용자가 JWT로 인증하려면 먼저 조직 관리자가 W&amp;B 조직과 공개적으로 액세스 가능한 JWT 발급자 간에 페더레이션을 설정해야 합니다.
 
@@ -33,9 +31,7 @@ W&amp;B는 `${ISSUER_URL}/.well-known/openid-configuration` 경로에서 OIDC �
 
 이 단계가 완료되면 W&amp;B 조직이 JWT 발급자와 페더레이션됩니다. 이후 조직의 사용자는 해당 공급자가 발급한 JWT를 사용해 W&amp;B에 인증할 수 있습니다.
 
-<div id="use-the-jwt-to-access-wb">
-  ## JWT를 사용하여 W&amp;B에 액세스하기
-</div>
+## JWT를 사용하여 W&amp;B에 액세스하기 {#use-the-jwt-to-access-wb}
 
 조직 관리자가 JWT 발급자를 설정하면 사용자는 해당 ID 공급자가 발급한 JWT를 사용해 W&amp;B 프로젝트에 액세스할 수 있습니다. JWT 사용 방식은 다음과 같습니다.
 
@@ -49,9 +45,7 @@ W&amp;B는 `${ISSUER_URL}/.well-known/openid-configuration` 경로에서 OIDC �
   W&amp;B 액세스 토큰에도 기본 만료 기간이 있으며, 이 기간이 지나면 SDK 또는 CLI는 JWT를 사용해 이를 갱신하려고 시도합니다. 그 시점에 사용자의 JWT도 만료되었고 갱신되지 않았다면 인증이 실패합니다. 가능하다면 JWT를 가져오고 만료 후 갱신하는 메커니즘을 W&amp;B SDK 또는 CLI를 사용하는 AI 워크로드의 일부로 구현하세요.
 </Note>
 
-<div id="jwt-validation">
-  ### JWT 검증
-</div>
+### JWT 검증 {#jwt-validation}
 
 유효한 토큰만 액세스를 부여하도록 보장하기 위해 JWT에는 다음과 같은 검증이 수행됩니다. 이러한 검증은 SDK 또는 CLI가 JWT를 W&amp;B 액세스 토큰으로 교환한 뒤 프로젝트에 액세스할 때 실행됩니다.
 
@@ -70,9 +64,7 @@ W&amp;B는 `${ISSUER_URL}/.well-known/openid-configuration` 경로에서 OIDC �
 
 * W&amp;B는 JWT의 `exp` 클레임을 확인하여 토큰이 유효한지, 또는 만료되어 새로 고침이 필요한지 판단합니다.
 
-<div id="external-service-accounts">
-  ## 외부 서비스 계정
-</div>
+## 외부 서비스 계정 {#external-service-accounts}
 
 W&amp;B는 오랫동안 장기간 유효한 API 키를 사용하는 기본 제공 서비스 계정을 지원해 왔습니다. SDK 및 CLI용 ID 페더레이션을 사용하면 JWT로 인증하는 외부 서비스 계정도 연동해 사용할 수 있습니다. 이러한 JWT는 조직에 설정된 issuer가 발급해야 합니다. 팀 관리자는 기본 제공 서비스 계정과 마찬가지로 팀 범위 내에서 외부 서비스 계정을 구성할 수 있습니다.
 
@@ -92,9 +84,7 @@ W&amp;B는 오랫동안 장기간 유효한 API 키를 사용하는 기본 제�
   W&amp;B는 데이터 민감도 수준이 서로 다른 AI 워크로드 전반에서 기본 제공 서비스 계정과 외부 서비스 계정을 혼합해 사용할 것을 권장합니다. 이러한 혼합 방식은 유연성과 단순성 사이의 균형을 맞춰 줍니다.
 </Note>
 
-<div id="determine-the-subject-value-for-your-identity-provider">
-  ### ID 공급자의 Subject 값 확인
-</div>
+### ID 공급자의 Subject 값 확인 {#determine-the-subject-value-for-your-identity-provider}
 
 **Subject**에 입력하는 값은 서비스 계정용으로 IdP가 발급한 JWT의 `sub`(subject) 클레임과 정확히 일치해야 합니다. W&amp;B는 모든 ID 공급자에 대해 동일한 방식으로 비교합니다. 이 일치는 대/소문자를 구분하고 공백에도 민감하므로, 끝에 공백이 하나 있거나 대소문자가 다르기만 해도 인증에 실패합니다.
 

@@ -16,9 +16,7 @@ Les Skills fonctionnent avec plusieurs agents de code majeurs, notamment :
 
 Pour obtenir la liste complète des agents pris en charge, consultez la [documentation CLI de W&amp;B Skills](https://github.com/vercel-labs/skills#supported-agents).
 
-<div id="wb-skills-capabilities">
-  ## Capacités de W&amp;B Skills
-</div>
+## Capacités de W&amp;B Skills {#wb-skills-capabilities}
 
 Skills couvre à la fois le [SDK W&amp;B Models](/fr/models/ref) (runs d&#39;entraînement, métriques, Artifacts, Sweeps) et le [SDK Weave](/fr/weave/reference/python-sdk) (traces, évaluations, évaluateurs). Il inclut des bibliothèques utilitaires, de la documentation de référence et des approches d&#39;analyse de données afin que votre agent puisse prendre en charge les flux de travail suivants.
 
@@ -27,9 +25,7 @@ Skills couvre à la fois le [SDK W&amp;B Models](/fr/models/ref) (runs d&#39;ent
 | **Entraînement du modèle** | <ul><li>Journalisez des métriques et des médias enrichis pendant l&#39;entraînement et le fine-tuning.</li><li>Suivez et comparez les expériences.</li><li>Analysez les Runs et les résultats, comme les courbes de perte et les scores de précision.</li><li>Ajustez les hyperparamètres.</li></ul> |
 | **Création d&#39;agents**  | <ul><li>Tracez les applications d&#39;IA agentique.</li><li>Analysez les traces et classez les modes de défaillance.</li><li>Évaluez les modèles et les agents à l&#39;aide de jeux de données étiquetés.</li><li>Exécutez des évaluations en ligne pour le monitoring en production.</li></ul>      |
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Skills requiert les éléments suivants :
 
@@ -40,9 +36,7 @@ Skills requiert les éléments suivants :
   ```
 * Facultatif : définissez le nom de votre projet W&amp;B comme variable d’environnement `WANDB_PROJECT`. Cela permet à votre agent de cibler le bon projet W&amp;B sans avoir à le préciser à chaque fois.
 
-<div id="install-wb-skills">
-  ## Installer W&amp;B Skills
-</div>
+## Installer W&amp;B Skills {#install-wb-skills}
 
 Choisissez une installation globale pour rendre Skills disponibles dans tous vos projets, ou une installation spécifique à un projet pour limiter Skills à un seul projet.
 
@@ -68,9 +62,7 @@ Pour consulter la liste des options `--agent` et `--skill`, voir la [documentati
 
 Une fois l’installation terminée, votre agent a accès à W&amp;B Skills et est prêt à prendre en charge les tâches liées à W&amp;B.
 
-<div id="use-wb-skills">
-  ## Utiliser W&amp;B Skills
-</div>
+## Utiliser W&amp;B Skills {#use-wb-skills}
 
 Une fois installé, vous pouvez demander à l&#39;agent d&#39;effectuer des tâches liées à W&amp;B pour votre projet. Les prompts d’exemple suivants illustrent certaines des tâches que votre agent peut accomplir avec W&amp;B Skills :
 
@@ -81,9 +73,7 @@ Une fois installé, vous pouvez demander à l&#39;agent d&#39;effectuer des tâc
 * &quot;Trouve les modes de défaillance dans ma dernière évaluation et classe-les.&quot;
 * &quot;Compare les configurations du run A et du run B et montre-moi les différences.&quot;
 
-<div id="usage-tips">
-  ## Conseils d’utilisation
-</div>
+## Conseils d’utilisation {#usage-tips}
 
 Skills fonctionne mieux avec des requêtes plus précises qu’avec des questions larges et ouvertes. Le tableau suivant compare des prompts recommandés à des prompts trop vagues.
 

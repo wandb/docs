@@ -5,27 +5,19 @@ keywords: ["Inférence"]
 
 Les erreurs du serveur indiquent des problèmes temporaires avec le service Serverless Inference. Cette page vous aide à identifier ces erreurs, à les gérer correctement dans votre code client et à déterminer quand contacter l’assistance.
 
-<div id="error-types">
-  ## Types d’erreurs
-</div>
+## Types d’erreurs {#error-types}
 
 Les sections suivantes décrivent les codes d’erreur qui signalent des problèmes transitoires côté serveur, plutôt que des problèmes liés à votre requête.
 
-<div id="500-internal-server-error">
-  ### 500 erreur interne du serveur
-</div>
+### 500 erreur interne du serveur {#500-internal-server-error}
 
 Il s’agit d’une erreur interne temporaire du côté du serveur. Le message de réponse est : &quot;Le serveur a rencontré une erreur lors du traitement de votre requête.&quot;
 
-<div id="503-service-overloaded">
-  ### 503 service surchargé
-</div>
+### 503 service surchargé {#503-service-overloaded}
 
 Le service connaît actuellement un trafic élevé. Le message de réponse est : « Le moteur est actuellement surchargé. Veuillez réessayer plus tard. »
 
-<div id="handle-server-errors">
-  ## Gérer les erreurs du serveur
-</div>
+## Gérer les erreurs du serveur {#handle-server-errors}
 
 Comme ces erreurs sont généralement temporaires, les techniques suivantes donnent au service le temps de récupérer avant que vous ne réessayiez.
 
@@ -60,9 +52,7 @@ Comme ces erreurs sont généralement temporaires, les techniques suivantes donn
    * Augmentez les valeurs de délai d’attente de votre client HTTP.
    * Envisagez des opérations asynchrones pour une meilleure gestion.
 
-<div id="contact-support">
-  ## Contacter l’assistance
-</div>
+## Contacter l’assistance {#contact-support}
 
 Si les nouvelles tentatives et le backoff ne résolvent pas le problème, contactez l’assistance afin que l’équipe puisse approfondir l’enquête.
 

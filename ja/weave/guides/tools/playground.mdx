@@ -33,9 +33,7 @@ Playground を使い始めて LLM とのやり取りを最適化し、プロン�
 * [カスタムランタイム](#custom-runtimes)
 * [保存済みモデル](#saved-models)
 
-<div id="add-provider-credentials-and-information">
-  ## プロバイダーの認証情報と情報を追加する
-</div>
+## プロバイダーの認証情報と情報を追加する {#add-provider-credentials-and-information}
 
 Playgroundを使用するには、まずプロバイダーの認証情報を追加して、Playgroundが各モデルプロバイダーへのリクエストをユーザーに代わって認証できるようにする必要があります。Playgroundは多くのプロバイダーのモデルに対応しています。利用可能なモデルのいずれかを使用するには、適切な情報をW&amp;BのSettingsにあるチームシークレットに追加してください。
 
@@ -55,9 +53,7 @@ Playgroundを使用するには、まずプロバイダーの認証情報を追�
 * OpenAI: `OPENAI_API_KEY`
 * X.AI: `XAI_API_KEY`
 
-<div id="access-the-playground">
-  ## Playground にアクセスする
-</div>
+## Playground にアクセスする {#access-the-playground}
 
 Playground には 2 つの方法でアクセスできます。
 
@@ -71,9 +67,7 @@ Playground には 2 つの方法でアクセスできます。
   ![Playground で開くボタンのスクリーンショット](/weave/guides/tools/imgs/open_chat_in_playground.png)
 </Frame>
 
-<div id="select-an-llm">
-  ## LLMを選択する
-</div>
+## LLMを選択する {#select-an-llm}
 
 プロンプトヘッダー (Playground のメインパネル上部) にある **Select a model** ドロップダウンを使って、LLM を切り替えられます。以下のプロバイダーを利用できます。
 
@@ -89,15 +83,11 @@ Playground には 2 つの方法でアクセスできます。
 
 利用可能なモデルは、チームに設定されているプロバイダーによって異なります。
 
-<div id="customize-playground-settings">
-  ## Playground の Settings をカスタマイズする
-</div>
+## Playground の Settings をカスタマイズする {#customize-playground-settings}
 
 選択したモデルのパラメーターを調整したり、モデルが呼び出す関数を追加したりできます。以下のセクションでは、Playground の Settings をカスタマイズする方法を説明します。
 
-<div id="adjust-llm-parameters">
-  ### LLMパラメーターを調整する
-</div>
+### LLMパラメーターを調整する {#adjust-llm-parameters}
 
 選択したモデルで、さまざまなパラメーター値を試すことができます。Playground でパラメーターを調整するには、次の手順に従ってください。
 
@@ -115,21 +105,15 @@ Playground には 2 つの方法でアクセスできます。
 
 Playground では、試行回数を設定することで、同じ入力に対して複数の出力を生成できます。デフォルト値は `1` です。試行回数を調整するには、**Chat settings** パネルを開き、**Number of trials** を調整します。
 
-<div id="add-a-function">
-  ### 関数を追加する
-</div>
+### 関数を追加する {#add-a-function}
 
 ユーザーから受け取った入力に基づいて、異なるモデルが関数をどのように使用するかをテストできます。Playground でテスト用の関数を追加するには、**Chat settings** パネルで **+ Add function** をクリックします。画面の案内に従って関数を定義し、変更を保存します。
 
-<div id="message-controls">
-  ## Message controls
-</div>
+## Message controls {#message-controls}
 
 Playground のチャット インターフェースは、prompt 定義エリア、messages パネル、message composer の 3 つの領域で構成されています。以下のセクションで、それぞれの領域について説明します。
 
-<div id="prompt-definition-area">
-  ### プロンプト定義エリア
-</div>
+### プロンプト定義エリア {#prompt-definition-area}
 
 **プロンプト定義エリア**では、やり取り全体を通してモデルの挙動を決める指示を定義できます。
 
@@ -148,9 +132,7 @@ Playground のチャット インターフェースは、prompt 定義エリア�
 * 応答を導くための **Assistant** メッセージの例を提供する (few-shot prompting など) 。
 * 特定のシナリオをテストするために **User** メッセージを事前定義する。
 
-<div id="messages-panel">
-  ### メッセージパネル
-</div>
+### メッセージパネル {#messages-panel}
 
 **メッセージパネル**には、実行中に生成された会話が表示されます。
 
@@ -162,9 +144,7 @@ Playground のチャット インターフェースは、prompt 定義エリア�
 
 また、パネル内のメッセージを**Copy**、**Delete**、**Edit**、**Retry**することもできます。
 
-<div id="message-composer-input-field">
-  ### メッセージコンポーザー (入力フィールド)
-</div>
+### メッセージコンポーザー (入力フィールド) {#message-composer-input-field}
 
 **メッセージコンポーザー** を使用して、モデルに新しいメッセージを送信します。
 
@@ -174,31 +154,23 @@ Playground のチャット インターフェースは、prompt 定義エリア�
   ![上部にプロンプト定義領域、中央にメッセージ履歴、下部に新しいメッセージを送信するための メッセージコンポーザー が表示された Weave Playground。](/weave/guides/tools/imgs/playground_chat_input.png)
 </Frame>
 
-<div id="view-message-history">
-  ## メッセージ履歴を表示する
-</div>
+## メッセージ履歴を表示する {#view-message-history}
 
 メッセージ履歴を表示するには、右側のPlaygroundツールバーにある **History (<Icon icon="clock-rotate-left" iconType="light" />)** ボタンをクリックします。現在のプロジェクトで送信されたすべてのメッセージを表示する History パネルが開きます。
 
 履歴内の項目を選択すると、比較用の追加のチャットパネルに読み込まれます。
 
-<div id="compare-llms">
-  ## LLM を比較する
-</div>
+## LLM を比較する {#compare-llms}
 
 Playground では、LLM を並べて比較して、異なるモデルが同じプロンプトにどう応答するかを評価できます。比較するには、Playground の右側のツールバーにある **チャットを追加 (<Icon icon="plus" iconType="solid" />)** ボタンをクリックします。元のチャットの横に 2 つ目のチャットが開きます。2 つ目のチャットでは、モデルの選択、Settings の調整、関数の追加など、元のチャットと同じ機能を利用できます。
 
-<div id="custom-runtimes">
-  ## カスタムランタイム
-</div>
+## カスタムランタイム {#custom-runtimes}
 
 Playground では、組み込みプロバイダーに加えて、project に登録できる OpenAI 互換 API エンドポイントであるカスタムランタイムもサポートしています。カスタムランタイムは以前、*カスタムプロバイダー*と呼ばれていました。カスタムランタイムを使用して、チームが提供するエージェントのプロトタイプ、ローカルモデル、サポートされるプロバイダーのモデルの旧バージョンなどをテストできます。
 
 UI または Python SDK を使用してカスタムランタイムを登録する方法については、[カスタムランタイム](/ja/weave/guides/tools/custom-runtimes)を参照してください。カスタムランタイムを登録した後、**Select a model** ドロップダウンからモデルを選択し、標準の Playground 機能を使用してテストします。
 
-<div id="use-a-local-model-as-a-custom-runtime">
-  ### ローカルモデルをカスタムランタイムとして使用する
-</div>
+### ローカルモデルをカスタムランタイムとして使用する {#use-a-local-model-as-a-custom-runtime}
 
 Playground でローカルで実行中のモデルをテストするには、ngrok と Ollama を使って、CORS の制限を回避する一時的な公開 URL を作成します。これにより、ブラウザのセキュリティポリシーに違反することなく、Playground からご利用のマシン上で実行されているモデルにアクセスできます。
 
@@ -272,15 +244,11 @@ flowchart LR
     linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
 ```
 
-<div id="saved-models">
-  ## 保存済みモデル
-</div>
+## 保存済みモデル {#saved-models}
 
 保存済みモデルを使用すると、プロバイダー、モデル、パラメーター、関数フックを再利用可能なプリセットとして保存できます。以下のセクションでは、モデルの保存、使用、更新の方法を説明します。
 
-<div id="save-a-model">
-  ### モデルを保存する
-</div>
+### モデルを保存する {#save-a-model}
 
 ワークフローで再利用できるモデルプリセットを作成し、設定できます。モデルを保存すると、好みの設定、パラメーター、関数フックを適用した状態ですばやく読み込めます。
 
@@ -291,18 +259,14 @@ flowchart LR
    * 必要に応じてパラメーターを調整します。また、Weave call トラッキングのオン/オフを切り替えたり、[関数を追加](#add-a-function)したりすることもできます。
 4. **モデルを公開** をクリックします。モデルが保存され、**Select a model** ドロップダウンの **保存済みモデル** から利用できるようになります。その後、保存したモデルを[使用](#use-a-saved-model)したり、[更新](#update-a-saved-model)したりできます。
 
-<div id="use-a-saved-model">
-  ### 保存済みモデルを使用する
-</div>
+### 保存済みモデルを使用する {#use-a-saved-model}
 
 以前に[保存したモデル](#save-a-model)に切り替えると、実験やセッションをまたいで一貫性を保てます。これにより、中断したところから再開できます。
 
 1. プロンプトヘッダー の **Select a model** ドロップダウンで、**保存済みモデル** を選択します。
 2. 保存済みモデルの一覧から、読み込みたい保存済みモデルを選択します。モデルが読み込まれ、Playground で使用できる状態になります。
 
-<div id="update-a-saved-model">
-  ### 保存済みモデルを更新する
-</div>
+### 保存済みモデルを更新する {#update-a-saved-model}
 
 既存の[保存済みモデル](#save-a-model)を編集して、パラメーターを微調整したり、設定を更新したりできます。こうすることで、保存済みモデルをユースケースの変化に合わせて進化させることができます。
 

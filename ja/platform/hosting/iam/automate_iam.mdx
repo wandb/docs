@@ -6,9 +6,7 @@ keywords: ["一括プロビジョニング", "Okta 同期", "Microsoft Entra", "
 
 このページでは、[SCIM API](/ja/platform/hosting/iam/scim) と [Python SDK API](/ja/models/ref/python/public-api) を使用して、大規模な Users と Teams の管理を自動化する方法を説明します。
 
-<div id="scim-api">
-  ## SCIM API
-</div>
+## SCIM API {#scim-api}
 
 Okta や Microsoft Entra などのアイデンティティ プロバイダ (IdP) を介して、W&amp;B 組織の Users と Teams を大規模に管理するには、W&amp;B SCIM API を使用します。
 
@@ -20,9 +18,7 @@ Okta や Microsoft Entra などのアイデンティティ プロバイダ (IdP)
 
 以下のセクションでは、SCIM API の各カテゴリについて説明します。
 
-<div id="user-scim-api">
-  ### User SCIM API
-</div>
+### User SCIM API {#user-scim-api}
 
 [User SCIM API](./scim#user-resource) を使用すると、W&amp;B 組織内のUsersを作成、無効化、取得、一覧表示し、事前定義ロールまたはカスタムのロールを割り当てられます。リクエストとレスポンスの完全な例については、[SCIM リファレンス](./scim#user-management) を参照してください。
 
@@ -30,9 +26,7 @@ Okta や Microsoft Entra などのアイデンティティ プロバイダ (IdP)
   ユーザーを無効化するには、`PATCH /scim/Users/{id}` を `{"active": false}` とともに送信します。結果はホスティングオプションによって異なります。専用クラウドおよびセルフマネージドのデプロイではユーザーレコードが保持されますが、Multi-tenant Cloud ではユーザーは組織から削除されます。Multi-tenant Cloud では再有効化できないため、代わりにユーザーを再追加してください。[Deactivate user](./scim#deactivate-user) と [Reactivate user](./scim#reactivate-user) を参照してください。
 </Note>
 
-<div id="group-scim-api">
-  ### Group SCIM API
-</div>
+### Group SCIM API {#group-scim-api}
 
 [Group SCIM API](./scim#group-resource) を使用すると、組織内で Teams を作成または削除する操作を含め、W&amp;B Teams を管理できます。既存のチームにユーザーを追加または削除するには、`PATCH Group` を使用します。
 
@@ -42,9 +36,7 @@ Okta や Microsoft Entra などのアイデンティティ プロバイダ (IdP)
   W&amp;B では、グループと W&amp;B Teams の類似性に基づき、Group SCIM API の endpoints を W&amp;B Teams に対応付けています。
 </Note>
 
-<div id="custom-role-scim-api">
-  ### カスタムロール SCIM API
-</div>
+### カスタムロール SCIM API {#custom-role-scim-api}
 
 [Custom Role SCIM API](./scim#role-resource) を使用すると、組織内のカスタムロールの作成、一覧表示、更新など、カスタムロールを管理できます。
 
@@ -56,9 +48,7 @@ Okta や Microsoft Entra などのアイデンティティ プロバイダ (IdP)
   カスタムロールの継承ロールを更新するには、`PUT Role` エンドポイントを使用します。この操作は、カスタムロール内の既存の継承されていないカスタム権限には影響しません。
 </Warning>
 
-<div id="wb-python-sdk-api">
-  ## W&amp;B Python SDK API
-</div>
+## W&amp;B Python SDK API {#wb-python-sdk-api}
 
 組織のUsers、Teams、およびチームのメンバーシップを次のクラスを通じて管理するには、[W&amp;B Python SDK API](/ja/models/ref/python/public-api/api)を使用します。
 

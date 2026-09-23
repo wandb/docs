@@ -8,9 +8,7 @@ artifact 버전을 조직에서 사용할 수 있게 하려면 W&amp;B Registry�
 
 artifact를 연결하면 W&amp;B는 소스 artifact와 컬렉션 항목 사이에 레퍼런스를 생성합니다. 연결된 버전은 프로젝트 내 run에 로깅된 소스 artifact 버전을 가리킵니다. 컬렉션의 연결된 버전과 해당 버전이 로깅된 프로젝트의 소스 버전을 모두 볼 수 있습니다.
 
-<div id="link-an-artifact-to-a-collection">
-  ## 아티팩트를 컬렉션에 연결하기
-</div>
+## 아티팩트를 컬렉션에 연결하기 {#link-an-artifact-to-a-collection}
 
 run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 아티팩트 버전을 연결할지에 따라 워크플로를 선택하세요.
 
@@ -40,9 +38,7 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
     ```
 
-    <div id="link-an-artifact-from-a-run">
-      ##### run에서 아티팩트 연결하기
-    </div>
+##### run에서 아티팩트 연결하기 {#link-an-artifact-from-a-run}
 
     활성 상태의 run에서 `wandb.Run.link_artifact()`를 사용해 아티팩트 버전을 생성하고 연결하세요. W&amp;B는 연결하기 전에 초안 아티팩트를 run의 출력으로 기록합니다.
 
@@ -81,9 +77,7 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
       run.link_artifact(artifact = artifact, target_path = target_path)
     ```
 
-    <div id="create-and-link-an-artifact">
-      ##### 아티팩트 생성 및 연결
-    </div>
+##### 아티팩트 생성 및 연결 {#create-and-link-an-artifact}
 
     `wandb.Artifact.link()`를 사용하면 run을 명시적으로 초기화하지 않고도 초안 아티팩트를 생성해 연결할 수 있습니다. 연결하기 전에 아티팩트를 저장해야 하면, W&amp;B가 필요에 따라 자동으로 run을 생성합니다.
 
@@ -115,9 +109,7 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
     artifact.link(target_path = target_path)
     ```
 
-    <div id="link-an-existing-artifact">
-      ##### 기존 아티팩트 연결하기
-    </div>
+##### 기존 아티팩트 연결하기 {#link-an-existing-artifact}
 
     새 run을 생성하지 않고 기존에 커밋된 아티팩트 버전을 연결하려면 `wandb.Api().artifact()`로 가져온 아티팩트에 `wandb.Artifact.link()`를 사용하세요.
 
@@ -178,9 +170,7 @@ run 중에 아티팩트를 생성할지, run 없이 생성할지, 또는 기존 
 
 Registry App에서 [연결된 아티팩트의 메타데이터, 버전 데이터, 사용 정보, 리니지 정보 보기](/ko/models/registry/link_version#view-linked-artifacts-in-a-registry) 등을 확인할 수 있습니다.
 
-<div id="unlink-an-artifact-version-from-a-collection">
-  ## 컬렉션에서 아티팩트 버전 연결 해제
-</div>
+## 컬렉션에서 아티팩트 버전 연결 해제 {#unlink-an-artifact-version-from-a-collection}
 
 W&amp;B Python SDK 또는 W&amp;B 레지스트리를 사용하여 컬렉션에서 아티팩트 버전의 연결을 해제합니다.
 
@@ -232,9 +222,7 @@ W&amp;B Python SDK 또는 W&amp;B 레지스트리를 사용하여 컬렉션에�
   </Tab>
 </Tabs>
 
-<div id="view-linked-artifacts-in-a-registry">
-  ## 레지스트리에서 연결된 아티팩트 보기
-</div>
+## 레지스트리에서 연결된 아티팩트 보기 {#view-linked-artifacts-in-a-registry}
 
 W&amp;B 레지스트리에서 메타데이터, 리니지, 사용 정보 등 연결된 아티팩트에 대한 정보를 확인합니다.
 
@@ -254,13 +242,13 @@ wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 코드로 아티팩트 버전에 액세스하려면 연결된 아티팩트의 전체 이름이 필요합니다.
 
 <div id="troubleshooting">
-  ## 문제 해결
+  ## 문제 해결 {#troubleshooting}
 </div>
 
 artifact를 연결할 수 없는 경우 아래의 일반적인 항목을 다시 확인하세요.
 
 <div id="logging-artifacts-from-a-personal-account">
-  ### 개인 계정에서 artifact 로깅
+  ### 개인 계정에서 artifact 로깅 {#logging-artifacts-from-a-personal-account}
 </div>
 
 개인 entity로 W&amp;B에 로깅한 artifact는 레지스트리에 연결할 수 없습니다. 조직 내 팀 entity를 사용해 artifact를 로깅해야 합니다. 조직의 팀 내에서 로깅한 artifact만 조직의 레지스트리에 연결할 수 있습니다.
@@ -269,9 +257,7 @@ artifact를 연결할 수 없는 경우 아래의 일반적인 항목을 다시 
   artifact를 레지스트리에 연결하려면 팀 entity로 해당 artifact를 로깅해야 합니다.
 </Note>
 
-<div id="find-your-team-entity">
-  #### 팀 entity 찾기
-</div>
+#### 팀 entity 찾기 {#find-your-team-entity}
 
 W&amp;B에서는 팀 이름을 해당 팀의 entity로 사용합니다. 예를 들어 팀 이름이 **team-awesome**라면 팀 entity는 `team-awesome`입니다.
 
@@ -281,7 +267,7 @@ W&amp;B에서는 팀 이름을 해당 팀의 entity로 사용합니다. 예를 �
 2. 사이트 URL을 복사합니다. URL 형식은 `https://wandb.ai/<team>`입니다. 여기서 `<team>`은 팀 이름이면서 동시에 팀의 entity입니다.
 
 <div id="log-from-a-team-entity">
-  #### 팀 entity에서 로깅하기
+  #### 팀 entity에서 로깅하기 {#log-from-a-team-entity}
 </div>
 
 1. [`wandb.init()`](/ko/models/ref/python/functions/init)으로 run을 초기화할 때 entity로 팀을 지정하세요. run을 초기화할 때 `entity`를 지정하지 않으면 기본 entity가 사용되며, 이 entity는 팀 entity일 수도 있고 아닐 수도 있습니다.
@@ -303,9 +289,7 @@ W&amp;B에서는 팀 이름을 해당 팀의 entity로 사용합니다. 예를 �
 
 3. 아티팩트가 개인 entity에 로깅된 경우, 조직 내 entity에 다시 로깅해야 합니다.
 
-<div id="confirm-the-path-of-a-registry-in-the-wb-app-ui">
-  ### W&amp;B App UI에서 레지스트리 경로 확인
-</div>
+### W&amp;B App UI에서 레지스트리 경로 확인 {#confirm-the-path-of-a-registry-in-the-wb-app-ui}
 
 W&amp;B App UI에서 레지스트리의 경로를 확인하려면 빈 컬렉션을 만드세요. 이렇게 하려면 아래 단계를 따르세요:
 

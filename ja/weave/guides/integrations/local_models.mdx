@@ -8,15 +8,11 @@ keywords: ["Ollama", "LMStudio", "GPT4All", "llama.cpp", "llamafile"]
 
 このガイドでは、ローカルで実行しているモデルへの Call を Weave でトレースし、ホスト型の LLM プロバイダと同じように入力、出力、メタデータを取得する方法を説明します。対象は、自分のマシンでオープンソースモデルを実行し、それらの Call の可観測性を確保したい開発者です。
 
-<div id="wrap-local-model-functions-with-weaveop">
-  ## ローカルモデルの関数を `@weave.op()` でラップする
-</div>
+## ローカルモデルの関数を `@weave.op()` でラップする {#wrap-local-model-functions-with-weaveop}
 
 ローカルモデルが OpenAI 互換のランナー経由でアクセスされていない場合でも、独自のモデル呼び出し関数をラップすることでトレースを取得できます。`weave.init('<your-project-name>')` で Weave を初期化し、LLM への Call を `weave.op()` でラップするだけで、任意の LLM を簡単に Weave と統合できます。詳しくは、[トレースガイド](/ja/weave/guides/tracking/tracing) を参照してください。
 
-<div id="update-your-openai-sdk-code-to-use-local-models">
-  ## ローカルモデルを使用するように OpenAI SDK のコードを更新する
-</div>
+## ローカルモデルを使用するように OpenAI SDK のコードを更新する {#update-your-openai-sdk-code-to-use-local-models}
 
 ローカルモデルのランナーが OpenAI SDK をサポートしている場合は、2 つ変更するだけで、既存の OpenAI クライアントの接続先をそのランナーに向けられます。
 
@@ -30,9 +26,7 @@ client = openai.OpenAI(
 
 ローカルモデルの場合、`api_key` には任意の string を指定できますが、必ず明示的に上書きする必要があります。そうしないと、OpenAI SDK が環境変数から `api_key` を読み取ってエラーを表示します。
 
-<div id="supported-local-model-runners">
-  ## サポートされているローカルモデルランナー
-</div>
+## サポートされているローカルモデルランナー {#supported-local-model-runners}
 
 以下のランナーを使用すると、Hugging Face からモデルをダウンロードし、お使いのコンピュータで実行できます。各ランナーは OpenAI 互換のエンドポイントを提供しているため、前述の変更を使用して OpenAI SDK の接続先として指定できます。
 

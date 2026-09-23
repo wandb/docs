@@ -32,17 +32,13 @@ iOS 向けの W&amp;B モバイルアプリ を使えば、どこにいても W&
   モバイルアプリは [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントで利用でき、[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) アカウントでは招待制のプレビューとして利用できます。組織でのアクセスをリクエストするには、[サポート](mailto:support@wandb.com) または担当の AISE にお問い合わせください。モバイルアプリは [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
 </Info>
 
-<div id="download-wb-mobile">
-  ## W&amp;B Mobile をダウンロード
-</div>
+## W&amp;B Mobile をダウンロード {#download-wb-mobile}
 
 使い始めるには、App Storeからアプリをインストールしてください。
 
 <Card title="App Storeからダウンロード" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
 
-<div id="log-in">
-  ## Log in
-</div>
+## Log in {#log-in}
 
 次の step に従って、iOS で W&amp;B にサインインします。ログイン方法は、W&amp;B アカウントが属する デプロイ によって異なります。続行するには、デプロイ タイプを選択してください。
 
@@ -83,9 +79,7 @@ iOS 向けの W&amp;B モバイルアプリ を使えば、どこにいても W&
   </Tab>
 </Tabs>
 
-<div id="features">
-  ## 機能
-</div>
+## 機能 {#features}
 
 以下の機能はモバイル アプリで利用できます。
 
@@ -113,9 +107,7 @@ iOS 向けの W&amp;B モバイルアプリ を使えば、どこにいても W&
 * **最新情報を把握する**: 通知を使用すると、ノート PC を開かなくても実験の更新を受け取れます。不要になった **アラートを削除** するには、**通知** タブでスワイプして消去します。
 * **ARIA とチャットする**: モバイル アプリで ARIA を使用して、スマートフォンだけで質問したり、run を分析したり、アクションを実行したりできます。
 
-<div id="view-image-metrics">
-  ## 画像メトリクスを表示する
-</div>
+## 画像メトリクスを表示する {#view-image-metrics}
 
 [`wandb.Image`](/ja/models/track/log/media) で run にログした画像は、その run の **Metrics** タブに表示され、各画像メトリクスは折れ線グラフと並んで専用のパネルとして表示されます。画像メトリクスでは次の操作を利用できます。
 
@@ -125,9 +117,7 @@ iOS 向けの W&amp;B モバイルアプリ を使えば、どこにいても W&
 * **画像を全画面で表示する**: パネルをタップして詳細ビューを開き、画像をタップします。ピンチでズーム、ドラッグでパンでき、スワイプでそのステップ内の次または前の画像に移動できます。
 * **画像メトリクスにスターを付ける**: 他のパネルと同様に、パネルのスターアイコンをタップすると画像メトリクスにスターを付けられます。
 
-<div id="change-line-plot-settings">
-  ## 折れ線グラフの設定を変更する
-</div>
+## 折れ線グラフの設定を変更する {#change-line-plot-settings}
 
 折れ線グラフの設定では、アプリによる折れ線グラフの描画方法を制御します。次のいずれかの方法で設定を開きます。
 
@@ -144,9 +134,7 @@ iOS 向けの W&amp;B モバイルアプリ を使えば、どこにいても W&
 
 折れ線グラフの設定は、アプリを起動し直しても保持されます。あるグラフで設定を変更すると、その設定は他の runs や projects にある同じメトリクスのグラフにも適用されます。
 
-<div id="chat-with-aria">
-  ## ARIAとチャットする
-</div>
+## ARIAとチャットする {#chat-with-aria}
 
 ARIA (AI Research &amp; Iteration Agent) は、W&amp;B におけるパーソナライズされたリサーチアシスタントです。実験の分析と実行、結果の説明、Runs 全体にわたるパターンの特定、次のステップの提案、可視化や Reports の作成といったタスクに ARIA を使用してください。
 
@@ -165,9 +153,7 @@ ARIAとチャットするには、下部のナビゲーションにある <img c
 
 ARIA の機能の全体像については、[ARIA overview](/ja/aria/overview) を参照してください。
 
-<div id="set-up-notifications">
-  ## 通知を設定する
-</div>
+## 通知を設定する {#set-up-notifications}
 
 モバイルデバイスで 実験 に関する更新を受け取れるように、通知を設定します。
 
@@ -177,9 +163,7 @@ ARIA の機能の全体像については、[ARIA overview](/ja/aria/overview) �
 
 以下のセクションでは、設定できる通知の種類について説明します。**通知管理** 画面では、両方の設定を 1 か所で一覧でき、各セクションで制御する内容を説明する短い説明も表示されます。
 
-<div id="metric-threshold-alerts">
-  ### メトリクスしきい値アラート
-</div>
+### メトリクスしきい値アラート {#metric-threshold-alerts}
 
 メトリクスしきい値アラートを使用すると、メトリクスが指定した値を超えたときに通知を受け取れます。
 
@@ -188,9 +172,7 @@ ARIA の機能の全体像については、[ARIA overview](/ja/aria/overview) �
 3. 右上のベルアイコンをタップします。
 4. 今後の Runs が指定したメトリクスしきい値を超えたときに通知を受け取るよう設定します。
 
-<div id="run-failure-alerts">
-  ### run 失敗アラート
-</div>
+### run 失敗アラート {#run-failure-alerts}
 
 プロジェクト 内の run が失敗したときに通知を受け取るには、run 失敗アラートを使用します。
 

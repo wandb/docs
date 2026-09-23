@@ -13,7 +13,7 @@ aliases:
 </Note>
 
 <div id="view-system-metrics">
-  ## システムメトリクスを表示する
+  ## システムメトリクスを表示する {#view-system-metrics}
 </div>
 
 W&amp;B App または `wandb leet` のターミナル UI を使用して、システムメトリクスを表示および監視できます。
@@ -82,11 +82,11 @@ W&amp;B App または `wandb leet` のターミナル UI を使用して、シ�
 </Tabs>
 
 <div id="cpu">
-  ## CPU
+  ## CPU {#cpu}
 </div>
 
 <div id="process-cpu-percent-cpu">
-  ### プロセス CPU 使用率 (CPU)
+  ### プロセス CPU 使用率 (CPU) {#process-cpu-percent-cpu}
 </div>
 
 プロセスの CPU 使用率の割合を、使用可能な CPU 数で正規化した値です。
@@ -94,7 +94,7 @@ W&amp;B App または `wandb leet` のターミナル UI を使用して、シ�
 W&amp;B はこのメトリクスに `cpu` タグを付与します。
 
 <div id="process-cpu-threads">
-  ### プロセスの CPU スレッド数
+  ### プロセスの CPU スレッド数 {#process-cpu-threads}
 </div>
 
 プロセスが使用するスレッド数です。
@@ -104,7 +104,7 @@ W&amp;B はこのメトリクスに `proc.cpu.threads` タグを付与します�
 {/* 新規セクション */}
 
 <div id="disk">
-  ## ディスク
+  ## ディスク {#disk}
 </div>
 
 デフォルトでは、`/` パスの使用状況メトリクスが収集されます。監視対象のパスを設定するには、次の設定を使用します。
@@ -118,7 +118,7 @@ run = wandb.init(
 ```
 
 <div id="disk-usage-percent">
-  ### ディスク使用率
+  ### ディスク使用率 {#disk-usage-percent}
 </div>
 
 指定したパスにおけるシステム全体のディスク使用率を、パーセンテージで表します。
@@ -126,7 +126,7 @@ run = wandb.init(
 W&amp;B はこのメトリクスに `disk.{path}.usagePercent` タグを付与します。
 
 <div id="disk-usage">
-  ### ディスク使用量
+  ### ディスク使用量 {#disk-usage}
 </div>
 
 指定したパスにおけるシステム全体のディスク使用量を、ギガバイト (GB) 単位で表します。
@@ -135,7 +135,7 @@ W&amp;B はこのメトリクスに `disk.{path}.usagePercent` タグを付与�
 W&amp;B はこのメトリクスに `disk.{path}.usageGB` タグを付与します。
 
 <div id="disk-in">
-  ### Disk In
+  ### Disk In {#disk-in}
 </div>
 
 システム全体のディスク読み込み量の合計をメガバイト (MB) 単位で示します。
@@ -143,9 +143,7 @@ W&amp;B はこのメトリクスに `disk.{path}.usageGB` タグを付与しま�
 
 W&amp;B はこのメトリクスに `disk.in` タグを割り当てます。
 
-<div id="disk-out">
-  ### Disk Out
-</div>
+### Disk Out {#disk-out}
 
 システム全体のディスク書き込み総量をメガバイト (MB) 単位で表します。
 [Disk In](#disk-in) と同様に、最初のサンプル取得時に初期のディスク書き込みバイト数が記録されます。以降のサンプルでは、現在の書き込みバイト数と初期値との差分が計算されます。
@@ -155,11 +153,11 @@ W&amp;B はこのメトリクスに `disk.out` タグを割り当てます。
 {/* 新しいセクション */}
 
 <div id="memory">
-  ## メモリ
+  ## メモリ {#memory}
 </div>
 
 <div id="process-memory-rss">
-  ### プロセスメモリ RSS
+  ### プロセスメモリ RSS {#process-memory-rss}
 </div>
 
 プロセスのメモリ常駐セットサイズ (RSS) をメガバイト (MB) 単位で表します。RSS は、プロセスが占有しているメモリのうち、主記憶装置 (RAM) に保持されている部分です。
@@ -167,7 +165,7 @@ W&amp;B はこのメトリクスに `disk.out` タグを割り当てます。
 W&amp;B はこのメトリクスに `proc.memory.rssMB` タグを割り当てます。
 
 <div id="process-memory-percent">
-  ### プロセスのメモリ使用率
+  ### プロセスのメモリ使用率 {#process-memory-percent}
 </div>
 
 プロセスのメモリ使用量が、利用可能な総メモリに対して占める割合を示します。
@@ -175,7 +173,7 @@ W&amp;B はこのメトリクスに `proc.memory.rssMB` タグを割り当てま
 W&amp;B はこのメトリクスに `proc.memory.percent` タグを割り当てます。
 
 <div id="memory-percent">
-  ### メモリ使用率
+  ### メモリ使用率 {#memory-percent}
 </div>
 
 システム全体のメモリ使用量を、利用可能な総メモリに対する割合 (パーセンテージ) で表します。
@@ -183,7 +181,7 @@ W&amp;B はこのメトリクスに `proc.memory.percent` タグを割り当て�
 W&amp;B はこのメトリクスに `memory_percent` タグを付与します。
 
 <div id="memory-available">
-  ### 利用可能なメモリ
+  ### 利用可能なメモリ {#memory-available}
 </div>
 
 システムで利用可能なメモリの合計をメガバイト (MB) 単位で示します。
@@ -193,11 +191,11 @@ W&amp;B はこのメトリクスに `proc.memory.availableMB` タグを付与し
 {/* 新しいセクション */}
 
 <div id="network">
-  ## ネットワーク
+  ## ネットワーク {#network}
 </div>
 
 <div id="network-sent">
-  ### ネットワーク送信
+  ### ネットワーク送信 {#network-sent}
 </div>
 
 ネットワーク経由で送信された総バイト数を表します。
@@ -205,9 +203,7 @@ W&amp;B はこのメトリクスに `proc.memory.availableMB` タグを付与し
 
 W&amp;B はこのメトリクスに `network.sent` タグを付与します。
 
-<div id="network-received">
-  ### ネットワーク受信量
-</div>
+### ネットワーク受信量 {#network-received}
 
 ネットワーク経由で受信した合計バイト数を示します。
 [ネットワーク送信](#network-sent) と同様に、受信バイト数の初期値はメトリクスが最初に初期化された時点で記録されます。以降のサンプルでは、現在の受信バイト数と初期値との差分が計算されます。
@@ -217,13 +213,13 @@ W&amp;B はこのメトリクスに `network.recv` タグを割り当てます�
 {/* 新しいセクション */}
 
 <div id="nvidia-gpu">
-  ## NVIDIA GPU
+  ## NVIDIA GPU {#nvidia-gpu}
 </div>
 
 以下で説明するメトリクスに加えて、プロセスおよび/またはその子プロセス以下が特定の GPU を使用している場合、W&amp;B は対応するメトリクスを `gpu.process.{gpu_index}.{metric_name}` として収集します
 
 <div id="gpu-memory-utilization">
-  ### GPUメモリ使用率
+  ### GPUメモリ使用率 {#gpu-memory-utilization}
 </div>
 
 各GPUのメモリ使用率をパーセントで示します。
@@ -231,7 +227,7 @@ W&amp;B はこのメトリクスに `network.recv` タグを割り当てます�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.memory` タグを割り当てます。
 
 <div id="gpu-memory-allocated">
-  ### GPU メモリ割り当て率
+  ### GPU メモリ割り当て率 {#gpu-memory-allocated}
 </div>
 
 各 GPU について、使用可能な総メモリに対して割り当て済みの GPU メモリの割合を示します。
@@ -239,7 +235,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.memory` タグを割り当�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを割り当てます。
 
 <div id="gpu-memory-allocated-bytes">
-  ### GPU メモリ割り当て量 (バイト)
+  ### GPU メモリ割り当て量 (バイト) {#gpu-memory-allocated-bytes}
 </div>
 
 各 GPU について、割り当てられた GPU メモリ量をバイト単位で指定します。
@@ -247,7 +243,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocatedBytes` タグを付与します。
 
 <div id="gpu-utilization">
-  ### GPU 使用率
+  ### GPU 使用率 {#gpu-utilization}
 </div>
 
 各 GPU の使用率をパーセントで示します。
@@ -255,7 +251,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocatedBytes` タ�
 このメトリクスには、W&amp;B によって `gpu.{gpu_index}.gpu` タグが割り当てられます。
 
 <div id="gpu-temperature">
-  ### GPU 温度
+  ### GPU 温度 {#gpu-temperature}
 </div>
 
 各GPUの温度 (摂氏) です。
@@ -263,7 +259,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocatedBytes` タ�
 W&amp;Bでは、このメトリクスに `gpu.{gpu_index}.temp` タグが割り当てられます。
 
 <div id="gpu-power-usage-watts">
-  ### GPU 電力使用量 (ワット)
+  ### GPU 電力使用量 (ワット) {#gpu-power-usage-watts}
 </div>
 
 各GPUの電力使用量をワット単位で示します。
@@ -271,7 +267,7 @@ W&amp;Bでは、このメトリクスに `gpu.{gpu_index}.temp` タグが割り�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを付与します。
 
 <div id="gpu-power-usage-percent">
-  ### GPU 電力使用率
+  ### GPU 電力使用率 {#gpu-power-usage-percent}
 </div>
 
 各 GPU について、GPU の消費電力がその電力容量に対して占める割合をパーセンテージで示します。
@@ -279,7 +275,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを付与
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.powerPercent` タグを割り当てます。
 
 <div id="gpu-sm-clock-speed">
-  ### GPU SM クロック速度
+  ### GPU SM クロック速度 {#gpu-sm-clock-speed}
 </div>
 
 GPU 上の Streaming Multiprocessor (SM) のクロック速度を MHz 単位で表します。このメトリクスは、計算処理を担う GPU コア内の処理速度の目安となります。
@@ -287,7 +283,7 @@ GPU 上の Streaming Multiprocessor (SM) のクロック速度を MHz 単位で�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.smClock` タグを割り当てます。
 
 <div id="gpu-memory-clock-speed">
-  ### GPUメモリクロック速度
+  ### GPUメモリクロック速度 {#gpu-memory-clock-speed}
 </div>
 
 GPUメモリのクロック速度を MHz 単位で表します。これは、GPUメモリと処理コア間のデータ転送速度に影響します。
@@ -295,7 +291,7 @@ GPUメモリのクロック速度を MHz 単位で表します。これは、GPU
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryClock` タグを割り当てます。
 
 <div id="gpu-graphics-clock-speed">
-  ### GPU グラフィックスクロック速度
+  ### GPU グラフィックスクロック速度 {#gpu-graphics-clock-speed}
 </div>
 
 GPU でグラフィックスを描画する際のベースクロック速度を表し、MHz 単位で示されます。このメトリクスは、可視化やレンダリングのタスク中のパフォーマンスを反映することがよくあります。
@@ -303,7 +299,7 @@ GPU でグラフィックスを描画する際のベースクロック速度を�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.graphicsClock` タグを割り当てます。
 
 <div id="gpu-corrected-memory-errors">
-  ### GPU 訂正済みメモリエラー
+  ### GPU 訂正済みメモリエラー {#gpu-corrected-memory-errors}
 </div>
 
 GPU 上で発生したメモリエラーのうち、W&amp;B がエラーチェック機構によって自動的に訂正した件数をトラッキングします。これは、回復可能なハードウェアの問題を示します。
@@ -311,7 +307,7 @@ GPU 上で発生したメモリエラーのうち、W&amp;B がエラーチェ�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.correctedMemoryErrors` タグを割り当てます。
 
 <div id="gpu-uncorrected-memory-errors">
-  ### GPU の訂正不能メモリエラー
+  ### GPU の訂正不能メモリエラー {#gpu-uncorrected-memory-errors}
 </div>
 
 GPU 上で発生した訂正不能なメモリエラー数をトラッキングします。これは回復不能なエラーを示し、処理の信頼性に影響する可能性があります。
@@ -319,7 +315,7 @@ GPU 上で発生した訂正不能なメモリエラー数をトラッキング�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.unCorrectedMemoryErrors` タグを割り当てます。
 
 <div id="gpu-encoder-utilization">
-  ### GPU エンコーダー使用率
+  ### GPU エンコーダー使用率 {#gpu-encoder-utilization}
 </div>
 
 GPU のビデオエンコーダーの使用率 (％) を表します。エンコード処理 (たとえば動画レンダリング) の実行中に、どの程度負荷がかかっているかを示します。
@@ -329,7 +325,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.encoderUtilization` タグ�
 {/* 新しいセクション */}
 
 <div id="amd-gpu">
-  ## AMD GPU
+  ## AMD GPU {#amd-gpu}
 </div>
 
 W&amp;B は、AMD が提供する `rocm-smi` ツールの出力 (`rocm-smi -a --json`) からメトリクスを抽出します。
@@ -337,7 +333,7 @@ W&amp;B は、AMD が提供する `rocm-smi` ツールの出力 (`rocm-smi -a --
 ROCm の [6.x (最新版) ](https://rocm.docs.amd.com/en/latest/) および [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) の形式がサポートされています。ROCm の形式の詳細については、[AMD ROCm ドキュメント](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html) を参照してください。新しい形式には、より詳細な情報が含まれています。
 
 <div id="amd-gpu-utilization">
-  ### AMD GPU 使用率
+  ### AMD GPU 使用率 {#amd-gpu-utilization}
 </div>
 
 各 AMD GPU デバイスの GPU 使用率をパーセントで示します。
@@ -345,7 +341,7 @@ ROCm の [6.x (最新版) ](https://rocm.docs.amd.com/en/latest/) および [5.x
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.gpu` タグを割り当てます。
 
 <div id="amd-gpu-memory-allocated">
-  ### AMD GPU メモリ割り当て率
+  ### AMD GPU メモリ割り当て率 {#amd-gpu-memory-allocated}
 </div>
 
 各 AMD GPU デバイスで、使用可能な総メモリに対して割り当てられている GPU メモリの割合を示します。
@@ -353,7 +349,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.gpu` タグを割り当て�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを割り当てます。
 
 <div id="amd-gpu-temperature">
-  ### AMD GPU 温度
+  ### AMD GPU 温度 {#amd-gpu-temperature}
 </div>
 
 各 AMD GPU デバイスの GPU 温度 (摂氏) 。
@@ -361,7 +357,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを�
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.temp` タグを付与します。
 
 <div id="amd-gpu-power-usage-watts">
-  ### AMD GPU 電力使用量 (ワット)
+  ### AMD GPU 電力使用量 (ワット) {#amd-gpu-power-usage-watts}
 </div>
 
 各 AMD GPU デバイスの GPU 電力使用量 (ワット単位) です。
@@ -369,7 +365,7 @@ W&amp;B はこのメトリクスに `gpu.{gpu_index}.temp` タグを付与しま
 W&amp;B はこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを付与します。
 
 <div id="amd-gpu-power-usage-percent">
-  ### AMD GPU 電力使用率
+  ### AMD GPU 電力使用率 {#amd-gpu-power-usage-percent}
 </div>
 
 各 AMD GPU デバイスについて、電力容量に対する GPU の消費電力の割合を示します。
@@ -379,11 +375,11 @@ W&amp;B は、このメトリクスに `gpu.{gpu_index}.powerPercent` という�
 {/* 新しいセクション */}
 
 <div id="apple-arm-mac-gpu">
-  ## Apple ARM MacのGPU
+  ## Apple ARM MacのGPU {#apple-arm-mac-gpu}
 </div>
 
 <div id="apple-gpu-utilization">
-  ### Apple GPU 使用率
+  ### Apple GPU 使用率 {#apple-gpu-utilization}
 </div>
 
 ARM Mac に搭載された Apple GPU デバイスの GPU 使用率をパーセント (%) で示します。
@@ -391,7 +387,7 @@ ARM Mac に搭載された Apple GPU デバイスの GPU 使用率をパーセ�
 W&amp;B では、このメトリクスに `gpu.0.gpu` タグが割り当てられます。
 
 <div id="apple-gpu-memory-allocated">
-  ### Apple GPU メモリ割り当て率
+  ### Apple GPU メモリ割り当て率 {#apple-gpu-memory-allocated}
 </div>
 
 ARM Mac 上の Apple GPU デバイスで、利用可能な総メモリに占める割り当て済み GPU メモリの割合です。
@@ -399,7 +395,7 @@ ARM Mac 上の Apple GPU デバイスで、利用可能な総メモリに占め�
 W&amp;B では、このメトリクスに `gpu.0.memoryAllocated` タグを割り当てます。
 
 <div id="apple-gpu-temperature">
-  ### Apple GPU 温度
+  ### Apple GPU 温度 {#apple-gpu-temperature}
 </div>
 
 ARM Mac上のApple GPUデバイスのGPU 温度 (摂氏) です。
@@ -407,7 +403,7 @@ ARM Mac上のApple GPUデバイスのGPU 温度 (摂氏) です。
 W&amp;B はこのメトリクスに `gpu.0.temp` タグを割り当てます。
 
 <div id="apple-gpu-power-usage-watts">
-  ### Apple GPU 電力使用量 (ワット)
+  ### Apple GPU 電力使用量 (ワット) {#apple-gpu-power-usage-watts}
 </div>
 
 ARM Mac 上の Apple GPU デバイスにおける GPU の消費電力 (ワット) です。
@@ -415,7 +411,7 @@ ARM Mac 上の Apple GPU デバイスにおける GPU の消費電力 (ワット
 W&amp;B はこのメトリクスに `gpu.0.powerWatts` タグを付与します。
 
 <div id="apple-gpu-power-usage-percent">
-  ### Apple GPU 電力使用率
+  ### Apple GPU 電力使用率 {#apple-gpu-power-usage-percent}
 </div>
 
 ARM Mac 上の Apple GPU デバイスにおける、GPU の電力容量に対する消費電力の割合です。
@@ -425,13 +421,13 @@ W&amp;B はこのメトリクスに `gpu.0.powerPercent` タグを付与しま�
 {/* 新しいセクション */}
 
 <div id="graphcore-ipu">
-  ## Graphcore IPU
+  ## Graphcore IPU {#graphcore-ipu}
 </div>
 
 Graphcore IPU (Intelligence Processing Unit) は、機械知能向けの処理に特化して設計された、独自のハードウェアアクセラレータです。
 
 <div id="ipu-device-metrics">
-  ### IPU デバイスのメトリクス
+  ### IPU デバイスのメトリクス {#ipu-device-metrics}
 </div>
 
 これらのメトリクスは、特定の IPU デバイスに関するさまざまな統計情報を表します。各メトリクスには、それを識別するためのデバイス ID (`device_id`) とメトリクスキー (`metric_key`) があります。W&amp;B はこのメトリクスに `ipu.{device_id}.{metric_key}` タグを割り当てます。
@@ -453,7 +449,7 @@ Graphcore IPU (Intelligence Processing Unit) は、機械知能向けの処理�
 {/* 新しいセクション */}
 
 <div id="google-cloud-tpu">
-  ## Google Cloud TPU
+  ## Google Cloud TPU {#google-cloud-tpu}
 </div>
 
 Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定用途向け集積回路) で、機械学習のワークロードを高速化するために使用されます。
@@ -465,7 +461,7 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 利用可能なメトリクスとその定義の詳細については、[Google Cloud TPU ドキュメントのサポートされるメトリクス](https://docs.cloud.google.com/tpu/docs/tpu-monitoring-library)を参照してください。
 
 <div id="tpu-compute-metrics">
-  ### TPU Compute メトリクス
+  ### TPU Compute メトリクス {#tpu-compute-metrics}
 </div>
 
 * `tpu.{tpu_index}.tensorcoreUtilization`: デバイスごとの TensorCore 使用率 (%) です。TensorCore の計算ユニットが十分に活用されているかどうかを最も直接的に示すメトリクスです。
@@ -473,7 +469,7 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 * `tpu.{tpu_index}.dutyCycle`: サンプル期間中にアクセラレータの TensorCore が実際に処理を行っていた時間の割合です。このメトリクスはチップ単位で報告され、複数デバイスを持つチップではそのすべてのデバイスに展開されます。値が高いほど、TensorCore がより有効に活用されていることを示します。
 
 <div id="tpu-memory-metrics">
-  ### TPU メモリメトリクス
+  ### TPU メモリメトリクス {#tpu-memory-metrics}
 </div>
 
 * `tpu.{tpu_index}.hbmCapacityTotal`: デバイスごとの High Bandwidth Memory (HBM) の総容量 (バイト単位) 。
@@ -481,13 +477,13 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 * `tpu.{tpu_index}.hbmCapacityUsage`: デバイスごとの現在の HBM 使用量 (バイト単位) 。
 
 <div id="tpu-interconnect-health">
-  ### TPU インターコネクトの健全性
+  ### TPU インターコネクトの健全性 {#tpu-interconnect-health}
 </div>
 
 * `tpu.{tpu_index}.iciLinkHealth`: デバイスごとの Inter-Chip Interconnect (ICI) リンクの健全性です。このメトリクスは、libtpu SDK パス経由でのみ利用できます。
 
 <div id="tpu-transfer-latency">
-  ### TPU 転送レイテンシ
+  ### TPU 転送レイテンシ {#tpu-transfer-latency}
 </div>
 
 レイテンシ分布の単位はマイクロ秒です。報告される統計値には、平均、p50、p90、p95、p999 が含まれる場合があります。これらのメトリクスは、マルチスライス TPU pod の設定で特に関連性があります。
@@ -501,7 +497,7 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 * `tpu.deviceToHostTransferLatency.{label}.{stat}Us`: デバイスからホストへのデータ転送レイテンシ。
 
 <div id="tpu-collective-communication">
-  ### TPU 集合通信
+  ### TPU 集合通信 {#tpu-collective-communication}
 </div>
 
 * `tpu.collectiveE2ELatency.{label}.{stat}Us`: all-reduce や all-gather などの集合演算におけるエンドツーエンドのレイテンシ。
@@ -509,7 +505,7 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 * `tpu.hostComputeLatency.{label}.{stat}Us`: MXLA の計算レイテンシを含む、ホスト側の計算レイテンシ。
 
 <div id="tpu-network-metrics">
-  ### TPU ネットワーク メトリクス
+  ### TPU ネットワーク メトリクス {#tpu-network-metrics}
 </div>
 
 * `tpu.grpcTcpMinRtt.{stat}Us`: gRPC 接続の TCP の最小ラウンドトリップ時間。
@@ -517,7 +513,7 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 * `tpu.grpcTcpDeliveryRate.{stat}Mbps`: gRPC 接続の TCP 配信レート (メガビット/秒) 。
 
 <div id="tpu-hlo-execution-metrics">
-  ### TPU HLO 実行メトリクス
+  ### TPU HLO 実行メトリクス {#tpu-hlo-execution-metrics}
 </div>
 
 * `tpu.hloExecTiming.{label}.{stat}Us`: HLO (High Level Operations) の実行時間分布をマイクロ秒単位で表します。このメトリクスは、オペレーションごとの実行時間を示します。
@@ -527,13 +523,13 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 {/* 新しいセクション */}
 
 <div id="aws-trainium">
-  ## AWS Trainium
+  ## AWS Trainium {#aws-trainium}
 </div>
 
 [AWS Trainium](https://aws.amazon.com/machine-learning/trainium/) は、機械学習ワークロードの高速化に特化した、AWS 提供の専用ハードウェアプラットフォームです。AWS の `neuron-monitor` ツールを使用して、AWS Trainium のメトリクスを取得します。
 
 <div id="trainium-neuron-core-utilization">
-  ### Trainium Neuron Core 使用率
+  ### Trainium Neuron Core 使用率 {#trainium-neuron-core-utilization}
 </div>
 
 各 NeuronCore の使用率が、コア単位で報告されます。
@@ -541,7 +537,7 @@ Tensor Processing Unit (TPU) は、Google が独自に開発した ASIC (特定�
 W&amp;B はこのメトリクスに `trn.{core_index}.neuroncore_utilization` タグを付与します。
 
 <div id="trainium-host-memory-usage-total">
-  ### Trainium ホストの合計メモリ使用量
+  ### Trainium ホストの合計メモリ使用量 {#trainium-host-memory-usage-total}
 </div>
 
 ホストの総メモリ使用量をバイト単位で示します。
@@ -549,7 +545,7 @@ W&amp;B はこのメトリクスに `trn.{core_index}.neuroncore_utilization` �
 W&amp;B はこのメトリクスに `trn.host_total_memory_usage` タグを付与します。
 
 <div id="trainium-neuron-device-total-memory-usage">
-  ### Trainium Neuron デバイスの総メモリ使用量
+  ### Trainium Neuron デバイスの総メモリ使用量 {#trainium-neuron-device-total-memory-usage}
 </div>
 
 Neuron デバイスの合計メモリ使用量をバイト単位で示します。
@@ -557,7 +553,7 @@ Neuron デバイスの合計メモリ使用量をバイト単位で示します�
 W&amp;B はこのメトリクスに `trn.neuron_device_total_memory_usage)` タグを割り当てます。
 
 <div id="trainium-host-memory-usage-breakdown">
-  ### Trainium ホストメモリ使用量の内訳:
+  ### Trainium ホストメモリ使用量の内訳: {#trainium-host-memory-usage-breakdown}
 </div>
 
 以下は、ホスト上のメモリ使用量の内訳です。
@@ -568,7 +564,7 @@ W&amp;B はこのメトリクスに `trn.neuron_device_total_memory_usage)` タ�
 * **テンソル** (`trn.host_total_memory_usage.tensors`): テンソルに使用されるメモリ。
 
 <div id="trainium-neuron-core-memory-usage-breakdown">
-  ### Trainium NeuronCore のメモリ使用量の内訳
+  ### Trainium NeuronCore のメモリ使用量の内訳 {#trainium-neuron-core-memory-usage-breakdown}
 </div>
 
 各 NeuronCore のメモリ使用量の詳細:
@@ -580,7 +576,7 @@ W&amp;B はこのメトリクスに `trn.neuron_device_total_memory_usage)` タ�
 * **テンソル** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
 
 <div id="openmetrics">
-  ## OpenMetrics
+  ## OpenMetrics {#openmetrics}
 </div>
 
 OpenMetrics / Prometheus 互換データを公開している外部エンドポイントからメトリクスを取得してログできます。取得するエンドポイントに適用する、正規表現ベースのカスタムメトリクスフィルターにも対応しています。

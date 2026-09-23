@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
-<div id="class-wandbapispublicteam">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Team
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Team {#class-wandbapispublicteam}
 
 W&amp;B のチームを表すクラス。
 
@@ -22,9 +20,7 @@ name: 'str',
 attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   W&amp;B のクエリに使用するサービス API インスタンス。
@@ -38,9 +34,7 @@ attrs: 'Mapping[str, Any] | None' = None)
   省略可能なチーム属性の辞書
 </ResponseField>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 チームを検索して、メンバーを招待します。
 
@@ -62,13 +56,9 @@ team = api.create_team("my-team")
 team.create_service_account("CI service account")
 ```
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-teamcreate">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create() {#method-teamcreate}
 
 ```python
 api: 'Api',
@@ -78,9 +68,7 @@ admin_username: 'str | None' = None
 
 新しいチームを作成します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="api" type="Api">
   (`Api`) 使用するapiインスタンス
@@ -94,9 +82,7 @@ admin_username: 'str | None' = None
   (str) チームの管理者ユーザーのユーザー名 (省略可能) 。デフォルトは現在のユーザーです。
 </ResponseField>
 
-<div id="method-teamcreate_service_account">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create_service_account()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.create_service_account() {#method-teamcreate_service_account}
 
 ```python
 self,
@@ -105,17 +91,13 @@ description: 'str'
 
 チーム のサービスアカウントを作成します。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="description" type="str">
   (str) このサービスアカウントの説明
 </ResponseField>
 
-<div id="method-teaminvite">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.invite()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Team.invite() {#method-teaminvite}
 
 ```python
 self,
@@ -125,9 +107,7 @@ admin: 'bool' = False
 
 ユーザーをチームに招待します。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="username_or_email" type="str">
   (str) 招待するユーザーのユーザー名またはメールアドレス。

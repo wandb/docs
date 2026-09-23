@@ -8,15 +8,11 @@ De nombreux développeurs exécutent des modèles open source comme Llama 3, Mix
 
 Ce guide vous montre comment tracer les appels à des modèles hébergés localement avec Weave afin de capturer les entrées, les sorties et les métadonnées de la même manière que pour des fournisseurs de LLM hébergés. Il s’adresse aux développeurs qui exécutent des modèles open source sur leur propre machine et qui souhaitent bénéficier d’une observabilité sur ces appels.
 
-<div id="wrap-local-model-functions-with-weaveop">
-  ## Décorez les fonctions de modèle local avec `@weave.op()`
-</div>
+## Décorez les fonctions de modèle local avec `@weave.op()` {#wrap-local-model-functions-with-weaveop}
 
 Si votre modèle local n&#39;est pas accessible via un runner compatible avec OpenAI, vous pouvez tout de même capturer les traces en encapsulant vos propres fonctions d&#39;appel de modèle. Intégrez Weave à n&#39;importe quel LLM en initialisant Weave avec `weave.init('<your-project-name>')`, puis en encapsulant les appels à vos LLM avec `weave.op()`. Pour plus de détails, voir le [guide de Tracing](/fr/weave/guides/tracking/tracing).
 
-<div id="update-your-openai-sdk-code-to-use-local-models">
-  ## Mettez à jour votre code du SDK d’OpenAI pour utiliser des modèles locaux
-</div>
+## Mettez à jour votre code du SDK d’OpenAI pour utiliser des modèles locaux {#update-your-openai-sdk-code-to-use-local-models}
 
 Si votre runner de modèle local prend en charge le SDK d’OpenAI, vous pouvez rediriger le client OpenAI existant vers celui-ci en apportant deux modifications.
 
@@ -30,9 +26,7 @@ client = openai.OpenAI(
 
 Pour les modèles locaux, `api_key` peut être n’importe quelle chaîne, mais vous devez la redéfinir. Sinon, le SDK d’OpenAI la lit dans les variables d’environnement et affiche une erreur.
 
-<div id="supported-local-model-runners">
-  ## Runners de modèles locaux pris en charge
-</div>
+## Runners de modèles locaux pris en charge {#supported-local-model-runners}
 
 Les runners suivants vous permettent de télécharger et d’exécuter des modèles Hugging Face sur votre ordinateur. Chaque runner expose un point de terminaison compatible avec OpenAI vers lequel vous pouvez faire pointer le SDK d’OpenAI en appliquant les modifications précédentes.
 

@@ -9,9 +9,7 @@ W&amp;B サーバー にすでに保存されている アーティファクト 
   Models **Viewer** seat のチームメンバーは Artifacts をダウンロードできません。
 </Note>
 
-<div id="download-and-use-an-artifact-stored-on-wb">
-  ## W&amp;B に保存されているアーティファクトをダウンロードして使用する
-</div>
+## W&amp;B に保存されているアーティファクトをダウンロードして使用する {#download-and-use-an-artifact-stored-on-wb}
 
 アーティファクトが run の依存関係である場合は、追跡対象の run 入力としてダウンロードします。リネージのトラッキングが不要なワークフローでは、直接取得します。
 
@@ -75,9 +73,7 @@ W&amp;B サーバー にすでに保存されている アーティファクト 
   </Tab>
 </Tabs>
 
-<div id="partially-download-an-artifact">
-  ## アーティファクト を部分的にダウンロードする
-</div>
+## アーティファクト を部分的にダウンロードする {#partially-download-an-artifact}
 
 プレフィックスを指定して、アーティファクト の一部だけを必要に応じてダウンロードできます。単一の file またはサブフォルダーの内容をダウンロードするには、`path_prefix=` (`wandb.Artifact.download(path_prefix=)`) パラメーターを使用します。
 
@@ -97,9 +93,7 @@ with wandb.init(project="project-name", job_type="job-type") as run:
 artifact.download(path_prefix="images/bikes/") 
 ```
 
-<div id="verify-downloaded-artifact-files">
-  ## ダウンロードしたアーティファクト の file を検証する
-</div>
+## ダウンロードしたアーティファクト の file を検証する {#verify-downloaded-artifact-files}
 
 アーティファクト をダウンロードしたら、`wandb.Artifact.verify()` を呼び出して、ディスク上のローカル file がアーティファクト の manifest と一致するかどうかを確認します。
 
@@ -124,9 +118,7 @@ with wandb.init(project="project-name", job_type="job-type") as run:
   * `digest_algorithm="XXH128"` で作成されたアーティファクト に対して `wandb.Artifact.verify()` を使用するには、W&amp;B Python SDK バージョン 0.29.0 以降が必要です。これより前の SDK バージョンは XXH128 の manifest エントリをサポートしていないため、検証は失敗します。
 </Note>
 
-<div id="use-an-artifact-from-a-different-project">
-  ## 別のプロジェクトのアーティファクトを使用する
-</div>
+## 別のプロジェクトのアーティファクトを使用する {#use-an-artifact-from-a-different-project}
 
 アーティファクトを参照するには、そのアーティファクトの名をプロジェクト名とあわせて指定します。アーティファクトの名にentity名も指定すると、entityをまたいでアーティファクトを参照することもできます。
 
@@ -143,9 +135,7 @@ with wandb.init(project="project-name", job_type="job-type") as run:
     artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 ```
 
-<div id="construct-and-use-an-artifact-simultaneously">
-  ## アーティファクト を作成して同時に使用する
-</div>
+## アーティファクト を作成して同時に使用する {#construct-and-use-an-artifact-simultaneously}
 
 アーティファクト を作成すると同時に使用できます。アーティファクト オブジェクトを作成し、use&#95;artifact に渡します。これにより、まだ存在していない場合は W&amp;B にアーティファクト が作成されます。[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) API は冪等であるため、何度呼び出しても問題ありません。
 

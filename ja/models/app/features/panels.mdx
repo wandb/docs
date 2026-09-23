@@ -9,9 +9,7 @@ import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
 
 Workspace パネルの可視化を使用すると、キーごとに[ログしたデータ](/ja/models/ref/python/experiments/run.md/#method-runlog)を確認したり、ハイパーパラメーターと出力メトリクスの関係を可視化したりできます。 このページでは、Workspace モードの選択方法、パネルの追加と設定、セクションへの整理、コラボレーターとの共有について説明します。
 
-<div id="workspace-modes">
-  ## Workspace モード
-</div>
+## Workspace モード {#workspace-modes}
 
 W&amp;B Projects では、2 つの異なる Workspace モードをサポートしています。Workspace 名の横にあるアイコンで、そのモードを確認できます。
 
@@ -28,9 +26,7 @@ Workspace でのパネル生成方法を変更するには、[Workspace をリ�
   Workspace への変更を元に戻すには、Undo ボタン (左向きの矢印) をクリックするか、**Cmd+Z** (macOS) または **Ctrl+Z** (Windows または Linux) を押します。
 </Note>
 
-<div id="reset-a-workspace">
-  ## Workspaceをリセットする
-</div>
+## Workspaceをリセットする {#reset-a-workspace}
 
 Workspace をリセットすると、モードを変更したり、パネルをクリアして新しく開始したりできます。
 
@@ -39,9 +35,7 @@ Workspace をリセットするには、次の手順に従います。
 1. Workspace 上部の **アクション (<Icon icon="ellipsis" iconType="solid" />)&#x20;**&#x20;メニューをクリックします。
 2. **Reset workspace** をクリックします。
 
-<div id="configure-the-workspace-layout">
-  ## Workspace の Layout を設定する
-</div>
+## Workspace の Layout を設定する {#configure-the-workspace-layout}
 
 Workspace layout の設定では、Workspace 全体でパネルとセクションをどのように整理して表示するかを制御します。
 
@@ -55,9 +49,7 @@ Workspace の Layout を設定するには、Workspace 上部付近にある **S
 
 Workspace の折れ線グラフのデフォルトを設定するには、[折れ線グラフ](/ja/models/app/features/panels/line-plot/)を参照してください。
 
-<div id="configure-a-sections-layout">
-  ### セクションのLayoutを設定する
-</div>
+### セクションのLayoutを設定する {#configure-a-sections-layout}
 
 セクションのLayoutを設定するには、歯車アイコンをクリックし、次に **Display preferences** をクリックします。次の設定を利用できます。
 
@@ -66,9 +58,7 @@ Workspace の折れ線グラフのデフォルトを設定するには、[折れ
 * **ツールチップに表示するRunsの数** (single run、すべてのRuns、または **Default**)
 * **プライマリチャートのツールチップにrun 名をフル表示する** (既定ではオフ)
 
-<div id="view-a-panel-in-full-screen-mode">
-  ## パネルを全画面モードで表示する
-</div>
+## パネルを全画面モードで表示する {#view-a-panel-in-full-screen-mode}
 
 全画面モードではパネルにより多くのスペースが割り当てられるため、データをより詳しく確認するのに便利です。全画面モードでは run selector が表示されます。
 
@@ -91,29 +81,21 @@ Workspace の折れ線グラフのデフォルトを設定するには、[折れ
 
 その他の全画面表示やパネルのショートカットについては、[キーボードショートカット](/ja/models/app/keyboard-shortcuts)を参照してください。
 
-<div id="add-panels">
-  ## Add panels
-</div>
+## Add panels {#add-panels}
 
 以下のセクションでは、Workspace にパネルを追加する方法を説明します。パネルは 1 つずつ追加することも、選択した各キーに対して自動的に追加することもできます。ARIA にパネルの追加を依頼することもできます。
 
-<div id="add-a-panel-manually">
-  ### パネルを手動で追加する
-</div>
+### パネルを手動で追加する {#add-a-panel-manually}
 
 Workspace にパネルを 1 つずつ、Workspace 全体またはセクションレベルで追加します。
 
-<div id="add-panels-to-a-workspace">
-  #### ワークスペースにパネルを追加する
-</div>
+#### ワークスペースにパネルを追加する {#add-panels-to-a-workspace}
 
 1. projectのWorkspaceにアクセスします。
 2. panel searchフィールドの右側にある**Add panels**をクリックします。
 3. 表示されるモーダルで、チャート、メディア、クエリパネルなど、追加するパネルのタイプを選択します。
 
-<div id="add-panels-to-a-section">
-  #### セクションにパネルを追加する
-</div>
+#### セクションにパネルを追加する {#add-panels-to-a-section}
 
 1. project の Workspace にアクセスします。
 2. 任意: 新しいセクションを作成します。Workspace の下部までスクロールし、**Add section** をクリックします。
@@ -124,9 +106,7 @@ Workspace にパネルを 1 つずつ、Workspace 全体またはセクション
   <img src="/images/app_ui/add_single_panel.gif" alt="パネル追加のデモ" />
 </Frame>
 
-<div id="quick-panel-builder">
-  ### クイックパネルビルダー
-</div>
+### クイックパネルビルダー {#quick-panel-builder}
 
 **クイックパネルビルダー**を使用すると、Workspace またはセクションで選択したメトリクスキーのパネルを自動的に作成できます。
 
@@ -146,9 +126,7 @@ Workspace にパネルを 1 つずつ、Workspace 全体またはセクション
 * **単一キーパネル**: `train/loss` 用と `val/loss` 用の 2 つのパネルを作成します。
 * **複数メトリクスパネル**: 正規表現 `.*\/loss` を使用すると、両方のメトリクスを含む 1 つのパネルを作成します。
 
-<div id="add-panels-to-the-workspace">
-  #### Workspace にパネルを追加する
-</div>
+#### Workspace にパネルを追加する {#add-panels-to-the-workspace}
 
 1. project の Workspace にアクセスします。
 2. panel search フィールドの横にある **Add panels** を選択し、**クイックパネルビルダー** を選択します。
@@ -158,9 +136,7 @@ Workspace にパネルを 1 つずつ、Workspace 全体またはセクション
    * **単一キーパネル**: メトリクスキーにカーソルを合わせて **Add** を選択します。追加するメトリクスキーごとに繰り返します。
    * **複数メトリクスパネル**: 正規表現を指定して、一致するメトリクスキーを含むパネルを作成します。**Add panel** をクリックします。
 
-<div id="add-panels-to-a-section-2">
-  #### セクションにパネルを追加する
-</div>
+#### セクションにパネルを追加する {#add-panels-to-a-section-2}
 
 1. project の Workspace にアクセスします。
 2. 任意: セクションを作成するには、Workspace の下部までスクロールし、**Add section** を選択します。
@@ -179,9 +155,7 @@ Workspace にパネルを 1 つずつ、Workspace 全体またはセクション
 
 <br />
 
-<div id="share-a-panel">
-  ## パネルを共有する
-</div>
+## パネルを共有する {#share-a-panel}
 
 パネルを共有すると、共同作業者は Workspace 全体に移動しなくても、特定の可視化に絞った表示を直接開けます。リンクを使ってパネルを共有するには、次のいずれかを行います。
 
@@ -192,9 +166,7 @@ Workspace にパネルを 1 つずつ、Workspace 全体またはセクション
 
 全画面モードからパネルの Workspace に戻るには、ページ上部の左向き矢印をクリックします。
 
-<div id="compose-a-panels-full-screen-link-programmatically">
-  ### パネルの全画面リンクをプログラムで生成する
-</div>
+### パネルの全画面リンクをプログラムで生成する {#compose-a-panels-full-screen-link-programmatically}
 
 [オートメーションを作成する](/ja/models/automations/)ときや同様のワークフローでは、パネルの全画面URLを含めると便利です。次の形式は、パネルの全画面URLを示しています。次の例では、角括弧内の entity、プロジェクト、パネル、およびセクション名を置き換えてください。
 
@@ -204,9 +176,7 @@ https://wandb.ai/[ENTITY_NAME]/[PROJECT_NAME]?panelDisplayName=[PANEL_NAME]&pane
 
 同じセクション内に同じ名前のパネルが複数ある場合、このURLを開くと、その名前の最初のパネルが表示されます。
 
-<div id="embed-or-share-a-panel-on-social-media">
-  ### パネルを埋め込む、またはソーシャルメディアで共有する
-</div>
+### パネルを埋め込む、またはソーシャルメディアで共有する {#embed-or-share-a-panel-on-social-media}
 
 Web サイトにパネルを埁め込んだり、ソーシャルメディアで共有したりするには、そのパネルがリンクを知っているすべてのユーザーに表示可能である必要があります。project が非公開の場合、パネルを表示できるのは project のメンバーのみです。project が公開の場合は、リンクを知っているすべてのユーザーがパネルを表示できます。
 
@@ -217,9 +187,7 @@ Web サイトにパネルを埁め込んだり、ソーシャルメディアで�
 3. **Only those who are invited have access** を **Anyone with the link can view** に変更します。変更しないと、次の step の選択肢は使用できません。
 4. **Share on Twitter**、**Share on Reddit**、**Share on LinkedIn**、または **Copy embed link** を選択します。
 
-<div id="email-a-panel-report">
-  ### パネルレポートをメールで送信する
-</div>
+### パネルレポートをメールで送信する {#email-a-panel-report}
 
 単一のパネルを独立したレポートとしてメールで送信するには、次の手順に従います。
 
@@ -232,15 +200,11 @@ Web サイトにパネルを埁め込んだり、ソーシャルメディアで�
 
 [パネルを共有する](#share-a-panel)場合とは異なり、受信者はこのレポートからWorkspaceに移動できません。
 
-<div id="manage-panels">
-  ## パネルを管理する
-</div>
+## パネルを管理する {#manage-panels}
 
 Workspace にパネルを追加したら、編集、移動、複製、削除を行って、可視化を整理し、常に最新の状態に保てます。
 
-<div id="edit-a-panel">
-  ### パネルを編集する
-</div>
+### パネルを編集する {#edit-a-panel}
 
 パネルを編集するには、次の手順を実行します。
 
@@ -249,9 +213,7 @@ Workspace にパネルを追加したら、編集、移動、複製、削除を�
 3. 任意: パネルを別のタイプに変更するには、タイプを選択し、設定を行います。
 4. **Apply** をクリックします。
 
-<div id="move-a-panel">
-  ### パネルを移動する
-</div>
+### パネルを移動する {#move-a-panel}
 
 パネルを別のセクションに移動するには、パネルのドラッグハンドルを使用できます。代わりにリストから移動先のセクションを選択する場合は、次の手順に従います。
 
@@ -261,9 +223,7 @@ Workspace にパネルを追加したら、編集、移動、複製、削除を�
 
 ドラッグハンドルを使って、セクション内でパネルの順序を並べ替えることもできます。
 
-<div id="duplicate-a-panel">
-  ### パネルを複製する
-</div>
+### パネルを複製する {#duplicate-a-panel}
 
 パネルを複製するには、次の手順に従います。
 
@@ -272,9 +232,7 @@ Workspace にパネルを追加したら、編集、移動、複製、削除を�
 
 必要に応じて、複製したパネルを[カスタマイズ](#edit-a-panel)したり、[移動](#move-a-panel)したりできます。
 
-<div id="remove-panels">
-  ### パネルを削除する
-</div>
+### パネルを削除する {#remove-panels}
 
 パネルを削除するには、次の手順に従います。
 
@@ -286,15 +244,11 @@ Workspace にパネルを追加したら、編集、移動、複製、削除を�
 
 自動または手動 Workspace からすべてのパネルを削除するには、[Workspace をリセット](#reset-a-workspace)できます。デフォルトのパネルセットで開始するには **Automatic** を選択し、パネルのない空の Workspace で開始するには **Manual** を選択します。
 
-<div id="manage-sections">
-  ## セクションを管理する
-</div>
+## セクションを管理する {#manage-sections}
 
 セクションは関連するパネルをまとめて表示するため、大規模な Workspace でも確認しやすくなります。デフォルトでは、Workspace のセクションにはキーのログ階層が反映されます。ただし、手動の Workspace では、パネルを追加し始めるまでセクションは表示されません。
 
-<div id="add-a-section">
-  ### セクションを追加する
-</div>
+### セクションを追加する {#add-a-section}
 
 セクションを追加するには、最後のセクションの後にある **Add section** をクリックします。
 
@@ -304,9 +258,7 @@ Workspace にパネルを追加したら、編集、移動、複製、削除を�
   セクション名に &quot;Section&quot; は使用しないでください。既知の制限事項により、このセクション内のパネルはセクション名を変更するまで表示されません。
 </Warning>
 
-<div id="manage-a-sections-panels">
-  ### セクションのパネルを管理する
-</div>
+### セクションのパネルを管理する {#manage-a-sections-panels}
 
 セクション内では、パネルのサイズ変更、ページ分割の制御、個々のパネルの削除を行えます。多数のパネルを含むセクションは、デフォルトでページ分割されます。1ページあたりのデフォルトのパネル数は、パネルの設定と、セクション内のパネルのサイズによって異なります。
 
@@ -324,9 +276,7 @@ Workspace にパネルを追加したら、編集、移動、複製、削除を�
 
 Workspace を自動 Workspace にリセットすると、削除したすべてのパネルが再び表示されます。
 
-<div id="rename-a-section">
-  ### セクション名を変更する
-</div>
+### セクション名を変更する {#rename-a-section}
 
 セクション名を変更するには、その **アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**セクション名を変更** をクリックします。
 
@@ -334,8 +284,6 @@ Workspace を自動 Workspace にリセットすると、削除したすべて�
   セクション名を &quot;Section&quot; にしないでください。既知の制限により、セクション名を変更するまで、このセクション内のパネルは表示されません。
 </Warning>
 
-<div id="delete-a-section">
-  ### セクションを削除する
-</div>
+### セクションを削除する {#delete-a-section}
 
 セクションを削除するには、**action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**セクションを削除** をクリックします。これにより、そのセクションと含まれるパネルが削除されます。

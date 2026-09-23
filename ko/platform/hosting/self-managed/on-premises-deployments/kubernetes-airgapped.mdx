@@ -13,9 +13,7 @@ import SelfManagedObjectStorageRequirements from "/snippets/ko/_includes/self-ma
 import SelfManagedHardwareRequirements from "/snippets/ko/_includes/self-managed-hardware-requirements.mdx";
 import SelfManagedVerifyInstallation from "/snippets/ko/_includes/self-managed-verify-installation.mdx";
 
-<div id="introduction">
-  ## 소개
-</div>
+## 소개 {#introduction}
 
 이 가이드는 에어갭(air-gapped), 분리 또는 제한된 네트워크의 고객 관리 환경에 W&amp;B Platform을 배포하는 단계별 지침을 제공합니다. 이 가이드를 따르면 W&amp;B 이미지와 차트를 호스팅하기 위한 내부 컨테이너 레지스트리와 Helm 저장소를 설정하고, W&amp;B Kubernetes Operator를 설치하며, 외부 인터넷 연결 없이 W&amp;B Platform을 배포할 수 있습니다. 이 가이드는 규제되거나 격리된 네트워크에서 Kubernetes 인프라를 관리하는 플랫폼 관리자와 DevOps 엔지니어를 대상으로 합니다.
 
@@ -31,55 +29,39 @@ Kubernetes 클러스터에 적절한 접근 권한이 있는 셸 콘솔에서 �
 
 인터넷 연결이 가능한 표준 온프레미스 Kubernetes 배포의 경우 [Kubernetes Operator로 W&amp;B 배포](/ko/platform/hosting/self-managed/operator)를 참조하세요.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 에어갭 환경이 다음 요구 사항을 충족하는지 확인하세요.
 
-<div id="version-requirements">
-  ### 버전 요구사항
-</div>
+### 버전 요구사항 {#version-requirements}
 
 <SelfManagedVersionRequirements />
 
-<div id="ssltls-requirements">
-  ### SSL/TLS 요구 사항
-</div>
+### SSL/TLS 요구 사항 {#ssltls-requirements}
 
 <SelfManagedSslTlsRequirements />
 
-<div id="hardware-requirements">
-  ### 하드웨어 요구 사항
-</div>
+### 하드웨어 요구 사항 {#hardware-requirements}
 
 <SelfManagedHardwareRequirements />
 
-<div id="mysql-database">
-  ### MySQL 데이터베이스
-</div>
+### MySQL 데이터베이스 {#mysql-database}
 
 <SelfManagedMysqlRequirements />
 
 자체 관리형 인스턴스용 MySQL 설정 매개변수는 [레퍼런스 아키텍처의 MySQL 설정 섹션](/ko/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters)을 참조하세요.
 
-<div id="redis">
-  ### Redis
-</div>
+### Redis {#redis}
 
 <SelfManagedRedisRequirements />
 
-<div id="object-storage">
-  ### 객체 저장소
-</div>
+### 객체 저장소 {#object-storage}
 
 <SelfManagedObjectStorageRequirements />
 
 객체 저장소 프로비저닝에 관한 자세한 안내는 [Bring Your Own Bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector) 가이드를 참조하세요. 에어갭 환경에서는 일반적으로 MinIO Enterprise, NetApp StorageGRID, Dell ECS와 같은 온프레미스 S3 호환 저장소를 사용합니다.
 
-<div id="air-gapped-specific-requirements">
-  ### 에어갭 환경별 요구 사항
-</div>
+### 에어갭 환경별 요구 사항 {#air-gapped-specific-requirements}
 
 앞의 표준 요구 사항 외에도 에어갭 배포에는 다음이 필요합니다.
 
@@ -90,15 +72,11 @@ Kubernetes 클러스터에 적절한 접근 권한이 있는 셸 콘솔에서 �
 
 네트워킹 및 로드 밸런서 설정을 포함한 전체 인프라 요구 사항은 [레퍼런스 아키텍처](/ko/platform/hosting/self-managed/ref-arch#infrastructure-requirements)를 참조하세요.
 
-<div id="prepare-your-air-gapped-environment">
-  ## 에어갭 환경 준비
-</div>
+## 에어갭 환경 준비 {#prepare-your-air-gapped-environment}
 
 다음 단계에서는 W&amp;B 컨테이너 이미지와 Helm 차트를 호스팅할 에어갭 환경을 준비합니다. Operator를 설치하거나 플랫폼을 배포하기 전에 다음 단계를 완료하세요.
 
-<div id="step-1-set-up-internal-container-registry">
-  ### Step 1: 내부 컨테이너 레지스트리 설정
-</div>
+### Step 1: 내부 컨테이너 레지스트리 설정 {#step-1-set-up-internal-container-registry}
 
 Kubernetes 클러스터는 퍼블릭 레지스트리에서 이미지를 가져올 수 없으므로, 배포 전에 필요한 모든 컨테이너 이미지를 내부 에어갭 컨테이너 레지스트리에서 사용할 수 있어야 합니다.
 
@@ -106,9 +84,7 @@ Kubernetes 클러스터는 퍼블릭 레지스트리에서 이미지를 가져�
   W&amp;B Operator의 요구 사항을 추적하고 컨테이너 레지스트리를 최신 이미지로 정기적으로 유지 관리하는 것은 사용자의 책임입니다. 필요한 컨테이너 이미지와 버전의 최신 목록은 Helm 차트를 참고하거나 [W&amp;B 지원팀](mailto:support@wandb.com) 또는 배정된 W&amp;B 지원 엔지니어에게 문의하세요.
 </Note>
 
-<div id="core-wb-component-containers">
-  #### 핵심 W&amp;B 구성 요소 컨테이너
-</div>
+#### 핵심 W&amp;B 구성 요소 컨테이너 {#core-wb-component-containers}
 
 다음 핵심 이미지는 필수입니다:
 
@@ -117,9 +93,7 @@ Kubernetes 클러스터는 퍼블릭 레지스트리에서 이미지를 가져�
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console): W&amp;B 관리 콘솔.
 * [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary): W&amp;B 마이크로서비스(API, executor, glue, parquet).
 
-<div id="dependency-containers">
-  #### 종속성 컨테이너
-</div>
+#### 종속성 컨테이너 {#dependency-containers}
 
 다음 타사 종속성 이미지는 필수입니다:
 
@@ -128,9 +102,7 @@ Kubernetes 클러스터는 퍼블릭 레지스트리에서 이미지를 가져�
 * [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus): 메트릭 수집용 Prometheus.
 * [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader): Prometheus 종속성.
 
-<div id="get-the-complete-image-list">
-  #### 전체 이미지 목록 조회
-</div>
+#### 전체 이미지 목록 조회 {#get-the-complete-image-list}
 
 Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려면 다음 단계를 따르세요.
 
@@ -178,9 +150,7 @@ Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려
 
    각 이미지의 정확한 버전 태그를 조회하려면 앞서 나온 첫 번째 명령(`grep -E "repository:|tag:"`)을 사용하세요. 그러면 저장소 이름과 해당 버전 태그가 함께 표시됩니다.
 
-<div id="transfer-images-to-air-gapped-registry">
-  #### 이미지를 에어갭 레지스트리로 전송
-</div>
+#### 이미지를 에어갭 레지스트리로 전송 {#transfer-images-to-air-gapped-registry}
 
 1. 인터넷에 연결된 시스템에서 필요한 모든 이미지를 pull한 후 저장하세요.
 
@@ -244,9 +214,7 @@ Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려
    # ... 다른 모든 이미지 push
    ```
 
-<div id="step-2-set-up-internal-helm-chart-repository">
-  ### Step 2: 내부 Helm 차트 저장소 설정
-</div>
+### Step 2: 내부 Helm 차트 저장소 설정 {#step-2-set-up-internal-helm-chart-repository}
 
 컨테이너 이미지가 준비되면 Kubernetes Operator도 W&amp;B Helm 차트에 액세스할 수 있어야 합니다. 내부 Helm 저장소에서 다음 Helm 차트를 사용할 수 있는지 확인하세요:
 
@@ -269,9 +237,7 @@ Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려
 
    `operator` chart는 W&amp;B Kubernetes Operator(Controller Manager)를 배포합니다. `operator-wandb` chart는 Custom Resource(CR)에 설정된 값을 사용해 W&amp;B Platform을 배포합니다.
 
-<div id="step-3-configure-helm-repository-access">
-  ### step 3: Helm 저장소 접근 설정
-</div>
+### step 3: Helm 저장소 접근 설정 {#step-3-configure-helm-repository-access}
 
 후속 설치 명령에서 차트를 찾을 수 있도록 에어갭 환경의 로컬 Helm 클라이언트가 내부 저장소를 가리키도록 설정합니다.
 
@@ -289,15 +255,11 @@ Helm 차트에서 필요한 이미지와 버전의 전체 목록을 추출하려
    helm search repo local-repo/operator-wandb
    ```
 
-<div id="deploy-wb-in-air-gapped-environment">
-  ## 에어갭 환경에서 W&amp;B 배포
-</div>
+## 에어갭 환경에서 W&amp;B 배포 {#deploy-wb-in-air-gapped-environment}
 
 내부 레지스트리와 Helm 저장소를 준비했다면 이제 Kubernetes Operator를 설치하고 외부 서비스를 구성한 다음 W&amp;B Platform을 배포할 수 있습니다.
 
-<div id="step-4-install-the-kubernetes-operator">
-  ### Step 4: Kubernetes Operator 설치
-</div>
+### Step 4: Kubernetes Operator 설치 {#step-4-install-the-kubernetes-operator}
 
 W&amp;B Kubernetes Operator(컨트롤러 매니저)는 W&amp;B Platform 컴포넌트를 관리합니다. 에어갭 환경에 설치하려면 내부 컨테이너 레지스트리를 사용하도록 설정하세요.
 
@@ -336,9 +298,7 @@ W&amp;B Kubernetes Operator(컨트롤러 매니저)는 W&amp;B Platform 컴포�
 
 지원되는 값에 대한 자세한 내용은 [Kubernetes Operator GitHub 저장소 values 파일](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)을 참고하세요.
 
-<div id="step-5-set-up-mysql-database">
-  ### Step 5: MySQL 데이터베이스 설정
-</div>
+### Step 5: MySQL 데이터베이스 설정 {#step-5-set-up-mysql-database}
 
 W&amp;B Custom Resource를 설정하기 전에 외부 MySQL 데이터베이스를 설정하세요. 프로덕션 배포의 경우, 가능한 환경에서는 관리형 데이터베이스 서비스를 사용할 것을 W&amp;B에서 강력히 권장합니다. 하지만 자체 MySQL 인스턴스를 실행 중이라면 데이터베이스와 사용자를 생성하세요:
 
@@ -346,9 +306,7 @@ W&amp;B Custom Resource를 설정하기 전에 외부 MySQL 데이터베이스�
 
 MySQL 설정 매개변수는 [레퍼런스 아키텍처 MySQL 설정 섹션](/ko/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters)을 참조하세요.
 
-<div id="step-6-configure-wb-custom-resource">
-  ### 6단계: W&amp;B Custom Resource 설정
-</div>
+### 6단계: W&amp;B Custom Resource 설정 {#step-6-configure-wb-custom-resource}
 
 W&amp;B Kubernetes Operator를 설치한 후에는 Custom Resource(CR)가 내부 Helm 저장소와 컨테이너 레지스트리를 가리키도록 설정하세요. 이렇게 설정하면 W&amp;B Platform의 필수 컴포넌트를 배포할 때 Kubernetes Operator가 공개 소스에 연결을 시도하는 대신 내부 레지스트리와 저장소를 사용하게 됩니다.
 
@@ -482,9 +440,7 @@ spec:
 
 설정 가능한 컴포넌트의 전체 목록은 [W&amp;B Helm 저장소 values file](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml)을 참고하세요.
 
-<div id="step-7-deploy-the-wb-platform">
-  ### 7단계: W&amp;B Platform 배포
-</div>
+### 7단계: W&amp;B Platform 배포 {#step-7-deploy-the-wb-platform}
 
 Custom Resource를 적용하면 operator가 `wandb.yaml`의 설정과 이미지 참조를 사용해 `operator-wandb` chart에 정의된 W&amp;B Platform 컴포넌트를 설치합니다.
 
@@ -509,21 +465,15 @@ Custom Resource를 적용하면 operator가 `wandb.yaml`의 설정과 이미지 
 
    operator가 필요한 모든 컴포넌트를 생성하므로 배포에 몇 분 정도 걸릴 수 있습니다.
 
-<div id="openshift-configuration">
-  ## OpenShift 설정
-</div>
+## OpenShift 설정 {#openshift-configuration}
 
 W&amp;B는 에어갭 OpenShift Kubernetes 클러스터에서의 배포를 지원합니다. OpenShift 배포에는 OpenShift의 더 엄격한 보안 정책으로 인해 보안 컨텍스트 설정이 추가로 필요합니다. OpenShift에 배포하는 경우 앞선 단계에 더해 이 섹션의 설정도 적용하세요.
 
-<div id="openshift-security-context-constraints">
-  ### OpenShift 보안 컨텍스트 제약 조건
-</div>
+### OpenShift 보안 컨텍스트 제약 조건 {#openshift-security-context-constraints}
 
 OpenShift는 파드 권한을 제어하기 위해 SCC(Security Context Constraints)를 사용합니다. 기본적으로 OpenShift는 파드에 `restricted` SCC를 할당하므로, 루트로 실행할 수 없으며 특정 사용자 ID가 필요합니다.
 
-<div id="option-1-use-restricted-scc-recommended">
-  #### 옵션 1: restricted SCC 사용(권장)
-</div>
+#### 옵션 1: restricted SCC 사용(권장) {#option-1-use-restricted-scc-recommended}
 
 Custom Resource에서 적절한 보안 컨텍스트를 설정해 W&amp;B 컴포넌트가 restricted SCC로 실행되도록 구성합니다:
 
@@ -562,9 +512,7 @@ spec:
     # 다른 컴포넌트에 대해 반복: api, executor, glue, parquet, weave
 ```
 
-<div id="option-2-create-custom-scc-if-required">
-  #### 옵션 2: 맞춤형 SCC 만들기(필요한 경우)
-</div>
+#### 옵션 2: 맞춤형 SCC 만들기(필요한 경우) {#option-2-create-custom-scc-if-required}
 
 배포에 `restricted` SCC에서 제공하지 않는 기능이 필요하면 맞춤형 SCC를 만드세요:
 
@@ -620,9 +568,7 @@ volumes:
    oc adm policy add-scc-to-user wandb-scc -z wandb-console -n wandb
    ```
 
-<div id="openshift-routes">
-  ### OpenShift Routes
-</div>
+### OpenShift Routes {#openshift-routes}
 
 OpenShift는 표준 Kubernetes 인그레스 대신 Routes를 사용합니다. W&amp;B가 OpenShift Routes를 사용하도록 구성하세요:
 
@@ -641,9 +587,7 @@ spec:
         insecureEdgeTerminationPolicy: Redirect
 ```
 
-<div id="openshift-image-pull-configuration">
-  ### OpenShift 이미지 풀 설정
-</div>
+### OpenShift 이미지 풀 설정 {#openshift-image-pull-configuration}
 
 인증이 필요한 내부 이미지 레지스트리를 OpenShift 클러스터에서 사용하는 경우:
 
@@ -666,9 +610,7 @@ spec:
          - name: wandb-registry-secret
    ```
 
-<div id="openshift-complete-example">
-  ### OpenShift 전체 예시
-</div>
+### OpenShift 전체 예시 {#openshift-complete-example}
 
 다음 예시는 OpenShift 에어갭 배포를 위한 전체 CR 예시입니다:
 
@@ -772,9 +714,7 @@ spec:
   보안 요구 사항에 맞는 포괄적인 OpenShift 설정 예시가 필요하시면 [W&amp;B 지원팀](mailto:support@wandb.com) 또는 배정된 W&amp;B 지원 엔지니어에게 문의하세요.
 </Note>
 
-<div id="verify-your-installation">
-  ## 설치를 확인하세요
-</div>
+## 설치를 확인하세요 {#verify-your-installation}
 
 W&amp;B를 배포한 후 플랫폼에 연결할 수 있는지, 파드가 정상 상태인지, 그리고 배포가 내부 리소스만 사용하는지 확인할 수 있도록 설치가 제대로 작동하는지 확인하세요.
 
@@ -782,9 +722,7 @@ W&amp;B를 배포한 후 플랫폼에 연결할 수 있는지, 파드가 정상 
 
 <SelfManagedVerifyInstallation />
 
-<div id="additional-air-gapped-verification">
-  ### 추가 에어갭 검증
-</div>
+### 추가 에어갭 검증 {#additional-air-gapped-verification}
 
 에어갭 배포의 경우 다음 사항도 확인하세요:
 
@@ -804,13 +742,9 @@ W&amp;B를 배포한 후 플랫폼에 연결할 수 있는지, 파드가 정상 
 
 3. **라이선스 검증**: W&amp;B 콘솔에 접속해 라이선스가 활성 상태인지 확인합니다.
 
-<div id="troubleshooting">
-  ## 문제 해결
-</div>
+## 문제 해결 {#troubleshooting}
 
-<div id="image-pull-errors">
-  ### 이미지 pull 오류
-</div>
+### 이미지 pull 오류 {#image-pull-errors}
 
 파드가 이미지를 pull하지 못하면 다음을 확인하세요:
 
@@ -827,9 +761,7 @@ kubectl logs test-pull -n wandb
 kubectl delete pod test-pull -n wandb
 ```
 
-<div id="openshift-scc-errors">
-  ### OpenShift SCC 오류
-</div>
+### OpenShift SCC 오류 {#openshift-scc-errors}
 
 OpenShift에서 파드가 권한 오류로 실행에 실패하는 경우:
 
@@ -842,9 +774,7 @@ oc describe scc wandb-scc
 oc get rolebinding -n wandb
 ```
 
-<div id="helm-chart-not-found">
-  ### Helm chart를 찾을 수 없음
-</div>
+### Helm chart를 찾을 수 없음 {#helm-chart-not-found}
 
 Operator가 플랫폼 chart를 찾지 못하면 다음을 확인합니다:
 
@@ -856,13 +786,9 @@ Operator가 플랫폼 chart를 찾지 못하면 다음을 확인합니다:
   helm search repo local-repo/operator-wandb
   ```
 
-<div id="frequently-asked-questions">
-  ## 자주 묻는 질문
-</div>
+## 자주 묻는 질문 {#frequently-asked-questions}
 
-<div id="can-i-use-a-different-ingress-class">
-  ### 다른 인그레스 클래스를 사용할 수 있나요?
-</div>
+### 다른 인그레스 클래스를 사용할 수 있나요? {#can-i-use-a-different-ingress-class}
 
 예. Custom Resource의 인그레스 설정을 수정해 인그레스 클래스를 설정하세요.
 
@@ -873,9 +799,7 @@ spec:
       class: your-ingress-class
 ```
 
-<div id="how-do-i-handle-certificate-bundles-with-multiple-certificates">
-  ### 여러 인증서가 포함된 인증서 번들은 어떻게 처리하나요?
-</div>
+### 여러 인증서가 포함된 인증서 번들은 어떻게 처리하나요? {#how-do-i-handle-certificate-bundles-with-multiple-certificates}
 
 인증서를 `customCACerts` 섹션에서 여러 항목으로 나누세요:
 
@@ -893,9 +817,7 @@ spec:
         -----END CERTIFICATE-----
 ```
 
-<div id="how-do-i-prevent-automatic-updates">
-  ### 자동 업데이트를 방지하려면 어떻게 해야 하나요?
-</div>
+### 자동 업데이트를 방지하려면 어떻게 해야 하나요? {#how-do-i-prevent-automatic-updates}
 
 W&amp;B가 자동으로 업데이트되지 않도록 Operator를 구성하려면 다음을 수행하세요.
 
@@ -909,15 +831,11 @@ W&amp;B가 자동으로 업데이트되지 않도록 Operator를 구성하려면
   W&amp;B는 Self-Managed 인스턴스를 사용하는 고객에게 지원을 유지하고 최신 특성, 성능 개선, 수정 사항을 받기 위해 최소 분기마다 한 번 이상 배포를 최신 릴리스로 업데이트할 것을 강력히 권장합니다. W&amp;B는 메이저 릴리스를 최초 릴리스 날짜로부터 12개월 동안 지원합니다. 자세한 내용은 [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참고하세요.
 </Note>
 
-<div id="does-the-deployment-work-with-no-connection-to-public-repositories">
-  ### 배포는 공개 리포지토리에 연결하지 않아도 작동하나요?
-</div>
+### 배포는 공개 리포지토리에 연결하지 않아도 작동하나요? {#does-the-deployment-work-with-no-connection-to-public-repositories}
 
 예. Operator 설정에 `airgapped: true`를 지정하면 Kubernetes Operator는 내부 리소스만 사용하고 공개 리포지토리에 연결을 시도하지 않습니다.
 
-<div id="how-do-i-update-wb-in-an-air-gapped-environment">
-  ### 에어갭 환경에서 W&amp;B를 어떻게 업데이트하나요?
-</div>
+### 에어갭 환경에서 W&amp;B를 어떻게 업데이트하나요? {#how-do-i-update-wb-in-an-air-gapped-environment}
 
 W&amp;B를 업데이트하려면 다음 단계를 따르세요.
 
@@ -929,9 +847,7 @@ W&amp;B를 업데이트하려면 다음 단계를 따르세요.
 
    Operator가 W&amp;B 컴포넌트에 대해 롤링 업데이트를 수행합니다.
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 배포를 성공적으로 완료한 후, 다음 작업을 완료하세요:
 
@@ -941,9 +857,7 @@ W&amp;B를 업데이트하려면 다음 단계를 따르세요.
 * **백업 구성**: MySQL 데이터베이스용 백업 절차를 수립합니다.
 * **프로세스 문서화**: 특정 에어갭 업데이트 절차를 위한 운영 절차서를 작성합니다.
 
-<div id="get-help">
-  ## 도움 받기
-</div>
+## 도움 받기 {#get-help}
 
 배포 중 문제가 발생하면 다음을 확인하세요:
 

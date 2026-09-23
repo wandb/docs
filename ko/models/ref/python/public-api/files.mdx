@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L79" />
 
-<div id="class-wandbapispublicfiles">
-  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Files
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Files {#class-wandbapispublicfiles}
 
 `File` 객체 컬렉션에 대한 lazy 이터레이터입니다.
 
@@ -25,9 +23,7 @@ upload: 'bool' = False,
 pattern: 'str | None' = None)
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   W&amp;B를 쿼리하는 데 사용할 서비스 API 인스턴스
@@ -53,9 +49,7 @@ pattern: 'str | None' = None)
   W&amp;B에서 파일을 반환할 때 매칭할 패턴입니다. 이 패턴은 mySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일과 매칭하려면 &quot;%.json&quot;을 사용합니다. names와 pattern이 모두 지정되면 ValueError가 발생합니다.
 </ResponseField>
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 ```python
 from wandb.apis.public.files import Files
@@ -77,13 +71,9 @@ for file in files:
     file.download(root="download_directory", replace=True)
 ```
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self

@@ -19,9 +19,7 @@ import SelfManagedSslTlsRequirements from "/snippets/ko/_includes/self-managed-s
 
 이 레퍼런스 아키텍처는 일반적인 배포 시나리오를 다루고, 성능과 안정성을 위해 W&amp;B 배포를 클라우드 벤더 서비스와 어떻게 통합할 수 있는지 보여줍니다.
 
-<div id="before-you-start">
-  ## 시작하기 전에
-</div>
+## 시작하기 전에 {#before-you-start}
 
 프로덕션에서 애플리케이션을 운영하는 데에는 여러 가지 과제가 따르며, W&amp;B도 예외는 아닙니다. W&amp;B는 이 과정을 간소화하는 것을 목표로 하고 있지만, 아키텍처와 설계 결정에 따라 일부 복잡한 문제가 발생할 수 있습니다. 일반적으로 프로덕션 배포를 관리하려면 하드웨어, 운영 체제, 네트워킹, 저장소, 보안, W&amp;B 플랫폼 자체, 그리고 기타 의존성을 비롯한 다양한 컴포넌트를 관리해야 합니다. 이러한 책임은 환경의 초기 설정뿐 아니라 지속적인 유지 관리에도 해당됩니다.
 
@@ -31,9 +29,7 @@ Self-Managed W&amp;B를 배포하기 전에, 프로덕션급 애플리케이션�
 
 직접 관리하는 대신 W&amp;B를 실행할 수 있는 관리형 솔루션에 대해 자세히 알아보려면 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 및 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)를 참고하세요.
 
-<div id="infrastructure">
-  ## 인프라
-</div>
+## 인프라 {#infrastructure}
 
 W&amp;B 배포 환경은 애플리케이션 계층과 저장소 계층으로 구성됩니다. 다음 다이어그램은 이러한 계층이 서로 어떻게 맞물리는지 보여주며, 이어지는 하위 섹션에서는 각 계층을 설명합니다.
 
@@ -41,27 +37,19 @@ W&amp;B 배포 환경은 애플리케이션 계층과 저장소 계층으로 구
   <img src="/images/hosting/reference_architecture.png" alt="W&B 인프라 다이어그램" />
 </Frame>
 
-<div id="application-layer">
-  ### 애플리케이션 계층
-</div>
+### 애플리케이션 계층 {#application-layer}
 
 애플리케이션 계층은 노드 장애에도 견딜 수 있는 다중 노드 Kubernetes 클러스터로 구성됩니다. Kubernetes 클러스터는 W&amp;B 파드를 실행하고 관리합니다.
 
-<div id="storage-layer">
-  ### 저장소 계층
-</div>
+### 저장소 계층 {#storage-layer}
 
 저장소 계층은 MySQL 데이터베이스와 객체 저장소로 구성됩니다. MySQL 데이터베이스는 메타데이터를 저장하고, 객체 저장소는 모델 및 데이터셋과 같은 아티팩트를 저장합니다.
 
-<div id="infrastructure-requirements">
-  ## 인프라 요구 사항
-</div>
+## 인프라 요구 사항 {#infrastructure-requirements}
 
 다음 섹션에서는 Kubernetes 클러스터 세부 정보, MySQL, Redis, 객체 저장소, 소프트웨어 버전, 네트워킹, DNS, 로드 밸런서 및 인그레스, SSL/TLS, 지원되는 CPU 아키텍처를 포함한 W&amp;B 배포에 대한 요구 사항을 설명합니다. 배포를 시작하기 전에 환경이 이러한 각 요구 사항을 충족하는지 확인하세요.
 
-<div id="kubernetes">
-  ### Kubernetes
-</div>
+### Kubernetes {#kubernetes}
 
 W&amp;B는 여러 파드를 배포하는 [Kubernetes Operator](/ko/platform/hosting/self-managed/operator) 형태로 W&amp;B Server 애플리케이션을 배포합니다. 따라서 W&amp;B를 사용하려면 다음 요건을 갖춘 Kubernetes 클러스터가 필요합니다.
 
@@ -70,9 +58,7 @@ W&amp;B는 여러 파드를 배포하는 [Kubernetes Operator](/ko/platform/host
 
 W&amp;B는 클라우드, 온프레미스, 폐쇄망 환경의 [OpenShift Kubernetes 클러스터](https://www.redhat.com/en/technologies/cloud-computing/openshift) 배포를 지원합니다. 구체적인 설정 지침은 Operator 가이드의 [OpenShift 섹션](/ko/platform/hosting/self-managed/operator#openshift-kubernetes-clusters)을 참조하세요.
 
-<div id="mysql">
-  ### MySQL
-</div>
+### MySQL {#mysql}
 
 <SelfManagedMysqlEolUpgrade />
 
@@ -87,23 +73,17 @@ Self-Managed MySQL 데이터베이스를 배포하기로 한 경우에는 다음
 * **모니터링**: 데이터베이스에는 충분한 CPU 리소스가 필요합니다. 데이터베이스 서버의 CPU 부하를 모니터링하세요. CPU 사용률이 5분 넘게 시스템의 90%를 초과한 상태로 유지되면 CPU 용량 증설을 고려하세요.
 * **가용성**: 가용성과 내구성 요구 사항을 충족하려면, W&amp;B는 별도 머신에 핫 스탠바이 배포를 구성할 것을 권장합니다. standby는 기본 배포의 모든 업데이트를 실시간으로 스트리밍하며, 기본 서버가 충돌하거나 손상되거나 장시간 다운타임이 발생할 경우 장애 조치할 준비가 되어 있습니다.
 
-<div id="mysql-topology">
-  #### MySQL 토폴로지
-</div>
+#### MySQL 토폴로지 {#mysql-topology}
 
 프로덕션 환경에서는 클라우드 제공업체가 장애 조치, 백업, 패치를 처리하므로, 관리형 MySQL 서비스를 사용하는 것이 고가용성을 구현하는 가장 간단한 방법입니다. 예를 들어 AWS에서는 클라우드 제공업체의 고가용성 옵션인 Aurora Multi-AZ를 사용하세요.
 
 직접 관리하는 MySQL을 실행하는 경우, 실시간 복제 스트림을 수신하고 장애 발생 시 장애 조치를 인계할 수 있는 핫 스탠바이가 있는 프라이머리 데이터베이스를 사용하세요. W&amp;B는 애플리케이션 데이터베이스에 대해 멀티 프라이머리 토폴로지나 읽기 전용 복제본을 지원하지 않습니다.
 
-<div id="mysql-database-creation">
-  #### MySQL 데이터베이스 생성
-</div>
+#### MySQL 데이터베이스 생성 {#mysql-database-creation}
 
 MySQL 데이터베이스와 사용자를 수동으로 생성하는 방법은 [베어메탈 가이드의 MySQL 데이터베이스 섹션](/ko/platform/hosting/self-managed/operator#mysql-database)을 참조하세요.
 
-<div id="mysql-configuration-parameters">
-  #### MySQL 설정 매개변수
-</div>
+#### MySQL 설정 매개변수 {#mysql-configuration-parameters}
 
 이 매개변수는 W&amp;B가 대규모로 수행하는 쓰기 패턴과 스키마 변경에 맞게 MySQL을 최적화합니다. MySQL 인스턴스를 직접 운영하는 경우 다음과 같이 MySQL을 설정하세요:
 
@@ -119,9 +99,7 @@ sync_binlog = 1
 
 이 설정은 성능과 안정성을 위해 W&amp;B의 검증을 거쳤습니다.
 
-<div id="redis">
-  ### Redis
-</div>
+### Redis {#redis}
 
 W&amp;B는 작업 대기열 처리와 데이터 캐싱에 사용하는 단일 노드 Redis 7.x 배포에 의존합니다. 테스트와 개념 증명 개발의 편의를 위해 W&amp;B Self-Managed에는 로컬 Redis 배포가 포함되어 있지만, 이는 프로덕션 배포에는 적합하지 않습니다.
 
@@ -132,9 +110,7 @@ W&amp;B는 다음 환경의 Redis 인스턴스에 연결할 수 있습니다:
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
 * 클라우드 또는 온프레미스 인프라에서 호스팅되는 Redis 배포.
 
-<div id="object-storage">
-  ### 객체 저장소
-</div>
+### 객체 저장소 {#object-storage}
 
 W&amp;B를 사용하려면 사전 서명된 URL과 CORS를 지원하는 객체 저장소가 필요하며, 다음 중 하나에 배포해야 합니다:
 
@@ -144,33 +120,23 @@ W&amp;B를 사용하려면 사전 서명된 URL과 CORS를 지원하는 객체 �
 * [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs)는 텍스트, 바이너리 데이터, 이미지, 비디오, 로그와 같은 비정형 데이터를 저장하기 위한 클라우드 기반 객체 저장소 솔루션입니다.
 * [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) 또는 클라우드나 온프레미스 인프라에 호스팅되는 기타 엔터프라이즈급 솔루션과 같은 S3 호환 저장소.
 
-<div id="versions">
-  ### 버전
-</div>
+### 버전 {#versions}
 
 <SelfManagedVersionRequirements />
 
-<div id="networking">
-  ### 네트워킹
-</div>
+### 네트워킹 {#networking}
 
 <SelfManagedNetworkingRequirements />
 
-<div id="dns">
-  ### DNS
-</div>
+### DNS {#dns}
 
 W&amp;B 배포 환경의 정규화된 도메인 이름(FQDN)은 `A` 레코드를 통해 인그레스 또는 로드 밸런서의 IP 주소로 해석되어야 합니다.
 
-<div id="load-balancer-and-ingress">
-  ### 로드 밸런서 및 인그레스
-</div>
+### 로드 밸런서 및 인그레스 {#load-balancer-and-ingress}
 
 W&amp;B Kubernetes Operator는 Kubernetes 인그레스 컨트롤러를 사용해 서비스를 외부에 노출할 수 있으며, 이 컨트롤러는 서로 다른 포트를 사용하는 URL 경로에 따라 서비스 엔드포인트로 라우팅합니다. 인그레스 컨트롤러는 머신 러닝 워크로드를 실행하거나 웹 브라우저를 통해 서비스에 접속하는 모든 머신에서 접근할 수 있어야 합니다.
 
-<div id="ingress-controller-requirements">
-  #### 인그레스 컨트롤러 요구 사항
-</div>
+#### 인그레스 컨트롤러 요구 사항 {#ingress-controller-requirements}
 
 Kubernetes 클러스터에서 `IngressClass`를 사용할 수 있어야 합니다. 일반적인 인그레스 컨트롤러 옵션은 다음과 같습니다.
 
@@ -179,9 +145,7 @@ Kubernetes 클러스터에서 `IngressClass`를 사용할 수 있어야 합니�
 * [Traefik](https://traefik.io/).
 * 클라우드 제공업체 인그레스 컨트롤러(AWS ALB, GCP Ingress 및 Azure Application Gateway).
 
-<div id="wb-service-routing">
-  #### W&amp;B 서비스 라우팅
-</div>
+#### W&amp;B 서비스 라우팅 {#wb-service-routing}
 
 W&amp;B Operator는 경로를 기준으로 요청을 여러 백엔드 서비스에 자동으로 라우팅합니다:
 
@@ -194,9 +158,7 @@ W&amp;B Operator는 경로를 기준으로 요청을 여러 백엔드 서비스�
 | `/console`  | `wandb-console`     | 8082         | 시스템 콘솔                     |
 | `/traces`   | `wandb-weave-trace` | 8722         | Weave Tracing 서비스(활성화된 경우) |
 
-<div id="example-ingress-configuration">
-  #### 인그레스 설정 예시
-</div>
+#### 인그레스 설정 예시 {#example-ingress-configuration}
 
 다음은 W&amp;B Operator가 생성한 인그레스 리소스의 예입니다:
 
@@ -259,27 +221,19 @@ spec:
   W&amp;B Operator가 인그레스 설정을 자동으로 생성하고 관리합니다. 일반적으로 인그레스 리소스를 수동으로 생성할 필요는 없습니다. 클러스터에 정상적으로 작동하는 인그레스 컨트롤러가 있고, 적절한 `IngressClass`가 설정되어 있는지 확인하세요.
 </Note>
 
-<div id="ssltls">
-  ### SSL/TLS
-</div>
+### SSL/TLS {#ssltls}
 
 <SelfManagedSslTlsRequirements />
 
-<div id="supported-cpu-architectures">
-  ### 지원되는 CPU 아키텍처
-</div>
+### 지원되는 CPU 아키텍처 {#supported-cpu-architectures}
 
 W&amp;B는 Intel 및 AMD의 64비트 아키텍처에서 실행됩니다. ARM은 지원되지 않습니다.
 
-<div id="deployment-method">
-  ## 배포 방법
-</div>
+## 배포 방법 {#deployment-method}
 
 인프라가 앞서 설명한 요구 사항을 충족하면 W&amp;B를 설치하고 필요한 기본 리소스를 프로비저닝할 방법을 선택하세요. 다음 섹션에서는 권장 배포 방법과 인프라 프로비저닝을 위한 권장 접근 방식을 설명합니다.
 
-<div id="wb-kubernetes-operator-with-helm">
-  ### Helm과 함께 W&amp;B Kubernetes Operator 사용
-</div>
+### Helm과 함께 W&amp;B Kubernetes Operator 사용 {#wb-kubernetes-operator-with-helm}
 
 W&amp;B Self-Managed의 권장 설치 방법은 Helm을 통해 **W&amp;B Kubernetes Operator**를 배포하는 것입니다. 이 방식의 장점은 다음과 같습니다.
 
@@ -292,15 +246,11 @@ W&amp;B Self-Managed의 권장 설치 방법은 Helm을 통해 **W&amp;B Kuberne
 * [온프레미스에서 W&amp;B Platform 배포](/ko/platform/hosting/self-managed/operator) - 기본 설치 가이드.
 * [폐쇄망 인스턴스를 위한 Kubernetes Operator](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) - 외부와 분리된 환경용.
 
-<div id="infrastructure-provisioning">
-  ### 인프라 프로비저닝
-</div>
+### 인프라 프로비저닝 {#infrastructure-provisioning}
 
 Terraform은 W&amp;B 프로덕션 deployment를 위한 인프라를 프로비저닝하는 데 권장되는 방법입니다. Terraform을 사용하면 필요한 리소스와 다른 리소스를 참조하는 방식, 그리고 리소스 간 의존성을 정의할 수 있습니다. W&amp;B는 주요 클라우드 제공업체용 Terraform 모듈을 제공합니다. 자세한 내용은 [Self-Managed 클라우드 계정 내에 W&amp;B Server 배포](/ko/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts)을 참고하세요.
 
-<div id="sizing">
-  ## 사이징
-</div>
+## 사이징 {#sizing}
 
 배포를 계획할 때는 다음 지침을 출발점으로 삼으세요. W&amp;B는 배포의 모든 컴포넌트를 면밀히 모니터링하고, 관찰된 사용 패턴에 따라 조정할 것을 권장합니다. 시간 경과에 따라 프로덕션 배포도 계속 모니터링하고, 성능을 유지할 수 있도록 필요에 따라 조정하세요.
 
@@ -308,9 +258,7 @@ Terraform은 W&amp;B 프로덕션 deployment를 위한 인프라를 프로비저
 
 다음 섹션에서는 Kubernetes 클러스터와 MySQL 데이터베이스에 대한 노드별 용량 산정 권장 사항을 제공합니다.
 
-<div id="kubernetes-sizing">
-  ### Kubernetes 사이징
-</div>
+### Kubernetes 사이징 {#kubernetes-sizing}
 
 <Tabs>
   <Tab title="Models only">
@@ -341,9 +289,7 @@ Terraform은 W&amp;B 프로덕션 deployment를 위한 인프라를 프로비저
   </Tab>
 </Tabs>
 
-<div id="mysql-sizing">
-  ### MySQL 사이징
-</div>
+### MySQL 사이징 {#mysql-sizing}
 
 이 권장 사항은 제품 구성에 따라 달라지지 않습니다. 토폴로지 및 가용성에 대한 지침은 [MySQL](#mysql) 아래의 [MySQL topology](#mysql-topology)를 참조하세요.
 
@@ -354,9 +300,7 @@ Terraform은 W&amp;B 프로덕션 deployment를 위한 인프라를 프로비저
 
 수치는 MySQL 노드당 기준입니다.
 
-<div id="cloud-provider-instance-recommendations">
-  ## 클라우드 제공업체 인스턴스 권장 사항
-</div>
+## 클라우드 제공업체 인스턴스 권장 사항 {#cloud-provider-instance-recommendations}
 
 이전 크기 조정 표에서 노드별 CPU, 메모리, 디스크 요구 사항을 확인한 후, 다음 권장 사항을 참고하여 해당 요구 사항을 충족하는 구체적인 클라우드 제공업체 인스턴스 유형과 관리형 서비스를 선택하세요. 이 권장 사항은 클라우드 인프라에서 실행되는 W&amp;B Self-Managed 배포의 각 노드에 적용됩니다.
 

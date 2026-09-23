@@ -7,9 +7,7 @@ Cette page décrit deux méthodes à utiliser ensemble pour réduire les temps d
 
 Les sections suivantes décrivent comment purger les tâches en arrière-plan en attente et comment augmenter le parallélisme côté client.
 
-<div id="flush-pending-background-work">
-  ## Traiter les tâches en arrière-plan en attente
-</div>
+## Traiter les tâches en arrière-plan en attente {#flush-pending-background-work}
 
 Le vidage force l’exécution des tâches en arrière-plan en attente en parallèle avec votre thread principal, au lieu d’attendre qu’elles se terminent une fois l’exécution de votre code achevée.
 
@@ -26,9 +24,7 @@ result = evaluation.Evaluate(dataset_id="my_dataset_id")
 client.flush()
 ```
 
-<div id="increase-client-parallelism">
-  ## Augmenter le parallélisme du client
-</div>
+## Augmenter le parallélisme du client {#increase-client-parallelism}
 
 Augmenter le parallélisme du client permet à Weave d’utiliser davantage de threads pour les tâches en arrière-plan, comme le téléversement de jeux de données, ce qui peut encore réduire le temps de nettoyage en complément du vidage.
 

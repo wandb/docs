@@ -5,9 +5,7 @@ title: 実験とともに CSV ファイルをトラッキングする
 
 W&amp;B Python ライブラリを使用して CSV ファイルをログし、[W&amp;B ダッシュボード](/ja/models/track/workspaces/)で可視化します。W&amp;B ダッシュボード は、機械学習モデルの結果を整理して可視化するための中心となる場所です。これは特に、W&amp;B にログされていない[過去の機械学習実験に関する情報を含む CSV ファイル](#import-and-log-your-csv-of-experiments)がある場合や、[データセットを含む CSV ファイル](#import-and-log-your-dataset-csv-file)がある場合に便利です。
 
-<div id="import-and-log-your-dataset-csv-file">
-  ## データセットのCSVファイルをインポートしてログする
-</div>
+## データセットのCSVファイルをインポートしてログする {#import-and-log-your-dataset-csv-file}
 
 {/* {% embed url="https://drive.google.com/file/d/1jBG3M4VnaMgeclRzowYZEYvFxvwb9SXF/view?usp=sharing" %} */}
 
@@ -93,9 +91,7 @@ with wandb.init(project="tables-walkthrough") as run:
     run.log_artifact(iris_table_artifact)
 ```
 
-<div id="import-and-log-your-csv-of-experiments">
-  ## Experiments の CSV をインポートしてログする
-</div>
+## Experiments の CSV をインポートしてログする {#import-and-log-your-csv-of-experiments}
 
 {/* {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
   以下の表は、変換するとこの W&B ダッシュボードになります

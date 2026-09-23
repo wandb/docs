@@ -9,7 +9,7 @@ Agents ビュー では、エージェントが行ったすべての会話につ
 エージェント アプリケーションのデバッグが難しいのは、重要な動作がユーザーのリクエストと最終的なレスポンスの間で起こるためです。W&amp;B Weave の Agents ビュー は、その中間レイヤーを可視化します。ここには、エージェントが行ったすべての会話が、完全なメッセージ履歴、スパン レベルの実行詳細、関連する token コストとともに記録されています。エージェントがタスクを完了したか、何回 ツール呼び出し を行ったか、時間や予算がどこで費やされたかをひと目で確認できます。エージェントを構築して反復的に改善するチームにとって、これは本番環境での動作を理解するための出発点です。
 
 <div id="get-started">
-  ## はじめに
+  ## はじめに {#get-started}
 </div>
 
 project の Agents ビューを開くには、次の手順を実行します。
@@ -20,7 +20,7 @@ project の Agents ビューを開くには、次の手順を実行します。
 Agents ビューは、上部に並ぶ **Dashboard**、**Agents**、**Conversations**、**Spans**、**Signals** の各タブで構成されています。**Dashboard** タブでは project 全体のエージェントアクティビティの概要を確認でき、他のタブでは個々のエージェント、会話、スパン、シグナルを詳しく確認できます。
 
 <div id="dashboard-tab">
-  ## Dashboard タブ
+  ## Dashboard タブ {#dashboard-tab}
 </div>
 
 **Dashboard** タブは、project 全体におけるすべてのエージェントアクティビティの概要を確認できる場所です。ひと目で把握できるように設計されているため、チームでは通常、特定のエージェントや会話を詳しく確認する前に、日次のヘルスチェックの起点として使用します。
@@ -30,7 +30,7 @@ Agents ビューは、上部に並ぶ **Dashboard**、**Agents**、**Conversatio
 上部のサマリーカードには、選択した時間範囲における合計値として **Spans**、**Conversations**、**Tokens**、**Cost**、**Error rate**、**Agents** が表示されます。カードの下には時系列チャートがあり、スパン、会話、トークン、コストのボリュームの推移に加えて、エラー数やシグナルのアクティビティが表示されます。最下段には、使用状況別に上位のツール、エージェント、モデル、プロバイダーの内訳が表示されます。左側には最近の会話またはスパンのリストが表示され、**Conversations** と **Spans** を切り替えられます。また、時間範囲セレクターで、すべてのパネルに反映される期間を制御できます。
 
 <div id="agents-tab">
-  ## Agents tab
+  ## Agents tab {#agents-tab}
 </div>
 
 **Agents** タブでは、この project にトレースをログしたすべてのエージェントを一覧し、全体像を把握できます。どのエージェントがアクティブかを確認したり、エージェント間でレイテンシやエラー率を比較したりするのに使用できます。個々の会話を詳しく確認する前に、注意が必要なエージェントを特定するのにも役立ちます。
@@ -47,7 +47,7 @@ Agents ビューは、上部に並ぶ **Dashboard**、**Agents**、**Conversatio
 ![Agents タブで選択されたエージェントカード。右側で詳細パネルが開き、エージェントのメタデータとナビゲーション オプションが表示されています。](/weave/guides/tracking/imgs/agent-view-agent-detail.png)
 
 <div id="agent-cards">
-  ### エージェントカード
+  ### エージェントカード {#agent-cards}
 </div>
 
 各エージェントは、次の情報を表示するカードとして表されます。
@@ -65,7 +65,7 @@ Agents ビューは、上部に並ぶ **Dashboard**、**Agents**、**Conversatio
 | **Error rate**         | エラーを返した呼び出しの割合。0% を超える場合は赤色で表示されます。                      |
 
 <div id="find-and-sort-agents">
-  ### エージェントを検索して並べ替える
+  ### エージェントを検索して並べ替える {#find-and-sort-agents}
 </div>
 
 **Search and filter agents** フィールドを使用して、エージェント名でエージェントを検索します。
@@ -82,7 +82,7 @@ Agents ビューは、上部に並ぶ **Dashboard**、**Agents**、**Conversatio
 すぐに上位に表示され、カード上の赤いエラー率をひと目で確認するだけで、調査が必要なものをすぐに把握できます。
 
 <div id="conversations-tab">
-  ## Conversations タブ
+  ## Conversations タブ {#conversations-tab}
 </div>
 
 Agents ページの **Conversations** タブでは、個々のエージェントの Runs を閲覧、フィルター、詳細確認できます。これを使用すると、失敗の調査、token コストの測定、そして 1 つの run を構成する LLM calls と tool 実行の流れの把握が可能です。
@@ -92,7 +92,7 @@ Agents ページの **Conversations** タブでは、個々のエージェント
 ![エージェント名、呼び出し回数、span 数、token 数、最終アクティビティの列を含む、エージェントの会話一覧を表示した Conversations タブ。](/weave/guides/tracking/imgs/agent-view-conversation.png)
 
 <div id="conversations-table">
-  ### Conversations テーブル
+  ### Conversations テーブル {#conversations-table}
 </div>
 
 Conversations テーブルには、会話ごとに 1 行が表示されます。以下の列がデフォルトで表示されます。
@@ -116,7 +116,7 @@ Conversations テーブルには、会話ごとに 1 行が表示されます。
 追加の列を表示または非表示にするには、ツールバーの **Columns** をクリックします。
 
 <div id="filters-and-time-window">
-  ### フィルターと時間ウィンドウ
+  ### フィルターと時間ウィンドウ {#filters-and-time-window}
 </div>
 
 **Filter** バーを使用して、エージェント、モデル、エラーステータス、
@@ -137,7 +137,7 @@ SDK を使用してエージェント スパンに付与したカスタム属性
 範囲でフィルターできます。
 
 <div id="agent-conversation-detail">
-  ### Agent の会話の詳細
+  ### Agent の会話の詳細 {#agent-conversation-detail}
 </div>
 
 会話の行をクリックすると、**Turns** と **Events** の 2 つのサブパネルがある詳細パネルが開きます。パネルヘッダーには、エージェント名と会話 ID に加えて、**Summarize** (会話の要約を生成) と **Add to dataset** アクションが表示されます。
@@ -145,7 +145,7 @@ SDK を使用してエージェント スパンに付与したカスタム属性
 ![Conversations タブで選択した会話。詳細パネルが開き、ターンごとのメッセージスレッド、ツール呼び出し、推論、そして右側に Events のタイムラインが表示されています。](/weave/guides/tracking/imgs/agent-view-conversation-detail.png)
 
 <div id="turns">
-  #### ターン
+  #### ターン {#turns}
 </div>
 
 会話詳細のターン パネルには、各ターンが時系列順に、1 から番号付きで表示されます。
@@ -154,7 +154,7 @@ SDK を使用してエージェント スパンに付与したカスタム属性
 合計の実行時間が表示されます。ターンを展開すると、メッセージスレッド全体を確認できます。
 
 <div id="messages">
-  ##### メッセージ
+  ##### メッセージ {#messages}
 </div>
 
 1 つのターン内では、メッセージはロールごとにグループ化されます。
@@ -172,7 +172,7 @@ SDK を使用してエージェント スパンに付与したカスタム属性
 **ツール呼び出し**には、ツール名、タイムスタンプ、所要時間が表示されます。引数または結果データを利用できる場合、ツール呼び出しは展開可能になり、キーと値の表に **引数** と **結果** が表示されます。呼び出しが失敗した場合は、**ERROR** バッジが表示されます。
 
 <div id="error-states">
-  ##### エラー状態
+  ##### エラー状態 {#error-states}
 </div>
 
 ツール呼び出しがエラー ステータスを返すと、その横に赤い **ERROR** バッジがインラインで
@@ -180,7 +180,7 @@ SDK を使用してエージェント スパンに付与したカスタム属性
 赤色で表示されます。
 
 <div id="events">
-  #### イベント
+  #### イベント {#events}
 </div>
 
 右側の **Events** パネルには、選択したターン内で発生したイベントの
@@ -204,7 +204,7 @@ LLM 中心だったのか、ツール中心だったのか、あるいは
 サブエージェントへの委任が含まれていたのかを確認できます。
 
 <div id="scores">
-  ##### スコア
+  ##### スコア {#scores}
 </div>
 
 project でいずれかのシグナルが有効になっている場合、会話のメトリクスを示す **スコア** セクションが表示されます。ここには、シグナルの Scorer 名、0〜1 の全体的な数値評価、
@@ -214,7 +214,7 @@ project でいずれかのシグナルが有効になっている場合、会話
 基準に合格したか、または不合格だったかも把握できます。
 
 <div id="meta-summary">
-  ##### Meta summary
+  ##### Meta summary {#meta-summary}
 </div>
 
 **Meta summary** セクションには、選択した会話の集計統計が表示されます。
@@ -229,7 +229,7 @@ project でいずれかのシグナルが有効になっている場合、会話
 | **Turn page**         | 現在表示されているターンの範囲と、ターンの総数。  |
 
 <div id="token-breakdown">
-  ##### Token の内訳
+  ##### Token の内訳 {#token-breakdown}
 </div>
 
 **Token の内訳**セクションには、選択した会話のキャッシュと推論の詳細が表示されます。
@@ -243,13 +243,13 @@ project でいずれかのシグナルが有効になっている場合、会話
 | **推論 ratio** | 拡張思考に費やされた出力トークンの割合。                             |
 
 <div id="participants">
-  ##### Participants
+  ##### Participants {#participants}
 </div>
 
 **Participants** セクションには、会話に含まれるエージェントとモデルが一覧表示されます。マルチエージェントの会話では、ターンごとにここに表示されるモデル名が異なる場合があります。
 
 <div id="add-agent-messages-to-a-dataset">
-  #### エージェントのメッセージをデータセットに追加する
+  #### エージェントのメッセージをデータセットに追加する {#add-agent-messages-to-a-dataset}
 </div>
 
 エージェントのメッセージを`Dataset`に追加するには、次の手順を実行します。
@@ -260,7 +260,7 @@ project でいずれかのシグナルが有効になっている場合、会話
 4. 選択内容を確認し、**Add to dataset** をクリックします。
 
 <div id="spans-tab">
-  ## Spans タブ
+  ## Spans タブ {#spans-tab}
 </div>
 
 **Spans** タブには、project 内のすべてのエージェントアクティビティで記録された各 span が表示されます。Conversations タブではアクティビティが会話レベルの行に集約されます。Spans タブではその下にある生の処理内容、つまり各 LLM Call、tool の実行、エージェントの呼び出しがそれぞれ1行ずつ表示されます。これを使用すると、どの Call が遅かったのか、どのモデルが想定外に多くの トークン を消費したのか、どの tool の呼び出しが失敗したのかを正確に追跡できます。
@@ -268,7 +268,7 @@ project でいずれかのシグナルが有効になっている場合、会話
 ![エージェントの会話の span を表示する Spans タブ。](/weave/guides/tracking/imgs/agent-view-spans.png)
 
 <div id="spans-table">
-  ### Spans 表
+  ### Spans 表 {#spans-table}
 </div>
 
 Spans 表は Conversations 表とほとんどの列 (agent、model、tool、token 数、ステータス) を共有しています。このビューに固有の列は次のとおりです。
@@ -292,13 +292,13 @@ Spans タブは、Conversations タブでは得られない操作レベルの精
 * **W&amp;B Run との関連付け。** デフォルトで非表示の列には W&amp;B Run ID と run ステップが含まれており、特定の span を W&amp;B 内のトレーニングまたは評価 run に関連付けることができます。
 
 <div id="trace-groups">
-  ### トレース グループ
+  ### トレース グループ {#trace-groups}
 </div>
 
 任意の行をクリックすると、その行のトレースが選択され、同じトレース ID を持つ他のすべての スパン が強調表示されます。これにより、1 回のエージェント呼び出しで実行された一連の操作全体を確認できます。ここでのグループ化は会話単位ではなく、トレース単位で行われます。つまり、サブエージェントへの委譲が含まれる場合、1 つの会話に複数のトレースが含まれることがあります。
 
 <div id="agent-invocation-detail">
-  ### エージェント呼び出しの詳細
+  ### エージェント呼び出しの詳細 {#agent-invocation-detail}
 </div>
 
 完全なエージェント呼び出しのデータが表示された詳細パネルを開くには、**Spans** 表の行をクリックします。
@@ -313,9 +313,7 @@ Spans タブは、Conversations タブでは得られない操作レベルの精
 
 また、詳細パネルのヘッダーで **Show trace tree** アイコンを選択すると、子スパンを階層的なトレース ツリーとして表示できます。
 
-<div id="signals-tab">
-  ## Signals タブ
-</div>
+## Signals タブ {#signals-tab}
 
 **Signals** タブには、エージェントの会話に対するタグと評価が表示されます。Signals は品質や安全性に関する問題を浮き彫りにし、問題の特定、パターンの発見、注意が必要なトレースの把握に役立ちます。Signals を使用すると、エージェントの応答の品質を自動的にスコアリングしたり、ユーザーが苛立っていることを検知したり、NSFW コンテンツにフラグを立てたりできます。
 

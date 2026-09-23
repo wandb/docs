@@ -15,9 +15,7 @@ W&amp;B Python SDK(`wandb`)에는 XGBoost로 트레이닝할 때 메트릭, 설�
   <img src="/images/integrations/xgb_dashboard.png" alt="XGBoost를 사용한 W&B 대시보드" />
 </Frame>
 
-<div id="get-started">
-  ## 시작하기
-</div>
+## 시작하기 {#get-started}
 
 XGBoost 메트릭, 설정, 부스터 모델을 W&amp;B에 로깅하려면 `WandbCallback`을 XGBoost에 전달하세요:
 
@@ -36,13 +34,9 @@ with wandb.init() as run:
 
 XGBoost와 W&amp;B에서의 로깅을 자세히 살펴보려면 [XGBoost and W&amp;B logging notebook](https://wandb.me/xgboost)을 참조하세요.
 
-<div id="wandbcallback-reference">
-  ## `WandbCallback` 레퍼런스
-</div>
+## `WandbCallback` 레퍼런스 {#wandbcallback-reference}
 
-<div id="functionality">
-  ### 기능
-</div>
+### 기능 {#functionality}
 
 XGBoost 모델에 `WandbCallback`을 전달하면 다음이 수행됩니다.
 
@@ -54,9 +48,7 @@ XGBoost 모델에 `WandbCallback`을 전달하면 다음이 수행됩니다.
 * `log_feature_importance=True`(기본값)일 때 특성 중요도 플롯을 기록합니다.
 * `define_metric=True`(기본값)일 때 최고 eval 메트릭을 `wandb.Run.summary`에 캡처합니다.
 
-<div id="arguments">
-  ### 인수
-</div>
+### 인수 {#arguments}
 
 * `log_model`: (boolean) `True`이면 모델을 W&amp;B Artifacts에 저장하고 업로드합니다.
 
@@ -70,9 +62,7 @@ XGBoost 모델에 `WandbCallback`을 전달하면 다음이 수행됩니다.
 
 더 많은 예시는 [GitHub의 예시 저장소](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)를 참조하세요.
 
-<div id="tune-your-hyperparameters-with-sweeps">
-  ## Sweeps로 하이퍼파라미터 조정하기
-</div>
+## Sweeps로 하이퍼파라미터 조정하기 {#tune-your-hyperparameters-with-sweeps}
 
 W&amp;B [Sweeps](/ko/models/sweeps/)는 하이퍼파라미터 테스트 실험을 설정, 조율, 분석하기 위한 도구입니다. 이 섹션에서는 XGBoost 인테그레이션을 W&amp;B Sweeps와 함께 사용해 다양한 하이퍼파라미터 설정을 검색하는 방법을 보여줍니다.
 

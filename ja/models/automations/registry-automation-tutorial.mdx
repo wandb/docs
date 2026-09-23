@@ -15,14 +15,14 @@ import TutorialGoFurther from "/snippets/ja/_includes/automations/tutorial-go-fu
 <Tip>project オートメーションの作成手順については、[チュートリアル: project の run 失敗アラート オートメーション](/ja/models/automations/project-automation-tutorial)を参照してください。</Tip>
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 前提条件 {#prerequisites}
 </div>
 
 * **Team Settings** で設定済みの [webhook](/ja/models/automations/create-automations/webhook#create-a-webhook)。
 * 少なくとも 1 つのコレクションを含む W&amp;B の [Registry](/ja/models/registry/create_registry) (既存の Registry を再利用してもかまいません) 。
 
 <div id="create-a-registry-automation">
-  ## Registry のオートメーションを作成する
+  ## Registry のオートメーションを作成する {#create-a-registry-automation}
 </div>
 
 Registry スコープのオートメーションを設定します。このオートメーションでは、その Registry 内の任意のコレクションにある artifact に特定の エイリアス (たとえば **production**) が付与されると、W&amp;B から webhook に `POST` リクエストが送信されます。
@@ -78,7 +78,7 @@ Registry スコープのオートメーションを設定します。このオ�
   */}
 
 <div id="test-the-automation">
-  ## オートメーションをテストする
+  ## オートメーションをテストする {#test-the-automation}
 </div>
 
 オートメーションがエンドツーエンドで実行されることを確認するには、artifact バージョンにエイリアスを追加して、設定したイベントをトリガーします。W&amp;B App または public API を使用して、Registry 内の artifact バージョンに エイリアス (たとえば **本番**) を追加します。例:

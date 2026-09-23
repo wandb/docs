@@ -13,9 +13,7 @@ AI 評価パイプラインでは、デバッグが重要です。パイプラ�
 
 Weave は、[Verdict](https://verdict.readthedocs.io/) アプリケーションのトレースを自動的に取得することで、このプロセスを効率化します。これにより、パイプラインのパフォーマンスを監視および分析して、AI 評価ワークフローをデバッグおよび最適化できます。
 
-<div id="getting-started">
-  ## はじめに
-</div>
+## はじめに {#getting-started}
 
 Verdict パイプラインで Weave のトレースを有効にするには、スクリプトの先頭で `weave.init(project=...)` を呼び出します。特定の W&amp;B Team 名にログするには、`project` 引数に `team-name/project-name` を指定します。デフォルトの team/entity にログする場合は、`project-name` を指定してください。
 
@@ -41,9 +39,7 @@ output = pipeline.run(data)
 print(output)
 ```
 
-<div id="tracking-call-metadata">
-  ## callメタデータのトラッキング
-</div>
+## callメタデータのトラッキング {#tracking-call-metadata}
 
 Verdict パイプラインの call にカスタムメタデータを追加するには、[`weave.attributes`](/ja/weave/reference/python-sdk#function-attributes) コンテキストマネージャーを使用します。このコンテキストマネージャーを使うと、パイプラインの実行や評価バッチなど、特定のコードブロックにタグを付けられるため、後で Weave UI で関連するトレースをフィルターしたりグループ化したりできます。
 
@@ -69,9 +65,7 @@ print(output)
 
 Weave は、Verdict パイプライン call の トレース にひも付けて、メタデータを自動的にトラッキングします。メタデータは Weave の Web インターフェースで確認できます。
 
-<div id="traces">
-  ## トレース
-</div>
+## トレース {#traces}
 
 AI 評価パイプラインのトレースを中央のデータベースに保存すると、開発時にも本番環境でも役立ちます。これらのトレースは、評価ワークフローのデバッグや改善に役立つほか、有用なデータセットにもなります。
 
@@ -85,9 +79,7 @@ Weave は、Verdict アプリケーションのトレースを自動的に取得
 
 トレースは Weave の Web インターフェースで表示でき、パイプライン実行の階層構造を確認できます。
 
-<div id="pipeline-tracing-example">
-  ## パイプラインのトレース例
-</div>
+## パイプラインのトレース例 {#pipeline-tracing-example}
 
 以下の例は、ネストされたパイプライン操作を Weave がどのようにトレースするかを示しており、複数段階の Verdict パイプラインの各ステップがどのように取得されるかを確認できます。
 
@@ -126,9 +118,7 @@ print(f"Average score: {result}")
 * `MeanPoolUnit` の集約ステップ。
 * 各処理のタイミング情報。
 
-<div id="configuration">
-  ## 設定
-</div>
+## 設定 {#configuration}
 
 `weave.init()` を呼び出すと、Verdict パイプラインのトレースが自動的に有効になります。このインテグレーションは、`Pipeline.__init__()` method にパッチを適用して、すべての Trace Data を Weave に転送する `VerdictTracer` を注入することで機能します。
 
@@ -140,9 +130,7 @@ print(f"Average score: {result}")
 * トレース階層を維持する。
 * パイプラインの並行実行を処理する。
 
-<div id="custom-tracers-and-weave">
-  ## カスタムトレーサーと Weave
-</div>
+## カスタムトレーサーと Weave {#custom-tracers-and-weave}
 
 アプリケーションですでにカスタムの Verdict トレーサーを使用している場合、Weave の `VerdictTracer` はそれらと併用できるため、どちらか一方のインテグレーションを選ぶ必要はありません。
 
@@ -169,9 +157,7 @@ data = Schema.of(text="Sample evaluation text")
 result = pipeline.run(data)
 ```
 
-<div id="models-and-evaluations">
-  ## Models と評価
-</div>
+## Models と評価 {#models-and-evaluations}
 
 複数のパイプラインコンポーネントで構成される AI システムの整理と評価は、難しい場合があります。[`weave.Model`](/ja/weave/guides/core-types/models) を使用すると、プロンプト、パイプラインの設定、評価パラメーターなどの実験の詳細を取得して整理できるため、異なるイテレーションを比較しやすくなります。
 
@@ -222,9 +208,7 @@ print(prediction)
 
 このコードは、パイプライン構造と評価結果の両方を表示できる、Weave UIで可視化できるモデルを作成します。
 
-<div id="evaluations">
-  ### 評価
-</div>
+### 評価 {#evaluations}
 
 評価を使うと、評価パイプライン自体のパフォーマンスを測定できます。[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) クラスを使用すると、特定のタスクやデータセットに対して Verdict パイプラインがどの程度うまく機能しているかを取得できます。
 
@@ -287,15 +271,11 @@ print(scores)
 
 これにより、さまざまなテストケースにおける Verdict パイプラインの動作を示す評価トレースが作成されます。
 
-<div id="best-practices">
-  ## ベストプラクティス
-</div>
+## ベストプラクティス {#best-practices}
 
 以下のセクションでは、Verdict パイプラインで Weave を使用する際の、パフォーマンスの監視とエラー処理に関するベストプラクティスを説明します。
 
-<div id="performance-monitoring">
-  ### パフォーマンス監視
-</div>
+### パフォーマンス監視 {#performance-monitoring}
 
 Weave は、パイプライン内のすべての処理について実行時間の情報を自動的に取得します。これを使用して、複数の run にまたがるパフォーマンスのボトルネックを特定できます。
 
@@ -322,9 +302,7 @@ for i in range(3):
         result = pipeline.run(data)
 ```
 
-<div id="error-handling">
-  ### エラー処理
-</div>
+### エラー処理 {#error-handling}
 
 Weave は、パイプラインの実行中に発生した例外を自動的に取得するため、アプリケーション側で例外を処理した場合でも、失敗は Weave トレースに記録されます:
 

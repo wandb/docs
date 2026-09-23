@@ -16,9 +16,7 @@ Skills は、以下を含む主要なコーディングエージェントのい�
 
 サポートされているエージェントの一覧については、[W&amp;B Skills CLI ドキュメント](https://github.com/vercel-labs/skills#supported-agents)を参照してください。
 
-<div id="wb-skills-capabilities">
-  ## W&amp;B Skills の機能
-</div>
+## W&amp;B Skills の機能 {#wb-skills-capabilities}
 
 Skills は、[W&amp;B Models SDK](/ja/models/ref) (training runs、メトリクス、Artifacts、Sweeps) と [Weave SDK](/ja/weave/reference/python-sdk) (トレース、評価、スコアラー) の両方をカバーしています。エージェントが次のワークフローを処理できるように、ヘルパーライブラリ、リファレンスドキュメント、データ分析パターンが含まれます。
 
@@ -27,9 +25,7 @@ Skills は、[W&amp;B Models SDK](/ja/models/ref) (training runs、メトリク�
 | **モデル トレーニング** | <ul><li>トレーニングやファインチューニング中に、メトリクスとリッチメディアをログできます。</li><li>実験をトラッキングして比較できます。</li><li>Runs や結果 (損失曲線や精度スコアなど) を分析できます。</li><li>ハイパーパラメーターを調整できます。</li></ul> |
 | **エージェント構築**   | <ul><li>エージェント型 AI アプリケーションをトレースできます。</li><li>トレースを分析し、失敗モードを分類できます。</li><li>ラベル付きデータセットを使って、モデルやエージェントを評価できます。</li><li>本番監視のためのオンライン評価を実行できます。</li></ul>  |
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 Skills を使用するには、以下が必要です。
 
@@ -40,9 +36,7 @@ Skills を使用するには、以下が必要です。
   ```
 * 任意: W&amp;B のプロジェクト名を `WANDB_PROJECT` 環境変数に設定します。これにより、毎回指定しなくても、エージェント が正しい W&amp;B プロジェクトを対象にできるようになります。
 
-<div id="install-wb-skills">
-  ## W&amp;B Skills をインストールする
-</div>
+## W&amp;B Skills をインストールする {#install-wb-skills}
 
 すべてのプロジェクトで Skills を利用できるようにするにはグローバルインストールを、1 つのプロジェクトだけで Skills を利用できるようにするにはプロジェクト固有のインストールを選択します。
 
@@ -68,9 +62,7 @@ npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
 
 インストールが完了すると、エージェントは W&amp;B Skills にアクセスできるようになり、W&amp;B 関連のタスクを処理できるようになります。
 
-<div id="use-wb-skills">
-  ## W&amp;B Skills を使用する
-</div>
+## W&amp;B Skills を使用する {#use-wb-skills}
 
 インストール後は、プロジェクトに関する W&amp;B 関連のタスクを実行するよう エージェント に依頼できます。以下のプロンプト例は、エージェント が W&amp;B Skills で実行できるタスクの一部を示しています。
 
@@ -81,9 +73,7 @@ npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
 * &quot;直近の評価における失敗モードを見つけて分類してください。&quot;
 * &quot;run A と run B の設定を比較し、差分を表示してください。&quot;
 
-<div id="usage-tips">
-  ## 使用のヒント
-</div>
+## 使用のヒント {#usage-tips}
 
 Skills は、幅広い自由回答形式の質問よりも、具体的なクエリを使用したほうがより適切に応答できます。次の表では、推奨されるプロンプトと、曖昧すぎるプロンプトを比較しています。
 

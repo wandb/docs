@@ -4,9 +4,7 @@ description: "Docker および Kaniko ビルダー、コンテナーレジスト
 keywords: ["Kaniko builder", "ECR push", "GCR registry", "agent builder", "イメージレジストリ"]
 ---
 
-<div id="advanced-agent-setup">
-  # 高度なエージェント設定
-</div>
+# 高度なエージェント設定 {#advanced-agent-setup}
 
 このガイドでは、さまざまな環境でコンテナーイメージをビルドし、それらのイメージをクラウドのコンテナーレジストリにプッシュし、ビルドプロセスをカスタマイズするための W&amp;B Launch エージェントの設定方法について説明します。イメージのビルドが必要な launch job を実行し、エージェントがそれらのイメージをどこでどのように生成するかを制御したい場合に使用してください。このページは、Launch エージェントをデプロイおよび管理する管理者とオペレーターを対象としています。
 
@@ -16,9 +14,7 @@ keywords: ["Kaniko builder", "ECR push", "GCR registry", "agent builder", "イ�
   ジョブのタイプの詳細については、[launch job を作成する](/ja/platform/launch/create-launch-job/)を参照してください。
 </Note>
 
-<div id="builders">
-  ## ビルダー
-</div>
+## ビルダー {#builders}
 
 Launch エージェント は、コンテナーイメージを生成するための 2 つのビルダーをサポートしています。エージェントが実行される環境に適したビルダーを選択してください。
 
@@ -35,9 +31,7 @@ Launch エージェント は、[Docker](https://docs.docker.com/) または [Ka
   Kubernetes クラスターでイメージをビルドする場合は Kaniko を使用してください。それ以外の場合は Docker を使用してください。
 </Note>
 
-<div id="push-to-a-container-registry">
-  ## コンテナーレジストリへのプッシュ
-</div>
+## コンテナーレジストリへのプッシュ {#push-to-a-container-registry}
 
 ビルドしたイメージをご利用のコンピュートターゲットで実行するには、エージェントがそれらを、ターゲットがプル可能なコンテナーレジストリにプッシュする必要があります。以下のセクションでは、エージェントがどのようにイメージにタグを付けてアップロードするかを説明します。
 
@@ -45,9 +39,7 @@ Launch エージェントは、ビルドしたすべてのイメージに一意�
 
 たとえば、`builder.destination` キーを `my-registry.example.com/my-repository` に設定すると、エージェントはイメージにタグを付け、`my-registry.example.com/my-repository:[SOURCE-HASH]` にプッシュします。イメージがレジストリにすでに存在する場合、エージェントはビルドをスキップします。
 
-<div id="agent-configuration">
-  ### エージェント設定
-</div>
+### エージェント設定 {#agent-configuration}
 
 エージェントは YAML ファイルから設定を読み込みます。そのファイルをどこで指定するかは、エージェントの実行方法によって異なります。
 
@@ -122,15 +114,11 @@ Launch エージェント設定 (`launch-config.yaml`) では、ターゲット�
   </Tab>
 </Tabs>
 
-<div id="agent-permissions">
-  ## エージェントの権限
-</div>
+## エージェントの権限 {#agent-permissions}
 
 エージェントには、コンテナーレジストリにイメージをプッシュする権限と、Kaniko を使用する場合はクラウド ストレージ内のビルド コンテキストを読み書きする権限が必要です。必要なエージェント権限は、ユースケースによって異なります。
 
-<div id="cloud-registry-permissions">
-  ### クラウドレジストリの権限
-</div>
+### クラウドレジストリの権限 {#cloud-registry-permissions}
 
 エージェントがリポジトリを作成し、イメージレイヤーをアップロードし、タグ付きイメージをプッシュできるようにするには、レジストリに対する権限が必要です。以下は、Launch エージェントがクラウドレジストリを操作するために必要な権限です。
 
@@ -181,9 +169,7 @@ Launch エージェント設定 (`launch-config.yaml`) では、ターゲット�
   </Tab>
 </Tabs>
 
-<div id="storage-permissions-for-kaniko">
-  ### Kaniko のストレージ権限
-</div>
+### Kaniko のストレージ権限 {#storage-permissions-for-kaniko}
 
 エージェントが Kaniko ビルダー を使用する場合、Launch エージェント にはクラウドストレージにプッシュする権限が必要です。Kaniko は、ビルドジョブを実行する pod の外部にあるコンテキストストアを使用します。
 
@@ -228,9 +214,7 @@ Launch エージェント設定 (`launch-config.yaml`) では、ターゲット�
   </Tab>
 </Tabs>
 
-<div id="customize-the-kaniko-build">
-  ## Kaniko ビルドをカスタマイズする
-</div>
+## Kaniko ビルドをカスタマイズする {#customize-the-kaniko-build}
 
 ビルド pod のキャッシュ動作や環境変数などのデフォルトを上書きするには、Kaniko が実行する Kubernetes Job をカスタマイズします。Kaniko ジョブで使用する Kubernetes Job spec は、agent の設定にある `builder.kaniko-config` キーで指定します。たとえば次のとおりです。
 
@@ -252,9 +236,7 @@ builder:
               value: "my-env-var-value"
 ```
 
-<div id="deploy-launch-agent-into-coreweave">
-  ## Launch エージェントを CoreWeave にデプロイする
-</div>
+## Launch エージェントを CoreWeave にデプロイする {#deploy-launch-agent-into-coreweave}
 
 ワークロードが GPU アクセラレーション対応インフラストラクチャーの恩恵を受ける場合は、Launch エージェントを CoreWeave Cloud にデプロイできます。CoreWeave は、GPU アクセラレーション ワークロード向けに構築されたクラウド インフラストラクチャーです。
 

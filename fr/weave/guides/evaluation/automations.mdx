@@ -13,24 +13,18 @@ Les automatisations vous permettent de définir des règles basées sur des év�
 
 Vous gérez les automatisations dans l’interface Weave, sans aucune modification de code. Ce guide vous explique comment créer une automatisation depuis la page Automatisations, en créer une à partir d’un monitor existant, et consulter et gérer les automatisations après leur création.
 
-<div id="create-an-automation">
-  ## Créer une automatisation
-</div>
+## Créer une automatisation {#create-an-automation}
 
 Créez une automatisation en configurant l’événement déclencheur, puis en sélectionnant l’action à exécuter.
 
-<div id="prerequisites">
-  ### Prérequis
-</div>
+### Prérequis {#prerequisites}
 
 Avant de créer l&#39;automatisation qui les relie, l&#39;événement déclencheur (par exemple un Op ou un monitor) et l&#39;action (par exemple une intégration Slack) doivent exister.
 
 * Dans Weave, configurez un [Op](/fr/weave/guides/tracking/create-call) ou un [monitor](/fr/weave/guides/evaluation/monitors) qui vous intéresse.
 * Dans Team Settings, configurez une [intégration Slack](/fr/models/automations/create-automations/slack#add-a-slack-integration) ou un [webhook](/fr/models/automations/create-automations/webhook#create-a-webhook).
 
-<div id="configure-the-event">
-  ### Configurez l’événement
-</div>
+### Configurez l’événement {#configure-the-event}
 
 La configuration de l&#39;événement définit la condition qui déclenche l&#39;automatisation. Vous sélectionnez une métrique de monitor, une fenêtre temporelle et un seuil.
 
@@ -51,9 +45,7 @@ Pour créer une automatisation :
 5. Vérifiez le graphique **Alert preview** pour confirmer que les seuils déclenchent l&#39;alerte comme vous l&#39;attendez.
 6. Cliquez sur **Next step** pour passer à la configuration de l&#39;action.
 
-<div id="configure-the-action">
-  ### Configurez l&#39;action
-</div>
+### Configurez l&#39;action {#configure-the-action}
 
 La configuration de l&#39;action définit l&#39;action qui se produit lorsque l&#39;événement répond à la condition.
 
@@ -67,9 +59,7 @@ Pour configurer l&#39;action :
      * Pour les webhooks, fournissez le nom du **Webhook** et le **Payload**.
 2. Cliquez sur **Next step** pour passer à la synthèse.
 
-<div id="review-and-save">
-  ### Vérifier et enregistrer
-</div>
+### Vérifier et enregistrer {#review-and-save}
 
 L&#39;étape de synthèse affiche un aperçu complet de l&#39;automatisation avant de l&#39;enregistrer.
 
@@ -82,9 +72,7 @@ Pour enregistrer :
 
 La nouvelle automatisation apparaît dans le tableau Automatisations de la page Automatisations.
 
-<div id="create-an-automation-from-a-monitor">
-  ## Créer une automatisation à partir d’un monitor
-</div>
+## Créer une automatisation à partir d’un monitor {#create-an-automation-from-a-monitor}
 
 Vous pouvez également créer des automatisations directement depuis la vue détaillée d’un monitor. Cette approche préremplit la configuration de l’événement avec le contexte du monitor, ce qui accélère la configuration. Avant de créer l’automatisation, configurez une [intégration Slack](/fr/models/automations/create-automations/slack#add-a-slack-integration) ou un [webhook](/fr/models/automations/create-automations/webhook#create-a-webhook) que vous souhaitez utiliser comme action sélectionnée.
 
@@ -101,9 +89,7 @@ Pour créer une automatisation à partir d’un monitor :
    * **agrégation** : Définissez la fonction d’agrégation (par exemple moyenne, médiane, minimum) à appliquer aux valeurs de la métrique dans la fenêtre avant de les comparer au seuil.
 6. Cliquez sur **Next**, puis effectuez les étapes restantes (sélectionner une action et enregistrer) comme décrit dans [Créer une automatisation](#create-an-automation).
 
-<div id="view-and-manage-automations">
-  ## Afficher et gérer les automatisations
-</div>
+## Afficher et gérer les automatisations {#view-and-manage-automations}
 
 La page **Automatisations** répertorie toutes les automatisations de votre projet. Le tableau affiche les informations suivantes pour chaque automatisation :
 

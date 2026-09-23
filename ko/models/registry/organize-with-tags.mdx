@@ -14,9 +14,7 @@ title: 태그로 버전 정리하기
   그룹화하거나 검색할 때 더 유연성이 필요하다면 태그를 사용하세요. 여러 버전이나 컬렉션이 같은 레이블을 공유할 수 있고, 특정 식별자에 하나의 버전만 연결되어야 한다는 보장이 필요하지 않을 때 태그가 적합합니다.
 </Note>
 
-<div id="add-a-tag-to-a-collection">
-  ## 컬렉션에 태그 추가하기
-</div>
+## 컬렉션에 태그 추가하기 {#add-a-tag-to-a-collection}
 
 W&amp;B App UI 또는 Python SDK를 사용해 컬렉션에 태그를 추가할 수 있습니다.
 
@@ -53,7 +51,7 @@ W&amp;B App UI 또는 Python SDK를 사용해 컬렉션에 태그를 추가할 �
 </Tabs>
 
 <div id="update-tags-that-belong-to-a-collection">
-  ## 컬렉션에 속한 태그 업데이트
+  ## 컬렉션에 속한 태그 업데이트 {#update-tags-that-belong-to-a-collection}
 </div>
 
 태그를 프로그래밍 방식으로 업데이트하려면 다시 할당하거나 `tags` 속성을 변경하면 됩니다. W&amp;B는 `tags` 속성을 제자리 변경하는 것보다 다시 할당하는 방식을 권장하며, 이는 Python에서도 좋은 관행입니다.
@@ -81,9 +79,7 @@ collection.tags.pop()
 collection.tags.clear()
 ```
 
-<div id="view-tags-that-belong-to-a-collection">
-  ## 컬렉션에 속한 태그 보기
-</div>
+## 컬렉션에 속한 태그 보기 {#view-tags-that-belong-to-a-collection}
 
 W&amp;B App UI를 사용해 컬렉션에 추가된 태그를 확인할 수 있습니다:
 
@@ -106,7 +102,7 @@ W&amp;B App UI를 사용해 컬렉션에 추가된 태그를 확인할 수 있�
 </Frame>
 
 <div id="remove-a-tag-from-a-collection">
-  ## 컬렉션에서 태그 제거
+  ## 컬렉션에서 태그 제거 {#remove-a-tag-from-a-collection}
 </div>
 
 W&amp;B App UI를 사용하여 컬렉션에서 태그를 제거합니다:
@@ -117,9 +113,7 @@ W&amp;B App UI를 사용하여 컬렉션에서 태그를 제거합니다:
 4. 컬렉션 카드에서 제거하려는 태그 이름 위에 마우스를 올립니다.
 5. 취소 버튼(**X** 아이콘)을 클릭합니다.
 
-<div id="add-a-tag-to-an-artifact-version">
-  ## 아티팩트 버전에 태그 추가
-</div>
+## 아티팩트 버전에 태그 추가 {#add-a-tag-to-an-artifact-version}
 
 W&amp;B App UI 또는 Python SDK를 사용하여 컬렉션에 연결된 아티팩트 버전에 태그를 추가합니다.
 
@@ -179,7 +173,7 @@ W&amp;B App UI 또는 Python SDK를 사용하여 컬렉션에 연결된 아티�
 </Tabs>
 
 <div id="update-tags-that-belong-to-an-artifact-version">
-  ## 아티팩트 버전에 속한 태그 업데이트하기
+  ## 아티팩트 버전에 속한 태그 업데이트하기 {#update-tags-that-belong-to-an-artifact-version}
 </div>
 
 태그는 재할당하거나 `tags` 속성을 수정해 프로그래밍 방식으로 업데이트할 수 있습니다. W&amp;B는 `tags` 속성을 in-place로 수정하는 대신 재할당할 것을 권장하며, 이는 Python에서도 좋은 관행입니다.
@@ -208,7 +202,7 @@ artifact.tags.clear()
 ```
 
 <div id="view-tags-that-belong-to-an-artifact-version">
-  ## 아티팩트 버전에 속한 태그 보기
+  ## 아티팩트 버전에 속한 태그 보기 {#view-tags-that-belong-to-an-artifact-version}
 </div>
 
 W&amp;B App UI 또는 Python SDK를 사용해 레지스트리에 연결된 아티팩트 버전에 속한 태그를 확인할 수 있습니다.
@@ -270,7 +264,7 @@ W&amp;B App UI 또는 Python SDK를 사용해 레지스트리에 연결된 아�
 </Tabs>
 
 <div id="remove-a-tag-from-an-artifact-version">
-  ## 아티팩트 버전에서 태그 제거
+  ## 아티팩트 버전에서 태그 제거 {#remove-a-tag-from-an-artifact-version}
 </div>
 
 1. [W&amp;B Registry](https://wandb.ai/registry)로 이동합니다.
@@ -290,7 +284,7 @@ W&amp;B App UI 또는 Python SDK를 사용해 레지스트리에 연결된 아�
   3. 검색창에 태그 이름을 입력합니다. */}
 
 <div id="find-artifact-versions-with-a-specific-tag">
-  ## 특정 태그가 지정된 artifact 버전 찾기
+  ## 특정 태그가 지정된 artifact 버전 찾기 {#find-artifact-versions-with-a-specific-tag}
 </div>
 
 W&amp;B Python SDK를 사용하여 특정 태그 세트가 지정된 artifact 버전을 찾습니다:

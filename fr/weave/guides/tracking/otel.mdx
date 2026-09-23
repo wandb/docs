@@ -16,9 +16,7 @@ Cette page présente les détails du point de terminaison, l’authentification,
   Ce point de terminaison alimente les vues **Traces** et **Threads**. Pour envoyer des spans OTel d’un agent sur plusieurs tours de conversation vers la vue **Agents**, utilisez plutôt le point de terminaison des agents. Voir [Envoyer des spans OpenTelemetry vers la vue Agents](/fr/weave/guides/tracking/trace-agents-otel).
 </Note>
 
-<div id="endpoint-details">
-  ## Détails du point de terminaison
-</div>
+## Détails du point de terminaison {#endpoint-details}
 
 * **Chemin** : `/otel/v1/traces`
 * **Méthode** : `POST`
@@ -30,9 +28,7 @@ Cette page présente les détails du point de terminaison, l’authentification,
 
 Remplacez `<your-subdomain>` par le domaine W&amp;B unique de votre organisation, par exemple `acme.wandb.io`.
 
-<div id="authentication-and-routing">
-  ## Authentification et acheminement
-</div>
+## Authentification et acheminement {#authentication-and-routing}
 
 Weave utilise l’en-tête `wandb-api-key` pour authentifier les requêtes et les attributs de ressource définis dans votre `TracerProvider` pour acheminer les spans vers la bonne entité et le bon projet. Transmettez votre clé API W&amp;B dans l’en-tête `wandb-api-key`, puis spécifiez les clés suivantes comme attributs de ressource OpenTelemetry dans votre classe `TracerProvider` :
 
@@ -100,9 +96,7 @@ L’exemple suivant montre comment configurer l’authentification et l’achemi
   ```
 </CodeGroup>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Les exemples suivants montrent comment envoyer des traces OpenTelemetry vers Weave à l’aide de Python et de TypeScript. Chaque exemple présente une approche différente : utiliser la bibliothèque d’instrumentation OpenInference, utiliser l’instrumentation OpenLLMetry ou utiliser directement le SDK OpenTelemetry sans package d’instrumentation.
 
@@ -113,9 +107,7 @@ Avant d’exécuter les exemples de code suivants, définissez les champs suivan
 * Nom du projet : choisissez un nom.
 * `OPENAI_API_KEY` : vous pouvez l’obtenir dans le [tableau de bord OpenAI](https://platform.openai.com/api-keys).
 
-<div id="openinference-instrumentation">
-  ### Instrumentation OpenInference
-</div>
+### Instrumentation OpenInference {#openinference-instrumentation}
 
 [OpenInference](https://github.com/Arize-ai/openinference) est une bibliothèque d’instrumentation open source d’Arize AI qui capture les appels LLM sous forme de spans OpenTelemetry. Cet exemple montre comment utiliser l’instrumentation OpenAI. Des instrumentations supplémentaires sont disponibles dans le [dépôt officiel](https://github.com/Arize-ai/openinference).
 
@@ -290,9 +282,7 @@ Installez d’abord les dépendances requises :
   </Tab>
 </Tabs>
 
-<div id="openllmetry-instrumentation">
-  ### Instrumentation OpenLLMetry
-</div>
+### Instrumentation OpenLLMetry {#openllmetry-instrumentation}
 
 [OpenLLMetry](https://github.com/traceloop/openllmetry) est une bibliothèque d’observabilité open source de Traceloop qui fournit une instrumentation OpenTelemetry pour les fournisseurs de LLM et les frameworks les plus courants. L&#39;exemple suivant montre comment utiliser l’instrumentation OpenAI. D’autres exemples sont disponibles dans le [dépôt OpenLLMetry](https://github.com/traceloop/openllmetry).
 
@@ -462,9 +452,7 @@ Installez d’abord les dépendances requises :
   </Tab>
 </Tabs>
 
-<div id="without-instrumentation">
-  ### Sans instrumentation
-</div>
+### Sans instrumentation {#without-instrumentation}
 
 Si vous préférez utiliser OTel directement plutôt qu’un package d’instrumentation, c’est possible. Cette approche vous donne un contrôle complet sur les attributs définis sur chaque span. Weave analyse les attributs de span conformément aux conventions sémantiques d’OpenTelemetry décrites à l’adresse [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
 
@@ -652,15 +640,11 @@ Installez d’abord les dépendances requises :
 
 Weave utilise les préfixes d’attribut de span `gen_ai` et `openinference` pour déterminer la convention à utiliser, le cas échéant, lors de l’interprétation de la trace. Si aucune de ces clés n’est détectée, tous les attributs de span sont alors visibles dans la vue de trace. Le span complet est disponible dans le panneau latéral lorsque vous sélectionnez une trace.
 
-<div id="use-an-opentelemetry-collector">
-  ## Utiliser un collecteur OpenTelemetry
-</div>
+## Utiliser un collecteur OpenTelemetry {#use-an-opentelemetry-collector}
 
 Les exemples précédents exportent les traces directement depuis votre application vers Weave. En production, vous pouvez utiliser un [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) comme intermédiaire entre votre application et Weave. Le collecteur reçoit les traces de votre application, puis les transmet à un ou plusieurs backends. Cette approche centralise l’authentification, le traitement par lots et la logique d’acheminement en dehors du code de votre application, et vous permet de répartir les traces vers plusieurs backends d’observabilité à partir d’un seul pipeline.
 
-<div id="set-up-a-collector">
-  ### Configurer un collecteur
-</div>
+### Configurer un collecteur {#set-up-a-collector}
 
 Cette section explique comment exécuter un OpenTelemetry Collector local dans Docker et configurer une application pour lui envoyer des traces. L&#39;exemple suivant montre comment :
 
@@ -806,9 +790,7 @@ Après avoir exécuté le script, vous pouvez [consulter les traces](/fr/weave/g
 
 Pour envoyer des traces vers des backends supplémentaires, ajoutez d’autres exportateurs et incluez-les dans la liste `service.pipelines.traces.exporters`. Par exemple, vous pouvez exporter vers Weave et Jaeger depuis la même instance du Collector.
 
-<div id="organize-otel-traces-into-threads">
-  ## Organiser les traces OTel en threads
-</div>
+## Organiser les traces OTel en threads {#organize-otel-traces-into-threads}
 
 Les [threads Weave](/fr/weave/guides/tracking/threads) vous permettent de regrouper des traces associées afin d’analyser des conversations sur plusieurs tours de conversation ou des sessions utilisateur comme une seule unité. Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en threads, puis utilisez l’interface Thread de Weave pour analyser les opérations associées, comme les conversations à plusieurs tours de conversation ou les sessions utilisateur.
 
@@ -1299,15 +1281,11 @@ Les exemples suivants montrent comment organiser des traces OTel en threads Weav
 
 Après l’envoi de ces traces, vous pouvez les consulter dans l’interface Weave, sous l’onglet **Threads** : elles y sont regroupées par `thread_id`, et chaque tour de conversation apparaît sur une ligne distincte.
 
-<div id="attribute-mappings">
-  ## Correspondance des attributs
-</div>
+## Correspondance des attributs {#attribute-mappings}
 
 Weave associe les attributs de span OpenTelemetry issus de divers frameworks d’instrumentation à son modèle de données interne. Cette correspondance signifie que vous n’avez pas besoin de renommer ou de transformer les attributs de votre instrumentation existante pour obtenir une vue détaillée dans Weave. Lorsque plusieurs noms d’attributs sont associés au même champ, Weave les traite par ordre de priorité, ce qui permet aux frameworks de coexister dans les mêmes traces.
 
-<div id="supported-frameworks">
-  ### Frameworks pris en charge
-</div>
+### Frameworks pris en charge {#supported-frameworks}
 
 Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;observabilité et SDK suivants :
 
@@ -1321,9 +1299,7 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 * **Logfire / Pydantic AI**: instrumentation de Pydantic AI par Logfire (`gen_ai.input.messages`, `gen_ai.output.messages`, `pydantic_ai.all_messages`, `final_result`).
 * **Langfuse**: attributs de tracing de Langfuse (`langfuse.startTime`, `langfuse.endTime`).
 
-<div id="attribute-reference">
-  ### Référence des attributs
-</div>
+### Référence des attributs {#attribute-reference}
 
 | Nom du champ d’attribut           | Correspondance W&amp;B        | Description                                               | Type                              | Exemple                                        |
 | :-------------------------------- | :---------------------------- | :-------------------------------------------------------- | :-------------------------------- | :--------------------------------------------- |
@@ -1382,8 +1358,6 @@ Weave prend en charge les conventions d&#39;attributs des frameworks d&#39;obser
 | `langfuse.startTime`              | `start_time` (remplace)       | Remplacer l’horodatage de début du span.                  | Horodatage (ISO8601/unix ns)      | `"2024-01-01T12:00:00Z"`                       |
 | `langfuse.endTime`                | `end_time` (override)         | Remplacer l’horodatage de fin du span.                    | Horodatage (ISO8601/unix ns)      | `"2024-01-01T12:00:01Z"`                       |
 
-<div id="limitations">
-  ## Limites
-</div>
+## Limites {#limitations}
 
 L&#39;interface Weave ne prend pas en charge le rendu des appels d&#39;outil de trace OTel dans la vue Chat. Ils s&#39;affichent à la place sous forme de JSON brut.

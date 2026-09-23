@@ -25,15 +25,11 @@ W&amp;B Tables を使用すると、表形式データを可視化してクエ�
 
 上の画像は、セマンティックセグメンテーションとカスタムメトリクスを含む表を示しています。この表は、[W&amp;B ML Course のサンプルプロジェクト](https://wandb.ai/av-team/mlops-course-001)で確認できます。
 
-<div id="how-it-works">
-  ## 仕組み
-</div>
+## 仕組み {#how-it-works}
 
 表 は、各列が単一のデータタイプを持つ二次元のデータグリッドです。表 では、プリミティブ型や数値型に加えて、ネストされたリスト、辞書、リッチメディアタイプもサポートしています。
 
-<div id="log-a-table">
-  ## 表をログする
-</div>
+## 表をログする {#log-a-table}
 
 数行のコードで表をログできます。
 
@@ -51,9 +47,7 @@ with wandb.init(project="table-test") as run:
     run.log({"Table Name": my_table})
 ```
 
-<div id="how-to-get-started">
-  ## はじめ方
-</div>
+## はじめ方 {#how-to-get-started}
 
 * [クイックスタート](/ja/models/tables/tables-walkthrough/): データテーブルをログし、データを可視化し、データをクエリする方法を学びます。
 * [Tables Gallery](/ja/models/tables/tables-gallery/): Tables の使用例を確認してください。

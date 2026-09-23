@@ -19,7 +19,7 @@ Nous prenons en charge les images, la vidéo, l’audio et bien plus encore. Jou
 </Note>
 
 <div id="pre-requisites">
-  ## Prérequis
+  ## Prérequis {#pre-requisites}
 </div>
 
 Pour journaliser des objets multimédias avec le SDK W&amp;B, vous devrez peut-être installer des dépendances supplémentaires.
@@ -30,7 +30,7 @@ pip install wandb[media]
 ```
 
 <div id="images">
-  ## Images
+  ## Images {#images}
 </div>
 
 Journalisez des images pour suivre les entrées, les sorties, les poids des filtres, les activations, et plus encore.
@@ -104,7 +104,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
 </Tabs>
 
 <div id="image-overlays">
-  ## Superpositions d’image
+  ## Superpositions d’image {#image-overlays}
 </div>
 
 <Tabs>
@@ -223,7 +223,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
 </Tabs>
 
 <div id="image-overlays-in-tables">
-  ## Superpositions d’images dans Tables
+  ## Superpositions d’images dans Tables {#image-overlays-in-tables}
 </div>
 
 <Tabs>
@@ -295,7 +295,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
 </Tabs>
 
 <div id="histograms">
-  ## Histogrammes
+  ## Histogrammes {#histograms}
 </div>
 
 <Tabs>
@@ -323,9 +323,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
   </Tab>
 </Tabs>
 
-<div id="3d-visualizations">
-  ## Visualisations 3D
-</div>
+## Visualisations 3D {#3d-visualizations}
 
 Journalisez des nuages de points 3D et des scènes LiDAR avec des boîtes englobantes. Passez un tableau NumPy contenant les coordonnées et les couleurs des points pour le rendu.
 
@@ -348,7 +346,7 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 </Note>
 
 <div id="numpy-array-formats">
-  #### Formats de tableaux NumPy
+  #### Formats de tableaux NumPy {#numpy-array-formats}
 </div>
 
 Trois formats différents de tableaux NumPy sont pris en charge pour permettre des schémas de couleurs flexibles.
@@ -358,7 +356,7 @@ Trois formats différents de tableaux NumPy sont pris en charge pour permettre d
 * `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b` sont des valeurs dans l’intervalle `[0,255]` pour les canaux de couleur rouge, vert et bleu.
 
 <div id="python-object">
-  #### Objet Python
+  #### Objet Python {#python-object}
 </div>
 
 Avec ce schéma, vous pouvez définir un objet Python et le transmettre à [la méthode `from_point_cloud`](/fr/models/ref/python/#from_point_cloud).
@@ -417,7 +415,7 @@ run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
 Lorsque vous visualisez un nuage de points, vous pouvez, tout en maintenant la touche Ctrl enfoncée, utiliser la souris pour vous déplacer dans l’espace.
 
 <div id="point-cloud-files">
-  #### Fichiers de nuages de points
+  #### Fichiers de nuages de points {#point-cloud-files}
 </div>
 
 Vous pouvez utiliser [la méthode `from_file`](/fr/models/ref/python/#from_file) pour charger un fichier JSON contenant des données de nuages de points.
@@ -515,9 +513,7 @@ Un exemple du format des données de nuage de points est présenté ci-dessous.
 }
 ```
 
-<div id="numpy-arrays">
-  #### Tableaux NumPy
-</div>
+#### Tableaux NumPy {#numpy-arrays}
 
 À l’aide [des mêmes formats de tableaux définis ci-dessus](#numpy-array-formats), vous pouvez utiliser directement des tableaux `numpy` avec [la méthode `from_numpy`](/fr/models/ref/python/#from_numpy) pour définir un nuage de points.
 
@@ -595,7 +591,7 @@ Une fois votre run terminé, vous pourrez interagir avec les visualisations 3D d
 </Frame>
 
 <div id="png-image">
-  ### Image PNG
+  ### Image PNG {#png-image}
 </div>
 
 [`wandb.Image`](/fr/models/ref/python/data-types/image) convertit par défaut les tableaux `numpy` ou les instances de `PILImage` en fichiers PNG.
@@ -607,7 +603,7 @@ run.log({"example": [wandb.Image(...) for img in images]})
 ```
 
 <div id="video">
-  ### Vidéo
+  ### Vidéo {#video}
 </div>
 
 Les vidéos sont enregistrées avec le type de données [`wandb.Video`](/fr/models/ref/python/) :
@@ -619,7 +615,7 @@ run.log({"example": wandb.Video("myvideo.mp4")})
 Vous pouvez maintenant visualiser des vidéos dans l’explorateur de médias. Accédez à l’espace de travail de votre projet, à l’espace de travail du run ou à votre rapport, puis cliquez sur **Ajouter une visualisation** pour ajouter un panneau de médias enrichis.
 
 <div id="2d-view-of-a-molecule">
-  ## Vue 2D d&#39;une molécule
+  ## Vue 2D d&#39;une molécule {#2d-view-of-a-molecule}
 </div>
 
 Vous pouvez journaliser une vue 2D d&#39;une molécule à l&#39;aide du type de données [`wandb.Image`](/fr/models/ref/python/data-types/image) et de [`rdkit`](https://www.rdkit.org/docs/index.html) :
@@ -634,13 +630,13 @@ run.log({"acetic_acid": wandb.Image(pil_image)})
 ```
 
 <div id="other-media">
-  ## Autres médias
+  ## Autres médias {#other-media}
 </div>
 
 W&amp;B prend également en charge l&#39;enregistrement de divers autres types de médias.
 
 <div id="audio">
-  ### Audio
+  ### Audio {#audio}
 </div>
 
 ```python
@@ -650,7 +646,7 @@ run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)}
 Un maximum de 100 clips audio peuvent être enregistrés par étape. Pour plus d’informations sur l’utilisation, voir [`audio-file`](/fr/models/ref/query-panel/audio-file).
 
 <div id="video-2">
-  ### Vidéo
+  ### Vidéo {#video-2}
 </div>
 
 ```python
@@ -664,7 +660,7 @@ Sur les pages W&amp;B [Run](/fr/models/runs/) et [projet](/fr/models/track/proje
 Pour plus d’informations sur l’utilisation, voir [`video-file`](/fr/models/ref/query-panel/video-file).
 
 <div id="text">
-  ### Texte
+  ### Texte {#text}
 </div>
 
 Utilisez `wandb.Table` pour journaliser du texte dans des tableaux afin de l’afficher dans l’interface utilisateur. Par défaut, les en-têtes de colonne sont `["Input", "Output", "Expected"]`. Pour des performances optimales de l’interface utilisateur, le nombre maximal de lignes par défaut est fixé à 10 000. Cependant, vous pouvez explicitement redéfinir ce maximum avec `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
@@ -693,7 +689,7 @@ table = wandb.Table(dataframe=my_dataframe)
 Pour plus d’informations sur l’utilisation, voir [`string`](/fr/models/ref/query-panel/).
 
 <div id="html">
-  ### HTML
+  ### HTML {#html}
 </div>
 
 ```python

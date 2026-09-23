@@ -21,9 +21,7 @@ WAL은 특히 프로세스가 중단되거나 서버를 일시적으로 사용�
   쓰기 전 로그는 옵트인 기능입니다. 향후 릴리스에서는 기본적으로 활성화될 예정입니다.
 </Note>
 
-<div id="enable-the-write-ahead-log">
-  ## 쓰기 전 로그 활성화
-</div>
+## 쓰기 전 로그 활성화 {#enable-the-write-ahead-log}
 
 Weave 클라이언트에서 WAL을 활성화하려면 `WEAVE_ENABLE_WAL` 환경 변수를 `true`로 설정하세요:
 
@@ -40,9 +38,7 @@ os.environ["WEAVE_ENABLE_WAL"] = "true"
 
 추가적인 코드 변경은 필요하지 않습니다. WAL은 기존 Weave Tracing 코드와도 별도 수정 없이 그대로 작동합니다.
 
-<div id="how-it-works">
-  ## 작동 방식
-</div>
+## 작동 방식 {#how-it-works}
 
 WAL이 활성화되면 다음과 같이 동작합니다.
 
@@ -55,9 +51,7 @@ WAL이 활성화되면 다음과 같이 동작합니다.
 
 클라이언트가 시작되면 이전 실행에서 생성된 기존 로그 파일이 있는지 확인합니다. 발견되면 전송기가 새 데이터와 함께 해당 파일도 플러시합니다. 즉, 비정상 종료된 프로세스가 기록한 데이터는 다음에 클라이언트가 실행될 때 Weave가 자동으로 복구합니다.
 
-<div id="environment-variables">
-  ## 환경 변수
-</div>
+## 환경 변수 {#environment-variables}
 
 다음 환경 변수는 WAL 동작을 제어합니다.
 

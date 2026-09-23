@@ -17,9 +17,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 このチュートリアルでは、agents workflow を使用して Weave でエージェントを評価する方法を説明します。小規模なカスタマーサポートエージェントを構築してインストルメントし、LLM judge (シングルターンおよびマルチターン) でその Runs をスコアリングして、エージェントの 2 つのバージョンを比較します。
 
-<div id="what-youll-learn">
-  ## 学習内容
-</div>
+## 学習内容 {#what-youll-learn}
 
 このガイドでは、以下の方法を説明します。
 
@@ -35,9 +33,7 @@ Weaveはこれらの評価を整理・保存しますが、エージェントの
   このチュートリアルでは、エージェントはClaude Sonnetで実行し、judgeはClaude Opusで実行します。評価対象よりも強力で異なるモデルを使用して採点することは、優れた評価手法です。
 </Note>
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 このチュートリアルを実行するには、以下が必要です。
 
@@ -46,9 +42,7 @@ Weaveはこれらの評価を整理・保存しますが、エージェントの
 * 必須パッケージ: `pip install weave anthropic`。
 * `ANTHROPIC_API_KEY` 環境変数に設定した [Anthropic APIキー](https://console.anthropic.com/)。
 
-<div id="build-and-trace-the-agent">
-  ## エージェントを構築してトレースする
-</div>
+## エージェントを構築してトレースする {#build-and-trace-the-agent}
 
 この例では、エージェントは `lookup_order` と `issue_refund` の 2 つのツールを使用し、30 日以内の返金のみを許可するポリシーに従って返金リクエストを確認し、対応します。ツール定義、モデルループ、メッセージ変換を含む完全なエージェントは、付属のノートブックにあります。このセクションでは、Weave 固有の部分に焦点を当てます。
 
@@ -103,9 +97,7 @@ with start_conversation(agent_name="support-agent", conversation_id=convo_id) as
   フレームワークインテグレーション (Claude Agent SDK、OpenAI Agents) を使用してエージェントを構築する場合、Weave は同じ Agents スパンを自動的に生成します。暗黙的なパッチ適用を有効のままにし、手動の `start_*` 呼び出しは省略してください。
 </Tip>
 
-<div id="score-the-agent-with-an-llm-judge">
-  ## LLM judge でエージェントをスコアリングする
-</div>
+## LLM judge でエージェントをスコアリングする {#score-the-agent-with-an-llm-judge}
 
 judge モデルを使用して、Scorer はタスクの成功基準に基づき、エージェントがタスクをどの程度達成できたかを評価します。丁寧に聞こえる応答ではなく、正しい結果を評価します。この例のスコアは*タスク完了*です。つまり、エージェントは目標を達成できたかを評価します。
 
@@ -167,9 +159,7 @@ ev.log_summary()
 
 評価へのリンクを開き、**Evals** タブを選択します。次に、run の行を開いて詳細パネルを表示します。**Call** タブには各タスクが一覧表示され、`passed` 列には judge の判定結果が表示されます。**Evaluation** タブの **View spans** ボタンをクリックすると、この評価にリンクされたトレース済みのスパンを含む **Agents** ページが開きます。
 
-<div id="organize-and-compare-evaluations">
-  ## 評価を整理して比較する
-</div>
+## 評価を整理して比較する {#organize-and-compare-evaluations}
 
 アプリケーションを変更し、その変更によって改善されたかを確認することで、エージェントを改善します。システムプロンプト、ツール、制御フロー、基盤となる LLM はすべて、モデルバージョンの一部と見なされます。2 つのバージョンを比較するには、変更後のエージェントに対して、新しいバージョンとしてラベルを付けて評価を再実行します。
 
@@ -187,9 +177,7 @@ ev = weave.EvaluationLogger(
 
 Weave では、[Compare evaluations](/ja/weave/guides/evaluation/compare_evals)を使用して、ログしたスコア、レイテンシ、コストに基づき、v2 が v1 より改善したか、悪化したかを確認できます。
 
-<div id="score-a-multi-turn-conversation">
-  ## マルチターンの会話をスコアリングする
-</div>
+## マルチターンの会話をスコアリングする {#score-a-multi-turn-conversation}
 
 実際の会話は複数のターンにまたがるため、有能なエージェントはコンテキストを引き継ぎます。ユーザーがすでに伝えた注文 ID を、再度尋ねるべきではありません。これをオフラインでテストするには、固定の会話履歴をエージェントに与え、次のユーザーメッセージを送信して、そのコンテキストでそのターンをどのように処理するかをスコアリングします。
 
@@ -221,9 +209,7 @@ with ev.log_prediction(inputs=row) as pred:
   このアプローチでは、固定された履歴に対して次のターンをスコアリングします。これは実用的なオフライン手法です。エージェントがセッション全体を主導する完全なマルチターンタスクをエンドツーエンドで測定するには、本番環境でライブ A/B テストを実施する必要があり、このチュートリアルの対象外です。
 </Note>
 
-<div id="extend-your-scorers">
-  ## Scorer を拡張する
-</div>
+## Scorer を拡張する {#extend-your-scorers}
 
 実際のエージェントを評価するには、次の 2 つの側面をカバーする一連のスコアが必要です。
 
@@ -232,9 +218,7 @@ with ev.log_prediction(inputs=row) as pred:
 
 同じステップで、それぞれを `pred.log_score(...)` の呼び出しとして追加します。すぐに使える Scorer やクラスベースの Scorer を含む Weave 提供の Scorer タイプ、および独自の Scorer を作成するためのガイダンスについては、[スコアリングの概要](/ja/weave/guides/evaluation/scorers)を参照してください。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 エージェントを会話としてトレースし、シングルターンおよびマルチターンのインタラクションにおけるタスク完了をスコアリングし、バージョンを比較しました。これらはいずれもエージェントのトランスクリプトにリンクされています。
 

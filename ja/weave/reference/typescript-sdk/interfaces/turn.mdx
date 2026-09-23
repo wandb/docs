@@ -11,9 +11,7 @@ agent invocation です。通常は、単一のユーザーメッセージに応
 
 `weave.startTurn()` (または `conversation.startTurn()`) によって作成され、`end()` で終了します。1 つの非同期チェーン内で実行中にできるターンは 1 つだけです。子 (LLM、Tool、SubAgent) は `startLLM`、`startTool`、`startSubagent` の各 method を通じて attach されます。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```ts twoslash
 // @noErrors
@@ -50,57 +48,37 @@ try {
 }
 ```
 
-<div id="extends">
-  ## 継承元
-</div>
+## 継承元 {#extends}
 
 * `SpanBase`
 
-<div id="accessors">
-  ## アクセサー
-</div>
+## アクセサー {#accessors}
 
-<div id="agentname">
-  ### エージェント名
-</div>
+### エージェント名 {#agentname}
 
-<div id="get-signature">
-  #### Get Signature
-</div>
+#### Get Signature {#get-signature}
 
 > **get** **agentName**(): `string`
 
-<div id="returns">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns}
 
 `string`
 
 ***
 
-<div id="model">
-  ### モデル
-</div>
+### モデル {#model}
 
-<div id="get-signature-2">
-  #### Get Signature
-</div>
+#### Get Signature {#get-signature-2}
 
 > **get** **model**(): `string`
 
-<div id="returns-2">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-2}
 
 `string`
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="addevent">
-  ### ~~addEvent()~~
-</div>
+### ~~addEvent()~~ {#addevent}
 
 <Warning>
   **非推奨。** 代わりに [setAttributes](#setattributes) でこのデータを記録してください。
@@ -115,9 +93,7 @@ try {
 span 以外の時点を記録する際に便利です。`end()` の後は警告を出し、
 何も行いません。OTel の `Span.addEvent` と同様の動作をします。
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters}
 
 <ParamField path="name" type="string" required />
 
@@ -125,40 +101,30 @@ span 以外の時点を記録する際に便利です。`end()` の後は警告�
 
 <ParamField path="startTime" type="TimeInput" />
 
-<div id="returns-3">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-3}
 
 `this`
 
-<div id="example">
-  #### 例
-</div>
+#### 例 {#example}
 
 ```ts twoslash
 // @noErrors
 span.addEvent('context_compacted', {removedMessages: 12});
 ```
 
-<div id="inherited-from">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from}
 
 `SpanBase.addEvent`
 
 ***
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
 現在のフィールド値を読み取り (`start`以降に`record()`で行った変更を反映) 、span を終了します。冪等です。失敗としてマークするには`error`を渡します。終了時刻を過去に設定するには`endTime`を渡します。
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="opts" type="object">
   <Expandable title="プロパティ" defaultOpen>
@@ -168,26 +134,20 @@ span.addEvent('context_compacted', {removedMessages: 12});
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-4}
 
 `void`
 
 ***
 
-<div id="record">
-  ### record()
-</div>
+### record() {#record}
 
 > **record**(`opts`): `this`
 
 変更可能なフィールドの任意のサブセットを一括で設定します。マージではなく置換されます。
 provider 呼び出しの戻り値を受け取った後に、すべてを一度に割り当てる場合に便利です。
 
-<div id="parameters-3">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-3}
 
 <ParamField path="opts" type="object" required>
   <Expandable title="プロパティ" defaultOpen>
@@ -213,17 +173,13 @@ provider 呼び出しの戻り値を受け取った後に、すべてを一度�
   </Expandable>
 </ParamField>
 
-<div id="returns-5">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-5}
 
 `this`
 
 ***
 
-<div id="setattribute">
-  ### ~~setAttribute()~~
-</div>
+### ~~setAttribute()~~ {#setattribute}
 
 <Warning>
   **非推奨。** 代わりに、Python
@@ -233,126 +189,94 @@ provider 呼び出しの戻り値を受け取った後に、すべてを一度�
 
 > **setAttribute**(`key`, `value`): `this`
 
-<div id="parameters-4">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-4}
 
 <ParamField path="key" type="string" required />
 
 <ParamField path="value" type="AttributeValue" required />
 
-<div id="returns-6">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-6}
 
 `this`
 
 ***
 
-<div id="setattributes">
-  ### setAttributes()
-</div>
+### setAttributes() {#setattributes}
 
 > **setAttributes**(`attributes`): `this`
 
 span に複数の属性を一度に設定します。`end()` の後に呼び出すと警告が表示され、何も実行されません。OTel の `Span.setAttributes` (および Python SDK の
 `set_attributes`) と同様です。
 
-<div id="parameters-5">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-5}
 
 <ParamField path="attributes" type="Attributes" required />
 
-<div id="returns-7">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-7}
 
 `this`
 
-<div id="example-2">
-  #### 例
-</div>
+#### 例 {#example-2}
 
 ```ts twoslash
 // @noErrors
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from-2">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from-2}
 
 `SpanBase.setAttributes`
 
 ***
 
-<div id="startllm">
-  ### startLLM()
-</div>
+### startLLM() {#startllm}
 
 > **startLLM**(`opts`): [`LLM`](./llm)
 
 この ターン 内で子 LLM span を開始します。
 
-<div id="parameters-6">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-6}
 
 <ParamField path="opts" type="LLMInit" required>
   [`LLMInit`](./llminit) を参照してください。
 </ParamField>
 
-<div id="returns-8">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-8}
 
 [`LLM`](./llm)
 
 ***
 
-<div id="startsubagent">
-  ### startSubagent()
-</div>
+### startSubagent() {#startsubagent}
 
 > **startSubagent**(`opts`): [`SubAgent`](./subagent)
 
 この ターン 内で子 SubAgent の span を開始します。
 
-<div id="parameters-7">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-7}
 
 <ParamField path="opts" type="SubAgentInit" required>
   [`SubAgentInit`](./subagentinit) を参照してください。
 </ParamField>
 
-<div id="returns-9">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-9}
 
 [`SubAgent`](./subagent)
 
 ***
 
-<div id="starttool">
-  ### startTool()
-</div>
+### startTool() {#starttool}
 
 > **startTool**(`opts`): [`Tool`](./tool)
 
 この ターン 内で子 Tool span を開始します。
 
-<div id="parameters-8">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-8}
 
 <ParamField path="opts" type="ToolInit" required>
   [`ToolInit`](./toolinit) を参照してください。
 </ParamField>
 
-<div id="returns-10">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-10}
 
 [`Tool`](./tool)

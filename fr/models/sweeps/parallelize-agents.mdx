@@ -7,9 +7,7 @@ Parallélisez vos agents de balayage W&amp;B sur une machine multicœur ou multi
 
 Avant de commencer, vous devez initialiser votre balayage W&amp;B. Pour plus d&#39;informations, voir [Initialiser les balayages W&amp;B](/fr/models/sweeps/initialize-sweeps).
 
-<div id="parallelize-on-a-multi-cpu-machine">
-  ## Paralléliser sur une machine multi-CPU
-</div>
+## Paralléliser sur une machine multi-CPU {#parallelize-on-a-multi-cpu-machine}
 
 Les onglets suivants expliquent comment exécuter plusieurs agents de balayage W&amp;B en parallèle sur une même machine. Les agents parallèles sont particulièrement utiles sur une machine dotée de plusieurs cœurs de CPU, où chaque agent peut s’exécuter sur son propre cœur. Choisissez l’onglet CLI ou Jupyter Notebook en fonction de votre flux de travail.
 
@@ -37,9 +35,7 @@ Les onglets suivants expliquent comment exécuter plusieurs agents de balayage W
   </Tab>
 </Tabs>
 
-<div id="parallelize-on-a-multi-gpu-machine">
-  ## Paralléliser sur une machine multi-GPU
-</div>
+## Paralléliser sur une machine multi-GPU {#parallelize-on-a-multi-gpu-machine}
 
 Exécutez des agents de balayage W&amp;B en parallèle sur plusieurs GPU d’une même machine à l’aide de `CUDA_VISIBLE_DEVICES` pour attribuer chaque [`wandb agent`](/fr/models/ref/cli/wandb-agent) à un GPU différent, afin que les agents s’exécutent en parallèle sans entrer en concurrence pour le même périphérique.
 

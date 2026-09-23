@@ -11,9 +11,7 @@ keywords: ["Not Diamond", "모델 라우팅", "맞춤형 라우터", "LLM 라우
 이 가이드에서는 Not Diamond를 W&amp;B Weave와 통합해 Weave가 라우팅된 모델 Call을 자동으로 트레이스하는 방법과,
 Weave Evaluations를 사용해 자체 성능 데이터를 기반으로 프롬프트를 라우팅하는 맞춤형 라우터를 트레이닝하는 방법을 설명합니다.
 
-<div id="get-started">
-  ## 시작하기
-</div>
+## 시작하기 {#get-started}
 
 Weave로 Not Diamond를 사용하려면 Not Diamond 계정과 API 키가 필요합니다. [계정을 생성][account]하고 [API 키를 발급][keys]한 다음, API 키를 `NOTDIAMOND_API_KEY`라는 이름의 환경 변수에 추가하세요.
 
@@ -25,9 +23,7 @@ Weave로 Not Diamond를 사용하려면 Not Diamond 계정과 API 키가 필요�
 * Weave와 Not Diamond를 사용해 [맞춤형 라우터를 구축][custom router]하세요.
 * [Not Diamond와 채팅][chat]하여 라우팅이 실제로 어떻게 동작하는지 확인하세요.
 
-<div id="tracing">
-  ## 트레이싱
-</div>
+## 트레이싱 {#tracing}
 
 Weave는 [Not Diamond의 Python 라이브러리][python]와 통합되어 [API Call을 자동으로 로깅][ops]하므로,
 나머지 Weave 트레이스와 함께 라우팅 결정과 공급자의 응답을 확인할 수 있습니다.
@@ -53,9 +49,7 @@ print("LLM called: ", provider.provider)  # openai, anthropic 등
 print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 등
 ```
 
-<div id="custom-routing">
-  ## 맞춤형 라우팅
-</div>
+## 맞춤형 라우팅 {#custom-routing}
 
 특수한 사용 사례에서는 [Evaluations][evals]를 기반으로 자체 [맞춤형 라우터]를 트레이닝하여
 Not Diamond가 기본 라우팅 정책 대신 평가 성능에 따라 프롬프트를 라우팅하도록 할 수 있습니다.
@@ -110,9 +104,7 @@ print("LLM called: ", provider.provider)  # openai, anthropic 등
 print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 등
 ```
 
-<div id="additional-support">
-  ## 추가 지원팀
-</div>
+## 추가 지원팀 {#additional-support}
 
 추가 도움이 필요하면 [문서][docs]를 확인하거나 [메시지 보내기][support]를 이용하세요.
 

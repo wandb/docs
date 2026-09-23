@@ -25,9 +25,7 @@ title: run を再開する
 以下のすべての例では、`<>` で囲まれた値を実際の値に置き換えてください。
 <Tip>[再開した run のライブデモを見る](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
 
-<div id="resume-a-run-that-must-use-the-same-run-id">
-  ## 同じ run ID を使用して再開する必要がある run
-</div>
+## 同じ run ID を使用して再開する必要がある run {#resume-a-run-that-must-use-the-same-run-id}
 
 run が停止、クラッシュ、または失敗した場合は、同じ run ID を使用して再開できます。そのためには、run を初期化して、次を指定します。
 
@@ -47,9 +45,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="m
   複数のプロセスを管理する方法について詳しくは、[分散トレーニング実験をログする](/ja/models/track/log/distributed-training/)を参照してください。
 </Warning>
 
-<div id="resume-a-run-without-overriding-the-existing-run">
-  ## 既存のrunを上書きせずにrunを再開する
-</div>
+## 既存のrunを上書きせずにrunを再開する {#resume-a-run-without-overriding-the-existing-run}
 
 既存のrunを上書きせずに、停止またはクラッシュしたrunを再開できます。これは、プロセスが正常に終了しなかった場合に特に役立ちます。次回W&amp;Bを起動すると、W&amp;Bは最後のstepからログを開始します。
 
@@ -62,9 +58,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
         # トレーニングコードをここに記述
 ```
 
-<div id="enable-runs-to-automatically-resume">
-  ## run が自動的に自動再開されるようにする
-</div>
+## run が自動的に自動再開されるようにする {#enable-runs-to-automatically-resume}
 
 次のコードスニペットは、Python SDK または環境変数を使用して、run の自動再開を有効にする方法を示しています。
 
@@ -107,17 +101,13 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
   ファイルシステムを共有できない場合は、`WANDB_RUN_ID` 環境変数を指定するか、W&amp;B Python SDK で run ID を渡してください。run ID の詳細については、「What are runs?」ページの [Custom run IDs](./#custom-run-ids) セクションを参照してください。
 </Note>
 
-<div id="resume-preemptible-sweeps-runs">
-  ## プリエンプト可能な Sweeps run を再開する
-</div>
+## プリエンプト可能な Sweeps run を再開する {#resume-preemptible-sweeps-runs}
 
 プリエンプションシグナルを処理することで、W&amp;B は中断された [sweep](/ja/models/sweeps/) run を別のエージェントが実行できるよう自動的にキューに入れ直します。このパターンは、SLURM のプリエンプト可能なキュー、Amazon EC2 Spot Instance、Google Cloud のプリエンプト可能な VM など、sweep エージェントをプリエンプト可能なコンピューティング環境で実行する場合に役立ちます。
 
 以下の手順は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使用して sweep エージェントを起動する場合に適用されます。CLI はトレーニングプログラムを**サブプロセス**として起動します。Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合、これらの手順は完全には適用されません。Python API はトレーニング関数をスレッド内で実行するため、OS シグナルの配信と転送は CLI エージェントの動作とは異なります。
 
-<div id="handle-a-preemption-signal">
-  ### プリエンプションシグナルを処理する
-</div>
+### プリエンプションシグナルを処理する {#handle-a-preemption-signal}
 
 スケジューラまたはプラットフォームで使われるプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) のシグナルハンドラーを登録してください。ハンドラーでは、次の操作を行います。
 

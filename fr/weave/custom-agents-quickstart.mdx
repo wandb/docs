@@ -11,7 +11,7 @@ Le SDK Weave vous permet de tracer des agents créés avec des SDK populaires ou
 Si vous souhaitez intégrer Weave à des SDK ou à des harnesses comme Claude Agent SDK ou Codex, voir [Choisir une intégration d’agent](/fr/weave/agent-integration-quickstart). Weave applique automatiquement des patchs à plusieurs SDK de création d’agents et harness d’agents pour une intégration rapide.
 
 <div id="what-youll-learn">
-  ## Ce que vous allez apprendre
+  ## Ce que vous allez apprendre {#what-youll-learn}
 </div>
 
 À la fin de ce démarrage rapide, vous disposerez d’un agent fonctionnel sur plusieurs tours de conversation qui émet des spans OTel compatibles avec Weave. Vous comprendrez également comment Weave fait correspondre les conversations, les tours de conversation, les appels LLM et les appels d’outil à votre code d’agent, afin de pouvoir appliquer le même modèle à vos propres agents personnalisés.
@@ -28,7 +28,7 @@ Ce guide vous montre comment :
 * Afficher la conversation, les tours de conversation et les appels d’outil obtenus dans la vue Agents.
 
 <div id="how-the-weave-sdk-works-with-agents">
-  ## Fonctionnement du SDK Weave avec les agents
+  ## Fonctionnement du SDK Weave avec les agents {#how-the-weave-sdk-works-with-agents}
 </div>
 
 Le SDK Weave inclut un système d’ingestion OTel générique pour les agents, ce qui signifie que Weave peut capturer des informations à partir de n’importe quel span OTel dans le code de votre agent. Cependant, Weave nécessite un traitement particulier des spans suivants pour afficher les traces de votre agent dans la vue Agents de l’interface Weave.
@@ -45,7 +45,7 @@ En Python, les quatre fonctions s’utilisent comme des gestionnaires de context
 D’autres [attributs de conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/), tels que `gen_ai.usage.*` et `gen_ai.agent.name`, permettent un rendu supplémentaire, mais ils sont facultatifs.
 
 <div id="prerequisites">
-  ## Prérequis
+  ## Prérequis {#prerequisites}
 </div>
 
 * Un compte W&amp;B et une [clé API](https://wandb.ai/authorize).
@@ -54,7 +54,7 @@ D’autres [attributs de conventions sémantiques GenAI](https://opentelemetry.i
 * Node.js 18+ (les exemples TypeScript nécessitent la fonction `fetch` intégrée).
 
 <div id="install-packages">
-  ## Installer les paquets
+  ## Installer les paquets {#install-packages}
 </div>
 
 Installez les paquets suivants dans votre environnement de développement :
@@ -70,7 +70,7 @@ Installez les paquets suivants dans votre environnement de développement :
 </CodeGroup>
 
 <div id="initialize-weave">
-  ## Initialiser Weave
+  ## Initialiser Weave {#initialize-weave}
 </div>
 
 `weave.init()` s’authentifie auprès de W&amp;B et configure l’exporteur OTel qui envoie les spans d’agent vers la vue **Agents**. Si le projet n’existe pas dans votre équipe, Weave le crée lors du premier envoi de données.
@@ -100,7 +100,7 @@ Installez les paquets suivants dans votre environnement de développement :
 </CodeGroup>
 
 <div id="define-a-tool">
-  ## Définir un outil
+  ## Définir un outil {#define-a-tool}
 </div>
 
 Le code suivant définit l’outil de recherche Wikipédia de l’agent, ainsi qu’un schéma d’outil OpenAI qui indique quand et comment utiliser cet outil.
@@ -172,7 +172,7 @@ Le code suivant définit l’outil de recherche Wikipédia de l’agent, ainsi q
 </CodeGroup>
 
 <div id="run-a-traced-multi-turn-agent">
-  ## Exécuter un agent tracé sur plusieurs tours de conversation
+  ## Exécuter un agent tracé sur plusieurs tours de conversation {#run-a-traced-multi-turn-agent}
 </div>
 
 Une fois l’outil et l’initialisation de Weave en place, l’étape suivante consiste à les intégrer dans une boucle d’exécution complète de l’agent. Cette boucle montre comment les conversations, les tours de conversation, les appels LLM et les appels d’outil s’imbriquent.
@@ -372,7 +372,7 @@ L’exemple suivant exécute trois tours de conversation dans une seule conversa
 </CodeGroup>
 
 <div id="record-token-usage-and-cost">
-  ## Enregistrer l&#39;utilisation des jetons et le coût
+  ## Enregistrer l&#39;utilisation des jetons et le coût {#record-token-usage-and-cost}
 </div>
 
 Chaque span de `chat` inclut une utilisation des jetons et un ID du modèle. Weave affiche le nombre de jetons à partir de l&#39;utilisation et calcule le coût à partir de l&#39;utilisation et de l&#39;ID du modèle. Ainsi, une valeur incomplète ou non tarifable affiche `0 in / 0 out` tokens ou `Cost -`, même lorsque le reste de la trace semble correct. `record(...)` définit ces champs (ainsi que `output_messages`, `response_id`, `reasoning`, etc.) en un seul appel. Seuls les champs que vous transmettez sont pris en compte.
@@ -424,7 +424,7 @@ OpenAI comptabilise les jetons mis en cache dans `prompt_tokens`, donc l&#39;exe
 </CodeGroup>
 
 <div id="see-your-agent-traces-in-the-agents-view">
-  ## Voir les traces de votre agent dans la vue Agents
+  ## Voir les traces de votre agent dans la vue Agents {#see-your-agent-traces-in-the-agents-view}
 </div>
 
 Lorsque `weave.init()` s’exécute, il affiche un lien vers votre project dans lequel vous pouvez voir :
@@ -437,7 +437,7 @@ Lorsque `weave.init()` s’exécute, il affiche un lien vers votre project dans 
 Cliquez sur n’importe quel tour de conversation pour inspecter les entrées, les sorties, les arguments de l’outil et les résultats de l’outil.
 
 <div id="link-to-a-conversation-from-your-app">
-  ## Lien vers une conversation depuis votre application
+  ## Lien vers une conversation depuis votre application {#link-to-a-conversation-from-your-app}
 </div>
 
 Pour créer un lien direct depuis votre propre interface utilisateur vers une conversation dans la vue Weave Agents, construisez l’URL à partir de votre entité, de votre projet et de l’ID de la conversation. `weave.init()` renvoie un client qui contient `entity` et `project`, et `start_conversation` expose `conversation_id`.
@@ -461,9 +461,7 @@ Pour créer un lien direct depuis votre propre interface utilisateur vers une co
   ```
 </CodeGroup>
 
-<div id="next-steps">
-  ## Prochaines étapes
-</div>
+## Prochaines étapes {#next-steps}
 
 * Découvrez comment [tracer des agents avec Weave](/fr/weave/guides/tracking/trace-agents), ainsi que les fonctionnalités et options disponibles dans le SDK Weave.
 * Voir [Choisir une intégration d’agent](/fr/weave/agent-integration-quickstart) pour découvrir d’autres options d’intégration de Weave avec vos agents.

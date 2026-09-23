@@ -18,9 +18,7 @@ La [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) constitue la base d
   Ce document utilise les termes &quot;fournisseur d’identité&quot; et &quot;émetteur JWT&quot; de manière interchangeable. Ils désignent tous deux la même chose dans le contexte de cette fonctionnalité.
 </Note>
 
-<div id="set-up-the-jwt-issuer">
-  ## Configurer l’émetteur JWT
-</div>
+## Configurer l’émetteur JWT {#set-up-the-jwt-issuer}
 
 Avant que les utilisateurs puissent s’authentifier avec des JWT, un administrateur de l’organisation doit configurer une fédération entre votre organisation W&amp;B et un émetteur JWT accessible publiquement.
 
@@ -32,9 +30,7 @@ W&amp;B recherche automatiquement un document de découverte OIDC à l’emplace
 
 Après cette étape, votre organisation W&amp;B est fédérée avec l’émetteur JWT. Les Users de votre organisation peuvent alors s’authentifier auprès de W&amp;B à l’aide de JWT émis par ce fournisseur.
 
-<div id="use-the-jwt-to-access-wb">
-  ## Utiliser le JWT pour accéder à W&amp;B
-</div>
+## Utiliser le JWT pour accéder à W&amp;B {#use-the-jwt-to-access-wb}
 
 Une fois qu’un administrateur de l’organisation a configuré un émetteur JWT, les utilisateurs peuvent commencer à accéder aux projets W&amp;B à l’aide de JWT émis par ce fournisseur d’identité. Le mécanisme d’utilisation des JWT est le suivant :
 
@@ -48,9 +44,7 @@ Une fois qu’un administrateur de l’organisation a configuré un émetteur JW
   Le jeton d’accès W&amp;B a également une durée de validité par défaut, au-delà de laquelle le SDK ou la CLI tente de le renouveler à l’aide de votre JWT. Si le JWT de l’utilisateur a lui aussi expiré à ce moment-là et n’a pas été actualisé, l’authentification échoue. Si possible, implémentez le mécanisme de récupération du JWT et de renouvellement après expiration dans la charge de travail d’IA qui utilise le SDK ou la CLI W&amp;B.
 </Note>
 
-<div id="jwt-validation">
-  ### Validation du JWT
-</div>
+### Validation du JWT {#jwt-validation}
 
 Pour garantir que seuls des jetons valides accordent l&#39;accès, le JWT fait l&#39;objet des validations suivantes. Ces validations sont exécutées lorsque le SDK ou la CLI échange le JWT contre un jeton d&#39;accès W&amp;B, puis accède à un projet :
 
@@ -69,9 +63,7 @@ Pour garantir que seuls des jetons valides accordent l&#39;accès, le JWT fait l
 
 * W&amp;B vérifie le claim `exp` du JWT pour déterminer si le jeton est valide ou s&#39;il a expiré et doit être renouvelé.
 
-<div id="external-service-accounts">
-  ## Comptes de service externes
-</div>
+## Comptes de service externes {#external-service-accounts}
 
 W&amp;B prend en charge depuis longtemps les comptes de service intégrés avec des clés API à longue durée de vie. Avec la fédération d’identités pour le SDK et la CLI, vous pouvez également utiliser des comptes de service externes qui s’authentifient à l’aide de JWT. L’émetteur configuré de l’organisation doit émettre ces JWT. Un administrateur de l’équipe peut configurer des comptes de service externes à l’échelle d’une équipe, comme les comptes de service intégrés.
 
@@ -91,9 +83,7 @@ Lors de l’[utilisation du JWT d’un compte de service externe pour accéder �
   W&amp;B recommande d’utiliser un mélange de comptes de service intégrés et externes pour vos charges de travail d’IA présentant différents niveaux de sensibilité des données. Cette approche offre un bon équilibre entre flexibilité et simplicité.
 </Note>
 
-<div id="determine-the-subject-value-for-your-identity-provider">
-  ### Déterminer la valeur de Subject pour votre fournisseur d’identité
-</div>
+### Déterminer la valeur de Subject pour votre fournisseur d’identité {#determine-the-subject-value-for-your-identity-provider}
 
 La valeur que vous saisissez pour **Subject** doit correspondre exactement à la revendication `sub` (subject) des JWT émis par votre IdP pour le compte de service. W&amp;B applique la même comparaison à tous les fournisseurs d’identité. La correspondance est exacte, sensible à la casse et aux espaces : même un espace final ou une différence de majuscules/minuscules entraîne l’échec de l’authentification.
 

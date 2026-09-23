@@ -13,9 +13,7 @@ Ce notebook présente un flux de travail de bout en bout qui combine W&amp;B Mod
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Models_and_Weave_Integration_Demo.ipynb)
 </Note>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Commencez par installer les bibliothèques requises, configurer vos clés API, vous connecter à W&amp;B et créer un projet W&amp;B.
 
@@ -63,9 +61,7 @@ ENTITY = "wandb-smle"
 weave.init(ENTITY + "/" + PROJECT)
 ```
 
-<div id="download-chatmodel-from-wb-registry-and-implement-unslothlorachatmodel">
-  ## Télécharger `ChatModel` depuis W&amp;B Registry et implémenter `UnslothLoRAChatModel`
-</div>
+## Télécharger `ChatModel` depuis W&amp;B Registry et implémenter `UnslothLoRAChatModel` {#download-chatmodel-from-wb-registry-and-implement-unslothlorachatmodel}
 
 Dans ce scénario, la Model Team a déjà affiné le modèle Llama-3.2 à l’aide de la bibliothèque `unsloth` pour optimiser les performances, et le modèle est disponible dans le W&amp;B Registry. Dans cette étape, vous récupérez le [`ChatModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) affiné depuis le registre et le convertissez en `weave.Model` pour le rendre compatible avec le [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26).
 
@@ -164,9 +160,7 @@ await new_chat_model.predict(
 )
 ```
 
-<div id="integrate-the-new-chatmodel-version-into-ragmodel">
-  ## Intégrer la nouvelle version de `ChatModel` dans `RagModel`
-</div>
+## Intégrer la nouvelle version de `ChatModel` dans `RagModel` {#integrate-the-new-chatmodel-version-into-ragmodel}
 
 Construire une application RAG à partir d’un modèle de chat affiné vous permet de réutiliser des composants adaptés sans avoir à reconstruire l’ensemble du pipeline. Dans cette étape, vous récupérez le `RagModel` existant dans votre projet Weave et mettez à jour son `ChatModel` pour utiliser le modèle affiné. Remplacer le modèle de chat par le nouveau laisse les autres composants, comme la base de données vectorielle et les prompts, inchangés, ce qui préserve la structure globale de l’application tout en améliorant les performances.
 
@@ -192,9 +186,7 @@ python
 await RagModel.predict("When was the first conference on climate change?")
 ```
 
-<div id="run-a-weaveevaluation">
-  ## Exécuter une `weave.Evaluation`
-</div>
+## Exécuter une `weave.Evaluation` {#run-a-weaveevaluation}
 
 Une fois le `RagModel` mis à jour publié, l’étape suivante consiste à confirmer que le nouveau modèle de chat affiné se comporte comme prévu dans l’application. À cette étape, vous évaluez les performances du `RagModel` mis à jour à l’aide d’une `weave.Evaluation` existante. Ce processus garantit que le nouveau modèle de chat affiné se comporte comme prévu dans l’application RAG. Pour simplifier l’intégration et permettre la collaboration entre les équipes Models et Apps, vous enregistrez les résultats de l’évaluation à la fois dans le run W&amp;B du modèle et dans le workspace Weave.
 
@@ -227,9 +219,7 @@ wandb.run.config.update(
 wandb.run.finish()
 ```
 
-<div id="save-the-new-rag-model-to-the-registry">
-  ## Enregistrer le nouveau modèle RAG dans le registre
-</div>
+## Enregistrer le nouveau modèle RAG dans le registre {#save-the-new-rag-model-to-the-registry}
 
 Maintenant que vous avez évalué le `RagModel` mis à jour, l&#39;étape finale consiste à le publier dans le W&amp;B Registry afin que d&#39;autres équipes puissent le découvrir et le réutiliser. Pour rendre le `RagModel` mis à jour disponible pour une utilisation ultérieure par les équipes Models et Apps, nous le publions dans le W&amp;B Registry en tant qu&#39;artifact de référence.
 

@@ -17,9 +17,7 @@ reference artifacts は、通常の artifacts と同様に操作できます。W
 
 以下のセクションでは、外部 reference artifacts をトラッキングする方法について説明します。
 
-<div id="track-an-artifact-in-an-external-bucket">
-  ## external cloud storage bucket内のartifactをトラッキングする
-</div>
+## external cloud storage bucket内のartifactをトラッキングする {#track-an-artifact-in-an-external-bucket}
 
 W&amp;B Python SDKを使用して、W&amp;Bの外部に保存されたファイルへの参照をトラッキングします。
 
@@ -83,9 +81,7 @@ W&amp;B App では、ファイルブラウザを使用して reference artifact 
   デフォルトでは、オブジェクトプレフィックスを追加する際、W&amp;B は 10,000 オブジェクトの上限を適用します。この上限は、`wandb.Artifact.add_reference()` を呼び出すときに `max_objects=` を指定することで調整できます。
 </Warning>
 
-<div id="download-an-artifact-from-an-external-bucket">
-  ## external cloud storage bucket から artifact をダウンロードする
-</div>
+## external cloud storage bucket から artifact をダウンロードする {#download-an-artifact-from-an-external-bucket}
 
 W&amp;B は、artifact のログ時に記録されたメタデータを使用して reference artifact をダウンロードする際、基盤となるバケットからファイルを取得します。バケットでオブジェクトのバージョン管理が有効になっている場合、W&amp;B は artifact がログされた時点でのファイルの状態に対応するオブジェクトのバージョンを取得します。バケットの内容が変化しても、artifact はトレーニング run 中のバケットのスナップショットとして機能するため、特定のモデルがどのデータの正確なバージョンでトレーニングされたかをいつでも参照できます。
 
@@ -107,9 +103,7 @@ with wandb.init(project="my-project") as run:
   ユースケースに応じて、オブジェクトのバージョン管理を有効にする手順を参照してください: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable).
 </Note>
 
-<div id="add-and-download-an-external-from-a-bucket">
-  ## バケットから外部データを追加してダウンロードする
-</div>
+## バケットから外部データを追加してダウンロードする {#add-and-download-an-external-from-a-bucket}
 
 次のコードサンプルでは、データセットを Amazon S3 バケットにアップロードし、reference artifact としてトラッキングした後、それをダウンロードします。
 
@@ -146,9 +140,7 @@ with wandb.init() as run:
   * [Microsoft Azure で reference artifacts を扱う](https://wandb.ai/andrea0/azure-2023/reports/Efficiently-Harnessing-Microsoft-Azure-Blob-Storage-with-Weights-Biases--Vmlldzo0NDA2NDgw)
 </Note>
 
-<div id="cloud-storage-credentials">
-  ## クラウドストレージの認証情報
-</div>
+## クラウドストレージの認証情報 {#cloud-storage-credentials}
 
 W&amp;B は、使用しているクラウドプロバイダに応じたデフォルトの方法で認証情報を探します。使用される認証情報について詳しくは、各クラウドプロバイダのドキュメントを参照してください。
 
@@ -168,9 +160,7 @@ AWS では、バケットが設定済みユーザーのデフォルトリージ�
   画像、オーディオ、ビデオ、ポイントクラウドなどのリッチメディアが App UI に表示されない場合は、バケットの CORS ポリシーで `app.wandb.ai` が許可リストに追加されていることを確認してください。
 </Warning>
 
-<div id="track-an-artifact-in-a-filesystem">
-  ## ファイルシステム上のartifactをトラッキングする
-</div>
+## ファイルシステム上のartifactをトラッキングする {#track-an-artifact-in-a-filesystem}
 
 データセットにアクセスする一般的な方法の 1 つは、トレーニングジョブを実行するすべてのマシンで、リモートファイルシステムの NFS マウントポイントを利用できるようにすることです。これはクラウドストレージバケットの代替手段になり得ます。トレーニングスクリプトからは、ファイルがローカルのファイルシステム上にあるように見えるためです。
 
@@ -251,9 +241,7 @@ with wandb.init() as run:
   run.log_artifact(model_artifact)
 ```
 
-<div id="download-an-artifact-from-an-external-filesystem">
-  ## 外部ファイルシステムからartifactをダウンロードする
-</div>
+## 外部ファイルシステムからartifactをダウンロードする {#download-an-artifact-from-an-external-filesystem}
 
 参照先のファイルシステムから、reference artifact ではない artifact と同じ API を使用してファイルをダウンロードします。
 

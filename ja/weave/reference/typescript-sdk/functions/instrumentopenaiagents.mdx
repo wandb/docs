@@ -17,17 +17,13 @@ instrumentOpenAIAgents(): Promise<boolean>
 
 この関数は、利用側の node&#95;modules から @openai/agents を動的に import し、TracingProcessor の登録を試みます。パッケージがインストールされていない場合は、エラーをスローせずに false を返します。
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `Promise`&lt;`boolean`&gt;
 
 `Promise<boolean>` - 登録に成功した場合は `true`、`@openai/agents` を利用できない場合は `false`
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```typescript twoslash
 // @noErrors
@@ -52,9 +48,7 @@ if (!registered) {
 }
 ```
 
-<div id="remarks">
-  ## 備考
-</div>
+## 備考 {#remarks}
 
 **自動インストルメンテーションの仕組み**: Weave を import すると、`addCJSInstrumentation()` と `addESMInstrumentation()` を通じてモジュールローダーフックが登録されます。その後、コードで `@openai/agents` を import すると、これらのフックが import を捕捉し、Weave のトレースを追加するためのパッチをモジュールに自動的に適用します。これは透過的に行われるため、特別な対応は不要です。
 

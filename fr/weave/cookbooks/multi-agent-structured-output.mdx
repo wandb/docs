@@ -23,9 +23,7 @@ Dans un système multi-agent, les sorties structurées produisent des données c
   **Source** : Ce cookbook est basé sur [un exemple de code des sorties structurées d’OpenAI](https://cookbook.openai.com/examples/structured_outputs_multi_agent), avec quelques modifications pour améliorer la visualisation avec Weave.
 </Tip>
 
-<div id="install-the-dependencies">
-  ## Installation des dépendances
-</div>
+## Installation des dépendances {#install-the-dependencies}
 
 Commencez par installer les bibliothèques dont dépend ce tutoriel. Ce tutoriel utilise les bibliothèques suivantes :
 
@@ -82,9 +80,7 @@ client = OpenAI()
 MODEL = "gpt-4o-2024-08-06"
 ```
 
-<div id="set-up-the-agents">
-  ## Configurer les agents
-</div>
+## Configurer les agents {#set-up-the-agents}
 
 Une fois Weave initialisé, définissez les agents qui composent le système. Le cas d’usage de ce tutoriel est une tâche d’analyse de données.
 Commencez par configurer le système à quatre agents :
@@ -377,9 +373,7 @@ visualization_tools = [
 ]
 ```
 
-<div id="enable-multi-agent-tracking-with-weave">
-  ## Activer le suivi multi-agent avec Weave
-</div>
+## Activer le suivi multi-agent avec Weave {#enable-multi-agent-tracking-with-weave}
 
 Une fois les agents et leurs outils définis, l’étape suivante consiste à les faire fonctionner ensemble et à activer le tracing de Weave. Écrivez la logique nécessaire pour :
 
@@ -680,9 +674,7 @@ def extract_tool_contents(data):
     return contents
 ```
 
-<div id="execute-the-multi-agent-system-and-visualize-in-weave">
-  ## Exécutez le système multi-agent et visualisez-le dans Weave
-</div>
+## Exécutez le système multi-agent et visualisez-le dans Weave {#execute-the-multi-agent-system-and-visualize-in-weave}
 
 Une fois tous les agents, outils et gestionnaires en place, le système est prêt à être exécuté. Enfin, exécutez la fonction principale `handle_user_message` à partir de l’entrée de l’utilisateur&#39; et observez les résultats.
 
@@ -701,8 +693,6 @@ Cliquez sur une ligne pour voir les processus intermédiaires exécutés au sein
 
 Examinez de plus près comment le tracing est géré dans Weave.
 
-<div id="conclusion">
-  ## Conclusion
-</div>
+## Conclusion {#conclusion}
 
 Dans ce tutoriel, vous avez appris à développer un système multi-agent à l’aide des sorties structurées d’OpenAI et de Weave pour suivre les entrées, les sorties finales et les formats de sortie intermédiaires. Vous disposez maintenant d’un exemple fonctionnel que vous pouvez enrichir avec des agents, des outils ou des schémas de réponse structurée supplémentaires.

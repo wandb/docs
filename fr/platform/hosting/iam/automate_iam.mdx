@@ -6,9 +6,7 @@ keywords: ["provisionnement en masse", "synchronisation Okta", "Microsoft Entra"
 
 Cette page explique comment automatiser à grande échelle la gestion des Users et des équipes à l’aide de l’[API SCIM](/fr/platform/hosting/iam/scim) et de l’[API du SDK Python](/fr/models/ref/python/public-api).
 
-<div id="scim-api">
-  ## SCIM API
-</div>
+## SCIM API {#scim-api}
 
 Utilisez l’API SCIM de W&amp;B pour gérer à grande échelle les Users et les Teams de votre organisation W&amp;B par l’intermédiaire d’un fournisseur d’identité (IdP) comme Okta ou Microsoft Entra.
 
@@ -20,9 +18,7 @@ Pour plus d&#39;informations, voir [Authentification](./scim#authentication) sur
 
 Les sections suivantes décrivent chaque catégorie de l’API SCIM.
 
-<div id="user-scim-api">
-  ### API SCIM des Users
-</div>
+### API SCIM des Users {#user-scim-api}
 
 L’[API SCIM des Users](./scim#user-resource) vous permet de créer, désactiver, récupérer et lister des Users dans une organisation W&amp;B, ainsi que d’attribuer des rôles prédéfinis ou personnalisés. Pour des exemples complets de requête et de réponse, consultez la [référence SCIM](./scim#user-management).
 
@@ -30,9 +26,7 @@ L’[API SCIM des Users](./scim#user-resource) vous permet de créer, désactive
   Pour désactiver un utilisateur, envoyez `PATCH /scim/Users/{id}` avec `{"active": false}`. L’option d’hébergement détermine le résultat : les déploiements Cloud dédié et Autogéré conservent l’enregistrement de l’utilisateur, tandis que le Cloud mutualisé supprime l’utilisateur de l’organisation. La réactivation n’est pas disponible dans le Cloud mutualisé. Rajoutez plutôt l’utilisateur. Voir [Désactiver un utilisateur](./scim#deactivate-user) et [Réactiver un utilisateur](./scim#reactivate-user).
 </Note>
 
-<div id="group-scim-api">
-  ### API SCIM des groupes
-</div>
+### API SCIM des groupes {#group-scim-api}
 
 L&#39;[API SCIM des groupes](./scim#group-resource) permet de gérer les Teams W&amp;B, notamment de créer ou de supprimer des Teams dans une organisation. Pour ajouter ou supprimer des Users dans une équipe existante, utilisez `PATCH Group`.
 
@@ -42,9 +36,7 @@ L&#39;[API SCIM des groupes](./scim#group-resource) permet de gérer les Teams W
   W&amp;B associe les points de terminaison de l&#39;API Group SCIM aux Teams W&amp;B en raison de la similarité entre les groupes et les Teams W&amp;B.
 </Note>
 
-<div id="custom-role-scim-api">
-  ### API SCIM des rôles personnalisés
-</div>
+### API SCIM des rôles personnalisés {#custom-role-scim-api}
 
 L&#39;[API SCIM des rôles personnalisés](./scim#role-resource) permet de gérer les rôles personnalisés, notamment de créer, lister ou mettre à jour des rôles personnalisés au sein d&#39;une organisation.
 
@@ -56,9 +48,7 @@ L&#39;[API SCIM des rôles personnalisés](./scim#role-resource) permet de gére
   Pour mettre à jour le rôle hérité d&#39;un rôle personnalisé, utilisez l&#39;endpoint `PUT Role`. Cette opération n&#39;affecte aucune des autorisations personnalisées non héritées existantes dans le rôle personnalisé.
 </Warning>
 
-<div id="wb-python-sdk-api">
-  ## API du SDK Python
-</div>
+## API du SDK Python {#wb-python-sdk-api}
 
 Utilisez la [API du SDK Python](/fr/models/ref/python/public-api/api) pour gérer les Users et les Teams d’une organisation, ainsi que les appartenances aux Teams, via les classes suivantes :
 

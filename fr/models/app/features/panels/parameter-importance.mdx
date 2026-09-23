@@ -20,7 +20,7 @@ Cette technique est née d&#39;une conversation avec [Jeremy Howard](https://twi
 Le panneau d&#39;importance des hyperparamètres démêle les interactions complexes entre des hyperparamètres fortement corrélés. Il vous aide ainsi à effectuer le fine-tuning de vos recherches d&#39;hyperparamètres en vous montrant lesquels de vos hyperparamètres comptent le plus pour prédire les performances du modèle.
 
 <div id="create-a-hyperparameter-importance-panel">
-  ## Créer un panneau d’importance des hyperparamètres
+  ## Créer un panneau d’importance des hyperparamètres {#create-a-hyperparameter-importance-panel}
 </div>
 
 Pour ajouter un panneau d’importance des hyperparamètres à votre espace de travail :
@@ -44,7 +44,7 @@ Avec le gestionnaire des paramètres, vous pouvez définir manuellement les para
 </Frame>
 
 <div id="interpret-a-hyperparameter-importance-panel">
-  ## Interpréter le panneau d’importance des hyperparamètres
+  ## Interpréter le panneau d’importance des hyperparamètres {#interpret-a-hyperparameter-importance-panel}
 </div>
 
 Les sections suivantes décrivent comment lire les valeurs d’importance et de corrélation affichées dans le panneau afin que vous puissiez vous en servir dans votre prochain balayage.
@@ -56,7 +56,7 @@ Les sections suivantes décrivent comment lire les valeurs d’importance et de 
 Ce panneau affiche tous les paramètres transmis à l’objet [`wandb.Run.config`](/fr/models/track/config/) dans votre script d’entraînement. Il affiche ensuite l’importance des variables et les corrélations entre ces paramètres de configuration et la métrique du modèle que vous sélectionnez (`val_loss` dans ce cas).
 
 <div id="importance">
-  ### Importance
+  ### Importance {#importance}
 </div>
 
 La colonne d’importance indique dans quelle mesure chaque hyperparamètre a contribué à prédire la métrique choisie. Imaginez un scénario dans lequel vous commencez à ajuster de nombreux hyperparamètres et utilisez ce graphique pour vous concentrer sur ceux qui méritent d’être explorés plus en détail. Vous pouvez ensuite limiter les balayages suivants aux hyperparamètres les plus importants, ce qui vous aide à trouver un meilleur modèle plus rapidement et à moindre coût.
@@ -68,7 +68,7 @@ La colonne d’importance indique dans quelle mesure chaque hyperparamètre a co
 Dans l’image précédente, vous pouvez voir que `epochs`, `learning_rate`, `batch_size` et `weight_decay` étaient importants.
 
 <div id="correlations">
-  ### Corrélations
+  ### Corrélations {#correlations}
 </div>
 
 Les corrélations capturent les relations linéaires entre des hyperparamètres individuels et des valeurs de métriques. Elles permettent de déterminer s&#39;il existe une relation entre l&#39;utilisation d&#39;un hyperparamètre, tel que l&#39;optimiseur SGD, et la `val_loss` (dans ce cas, la réponse est oui). Les valeurs de corrélation vont de -1 à 1 : les valeurs positives indiquent une corrélation linéaire positive, les valeurs négatives indiquent une corrélation linéaire négative, et une valeur de 0 indique l&#39;absence de corrélation. En règle générale, une valeur supérieure à 0,7 dans un sens comme dans l&#39;autre indique une forte corrélation.

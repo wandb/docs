@@ -9,15 +9,11 @@ keywords: ["Cline CLI", "VS Code 拡張機能", "AI コーディングアシス�
 
 Cline エージェントは、コマンドラインツールとして、または多くの IDE とのインテグレーションとして利用できます。以下のセクションでは、Cline CLI での設定と、Visual Studio Code 拡張機能として使用する Cline の設定について説明します。他の IDE での設定も同様です。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 ご自身の[W&amp;B APIキー](../prerequisites#set-up-your-wb-account-and-project)が必要です。
 
-<div id="set-up-cline-in-the-command-line">
-  ## コマンドラインで Cline を設定する
-</div>
+## コマンドラインで Cline を設定する {#set-up-cline-in-the-command-line}
 
 [Cline CLI](https://docs.cline.bot/cline-cli/installation) をインストールします。
 
@@ -29,9 +25,7 @@ npm install -g cline
 
 インストールされているバージョンを確認するには、`cline version` を実行してください。
 
-<div id="use-the-native-wb-provider">
-  ### ネイティブの W&amp;B プロバイダー を使用する
-</div>
+### ネイティブの W&amp;B プロバイダー を使用する {#use-the-native-wb-provider}
 
 この設定は、macOS 上の Cline CLI バージョン `3.0.61` で検証済みです。`WANDB_API_KEY` 環境変数に W&amp;B APIキーを設定し、次のコマンドを実行します。
 
@@ -41,9 +35,7 @@ cline -P wandb -m zai-org/GLM-5.3-Flash "What is 2 + 2?"
 
 このプロバイダーのコマンドライン ID は `wandb` です。Cline のバージョンによって、プロバイダーは **Weights &amp; Biases** または **W&amp;B** と表示されます。Cline は、そのプロバイダーに設定された Serverless Inference エンドポイントを使用します。Cline から回答が返ってくれば、接続は正常に機能しています。
 
-<div id="use-the-openai-compatible-provider">
-  ### OpenAI 互換のプロバイダーを使用する
-</div>
+### OpenAI 互換のプロバイダーを使用する {#use-the-openai-compatible-provider}
 
 以下の手順は、Cline CLI バージョン `2.5.1` で検証されています。
 
@@ -65,9 +57,7 @@ Cline から応答が返ってきたら、インストールと認証は完了�
 
 Cline CLI の使用方法の詳細については、[Cline クイックスタート](https://docs.cline.bot/cline-cli/installation#quick-start)を参照してください。
 
-<div id="set-up-cline-in-visual-studio-code">
-  ## Visual Studio Code で Cline を設定する
-</div>
+## Visual Studio Code で Cline を設定する {#set-up-cline-in-visual-studio-code}
 
 IDE 内で Cline を使用する場合は、Visual Studio Code の拡張機能としてインストールできます。VS Code Extensions Marketplace で **Cline** を検索するか、[Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) からインストールしてください。
 

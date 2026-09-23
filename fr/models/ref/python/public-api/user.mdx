@@ -8,17 +8,13 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py#L26" />
 
-<div id="class-wandbapispublicuser">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.User
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.User {#class-wandbapispublicuser}
 
 Un utilisateur sur une instance W&amp;B.
 
 Cette classe permet de gérer les clés API d’un utilisateur et d’accéder à des informations telles que les équipes auxquelles il appartient. La méthode de classe `create` peut être utilisée pour créer un nouvel utilisateur.
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
 <ResponseField name="api_keys" type="list[str]">
   Noms des clés API de l&#39;utilisateur.
@@ -38,13 +34,9 @@ Cette classe permet de gérer les clés API d’un utilisateur et d’accéder �
   Une instance de `wandb.Api` utilisant les identifiants d’authentification de l’utilisateur.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-usercreate">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.create() {#method-usercreate}
 
 ```python
 api: 'Api',
@@ -56,9 +48,7 @@ Créez un nouvel utilisateur.
 
 Il s&#39;agit d&#39;une méthode interne. Utilisez plutôt la méthode `create_user()` de `wandb.Api`.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="api" type="Api">
   Instance d’API à utiliser pour créer l’utilisateur.
@@ -72,9 +62,7 @@ Il s&#39;agit d&#39;une méthode interne. Utilisez plutôt la méthode `create_u
   Indique si cet utilisateur doit être administrateur global de l’instance.
 </ResponseField>
 
-<div id="method-userdelete_api_key">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.delete_api_key()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.delete_api_key() {#method-userdelete_api_key}
 
 ```python
 self,
@@ -85,17 +73,13 @@ Supprime une clé API d’un utilisateur.
 
 Seul le propriétaire de la clé ou un administrateur peut la supprimer.
 
-<div id="arguments-2">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-2}
 
 <ResponseField name="api_key" type="str">
   Le nom de la clé API à supprimer. Utilisez l’un des noms renvoyés par la propriété `api_keys`.
 </ResponseField>
 
-<div id="method-usergenerate_api_key">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.generate_api_key()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> User.generate_api_key() {#method-usergenerate_api_key}
 
 ```python
 self,
@@ -104,9 +88,7 @@ description: 'str | None' = None
 
 Générez une nouvelle clé API.
 
-<div id="arguments-3">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-3}
 
 <ResponseField name="description" type="str | None">
   Une description de la nouvelle clé API. Elle peut être utilisée pour identifier l’usage de la clé API.

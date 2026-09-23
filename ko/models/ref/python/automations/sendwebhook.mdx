@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L193" />
 
-<div id="class-wandbautomationssendwebhook">
-  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.SendWebhook
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.SendWebhook {#class-wandbautomationssendwebhook}
 
 웹훅 요청을 전송하는 자동화 액션을 정의합니다.
 
@@ -21,9 +19,7 @@ requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<f
 action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-<div id="args">
-  ## 매개변수
-</div>
+## 매개변수 {#args}
 
 <ResponseField name="integration_id" type="Annotated">
   요청을 보내는 데 사용할 웹훅 인테그레이션의 ID입니다.
@@ -37,13 +33,9 @@ action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="method-sendwebhookfrom_integration">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> SendWebhook.from_integration()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> SendWebhook.from_integration() {#method-sendwebhookfrom_integration}
 
 ```python
 integration: 'WebhookIntegration', *,
@@ -52,9 +44,7 @@ payload: 'JsonEncoded[dict[str, Any]] | None' = None
 
 지정된 (웹훅) 인테그레이션으로 전송하는 웹훅 액션을 정의합니다.
 
-<div id="arguments">
-  ##### 인수
-</div>
+##### 인수 {#arguments}
 
 <ResponseField name="integration" type="WebhookIntegration">
   설명이 없습니다.

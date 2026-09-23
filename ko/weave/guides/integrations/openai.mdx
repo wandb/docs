@@ -14,9 +14,7 @@ keywords: [GPT-4, Assistants API, Batch API, 구조화된 출력, 함수 호출]
   별도 설정 없이 Weave에서 OpenAI 모델을 사용해 실험해 보세요. [LLM 플레이그라운드](../tools/playground)를 사용하시면 됩니다.
 </Note>
 
-<div id="tracing">
-  ## 트레이싱
-</div>
+## 트레이싱 {#tracing}
 
 개발 중이든 프로덕션 환경이든, LLM 애플리케이션의 트레이스를 중앙 데이터베이스에 저장하는 것은 유용합니다. 이러한 트레이스는 디버깅에 활용할 수 있고, 애플리케이션을 개선하는 과정에서 평가에 사용할 까다로운 예시 데이터셋을 구축하는 데도 도움이 됩니다.
 
@@ -26,9 +24,7 @@ Weave는 [`openai` Python library](https://developers.openai.com/api/docs/librar
 
 `weave.init()`를 호출할 때 W&amp;B 팀을 지정하지 않으면 기본 entity가 사용됩니다. 기본 entity를 확인하거나 업데이트하려면 W&amp;B Models 문서의 [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team)를 참고하세요.
 
-<div id="automatic-patching">
-  ### 자동 패치
-</div>
+### 자동 패치 {#automatic-patching}
 
 Weave는 OpenAI를 `weave.init()` 전에 임포트하든 후에 임포트하든 자동으로 패치합니다. 다음 예시는 Call 트레이싱을 시작하는 데 필요한 최소 설정을 보여줍니다:
 
@@ -81,9 +77,7 @@ Weave는 OpenAI를 `weave.init()` 전에 임포트하든 후에 임포트하든 
   ```
 </CodeGroup>
 
-<div id="optional-explicit-patching">
-  ### 선택: 명시적 패치
-</div>
+### 선택: 명시적 패치 {#optional-explicit-patching}
 
 패치가 적용되는 시점을 더 세밀하게 제어하려면 자동 패치에 의존하지 말고 OpenAI를 명시적으로 패치하세요:
 
@@ -109,9 +103,7 @@ response = client.chat.completions.create(
   Weave는 [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling)와 [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview)의 함수 호출 도구도 캡처합니다.
 </Tip>
 
-<div id="structured-outputs">
-  ## 구조화된 출력
-</div>
+## 구조화된 출력 {#structured-outputs}
 
 Weave는 OpenAI 구조화된 출력의 트레이싱도 지원하며, 이는 LLM 응답이 특정 형식을 따르도록 해야 할 때 유용합니다. 다음 예시는 사용자 메시지에서 유형 지정된 `UserDetail` 객체를 추출하는 call을 트레이스합니다:
 
@@ -142,9 +134,7 @@ Weave는 OpenAI 구조화된 출력의 트레이싱도 지원하며, 이는 LLM 
   ```
 </CodeGroup>
 
-<div id="async-support">
-  ## 비동기 지원
-</div>
+## 비동기 지원 {#async-support}
 
 Weave는 비동기 OpenAI Call의 트레이싱도 지원하므로 `AsyncOpenAI`를 사용하는 애플리케이션도 동기 애플리케이션과 동일한 수준의 가시성을 제공합니다.
 
@@ -177,9 +167,7 @@ Weave는 비동기 OpenAI Call의 트레이싱도 지원하므로 `AsyncOpenAI`�
   ```
 </CodeGroup>
 
-<div id="streaming-support">
-  ## 스트리밍 지원
-</div>
+## 스트리밍 지원 {#streaming-support}
 
 Weave는 OpenAI의 스트리밍 응답에 대한 트레이싱을 지원합니다. 캡처된 트레이스에는 전체 스트리밍 completion이 반영되므로, 요청 parameters와 함께 최종 출력을 검토할 수 있습니다.
 
@@ -211,9 +199,7 @@ Weave는 OpenAI의 스트리밍 응답에 대한 트레이싱을 지원합니다
   ```
 </CodeGroup>
 
-<div id="tracing-function-calls">
-  ## 함수 호출 트레이싱
-</div>
+## 함수 호출 트레이싱 {#tracing-function-calls}
 
 도구를 사용할 때 Weave는 OpenAI가 수행한 함수 호출도 트레이스하며, 이를 통해 모델이 각 도구를 어떻게 호출했는지와 어떤 인수를 사용했는지 이해하는 데 도움이 됩니다.
 
@@ -265,9 +251,7 @@ Weave는 OpenAI의 스트리밍 응답에 대한 트레이싱을 지원합니다
   ```
 </CodeGroup>
 
-<div id="batch-api">
-  ## Batch API
-</div>
+## Batch API {#batch-api}
 
 Weave는 OpenAI Batch API를 지원하므로, 여러 요청을 비동기적으로 처리하면서도 각 요청을 트레이스에 캡처할 수 있습니다.
 
@@ -313,9 +297,7 @@ Weave는 OpenAI Batch API를 지원하므로, 여러 요청을 비동기적으�
   ```
 </CodeGroup>
 
-<div id="assistants-api">
-  ## Assistants API
-</div>
+## Assistants API {#assistants-api}
 
 Weave는 OpenAI Assistants API를 지원하므로 assistant, thread, run을 기반으로 구축된 대화형 AI 애플리케이션을 트레이스할 수 있습니다.
 
@@ -355,9 +337,7 @@ Weave는 OpenAI Assistants API를 지원하므로 assistant, thread, run을 기�
   ```
 </CodeGroup>
 
-<div id="cost-tracking">
-  ## 비용 추적
-</div>
+## 비용 추적 {#cost-tracking}
 
 지출을 성능과 함께 모니터링할 수 있도록 Weave는 OpenAI API Call 비용을 자동으로 추적합니다. 비용 내역은 Weave UI에서 확인할 수 있습니다.
 
@@ -365,9 +345,7 @@ Weave는 OpenAI Assistants API를 지원하므로 assistant, thread, run을 기�
   비용 추적은 모든 OpenAI 모델에서 사용할 수 있으며, Weave는 OpenAI에서 공개한 가격을 기준으로 비용을 계산합니다.
 </Note>
 
-<div id="tracing-custom-functions">
-  ## 맞춤형 함수 트레이싱
-</div>
+## 맞춤형 함수 트레이싱 {#tracing-custom-functions}
 
 OpenAI Call을 자체 애플리케이션 로직 아래로 그룹화하려면, `@weave.op` 데코레이터를 적용해 OpenAI를 사용하는 맞춤형 함수를 트레이스하세요. 이렇게 하면 해당 함수에 대한 상위 트레이스가 생성되고, 그 내부에 기본 OpenAI Call이 중첩됩니다.
 
@@ -397,9 +375,7 @@ OpenAI Call을 자체 애플리케이션 로직 아래로 그룹화하려면, `@
   ```
 </CodeGroup>
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 OpenAI용 트레이싱이 설정되었으므로 이제 애플리케이션의 Call을 Weave에서 확인할 수 있습니다. 여기에서 다음 작업을 수행할 수 있습니다.
 

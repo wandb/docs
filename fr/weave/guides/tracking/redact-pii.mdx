@@ -19,9 +19,7 @@ La fonctionnalité Protection des données sensibles ajoute les fonctionnalités
 * Des champs de masquage personnalisables avec le paramètre configurable `redact_pii_fields`.
 * L&#39;exclusion d&#39;entités spécifiques du masquage avec le paramètre `redact_pii_exclude_fields`.
 
-<div id="enable-pii-redaction">
-  ## Activer le masquage des PII
-</div>
+## Activer le masquage des PII {#enable-pii-redaction}
 
 Cette section vous explique comment installer les dépendances requises, activer le masquage des PII dans `weave.init()` et, de façon facultative, définir quelles entités Weave masque. Pour commencer à utiliser la fonctionnalité protection des données sensibles de Weave, suivez les étapes ci-dessous :
 
@@ -55,9 +53,7 @@ Cette section vous explique comment installer les dépendances requises, activer
 
 Une fois ces étapes terminées, Weave masque les entités PII configurées dans les traces avant de les envoyer aux serveurs Weave.
 
-<div id="entities-redacted-by-default">
-  ## Entités masquées par défaut
-</div>
+## Entités masquées par défaut {#entities-redacted-by-default}
 
 Cette section répertorie les types d’entités PII que Weave masque automatiquement lorsque vous activez le masquage des PII sans spécifier `redact_pii_fields`. Weave masque automatiquement les entités suivantes lorsque le masquage des PII est activé :
 
@@ -80,9 +76,7 @@ Cette section répertorie les types d’entités PII que Weave masque automatiqu
 * `US_PASSPORT`
 * `US_SSN`
 
-<div id="redact-sensitive-keys-with-redact_keys">
-  ## Masquer les clés sensibles avec `REDACT_KEYS`
-</div>
+## Masquer les clés sensibles avec `REDACT_KEYS` {#redact-sensitive-keys-with-redact_keys}
 
 En plus du masquage des PII, le SDK Weave prend en charge le masquage de clés personnalisées avec `REDACT_KEYS`. Cette fonctionnalité est utile si vous souhaitez protéger d’autres données sensibles qui ne relèvent pas forcément des PII, mais qui doivent rester privées. Exemples :
 
@@ -92,9 +86,7 @@ En plus du masquage des PII, le SDK Weave prend en charge le masquage de clés p
 * ID internes
 * valeurs de configuration
 
-<div id="pre-defined-redact_keys">
-  ### `REDACT_KEYS` prédéfinies
-</div>
+### `REDACT_KEYS` prédéfinies {#pre-defined-redact_keys}
 
 Weave masque automatiquement les clés sensibles suivantes par défaut :
 
@@ -106,9 +98,7 @@ Weave masque automatiquement les clés sensibles suivantes par défaut :
 ]
 ```
 
-<div id="add-your-own-keys">
-  ### Ajoutez vos propres clés
-</div>
+### Ajoutez vos propres clés {#add-your-own-keys}
 
 Si votre application utilise d’autres noms de champs contenant des valeurs sensibles, vous pouvez compléter la liste `REDACT_KEYS` par défaut. Ajoutez vos propres clés personnalisées à masquer dans les traces :
 
@@ -139,9 +129,7 @@ client_id = "REDACTED"
 token = "REDACTED"
 ```
 
-<div id="usage-information">
-  ## Informations sur l’utilisation
-</div>
+## Informations sur l’utilisation {#usage-information}
 
 * Cette fonctionnalité n’est disponible que dans le SDK Python.
 * Lorsque vous activez le masquage, le temps de traitement augmente en raison de la dépendance à Presidio.

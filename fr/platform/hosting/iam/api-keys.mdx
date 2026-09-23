@@ -11,9 +11,7 @@ Une clé API authentifie une personne ou un compte de service auprès de W&amp;B
 
 Pour stocker vos clés de manière sécurisée une fois obtenues, voir [Stocker et gérer les clés API de manière sécurisée](#store-and-handle-api-keys-securely).
 
-<div id="types-of-api-keys">
-  ## Types de clés API
-</div>
+## Types de clés API {#types-of-api-keys}
 
 W&amp;B attribue des clés API aux utilisateurs et aux comptes de service.
 
@@ -35,9 +33,7 @@ W&amp;B attribue des clés API aux utilisateurs et aux comptes de service.
   Les clés API d’organisation sont disponibles dans le Cloud mutualisé pour les organisations Enterprise, et W&B les active pour chaque organisation. Si vous ne voyez pas les options décrites dans les sections suivantes, contactez votre équipe de compte W&B.
   */}
 
-<div id="find-and-manage-api-keys">
-  ## Trouver et gérer les clés API
-</div>
+## Trouver et gérer les clés API {#find-and-manage-api-keys}
 
 Les administrateurs de l’organisation, les administrateurs d’équipe et les membres gèrent les clés depuis l’onglet **API Keys**.
 
@@ -65,9 +61,7 @@ Pour trouver uniquement vos clés API personnelles, cliquez sur l’icône de vo
   Dans le Cloud mutualisé, les utilisateurs ayant le rôle d’administrateur de la facturation au sein de l’organisation ne peuvent pas voir l’onglet **API Keys**. Dans le Cloud dédié et les déploiements Autogérés, l’accès à cet onglet n’est pas limité par le rôle de facturation.
 </Note>
 
-<div id="key-visibility-by-role">
-  ### Visibilité des clés par rôle
-</div>
+### Visibilité des clés par rôle {#key-visibility-by-role}
 
 Les clés répertoriées dans l’onglet **API Keys** dépendent de votre rôle :
 
@@ -78,9 +72,7 @@ Les clés répertoriées dans l’onglet **API Keys** dépendent de votre rôle�
 | administrateur de l’organisation | Toutes les clés API de l’organisation, y compris celles des comptes de service de l’organisation.                                                                   |
 | administrateur de la facturation | Dans le Cloud mutualisé, aucune clé. L’onglet **API Keys** est masqué pour ce rôle. Dans le Cloud dédié et les déploiements autogérés, les mêmes clés qu’un membre. |
 
-<div id="read-the-api-keys-table">
-  ### Consulter le tableau des clés API
-</div>
+### Consulter le tableau des clés API {#read-the-api-keys-table}
 
 Le tableau répertorie chaque clé dans les colonnes suivantes :
 
@@ -96,9 +88,7 @@ Le tableau répertorie chaque clé dans les colonnes suivantes :
 
 Pour affiner la liste, saisissez du texte dans le champ de recherche pour rechercher un nom de clé, un ID de clé ou un propriétaire, ou cliquez sur **Filtres** pour filtrer selon des attributs tels que le type de clé.
 
-<div id="create-an-api-key">
-  ### Créer une clé API
-</div>
+### Créer une clé API {#create-an-api-key}
 
 1. Accédez à l’onglet **API Keys**.
 2. Cliquez sur **New key**.
@@ -110,9 +100,7 @@ Pour affiner la liste, saisissez du texte dans le champ de recherche pour recher
 
 Dans le Cloud mutualisé, les clés créées depuis cet onglet appartiennent à l’organisation affichée. Créez une clé distincte pour chaque organisation avec laquelle vous travaillez.
 
-<div id="rename-an-api-key">
-  ### Renommer une clé API
-</div>
+### Renommer une clé API {#rename-an-api-key}
 
 Renommez une clé pour indiquer à quoi elle sert, afin de faciliter l’identification ultérieure d’une clé inconnue. Le renommage ne modifie pas le secret de la clé et n’interrompt rien de ce qui l’utilise.
 
@@ -120,9 +108,7 @@ Renommez une clé pour indiquer à quoi elle sert, afin de faciliter l’identif
 2. Cliquez sur le menu d’actions à la fin de la ligne de la clé, puis sur **Edit**.
 3. Saisissez un nouveau nom, puis enregistrez.
 
-<div id="delete-api-keys">
-  ### Supprimer des clés API
-</div>
+### Supprimer des clés API {#delete-api-keys}
 
 Supprimez une clé lorsque vous n’en avez plus besoin ou immédiatement si elle a pu être exposée.
 
@@ -138,9 +124,7 @@ Pour supprimer plusieurs clés à la fois :
   La suppression d’une clé révoque immédiatement l’accès de tout script ou service qui l’utilise. Mettez à jour vos systèmes pour qu’ils utilisent une clé de remplacement avant de supprimer l’ancienne.
 </Warning>
 
-<div id="rotate-an-api-key">
-  ### Faire pivoter une clé API
-</div>
+### Faire pivoter une clé API {#rotate-an-api-key}
 
 Faites pivoter une clé à une fréquence conforme à votre politique de sécurité, et immédiatement si elle a pu être exposée. Faites pivoter une clé plutôt que de la supprimer lorsque les charges de travail qui l&#39;utilisent doivent continuer à s&#39;exécuter.
 
@@ -157,15 +141,11 @@ Jusqu&#39;à ce que vous terminiez la dernière étape, les deux clés fonctionn
   Si une clé a été exposée publiquement, supprimez-la immédiatement plutôt que d&#39;attendre de mettre à jour vos systèmes. Une clé exposée reste valide jusqu&#39;à ce que vous la supprimiez.
 </Warning>
 
-<div id="restrict-how-members-use-api-keys">
-  ## Restreindre l’utilisation des clés API par les membres
-</div>
+## Restreindre l’utilisation des clés API par les membres {#restrict-how-members-use-api-keys}
 
 Les administrateurs de l’organisation peuvent restreindre la création et l’utilisation des clés API depuis les paramètres de l’organisation dans la W&amp;B App. Ces restrictions limitent les clés pouvant accéder aux ressources de votre organisation ainsi que les personnes autorisées à en créer de nouvelles. Les sections suivantes décrivent les restrictions disponibles, qui varient selon le type de déploiement.
 
-<div id="enforce-organization-scoped-api-keys">
-  ### Appliquer des clés API limitées à l’organisation
-</div>
+### Appliquer des clés API limitées à l’organisation {#enforce-organization-scoped-api-keys}
 
 Disponible dans **Cloud mutualisé** pour les organisations Enterprise. W&amp;B active ce paramètre organisation par organisation. Si vous ne le voyez pas, contactez votre équipe de compte W&amp;B.
 
@@ -184,9 +164,7 @@ Pour appliquer des clés API limitées à l’organisation, procédez comme suit
 
 W&amp;B affiche alors l’étiquette **Enforced** à côté du paramètre. Pour cesser de l’appliquer, revenez à **Authentication** et cliquez sur **Disable**.
 
-<div id="disable-api-key-creation">
-  ### Désactiver la création de clés API
-</div>
+### Désactiver la création de clés API {#disable-api-key-creation}
 
 Disponible dans **Cloud dédié** et **Autogéré** v0.84.0 et versions ultérieures.
 
@@ -208,9 +186,7 @@ La création de clés API a été désactivée par l'administrateur de votre org
 
 Pour restreindre également la création de comptes de service, voir [`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/fr/platform/hosting/iam/advanced_env_vars), qui empêche la création de nouveaux comptes de service à portée d&#39;équipe dans Cloud dédié et Autogéré à partir de la version v0.83.0.
 
-<div id="availability">
-  ## Disponibilité
-</div>
+## Disponibilité {#availability}
 
 Les fonctionnalités des clés API diffèrent selon le type de déploiement et, dans le Cloud mutualisé, selon l’abonnement. Le tableau suivant indique la disponibilité de chaque fonctionnalité.
 

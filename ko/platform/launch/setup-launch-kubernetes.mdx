@@ -14,9 +14,7 @@ W&amp;B는 [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder를 �
   W&amp;B Launch 에이전트 Helm chart를 설치하고 적용 또는 업그레이드하려면, Kubernetes 리소스를 생성, 업데이트, 삭제할 수 있는 충분한 권한이 있는 클러스터에 대해 `kubectl` 액세스 권한이 있어야 합니다. 일반적으로는 `cluster-admin` 권한이 있는 사용자 또는 이에 상응하는 권한을 가진 커스텀 역할이 필요합니다.
 </Note>
 
-<div id="configure-a-queue-for-kubernetes">
-  ## Kubernetes용 큐 설정
-</div>
+## Kubernetes용 큐 설정 {#configure-a-queue-for-kubernetes}
 
 Launch 큐는 에이전트가 각 작업을 실행할 때 사용하는 Kubernetes 워크로드 사양을 정의합니다. Kubernetes 대상 리소스용 Launch 큐 설정은 [Kubernetes job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) 또는 [Kubernetes custom resource 사양](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)과 유사한 형태를 띱니다.
 
@@ -101,9 +99,7 @@ spec:
         type: "RuntimeDefault"
 ```
 
-<div id="create-a-queue">
-  ## 큐 만들기
-</div>
+## 큐 만들기 {#create-a-queue}
 
 W&amp;B App에서 컴퓨팅 리소스로 Kubernetes를 사용하는 큐를 생성합니다:
 
@@ -114,9 +110,7 @@ W&amp;B App에서 컴퓨팅 리소스로 Kubernetes를 사용하는 큐를 생�
 5. **Resource**로 **Kubernetes**를 선택합니다.
 6. **Configuration** 필드에 [Kubernetes용 큐 설정](#configure-a-queue-for-kubernetes)에서 설정한 Kubernetes job 워크플로 사양 또는 custom resource 사양을 입력합니다.
 
-<div id="configure-a-launch-agent-with-helm">
-  ## Helm으로 Launch 에이전트 구성하기
-</div>
+## Helm으로 Launch 에이전트 구성하기 {#configure-a-launch-agent-with-helm}
 
 큐가 준비되면 다음으로 큐에서 작업을 가져와 클러스터에서 실행하는 Launch 에이전트를 배포합니다. W&amp;B에서 제공하는 [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용해 Kubernetes 클러스터에 Launch 에이전트를 배포하세요. `values.yaml` [파일](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml)에서 Launch 에이전트의 동작을 제어할 수 있습니다.
 

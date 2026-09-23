@@ -21,9 +21,7 @@ keywords: ["sweep スケジューラー", "ハイパーパラメーター調整"
   Launch で Sweeps を初めて使用する場合は、`basic` method で sweep を作成することをおすすめします。標準の W&amp;B スケジューリングエンジン で要件を満たせない場合は、Launch 上の custom sweeps scheduler を使用してください。
 </Note>
 
-<div id="create-a-sweep-with-a-wb-standard-scheduler">
-  ## W&amp;B の標準スケジューラーで sweep を作成する
-</div>
+## W&amp;B の標準スケジューラーで sweep を作成する {#create-a-sweep-with-a-wb-standard-scheduler}
 
 このセクションでは、標準のスケジューリングエンジンを使用して Launch で W&amp;B Sweeps を作成する方法を説明します。W&amp;B App を使用してインタラクティブに sweep を作成することも、W&amp;B CLI を使用してプログラムから作成することもできます。スケジューラーのカスタマイズを含む Launch sweeps の高度な設定を行う場合は、CLI を使用してください。
 
@@ -112,9 +110,7 @@ keywords: ["sweep スケジューラー", "ハイパーパラメーター調整"
   </Tab>
 </Tabs>
 
-<div id="create-a-custom-sweep-scheduler">
-  ## カスタム sweep スケジューラーを作成する
-</div>
+## カスタム sweep スケジューラーを作成する {#create-a-custom-sweep-scheduler}
 
 このセクションでは、標準のスケジューリングエンジンが要件を満たさない場合に、カスタム sweep スケジューラーを作成する方法について説明します。W&amp;B スケジューラーまたはカスタムスケジューラーを使用して、カスタム sweep スケジューラーを作成できます。
 
@@ -218,9 +214,7 @@ keywords: ["sweep スケジューラー", "ハイパーパラメーター調整"
 
 カスタム sweep スケジューラージョブの例は、[wandb/launch-jobs](https://github.com/wandb/launch-jobs) リポジトリの `jobs/sweep_schedulers` にあります。このガイドでは、公開されている **W&amp;B スケジューラー Job** の使い方を示すとともに、カスタム sweep スケジューラージョブを作成する手順も説明します。
 
-<div id="resume-sweeps-on-launch">
-  ## Launch で Sweeps を再開する
-</div>
+## Launch で Sweeps を再開する {#resume-sweeps-on-launch}
 
 このセクションでは、以前に実行した sweep から Launch sweep を再開する方法について説明します。これは、更新したスケジューラー設定や別のキューで探索を続けたい場合に便利です。ハイパーパラメーターとトレーニングジョブは変更できませんが、スケジューラー固有のパラメーターと、送信先のキューは変更できます。
 

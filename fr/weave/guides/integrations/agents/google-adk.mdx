@@ -8,17 +8,13 @@ import AgentsViewTraces from '/snippets/fr/_includes/agents-view-traces.mdx';
 
 Le Google&#39;s Agent Development Kit (ADK) est un framework flexible et agnostique quant au modèle pour créer et orchestrer des agents. Bien qu&#39;optimisé pour Gemini, ADK prend en charge n&#39;importe quel modèle ainsi que les tâches simples comme les flux de travail multi-agents complexes. Weave capture automatiquement les traces des agents créés avec ADK, y compris chaque invocation d&#39;agent, transfert vers un sous-agent, appel de modèle et appel d&#39;outil. Weave affiche les données capturées dans la vue **Agents** de votre projet.
 
-<div id="trace-google-adk-agents-with-weave">
-  ## Tracer les agents Google ADK avec Weave
-</div>
+## Tracer les agents Google ADK avec Weave {#trace-google-adk-agents-with-weave}
 
 <Tabs>
   <Tab title="Python">
     Le SDK Weave applique automatiquement un patch à [Google ADK pour Python](https://google.github.io/adk-docs/), ce qui vous permet de capturer les traces de vos agents ADK avec un minimum de configuration. Ce guide explique comment initialiser Weave, puis exécuter un agent de recherche multi-tour de conversation créé avec Google ADK, afin que Weave capture chaque invocation d’agent, appel de modèle et appel d’outil tout au long de la session.
 
-    <div id="prerequisites">
-      ### Prérequis
-    </div>
+### Prérequis {#prerequisites}
 
     * Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie comme variable d’environnement `WANDB_API_KEY`.
     * Une [clé API Google](https://aistudio.google.com/apikey) pour Gemini.
@@ -28,9 +24,7 @@ Le Google&#39;s Agent Development Kit (ADK) est un framework flexible et agnosti
   <Tab title="TypeScript">
     Weave s’intègre à [Google ADK pour Node.js](https://google.github.io/adk-docs/) (`@google/adk`) pour tracer automatiquement les exécutions de vos agents.
 
-    <div id="prerequisites-2">
-      ### Prérequis
-    </div>
+### Prérequis {#prerequisites-2}
 
     * Un compte W&amp;B et une [clé API](https://wandb.ai/authorize) définie comme variable d’environnement `WANDB_API_KEY`.
     * Une [clé API Google](https://aistudio.google.com/apikey) définie comme variable d’environnement `GEMINI_API_KEY` ou `GOOGLE_GENAI_API_KEY`.
@@ -39,9 +33,7 @@ Le Google&#39;s Agent Development Kit (ADK) est un framework flexible et agnosti
   </Tab>
 </Tabs>
 
-<div id="install-packages">
-  ### Installer les packages
-</div>
+### Installer les packages {#install-packages}
 
 Installez les packages suivants dans votre environnement de développement. Ils fournissent le SDK Weave, le framework Google ADK et le client HTTP utilisé par l’outil d’exemple.
 
@@ -55,9 +47,7 @@ Installez les packages suivants dans votre environnement de développement. Ils 
   ```
 </CodeGroup>
 
-<div id="initialize-weave-in-your-code">
-  ### Initialisez Weave dans votre code
-</div>
+### Initialisez Weave dans votre code {#initialize-weave-in-your-code}
 
 <Tabs>
   <Tab title="Python">

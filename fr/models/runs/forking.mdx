@@ -24,9 +24,7 @@ Consultez une [démo en direct](https://wandb.ai/wandb/test-fork-run/workspace?n
 
 Indiquez l’ID unique du run source ainsi que la `step` à partir de laquelle vous souhaitez démarrer le run forké comme arguments de `fork_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init).
 
-<div id="fork-from-a-previously-logged-run">
-  ## Forker à partir d’un run précédemment enregistré
-</div>
+## Forker à partir d’un run précédemment enregistré {#fork-from-a-previously-logged-run}
 
 L’extrait de code suivant montre comment forker à partir d’un run précédemment enregistré dans W&amp;B.
 
@@ -52,9 +50,7 @@ with wandb.init(
     pass
 ```
 
-<div id="fork-from-a-run-in-the-same-script">
-  ## Forker à partir d’un run dans le même script
-</div>
+## Forker à partir d’un run dans le même script {#fork-from-a-run-in-the-same-script}
 
 L’extrait de code suivant montre comment créer un run et forker à partir de celui-ci dans le même script. Cela peut être utile si vous voulez forker à partir d’un run que vous venez de créer, sans avoir à rechercher l’ID du run dans l’application W&amp;B.
 
@@ -86,9 +82,7 @@ with wandb.init(
 
 <Tip>Utilisez la propriété `original_run.id` pour obtenir l’ID unique du run d’origine.</Tip>
 
-<div id="example-script">
-  ### Exemple de script
-</div>
+### Exemple de script {#example-script}
 
 Par exemple, le code ci-dessous montre comment d’abord forker un run, puis journaliser des métriques dans le run forké à partir de l’étape d’entraînement 200.
 

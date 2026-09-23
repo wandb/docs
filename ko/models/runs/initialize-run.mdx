@@ -13,9 +13,7 @@ description: "wandb.init()으로 W&B run을 초기화하여 실험 추적을 시
   W&amp;B는 `wandb.init()`을 호출할 때 컨텍스트 관리자(`with` 블록)를 사용할 것을 권장합니다. 이렇게 하면 블록이 끝날 때 W&amp;B가 run을 종료하고 해당 데이터를 업로드할 수 있습니다.
 </Note>
 
-<div id="single-run-per-process">
-  ## 프로세스당 단일 run
-</div>
+## 프로세스당 단일 run {#single-run-per-process}
 
 다음 예시에서는 run을 초기화합니다:
 
@@ -36,9 +34,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 
 이 예시에서 W&amp;B는 `nico` entity의 `awesome-project` 프로젝트에 run `exalted-darkness-6`를 로깅합니다. W&amp;B는 이 run에 고유 ID `pgbn9y21`을 부여합니다.
 
-<div id="multiple-runs-in-one-process">
-  ## 하나의 프로세스에서 여러 run 사용하기
-</div>
+## 하나의 프로세스에서 여러 run 사용하기 {#multiple-runs-in-one-process}
 
 하나의 Python 프로세스에서 여러 run을 관리하려면 `wandb.init()` 또는 `wandb.Settings`의 `reinit` 매개변수를 사용합니다. 예를 들어, 다른 작업을 위한 수명이 짧은 보조 run을 생성하면서 기본 run을 활성 상태로 유지할 수 있습니다.
 
@@ -54,9 +50,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
   단일 Python 프로세스에서 여러 run을 관리하려면 W&amp;B Python SDK 버전 `v0.19.10` 이상이 필요합니다.
 </Note>
 
-<div id="reinit-options">
-  ### `reinit` 옵션
-</div>
+### `reinit` 옵션 {#reinit-options}
 
 다른 run이 활성 상태일 때 `wandb.init()`를 호출하면 어떻게 동작할지 제어하려면 `reinit` 매개변수를 사용하세요. 다음 표에서는 사용 가능한 옵션과 일반적인 사용 사례를 비교합니다. 전체 매개변수 정의는 [`wandb.init()` 레퍼런스 문서](/ko/models/ref/python/functions/init)를 참조하세요.
 
@@ -70,9 +64,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
   W&amp;B는 Hugging Face Trainer, Keras callback, PyTorch Lightning처럼 단일 전역 run을 가정하는 [W&amp;B Integrations](/ko/models/integrations)에서 `create_new` 모드를 지원하지 않습니다. 이러한 인테그레이션을 사용하는 경우 각 하위 실험을 별도의 프로세스에서 실행해야 합니다.
 </Note>
 
-<div id="configure-reinit">
-  ### `reinit` 구성하기
-</div>
+### `reinit` 구성하기 {#configure-reinit}
 
 * `reinit` 인수를 직접 지정해 `wandb.init()`을 사용합니다:
   ```python
@@ -125,9 +117,7 @@ with wandb.init() as experiment_results_run:
          experiment_results_run.log(experiment_results)
 ```
 
-<div id="example-concurrent-processes">
-  ### 예제: 동시 프로세스
-</div>
+### 예제: 동시 프로세스 {#example-concurrent-processes}
 
 스크립트가 실행되는 전체 시간 동안 열린 상태를 유지하는 기본 프로세스를 만들고, 기본 프로세스를 종료하지 않은 채 주기적으로 수명이 짧은 보조 프로세스를 생성하려는 상황을 가정해 보겠습니다. 예를 들어, 이 패턴은 기본 run에서 모델을 트레이닝하는 동안 평가를 계산하거나 다른 작업을 별도의 run에서 수행하려는 경우에 유용할 수 있습니다.
 

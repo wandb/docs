@@ -15,14 +15,14 @@ Ce tutoriel vous montre comment créer une automatisation de **registre** décle
 <Tip>Pour savoir comment créer une automatisation de projet, voir [Tutoriel : automatisation d’alerte en cas d’échec d’un run de projet](/fr/models/automations/project-automation-tutorial).</Tip>
 
 <div id="prerequisites">
-  ## Prérequis
+  ## Prérequis {#prerequisites}
 </div>
 
 * Un [webhook](/fr/models/automations/create-automations/webhook#create-a-webhook) configuré dans **Team Settings**.
 * Un [registre](/fr/models/registry/create_registry) W&amp;B avec au moins une collection, ou réutilisez un registre existant.
 
 <div id="create-a-registry-automation">
-  ## Créer une automatisation du registre
+  ## Créer une automatisation du registre {#create-a-registry-automation}
 </div>
 
 Configurez une automatisation au niveau du registre afin que, lorsqu’un artefact d’une collection de ce registre reçoit un alias spécifique (par exemple, **production**), W&amp;B envoie une requête POST à votre webhook.
@@ -78,7 +78,7 @@ Pour plus d&#39;informations, voir [Créer une automatisation webhook](/fr/model
   */}
 
 <div id="test-the-automation">
-  ## Tester l’automatisation
+  ## Tester l’automatisation {#test-the-automation}
 </div>
 
 Pour vérifier que l’automatisation se déclenche de bout en bout, déclenchez l’événement configuré en ajoutant l’alias à une version d’artefact. Ajoutez l’alias (par exemple, **production**) à une version d’artefact dans le registre, à l’aide de W&amp;B App ou de l’API publique. Par exemple :

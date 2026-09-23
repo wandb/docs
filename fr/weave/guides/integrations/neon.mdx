@@ -1,0 +1,88 @@
+---
+title: "Neon AI Gateway"
+description: "Tracez les appels vers Neon AI Gateway, le point de terminaison d’inférence compatible avec OpenAI fourni par Neon"
+---
+
+Ce guide vous explique comment utiliser Weave pour tracer automatiquement les appels aux modèles servis par Neon AI Gateway, afin de surveiller, déboguer et évaluer l’utilisation des modèles depuis un tableau de bord unique.
+
+[Neon AI Gateway](https://neon.com/docs/ai-gateway/overview) est un point de terminaison d’inférence compatible avec OpenAI fourni par Neon. Un seul identifiant d’authentification Neon donne accès aux modèles d’OpenAI, Google, Meta, Databricks et Alibaba, sans qu’aucune clé API de fournisseur ne soit nécessaire. Weave détecte le SDK d’OpenAI : il vous suffit donc de modifier la clé API et l’URL de base pour que votre code OpenAI existant fonctionne.
+
+<Note>
+  Neon AI Gateway est en version bêta. Il nécessite un forfait Neon payant avec des crédits prépayés, ainsi qu’un projet situé dans une région AWS prise en charge. Consultez [Neon AI Gateway](https://neon.com/docs/ai-gateway/overview) pour connaître les exigences détaillées.
+</Note>
+
+## Prérequis {#prerequisites}
+
+Contrairement à la plupart des fournisseurs, Neon ne dispose pas d’un nom d’hôte unique partagé. Chaque branche de base de données possède son propre hôte de passerelle ; vous avez donc besoin de deux valeurs :
+
+* **Un identifiant d’authentification** doté de la portée `ai_gateway:invoke`. Créez-le dans la Neon Console, sous **Credentials**, ou via l’API Neon. Voir [Authentification AI Gateway](https://neon.com/docs/ai-gateway/authentication).
+* **L’hôte de la branche**, affiché dans la Neon Console sous le nom `NEON_AI_GATEWAY_BASE_URL`. Il s’agit d’une URL propre à chaque
+  branche, de la forme `https://<your-neon-branch-host>`.
+
+La commande `neon env pull --file .env` enregistre ces deux valeurs dans `NEON_AI_GATEWAY_TOKEN` et `NEON_AI_GATEWAY_BASE_URL`.
+
+## Tracer un appel à Neon AI Gateway {#trace-a-neon-ai-gateway-call}
+
+Définissez `api_key` sur votre identifiant d’authentification Neon et `base_url` sur l’hôte de la branche suivi de `/v1`, puis utilisez un ID de modèle Neon court, tel que `gpt-5-mini`. `weave.init()` requiert un nom de projet pour vos traces. Vous pouvez, si vous le souhaitez, le préfixer d’une entité W&amp;B sous la forme `<entity>/<project>` ; si vous omettez l’entité, Weave utilise votre entité par défaut. Pour trouver ou modifier votre entité par défaut, reportez-vous à [Équipe par défaut](/fr/platform/app/settings-page/user-settings/#default-team).
+
+```python lines {5,10-13}
+import os
+import openai
+import weave
+
+weave.init('neon-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("NEON_AI_GATEWAY_TOKEN"),
+    base_url=f"{os.environ.get('NEON_AI_GATEWAY_BASE_URL')}/v1",
+)
+chat_completion = client.chat.completions.create(
+    model="gpt-5-mini",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Model response:\n", response)
+```
+
+Weave capture l&#39;appel sous forme de trace dans votre projet, notamment l&#39;ID du modèle, les messages et le nombre de jetons renvoyé par Neon.
+
+## Tracer sur plusieurs branches {#trace-across-branches}
+
+Un identifiant d’authentification Neon est valide sur la branche où il a été créé ainsi que sur toutes les branches qui en dérivent. Un identifiant d’authentification créé sur `main` fonctionne donc également dans les branches de prévisualisation et de CI issues de celle-ci. Seule la variable `NEON_AI_GATEWAY_BASE_URL` change d’un environnement à l’autre.
+
+Comme l’hôte de la branche est défini dans la configuration du client et non dans la requête, les traces des différentes branches sont indiscernables dans Weave. Pour les distinguer, transmettez des noms de projet distincts à `weave.init()` ou joignez la branche en tant qu’attribut :
+
+```python
+with weave.attributes({"neon_branch": "preview/feature-x"}):
+    chat_completion = client.chat.completions.create(
+        model="gpt-5-mini",
+        messages=[{"role": "user", "content": user_content}],
+    )
+```
+
+## Choisir un modèle {#choose-a-model}
+
+Neon utilise des ID de modèle courts, comme `gpt-5-mini`, `gemini-3-flash`, `llama-4-maverick` et `qwen3-next-80b-a3b-instruct`. Pour lister les modèles qu&#39;une branche peut servir :
+
+```bash
+curl "${NEON_AI_GATEWAY_BASE_URL}/v1/models" \
+  -H "Authorization: Bearer $NEON_AI_GATEWAY_TOKEN"
+```
+
+Les fenêtres de contexte et les tarifs figurent dans le [catalogue de modèles Neon](https://neon.com/docs/ai-gateway/models), également publié en tant que [fournisseur `neon` sur Models.dev](https://models.dev/providers/neon/).
+
+Deux contraintes influencent le choix du modèle :
+
+* Quelques modèles ne sont servis que sur le chemin de l&#39;API Responses de Neon, `{NEON_AI_GATEWAY_BASE_URL}/openai/v1`, et renvoient une erreur `400` sur le chemin des complétions de chat. La colonne Endpoints du [catalogue de modèles](https://neon.com/docs/ai-gateway/models) de Neon indique lesquels, et cette liste évolue ; au moment de la rédaction, il s&#39;agit de `gpt-5-3-codex` et de `gpt-5-5-pro`. Tous les modèles pour lesquels la colonne mentionne `chat/completions` fonctionnent sur le chemin des complétions de chat.
+
+Neon ne renvoie pas de champ de coût et indique `pricing` à `null` dans `GET /v1/models` : les traces affichent donc le nombre de jetons, mais pas le coût. L&#39;utilisation d&#39;AI Gateway est déduite de votre solde de crédits prépayés ; voir [Tarification d&#39;AI Gateway](https://neon.com/docs/ai-gateway/overview#pricing).
+
+Consultez le [guide d&#39;intégration OpenAI](/fr/weave/guides/integrations/openai#track-your-own-ops) pour en savoir plus sur l&#39;intégration de Weave à vos propres fonctions dans des cas d&#39;usage plus complexes.

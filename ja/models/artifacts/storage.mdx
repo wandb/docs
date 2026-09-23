@@ -21,9 +21,7 @@ W&amp;B はデフォルトで、米国内にある非公開の Google Cloud Stor
 
 <Warning>`wandb` を初期化するマシンによっては、これらのデフォルトフォルダがファイルシステム上の書き込み可能な場所に存在しない場合があります。その結果、エラーが発生することがあります。</Warning>
 
-<div id="clean-up-local-artifact-cache">
-  ### ローカルのartifactキャッシュをクリーンアップする
-</div>
+### ローカルのartifactキャッシュをクリーンアップする {#clean-up-local-artifact-cache}
 
 W&amp;B は、共通ファイルを持つ複数バージョン間でのダウンロードを高速化するために、artifact ファイルをキャッシュします。時間が経つと、このキャッシュディレクトリが大きくなることがあります。キャッシュを整理し、最近使用されていないファイルを削除するには、[`wandb artifact cache cleanup`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-cache/) コマンドを実行します。
 

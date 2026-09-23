@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py#L19" />
 
-<div id="function-wandbplotpr_curve">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.pr_curve()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.pr_curve() {#function-wandbplotpr_curve}
 
 Construit une courbe précision-rappel (PR).
 
@@ -26,9 +24,7 @@ title: 'str' = 'Precision-Recall Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="y_true" type="Iterable[T] | None">
   Étiquettes binaires réelles. La forme doit être (`num_samples`,).
@@ -58,21 +54,15 @@ split_table: 'bool' = False
   Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
 </ResponseField>
 
-<div id="returns">
-  ## Renvoie
-</div>
+## Renvoie {#returns}
 
 `CustomChart`: Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le  graphique, transmettez-le à `wandb.log()`.
 
-<div id="raises">
-  ## Exceptions levées
-</div>
+## Exceptions levées {#raises}
 
 * `wandb.Error`: Si NumPy, pandas ou scikit-learn n’est pas installé.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 import wandb

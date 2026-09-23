@@ -19,9 +19,7 @@ W&amp;B は複数のタイプのスムージングをサポートしています
   <img src="/images/app_ui/beamer_smoothing.gif" alt="ノイズの多い折れ線グラフに適用したさまざまなスムージング アルゴリズムの比較" />
 </Frame>
 
-<div id="time-weighted-exponential-moving-average-twema-smoothing-default">
-  ## 時間加重指数移動平均 (TWEMA) スムージング (デフォルト) 
-</div>
+## 時間加重指数移動平均 (TWEMA) スムージング (デフォルト) {#time-weighted-exponential-moving-average-twema-smoothing-default} 
 
 時間加重指数移動平均 (TWEMA) スムージング アルゴリズムは、過去の点の重みを指数関数的に減衰させることで、時系列データを平滑化する手法です。手法の詳細については、[Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing)を参照してください。範囲は 0 から 1 です。また、時系列の初期値が 0 に偏らないよう、デバイアス項が追加されます。
 
@@ -53,9 +51,7 @@ return yValues.map((yPoint, index) => {
   <img src="/images/app_ui/weighted_exponential_moving_average.png" alt="TWEMA スムージングが適用された折れ線グラフ" />
 </Frame>
 
-<div id="gaussian-smoothing">
-  ## ガウススムージング
-</div>
+## ガウススムージング {#gaussian-smoothing}
 
 ガウススムージング (またはガウスカーネルスムージング) では、各点の加重平均を計算します。重みには、スムージングパラメーターとして指定した標準偏差を持つガウス分布を用います。W&amp;B は、各入力 `x` 値について、その前後にある点に基づいてスムージング後の値を計算します。
 
@@ -65,9 +61,7 @@ return yValues.map((yPoint, index) => {
   <img src="/images/app_ui/gaussian_smoothing.png" alt="ガウススムージングが適用された折れ線グラフ" />
 </Frame>
 
-<div id="running-average-smoothing">
-  ## 移動平均スムージング
-</div>
+## 移動平均スムージング {#running-average-smoothing}
 
 移動平均は、指定した `x` 値の前後にあるウィンドウ内の点の平均値で、その点を置き換えるスムージング アルゴリズムです。詳しくは、[Wikipedia の「Boxcar Filter」](https://en.wikipedia.org/wiki/Moving_average)を参照してください。移動平均のパラメーターでは、移動平均の計算に含める点の数を指定します。
 
@@ -79,9 +73,7 @@ return yValues.map((yPoint, index) => {
   <img src="/images/app_ui/running_average.png" alt="移動平均スムージングが適用された折れ線グラフ" />
 </Frame>
 
-<div id="exponential-moving-average-ema-smoothing">
-  ## 指数移動平均 (EMA) スムージング
-</div>
+## 指数移動平均 (EMA) スムージング {#exponential-moving-average-ema-smoothing}
 
 指数移動平均 (EMA) スムージングアルゴリズムは、指数ウィンドウ関数を使って時系列データを平滑化する経験則的な手法です。この手法の詳細については、[Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing)を参照してください。範囲は 0 から 1 です。時系列の初期の値がゼロ方向に偏らないよう、デバイアス項が追加されます。
 
@@ -112,9 +104,7 @@ return yValues.map((yPoint, index) => {
   <img src="/images/app_ui/exponential_moving_average.png" alt="EMA スムージングが適用された折れ線グラフ" />
 </Frame>
 
-<div id="hide-original-data">
-  ## 元のデータを非表示
-</div>
+## 元のデータを非表示 {#hide-original-data}
 
 スムージングによって信号がどの程度変化するかを判断するには、スムージングした線を生データと比較します。デフォルトでは、スムージングされていない元のデータが、背景に薄い線としてプロットに表示されます。これを非表示にするには、**Show Original** をクリックします。
 

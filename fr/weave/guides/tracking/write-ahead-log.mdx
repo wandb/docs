@@ -21,9 +21,7 @@ Pour les environnements de courte durée comme les fonctions serverless, envisag
   Le journal à écriture anticipée doit être activé explicitement. Il sera activé par défaut dans une future version.
 </Note>
 
-<div id="enable-the-write-ahead-log">
-  ## Activer le journal à écriture anticipée
-</div>
+## Activer le journal à écriture anticipée {#enable-the-write-ahead-log}
 
 Pour activer le WAL pour votre client Weave, définissez la variable d’environnement `WEAVE_ENABLE_WAL` sur `true` :
 
@@ -40,9 +38,7 @@ os.environ["WEAVE_ENABLE_WAL"] = "true"
 
 Aucune autre modification du code n&#39;est nécessaire. Le WAL fonctionne de façon transparente avec le code de tracing Weave existant.
 
-<div id="how-it-works">
-  ## Fonctionnement
-</div>
+## Fonctionnement {#how-it-works}
 
 Lorsque le WAL est activé :
 
@@ -55,9 +51,7 @@ Les fichiers journaux sont stockés dans `.weave/wal/` dans votre répertoire de
 
 Au démarrage du client, celui-ci vérifie s’il existe des fichiers journaux issus d’exécutions précédentes. S’il en trouve, le processus d’envoi en effectue le vidage avec les nouvelles données. Cela signifie que Weave récupère automatiquement, au prochain démarrage du client, les données écrites par un processus qui a planté.
 
-<div id="environment-variables">
-  ## Variables d’environnement
-</div>
+## Variables d’environnement {#environment-variables}
 
 Les variables d’environnement suivantes contrôlent le comportement du WAL.
 

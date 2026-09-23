@@ -12,9 +12,7 @@ Ce guide vous montre comment configurer l&#39;exportateur Weave de Koog afin que
   ![Koog](/weave/guides/integrations/imgs/koog.png)
 </Frame>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Vous devez définir les variables d’environnement suivantes avant d’exécuter votre agent afin que l’exportateur Weave puisse s’authentifier et acheminer les traces vers le projet approprié :
 
@@ -26,9 +24,7 @@ export WEAVE_ENTITY="[YOUR-ENTITY]"
 export WEAVE_PROJECT_NAME="koog-tracing"
 ```
 
-<div id="install-koog-gradle">
-  ## Installer Koog (Gradle)
-</div>
+## Installer Koog (Gradle) {#install-koog-gradle}
 
 Une fois vos variables d&#39;environnement définies, ajoutez Koog à votre projet Kotlin afin de configurer l&#39;agent et son exportateur (exemple en Kotlin DSL) :
 
@@ -40,9 +36,7 @@ dependencies {
 
 Voir la documentation de Koog pour [plus d’informations sur l’installation](https://docs.koog.ai/).
 
-<div id="enable-weave-export-opentelemetry">
-  ## Activer l’export Weave (OpenTelemetry)
-</div>
+## Activer l’export Weave (OpenTelemetry) {#enable-weave-export-opentelemetry}
 
 Après avoir installé Koog, installez la fonctionnalité OpenTelemetry de Koog et ajoutez l’exportateur Weave. Cela fait correspondre les spans Koog aux traces Weave à l’aide du point de terminaison OpenTelemetry de Weave.
 
@@ -101,9 +95,7 @@ Si vous débutez avec Koog et Weave, consultez la documentation suivante :
 * [Guide de prise en charge d’OpenTelemetry par Koog](https://docs.koog.ai/opentelemetry-support/) pour les concepts de base sur le fonctionnement d’OpenTelemetry avec Koog
 * [Documentation OTEL de Weave](../tracking/otel) pour savoir comment Weave ingère les données OTLP
 
-<div id="what-gets-traced">
-  ## Ce qui est tracé
-</div>
+## Ce qui est tracé {#what-gets-traced}
 
 Après avoir exécuté un agent avec l’exportateur activé, Koog transfère les traces vers votre projet Weave. L’exportateur Weave de Koog capture les mêmes spans que l’intégration OTEL standard de Koog, notamment :
 
@@ -114,15 +106,11 @@ Après avoir exécuté un agent avec l’exportateur activé, Koog transfère le
 
 Vous pouvez visualiser ces traces dans la Weave UI pour mieux comprendre les performances et la qualité. Voir [l’Aperçu du tracing de Weave](../tracking/tracing) pour une introduction à la capture de traces avec Weave.
 
-<div id="example-notebook">
-  ## Notebook d’exemple
-</div>
+## Notebook d’exemple {#example-notebook}
 
 Voir la documentation de Koog pour un [notebook exécutable](https://docs.koog.ai/examples/Weave/) qui transmet des traces à Weave.
 
-<div id="troubleshooting">
-  ## Dépannage
-</div>
+## Dépannage {#troubleshooting}
 
 Si votre agent Koog n’exporte pas les traces comme prévu, vérifiez les éléments suivants :
 

@@ -21,9 +21,7 @@ keywords: ["OpenAI オーディオ", "Realtime API", "GPT-4o オーディオ", "
 
 [![Weave Realtime 音声デモの動画サムネイル](https://img.youtube.com/vi/lnnd73xDElw/0.jpg)](https://www.youtube.com/watch?v=lnnd73xDElw "Weave Realtime 音声デモ")
 
-<div id="setup">
-  ## セットアップ
-</div>
+## セットアップ {#setup}
 
 このセクションでは、Python パッケージをインストールし、API認証情報を読み込み、chat completions の例に必要なライブラリをインポートします。
 
@@ -67,9 +65,7 @@ from openai import OpenAI
 import weave
 ```
 
-<div id="audio-streaming-and-storage-example">
-  ## オーディオのストリーミングと保存の例
-</div>
+## オーディオのストリーミングと保存の例 {#audio-streaming-and-storage-example}
 
 依存関係をインストールし、認証情報を読み込んだら、次に、オーディオモダリティを有効にした OpenAI の completions エンドポイントに対する call を設定します。まず OpenAI クライアントを作成し、以降の call を Weave が Workspace にログするように、Weave プロジェクトを初期化します。
 
@@ -137,9 +133,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     return wave.open("output.wav", "rb")
 ```
 
-<div id="testing">
-  ## テスト
-</div>
+## テスト {#testing}
 
 function を定義したら、次のセルを実行してエンドツーエンドで呼び出し、オーディオが生成されてログされることを確認してください。システムプロンプトとユーザープロンプトは、出力オーディオとともに Weave トレース に保存されます。
 セルの実行後、トレース を表示するには、セル出力に表示される トレース リンクをクリックしてください。この時点で、Weave でトレースされた完全な chat-completions オーディオ call ができあがっています。
@@ -157,9 +151,7 @@ prompt_endpoint_and_log_trace(
 display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 ```
 
-<div id="advanced-usage-realtime-api-with-weave">
-  ## 高度な使い方: Weave での Realtime API
-</div>
+## 高度な使い方: Weave での Realtime API {#advanced-usage-realtime-api-with-weave}
 
 このクックブックの残りの部分では、OpenAI の Realtime API と Weave を組み合わせて、双方向のライブ音声会話をトレースする、より高度な例を紹介します。
 
@@ -174,9 +166,7 @@ Realtime の例を実行する前に、次の要件を確認してください�
   * macOS では、PyAudio を動作させるために、[Brew](https://formulae.brew.sh/formula/portaudio) を使って `portaudio` をインストールする必要があります。
 * `enable_audio_playback` トグルを有効にすると、アシスタントが出力したオーディオが再生されます。エコー検出には複雑な実装が必要なため、これを有効にする場合はヘッドホンが必要です。
 
-<div id="requirements-setup">
-  ## 前提条件の設定
-</div>
+## 前提条件の設定 {#requirements-setup}
 
 Realtime の例では、オーディオの入出力と WebSocket 通信のために追加のパッケージが必要です。これらをインストールし、環境変数を再読み込みしてください。
 
@@ -208,9 +198,7 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-<div id="microphone-configuration">
-  ## マイクの設定
-</div>
+## マイクの設定 {#microphone-configuration}
 
 Realtime の例では、マイクから録音し、スピーカーからオーディオを再生するため、どのデバイスを使用するかを PyAudio に指定する必要があります。
 
@@ -245,17 +233,13 @@ OAI_SAMPLE_RATE = (
 OUTPUT_DEVICE_CHANNELS = 1  # モノラル出力の場合は 1 に設定
 ```
 
-<div id="openai-realtime-api-schema-implementation">
-  ## OpenAI Realtime API スキーマの実装
-</div>
+## OpenAI Realtime API スキーマの実装 {#openai-realtime-api-schema-implementation}
 
 次のセクションでは、メッセージスキーマ、オーディオライター、Weave でインストルメントされたモデル、レコーダーを順に実装しながら、Realtime クライアントを段階的に構築します。
 
 OpenAI Python SDK は、現時点では Realtime API をサポートしていません。この例では、可読性を高めるために、OpenAI Realtime API の完全なスキーマを Pydantic で実装しています。公式サポートが提供された場合、この実装は非推奨になる可能性があります。
 
-<div id="pydantic-schema-for-the-openai-realtime-api">
-  ### OpenAI Realtime API 用の Pydantic スキーマ
-</div>
+### OpenAI Realtime API 用の Pydantic スキーマ {#pydantic-schema-for-the-openai-realtime-api}
 
 ```python lines
 from enum import Enum
@@ -796,9 +780,7 @@ def parse_server_event(event_data: dict) -> ServerEvent:
         raise ValueError(f"Failed to parse event of type {event_type}: {str(e)}") from e
 ```
 
-<div id="audio-stream-writer-to-disk-and-in-memory">
-  ## オーディオストリームライター (ディスクおよびメモリ内に書き込み)
-</div>
+## オーディオストリームライター (ディスクおよびメモリ内に書き込み) {#audio-stream-writer-to-disk-and-in-memory}
 
 次のヘルパークラスは、ストリーミングされたオーディオチャンクを WAV ファイル (またはインメモリバッファ) にバッファリングし、後でログするためにそのオーディオを Weave に渡せるようにします。
 
@@ -844,9 +826,7 @@ class StreamingWavWriter:
         return self.buffer
 ```
 
-<div id="realtime-audio-model">
-  ## Realtime audio model
-</div>
+## Realtime audio model {#realtime-audio-model}
 
 Realtime (RT) オーディオモデルは、WebSocket を使用して OpenAI の Realtime API にイベントを送信します。モデルの動作は次のとおりです。
 
@@ -1052,9 +1032,7 @@ class RTAudioModel(weave.Model):
         self.user_wav_writer.close()
 ```
 
-<div id="audio-recorder">
-  ## オーディオレコーダー
-</div>
+## オーディオレコーダー {#audio-recorder}
 
 モデルを定義したら、マイク入力を渡す方法が必要です。この例では、RTAudioモデルの`send_audio` methodに接続されたハンドラー付きのPyAudio入力ストリームを使用します。コードはこのストリームをメインスレッドに返すため、プログラムの終了時に安全に停止できます。
 
@@ -1083,9 +1061,7 @@ def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
     return stream
 ```
 
-<div id="main-thread">
-  ## メインスレッド
-</div>
+## メインスレッド {#main-thread}
 
 この最後のセルでは、これまでの components をまとめて、リアルタイムアシスタントを実行します。メインスレッドでは、Weave を組み込んだ Realtime オーディオモデル を開始します。次に、録音を開始し、ユーザーによるキーボード割り込みを待ちます。セルを停止すると、ユーザーとアシスタントの文字起こしおよびオーディオを含む、会話の完全な Weave トレース が得られます。
 

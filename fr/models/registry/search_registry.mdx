@@ -11,15 +11,11 @@ Seuls les éléments que vous êtes autorisé à consulter apparaissent dans les
   La syntaxe et les opérateurs disponibles pour interroger W&amp;B Registry sont similaires à ceux des requêtes MongoDB, sans toutefois être identiques.
 </Info>
 
-<div id="search-for-registry-items">
-  ## Rechercher des éléments du registre
-</div>
+## Rechercher des éléments du registre {#search-for-registry-items}
 
 Utilisez la [barre de recherche de la page d’accueil du W&amp;B Registry](/fr/models/registry/search_registry#basic-search) pour trouver des collections et des registres par nom. Utilisez la [recherche avancée](/fr/models/registry/search_registry#advanced-search) pour trouver des registres, des collections ou des versions d&#39;artifact selon des attributs spécifiques tels que le nom, le tag, la description, la date de création, etc.
 
-<div id="basic-search">
-  ### Recherche de base
-</div>
+### Recherche de base {#basic-search}
 
 Recherchez des registres et des collections sur la page d’accueil du W&amp;B Registry :
 
@@ -27,9 +23,7 @@ Recherchez des registres et des collections sur la page d’accueil du W&amp;B R
 2. Saisissez un terme à rechercher dans la barre de recherche en haut de la page.
 3. Appuyez sur Entrée pour lancer la recherche.
 
-<div id="advanced-search">
-  ### Recherche avancée
-</div>
+### Recherche avancée {#advanced-search}
 
 Utilisez la recherche avancée pour trouver des registres, des collections ou des versions d&#39;artifact. Utilisez des filtres pour rechercher des éléments du registre spécifiques en fonction d&#39;attributs tels que le nom, le tag, la description, la date de création, etc.
 
@@ -40,9 +34,7 @@ Utilisez la recherche avancée pour trouver des registres, des collections ou de
 5. De gauche à droite, sélectionnez l’attribut selon lequel vous souhaitez filtrer, l’opérateur, puis la valeur. Vous pouvez ajouter plusieurs filtres pour affiner vos résultats de recherche.
 6. Appuyez sur Entrée pour appliquer le filtre.
 
-<div id="query-registry-items">
-  ## Interroger les éléments du registre
-</div>
+## Interroger les éléments du registre {#query-registry-items}
 
 Utilisez [`wandb.Api().registries()`](/fr/models/ref/python/public-api/api#registries) ainsi que des *prédicats de requête* pour filtrer les registres, les collections et les versions d&#39;artifact. Un prédicat de requête est une condition qui précise les critères auxquels les éléments renvoyés doivent satisfaire.
 
@@ -58,9 +50,7 @@ Pour créer un prédicat de requête, utilisez un dictionnaire au format JSON co
 
 Les sections suivantes décrivent les [noms de requête](/fr/models/registry/search_registry#filterable-fields) disponibles pour le registre, les [opérateurs pris en charge](/fr/models/registry/search_registry#supported-operators) et des [exemples de requêtes](/fr/models/registry/search_registry#example-queries).
 
-<div id="filterable-fields">
-  ### Champs pouvant être filtrés
-</div>
+### Champs pouvant être filtrés {#filterable-fields}
 
 Le tableau suivant répertorie les noms de requête que vous pouvez utiliser selon le type d’élément que vous souhaitez filtrer :
 
@@ -70,15 +60,11 @@ Le tableau suivant répertorie les noms de requête que vous pouvez utiliser sel
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | versions    | `tag`, `alias`, `created_at`, `updated_at`, `metadata`   |
 
-<div id="supported-operators">
-  ### Opérateurs pris en charge
-</div>
+### Opérateurs pris en charge {#supported-operators}
 
 W&amp;B prend en charge les opérateurs de comparaison et les opérateurs logiques suivants pour filtrer les éléments du registre :
 
-<div id="comparison-operators">
-  #### Opérateurs de comparaison
-</div>
+#### Opérateurs de comparaison {#comparison-operators}
 
 | Opérateur | Description         |
 | --------- | ------------------- |
@@ -89,9 +75,7 @@ W&amp;B prend en charge les opérateurs de comparaison et les opérateurs logiqu
 | `$lt`     | Inférieur à         |
 | `$lte`    | Inférieur ou égal à |
 
-<div id="logical-operators">
-  #### Opérateurs logiques
-</div>
+#### Opérateurs logiques {#logical-operators}
 
 | Opérateur | Description                                                                                                             |
 | --------- | ----------------------------------------------------------------------------------------------------------------------- |
@@ -100,9 +84,7 @@ W&amp;B prend en charge les opérateurs de comparaison et les opérateurs logiqu
 | `$nor`    | Effectue une opération logique [NOR](https://en.wikipedia.org/wiki/Logical_NOR) sur une ou plusieurs conditions         |
 | `$not`    | Effectue une opération logique [NOT](https://en.wikipedia.org/wiki/Negation) sur une condition                          |
 
-<div id="other-operators">
-  #### Autres opérateurs
-</div>
+#### Autres opérateurs {#other-operators}
 
 | Opérateur   | Description                                      |
 | ----------- | ------------------------------------------------ |
@@ -110,9 +92,7 @@ W&amp;B prend en charge les opérateurs de comparaison et les opérateurs logiqu
 | `$exists`   | Le champ existe ou n’existe pas                  |
 | `$contains` | La chaîne contient une valeur                    |
 
-<div id="example-queries">
-  ### Exemples de requêtes
-</div>
+### Exemples de requêtes {#example-queries}
 
 Les exemples de code suivants illustrent quelques cas courants de recherche.
 

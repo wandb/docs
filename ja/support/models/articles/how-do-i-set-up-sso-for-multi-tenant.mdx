@@ -11,9 +11,7 @@ OIDC プロバイダを設定するには、ID プロバイダで次の手順を
 2. `grant_type` を `implicit` フローに設定します。
 3. コールバック URI を `https://wandb.auth0.com/login/callback` に設定します。
 
-<div id="requirements-for-wb">
-  ## W&amp;B の要件
-</div>
+## W&amp;B の要件 {#requirements-for-wb}
 
 セットアップが完了したら、アプリケーションの `Client ID` と `Issuer URL` をカスタマーサクセスマネージャー (CSM) にお知らせください。W&amp;B はこれらの情報を使用して Auth0 接続を確立し、組織で SSO を有効にします。
 

@@ -9,9 +9,7 @@ W&amp;B는 이제 더 긴 API 키(약 86자)를 발급합니다. 이전 `wandb` 
 
 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서는 대신 `ERROR API key must be 40 characters long, yours was 86` 메시지가 표시될 수 있습니다.&quot;
 
-<div id="upgrade-the-wandb-sdk">
-  ## wandb SDK 업그레이드하기
-</div>
+## wandb SDK 업그레이드하기 {#upgrade-the-wandb-sdk}
 
 `wandb` v0.22.3부터 더 긴 API 키를 지원하므로, 해당 버전 이상으로 업그레이드하면 오류가 해결됩니다.
 
@@ -20,9 +18,7 @@ pip install -U wandb
 wandb login --relogin
 ```
 
-<div id="if-you-cannot-upgrade-the-sdk">
-  ## SDK를 업그레이드할 수 없는 경우
-</div>
+## SDK를 업그레이드할 수 없는 경우 {#if-you-cannot-upgrade-the-sdk}
 
 * 계정에 기존 40자 키가 아직 활성 상태로 남아 있다면 계속 사용하세요. 새 형식의 키를 발급해도 기존 키가 자동으로 폐기되지는 않습니다.
 * 기존 키를 삭제했고 업그레이드할 수 없다면 [support@wandb.com](mailto:support@wandb.com)으로 문의하세요. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 및 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 배포에서는 기존 형식의 키를 발급할 수 있는 경우가 있습니다.
@@ -32,9 +28,7 @@ wandb login --relogin
   export WANDB_API_KEY=[API-KEY]
   ```
 
-<div id="different-error-key-reported-as-too-short">
-  ## 다른 오류: 키가 너무 짧다는 메시지가 표시됨
-</div>
+## 다른 오류: 키가 너무 짧다는 메시지가 표시됨 {#different-error-key-reported-as-too-short}
 
 특정 SDK 버전에서 `wandb.Api().viewer.generate_api_key()`를 호출하면 `API key must have 40+ characters, has 20` 오류가 표시될 수 있습니다. 이는 더 긴 키 형식으로의 마이그레이션과는 별개의 문제입니다. SDK를 업그레이드하세요. 업그레이드 후에도 오류가 계속되면 [support@wandb.com](mailto:support@wandb.com)으로 문의하세요.
 

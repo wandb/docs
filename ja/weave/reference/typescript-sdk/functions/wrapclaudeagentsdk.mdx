@@ -15,27 +15,19 @@ wrapClaudeAgentSdk<T>(sdk: T): T
 
 自動インストルメンテーションを適用できない場合に使用します。たとえば、CJS/ESM の hooks で監視できないモジュール読み込みを行うバンドラを使っている場合や、それらでカバーされない import パスを使用している場合です。`@anthropic-ai/claude-agent-sdk` &gt;= 0.3.178 が必要です。`query` export がトレースされるモジュールの view を返します。元の import ではなく、返されたオブジェクトを使用してください (SDK の `query` は getter-only export であるため、元の binding をその場で patch することはできません) :
 
-<div id="type-parameters">
-  ## タイプパラメーター
-</div>
+## タイプパラメーター {#type-parameters}
 
 <ParamField path="T" />
 
-<div id="parameters">
-  ## パラメーター
-</div>
+## パラメーター {#parameters}
 
 <ParamField path="sdk" type="T" required />
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `T`
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 ```ts twoslash
 // @noErrors

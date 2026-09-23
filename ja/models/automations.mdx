@@ -26,14 +26,12 @@ flowchart LR
 **例:** run が失敗した (イベント) 場合に、必要に応じて run 名フィルター (条件) を指定し、Slack 通知 (アクション) を送信します。別の例: alias `production` が追加された (イベント) 場合に、webhook (アクション) を実行します。
 
 <div id="where-to-create-automations">
-  ## オートメーションを作成できる場所
+  ## オートメーションを作成できる場所 {#where-to-create-automations}
 </div>
 
 <AutomationsWhereToFind />
 
-<div id="automations-hub">
-  ## Automations ハブ
-</div>
+## Automations ハブ {#automations-hub}
 
 **Automations** ハブは、左側のナビゲーションにあるグローバルな画面で、アクセス可能なすべてのスコープと project にまたがるすべてのオートメーションを1つのリストに集約します。各 project や Registry に移動しなくても、オートメーションを見つけて確認し、管理できます。
 
@@ -49,7 +47,7 @@ flowchart LR
 **Automations** ハブは、各 project と Registry の **Automations** タブを補完する機能です。これらのスコープ別タブも、対象を絞ってすばやくアクセスするために引き続き利用できます。
 
 <div id="use-cases">
-  ## 使用例
+  ## 使用例 {#use-cases}
 </div>
 
 * **run の監視とアラート**: run が失敗したときや、メトリクスがしきい値を超えたとき (たとえば、損失が NaN になる、または精度が低下する場合) にチームに通知します。
@@ -60,7 +58,7 @@ flowchart LR
 イベントとスコープの詳細については、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
 
 <div id="automation-actions">
-  ## オートメーションアクション
+  ## オートメーションアクション {#automation-actions}
 </div>
 
 イベントによってオートメーションがトリガーされると、次のいずれかのアクションを実行できます。
@@ -70,7 +68,7 @@ flowchart LR
 実装の詳細については、[Slack オートメーションの作成](/ja/models/automations/create-automations/slack)、[webhook オートメーションの作成](/ja/models/automations/create-automations/webhook)、または [ARIA オートメーションの作成](/ja/models/automations/create-automations/aria) を参照してください。
 
 <div id="how-automations-work">
-  ## オートメーションの動作
+  ## オートメーションの動作 {#how-automations-work}
 </div>
 
 [オートメーションを作成](/ja/models/automations/create-automations)するには、次の手順を行います。
@@ -82,21 +80,17 @@ flowchart LR
    2. イベント発生時に実行するアクション (Slack チャンネルへの投稿、webhook の実行、ARIA へのプロンプトの送信など) を定義します。webhook の場合は、必要に応じて、アクセストークンに使用するシークレットや、ペイロードとともに送信するシークレットを指定します。
 
 <div id="recommendations">
-  ## 推奨事項
+  ## 推奨事項 {#recommendations}
 </div>
 
 <AutomationsBestPractices />
 
-<div id="limitations">
-  ## 制限事項
-</div>
+## 制限事項 {#limitations}
 
 * [run メトリクスのオートメーション](/ja/models/automations/automation-events/#run-metrics-change)および[run メトリクスの z スコア変化オートメーション](/ja/models/automations/automation-events/#run-metrics-z-score-change)は、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud)と[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)でのみサポートされています。
 * **チーム**および**組織**スコープでは、W&amp;B App でサポートされるのは artifact とコレクションのイベントのみです。これらのスコープでは、run ベースのイベントは W&amp;B App で利用できません。詳細は、[Automation events and scopes](/ja/models/automations/automation-events)を参照してください。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 * [オートメーションのチュートリアル](/ja/models/automations/tutorial): run の失敗を通知する project オートメーションと、alias が追加されたときに webhook を実行する Registry オートメーションの作成方法を案内します。このチュートリアルでは W&amp;B App を使用します。
 * [オートメーションを作成](/ja/models/automations/create-automations)。

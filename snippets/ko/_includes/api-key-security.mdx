@@ -2,15 +2,11 @@
 title: API 키 보안
 ---
 
-<div id="store-and-handle-api-keys-securely">
-  ## API 키를 안전하게 저장하고 관리하기
-</div>
+## API 키를 안전하게 저장하고 관리하기 {#store-and-handle-api-keys-securely}
 
 API 키는 W&amp;B 계정에 접근할 수 있게 하므로 비밀번호처럼 보호해야 합니다. 다음 섹션에서는 권장 저장 방법, 피해야 할 관행, 코드에 키를 전달하는 방법, 그리고 최신 키에 필요한 SDK 버전 요구 사항을 설명합니다.
 
-<div id="recommended-storage-methods">
-  ### 권장 저장 방법
-</div>
+### 권장 저장 방법 {#recommended-storage-methods}
 
 다음 방법 중 하나를 사용하여 API 키를 안전하게 저장하세요.
 
@@ -18,9 +14,7 @@ API 키는 W&amp;B 계정에 접근할 수 있게 하므로 비밀번호처럼 �
 * **Password manager**: 신뢰할 수 있는 비밀번호 관리 애플리케이션을 사용하세요.
 * **OS-level keychains**: macOS Keychain, Windows Credential Manager, 또는 Linux secret service에 키를 저장하세요. 프로덕션 환경에는 권장되지 않습니다.
 
-<div id="what-to-avoid">
-  ### 피해야 할 사항
-</div>
+### 피해야 할 사항 {#what-to-avoid}
 
 다음과 같은 관행은 API 키를 노출시킬 수 있으므로 피하세요.
 
@@ -32,9 +26,7 @@ API 키는 W&amp;B 계정에 접근할 수 있게 하므로 비밀번호처럼 �
 
 API 키가 노출된 경우, W&amp;B 계정에서 즉시 해당 API 키를 삭제하고 [지원팀](mailto:support@wandb.ai) 또는 AISE에 문의하세요.
 
-<div id="environment-variables">
-  ### 환경 변수
-</div>
+### 환경 변수 {#environment-variables}
 
 코드에서 API 키를 사용할 때는 환경 변수를 통해 전달하세요:
 
@@ -53,9 +45,7 @@ export WANDB_API_KEY="[YOUR-API-KEY]"
   ```
 </Warning>
 
-<div id="sdk-version-compatibility">
-  ### SDK 버전 호환성
-</div>
+### SDK 버전 호환성 {#sdk-version-compatibility}
 
 최신 API 키를 사용하는 경우, SDK 버전이 이를 지원하는지 확인하세요. 새 API 키는 기존 키보다 더 깁니다. 이전 버전의 `wandb` 또는 `weave` SDK로 인증할 때 API 키 길이 오류가 발생할 수 있습니다.
 

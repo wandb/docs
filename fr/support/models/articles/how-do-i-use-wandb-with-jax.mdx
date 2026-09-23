@@ -9,9 +9,7 @@ Pour la configuration des expériences et les schémas de journalisation, voir [
 
 Les sections ci-dessous montrent le schéma de journalisation de base pour une boucle d’entraînement JAX, comment agréger les métriques de validation, comment enregistrer des points de contrôle du modèle JAX ou Flax comme artefacts W&amp;B, et comment signaler les pertes NaN pendant l’entraînement.
 
-<div id="log-metrics-from-a-jax-training-loop">
-  ## Consigner des métriques depuis une boucle d’entraînement JAX
-</div>
+## Consigner des métriques depuis une boucle d’entraînement JAX {#log-metrics-from-a-jax-training-loop}
 
 L’exemple suivant exécute une boucle d’entraînement JAX compilée en JIT, qui met à jour les paramètres du modèle à chaque lot et consigne la perte d’entraînement à chaque étape dans un run W&amp;B.
 
@@ -38,9 +36,7 @@ with wandb.init(
 
 Les valeurs renvoyées par `@jax.jit` sont des tableaux sur le périphérique. Transmettez les scalaires à `run.log()` avec `float(loss)` ou `.item()` sur des tableaux de dimension 0. La journalisation d’un tableau JAX brut peut échouer lors de la sérialisation ou enregistrer une valeur inattendue selon la version de votre SDK.
 
-<div id="log-validation-metrics">
-  ## Journaliser les métriques de validation
-</div>
+## Journaliser les métriques de validation {#log-validation-metrics}
 
 Agrégez les métriques de validation en Python, puis journalisez-les une fois par époque :
 
@@ -57,9 +53,7 @@ for epoch in range(num_epochs):
     })
 ```
 
-<div id="save-checkpoints-as-artifacts">
-  ## Enregistrer des points de contrôle du modèle comme artefacts
-</div>
+## Enregistrer des points de contrôle du modèle comme artefacts {#save-checkpoints-as-artifacts}
 
 Enregistrez les paramètres JAX ou Flax avec `orbax` ou `flax.serialization`, puis enregistrez-les comme artefacts :
 
@@ -75,9 +69,7 @@ artifact.add_dir("/tmp/checkpoint")
 run.log_artifact(artifact)
 ```
 
-<div id="debug-nan-values">
-  ## Déboguer les valeurs NaN
-</div>
+## Déboguer les valeurs NaN {#debug-nan-values}
 
 Par défaut, JAX ne lève pas d’exception pour les valeurs NaN. Enregistrez dans le journal un indicateur NaN avec votre perte :
 

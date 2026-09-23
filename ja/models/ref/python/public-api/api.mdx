@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py#L100" />
 
-<div id="class-wandbapi">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Api
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Api {#class-wandbapi}
 
 W&amp;B Server のクエリに使用されます。
 
@@ -20,9 +18,7 @@ timeout: 'int | None' = None,
 api_key: 'str | None' = None
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="overrides" type="dict[str, Any] | None">
   `https://api.wandb.ai` 以外の W&amp;B Server を使用している場合は、`base_url` を設定できます。`entity`、`project`、`run` のデフォルト値も設定できます。
@@ -36,9 +32,7 @@ api_key: 'str | None' = None
   認証に使用する APIキー。指定しない場合は、現在の環境または設定の APIキーが使用されます。APIキーが指定されておらず、環境にも設定されていない場合は、APIキーの入力を求められます。
 </ResponseField>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```python
 import wandb
@@ -46,9 +40,7 @@ import wandb
 wandb.Api()
 ```
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="default_entity" type="str | None">
   デフォルトの W&amp;B entityを返します。
@@ -62,13 +54,9 @@ wandb.Api()
   Viewer オブジェクトを返します。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-apiartifact">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact() {#method-apiartifact}
 
 ```python
 (self,
@@ -78,9 +66,7 @@ type: 'str | None' = None)
 
 1 つのアーティファクトを返します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="name" type="str">
   アーティファクトの名。アーティファクトの名はファイルパスのような形式で、少なくともアーティファクトがログされたprojectの名、アーティファクトの名、アーティファクトのバージョンまたはaliasで構成されます。必要に応じて、アーティファクトをログしたentityを接頭辞として追加し、その後にスラッシュ (/) を続けます。名にentityが指定されていない場合は、RunまたはAPI設定のentityが使用されます。
@@ -90,16 +76,12 @@ type: 'str | None' = None)
   取得するアーティファクトのタイプ。
 </ResponseField>
 
-<div id="raises">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises}
 
 * `ValueError`:  artifactの名が指定されていない場合。
 * `ValueError`:  artifactのタイプが指定されているものの、取得したartifactのタイプと一致しない場合。
 
-<div id="examples-2">
-  ##### 例
-</div>
+##### 例 {#examples-2}
 
 次のコードスニペットでは、&quot;entity&quot;、&quot;project&quot;、&quot;artifact&quot;、&quot;version&quot;、&quot;alias&quot; は、それぞれW&amp;Bのentity、artifactが含まれるprojectの名、artifactの名、artifactのバージョン、artifactのaliasを表すプレースホルダーです。
 
@@ -119,9 +101,7 @@ wandb.Api().artifact(name="entity/project/artifact:alias")
 wandb.Api().artifact(name="entity/project/artifact:version")
 ```
 
-<div id="method-apiartifact_collection">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collection()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collection() {#method-apiartifact_collection}
 
 ```python
 self,
@@ -133,9 +113,7 @@ name: 'str'
 
 返された `ArtifactCollection` オブジェクトを使用すると、その collection 内の特定の アーティファクト に関する情報などを取得できます。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="type_name" type="str">
   取得するアーティファクト コレクションのタイプ。
@@ -145,9 +123,7 @@ name: 'str'
   アーティファクト コレクションの名。必要に応じて、アーティファクトをログしたentityを接頭辞として付け、その後にスラッシュを続けます。
 </ResponseField>
 
-<div id="examples-3">
-  ##### 例
-</div>
+##### 例 {#examples-3}
 
 次のコードスニペットでは、&quot;type&quot;、&quot;entity&quot;、&quot;project&quot;、および
 &quot;artifact&#95;name&quot; は、それぞれ collection のタイプ、あなたの W&amp;B
@@ -168,9 +144,7 @@ artifact_example = collections.artifacts()[0]
 artifact_example.download()
 ```
 
-<div id="method-apiartifact_collection_exists">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collection_exists()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collection_exists() {#method-apiartifact_collection_exists}
 
 ```python
 self,
@@ -180,9 +154,7 @@ type: 'str'
 
 指定したprojectおよびentity内にアーティファクト コレクションが存在するかどうか。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="name" type="str">
   アーティファクト コレクションの名。必要に応じて、アーティファクトをログしたentityを接頭辞として付け、その後にスラッシュを続けます。entityまたはprojectが指定されていない場合は、overrideパラメータがあればそこからcollectionを推定します。そうでない場合、entityはユーザー設定から取得され、projectのデフォルトは&quot;uncategorized&quot;になります。
@@ -192,9 +164,7 @@ type: 'str'
   アーティファクト コレクションのタイプ。
 </ResponseField>
 
-<div id="examples-4">
-  ##### 例
-</div>
+##### 例 {#examples-4}
 
 以降のコードスニペットでは、&quot;type&quot;と&quot;collection&#95;name&quot;はそれぞれアーティファクト コレクションのタイプとcollectionの名を指します。
 
@@ -204,9 +174,7 @@ import wandb
 wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 ```
 
-<div id="method-apiartifact_collections">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collections()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_collections() {#method-apiartifact_collections}
 
 ```python
 self,
@@ -219,9 +187,7 @@ start: 'str | None' = None
 
 条件に一致する アーティファクト コレクション のコレクションを返します。
 
-<div id="arguments-4">
-  ##### 引数
-</div>
+##### 引数 {#arguments-4}
 
 <ResponseField name="project_name" type="str">
   フィルター対象のproject名。
@@ -243,9 +209,7 @@ start: 'str | None' = None
   以前のクエリを再開するためのページネーションカーソルです。前のページネーターの `.cursor` 属性から取得します。
 </ResponseField>
 
-<div id="method-apiartifact_exists">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_exists()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_exists() {#method-apiartifact_exists}
 
 ```python
 self,
@@ -255,9 +219,7 @@ type: 'str | None' = None
 
 指定したprojectおよびentity内に、アーティファクトのバージョンが存在するかどうかを返します。
 
-<div id="arguments-5">
-  ##### 引数
-</div>
+##### 引数 {#arguments-5}
 
 <ResponseField name="name" type="str">
   アーティファクトの名。先頭にアーティファクトのentityとprojectを付けます。末尾には、アーティファクトのバージョンまたはaliasをコロン区切りで追加します。entityまたはprojectが指定されていない場合、値が設定されていれば W&amp;B は override パラメーターを使用します。そうでない場合、entity はユーザー設定から取得され、projectは&quot;Uncategorized&quot;に設定されます。
@@ -267,9 +229,7 @@ type: 'str | None' = None
   アーティファクトのタイプ。
 </ResponseField>
 
-<div id="examples-5">
-  ##### 例
-</div>
+##### 例 {#examples-5}
 
 以下のコードスニペットでは、&quot;entity&quot;、&quot;project&quot;、&quot;artifact&quot;、&quot;version&quot;、および&quot;alias&quot;は、それぞれあなたの W&amp;B entity、artifact が含まれるprojectの名、artifact の名、artifact のバージョンを表すプレースホルダーです。
 
@@ -280,9 +240,7 @@ wandb.Api().artifact_exists("entity/project/artifact:version")
 wandb.Api().artifact_exists("entity/project/artifact:alias")
 ```
 
-<div id="method-apiartifact_type">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_type()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_type() {#method-apiartifact_type}
 
 ```python
 self,
@@ -292,9 +250,7 @@ project: 'str | None' = None
 
 該当する `ArtifactType` を返します。
 
-<div id="arguments-6">
-  ##### 引数
-</div>
+##### 引数 {#arguments-6}
 
 <ResponseField name="type_name" type="str">
   取得する アーティファクト タイプの名前。
@@ -304,9 +260,7 @@ project: 'str | None' = None
   指定した場合、絞り込み対象のproject名またはパス。
 </ResponseField>
 
-<div id="method-apiartifact_types">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_types()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_types() {#method-apiartifact_types}
 
 ```python
 self,
@@ -316,9 +270,7 @@ start: 'str | None' = None
 
 一致する アーティファクト タイプ のコレクションを返します。
 
-<div id="arguments-7">
-  ##### 引数
-</div>
+##### 引数 {#arguments-7}
 
 <ResponseField name="project" type="str | None">
   フィルター対象の project 名またはパス。
@@ -328,9 +280,7 @@ start: 'str | None' = None
   前回のクエリを再開するためのページネーション カーソル。以前の ページネーター の `.cursor` 属性から取得します。
 </ResponseField>
 
-<div id="method-apiartifact_versions">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_versions()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifact_versions() {#method-apiartifact_versions}
 
 ```python
 (self, type_name, name, per_page=50)
@@ -338,9 +288,7 @@ start: 'str | None' = None
 
 非推奨です。代わりに `Api.artifacts(type_name, name)` メソッド を使用してください。
 
-<div id="arguments-8">
-  ##### 引数
-</div>
+##### 引数 {#arguments-8}
 
 <ResponseField name="type_name" type="_empty">
   説明はありません。
@@ -354,9 +302,7 @@ start: 'str | None' = None
   説明はありません。
 </ResponseField>
 
-<div id="method-apiartifacts">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifacts()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.artifacts() {#method-apiartifacts}
 
 ```python
 self,
@@ -370,9 +316,7 @@ start: 'str | None' = None
 
 `Artifacts` コレクションを返します。
 
-<div id="arguments-9">
-  ##### 引数
-</div>
+##### 引数 {#arguments-9}
 
 <ResponseField name="type_name" type="str">
   取得するアーティファクトのタイプ。
@@ -398,9 +342,7 @@ start: 'str | None' = None
   以前のクエリを再開するためのページネーションカーソル。以前のページネーターの`.cursor`属性から取得します。
 </ResponseField>
 
-<div id="examples-6">
-  ##### 例
-</div>
+##### 例 {#examples-6}
 
 以下のコードスニペットでは、&quot;type&quot;、&quot;entity&quot;、&quot;project&quot;、および
 &quot;artifact&#95;name&quot; は、それぞれ アーティファクト タイプ、W&amp;B entity、アーティファクト がログされた project の名、および アーティファクト の名を表すプレースホルダーです。
@@ -441,9 +383,7 @@ remaining_artifacts = api.artifacts(
 )
 ```
 
-<div id="method-apiautomation">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.automation() {#method-apiautomation}
 
 ```python
 self,
@@ -453,9 +393,7 @@ entity: 'str | None' = None
 
 パラメーターに一致する オートメーション を 1 件だけ返します。
 
-<div id="arguments-10">
-  ##### 引数
-</div>
+##### 引数 {#arguments-10}
 
 <ResponseField name="name" type="str">
   取得するオートメーションの名前。
@@ -465,15 +403,11 @@ entity: 'str | None' = None
   オートメーションを取得するentity。
 </ResponseField>
 
-<div id="raises-2">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-2}
 
 * `ValueError`: 検索条件に一致する オートメーション が 0 件、または複数件ある場合。
 
-<div id="examples-7">
-  ##### 例
-</div>
+##### 例 {#examples-7}
 
 &quot;my-automation&quot; という名前の既存の オートメーション を取得します:
 
@@ -490,9 +424,7 @@ entity &quot;my-team&quot; から、名前が &quot;other-automation&quot; の�
 automation = api.automation(name="other-automation", entity="my-team")
 ```
 
-<div id="method-apiautomations">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.automations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.automations() {#method-apiautomations}
 
 ```python
 self,
@@ -506,9 +438,7 @@ start: 'str | None' = None
 
 パラメーターを指定しない場合、返されるイテレーターには、ユーザーがアクセスできるすべての オートメーション が含まれます。
 
-<div id="arguments-11">
-  ##### 引数
-</div>
+##### 引数 {#arguments-11}
 
 <ResponseField name="entity" type="str | None">
   オートメーションを取得するentity。
@@ -526,9 +456,7 @@ start: 'str | None' = None
   以前のページネーターの `.cursor` 属性から取得した、過去のクエリを再開するためのページネーションカーソル。
 </ResponseField>
 
-<div id="examples-8">
-  ##### 例
-</div>
+##### 例 {#examples-8}
 
 entity &quot;my-team&quot; の既存の オートメーション をすべて取得します:
 
@@ -539,9 +467,7 @@ api = wandb.Api()
 automations = api.automations(entity="my-team")
 ```
 
-<div id="method-apicreate_automation">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_automation() {#method-apicreate_automation}
 
 ```python
 self,
@@ -551,9 +477,7 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 新しい オートメーション を作成します。
 
-<div id="arguments-12">
-  ##### 引数
-</div>
+##### 引数 {#arguments-12}
 
 <ResponseField name="obj" type="NewAutomation">
   作成するオートメーション。
@@ -567,9 +491,7 @@ fetch_existing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   説明はありません。
 </ResponseField>
 
-<div id="examples-9">
-  ##### 例
-</div>
+##### 例 {#examples-9}
 
 特定の project 内の run がカスタムしきい値を超えるメトリクスをログしたときに Slack 通知を送信する、`my-automation` という名前の新しいオートメーションを作成します。
 
@@ -597,9 +519,7 @@ automation = api.create_automation(
 )
 ```
 
-<div id="method-apicreate_custom_chart">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_custom_chart()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_custom_chart() {#method-apicreate_custom_chart}
 
 ```python
 self,
@@ -613,9 +533,7 @@ spec: 'str | dict'
 
 カスタムチャートプリセットを作成し、その ID を返します。
 
-<div id="arguments-13">
-  ##### 引数
-</div>
+##### 引数 {#arguments-13}
 
 <ResponseField name="entity" type="str">
   チャートを所有するentity (ユーザーまたはチーム) 
@@ -644,16 +562,12 @@ spec: 'str | dict'
   辞書または JSON 文字列形式の Vega/Vega-Lite 仕様
 </ResponseField>
 
-<div id="raises-3">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-3}
 
 * `wandb.Error`: チャートの作成に失敗した場合
 * `UnsupportedError`: サーバーがカスタムチャートをサポートしていない場合
 
-<div id="examples-10">
-  ##### 例
-</div>
+##### 例 {#examples-10}
 
 ```python
     import wandb
@@ -689,9 +603,7 @@ spec: 'str | dict'
     )
 ```
 
-<div id="method-apicreate_project">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_project()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_project() {#method-apicreate_project}
 
 ```python
 self,
@@ -701,9 +613,7 @@ entity: 'str'
 
 新しいprojectを作成します。
 
-<div id="arguments-14">
-  ##### 引数
-</div>
+##### 引数 {#arguments-14}
 
 <ResponseField name="name" type="str">
   新しいprojectの名前。
@@ -713,9 +623,7 @@ entity: 'str'
   新しいprojectのentity。
 </ResponseField>
 
-<div id="method-apicreate_registry">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_registry()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_registry() {#method-apicreate_registry}
 
 ```python
 self,
@@ -728,9 +636,7 @@ artifact_types: 'list[str] | None' = None
 
 新しいレジストリを作成します。
 
-<div id="arguments-15">
-  ##### 引数
-</div>
+##### 引数 {#arguments-15}
 
 <ResponseField name="name" type="str">
   レジストリの名です。名は組織内で一意である必要があります。
@@ -752,9 +658,7 @@ artifact_types: 'list[str] | None' = None
   レジストリで受け入れ可能なアーティファクト タイプです。タイプは 128 文字以内で、`/` または `:` を含めることはできません。指定しない場合は、すべてのタイプが受け入れられます。レジストリに追加した許可タイプは後から削除できません。
 </ResponseField>
 
-<div id="examples-11">
-  ##### 例
-</div>
+##### 例 {#examples-11}
 
 ```python
 import wandb
@@ -769,9 +673,7 @@ registry = api.create_registry(
 )
 ```
 
-<div id="method-apicreate_run">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_run()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_run() {#method-apicreate_run}
 
 ```python
 self, *,
@@ -782,9 +684,7 @@ entity: 'str | None' = None
 
 新しいrunを作成します。
 
-<div id="arguments-16">
-  ##### 引数
-</div>
+##### 引数 {#arguments-16}
 
 <ResponseField name="run_id" type="str | None">
   runに割り当てるID。指定しない場合、W&amp;BがランダムなIDを生成します。
@@ -798,9 +698,7 @@ entity: 'str | None' = None
   projectの所有者であるentity。指定しない場合、デフォルトのentityにrunをログします。
 </ResponseField>
 
-<div id="method-apicreate_run_queue">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_run_queue()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_run_queue() {#method-apicreate_run_queue}
 
 ```python
 self,
@@ -814,9 +712,7 @@ template_variables: 'dict | None' = None
 
 W&amp;B Launch に新しい run キューを作成します。
 
-<div id="arguments-17">
-  ##### 引数
-</div>
+##### 引数 {#arguments-17}
 
 <ResponseField name="name" type="str">
   作成するキューの名前
@@ -842,9 +738,7 @@ W&amp;B Launch に新しい run キューを作成します。
   設定で使用するテンプレート変数のスキーマを含む辞書。
 </ResponseField>
 
-<div id="method-apicreate_team">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_team()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_team() {#method-apicreate_team}
 
 ```python
 self,
@@ -857,9 +751,7 @@ admin_username: 'str | None' = None
 W&amp;B Multi-tenant Cloud を利用しているユーザーは、`create_team()` を呼び出す前に、W&amp;B UI の User Settings で Default API organization を設定してください。
 この設定によって、新しいチームの所属先となる組織が決まります。
 
-<div id="arguments-18">
-  ##### 引数
-</div>
+##### 引数 {#arguments-18}
 
 <ResponseField name="team" type="str">
   チームの名前
@@ -869,9 +761,7 @@ W&amp;B Multi-tenant Cloud を利用しているユーザーは、`create_team()
   チームの管理者ユーザーのユーザー名。デフォルトでは現在のユーザーです。
 </ResponseField>
 
-<div id="method-apicreate_user">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_user()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.create_user() {#method-apicreate_user}
 
 ```python
 self,
@@ -881,9 +771,7 @@ admin: 'bool | None' = False
 
 新しいユーザーを作成します。
 
-<div id="arguments-19">
-  ##### 引数
-</div>
+##### 引数 {#arguments-19}
 
 <ResponseField name="email" type="str">
   ユーザーのメールアドレス。
@@ -893,9 +781,7 @@ admin: 'bool | None' = False
   ユーザーをインスタンス全体の管理者に設定します。
 </ResponseField>
 
-<div id="method-apidelete_automation">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.delete_automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Api.delete_automation() {#method-apidelete_automation}
 
 ```python
 self,
@@ -904,17 +790,13 @@ obj: 'Automation | str'
 
 オートメーション を削除します。
 
-<div id="arguments-20">
-  ##### 引数
-</div>
+##### 引数 {#arguments-20}
 
 <ResponseField name="obj" type="Automation | str">
   削除対象の オートメーション、またはその ID。
 </ResponseField>
 
-<div id="method-apiflush">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.flush()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.flush() {#method-apiflush}
 
 ```python
 (self)
@@ -924,9 +806,7 @@ obj: 'Automation | str'
 
 api オブジェクトは runs のローカルキャッシュを保持しています。そのため、スクリプトの実行中に run の状態が変わる可能性がある場合は、`api.flush()` でローカルキャッシュをクリアし、run に関連付けられた最新の値を取得する必要があります。
 
-<div id="method-apifrom_path">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.from_path()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.from_path() {#method-apifrom_path}
 
 ```python
 (self,
@@ -935,17 +815,13 @@ path: 'str')
 
 パスから run、sweep、project、または レポート を返します。
 
-<div id="arguments-21">
-  ##### 引数
-</div>
+##### 引数 {#arguments-21}
 
 <ResponseField name="path" type="str">
   project、run、sweep、または レポート へのパス
 </ResponseField>
 
-<div id="examples-12">
-  ##### 例
-</div>
+##### 例 {#examples-12}
 
 以下に示すコードスニペットでは、&quot;project&quot;、&quot;チーム&quot;、&quot;run&#95;id&quot;、&quot;sweep&#95;id&quot;、
 および &quot;report&#95;name&quot; は、それぞれproject、チーム、run ID、
@@ -963,9 +839,7 @@ sweep = api.from_path("team/project/sweeps/sweep_id")
 report = api.from_path("team/project/reports/report_name")
 ```
 
-<div id="method-apiintegrations">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.integrations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.integrations() {#method-apiintegrations}
 
 ```python
 self,
@@ -976,9 +850,7 @@ start: 'str | None' = None
 
 entity のすべてのインテグレーションを反復するイテレーターを返します。
 
-<div id="arguments-22">
-  ##### 引数
-</div>
+##### 引数 {#arguments-22}
 
 <ResponseField name="entity" type="str | None">
   インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
@@ -992,9 +864,7 @@ entity のすべてのインテグレーションを反復するイテレータ�
   説明はありません。
 </ResponseField>
 
-<div id="method-apijob">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.job()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.job() {#method-apijob}
 
 ```python
 self,
@@ -1004,9 +874,7 @@ path: 'str | None' = None
 
 `Job` オブジェクトを返します。
 
-<div id="arguments-23">
-  ##### 引数
-</div>
+##### 引数 {#arguments-23}
 
 <ResponseField name="name" type="str | None">
   ジョブ名。
@@ -1016,9 +884,7 @@ path: 'str | None' = None
   ジョブ artifact をダウンロードするルートパス。
 </ResponseField>
 
-<div id="method-apilist_jobs">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.list_jobs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.list_jobs() {#method-apilist_jobs}
 
 ```python
 self,
@@ -1028,9 +894,7 @@ project: 'str'
 
 指定されたentityとprojectに対応するジョブが存在する場合は、その一覧を返します。
 
-<div id="arguments-24">
-  ##### 引数
-</div>
+##### 引数 {#arguments-24}
 
 <ResponseField name="entity" type="str">
   一覧表示するジョブのentity。
@@ -1040,9 +904,7 @@ project: 'str'
   一覧表示するジョブのproject。
 </ResponseField>
 
-<div id="method-apiorganization">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.organization()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.organization() {#method-apiorganization}
 
 ```python
 self,
@@ -1051,17 +913,13 @@ name: 'str | None' = None
 
 該当する `Organization` を返します。
 
-<div id="arguments-25">
-  ##### 引数
-</div>
+##### 引数 {#arguments-25}
 
 <ResponseField name="name" type="str | None">
   組織名。省略した場合、このメソッドは現在のデフォルト組織を推定して返します。
 </ResponseField>
 
-<div id="method-apiproject">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.project()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.project() {#method-apiproject}
 
 ```python
 self,
@@ -1071,9 +929,7 @@ entity: 'str | None' = None
 
 指定された名前の `Project` を返します (`entity` が指定されている場合は、その `entity` の `Project`) 。
 
-<div id="arguments-26">
-  ##### 引数
-</div>
+##### 引数 {#arguments-26}
 
 <ResponseField name="name" type="str">
   プロジェクト名です。
@@ -1083,9 +939,7 @@ entity: 'str | None' = None
   要求されたentityの名です。`None` の場合は、`Api` に渡されたデフォルトのentityが使用されます。デフォルトのentityがない場合は、`ValueError` が発生します。
 </ResponseField>
 
-<div id="method-apiprojects">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.projects()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.projects() {#method-apiprojects}
 
 ```python
 self,
@@ -1095,9 +949,7 @@ per_page: 'int' = 200
 
 指定したentityのprojectを取得します。
 
-<div id="arguments-27">
-  ##### 引数
-</div>
+##### 引数 {#arguments-27}
 
 <ResponseField name="entity" type="str | None">
   要求されたentityの名です。`None` の場合は、`Api` に渡されたデフォルトのentityが使用されます。デフォルトのentityがない場合は、`ValueError` が発生します。
@@ -1107,9 +959,7 @@ per_page: 'int' = 200
   クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
 </ResponseField>
 
-<div id="method-apiqueued_run">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.queued_run()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.queued_run() {#method-apiqueued_run}
 
 ```python
 (self,
@@ -1123,9 +973,7 @@ run_queue_item_id: 'str', project_queue=None, priority=None)
 
 `entity/project/queue_id/run_queue_item_id` 形式のパスを解析します。
 
-<div id="arguments-28">
-  ##### 引数
-</div>
+##### 引数 {#arguments-28}
 
 <ResponseField name="entity" type="str">
   説明はありません。
@@ -1151,9 +999,7 @@ run_queue_item_id: 'str', project_queue=None, priority=None)
   説明はありません。
 </ResponseField>
 
-<div id="method-apiregistries">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registries()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registries() {#method-apiregistries}
 
 ```python
 self,
@@ -1171,9 +1017,7 @@ start: 'str | None' = None
 イテレーション時に遅延取得されるため、残りをリクエストせずに、任意の数の
 項目の後で停止できます。たとえば、:func:`itertools.islice` を使用できます。
 
-<div id="arguments-29">
-  ##### 引数
-</div>
+##### 引数 {#arguments-29}
 
 <ResponseField name="organization" type="str | None">
   取得するレジストリの組織。指定しない場合は、ユーザーの Settings で指定された組織を使用します。
@@ -1195,9 +1039,7 @@ start: 'str | None' = None
   過去のクエリを再開するためのページネーションカーソル。以前の paginator の `.cursor` 属性から取得します。
 </ResponseField>
 
-<div id="examples-13">
-  ##### 例
-</div>
+##### 例 {#examples-13}
 
 名前に &quot;model&quot; を含むすべてのレジストリを検索する
 
@@ -1250,9 +1092,7 @@ saved_cursor = registries.cursor
 remaining_registries = api.registries(per_page=page_size, start=saved_cursor)
 ```
 
-<div id="method-apiregistry">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registry()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.registry() {#method-apiregistry}
 
 ```python
 self,
@@ -1262,9 +1102,7 @@ organization: 'str | None' = None
 
 指定したレジストリ名に対応するレジストリを返します。
 
-<div id="arguments-30">
-  ##### 引数
-</div>
+##### 引数 {#arguments-30}
 
 <ResponseField name="name" type="str">
   レジストリの名です。`wandb-registry-` 接頭辞は含まれません。
@@ -1274,9 +1112,7 @@ organization: 'str | None' = None
   レジストリの組織です。設定で組織が指定されていない場合、entity が 1 つの組織にのみ属していれば、その組織が entity から取得されます。
 </ResponseField>
 
-<div id="examples-14">
-  ##### 例
-</div>
+##### 例 {#examples-14}
 
 レジストリを取得して更新する
 
@@ -1289,9 +1125,7 @@ registry.description = "This is an updated description"
 registry.save()
 ```
 
-<div id="method-apireports">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.reports()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.reports() {#method-apireports}
 
 ```python
 self,
@@ -1304,9 +1138,7 @@ per_page: 'int' = 50
 
 注: `wandb.Api.reports()` API はベータ版のため、今後の version で変更される可能性があります。
 
-<div id="arguments-31">
-  ##### 引数
-</div>
+##### 引数 {#arguments-31}
 
 <ResponseField name="path" type="str">
   レポートが存在するprojectのパスです。projectを作成した entity をプレフィックスとして指定し、その後にスラッシュを付けます。
@@ -1320,9 +1152,7 @@ per_page: 'int' = 50
   クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
 </ResponseField>
 
-<div id="examples-15">
-  ##### 例
-</div>
+##### 例 {#examples-15}
 
 ```python
 import wandb
@@ -1330,9 +1160,7 @@ import wandb
 wandb.Api.reports("entity/project")
 ```
 
-<div id="method-apirun">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run() {#method-apirun}
 
 ```python
 self,
@@ -1341,23 +1169,17 @@ path: 'str' = ''
 
 `entity/project/run_id` 形式のパスを解析して、1 つの run を返します。
 
-<div id="arguments-32">
-  ##### 引数
-</div>
+##### 引数 {#arguments-32}
 
 <ResponseField name="path" type="str">
   `entity/project/run_id` 形式の run へのパス。`api.entity` が設定されている場合は `project/run_id` 形式でも指定でき、`api.project` が設定されている場合は run&#95;id のみでも指定できます。
 </ResponseField>
 
-<div id="raises-4">
-  ##### 発生する例外
-</div>
+##### 発生する例外 {#raises-4}
 
 * `RunNotFoundError`: run が見つからない場合、または run データを読み込めない場合。
 
-<div id="method-apirun_queue">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run_queue()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.run_queue() {#method-apirun_queue}
 
 ```python
 (self,
@@ -1369,9 +1191,7 @@ entity に対して指定した `RunQueue` を返します。
 
 run キューの作成方法の詳細については、`Api.create_run_queue` を参照してください。
 
-<div id="arguments-33">
-  ##### 引数
-</div>
+##### 引数 {#arguments-33}
 
 <ResponseField name="entity" type="str">
   説明はありません。
@@ -1381,9 +1201,7 @@ run キューの作成方法の詳細については、`Api.create_run_queue` �
   説明はありません。
 </ResponseField>
 
-<div id="method-apiruns">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.runs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.runs() {#method-apiruns}
 
 ```python
 (self,
@@ -1428,9 +1246,7 @@ lazy: 'bool' = True)
 * `$exists`
 * `$regex`
 
-<div id="arguments-34">
-  ##### 引数
-</div>
+##### 引数 {#arguments-34}
 
 <ResponseField name="path" type="str | None">
   (str) project へのパス。形式は &quot;entity/project&quot; である必要があります
@@ -1456,9 +1272,7 @@ lazy: 'bool' = True)
   (bool) より高速なパフォーマンスのために遅延読み込みを使用するかどうか。True (デフォルト) の場合、最初は必要最小限の run メタデータのみが読み込まれます。config、summaryMetrics、systemMetrics などの重いフィールドは、アクセス時にオンデマンドで読み込まれます。最初から完全なデータを取得するには False に設定してください。
 </ResponseField>
 
-<div id="examples-16">
-  ##### 例
-</div>
+##### 例 {#examples-16}
 
 ```python
 import wandb
@@ -1504,9 +1318,7 @@ Api.runs(
 Api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ```
 
-<div id="method-apislack_integrations">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.slack_integrations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.slack_integrations() {#method-apislack_integrations}
 
 ```python
 self, *,
@@ -1517,9 +1329,7 @@ start: 'str | None' = None
 
 entity の Slack インテグレーションのイテレーターを返します。
 
-<div id="arguments-35">
-  ##### 引数
-</div>
+##### 引数 {#arguments-35}
 
 <ResponseField name="entity" type="str | None">
   インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
@@ -1533,9 +1343,7 @@ entity の Slack インテグレーションのイテレーターを返します
   説明はありません。
 </ResponseField>
 
-<div id="examples-17">
-  ##### 例
-</div>
+##### 例 {#examples-17}
 
 チーム &quot;my-team&quot; に登録されているすべての Slack インテグレーションを取得します:
 
@@ -1557,9 +1365,7 @@ team_alert_integrations = [
 ]
 ```
 
-<div id="method-apisweep">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sweep()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sweep() {#method-apisweep}
 
 ```python
 (self, path='')
@@ -1567,17 +1373,13 @@ team_alert_integrations = [
 
 `entity/project/sweep_id` 形式のパスを解析して sweep を返します。
 
-<div id="arguments-36">
-  ##### 引数
-</div>
+##### 引数 {#arguments-36}
 
 <ResponseField name="path" type="_empty">
   `entity/project/sweep&#95;id` 形式の sweep へのパス。`api.entity` が設定されている場合は `project/sweep&#95;id` 形式でも指定でき、`api.project` が設定されている場合は `sweep&#95;id` のみでも指定できます。
 </ResponseField>
 
-<div id="method-apisync_tensorboard">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sync_tensorboard()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.sync_tensorboard() {#method-apisync_tensorboard}
 
 ```python
 (self, root_dir, run_id=None, project=None, entity=None)
@@ -1585,9 +1387,7 @@ team_alert_integrations = [
 
 tfevent ファイルを含むローカルディレクトリを wandb に Sync します。
 
-<div id="arguments-37">
-  ##### 引数
-</div>
+##### 引数 {#arguments-37}
 
 <ResponseField name="root_dir" type="_empty">
   説明はありません。
@@ -1605,9 +1405,7 @@ tfevent ファイルを含むローカルディレクトリを wandb に Sync �
   説明はありません。
 </ResponseField>
 
-<div id="method-apiteam">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.team()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.team() {#method-apiteam}
 
 ```python
 self,
@@ -1616,17 +1414,13 @@ team: 'str'
 
 指定された名前に一致する `Team` を返します。
 
-<div id="arguments-38">
-  ##### 引数
-</div>
+##### 引数 {#arguments-38}
 
 <ResponseField name="team" type="str">
   チームの名前
 </ResponseField>
 
-<div id="method-apiupdate_automation">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.update_automation()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.update_automation() {#method-apiupdate_automation}
 
 ```python
 self,
@@ -1636,9 +1430,7 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
 
 既存のオートメーションを更新します。
 
-<div id="arguments-39">
-  ##### 引数
-</div>
+##### 引数 {#arguments-39}
 
 <ResponseField name="obj" type="Automation">
   更新するオートメーション。既存のオートメーションである必要があります。
@@ -1652,9 +1444,7 @@ create_missing: 'bool' = False, **kwargs: 'Unpack[WriteAutomationsKwargs]'
   説明はありません。
 </ResponseField>
 
-<div id="examples-18">
-  ##### Examples
-</div>
+##### Examples {#examples-18}
 
 既存のオートメーション (&quot;my-automation&quot;) を無効にし、説明を編集します:
 
@@ -1686,9 +1476,7 @@ updated_automation = api.update_automation(
 )
 ```
 
-<div id="method-apiupsert_run_queue">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.upsert_run_queue()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.upsert_run_queue() {#method-apiupsert_run_queue}
 
 ```python
 (self,
@@ -1703,9 +1491,7 @@ prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None)
 
 W&amp;B Launch で run キューをアップサートします。
 
-<div id="arguments-40">
-  ##### 引数
-</div>
+##### 引数 {#arguments-40}
 
 <ResponseField name="name" type="str">
   作成するキューの名
@@ -1735,9 +1521,7 @@ W&amp;B Launch で run キューをアップサートします。
   使用する優先順位付けのオプションのバージョン。&quot;V0&quot; または `None`。
 </ResponseField>
 
-<div id="method-apiuser">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.user()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.user() {#method-apiuser}
 
 ```python
 self,
@@ -1749,17 +1533,13 @@ username_or_email: 'str'
 この関数はローカル管理者でのみ使用できます。自分自身のユーザーオブジェクトを取得するには、`api.viewer`
 を使用します。
 
-<div id="arguments-41">
-  ##### 引数
-</div>
+##### 引数 {#arguments-41}
 
 <ResponseField name="username_or_email" type="str">
   対象ユーザーのユーザー名またはメールアドレス。
 </ResponseField>
 
-<div id="method-apiusers">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.users()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.users() {#method-apiusers}
 
 ```python
 self,
@@ -1771,17 +1551,13 @@ username_or_email: 'str'
 この関数はローカル管理者のみが使用できます。自分自身のユーザーオブジェクトを取得するには、`api.viewer`
 を使用します。
 
-<div id="arguments-42">
-  ##### 引数
-</div>
+##### 引数 {#arguments-42}
 
 <ResponseField name="username_or_email" type="str">
   検索したいユーザー名またはメールアドレスの接頭辞または接尾辞。
 </ResponseField>
 
-<div id="method-apiwebhook_integrations">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.webhook_integrations()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Api.webhook_integrations() {#method-apiwebhook_integrations}
 
 ```python
 self,
@@ -1792,9 +1568,7 @@ start: 'str | None' = None
 
 entity の webhook インテグレーションのイテレーターを返します。
 
-<div id="arguments-43">
-  ##### 引数
-</div>
+##### 引数 {#arguments-43}
 
 <ResponseField name="entity" type="str | None">
   インテグレーションを取得する対象の entity (例: チーム名) 。指定しない場合は、ユーザーのデフォルト entity が使用されます。
@@ -1808,9 +1582,7 @@ entity の webhook インテグレーションのイテレーターを返しま�
   説明はありません。
 </ResponseField>
 
-<div id="examples-19">
-  ##### 例
-</div>
+##### 例 {#examples-19}
 
 チーム &quot;my-team&quot; に登録されている webhook インテグレーションをすべて取得します:
 

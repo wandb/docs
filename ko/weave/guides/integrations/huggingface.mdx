@@ -19,9 +19,7 @@ keywords: [Hugging Face Hub, InferenceClient, huggingface_hub, LLM 트레이싱,
   </a>
 </Tip>
 
-<div id="overview">
-  ## Overview
-</div>
+## Overview {#overview}
 
 Hugging Face Hub는 제작자와 협업자를 위한 머신 러닝 플랫폼으로, 여러 유형의 프로젝트에 사용할 수 있는 방대한 사전 학습 모델과 데이터셋을 제공합니다.
 
@@ -29,9 +27,7 @@ Hugging Face Hub는 제작자와 협업자를 위한 머신 러닝 플랫폼으�
 
 Weave는 `InferenceClient`의 트레이스를 자동으로 수집합니다. 추적을 시작하려면 `weave.init()`를 호출한 다음 평소처럼 라이브러리를 사용하세요.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 필요한 라이브러리를 설치하고 Hugging Face Hub에 대한 액세스를 구성하려면 다음 설정 단계를 완료하세요:
 
@@ -50,9 +46,7 @@ Weave는 `InferenceClient`의 트레이스를 자동으로 수집합니다. 추�
    os.environ["HUGGINGFACE_TOKEN"] = getpass.getpass("Enter your Hugging Face Hub Token: ")
    ```
 
-<div id="basic-tracing">
-  ## 기본 트레이싱
-</div>
+## 기본 트레이싱 {#basic-tracing}
 
 개발 및 프로덕션 환경에서는 언어 모델 애플리케이션의 트레이스를 중앙에서 저장하는 것이 중요합니다. 이러한 트레이스는 디버깅에 도움이 되며, 애플리케이션 개선에 활용할 수 있는 데이터셋이기도 합니다.
 
@@ -101,9 +95,7 @@ Weave는 각 Inference call을 로깅하고 입력, 출력, 메타데이터에 �
 ![모델과의 전체 채팅 이력이 표시된 UI의 Weave 채팅 뷰](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
 Weave는 또한 해당 call을 UI에서 채팅 뷰로 표시하여 모델과의 전체 채팅 이력을 보여줍니다.
 
-<div id="trace-a-function">
-  ## 함수를 트레이스하기
-</div>
+## 함수를 트레이스하기 {#trace-a-function}
 
 애플리케이션에서 데이터가 어떻게 흐르는지 더 깊이 파악하려면 `@weave.op`를 사용해 함수 호출을 추적할 수 있습니다. 이렇게 하면 입력, 출력, 실행 로직이 캡처되어 디버깅과 성능 분석에 도움이 됩니다.
 
@@ -176,9 +168,7 @@ Weave는 이제 `@weave.op`로 감싼 모든 함수 호출을 로깅하므로 We
   또한 Weave는 함수 실행을 포착해 시각화하여 애플리케이션 내 데이터 흐름과 로직을 이해하는 데 도움을 줍니다.
 </Frame>
 
-<div id="use-models-for-experimentation">
-  ## 실험에 `Model` 활용하기
-</div>
+## 실험에 `Model` 활용하기 {#use-models-for-experimentation}
 
 여러 컴포넌트가 얽힌 LLM 실험은 관리하기가 까다로울 수 있습니다. Weave [`Model`](../core-types/models) 클래스는 시스템 프롬프트와 모델 설정 같은 실험 세부 정보를 기록하고 정리해, 서로 다른 반복 버전을 비교할 수 있게 해줍니다.
 

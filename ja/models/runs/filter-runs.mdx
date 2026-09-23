@@ -9,9 +9,7 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
 
 表示される演算子のリスト (たとえば、is、in、≥、within last) は、このタイプによって決まります。フィールドを選択すると、UI にはそのフィールドのタイプで有効な演算子のみが表示されます。
 
-<div id="common-operators-by-type">
-  ## タイプ別の一般的な演算子
-</div>
+## タイプ別の一般的な演算子 {#common-operators-by-type}
 
 | フィルタータイプ | フィールド例              | 一般的な演算子                | 使用例                                |
 | -------- | ------------------- | ---------------------- | ---------------------------------- |
@@ -23,9 +21,7 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
   この表には、使用可能なフィールドと演算子の一部のみを示しています。式エディターには、使用可能なすべてのフィールドと演算子が表示されます。
 </Note>
 
-<div id="create-a-filter-expression">
-  ## フィルター式を作成する
-</div>
+## フィルター式を作成する {#create-a-filter-expression}
 
 1. プロジェクトのサイドバーから **Runs** タブにアクセスします。
 2. Runs table の上にある、漏斗の形をした **フィルター** ボタンを選択します。
@@ -50,9 +46,7 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
 
 以下のセクションでは、Runs table で Runs をフィルターする方法の例をいくつか紹介します。
 
-<div id="example-filter-runs-with-tags">
-  ### 例: タグで Runs をフィルターする
-</div>
+### 例: タグで Runs をフィルターする {#example-filter-runs-with-tags}
 
 タグに基づいて Runs をフィルターします。
 
@@ -66,9 +60,7 @@ run テーブル の式エディターを使用して、名、状態、[tags](#f
   <img src="/images/app_ui/filter_runs.gif" alt="タグで Runs をフィルターする" />
 </Frame>
 
-<div id="example-filter-runs-with-a-timestamp">
-  ### 例: タイムスタンプでRunsをフィルターする
-</div>
+### 例: タイムスタンプでRunsをフィルターする {#example-filter-runs-with-a-timestamp}
 
 MongoDB Query Language を使用してフィルタリングできます。
 
@@ -89,9 +81,7 @@ runs = api.runs(
 
 API を使用して Runs をフィルターするその他の例については、[API ガイド](/ja/models/ref/python/public-api/api#method-api-runs)を参照してください。
 
-<div id="example-combine-filters-with-and-and-or-conditions">
-  ### 例: AND 条件と OR 条件を組み合わせたフィルターの作成
-</div>
+### 例: AND 条件と OR 条件を組み合わせたフィルターの作成 {#example-combine-filters-with-and-and-or-conditions}
 
 このセクションでは、`A AND (B OR C)` のような複雑なフィルター式を作成する方法を説明します。この例では、A は `loss` ≤ `1`、B は `State` = `finished`、C は `State` = `crashed` です。
 
@@ -108,9 +98,7 @@ API を使用して Runs をフィルターするその他の例については�
   <img src="/images/runs/run_expressions_and_or.png" alt="AND 条件と OR 条件を組み合わせたフィルターの作成" />
 </Frame>
 
-<div id="example-filter-run-configuration-values-with-contains">
-  ### 例: `CONTAINS` を使用して run の設定値をフィルタリングする
-</div>
+### 例: `CONTAINS` を使用して run の設定値をフィルタリングする {#example-filter-run-configuration-values-with-contains}
 
 run の[設定](/ja/models/track/config)フィールドに特定の値が含まれているかどうかで、Runs をフィルタリングします。
 
@@ -126,9 +114,7 @@ run の[設定](/ja/models/track/config)フィールドに特定の値が含ま�
   <img src="/images/runs/contains_filter.png" alt="run の設定で Runs をフィルタリング" />
 </Frame>
 
-<div id="example-filter-runs-that-are-part-of-a-sweep">
-  ### 例: sweep に含まれる Runs をフィルターする
-</div>
+### 例: sweep に含まれる Runs をフィルターする {#example-filter-runs-that-are-part-of-a-sweep}
 
 次の例では、W&amp;B Public API を使用して、sweep に含まれる Runs をフィルターします。
 
@@ -155,9 +141,7 @@ all_runs_lists = api.runs(
 
 API を使用して Runs をフィルタリングするその他の例については、[API ガイド](/ja/models/ref/python/public-api/api#method-api-runs)を参照してください。
 
-<div id="default-filters">
-  ## デフォルトのフィルター
-</div>
+## デフォルトのフィルター {#default-filters}
 
 デフォルトでは、W&amp;B には次のフィルターがあります。
 
@@ -166,9 +150,7 @@ API を使用して Runs をフィルタリングするその他の例につい�
 
 デフォルトのフィルターは、フィルター式エディターの **新しいフィルター** ボタンの下にトグルとして表示されます。
 
-<div id="remove-a-filter">
-  ## フィルターを削除
-</div>
+## フィルターを削除 {#remove-a-filter}
 
 Runs table からフィルターを削除するには:
 

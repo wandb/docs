@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1185" />
 
-<div id="function-wandbinit">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.init()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.init() {#function-wandbinit}
 
 W&amp;B でトラッキングし、ログするための新しい run を開始します。
 
@@ -58,9 +56,7 @@ settings: 'Settings | dict[str, Any] | None' = None,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="entity" type="str | None">
   Runs のログ先となるユーザー名またはチーム名です。entity はあらかじめ存在している必要があるため、Runs のログを開始する前に UI でアカウントまたはチームを作成してください。指定しない場合、run にはデフォルトの entity が使用されます。デフォルトの entity を変更するには、設定で「Default team」の「Default location to create new projects」を更新してください。
@@ -187,15 +183,11 @@ anonymous: 'DoNotSet' = DoNotSet
   説明はありません。
 </ResponseField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `Run` オブジェクト。
 
-<div id="raises">
-  ## 送出される例外
-</div>
+## 送出される例外 {#raises}
 
 * `Error`: run の初期化中に不明なエラーまたは内部エラーが発生した場合。
 * `AuthenticationError`: ユーザーが有効な認証情報を提供できなかった場合。
@@ -203,9 +195,7 @@ anonymous: 'DoNotSet' = DoNotSet
 * `UsageError`: ユーザーが無効な引数を指定した場合。
 * `KeyboardInterrupt`: ユーザーが run を中断した場合。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 `wandb.init()` は `Run` オブジェクトを返します。run オブジェクトを使用してデータをログし、
 Artifacts を保存し、run のライフサイクルを管理できます。

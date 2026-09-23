@@ -9,9 +9,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 [Hugging Face Diffusers](https://huggingface.co/docs/diffusers/index) は、画像やオーディオ、分子の3D構造を生成するための事前学習済み拡散モデルのライブラリです。W&amp;B インテグレーションを使うと、実験管理、メディアの可視化、パイプラインアーキテクチャのトラッキング、設定管理を、インタラクティブな一元管理ダッシュボードに追加できます。
 
-<div id="log-experiments-in-two-lines">
-  ## 2行で実験をログする
-</div>
+## 2行で実験をログする {#log-experiments-in-two-lines}
 
 実験に関連するすべてのプロンプト、ネガティブプロンプト、生成されたメディア、設定をログするには、次の2行のコードを追加します。
 
@@ -27,9 +25,7 @@ autolog(init=dict(project="diffusers_logging"))
   <img src="/images/integrations/diffusers-autolog-4.gif" alt="実験結果のログ" />
 </Frame>
 
-<div id="get-started">
-  ## はじめに
-</div>
+## はじめに {#get-started}
 
 1. `diffusers`、`transformers`、`accelerate`、`wandb` をインストールします。
 
@@ -56,15 +52,11 @@ autolog(init=dict(project="diffusers_logging"))
      [サポートされるパイプライン呼び出しの一覧](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)を参照してください。このインテグレーションの新機能をリクエストしたり、バグを報告したりするには、[W&amp;B GitHub issues page](https://github.com/wandb/wandb/issues) で issue を作成してください。
    </Note>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 以下に、一般的な拡散ワークフローで `autolog` を使用する例を示します。これらを参考に、ご自身のパイプラインに合わせて調整してください。
 
-<div id="autolog-example">
-  ### Autolog の例
-</div>
+### Autolog の例 {#autolog-example}
 
 以下は、`autolog` のエンドツーエンドの例です。
 
@@ -163,9 +155,7 @@ autolog(init=dict(project="diffusers_logging"))
   IPython ノートブック環境でパイプラインを呼び出した後は、[`wandb.Run.finish()`](/ja/models/ref/python/functions/finish) を明示的に呼び出す必要があります。Python スクリプトを実行する場合は不要です。
 </Note>
 
-<div id="track-multi-pipeline-workflows">
-  ### 複数パイプラインのワークフローをトラッキングする
-</div>
+### 複数パイプラインのワークフローをトラッキングする {#track-multi-pipeline-workflows}
 
 以下の例では、典型的な [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) ワークフローで `autolog` を示します。このワークフローでは、refiner が [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) によって生成された latent をさらに精緻化します。
 
@@ -300,9 +290,7 @@ autolog(init=dict(project="diffusers_logging"))
   <img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL の実験管理" />
 </Frame>
 
-<div id="more-resources">
-  ## 参考資料
-</div>
+## 参考資料 {#more-resources}
 
 * [Stable Diffusion向けプロンプトエンジニアリングガイド](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
 * [PIXART-α: テキストから画像を生成するためのDiffusion Transformerモデル](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)

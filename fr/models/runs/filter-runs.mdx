@@ -9,9 +9,7 @@ Lorsque vous ajoutez un filtre, vous choisissez d’abord un champ (par exemple,
 
 La liste des opérateurs affichés (par exemple, is, in, ≥, within last) dépend de ce type. Après avoir choisi un champ, l’UI n’affiche que les opérateurs valides pour le type de ce champ.
 
-<div id="common-operators-by-type">
-  ## Opérateurs courants par type
-</div>
+## Opérateurs courants par type {#common-operators-by-type}
 
 | Type de filtre       | Exemples de champs  | Opérateurs courants    | Exemple d’utilisation              |
 | -------------------- | ------------------- | ---------------------- | ---------------------------------- |
@@ -23,9 +21,7 @@ La liste des opérateurs affichés (par exemple, is, in, ≥, within last) dépe
   Le tableau ci-dessus ne présente qu’un sous-ensemble des champs et opérateurs disponibles. L’éditeur d’expressions affiche tous les champs et opérateurs disponibles.
 </Note>
 
-<div id="create-a-filter-expression">
-  ## Créer une expression de filtre
-</div>
+## Créer une expression de filtre {#create-a-filter-expression}
 
 1. Accédez à l’onglet **Runs** dans la barre latérale du projet.
 2. Sélectionnez le bouton **Filtre**, en forme d’entonnoir, au-dessus du tableau des Runs.
@@ -50,9 +46,7 @@ Par exemple, l’image suivante affiche `6 of 18 listed`, ce qui signifie que 6 
 
 Les sections suivantes présentent quelques exemples de filtrage des Runs dans le tableau des Runs.
 
-<div id="example-filter-runs-with-tags">
-  ### Exemple : filtrer les runs avec des tags
-</div>
+### Exemple : filtrer les runs avec des tags {#example-filter-runs-with-tags}
 
 Filtrez les runs en fonction de leurs tags :
 
@@ -66,9 +60,7 @@ Filtrez les runs en fonction de leurs tags :
   <img src="/images/app_ui/filter_runs.gif" alt="Filtrer les runs par tags" />
 </Frame>
 
-<div id="example-filter-runs-with-a-timestamp">
-  ### Exemple : filtrer les runs par Horodatage
-</div>
+### Exemple : filtrer les runs par Horodatage {#example-filter-runs-with-a-timestamp}
 
 Vous pouvez effectuer un filtrage à l’aide du langage de requête MongoDB.
 
@@ -89,9 +81,7 @@ runs = api.runs(
 
 Voir le [guide de l’API](/fr/models/ref/python/public-api/api#method-api-runs) pour d’autres exemples de filtrage de runs avec l’API.
 
-<div id="example-combine-filters-with-and-and-or-conditions">
-  ### Exemple : combiner des filtres avec des conditions AND et OR
-</div>
+### Exemple : combiner des filtres avec des conditions AND et OR {#example-combine-filters-with-and-and-or-conditions}
 
 Cette section explique comment créer une expression de filtre complexe comme `A AND (B OR C)`. Dans cet exemple, A correspond à `loss` ≤ `1`, B à `State` = `finished` et C à `State` = `crashed`.
 
@@ -108,9 +98,7 @@ L’image suivante montre comment l’expression de filtre obtenue s’affiche d
   <img src="/images/runs/run_expressions_and_or.png" alt="Combiner des filtres avec des conditions AND et OR" />
 </Frame>
 
-<div id="example-filter-run-configuration-values-with-contains">
-  ### Exemple : filtrer les valeurs de configuration des runs avec `CONTAINS`
-</div>
+### Exemple : filtrer les valeurs de configuration des runs avec `CONTAINS` {#example-filter-run-configuration-values-with-contains}
 
 Filtrez les runs selon qu’un champ de [configuration](/fr/models/track/config) contient une valeur spécifique :
 
@@ -126,9 +114,7 @@ L’image suivante montre un filtre configuré pour afficher les runs dont le ch
   <img src="/images/runs/contains_filter.png" alt="Filtrer les runs par configuration de run" />
 </Frame>
 
-<div id="example-filter-runs-that-are-part-of-a-sweep">
-  ### Exemple : filtrer les runs faisant partie d’un sweep
-</div>
+### Exemple : filtrer les runs faisant partie d’un sweep {#example-filter-runs-that-are-part-of-a-sweep}
 
 L’exemple suivant filtre les runs faisant partie d’un sweep à l’aide de l’API publique W&amp;B :
 
@@ -155,9 +141,7 @@ all_runs_lists = api.runs(
 
 Voir le [guide de l’API](/fr/models/ref/python/public-api/api#method-api-runs) pour découvrir d’autres exemples de filtrage des runs à l’aide de l’API.
 
-<div id="default-filters">
-  ## Filtres par défaut
-</div>
+## Filtres par défaut {#default-filters}
 
 Par défaut, W&amp;B propose les filtres suivants :
 
@@ -166,9 +150,7 @@ Par défaut, W&amp;B propose les filtres suivants :
 
 Les filtres par défaut apparaissent sous forme de boutons bascule sous le bouton **Nouveau filtre** dans l’éditeur d’expressions.
 
-<div id="remove-a-filter">
-  ## Supprimer un filtre
-</div>
+## Supprimer un filtre {#remove-a-filter}
 
 Pour supprimer un filtre du tableau des Runs :
 

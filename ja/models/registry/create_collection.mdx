@@ -16,7 +16,7 @@ description: "W&B Registry 内でリンクされた artifact バージョンの�
 </Note>
 
 <div id="collection-types">
-  ## コレクションのタイプ
+  ## コレクションのタイプ {#collection-types}
 </div>
 
 各コレクションでは、1種類のアーティファクトの&#95;タイプ&#95;のみを受け入れます。指定したタイプによって、あなたや同じ組織の他のメンバーがそのコレクションにリンクできるアーティファクトの種類が制限されます。
@@ -52,7 +52,7 @@ description: "W&B Registry 内でリンクされた artifact バージョンの�
 アーティファクトをコレクションにリンクする前、または新しいコレクションを作成する前に、[そのコレクションが受け入れるアーティファクトのタイプを確認してください](#check-the-types-of-artifact-that-a-collection-accepts)。
 
 <div id="check-the-types-of-artifact-that-a-collection-accepts">
-  ### コレクションが受け入れる artifact タイプを確認する
+  ### コレクションが受け入れる artifact タイプを確認する {#check-the-types-of-artifact-that-a-collection-accepts}
 </div>
 
 コレクションにリンクする前に、そのコレクションで受け入れられる artifact タイプを確認してください。コレクションが受け入れる artifact タイプは、W&amp;B Python SDK を使用してプログラムから確認することも、W&amp;B App でインタラクティブに確認することもできます。
@@ -102,13 +102,13 @@ description: "W&B Registry 内でリンクされた artifact バージョンの�
 コレクションが受け入れる artifact タイプがわかったら、[コレクションを作成](#create-a-collection)できます。
 
 <div id="create-a-collection">
-  ## コレクションを作成する
+  ## コレクションを作成する {#create-a-collection}
 </div>
 
 レジストリ内にコレクションをインタラクティブまたはプログラムから作成できます。コレクションの作成後は、そのコレクションで受け付けるartifactのタイプを変更できません。
 
 <div id="programmatically-create-a-collection">
-  ### プログラムでコレクションを作成する
+  ### プログラムでコレクションを作成する {#programmatically-create-a-collection}
 </div>
 
 `wandb.Run.link_artifact()` methodを使用して、アーティファクト をコレクションにリンクします。`target_path` フィールドには、コレクションとレジストリの両方を、次の形式のパスで指定します。
@@ -145,9 +145,7 @@ with wandb.init(entity = "<team_entity>", project = "<project>") as run:
   run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 
-<div id="interactively-create-a-collection">
-  ### インタラクティブにコレクションを作成する
-</div>
+### インタラクティブにコレクションを作成する {#interactively-create-a-collection}
 
 以下の手順では、W&amp;B Registry を使用してインタラクティブにコレクションを作成する方法を説明します。
 

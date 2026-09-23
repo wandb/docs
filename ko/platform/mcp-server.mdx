@@ -16,9 +16,7 @@ Model Context Protocol(MCP)은 AI 에이전트가 외부 도구를 호출할 수
 * Mistral LeChat
 * Claude Desktop
 
-<div id="deployment-types">
-  ## 배포 유형
-</div>
+## 배포 유형 {#deployment-types}
 
 W&amp;B MCP 서버는 두 가지 배포 옵션으로 제공됩니다. 가장 빠르게 설정하려면 호스팅 서버를 사용하고, 더 높은 격리 수준과 유연성이 필요하다면 로컬 버전을 설정할 수 있습니다. 로컬 버전을 사용하려면 클라이언트에서 서버에 액세스하는 데 다른 URL을 사용해야 합니다.
 
@@ -36,9 +34,7 @@ W&amp;B MCP 서버는 두 가지 배포 옵션으로 제공됩니다. 가장 빠
   </Card>
 </CardGroup>
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 클라이언트를 설정하기 전에 다음 사항이 준비되어 있는지 확인하세요:
 
@@ -47,15 +43,11 @@ W&amp;B MCP 서버는 두 가지 배포 옵션으로 제공됩니다. 가장 빠
 * 기본 인스턴스가 아닌 다른 인스턴스에 연결하는 Dedicated Cloud, Self-Managed 및 로컬 설치의 경우 `WANDB_BASE_URL` 환경 변수를 해당 인스턴스 URL로 설정하세요.
 * W&amp;B는 `mcp` SDK 버전을 릴리스 `2024-11-05`의 [1.14.0](https://pypi.org/project/mcp/1.14.0/)으로 고정합니다. 클라이언트는 `mcp` SDK 1.14.x를 사용하여 연결해야 합니다. W&amp;B Dedicated Cloud에서 스트리밍 가능 HTTP를 지원하려면 릴리스 `2025-03-26` 이상의 `mcp` SDK 1.14.x가 필요합니다.
 
-<div id="use-the-hosted-server">
-  ## W&amp;B 호스팅 서버 사용
-</div>
+## W&amp;B 호스팅 서버 사용 {#use-the-hosted-server}
 
 W&amp;B는 모든 배포 유형에 대해 관리형 MCP 서버를 운영합니다. 별도로 설치할 필요는 없습니다. `Authorization` 헤더에 W&amp;B API 키를 포함해 HTTP로 연결하도록 클라이언트를 설정하세요.
 
-<div id="connection-url">
-  ### 연결 URL
-</div>
+### 연결 URL {#connection-url}
 
 URL은 W&amp;B 배포 유형에 따라 달라집니다.
 
@@ -245,9 +237,7 @@ Dedicated Cloud 또는 Self-Managed를 사용하는 경우 `https://mcp.withwand
   </Tab>
 </Tabs>
 
-<div id="run-the-mcp-server-locally">
-  ## MCP 서버를 로컬에서 실행
-</div>
+## MCP 서버를 로컬에서 실행 {#run-the-mcp-server-locally}
 
 로컬 설치는 호스팅 서버의 대안이며, 어떤 배포 유형에서도 기본값은 아닙니다. 호스팅 서버가 현재 설정에 맞지 않을 때 사용하세요.
 
@@ -261,9 +251,7 @@ Dedicated Cloud 또는 Self-Managed를 사용하는 경우 `https://mcp.withwand
 
 Dedicated Cloud 또는 Self-Managed 사용자의 경우 호스팅 방식을 우선적으로 사용하세요. 인스턴스에서 호스팅 서버가 아직 활성화되지 않았거나 앞서 설명한 이유 중 하나에 해당하는 경우에만 [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) 의 로컬 설치를 사용하세요. `WANDB_BASE_URL` 환경 변수를 인스턴스 URL로 설정하세요.
 
-<div id="local-prerequisites">
-  ### 로컬 사전 요구 사항
-</div>
+### 로컬 사전 요구 사항 {#local-prerequisites}
 
 서버를 로컬에서 실행하려면 다음이 준비되어 있어야 합니다:
 
@@ -272,9 +260,7 @@ Dedicated Cloud 또는 Self-Managed 사용자의 경우 호스팅 방식을 우�
 * `WANDB_API_KEY`로 설정된 W&amp;B API 키
 * Dedicated Cloud 또는 Self-Managed를 사용하는 경우, 인스턴스 URL로 설정된 `WANDB_BASE_URL`
 
-<div id="install-the-server">
-  ### 서버 설치
-</div>
+### 서버 설치 {#install-the-server}
 
 설치 방법을 선택한 다음 다음 명령어를 실행해 MCP 서버를 설치하세요:
 
@@ -304,9 +290,7 @@ Dedicated Cloud 또는 Self-Managed 사용자의 경우 호스팅 방식을 우�
   </Tab>
 </Tabs>
 
-<div id="configure-your-client">
-  ### 클라이언트 설정
-</div>
+### 클라이언트 설정 {#configure-your-client}
 
 서버를 설치한 후 클라이언트가 이를 실행하도록 설정하세요. MCP 클라이언트를 선택한 다음 아래 설정을 실행하세요. 필요에 따라 `[YOUR-WANDB-API-KEY]`를 W&amp;B API 키로 바꾸세요:
 
@@ -410,9 +394,7 @@ Dedicated Cloud 또는 Self-Managed 사용자의 경우 호스팅 방식을 우�
   </Tab>
 </Tabs>
 
-<div id="run-the-server-with-http-transport">
-  ### HTTP 전송으로 서버 실행
-</div>
+### HTTP 전송으로 서버 실행 {#run-the-server-with-http-transport}
 
 웹 기반 클라이언트 또는 테스트용으로는 HTTP 전송을 사용해 서버를 실행하세요:
 
@@ -431,9 +413,7 @@ ngrok http 8080
 
 터널 URL을 사용하도록 MCP 클라이언트 설정을 업데이트하세요.
 
-<div id="environment-variables">
-  ### 환경 변수
-</div>
+### 환경 변수 {#environment-variables}
 
 다음 환경 변수는 로컬 설치 환경에서 인증, 인스턴스 라우팅, 서버 동작을 제어합니다. 클라이언트의 `env` 블록에 설정하거나 셸에서 export하세요.
 
@@ -448,9 +428,7 @@ ngrok http 8080
 
 전체 명령줄 레퍼런스와 고급 옵션은 [wandb-mcp-server README](https://github.com/wandb/wandb-mcp-server#readme)를 참조하세요.
 
-<div id="wb-mcp-server-capabilities">
-  ## W&amp;B MCP 서버 기능
-</div>
+## W&amp;B MCP 서버 기능 {#wb-mcp-server-capabilities}
 
 MCP 서버를 사용해 실험을 분석하고, 트레이스를 디버깅하고, Reports를 생성하고, 레지스트리와 아티팩트를 관리하고, W&amp;B 문서에 관한 질문에 답할 수 있습니다. 다음 예시 프롬프트는 에이전트가 W&amp;B MCP 서버에 연결되었을 때 수행하도록 요청할 수 있는 작업의 일부를 보여줍니다.
 
@@ -460,9 +438,7 @@ MCP 서버를 사용해 실험을 분석하고, 트레이스를 디버깅하고,
 * &quot;`production-model` 아티팩트에는 어떤 버전이 있으며, `v2`와 `v3` 사이에 무엇이 변경되었나요?&quot;
 * &quot;Weave에서 리더보드를 어떻게 만드나요?&quot;
 
-<div id="available-tools">
-  ### 사용 가능한 도구
-</div>
+### 사용 가능한 도구 {#available-tools}
 
 서버는 목적별로 그룹화된 여러 도구를 제공합니다. 다음 표에는 각 도구의 이름, 에이전트가 해당 도구를 사용해야 하는 경우, 그리고 그 도구를 호출할 때 사용할 수 있는 구체적인 프롬프트가 나와 있습니다.
 
@@ -530,9 +506,7 @@ MCP 서버를 사용해 실험을 분석하고, 트레이스를 디버깅하고,
   </Tab>
 </Tabs>
 
-<div id="schema-first-trace-queries">
-  ### 스키마 우선 트레이스 쿼리
-</div>
+### 스키마 우선 트레이스 쿼리 {#schema-first-trace-queries}
 
 Weave 트레이스 쿼리에서는 먼저 `infer_trace_schema_tool`을 호출해 사용 가능한 필드를 확인한 다음, 정확한 column 목록과 `detail_level`을 지정해 `query_weave_traces_tool`을 호출하세요:
 
@@ -544,15 +518,11 @@ Weave 트레이스 쿼리에서는 먼저 `infer_trace_schema_tool`을 호출해
 
 이 패턴을 사용하면 광범위한 질문에 대한 token 사용량을 낮게 유지하고, 중요한 트레이스에 대해서만 에이전트가 `full`로 확장할 수 있습니다.
 
-<div id="usage-tips">
-  ## 사용 팁
-</div>
+## 사용 팁 {#usage-tips}
 
 다음 섹션에서는 W&amp;B MCP 서버를 사용할 때 더 나은 결과를 얻는 데 도움이 되는 권장 사항과 워크플로를 설명합니다. 먼저 일반적인 권장 사항부터 살펴본 다음, 더 구체적인 조언과 여러 단계의 도구 체인이 필요한 경우에는 자신의 워크로드에 맞는 섹션을 조회하세요.
 
-<div id="general-best-practices">
-  ### 일반적인 모범 사례
-</div>
+### 일반적인 모범 사례 {#general-best-practices}
 
 사용 사례와 관계없이 다음 권장 사항을 따르세요:
 
@@ -561,9 +531,7 @@ Weave 트레이스 쿼리에서는 먼저 `infer_trace_schema_tool`을 호출해
 * **전체 조회인지 확인하세요.** &quot;가장 성능이 좋은 Runs는 무엇인가요?&quot;와 같은 광범위한 질문의 경우, 가장 최근 run만이 아니라 사용 가능한 모든 Runs를 조회했는지 에이전트에 확인하도록 요청하세요.
 * **W&amp;B Skills와 함께 사용하세요.** [W&amp;B Skills](/ko/platform/wb-skills)는 코딩 에이전트가 W&amp;B 워크플로를 구성하는 방법을 알려줍니다. Skills는 패턴을 제공하고 MCP는 데이터 액세스를 제공하므로, 두 기능을 함께 사용하면 효과적입니다.
 
-<div id="for-trace-heavy-workflows">
-  ### 트레이스 중심 워크플로의 경우
-</div>
+### 트레이스 중심 워크플로의 경우 {#for-trace-heavy-workflows}
 
 Weave 트레이스로 작업할 때는 다음 권장 사항을 따르세요.
 
@@ -574,9 +542,7 @@ Weave 트레이스로 작업할 때는 다음 권장 사항을 따르세요.
 
 전체 워크플로는 [실패한 LLM calls 트리아지](#triage-failing-llm-calls)를 참조하세요.
 
-<div id="for-run-heavy-workflows">
-  ### run 중심 워크플로의 경우
-</div>
+### run 중심 워크플로의 경우 {#for-run-heavy-workflows}
 
 W&amp;B Models run으로 작업할 때는 다음 권장 사항을 따르세요:
 
@@ -587,9 +553,7 @@ W&amp;B Models run으로 작업할 때는 다음 권장 사항을 따르세요:
 
 엔드투엔드 워크플로는 [문제가 있는 트레이닝 run 진단](#diagnose-a-bad-training-run) 및 [eval 요약과 모델 버전 비교](#summarize-evals-and-compare-model-versions)를 참조하세요.
 
-<div id="for-dedicated-cloud-and-self-managed">
-  ### Dedicated Cloud 및 Self-Managed의 경우
-</div>
+### Dedicated Cloud 및 Self-Managed의 경우 {#for-dedicated-cloud-and-self-managed}
 
 Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
 
@@ -597,9 +561,7 @@ Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
 * 인스턴스를 대상으로 로컬에서 실행하는 경우, 클라이언트의 `env` 블록에서 `WANDB_BASE_URL`을 인스턴스 URL로 설정하세요. 이를 설정하지 않으면 서버가 `api.wandb.ai`를 대상으로 하므로 데이터를 반환하지 않습니다.
 * Dedicated Cloud의 요청 속도 제한은 Multi-tenant와 별도로 적용됩니다. 기본값과 변경 요청 방법은 [Dedicated Cloud rate limits](/ko/platform/hosting/hosting-options/dedicated-cloud/rate-limits)를 참조하세요.
 
-<div id="for-local-installs">
-  ### 로컬 설치 시
-</div>
+### 로컬 설치 시 {#for-local-installs}
 
 자신의 머신에서 서버를 실행할 때는 다음 권장 사항을 따르세요:
 
@@ -607,15 +569,11 @@ Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
 * 도구 Call이 아무 오류 메시지 없이 실패하면 클라이언트의 `env` 블록에서 `MCP_SERVER_LOG_LEVEL=DEBUG`를 설정한 다음, 클라이언트의 MCP 로그를 다시 확인하세요.
 * GitHub에서 설치하는 경우(`uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server`), `uvx`는 기본 브랜치에 고정됩니다. 안정적인 버전이 필요하면 Git URL 끝에 `@v0.3.2`를 추가해 명시적인 태그로 고정하세요.
 
-<div id="recommended-workflows">
-  ## 권장 워크플로
-</div>
+## 권장 워크플로 {#recommended-workflows}
 
 대부분의 실제 질문에는 두 개 이상의 도구가 필요합니다. 다음 워크플로는 에이전트에게 수행하도록 요청할 수 있는 일반적인 여러 단계의 도구 체인을 보여줍니다.
 
-<div id="explore-an-unfamiliar-project">
-  ### 낯선 프로젝트 살펴보기
-</div>
+### 낯선 프로젝트 살펴보기 {#explore-an-unfamiliar-project}
 
 프로젝트에 무엇이 로깅되었는지 살펴보려면 다음 도구를 순서대로 사용하세요:
 
@@ -624,9 +582,7 @@ Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
 3. run 기반 프로젝트에는 `probe_project_tool`을, Weave 트레이스 프로젝트에는 `infer_trace_schema_tool`을 사용합니다.
 4. 찾은 키를 사용해 `query_wandb_tool` 또는 `query_weave_traces_tool`을 대상에 맞게 호출합니다.
 
-<div id="triage-failing-llm-calls">
-  ### 실패한 LLM calls 선별하기
-</div>
+### 실패한 LLM calls 선별하기 {#triage-failing-llm-calls}
 
 문제가 있는 트레이스와 이를 생성한 세션을 찾으려면 다음 도구를 순서대로 연결해 사용하세요:
 
@@ -635,9 +591,7 @@ Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
 3. 일부 특정 루트에 대해 `detail_level="full"`로 `query_weave_traces_tool`을 실행해 자세히 살펴봅니다.
 4. `create_wandb_report_tool`로 결과를 문서화합니다.
 
-<div id="diagnose-a-bad-training-run">
-  ### 문제가 있는 트레이닝 run 진단하기
-</div>
+### 문제가 있는 트레이닝 run 진단하기 {#diagnose-a-bad-training-run}
 
 의심스러운 트레이닝 run에 대해 헬스 체크를 수행하려면 다음 도구를 순서대로 연결하세요:
 
@@ -646,9 +600,7 @@ Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
 3. `compare_runs_tool`로 정상으로 확인된 기준 run과 비교합니다.
 4. `create_wandb_report_tool`로 선 그래프 Panel이 포함된 report를 만들어 진단 결과를 공유합니다.
 
-<div id="summarize-evals-and-compare-model-versions">
-  ### 평가를 요약하고 모델 버전 비교하기
-</div>
+### 평가를 요약하고 모델 버전 비교하기 {#summarize-evals-and-compare-model-versions}
 
 평가에서 어떤 모델 버전이 가장 좋은 성능을 보였는지 확인하려면 다음 도구를 차례대로 사용하세요:
 
@@ -657,9 +609,7 @@ Multi-tenant가 아닌 배포 환경에서는 다음 사항을 따르세요:
 3. 후보 버전과 현재 프로덕션 버전을 비교하려면 `compare_artifact_versions_tool`
 4. 비교 결과를 게시하려면 `log_analysis_to_wandb` 및 `create_wandb_report_tool`
 
-<div id="troubleshooting">
-  ## 문제 해결
-</div>
+## 문제 해결 {#troubleshooting}
 
 다음 표를 사용하여 W&amp;B MCP 서버 사용 중 발생하는 문제를 진단하고 해결하세요.
 

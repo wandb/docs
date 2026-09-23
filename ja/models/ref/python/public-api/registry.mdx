@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py#L36" />
 
-<div id="class-wandbapispublicregistry">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Registry
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Registry {#class-wandbapispublicregistry}
 
 Registry 内の 1 つの Registry です。
 
@@ -22,9 +20,7 @@ name: 'str',
 attrs: 'RegistryFragment | None' = None)
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   説明はありません。
@@ -46,9 +42,7 @@ attrs: 'RegistryFragment | None' = None)
   説明はありません。
 </ResponseField>
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="allow_all_artifact_types" type="bool">
   Registry ですべてのアーティファクト タイプが許可されているかどうかを返します。
@@ -116,13 +110,9 @@ attrs: 'RegistryFragment | None' = None)
   Registry の可視性です。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-registryadd_members">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.add_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.add_members() {#method-registryadd_members}
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -130,24 +120,18 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 この Registry にUsersまたはTeamsを追加します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
   Registry に追加するUsersまたはTeams。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列IDを受け付けます。
 </ResponseField>
 
-<div id="raises">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises}
 
 * `TypeError`: 引数としてメンバーが1つも渡されなかった場合。
 * `ValueError`: ユーザーまたはチームのIDを推定または解析できない場合。
 
-<div id="examples">
-  ##### 例
-</div>
+##### 例 {#examples}
 
 ```python
 import wandb
@@ -165,9 +149,7 @@ my_team = api.team(name="my-team")
 registry.add_members(my_team)
 ```
 
-<div id="method-registrycollections">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.collections()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.collections() {#method-registrycollections}
 
 ```python
 self,
@@ -179,9 +161,7 @@ start: 'str | None' = None
 
 この Registry に属するコレクションを返します。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="filter" type="dict[str, Any] | None">
   コレクションのクエリに適用するフィルターのマッピング (省略可) 。
@@ -199,9 +179,7 @@ start: 'str | None' = None
   過去のクエリを再開するためのページネーションカーソルです。以前のページネーターの `.cursor` 属性から取得します。
 </ResponseField>
 
-<div id="method-registrycreate">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.create() {#method-registrycreate}
 
 ```python
 api: 'Api',
@@ -217,9 +195,7 @@ artifact_types: 'list[str] | None' = None
 Registry名は、組織内で一意である必要があります。
 この関数は `api.create_registry()` を使用して呼び出してください。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="api" type="Api">
   W&amp;B API のインスタンス。
@@ -245,15 +221,11 @@ Registry名は、組織内で一意である必要があります。
   許可するアーティファクト タイプの任意のリスト。
 </ResponseField>
 
-<div id="raises-2">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-2}
 
 * `ValueError`: 組織内に同じ名のRegistryがすでに存在する場合、または作成に失敗した場合。
 
-<div id="method-registrydelete">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.delete() {#method-registrydelete}
 
 ```python
 self
@@ -261,9 +233,7 @@ self
 
 Registry を削除します。この操作は元に戻せません。
 
-<div id="method-registryload">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.load()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.load() {#method-registryload}
 
 ```python
 self
@@ -271,9 +241,7 @@ self
 
 バックエンドから Registry の属性を読み込みます。
 
-<div id="method-registrymembers">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.members() {#method-registrymembers}
 
 ```python
 self
@@ -281,9 +249,7 @@ self
 
 この Registry の現在のメンバー (Users と Teams) を返します。
 
-<div id="method-registryremove_members">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.remove_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.remove_members() {#method-registryremove_members}
 
 ```python
 self, *members: 'User | UserMember | Team | TeamMember | str'
@@ -291,24 +257,18 @@ self, *members: 'User | UserMember | Team | TeamMember | str'
 
 この Registry からUsersまたはTeamsを削除します。
 
-<div id="arguments-4">
-  ##### 引数
-</div>
+##### 引数 {#arguments-4}
 
 <ResponseField name="members" type="User | UserMember | Team | TeamMember | str">
   Registry から削除するUsersまたはTeams。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列IDを受け付けます。
 </ResponseField>
 
-<div id="raises-3">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-3}
 
 * `TypeError`: 引数としてメンバーが1つも渡されなかった場合。
 * `ValueError`: ユーザーまたはチームのIDを推定または解析できない場合。
 
-<div id="examples-2">
-  ##### 例
-</div>
+##### 例 {#examples-2}
 
 ```python
 import wandb
@@ -326,9 +286,7 @@ old_team = api.team(name="old-team")
 registry.remove_members(old_team)
 ```
 
-<div id="method-registrysave">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.save() {#method-registrysave}
 
 ```python
 self
@@ -336,9 +294,7 @@ self
 
 Registry の属性をバックエンドへ保存します。
 
-<div id="method-registryteam_members">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.team_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.team_members() {#method-registryteam_members}
 
 ```python
 self
@@ -346,9 +302,7 @@ self
 
 この Registry に現在所属しているTeamsを返します。
 
-<div id="method-registryupdate_member">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.update_member()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.update_member() {#method-registryupdate_member}
 
 ```python
 self,
@@ -358,9 +312,7 @@ role: 'MemberRole | str'
 
 このRegistry内のメンバー (ユーザーまたはチーム) のロールを更新します。
 
-<div id="arguments-5">
-  ##### 引数
-</div>
+##### 引数 {#arguments-5}
 
 <ResponseField name="member" type="User | UserMember | Team | TeamMember | str">
   ロールを更新する対象のユーザーまたはチームです。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列 ID を受け取ります。
@@ -375,15 +327,11 @@ role: 'MemberRole | str'
   * &quot;restricted&#95;viewer&quot; (W&amp;B サーバーでサポートされる場合)
 </ResponseField>
 
-<div id="raises-4">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-4}
 
 * `ValueError`: ユーザーまたはチームの ID を特定できない場合。
 
-<div id="examples-3">
-  ##### 例
-</div>
+##### 例 {#examples-3}
 
 Registry のすべてのユーザーを管理者にする
 
@@ -399,9 +347,7 @@ for member in registry.user_members():
     registry.update_member(member.user, role="admin")
 ```
 
-<div id="method-registryuser_members">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.user_members()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.user_members() {#method-registryuser_members}
 
 ```python
 self
@@ -409,9 +355,7 @@ self
 
 このRegistryに現在所属しているメンバーUsersを返します。
 
-<div id="method-registryversions">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.versions()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Registry.versions() {#method-registryversions}
 
 ```python
 self,
@@ -423,9 +367,7 @@ start: 'str | None' = None
 
 このRegistryに属するアーティファクト versionを返します。
 
-<div id="arguments-6">
-  ##### 引数
-</div>
+##### 引数 {#arguments-6}
 
 <ResponseField name="filter" type="dict[str, Any] | None">
   アーティファクト version のクエリに適用する、省略可能なフィルターのマッピング。

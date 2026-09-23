@@ -6,9 +6,7 @@ title: "튜토리얼: 데이터셋 아티팩트 생성, 추적 및 사용"
 
 이 워크스루에서는 데이터셋 아티팩트를 생성하고, 추적하고, 사용하는 방법을 설명합니다.
 
-<div id="1-log-into-wb">
-  ## 1. W&amp;B에 로그인하기
-</div>
+## 1. W&amp;B에 로그인하기 {#1-log-into-wb}
 
 W&amp;B 라이브러리를 임포트한 다음 W&amp;B에 로그인합니다. 아직 W&amp;B 계정이 없다면 무료 계정에 가입해야 합니다.
 
@@ -18,9 +16,7 @@ import wandb
 wandb.login()
 ```
 
-<div id="2-initialize-a-run">
-  ## 2. run 초기화
-</div>
+## 2. run 초기화 {#2-initialize-a-run}
 
 [`wandb.init()`](/ko/models/ref/python/functions/init)을 사용해 run을 초기화합니다. 그러면 데이터를 동기화하고 로깅하는 백그라운드 프로세스가 생성됩니다. 프로젝트 이름과 작업 유형을 지정합니다:
 
@@ -31,9 +27,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     # 여기에 코드를 작성하세요
 ```
 
-<div id="3-create-an-artifact-object">
-  ## 3. 아티팩트 객체 만들기
-</div>
+## 3. 아티팩트 객체 만들기 {#3-create-an-artifact-object}
 
 [`wandb.Artifact()`](/ko/models/ref/python/experiments/artifact)를 사용해 아티팩트 객체를 만듭니다. `name` 및 `type` 매개변수에는 각각 아티팩트 이름과 파일 유형 설명을 지정합니다.
 
@@ -45,9 +39,7 @@ artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 
 아티팩트를 생성하는 방법에 대한 자세한 내용은 [아티팩트 생성하기](./construct-an-artifact)를 참조하세요.
 
-<div id="4-add-the-dataset-to-the-artifact">
-  ## 4. 데이터셋을 아티팩트에 추가
-</div>
+## 4. 데이터셋을 아티팩트에 추가 {#4-add-the-dataset-to-the-artifact}
 
 아티팩트에 파일을 추가합니다. 일반적인 파일 유형으로는 모델과 데이터셋이 있습니다. 다음 예제에서는 로컬 머신에 저장된 `dataset.h5`라는 데이터셋을 아티팩트에 추가합니다:
 
@@ -58,9 +50,7 @@ artifact.add_file(local_path="dataset.h5")
 
 이전 코드 스니펫에서 `dataset.h5` 파일명을 아티팩트에 추가할 파일의 경로로 바꾸세요.
 
-<div id="5-log-the-dataset">
-  ## 5. 데이터셋 로깅
-</div>
+## 5. 데이터셋 로깅 {#5-log-the-dataset}
 
 W&amp;B run 객체의 `wandb.Run.log_artifact()` 방법을 사용해 아티팩트 버전을 저장하고, 해당 아티팩트를 [run의 출력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph)으로 선언합니다.
 
@@ -85,9 +75,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     run.log_artifact(artifact)
 ```
 
-<div id="6-download-and-use-the-artifact">
-  ## 6. 아티팩트 다운로드 및 사용
-</div>
+## 6. 아티팩트 다운로드 및 사용 {#6-download-and-use-the-artifact}
 
 다음 코드 예제는 로깅하고 W&amp;B 서버에 저장한 아티팩트를 사용하는 단계를 보여줍니다.
 

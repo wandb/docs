@@ -11,24 +11,18 @@ title: Azure OpenAI 파인튜닝
   <img src="/images/integrations/aoai_ft_plot.png" alt="Azure OpenAI 파인튜닝 메트릭" />
 </Frame>
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 다음을 완료하세요:
 
 * [공식 Azure 문서](https://wandb.me/aoai-wb-int)에 따라 Azure OpenAI 서비스를 설정합니다.
 * API 키를 사용하도록 W&amp;B 계정을 설정합니다.
 
-<div id="workflow-overview">
-  ## 워크플로 개요
-</div>
+## 워크플로 개요 {#workflow-overview}
 
 다음 단계에서는 일반적인 Azure OpenAI 파인튜닝 작업이 작업 준비부터 결과 모델 평가까지 W&amp;B에서 어떻게 진행되는지 요약해 설명합니다.
 
-<div id="fine-tuning-setup">
-  ### 파인튜닝 설정
-</div>
+### 파인튜닝 설정 {#fine-tuning-setup}
 
 파인튜닝 설정은 다음 step으로 구성됩니다:
 
@@ -36,9 +30,7 @@ title: Azure OpenAI 파인튜닝
 * Azure OpenAI에서 파인튜닝 작업을 설정합니다.
 * W&amp;B를 사용해 파인튜닝 과정을 추적하고 메트릭과 하이퍼파라미터를 로깅합니다.
 
-<div id="experiment-tracking">
-  ### 실험 추적
-</div>
+### 실험 추적 {#experiment-tracking}
 
 파인튜닝 중 W&amp;B는 다음을 기록합니다:
 
@@ -47,9 +39,7 @@ title: Azure OpenAI 파인튜닝
 * 리소스 사용량.
 * 트레이닝 아티팩트.
 
-<div id="model-evaluation">
-  ### 모델 평가
-</div>
+### 모델 평가 {#model-evaluation}
 
 파인튜닝 후 [W&amp;B Weave](https://weave-docs.wandb.ai)를 사용해 다음을 수행합니다:
 
@@ -58,9 +48,7 @@ title: Azure OpenAI 파인튜닝
 * 특정 테스트 사례에서 모델의 동작 분석합니다.
 * 데이터에 기반해 모델 선택 결정합니다.
 
-<div id="real-world-example">
-  ## 실제 사용 사례
-</div>
+## 실제 사용 사례 {#real-world-example}
 
 인테그레이션이 엔드투엔드로 적용되는 방식을 확인하려면 다음 리소스를 살펴보세요:
 
@@ -69,9 +57,7 @@ title: Azure OpenAI 파인튜닝
   * 도메인별 메트릭을 활용한 모델 평가
 * [대화형 파인튜닝 노트북](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb)을 따라 해보세요.
 
-<div id="additional-resources">
-  ## 추가 리소스
-</div>
+## 추가 리소스 {#additional-resources}
 
 * [Azure OpenAI W&amp;B 인테그레이션 가이드](https://wandb.me/aoai-wb-int)
 * [Azure OpenAI 파인튜닝 문서](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython\&pivots=programming-language-python)

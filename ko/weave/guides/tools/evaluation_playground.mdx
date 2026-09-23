@@ -12,9 +12,7 @@ Evaluation Playground를 사용하면 기존 모델에 접근하고 평가 데�
   ![Evaluation Playground 인터페이스](/weave/guides/evaluation/img/eval-playground-ui.png)
 </Frame>
 
-<div id="set-up-an-evaluation-in-the-playground">
-  ## 플레이그라운드에서 평가 설정
-</div>
+## 플레이그라운드에서 평가 설정 {#set-up-an-evaluation-in-the-playground}
 
 다음 섹션에서는 Evaluation Playground를 열고, 평가의 시작 지점을 선택하고, 데이터셋, 모델, Scorer를 설정하는 방법을 설명합니다.
 
@@ -28,9 +26,7 @@ Evaluation Playground에서 평가를 설정하려면 다음 단계를 따르세
 
 다음 섹션의 안내에 따라 데이터셋, 모델, Scorer를 설정하세요.
 
-<div id="add-a-dataset">
-  ### 데이터셋 추가
-</div>
+### 데이터셋 추가 {#add-a-dataset}
 
 [Datasets](../core-types/datasets)는 예시 사용자 입력과 모델의 예상 응답으로 구성된 정리된 컬렉션입니다. 평가 중에는 플레이그라운드가 각 테스트 입력을 모델에 전달하고, 출력을 수집한 다음, 정확성과 같이 선택한 메트릭을 기준으로 출력에 점수를 매깁니다. UI에서 데이터셋을 새로 만들거나, 프로젝트에 이미 저장된 기존 데이터셋을 추가하거나, 새 데이터셋을 업로드할 수 있습니다.
 
@@ -59,9 +55,7 @@ Evaluation Playground에서 평가를 설정하려면 다음 단계를 따르세
   또한 Scorer가 데이터에 액세스할 수 있도록 데이터셋의 열 이름을 `user_input` 및 `expected_output`으로 지정하는 것도 중요합니다.
 </Note>
 
-<div id="add-a-model">
-  ### 모델 추가
-</div>
+### 모델 추가 {#add-a-model}
 
 Weave에서 [models](/ko/weave/guides/core-types/models)는 AI 모델(예: GPT)과 평가 중 모델의 동작 방식을 정의하는 환경(이 경우 시스템 프롬프트)을 결합한 개념입니다. 프로젝트에서 기존 모델을 선택하거나 평가할 새 모델을 만들 수 있으며, 동일한 데이터셋과 scorer를 사용해 여러 모델을 한 번에 추가하고 동시에 평가할 수도 있습니다. **플레이그라운드 기능으로 만든 모델만 사용할 수 있습니다.**
 
@@ -81,9 +75,7 @@ Evaluation Playground의 **Models** 섹션에서 모델을 추가하려면 다�
 
 4. 선택 사항: 여러 모델을 동시에 평가하려면 **Add Model**을 다시 클릭하고 필요에 따라 다른 모델을 추가합니다.
 
-<div id="add-scorers">
-  ### Scorer 추가
-</div>
+### Scorer 추가 {#add-scorers}
 
 [Scorer](../evaluation/scorers)는 LLM 기반 평가자를 사용해 AI 모델 출력의 품질을 측정하고 평가합니다. 프로젝트에서 기존 Scorer를 선택하거나 새 Scorer를 만들어 모델 평가에 사용할 수 있습니다.
 
@@ -109,9 +101,7 @@ Evaluation Playground에서 Scorer를 추가하려면:
 
 2. 선택 사항: 나중에 사용할 수 있도록 Scorer를 프로젝트에 저장하려면 **Save**를 클릭합니다.
 
-<div id="run-the-evaluation">
-  ## 평가 실행
-</div>
+## 평가 실행 {#run-the-evaluation}
 
 데이터셋, 모델, Scorer를 설정하면 평가를 실행하고 결과를 생성할 준비가 완료됩니다.
 
@@ -119,9 +109,7 @@ Evaluation Playground에서 Scorer를 추가하려면:
 
 Weave는 추가한 각 모델에 대해 개별 평가를 실행하고, 데이터셋을 사용해 이루어진 각 요청의 메트릭을 수집합니다. Weave는 나중에 검토할 수 있도록 이러한 각 평가를 **Evals** 섹션에 저장합니다.
 
-<div id="review-evaluation-results">
-  ## 평가 결과 검토
-</div>
+## 평가 결과 검토 {#review-evaluation-results}
 
 평가가 완료되면 결과를 검토하여 각 모델이 데이터셋과 Scorer에 대해 어떤 성능을 보였는지 비교할 수 있습니다.
 

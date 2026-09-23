@@ -8,7 +8,7 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <div id="overview">
-  ## Overview
+  ## Overview {#overview}
 </div>
 
 이 가이드에서는 선택한 트레이스에 대해 도메인 전문가로부터 구조화된 피드백을 수집할 수 있도록 Weave에서 annotation 큐를 설정하는 방법을 설명합니다. Evaluation, 실패 분석 또는 데이터셋 생성을 위해 전문가 레이블이 지정된 데이터가 필요할 때 annotation 큐를 사용하세요. annotation 큐를 사용하면 검토자가 전체 Weave UI가 아니라 선별된 트레이스 집합에 집중할 수도 있습니다.
@@ -21,7 +21,7 @@ annotation 큐를 사용하면 도메인 전문가가 전체 Weave UI로 이동�
 * **데이터셋 생성**: annotation이 완료된 트레이스를 Evaluation 또는 트레이닝 데이터셋으로 전환합니다.
 
 <div id="end-to-end-workflow">
-  ## 엔드투엔드 워크플로
+  ## 엔드투엔드 워크플로 {#end-to-end-workflow}
 </div>
 
 다음 워크플로는 annotation 큐를 사용해 검토를 획득하는 과정을 요약합니다. 다음 섹션에서는 각 단계를 자세히 안내합니다.
@@ -33,7 +33,7 @@ annotation 큐를 사용하면 도메인 전문가가 전체 Weave UI로 이동�
 5. 완료된 어노테이션을 필터링하고 내보냅니다.
 
 <div id="define-annotation-fields">
-  ## 어노테이션 필드 정의
+  ## 어노테이션 필드 정의 {#define-annotation-fields}
 </div>
 
 어노테이션 큐를 만들기 전에 먼저 어노테이션 필드를 정의해야 합니다. 그래야 큐를 설정할 때 해당 필드를 선택할 수 있습니다. 어노테이션 필드는 각 트레이스 항목에 대해 어노테이터가 제공하는 피드백을 정의합니다. 필드는 여러 큐와 프로젝트에서 재사용할 수 있습니다.
@@ -68,7 +68,7 @@ annotation 큐를 사용하면 도메인 전문가가 전체 Weave UI로 이동�
 </Note>
 
 <div id="create-an-annotation-queue">
-  ## 주석 큐 만들기
+  ## 주석 큐 만들기 {#create-an-annotation-queue}
 </div>
 
 주석 필드를 정의했다면, 다음 단계는 주석 작업자가 작업할 큐를 만드는 것입니다. 주석 큐는 다음으로 구성됩니다.
@@ -98,7 +98,7 @@ annotation 큐를 사용하면 도메인 전문가가 전체 Weave UI로 이동�
 주석 큐를 만들면 평가에 사용할 필드와 가이드라인이 정의되지만, 평가할 데이터를 파악하려면 여전히 큐에 트레이스를 추가해야 합니다.
 
 <div id="add-traces-to-a-queue">
-  ### 큐에 트레이스 추가
+  ### 큐에 트레이스 추가 {#add-traces-to-a-queue}
 </div>
 
 큐가 생성되면 검토하려는 특정 트레이스로 큐를 채웁니다. **트레이스** 페이지에서 직접 트레이스를 annotation queue에 추가합니다.
@@ -124,7 +124,7 @@ annotation queue에 트레이스를 추가하려면 다음과 같이 하세요.
 트레이스를 추가할 때는 어떤 트레이스 입력과 어떤 출력 또는 모델 응답을 검토할지 제어하므로 annotator에게 정확한 판단을 내리는 데 필요한 맥락만 표시됩니다.
 
 <div id="monitor-review-progress">
-  ## 검토 진행 상황 모니터링
+  ## 검토 진행 상황 모니터링 {#monitor-review-progress}
 </div>
 
 트레이스가 추가되면 annotator가 작업을 시작할 수 있으며, 검토가 어떻게 진행되는지 추적할 수 있습니다. annotator가 검토를 시작할 수 있도록 큐 이름을 공유하세요. 검토 프로세스에 대한 자세한 내용은 [annotation queue에서 항목 검토하기](/ko/weave/guides/tracking/annotation-review)를 참조하세요.
@@ -149,7 +149,7 @@ Annotation Queues 테이블에서 **State** 열은 검토 진행 상황을 나�
 Annotation Queues 테이블에서 **Calls with responses** 열은 제출된 검토가 하나 이상 있는 항목의 비율(전체 **Calls** 수 기준)을 나타냅니다.
 
 <div id="filter-and-export-annotations">
-  ## 어노테이션 필터링 및 내보내기
+  ## 어노테이션 필터링 및 내보내기 {#filter-and-export-annotations}
 </div>
 
 어노테이터가 리뷰를 제출하면 생성된 피드백을 분석, 평가 또는 트레이닝에 활용할 수 있습니다. Weave는 완료된 어노테이션을 트레이스의 구조화된 메타데이터로 저장합니다.
@@ -163,7 +163,7 @@ Annotation Queues 테이블에서 **Calls with responses** 열은 제출된 검�
 이렇게 하면 전문가의 피드백을 모델 평가와 반복 개선에 직접 연결할 수 있습니다.
 
 <div id="filter-annotated-traces">
-  ### 주석이 있는 트레이스 필터링
+  ### 주석이 있는 트레이스 필터링 {#filter-annotated-traces}
 </div>
 
 주석이 있는 트레이스만 표시하려면 **Traces** 페이지의 필터 컨트롤을 사용할 수 있습니다.
@@ -188,13 +188,13 @@ Annotation Queues 테이블에서 **Calls with responses** 열은 제출된 검�
 6. 선택 사항: 빠르게 액세스할 수 있도록 뷰로 저장합니다. Traces 테이블 헤더에서 **Save View**를 클릭합니다.
 
 <div id="export-annotated-traces-to-datasets">
-  ### 주석 처리된 트레이스를 Datasets로 내보내기
+  ### 주석 처리된 트레이스를 Datasets로 내보내기 {#export-annotated-traces-to-datasets}
 </div>
 
 데이터를 어떻게 사용할지에 따라 UI 또는 프로그래밍 방식으로 주석 처리된 트레이스를 내보낼 수 있습니다.
 
 <div id="add-annotated-traces-to-a-dataset">
-  #### 주석 처리된 트레이스를 데이터셋에 추가
+  #### 주석 처리된 트레이스를 데이터셋에 추가 {#add-annotated-traces-to-a-dataset}
 </div>
 
 주석 처리된 트레이스를 선택한 다음 **데이터셋에 추가**를 클릭하여 eval 또는 트레이닝 데이터에 전문가 레이블을 포함하세요.
@@ -207,9 +207,7 @@ Annotation Queues 테이블에서 **Calls with responses** 열은 제출된 검�
 
 데이터셋 사용 방법에 대해 자세히 알아보려면 [데이터셋 수집 및 추적](/ko/weave/guides/core-types/datasets)을 참조하세요.
 
-<div id="access-annotations-programmatically">
-  ## 프로그래밍 방식으로 annotation에 액세스하기
-</div>
+## 프로그래밍 방식으로 annotation에 액세스하기 {#access-annotations-programmatically}
 
 UI 워크플로 외에도 annotation 데이터를 프로그래밍 방식으로 조회할 수 있습니다. 이는 분석을 자동화하거나, 맞춤형 보고서를 구축하거나, annotation을 다운스트림 파이프라인에 통합할 때 유용합니다. annotation을 프로그래밍 방식으로 통합하려면 프로젝트 이름과 큐 ID를 알아야 합니다:
 

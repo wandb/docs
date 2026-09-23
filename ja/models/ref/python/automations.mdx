@@ -7,18 +7,14 @@ no_list: true
 
 W&amp;B Automations API を使用すると、ML パイプライン内のイベントに応じて動作する自動ワークフローをプログラムで作成・管理できます。モデル性能のしきい値やアーティファクトの作成など、特定の条件が満たされたときにトリガーされるアクションを設定します。
 
-<div id="core-classes">
-  ### 主要なクラス
-</div>
+### 主要なクラス {#core-classes}
 
 | クラス                                                              | 説明                                |
 | ---------------------------------------------------------------- | --------------------------------- |
 | [`Automation`](/ja/models/ref/python/automations/automation/)       | 設定を持つ、保存済みのAutomationインスタンスを表します。 |
 | [`NewAutomation`](/ja/models/ref/python/automations/newautomation/) | 新しいAutomationを作成するためのビルダークラスです。   |
 
-<div id="events-triggers">
-  ### イベント (トリガー)
-</div>
+### イベント (トリガー) {#events-triggers}
 
 | イベント                                                                       | 説明                                                |
 | -------------------------------------------------------------------------- | ------------------------------------------------- |
@@ -27,9 +23,7 @@ W&amp;B Automations API を使用すると、ML パイプライン内のイベ�
 | [`OnLinkArtifact`](/ja/models/ref/python/automations/onlinkartifact/)         | アーティファクトがレジストリにリンクされたときにトリガーされます。                 |
 | [`OnAddArtifactAlias`](/ja/models/ref/python/automations/onaddartifactalias/) | アーティファクトにエイリアスが追加されたときにトリガーされます。                  |
 
-<div id="actions">
-  ### アクション
-</div>
+### アクション {#actions}
 
 | アクション                                                                  | 説明                                  |
 | ---------------------------------------------------------------------- | ----------------------------------- |
@@ -37,54 +31,40 @@ W&amp;B Automations API を使用すると、ML パイプライン内のイベ�
 | [`SendWebhook`](/ja/models/ref/python/automations/sendwebhook/)           | 外部サービスに HTTP webhook リクエストを送信します。   |
 | [`DoNothing`](/ja/models/ref/python/automations/donothing/)               | automation の設定をテストするためのプレースホルダーアクションです。     |
 
-<div id="filters">
-  ### フィルター
-</div>
+### フィルター {#filters}
 
 | フィルター                                                                            | 説明                                      |
 | -------------------------------------------------------------------------------- | --------------------------------------- |
 | [`MetricThresholdFilter`](/ja/models/ref/python/automations/metricthresholdfilter/) | メトリクス値をしきい値と比較して run をフィルタリングします。       |
 | [`MetricChangeFilter`](/ja/models/ref/python/automations/metricchangefilter/)       | 時間の経過に伴うメトリクス値の変化に基づいて run をフィルタリングします。 |
 
-<div id="common-use-cases">
-  ## 一般的なユースケース
-</div>
+## 一般的なユースケース {#common-use-cases}
 
-<div id="model-performance-monitoring">
-  ### モデル性能の監視
-</div>
+### モデル性能の監視 {#model-performance-monitoring}
 
 * モデルの精度がしきい値を下回った場合にアラートを送信する
 * トレーニング損失が横ばいになった場合にチームへ通知する
 * パフォーマンスメトリクスに基づいて再トレーニングのパイプラインをトリガーする
 
-<div id="artifact-management">
-  ### Artifacts の管理
-</div>
+### Artifacts の管理 {#artifact-management}
 
 * 新しいモデルバージョンが作成されたときに通知する
 * Artifacts にタグが付いたときにデプロイワークフローを起動する
 * データセットが更新されたときに後続処理を自動化する
 
-<div id="experiment-tracking">
-  ### 実験管理
-</div>
+### 実験管理 {#experiment-tracking}
 
 * 失敗したrunやcrashedしたrunのアラートを受け取る
 * 長時間実行される実験の完了時に通知を受け取る
 * 実験メトリクスの日次サマリーを送信する
 
-<div id="integration-workflows">
-  ### インテグレーションのワークフロー
-</div>
+### インテグレーションのワークフロー {#integration-workflows}
 
 * webhook を使って外部トラッキングシステムを更新
 * モデルレジストリをデプロイプラットフォームと Sync
 * W&amp;B イベントに応じて CI/CD パイプラインを起動
 
-<div id="example-usage">
-  ## 使用例
-</div>
+## 使用例 {#example-usage}
 
 次の例では、`custom-metric` というメトリクスが 10 を超えるたびに Slack に通知を送信する automation を作成します。`custom-metric` は、トレーニング中に `wandb.Run.log({"custom-metric": value })` を使ってログすることを想定しています。
 

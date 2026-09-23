@@ -8,9 +8,7 @@ Les garde-fous interviennent dans le comportement de votre application LLM en fo
 
 Ce guide explique le fonctionnement des garde-fous Weave, comment ajuster leurs performances, et présente des exemples qui utilisent des évaluateurs intégrés, des évaluateurs personnalisés et AWS Bedrock garde-fous pour protéger les applications LLM en production.
 
-<div id="how-weave-guardrails-work">
-  ## Comment fonctionnent les garde-fous Weave
-</div>
+## Comment fonctionnent les garde-fous Weave {#how-weave-guardrails-work}
 
 Les garde-fous Weave utilisent des [Weave Évaluateurs](/fr/weave/guides/evaluation/scorers) inline pour évaluer les entrées d&#39;un utilisateur ou les sorties d&#39;un LLM, et ajuster les réponses du LLM en temps réel. Vous pouvez configurer des évaluateurs personnalisés ou utiliser des [évaluateurs intégrés](/fr/weave/guides/evaluation/builtin_scorers) pour évaluer le contenu à diverses fins. Ce guide montre comment utiliser ces deux types d’évaluateurs comme garde-fous.
 
@@ -22,9 +20,7 @@ Contrairement aux monitors, les garde-fous nécessitent des modifications du cod
   Le SDK TypeScript de Weave ne prend pas en charge les outils requis pour configurer des garde-fous.
 </Note>
 
-<div id="optimize-your-weave-guardrail-performance">
-  ### Optimisez les performances de vos garde-fous Weave
-</div>
+### Optimisez les performances de vos garde-fous Weave {#optimize-your-weave-guardrail-performance}
 
 Comme les garde-fous peuvent interrompre le flux de contrôle de votre application et infléchir ses réponses, ils peuvent affecter les performances s’ils sont trop complexes. Pour des performances optimales, suivez ces recommandations :
 
@@ -40,9 +36,7 @@ Initialiser vos garde-fous en dehors de votre fonction principale est particuli�
 * Vos évaluateurs conservent des connexions réseau.
 * Vous avez des applications à fort trafic.
 
-<div id="example-create-a-guardrail-using-a-built-in-moderation-scorer">
-  ## Exemple : Créer un guardrail à l’aide d’un évaluateur de modération intégré
-</div>
+## Exemple : Créer un guardrail à l’aide d’un évaluateur de modération intégré {#example-create-a-guardrail-using-a-built-in-moderation-scorer}
 
 L’exemple suivant envoie des prompts d’utilisateur au modèle GPT-4o mini d’OpenAI. La réponse du modèle est ensuite transmise à [l’API de modération d’OpenAI](https://platform.openai.com/docs/guides/moderation) afin de déterminer si la réponse du LLM contient du contenu nuisible ou toxique. La réponse du modèle est transmise à la fonction de guardrail (`generate_safe_response()`), qui utilise `OpenAIModerationScorer` pour vérifier la réponse d’origine du LLM. La logique de la fonction vérifie ensuite la réponse d’évaluation d’OpenAI pour voir si le champ `passed` contient une valeur booléenne, ce qui détermine la manière dont l’application répond.
 
@@ -109,9 +103,7 @@ if __name__ == "__main__":
 
 Lorsque vous utilisez des évaluateurs LLM-as-a-judge, vous pouvez faire référence à des variables de vos ops dans vos prompts d’évaluation. Par exemple, &quot;Évaluez si `{output}` est exact en vous basant sur `{ground_truth}`.&quot; Voir [variables de prompt](/fr/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) pour plus d’informations.
 
-<div id="example-create-a-guardrail-using-a-custom-scorer">
-  ## Exemple : créer un guardrail à l’aide d’un évaluateur personnalisé
-</div>
+## Exemple : créer un guardrail à l’aide d’un évaluateur personnalisé {#example-create-a-guardrail-using-a-custom-scorer}
 
 L’exemple suivant crée un guardrail personnalisé qui détecte les informations personnelles identifiables (PII) dans les réponses du LLM, comme les adresses e-mail, les numéros de téléphone ou les numéros de sécurité sociale. Cela évite d’exposer des informations sensibles dans le contenu généré. La fonction `generate_safe_response` applique le `PIIDetectionScorer` personnalisé.
 
@@ -200,9 +192,7 @@ if __name__ == "__main__":
         print(f"Response: {response}")
 ```
 
-<div id="integrate-weave-with-aws-bedrock-guardrails">
-  ## Intégrer Weave avec AWS Bedrock garde-fous
-</div>
+## Intégrer Weave avec AWS Bedrock garde-fous {#integrate-weave-with-aws-bedrock-guardrails}
 
 Si vous gérez déjà des politiques de contenu dans AWS, vous pouvez les appliquer dans Weave à l’aide du `BedrockGuardrailScorer`, qui utilise AWS Bedrock garde-fous pour détecter et filtrer le contenu selon les politiques configurées.
 

@@ -9,17 +9,13 @@ Serverless Inference를 사용하면 W&amp;B Weave와 OpenAI 호환 API를 통�
 * Inference를 사용하면 호스팅 서비스를 신청하거나 모델을 자체 호스팅하지 않고도 AI 애플리케이션과 에이전트를 구축할 수 있습니다.
 * Weave를 사용하면 Serverless Inference 기반 애플리케이션을 트레이스하고, 평가하고, 모니터링하고, 개선할 수 있습니다.
 
-<div id="try-out-inference-in-the-ui">
-  ## UI에서 Inference 사용해 보기
-</div>
+## UI에서 Inference 사용해 보기 {#try-out-inference-in-the-ui}
 
 사용 가능한 모델을 살펴보고 Weave 플레이그라운드에서 직접 사용해 보려면 [https://wandb.ai/inference](https://wandb.ai/inference)로 이동하세요.
 
 웹 인터페이스에 대한 자세한 내용은 [UI Guide](/ko/inference/ui-guide/)를 참조하세요.
 
-<div id="use-inference-through-the-api">
-  ## API를 통해 Inference 사용하기
-</div>
+## API를 통해 Inference 사용하기 {#use-inference-through-the-api}
 
 이 Python 예시에서는 Inference를 사용해 LLM에 Chat Completion 요청을 보냅니다.
 
@@ -48,9 +44,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 1. [사전 요구 사항](/ko/inference/prerequisites/)에 따라 계정을 설정하세요.
 2. [사용 가능한 모델](/ko/inference/models)과 [사용 정보 및 한도](/ko/inference/usage-limits/)를 확인하세요.

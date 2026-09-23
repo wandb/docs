@@ -6,9 +6,7 @@ keywords: ["REST API", "OpenAI互換", "W&B APIキー", "ベース URL", "API �
 
 このリファレンスでは、Serverless Inference REST API について説明します。この API を使用すると、ご自身のアプリケーションから基盤モデルをプログラムで呼び出せます。モデルのインフラストラクチャーを管理することなく、サービス、スクリプト、ノートブックにホスト型推論を統合する際に使用できます。
 
-<div id="base-url">
-  ## ベース URL
-</div>
+## ベース URL {#base-url}
 
 Inference サービスには次の URL からアクセスできます：
 
@@ -16,9 +14,7 @@ Inference サービスには次の URL からアクセスできます：
 https://api.inference.wandb.ai/v1
 ```
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 Inference APIを呼び出すには、次が必要です。
 
@@ -27,9 +23,7 @@ Inference APIを呼び出すには、次が必要です。
 
 複数のチームに所属している場合、または使用量をprojectに関連付けたい場合は、チームIDとproject IDも必要です。コード例では、これらは`[YOUR-TEAM]/[YOUR-PROJECT]`として表示されます。これらを指定しない場合、W&amp;Bはデフォルトのentityとproject名`inference`を使用します。
 
-<div id="available-methods">
-  ## 利用可能なメソッド
-</div>
+## 利用可能なメソッド {#available-methods}
 
 Inference API は、基盤モデルとやり取りするための OpenAI 互換エンドポイントを提供します。利用可能なメソッドは次のとおりです。
 
@@ -37,7 +31,7 @@ Inference API は、基盤モデルとやり取りするための OpenAI 互換�
 * **[List Models](/ja/inference/api-reference/list-models)**: 利用可能なすべてのモデルとその ID を取得します。
 
 <div id="authentication">
-  ## 認証
+  ## 認証 {#authentication}
 </div>
 
 すべての API リクエストには、W&amp;B の APIキーを使用した認証が必要です。[wandb.ai/settings](https://wandb.ai/settings) で APIキーを作成してください。
@@ -47,15 +41,11 @@ Inference API は、基盤モデルとやり取りするための OpenAI 互換�
 * OpenAI SDK の場合は、`api_key` パラメーターを設定します。
 * API を直接呼び出す場合は、`Authorization: Bearer [YOUR-API-KEY]` を使用します。
 
-<div id="error-handling">
-  ## エラー処理
-</div>
+## エラー処理 {#error-handling}
 
 すべてのエラーコードとその解決方法については、[API errors](/ja/support/inference) を参照してください。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 APIキーを取得したら、次のいずれかに進んでください:
 

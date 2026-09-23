@@ -15,9 +15,7 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
 
 `wandb.init()` に渡す追加の引数は、`wandb_kwargs` として指定できます。
 
-<div id="structure">
-  ## 構成
-</div>
+## 構成 {#structure}
 
 以下のセクションでは、特定のタスクに対してどのモジュールをimportすればよいかがわかるように、Simple Transformers がどのようにクラスを構成しているかを説明します。このライブラリは、各NLPタスクごとに個別のクラスを持つよう設計されています。類似した機能を持つクラスは、同じグループにまとめられています。
 
@@ -31,9 +29,7 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
 
 以下のセクションでは、一般的な2つのタスクについて最小限の例を示し、`wandb_project` argument を通じて W&amp;B のロギング を有効にする方法を説明します。
 
-<div id="multi-label-classification">
-  ## マルチラベル分類
-</div>
+## マルチラベル分類 {#multi-label-classification}
 
 ```python
   model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
@@ -47,9 +43,7 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
   result, model_outputs, wrong_predictions = model.eval_model(eval_df)
 ```
 
-<div id="question-answering">
-  ## 質問応答
-</div>
+## 質問応答 {#question-answering}
 
 ```python
   train_args = {
@@ -68,9 +62,7 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
-<div id="global-arguments">
-  ## グローバル引数
-</div>
+## グローバル引数 {#global-arguments}
 
 SimpleTransformers は、一般的な自然言語処理タスク向けのクラスに加え、トレーニングスクリプトも提供しています。以下に、ライブラリでサポートされているグローバル引数の完全な一覧と、それぞれのデフォルト値を示します。前述の W&amp;B 固有のオプション以外でトレーニングの動作をカスタマイズしたい場合は、この一覧を参照してください。
 
@@ -129,9 +121,7 @@ global_args = {
 }
 ```
 
-<div id="additional-resources">
-  ## 追加リソース
-</div>
+## 追加リソース {#additional-resources}
 
 より詳しいドキュメントについては、[GitHub 上の simpletransformers](https://github.com/ThilinaRajapakse/simpletransformers)を参照してください。
 

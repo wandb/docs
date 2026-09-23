@@ -11,9 +11,7 @@ keywords: ["CSV 가져오기", "트레이스 가져오기", "과거 트레이스
   * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
 </Note>
 
-<div id="import-traces-from-third-party-systems">
-  ## 서드파티 시스템에서 트레이스 가져오기
-</div>
+## 서드파티 시스템에서 트레이스 가져오기 {#import-traces-from-third-party-systems}
 
 이 노트북에서는 CSV 파일의 과거 대화 트레이스를 W&amp;B Weave로 가져와, Weave로 계측된 애플리케이션 외부에서 생성된 데이터를 분석하고, 모델 동작을 비교하며, 평가를 실행하는 방법을 보여줍니다.
 
@@ -40,9 +38,7 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 다음 섹션의 변수는 사용자의 데이터셋, 파일 경로, W&amp;B 프로젝트에 맞게 반드시 수정해야 합니다.
 
-<div id="set-up-the-environment">
-  ## 환경 설정
-</div>
+## 환경 설정 {#set-up-the-environment}
 
 필요한 패키지를 모두 설치하고 임포트하세요.
 환경 변수에 `WANDB_API_KEY`를 설정해 `wandb.login()`으로 로그인할 수 있도록 하세요(이 값은 Colab에 시크릿으로 제공하세요).
@@ -97,9 +93,7 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-<div id="load-the-data">
-  ## 데이터 로드
-</div>
+## 데이터 로드 {#load-the-data}
 
 환경이 준비되면 Weave에서 기대하는 부모-자식 구조에 맞게 CSV 데이터를 로드하고 형태를 정리할 수 있습니다.
 
@@ -129,9 +123,7 @@ result_df.columns = ["conversation_id", "conversation_data"]
 result_df.head()
 ```
 
-<div id="log-the-traces-to-weave">
-  ## 트레이스를 Weave에 기록하기
-</div>
+## 트레이스를 Weave에 기록하기 {#log-the-traces-to-weave}
 
 데이터를 대화와 턴 형태로 구성했다면, 다음 단계는 해당 레코드를 부모 Call과 자식 Call로 Weave에 기록하는 것입니다.
 
@@ -206,9 +198,7 @@ for _, row in result_df.iterrows():
     weave_client.finish_call(call=parent_call, output=parent_output)
 ```
 
-<div id="result-traces-logged-to-weave">
-  ## 결과: Weave에 로깅된 트레이스
-</div>
+## 결과: Weave에 로깅된 트레이스 {#result-traces-logged-to-weave}
 
 이제 CSV 데이터가 Weave로 임포트되었습니다. 이제 Weave UI에서 대화와 각 턴을 살펴볼 수 있으며, 앞에서 정의한 `Conversation` 및 `Turn` 오퍼레이션 아래에 그룹화되어 표시됩니다.
 
@@ -224,9 +214,7 @@ for _, row in result_df.iterrows():
   ![Weave UI의 Conversation 및 Turn 오퍼레이션](/images/screenshots/csv-2.png)
 </Frame>
 
-<div id="optional-export-your-traces-to-run-evaluations">
-  ## 선택 사항: 평가 실행을 위해 트레이스 내보내기
-</div>
+## 선택 사항: 평가 실행을 위해 트레이스 내보내기 {#optional-export-your-traces-to-run-evaluations}
 
 트레이스가 Weave에 있고 대화가 어떤 형태인지 파악했다면, 이를 다른 프로세스로 내보내 Weave Evaluations를 실행할 수 있습니다.
 
@@ -297,9 +285,7 @@ dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
 weave.publish(dset)
 ```
 
-<div id="result">
-  ## 결과
-</div>
+## 결과 {#result}
 
 내보낸 데이터셋이 이제 다시 Weave에 게시되었으며, 평가의 입력으로 사용할 수 있습니다.
 

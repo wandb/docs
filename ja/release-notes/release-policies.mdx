@@ -8,9 +8,7 @@ date: 2025-05-01
 
 [W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) は W&amp;B が全面的に管理しているため、このページの内容は適用されません。
 
-<div id="release-support-and-end-of-life-policy">
-  ## バージョンサポートおよびサポート終了ポリシー
-</div>
+## バージョンサポートおよびサポート終了ポリシー {#release-support-and-end-of-life-policy}
 
 W&amp;B は、W&amp;B Server のメジャーバージョンを、初回バージョン日から 12 か月間サポートします。
 
@@ -21,23 +19,17 @@ W&amp;B は、W&amp;B Server のメジャーバージョンを、初回バージ
     W&amp;B は、**セルフマネージド** インスタンスをご利用のお客様に対し、サポートを維持し、最新の機能、パフォーマンス改善、修正を受けるために、少なくとも四半期に 1 回、デプロイ環境を最新バージョンに更新することを強く推奨します。
   </Note>
 
-<div id="release-types-and-frequencies">
-  ## バージョンの種類と頻度
-</div>
+## バージョンの種類と頻度 {#release-types-and-frequencies}
 
 * **メジャーバージョン** は毎月実施され、新機能、機能強化、パフォーマンス改善、中程度および低程度の重要度のバグ修正、ならびに非推奨化が含まれる場合があります。メジャーバージョンの例として `0.68.0` があります。
 * **パッチバージョン** はメジャーバージョン内で必要に応じて実施され、critical および high の重要度のバグ修正が含まれます。パッチバージョンの例として `0.67.1` があります。
 
-<div id="release-rollout">
-  ## バージョンのロールアウト
-</div>
+## バージョンのロールアウト {#release-rollout}
 
 1. テストと検証が完了すると、まずすべての**専用クラウド**インスタンスにバージョンがロールアウトされ、常に最新の状態に保たれます。
 2. その後、一定期間の観察を経てバージョンが公開され、**セルフマネージド**のデプロイはそれぞれのスケジュールでアップグレードできるようになります。また、[バージョンサポートと End of Life (EOL) ポリシー](#release-support-and-end-of-life-policy)に準拠するため、期限内にアップグレードする責任があります。詳細は、[W&amp;B Serverのアップグレード](/ja/platform/hosting/server-upgrade-process/)を参照してください。
 
-<div id="downtime-during-upgrades">
-  ## アップグレード中のダウンタイム
-</div>
+## アップグレード中のダウンタイム {#downtime-during-upgrades}
 
 * **専用クラウド** インスタンスのアップグレードでは、通常はダウンタイムは発生しませんが、状況によっては発生する場合があります。
   * 新機能や機能強化のために、コンピュート、ストレージ、ネットワークなどの基盤となるインフラストラクチャーの変更が必要な場合。
@@ -45,24 +37,18 @@ W&amp;B は、W&amp;B Server のメジャーバージョンを、初回バージ
   * インスタンスの現在のバージョンが [지원 종료](/ja/platform/hosting/server-upgrade-process/) に達しており、サポートを維持するために W&amp;B によってアップグレードされる場合。
 * **セルフマネージド** デプロイでは、顧客が、[Kubernetes 上で W&amp;B Server を実行する](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) などの方法で、サービスレベル目標 (SLO) を満たすローリングアップデートプロセスを実装する責任を負います。
 
-<div id="feature-availability">
-  ## 機能の利用可否
-</div>
+## 機能の利用可否 {#feature-availability}
 
 インストールまたはアップグレードの後、一部の機能はすぐには利用できないことがあります。
 
-<div id="enterprise-features">
-  ### Enterprise features
-</div>
+### Enterprise features {#enterprise-features}
 
 Enterprise license には、重要なセキュリティ機能のサポートや、その他のエンタープライズ向け機能が含まれます。一部の高度な機能を利用するには、Enterprise license が必要です。
 
 * **専用クラウド** には Enterprise license が含まれているため、追加の操作は不要です。
 * **セルフマネージド** のデプロイでは、Enterprise license が必要な機能は、これを設定するまで利用できません。詳細の確認や Enterprise license の取得については、セルフマネージドの要件ページにある [License](/ja/platform/hosting/self-managed/requirements#license) セクションを参照してください。
 
-<div id="private-preview-and-opt-in-features">
-  ### 非公開プレビューとオプトイン機能
-</div>
+### 非公開プレビューとオプトイン機能 {#private-preview-and-opt-in-features}
 
 ほとんどの機能は、W&amp;B Server をインストールまたはアップグレードするとすぐに利用できます。一部の機能は、インスタンスで使用できるようにするために、事前に W&amp;B チームによる有効化が必要です。
 

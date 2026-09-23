@@ -5,9 +5,7 @@ description: "TypeScript SDK リファレンス"
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<div id="call-signature">
-  ## 呼び出しシグネチャ
-</div>
+## 呼び出しシグネチャ {#call-signature}
 
 ```ts
 op<T>(fn: T, options?: object): Op<T>
@@ -15,15 +13,11 @@ op<T>(fn: T, options?: object): Op<T>
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392" />
 
-<div id="type-parameters">
-  ### タイプパラメーター
-</div>
+### タイプパラメーター {#type-parameters}
 
 <ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters">
-  ### パラメーター
-</div>
+### パラメーター {#parameters}
 
 <ParamField path="fn" type="T" required />
 
@@ -75,29 +69,21 @@ op<T>(fn: T, options?: object): Op<T>
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### 戻り値
-</div>
+### 戻り値 {#returns}
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="call-signature-2">
-  ## 呼び出しシグネチャ
-</div>
+## 呼び出しシグネチャ {#call-signature-2}
 
 ```ts
 op<T>(thisArg: any, fn: T, options?: object): Op<T>
 ```
 
-<div id="type-parameters-2">
-  ### タイプパラメーター
-</div>
+### タイプパラメーター {#type-parameters-2}
 
 <ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters-2">
-  ### パラメーター
-</div>
+### パラメーター {#parameters-2}
 
 <ParamField path="thisArg" type="any" required />
 
@@ -149,23 +135,17 @@ op<T>(thisArg: any, fn: T, options?: object): Op<T>
   </Expandable>
 </ParamField>
 
-<div id="returns-2">
-  ### 戻り値
-</div>
+### 戻り値 {#returns-2}
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="call-signature-3">
-  ## 呼び出しシグネチャ
-</div>
+## 呼び出しシグネチャ {#call-signature-3}
 
 ```ts
 op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>
 ```
 
-<div id="parameters-3">
-  ### パラメーター
-</div>
+### パラメーター {#parameters-3}
 
 <ParamField path="target" type="object" required />
 
@@ -173,29 +153,21 @@ op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescri
 
 <ParamField path="descriptor" type="TypedPropertyDescriptor<any>" required />
 
-<div id="returns-3">
-  ### 戻り値
-</div>
+### 戻り値 {#returns-3}
 
 `TypedPropertyDescriptor`&lt;`any`&gt;
 
-<div id="call-signature-4">
-  ## 呼び出しシグネチャ
-</div>
+## 呼び出しシグネチャ {#call-signature-4}
 
 ```ts
 op<T>(value: T, context: object): Op<T>
 ```
 
-<div id="type-parameters-3">
-  ### タイプパラメーター
-</div>
+### タイプパラメーター {#type-parameters-3}
 
 <ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters-4">
-  ### パラメーター
-</div>
+### パラメーター {#parameters-4}
 
 <ParamField path="value" type="T" required />
 
@@ -225,28 +197,20 @@ op<T>(value: T, context: object): Op<T>
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  ### 戻り値
-</div>
+### 戻り値 {#returns-4}
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="call-signature-5">
-  ## 呼び出しシグネチャ
-</div>
+## 呼び出しシグネチャ {#call-signature-5}
 
 ```ts
 op(options: Partial<OpOptions<any>>): MethodDecorator
 ```
 
-<div id="parameters-5">
-  ### パラメーター
-</div>
+### パラメーター {#parameters-5}
 
 <ParamField path="options" type="Partial<OpOptions<any>>" required />
 
-<div id="returns-5">
-  ### 戻り値
-</div>
+### 戻り値 {#returns-5}
 
 `MethodDecorator`

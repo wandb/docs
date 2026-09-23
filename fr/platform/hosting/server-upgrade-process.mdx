@@ -13,9 +13,7 @@ Mettez à jour la version et la licence de votre serveur W&amp;B en utilisant la
 | [Terraform](#update-with-terraform) | W&amp;B prend en charge trois modules Terraform publics pour le déploiement dans le cloud : [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest) et [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
 | [Helm](#update-with-helm)           | Utilisez le [chart Helm](https://github.com/wandb/helm-charts) pour installer W&amp;B dans un cluster Kubernetes existant.                                                                                                                                                                                                     |
 
-<div id="update-with-terraform">
-  ## Mettre à jour avec Terraform
-</div>
+## Mettre à jour avec Terraform {#update-with-terraform}
 
 Si vous avez déployé le serveur W&amp;B avec l’un des modules Terraform maintenus par W&amp;B, utilisez Terraform pour mettre à jour directement votre clé de licence et la version de W&amp;B. Le tableau suivant répertorie les modules Terraform gérés par W&amp;B par plateforme cloud.
 
@@ -60,9 +58,7 @@ Si vous avez déployé le serveur W&amp;B avec l’un des modules Terraform main
 
 Après application de la modification par Terraform, votre déploiement exécute la version spécifiée de W&amp;B et utilise la clé de licence mise à jour.
 
-<div id="update-with-helm">
-  ## Mise à jour avec Helm
-</div>
+## Mise à jour avec Helm {#update-with-helm}
 
 <Warning>
   Le chart Helm `wandb` est obsolète et n’est plus pris en charge. Il déployait un seul pod et a été remplacé par l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator). Si vous utilisez encore ce chart, suivez le [guide de migration](/fr/platform/hosting/self-managed/operator#migrate-self-managed-instances-to-wb-operator) pour passer à l’opérateur.
@@ -70,9 +66,7 @@ Après application de la modification par Terraform, votre déploiement exécute
 
 Deux méthodes de mise à jour avec Helm sont disponibles : mettez à jour à partir de votre fichier de valeurs Helm existant, ou définissez directement la nouvelle licence et la balise d’image dans la commande de mise à niveau. Les sections suivantes décrivent chaque approche.
 
-<div id="update-wb-with-spec">
-  ### Mettre à jour W&amp;B avec le fichier de spécification
-</div>
+### Mettre à jour W&amp;B avec le fichier de spécification {#update-wb-with-spec}
 
 Utilisez cette approche lorsque vous gérez votre configuration Helm dans un fichier de valeurs `*.yaml` suivi.
 
@@ -94,9 +88,7 @@ Utilisez cette approche lorsque vous gérez votre configuration Helm dans un fic
      -f ${wandb_install_spec.yaml}
    ```
 
-<div id="update-license-and-version-directly">
-  ### Mettre à jour directement la licence et la version
-</div>
+### Mettre à jour directement la licence et la version {#update-license-and-version-directly}
 
 Utilisez cette approche pour mettre à jour la licence et le tag d&#39;image sans modifier de fichier de valeurs, et réutiliser votre configuration de version Helm existante.
 
@@ -118,9 +110,7 @@ Utilisez cette approche pour mettre à jour la licence et le tag d&#39;image san
 
 Pour plus d&#39;informations, voir le [guide de mise à niveau](https://github.com/wandb/helm-charts/blob/main/upgrade) dans le dépôt public.
 
-<div id="update-with-admin-ui">
-  ## Mettre à jour via l’interface d’administration
-</div>
+## Mettre à jour via l’interface d’administration {#update-with-admin-ui}
 
 Utilisez l’interface d’administration pour remplacer votre clé de licence depuis la W&amp;B App, sans modifier la configuration de votre déploiement. Cette méthode fonctionne uniquement pour mettre à jour des licences qui ne sont pas définies à l’aide d’une variable d’environnement dans le conteneur du serveur W&amp;B, généralement dans des installations Docker autogérées. Cette méthode met à jour uniquement la licence. Elle ne modifie pas la version du serveur W&amp;B en cours d’exécution.
 

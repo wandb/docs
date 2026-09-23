@@ -16,9 +16,7 @@ Launch에서 Docker를 사용하면 W&amp;B는 먼저 이미지를 빌드한 다
 
 {/* 추후: 다이어그램 추가 */}
 
-<div id="configure-a-docker-queue">
-  ## Docker 큐 설정
-</div>
+## Docker 큐 설정 {#configure-a-docker-queue}
 
 Docker 대상 리소스용 큐 설정은 Launch가 큐 옵션을 `docker run` 명령어로 변환하는 방식을 정의합니다.
 
@@ -75,9 +73,7 @@ Docker는 값이 지정되지 않은 환경 변수를 Launch 에이전트 환경
     ```
 </Note>
 
-<div id="create-a-queue">
-  ## 큐 생성
-</div>
+## 큐 생성 {#create-a-queue}
 
 Docker를 컴퓨팅 리소스로 사용하는 큐를 생성하려면 다음 단계를 따르세요:
 
@@ -91,9 +87,7 @@ Docker를 컴퓨팅 리소스로 사용하는 큐를 생성하려면 다음 단�
 
 이제 작업을 받을 준비가 된 Docker 기반 Launch 큐가 생성되었습니다. 다음으로, 로컬 머신에서 Launch 에이전트를 구성하여 이 큐에서 작업을 가져오도록 설정하세요.
 
-<div id="configure-a-launch-agent-on-a-local-machine">
-  ## 로컬 머신에서 Launch 에이전트 설정하기
-</div>
+## 로컬 머신에서 Launch 에이전트 설정하기 {#configure-a-launch-agent-on-a-local-machine}
 
 `launch-config.yaml`이라는 이름의 YAML 설정 파일로 Launch 에이전트를 설정합니다. 기본적으로 W&amp;B는 `~/.config/wandb/launch-config.yaml`에서 설정 파일을 찾습니다. Launch 에이전트를 실행할 때 필요에 따라 다른 디렉터리를 지정할 수도 있습니다.
 
@@ -101,9 +95,7 @@ Docker를 컴퓨팅 리소스로 사용하는 큐를 생성하려면 다음 단�
   W&amp;B CLI를 사용하면 Launch 에이전트의 핵심 설정 옵션(설정용 YAML 파일 대신)인 최대 작업 수, W&amp;B entity, Launch 큐를 지정할 수 있습니다. 자세한 내용은 [`wandb launch-agent`](/ko/models/ref/cli/wandb-launch-agent) 명령을 참조하세요.
 </Note>
 
-<div id="core-agent-config-options">
-  ### 핵심 에이전트 설정 옵션
-</div>
+### 핵심 에이전트 설정 옵션 {#core-agent-config-options}
 
 다음 탭에서는 W&amp;B CLI와 YAML 설정 파일을 사용하여 핵심 에이전트 설정 옵션을 지정하는 방법을 보여줍니다.
 
@@ -123,9 +115,7 @@ Docker를 컴퓨팅 리소스로 사용하는 큐를 생성하려면 다음 단�
   </Tab>
 </Tabs>
 
-<div id="docker-image-builders">
-  ### 도커 이미지 빌더
-</div>
+### 도커 이미지 빌더 {#docker-image-builders}
 
 머신에서 실행 중인 Launch 에이전트는 도커 이미지를 빌드하도록 설정할 수 있습니다. 기본적으로 이러한 이미지는 머신의 로컬 이미지 저장소에 저장됩니다. Launch 에이전트가 도커 이미지를 빌드할 수 있게 하려면 Launch 에이전트 설정에서 `builder` 키를 `docker`로 설정하세요:
 
@@ -141,9 +131,7 @@ builder:
   type: noop
 ```
 
-<div id="container-registries">
-  ### 컨테이너 레지스트리
-</div>
+### 컨테이너 레지스트리 {#container-registries}
 
 Launch는 Docker Hub, Google Container Registry, Azure Container Registry, Amazon ECR과 같은 외부 컨테이너 레지스트리를 사용합니다.
 작업을 빌드한 환경과 다른 환경에서 실행하려면, 로컬에서 빌드되지 않은 이미지를 에이전트가 가져올 수 있도록 컨테이너 레지스트리에서 이미지를 pull할 수 있게 에이전트를 설정하세요.

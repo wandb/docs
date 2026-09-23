@@ -14,9 +14,7 @@ La fonctionnalité de contrôleur local vous permet d&#39;exécuter localement l
   Cette fonctionnalité permet de développer et de déboguer plus rapidement de nouveaux algorithmes pour l&#39;outil Sweeps. Elle n&#39;est pas adaptée aux charges de travail d&#39;optimisation d&#39;hyperparamètres.
 </Warning>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Installez le SDK W&amp;B (`wandb`) pour que les commandes du contrôleur local soient disponibles :
 
@@ -26,9 +24,7 @@ pip install wandb sweeps
 
 Les exemples suivants supposent que vous disposez déjà d’un fichier de configuration et d’une boucle d’entraînement définis dans un script Python ou un notebook Jupyter. Pour plus d&#39;informations, voir [Définir la configuration d’un sweep](/fr/models/sweeps/define-sweep-configuration).
 
-<div id="run-a-local-controller-from-the-command-line">
-  ## Exécuter un contrôleur local depuis la ligne de commande
-</div>
+## Exécuter un contrôleur local depuis la ligne de commande {#run-a-local-controller-from-the-command-line}
 
 Initialisez un sweep de la même manière que lorsque vous utilisez des contrôleurs d&#39;hyperparamètres hébergés par W&amp;B en tant que service cloud, mais passez l&#39;option `--controller` pour utiliser le contrôleur local :
 
@@ -65,9 +61,7 @@ Initialisez ensuite le sweep sans l’option, puis poursuivez avec les étapes 
 wandb sweep config.yaml
 ```
 
-<div id="run-a-local-controller-with-wb-python-sdk">
-  ## Exécuter un contrôleur local avec le SDK Python W&amp;B
-</div>
+## Exécuter un contrôleur local avec le SDK Python W&amp;B {#run-a-local-controller-with-wb-python-sdk}
 
 Les extraits de code suivants montrent comment spécifier et utiliser un contrôleur local avec le SDK Python W&amp;B. Chaque exemple offre un niveau de contrôle croissant, afin que vous puissiez choisir l&#39;approche qui correspond au degré de personnalisation dont vous avez besoin pour la recherche et l&#39;ordonnancement.
 

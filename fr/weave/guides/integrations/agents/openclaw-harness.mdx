@@ -15,7 +15,7 @@ Ce guide s’adresse aux opérateurs de la passerelle OpenClaw qui souhaitent ac
 </Warning>
 
 <div id="prerequisites">
-  ## Prérequis
+  ## Prérequis {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v22.14 ou version ultérieure.
@@ -24,7 +24,7 @@ Ce guide s’adresse aux opérateurs de la passerelle OpenClaw qui souhaitent ac
 * Un projet Weave (`[YOUR-TEAM]/[YOUR-PROJECT]`) pour recevoir des traces.
 
 <div id="install-the-plugin">
-  ## Installer le plugin
+  ## Installer le plugin {#install-the-plugin}
 </div>
 
 Suivez les étapes ci-dessous pour installer le plugin, l’enregistrer auprès de la passerelle OpenClaw et confirmer que les traces arrivent dans votre projet Weave.
@@ -68,7 +68,7 @@ Suivez les étapes ci-dessous pour installer le plugin, l’enregistrer auprès 
 </Steps>
 
 <div id="view-openclaw-traces-in-weave">
-  ## Afficher les traces OpenClaw dans Weave
+  ## Afficher les traces OpenClaw dans Weave {#view-openclaw-traces-in-weave}
 </div>
 
 Une fois le plugin activé, chaque session d&#39;agent produit une trace que vous pouvez examiner dans l&#39;interface Weave. Après avoir exécuté au moins une session d&#39;agent, ouvrez votre projet dans l&#39;interface Weave :
@@ -89,7 +89,7 @@ Le plugin émet des spans conformément aux [conventions sémantiques OpenTeleme
 | `execute_tool <tool>`  | Pour chaque exécution d&#39;outil | `gen_ai.tool.name`, `gen_ai.tool.call.id`                                          |
 
 <div id="configuration-reference">
-  ## Référence de configuration
+  ## Référence de configuration {#configuration-reference}
 </div>
 
 Cette section présente la référence de configuration complète de l’entrée du plugin `weave` dans `openclaw.json`.
@@ -139,7 +139,7 @@ Le champ `apiKey` prend en charge quatre sources d’authentification, résolues
 Définissez `captureContent` sur `false` pour désactiver la capture afin de respecter les politiques de conformité ou de conservation.
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### Cloud dédié de W&amp;B ou instances auto-hébergées
+  ### Cloud dédié de W&amp;B ou instances auto-hébergées {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 Le plugin délègue le point de terminaison et l&#39;authentification au [SDK Node de Weave](https://github.com/wandb/weave/tree/master/sdks/node). Il lit les variables d&#39;environnement suivantes selon les mêmes conventions que les SDK Python et Node de Weave :
@@ -150,7 +150,7 @@ Le plugin délègue le point de terminaison et l&#39;authentification au [SDK No
 | `WF_TRACE_SERVER_URL` | Remplacement complet de l&#39;URL du serveur de traces. À utiliser pour les configurations autogérées ou derrière un proxy.                               |
 
 <div id="troubleshooting">
-  ## Dépannage
+  ## Dépannage {#troubleshooting}
 </div>
 
 Si les traces n’atteignent pas Weave ou si les champs de contenu sont vides, utilisez les sections suivantes pour diagnostiquer les causes les plus fréquentes.
@@ -158,7 +158,7 @@ Si les traces n’atteignent pas Weave ou si les champs de contenu sont vides, u
 Le journal de la passerelle correspond à la sortie du terminal du processus qui exécute `openclaw`, ou au flux de logs de votre gestionnaire de processus si vous l&#39;avez lancé en tant que démon.
 
 <div id="plugin-loaded-but-no-spans-show-up">
-  ### Le plugin est chargé, mais aucun span ne s’affiche
+  ### Le plugin est chargé, mais aucun span ne s’affiche {#plugin-loaded-but-no-spans-show-up}
 </div>
 
 1. Exécutez `/weave status`. Si le cycle de vie est `disabled`, `config-error` ou `not-started`, le plugin ne s’est pas activé. Vérifiez le journal de la passerelle pour y trouver `weave: config.entity is required`, `weave: configuration error` ou `[weave] incompatible plugin SDK`.
@@ -167,7 +167,7 @@ Le journal de la passerelle correspond à la sortie du terminal du processus qui
 4. Vérifiez la source d’authentification. `/weave status` doit afficher `auth=...`. Si `WANDB_API_KEY env` s’affiche alors que vous avez défini la clé dans une autre variable d’environnement, le plugin lit la mauvaise clé.
 
 <div id="spans-land-but-inputoutput-text-is-empty">
-  ### Les spans arrivent, mais le texte d’entrée et de sortie est vide
+  ### Les spans arrivent, mais le texte d’entrée et de sortie est vide {#spans-land-but-inputoutput-text-is-empty}
 </div>
 
 Recherchez dans le journal de la passerelle :
@@ -182,7 +182,7 @@ Recherchez dans le journal de la passerelle :
 OpenClaw soumet les hooks qui donnent accès au contenu à une activation explicite par l’opérateur. Définissez `plugins.entries.weave.hooks.allowConversationAccess: true` dans votre configuration, puis redémarrez la passerelle. La structure des spans ainsi que les données de coût et d’utilisation transitent via des événements de diagnostic, et non via des hooks ; elles continuent donc de fonctionner même lorsque `allowConversationAccess` est défini sur `false`.
 
 <div id="errors-sending-traces-to-weave">
-  ### Erreurs lors de l&#39;envoi de traces vers Weave
+  ### Erreurs lors de l&#39;envoi de traces vers Weave {#errors-sending-traces-to-weave}
 </div>
 
 Si le plugin est actif et génère des spans, mais qu&#39;ils n&#39;apparaissent pas dans Weave, consultez le journal de la passerelle pour repérer une erreur d&#39;exportation et comparez-la au tableau suivant.

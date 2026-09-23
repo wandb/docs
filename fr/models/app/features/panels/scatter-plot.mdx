@@ -7,7 +7,7 @@ keywords: ["ligne frontière", "comparaison d’hyperparamètres", "comparaison 
 Utilisez les nuages de points dans W&amp;B pour comparer des runs et visualiser les relations entre les métriques d’expérience. Les nuages de points vous aident à repérer des tendances, des valeurs aberrantes et des compromis entre de nombreux runs, ce qui est utile pour ajuster les hyperparamètres ou comparer des variantes de modèle.
 
 <div id="use-case">
-  ## Cas d’usage
+  ## Cas d’usage {#use-case}
 </div>
 
 Utilisez des nuages de points pour comparer plusieurs runs et visualiser les performances d’une expérience.
@@ -22,9 +22,7 @@ Avec un nuage de points, vous pouvez :
 * Configurez la façon dont la **ligne frontière** et les points associés sont étiquetés et mis en évidence. Voir [Options d’affichage de la ligne frontière](#frontier-line-display-options).
 * Ajoutez des **lignes de référence** pour marquer des seuils ou des valeurs cibles sur un axe. Voir [Options d’affichage des lignes de référence](#reference-line-display-options).
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 L’exemple suivant montre un nuage de points affichant l’accuracy de validation de différents modèles sur plusieurs semaines d’expérimentation. L’infobulle inclut la taille de lot, le dropout et les valeurs des axes. Une ligne affiche également la moyenne mobile de l’accuracy de validation.
 
@@ -35,7 +33,7 @@ L’exemple suivant montre un nuage de points affichant l’accuracy de validati
 </Frame>
 
 <div id="create-a-scatter-plot">
-  ## Créer un nuage de points
+  ## Créer un nuage de points {#create-a-scatter-plot}
 </div>
 
 Pour créer un nuage de points dans l’interface W&amp;B :
@@ -50,7 +48,7 @@ Pour créer un nuage de points dans l’interface W&amp;B :
 Le nouveau nuage de points apparaît dans le panneau **Charts**, avec les données que vous avez configurées.
 
 <div id="frontier-line-display-options">
-  ## Options d’affichage de la ligne frontière
+  ## Options d’affichage de la ligne frontière {#frontier-line-display-options}
 </div>
 
 Sur un nuage de points, la *ligne frontière* relie les valeurs les plus hautes et les plus basses de l’axe Y observées jusque-là dans les données du graphique. Vous pouvez ajuster l’apparence de cette ligne et des points environnants dans les paramètres du graphique pour mettre en évidence la frontière.
@@ -67,7 +65,7 @@ Pour configurer les options d’affichage de la ligne frontière :
 Le nuage de points se met à jour pour refléter vos choix d’annotation.
 
 <div id="reference-line-display-options">
-  ## Options d’affichage des lignes de référence
+  ## Options d’affichage des lignes de référence {#reference-line-display-options}
 </div>
 
 Une *ligne de référence* est une ligne pointillée horizontale ou verticale tracée à une valeur numérique fixe sur l’axe X ou Y. Utilisez des lignes de référence pour indiquer des seuils, des valeurs de référence ou des valeurs cibles sur un graphique.

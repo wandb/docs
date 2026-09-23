@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L25" />
 
-<div id="function-wandbsweep">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.sweep()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.sweep() {#function-wandbsweep}
 
 Initialisez un sweep d&#39;hyperparamètres.
 
@@ -30,9 +28,7 @@ project: 'str | None' = None,
 prior_runs: 'list[str] | None' = None
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="sweep" type="dict | Callable">
   La configuration d&#39;une recherche d&#39;hyperparamètres (ou un générateur de configuration). Si vous fournissez un callable, assurez-vous qu&#39;il ne prend pas d&#39;arguments et qu&#39;il renvoie un dictionnaire conforme à la spécification de configuration des sweeps W&amp;B.
@@ -50,8 +46,6 @@ prior_runs: 'list[str] | None' = None
   Les ID des runs existants à ajouter à ce sweep.
 </ResponseField>
 
-<div id="returns">
-  ## Retourne
-</div>
+## Retourne {#returns}
 
 `str`: Un identifiant unique pour le sweep.

@@ -8,23 +8,17 @@ import ApiKeyCreate from "/snippets/ko/_includes/api-key-create.mdx";
 
 이 가이드에서는 레지스트리에 연결된 아티팩트를 다운로드하고 사용하는 방법을 알아봅니다. 이를 위해 사전 트레이닝된 분류 모델과 해당 데이터셋 텐서를 모두 다운로드합니다. 그런 다음 이러한 아티팩트를 사용해 추론을 수행하고 모델의 성능을 평가합니다.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 W&amp;B API 키가 있는지 확인하세요. 이 페이지에서 설명하는 노트북 예시를 직접 실행해 보려면 첨부된 [Python 트레이닝 스크립트](#run-training-script-optional)를 실행하세요. 이 스크립트는 데이터셋 가져오기, 텐서로 변환하기, 신경망 모델 정의 및 트레이닝, 학습된 모델을 W&amp;B 레지스트리에 게시하기 등 워크플로의 앞부분을 다룹니다.
 
-<div id="sign-up-and-create-an-api-key">
-  ### 가입 및 API 키 생성
-</div>
+### 가입 및 API 키 생성 {#sign-up-and-create-an-api-key}
 
 W&amp;B에 머신을 인증하려면 API 키가 필요합니다.
 
 <ApiKeyCreate />
 
-<div id="run-training-script-optional">
-  ### 트레이닝 스크립트 실행(선택 사항)
-</div>
+### 트레이닝 스크립트 실행(선택 사항) {#run-training-script-optional}
 
 다음 코드를 `train.py`라는 이름의 파일에 복사한 후 로컬 머신에 저장하세요:
 
@@ -631,9 +625,7 @@ if __name__ == "__main__":
 uv train.py
 ```
 
-<div id="create-your-first-notebook">
-  ## 첫 번째 노트북 만들기
-</div>
+## 첫 번째 노트북 만들기 {#create-your-first-notebook}
 
 1. 프로젝트의 workspace로 이동합니다.
 2. 프로젝트 사이드바에서 **Notebooks**를 선택합니다.
@@ -641,9 +633,7 @@ uv train.py
 
 자세한 내용은 [노트북 생성 및 관리](/ko/models/notebooks/create-notebook)를 참조하세요.
 
-<div id="install-dependencies">
-  ## 의존성 설치
-</div>
+## 의존성 설치 {#install-dependencies}
 
 노트북에서 필요한 의존성을 설치합니다.
 
@@ -653,6 +643,4 @@ uv train.py
 
 자세한 내용은 [패키지 및 환경 관리](/ko/models/notebooks/manage-packages-environments) 가이드 또는 [marimo 문서](https://docs.marimo.io/guides/package_management/)를 참고하세요.
 
-<div id="run-the-notebook-example">
-  ## 노트북 예시 실행하기
-</div>
+## 노트북 예시 실행하기 {#run-the-notebook-example}

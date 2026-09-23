@@ -11,9 +11,7 @@ keywords: [리더보드, 모델 비교, Weave 평가, 점수화 함수]
   * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 </Note>
 
-<div id="leaderboard-quickstart">
-  # 리더보드 퀵스타트
-</div>
+# 리더보드 퀵스타트 {#leaderboard-quickstart}
 
 이 퀵스타트에서는 W&amp;B Weave 리더보드를 사용해 여러 데이터셋과 점수화 함수에 걸쳐 모델 성능을 비교하는 방법을 설명합니다. 이 과정을 마치면 공통 Evaluation 세트를 기준으로 여러 모델의 순위를 매긴 리더보드를 게시할 수 있습니다. 그런 다음 각 metric에서 어떤 모델이 가장 뛰어난 성능을 보이는지 파악할 수 있습니다. 이 가이드는 Weave Evaluation 실행에 익숙하고 결과를 나란히 비교하려는 개발자를 위한 것입니다.
 
@@ -24,9 +22,7 @@ keywords: [리더보드, 모델 비교, Weave 평가, 점수화 함수]
 3. 이러한 기법을 사용해 모델과 평가 조합의 매트릭스를 평가합니다.
 4. Weave UI에서 리더보드를 검토합니다.
 
-<div id="step-1-generate-a-dataset-of-fake-zip-code-data">
-  ## Step 1: 가짜 우편번호 데이터셋 생성
-</div>
+## Step 1: 가짜 우편번호 데이터셋 생성 {#step-1-generate-a-dataset-of-fake-zip-code-data}
 
 먼저 가짜 우편번호 데이터 목록을 생성하는 함수 `generate_dataset_rows`를 만듭니다. 이 합성 데이터셋은 각 모델을 평가할 때 리더보드에 일관된 입력값과 기대값을 제공합니다.
 
@@ -78,9 +74,7 @@ import weave
 weave.init("leaderboard-demo")
 ```
 
-<div id="step-2-author-scoring-functions">
-  ## Step 2: 점수화 함수 작성
-</div>
+## Step 2: 점수화 함수 작성 {#step-2-author-scoring-functions}
 
 다음으로 점수화 함수 3개를 작성합니다. 각 Scorer는 모델 출력의 서로 다른 측면을 평가하므로, 리더보드에서 품질의 다양한 차원을 기준으로 모델을 순위화할 수 있습니다:
 
@@ -135,9 +129,7 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
     return json.loads(completion.choices[0].message.content)
 ```
 
-<div id="step-3-create-an-evaluation">
-  ## Step 3: Evaluation 만들기
-</div>
+## Step 3: Evaluation 만들기 {#step-3-create-an-evaluation}
 
 다음으로 가짜 데이터와 채점 함수를 사용해 Evaluation을 정의합니다. `Evaluation` 객체는 데이터셋을 Scorer와 연결하므로, 동일한 벤치마크를 기준으로 어떤 모델이든 실행할 수 있습니다.
 
@@ -154,9 +146,7 @@ evaluation = weave.Evaluation(
 )
 ```
 
-<div id="step-4-evaluate-a-baseline-model">
-  ## Step 4: 기준선 모델 Evaluate
-</div>
+## Step 4: 기준선 모델 Evaluate {#step-4-evaluate-a-baseline-model}
 
 이제 정적 응답을 반환하는 기준선 모델을 Evaluate합니다. 기준선을 설정하면 리더보드에서 기준점이 생기므로, 이후의 각 모델이 정적 구현보다 얼마나 개선되는지 측정할 수 있습니다.
 
@@ -175,9 +165,7 @@ def baseline_model(zip_code: str):
 await evaluation.evaluate(baseline_model)
 ```
 
-<div id="step-5-create-more-models">
-  ## Step 5: 모델 더 만들기
-</div>
+## Step 5: 모델 더 만들기 {#step-5-create-more-models}
 
 이제 기준선 모델과 비교할 모델 두 개를 더 만드세요. 한 모델은 추가 프롬프트 없이 우편번호만 받고, 다른 모델은 구조화된 프롬프트를 받습니다. 리더보드에서 둘을 비교하면 프롬프트 컨텍스트가 답변 품질에 미치는 영향을 확인할 수 있습니다.
 
@@ -235,9 +223,7 @@ def gpt_4o_mini_with_context(zip_code: str):
 await evaluation.evaluate(gpt_4o_mini_with_context)
 ```
 
-<div id="step-6-create-more-evaluations">
-  ## Step 6: 더 많은 Evaluation 만들기
-</div>
+## Step 6: 더 많은 Evaluation 만들기 {#step-6-create-more-evaluations}
 
 이제 모델과 Evaluation 조합으로 이루어진 행렬을 평가하세요. 여러 데이터셋(서로 다른 지역과 연도)에 대해 모든 모델을 실행하면, 리더보드가 여러 조건에서 모델의 순위를 매기는 데 필요한 데이터가 생성됩니다.
 
@@ -285,9 +271,7 @@ for evaluation in evaluations:
         )
 ```
 
-<div id="step-7-review-the-leaderboard">
-  ## 7단계: 리더보드 검토
-</div>
+## 7단계: 리더보드 검토 {#step-7-review-the-leaderboard}
 
 평가 결과가 게시되었으므로, 이제 이를 나란히 비교할 수 있도록 리더보드로 구성할 수 있습니다.
 

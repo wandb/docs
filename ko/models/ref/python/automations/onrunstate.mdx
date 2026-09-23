@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L420" />
 
-<div id="class-wandbautomationsonrunstate">
-  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.OnRunState
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.OnRunState {#class-wandbautomationsonrunstate}
 
 run의 상태가 변경됩니다.
 
@@ -21,9 +19,7 @@ scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.au
 filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="event_type" type="Literal">
   설명이 제공되지 않았습니다.
@@ -37,9 +33,7 @@ filter: Annotated[wandb.automations.events.RunStateFilter, Json, BeforeValidator
   이 이벤트가 트리거되려면 충족해야 하는 run 상태 조건입니다.
 </ResponseField>
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 프로젝트 &quot;my-project&quot;의 모든 run에서 상태가 &quot;finished&quot;(즉, 성공) 또는 &quot;failed&quot;로 변경될 때 트리거되는 이벤트를 정의합니다:
 

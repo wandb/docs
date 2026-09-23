@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L4034" />
 
-<div id="function-wandbrestore">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.restore()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.restore() {#function-wandbrestore}
 
 Télécharge le fichier spécifié à partir du stockage cloud.
 
@@ -24,9 +22,7 @@ replace: 'bool' = False,
 root: 'str | None' = None
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="name" type="str">
   Le nom du fichier.
@@ -44,15 +40,11 @@ root: 'str | None' = None
   Le répertoire dans lequel télécharger le fichier.  Par défaut, il s’agit du répertoire courant ou du répertoire du run si wandb.init a été appelé.
 </ResponseField>
 
-<div id="returns">
-  ## Retourne
-</div>
+## Retourne {#returns}
 
 `None` s’il ne trouve pas le fichier, sinon un objet fichier ouvert en lecture.
 
-<div id="raises">
-  ## Exceptions levées
-</div>
+## Exceptions levées {#raises}
 
 * `CommError`: Si W&amp;B ne peut pas se connecter au backend W&amp;B.
 * `ValueError`: Si le fichier est introuvable ou si `run_path` est introuvable.

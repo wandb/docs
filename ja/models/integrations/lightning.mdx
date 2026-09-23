@@ -14,9 +14,7 @@ PyTorch Lightning は、PyTorch コードを整理し、分散トレーニング
 
 このページでは、`WandbLogger` を使用して、メトリクスのトラッキング、ハイパーパラメーターのログ、モデル チェックポイントの アーティファクト としての保存、メディアのログ、PyTorch Lightning と W&amp;B を使用したマルチ GPU トレーニングの実行を行う方法を説明します。
 
-<div id="integrate-with-lightning">
-  ## Lightningと統合する
-</div>
+## Lightningと統合する {#integrate-with-lightning}
 
 以下のセクションでは、W&amp;B で認証し、`wandb` ライブラリをインストールして、Lightning の `Trainer` または `Fabric` インスタンスに `WandbLogger` を設定する方法を説明します。
 
@@ -58,9 +56,7 @@ PyTorch Lightning は、PyTorch コードを整理し、分散トレーニング
   <img src="/images/integrations/n6P7K4M.gif" alt="対話型ダッシュボード" />
 </Frame>
 
-<div id="sign-up-and-create-an-api-key">
-  ### サインアップしてAPIキーを発行する
-</div>
+### サインアップしてAPIキーを発行する {#sign-up-and-create-an-api-key}
 
 APIキーを使うと、お使いのマシンをW&amp;Bに対して認証できます。APIキーはプロフィールから発行できます。
 
@@ -71,9 +67,7 @@ APIキーを使うと、お使いのマシンをW&amp;Bに対して認証でき�
 1. 右上にあるプロフィールアイコンをクリックします。
 2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
 
-<div id="install-the-wandb-library-and-log-in">
-  ### `wandb` ライブラリをインストールしてログインする
-</div>
+### `wandb` ライブラリをインストールしてログインする {#install-the-wandb-library-and-log-in}
 
 `wandb` ライブラリをローカル環境にインストールしてログインするには、次の手順を実行します。
 
@@ -115,9 +109,7 @@ APIキーを使うと、お使いのマシンをW&amp;Bに対して認証でき�
   </Tab>
 </Tabs>
 
-<div id="use-pytorch-lightnings-wandblogger">
-  ## PyTorch Lightning の `WandbLogger` を使用する
-</div>
+## PyTorch Lightning の `WandbLogger` を使用する {#use-pytorch-lightnings-wandblogger}
 
 PyTorch Lightning には、メトリクス、モデルの重み、メディアをログするための `WandbLogger` クラスが複数あります。トレーニングのセットアップに合ったクラスを選択してください。
 
@@ -144,9 +136,7 @@ Lightning と統合するには、`WandbLogger` をインスタンス化して�
   </Tab>
 </Tabs>
 
-<div id="common-logger-arguments">
-  ### よく使われるロガー引数
-</div>
+### よく使われるロガー引数 {#common-logger-arguments}
 
 次の表は、`WandbLogger` の一般的なパラメーターを示しています。ロガー引数の詳細については、PyTorch Lightning のドキュメントを参照してください。
 
@@ -160,9 +150,7 @@ Lightning と統合するには、`WandbLogger` をインスタンス化して�
 | `log_model` | `log_model="all"` の場合はすべてのモデルをログし、`log_model=True` の場合はトレーニング終了時にログします |
 | `save_dir`  | データの保存先パス                                                              |
 
-<div id="log-your-hyperparameters">
-  ## ハイパーパラメーターをログする
-</div>
+## ハイパーパラメーターをログする {#log-your-hyperparameters}
 
 W&amp;B でハイパーパラメーターをログすると、Runs を比較して結果を再現できます。お使いの logger に対応する method を使用してください。
 
@@ -187,9 +175,7 @@ W&amp;B でハイパーパラメーターをログすると、Runs を比較し�
   </Tab>
 </Tabs>
 
-<div id="log-additional-config-parameters">
-  ## 追加の設定パラメーターをログする
-</div>
+## 追加の設定パラメーターをログする {#log-additional-config-parameters}
 
 ハイパーパラメーターとあわせて追加の設定値を取得するには、run の設定を直接更新します。
 
@@ -205,15 +191,11 @@ wandb.config["key"] = value
 wandb.config.update()
 ```
 
-<div id="log-gradients-parameter-histogram-and-model-topology">
-  ## 勾配、パラメーターのヒストグラム、モデルトポロジーをログする
-</div>
+## 勾配、パラメーターのヒストグラム、モデルトポロジーをログする {#log-gradients-parameter-histogram-and-model-topology}
 
 トレーニング中のモデルの勾配やパラメーターを監視するには、`wandb_logger.watch()` にモデルオブジェクトを渡します。詳しくは、PyTorch Lightning の `WandbLogger` ドキュメントを参照してください。
 
-<div id="log-metrics">
-  ## メトリクスをログする
-</div>
+## メトリクスをログする {#log-metrics}
 
 <Tabs>
   <Tab title="PyTorch Logger">
@@ -322,9 +304,7 @@ wandb.config.update()
   </Tab>
 </Tabs>
 
-<div id="log-the-minmax-of-a-metric">
-  ## メトリクスの最小値/最大値をログする
-</div>
+## メトリクスの最小値/最大値をログする {#log-the-minmax-of-a-metric}
 
 W&amp;B の [`define_metric`](/ja/models/ref/python/experiments/run#define_metric) 関数を使用すると、W&amp;B summary メトリクスにそのメトリクスの最小値、最大値、平均値、または最良値のどれを表示するかを定義できます。`define_metric` を使用しない場合は、最後にログされた値が summary メトリクスに表示されます。詳細は、[logging 軸のカスタマイズ ガイド](/ja/models/track/log/customize-logging-axes/)を参照してください。
 
@@ -359,9 +339,7 @@ W&amp;B summary メトリクスで検証 accuracy の最大値をトラッキン
   </Tab>
 </Tabs>
 
-<div id="checkpoint-a-model">
-  ## モデルのチェックポイントを保存する
-</div>
+## モデルのチェックポイントを保存する {#checkpoint-a-model}
 
 チェックポイントを W&amp;B アーティファクト として保存すると、後で run、エイリアス、またはバージョンを使って取得できる、バージョン管理されたモデル ファイルを利用できます。
 
@@ -433,9 +411,7 @@ checkpoint_reference = "<user>/<project>/<model-run_id>:<version>"
 
 Registry では、ベストなモデルをタスク別に整理し、モデルのライフサイクルを管理し、ML ライフサイクル全体を通じてトラッキングや監査を行い、webhook やジョブで下流のアクションを[自動化](/ja/models/automations/)できます。
 
-<div id="log-images-text-and-more">
-  ## 画像、テキストなどをログする
-</div>
+## 画像、テキストなどをログする {#log-images-text-and-more}
 
 `WandbLogger` には、メディアをログするための `log_image`、`log_text`、`log_table` メソッドがあります。
 
@@ -539,9 +515,7 @@ class LogPredictionSamplesCallback(Callback):
 trainer = pl.Trainer(callbacks=[LogPredictionSamplesCallback()])
 ```
 
-<div id="use-multiple-gpus-with-lightning-and-wb">
-  ## Lightning と W&amp;B で複数の GPU を使用する
-</div>
+## Lightning と W&amp;B で複数の GPU を使用する {#use-multiple-gpus-with-lightning-and-wb}
 
 分散トレーニングを実行する場合、各 rank で `wandb.run` をどのように参照するかによって、トレーニングが正常に進むか、デッドロックになるかが左右されることがあります。このセクションでは、要件を説明し、推奨されるパターンを示します。
 
@@ -613,31 +587,21 @@ def main():
     trainer.fit(model, train_loader, val_loader)
 ```
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 エンドツーエンドの手順については、[Colab ノートブック付きの動画チュートリアル](https://wandb.me/lit-colab)に沿って進めることができます。
 
-<div id="frequently-asked-questions">
-  ## よくある質問
-</div>
+## よくある質問 {#frequently-asked-questions}
 
-<div id="how-does-wb-integrate-with-lightning">
-  ### W&amp;B は Lightning とどのように統合されていますか？
-</div>
+### W&amp;B は Lightning とどのように統合されていますか？ {#how-does-wb-integrate-with-lightning}
 
 主要なインテグレーションは [Lightning `loggers` API](https://lightning.ai/docs/pytorch/stable/extensions/logging.html) に基づいており、そのおかげでロギングコードの大部分をフレームワーク非依存の形で記述できます。`Logger` インスタンスは [Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html) に渡され、この API の充実した [hook-and-callback system](https://lightning.ai/docs/pytorch/stable/extensions/callbacks.html) によってトリガーされます。これにより、研究用コードをエンジニアリングやロギングのコードから明確に分離できます。
 
-<div id="what-does-the-integration-log-without-any-additional-code">
-  ### 追加のコードを書かなくても、このインテグレーションは何をログしますか？
-</div>
+### 追加のコードを書かなくても、このインテグレーションは何をログしますか？ {#what-does-the-integration-log-without-any-additional-code}
 
 W&amp;B はモデル チェックポイントを保存します。これらは表示したり、今後の Runs で使用するためにダウンロードしたりできます。W&amp;B は、GPU 使用率やネットワーク I/O などの[システムメトリクス](/ja/models/ref/python/experiments/system-metrics)も取得します。さらに、ハードウェアや OS の情報などの環境情報も取得します。[コードの状態](/ja/models/app/features/panels/code/)も取得し、これには Git コミットと差分パッチ、ノートブックの内容、セッション履歴が含まれます。また、標準出力に出力される内容もすべて取得します。
 
-<div id="what-if-i-need-to-use-wandbrun-in-my-training-setup">
-  ### トレーニング設定で `wandb.run` を使用する必要がある場合はどうすればよいですか？
-</div>
+### トレーニング設定で `wandb.run` を使用する必要がある場合はどうすればよいですか？ {#what-if-i-need-to-use-wandbrun-in-my-training-setup}
 
 アクセスする必要がある変数のスコープは、自分で広げる必要があります。つまり、すべてのプロセスで初期条件が同じになるようにしてください。
 

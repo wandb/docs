@@ -11,9 +11,7 @@ keywords: ["トークン使用量", "add_cost", "llm_id", "include_costs"]
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
 </Note>
 
-<div id="set-up-a-custom-cost-model">
-  ## カスタムコストモデルを設定する
-</div>
+## カスタムコストモデルを設定する {#set-up-a-custom-cost-model}
 
 このガイドでは、独自のトークン使用量を報告するカスタムモデルを Weave で定義し、そのモデルに対するカスタムのトークン単価を登録して、コスト情報が付加された call を取得する方法を説明します。Weave の組み込みコストデータでカバーされていないモデルを使用していて、トレースとあわせて支出をトラッキングしたい場合に使用します。
 
@@ -22,9 +20,7 @@ Weave はこの使用量とモデルを出力から取得し、それらをそ�
 
 トークン使用量を独自に計算し、その値を Weave に保存するシンプルなカスタムモデルを設定してみましょう。
 
-<div id="set-up-the-environment">
-  ### 環境を設定する
-</div>
+### 環境を設定する {#set-up-the-environment}
 
 必要なパッケージをすべてインストールしてインポートします。
 `wandb.login()` で簡単にログインできるよう、環境変数に `WANDB_API_KEY` を設定します (これは secret として Colab に渡してください) 。
@@ -55,9 +51,7 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-<div id="set-up-a-model-with-weave">
-  ### Weave でモデルを設定する
-</div>
+### Weave でモデルを設定する {#set-up-a-model-with-weave}
 
 次に、独自にトークン使用量を集計する Weave `Model` のサブクラスを定義します。出力ディクショナリで使用量のカウントとモデル名を返すことで、Weave は後で、その Call を次のセクションで定義するカスタムコストに関連付けられるようになります。
 
@@ -104,9 +98,7 @@ class YourModel(Model):
         return outputs["output"]
 ```
 
-<div id="add-a-custom-cost">
-  ### カスタムコストを追加する
-</div>
+### カスタムコストを追加する {#add-a-custom-cost}
 
 カスタムコストを追加します。カスタムコストを追加し、Call に使用量が記録されたら、`include_cost` を使用して Call を取得し、`summary.weave.costs` でコストを確認できます。
 

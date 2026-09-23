@@ -19,9 +19,7 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
 
 {/* これにより、ローカルの設定に影響を与えることなく、安全に分離された環境でエージェントの動作をテストし、繰り返し改善できます。 */}
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 開始する前に、W&amp;B Python SDK をインストールし、W&amp;B に認証し、サンドボックスで使用できるように OpenAI APIキー をシークレットとして保存してください。
 
@@ -32,11 +30,10 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
   ```bash
   python -m venv venv
   source venv/bin/activate  # Windows では `venv\Scripts\activate` を使用してください
-  ```  */}
+  ```
+  */}
 
-<div id="install-wb-python-sdk">
-  ### W&amp;B Python SDK をインストールする
-</div>
+### W&amp;B Python SDK をインストールする {#install-wb-python-sdk}
 
 `pip` を使用して W&amp;B Python SDK をインストールします:
 
@@ -44,9 +41,7 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
 pip install wandb
 ```
 
-<div id="log-in-and-authenticate-with-wb">
-  ### W&amp;B にログインして認証する
-</div>
+### W&amp;B にログインして認証する {#log-in-and-authenticate-with-wb}
 
 [`wandb login`](/ja/models/ref/cli/wandb-login) コマンドを実行し、表示されるプロンプトに従って W&amp;B のアカウントにログインします。
 
@@ -54,17 +49,13 @@ pip install wandb
 wandb login
 ```
 
-<div id="store-api-keys-in-secret-manager">
-  ### Secret Manager に APIキーを保存する
-</div>
+### Secret Manager に APIキーを保存する {#store-api-keys-in-secret-manager}
 
 OpenAI APIキーを `OPENAI_API_KEY` として [W&amp;B Secret Manager](/ja/platform/secrets) に保存します。サンドボックスでシークレットを使用する方法について詳しくは、[Secrets](/ja/sandboxes/secrets) を参照してください。
 
 これにより、コードやサンドボックスの設定にハードコードすることなく、サンドボックス内から APIキーへ安全にアクセスできます。
 
-<div id="copy-agent-code">
-  ## エージェントのコードをコピーする
-</div>
+## エージェントのコードをコピーする {#copy-agent-code}
 
 前提条件が整ったら、サンドボックス内で実行できるように、エージェントのコードをローカルに保存します。このスクリプトでは、2 つのツールと構造化された応答形式を備えた OpenAI エージェントを定義します。
 

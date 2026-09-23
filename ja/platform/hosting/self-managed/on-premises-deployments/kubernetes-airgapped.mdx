@@ -13,9 +13,7 @@ import SelfManagedObjectStorageRequirements from "/snippets/ja/_includes/self-ma
 import SelfManagedHardwareRequirements from "/snippets/ja/_includes/self-managed-hardware-requirements.mdx";
 import SelfManagedVerifyInstallation from "/snippets/ja/_includes/self-managed-verify-installation.mdx";
 
-<div id="introduction">
-  ## はじめに
-</div>
+## はじめに {#introduction}
 
 このガイドでは、エアギャップ環境、切り離された環境、または制限付きネットワークの顧客管理環境に W&amp;B Platform をデプロイするためのステップごとの手順を説明します。このガイドに従うことで、W&amp;B イメージとチャートをホストするための内部コンテナーレジストリと Helm リポジトリを設定し、W&amp;B Kubernetes Operator をインストールして、外部へのインターネット接続なしで W&amp;B Platform をデプロイできます。このガイドは、規制対象または分離されたネットワークで Kubernetes インフラストラクチャーを管理するプラットフォーム管理者および DevOps エンジニアを対象としています。
 
@@ -31,55 +29,39 @@ import SelfManagedVerifyInstallation from "/snippets/ja/_includes/self-managed-v
 
 インターネット接続のある標準的なオンプレミス Kubernetes デプロイについては、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 始める前に、エアギャップ環境が以下の要件を満たしていることを確認してください。
 
-<div id="version-requirements">
-  ### バージョン要件
-</div>
+### バージョン要件 {#version-requirements}
 
 <SelfManagedVersionRequirements />
 
-<div id="ssltls-requirements">
-  ### SSL/TLS 要件
-</div>
+### SSL/TLS 要件 {#ssltls-requirements}
 
 <SelfManagedSslTlsRequirements />
 
-<div id="hardware-requirements">
-  ### ハードウェア要件
-</div>
+### ハードウェア要件 {#hardware-requirements}
 
 <SelfManagedHardwareRequirements />
 
-<div id="mysql-database">
-  ### MySQL データベース
-</div>
+### MySQL データベース {#mysql-database}
 
 <SelfManagedMysqlRequirements />
 
 セルフマネージドインスタンス向けの MySQL の設定パラメーターについては、[リファレンスアーキテクチャの MySQL 設定セクション](/ja/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters)を参照してください。
 
-<div id="redis">
-  ### Redis
-</div>
+### Redis {#redis}
 
 <SelfManagedRedisRequirements />
 
-<div id="object-storage">
-  ### オブジェクトストレージ
-</div>
+### オブジェクトストレージ {#object-storage}
 
 <SelfManagedObjectStorageRequirements />
 
 オブジェクトストレージのプロビジョニングに関する詳細は、[Bring Your Own Bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) ガイドを参照してください。エアギャップ 環境では、通常、MinIO Enterprise、NetApp StorageGRID、Dell ECS などのオンプレミスの S3 互換ストレージを使用します。
 
-<div id="air-gapped-specific-requirements">
-  ### エアギャップ環境固有の要件
-</div>
+### エアギャップ環境固有の要件 {#air-gapped-specific-requirements}
 
 前述の標準的な要件に加えて、エアギャップ環境でのデプロイには次のものが必要です。
 
@@ -90,15 +72,11 @@ import SelfManagedVerifyInstallation from "/snippets/ja/_includes/self-managed-v
 
 ネットワークやロードバランサーの設定を含む、完全なインフラストラクチャー要件については、[リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch#infrastructure-requirements) を参照してください。
 
-<div id="prepare-your-air-gapped-environment">
-  ## エアギャップ 環境を準備する
-</div>
+## エアギャップ 環境を準備する {#prepare-your-air-gapped-environment}
 
 以下の手順では、W&amp;B のコンテナーイメージと Helm チャート をホストするための エアギャップ 環境を準備します。operator をインストールしたり、プラットフォームをデプロイしたりする前に、これらの手順を完了してください。
 
-<div id="step-1-set-up-internal-container-registry">
-  ### Step 1: 内部コンテナーRegistryを設定する
-</div>
+### Step 1: 内部コンテナーRegistryを設定する {#step-1-set-up-internal-container-registry}
 
 Kubernetes クラスターはパブリックRegistryからイメージをプルできないため、デプロイ前に、必要なすべてのコンテナーイメージを内部のエアギャップ環境用コンテナーRegistryで利用できるようにしておく必要があります。
 
@@ -106,9 +84,7 @@ Kubernetes クラスターはパブリックRegistryからイメージをプル�
   W&amp;B Operator の要件を把握し、コンテナーRegistry内のイメージを定期的に更新して維持する責任は、お客様にあります。必要なコンテナーイメージとそのバージョンの最新一覧については、Helm チャートを参照するか、[W&amp;B サポート](mailto:support@wandb.com) または担当の W&amp;B サポートエンジニアにお問い合わせください。
 </Note>
 
-<div id="core-wb-component-containers">
-  #### 主要なW&amp;Bコンポーネントのコンテナー
-</div>
+#### 主要なW&amp;Bコンポーネントのコンテナー {#core-wb-component-containers}
 
 以下の主要なイメージは必須です。
 
@@ -117,9 +93,7 @@ Kubernetes クラスターはパブリックRegistryからイメージをプル�
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console): W&amp;B管理コンソール。
 * [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary): W&amp;Bマイクロサービス (API、executor、glue、parquet)。
 
-<div id="dependency-containers">
-  #### 依存コンテナー
-</div>
+#### 依存コンテナー {#dependency-containers}
 
 次のサードパーティ製依存イメージが必要です。
 
@@ -128,9 +102,7 @@ Kubernetes クラスターはパブリックRegistryからイメージをプル�
 * [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus): メトリクス収集用の Prometheus。
 * [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader): Prometheus の依存イメージ。
 
-<div id="get-the-complete-image-list">
-  #### 完全なイメージ一覧を取得する
-</div>
+#### 完全なイメージ一覧を取得する {#get-the-complete-image-list}
 
 必要なイメージとバージョンの完全な一覧を Helm チャートから抽出するには、次の手順を実行します。
 
@@ -178,9 +150,7 @@ Kubernetes クラスターはパブリックRegistryからイメージをプル�
 
    各イメージの具体的なバージョンタグを取得するには、上記の最初のコマンド (`grep -E "repository:|tag:"`) を使用します。このコマンドでは、リポジトリ名と対応するバージョンタグの両方が表示されます。
 
-<div id="transfer-images-to-air-gapped-registry">
-  #### イメージをエアギャップ環境の Registry に転送する
-</div>
+#### イメージをエアギャップ環境の Registry に転送する {#transfer-images-to-air-gapped-registry}
 
 1. インターネットに接続されたシステムで、必要なイメージをすべて pull して保存します。
 
@@ -244,9 +214,7 @@ Kubernetes クラスターはパブリックRegistryからイメージをプル�
    # ...他のすべてのイメージも push します
    ```
 
-<div id="step-2-set-up-internal-helm-chart-repository">
-  ### Step 2: 内部 Helm チャートリポジトリを設定する
-</div>
+### Step 2: 内部 Helm チャートリポジトリを設定する {#step-2-set-up-internal-helm-chart-repository}
 
 コンテナーイメージを配置したら、Kubernetes Operator が W&amp;B Helm チャートにアクセスできるようにする必要もあります。次の Helm チャートを内部 Helm リポジトリで利用できるようにしてください。
 
@@ -269,9 +237,7 @@ Kubernetes クラスターはパブリックRegistryからイメージをプル�
 
    `operator` チャートは W&amp;B Kubernetes Operator (Controller Manager) をデプロイします。`operator-wandb` チャートは、Custom Resource (CR) で設定した値を使用して W&amp;B Platform をデプロイします。
 
-<div id="step-3-configure-helm-repository-access">
-  ### Step 3: Helm リポジトリへのアクセスを設定する
-</div>
+### Step 3: Helm リポジトリへのアクセスを設定する {#step-3-configure-helm-repository-access}
 
 後続のインストール コマンドでチャートを参照できるように、エアギャップ環境内のローカル Helm クライアントが内部リポジトリを参照するように設定します。
 
@@ -289,15 +255,11 @@ Kubernetes クラスターはパブリックRegistryからイメージをプル�
    helm search repo local-repo/operator-wandb
    ```
 
-<div id="deploy-wb-in-air-gapped-environment">
-  ## エアギャップ環境に W&amp;B をデプロイする
-</div>
+## エアギャップ環境に W&amp;B をデプロイする {#deploy-wb-in-air-gapped-environment}
 
 内部Registryと Helm リポジトリを用意したら、Kubernetes Operator をインストールし、外部サービスを設定して、W&amp;B Platform をデプロイできます。
 
-<div id="step-4-install-the-kubernetes-operator">
-  ### Step 4: Kubernetes Operator をインストールする
-</div>
+### Step 4: Kubernetes Operator をインストールする {#step-4-install-the-kubernetes-operator}
 
 W&amp;B Kubernetes Operator (コントローラーマネージャー) は、W&amp;B プラットフォームの各コンポーネントを管理します。これをエアギャップ環境にインストールするには、内部コンテナーRegistryを使用するように設定します。
 
@@ -336,9 +298,7 @@ W&amp;B Kubernetes Operator (コントローラーマネージャー) は、W&am
 
 サポートされる values の詳細については、[Kubernetes operator GitHub repository の values ファイル](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)を参照してください。
 
-<div id="step-5-set-up-mysql-database">
-  ### Step 5: MySQL データベースを設定する
-</div>
+### Step 5: MySQL データベースを設定する {#step-5-set-up-mysql-database}
 
 W&amp;B Custom Resource を設定する前に、外部の MySQL データベースを設定してください。本番デプロイでは、利用可能であればマネージドデータベースサービスを使用することを W&amp;B は強く推奨しています。ただし、独自の MySQL インスタンスを運用している場合は、データベースとユーザーを作成してください。
 
@@ -346,9 +306,7 @@ W&amp;B Custom Resource を設定する前に、外部の MySQL データベー�
 
 MySQL の設定パラメーターについては、[リファレンスアーキテクチャの MySQL 設定パラメーターのセクション](/ja/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters)を参照してください。
 
-<div id="step-6-configure-wb-custom-resource">
-  ### ステップ 6: W&amp;B Custom Resource を設定する
-</div>
+### ステップ 6: W&amp;B Custom Resource を設定する {#step-6-configure-wb-custom-resource}
 
 W&amp;B Kubernetes Operator をインストールしたら、Custom Resource (CR) を設定して、内部の Helm リポジトリ とコンテナー registry を参照するようにします。この設定により、W&amp;B Platform の必須コンポーネントをデプロイする際、Kubernetes operator はパブリックなソースへのアクセスを試みるのではなく、内部の registry と リポジトリ を使用します。
 
@@ -482,9 +440,7 @@ spec:
 
 設定可能なコンポーネントの一覧全体については、[W&amp;B Helm リポジトリ の values ファイル](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml)を参照してください。
 
-<div id="step-7-deploy-the-wb-platform">
-  ### ステップ 7: W&amp;B Platform をデプロイする
-</div>
+### ステップ 7: W&amp;B Platform をデプロイする {#step-7-deploy-the-wb-platform}
 
 Custom Resource を適用すると、operator が `wandb.yaml` の設定とイメージ参照を使用して、`operator-wandb` チャートで定義されている W&amp;B Platform のコンポーネントをインストールします。
 
@@ -509,21 +465,15 @@ Custom Resource を適用すると、operator が `wandb.yaml` の設定とイ�
 
    operator が必要なコンポーネントをすべて作成するため、デプロイの完了までに数分かかる場合があります。
 
-<div id="openshift-configuration">
-  ## OpenShift の設定
-</div>
+## OpenShift の設定 {#openshift-configuration}
 
 W&amp;B は、エアギャップ環境の OpenShift Kubernetes クラスターへのデプロイをサポートしています。OpenShift へのデプロイでは、OpenShift のより厳格なセキュリティポリシーに対応するため、追加のセキュリティコンテキスト設定が必要です。OpenShift にデプロイする場合は、前のステップに加えて、このセクションの設定も適用してください。
 
-<div id="openshift-security-context-constraints">
-  ### OpenShift のセキュリティコンテキスト制約
-</div>
+### OpenShift のセキュリティコンテキスト制約 {#openshift-security-context-constraints}
 
 OpenShift では、pod の権限を制御するために Security Context Constraints (SCC) を使用します。デフォルトでは、pod には `restricted` SCC が割り当てられ、root としての実行が禁止されるほか、特定のユーザー ID が必要になります。
 
-<div id="option-1-use-restricted-scc-recommended">
-  #### オプション1: `restricted` SCCを使用する (推奨)
-</div>
+#### オプション1: `restricted` SCCを使用する (推奨) {#option-1-use-restricted-scc-recommended}
 
 Custom Resource で適切なセキュリティコンテキストを設定し、W&amp;B コンポーネントが `restricted` SCC で実行されるように構成します。
 
@@ -562,9 +512,7 @@ spec:
     # 他のコンポーネントにも同様に繰り返す: api, executor, glue, parquet, weave
 ```
 
-<div id="option-2-create-custom-scc-if-required">
-  #### オプション 2: カスタム SCC を作成する (必要な場合)
-</div>
+#### オプション 2: カスタム SCC を作成する (必要な場合) {#option-2-create-custom-scc-if-required}
 
 デプロイに `restricted` SCC では利用できないケーパビリティが必要な場合は、カスタム SCC を作成します。
 
@@ -620,9 +568,7 @@ volumes:
    oc adm policy add-scc-to-user wandb-scc -z wandb-console -n wandb
    ```
 
-<div id="openshift-routes">
-  ### OpenShift Routes
-</div>
+### OpenShift Routes {#openshift-routes}
 
 OpenShift では、標準の Kubernetes Ingress ではなく Routes を使用します。W&amp;B で OpenShift Routes を使用するように設定します。
 
@@ -641,9 +587,7 @@ spec:
         insecureEdgeTerminationPolicy: Redirect
 ```
 
-<div id="openshift-image-pull-configuration">
-  ### OpenShift のイメージプル設定
-</div>
+### OpenShift のイメージプル設定 {#openshift-image-pull-configuration}
 
 OpenShift クラスターで認証が必要な内部イメージRegistryを使用している場合:
 
@@ -666,9 +610,7 @@ OpenShift クラスターで認証が必要な内部イメージRegistryを使�
          - name: wandb-registry-secret
    ```
 
-<div id="openshift-complete-example">
-  ### OpenShift の完全な例
-</div>
+### OpenShift の完全な例 {#openshift-complete-example}
 
 以下の例は、OpenShift の エアギャップ deployment 向けの完全な CR を示しています。
 
@@ -772,9 +714,7 @@ spec:
   セキュリティ要件に応じた包括的な OpenShift 設定例については、[W&amp;B Support](mailto:support@wandb.com) または担当の W&amp;B サポートエンジニアにお問い合わせください。
 </Note>
 
-<div id="verify-your-installation">
-  ## インストールを確認する
-</div>
+## インストールを確認する {#verify-your-installation}
 
 W&amp;B をデプロイしたら、プラットフォームにアクセス可能であり、pod が正常で、デプロイメントが内部リソースのみを使用していることを確認できるように、インストールが正常に機能していることを確認してください。
 
@@ -782,9 +722,7 @@ W&amp;B をデプロイしたら、プラットフォームにアクセス可能
 
 <SelfManagedVerifyInstallation />
 
-<div id="additional-air-gapped-verification">
-  ### エアギャップ 環境での追加検証
-</div>
+### エアギャップ 環境での追加検証 {#additional-air-gapped-verification}
 
 エアギャップ デプロイでは、次の点も確認してください。
 
@@ -804,13 +742,9 @@ W&amp;B をデプロイしたら、プラットフォームにアクセス可能
 
 3. **ライセンス検証**: W&amp;B コンソールにアクセスし、ライセンスが有効になっていることを確認します。
 
-<div id="troubleshooting">
-  ## トラブルシューティング
-</div>
+## トラブルシューティング {#troubleshooting}
 
-<div id="image-pull-errors">
-  ### イメージプルエラー
-</div>
+### イメージプルエラー {#image-pull-errors}
 
 Pod がイメージをプルできない場合は、次の点を確認してください。
 
@@ -827,9 +761,7 @@ kubectl logs test-pull -n wandb
 kubectl delete pod test-pull -n wandb
 ```
 
-<div id="openshift-scc-errors">
-  ### OpenShift の SCC エラー
-</div>
+### OpenShift の SCC エラー {#openshift-scc-errors}
 
 OpenShift で Pod が権限エラーで失敗する場合:
 
@@ -842,9 +774,7 @@ oc describe scc wandb-scc
 oc get rolebinding -n wandb
 ```
 
-<div id="helm-chart-not-found">
-  ### Helm チャートが見つからない
-</div>
+### Helm チャートが見つからない {#helm-chart-not-found}
 
 operator が platform チャートを見つけられない場合は、次を確認してください:
 
@@ -856,13 +786,9 @@ operator が platform チャートを見つけられない場合は、次を確�
   helm search repo local-repo/operator-wandb
   ```
 
-<div id="frequently-asked-questions">
-  ## よくある質問
-</div>
+## よくある質問 {#frequently-asked-questions}
 
-<div id="can-i-use-a-different-ingress-class">
-  ### 別の ingress class を使用できますか？
-</div>
+### 別の ingress class を使用できますか？ {#can-i-use-a-different-ingress-class}
 
 はい。Custom Resource の ingress 設定を変更して、使用する ingress class を設定できます。
 
@@ -873,9 +799,7 @@ spec:
       class: your-ingress-class
 ```
 
-<div id="how-do-i-handle-certificate-bundles-with-multiple-certificates">
-  ### 複数の証明書を含む証明書バンドルはどうすればよいですか
-</div>
+### 複数の証明書を含む証明書バンドルはどうすればよいですか {#how-do-i-handle-certificate-bundles-with-multiple-certificates}
 
 証明書を `customCACerts` セクションで複数のエントリに分割します。
 
@@ -893,9 +817,7 @@ spec:
         -----END CERTIFICATE-----
 ```
 
-<div id="how-do-i-prevent-automatic-updates">
-  ### どうすれば自動更新を防止できますか
-</div>
+### どうすれば自動更新を防止できますか {#how-do-i-prevent-automatic-updates}
 
 operator が W&amp;B を自動更新しないように設定するには、次の手順を実行します。
 
@@ -909,15 +831,11 @@ operator が W&amp;B を自動更新しないように設定するには、次�
   W&amp;B では、セルフマネージド環境のインスタンスをご利用のお客様に対し、サポートを維持し、最新の機能、パフォーマンス改善、修正を利用できるようにするため、少なくとも四半期に 1 回はデプロイを最新 version に更新することを強く推奨しています。W&amp;B は、各メジャーリリースを初回リリース日から 12 か月間サポートします。詳しくは、[リリースポリシーとプロセス](/ja/release-notes/release-policies)を参照してください。
 </Note>
 
-<div id="does-the-deployment-work-with-no-connection-to-public-repositories">
-  ### このデプロイはパブリックリポジトリに接続しなくても動作しますか？
-</div>
+### このデプロイはパブリックリポジトリに接続しなくても動作しますか？ {#does-the-deployment-work-with-no-connection-to-public-repositories}
 
 はい。Operator の設定で `airgapped: true` を指定すると、Kubernetes Operator は内部リソースのみを使用し、パブリックリポジトリへの接続は試みません。
 
-<div id="how-do-i-update-wb-in-an-air-gapped-environment">
-  ### エアギャップ環境で W&amp;B を更新するにはどうすればよいですか？
-</div>
+### エアギャップ環境で W&amp;B を更新するにはどうすればよいですか？ {#how-do-i-update-wb-in-an-air-gapped-environment}
 
 W&amp;B を更新するには、次の手順を実行します。
 
@@ -929,9 +847,7 @@ W&amp;B を更新するには、次の手順を実行します。
 
    operator は W&amp;B コンポーネントのローリングアップデートを実行します。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 デプロイが正常に完了したら、次のタスクを完了します:
 
@@ -941,9 +857,7 @@ W&amp;B を更新するには、次の手順を実行します。
 * **バックアップを設定する**: MySQL データベースのバックアップ手順を確立します
 * **プロセスを文書化する**: ご利用の エアギャップ 環境向けの更新手順の runbook を作成します
 
-<div id="get-help">
-  ## サポートを受ける
-</div>
+## サポートを受ける {#get-help}
 
 デプロイ中に問題が発生した場合:
 

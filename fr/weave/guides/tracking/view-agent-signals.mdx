@@ -7,7 +7,7 @@ keywords: ["signaux", "surveillance des agents", "évaluateurs", "scores", "tags
 Dans [Agents view](/fr/weave/guides/tracking/view-agent-activity) de W&amp;B Weave, l&#39;onglet Signals affiche des tags et des scores pour les conversations de votre agent. Les signaux mettent en évidence les problèmes de qualité et de sécurité afin de repérer les anomalies, d’identifier des tendances et de mettre en avant les traces qui nécessitent votre attention. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter quand un utilisateur est frustré ou signaler du contenu NSFW.
 
 <div id="get-started">
-  ## Premiers pas
+  ## Premiers pas {#get-started}
 </div>
 
 Pour afficher les signaux de votre projet :
@@ -19,7 +19,7 @@ Pour afficher les signaux de votre projet :
 ![L’onglet Signals affichant une liste des tours de conversation évalués pour l’agent.](/weave/guides/tracking/imgs/agent-view-signals.png)
 
 <div id="key-terms">
-  ## Termes clés
+  ## Termes clés {#key-terms}
 </div>
 
 * **Tour de conversation** : Un échange aller-retour entre l’utilisateur et l’agent.
@@ -27,7 +27,7 @@ Pour afficher les signaux de votre projet :
 * **Tags** : Des tags attribués aux spans correspondants, comme &quot;user-frustration&quot; ou &quot;nsfw&quot;.
 
 <div id="signals-table">
-  ## Tableau des signaux
+  ## Tableau des signaux {#signals-table}
 </div>
 
 L’onglet Signals affiche un tableau des tours de conversation évalués de votre agent. Chaque ligne représente le résultat de l’un de vos moniteurs de signaux. Les colonnes suivantes s’affichent par défaut.
@@ -45,7 +45,7 @@ L’onglet Signals affiche un tableau des tours de conversation évalués de vot
 Utilisez le sélecteur de fenêtre temporelle et la barre **Filtre** pour affiner les résultats par évaluateur, agent, plage de score ou période. La chronologie **Volume de scores** affiche le nombre de signaux que Weave a évalués avec un score ou tagués. Elle reflète les lignes affichées dans le tableau et prend en charge le filtrage par glisser-déposer sur la chronologie.
 
 <div id="create-a-new-signal">
-  ## Créer un nouveau signal
+  ## Créer un nouveau signal {#create-a-new-signal}
 </div>
 
 Pour commencer à évaluer les tours de conversation de votre agent, créez un ou plusieurs signaux. Sélectionnez **+ New signal** pour ouvrir le volet latéral **Créer des signaux**.
@@ -56,13 +56,13 @@ Le volet latéral regroupe les signaux disponibles en deux catégories :
 * **Scores** : attribuez un score de 0 à 1 aux spans correspondants. Utilisez les scores pour évaluer les performances de l’agent et mesurer les améliorations au fil du temps.
 
 <div id="preset-signals">
-  ### Signaux prédéfinis
+  ### Signaux prédéfinis {#preset-signals}
 </div>
 
 Chaque catégorie propose des modèles prédéfinis que vous pouvez sélectionner directement. Sélectionnez n’importe quelle combinaison de modèles prédéfinis dans les deux catégories, puis sélectionnez **Créer [*N*] signaux** pour les créer tous en une seule fois avec les paramètres par défaut.
 
 <div id="tags-presets">
-  #### Préréglages de tags
+  #### Préréglages de tags {#tags-presets}
 </div>
 
 | Modèle                                    | Ce qu’il détecte                                                                                                                                                                                                                                                     |
@@ -73,7 +73,7 @@ Chaque catégorie propose des modèles prédéfinis que vous pouvez sélectionne
 | **Réponse de faible qualité**             | Sortie de l’agent factuellement incorrecte, hors sujet, évasive, répétitive, manquant de justification lorsqu’elle refuse, ou ne répondant pas correctement à la requête de l’utilisateur.                                                                           |
 
 <div id="ratings-presets">
-  #### Préréglages de score
+  #### Préréglages de score {#ratings-presets}
 </div>
 
 | Modèle                               | Ce qu’il évalue                                                                                                                                                   |
@@ -83,20 +83,18 @@ Chaque catégorie propose des modèles prédéfinis que vous pouvez sélectionne
 | **Safe-for-Work**                    | Si la conversation est appropriée dans un contexte professionnel, par opposition à un contenu explicite, violent ou autrement inapproprié sur le lieu de travail. |
 | **Qualité de la réponse**            | Si la réponse de l’agent est exacte, complète et répond directement à la requête de l’utilisateur.                                                                |
 
-<div id="custom-signals">
-  ### Signals personnalisés
-</div>
+### Signals personnalisés {#custom-signals}
 
 Pour créer un signal de tag personnalisé à partir d&#39;un onglet Signals vide, voir [Créer un signal personnalisé](/fr/weave/guides/tracking/create-custom-signal).
 
 <div id="manage-and-edit-signals">
-  ## Gérer et modifier les signaux
+  ## Gérer et modifier les signaux {#manage-and-edit-signals}
 </div>
 
 Si vous avez créé au moins un signal, sélectionnez le bouton des signaux actifs dans la barre d’outils — libellé avec le nombre de signaux actifs, par exemple **1 active signals** — pour ouvrir un volet latéral qui répertorie tous les signaux actifs du projet. Vous pouvez ensuite activer ou désactiver les signaux, les supprimer ou modifier n’importe quel signal. L’éditeur affiche les mêmes champs de configuration qu’un signal personnalisé.
 
 <div id="troubleshoot-signals">
-  ## Résoudre les problèmes liés aux signaux
+  ## Résoudre les problèmes liés aux signaux {#troubleshoot-signals}
 </div>
 
 L’activité des signaux s’affiche sous **Traces** dans la barre latérale du projet. Si vous ne voyez pas les correspondances attendues pour les signaux, utilisez le tableau **Traces** pour le diagnostic. Par exemple, vérifiez le nom du scorer ainsi que la colonne **Status** afin de repérer d’éventuelles erreurs. En cas d’erreur d’exécution du scorer, **Status** affiche un indicateur rouge et inclut les détails de l’erreur.

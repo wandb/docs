@@ -32,9 +32,7 @@ import SandboxesPreview from '/snippets/ko/_includes/sandboxes-public-preview.md
   ```
 </Info>
 
-<div id="create-a-sandbox">
-  ## 샌드박스 생성
-</div>
+## 샌드박스 생성 {#create-a-sandbox}
 
 [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run)을 사용하여 샌드박스를 생성하고 시작하세요. 이 방법은 환경과 상호작용하는 데 사용할 수 있는 `Sandbox` 객체를 반환합니다.
 
@@ -54,9 +52,7 @@ with Sandbox.run() as sandbox:
 
 샌드박스에서 명령을 실행하는 방법은 [명령 실행](/ko/sandboxes/run-commands)을 참조하세요. 샌드박스의 라이프사이클과 상태에 대해서는 [샌드박스 라이프사이클](/ko/sandboxes/lifecycle)을 참조하세요.
 
-<div id="start-a-sandbox-without-a-main-command">
-  ### 메인 명령 없이 샌드박스 시작하기
-</div>
+### 메인 명령 없이 샌드박스 시작하기 {#start-a-sandbox-without-a-main-command}
 
 먼저 샌드박스를 만들고 나중에 그 안에서 작업을 실행하려면, 명령을 지정하지 않고 `Sandbox.run()`을 호출하세요.
 
@@ -69,9 +65,7 @@ with Sandbox.run() as sandbox:
 
 이 패턴은 대화형 및 다단계 워크플로에 유용합니다. 샌드박스 내에서 명령을 실행하는 방법은 [명령 실행](/ko/sandboxes/run-commands)를 참조하세요.
 
-<div id="start-a-sandbox-with-a-main-command">
-  ### 메인 명령으로 샌드박스 시작하기
-</div>
+### 메인 명령으로 샌드박스 시작하기 {#start-a-sandbox-with-a-main-command}
 
 `Sandbox.run()`에 명령을 전달할 수도 있습니다. 샌드박스가 처음부터 끝까지 단일 작업만 실행하는 경우에는 이 패턴을 사용하세요. 메인 프로세스가 종료되면 샌드박스는 [COMPLETED or FAILED](/ko/sandboxes/lifecycle)와 같은 최종 상태로 전환됩니다.
 
@@ -94,9 +88,7 @@ sandbox = Sandbox.run("python", "train.py")
 sandbox.wait_until_complete().result()
 ```
 
-<div id="create-multiple-sandboxes-with-a-session">
-  ## Session을 사용해 여러 샌드박스 만들기
-</div>
+## Session을 사용해 여러 샌드박스 만들기 {#create-multiple-sandboxes-with-a-session}
 
 한 번에 둘 이상의 샌드박스가 필요하거나 여러 샌드박스에서 설정을 공유하려면 Session을 사용하세요.
 

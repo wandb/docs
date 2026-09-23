@@ -14,9 +14,7 @@ W&amp;B は [Kaniko](https://github.com/GoogleContainerTools/kaniko) builder を
   Helm をインストールし、W&amp;B Launch agent の Helm chart を適用またはアップグレードするには、Kubernetes リソースの作成、更新、削除に必要な十分な権限を持つ `kubectl` でクラスターにアクセスできる必要があります。通常は、`cluster-admin` または同等の権限を持つカスタムロールが割り当てられたユーザーが必要です。
 </Note>
 
-<div id="configure-a-queue-for-kubernetes">
-  ## Kubernetes向けのキューを設定する
-</div>
+## Kubernetes向けのキューを設定する {#configure-a-queue-for-kubernetes}
 
 Launchキューは、各ジョブの実行時にエージェントが使用するKubernetesワークロードspecを定義します。Kubernetesのターゲットリソースに対するLaunchのキュー設定は、[Kubernetes job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) または [Kubernetes custom resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) のいずれかに似たものになります。
 
@@ -101,9 +99,7 @@ spec:
         type: "RuntimeDefault"
 ```
 
-<div id="create-a-queue">
-  ## キューを作成する
-</div>
+## キューを作成する {#create-a-queue}
 
 Kubernetes をコンピュートリソースとして使用するキューを W&amp;B App で作成します。
 
@@ -114,9 +110,7 @@ Kubernetes をコンピュートリソースとして使用するキューを W&
 5. **Resource** として **Kubernetes** を選択します。
 6. **Configuration** フィールドに、[Configure a queue for Kubernetes](#configure-a-queue-for-kubernetes) で設定した Kubernetes job workflow spec または custom resource spec を指定します。
 
-<div id="configure-a-launch-agent-with-helm">
-  ## Helm を使用して Launch agent を設定する
-</div>
+## Helm を使用して Launch agent を設定する {#configure-a-launch-agent-with-helm}
 
 キューを用意したら、次にそのキューからジョブを取得してクラスター上で実行する Launch agent をデプロイします。W&amp;B が提供する [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使用して、Launch agent を Kubernetes クラスターにデプロイします。Launch agent の動作は、`values.yaml` [file](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml) で制御できます。
 

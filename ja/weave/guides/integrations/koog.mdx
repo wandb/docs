@@ -12,9 +12,7 @@ keywords: ["Kotlin", "OTEL", "addWeaveExporter", "エージェントトレース
   ![Koog](/weave/guides/integrations/imgs/koog.png)
 </Frame>
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 Weave エクスポーター が認証を行い、トレースを正しい project に送信できるように、エージェントを実行する前に次の環境変数を設定する必要があります。
 
@@ -26,9 +24,7 @@ export WEAVE_ENTITY="[YOUR-ENTITY]"
 export WEAVE_PROJECT_NAME="koog-tracing"
 ```
 
-<div id="install-koog-gradle">
-  ## Koog をインストールする (Gradle)
-</div>
+## Koog をインストールする (Gradle) {#install-koog-gradle}
 
 環境変数を設定したら、Koog を Kotlin プロジェクトに追加します。これにより、エージェントとそのエクスポーターを設定できるようになります (Kotlin DSL の例を使用) :
 
@@ -40,9 +36,7 @@ dependencies {
 
 追加のインストール情報については、[Koog のドキュメント](https://docs.koog.ai/)を参照してください。
 
-<div id="enable-weave-export-opentelemetry">
-  ## Weave エクスポートを有効にする (OpenTelemetry)
-</div>
+## Weave エクスポートを有効にする (OpenTelemetry) {#enable-weave-export-opentelemetry}
 
 Koog をインストールしたら、Koog の OpenTelemetry 機能をインストールし、Weave エクスポーターを追加します。これにより、Koog のスパンが Weave の OpenTelemetry エンドポイントを介して Weave トレースにマッピングされます。
 
@@ -101,9 +95,7 @@ Koog を Weave で使い始めたばかりの場合は、次のドキュメン�
 * OpenTelemetry が Koog とどのように連携するかの基本概念については、[Koog の OpenTelemetry サポートガイド](https://docs.koog.ai/opentelemetry-support/)
 * Weave が OTLP データをどのように取り込むかについては、[Weave OTEL ドキュメント](../tracking/otel)
 
-<div id="what-gets-traced">
-  ## トレースされる内容
-</div>
+## トレースされる内容 {#what-gets-traced}
 
 エクスポーターを有効にしてエージェントを実行すると、Koog はトレースを Weave プロジェクトに転送します。Koog の Weave エクスポーター は、Koog の一般的な OTEL インテグレーションと同じスパンをキャプチャします。これには次が含まれます。
 
@@ -114,15 +106,11 @@ Koog を Weave で使い始めたばかりの場合は、次のドキュメン�
 
 これらのトレースは Weave UI で可視化でき、パフォーマンスと品質の把握に役立ちます。Weave でトレースをキャプチャする方法の概要については、[Weave のトレース概要](../tracking/tracing) を参照してください。
 
-<div id="example-notebook">
-  ## サンプルノートブック
-</div>
+## サンプルノートブック {#example-notebook}
 
 Weave にトレースをストリーミングする[実行可能なノートブック](https://docs.koog.ai/examples/Weave/)については、Koog のドキュメントを参照してください。
 
-<div id="troubleshooting">
-  ## トラブルシューティング
-</div>
+## トラブルシューティング {#troubleshooting}
 
 Koog エージェントが想定どおりにトレースをエクスポートしない場合は、次を確認してください。
 

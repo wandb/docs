@@ -22,9 +22,7 @@ import ProjectVisibilitySettings from "/snippets/ja/_includes/project-visibility
 * [Reports](/ja/models/track/project-page/#reports-tab): メモ、runs、グラフの保存済みスナップショット
 * [Artifacts](#artifacts-tab): すべての runs と、その run に関連付けられたアーティファクト が含まれます
 
-<div id="overview-tab">
-  ## Overview タブ
-</div>
+## Overview タブ {#overview-tab}
 
 W&amp;B では、プロジェクトフィールドに指定した名前で run を初期化すると、プロジェクトが作成されます。
 
@@ -37,7 +35,7 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
 **Overview** ページの残りの部分は、**Details** タブと **Project roles** タブに分かれています。
 
 <div id="details">
-  ### 詳細
+  ### 詳細 {#details}
 </div>
 
 プロジェクトの詳細には、次の項目が含まれます。
@@ -61,14 +59,12 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
 <ProjectVisibilitySettings />
 
 <div id="project-roles">
-  ### Project roles
+  ### Project roles {#project-roles}
 </div>
 
 **Project roles** タブは、プロジェクトオーナーと **Admin** ロールを持つユーザーにのみ表示されます。プロジェクトにアクセスできるユーザーの一覧表示や検索、メンバーのロール変更を行えます。
 
-<div id="workspace-tab">
-  ## Workspace タブ
-</div>
+## Workspace タブ {#workspace-tab}
 
 プロジェクトの*Workspace*は、実験 を比較するための個人用のサンドボックスです。同じ課題に対して、異なるアーキテクチャー、ハイパーパラメーター、データセット、前処理などで取り組む比較可能なモデルを整理するには、プロジェクトを使用します。
 
@@ -95,9 +91,7 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
   <img src="/images/app_ui/workspace_tab_example.png" alt="プロジェクトワークスペース" />
 </Frame>
 
-<div id="add-a-section-of-panels">
-  ### パネルのセクションを追加する
-</div>
+### パネルのセクションを追加する {#add-a-section-of-panels}
 
 セクションのドロップダウンメニューをクリックし、**Add section** をクリックして、パネル用の新しいセクションを作成します。セクション名は変更でき、ドラッグして並べ替えたり、展開や折りたたみをしたりできます。
 
@@ -109,9 +103,7 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
 * **Delete section**: セクション全体とすべてのチャートを削除します。これは、Workspaceバーのページ下部にある元に戻すボタンで取り消せます。
 * **Add panel**: プラスボタンをクリックして、セクションにパネルを追加します。
 
-<div id="move-panels-between-sections">
-  ### セクション間でパネルを移動する
-</div>
+### セクション間でパネルを移動する {#move-panels-between-sections}
 
 パネルをドラッグ＆ドロップして並べ替えたり、セクションごとに整理したりできます。パネル右上の**Move**ボタンをクリックして、移動先のセクションを選択することもできます。
 
@@ -120,7 +112,7 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
 </Frame>
 
 <div id="resize-panels">
-  ### パネルのサイズを変更する
+  ### パネルのサイズを変更する {#resize-panels}
 </div>
 
 すべてのパネルは同じサイズで表示され、複数のページに分かれています。
@@ -130,9 +122,7 @@ W&amp;B では、プロジェクトフィールドに指定した名前で run �
   <img src="/images/app_ui/resize-panel.png" alt="パネルのサイズ変更" />
 </Frame>
 
-<div id="search-for-metrics">
-  ### メトリクスを検索する
-</div>
+### メトリクスを検索する {#search-for-metrics}
 
 Workspace の検索ボックスを使用して、タイトルでパネルをフィルタリングします。
 
@@ -148,9 +138,7 @@ Workspace の検索ボックスを使用して、タイトルでパネルをフ�
 
 フィルターを削除するには、**Hide panels** (<Icon icon="sliders" iconType="solid" />) をもう一度クリックし、正規表現をクリアします。
 
-<div id="runs-tab">
-  ## Runs タブ
-</div>
+## Runs タブ {#runs-tab}
 
 {/* これを /guide/models/track/runs/_index.md と同期させてください */}
 
@@ -211,13 +199,13 @@ Runsタブを使用して、runのフィルタリング、グループ化、並�
 {/* ## Automations タブ */}
 
 <div id="automations-tab">
-  ## Automations タブ
+  ## Automations タブ {#automations-tab}
 </div>
 
 Artifacts のバージョン管理に関する後続のアクションを自動化します。automation を作成するには、トリガーイベントと、それによって実行されるアクションを定義します。アクションには、webhook の実行や W&amp;B ジョブの起動が含まれます。詳細は [Automations](/ja/models/automations) を参照してください。
 
 <div id="sweeps-tab">
-  ## Sweeps タブ
+  ## Sweeps タブ {#sweeps-tab}
 </div>
 
 プロジェクトから新しい[sweep](/ja/models/sweeps)を開始できます。
@@ -227,7 +215,7 @@ Artifacts のバージョン管理に関する後続のアクションを自動�
 </Frame>
 
 <div id="reports-tab">
-  ## Reports タブ
+  ## Reports タブ {#reports-tab}
 </div>
 
 結果のスナップショットを 1 か所でまとめて確認し、得られた知見をチームと共有できます。
@@ -239,13 +227,13 @@ Artifacts のバージョン管理に関する後続のアクションを自動�
 レポートを表示するには、プロジェクトのサイドバーで **Reports** タブを選択し、リストからレポートを選択します。
 
 <div id="artifacts-tab">
-  ## Artifacts タブ
+  ## Artifacts タブ {#artifacts-tab}
 </div>
 
 プロジェクトに関連付けられたすべての[Artifacts](/ja/models/artifacts)を表示します。トレーニング用データセットや[ファインチューニングしたモデル](/ja/models/registry)、[メトリクスやメディアの表](/ja/models/tables/tables-walkthrough)などを確認できます。
 
 <div id="metadata-panel">
-  ### メタデータパネル
+  ### メタデータパネル {#metadata-panel}
 </div>
 
 <Frame>
@@ -262,7 +250,7 @@ Artifacts のバージョン管理に関する後続のアクションを自動�
 3. **Metadata** タブを選択して、そのアーティファクトに関連付けられたメタデータを表示します。
 
 <div id="usage-panel">
-  ### Usage パネル
+  ### Usage パネル {#usage-panel}
 </div>
 
 <Frame>
@@ -278,7 +266,7 @@ Usage パネルには、ローカルマシンなど Web アプリの外部で使
 3. **Usage** タブを選択して、コードスニペットと関連する run を表示します。
 
 <div id="files-panel">
-  ### Files パネル
+  ### Files パネル {#files-panel}
 </div>
 
 <Frame>
@@ -294,7 +282,7 @@ Files パネルには、アーティファクト に関連付けられたファ�
 3. **Files** タブを選択して、その アーティファクト に関連付けられたすべてのファイルを表示します。
 
 <div id="lineage-panel">
-  ### リネージパネル
+  ### リネージパネル {#lineage-panel}
 </div>
 
 <Frame>
@@ -306,7 +294,7 @@ Files パネルには、アーティファクト に関連付けられたファ�
 Explodeトグルをクリックすると、個々のアーティファクトバージョンと、それらをつなぐ具体的なrunをすべて表示できます。
 
 <div id="versions-tab">
-  ### Versions タブ
+  ### Versions タブ {#versions-tab}
 </div>
 
 <Frame>
@@ -322,9 +310,7 @@ Versions タブには、そのアーティファクトのすべてのバージ�
 
 たとえば、前の画像には、`"zoo-wyhak4p0"` という名前のモデルアーティファクトの異なるバージョンが表示されています。
 
-<div id="create-a-project">
-  ## プロジェクトを作成する
-</div>
+## プロジェクトを作成する {#create-a-project}
 
 W&amp;B App でプロジェクトを作成することも、`wandb.init()` の呼び出し時にプロジェクトを指定してプログラムから作成することもできます。
 
@@ -369,9 +355,7 @@ W&amp;B App でプロジェクトを作成することも、`wandb.init()` の�
   </Tab>
 </Tabs>
 
-<div id="organization-home-and-recent-activity">
-  ## 組織ホームと Recent Activity
-</div>
+## 組織ホームと Recent Activity {#organization-home-and-recent-activity}
 
 W&amp;B App の組織ホームページには、最近の作業の概要が表示されます。
 
@@ -383,9 +367,7 @@ W&amp;B App の組織ホームページには、最近の作業の概要が表�
 
 **Recent Activity** ビューアーの下には、最近作成した Reports にすばやくアクセスできるセクションがあります。
 
-<div id="star-a-project">
-  ## プロジェクトにスターを付ける
-</div>
+## プロジェクトにスターを付ける {#star-a-project}
 
 プロジェクトにスターを付けると、そのプロジェクトを重要なものとしてマークできます。
 
@@ -420,7 +402,7 @@ W&amp;B App の組織ホームページには、最近の作業の概要が表�
 プロジェクトが表示されていることを確認します。左側のナビゲーションの **Project** セクションで **View all** をクリックして **Project** ページを開きます。名、チーム、またはその他のメタデータで検索またはフィルターして、プロジェクトを検索します。スターを付けたプロジェクトは、**Projects** ページの上部と、左側のナビゲーションにある **Projects** セクションの上部に表示されます。
 
 <div id="delete-a-project">
-  ## プロジェクトを削除する
+  ## プロジェクトを削除する {#delete-a-project}
 </div>
 
 Overview タブの右側にある **action (<Icon icon="ellipsis" iconType="solid" />)** メニューを使用すると、プロジェクトを削除できます。
@@ -439,13 +421,13 @@ Overview タブの右側にある **action (<Icon icon="ellipsis" iconType="soli
 </Warning>
 
 <div id="add-notes-to-a-project">
-  ## プロジェクトにメモを追加する
+  ## プロジェクトにメモを追加する {#add-notes-to-a-project}
 </div>
 
 メモは、プロジェクトの説明概要として、または Workspace 内の Markdown パネルとして追加できます。
 
 <div id="add-description-overview-to-a-project">
-  ### プロジェクトに概要説明を追加する
+  ### プロジェクトに概要説明を追加する {#add-description-overview-to-a-project}
 </div>
 
 ページに追加した説明は、プロフィールの **Overview** タブに表示されます。
@@ -462,9 +444,7 @@ Overview タブの右側にある **action (<Icon icon="ellipsis" iconType="soli
   W&amp;B Report を作成して、プロットと Markdown を並べて追加することもできます。異なるセクションを使って異なる run を表示し、取り組んだ内容をストーリーとして伝えられます。
 </Note>
 
-<div id="add-notes-to-run-workspace">
-  ### run の Workspace にメモを追加する
-</div>
+### run の Workspace にメモを追加する {#add-notes-to-run-workspace}
 
 1. W&amp;B のプロジェクト にアクセスします
 2. プロジェクトのサイドバーから **Workspace** タブを選択します

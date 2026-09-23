@@ -15,9 +15,7 @@ Keras callback은 Python SDK 버전 `0.13.4` 이상에서 `wandb.integration.ker
 * **`WandbModelCheckpoint`**: 모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)에 기록하려면 이 callback을 사용하세요.
 * **`WandbEvalCallback`**: 이 기본 callback은 대화형 시각화를 위해 모델 예측을 W&amp;B [Tables](/ko/models/tables/)에 기록합니다.
 
-<div id="install-and-import-keras-integration">
-  ## Keras 인테그레이션 설치 및 임포트하기
-</div>
+## Keras 인테그레이션 설치 및 임포트하기 {#install-and-import-keras-integration}
 
 최신 버전의 W&amp;B를 설치합니다.
 
@@ -34,9 +32,7 @@ from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint, Wa
 
 다음 섹션에서는 각 callback을 코드 예제와 함께 자세히 설명합니다.
 
-<div id="track-experiments-with-wandbmetricslogger">
-  ## `WandbMetricsLogger`로 실험 추적하기
-</div>
+## `WandbMetricsLogger`로 실험 추적하기 {#track-experiments-with-wandbmetricslogger}
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" />
 
@@ -66,18 +62,14 @@ with wandb.init(config={"batch_size": 64}) as run:
 
 이전 예제는 각 에포크가 끝날 때마다 `loss`, `accuracy`, `top@5_accuracy`와 같은 트레이닝 및 검증 메트릭을 W&amp;B에 로깅합니다.
 
-<div id="wandbmetricslogger-reference">
-  ### `WandbMetricsLogger` 레퍼런스
-</div>
+### `WandbMetricsLogger` 레퍼런스 {#wandbmetricslogger-reference}
 
 | Parameter             | 설명                                                                                                                                                       |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `log_freq`            | (`epoch`, `batch`, 또는 `int`): `epoch`이면 각 에포크가 끝날 때 메트릭을 로깅합니다. `batch`이면 각 배치가 끝날 때 메트릭을 로깅합니다. `int`이면 해당 수만큼의 배치가 끝날 때마다 메트릭을 로깅합니다. 기본값은 `epoch`입니다. |
 | `initial_global_step` | (int): `initial_epoch`부터 트레이닝을 재개하고 학습률 스케줄러를 사용하는 경우, 학습률을 올바르게 기록하려면 이 인수를 사용하세요. 이는 `step_size * initial_step`으로 계산할 수 있습니다. 기본값은 0입니다.               |
 
-<div id="checkpoint-a-model-using-wandbmodelcheckpoint">
-  ## `WandbModelCheckpoint`를 사용해 모델 체크포인트 저장하기
-</div>
+## `WandbModelCheckpoint`를 사용해 모델 체크포인트 저장하기 {#checkpoint-a-model-using-wandbmodelcheckpoint}
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
@@ -114,9 +106,7 @@ with wandb.init(config={"bs": 12}) as run:
     )
 ```
 
-<div id="wandbmodelcheckpoint-reference">
-  ### `WandbModelCheckpoint` 레퍼런스
-</div>
+### `WandbModelCheckpoint` 레퍼런스 {#wandbmodelcheckpoint-reference}
 
 | 매개변수                      | 설명                                                                                                                                                                                                                                  |   |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | - |
@@ -130,9 +120,7 @@ with wandb.init(config={"bs": 12}) as run:
 | `options`                 | (str): `save_weights_only`가 true이면 선택적 `tf.train.CheckpointOptions` 객체이고, false이면 선택적 `tf.saved_model.SaveOptions` 객체입니다.                                                                                                           |   |
 | `initial_value_threshold` | (float): 모니터링할 메트릭의 초기 &quot;최적&quot; 값을 나타내는 부동소수점 값입니다.                                                                                                                                                                           |   |
 
-<div id="log-checkpoints-after-n-epochs">
-  ### `N` 에포크마다 체크포인트 log
-</div>
+### `N` 에포크마다 체크포인트 log {#log-checkpoints-after-n-epochs}
 
 기본값(`save_freq="epoch"`)에서는 콜백이 각 에포크가 끝날 때마다 체크포인트를 생성하고 이를 아티팩트로 upload합니다. 특정 개수의 배치마다 체크포인트를 생성하려면 `save_freq`를 정수로 설정하세요. `N` 에포크마다 체크포인트를 생성하려면 `train` 데이터로더의 카디널리티를 계산해 `save_freq`에 전달하세요:
 
@@ -143,9 +131,7 @@ WandbModelCheckpoint(
 )
 ```
 
-<div id="log-checkpoints-efficiently-on-a-tpu-architecture">
-  ### TPU 아키텍처에서 체크포인트를 효율적으로 기록하기
-</div>
+### TPU 아키텍처에서 체크포인트를 효율적으로 기록하기 {#log-checkpoints-efficiently-on-a-tpu-architecture}
 
 TPU에서 체크포인트를 저장하는 동안 `UnimplementedError: File system scheme '[local]' not implemented` 오류 메시지가 나타날 수 있습니다. 이는 모델 디렉터리(`filepath`)가 클라우드 저장소 버킷 경로(`gs://bucket-name/...`)를 사용해야 하고, 이 버킷에 TPU 서버가 접근할 수 있어야 하기 때문입니다. 반면 W&amp;B는 체크포인트 저장에 로컬 경로를 사용하고, 이후 W&amp;B가 이를 아티팩트로 업로드합니다.
 
@@ -158,9 +144,7 @@ WandbModelCheckpoint(
 )
 ```
 
-<div id="visualize-model-predictions-using-wandbevalcallback">
-  ## `WandbEvalCallback`을 사용해 모델 예측 시각화하기
-</div>
+## `WandbEvalCallback`을 사용해 모델 예측 시각화하기 {#visualize-model-predictions-using-wandbevalcallback}
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" />
 
@@ -234,24 +218,18 @@ with wandb.init(config={"hyper": "parameter"}) as run:
     )
 ```
 
-<div id="wandbevalcallback-reference">
-  ### `WandbEvalCallback` 레퍼런스
-</div>
+### `WandbEvalCallback` 레퍼런스 {#wandbevalcallback-reference}
 
 | 매개변수                 | 설명                           |
 | -------------------- | ---------------------------- |
 | `data_table_columns` | (list) `data_table`의 열 이름 목록 |
 | `pred_table_columns` | (list) `pred_table`의 열 이름 목록 |
 
-<div id="memory-footprint-details">
-  ### 메모리 사용량 세부 정보
-</div>
+### 메모리 사용량 세부 정보 {#memory-footprint-details}
 
 W&amp;B는 `on_train_begin` 메서드를 호출할 때 `data_table`을 기록합니다. W&amp;B가 이를 W&amp;B Artifact로 업로드한 후에는 이 테이블에 대한 레퍼런스를 얻게 되며, `data_table_ref` 클래스 변수를 사용해 액세스할 수 있습니다. `data_table_ref`는 `self.data_table_ref[idx][n]`처럼 인덱싱할 수 있는 2차원 리스트이며, 여기서 `idx`는 행 번호이고 `n`은 열 번호입니다. 다음 예시에서 사용법을 확인하세요.
 
-<div id="customize-the-callback">
-  ### callback 사용자 지정하기
-</div>
+### callback 사용자 지정하기 {#customize-the-callback}
 
 데이터와 예측이 로깅되는 시점을 더 세밀하게 제어하려면 기본 callback 메서드를 재정의할 수 있습니다. 더 세밀하게 제어하려면 `on_train_begin` 또는 `on_epoch_end` 메서드를 재정의할 수 있습니다. `N`개 배치 후에 샘플을 로깅하려면 `on_train_batch_end` 메서드를 구현하면 됩니다.
 
@@ -259,9 +237,7 @@ W&amp;B는 `on_train_begin` 메서드를 호출할 때 `data_table`을 기록합
   `WandbEvalCallback`을 상속해 모델 예측 시각화를 위한 callback을 구현하는 중이며, 명확히 하거나 수정이 필요한 사항이 있다면 [issue](https://github.com/wandb/wandb/issues)를 여세요.
 </Note>
 
-<div id="legacy-wandbcallback">
-  ## 레거시 `WandbCallback`
-</div>
+## 레거시 `WandbCallback` {#legacy-wandbcallback}
 
 `WandbCallback`는 레거시 올인원 callback입니다. 새 프로젝트의 경우 이전 섹션에서 설명한 전용 callback(`WandbMetricsLogger`, `WandbModelCheckpoint`, `WandbEvalCallback`)을 사용하세요. W&amp;B 라이브러리의 `WandbCallback()` 클래스를 사용하면 `model.fit()`에서 추적하는 모든 메트릭과 손실 값을 저장할 수 있습니다.
 
@@ -296,9 +272,7 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 * 선택적으로 그라디언트 및 파라미터 히스토그램을 로깅합니다.
 * 선택적으로 wandb에서 시각화할 수 있도록 트레이닝 및 검증 데이터를 저장합니다.
 
-<div id="wandbcallback-reference">
-  ### `WandbCallback` 레퍼런스
-</div>
+### `WandbCallback` 레퍼런스 {#wandbcallback-reference}
 
 | 인자                         |                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -327,13 +301,9 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 | `infer_missing_processors` | (Boolean) `validation_row_processor` 및 `output_row_processor`가 없을 때 이를 추론할지 확인합니다. 기본값은 True입니다. `labels`를 제공하면 W&amp;B는 적절한 경우 분류 유형 프로세서를 추론합니다.                                                                                                                                                                                                                                                                                                     |
 | `log_evaluation_frequency` | (int) 평가 결과를 얼마나 자주 log할지 확인하는 값입니다. 기본값은 트레이닝이 끝날 때만 log하도록 `0`으로 설정됩니다. 매 에포크마다 log하려면 1, 한 에포크씩 건너뛰며 log하려면 2로 설정하는 식입니다. `log_evaluation`이 False이면 적용되지 않습니다.                                                                                                                                                                                                                                                                                      |
 
-<div id="frequently-asked-questions">
-  ## 자주 묻는 질문
-</div>
+## 자주 묻는 질문 {#frequently-asked-questions}
 
-<div id="use-keras-multiprocessing-with-wandb">
-  ### `wandb`에서 `Keras` 멀티프로세싱 사용하기
-</div>
+### `wandb`에서 `Keras` 멀티프로세싱 사용하기 {#use-keras-multiprocessing-with-wandb}
 
 `use_multiprocessing=True`로 설정하면 다음 오류가 발생할 수 있습니다:
 

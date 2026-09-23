@@ -7,9 +7,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
 
-<div id="log-models">
-  # モデルをログする
-</div>
+# モデルをログする {#log-models}
 
 このガイドでは、モデルを W&amp;B の run にログし、それらを操作する方法について説明します。
 
@@ -25,9 +23,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
   W&amp;B Artifacts と高度なバージョン管理のユースケースについて詳しくは、[Artifacts](/ja/models/artifacts/) のドキュメントを参照してください。
 </Note>
 
-<div id="log-a-model-to-a-run">
-  ## モデルをrunにログする
-</div>
+## モデルをrunにログする {#log-a-model-to-a-run}
 
 指定したディレクトリー内の内容を含むモデルartifactをログするには、[`log_model`](/ja/models/ref/python/experiments/run#log_model) を使用します。[`log_model`](/ja/models/ref/python/experiments/run#log_model) methodは、生成されたモデルartifactを W&amp;B run の出力としてもマークします。
 
@@ -112,9 +108,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
   ```
 </details>
 
-<div id="download-and-use-a-logged-model">
-  ## ログ済みのモデルをダウンロードして使用する
-</div>
+## ログ済みのモデルをダウンロードして使用する {#download-and-use-a-logged-model}
 
 以前に W&amp;B run にログしたモデルファイルにアクセスしてダウンロードするには、[`use_model`](/ja/models/ref/python/experiments/run#use_model) 関数を使用します。
 

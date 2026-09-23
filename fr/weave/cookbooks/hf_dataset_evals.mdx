@@ -17,9 +17,7 @@ Ce notebook vous montre comment utiliser un jeu de données HuggingFace comme so
   Ce guide présente une solution de contournement pour utiliser des jeux de données HuggingFace avec les évaluations Weave. L’approche fonctionne aujourd’hui, et des intégrations plus fluides pour les jeux de données externes sont en cours de développement.
 </Note>
 
-<div id="setup-and-imports">
-  ## Configuration et imports
-</div>
+## Configuration et imports {#setup-and-imports}
 
 Commencez par initialiser Weave et vous connecter à W&amp;B pour que Weave suive les runs d’évaluation et leurs résultats dans votre projet Weave.
 
@@ -50,9 +48,7 @@ client = weave.init(f"{WEAVE_TEAM}/{WEAVE_PROJECT}")
 nest_asyncio.apply()
 ```
 
-<div id="load-and-prepare-huggingface-dataset">
-  ## Charger et préparer le jeu de données HuggingFace
-</div>
+## Charger et préparer le jeu de données HuggingFace {#load-and-prepare-huggingface-dataset}
 
 Chargez ensuite le jeu de données HuggingFace et créez un index léger que l&#39;évaluation parcourt. Au lieu de transmettre directement à Weave les lignes du jeu de données, transmettez une liste de références d&#39;index, puis résolvez-les en lignes complètes lors du prétraitement. Cette approche conserve le lien entre l&#39;évaluation et le jeu de données HuggingFace d&#39;origine, tout en maintenant les références vers celui-ci.
 
@@ -71,9 +67,7 @@ row_count = ds["train"].num_rows
 hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_count)]
 ```
 
-<div id="define-processing-and-evaluation-functions">
-  ## Définissez les fonctions de traitement et d’évaluation
-</div>
+## Définissez les fonctions de traitement et d’évaluation {#define-processing-and-evaluation-functions}
 
 Une fois l’index en place, définissez les trois fonctions qui composent le pipeline d’évaluation : l’une pour convertir chaque référence de l’index en exemple exploitable, l’une pour attribuer un score à la sortie du modèle, et l’une qui représente le modèle en cours d’évaluation.
 
@@ -121,9 +115,7 @@ def function_to_evaluate(prompt: str):
     return {"generated_text": "testing "}
 ```
 
-<div id="create-and-run-the-evaluation">
-  ## Créez et exécutez l’évaluation
-</div>
+## Créez et exécutez l’évaluation {#create-and-run-the-evaluation}
 
 Enfin, intégrez l’index, le scorer et la fonction de prétraitement dans une `Evaluation` Weave, puis exécutez-la sur le modèle. Pour chaque entrée de `hf_index`, Weave effectue les étapes suivantes :
 

@@ -9,9 +9,7 @@ Ce guide décrit différentes approches pour intégrer W&amp;B dans une biblioth
 
 Utilisez ce guide lorsque votre intégration porte sur du code de bibliothèque réutilisable plutôt que sur un seul script d’entraînement ou notebook. Pour une introduction à W&amp;B, consultez [Suivi des expériences](/fr/models/track).
 
-<div id="design-the-integration">
-  ## Concevoir l’intégration
-</div>
+## Concevoir l’intégration {#design-the-integration}
 
 Avant d’ajouter W&amp;B à votre bibliothèque, déterminez :
 
@@ -24,15 +22,11 @@ Avant d’ajouter W&amp;B à votre bibliothèque, déterminez :
 
 Ces choix déterminent la façon dont votre bibliothèque importe W&amp;B, gère le cycle de vie des runs et se comporte lorsque W&amp;B n’est pas disponible.
 
-<div id="decide-how-to-install-wb">
-  ## Choisissez comment installer W&amp;B
-</div>
+## Choisissez comment installer W&amp;B {#decide-how-to-install-wb}
 
 Choisissez d’installer automatiquement W&amp;B avec votre bibliothèque ou de l’exposer comme fonctionnalité facultative.
 
-<div id="require-wb-as-a-dependency">
-  ### Inclure W&amp;B comme dépendance
-</div>
+### Inclure W&amp;B comme dépendance {#require-wb-as-a-dependency}
 
 Si W&amp;B est au cœur de votre bibliothèque, ajoutez `wandb` à ses dépendances.
 
@@ -57,9 +51,7 @@ dependencies = [
 
 Envisagez de spécifier une plage de versions compatible en fonction des fonctionnalités W&amp;B utilisées par votre intégration.
 
-<div id="make-wb-an-optional-dependency">
-  ### Faites de W&amp;B une dépendance facultative
-</div>
+### Faites de W&amp;B une dépendance facultative {#make-wb-an-optional-dependency}
 
 Si W&amp;B est une fonctionnalité facultative, permettez l&#39;installation de votre bibliothèque sans `wandb`.
 
@@ -85,23 +77,17 @@ Installez ensuite l’intégration avec :
 pip install "my_awesome_lib[wandb]"
 ```
 
-<div id="authenticate-users">
-  ## Authentifiez les utilisateurs
-</div>
+## Authentifiez les utilisateurs {#authenticate-users}
 
 W&amp;B utilise des clés API pour authentifier les utilisateurs et les machines. Avant de pouvoir enregistrer des runs depuis votre bibliothèque, vous devez générer une clé API et la rendre disponible pour le client `wandb`.
 
 W&amp;B prend en charge l’authentification via le CLI, les variables d’environnement et `wandb.login()`.
 
-<div id="create-an-api-key">
-  ### Créer une clé API
-</div>
+### Créer une clé API {#create-an-api-key}
 
 <ApiKeyCreateStreamlined />
 
-<div id="authenticate-from-the-command-line">
-  ### S’authentifier depuis la ligne de commande
-</div>
+### S’authentifier depuis la ligne de commande {#authenticate-from-the-command-line}
 
 Dans votre terminal, exécutez :
 
@@ -119,9 +105,7 @@ export WANDB_API_KEY="<api_key>"
 
 Pour plus d&#39;informations, voir [Variables d&#39;environnement](/fr/models/track/environment-variables).
 
-<div id="authenticate-from-python">
-  ### S’authentifier depuis Python
-</div>
+### S’authentifier depuis Python {#authenticate-from-python}
 
 Dans un environnement Python interactif ou un notebook, appelez :
 
@@ -133,9 +117,7 @@ wandb.login()
 
 Évitez d’appeler automatiquement [`wandb.login()`](/fr/models/ref/python/functions/login) dans du code de bibliothèque réutilisable, car cela peut interrompre les flux de travail non interactifs.
 
-<div id="make-wb-logging-optional">
-  ## Rendre la journalisation W&amp;B facultative
-</div>
+## Rendre la journalisation W&amp;B facultative {#make-wb-logging-optional}
 
 Choisissez si W&amp;B enregistre ou téléverse les données de run.
 
@@ -146,9 +128,7 @@ Choisissez si W&amp;B enregistre ou téléverse les données de run.
 
 Utilisez `disabled` si vous ne souhaitez pas enregistrer les données de run. Utilisez `offline` si vous souhaitez enregistrer les données localement pour les téléverser ultérieurement.
 
-<div id="use-disabled-mode">
-  ### Utiliser le mode `disabled`
-</div>
+### Utiliser le mode `disabled` {#use-disabled-mode}
 
 Transmettez `mode="disabled"` à `wandb.init()` :
 
@@ -169,9 +149,7 @@ Vous pouvez également définir le mode avec la CLI W&amp;B :
 wandb disabled
 ```
 
-<div id="use-offline-mode">
-  ### Utiliser le mode `offline`
-</div>
+### Utiliser le mode `offline` {#use-offline-mode}
 
 Transmettez `mode="offline"` à `wandb.init()` :
 
@@ -206,9 +184,7 @@ Téléversez ultérieurement un run hors ligne avec :
 wandb sync <run_directory>
 ```
 
-<div id="initialize-a-run">
-  ## Initialiser un run
-</div>
+## Initialiser un run {#initialize-a-run}
 
 Après vous être authentifié, initialisez un [run](/fr/models/runs) pour consigner des métriques, des valeurs de [configuration](/fr/models/track/config) et des [artefacts](/fr/models/artifacts) à partir de votre bibliothèque.
 
@@ -285,15 +261,11 @@ with wandb.init(entity="your-entity", project="your-project-name", config=config
 
 La [section suivante](#log-configuration-and-metrics) explique en détail comment journaliser les valeurs de configuration et les métriques depuis votre bibliothèque.
 
-<div id="log-configuration-and-metrics">
-  ## Enregistrez la configuration et les métriques
-</div>
+## Enregistrez la configuration et les métriques {#log-configuration-and-metrics}
 
 Enregistrez les valeurs de configuration et les métriques dans W&amp;B afin de pouvoir, avec les membres de votre équipe, [comparer](/fr/models/runs/compare-runs), [filtrer](/fr/models/runs/filter-runs#example-filter-run-configuration-values-with-contains), [regrouper](/fr/models/runs/grouping) et [reproduire](/fr/models/track/reproduce_experiments) des expériences.
 
-<div id="log-configuration-values">
-  ### Enregistrer les valeurs de configuration
-</div>
+### Enregistrer les valeurs de configuration {#log-configuration-values}
 
 Transmettez un dictionnaire de [configuration](/fr/models/track/config) à `wandb.init()` pour enregistrer les hyperparamètres et d&#39;autres métadonnées.
 
@@ -334,9 +306,7 @@ run.config.update(
 
 Pour plus d&#39;informations, voir [Configurer les expériences](/fr/models/track/config).
 
-<div id="log-metrics">
-  ### Consigner des métriques
-</div>
+### Consigner des métriques {#log-metrics}
 
 Consignez des métriques, telles que la perte ou la précision, pendant l’entraînement. Créez un dictionnaire où chaque clé correspond au nom d’une métrique et chaque valeur à sa valeur. Transmettez ce dictionnaire à [`wandb.Run.log()`](/fr/models/ref/python/experiments/run#method-run-log).
 
@@ -361,9 +331,7 @@ Pour en savoir plus sur la journalisation des types de données pris en charge, 
 
 Pour suivre les modèles et les jeux de données, voir la section [Suivre les modèles et les jeux de données avec des artefacts](#track-models-and-datasets-with-artifacts).
 
-<div id="define-a-custom-log-axis">
-  ### Définir un axe personnalisé pour le journal
-</div>
+### Définir un axe personnalisé pour le journal {#define-a-custom-log-axis}
 
 Par défaut, W&amp;B représente les métriques enregistrées en fonction d’une étape incrémentée automatiquement. Chaque appel à `wandb.Run.log()` incrémente l’étape.
 
@@ -388,9 +356,7 @@ with wandb.init() as run:
 
 Pour plus d&#39;informations, voir [Définir un axe de journalisation personnalisé](/fr/models/track/log/customize-logging-axes).
 
-<div id="track-models-and-datasets-with-artifacts">
-  ## Suivre les modèles et les jeux de données avec des artefacts
-</div>
+## Suivre les modèles et les jeux de données avec des artefacts {#track-models-and-datasets-with-artifacts}
 
 En plus des métriques, vous pouvez conserver les modèles et les jeux de données que votre bibliothèque produit ou consomme afin que vous et les membres de votre équipe puissiez reproduire et comparer les runs.
 
@@ -404,9 +370,7 @@ Avant d&#39;ajouter la prise en charge des artefacts, déterminez :
 * Comment nommer les artefacts et les alias.
 * Quels artefacts représentent les entrées et les sorties des runs.
 
-<div id="log-model-checkpoints">
-  ### Journaliser les points de contrôle du modèle
-</div>
+### Journaliser les points de contrôle du modèle {#log-model-checkpoints}
 
 Journalisez les points de contrôle du modèle sous forme d’artefacts afin de pouvoir récupérer, versionner et partager les poids entraînés. Incluez l’ID du run dans le nom de l’artefact afin d’associer chaque point de contrôle à son run d’origine.
 
@@ -432,9 +396,7 @@ with wandb.init(entity="your-entity", project="your-project-name") as run:
         run.log_artifact(artifact, aliases=f"epoch_{epoch}")
 ```
 
-<div id="track-run-inputs">
-  ### Suivre les entrées d’un run
-</div>
+### Suivre les entrées d’un run {#track-run-inputs}
 
 Utilisez [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#method-run-use_artifact) lorsqu’un run utilise un artefact, tel qu’un jeu de données ou un point de contrôle de modèle. W&amp;B enregistre l’artefact comme entrée du run.
 
@@ -449,9 +411,7 @@ with wandb.init(entity="your-entity", project="your-project") as run:
   artifact = run.use_artifact(artifact_or_name="artifact_name:alias_or_version")
 ```
 
-<div id="track-run-outputs">
-  ### Suivre les sorties d’une exécution
-</div>
+### Suivre les sorties d’une exécution {#track-run-outputs}
 
 Utilisez [`wandb.Run.log_artifact()`](/fr/models/ref/python/experiments/run#method-run-log_artifact) pour consigner un artefact en tant que sortie d’une exécution.
 
@@ -475,9 +435,7 @@ with wandb.init(entity="your-entity", project="project-name") as run:
 
 Pour en savoir plus sur la création, la gestion et l&#39;utilisation des artefacts, consultez [Artifacts](/fr/models/artifacts).
 
-<div id="download-artifacts">
-  ### Télécharger des artefacts
-</div>
+### Télécharger des artefacts {#download-artifacts}
 
 Utilisez l’[API publique W&amp;B](/fr/models/ref/python/public-api) pour télécharger un artefact sans créer de run ni enregistrer de relation entre un run et une entrée.
 
@@ -495,9 +453,7 @@ local_path = artifact.download()
 
 Pour plus d’informations, consultez [Télécharger et utiliser des artefacts](/fr/models/registry/download_use_artifact).
 
-<div id="link-artifacts-to-the-wb-registry">
-  ## Lier des artefacts au W&amp;B Registry
-</div>
+## Lier des artefacts au W&amp;B Registry {#link-artifacts-to-the-wb-registry}
 
 Utilisez le [W&amp;B Registry](/fr/models/registry) pour partager et gérer des versions d’artefacts entre équipes.
 
@@ -544,9 +500,7 @@ with wandb.init(project="project-name") as run:
 
 Pour plus d&#39;informations, voir [Associer une version d&#39;artefact à une collection](/fr/models/registry/link_version).
 
-<div id="tune-hyperparameters">
-  ## Ajuster les hyperparamètres
-</div>
+## Ajuster les hyperparamètres {#tune-hyperparameters}
 
 Si votre bibliothèque prend en charge l&#39;optimisation des hyperparamètres, intégrez les [balayages W&amp;B](/fr/models/sweeps) pour effectuer des recherches par grille, aléatoires ou bayésiennes.
 
@@ -556,9 +510,7 @@ Si votre bibliothèque prend en charge l&#39;optimisation des hyperparamètres, 
 
 Pour plus d&#39;informations, voir [Sweeps](/fr/models/sweeps).
 
-<div id="support-distributed-training">
-  ## Prise en charge de l’entraînement distribué
-</div>
+## Prise en charge de l’entraînement distribué {#support-distributed-training}
 
 Si votre bibliothèque prend en charge plusieurs processus ou machines, définissez quels processus doivent créer des runs et consigner des données.
 

@@ -16,9 +16,7 @@ Amazon SageMaker [utilise des images Docker pour exécuter des tâches d&#39;ent
   Ce guide montre comment exécuter des SageMaker Training Jobs. Pour savoir comment déployer des modèles pour l&#39;inférence sur Amazon SageMaker, voir [cet exemple de job Launch](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_sagemaker_endpoints).
 </Note>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, vous devez remplir les prérequis suivants :
 
@@ -28,18 +26,14 @@ Avant de commencer, vous devez remplir les prérequis suivants :
 
 Les sections suivantes expliquent comment remplir chaque prérequis.
 
-<div id="decide-if-you-want-the-launch-agent-to-build-a-docker-image">
-  ### Décidez si vous voulez que l’agent Launch crée une image Docker
-</div>
+### Décidez si vous voulez que l’agent Launch crée une image Docker {#decide-if-you-want-the-launch-agent-to-build-a-docker-image}
 
 Décidez si vous voulez que l’agent Launch de W&amp;B crée une image Docker pour vous. Vous avez le choix entre deux options :
 
 * Autoriser l’agent Launch à créer une image Docker, à téléverser l’image vers Amazon ECR et à soumettre des jobs [SageMaker Training](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) pour vous. Cette option peut simplifier le travail des ingénieurs ML qui itèrent rapidement sur leur code d’entraînement.
 * Utilisez une image Docker existante qui contient vos scripts d’entraînement ou d’inférence. Cette option s’intègre bien aux systèmes CI existants. Si vous choisissez cette option, vous devez téléverser manuellement votre image Docker dans votre registre de conteneurs Amazon ECR.
 
-<div id="set-up-aws-resources">
-  ### Configurer les ressources AWS
-</div>
+### Configurer les ressources AWS {#set-up-aws-resources}
 
 Vous devez avoir configuré les ressources AWS suivantes dans la région AWS de votre choix :
 
@@ -49,9 +43,7 @@ Vous devez avoir configuré les ressources AWS suivantes dans la région AWS de 
 
 Consignez les ARN de ces ressources. Vous en aurez besoin lorsque vous définirez la [configuration de la file d’attente Launch](#configure-launch-queue-for-sagemaker).
 
-<div id="create-an-iam-policy-for-the-launch-agent">
-  ### Créer une stratégie IAM pour l&#39;agent Launch
-</div>
+### Créer une stratégie IAM pour l&#39;agent Launch {#create-an-iam-policy-for-the-launch-agent}
 
 L&#39;agent Launch nécessite une stratégie IAM qui accorde les autorisations requises pour soumettre des tâches d&#39;entraînement SageMaker et, éventuellement, téléverser des images vers ECR. Suivez les étapes ci-dessous pour créer la stratégie :
 
@@ -158,9 +150,7 @@ L&#39;agent Launch nécessite une stratégie IAM qui accorde les autorisations r
 
 Vous disposez maintenant d&#39;une stratégie IAM que vous pouvez associer au rôle de l&#39;agent Launch dans la section suivante.
 
-<div id="create-an-iam-role-for-the-launch-agent">
-  ### Créer un rôle IAM pour l&#39;agent Launch
-</div>
+### Créer un rôle IAM pour l&#39;agent Launch {#create-an-iam-role-for-the-launch-agent}
 
 L&#39;agent Launch doit disposer des autorisations nécessaires pour créer des tâches d&#39;entraînement Amazon SageMaker. En attachant la stratégie que vous avez créée dans la section précédente à un rôle dédié, vous permettez à l&#39;agent d&#39;utiliser ces autorisations au moment de l&#39;exécution. Suivez la procédure ci-dessous pour créer un rôle IAM :
 
@@ -178,9 +168,7 @@ Pour créer des rôles IAM, consultez la [documentation AWS Identity and Access 
   * L&#39;autorisation `kms:CreateGrant` pour les files d&#39;attente SageMaker n&#39;est requise que si le `ResourceConfig` associé a un `VolumeKmsKeyId` spécifié et que le rôle associé n&#39;a pas de stratégie autorisant cette action.
 </Note>
 
-<div id="configure-the-launch-queue-for-sagemaker">
-  ## Configurer la file d’attente Launch pour SageMaker
-</div>
+## Configurer la file d’attente Launch pour SageMaker {#configure-the-launch-queue-for-sagemaker}
 
 Une fois les prérequis AWS en place, vous pouvez créer la file d’attente Launch de W&amp;B qui achemine les tâches vers SageMaker. Créez une file d’attente dans W&amp;B App qui utilise SageMaker comme ressource de calcul :
 
@@ -218,17 +206,13 @@ Vous devez au minimum spécifier :
 
 Votre file d’attente est créée et prête à recevoir des tâches une fois que vous avez configuré un agent Launch pour l’interroger.
 
-<div id="set-up-the-launch-agent">
-  ## Configurer l’agent Launch
-</div>
+## Configurer l’agent Launch {#set-up-the-launch-agent}
 
 Les sections suivantes décrivent où vous pouvez déployer votre agent et comment le configurer en fonction de l’endroit où vous le déployez.
 
 Vous disposez de [plusieurs options pour déployer l’agent Launch pour une file d’attente Amazon SageMaker](#decide-where-to-run-the-launch-agent) : sur une machine locale, sur une instance EC2 ou dans un cluster EKS. [Configurez votre agent Launch](#configure-a-launch-agent) en fonction de l’endroit où vous le déployez.
 
-<div id="decide-where-to-run-the-launch-agent">
-  ### Décidez où exécuter l’agent Launch
-</div>
+### Décidez où exécuter l’agent Launch {#decide-where-to-run-the-launch-agent}
 
 Pour les charges de travail de production et pour les clients qui disposent déjà d’un cluster EKS, W&amp;B recommande de déployer l’agent Launch sur le cluster EKS à l’aide de ce chart Helm.
 
@@ -296,9 +280,7 @@ En fonction de votre cas d’usage, suivez les instructions dans les onglets sui
   </Tab>
 </Tabs>
 
-<div id="configure-a-launch-agent">
-  ### Configurer un agent Launch
-</div>
+### Configurer un agent Launch {#configure-a-launch-agent}
 
 Après avoir choisi où exécuter l’agent, configurez-le afin qu’il puisse interroger votre file d’attente SageMaker et s’authentifier auprès d’AWS. Configurez l’agent Launch à l’aide d’un fichier de configuration YAML nommé `launch-config.yaml`.
 
@@ -325,9 +307,7 @@ Démarrez maintenant l’agent avec `wandb launch-agent`.
 
 Votre agent Launch est maintenant en cours d’exécution et interroge la file d’attente SageMaker à la recherche de jobs.
 
-<div id="optional-push-your-launch-job-docker-image-to-amazon-ecr">
-  ## Facultatif : Téléversez l’image Docker de votre job Launch vers Amazon ECR
-</div>
+## Facultatif : Téléversez l’image Docker de votre job Launch vers Amazon ECR {#optional-push-your-launch-job-docker-image-to-amazon-ecr}
 
 <Note>
   Cette section s’applique uniquement si votre agent Launch utilise des images Docker existantes qui contiennent votre logique d’entraînement ou d’inférence. [Votre agent Launch prend en charge deux options de comportement.](#decide-if-you-want-the-launch-agent-to-build-a-docker-image)
@@ -339,8 +319,9 @@ Envoyez vers votre dépôt Amazon ECR l’image Docker qui contient votre job La
 
   ```bash
   wandb job create image [YOUR-IMAGE-URI] --p [PROJECT] ...
-  ``` */}
+  ```
+  */}
 
 {/* ## Lancer des jobs depuis W&B
 
-    Si vous vous rendez dans l’interface W&B, votre file d’attente Launch SageMaker sera désormais active. Vous pouvez y soumettre des jobs depuis l’UI ou le CLI. */}
+  Si vous vous rendez dans l’interface W&B, votre file d’attente Launch SageMaker sera désormais active. Vous pouvez y soumettre des jobs depuis l’UI ou le CLI. */}

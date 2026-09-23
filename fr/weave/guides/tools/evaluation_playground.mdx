@@ -12,9 +12,7 @@ Par exemple, vous pouvez ouvrir l’Evaluation Playground, ajouter deux modèles
   ![Interface de l’Evaluation Playground](/weave/guides/evaluation/img/eval-playground-ui.png)
 </Frame>
 
-<div id="set-up-an-evaluation-in-the-playground">
-  ## Configurer une évaluation dans le playground
-</div>
+## Configurer une évaluation dans le playground {#set-up-an-evaluation-in-the-playground}
 
 Les sections suivantes décrivent comment ouvrir l’Evaluation Playground, choisir un point de départ pour votre évaluation et configurer le dataset, les modèles et les évaluateurs.
 
@@ -28,9 +26,7 @@ Pour configurer une évaluation dans l’Evaluation Playground :
 
 Suivez les instructions des sections suivantes pour configurer vos Datasets, modèles et évaluateurs.
 
-<div id="add-a-dataset">
-  ### Ajouter un dataset
-</div>
+### Ajouter un dataset {#add-a-dataset}
 
 [Datasets](../core-types/datasets) est une collection organisée d&#39;exemples d&#39;entrées utilisateur et des réponses attendues de vos modèles. Lors d&#39;une évaluation, le playground envoie chaque entrée de test à votre modèle, collecte sa sortie, puis attribue un score à cette sortie en fonction d&#39;une métrique que vous avez sélectionnée, comme l&#39;exactitude. Vous pouvez créer un dataset dans l&#39;interface utilisateur, ajouter un dataset existant déjà enregistré dans votre projet ou importer un nouveau dataset.
 
@@ -59,9 +55,7 @@ Après avoir sélectionné une option, le dataset apparaît dans le panneau de d
   Il est également important de nommer correctement les colonnes de votre dataset `user_input` et `expected_output` afin que les évaluateurs puissent accéder aux données.
 </Note>
 
-<div id="add-a-model">
-  ### Ajouter un modèle
-</div>
+### Ajouter un modèle {#add-a-model}
 
 Les [Models](/fr/weave/guides/core-types/models), dans le contexte de Weave, correspondent à une combinaison d’un modèle d’IA (tel que GPT) et de l’environnement (ici, le prompt système) qui définit le fonctionnement du modèle pendant l’évaluation. Vous pouvez sélectionner des modèles existants dans votre projet ou en créer de nouveaux à évaluer, et vous pouvez ajouter plusieurs modèles à la fois pour les évaluer simultanément avec le même dataset et le même évaluateur. **Vous pouvez uniquement utiliser des modèles créés avec la fonctionnalité playground.**
 
@@ -81,9 +75,7 @@ Pour ajouter un modèle dans la section **Models** de l’Evaluation Playground�
 
 4. Facultatif : pour évaluer plusieurs modèles simultanément, cliquez de nouveau sur **Add Model** et ajoutez d’autres modèles si nécessaire.
 
-<div id="add-scorers">
-  ### Ajouter des évaluateurs
-</div>
+### Ajouter des évaluateurs {#add-scorers}
 
 Les [évaluateurs](../evaluation/scorers) utilisent des juges LLM pour mesurer et évaluer la qualité des sorties des modèles d’IA. Vous pouvez sélectionner des évaluateurs existants dans votre projet ou en créer de nouveaux pour évaluer vos modèles.
 
@@ -109,9 +101,7 @@ Pour ajouter un évaluateur dans l’Evaluation Playground :
 
 2. Facultatif : cliquez sur **Save** pour enregistrer l’évaluateur dans votre projet afin de l’utiliser plus tard.
 
-<div id="run-the-evaluation">
-  ## Lancer l’évaluation
-</div>
+## Lancer l’évaluation {#run-the-evaluation}
 
 Une fois que vous avez configuré vos datasets, modèles et évaluateurs, vous êtes prêt à lancer l’évaluation et à générer des résultats.
 
@@ -119,9 +109,7 @@ Une fois que vous avez configuré vos datasets, modèles et évaluateurs, vous �
 
 Weave exécute une évaluation distincte pour chaque modèle que vous avez ajouté et collecte des métriques pour chaque requête effectuée à l’aide du dataset. Weave enregistre chacune de ces évaluations dans la section **Evals** pour que vous puissiez les consulter ultérieurement.
 
-<div id="review-evaluation-results">
-  ## Consulter les résultats de l’évaluation
-</div>
+## Consulter les résultats de l’évaluation {#review-evaluation-results}
 
 Une fois l’évaluation terminée, vous pouvez examiner les résultats afin de comparer les performances de chaque modèle par rapport à votre dataset et à vos évaluateurs.
 

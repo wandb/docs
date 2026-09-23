@@ -6,9 +6,7 @@ keywords: ["작업 상태", "작업 목록", "작업 검사", "CLI 작업 목록
 
 이 페이지에서는 큐의 Launch 작업 정보를 확인하는 방법을 설명합니다. W&amp;B App에서 작업 세부 정보를 살펴보고, CLI에서 작업 목록을 확인하고, 큐에 있는 run의 상태를 해석할 수 있습니다.
 
-<div id="view-jobs">
-  ## 작업 보기
-</div>
+## 작업 보기 {#view-jobs}
 
 큐의 작업을 보려면 W&amp;B App을 사용합니다:
 
@@ -38,9 +36,7 @@ W&amp;B App UI에서는 Launch 작업으로 생성된 run에 대해 다음과 �
 * **Start time**: 작업이 시작된 타임스탬프입니다.
 * **Duration**: 작업의 run이 완료되는 데 걸린 시간(초)입니다.
 
-<div id="list-jobs">
-  ## 작업 목록 보기
-</div>
+## 작업 목록 보기 {#list-jobs}
 
 W&amp;B CLI를 사용해 프로젝트에 있는 작업 목록을 확인하세요. `wandb job list` 명령어를 사용하고, `--project` 및 `--entity` 플래그로 각각 Launch 작업이 속한 프로젝트 이름과 entity 이름을 지정하세요.
 
@@ -50,9 +46,7 @@ W&amp;B CLI를 사용해 프로젝트에 있는 작업 목록을 확인하세요
 wandb job list --entity [ENTITY] --project [PROJECT-NAME]
 ```
 
-<div id="check-the-status-of-a-job">
-  ## 작업 상태 확인
-</div>
+## 작업 상태 확인 {#check-the-status-of-a-job}
 
 큐에 들어간 각 run에는 Launch 라이프사이클에서 현재 위치를 나타내는 상태가 있습니다. 다음 표는 큐에 들어간 run이 가질 수 있는 상태를 정의합니다.
 

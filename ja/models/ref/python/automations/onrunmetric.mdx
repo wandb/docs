@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L373" />
 
-<div id="class-wandbautomationsonrunmetric">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.OnRunMetric
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.OnRunMetric {#class-wandbautomationsonrunmetric}
 
 run のメトリクスは、ユーザー定義の条件を満たします。
 
@@ -21,9 +19,7 @@ scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.au
 filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="event_type" type="Literal">
   説明はありません。
@@ -37,9 +33,7 @@ filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidato
   このイベントがトリガーされるために満たす必要がある、run および/またはメトリクスの条件。
 </ResponseField>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 メトリクス &quot;my-metric&quot; の直近 5 個の値の平均が 123.45 を超えたときに、project &quot;my-project&quot; 内の任意の run に対してトリガーされるイベントを定義します:
 

@@ -13,9 +13,7 @@ artifact 리니지를 추적하면 다음과 같은 주요 이점이 있습니�
 * **감사**: artifact와 변환의 상세 기록을 유지하여 규정 준수와 거버넌스를 지원합니다.
 * **협업**: 실험 이력을 투명하게 하여 중복 작업을 줄이고 개발 속도를 높임으로써 협업을 개선합니다.
 
-<div id="view-an-artifacts-lineage-graph">
-  ## artifact의 리니지 그래프 보기
-</div>
+## artifact의 리니지 그래프 보기 {#view-an-artifacts-lineage-graph}
 
 artifact의 리니지 그래프를 보려면 다음 단계를 따르세요:
 
@@ -23,9 +21,7 @@ artifact의 리니지 그래프를 보려면 다음 단계를 따르세요:
 2. 프로젝트 사이드바에서 **Artifacts** 탭을 클릭합니다.
 3. artifact를 선택한 다음 **Lineage** 탭을 클릭합니다.
 
-<div id="navigate-lineage-graphs">
-  ## 리니지 그래프 탐색
-</div>
+## 리니지 그래프 탐색 {#navigate-lineage-graphs}
 
 리니지 그래프는 ML 실험에서 artifact와 run 사이의 관계를 시각적으로 보여주는 그래프입니다. W&amp;B App UI 또는 Python SDK를 사용해 artifact의 리니지 그래프를 탐색하고 따라갈 수 있습니다.
 
@@ -81,16 +77,12 @@ artifact의 리니지 그래프를 보려면 다음 단계를 따르세요:
   </Tab>
 </Tabs>
 
-<div id="enable-lineage-graph-tracking">
-  ## 리니지 그래프 추적 활성화
-</div>
+## 리니지 그래프 추적 활성화 {#enable-lineage-graph-tracking}
 
 리니지 그래프 추적을 활성화하려면 W&amp;B Python SDK를 사용해 artifact를 run의 [입력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph) 또는
 [출력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)으로 지정해야 합니다.
 
-<div id="track-the-input-of-a-run">
-  ### run의 입력 추적
-</div>
+### run의 입력 추적 {#track-the-input-of-a-run}
 
 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#method-runuse_artifact)
 방법을 사용해 artifact를 run의 입력(또는 종속성)으로 표시합니다. artifact의 이름과 해당 artifact의 특정 버전을 참조하기 위한 선택 alias를 지정합니다. 해당
@@ -107,9 +99,7 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 ```
 
-<div id="track-the-output-of-a-run">
-  ### run의 출력 추적하기
-</div>
+### run의 출력 추적하기 {#track-the-output-of-a-run}
 
 [`wandb.Run.log_artifact()`](/ko/models/ref/python/experiments/run#log_artifact)를 사용해 artifact를 run의 출력으로 선언합니다. 먼저,
 [`wandb.Artifact()`](/ko/models/ref/python/experiments/artifact#wandb.Artifact) 생성자로 artifact를 만듭니다. 그런 다음,
@@ -131,9 +121,7 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   run.log_artifact(artifact_or_path = artifact)
 ```
 
-<div id="artifact-clusters">
-  ## Artifact cluster
-</div>
+## Artifact cluster {#artifact-clusters}
 
 그래프의 한 레벨에 run 또는 artifact가 5개 이상 있으면 cluster가 생성됩니다. cluster에는 run 또는 artifact의 특정 버전을 검색할 수 있는 검색창이 있으며, 개별 노드를 cluster에서 꺼내 cluster 내부 노드의 리니지를 계속 추적할 수 있습니다.
 

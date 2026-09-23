@@ -20,9 +20,7 @@ Explorez vos données de manière interactive pour :
   Pour savoir comment enregistrer votre vue W&amp;B Tables actuelle, voir [Enregistrer votre vue](#save-your-view).
 </Note>
 
-<div id="table-comparison-options">
-  ## Options de comparaison des tableaux
-</div>
+## Options de comparaison des tableaux {#table-comparison-options}
 
 Comparez deux tableaux à l’aide d’une [vue fusionnée](#merged-view) ou d’une [vue côte à côte](#side-by-side-view). Par exemple, l’image ci-dessous montre une comparaison de tableaux de données MNIST.
 
@@ -48,9 +46,7 @@ Dans l’image suivante, nous montrons les prédictions d’un modèle sur les d
   <img src="/images/data_vis/preds_2.png" alt="Comparaison des prédictions du modèle" max-width="90%" />
 </Frame>
 
-<div id="merged-view">
-  ### Vue fusionnée
-</div>
+### Vue fusionnée {#merged-view}
 
 {/* À faire : ajouter des étapes */}
 
@@ -68,9 +64,7 @@ Depuis la vue fusionnée, vous pouvez
 * **visualiser les différences numériques détaillées sous forme d’histogrammes** : comparez les valeurs de n’importe quelle cellule en un coup d’œil
 
 
-<div id="side-by-side-view">
-  ### Vue côte à côte
-</div>
+### Vue côte à côte {#side-by-side-view}
 
 {/* À faire */}
 
@@ -84,15 +78,11 @@ Pour afficher les deux tableaux côte à côte, modifiez la première liste dér
 * **explorer deux tableaux indépendamment** : faites défiler et concentrez-vous sur le côté ou les lignes qui vous intéressent
 
 
-<div id="compare-artifacts">
-  ## Comparer les Artifacts
-</div>
+## Comparer les Artifacts {#compare-artifacts}
 
 Comparez deux W&amp;B Tables enregistrées en tant que versions d&#39;artefact pour analyser les modifications apportées à vos données ou la performance du modèle. Utilisez la vue fusionnée ou la vue côte à côte pour comparer les tableaux.
 
-<div id="compare-tables-across-time">
-  ### Comparer des tableaux au fil du temps
-</div>
+### Comparer des tableaux au fil du temps {#compare-tables-across-time}
 
 Enregistrez un tableau dans un artefact à chaque étape significative de l&#39;entraînement afin d&#39;analyser les performances du modèle au fil du temps. Par exemple, vous pouvez enregistrer un tableau à la fin de chaque étape de validation, toutes les 50 époques d&#39;entraînement, ou à toute fréquence pertinente pour votre pipeline. Utilisez la vue côte à côte pour visualiser les changements dans les prédictions du modèle.
 
@@ -102,9 +92,7 @@ Enregistrez un tableau dans un artefact à chaque étape significative de l&#39;
 
 Pour un guide pas à pas plus détaillé sur la visualisation des prédictions au fil du temps d&#39;entraînement, consultez le [rapport sur les prédictions au fil du temps](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) et cet [exemple de notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..) interactif.
 
-<div id="compare-tables-across-model-variants">
-  ### Comparer des tableaux entre différentes variantes de modèle
-</div>
+### Comparer des tableaux entre différentes variantes de modèle {#compare-tables-across-model-variants}
 
 Comparez deux versions d’artefact enregistrées à la même étape pour deux modèles différents afin d’analyser les performances des modèles selon différentes configurations (hyperparamètres, architectures de base, etc.).
 
@@ -124,9 +112,7 @@ Par exemple, comparez les prédictions entre `baseline` et une nouvelle variante
   </Tab>
 </Tabs>
 
-<div id="visualize-how-values-change-throughout-your-runs">
-  ## Visualisez comment les valeurs évoluent au fil de vos runs
-</div>
+## Visualisez comment les valeurs évoluent au fil de vos runs {#visualize-how-values-change-throughout-your-runs}
 
 Voyez comment les valeurs que vous enregistrez dans un tableau évoluent au fil de vos runs à l’aide d’un curseur d’étape. Faites glisser le curseur d’étape pour afficher les valeurs enregistrées à différentes étapes. Par exemple, vous pouvez voir comment la perte, la précision ou d’autres métriques évoluent au fil d’un run.
 
@@ -150,9 +136,7 @@ L’image suivante montre un Query panel avec trois runs W&amp;B et les valeurs 
 
 Dans la W&amp;B App UI, vous pouvez remarquer des valeurs en double à plusieurs étapes. Cela peut se produire si plusieurs runs enregistrent la même valeur à des étapes différentes, ou si un run n’enregistre pas de valeurs à chaque étape. Si une valeur est absente pour une étape donnée, W&amp;B utilise comme clé du curseur la dernière valeur enregistrée.
 
-<div id="custom-step-key">
-  ### Clé d’étape personnalisée
-</div>
+### Clé d’étape personnalisée {#custom-step-key}
 
 La clé d’étape peut être n’importe quelle métrique numérique que vous enregistrez dans vos runs comme clé d’étape, par exemple `epoch` ou `global_step`. Lorsque vous utilisez une clé d’étape personnalisée, W&amp;B associe chaque valeur de cette clé à une étape (`_step`) dans le run.
 
@@ -195,9 +179,7 @@ Si le curseur est réglé sur `epoch = 9` :
   | Curseur | | */}
 
 
-<div id="save-your-view">
-  ## Enregistrez votre vue
-</div>
+## Enregistrez votre vue {#save-your-view}
 
 Les tableaux avec lesquels vous interagissez dans le workspace du run, l&#39;espace de travail du projet ou un Report enregistrent automatiquement leur état de vue. Si vous appliquez des opérations à un tableau puis fermez votre navigateur, le tableau conserve la dernière configuration affichée lorsque vous y revenez.
 
@@ -214,9 +196,7 @@ Pour enregistrer un tableau provenant d&#39;un workspace dans un état donné, e
   <img src="/images/data_vis/share_your_view.png" alt="Options de partage de Report" max-width="90%" />
 </Frame>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Ces Reports mettent en avant les différents cas d’usage de W&amp;B Tables :
 

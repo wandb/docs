@@ -8,9 +8,7 @@ W&amp;B Weave 에이전트 관측성은 [OpenTelemetry (OTel)](https://opentelem
 
 이 페이지에서는 엔드포인트에 인증하고 span을 보내는 방법을 설명합니다.
 
-<div id="authentication">
-  ## 인증
-</div>
+## 인증 {#authentication}
 
 다음 엔드포인트로 spans를 전송할 수 있습니다:
 
@@ -26,9 +24,7 @@ W&amp;B Weave 에이전트 관측성은 [OpenTelemetry (OTel)](https://opentelem
 * `wandb-api-key`: 값으로 W&amp;B API 키를 지정합니다.
 * `Authorization`: 사용자 이름으로 `api`를, 비밀번호로 W&amp;B API 키를 사용하는 HTTP Basic 인증입니다. 이 형식은 익스포터 또는 collector가 표준 authorization 헤더만 지원하는 경우에 유용합니다.
 
-<div id="project-routing">
-  ## 프로젝트 라우팅
-</div>
+## 프로젝트 라우팅 {#project-routing}
 
 Weave는 OTel 리소스 속성 또는 요청 헤더를 사용해 span을 프로젝트로 라우팅합니다.
 
@@ -37,9 +33,7 @@ Weave는 OTel 리소스 속성 또는 요청 헤더를 사용해 span을 프로�
 
 둘 다 있으면 리소스 속성이 우선합니다. entity와 프로젝트 없이 들어오는 span은 무시됩니다.
 
-<div id="shape-spans-for-the-agents-view">
-  ## Agents 뷰용 span 구성하기
-</div>
+## Agents 뷰용 span 구성하기 {#shape-spans-for-the-agents-view}
 
 Weave는 모든 OTel span을 허용하고 해당 span의 모든 속성을 저장하지만, Agents 뷰에서는 [OTel GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md)을 따르는 span을 렌더링합니다. 각 span에 `gen_ai.operation.name`을 설정하여 Weave에 해당 span이 무엇을 나타내는지 알려 주세요.
 
@@ -56,9 +50,7 @@ Weave는 모든 OTel span을 허용하고 해당 span의 모든 속성을 저장
 
 `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens`와 같은 다른 GenAI semantic-convention 속성은 모델 이름과 token 수를 표시해 렌더링 정보를 더 풍부하게 해 주지만, 선택 사항입니다. 이러한 span이 매핑되는 에이전트 데이터 모델은 [Trace your agents](/ko/weave/guides/tracking/trace-agents#the-agent-data-model)에서 확인하세요.
 
-<div id="configure-with-environment-variables-only">
-  ## 환경 변수만 사용해 구성하기
-</div>
+## 환경 변수만 사용해 구성하기 {#configure-with-environment-variables-only}
 
 애플리케이션 또는 collector가 표준 OTel 익스포터 환경 변수를 읽는 경우, 코드를 전혀 변경하지 않고도 다음 변수를 설정해 spans를 Weave로 라우팅할 수 있습니다:
 
@@ -68,9 +60,7 @@ export OTEL_EXPORTER_OTLP_TRACES_HEADERS="wandb-api-key=$WANDB_API_KEY"
 export OTEL_RESOURCE_ATTRIBUTES="wandb.entity=[YOUR-TEAM],wandb.project=[YOUR-PROJECT]"
 ```
 
-<div id="example-emit-agent-spans-without-the-weave-sdk">
-  ## 예시: Weave SDK 없이 에이전트 spans 내보내기
-</div>
+## 예시: Weave SDK 없이 에이전트 spans 내보내기 {#example-emit-agent-spans-without-the-weave-sdk}
 
 다음 예시는 OTel 패키지만 사용해 최소한의 에이전트 턴을 계측합니다. 턴용 `invoke_agent` span, LLM Call용 `chat` span, 도구 Call용 `execute_tool` span을 내보낸 다음, 이를 Weave Agents 엔드포인트로 익스포트합니다.
 

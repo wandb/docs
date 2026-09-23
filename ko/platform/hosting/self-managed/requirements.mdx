@@ -24,23 +24,17 @@ import SelfManagedObtainLicense from "/snippets/ko/_includes/self-managed-obtain
 
 전체 아키텍처 가이드는 [레퍼런스 아키텍처](/ko/platform/hosting/self-managed/ref-arch/)를 참조하세요.
 
-<div id="software-version-requirements">
-  ## 소프트웨어 버전 요구 사항
-</div>
+## 소프트웨어 버전 요구 사항 {#software-version-requirements}
 
 <SelfManagedVersionRequirements />
 
-<div id="hardware-requirements">
-  ## 하드웨어 요구 사항
-</div>
+## 하드웨어 요구 사항 {#hardware-requirements}
 
 <SelfManagedHardwareRequirements />
 
 사용 사례(Models 전용, Weave 전용, 또는 둘 다 사용하는 경우)에 따른 보다 구체적인 사이징 권장사항은 [레퍼런스 아키텍처 사이징 섹션](/ko/platform/hosting/self-managed/ref-arch/#sizing)을 참조하세요.
 
-<div id="kubernetes">
-  ## Kubernetes
-</div>
+## Kubernetes {#kubernetes}
 
 W&amp;B Server는 여러 pod를 관리하는 [Kubernetes Operator](/ko/platform/hosting/self-managed/operator/)로 배포됩니다. Kubernetes 클러스터는 다음 요구 사항을 충족해야 합니다:
 
@@ -53,9 +47,7 @@ W&amp;B는 클라우드, 온프레미스, 에어갭 환경의 [OpenShift Kuberne
 
 로드 밸런서와 ingress 설정을 포함한 전체 Kubernetes 요구 사항은 [레퍼런스 아키텍처 Kubernetes 섹션](/ko/platform/hosting/self-managed/ref-arch/#kubernetes)을 참조하세요.
 
-<div id="mysql-database">
-  ## MySQL 데이터베이스
-</div>
+## MySQL 데이터베이스 {#mysql-database}
 
 <SelfManagedMysqlEolUpgrade />
 
@@ -63,9 +55,7 @@ W&amp;B는 클라우드, 온프레미스, 에어갭 환경의 [OpenShift Kuberne
 
 W&amp;B는 프로덕션 배포 환경에서 AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, Azure Database for MySQL과 같은 관리형 데이터베이스 서비스 사용을 권장합니다. 관리형 서비스는 자동 백업, 모니터링, 고가용성, 패치 적용을 제공하며 운영 복잡성을 줄여 줍니다.
 
-<div id="mysql-configuration-parameters">
-  ### MySQL 설정 매개변수
-</div>
+### MySQL 설정 매개변수 {#mysql-configuration-parameters}
 
 직접 MySQL 인스턴스를 운영하는 경우, W&amp;B Server와의 호환성을 위해 MySQL을 다음과 같이 설정하십시오:
 
@@ -81,9 +71,7 @@ sync_binlog = 1
 
 이 설정은 성능과 안정성을 보장하도록 W&amp;B에서 검증한 것입니다.
 
-<div id="database-creation">
-  ### 데이터베이스 생성
-</div>
+### 데이터베이스 생성 {#database-creation}
 
 데이터베이스를 자동으로 프로비저닝하는 관리형 MySQL 서비스를 사용하지 않는 경우, W&amp;B Server에서 사용하는 MySQL 데이터베이스와 사용자를 수동으로 생성하려면 다음 지침을 따르세요:
 
@@ -91,9 +79,7 @@ sync_binlog = 1
 
 백업, 성능, 모니터링, 가용성 등을 포함한 추가 고려 사항은 [레퍼런스 아키텍처의 MySQL 섹션](/ko/platform/hosting/self-managed/ref-arch/#mysql)을 참조하세요.
 
-<div id="redis">
-  ## Redis
-</div>
+## Redis {#redis}
 
 W&amp;B Server는 캐싱 및 백그라운드 작업 조정을 위해 Redis를 사용합니다.
 
@@ -106,9 +92,7 @@ W&amp;B는 다음 환경에 있는 Redis 인스턴스에 연결할 수 있습니
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
 * 사용자 클라우드 또는 온프레미스 인프라에서 호스팅되는 Redis 배포.
 
-<div id="clickhouse">
-  ## ClickHouse
-</div>
+## ClickHouse {#clickhouse}
 
 Self-Managed 배포의 W&amp;B Weave는 ClickHouse를 사용합니다. 모든 Self-Managed 설치에 ClickHouse가 필요한 것은 아닙니다.
 
@@ -116,9 +100,7 @@ W&amp;B Server를 업그레이드하거나 ClickHouse 버전을 변경하기 전
 
 배포 절차는 [Deploy Weave in a self-managed environment](/ko/weave/guides/platform/weave-self-managed)를 참조하세요.
 
-<div id="object-storage">
-  ## 오브젝트 스토리지
-</div>
+## 오브젝트 스토리지 {#object-storage}
 
 W&amp;B Server에서 아티팩트, 미디어, run 데이터를 저장하려면 오브젝트 스토리지 버킷이 필요합니다.
 
@@ -126,51 +108,37 @@ W&amp;B Server에서 아티팩트, 미디어, run 데이터를 저장하려면 �
 
 <ByobProvisioningLink />
 
-<div id="configure-wb-to-use-your-bucket">
-  ### W&amp;B에서 버킷 사용하도록 설정
-</div>
+### W&amp;B에서 버킷 사용하도록 설정 {#configure-wb-to-use-your-bucket}
 
 버킷을 프로비저닝한 후 W&amp;B Server가 버킷을 읽고 쓸 수 있도록 Operator의 Helm values에서 W&amp;B가 해당 버킷을 사용하도록 반드시 설정해야 합니다. 자세한 내용은 [Operator 오브젝트 스토리지 설정 섹션](/ko/platform/hosting/self-managed/operator/#object-storage-bucket)을 참조하세요.
 
-<div id="networking">
-  ## 네트워킹
-</div>
+## 네트워킹 {#networking}
 
 네트워킹 설정은 사용자와 머신 러닝 워크로드가 W&amp;B Server에 접근할 수 있도록 합니다. 다음 섹션에서는 DNS, 로드 밸런서, 인그레스 요구 사항을 설명합니다.
 
 <SelfManagedNetworkingRequirements />
 
-<div id="dns">
-  ### DNS
-</div>
+### DNS {#dns}
 
 W&amp;B 배포에 사용되는 정규화된 도메인 이름(FQDN)은 A 레코드를 사용해 Ingress 또는 로드 밸런서의 IP 주소로 해석되도록 구성해야 합니다.
 
-<div id="load-balancer-and-ingress">
-  ### 로드 밸런서와 인그레스
-</div>
+### 로드 밸런서와 인그레스 {#load-balancer-and-ingress}
 
 W&amp;B Kubernetes Operator는 Kubernetes 인그레스 컨트롤러를 사용해 서비스를 노출하며, 이 인그레스 컨트롤러는 URL 경로를 기준으로 서비스 엔드포인트로 라우팅합니다. 인그레스 컨트롤러는 머신러닝 페이로드를 실행하거나 웹 브라우저를 통해 서비스에 접근하는 모든 머신에서 접근 가능해야 합니다.
 
 자세한 로드 밸런서 옵션, 인그레스 컨트롤러 요구 사항, 설정 예시는 [레퍼런스 아키텍처 load balancer 섹션](/ko/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress)을 참조하세요.
 
-<div id="ssltls">
-  ## SSL/TLS
-</div>
+## SSL/TLS {#ssltls}
 
 <SelfManagedSslTlsRequirements />
 
-<div id="license">
-  ## 라이선스
-</div>
+## 라이선스 {#license}
 
 모든 Self-Managed 배포 환경에는 유효한 W&amp;B Server 라이선스가 필요합니다. 라이선스가 없으면 W&amp;B Server를 시작할 수 없습니다.
 
 <SelfManagedObtainLicense />
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 인프라가 다음 요구 사항을 충족하는지 확인한 후에는 환경에 맞는 배포 가이드로 진행하세요:
 

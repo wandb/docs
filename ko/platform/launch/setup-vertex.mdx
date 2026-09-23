@@ -10,9 +10,7 @@ W&amp;B Launch는 `google-cloud-aiplatform` SDK의 `CustomJob` 클래스를 통�
 
 {/* Vertex AI에서의 Launch 구성 요소 다이어그램 */}
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 Launch 큐를 설정하기 전에 다음 Google Cloud 리소스와 권한이 준비되어 있는지 확인하세요.
 
@@ -32,9 +30,7 @@ Launch 큐를 설정하기 전에 다음 Google Cloud 리소스와 권한이 준
   Vertex AI 워크로드가 기본이 아닌 서비스 계정의 ID를 사용하도록 하려면, 서비스 계정 생성 방법과 필요한 권한에 대한 안내는 Vertex AI 문서를 참고하세요. W&amp;B run에 맞춤형 서비스 계정을 선택하려면 Launch 큐 설정의 `spec.service_account` 필드를 사용하세요.
 </Note>
 
-<div id="configure-a-queue-for-vertex-ai">
-  ## Vertex AI용 큐 설정
-</div>
+## Vertex AI용 큐 설정 {#configure-a-queue-for-vertex-ai}
 
 Google Cloud 사전 요구 사항을 갖추었다면, 다음 단계는 W&amp;B Launch가 Vertex AI 작업을 제출할 때 사용할 큐 설정을 계획하는 것입니다. Vertex AI 리소스용 큐 설정은 Vertex AI Python SDK의 `CustomJob` 생성자와 `CustomJob`의 `run` 메서드에 전달할 입력값을 지정합니다. 리소스 설정은 `spec` 및 `run` 키 아래에 저장됩니다.
 
@@ -45,9 +41,7 @@ Google Cloud 사전 요구 사항을 갖추었다면, 다음 단계는 W&amp;B L
 
 사용 가능한 머신 유형과 가속기 유형에 대한 자세한 내용은 [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec)을 참조하세요.
 
-<div id="create-a-queue">
-  ## 큐 만들기
-</div>
+## 큐 만들기 {#create-a-queue}
 
 이제 큐 설정을 계획했으므로, Vertex AI를 컴퓨팅 리소스로 사용하는 큐를 W&amp;B App에서 만드세요.
 
@@ -91,9 +85,7 @@ Google Cloud 사전 요구 사항을 갖추었다면, 다음 단계는 W&amp;B L
   Launch 큐 설정의 모든 키는 스네이크 케이스를 사용해야 합니다.
 </Warning>
 
-<div id="configure-a-launch-agent">
-  ## Launch 에이전트 구성하기
-</div>
+## Launch 에이전트 구성하기 {#configure-a-launch-agent}
 
 큐를 만들었으면 Launch 에이전트가 큐를 폴링하여 작업을 Vertex AI로 전달하도록 구성하세요. Launch 에이전트는 설정 파일로 구성할 수 있으며, 기본 설정 파일 경로는 `~/.config/wandb/launch-config.yaml`입니다.
 
@@ -105,8 +97,6 @@ queues:
 
 Vertex AI에서 실행할 이미지를 Launch 에이전트가 빌드하도록 하려면 [고급 에이전트 설정](./setup-agent-advanced)을 참조하세요.
 
-<div id="set-up-agent-permissions">
-  ## 에이전트 권한 설정
-</div>
+## 에이전트 권한 설정 {#set-up-agent-permissions}
 
 마지막으로, Launch 에이전트가 사전 요구 사항에서 만든 서비스 계정으로 작동하는 데 필요한 사용자 인증 정보를 제공하세요. 이 서비스 계정으로 인증하는 방법은 여러 가지가 있습니다. Workload Identity, 다운로드한 서비스 계정 JSON, 환경 변수, Google Cloud Platform 명령줄 도구 또는 이 방법들을 조합해 인증할 수 있습니다.

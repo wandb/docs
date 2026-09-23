@@ -12,9 +12,7 @@ Weave は、[MistralAI Python library](https://github.com/mistralai/client-pytho
 
 > Weave は Mistral v1.0 SDK をサポートしています。アップグレードの詳細については、[移行ガイド](https://github.com/mistralai/client-python/blob/main/MIGRATION.md)を参照してください。
 
-<div id="traces">
-  ## トレース
-</div>
+## トレース {#traces}
 
 開発時だけでなく本番環境でも、LLM アプリケーションのトレースを一元的なデータベースに保存しておくことが重要です。これらのトレースは、デバッグに使うだけでなく、アプリケーションの改善に役立つデータセットとしても活用できます。
 
@@ -50,9 +48,7 @@ chat_response = client.chat.complete(
 
 [![mistral\_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
-<div id="wrap-calls-with-your-own-ops">
-  ## 独自の ops で Call をラップする
-</div>
+## 独自の ops で Call をラップする {#wrap-calls-with-your-own-ops}
 
 基本的なトレースが機能したら、MistralAI の Call を Weave Ops でラップして、experiment 間で再現可能にできます。Weave ops を使うと、実験を進めながらコードを自動でバージョン管理し、入力と出力も記録することで、結果を*再現可能*にできます。[`@weave.op()`](/ja/weave/guides/tracking/ops) でデコレートした関数を作成し、その中で [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion) を呼び出すと、Weave が入力と出力をトラッキングしてくれます。以下の例では、これをチーズ推薦ツールでどのように行うかを示します。
 
@@ -81,9 +77,7 @@ cheese_recommender(region="Netherlands", model="mistral-large-latest")
 
 [![mistral\_ops.png](/weave/guides/integrations/imgs/mistral_ops.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
-<div id="create-a-model-for-easier-experimentation">
-  ## 実験を進めやすくするための `Model` を作成する
-</div>
+## 実験を進めやすくするための `Model` を作成する {#create-a-model-for-easier-experimentation}
 
 実験には多くの要素が関わるため、整理するのは簡単ではありません。[`Model`](/ja/weave/guides/core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリのさまざまな反復を整理し、比較しやすくなります。
 

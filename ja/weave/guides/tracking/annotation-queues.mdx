@@ -8,7 +8,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <div id="overview">
-  ## 概要
+  ## 概要 {#overview}
 </div>
 
 このガイドでは、Weave でアノテーションキューを設定し、選択したトレースについてドメインエキスパートから構造化されたフィードバックを収集する方法を説明します。評価、失敗分析、またはデータセット作成のために専門家によるラベル付きデータが必要な場合は、アノテーションキューを使用してください。アノテーションキューを使用すると、レビュー担当者は Weave UI 全体ではなく、厳選されたトレースのセットに集中することもできます。
@@ -21,7 +21,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 * **データセット作成**: アノテーション付きトレースを、評価用またはトレーニング用のデータセットに変換します。
 
 <div id="end-to-end-workflow">
-  ## エンドツーエンドのワークフロー
+  ## エンドツーエンドのワークフロー {#end-to-end-workflow}
 </div>
 
 以下のワークフローは、アノテーションキューを使用してレビューを取得する流れをまとめたものです。以下のセクションでは、各ステップを詳しく説明します。
@@ -33,7 +33,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 5. 完了したアノテーションをフィルターし、エクスポートします。
 
 <div id="define-annotation-fields">
-  ## アノテーションフィールドを定義する
+  ## アノテーションフィールドを定義する {#define-annotation-fields}
 </div>
 
 アノテーションキューを作成する前に、まずアノテーションフィールドを定義します。そうすることで、キューのセットアップ時にフィールドを選択できるようになります。アノテーションフィールドは、各トレース項目に対してアノテーターが入力するフィードバックを定義します。フィールドはキューやプロジェクト間で再利用できます。
@@ -68,7 +68,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 </Note>
 
 <div id="create-an-annotation-queue">
-  ## アノテーションキューを作成する
+  ## アノテーションキューを作成する {#create-an-annotation-queue}
 </div>
 
 アノテーションフィールドを定義したら、次のステップは、アノテーターが作業に使用するキューを作成することです。
@@ -100,7 +100,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 アノテーションキューを作成すると、評価用のフィールドとガイドラインが定義されます。ただし、評価するデータを特定するには、引き続きキューにトレースを追加する必要があります。
 
 <div id="add-traces-to-a-queue">
-  ### キューにトレースを追加する
+  ### キューにトレースを追加する {#add-traces-to-a-queue}
 </div>
 
 キューを作成したら、次にレビュー対象にする特定のトレースを追加します。**Traces** ページから、トレースを アノテーションキュー に直接追加できます。
@@ -126,7 +126,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 トレースを追加する際は、レビュー対象にする trace の入力項目と、出力またはモデルの応答を制御できるため、アノテーター には正確に判断するために必要なコンテキストだけが表示されます。
 
 <div id="monitor-review-progress">
-  ## レビューの進捗を確認する
+  ## レビューの進捗を確認する {#monitor-review-progress}
 </div>
 
 トレースが追加されると、アノテーター は作業を開始でき、レビューの進捗を確認できます。アノテーター がレビューを開始できるようにキュー名を共有します。レビュー プロセスの詳細については、[アノテーションキュー 内の項目をレビューする](/ja/weave/guides/tracking/annotation-review)を参照してください。
@@ -151,7 +151,7 @@ Annotation Queues 表では、**State** 列にレビューの進捗が表示さ�
 Annotation Queues 表では、**Calls with responses** 列に、少なくとも 1 件のレビューが送信された項目の割合 (**Calls** の総数に対する割合) が表示されます。
 
 <div id="filter-and-export-annotations">
-  ## アノテーションのフィルタリングとエクスポート
+  ## アノテーションのフィルタリングとエクスポート {#filter-and-export-annotations}
 </div>
 
 アノテーターがレビューを送信すると、その結果得られたフィードバックを分析、評価、またはトレーニングに使用できます。Weave は、完了したアノテーションをトレースの構造化メタデータとして保存します。
@@ -165,7 +165,7 @@ Annotation Queues 表では、**Calls with responses** 列に、少なくとも 
 これにより、専門家によるフィードバックをモデルの評価と改善サイクルに直接つなげられます。
 
 <div id="filter-annotated-traces">
-  ### 注釈付きトレースをフィルターする
+  ### 注釈付きトレースをフィルターする {#filter-annotated-traces}
 </div>
 
 **Traces** ページのフィルターコントロールを使用すると、注釈付きのトレースのみを表示できます。
@@ -190,13 +190,13 @@ Annotation Queues 表では、**Calls with responses** 列に、少なくとも 
 6. 任意: すばやくアクセスできるよう、ビューとして保存します。Traces 表のヘッダーで、**Save View** をクリックします。
 
 <div id="export-annotated-traces-to-datasets">
-  ### 注釈付きトレースをデータセットにエクスポートする
+  ### 注釈付きトレースをデータセットにエクスポートする {#export-annotated-traces-to-datasets}
 </div>
 
 データの使用目的に応じて、注釈付きトレースは UI またはプログラムからエクスポートできます。
 
 <div id="add-annotated-traces-to-a-dataset">
-  #### 注釈付きトレースをデータセットに追加する
+  #### 注釈付きトレースをデータセットに追加する {#add-annotated-traces-to-a-dataset}
 </div>
 
 注釈付きトレースを選択し、**データセットに追加**をクリックすると、評価用またはトレーニング用データに専門家によるラベルを含めることができます。
@@ -209,9 +209,7 @@ Annotation Queues 表では、**Calls with responses** 列に、少なくとも 
 
 データセットの使用方法について詳しくは、[データセットの収集とトラッキング](/ja/weave/guides/core-types/datasets)を参照してください。
 
-<div id="access-annotations-programmatically">
-  ## プログラムからアノテーションにアクセスする
-</div>
+## プログラムからアノテーションにアクセスする {#access-annotations-programmatically}
 
 UI ワークフローに加えて、アノテーションデータはプログラムから読み取ることもできます。これは、分析の自動化、カスタム report の作成、アノテーションの後続パイプラインへの統合に役立ちます。アノテーションをプログラムから利用するには、プロジェクト名とキュー ID を把握しておく必要があります。
 

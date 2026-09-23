@@ -26,9 +26,7 @@ ARIA에 W&amp;B 자동화 생성과 관리를 대신 맡길 수도 있습니다.
   ARIA는 개인 entity가 아닌 팀 프로젝트에서 동작합니다. 또한 조직 관리자가 **Smart features**를 활성화해야 합니다. [거버넌스 및 보안](/ko/aria/governance)을 참고하세요.
 </Note>
 
-<div id="requirements">
-  ## Requirements
-</div>
+## Requirements {#requirements}
 
 ARIA에 프롬프트를 전송하는 자동화를 만들기 전에 다음 사항을 확인하세요.
 
@@ -38,9 +36,7 @@ ARIA에 프롬프트를 전송하는 자동화를 만들기 전에 다음 사항
 
 ARIA 자동화가 실행될 때마다 ARIA 대화가 시작되며, 직접 시작한 대화와 동일하게 조직의 사용량에 포함됩니다.
 
-<div id="create-an-automation">
-  ## 만들기
-</div>
+## 만들기 {#create-an-automation}
 
 자동화를 적용할 범위에 따라 **Registry** 또는 **Project**를 선택하세요. 그런 다음 아래 단계에 따라 ARIA에 프롬프트를 전송하는 자동화를 만드세요.
 
@@ -93,9 +89,7 @@ ARIA 자동화가 실행될 때마다 ARIA 대화가 시작되며, 직접 시작
   </Tab>
 </Tabs>
 
-<div id="create-and-manage-automations-with-aria">
-  ## ARIA로 자동화 만들기 및 관리하기
-</div>
+## ARIA로 자동화 만들기 및 관리하기 {#create-and-manage-automations-with-aria}
 
 {/* 확인: "delete, enable, and disable" — ARIA의 자동화 기능은 list/get/integrations/template-vars/create 하위 명령어만 제공하며, update나 delete는 제공하지 않습니다. 범용 execute_graphql 이스케이프 해치도 있으므로 이러한 작업이 여전히 가능할 수 있습니다. 이 문장을 신뢰하기 전에 제품에서 테스트하세요. */}
 
@@ -115,9 +109,7 @@ ARIA에게 자동화 이름을 변경해 달라고 요청해 보세요:
 
 확인하면 ARIA가 자동화의 이름을 변경합니다.
 
-<div id="view-your-aria-automations-in-chat">
-  ### 채팅에서 ARIA 자동화 보기
-</div>
+### 채팅에서 ARIA 자동화 보기 {#view-your-aria-automations-in-chat}
 
 ARIA를 열고 채팅 헤더에서 **Reveal chat history**를 클릭한 다음, 채팅 이력 사이드바 하단의 **Customize** 섹션을 열고 **My automations**를 선택하세요.
 
@@ -141,9 +133,7 @@ ARIA를 열고 채팅 헤더에서 **Reveal chat history**를 클릭한 다음, 
 
 읽기 전용 billing 액세스 권한만 있는 경우 **Create automation**은 비활성화됩니다. **My automations**는 개인 계정에서는 사용할 수 없습니다. 자동화를 보려면 조직을 선택하세요. 이 패널에는 별도의 기능 플래그가 필요하지 않으며, [요구 사항](#requirements)에 설명된 것과 동일한 액세스 검사에 따라 사용할 수 있습니다.
 
-<div id="write-the-prompt">
-  ## 프롬프트 작성하기
-</div>
+## 프롬프트 작성하기 {#write-the-prompt}
 
 ARIA 액션에서 설정할 항목은 프롬프트 하나뿐입니다. ARIA chat window에 메시지를 작성하듯 프롬프트를 작성하고, ARIA가 검사할 run, 아티팩트, 메트릭을 지정하려면 [템플릿 변수](#template-variables)를 포함하세요.
 
@@ -167,9 +157,7 @@ ${artifact_version_string}을(를) 현재 프로덕션 별칭과 비교하세요
 
 <AriaChatBubbles prompt="이 프로젝트에서 run이 실패할 때마다 실행되는 자동화를 만들고 싶습니다. 실패 원인을 진단해 달라고 요청하는 프롬프트를 작성해 주세요." response="자동화에 붙여 넣을 프롬프트입니다: '${project_name}의 run ${run_name}이 방금 실패했습니다. 해당 run의 로그, 설정, 시스템 메트릭을 살펴보고 최근 성공한 run 몇 개와 비교한 다음, 가장 유력한 원인과 시도해 볼 수 있는 구체적인 해결 방법 한 가지를 알려주세요.'" />
 
-<div id="template-variables">
-  ## 템플릿 변수
-</div>
+## 템플릿 변수 {#template-variables}
 
 템플릿 변수는 `${variable_name}` 구문을 사용합니다. 프롬프트에서 사용할 수 있는 변수는 자동화가 감시하는 이벤트에 따라 달라집니다.
 
@@ -202,9 +190,7 @@ ${artifact_version_string}을(를) 현재 프로덕션 별칭과 비교하세요
 
 각 범위에서 사용할 수 있는 이벤트는 [Automation events and scopes](/ko/models/automations/automation-events)를 참고하세요.
 
-<div id="view-conversations-created-by-automations">
-  ## 자동화가 생성한 대화 보기
-</div>
+## 자동화가 생성한 대화 보기 {#view-conversations-created-by-automations}
 
 자동화는 해당 자동화를 만든 사용자의 계정으로 ARIA 대화를 생성합니다. 이 대화는 그 사용자의 ARIA 채팅 이력 사이드바에, 본인이 직접 시작한 대화와 함께 표시됩니다. 이벤트를 발생시킨 사용자를 파악하려면 프롬프트에 `${event_author}`를 포함하세요.
 
@@ -217,9 +203,7 @@ ${artifact_version_string}을(를) 현재 프로덕션 별칭과 비교하세요
 
 자동화가 실행되었는지 확인하려면 해당 자동화의 [실행 이력](/ko/models/automations/view-automation-history)을 여세요. ARIA 실행이 성공하면 W&amp;B가 전송한 프롬프트와 대화의 `thread_id`가 포함된 응답 본문이 표시됩니다. 해당 대화를 열려면 ARIA의 [My automations](#view-your-aria-automations-in-chat) 패널에 있는 **Open thread** 링크를 사용하세요. 이 링크는 동일한 `thread_id`를 기반으로 생성됩니다. 자동화로 생성된 대화가 채팅 이력에서 별도로 구분되어 표시되지는 않습니다.
 
-<div id="view-and-manage-automations">
-  ## 자동화 보기 및 관리
-</div>
+## 자동화 보기 및 관리 {#view-and-manage-automations}
 
 프로젝트나 레지스트리의 **Automations** 탭 또는 전역 **Automations** 허브에서 자동화를 보고 관리할 수 있습니다. 자동화 목록에서 액션은 **ARIA**로 표시됩니다.
 
@@ -227,9 +211,7 @@ ARIA 대화는 자동화를 만든 사용자 권한으로 실행되므로, ARIA�
 
 자동화의 소유권은 이전할 수 없습니다. 대신 자동화를 삭제한 후 새 소유자가 다시 생성하도록 하세요. 생성자가 팀을 떠난 자동화를 복구할 때도 동일한 방법을 사용하세요.
 
-<div id="limitations">
-  ## 제한 사항
-</div>
+## 제한 사항 {#limitations}
 
 ARIA 자동화에는 다음과 같은 제한 사항이 있습니다.
 
@@ -240,9 +222,7 @@ ARIA 자동화에는 다음과 같은 제한 사항이 있습니다.
 * `wandb` Python 라이브러리는 ARIA 자동화를 지원하지 않습니다. [API로 자동화 관리](/ko/models/automations/api)를 참조하세요.
 * 챗 내의 [My automations](#view-your-aria-automations-in-chat) 패널은 읽기 전용입니다. 자동화를 활성화, 비활성화, 편집 또는 삭제하려면 **Automations** 탭이나 허브를 사용하세요.
 
-<div id="next-steps">
-  ## 다음 step
-</div>
+## 다음 step {#next-steps}
 
 다음 리소스를 이어서 확인하세요:
 

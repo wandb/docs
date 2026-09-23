@@ -21,9 +21,7 @@ Pour ce cas d’utilisation avancé, le notebook utilise l’API Realtime d’Op
 
 [![Vignette vidéo de la démonstration audio Weave Realtime](https://img.youtube.com/vi/lnnd73xDElw/0.jpg)](https://www.youtube.com/watch?v=lnnd73xDElw "Démonstration audio Weave Realtime")
 
-<div id="setup">
-  ## Configuration
-</div>
+## Configuration {#setup}
 
 Cette section installe les packages Python, charge les clés API et importe les bibliothèques nécessaires pour l’exemple de chat completions.
 
@@ -67,9 +65,7 @@ from openai import OpenAI
 import weave
 ```
 
-<div id="audio-streaming-and-storage-example">
-  ## Exemple de streaming et de stockage audio
-</div>
+## Exemple de streaming et de stockage audio {#audio-streaming-and-storage-example}
 
 Une fois les dépendances installées et les identifiants chargés, vous pouvez maintenant configurer un appel vers l’endpoint Completions d’OpenAI avec la modalité audio activée. Créez d’abord le client OpenAI et initialisez un projet Weave afin que Weave consigne les appels suivants dans votre espace de travail.
 
@@ -137,9 +133,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     return wave.open("output.wav", "rb")
 ```
 
-<div id="testing">
-  ## Test
-</div>
+## Test {#testing}
 
 Après avoir défini la fonction, exécutez la cellule suivante pour l’appeler de bout en bout et confirmer que l’audio est généré et enregistré. Weave stocke les prompts système et utilisateur dans une trace, ainsi que l’audio de sortie.
 Après avoir exécuté la cellule, cliquez sur le lien de trace affiché dans la sortie de la cellule pour afficher votre trace. À ce stade, vous disposez d’un appel audio de chat-completions complet avec trace dans Weave.
@@ -157,9 +151,7 @@ prompt_endpoint_and_log_trace(
 display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 ```
 
-<div id="advanced-usage-realtime-api-with-weave">
-  ## Utilisation avancée : API Realtime avec Weave
-</div>
+## Utilisation avancée : API Realtime avec Weave {#advanced-usage-realtime-api-with-weave}
 
 La suite de ce cookbook présente un exemple plus avancé qui utilise l’API Realtime d’OpenAI avec Weave pour tracer une conversation audio bidirectionnelle en direct.
 
@@ -174,9 +166,7 @@ Avant d’exécuter l’exemple Realtime, consultez les prérequis suivants :
   * Sur macOS, vous devez installer `portaudio` via [Brew](https://formulae.brew.sh/formula/portaudio) pour que PyAudio fonctionne.
 * L’option `enable_audio_playback` lit l’audio produit par l’assistant. Un casque est requis si vous l’activez, car la détection d’écho nécessite une implémentation complexe.
 
-<div id="requirements-setup">
-  ## Configuration requise
-</div>
+## Configuration requise {#requirements-setup}
 
 L&#39;exemple Realtime nécessite des packages supplémentaires pour les entrées/sorties audio et la communication via WebSocket. Installez-les, puis rechargez vos variables d&#39;environnement.
 
@@ -208,9 +198,7 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-<div id="microphone-configuration">
-  ## Configuration du microphone
-</div>
+## Configuration du microphone {#microphone-configuration}
 
 Comme l’exemple Realtime enregistre à partir de votre microphone et lit l’audio via vos haut-parleurs, vous devez indiquer à PyAudio quels périphériques utiliser.
 
@@ -245,17 +233,13 @@ OAI_SAMPLE_RATE = (
 OUTPUT_DEVICE_CHANNELS = 1  # Définir à 1 pour une sortie mono
 ```
 
-<div id="openai-realtime-api-schema-implementation">
-  ## Implémentation du schéma de l’API Realtime d’OpenAI
-</div>
+## Implémentation du schéma de l’API Realtime d’OpenAI {#openai-realtime-api-schema-implementation}
 
 Les sections suivantes présentent le client Realtime étape par étape : le schéma des messages, un composant d’écriture audio, le modèle instrumenté avec Weave et l’enregistreur.
 
 Le SDK Python OpenAI ne prend pas encore en charge l’API Realtime. Cet exemple implémente le schéma complet de l’API Realtime d’OpenAI dans Pydantic pour en améliorer la lisibilité, et pourrait être déprécié une fois la prise en charge officielle disponible.
 
-<div id="pydantic-schema-for-the-openai-realtime-api">
-  ### Schéma Pydantic pour l’API Realtime d’OpenAI
-</div>
+### Schéma Pydantic pour l’API Realtime d’OpenAI {#pydantic-schema-for-the-openai-realtime-api}
 
 ```python lines
 from enum import Enum
@@ -796,9 +780,7 @@ def parse_server_event(event_data: dict) -> ServerEvent:
         raise ValueError(f"Failed to parse event of type {event_type}: {str(e)}") from e
 ```
 
-<div id="audio-stream-writer-to-disk-and-in-memory">
-  ## Module d’écriture de flux audio (sur disque et en mémoire)
-</div>
+## Module d’écriture de flux audio (sur disque et en mémoire) {#audio-stream-writer-to-disk-and-in-memory}
 
 La classe utilitaire suivante met en mémoire tampon des fragments de flux audio dans un fichier WAV (ou un tampon en mémoire), afin que l’audio puisse ensuite être transmis vers Weave pour la journalisation.
 
@@ -844,9 +826,7 @@ class StreamingWavWriter:
         return self.buffer
 ```
 
-<div id="realtime-audio-model">
-  ## Modèle audio en temps réel
-</div>
+## Modèle audio en temps réel {#realtime-audio-model}
 
 Le modèle audio en temps réel (RT) utilise un WebSocket pour envoyer des événements à l&#39;API Realtime d&#39;OpenAI. Le modèle fonctionne comme suit :
 
@@ -1052,9 +1032,7 @@ class RTAudioModel(weave.Model):
         self.user_wav_writer.close()
 ```
 
-<div id="audio-recorder">
-  ## Enregistreur audio
-</div>
+## Enregistreur audio {#audio-recorder}
 
 Une fois le modèle défini, vous avez besoin d’un moyen de lui fournir l’entrée du microphone. Cet exemple utilise un flux d’entrée PyAudio avec un gestionnaire associé à la méthode `send_audio` du modèle RTAudio. Le code renvoie le flux au thread principal afin de pouvoir être arrêté en toute sécurité à la fin du programme.
 
@@ -1083,9 +1061,7 @@ def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
     return stream
 ```
 
-<div id="main-thread">
-  ## Thread principal
-</div>
+## Thread principal {#main-thread}
 
 Cette cellule finale relie les composants précédents et exécute l’assistant en temps réel. Le thread principal lance un modèle Audio en temps réel intégrant Weave. Ensuite, le code ouvre un enregistrement et attend une interruption clavier de l’utilisateur. Lorsque vous arrêtez la cellule, vous disposez d’une trace Weave complète de la conversation, y compris les transcriptions de l’utilisateur et de l’assistant, ainsi que l’audio.
 

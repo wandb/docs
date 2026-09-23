@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-<div id="class-wandbapispublicruns">
-  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Runs
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.apis.public.Runs {#class-wandbapispublicruns}
 
 프로젝트 및 선택적 필터와 연결된 `Run` 객체의 지연 이터레이터입니다.
 
@@ -30,9 +28,7 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   요청에 사용할 서비스 API입니다.
@@ -70,13 +66,9 @@ api_key: 'str | None' = None)
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="method-runshistories">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Runs.histories()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Runs.histories() {#method-runshistories}
 
 ```python
 self,
@@ -89,9 +81,7 @@ stream: "Literal['default', 'system']" = 'default'
 
 필터 조건에 맞는 모든 run의 샘플링된 이력 메트릭을 반환합니다.
 
-<div id="arguments">
-  ##### 인수
-</div>
+##### 인수 {#arguments}
 
 <ResponseField name="samples" type="int">
   run당 반환할 샘플 수
@@ -113,9 +103,7 @@ stream: "Literal['default', 'system']" = 'default'
   메트릭에는 &quot;default&quot;, 시스템 메트릭에는 &quot;system&quot;을 사용합니다.
 </ResponseField>
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self
@@ -123,9 +111,7 @@ self
 
 이터레이터의 다음 항목을 반환합니다. 더 이상 항목이 없으면 `StopIteration` 예외를 발생시킵니다.
 
-<div id="method-paginatorupdate_variables">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.update_variables()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Paginator.update_variables() {#method-paginatorupdate_variables}
 
 ```python
 self
@@ -133,9 +119,7 @@ self
 
 다음 페이지를 가져오기 위한 쿼리 변수를 업데이트합니다.
 
-<div id="method-runsupgrade_to_full">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Runs.upgrade_to_full()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> Runs.upgrade_to_full() {#method-runsupgrade_to_full}
 
 ```python
 self

@@ -5,9 +5,7 @@ keywords: ["Administrateur", "Gestion des utilisateurs", "Variables d'environnem
 
 [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) est un déploiement hébergé sur votre propre infrastructure. Configurez le SDK et la CLI pour qu’ils pointent vers l’URL de votre instance plutôt que vers l’API du [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) (`api.wandb.ai`). Pour les commandes de connexion, `WANDB_BASE_URL` et `--host`, voir [`wandb login`](/fr/models/ref/cli/wandb-login) et [les variables d’environnement](/fr/models/track/environment-variables).
 
-<div id="verify-the-connection">
-  ## Vérifier la connexion
-</div>
+## Vérifier la connexion {#verify-the-connection}
 
 ```bash
 wandb status
@@ -15,9 +13,7 @@ wandb status
 
 Vérifiez que l’hôte correspond à l’URL de votre instance et que la clé API est présente (masquée).
 
-<div id="ssl-certificate-issues">
-  ## Problèmes SSL / de certificat
-</div>
+## Problèmes SSL / de certificat {#ssl-certificate-issues}
 
 Si votre instance utilise un certificat auto-signé ou un certificat d’une autorité de certification interne, définissez le bundle d’autorités de certification avant d’initialiser W&amp;B :
 
@@ -25,9 +21,7 @@ Si votre instance utilise un certificat auto-signé ou un certificat d’une aut
 export REQUESTS_CA_BUNDLE=/path/to/ca-bundle.crt
 ```
 
-<div id="switching-between-multi-tenant-cloud-and-self-managed">
-  ## Passer de Cloud mutualisé à Autogéré, et inversement
-</div>
+## Passer de Cloud mutualisé à Autogéré, et inversement {#switching-between-multi-tenant-cloud-and-self-managed}
 
 Pour réutiliser Cloud mutualisé, supprimez `WANDB_BASE_URL` et exécutez `wandb login` sans `--host` :
 
@@ -36,9 +30,7 @@ unset WANDB_BASE_URL
 wandb login
 ```
 
-<div id="common-issues">
-  ## Problèmes courants
-</div>
+## Problèmes courants {#common-issues}
 
 * **401 sur `wandb.init()`** : les clés API ne sont pas partagées entre Cloud mutualisé et une instance autogérée. Créez une clé dans le profil de votre instance autogérée.
 * **Connexion refusée / délai d’expiration** : vérifiez l’URL de l’instance ainsi que l’accès VPN ou réseau à votre déploiement.

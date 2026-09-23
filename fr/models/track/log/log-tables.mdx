@@ -10,9 +10,7 @@ Utilisez `wandb.Table` pour journaliser des données afin de les visualiser et d
 3. [Récupérer des données](./log-tables#retrieve-data)
 4. [Enregistrer des Tables](./log-tables#save-tables)
 
-<div id="create-tables">
-  ## Créer des Tables
-</div>
+## Créer des Tables {#create-tables}
 
 Pour définir une Table, spécifiez les colonnes que vous souhaitez afficher pour chaque ligne de données. Chaque ligne peut correspondre à un élément unique de votre jeu de données d&#39;entraînement, à une étape ou une époque particulière pendant l&#39;entraînement, à une prédiction effectuée par votre modèle sur un élément de test, à un objet généré par votre modèle, etc. Chaque colonne a un type fixe : numérique, texte, booléen, image, vidéo, audio, etc. Vous n&#39;avez pas besoin de spécifier le type à l&#39;avance. Donnez un nom à chaque colonne et veillez à n&#39;insérer dans chaque colonne que des données de ce type. Pour un exemple plus détaillé, voir le [guide W&amp;B Table](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table).
 
@@ -28,9 +26,7 @@ Utilisez le constructeur `wandb.Table` de l&#39;une des deux façons suivantes 
 
 2. **Pandas DataFrame :** Journalisez un DataFrame avec `wandb.Table(dataframe=my_df)`. Les noms de colonnes seront extraits du DataFrame.
 
-<div id="from-an-existing-array-or-dataframe">
-  #### À partir d’un tableau ou d’un dataframe existants
-</div>
+#### À partir d’un tableau ou d’un dataframe existants {#from-an-existing-array-or-dataframe}
 
 ```python
 # supposons qu'un modèle a retourné des prédictions sur quatre images
@@ -51,18 +47,14 @@ columns = ["id", "image", "prediction", "truth"]
 test_table = wandb.Table(data=my_data, columns=columns)
 ```
 
-<div id="add-data">
-  ## Ajouter des données
-</div>
+## Ajouter des données {#add-data}
 
 Les Tables sont mutables. À mesure que votre script s’exécute, vous pouvez ajouter plus de données à votre tableau, jusqu’à 200 000 lignes. Il existe deux façons d’ajouter des données à un tableau :
 
 1. **Ajouter une ligne** : `table.add_data("3a", "3b", "3c")`. Notez que la nouvelle ligne n’est pas représentée sous forme de liste. Si votre ligne est au format liste, utilisez la notation étoile, `*`, pour développer la liste en arguments positionnels : `table.add_data(*my_row_list)`. La ligne doit contenir le même nombre d’entrées que le tableau comporte de colonnes.
 2. **Ajouter une colonne** : `table.add_column(name="col_name", data=col_data)`. Notez que la longueur de `col_data` doit être égale au nombre actuel de lignes du tableau. Ici, `col_data` peut être une liste ou un tableau NumPy (`NDArray`).
 
-<div id="adding-data-incrementally">
-  ### Ajout incrémentiel de données
-</div>
+### Ajout incrémentiel de données {#adding-data-incrementally}
 
 Cet exemple de code montre comment créer et alimenter un tableau W&amp;B de manière incrémentielle. Vous définissez le tableau avec des colonnes prédéfinies, y compris les scores de confiance pour toutes les étiquettes possibles, puis vous ajoutez les données ligne par ligne pendant l’Inférence. Vous pouvez également [ajouter des données aux tableaux de manière incrémentielle lorsque vous reprenez des runs](#adding-data-to-resumed-runs).
 
@@ -85,9 +77,7 @@ for img_id, img in enumerate(mnist_test_data):
     )  # Ajouter les données de la ligne au tableau
 ```
 
-<div id="adding-data-to-resumed-runs">
-  #### Ajout de données à des runs repris
-</div>
+#### Ajout de données à des runs repris {#adding-data-to-resumed-runs}
 
 Vous pouvez mettre à jour de façon incrémentielle un tableau W&amp;B dans des runs repris en chargeant un tableau existant depuis un artifact, en récupérant la dernière ligne de données, puis en ajoutant les métriques mises à jour. Réinitialisez ensuite le tableau pour garantir la compatibilité, puis journalisez de nouveau la version mise à jour dans W&amp;B.
 
@@ -120,24 +110,18 @@ with wandb.init(project="my_project") as run:
         run.log({table_name: best_checkpt_table})
 ```
 
-<div id="retrieve-data">
-  ## Récupérer des données
-</div>
+## Récupérer des données {#retrieve-data}
 
 Une fois les données dans une Table, accédez-y par colonne ou par ligne :
 
 1. **Itérateur de lignes** : Utilisez l’itérateur de lignes de Table, comme `for ndx, row in table.iterrows(): ...`, pour parcourir efficacement les lignes de données.
 2. **Obtenir une colonne** : Récupérez une colonne de données avec `table.get_column("col_name")` . Pour plus de commodité, vous pouvez spécifier `convert_to="numpy"` pour convertir la colonne en tableau NumPy (NDArray) de valeurs primitives. Cela est utile si votre colonne contient des types de médias comme `wandb.Image`, afin d’accéder directement aux données sous-jacentes.
 
-<div id="save-tables">
-  ## Enregistrer des tableaux
-</div>
+## Enregistrer des tableaux {#save-tables}
 
 Après avoir généré un tableau de données dans votre script, par exemple un tableau de prédictions d’un modèle, enregistrez-le dans W&amp;B pour visualiser les résultats en temps réel.
 
-<div id="log-a-table-to-a-run">
-  ### Consigner un tableau dans un run
-</div>
+### Consigner un tableau dans un run {#log-a-table-to-a-run}
 
 Utilisez `wandb.Run.log()` pour enregistrer votre tableau dans le run, comme suit :
 
@@ -157,9 +141,7 @@ Chaque fois qu’un tableau est enregistré avec la même clé, une nouvelle ver
   Cependant, cela entraînera probablement des problèmes de performances, comme des requêtes plus lentes, dans l’UI.
 </Note>
 
-<div id="access-tables-programmatically">
-  ### Accéder aux Tables de façon programmatique
-</div>
+### Accéder aux Tables de façon programmatique {#access-tables-programmatically}
 
 Côté backend, les Tables sont conservées sous forme d’Artifacts. Si vous souhaitez accéder à une version spécifique, vous pouvez le faire avec l’API des Artifacts :
 
@@ -170,15 +152,11 @@ with wandb.init() as run:
 
 Pour plus d’informations sur Artifacts, voir le [chapitre Artifacts](/fr/models/artifacts/) dans le Guide du développeur.
 
-<div id="visualize-tables">
-  ### Visualiser les Tables
-</div>
+### Visualiser les Tables {#visualize-tables}
 
 Tout tableau enregistré de cette façon s’affichera dans votre Workspace, à la fois sur la page du run et sur la page du projet. Pour plus d&#39;informations, voir [Visualiser et analyser les Tables](/fr/models/tables/visualize-tables/).
 
-<div id="artifact-tables">
-  ## Tableaux d’Artifacts
-</div>
+## Tableaux d’Artifacts {#artifact-tables}
 
 Utilisez `artifact.add()` pour journaliser des tableaux dans la section Artifacts de votre run plutôt que dans le Workspace. Cela peut être utile si vous avez un jeu de données que vous souhaitez journaliser une seule fois, puis utiliser comme référence pour de futurs runs.
 
@@ -195,9 +173,7 @@ with wandb.init(project="my_project") as run:
 
 Reportez-vous à ce Colab pour un [exemple détaillé de artifact.add() avec des données d’images](https://wandb.me/dsviz-nature-colab) et à ce Report pour voir [comment utiliser Artifacts et Tables pour gérer les versions et dédupliquer des données tabulaires](https://wandb.me/TBV-Dedup).
 
-<div id="join-artifact-tables">
-  ### Joindre des tableaux d’Artifact
-</div>
+### Joindre des tableaux d’Artifact {#join-artifact-tables}
 
 Vous pouvez joindre des tableaux créés localement ou des tableaux récupérés depuis d’autres Artifacts à l’aide de `wandb.JoinedTable(table_1, table_2, join_key)`.
 

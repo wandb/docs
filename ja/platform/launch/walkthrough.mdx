@@ -4,9 +4,7 @@ title: 'チュートリアル: W&B Launch の基本'
 keywords: ["Launch クイックスタート", "Launch ウォークスルー", "wandb launch の例", "エンドツーエンド Launch"]
 ---
 
-<div id="what-is-launch">
-  ## Launch とは
-</div>
+## Launch とは {#what-is-launch}
 
 <Card title="Colabで試す" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python" />
 
@@ -14,9 +12,7 @@ keywords: ["Launch クイックスタート", "Launch ウォークスルー", "w
 
 W&amp;B Launch を使用すると、デスクトップから Amazon SageMaker や Kubernetes などのコンピュートリソースへ、トレーニング [Runs](/ja/models/runs/) をスケールできます。Launch を設定すると、数回のクリックとコマンドだけで、トレーニングスクリプトの実行、モデルの評価スイートの実行、本番推論に向けたモデルの準備などを行えます。
 
-<div id="how-it-works">
-  ## 仕組み
-</div>
+## 仕組み {#how-it-works}
 
 Launch は、**launch ジョブ**、**キュー**、**エージェント** の 3 つの基本コンポーネントで構成されています。
 
@@ -32,9 +28,7 @@ Launch は、**launch ジョブ**、**キュー**、**エージェント** の 3
 
 Launch の詳細については、[Terms and concepts](./launch-terminology) ページを参照してください。
 
-<div id="get-started">
-  ## 使い始める
-</div>
+## 使い始める {#get-started}
 
 ユースケースに応じて、W&amp;B Launch を使い始める際に役立つ以下のリソースをご覧ください。
 
@@ -44,9 +38,7 @@ Launch の詳細については、[Terms and concepts](./launch-terminology) ペ
 * [Triton へのデプロイ](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton) や [LLM の評価](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals) など、一般的なタスクのテンプレートについては、W&amp;B Launch の[公開ジョブ GitHub リポジトリ](https://github.com/wandb/launch-jobs)をご覧ください。
   * このリポジトリから作成された launch ジョブは、公開 W&amp;B project である [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) で確認できます。
 
-<div id="walkthrough">
-  ## ウォークスルー
-</div>
+## ウォークスルー {#walkthrough}
 
 このページでは、W&amp;B Launch ワークフローの基本を順を追って説明します。
 
@@ -54,9 +46,7 @@ Launch の詳細については、[Terms and concepts](./launch-terminology) ペ
   W&amp;B Launch は、機械学習のワークロードをコンテナーで実行します。コンテナーに関する知識は必須ではありませんが、このウォークスルーを進めるうえで役立つ場合があります。コンテナーの概要については、[Docker ドキュメント](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/)を参照してください。
 </Note>
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 開始する前に、以下の前提条件を満たしていることを確認してください。これらは、この手順の後半でコマンドを実行するために必要なアカウント、ツール、および認証に関するものです。
 
@@ -86,9 +76,7 @@ Launch の詳細については、[Terms and concepts](./launch-terminology) ペ
   </Tab>
 </Tabs>
 
-<div id="create-a-launch-job">
-  ## launch job を作成する
-</div>
+## launch job を作成する {#create-a-launch-job}
 
 launch job は、Launch に実行させたいワークロードの設計図です。そのため、作業をキューに送信する前に launch job を作成する必要があります。[launch job](./launch-terminology#launch-job) は、Docker image を使用する方法、git repository から作成する方法、またはローカルのソースコードから作成する方法の 3 つで作成できます。
 
@@ -158,9 +146,7 @@ launch job は、Launch に実行させたいワークロードの設計図で�
   </Tab>
 </Tabs>
 
-<div id="create-a-queue">
-  ## キューを作成する
-</div>
+## キューを作成する {#create-a-queue}
 
 launch ジョブを用意したら、次のステップは、ジョブをどこでどのように実行するかを定義するキューを作成することです。Launch は、共有コンピュートを中心としたワークフローをチームで構築できるように設計されています。ここまでの例では、`wandb launch` コマンドはローカルマシン上でコンテナーを同期実行していました。Launch queue とエージェントを使用すると、共有リソース上でジョブを非同期に実行できるほか、優先度設定やハイパーパラメーター最適化などの高度な機能も利用できます。基本的なキューを作成するには、次の手順に従ってください。
 
@@ -179,9 +165,7 @@ launch ジョブを用意したら、次のステップは、ジョブをどこ�
 
 キューの高度な設定オプションについては、[advanced queue setup page](/ja/platform/launch/setup-queue-advanced/) を参照してください。
 
-<div id="connect-an-agent-to-the-queue">
-  ## エージェントをキューに接続する
-</div>
+## エージェントをキューに接続する {#connect-an-agent-to-the-queue}
 
 キューはエージェントがポーリングするまでアイドル状態のままのため、ジョブを実行するには事前にエージェントを接続する必要があります。キューにポーリング中のエージェントが存在しない場合、キュー view には画面上部の赤いバナーに **Add an agent** ボタンが表示されます。ボタンをクリックすると、エージェントを実行するためのコマンドを表示してコピーできます。コマンドは次のようになります。
 
@@ -193,9 +177,7 @@ wandb launch-agent --queue [QUEUE-NAME] --entity [ENTITY-NAME]
 
 [Launch ページ](https://wandb.ai/launch) に戻り、キューが **Active** と表示されていることを確認してください。
 
-<div id="submit-a-job-to-the-queue">
-  ## キューにジョブを送信する
-</div>
+## キューにジョブを送信する {#submit-a-job-to-the-queue}
 
 キューとポーリング エージェントの準備ができたので、先ほど作成した launch ジョブの 1 つを送信し、共有コンピューティング上で実行される様子を確認できます。W&amp;B アカウントで **launch-quickstart** project にアクセスし、画面左側のナビゲーションから jobs タブを開きます。
 

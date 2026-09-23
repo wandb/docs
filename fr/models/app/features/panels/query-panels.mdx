@@ -27,9 +27,7 @@ Pour des exemples interactifs à essayer et un guide pas à pas sur la syntaxe d
   Voir le [rapport de benchmark Keras XLA](http://wandb.me/keras-xla-benchmark) pour découvrir comment cette équipe a utilisé des panneaux de requête pour visualiser ses benchmarks.
   </Note> */}
 
-<div id="create-a-query-panel">
-  ## Créer un panneau de requête
-</div>
+## Créer un panneau de requête {#create-a-query-panel}
 
 Ajoutez un panneau de requête afin de disposer d’un espace pour écrire des expressions et visualiser les résultats. Vous pouvez en ajouter un à un Workspace de projet ou dans un rapport.
 
@@ -55,21 +53,15 @@ Ajoutez un panneau de requête afin de disposer d’un espace pour écrire des e
   </Tab>
 </Tabs>
 
-<div id="query-components">
-  ## Composants de requête
-</div>
+## Composants de requête {#query-components}
 
 Les sections suivantes décrivent les trois éléments qui composent un panneau de requête : l&#39;expression qui sélectionne les données, la configuration qui détermine le comportement du panneau et le panneau de résultat qui affiche la sortie.
 
-<div id="expressions">
-  ### Expressions
-</div>
+### Expressions {#expressions}
 
 Utilisez des expressions de requête pour interroger les données stockées dans W&amp;B, comme les runs, les artefacts, les modèles, les tables, etc.
 
-<div id="example-query-a-table">
-  #### Exemple : Interroger un tableau
-</div>
+#### Exemple : Interroger un tableau {#example-query-a-table}
 
 Supposons que vous souhaitiez interroger une W&amp;B Table. Dans votre code d’entraînement, vous journalisez un tableau appelé `"cifar10_sample_table"` :
 
@@ -95,9 +87,7 @@ Décomposons cela :
 * `summary` est une op qui renvoie l&#39;objet Summary d&#39;un run. Les opérations sont *mappées*, ce qui signifie que cette op est appliquée à chaque run de la liste, ce qui donne une liste d&#39;objets Summary.
 * `["cifar10_sample_table"]` est une op Pick (indiquée par des crochets) avec une clé `cifar10_sample_table`. Comme les objets Summary se comportent comme des dictionnaires ou des tables de correspondance, cette opération sélectionne ce champ dans chaque objet Summary.
 
-<div id="configurations">
-  ### Configurations
-</div>
+### Configurations {#configurations}
 
 Dans le coin supérieur gauche du panneau, cliquez sur l’icône d’engrenage pour afficher la configuration de la requête. La configuration vous permet de définir le type de panneau et les paramètres du panneau de résultats.
 
@@ -105,9 +95,7 @@ Dans le coin supérieur gauche du panneau, cliquez sur l’icône d’engrenage 
   <img src="/images/weave/weave_panel_config.png" alt="Menu de configuration du panneau" />
 </Frame>
 
-<div id="panel-options">
-  #### Options du panneau
-</div>
+#### Options du panneau {#panel-options}
 
 Le menu de configuration peut inclure des options qui modifient la manière dont le panneau combine ou charge les résultats de type tableau. Les libellés exacts et leur disponibilité dépendent de votre expression et du type de panneau. Pour voir des configurations concrètes, voir le [rapport d&#39;exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
@@ -119,9 +107,7 @@ Utilisez **Concat** dans la configuration si vous souhaitez que le panneau fusio
 
 Utilisez **Paginate** lorsqu&#39;un résultat de tableau risque d&#39;être trop volumineux pour être affiché en une seule fois. La pagination charge les lignes par blocs afin que le panneau reste réactif. Associez cette option à des expressions qui renvoient de longues listes de lignes. Pour les approches qui fonctionnent bien avec la pagination, voir le [rapport d&#39;exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
-<div id="result-panels">
-  ### Panneaux de résultats
-</div>
+### Panneaux de résultats {#result-panels}
 
 Le panneau de résultat de la requête affiche le résultat de l’expression de requête à l’aide du panneau de requête sélectionné, configuré pour présenter les données sous une forme interactive. Les images suivantes montrent un tableau et un graphique des mêmes données.
 
@@ -133,21 +119,15 @@ Le panneau de résultat de la requête affiche le résultat de l’expression de
   <img src="/images/weave/result_panel_plot.png" alt="Panneau de résultat : graphique" />
 </Frame>
 
-<div id="step-through-run-history">
-  ### Parcourir l’historique des exécutions
-</div>
+### Parcourir l’historique des exécutions {#step-through-run-history}
 
 Dans les tableaux et graphiques construits à partir de `runs` ou de `runs.history`, l’application peut afficher un contrôle d’**étape** (par exemple un curseur) pour vous permettre de parcourir les étapes enregistrées et d’inspecter les métriques, le texte ou les médias au fil de vos runs. Après avoir modifié l’expression, modifiez la configuration du panneau de requête et définissez **Render As** sur **Stepper**. Le contrôle peut suivre une métrique autre que `_step` si cela correspond mieux à la manière dont vous avez enregistré les données. Pour obtenir des exemples d’expressions, voir le [rapport d’exemples du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
-<div id="basic-operations">
-  ## Opérations de base
-</div>
+## Opérations de base {#basic-operations}
 
 Une fois qu’un panneau de requête a affiché les résultats, vous pouvez affiner l’affichage en triant, en filtrant, en appliquant un mapping ou en regroupant les lignes. Voici les opérations courantes que vous pouvez effectuer dans vos panneaux de requête.
 
-<div id="sort">
-  ### Trier
-</div>
+### Trier {#sort}
 
 Triez à partir des options de la colonne :
 
@@ -155,9 +135,7 @@ Triez à partir des options de la colonne :
   <img src="/images/weave/weave_sort.png" alt="Options de tri de la colonne" />
 </Frame>
 
-<div id="filter">
-  ### Filtre
-</div>
+### Filtre {#filter}
 
 Vous pouvez soit filtrer directement dans la requête, soit utiliser le bouton Filtre dans le coin supérieur gauche du panneau.
 
@@ -169,9 +147,7 @@ Vous pouvez soit filtrer directement dans la requête, soit utiliser le bouton F
   <img src="/images/weave/weave_filter_2.png" alt="Bouton Filtre" />
 </Frame>
 
-<div id="map">
-  ### Map
-</div>
+### Map {#map}
 
 Les opérations Map parcourent des listes et appliquent une fonction à chaque élément des données. Vous pouvez le faire directement avec une requête de panneau, ou en insérant une nouvelle colonne depuis les options de colonne.
 
@@ -183,9 +159,7 @@ Les opérations Map parcourent des listes et appliquent une fonction à chaque �
   <img src="/images/weave/weave_map.gif" alt="Insertion d'une colonne Map" />
 </Frame>
 
-<div id="group-by">
-  ### Regrouper
-</div>
+### Regrouper {#group-by}
 
 Vous pouvez regrouper à l’aide d’une requête ou depuis les options de colonne.
 
@@ -197,15 +171,11 @@ Vous pouvez regrouper à l’aide d’une requête ou depuis les options de colo
   <img src="/images/weave/weave_groupby.gif" alt="Regroupement via les options de colonne" />
 </Frame>
 
-<div id="combine-tables-in-expressions">
-  ### Combiner des tableaux dans les expressions
-</div>
+### Combiner des tableaux dans les expressions {#combine-tables-in-expressions}
 
 Utilisez `concat`, `join` et les opérations associées dans votre expression lorsque vous devez empiler ou fusionner des listes de lignes issues de tableaux. Voir [Join](#join) pour un exemple complet. Les éléments **Concat** et **Paginate** dans [Options du panneau](#panel-options) sont des contrôles distincts qui déterminent la manière dont l’interface utilisateur fusionne et charge les résultats des tableaux.
 
-<div id="join">
-  ### Jointure
-</div>
+### Jointure {#join}
 
 Vous pouvez également effectuer des jointures directement dans la requête. Considérez l’expression de requête suivante :
 
@@ -240,9 +210,7 @@ Où :
 * `"Table1"` et `"Table2"` sont les noms attribués à chaque tableau une fois la jointure effectuée.
 * `true` et `false` correspondent aux paramètres de jointure interne/externe à gauche et à droite.
 
-<div id="runs-object">
-  ## Objet `runs`
-</div>
+## Objet `runs` {#runs-object}
 
 Utilisez les panneaux de requête pour accéder à l’objet `runs`. Les objets run stockent les enregistrements de vos expériences. Pour plus de détails, voir [Accéder à l’objet runs](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object). Pour un aperçu rapide, voici ce qui est disponible dans l’objet `runs` :
 
@@ -254,9 +222,7 @@ Utilisez les panneaux de requête pour accéder à l’objet `runs`. Les objets 
   <img src="/images/weave/weave_runs_object.png" alt="Structure de l’objet Runs" />
 </Frame>
 
-<div id="access-artifacts">
-  ## Accéder aux artefacts
-</div>
+## Accéder aux artefacts {#access-artifacts}
 
 Les artefacts sont un concept central de W&amp;B. Ce sont des collections de fichiers et de répertoires, nommées et versionnées. Utilisez les artefacts pour suivre les poids de modèle, les Datasets et tout autre fichier ou répertoire. W&amp;B stocke les artefacts, et vous pouvez les télécharger ou les utiliser dans d’autres runs. Pour plus de détails et des exemples, voir [Accéder aux artefacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts). En général, vous accédez aux artefacts à partir de l’objet `project` :
 

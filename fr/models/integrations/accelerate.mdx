@@ -7,9 +7,7 @@ Hugging Face Accelerate est une bibliothèque qui permet d&#39;exécuter le mêm
 
 Accelerate inclut un suivi W&amp;B, et cette page montre comment l&#39;utiliser pour consigner des métriques, la configuration et des artefacts à partir de runs d&#39;entraînement distribués dans W&amp;B. Pour plus d&#39;informations, voir [Accelerate Trackers in Hugging Face](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking).
 
-<div id="start-logging-with-accelerate">
-  ## Commencez à journaliser avec Accelerate
-</div>
+## Commencez à journaliser avec Accelerate {#start-logging-with-accelerate}
 
 Cette section montre comment configurer Accelerate pour journaliser les données d&#39;expérience dans W&amp;B pendant l&#39;entraînement. Pour démarrer avec Accelerate et W&amp;B, suivez ce pseudocode :
 
@@ -46,9 +44,7 @@ Plus en détail :
 3. Utilisez la méthode `wandb.Run.log()` pour journaliser dans W&amp;B. L&#39;argument `step` est facultatif.
 4. Appelez `.end_training()` lorsque l&#39;entraînement est terminé.
 
-<div id="access-the-wb-tracker">
-  ## Accéder au suivi W&amp;B
-</div>
+## Accéder au suivi W&amp;B {#access-the-wb-tracker}
 
 Une fois qu’Accelerate journalise dans W&amp;B, vous pouvez avoir besoin d’accéder directement à l’objet run W&amp;B sous-jacent pour journaliser des artefacts, des graphiques personnalisés ou d’autres données que le suivi W&amp;B n’expose pas. Pour accéder au suivi W&amp;B, utilisez la méthode `Accelerator.get_tracker()`. Passez la chaîne correspondant à l’attribut `.name` d’un outil de suivi ; la méthode renvoie alors cet outil de suivi sur le processus `main`.
 
@@ -75,9 +71,7 @@ wandb_tracker.log_artifact(some_artifact_to_log)
   ```
 </Warning>
 
-<div id="accelerate-articles">
-  ## Articles sur Accelerate
-</div>
+## Articles sur Accelerate {#accelerate-articles}
 
 Pour un guide pas à pas plus approfondi sur l’utilisation d’Accelerate avec W&amp;B, consultez l’article suivant.
 

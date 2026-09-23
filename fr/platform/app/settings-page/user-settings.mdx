@@ -13,15 +13,11 @@ Vos paramètres utilisateur vous permettent de gérer votre profil, l&#39;équip
 
 Pour ouvrir vos paramètres utilisateur, accédez à la page de votre profil et sélectionnez votre icône utilisateur dans le coin supérieur droit. Dans le menu déroulant, choisissez **Settings**.
 
-<div id="profile">
-  ## Profil
-</div>
+## Profil {#profile}
 
 Dans la section **Profil**, vous pouvez gérer et modifier le nom de votre compte ainsi que votre établissement. Vous pouvez également ajouter, si vous le souhaitez, une biographie, un emplacement, un lien vers votre site web personnel ou celui de votre établissement, et téléverser une image de profil.
 
-<div id="edit-your-intro">
-  ### Modifiez votre introduction
-</div>
+### Modifiez votre introduction {#edit-your-intro}
 
 Votre introduction apparaît en haut de votre profil et constitue un bon endroit pour vous présenter, ajouter des liens vers des projets ou partager des comptes associés.
 
@@ -34,9 +30,7 @@ Pour modifier votre introduction, cliquez sur **Edit** en haut de votre profil. 
 
 Votre introduction mise à jour est désormais visible sur votre profil.
 
-<div id="add-social-badges">
-  #### Ajouter des badges de réseaux sociaux
-</div>
+#### Ajouter des badges de réseaux sociaux {#add-social-badges}
 
 Pour ajouter un badge de suivi pour le compte `@weights_biases` sur X, ajoutez un lien au format Markdown avec une balise HTML `<img>` pointant vers l’image du badge :
 
@@ -46,9 +40,7 @@ Pour ajouter un badge de suivi pour le compte `@weights_biases` sur X, ajoutez u
 
 Dans une balise `<img>`, vous pouvez spécifier `width`, `height`, ou les deux. Si vous n’en spécifiez qu’un seul, les proportions de l’image sont conservées.
 
-<div id="default-team">
-  ## Équipe par défaut
-</div>
+## Équipe par défaut {#default-team}
 
 Si vous êtes membre de plusieurs équipes, la section **Équipe par défaut** vous permet de configurer l’équipe par défaut à utiliser lorsqu’un run ou une trace Weave ne spécifie pas d’équipe. Si vous n’êtes membre que d’une seule équipe, cette équipe devient l’équipe par défaut et cette section n’apparaît pas.
 
@@ -70,9 +62,7 @@ Les étapes pour définir votre équipe par défaut varient selon votre déploie
   Pour spécifier l’équipe par défaut lorsque vous exécutez un script dans un environnement automatisé, indiquez l’emplacement par défaut à l’aide de la [variable d’environnement](https://docs.wandb.ai/models/track/environment-variables) `WANDB_ENTITY`.
 </Note>
 
-<div id="teams">
-  ## Équipes
-</div>
+## Équipes {#teams}
 
 La section **Équipes** répertorie toutes vos équipes.
 
@@ -84,9 +74,7 @@ La section **Équipes** répertorie toutes vos équipes.
   Pour créer ou gérer une équipe, voir [Gérer les équipes](/fr/platform/app/settings-page/teams/).
 </Note>
 
-<div id="api-keys">
-  ## Clés API
-</div>
+## Clés API {#api-keys}
 
 La section **Clés API** vous permet de gérer vos clés API personnelles pour vous authentifier auprès des services W&amp;B. Dans cette section, vous pouvez consulter les clés existantes, en créer de nouvelles et révoquer celles dont vous n&#39;avez plus besoin.
 
@@ -94,9 +82,7 @@ La section **Clés API** vous permet de gérer vos clés API personnelles pour v
   Cette section affiche uniquement vos clés API personnelles. Pour voir toutes les clés que vous pouvez gérer dans votre organisation, y compris les clés API d&#39;organisation et les clés de compte de service, utilisez l&#39;onglet **Clés API** décrit dans [Gérer les clés API](/fr/platform/hosting/iam/api-keys).
 </Note>
 
-<div id="view-your-api-keys">
-  ### Consultez vos clés API
-</div>
+### Consultez vos clés API {#view-your-api-keys}
 
 Le tableau des clés API affiche :
 
@@ -111,15 +97,11 @@ Le tableau des clés API affiche :
 
 Pour filtrer la liste des clés API, saisissez une partie du nom de la clé ou de son ID.
 
-<div id="create-a-new-api-key">
-  ### Créer une nouvelle clé API
-</div>
+### Créer une nouvelle clé API {#create-a-new-api-key}
 
 <ApiKeyCreate />
 
-<div id="rename-an-api-key">
-  ### Renommer une clé API
-</div>
+### Renommer une clé API {#rename-an-api-key}
 
 Pour modifier le nom d’affichage d’une clé API sans en modifier le matériel cryptographique :
 
@@ -127,9 +109,7 @@ Pour modifier le nom d’affichage d’une clé API sans en modifier le matérie
 2. Cliquez sur le menu **action (<Icon icon="ellipsis" iconType="solid" />)** et choisissez **Edit**.
 3. Mettez à jour le **Nom** de la clé, puis cliquez sur **enregistrer**.
 
-<div id="delete-an-api-key">
-  ### Supprimer une clé API
-</div>
+### Supprimer une clé API {#delete-an-api-key}
 
 Supprimez une clé API lorsque vous n’en avez plus besoin ou si elle a pu être compromise. Pour révoquer l’accès en supprimant une clé API :
 
@@ -145,15 +125,11 @@ W&amp;B supprime la clé du tableau et vous ne pouvez plus l’utiliser pour vou
 
 <ApiKeySecurity />
 
-<div id="beta-features">
-  ## Fonctionnalités bêta
-</div>
+## Fonctionnalités bêta {#beta-features}
 
 Dans la section **Fonctionnalités bêta**, vous pouvez, si vous le souhaitez, activer des modules complémentaires et des aperçus de produits en cours de développement. Sélectionnez le bouton de bascule à côté de la fonctionnalité bêta que vous souhaitez activer.
 
-<div id="alerts">
-  ## Alertes
-</div>
+## Alertes {#alerts}
 
 Recevez des notifications lorsque vos runs se terminent ou plantent, ou définissez des alertes personnalisées avec [`wandb.Run.alert()`](/fr/models/runs/alert/). Vous recevez des notifications par e-mail ou dans Slack. Basculez l’interrupteur à côté du type d’événement pour lequel vous souhaitez recevoir des alertes :
 
@@ -162,9 +138,7 @@ Recevez des notifications lorsque vos runs se terminent ou plantent, ou définis
 
 Pour plus d’informations sur la configuration et la gestion des alertes, voir [Envoyer des alertes avec `wandb.Run.alert()`](/fr/models/runs/alert/).
 
-<div id="personal-github-integration">
-  ## Intégration GitHub personnelle
-</div>
+## Intégration GitHub personnelle {#personal-github-integration}
 
 Connectez un compte GitHub personnel afin que W&amp;B puisse accéder aux ressources GitHub en votre nom. Pour connecter un compte GitHub :
 
@@ -174,9 +148,7 @@ Connectez un compte GitHub personnel afin que W&amp;B puisse accéder aux ressou
 
 Votre compte GitHub personnel est maintenant lié à votre compte W&amp;B.
 
-<div id="delete-your-account">
-  ## Supprimer votre compte
-</div>
+## Supprimer votre compte {#delete-your-account}
 
 Sélectionnez le bouton **Supprimer le compte** pour supprimer votre compte.
 
@@ -190,8 +162,6 @@ Sélectionnez le bouton **Supprimer le compte** pour supprimer votre compte.
 
 Pour supprimer le compte d’une organisation entière plutôt qu’un compte utilisateur, voir [Comment puis-je supprimer le compte de mon organisation ?](/fr/support/models/articles/how-do-i-delete-my-organization-account).
 
-<div id="storage">
-  ## Stockage
-</div>
+## Stockage {#storage}
 
 La section **Stockage** indique l’espace de stockage total utilisé par votre compte sur les serveurs de W&amp;B. Le plan de stockage par défaut est de 100 Go. Pour plus d’informations sur le stockage et la tarification, voir la page [Tarification](https://wandb.ai/site/pricing).

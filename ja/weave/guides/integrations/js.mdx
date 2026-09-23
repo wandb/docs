@@ -19,15 +19,11 @@ Weave は自動インストルメンテーションをサポートしている�
   ほとんどの場合、これは Weave が自動的に処理します。ただし、[エッジケース](#advanced-usage) が発生する場合があります。
 </Warning>
 
-<div id="use-weave-integrations-with-your-typescript-project">
-  ## TypeScript project で Weave インテグレーションを使用する
-</div>
+## TypeScript project で Weave インテグレーションを使用する {#use-weave-integrations-with-your-typescript-project}
 
 以下のセクションでは、お使いの project がどのモジュールシステムを使用しているかを確認し、Weave がサポートされるサードパーティライブラリを自動的にインストルメントできるようにその project を設定する方法を説明します。TypeScript project では、CommonJS または ESM のいずれかのモジュールシステムを使用でき、必要な設定はこの 2 つで若干異なります。
 
-<div id="if-youre-unsure-which-type-of-project-you-have">
-  ### どのタイプのプロジェクトかわからない場合
-</div>
+### どのタイプのプロジェクトかわからない場合 {#if-youre-unsure-which-type-of-project-you-have}
 
 次のようなツールでTypeScriptファイルを直接実行している場合:
 
@@ -46,9 +42,7 @@ npx tsx test.ts
 * `type` が `"module"` の場合、プロジェクトでは ESM が使用されます。
 * `type` フィールドが存在しないか、`"commonjs"` に設定されている場合、プロジェクトではデフォルトで CommonJS が使用されます。
 
-<div id="set-up-a-commonjs-project">
-  ### CommonJS プロジェクトを設定する
-</div>
+### CommonJS プロジェクトを設定する {#set-up-a-commonjs-project}
 
 CommonJS プロジェクトでは、自動インストルメンテーションは追加の設定なしで動作します。
 
@@ -113,9 +107,7 @@ CommonJS プロジェクトでは、自動インストルメンテーション�
 
 これで CommonJS プロジェクトの設定は完了し、コードの実行時に Weave がサポートされるライブラリを自動的にインストルメントします。CommonJS は Node.js の `require` モジュールローダーを使用するため、Weave は ESM プロジェクトで使用される `--import` フラグなしで、サポートされるライブラリを自動的にインストルメントできます。
 
-<div id="set-up-an-esm-project">
-  ### ESM プロジェクトを設定する
-</div>
+### ESM プロジェクトを設定する {#set-up-an-esm-project}
 
 ESM TypeScript プロジェクトで Weave を使用するには、プロジェクトを Node.js ESM 用に設定し、コードをコンパイルしたうえで、`--import` フラグ付きで Node.js を起動します。これにより、他のモジュールが読み込まれる前に Weave がインストルメントを登録できます。
 
@@ -188,15 +180,11 @@ Weave は、実行するプロジェクトにローカルインストールさ�
 
 これで ESM プロジェクトは、他のモジュールより前に Weave のインストルメントが事前に読み込まれ、サポートされるライブラリへの Call が自動的にトレースされるように設定されました。
 
-<div id="advanced-usage-and-troubleshooting">
-  ## 高度な使い方とトラブルシューティング
-</div>
+## 高度な使い方とトラブルシューティング {#advanced-usage-and-troubleshooting}
 
 以下のセクションでは、TypeScript SDK の自動パッチ適用が期待どおりに動作しない場合のエッジケースと回避策を説明します。たとえば、ESM 専用の環境、Next.js などのバンドラー構成、または制約のあるランタイム環境では、問題が発生することがあります。トレースが欠落している場合やインテグレーションに問題がある場合は、まずこのセクションを確認してください。
 
-<div id="use-node_options-only-for-esm">
-  ### `NODE_OPTIONS` を使用する (ESM の場合のみ)
-</div>
+### `NODE_OPTIONS` を使用する (ESM の場合のみ) {#use-node_options-only-for-esm}
 
 <Warning>
   `NODE_OPTIONS` の使用には注意してください。環境内のすべての Node.js プロセスに影響し、意図しない副作用を招く可能性があります。
@@ -208,9 +196,7 @@ ESM のプロジェクトを使用していて、CLI フラグを渡せない場
 export NODE_OPTIONS="--import=weave/instrument"
 ```
 
-<div id="bundler-compatibility">
-  ### バンドラーの互換性
-</div>
+### バンドラーの互換性 {#bundler-compatibility}
 
 Next.js などの一部のフレームワークやバンドラーでは、Node.js が実行時にパッチを適用できない形でサードパーティライブラリがバンドルされることがあります。
 
@@ -228,9 +214,7 @@ Next.js などの一部のフレームワークやバンドラーでは、Node.j
 
 2. それでもパッチの適用に失敗する場合は、[手動インストルメンテーション](#manual-patching-fallback-option) に切り替えてください。
 
-<div id="manual-patching-fallback-option">
-  ### 手動パッチ適用 (フォールバックオプション)
-</div>
+### 手動パッチ適用 (フォールバックオプション) {#manual-patching-fallback-option}
 
 <Warning>
   手動パッチ適用は従来の方法です。自動パッチ適用が機能しない場合にのみ使用してください。

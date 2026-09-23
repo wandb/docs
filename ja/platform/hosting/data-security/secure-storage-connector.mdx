@@ -11,9 +11,7 @@ import WeaveByob from "/snippets/ja/_includes/weave-byob.mdx";
 
 <WeaveByob />
 
-<div id="overview">
-  ## 概要
-</div>
+## 概要 {#overview}
 
 Bring your own bucket (BYOB) を使用すると、W&amp;B のアーティファクトやその他の機密データを、お客様自身のクラウドまたはオンプレミスのインフラストラクチャーに保存できます。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [マルチテナントクラウド](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、W&amp;B はお客様のバケットに保存されたデータを W&amp;B 管理のインフラストラクチャーにコピーしません。このページは、データガバナンス、データレジデンシー、またはコンプライアンス要件を満たすために、アーティファクトストレージの所有権を維持する必要がある W&amp;B 管理者およびプラットフォームエンジニアを対象としています。
 
@@ -23,15 +21,11 @@ Bring your own bucket (BYOB) を使用すると、W&amp;B のアーティファ�
   * バケットの設定時にサブパスを指定すると、W&amp;B がバケットのルート直下のフォルダーにファイルを保存しないようにできます。これにより、お客様の組織のバケットガバナンスポリシーにより適切に準拠できます。
 </Note>
 
-<div id="data-stored-in-the-central-database-vs-buckets">
-  ### 中央データベースとバケットに保存されるデータ
-</div>
+### 中央データベースとバケットに保存されるデータ {#data-stored-in-the-central-database-vs-buckets}
 
 BYOB 機能を使用すると、W&amp;B は一部の種類のデータを W&amp;B の中央データベースに保存し、それ以外の種類のデータはお使いのバケットに保存します。以下の一覧では、どのデータが W&amp;B 管理のインフラストラクチャーに保持され、どのデータが W&amp;B によってお客様自身のストレージに書き込まれるかを確認できます。
 
-<div id="database">
-  #### データベース
-</div>
+#### データベース {#database}
 
 W&amp;B の中央データベースには、次のデータが保存されます。
 
@@ -41,9 +35,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
 * システムメトリクス。
 * コンソールログ。
 
-<div id="buckets">
-  #### バケット
-</div>
+#### バケット {#buckets}
 
 ストレージバケットには、次のデータが保存されます:
 
@@ -53,9 +45,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
 * run ファイル。
 * エクスポートされた history メトリクスおよび Parquet 形式のシステムイベント。
 
-<div id="bucket-scopes">
-  ### バケットのスコープ
-</div>
+### バケットのスコープ {#bucket-scopes}
 
 ストレージバケットに設定できるスコープは 2 つあります。
 
@@ -72,9 +62,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
 
 たとえば、組織内に Kappa というチームがあるとします。組織 (および team Kappa) は、デフォルトで インスタンス レベル のストレージバケットを使用します。次に、Omega というチームを作成します。team Omega を作成するときに、そのチーム用の チームレベル のストレージバケットを設定します。team Kappa は、team Omega が生成したファイルにアクセスできません。一方、team Omega は、team Kappa が作成したファイルにアクセスできます。team Kappa のデータを分離するには、そのチームについても チームレベル のストレージバケットを設定する必要があります。
 
-<div id="availability-matrix">
-  ### 利用可否マトリクス
-</div>
+### 利用可否マトリクス {#availability-matrix}
 
 開始する前に、お使いのデプロイメントタイプとストレージプロバイダーでBYOBが利用可能であることを確認してください。W&amp;Bは、以下のストレージプロバイダーに接続できます。
 
@@ -96,9 +84,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
 
 以下のセクションでは、BYOBの設定手順を説明します。
 
-<div id="provision-your-bucket">
-  ## バケットをプロビジョニングする
-</div>
+## バケットをプロビジョニングする {#provision-your-bucket}
 
 [可用性を確認](#availability-matrix)したら、アクセスポリシーと CORS を含むストレージバケットをプロビジョニングできます。プロビジョニングにより、W&amp;B が書き込むバケットが作成され、W&amp;B プラットフォームに、お客様に代わって事前署名付き URL を生成するために必要な権限が付与されます。続行するには、タブを選択してください。
 
@@ -451,9 +437,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
 
 次に、[ストレージアドレスを確認します](#determine-the-storage-address)。
 
-<div id="determine-the-storage-address">
-  ## ストレージアドレスを確認する
-</div>
+## ストレージアドレスを確認する {#determine-the-storage-address}
 
 バケットをプロビジョニングしたら、W&amp;B がその場所の特定と認証に使用するストレージアドレスが必要です。このセクションでは、W&amp;B Team を BYOB ストレージバケットに接続するための構文を説明します。例では、山かっこ (`<>`) で囲まれたプレースホルダーの値を、お使いのバケットの詳細に置き換えてください。
 詳細な手順を表示するタブを選択してください。
@@ -520,9 +504,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
 
 ストレージアドレスを確認したら、[チームレベル BYOB を設定](#configure-team-level-byob) できます。
 
-<div id="configure-wb">
-  ## W&amp;B を設定する
-</div>
+## W&amp;B を設定する {#configure-wb}
 
 [バケットをプロビジョニング](#provision-your-bucket)し、[そのアドレスを確認](#determine-the-storage-address)したら、[インスタンス レベル](#instance-level-byob)または[チームレベル](#team-level-byob)で BYOB を設定できます。この最後の手順では、アーティファクト、run ファイル、その他の大きなオブジェクトの保存先をお使いのバケットにルーティングするよう W&amp;B に指示します。
 
@@ -530,9 +512,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
   ストレージバケットの構成は慎重に計画してください。W&amp;B 用のストレージバケットを設定した後で、そのデータを別のバケットに移行するのは複雑で、W&amp;B の支援が必要です。これは、専用クラウドおよびセルフマネージドのストレージだけでなく、マルチテナントクラウド のチームレベルのストレージにも当てはまります。ご不明な点は、[サポート](mailto:support@wandb.com)までお問い合わせください。
 </Warning>
 
-<div id="instance-level-byob">
-  ### インスタンス レベルの BYOB
-</div>
+### インスタンス レベルの BYOB {#instance-level-byob}
 
 <Note>
   インスタンス レベルで CoreWeave AI オブジェクトストレージを使用する場合は、以下の手順ではなく [W&amp;B サポート](mailto:support@wandb.com) にお問い合わせください。セルフサービスでの設定はまだサポートされていません。
@@ -556,9 +536,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
 
 設定を編集できない場合は、デプロイメント管理者にお問い合わせください。
 
-<div id="set-up-azure-workload-identity">
-  #### Azure ワークロード アイデンティティを設定する
-</div>
+#### Azure ワークロード アイデンティティを設定する {#set-up-azure-workload-identity}
 
 ワークロード アイデンティティを使用すると、ストレージアカウントキーなしで W&amp;B が Azure バケットにアクセスできます。設定手順を確認するには、デプロイメントタイプを選択してください。
 
@@ -592,9 +570,7 @@ W&amp;B の中央データベースには、次のデータが保存されます
   </Tab>
 </Tabs>
 
-<div id="team-level-byob">
-  ### チームレベル BYOB
-</div>
+### チームレベル BYOB {#team-level-byob}
 
 W&amp;B App でチームを作成するとき、または [SCIM API](/ja/platform/hosting/iam/scim#create-team) (`storageBucket` を省略可能な POST Groups) を使用するときに、チームレベル BYOB を設定できます。選択肢は 2 つあります。
 
@@ -683,15 +659,11 @@ W&amp;B App でチームを作成するとき、または [SCIM API](/ja/platfor
   </Tab>
 </Tabs>
 
-<div id="troubleshooting">
-  ## トラブルシューティング
-</div>
+## トラブルシューティング {#troubleshooting}
 
 W&amp;B でバケットの検証時または接続時にエラーが発生する場合は、以下のセクションを参照して、ストレージプロバイダごとの最も一般的な原因を診断してください。
 
-<div id="coreweave">
-  ### CoreWeave
-</div>
+### CoreWeave {#coreweave}
 
 このセクションでは、CoreWeave AI Object Storage への接続に関する問題のトラブルシューティング方法を説明します。
 
@@ -712,9 +684,7 @@ W&amp;B でバケットの検証時または接続時にエラーが発生する
   * CoreWeave API アクセスキーの有効期限が切れていないことを確認してください。
   * CoreWeave API アクセスキーとシークレットキーに、`GetObject`、`PutObject`、`DeleteObject`、`ListBucket` の実行に必要な権限があることを確認してください。このページの例は、この要件を満たしています。詳しくは、CoreWeave ドキュメントの [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about) を参照してください。
 
-<div id="google-cloud">
-  ### Google Cloud
-</div>
+### Google Cloud {#google-cloud}
 
 このセクションでは、Google Cloud Storage への接続に関する問題をトラブルシューティングする方法を説明します。
 

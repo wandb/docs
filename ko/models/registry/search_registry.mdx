@@ -11,15 +11,11 @@ description: "UI에서 대화형으로 또는 쿼리를 사용해 프로그래�
   W&amp;B Registry를 쿼리할 때 사용하는 문법과 사용 가능한 Operator는 MongoDB 쿼리와 유사하지만 동일하지는 않습니다.
 </Info>
 
-<div id="search-for-registry-items">
-  ## 레지스트리 항목 검색
-</div>
+## 레지스트리 항목 검색 {#search-for-registry-items}
 
 이름으로 컬렉션과 레지스트리를 찾으려면 [W&amp;B Registry 홈페이지의 검색창](/ko/models/registry/search_registry#basic-search)을 사용하세요. 이름, 태그, 설명, 생성 날짜 등의 특정 속성을 기준으로 레지스트리, 컬렉션 또는 아티팩트 버전을 찾으려면 [고급 검색](/ko/models/registry/search_registry#advanced-search)을 사용하세요.
 
-<div id="basic-search">
-  ### 기본 검색
-</div>
+### 기본 검색 {#basic-search}
 
 W&amp;B Registry 홈페이지에서 레지스트리와 컬렉션을 검색하려면 다음과 같이 하세요:
 
@@ -27,9 +23,7 @@ W&amp;B Registry 홈페이지에서 레지스트리와 컬렉션을 검색하려
 2. 페이지 상단의 검색창에 검색어를 입력합니다.
 3. Enter 키를 눌러 검색합니다.
 
-<div id="advanced-search">
-  ### 고급 검색
-</div>
+### 고급 검색 {#advanced-search}
 
 고급 검색을 사용해 레지스트리, 컬렉션 또는 아티팩트 버전을 검색하세요. 필터를 사용하면 이름, 태그, 설명, 생성 날짜 등의 속성을 기준으로 특정 레지스트리 항목을 검색할 수 있습니다.
 
@@ -40,9 +34,7 @@ W&amp;B Registry 홈페이지에서 레지스트리와 컬렉션을 검색하려
 5. 왼쪽부터 순서대로 필터링할 속성, 연산자, 값을 선택합니다. 필터를 여러 개 추가해 검색 범위를 좁힐 수 있습니다.
 6. Enter 키를 눌러 필터를 적용합니다.
 
-<div id="query-registry-items">
-  ## 레지스트리 항목 쿼리
-</div>
+## 레지스트리 항목 쿼리 {#query-registry-items}
 
 [`wandb.Api().registries()`](/ko/models/ref/python/public-api/api#registries)와 *쿼리 조건식*을 사용해 레지스트리, 컬렉션, 아티팩트 버전을 필터링합니다. 쿼리 조건식은 반환되는 항목이 충족해야 하는 기준을 지정하는 조건입니다.
 
@@ -58,9 +50,7 @@ W&amp;B Registry 홈페이지에서 레지스트리와 컬렉션을 검색하려
 
 다음 섹션에서는 사용 가능한 레지스트리 [쿼리 이름](/ko/models/registry/search_registry#filterable-fields), [지원되는 Operator](/ko/models/registry/search_registry#supported-operators), 그리고 [예제 쿼리](/ko/models/registry/search_registry#example-queries)를 설명합니다.
 
-<div id="filterable-fields">
-  ### 필터링 가능한 필드
-</div>
+### 필터링 가능한 필드 {#filterable-fields}
 
 다음 표에는 필터링할 항목의 유형에 따라 사용할 수 있는 쿼리 이름이 나와 있습니다:
 
@@ -70,15 +60,11 @@ W&amp;B Registry 홈페이지에서 레지스트리와 컬렉션을 검색하려
 | 컬렉션   | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | 버전    | `tag`, `alias`, `created_at`, `updated_at`, `metadata`   |
 
-<div id="supported-operators">
-  ### 지원되는 Operator
-</div>
+### 지원되는 Operator {#supported-operators}
 
 W&amp;B는 레지스트리 항목을 필터링할 때 다음 비교 및 논리 Operator를 지원합니다:
 
-<div id="comparison-operators">
-  #### 비교 Operator
-</div>
+#### 비교 Operator {#comparison-operators}
 
 | Operator | 설명    |
 | -------- | ----- |
@@ -89,9 +75,7 @@ W&amp;B는 레지스트리 항목을 필터링할 때 다음 비교 및 논리 O
 | `$lt`    | 미만    |
 | `$lte`   | 이하    |
 
-<div id="logical-operators">
-  #### 논리 Operator
-</div>
+#### 논리 Operator {#logical-operators}
 
 | Operator | 설명                                                                            |
 | -------- | ----------------------------------------------------------------------------- |
@@ -100,9 +84,7 @@ W&amp;B는 레지스트리 항목을 필터링할 때 다음 비교 및 논리 O
 | `$nor`   | 하나 이상의 조건에 [NOR](https://en.wikipedia.org/wiki/Logical_NOR) 논리를 적용합니다         |
 | `$not`   | 조건에 [NOT](https://en.wikipedia.org/wiki/Negation) 논리를 적용합니다                   |
 
-<div id="other-operators">
-  #### 기타 Operator
-</div>
+#### 기타 Operator {#other-operators}
 
 | Operator    | 설명        |
 | ----------- | --------- |
@@ -110,9 +92,7 @@ W&amp;B는 레지스트리 항목을 필터링할 때 다음 비교 및 논리 O
 | `$exists`   | 필드 존재 여부  |
 | `$contains` | 문자열에 값 포함 |
 
-<div id="example-queries">
-  ### 예제 쿼리
-</div>
+### 예제 쿼리 {#example-queries}
 
 다음 코드 예제에서는 일반적인 검색 시나리오 몇 가지를 보여줍니다.
 

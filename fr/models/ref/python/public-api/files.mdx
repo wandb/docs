@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L79" />
 
-<div id="class-wandbapispublicfiles">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Files
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Files {#class-wandbapispublicfiles}
 
 Un itérateur paresseux sur une collection d’objets `File`.
 
@@ -25,9 +23,7 @@ upload: 'bool' = False,
 pattern: 'str | None' = None)
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   L’instance de l’API de service à utiliser pour interroger W&amp;B.
@@ -53,9 +49,7 @@ pattern: 'str | None' = None)
   Motif à utiliser pour la correspondance lors du renvoi des fichiers depuis W&amp;B Ce motif utilise la syntaxe LIKE de mySQL. Ainsi, pour faire correspondre tous les fichiers se terminant par .json, utilisez &quot;%.json&quot;. Si `names` et `pattern` sont tous deux fournis, une ValueError est levée.
 </ResponseField>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 from wandb.apis.public.files import Files
@@ -77,13 +71,9 @@ for file in files:
     file.download(root="download_directory", replace=True)
 ```
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self

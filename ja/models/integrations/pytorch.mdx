@@ -13,9 +13,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
   <img src="/images/tutorials/huggingface-why.png" alt="W&Bを使用する利点" />
 </Frame>
 
-<div id="what-this-notebook-covers">
-  ## このノートブックで学ぶこと
-</div>
+## このノートブックで学ぶこと {#what-this-notebook-covers}
 
 このチュートリアルでは、W&amp;B を PyTorch のトレーニングコードに統合して、実験をトラッキングし、メトリクスや勾配をログし、モデルをバージョン管理する方法を説明します。既存の PyTorch パイプラインに実験管理を追加する際に活用できます。
 
@@ -57,9 +55,7 @@ with wandb.init(project="new-sota-model", config=config) as run:
 
 *Step* で始まるセクションだけで、既存のパイプラインに W&amp;B を統合できます。それ以外の部分では、データの読み込みとモデルの定義を行います。
 
-<div id="install-import-and-log-in">
-  ## インストール、インポート、ログイン
-</div>
+## インストール、インポート、ログイン {#install-import-and-log-in}
 
 実験を定義する前に、環境を設定し、W&amp;B にログインします。
 
@@ -90,9 +86,7 @@ torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.
                                       if not mirror.startswith("http://yann.lecun.com")]
 ```
 
-<div id="step-0-install-wb">
-  ### Step 0: W&amp;B をインストール
-</div>
+### Step 0: W&amp;B をインストール {#step-0-install-wb}
 
 まずは、`pip` を使って `wandb` ライブラリをインストールする必要があります。
 
@@ -100,9 +94,7 @@ torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.
 !pip install wandb onnx -Uq
 ```
 
-<div id="step-1-import-wb-and-log-in">
-  ### Step 1: W&amp;B をインポートしてログイン
-</div>
+### Step 1: W&amp;B をインポートしてログイン {#step-1-import-wb-and-log-in}
 
 W&amp;B のサービスにデータをログするには、ログインする必要があります。
 
@@ -114,15 +106,11 @@ import wandb
 wandb.login()
 ```
 
-<div id="define-the-experiment-and-pipeline">
-  ## 実験とパイプラインを定義する
-</div>
+## 実験とパイプラインを定義する {#define-the-experiment-and-pipeline}
 
 W&amp;B をインストールし、セッションの認証が完了したら、実験の設定と、その設定を使用するトレーニング パイプラインを定義します。
 
-<div id="track-metadata-and-hyperparameters-with-wandbinit">
-  ### `wandb.init()` でメタデータとハイパーパラメーターをトラッキングする
-</div>
+### `wandb.init()` でメタデータとハイパーパラメーターをトラッキングする {#track-metadata-and-hyperparameters-with-wandbinit}
 
 プログラム上では、まず実験を定義します。ハイパーパラメーターは何か、この run にはどのようなメタデータが関連付けられているのかを決めます。
 
@@ -208,9 +196,7 @@ def make(config):
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
-<div id="define-the-data-loading-and-model">
-  ### データの読み込みとモデルを定義する
-</div>
+### データの読み込みとモデルを定義する {#define-the-data-loading-and-model}
 
 次に、データの読み込み方法と、モデルをどのように構成するかを指定します。
 
@@ -264,17 +250,13 @@ class ConvNet(nn.Module):
         return out
 ```
 
-<div id="define-training-logic">
-  ### トレーニングロジックを定義する
-</div>
+### トレーニングロジックを定義する {#define-training-logic}
 
 `model_pipeline` を進めていき、次は `train` をどのように行うかを指定します。ここで、トレーニングの進行に合わせて W&amp;B インテグレーション が勾配、パラメーター、メトリクスをトラッキングします。
 
 ここでは、`wandb` の 2 つの関数 `watch` と `log` を使います。
 
-<div id="track-gradients-with-runwatch-and-everything-else-with-runlog">
-  ### 勾配は `run.watch()` でトラッキングし、それ以外はすべて `run.log()` でログする
-</div>
+### 勾配は `run.watch()` でトラッキングし、それ以外はすべて `run.log()` でログする {#track-gradients-with-runwatch-and-everything-else-with-runlog}
 
 `run.watch()` は、トレーニング中 `log_freq` step ごとに、モデルの勾配とパラメーターをログします。
 
@@ -336,17 +318,13 @@ def train_log(loss, example_ct, epoch):
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
 
-<div id="define-testing-logic">
-  ### テスト方法を定義する
-</div>
+### テスト方法を定義する {#define-testing-logic}
 
 モデルのトレーニングが完了したら、テストを行います。
 たとえば、本番環境の新しいデータで実行したり、
 あるいは手作業で厳選したサンプルに適用したりします。テストは、トレーニング済みモデルを保存する自然なタイミングでもあります。
 
-<div id="optional-call-runsave">
-  ### 任意: `run.save()` を呼び出す
-</div>
+### 任意: `run.save()` を呼び出す {#optional-call-runsave}
 
 ここで、モデルのアーキテクチャと最終的なパラメーターをディスクに保存しておくのもよいでしょう。幅広い互換性を確保するため、モデルは [Open Neural Network eXchange (ONNX) 形式](https://onnx.ai/)で `export` します。
 
@@ -379,9 +357,7 @@ def test(model, test_loader):
         run.save("model.onnx")
 ```
 
-<div id="run-training-and-watch-your-metrics-live-on-wandbai">
-  ### トレーニングを実行し、wandb.ai でメトリクスをライブで確認する
-</div>
+### トレーニングを実行し、wandb.ai でメトリクスをライブで確認する {#run-training-and-watch-your-metrics-live-on-wandbai}
 
 ここまででパイプライン全体を定義し、数行の W&amp;B コードを追加したので、完全にトラッキングされた experiment を実行する準備ができました。
 
@@ -401,9 +377,7 @@ run が完了し、`with wandb.init()` ブロックを抜けると、W&amp;B は
 model = model_pipeline(config)
 ```
 
-<div id="test-hyperparameters-with-sweeps">
-  ### Sweeps でハイパーパラメーターを試す
-</div>
+### Sweeps でハイパーパラメーターを試す {#test-hyperparameters-with-sweeps}
 
 この例では、1 つのハイパーパラメーター設定だけを扱いました。多くの ML ワークフローでは、複数のハイパーパラメーターを変えながら試行を繰り返すことが重要です。
 
@@ -423,15 +397,11 @@ W&amp;B でハイパーパラメーター sweep を実行するには、3 つの
   <img src="/images/tutorials/pytorch-2.png" alt="PyTorch のトレーニングダッシュボード" />
 </Frame>
 
-<div id="example-gallery">
-  ## サンプルギャラリー
-</div>
+## サンプルギャラリー {#example-gallery}
 
 W&amp;B でトラッキングされ、可視化されたプロジェクトの実例は、[Gallery](https://app.wandb.ai/gallery)でご覧いただけます。
 
-<div id="advanced-setup">
-  ## 高度な設定
-</div>
+## 高度な設定 {#advanced-setup}
 
 以下のオプションを使用すると、本番環境、オフライン環境、またはマネージド環境向けに、前述の基本的なワークフローを拡張できます。
 

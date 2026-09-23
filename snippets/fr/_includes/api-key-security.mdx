@@ -2,15 +2,11 @@
 title: Sécurité des clés API
 ---
 
-<div id="store-and-handle-api-keys-securely">
-  ## Stockez et manipulez les clés API en toute sécurité
-</div>
+## Stockez et manipulez les clés API en toute sécurité {#store-and-handle-api-keys-securely}
 
 Les clés API donnent accès à votre compte W&amp;B et doivent être protégées comme des mots de passe. Les sections suivantes décrivent les méthodes de stockage recommandées, les pratiques à éviter, la façon de transmettre les clés à votre code et les exigences de version du SDK pour les clés plus récentes.
 
-<div id="recommended-storage-methods">
-  ### Méthodes de stockage recommandées
-</div>
+### Méthodes de stockage recommandées {#recommended-storage-methods}
 
 Utilisez l’une des méthodes suivantes pour stocker votre clé API en toute sécurité.
 
@@ -18,9 +14,7 @@ Utilisez l’une des méthodes suivantes pour stocker votre clé API en toute s�
 * **Gestionnaire de mots de passe** : Utilisez une application de gestion de mots de passe fiable.
 * **Trousseaux du système d’exploitation** : Stockez les clés dans le Trousseau macOS, le Gestionnaire d’identifiants Windows ou le service de secrets Linux. Déconseillé en production.
 
-<div id="what-to-avoid">
-  ### Ce qu’il faut éviter
-</div>
+### Ce qu’il faut éviter {#what-to-avoid}
 
 Évitez les pratiques suivantes, qui peuvent exposer votre clé API :
 
@@ -32,9 +26,7 @@ Utilisez l’une des méthodes suivantes pour stocker votre clé API en toute s�
 
 Si une clé API est exposée, supprimez-la immédiatement de votre compte W&amp;B et contactez l’[assistance](mailto:support@wandb.ai) ou votre AISE.
 
-<div id="environment-variables">
-  ### Variables d’environnement
-</div>
+### Variables d’environnement {#environment-variables}
 
 Lorsque vous utilisez des clés API dans votre code, transmettez-les via des variables d’environnement :
 
@@ -53,9 +45,7 @@ Cette approche évite d’exposer les clés dans votre code source et facilite l
   ```
 </Warning>
 
-<div id="sdk-version-compatibility">
-  ### Compatibilité des versions du SDK
-</div>
+### Compatibilité des versions du SDK {#sdk-version-compatibility}
 
 Si vous utilisez une clé API plus récente, vérifiez que votre version du SDK la prend en charge. Les nouvelles clés API sont plus longues que les clés héritées. Lors de l’authentification avec des versions antérieures des SDK `wandb` ou `weave`, vous pouvez rencontrer une erreur liée à la longueur de la clé API.
 

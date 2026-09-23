@@ -9,18 +9,14 @@ keywords: ["管理者", "チーム管理", "メトリクス"]
 
 コードのログを無効にするには、run レベルで環境変数を使用するか、管理者としてチーム全体のデフォルトを変更します。
 
-<div id="turn-off-code-logging-with-environment-variables">
-  ## 環境変数でコード ロギングを無効にする
-</div>
+## 環境変数でコード ロギングを無効にする {#turn-off-code-logging-with-environment-variables}
 
 個々のrunまたはプロセスでコード ロギングを無効にするには、次のいずれかの環境変数を使用します。
 
 * `WANDB_DISABLE_CODE` を `true` に設定すると、すべてのコードのトラッキングが無効になります。これにより、Git SHA と diff patch は取得されなくなります。
 * `WANDB_IGNORE_GLOBS` を `*.patch` に設定すると、diff patch の W&amp;B サーバーへの同期を停止できます。一方で、`wandb restore` で適用できるよう、ローカルでは引き続き利用可能です。
 
-<div id="enforce-settings-at-the-organization-or-team-level">
-  ## 組織またはチーム レベルで設定を強制する
-</div>
+## 組織またはチーム レベルで設定を強制する {#enforce-settings-at-the-organization-or-team-level}
 
 チームの全員に対してコードの保存をオフにしたい場合は、各ユーザーが環境変数を設定する方法に頼るのではなく、チームまたは組織の設定でデフォルトを変更します。
 

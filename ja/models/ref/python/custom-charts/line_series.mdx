@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py#L13" />
 
-<div id="function-wandbplotline_series">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.line_series()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.line_series() {#function-wandbplotline_series}
 
 折れ線系列チャートを作成します。
 
@@ -23,9 +21,7 @@ xname: 'str' = 'x',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="xs" type="Iterable[Iterable[Any]] | Iterable[Any]">
   x 値のシーケンス。単一の配列を指定した場合は、すべての y 値がその x 配列に対してプロットされます。配列の配列を指定した場合は、各 y 値が対応する x 配列に対してプロットされます。
@@ -51,15 +47,11 @@ split_table: 'bool' = False
   表を W&amp;B UI の別のセクションに分割するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
 </ResponseField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `CustomChart`: W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 すべての y 系列を同じ x 値に対してプロットするために、1 つの x 配列をログする場合:
 

@@ -11,9 +11,7 @@ import WeaveByob from "/snippets/fr/_includes/weave-byob.mdx";
 
 <WeaveByob />
 
-<div id="overview">
-  ## Aperçu
-</div>
+## Aperçu {#overview}
 
 Bring your own bucket (BYOB) vous permet de stocker les artefacts W&amp;B et d&#39;autres données sensibles dans votre propre infrastructure cloud ou sur site. Avec [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), W&amp;B ne copie pas les données que vous stockez dans votre bucket vers l&#39;infrastructure gérée par W&amp;B. Cette page s&#39;adresse aux administrateurs W&amp;B et aux ingénieurs plateforme qui doivent conserver la maîtrise du stockage des artefacts afin de répondre à des exigences de gouvernance des données, de résidence des données ou de conformité.
 
@@ -23,15 +21,11 @@ Bring your own bucket (BYOB) vous permet de stocker les artefacts W&amp;B et d&#
   * Vous pouvez spécifier un sous-chemin lorsque vous configurez un bucket, afin de garantir que W&amp;B ne stocke aucun fichier dans un dossier à la racine du bucket. Cela vous aide à mieux respecter la politique de gouvernance des buckets de votre organisation.
 </Note>
 
-<div id="data-stored-in-the-central-database-vs-buckets">
-  ### Données stockées dans la base de données centrale ou dans les buckets
-</div>
+### Données stockées dans la base de données centrale ou dans les buckets {#data-stored-in-the-central-database-vs-buckets}
 
 Lorsque vous utilisez la fonctionnalité BYOB, W&amp;B stocke certains types de données dans la base de données centrale de W&amp;B, et d’autres dans votre bucket. Utilisez les listes suivantes pour comprendre quelles données restent dans l’infrastructure gérée par W&amp;B et lesquelles W&amp;B écrit dans votre propre espace de stockage.
 
-<div id="database">
-  #### Base de données
-</div>
+#### Base de données {#database}
 
 La base de données centrale de W&amp;B stocke les données suivantes :
 
@@ -41,9 +35,7 @@ La base de données centrale de W&amp;B stocke les données suivantes :
 * Métriques système.
 * Journaux de la console.
 
-<div id="buckets">
-  #### Buckets
-</div>
+#### Buckets {#buckets}
 
 Votre bucket de stockage contient les données suivantes :
 
@@ -53,9 +45,7 @@ Votre bucket de stockage contient les données suivantes :
 * Fichiers de run.
 * Métriques de l’historique exportées et événements système au format Parquet.
 
-<div id="bucket-scopes">
-  ### Portées des buckets
-</div>
+### Portées des buckets {#bucket-scopes}
 
 Vous pouvez configurer votre bucket de stockage selon l’une des deux portées suivantes :
 
@@ -72,9 +62,7 @@ Cette conception prend en charge différentes topologies de stockage, selon les 
 
 Par exemple, supposons que vous ayez une équipe appelée Kappa dans votre organisation. Votre organisation (et l’équipe Kappa) utilise par défaut le bucket de stockage au niveau de l’instance. Ensuite, vous créez une équipe appelée Omega. Lorsque vous créez l’équipe Omega, vous configurez un bucket de stockage au niveau de l’équipe pour cette équipe. L’équipe Kappa ne peut pas accéder aux fichiers que l’équipe Omega génère. En revanche, l’équipe Omega peut accéder aux fichiers que l’équipe Kappa crée. Pour isoler les données de l’équipe Kappa, vous devez également configurer un bucket de stockage au niveau de l’équipe pour celle-ci.
 
-<div id="availability-matrix">
-  ### Matrice de disponibilité
-</div>
+### Matrice de disponibilité {#availability-matrix}
 
 Avant de commencer, confirmez que BYOB est disponible pour votre type de déploiement et votre fournisseur de stockage. W&amp;B peut se connecter aux fournisseurs de stockage suivants :
 
@@ -96,9 +84,7 @@ Le tableau suivant indique la disponibilité de BYOB à chaque niveau pour chaqu
 
 Les sections suivantes vous guident dans le processus de configuration de BYOB.
 
-<div id="provision-your-bucket">
-  ## Provision your bucket
-</div>
+## Provision your bucket {#provision-your-bucket}
 
 Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez provisionner votre bucket de stockage, y compris sa politique d’accès et la configuration CORS. Le provisionnement crée le bucket dans lequel W&amp;B écrit et accorde à la plateforme W&amp;B les autorisations nécessaires pour générer des URL pré-signées en votre nom. Sélectionnez un onglet pour continuer.
 
@@ -451,9 +437,7 @@ Après avoir [vérifié la disponibilité](#availability-matrix), vous pouvez pr
 
 Ensuite, [déterminez l’adresse de stockage](#determine-the-storage-address).
 
-<div id="determine-the-storage-address">
-  ## Déterminer l’adresse de stockage
-</div>
+## Déterminer l’adresse de stockage {#determine-the-storage-address}
 
 Après avoir provisionné le bucket, vous avez besoin d’une adresse de stockage que W&amp;B utilise pour le localiser et s’y authentifier. Les sections suivantes décrivent la syntaxe à utiliser pour connecter une équipe W&amp;B à un bucket de stockage BYOB. Dans les exemples, remplacez les valeurs entre chevrons (`<>`) par les informations de votre bucket. Choisissez un onglet pour afficher les instructions détaillées.
 
@@ -519,9 +503,7 @@ Après avoir provisionné le bucket, vous avez besoin d’une adresse de stockag
 
 Après avoir déterminé l’adresse de stockage, vous pouvez passer à [configurer le BYOB au niveau de l’équipe](#configure-team-level-byob).
 
-<div id="configure-wb">
-  ## Configurer W&amp;B
-</div>
+## Configurer W&amp;B {#configure-wb}
 
 Après avoir [provisionné votre bucket](#provision-your-bucket) et [déterminé son adresse](#determine-the-storage-address), vous pouvez configurer BYOB au [niveau de l’instance](#instance-level-byob) ou au [niveau de l’équipe](#team-level-byob). Cette dernière étape indique à W&amp;B de diriger vers votre bucket le stockage des artefacts, des fichiers de run et d’autres objets volumineux.
 
@@ -529,9 +511,7 @@ Après avoir [provisionné votre bucket](#provision-your-bucket) et [déterminé
   Planifiez soigneusement l’organisation de votre bucket de stockage. Après avoir configuré un bucket de stockage pour W&amp;B, la migration de ses données vers un autre bucket est complexe et nécessite l’assistance de W&amp;B. Cela s’applique au stockage pour Cloud dédié et Autogéré, ainsi qu’au stockage au niveau de l’équipe pour Cloud mutualisé. Pour toute question, contactez [l’assistance](mailto:support@wandb.com).
 </Warning>
 
-<div id="instance-level-byob">
-  ### BYOB au niveau de l’instance
-</div>
+### BYOB au niveau de l’instance {#instance-level-byob}
 
 <Note>
   Pour CoreWeave AI Object Storage au niveau de l’instance, contactez l’[assistance W&amp;B](mailto:support@wandb.com) plutôt que de suivre ces instructions. La configuration en libre-service n’est pas encore prise en charge.
@@ -555,9 +535,7 @@ Une fois l’enregistrement effectué, W&amp;B utilise le bucket configuré comm
 
 Si un paramètre n’est pas modifiable, contactez l’administrateur de votre déploiement.
 
-<div id="set-up-azure-workload-identity">
-  #### Configurer Azure workload identity
-</div>
+#### Configurer Azure workload identity {#set-up-azure-workload-identity}
 
 Workload Identity permet à W&amp;B d&#39;accéder à votre bucket Azure sans clé de compte de stockage. Sélectionnez votre type de déploiement pour obtenir les instructions de configuration.
 
@@ -591,9 +569,7 @@ Workload Identity permet à W&amp;B d&#39;accéder à votre bucket Azure sans cl
   </Tab>
 </Tabs>
 
-<div id="team-level-byob">
-  ### BYOB au niveau de l’équipe
-</div>
+### BYOB au niveau de l’équipe {#team-level-byob}
 
 Vous pouvez configurer le BYOB au niveau de l’équipe lorsque vous créez une équipe dans la W&amp;B App ou via l’[API SCIM](/fr/platform/hosting/iam/scim#create-team) (POST Groups avec `storageBucket` facultatif). Deux options s’offrent à vous :
 
@@ -682,15 +658,11 @@ Sélectionnez votre type de déploiement pour continuer.
   </Tab>
 </Tabs>
 
-<div id="troubleshooting">
-  ## Dépannage
-</div>
+## Dépannage {#troubleshooting}
 
 Si W&amp;B signale des erreurs lors de la validation de votre bucket ou de la connexion à celui-ci, utilisez les sections suivantes pour diagnostiquer les causes les plus courantes selon le fournisseur de stockage.
 
-<div id="coreweave">
-  ### CoreWeave
-</div>
+### CoreWeave {#coreweave}
 
 Cette section vous aide à résoudre les problèmes de connexion à CoreWeave AI Object Storage.
 
@@ -711,9 +683,7 @@ Cette section vous aide à résoudre les problèmes de connexion à CoreWeave AI
   * Vérifiez que votre clé d’accès à l’API CoreWeave n’a pas expiré.
   * Vérifiez que votre clé d’accès à l’API CoreWeave et votre clé secrète disposent des autorisations suffisantes `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. Les exemples de cette page répondent à cette exigence. Consultez [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about) dans la documentation CoreWeave.
 
-<div id="google-cloud">
-  ### Google Cloud
-</div>
+### Google Cloud {#google-cloud}
 
 Cette section vous aide à résoudre les problèmes de connexion à Google Cloud Storage.
 

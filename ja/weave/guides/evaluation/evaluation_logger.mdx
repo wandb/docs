@@ -17,7 +17,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "段階的な評�
 </Info>
 
 <div id="basic-workflow">
-  ## 基本的なワークフロー
+  ## 基本的なワークフロー {#basic-workflow}
 </div>
 
 以下の手順に従うと、予測ごとのスコアと、Weave UI で確認できる集計済みサマリーを含む完全な評価が Weave に記録されます。
@@ -39,7 +39,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "段階的な評�
 このワークフローを示す Python の例については、[基本例](#basic-example)を参照してください。出力とすべてのスコアが一度に利用可能な場合、Python ユーザーは [`log_example()`](#simplified-logging-with-log_example) を使用して手順 2～4 を 1 回の呼び出しにまとめることができます。
 
 <div id="basic-example">
-  ## 基本的な例
+  ## 基本的な例 {#basic-example}
 </div>
 
 次の例は、既存のコードにインラインで `EvaluationLogger` を使用して予測とスコアをログする方法を示しています。[YOUR-TEAM]/[YOUR-PROJECT] を W&amp;B entity と project に置き換えてください。
@@ -205,7 +205,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "段階的な評�
 </Tabs>
 
 <div id="simplified-logging-with-log_example">
-  ## `log_example()` を使用した簡易ログ記録
+  ## `log_example()` を使用した簡易ログ記録 {#simplified-logging-with-log_example}
 </div>
 
 `log_example()` を使用すると、入力、1 つの出力、スコアを 1 回の Call でログできます。この便利なメソッドは、`log_prediction()`、`log_score()`、`finish()` を 1 つのステップにまとめたものです。バッチ評価やオフライン評価のように、ログする入力、モデル出力、スコアがすでにそろっている場合に便利です。
@@ -253,13 +253,13 @@ prediction.finish()
 </Note>
 
 <div id="advanced-usage">
-  ## 高度な使い方
+  ## 高度な使い方 {#advanced-usage}
 </div>
 
 `EvaluationLogger` は、基本的なワークフローを超えて、より複雑な評価シナリオに対応できる柔軟なパターンを提供します。以下のセクションでは、コンテキストマネージャーを使った自動的なリソース管理、エージェントのトレースと評価行のリンク、モデル実行とログすることの分離、リッチメディアデータの活用、複数のモデル評価の比較表示などの高度な手法を紹介します。
 
 <div id="use-context-managers">
-  ### コンテキストマネージャーを使用する
+  ### コンテキストマネージャーを使用する {#use-context-managers}
 </div>
 
 `EvaluationLogger` は、予測とスコアの両方でコンテキストマネージャー (`with` 文) をサポートしています。これにより、コードをより簡潔に保ち、リソースを自動的にクリーンアップし、LLM judge Call のようなネストされた操作をより適切にトラッキングできます。
@@ -383,7 +383,7 @@ prediction.finish()
 </Tabs>
 
 <div id="link-agent-traces-to-evaluations">
-  ### エージェント トレースを評価にリンクする
+  ### エージェント トレースを評価にリンクする {#link-agent-traces-to-evaluations}
 </div>
 
 Python では、トレースする各エージェント Call を `log_prediction()` コンテキスト内で実行します。`EvaluationLogger` は、そのコンテキスト内で作成されたスパンに評価 run、例、試行のメタデータを設定します。Weave はこのメタデータを使用して、トレースを評価結果にリンクします。
@@ -443,7 +443,7 @@ Python では、トレースする各エージェント Call を `log_prediction
 * **別のサービスの場合:** 両方の ID をそのサービスに送信し、そのサービスが作成するスパンに設定します。
 
 <div id="link-spans-you-instrument-yourself">
-  #### 自分でインストルメントしたスパンをリンクする
+  #### 自分でインストルメントしたスパンをリンクする {#link-spans-you-instrument-yourself}
 </div>
 
 `log_prediction()` コンテキスト内でスパンが作成された場合、`EvaluationLogger` はすべての属性を自動的に設定します。ただし、独自の OpenTelemetry (OTel) インストルメンテーションでスパンを送信する場合は、リンクする各スパンに属性を直接設定する必要があります。評価では、次の属性を設定できます。
@@ -507,7 +507,7 @@ TypeScript の例では、予測スコープに依存せず、OTel 属性を直�
 </Tabs>
 
 <div id="link-an-agent-that-runs-in-a-separate-service">
-  #### 別のサービスで実行されるエージェントをリンクする
+  #### 別のサービスで実行されるエージェントをリンクする {#link-an-agent-that-runs-in-a-separate-service}
 </div>
 
 エージェントを別のサービスとして実行する場合、評価プロセスとエージェントはメモリを共有しません。Weave はリンク用の属性を自動的に設定できず、エージェントのスパンオブジェクトに直接アクセスすることもできません。代わりに、評価プロセスで両方の Call ID を取得してサービスに送信し、サービス側で作成されるスパンに設定します。この分散 `EvaluationLogger` パターンは Python でのみ使用できます。
@@ -600,7 +600,7 @@ TypeScript の例では、予測スコープに依存せず、OTel 属性を直�
 </Tabs>
 
 <div id="view-linked-agent-spans-from-your-evaluations">
-  #### 評価からリンクされたエージェント スパンを表示する
+  #### 評価からリンクされたエージェント スパンを表示する {#view-linked-agent-spans-from-your-evaluations}
 </div>
 
 Weave UI でリンクされたスパンを確認するには、次の手順を実行します。
@@ -611,7 +611,7 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
 4. 開いた評価の詳細パネルで、**Evaluation** タブの **View spans** をクリックします。**Agents** ページが開き、**Spans** タブにはその評価でフィルターされたスパンが表示されます。
 
 <div id="link-to-an-existing-dataset">
-  ### 既存のデータセットにリンクする
+  ### 既存のデータセットにリンクする {#link-to-an-existing-dataset}
 </div>
 
 生のデータセットを `log_prediction` に `inputs` として渡すと、Weave は評価の run ごとにデータを再インポートします。そのため重複データが保存され、データセットが大きい場合や、多数の評価で再利用する場合には容量の無駄になることがあります。
@@ -669,7 +669,7 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
 </Tabs>
 
 <div id="get-outputs-before-logging">
-  ### ログする前に出力を取得する
+  ### ログする前に出力を取得する {#get-outputs-before-logging}
 </div>
 
 まずモデルの出力を計算し、その後で予測とスコアを個別にログできます。これにより、評価ロジックとロギングロジックが分離され、システムの異なる部分で予測生成とスコアリングを処理する場合に、コードのテストや保守がしやすくなります。
@@ -736,7 +736,7 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
 </Tabs>
 
 <div id="log-rich-media">
-  ### リッチメディアをログする
+  ### リッチメディアをログする {#log-rich-media}
 </div>
 
 入力、出力、スコアには、画像、動画、オーディオ、構造化された表データなどのリッチメディアを含めることができます。リッチメディアをログすると、Weave UI でスコアと並べて実際の内容を確認できるため、マルチモーダルモデルの定性的な分析に役立ちます。`log_prediction` または `log_score` メソッドに dict またはメディアオブジェクトを渡すだけです。
@@ -867,7 +867,7 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
 </Tabs>
 
 <div id="log-and-compare-multiple-evaluations">
-  ### 複数の評価をログして比較する
+  ### 複数の評価をログして比較する {#log-and-compare-multiple-evaluations}
 </div>
 
 `EvaluationLogger` を使用すると、複数の評価をログして Weave UI で並べて比較できます。これは、同じデータセットに対して異なるモデルがどのように機能するかを評価する際に役立ちます。
@@ -967,7 +967,7 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
 </Frame>
 
 <div id="usage-tips">
-  ## 使用上のヒント
+  ## 使用上のヒント {#usage-tips}
 </div>
 
 以下のヒントは、`EvaluationLogger` を最大限に活用するのに役立ちます。

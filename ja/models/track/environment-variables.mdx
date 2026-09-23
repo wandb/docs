@@ -27,9 +27,7 @@ os.environ["WANDB_MODE"] = "offline"
 os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 ```
 
-<div id="optional-environment-variables">
-  ## 任意の環境変数
-</div>
+## 任意の環境変数 {#optional-environment-variables}
 
 これらの任意の環境変数を使用すると、リモートマシンでの認証設定などを行えます。
 
@@ -69,14 +67,10 @@ os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 | `WANDB_USERNAME`        | run に関連付けられた、チームメンバーのユーザー名。サービスアカウントのAPIキーとあわせて使用すると、自動化された run の実行者としてチームメンバーを割り当てられます。                                                                                                                        |
 | `WANDB_USER_EMAIL`      | run に関連付けられた、チームメンバーのメールアドレス。サービスアカウントのAPIキーとあわせて使用すると、自動化された run の実行者としてチームメンバーを割り当てられます。                                                                                                                      |
 
-<div id="singularity-environments">
-  ## Singularity 環境
-</div>
+## Singularity 環境 {#singularity-environments}
 
 [Singularity](https://singularity.lbl.gov/index.html) でコンテナーを実行している場合は、上記の変数名の先頭に `SINGULARITYENV_` を付けることで、環境変数を渡せます。Singularity の環境変数の詳細は、[こちら](https://singularity.lbl.gov/docs-environment-metadata#environment)を参照してください。
 
-<div id="running-on-aws">
-  ## AWS で実行する
-</div>
+## AWS で実行する {#running-on-aws}
 
 AWS でバッチジョブを実行している場合は、W&amp;B の認証情報を使ってマシンを簡単に認証できます。[User Settings](https://wandb.ai/settings) で APIキー を作成し、[AWS Batch ジョブ仕様](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters) で `WANDB_API_KEY` 環境変数を設定します。

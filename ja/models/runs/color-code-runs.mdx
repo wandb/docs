@@ -7,9 +7,7 @@ title: セマンティック run プロットの凡例
 
 Runs にメトリクスベースまたは設定ベースの色を使用するには、2 つの Settings を設定する必要があります:&quot;
 
-<div id="turn-on-key-based-colors">
-  ### Key-based colors を有効にする
-</div>
+### Key-based colors を有効にする {#turn-on-key-based-colors}
 
 1. W&amp;B のプロジェクトにアクセスします。
 2. プロジェクトのサイドバーから **Workspace** タブを選択します。
@@ -27,32 +25,24 @@ Runs にメトリクスベースまたは設定ベースの色を使用するに
 
 以下のセクションでは、メトリクスと y 値の設定方法、および run に色を割り当てるために使用するバケットのカスタマイズ方法について説明します。
 
-<div id="example-key-based-coloring-with-loss-metric">
-  ### 例: 損失メトリクスを使用したキーに基づく色分け
-</div>
+### 例: 損失メトリクスを使用したキーに基づく色分け {#example-key-based-coloring-with-loss-metric}
 
 この例のプロットでは、run はグラデーションで色分けされ、濃い色は損失値が高いことを、薄い色は損失値が低いことを示します。Y 値 は `latest` に設定されており、各 run の最新の損失値を使用します。
 
 <Image src="/images/app_ui/run-colors-key-based.png" alt="キーに基づく色分けを使用して損失値に応じて色分けされた run を表示する W&B Workspace。" />
 
-<div id="set-a-metric">
-  ## メトリクスを設定する
-</div>
+## メトリクスを設定する {#set-a-metric}
 
 **Key** ドロップダウンのメトリクスオプションは、[W&amp;B にログしたキーと値のペア](/ja/models/runs/color-code-runs/#custom-metrics)と、W&amp;B で定義された[デフォルトメトリクス](/ja/models/runs/color-code-runs/#default-metrics)に基づいています。
 
-<div id="default-metrics">
-  ### デフォルトメトリクス
-</div>
+### デフォルトメトリクス {#default-metrics}
 
 * `Relative Time (Process)`: `run` の相対時間です。`run` の開始からの経過秒数で表されます。
 * `Relative Time (Wall)`: `run` の相対時間です。`run` の開始からの経過秒数を、ウォールクロック時間に合わせて調整したものです。
 * `Wall Time`: `run` のウォールクロック時間です。エポックからの経過秒数で表されます。
 * `Step`: `run` の step 番号です。通常は、トレーニングや評価の進捗をトラッキングするために使用されます。
 
-<div id="custom-metrics">
-  ### カスタムメトリクス
-</div>
+### カスタムメトリクス {#custom-metrics}
 
 トレーニングスクリプトまたは評価スクリプトでログしたカスタムメトリクスに基づいて、run を色分けし、意味のあるプロットの凡例を作成できます。カスタムメトリクスはキーと値のペアとしてログされ、キーはメトリクス名、値はそのメトリクスの値です。
 
@@ -77,9 +67,7 @@ with wandb.init(project="basic-intro") as run:
 
 **Key** ドロップダウンでは、`"acc"` と `"loss"` のどちらも選択できます。
 
-<div id="set-a-configuration-key">
-  ## 設定キーを設定する
-</div>
+## 設定キーを設定する {#set-a-configuration-key}
 
 **Key** ドロップダウンの設定オプションは、W&amp;B run の初期化時に `config` パラメーターへ渡すキーと値のペアに基づいています。設定キーは通常、トレーニングや評価スクリプトで使用するハイパーパラメーターやその他の設定をログするために使われます。
 
@@ -99,9 +87,7 @@ with wandb.init(project="basic-intro", config=config) as run:
 
 **Key** ドロップダウンでは、`"learning_rate"`、`"batch_size"`、`"optimizer"` を選択できます。
 
-<div id="set-a-y-value">
-  ## Y 値を設定する
-</div>
+## Y 値を設定する {#set-a-y-value}
 
 次のオプションから選択できます。
 
@@ -109,9 +95,7 @@ with wandb.init(project="basic-intro", config=config) as run:
 * **Max**: メトリクスに対してログされた最も高い Y 値に基づいて色を決定します。
 * **Min**: メトリクスに対してログされた最も低い Y 値に基づいて色を決定します。
 
-<div id="customize-buckets">
-  ## バケットをカスタマイズする
-</div>
+## バケットをカスタマイズする {#customize-buckets}
 
 バケットとは、選択したメトリクスまたは設定キーに基づいて、W&amp;B が run を分類するために使用する値の範囲です。バケットは、指定したメトリクスまたは設定キーの値域全体にわたって均等に分割され、各バケットには固有の色が割り当てられます。そのバケットの範囲に入る Runs は、その色で表示されます。
 

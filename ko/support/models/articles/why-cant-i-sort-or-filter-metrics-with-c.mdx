@@ -5,9 +5,7 @@ keywords: ["Experiments", "메트릭"]
 
 W&amp;B에서 메트릭 이름은 UI에서 정렬하고 필터링할 수 있도록 GraphQL 명명 규칙을 따라야 합니다.
 
-<div id="valid-metric-names">
-  ## 유효한 메트릭 이름
-</div>
+## 유효한 메트릭 이름 {#valid-metric-names}
 
 메트릭 이름은 다음 규칙을 따라야 합니다.
 
@@ -17,9 +15,7 @@ W&amp;B에서 메트릭 이름은 UI에서 정렬하고 필터링할 수 있도�
 
 메트릭이 이 규칙을 따르지 않으면 W&amp;B UI에서 정렬하거나 필터링할 수 없을 수 있습니다.
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 다음 예시는 이러한 규칙을 준수하는 메트릭 이름과 그렇지 않은 이름을 보여줍니다.
 
@@ -41,9 +37,7 @@ with wandb.init() as run:
   run.log({"5_fold_cv": 0.8})  # 숫자로 시작
 ```
 
-<div id="recommended-solution">
-  ## 권장 해결 방법
-</div>
+## 권장 해결 방법 {#recommended-solution}
 
 유효하지 않은 문자를 밑줄(&#95;)과 같은 유효한 문자로 바꾸세요:
 

@@ -24,9 +24,7 @@ Une URL pré-signée expire après les durées suivantes :
 * **Opérations de lecture** : 1 heure.
 * **Opérations d’écriture** : 24 heures, afin de laisser plus de temps pour téléverser de gros objets par morceaux.
 
-<div id="team-level-access-control">
-  ## Contrôle d’accès au niveau de l’équipe
-</div>
+## Contrôle d’accès au niveau de l’équipe {#team-level-access-control}
 
 Chaque URL pré-signée est limitée à des buckets spécifiques selon le [contrôle d’accès au niveau de l’équipe](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) dans la plateforme W&amp;B. Prenons le cas d’un utilisateur qui n’appartient qu’à une seule équipe, et que cette équipe est associée à un bucket de stockage via le [connecteur de stockage sécurisé](./secure-storage-connector). Dans ce cas, les URL pré-signées générées pour ses requêtes n’auront pas les autorisations nécessaires pour accéder aux buckets de stockage associés à d’autres équipes.
 
@@ -34,9 +32,7 @@ Chaque URL pré-signée est limitée à des buckets spécifiques selon le [contr
   W&amp;B recommande d’ajouter les utilisateurs uniquement aux équipes auxquelles ils sont censés appartenir.
 </Note>
 
-<div id="network-restriction">
-  ## Restriction réseau
-</div>
+## Restriction réseau {#network-restriction}
 
 W&amp;B recommande d’utiliser des politiques IAM pour restreindre, via des URL pré-signées, les réseaux autorisés à accéder au stockage externe. Cela permet de garantir que vos buckets W&amp;B ne sont accessibles que depuis les réseaux sur lesquels s’exécutent vos charges de travail d’IA, ou depuis des adresses IP de passerelle associées aux machines de vos utilisateurs.
 
@@ -45,9 +41,7 @@ Consultez la documentation de votre fournisseur de cloud pour obtenir des consei
 * Pour CoreWeave AI Object Storage, se référer à la [référence de la politique de bucket](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy#condition) dans la documentation CoreWeave.
 * Pour AWS S3 ou un stockage compatible S3 comme MinIO hébergé dans votre environnement, se référer au [Guide de l’utilisateur Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities), à la [documentation MinIO](https://github.com/minio/minio) ou à la documentation de votre fournisseur de stockage compatible S3.
 
-<div id="audit-logs">
-  ## Journaux d’audit
-</div>
+## Journaux d’audit {#audit-logs}
 
 W&amp;B recommande d’utiliser les [journaux d’audit W&amp;B](../monitoring-usage/audit-logging) conjointement avec les journaux d’audit propres au stockage Blob. Pour les journaux d’audit du stockage Blob, consultez la documentation de chaque fournisseur de cloud :
 
@@ -62,9 +56,7 @@ Les équipes d’administration et de sécurité peuvent utiliser les journaux d
   Les URL pré-signées sont le seul mécanisme d’accès au stockage Blob pris en charge dans W&amp;B. W&amp;B recommande de configurer tout ou partie des contrôles de sécurité précédents en fonction des besoins de votre organisation.
 </Note>
 
-<div id="determine-the-user-that-requested-a-pre-signed-url">
-  ## Déterminer l’utilisateur ayant demandé une URL pré-signée
-</div>
+## Déterminer l’utilisateur ayant demandé une URL pré-signée {#determine-the-user-that-requested-a-pre-signed-url}
 
 Pour corréler l’activité des URL pré-signées avec des utilisateurs W&amp;B spécifiques lors de l’examen des journaux d’audit, inspectez le paramètre de requête spécifique au fournisseur que W&amp;B ajoute à chaque URL :
 
@@ -75,9 +67,7 @@ Pour corréler l’activité des URL pré-signées avec des utilisateurs W&amp;B
 | Google Cloud Storage        | `X-User`             | nom d’utilisateur W&amp;B                             |
 | Azure Blob Storage          | `scid`               | UUID déterministe dérivé du nom d’utilisateur W&amp;B |
 
-<div id="correlate-azure-blob-storage-activity-with-a-user">
-  ### Mettre en corrélation l’activité Azure Blob Storage avec un utilisateur
-</div>
+### Mettre en corrélation l’activité Azure Blob Storage avec un utilisateur {#correlate-azure-blob-storage-activity-with-a-user}
 
 Azure exige que `scid` soit un GUID. W&amp;B dérive donc un UUID stable à partir du nom d’utilisateur, plutôt que d’inclure directement celui-ci. L’UUID ne contient pas le nom d’utilisateur et ne peut pas être décodé. Pour mettre en corrélation l’activité de stockage Azure avec un utilisateur, calculez ou conservez un mappage entre les noms d’utilisateur W&amp;B et les valeurs `scid` correspondantes.
 

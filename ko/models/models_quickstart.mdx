@@ -11,15 +11,11 @@ W&amp;B를 사용해 머신 러닝 워크플로에서 모델 아티팩트를 언
 * [W&amp;B Public API](/ko/models/ref/python/public-api) (`wandb.apis.public`): 로깅된 실험 데이터를 쿼리하고 분석합니다.
 * [W&amp;B Reports and Workspaces API](/ko/models/ref/wandb_workspaces) (`wandb.wandb-workspaces`): 결과를 요약하는 리포트를 생성합니다.
 
-<div id="sign-up-and-create-an-api-key">
-  ## 가입하고 API 키 생성하기
-</div>
+## 가입하고 API 키 생성하기 {#sign-up-and-create-an-api-key}
 
 W&amp;B에서 사용 중인 머신을 인증하려면 먼저 [wandb.ai/settings](https://wandb.ai/settings)에서 API 키를 생성해야 합니다. API 키를 복사해 안전한 곳에 보관하세요.
 
-<div id="install-and-import-packages">
-  ## 패키지 설치 및 임포트
-</div>
+## 패키지 설치 및 임포트 {#install-and-import-packages}
 
 이 워크스루에 필요한 W&amp;B 라이브러리와 몇 가지 추가 패키지를 설치하세요.
 
@@ -40,9 +36,7 @@ TEAM_ENTITY = "<Team_Entity>" # 팀 entity로 교체하세요
 PROJECT = "my-awesome-project"
 ```
 
-<div id="train-a-model">
-  ## 모델 트레이닝하기
-</div>
+## 모델 트레이닝하기 {#train-a-model}
 
 다음 코드는 기본적인 머신러닝 워크플로를 시뮬레이션합니다. 모델을 트레이닝하고, 메트릭을 로깅하고, 모델을 아티팩트로 저장합니다.
 
@@ -109,9 +103,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:
 * 프로젝트에서 아티팩트 객체를 조회합니다.
 * 아티팩트를 run의 입력으로 표시해 재현성과 추적 가능성을 보장합니다. 자세한 내용은 [Create and view Lineage 맵](/ko/models/registry/lineage)을 참조하세요.
 
-<div id="view-the-training-data-in-the-dashboard">
-  ## 대시보드에서 트레이닝 데이터 확인하기
-</div>
+## 대시보드에서 트레이닝 데이터 확인하기 {#view-the-training-data-in-the-dashboard}
 
 [https://wandb.ai/login](https://wandb.ai/login) 에서 계정에 로그인합니다.
 
@@ -123,9 +115,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:
   <img src="/images/quickstart/quickstart_image.png" alt="run 이름, 메트릭, 상태 정보가 포함된 테이블 뷰에서 여러 run을 보여주는 W&B 프로젝트 페이지" />
 </Frame>
 
-<div id="publish-the-model-to-the-wb-registry">
-  ## 모델을 W&amp;B 레지스트리에 게시하기
-</div>
+## 모델을 W&amp;B 레지스트리에 게시하기 {#publish-the-model-to-the-wb-registry}
 
 조직의 다른 사용자와 모델을 공유하려면 `wandb.Run.link_artifact()`를 사용해 [컬렉션](/ko/models/registry/create_collection)에 게시하세요. 다음 코드는 아티팩트를 [레지스트리](/ko/models/registry)에 연결하여 팀에서 액세스할 수 있게 합니다.
 
@@ -150,9 +140,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
 
 아티팩트를 레지스트리에 연결하는 방법에 대한 자세한 내용은 [아티팩트를 레지스트리에 연결하기](/ko/models/registry/link_version)를 참조하세요.
 
-<div id="retrieve-model-artifact-from-registry-for-inference">
-  ## Inference용 모델 아티팩트를 레지스트리에서 조회
-</div>
+## Inference용 모델 아티팩트를 레지스트리에서 조회 {#retrieve-model-artifact-from-registry-for-inference}
 
 모델로 Inference를 수행하려면 `wandb.Run.use_artifact()`를 사용하여 레지스트리에서 게시된 아티팩트를 조회합니다. 그러면 아티팩트 객체가 반환되며, 이후 [`wandb.Artifact.download()`](/ko/models/ref/python/experiments/artifact/#method-artifactdownload)을 사용해 아티팩트를 로컬 파일로 다운로드할 수 있습니다.
 
@@ -173,9 +161,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
 
 사용 중인 머신 러닝 프레임워크에 따라 가중치를 로드하기 전에 모델 아키텍처를 다시 생성해야 할 수 있습니다. 이는 사용하는 프레임워크와 모델에 따라 달라지므로, 여기서는 독자가 직접 수행하는 것으로 남겨 둡니다.
 
-<div id="share-your-findings-with-a-report">
-  ## 발견한 내용을 리포트로 공유하기
-</div>
+## 발견한 내용을 리포트로 공유하기 {#share-your-findings-with-a-report}
 
 <Note>
   W&amp;B Report and Workspace API는 공개 프리뷰 상태입니다.
@@ -228,9 +214,7 @@ report.save()
 
 프로그래밍 방식으로 리포트를 만들거나 W&amp;B App에서 대화형으로 리포트를 만드는 방법에 대한 자세한 내용은 W&amp;B Docs Developer 가이드의 [리포트 만들기](/ko/models/reports/create-a-report)를 참조하세요.
 
-<div id="query-the-registry">
-  ## 레지스트리 쿼리하기
-</div>
+## 레지스트리 쿼리하기 {#query-the-registry}
 
 [W&amp;B Public API](/ko/models/ref/python/public-api)를 사용해 W&amp;B의 이력 데이터를 쿼리하고, 분석하고, 관리할 수 있습니다. 이는 아티팩트의 리니지를 추적하고, 서로 다른 버전을 비교하며, 시간에 따른 모델 성능을 분석하는 데 유용합니다.
 

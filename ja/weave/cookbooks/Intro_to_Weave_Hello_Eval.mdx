@@ -13,9 +13,7 @@ keywords: ["Weave Model", "評価 API", "スコアリング関数", "LLM評価",
 
 このノートブックでは、最小限のエンドツーエンドの例を通じて、W&amp;B Weaveの評価を紹介します。Weave `Model` を定義し、小規模なデータセットに対して実行し、カスタムのスコアリング関数で出力を評価して、Weaveで結果を確認します。これは、Weaveを初めて使う開発者が、より高度な評価ワークフローに進む前に、手早く実践的に始めるための入門として意図されています。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 Weave の評価を実行する前に、次の準備を済ませてください。
 
@@ -53,9 +51,7 @@ print("---")
 weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B のプロジェクト名
 ```
 
-<div id="run-your-first-evaluation">
-  ## 最初の評価を実行する
-</div>
+## 最初の評価を実行する {#run-your-first-evaluation}
 
 環境の設定が完了したので、評価を定義して実行する準備ができました。
 
@@ -132,9 +128,7 @@ await evaluation.evaluate(model)
 
 評価が完了すると、Weave はモデル、データセット、サンプルごとのスコアをお使いの project にログするので、Weave UI で結果を確認できます。
 
-<div id="looking-for-more-examples">
-  ## さらに多くの例をお探しですか
-</div>
+## さらに多くの例をお探しですか {#looking-for-more-examples}
 
 基本的な評価を実行したら、次のチュートリアルでより高度なワークフローを試すことができます。
 

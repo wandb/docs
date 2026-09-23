@@ -7,17 +7,13 @@ keywords: ["Experiments", "run のクラッシュ"]
 
 これを解決するには、W&amp;B のマルチプロセッシングプロトコルを `"thread"` に変更してください。これにより競合が回避され、プロセスを正常に起動できます。これを行う方法は 2 つあります。
 
-<div id="pass-a-settings-parameter-to-wandbinit">
-  ## Settings パラメーターを wandb.init に渡す
-</div>
+## Settings パラメーターを wandb.init に渡す {#pass-a-settings-parameter-to-wandbinit}
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
-<div id="set-a-global-environment-variable">
-  ## グローバル環境変数を設定する
-</div>
+## グローバル環境変数を設定する {#set-a-global-environment-variable}
 
 ```bash
 export WANDB_START_METHOD=thread

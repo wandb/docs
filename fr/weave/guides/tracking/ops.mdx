@@ -49,9 +49,7 @@ Une op Weave est une fonction versionnée qui journalise automatiquement tous le
   </Tab>
 </Tabs>
 
-<div id="customize-display-names">
-  ## Personnaliser les noms d’affichage
-</div>
+## Personnaliser les noms d’affichage {#customize-display-names}
 
 Un nom d’affichage personnalisé facilite l’identification d’un Op dans l’interface Weave, en particulier lorsque le nom de la fonction est générique ou généré automatiquement.
 
@@ -73,9 +71,7 @@ Un nom d’affichage personnalisé facilite l’identification d’un Op dans l�
   </Tab>
 </Tabs>
 
-<div id="apply-kinds-and-colors">
-  ## Appliquer des types et des couleurs
-</div>
+## Appliquer des types et des couleurs {#apply-kinds-and-colors}
 
 Pour mieux organiser vos Ops dans l’interface Weave, attribuez-leur des types et des couleurs personnalisés en ajoutant les arguments `kind` et `color` aux décorateurs `@weave.op` dans votre code. Par exemple, le code suivant attribue le type `LLM` et la couleur `blue` à la fonction parente, ainsi que le type `tool` et la couleur `red` à une fonction imbriquée :
 
@@ -129,9 +125,7 @@ Les valeurs `color` disponibles sont :
 * `blue`
 * `purple`
 
-<div id="customize-logged-inputs-and-outputs">
-  ## Personnaliser les entrées et sorties enregistrées
-</div>
+## Personnaliser les entrées et sorties enregistrées {#customize-logged-inputs-and-outputs}
 
 <Tabs>
   <Tab title="Python">
@@ -176,9 +170,7 @@ Les valeurs `color` disponibles sont :
   </Tab>
 </Tabs>
 
-<div id="control-sampling-rate">
-  ## Contrôler le taux d’échantillonnage
-</div>
+## Contrôler le taux d’échantillonnage {#control-sampling-rate}
 
 <Tabs>
   <Tab title="Python">
@@ -214,9 +206,7 @@ Les valeurs `color` disponibles sont :
   </Tab>
 </Tabs>
 
-<div id="control-call-link-output">
-  ## Contrôler l’affichage des liens d’appel
-</div>
+## Contrôler l’affichage des liens d’appel {#control-call-link-output}
 
 Par défaut, Weave affiche un lien vers chaque Appel au moment de sa journalisation. Pour empêcher l’affichage des liens d’appel pendant le logging, définissez la variable d’environnement `WEAVE_PRINT_CALL_LINK` sur `false`. Utilisez ce réglage pour réduire la verbosité de la sortie et alléger vos journaux.
 
@@ -224,9 +214,7 @@ Par défaut, Weave affiche un lien vers chaque Appel au moment de sa journalisat
 export WEAVE_PRINT_CALL_LINK=false
 ```
 
-<div id="delete-an-op">
-  ## Supprimer un Op
-</div>
+## Supprimer un Op {#delete-an-op}
 
 La suppression d’une version d’un Op la retire de votre projet. Utilisez cette action pour nettoyer les versions obsolètes ou indésirables.
 

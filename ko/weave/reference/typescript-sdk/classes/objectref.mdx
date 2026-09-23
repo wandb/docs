@@ -14,9 +14,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 ObjectRef에는 Weave의 저장소 시스템에서 저장된 객체를 고유하게 식별하는
 프로젝트 ID, 객체 ID, 다이제스트가 포함됩니다.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -24,15 +22,11 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="constructor">
-  ## 생성자
-</div>
+## 생성자 {#constructor}
 
 > **new ObjectRef**(`projectId`, `objectId`, `digest`): `ObjectRef`
 
-<div id="parameters">
-  ### 매개변수
-</div>
+### 매개변수 {#parameters}
 
 <ParamField path="projectId" type="string" required />
 
@@ -40,117 +34,83 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 <ParamField path="digest" type="string" required />
 
-<div id="returns">
-  ### 반환값
-</div>
+### 반환값 {#returns}
 
 `ObjectRef`
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
-<div id="digest">
-  ### digest
-</div>
+### digest {#digest}
 
 > **digest**: `string`
 
 ***
 
-<div id="objectid">
-  ### objectId
-</div>
+### objectId {#objectid}
 
 > **objectId**: `string`
 
 ***
 
-<div id="projectid">
-  ### projectId
-</div>
+### projectId {#projectid}
 
 > **projectId**: `string`
 
-<div id="methods">
-  ## 방법
-</div>
+## 방법 {#methods}
 
-<div id="get">
-  ### get()
-</div>
+### get() {#get}
 
 > **get**(): `Promise`&lt;`any`&gt;
 
-<div id="returns-2">
-  #### 반환값
-</div>
+#### 반환값 {#returns-2}
 
 `Promise`&lt;`any`&gt;
 
 ***
 
-<div id="ui_url">
-  ### ui_url()
-</div>
+### ui_url() {#ui_url}
 
 > **ui&#95;url**(): `string`
 
-<div id="returns-3">
-  #### 반환값
-</div>
+#### 반환값 {#returns-3}
 
 `string`
 
 ***
 
-<div id="uri">
-  ### uri()
-</div>
+### uri() {#uri}
 
 > **uri**(): `string`
 
-<div id="returns-4">
-  #### 반환값
-</div>
+#### 반환값 {#returns-4}
 
 `string`
 
 ***
 
-<div id="fromuri">
-  ### fromUri()
-</div>
+### fromUri() {#fromuri}
 
 > `static` **fromUri**(`uri`): `ObjectRef`
 
 Weave URI string으로 ObjectRef를 생성합니다.
 
-<div id="parameters-2">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-2}
 
 <ParamField path="uri" type="string" required>
   다음 형식의 Weave URI: weave:///entity/project/object/name:digest
 </ParamField>
 
-<div id="returns-5">
-  #### 반환값
-</div>
+#### 반환값 {#returns-5}
 
 `ObjectRef`
 
 새로운 ObjectRef 인스턴스
 
-<div id="throws">
-  #### Throws
-</div>
+#### Throws {#throws}
 
 URI 형식이 잘못되었거나 ObjectRef가 아닌 경우 오류
 
-<div id="example-2">
-  #### 예시
-</div>
+#### 예시 {#example-2}
 
 ```ts twoslash
 // @noErrors

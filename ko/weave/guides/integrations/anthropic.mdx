@@ -11,9 +11,7 @@ description: "Anthropic SDK를 통해 이루어지는 LLM Call를 Weave로 자�
 
 이 가이드에서는 트레이스를 캡처하고, 자체 함수를 ops로 래핑하고, 실험용으로 재사용 가능한 `Model`을 구축하고, Anthropic SDK로 작업할 때 도구 사용을 추적하는 방법을 설명합니다. 이러한 패턴을 활용하면 맞춤형 로깅 코드를 작성하지 않고도 Claude 기반 애플리케이션을 디버그하고, 비교하고, 반복적으로 개선할 수 있습니다.&quot;
 
-<div id="traces">
-  ## 트레이스
-</div>
+## 트레이스 {#traces}
 
 코드에 `weave.init("your-team-name/your-project-name")`를 추가하면 Weave가 Anthropic SDK의 트레이스를 자동으로 캡처합니다. `weave.init()`에서 팀 이름을 인수로 지정하지 않으면 Weave는 출력을 [기본 W&amp;B entity](/ko/platform/app/settings-page/user-settings/#default-team)에 기록합니다. 프로젝트 이름을 지정하지 않으면 Weave를 초기화할 수 없습니다.
 
@@ -80,9 +78,7 @@ description: "Anthropic SDK를 통해 이루어지는 LLM Call를 Weave로 자�
 
 [![anthropic\_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
-<div id="wrap-with-your-own-ops">
-  ## 직접 만든 ops로 래핑하기
-</div>
+## 직접 만든 ops로 래핑하기 {#wrap-with-your-own-ops}
 
 `weave.init()`만으로도 Anthropic SDK Call을 캡처할 수 있지만, 직접 만든 함수에 ops를 데코레이터로 적용하면 각 모델 Call을 둘러싼 애플리케이션 로직까지 포함하는 더 풍부한 트레이스를 얻을 수 있습니다.
 
@@ -169,9 +165,7 @@ Weave ops는 실험하면서 코드를 자동으로 버전 관리하고 입력�
 
 [![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
-<div id="create-a-model-for-easier-experimentation">
-  ## 실험을 더 쉽게 하기 위한 `Model` 만들기
-</div>
+## 실험을 더 쉽게 하기 위한 `Model` 만들기 {#create-a-model-for-easier-experimentation}
 
 개별 Call을 추적하기 시작했다면, 다음 단계는 관련 매개변수를 함께 정리해 서로 다른 설정을 비교할 수 있도록 하는 것입니다.
 
@@ -224,9 +218,7 @@ print(result)
 
 [![anthropic\_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
-<div id="tools-function-calling">
-  ## 도구 (함수 호출)
-</div>
+## 도구 (함수 호출) {#tools-function-calling}
 
 표준 메시지 외에도 Weave는 Anthropic의 도구 사용 인터페이스를 계측하여 에이전트 워크플로를 엔드투엔드로 트레이스할 수 있게 합니다.
 

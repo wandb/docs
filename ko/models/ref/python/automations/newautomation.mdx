@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
-<div id="class-wandbautomationsnewautomation">
-  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.NewAutomation
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.automations.NewAutomation {#class-wandbautomationsnewautomation}
 
 새로 생성할 자동화입니다.
 
@@ -23,9 +21,7 @@ event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automa
 action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing | wandb.automations.actions.SendPromptToAria, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="name" type="str | None">
   이 자동화의 이름입니다.
@@ -47,9 +43,7 @@ action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.au
   이 자동화가 트리거될 때 실행되는 액션입니다.
 </ResponseField>
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
 <ResponseField name="scope" type="AutomationScope | None">
   트리거 이벤트가 발생하는 범위입니다.

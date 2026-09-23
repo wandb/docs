@@ -11,9 +11,7 @@ API 키는 사용자 또는 서비스 계정을 W&amp;B에 인증합니다. 이 
 
 API 키를 받은 후 안전하게 저장하는 방법은 [API 키를 안전하게 저장 및 처리](#store-and-handle-api-keys-securely)를 참조하세요.
 
-<div id="types-of-api-keys">
-  ## API 키 유형
-</div>
+## API 키 유형 {#types-of-api-keys}
 
 W&amp;B는 사용자와 서비스 계정 모두에게 API 키를 발급합니다.
 
@@ -35,9 +33,7 @@ W&amp;B는 사용자와 서비스 계정 모두에게 API 키를 발급합니다
   조직 API 키는 Enterprise 조직의 Multi-tenant Cloud에서 사용할 수 있으며, W&B가 조직별로 활성화합니다. 다음 섹션에서 설명하는 옵션이 표시되지 않으면 W&B 계정 팀에 문의하세요.
   */}
 
-<div id="find-and-manage-api-keys">
-  ## API 키 찾기 및 관리
-</div>
+## API 키 찾기 및 관리 {#find-and-manage-api-keys}
 
 조직 관리자, 팀 관리자 및 구성원은 **API Keys** 탭에서 키를 관리할 수 있습니다.
 
@@ -65,9 +61,7 @@ W&amp;B는 사용자와 서비스 계정 모두에게 API 키를 발급합니다
   Multi-tenant Cloud에서 조직 역할이 청구 관리자인 사용자는 **API Keys** 탭을 볼 수 없습니다. Dedicated Cloud 및 Self-Managed에서는 청구 역할에 따라 이 탭이 제한되지 않습니다.
 </Note>
 
-<div id="key-visibility-by-role">
-  ### 역할별 키 가시성
-</div>
+### 역할별 키 가시성 {#key-visibility-by-role}
 
 **API Keys** 탭에 표시되는 키는 역할에 따라 다릅니다.
 
@@ -78,9 +72,7 @@ W&amp;B는 사용자와 서비스 계정 모두에게 API 키를 발급합니다
 | 조직 관리자 | 조직 서비스 계정 키를 포함한 조직의 모든 조직 API 키                                                                                                       |
 | 청구 관리자      | Multi-tenant Cloud에서는 볼 수 있는 항목이 없습니다. 이 역할에는 **API Keys** 탭이 표시되지 않습니다. Dedicated Cloud 및 Self-Managed에서는 구성원와 동일한 키를 볼 수 있습니다. |
 
-<div id="read-the-api-keys-table">
-  ### API 키 테이블 확인
-</div>
+### API 키 테이블 확인 {#read-the-api-keys-table}
 
 테이블에는 각 키에 대해 다음 열이 표시됩니다.
 
@@ -96,9 +88,7 @@ W&amp;B는 사용자와 서비스 계정 모두에게 API 키를 발급합니다
 
 목록 범위를 좁히려면 검색 필드에 키 이름, 키 ID 또는 소유자를 입력하거나 **Filters**를 클릭하여 키 유형과 같은 속성으로 필터링하세요.
 
-<div id="create-an-api-key">
-  ### API 키 만들기
-</div>
+### API 키 만들기 {#create-an-api-key}
 
 1. **API Keys** 탭으로 이동합니다.
 2. **New key**를 클릭합니다.
@@ -110,9 +100,7 @@ W&amp;B는 사용자와 서비스 계정 모두에게 API 키를 발급합니다
 
 Multi-tenant Cloud에서 이 탭을 통해 생성한 키는 현재 보고 있는 조직에 속합니다. 작업하는 조직마다 별도의 키를 생성하세요.
 
-<div id="rename-an-api-key">
-  ### API 키 이름 변경
-</div>
+### API 키 이름 변경 {#rename-an-api-key}
 
 키의 사용처를 기록할 수 있도록 이름을 변경하세요. 그러면 나중에 낯선 키도 더 쉽게 확인할 수 있습니다. 이름을 변경해도 키의 시크릿은 바뀌지 않으며, 해당 키를 사용하는 항목이 중단되지 않습니다.
 
@@ -120,9 +108,7 @@ Multi-tenant Cloud에서 이 탭을 통해 생성한 키는 현재 보고 있는
 2. 키 행 끝에 있는 작업 메뉴를 클릭한 다음 **Edit**를 클릭합니다.
 3. 새 이름을 입력한 다음 저장합니다.
 
-<div id="delete-api-keys">
-  ### API 키 삭제
-</div>
+### API 키 삭제 {#delete-api-keys}
 
 더 이상 필요하지 않은 키는 삭제하세요. 키가 노출되었을 가능성이 있다면 즉시 삭제하세요.
 
@@ -138,9 +124,7 @@ Multi-tenant Cloud에서 이 탭을 통해 생성한 키는 현재 보고 있는
   키를 삭제하면 해당 키를 사용하는 모든 스크립트나 서비스의 액세스가 즉시 취소됩니다. 이전 키를 삭제하기 전에 시스템이 대체 키를 사용하도록 업데이트하세요.
 </Warning>
 
-<div id="rotate-an-api-key">
-  ### API 키 교체
-</div>
+### API 키 교체 {#rotate-an-api-key}
 
 보안 정책에 맞는 주기로 키를 교체하고, 키가 노출되었을 가능성이 있으면 즉시 교체하세요. 키를 사용하는 워크로드를 계속 실행해야 하는 경우에는 삭제하지 말고 키를 교체하세요.
 
@@ -157,15 +141,11 @@ W&amp;B에는 단일 키 교체 액션이 없습니다. 키의 전체 시크릿�
   키가 공개적으로 노출된 경우, 시스템을 업데이트할 때까지 기다리지 말고 즉시 삭제하세요. 노출된 키는 삭제할 때까지 유효합니다.
 </Warning>
 
-<div id="restrict-how-members-use-api-keys">
-  ## 구성원의 API 키 사용 제한
-</div>
+## 구성원의 API 키 사용 제한 {#restrict-how-members-use-api-keys}
 
 조직 관리자는 W&amp;B App의 조직 설정에서 API 키 생성 및 사용을 제한할 수 있습니다. 이러한 제한을 통해 조직의 리소스에 접근할 수 있는 키와 새 키를 생성할 수 있는 사용자를 한정할 수 있습니다. 다음 섹션에서는 적용할 수 있는 제한 사항을 설명하며, 이는 배포 유형에 따라 다릅니다.
 
-<div id="enforce-organization-scoped-api-keys">
-  ### 조직 범위 API 키 강제 적용
-</div>
+### 조직 범위 API 키 강제 적용 {#enforce-organization-scoped-api-keys}
 
 Enterprise 조직의 **Multi-tenant Cloud** 에서 사용할 수 있습니다. 이 설정은 W&amp;B가 조직별로 활성화합니다. 설정이 보이지 않으면 W&amp;B 계정 팀에 문의하세요.
 
@@ -184,9 +164,7 @@ Enterprise 조직의 **Multi-tenant Cloud** 에서 사용할 수 있습니다. �
 
 그러면 W&amp;B가 해당 설정 옆에 **Enforced** 라벨을 표시합니다. 강제 적용을 중단하려면 **Authentication** 으로 돌아가 **Disable** 을 클릭하세요.
 
-<div id="disable-api-key-creation">
-  ### API 키 생성 비활성화
-</div>
+### API 키 생성 비활성화 {#disable-api-key-creation}
 
 **Dedicated Cloud** 및 **Self-Managed** v0.84.0 이상에서 사용할 수 있습니다.
 
@@ -208,9 +186,7 @@ W&amp;B는 변경 사항을 즉시 저장합니다. 이 탭의 다른 설정은 
 
 서비스 계정 생성까지 제한하려면 [`GORILLA_DISABLE_TEAM_SERVICE_ACCOUNT_CREATION`](/ko/platform/hosting/iam/advanced_env_vars)을 참조하세요. 이 환경 변수는 Dedicated Cloud 및 Self-Managed v0.83.0 이상에서 새로운 팀 범위 서비스 계정이 생성되지 않도록 차단합니다.
 
-<div id="availability">
-  ## 사용 가능 여부
-</div>
+## 사용 가능 여부 {#availability}
 
 API 키 기능은 배포 유형에 따라 다르며, Multi-tenant Cloud에서는 구독 유형에 따라서도 다릅니다. 다음 표에서는 각 기능의 사용 가능 여부를 요약합니다.
 

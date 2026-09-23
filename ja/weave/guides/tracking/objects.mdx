@@ -6,9 +6,7 @@ keywords: ["オブジェクト", "バージョン管理", "refs", "weave.publish
 
 このページでは、W&amp;B Weave でバージョン管理されたオブジェクトを公開、取得、削除、および参照する方法について説明します。データセット、モデル、プロンプトなどの構造化データを、複数の run や時間の経過にわたって追跡する必要がある場合にご利用ください。
 
-<div id="objects">
-  ## オブジェクト
-</div>
+## オブジェクト {#objects}
 
 **オブジェクト** は、バージョン管理され、シリアライズ可能なデータです。Weave はオブジェクトが変更されると自動的にバージョン管理を行い、不変の履歴を作成します。オブジェクトには次のものが含まれます。
 
@@ -28,9 +26,7 @@ weave.publish(dataset)
 ```
 
 
-<div id="publish-an-object">
-  ## オブジェクトを公開する
-</div>
+## オブジェクトを公開する {#publish-an-object}
 
 Weave のシリアル化レイヤーは、オブジェクトを保存し、バージョン管理します。
 
@@ -61,9 +57,7 @@ Weave のシリアル化レイヤーは、オブジェクトを保存し、バ�
 
 名前を付けてオブジェクトを保存すると、そのオブジェクトがまだ存在しない場合は、Weave がその最初のバージョンを作成します。
 
-<div id="get-an-object-back">
-  ## 保存したオブジェクトを取得する
-</div>
+## 保存したオブジェクトを取得する {#get-an-object-back}
 
 公開後は、参照を使って保存済みのオブジェクトを取得できます。
 
@@ -86,9 +80,7 @@ Weave のシリアル化レイヤーは、オブジェクトを保存し、バ�
   </Tab>
 </Tabs>
 
-<div id="delete-an-object">
-  ## オブジェクトを削除する
-</div>
+## オブジェクトを削除する {#delete-an-object}
 
 オブジェクトの特定のバージョンが不要になった場合は、その ref を使って削除できます。
 
@@ -112,9 +104,7 @@ Weave のシリアル化レイヤーは、オブジェクトを保存し、バ�
   </Tab>
 </Tabs>
 
-<div id="construct-object-refs">
-  ## object ref を作成する
-</div>
+## object ref を作成する {#construct-object-refs}
 
 Ref は、保存されているオブジェクトとそのバージョンを一意に識別します。以下のセクションでは、URI の構造と、ref を作成する方法について説明します。
 
@@ -135,9 +125,7 @@ ref はいくつかの異なる形式で構築できます。
 * `weave.ref([NAME]:[VERSION])`: オブジェクトの指定したバージョンを取得します。`weave.init(...)` を呼び出す必要があります。
 * `weave.ref([FULLY-QUALIFIED-REF-URI])`: 指定した完全修飾オブジェクト ref URI にあるオブジェクトを取得します。`weave.init()` を呼び出す必要はありません。
 
-<div id="organize-object-versions-with-tags-and-aliases">
-  ## タグとエイリアスでオブジェクトのバージョンを整理する
-</div>
+## タグとエイリアスでオブジェクトのバージョンを整理する {#organize-object-versions-with-tags-and-aliases}
 
 **タグs** と **aliases** を使用して、`Dataset`、`Model`、`Prompt`、または `weave.publish` で公開したその他のオブジェクトを含む、任意の Weave オブジェクトの特定のバージョンにラベルを付けます。これらのラベルはすべての `ObjectRef` で機能するため、同じ API をオブジェクトのタイプを問わず使用できます。
 

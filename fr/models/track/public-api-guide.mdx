@@ -3,9 +3,7 @@ description: Exporter ou mettre à jour les données que vous avez enregistrées
 title: Exporter et mettre à jour des données
 ---
 
-<div id="export-data">
-  ## Exporter des données
-</div>
+## Exporter des données {#export-data}
 
 Utilisez l’API publique pour exporter ou mettre à jour les données que vous avez enregistrées dans W&amp;B. Avant d’utiliser cette API, enregistrez des données à partir de votre script. Consultez le [Démarrage rapide](/fr/models/quickstart/) pour plus de détails.
 
@@ -16,9 +14,7 @@ Utilisez l’API publique pour exporter ou mettre à jour les données que vous 
 
 Voir la [documentation de référence générée](/fr/models/ref/python/public-api/) pour plus de détails sur les fonctions disponibles.
 
-<div id="export-run-data">
-  ### Exporter les données d’un run
-</div>
+### Exporter les données d’un run {#export-run-data}
 
 Téléchargez les données d’un run terminé ou en cours. Les cas d’usage courants incluent le téléchargement d’un dataframe pour une analyse personnalisée dans un notebook Jupyter, ou l’utilisation d’une logique personnalisée dans un environnement automatisé.
 
@@ -39,9 +35,7 @@ Les attributs les plus couramment utilisés d&#39;un objet run sont :
 
 Vous pouvez également modifier ou mettre à jour les données de runs passés. Par défaut, une seule instance d&#39;un objet API met en cache toutes les requêtes réseau. Si votre cas d&#39;utilisation nécessite des informations en temps réel dans un script en cours d&#39;exécution, appelez `api.flush()` pour obtenir des valeurs mises à jour.
 
-<div id="querying-multiple-runs">
-  ### Interroger plusieurs runs
-</div>
+### Interroger plusieurs runs {#querying-multiple-runs}
 
 <Tabs>
   <Tab title="DataFrame et CSV">
@@ -96,15 +90,11 @@ L’appel à `api.runs` renvoie un objet `Runs` itérable qui se comporte comme 
 
 `api.runs` accepte également un argument nommé `order`. L’ordre par défaut est `-created_at`. Pour trier les résultats par ordre croissant, indiquez `+created_at`. Vous pouvez également trier par des valeurs de config ou de synthèse. Par exemple, `summary.val_acc` ou `config.experiment_name`.
 
-<div id="error-handling">
-  ### Gestion des erreurs
-</div>
+### Gestion des erreurs {#error-handling}
 
 Si des erreurs surviennent lors de la communication avec les serveurs W&amp;B, une exception `wandb.CommError` est levée. Vous pouvez examiner l’exception d’origine via l’attribut `exc`.
 
-<div id="get-a-runs-name-and-id-during-an-active-run">
-  ### Obtenir le nom et l’ID d’un run pendant un run actif
-</div>
+### Obtenir le nom et l’ID d’un run pendant un run actif {#get-a-runs-name-and-id-during-an-active-run}
 
 Après avoir appelé `wandb.init()`, vous pouvez accéder depuis votre script à l’ID aléatoire du run ou à son nom lisible, comme ceci :
 
@@ -118,13 +108,9 @@ Si vous cherchez un bon moyen de définir des identifiants utiles pour vos runs,
 * **Notes du run** : c’est l’endroit idéal pour ajouter une brève description de ce que vous faites dans ce run. Vous pouvez les définir avec `wandb.init(notes="your notes here")`
 * **Tags du run** : utilisez les tags du run pour suivre des éléments de manière dynamique, puis utilisez des filtres dans l’UI pour n’afficher dans votre tableau que les runs qui vous intéressent. Vous pouvez définir les tags depuis votre script, puis les modifier dans l’UI, à la fois dans le tableau des Runs et dans l’onglet Vue d’ensemble de la page du run. Voir les instructions détaillées [ici](/fr/models/runs/tags/).
 
-<div id="public-api-examples">
-  ## Exemples d’utilisation de l’API publique
-</div>
+## Exemples d’utilisation de l’API publique {#public-api-examples}
 
-<div id="read-metrics-from-a-run">
-  ### Lire les métriques d’un run
-</div>
+### Lire les métriques d’un run {#read-metrics-from-a-run}
 
 Cet exemple affiche le timestamp et la précision enregistrés avec `run.log({"accuracy": acc})` pour un run enregistré sous `"<entity>/<project>/<run_id>"`.
 
@@ -139,9 +125,7 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-<div id="read-specific-metrics-from-a-run">
-  ### Lire des métriques spécifiques d’un run
-</div>
+### Lire des métriques spécifiques d’un run {#read-specific-metrics-from-a-run}
 
 Pour récupérer des métriques spécifiques d’un run, utilisez l’argument `keys`. Le nombre d’échantillons par défaut lors de l’utilisation de `run.history()` est de 500. Les étapes enregistrées qui n’incluent pas de métrique spécifique apparaîtront dans le dataframe de sortie sous la forme de `NaN`. L’argument `keys` fera en sorte que l’API échantillonne plus fréquemment les étapes qui incluent les clés de métrique listées.
 
@@ -156,9 +140,7 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-<div id="compare-two-runs">
-  ### Comparer deux runs
-</div>
+### Comparer deux runs {#compare-two-runs}
 
 Cette commande affiche les paramètres de configuration qui diffèrent entre `run1` et `run2`.
 
@@ -188,9 +170,7 @@ n_conv_layers                               5                    4
 optimizer                             rmsprop                 adam
 ```
 
-<div id="update-metrics-for-a-run-after-the-run-has-finished">
-  ### Mettre à jour les métriques d’un run après la fin du run
-</div>
+### Mettre à jour les métriques d’un run après la fin du run {#update-metrics-for-a-run-after-the-run-has-finished}
 
 Cet exemple définit `accuracy` d’un run précédent à `0.9` :
 
@@ -204,9 +184,7 @@ run.summary["accuracy"] = 0.9
 run.summary.update()
 ```
 
-<div id="rename-a-metric-in-a-completed-run">
-  ### Renommer une métrique dans un run terminé
-</div>
+### Renommer une métrique dans un run terminé {#rename-a-metric-in-a-completed-run}
 
 Cet exemple renomme une colonne « summary » dans vos tableaux.
 
@@ -225,9 +203,7 @@ run.summary.update()
   Le changement de nom d’une colonne s’applique uniquement aux tableaux. Les graphiques continueront d’utiliser les noms d’origine des métriques.
 </Note>
 
-<div id="update-config-for-an-existing-run">
-  ### Mettre à jour la configuration d’un run existant
-</div>
+### Mettre à jour la configuration d’un run existant {#update-config-for-an-existing-run}
 
 Cet exemple met à jour un de vos paramètres de configuration.
 
@@ -243,9 +219,7 @@ run.update()
 
 Voir [Configurer les expériences](/fr/models/track/config#existing-run) pour en savoir plus.
 
-<div id="export-system-resource-consumptions-to-a-csv-file">
-  ### Exporter l’utilisation des ressources système vers un fichier CSV
-</div>
+### Exporter l’utilisation des ressources système vers un fichier CSV {#export-system-resource-consumptions-to-a-csv-file}
 
 L’extrait ci-dessous permet de trouver l’utilisation des ressources système, puis de l’enregistrer dans un fichier CSV.
 
@@ -257,9 +231,7 @@ system_metrics = run.history(stream="events")
 system_metrics.to_csv("sys_metrics.csv")
 ```
 
-<div id="get-unsampled-metric-data">
-  ### Obtenir des données de métriques non échantillonnées
-</div>
+### Obtenir des données de métriques non échantillonnées {#get-unsampled-metric-data}
 
 Lorsque vous récupérez des données depuis l’historique, elles sont, par défaut, échantillonnées à 500 points. Récupérez tous les points de données enregistrés avec `run.scan_history()`. Voici un exemple qui télécharge tous les points de données `loss` enregistrés dans l’historique.
 
@@ -273,9 +245,7 @@ history = run.scan_history()
 losses = [row["loss"] for row in history]
 ```
 
-<div id="get-paginated-data-from-history">
-  ### Obtenir des données paginées dans l’historique
-</div>
+### Obtenir des données paginées dans l’historique {#get-paginated-data-from-history}
 
 Pour récupérer l’historique complet non échantillonné d’un run, utilisez `run.scan_history()`. L’historique non échantillonné inclut chaque enregistrement de l’historique du run. En revanche, la vue échantillonnée de `run.history()` peut omettre certains enregistrements.
 
@@ -292,9 +262,7 @@ run = api.run("<entity>/<project>/<run_id>")
 run.scan_history(keys=sorted(cols), page_size=100)
 ```
 
-<div id="export-metrics-from-all-runs-in-a-project-to-a-csv-file">
-  ### Exporter les métriques de tous les runs d’un projet dans un fichier CSV
-</div>
+### Exporter les métriques de tous les runs d’un projet dans un fichier CSV {#export-metrics-from-all-runs-in-a-project-to-a-csv-file}
 
 Ce script récupère les runs d’un projet et génère un dataframe ainsi qu’un fichier CSV contenant leurs noms, leurs configurations et leurs statistiques de synthèse. Remplacez `<entity>` et `<project>` par votre entité W&amp;B et le nom de votre projet, respectivement.
 
@@ -327,9 +295,7 @@ runs_df = pd.DataFrame(
 runs_df.to_csv("project.csv")
 ```
 
-<div id="get-the-starting-time-for-a-run">
-  ### Obtenir l’heure de début d’un run
-</div>
+### Obtenir l’heure de début d’un run {#get-the-starting-time-for-a-run}
 
 Cet extrait de code récupère l’heure de création du run.
 
@@ -342,9 +308,7 @@ run = api.run("entity/project/run_id")
 start_time = run.created_at
 ```
 
-<div id="upload-files-to-a-finished-run">
-  ### Importer des fichiers dans un run terminé
-</div>
+### Importer des fichiers dans un run terminé {#upload-files-to-a-finished-run}
 
 L’extrait de code ci-dessous importe un fichier sélectionné dans un run terminé.
 
@@ -357,9 +321,7 @@ run = api.run("entity/project/run_id")
 run.upload_file("file_name.extension")
 ```
 
-<div id="download-a-file-from-a-run">
-  ### Télécharger un fichier d’un run
-</div>
+### Télécharger un fichier d’un run {#download-a-file-from-a-run}
 
 Cet exemple localise le fichier &quot;model-best.h5&quot; associé au run ID uxte44z7 dans le projet cifar et l’enregistre localement.
 
@@ -372,9 +334,7 @@ run = api.run("<entity>/<project>/<run_id>")
 run.file("model-best.h5").download()
 ```
 
-<div id="download-all-files-from-a-run">
-  ### Télécharger tous les fichiers d’un run
-</div>
+### Télécharger tous les fichiers d’un run {#download-all-files-from-a-run}
 
 Cette commande récupère tous les fichiers associés à un run et les enregistre localement.
 
@@ -388,9 +348,7 @@ for file in run.files():
     file.download()
 ```
 
-<div id="get-runs-from-a-specific-sweep">
-  ### Obtenir les runs d’un balayage spécifique
-</div>
+### Obtenir les runs d’un balayage spécifique {#get-runs-from-a-specific-sweep}
 
 Cet extrait télécharge tous les runs associés à un balayage donné.
 
@@ -403,9 +361,7 @@ sweep = api.sweep("<entity>/<project>/<sweep_id>")
 sweep_runs = sweep.runs
 ```
 
-<div id="get-the-best-run-from-a-sweep">
-  ### Obtenir le meilleur run d’un balayage
-</div>
+### Obtenir le meilleur run d’un balayage {#get-the-best-run-from-a-sweep}
 
 L’extrait suivant récupère le meilleur run d’un balayage donné.
 
@@ -420,9 +376,7 @@ best_run = sweep.best_run()
 
 Le `best_run` correspond au run présentant la meilleure métrique, telle que définie par le paramètre `metric` dans la configuration du balayage.
 
-<div id="download-the-best-model-file-from-a-sweep">
-  ### Télécharger le fichier du meilleur modèle depuis un balayage
-</div>
+### Télécharger le fichier du meilleur modèle depuis un balayage {#download-the-best-model-file-from-a-sweep}
 
 Cet extrait télécharge le fichier de modèle avec la meilleure précision de validation depuis un balayage contenant des runs qui ont enregistré des fichiers de modèle sous `model.h5`.
 
@@ -440,9 +394,7 @@ runs[0].file("model.h5").download(replace=True)
 print("Best model saved to model-best.h5")
 ```
 
-<div id="delete-all-files-with-a-given-extension-from-a-run">
-  ### Supprimer d’un run tous les fichiers ayant une extension donnée
-</div>
+### Supprimer d’un run tous les fichiers ayant une extension donnée {#delete-all-files-with-a-given-extension-from-a-run}
 
 Cet extrait supprime d’un run les fichiers ayant une extension donnée.
 
@@ -460,9 +412,7 @@ for file in files:
         file.delete()
 ```
 
-<div id="download-system-metrics-data">
-  ### Télécharger les données des métriques système
-</div>
+### Télécharger les données des métriques système {#download-system-metrics-data}
 
 Cet extrait génère un dataframe contenant toutes les métriques de consommation des ressources système d’un run, puis l’enregistre dans un fichier CSV.
 
@@ -476,9 +426,7 @@ system_metrics = run.history(stream="events")
 system_metrics.to_csv("sys_metrics.csv")
 ```
 
-<div id="update-summary-metrics">
-  ### Mettre à jour les métriques du summary
-</div>
+### Mettre à jour les métriques du summary {#update-summary-metrics}
 
 Vous pouvez transmettre un dictionnaire pour mettre à jour les métriques du summary.
 
@@ -486,9 +434,7 @@ Vous pouvez transmettre un dictionnaire pour mettre à jour les métriques du su
 summary.update({"key": val})
 ```
 
-<div id="get-the-command-that-ran-the-run">
-  ### Obtenir la commande qui a lancé le run
-</div>
+### Obtenir la commande qui a lancé le run {#get-the-command-that-ran-the-run}
 
 Chaque run enregistre la commande qui l’a lancé sur la page d’aperçu du run. Pour récupérer cette commande depuis l’API, vous pouvez exécuter :
 

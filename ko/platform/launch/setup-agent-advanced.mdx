@@ -4,9 +4,7 @@ description: "Docker 및 Kaniko 빌더와 컨테이너 레지스트리 설정을
 keywords: ["Kaniko builder", "ECR push", "GCR 레지스트리", "에이전트 빌더", "이미지 레지스트리"]
 ---
 
-<div id="advanced-agent-setup">
-  # 고급 에이전트 설정
-</div>
+# 고급 에이전트 설정 {#advanced-agent-setup}
 
 이 가이드는 다양한 환경에서 컨테이너 이미지를 빌드하고, 해당 이미지를 클라우드 컨테이너 레지스트리에 푸시하며, 빌드 프로세스를 사용자 지정할 수 있도록 W&amp;B Launch 에이전트를 설정하는 방법을 설명합니다. 이미지 빌드가 필요한 launch 작업을 실행해야 하며, 에이전트가 해당 이미지를 어디에서 어떤 방식으로 생성할지 제어하려는 경우 이 가이드를 사용하세요. 이 페이지는 Launch 에이전트를 배포하고 관리하는 관리자 및 운영자를 위한 문서입니다.
 
@@ -16,9 +14,7 @@ keywords: ["Kaniko builder", "ECR push", "GCR 레지스트리", "에이전트 �
   작업 유형에 대한 자세한 내용은 [Launch 작업 만들기](/ko/platform/launch/create-launch-job/)를 참조하세요.
 </Note>
 
-<div id="builders">
-  ## 빌더
-</div>
+## 빌더 {#builders}
 
 Launch 에이전트는 컨테이너 이미지를 생성하는 두 가지 빌더를 지원합니다. 에이전트가 실행되는 환경에 맞는 빌더를 선택하세요.
 
@@ -35,9 +31,7 @@ Launch 에이전트 설정의 `builder.type` 키로 빌더 유형을 제어합�
   Kubernetes cluster에서 이미지를 빌드할 때는 Kaniko를 사용하세요. 그 외의 경우에는 Docker를 사용하세요.
 </Note>
 
-<div id="push-to-a-container-registry">
-  ## 컨테이너 레지스트리로 푸시하기
-</div>
+## 컨테이너 레지스트리로 푸시하기 {#push-to-a-container-registry}
 
 빌드한 이미지를 컴퓨팅 대상에서 실행하려면, 에이전트가 대상이 pull할 수 있는 컨테이너 레지스트리로 이미지를 푸시해야 합니다. 다음 섹션에서는 에이전트가 이미지를 어떻게 태그하고 업로드하는지 설명합니다.
 
@@ -45,9 +39,7 @@ Launch 에이전트는 빌드한 모든 이미지에 고유한 소스 해시 태
 
 예를 들어 `builder.destination` 키가 `my-registry.example.com/my-repository`로 설정되어 있으면, 에이전트는 이미지에 `my-registry.example.com/my-repository:[SOURCE-HASH]` 태그를 붙여 푸시합니다. 레지스트리에 이미지가 이미 있으면 빌드는 건너뜁니다.
 
-<div id="agent-configuration">
-  ### 에이전트 설정
-</div>
+### 에이전트 설정 {#agent-configuration}
 
 에이전트는 YAML 파일에서 설정을 읽어옵니다. 이 파일을 어디에 제공할지는 에이전트를 실행하는 방식에 따라 달라집니다.
 
@@ -122,15 +114,11 @@ Launch 에이전트 설정(`launch-config.yaml`)에서는 `environment` 키와 `
   </Tab>
 </Tabs>
 
-<div id="agent-permissions">
-  ## 에이전트 권한
-</div>
+## 에이전트 권한 {#agent-permissions}
 
 에이전트는 컨테이너 레지스트리에 이미지를 푸시할 권한이 있어야 하며, Kaniko를 사용하는 경우 클라우드 저장소의 빌드 컨텍스트를 읽고 쓸 권한도 있어야 합니다. 에이전트에 필요한 권한은 사용 사례에 따라 다릅니다.
 
-<div id="cloud-registry-permissions">
-  ### 클라우드 레지스트리 권한
-</div>
+### 클라우드 레지스트리 권한 {#cloud-registry-permissions}
 
 에이전트가 저장소를 생성하고 이미지 레이어를 업로드하며 태그가 지정된 이미지를 푸시하려면 레지스트리 권한이 필요합니다. 다음은 Launch 에이전트가 클라우드 레지스트리와 상호작용하는 데 필요한 권한입니다.
 
@@ -181,9 +169,7 @@ Launch 에이전트 설정(`launch-config.yaml`)에서는 `environment` 키와 `
   </Tab>
 </Tabs>
 
-<div id="storage-permissions-for-kaniko">
-  ### Kaniko용 저장소 권한
-</div>
+### Kaniko용 저장소 권한 {#storage-permissions-for-kaniko}
 
 에이전트가 Kaniko 빌더를 사용하는 경우, Launch 에이전트에 클라우드 저장소로 푸시할 권한이 있어야 합니다. Kaniko는 빌드 작업을 실행하는 파드 외부의 컨텍스트 저장소를 사용합니다.
 
@@ -228,9 +214,7 @@ Launch 에이전트 설정(`launch-config.yaml`)에서는 `environment` 키와 `
   </Tab>
 </Tabs>
 
-<div id="customize-the-kaniko-build">
-  ## Kaniko 빌드 맞춤 설정
-</div>
+## Kaniko 빌드 맞춤 설정 {#customize-the-kaniko-build}
 
 빌드 파드의 캐싱 동작이나 환경 변수와 같은 기본값을 재정의하려면 Kaniko가 실행하는 Kubernetes 작업을 맞춤 설정하세요. Kaniko 작업에서 사용할 Kubernetes 작업 사양을 에이전트 설정의 `builder.kaniko-config` 키에 지정합니다. 예:
 
@@ -252,9 +236,7 @@ builder:
               value: "my-env-var-value"
 ```
 
-<div id="deploy-launch-agent-into-coreweave">
-  ## CoreWeave에 Launch 에이전트 배포
-</div>
+## CoreWeave에 Launch 에이전트 배포 {#deploy-launch-agent-into-coreweave}
 
 워크로드가 GPU 가속 인프라의 이점을 활용할 수 있다면 Launch 에이전트를 CoreWeave Cloud에 배포할 수 있습니다. CoreWeave는 GPU 가속 워크로드를 위해 구축된 클라우드 인프라입니다.
 

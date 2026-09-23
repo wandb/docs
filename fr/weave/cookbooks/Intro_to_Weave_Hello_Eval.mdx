@@ -13,9 +13,7 @@ keywords: ["Modèle Weave", "API d’évaluation", "fonction de score", "évalua
 
 Ce notebook présente les évaluations W&amp;B Weave à travers un exemple minimal de bout en bout. Vous définissez un `Model` Weave, l’exécutez sur un petit jeu de données, attribuez un score aux sorties avec une fonction de score personnalisée, puis examinez les résultats dans Weave. Il s’adresse aux développeurs qui découvrent Weave et souhaitent un point de départ rapide et pratique avant d’explorer des flux de travail d’évaluation plus avancés.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de pouvoir exécuter une évaluation Weave, assurez-vous d’avoir effectué les prérequis suivants.
 
@@ -53,9 +51,7 @@ print("---")
 weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Le nom de votre projet W&B
 ```
 
-<div id="run-your-first-evaluation">
-  ## Lancez votre première évaluation
-</div>
+## Lancez votre première évaluation {#run-your-first-evaluation}
 
 Une fois votre environnement configuré, vous êtes prêt à définir et à exécuter une évaluation.
 
@@ -132,9 +128,7 @@ await evaluation.evaluate(model)
 
 Une fois l’évaluation terminée, Weave journalise le modèle, le jeu de données et les scores par exemple dans votre projet afin que vous puissiez inspecter les résultats dans l’interface Weave.
 
-<div id="looking-for-more-examples">
-  ## Vous cherchez d’autres exemples
-</div>
+## Vous cherchez d’autres exemples {#looking-for-more-examples}
 
 Maintenant que vous avez exécuté une évaluation de base, vous pouvez explorer des flux de travail plus avancés dans les tutoriels suivants :
 

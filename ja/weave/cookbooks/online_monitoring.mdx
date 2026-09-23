@@ -11,9 +11,7 @@ keywords: ["オンラインモニタリング", "本番ダッシュボード", "
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
 </Note>
 
-<div id="integrate-with-weave-production-dashboard">
-  ## Weave で統合する: 本番ダッシュボード
-</div>
+## Weave で統合する: 本番ダッシュボード {#integrate-with-weave-production-dashboard}
 
 このノートブックでは、Weave の API と関数を使用して、Weave の Traces ビューの拡張として、本番モニタリング向けのカスタム ダッシュボードを作成する方法を説明します。このガイドは、本番環境で LLM アプリケーションを運用しており、デフォルトの Traces ビューだけでは得られないパフォーマンス、コスト、ユーザー フィードバックを、用途に合わせて可視化したい開発者や ML エンジニアを対象としています。このノートブックでは、次の内容に重点を置きます。
 
@@ -25,9 +23,7 @@ keywords: ["オンラインモニタリング", "本番ダッシュボード", "
 
 <img src="https://github.com/NiWaRe/knowledge-worker-weave/blob/master/screenshots/dashboard_weave_preview.jpg?raw=true" width="1000" alt="Weave を使用した本番ダッシュボードの例" />
 
-<div id="setup">
-  ## セットアップ
-</div>
+## セットアップ {#setup}
 
 まず、以下のパッケージをインストールします。
 
@@ -35,15 +31,11 @@ keywords: ["オンラインモニタリング", "本番ダッシュボード", "
 !pip install streamlit pandas plotly weave
 ```
 
-<div id="implementation">
-  ## 実装
-</div>
+## 実装 {#implementation}
 
 以下のセクションでは、Weave クライアントの初期化、call データの取得、ダッシュボード用の可視化の生成について順を追って説明します。
 
-<div id="initialize-the-weave-client-and-define-costs">
-  ### Weave クライアントを初期化してコストを定義する
-</div>
+### Weave クライアントを初期化してコストを定義する {#initialize-the-weave-client-and-define-costs}
 
 まず、Weave クライアントを初期化し、各モデルのコストを追加する関数を設定します。この手順は、後続のコストクエリで各 Call のトークン単価を適切に対応付けるために必須です。
 
@@ -84,9 +76,7 @@ def init_weave_client(project_name):
 client = init_weave_client(PROJECT_NAME)
 ```
 
-<div id="fetch-calls-data-from-weave">
-  ### Weave から Call データを取得する
-</div>
+### Weave から Call データを取得する {#fetch-calls-data-from-weave}
 
 クライアントを初期化し、コストを設定したら、次のステップは Weave から Call データを取得することです。Call データを取得する方法は 2 つあります。
 
@@ -95,9 +85,7 @@ client = init_weave_client(PROJECT_NAME)
 
 以下のセクションでは、それぞれの方法について説明します。
 
-<div id="fetch-data-call-by-call">
-  #### データを Call ごとに取得する
-</div>
+#### データを Call ごとに取得する {#fetch-data-call-by-call}
 
 Weave からデータにアクセスする最初の方法は、フィルターされた Call のリストを取得し、必要なデータを Call ごとに抽出することです。これを行うには、`calls_query_stream` API を使用して Weave から Call データを取得します。
 
@@ -184,9 +172,7 @@ df_calls = process_calls(calls)
 df_calls.head(3)
 ```
 
-<div id="use-high-level-apis">
-  #### 高レベル API の使用
-</div>
+#### 高レベル API の使用 {#use-high-level-apis}
 
 個々のcallをすべて確認する代わりに、Weave にはモデルのコスト、フィードバック、そのほかのメトリクスに直接アクセスできる高レベル API も用意されています。
 たとえばコストについては、`query_costs` API を使用して、プロジェクト内で使用されているすべての LLM のコストを取得します。
@@ -203,9 +189,7 @@ df_costs["total_cost"] = (
 df_costs
 ```
 
-<div id="gather-inputs-and-generate-visualizations">
-  ### 入力データを集約して可視化を生成する
-</div>
+### 入力データを集約して可視化を生成する {#gather-inputs-and-generate-visualizations}
 
 Call データとコストを DataFrame として利用できるため、plotly を使って可視化を生成できます。これは用途に応じて自由にカスタマイズできる、出発点となるダッシュボードです。より高度な例については、[knowledge-worker-weave リポジトリ内の Streamlit の例](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py)を参照してください。
 
@@ -246,9 +230,7 @@ python
 plot_model_cost_distribution(df_costs)
 ```
 
-<div id="conclusion">
-  ## 結論
-</div>
+## 結論 {#conclusion}
 
 このクックブックでは、Weave の API と関数を使用して、カスタムの本番モニタリング ダッシュボードを作成する方法を紹介しました。Weave は、高速なインテグレーションによってデータの取り込みを効率化するとともに、カスタム プロセス向けにデータを抽出できることに重点を置いています。
 

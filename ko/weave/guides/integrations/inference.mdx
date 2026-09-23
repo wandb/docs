@@ -4,9 +4,7 @@ description: "Weave로 Serverless Inference를 사용해 OpenAI 호환 API를 �
 keywords: ["Llama", "DeepSeek", "Phi", "플레이그라운드", "Chat Completion"]
 ---
 
-<div id="serverless-inference">
-  # Serverless Inference
-</div>
+# Serverless Inference {#serverless-inference}
 
 &#95;Serverless Inference&#95;는 W&amp;B Weave 및 OpenAI 호환 API를 통해 오픈 소스 파운데이션 모델에 액세스할 수 있도록 제공합니다. 이 가이드에서는 API와 Weave UI에서 Serverless Inference를 호출하는 방법과, Weave로 이러한 호출을 트레이스, 평가, 모니터링하는 방법을 설명합니다. Serverless Inference를 사용하면 다음을 할 수 있습니다:
 
@@ -51,9 +49,7 @@ Weave를 사용하면 Serverless Inference 기반 애플리케이션을 트레�
 * [사용 정보 및 제한 사항](#usage-information-and-limits)
 * [API 오류](#api-errors)
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 API 또는 Weave UI를 통해 Serverless Inference 서비스에 액세스하려면 다음 항목이 필요합니다.
 
@@ -62,9 +58,7 @@ API 또는 Weave UI를 통해 Serverless Inference 서비스에 액세스하려�
 3. W&amp;B 프로젝트.
 4. Python을 통해 Inference 서비스를 사용하는 경우 [Python을 통해 API를 사용하기 위한 추가 사전 요구 사항](#additional-prerequisites-for-using-the-api-via-python)을 참조하세요.
 
-<div id="additional-prerequisites-for-using-the-api-via-python">
-  ### Python에서 API를 사용하기 위한 추가 사전 요구 사항
-</div>
+### Python에서 API를 사용하기 위한 추가 사전 요구 사항 {#additional-prerequisites-for-using-the-api-via-python}
 
 Python에서 Inference API를 사용하려면 먼저 공통 사전 요구 사항을 완료하세요. 그런 다음 로컬 환경에 `openai`와 `weave` 라이브러리를 설치하세요. `openai` 라이브러리는 Inference 엔드포인트를 호출하는 데 사용하는 OpenAI 호환 클라이언트를 제공하며, `weave` 라이브러리는 이러한 호출을 트레이스하고 평가할 수 있게 해줍니다.
 
@@ -78,9 +72,7 @@ pip install openai weave
   Weave로 Serverless Inference 서비스를 사용하는 방법을 보여주는 예시는 [API 사용 예시](#usage-examples)를 참조하세요.
 </Note>
 
-<div id="api-specification">
-  ## API 사양
-</div>
+## API 사양 {#api-specification}
 
 다음 섹션에서는 API 사양 정보와 API 사용 예시를 제공합니다. 이를 통해 자체 애플리케이션이나 스크립트에서 Inference 서비스를 프로그래밍 방식으로 호출할 수 있습니다.
 
@@ -88,9 +80,7 @@ pip install openai weave
 * [사용 가능한 방법](#available-methods)
 * [사용 예시](#usage-examples)
 
-<div id="endpoint">
-  ### 엔드포인트
-</div>
+### 엔드포인트 {#endpoint}
 
 다음 엔드포인트를 통해 Inference 서비스에 액세스하세요:
 
@@ -102,18 +92,14 @@ https://api.inference.wandb.ai/v1
   이 엔드포인트에 액세스하려면 Inference 서비스 크레딧이 할당된 W&amp;B 계정, 유효한 W&amp;B API 키, 그리고 W&amp;B entity(“team”이라고도 함)와 프로젝트가 있어야 합니다. 이 가이드의 코드 샘플에서는 entity(team)와 프로젝트를 `<your-team>/<your-project>`로 나타냅니다.
 </Warning>
 
-<div id="available-methods">
-  ### 사용 가능한 방법
-</div>
+### 사용 가능한 방법 {#available-methods}
 
 Inference 서비스에서 지원하는 API 방법은 다음과 같습니다:
 
 * [Chat completions](#chat-completions)
 * [지원되는 모델 목록](#list-supported-models)
 
-<div id="chat-completions">
-  #### Chat completions
-</div>
+#### Chat completions {#chat-completions}
 
 기본적으로 사용할 수 있는 API 방법은 `/chat/completions`이며, 지원되는 모델에 메시지를 보내고 completion을 받기 위한 OpenAI 호환 요청 형식을 지원합니다. Weave로 Serverless Inference 서비스를 사용하는 방법을 보여주는 사용 예시는 [API 사용 예시](#usage-examples)를 참조하세요.
 
@@ -184,9 +170,7 @@ Inference 서비스에서 지원하는 API 방법은 다음과 같습니다:
   </Tab>
 </Tabs>
 
-<div id="list-supported-models">
-  #### 지원되는 모델 목록
-</div>
+#### 지원되는 모델 목록 {#list-supported-models}
 
 API를 사용해 사용 가능한 모든 모델과 해당 ID를 조회합니다. 이는 모델을 동적으로 선택하거나 현재 환경에서 어떤 모델을 사용할 수 있는지 확인할 때 유용합니다.
 
@@ -218,18 +202,14 @@ API를 사용해 사용 가능한 모든 모델과 해당 ID를 조회합니다.
   </Tab>
 </Tabs>
 
-<div id="usage-examples">
-  ## 사용 예시
-</div>
+## 사용 예시 {#usage-examples}
 
 다음 섹션에서는 Weave로 Serverless Inference를 사용하는 방법을 보여 주는 몇 가지 예시를 제공합니다. 먼저 기본 예시로 단일 모델 Call을 트레이스한 다음, 고급 예시로 여러 모델을 평가하고 비교해 보세요.
 
 * [기본 예시: Weave로 Llama 3.1 8B 트레이스하기](#basic-example-trace-llama-31-8b-with-weave)
 * [고급 예시: Inference 서비스에서 Weave Evaluations 및 리더보드 사용하기](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service)
 
-<div id="basic-example-trace-llama-31-8b-with-weave">
-  ### 기본 예제: Weave로 Llama 3.1 8B 트레이스하기
-</div>
+### 기본 예제: Weave로 Llama 3.1 8B 트레이스하기 {#basic-example-trace-llama-31-8b-with-weave}
 
 다음 Python 코드 샘플은 Serverless Inference API를 사용해 **Llama 3.1 8B** 모델에 프롬프트를 보내고, Weave에서 해당 call을 트레이스하는 방법을 보여줍니다. 트레이싱을 사용하면 LLM call의 전체 입력 및 출력을 캡처하고, 성능을 모니터링하고, Weave UI에서 결과를 분석할 수 있습니다.
 
@@ -291,9 +271,7 @@ print(output)
   ![트레이스 표시](/weave/guides/integrations/imgs/image.png)
 </Frame>
 
-<div id="advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service">
-  ### 고급 예제: Inference 서비스와 함께 Weave Evaluations 및 리더보드 사용
-</div>
+### 고급 예제: Inference 서비스와 함께 Weave Evaluations 및 리더보드 사용 {#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service}
 
 또한 Inference 서비스와 함께 Weave를 사용하여 [모델 Call을 트레이스](../tracking/tracing.mdx)하고, [성능을 평가](../core-types/evaluations.mdx)하고 [리더보드를 게시](../core-types/leaderboards.mdx)할 수 있습니다. 다음 Python 코드 샘플은 질문-답변 데이터셋에서 두 모델을 비교합니다.
 
@@ -385,15 +363,11 @@ weave.publish(spec)
   ![트레이스 보기](/weave/guides/integrations/imgs/inference-advanced-leaderboard.png)
 </Frame>
 
-<div id="ui">
-  ## UI
-</div>
+## UI {#ui}
 
 다음 섹션에서는 W&amp;B UI를 통해 Inference 서비스를 사용하는 방법을 설명합니다. UI를 통해 Inference 서비스에 액세스하려면 먼저 [사전 요구 사항](#prerequisites)을 완료하세요.
 
-<div id="access-the-inference-service">
-  ### Inference 서비스에 접속하기
-</div>
+### Inference 서비스에 접속하기 {#access-the-inference-service}
 
 Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니다:
 
@@ -401,15 +375,11 @@ Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니�
 * [Inference 탭에서](#from-the-inference-tab)
 * [플레이그라운드 탭에서](#from-the-playground-tab)
 
-<div id="direct-link">
-  #### 직접 링크
-</div>
+#### 직접 링크 {#direct-link}
 
 다음 링크로 이동합니다: [https://wandb.ai/inference](https://wandb.ai/inference).
 
-<div id="from-the-inference-tab">
-  #### Inference 탭에서
-</div>
+#### Inference 탭에서 {#from-the-inference-tab}
 
 1. [https://wandb.ai/](https://wandb.ai/)에서 W&amp;B 계정에 접속합니다.
 2. 왼쪽 사이드바에서 **Inference**를 선택합니다. 사용 가능한 모델과 모델 정보가 표시되는 페이지가 열립니다.
@@ -418,9 +388,7 @@ Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니�
   ![Inference 탭](/weave/guides/integrations/imgs/inference-ui.png)
 </Frame>
 
-<div id="from-the-playground-tab">
-  #### Playground 탭에서
-</div>
+#### Playground 탭에서 {#from-the-playground-tab}
 
 1. 왼쪽 사이드바에서 **Playground**를 선택합니다. Playground 채팅 UI가 표시됩니다.
 2. LLM 드롭다운 목록에서 **Serverless Inference** 위에 마우스를 올립니다. 사용 가능한 Serverless Inference 모델이 포함된 드롭다운이 오른쪽에 표시됩니다.
@@ -432,9 +400,7 @@ Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니�
   ![Playground의 Inference 모델 드롭다운](/weave/guides/integrations/imgs/inference-playground.png)
 </Frame>
 
-<div id="try-a-model-in-the-playground">
-  ### 플레이그라운드에서 모델 사용해 보기
-</div>
+### 플레이그라운드에서 모델 사용해 보기 {#try-a-model-in-the-playground}
 
 [액세스 옵션 중 하나를 사용해 모델을 선택](#access-the-inference-service)한 후 플레이그라운드에서 해당 모델을 사용해 볼 수 있습니다. 다음 작업을 수행할 수 있습니다:
 
@@ -447,18 +413,14 @@ Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니�
   ![플레이그라운드에서 Inference 모델 사용](/weave/guides/integrations/imgs/inference-playground-single.png)
 </Frame>
 
-<div id="compare-multiple-models">
-  ### 여러 모델 비교
-</div>
+### 여러 모델 비교 {#compare-multiple-models}
 
 플레이그라운드에서 여러 Inference 모델을 비교할 수 있습니다. 다음 두 위치에서 Compare 뷰에 액세스하세요:
 
 * [Inference 탭에서 Compare 뷰 열기](#access-the-compare-view-from-the-inference-tab)
 * [플레이그라운드 탭에서 Compare 뷰 열기](#access-the-compare-view-from-the-playground-tab)
 
-<div id="access-the-compare-view-from-the-inference-tab">
-  #### Inference 탭에서 Compare 뷰 열기
-</div>
+#### Inference 탭에서 Compare 뷰 열기 {#access-the-compare-view-from-the-inference-tab}
 
 1. 왼쪽 사이드바에서 **Inference**를 선택합니다. 사용 가능한 모델과 모델 정보가 표시된 페이지가 열립니다.
 2. 비교할 모델을 선택하려면 모델 카드에서 모델 이름을 제외한 아무 곳이나 클릭합니다. 선택되었음을 나타내기 위해 모델 카드 테두리가 파란색으로 강조 표시됩니다.
@@ -471,9 +433,7 @@ Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니�
   ![Playground에서 비교할 여러 모델 선택](/weave/guides/integrations/imgs/inference-playground-compare.png)
 </Frame>
 
-<div id="access-the-compare-view-from-the-playground-tab">
-  #### Playground 탭에서 Compare 뷰 열기
-</div>
+#### Playground 탭에서 Compare 뷰 열기 {#access-the-compare-view-from-the-playground-tab}
 
 1. 왼쪽 사이드바에서 **Playground**를 선택합니다. Playground 채팅 UI가 표시됩니다.
 2. LLM 드롭다운 목록에서 **Serverless Inference**에 마우스를 올립니다. 오른쪽에 사용 가능한 Serverless Inference 모델이 포함된 드롭다운이 표시됩니다.
@@ -484,9 +444,7 @@ Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니�
 
 이제 Playground에서 모델을 비교하고, [플레이그라운드에서 모델 사용해 보기](#try-a-model-in-the-playground)에 설명된 특성을 사용할 수 있습니다.
 
-<div id="view-billing-and-usage-information">
-  ### 결제 및 사용 정보 보기
-</div>
+### 결제 및 사용 정보 보기 {#view-billing-and-usage-information}
 
 조직 관리자는 W&amp;B UI에서 현재 Inference 크레딧 잔액, 사용 이력, 예정된 결제 정보(해당하는 경우)를 직접 확인할 수 있습니다.
 
@@ -499,21 +457,15 @@ Weave UI의 다음 위치에서 Inference 서비스에 접속할 수 있습니�
   [모델별 가격 세부 정보는 Inference pricing 페이지에서 확인하세요](https://wandb.ai/site/pricing/inference).
 </Tip>
 
-<div id="usage-information-and-limits">
-  ## 사용 정보 및 제한 사항
-</div>
+## 사용 정보 및 제한 사항 {#usage-information-and-limits}
 
 다음 섹션에서는 지리적 제한, 동시성 한도, 가격을 포함한 중요한 사용 정보와 제한 사항을 설명합니다. 서비스를 사용하기 전에 이 내용을 숙지하세요.
 
-<div id="geographic-restrictions">
-  ### 지리적 제한
-</div>
+### 지리적 제한 {#geographic-restrictions}
 
 Inference 서비스는 지원되는 지역에서만 이용할 수 있습니다. 자세한 내용은 [서비스 약관](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)을 참조하세요.
 
-<div id="concurrency-limits">
-  ### 동시성 제한
-</div>
+### 동시성 제한 {#concurrency-limits}
 
 공정한 사용과 안정적인 성능을 보장하기 위해 Serverless Inference API는 사용자 및 프로젝트 수준에서 요청 속도 제한을 적용합니다. 이러한 제한은 다음과 같은 데 도움이 됩니다.
 
@@ -523,15 +475,11 @@ Inference 서비스는 지원되는 지역에서만 이용할 수 있습니다. 
 
 요청 속도 제한을 초과하면 API는 `429 Concurrency limit reached for requests` 응답을 반환합니다. 이 오류를 해결하려면 동시에 전송하는 요청 수를 줄이세요.
 
-<div id="pricing">
-  ### 가격
-</div>
+### 가격 {#pricing}
 
 모델 가격 정보는 [https://wandb.ai/site/pricing/inference](https://wandb.ai/site/pricing/inference)에서 확인하세요.
 
-<div id="api-errors">
-  ## API 오류
-</div>
+## API 오류 {#api-errors}
 
 다음 표에는 Inference API가 반환할 수 있는 오류와 그 원인 및 권장 해결 방법이 나와 있습니다.
 

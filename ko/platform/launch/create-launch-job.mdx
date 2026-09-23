@@ -16,9 +16,7 @@ keywords: ["wandb job create", "Git 작업", "코드 아티팩트 작업", "이�
   실행용으로 제출하지 않고 작업을 만들려면 `wandb job create` 명령을 사용하세요. 자세한 내용은 [명령 레퍼런스 문서](/ko/models/ref/cli/wandb-job/wandb-job-create)를 참조하세요.
 </Note>
 
-<div id="git-jobs">
-  ## Git 작업
-</div>
+## Git 작업 {#git-jobs}
 
 소스 코드가 원격 저장소에 있고 Launch가 특정 커밋, 브랜치 또는 태그에서 이를 클론하도록 하려면 Git 기반 작업을 사용하세요. W&amp;B Launch는 원격 Git 저장소의 커밋, 브랜치 또는 태그에서 코드와 기타 추적된 에셋을 클론합니다. `--uri` 또는 `-u` 플래그로 코드가 포함된 URI를 지정하고, 필요하면 `--build-context` 플래그로 하위 디렉터리를 지정하세요.
 
@@ -39,9 +37,7 @@ wandb launch --uri "https://github.com/wandb/launch-jobs.git" --build-context jo
 
 특정 브랜치 또는 커밋 해시에서 작업을 구축하려면 `-g`, `--git-hash` 인수를 추가하세요. 인수의 전체 목록을 보려면 `wandb launch --help`를 실행하세요.
 
-<div id="remote-url-format">
-  ### 원격 URL 형식
-</div>
+### 원격 URL 형식 {#remote-url-format}
 
 Launch 작업에 연결된 git 원격 저장소는 HTTPS URL 또는 SSH URL일 수 있습니다. URL 유형에 따라 작업 소스 코드를 가져오는 데 사용하는 프로토콜이 달라집니다.
 
@@ -52,9 +48,7 @@ Launch 작업에 연결된 git 원격 저장소는 HTTPS URL 또는 SSH URL일 �
 
 정확한 URL 형식은 호스팅 제공업체에 따라 다를 수 있습니다. `wandb launch --uri`로 생성한 작업은 제공된 `--uri`에 지정된 전송 프로토콜을 사용합니다.
 
-<div id="code-artifact-jobs">
-  ## 코드 아티팩트 작업
-</div>
+## 코드 아티팩트 작업 {#code-artifact-jobs}
 
 소스가 원격 Git 저장소가 아니라 로컬 디렉터리에 있을 때는 코드 아티팩트 작업을 사용하세요. W&amp;B 아티팩트에 저장된 모든 소스 코드에서 작업을 만들 수 있습니다. `--uri` 또는 `-u` 인수에 로컬 디렉터리를 지정해 새 코드 아티팩트와 작업을 만드세요.
 
@@ -87,9 +81,7 @@ wandb launch --uri . --job-name hello-world-code --project launch-quickstart --e
 
 명령어가 완료되면 로컬 코드가 W&amp;B 코드 아티팩트로 캡처되고 `launch-quickstart` 프로젝트의 재사용 가능한 작업에 연결됩니다.
 
-<div id="image-jobs">
-  ## 이미지 작업
-</div>
+## 이미지 작업 {#image-jobs}
 
 또는 미리 만들어진 도커 이미지를 바탕으로 작업을 구축할 수 있습니다. 이는 ML 코드에 대한 빌드 시스템이 이미 있거나, 작업의 코드나 요구 사항은 조정할 필요가 없지만 하이퍼파라미터나 서로 다른 인프라 규모는 실험해 보고 싶을 때 유용합니다.
 
@@ -101,9 +93,7 @@ Launch는 Docker 레지스트리에서 이미지를 pull한 다음, 지정된 �
 wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"           
 ```
 
-<div id="automatic-job-creation">
-  ## 자동 작업 생성
-</div>
+## 자동 작업 생성 {#automatic-job-creation}
 
 `wandb launch`로 명시적으로 생성하는 작업 외에도, W&amp;B는 추적된 코드를 실행할 때 부수적으로 작업을 생성할 수 있습니다. W&amp;B는 Launch로 생성되지 않은 run이라도, 소스 코드가 추적된 모든 run에 대해 자동으로 작업을 생성하고 추적합니다. 다음 세 가지 조건 중 하나라도 충족하면 Runs에 추적된 소스 코드가 있는 것으로 간주됩니다.
 
@@ -113,9 +103,7 @@ wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"
 
 W&amp;B가 W&amp;B run에서 Launch 작업을 자동으로 생성하는 경우, W&amp;B는 로컬 git 저장소를 기반으로 Git 원격 저장소 URL을 추론합니다.
 
-<div id="launch-job-names">
-  ### Launch 작업 이름
-</div>
+### Launch 작업 이름 {#launch-job-names}
 
 기본적으로 W&amp;B가 작업 이름을 자동으로 생성합니다. 이름은 작업이 생성되는 방식(GitHub, 코드 아티팩트 또는 도커 이미지)에 따라 결정됩니다. 또는 환경 변수나 W&amp;B Python SDK를 사용해 Launch 작업 이름을 직접 지정할 수 있습니다.
 
@@ -152,17 +140,13 @@ W&amp;B 환경 변수 또는 W&amp;B Python SDK로 작업 이름 지정하기.
   도커 이미지 작업의 경우 버전 별칭이 작업의 별칭으로 자동 추가됩니다.
 </Note>
 
-<div id="containerization">
-  ## 컨테이너화
-</div>
+## 컨테이너화 {#containerization}
 
 작업은 컨테이너에서 실행됩니다. Image jobs는 미리 구축된 도커 이미지를 사용하지만, Git 및 코드 아티팩트 작업은 컨테이너 구축 단계가 필요합니다.
 
 작업의 컨테이너화는 `wandb launch`에 전달하는 인수와 작업 소스 코드에 포함된 파일로 사용자 지정할 수 있습니다. 다음 섹션에서는 빌드 컨텍스트를 제어하고, 맞춤형 Dockerfile을 제공하며, Python 의존성을 관리하는 방법을 설명합니다.
 
-<div id="build-context">
-  ### 구축 컨텍스트
-</div>
+### 구축 컨텍스트 {#build-context}
 
 구축 컨텍스트는 컨테이너 이미지를 구축하기 위해 Docker 데몬으로 전송되는 파일 및 디렉터리 트리를 의미합니다. 기본적으로 Launch는 작업 소스 코드의 루트를 구축 컨텍스트로 사용합니다. 하위 디렉터리를 구축 컨텍스트로 지정하려면 작업을 생성하고 실행할 때 `wandb launch`의 `--build-context` 인수를 사용하세요.
 
@@ -172,16 +156,12 @@ W&amp;B 환경 변수 또는 W&amp;B Python SDK로 작업 이름 지정하기.
   공식 W&amp;B Launch 작업 저장소와 함께 `--build-context` 인수를 사용하는 방법은 [Git 작업](#git-jobs)를 참고하세요.
 </Note>
 
-<div id="dockerfile">
-  ### Dockerfile
-</div>
+### Dockerfile {#dockerfile}
 
 Dockerfile은 도커 이미지를 구축하는 데 필요한 지침이 들어 있는 텍스트 파일입니다. 기본적으로 Launch는 `requirements.txt` 파일을 설치하는 기본 Dockerfile을 사용합니다. 맞춤형 Dockerfile을 사용하려면 `wandb launch`의 `--dockerfile` 인수로 파일 경로를 지정하세요.
 
 Dockerfile 경로는 구축 컨텍스트를 기준으로 지정하세요. 예를 들어 구축 컨텍스트가 `jobs/hello_world`이고 Dockerfile이 `jobs/hello_world` 디렉터리에 있는 경우, `--dockerfile` 인수는 `Dockerfile.wandb`로 설정해야 합니다. 공식 W&amp;B Launch 작업 저장소에서 `--dockerfile` 인수를 사용하는 방법은 [Git 작업](#git-jobs)을 참조하세요.
 
-<div id="requirements-file">
-  ### Requirements 파일
-</div>
+### Requirements 파일 {#requirements-file}
 
 맞춤형 Dockerfile이 제공되지 않으면 Launch는 빌드 컨텍스트에서 설치할 Python 의존성을 찾습니다. 빌드 컨텍스트의 루트에 `requirements.txt` 파일이 있으면 Launch는 해당 파일에 나열된 의존성을 설치합니다. 그렇지 않고 `pyproject.toml` 파일이 있으면 Launch는 `project.dependencies` 섹션에 있는 의존성을 설치합니다.

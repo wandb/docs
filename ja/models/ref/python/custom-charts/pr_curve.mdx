@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py#L19" />
 
-<div id="function-wandbplotpr_curve">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.pr_curve()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.pr_curve() {#function-wandbplotpr_curve}
 
 Precision-Recall (PR) 曲線を作成します。
 
@@ -26,9 +24,7 @@ title: 'str' = 'Precision-Recall Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="y_true" type="Iterable[T] | None">
   正解の二値ラベルです。形状は (`num_samples`,) である必要があります。
@@ -58,21 +54,15 @@ split_table: 'bool' = False
   表を W&amp;B UI の別のセクションに分けるかどうかを指定します。`True` の場合、表は「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
 </ResponseField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `CustomChart`: W&amp;B にログできるカスタムチャート object。チャートをログするには、`wandb.log()` に渡します。
 
-<div id="raises">
-  ## 例外
-</div>
+## 例外 {#raises}
 
 * `wandb.Error`: NumPy、pandas、または scikit-learn がインストールされていない場合。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```python
 import wandb

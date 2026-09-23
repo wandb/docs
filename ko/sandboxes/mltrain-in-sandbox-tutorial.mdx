@@ -15,9 +15,7 @@ import SandboxesPreview from '/snippets/ko/_includes/sandboxes-public-preview.md
 
 이 튜토리얼을 마치면 트레이닝된 PyTorch 모델 파일이 로컬에 저장됩니다. 이는 로컬 인프라를 구성하지 않고도 Serverless Sandbox를 사용해 격리된 ML 트레이닝 워크로드를 실행할 수 있음을 보여줍니다. 이 튜토리얼은 재현 가능한 트레이닝 작업에 Serverless Sandboxes를 활용할 수 있는지 평가하려는 ML 실무자와 개발자를 대상으로 합니다.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 다음 설정 단계를 완료하세요.
 
@@ -28,11 +26,10 @@ import SandboxesPreview from '/snippets/ko/_includes/sandboxes-public-preview.md
   ```bash
   python -m venv venv
   source venv/bin/activate  # Windows에서는 `venv\Scripts\activate`를 사용하세요
-  ```  */}
+  ```
+  */}
 
-<div id="install-the-wb-python-sdk">
-  ### W&amp;B Python SDK 설치
-</div>
+### W&amp;B Python SDK 설치 {#install-the-wb-python-sdk}
 
 W&amp;B Python SDK는 이후 Serverless Sandbox를 생성하고 상호작용하는 데 사용하는 `Sandbox` 인터페이스를 제공합니다. `pip`를 사용하여 설치하세요:
 
@@ -40,9 +37,7 @@ W&amp;B Python SDK는 이후 Serverless Sandbox를 생성하고 상호작용하�
 pip install wandb
 ```
 
-<div id="log-in-and-authenticate-with-wb">
-  ### W&amp;B에 로그인하고 인증하세요
-</div>
+### W&amp;B에 로그인하고 인증하세요 {#log-in-and-authenticate-with-wb}
 
 W&amp;B Serverless Sandboxes는 사용자의 W&amp;B 계정에서 실행되므로, 생성하기 전에 인증해야 합니다. `wandb login` CLI 명령어를 사용한 다음 안내에 따라 로그인하세요:
 
@@ -52,9 +47,7 @@ wandb login
 
 W&amp;B가 자격 증명을 찾는 방법에 대한 자세한 내용은 [`wandb login`](/ko/models/ref/cli/wandb-login) 레퍼런스 문서를 참조하세요.
 
-<div id="copy-the-training-script-and-dependencies">
-  ## 트레이닝 스크립트와 의존성 복사하기
-</div>
+## 트레이닝 스크립트와 의존성 복사하기 {#copy-the-training-script-and-dependencies}
 
 이 튜토리얼에 필요한 세 개의 파일(requirements 파일, 하이퍼파라미터 파일, 트레이닝 스크립트)을 준비하세요. 아래 드롭다운을 펼친 다음, 각 코드 샘플을 이 튜토리얼과 같은 디렉터리에 있는 별도의 파일로 복사하세요.
 
@@ -192,9 +185,7 @@ W&amp;B가 자격 증명을 찾는 방법에 대한 자세한 내용은 [`wandb 
   ```
 </Accordion>
 
-<div id="create-the-sandbox-and-run-the-training-script">
-  ## 샌드박스를 생성하고 트레이닝 스크립트를 실행하세요
-</div>
+## 샌드박스를 생성하고 트레이닝 스크립트를 실행하세요 {#create-the-sandbox-and-run-the-training-script}
 
 트레이닝 파일이 준비되면 단일 Python 스크립트 하나로 W&amp;B Serverless Sandbox를 생성하고 관리할 수 있습니다. 다음 코드 스니펫은 샌드박스를 생성하고, 그 안에 트레이닝 스크립트와 의존성을 복사한 뒤, 트레이닝 스크립트를 실행하고, 생성된 모델 파일을 다운로드합니다.
 

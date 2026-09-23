@@ -13,9 +13,7 @@ Pour gérer plusieurs runs actifs dans un même processus, voir [Plusieurs runs 
   W&amp;B recommande d’utiliser un gestionnaire de contexte (bloc `with`) lorsque vous appelez `wandb.init()`. Cela garantit que W&amp;B termine le run et téléverse ses données à la fin du bloc.
 </Note>
 
-<div id="single-run-per-process">
-  ## Un seul run par processus
-</div>
+## Un seul run par processus {#single-run-per-process}
 
 L’exemple suivant initialise un run :
 
@@ -36,9 +34,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 
 Dans cet exemple, W&amp;B journalise le run `exalted-darkness-6` dans le projet `awesome-project` de l’entité `nico`. W&amp;B attribue à ce run l’ID unique `pgbn9y21`.
 
-<div id="multiple-runs-in-one-process">
-  ## Plusieurs runs dans un même processus
-</div>
+## Plusieurs runs dans un même processus {#multiple-runs-in-one-process}
 
 Utilisez le paramètre `reinit` dans `wandb.init()` ou `wandb.Settings` pour gérer plusieurs runs dans un même processus Python. Par exemple, gardez un run principal actif tout en créant des runs secondaires de courte durée pour d&#39;autres tâches.
 
@@ -54,9 +50,7 @@ Les cas d&#39;utilisation courants incluent :
   Pour gérer plusieurs runs dans un même processus Python, vous devez disposer de W&amp;B Python SDK version `v0.19.10` ou ultérieure.
 </Note>
 
-<div id="reinit-options">
-  ### Options de `reinit`
-</div>
+### Options de `reinit` {#reinit-options}
 
 Utilisez le paramètre `reinit` pour contrôler le comportement de `wandb.init()` lorsqu&#39;un autre run est actif. Le tableau suivant compare les options disponibles et les cas d&#39;utilisation courants. Pour la définition complète du paramètre, voir la [documentation de référence de `wandb.init()`](/fr/models/ref/python/functions/init).
 
@@ -70,9 +64,7 @@ Utilisez le paramètre `reinit` pour contrôler le comportement de `wandb.init()
   W&amp;B ne prend pas en charge le mode `create_new` pour les [intégrations W&amp;B](/fr/models/integrations) qui supposent un seul run global, telles que Hugging Face Trainer, les callbacks Keras et PyTorch Lightning. Si vous utilisez ces intégrations, exécutez chaque sous-expérience dans un processus distinct.
 </Note>
 
-<div id="configure-reinit">
-  ### Configurer `reinit`
-</div>
+### Configurer `reinit` {#configure-reinit}
 
 * Utilisez `wandb.init()` avec l&#39;argument `reinit` directement :
   ```python
@@ -125,9 +117,7 @@ with wandb.init() as experiment_results_run:
          experiment_results_run.log(experiment_results)
 ```
 
-<div id="example-concurrent-processes">
-  ### Exemple : Processus concurrents
-</div>
+### Exemple : Processus concurrents {#example-concurrent-processes}
 
 Supposons que vous souhaitiez créer un processus principal qui reste ouvert pendant toute la durée d’exécution du script, tout en lançant périodiquement des processus secondaires de courte durée sans fermer le processus principal. Par exemple, ce schéma peut être utile si vous souhaitez entraîner un modèle dans le run principal, tout en calculant des évaluations ou en effectuant d’autres tâches dans des runs distincts.
 

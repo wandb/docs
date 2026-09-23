@@ -23,9 +23,7 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
   ローカル環境とサンドボックスの間で小さなファイルを転送する場合や、サンドボックスの出力をローカルに保存する場合は、ファイルの読み込みと書き込みを使用します。
 </Tip>
 
-<div id="write-a-file-to-the-sandbox">
-  ## サンドボックスにファイルを書き込む
-</div>
+## サンドボックスにファイルを書き込む {#write-a-file-to-the-sandbox}
 
 {/* データの作成、更新、変更、保存 */}
 
@@ -47,9 +45,7 @@ with Sandbox.run() as sandbox:
 
 `Sandbox` クラスのリファレンスドキュメントで、[`Sandbox.write_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#write_file) のパラメーターとオプションの完全な一覧を参照してください。
 
-<div id="read-a-file-from-the-sandbox">
-  ## サンドボックス内のファイルを読み込む
-</div>
+## サンドボックス内のファイルを読み込む {#read-a-file-from-the-sandbox}
 
 [`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) メソッドを使用して、サンドボックスからローカル環境へファイルを保存します。
 
@@ -68,9 +64,7 @@ with Sandbox.run() as sandbox:
 
 パラメーターとオプションの一覧については、[`Sandbox.read_file()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#read_file) の `Sandbox` クラスのリファレンスドキュメントを参照してください。
 
-<div id="mount-a-file-or-directory">
-  ## ファイルまたはディレクトリをマウントする
-</div>
+## ファイルまたはディレクトリをマウントする {#mount-a-file-or-directory}
 
 マウントしたファイルを使用すると、作成時にローカルファイルをサンドボックスに渡せます。実行中のサンドボックスにファイルを転送する `Sandbox.write_file()` とは異なり、マウントしたファイルはサンドボックスの起動直後から利用できます。マウントしたファイルは、指定したパスでサンドボックス内から利用できます。
 

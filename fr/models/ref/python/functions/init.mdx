@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1185" />
 
-<div id="function-wandbinit">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.init()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.init() {#function-wandbinit}
 
 Démarrez un nouveau run pour suivre et journaliser dans W&amp;B.
 
@@ -58,9 +56,7 @@ settings: 'Settings | dict[str, Any] | None' = None,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="entity" type="str | None">
   Le nom d’utilisateur ou d’équipe auquel les runs sont enregistrés. L’entité doit déjà exister. Veillez donc à créer votre compte ou votre équipe dans l’interface utilisateur avant de commencer à enregistrer des runs. Si elle n’est pas spécifiée, le run utilisera votre entité par défaut. Pour modifier l’entité par défaut, accédez à vos paramètres et mettez à jour « Default location to create new projects » sous « Default team ».
@@ -203,15 +199,11 @@ anonymous: 'DoNotSet' = DoNotSet
   Aucune description fournie.
 </ResponseField>
 
-<div id="returns">
-  ## Renvoie
-</div>
+## Renvoie {#returns}
 
 Un objet `Run`.
 
-<div id="raises">
-  ## Exceptions levées
-</div>
+## Exceptions levées {#raises}
 
 * `Error`: Si une erreur inconnue ou interne se produit lors de l&#39;initialisation du run.
 * `AuthenticationError`: Si l&#39;utilisateur ne fournit pas d&#39;identifiants valides.
@@ -219,9 +211,7 @@ Un objet `Run`.
 * `UsageError`: Si l&#39;utilisateur fournit des arguments non valides.
 * `KeyboardInterrupt`: Si l&#39;utilisateur interrompt le run.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 `wandb.init()` renvoie un objet `Run`. Utilisez l&#39;objet run pour journaliser des données,
 enregistrer des Artifacts et gérer le cycle de vie du run.

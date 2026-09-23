@@ -19,17 +19,13 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
   W&amp;B Weave の情報をお探しですか？ [Weave Python SDK クイックスタート](/ja/weave/quickstart) または [Weave TypeScript SDK クイックスタート](/ja/weave/reference/generated_typescript_docs/intro-notebook) を参照してください。
 </Note>
 
-<div id="sign-up-and-create-an-api-key">
-  ## サインアップしてAPIキーを作成する
-</div>
+## サインアップしてAPIキーを作成する {#sign-up-and-create-an-api-key}
 
 W&amp;B でマシンを認証するには、APIキーが必要です。
 
 <ApiKeyCreate />
 
-<div id="install-the-wandb-library-and-log-in">
-  ## `wandb` ライブラリをインストールしてログインする
-</div>
+## `wandb` ライブラリをインストールしてログインする {#install-the-wandb-library-and-log-in}
 
 <Tabs>
   <Tab title="コマンドライン">
@@ -79,9 +75,7 @@ W&amp;B でマシンを認証するには、APIキーが必要です。
   </Tab>
 </Tabs>
 
-<div id="initialize-a-run-and-track-hyperparameters">
-  ## run を初期化してハイパーパラメーターをトラッキングする
-</div>
+## run を初期化してハイパーパラメーターをトラッキングする {#initialize-a-run-and-track-hyperparameters}
 
 Python スクリプトまたはノートブックで、[`wandb.init()`](/ja/models/ref/python/experiments/run/) を使用して W&amp;B の run オブジェクトを初期化します。`config` パラメーターには辞書を使用し、
 ハイパーパラメーターの名と値を指定します。`with` ステートメント内では、メトリクスやその他の情報を W&amp;B にログできます。
@@ -112,9 +106,7 @@ with wandb.init(project=project, config=config) as run:
   [run](/ja/models/runs/) は W&amp;B の中核となる要素です。run を使って、[メトリクスをトラッキングしたり](/ja/models/track/)、[ログを作成したり](/ja/models/track/log/)、アーティファクトをトラッキングしたりできます。
 </Info>
 
-<div id="create-a-machine-learning-training-experiment">
-  ## 機械学習のトレーニング実験を作成する
-</div>
+## 機械学習のトレーニング実験を作成する {#create-a-machine-learning-training-experiment}
 
 このモックのトレーニングスクリプトは、シミュレートした精度と損失のメトリクスをW&amp;Bにログします。次のコードを Python スクリプトまたはノートブックのセルにコピー＆ペーストして、実行してください。
 
@@ -151,9 +143,7 @@ with wandb.init(project=project, config=config) as run:
   <img src="/images/quickstart/quickstart_image.png" alt="各 run でトラッキングされた損失と 精度" />
 </Frame>
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 W&amp;B のその他の機能もぜひご覧ください。
 

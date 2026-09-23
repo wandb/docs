@@ -13,9 +13,7 @@ artifact リネージをトラッキングすると、次のような重要な�
 * **監査**: artifact とその変換の詳細な記録を維持し、コンプライアンスとガバナンスをサポートします。
 * **コラボレーション**: 実験の履歴を可視化することでチームでの連携を改善し、重複作業を減らして開発を加速します。
 
-<div id="view-an-artifacts-lineage-graph">
-  ## artifact のリネージグラフを表示する
-</div>
+## artifact のリネージグラフを表示する {#view-an-artifacts-lineage-graph}
 
 artifact のリネージグラフを表示するには、次の手順に従います。
 
@@ -23,9 +21,7 @@ artifact のリネージグラフを表示するには、次の手順に従い�
 2. プロジェクトのサイドバーで **Artifacts** タブをクリックします。
 3. artifact を選択し、**Lineage** タブをクリックします。
 
-<div id="navigate-lineage-graphs">
-  ## リネージグラフをたどる
-</div>
+## リネージグラフをたどる {#navigate-lineage-graphs}
 
 リネージグラフは、ML 実験における Artifacts と Runs の関係を視覚的に表したものです。W&amp;B App UI または Python SDK を使用して、artifact のリネージグラフを探索し、たどることができます。
 
@@ -81,16 +77,12 @@ artifact のリネージグラフを表示するには、次の手順に従い�
   </Tab>
 </Tabs>
 
-<div id="enable-lineage-graph-tracking">
-  ## リネージグラフのトラッキングを有効にする
-</div>
+## リネージグラフのトラッキングを有効にする {#enable-lineage-graph-tracking}
 
 リネージグラフのトラッキングを有効にするには、W&amp;B Python SDK を使用して、artifact を run の [入力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) または
 [出力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) としてマークする必要があります。
 
-<div id="track-the-input-of-a-run">
-  ### run への入力をトラッキングする
-</div>
+### run への入力をトラッキングする {#track-the-input-of-a-run}
 
 [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#method-runuse_artifact)
 method を使用して、artifact を run への入力 (または依存関係) としてマークします。artifact の名と、その artifact の特定バージョンを参照するための任意の alias を指定します。artifact の
@@ -107,9 +99,7 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 ```
 
-<div id="track-the-output-of-a-run">
-  ### run の出力をトラッキングする
-</div>
+### run の出力をトラッキングする {#track-the-output-of-a-run}
 
 [`wandb.Run.log_artifact()`](/ja/models/ref/python/experiments/run#log_artifact) を使用して、artifact を run の出力として宣言します。まず、
 [`wandb.Artifact()`](/ja/models/ref/python/experiments/artifact#wandb.Artifact) コンストラクタを使用して artifact を作成します。次に、`wandb.Run.log_artifact()` を使用して、
@@ -131,9 +121,7 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   run.log_artifact(artifact_or_path = artifact)
 ```
 
-<div id="artifact-clusters">
-  ## Artifact クラスター
-</div>
+## Artifact クラスター {#artifact-clusters}
 
 グラフ内のあるレベルに 5 つ以上の run または artifact がある場合、クラスターが作成されます。クラスターには、特定のバージョンの run や artifact を検索するための検索バーがあり、クラスター内のノードをさらに調べるために、個々のノードをクラスターから取り出すことができます。
 

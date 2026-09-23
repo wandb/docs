@@ -23,9 +23,7 @@ Ce guide s&#39;adresse aux développeurs qui souhaitent mesurer la qualité des 
   </Tab>
 </Tabs>
 
-<div id="create-your-own-scorers">
-  ## Créez vos propres évaluateurs
-</div>
+## Créez vos propres évaluateurs {#create-your-own-scorers}
 
 Les évaluateurs personnalisés vous permettent d’encoder des critères d’évaluation spécifiques à votre cas d’usage, au-delà de ce que couvrent les évaluateurs intégrés. Les sections suivantes décrivent les deux façons de définir un Scorer : comme une fonction, ou comme une classe pour une logique plus complexe.
 
@@ -40,9 +38,7 @@ Les évaluateurs personnalisés vous permettent d’encoder des critères d’é
   * [Évaluation de la pertinence du contexte (local)](./weave_local_scorers#weavecontextrelevancescorerv1)
 </Tip>
 
-<div id="function-based-scorers">
-  ### évaluateurs basés sur des fonctions
-</div>
+### évaluateurs basés sur des fonctions {#function-based-scorers}
 
 <Tabs>
   <Tab title="Python">
@@ -83,9 +79,7 @@ Les évaluateurs personnalisés vous permettent d’encoder des critères d’é
   </Tab>
 </Tabs>
 
-<div id="class-based-scorers">
-  ### évaluateurs basés sur des classes
-</div>
+### évaluateurs basés sur des classes {#class-based-scorers}
 
 <Tabs>
   <Tab title="Python">
@@ -153,15 +147,11 @@ Les évaluateurs personnalisés vous permettent d’encoder des critères d’é
   </Tab>
 </Tabs>
 
-<div id="how-scorers-work">
-  ## Fonctionnement des évaluateurs
-</div>
+## Fonctionnement des évaluateurs {#how-scorers-work}
 
 Cette section explique comment les évaluateurs reçoivent les données de votre évaluation, comment associer les colonnes du jeu de données aux arguments de l’évaluateur, comment faire référence aux variables d’op dans les prompts de scoring, et comment Weave synthétise les scores de chaque ligne en un résultat final.
 
-<div id="scorer-keyword-arguments">
-  ### Arguments nommés des évaluateurs
-</div>
+### Arguments nommés des évaluateurs {#scorer-keyword-arguments}
 
 <Tabs>
   <Tab title="Python">
@@ -181,9 +171,7 @@ Cette section explique comment les évaluateurs reçoivent les données de votre
 
     * **Sortie :** Incluez un paramètre `output` dans la signature de la fonction de votre évaluateur pour accéder à la sortie du système d’IA.
 
-    <div id="mapping-column-names-with-column_map">
-      ### Mapper les noms de colonnes avec `column_map`
-    </div>
+### Mapper les noms de colonnes avec `column_map` {#mapping-column-names-with-column_map}
 
     Il arrive que les noms des arguments de la méthode `score` ne correspondent pas aux noms des colonnes de votre jeu de données. Vous pouvez corriger cela à l’aide de `column_map`.
 
@@ -250,9 +238,7 @@ Cette section explique comment les évaluateurs reçoivent les données de votre
     );
     ```
 
-    <div id="mapping-column-names-with-columnmapping">
-      ### Mapper les noms de colonnes avec `columnMapping`
-    </div>
+### Mapper les noms de colonnes avec `columnMapping` {#mapping-column-names-with-columnmapping}
 
     <Warning>
       En TypeScript, cette fonctionnalité se trouve sur l’objet `Evaluation`, et non sur chaque évaluateur individuellement.
@@ -282,9 +268,7 @@ Cette section explique comment les évaluateurs reçoivent les données de votre
   </Tab>
 </Tabs>
 
-<div id="access-variables-from-your-ops-in-scoring-prompts">
-  ### Accéder aux variables de vos ops dans les prompts de scoring
-</div>
+### Accéder aux variables de vos ops dans les prompts de scoring {#access-variables-from-your-ops-in-scoring-prompts}
 
 Dans les prompts de scoring pour les scorers LLM-as-a-judge, vous pouvez faire référence à des variables de votre op. Weave extrait automatiquement ces valeurs lorsque le scorer s’exécute.
 
@@ -323,9 +307,7 @@ Longueur maximale demandée : {max_length}
 Renvoyez un objet JSON avec votre note et votre justification.
 ```
 
-<div id="final-summarization-of-the-scorer">
-  ### Résumé final du scorer
-</div>
+### Résumé final du scorer {#final-summarization-of-the-scorer}
 
 <Tabs>
   <Tab title="Python">
@@ -367,9 +349,7 @@ Renvoyez un objet JSON avec votre note et votre justification.
   </Tab>
 </Tabs>
 
-<div id="apply-scorers-to-a-call">
-  ### Appliquer des évaluateurs à un appel
-</div>
+### Appliquer des évaluateurs à un appel {#apply-scorers-to-a-call}
 
 En plus d’exécuter des évaluateurs dans le cadre d’une `weave.Evaluation`, vous pouvez les appliquer directement à un appel donné. Cela est utile lorsque vous souhaitez évaluer le trafic de production ou associer des métriques d’évaluation à une invocation d’op spécifique.
 
@@ -415,9 +395,7 @@ Pour plus d’informations sur l’utilisation de la méthode `.call()`, consult
   </Tab>
 </Tabs>
 
-<div id="use-preprocess_model_input">
-  ### Utiliser `preprocess_model_input`
-</div>
+### Utiliser `preprocess_model_input` {#use-preprocess_model_input}
 
 Vous pouvez utiliser le paramètre `preprocess_model_input` pour modifier les exemples du jeu de données avant qu’ils n’atteignent votre modèle pendant l’évaluation.
 
@@ -429,19 +407,13 @@ Vous pouvez utiliser le paramètre `preprocess_model_input` pour modifier les ex
 
 Pour plus d’informations sur l’utilisation et pour un exemple, voir [Utiliser `preprocess_model_input` pour mettre en forme les lignes du jeu de dataset avant l’évaluation](../core-types/evaluations#using-preprocess_model_input-to-format-dataset-rows-before-evaluating).
 
-<div id="score-analysis">
-  ## Analyse des scores
-</div>
+## Analyse des scores {#score-analysis}
 
 Après l’exécution de vos évaluateurs, vous souhaiterez souvent examiner les scores qu’ils ont produits afin de comprendre le comportement du modèle ou de comparer des versions. Les sections suivantes décrivent comment analyser les scores pour un seul Appel, plusieurs appels et tous les appels évalués par un scorer spécifique, à l’aide de l’API et de l’interface Weave.
 
-<div id="analyze-a-single-calls-scores">
-  ### Analyser les scores d’un appel unique
-</div>
+### Analyser les scores d’un appel unique {#analyze-a-single-calls-scores}
 
-<div id="single-call-api">
-  #### API pour un appel unique
-</div>
+#### API pour un appel unique {#single-call-api}
 
 Pour récupérer un appel unique, utilisez la méthode `get_call`.
 
@@ -455,9 +427,7 @@ call = client.get_call("call-uuid-here")
 feedback = list(call.feedback)
 ```
 
-<div id="single-call-ui">
-  #### UI d’un appel unique
-</div>
+#### UI d’un appel unique {#single-call-ui}
 
 <Frame>
   ![Onglet Scores d’un appel](/weave/guides/evaluation/img/call_scores_tab.png)
@@ -465,13 +435,9 @@ feedback = list(call.feedback)
 
 Le panneau des détails de l’appel affiche les scores d’un appel individuel sous l’onglet **Scores**.
 
-<div id="analyze-multiple-calls-scores">
-  ### Analyser les scores de plusieurs appels
-</div>
+### Analyser les scores de plusieurs appels {#analyze-multiple-calls-scores}
 
-<div id="multiple-calls-api">
-  #### API des appels multiples
-</div>
+#### API des appels multiples {#multiple-calls-api}
 
 Pour récupérer plusieurs appels, utilisez la méthode `get_calls`.
 
@@ -486,9 +452,7 @@ for call in calls:
     feedback = list(call.feedback)
 ```
 
-<div id="multiple-calls-ui">
-  #### Interface des appels multiples
-</div>
+#### Interface des appels multiples {#multiple-calls-ui}
 
 <Frame>
   ![Onglet Appels multiples](/weave/guides/evaluation/img/traces_table_scores.png)
@@ -496,13 +460,9 @@ for call in calls:
 
 Le tableau des traces affiche les scores de plusieurs appels dans la colonne « Scores ».
 
-<div id="analyze-all-calls-scored-by-a-specific-scorer">
-  ### Analyser tous les appels évalués par un scorer spécifique
-</div>
+### Analyser tous les appels évalués par un scorer spécifique {#analyze-all-calls-scored-by-a-specific-scorer}
 
-<div id="all-calls-by-scorer-api">
-  #### API de tous les appels par scorer
-</div>
+#### API de tous les appels par scorer {#all-calls-by-scorer-api}
 
 Pour récupérer tous les appels notés par un scorer spécifique, utilisez la méthode `get_calls`.
 
@@ -521,9 +481,7 @@ for call in calls:
     feedback = list(call.feedback)
 ```
 
-<div id="all-calls-by-scorer-ui">
-  #### Tous les appels d’un Scorer dans l’UI
-</div>
+#### Tous les appels d’un Scorer dans l’UI {#all-calls-by-scorer-ui}
 
 Enfin, si vous souhaitez voir tous les appels évalués par un Scorer, accédez à l’onglet **évaluateurs** dans l’UI et sélectionnez l’onglet **Programmatic Scorer**. Cliquez sur votre Scorer pour ouvrir la page de détails du Scorer.
 

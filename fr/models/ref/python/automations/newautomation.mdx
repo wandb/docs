@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py#L51" />
 
-<div id="class-wandbautomationsnewautomation">
-  ## <Badge color="yellow" size="lg" shape="rounded">classe</Badge> wandb.automations.NewAutomation
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">classe</Badge> wandb.automations.NewAutomation {#class-wandbautomationsnewautomation}
 
 Une nouvelle automatisation à créer.
 
@@ -23,9 +21,7 @@ event: Optional[Annotated[wandb.automations.events.OnLinkArtifact | wandb.automa
 action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.automations.actions.SendWebhook | wandb.automations.actions.DoNothing | wandb.automations.actions.SendPromptToAria, BeforeValidator(func=<function parse_input_action>, json_schema_input_type=PydanticUndefined), FieldInfo(annotation=NoneType, required=True, discriminator='action_type')]] = None
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="name" type="str | None">
   Le nom de cette automatisation.
@@ -47,9 +43,7 @@ action: Optional[Annotated[wandb.automations.actions.SendNotification | wandb.au
   L’action qui sera exécutée lorsque cette automatisation sera déclenchée.
 </ResponseField>
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
 <ResponseField name="scope" type="AutomationScope | None">
   La portée dans laquelle l’événement déclencheur doit se produire.

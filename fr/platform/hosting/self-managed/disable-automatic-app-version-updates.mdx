@@ -10,18 +10,14 @@ Cette page montre aux administrateurs des déploiements W&amp;B **Autogérés** 
   W&amp;B prend en charge une version majeure de serveur W&amp;B pendant 12 mois à compter de sa date de sortie initiale. Les clients disposant d&#39;instances **Autogérées** sont responsables d&#39;effectuer la mise à niveau à temps pour continuer à bénéficier de l&#39;assistance. Évitez de rester sur une version non prise en charge. W&amp;B recommande aux clients disposant d&#39;instances **Autogérées** de mettre à jour leurs déploiements vers la dernière version au moins une fois par trimestre afin de continuer à bénéficier de l&#39;assistance et de recevoir les dernières fonctionnalités, améliorations des performances et correctifs.
 </Note>
 
-<div id="requirements">
-  ## Prérequis
-</div>
+## Prérequis {#requirements}
 
 * opérateur Kubernetes W&amp;B `v1.13.0` ou version ultérieure
 * System Console `v2.12.2` ou version ultérieure
 
 Pour vérifier que vous respectez ces prérequis, référez-vous à la ressource personnalisée W&amp;B ou au chart Helm de votre instance. Vérifiez les valeurs `version` des composants `operator-wandb` et `system-console`.
 
-<div id="disable-automatic-updates">
-  ## Désactiver les mises à jour automatiques
-</div>
+## Désactiver les mises à jour automatiques {#disable-automatic-updates}
 
 Pour désactiver les mises à jour automatiques, utilisez la System Console pour épingler le serveur W&amp;B à une version spécifique, puis vérifiez dans les journaux de réconciliation de l’opérateur que l’épinglage de version est actif.
 

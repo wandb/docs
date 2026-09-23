@@ -12,18 +12,14 @@ Weave journalise automatiquement les vidéos à l’aide de [`moviepy`](https://
   La prise en charge des vidéos n’est disponible qu’en Python.
 </Note>
 
-<div id="usage-prerequisites">
-  ## Prérequis d’utilisation
-</div>
+## Prérequis d’utilisation {#usage-prerequisites}
 
 Avant de journaliser des vidéos avec Weave, assurez-vous de respecter les prérequis suivants :
 
 1. Installez `weave` et `moviepy==1.0.3`.
 2. Créez un compte W&amp;B.
 
-<div id="supported-video-types">
-  ## Types de vidéos pris en charge
-</div>
+## Types de vidéos pris en charge {#supported-video-types}
 
 Weave gère différents types de clips `moviepy` de manière différente. Savoir avec quel type vous travaillez vous aide à comprendre comment Weave téléverse et stocke vos données vidéo.
 
@@ -32,9 +28,7 @@ Weave reconnaît les objets clip vidéo `moviepy`, tels que :
 * Les objets `VideoFileClip` chargés depuis un fichier vidéo.
 * Les clips en mémoire, comme `ImageClip`, `ColorClip` et `TextClip`.
 
-<div id="direct-upload-of-file-based-clips">
-  ### Téléversement direct de clips sous forme de fichiers
-</div>
+### Téléversement direct de clips sous forme de fichiers {#direct-upload-of-file-based-clips}
 
 Si votre clip est un `VideoFileClip` et possède un nom de fichier valide avec une extension prise en charge, Weave téléverse directement le fichier.
 
@@ -44,9 +38,7 @@ Si votre clip est un `VideoFileClip` et possède un nom de fichier valide avec u
 * `.webm`
 * `.gif`
 
-<div id="in-memory-clip-support">
-  ### Prise en charge des clips en mémoire
-</div>
+### Prise en charge des clips en mémoire {#in-memory-clip-support}
 
 Si l&#39;objet vidéo est en mémoire (aucun fichier sur disque), Weave l&#39;encode au format `.mp4` et gère automatiquement le téléversement. Cela s&#39;applique aux clips des types suivants :
 
@@ -54,9 +46,7 @@ Si l&#39;objet vidéo est en mémoire (aucun fichier sur disque), Weave l&#39;en
 * `ColorClip`
 * `TextClip`
 
-<div id="example-trace-a-video-function">
-  ## Exemple : tracer une fonction vidéo
-</div>
+## Exemple : tracer une fonction vidéo {#example-trace-a-video-function}
 
 L’extrait de code suivant montre comment tracer une fonction de traitement vidéo dans Weave. Cet extrait de code :
 

@@ -2,17 +2,13 @@
 title: 適応
 ---
 
-<div id="adapting-this-detector-to-another-repo">
-  # この検出器を別のリポジトリに適用する
-</div>
+# この検出器を別のリポジトリに適用する {#adapting-this-detector-to-another-repo}
 
 これは実装例であり、フレームワークではありません。実装すべきプラグインインターフェースも、サブクラス化すべき抽象基底クラスもありません。それらを用意するには、2 つ目の実装が存在しない段階でその形を推測しなければならないからです。その代わりに、このファイルでは何が汎用的で、何が `wandb/core` 固有なのか、そしてどこに意外な点があったのかを明記しています。これにより、別のリポジトリへの適用は考古学的な発掘作業ではなく、単なる読解作業で済みます。
 
 もしあなたが *「これと同じことをしてほしい。ただし監視対象は `coreweave/sunk` のリリース」* と指示されたエージェントであれば、まずこのファイルを読み、次に `config.py`、続いて `extract.py` を読んでください。他のモジュールはそこから自然に理解できます。
 
-<div id="the-four-part-anatomy">
-  ## 4部構成の構造
-</div>
+## 4部構成の構造 {#the-four-part-anatomy}
 
 リポジトリを監視するドキュメント乖離検出器は、いずれも同じ4つの部分から構成されます。変わるのは2列目だけです。
 
@@ -25,9 +21,7 @@ title: 適応
 
 適応コストのほぼすべては、パート1に集中します。パート3と4は通常、変更なしでそのまま流用できます。
 
-<div id="step-zero-for-a-new-repo-is-there-an-i18n-catalog">
-  ## 新しいリポジトリでのステップゼロ: i18n カタログはあるか?
-</div>
+## 新しいリポジトリでのステップゼロ: i18n カタログはあるか? {#step-zero-for-a-new-repo-is-there-an-i18n-catalog}
 
 **何よりも先にこれを確認してください。** この作業が 2 日で終わるか 2 週間かかるかは、ここで決まります。
 
@@ -47,15 +41,11 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 ツールキットは一切存在しません。 (Locadex/gt-react によるローカライゼーションのパイロットはありますが、
 これは*フォーク*である `wandb/mattcore` を対象としており、`wandb/core` には影響しません。)
 
-<div id="what-surprised-us-on-wandbcore">
-  ## wandb/core で意外だった点
-</div>
+## wandb/core で意外だった点 {#what-surprised-us-on-wandbcore}
 
 ここに挙げるのは、実際に多くの時間を費やすことになった発見です。このファイルが存在するのは、まさにこれらが理由です。
 
-<div id="1-enumerating-attribute-names-guarantees-silent-misses">
-  ### 1. 属性名を列挙する方式では見落としが必ず発生する
-</div>
+### 1. 属性名を列挙する方式では見落としが必ず発生する {#1-enumerating-attribute-names-guarantees-silent-misses}
 
 最初の抽出処理では、文言を含む属性として `aria-label`、
 `placeholder`、`title`、`tooltip` を列挙していました。しかし、drawer を統合する
@@ -68,9 +58,7 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 `<Hotkey name="List only visible runs" />` は文言です) 。これは、曖昧なキーに限ってスラッグ形式の値を
 除外することで対処しています。
 
-<div id="2-prettier-reflow-is-the-dominant-false-positive">
-  ### 2. Prettier によるリフローが誤検知の大半を占める
-</div>
+### 2. Prettier によるリフローが誤検知の大半を占める {#2-prettier-reflow-is-the-dominant-false-positive}
 
 再インデントは `-aria-label="X"` / `+  aria-label="X"`、つまり同一文字列の削除と追加
 として現れます。これはファイル単位の集合一致判定で確定的に除去でき、モデルも
@@ -80,23 +68,17 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 これは `diff_signals.graphql_contract_change` を一般化したものです。同関数も同じ手法
 で `.graphql` の変更がクライアントから見えるかどうかを判定しています。
 
-<div id="3-refactor-titled-commits-are-the-dominant-false-negative">
-  ### 3. refactor と題されたコミットが偽陰性の最大要因
-</div>
+### 3. refactor と題されたコミットが偽陰性の最大要因 {#3-refactor-titled-commits-are-the-dominant-false-negative}
 
 **conventional commit のタイプでフィルターしてはいけません。** このコーパスで最も価値のあった実際の発見 — 8 個の表ヘッダーがタイトルケースになっており、6 週間後の公開ドキュメントでも依然として誤っていた — は、半分が `feat(app): migrate ... to Table`、残り半分が `refactor(app): migrate OrgDashboard UsersTable` に含まれていました。どちらの件名も、ユーザーに見える文言が変更されたことを示していません。しかし実際には、両方とも変更していたのです。
 
 コミットのタイプは metadata として記録されるだけで、どこにも使用されていません。
 
-<div id="4-never-normalize-case">
-  ### 4. 大文字小文字は決して正規化しない
-</div>
+### 4. 大文字小文字は決して正規化しない {#4-never-normalize-case}
 
 `normalize()` は空白をまとめるだけで、それ以上は何も行いません。小文字化してしまうと `MODELS SEAT` と `Models Seat` が同一になり、大文字小文字だけが異なるリネームは集合演算で相殺され、跡形もなく消えてしまいます。この失敗が何のエラーも出さずに起きるからこそ、この挙動を固定するテスト (`test_case_is_never_normalized`) が用意されています。
 
-<div id="5-move-detection-needs-a-looser-identity-than-reflow-detection">
-  ### 5. 移動の検出には、リフローの検出よりも*緩い*アイデンティティが必要
-</div>
+### 5. 移動の検出には、リフローの検出よりも*緩い*アイデンティティが必要 {#5-move-detection-needs-a-looser-identity-than-reflow-detection}
 
 これらは別々の問いであり、それぞれ異なるキーを必要とします。
 
@@ -108,15 +90,11 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 `saveLabel="Add secret"` へ移動しました。string は同じで形式だけが異なり、画面上には依然として表示されています。
 厳密にキー付けすると、このコミットでは 23 件の幻の削除が報告されます。つまり、誰もが最初に目にする report に 23 件の誤った rows が並ぶことになります。`LabelDelta.ident` と `.moved_ident` を参照してください。
 
-<div id="6-wrapped-means-not-a-complete-literal-not-prettier-moved-it">
-  ### 6. `wrapped` は「完全なリテラルではない」という意味であり、「Prettier が移動させた」という意味ではありません
-</div>
+### 6. `wrapped` は「完全なリテラルではない」という意味であり、「Prettier が移動させた」という意味ではありません {#6-wrapped-means-not-a-complete-literal-not-prettier-moved-it}
 
 この2つは混同しやすく、混同すると、本来有効な検出結果を理由もなくエージェントレーンから除外してしまいます。補間 (`` `Allow ${AGENT_NAME} to ...` ``) や三項演算子の分岐は、検索と置換を行うには実際に安全ではありません。一方、Prettier によって独立した行に押し出されただけのテキストは、そのまま正確に取得されており、置換しても何ら問題ありません。
 
-<div id="7-merged-visible-and-flag-presence-is-a-decayed-signal">
-  ### 7. マージ済み ≠ 可視、そしてフラグの*存在*は減衰したシグナル
-</div>
+### 7. マージ済み ≠ 可視、そしてフラグの*存在*は減衰したシグナル {#7-merged-visible-and-flag-presence-is-a-decayed-signal}
 
 新しい UI は Statsig のランプフラグの背後でリリースされます。しかし、フラグが 100% に達しても、エンジニアがそれを削除することはほとんどありません — 残しておく方が安全だからです — そのため、ゲートが存在していること自体はほとんど何も示しません。これを根拠に抑制しないでください。
 
@@ -132,9 +110,7 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 
 `wandb/core` 固有のデプロイのセマンティクスは、独立したスキルとして扱うだけの複雑さがあります — `coreweave/docs-skills` の `beta-deployment-availability` を参照してください。ここで再導出しないでください。
 
-<div id="8-the-docs-oracle-runs-in-one-direction-only">
-  ### 8. ドキュメントのオラクルは一方向にしか働かない
-</div>
+### 8. ドキュメントのオラクルは一方向にしか働かない {#8-the-docs-oracle-runs-in-one-direction-only}
 
 ドキュメントに記載があることは、その曲面が稼働中であるという信頼度を **高める** ため、そこで生じるドリフトは実在するものです。しかし、記載がないことで信頼度を下げてはいけません。「提供されているのにドキュメント化されていない」という状態こそ、まさに探し出したいギャップだからです。記載がないことを理由に抑制すると、検出器が二度と抜け出せないループに陥ります。すなわち、リリースされていないように見える → 抑制する → 誰もドキュメントを書かない → やはりドキュメントがない → やはり抑制される、という循環です。
 
@@ -142,32 +118,24 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 
 なお、単純な部分文字列一致は役に立ちません。`search` は 215 のドキュメントページに登場します。UI 強調のコンテキスト (`**bold**`、バッククォート、引用符、あるいは「the X button」) を必須とし、2 トークン以上または全て大文字という具体性のゲートを設け、ページ数の上限を設定してください。
 
-<div id="9-match-the-literal-case-sensitively-or-you-report-already-fixed-drift">
-  ### 9. リテラルは大文字小文字を区別してマッチさせる。さもないと修正済みのドリフトを報告してしまう
-</div>
+### 9. リテラルは大文字小文字を区別してマッチさせる。さもないと修正済みのドリフトを報告してしまう {#9-match-the-literal-case-sensitively-or-you-report-already-fixed-drift}
 
 直感に反し、逆に実装してしまいがちなポイントです。ルックアップが問うのは「古い文字列がドキュメントにまだ残っているか？」です。ドキュメントが `MODELS SEAT` で、コードが現在 `Models Seat` なら、それはドリフトです。ドキュメントがすでに `Models Seat` なら、対応は不要です。大文字小文字を区別しないマッチではこの2つを見分けられないため、修正済みのページを不備ありと報告してしまいます。しかも、大文字小文字だけのリネームこそ、この違いが最も効いてくるケースです。
 
 周辺の語 (`the` や名詞) は、スコープを限定した `(?i:...)` で大文字小文字を区別しない扱いにできます。ただし、リテラル自体をそう扱ってはいけません。
 
-<div id="10-blank-frontmatter-do-not-delete-it">
-  ### 10. frontmatter は空白化する。削除しない
-</div>
+### 10. frontmatter は空白化する。削除しない {#10-blank-frontmatter-do-not-delete-it}
 
 YAML frontmatter を削除すると、それ以降のすべての行番号がずれてしまい、報告された
 `page:line` が読者の目にする内容を指さなくなります。私たちのコーパスでは 5 行分ずれていました。
 代わりに、同じ行数分の改行に置き換えてください。手間はわずかで、引用箇所を正確に保ちつつ、
 frontmatter のキーが本文としてマッチしてしまうことも防げます。
 
-<div id="11-published-release-notes-are-immutable-and-they-are-a-big-share-of-hits">
-  ### 11. 公開済みのリリースノートは不変であり、ヒットの大きな割合を占める
-</div>
+### 11. 公開済みのリリースノートは不変であり、ヒットの大きな割合を占める {#11-published-release-notes-are-immutable-and-they-are-a-big-share-of-hits}
 
 60 日間のウィンドウにおけるドキュメントのヒットのおよそ半分は `release-notes/**` に集中します。これらは、リリース時点の名称のまま、何がリリースされたかを記録した履歴です。書き換えは changelog の改ざんに当たります。周知のために報告するにとどめ、編集を提案してはならず、エージェントの対象要件にも決してカウントしないでください。
 
-<div id="12-include-reusable-fragments-exclude-worktrees">
-  ### 12. 再利用可能なフラグメントは含め、worktree は除外する
-</div>
+### 12. 再利用可能なフラグメントは含め、worktree は除外する {#12-include-reusable-fragments-exclude-worktrees}
 
 コーパスの選定でありがちな、方向が正反対の 2 つの誤りです。
 
@@ -178,9 +146,7 @@ frontmatter のキーが本文としてマッチしてしまうことも防げ�
   すべての出現箇所が二重にカウントされ、気づかないうちにページ数が水増しされます。その結果、
   汎用的すぎると判定する上限に引っかかり、本来検出すべき事象が抑制されてしまいます。
 
-<div id="13-pair-renames-by-position-before-you-consider-similarity">
-  ### 13. 類似度を見る前に、位置でリネームを対応付ける
-</div>
+### 13. 類似度を見る前に、位置でリネームを対応付ける {#13-pair-renames-by-position-before-you-consider-similarity}
 
 真っ先に思いつくアプローチ、つまり削除された string を最もよく似た追加された string に対応付ける方法は、最も重要なケースで失敗します。本当に言い換えられたラベルは、置き換え後の文字列とほとんど文字が共通していないからです。
 
@@ -193,17 +159,13 @@ frontmatter のキーが本文としてマッチしてしまうことも防げ�
 
 とはいえ、類似度も 2 回目のパスとして使う価値はあります。その場での編集では *ない* リネームがあるためです。たとえば `header: 'WEAVE ACCESS'` は、別の行の別のフィールドで `name: 'Weave Access'` になりました。(path, kind, key) ではなく (path, kind) でグループ化しないと、このケースは見逃されます。
 
-<div id="14-not-every-conditional-is-a-feature-gate">
-  ### 14. すべての条件分岐がフィーチャーゲートとは限らない
-</div>
+### 14. すべての条件分岐がフィーチャーゲートとは限らない {#14-not-every-conditional-is-a-feature-gate}
 
 変更された行から外側の `if` へさかのぼっていくと、可視性とはまったく関係のないブロックが数多く見つかります。`if (hideManuallyHidden)` は UI の状態です。これをゲートとして報告してしまうと、アプリの半分が「まだ非表示」と判定され、本来意味を持つべき唯一のシグナルへの信頼が損なわれます。
 
 条件分岐の変数がゲートの hook — `const shouldShowX = useStatsigGateX(orgName)` — に解決されることを必須とし、そうでない場合は何も報告しないようにします。このチェーンは単一の差分の中だけで完全に読み取れます。一方、Statsig の key 自体はたいてい読み取れません。key は ramp registry に存在するため、前提条件ではなく任意の付加情報として扱ってください。
 
-<div id="15-a-change-to-an-undocumented-label-is-not-drift">
-  ### 15. ドキュメント化されていないラベルの変更はドリフトではない
-</div>
+### 15. ドキュメント化されていないラベルの変更はドリフトではない {#15-a-change-to-an-undocumented-label-is-not-drift}
 
 最初の report は 3 つのコミットに対して 22 行を出力しましたが、そのうち本物は 2 行だけでした。残りは `new **Loading members**`、`new **Invited**`、`PROFILE removed` のように、どのドキュメントページにも対応しない変更文字列がすべて「カバレッジの欠落」として挙げられたものです。
 
@@ -218,17 +180,13 @@ frontmatter のキーが本文としてマッチしてしまうことも防げ�
 * **曲面ごとに新規コピーを集約する。** 新しい設定パネルには、見出し、説明、2 つのフィールドラベル、ボタンが追加されます。これは 5 つではなく 1 つのドキュメントタスクです。
 * **検出結果のキーは、コードの曲面ではなくドキュメントタスクに置く。** 3 つのメンバー表が同じ列を表示していても、ドキュメントページ側でその名前が登場するのは 1 回だけです。検出結果の id に曲面を含めていたために、1 件の編集が 3 行として表示されてしまいました。
 
-<div id="16-freeze-real-diffs-as-fixtures-immediately">
-  ### 16. 実際の差分を即座にフィクスチャとして固定する
-</div>
+### 16. 実際の差分を即座にフィクスチャとして固定する {#16-freeze-real-diffs-as-fixtures-immediately}
 
 `tests/fixtures/` に固定した 6 つの `git show` 出力が回帰テストの対象範囲のすべてであり、これらによって設計レビューをすり抜けた 3 つのバグを検出できました。インライン JSX の見逃し、列挙型 attribute の見逃し、そして移動の identity に関するバグです。いずれも plan の段階では見えていませんでした。3 つとも、実際の差分に対して実行してから 1 分以内に明らかになりました。
 
 見逃しの報告を受けたら、修正する前にまずフィクスチャとして追加してください。
 
-<div id="17-ownership-is-per-run-data-so-pay-for-it-once">
-  ### 17. 所有者情報は run ごとのデータなので、コストは一度だけ払う
-</div>
+### 17. 所有者情報は run ごとのデータなので、コストは一度だけ払う {#17-ownership-is-per-run-data-so-pay-for-it-once}
 
 レビュアーと担当チームは、一見すると検出結果ごとのルックアップに見えますが、実際はそうではありません。CODEOWNERS は run の途中で変わらない 1 つの file であり、作成者情報は UI ルートに対する 1 回の `git log --name-only` から取得し、パス → 作成者のインデックスとしてメモリ上に展開します。素朴な実装 — CODEOWNERS のための `git show` に加えて、検出結果ごとに 1〜2 回の `git log` 呼び出し — では、スキャン全体で同一のデータのために 1 行あたりおよそ 3 つのサブプロセスを起動することになります。
 
@@ -238,9 +196,7 @@ frontmatter のキーが本文としてマッチしてしまうことも防げ�
 
 ドキュメントオラクルも、同じ理由で同じ扱いが必要です。`docsindex.find` はインデックス上でメモ化されています。コーパスは run の途中で変わらず、繰り返しは構造的に生じるからです。`build_findings` は、あるリテラルがドキュメント化されているかを判定するために 1 回プローブし、さらに根拠を attach するためにもう 1 回プローブします。また、同じラベルが 1 つの window 内の複数のコミットで変更されることも日常的にあります。`wandb/core` の 60 日分では、1180 件の変更された strings が、はるかに少ない一意のルックアップにまとまります。
 
-<div id="18-almost-nothing-needs-to-be-stored-between-runs">
-  ### 18. run 間で保存すべきものはほとんどない
-</div>
+### 18. run 間で保存すべきものはほとんどない {#18-almost-nothing-needs-to-be-stored-between-runs}
 
 再スキャン型の検出器を設計するとき、真っ先に思い浮かぶのは、これまでに出力したすべての検出結果を記録する台帳です。しかし、その誘惑には抗ってください。各フィールドについて、こう問いかけてみましょう。*これは新規スキャンで再計算できるか？* 検出結果のアイデンティティ、重複排除、収束状況、triage、担当者、ドキュメントのカバレッジについては、答えはいずれも「はい」です。入力はすべてコミット履歴かドキュメントツリーの中にあります。これらを保存しても、元のコピーと食い違い得る二つ目のコピーが増えるだけで、しかも間違っていても誰も気づかないのは、その二つ目のコピーの方です。
 
@@ -250,9 +206,7 @@ frontmatter のキーが本文としてマッチしてしまうことも防げ�
 
 ひとつ付け加えておくと、「保存せず導出する」という方針であれば、うまくいかなかった run の対処法は再スキャンで済みます。シグナルを変更しても、無効化すべきキャッシュも、書くべき移行処理もありません。だからこそ、シグナルを変え続けても安全なのです。
 
-<div id="19-suppression-is-one-directional-too">
-  ### 19. 抑制も一方向である
-</div>
+### 19. 抑制も一方向である {#19-suppression-is-one-directional-too}
 
 レッスン 8 はドキュメントのオラクルに関するルールですが、同じルールは保存された判断にも適用しなければなりません。しかも、こちらの失敗の仕方はより厄介です。書き手がある検出結果を誤検知として却下し、その 6 週間後に、まさにその surface をあるページが記述し始める。検出結果はすでに本物になっているのに、保存された却下がそれを黙って隠してしまう ― 時間が経つほど*ますます*誤りになり、しかも report からは誰も気づけない抑制です。
 
@@ -265,9 +219,7 @@ frontmatter のキーが本文としてマッチしてしまうことも防げ�
 * **判断を自動削除しないでください。** 孤立した判断は曖昧です ― ドリフトが解消されたのかもしれませんし、スキャン範囲がそのコミットに届いていないだけかもしれません。一覧として提示し、人間に選ばせてください。
 * **report で抑制を計上してください。** 保留された件数を示すことが、読み手が「ドリフトなし」と「すべてのドリフトが却下済み」を区別できる唯一の手段です。黙って行を落とす検出器は監査できません。
 
-<div id="running-it">
-  ## 実行方法
-</div>
+## 実行方法 {#running-it}
 
 ```bash
 PYTHONPATH=scripts python3 -m uidrift.scan scan --since "60 days ago"
@@ -286,9 +238,7 @@ report の名前は UTC で `YYYY-MM-DDTHHMMSS-<head sha>.md` の形式です。
 
 `--summary-json PATH` は、何らかの判断を下す必要がある呼び出し元のために、その run の集計値を書き出します。PR を作成するかどうかを決める CI ステップは、レンダリング済みの report を grep するのではなく、これを読むべきです。文章は読まれるために存在するものであり、「No drift to act on in this window」のような一文に workflow を結び付けてしまうと、その文言自体が構造を支えることになってしまいます。
 
-<div id="running-it-in-ci">
-  ## CI での実行
-</div>
+## CI での実行 {#running-it-in-ci}
 
 `.github/workflows/uidrift-scan.yml` が最終的な出力先です。この中の 3 点は好みの問題ではなく実測に基づく判断であり、他リポジトリへ適用する際にもそのまま維持すべき部分です。
 
@@ -309,9 +259,7 @@ blob なしの部分クローンは理想的に見えます (最小サイズで�
 
 **ローリングブランチは 1 本のみ、報告すべき内容があるときだけコミットします。** ウォーターマークは*デフォルトブランチ上の*最新の report であるため、実行時には最後に**マージされた** report 以降の差分が再生成されます。つまり、置き換えられた report にはもはや報告すべき内容が残っておらず、平日ごとに新しいブランチを作れば現行のものが埋もれてしまいます。検出結果がない実行は何もコミットせず、ウォーターマークもそのまま維持されます。次回の実行では、わずかに広いウィンドウで同じ範囲を再スキャンしますが、コストは数秒です。もう一方の選択肢、つまり「検出なし」の report を毎日コミットしてウォーターマークを進める方法は、スキャンを安価にする代わりに、誰も読みたくない PR を生み出します。
 
-<div id="volume-expectations">
-  ## ボリュームの想定
-</div>
+## ボリュームの想定 {#volume-expectations}
 
 構築前にキャリブレーションを行ってください。`wandb/core` の 60 日間の場合:
 
@@ -331,9 +279,7 @@ blob なしの部分クローンは理想的に見えます (最小サイズで�
 
 ステージ 1 の件数が 60 日あたり約 250 件を超える場合は、ステージ 2 を追加する前に条件を絞り込んでください。`.tsx` のストリーム全体にモデルを通しても、大半は無駄になります。
 
-<div id="the-vendored-modules">
-  ## ベンダリングされたモジュール
-</div>
+## ベンダリングされたモジュール {#the-vendored-modules}
 
 `_vendor/` には、`wandb/release-note-genie` の `gitsource.py`、`diff_signals.py`、
 `commit_text.py` のコピーが格納されており、それぞれに取得元のコミットを示す由来ヘッダーが

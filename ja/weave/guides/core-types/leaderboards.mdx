@@ -17,15 +17,11 @@ Weave のリーダーボードを使用すると、複数のメトリクスに�
   リーダーボード を作成できるのは、Weave UI と Weave Python SDK のみです。TypeScript ユーザーは、[Weave UI](#use-the-ui) を使用して リーダーボード を作成および管理できます。
 </Note>
 
-<div id="create-a-leaderboard">
-  ## リーダーボードを作成する
-</div>
+## リーダーボードを作成する {#create-a-leaderboard}
 
 [Weave UI](#use-the-ui) または [プログラムから](#use-the-python-sdk) リーダーボードを作成できます。一時的な比較には UI を使用し、自動化された評価ワークフローにリーダーボードの作成を組み込むには Python SDK を使用してください。
 
-<div id="use-the-ui">
-  ### UI を使う
-</div>
+### UI を使う {#use-the-ui}
 
 Weave UI を使用して、リーダーボードをインタラクティブに作成およびカスタマイズするには、次の手順に従います。
 
@@ -36,9 +32,7 @@ Weave UI を使用して、リーダーボードをインタラクティブに�
 5. 表示する評価とメトリクスを定義するために、[列を追加](#add-columns)します。
 6. レイアウトの準備ができたら、リーダーボードを保存して公開し、他のユーザーと共有します。
 
-<div id="add-columns">
-  #### 列を追加
-</div>
+#### 列を追加 {#add-columns}
 
 列は、各モデルについてリーダーボードに表示する内容を定義します。リーダーボードの各列は、特定の評価のメトリクスを表します。列を設定するには、次を指定します。
 
@@ -55,9 +49,7 @@ Weave UI を使用して、リーダーボードをインタラクティブに�
 * **削除**. 列を削除します。
 * **昇順で並べ替え**. リーダーボードのデフォルトの並べ替え順を設定します (もう一度クリックすると降順に切り替わります) 。
 
-<div id="use-the-python-sdk">
-  ### Python SDK を使用する
-</div>
+### Python SDK を使用する {#use-the-python-sdk}
 
 Python SDK を使用すると、コード内でリーダーボードを定義、公開、取得できます。この方法では、評価コードとともにリーダーボードをバージョン管理し、自動化されたワークフローの一部として実行できます。
 
@@ -144,9 +136,7 @@ Python SDK を使用すると、コード内でリーダーボードを定義、
 
 公開後、リーダーボードは Weave UI の **Leaders** タブで利用できるようになり、チームでモデル性能を表示して比較できます。
 
-<div id="end-to-end-python-example">
-  ## エンドツーエンドの Python の例
-</div>
+## エンドツーエンドの Python の例 {#end-to-end-python-example}
 
 次の例では、Weave の評価機能を使用して、カスタムメトリクスで共有データセット上の 3 つの要約モデルを比較するリーダーボードを作成します。小規模なベンチマークを作成し、各モデルを評価し、[ジャッカード類似度](https://www.learndatasci.com/glossary/jaccard-similarity/)で各モデルをスコアリングし、その結果を Weave リーダーボードに公開します。
 
@@ -229,9 +219,7 @@ results = leaderboard.get_leaderboard_results(spec, client)
 print(results)
 ```
 
-<div id="view-and-interpret-the-leaderboard">
-  ### リーダーボード を表示して読み解く
-</div>
+### リーダーボード を表示して読み解く {#view-and-interpret-the-leaderboard}
 
 スクリプトがリーダーボードを公開したら、Weave UI を使用して結果を確認し、モデル性能を並べて比較します。
 

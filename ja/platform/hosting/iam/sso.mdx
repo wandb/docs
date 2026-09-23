@@ -7,7 +7,7 @@ keywords: ["Keycloak", "Auth0 SSO", "Google SSO", "Entra ID", "OIDC プロバイ
 このガイドは、OpenID Connect (OIDC) 互換のアイデンティティプロバイダを使用してシングルサインオン (SSO) を有効にしたい、W&amp;B 専用クラウド またはセルフマネージド インスタンスの管理者向けです。このガイドを完了すると、アイデンティティプロバイダの設定と W&amp;B への接続が完了し、ユーザーは組織の既存のアイデンティティシステムを通じてサインインできるようになります。また、Okta、Keycloak、Auth0、Google、Entra などのプロバイダを通じて、ユーザーのアイデンティティやグループメンバーシップを管理できるようになります。
 
 <div id="openid-connect">
-  ## OpenID Connect
+  ## OpenID Connect {#openid-connect}
 </div>
 
 W&amp;B は、外部の アイデンティティプロバイダ (IdP) と統合するために、以下の OIDC 認証フローをサポートしています。
@@ -26,7 +26,7 @@ W&amp;B では、アクセストークンはユーザーに代わって API へ�
 [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) デプロイメントの アイデンティティプロバイダ の設定を支援するために、以下のガイドラインに従ってください。W&amp;B Multi-tenant Cloud を使用している場合は、サポートが必要な際に [support@wandb.com](mailto:support@wandb.com) までお問い合わせください。
 
 <div id="configure-your-idp">
-  ## IdP を設定する
+  ## IdP を設定する {#configure-your-idp}
 </div>
 
 以下のセクションでは、OIDC 用にアイデンティティプロバイダ (IdP) を設定する方法を説明します。まず、IdP の設定手順を完了してください。次のセクションで W&amp;B の SSO を設定する際に、ここで取得した **Client ID**、**Issuer URL**、および (必要に応じて) **Client Secret** を使用します。詳細は、ご利用の IdP に対応するタブを選択してください。
@@ -232,9 +232,7 @@ W&amp;B では、アクセストークンはユーザーに代わって API へ�
   </Tab>
 </Tabs>
 
-<div id="set-up-sso-in-wb">
-  ## W&amp;B で SSO を設定する
-</div>
+## W&amp;B で SSO を設定する {#set-up-sso-in-wb}
 
 アイデンティティプロバイダ (IdP) の設定が完了したら、W&amp;B で次の手順を実行して IdP を接続し、インスタンスで SSO を有効にします。
 
@@ -277,9 +275,7 @@ IdP で OIDC Client Secret が必要な場合は、[環境変数](/ja/platform/h
 
     5. サインアウトし、今度は IdP のサインイン画面を使用して再度サインインします。
 
-    <div id="find-your-customer-namespace">
-      ## Customer Namespace を確認する
-    </div>
+## Customer Namespace を確認する {#find-your-customer-namespace}
 
     W&amp;B 専用クラウド またはセルフマネージドで、CoreWeave ストレージを使用するチームレベルの BYOB を設定する前に、組織の **Customer Namespace** を取得する必要があります。これは **Authentication** タブの下部で確認してコピーできます。
 
@@ -312,7 +308,7 @@ IdP で OIDC Client Secret が必要な場合は、[環境変数](/ja/platform/h
 </Note>
 
 <div id="security-assertion-markup-language-saml">
-  ## Security Assertion Markup Language (SAML)
+  ## Security Assertion Markup Language (SAML) {#security-assertion-markup-language-saml}
 </div>
 
 W&amp;B は SAML をサポートしていません。

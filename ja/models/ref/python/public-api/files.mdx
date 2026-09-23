@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L79" />
 
-<div id="class-wandbapispublicfiles">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Files
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Files {#class-wandbapispublicfiles}
 
 `File` オブジェクトのコレクションに対する遅延イテレーターです。
 
@@ -25,9 +23,7 @@ upload: 'bool' = False,
 pattern: 'str | None' = None)
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   W&amp;B のクエリに使用するサービス API のインスタンス
@@ -53,9 +49,7 @@ pattern: 'str | None' = None)
   W&amp;B から返されるファイルを照合する際に使用するパターン。このパターンでは MySQL の LIKE 構文を使用します。そのため、`.json` で終わるすべてのファイルに一致させるには `"%.json"` を指定します。`names` と `pattern` の両方を指定した場合は、ValueError が発生します。
 </ResponseField>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```python
 from wandb.apis.public.files import Files
@@ -77,13 +71,9 @@ for file in files:
     file.download(root="download_directory", replace=True)
 ```
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self

@@ -16,9 +16,7 @@ Serverless SFT는 저랭크 어댑터(LoRA)를 트레이닝하여 특정 작업�
 
 Serverless SFT로 모델 트레이닝을 시작하려면 ART [Serverless SFT docs](https://art.openpipe.ai/fundamentals/sft-training)를 참조하세요.
 
-<div id="why-serverless-sft">
-  ## Serverless SFT를 사용하는 이유
-</div>
+## Serverless SFT를 사용하는 이유 {#why-serverless-sft}
 
 지도 파인튜닝(SFT)은 모델이 선별된 입력-출력 예시를 통해 학습하는 트레이닝 기법입니다. W&amp;B의 Serverless SFT는 다음과 같은 이점을 제공합니다:
 
@@ -26,9 +24,7 @@ Serverless SFT로 모델 트레이닝을 시작하려면 ART [Serverless SFT doc
 * **더 빠른 트레이닝 시간**: 필요할 때 즉시 트레이닝 인프라를 프로비저닝하므로, Serverless SFT는 트레이닝 작업을 더 빠르게 실행하고 반복 속도도 높여줍니다.
 * **자동 배포**: Serverless SFT는 트레이닝한 모든 checkpoint를 자동으로 배포하므로 호스팅 인프라를 수동으로 설정할 필요가 없습니다. 로컬, 스테이징 또는 프로덕션 환경에서 트레이닝된 모델에 즉시 액세스해 테스트할 수 있습니다.
 
-<div id="how-serverless-sft-uses-wb-services">
-  ## Serverless SFT에서 W&amp;B 서비스를 사용하는 방식
-</div>
+## Serverless SFT에서 W&amp;B 서비스를 사용하는 방식 {#how-serverless-sft-uses-wb-services}
 
 Serverless SFT는 다음 W&amp;B 컴포넌트를 조합해 작동합니다:
 

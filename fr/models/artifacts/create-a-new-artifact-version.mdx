@@ -10,9 +10,7 @@ Créez une nouvelle version d&#39;artefact à partir d&#39;un seul [run](/fr/mod
   Nous vous recommandons de créer un artefact incrémentiel lorsque vous devez appliquer des modifications à un sous-ensemble de fichiers d&#39;un artefact, en particulier si l&#39;artefact d&#39;origine est nettement plus volumineux.
 </Note>
 
-<div id="create-new-artifact-versions-from-scratch">
-  ## Créer de nouvelles versions d’artefact à partir de zéro
-</div>
+## Créer de nouvelles versions d’artefact à partir de zéro {#create-new-artifact-versions-from-scratch}
 
 Il existe deux façons de créer une nouvelle version d’artefact : à partir d’un run unique ou de runs distribués. Elles se définissent comme suit :
 
@@ -27,9 +25,7 @@ W&amp;B récupérera un artefact existant si vous transmettez à l’API `wandb.
   <img src="/images/artifacts/single_distributed_artifacts.png" alt="Comparaison des flux de travail des artefacts" />
 </Frame>
 
-<div id="single-run">
-  ### Run unique
-</div>
+### Run unique {#single-run}
 
 Enregistrez une nouvelle version d’un artefact avec une seule exécution qui produit tous les fichiers de l’artefact. Ce cas se présente lorsqu’une seule exécution produit tous les fichiers de l’artefact.
 
@@ -78,9 +74,7 @@ Selon votre cas d’usage, sélectionnez l’un des onglets ci-dessous pour cré
   </Tab>
 </Tabs>
 
-<div id="distributed-runs">
-  ### Runs distribués
-</div>
+### Runs distribués {#distributed-runs}
 
 Autorisez une collection de runs à collaborer sur une version avant de la valider. Cela contraste avec le mode à run unique décrit ci-dessus, dans lequel un seul run fournit toutes les données d’une nouvelle version.
 
@@ -92,9 +86,7 @@ Autorisez une collection de runs à collaborer sur une version avant de la valid
 
 Prenez l’exemple suivant. Différents runs (indiqués ci-dessous comme **Run 1**, **Run 2** et **Run 3**) ajoutent chacun un fichier image différent au même artefact avec `upsert_artifact`.
 
-<div id="run-1">
-  #### Run 1
-</div>
+#### Run 1 {#run-1}
 
 ```python
 with wandb.init() as run:
@@ -105,9 +97,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-<div id="run-2">
-  #### Run 2
-</div>
+#### Run 2 {#run-2}
 
 ```python
 with wandb.init() as run:
@@ -118,9 +108,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-<div id="run-3">
-  #### Run 3
-</div>
+#### Run 3 {#run-3}
 
 Doit s’exécuter une fois que Run 1 et Run 2 sont terminés. Le Run qui appelle `wandb.Run.finish_artifact()` peut inclure des fichiers dans l’artefact, mais ce n’est pas obligatoire.
 
@@ -133,9 +121,7 @@ with wandb.init() as run:
     run.finish_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-<div id="create-a-new-artifact-version-from-an-existing-version">
-  ## Créer une nouvelle version d’artefact à partir d’une version existante
-</div>
+## Créer une nouvelle version d’artefact à partir d’une version existante {#create-a-new-artifact-version-from-an-existing-version}
 
 Créez une nouvelle version d’artefact en ajoutant, en modifiant ou en supprimant des fichiers d’une version d’artefact existante. W&amp;B réindexe uniquement les fichiers qui ont changé. La version obtenue est appelée un artefact *incrémentiel*.
 
@@ -153,9 +139,7 @@ Une fois le brouillon modifié, consignez-le ou enregistrez-le pour créer une n
 
 Vous pouvez créer un artefact incrémentiel dans le cadre d’une seule exécution ou de plusieurs exécutions contribuant à la nouvelle version. Les sections suivantes décrivent comment créer un artefact incrémentiel dans chaque cas.
 
-<div id="single-run-2">
-  ### Run unique
-</div>
+### Run unique {#single-run-2}
 
 <Tabs>
   <Tab title="Suivre comme entrée du run">
@@ -203,9 +187,7 @@ Vous pouvez créer un artefact incrémentiel dans le cadre d’une seule exécut
   </Tab>
 </Tabs>
 
-<div id="distributed-runs-2">
-  ### Runs distribués
-</div>
+### Runs distribués {#distributed-runs-2}
 
 Utilisez `Artifact.upsert_artifact()` et `Artifact.finish_artifact()` lorsque plusieurs runs ajoutent des fichiers à une même version d&#39;artefact.
 

@@ -5,9 +5,7 @@ title: Suivre des fichiers CSV dans des expériences
 
 Utilisez la bibliothèque Python W&amp;B pour enregistrer un fichier CSV et le visualiser dans un [tableau de bord W&amp;B](/fr/models/track/workspaces/). Les tableaux de bord W&amp;B constituent l’espace central pour organiser et visualiser les résultats de vos modèles de machine learning. Cela est particulièrement utile si vous avez un [fichier CSV contenant des informations sur des expériences de machine learning précédentes](#import-and-log-your-csv-of-experiments) qui ne sont pas enregistrées dans W&amp;B, ou un [fichier CSV contenant un jeu de données](#import-and-log-your-dataset-csv-file).
 
-<div id="import-and-log-your-dataset-csv-file">
-  ## Importez et journalisez votre fichier CSV de jeu de données
-</div>
+## Importez et journalisez votre fichier CSV de jeu de données {#import-and-log-your-dataset-csv-file}
 
 {/* {% embed url="https://drive.google.com/file/d/1jBG3M4VnaMgeclRzowYZEYvFxvwb9SXF/view?usp=sharing" %} */}
 
@@ -93,9 +91,7 @@ with wandb.init(project="tables-walkthrough") as run:
     run.log_artifact(iris_table_artifact)
 ```
 
-<div id="import-and-log-your-csv-of-experiments">
-  ## Importez et consignez votre fichier CSV d&#39;Experiments
-</div>
+## Importez et consignez votre fichier CSV d&#39;Experiments {#import-and-log-your-csv-of-experiments}
 
 {/* {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
   Le tableau ci-dessous est converti en ce tableau de bord W&B

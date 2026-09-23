@@ -14,9 +14,7 @@ Launch의 핵심 사용 방식은 하이퍼파라미터와 데이터셋 같은 �
   Launch SDK 함수를 사용하려면 `wandb-core`가 필요합니다. 자세한 내용은 [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README)를 참조하세요.
 </Note>
 
-<div id="reconfigure-the-run-object">
-  ## `Run` 객체 재구성하기
-</div>
+## `Run` 객체 재구성하기 {#reconfigure-the-run-object}
 
 작업에서 `wandb.init()`이 반환하는 `Run` 객체는 기본적으로 재구성할 수 있습니다. Launch SDK는 작업을 시작할 때 `Run.config` 객체의 어느 부분까지 재구성할 수 있을지 사용자 지정할 수 있는 방법을 제공하므로, 최종 사용자에게 중요한 매개변수는 노출하면서 내부 설정은 숨길 수 있습니다.
 
@@ -78,9 +76,7 @@ with wandb.init(config=config):
 
 W&amp;B CLI 또는 UI에서 작업을 실행할 때 사용자는 `trainer` 매개변수 4개만 재정의할 수 있습니다.
 
-<div id="access-run-config-inputs">
-  ### run config 입력값에 액세스하기
-</div>
+### run config 입력값에 액세스하기 {#access-run-config-inputs}
 
 run config 입력값으로 실행된 작업은 `Run.config`를 통해 입력값에 액세스할 수 있습니다. 작업 코드에서 `wandb.init()`이 반환하는 `Run`에는 입력값이 자동으로 설정됩니다. 작업 코드 어디에서나 run config 입력값을 불러오려면 `launch.load_wandb_config()`를 사용하세요:
 
@@ -90,9 +86,7 @@ from wandb.sdk import launch
 run_config_overrides = launch.load_wandb_config()
 ```
 
-<div id="reconfigure-a-file">
-  ## 파일 재구성하기
-</div>
+## 파일 재구성하기 {#reconfigure-a-file}
 
 Launch SDK는 작업 코드의 설정 파일에 저장된 입력 값을 관리할 수도 있습니다. 이는 많은 딥러닝 및 대규모 언어 모델 사용 사례에서 흔히 쓰이는 패턴이며, [torchtune](https://github.com/meta-pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) 예제나 [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)에서 확인할 수 있습니다.
 
@@ -137,9 +131,7 @@ dataset: cifar10
 
 `include` 및 `exclude` 키워드 인수를 사용하여 `launch.manage_wandb_config()`와 같은 방식으로 설정 파일에서 허용되는 입력 키를 필터링하세요.
 
-<div id="access-config-file-inputs">
-  ### 설정 파일 입력값에 액세스
-</div>
+### 설정 파일 입력값에 액세스 {#access-config-file-inputs}
 
 Launch에서 생성된 run에서 `launch.manage_config_file()`을 호출하면 `launch`가 입력값을 사용해 설정 파일 내용을 패치합니다. 패치된 설정 파일은 작업 환경에서 사용할 수 있습니다.
 
@@ -147,9 +139,7 @@ Launch에서 생성된 run에서 `launch.manage_config_file()`을 호출하면 `
   입력값이 반영되도록 작업 코드에서 설정 파일을 읽기 전에 `launch.manage_config_file()`을 호출하세요.
 </Warning>
 
-<div id="customize-a-jobs-launch-drawer-ui">
-  ## 작업의 Launch drawer UI 맞춤 설정
-</div>
+## 작업의 Launch drawer UI 맞춤 설정 {#customize-a-jobs-launch-drawer-ui}
 
 노출할 입력을 필터링하는 것 외에도, 작업 입력용 스키마를 정의하면 작업을 시작할 때 사용할 맞춤형 UI를 만들 수 있습니다. 이렇게 하면 자유 입력 텍스트 항목 대신 Launch drawer에 구조화된 필드, 검증 힌트, 드롭다운이 표시됩니다. 작업 스키마를 정의하려면 `launch.manage_wandb_config()` 또는 `launch.manage_config_file()` call에 스키마를 포함하세요. 스키마는 [JSON 스키마](https://json-schema.org/understanding-json-schema/reference) 형태의 Python `dict`이거나 Pydantic 모델 클래스일 수 있습니다.
 

@@ -8,9 +8,7 @@ import AgentsViewTraces from '/snippets/ja/_includes/agents-view-traces.mdx';
 
 Claude Agent SDK を使用すると、Claude を活用したエージェント アプリケーションをすばやく構築できます。Weave を Claude エージェントに統合すると、エージェントのクエリ、モデルの応答、ツールの使用、複数ターンの会話を含む ツール呼び出し を自動的にトレースできます。Weave は、取得したデータを project の **Agents** ビューに表示します。
 
-<div id="trace-claude-agent-sdk-agents-with-weave">
-  ## Weave で Claude Agent SDK エージェントをトレースする
-</div>
+## Weave で Claude Agent SDK エージェントをトレースする {#trace-claude-agent-sdk-agents-with-weave}
 
 <Tabs>
   <Tab title="Python">
@@ -18,9 +16,7 @@ Claude Agent SDK を使用すると、Claude を活用したエージェント �
 
     このガイドでは、Weave を初期化し、`ClaudeSDKClient` を介して MCP ツールを使用する Claude エージェントを実行する方法を紹介します。Weave は、会話、モデルの Call、ツール呼び出しをエンドツーエンドで自動的にトレースします。
 
-    <div id="prerequisites">
-      ### 前提条件
-    </div>
+### 前提条件 {#prerequisites}
 
     * W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
     * `ANTHROPIC_API_KEY` 環境変数として設定された Anthropic APIキー。
@@ -30,9 +26,7 @@ Claude Agent SDK を使用すると、Claude を活用したエージェント �
   <Tab title="TypeScript">
     Weave は [`@anthropic-ai/claude-agent-sdk`](https://github.com/anthropics/claude-agent-sdk) と連携し、エージェント スパン、モデルの応答、ツール呼び出しを含む `query()` 呼び出しを自動的にトレースします。
 
-    <div id="prerequisites-2">
-      ### 前提条件
-    </div>
+### 前提条件 {#prerequisites-2}
 
     * W&amp;B アカウントと、`WANDB_API_KEY` 環境変数として設定された [APIキー](https://wandb.ai/authorize)。
     * `ANTHROPIC_API_KEY` 環境変数として設定された Anthropic APIキー。
@@ -41,9 +35,7 @@ Claude Agent SDK を使用すると、Claude を活用したエージェント �
   </Tab>
 </Tabs>
 
-<div id="install-packages">
-  ### パッケージをインストールする
-</div>
+### パッケージをインストールする {#install-packages}
 
 開発環境に以下のパッケージをインストールします。`weave` パッケージはトレースを取得し、`claude-agent-sdk` はエージェントのランタイムを提供します。
 
@@ -57,9 +49,7 @@ Claude Agent SDK を使用すると、Claude を活用したエージェント �
   ```
 </CodeGroup>
 
-<div id="initialize-weave-in-your-code">
-  ### コードで Weave を初期化する
-</div>
+### コードで Weave を初期化する {#initialize-weave-in-your-code}
 
 <Tabs>
   <Tab title="Python">

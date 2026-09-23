@@ -17,15 +17,11 @@ Weave Leaderboards를 사용하면 여러 메트릭에 걸쳐 여러 모델을 �
   리더보드 생성은 Weave UI와 Weave Python SDK에서만 지원됩니다. TypeScript 사용자는 [Weave UI](#use-the-ui)를 사용해 리더보드를 생성하고 관리할 수 있습니다.
 </Note>
 
-<div id="create-a-leaderboard">
-  ## 리더보드 만들기
-</div>
+## 리더보드 만들기 {#create-a-leaderboard}
 
 [Weave UI](#use-the-ui) 또는 [프로그래밍 방식](#use-the-python-sdk)으로 리더보드를 만들 수 있습니다. 일회성 비교에는 UI 방식을 선택하고, 자동화된 평가 워크플로에 리더보드 생성을 통합하려면 Python SDK를 사용하세요.
 
-<div id="use-the-ui">
-  ### UI 사용
-</div>
+### UI 사용 {#use-the-ui}
 
 Weave UI를 사용해 대화형으로 리더보드를 만들고 사용자 지정하려면 다음과 같이 하세요.
 
@@ -36,9 +32,7 @@ Weave UI를 사용해 대화형으로 리더보드를 만들고 사용자 지정
 5. 표시할 평가와 메트릭을 정의하려면 [열 추가](#add-columns)를 수행합니다.
 6. 레이아웃이 준비되면 리더보드를 저장하고 게시하여 다른 사람과 공유합니다.
 
-<div id="add-columns">
-  #### 열 추가
-</div>
+#### 열 추가 {#add-columns}
 
 열은 각 모델별로 리더보드에 표시할 내용을 정의합니다. 리더보드의 각 열은 특정 평가의 메트릭을 나타냅니다. 열을 설정하려면 다음을 지정합니다.
 
@@ -55,9 +49,7 @@ Weave UI를 사용해 대화형으로 리더보드를 만들고 사용자 지정
 * **삭제**. 열을 제거합니다.
 * **오름차순 정렬**. 리더보드의 기본 정렬을 설정합니다(다시 클릭하면 내림차순으로 전환됨).
 
-<div id="use-the-python-sdk">
-  ### Python SDK 사용
-</div>
+### Python SDK 사용 {#use-the-python-sdk}
 
 코드에서 리더보드를 정의, 게시, 조회하려면 Python SDK를 사용하세요. 이 방식을 사용하면 평가 코드와 함께 리더보드 버전을 관리하고 자동화된 워크플로의 일부로 실행할 수 있습니다.
 
@@ -144,9 +136,7 @@ Weave UI를 사용해 대화형으로 리더보드를 만들고 사용자 지정
 
 게시 후 리더보드는 Weave UI의 **Leaders** 탭에서 확인할 수 있으며, 여기에서 팀이 모델 성능을 보고 비교할 수 있습니다.
 
-<div id="end-to-end-python-example">
-  ## End-to-end Python 예제
-</div>
+## End-to-end Python 예제 {#end-to-end-python-example}
 
 다음 예제에서는 Weave Evaluations를 사용해 맞춤형 메트릭으로 공유 데이터셋에서 세 가지 요약 모델을 비교하는 리더보드를 만듭니다. 작은 벤치마크를 만든 뒤 각 모델을 평가하고, [Jaccard similarity](https://www.learndatasci.com/glossary/jaccard-similarity/)로 각 모델의 점수를 매긴 다음, 결과를 Weave 리더보드에 게시합니다.
 
@@ -229,9 +219,7 @@ results = leaderboard.get_leaderboard_results(spec, client)
 print(results)
 ```
 
-<div id="view-and-interpret-the-leaderboard">
-  ### 리더보드 보기 및 해석
-</div>
+### 리더보드 보기 및 해석 {#view-and-interpret-the-leaderboard}
 
 스크립트가 리더보드를 게시한 후에는 Weave UI에서 결과를 확인하고 모델 성능을 나란히 비교합니다:
 

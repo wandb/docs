@@ -11,9 +11,7 @@ keywords: [leaderboard, comparaison de modèles, évaluation Weave, fonctions de
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 </Note>
 
-<div id="leaderboard-quickstart">
-  # Démarrage rapide du Leaderboard
-</div>
+# Démarrage rapide du Leaderboard {#leaderboard-quickstart}
 
 Ce démarrage rapide vous montre comment utiliser le leaderboard W&amp;B Weave pour comparer les performances de modèles sur plusieurs jeux de données et avec plusieurs fonctions de score. À la fin, vous aurez publié un leaderboard qui classe plusieurs modèles à partir d’un ensemble commun d’évaluations. Vous pourrez ensuite identifier le modèle le plus performant pour chaque métrique. Ce guide s’adresse aux développeurs déjà familiers avec l’exécution d’évaluations Weave et qui souhaitent comparer les résultats côte à côte.
 
@@ -24,9 +22,7 @@ Plus précisément, vous allez :
 3. Utiliser ces techniques pour évaluer une matrice de modèles et d’évaluations.
 4. Consulter le leaderboard dans l’interface Weave.
 
-<div id="step-1-generate-a-dataset-of-fake-zip-code-data">
-  ## Étape 1 : Générer un jeu de données fictif de codes postaux
-</div>
+## Étape 1 : Générer un jeu de données fictif de codes postaux {#step-1-generate-a-dataset-of-fake-zip-code-data}
 
 Créez d’abord une fonction `generate_dataset_rows` qui génère une liste de données fictives de codes postaux. Ce jeu de données synthétique fournit au leaderboard un ensemble cohérent d’entrées et de valeurs attendues pour attribuer un score à chaque modèle.
 
@@ -78,9 +74,7 @@ import weave
 weave.init("leaderboard-demo")
 ```
 
-<div id="step-2-author-scoring-functions">
-  ## Étape 2 : Créez des fonctions de score
-</div>
+## Étape 2 : Créez des fonctions de score {#step-2-author-scoring-functions}
 
 Créez ensuite trois fonctions de score. Chaque scorer évalue un aspect différent de la sortie du modèle afin que le leaderboard puisse classer les modèles selon des dimensions distinctes de la qualité :
 
@@ -135,9 +129,7 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
     return json.loads(completion.choices[0].message.content)
 ```
 
-<div id="step-3-create-an-evaluation">
-  ## Étape 3 : Créer une évaluation
-</div>
+## Étape 3 : Créer une évaluation {#step-3-create-an-evaluation}
 
 Définissez ensuite une évaluation à l’aide des données factices et des fonction de score. L’objet `Evaluation` associe le jeu de données aux évaluateurs, afin que vous puissiez exécuter n’importe quel modèle sur le même benchmark.
 
@@ -154,9 +146,7 @@ evaluation = weave.Evaluation(
 )
 ```
 
-<div id="step-4-evaluate-a-baseline-model">
-  ## Étape 4 : Évaluer un modèle de référence
-</div>
+## Étape 4 : Évaluer un modèle de référence {#step-4-evaluate-a-baseline-model}
 
 Évaluez maintenant un modèle de référence qui renvoie une réponse statique. L’établissement d’une base de référence vous fournit un point de repère dans le leaderboard, afin de mesurer dans quelle mesure chaque modèle suivant améliore l’implémentation statique.
 
@@ -175,9 +165,7 @@ def baseline_model(zip_code: str):
 await evaluation.evaluate(baseline_model)
 ```
 
-<div id="step-5-create-more-models">
-  ## Étape 5 : Créer d’autres modèles
-</div>
+## Étape 5 : Créer d’autres modèles {#step-5-create-more-models}
 
 Créez maintenant deux modèles supplémentaires pour les comparer au modèle de référence. Un modèle reçoit le code postal sans prompt supplémentaire, tandis que l’autre reçoit un prompt structuré. Leur comparaison dans le leaderboard montre l’impact du contexte du prompt sur la qualité des réponses.
 
@@ -235,9 +223,7 @@ def gpt_4o_mini_with_context(zip_code: str):
 await evaluation.evaluate(gpt_4o_mini_with_context)
 ```
 
-<div id="step-6-create-more-evaluations">
-  ## Étape 6 : Créez davantage d’évaluations
-</div>
+## Étape 6 : Créez davantage d’évaluations {#step-6-create-more-evaluations}
 
 À présent, évaluez une matrice croisant des modèles et des évaluations. En exécutant chaque modèle sur plusieurs jeux de données (régions et années différentes), vous produisez les données dont le leaderboard a besoin pour classer les modèles dans différentes conditions.
 
@@ -285,9 +271,7 @@ for evaluation in evaluations:
         )
 ```
 
-<div id="step-7-review-the-leaderboard">
-  ## Étape 7 : consultez le leaderboard
-</div>
+## Étape 7 : consultez le leaderboard {#step-7-review-the-leaderboard}
 
 Une fois les résultats d’évaluation publiés, vous pouvez maintenant les regrouper dans un leaderboard pour les comparer côte à côte.
 

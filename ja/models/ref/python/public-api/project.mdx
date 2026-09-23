@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L142" />
 
-<div id="class-wandbapispublicproject">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Project
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Project {#class-wandbapispublicproject}
 
 project は run の名前空間です。
 
@@ -21,9 +19,7 @@ project: 'str',
 attrs: 'Mapping[str, Any]'
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   W&amp;B のクエリに使用するサービス API。
@@ -41,9 +37,7 @@ attrs: 'Mapping[str, Any]'
   project の属性。
 </ResponseField>
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="id" type="str">
   説明はありません。
@@ -61,13 +55,9 @@ attrs: 'Mapping[str, Any]'
   projectのURLを返します。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-projectartifacts_types">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.artifacts_types()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.artifacts_types() {#method-projectartifacts_types}
 
 ```python
 self,
@@ -76,17 +66,13 @@ per_page: 'int' = 50
 
 このprojectに関連付けられているすべてのアーティファクトタイプを返します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="per_page" type="int">
   説明はありません。
 </ResponseField>
 
-<div id="method-projectcollections">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.collections()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.collections() {#method-projectcollections}
 
 ```python
 self,
@@ -97,9 +83,7 @@ per_page: 'int' = 50
 
 このprojectに関連付けられているすべてのアーティファクトコレクションを返します。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="filters" type="Mapping[str, Any] | None">
   クエリに適用するフィルターのオプションのマッピング。
@@ -113,9 +97,7 @@ per_page: 'int' = 50
   1 ページあたりに取得するアーティファクトコレクションの数です。デフォルトは 50 です。
 </ResponseField>
 
-<div id="method-projectsweeps">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.sweeps()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Project.sweeps() {#method-projectsweeps}
 
 ```python
 self,
@@ -126,9 +108,7 @@ order: 'str | None' = None
 
 このproject内の sweep を、ページ分割されたコレクションとして返します。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="per_page" type="int">
   API リクエストごとに取得する sweep の数。

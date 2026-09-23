@@ -10,9 +10,7 @@ Weave 트레이스 뷰는 LLM 및 에이전트형 앱의 복잡한 실행 경로
 
 다음 섹션에서는 트레이스 뷰를 여는 방법, Traces 페이지에서 현재 위치를 파악하는 방법, 트레이스를 탐색하고 필터링하는 방법, 대체 시각화 사이를 전환하는 방법, 특정 op의 세부 정보를 검사하는 방법을 설명합니다.
 
-<div id="get-started">
-  ## 시작하기
-</div>
+## 시작하기 {#get-started}
 
 프로젝트의 트레이스 뷰를 열고 트레이스 검토를 시작하려면 다음 단계를 따르세요:
 
@@ -20,9 +18,7 @@ Weave 트레이스 뷰는 LLM 및 에이전트형 앱의 복잡한 실행 경로
 2. 프로젝트 사이드바에서 **트레이스**를 선택하면 프로젝트에 저장된 모든 트레이스를 볼 수 있습니다.
 3. 트레이스를 선택해 Trace Details 뷰를 엽니다. Trace Details 뷰에는 트레이스 실행의 계층적 세부 내역을 보여주는 추가 패널이 표시됩니다.
 
-<div id="traces-page-overview">
-  ## 트레이스 페이지 Overview
-</div>
+## 트레이스 페이지 Overview {#traces-page-overview}
 
 트레이스 페이지는 세 개의 핵심 패널로 구성됩니다:
 
@@ -36,18 +32,14 @@ Weave 트레이스 뷰는 LLM 및 에이전트형 앱의 복잡한 실행 경로
   ![선택한 트레이스와 선택한 op 세부 정보를 보여주는 트레이스 페이지](/weave/guides/tracking/imgs/trace-tree-full.png)
 </Frame>
 
-<div id="filter-within-a-trace">
-  ### 트레이스 내에서 필터링
-</div>
+### 트레이스 내에서 필터링 {#filter-within-a-trace}
 
 다음 컨트롤을 사용하여 트레이스의 내용을 필터링할 수 있습니다.
 
 * **이름별 정규식 필터**: 트레이스 트리 위의 텍스트 필드를 사용해 `tool`, `openai.response.create`와 같이 이름이나 유형을 기준으로 op를 필터링합니다.
 * **메트릭**: 사용 가능한 경우 비용, 토큰, 지연 시간 등 다음 데이터 메트릭의 표시 여부를 제어합니다.
 
-<div id="navigate-a-trace">
-  ### 트레이스 탐색
-</div>
+### 트레이스 탐색 {#navigate-a-trace}
 
 트레이스 트리는 트레이스 내에서 추적된 모든 메서드의 계층 구조를 보여줍니다. 트리에서 위 또는 아래로 이동하려면 `Cmd`(macOS) 또는 `Alt`(Windows/Linux) + 위쪽 화살표(↑) 또는 아래쪽 화살표(↓)를 사용하세요.
 
@@ -65,23 +57,17 @@ Weave 트레이스 뷰는 LLM 및 에이전트형 앱의 복잡한 실행 경로
   ![검색 필터와 스크러버를 보여주는 트레이스 트리 패널](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
 </Frame>
 
-<div id="alternative-trace-tree-views">
-  ### 다른 트레이스 트리 뷰
-</div>
+### 다른 트레이스 트리 뷰 {#alternative-trace-tree-views}
 
 패널 상단에서 디버깅 목적에 따라 트레이스 트리를 여러 시각화 방식으로 전환할 수 있습니다. call 로직을 이해하려면 **코드 구성 뷰**를, 시간에 따른 성능을 파악하려면 **플레임 그래프 뷰**를, 구조를 이해하려면 **그래프 뷰**를 사용하세요.
 
 다음 섹션에서는 사용 가능한 각 뷰를 설명합니다.
 
-<div id="traces-default">
-  #### 트레이스(기본)
-</div>
+#### 트레이스(기본) {#traces-default}
 
 트레이스 트리의 기본 뷰에는 스택 계층 구조, op별 비용(제공되는 경우), 실행 시간, 상태 표시기가 표시됩니다.
 
-<div id="code-composition-view">
-  #### 코드 구성 뷰
-</div>
+#### 코드 구성 뷰 {#code-composition-view}
 
 코드 구성 뷰에서 각 상자는 op와 그 안에 중첩된 call을 나타냅니다. 함수 call의 흐름을 시각화할 때 유용합니다. 이 뷰에서는 상자를 선택해 해당 op를 자세히 확인하고 call 경로를 필터링할 수 있습니다.
 
@@ -89,9 +75,7 @@ Weave 트레이스 뷰는 LLM 및 에이전트형 앱의 복잡한 실행 경로
   ![트레이스 뷰에 트레이스의 코드 뷰가 표시된 모습](/weave/guides/tracking/imgs/trace-tree-code-view.png)
 </Frame>
 
-<div id="flame-graph">
-  #### 플레임 그래프
-</div>
+#### 플레임 그래프 {#flame-graph}
 
 플레임 그래프 뷰는 실행 깊이와 지속 시간을 시간축으로 시각화합니다. 시간에 따른 성능 진단을 파악하는 데 유용합니다. 프레임을 선택해 들어가 하위 트레이스를 분리할 수 있습니다.
 
@@ -99,9 +83,7 @@ Weave 트레이스 뷰는 LLM 및 에이전트형 앱의 복잡한 실행 경로
   ![트레이스 내 ops의 플레임 그래프를 보여주는 트레이스 뷰](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
 </Frame>
 
-<div id="graph-view">
-  #### 그래프 뷰
-</div>
+#### 그래프 뷰 {#graph-view}
 
 그래프 뷰에는 op 간의 계층적 관계가 표시됩니다. 부모/자식 관계를 이해하는 데 도움이 됩니다.
 
@@ -109,9 +91,7 @@ Weave 트레이스 뷰는 LLM 및 에이전트형 앱의 복잡한 실행 경로
   ![op과 트레이스 내 관계를 함수형 그래프 뷰로 보여주는 트레이스 뷰](/weave/guides/tracking/imgs/trace-tree-graph-view.png)
 </Frame>
 
-<div id="view-details-for-a-trace-op">
-  ### 트레이스 op의 세부 정보 보기
-</div>
+### 트레이스 op의 세부 정보 보기 {#view-details-for-a-trace-op}
 
 트레이스 트리에서 op를 선택하면 다음 패널에 해당 op의 세부 정보가 표시됩니다. 이 정보는 다음 탭으로 구성됩니다.
 

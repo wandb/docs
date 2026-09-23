@@ -21,9 +21,7 @@ Pour un guide complet sur l&#39;utilisation des variables d&#39;environnement po
 
 <Warning>Selon la machine sur laquelle `wandb` est initialisé, il se peut que ces dossiers par défaut ne se trouvent pas dans une zone accessible en écriture du système de fichiers. Cela peut entraîner une erreur.</Warning>
 
-<div id="clean-up-local-artifact-cache">
-  ### Nettoyer le cache local des artifacts
-</div>
+### Nettoyer le cache local des artifacts {#clean-up-local-artifact-cache}
 
 W&amp;B met en cache les fichiers d’artifact afin d’accélérer les téléchargements entre les versions qui partagent des fichiers. Au fil du temps, ce répertoire de cache peut prendre beaucoup de place. Exécutez la commande [`wandb artifact cache cleanup`](/fr/models/ref/cli/wandb-artifact/wandb-artifact-cache/) pour purger le cache et supprimer les fichiers qui n’ont pas été utilisés récemment.
 

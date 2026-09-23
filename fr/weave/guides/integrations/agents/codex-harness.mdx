@@ -15,7 +15,7 @@ Le plugin lit les fichiers de session de rollout de Codex (`~/.codex/sessions/**
 </Warning>
 
 <div id="prerequisites">
-  ## Prérequis
+  ## Prérequis {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v20 ou version ultérieure.
@@ -24,7 +24,7 @@ Le plugin lit les fichiers de session de rollout de Codex (`~/.codex/sessions/**
 * Un projet Weave (`[YOUR-TEAM]/[YOUR-PROJECT]`) pour recevoir des traces.
 
 <div id="install-the-plugin">
-  ## Installer le plugin
+  ## Installer le plugin {#install-the-plugin}
 </div>
 
 <Steps>
@@ -63,7 +63,7 @@ Le plugin lit les fichiers de session de rollout de Codex (`~/.codex/sessions/**
 Vous pouvez maintenant exécuter Codex normalement, et chaque tour terminé apparaît dans Weave au bout d&#39;environ une seconde.
 
 <div id="view-codex-traces-in-weave">
-  ## Voir les traces Codex dans Weave
+  ## Voir les traces Codex dans Weave {#view-codex-traces-in-weave}
 </div>
 
 Après avoir exécuté au moins une session Codex, ouvrez votre projet dans l’interface Weave :
@@ -87,7 +87,7 @@ Weave regroupe les tours de conversation en une seule conversation dans la vue A
 Les traces s’affichent également dans tout backend compatible OTEL, puisque tous les attributs suivent les conventions sémantiques GenAI.
 
 <div id="known-limitations">
-  ### Limitations connues
+  ### Limitations connues {#known-limitations}
 </div>
 
 * Les commandes `codex` (TUI interactif) et `codex exec` sont prises en charge. Les commandes `codex mcp` et `app-server` ne sont pas couvertes, car elles ne déclenchent aucun hook.
@@ -95,7 +95,7 @@ Les traces s’affichent également dans tout backend compatible OTEL, puisque t
 * Le hook Stop ne se déclenche pas pour les tours de conversation interrompus ou ayant échoué ; ils ne sont donc pas capturés.
 
 <div id="configuration-reference">
-  ## Référence de configuration
+  ## Référence de configuration {#configuration-reference}
 </div>
 
 Cette section répertorie les paramètres que vous pouvez utiliser pour personnaliser le comportement du plugin. Les fichiers de configuration et d’exécution sont stockés dans `~/.weave-codex/`, notamment `settings.json`, le shim du hook, les curseurs par session et le fichier journal situé dans `logs/collector.log`.
@@ -109,7 +109,7 @@ Cette section répertorie les paramètres que vous pouvez utiliser pour personna
 | Journalisation de débogage | `WEAVE_CODEX_DEBUG`           | `debug`             | Désactivée (les erreurs sont toujours journalisées) |
 
 <div id="credential-resolution-order">
-  ### Ordre de résolution des identifiants d’authentification
+  ### Ordre de résolution des identifiants d’authentification {#credential-resolution-order}
 </div>
 
 Le plugin résout les identifiants d’authentification dans cet ordre :
@@ -119,7 +119,7 @@ Le plugin résout les identifiants d’authentification dans cet ordre :
 3. Entrée `~/.netrc` pour l&#39;hôte Weave.
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B Cloud dédié ou instances autohébergées
+  ### W&amp;B Cloud dédié ou instances autohébergées {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 Définissez `WANDB_BASE_URL` avec l’hôte de votre installation avant d’exécuter Codex :
@@ -129,7 +129,7 @@ export WANDB_BASE_URL=https://YOUR-INSTANCE.wandb.io
 ```
 
 <div id="check-plugin-status">
-  ## Vérifier le statut du plugin
+  ## Vérifier le statut du plugin {#check-plugin-status}
 </div>
 
 Vous pouvez utiliser ces commandes CLI pour vérifier le statut du plugin ou résoudre des problèmes :
@@ -145,13 +145,13 @@ cat ~/.weave-codex/logs/collector.log
 ```
 
 <div id="troubleshooting">
-  ## Dépannage
+  ## Dépannage {#troubleshooting}
 </div>
 
 Les sections suivantes décrivent les problèmes courants et expliquent comment les résoudre. Le journal du collecteur situé à l’emplacement `~/.weave-codex/logs/collector.log` constitue la principale source de diagnostic. Le plugin journalise toujours les erreurs, quel que soit le paramètre `debug`.
 
 <div id="no-traces-appear-after-running-codex">
-  ### Aucune trace n’apparaît après l’exécution de Codex
+  ### Aucune trace n’apparaît après l’exécution de Codex {#no-traces-appear-after-running-codex}
 </div>
 
 1. Exécutez `weave-codex status`. Vérifiez que tous les contrôles sont réussis.
@@ -160,13 +160,13 @@ Les sections suivantes décrivent les problèmes courants et expliquent comment 
 4. Vérifiez la source d’authentification. `weave-codex status` affiche la source d’identifiant d’authentification résolue. Si `WANDB_API_KEY env` s’affiche alors que vous avez défini la clé ailleurs, le plugin lit la mauvaise valeur.
 
 <div id="turns-appear-but-inputoutput-text-is-empty">
-  ### Les tours de conversation apparaissent, mais le texte d’entrée et de sortie est vide
+  ### Les tours de conversation apparaissent, mais le texte d’entrée et de sortie est vide {#turns-appear-but-inputoutput-text-is-empty}
 </div>
 
 La capture du contenu est peut-être désactivée. Vérifiez que `WEAVE_CODEX_CAPTURE_CONTENT` n’est pas défini sur `0` et que `capture_content` n’est pas défini sur `false` dans `~/.weave-codex/settings.json`.
 
 <div id="errors-sending-traces-to-weave">
-  ### Erreurs lors de l&#39;envoi de traces vers Weave
+  ### Erreurs lors de l&#39;envoi de traces vers Weave {#errors-sending-traces-to-weave}
 </div>
 
 Si le plugin est actif et génère des spans qui n&#39;apparaissent pas dans Weave, consultez le journal du collecteur pour repérer une erreur d&#39;exportation et comparez-la à ce tableau.
@@ -178,7 +178,7 @@ Si le plugin est actif et génère des spans qui n&#39;apparaissent pas dans Wea
 | Connexion refusée ou erreur DNS               | DNS, proxy ou pare-feu                         | Vérifiez que l&#39;hôte peut joindre `trace.wandb.ai` (cloud) ou l&#39;hôte de votre installation (Cloud dédié) sur le port 443.                                        |
 
 <div id="hook-locked-environments">
-  ### Environnements avec hooks verrouillés
+  ### Environnements avec hooks verrouillés {#hook-locked-environments}
 </div>
 
 Si `allow_managed_hooks_only` est défini dans votre configuration Codex, vous ne pouvez pas ajouter directement de hooks personnalisés. Utilisez plutôt le programme `notify` de Codex comme déclencheur de remplacement :
@@ -189,7 +189,7 @@ notify = ["sh", "/Users/you/.weave-codex/stop-hook.sh"]
 ```
 
 <div id="uninstall">
-  ## Désinstaller
+  ## Désinstaller {#uninstall}
 </div>
 
 ```bash lines

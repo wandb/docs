@@ -17,9 +17,7 @@ keywords: ["CoD", "요약", "ArXiv 논문", "LLM-as-a-judge", "반복적 개선"
   ![Chain of Density 요약 결과, 메트릭, 성능 비교를 보여주는 Weave 평가 대시보드](/media/summarization/eval_dash.png)
 </Frame>
 
-<div id="what-is-chain-of-density-summarization">
-  ## Chain of Density 요약이란 무엇인가요
-</div>
+## Chain of Density 요약이란 무엇인가요 {#what-is-chain-of-density-summarization}
 
 [![arXiv](https://img.shields.io/badge/arXiv-2309.04269-b31b1b.svg)](https://arxiv.org/abs/2309.04269)
 
@@ -31,9 +29,7 @@ Chain of Density (CoD)는 점점 더 간결하면서도 정보 밀도가 높은 
 
 이 접근 방식은 자세한 정보를 유지하는 것이 중요한 과학 논문이나 기술 문서를 요약할 때 특히 유용합니다.
 
-<div id="why-use-weave">
-  ## Weave를 사용하는 이유
-</div>
+## Weave를 사용하는 이유 {#why-use-weave}
 
 이 튜토리얼에서는 Weave를 사용해 ArXiv 논문을 위한 Chain of Density 요약 파이프라인을 구현하고 평가하는 방법을 살펴봅니다. 다음 내용을 배우게 됩니다.
 
@@ -44,9 +40,7 @@ Chain of Density (CoD)는 점점 더 간결하면서도 정보 밀도가 높은 
 
 이 튜토리얼을 마치면 모델 서빙, 평가, 결과 추적을 위해 Weave의 기능을 활용하는 CoD 요약 파이프라인을 만들게 됩니다.
 
-<div id="set-up-the-environment">
-  ## 환경 설정
-</div>
+## 환경 설정 {#set-up-the-environment}
 
 먼저 환경을 설정하고 필요한 라이브러리를 임포트합니다. 이 단계에서는 파이프라인에 필요한 의존성을 설치하며, 여기에는 추적용 Weave, LLM용 Anthropic, 그리고 ArXiv PDF를 읽기 위한 PyPDF2가 포함됩니다.
 
@@ -85,9 +79,7 @@ anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 이 코드는 Weave를 사용해 실험을 추적하고, 텍스트 생성을 위해 Anthropic의 Claude 모델을 사용합니다. `weave.init([PROJECT_NAME])` 호출로 요약 작업용 새 Weave 프로젝트를 설정합니다.
 
-<div id="define-the-arxivpaper-model">
-  ## ArxivPaper 모델 정의
-</div>
+## ArxivPaper 모델 정의 {#define-the-arxivpaper-model}
 
 환경이 준비되었으므로 다음 단계는 파이프라인에서 사용할 데이터 구조를 정의하는 것입니다. 데이터를 나타내는 `ArxivPaper` 클래스를 만드세요:
 
@@ -116,9 +108,7 @@ arxiv_paper = ArxivPaper(
 
 이 클래스는 요약 파이프라인의 입력으로 사용되는 ArXiv 논문의 메타데이터와 콘텐츠를 캡슐화합니다.
 
-<div id="load-pdf-content">
-  ## PDF 콘텐츠 불러오기
-</div>
+## PDF 콘텐츠 불러오기 {#load-pdf-content}
 
 `ArxivPaper` 모델은 메타데이터와 PDF URL만 포함하고 있으므로, 요약 파이프라인에는 논문의 전체 텍스트가 필요합니다. 논문 전체 내용을 사용하려면 PDF에서 텍스트를 불러와 추출하는 함수를 추가하세요:
 
@@ -140,9 +130,7 @@ def load_pdf(pdf_url: str) -> str:
     return text
 ```
 
-<div id="implement-chain-of-density-summarization">
-  ## Chain of Density 요약 구현하기
-</div>
+## Chain of Density 요약 구현하기 {#implement-chain-of-density-summarization}
 
 이제 Weave 오퍼레이션을 사용해 핵심 CoD 요약 로직을 구현하세요:
 
@@ -233,9 +221,7 @@ def chain_of_density_summarization(
 
 `@weave.op()` 데코레이터는 Weave가 이러한 함수의 입력, 출력, 실행을 추적하도록 합니다.
 
-<div id="create-a-weave-model">
-  ## Weave Model 만들기
-</div>
+## Weave Model 만들기 {#create-a-weave-model}
 
 요약 함수가 준비되었으므로, 다음 단계는 이를 Weave Model로 패키징하여 Runs, 파라미터, 버전이 함께 추적되도록 하는 것입니다. 이제 요약 파이프라인을 Weave Model로 감싸 보겠습니다:
 
@@ -269,9 +255,7 @@ class ArxivChainOfDensityPipeline(weave.Model):
 * 하이퍼파라미터 관리: `model`, `density_iterations`와 같은 모델 속성이 서로 다른 실행 전반에서 명확하게 정의되고 추적되므로 실험을 더 쉽게 수행할 수 있습니다.
 * Weave 에코시스템과의 인테그레이션: `weave.Model`을 사용하면 evaluations 및 서빙 기능과 같은 다른 Weave 도구와 함께 작동합니다.
 
-<div id="implement-evaluation-metrics">
-  ## 평가 메트릭 구현
-</div>
+## 평가 메트릭 구현 {#implement-evaluation-metrics}
 
 파이프라인이 요약을 생성하므로, 이제 그 품질을 체계적으로 측정할 방법이 필요합니다. 요약의 품질을 평가하기 위해 단순한 평가 메트릭을 구현해 보겠습니다:
 
@@ -327,9 +311,7 @@ def evaluate_summary(
 
 이 평가 함수는 Claude 모델을 사용해 관련성, 간결성, 기술적 정확도를 바탕으로 생성된 요약의 품질을 평가합니다.
 
-<div id="create-a-weave-dataset-and-run-evaluation">
-  ## Weave 데이터셋을 만들고 평가를 실행하세요
-</div>
+## Weave 데이터셋을 만들고 평가를 실행하세요 {#create-a-weave-dataset-and-run-evaluation}
 
 이제 점수화 함수가 정의되었으므로, 마지막 단계는 이를 샘플 입력에 적용해 평가를 실행하는 것입니다. 파이프라인을 평가하려면 Weave 데이터셋을 만들고 평가를 실행하세요.
 
@@ -377,9 +359,7 @@ results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
 
 이 코드는 샘플 ArXiv 논문으로 데이터셋을 만들고, 품질 Scorer를 정의한 다음, 요약 파이프라인을 평가합니다.
 
-<div id="conclusion">
-  ## 결론
-</div>
+## 결론 {#conclusion}
 
 이 예제에서는 Weave를 사용해 ArXiv 논문용 Chain of Density 요약 파이프라인을 구현하는 방법을 보여드렸습니다. 다음 내용을 배웠습니다.
 

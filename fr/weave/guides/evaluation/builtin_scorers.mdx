@@ -12,9 +12,7 @@ W&amp;B Weave propose plusieurs évaluateurs prédéfinis pour évaluer vos appl
   Pour utiliser les évaluateurs Weave en TypeScript, voir les [évaluateurs basés sur des fonctions](/fr/weave/guides/evaluation/scorers#function-based-scorers).
 </Note>
 
-<div id="installation">
-  ## Installation
-</div>
+## Installation {#installation}
 
 Pour utiliser les évaluateurs prédéfinis de Weave, installez certaines dépendances supplémentaires :
 
@@ -26,9 +24,7 @@ pip install weave[scorers]
 
 Les évaluateurs prédéfinis qui utilisent des LLM s’intègrent automatiquement à litellm. Vous n’avez pas besoin de passer un client LLM. Définissez plutôt `model_id`. Voir les [modèles pris en charge](https://docs.litellm.ai/docs/providers).
 
-<div id="hallucinationfreescorer">
-  ## `HallucinationFreeScorer`
-</div>
+## `HallucinationFreeScorer` {#hallucinationfreescorer}
 
 Ce scorer vérifie si la sortie de votre système d&#39;IA contient des hallucinations, sur la base des données d&#39;entrée.
 
@@ -82,9 +78,7 @@ print(result)
 
 ***
 
-<div id="summarizationscorer">
-  ## `SummarizationScorer`
-</div>
+## `SummarizationScorer` {#summarizationscorer}
 
 Utilisez un LLM pour comparer une synthèse au texte d’origine et en évaluer la qualité.
 
@@ -143,9 +137,7 @@ print(results)
 
 ***
 
-<div id="openaimoderationscorer">
-  ## `OpenAIModerationScorer`
-</div>
+## `OpenAIModerationScorer` {#openaimoderationscorer}
 
 Le `OpenAIModerationScorer` utilise l’API Moderation d’OpenAI pour vérifier si la sortie du système d’IA contient du contenu non autorisé, comme des discours haineux ou du contenu explicite.
 
@@ -190,9 +182,7 @@ print(results)
 
 ***
 
-<div id="embeddingsimilarityscorer">
-  ## `EmbeddingSimilarityScorer`
-</div>
+## `EmbeddingSimilarityScorer` {#embeddingsimilarityscorer}
 
 `EmbeddingSimilarityScorer` calcule la similarité cosinus entre les embeddings de la sortie du système d’IA et un texte cible de votre jeu de données. Utilisez-le pour mesurer le degré de similarité entre la sortie de l’IA et un texte de référence.
 
@@ -250,9 +240,7 @@ print(result)
 
 ***
 
-<div id="validjsonscorer">
-  ## `ValidJSONScorer`
-</div>
+## `ValidJSONScorer` {#validjsonscorer}
 
 Le `ValidJSONScorer` vérifie si la sortie du système d’IA est un JSON valide. Ce scorer est utile lorsque vous attendez une sortie au format JSON et devez en vérifier la validité.
 
@@ -293,9 +281,7 @@ print(results)
 
 ***
 
-<div id="validxmlscorer">
-  ## `ValidXMLScorer`
-</div>
+## `ValidXMLScorer` {#validxmlscorer}
 
 Le `ValidXMLScorer` vérifie si la sortie du système d’IA est un document XML valide. Utilisez-le lorsque vous attendez des sorties au format XML.
 
@@ -335,9 +321,7 @@ print(results)
 
 ***
 
-<div id="pydanticscorer">
-  ## `PydanticScorer`
-</div>
+## `PydanticScorer` {#pydanticscorer}
 
 Le `PydanticScorer` valide la sortie du système d’IA par rapport à un modèle Pydantic afin de garantir qu’elle respecte un schéma ou une structure de données donnés.
 
@@ -354,9 +338,7 @@ pydantic_scorer = PydanticScorer(model=FinancialReport)
 
 ***
 
-<div id="ragas-contextentityrecallscorer">
-  ## RAGAS - `ContextEntityRecallScorer`
-</div>
+## RAGAS - `ContextEntityRecallScorer` {#ragas-contextentityrecallscorer}
 
 Le `ContextEntityRecallScorer` estime le rappel du contexte en extrayant les entités à la fois de la sortie du système d’IA et du contexte fourni, puis en calculant le score de rappel. Il s’appuie sur la bibliothèque d’évaluation Retrieval Augmented Generation Assessment ([RAGAS](https://github.com/explodinggradients/ragas)).
 
@@ -380,9 +362,7 @@ entity_recall_scorer = ContextEntityRecallScorer(
 
 ***
 
-<div id="ragas-contextrelevancyscorer">
-  ## RAGAS - `ContextRelevancyScorer`
-</div>
+## RAGAS - `ContextRelevancyScorer` {#ragas-contextrelevancyscorer}
 
 Le `ContextRelevancyScorer` évalue la pertinence du contexte fourni par rapport à la sortie du système d’IA. Il est basé sur la bibliothèque d’évaluation RAGAS.
 

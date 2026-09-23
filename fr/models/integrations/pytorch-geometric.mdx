@@ -11,9 +11,7 @@ Ce guide vous montre comment vous authentifier à W&amp;B, installer la biblioth
 
 Après avoir installé PyTorch Geometric, suivez ces étapes pour démarrer.
 
-<div id="sign-up-and-create-an-api-key">
-  ## Inscrivez-vous et créez une clé API
-</div>
+## Inscrivez-vous et créez une clé API {#sign-up-and-create-an-api-key}
 
 Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API à partir de votre profil.
 
@@ -22,9 +20,7 @@ Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer
 1. Cliquez sur l’icône de votre profil en haut à droite.
 2. Sélectionnez **Paramètres utilisateur**, puis faites défiler la page jusqu’à la section **Clés API**.
 
-<div id="install-the-wandb-library-and-log-in">
-  ## Installez la bibliothèque `wandb` et connectez-vous
-</div>
+## Installez la bibliothèque `wandb` et connectez-vous {#install-the-wandb-library-and-log-in}
 
 Pour installer la bibliothèque `wandb` en local et vous connecter :
 
@@ -66,17 +62,13 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   </Tab>
 </Tabs>
 
-<div id="visualize-the-graphs">
-  ## Visualisez les graphes
-</div>
+## Visualisez les graphes {#visualize-the-graphs}
 
 Après vous être connecté, vous pouvez commencer à envoyer des visualisations de graphes et des données d&#39;exécution à W&amp;B.
 
 Vous pouvez enregistrer des informations sur les graphes d&#39;entrée, notamment le nombre d&#39;arêtes, le nombre de nœuds, etc. W&amp;B prend en charge la journalisation des graphiques Plotly et des panneaux HTML, vous pouvez donc également journaliser dans W&amp;B toutes les visualisations que vous créez pour votre graphe. Les sections suivantes présentent deux approches courantes : PyVis pour les visualisations HTML interactives et Plotly pour les visualisations sous forme de graphiques.
 
-<div id="use-pyvis">
-  ### Utiliser PyVis
-</div>
+### Utiliser PyVis {#use-pyvis}
 
 L’extrait suivant montre comment procéder avec PyVis et HTML.
 
@@ -106,9 +98,7 @@ with wandb.init(project="graph_vis") as run:
   <img src="/images/integrations/pyg_graph_wandb.png" alt="Visualisation interactive de graphe" />
 </Frame>
 
-<div id="use-plotly">
-  ### Utiliser Plotly
-</div>
+### Utiliser Plotly {#use-plotly}
 
 Pour utiliser Plotly afin de créer une visualisation de graphe, convertissez d’abord le graphe PyG en objet NetworkX. Créez ensuite des graphiques de dispersion Plotly pour les nœuds et les arêtes. Utilisez l’extrait suivant pour cette tâche.
 
@@ -163,9 +153,7 @@ with wandb.init(project="visualize_graph") as run:
   <img src="/images/integrations/pyg_graph_plotly.png" alt="Une visualisation créée à l’aide de la fonction d’exemple et enregistrée dans un tableau W&B." />
 </Frame>
 
-<div id="log-metrics">
-  ## Journaliser des métriques
-</div>
+## Journaliser des métriques {#log-metrics}
 
 En plus des visualisations de graphe, vous pouvez utiliser W&amp;B pour suivre vos expériences et les métriques associées, comme les fonctions de perte, la précision, entre autres. Ajoutez les lignes suivantes à votre boucle d&#39;entraînement :
 
@@ -185,9 +173,7 @@ with wandb.init(project="my_project", entity="my_entity") as run:
 
 Avec les visualisations de graphes et les métriques d&#39;entraînement journalisées dans W&amp;B, vous pouvez comparer les runs et partager les résultats de vos expériences PyG dans votre espace de travail W&amp;B.
 
-<div id="more-resources">
-  ## Plus de ressources
-</div>
+## Plus de ressources {#more-resources}
 
 Les W&amp;B Reports suivants montrent PyG en action :
 

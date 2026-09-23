@@ -11,7 +11,7 @@ Weave SDK を使用すると、一般的な SDK やカスタム ハーネスで�
 Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合したい場合は、[エージェント インテグレーションを選択する](/ja/weave/agent-integration-quickstart) を参照してください。Weave は複数のエージェント構築用 SDK やエージェント ハーネスに自動でパッチを適用するため、すばやく統合できます。
 
 <div id="what-youll-learn">
-  ## 学習内容
+  ## 学習内容 {#what-youll-learn}
 </div>
 
 このクイックスタートを終える頃には、Weave 互換の OTel スパンを出力する、動作するマルチターンのエージェントを作成できます。また、Weave が会話、ターン、LLM Call、ツールコールをエージェントコードにどのように対応付けるのかを理解し、その同じパターンを独自のカスタム エージェントに適用できるようになります。
@@ -28,7 +28,7 @@ Claude Agent SDK や Codex などの SDK やハーネスに Weave を統合し�
 * 生成された会話、ターン、ツールコールを Agents ビューで確認する。
 
 <div id="how-the-weave-sdk-works-with-agents">
-  ## Weave SDK とエージェントの連携の仕組み
+  ## Weave SDK とエージェントの連携の仕組み {#how-the-weave-sdk-works-with-agents}
 </div>
 
 Weave SDK には、エージェント向けの汎用的な OTel 取り込み機構が含まれており、Weave はエージェントのコード内にある任意の OTel スパンから情報を取得できます。ただし、Weave UI の Agents ビューでエージェントのトレースを表示するには、以下のスパンを Weave で特別に処理する必要があります。
@@ -45,7 +45,7 @@ Python では、4 つの関数はすべてコンテキストマネージャー�
 `gen_ai.usage.*` や `gen_ai.agent.name` などの他の [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) を指定すると、追加の表示も有効になりますが、これらは任意です。
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 前提条件 {#prerequisites}
 </div>
 
 * W&amp;Bアカウントと [APIキー](https://wandb.ai/authorize)
@@ -54,7 +54,7 @@ Python では、4 つの関数はすべてコンテキストマネージャー�
 * Node.js 18+ (TypeScript の例では組み込みの `fetch` が必要です)
 
 <div id="install-packages">
-  ## パッケージをインストール
+  ## パッケージをインストール {#install-packages}
 </div>
 
 次のパッケージを開発環境にインストールします。
@@ -70,7 +70,7 @@ Python では、4 つの関数はすべてコンテキストマネージャー�
 </CodeGroup>
 
 <div id="initialize-weave">
-  ## Weave を初期化する
+  ## Weave を初期化する {#initialize-weave}
 </div>
 
 `weave.init()` は W&amp;B で認証を行い、エージェントのスパンを **Agents** ビューに送信する OTel exporter を設定します。チームにそのプロジェクトが存在しない場合、Weave は最初に書き込むときにプロジェクトを作成します。
@@ -100,7 +100,7 @@ Python では、4 つの関数はすべてコンテキストマネージャー�
 </CodeGroup>
 
 <div id="define-a-tool">
-  ## ツールを定義する
+  ## ツールを定義する {#define-a-tool}
 </div>
 
 次のコードは、エージェント用の Wikipedia 検索ツールと、そのツールをいつどのように使用するかを指定する OpenAI のツールスキーマを定義しています。
@@ -172,7 +172,7 @@ Python では、4 つの関数はすべてコンテキストマネージャー�
 </CodeGroup>
 
 <div id="run-a-traced-multi-turn-agent">
-  ## トレースされたマルチターン エージェントを実行する
+  ## トレースされたマルチターン エージェントを実行する {#run-a-traced-multi-turn-agent}
 </div>
 
 tool と Weave の初期化が完了したら、次のステップではそれらを組み合わせて、完全なエージェント ループを構成します。このループでは、会話、ターン、LLM Call、ツールコール がどのように入れ子になっているかを示します。
@@ -372,7 +372,7 @@ tool と Weave の初期化が完了したら、次のステップではそれ�
 </CodeGroup>
 
 <div id="record-token-usage-and-cost">
-  ## トークン使用量とコストを記録する
+  ## トークン使用量とコストを記録する {#record-token-usage-and-cost}
 </div>
 
 各 `chat` スパン には、トークン使用量とモデル ID が含まれます。Weave は usage からトークン数を表示し、usage とモデル ID からコストを算出します。そのため、値が不完全だったり価格を計算できなかったりすると、トレースの他の部分が正しく見えていても、`0 in / 0 out` tokens や `Cost -` と表示されます。`record(...)` を使うと、これらのフィールド (`output_messages`、`response_id`、`reasoning` などを含む) を 1 回の呼び出しで設定できます。適用されるのは、渡したフィールドだけです。
@@ -424,7 +424,7 @@ OpenAI では、キャッシュされたトークンは `prompt_tokens` に含�
 </CodeGroup>
 
 <div id="see-your-agent-traces-in-the-agents-view">
-  ## Agents ビューでエージェントのトレースを確認する
+  ## Agents ビューでエージェントのトレースを確認する {#see-your-agent-traces-in-the-agents-view}
 </div>
 
 `weave.init()` を実行すると、以下を確認できる project へのリンクが出力されます。
@@ -437,7 +437,7 @@ OpenAI では、キャッシュされたトークンは `prompt_tokens` に含�
 いずれかのターンをクリックすると、入力、出力、ツールの引数、ツールの結果を確認できます。
 
 <div id="link-to-a-conversation-from-your-app">
-  ## アプリから会話へのリンク
+  ## アプリから会話へのリンク {#link-to-a-conversation-from-your-app}
 </div>
 
 独自の UI から Weave Agents ビュー内の会話にディープリンクするには、entity、project、会話 id から URL を生成します。`weave.init()` は `entity` と `project` を保持するクライアントを返し、`start_conversation` は `conversation_id` を公開します。
@@ -461,9 +461,7 @@ OpenAI では、キャッシュされたトークンは `prompt_tokens` に含�
   ```
 </CodeGroup>
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 * [Weave でエージェントをトレースする](/ja/weave/guides/tracking/trace-agents) 方法と、Weave SDK で利用できる機能やオプションについて学びます。
 * エージェントに Weave を統合する方法についてさらに多くのオプションを確認するには、[エージェント インテグレーションを選択する](/ja/weave/agent-integration-quickstart) を参照してください。

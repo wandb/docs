@@ -8,26 +8,20 @@ Utilisez le panneau de développement pour déboguer le code du notebook, inspec
   <img src="/images/notebooks/hello_world_dev_panel.png" alt="Panneau de développement ouvert en bas de l'éditeur de notebook" />
 </Frame>
 
-<div id="open-the-developer-panel">
-  ## Ouvrir le panneau de développement
-</div>
+## Ouvrir le panneau de développement {#open-the-developer-panel}
 
 Utilisez l&#39;une des méthodes suivantes :
 
 * Dans le pied de page du notebook, sélectionnez **panneau de développement**.
 * Appuyez sur **Command+J** sous macOS, ou **Ctrl+J** sous Windows ou Linux. Ce raccourci ouvre ou ferme le panneau de développement.
 
-<div id="inspect-errors-and-warnings">
-  ## Inspecter les erreurs et les avertissements
-</div>
+## Inspecter les erreurs et les avertissements {#inspect-errors-and-warnings}
 
 L&#39;onglet **Errors** affiche les erreurs et les avertissements de l&#39;ensemble du notebook, y compris les exceptions Python, les erreurs de syntaxe, les cycles, les dépendances réactives non valides et les variables définies dans plusieurs cellules.
 
 {/* Sélectionnez une erreur ou un avertissement pour accéder à la cellule concernée. */}
 
-<div id="use-the-scratchpad">
-  ## Utiliser le scratchpad
-</div>
+## Utiliser le scratchpad {#use-the-scratchpad}
 
 Utilisez l&#39;onglet **Scratchpad** pour exécuter du code Python temporaire sans l&#39;ajouter au graphe réactif du notebook. Le scratchpad peut accéder aux variables définies dans les cellules de notebook.
 
@@ -41,9 +35,7 @@ La sortie du scratchpad s&#39;affiche à droite du code.
   <img src="/images/notebooks/hello_world_scratchpad.png" alt="Code et sortie affichés dans l'onglet Scratchpad" />
 </Frame>
 
-<div id="inspect-execution-traces">
-  ## Inspecter les traces d&#39;exécution
-</div>
+## Inspecter les traces d&#39;exécution {#inspect-execution-traces}
 
 Utilisez l&#39;onglet **Tracing** pour inspecter l&#39;ordre et la durée d&#39;exécution des cellules. Les traces vous aident à identifier les cellules lentes ou en échec et à déterminer quelles cellules ont été exécutées lors d&#39;un event d&#39;exécution réactive.
 
@@ -61,9 +53,7 @@ L&#39;image suivante montre le notebook « Hello World » avec l&#39;onglet **Tr
   <img src="/images/notebooks/hello_world_tracing.png" alt="Onglet Tracing affichant l'ordre d'exécution, le statut et la durée des cellules" />
 </Frame>
 
-<div id="view-logs">
-  ## Afficher les journaux
-</div>
+## Afficher les journaux {#view-logs}
 
 Utilisez l&#39;onglet **Logs** pour consulter la sortie standard (`stdout`) et la sortie d&#39;erreur standard (`stderr`) des cellules de notebook et du scratchpad. Les journaux vous permettent d&#39;analyser les échecs d&#39;exécution qui ne génèrent pas de message d&#39;erreur explicite en ligne.
 
@@ -77,8 +67,6 @@ L&#39;image suivante montre la sortie `"Do you have a cat?"` journalisée à `[5
   L&#39;onglet **Logs** inclut également la sortie et les erreurs du [**Scratchpad**](/fr/models/notebooks/developer-tools#use-the-scratchpad). Sur l&#39;image, l&#39;entrée à `[5:44:00 PM]` est identifiée par `cell--1` et provient du scratchpad.
 </Note>
 
-<div id="use-the-terminal">
-  ## Utiliser le terminal
-</div>
+## Utiliser le terminal {#use-the-terminal}
 
 Utilisez l&#39;onglet **Terminal** pour ouvrir un shell dans le même environnement sandbox que le runtime du notebook. Depuis le terminal, vous pouvez inspecter les fichiers, exécuter des outils en ligne de commande, gérer les paquets et lancer des scripts. Les modifications effectuées dans le terminal s&#39;appliquent au même Workspace que le notebook.

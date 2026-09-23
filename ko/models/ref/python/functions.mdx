@@ -7,9 +7,7 @@ no_list: true
 
 W&amp;B의 전역 함수는 `wandb.init()` 또는 `wandb.login()`처럼 직접 호출하는 최상위 함수입니다. 특정 클래스에 속한 메서드와 달리, 이러한 함수는 객체를 먼저 인스턴스화하지 않아도 W&amp;B의 핵심 기능에 직접 접근할 수 있게 해줍니다.
 
-<div id="available-functions">
-  ## 사용 가능한 함수
-</div>
+## 사용 가능한 함수 {#available-functions}
 
 | 함수                                                        | 설명                                                                      |
 | --------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -23,9 +21,7 @@ W&amp;B의 전역 함수는 `wandb.init()` 또는 `wandb.login()`처럼 직접 �
 | [`restore()`](/ko/models/ref/python/functions/restore)       | 이전 run 또는 실험 상태를 복원해 작업을 재개합니다.                                         |
 | [`finish()`](/ko/models/ref/python/functions/finish)         | run을 종료하고 리소스를 정리합니다.                                                   |
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 가장 일반적인 워크플로는 W&amp;B에 인증하고 run을 초기화한 다음, 트레이닝 루프에서 값(예: 정확도와 손실)을 로깅하는 것부터 시작합니다. 먼저 `wandb`를 임포트하고 전역 함수 `login()`과 `init()`을 사용합니다:
 

@@ -33,9 +33,7 @@ Pour plus d&#39;informations, voir [Définir une configuration de balayage](/fr/
 
   ## `name` */}
 
-<div id="metric">
-  ## `metric`
-</div>
+## `metric` {#metric}
 
 Utilisez la clé de configuration de premier niveau `metric` du balayage pour spécifier le nom, l&#39;objectif et la métrique cible à optimiser.
 
@@ -45,9 +43,7 @@ Utilisez la clé de configuration de premier niveau `metric` du balayage pour sp
 | `goal`   | `minimize` ou `maximize` (`minimize` par défaut).                                                                                                                                                                                                                                                                              |
 | `target` | Valeur cible de la métrique en cours d&#39;optimisation. Le balayage ne crée pas de nouveaux runs lorsqu&#39;un run atteint la valeur cible que vous avez spécifiée. Les agents actifs qui exécutent déjà un run au moment où celui-ci atteint la cible attendent la fin du run avant d&#39;arrêter de créer de nouveaux runs. |
 
-<div id="parameters">
-  ## `parameters`
-</div>
+## `parameters` {#parameters}
 
 Dans votre fichier YAML ou votre script Python, spécifiez `parameters` comme clé de premier niveau. Dans la clé `parameters`, indiquez le nom d&#39;un hyperparamètre que vous souhaitez optimiser. Les hyperparamètres courants incluent le taux d&#39;apprentissage, la taille de lot, les époques et les optimiseurs. Pour chaque hyperparamètre que vous définissez dans votre configuration de balayage, spécifiez une ou plusieurs contraintes de recherche.
 
@@ -74,31 +70,23 @@ Le tableau suivant présente les contraintes de recherche d&#39;hyperparamètres
   * `constant` si vous spécifiez `value`
 </Note>
 
-<div id="method">
-  ## `method`
-</div>
+## `method` {#method}
 
 Spécifiez la stratégie de recherche d&#39;hyperparamètres à l&#39;aide de la clé `method`. Choisissez parmi trois stratégies de recherche d&#39;hyperparamètres : recherche sur grille, aléatoire et recherche bayésienne.
 
-<div id="grid-search">
-  ### Recherche sur grille
-</div>
+### Recherche sur grille {#grid-search}
 
 La recherche sur grille parcourt chaque combinaison possible de valeurs d’hyperparamètre. La recherche sur grille choisit, à chaque itération, parmi un ensemble prédéfini de valeurs d’hyperparamètre, sans information préalable. La recherche sur grille peut être coûteuse en ressources de calcul.
 
 La recherche sur grille s’exécute indéfiniment si elle explore un espace de recherche continu.
 
-<div id="random-search">
-  ### Recherche aléatoire
-</div>
+### Recherche aléatoire {#random-search}
 
 La recherche aléatoire choisit, à chaque itération, un ensemble aléatoire de valeurs d&#39;hyperparamètres, sans information préalable, selon une distribution. La recherche aléatoire s&#39;exécute indéfiniment, sauf si vous arrêtez le processus depuis la ligne de commande, dans votre script Python ou depuis [W&amp;B App](/fr/models/sweeps/visualize-sweep-results).
 
 Si vous choisissez la recherche aléatoire (`method: random`), spécifiez la distribution pour chaque hyperparamètre dans la clé `parameters`.
 
-<div id="bayesian-search">
-  ### Recherche bayésienne
-</div>
+### Recherche bayésienne {#bayesian-search}
 
 Contrairement à la recherche [aléatoire](#random-search) et à la recherche [sur grille](#grid-search), les modèles bayésiens prennent des décisions éclairées. L’optimisation bayésienne s’appuie sur un modèle probabiliste pour déterminer quelles valeurs utiliser. Le processus teste itérativement des valeurs sur une fonction de substitution avant d’évaluer la fonction objectif. La recherche bayésienne est efficace pour un petit nombre de paramètres continus, mais elle passe mal à l’échelle. Pour en savoir plus sur la recherche bayésienne, voir le [Bayesian Optimization Primer](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf).
 
@@ -106,9 +94,7 @@ Contrairement à la recherche [aléatoire](#random-search) et à la recherche [s
 
 La recherche bayésienne se poursuit indéfiniment, à moins que vous n’arrêtiez le processus depuis la ligne de commande, dans votre script Python ou depuis [W&amp;B App](/fr/models/sweeps/visualize-sweep-results).
 
-<div id="distribution-options-for-random-and-bayesian-search">
-  ### Options de distribution pour la recherche aléatoire et la recherche bayésienne
-</div>
+### Options de distribution pour la recherche aléatoire et la recherche bayésienne {#distribution-options-for-random-and-bayesian-search}
 
 Dans la clé `parameters`, imbriquez le nom de l&#39;hyperparamètre. Ensuite, spécifiez la clé `distribution` et indiquez une distribution pour la valeur.
 
@@ -132,9 +118,7 @@ Le tableau suivant répertorie les distributions prises en charge par W&amp;B.
 | `log_normal`                    | Distribution log-normale. Renvoie une valeur `X` telle que le logarithme népérien `log(X)` suive une distribution normale de moyenne `mu` (par défaut `0`) et d&#39;écart-type `sigma` (par défaut `1`). |
 | `q_log_normal`                  | Distribution log-normale quantifiée. Renvoie `round(X / q) * q`, où `X` est `log_normal`. `q` a pour valeur par défaut `1`.                                                                              |
 
-<div id="early_terminate">
-  ## `early_terminate`
-</div>
+## `early_terminate` {#early_terminate}
 
 Utilisez l’arrêt anticipé (`early_terminate`) pour interrompre les runs peu performants. En cas d’arrêt anticipé, W&amp;B arrête le run en cours avant d’en créer un nouveau avec un nouvel ensemble de valeurs d’hyperparamètres.
 
@@ -142,9 +126,7 @@ Utilisez l’arrêt anticipé (`early_terminate`) pour interrompre les runs peu 
   Vous devez spécifier un algorithme d’arrêt si vous utilisez `early_terminate`. Imbriquez la clé `type` dans `early_terminate` au sein de votre configuration de balayage.
 </Note>
 
-<div id="stopping-algorithm">
-  ### Algorithme d&#39;arrêt
-</div>
+### Algorithme d&#39;arrêt {#stopping-algorithm}
 
 <Note>
   W&amp;B prend en charge l&#39;algorithme d&#39;arrêt [Hyperband](https://arxiv.org/abs/1603.06560).
@@ -172,9 +154,7 @@ Les brackets sont basés sur le nombre d&#39;itérations enregistrées. Le nombr
   Hyperband vérifie quels [runs](/fr/models/ref/python/experiments/run) arrêter toutes les quelques minutes. L&#39;horodatage de fin du run peut différer des brackets spécifiés si votre run ou votre itération est de courte durée.
 </Note>
 
-<div id="command">
-  ## `command`
-</div>
+## `command` {#command}
 
 {/* Par défaut, les agents créés avec [`wandb agent`](/models/ref/cli/wandb-agent) reçoivent une commande au format suivant : */}
 

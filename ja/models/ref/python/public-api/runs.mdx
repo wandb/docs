@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-<div id="class-wandbapispublicruns">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Runs
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Runs {#class-wandbapispublicruns}
 
 project と省略可能なフィルターに関連付けられた `Run` オブジェクトの遅延イテレーターです。
 
@@ -30,9 +28,7 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   リクエストに使用するサービス API。
@@ -70,13 +66,9 @@ api_key: 'str | None' = None)
   説明はありません。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-runshistories">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.histories()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.histories() {#method-runshistories}
 
 ```python
 self,
@@ -89,9 +81,7 @@ stream: "Literal['default', 'system']" = 'default'
 
 フィルター条件に一致するすべての run について、サンプリングされた履歴メトリクスを返します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="samples" type="int">
   run ごとに返すサンプル数
@@ -113,9 +103,7 @@ stream: "Literal['default', 'system']" = 'default'
   メトリクスには &quot;default&quot;、システムメトリクスには &quot;system&quot;
 </ResponseField>
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.**next**() {#method-paginatornext}
 
 ```python
 self
@@ -123,9 +111,7 @@ self
 
 イテレーターから次の項目を返します。すべての項目を返し終えている場合は、StopIteration を送出します
 
-<div id="method-paginatorupdate_variables">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.update_variables()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> ページネーター.update_variables() {#method-paginatorupdate_variables}
 
 ```python
 self
@@ -133,9 +119,7 @@ self
 
 次のページのフェッチに使用するクエリ変数を更新します。
 
-<div id="method-runsupgrade_to_full">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.upgrade_to_full()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Runs.upgrade_to_full() {#method-runsupgrade_to_full}
 
 ```python
 self

@@ -20,9 +20,7 @@ title: Tables を可視化して分析する
   現在の W&amp;B Table ビューを保存する方法については、[ビューを保存する](#save-your-view) を参照してください。
 </Note>
 
-<div id="table-comparison-options">
-  ## 表の比較オプション
-</div>
+## 表の比較オプション {#table-comparison-options}
 
 2 つの表は、[マージ ビュー](#merged-view) または [並列ビュー](#side-by-side-view) で比較できます。たとえば、以下の画像は MNIST データの表比較を示しています。
 
@@ -48,9 +46,7 @@ title: Tables を可視化して分析する
   <img src="/images/data_vis/preds_2.png" alt="モデル予測の比較" max-width="90%" />
 </Frame>
 
-<div id="merged-view">
-  ### マージ ビュー
-</div>
+### マージ ビュー {#merged-view}
 
 {/* TODO: stepを追加 */}
 
@@ -68,9 +64,7 @@ title: Tables を可視化して分析する
 * **詳細な数値の差分をヒストグラムで可視化する**: 任意のセルの値をひと目で比較できます
 
 
-<div id="side-by-side-view">
-  ### 並列ビュー
-</div>
+### 並列ビュー {#side-by-side-view}
 
 {/* TODO */}
 
@@ -84,15 +78,11 @@ title: Tables を可視化して分析する
 * **2 つの表を個別に調べる**: スクロールしながら、注目したい側や行にそれぞれ集中できます
 
 
-<div id="compare-artifacts">
-  ## Artifacts を比較する
-</div>
+## Artifacts を比較する {#compare-artifacts}
 
 artifact バージョンとしてログされた 2 つの W&amp;B Tables を比較して、データやモデル性能の変化を分析します。表を比較するには、マージ ビューまたは並列ビューを使用してください。
 
-<div id="compare-tables-across-time">
-  ### 時間経過に沿って表を比較する
-</div>
+### 時間経過に沿って表を比較する {#compare-tables-across-time}
 
 トレーニングの経過に伴うモデル性能を分析するには、トレーニング中の意味のある各 step ごとに、artifact に表をログします。たとえば、各検証 step の終了時、トレーニング 50 エポックごと、またはパイプラインに適した任意の頻度で表をログできます。並列ビューを使用して、モデルの予測の変化を可視化します。
 
@@ -102,9 +92,7 @@ artifact バージョンとしてログされた 2 つの W&amp;B Tables を比�
 
 トレーニングの経過に伴う予測の可視化についてより詳しくは、[predictions over time レポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) と、このインタラクティブな[ノートブックの例](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..) を参照してください。
 
-<div id="compare-tables-across-model-variants">
-  ### モデルバリアント間で表を比較する
-</div>
+### モデルバリアント間で表を比較する {#compare-tables-across-model-variants}
 
 異なる 2 つのモデルについて、同じ step でログされた 2 つの artifact バージョンを比較し、設定の違い (ハイパーパラメーターやベースアーキテクチャなど) によるモデル性能を分析します。
 
@@ -124,9 +112,7 @@ artifact バージョンとしてログされた 2 つの W&amp;B Tables を比�
   </Tab>
 </Tabs>
 
-<div id="visualize-how-values-change-throughout-your-runs">
-  ## run 全体を通じて値がどのように変化するかを可視化する
-</div>
+## run 全体を通じて値がどのように変化するかを可視化する {#visualize-how-values-change-throughout-your-runs}
 
 step スライダーを使うと、表にログした値が run 全体を通じてどのように変化するかを確認できます。step スライダーを動かすと、異なる step でログされた値を表示できます。たとえば、各 run の進行に伴って、損失、accuracy、そのほかのメトリクスがどのように変化するかを確認できます。
 
@@ -150,9 +136,7 @@ W&amp;B Table に step スライダーを追加するには、次の手順に従
 
 W&amp;B App UI では、複数の step で同じ値が重複して表示されることがあります。これは、複数の run が異なる step で同じ値をログした場合や、run がすべての step で値をログしていない場合に発生します。特定の step で値が欠けている場合、W&amp;B はスライダーキーについて、最後にログされた値を使用します。
 
-<div id="custom-step-key">
-  ### カスタム step キー
-</div>
+### カスタム step キー {#custom-step-key}
 
 step キーには、`epoch` や `global_step` のように、runs で step キーとしてログする任意の数値メトリクスを使用できます。カスタム step キーを使用すると、W&amp;B はそのキーの各値を run 内の step (`_step`) に対応付けます。
 
@@ -195,9 +179,7 @@ step キーには、`epoch` や `global_step` のように、runs で step キ�
   | ステッパー | | */}
 
 
-<div id="save-your-view">
-  ## 表示を保存する
-</div>
+## 表示を保存する {#save-your-view}
 
 run Workspace、ワークスペース、または レポート で操作した Tables では、表示状態が自動的に保存されます。表に対して操作を適用したあとでブラウザーを閉じても、次回その表にアクセスしたときに、最後に表示していた設定が保持されます。
 
@@ -214,9 +196,7 @@ Workspace 内の表を特定の状態で保存するには、W&amp;B レポー�
   <img src="/images/data_vis/share_your_view.png" alt="レポート の共有オプション" max-width="90%" />
 </Frame>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 以下のReportsでは、W&amp;B Tables のさまざまなユースケースを紹介しています。
 

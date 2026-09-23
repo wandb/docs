@@ -8,9 +8,7 @@ Weave의 [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/rea
 
 이 가이드에서는 애플리케이션에서 Realtime API 트레이싱을 활성화하는 방법을 보여주고, 로컬에서 실행할 수 있는 Python 및 TypeScript 엔드투엔드 예시를 안내합니다.
 
-<div id="integrate-realtime-traces">
-  ## 실시간 트레이스 통합하기
-</div>
+## 실시간 트레이스 통합하기 {#integrate-realtime-traces}
 
 이 섹션에서는 모든 애플리케이션에서 OpenAI Realtime API에 대한 Weave 트레이싱을 활성화하는 데 필요한 최소한의 코드를 보여줍니다.
 
@@ -54,9 +52,7 @@ Weave의 [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/rea
   </Tab>
 </Tabs>
 
-<div id="run-a-realtime-agent-with-the-openai-agents-sdk">
-  ### OpenAI Agents SDK로 실시간 에이전트 실행하기
-</div>
+### OpenAI Agents SDK로 실시간 에이전트 실행하기 {#run-a-realtime-agent-with-the-openai-agents-sdk}
 
 <Tabs>
   <Tab title="Python">
@@ -427,9 +423,7 @@ Weave의 [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/rea
   </Tab>
 </Tabs>
 
-<div id="run-a-realtime-voice-assistant-with-websockets">
-  ### WebSockets를 사용해 실시간 음성 어시스턴트 실행
-</div>
+### WebSockets를 사용해 실시간 음성 어시스턴트 실행 {#run-a-realtime-voice-assistant-with-websockets}
 
 다음 Python 예제는 WebSockets를 통해 OpenAI Realtime API에 직접 연결합니다. 마이크 오디오를 API로 스트리밍하고, 음성 응답을 재생하며, 도구 호출 기능(날씨 조회, 수식 계산, 코드 실행, 파일 쓰기)을 지원합니다. Weave는 `weave.init()`와 `patch_openai_realtime()`을 사용해 세션을 트레이스합니다. Agents SDK에 의존하지 않고 Realtime Session을 완전히 제어하려는 경우 이 방식을 사용하세요.
 

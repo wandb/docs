@@ -19,15 +19,11 @@ Weave prend en charge l’instrumentation automatique, ce qui simplifie la confi
   Weave s’en charge automatiquement dans la plupart des cas. Cependant, des [cas limites](#advanced-usage) peuvent survenir.
 </Warning>
 
-<div id="use-weave-integrations-with-your-typescript-project">
-  ## Utilisez les intégrations Weave avec votre projet TypeScript
-</div>
+## Utilisez les intégrations Weave avec votre projet TypeScript {#use-weave-integrations-with-your-typescript-project}
 
 Les sections suivantes expliquent comment déterminer le système de modules utilisé par votre projet, puis configurer ce projet afin que Weave puisse instrumenter automatiquement les bibliothèques tierces prises en charge. Les projets TypeScript peuvent utiliser le système de modules CommonJS ou ESM, et la configuration requise diffère légèrement selon le système utilisé.
 
-<div id="if-youre-unsure-which-type-of-project-you-have">
-  ### Si vous ne savez pas quel type de projet vous avez
-</div>
+### Si vous ne savez pas quel type de projet vous avez {#if-youre-unsure-which-type-of-project-you-have}
 
 Si vous exécutez directement un fichier TypeScript avec un outil tel que :
 
@@ -46,9 +42,7 @@ Pour déterminer si un projet utilise CommonJS ou ESM, vérifiez le champ `type`
 * Si `type` vaut `"module"`, le projet utilise ESM.
 * Si le champ `type` est absent ou défini sur `"commonjs"`, le projet utilise CommonJS par défaut.
 
-<div id="set-up-a-commonjs-project">
-  ### Configurer un projet CommonJS
-</div>
+### Configurer un projet CommonJS {#set-up-a-commonjs-project}
 
 Pour les projets CommonJS, l’instrumentation automatique fonctionne sans configuration supplémentaire.
 
@@ -113,9 +107,7 @@ Pour configurer votre projet en CommonJS :
 
 Votre projet CommonJS est maintenant configuré pour que Weave instrumente automatiquement les bibliothèques prises en charge lors de l’exécution de votre code. Comme CommonJS utilise le chargeur de modules `require` de Node.js, Weave peut instrumenter automatiquement les bibliothèques prises en charge sans nécessiter l’option `--import` utilisée dans les projets ESM.
 
-<div id="set-up-an-esm-project">
-  ### Configurer un projet ESM
-</div>
+### Configurer un projet ESM {#set-up-an-esm-project}
 
 Pour utiliser Weave avec un projet TypeScript ESM, configurez votre projet pour le mode ESM de Node.js, compilez votre code, puis démarrez Node.js avec l’option `--import` afin que Weave puisse enregistrer son instrumentation avant le chargement des autres modules.
 
@@ -188,15 +180,11 @@ Weave doit être installé localement dans le projet que vous exécutez.
 
 Votre projet ESM est maintenant configuré pour que Weave précharge son instrumentation avant les autres modules et trace automatiquement les appels aux bibliothèques prises en charge.
 
-<div id="advanced-usage-and-troubleshooting">
-  ## Utilisation avancée et dépannage
-</div>
+## Utilisation avancée et dépannage {#advanced-usage-and-troubleshooting}
 
 Les sections suivantes couvrent les cas limites et les solutions de contournement lorsque le patching automatique du SDK TypeScript ne fonctionne pas comme prévu. Par exemple, des environnements ESM uniquement, des configurations de bundler comme Next.js ou des environnements d’exécution contraints peuvent entraîner des problèmes. Si vous constatez des traces manquantes ou des problèmes d’intégration, commencez ici.
 
-<div id="use-node_options-only-for-esm">
-  ### Utiliser `NODE_OPTIONS` (uniquement pour ESM)
-</div>
+### Utiliser `NODE_OPTIONS` (uniquement pour ESM) {#use-node_options-only-for-esm}
 
 <Warning>
   Utilisez `NODE_OPTIONS` avec prudence, car cela s’applique à tous les processus Node.js de l’environnement et peut entraîner des effets de bord.
@@ -208,9 +196,7 @@ Si vous utilisez un projet ESM et que vous ne pouvez pas passer d’options CLI 
 export NODE_OPTIONS="--import=weave/instrument"
 ```
 
-<div id="bundler-compatibility">
-  ### Compatibilité des bundlers
-</div>
+### Compatibilité des bundlers {#bundler-compatibility}
 
 Certains frameworks et bundlers, comme Next.js, peuvent intégrer des bibliothèques tierces au bundle d’une manière qui empêche Node.js d’effectuer leur patching à l’exécution.
 
@@ -228,9 +214,7 @@ Si cela correspond à votre configuration, essayez les étapes suivantes :
 
 2. Si le patching échoue toujours, utilisez l’[instrumentation manuelle](#manual-patching-fallback-option).
 
-<div id="manual-patching-fallback-option">
-  ### Patching manuel (option de repli)
-</div>
+### Patching manuel (option de repli) {#manual-patching-fallback-option}
 
 <Warning>
   Le patching manuel est l’approche historique. Utilisez-le uniquement lorsque le patching automatique ne fonctionne pas.

@@ -5,9 +5,7 @@ keywords: ["Runs", "Experiments", "接続性"]
 
 `wandb.init()` の実行が遅い場合やメトリクスのアップロードが遅い場合、原因としては通常、ネットワーク遅延、大きなメディア ペイロード、ログ頻度が高いこと、または W&amp;B service プロセスの起動が遅いことが挙げられます。
 
-<div id="slow-wandbinit">
-  ## wandb.init() が遅い
-</div>
+## wandb.init() が遅い {#slow-wandbinit}
 
 `wandb.init()` は W&amp;B API にアクセスして run を作成し、認証情報を確認します。数秒以上応答しない場合は、次を確認してください。
 
@@ -27,9 +25,7 @@ keywords: ["Runs", "Experiments", "接続性"]
   wandb sync wandb/run-[TIMESTAMP]-[ID]
   ```
 
-<div id="slow-metric-uploads-during-training">
-  ## トレーニング中のメトリクスのアップロードが遅い
-</div>
+## トレーニング中のメトリクスのアップロードが遅い {#slow-metric-uploads-during-training}
 
 W&amp;B はメトリクスをバックグラウンドスレッドで非同期にアップロードするため、トレーニングループがブロックされることはありません。次のような場合は、アップロードが追いつかなくなることがあります。
 
@@ -44,15 +40,11 @@ W&amp;B はメトリクスをバックグラウンドスレッドで非同期に
 
 * **レート制限**: `429 Rate limit exceeded` エラーが発生する場合は、[rate limit exceeded エラーを修正するにはどうすればよいですか？](/ja/support/models/articles/rate-limit-exceeded-on-metric-logging)を参照してください。
 
-<div id="run-finalization-is-slow">
-  ## run の終了処理が遅い
-</div>
+## run の終了処理が遅い {#run-finalization-is-slow}
 
 スクリプトで `wandb.finish()` を呼び出した後 (またはスクリプトが終了した後) 、W&amp;B はバッファリングされた残りのデータをフラッシュします。トレーニング中に大量のバックログがたまっている場合は、これに時間がかかることがあります。最後にまとめて処理するのではなく、トレーニング全体を通して適切な頻度でログするようにしてください。
 
-<div id="diagnosing-with-debug-logs">
-  ## デバッグログを使った診断
-</div>
+## デバッグログを使った診断 {#diagnosing-with-debug-logs}
 
 デバッグログを有効にすると、どこに時間がかかっているかを確認できます。
 

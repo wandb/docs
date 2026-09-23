@@ -8,26 +8,20 @@ title: 開発者ツール
   <img src="/images/notebooks/hello_world_dev_panel.png" alt="Developer panel open at the bottom of the notebook editor" />
 </Frame>
 
-<div id="open-the-developer-panel">
-  ## 開発者パネルを開く
-</div>
+## 開発者パネルを開く {#open-the-developer-panel}
 
 次のいずれかの方法を使用します。
 
 * ノートブックのフッターで **Developer panel** を選択します。
 * macOS では **Command+J**、Windows または Linux では **Ctrl+J** を押します。このショートカットで、パネルの表示と非表示を切り替えられます。
 
-<div id="inspect-errors-and-warnings">
-  ## エラーと警告を確認する
-</div>
+## エラーと警告を確認する {#inspect-errors-and-warnings}
 
 **Errors** タブには、Python の例外、構文エラー、循環参照、無効なリアクティブ依存関係、複数のセルで定義された変数など、ノートブック全体のエラーと警告が表示されます。
 
 {/* エラーまたは警告を選択すると、該当するセルに移動します。 */}
 
-<div id="use-the-scratchpad">
-  ## スクラッチパッドを使用する
-</div>
+## スクラッチパッドを使用する {#use-the-scratchpad}
 
 ノートブックのリアクティブグラフに追加せずに一時的な Python コードを実行するには、**Scratchpad** タブを使用します。スクラッチパッドからは、ノートブックのセルで定義された変数にアクセスできます。
 
@@ -41,9 +35,7 @@ title: 開発者ツール
   <img src="/images/notebooks/hello_world_scratchpad.png" alt="Scratchpad タブに表示されたコードと出力" />
 </Frame>
 
-<div id="inspect-execution-traces">
-  ## 実行トレースを確認する
-</div>
+## 実行トレースを確認する {#inspect-execution-traces}
 
 **Tracing** タブでは、セル実行の順序と所要時間を確認できます。トレースを使用すると、処理の遅いセルや失敗したセルを特定したり、リアクティブな実行イベントでどのセルが実行されたかを把握したりできます。
 
@@ -61,9 +53,7 @@ title: 開発者ツール
   <img src="/images/notebooks/hello_world_tracing.png" alt="Tracing tab showing cell execution order, status, and duration" />
 </Frame>
 
-<div id="view-logs">
-  ## ログの表示
-</div>
+## ログの表示 {#view-logs}
 
 **Logs** タブでは、ノートブックのセルおよびスクラッチパッドからの標準出力 (`stdout`) と標準エラー出力 (`stderr`) を確認できます。インラインに明確なエラーが表示されない実行失敗を調査する際に、ログをご活用ください。
 
@@ -77,8 +67,6 @@ title: 開発者ツール
   **Logs** タブには、[**Scratchpad**](/ja/models/notebooks/developer-tools#use-the-scratchpad) からの出力やエラーも含まれます。画像内の `[5:44:00 PM]` のエントリは `cell--1` として識別されており、スクラッチパッドから出力されたものです。
 </Note>
 
-<div id="use-the-terminal">
-  ## ターミナルを使用する
-</div>
+## ターミナルを使用する {#use-the-terminal}
 
 **Terminal** タブを使用すると、ノートブックのランタイムと同じサンドボックス環境でシェルを開けます。ターミナルでは、ファイルの確認、コマンドラインツールの実行、パッケージの管理、スクリプトの実行を行えます。ターミナルで加えた変更は、ノートブックと同じ workspace に適用されます。

@@ -7,9 +7,7 @@ no_list: true
 
 Les graphiques personnalisés de W&amp;B se programment à l’aide d’un ensemble de fonctions de l’espace de noms `wandb.plot`. Ces fonctions créent des visualisations interactives dans les tableaux de bord des projets W&amp;B et prennent en charge des visualisations ML courantes, comme les matrices de confusion, les courbes ROC et les graphiques de distribution.
 
-<div id="available-chart-functions">
-  ## Fonctions de graphique disponibles
-</div>
+## Fonctions de graphique disponibles {#available-chart-functions}
 
 | Fonction                                                                   | Description                                                                                             |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
@@ -23,39 +21,27 @@ Les graphiques personnalisés de W&amp;B se programment à l’aide d’un ensem
 | [`line_series()`](/fr/models/ref/python/custom-charts/line_series/)           | Trace plusieurs séries sur un même graphique.                                                           |
 | [`plot_table()`](/fr/models/ref/python/custom-charts/plot_table/)             | Crée des graphiques personnalisés à l&#39;aide de spécifications Vega-Lite.                             |
 
-<div id="common-use-cases">
-  ## Cas d’usage courants
-</div>
+## Cas d’usage courants {#common-use-cases}
 
-<div id="model-evaluation">
-  ### Évaluation du modèle
-</div>
+### Évaluation du modèle {#model-evaluation}
 
 * **Classification** : `confusion_matrix()`, `roc_curve()` et `pr_curve()` pour évaluer les classificateurs
 * **Régression** : `scatter()` pour les graphiques comparant les prédictions aux valeurs réelles, et `histogram()` pour l’analyse des résidus
 * **Graphiques Vega-Lite** : `plot_table()` pour des visualisations spécifiques au domaine
 
-<div id="training-monitoring">
-  ### Suivi de l’entraînement
-</div>
+### Suivi de l’entraînement {#training-monitoring}
 
 * **Courbes d’apprentissage**: `line()` ou `line_series()` pour suivre les métriques au fil des époques
 * **Comparaison des hyperparamètres**: graphiques `bar()` pour comparer les configurations
 
-<div id="data-analysis">
-  ### Analyse des données
-</div>
+### Analyse des données {#data-analysis}
 
 * **Analyse de la distribution** : `histogram()` pour visualiser la distribution des variables
 * **Analyse de corrélation** : graphiques `scatter()` pour visualiser les relations entre variables
 
-<div id="getting-started">
-  ## Premiers pas
-</div>
+## Premiers pas {#getting-started}
 
-<div id="log-a-confusion-matrix">
-  ### Journaliser une matrice de confusion
-</div>
+### Journaliser une matrice de confusion {#log-a-confusion-matrix}
 
 ```python
 import wandb
@@ -75,9 +61,7 @@ with wandb.init(project="custom-charts-demo") as run:
     })
 ```
 
-<div id="build-a-scatter-plot-for-feature-analysis">
-  ### Créer un nuage de points pour l’analyse des variables
-</div>
+### Créer un nuage de points pour l’analyse des variables {#build-a-scatter-plot-for-feature-analysis}
 
 ```python
 import numpy as np

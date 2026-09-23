@@ -16,9 +16,7 @@ Cela diffère du journal de contenus multimédias avec la [Content API](/fr/weav
   Il s&#39;agit d&#39;une fonctionnalité de Weave, distincte de [BYOB de la plateforme (Secure Storage Connector)](/fr/platform/hosting/data-security/secure-storage-connector), qui prend en charge le stockage des artefacts W&amp;B et des runs. Les buckets de médias de référence sont configurés pour chaque équipe et nécessitent uniquement un accès en lecture.
 </Note>
 
-<div id="how-it-works">
-  ## Comment cela fonctionne
-</div>
+## Comment cela fonctionne {#how-it-works}
 
 Le rendu des médias de référence fonctionne en trois étapes :
 
@@ -28,18 +26,14 @@ Le rendu des médias de référence fonctionne en trois étapes :
 
 Weave résout uniquement les URI qui pointent vers un bucket enregistré pour votre équipe. Les schémas pris en charge sont `s3://` et `gs://`.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 * Cette fonctionnalité est prise en charge dans le [Cloud mutualisé de W&amp;B](/fr/platform/hosting/hosting-options/multi_tenant_cloud) et en préversion pour le [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) et l’[Autogéré](https://docs.wandb.ai/platform/hosting/hosting-options/self-managed) v0.84.0+.
 * Un compte W&amp;B et une [clé API](https://wandb.ai/authorize).
 * Un bucket de stockage cloud que vous contrôlez (S3 ou GCS), contenant au moins un objet.
 * Des autorisations d’administrateur de l’organisation. L’ajout d’un bucket de référence nécessite les mêmes autorisations que la création d’une équipe dans l’organisation.
 
-<div id="configure-your-bucket">
-  ## Configurez votre bucket
-</div>
+## Configurez votre bucket {#configure-your-bucket}
 
 Accordez à W&amp;B un accès en lecture au bucket et autorisez le navigateur à récupérer les objets avec CORS.
 
@@ -124,9 +118,7 @@ Lorsque vous affichez une trace, W&amp;B génère une URL de téléchargement pr
 
 À ce stade, W&amp;B peut lire les objets de votre bucket, et l’interface Weave peut les récupérer dans le navigateur.
 
-<div id="register-the-reference-bucket">
-  ## Enregistrer le bucket de référence
-</div>
+## Enregistrer le bucket de référence {#register-the-reference-bucket}
 
 Enregistrez le bucket dans les paramètres de l’équipe afin que Weave puisse générer des URL présignées et afficher les URI référencées.
 

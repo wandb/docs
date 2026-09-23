@@ -2,17 +2,13 @@
 title: 적응
 ---
 
-<div id="adapting-this-detector-to-another-repo">
-  # 이 디텍터를 다른 저장소에 적용하기
-</div>
+# 이 디텍터를 다른 저장소에 적용하기 {#adapting-this-detector-to-another-repo}
 
 이 문서는 실제 동작하는 예시이며, 프레임워크가 아닙니다. 구현해야 할 플러그인 인터페이스도, 상속해야 할 추상 베이스 클래스도 없습니다. 그런 것을 만들려면 아직 아무도 만들지 않은 두 번째 구현의 형태를 미리 추측해야 하기 때문입니다. 그래서 이 파일에는 무엇이 범용적인지, 무엇이 `wandb/core`에 특화된 부분인지, 그리고 무엇이 예상을 벗어났는지를 정리해 두었습니다. 이를 적용하는 작업이 고고학적 발굴이 아니라 문서를 읽는 일이 되도록 하기 위함입니다.
 
 *&quot;이렇게 하되, 릴리스는 `coreweave/sunk`를 지켜봐&quot;* 라는 지시를 받은 에이전트라면 — 이 파일을 먼저 읽고, 이어서 `config.py`, `extract.py`를 읽으세요. 나머지 모듈은 여기에서 자연스럽게 이어집니다.
 
-<div id="the-four-part-anatomy">
-  ## 네 부분으로 이루어진 구조
-</div>
+## 네 부분으로 이루어진 구조 {#the-four-part-anatomy}
 
 저장소를 감시하는 문서 드리프트 감지기는 모두 동일한 네 부분으로 구성됩니다. 달라지는 것은
 두 번째 열뿐입니다.
@@ -27,9 +23,7 @@ title: 적응
 적응 비용은 거의 전부 1번 부분에 몰려 있습니다. 3번과 4번은 대개 변경 없이
 그대로 옮길 수 있습니다.
 
-<div id="step-zero-for-a-new-repo-is-there-an-i18n-catalog">
-  ## 새 저장소를 위한 0단계: i18n 카탈로그가 있는가?
-</div>
+## 새 저장소를 위한 0단계: i18n 카탈로그가 있는가? {#step-zero-for-a-new-repo-is-there-an-i18n-catalog}
 
 **무엇보다 먼저 이것부터 확인하세요.** 이 답에 따라 작업이 이틀로 끝날지, 2주가 걸릴지가 갈립니다.
 
@@ -49,15 +43,11 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 툴킷이 아예 없습니다. (Locadex/gt-react 현지화 파일럿이 있긴 하지만,
 *fork*인 `wandb/mattcore`를 대상으로 실행되므로 `wandb/core`에는 영향을 주지 않습니다.)
 
-<div id="what-surprised-us-on-wandbcore">
-  ## wandb/core에서 의외였던 점
-</div>
+## wandb/core에서 의외였던 점 {#what-surprised-us-on-wandbcore}
 
 실제로 시간을 많이 잡아먹은 발견들입니다. 이 파일이 존재하는 이유이기도 합니다.
 
-<div id="1-enumerating-attribute-names-guarantees-silent-misses">
-  ### 1. 속성 이름을 일일이 나열하면 반드시 조용히 놓치는 항목이 생깁니다
-</div>
+### 1. 속성 이름을 일일이 나열하면 반드시 조용히 놓치는 항목이 생깁니다 {#1-enumerating-attribute-names-guarantees-silent-misses}
 
 첫 번째 추출기는 문구를 담는 속성으로 `aria-label`,
 `placeholder`, `title`, `tooltip`을 나열했습니다. 이 추출기는 drawer 통합
@@ -70,9 +60,7 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 `<Hotkey name="List only visible runs" />`는 문구), 이는 모호한 키에 한해서만
 슬러그 형태의 값을 거부하는 방식으로 처리합니다.
 
-<div id="2-prettier-reflow-is-the-dominant-false-positive">
-  ### 2. Prettier 리플로우가 가장 흔한 오탐입니다
-</div>
+### 2. Prettier 리플로우가 가장 흔한 오탐입니다 {#2-prettier-reflow-is-the-dominant-false-positive}
 
 들여쓰기 변경은 `-aria-label="X"` / `+  aria-label="X"`처럼 동일한 string의 제거와
 추가로 나타납니다. 모델도 휴리스틱도 없이 파일별 집합 동등성 비교만으로 결정론적으로
@@ -81,26 +69,20 @@ git -C <repo> ls-tree -r --name-only <ref> | grep -iE 'locales?/|translations?/|
 이는 `.graphql` 변경이 클라이언트에 노출되는지 판단할 때 동일한 기법을 사용하는
 `diff_signals.graphql_contract_change`에서 일반화한 것입니다.
 
-<div id="3-refactor-titled-commits-are-the-dominant-false-negative">
-  ### 3. refactor 제목의 커밋이 가장 흔한 거짓 음성입니다
-</div>
+### 3. refactor 제목의 커밋이 가장 흔한 거짓 음성입니다 {#3-refactor-titled-commits-are-the-dominant-false-negative}
 
 **컨벤셔널 커밋 유형으로 필터링하지 마세요.** 코퍼스에서 가장 값진 실제 발견 사항 — 테이블 헤더 8개가 타이틀 케이스로 표기되어 6주가 지난 뒤에도 게시된 문서에서 여전히 잘못된 상태로 남아 있던 건 — 는 절반이 `feat(app): migrate ... to Table`, 나머지 절반이 `refactor(app): migrate OrgDashboard UsersTable` 커밋에서 나왔습니다. 두 제목 모두 사용자에게 보이는 문구가 바뀌었다는 낌새를 주지 않습니다. 하지만 실제로는 둘 다 문구를 바꿨습니다.
 
 커밋 유형은 메타데이터로 기록될 뿐, 어디에도 사용되지 않습니다.
 
-<div id="4-never-normalize-case">
-  ### 4. 대소문자는 절대 정규화하지 마세요
-</div>
+### 4. 대소문자는 절대 정규화하지 마세요 {#4-never-normalize-case}
 
 `normalize()`는 공백을 축약하는 데서 그칩니다. 소문자로 변환하면
 `MODELS SEAT`와 `Models Seat`가 같아지므로, 대소문자만 바뀐 rename은 집합 연산에서
 서로 상쇄되어 흔적도 없이 사라져 버립니다. 이런 실패는 아무런 신호 없이 조용히 발생하기 때문에,
 이를 방지하는 테스트(`test_case_is_never_normalized`)를 두고 있습니다.
 
-<div id="5-move-detection-needs-a-looser-identity-than-reflow-detection">
-  ### 5. 이동 감지에는 리플로우 감지보다 *느슨한* ID가 필요합니다
-</div>
+### 5. 이동 감지에는 리플로우 감지보다 *느슨한* ID가 필요합니다 {#5-move-detection-needs-a-looser-identity-than-reflow-detection}
 
 이 둘은 서로 다른 질문이며, 필요한 키도 서로 다릅니다:
 
@@ -113,18 +95,14 @@ drawer 통합 작업으로 `Add secret`이 `<span>Add secret</span>`에서
 키를 엄격하게 잡으면 이 커밋은 23건의 유령 삭제를 보고합니다. 누구나 가장 먼저 읽는
 report에 거짓 행이 23개 생기는 셈입니다. `LabelDelta.ident`와 `.moved_ident`를 참고하세요.
 
-<div id="6-wrapped-means-not-a-complete-literal-not-prettier-moved-it">
-  ### 6. `wrapped`는 &quot;Prettier가 줄을 옮겼음&quot;이 아니라 &quot;완전한 리터럴이 아님&quot;을 뜻합니다
-</div>
+### 6. `wrapped`는 &quot;Prettier가 줄을 옮겼음&quot;이 아니라 &quot;완전한 리터럴이 아님&quot;을 뜻합니다 {#6-wrapped-means-not-a-complete-literal-not-prettier-moved-it}
 
 혼동하기 쉬운데, 이를 혼동하면 멀쩡한 발견 사항이 아무 이유 없이 에이전트 레인에서
 제외됩니다. 보간(`` `Allow ${AGENT_NAME} to ...` ``)과 삼항 분기는 실제로
 찾아 바꾸기에 안전하지 않습니다. 반면 Prettier가 별도의 줄로 밀어낸 텍스트는 그대로
 정확히 캡처되므로 전혀 문제없습니다.
 
-<div id="7-merged-visible-and-flag-presence-is-a-decayed-signal">
-  ### 7. 머지됨 ≠ 노출됨, 그리고 플래그의 *존재*는 이미 낡은 시그널
-</div>
+### 7. 머지됨 ≠ 노출됨, 그리고 플래그의 *존재*는 이미 낡은 시그널 {#7-merged-visible-and-flag-presence-is-a-decayed-signal}
 
 새로운 UI는 Statsig 램프 플래그 뒤에 숨겨진 상태로 출시됩니다. 그런데 엔지니어는 플래그가
 100%에 도달해도 좀처럼 제거하지 않습니다 — 그대로 두는 편이 안전하기 때문입니다 —
@@ -148,9 +126,7 @@ report에 거짓 행이 23개 생기는 셈입니다. `LabelDelta.ident`와 `.mo
 `coreweave/docs-skills`의 `beta-deployment-availability`를 참조하세요.
 여기서 다시 도출하려 하지 마세요.
 
-<div id="8-the-docs-oracle-runs-in-one-direction-only">
-  ### 8. 문서 오라클은 한 방향으로만 작동합니다
-</div>
+### 8. 문서 오라클은 한 방향으로만 작동합니다 {#8-the-docs-oracle-runs-in-one-direction-only}
 
 문서에 언급이 있다는 사실은 해당 surface가 실제로 운영 중이라는 confidence를 **높여** 주므로, 거기서 발생한 드리프트는 실제 드리프트입니다. 반면 문서에 언급이 없다는 사실이 confidence를 낮춰서는 **절대** 안 됩니다. &quot;사용 가능하지만 문서화되지 않은&quot; 상태야말로 우리가 찾으려는 격차이며, 부재를 근거로 억제하면 탐지기가 결코 빠져나올 수 없는 순환에 갇힙니다. 릴리스되지 않은 것처럼 보임 → 억제 → 아무도 문서를 쓰지 않음 → 여전히 문서 없음 → 여전히 억제됨.
 
@@ -158,35 +134,27 @@ report에 거짓 행이 23개 생기는 셈입니다. `LabelDelta.ident`와 `.mo
 
 또한 단순한 부분 문자열 매칭은 쓸모가 없습니다. `search`는 문서 215개 페이지에 등장합니다. UI 강조 context(`**굵게**`, 백틱, 따옴표, 또는 &quot;the X button&quot; 형태), 2개 이상의 token 또는 대문자로만 구성된 형태를 요구하는 구체성 게이트, 그리고 페이지 수 한도를 함께 적용하세요.
 
-<div id="9-match-the-literal-case-sensitively-or-you-report-already-fixed-drift">
-  ### 9. 리터럴은 대소문자를 구분해 매칭하세요. 그렇지 않으면 이미 수정된 드리프트를 보고하게 됩니다
-</div>
+### 9. 리터럴은 대소문자를 구분해 매칭하세요. 그렇지 않으면 이미 수정된 드리프트를 보고하게 됩니다 {#9-match-the-literal-case-sensitively-or-you-report-already-fixed-drift}
 
 직관적이지 않고 거꾸로 이해하기 쉬운 부분입니다. lookup이 확인하는 것은 &quot;이전 string이 문서에 아직 남아 있는가?&quot;입니다. 문서에는 `MODELS SEAT`로 되어 있는데 코드는 이미 `Models Seat`라면 이는 드리프트입니다. 반대로 문서가 이미 `Models Seat`라면 손댈 것이 없습니다. 대소문자를 구분하지 않는 매칭은 이 둘을 구별하지 못하므로, 이미 수정된 페이지를 문제가 있다고 보고합니다. 그리고 대소문자만 바뀐 rename이야말로 이 문제가 가장 두드러지는 사례입니다.
 
 주변 단어(`the`, 명사)는 범위를 한정한 `(?i:...)`로 대소문자를 구분하지 않아도 됩니다. 하지만 리터럴 자체는 반드시 대소문자를 구분해야 합니다.
 
-<div id="10-blank-frontmatter-do-not-delete-it">
-  ### 10. 프런트매터는 비우되 삭제하지 마세요
-</div>
+### 10. 프런트매터는 비우되 삭제하지 마세요 {#10-blank-frontmatter-do-not-delete-it}
 
 YAML 프런트매터를 삭제하면 그 뒤의 모든 줄 번호가 밀려서, 보고된
 `page:line`이 독자가 실제로 보는 위치와 더 이상 맞지 않게 됩니다. 저희 코퍼스에서는 다섯 줄씩 어긋났습니다.
 삭제하는 대신 같은 수의 줄바꿈으로 바꿔 두세요. 비용이 거의 들지 않으면서
 인용 위치를 정확하게 유지하고, 프런트매터 키가 산문으로 매칭되는 것도 함께 막아 줍니다.
 
-<div id="11-published-release-notes-are-immutable-and-they-are-a-big-share-of-hits">
-  ### 11. 게시된 릴리스 노트는 변경할 수 없으며, 조회수의 큰 비중을 차지합니다
-</div>
+### 11. 게시된 릴리스 노트는 변경할 수 없으며, 조회수의 큰 비중을 차지합니다 {#11-published-release-notes-are-immutable-and-they-are-a-big-share-of-hits}
 
 60일 윈도우 기준으로 문서 조회수의 약 절반이 `release-notes/**`에서 발생합니다. 이
 문서들은 출시 당시의 이름 그대로 무엇이 출시되었는지를 남긴 역사적 기록입니다.
 이를 다시 쓰는 것은 변경 로그를 위조하는 것과 같습니다. 참고 목적으로만 보고하고,
 편집을 제안하지 말며, 에이전트 처리 대상 집계에도 절대 포함하지 마세요.
 
-<div id="12-include-reusable-fragments-exclude-worktrees">
-  ### 12. 재사용 가능한 프래그먼트는 포함하고, worktree는 제외하세요
-</div>
+### 12. 재사용 가능한 프래그먼트는 포함하고, worktree는 제외하세요 {#12-include-reusable-fragments-exclude-worktrees}
 
 방향이 정반대인 두 가지 코퍼스 선택 실수가 있습니다.
 
@@ -197,9 +165,7 @@ YAML 프런트매터를 삭제하면 그 뒤의 모든 줄 번호가 밀려서, 
   모든 출현이 이중으로 집계되어 페이지 수가 눈에 띄지 않게 부풀려지고, 결국 너무 일반적인 항목에 대한
   한도에 걸려 실제 발견 사항이 누락됩니다.
 
-<div id="13-pair-renames-by-position-before-you-consider-similarity">
-  ### 13. 유사도를 따지기 전에 위치로 rename을 짝지으세요
-</div>
+### 13. 유사도를 따지기 전에 위치로 rename을 짝지으세요 {#13-pair-renames-by-position-before-you-consider-similarity}
 
 가장 먼저 떠오르는 접근 방식, 즉 제거된 string을 가장 비슷한 추가된 string과 매칭하는 방법은 정작 가장 중요한 경우에 실패합니다. 문구가 실제로 다시 쓰인 레이블은 그 대체 문구와 문자가 거의 겹치지 않습니다.
 
@@ -212,17 +178,13 @@ YAML 프런트매터를 삭제하면 그 뒤의 모든 줄 번호가 밀려서, 
 
 물론 유사도 검사도 두 번째 단계로 한 번 더 수행할 가치가 있습니다. 제자리가 *아닌* rename도 있기 때문입니다. 예를 들어 `header: 'WEAVE ACCESS'`는 다른 라인, 다른 필드에서 `name: 'Weave Access'`가 되었습니다. 이때는 (path, kind, key)가 아니라 (path, kind)로 group해야 하며, 그렇지 않으면 이런 경우는 눈에 띄지 않습니다.
 
-<div id="14-not-every-conditional-is-a-feature-gate">
-  ### 14. 모든 조건문이 특성 gate인 것은 아닙니다
-</div>
+### 14. 모든 조건문이 특성 gate인 것은 아닙니다 {#14-not-every-conditional-is-a-feature-gate}
 
 변경된 줄에서 위로 거슬러 올라가 감싸고 있는 `if`를 찾다 보면 visibility와 전혀 관계없는 블록이 잔뜩 걸려듭니다. `if (hideManuallyHidden)`은 UI 상태일 뿐입니다. 이런 것까지 gate로 보고하면 앱의 절반이 &quot;아직 표시되지 않음&quot;으로 표시되고, 정작 의미가 있어야 할 단 하나의 시그널에 대한 신뢰마저 무너집니다.
 
 조건문의 변수가 gate 훅 — `const shouldShowX = useStatsigGateX(orgName)` — 으로 해석되는 경우만 인정하고, 그렇지 않으면 아무것도 보고하지 마세요. 이 체인은 diff 하나만 봐도 전체를 읽어낼 수 있습니다. 반면 Statsig 키 자체는 대개 그렇지 않습니다. 키는 ramp 레지스트리에 있으므로, 필수 전제 조건이 아니라 선택적인 보강 정보로 취급하세요.
 
-<div id="15-a-change-to-an-undocumented-label-is-not-drift">
-  ### 15. 문서에 없는 레이블의 변경은 드리프트가 아닙니다
-</div>
+### 15. 문서에 없는 레이블의 변경은 드리프트가 아닙니다 {#15-a-change-to-an-undocumented-label-is-not-drift}
 
 첫 번째 리포트는 커밋 3개에 대해 22개의 행을 렌더링했지만, 그중 실제로 유효한 것은 2개뿐이었습니다. 나머지는 `new **Loading members**`, `new **Invited**`, `PROFILE removed` 처럼 어떤 문서 페이지와도 매칭되지 않는 변경 string이었고, 하나하나가 &quot;커버리지 갭&quot;으로 기록되어 있었습니다.
 
@@ -237,9 +199,7 @@ YAML 프런트매터를 삭제하면 그 뒤의 모든 줄 번호가 밀려서, 
 * **surface 단위로 새 문구를 집계하십시오.** 새로운 설정 패널에는 제목, 설명, 필드 레이블 2개, 버튼이 추가됩니다. 이는 5개가 아니라 하나의 문서 작업입니다.
 * **발견 사항의 키는 code surface가 아니라 문서 작업을 기준으로 잡으십시오.** 구성원 테이블 3개가 동일한 column을 렌더링하지만, 문서 페이지는 이를 한 번만 언급합니다. 발견 사항 id에 surface를 포함했더니 하나의 수정이 세 개의 행으로 표시되었습니다.
 
-<div id="16-freeze-real-diffs-as-fixtures-immediately">
-  ### 16. 실제 diff를 즉시 fixture로 고정하세요
-</div>
+### 16. 실제 diff를 즉시 fixture로 고정하세요 {#16-freeze-real-diffs-as-fixtures-immediately}
 
 `tests/fixtures/`에 고정해 둔 6개의 `git show` 출력이 회귀 테스트 범위 전체이며,
 설계 검토를 통과해 살아남은 세 가지 버그를 바로 이것들이 잡아냈습니다. 인라인 JSX
@@ -248,9 +208,7 @@ YAML 프런트매터를 삭제하면 그 뒤의 모든 줄 번호가 밀려서, 
 
 누락 사례가 보고되면, 수정하기 전에 먼저 fixture로 추가하세요.
 
-<div id="17-ownership-is-per-run-data-so-pay-for-it-once">
-  ### 17. 소유권은 run 단위 데이터이므로 비용은 한 번만 치르세요
-</div>
+### 17. 소유권은 run 단위 데이터이므로 비용은 한 번만 치르세요 {#17-ownership-is-per-run-data-so-pay-for-it-once}
 
 리뷰어와 담당 팀 정보는 발견 사항마다 조회해야 할 것처럼 보이지만 실제로는 그렇지 않습니다. CODEOWNERS는 run 도중에 바뀌지 않는 단일 파일이고, 작성자 정보는 UI 루트를 대상으로 `git log --name-only`를 한 번 실행한 결과를 파싱해 메모리상의 경로 → 작성자 인덱스로 만들어 얻습니다. 단순하게 구현하면 — CODEOWNERS용 `git show` 한 번에 발견 사항마다 `git log` 한두 번 — 스캔 전체에서 동일한 데이터를 얻기 위해 행마다 서브프로세스를 세 개씩 쓰는 셈입니다.
 
@@ -260,9 +218,7 @@ run 단위로 캐시하되, run 간에는 *공유하지 마세요*. 팀 구성�
 
 문서 오라클도 같은 이유로 같은 처리가 필요합니다. `docsindex.find`는 인덱스를 기준으로 메모이제이션되어 있는데, 코퍼스가 run 도중에 바뀌지 않고 반복 조회가 구조적으로 발생하기 때문입니다. `build_findings`는 하나의 리터럴을 두고 문서화 여부를 판단하기 위해 한 번, 근거를 붙이기 위해 다시 한 번 조회하며, 같은 레이블이 한 윈도우 안의 여러 커밋에서 변경되는 일도 흔합니다. `wandb/core`의 60일치 데이터에서는 변경된 1180개의 strings가 훨씬 적은 수의 고유 조회로 줄어듭니다.
 
-<div id="18-almost-nothing-needs-to-be-stored-between-runs">
-  ### 18. run 사이에 저장해야 할 것은 거의 없습니다
-</div>
+### 18. run 사이에 저장해야 할 것은 거의 없습니다 {#18-almost-nothing-needs-to-be-stored-between-runs}
 
 재스캔 방식 탐지기에서 가장 먼저 떠오르는 설계는 지금까지 내보낸 모든 발견 사항을 기억하는 원장(ledger)입니다. 그 유혹을 뿌리치세요. 각 필드마다 이렇게 물어보십시오. *새로 스캔하면 이 값을 다시 계산할 수 있는가?* 발견 사항의 ID, 중복 제거, 안정화 여부, Triage, 소유권, 문서 커버리지에 대한 답은 모두 &quot;그렇다&quot;입니다. 모든 입력이 커밋 이력이나 문서 트리 안에 있기 때문입니다. 이를 저장하면 원본과 어긋날 수 있는 두 번째 사본이 생길 뿐이고, 잘못되어도 아무도 눈치채지 못하는 쪽은 바로 그 두 번째 사본입니다.
 
@@ -272,9 +228,7 @@ run 단위로 캐시하되, run 간에는 *공유하지 마세요*. 팀 구성�
 
 여기서 따라 나오는 결론 하나를 짚고 넘어갈 만합니다. 저장하지 않고 파생시킨다는 것은, 잘못된 run의 해결책이 곧 재스캔이라는 뜻입니다. 시그널이 바뀌어도 무효화할 캐시도, 작성할 마이그레이션도 없으며, 바로 그 점 덕분에 시그널을 계속 바꿔 나가는 것이 안전합니다.
 
-<div id="19-suppression-is-one-directional-too">
-  ### 19. 억제도 단방향입니다
-</div>
+### 19. 억제도 단방향입니다 {#19-suppression-is-one-directional-too}
 
 Lesson 8은 문서 오라클에 적용되는 규칙입니다. 저장된 결정에도 같은 규칙이 적용되어야 하는데, 여기서의 실패 양상은 한층 미묘합니다. 작성자가 어떤 발견 사항을 오탐으로 보고 기각했는데, 6주 뒤에 어떤 페이지가 바로 그 지점을 문서화하기 시작하는 경우입니다. 이제 그 발견 사항은 실재하게 되었지만, 저장된 기각 처리가 이를 조용히 감춰 버립니다. 시간이 갈수록 *점점 더* 틀려지는 억제이며, 리포트만 봐서는 아무도 알아챌 수 없습니다.
 
@@ -287,9 +241,7 @@ Lesson 8은 문서 오라클에 적용되는 규칙입니다. 저장된 결정�
 * **결정을 절대 자동으로 삭제하지 마세요.** 고아가 된 결정은 모호합니다. 드리프트가 해결되었을 수도 있고, 스캔 윈도우가 단지 해당 커밋까지 미치지 못한 것일 수도 있습니다. 목록으로 보여 주고 사람이 판단하게 하세요.
 * **리포트에 억제 내역을 반영하세요.** 보류된 항목의 개수야말로 독자가 &quot;드리프트 없음&quot;과 &quot;모든 드리프트가 이미 기각됨&quot;을 구분할 수 있는 유일한 수단입니다. 조용히 행을 누락시키는 검출기는 감사할 수 없습니다.
 
-<div id="running-it">
-  ## 실행하기
-</div>
+## 실행하기 {#running-it}
 
 ```bash
 PYTHONPATH=scripts python3 -m uidrift.scan scan --since "60 days ago"
@@ -308,9 +260,7 @@ PYTHONPATH=scripts python3 -m uidrift.scan decide <id> --status dismissed \
 
 `--summary-json PATH`는 무언가를 판단해야 하는 호출자를 위해 해당 run의 집계 수치를 기록합니다. PR을 열지 말지 결정하는 CI 단계라면 렌더링된 리포트를 grep할 것이 아니라 이 값을 읽어야 합니다. 산문은 사람이 읽으라고 있는 것이며, &quot;No drift to act on in this window&quot; 같은 문장에 워크플로를 결합하면 그 표현 자체가 구조적 역할을 떠안게 됩니다.
 
-<div id="running-it-in-ci">
-  ## CI에서 실행하기
-</div>
+## CI에서 실행하기 {#running-it-in-ci}
 
 `.github/workflows/uidrift-scan.yml`이 모든 것이 모이는 최종 지점입니다. 이 파일에서 세 가지는 취향의 문제가 아니라
 측정으로 얻은 결론이며, 다른 곳에 적용할 때 그대로 유지해야 할 부분입니다:
@@ -344,9 +294,7 @@ PYTHONPATH=scripts python3 -m uidrift.scan decide <id> --status dismissed \
 다음 실행이 조금 더 넓은 윈도우로 같은 범위를 다시 스캔하는 데 몇 초밖에 들지 않습니다. 다른 방법, 즉
 워터마크를 진전시키려고 &quot;발견 사항 없음&quot; 리포트를 매일 커밋하는 방식은 스캔 비용을 아끼는 대신 아무도 읽고 싶지 않은 PR을 남깁니다.
 
-<div id="volume-expectations">
-  ## 물량 예상치
-</div>
+## 물량 예상치 {#volume-expectations}
 
 구축하기 전에 먼저 기준을 잡으세요. 60일 동안의 `wandb/core` 기준:
 
@@ -364,9 +312,7 @@ PYTHONPATH=scripts python3 -m uidrift.scan decide <id> --status dismissed \
 
 1단계 개수가 60일 기준 약 250건을 넘는다면 2단계를 추가하기 전에 조건을 더 좁히세요. `.tsx` 스트림 전체에 모델을 돌리는 것은 대부분 낭비입니다.
 
-<div id="the-vendored-modules">
-  ## 벤더링된 모듈
-</div>
+## 벤더링된 모듈 {#the-vendored-modules}
 
 `_vendor/`에는 `wandb/release-note-genie`에서 가져온 `gitsource.py`, `diff_signals.py`,
 `commit_text.py`의 사본이 들어 있으며, 각 파일에는 출처 커밋을 명시한 provenance 헤더가
