@@ -1,6 +1,6 @@
 ---
 title: "Chat with ARIA"
-description: "Manage ARIA conversations: start chats, queue messages, add context from across W&B, grant network access, organize history, and give feedback."
+description: "Start and organize ARIA chats, queue messages, add context, grant network access, and give feedback."
 ---
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -131,7 +131,7 @@ To undock the chat, click the undock icon in the upper right corner of the chat 
 
 ## Add context to a conversation
 
-Attach runs, workspace panels, and Weave traces and evaluations to a chat so ARIA knows exactly what you're asking about. Each item appears in the message box as a removable tag. You can attach several items to a message. Click **Send** when you're ready, because adding context doesn't send the message on its own.
+Attach runs, workspace panels, and Weave traces and evaluations to a chat so ARIA knows exactly what you're asking about. Each item appears in the message box as a removable tag. You can attach several items to a message. Adding context doesn't send the message on its own. When you're ready, click **Send**.
 
 When you add context from a page, ARIA adds it to the conversation that's open in the chat window. If no conversation is open, ARIA starts a new one.
 
@@ -146,6 +146,8 @@ Analyze the run @run-20230615_123456-abcdefg and summarize the results
 You can also add a run from the workspace's **Runs** table. Hover over the run, click its **action (<Icon icon="ellipsis" iconType="solid"/>)** menu, then select **Ask ARIA**.
 
 ### Add a workspace panel
+
+To attach a workspace panel to a chat:
 
 1. In your workspace, hover over the panel and click its **action (<Icon icon="ellipsis" iconType="solid"/>)** menu.
 1. Select **Ask ARIA**. ARIA opens with the panel attached.
@@ -173,22 +175,26 @@ Click the plus icon (`+`) in the lower left corner of the chat window to add an 
 
 ## Grant network access
 
-ARIA runs code in a sandbox that can reach W&B services but blocks most other domains on the internet. When a task needs another domain, such as `pypi.org` and `files.pythonhosted.org` to install a Python package, ARIA asks you for access and waits for your answer.
+ARIA asks you for network access when a task needs a domain that its sandbox blocks, such as `pypi.org` and `files.pythonhosted.org` to install a Python package, and waits for your answer. By default, the sandbox where ARIA runs code can reach W&B services but blocks most other domains on the internet.
 
-The request appears in the chat under **The agent is requesting network access**. It shows why ARIA needs access and lists the domains it wants to reach, all selected.
+The request appears in the chat under **The agent is requesting network access**. It shows why ARIA needs access and lists the domains it wants to reach, all selected. Respond to the request in one of these ways:
 
 - To grant access, clear any domains you don't want to allow, then click **Grant access**. ARIA continues its work and can reach the granted domains.
 - To deny access, click **Deny**. ARIA continues without the extra access.
 
 While a request is waiting, you can't send messages, and [queued messages](#queue-messages) don't run.
 
+<Warning>
 Code that runs in the sandbox can send data to any domain you grant. Grant access only to domains you trust.
+</Warning>
 
 Granted domains stay available for the rest of the conversation until you revoke them. Each new chat starts with only the default access. You can't add domains yourself. ARIA requests them when a task needs them.
 
 ### Review or revoke network access
 
-After you grant access in a conversation, **<Icon icon="link" iconType="solid"/>** (**Manage network access**) appears in the message box, next to **+**. To revoke access:
+After you grant access in a conversation, **<Icon icon="link" iconType="solid"/>** (**Manage network access**) appears in the message box, next to **+**.
+
+To revoke access:
 
 1. Click **<Icon icon="link" iconType="solid"/>** (**Manage network access**). A list of the conversation's granted domains opens.
 1. Clear the domains you want to revoke.
