@@ -8,9 +8,7 @@ keywords: ["モデルカタログ", "DeepSeek", "Llama", "Qwen", "MoE", "マル�
 
 Serverless Inference では、複数のオープンソース基盤モデルを利用できます。各モデルには、それぞれ異なる強みとユースケースがあります。
 
-<div id="generally-available-models">
-  ## 一般提供されているモデル
-</div>
+## 一般提供されているモデル {#generally-available-models}
 
 次のモデルは[一般提供](/ja/inference/lifecycle#model-lifecycle-stages)されています：
 
@@ -39,9 +37,7 @@ Serverless Inference では、複数のオープンソース基盤モデルを�
 | Z.AI GLM 5.3 Flash              | `zai-org/GLM-5.3-Flash`                        | テキスト、ビジョン | 1049k       | 18B-320B (アクティブ-合計)  | GLM-5.3-Flash は、合計3,200億個のパラメーターと180億個の実行中パラメーターを備えた、ネイティブにマルチモーダルなモデルです。                              |
 | Z.AI GLM 5.2                    | `zai-org/GLM-5.2`                              | テキスト      | 1049k       | 40B-744B (アクティブ-合計)  | GLM-5.2 は、400億のアクティブパラメーターと合計7,440億のパラメーターを備えたMixture-of-Experts言語モデルです。                               |
 
-<div id="experimental-models">
-  ## 実験的なモデル
-</div>
+## 実験的なモデル {#experimental-models}
 
 以下のモデルは[実験的](/ja/inference/lifecycle#model-lifecycle-stages)です：
 
@@ -49,9 +45,7 @@ Serverless Inference では、複数のオープンソース基盤モデルを�
 
 *現在のところありません*
 
-<div id="deprecated-models">
-  ## 非推奨のモデル
-</div>
+## 非推奨のモデル {#deprecated-models}
 
 以下のモデルは[非推奨](/ja/inference/lifecycle#model-lifecycle-stages)です。
 
@@ -69,9 +63,7 @@ Serverless Inference では、複数のオープンソース基盤モデルを�
 | Qwen3.5 35B A3B             | `Qwen/Qwen3.5-35B-A3B`                 | テキスト、ビジョン | 262k        | 3B-35B (アクティブ-合計)     | Qwen3.5-35B-A3B はオープンウェイトのマルチモーダル MoE モデルで、チャット、推論、エージェント型タスクにわたり効率的で高スループットな推論を実現するように構築されています。      |
 | Qwen3 30B A3B               | `Qwen/Qwen3-30B-A3B-Instruct-2507`     | テキスト      | 262k        | 3.3B-30.5B (アクティブ-合計) | Qwen3-30B-A3B-Instruct-2507 は 30.5B の MoE インストラクションチューニング済みモデルで、推論、コーディング、ロングコンテキスト理解が強化されています。       |
 
-<div id="use-model-ids">
-  ## モデル ID を使用する
-</div>
+## モデル ID を使用する {#use-model-ids}
 
 API を呼び出してモデルを指定するには、前述の表にある `Model ID` を使用します。たとえば:
 
@@ -82,9 +74,7 @@ response = client.chat.completions.create(
 )
 ```
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 モデルを選択したら、次のいずれかのリソースを参照してください。
 

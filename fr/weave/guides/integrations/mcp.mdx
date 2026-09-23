@@ -13,9 +13,7 @@ L&#39;intégration Weave vous permet de tracer l&#39;activité entre votre clien
 
 Ce guide explique le fonctionnement de l&#39;intégration, comment activer le tracing côté serveur et côté client, et présente un exemple complet que vous pouvez exécuter vous-même.
 
-<div id="how-it-works">
-  ## Fonctionnement
-</div>
+## Fonctionnement {#how-it-works}
 
 <Warning>
   L&#39;intégration capture séparément les opérations côté client et côté serveur, mais ne fournit pas de visibilité de bout en bout sur leur interaction. Une proposition en cours vise à ajouter la prise en charge des traces OpenTelemetry à MCP afin de permettre une observabilité de bout en bout. Pour plus d&#39;informations, voir [GitHub discussion #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269).
@@ -31,15 +29,11 @@ Grâce à cette intégration, Weave trace les composants MCP suivants :
 
 [![mcp\_trace\_timeline.png](/weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png)](https://wandb.ai/ayut/mcp_example/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fmcp_example%2Fop%2Frun_client%3A*%22%5D%7D\&peekPath=%2Fayut%2Fmcp_example%2Fcalls%2F01966bbe-cc5e-7012-b45f-bf10617d8c1e%3FhideTraceTree%3D0)
 
-<div id="use-the-integration">
-  ## Utiliser l’intégration
-</div>
+## Utiliser l’intégration {#use-the-integration}
 
 L’intégration Weave fonctionne à la fois avec le serveur MCP et le client. Une fois installée, vous pouvez activer Tracing avec deux lignes de code supplémentaires : l’une pour importer `weave`, et l’autre pour l’initialiser.
 
-<div id="prerequisites">
-  ### Prérequis
-</div>
+### Prérequis {#prerequisites}
 
 Avant de commencer, installez les paquets requis :
 
@@ -48,15 +42,11 @@ pip install -qq "mcp[cli]" weave
 ```
 
 
-<div id="configuration">
-  ### Configuration
-</div>
+### Configuration {#configuration}
 
 Configurez l’intégration MCP à l’aide de la variable d’environnement `MCP_TRACE_LIST_OPERATIONS`. Définissez cette variable sur `true` pour activer le Tracing des opérations de liste (`list_tools`, `list_resources` et `list_prompts`) côté serveur et côté client.
 
-<div id="server-side-integration">
-  ### Intégration côté serveur
-</div>
+### Intégration côté serveur {#server-side-integration}
 
 Utilisez cette section si vous développez ou instrumentez un serveur MCP. Pour tracer un serveur MCP, ajoutez deux lignes à votre configuration `FastMCP` existante : l’une pour importer Weave et l’autre pour initialiser le client. Une fois ces lignes ajoutées, Weave trace automatiquement les opérations d’outil, de ressource et de prompt.
 
@@ -93,9 +83,7 @@ def review_code(code: str) -> str:
 mcp.run(transport="stdio")
 ```
 
-<div id="client-side-integration">
-  ### Intégration côté client
-</div>
+### Intégration côté client {#client-side-integration}
 
 Utilisez cette section si vous développez ou instrumentez un client MCP. Côté client, le tracing exige également deux changements : importer Weave et l’initialiser. Weave trace automatiquement tous les appels d’outil, les accès aux ressources et les requêtes de prompt.
 
@@ -124,15 +112,11 @@ async with stdio_client(server_params) as (read, write):
         prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
 ```
 
-<div id="tutorial-mcp_demo-example">
-  ## Tutoriel : exemple `mcp_demo`
-</div>
+## Tutoriel : exemple `mcp_demo` {#tutorial-mcp_demo-example}
 
 L’exemple `mcp_demo` présente une intégration entre le Model Context Protocol (MCP) et Weave pour le Tracing. Il montre comment instrumenter à la fois les composants client et serveur afin de capturer des traces détaillées de leurs interactions. En parcourant ce code, vous pouvez voir les traces des deux côtés d’une application MCP dans l’interface Weave et disposer d’une référence concrète à adapter à vos propres projets.
 
-<div id="run-the-example">
-  ### Exécuter l’exemple
-</div>
+### Exécuter l’exemple {#run-the-example}
 
 1. Clonez le dépôt de documentation, puis accédez à l’exemple `mcp_demo` :
 
@@ -160,9 +144,7 @@ L’exemple `mcp_demo` présente une intégration entre le Model Context Protoco
 
    Cette commande lance à la fois le client et le serveur. Le client démarre un CLI interactif dans lequel vous pouvez tester différentes fonctionnalités.
 
-<div id="client-cli-commands">
-  ### Commandes CLI du client
-</div>
+### Commandes CLI du client {#client-cli-commands}
 
 L&#39;interface client prend en charge les commandes suivantes :
 
@@ -182,9 +164,7 @@ L&#39;interface client prend en charge les commandes suivantes :
 | `demo`                  | Exécuter une démo complète de toutes les fonctionnalités disponibles. Exécute chaque fonctionnalité dans l’ordre et produit une chronologie complète des interactions dans la Weave UI. |
 | `q`                     | Quitter la session                                                                                                                                                                      |
 
-<div id="example-overview">
-  ### Aperçu de l’exemple
-</div>
+### Aperçu de l’exemple {#example-overview}
 
 Le serveur `example_server.py` définit les éléments suivants :
 
@@ -205,15 +185,11 @@ Le client `example_client.py` montre comment :
 
 Weave trace tous les appels côté client afin de fournir une vue complète des interactions entre le client et le serveur.
 
-<div id="faq">
-  ## FAQ
-</div>
+## FAQ {#faq}
 
 La section suivante répond aux questions fréquentes sur l’intérêt du tracing MCP de Weave et sur son utilisation.
 
-<div id="why-mcp-tracing-is-needed">
-  ### Pourquoi le tracing MCP est-il nécessaire ?
-</div>
+### Pourquoi le tracing MCP est-il nécessaire ? {#why-mcp-tracing-is-needed}
 
 En tant que développeur d’applications LLM, vous appartenez à l’une des trois catégories suivantes :
 

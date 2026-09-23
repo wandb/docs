@@ -7,9 +7,7 @@ keywords: ["メトリクス", "Experiments"]
 
 以下の手順に従ってログ負荷を減らし、スロットリングされたデータを復旧してください。
 
-<div id="stay-under-the-rate-limit">
-  ## レート制限を超えないようにする
-</div>
+## レート制限を超えないようにする {#stay-under-the-rate-limit}
 
 1. **W&amp;B SDK を更新する**: 最新バージョンでは、リクエストの再試行やクォータ使用量の管理が最適化されています。
 
@@ -31,9 +29,7 @@ keywords: ["メトリクス", "Experiments"]
    wandb sync [RUN-FILE-PATH]
    ```
 
-<div id="rate-limit-headers">
-  ## レート制限ヘッダー
-</div>
+## レート制限ヘッダー {#rate-limit-headers}
 
 クォータにどの程度近づいているか、およびいつログを再開できるかを把握するには、レスポンスのレート制限ヘッダーを確認してください。レート制限に達すると、レスポンスには次のヘッダーが含まれます。
 

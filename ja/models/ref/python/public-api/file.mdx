@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L246" />
 
-<div id="class-wandbapispublicfile">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.File
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.File {#class-wandbapispublicfile}
 
 W&amp;B に保存された file。
 
@@ -28,9 +26,7 @@ W&amp;B に保存された単一の file を表します。file のメタデー�
 * updated&#95;at (str): 最終更新のタイムスタンプ
 * path&#95;uri (str): バケット内の file へのパス。現在は S3 オブジェクトと参照fileでのみ利用可能です
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="path_uri" type="file が S3 に保存されている場合は S3 URI（例: 's3://bucket/path/to/file'）、参照 file の場合は直接 URL、利用できない場合は空の string。">
   ストレージ バケット内の file の URI パスを返します。
@@ -40,13 +36,9 @@ W&amp;B に保存された単一の file を表します。file のメタデー�
   file のサイズをバイト単位で返します。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-filedelete">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> File.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> File.delete() {#method-filedelete}
 
 ```python
 self
@@ -54,9 +46,7 @@ self
 
 W&amp;B サーバーからこの file を削除します。
 
-<div id="method-filedownload">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> File.download()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> File.download() {#method-filedownload}
 
 ```python
 self,
@@ -68,9 +58,7 @@ api: 'Api | None' = None
 
 wandb サーバーから、run が以前に保存した file をダウンロードします。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="root" type="str">
   file の保存先となるローカルディレクトリ。デフォルトは現在の作業ディレクトリ (`"."`) です。

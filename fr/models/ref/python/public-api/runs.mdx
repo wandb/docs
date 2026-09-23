@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L188" />
 
-<div id="class-wandbapispublicruns">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Runs
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Runs {#class-wandbapispublicruns}
 
 Un itérateur paresseux d’objets `Run` associé à un projet et à un filtre facultatif.
 
@@ -30,9 +28,7 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   L’API de service à utiliser pour les requêtes.
@@ -70,13 +66,9 @@ api_key: 'str | None' = None)
   Aucune description fournie.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-runshistories">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.histories()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.histories() {#method-runshistories}
 
 ```python
 self,
@@ -89,9 +81,7 @@ stream: "Literal['default', 'system']" = 'default'
 
 Renvoie des métriques d’historique échantillonnées pour tous les runs qui satisfont aux conditions des filtres.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="samples" type="int">
   Nombre d’échantillons à renvoyer par run
@@ -113,9 +103,7 @@ Renvoie des métriques d’historique échantillonnées pour tous les runs qui s
   « default » pour les métriques, « system » pour les métriques système
 </ResponseField>
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self
@@ -123,9 +111,7 @@ self
 
 Renvoyer l’élément suivant de l’itérateur. S’il n’y en a plus, lever StopIteration
 
-<div id="method-paginatorupdate_variables">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables() {#method-paginatorupdate_variables}
 
 ```python
 self
@@ -133,9 +119,7 @@ self
 
 Mettez à jour les variables de la requête pour récupérer la page suivante.
 
-<div id="method-runsupgrade_to_full">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.upgrade_to_full()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Runs.upgrade_to_full() {#method-runsupgrade_to_full}
 
 ```python
 self

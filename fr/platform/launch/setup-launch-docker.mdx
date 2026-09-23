@@ -16,9 +16,7 @@ Lorsque vous utilisez Docker avec Launch, W&amp;B construit d’abord une image,
 
 {/* À venir : insérer un schéma */}
 
-<div id="configure-a-docker-queue">
-  ## Configurer une file d’attente Docker
-</div>
+## Configurer une file d’attente Docker {#configure-a-docker-queue}
 
 Une configuration de file d’attente pour une ressource cible Docker définit la manière dont Launch traduit les options de la file d’attente en une commande `docker run`.
 
@@ -75,9 +73,7 @@ L’indicateur `--gpus` de la commande `docker run` vous permet de spécifier le
     ```
 </Note>
 
-<div id="create-a-queue">
-  ## Créer une file d’attente
-</div>
+## Créer une file d’attente {#create-a-queue}
 
 Pour créer une file d’attente qui utilise Docker comme ressource de calcul, suivez ces étapes :
 
@@ -91,9 +87,7 @@ Pour créer une file d’attente qui utilise Docker comme ressource de calcul, s
 
 Vous disposez maintenant d’une file d’attente Launch basée sur Docker, prête à recevoir des jobs. Ensuite, configurez un agent Launch sur votre machine locale pour récupérer les jobs de cette file d’attente.
 
-<div id="configure-a-launch-agent-on-a-local-machine">
-  ## Configurer un agent Launch sur une machine locale
-</div>
+## Configurer un agent Launch sur une machine locale {#configure-a-launch-agent-on-a-local-machine}
 
 Configurez l&#39;agent Launch à l&#39;aide d&#39;un fichier de configuration YAML nommé `launch-config.yaml`. Par défaut, W&amp;B recherche le fichier de configuration dans `~/.config/wandb/launch-config.yaml`. Vous pouvez également spécifier un autre répertoire lorsque vous activez l&#39;agent Launch.
 
@@ -101,9 +95,7 @@ Configurez l&#39;agent Launch à l&#39;aide d&#39;un fichier de configuration YA
   Vous pouvez utiliser la CLI W&amp;B pour spécifier les principales options configurables de l&#39;agent Launch (au lieu du fichier de configuration YAML) : le nombre maximal de jobs, l&#39;entité W&amp;B et les files d&#39;attente Launch. Voir la commande [`wandb launch-agent`](/fr/models/ref/cli/wandb-launch-agent) pour en savoir plus.
 </Note>
 
-<div id="core-agent-config-options">
-  ### Principales options de configuration de l&#39;agent
-</div>
+### Principales options de configuration de l&#39;agent {#core-agent-config-options}
 
 Les onglets suivants montrent comment définir les principales options de configuration de l&#39;agent avec le CLI W&amp;B et un fichier de configuration YAML :
 
@@ -123,9 +115,7 @@ Les onglets suivants montrent comment définir les principales options de config
   </Tab>
 </Tabs>
 
-<div id="docker-image-builders">
-  ### Outils de création d’images Docker
-</div>
+### Outils de création d’images Docker {#docker-image-builders}
 
 Vous pouvez configurer l’agent Launch sur votre machine pour créer des images Docker. Par défaut, ces images sont stockées dans le dépôt local d’images de votre machine. Pour permettre à votre agent Launch de créer des images Docker, définissez la clé `builder` de la configuration de l’agent Launch sur `docker` :
 
@@ -141,9 +131,7 @@ builder:
   type: noop
 ```
 
-<div id="container-registries">
-  ### Registres de conteneurs
-</div>
+### Registres de conteneurs {#container-registries}
 
 Launch utilise des registres de conteneurs externes comme Docker Hub, Google Container Registry, Azure Container Registry et Amazon ECR. Si vous souhaitez exécuter un job dans un environnement différent de celui dans lequel vous l’avez créé, configurez votre agent pour qu’il puisse récupérer des images depuis un registre de conteneurs, afin que l’agent puisse récupérer des images qui n’ont pas été créées localement.
 

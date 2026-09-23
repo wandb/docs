@@ -12,9 +12,7 @@ EvaluationLogger を使うと、予測とスコアを段階的にログできま
 事前にデータセットを用意してバッチ処理を行う必要がある従来の Evaluation クラスとは異なり、
 EvaluationLogger では、予測が発生したタイミングで、柔軟にスコアリングしながらログできます。
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -33,15 +31,11 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
-<div id="constructor">
-  ## コンストラクター
-</div>
+## コンストラクター {#constructor}
 
 > **new EvaluationLogger**(`options`): `EvaluationLogger`
 
-<div id="parameters">
-  ### パラメーター
-</div>
+### パラメーター {#parameters}
 
 <ParamField path="options" type="object" required>
   <Expandable title="properties" defaultOpen>
@@ -63,19 +57,13 @@ await ev.logSummary();
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### 戻り値
-</div>
+### 戻り値 {#returns}
 
 `EvaluationLogger`
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="logprediction">
-  ### logPrediction()
-</div>
+### logPrediction() {#logprediction}
 
 > **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
 
@@ -86,23 +74,17 @@ predict&#95;and&#95;score call (子 predict call を含む) を作成します�
 この method は ScoreLogger を同期的に返します。初期化が完了すると、
 ScoreLogger に対する操作 (`logScore`、`finish`) はキューに追加され、実行されます。
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="inputs" type="Record<string, any>" required />
 
 <ParamField path="output" type="any" required />
 
-<div id="returns-2">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-2}
 
 [`ScoreLogger`](./scorelogger)
 
-<div id="example-2">
-  #### 例
-</div>
+#### 例 {#example-2}
 
 ```ts twoslash
 // @noErrors
@@ -115,9 +97,7 @@ await evalLogger.logSummary(); // すべての処理が完了するまで待機
 
 ***
 
-<div id="logpredictionasync">
-  ### logPredictionAsync()
-</div>
+### logPredictionAsync() {#logpredictionasync}
 
 > **logPredictionAsync**(`inputs`, `output`): `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
@@ -127,23 +107,17 @@ logPrediction() と同様ですが、
 
 続行する前に初期化の完了を await する必要がある場合は、これを使用します。
 
-<div id="parameters-3">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-3}
 
 <ParamField path="inputs" type="Record<string, any>" required />
 
 <ParamField path="output" type="any" required />
 
-<div id="returns-3">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-3}
 
 `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
-<div id="example-3">
-  #### 例
-</div>
+#### 例 {#example-3}
 
 ```ts twoslash
 // @noErrors
@@ -155,9 +129,7 @@ await scoreLogger.finish();
 
 ***
 
-<div id="logsummary">
-  ### logSummary()
-</div>
+### logSummary() {#logsummary}
 
 > **logSummary**(`summary?`): `Promise`&lt;`void`&gt;
 
@@ -167,14 +139,10 @@ summarize call を作成し、evaluate call を完了します。
 この method は await なしでも呼び出せます (ファイア・アンド・フォーゲット) が、内部的には
 保留中のすべての 操作 が完了するまで待機します。
 
-<div id="parameters-4">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-4}
 
 <ParamField path="summary" type="Record<string, any>" />
 
-<div id="returns-4">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-4}
 
 `Promise`&lt;`void`&gt;

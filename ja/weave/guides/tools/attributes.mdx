@@ -25,9 +25,7 @@ UI では、トレースと評価の実行中にログされたすべての属�
 
 このガイドは、カスタムメタデータでトレースと評価を拡張したい Weave Users 向けです。個々の call に属性を追加する方法、初期化時に project 全体のデフォルトを設定する方法、2 つのアプローチを組み合わせる方法、および実行中に現在の属性セットを読み取る方法について説明します。
 
-<div id="per-call-attributes">
-  ## Call ごとの属性
-</div>
+## Call ごとの属性 {#per-call-attributes}
 
 `weave.attributes()` コンテキストマネージャーを使用すると、特定のトレース対象の op にメタデータを追加できます。これを使用して、特定の function の Call や評価 run にコンテキスト情報をタグ付けできます。
 
@@ -147,9 +145,7 @@ UI では、トレースと評価の実行中にログされたすべての属�
   </Tab>
 </Tabs>
 
-<div id="global-attributes">
-  ## グローバル属性
-</div>
+## グローバル属性 {#global-attributes}
 
 Weave の初期化時にグローバル属性を設定すると、それらは project 内のすべてのトレースと評価に自動的に適用されます。これは、環境、デプロイメント バージョン、チーム情報など、project 全体に共通するメタデータを引き継ぐ場合に便利です。
 
@@ -209,9 +205,7 @@ Weave の初期化時にグローバル属性を設定すると、それらは p
   </Tab>
 </Tabs>
 
-<div id="combine-global-and-per-call-attributes">
-  ### グローバル属性と Call ごとの属性を組み合わせる
-</div>
+### グローバル属性と Call ごとの属性を組み合わせる {#combine-global-and-per-call-attributes}
 
 グローバル属性と Call ごとの属性は一緒に使用できます。同じキーを持つ Call ごとの属性は、グローバル属性を上書きします。
 
@@ -274,9 +268,7 @@ Weave の初期化時にグローバル属性を設定すると、それらは p
   </Tab>
 </Tabs>
 
-<div id="get-attributes-during-execution">
-  ## 実行中に属性を取得する
-</div>
+## 実行中に属性を取得する {#get-attributes-during-execution}
 
 実行時には、Call に現在適用されている属性を確認できます。これは、Weave がどのメタデータを付加しているかをデバッグしたい場合や、外側の呼び出し元によって設定されたコンテキスト情報に応じてコードの処理を分岐させる必要がある場合に役立ちます。
 

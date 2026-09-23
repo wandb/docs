@@ -9,115 +9,77 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 Conversation は、単一の `gen_ai.conversation.id` の下に複数のターンをグループ化します。Conversation 自体は OTel span ではなく、子 span に会話 ID が記録されます。
 
-<div id="accessors">
-  ## アクセサー
-</div>
+## アクセサー {#accessors}
 
-<div id="agentname">
-  ### agentName
-</div>
+### agentName {#agentname}
 
-<div id="get-signature">
-  #### 取得アクセサのシグネチャ
-</div>
+#### 取得アクセサのシグネチャ {#get-signature}
 
 > **get** **agentName**(): `string`
 
-<div id="returns">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns}
 
 `string`
 
 ***
 
-<div id="attributes">
-  ### 属性
-</div>
+### 属性 {#attributes}
 
-<div id="get-signature-2">
-  #### 取得アクセサのシグネチャ
-</div>
+#### 取得アクセサのシグネチャ {#get-signature-2}
 
 > **get** **attributes**(): `Attributes`
 
-<div id="returns-2">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-2}
 
 `Attributes`
 
 ***
 
-<div id="conversationid">
-  ### conversationId
-</div>
+### conversationId {#conversationid}
 
-<div id="get-signature-3">
-  #### 取得アクセサのシグネチャ
-</div>
+#### 取得アクセサのシグネチャ {#get-signature-3}
 
 > **get** **conversationId**(): `string`
 
-<div id="returns-3">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-3}
 
 `string`
 
 ***
 
-<div id="model">
-  ### モデル
-</div>
+### モデル {#model}
 
-<div id="get-signature-4">
-  #### 取得アクセサのシグネチャ
-</div>
+#### 取得アクセサのシグネチャ {#get-signature-4}
 
 > **get** **model**(): `string`
 
-<div id="returns-4">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-4}
 
 `string`
 
 ***
 
-<div id="sessionid">
-  ### sessionId
-</div>
+### sessionId {#sessionid}
 
 <Warning>
   **非推奨です。** 代わりに [Conversation.conversationId](#conversationid) を使用してください。
 </Warning>
 
-<div id="get-signature-5">
-  #### 取得アクセサのシグネチャ
-</div>
+#### 取得アクセサのシグネチャ {#get-signature-5}
 
 > **get** **sessionId**(): `string`
 
-<div id="returns-5">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-5}
 
 `string`
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters}
 
 <ParamField path="opts" type="object">
   <Expandable title="プロパティ" defaultOpen>
@@ -127,39 +89,29 @@ Conversation は、単一の `gen_ai.conversation.id` の下に複数のター�
   </Expandable>
 </ParamField>
 
-<div id="returns-6">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-6}
 
 `void`
 
 ***
 
-<div id="startturn">
-  ### startTurn()
-</div>
+### startTurn() {#startturn}
 
 > **startTurn**(`opts?`): [`Turn`](./turn)
 
 この `Conversation` 内で新しい `Turn` を開始します。このターンは会話の `conversationId` を継承します。`agentName`、`agentId`、`agentDescription`、`agentVersion`、`model` が `opts` で指定されていない場合は、会話の値が使用されます。
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="opts" type="TurnInit = {}">
   [`TurnInit`](./turninit) を参照してください。
 </ParamField>
 
-<div id="returns-7">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-7}
 
 [`Turn`](./turn)
 
-<div id="examples">
-  #### 例
-</div>
+#### 例 {#examples}
 
 ```ts twoslash
 // @noErrors

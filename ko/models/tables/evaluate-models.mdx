@@ -3,9 +3,7 @@ title: W&B Weave 및 W&B Tables로 모델 평가하기
 description: W&B Weave와 W&B Tables를 사용해 머신 러닝 모델을 평가하는 방법을 알아보세요.
 ---
 
-<div id="evaluate-models-with-weave">
-  ## Weave로 모델 평가하기
-</div>
+## Weave로 모델 평가하기 {#evaluate-models-with-weave}
 
 [W&amp;B Weave](/ko/weave)는 LLM 및 GenAI 애플리케이션을 평가하기 위해 특별히 설계된 툴킷입니다. Scorer, 평가자, 세부 트레이싱을 포함한 포괄적인 평가 기능을 제공하여 모델 성능을 이해하고 개선할 수 있도록 돕습니다. Weave는 W&amp;B Models와 통합되어 있어 모델 레지스트리에 저장된 모델을 평가할 수 있습니다.
 
@@ -13,9 +11,7 @@ description: W&B Weave와 W&B Tables를 사용해 머신 러닝 모델을 평가
   <img src="/images/weave/evals.png" alt="모델 성능 메트릭과 트레이스를 보여주는 Weave 평가 대시보드" />
 </Frame>
 
-<div id="key-features-for-model-evaluation">
-  ### 모델 평가의 주요 기능
-</div>
+### 모델 평가의 주요 기능 {#key-features-for-model-evaluation}
 
 * **Scorer와 평가자**: 정확성, 관련성, 일관성 등을 평가하기 위한 사전 제공 및 맞춤형 평가 메트릭
 * **평가 데이터셋**: 체계적인 평가를 위한 정답이 포함된 구조화된 테스트 세트
@@ -23,9 +19,7 @@ description: W&B Weave와 W&B Tables를 사용해 머신 러닝 모델을 평가
 * **상세 트레이싱**: 전체 입력/출력 트레이스로 모델 동작을 디버그
 * **비용 추적**: 평가 전반에서 API 비용과 토큰 사용량을 모니터링
 
-<div id="getting-started-evaluate-a-model-from-wb-registry">
-  ### 시작하기: W&amp;B 레지스트리의 모델 평가하기
-</div>
+### 시작하기: W&amp;B 레지스트리의 모델 평가하기 {#getting-started-evaluate-a-model-from-wb-registry}
 
 W&amp;B Models 레지스트리에서 모델을 다운로드한 다음 Weave를 사용해 평가하세요:
 
@@ -73,9 +67,7 @@ evaluation = weave.Evaluation(
 results = await evaluation.evaluate(model)
 ```
 
-<div id="integrate-weave-evaluations-with-wb-models">
-  ### W&amp;B Models와 Weave 평가 통합하기
-</div>
+### W&amp;B Models와 Weave 평가 통합하기 {#integrate-weave-evaluations-with-wb-models}
 
 [Models and Weave 인테그레이션 Demo](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)에서는 다음과 같은 전체 워크플로를 보여줍니다:
 
@@ -98,13 +90,9 @@ wandb.run.config.update({
 })
 ```
 
-<div id="advanced-weave-features">
-  ### Weave의 고급 특성
-</div>
+### Weave의 고급 특성 {#advanced-weave-features}
 
-<div id="custom-scorers-and-judges">
-  #### 맞춤형 Scorer와 평가자
-</div>
+#### 맞춤형 Scorer와 평가자 {#custom-scorers-and-judges}
 
 사용 사례에 맞는 정교한 평가 메트릭을 만드세요:
 
@@ -116,9 +104,7 @@ def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
     return {"judge_score": judgment}
 ```
 
-<div id="batch-evaluations">
-  #### 일괄 평가
-</div>
+#### 일괄 평가 {#batch-evaluations}
 
 여러 모델 버전 또는 설정을 평가해 보세요:
 
@@ -133,16 +119,12 @@ for model in models:
     print(f"{model.model_name}: {results}")
 ```
 
-<div id="next-steps">
-  ### 다음 단계
-</div>
+### 다음 단계 {#next-steps}
 
 * [Weave 평가 튜토리얼 완료하기](/ko/weave/tutorial-eval/)
 * [Models 및 Weave 인테그레이션 예제](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)
 
-<div id="evaluate-models-with-tables">
-  ## 테이블을 사용해 모델 평가하기
-</div>
+## 테이블을 사용해 모델 평가하기 {#evaluate-models-with-tables}
 
 W&amp;B Tables를 사용하면 다음을 할 수 있습니다.
 
@@ -155,9 +137,7 @@ W&amp;B Tables를 사용하면 다음을 할 수 있습니다.
   ![정답 레이블과 함께 모델 출력이 표시된 예측 테이블 예시](/images/data_vis/tables_sample_predictions.png)
 </Frame>
 
-<div id="basic-example-log-evaluation-results">
-  ### 기본 예시: 평가 결과 로깅하기
-</div>
+### 기본 예시: 평가 결과 로깅하기 {#basic-example-log-evaluation-results}
 
 ```python
 import wandb
@@ -188,13 +168,9 @@ for idx, (input_data, label) in enumerate(test_dataset):
 run.log({"evaluation_results": eval_table})
 ```
 
-<div id="advanced-table-workflows">
-  ### 고급 테이블 워크플로
-</div>
+### 고급 테이블 워크플로 {#advanced-table-workflows}
 
-<div id="compare-multiple-models">
-  #### 여러 모델 비교
-</div>
+#### 여러 모델 비교 {#compare-multiple-models}
 
 서로 다른 모델의 eval 테이블을 같은 키에 로깅해 직접 비교합니다:
 
@@ -214,9 +190,7 @@ with wandb.init(project="model-comparison", name="model_b") as run:
   ![트레이닝 에포크별 모델 예측 나란히 비교](/images/data_vis/table_comparison.png)
 </Frame>
 
-<div id="track-predictions-over-time">
-  #### 시간 경과에 따른 예측 추적
-</div>
+#### 시간 경과에 따른 예측 추적 {#track-predictions-over-time}
 
 각 트레이닝 에포크마다 테이블을 로깅해 성능 향상을 시각화합니다:
 
@@ -233,9 +207,7 @@ for epoch in range(num_epochs):
     wandb.log({f"predictions_epoch_{epoch}": eval_table})
 ```
 
-<div id="interactive-analysis-in-the-wb-ui">
-  ### W&amp;B UI에서 대화형 분석
-</div>
+### W&amp;B UI에서 대화형 분석 {#interactive-analysis-in-the-wb-ui}
 
 로깅이 완료되면 다음 작업을 수행할 수 있습니다.
 
@@ -248,9 +220,7 @@ for epoch in range(num_epochs):
   ![W\&B Tables에서 평가 결과를 대화형으로 필터링하고 쿼리하는 모습](/images/data_vis/wandb_demo_filter_on_a_table.png)
 </Frame>
 
-<div id="example-error-analysis-with-enriched-tables">
-  ### 예시: 보강된 테이블을 활용한 오류 분석
-</div>
+### 예시: 보강된 테이블을 활용한 오류 분석 {#example-error-analysis-with-enriched-tables}
 
 ```python
 # 분석 열을 추가하기 위한 가변 테이블 생성

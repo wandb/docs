@@ -10,17 +10,13 @@ keywords: ["Smolagents", "에이전트", "도구 호출", "Hugging Face", "트�
 
 이 페이지에서는 [Smolagents](https://huggingface.co/docs/smolagents/en/index)를 W&amp;B Weave와 통합해 에이전트형 애플리케이션을 추적하고 분석하는 방법을 설명합니다. 이 문서는 모델 및 도구 call에 대한 가시성이 필요한 에이전트형 워크플로를 구축하는 개발자를 위한 내용입니다. Weave의 트레이싱 및 versioning 기능을 사용해 모델 추론을 로깅하고, 함수 call을 모니터링하고, Experiments를 구성하는 방법을 알아봅니다. 제공된 예제를 따라 하면 유용한 인사이트를 확보하고, 애플리케이션의 bug를 효율적으로 디버깅하며, 서로 다른 모델 설정을 비교할 수 있습니다(이 모든 작업은 Weave 웹 인터페이스에서 수행할 수 있습니다).
 
-<div id="overview">
-  ## Overview
-</div>
+## Overview {#overview}
 
 Smolagents는 에이전트형 애플리케이션을 구축할 수 있도록 최소한의 추상화만 제공하는 프레임워크입니다. OpenAI, Hugging Face Transformers, Anthropic 등 여러 LLM 제공자를 지원합니다.
 
 Weave는 [Smolagents](https://huggingface.co/docs/smolagents/en/index)의 트레이스를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init()`을 호출한 다음 평소처럼 라이브러리를 사용하세요.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 필수 라이브러리를 설치하고, 선택한 LLM 공급자에 대한 액세스를 구성해야 합니다.
 
@@ -39,9 +35,7 @@ Weave는 [Smolagents](https://huggingface.co/docs/smolagents/en/index)의 트레
    os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
    ```
 
-<div id="basic-tracing">
-  ## 기본 트레이싱
-</div>
+## 기본 트레이싱 {#basic-tracing}
 
 이 섹션에서는 기본 Smolagents 워크플로의 트레이스를 Weave가 자동으로 캡처하는 방법을 보여줍니다.
 
@@ -83,9 +77,7 @@ answer = agent.run(
   ![Weave는 각 추론 call을 기록하고 입력, 출력, 메타데이터에 대한 세부 정보를 제공합니다.](/weave/guides/integrations/imgs/smolagents-trace.png)
 </Frame>
 
-<div id="tracing-custom-tools">
-  ## 맞춤형 도구 트레이싱
-</div>
+## 맞춤형 도구 트레이싱 {#tracing-custom-tools}
 
 기본 제공 도구 외에도 맞춤형 도구로 에이전트를 확장하고, 해당 도구 Call도 Weave에서 트레이스할 수 있습니다.
 

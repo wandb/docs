@@ -27,9 +27,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
 
 以下のセクションでは、サンドボックスの状態、Readyまたは完了まで待機する方法、そしてサンドボックスを停止する方法について説明します。サンドボックスの作成方法やコマンドの実行方法について詳しくは、[サンドボックスを作成する](/ja/sandboxes/create-sandbox) および [コマンドを実行する](/ja/sandboxes/run-commands) を参照してください。
 
-<div id="sandbox-states">
-  ## サンドボックスの状態
-</div>
+## サンドボックスの状態 {#sandbox-states}
 
 次の表は、サンドボックスの状態をまとめたものです。
 
@@ -46,18 +44,14 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
 
 サンドボックスが終端状態に入ると、追加の作業には使用できなくなります。
 
-<div id="wait-for-readiness-or-completion">
-  ## 準備完了または完了まで待機する
-</div>
+## 準備完了または完了まで待機する {#wait-for-readiness-or-completion}
 
 以下のセクションでは、サンドボックスの状態変化を待機するための 2 つのメソッドと、それぞれをいつ使用するかについて説明します。必要に応じて、以下の待機メソッドを使い分けてください。
 
 * `Sandbox.wait()` を使用して、[サンドボックスが使用可能な状態になるまで待機します](/ja/sandboxes/lifecycle#wait-for-a-sandbox-to-start)。
 * `Sandbox.wait_until_complete()` を使用して、[サンドボックスのメインプロセスが終了するまで待機します](/ja/sandboxes/lifecycle#wait-for-a-sandbox-to-complete)。
 
-<div id="wait-for-a-sandbox-to-start">
-  ### サンドボックスの起動を待つ
-</div>
+### サンドボックスの起動を待つ {#wait-for-a-sandbox-to-start}
 
 `Sandbox.wait()` を使用すると、サンドボックスが `RUNNING` 状態になるまで明示的に待機できます。このメソッドは、起動時の問題をデバッグする場合や、起動の失敗と後続のコマンドで発生するエラーを区別したい場合に役立ちます。
 
@@ -73,9 +67,7 @@ with Sandbox.run() as sandbox:
     print(result.stdout)
 ```
 
-<div id="wait-for-a-sandbox-to-complete">
-  ### サンドボックスの完了を待機する
-</div>
+### サンドボックスの完了を待機する {#wait-for-a-sandbox-to-complete}
 
 サンドボックスのメインプロセスがワークロード全体に相当し、そのジョブの完了まで待機したい場合は、[`Sandbox.wait_until_complete()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#wait_until_complete) を使用します。
 
@@ -102,17 +94,13 @@ with Sandbox.run() as sandbox:
 # 終了時にサンドボックスは自動的に停止
 ```
 
-<div id="explicit-lifecycle-control">
-  ## 明示的なライフサイクル制御
-</div>
+## 明示的なライフサイクル制御 {#explicit-lifecycle-control}
 
 サンドボックスのライフサイクルを明示的に制御する必要がある場合は、`Sandbox.wait()` や `Sandbox.stop()` などのメソッドを使用します。
 
 通常、これらのメソッドを直接呼び出す必要はありません。`Sandbox.exec()`、`Sandbox.read_file()`、`Sandbox.write_file()` などの操作では、準備が整うまで待機します。また、コンテキストマネージャー (`with Sandbox.run() as sandbox:`) は、ブロックを抜けるとサンドボックスを停止します。
 
-<div id="stop-a-sandbox">
-  ### サンドボックス を停止する
-</div>
+### サンドボックス を停止する {#stop-a-sandbox}
 
 サンドボックス が不要になった場合、長時間実行中のプロセスを終了したい場合、または サンドボックス が最大ライフタイムに達する前にリソースをクリーンアップする必要がある場合は、[`Sandbox.stop()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#stop) を使用します。
 

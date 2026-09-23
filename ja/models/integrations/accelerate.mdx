@@ -7,9 +7,7 @@ Hugging Face Accelerate は、同じ PyTorch コードをあらゆる分散構�
 
 Accelerate には W&amp;B トラッカーが含まれており、このページでは、それを使用して分散トレーニングの run から W&amp;B にメトリクス、設定、アーティファクトをログする方法を紹介します。詳細は、[Hugging Face の Accelerate Trackers](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking) を参照してください。
 
-<div id="start-logging-with-accelerate">
-  ## Accelerate でログする
-</div>
+## Accelerate でログする {#start-logging-with-accelerate}
 
 このセクションでは、トレーニング中に実験データを W&amp;B にログするように Accelerate を設定する方法を説明します。Accelerate と W&amp;B の使用を開始するには、以下の疑似コードを参照してください。
 
@@ -46,9 +44,7 @@ accelerator.end_training()
 3. W&amp;B にログするには `wandb.Run.log()` method を使用します。`step` 引数は省略可能です。
 4. トレーニングが完了したら `.end_training()` を呼び出します。
 
-<div id="access-the-wb-tracker">
-  ## W&amp;Bトラッカーにアクセスする
-</div>
+## W&amp;Bトラッカーにアクセスする {#access-the-wb-tracker}
 
 Accelerate が W&amp;B にログを記録した後で、アーティファクト、カスタム チャート、またはトラッカーでは公開されていないその他のデータをログするために、基盤となる W&amp;B の Run オブジェクトへ直接アクセスしたい場合があります。W&amp;Bトラッカーにアクセスするには、`Accelerator.get_tracker()` method を使用します。トラッカーの `.name` 属性に対応する文字列を渡すと、`main` プロセス上のトラッカーが返されます。
 
@@ -75,9 +71,7 @@ wandb_tracker.log_artifact(some_artifact_to_log)
   ```
 </Warning>
 
-<div id="accelerate-articles">
-  ## Accelerate 関連記事
-</div>
+## Accelerate 関連記事 {#accelerate-articles}
 
 W&amp;B と併用した Accelerate のより詳しい walkthrough については、以下の記事をご覧ください。
 

@@ -15,9 +15,7 @@ CrewAI アプリケーションは複数のエージェントが連携して動�
 
 以下のセクションでは、Crew のトレース、ツール使用状況のトラッキング、Flow のトレース、およびガードレール関数を Weave op としてラップする方法を順に説明します。
 
-<div id="get-started-with-crew">
-  ## Crew を使い始める
-</div>
+## Crew を使い始める {#get-started-with-crew}
 
 この例を実行するには、CrewAI と Weave をインストールしてください。CrewAI のインストールの詳細については、[CrewAI installation guide](https://docs.crewai.com/installation) をご覧ください。
 
@@ -90,9 +88,7 @@ Weave は、CrewAI ライブラリを介して行われるすべての calls を
   CrewAI には、kickoff プロセスをより細かく制御するための複数の method (`kickoff()`, `kickoff_for_each()`, `kickoff_async()`, `kickoff_for_each_async()`) があります。このインテグレーションは、これらすべての method からのトレースのログをサポートしています。
 </Note>
 
-<div id="track-tools">
-  ## ツールをトラッキングする
-</div>
+## ツールをトラッキングする {#track-tools}
 
 CrewAI のツールは、Web 検索やデータ分析から、共同作業や同僚へのタスク委任まで、さまざまな機能をエージェントに提供します。インテグレーションでは、それらもトレースできます。
 
@@ -132,9 +128,7 @@ researcher = Agent(
   このインテグレーションは、[`crewAI-tools`](https://github.com/crewAIInc/crewAI-tools)リポジトリで利用可能なすべてのツールに自動的にパッチを適用します。
 </Note>
 
-<div id="get-started-with-flow">
-  ## Flow 入門
-</div>
+## Flow 入門 {#get-started-with-flow}
 
 次の例では、CrewAI Flow を定義し、Weave でトレースします。Crews の場合と同様に、Flow を定義する前に `weave.init()` を呼び出してください。これにより、Weave は `Flow.kickoff` のエントリポイントと、`@start`、`@listen`、`@router`、`@or_`、`@and_` の各デコレータを自動的に取得します。
 
@@ -218,9 +212,7 @@ print(result)
   このインテグレーションでは、`Flow.kickoff` のエントリポイントと、使用可能なすべてのデコレータ (`@start`、`@listen`、`@router`、`@or_`、`@and_`) に自動的にパッチが適用されます。
 </Note>
 
-<div id="crew-guardrail-track-your-own-ops">
-  ## Crew guardrail: 独自の ops をトラッキングする
-</div>
+## Crew guardrail: 独自の ops をトラッキングする {#crew-guardrail-track-your-own-ops}
 
 タスクガードレールを使うと、CrewAI がタスクの出力を次のタスクに渡す前に検証や変換を行えます。エージェント の実行内容をその場で検証するには、Python 関数を使用できます。
 
@@ -274,9 +266,7 @@ writing_task = Task(
 
 [![guardrail.png](/weave/guides/integrations/imgs/crewai/crew_with_guardrail.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D\&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c838-38cb-71a2-8a15-651ecddf9d89%3FdescendentCallId%3D0195c838-8632-7173-846d-f230e7272c20\&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
-<div id="conclusion">
-  ## まとめ
-</div>
+## まとめ {#conclusion}
 
 これで、エージェント間のやり取り、ツールの使用、Flow の実行、ガードレールの検証を取得する、Weave でトレースされた CrewAI アプリケーションが用意できました。このインテグレーションの改善案を提案したり問題を報告したりするには、[GitHub で issue を作成してください](https://github.com/wandb/weave/issues/new/choose)。
 

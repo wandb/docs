@@ -18,7 +18,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
 コードにトレースを追加して、Weave で LLM call をトラッキングする方法を学びます。このクイックスタートでは、OpenAI へのリクエストをトレースし、その結果を Weave UI で確認する手順を紹介します。これは、Weave を初めて使い、デバッグやモニタリングのために LLM アプリケーションをインストルメントしたい開発者向けです。
 
 <div id="what-youll-learn">
-  ## このガイドで学べること
+  ## このガイドで学べること {#what-youll-learn}
 </div>
 
 このガイドでは、次の方法を説明します:
@@ -30,7 +30,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
 <WeaveQuickstartPrereqs />
 
 <div id="log-a-trace-to-a-new-project">
-  ## 新しいプロジェクトにトレースをログする
+  ## 新しいプロジェクトにトレースをログする {#log-a-trace-to-a-new-project}
 </div>
 
 このセクションでは、Weave が入力、出力、コードを記録できるよう、小規模なアプリケーションをインストルメントします。コードのトラッキングを開始し、Weave にトレースをログするには、以下の手順に従ってください。
@@ -154,7 +154,7 @@ weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c
 ```
 
 <div id="see-traces-of-your-application-in-your-project">
-  ## プロジェクトでアプリケーションのトレースを確認する
+  ## プロジェクトでアプリケーションのトレースを確認する {#see-traces-of-your-application-in-your-project}
 </div>
 
 コードによってトレースが生成されたので、Weave UI でその内容を確認できます。ターミナル内のリンクをクリックするか、そのリンクをブラウザに貼り付けて Weave UI を開きます。Weave UI の **Traces** パネルでトレースをクリックすると、入力、出力、レイテンシ、トークン使用量などのデータを確認できます。
@@ -164,15 +164,13 @@ weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c
 これで、最初の Weave トレースをログして確認できました。
 
 <div id="learn-more-about-traces">
-  ## トレース について詳しく学ぶ
+  ## トレース について詳しく学ぶ {#learn-more-about-traces}
 </div>
 
 * [関数をデコレートして call 情報を取得する方法](/ja/weave/guides/tracking/tracing)を学びます。
 * [Playground](/ja/weave/guides/tools/playground)を使って、ログされたトレースに対してさまざまなモデルをテストします。
 * [インテグレーションを確認します](/ja/weave/guides/integrations/)。Weave は、OpenAI、Anthropic、その他多くの LLM ライブラリへの call を自動的にトラッキングします。お使いの LLM ライブラリが Weave のインテグレーションに含まれていない場合は、`@weave.op()` でラップすることで、他の LLM ライブラリやフレームワークへの call をトラッキングできます。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 まずは [アプリの評価を始める](/ja/weave/tutorial-eval) を参照し、次に [RAG アプリケーションを評価する方法](/ja/weave/tutorial-rag) を確認してください。

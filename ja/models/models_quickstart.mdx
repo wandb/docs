@@ -11,15 +11,11 @@ description: "数行のコードで実験をトラッキングし、メトリク
 * [W&amp;B Public API](/ja/models/ref/python/public-api) (`wandb.apis.public`): ログされた実験データをクエリして分析するため。
 * [W&amp;B Reports and Workspaces API](/ja/models/ref/wandb_workspaces) (`wandb.wandb-workspaces`): 調査結果を要約する Reports を作成するため。
 
-<div id="sign-up-and-create-an-api-key">
-  ## サインアップしてAPIキーを発行する
-</div>
+## サインアップしてAPIキーを発行する {#sign-up-and-create-an-api-key}
 
 W&amp;B でお使いのマシンを認証するには、まず [wandb.ai/settings](https://wandb.ai/settings) で APIキーを発行する必要があります。APIキーをコピーして、安全に保管してください。
 
-<div id="install-and-import-packages">
-  ## パッケージをインストールしてインポートする
-</div>
+## パッケージをインストールしてインポートする {#install-and-import-packages}
 
 この手順で使用する W&amp;B ライブラリと、その他の必要なパッケージをインストールします。
 
@@ -40,9 +36,7 @@ TEAM_ENTITY = "<Team_Entity>" # チームのentityに置き換えてください
 PROJECT = "my-awesome-project"
 ```
 
-<div id="train-a-model">
-  ## モデルをトレーニングする
-</div>
+## モデルをトレーニングする {#train-a-model}
 
 次のコードは、基本的な機械学習ワークフローをシミュレートしています。モデルをトレーニングし、メトリクスをログし、モデルをアーティファクトとして保存します。
 
@@ -109,9 +103,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:
 * プロジェクトから アーティファクト オブジェクトを取得します。
 * アーティファクト を run への入力としてマークし、再現性とトレーサビリティを確保します。詳細は [リネージ マップを作成して表示する](/ja/models/registry/lineage) を参照してください.
 
-<div id="view-the-training-data-in-the-dashboard">
-  ## ダッシュボードでトレーニングデータを確認する
-</div>
+## ダッシュボードでトレーニングデータを確認する {#view-the-training-data-in-the-dashboard}
 
 [https://wandb.ai/login](https://wandb.ai/login) でアカウントにログインします
 
@@ -123,9 +115,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT, config=config) as run:
   <img src="/images/quickstart/quickstart_image.png" alt="run 名、メトリクス、ステータス情報を含む表ビューで複数の run が表示されている W&B プロジェクトページ" />
 </Frame>
 
-<div id="publish-the-model-to-the-wb-registry">
-  ## モデルを W&amp;B Registry に公開する
-</div>
+## モデルを W&amp;B Registry に公開する {#publish-the-model-to-the-wb-registry}
 
 組織内の他のメンバーとモデルを共有するには、`wandb.Run.link_artifact()` を使用して [コレクション](/ja/models/registry/create_collection) に公開します。次のコードは、アーティファクトを [Registry](/ja/models/registry) にリンクして、チームからアクセスできるようにします。
 
@@ -150,9 +140,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
 
 アーティファクト をRegistryにリンクする方法の詳細については、[アーティファクト をRegistryにリンクする](/ja/models/registry/link_version)を参照してください。
 
-<div id="retrieve-model-artifact-from-registry-for-inference">
-  ## 推論用にRegistryからモデルのアーティファクトを取得する
-</div>
+## 推論用にRegistryからモデルのアーティファクトを取得する {#retrieve-model-artifact-from-registry-for-inference}
 
 推論にモデルを使用するには、`wandb.Run.use_artifact()` を使用して、公開済みのアーティファクトをRegistryから取得します。これによりアーティファクトオブジェクトが返され、その後 [`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact/#method-artifactdownload) を使用してアーティファクトをローカルファイルにダウンロードできます。
 
@@ -173,9 +161,7 @@ Registryからアーティファクトを取得する方法の詳細について
 
 使用する機械学習フレームワークによっては、重みを読み込む前にモデルのアーキテクチャを再構築する必要がある場合があります。具体的な手順は、使用するフレームワークとモデルによって異なるため、ここでは省略します。
 
-<div id="share-your-findings-with-a-report">
-  ## 調査結果をreportで共有する
-</div>
+## 調査結果をreportで共有する {#share-your-findings-with-a-report}
 
 <Note>
   W&amp;B Report and Workspace API はパブリックプレビューです。
@@ -228,9 +214,7 @@ report.save()
 
 プログラムでreportを作成する方法や、W&amp;B App を使ってインタラクティブにreportを作成する方法について詳しくは、W&amp;B Docs の Developer guide にある [reportを作成する](/ja/models/reports/create-a-report) を参照してください。
 
-<div id="query-the-registry">
-  ## Registryをクエリする
-</div>
+## Registryをクエリする {#query-the-registry}
 
 [W&amp;B Public APIs](/ja/models/ref/python/public-api) を使用すると、W&amp;B の履歴データをクエリし、分析、管理できます。これは、アーティファクト のリネージを追跡したり、異なるバージョンを比較したり、モデルのパフォーマンスを経時的に分析したりする際に役立ちます。
 

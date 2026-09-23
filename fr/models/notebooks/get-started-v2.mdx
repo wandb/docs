@@ -8,23 +8,17 @@ Dans ce guide, vous apprendrez à récupérer le dataset Zoo, à le convertir en
 
 Dans ce guide, vous apprendrez à télécharger et à utiliser des artifacts liés au Registry. Pour cela, vous téléchargerez un modèle de classification pré-entraîné ainsi que les tenseurs du dataset correspondant. Vous utiliserez ensuite ces artifacts pour effectuer des inférences et évaluer les performances du modèle.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, assurez-vous de disposer d&#39;une clé API W&amp;B. Si vous souhaitez exécuter vous-même l&#39;exemple de notebook décrit sur cette page, exécutez le [script d&#39;entraînement Python](#run-training-script-optional) joint. Ce script couvre la première partie du flux de travail : récupération du dataset, conversion de celui-ci en tenseurs, définition d&#39;un modèle de réseau de neurones et entraînement de ce modèle, puis publication du modèle obtenu dans le W&amp;B Registry.
 
-<div id="sign-up-and-create-an-api-key">
-  ### S’inscrire et créer une clé API
-</div>
+### S’inscrire et créer une clé API {#sign-up-and-create-an-api-key}
 
 Pour authentifier votre machine auprès de W&amp;B, vous avez besoin d’une clé API.
 
 <ApiKeyCreate />
 
-<div id="run-training-script-optional">
-  ### Exécuter le script d&#39;entraînement (facultatif)
-</div>
+### Exécuter le script d&#39;entraînement (facultatif) {#run-training-script-optional}
 
 Copiez le code suivant dans un fichier nommé `train.py` et enregistrez-le en local sur votre machine :
 
@@ -631,9 +625,7 @@ Ensuite, exécutez le script d&#39;entraînement avec `uv` :
 uv train.py
 ```
 
-<div id="create-your-first-notebook">
-  ## Créer votre premier notebook
-</div>
+## Créer votre premier notebook {#create-your-first-notebook}
 
 1. Accédez au Workspace de votre projet.
 2. Sélectionnez **Notebooks** dans la barre latérale du projet.
@@ -641,9 +633,7 @@ uv train.py
 
 Pour plus d&#39;informations, voir [Créer et gérer des notebooks](/fr/models/notebooks/create-notebook).
 
-<div id="install-dependencies">
-  ## Installer les dépendances
-</div>
+## Installer les dépendances {#install-dependencies}
 
 Dans votre notebook, installez les dépendances requises :
 
@@ -653,6 +643,4 @@ Dans votre notebook, installez les dépendances requises :
 
 Pour plus d&#39;informations, voir le guide [Gérer les paquets et les environnements](/fr/models/notebooks/manage-packages-environments) ou se référer à la [documentation de marimo](https://docs.marimo.io/guides/package_management/).
 
-<div id="run-the-notebook-example">
-  ## Exécuter l&#39;exemple de notebook
-</div>
+## Exécuter l&#39;exemple de notebook {#run-the-notebook-example}

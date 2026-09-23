@@ -5,9 +5,7 @@ keywords: ["ハイパーパラメーター", "Sweeps", "Runs"]
 
 多数のハイパーパラメーター探索を実行する場合は、後で関連する実験をグループ化して見つけやすくするために、Runs にタグを付けておきます。
 
-<div id="tag-runs-in-your-code">
-  ## コードで run にタグを設定する
-</div>
+## コードで run にタグを設定する {#tag-runs-in-your-code}
 
 各 run の初期化時に、一意のタグを指定します。
 
@@ -21,9 +19,7 @@ with wandb.init(tags=["sweep-3", "lr-0.01"]) as run:
 
 `wandb.init()` の詳細については、[`wandb.init()` リファレンス](/ja/models/ref/python/functions/init)と[tags を使用して Runs にラベルを追加する](/ja/models/runs/tags)を参照してください。
 
-<div id="filter-tagged-runs-in-the-ui">
-  ## UI でタグ付きの Runs をフィルタリングする
-</div>
+## UI でタグ付きの Runs をフィルタリングする {#filter-tagged-runs-in-the-ui}
 
 1. project を開き、**Runs** タブに移動します。
 2. Runs Table の上にある **Filter** をクリックします。

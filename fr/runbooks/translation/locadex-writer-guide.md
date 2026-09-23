@@ -7,21 +7,15 @@ description: |
   et comment relire, corriger et guider les traductions.
 ---
 
-<div id="locadex-auto-translation-for-tech-writers">
-  # Traduction automatique de Locadex pour les rédacteurs techniques
-</div>
+# Traduction automatique de Locadex pour les rédacteurs techniques {#locadex-auto-translation-for-tech-writers}
 
 Cette procédure opérationnelle s’adresse aux rédacteurs techniques anglophones de W&amp;B qui travaillent dans le dépôt `wandb/docs`. Elle suppose que l’intégration Locadex est activée sur `main` et utilisée pour les traductions en production.
 
 Utilisez-la pour comprendre le processus de bout en bout, ce que Locadex modifie dans le dépôt, où intervenir dans la console Locadex ou dans GitHub, et comment corriger ou améliorer le contenu localisé.
 
-<div id="overview-and-scope">
-  ## Aperçu et périmètre
-</div>
+## Aperçu et périmètre {#overview-and-scope}
 
-<div id="what-locadex-localizes">
-  ### Ce que Locadex localise
-</div>
+### Ce que Locadex localise {#what-locadex-localizes}
 
 General Translation [Locadex for Mintlify](https://generaltranslation.com/en-US/docs/locadex/mintlify) génère et met à jour des copies localisées du contenu source à partir de `gt.config.json`, à la racine du dépôt. Dans la configuration actuelle, cela inclut :
 
@@ -32,17 +26,13 @@ General Translation [Locadex for Mintlify](https://generaltranslation.com/en-US/
 
 Locadex applique également des options qui influent sur le comportement de Mintlify (par exemple la gestion des imports statiques et des ressources relatives, les redirections et le comportement des ancres d’en-tête). Considérez `gt.config.json` comme la référence faisant foi pour déterminer quels chemins JSON et MDX sont pris en compte.
 
-<div id="what-locadex-does-not-localize">
-  ### Ce que Locadex ne localise pas
-</div>
+### Ce que Locadex ne localise pas {#what-locadex-does-not-localize}
 
 * **Images matricielles et vectorielles** : Les fichiers image ne sont pas remplacés par des visuels propres à la langue. Les diagrammes et les captures d’écran restent inchangés, sauf si vous ajoutez vous-même des ressources localisées et mettez à jour les chemins.
 * **Fichiers de texte exclus** : Les chemins répertoriés sous `files.mdx.exclude` dans `gt.config.json` ne sont pas traduits automatiquement. Cela inclut les fichiers standard du dépôt tels que `README.md`, `CONTRIBUTING.md`, `AGENTS.md` et autres fichiers similaires, ainsi que tout motif supplémentaire que l’équipe y ajoute.
 * **L’anglais comme source de référence** : Les rédacteurs continuent de rédiger et d’intégrer les modifications en anglais. Les fichiers localisés sont le résultat de l’automatisation, auquel s’ajoutent les modifications manuelles que vous choisissez d’apporter.
 
-<div id="translation-workflow-on-main">
-  ## Flux de travail de traduction sur `main`
-</div>
+## Flux de travail de traduction sur `main` {#translation-workflow-on-main}
 
 Une fois Locadex connecté au dépôt (application GitHub, projet et paramètres de branche selon [Locadex for Mintlify](https://generaltranslation.com/docs/locadex/mintlify)) :
 
@@ -66,17 +56,13 @@ graph TD
   mergeLoc --> published["Documentation traduite disponible et synchronisée avec l’anglais"]
 ```
 
-<div id="writer-checklist-after-your-english-pr-merges">
-  ### Liste de contrôle du rédacteur après la fusion de votre PR en anglais
-</div>
+### Liste de contrôle du rédacteur après la fusion de votre PR en anglais {#writer-checklist-after-your-english-pr-merges}
 
 * [ ] Dans la liste des PR ouvertes, repérez la PR Locadex, qui peut être antérieure à la fusion de votre PR en anglais ou avoir été créée par cette fusion. Recherchez `locadex`.
 * [ ] Si votre modification est urgente pour les sites localisés, faites relire puis fusionnez la PR Locadex pour publier la mise à jour immédiatement. Sinon, les traductions seront disponibles une fois la PR Locadex fusionnée.
 * [ ] Si la terminologie doit être modifiée pour les **futurs** runs, mettez à jour **AI Context** dans la console Locadex (voir ci-dessous) et prévoyez un **Retranslate** si vous devez régénérer les pages existantes.
 
-<div id="locadex-console-versus-wandbdocs-repo">
-  ## Console Locadex versus dépôt wandb/docs
-</div>
+## Console Locadex versus dépôt wandb/docs {#locadex-console-versus-wandbdocs-repo}
 
 Utilisez le bon emplacement pour chaque type de modification.
 
@@ -92,9 +78,7 @@ Utilisez le bon emplacement pour chaque type de modification.
 
 **Important :** le glossaire et les prompts de la documentation se trouvent dans la **console Locadex**, et non dans `gt.config.json`.
 
-<div id="importing-and-exporting-glossary-and-ai-context">
-  ### Importation et exportation du glossaire et du contexte IA
-</div>
+### Importation et exportation du glossaire et du contexte IA {#importing-and-exporting-glossary-and-ai-context}
 
 1. Connectez-vous au [General Translation Dashboard](https://dash.generaltranslation.com/) (console Locadex).
 2. Ouvrez le projet lié à `wandb/docs`.
@@ -113,15 +97,11 @@ Utilisez le bon emplacement pour chaque type de modification.
 
 * Exécutez **Retranslate** pour les fichiers ou langues concernés si vous avez besoin que les pages déjà localisées appliquent les nouvelles règles. Attendez-vous ensuite à une PR Locadex nouvelle ou mise à jour.
 
-<div id="using-an-llm-to-evaluate-a-translation-round">
-  ## Utiliser un LLM pour évaluer un cycle de traduction
-</div>
+## Utiliser un LLM pour évaluer un cycle de traduction {#using-an-llm-to-evaluate-a-translation-round}
 
 Les LLM peuvent vous aider à faire le tri dans une PR Locadex volumineuse. Ils ne remplacent pas le jugement humain en matière de précision, de terminologie produit ou de nuance. Ces sections décrivent une approche possible.
 
-<div id="1-gather-inputs">
-  ### 1. Recueillez les éléments d’entrée
-</div>
+### 1. Recueillez les éléments d’entrée {#1-gather-inputs}
 
 * **Diff** : Dirigez l’agent vers le diff de la PR Locadex sur GitHub.
 * **Règles** : Collez ou résumez :
@@ -129,9 +109,7 @@ Les LLM peuvent vous aider à faire le tri dans une PR Locadex volumineuse. Ils 
   * Facultatif : les notes de prompt internes du fichier racine du dépôt `locadex_prompts.md` si votre équipe y conserve des grilles d’évaluation (casse de phrase, nommage des produits W&amp;B, etc.).
 * **Référence anglaise** : Pour les fichiers échantillonnés, incluez le chemin source en anglais et le chemin localisé afin que le modèle puisse comparer la structure (titres, listes, blocs de code, liens).
 
-<div id="2-prompt-shape-example">
-  ### 2. Structure du prompt (exemple)
-</div>
+### 2. Structure du prompt (exemple) {#2-prompt-shape-example}
 
 Demandez au modèle de :
 
@@ -141,20 +119,14 @@ Demandez au modèle de :
 * Signaler la **surtraduction** (URL, code ou noms propres devant rester en anglais, mais traduits à tort).
 * Privilégier des **signalements brefs et exploitables**, avec le chemin du fichier et une correction suggérée.
 
-<div id="3-how-to-use-the-output">
-  ### 3. Comment utiliser le résultat
-</div>
+### 3. Comment utiliser le résultat {#3-how-to-use-the-output}
 
 * Transformez les problèmes relevés en commentaires de revue sur GitHub dans la PR Locadex, ou en retouches complémentaires après la fusion.
 * Si la même erreur apparaît dans de nombreux fichiers, corrigez **AI Context** (Glossaire ou Contexte local) et utilisez **Retranslate** plutôt que de modifier manuellement des dizaines de fichiers.
 
-<div id="manual-corrections-and-updates-to-auto-localized-content">
-  ## Corrections manuelles et mises à jour du contenu localisé automatiquement
-</div>
+## Corrections manuelles et mises à jour du contenu localisé automatiquement {#manual-corrections-and-updates-to-auto-localized-content}
 
-<div id="one-off-correction-after-merge">
-  ### Correction ponctuelle après fusion
-</div>
+### Correction ponctuelle après fusion {#one-off-correction-after-merge}
 
 Si une seule page ou un seul extrait est erroné, mais que le glossaire et les règles de langue sont corrects :
 
@@ -163,32 +135,24 @@ Si une seule page ou un seul extrait est erroné, mais que le glossaire et les r
 3. Ouvrez une PR vers `main` avec une synthèse claire (ce qui était erroné et pourquoi la correction manuelle est sûre).
 4. Attendez-vous à ce que la prochaine exécution de Locadex ne retouche ce même fichier que si la source anglaise change. Si Locadex écrase votre correction manuelle, signalez-le aux responsables de la plateforme et envisagez de verrouiller ou d’exclure les schémas documentés pour votre projet.
 
-<div id="systemic-terminology-or-style-fix">
-  ### Correction systématique de la terminologie ou du style
-</div>
+### Correction systématique de la terminologie ou du style {#systemic-terminology-or-style-fix}
 
 Si la même erreur se répète dans de nombreux fichiers :
 
 1. Mettez à jour le **Glossaire**, le **Contexte local** ou les **Style Controls** dans la console Locadex.
 2. Utilisez **Retranslate** pour que Locadex régénère le contenu localisé concerné. Relisez attentivement la PR Locadex qui en résulte.
 
-<div id="when-english-changes-again">
-  ### Quand l’anglais change à nouveau
-</div>
+### Quand l’anglais change à nouveau {#when-english-changes-again}
 
 Les intégrations de modifications en anglais déclenchent la prochaine mise à jour de Locadex. Vos modifications de localisation manuelles peuvent nécessiter une harmonisation avec la nouvelle sortie automatique. Préférez corriger la source en anglais ou le contexte dans la console afin que l’automatisation reste stable.
 
-<div id="verification-and-testing">
-  ## Vérification et tests
-</div>
+## Vérification et tests {#verification-and-testing}
 
 * Après la fusion d’une PR Locadex, vérifiez ponctuellement, pour chaque locale, les pages à fort trafic dans l’aperçu Mintlify ou en production.
 * Exécutez `mint dev`, `mint validate`, `mint broken-links` localement lorsque votre flux de travail l’exige (voir `AGENTS.md` dans le dépôt).
 * Vérifiez que l’OpenAPI et le JSON de navigation dans les chemins de locale correspondent toujours au comportement du produit pour les API critiques.
 
-<div id="related-links">
-  ## Liens connexes
-</div>
+## Liens connexes {#related-links}
 
 * [Locadex for Mintlify](https://generaltranslation.com/docs/locadex/mintlify)
 * [Glossaire GT](https://generaltranslation.com/docs/platform/ai-context/glossary)
@@ -196,9 +160,7 @@ Les intégrations de modifications en anglais déclenchent la prochaine mise à 
 * [Style Controls](https://generaltranslation.com/docs/platform/ai-context/style-controls)
 * [Retranslate](https://generaltranslation.com/docs/platform/translations/retranslate)
 
-<div id="checklist-quick-reference">
-  ## Liste de vérification (référence rapide)
-</div>
+## Liste de vérification (référence rapide) {#checklist-quick-reference}
 
 * [ ] PR en anglais fusionnée dans `main`.
 * [ ] PR Locadex ouverte ou mise à jour. Examinez le diff.

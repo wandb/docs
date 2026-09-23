@@ -15,7 +15,7 @@ Weave Codex プラグインは、Codex の各ターンを自動的にトレー�
 </Warning>
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 前提条件 {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v20 以降。
@@ -24,7 +24,7 @@ Weave Codex プラグインは、Codex の各ターンを自動的にトレー�
 * トレースの送信先となる Weave project (`[YOUR-TEAM]/[YOUR-PROJECT]`) 。
 
 <div id="install-the-plugin">
-  ## プラグインをインストールする
+  ## プラグインをインストールする {#install-the-plugin}
 </div>
 
 <Steps>
@@ -63,7 +63,7 @@ Weave Codex プラグインは、Codex の各ターンを自動的にトレー�
 これで Codex を通常どおり実行でき、完了した各ターンが約 1 秒以内に Weave に表示されます。
 
 <div id="view-codex-traces-in-weave">
-  ## Weave で Codex トレースを表示する
+  ## Weave で Codex トレースを表示する {#view-codex-traces-in-weave}
 </div>
 
 少なくとも 1 つの Codex セッションを実行したら、Weave UI で project を開きます。
@@ -87,7 +87,7 @@ Weave は `gen_ai.conversation.id` を使用して、Agents ビューで複数�
 すべての属性が GenAI semantic conventions に従っているため、トレースは OTEL 互換の任意のバックエンドでもレンダリングされます。
 
 <div id="known-limitations">
-  ### 既知の制限事項
+  ### 既知の制限事項 {#known-limitations}
 </div>
 
 * `codex` (対話型TUI) および `codex exec` コマンドはサポートされます。`codex mcp` と `app-server` コマンドはフックが発火しないため、対象外です。
@@ -95,7 +95,7 @@ Weave は `gen_ai.conversation.id` を使用して、Agents ビューで複数�
 * Stop フックは中断されたターンやエラーが発生したターンでは発火しないため、それらは取得されません。
 
 <div id="configuration-reference">
-  ## 設定リファレンス
+  ## 設定リファレンス {#configuration-reference}
 </div>
 
 このセクションでは、プラグインの動作をカスタマイズするために使用できる設定を一覧で示します。設定ファイルと実行時ファイルは `~/.weave-codex/` に保存されます。これには、`settings.json`、hook shim、セッションごとのカーソル、`logs/collector.log` にあるログファイルが含まれます。
@@ -109,7 +109,7 @@ Weave は `gen_ai.conversation.id` を使用して、Agents ビューで複数�
 | デバッグロギング      | `WEAVE_CODEX_DEBUG`           | `debug`            | オフ (エラーは常にログされます)             |
 
 <div id="credential-resolution-order">
-  ### 認証情報の解決順序
+  ### 認証情報の解決順序 {#credential-resolution-order}
 </div>
 
 プラグインは認証情報を次の順序で参照します。
@@ -119,7 +119,7 @@ Weave は `gen_ai.conversation.id` を使用して、Agents ビューで複数�
 3. Weave ホスト用の `~/.netrc` エントリ。
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B 専用クラウドまたはセルフホスト型インスタンス
+  ### W&amp;B 専用クラウドまたはセルフホスト型インスタンス {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 Codex を実行する前に、`WANDB_BASE_URL` をインストール先のホストに設定してください。
@@ -129,7 +129,7 @@ export WANDB_BASE_URL=https://YOUR-INSTANCE.wandb.io
 ```
 
 <div id="check-plugin-status">
-  ## プラグインのステータスを確認する
+  ## プラグインのステータスを確認する {#check-plugin-status}
 </div>
 
 これらのCLIコマンドを使用すると、プラグインのステータスを確認したり、問題のトラブルシューティングを行ったりできます。
@@ -145,13 +145,13 @@ cat ~/.weave-codex/logs/collector.log
 ```
 
 <div id="troubleshooting">
-  ## トラブルシューティング
+  ## トラブルシューティング {#troubleshooting}
 </div>
 
 以下のセクションでは、よくある問題とその解決方法について説明します。`~/.weave-codex/logs/collector.log` にある collector のログが、主な診断情報源です。エラーは、`debug` の設定にかかわらず常にログに記録されます。
 
 <div id="no-traces-appear-after-running-codex">
-  ### Codex を実行してもトレースが表示されない
+  ### Codex を実行してもトレースが表示されない {#no-traces-appear-after-running-codex}
 </div>
 
 1. `weave-codex status` を実行します。すべてのチェックにパスしていることを確認してください。
@@ -160,13 +160,13 @@ cat ~/.weave-codex/logs/collector.log
 4. 認証ソースを確認します。`weave-codex status` には、解決された認証情報ソースが表示されます。`WANDB_API_KEY env` と表示されるのにキーを別の場所で設定している場合、プラグインは誤った値を読み取ります。
 
 <div id="turns-appear-but-inputoutput-text-is-empty">
-  ### ターンは表示されるが、入力/出力テキストが空です
+  ### ターンは表示されるが、入力/出力テキストが空です {#turns-appear-but-inputoutput-text-is-empty}
 </div>
 
 コンテンツの取得が無効になっている可能性があります。`WEAVE_CODEX_CAPTURE_CONTENT` が `0` に設定されていないこと、および `~/.weave-codex/settings.json` で `capture_content` が `false` に設定されていないことを確認してください。
 
 <div id="errors-sending-traces-to-weave">
-  ### Weave へのトレース送信時のエラー
+  ### Weave へのトレース送信時のエラー {#errors-sending-traces-to-weave}
 </div>
 
 プラグインが有効で、Weave に表示されないスパンが生成されている場合は、collector ログでエクスポート エラーを確認し、この表と照らし合わせてください。
@@ -178,7 +178,7 @@ cat ~/.weave-codex/logs/collector.log
 | 接続拒否または DNS エラー                  | DNS、プロキシ、またはファイアウォール          | ホストから `trace.wandb.ai` (クラウド) またはご利用のインストール ホスト (専用クラウド) のポート 443 に到達できることを確認してください。                        |
 
 <div id="hook-locked-environments">
-  ### フックが制限された環境
+  ### フックが制限された環境 {#hook-locked-environments}
 </div>
 
 Codex の設定で `allow_managed_hooks_only` が有効になっている場合、カスタムフックを直接追加することはできません。代替のトリガーとして、Codex の `notify` プログラムを使用してください。
@@ -189,7 +189,7 @@ notify = ["sh", "/Users/you/.weave-codex/stop-hook.sh"]
 ```
 
 <div id="uninstall">
-  ## アンインストール
+  ## アンインストール {#uninstall}
 </div>
 
 ```bash lines

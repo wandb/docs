@@ -10,17 +10,13 @@ keywords: ["Smolagents", "エージェント", "ツール呼び出し", "Hugging
 
 このページでは、エージェント型アプリケーションをトラッキングして分析するために、[Smolagents](https://huggingface.co/docs/smolagents/en/index) を W&amp;B Weave と統合する方法を説明します。これは、モデルやツールの呼び出しを可視化したい、エージェントワークフローを構築する開発者を対象としています。Weave のトレース機能とバージョン管理機能を使って、モデル推論をログし、関数呼び出しを監視し、Experiments を整理する方法を学べます。ここで紹介する例に沿って進めることで、有用な知見を取得し、アプリケーションを効率的にデバッグし、異なるモデル設定を比較できます。これらはすべて Weave の Web インターフェース上で行えます。
 
-<div id="overview">
-  ## 概要
-</div>
+## 概要 {#overview}
 
 Smolagents は、エージェント型アプリケーションを構築するための最小限の抽象化を備えたフレームワークです。OpenAI、Hugging Face Transformers、Anthropic など、複数の LLM プロバイダをサポートします。
 
 Weave は [Smolagents](https://huggingface.co/docs/smolagents/en/index) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init()` を呼び出し、通常どおりライブラリを使用します。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 開始する前に、必要なライブラリをインストールし、選択した LLM プロバイダへのアクセスを設定する必要があります。
 
@@ -39,9 +35,7 @@ Weave は [Smolagents](https://huggingface.co/docs/smolagents/en/index) のト�
    os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
    ```
 
-<div id="basic-tracing">
-  ## 基本的なトレース
-</div>
+## 基本的なトレース {#basic-tracing}
 
 このセクションでは、基本的な Smolagents ワークフローのトレースを Weave が自動的に取得する方法を示します。
 
@@ -81,9 +75,7 @@ answer = agent.run(
 
 <Frame>![Weave は各推論 Call をログし、入力、出力、メタデータの詳細を提供します。](/weave/guides/integrations/imgs/smolagents-trace.png)</Frame>
 
-<div id="tracing-custom-tools">
-  ## カスタムツールのトレース
-</div>
+## カスタムツールのトレース {#tracing-custom-tools}
 
 組み込みツールに加えて、カスタムツールでエージェントを拡張し、それらの呼び出しも Weave でトレースできます。
 

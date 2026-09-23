@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py#L20" />
 
-<div id="function-wandblogin">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.login()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.login() {#function-wandblogin}
 
 W&amp;B에 로그인합니다.
 
@@ -41,9 +39,7 @@ prompt: 'bool' = True,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="key" type="str | None">
   사용할 API 키입니다.
@@ -81,15 +77,11 @@ anonymous: 'DoNotSet' = DoNotSet
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 이 호출 이후 Session에 자격 증명이 있으면 True입니다.
 
-<div id="raises">
-  ## 예외
-</div>
+## 예외 {#raises}
 
 * `AuthenticationError`: 자격 증명이 서버 확인에 실패한 경우.
 * `UsageError`: 자격 증명이 설정되어 있지 않고, `prompt`가 True이며, API 키를 입력받을 터미널이 없는 경우.

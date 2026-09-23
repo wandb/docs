@@ -9,9 +9,7 @@ Pour les tâches multi-GPU ou d’entraînement distribué, une règle suppléme
 
 Les sections ci-dessous présentent la commande de soumission pour les tâches à processus unique, le schéma de filtrage par rang pour les tâches multi-GPU avec entraînement distribué, quand filtrer sur le rang global plutôt que sur le rang local, et comment consigner depuis des rangs autres que le rang 0.
 
-<div id="single-process-or-single-gpu-jobs">
-  ## Jobs monoprocessus ou mono-GPU
-</div>
+## Jobs monoprocessus ou mono-GPU {#single-process-or-single-gpu-jobs}
 
 Soumettez chaque job planifié avec :
 
@@ -19,9 +17,7 @@ Soumettez chaque job planifié avec :
 wandb agent --count 1 SWEEP_ID
 ```
 
-<div id="multi-gpu-jobs-with-distributed-training">
-  ## Jobs multi-GPU avec entraînement distribué
-</div>
+## Jobs multi-GPU avec entraînement distribué {#multi-gpu-jobs-with-distributed-training}
 
 Lorsque vous exécutez un balayage W&amp;B avec un entraînement distribué (par exemple, des jobs multi-GPU avec `--gpus-per-node`), n’appelez `wandb.agent()` que sur un seul rang à l’aide de la variable d’environnement `SLURM_PROCID`. Les autres rangs doivent exécuter l’entraînement distribué sans invoquer l’agent de balayage ni `wandb.init()`. Pour l’intégration de W&amp;B à l’entraînement distribué en général, voir [Journaliser les expériences d’entraînement distribué](/fr/models/track/log/distributed-training).
 
@@ -51,17 +47,13 @@ Ce schéma garantit que :
 
 Si vous utilisez `submitit` ou un lanceur similaire, appliquez la même vérification dans votre point d&#39;entrée d&#39;entraînement avant d&#39;appeler `wandb.agent()`.
 
-<div id="choose-between-slurm_procid-and-slurm_localid">
-  ### Choisissez entre `SLURM_PROCID` et `SLURM_LOCALID`
-</div>
+### Choisissez entre `SLURM_PROCID` et `SLURM_LOCALID` {#choose-between-slurm_procid-and-slurm_localid}
 
 `SLURM_PROCID` est le rang global à l’échelle de l’ensemble du job SLURM. Utilisez `SLURM_PROCID == 0` lorsque vous voulez exactement un agent pour tout le groupe distribué, ce qui est le cas le plus courant pour les balayages.
 
 `SLURM_LOCALID` est le rang au sein d’un nœud donné. Utilisez `SLURM_LOCALID == 0` lorsque vous voulez un agent par nœud, par exemple pour lancer en parallèle des exécutions de balayage indépendantes sur plusieurs nœuds.
 
-<div id="log-from-non-rank-0-ranks">
-  ### Journaliser à partir des rangs autres que le rang 0
-</div>
+### Journaliser à partir des rangs autres que le rang 0 {#log-from-non-rank-0-ranks}
 
 L&#39;exemple ci-dessus suit le schéma [Suivre un seul processus](/fr/models/track/log/distributed-training#track-a-single-process), où seul le rang 0 journalise dans W&amp;B. Si vous souhaitez également que les rangs autres que le rang 0 journalisent dans le même run, par exemple pour capturer des métriques système par rang, utilisez le mode partagé et transmettez l&#39;ID du run du rang 0 à chaque worker. Voir [Suivre tous les processus vers un seul run](/fr/models/track/log/distributed-training#track-all-processes-to-a-single-run).
 

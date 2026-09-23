@@ -15,9 +15,7 @@ Ce tutoriel vous montre comment créer, tracer et évaluer un pipeline de vision
 
 Les sections suivantes présentent cinq étapes : créer et faire évoluer les prompts, récupérer le jeu de données, construire le pipeline NER, définir les évaluateurs et exécuter une évaluation.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, installez et importez les bibliothèques requises, obtenez votre clé API W&amp;B et initialisez votre projet Weave. Cette étape garantit que votre environnement peut s&#39;authentifier auprès de W&amp;B et enregistrer des traces dans votre projet Weave.
 
@@ -47,9 +45,7 @@ PROJECT = "vlm-handwritten-ner"
 weave.init(PROJECT)
 ```
 
-<div id="create-and-iterate-on-prompts-with-weave">
-  ## Créez des prompts et itérez dessus avec Weave
-</div>
+## Créez des prompts et itérez dessus avec Weave {#create-and-iterate-on-prompts-with-weave}
 
 Une bonne ingénierie de prompts est essentielle pour guider le modèle afin qu’il extraie correctement les Entities. Dans cette section, vous rédigez un prompt initial, le publiez dans Weave pour pouvoir suivre ses modifications au fil du temps, puis l’affinez à l’aide de règles de validation plus strictes.
 
@@ -96,9 +92,7 @@ system_prompt = weave.StringPrompt(better_prompt)
 weave.publish(system_prompt, name="NER-prompt")
 ````
 
-<div id="get-the-dataset">
-  ## Obtenir le jeu de données
-</div>
+## Obtenir le jeu de données {#get-the-dataset}
 
 Une fois le prompt défini, vous avez besoin de données d&#39;entrée pour alimenter le pipeline. Récupérez le jeu de données de notes manuscrites qui sert d&#39;entrée au pipeline d&#39;OCR.
 
@@ -120,9 +114,7 @@ html = f'<img src="{example_image}" style="max-width: 100%; height: auto;">'
 display(HTML(html))
 ```
 
-<div id="build-the-ner-pipeline">
-  ## Créer le pipeline NER
-</div>
+## Créer le pipeline NER {#build-the-ner-pipeline}
 
 Maintenant que vous disposez d’un prompt et d’un jeu de données, créez le pipeline NER qui les relie au VLM. Le pipeline se compose de deux fonctions :
 
@@ -213,9 +205,7 @@ Vous voyez ci-dessous un exemple similaire dans le tableau **Traces** de l’int
   ![Tableau Traces de Weave montrant les résultats d’exécution du pipeline NER.](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
 </Frame>
 
-<div id="evaluate-the-pipeline-using-weave">
-  ## Évaluer le pipeline avec Weave
-</div>
+## Évaluer le pipeline avec Weave {#evaluate-the-pipeline-using-weave}
 
 Maintenant que vous avez créé un pipeline pour effectuer de la NER à l’aide d’un VLM, vous pouvez utiliser Weave pour l’évaluer de façon systématique et voir dans quelle mesure il est performant. Évaluer le pipeline vous permet de mesurer la qualité de l’extraction sur l’ensemble du jeu de données plutôt que de vous appuyer sur des vérifications ponctuelles. Pour plus d’informations sur les évaluations dans Weave, consultez [Aperçu des évaluations](/fr/weave/guides/core-types/evaluations).
 
@@ -226,9 +216,7 @@ Dans cette section, vous créez deux évaluateurs pour évaluer le pipeline :
 * Évaluateur programmatique.
 * Scorer LLM-as-a-judge.
 
-<div id="programatic-scorer">
-  ### Évaluateur programmatique
-</div>
+### Évaluateur programmatique {#programatic-scorer}
 
 Le premier évaluateur est une vérification déterministe qui s’exécute sans LLM. L’évaluateur programmatique, `check_for_missing_fields_programatically`, prend la sortie du modèle (la sortie de la fonction `named_entity_recognition`) et identifie les `clés` manquantes ou vides dans les résultats.
 
@@ -252,9 +240,7 @@ def check_for_missing_fields_programatically(model_output):
     return True  # Tous les champs requis sont présents et non vides
 ```
 
-<div id="llm-as-a-judge-scorer">
-  ### Évaluateur LLM-as-a-judge
-</div>
+### Évaluateur LLM-as-a-judge {#llm-as-a-judge-scorer}
 
 Comme l’évaluateur programmatique ne détecte que les champs manquants ou vides, vous avez besoin d’un second évaluateur pour vérifier si les valeurs extraites correspondent bien à ce qui apparaît dans l’image. À cette étape de l’évaluation, vous fournissez à la fois les données de l’image et la sortie du modèle afin de garantir que l’évaluation reflète les performances réelles du système de NER. Le contenu de l’image est référencé explicitement, et pas seulement la sortie du modèle.
 
@@ -318,9 +304,7 @@ def check_for_missing_fields_with_llm(model_output, image_base64):
     return response
 ```
 
-<div id="run-the-evaluation">
-  ## Lancer l’évaluation
-</div>
+## Lancer l’évaluation {#run-the-evaluation}
 
 Une fois les deux évaluateurs définis, vous pouvez maintenant lancer l’évaluation. Définissez un appel d’évaluation qui parcourt automatiquement le `dataset` transmis et enregistre les résultats dans l’interface Weave.
 

@@ -14,9 +14,7 @@ keywords: ["weave.op", "Call トラッキング", "LLM トレース", "ThreadPoo
 
 トレース対象をどの程度細かく制御したいかに応じて、適切な方法を選択してください。
 
-<div id="automatic-tracking-of-llm-library-calls">
-  ## LLM ライブラリの Call の自動トラッキング
-</div>
+## LLM ライブラリの Call の自動トラッキング {#automatic-tracking-of-llm-library-calls}
 
 Weave は、`openai`、`anthropic`、`cohere`、`mistral`、`LangChain` など、多くの一般的なライブラリやフレームワークと自動的に統合します。LLM またはフレームワークのライブラリをインポートし、Weave プロジェクトを初期化してください。すると Weave は、追加のコード変更なしで、LLM またはプラットフォームに対するすべての Call を自動的に Weave プロジェクトにトレースします。サポートされるライブラリ インテグレーションの完全な一覧については、[インテグレーション概要](/ja/weave/guides/integrations/) を参照してください。
 
@@ -77,9 +75,7 @@ Weave は、`openai`、`anthropic`、`cohere`、`mistral`、`LangChain` など�
 
 自動的な動作をより細かく制御したい場合は、[LLM Call の自動トラッキングを設定する](/ja/weave/guides/integrations/autopatching) を参照してください。
 
-<div id="track-custom-functions">
-  ## カスタム関数のトラッキング
-</div>
+## カスタム関数のトラッキング {#track-custom-functions}
 
 LLM アプリケーションには、トラッキングしたい追加のロジック (前処理や後処理、プロンプトなど) が含まれていることがよくあります。Weave が自動的にトレースする LLM Call とあわせて独自の関数も取得したい場合は、この方法を使用します。
 
@@ -145,9 +141,7 @@ LLM アプリケーションには、トラッキングしたい追加のロジ�
   </Tab>
 </Tabs>
 
-<div id="track-class-and-object-methods">
-  ### クラスとオブジェクトの method をトラッキングする
-</div>
+### クラスとオブジェクトの method をトラッキングする {#track-class-and-object-methods}
 
 スタンドアロン関数に加えて、クラスやオブジェクトの method もトラッキングできます。`weave.op` で method をデコレートすると、クラス内の任意の method をトラッキングできます。
 
@@ -208,9 +202,7 @@ LLM アプリケーションには、トラッキングしたい追加のロジ�
   </Tab>
 </Tabs>
 
-<div id="trace-parallel-multi-threaded-function-calls">
-  ### 並列 (マルチスレッド) の関数Callをトレースする
-</div>
+### 並列 (マルチスレッド) の関数Callをトレースする {#trace-parallel-multi-threaded-function-calls}
 
 デフォルトでは、並列に実行された Call はすべて、Weave で個別のルート Call として表示されるため、トレース階層を追いにくくなります。同じ親 Op の下に正しくネストするには、`ThreadPoolExecutor` を使用します。
 
@@ -249,9 +241,7 @@ Weave UI では、これにより 1 つの親 Call の下に 5 つの子 Call �
 
 ![outer の 1 つの親 Call の下に、5 つの子 Call がネストされている Trace UI。](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
-<div id="manual-call-tracking">
-  ## Call の手動トラッキング
-</div>
+## Call の手動トラッキング {#manual-call-tracking}
 
 自動インテグレーションや `weave.op` デコレータのいずれもワークフローに合わない場合は、API を直接使用して手動で Call を作成できます。この方法では、Call の開始と終了のタイミングを完全に制御できますが、その分ボイラープレートが増えます。
 

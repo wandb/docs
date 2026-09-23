@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py#L25" />
 
-<div id="function-wandbsweep">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.sweep()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.sweep() {#function-wandbsweep}
 
 ハイパーパラメーター探索の sweep を初期化します。
 
@@ -29,9 +27,7 @@ project: 'str | None' = None,
 prior_runs: 'list[str] | None' = None
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="sweep" type="dict | Callable">
   ハイパーパラメーター探索の設定です (または設定ジェネレーター) 。callable を指定する場合は、その callable が引数を取らず、W&amp;B sweep config spec に準拠した辞書を返すことを確認してください。
@@ -49,8 +45,6 @@ prior_runs: 'list[str] | None' = None
   この sweep に追加する既存の run ID です。
 </ResponseField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `str`: sweep の一意の ID です。

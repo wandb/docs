@@ -17,9 +17,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 [torchtune を使った Mistral 7B のファインチューニング](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0) に関する W&amp;B のブログ記事をご覧ください。
 
-<div id="enable-wb-logging">
-  ## W&amp;B logging を有効にする
-</div>
+## W&amp;B logging を有効にする {#enable-wb-logging}
 
 W&amp;B logging は、起動時にコマンドラインから引数を上書きするか、レシピの設定ファイルを編集するかの 2 つの方法で有効にできます。ご自身の workflow に合う方法を選んでください。
 
@@ -48,9 +46,7 @@ W&amp;B logging は、起動時にコマンドラインから引数を上書き�
   </Tab>
 </Tabs>
 
-<div id="use-the-wb-metric-logger">
-  ## W&amp;Bメトリクスロガーを使用する
-</div>
+## W&amp;Bメトリクスロガーを使用する {#use-the-wb-metric-logger}
 
 レシピの設定ファイル内の `metric_logger` セクションを変更して、W&amp;B logging を有効にします。`_component_` を `torchtune.utils.metric_logging.WandBLogger` クラスに変更してください。`project` 名や `log_every_n_steps` を渡して、logging の動作をカスタマイズすることもできます。
 
@@ -83,9 +79,7 @@ W&amp;B logging は、起動時にコマンドラインから引数を上書き�
   </Tab>
 </Tabs>
 
-<div id="logged-data">
-  ## ログされるデータ
-</div>
+## ログされるデータ {#logged-data}
 
 W&amp;B logging を有効にすると、ログされたメトリクスは W&amp;B ダッシュボードで確認できます。デフォルトでは、W&amp;B は設定ファイル内のすべてのハイパーパラメーターと Launch のオーバーライドをログするため、各 run の設定をメトリクスとあわせて記録できます。
 
@@ -95,9 +89,7 @@ W&amp;B は、解決済みの設定を **Overview** タブに記録します。�
   <img src="/images/integrations/torchtune_config.png" alt="TorchTune の設定" />
 </Frame>
 
-<div id="logged-metrics">
-  ### ログされたメトリクス
-</div>
+### ログされたメトリクス {#logged-metrics}
 
 各レシピには独自のトレーニングループがあります。ログされるメトリクスを確認するには、各レシピの内容を個別に参照してください。デフォルトでは、次のメトリクスが含まれます。
 
@@ -127,9 +119,7 @@ self._metric_logger.log_dict(
   ログされるメトリクスの内容は、torchtune のリリースによって変わる場合があります。カスタム メトリクスを追加するには、レシピを変更し、対応する `self._metric_logger.*` 関数を呼び出してください。
 </Note>
 
-<div id="save-and-load-checkpoints">
-  ## チェックポイントの保存と読み込み
-</div>
+## チェックポイントの保存と読み込み {#save-and-load-checkpoints}
 
 チェックポイントを W&amp;B Artifacts に保存すると、各 run のメトリクスや設定とあわせてモデルの重みをバージョン管理できるため、後から結果を再現したり、モデルのバージョンを比較したりできます。
 

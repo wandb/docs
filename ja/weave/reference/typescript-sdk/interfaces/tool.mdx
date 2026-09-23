@@ -11,9 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 `weave.startTool()` (または `turn.startTool()`、`llm.startTool()`) で作成し、`end()` で終了します。`end()` は結果とオプションの error metadata を受け入れます。
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -27,35 +25,25 @@ try {
 }
 ```
 
-<div id="extends">
-  ## 継承
-</div>
+## 継承 {#extends}
 
 * `SpanBase`
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
-<div id="args">
-  ### args
-</div>
+### args {#args}
 
 > `readonly` **args**: `string`
 
 ***
 
-<div id="name">
-  ### 名
-</div>
+### 名 {#name}
 
 > `readonly` **名**: `string`
 
 ***
 
-<div id="result">
-  ### ~~result~~
-</div>
+### ~~result~~ {#result}
 
 <Warning>
   **非推奨。** 代わりに `end()` に `result` を渡してください。
@@ -67,19 +55,13 @@ try {
 
 ***
 
-<div id="toolcallid">
-  ### toolCallId
-</div>
+### toolCallId {#toolcallid}
 
 > `readonly` **toolCallId**: `string`
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="addevent">
-  ### ~~addEvent()~~
-</div>
+### ~~addEvent()~~ {#addevent}
 
 <Warning>
   **非推奨。** このデータは代わりに [setAttributes](#setattributes) で記録してください。
@@ -94,9 +76,7 @@ try {
 span 以外のタイミングを記録する場合に便利です。`end()` の後に呼び出すと警告が出力され、
 何も実行されません。OTel の `Span.addEvent` と同様の動作です。
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters}
 
 <ParamField path="name" type="string" required />
 
@@ -104,57 +84,43 @@ span 以外のタイミングを記録する場合に便利です。`end()` の�
 
 <ParamField path="startTime" type="TimeInput" />
 
-<div id="returns">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns}
 
 `this`
 
-<div id="example-2">
-  #### 例
-</div>
+#### 例 {#example-2}
 
 ```ts twoslash
 // @noErrors
 span.addEvent('context_compacted', {removedMessages: 12});
 ```
 
-<div id="inherited-from">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from}
 
 `SpanBase.addEvent`
 
 ***
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
 任意の結果と error のタイプを記録し、span を閉じます。冪等です。
 span を失敗としてマークするには `error` を渡し、終了時刻を過去に設定するには `endTime` を渡します。
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="opts" type="ToolEndOptions">
   [`ToolEndOptions`](./toolendoptions) を参照してください。
 </ParamField>
 
-<div id="returns-2">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-2}
 
 `void`
 
 ***
 
-<div id="setattributes">
-  ### setAttributes()
-</div>
+### setAttributes() {#setattributes}
 
 > **setAttributes**(`attributes`): `this`
 
@@ -162,29 +128,21 @@ span に複数の属性をまとめて設定します。`end()` の呼び出し�
 何も実行しません。OTel の `Span.setAttributes` (および Python SDK の
 `set_attributes`) と同様です。
 
-<div id="parameters-3">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-3}
 
 <ParamField path="attributes" type="Attributes" required />
 
-<div id="returns-3">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-3}
 
 `this`
 
-<div id="example-3">
-  #### 例
-</div>
+#### 例 {#example-3}
 
 ```ts twoslash
 // @noErrors
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from-2">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from-2}
 
 `SpanBase.setAttributes`

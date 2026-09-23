@@ -4,9 +4,7 @@ description: "Intégrez les traces Weave aux runs d’entraînement de W&B pour 
 keywords: ["Workspace", "runs d’entraînement", "traces", "wandb.run", "artifacts"]
 ---
 
-<div id="log-traces-during-model-training-runs">
-  # Enregistrer des traces pendant les runs d&#39;entraînement de modèle
-</div>
+# Enregistrer des traces pendant les runs d&#39;entraînement de modèle {#log-traces-during-model-training-runs}
 
 Vous pouvez enregistrer des traces Weave pendant les runs d&#39;entraînement de modèle et les consulter dans votre Workspace personnel.
 
@@ -18,9 +16,7 @@ Les Workspaces personnels sont des tableaux de bord personnalisables dans l&#39;
 
 Par exemple, si vous effectuez le fine-tuning d&#39;un modèle LLM et que votre Workspace W&amp;B montre que l&#39;accuracy chute à l&#39;étape 500, les traces Weave intégrées peuvent révéler exactement ce qui s&#39;est passé. Par exemple, votre modèle a commencé à générer des réponses trop verbeuses qui ne répondaient plus aux critères d&#39;évaluation.
 
-<div id="use-weave-panels">
-  ## Utiliser les panneaux Weave
-</div>
+## Utiliser les panneaux Weave {#use-weave-panels}
 
 Lorsque vous [décorez des fonctions avec `@weave.op`](/fr/weave/quickstart) dans vos pipelines de ML, vous capturez automatiquement leurs informations d&#39;exécution et pouvez y accéder dans un Workspace personnel.
 
@@ -92,9 +88,7 @@ Pour accéder à un Workspace depuis l’interface utilisateur :
 
 Pour plus d’informations sur les Workspaces, voir [Voir les résultats des expériences](https://docs.wandb.ai/models/track/workspaces).
 
-<div id="associate-traces-with-a-specific-wb-run">
-  ## Associer des traces à un run W&amp;B spécifique
-</div>
+## Associer des traces à un run W&amp;B spécifique {#associate-traces-with-a-specific-wb-run}
 
 Dans certains cas, vous pouvez souhaiter associer des traces à un run autre que celui que Weave détecte automatiquement. Par défaut, Weave détecte automatiquement les traces et les associe au `wandb.run` actif. Si vous devez associer des traces à un run spécifique qui n&#39;est pas le `wandb.run` global, utilisez `set_wandb_run_context`. Pour associer des traces à un run spécifique et à une étape donnée de ce run, définissez les arguments `run_id` et `step` de la méthode :
 
@@ -123,9 +117,7 @@ client.clear_wandb_run_context()
 my_function(20)  # Cette trace utilise le wandb.run global (s'il existe).
 ```
 
-<div id="reference-wb-artifacts-in-a-weave-trace">
-  ## Référencer des artefacts W&amp;B dans une trace Weave
-</div>
+## Référencer des artefacts W&amp;B dans une trace Weave {#reference-wb-artifacts-in-a-weave-trace}
 
 Vous pouvez référencer des [artefacts W&amp;B](/fr/models/artifacts) (comme des modèles, des jeux de données et des checkpoints) dans vos traces Weave. Cela crée un lien cliquable dans la Weave UI qui mène directement à la page de détails de l&#39;artefact, ce qui vous aide à suivre quelles versions d&#39;artefact vous avez utilisées lors d&#39;opérations spécifiques.
 
@@ -140,9 +132,7 @@ Vous pouvez trouver le nom complet de l&#39;artefact sur sa page de détails dan
 
 Les sections suivantes présentent chaque approche.
 
-<div id="add-an-artifact-as-an-attribute-of-a-trace">
-  ### Ajouter un artefact comme attribut d’une trace
-</div>
+### Ajouter un artefact comme attribut d’une trace {#add-an-artifact-as-an-attribute-of-a-trace}
 
 Pour ajouter un artefact comme attribut d’une trace, passez-le sous forme de paire clé-valeur au gestionnaire de contexte `weave.attributes()` :
 
@@ -189,9 +179,7 @@ Pour ajouter un artefact comme attribut d’une trace, passez-le sous forme de p
   </Tab>
 </Tabs>
 
-<div id="add-an-artifact-as-an-attribute-of-a-model">
-  ### Ajouter un artefact comme attribut d’un `Model`
-</div>
+### Ajouter un artefact comme attribut d’un `Model` {#add-an-artifact-as-an-attribute-of-a-model}
 
 Pour ajouter un artefact comme attribut d’un `Model`, fournissez l’URL de l’artefact lors de l’instanciation du modèle :
 

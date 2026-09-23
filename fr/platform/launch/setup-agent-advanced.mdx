@@ -4,9 +4,7 @@ description: "Configurez les options avancées de l’agent pour W&B Launch, not
 keywords: ["générateur Kaniko", "téléversement ECR", "registre GCR", "générateur d’agent", "registre d’images"]
 ---
 
-<div id="advanced-agent-setup">
-  # Configuration avancée de l’agent
-</div>
+# Configuration avancée de l’agent {#advanced-agent-setup}
 
 Ce guide explique comment configurer l’agent Launch de W&amp;B pour générer des images de conteneur dans différents environnements, envoyer ces images vers des registres de conteneurs cloud et personnaliser le processus de build. Utilisez-le lorsque vous devez exécuter des jobs Launch qui nécessitent la création d’images et que vous souhaitez contrôler où et comment l’agent produit ces images. Cette page s’adresse aux administrateurs et aux opérateurs qui déploient et gèrent l’agent Launch.
 
@@ -16,9 +14,7 @@ Ce guide explique comment configurer l’agent Launch de W&amp;B pour générer 
   Voir [Créer un launch job](/fr/platform/launch/create-launch-job/) pour en savoir plus sur les types de job.
 </Note>
 
-<div id="builders">
-  ## Générateurs
-</div>
+## Générateurs {#builders}
 
 L’agent Launch prend en charge deux générateurs pour produire des images de conteneur. Choisissez le générateur qui correspond à l’environnement dans lequel l’agent s’exécute.
 
@@ -35,9 +31,7 @@ Si vous ne spécifiez pas de générateur dans la configuration de l’agent et 
   Utilisez Kaniko pour créer des images dans un cluster Kubernetes. Utilisez Docker dans tous les autres cas.
 </Note>
 
-<div id="push-to-a-container-registry">
-  ## Téléverser vers un registre de conteneurs
-</div>
+## Téléverser vers un registre de conteneurs {#push-to-a-container-registry}
 
 Pour exécuter les images construites sur votre cible de calcul, l’agent doit les téléverser dans un registre de conteneurs depuis lequel la cible peut les récupérer. Les sections suivantes expliquent comment l’agent attribue des tags aux images et les téléverse.
 
@@ -45,9 +39,7 @@ L’agent Launch attribue à toutes les images qu’il construit un tag basé su
 
 Par exemple, si la clé `builder.destination` est définie sur `my-registry.example.com/my-repository`, l’agent tague l’image et la téléverse vers `my-registry.example.com/my-repository:[SOURCE-HASH]`. Si l’image existe déjà dans le registre, le build est ignoré.
 
-<div id="agent-configuration">
-  ### Configuration de l’agent
-</div>
+### Configuration de l’agent {#agent-configuration}
 
 L’agent lit sa configuration à partir d’un fichier YAML. L’endroit où vous fournissez ce fichier dépend de la façon dont vous exécutez l’agent.
 
@@ -122,15 +114,11 @@ Les onglets suivants montrent comment configurer l’agent Launch en fonction de
   </Tab>
 </Tabs>
 
-<div id="agent-permissions">
-  ## Autorisations de l’agent
-</div>
+## Autorisations de l’agent {#agent-permissions}
 
 L’agent doit disposer des autorisations nécessaires pour téléverser des images vers votre registre de conteneurs et, si vous utilisez Kaniko, pour lire et écrire le contexte de build dans le stockage cloud. Les autorisations requises pour l’agent varient selon le cas d’utilisation.
 
-<div id="cloud-registry-permissions">
-  ### Autorisations des registres cloud
-</div>
+### Autorisations des registres cloud {#cloud-registry-permissions}
 
 L’agent a besoin d’autorisations sur le registre afin de pouvoir créer des dépôts, téléverser des couches d’image et téléverser des images avec balises. Les autorisations suivantes sont requises pour que les agents Launch puissent interagir avec des registres cloud.
 
@@ -181,9 +169,7 @@ L’agent a besoin d’autorisations sur le registre afin de pouvoir créer des 
   </Tab>
 </Tabs>
 
-<div id="storage-permissions-for-kaniko">
-  ### Autorisations de stockage pour Kaniko
-</div>
+### Autorisations de stockage pour Kaniko {#storage-permissions-for-kaniko}
 
 L&#39;agent Launch doit disposer des autorisations nécessaires pour téléverser vers le stockage cloud s&#39;il utilise le générateur Kaniko. Kaniko utilise un stockage de contexte situé en dehors du pod qui exécute le job de build.
 
@@ -228,9 +214,7 @@ L&#39;agent Launch doit disposer des autorisations nécessaires pour téléverse
   </Tab>
 </Tabs>
 
-<div id="customize-the-kaniko-build">
-  ## Personnaliser le build Kaniko
-</div>
+## Personnaliser le build Kaniko {#customize-the-kaniko-build}
 
 Pour redéfinir les valeurs par défaut, comme le comportement de la mise en cache ou les variables d’environnement du pod de build, personnalisez le Job Kubernetes exécuté par Kaniko. Indiquez la spécification du Job Kubernetes utilisée par le job Kaniko dans la clé `builder.kaniko-config` de la configuration de l’agent. Par exemple :
 
@@ -252,9 +236,7 @@ builder:
               value: "my-env-var-value"
 ```
 
-<div id="deploy-launch-agent-into-coreweave">
-  ## Déployer l’agent Launch sur CoreWeave
-</div>
+## Déployer l’agent Launch sur CoreWeave {#deploy-launch-agent-into-coreweave}
 
 Si vos charges de travail tirent parti d’une infrastructure accélérée par GPU, vous pouvez déployer l’agent Launch sur CoreWeave Cloud. CoreWeave est une infrastructure cloud spécialement conçue pour les charges de travail accélérées par GPU.
 

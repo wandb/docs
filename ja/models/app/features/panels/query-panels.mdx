@@ -27,9 +27,7 @@ keywords: ["クエリ式", "Weave パネル", "アドホッククエリ", "runs 
   このチームがクエリパネルを使ってベンチマークを可視化した方法については、[Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark)をご覧ください。
   </Note> */}
 
-<div id="create-a-query-panel">
-  ## クエリパネルを作成する
-</div>
+## クエリパネルを作成する {#create-a-query-panel}
 
 式を記述して結果を可視化するための画面として、Workspaceまたはreport内にクエリパネルを追加します。
 
@@ -55,21 +53,15 @@ keywords: ["クエリ式", "Weave パネル", "アドホッククエリ", "runs 
   </Tab>
 </Tabs>
 
-<div id="query-components">
-  ## Query components
-</div>
+## Query components {#query-components}
 
 以下のセクションでは、クエリパネル を構成する 3 つの要素、すなわちデータを選択する式、パネルの動作を制御する設定、そして output を表示する結果パネルについて説明します。
 
-<div id="expressions">
-  ### 式
-</div>
+### 式 {#expressions}
 
 クエリ式を使用すると、W&amp;B に保存されている runs、アーティファクト、モデル、表 などのデータをクエリできます。
 
-<div id="example-query-a-table">
-  #### 例: 表をクエリする
-</div>
+#### 例: 表をクエリする {#example-query-a-table}
 
 W&amp;B の表をクエリしたいとします。トレーニングコード内で、`"cifar10_sample_table"` という名前の表をログします。
 
@@ -95,9 +87,7 @@ runs.summary["cifar10_sample_table"]
 * `summary` は、run の Summary オブジェクトを返す op です。Ops は *mapped* されるため、この op はリスト内の各 run に適用され、結果として Summary オブジェクトのリストが得られます。
 * `["cifar10_sample_table"]` は Pick op (角括弧で表されます) で、キーは `cifar10_sample_table` です。Summary オブジェクトは辞書やマップのように振る舞うため、この操作では各 Summary オブジェクトからそのフィールドを取り出します。
 
-<div id="configurations">
-  ### 設定
-</div>
+### 設定 {#configurations}
 
 パネルの左上にあるギアアイコンをクリックして、クエリ設定を展開します。この設定では、パネルの種類や結果パネルのパラメーターを設定できます。
 
@@ -105,9 +95,7 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/weave_panel_config.png" alt="パネル設定メニュー" />
 </Frame>
 
-<div id="panel-options">
-  #### パネルのオプション
-</div>
+#### パネルのオプション {#panel-options}
 
 設定メニューには、パネルが表形式の結果をどのように結合または読み込むかを変更するオプションが含まれる場合があります。表示されるラベルや利用可否は、式やパネル タイプによって異なります。具体的な設定例については、[Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)を参照してください。
 
@@ -119,9 +107,7 @@ runs.summary["cifar10_sample_table"]
 
 表の結果が大きすぎて一度に表示できない可能性がある場合は、**Paginate** を使用します。ページネーションでは行をチャンク単位で読み込むため、パネルの応答性を維持できます。このオプションは、大きな行リストを返す式と組み合わせて使用してください。ページネーションでうまく機能するパターンについては、[Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)を参照してください。
 
-<div id="result-panels">
-  ### 結果パネル
-</div>
+### 結果パネル {#result-panels}
 
 クエリ結果パネルにはクエリ式の結果が表示されます。表示には選択したクエリパネルが使用され、データがインタラクティブな形式で表示されるように設定されています。以下の画像は、同じデータを表とプロットで表示した例です。
 
@@ -133,21 +119,15 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/result_panel_plot.png" alt="プロットの結果パネル" />
 </Frame>
 
-<div id="step-through-run-history">
-  ### run 履歴をステップごとにたどる
-</div>
+### run 履歴をステップごとにたどる {#step-through-run-history}
 
 `runs` または `runs.history` から作成した表やプロットでは、アプリに **step** コントロール (たとえばスライダー) を表示して、ログされた step を移動しながら、Runs の進行に沿ってメトリクス、テキスト、メディアを確認できます。式を変更した後、クエリパネル の設定を編集し、**Render As** を **Stepper** に変更してください。データのログ方法により適している場合は、このコントロールで `_step` ではなく別のメトリクスを追跡できます。式のサンプルについては、[Query panel examples report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr) を参照してください。
 
-<div id="basic-operations">
-  ## 基本操作
-</div>
+## 基本操作 {#basic-operations}
 
 クエリパネルに結果が表示されたら、行の並べ替え、フィルター、マッピング、グループ化によって表示内容を調整できます。以下は、クエリパネル内で実行できる一般的な操作です。
 
-<div id="sort">
-  ### 並べ替え
-</div>
+### 並べ替え {#sort}
 
 列オプションから並べ替えます:
 
@@ -155,9 +135,7 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/weave_sort.png" alt="列の並べ替えオプション" />
 </Frame>
 
-<div id="filter">
-  ### フィルター
-</div>
+### フィルター {#filter}
 
 クエリ内で直接フィルターすることも、パネルの左上隅にあるフィルターボタンを使うこともできます
 
@@ -169,9 +147,7 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/weave_filter_2.png" alt="フィルターボタン" />
 </Frame>
 
-<div id="map">
-  ### マップ
-</div>
+### マップ {#map}
 
 マップ操作では、リストを走査し、データ内の各要素に関数を適用します。これは、パネルのクエリを使って直接行うことも、列オプションから新しい列を挿入して行うこともできます。
 
@@ -183,9 +159,7 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/weave_map.gif" alt="マップ列の挿入" />
 </Frame>
 
-<div id="group-by">
-  ### グループ化
-</div>
+### グループ化 {#group-by}
 
 クエリまたは列オプションからグループ化できます。
 
@@ -197,15 +171,11 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/weave_groupby.gif" alt="列オプションでグループ化" />
 </Frame>
 
-<div id="combine-tables-in-expressions">
-  ### 式で表を結合する
-</div>
+### 式で表を結合する {#combine-tables-in-expressions}
 
 表の行リストを連結またはマージする必要がある場合は、式内で `concat`、`join`、および関連する演算を使用します。完全な例については、[Join](#join)を参照してください。[Panel options](#panel-options) の **Concat** と **Paginate** は、UI で表の結果をどのように結合し、読み込むかを制御する別個のコントロールです。
 
-<div id="join">
-  ### 結合
-</div>
+### 結合 {#join}
 
 クエリ内で表を直接結合することもできます。次のクエリ式を確認しましょう。
 
@@ -240,9 +210,7 @@ runs.summary["short_table_1"].table.rows.concat
 * `"Table1"` と `"Table2"` は、結合後の各表の名前です。
 * `true` と `false` は、左側と右側の内部結合/外部結合の設定を指定します。
 
-<div id="runs-object">
-  ## Runs オブジェクト
-</div>
+## Runs オブジェクト {#runs-object}
 
 クエリパネルを使用して `runs` オブジェクトにアクセスします。run オブジェクトには、実験の記録が保存されます。詳細については、[runs オブジェクトへのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) を参照してください。ここでは、`runs` オブジェクトで利用できる主な項目を簡単に説明します。
 
@@ -254,9 +222,7 @@ runs.summary["short_table_1"].table.rows.concat
   <img src="/images/weave/weave_runs_object.png" alt="Runs オブジェクトの構造" />
 </Frame>
 
-<div id="access-artifacts">
-  ## アーティファクトにアクセスする
-</div>
+## アーティファクトにアクセスする {#access-artifacts}
 
 アーティファクトは、W&amp;B の中核となる概念です。アーティファクトは、バージョン管理された、名前付きのファイルおよびディレクトリのコレクションです。アーティファクトを使用すると、モデルの重み、データセット、そのほか任意の file やディレクトリをトラッキングできます。W&amp;B はアーティファクトを保存し、ダウンロードしたり、ほかの Runs で使用したりできます。詳細と examples については、[アーティファクトへのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts)を参照してください。通常、アーティファクトには `project` オブジェクトからアクセスします。
 

@@ -5,17 +5,13 @@ title: Jupyter notebooksをトラッキング
 
 Jupyter で W&amp;B を使用すると、ノートブックを離れることなくインタラクティブな可視化を利用できます。カスタム分析、Experiments、プロトタイプを組み合わせ、すべてを完全にログできます。
 
-<div id="use-cases-for-wb-with-jupyter-notebooks">
-  ## Jupyter notebook で W&amp;B を使用するユースケース
-</div>
+## Jupyter notebook で W&amp;B を使用するユースケース {#use-cases-for-wb-with-jupyter-notebooks}
 
 1. **反復的な実験**: 実験を何度も実行し、パラメーターを調整しながら、途中で手作業でメモを取らなくても、実行したすべての run を自動的に W&amp;B に保存できます。
 2. **コード保存**: モデルを再現する際、notebook のどのセルが、どの順序で実行されたのかを把握するのは困難です。[settings page](/ja/platform/app/settings-page/) で コード保存 を有効にすると、各実験のセル実行記録を保存できます。
 3. **カスタム分析**: run が W&amp;B にログされると、API から dataframe を取得してカスタム分析を行い、その結果を W&amp;B にログして保存し、Reports で共有するのが簡単になります。
 
-<div id="getting-started-in-a-notebook">
-  ## ノートブックで始める
-</div>
+## ノートブックで始める {#getting-started-in-a-notebook}
 
 以下のコードをノートブックの先頭で実行して、W&amp;B をインストールし、アカウントを連携します。
 
@@ -52,9 +48,7 @@ wandb.init(
   <img src="/images/track/jupyter_widget.png" alt="Jupyter W&B ウィジェット" />
 </Frame>
 
-<div id="rendering-live-wb-interfaces-directly-in-your-notebooks">
-  ### W&amp;B のライブインターフェイスをノートブックに直接表示する
-</div>
+### W&amp;B のライブインターフェイスをノートブックに直接表示する {#rendering-live-wb-interfaces-directly-in-your-notebooks}
 
 `%wandb` マジックを使うと、既存のダッシュボード、Sweeps、またはreportをノートブックに直接表示することもできます。
 
@@ -88,9 +82,7 @@ run.finish()
   ツールキットと統合する方法](/ja/models/integrations)を確認してください。あるいは、[リファレンスドキュメント](/ja/models/ref/python/)や[サンプルリポジトリ](https://github.com/wandb/examples)を直接参照することもできます。
 </Note>
 
-<div id="additional-jupyter-features-in-wb">
-  ## W&amp;B の Jupyter 向け追加機能
-</div>
+## W&amp;B の Jupyter 向け追加機能 {#additional-jupyter-features-in-wb}
 
 1. **Colab での簡単な認証**: Colab で初めて `wandb.init()` を呼び出す際、ブラウザで W&amp;B にログイン済みであれば、ランタイムは自動的に認証されます。run ページの Overview タブには、Colab へのリンクが表示されます。
 2. **Jupyter マジック:** ノートブック内でダッシュボード、Sweeps、レポート を直接表示できます。`%wandb` マジック は、プロジェクト、Sweeps、レポート へのパスを受け取り、W&amp;B のインターフェースをノートブック内に直接表示します。

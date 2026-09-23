@@ -5,9 +5,7 @@ keywords: ["Experiments", "Métriques"]
 
 Lorsque vous visualisez des métriques en fonction d’un axe X autre que `Step`, il est normal de voir moins de points de données. Vous devez enregistrer les métriques au même `Step` pour les garder synchronisées. W&amp;B n’échantillonne que les métriques enregistrées au même `Step` lors de l’interpolation entre les échantillons.
 
-<div id="log-related-metrics-together">
-  ## Enregistrez ensemble les métriques associées
-</div>
+## Enregistrez ensemble les métriques associées {#log-related-metrics-together}
 
 Pour garder les métriques associées alignées sur le même `Step`, regroupez-les dans un seul appel à `log()`. Par exemple, au lieu de :
 

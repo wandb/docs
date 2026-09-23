@@ -6,9 +6,7 @@ title: "チュートリアル: データセットArtifactを作成、トラッ�
 
 このチュートリアルでは、データセットArtifactを作成、トラッキング、使用する方法を説明します。
 
-<div id="1-log-into-wb">
-  ## 1. W&amp;B にログインする
-</div>
+## 1. W&amp;B にログインする {#1-log-into-wb}
 
 W&amp;B ライブラリをインポートして、W&amp;B にログインします。まだお済みでない場合は、無料の W&amp;B アカウントにサインアップする必要があります。
 
@@ -18,9 +16,7 @@ import wandb
 wandb.login()
 ```
 
-<div id="2-initialize-a-run">
-  ## 2. run を初期化する
-</div>
+## 2. run を初期化する {#2-initialize-a-run}
 
 [`wandb.init()`](/ja/models/ref/python/functions/init) を使用して run を初期化します。これにより、データを Sync・ログするバックグラウンドプロセスが起動します。プロジェクト名とジョブタイプを指定します:
 
@@ -31,9 +27,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     # ここにコードを記述します
 ```
 
-<div id="3-create-an-artifact-object">
-  ## 3. artifact オブジェクトを作成する
-</div>
+## 3. artifact オブジェクトを作成する {#3-create-an-artifact-object}
 
 [`wandb.Artifact()`](/ja/models/ref/python/experiments/artifact) を使用して artifact オブジェクトを作成します。`name` パラメーターには artifact の名を、`type` パラメーターにはファイルタイプを表す説明を指定します。
 
@@ -45,9 +39,7 @@ artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 
 artifact の作成方法の詳細については、[Artifacts を作成する](./construct-an-artifact)を参照してください。
 
-<div id="4-add-the-dataset-to-the-artifact">
-  ## 4. データセットをartifactに追加する
-</div>
+## 4. データセットをartifactに追加する {#4-add-the-dataset-to-the-artifact}
 
 artifactにファイルを追加します。一般的なファイルタイプには、モデルやデータセットがあります。次の例では、ローカル環境に保存されている `dataset.h5` という名前のデータセットをartifactに追加します。
 
@@ -58,9 +50,7 @@ artifact.add_file(local_path="dataset.h5")
 
 前のコードスニペットのファイル名 `dataset.h5` を、artifact に追加するファイルのパスに置き換えます。
 
-<div id="5-log-the-dataset">
-  ## 5. データセットをログする
-</div>
+## 5. データセットをログする {#5-log-the-dataset}
 
 W&amp;B の run オブジェクトの `wandb.Run.log_artifact()` method を使用して、artifact のバージョンを保存すると同時に、その artifact を [run の出力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) として宣言します。
 
@@ -85,9 +75,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     run.log_artifact(artifact)
 ```
 
-<div id="6-download-and-use-the-artifact">
-  ## 6. artifact をダウンロードして使用する
-</div>
+## 6. artifact をダウンロードして使用する {#6-download-and-use-the-artifact}
 
 次のコード例では、ログして W&amp;B サーバーに保存した artifact を使用する手順を示します。
 

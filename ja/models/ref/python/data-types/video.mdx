@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py#L75" />
 
-<div id="class-wandbvideo">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Video
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Video {#class-wandbvideo}
 
 W&amp;B に動画をログするクラスです。
 
@@ -21,9 +19,7 @@ fps: 'int | None' = None,
 format: "Literal['gif', 'mp4', 'webm', 'ogg'] | None" = None)
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="data_or_path" type="str | pathlib.Path | np.ndarray | TextIO | BytesIO">
   Video は、ファイルパスまたは io オブジェクトで初期化できます。numpy テンソルで初期化することもできます。numpy テンソルは 4 次元または 5 次元である必要があります。次元は (フレーム数、チャネル、高さ、幅) または (バッチ、フレーム数、チャネル、高さ、幅) である必要があります。numpy 配列または io オブジェクトで初期化する場合は、`format` 引数で `format` パラメーターを指定する必要があります。

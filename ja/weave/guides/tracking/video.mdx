@@ -12,18 +12,14 @@ Weave は [`moviepy`](https://zulko.github.io/moviepy/) を使用して動画を
   動画のサポートは Python でのみ利用できます。
 </Note>
 
-<div id="usage-prerequisites">
-  ## 使用するための前提条件
-</div>
+## 使用するための前提条件 {#usage-prerequisites}
 
 Weave で動画をログする前に、次の前提条件を満たしてください。
 
 1. `weave` と `moviepy==1.0.3` をインストールします。
 2. W&amp;B アカウントを作成します。
 
-<div id="supported-video-types">
-  ## サポートされている動画タイプ
-</div>
+## サポートされている動画タイプ {#supported-video-types}
 
 Weave では、さまざまな種類の `moviepy` クリップをそれぞれ異なる方法で扱います。どのタイプを使用しているかを把握すると、Weave が動画データをどのようにアップロードして保存するかを理解しやすくなります。
 
@@ -32,9 +28,7 @@ Weave は、次のような `moviepy` の動画クリップオブジェクトを
 * 動画ファイルから読み込まれた `VideoFileClip` オブジェクト。
 * `ImageClip`、`ColorClip`、`TextClip` などのインメモリクリップ。
 
-<div id="direct-upload-of-file-based-clips">
-  ### ファイルベースのクリップの直接アップロード
-</div>
+### ファイルベースのクリップの直接アップロード {#direct-upload-of-file-based-clips}
 
 クリップが`VideoFileClip`で、サポート対象の拡張子を持つ有効なファイル名がある場合、Weave はそのファイルを直接アップロードします。
 
@@ -44,9 +38,7 @@ Weave は、次のような `moviepy` の動画クリップオブジェクトを
 * `.webm`
 * `.gif`
 
-<div id="in-memory-clip-support">
-  ### インメモリクリップのサポート
-</div>
+### インメモリクリップのサポート {#in-memory-clip-support}
 
 動画オブジェクトがインメモリの場合 (ディスク上にファイルがない場合) 、Weave はそれを `.mp4` ファイルとしてエンコードし、自動的にアップロードします。これは、次のタイプのクリップに適用されます。
 
@@ -54,9 +46,7 @@ Weave は、次のような `moviepy` の動画クリップオブジェクトを
 * `ColorClip`
 * `TextClip`
 
-<div id="example-trace-a-video-function">
-  ## 例: 動画関数をトレースする
-</div>
+## 例: 動画関数をトレースする {#example-trace-a-video-function}
 
 次のコードサンプルは、Weave で動画処理関数をトレースする方法を示しています。このコードサンプルでは、次のことを行います。
 

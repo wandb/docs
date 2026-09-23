@@ -6,9 +6,7 @@ keywords: ["full fidelity", "랜덤 샘플링", "선형 플롯 집계", "버킷 
 
 데이터 시각화의 정확도와 성능을 높이려면 선형 플롯에서 포인트 집계 방법을 사용하세요. 이 페이지에서는 사용 가능한 두 가지 집계 모드와 각 모드를 구성하는 방법을 설명하므로, 워크스페이스에 맞게 세부 수준과 렌더링 속도 사이에서 적절한 절충안을 선택할 수 있습니다. 포인트 집계 모드에는 [full fidelity](#full-fidelity)와 [랜덤 샘플링](#random-sampling), 두 가지 유형이 있습니다. W&amp;B는 기본적으로 full fidelity 모드를 사용합니다.
 
-<div id="full-fidelity">
-  ## Full fidelity
-</div>
+## Full fidelity {#full-fidelity}
 
 Full fidelity는 기본 aggregation 방법이며 데이터의 극값을 보존합니다. 이 섹션에서는 full fidelity의 작동 방식, 주요 장점, 그리고 이를 단일 chart 또는 전체 워크스페이스에 켜는 방법을 설명합니다.
 
@@ -25,9 +23,7 @@ full-fidelity 선형 플롯을 render하는 방법은 두 가지입니다:
 * **밴드**(기본값): 각 버킷 내의 최솟값과 최댓값을 음영 밴드로 표시하고, 선은 전체 추세를 보여 줍니다.
 * **선**: 포인트를 직접 연결하여 스파이크와 하락을 더 쉽게 파악할 수 있습니다.
 
-<div id="turn-on-full-fidelity">
-  ### full fidelity 활성화
-</div>
+### full fidelity 활성화 {#turn-on-full-fidelity}
 
 W&amp;B는 기본적으로 full fidelity 모드를 사용합니다. 수동으로 설정하려면 다음 단계를 따르세요.
 
@@ -54,9 +50,7 @@ W&amp;B는 기본적으로 full fidelity 모드를 사용합니다. 수동으로
   </Tab>
 </Tabs>
 
-<div id="configure-shading">
-  ### 음영 설정
-</div>
+### 음영 설정 {#configure-shading}
 
 음영은 각 버킷 내의 변동성을 시각화하여 점들이 선 주위에 얼마나 퍼져 있는지 보여줍니다.
 
@@ -96,9 +90,7 @@ full fidelity 선형 플롯의 음영 영역에는 다음을 표시할 수 있�
 6. **Range**를 **최소/최대**, **Std Dev**, **Std Err**, 또는 **None**으로 설정합니다.
 7. **적용**을 클릭합니다.
 
-<div id="explore-your-data-without-losing-data-fidelity">
-  ### 데이터 충실도를 유지한 채 데이터 탐색하기
-</div>
+### 데이터 충실도를 유지한 채 데이터 탐색하기 {#explore-your-data-without-losing-data-fidelity}
 
 극단값이나 스파이크 같은 중요한 지점을 놓치지 않고 데이터셋의 특정 구간을 분석하세요. 선형 플롯을 확대하면 W&amp;B는 각 버킷 내 최소값, 최대값, 마지막 값을 계산하는 데 사용되는 버킷 크기를 조정합니다.
 
@@ -131,9 +123,7 @@ W&amp;B는 전체 데이터 표현을 유지하고 모든 플롯에 극단값이
   * **Full fidelity(그룹화 및 표현식)**: 비윈도우 샘플링과 유사하지만, 성능과 세부 표현의 균형을 위해 run당 최대 500개 포인트를 가져옵니다.
 </Note>
 
-<div id="random-sampling">
-  ## 랜덤 샘플링
-</div>
+## 랜덤 샘플링 {#random-sampling}
 
 랜덤 샘플링은 데이터 충실도보다 렌더링 속도를 우선하는 대체 집계 방법입니다. 차트를 더 빠르게 표시해야 하고 모든 극단값을 유지할 필요가 없을 때 사용하세요.
 
@@ -143,9 +133,7 @@ W&amp;B는 전체 데이터 표현을 유지하고 모든 플롯에 극단값이
   랜덤 샘플링은 비결정적으로 수행됩니다. 따라서 데이터의 이상치나 스파이크가 제외되는 경우가 있으며, 그 결과 데이터 정확도가 낮아질 수 있습니다.
 </Warning>
 
-<div id="enable-random-sampling">
-  ### 랜덤 샘플링 활성화
-</div>
+### 랜덤 샘플링 활성화 {#enable-random-sampling}
 
 기본적으로 W&amp;B는 full fidelity 모드를 사용합니다. 랜덤 샘플링을 활성화하려면 다음 단계를 따르세요.
 
@@ -166,9 +154,7 @@ W&amp;B는 전체 데이터 표현을 유지하고 모든 플롯에 극단값이
   </Tab>
 </Tabs>
 
-<div id="access-non-sampled-data">
-  ### 샘플링되지 않은 데이터에 액세스
-</div>
+### 샘플링되지 않은 데이터에 액세스 {#access-non-sampled-data}
 
 랜덤 샘플링으로 필요한 포인트가 누락되더라도, 프로그래밍 방식으로 샘플링되지 않은 전체 메트릭 이력에 계속 액세스할 수 있습니다. [Public API](/ko/models/ref/python/public-api/runs)를 사용하면 run 동안 로깅된 메트릭의 전체 이력에 액세스할 수 있습니다. 다음 예제에서는 특정 run의 loss 값을 조회하고 처리하는 방법을 보여줍니다.
 

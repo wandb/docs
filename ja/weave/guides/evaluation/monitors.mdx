@@ -20,9 +20,7 @@ keywords: ["シグナル", "モニター", "LLM-as-a-judge", "ハルシネーシ
 * 動作に関する洞察を得る。システムメトリクスを超えて、エージェントがハルシネーションを起こしていないか、会話パターンに従えているか、根拠となる証拠に基づいて応答できているかを把握できます。
 * リサーチループを加速する。シグナル によって生成されたスコアと失敗分析を使用して弱点を特定し、モデル改善、データアノテーション、または強化学習の検討に活用できます。
 
-<div id="available-signals">
-  ## 利用可能なシグナル
-</div>
+## 利用可能なシグナル {#available-signals}
 
 W&amp;B Weave には組み込みシグナルを備えたモニターが用意されています。これらは、追加のカスタム設定なしでデフォルトで使用でき、本番トレースに対する一般的な品質上の問題やエラーを評価するプリセットの Scorer です。各組み込みシグナルは、ベンチマーク済みの LLM プロンプト を使用してトレースを分類し、検出された問題を表すカンマ区切りのタグとして結果を保存します。
 
@@ -30,9 +28,7 @@ W&amp;B Weave には組み込みシグナルを備えたモニターが用意さ
 
 W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセットシグナルがあります。
 
-<div id="quality-signals">
-  ### 品質シグナル
-</div>
+### 品質シグナル {#quality-signals}
 
 品質シグナルは、成功したルートレベルのトレースについて、出力の品質や安全性に関する問題を評価します。
 
@@ -46,9 +42,7 @@ W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセッ
 | **Lazy**             | 簡潔すぎる、支援を拒否する、作業を先送りするなどの、手間をかけていない応答              |
 | **Forgetful**        | 会話の前半で示されたコンテキストを使えていないこと、または以前に示された事実や指示を無視していること |
 
-<div id="error-signals">
-  ### エラーシグナル
-</div>
+### エラーシグナル {#error-signals}
 
 エラーシグナルは、失敗したトレースを根本原因ごとに分類し、インフラストラクチャーやアプリケーションの問題を特定して解決しやすくします。
 
@@ -61,9 +55,7 @@ W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセッ
 | **Bad Response**      | リモートサービスから返された無効、想定外、または使用不能な応答 (`5xx`)          |
 | **Bug**               | `KeyError`、`TypeError`、ロジックエラーなど、アプリケーションコードの不具合 |
 
-<div id="how-signals-work">
-  ### シグナルの仕組み
-</div>
+### シグナルの仕組み {#how-signals-work}
 
 各シグナルは、LLM-as-a-judge アプローチを使用してトレースを分類します。
 
@@ -73,9 +65,7 @@ W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセッ
 
 同じグループ (Quality または Error) の複数のシグナルが有効になっている場合、Weave はそれらを 1 回の LLM Call にまとめて処理します。モデルは、有効なすべての分類器を 1 回で評価し、それぞれについて結果を返します。
 
-<div id="add-a-signal-from-the-monitors-page">
-  ## Monitors ページからシグナルを追加する
-</div>
+## Monitors ページからシグナルを追加する {#add-a-signal-from-the-monitors-page}
 
 シグナルを追加すると、自動スコアリングが有効になり、Weave がそのシグナルの条件に照らして新しい本番トレースを評価するようになります。シグナルを有効にするには、次の手順に従います。
 
@@ -86,9 +76,7 @@ W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセッ
 
 シグナルを追加すると、Weave は受信したトレースを自動的にスコアリングします。
 
-<div id="manage-active-signals">
-  ## アクティブなシグナルを管理する
-</div>
+## アクティブなシグナルを管理する {#manage-active-signals}
 
 シグナルの実行を開始すると、どのシグナルがアクティブかを確認したり、不要になったシグナルをオフにしたりできます。アクティブなシグナルを表示または削除するには、次の手順に従います。
 
@@ -97,15 +85,11 @@ W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセッ
 
 シグナルを削除すると、新しいトレースに対するスコアリングは停止します。Weave はそのシグナルの既存のスコアを保持します。
 
-<div id="use-built-in-signals">
-  ## 組み込みシグナルを使用する
-</div>
+## 組み込みシグナルを使用する {#use-built-in-signals}
 
 シグナルが有効になり、トレースの評価が始まると、Weave のさまざまな場所で結果を確認できます。Weave が問題を検出したときにアラートを設定することもできます。以下のセクションでは、シグナルの結果を確認できる場所と、その対処方法について説明します。
 
-<div id="see-tagged-call-traces-on-the-traces-page">
-  ### Traces ページでタグ付きの Call トレースを確認する
-</div>
+### Traces ページでタグ付きの Call トレースを確認する {#see-tagged-call-traces-on-the-traces-page}
 
 個々の function を `@weave.op` decorator を使って Ops としてトレースする場合、Weave はシグナル の結果を Call object の feedback として保存します。これらの結果は **Traces** ページからクエリできます。
 
@@ -119,9 +103,7 @@ W&amp;B Weave には、2 つのグループに分かれた 13 個のプリセッ
 
 ![quality-classifier のトレースが選択された Weave Traces view。詳細パネルには、信頼度スコアと理由を含む classifiers メタデータを含む Call の詳細が表示されています。](/weave/guides/evaluation/img/weave_signals_trace_reasoning.png)
 
-<div id="see-signals-in-the-project-dashboard">
-  ### project ダッシュボードでシグナルを確認する
-</div>
+### project ダッシュボードでシグナルを確認する {#see-signals-in-the-project-dashboard}
 
 project レベルでもシグナルを確認できます。
 
@@ -133,9 +115,7 @@ project レベルでもシグナルを確認できます。
 
 ![project のアクティビティによるシグナルのグラフを表示する Weave project ダッシュボードの Monitor Scores パネル。](/weave/guides/evaluation/img/weave_signals_project_dash.png)
 
-<div id="alert-on-signals">
-  ### シグナルにアラートを設定する
-</div>
+### シグナルにアラートを設定する {#alert-on-signals}
 
 UI でシグナルを確認するだけでなく、シグナルがトリガーされたときに Weave から通知を受け取ることもできます。エージェントのパフォーマンスが特定のしきい値を下回ったときに、Slack などのツールを通じてチームに通知する自動トリガーを設定できます。
 

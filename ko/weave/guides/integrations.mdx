@@ -11,23 +11,17 @@ Weave는 AI 스택과 통합하는 두 가지 방법을 제공합니다:
 
 어느 경로를 선택해야 할지 잘 모르겠다면, 새로운 멀티턴 에이전트 작업은 [에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)부터 시작하고, 기존 LLM Call 워크플로는 [LLM 애플리케이션 트레이싱](/ko/weave/guides/tracking/tracing)을 사용하세요.
 
-<div id="trace-agents">
-  ## 에이전트 트레이싱
-</div>
+## 에이전트 트레이싱 {#trace-agents}
 
 멀티턴 에이전트형 애플리케이션을 구축하면서 세션, 턴, 도구 Call이 Weave **Agents** 뷰에 표시되도록 하려면 이러한 인테그레이션을 사용하세요. 에이전트 SDK, 하니스 및 맞춤형 계측에 대해서는 [에이전트 인테그레이션 선택](/ko/weave/agent-integration-quickstart)을 참조하세요.
 
-<div id="trace-llm-applications">
-  ## LLM 애플리케이션 트레이싱
-</div>
+## LLM 애플리케이션 트레이싱 {#trace-llm-applications}
 
 애플리케이션이 LLM 공급자의 API를 직접 호출하거나 오케스트레이션 프레임워크를 사용하는 경우, Weave는 autopatching을 사용해 많은 라이브러리와 프레임워크의 트레이스를 자동으로 가로챌 수 있습니다. 코드에 Weave SDK를 임포트하고 `weave.init`으로 초기화한 후, Weave는 각 요청을 입력, 출력, 지연 시간, 토큰 사용량, 비용과 함께 **Call**로 기록합니다.
 
 Weave가 autopatch하지 않는 라이브러리의 경우, 코드에 [Weave Ops](/ko/weave/guides/tracking/create-call#2-tracking-of-custom-functions)를 수동으로 적용해 트레이스를 캡처할 수 있습니다.
 
-<div id="llm-providers">
-  ### LLM 공급자
-</div>
+### LLM 공급자 {#llm-providers}
 
 LLM 공급자는 예측을 생성할 수 있도록 대규모 언어 모델에 대한 액세스를 제공하는 벤더입니다. Weave는 이러한 공급자와 통합되어 해당 API와의 상호작용을 로깅하고 트레이스합니다:
 
@@ -48,9 +42,7 @@ LLM 공급자는 예측을 생성할 수 있도록 대규모 언어 모델에 �
 * **[Together AI](/ko/weave/guides/integrations/together_ai)**
 * **[로컬 모델](/ko/weave/guides/integrations/local_models)** (자체 인프라에서 모델을 실행하는 경우에 사용합니다.)
 
-<div id="frameworks">
-  ### 프레임워크
-</div>
+### 프레임워크 {#frameworks}
 
 프레임워크는 AI 애플리케이션에서 실행 파이프라인을 오케스트레이션하는 데 도움을 줍니다. 복잡한 워크플로를 구축할 수 있도록 도구와 추상화 계층을 제공합니다. Weave는 이러한 프레임워크와 통합되어 전체 파이프라인을 트레이스합니다:
 
@@ -73,17 +65,13 @@ LLM 공급자는 예측을 생성할 수 있도록 대규모 언어 모델에 �
 * **[Agno](/ko/weave/guides/integrations/agno)**
 * **[Koog](/ko/weave/guides/integrations/koog)**
 
-<div id="reinforcement-learning-frameworks">
-  ### 강화 학습 프레임워크
-</div>
+### 강화 학습 프레임워크 {#reinforcement-learning-frameworks}
 
 Weave는 강화 학습 프레임워크와 통합되어 트레이닝 및 평가 Runs를 트레이스합니다:
 
 * **[검증 도구](/ko/weave/guides/integrations/verifiers)**
 
-<div id="protocols">
-  ### 프로토콜
-</div>
+### 프로토콜 {#protocols}
 
 Weave는 AI 애플리케이션과 이를 지원하는 서비스 간의 통신을 가능하게 하는 표준화된 프로토콜과 통합됩니다.
 

@@ -11,7 +11,7 @@ Weave SDK를 사용하면 널리 사용되는 SDK나 맞춤형 하니스로 구�
 Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하려는 경우 [에이전트 인테그레이션 선택](/ko/weave/agent-integration-quickstart)을 참조하세요. Weave는 빠르게 통합할 수 있도록 여러 에이전트 구축 SDK와 에이전트 하니스에 자동 패치됩니다.
 
 <div id="what-youll-learn">
-  ## 배울 내용
+  ## 배울 내용 {#what-youll-learn}
 </div>
 
 이 퀵스타트를 마치면 Weave와 호환되는 OTel span을 생성하는 멀티턴 에이전트를 구현할 수 있습니다. 또한 Weave가 대화, 턴, LLM Call, 도구 Call을 에이전트 코드에 어떻게 대응시키는지도 이해하게 되므로, 동일한 패턴을 여러분의 맞춤형 에이전트에 적용할 수 있습니다.
@@ -28,7 +28,7 @@ Claude Agent SDK 또는 Codex와 같은 SDK나 하니스와 Weave를 통합하�
 * 결과로 생성된 대화, 턴, 도구 Call을 Agents 뷰에서 확인합니다.
 
 <div id="how-the-weave-sdk-works-with-agents">
-  ## Weave SDK가 에이전트와 작동하는 방식
+  ## Weave SDK가 에이전트와 작동하는 방식 {#how-the-weave-sdk-works-with-agents}
 </div>
 
 Weave SDK에는 에이전트를 위한 범용 OTel 수집 시스템이 포함되어 있으므로, Weave는 에이전트 코드의 모든 OTel span에서 정보를 캡처할 수 있습니다. 하지만 Weave UI의 Agents 뷰에서 에이전트 트레이스를 표시하려면, 다음 span은 Weave에서 특별히 처리해야 합니다.
@@ -45,7 +45,7 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 `gen_ai.usage.*` 및 `gen_ai.agent.name`과 같은 다른 [GenAI semantic-convention attributes](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)도 추가 정보 표시를 가능하게 하지만, 선택 사항입니다.
 
 <div id="prerequisites">
-  ## 사전 요구 사항
+  ## 사전 요구 사항 {#prerequisites}
 </div>
 
 * W&amp;B 계정 및 [API 키](https://wandb.ai/authorize).
@@ -54,7 +54,7 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 * Node.js 18+ (TypeScript 예시에는 내장 `fetch`가 필요합니다).
 
 <div id="install-packages">
-  ## 패키지 설치
+  ## 패키지 설치 {#install-packages}
 </div>
 
 다음 패키지를 개발 환경에 설치하세요:
@@ -70,7 +70,7 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 </CodeGroup>
 
 <div id="initialize-weave">
-  ## Weave 초기화
+  ## Weave 초기화 {#initialize-weave}
 </div>
 
 `weave.init()`는 W&amp;B 인증을 수행하고 에이전트 span을 **Agents** 뷰로 전송하는 OTel 익스포터를 설정합니다. 팀에 해당 프로젝트가 없으면 Weave가 처음 데이터를 기록할 때 자동으로 생성합니다.
@@ -100,7 +100,7 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 </CodeGroup>
 
 <div id="define-a-tool">
-  ## 도구 정의하기
+  ## 도구 정의하기 {#define-a-tool}
 </div>
 
 다음 코드는 에이전트의 Wikipedia 검색 도구와, 도구를 언제 어떻게 사용할지 지정하는 OpenAI 도구 스키마를 정의합니다.
@@ -172,7 +172,7 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 </CodeGroup>
 
 <div id="run-a-traced-multi-turn-agent">
-  ## 트레이스된 멀티턴 에이전트 실행
+  ## 트레이스된 멀티턴 에이전트 실행 {#run-a-traced-multi-turn-agent}
 </div>
 
 도구와 Weave 초기화가 준비되면, 다음 단계는 이를 완전한 에이전트 루프로 결합하는 것입니다. 이 루프는 대화, 턴, LLM Call, 도구 Call이 서로 어떻게 중첩되는지 보여줍니다.
@@ -372,7 +372,7 @@ Python에서는 네 함수 모두 컨텍스트 관리자(`with weave.start_*(...
 </CodeGroup>
 
 <div id="record-token-usage-and-cost">
-  ## 토큰 사용량 및 비용 기록
+  ## 토큰 사용량 및 비용 기록 {#record-token-usage-and-cost}
 </div>
 
 각 `chat` span에는 토큰 사용량과 모델 ID가 포함됩니다. Weave는 사용량을 바탕으로 토큰 수를 표시하고, 사용량과 모델 ID를 바탕으로 비용을 계산합니다. 따라서 값이 불완전하거나 가격을 계산할 수 없으면 나머지 트레이스가 올바르게 보여도 `0 in / 0 out` 토큰 또는 `Cost -`로 표시됩니다. `record(...)`를 사용하면 이러한 필드(`output_messages`, `response_id`, `reasoning` 등 포함)를 한 번에 설정할 수 있습니다. 전달한 필드만 적용됩니다.
@@ -424,7 +424,7 @@ OpenAI는 캐시된 토큰을 `prompt_tokens`에 포함해 계산하므로 위 �
 </CodeGroup>
 
 <div id="see-your-agent-traces-in-the-agents-view">
-  ## Agents 뷰에서 에이전트 트레이스 확인하기
+  ## Agents 뷰에서 에이전트 트레이스 확인하기 {#see-your-agent-traces-in-the-agents-view}
 </div>
 
 `weave.init()`가 실행되면 다음을 확인할 수 있는 프로젝트 링크가 출력됩니다.
@@ -437,7 +437,7 @@ OpenAI는 캐시된 토큰을 `prompt_tokens`에 포함해 계산하므로 위 �
 아무 턴이나 클릭하여 입력, 출력, 도구 인수, 도구 결과를 확인하세요.
 
 <div id="link-to-a-conversation-from-your-app">
-  ## 앱에서 대화로 연결하기
+  ## 앱에서 대화로 연결하기 {#link-to-a-conversation-from-your-app}
 </div>
 
 자체 UI에서 Weave Agents 뷰의 대화로 딥링크하려면 entity, 프로젝트, 대화 id를 사용해 URL을 구축하세요. `weave.init()`는 `entity`와 `project`를 포함하는 클라이언트를 반환하고, `start_conversation`은 `conversation_id`를 제공합니다.
@@ -461,9 +461,7 @@ OpenAI는 캐시된 토큰을 `prompt_tokens`에 포함해 계산하므로 위 �
   ```
 </CodeGroup>
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 * [Weave로 에이전트 트레이싱](/ko/weave/guides/tracking/trace-agents)하는 방법과 Weave SDK에서 사용할 수 있는 특성 및 옵션을 알아보세요.
 * 에이전트에 Weave를 통합하는 추가 옵션은 [에이전트 인테그레이션 선택](/ko/weave/agent-integration-quickstart)을 참조하세요.

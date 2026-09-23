@@ -67,9 +67,7 @@ W&amp;B Weave は、深くネストされたパターンを含む sync / async �
 次のスクリーンショットは、前述のコードの選択されたトレースを表示した **Traces** ページです。中央のパネルには、選択したトレースのトレース ツリーが表示されます。トレース ツリーには、`deeply_nested_generator`、`nested_generator`、`inner` の Ops が階層構造で表示されています。
 ![Weave Traces ページ。深くネストされた Ops を示す選択されたトレース ツリーを表示](/weave/guides/tracking/imgs/generators.png)
 
-<div id="consume-generators">
-  ## ジェネレーターを消費する
-</div>
+## ジェネレーターを消費する {#consume-generators}
 
 次のセクションでは、Weave がジェネレーターの出力を記録するためにジェネレーターを消費する必要がある理由と、どの消費パターンが機能するかを説明します。
 
@@ -77,9 +75,7 @@ Weave は、ジェネレーターを最後まで消費した場合にのみ、�
 
 関数や method を `@weave.op` でデコレートする方法について詳しくは、[call の作成](/ja/weave/guides/tracking/create-call) を参照してください.
 
-<div id="accumulate-yielded-values-into-a-single-trace">
-  ## yield された値を 1 つのトレースに集約する
-</div>
+## yield された値を 1 つのトレースに集約する {#accumulate-yielded-values-into-a-single-trace}
 
 Weave に yield された値の生のシーケンスではなく、結合された結果 (連結した文字列や list など) を記録させたい場合は、accumulator を使用します。
 

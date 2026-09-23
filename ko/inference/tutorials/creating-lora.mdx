@@ -13,9 +13,7 @@ Serverless Inference를 사용하면 일부 기본 모델에서 커스텀 LoRA�
 
 이 튜토리얼은 세 부분으로 구성됩니다. 사후학습 데이터셋을 준비하고, LoRA를 생성하고 업로드하는 사후학습 스크립트를 실행한 다음, 완성된 LoRA를 플레이그라운드 또는 코드에서 사용해 봅니다.&quot;
 
-<div id="post-training-dataset">
-  ## 사후학습(Post-training) 데이터셋
-</div>
+## 사후학습(Post-training) 데이터셋 {#post-training-dataset}
 
 이 섹션에서는 모델을 미세 조정하는 데 사용되는 예시 데이터셋을 제공합니다.
 
@@ -82,9 +80,7 @@ Serverless Inference를 사용하면 일부 기본 모델에서 커스텀 LoRA�
 
 이 데이터셋을 저장하면 사후학습(Post-training)을 실행할 준비가 됩니다.
 
-<div id="post-training">
-  ## 사후학습(Post-training)
-</div>
+## 사후학습(Post-training) {#post-training}
 
 이 섹션에서는 데이터셋에서 LoRA 어댑터를 생성하고 이를 W&amp;B에 업로드하는 트레이닝 스크립트를 실행하는 방법을 안내합니다.
 
@@ -326,9 +322,7 @@ uv run create_lora.py cowboy_examples.jsonl
 
 스크립트가 완료되면 학습된 LoRA 어댑터가 W&amp;B 아티팩트로 저장되며, Serverless Inference에서 사용할 준비가 됩니다.
 
-<div id="use-the-lora">
-  ## LoRA 사용하기
-</div>
+## LoRA 사용하기 {#use-the-lora}
 
 이 섹션에서는 생성한 LoRA를 플레이그라운드에서 대화형으로 또는 프로그래밍 방식으로 사용해 보는 방법을 설명합니다.
 
@@ -342,9 +336,7 @@ uv run create_lora.py cowboy_examples.jsonl
 
 코드에서 LoRA를 사용하려면 단계별 안내가 포함된 [Serverless LoRA Inference 사용](/ko/inference/lora#workflow) 가이드를 참고하세요.
 
-<div id="next-steps">
-  ## 다음 step
-</div>
+## 다음 step {#next-steps}
 
 이제 작동하는 LoRA가 있으므로, 트레이닝 선택이 결과에 어떤 영향을 미치는지 확인하기 위해 더 실험해 볼 수 있습니다:
 

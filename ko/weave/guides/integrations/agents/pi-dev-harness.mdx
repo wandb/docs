@@ -13,7 +13,7 @@ keywords: ["Pi", "OpenTelemetry", "OTEL", "TypeScript", "코딩 에이전트"]
 </Warning>
 
 <div id="prerequisites">
-  ## 사전 요구 사항
+  ## 사전 요구 사항 {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) (v18 이상).
@@ -24,7 +24,7 @@ keywords: ["Pi", "OpenTelemetry", "OTEL", "TypeScript", "코딩 에이전트"]
 </Note>
 
 <div id="install-packages">
-  ## 패키지 설치
+  ## 패키지 설치 {#install-packages}
 </div>
 
 Weave, Pi 및 Node 타입 정의를 로컬 프로젝트 의존성으로 설치하세요:
@@ -35,7 +35,7 @@ npm install --save-dev @types/node tsx typescript
 ```
 
 <div id="trace-a-pi-prompt-and-response">
-  ## Pi 프롬프트와 응답 트레이스하기
+  ## Pi 프롬프트와 응답 트레이스하기 {#trace-a-pi-prompt-and-response}
 </div>
 
 다음 예시는 단일 Pi 프롬프트와 응답을 트레이스하는 데 필요한 최소 설정을 보여줍니다. 에이전트 Session을 만들기 전에 `weave.init()`을 호출한 다음, `createOtelExtension()`을 확장 팩토리로 전달하세요. Weave는 대화, 각 프롬프트와 응답 사이클(`invoke_agent`), 개별 LLM Call(`chat`), 도구 실행(`execute_tool`)을 포함한 에이전트의 전체 라이프사이클을 트레이스합니다. `SessionManager.inMemory()`가 Session ID를 자동으로 생성합니다.
@@ -105,7 +105,7 @@ npx tsx [FILENAME].ts
 코드를 실행하면 Weave 프로젝트의 **Agents** 탭 `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`에 트레이스가 표시됩니다. Weave는 애플리케이션의 모든 run에 대해 Pi 세션, LLM Call, 도구 실행을 캡처합니다.
 
 <div id="next-steps">
-  ### 다음 단계
+  ### 다음 단계 {#next-steps}
 </div>
 
 이 예제를 멀티턴 대화로 전환하려면 프롬프트를 더 추가하세요. Weave는 `session.prompt()`를 호출할 때마다 각각 별도의 `invoke_agent` span으로 트레이스하며, 모두 하나의 루트 span 아래에 중첩됩니다. 에이전트는 프롬프트 간 컨텍스트를 자동으로 유지합니다.

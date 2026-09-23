@@ -8,9 +8,7 @@ keywords: ["log_code", "code_dir", "comparateur de code", "historique du noteboo
 
 Utilisez W&amp;B pour enregistrer votre code, comparer le code d’un run à l’autre, afficher les modifications locales et capturer l’historique de session Jupyter.
 
-<div id="enable-code-saving">
-  ## Activer l’enregistrement du code
-</div>
+## Activer l’enregistrement du code {#enable-code-saving}
 
 Configurez l’enregistrement du code pour votre équipe ou votre organisation. Les paramètres au niveau de l’équipe et de l’organisation sont documentés dans [Configurer les paramètres de confidentialité](/fr/platform/hosting/privacy-settings).
 
@@ -18,21 +16,15 @@ Configurez l’enregistrement du code pour votre équipe ou votre organisation. 
   Par défaut, W&amp;B désactive l’enregistrement du code pour toutes les équipes. Avant de pouvoir l’activer pour une équipe, un administrateur de l’organisation doit laisser l’option **Disable default code saving** désactivée pour l’organisation. Voir la section [Organisation](#organization).
 </Info>
 
-<div id="team">
-  ### Équipe
-</div>
+### Équipe {#team}
 
 Pour activer l’enregistrement du code pour une équipe en tant qu’administrateur de l’équipe, accédez à la page **Settings**, puis à la section **Confidentialité**, et configurez **Enable code saving by default** pour les runs de l’équipe. Cette option n’est disponible que si un administrateur de l’organisation n’a pas activé **Disable default code saving** pour toute l’organisation. Pour les étapes de navigation, voir [Configurer les paramètres de confidentialité d’une équipe](/fr/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team).
 
-<div id="organization">
-  ### Organisation
-</div>
+### Organisation {#organization}
 
 En tant qu’administrateur de l’organisation, accédez à **Settings**, sélectionnez **Confidentialité**, puis utilisez **Disable default code saving** dans la section **Project and content security** pour contrôler si l’enregistrement du code est désactivé par défaut pour chaque équipe. Tant que ce paramètre est activé, les administrateurs d’équipe ne peuvent pas activer **Enable code saving by default** pour leur équipe. Pour la liste complète des contrôles au niveau de l’organisation, voir [Enforce privacy settings for all teams](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
 
-<div id="save-code">
-  ## Enregistrer le code
-</div>
+## Enregistrer le code {#save-code}
 
 {/* Lorsque vous activez l’enregistrement du code, W&B enregistre le code du fichier à l’origine de l’appel à `wandb.init()`. Pour enregistrer du code de bibliothèque supplémentaire, vous avez trois options : */}
 
@@ -40,9 +32,7 @@ Capturez le code source qui a produit un run en tant qu’[artefact](/fr/models/
 
 Il existe deux façons d’enregistrer le code : une approche granulaire et une approche automatique.
 
-<div id="fine-grain-control">
-  ### Contrôle fin
-</div>
+### Contrôle fin {#fine-grain-control}
 
 Utilisez `wandb.Run.log_code()` pour journaliser des fichiers ou des répertoires spécifiques en tant qu’[artefact](/fr/models/ref/python/experiments/artifact).
 
@@ -75,9 +65,7 @@ with wandb.init() as run:
 
 Pour mieux contrôler les types et emplacements des fichiers de code source que W&amp;B enregistre, voir la [Référence](/fr/models/ref/python/experiments/run#log_code).
 
-<div id="automatically-capture-code">
-  ### Capturer automatiquement le code
-</div>
+### Capturer automatiquement le code {#automatically-capture-code}
 
 Utilisez `wandb.init(settings=wandb.Settings(code_dir=))` pour capturer automatiquement tout le code du répertoire actuel et de ses sous-répertoires. Par défaut, W&amp;B capture :
 
@@ -97,9 +85,7 @@ with wandb.init(settings=wandb.Settings(code_dir=".")) as run:
 
 Vous pouvez également spécifier un autre répertoire en remplaçant `.` par le chemin du répertoire dont vous souhaitez capturer le contenu.
 
-<div id="view-local-changes">
-  ## Voir les modifications locales
-</div>
+## Voir les modifications locales {#view-local-changes}
 
 W&amp;B génère des fichiers diff lorsque vous journalisez du code avec des modifications indexées ou non indexées dans votre dépôt Git, et vous pouvez afficher ces modifications dans l’interface W&amp;B.
 
@@ -129,9 +115,7 @@ W&amp;B prend en charge deux modes d’affichage du diff entre les runs : *unif
 
 Basculez entre les deux vues en sélectionnant le bouton **Unified** ou **Split** dans le coin supérieur droit de la vue diff, sous le bouton **Download**.
 
-<div id="jupyter-session-history">
-  ## Historique de session Jupyter
-</div>
+## Historique de session Jupyter {#jupyter-session-history}
 
 W&amp;B enregistre l’historique du code exécuté dans votre session de notebook Jupyter. Lorsque vous appelez `wandb.init()` dans Jupyter, W&amp;B ajoute un hook pour enregistrer automatiquement un notebook Jupyter qui contient l’historique du code exécuté dans votre session en cours.
 
@@ -150,9 +134,7 @@ Cela affiche les cellules exécutées pendant votre session, ainsi que toutes le
   <img src="/images/app_ui/jupyter_session_history_display.png" alt="Sortie de session Jupyter" />
 </Frame>
 
-<div id="compare-code-across-runs">
-  ## Comparer le code entre les runs
-</div>
+## Comparer le code entre les runs {#compare-code-across-runs}
 
 Comparez le code utilisé dans différents runs W&amp;B :
 

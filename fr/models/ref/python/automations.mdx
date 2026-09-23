@@ -7,18 +7,14 @@ no_list: true
 
 L’API W&amp;B Automations permet de créer et de gérer par programmation des flux de travail automatisés qui réagissent aux événements de votre pipeline ML. Configurez des actions pour qu’elles se déclenchent lorsque des conditions spécifiques sont remplies, comme des seuils de performance du modèle ou la création d’un artifact.
 
-<div id="core-classes">
-  ### Classes principales
-</div>
+### Classes principales {#core-classes}
 
 | Classe                                                           | Description                                                                 |
 | ---------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | [`Automation`](/fr/models/ref/python/automations/automation/)       | Représente une instance d’automatisation enregistrée avec sa configuration. |
 | [`NewAutomation`](/fr/models/ref/python/automations/newautomation/) | Classe utilitaire permettant de créer de nouvelles automatisations.         |
 
-<div id="events-triggers">
-  ### Événements (Déclencheurs)
-</div>
+### Événements (Déclencheurs) {#events-triggers}
 
 | Événement                                                                  | Description                                                                                           |
 | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
@@ -27,9 +23,7 @@ L’API W&amp;B Automations permet de créer et de gérer par programmation des 
 | [`OnLinkArtifact`](/fr/models/ref/python/automations/onlinkartifact/)         | Se déclenche lorsqu&#39;un artifact est lié à un registre.                                            |
 | [`OnAddArtifactAlias`](/fr/models/ref/python/automations/onaddartifactalias/) | Se déclenche lorsqu&#39;un alias est ajouté à un artifact.                                            |
 
-<div id="actions">
-  ### Actions
-</div>
+### Actions {#actions}
 
 | Action                                                                 | Description                                                      |
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -37,54 +31,40 @@ L’API W&amp;B Automations permet de créer et de gérer par programmation des 
 | [`SendWebhook`](/fr/models/ref/python/automations/sendwebhook/)           | Envoyer des requêtes webhook HTTP à des services externes.       |
 | [`DoNothing`](/fr/models/ref/python/automations/donothing/)               | Action factice pour tester les configurations d’automatisation.  |
 
-<div id="filters">
-  ### Filtres
-</div>
+### Filtres {#filters}
 
 | Filtre                                                                           | Description                                                                             |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | [`MetricThresholdFilter`](/fr/models/ref/python/automations/metricthresholdfilter/) | Filtre les runs en comparant les valeurs des métriques à des seuils.                    |
 | [`MetricChangeFilter`](/fr/models/ref/python/automations/metricchangefilter/)       | Filtre les runs en fonction de l’évolution de la valeur d’une métrique au fil du temps. |
 
-<div id="common-use-cases">
-  ## Cas d’usage courants
-</div>
+## Cas d’usage courants {#common-use-cases}
 
-<div id="model-performance-monitoring">
-  ### Surveillance des performances du modèle
-</div>
+### Surveillance des performances du modèle {#model-performance-monitoring}
 
 * Déclencher une alerte lorsque l’accuracy du modèle passe sous un seuil
 * Notifier l’équipe lorsque la perte d’entraînement plafonne
 * Déclencher des pipelines de réentraînement en fonction des métriques de performance
 
-<div id="artifact-management">
-  ### Gestion des Artifacts
-</div>
+### Gestion des Artifacts {#artifact-management}
 
 * Envoyer des notifications lorsque de nouvelles versions de modèle sont créées
 * Déclencher des flux de travail de déploiement lorsque des artifacts sont tagués
 * Automatiser les traitements en aval lorsque des jeux de données sont mis à jour
 
-<div id="experiment-tracking">
-  ### Suivi des expériences
-</div>
+### Suivi des expériences {#experiment-tracking}
 
 * Alertes en cas de runs en échec ou plantés
 * Notifications lorsque des expériences de longue durée se terminent
 * Envoi de résumés quotidiens des métriques des expériences
 
-<div id="integration-workflows">
-  ### Flux de travail d’intégration
-</div>
+### Flux de travail d’intégration {#integration-workflows}
 
 * Mettre à jour des systèmes de suivi externes via des webhooks
 * Synchroniser le registre de modèles avec des plateformes de déploiement
 * Déclencher des pipelines CI/CD à partir d’événements W&amp;B
 
-<div id="example-usage">
-  ## Exemple d’utilisation
-</div>
+## Exemple d’utilisation {#example-usage}
 
 L’exemple suivant crée une automatisation qui envoie une notification Slack chaque fois qu’une métrique appelée `custom-metric` dépasse 10. La métrique `custom-metric` est censée être enregistrée pendant l’entraînement à l’aide de `wandb.Run.log({"custom-metric": value })`.
 

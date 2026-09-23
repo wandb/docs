@@ -49,9 +49,7 @@ Weave Op は、すべての Call を自動的にログする、バージョン�
   </Tab>
 </Tabs>
 
-<div id="customize-display-names">
-  ## 表示名をカスタマイズする
-</div>
+## 表示名をカスタマイズする {#customize-display-names}
 
 カスタムの表示名を設定すると、特に関数名が汎用的だったり自動生成されたものだったりする場合に、Weave UI で Op を識別しやすくなります。
 
@@ -73,9 +71,7 @@ Weave Op は、すべての Call を自動的にログする、バージョン�
   </Tab>
 </Tabs>
 
-<div id="apply-kinds-and-colors">
-  ## kind と color を適用する
-</div>
+## kind と color を適用する {#apply-kinds-and-colors}
 
 Weave UI で Ops をより見やすく整理するには、コード内の `@weave.op` デコレータに `kind` 引数と `color` 引数を追加して、カスタムの kind と color を設定します。たとえば、次のコードでは親関数に `LLM` の `kind` と `blue` の `color` を、ネストされた関数に `tool` の `kind` と `red` の `color` を適用しています。
 
@@ -129,9 +125,7 @@ Weave UI で Ops をより見やすく整理するには、コード内の `@wea
 * `blue`
 * `purple`
 
-<div id="customize-logged-inputs-and-outputs">
-  ## ログする入力と出力をカスタマイズする
-</div>
+## ログする入力と出力をカスタマイズする {#customize-logged-inputs-and-outputs}
 
 <Tabs>
   <Tab title="Python">
@@ -176,9 +170,7 @@ Weave UI で Ops をより見やすく整理するには、コード内の `@wea
   </Tab>
 </Tabs>
 
-<div id="control-sampling-rate">
-  ## サンプリング率を制御する
-</div>
+## サンプリング率を制御する {#control-sampling-rate}
 
 <Tabs>
   <Tab title="Python">
@@ -214,9 +206,7 @@ Weave UI で Ops をより見やすく整理するには、コード内の `@wea
   </Tab>
 </Tabs>
 
-<div id="control-call-link-output">
-  ## Call linkの出力を制御する
-</div>
+## Call linkの出力を制御する {#control-call-link-output}
 
 デフォルトでは、Weave は各 Call をログする際に、その Call へのリンクを表示します。logging中にcall linkが表示されないようにするには、`WEAVE_PRINT_CALL_LINK` 環境変数を `false` に設定します。これは、出力の冗長さを抑え、ログの煩雑さを減らしたい場合に便利です。
 
@@ -224,9 +214,7 @@ Weave UI で Ops をより見やすく整理するには、コード内の `@wea
 export WEAVE_PRINT_CALL_LINK=false
 ```
 
-<div id="delete-an-op">
-  ## Op を削除する
-</div>
+## Op を削除する {#delete-an-op}
 
 Op バージョンを削除すると、project から削除されます。古くなったバージョンや不要なバージョンを整理するために使用します。
 

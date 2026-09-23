@@ -17,7 +17,7 @@ Contrairement à l&#39;objet `Evaluation` standard, qui nécessite un `Dataset` 
 </Info>
 
 <div id="basic-workflow">
-  ## Flux de travail de base
+  ## Flux de travail de base {#basic-workflow}
 </div>
 
 En suivant ces étapes, vous enregistrez une évaluation complète dans Weave, avec des scores par prédiction et une synthèse agrégée que vous pouvez consulter dans l’interface Weave.
@@ -39,7 +39,7 @@ En suivant ces étapes, vous enregistrez une évaluation complète dans Weave, a
 Pour voir un exemple Python illustrant ce flux de travail, consultez le [Exemple de base](#basic-example). Si la sortie et tous les scores sont disponibles immédiatement, les utilisateurs Python peuvent combiner les étapes 2 à 4 en un appel unique à l’aide de [`log_example()`](#simplified-logging-with-log_example).
 
 <div id="basic-example">
-  ## Exemple de base
+  ## Exemple de base {#basic-example}
 </div>
 
 L’exemple suivant montre comment utiliser `EvaluationLogger` pour journaliser les prédictions et les scores directement dans votre code existant. Remplacez `[YOUR-TEAM]/[YOUR-PROJECT]` par votre entité et votre projet W&amp;B.
@@ -205,7 +205,7 @@ L’exemple suivant montre comment utiliser `EvaluationLogger` pour journaliser 
 </Tabs>
 
 <div id="simplified-logging-with-log_example">
-  ## Journalisation simplifiée avec `log_example()`
+  ## Journalisation simplifiée avec `log_example()` {#simplified-logging-with-log_example}
 </div>
 
 Utilisez `log_example()` pour journaliser des entrées, une sortie et des scores en un seul appel. Cette méthode pratique combine `log_prediction()`, `log_score()` et `finish()` en une seule étape. Elle est utile lorsque vous disposez déjà des entrées, des sorties du modèle et des scores à journaliser, par exemple lors d&#39;évaluations par lot ou hors ligne.
@@ -253,13 +253,13 @@ prediction.finish()
 </Note>
 
 <div id="advanced-usage">
-  ## Utilisation avancée
+  ## Utilisation avancée {#advanced-usage}
 </div>
 
 `EvaluationLogger` offre des modes d’utilisation flexibles au-delà du flux de travail de base pour répondre à des scénarios d’évaluation plus complexes. Les sections suivantes décrivent des techniques avancées, notamment comment utiliser des gestionnaires de contexte pour la gestion automatique des ressources, lier les traces d’agent aux lignes d’évaluation, séparer l’exécution du modèle de la journalisation, utiliser des données de médias enrichis et comparer côte à côte plusieurs évaluations de modèles.
 
 <div id="use-context-managers">
-  ### Utiliser des gestionnaires de contexte
+  ### Utiliser des gestionnaires de contexte {#use-context-managers}
 </div>
 
 `EvaluationLogger` prend en charge les gestionnaires de contexte (instructions `with`) pour les prédictions comme pour les scores. Cela permet d&#39;obtenir un code plus propre, un nettoyage automatique des ressources et un meilleur suivi des opérations imbriquées, comme les appels à un juge LLM.
@@ -383,7 +383,7 @@ L&#39;utilisation des instructions `with` dans ce contexte offre les avantages s
 </Tabs>
 
 <div id="link-agent-traces-to-evaluations">
-  ### Lier les traces d’agent aux évaluations
+  ### Lier les traces d’agent aux évaluations {#link-agent-traces-to-evaluations}
 </div>
 
 En Python, conservez chaque appel d’agent tracé dans son contexte `log_prediction()`. `EvaluationLogger` ajoute aux spans créés dans ce contexte les métadonnées du run d’évaluation, de l’exemple et du trial, que Weave utilise pour associer la trace à son résultat d’évaluation.
@@ -443,7 +443,7 @@ Weave associe automatiquement une trace à son résultat d’évaluation lorsque
 * **Service distinct :** envoyez les deux ID à ce service, puis définissez-les sur les spans qu’il crée.
 
 <div id="link-spans-you-instrument-yourself">
-  #### Lier les spans que vous instrumentez vous-même
+  #### Lier les spans que vous instrumentez vous-même {#link-spans-you-instrument-yourself}
 </div>
 
 Lorsque des spans sont créés dans le contexte `log_prediction()`, `EvaluationLogger` définit automatiquement tous les attributs. En revanche, si vous envoyez des spans à l’aide de votre propre instrumentation OpenTelemetry (OTel), vous devez définir directement les attributs sur chaque span à lier. Vous pouvez définir les attributs suivants pour les évaluations :
@@ -507,7 +507,7 @@ L’exemple TypeScript fonctionne car il définit directement les attributs OTel
 </Tabs>
 
 <div id="link-an-agent-that-runs-in-a-separate-service">
-  #### Lier un agent exécuté dans un service distinct
+  #### Lier un agent exécuté dans un service distinct {#link-an-agent-that-runs-in-a-separate-service}
 </div>
 
 Lorsque votre agent s’exécute dans un service distinct, le processus d’évaluation et l’agent ne partagent pas la même mémoire : Weave ne peut pas définir automatiquement les attributs de liaison et vous ne pouvez pas accéder directement aux objets span de l’agent. Récupérez plutôt les deux ID d’appel dans le processus d’évaluation, envoyez-les au service, puis définissez-les sur les spans qui y sont créés. Ce modèle `EvaluationLogger` distribué est uniquement disponible en Python.
@@ -600,7 +600,7 @@ Lorsque votre agent s’exécute dans un service distinct, le processus d’éva
 </Tabs>
 
 <div id="view-linked-agent-spans-from-your-evaluations">
-  #### Afficher les spans d’agent liés à vos évaluations
+  #### Afficher les spans d’agent liés à vos évaluations {#view-linked-agent-spans-from-your-evaluations}
 </div>
 
 Pour inspecter les spans liés dans l’interface Weave :
@@ -611,7 +611,7 @@ Pour inspecter les spans liés dans l’interface Weave :
 4. Dans le panneau de détails de l’évaluation qui s’ouvre, sous l’onglet **Evaluation**, cliquez sur **Voir les spans**. La page **Agents** s’ouvre, avec l’onglet **Spans** filtré sur cette évaluation.
 
 <div id="link-to-an-existing-dataset">
-  ### Lier à un jeu de données existant
+  ### Lier à un jeu de données existant {#link-to-an-existing-dataset}
 </div>
 
 Lorsque vous passez des jeux de données bruts comme `inputs` à `log_prediction`, Weave réimporte les données à chaque run d’évaluation. Cela stocke des données en double, ce qui peut gaspiller de l’espace si le jeu de données est volumineux ou si de nombreuses évaluations le réutilisent.
@@ -669,7 +669,7 @@ L’exemple suivant publie un jeu de données, y crée un lien dans `EvaluationL
 </Tabs>
 
 <div id="get-outputs-before-logging">
-  ### Obtenir les sorties avant la journalisation
+  ### Obtenir les sorties avant la journalisation {#get-outputs-before-logging}
 </div>
 
 Vous pouvez d’abord calculer les sorties de votre modèle, puis journaliser séparément les prédictions et les scores. Cela sépare la logique d’évaluation de celle de la journalisation, ce qui peut faciliter les tests et la maintenance du code lorsque différentes parties de votre système gèrent la génération des prédictions et l’attribution des scores.
@@ -736,7 +736,7 @@ Vous pouvez d’abord calculer les sorties de votre modèle, puis journaliser s�
 </Tabs>
 
 <div id="log-rich-media">
-  ### Journaliser des médias enrichis
+  ### Journaliser des médias enrichis {#log-rich-media}
 </div>
 
 Les entrées, les sorties et les scores peuvent inclure des médias enrichis, comme des images, des vidéos, des fichiers audio ou des tableaux structurés. La journalisation de médias enrichis vous permet d’inspecter le contenu réel à côté des scores dans l’interface Weave, ce qui est utile pour l’analyse qualitative des modèles multimodaux. Passez un dictionnaire ou un objet média aux méthodes `log_prediction` ou `log_score`.
@@ -867,7 +867,7 @@ Les entrées, les sorties et les scores peuvent inclure des médias enrichis, co
 </Tabs>
 
 <div id="log-and-compare-multiple-evaluations">
-  ### Journaliser et comparer plusieurs évaluations
+  ### Journaliser et comparer plusieurs évaluations {#log-and-compare-multiple-evaluations}
 </div>
 
 Avec `EvaluationLogger`, vous pouvez journaliser et comparer plusieurs évaluations côte à côte dans l’interface Weave. Cela est utile pour évaluer les performances de différents modèles sur le même jeu de données.
@@ -966,7 +966,7 @@ Pour plus d’informations sur les comparaisons, voir [Comparisons](../tools/com
 </Frame>
 
 <div id="usage-tips">
-  ## Conseils d’utilisation
+  ## Conseils d’utilisation {#usage-tips}
 </div>
 
 Les conseils suivants vous aident à tirer le meilleur parti de `EvaluationLogger` :

@@ -23,9 +23,7 @@ Weave は次のトレースを自動的に取得します。
   非推奨の [Google AI Python SDK for the Gemini API](https://github.com/google-gemini/deprecated-generative-ai-python) もサポートしています。なお、このサポート自体も非推奨であり、今後のバージョンで削除される予定です。
 </Note>
 
-<div id="get-started">
-  ## はじめに
-</div>
+## はじめに {#get-started}
 
 以下の例では、サポートされる各 SDK でトレースを有効にする方法を示します。どちらの場合も、必要な Weave 固有の手順は `weave.init` を呼び出すことだけです。既存の Google GenAI または Vertex AI のコードはそのまま変更せずに使用できます。
 
@@ -62,9 +60,7 @@ response = model.generate_content(
 )
 ```
 
-<div id="track-your-own-ops">
-  ## 独自のopをトラッキングする
-</div>
+## 独自のopをトラッキングする {#track-your-own-ops}
 
 関数を`@weave.op`でラップすると、入力、出力、アプリのロジックの取得が始まり、データがアプリ内をどのように流れるかをデバッグできるようになります。opは深くネストできるため、トラッキングしたい関数のツリーを構築できます。また、実験を進める中でコードのバージョン管理も自動的に開始され、まだgitにコミットしていないアドホックな変更内容も取得されます。
 
@@ -97,9 +93,7 @@ recommend_places_to_visit("Kolkata")
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
-<div id="create-a-model-for-easier-experimentation">
-  ## 実験しやすくするための `Model` を作成する
-</div>
+## 実験しやすくするための `Model` を作成する {#create-a-model-for-easier-experimentation}
 
 実験には多くの要素が絡むため、整理が難しくなりがちです。[`Model`](../core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリのさまざまなバージョンを整理し、比較しやすくなります。
 

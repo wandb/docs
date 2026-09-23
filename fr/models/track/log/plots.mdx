@@ -5,9 +5,7 @@ title: Créer et suivre des graphiques à partir d'expériences
 
 Dans W&amp;B Models, les méthodes de `wandb.plot` vous permettent de suivre des graphiques avec `wandb.Run.log()`, y compris des graphiques qui évoluent au fil du temps pendant l&#39;entraînement. Pour en savoir plus sur le framework de graphiques personnalisés, voir le [guide pas à pas des graphiques personnalisés](/fr/models/app/features/custom-charts/walkthrough/).
 
-<div id="basic-charts">
-  ### Graphiques de base
-</div>
+### Graphiques de base {#basic-charts}
 
 Pour créer un graphique W&amp;B :
 
@@ -152,9 +150,7 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
   </Tab>
 </Tabs>
 
-<div id="model-evaluation-charts">
-  ### Graphiques d’évaluation du modèle
-</div>
+### Graphiques d’évaluation du modèle {#model-evaluation-charts}
 
 Ces graphiques prédéfinis intègrent des méthodes `wandb.plot()` qui permettent de journaliser rapidement des graphiques directement depuis votre script, puis de voir exactement les informations recherchées dans l’interface utilisateur.
 
@@ -248,9 +244,7 @@ Ces graphiques prédéfinis intègrent des méthodes `wandb.plot()` qui permette
   </Tab>
 </Tabs>
 
-<div id="interactive-custom-charts">
-  ### Graphiques personnalisés interactifs
-</div>
+### Graphiques personnalisés interactifs {#interactive-custom-charts}
 
 Pour une personnalisation complète, modifiez un [préréglage de graphique personnalisé](/fr/models/app/features/custom-charts/walkthrough/) intégré ou créez-en un nouveau, puis enregistrez le graphique. Utilisez l’ID du graphique pour journaliser les données dans ce préréglage personnalisé directement depuis votre script.
 
@@ -279,9 +273,7 @@ with wandb.init() as run:
 
 [Exécutez le code](https://tiny.cc/custom-charts)
 
-<div id="matplotlib-and-plotly-plots">
-  ### Graphiques Matplotlib et Plotly
-</div>
+### Graphiques Matplotlib et Plotly {#matplotlib-and-plotly-plots}
 
 Au lieu d&#39;utiliser les [graphiques personnalisés](/fr/models/app/features/custom-charts/walkthrough/) de W&amp;B avec `wandb.plot()`, vous pouvez journaliser des graphiques créés avec [matplotlib](https://matplotlib.org/) et [Plotly](https://plotly.com/).
 
@@ -303,15 +295,11 @@ Passez simplement un graphique `matplotlib` ou un objet figure à `wandb.Run.log
 
 <Note>Si vous obtenez une erreur du type &quot;You attempted to log an empty plot&quot;, stockez la figure séparément du graphique avec `fig = plt.figure()`, puis journalisez `fig` dans votre appel à `wandb.Run.log()`.</Note>
 
-<div id="log-custom-html-to-wb-tables">
-  ### Journaliser du HTML personnalisé dans W&amp;B Tables
-</div>
+### Journaliser du HTML personnalisé dans W&amp;B Tables {#log-custom-html-to-wb-tables}
 
 W&amp;B prend en charge la journalisation de graphiques interactifs Plotly et Bokeh au format HTML, ainsi que leur ajout à Tables.
 
-<div id="log-plotly-figures-to-tables-as-html">
-  #### Journaliser des figures Plotly dans W&amp;B Tables au format HTML
-</div>
+#### Journaliser des figures Plotly dans W&amp;B Tables au format HTML {#log-plotly-figures-to-tables-as-html}
 
 Vous pouvez journaliser des graphiques Plotly interactifs dans W&amp;B Tables en les convertissant au format HTML.
 
@@ -343,9 +331,7 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
     run.log({"test_table": table})
 ```
 
-<div id="log-bokeh-figures-to-tables-as-html">
-  #### Journaliser des figures Bokeh dans Tables au format HTML
-</div>
+#### Journaliser des figures Bokeh dans Tables au format HTML {#log-bokeh-figures-to-tables-as-html}
 
 Vous pouvez journaliser des graphiques Bokeh interactifs dans W&amp;B Tables en les convertissant au format HTML.
 

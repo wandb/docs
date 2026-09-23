@@ -4,9 +4,7 @@ description: "워크스페이스 대시보드에서 ML 메트릭과 함께 함�
 keywords: ["워크스페이스", "트레이닝 run", "트레이스", "wandb.run", "아티팩트"]
 ---
 
-<div id="log-traces-during-model-training-runs">
-  # 모델 트레이닝 run 중 트레이스 로깅하기
-</div>
+# 모델 트레이닝 run 중 트레이스 로깅하기 {#log-traces-during-model-training-runs}
 
 모델 트레이닝 run 중에 Weave 트레이스를 로깅하고 개인 워크스페이스에서 확인할 수 있습니다.
 
@@ -18,9 +16,7 @@ keywords: ["워크스페이스", "트레이닝 run", "트레이스", "wandb.run"
 
 예를 들어 LLM 모델을 파인튜닝하는 중에 W&amp;B 워크스페이스에서 step 500에 accuracy가 떨어지는 것이 보인다면, 통합된 Weave 트레이스를 통해 정확히 어떤 일이 있었는지 확인할 수 있습니다. 예를 들어 모델이 평가 기준을 충족하지 못하는 지나치게 장황한 응답을 생성하기 시작했을 수 있습니다.
 
-<div id="use-weave-panels">
-  ## Weave 패널 사용
-</div>
+## Weave 패널 사용 {#use-weave-panels}
 
 ML 파이프라인에서 [함수에 `@weave.op` 데코레이터를 적용](/ko/weave/quickstart)하면 해당 함수의 실행 정보를 자동으로 캡처하고, 이를 개인 워크스페이스에서 액세스할 수 있습니다.
 
@@ -92,9 +88,7 @@ UI에서 워크스페이스로 이동하려면:
 
 워크스페이스에 대한 자세한 내용은 [실험 결과 보기](https://docs.wandb.ai/models/track/workspaces)를 참조하세요.
 
-<div id="associate-traces-with-a-specific-wb-run">
-  ## 특정 W&amp;B run에 트레이스 연결
-</div>
+## 특정 W&amp;B run에 트레이스 연결 {#associate-traces-with-a-specific-wb-run}
 
 경우에 따라 Weave가 자동으로 감지한 run이 아닌 다른 run에 트레이스를 연결하고 싶을 수 있습니다. 기본적으로 Weave는 활성 `wandb.run`을 자동으로 감지해 해당 run에 트레이스를 연결합니다. 전역 `wandb.run`이 아닌 특정 run에 트레이스를 연결해야 하는 경우 `set_wandb_run_context`를 사용하세요. 특정 run과 run step에 트레이스를 연결하려면 `run_id` 및 `step` 인수 값을 지정하세요:
 
@@ -123,9 +117,7 @@ client.clear_wandb_run_context()
 my_function(20)  # 이 트레이스는 전역 wandb.run을 사용합니다(있는 경우).
 ```
 
-<div id="reference-wb-artifacts-in-a-weave-trace">
-  ## Weave 트레이스에서 W&amp;B 아티팩트 레퍼런스하기
-</div>
+## Weave 트레이스에서 W&amp;B 아티팩트 레퍼런스하기 {#reference-wb-artifacts-in-a-weave-trace}
 
 Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(모델, 데이터셋, checkpoint 등)를 레퍼런스할 수 있습니다. 그러면 Weave UI에 아티팩트의 세부 정보 페이지로 바로 이동할 수 있는 클릭 가능한 링크가 생성되며, 이를 통해 특정 오퍼레이션 중 사용한 아티팩트 버전을 추적하는 데 도움이 됩니다.
 
@@ -140,9 +132,7 @@ Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(모델, �
 
 다음 섹션에서는 각 접근 방식을 보여줍니다.
 
-<div id="add-an-artifact-as-an-attribute-of-a-trace">
-  ### 트레이스의 속성으로 아티팩트 추가하기
-</div>
+### 트레이스의 속성으로 아티팩트 추가하기 {#add-an-artifact-as-an-attribute-of-a-trace}
 
 트레이스의 속성으로 아티팩트를 추가하려면 `weave.attributes()` 컨텍스트 관리자에 키-값 쌍으로 전달하세요.
 
@@ -189,9 +179,7 @@ Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(모델, �
   </Tab>
 </Tabs>
 
-<div id="add-an-artifact-as-an-attribute-of-a-model">
-  ### 아티팩트를 `Model`의 속성으로 추가하기
-</div>
+### 아티팩트를 `Model`의 속성으로 추가하기 {#add-an-artifact-as-an-attribute-of-a-model}
 
 아티팩트를 `Model`의 속성으로 추가하려면 모델을 인스턴스화할 때 아티팩트 URL을 전달하세요.
 

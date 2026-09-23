@@ -20,9 +20,7 @@ W&amp;B App を使用して、特に優れた run、本番モデル、失敗し�
 
 [制限事項](#limitations)を参照してください。
 
-<div id="pin-runs">
-  ## run をピン留めする
-</div>
+## run をピン留めする {#pin-runs}
 
 run をピン留めすると、Workspace の上部に固定表示され、簡単にアクセスできるようになります。ピン留めされた run またはベースライン run を非表示にするには、<i class="fa-regular fa-eye" /> アイコンをクリックします。非表示の run を再表示するには、<i class="fa-solid fa-eye-closed" /> アイコンをクリックします。ピン留めされた run は、円形のピン アイコン付きで run selector の上部に表示され、他の run とは区切り線で分けて表示されます。
 
@@ -42,9 +40,7 @@ run のピン留めを解除するには、ピン アイコンをクリックす
 
 project にピン留めした run は、[個人用または保存済みの Workspace ビュー](/ja/models/track/workspaces#saved-workspace-views)にのみ影響します。これには、[別の project からピン留めした run](/ja/models/runs/compare-runs#compare-runs-across-projects)も含まれます。
 
-<div id="compare-runs-across-projects">
-  ## project をまたいで Runs を比較する
-</div>
+## project をまたいで Runs を比較する {#compare-runs-across-projects}
 
 別の project から Runs を選択し、現在の Workspace に[ピン留め](/ja/models/runs/compare-runs#pin-runs)することで、異なる project の Runs を比較できます。
 
@@ -65,9 +61,7 @@ project にピン留めした run は、[個人用または保存済みの Works
 
 異なる project の Runs を比較するには、比較したい Runs をピン留めしてから、[折れ線グラフ](/ja/models/app/features/panels/line-plot)を使用して視覚的に比較します。
 
-<div id="manage-and-compare-a-baseline-run">
-  ## ベースライン run を管理して比較する
-</div>
+## ベースライン run を管理して比較する {#manage-and-compare-a-baseline-run}
 
 Workspace 内の他の run を評価する際の基準点として使用するために、1 つの run を Workspace のベースラインとして指定できます。
 
@@ -79,9 +73,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
   ![別の run をベースラインと比較するデモ](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
 </Frame>
 
-<div id="set-a-baseline-run">
-  ### ベースライン run を設定する
-</div>
+### ベースライン run を設定する {#set-a-baseline-run}
 
 ベースライン run を設定するには、次の手順に従います。
 
@@ -95,9 +87,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
   ![ベースライン run とピン留めした run が表示された Runs table](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
 </Frame>
 
-<div id="change-the-baseline-run">
-  ### ベースライン run を変更する
-</div>
+### ベースライン run を変更する {#change-the-baseline-run}
 
 同時にベースラインに設定できる run は 1 つだけです。ベースラインにする run を変更するには、次の手順に従います。
 
@@ -106,9 +96,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
 3. **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Replace baseline** を選択します。 <Note>メニュー項目が無効な場合は、使用可能なピン留めスロットが少なくとも 1 つあることを確認してください。必要に応じて、ピン留めされた run の横にある円形のピンアイコンをクリックして、ピン留めを解除します。</Note>
 4. 新しい run がベースラインになり、以前のベースラインは自動的にピン留めされるため、簡単に見つけられます。必要に応じて、そのピンアイコンをクリックしてピン留めを解除します。
 
-<div id="remove-the-baseline-designation">
-  ### ベースライン指定を解除する
-</div>
+### ベースライン指定を解除する {#remove-the-baseline-designation}
 
 ベースライン指定を解除するには:
 
@@ -117,9 +105,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
 3. **action (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Remove baseline** を選択します。 <Note>メニュー項目が無効になっている場合は、少なくとも 1 つのピン留めスロットが空いていることを確認してください。必要に応じて、ピン留めされた run の横にある丸いピン アイコンをクリックして、ピン留めを解除してください。</Note>
 4. 以前のベースラインは自動的にピン留めされるため、簡単に見つけられます。必要に応じて、そのピン アイコンをクリックしてピン留めを解除してください。
 
-<div id="compare-runs-to-the-baseline">
-  ### run をベースラインと比較する
-</div>
+### run をベースラインと比較する {#compare-runs-to-the-baseline}
 
 ベースライン run は、その run がログしたメトリクスの折れ線グラフに常に表示されます。折れ線グラフでは、ベースライン run の線はほかの線よりも太く表示されます。
 
@@ -136,9 +122,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
     ![別の run をベースラインと比較するデモ](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
   </Frame>
 
-<div id="summary-metric-deltas">
-  ### summary メトリクスの差分
-</div>
+### summary メトリクスの差分 {#summary-metric-deltas}
 
 ある run をベースラインに設定すると、デフォルトでは、ベースライン run と同じsummary メトリクスをログする他のすべての run に、そのメトリクスのベースラインからの差分 (変化量) が表示されます。差分は、Runs table内の各 run の行で、メトリクス値の右側に表示されます。
 
@@ -156,9 +140,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
 次のスクリーンショットは、runs `nanochat-train-base` と `nanochat-train-mid` を、ベースライン run `nanochat-train` と比較したものです。差分メトリクスは、`TOTAL_TRAINING_TIME`、`TRAIN/DT`、`TRAIN/GRAD_NORM` に表示されています。
 ![ベースライン run からのsummary メトリクスの差分を比較したスクリーンショット](/images/models/pinned-and-baseline-runs/baseline_run_deltas.png)
 
-<div id="hide-summary-metric-deltas-in-a-workspace">
-  ## Workspace で summary メトリクスの差分を非表示にする
-</div>
+## Workspace で summary メトリクスの差分を非表示にする {#hide-summary-metric-deltas-in-a-workspace}
 
 デフォルトでは、ベースライン run がある Workspace では、summary メトリクスの差分が常に表示されます。Workspace でこれを非表示にするには、次の手順に従います。
 
@@ -167,9 +149,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
 3. **Baseline** タブで、**Show value deltas in the runs table** を切り替えます。
 4. Workspace settings ドロワーを閉じます。
 
-<div id="use-cases">
-  ## 使用例
-</div>
+## 使用例 {#use-cases}
 
 このセクションでは、ピン留めした run とベースライン run が Experiments を進める際に役立つ代表的なシナリオを紹介します。
 
@@ -182,9 +162,7 @@ runs セレクタと Runs table では、ベースライン run はピン留め�
   3. 折れ線グラフを使用して、各 run をベースラインと視覚的に比較します。
   4. より良い設定が見つかるたびに、ベースラインを更新します。
 
-<div id="example-compare-runs-from-hyperparameter-tuning-experiments">
-  ## 例: ハイパーパラメーター調整実験の run を比較する
-</div>
+## 例: ハイパーパラメーター調整実験の run を比較する {#example-compare-runs-from-hyperparameter-tuning-experiments}
 
 このセクションでは、ピン留めした run とベースライン run を使って run を比較する方法を示します。
 
@@ -270,9 +248,7 @@ run の完了後、W&amp;B App にアクセスして、Workspace で run を表�
      <img src="/images/runs/example_compare_pinned_runs.png" />
    </Frame>
 
-<div id="limitations">
-  ## 制限事項
-</div>
+## 制限事項 {#limitations}
 
 以下の機能は、ピン留めされたrunおよびベースラインrunではまだサポートされていません。
 

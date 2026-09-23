@@ -29,9 +29,7 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
   Private Cloud 또는 W&amp;B Dedicated Cloud에서 [W&amp;B Server](/ko/platform/hosting/)를 사용하는 경우, Slack 알림을 설정하려면 [W&amp;B Server에서 Slack 알림 구성](/ko/platform/hosting/monitoring-usage/slack-alerts)을 참조하세요.
 </Note>
 
-<div id="automated-run-lifecycle-alerts">
-  ## 자동 run 라이프사이클 알림
-</div>
+## 자동 run 라이프사이클 알림 {#automated-run-lifecycle-alerts}
 
 W&amp;B는 코드를 변경하지 않아도 run이 완료되거나 크래시될 때 알림을 보낼 수 있습니다. [User Settings](https://wandb.ai/settings)에서 **Alerts** 섹션까지 스크롤한 다음, 다음 항목을 켜세요.
 
@@ -48,9 +46,7 @@ W&amp;B는 코드를 변경하지 않아도 run이 완료되거나 크래시될 
 2. 코드에 `run.alert()`를 추가하세요.
 3. 설정을 테스트하세요.
 
-<div id="1-turn-on-alerts-in-your-wb-user-settings">
-  ### 1. W&amp;B 사용자 설정에서 알림 켜기
-</div>
+### 1. W&amp;B 사용자 설정에서 알림 켜기 {#1-turn-on-alerts-in-your-wb-user-settings}
 
 [User Settings](https://wandb.ai/settings)에서 다음을 수행합니다:
 
@@ -65,9 +61,7 @@ W&amp;B는 코드를 변경하지 않아도 run이 완료되거나 크래시될 
   <img src="/images/track/demo_connect_slack.png" alt="W&B 사용자 설정의 알림 설정" />
 </Frame>
 
-<div id="2-add-runalert-to-your-code">
-  ### 2. 코드에 `run.alert()` 추가하기
-</div>
+### 2. 코드에 `run.alert()` 추가하기 {#2-add-runalert-to-your-code}
 
 노트북 또는 Python 스크립트에서 알림을 트리거하고 싶은 위치에 `run.alert()`를 코드에 추가하세요
 
@@ -78,15 +72,11 @@ with wandb.init() as run:
     run.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
-<div id="3-test-the-configuration">
-  ### 3. 구성 테스트하기
-</div>
+### 3. 구성 테스트하기 {#3-test-the-configuration}
 
 Slack이나 이메일에서 알림 메시지를 확인하세요. 알림을 받지 못했다면 [User Settings](https://wandb.ai/settings)에서 **Scriptable Alerts**에 대해 이메일 또는 Slack 알림이 활성화되어 있는지 확인하세요.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 이 간단한 알림은 정확도가 임계값 아래로 떨어질 때 경고를 보냅니다. 이 예시에서는 알림을 최소 5분 간격으로만 보냅니다.
 
@@ -105,9 +95,7 @@ with wandb.init() as run:
         )
 ```
 
-<div id="tag-or-mention-users">
-  ## 사용자 태그 또는 멘션하기
-</div>
+## 사용자 태그 또는 멘션하기 {#tag-or-mention-users}
 
 알림의 제목이나 본문에서 본인 또는 동료를 태그하려면 at 기호 `@` 뒤에 Slack 사용자 ID를 입력하세요. Slack 사용자 ID는 해당 사용자의 Slack 프로필 페이지에서 확인할 수 있습니다.
 
@@ -115,16 +103,12 @@ with wandb.init() as run:
 run.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 ```
 
-<div id="configure-team-alerts">
-  ## 팀 알림 구성
-</div>
+## 팀 알림 구성 {#configure-team-alerts}
 
 팀 관리자는 팀 설정 페이지(`wandb.ai/teams/your-team`)에서 팀 알림을 설정할 수 있습니다.
 
 팀 알림은 팀 전체에 적용됩니다. W&amp;B는 알림을 비공개로 유지할 수 있으므로 **Slackbot** 채널 사용을 권장합니다.
 
-<div id="change-slack-channel-to-send-alerts-to">
-  ## 알림을 받을 Slack 채널 변경하기
-</div>
+## 알림을 받을 Slack 채널 변경하기 {#change-slack-channel-to-send-alerts-to}
 
 알림이 전송되는 채널을 변경하려면 **Disconnect Slack**을 클릭한 다음 다시 연결하세요. 다시 연결한 후 알림을 받을 다른 Slack 채널을 선택하세요.

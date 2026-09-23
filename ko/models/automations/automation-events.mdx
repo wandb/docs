@@ -16,9 +16,7 @@ import MultiTenantAndDedicatedCloudOnly from "/snippets/ko/_includes/multi-tenan
   팀 및 조직 범위는 W&amp;B Multi-tenant Cloud와 W&amp;B Dedicated Cloud(Server v0.83.0 이상)에서 사용할 수 있습니다. 레지스트리 및 프로젝트 범위는 모든 배포 유형에서 사용할 수 있습니다.
 </Note>
 
-<div id="scope-reference">
-  ## 범위 레퍼런스
-</div>
+## 범위 레퍼런스 {#scope-reference}
 
 | 범위                  | 자동화에서 모니터링하는 항목                               | W&amp;B App에서 사용할 수 있는 이벤트                                            |
 | ------------------- | --------------------------------------------- | --------------------------------------------------------------------- |
@@ -29,29 +27,21 @@ import MultiTenantAndDedicatedCloudOnly from "/snippets/ko/_includes/multi-tenan
 
 다음 섹션에서 각 범위를 자세히 설명합니다.
 
-<div id="organization">
-  ## 조직
-</div>
+## 조직 {#organization}
 
 조직 범위를 사용하면 정책을 한 번 정의하여 모든 곳에 적용할 수 있습니다. 예를 들어, 조직 내 아티팩트에 `production` 별칭이 추가될 때마다 규정 준수 Slack 채널로 알림을 받을 수 있습니다.
 
 W&amp;B App에서는 run 기반 이벤트([run 상태 변경](#run-status-change) 및 [run 메트릭](#run-metrics-change) 이벤트)를 조직 범위에서 사용할 수 없습니다.
 
-<div id="team">
-  ## 팀
-</div>
+## 팀 {#team}
 
 팀 범위를 사용하면 하나의 팀이 소유한 모든 항목에 정책을 적용할 수 있습니다. 팀 범위 자동화는 조직 범위와 동일한 아티팩트 및 컬렉션 이벤트를 감시합니다. W&amp;B App에서는 팀 범위에서 run 기반 이벤트를 사용할 수 없습니다.
 
-<div id="registry">
-  ## 레지스트리
-</div>
+## 레지스트리 {#registry}
 
 [레지스트리](/ko/models/registry) 자동화는 향후 추가되는 컬렉션을 포함해, 특정 레지스트리 내의 모든 컬렉션에서 발생하는 이벤트를 감시합니다.
 
-<div id="events">
-  ### 이벤트 <a id="registry-events" aria-label="레지스트리 이벤트" />
-</div>
+### 이벤트 <a id="registry-events" aria-label="레지스트리 이벤트" /> {#events}
 
 레지스트리 자동화는 다음 이벤트를 모니터링할 수 있습니다:
 
@@ -60,15 +50,11 @@ W&amp;B App에서는 run 기반 이벤트([run 상태 변경](#run-status-change
 
 자동화가 웹훅을 Call할 때는 프로젝트 범위 자동화와 동일한 팀 수준 웹훅 설정과 [team secrets](/ko/platform/secrets)에 액세스할 수 있습니다.
 
-<div id="project">
-  ## 프로젝트
-</div>
+## 프로젝트 {#project}
 
 프로젝트 수준 자동화는 [프로젝트](/ko/models/track/project-page) 내 모든 컬렉션에서 발생하는 이벤트를 모니터링합니다. 지정한 이벤트에 따라 자동화 범위를 더 좁힐 수 있습니다.
 
-<div id="artifact-events">
-  ### Artifact 이벤트
-</div>
+### Artifact 이벤트 {#artifact-events}
 
 이 섹션에서는 자동화를 트리거할 수 있는 아티팩트 관련 이벤트를 설명합니다.
 
@@ -76,15 +62,11 @@ W&amp;B App에서는 run 기반 이벤트([run 상태 변경](#run-status-change
 * **아티팩트 별칭이 추가됨**: 프로젝트의 새 아티팩트 버전에, 지정한 **Alias regex**와 일치하는 별칭이 적용되면 워크플로의 특정 step을 트리거합니다. 예를 들어, 아티팩트에 `test-set-quality-check` 별칭이 적용되면 일련의 다운스트림 처리 step을 실행하거나, 새 아티팩트 버전에 `latest` 별칭이 적용될 때마다 워크플로를 실행할 수 있습니다. 하나의 별칭은 한 번에 하나의 아티팩트 버전에만 적용할 수 있습니다.
 * **아티팩트 태그가 추가됨**: 프로젝트의 아티팩트 버전에, 지정한 **Tag regex**와 일치하는 태그가 적용되면 워크플로의 특정 step을 트리거합니다. 예를 들어, `^europe.*`를 지정하면 `europe` 문자열로 시작하는 태그가 아티팩트 버전에 추가될 때 지역별 워크플로를 트리거할 수 있습니다. Artifact 태그를 그룹화와 필터링에 사용합니다. 동일한 태그를 여러 아티팩트 버전에 할당할 수 있습니다.
 
-<div id="run-events">
-  ### Run 이벤트
-</div>
+### Run 이벤트 {#run-events}
 
 다음 섹션에서는 [run 상태](/ko/models/runs/run-states)가 변경되거나 [run의 메트릭 값](/ko/models/track/log#what-data-is-logged-with-specific-wb-api-calls)이 변경될 때 시작되는 자동화를 구성하는 방법을 설명합니다.
 
-<div id="run-status-change">
-  #### Run 상태 변경
-</div>
+#### Run 상태 변경 {#run-status-change}
 
 <Note>
   * <MultiTenantAndDedicatedCloudOnly />
@@ -99,9 +81,7 @@ run의 [상태](/ko/models/runs/run-states)가 **Running**, **Finished** 또는 
 
 run 상태는 run 전체의 속성이므로 run 상태 자동화는 워크스페이스가 아니라 **Automations** 페이지에서만 만들 수 있습니다.
 
-<div id="run-metrics-change">
-  #### Run 메트릭 변경
-</div>
+#### Run 메트릭 변경 {#run-metrics-change}
 
 <Note>
   <MultiTenantAndDedicatedCloudOnly />
@@ -115,9 +95,7 @@ run 메트릭 자동화를 설정하려면, 메트릭 값을 지정한 임곗값
 
 선택적으로, 사용자 또는 run 이름 필터를 지정해 자동화를 트리거할 수 있는 run을 추가로 제한할 수 있습니다.
 
-<div id="threshold">
-  ##### 임곗값
-</div>
+##### 임곗값 {#threshold}
 
 메트릭이 고정된 값을 넘을 때 자동화를 시작하려면 임곗값 이벤트를 사용합니다. **Run 메트릭 임곗값 충족** 이벤트의 경우, 다음을 설정합니다.
 
@@ -137,9 +115,7 @@ run 메트릭 자동화를 설정하려면, 메트릭 값을 지정한 임곗값
   ![run 메트릭 임곗값 자동화를 보여주는 스크린샷](/images/automations/run_metrics_threshold_automation.png)
 </Frame>
 
-<div id="change-threshold">
-  ##### 변화 임곗값
-</div>
+##### 변화 임곗값 {#change-threshold}
 
 변화 임곗값 이벤트를 사용하면 메트릭이 최근 값의 두 윈도우 사이에서 변할 때 자동화를 시작할 수 있습니다. **run 메트릭 변화 임곗값 충족** 이벤트의 경우, 자동화는 시작 여부를 확인하기 위해 값의 &quot;윈도우&quot; 두 개를 사용합니다:
 
@@ -164,9 +140,7 @@ run 메트릭 자동화를 설정하려면, 메트릭 값을 지정한 임곗값
   ![run 메트릭 변화 임곗값 자동화를 보여주는 스크린샷](/images/automations/run_metrics_change_threshold_automation.png)
 </Frame>
 
-<div id="run-metrics-z-score-change">
-  #### Run 메트릭 z-score 변경
-</div>
+#### Run 메트릭 z-score 변경 {#run-metrics-z-score-change}
 
 <Note>
   <MultiTenantAndDedicatedCloudOnly />
@@ -198,9 +172,7 @@ z-score 값의 의미는 다음과 같습니다:
 * z-score가 -2.0이면 메트릭이 평균보다 2 표준편차 낮음을 의미합니다.
 * ±2를 벗어나는 값은 통계적으로 유의미한 이상치로 간주되는 경우가 많습니다.
 
-<div id="run-filters">
-  #### run 필터
-</div>
+#### run 필터 {#run-filters}
 
 이 섹션에서는 자동화가 평가할 run을 선택하는 방법을 설명합니다.
 
@@ -219,9 +191,7 @@ z-score 값의 의미는 다음과 같습니다:
 
 자세한 내용은 [자동화 만들기](/ko/models/automations/create-automations)를 참조하세요.
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 * [Slack 자동화 만들기](/ko/models/automations/create-automations/slack)
 * [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook)

@@ -43,9 +43,7 @@ Pour commencer avec les évaluations, suivez les étapes suivantes :
 
 Après avoir suivi ces étapes, vous disposerez d&#39;une configuration d&#39;évaluation réutilisable et d&#39;un run d&#39;évaluation dont vous pourrez inspecter les résultats dans l&#39;interface Weave. Pour un exemple complet de code d&#39;évaluation, consultez l&#39;[exemple complet de code d&#39;évaluation](#full-evaluation-code-example). Vous pouvez aussi en apprendre davantage sur les [fonctionnalités avancées d&#39;évaluation](#advanced-evaluation-usage), comme les [vues enregistrées](#saved-views) et les [évaluations impératives](#imperative-evaluations-evaluationlogger).
 
-<div id="create-an-evaluation-object">
-  ## Créer un objet `Evaluation`
-</div>
+## Créer un objet `Evaluation` {#create-an-evaluation-object}
 
 La création d’un objet `Evaluation` est la première étape pour définir votre configuration d’évaluation. Une `Evaluation` se compose de données d’exemple, d’une logique d’évaluation et d’un prétraitement facultatif. Vous l’utiliserez ensuite pour exécuter une ou plusieurs évaluations.
 
@@ -53,9 +51,7 @@ Weave prend chaque exemple, le fait passer par votre application et attribue un 
 
 Le nommage personnalisé est facultatif, mais il vous aide à distinguer différentes configurations d’évaluation et différents runs dans l’interface Weave. Si vous n’avez qu’une seule évaluation, vous pouvez ignorer cette section.
 
-<div id="optional-custom-naming">
-  ### Facultatif : nommage personnalisé
-</div>
+### Facultatif : nommage personnalisé {#optional-custom-naming}
 
 <Tabs>
   <Tab title="Python">
@@ -64,9 +60,7 @@ Le nommage personnalisé est facultatif, mais il vous aide à distinguer différ
     * [*Nom de l’objet `Evaluation`* (`evaluation_name`)](#name-the-evaluation-object) : un libellé persistant pour votre objet `Evaluation` configuré.
     * [*Nom d’affichage d’un run d’évaluation* (`__weave["display_name"]`)](#name-individual-evaluation-runs) : un libellé pour une exécution d’évaluation donnée, affiché dans l’interface utilisateur.
 
-    <div id="name-the-evaluation-object">
-      #### Nommer l’objet `Evaluation`
-    </div>
+#### Nommer l’objet `Evaluation` {#name-the-evaluation-object}
 
     Pour nommer l’objet `Evaluation` lui-même, passez un paramètre `evaluation_name` à la classe `Evaluation`. Ce nom vous aide à identifier l’objet `Evaluation` dans le code et dans les listes de l’interface utilisateur.
 
@@ -76,9 +70,7 @@ Le nommage personnalisé est facultatif, mais il vous aide à distinguer différ
     )
     ```
 
-    <div id="name-individual-evaluation-runs">
-      #### Nommer des runs d’évaluation individuels
-    </div>
+#### Nommer des runs d’évaluation individuels {#name-individual-evaluation-runs}
 
     Pour nommer un run d’évaluation spécifique (un appel à `evaluate()`), utilisez le dictionnaire `__weave` avec un `display_name`. Cela détermine ce qui est affiché dans l’interface utilisateur pour ce run.
 
@@ -104,9 +96,7 @@ Le nommage personnalisé est facultatif, mais il vous aide à distinguer différ
   </Tab>
 </Tabs>
 
-<div id="define-a-dataset-of-test-examples">
-  ## Définir un jeu de données d&#39;exemples de test
-</div>
+## Définir un jeu de données d&#39;exemples de test {#define-a-dataset-of-test-examples}
 
 Commencez par définir un objet [Dataset](../core-types/datasets) ou une liste d&#39;exemples, c&#39;est-à-dire une collection d&#39;exemples à évaluer. Ces exemples correspondent souvent à des cas d&#39;échec que vous souhaitez tester, à la manière de tests unitaires en développement piloté par les tests (TDD).
 
@@ -140,9 +130,7 @@ Commencez par définir un objet [Dataset](../core-types/datasets) ou une liste d
   </Tab>
 </Tabs>
 
-<div id="define-scoring-functions">
-  ## Définir des fonctions de score
-</div>
+## Définir des fonctions de score {#define-scoring-functions}
 
 Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). Weave les utilise pour attribuer un score à chaque exemple du `Dataset`.
 
@@ -175,9 +163,7 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). We
         return {'match': expected == output['generated_text']}
     ```
 
-    <div id="optional-define-a-custom-scorer-class">
-      ### Facultatif : Définir une classe `Scorer` personnalisée
-    </div>
+### Facultatif : Définir une classe `Scorer` personnalisée {#optional-define-a-custom-scorer-class}
 
     Dans certaines applications, vous pouvez vouloir créer des classes `Scorer` personnalisées. Par exemple, une classe `LLMJudge` standardisée peut être créée avec des paramètres spécifiques (par exemple, modèle de chat, prompt), une logique de scoring propre à chaque ligne et un calcul spécifique du score agrégé.
 
@@ -218,9 +204,7 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). We
   </Tab>
 </Tabs>
 
-<div id="define-a-model-or-function-to-evaluate">
-  ## Définissez un modèle ou une fonction à évaluer
-</div>
+## Définissez un modèle ou une fonction à évaluer {#define-a-model-or-function-to-evaluate}
 
 <Tabs>
   <Tab title="Python">
@@ -249,9 +233,7 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). We
 
     Cela exécute `predict` sur chaque exemple et attribue un score au résultat avec chaque fonction d&#39;évaluation.
 
-    <div id="optional-define-a-function-to-evaluate">
-      ### Facultatif : Définissez une fonction à évaluer
-    </div>
+### Facultatif : Définissez une fonction à évaluer {#optional-define-a-function-to-evaluate}
 
     Vous pouvez également évaluer une fonction personnalisée suivie avec `@weave.op()` :
 
@@ -299,9 +281,7 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). We
   </Tab>
 </Tabs>
 
-<div id="run-the-evaluation">
-  ## Lancez l’évaluation
-</div>
+## Lancez l’évaluation {#run-the-evaluation}
 
 Avec votre objet `Evaluation`, le jeu de données, les évaluateurs et le modèle définis, vous êtes prêt à exécuter l’évaluation et à capturer les résultats dans Weave. Pour lancer une évaluation, appelez `.evaluate()` sur l’objet `Evaluation`.
 
@@ -313,9 +293,7 @@ Avec votre objet `Evaluation`, le jeu de données, les évaluateurs et le modèl
     asyncio.run(evaluation.evaluate(model))
     ```
 
-    <div id="optional-run-multiple-trials">
-      ### Facultatif : Exécuter plusieurs essais
-    </div>
+### Facultatif : Exécuter plusieurs essais {#optional-run-multiple-trials}
 
     Vous pouvez définir le paramètre `trials` sur l’objet `Evaluation` pour exécuter chaque exemple plusieurs fois.
 
@@ -336,9 +314,7 @@ Avec votre objet `Evaluation`, le jeu de données, les évaluateurs et le modèl
     const results = await evaluation.evaluate({model: myModel});
     ```
 
-    <div id="optional-run-multiple-trials-2">
-      ### Facultatif : Exécuter plusieurs essais
-    </div>
+### Facultatif : Exécuter plusieurs essais {#optional-run-multiple-trials-2}
 
     Vous pouvez définir le paramètre `nTrials` lors de l’appel à `evaluate()` pour exécuter chaque exemple plusieurs fois.
 
@@ -354,9 +330,7 @@ Avec votre objet `Evaluation`, le jeu de données, les évaluateurs et le modèl
 
 Le run transmet chaque exemple au modèle trois fois, et Weave attribue un score à chaque run et l’affiche indépendamment.
 
-<div id="full-evaluation-code-example">
-  ## Exemple complet de code d’évaluation
-</div>
+## Exemple complet de code d’évaluation {#full-evaluation-code-example}
 
 L’exemple suivant rassemble chacune des étapes précédentes dans un script unique et exécutable. Utilisez-le comme référence lorsque vous adaptez le flux de travail d’évaluation à votre propre application.
 
@@ -457,15 +431,11 @@ L’exemple suivant rassemble chacune des étapes précédentes dans un script u
 
 <Frame>![Visuel Evals](/images/evals-hero.png)</Frame>
 
-<div id="advanced-evaluation-usage">
-  ## Utilisation avancée de l’évaluation
-</div>
+## Utilisation avancée de l’évaluation {#advanced-evaluation-usage}
 
 Les sections suivantes présentent des fonctionnalités facultatives pour des flux de travail d’évaluation plus complexes, notamment le prétraitement des jeux de données, l’intégration de jeux de données tiers, les vues enregistrées dans l’interface utilisateur et une API de journalisation impérative.
 
-<div id="format-dataset-rows-before-evaluating">
-  ### Formater les lignes du jeu de données avant d’évaluer
-</div>
+### Formater les lignes du jeu de données avant d’évaluer {#format-dataset-rows-before-evaluating}
 
 <Tabs>
   <Tab title="Python">
@@ -560,9 +530,7 @@ Les sections suivantes présentent des fonctionnalités facultatives pour des fl
   </Tab>
 </Tabs>
 
-<div id="use-huggingface-datasets-with-evaluations">
-  ### Utiliser des jeux de données HuggingFace avec les évaluations
-</div>
+### Utiliser des jeux de données HuggingFace avec les évaluations {#use-huggingface-datasets-with-evaluations}
 
 <Tabs>
   <Tab title="Python">
@@ -578,14 +546,10 @@ Les sections suivantes présentent des fonctionnalités facultatives pour des fl
   </Tab>
 </Tabs>
 
-<div id="saved-views">
-  ### Vues enregistrées
-</div>
+### Vues enregistrées {#saved-views}
 
 Vous pouvez enregistrer les configurations, filtres et tris de votre tableau Evals sous forme de *vues enregistrées* afin d&#39;accéder rapidement à la configuration de votre choix. Vous pouvez configurer les vues enregistrées et y accéder dans l&#39;interface utilisateur ainsi qu&#39;avec le SDK Python. Pour plus d&#39;informations, voir [Vues enregistrées](/fr/weave/guides/tools/saved-views).
 
-<div id="imperative-evaluations-evaluationlogger">
-  ### Évaluations impératives (`EvaluationLogger`)
-</div>
+### Évaluations impératives (`EvaluationLogger`) {#imperative-evaluations-evaluationlogger}
 
 Si vous préférez un framework d&#39;évaluation plus souple, voir [`EvaluationLogger`](../evaluation/evaluation_logger) de Weave. `EvaluationLogger` est disponible en Python et en TypeScript, et offre davantage de flexibilité pour les flux de travail complexes, tandis que le framework d&#39;évaluation standard apporte plus de structure et d&#39;encadrement.

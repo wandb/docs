@@ -11,9 +11,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 ハイパーパラメーター、出力メトリクス、GPU 使用率などのシステム統計を、モデル間で比較できます。
 
-<div id="why-use-wb">
-  ## W&amp;B を使用する理由
-</div>
+## W&amp;B を使用する理由 {#why-use-wb}
 
 <Frame>
   <img src="/images/tutorials/huggingface-why.png" alt="W&B を使用する利点" />
@@ -33,9 +31,7 @@ Hugging Face Transformers リポジトリでは、W&amp;B が Trainer をイン�
 
 このインテグレーションの仕組みについて詳しくは、こちらをご覧ください: [Hugging Face + W&amp;B Report](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/Train-a-model-with-Hugging-Face-and-Weights-%26-Biases--VmlldzoxMDE2MTU).
 
-<div id="install-import-and-log-in">
-  ## インストール、インポート、ログイン
-</div>
+## インストール、インポート、ログイン {#install-import-and-log-in}
 
 このセクションでは、チュートリアルの実行に必要な環境をセットアップします。Hugging Face と W&amp;B のライブラリをインストールし、このチュートリアル用の GLUE データセットとトレーニング スクリプトをダウンロードします。
 
@@ -56,9 +52,7 @@ Hugging Face Transformers リポジトリでは、W&amp;B が Trainer をイン�
 
 続行する前に、[無料アカウントにサインアップ](https://app.wandb.ai/login?signup=true)する必要があります。runデータを W&amp;B ダッシュボードに送信するには、アカウントが必要です。
 
-<div id="add-your-api-key">
-  ## APIキーを追加する
-</div>
+## APIキーを追加する {#add-your-api-key}
 
 APIキーを使用して認証すると、このノートブックが W&amp;B アカウントにリンクされ、Runs が Projects にログされるようになります。サインアップ後、次のセルを実行し、リンクをクリックして APIキーを取得し、このノートブックを認証してください。
 
@@ -74,9 +68,7 @@ wandb.login()
 %env WANDB_WATCH=all
 ```
 
-<div id="train-the-model">
-  ## モデルをトレーニングする
-</div>
+## モデルをトレーニングする {#train-the-model}
 
 環境の設定と認証が完了したら、トレーニング run を開始する準備は完了です。次に、ダウンロードしたトレーニングスクリプト [`run_glue.py`](https://huggingface.co/transformers/examples.html#glue) を実行し、トレーニングの内容が自動的に W&amp;B ダッシュボードにトラッキングされることを確認します。このスクリプトは、意味的に同等かどうかを示す人によるアノテーションが付いた文のペアで構成される Microsoft Research Paraphrase Corpus で、BERT をファインチューニングします。
 
@@ -98,15 +90,11 @@ wandb.login()
   --logging_steps 50
 ```
 
-<div id="visualize-results-in-the-dashboard">
-  ## ダッシュボードで結果を可視化する
-</div>
+## ダッシュボードで結果を可視化する {#visualize-results-in-the-dashboard}
 
 トレーニングが始まると、メトリクスをリアルタイムでモニターできます。前のセルで出力されたリンクをクリックするか、[wandb.ai](https://app.wandb.ai)にアクセスすると、結果がリアルタイムで反映される様子を確認できます。ブラウザでrunを表示するためのリンクは、すべての依存関係が読み込まれたあとに表示されます。次の出力を探してください: &quot;**wandb**: View run at [固有のrunへのURL]&quot;
 
-<div id="visualize-model-performance">
-  ### モデル性能を可視化する
-</div>
+### モデル性能を可視化する {#visualize-model-performance}
 
 Experimentsを横断して確認し、発見に注目し、高次元データを可視化します。
 
@@ -114,9 +102,7 @@ Experimentsを横断して確認し、発見に注目し、高次元データを
   <img src="/images/tutorials/huggingface-visualize.gif" alt="モデルのメトリクス ダッシュボード" />
 </Frame>
 
-<div id="compare-architectures">
-  ### アーキテクチャを比較する
-</div>
+### アーキテクチャを比較する {#compare-architectures}
 
 これは、[BERT と DistilBERT の比較](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU)の例です。自動生成される折れ線グラフにより、トレーニング全体を通して異なるアーキテクチャが評価精度にどのような影響を与えるかを確認できます。
 
@@ -124,9 +110,7 @@ Experimentsを横断して確認し、発見に注目し、高次元データを
   <img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="BERT と DistilBERT の比較" />
 </Frame>
 
-<div id="track-key-information-by-default">
-  ## デフォルトで主要な情報をトラッキング
-</div>
+## デフォルトで主要な情報をトラッキング {#track-key-information-by-default}
 
 このセクションでは、追加の設定をしなくてもダッシュボードでどのデータを利用できるのかがわかるように、W&amp;B が自動的に取得する情報について説明します。W&amp;B は実験ごとに新しい run を保存します。デフォルトで保存される情報は次のとおりです。
 
@@ -135,8 +119,6 @@ Experimentsを横断して確認し、発見に注目し、高次元データを
 * **ターミナルログ**: W&amp;B はコマンドライン出力を保存し、タブで確認できるようにします。
 * **システムメトリクス**: GPU と CPU の使用率、メモリ、温度。
 
-<div id="learn-more">
-  ## 詳細はこちら
-</div>
+## 詳細はこちら {#learn-more}
 
 * [YouTubeの解説動画](http://wandb.me/youtube)

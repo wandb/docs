@@ -9,9 +9,7 @@ W&amp;B émet désormais des clés API plus longues (environ 86 caractères). Le
 
 Sur les instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), le message peut aussi être `ERROR API key must be 40 characters long, yours was 86`.
 
-<div id="upgrade-the-wandb-sdk">
-  ## Mettez à niveau le SDK wandb
-</div>
+## Mettez à niveau le SDK wandb {#upgrade-the-wandb-sdk}
 
 La prise en charge de clés API plus longues a été ajoutée dans `wandb` v0.22.3. La mise à niveau vers cette version ou une version ultérieure résout donc l’erreur :
 
@@ -20,9 +18,7 @@ pip install -U wandb
 wandb login --relogin
 ```
 
-<div id="if-you-cannot-upgrade-the-sdk">
-  ## Si vous ne pouvez pas mettre à jour le SDK
-</div>
+## Si vous ne pouvez pas mettre à jour le SDK {#if-you-cannot-upgrade-the-sdk}
 
 * Si une ancienne clé de 40 caractères est encore active sur votre compte, continuez à l’utiliser. Les clés au nouveau format ne révoquent pas automatiquement les anciennes.
 * Si vous avez supprimé l’ancienne clé et que vous ne pouvez pas mettre à jour, contactez [support@wandb.com](mailto:support@wandb.com). Les déploiements [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) et [Autogéré](/fr/platform/hosting/hosting-options/self-managed) peuvent parfois émettre une clé au format hérité.
@@ -32,9 +28,7 @@ wandb login --relogin
   export WANDB_API_KEY=[API-KEY]
   ```
 
-<div id="different-error-key-reported-as-too-short">
-  ## Erreur différente : clé indiquée comme trop courte
-</div>
+## Erreur différente : clé indiquée comme trop courte {#different-error-key-reported-as-too-short}
 
 `API key must have 40+ characters, has 20` peut s&#39;afficher lors de l&#39;appel à `wandb.Api().viewer.generate_api_key()` dans certaines versions du SDK. Cela est distinct de la migration vers le format de clé plus long. Mettez le SDK à niveau. Si l&#39;erreur persiste après la mise à niveau, contactez [support@wandb.com](mailto:support@wandb.com).
 

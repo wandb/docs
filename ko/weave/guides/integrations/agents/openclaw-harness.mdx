@@ -15,7 +15,7 @@ Weave OpenClaw 플러그인은 OpenClaw 게이트웨이를 통해 실행되는 �
 </Warning>
 
 <div id="prerequisites">
-  ## 사전 요구 사항
+  ## 사전 요구 사항 {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v22.14 이상.
@@ -24,7 +24,7 @@ Weave OpenClaw 플러그인은 OpenClaw 게이트웨이를 통해 실행되는 �
 * 트레이스를 수신할 Weave 프로젝트 (`[YOUR-TEAM]/[YOUR-PROJECT]`).
 
 <div id="install-the-plugin">
-  ## 플러그인 설치
+  ## 플러그인 설치 {#install-the-plugin}
 </div>
 
 다음 step을 완료하여 플러그인을 설치하고, OpenClaw 게이트웨이에 등록하고, 트레이스가 Weave 프로젝트에 도달하는지 확인하세요.
@@ -68,7 +68,7 @@ Weave OpenClaw 플러그인은 OpenClaw 게이트웨이를 통해 실행되는 �
 </Steps>
 
 <div id="view-openclaw-traces-in-weave">
-  ## Weave에서 OpenClaw 트레이스 보기
+  ## Weave에서 OpenClaw 트레이스 보기 {#view-openclaw-traces-in-weave}
 </div>
 
 플러그인이 활성화되면 각 에이전트 세션은 Weave UI에서 확인할 수 있는 트레이스를 생성합니다. 하나 이상의 에이전트 세션을 실행한 후 Weave UI에서 프로젝트를 여세요:
@@ -89,7 +89,7 @@ Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/
 | `execute_tool <tool>`  | 각 도구 실행마다    | `gen_ai.tool.name`, `gen_ai.tool.call.id`                                         |
 
 <div id="configuration-reference">
-  ## 설정 레퍼런스
+  ## 설정 레퍼런스 {#configuration-reference}
 </div>
 
 이 섹션은 `openclaw.json`의 `weave` 플러그인 항목에 대한 전체 설정 레퍼런스입니다.
@@ -139,7 +139,7 @@ Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/
 규정 준수 또는 보존 정책에 따라 캡처를 끄려면 `captureContent`를 `false`로 설정하세요.
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스
+  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스 {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 플러그인은 엔드포인트와 인증을 [Weave Node SDK](https://github.com/wandb/weave/tree/master/sdks/node)에 위임합니다. Weave Python 및 Node SDK와 동일한 규칙에 따라 다음 환경 변수를 조회합니다:
@@ -150,7 +150,7 @@ Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/
 | `WF_TRACE_SERVER_URL` | 전체 trace-server URL 재정의값입니다. Self-Managed 또는 프록시를 사용하는 설정에 사용하세요.                               |
 
 <div id="troubleshooting">
-  ## 문제 해결
+  ## 문제 해결 {#troubleshooting}
 </div>
 
 트레이스가 Weave에 도달하지 않거나 content 필드가 비어 있으면, 가장 일반적인 원인을 진단하려면 아래 섹션을 참조하세요.
@@ -158,7 +158,7 @@ Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/
 게이트웨이 로그는 `openclaw`를 실행하는 process의 터미널 출력이거나, 데몬으로 실행한 경우 프로세스 관리자의 로그 스트림입니다.
 
 <div id="plugin-loaded-but-no-spans-show-up">
-  ### 플러그인이 로드되었지만 span이 표시되지 않음
+  ### 플러그인이 로드되었지만 span이 표시되지 않음 {#plugin-loaded-but-no-spans-show-up}
 </div>
 
 1. `/weave status`를 실행하세요. 라이프사이클이 `disabled`, `config-error` 또는 `not-started`이면 플러그인이 활성화되지 않은 것입니다. 게이트웨이 로그에서 `weave: config.entity is required`, `weave: configuration error` 또는 `[weave] incompatible plugin SDK`가 있는지 확인하세요.
@@ -167,7 +167,7 @@ Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/
 4. 인증 소스를 확인하세요. `/weave status`는 `auth=...`를 출력해야 합니다. `WANDB_API_KEY env`라고 표시되는데 키를 다른 환경 변수에 설정했다면, 플러그인이 잘못된 키를 읽고 있는 것입니다.
 
 <div id="spans-land-but-inputoutput-text-is-empty">
-  ### span은 수신되지만 입력/출력 텍스트가 비어 있습니다
+  ### span은 수신되지만 입력/출력 텍스트가 비어 있습니다 {#spans-land-but-inputoutput-text-is-empty}
 </div>
 
 게이트웨이 로그에서 다음 내용을 확인하세요:
@@ -182,7 +182,7 @@ Agents 뷰에 대한 자세한 내용은 [에이전트 활동 보기](/ko/weave/
 OpenClaw에서는 콘텐츠가 포함된 훅을 operator가 opt-in한 경우에만 사용할 수 있습니다. 설정에서 `plugins.entries.weave.hooks.allowConversationAccess: true`를 지정한 다음 게이트웨이를 다시 시작하세요. `span` 구조와 비용/사용 데이터는 훅이 아니라 진단 이벤트를 통해 전달되므로, `allowConversationAccess`가 `false`인 경우에도 계속 작동합니다.
 
 <div id="errors-sending-traces-to-weave">
-  ### Weave로 트레이스를 전송할 때 발생하는 오류
+  ### Weave로 트레이스를 전송할 때 발생하는 오류 {#errors-sending-traces-to-weave}
 </div>
 
 플러그인이 활성화되어 span을 생성하고 있는데도 Weave에 표시되지 않으면, 게이트웨이 로그에서 내보내기 오류를 확인한 뒤 아래 표와 대조하세요.

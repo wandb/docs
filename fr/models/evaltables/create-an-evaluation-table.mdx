@@ -5,9 +5,7 @@ description: "Découvrez comment créer un tableau d’évaluation dans W&B."
 
 Créez un tableau d’évaluation à l’aide du SDK Python W&amp;B ou convertissez un [W&amp;B Table](/fr/models/tables) existant avec [ARIA](/fr/aria).
 
-<div id="create-an-eval-table">
-  ## Créer un tableau d’évaluation
-</div>
+## Créer un tableau d’évaluation {#create-an-eval-table}
 
 Utilisez la classe `wandb.EvalTable` pour créer un tableau d’évaluation.
 
@@ -69,9 +67,7 @@ with wandb.init(project="classifier-eval-table-demo") as run:
     run.log({"validation_predictions_eval": eval_table})    
 ```
 
-<div id="convert-a-wb-table-to-an-eval-table">
-  ## Convertir une W&amp;B Table en tableau d’évaluation
-</div>
+## Convertir une W&amp;B Table en tableau d’évaluation {#convert-a-wb-table-to-an-eval-table}
 
 Utilisez la bannière de conversion pour convertir une W&amp;B Table existante en tableau d’évaluation :
 

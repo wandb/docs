@@ -12,15 +12,11 @@ User Settings에서는 프로필, 기본 팀, API 키, 알림, 인테그레이�
 
 User Settings를 열려면 사용자 프로필 페이지로 이동한 다음, 오른쪽 상단에 있는 사용자 아이콘을 선택합니다. 드롭다운 메뉴에서 **Settings**를 선택합니다.
 
-<div id="profile">
-  ## 프로필
-</div>
+## 프로필 {#profile}
 
 **프로필** 섹션에서는 계정 이름과 소속 기관을 관리하고 수정할 수 있습니다. 필요에 따라 소개글과 위치를 추가하고, 개인 또는 소속 기관의 웹사이트를 연결하고, 프로필 이미지를 업로드할 수 있습니다.
 
-<div id="edit-your-intro">
-  ### 자기소개 수정하기
-</div>
+### 자기소개 수정하기 {#edit-your-intro}
 
 자기소개는 프로필 상단에 표시되며, 자신을 소개하거나 프로젝트를 연결하거나 관련 계정을 공유하기에 좋은 공간입니다.
 
@@ -33,9 +29,7 @@ User Settings를 열려면 사용자 프로필 페이지로 이동한 다음, �
 
 업데이트된 자기소개가 이제 프로필에 표시됩니다.
 
-<div id="add-social-badges">
-  #### 소셜 배지 추가
-</div>
+#### 소셜 배지 추가 {#add-social-badges}
 
 X에서 `@weights_biases` 계정을 팔로우하는 배지를 추가하려면, 배지 이미지를 가리키는 HTML `<img>` 태그가 포함된 Markdown 스타일 링크를 추가하세요:
 
@@ -45,9 +39,7 @@ X에서 `@weights_biases` 계정을 팔로우하는 배지를 추가하려면, �
 
 `<img>` 태그에서는 `width`, `height` 또는 둘 다 지정할 수 있습니다. 둘 중 하나만 지정하면 이미지의 가로세로 비율이 유지됩니다.
 
-<div id="default-team">
-  ## 기본 팀
-</div>
+## 기본 팀 {#default-team}
 
 둘 이상의 팀에 속해 있는 경우 **기본 팀** 섹션에서 run 또는 Weave 트레이스에 팀이 지정되지 않았을 때 사용할 기본 팀을 설정할 수 있습니다. 한 팀에만 속해 있는 경우에는 해당 팀이 기본값이므로 이 섹션은 표시되지 않습니다.
 
@@ -69,9 +61,7 @@ X에서 `@weights_biases` 계정을 팔로우하는 배지를 추가하려면, �
   자동화된 환경에서 스크립트를 실행할 때 기본 팀을 지정하려면 `WANDB_ENTITY` [환경 변수](https://docs.wandb.ai/models/track/environment-variables)를 사용해 기본 위치를 지정하세요.
 </Note>
 
-<div id="teams">
-  ## 팀
-</div>
+## 팀 {#teams}
 
 **팀** 섹션에는 내가 속한 모든 팀이 표시됩니다.
 
@@ -83,9 +73,7 @@ X에서 `@weights_biases` 계정을 팔로우하는 배지를 추가하려면, �
   팀을 생성하거나 관리하려면 [팀 관리](/ko/platform/app/settings-page/teams/)를 참조하세요.
 </Note>
 
-<div id="api-keys">
-  ## API 키
-</div>
+## API 키 {#api-keys}
 
 **API 키** 섹션에서는 W&amp;B 서비스에 인증할 때 사용하는 개인 API 키를 관리할 수 있습니다. 이 섹션에서 기존 키를 검토하고, 새 키를 만들고, 더 이상 필요하지 않은 키를 철회할 수 있습니다.
 
@@ -93,9 +81,7 @@ X에서 `@weights_biases` 계정을 팔로우하는 배지를 추가하려면, �
   이 섹션에는 개인 API 키만 표시됩니다. 조직 API 키와 서비스 계정 키를 포함하여 조직에서 관리할 수 있는 모든 키를 보려면 [API 키 관리](/ko/platform/hosting/iam/api-keys)에 설명된 **API 키** 탭을 사용하세요.
 </Note>
 
-<div id="view-your-api-keys">
-  ### API 키 보기
-</div>
+### API 키 보기 {#view-your-api-keys}
 
 API 키 테이블에는 다음이 표시됩니다:
 
@@ -110,15 +96,11 @@ API 키 테이블에는 다음이 표시됩니다:
 
 API 키 목록을 필터링하려면 키 이름 또는 ID의 일부를 입력하세요.
 
-<div id="create-a-new-api-key">
-  ### 새 API 키 생성
-</div>
+### 새 API 키 생성 {#create-a-new-api-key}
 
 <ApiKeyCreate />
 
-<div id="rename-an-api-key">
-  ### API 키 이름 변경
-</div>
+### API 키 이름 변경 {#rename-an-api-key}
 
 키 자체를 변경하지 않고 API 키의 표시 이름만 변경하려면 다음 단계를 따르세요.
 
@@ -126,9 +108,7 @@ API 키 목록을 필터링하려면 키 이름 또는 ID의 일부를 입력하
 2. **액션(<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **Edit**을 선택하세요.
 3. 키의 **이름**을 업데이트한 다음 **Save**를 클릭하세요.
 
-<div id="delete-an-api-key">
-  ### API 키 삭제
-</div>
+### API 키 삭제 {#delete-an-api-key}
 
 더 이상 필요하지 않거나 노출되었을 수 있는 경우 API 키를 삭제하세요. API 키를 삭제해 액세스를 철회하려면 다음 단계를 따르세요.
 
@@ -144,15 +124,11 @@ W&amp;B는 테이블에서 해당 키를 제거하며, 더 이상 그 키로 인
 
 <ApiKeySecurity />
 
-<div id="beta-features">
-  ## 베타 기능
-</div>
+## 베타 기능 {#beta-features}
 
 **베타 기능** 섹션에서는 부가 기능과 개발 중인 제품의 미리보기를 선택적으로 활성화할 수 있습니다. 활성화하려는 베타 기능 옆의 토글 스위치를 선택하세요.
 
-<div id="alerts">
-  ## 알림
-</div>
+## 알림 {#alerts}
 
 run이 비정상 종료되거나 완료될 때 알림을 받거나, [`wandb.Run.alert()`](/ko/models/runs/alert/)를 사용해 맞춤형 알림을 설정할 수 있습니다. 알림은 이메일 또는 Slack을 통해 받게 됩니다. 알림을 받을 이벤트 유형 옆의 스위치를 켜세요:
 
@@ -161,9 +137,7 @@ run이 비정상 종료되거나 완료될 때 알림을 받거나, [`wandb.Run.
 
 알림을 설정하고 관리하는 방법에 대한 자세한 내용은 [ `wandb.Run.alert()`로 알림 보내기](/ko/models/runs/alert/)를 참조하세요.
 
-<div id="personal-github-integration">
-  ## 개인 GitHub 인테그레이션
-</div>
+## 개인 GitHub 인테그레이션 {#personal-github-integration}
 
 개인 GitHub 계정을 연결하면 W&amp;B가 사용자를 대신해 GitHub 리소스에 액세스할 수 있습니다. GitHub 계정을 연결하려면 다음 단계를 따르세요.
 
@@ -173,9 +147,7 @@ run이 비정상 종료되거나 완료될 때 알림을 받거나, [`wandb.Run.
 
 이제 개인 GitHub 계정이 W&amp;B 계정에 연결되었습니다.
 
-<div id="delete-your-account">
-  ## 계정 삭제
-</div>
+## 계정 삭제 {#delete-your-account}
 
 계정을 삭제하려면 **Delete 계정** 버튼을 선택하세요.
 
@@ -189,8 +161,6 @@ run이 비정상 종료되거나 완료될 때 알림을 받거나, [`wandb.Run.
 
 사용자 계정이 아니라 조직 계정 전체를 삭제하려면 [조직 계정을 삭제하려면 어떻게 해야 하나요?](/ko/support/models/articles/how-do-i-delete-my-organization-account)를 참조하세요.
 
-<div id="storage">
-  ## 저장소
-</div>
+## 저장소 {#storage}
 
 **저장소** 섹션에서는 계정이 W&amp;B 서버에서 사용한 총 메모리를 설명합니다. 기본 저장소 플랜은 100 GB입니다. 저장소 및 가격에 대한 자세한 내용은 [가격](https://wandb.ai/site/pricing) 페이지를 참조하세요.

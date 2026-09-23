@@ -15,9 +15,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
   Toutes les fonctionnalités de journalisation de W&amp;B sont compatibles avec l&#39;entraînement multi-GPU avec parallélisme de données, par exemple avec [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
 </Note>
 
-<div id="track-core-experiments">
-  ## Suivre les expériences essentielles
-</div>
+## Suivre les expériences essentielles {#track-core-experiments}
 
 Pour commencer, installez le SDK Python W&amp;B (`wandb`) aux côtés de YOLOv5 et lancez l’entraînement comme d’habitude. Il suffit d’installer `wandb` pour activer les [fonctionnalités de journalisation](/fr/models/track/log/) intégrées de W&amp;B : métriques système, métriques de modèle et médias enregistrés dans des [tableaux de bord](/fr/models/track/workspaces/) interactifs.
 
@@ -33,9 +31,7 @@ Suivez les liens affichés par W&amp;B dans la sortie standard.
   <img src="/images/integrations/yolov5_experiment_tracking.png" alt="Tableau de bord W&B affichant les métriques d’entraînement de YOLOv5 et les graphiques système." />
 </Frame>
 
-<div id="customize-the-integration">
-  ## Personnaliser l’intégration
-</div>
+## Personnaliser l’intégration {#customize-the-integration}
 
 Une fois le suivi des expériences en place, vous pouvez activer d’autres fonctionnalités W&amp;B (telles que la gestion des versions des modèles, la gestion des versions des jeux de données et la visualisation des prédictions) en passant quelques arguments de ligne de commande à YOLO.
 

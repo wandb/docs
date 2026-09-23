@@ -7,9 +7,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
 
-<div id="log-models">
-  # Journaliser les modèles
-</div>
+# Journaliser les modèles {#log-models}
 
 Le guide suivant explique comment journaliser des modèles dans un run W&amp;B et interagir avec ceux-ci.
 
@@ -25,9 +23,7 @@ Le guide suivant explique comment journaliser des modèles dans un run W&amp;B e
   Pour en savoir plus sur W&amp;B Artifacts et les cas d&#39;usage avancés de gestion des versions, consultez la documentation [Artifacts](/fr/models/artifacts/).
 </Note>
 
-<div id="log-a-model-to-a-run">
-  ## Journaliser un modèle dans un run
-</div>
+## Journaliser un modèle dans un run {#log-a-model-to-a-run}
 
 Utilisez [`log_model`](/fr/models/ref/python/experiments/run#log_model) pour journaliser un artifact de modèle contenant le contenu du répertoire que vous spécifiez. La méthode [`log_model`](/fr/models/ref/python/experiments/run#log_model) marque également l&#39;artifact de modèle obtenu comme sortie du run W&amp;B.
 
@@ -113,9 +109,7 @@ Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Réf
   ```
 </details>
 
-<div id="download-and-use-a-logged-model">
-  ## Télécharger et utiliser un modèle enregistré
-</div>
+## Télécharger et utiliser un modèle enregistré {#download-and-use-a-logged-model}
 
 Utilisez la fonction [`use_model`](/fr/models/ref/python/experiments/run#use_model) pour accéder aux fichiers de modèle et les télécharger s’ils ont été enregistrés auparavant dans un run W&amp;B.
 

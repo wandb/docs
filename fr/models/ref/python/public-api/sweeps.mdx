@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py#L67" />
 
-<div id="class-wandbapispublicsweeps">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Sweeps
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Sweeps {#class-wandbapispublicsweeps}
 
 Un itérateur paresseux d’une collection d’objets `Sweep`.
 
@@ -22,9 +20,7 @@ per_page: 'int' = 50,
 filters: 'dict[str, Any] | None' = None
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   L’API de service utilisée pour interroger W&amp;B.
@@ -46,9 +42,7 @@ filters: 'dict[str, Any] | None' = None
   (dict) Requêtes de sweeps spécifiques à l’aide des filtres de runs. Voir wandb/apis/public/api.py:runs pour plus de détails.
 </ResponseField>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 from wandb.apis.public import Api
@@ -63,13 +57,9 @@ for sweep in sweeps:
     print("----------")
 ```
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self
@@ -77,9 +67,7 @@ self
 
 Renvoyer l’élément suivant de l’itérateur. S’il est épuisé, lever `StopIteration`
 
-<div id="method-paginatorupdate_variables">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables() {#method-paginatorupdate_variables}
 
 ```python
 self

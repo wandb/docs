@@ -7,21 +7,15 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L19" />
 
-<div id="extends">
-  ## Étend
-</div>
+## Étend {#extends}
 
 * `Prompt`
 
-<div id="constructor">
-  ## Constructeur
-</div>
+## Constructeur {#constructor}
 
 > **new StringPrompt**(`parameters`) : `StringPrompt`
 
-<div id="parameters">
-  ### Paramètres
-</div>
+### Paramètres {#parameters}
 
 <ParamField path="parameters" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -33,145 +27,97 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### Renvoie
-</div>
+### Renvoie {#returns}
 
 `StringPrompt`
 
-<div id="overrides">
-  ### Redéfinitions
-</div>
+### Redéfinitions {#overrides}
 
 `Prompt.constructor`
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="__savedref">
-  ### __savedRef
-</div>
+### __savedRef {#__savedref}
 
 > `facultatif` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="inherited-from">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from}
 
 `Prompt.__savedRef`
 
 ***
 
-<div id="content">
-  ### content
-</div>
+### content {#content}
 
 > **content**: `string`
 
-<div id="accessors">
-  ## Accesseurs
-</div>
+## Accesseurs {#accessors}
 
-<div id="description">
-  ### description
-</div>
+### description {#description}
 
-<div id="get-signature">
-  #### Signature d’obtention
-</div>
+#### Signature d’obtention {#get-signature}
 
 > **get** **description**(): `string` | `undefined`
 
-<div id="returns-2">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-2}
 
 `string` | `undefined`
 
-<div id="inherited-from-2">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-2}
 
 `Prompt.description`
 
 ***
 
-<div id="name">
-  ### nom
-</div>
+### nom {#name}
 
-<div id="get-signature-2">
-  #### Signature d’obtention
-</div>
+#### Signature d’obtention {#get-signature-2}
 
 > **get** **nom**(): `string`
 
-<div id="returns-3">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-3}
 
 `string`
 
-<div id="inherited-from-3">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-3}
 
 `Prompt.name`
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="format">
-  ### format()
-</div>
+### format() {#format}
 
 > **format**(`values?`) : `string`
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="values" type="Record<string, any> = {}" />
 
-<div id="returns-4">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-4}
 
 `string`
 
 ***
 
-<div id="saveattrs">
-  ### saveAttrs()
-</div>
+### saveAttrs() {#saveattrs}
 
 > **saveAttrs**() : `objet`
 
-<div id="returns-5">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-5}
 
 `objet`
 
-<div id="inherited-from-4">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-4}
 
 `Prompt.saveAttrs`
 
 ***
 
-<div id="get">
-  ### get()
-</div>
+### get() {#get}
 
 > `static` **get**(`client`, `uri`): `Promise`&lt;`StringPrompt`&gt;
 
-<div id="parameters-3">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-3}
 
 <ParamField path="client" type="WeaveClient" required>
   Voir [`WeaveClient`](../interfaces/weaveclient).
@@ -179,8 +125,6 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <ParamField path="uri" type="string" required />
 
-<div id="returns-6">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-6}
 
 `Promise`&lt;`StringPrompt`&gt;

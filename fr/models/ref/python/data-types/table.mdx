@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
-<div id="class-wandbtable">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Table
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.Table {#class-wandbtable}
 
 La classe Table permet d’afficher et d’analyser des données tabulaires.
 
@@ -33,9 +31,7 @@ allow_mixed_types: 'bool' = False,
 log_mode: 'LogMode | None' = 'IMMUTABLE'
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="columns" type="list[ColumnKey] | None">
   Noms des colonnes du tableau. Valeurs par défaut : &#91;&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;&#93;.
@@ -89,13 +85,9 @@ log_mode: 'LogMode | None' = 'IMMUTABLE'
   * &quot;INCREMENTAL&quot; : les données de la Table sont enregistrées de façon incrémentielle, chaque enregistrement créant une nouvelle entrée d&#39;artifact contenant les nouvelles données depuis le dernier enregistrement.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-tableadd_column">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_column()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_column() {#method-tableadd_column}
 
 ```python
 self,
@@ -106,9 +98,7 @@ optional: 'bool' = False
 
 Ajoute une colonne de données au tableau.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="name" type="str">
   Le nom unique de la colonne.
@@ -122,9 +112,7 @@ Ajoute une colonne de données au tableau.
   Indique si les valeurs nulles sont autorisées.
 </ResponseField>
 
-<div id="method-tableadd_computed_columns">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_computed_columns()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_computed_columns() {#method-tableadd_computed_columns}
 
 ```python
 self,
@@ -133,17 +121,13 @@ fn: 'Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]'
 
 Ajoute une ou plusieurs colonnes calculées à partir des données existantes.
 
-<div id="arguments-2">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-2}
 
 <ResponseField name="fn" type="Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]">
   fonction qui accepte un index et le dictionnaire d’une ligne, et qui renvoie un dictionnaire représentant les nouvelles colonnes de cette ligne, avec pour clés les noms des nouvelles colonnes.
 </ResponseField>
 
-<div id="examples">
-  ##### Exemples
-</div>
+##### Exemples {#examples}
 
 Dans le callback :
 
@@ -157,9 +141,7 @@ table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
 table.add_computed_columns(lambda ndx, row: {"diff": row["x"] - row["y"]})
 ```
 
-<div id="method-tableadd_data">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_data()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_data() {#method-tableadd_data}
 
 ```python
 self, *data: 'Any'
@@ -172,17 +154,13 @@ Le nombre maximal de lignes d’un tableau est déterminé par
 
 Le nombre d’éléments des données doit correspondre au nombre de colonnes du tableau.
 
-<div id="arguments-3">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-3}
 
 <ResponseField name="data" type="Any">
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-tableadd_row">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_row()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.add_row() {#method-tableadd_row}
 
 ```python
 self, *row: 'Any'
@@ -190,17 +168,13 @@ self, *row: 'Any'
 
 Obsolète. Utilisez plutôt la méthode `Table.add_data`.
 
-<div id="arguments-4">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-4}
 
 <ResponseField name="row" type="Any">
   Aucune description fournie.
 </ResponseField>
 
-<div id="method-tablecast">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.cast()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.cast() {#method-tablecast}
 
 ```python
 self,
@@ -215,9 +189,7 @@ Il peut s&#39;agir d&#39;une classe Python standard, d&#39;un type interne de W&
 ou d&#39;un objet d&#39;exemple, comme une instance de wandb.Image ou de
 wandb.Classes.
 
-<div id="arguments-5">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-5}
 
 <ResponseField name="col_name" type="ColumnKey">
   Le nom de la colonne à convertir.
@@ -231,9 +203,7 @@ wandb.Classes.
   Indique si la colonne peut contenir des valeurs None.
 </ResponseField>
 
-<div id="method-tableget_column">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_column()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_column() {#method-tableget_column}
 
 ```python
 self,
@@ -243,9 +213,7 @@ convert_to: "Literal['numpy'] | None" = None
 
 Récupère une colonne du tableau et, éventuellement, la convertit en objet NumPy.
 
-<div id="arguments-6">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-6}
 
 <ResponseField name="name" type="ColumnKey">
   Le nom de la colonne.
@@ -255,9 +223,7 @@ Récupère une colonne du tableau et, éventuellement, la convertit en objet Num
   « numpy » convertit les données sous-jacentes en un objet NumPy.
 </ResponseField>
 
-<div id="method-tableget_dataframe">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_dataframe()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_dataframe() {#method-tableget_dataframe}
 
 ```python
 self
@@ -265,9 +231,7 @@ self
 
 Renvoie un `pandas.DataFrame` contenant le tableau.
 
-<div id="method-tableget_index">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_index()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Table.get_index() {#method-tableget_index}
 
 ```python
 (self)

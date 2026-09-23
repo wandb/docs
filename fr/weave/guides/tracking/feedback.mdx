@@ -16,15 +16,11 @@ Ce guide s’adresse aux développeurs et aux réviseurs qui travaillent avec de
 * [Donner un feedback via le SDK](#provide-feedback-through-the-sdk)
 * [Ajouter des annotations humaines](#add-human-annotations)
 
-<div id="provide-feedback-in-the-ui">
-  ## Fournir du feedback dans l’interface utilisateur
-</div>
+## Fournir du feedback dans l’interface utilisateur {#provide-feedback-in-the-ui}
 
 Les sections suivantes expliquent comment fournir du feedback dans l’interface Weave, soit depuis le panneau des détails de l’appel, soit à l’aide des icônes de feedback.
 
-<div id="use-the-call-details-panel">
-  ### Utiliser le panneau des détails de l’appel
-</div>
+### Utiliser le panneau des détails de l’appel {#use-the-call-details-panel}
 
 1. Dans la barre latérale du projet Weave, accédez à **Traces**.
 2. Repérez la ligne correspondant à l’Appel auquel vous souhaitez ajouter un feedback.
@@ -38,9 +34,7 @@ Les sections suivantes expliquent comment fournir du feedback dans l’interface
   ![Onglet Feedback dans les détails de l’appel](/weave/guides/tracking/imgs/feedback_tab.png)
 </Frame>
 
-<div id="use-the-feedback-icons">
-  ### Utilisez les icônes de feedback
-</div>
+### Utilisez les icônes de feedback {#use-the-feedback-icons}
 
 Vous pouvez ajouter ou supprimer une réaction, et ajouter une note à l’aide des icônes situées à la fois dans le tableau **Traces** et dans chaque panneau des détails de l’appel.
 
@@ -73,9 +67,7 @@ Pour ajouter un commentaire :
   ![Grille des appels avec colonne Feedback](/weave/guides/tracking/imgs/feedback_calls.png)
 </Frame>
 
-<div id="provide-feedback-through-the-sdk">
-  ## Fournir des feedbacks via le SDK
-</div>
+## Fournir des feedbacks via le SDK {#provide-feedback-through-the-sdk}
 
 Utilisez le SDK si vous souhaitez automatiser la collecte des feedbacks ou l’intégrer dans des pipelines d’évaluation, plutôt que de saisir les feedbacks manuellement dans l’UI.
 
@@ -83,9 +75,7 @@ Vous trouverez des exemples d&#39;utilisation du SDK pour les feedbacks dans l&#
 
 Vous pouvez utiliser le SDK Python de Weave pour [ajouter](/fr/weave/reference/python-sdk/trace/feedback#method-add), [supprimer](/fr/weave/reference/python-sdk/trace/feedback#method-purge) et [interroger les feedbacks](/fr/weave/reference/python-sdk/trace/weave_client#method-get_feedback) sur les appels par programmation. Le SDK TypeScript ne prend pas en charge les feedbacks.
 
-<div id="query-a-projects-feedback">
-  ### Interroger le feedback d’un projet
-</div>
+### Interroger le feedback d’un projet {#query-a-projects-feedback}
 
 Vous pouvez interroger le feedback de votre projet Weave à l’aide du SDK. Le SDK prend en charge les opérations de requête de feedback suivantes :
 
@@ -132,9 +122,7 @@ Vous pouvez également obtenir plus d’informations sur chaque objet feedback d
   </Tab>
 </Tabs>
 
-<div id="add-feedback-to-a-call">
-  ### Ajouter du feedback à un Appel
-</div>
+### Ajouter du feedback à un Appel {#add-feedback-to-a-call}
 
 Vous pouvez ajouter du feedback à un Appel à l’aide de l’UUID de l’Appel. Pour utiliser l’UUID afin d’obtenir un Appel précis, [récupérez-le pendant ou après l’exécution de l’Appel](#retrieve-the-call-uuid). Le SDK prend en charge les opérations suivantes pour ajouter du feedback à un Appel :
 
@@ -174,15 +162,11 @@ Vous pouvez ajouter du feedback à un Appel à l’aide de l’UUID de l’Appel
   </Tab>
 </Tabs>
 
-<div id="retrieve-the-call-uuid">
-  #### Récupérer l’UUID de l’Appel
-</div>
+#### Récupérer l’UUID de l’Appel {#retrieve-the-call-uuid}
 
 Si vous devez ajouter un feedback immédiatement après un Appel, vous pouvez récupérer l’UUID de l’Appel par code pendant son exécution ou une fois l’Appel terminé.
 
-<div id="during-call-execution">
-  ##### Lors de l’exécution de l’Appel
-</div>
+##### Lors de l’exécution de l’Appel {#during-call-execution}
 
 Pour récupérer l’UUID lors de l’exécution de l’Appel, récupérez l’Appel en cours et renvoyez son ID.
 
@@ -211,9 +195,7 @@ Pour récupérer l’UUID lors de l’exécution de l’Appel, récupérez l’A
   </Tab>
 </Tabs>
 
-<div id="after-call-execution">
-  ##### Après l’exécution de l’Appel
-</div>
+##### Après l’exécution de l’Appel {#after-call-execution}
 
 Vous pouvez également utiliser la méthode `call()` pour exécuter l’opération et récupérer l’ID après l’exécution de l’Appel :
 
@@ -240,9 +222,7 @@ Vous pouvez également utiliser la méthode `call()` pour exécuter l’opérati
   </Tab>
 </Tabs>
 
-<div id="delete-feedback-from-a-call">
-  ### Supprimer le feedback d’un Appel
-</div>
+### Supprimer le feedback d’un Appel {#delete-feedback-from-a-call}
 
 Vous pouvez supprimer le feedback d’un Appel donné en spécifiant un UUID.
 
@@ -260,17 +240,13 @@ Vous pouvez supprimer le feedback d’un Appel donné en spécifiant un UUID.
   </Tab>
 </Tabs>
 
-<div id="add-human-annotations">
-  ## Ajouter des annotations humaines
-</div>
+## Ajouter des annotations humaines {#add-human-annotations}
 
 Les annotations humaines vous permettent de capturer des jugements structurés, examinés par des humains, sur les appels afin que les réviseurs puissent évaluer la sortie du modèle selon vos propres critères.
 
 Les annotations humaines sont prises en charge dans Weave UI. Cette fonctionnalité vous permet de créer des champs personnalisés pour ajouter à vos traces des données saisies manuellement sous forme de feedback. Pour créer des annotations humaines, vous devez d’abord créer un évaluateur d’annotation humaine à l’aide de la [UI](#create-a-human-annotation-scorer-in-the-ui) ou de l’[API](#create-a-human-annotation-scorer-using-the-api). Vous pouvez ensuite [utiliser l’évaluateur dans la UI pour créer des annotations](#use-the-human-annotation-scorer-in-the-ui), puis [modifier vos évaluateurs d’annotation à l’aide de l’API](#modify-a-human-annotation-scorer-using-the-api).
 
-<div id="create-a-human-annotation-scorer-in-the-ui">
-  ### Créer un évaluateur d’annotation humaine dans l’interface utilisateur
-</div>
+### Créer un évaluateur d’annotation humaine dans l’interface utilisateur {#create-a-human-annotation-scorer-in-the-ui}
 
 Pour créer un évaluateur d’annotation humaine dans l’interface utilisateur, procédez comme suit :
 
@@ -290,9 +266,7 @@ Dans l’exemple suivant, un annotateur humain sélectionne le type de document 
   ![Boîte de dialogue modale Create Scorer](/weave/guides/tracking/imgs/human-annotation-scorer-form.png)
 </Frame>
 
-<div id="use-the-human-annotation-scorer-in-the-ui">
-  ### Utiliser l’évaluateur d’annotation humaine dans l’interface utilisateur
-</div>
+### Utiliser l’évaluateur d’annotation humaine dans l’interface utilisateur {#use-the-human-annotation-scorer-in-the-ui}
 
 Après avoir créé un évaluateur d’annotation humaine, vous pouvez l’utiliser sur la page Traces.
 
@@ -324,9 +298,7 @@ Pour utiliser l’évaluateur, procédez comme suit :
   ![Feedback de l’évaluateur d’annotation humaine dans le tableau Traces](/weave/guides/tracking/imgs/feedback-in-the-table.png)
 </Frame>
 
-<div id="create-a-human-annotation-scorer-using-the-api">
-  ### Créer un évaluateur d’annotation humaine à l’aide de l’API
-</div>
+### Créer un évaluateur d’annotation humaine à l’aide de l’API {#create-a-human-annotation-scorer-using-the-api}
 
 Vous pouvez également créer des évaluateurs d’annotation humaine via l’API. Chaque évaluateur est un objet distinct, que vous créez et mettez à jour indépendamment. Pour créer un évaluateur d’annotation humaine par programmation, procédez comme suit :
 
@@ -372,9 +344,7 @@ L’exemple suivant crée deux évaluateurs. Le premier évaluateur, `Temperatur
   </Tab>
 </Tabs>
 
-<div id="modify-a-human-annotation-scorer-using-the-api">
-  ### Modifier un évaluateur d’annotation humaine via l’API
-</div>
+### Modifier un évaluateur d’annotation humaine via l’API {#modify-a-human-annotation-scorer-using-the-api}
 
 Dans la continuité de [la création d’un évaluateur d’annotation humaine via l’API](#create-a-human-annotation-scorer-using-the-api), l’exemple suivant crée une version mise à jour de l’évaluateur `Temperature` en utilisant l’ID d’objet original (`temperature-scorer`) lors de `publish`. Le résultat est un objet mis à jour, avec un historique de toutes les versions.
 
@@ -413,9 +383,7 @@ Dans la continuité de [la création d’un évaluateur d’annotation humaine v
   ![Historique de l’évaluateur d’annotation humaine](/weave/guides/tracking/imgs/human-annotation-scorer-history.png)
 </Frame>
 
-<div id="use-a-human-annotation-scorer-using-the-api">
-  ### Utiliser un évaluateur d’annotation humaine avec l’API
-</div>
+### Utiliser un évaluateur d’annotation humaine avec l’API {#use-a-human-annotation-scorer-using-the-api}
 
 L’API de feedback vous permet d’utiliser un évaluateur d’annotation humaine en indiquant un nom au format spécifique et un champ `annotation_ref`. Vous pouvez obtenir l’`annotation_spec_ref` dans l’interface utilisateur en sélectionnant l’onglet approprié, ou lors de la création de l’`AnnotationSpec`.
 

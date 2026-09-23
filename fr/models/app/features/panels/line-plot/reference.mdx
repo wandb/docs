@@ -8,15 +8,11 @@ import LinePlotCaptureGroups from "/snippets/fr/_includes/line-plot-capture-grou
 
 Cette page présente des informations détaillées sur les paramètres du graphique en courbes. Pour en savoir plus sur l’utilisation des graphiques en courbes, voir l’[Aperçu des graphiques en courbes](/fr/models/app/features/panels/line-plot).
 
-<div id="data-settings">
-  ## Paramètres des données
-</div>
+## Paramètres des données {#data-settings}
 
 Les paramètres des données déterminent quelles métriques s’affichent sur le graphique et comment les points de données sont échantillonnés, lissés et agrégés.
 
-<div id="x-axis">
-  ### Axe X
-</div>
+### Axe X {#x-axis}
 
 <Frame>
   <img src="/images/app_ui/reference_x_axis.png" alt="Sélection de l’axe X" />
@@ -32,9 +28,7 @@ Options d’axe X basées sur le temps disponibles :
 * **Temps réel**: Minutes écoulées depuis le début du premier run sur le graphique.
 * **Plage X**: Va par défaut de la plus petite à la plus grande valeur de votre axe X. Vous pouvez personnaliser les valeurs minimale et maximale.
 
-<div id="y-axis">
-  ### Axe Y
-</div>
+### Axe Y {#y-axis}
 
 Définissez les variables de l’axe y sur n’importe quelle valeur entière ou à virgule flottante que vous avez enregistrée avec `wandb.Run.log()`. Indiquez une valeur unique, un tableau de valeurs ou un histogramme de valeurs. Si vous avez enregistré plus de 1 500 points pour une variable, W&amp;B en échantillonne 1 500.
 
@@ -44,18 +38,14 @@ Définissez les variables de l’axe y sur n’importe quelle valeur entière o
 
 L’option **Plage Y** s’étend par défaut de la plus petite valeur positive de vos métriques (0 inclus) à la plus grande. Vous pouvez personnaliser les valeurs minimale et maximale.
 
-<div id="point-aggregation-method">
-  ### Méthode d’agrégation des points
-</div>
+### Méthode d’agrégation des points {#point-aggregation-method}
 
 Choisissez le mode d’échantillonnage pour afficher les points de données :
 
 * **Fidélité totale** (par défaut) : Voir [Fidélité totale](/fr/models/app/features/panels/line-plot/sampling/#full-fidelity).
 * **Échantillonnage aléatoire** : Voir [Échantillonnage aléatoire](/fr/models/app/features/panels/line-plot/sampling/#random-sampling).
 
-<div id="smoothing">
-  ### Lissage
-</div>
+### Lissage {#smoothing}
 
 Définissez le [coefficient de lissage](/fr/support/models/articles/what-formula-do-you-use-for-your-smoothi) entre 0 et 1, où 0 signifie aucun lissage et 1 un lissage maximal.
 
@@ -68,18 +58,14 @@ Méthodes de lissage disponibles :
 
 Pour plus de détails, voir [Lissage des graphiques en courbes](/fr/models/app/features/panels/line-plot/smoothing).
 
-<div id="ignore-outliers">
-  ### Ignorer les valeurs aberrantes
-</div>
+### Ignorer les valeurs aberrantes {#ignore-outliers}
 
 Redimensionnez le graphique pour exclure les valeurs aberrantes de l&#39;échelle min./max. par défaut. L&#39;impact de ce paramètre dépend du mode d&#39;échantillonnage du graphique :
 
 * **Mode d&#39;échantillonnage aléatoire** : ignorer les valeurs aberrantes omet du graphique les points en dessous de 5 % et au-dessus de 95 %.
 * **Mode de fidélité totale** : ignorer les valeurs aberrantes affiche tous les points, ramenés à la dernière valeur de chaque bucket, et grise la zone en dessous de 5 % et au-dessus de 95 %.
 
-<div id="max-runs-or-groups">
-  ### Nombre maximal de runs ou de groupes
-</div>
+### Nombre maximal de runs ou de groupes {#max-runs-or-groups}
 
 Par défaut, les graphiques incluent seulement les 10 premiers runs ou groupes de runs de la liste ou de l’ensemble de runs. Modifiez l’ordre de tri pour choisir quels runs ou groupes afficher.
 
@@ -87,9 +73,7 @@ Par défaut, les graphiques incluent seulement les 10 premiers runs ou groupes d
   Un Workspace ne peut afficher que 1 000 runs maximum, quelle que soit sa configuration.
 </Note>
 
-<div id="run-grouping">
-  ### Regroupement des runs
-</div>
+### Regroupement des runs {#run-grouping}
 
 Lorsque la Runs table est regroupée, chaque graphique en courbes fusionne les runs d’un même groupe en une seule courbe. Configurez l’application de ce regroupement aux graphiques :
 
@@ -105,9 +89,7 @@ Le dernier run d’un groupe est le premier run de ce groupe dans le sélecteur 
   **Utiliser uniquement le dernier run par groupe** ne prend effet que lorsque la **Méthode d’agrégation des points** est définie sur **fidélité totale**, la valeur par défaut. Cette option n’a aucun effet en mode **échantillonnage aléatoire**.
 </Note>
 
-<div id="chart-type">
-  ### Type de graphique
-</div>
+### Type de graphique {#chart-type}
 
 Choisissez le style du graphique :
 
@@ -126,9 +108,7 @@ Choisissez le style du graphique :
 
 Configurez le type de graphique dans l&#39;onglet **Data**. Reportez-vous à [Graphique en courbes individuel](/fr/models/app/features/panels/line-plot#individual-line-plot).
 
-<div id="grouping-settings">
-  ## Paramètres de regroupement
-</div>
+## Paramètres de regroupement {#grouping-settings}
 
 Regroupez tous les runs en activant le regroupement, ou regroupez-les selon une variable donnée. Lorsque vous activez le regroupement dans le Runs table, les groupes s’affichent automatiquement dans le graphique.
 
@@ -137,9 +117,7 @@ Regroupez tous les runs en activant le regroupement, ou regroupez-les selon une 
 * **Agrégation** : La valeur de la courbe sur le graphique. Les options sont la moyenne, la médiane, le minimum et le maximum du groupe. Ce contrôle s’applique uniquement lorsque **Regrouper les runs** est activé.
 * **Plage** : Configurez la zone ombrée d’un graphique en courbes à fidélité totale. Les options sont Min/Max, écart-type, erreur standard ou aucune.
 
-<div id="chart-settings">
-  ## Paramètres du graphique
-</div>
+## Paramètres du graphique {#chart-settings}
 
 Configurez les titres et l’affichage de la légende :
 
@@ -148,15 +126,11 @@ Configurez les titres et l’affichage de la légende :
 * **Titre de l’axe y** : Libellé de l’axe y.
 * **Légende** : Affichez ou masquez la légende et configurez sa position.
 
-<div id="legend-settings">
-  ## Paramètres de la légende
-</div>
+## Paramètres de la légende {#legend-settings}
 
 Personnalisez la légende pour afficher n’importe quelle valeur de configuration enregistrée ainsi que les métadonnées des runs, comme la date de création ou l’utilisateur ayant créé le run.
 
-<div id="legend-template">
-  ### Modèle de légende
-</div>
+### Modèle de légende {#legend-template}
 
 Définissez un modèle pour le nom affiché dans la légende.
 
@@ -169,9 +143,7 @@ Définissez un modèle pour le nom affiché dans la légende.
 
   `${run:displayName} - ${config:dropout}` produit un nom de légende comme `royal-sweep - 0.5`, où `royal-sweep` est le nom de l&#39;exécution et `0.5` est le paramètre de configuration appelé `dropout`. */}
 
-<div id="point-specific-values">
-  ### Valeurs spécifiques à un point
-</div>
+### Valeurs spécifiques à un point {#point-specific-values}
 
 Définissez des valeurs entre `[[ ]]` pour afficher des valeurs spécifiques à un point dans le réticule lorsque vous survolez un graphique.
 
@@ -195,9 +167,7 @@ Valeurs prises en charge entre `[[ ]]` :
 | `${max}`      | Maximum des runs groupés                                     |
 | `${percent}`  | Pourcentage du total (pour les graphiques en aires empilées) |
 
-<div id="expressions">
-  ## Expressions
-</div>
+## Expressions {#expressions}
 
 Formulez des expressions mathématiques pour créer ou transformer des graphiques en courbes à partir de vos métriques enregistrées, des valeurs de configuration et des statistiques de synthèse. Par exemple, vous pouvez calculer la différence entre deux métriques, mettre à l’échelle une métrique à l’aide d’une valeur de configuration, ou tracer le logarithme d’une métrique. Les expressions sont évaluées à chaque étape que vous consignez.
 
@@ -205,9 +175,7 @@ Les sections suivantes montrent comment faire référence à des valeurs dans de
 
 Voir [Exemples d’expressions](#example-expressions) pour des cas d’usage courants et des expressions types.
 
-<div id="create-new-line-plots-with-expressions">
-  ### Créer de nouveaux graphiques en courbes avec des expressions
-</div>
+### Créer de nouveaux graphiques en courbes avec des expressions {#create-new-line-plots-with-expressions}
 
 1. Accédez au workspace de votre projet.
 2. Cliquez sur le bouton **+ Add panel**, puis sélectionnez **graphique en courbes**.
@@ -216,9 +184,7 @@ Voir [Exemples d’expressions](#example-expressions) pour des cas d’usage cou
 5. Dans le champ **axe Y** ou **axe X**, saisissez votre expression.
 6. Cliquez sur **appliquer** pour enregistrer vos paramètres et afficher le graphique en courbes.
 
-<div id="transform-existing-line-plots-with-expressions">
-  ### Transformez des graphiques en courbes existants à l’aide d’expressions
-</div>
+### Transformez des graphiques en courbes existants à l’aide d’expressions {#transform-existing-line-plots-with-expressions}
 
 1. Ouvrez le graphique en courbes que vous souhaitez transformer.
 2. Cliquez sur l’icône d’engrenage dans le coin supérieur droit du graphique pour modifier le panneau.
@@ -242,9 +208,7 @@ Voir [Exemples d’expressions](#example-expressions) pour des cas d’usage cou
     * `_step` : la valeur par défaut de l’axe X.
     * `${summary:value}` : valeurs de synthèse de référence. */}
 
-<div id="referencing-values">
-  ### Référencer des valeurs
-</div>
+### Référencer des valeurs {#referencing-values}
 
 Le tableau suivant décrit comment référencer des métriques enregistrées, des paramètres de configuration et des statistiques de synthèse dans les expressions de graphique en courbes.
 
@@ -258,9 +222,7 @@ Utilisez `${...}` pour échapper tout nom de métrique, paramètre de configurat
 
 Par exemple, si vous enregistrez une métrique nommée `val/accuracy`, référencez-la sous la forme `${val/accuracy}` pour éviter toute confusion avec l&#39;opérateur de division. Si vous enregistrez un paramètre de configuration nommé `dropout-rate`, référencez-le sous la forme `${config:dropout-rate}`. Si vous enregistrez un champ de synthèse nommé `best loss`, référencez-le sous la forme `${summary:best loss}`.
 
-<div id="nested-configs">
-  #### Configurations imbriquées
-</div>
+#### Configurations imbriquées {#nested-configs}
 
 Accédez aux valeurs de configuration imbriquées à l’aide de la notation pointée et de la syntaxe suivante :
 
@@ -305,9 +267,7 @@ config:
 
 Faites référence au taux d’apprentissage avec `${config:optimizer.value.lr}`, à la taille de la couche cachée du modèle avec `${config:model.value.hidden_size}`, ou à la décroissance des poids avec `${config:optimizer.value.weight_decay}`.
 
-<div id="available-operators">
-  ### Opérateurs disponibles
-</div>
+### Opérateurs disponibles {#available-operators}
 
 W&amp;B prend en charge les opérateurs suivants dans les expressions de graphique en courbes :
 
@@ -318,15 +278,11 @@ W&amp;B prend en charge les opérateurs suivants dans les expressions de graphiq
 | Bit à bit    | `\|`, `^`, `&`, `<<`, `>>`, `>>>`                  |
 | Logique      | `\|\|` , `&&`                                      |
 
-<div id="math-constants-and-functions">
-  ### Constantes et fonctions mathématiques
-</div>
+### Constantes et fonctions mathématiques {#math-constants-and-functions}
 
 Toutes les fonctions et constantes mathématiques de JavaScript sont prises en charge. Pour plus de détails, voir la [documentation MDN sur Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math). Les tableaux suivants résument les fonctions et constantes les plus couramment utilisées dans les expressions de graphique en courbes.
 
-<div id="math-constants">
-  #### Constantes mathématiques
-</div>
+#### Constantes mathématiques {#math-constants}
 
 | Constante | Description                |
 | --------- | -------------------------- |
@@ -339,9 +295,7 @@ Toutes les fonctions et constantes mathématiques de JavaScript sont prises en c
 | `sqrt2`   | racine carrée de 2         |
 | `sqrt1_2` | racine carrée de 1/2       |
 
-<div id="arithmetic-and-statistical-functions">
-  #### Fonctions arithmétiques et statistiques
-</div>
+#### Fonctions arithmétiques et statistiques {#arithmetic-and-statistical-functions}
 
 Le tableau suivant décrit les fonctions arithmétiques et statistiques disponibles :
 
@@ -355,9 +309,7 @@ Le tableau suivant décrit les fonctions arithmétiques et statistiques disponib
 | max(x, y, ...) | Valeur maximale                                                 |
 | sqrt(x)        | Racine carrée                                                   |
 
-<div id="logarithmic-and-exponential-functions">
-  #### Fonctions logarithmiques et exponentielles
-</div>
+#### Fonctions logarithmiques et exponentielles {#logarithmic-and-exponential-functions}
 
 Le tableau suivant présente les fonctions logarithmiques et exponentielles disponibles :
 
@@ -369,9 +321,7 @@ Le tableau suivant présente les fonctions logarithmiques et exponentielles disp
 | exp(x)    | Fonction exponentielle (e^x) |
 | pow(x, y) | Fonction puissance (x^y)     |
 
-<div id="trigonometric-functions">
-  #### Fonctions trigonométriques
-</div>
+#### Fonctions trigonométriques {#trigonometric-functions}
 
 Le tableau suivant décrit les fonctions trigonométriques disponibles :
 
@@ -385,9 +335,7 @@ Le tableau suivant décrit les fonctions trigonométriques disponibles :
 | atan(x)     | Arctangente (tangente inverse) |
 | atan2(y, x) | Arctangente à deux arguments   |
 
-<div id="hyperbolic-functions">
-  #### Fonctions hyperboliques
-</div>
+#### Fonctions hyperboliques {#hyperbolic-functions}
 
 Le tableau suivant décrit les fonctions hyperboliques disponibles :
 
@@ -397,9 +345,7 @@ Le tableau suivant décrit les fonctions hyperboliques disponibles :
 | cosh(x)  | Cosinus hyperbolique  |
 | tanh(x)  | Tangente hyperbolique |
 
-<div id="example-expressions">
-  ### Exemples d&#39;expressions
-</div>
+### Exemples d&#39;expressions {#example-expressions}
 
 Voici quelques exemples d&#39;expressions pour les axes d&#39;un graphique en courbes. Ces exemples sont fournis à titre illustratif. Vous pouvez utiliser n&#39;importe quelle combinaison d&#39;opérateurs et de fonctions décrits dans les sections précédentes pour créer des expressions complexes adaptées à vos besoins.
 
@@ -482,9 +428,7 @@ sqrt(loss*100)+sqrt(loss*100000)
   ```
 </Note>
 
-<div id="multi-metric-panel-expressions">
-  ### Expressions de panneau à plusieurs métriques
-</div>
+### Expressions de panneau à plusieurs métriques {#multi-metric-panel-expressions}
 
 Utilisez une expression régulière pour créer un seul graphique en courbes affichant plusieurs métriques ensemble (y compris les métriques correspondantes qui seront enregistrées ultérieurement). Pour des instructions détaillées, voir [Ajouter un graphique en courbes](/fr/models/app/features/panels/line-plot#multi-metric-line-plot).
 
@@ -496,8 +440,6 @@ Par exemple :
   * `.*_accuracy` correspond aux métriques d’accuracy sur différents jeux de données comme `train_accuracy`, `val_accuracy`, `test_accuracy`
 * Utilisez l’alternance pour faire correspondre uniquement les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, en excluant les couches intermédiaires.
 
-<div id="capture-groups">
-  #### Groupes de capture
-</div>
+#### Groupes de capture {#capture-groups}
 
 <LinePlotCaptureGroups />

@@ -6,17 +6,13 @@ keywords: ["modèle de file d'attente", "garde-fous de ressources", "macros dyna
 
 Cette page décrit comment configurer les options avancées de la file d&#39;attente Launch, y compris les modèles de configuration de file d&#39;attente, les macros dynamiques et les images de base pour accélérateurs. Ces options aident les administrateurs à appliquer des garde-fous et à adapter les files d&#39;attente à des environnements de calcul spécifiques.
 
-<div id="set-up-queue-config-templates">
-  ## Configurer les modèles de configuration de file d&#39;attente
-</div>
+## Configurer les modèles de configuration de file d&#39;attente {#set-up-queue-config-templates}
 
 Les modèles de configuration de file d&#39;attente permettent aux administrateurs de gérer des garde-fous pour la consommation des ressources de calcul. Définissez des valeurs par défaut, minimales et maximales pour des champs tels que la consommation de mémoire, le GPU et la durée d’exécution.
 
 Après avoir configuré une file d&#39;attente avec des modèles de configuration, les membres de votre équipe peuvent modifier les champs que vous avez définis uniquement dans la plage que vous avez spécifiée.
 
-<div id="configure-queue-template">
-  ### Configurer un modèle de file d’attente
-</div>
+### Configurer un modèle de file d’attente {#configure-queue-template}
 
 Vous pouvez configurer un modèle sur une file d’attente existante ou sur une nouvelle file d’attente. La procédure suivante ajoute des champs de modèle à la configuration d’une file d’attente afin que les membres de l’équipe ne puissent définir que des valeurs comprises dans les limites que vous avez définies.
 
@@ -69,9 +65,7 @@ Vous sélectionnez ensuite String comme type de données dans la liste déroulan
   <img src="/images/launch/aws_template_example.png" alt="Vignette de modèle de file d’attente Launch avec des options de type d’instance AWS" />
 </Frame>
 
-<div id="dynamically-configure-launch-jobs">
-  ## Configurer dynamiquement les jobs Launch
-</div>
+## Configurer dynamiquement les jobs Launch {#dynamically-configure-launch-jobs}
 
 Les configurations de la file d&#39;attente peuvent être définies dynamiquement à l&#39;aide de macros évaluées lorsque l&#39;agent extrait un job de la file d&#39;attente. Utilisez des macros pour injecter, au moment du lancement, des valeurs spécifiques au run dans votre configuration de file d&#39;attente. Vous pouvez définir les macros suivantes :
 
@@ -87,9 +81,7 @@ Les configurations de la file d&#39;attente peuvent être définies dynamiquemen
   Toute macro personnalisée ne figurant pas dans le tableau ci-dessus, par exemple `${MY_ENV_VAR}`, est remplacée par une variable d&#39;environnement issue de l&#39;environnement de l&#39;agent.
 </Note>
 
-<div id="use-the-launch-agent-to-build-images-that-execute-on-accelerators-or-gpus">
-  ## Utilisez l’agent Launch pour créer des images qui s’exécutent sur des accélérateurs ou des GPU
-</div>
+## Utilisez l’agent Launch pour créer des images qui s’exécutent sur des accélérateurs ou des GPU {#use-the-launch-agent-to-build-images-that-execute-on-accelerators-or-gpus}
 
 Si vous utilisez Launch pour créer des images qui s’exécutent dans un environnement doté d’un accélérateur, vous devrez peut-être spécifier une image de base pour accélérateur afin que l’image obtenue soit compatible avec le matériel cible.
 
@@ -100,9 +92,7 @@ L’image de base pour accélérateur doit répondre aux exigences suivantes :
 * Compatibilité entre la version d’accélérateur que vous fournissez et les packages installés dans votre algorithme de ML.
 * Toute étape supplémentaire requise pour configurer les packages installés afin d’assurer leur compatibilité avec le matériel.
 
-<div id="use-gpus-with-tensorflow">
-  ### Utiliser des GPU avec TensorFlow
-</div>
+### Utiliser des GPU avec TensorFlow {#use-gpus-with-tensorflow}
 
 Pour vous assurer que TensorFlow utilise votre GPU, spécifiez une image Docker ainsi que son tag pour la clé `builder.accelerator.base_image` dans la configuration des ressources de la file d&#39;attente.
 

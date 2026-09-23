@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
 
-<div id="function-wandbplotconfusion_matrix">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.confusion_matrix()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.plot.confusion_matrix() {#function-wandbplotconfusion_matrix}
 
 確率または予測のシーケンスから混同行列を作成します。
 
@@ -23,9 +21,7 @@ title: 'str' = 'Confusion Matrix Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="probs" type="Sequence[Sequence[float]] | None">
   各クラスの予測確率のシーケンスです。シーケンスの形状は (N, K) とする必要があります。N はサンプル数、K はクラス数です。指定する場合、`preds` は指定しないでください。
@@ -51,22 +47,16 @@ split_table: 'bool' = False
   表を W&amp;B UI の別のセクションに表示するかどうかを指定します。`True` の場合、表は「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
 </ResponseField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `CustomChart`: W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
 
-<div id="raises">
-  ## Raises
-</div>
+## Raises {#raises}
 
 * `ValueError`: `probs` と `preds` の両方が指定された場合、または予測数と真のラベル数が一致しない場合に発生します。また、予測された一意のクラス数がクラス名の数を超える場合や、一意の真のラベル数がクラス名の数を超える場合にも発生します。
 * `wandb.Error`: numpy がインストールされていない場合に発生します。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 野生生物の分類で、ランダムな確率を使って混同行列をログする例:
 

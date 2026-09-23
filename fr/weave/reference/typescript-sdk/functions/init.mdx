@@ -13,9 +13,7 @@ init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
 
 Initialise le client Weave, requis pour le fonctionnement du weave tracing.
 
-<div id="parameters">
-  ## Paramètres
-</div>
+## Paramètres {#parameters}
 
 <ParamField path="project" type="string" required>
   Le nom du projet W&amp;B (peut être projet ou entité/projet). Si vous ne
@@ -29,16 +27,12 @@ Initialise le client Weave, requis pour le fonctionnement du weave tracing.
   Type complet : `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
 </ParamField>
 
-<div id="returns">
-  ## Renvoie
-</div>
+## Renvoie {#returns}
 
 `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
 
 Une promesse qui renvoie le client Weave initialisé.
 
-<div id="throws">
-  ## Erreurs
-</div>
+## Erreurs {#throws}
 
 Si l&#39;initialisation échoue

@@ -9,18 +9,14 @@ Par défaut, W&amp;B journalise le code et les métriques système, mais ne jour
 
 Pour désactiver la journalisation du code, utilisez des variables d&#39;environnement au niveau du run ou modifiez les valeurs par défaut à l&#39;échelle de l&#39;équipe en tant qu&#39;administrateur.
 
-<div id="turn-off-code-logging-with-environment-variables">
-  ## Désactiver la journalisation du code avec des variables d&#39;environnement
-</div>
+## Désactiver la journalisation du code avec des variables d&#39;environnement {#turn-off-code-logging-with-environment-variables}
 
 Utilisez l&#39;une des variables d&#39;environnement suivantes pour désactiver la journalisation du code pour un run ou un processus individuel :
 
 * Définissez `WANDB_DISABLE_CODE` sur `true` pour désactiver le suivi du code. Cette action empêche la récupération du SHA Git et du patch diff.
 * Définissez `WANDB_IGNORE_GLOBS` sur `*.patch` pour arrêter la synchronisation du patch diff vers les serveurs W&amp;B, tout en le laissant disponible localement pour l&#39;appliquer avec `wandb restore`.
 
-<div id="enforce-settings-at-the-organization-or-team-level">
-  ## Appliquer des paramètres au niveau de l’organisation ou de l’équipe
-</div>
+## Appliquer des paramètres au niveau de l’organisation ou de l’équipe {#enforce-settings-at-the-organization-or-team-level}
 
 Si vous souhaitez désactiver l’enregistrement du code pour tous les membres d’une équipe (plutôt que de vous reposer sur chaque utilisateur pour définir des variables d’environnement), modifiez la valeur par défaut dans les paramètres de votre équipe ou de votre organisation.
 

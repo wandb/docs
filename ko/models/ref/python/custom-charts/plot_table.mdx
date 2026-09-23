@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/custom_chart.py#L76" />
 
-<div id="function-wandbplotplot_table">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.plot_table()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.plot_table() {#function-wandbplotplot_table}
 
 Vega-Lite 사양과 `wandb.Table`을 사용해 맞춤형 차트를 생성합니다.
 
@@ -24,9 +22,7 @@ string_fields: 'dict[str, Any] | None' = None,
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="vega_spec_name" type="str">
   시각화 구조를 정의하는 Vega-Lite 사양의 이름 또는 식별자입니다.
@@ -48,21 +44,15 @@ split_table: 'bool' = False
   테이블을 W&amp;B UI의 별도 섹션에 표시할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 섹션에 표시됩니다. 기본값은 `False`입니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 차트 객체를 `wandb.Run.log()`의 인수로 전달하세요.
 
-<div id="raises">
-  ## 예외
-</div>
+## 예외 {#raises}
 
 * `wandb.Error`: `data_table`이 `wandb.Table` 객체가 아닌 경우입니다.
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 ```python
 # Vega-Lite 사양과 데이터 테이블을 사용하여 맞춤형 차트를 생성합니다.

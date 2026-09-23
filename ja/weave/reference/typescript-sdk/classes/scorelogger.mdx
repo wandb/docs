@@ -10,9 +10,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 ScoreLogger は単一の予測のスコアリングを管理します。
 EvaluationLogger.logPrediction() によって返されます。
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -22,56 +20,38 @@ await pred.logScore("relevance", 0.8);
 await pred.finish(); // 予測を確定する
 ```
 
-<div id="constructor">
-  ## コンストラクター
-</div>
+## コンストラクター {#constructor}
 
 > **new ScoreLogger**(`evalLogger`): `ScoreLogger`
 
-<div id="parameters">
-  ### パラメーター
-</div>
+### パラメーター {#parameters}
 
 <ParamField path="evalLogger" type="EvaluationLogger" required>
   [`EvaluationLogger`](./evaluationlogger) を参照してください。
 </ParamField>
 
-<div id="returns">
-  ### 戻り値
-</div>
+### 戻り値 {#returns}
 
 `ScoreLogger`
 
-<div id="accessors">
-  ## アクセサー
-</div>
+## アクセサー {#accessors}
 
-<div id="isfinishcalled">
-  ### isFinishCalled
-</div>
+### isFinishCalled {#isfinishcalled}
 
-<div id="get-signature">
-  #### Get Signature
-</div>
+#### Get Signature {#get-signature}
 
 > **get** **isFinishCalled**(): `boolean`
 
 finish() が呼び出されたかどうかを確認します。
 EvaluationLogger が未完了の予測を検出するために使用します。
 
-<div id="returns-2">
-  ##### 戻り値
-</div>
+##### 戻り値 {#returns-2}
 
 `boolean`
 
-<div id="methods">
-  ## Methods
-</div>
+## Methods {#methods}
 
-<div id="finish">
-  ### finish()
-</div>
+### finish() {#finish}
 
 > **finish**(): `Promise`&lt;`void`&gt;
 
@@ -79,26 +59,20 @@ EvaluationLogger が未完了の予測を検出するために使用します。
 蓄積されたscoresを用いて、`predict_and_score` call を確定します。
 段階的な集計を更新し、メモリを解放します。
 
-<div id="returns-3">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-3}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="logscore">
-  ### logScore()
-</div>
+### logScore() {#logscore}
 
 > **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
 この予測のスコアをログします。
 predict&#95;and&#95;score の子として Scorer Call を作成します。
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="scorerName" type="string" required>
   scorer名 (例: &quot;accuracy&quot;, &quot;f1&#95;score&quot;)
@@ -108,8 +82,6 @@ predict&#95;and&#95;score の子として Scorer Call を作成します。
   スコアの値
 </ParamField>
 
-<div id="returns-4">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-4}
 
 `Promise`&lt;`void`&gt;

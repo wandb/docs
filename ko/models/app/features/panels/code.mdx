@@ -8,9 +8,7 @@ keywords: ["log_code", "code_dir", "code comparer", "Jupyter notebook history", 
 
 W&amp;B를 사용하여 코드를 저장하고, 여러 run 간 코드를 비교하고, 로컬 변경 사항을 확인하고, Jupyter 세션 이력을 캡처하세요.
 
-<div id="enable-code-saving">
-  ## 코드 저장 활성화
-</div>
+## 코드 저장 활성화 {#enable-code-saving}
 
 팀 또는 조직의 코드 저장을 설정하세요. 팀 및 조직 제어에 대해서는 [개인정보 보호 설정 구성](/ko/platform/hosting/privacy-settings)에 설명되어 있습니다.
 
@@ -18,21 +16,15 @@ W&amp;B를 사용하여 코드를 저장하고, 여러 run 간 코드를 비교�
   기본적으로 W&amp;B는 모든 팀에서 코드 저장을 비활성화합니다. 팀에서 이 기능을 켜려면 먼저 조직 관리자가 조직의 **기본 코드 저장 비활성화** 설정을 꺼진 상태로 두어야 합니다. [조직](#organization) 섹션을 참조하세요.
 </Info>
 
-<div id="team">
-  ### 팀
-</div>
+### 팀 {#team}
 
 팀 관리자로서 팀의 코드 저장을 활성화하려면 팀 **Settings** 페이지를 열고 **Privacy** 섹션으로 이동한 다음, 해당 팀의 run에 대해 **Enable code saving by default**를 설정하세요. 이 옵션은 조직 관리자가 조직 전체에 대해 **기본 코드 저장 비활성화**를 켜지 않은 경우에만 사용 가능합니다. 내비게이션 단계는 [팀의 개인정보 보호 설정 구성](/ko/platform/hosting/privacy-settings#configure-privacy-settings-for-a-team)을 참조하세요.
 
-<div id="organization">
-  ### 조직
-</div>
+### 조직 {#organization}
 
 조직 관리자는 **Settings**로 이동하여 **Privacy**를 선택한 다음, **Project and content security** 섹션의 **기본 코드 저장 비활성화**을 사용해 모든 팀에서 코드 저장을 기본적으로 끌지 여부를 제어하세요. 이 설정이 켜져 있는 동안에는 팀 관리자가 자신의 팀에 대해 **Enable code saving by default**를 켤 수 없습니다. 조직 제어 기능의 전체 목록은 [모든 팀에 개인정보 보호 설정 강제 적용](/ko/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams)을 참조하세요.
 
-<div id="save-code">
-  ## 코드 저장
-</div>
+## 코드 저장 {#save-code}
 
 {/* 코드 저장을 활성화하면 W&B는 `wandb.init()`를 호출한 파일의 코드를 저장합니다. 추가 라이브러리 코드를 저장하는 방법은 세 가지입니다: */}
 
@@ -40,9 +32,7 @@ run을 생성한 소스 코드를 [아티팩트](/ko/models/ref/python/experimen
 
 코드를 저장하는 방법은 두 가지입니다. 세밀하게 제어하는 방식과 자동 방식입니다.
 
-<div id="fine-grain-control">
-  ### 세밀한 제어
-</div>
+### 세밀한 제어 {#fine-grain-control}
 
 `wandb.Run.log_code()`를 사용해 특정 파일이나 디렉터리를 [아티팩트](/ko/models/ref/python/experiments/artifact)로 로깅할 수 있습니다.
 
@@ -75,9 +65,7 @@ with wandb.init() as run:
 
 W&amp;B가 저장하는 소스 코드 파일의 유형과 저장 위치를 더 세부적으로 제어하려면 [레퍼런스 문서](/ko/models/ref/python/experiments/run#log_code)를 참조하세요.
 
-<div id="automatically-capture-code">
-  ### 코드 자동 캡처
-</div>
+### 코드 자동 캡처 {#automatically-capture-code}
 
 현재 디렉터리와 하위 디렉터리의 모든 코드를 자동으로 캡처하려면 `wandb.init(settings=wandb.Settings(code_dir=))`를 사용하세요. 기본적으로 W&amp;B는 다음을 캡처합니다:
 
@@ -97,9 +85,7 @@ with wandb.init(settings=wandb.Settings(code_dir=".")) as run:
 
 `.` 대신 캡처할 디렉터리의 경로를 입력하면 다른 디렉터리를 지정할 수도 있습니다.
 
-<div id="view-local-changes">
-  ## 로컬 변경 사항 보기
-</div>
+## 로컬 변경 사항 보기 {#view-local-changes}
 
 W&amp;B는 Git 저장소에 스테이징된 변경 사항이나 스테이징되지 않은 변경 사항이 있는 상태에서 코드를 로깅하면 diff 파일을 생성하며, W&amp;B UI에서 이러한 변경 사항을 확인할 수 있습니다.
 
@@ -129,9 +115,7 @@ W&amp;B는 여러 run에 걸친 diff를 볼 수 있도록 *unified*와 *split*�
 
 diff 뷰 오른쪽 위의 **Download** 버튼 아래에서 **Unified** 또는 **Split** 버튼을 선택해 두 뷰 사이를 전환하세요.
 
-<div id="jupyter-session-history">
-  ## Jupyter 세션 이력
-</div>
+## Jupyter 세션 이력 {#jupyter-session-history}
 
 W&amp;B는 Jupyter 노트북 세션에서 실행한 코드의 이력을 저장합니다. Jupyter에서 `wandb.init()`를 호출하면 W&amp;B가 후크를 추가해 현재 세션에서 실행한 코드 이력이 포함된 Jupyter 노트북을 자동으로 저장합니다.
 
@@ -150,9 +134,7 @@ W&amp;B는 Jupyter 노트북 세션에서 실행한 코드의 이력을 저장�
   <img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter 세션 출력" />
 </Frame>
 
-<div id="compare-code-across-runs">
-  ## run 간 코드 비교
-</div>
+## run 간 코드 비교 {#compare-code-across-runs}
 
 서로 다른 W&amp;B run에서 사용된 코드를 비교합니다:
 

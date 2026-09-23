@@ -10,17 +10,13 @@ keywords: ["Smolagents", "agents", "appel d’outils", "Hugging Face", "traçage
 
 Cette page explique comment intégrer [Smolagents](https://huggingface.co/docs/smolagents/en/index) à W&amp;B Weave pour suivre et analyser vos applications agentiques. Elle s’adresse aux développeurs qui créent des flux de travail agentiques et qui souhaitent mieux comprendre leurs appels de modèle et d’outils. Vous apprendrez à journaliser les inférences de modèle, à surveiller les appels de fonction et à organiser les Experiments à l&#39;aide des fonctionnalités de traçage et de gestion des versions de Weave. En suivant les exemples fournis, vous pourrez obtenir des informations précieuses, déboguer efficacement vos applications et comparer différentes configurations de modèle (le tout dans l&#39;interface web de Weave).
 
-<div id="overview">
-  ## Aperçu
-</div>
+## Aperçu {#overview}
 
 Smolagents est un framework qui offre un minimum d’abstractions pour créer des applications agentiques. Il prend en charge plusieurs fournisseurs de LLM, comme OpenAI, Hugging Face Transformers et Anthropic.
 
 Weave capture automatiquement les traces de [Smolagents](https://huggingface.co/docs/smolagents/en/index). Pour commencer le suivi, appelez `weave.init()` et utilisez la bibliothèque comme d’habitude.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, vous devez installer les bibliothèques requises et configurer l’accès au fournisseur de LLM de votre choix.
 
@@ -39,9 +35,7 @@ Avant de commencer, vous devez installer les bibliothèques requises et configur
    os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
    ```
 
-<div id="basic-tracing">
-  ## Traçage de base
-</div>
+## Traçage de base {#basic-tracing}
 
 Cette section montre comment Weave capture automatiquement les traces d’un flux de travail Smolagents de base.
 
@@ -83,9 +77,7 @@ Une fois l’exemple de code exécuté, accédez au tableau de bord de votre pro
   ![Weave journalise chaque appel d’inférence et fournit des détails sur les entrées, les sorties et les métadonnées.](/weave/guides/integrations/imgs/smolagents-trace.png)
 </Frame>
 
-<div id="tracing-custom-tools">
-  ## Traçage des outils personnalisés
-</div>
+## Traçage des outils personnalisés {#tracing-custom-tools}
 
 En plus des outils intégrés, vous pouvez étendre vos agents avec des outils personnalisés, et Weave peut également tracer ces appels.
 

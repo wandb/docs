@@ -21,7 +21,7 @@ Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`Evaluation`](/ko/we
 ![Evals hero](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## 학습할 내용
+  ## 학습할 내용 {#what-youll-learn}
 </div>
 
 이 가이드에서는 다음을 수행하는 방법을 알아봅니다.
@@ -37,7 +37,7 @@ Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`Evaluation`](/ko/we
 <WeaveQuickstartPrereqs />
 
 <div id="import-the-necessary-libraries-and-functions">
-  ## 필요한 라이브러리와 함수를 임포트하기
+  ## 필요한 라이브러리와 함수를 임포트하기 {#import-the-necessary-libraries-and-functions}
 </div>
 
 다음 라이브러리를 스크립트에 임포트합니다.
@@ -63,7 +63,7 @@ Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`Evaluation`](/ko/we
 </Tabs>
 
 <div id="build-a-model">
-  ## `Model` 구축하기
+  ## `Model` 구축하기 {#build-a-model}
 </div>
 
 라이브러리를 준비했으면, 다음 단계는 평가할 모델을 정의하는 것입니다.
@@ -163,7 +163,7 @@ Weave에서 [`Models`는 객체](/ko/weave/guides/core-types/models)이며, 모�
 </Tabs>
 
 <div id="create-a-dataset">
-  ## 데이터셋 만들기
+  ## 데이터셋 만들기 {#create-a-dataset}
 </div>
 
 `Model`을 정의했으면, 이제 이를 평가할 데이터셋이 필요합니다. [`Dataset`](/ko/weave/guides/core-types/datasets)은 Weave 객체로 저장된 예시 모음입니다. 데이터셋을 Weave에 게시하면 버전이 지정되며 여러 평가 run에서 재사용할 수 있습니다.
@@ -239,7 +239,7 @@ Weave에서 [`Models`는 객체](/ko/weave/guides/core-types/models)이며, 모�
 </Tabs>
 
 <div id="define-custom-scoring-functions">
-  ## 맞춤형 점수화 함수 정의하기
+  ## 맞춤형 점수화 함수 정의하기 {#define-custom-scoring-functions}
 </div>
 
 이제 모델과 데이터셋이 있으므로, 각 예시에서 모델이 얼마나 잘 수행하는지 측정할 방법이 필요합니다. 점수화 함수는 모델의 `output`을 예상 `target`과 비교하고 평가에서 보고할 메트릭을 생성합니다.
@@ -274,7 +274,7 @@ Weave 평가를 사용할 때 Weave는 `output`과 비교할 `target`이 있어�
 일부 애플리케이션에서는 맞춤형 `Scorer` 클래스를 만들고 싶을 수 있습니다. 예를 들어, 특정 매개변수(예: 채팅 모델 또는 프롬프트), 특정 행 스코어링, 집계 점수 계산을 포함하는 표준화된 `LLMJudge` 클래스를 만들 수 있습니다. 자세한 내용은 [RAG 애플리케이션의 모델 기반 평가](/ko/weave/tutorial-rag#optional-defining-a-scorer-class)에서 `Scorer` 클래스를 정의하는 튜토리얼을 참조하세요.
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
-  ## 기본 제공 Scorer를 사용해 평가 실행하기
+  ## 기본 제공 Scorer를 사용해 평가 실행하기 {#use-a-built-in-scorer-and-run-the-evaluation}
 </div>
 
 모델, 데이터셋, 맞춤형 Scorer가 준비되었으면, 이제 모든 요소를 연결해 평가 run으로 구성할 수 있습니다.
@@ -325,7 +325,7 @@ Weave 평가를 사용할 때 Weave는 `output`과 비교할 `target`이 있어�
 </Note>
 
 <div id="complete-example">
-  ### 전체 예제
+  ### 전체 예제 {#complete-example}
 </div>
 
 <Accordion title="단일 스크립트로 전체 평가 파이프라인 실행:">
@@ -468,7 +468,7 @@ Weave 평가를 사용할 때 Weave는 `output`과 비교할 `target`이 있어�
 </Accordion>
 
 <div id="view-your-evaluation-results">
-  ## 평가 결과 보기
+  ## 평가 결과 보기 {#view-your-evaluation-results}
 </div>
 
 평가가 완료되면 Weave UI에서 각 예측과 Scorer 결과를 살펴볼 수 있습니다. Weave는 각 예측과 점수에 대한 트레이스를 자동으로 캡처합니다. 평가에서 출력된 링크를 클릭해 Weave UI에서 결과를 확인하세요.
@@ -476,7 +476,7 @@ Weave 평가를 사용할 때 Weave는 `output`과 비교할 `target`이 있어�
 ![평가 결과](/images/evals-hero.png)
 
 <div id="learn-more-about-weave-evaluations">
-  ## Weave 평가에 대해 더 알아보기
+  ## Weave 평가에 대해 더 알아보기 {#learn-more-about-weave-evaluations}
 </div>
 
 이제 완전한 평가 파이프라인이 준비되었습니다. Weave의 평가 특성을 더 자세히 살펴보려면 다음 리소스를 참조하세요.
@@ -485,8 +485,6 @@ Weave 평가를 사용할 때 Weave는 `output`과 비교할 `target`이 있어�
 * Weave의 [기본 제공 스코어링 함수](/ko/weave/guides/evaluation/builtin_scorers)를 확인해 보세요.
 * LLM을 평가자로 사용하는 [모델 기반 평가](/ko/weave/guides/evaluation/scorers#model-based-evaluation)에 대해 알아보세요.
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 [RAG 애플리케이션 구축하기](/ko/weave/tutorial-rag)를 통해 검색 증강 생성 평가를 알아보세요.

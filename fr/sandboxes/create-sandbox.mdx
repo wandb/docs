@@ -32,9 +32,7 @@ Créez des Serverless Sandboxes W&amp;B pour exécuter du code dans des environn
   ```
 </Info>
 
-<div id="create-a-sandbox">
-  ## Créer un sandbox
-</div>
+## Créer un sandbox {#create-a-sandbox}
 
 Utilisez [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) pour créer et démarrer un sandbox. Cette méthode renvoie un objet `Sandbox` que vous pouvez utiliser pour interagir avec l’environnement.
 
@@ -53,9 +51,7 @@ with Sandbox.run() as sandbox:
 
 Pour savoir comment exécuter des commandes dans un sandbox, consultez [Exécuter des commandes](/fr/sandboxes/run-commands). Pour en savoir plus sur le cycle de vie d’un sandbox et sur ses états, consultez [Cycle de vie du sandbox](/fr/sandboxes/lifecycle).
 
-<div id="start-a-sandbox-without-a-main-command">
-  ### Démarrer un sandbox sans commande principale
-</div>
+### Démarrer un sandbox sans commande principale {#start-a-sandbox-without-a-main-command}
 
 Appelez `Sandbox.run()` sans commande lorsque vous souhaitez d’abord créer un sandbox, puis y exécuter des tâches par la suite.
 
@@ -68,9 +64,7 @@ with Sandbox.run() as sandbox:
 
 Cette approche est utile pour les flux de travail interactifs et comportant plusieurs étapes. Pour savoir comment exécuter des commandes dans un sandbox, voir [Exécuter des commandes](/fr/sandboxes/run-commands).
 
-<div id="start-a-sandbox-with-a-main-command">
-  ### Démarrer un sandbox avec une commande principale
-</div>
+### Démarrer un sandbox avec une commande principale {#start-a-sandbox-with-a-main-command}
 
 Vous pouvez également passer une commande à `Sandbox.run()`. Utilisez cette approche lorsque le sandbox exécute une seule tâche du début à la fin. Lorsque le processus principal se termine, le sandbox passe à un état terminal, tel que [COMPLETED ou FAILED](/fr/sandboxes/lifecycle).
 
@@ -93,9 +87,7 @@ sandbox = Sandbox.run("python", "train.py")
 sandbox.wait_until_complete().result()
 ```
 
-<div id="create-multiple-sandboxes-with-a-session">
-  ## Créer plusieurs sandboxes avec une session
-</div>
+## Créer plusieurs sandboxes avec une session {#create-multiple-sandboxes-with-a-session}
 
 Lorsque vous avez besoin de plus d’un sandbox à la fois, ou que vous souhaitez partager une configuration entre plusieurs sandboxes, utilisez une session.
 

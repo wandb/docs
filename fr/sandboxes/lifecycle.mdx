@@ -27,9 +27,7 @@ PENDING -> CREATING -> RUNNING -> COMPLETED
 
 Les sections suivantes décrivent les états des sandboxes, comment attendre qu’un sandbox soit prêt ou qu’il se termine, et comment arrêter un sandbox. Pour en savoir plus sur la création de sandboxes et l’exécution de commandes, voir [Créer des sandboxes](/fr/sandboxes/create-sandbox) et [Exécuter des commandes](/fr/sandboxes/run-commands).
 
-<div id="sandbox-states">
-  ## États du sandbox
-</div>
+## États du sandbox {#sandbox-states}
 
 Le tableau suivant récapitule les états d’un sandbox :
 
@@ -46,18 +44,14 @@ La plupart des opérations exigent que le sandbox soit à l’état `RUNNING`. C
 
 Une fois qu’un sandbox entre dans un état terminal, il n’est plus disponible pour des opérations supplémentaires.
 
-<div id="wait-for-readiness-or-completion">
-  ## Attendre que le sandbox soit prêt ou terminé
-</div>
+## Attendre que le sandbox soit prêt ou terminé {#wait-for-readiness-or-completion}
 
 Les sections suivantes décrivent les deux méthodes permettant d’attendre les changements d’état du sandbox et précisent quand utiliser chacune d’elles. Utilisez différentes méthodes d’attente en fonction de vos besoins :
 
 * Utilisez `Sandbox.wait()` pour [attendre que le sandbox soit prêt à l’emploi](/fr/sandboxes/lifecycle#wait-for-a-sandbox-to-start).
 * Utilisez `Sandbox.wait_until_complete()` pour [attendre la fin du processus principal du sandbox](/fr/sandboxes/lifecycle#wait-for-a-sandbox-to-complete).
 
-<div id="wait-for-a-sandbox-to-start">
-  ### Attendre qu’un sandbox démarre
-</div>
+### Attendre qu’un sandbox démarre {#wait-for-a-sandbox-to-start}
 
 Utilisez `Sandbox.wait()` pour attendre explicitement que le sandbox atteigne l’état `RUNNING`. Cette méthode est utile pour diagnostiquer les problèmes de démarrage ou lorsque vous souhaitez distinguer les échecs de démarrage des erreurs survenant dans des commandes ultérieures.
 
@@ -73,9 +67,7 @@ with Sandbox.run() as sandbox:
     print(result.stdout)
 ```
 
-<div id="wait-for-a-sandbox-to-complete">
-  ### Attendre la fin d’un sandbox
-</div>
+### Attendre la fin d’un sandbox {#wait-for-a-sandbox-to-complete}
 
 Utilisez [`Sandbox.wait_until_complete()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#wait_until_complete) lorsque le processus principal du sandbox représente l’intégralité de la charge de travail et que vous souhaitez attendre la fin de cette tâche.
 
@@ -102,17 +94,13 @@ with Sandbox.run() as sandbox:
 # sandbox arrêté automatiquement à la sortie
 ```
 
-<div id="explicit-lifecycle-control">
-  ## Contrôle explicite du cycle de vie
-</div>
+## Contrôle explicite du cycle de vie {#explicit-lifecycle-control}
 
 Utilisez des méthodes telles que `Sandbox.wait()` et `Sandbox.stop()` lorsque vous avez besoin de contrôler explicitement le cycle de vie du sandbox.
 
 En général, vous n’avez pas besoin d’appeler ces méthodes directement. Des opérations telles que `Sandbox.exec()`, `Sandbox.read_file()` et `Sandbox.write_file()` attendent que le sandbox soit prêt, et le gestionnaire de contexte (`with Sandbox.run() as sandbox:`) arrête le sandbox à la fin du bloc.
 
-<div id="stop-a-sandbox">
-  ### Arrêter le sandbox
-</div>
+### Arrêter le sandbox {#stop-a-sandbox}
 
 Utilisez [`Sandbox.stop()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#stop) lorsque vous n&#39;avez plus besoin du sandbox, pour mettre fin à un processus de longue durée ou pour libérer des ressources avant que le sandbox n&#39;atteigne sa durée de vie maximale.
 

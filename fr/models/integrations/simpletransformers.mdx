@@ -15,9 +15,7 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
 
 Tout argument supplémentaire à transmettre à `wandb.init()` peut être passé via `wandb_kwargs`.
 
-<div id="structure">
-  ## Structure
-</div>
+## Structure {#structure}
 
 La section suivante explique comment Simple Transformers organise ses classes, afin que vous sachiez quel module importer pour une tâche donnée. La bibliothèque est conçue avec une classe distincte pour chaque tâche de NLP. Les classes qui offrent des fonctionnalités similaires sont regroupées.
 
@@ -31,9 +29,7 @@ La section suivante explique comment Simple Transformers organise ses classes, a
 
 Les sections suivantes décrivent des exemples minimaux pour deux tâches courantes, en montrant comment activer la journalisation W&amp;B via l’argument `wandb_project`.
 
-<div id="multi-label-classification">
-  ## Classification multi-étiquette
-</div>
+## Classification multi-étiquette {#multi-label-classification}
 
 ```python
   model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
@@ -47,9 +43,7 @@ Les sections suivantes décrivent des exemples minimaux pour deux tâches couran
   result, model_outputs, wrong_predictions = model.eval_model(eval_df)
 ```
 
-<div id="question-answering">
-  ## Questions-réponses
-</div>
+## Questions-réponses {#question-answering}
 
 ```python
   train_args = {
@@ -68,9 +62,7 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
-<div id="global-arguments">
-  ## Arguments globaux
-</div>
+## Arguments globaux {#global-arguments}
 
 SimpleTransformers fournit des classes ainsi que des scripts d’entraînement pour toutes les tâches courantes de traitement du langage naturel. Voici la liste complète des arguments globaux pris en charge par la bibliothèque, ainsi que leurs valeurs par défaut. Consultez cette liste si vous souhaitez personnaliser le comportement de l’entraînement au-delà des options spécifiques à W&amp;B présentées précédemment.
 
@@ -129,9 +121,7 @@ global_args = {
 }
 ```
 
-<div id="additional-resources">
-  ## Ressources supplémentaires
-</div>
+## Ressources supplémentaires {#additional-resources}
 
 Consultez la documentation plus détaillée sur [simpletransformers sur GitHub](https://github.com/ThilinaRajapakse/simpletransformers).
 

@@ -23,9 +23,7 @@ Weave capture automatiquement des traces pour les éléments suivants :
   Weave prend également en charge le [SDK Python Google AI pour l’API Gemini](https://github.com/google-gemini/deprecated-generative-ai-python), désormais obsolète. Cette prise en charge est également obsolète et sa suppression est prévue dans une prochaine version.
 </Note>
 
-<div id="get-started">
-  ## Pour commencer
-</div>
+## Pour commencer {#get-started}
 
 Les exemples suivants montrent comment activer le tracing pour chaque SDK pris en charge. Dans les deux cas, appeler `weave.init` est la seule étape spécifique à Weave requise. Votre code Google GenAI ou Vertex AI existant reste inchangé.
 
@@ -62,9 +60,7 @@ response = model.generate_content(
 )
 ```
 
-<div id="track-your-own-ops">
-  ## Suivez vos propres ops
-</div>
+## Suivez vos propres ops {#track-your-own-ops}
 
 Encapsulez une fonction avec `@weave.op` pour commencer à capturer les entrées, les sorties et la logique de l&#39;application, afin de pouvoir déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et construire un arbre de fonctions que vous souhaitez suivre. Cela active également automatiquement la gestion des versions du code au fil de vos expériences, afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans Git.
 
@@ -97,9 +93,7 @@ recommend_places_to_visit("Kolkata")
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
-<div id="create-a-model-for-easier-experimentation">
-  ## Créez un `Model` pour expérimenter plus facilement
-</div>
+## Créez un `Model` pour expérimenter plus facilement {#create-a-model-for-easier-experimentation}
 
 Il est difficile d’organiser une expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 

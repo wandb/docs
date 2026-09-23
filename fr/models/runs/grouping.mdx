@@ -12,9 +12,7 @@ Vous pouvez également organiser les runs selon d&#39;autres propriétés, comme
 
   Utilisez `WANDB_RUN_GROUP` pour définir un groupe pour vos runs comme variable d’environnement. Pour en savoir plus, consultez notre documentation sur les [variables d’environnement](/models/track/environment-variables/). **Group** doit être unique au sein de votre projet et commun à tous les runs du groupe. Vous pouvez utiliser `wandb.util.generate_id()` pour générer une chaîne unique de 8 caractères à utiliser dans l’ensemble de vos processus — par exemple, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
 
-<div id="organize-runs-into-groups">
-  ## Organiser les runs en groupes
-</div>
+## Organiser les runs en groupes {#organize-runs-into-groups}
 
 Vous pouvez ajouter des runs à un groupe par code avec le W&amp;B Python SDK ou de manière interactive dans la W&amp;B App.
 
@@ -62,9 +60,7 @@ Vous pouvez ajouter des runs à un groupe par code avec le W&amp;B Python SDK ou
   </Tab>
 </Tabs>
 
-<div id="view-groups">
-  ### Voir les groupes
-</div>
+### Voir les groupes {#view-groups}
 
 Affichez les runs organisés par groupe dans W&amp;B App :
 
@@ -72,9 +68,7 @@ Affichez les runs organisés par groupe dans W&amp;B App :
 2. Au-dessus de la liste des runs, cliquez sur le bouton **Group**.
 3. Dans le menu déroulant, sélectionnez un **Group**.
 
-<div id="move-runs-between-groups">
-  ### Déplacer des runs entre des groupes
-</div>
+### Déplacer des runs entre des groupes {#move-runs-between-groups}
 
 Déplacez des runs d’un groupe à un autre :
 
@@ -85,24 +79,18 @@ Déplacez des runs d’un groupe à un autre :
 5. Dans le panneau latéral, sélectionnez le groupe de destination ou créez-en un nouveau.
 6. Cliquez sur **Move**.
 
-<div id="remove-runs-from-a-group">
-  ### Retirer des runs d’un groupe
-</div>
+### Retirer des runs d’un groupe {#remove-runs-from-a-group}
 
 1. Accédez à votre projet W&amp;B.
 2. Sélectionnez l’onglet **Runs** dans la barre latérale du projet.
 3. Au-dessus de la liste des runs, cliquez sur le bouton **Group**.
 4. Dans le menu déroulant, sélectionnez le **X** à côté du nom du groupe à retirer.
 
-<div id="delete-a-group">
-  ### Supprimer un groupe
-</div>
+### Supprimer un groupe {#delete-a-group}
 
 Pour supprimer un groupe, retirez-en tous les runs. Le groupe sera alors automatiquement supprimé.
 
-<div id="organize-runs-by-job-type">
-  ## Organiser les runs par type de job
-</div>
+## Organiser les runs par type de job {#organize-runs-by-job-type}
 
 Organisez les runs par *type de job*. Un type de job indique la fonction d’un run, par exemple `preprocessing`, `training` ou `evaluation`.
 
@@ -136,9 +124,7 @@ L’image suivante montre les runs organisés par type de job :
   <img src="/images/runs/group_job_type.png" alt="Tableau des runs non groupés" />
 </Frame>
 
-<div id="view-runs-organized-by-job-type">
-  ### Afficher les runs organisés par type de job
-</div>
+### Afficher les runs organisés par type de job {#view-runs-organized-by-job-type}
 
 Affichez les runs organisés par groupe dans la W&amp;B App :
 

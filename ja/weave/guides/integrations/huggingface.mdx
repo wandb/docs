@@ -19,9 +19,7 @@ keywords: [Hugging Face Hub, InferenceClient, huggingface_hub, LLM トレース,
   </a>
 </Tip>
 
-<div id="overview">
-  ## 概要
-</div>
+## 概要 {#overview}
 
 Hugging Face Hub は、クリエイターやコラボレーター向けの機械学習プラットフォームで、多様な種類のプロジェクトに利用できる事前トレーニング済みのモデルやデータセットを豊富に提供しています。
 
@@ -29,9 +27,7 @@ Hugging Face Hub は、クリエイターやコラボレーター向けの機械
 
 Weave は `InferenceClient` のトレースを自動的に取得します。トラッキングを開始するには、`weave.init()` を呼び出してから、通常どおりライブラリを使用します。
 
-<div id="prerequisites">
-  ## 事前準備
-</div>
+## 事前準備 {#prerequisites}
 
 開始する前に、必要なライブラリをインストールし、Hugging Face Hub へのアクセスを設定するために、次のセットアップ手順を完了してください。
 
@@ -50,9 +46,7 @@ Weave は `InferenceClient` のトレースを自動的に取得します。ト�
    os.environ["HUGGINGFACE_TOKEN"] = getpass.getpass("Enter your Hugging Face Hub Token: ")
    ```
 
-<div id="basic-tracing">
-  ## 基本的なトレース
-</div>
+## 基本的なトレース {#basic-tracing}
 
 開発時と本番環境では、言語モデルアプリケーションのトレースを一元的に保存することが重要です。これらのトレースはデバッグに役立つだけでなく、アプリケーションを改善するためのデータセットにもなります。
 
@@ -101,9 +95,7 @@ Weave は各推論 Call をログし、inputs、outputs、metadata の詳細を�
 ![モデルとのチャット履歴全体を表示する、UI上の Weave のチャットビュー](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
 Weave はその Call を UI上でチャットビューとして表示し、モデルとのチャット履歴全体を確認できます。
 
-<div id="trace-a-function">
-  ## 関数をトレースする
-</div>
+## 関数をトレースする {#trace-a-function}
 
 アプリケーション内でデータがどのように流れるかをより深く把握するには、`@weave.op` を使用して関数のcallをトラッキングできます。これにより、入力、出力、実行ロジックが記録され、デバッグやパフォーマンス分析に役立ちます。
 
@@ -176,9 +168,7 @@ Weave では、`@weave.op` でラップされたすべての関数callがログ�
   Weave は関数の実行も記録して可視化するため、アプリケーション内のデータフローやロジックを把握しやすくなります。
 </Frame>
 
-<div id="use-models-for-experimentation">
-  ## 実験には `Model` を使用する
-</div>
+## 実験には `Model` を使用する {#use-models-for-experimentation}
 
 複数のコンポーネントが関わる場合、LLM の実験管理は難しくなりがちです。Weave の [`Model`](../core-types/models) クラスを使うと、system prompt やモデル設定などの実験の詳細を記録して整理でき、異なるイテレーションを比較できます。
 

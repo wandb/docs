@@ -15,7 +15,7 @@ Weave Claude Code プラグインは、すべての Claude Code セッション�
 </Warning>
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 前提条件 {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v18 以降 (`npm` を含む) 。
@@ -24,7 +24,7 @@ Weave Claude Code プラグインは、すべての Claude Code セッション�
 * トレースの送信先となる Weave プロジェクト (`[YOUR-TEAM]/[YOUR-PROJECT]`) 。
 
 <div id="install-the-plugin">
-  ## プラグインをインストールする
+  ## プラグインをインストールする {#install-the-plugin}
 </div>
 
 CLI をインストールし、インストーラーを実行してプラグインを Claude Code に登録してから、Claude Code セッションを開始してトレースを開始します。
@@ -68,7 +68,7 @@ CLI をインストールし、インストーラーを実行してプラグイ�
 </Steps>
 
 <div id="view-claude-code-traces-in-weave">
-  ## Weave で Claude Code のトレースを表示する
+  ## Weave で Claude Code のトレースを表示する {#view-claude-code-traces-in-weave}
 </div>
 
 少なくとも 1 つの Claude Code セッションを実行した後、Weave UI で project を開いてください。
@@ -96,7 +96,7 @@ invoke_agent claude-code               (ルート。ユーザープロンプト�
 複数ターンの会話は、サーバー側で会話 ID によって関連付けられるため、複数のトレースにまたがって会話全体を追跡できます。各スパンには、トークン使用量、モデル名、tool の入力と出力、タイミング、およびプロンプトと応答のテキスト内容が含まれます。トレースされるデータの詳細については、GitHub の [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) を参照してください。
 
 <div id="configure-the-plugin">
-  ## プラグインを設定する
+  ## プラグインを設定する {#configure-the-plugin}
 </div>
 
 インストール後は、`weave-claude-code config` コマンドを使用してプラグインの設定を表示または更新できます:
@@ -126,7 +126,7 @@ export WEAVE_AGENT_NAME=[YOUR-AGENT-NAME]
 ```
 
 <div id="weave-skills">
-  ## Weave スキル
+  ## Weave スキル {#weave-skills}
 </div>
 
 インストール後、Weave 専用の 3 つのスキルを、どの Claude Code セッションでも直接利用できます。
@@ -146,7 +146,7 @@ Claude Code 内から Weave の設定値を設定するには、`weave:weave-con
 ```
 
 <div id="check-plugin-status">
-  ## プラグインのステータスを確認する
+  ## プラグインのステータスを確認する {#check-plugin-status}
 </div>
 
 以下のCLIコマンドを使用すると、プラグインのステータスを確認したり、問題をトラブルシューティングしたりできます。
@@ -172,7 +172,7 @@ weave-claude-code logs --follow
 ログファイルは `~/.weave-claude-code/logs/daemon.log` にもあります。
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B 専用クラウドまたはセルフホスト インスタンス
+  ### W&amp;B 専用クラウドまたはセルフホスト インスタンス {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 W&amp;B 専用クラウドまたはセルフホスト インスタンスを使用している場合は、Claude Code を起動する前に `WANDB_BASE_URL` を設定してください。
@@ -191,7 +191,7 @@ export WANDB_BASE_URL=https://[YOUR-INSTANCE].wandb.io
 3. Claude Code を再度起動します。デーモンは自動的に再起動し、正しい URL を使用します。
 
 <div id="uninstall">
-  ## アンインストール
+  ## アンインストール {#uninstall}
 </div>
 
 Claude Code からプラグインを削除するには、以下を実行します。

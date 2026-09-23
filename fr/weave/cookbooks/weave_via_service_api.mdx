@@ -23,9 +23,7 @@ Dans le notebook suivant, vous apprendrez comment utiliser l’API de service de
 
 Avant de commencer, consultez les [prérequis](#prerequisites-set-variables-and-endpoints).
 
-<div id="prerequisites-set-variables-and-endpoints">
-  ## Prérequis : définir les variables et les endpoints
-</div>
+## Prérequis : définir les variables et les endpoints {#prerequisites-set-variables-and-endpoints}
 
 Avant de journaliser des traces, vous devez configurer les endpoints de l’API de service et vous authentifier avec vos identifiants W&amp;B.
 
@@ -59,18 +57,14 @@ project_id = ""
 wandb_token = ""
 ```
 
-<div id="simple-trace">
-  ## Trace simple
-</div>
+## Trace simple {#simple-trace}
 
 Les sections suivantes expliquent comment créer une trace simple :
 
 1. [Démarrer une trace simple](#start-a-simple-trace)
 2. [Terminer une trace simple](#end-a-simple-trace)
 
-<div id="start-a-simple-trace">
-  ### Démarrer une trace simple
-</div>
+### Démarrer une trace simple {#start-a-simple-trace}
 
 Le code suivant crée un exemple d’appel LLM `payload_start` et le journalise dans Weave via l’endpoint `url_start`. L’objet `payload_start` simule un appel à `gpt-4o` d’OpenAI avec la requête `Why is the sky blue?`.
 
@@ -109,9 +103,7 @@ else:
     exit()
 ```
 
-<div id="end-a-simple-trace">
-  ### Terminer une trace simple
-</div>
+### Terminer une trace simple {#end-a-simple-trace}
 
 Pour terminer la trace simple, le code suivant crée un exemple de charge utile d&#39;appel LLM, `payload_end`, et le journalise dans Weave à l&#39;aide de l&#39;endpoint `url_end`. L&#39;objet `payload_end` imite la réponse de `gpt-4o` d&#39;OpenAI à la requête `Why is the sky blue?`. L&#39;objet est formaté de sorte que les informations récapitulatives de tarification et la chat complétion soient générées dans la vue de trace du tableau de bord Weave.
 
@@ -161,9 +153,7 @@ else:
     print(response.text)
 ```
 
-<div id="complex-trace">
-  ## Trace complexe
-</div>
+## Trace complexe {#complex-trace}
 
 Maintenant que vous avez enregistré une trace simple en une seule étape, les sections suivantes vous guident dans la création d&#39;une trace plus complexe avec des spans enfants, semblable à une recherche RAG en plusieurs opérations.
 
@@ -172,9 +162,7 @@ Maintenant que vous avez enregistré une trace simple en une seule étape, les s
 3. [Ajouter un span enfant pour un appel de complétion LLM](#add-a-child-span-for-an-llm-completion-call)
 4. [Terminer une trace complexe](#end-a-complex-trace)
 
-<div id="start-a-complex-trace">
-  ### Démarrer une trace complexe
-</div>
+### Démarrer une trace complexe {#start-a-complex-trace}
 
 Le code suivant montre comment créer une trace plus complexe avec plusieurs spans. Un exemple serait une recherche de type Retrieval-Augmented Generation (RAG), suivie d&#39;un Appel à un LLM. La première partie initialise une trace parente (`payload_parent_start`) qui représente l&#39;opération. Dans ce cas, l&#39;opération traite la requête utilisateur `Can you summarize the key points of this document?`.
 
@@ -213,9 +201,7 @@ else:
     exit()
 ```
 
-<div id="add-a-child-span-for-a-rag-document-lookup">
-  ### Ajouter un span enfant pour une recherche de document RAG
-</div>
+### Ajouter un span enfant pour une recherche de document RAG {#add-a-child-span-for-a-rag-document-lookup}
 
 Le code suivant montre comment ajouter un span enfant à la trace parente complexe démarrée à l’étape précédente. Cette étape modélise la sous-opération de recherche de document RAG dans le flux de travail.
 
@@ -285,9 +271,7 @@ else:
     print(response.text)
 ```
 
-<div id="add-a-child-span-for-an-llm-completion-call">
-  ### Ajouter un span enfant pour un appel de complétion LLM
-</div>
+### Ajouter un span enfant pour un appel de complétion LLM {#add-a-child-span-for-an-llm-completion-call}
 
 Le code suivant montre comment ajouter un autre span enfant à la trace parente complexe pour représenter un appel de complétion LLM. Cette étape modélise la génération de la réponse du LLM à partir du contexte documentaire récupéré lors de l’opération RAG précédente.
 
@@ -382,9 +366,7 @@ else:
     print(response.text)
 ```
 
-<div id="end-a-complex-trace">
-  ### Terminer une trace complexe
-</div>
+### Terminer une trace complexe {#end-a-complex-trace}
 
 Le code suivant montre comment finaliser la trace parente afin de marquer l’achèvement du flux de travail. Cette étape agrège les résultats de toutes les spans enfants (par exemple, la recherche RAG et la complétion LLM) et journalise la sortie finale ainsi que les métadonnées.
 
@@ -440,9 +422,7 @@ else:
     print(response.text)
 ```
 
-<div id="run-a-lookup-query">
-  ## Exécuter une requête de recherche
-</div>
+## Exécuter une requête de recherche {#run-a-lookup-query}
 
 Une fois les traces enregistrées dans Weave, vous pouvez utiliser l’API de service pour les interroger par programmation. Le code suivant montre comment interroger les traces créées dans les exemples précédents, en filtrant uniquement celles pour lesquelles le champ `inputs.model` est égal à `gpt-4o`.
 

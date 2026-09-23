@@ -26,14 +26,12 @@ flowchart LR
 **Exemple :** Le run échoue (événement) et un filtre facultatif sur le nom du run (condition), puis notification Slack (action). Ou : alias `production` ajouté (événement), puis webhook (action).
 
 <div id="where-to-create-automations">
-  ## Où créer des automatisations
+  ## Où créer des automatisations {#where-to-create-automations}
 </div>
 
 <AutomationsWhereToFind />
 
-<div id="automations-hub">
-  ## Hub Automatisations
-</div>
+## Hub Automatisations {#automations-hub}
 
 Le hub **Automatisations** est une section globale de la navigation de gauche qui regroupe, dans une liste unique, toutes les automatisations auxquelles vous avez accès, toutes portées et projets confondus. Utilisez-le pour découvrir, examiner et gérer les automatisations sans devoir accéder à chaque projet ou registre.
 
@@ -48,9 +46,7 @@ Depuis le hub **Automatisations**, vous pouvez :
 
 Le hub **Automatisations** complète l&#39;onglet **Automatisations** de chaque projet et registre ; ces onglets spécifiques à une portée restent disponibles pour un accès ciblé rapide.
 
-<div id="use-cases">
-  ## Cas d’utilisation
-</div>
+## Cas d’utilisation {#use-cases}
 
 * **Surveillance des runs et alertes** : notifier l’équipe lorsqu’un run échoue ou lorsqu’une métrique franchit un seuil (par exemple, la perte passe à NaN ou la précision baisse).
 * **CI/CD du registre** : lorsqu’une nouvelle version de modèle est liée ou qu’un alias (tel que `staging` ou `production`) est ajouté, déclencher un webhook pour exécuter des tests ou déployer.
@@ -60,7 +56,7 @@ Le hub **Automatisations** complète l&#39;onglet **Automatisations** de chaque 
 Pour obtenir tous les détails sur les événements et les portées, voir [événements et portée des automatisations](/fr/models/automations/automation-events).
 
 <div id="automation-actions">
-  ## Actions d’automatisation
+  ## Actions d’automatisation {#automation-actions}
 </div>
 
 Lorsqu’un événement déclenche une automatisation, celle-ci peut exécuter l’une des actions suivantes :
@@ -70,7 +66,7 @@ Lorsqu’un événement déclenche une automatisation, celle-ci peut exécuter l
 Pour plus de détails sur l’implémentation, voir [Créer une automatisation Slack](/fr/models/automations/create-automations/slack), [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook) ou [Créer une automatisation ARIA](/fr/models/automations/create-automations/aria).
 
 <div id="how-automations-work">
-  ## Fonctionnement des automatisations
+  ## Fonctionnement des automatisations {#how-automations-work}
 </div>
 
 Pour [créer une automatisation](/fr/models/automations/create-automations), vous devez :
@@ -82,21 +78,17 @@ Pour [créer une automatisation](/fr/models/automations/create-automations), vou
    2. Définissez l’action à effectuer lorsque l’événement se produit, par exemple publier dans un canal Slack, exécuter un webhook ou envoyer un prompt à ARIA. Pour un webhook, indiquez un secret à utiliser pour le jeton d’accès et/ou un secret à envoyer avec la charge utile, si nécessaire.
 
 <div id="recommendations">
-  ## Recommandations
+  ## Recommandations {#recommendations}
 </div>
 
 <AutomationsBestPractices />
 
-<div id="limitations">
-  ## Limitations
-</div>
+## Limitations {#limitations}
 
 * Les [automatisations sur les métriques des runs](/fr/models/automations/automation-events/#run-metrics-change) et les [automatisations sur les variations du score z des métriques des runs](/fr/models/automations/automation-events/#run-metrics-z-score-change) sont prises en charge uniquement dans le [Cloud mutualisé de W&amp;B](/fr/platform/hosting/#wb-multi-tenant-cloud) et le [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud).
 * Aux portées **Équipe** et **Organisation**, W&amp;B App ne prend en charge que les événements liés aux artefacts et aux collections. Les événements basés sur les runs ne sont pas disponibles dans W&amp;B App à ces portées. Voir [événements et portée des automatisations](/fr/models/automations/automation-events).
 
-<div id="next-steps">
-  ## Étapes suivantes
-</div>
+## Étapes suivantes {#next-steps}
 
 * [Tutoriel sur les automatisations](/fr/models/automations/tutorial) : vous guide dans la création d’une automatisation de projet pour alerter en cas d’échec de run, ainsi que d’une automatisation Registry pour exécuter un webhook lorsqu’un alias est ajouté. Le tutoriel utilise l’application W&amp;B.
 * [Créer une automatisation](/fr/models/automations/create-automations).

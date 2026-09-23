@@ -26,9 +26,7 @@ Vous pouvez également demander à ARIA de créer et de gérer des automatisatio
   ARIA fonctionne dans les projets d&#39;équipe, et non dans votre entité personnelle. Votre administrateur de l&#39;organisation doit également activer les **Smart features**. Voir [Gouvernance et sécurité](/fr/aria/governance).
 </Note>
 
-<div id="requirements">
-  ## Exigences
-</div>
+## Exigences {#requirements}
 
 Avant de créer une automatisation qui envoie un prompt à ARIA, vérifiez les points suivants :
 
@@ -38,9 +36,7 @@ Avant de créer une automatisation qui envoie un prompt à ARIA, vérifiez les p
 
 Chaque fois qu&#39;une automatisation ARIA s&#39;exécute, elle démarre une conversation ARIA comptabilisée dans l&#39;utilisation de votre organisation, au même titre qu&#39;une conversation que vous démarrez vous-même.
 
-<div id="create-an-automation">
-  ## Créer une automatisation
-</div>
+## Créer une automatisation {#create-an-automation}
 
 Sélectionnez **registre** ou **projet** selon la portée à laquelle vous souhaitez appliquer l&#39;automatisation. Suivez ensuite ces étapes pour créer une automatisation qui envoie un prompt à ARIA.
 
@@ -93,9 +89,7 @@ Sélectionnez **registre** ou **projet** selon la portée à laquelle vous souha
   </Tab>
 </Tabs>
 
-<div id="create-and-manage-automations-with-aria">
-  ## Créer et gérer des automatisations avec ARIA
-</div>
+## Créer et gérer des automatisations avec ARIA {#create-and-manage-automations-with-aria}
 
 {/* VÉRIFIER : « supprimer, activer et désactiver » — la compétence d’automatisation d’ARIA n’expose que les sous-commandes list/get/integrations/template-vars/create, sans mise à jour ni suppression. Elle dispose également d’une échappatoire générique execute_graphql ; ces opérations peuvent donc tout de même fonctionner. Testez dans le produit avant de vous fier à cette phrase. */}
 
@@ -115,9 +109,7 @@ Demandez à ARIA de renommer une automatisation :
 
 Après votre confirmation, ARIA renomme l&#39;automatisation.
 
-<div id="view-your-aria-automations-in-chat">
-  ### Afficher vos automatisations ARIA dans le chat
-</div>
+### Afficher vos automatisations ARIA dans le chat {#view-your-aria-automations-in-chat}
 
 Ouvrez ARIA, cliquez sur **Afficher l&#39;historique de conversation** dans l&#39;en-tête du chat, puis ouvrez la section **Customize** au bas de la barre latérale de l&#39;historique de conversation et sélectionnez **Mes automatisations**.
 
@@ -141,9 +133,7 @@ Cliquez sur **Créer une automatisation** pour en créer une. Aucun formulaire n
 
 **Créer une automatisation** est désactivé si vous disposez d&#39;un accès à la facturation en lecture seule. **Mes automatisations** n&#39;est pas disponible pour les comptes personnels : sélectionnez une organisation pour afficher vos automatisations. Le volet ne nécessite aucun indicateur de fonctionnalité distinct. Il est disponible selon les mêmes vérifications d&#39;accès que celles décrites dans [Exigences](#requirements).
 
-<div id="write-the-prompt">
-  ## Rédiger le prompt
-</div>
+## Rédiger le prompt {#write-the-prompt}
 
 Le prompt est le seul élément que vous configurez pour une action ARIA. Rédigez-le comme vous rédigeriez un message dans la fenêtre de chat d&#39;ARIA, et incluez des [variables de modèle](#template-variables) pour indiquer quel run, artifact ou métrique ARIA doit examiner.
 
@@ -167,9 +157,7 @@ Vous pouvez demander à ARIA de vous aider à formuler un prompt avant d&#39;enr
 
 <AriaChatBubbles prompt="Je veux une automatisation qui se déclenche chaque fois qu'un run échoue dans ce projet. Rédige un prompt qui te demande de diagnostiquer l'échec." response="Voici un prompt à coller dans l'automatisation : « Le run ${run_name} du projet ${project_name} vient d'échouer. Examine ses journaux, sa configuration et ses métriques système, compare-le aux derniers runs réussis, et indique-moi la cause la plus probable ainsi qu'une correction concrète à essayer. »" />
 
-<div id="template-variables">
-  ## Variables de modèle
-</div>
+## Variables de modèle {#template-variables}
 
 Les variables de modèle utilisent la syntaxe `${variable_name}`. Les variables disponibles pour un prompt dépendent de l&#39;événement surveillé par l&#39;automatisation.
 
@@ -202,9 +190,7 @@ Les remarques suivantes s&#39;appliquent à certaines variables :
 
 Pour connaître les événements disponibles à chaque portée, voir [Événements et portée des automatisations](/fr/models/automations/automation-events).
 
-<div id="view-conversations-created-by-automations">
-  ## Consulter les conversations créées par les automatisations
-</div>
+## Consulter les conversations créées par les automatisations {#view-conversations-created-by-automations}
 
 L&#39;automatisation crée la conversation ARIA sous le compte de l&#39;utilisateur qui a créé l&#39;automatisation. La conversation apparaît dans la barre latérale de l&#39;historique de conversation ARIA de cette personne, aux côtés des conversations qu&#39;elle a elle-même démarrées. Pour identifier l&#39;utilisateur à l&#39;origine de l&#39;événement, incluez `${event_author}` dans le prompt.
 
@@ -217,9 +203,7 @@ L&#39;emplacement de la conversation dépend de la portée de l&#39;automatisati
 
 Pour vérifier que l&#39;automatisation s&#39;est bien exécutée, ouvrez son [historique d&#39;exécution](/fr/models/automations/view-automation-history). Une exécution ARIA réussie affiche le prompt envoyé par W&amp;B ainsi qu&#39;un corps de réponse contenant le `thread_id` de la conversation. Pour ouvrir cette conversation, utilisez le lien **Open thread** dans le volet [My automations](#view-your-aria-automations-in-chat) d&#39;ARIA, qui est construit à partir du même `thread_id`. Une conversation créée par une automatisation n&#39;est pas signalée différemment dans votre historique de conversation.
 
-<div id="view-and-manage-automations">
-  ## Afficher et gérer les automatisations
-</div>
+## Afficher et gérer les automatisations {#view-and-manage-automations}
 
 Affichez et gérez les automatisations depuis l&#39;onglet **Automations** d&#39;un projet ou d&#39;un registre, ou depuis le hub **Automations** global. Dans la liste des automatisations, l&#39;action s&#39;affiche sous le nom **ARIA**.
 
@@ -227,9 +211,7 @@ Seul le créateur d&#39;une automatisation qui envoie des prompts à ARIA peut l
 
 Vous ne pouvez pas transférer la propriété d&#39;une automatisation. Supprimez-la plutôt et demandez au nouveau propriétaire de la recréer. Procédez de la même manière pour récupérer une automatisation dont le créateur a quitté l&#39;équipe.
 
-<div id="limitations">
-  ## Limitations
-</div>
+## Limitations {#limitations}
 
 Les automatisations ARIA présentent les limitations suivantes :
 
@@ -240,9 +222,7 @@ Les automatisations ARIA présentent les limitations suivantes :
 * La bibliothèque Python `wandb` ne prend pas en charge les automatisations ARIA. Voir [Gérer les automatisations avec l&#39;API](/fr/models/automations/api).
 * Le volet [My automations](#view-your-aria-automations-in-chat) intégré au chat est en lecture seule. Pour activer, désactiver, modifier ou supprimer une automatisation, utilisez plutôt l&#39;onglet **Automations** ou le hub.
 
-<div id="next-steps">
-  ## Étapes suivantes
-</div>
+## Étapes suivantes {#next-steps}
 
 Poursuivez avec les ressources suivantes :
 

@@ -15,18 +15,14 @@ import SandboxesPreview from '/snippets/fr/_includes/sandboxes-public-preview.md
 
 [Exécutez des commandes dans un sandbox](#run-commands-in-a-sandbox), [lisez la sortie des commandes et les codes de sortie](#read-output-and-exit-codes), et [vérifiez les erreurs](#check-for-sandbox-execution-errors). Utilisez ces fonctionnalités pour exécuter des scripts, des tâches d&#39;entraînement et d&#39;autres processus dans un W&amp;B Serverless Sandbox, puis vérifier les résultats par programmation.
 
-<div id="run-commands-in-a-sandbox">
-  ## Exécuter des commandes dans un sandbox
-</div>
+## Exécuter des commandes dans un sandbox {#run-commands-in-a-sandbox}
 
 Le client sandbox prend en charge deux approches pour exécuter des commandes, selon que vous devez exécuter une commande unique ou une séquence de commandes liées. Selon votre cas d’usage, utilisez l’une de ces approches pour exécuter des commandes dans un sandbox :
 
 * [Commande unique](#run-a-single-command) : transmettez la commande à `Sandbox.run()` et appelez `Sandbox.wait_until_complete()` pour attendre la fin de l’exécution. Idéal pour les traitements par lot, les tests ou les entraînements.
 * [Commandes multiples](#run-multiple-commands-sequentially) : appelez `Sandbox.run()` sans argument, puis utilisez `Sandbox.exec()` pour chaque étape. Idéal pour les flux de travail qui combinent la configuration, l’exécution et la récupération des résultats.
 
-<div id="run-a-single-command">
-  ### Exécuter une seule commande
-</div>
+### Exécuter une seule commande {#run-a-single-command}
 
 Passez la commande à `Sandbox.run()`, puis appelez `Sandbox.wait_until_complete()` pour attendre que le sandbox atteigne un état terminal.
 
@@ -40,9 +36,7 @@ sandbox.wait_until_complete(timeout=3600.0).result()
 print(f"Exit code: {sandbox.returncode}")
 ```
 
-<div id="run-multiple-commands-sequentially">
-  ### Exécuter plusieurs commandes à la suite
-</div>
+### Exécuter plusieurs commandes à la suite {#run-multiple-commands-sequentially}
 
 Exécutez plusieurs commandes dans le même sandbox pour les flux de travail comportant plusieurs étapes. Par exemple, installez des dépendances, créez des fichiers, exécutez des scripts et lisez les résultats.
 
@@ -65,9 +59,7 @@ with Sandbox.run() as sandbox:
 
 Pour plus d’informations sur `Sandbox.exec()` et ses paramètres, voir [`Sandbox.exec()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#exec) dans la documentation de référence de CoreWeave Sandboxes.
 
-<div id="keep-the-sandbox-running-for-additional-commands">
-  #### Maintenir le sandbox actif pour des commandes supplémentaires
-</div>
+#### Maintenir le sandbox actif pour des commandes supplémentaires {#keep-the-sandbox-running-for-additional-commands}
 
 Parfois, vous souhaiterez peut-être démarrer le sandbox avec un processus principal de longue durée afin de le maintenir disponible pendant l’exécution d’autres commandes avec `Sandbox.exec()`.
 
@@ -81,9 +73,7 @@ with Sandbox.run("sleep", "infinity") as sandbox:
     print(result.stdout)
 ```
 
-<div id="read-output-and-exit-codes">
-  ## Lire la sortie et les codes de sortie
-</div>
+## Lire la sortie et les codes de sortie {#read-output-and-exit-codes}
 
 Après avoir exécuté une commande, vous pouvez lire sa sortie et vérifier si elle a réussi. `Sandbox.exec()` renvoie un objet [`Process`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/types/process). Pour attendre la fin de la commande, appelez `Process.result()`.
 
@@ -102,9 +92,7 @@ with Sandbox.run() as sandbox:
     print(result.returncode)  # 0
 ```
 
-<div id="check-for-sandbox-execution-errors">
-  ## Vérifiez les erreurs d’exécution du sandbox
-</div>
+## Vérifiez les erreurs d’exécution du sandbox {#check-for-sandbox-execution-errors}
 
 Utilisez `check=True` pour lever une exception lorsqu’une commande échoue, plutôt que d’inspecter manuellement les codes de sortie. Si la commande se termine avec un code de sortie non nul, `Sandbox.exec(check=True)` lève une [SandboxExecutionError](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/exceptions/exceptions#sandboxexecutionerror).
 

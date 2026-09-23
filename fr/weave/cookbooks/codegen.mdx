@@ -17,18 +17,14 @@ Générer du code de haute qualité avec une structure adéquate, une documentat
   ![Tableau de bord d’évaluation Weave comparant des runs de génération de code](/media/codegen/eval_dash.png)
 </Frame>
 
-<div id="why-use-weave">
-  ## Pourquoi utiliser Weave
-</div>
+## Pourquoi utiliser Weave {#why-use-weave}
 
 Ce tutoriel utilise Weave pour implémenter et évaluer un pipeline de génération de code. Vous apprenez à :
 
 * **Suivre votre pipeline LLM** : consigner les entrées, les sorties et les étapes intermédiaires de votre processus de génération de code.
 * **Évaluer les sorties du LLM** : créer et comparer des évaluations de votre code généré à l’aide d’outils de débogage et de visualisations.
 
-<div id="set-up-the-environment">
-  ## Configurez l’environnement
-</div>
+## Configurez l’environnement {#set-up-the-environment}
 
 Configurez votre environnement et importez les bibliothèques nécessaires. Ces dépendances fournissent les outils de mise en forme, le chargeur de jeu de données, ainsi que les clients OpenAI et Weave utilisés tout au long du pipeline.
 
@@ -75,9 +71,7 @@ selected_examples = human_eval["test"][:3]
   Weave suit automatiquement les appels à l’API OpenAI, y compris les entrées, les sorties et les métadonnées. Vous n’avez pas besoin d’ajouter de code de journalisation supplémentaire pour vos interactions avec OpenAI. Weave s’en charge en arrière-plan.
 </Note>
 
-<div id="structured-outputs-and-pydantic-models">
-  ## Sorties structurées et modèles Pydantic
-</div>
+## Sorties structurées et modèles Pydantic {#structured-outputs-and-pydantic-models}
 
 Ce pipeline de génération de code utilise le [mode de sorties structurées](https://platform.openai.com/docs/guides/structured-outputs) d’OpenAI et des modèles Pydantic pour garantir des réponses cohérentes et correctement formatées de la part du modèle de langage. Cette approche offre plusieurs avantages :
 
@@ -97,9 +91,7 @@ class FormattedGeneratedCode(BaseModel):
     full_code: str
 ```
 
-<div id="implement-a-code-formatter">
-  ## Implémenter un formateur de code
-</div>
+## Implémenter un formateur de code {#implement-a-code-formatter}
 
 Pour produire un code cohérent et propre, implémentez une classe `CodeFormatter` à l’aide des opérations Weave. Ce formateur applique des règles de linting et de style au code généré, au runner du programme et aux tests unitaires.
 
@@ -200,9 +192,7 @@ Cette classe `CodeFormatter` fournit plusieurs opérations Weave pour nettoyer e
 * Appliquer le formatage conforme à la PEP 8.
 * Ajouter les imports manquants.
 
-<div id="define-the-codegenerationpipeline">
-  ## Définir le `CodeGenerationPipeline`
-</div>
+## Définir le `CodeGenerationPipeline` {#define-the-codegenerationpipeline}
 
 <Frame>
   ![Trace Weave d’un run du pipeline de génération de code](/media/codegen/codegen_trace.png)
@@ -261,9 +251,7 @@ Cette classe `CodeGenerationPipeline` encapsule la logique de génération de co
 * Gestion des hyperparamètres : Les attributs du modèle (comme `model_name`) sont définis et suivis d’un run à l’autre, ce qui facilite l’expérimentation.
 * Intégration à l’écosystème Weave : L’utilisation de `weave.Model` relie votre pipeline à d’autres outils Weave, comme les évaluations et les fonctionnalités de serving.
 
-<div id="implement-evaluation-metrics">
-  ## Implémenter des métriques d’évaluation
-</div>
+## Implémenter des métriques d’évaluation {#implement-evaluation-metrics}
 
 Pour évaluer la qualité du code généré, implémentez des métriques d’évaluation à l’aide d’une sous-classe de `weave.Scorer`. Cette opération exécute `score` sur chaque `model_output` du jeu de données. `model_output` provient de la sortie de la fonction `predict` de `weave.Model`. Le `prompt` est extrait du jeu de données `human-eval`.
 
@@ -329,9 +317,7 @@ Ces fonctions d’évaluation exécutent le code généré et renvoient une vale
   ![Trace Weave d’un scorer HumanEval évaluant le code généré](/media/codegen/eval_trace.png)
 </Frame>
 
-<div id="create-a-weave-dataset-and-run-evaluation">
-  ## Créer un jeu de données Weave et effectuer une évaluation
-</div>
+## Créer un jeu de données Weave et effectuer une évaluation {#create-a-weave-dataset-and-run-evaluation}
 
 Une fois le pipeline et le scorer définis, la dernière étape consiste à constituer le jeu de données d’évaluation et à l’exécuter de bout en bout. Pour évaluer notre pipeline, nous allons créer un jeu de données Weave et effectuer une évaluation :
 
@@ -391,9 +377,7 @@ Ce code crée un jeu de données avec nos prompts d’exemple, définit notre sc
   ![Tableau de bord d’évaluation Weave affichant les résultats du scorer HumanEval](/media/codegen/eval_dash.png)
 </Frame>
 
-<div id="conclusion">
-  ## Conclusion
-</div>
+## Conclusion {#conclusion}
 
 Cet exemple montre comment implémenter un pipeline de génération de code avec Weave et les modèles de langage d’OpenAI. Vous avez appris à :
 

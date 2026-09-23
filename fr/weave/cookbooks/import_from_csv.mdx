@@ -11,9 +11,7 @@ keywords: ["import CSV", "import de traces", "traces historiques", "appels paren
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
 </Note>
 
-<div id="import-traces-from-third-party-systems">
-  ## Importer des traces depuis des systèmes tiers
-</div>
+## Importer des traces depuis des systèmes tiers {#import-traces-from-third-party-systems}
 
 Ce notebook vous montre comment importer des traces historiques de conversation à partir d’un fichier CSV dans W&amp;B Weave afin de les analyser, de comparer le comportement des modèles et d’exécuter des évaluations sur des données générées en dehors d’une application instrumentée avec Weave.
 
@@ -40,9 +38,7 @@ Ce notebook utilise `conversation_id` comme identifiant du parent, et `turn_inde
 
 Vous devez modifier les variables dans les sections suivantes pour qu’elles correspondent à votre propre jeu de données, à vos chemins de fichiers et à votre projet W&amp;B.
 
-<div id="set-up-the-environment">
-  ## Configurer l’environnement
-</div>
+## Configurer l’environnement {#set-up-the-environment}
 
 Installez et importez tous les packages nécessaires.
 Définissez `WANDB_API_KEY` dans votre environnement afin de pouvoir vous connecter avec `wandb.login()` (fournissez-la à Colab comme secret).
@@ -97,9 +93,7 @@ python
 weave_client = weave.init(name_of_wandb_project)
 ```
 
-<div id="load-the-data">
-  ## Charger les données
-</div>
+## Charger les données {#load-the-data}
 
 Une fois l’environnement prêt, vous pouvez charger et structurer les données CSV afin qu’elles correspondent à la structure parent-enfant attendue par Weave.
 
@@ -129,9 +123,7 @@ result_df.columns = ["conversation_id", "conversation_data"]
 result_df.head()
 ```
 
-<div id="log-the-traces-to-weave">
-  ## Enregistrer les traces dans Weave
-</div>
+## Enregistrer les traces dans Weave {#log-the-traces-to-weave}
 
 Une fois les données structurées en conversations et en tours de conversation, l’étape suivante consiste à importer ces enregistrements dans Weave sous forme d’appels parents et enfants.
 
@@ -206,9 +198,7 @@ for _, row in result_df.iterrows():
     weave_client.finish_call(call=parent_call, output=parent_output)
 ```
 
-<div id="result-traces-logged-to-weave">
-  ## Résultat : traces enregistrées dans Weave
-</div>
+## Résultat : traces enregistrées dans Weave {#result-traces-logged-to-weave}
 
 À ce stade, vos données CSV ont été importées dans Weave. Vous pouvez désormais parcourir les conversations et leurs tours de conversation dans l’interface Weave, regroupés sous les opérations `Conversation` et `Turn` que vous avez définies.
 
@@ -224,9 +214,7 @@ Opérations :
   ![Opérations Conversation et Turn dans l’interface Weave](/images/screenshots/csv-2.png)
 </Frame>
 
-<div id="optional-export-your-traces-to-run-evaluations">
-  ## Facultatif : exportez vos traces pour lancer des évaluations
-</div>
+## Facultatif : exportez vos traces pour lancer des évaluations {#optional-export-your-traces-to-run-evaluations}
 
 Une fois vos traces dans Weave et après avoir compris à quoi ressemblent les conversations, vous pouvez les exporter vers un autre processus afin d’exécuter des évaluations Weave.
 
@@ -298,9 +286,7 @@ dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
 weave.publish(dset)
 ```
 
-<div id="result">
-  ## Résultat
-</div>
+## Résultat {#result}
 
 Le jeu de données exporté est désormais republié vers Weave et est prêt à être utilisé comme entrée pour une évaluation.
 

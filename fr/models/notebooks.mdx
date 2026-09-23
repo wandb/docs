@@ -9,9 +9,7 @@ Chaque notebook s&#39;exécute dans un [CoreWeave Sandbox](https://docs.coreweav
 
 Les Notebooks utilisent [marimo](https://docs.marimo.io/) comme runtime et éditeur de notebook. Contrairement aux notebooks traditionnels, qui s&#39;exécutent de haut en bas, les Notebooks suivent les dépendances entre les cellules. Lorsqu&#39;une valeur change, le notebook peut identifier les cellules en aval qui en dépendent et maintenir les sorties cohérentes avec l&#39;état actuel du notebook.
 
-<div id="get-started">
-  ## Premiers pas
-</div>
+## Premiers pas {#get-started}
 
 Si vous découvrez les notebooks, commencez par le guide [Premiers pas](/fr/models/notebooks/get-started). Ce guide vous accompagne dans la création d&#39;un notebook, l&#39;exécution de code, la consultation des métriques enregistrées dans un Workspace W&amp;B et le partage du résultat.
 
@@ -35,9 +33,7 @@ Si vous savez déjà quel flux de travail vous intéresse, consultez les pages s
   </Card>
 </CardGroup>
 
-<div id="understand-the-notebook-model">
-  ## Comprendre le modèle de notebook
-</div>
+## Comprendre le modèle de notebook {#understand-the-notebook-model}
 
 Les notebooks sont réactifs. Une cellule s&#39;exécute en fonction des variables qu&#39;elle définit et référence, et pas uniquement selon sa position dans le notebook. Ce modèle permet de garder les sorties à jour, mais il implique aussi que la structure du notebook a son importance :
 
@@ -59,9 +55,7 @@ Pour une explication plus détaillée, voir [Comprendre l&#39;exécution réacti
 
   Pour les flux de travail spécifiques aux données, voir [Utiliser des fichiers de données](/models/notebooks/data-files). */}
 
-<div id="debug-and-inspect-notebooks">
-  ## Déboguer et inspecter les notebooks
-</div>
+## Déboguer et inspecter les notebooks {#debug-and-inspect-notebooks}
 
 Utilisez le panneau développeur pour analyser le comportement d&#39;un notebook sans quitter l&#39;éditeur. Ce panneau regroupe les erreurs et avertissements, un brouillon de code temporaire, les traces d&#39;exécution, les journaux et un terminal connecté au workspace du notebook.
 
@@ -73,9 +67,7 @@ Pour en savoir plus, voir [Outils de développement](/fr/models/notebooks/develo
 
   Pour plus d'informations, voir [Présenter, exporter et publier des notebooks](/models/notebooks/share-notebooks). */}
 
-<div id="billing-and-usage">
-  ## Facturation et utilisation
-</div>
+## Facturation et utilisation {#billing-and-usage}
 
 Les notebooks consomment du stockage W&amp;B et du calcul sandbox. Les données des notebooks sont comptabilisées dans l&#39;utilisation du stockage de votre organisation, et l&#39;exécution d&#39;un notebook consomme du calcul sandbox. Les flux de travail de notebooks peuvent également générer une utilisation propre à un produit lorsqu&#39;ils font appel à d&#39;autres services W&amp;B tels que Weave, Inference ou Training.
 
@@ -83,9 +75,7 @@ Les administrateurs de l&#39;organisation et de la facturation peuvent consulter
 
 Si votre compte ne dispose pas d&#39;un stockage ou d&#39;une capacité sandbox suffisants, vous devrez peut-être libérer du stockage, acheter de l&#39;utilisation supplémentaire, passer à un forfait supérieur ou contacter l&#39;[équipe commerciale W&amp;B](https://wandb.ai/site/contact/).
 
-<div id="next-steps">
-  ## Étapes suivantes
-</div>
+## Étapes suivantes {#next-steps}
 
 * [Premiers pas](/fr/models/notebooks/get-started)
 * [Comprendre l&#39;exécution réactive](/fr/models/notebooks/reactive-info)

@@ -13,9 +13,7 @@ Le suivi de la traçabilité des artifacts offre plusieurs avantages clés :
 * **Audit** : maintient un historique détaillé des artifacts et des transformations pour prendre en charge la conformité et la gouvernance.
 * **Collaboration** : améliore le travail d&#39;équipe en rendant l&#39;historique des expériences transparent, en réduisant les efforts redondants et en accélérant le développement.
 
-<div id="view-an-artifacts-lineage-graph">
-  ## Afficher le graphe de traçabilité d’un artifact
-</div>
+## Afficher le graphe de traçabilité d’un artifact {#view-an-artifacts-lineage-graph}
 
 Pour afficher le graphe de traçabilité d’un artifact :
 
@@ -23,9 +21,7 @@ Pour afficher le graphe de traçabilité d’un artifact :
 2. Cliquez sur l’onglet **Artifacts** dans la barre latérale du projet.
 3. Sélectionnez un artifact, puis cliquez sur l’onglet **Lineage**.
 
-<div id="navigate-lineage-graphs">
-  ## Naviguer dans les graphes de traçabilité
-</div>
+## Naviguer dans les graphes de traçabilité {#navigate-lineage-graphs}
 
 Le graphe de traçabilité est une représentation visuelle des relations entre les Artifacts et les Runs dans une expérience de ML. Utilisez la W&amp;B App UI ou le SDK Python pour explorer et parcourir le graphe de traçabilité d&#39;un artifact.
 
@@ -81,16 +77,12 @@ Le graphe de traçabilité est une représentation visuelle des relations entre 
   </Tab>
 </Tabs>
 
-<div id="enable-lineage-graph-tracking">
-  ## Activer le suivi du graphe de traçabilité
-</div>
+## Activer le suivi du graphe de traçabilité {#enable-lineage-graph-tracking}
 
 Pour activer le suivi du graphe de traçabilité, vous devez marquer des artifacts comme [entrées](/fr/models/artifacts/explore-and-traverse-an-artifact-graph) ou
 [sorties](/fr/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) d’un run à l’aide du W&amp;B Python SDK.
 
-<div id="track-the-input-of-a-run">
-  ### Suivre l’entrée d’un run
-</div>
+### Suivre l’entrée d’un run {#track-the-input-of-a-run}
 
 Marquez un artifact comme entrée (ou dépendance) d’un run avec la
 méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#method-runuse_artifact).
@@ -108,9 +100,7 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 ```
 
-<div id="track-the-output-of-a-run">
-  ### Suivre la sortie d&#39;un run
-</div>
+### Suivre la sortie d&#39;un run {#track-the-output-of-a-run}
 
 Utilisez [`wandb.Run.log_artifact()`](/fr/models/ref/python/experiments/run#log_artifact) pour déclarer un artifact comme sortie d&#39;un run. Commencez par créer un artifact avec le constructeur [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact#wandb.Artifact). Ensuite, enregistrez l&#39;artifact comme sortie du run avec `wandb.Run.log_artifact()`.
 
@@ -130,9 +120,7 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   run.log_artifact(artifact_or_path = artifact)
 ```
 
-<div id="artifact-clusters">
-  ## Clusters d’Artifacts
-</div>
+## Clusters d’Artifacts {#artifact-clusters}
 
 Lorsqu’un niveau du graphe comporte au moins cinq runs ou Artifacts, un cluster est créé. Un cluster comprend une barre de recherche permettant de trouver des versions spécifiques de runs ou d’Artifacts et d’extraire un nœud individuel du cluster afin de poursuivre l’examen de la traçabilité d’un nœud qu’il contient.
 

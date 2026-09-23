@@ -13,7 +13,7 @@ Weave は、分散トレースのオープン標準である [OpenTelemetry (OTe
 個々の関数を `@weave.op` デコレーターで Ops としてトレースしている場合は、代わりに [LLM アプリケーションをトレースする](/ja/weave/guides/tracking/tracing) を参照してください。
 
 <div id="before-you-begin">
-  ## 始める前に
+  ## 始める前に {#before-you-begin}
 </div>
 
 使い始めるには、`weave` パッケージをインストールして project を初期化します。この手順により、チームと project が Weave に登録され、SDK がスパンを UI の正しい場所にルーティングできるようになります。
@@ -53,9 +53,7 @@ Weave は、分散トレースのオープン標準である [OpenTelemetry (OTe
   </Tab>
 </Tabs>
 
-<div id="the-agent-data-model">
-  ## エージェントのデータモデル
-</div>
+## エージェントのデータモデル {#the-agent-data-model}
 
 Weave では、エージェントの動作を 1 対多の関係からなる階層としてモデル化します。各エージェントは複数の会話を持つことができ、各会話は複数のターンを持つことができ、各ターンは複数の LLM Call を持つことができ、各 LLM Call は複数のツール呼び出しをトリガーできます。
 
@@ -112,7 +110,7 @@ flowchart TB
 </Tip>
 
 <div id="agent-tracing-apis">
-  ## エージェントのトレース API
+  ## エージェントのトレース API {#agent-tracing-apis}
 </div>
 
 以下のセクションでは、各トップレベルのトレース関数と、その関数が受け入れる引数について説明します。これらを使用して、前のセクションで説明したデータモデルの 会話、turn、LLM Call、および ツール呼び出し の各レイヤーを計測します。
@@ -120,7 +118,7 @@ flowchart TB
 Weave では、次のトップレベル関数を提供しています。各関数は、コンテキストマネージャーとして動作するオブジェクト (Python では `with`、TypeScript では `try/finally` を使用) を返すか、`.end()` を呼び出して手動で終了できます。
 
 <div id="start-a-conversation">
-  ### 会話を開始する
+  ### 会話を開始する {#start-a-conversation}
 </div>
 
 `start_conversation()` (Python) または `startConversation()` (TypeScript) は、すべての子スパンに `conversation_id` 属性を付与し、ターンが Agents タブでグループ化されるようにします。`conversation_id` / `conversationId` を渡す場合は、会話のライフタイム全体で不変である必要があります。同じ ID を再利用すると、既存の会話に新しいターンを追加できます。省略した場合は、SDK が UUID を自動的に生成します。
@@ -154,7 +152,7 @@ Weave では、次のトップレベル関数を提供しています。各関�
 </Tabs>
 
 <div id="start-a-turn">
-  ### ターンを開始する
+  ### ターンを開始する {#start-a-turn}
 </div>
 
 `start_turn()` (Python) と `startTurn()` (TypeScript) は、新しい OTel トレースのルートとなる `invoke_agent` スパン を新しく作成します。Weave は、この スパン を使用して、タイムラインビュー内で 1 回の完全なユーザーとエージェントのやり取りを表現します。
@@ -187,7 +185,7 @@ Weave では、次のトップレベル関数を提供しています。各関�
 </Tabs>
 
 <div id="start-an-llm-call">
-  ### LLM Call を開始する
+  ### LLM Call を開始する {#start-an-llm-call}
 </div>
 
 `start_llm()` / `startLLM()` は、現在のターンの下にネストされた `chat` span を作成します。Weave はこの span を使用して、Agents ビューに token 使用量、モデル名、入力メッセージと出力メッセージ、および推論を表示します。
@@ -256,7 +254,7 @@ LLM Call が完了したら、閉じる前にレスポンスデータを `llm` �
 `provider_name` / `providerName` は明示的に渡してください。Weave はモデル文字列からこれを推測しません。
 
 <div id="start-a-tool-call">
-  ### ツール呼び出しを開始する
+  ### ツール呼び出しを開始する {#start-a-tool-call}
 </div>
 
 `start_tool()` / `startTool()` は `execute_tool` span を作成します。この span は、コンテキスト内でアクティブな OTel span の子になります (通常は、ツール呼び出しを生成した LLM Call の `chat` span です) 。
@@ -309,7 +307,7 @@ LLM Call が完了したら、閉じる前にレスポンスデータを `llm` �
 </Tabs>
 
 <div id="usage-patterns-for-agent-tracing">
-  ## エージェント トレースの使用パターン
+  ## エージェント トレースの使用パターン {#usage-patterns-for-agent-tracing}
 </div>
 
 以下のセクションでは、エージェント コードの構造に応じて、これらの関数をどのように組み合わせるかを説明します。
@@ -322,7 +320,7 @@ LLM Call が完了したら、閉じる前にレスポンスデータを `llm` �
 Weave はこの両方を使用して、各 LLM Call の入力、出力、token 使用量を Agents ビュー に表示します。
 
 <div id="context-manager-or-try-finally-pattern">
-  ### コンテキストマネージャーまたは try-finally パターン
+  ### コンテキストマネージャーまたは try-finally パターン {#context-manager-or-try-finally-pattern}
 </div>
 
 ほとんどのエージェントでは、Python ではコンテキストマネージャーパターン、TypeScript では try-finally パターンを使用します。スパン は、例外が発生した場合でも、ブロックの最後でクローズされて送信されます。
@@ -423,7 +421,7 @@ Weave はアクティブな 会話、ターン、LLM Call をコンテキスト�
 </Tabs>
 
 <div id="manual-start-and-end-pattern">
-  ### 手動で開始・終了するパターン
+  ### 手動で開始・終了するパターン {#manual-start-and-end-pattern}
 </div>
 
 `with` ブロックや `try/finally` を使用できない場合は、`.end()` を明示的に使用します。たとえば、スパン の開始と終了が別々の関数呼び出しにまたがる場合や、コルーチンの外で非同期ライフサイクルを管理する場合です。作成したすべてのオブジェクトに対して `.end()` を呼び出し、スパン が終了して collector に flush されるようにする責任はユーザーにあります。
@@ -484,14 +482,12 @@ Weave はアクティブな 会話、ターン、LLM Call をコンテキスト�
 </Tabs>
 
 <div id="semantic-conventions">
-  ## セマンティック規約
+  ## セマンティック規約 {#semantic-conventions}
 </div>
 
 Weave SDK は、[GenAI semantic conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) および [GenAI agent span conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) に準拠する OTel span を出力します。Weave はあらゆる OTel span を受け付け、すべての属性を保存し、クエリできるようにします。標準の OTel span API を Weave のトレース オブジェクトと併用して、span に任意の属性を追加できます。
 
-<div id="how-data-appears-in-the-weave-ui">
-  ## Weave UI でデータがどのように表示されるか
-</div>
+## Weave UI でデータがどのように表示されるか {#how-data-appears-in-the-weave-ui}
 
 前述のパターンを使ってエージェントをインストルメントし、実行すると、トレースは Weave プロジェクトの **Agents** タブ (`https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`) に表示されます。
 

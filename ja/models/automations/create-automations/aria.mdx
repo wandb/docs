@@ -26,9 +26,7 @@ ARIA への プロンプト 送信は、W&amp;B のオートメーションが�
   ARIA はチームの project で動作し、個人の entity では動作しません。また、組織の 組織管理者 が **Smart features** を有効にする必要があります。[ガバナンスとセキュリティ](/ja/aria/governance)を参照してください。
 </Note>
 
-<div id="requirements">
-  ## Requirements
-</div>
+## Requirements {#requirements}
 
 ARIA にプロンプトを送信するオートメーションを作成する前に、以下を確認してください。
 
@@ -38,9 +36,7 @@ ARIA にプロンプトを送信するオートメーションを作成する前
 
 ARIA オートメーションが実行されるたびに ARIA 会話が開始され、自分で開始した会話と同様に組織の使用量としてカウントされます。
 
-<div id="create-an-automation">
-  ## オートメーションを作成する
-</div>
+## オートメーションを作成する {#create-an-automation}
 
 オートメーションを適用したい スコープ に応じて、**Registry** または **Project** を選択してください。その後、次の step に従って、ARIA に プロンプト を送信するオートメーションを作成します。
 
@@ -93,9 +89,7 @@ ARIA オートメーションが実行されるたびに ARIA 会話が開始さ
   </Tab>
 </Tabs>
 
-<div id="create-and-manage-automations-with-aria">
-  ## ARIA でオートメーションを作成・管理する
-</div>
+## ARIA でオートメーションを作成・管理する {#create-and-manage-automations-with-aria}
 
 {/* 要確認: 「delete、enable、disable」— ARIA のオートメーションスキルで公開されているのは list/get/integrations/template-vars/create サブコマンドのみで、update や delete はありません。また、汎用的な execute_graphql の回避手段もあるため、これらは引き続き機能する可能性があります。この文を信頼する前にプロダクトでテストしてください。 */}
 
@@ -115,9 +109,7 @@ ARIA にオートメーションのリネームを依頼します:
 
 確認すると、ARIA がオートメーションをリネームします。
 
-<div id="view-your-aria-automations-in-chat">
-  ### ARIA のオートメーションをチャットで表示する
-</div>
+### ARIA のオートメーションをチャットで表示する {#view-your-aria-automations-in-chat}
 
 ARIA を開き、チャットヘッダーで **Reveal chat history** をクリックします。次に、チャット履歴サイドバー下部の **Customize** セクションを開き、**My automations** を選択します。
 
@@ -141,9 +133,7 @@ ARIA を開き、チャットヘッダーで **Reveal chat history** をクリ�
 
 請求情報へのアクセス権が読み取り専用の場合、**Create automation** は無効になります。**My automations** は個人アカウントでは利用できません。オートメーションを表示するには組織を選択してください。このペインに専用の機能フラグは不要です。[要件](#requirements)に記載されているものと同じアクセスチェックのもとで利用できます。
 
-<div id="write-the-prompt">
-  ## プロンプトを記述する
-</div>
+## プロンプトを記述する {#write-the-prompt}
 
 ARIA の アクション で設定する必要があるのはプロンプトのみです。ARIA のチャットウィンドウでメッセージを書くのと同じ要領で記述し、ARIA に調べさせる run、artifact、メトリクスを指定するために [テンプレート変数](#template-variables) を含めてください。
 
@@ -167,9 +157,7 @@ ${artifact_version_string} を現在の production エイリアスと比較し�
 
 <AriaChatBubbles prompt="この project で run が失敗するたびに実行されるオートメーションを作成したいです。失敗の原因を診断してもらうための プロンプト を作成してください。" response="オートメーションに貼り付ける プロンプト はこちらです: 'Run ${run_name} in ${project_name} just failed. Look at its logs, config, and system metrics, compare it to the last few successful runs, and tell me the most likely cause plus one concrete fix to try.'" />
 
-<div id="template-variables">
-  ## テンプレート変数
-</div>
+## テンプレート変数 {#template-variables}
 
 テンプレート変数は `${variable_name}` という構文を使用します。プロンプトで使用できる変数は、オートメーションが監視するイベントによって異なります。
 
@@ -202,9 +190,7 @@ ${artifact_version_string} を現在の production エイリアスと比較し�
 
 各スコープで使用できるイベントについては、[Automation events and scopes](/ja/models/automations/automation-events) を参照してください。
 
-<div id="view-conversations-created-by-automations">
-  ## オートメーションによって作成された会話を表示する
-</div>
+## オートメーションによって作成された会話を表示する {#view-conversations-created-by-automations}
 
 オートメーションは、そのオートメーションを作成したユーザーのアカウントで ARIA 会話を作成します。会話は、そのユーザーの ARIA チャット履歴のサイドバーに、自分で開始した会話と並んで表示されます。イベントを発生させたユーザーを特定するには、プロンプトに `${event_author}` を含めてください。
 
@@ -217,9 +203,7 @@ ${artifact_version_string} を現在の production エイリアスと比較し�
 
 オートメーションが実行されたことを確認するには、その [実行履歴](/ja/models/automations/view-automation-history) を開きます。ARIA の実行が成功した場合、W&amp;B が送信したプロンプトと、会話の `thread_id` を含むレスポンスボディが表示されます。その会話を開くには、ARIA の [My automations](#view-your-aria-automations-in-chat) ペインにある **Open thread** リンクを使用してください。このリンクは同じ `thread_id` から作成されています。なお、オートメーションが作成した会話がチャット履歴内で区別して表示されることはありません。
 
-<div id="view-and-manage-automations">
-  ## オートメーションの表示と管理
-</div>
+## オートメーションの表示と管理 {#view-and-manage-automations}
 
 オートメーションの表示と管理は、project または Registry の **Automations** タブ、あるいはグローバルな **Automations** ハブから行えます。オートメーションの一覧では、アクションは **ARIA** と表示されます。
 
@@ -227,9 +211,7 @@ ARIA にプロンプトを送信するオートメーションを編集できる
 
 オートメーションの所有権を移譲することはできません。代わりに、オートメーションを削除し、新しい所有者に作成し直してもらってください。作成者がチームを離れたオートメーションを復旧する場合も、同じ手順を使用します。
 
-<div id="limitations">
-  ## 制限事項
-</div>
+## 制限事項 {#limitations}
 
 ARIA オートメーションには以下の制限事項があります。
 
@@ -240,9 +222,7 @@ ARIA オートメーションには以下の制限事項があります。
 * `wandb` Python ライブラリは ARIA オートメーションをサポートしていません。[API でオートメーションを管理する](/ja/models/automations/api)を参照してください。
 * チャット内の [My automations](#view-your-aria-automations-in-chat) ペインは読み取り専用です。オートメーションの有効化、無効化、編集、削除は、**Automations** タブまたはハブから行ってください。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 以下のリソースもあわせてご覧ください。
 

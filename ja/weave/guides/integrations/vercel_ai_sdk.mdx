@@ -10,9 +10,7 @@ keywords: ["OpenTelemetry", "Next.js", "experimental_telemetry", "OTLP exporter"
 
 Weave での OTel トレースの詳細については、[Send OTel traces to Weave](../tracking/otel) を参照してください。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 開始する前に、次のセットアップを完了してください。このガイドの Next.js と Node.js の例では、どちらも同じ依存関係が必要です。
 
@@ -31,15 +29,11 @@ Weave での OTel トレースの詳細については、[Send OTel traces to We
 
    W&amp;B APIキーは [User Settings](https://wandb.ai/settings) から取得できます。
 
-<div id="configure-otel-tracing-for-nextjs">
-  ## Next.js 向けに OTel トレースを設定する
-</div>
+## Next.js 向けに OTel トレースを設定する {#configure-otel-tracing-for-nextjs}
 
 このセクションでは、Next.js アプリで Weave を設定する方法を説明します。この例にはアプリ全体は含まれておらず、インストルメンテーションの設定と、Vercel AI SDK の関数でインストルメンテーションを呼び出す方法のみを示しています。この場合は、OpenAI への Call です。
 
-<div id="configure-instrumentation">
-  ### インストルメンテーションを設定する
-</div>
+### インストルメンテーションを設定する {#configure-instrumentation}
 
 Next.js アプリケーションでは、OTel を設定するために `instrumentation.ts` ファイルを使用します。このファイルはサーバーの起動時に 1 回実行され、AI SDK が使用するトレーサープロバイダーを設定します。
 
@@ -76,9 +70,7 @@ export function register() {
 
 これにより、W&amp;B APIキーで認証し、トレースデータをWeaveのOTelエンドポイントに送信するよう設定されたOTLPエクスポーターが作成されます。
 
-<div id="configure-telemetry-on-a-function">
-  ### 関数のテレメトリーを設定する
-</div>
+### 関数のテレメトリーを設定する {#configure-telemetry-on-a-function}
 
 インストルメンテーションを追加したら、任意の AI SDK の関数Callで Vercel の `experimental_telemetry` オプションを使用して、OTel スパンを出力します。
 
@@ -103,9 +95,7 @@ export async function POST(req: Request) {
 
 テレメトリーを有効にしたすべての `generateText` Callで、Weave にエクスポートされる OTel スパンが生成されます。これで、Next.js アプリは Vercel AI SDK のトレースを Weave に送信するよう設定されました。
 
-<div id="configure-otel-tracing-for-nodejs">
-  ## Node.js 用に OTel トレースを設定する
-</div>
+## Node.js 用に OTel トレースを設定する {#configure-otel-tracing-for-nodejs}
 
 Next.js を使用していない場合は、スタンドアロンの Node.js アプリケーションで OTel を直接設定できます。スタンドアロンの Node.js アプリケーションでは、後続の AI SDK Call が取得されるように、AI SDK Call を行う前にエントリファイルの先頭でトレーサープロバイダーを設定します。
 

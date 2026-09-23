@@ -15,9 +15,7 @@ Le SDK Python W&amp;B (`wandb`) inclut un callback `WandbCallback` pour journali
   <img src="/images/integrations/xgb_dashboard.png" alt="Tableau de bord W&B avec XGBoost" />
 </Frame>
 
-<div id="get-started">
-  ## Premiers pas
-</div>
+## Premiers pas {#get-started}
 
 Pour enregistrer les métriques, les configurations et les modèles booster d’XGBoost dans W&amp;B, passez `WandbCallback` à XGBoost :
 
@@ -36,13 +34,9 @@ with wandb.init() as run:
 
 Pour un aperçu complet de la journalisation avec XGBoost et W&amp;B, consultez le [notebook sur la journalisation avec XGBoost et W&amp;B](https://wandb.me/xgboost).
 
-<div id="wandbcallback-reference">
-  ## Référence de `WandbCallback`
-</div>
+## Référence de `WandbCallback` {#wandbcallback-reference}
 
-<div id="functionality">
-  ### Fonctionnalités
-</div>
+### Fonctionnalités {#functionality}
 
 Passer `WandbCallback` à un modèle XGBoost entraîne les actions suivantes :
 
@@ -54,9 +48,7 @@ Passer `WandbCallback` à un modèle XGBoost entraîne les actions suivantes :
 * Journalise le graphique d’importance des variables lorsque `log_feature_importance=True` (par défaut).
 * Capture la meilleure métrique d’évaluation dans `wandb.Run.summary` lorsque `define_metric=True` (par défaut).
 
-<div id="arguments">
-  ### Arguments
-</div>
+### Arguments {#arguments}
 
 * `log_model` : (boolean) si True, enregistre et téléverse le modèle dans les artefacts W&amp;B.
 
@@ -70,9 +62,7 @@ Consultez le [code source de WandbCallback](https://github.com/wandb/wandb/blob/
 
 Pour plus d’exemples, consultez le [dépôt d’exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
 
-<div id="tune-your-hyperparameters-with-sweeps">
-  ## Ajustez vos hyperparamètres avec Sweeps
-</div>
+## Ajustez vos hyperparamètres avec Sweeps {#tune-your-hyperparameters-with-sweeps}
 
 W&amp;B [Sweeps](/fr/models/sweeps/) est une boîte à outils pour configurer, orchestrer et analyser des expériences de test d’hyperparamètres. Cette section montre comment combiner l’intégration XGBoost avec le balayage W&amp;B pour explorer différentes configurations d’hyperparamètres.
 

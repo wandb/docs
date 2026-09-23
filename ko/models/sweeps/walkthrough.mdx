@@ -44,9 +44,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-<div id="set-up-your-training-code">
-  ## 트레이닝 코드를 설정합니다
-</div>
+## 트레이닝 코드를 설정합니다 {#set-up-your-training-code}
 
 스윕 에이전트는 시도할 각 하이퍼파라미터 값 조합으로 트레이닝 함수를 호출하므로, 첫 번째 단계는 해당 값을 받아 W&amp;B에 메트릭을 보고하는 함수를 작성하는 것입니다.
 
@@ -71,9 +69,7 @@ def main():
         run.log({"score": score})
 ```
 
-<div id="define-the-search-space-with-a-sweep-configuration">
-  ## 스윕 설정으로 검색 공간 정의하기
-</div>
+## 스윕 설정으로 검색 공간 정의하기 {#define-the-search-space-with-a-sweep-configuration}
 
 트레이닝 함수가 준비되면, 다음 단계는 어떤 하이퍼파라미터를 변경할지와 이를 어떻게 검색할지를 W&amp;B에 알려주는 것입니다.
 
@@ -95,9 +91,7 @@ sweep_configuration = {
 }
 ```
 
-<div id="initialize-the-sweep">
-  ## 스윕 초기화
-</div>
+## 스윕 초기화 {#initialize-the-sweep}
 
 스윕를 초기화하면 검색 공간이 W&amp;B에 등록되고 에이전트가 하이퍼파라미터 조합을 요청하는 데 사용하는 식별자가 반환됩니다.
 
@@ -111,9 +105,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 자세한 내용은 [Sweeps 초기화](/ko/models/sweeps/initialize-sweeps)를 참조하세요.
 
-<div id="start-the-sweep">
-  ## 스윕 시작하기
-</div>
+## 스윕 시작하기 {#start-the-sweep}
 
 스윕이 등록되면 에이전트를 시작해 Runs를 실행하고 검색 공간을 탐색하세요.
 
@@ -140,9 +132,7 @@ wandb.agent(sweep_id, function=main, count=10)
   멀티프로세싱에 대한 자세한 내용은 [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) 또는 [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild)를 참조하세요. `if __name__ == '__main__':` 관례에 대한 자세한 내용은 [Real Python&#39;s guide to `__main__`](https://realpython.com/if-name-main-python/)을 참조하세요.
 </Warning>
 
-<div id="optional-visualize-results">
-  ## 선택 사항: 결과 시각화
-</div>
+## 선택 사항: 결과 시각화 {#optional-visualize-results}
 
 스윕이 실행되면 W&amp;B App에서 다양한 하이퍼파라미터 조합이 메트릭에 어떤 영향을 미치는지 살펴볼 수 있습니다.
 
@@ -154,8 +144,6 @@ wandb.agent(sweep_id, function=main, count=10)
 
 자세한 내용은 [스윕 결과 시각화](/ko/models/sweeps/visualize-sweep-results)를 참조하세요. 대시보드 예시는 이 샘플 [Sweeps 프로젝트](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)를 참조하세요.
 
-<div id="optional-stop-the-agent">
-  ## 선택 사항: 에이전트 중지
-</div>
+## 선택 사항: 에이전트 중지 {#optional-stop-the-agent}
 
 터미널에서 현재 run을 중지하려면 `Ctrl+C`를 누르세요. 한 번 더 누르면 에이전트가 종료됩니다.

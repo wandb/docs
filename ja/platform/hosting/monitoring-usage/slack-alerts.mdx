@@ -10,9 +10,7 @@ W&amp;B Server を [Slack](https://slack.com/) と統合して、チームがす
   [W&amp;B Dedicated Cloud デプロイで Slack アラートを設定する手順を紹介する動画](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 分) をご覧ください。
 </Note>
 
-<div id="create-the-slack-application">
-  ## Slack アプリケーションを作成する
-</div>
+## Slack アプリケーションを作成する {#create-the-slack-application}
 
 W&amp;B Server は、アラート配信のブリッジとして カスタム Slack アプリケーションを使用します。通知を受け取りたい Slack Workspace でそのアプリケーションを作成するには、以下の手順に従ってください。
 
@@ -30,9 +28,7 @@ W&amp;B Server は、アラート配信のブリッジとして カスタム Sla
      <img src="/images/hosting/name_app_workspace.png" alt="アプリ名とWorkspaceの選択" />
    </Frame>
 
-<div id="configure-the-slack-application">
-  ## Slack アプリケーションを設定する
-</div>
+## Slack アプリケーションを設定する {#configure-the-slack-application}
 
 Slack アプリケーションを作成したら、メッセージを投稿し、OAuth ハンドシェイク中の W&amp;B からのリダイレクトを受け取れるように、必要な権限を付与します。
 
@@ -60,9 +56,7 @@ Slack アプリケーションを作成したら、メッセージを投稿し�
 
 5. 任意: **Restrict API Token Usage** で、W&amp;B インスタンス用の許可リストに追加する IP または IP 範囲を指定します。許可する IP アドレスを制限することで、Slack アプリケーションのセキュリティ向上に役立ちます。
 
-<div id="register-your-slack-application-with-wb">
-  ## Slack アプリケーションを W&amp;B に登録する
-</div>
+## Slack アプリケーションを W&amp;B に登録する {#register-your-slack-application-with-wb}
 
 設定した Slack アプリケーションを W&amp;B インスタンスに登録すると、W&amp;B からそのアプリケーションを使用してアラートを送信できるようになります。
 

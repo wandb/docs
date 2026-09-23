@@ -19,9 +19,7 @@ Dans ce tutoriel, vous invoquerez un agent dans un environnement Serverless Sand
 
 {/* Cela vous permet de tester et d’ajuster le comportement de votre agent dans un environnement sûr et isolé, sans modifier votre configuration locale. */}
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, installez le SDK Python de W&amp;B, authentifiez-vous auprès de W&amp;B et enregistrez votre clé API OpenAI comme secret pour que le sandbox puisse l’utiliser.
 
@@ -34,9 +32,7 @@ Avant de commencer, installez le SDK Python de W&amp;B, authentifiez-vous auprè
   source venv/bin/activate  # Sous Windows, utilisez `venv\Scripts\activate`
   ```  */}
 
-<div id="install-wb-python-sdk">
-  ### Installer le SDK Python de W&amp;B
-</div>
+### Installer le SDK Python de W&amp;B {#install-wb-python-sdk}
 
 Installez le SDK Python de W&amp;B avec `pip` :
 
@@ -44,9 +40,7 @@ Installez le SDK Python de W&amp;B avec `pip` :
 pip install wandb
 ```
 
-<div id="log-in-and-authenticate-with-wb">
-  ### Connectez-vous et authentifiez-vous à W&amp;B
-</div>
+### Connectez-vous et authentifiez-vous à W&amp;B {#log-in-and-authenticate-with-wb}
 
 Exécutez la commande CLI [`wandb login`](/fr/models/ref/cli/wandb-login) et suivez les instructions pour vous connecter à votre compte W&amp;B :
 
@@ -54,17 +48,13 @@ Exécutez la commande CLI [`wandb login`](/fr/models/ref/cli/wandb-login) et sui
 wandb login
 ```
 
-<div id="store-api-keys-in-secret-manager">
-  ### Stockez les clés API dans Secret Manager
-</div>
+### Stockez les clés API dans Secret Manager {#store-api-keys-in-secret-manager}
 
 Stockez votre clé API OpenAI dans le [W&amp;B Secret Manager](/fr/platform/secrets) sous le nom `OPENAI_API_KEY`. Pour plus d’informations sur l’utilisation des secrets dans les sandboxes, voir [Secrets](/fr/sandboxes/secrets).
 
 Cela vous permet d’accéder de façon sécurisée à la clé API dans la sandbox sans l’intégrer en dur dans votre code ou dans la configuration de la sandbox.
 
-<div id="copy-agent-code">
-  ## Copier le code de l’agent
-</div>
+## Copier le code de l’agent {#copy-agent-code}
 
 Une fois les prérequis réunis, enregistrez le code de l’agent localement afin de pouvoir l’exécuter dans un sandbox. Le script définit un agent OpenAI avec deux outils et un format de réponse structuré.
 

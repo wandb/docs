@@ -11,7 +11,7 @@ keywords: ["하위 에이전트", "invoke_agent", "OTel spans", "멀티 에이�
 Weave로 이를 계측하면 하위 에이전트는 상위 turn과 동일한 트레이스 내에 중첩된 `invoke_agent` OpenTelemetry (OTel) span을 생성합니다. **Agents** 뷰에서는 이 중첩 구조가 이를 트리거한 turn 아래의 하위 에이전트 호출로 렌더링되며, 그 아래에 해당 하위 에이전트의 LLM Call과 도구 Call이 그룹화되어 표시됩니다.
 
 <div id="sub-agent-data-model">
-  ## 하위 에이전트 데이터 모델
+  ## 하위 에이전트 데이터 모델 {#sub-agent-data-model}
 </div>
 
 코드에 트레이싱을 계측하기 전에 Weave가 트레이스에서 하위 에이전트를 어떻게 표현하는지 이해해 두면 도움이 됩니다. `weave.start_subagent` span은 OTel `invoke_agent` span에 매핑되며, 상위 turn과 동일한 오퍼레이션 이름을 생성합니다. Weave는 트레이스의 부모-자식 관계를 통해 이 둘을 구분합니다:
@@ -37,7 +37,7 @@ sub = weave.start_subagent(
 `weave.start_subagent`는 `invoke_agent` span을 생성하며, 이 span은 OTel 컨텍스트에서 현재 활성화된 span의 자식으로 자동 연결됩니다. 일반적으로 상위 turn 또는 위임을 트리거한 LLM Call의 자식이 됩니다. OTel 컨텍스트 전파가 이러한 부모-자식 관계를 처리하므로 명시적으로 위임을 지정할 필요는 없습니다.
 
 <div id="trace-a-single-sub-agent">
-  ## 단일 하위 에이전트 트레이스하기
+  ## 단일 하위 에이전트 트레이스하기 {#trace-a-single-sub-agent}
 </div>
 
 다음 예시에서는 요청을 받아, 답을 찾기 위해 Wikipedia 검색 도구를 사용하는 리서치 전문 하위 에이전트에 작업을 위임하는 supervisor 에이전트를 실행합니다.
@@ -84,7 +84,7 @@ with weave.start_conversation(agent_name="supervisor") as conversation:
 **Agents** 뷰에서 하위 에이전트는 turn 내부에 중첩된 `invoke_agent` 블록으로 표시되며, 그 아래에 자체 LLM Calls와 도구 Calls가 함께 그룹화되어 나타납니다. supervisor의 직접 LLM Calls는 하위 에이전트와 같은 계층에 그대로 표시됩니다.
 
 <div id="trace-multiple-sub-agents">
-  ## 여러 하위 에이전트 트레이스
+  ## 여러 하위 에이전트 트레이스 {#trace-multiple-sub-agents}
 </div>
 
 다음 예시에서는 콘텐츠 파이프라인 에이전트가 단일 요청을 처리할 때, 사실을 수집하는 `researcher`, 게시물 초안을 작성하는 `writer`, 최종 출력을 다듬는 `reviewer`의 세 하위 에이전트에 순차적으로 작업을 위임합니다.
@@ -123,7 +123,7 @@ with weave.start_conversation(agent_name="content-pipeline") as conversation:
 **Agents** 뷰에서는 turn에 서로 형제 관계인 세 개의 하위 에이전트 호출이 있으며, 각각 그 아래에 자체 LLM Call이 중첩되어 있고 `researcher`에는 도구 Call도 포함됩니다. 어느 하위 에이전트도 다른 하위 에이전트의 자식이 아닙니다.
 
 <div id="trace-nested-sub-agents">
-  ## 중첩된 하위 에이전트 트레이스
+  ## 중첩된 하위 에이전트 트레이스 {#trace-nested-sub-agents}
 </div>
 
 하위 에이전트는 다시 다른 하위 에이전트에 작업을 위임할 수 있습니다. 각 `start_subagent` 호출은 OTel 컨텍스트에서 현재 활성 상태인 span 아래에 중첩됩니다.

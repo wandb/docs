@@ -18,9 +18,7 @@ W&amp;B プロジェクトでカスタム チャートを作成できます。�
   <img src="/images/app_ui/supported_charts.png" alt="vega.github.io/vega でサポートされるチャート" max-width="90%" />
 </Frame>
 
-<div id="how-it-works">
-  ## 仕組み
-</div>
+## 仕組み {#how-it-works}
 
 1. **データをログする**: スクリプトから、[設定](/ja/models/track/config/) と summary データをログします。
 2. **チャートをカスタマイズする**: [GraphQL](https://graphql.org) クエリでログしたデータを取得します。[Vega](https://vega.github.io/vega/) という可視化記法を使って、クエリ結果を可視化します。
@@ -32,15 +30,11 @@ W&amp;B プロジェクトでカスタム チャートを作成できます。�
 
 期待したデータが表示されない場合、探している列が選択した Runs にログされていない可能性があります。チャートを Save し、Runs table に戻って、**eye** アイコンで選択した Runs を確認してください。
 
-<div id="log-charts-from-a-script">
-  ## スクリプトからチャートをログする
-</div>
+## スクリプトからチャートをログする {#log-charts-from-a-script}
 
 以下のセクションでは、トレーニングスクリプトからチャートを直接ログする 2 つの方法について説明します。1 つは一般的な可視化に対応する組み込みのチャートプリセット、もう 1 つは独自の Vega 仕様を再利用できるカスタムプリセットです。
 
-<div id="built-in-presets">
-  ### 組み込みプリセット
-</div>
+### 組み込みプリセット {#built-in-presets}
 
 W&amp;B には、スクリプトから直接ログできる組み込みのチャートプリセットがいくつか用意されています。これには、折れ線グラフ、散布図、棒グラフ、ヒストグラム、PR 曲線、ROC 曲線が含まれます。
 
@@ -202,9 +196,7 @@ W&amp;B には、スクリプトから直接ログできる組み込みのチャ
   </Tab>
 </Tabs>
 
-<div id="custom-presets">
-  ### カスタムプリセット
-</div>
+### カスタムプリセット {#custom-presets}
 
 組み込みのプリセットを調整するか、新しいプリセットを作成して、チャートを保存します。チャートIDを使用して、スクリプトから直接そのカスタムプリセットにデータをログできます。[サンプルの Google Colab ノートブックを試す](https://tiny.cc/custom-charts)。
 
@@ -228,9 +220,7 @@ my_custom_chart = wandb.plot_table(
   <img src="/images/app_ui/custom_presets.png" alt="カスタムチャートプリセット" max-width="90%" />
 </Frame>
 
-<div id="log-data">
-  ## データをログする
-</div>
+## データをログする {#log-data}
 
 カスタム チャートで何かを可視化する前に、スクリプトはチャートエディタがクエリできる形式で基になるデータをログしている必要があります。スクリプトから次のデータ型をログして、カスタムチャートで使用できます。
 
@@ -240,9 +230,7 @@ my_custom_chart = wandb.plot_table(
 * **summaryTable**: 複数の値のリストをログする必要がある場合は、`wandb.Table()` を使用してそのデータを保存し、その後カスタムパネルでクエリします。
 * **historyTable**: 履歴データを確認する必要がある場合は、カスタムチャートパネルで `historyTable` をクエリします。`wandb.Table()` を呼び出すかカスタムチャートをログするたびに、その step の history に新しい表が作成されます。
 
-<div id="log-a-custom-table">
-  ### カスタム表をログする
-</div>
+### カスタム表をログする {#log-a-custom-table}
 
 `wandb.Table()` を使用して、データを二次元配列としてログします。通常、この表の各行は 1 つのデータポイントを表し、各列はプロットしたい各データポイントに関連するフィールドや次元を表します。カスタムパネルを設定すると、表全体には `wandb.Run.log()` に渡した名前付きキー (次の例では `custom_data_table`) でアクセスできます。個々のフィールドには列名 (`x`、`y`、`z`) でアクセスできます。実験全体を通して、複数のタイムステップで表をログできます。各表の最大サイズは 10,000 行です。[Google Colab ノートブックの例を試す](https://tiny.cc/custom-charts)。
 
@@ -255,9 +243,7 @@ with wandb.init() as run:
   )
 ```
 
-<div id="customize-the-chart">
-  ## チャートをカスタマイズする
-</div>
+## チャートをカスタマイズする {#customize-the-chart}
 
 データをログしたら、取り込むログ済みの値とその表示方法を選択して、W&amp;B Appでチャートを作成します。まず新しいカスタムチャートを追加して開始し、その後クエリを編集して表示中のRunsからデータを選択します。クエリでは、[GraphQL](https://graphql.org)を使用して、Runs内の`config`、`summary`、`history`フィールドからデータを取得します。
 
@@ -265,9 +251,7 @@ ARIAに説明を与えてカスタム チャートを作成させることもで
 
 <AriaChatBubbles prompt="表示中のRunsについて、検証 accuracy とトレーニング損失の散布図を作成し、点を学習率ごとに色分けしてください。" response="カスタム チャート パネルを追加し、X-axis に検証 accuracy、Y 軸にトレーニング損失をプロットして、config 内の各 run の学習率に応じて点を色分けします。" />
 
-<div id="build-the-graphql-query">
-  ### GraphQL クエリを作成する
-</div>
+### GraphQL クエリを作成する {#build-the-graphql-query}
 
 カスタム チャート エディターは、ワークスペースまたは report で選択した run に対して GraphQL クエリを実行します。クエリ エディターで必要なフィールドを追加してください。`config`、`summary`、`history`、`summaryTable`、`historyTable` から選択できるため、多くの場合、クエリを最初から記述する必要はありません。
 
@@ -299,9 +283,7 @@ ARIAに説明を与えてカスタム チャートを作成させることもで
   <img src="/images/app_ui/customize_chart.gif" alt="カスタム チャートの作成" max-width="90%" />
 </Frame>
 
-<div id="custom-visualizations">
-  ### カスタム可視化
-</div>
+### カスタム可視化 {#custom-visualizations}
 
 右上の **Chart** を選択して、デフォルトのプリセットから始めます。次に、**Chart fields** を選択し、クエリで取得したデータをチャート内の対応するフィールドにマッピングします。
 
@@ -311,9 +293,7 @@ ARIAに説明を与えてカスタム チャートを作成させることもで
   <img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="カスタム棒グラフの作成" max-width="90%" />
 </Frame>
 
-<div id="edit-vega">
-  ### Vega を編集
-</div>
+### Vega を編集 {#edit-vega}
 
 パネル上部の **Edit** をクリックすると、[Vega](https://vega.github.io/vega/) の編集モードに入ります。ここでは、UI 上でインタラクティブなチャートを作成するための [Vega specification](https://vega.github.io/vega/docs/specification/) を定義できます。チャートのあらゆる要素を変更できます。たとえば、タイトルを変更したり、別の配色を選んだり、曲線を連続した線ではなく点の列として表示したりできます。また、Vega の transform を使って値の配列をビニングし、ヒストグラムにするなど、データ自体を変更することもできます。パネルのプレビューはインタラクティブに更新されるため、Vega spec やクエリを編集しながら、変更の効果を確認できます。詳細は、[Vega documentation and tutorials](https://vega.github.io/vega/)を参照してください。
 
@@ -323,15 +303,11 @@ W&amp;B からチャートにデータを取り込むには、`"${field:<field-n
 
 フィールドのデフォルト値を設定するには、次の構文を使用します: `"${field:<field-name>:<placeholder text>}"`
 
-<div id="save-chart-presets">
-  ### チャートプリセットを保存する
-</div>
+### チャートプリセットを保存する {#save-chart-presets}
 
 毎回作り直す代わりに、プリセットを保存すると、同じ Vega 定義をパネルや Projects 間で再利用できます。モーダルの下部にあるボタンを使って、特定の可視化パネルに変更を適用できます。あるいは、Vega spec を保存して、プロジェクト内の別の場所で再利用することもできます。再利用可能なチャート定義を保存するには、Vega エディタ上部の **名前を付けて保存** をクリックし、プリセットに名前を付けます。
 
-<div id="reports-and-guides">
-  ## Reports とガイド
-</div>
+## Reports とガイド {#reports-and-guides}
 
 以下のReportsでは、エンドツーエンドの例と、実際のカスタムチャートをより深く掘り下げた内容を紹介しています。
 
@@ -340,9 +316,7 @@ W&amp;B からチャートにデータを取り込むには、`"${field:<field-n
 * [カスタムチャートを使ってAttentionが勾配フローに与える影響を可視化する](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
 * [任意の曲線をログする](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
-<div id="common-use-cases">
-  ## 一般的なユース ケース
-</div>
+## 一般的なユース ケース {#common-use-cases}
 
 カスタム チャートは、デフォルトのパネルでは表現できない内容を表示したい場合に便利です。たとえば、次のようなケースがあります。
 

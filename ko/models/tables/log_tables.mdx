@@ -13,9 +13,7 @@ W&amp;B Python SDK를 사용해 [테이블 객체를 생성하고 로깅](#creat
   `INCREMENTAL` 모드는 W&amp;B Server v0.70.0 이상에서 지원됩니다.
 </Note>
 
-<div id="create-and-log-a-table">
-  ## 테이블 생성 및 로깅
-</div>
+## 테이블 생성 및 로깅 {#create-and-log-a-table}
 
 1. `wandb.init()`으로 새 run을 초기화합니다.
 2. [`wandb.Table`](/ko/models/ref/python/data-types/table) 클래스로 테이블 객체를 생성합니다. `columns`와 `data` 파라미터에 각각 테이블의 열과 데이터를 지정합니다. 선택 `log_mode` 파라미터는 `IMMUTABLE`(기본값), `MUTABLE`, `INCREMENTAL`의 세 가지 모드 중 하나로 설정하는 것이 좋습니다. 자세한 내용은 다음 섹션의 [테이블 Logging Modes](#logging-modes)를 참조하세요.
@@ -40,9 +38,7 @@ with wandb.init(project="table-demo") as run:
     run.log({"Table Name": my_table})
 ```
 
-<div id="logging-modes">
-  ## 로깅 모드
-</div>
+## 로깅 모드 {#logging-modes}
 
 [`wandb.Table`](/ko/models/ref/python/data-types/table) `log_mode` 파라미터는 ML 실험 중 테이블이 어떻게 로깅되고 업데이트되는지를 결정합니다. `log_mode` 파라미터는 `IMMUTABLE`, `MUTABLE`, `INCREMENTAL`의 세 가지 인자 중 하나를 받습니다. 각 모드는 테이블이 로깅되는 방식, 수정 가능한 방식, 그리고 W&amp;B App에서 렌더링되는 방식에 서로 다른 영향을 미칩니다.
 
@@ -56,9 +52,7 @@ with wandb.init(project="table-demo") as run:
 
 다음 섹션에서는 각 모드의 예제 코드 스니펫과 함께, 각 모드를 언제 사용해야 하는지에 대한 고려 사항을 보여줍니다.
 
-<div id="mutable-mode">
-  ### MUTABLE 모드
-</div>
+### MUTABLE 모드 {#mutable-mode}
 
 `MUTABLE` 모드는 기존 테이블을 새 테이블로 교체해 업데이트합니다. `MUTABLE` 모드는 반복하지 않는 프로세스에서 기존 테이블에 새 열과 행을 추가하려는 경우에 유용합니다. UI에서는 초기 로깅 후 추가된 새 행과 열을 포함해 모든 행과 열이 표시됩니다.
 
@@ -106,9 +100,7 @@ with wandb.init(project="mutable-table-demo") as run:
 
 새로운 행 배치만(열은 추가하지 않고) 트레이닝 루프에서처럼 점진적으로 추가하려는 경우에는 대신 [`INCREMENTAL` 모드](#INCREMENTAL-mode)를 사용하는 것이 좋습니다.
 
-<div id="incremental-mode">
-  ### INCREMENTAL 모드
-</div>
+### INCREMENTAL 모드 {#incremental-mode}
 
 incremental 모드에서는 머신 러닝 실험 중에 행 배치를 테이블에 로깅합니다. 이 방식은 오래 실행되는 작업을 모니터링하거나, 업데이트를 위해 run 도중 로깅하기에는 비효율적인 큰 테이블을 다룰 때 특히 적합합니다. UI에서는 행가 로깅될 때마다 새로운 행로 테이블이 업데이트되므로, 전체 run이 끝날 때까지 기다리지 않고도 최신 데이터를 확인할 수 있습니다. 또한 increment를 단계별로 넘겨 보면서 서로 다른 시점의 테이블을 확인할 수 있습니다.
 
@@ -182,13 +174,9 @@ with wandb.init(project="combined-logging-example") as run:
 
 이 예제에서는 트레이닝 중에 `incr_table`을 증분 방식으로 로깅합니다(`log_mode="INCREMENTAL"`). 이렇게 하면 새 데이터가 처리될 때마다 테이블의 업데이트를 로깅하고 확인할 수 있습니다. 트레이닝이 끝나면 증분 테이블의 모든 데이터를 포함하는 불변 테이블(`final_table`)이 생성됩니다. 불변 테이블은 이후 분석을 위해 전체 데이터셋을 보존할 수 있도록 로깅되며, W&amp;B App에서 모든 행을 확인할 수 있게 해줍니다.
 
-<div id="examples">
-  ## 예제
-</div>
+## 예제 {#examples}
 
-<div id="enriching-evaluation-results-with-mutable">
-  ### MUTABLE로 평가 결과 보강하기
-</div>
+### MUTABLE로 평가 결과 보강하기 {#enriching-evaluation-results-with-mutable}
 
 ```python
 import wandb
@@ -218,9 +206,7 @@ with wandb.init(project="mutable-logging") as run:
     run.log({"eval_table": table})
 ```
 
-<div id="resuming-runs-with-incremental-tables">
-  ### INCREMENTAL 테이블로 run 재개하기
-</div>
+### INCREMENTAL 테이블로 run 재개하기 {#resuming-runs-with-incremental-tables}
 
 run을 재개할 때 INCREMENTAL 테이블에 계속 로그를 기록할 수 있습니다:
 
@@ -245,9 +231,7 @@ resumed_run.finish()
   `wandb.Run.define_metric("<table_key>", summary="none")` 또는 `wandb.Run.define_metric("*", summary="none")`를 사용해 incremental 테이블에 사용되는 키의 summary를 끄면, 증분은 새 테이블에 로깅됩니다.
 </Note>
 
-<div id="training-with-incremental-batch-training">
-  ### INCREMENTAL 배치 트레이닝을 사용해 트레이닝하기
-</div>
+### INCREMENTAL 배치 트레이닝을 사용해 트레이닝하기 {#training-with-incremental-batch-training}
 
 ```python
 

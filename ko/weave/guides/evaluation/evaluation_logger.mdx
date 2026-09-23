@@ -17,7 +17,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 </Info>
 
 <div id="basic-workflow">
-  ## 기본 워크플로
+  ## 기본 워크플로 {#basic-workflow}
 </div>
 
 다음 단계를 따르면 Weave에 완전한 평가가 기록되며, 예측별 점수와 Weave UI에서 검토할 수 있는 집계 요약이 포함됩니다.
@@ -37,7 +37,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 설명한 워크플로를 보여주는 Python 코드는 [기본 예제](#basic-example)를 참조하세요. 출력과 모든 점수를 한 번에 사용할 수 있다면 Python 사용자는 [`log_example()`](#simplified-logging-with-log_example)을 사용해 2~4단계를 단일 Call로 결합할 수 있습니다.
 
 <div id="basic-example">
-  ## 기본 예제
+  ## 기본 예제 {#basic-example}
 </div>
 
 다음 예제에서는 `EvaluationLogger`를 사용해 기존 코드에 인라인으로 예측과 점수를 로깅하는 방법을 보여줍니다. `[YOUR-TEAM]/[YOUR-PROJECT]`를 W&amp;B entity와 프로젝트로 바꾸세요.
@@ -203,7 +203,7 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 </Tabs>
 
 <div id="simplified-logging-with-log_example">
-  ## `log_example()`를 사용한 간소화된 로깅
+  ## `log_example()`를 사용한 간소화된 로깅 {#simplified-logging-with-log_example}
 </div>
 
 `log_example()`을 사용하면 입력, 출력, 그리고 점수를 단일 Call로 로깅할 수 있습니다. 이 편의 방법은 `log_prediction()`, `log_score()`, `finish()`를 한 단계로 결합하며, 배치 또는 오프라인 평가 중처럼 로깅할 입력, 모델 출력, 점수가 이미 준비되어 있을 때 유용합니다.
@@ -251,13 +251,13 @@ prediction.finish()
 </Note>
 
 <div id="advanced-usage">
-  ## 고급 활용
+  ## 고급 활용 {#advanced-usage}
 </div>
 
 `EvaluationLogger`는 더 복잡한 평가 시나리오를 지원할 수 있도록 기본 워크플로를 넘어서는 유연한 사용 패턴을 제공합니다. 다음 섹션에서는 자동 리소스 관리를 위한 컨텍스트 매니저 사용, 에이전트 트레이스를 평가 행에 연결, 모델 실행과 로깅의 분리, 리치 미디어 데이터 처리, 그리고 여러 모델 평가를 나란히 비교하는 등 고급 기법을 설명합니다.
 
 <div id="use-context-managers">
-  ### 컨텍스트 관리자 사용
+  ### 컨텍스트 관리자 사용 {#use-context-managers}
 </div>
 
 `EvaluationLogger`는 예측과 점수 모두에 대해 컨텍스트 관리자(`with` 문)를 지원합니다. 이를 사용하면 코드를 더 깔끔하게 작성할 수 있고, 리소스를 자동으로 정리할 수 있으며, LLM judge Call과 같은 중첩된 오퍼레이션도 더 효과적으로 추적할 수 있습니다.
@@ -381,7 +381,7 @@ prediction.finish()
 </Tabs>
 
 <div id="link-agent-traces-to-evaluations">
-  ### 에이전트 트레이스를 평가에 연결하기
+  ### 에이전트 트레이스를 평가에 연결하기 {#link-agent-traces-to-evaluations}
 </div>
 
 Python에서는 트레이싱되는 각 에이전트 호출을 `log_prediction()` 컨텍스트 내에서 실행하세요. `EvaluationLogger`는 해당 컨텍스트에서 생성된 span에 평가 run, 예시 및 trial 메타데이터를 설정하고, Weave는 이 메타데이터를 사용해 트레이스를 평가 결과에 연결합니다.
@@ -441,7 +441,7 @@ Python에서는 트레이싱되는 각 에이전트 호출을 `log_prediction()`
 * **별도의 서비스:** 해당 서비스에 두 ID를 전달한 후, 서비스가 생성하는 span에 설정합니다.
 
 <div id="link-spans-you-instrument-yourself">
-  #### 직접 계측한 span 연결
+  #### 직접 계측한 span 연결 {#link-spans-you-instrument-yourself}
 </div>
 
 `log_prediction()` 컨텍스트 내에서 span이 생성되면 `EvaluationLogger`가 모든 속성을 자동으로 설정합니다. 하지만 자체 OpenTelemetry(OTel) 계측을 통해 span을 전송하는 경우, 연결하려는 각 span에 속성을 직접 설정해야 합니다. 평가에는 다음 속성을 설정할 수 있습니다.
@@ -505,7 +505,7 @@ TypeScript 예시는 예측 범위에 의존하지 않고 OTel 속성을 직접 
 </Tabs>
 
 <div id="link-an-agent-that-runs-in-a-separate-service">
-  #### 별도의 서비스에서 실행되는 에이전트 연결
+  #### 별도의 서비스에서 실행되는 에이전트 연결 {#link-an-agent-that-runs-in-a-separate-service}
 </div>
 
 에이전트가 별도의 서비스에서 실행되는 경우 평가 프로세스와 에이전트는 메모리를 공유하지 않습니다. Weave는 연결 속성을 자동으로 설정할 수 없으며, 에이전트의 span 객체에 직접 액세스할 수도 없습니다. 대신 평가 프로세스에서 두 Call ID를 가져와 서비스로 전송한 후, այնտեղ에서 생성된 span에 설정하세요. 이 분산 `EvaluationLogger` 패턴은 Python에서만 사용할 수 있습니다.
@@ -598,7 +598,7 @@ TypeScript 예시는 예측 범위에 의존하지 않고 OTel 속성을 직접 
 </Tabs>
 
 <div id="view-linked-agent-spans-from-your-evaluations">
-  #### evaluation에서 연결된 에이전트 span 보기
+  #### evaluation에서 연결된 에이전트 span 보기 {#view-linked-agent-spans-from-your-evaluations}
 </div>
 
 Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
@@ -609,7 +609,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 4. 열리는 evaluation 세부정보 패널에서 **Evaluation** 탭의 **View spans**를 클릭합니다. 해당 evaluation으로 필터링된 **Spans** 탭이 표시된 **Agents** 페이지가 열립니다.
 
 <div id="link-to-an-existing-dataset">
-  ### 기존 데이터셋에 연결하기
+  ### 기존 데이터셋에 연결하기 {#link-to-an-existing-dataset}
 </div>
 
 원시 데이터셋을 `log_prediction`에 `inputs`로 전달하면, Weave는 평가 run이 실행될 때마다 데이터를 다시 임포트합니다. 그 결과 중복 데이터가 저장되며, 데이터셋이 크거나 많은 평가에서 이를 재사용하는 경우 저장 공간이 낭비될 수 있습니다.
@@ -667,7 +667,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 </Tabs>
 
 <div id="get-outputs-before-logging">
-  ### 로깅 전에 출력 먼저 계산하기
+  ### 로깅 전에 출력 먼저 계산하기 {#get-outputs-before-logging}
 </div>
 
 먼저 모델 출력을 계산한 다음, 예측과 점수를 별도로 로깅할 수 있습니다. 이렇게 하면 평가 로직과 로깅 로직이 분리되어, 시스템의 서로 다른 부분이 예측 생성과 점수화를 담당할 때 코드를 더 쉽게 테스트하고 유지 관리할 수 있습니다.
@@ -734,7 +734,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 </Tabs>
 
 <div id="log-rich-media">
-  ### 리치 미디어 로깅
+  ### 리치 미디어 로깅 {#log-rich-media}
 </div>
 
 입력, 출력, 점수에는 이미지, 비디오, 오디오, 구조화된 테이블 같은 리치 미디어를 포함할 수 있습니다. 리치 미디어를 로깅하면 Weave UI에서 점수와 함께 실제 콘텐츠를 확인할 수 있어 멀티모달 모델을 정성적으로 분석하는 데 도움이 됩니다. `log_prediction` 또는 `log_score` 메서드에 dict 또는 미디어 객체를 전달하면 됩니다.
@@ -865,7 +865,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 </Tabs>
 
 <div id="log-and-compare-multiple-evaluations">
-  ### 여러 평가 기록 및 비교
+  ### 여러 평가 기록 및 비교 {#log-and-compare-multiple-evaluations}
 </div>
 
 `EvaluationLogger`를 사용하면 Weave UI에서 여러 평가를 나란히 기록하고 비교할 수 있습니다. 이는 동일한 데이터셋에서 서로 다른 모델의 성능을 평가하는 데 유용합니다.
@@ -964,7 +964,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 </Frame>
 
 <div id="usage-tips">
-  ## 사용 팁
+  ## 사용 팁 {#usage-tips}
 </div>
 
 다음 팁을 활용하면 `EvaluationLogger`를 최대한 효과적으로 사용할 수 있습니다.

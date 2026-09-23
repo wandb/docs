@@ -15,7 +15,7 @@ Weave Claude Code 플러그인은 모든 Claude Code 세션을 자동으로 트�
 </Warning>
 
 <div id="prerequisites">
-  ## 사전 요구 사항
+  ## 사전 요구 사항 {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v18 이상(`npm` 포함)
@@ -24,7 +24,7 @@ Weave Claude Code 플러그인은 모든 Claude Code 세션을 자동으로 트�
 * 트레이스를 수신할 Weave 프로젝트(`\[YOUR-TEAM]/[YOUR-PROJECT]`)
 
 <div id="install-the-plugin">
-  ## 플러그인 설치
+  ## 플러그인 설치 {#install-the-plugin}
 </div>
 
 CLI를 설치하고, installer를 실행하여 Claude Code에 플러그인을 등록한 다음, Claude Code 세션을 시작해 트레이싱을 시작하세요.
@@ -68,7 +68,7 @@ CLI를 설치하고, installer를 실행하여 Claude Code에 플러그인을 �
 </Steps>
 
 <div id="view-claude-code-traces-in-weave">
-  ## Weave UI에서 Claude Code 트레이스 보기
+  ## Weave UI에서 Claude Code 트레이스 보기 {#view-claude-code-traces-in-weave}
 </div>
 
 Claude Code 세션을 하나 이상 실행한 후 Weave UI에서 프로젝트를 여세요:
@@ -96,7 +96,7 @@ invoke_agent claude-code               (루트, 사용자 프롬프트당 트레
 멀티턴 대화는 서버 측에서 conversation ID로 연결되므로, 여러 트레이스에 걸쳐 대화를 따라갈 수 있습니다. 각 span에는 token 사용량, 모델 이름, 도구 입력 및 출력, 타이밍, 그리고 프롬프트와 응답의 텍스트 내용이 포함됩니다. 트레이스된 데이터에 대한 자세한 내용은 GitHub의 [What Gets Traced](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced)를 참조하세요.
 
 <div id="configure-the-plugin">
-  ## 플러그인 설정하기
+  ## 플러그인 설정하기 {#configure-the-plugin}
 </div>
 
 설치 후 `weave-claude-code config` 명령어를 사용해 플러그인 설정을 확인하거나 업데이트하세요:
@@ -126,7 +126,7 @@ export WEAVE_AGENT_NAME=[YOUR-AGENT-NAME]
 ```
 
 <div id="weave-skills">
-  ## Weave 스킬
+  ## Weave 스킬 {#weave-skills}
 </div>
 
 설치가 완료되면 어떤 Claude Code 세션에서든 Weave 전용 스킬 3가지를 바로 사용할 수 있습니다.
@@ -146,7 +146,7 @@ Claude Code 내에서 `weave:weave-config` 스킬을 사용해 Weave 값을 설�
 ```
 
 <div id="check-plugin-status">
-  ## 플러그인 상태 확인
+  ## 플러그인 상태 확인 {#check-plugin-status}
 </div>
 
 다음 CLI 명령어를 사용하여 플러그인 상태를 확인하거나 문제를 해결할 수 있습니다:
@@ -172,7 +172,7 @@ weave-claude-code logs --follow
 로그 파일은 `~/.weave-claude-code/logs/daemon.log`에서도 확인할 수 있습니다.
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스
+  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스 {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스를 사용 중인 경우, Claude Code를 실행하기 전에 `WANDB_BASE_URL`을 설정하세요:
@@ -191,7 +191,7 @@ export WANDB_BASE_URL=https://[YOUR-INSTANCE].wandb.io
 3. Claude Code를 다시 실행합니다. 데몬이 자동으로 다시 시작되며 올바른 URL을 사용합니다.
 
 <div id="uninstall">
-  ## 설치 제거
+  ## 설치 제거 {#uninstall}
 </div>
 
 Claude Code에서 플러그인을 제거하려면 다음을 실행하세요:

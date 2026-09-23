@@ -10,9 +10,7 @@ W&amp;B Launch は、`google-cloud-aiplatform` SDK の `CustomJob` クラスを�
 
 {{/* Vertex AI 上のLaunchのコンポーネント図 */}}
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 Launch queue を設定する前に、次の Google Cloud リソースと権限が用意されていることを確認してください。
 
@@ -32,9 +30,7 @@ Launch queue を設定する前に、次の Google Cloud リソースと権限�
   Vertex AI ワークロードで標準以外のサービスアカウントのアイデンティティを使用する場合は、サービスアカウントの作成方法と必要な権限について、Vertex AI documentation を参照してください。W&amp;B runs にカスタム サービスアカウントを選択するには、Launch queue 設定の `spec.service_account` フィールドを使用します。
 </Note>
 
-<div id="configure-a-queue-for-vertex-ai">
-  ## Vertex AI 用のキューを設定する
-</div>
+## Vertex AI 用のキューを設定する {#configure-a-queue-for-vertex-ai}
 
 Google Cloud の前提条件を満たしたら、次のステップは W&amp;B Launch が Vertex AI ジョブの送信に使用するキュー設定を計画することです。Vertex AI リソースのキュー設定では、Vertex AI Python SDK の `CustomJob` コンストラクタと `CustomJob` の `run` method に渡す入力を指定します。リソースの設定は、`spec` キーと `run` キーの下に保存されます。
 
@@ -45,9 +41,7 @@ Google Cloud の前提条件を満たしたら、次のステップは W&amp;B L
 
 利用可能なマシンタイプとアクセラレータタイプの詳細については、[Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec) を参照してください。
 
-<div id="create-a-queue">
-  ## キューを作成する
-</div>
+## キューを作成する {#create-a-queue}
 
 キュー設定の計画が済んだら、Vertex AI をコンピュートリソースとして使用するキューを W&amp;B App で作成します。
 
@@ -91,9 +85,7 @@ Google Cloud の前提条件を満たしたら、次のステップは W&amp;B L
   Launch queue 設定内のすべてのキーでは、スネークケースを使用してください。
 </Warning>
 
-<div id="configure-a-launch-agent">
-  ## Launch エージェントを設定する
-</div>
+## Launch エージェントを設定する {#configure-a-launch-agent}
 
 キューを作成したら、Launch エージェントを設定してキューをポーリングし、ジョブを Vertex AI に送信します。Launch エージェントは、デフォルトでは `~/.config/wandb/launch-config.yaml` にある設定ファイルで設定できます。
 
@@ -105,8 +97,6 @@ queues:
 
 Vertex AI で実行するイメージを Launch エージェントにビルドさせる場合は、[エージェントの高度な設定](./setup-agent-advanced)を参照してください。
 
-<div id="set-up-agent-permissions">
-  ## エージェントの権限を設定する
-</div>
+## エージェントの権限を設定する {#set-up-agent-permissions}
 
 最後に、前提条件で作成したサービスアカウントとして動作するために必要な認証情報を Launch エージェント に付与します。このサービスアカウントとして認証するには、複数の方法があります。Workload Identity、ダウンロードしたサービスアカウント JSON、環境変数、Google Cloud Platform のコマンドライン ツール、またはこれらの方法を組み合わせて認証できます。

@@ -9,9 +9,7 @@ description: "Weave で Amazon Bedrock Agents の呼び出しをトレースし�
   Weave TypeScript SDK は現在、Bedrock Agents インテグレーションに対応していません。
 </Note>
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 * W&amp;B APIキー。詳細は、[API keys](/ja/platform/app/settings-page/user-settings#api-keys)を参照してください。
 * Bedrock Agents へのアクセス権があるアカウント用に設定された AWS 認証情報 ([Identity and access management for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)を参照してください) 。
@@ -21,9 +19,7 @@ description: "Weave で Amazon Bedrock Agents の呼び出しをトレースし�
   aws bedrock-agent list-agents --region us-east-1
   ```
 
-<div id="installation">
-  ## インストール
-</div>
+## インストール {#installation}
 
 Weave と AWS SDK for Python をインストールします。
 
@@ -31,9 +27,7 @@ Weave と AWS SDK for Python をインストールします。
 pip install weave boto3
 ```
 
-<div id="trace-invoke_agent-calls">
-  ## `invoke_agent` Call を トレース する
-</div>
+## `invoke_agent` Call を トレース する {#trace-invoke_agent-calls}
 
 `bedrock-agent-runtime` クライアントを作成し、`patch_client` に渡します。Weave はクライアントのタイプを検出し、`invoke_agent` メソッドをラップします。patch 適用後は、通常どおりクライアントを使用できます。
 
@@ -78,9 +72,7 @@ print(final_text)
 
 基盤モデルとトークン使用量は `orchestrationTrace` イベントから抽出されます。これは、`invoke_agent` が `enableTrace=True` を指定して呼び出された場合にのみ Bedrock が出力します。このフラグがない場合でも、トレースでは入力と生成された応答テキストは引き続き取得されますが、基盤モデルは `bedrock-agent:<agentId>` にフォールバックし、トークン数は利用できません。
 
-<div id="nest-related-agent-calls-together">
-  ## 関連するエージェントCallをまとめてネストする
-</div>
+## 関連するエージェントCallをまとめてネストする {#nest-related-agent-calls-together}
 
 `invoke_agent` の呼び出しを、前処理、後処理、または連鎖した API 呼び出しなどの関連ロジックとまとめるには、関数を `@weave.op` でラップします。Weave では、パッチを適用した `invoke_agent` のトレースが親 op の内側にネストされます。
 
@@ -105,9 +97,7 @@ def ask_agent(question: str, session_id: str) -> str:
 answer = ask_agent("Summarize today's open support tickets.", session_id="session-1")
 ```
 
-<div id="multi-turn-conversations">
-  ## マルチターン会話
-</div>
+## マルチターン会話 {#multi-turn-conversations}
 
 Bedrock Agents は、`sessionId` を再利用すると、サービス側で会話の状態を保持します。Weave UI で複数のターンを 1 つのトレースとしてグループ化するには、ターンを `weave.thread` で囲みます。
 
@@ -122,8 +112,6 @@ with weave.thread("support-conversation") as t:
 
 Weave では、UI の Threads ビューで、各ターンが個別の行として表示されます。
 
-<div id="view-traces">
-  ## トレースを表示
-</div>
+## トレースを表示 {#view-traces}
 
 この例を実行すると、Weave が project ダッシュボードへのリンクを表示します。リンクを開くと、各 `invoke_agent` Call のエージェント入力、基盤モデル、トークン使用量、生成されたレスポンスを確認できます。

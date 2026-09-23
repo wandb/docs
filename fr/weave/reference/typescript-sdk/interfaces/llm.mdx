@@ -18,9 +18,7 @@ ou utilisez les fonctions utilitaires (`output`, `think`, `attachMedia`, `record
 
 Toutes les données enregistrées font l’objet d’un vidage dans le span lors de `end()`.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```ts twoslash
 // @noErrors
@@ -52,19 +50,13 @@ try {
 }
 ```
 
-<div id="extends">
-  ## Étend
-</div>
+## Étend {#extends}
 
 * `SpanBase`
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="inputmessages">
-  ### inputMessages
-</div>
+### inputMessages {#inputmessages}
 
 > **inputMessages** : [`Message`](./message)[] = `[]`
 
@@ -73,17 +65,13 @@ Messages d’entrée envoyés au modèle. Font l’objet d’un vidage dans `gen
 
 ***
 
-<div id="model">
-  ### modèle
-</div>
+### modèle {#model}
 
 > `readonly` **modèle**: `string`
 
 ***
 
-<div id="outputmessages">
-  ### outputMessages
-</div>
+### outputMessages {#outputmessages}
 
 > **outputMessages** : [`Message`](./message)[] = `[]`
 
@@ -92,17 +80,13 @@ Messages de l’assistant renvoyés par le modèle. Font l’objet d’un vidage
 
 ***
 
-<div id="providername">
-  ### nom du fournisseur
-</div>
+### nom du fournisseur {#providername}
 
 > `readonly` **nom du fournisseur** : `string`
 
 ***
 
-<div id="reasoning">
-  ### raisonnement
-</div>
+### raisonnement {#reasoning}
 
 > `facultatif` **raisonnement** : [`Reasoning`](./reasoning)
 
@@ -111,21 +95,15 @@ ReasoningPart lors de la sérialisation.
 
 ***
 
-<div id="usage">
-  ### utilisation
-</div>
+### utilisation {#usage}
 
 > **utilisation** : [`Usage`](./usage) = `{}`
 
 Nombre de jetons et statistiques du cache. Font l’objet d’un vidage dans `gen_ai.usage.*` lors de l’appel à `end()`.
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="addevent">
-  ### ~~addEvent()~~
-</div>
+### ~~addEvent()~~ {#addevent}
 
 <Warning>
   **Obsolète.** Enregistrez plutôt ces données avec [setAttributes](#setattributes).
@@ -140,9 +118,7 @@ Ajoute un événement nommé au span. Utile pour marquer des moments qui ne corr
 la compaction du contexte, la détection de boucles d’outils ou le déclenchement de garde-fous. Émet un avertissement et
 ne fait rien après `end()`. Reproduit le comportement de `Span.addEvent` d’OTel.
 
-<div id="parameters">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters}
 
 <ParamField path="name" type="string" required />
 
@@ -150,32 +126,24 @@ ne fait rien après `end()`. Reproduit le comportement de `Span.addEvent` d’OT
 
 <ParamField path="startTime" type="TimeInput" />
 
-<div id="returns">
-  #### Renvoie
-</div>
+#### Renvoie {#returns}
 
 `this`
 
-<div id="example">
-  #### Exemple
-</div>
+#### Exemple {#example}
 
 ```ts twoslash
 // @noErrors
 span.addEvent('context_compacted', {removedMessages: 12});
 ```
 
-<div id="inherited-from">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from}
 
 `SpanBase.addEvent`
 
 ***
 
-<div id="attachmedia">
-  ### attachMedia()
-</div>
+### attachMedia() {#attachmedia}
 
 > **attachMedia**(`opts`) : `this`
 
@@ -184,9 +152,7 @@ Prépare une pièce jointe multimédia pour l’appel LLM. Choisissez exactement
 (ID de fichier déjà téléversé). La pièce jointe est ajoutée au dernier
 message utilisateur d’`inputMessages` lors de l’appel à `end()`.
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="opts" type="{…} | {…} | {…}" required>
   Voir [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality), [`Modality`](../type-aliases/modality).
@@ -194,25 +160,19 @@ message utilisateur d’`inputMessages` lors de l’appel à `end()`.
   Type complet : `{ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; }`
 </ParamField>
 
-<div id="returns-2">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-2}
 
 `this`
 
 ***
 
-<div id="attachmediaurl">
-  ### attachMediaUrl()
-</div>
+### attachMediaUrl() {#attachmediaurl}
 
 > **attachMediaUrl**(`url`, `opts`) : `this`
 
 Méthode pratique pour `attachMedia({uri, modality})`.
 
-<div id="parameters-3">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-3}
 
 <ParamField path="url" type="string" required />
 
@@ -224,25 +184,19 @@ Méthode pratique pour `attachMedia({uri, modality})`.
   </Expandable>
 </ParamField>
 
-<div id="returns-3">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-3}
 
 `this`
 
 ***
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
 Effectue le vidage de l’état accumulé et ferme le span. Idempotente. Transmettez `error` pour signaler un échec ; transmettez `endTime` pour antidater la fermeture.
 
-<div id="parameters-4">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-4}
 
 <ParamField path="opts" type="object">
   <Expandable title="propriétés" defaultOpen>
@@ -252,48 +206,36 @@ Effectue le vidage de l’état accumulé et ferme le span. Idempotente. Transme
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-4}
 
 `void`
 
 ***
 
-<div id="output">
-  ### output()
-</div>
+### output() {#output}
 
 > **output**(`content`) : `this`
 
 Ajoute un message de l’assistant à la réponse.
 
-<div id="parameters-5">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-5}
 
 <ParamField path="content" type="string" required />
 
-<div id="returns-5">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-5}
 
 `this`
 
 ***
 
-<div id="record">
-  ### record()
-</div>
+### record() {#record}
 
 > **record**(`opts`) : `this`
 
 Définit en bloc n’importe quel sous-ensemble des champs modifiables. Remplace les valeurs existantes (sans les fusionner).
 Utile pour attribuer toutes les valeurs en une seule fois après le retour d’un appel à un fournisseur.
 
-<div id="parameters-6">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-6}
 
 <ParamField path="opts" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -329,17 +271,13 @@ Utile pour attribuer toutes les valeurs en une seule fois après le retour d’u
   </Expandable>
 </ParamField>
 
-<div id="returns-6">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-6}
 
 `this`
 
 ***
 
-<div id="setattributes">
-  ### setAttributes()
-</div>
+### setAttributes() {#setattributes}
 
 > **setAttributes**(`attributes`) : `this`
 
@@ -347,86 +285,64 @@ Définit plusieurs attributs du span à la fois. Émet un avertissement et ne fa
 `end()`. Correspond à `Span.setAttributes` d’OTel (ainsi qu’à la méthode
 `set_attributes` du SDK Python).
 
-<div id="parameters-7">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-7}
 
 <ParamField path="attributes" type="Attributes" required />
 
-<div id="returns-7">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-7}
 
 `this`
 
-<div id="example-2">
-  #### Exemple
-</div>
+#### Exemple {#example-2}
 
 ```ts twoslash
 // @noErrors
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from-2">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-2}
 
 `SpanBase.setAttributes`
 
 ***
 
-<div id="startsubagent">
-  ### startSubagent()
-</div>
+### startSubagent() {#startsubagent}
 
 > **startSubagent**(`opts`) : [`SubAgent`](./subagent)
 
 Démarre un span SubAgent enfant imbriqué dans ce LLM.
 
-<div id="parameters-8">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-8}
 
 <ParamField path="opts" type="SubAgentInit" required>
   Voir [`SubAgentInit`](./subagentinit).
 </ParamField>
 
-<div id="returns-8">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-8}
 
 [`SubAgent`](./subagent)
 
 ***
 
-<div id="starttool">
-  ### startTool()
-</div>
+### startTool() {#starttool}
 
 > **startTool**(`opts`): [`Tool`](./tool)
 
 Démarre un span Tool enfant imbriqué dans ce LLM.
 
-<div id="parameters-9">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-9}
 
 <ParamField path="opts" type="ToolInit" required>
   Voir [`ToolInit`](./toolinit).
 </ParamField>
 
-<div id="returns-9">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-9}
 
 [`Tool`](./tool)
 
 ***
 
-<div id="think">
-  ### think()
-</div>
+### think() {#think}
 
 > **think**(`content`) : `this`
 
@@ -434,14 +350,10 @@ Définit ou complète le contenu de raisonnement/chaîne de pensée du modèle. 
 dans `this.reasoning.content`. Lors de la sérialisation, il est intégré au dernier message de l’assistant
 sous la forme d’un `ReasoningPart`, conformément au format transmis par le SDK Python.
 
-<div id="parameters-10">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-10}
 
 <ParamField path="content" type="string" required />
 
-<div id="returns-10">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-10}
 
 `this`

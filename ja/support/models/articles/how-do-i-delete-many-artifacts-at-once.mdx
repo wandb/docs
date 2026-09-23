@@ -48,9 +48,7 @@ for collection in api.artifact_collections(f"{entity}/{project}", artifact_type)
 
 バージョンがリンクコレクションに含まれる場合、`version.delete(delete_aliases=True)` はリンクのみを削除します。ソースartifact とその file は元の場所に残るため、そのバージョンを削除してもストレージは解放されません。
 
-<div id="reclaim-the-space">
-  ## ストレージ容量を解放する
-</div>
+## ストレージ容量を解放する {#reclaim-the-space}
 
 削除したartifactはまず論理削除され、後でガベージ コレクションによって完全に削除されるため、ストレージ使用量はすぐには減少しません。タイミングと使用量の確認方法については、[runを削除した後、ストレージ使用量が更新されないのはなぜですか？](/ja/support/models/articles/why-does-the-storage-meter-not-update-af)および[artifactを削除する](/ja/models/artifacts/delete-artifacts)を参照してください。
 

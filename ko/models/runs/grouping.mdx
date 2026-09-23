@@ -12,9 +12,7 @@ run을 *그룹*으로 구성하세요. 그룹은 특정 모델의 트레이닝 r
 
   환경 변수 `WANDB_RUN_GROUP`를 사용해 run의 그룹을 지정할 수 있습니다. 자세한 내용은 [환경 변수](/models/track/environment-variables/) 문서를 참조하세요. **Group**은 프로젝트 내에서 고유해야 하며, 해당 그룹에 속한 모든 run이 동일하게 사용해야 합니다. `wandb.util.generate_id()`를 사용하면 모든 프로세스에서 사용할 고유한 8자리 문자열을 생성할 수 있습니다. 예를 들어 `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
 
-<div id="organize-runs-into-groups">
-  ## run을 그룹으로 정리하기
-</div>
+## run을 그룹으로 정리하기 {#organize-runs-into-groups}
 
 W&amp;B Python SDK를 사용해 프로그래밍 방식으로 run을 그룹에 추가하거나, W&amp;B App에서 대화형으로 추가할 수 있습니다.
 
@@ -62,9 +60,7 @@ W&amp;B Python SDK를 사용해 프로그래밍 방식으로 run을 그룹에 �
   </Tab>
 </Tabs>
 
-<div id="view-groups">
-  ### 그룹 보기
-</div>
+### 그룹 보기 {#view-groups}
 
 W&amp;B App에서 그룹별로 정리된 run을 보려면 다음과 같이 하세요:
 
@@ -72,9 +68,7 @@ W&amp;B App에서 그룹별로 정리된 run을 보려면 다음과 같이 하�
 2. run 목록 위에서 **Group** 버튼을 클릭합니다.
 3. 드롭다운에서 **Group**을 선택합니다.
 
-<div id="move-runs-between-groups">
-  ### 그룹 간 run 이동
-</div>
+### 그룹 간 run 이동 {#move-runs-between-groups}
 
 한 그룹의 run을 다른 그룹으로 이동합니다:
 
@@ -85,24 +79,18 @@ W&amp;B App에서 그룹별로 정리된 run을 보려면 다음과 같이 하�
 5. 드로어에서 대상 그룹을 선택하거나 새 그룹을 만듭니다.
 6. **Move**를 클릭합니다.
 
-<div id="remove-runs-from-a-group">
-  ### 그룹에서 run 제거하기
-</div>
+### 그룹에서 run 제거하기 {#remove-runs-from-a-group}
 
 1. W&amp;B 프로젝트로 이동합니다.
 2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
 3. run 목록 위에 있는 **Group** 버튼을 클릭합니다.
 4. 드롭다운에서 제거할 그룹 이름 옆의 **X**를 선택합니다.
 
-<div id="delete-a-group">
-  ### 그룹 삭제
-</div>
+### 그룹 삭제 {#delete-a-group}
 
 그룹을 삭제하려면 해당 그룹의 모든 run을 제거하세요. 그러면 그룹이 자동으로 삭제됩니다.
 
-<div id="organize-runs-by-job-type">
-  ## 작업 유형별로 run 정리
-</div>
+## 작업 유형별로 run 정리 {#organize-runs-by-job-type}
 
 run을 *작업 유형*별로 정리합니다. 작업 유형은 `preprocessing`, `training`, `evaluation`처럼 run의 기능을 나타냅니다.
 
@@ -136,9 +124,7 @@ for job_type in ["training", "evaluation"]:
   <img src="/images/runs/group_job_type.png" alt="그룹화되지 않은 Runs 테이블" />
 </Frame>
 
-<div id="view-runs-organized-by-job-type">
-  ### 작업 유형별로 정리된 run 보기
-</div>
+### 작업 유형별로 정리된 run 보기 {#view-runs-organized-by-job-type}
 
 W&amp;B App에서 그룹별로 정리된 run을 보려면 다음과 같이 하세요:
 

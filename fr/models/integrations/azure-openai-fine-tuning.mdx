@@ -11,24 +11,18 @@ Ce guide s&#39;adresse aux professionnels du machine learning qui effectuent le 
   <img src="/images/integrations/aoai_ft_plot.png" alt="Métriques de fine-tuning Azure OpenAI" />
 </Frame>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, effectuez les actions suivantes :
 
 * Configurez le service Azure OpenAI en suivant la [documentation officielle d’Azure](https://wandb.me/aoai-wb-int).
 * Configurez un compte W&amp;B à l’aide d’une clé API.
 
-<div id="workflow-overview">
-  ## Aperçu du flux de travail
-</div>
+## Aperçu du flux de travail {#workflow-overview}
 
 Les étapes suivantes résument le déroulement typique d’un job de fine-tuning Azure OpenAI dans W&amp;B, depuis la préparation du job jusqu’à l’évaluation du modèle obtenu.
 
-<div id="fine-tuning-setup">
-  ### Configuration du fine-tuning
-</div>
+### Configuration du fine-tuning {#fine-tuning-setup}
 
 La configuration du fine-tuning comprend les étapes suivantes :
 
@@ -36,9 +30,7 @@ La configuration du fine-tuning comprend les étapes suivantes :
 * Configurez le job de fine-tuning dans Azure OpenAI.
 * Suivez le processus de fine-tuning et consignez les métriques et les hyperparamètres avec W&amp;B.
 
-<div id="experiment-tracking">
-  ### Suivi des expériences
-</div>
+### Suivi des expériences {#experiment-tracking}
 
 Lors du fine-tuning, W&amp;B capture :
 
@@ -47,9 +39,7 @@ Lors du fine-tuning, W&amp;B capture :
 * L’utilisation des ressources.
 * Les artefacts d’entraînement.
 
-<div id="model-evaluation">
-  ### Évaluation du modèle
-</div>
+### Évaluation du modèle {#model-evaluation}
 
 Après le Fine-tuning, utilisez [W&amp;B Weave](https://weave-docs.wandb.ai) pour :
 
@@ -58,9 +48,7 @@ Après le Fine-tuning, utilisez [W&amp;B Weave](https://weave-docs.wandb.ai) pou
 * Analyser le comportement du modèle sur des cas de test spécifiques.
 * Prendre des décisions fondées sur les données pour choisir le modèle.
 
-<div id="real-world-example">
-  ## Exemple concret
-</div>
+## Exemple concret {#real-world-example}
 
 Pour voir l’intégration appliquée de bout en bout, explorez les ressources suivantes :
 
@@ -69,9 +57,7 @@ Pour voir l’intégration appliquée de bout en bout, explorez les ressources s
   * l’évaluation du modèle à l’aide de métriques propres au domaine.
 * Parcourez un [notebook interactif de fine-tuning](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb).
 
-<div id="additional-resources">
-  ## Ressources supplémentaires
-</div>
+## Ressources supplémentaires {#additional-resources}
 
 * [Guide d’intégration W&amp;B pour Azure OpenAI](https://wandb.me/aoai-wb-int)
 * [Documentation sur le Fine-tuning d’Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython\&pivots=programming-language-python)

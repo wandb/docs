@@ -9,9 +9,7 @@ W&amp;B には JAX 固有のインテグレーションはありません。た�
 
 以下のセクションでは、JAX のトレーニングループにおける基本的なログのパターン、検証メトリクスを集約する方法、JAX または Flax のチェックポイントを W&amp;B アーティファクトとして保存する方法、そしてトレーニング中に NaN の損失を検出する方法を示します。
 
-<div id="log-metrics-from-a-jax-training-loop">
-  ## JAX のトレーニングループからメトリクスをログする
-</div>
+## JAX のトレーニングループからメトリクスをログする {#log-metrics-from-a-jax-training-loop}
 
 次の例では、JIT コンパイル済みの JAX トレーニングループを実行し、各バッチでモデルのパラメーターを更新しながら、ステップごとのトレーニング損失を W&amp;B run にログします。
 
@@ -38,9 +36,7 @@ with wandb.init(
 
 `@jax.jit` から返される値はデバイス配列です。スカラー値を `run.log()` に渡すには、`float(loss)` または 0 次元配列に対して `.item()` を使用してください。JAX 配列をそのままログすると、SDK のバージョンによってはシリアライズに失敗したり、想定外の値が記録されたりすることがあります。
 
-<div id="log-validation-metrics">
-  ## 検証メトリクスをログする
-</div>
+## 検証メトリクスをログする {#log-validation-metrics}
 
 Python で検証メトリクスを集計し、エポックごとに 1 回ログします:
 
@@ -57,9 +53,7 @@ for epoch in range(num_epochs):
     })
 ```
 
-<div id="save-checkpoints-as-artifacts">
-  ## チェックポイントをアーティファクトとして保存する
-</div>
+## チェックポイントをアーティファクトとして保存する {#save-checkpoints-as-artifacts}
 
 `orbax` または `flax.serialization` を使用して JAX または Flax のパラメーターを保存し、アーティファクトとしてログします:
 
@@ -75,9 +69,7 @@ artifact.add_dir("/tmp/checkpoint")
 run.log_artifact(artifact)
 ```
 
-<div id="debug-nan-values">
-  ## NaN 値をデバッグする
-</div>
+## NaN 値をデバッグする {#debug-nan-values}
 
 JAX では、デフォルトで NaN 値が発生しても例外は送出されません。損失と一緒に NaN フラグをログしてください。
 

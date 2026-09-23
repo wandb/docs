@@ -11,9 +11,7 @@ keywords: ["Not Diamond", "モデルルーティング", "カスタムルータ�
 
 このガイドでは、ルーティングされたモデルの Call を Weave が自動的にトレースできるように Not Diamond を W&amp;B Weave と統合する方法と、独自のパフォーマンスデータに基づいてプロンプトを振り分けるために Weave Evaluations を使用してカスタムルーターをトレーニングする方法を説明します。
 
-<div id="get-started">
-  ## はじめに
-</div>
+## はじめに {#get-started}
 
 Weave で Not Diamond を使用するには、Not Diamond のアカウントとAPIキーが必要です。[アカウントを作成][account] し、[APIキーを生成][keys] してから、API
 キーを環境変数 `NOTDIAMOND_API_KEY` として設定してください。
@@ -26,9 +24,7 @@ Weave で Not Diamond を使用するには、Not Diamond のアカウントとA
 * Weave と Not Diamond を使って[カスタムルーターを構築する][custom router]。
 * [Not Diamond とチャットして][chat]、ルーティングの動作を確認する。
 
-<div id="tracing">
-  ## トレース
-</div>
+## トレース {#tracing}
 
 Weave は [Not Diamond の Python ライブラリ][python] と連携し、[API Call を自動的にログする][ops] ため、
 ルーティングの判断やプロバイダーの応答を、他の Weave トレースとあわせて確認できます。
@@ -54,9 +50,7 @@ print("LLM called: ", provider.provider)  # openai、anthropic など
 print("Provider model: ", provider.model) # gpt-4o、claude-3-5-sonnet-20240620 など
 ```
 
-<div id="custom-routing">
-  ## カスタムルーティング
-</div>
+## カスタムルーティング {#custom-routing}
 
 特殊なユースケースでは、[評価][evals]に基づいて独自の[カスタムルーター]をトレーニングできます。これにより、
 Not Diamond はデフォルトのルーティング ポリシーではなく、評価のパフォーマンスに基づいてプロンプトをルーティングできるようになります。
@@ -111,9 +105,7 @@ print("LLM called: ", provider.provider)  # openai、anthropicなど
 print("Provider model: ", provider.model) # gpt-4o、claude-3-5-sonnet-20240620など
 ```
 
-<div id="additional-support">
-  ## 追加サポート
-</div>
+## 追加サポート {#additional-support}
 
 さらにサポートが必要な場合は、[ドキュメント][docs]を確認するか、[メッセージを送信][support]してください。
 

@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/console_logs.py#L67" />
 
-<div id="class-wandbapispublicconsolelogs">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.ConsoleLogs
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.ConsoleLogs {#class-wandbapispublicconsolelogs}
 
 Un itérateur paresseux sur les lignes du journal de console d’un run, des plus anciennes aux plus récentes.
 
@@ -26,9 +24,7 @@ per_page: 'int' = 1000,
 last: 'int | None' = None)
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   Instance de l’API de service utilisée pour interroger W&amp;B.
@@ -46,13 +42,9 @@ last: 'int | None' = None)
   S’il est défini, récupère uniquement les N dernières lignes du journal en une seule requête au lieu de le lire depuis le début. Le backend limite le nombre de lignes renvoyées par requête ; une portion plus longue du journal est donc tronquée aux lignes les plus récentes.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self

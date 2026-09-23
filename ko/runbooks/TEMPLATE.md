@@ -2,13 +2,9 @@
 title: TEMPLATE
 ---
 
-<div id="agent-prompt-task-title">
-  # Agent 프롬프트: [작업 제목]
-</div>
+# Agent 프롬프트: [작업 제목] {#agent-prompt-task-title}
 
-<div id="requirements">
-  ## 요구 사항
-</div>
+## 요구 사항 {#requirements}
 
 이 작업을 시작하기 전에 충족해야 하는 액세스 요구 사항이나 사전 요구 사항을 목록으로 작성합니다:
 
@@ -16,9 +12,7 @@ title: TEMPLATE
 * [ ] 필수 권한(예: 저장소 쓰기 액세스 권한)
 * [ ] 필수 도구 또는 의존성
 
-<div id="agent-prerequisites">
-  ## 에이전트 사전 요구 사항
-</div>
+## 에이전트 사전 요구 사항 {#agent-prerequisites}
 
 시작하기 전에 사용자로부터 확인해야 할 정보:
 
@@ -26,40 +20,28 @@ title: TEMPLATE
 2. **[필수 정보 2]** - 왜 필요한지
 3. **[선택 정보]** - 언제/왜 필요할 수 있는지
 
-<div id="task-overview">
-  ## 작업 Overview
-</div>
+## 작업 Overview {#task-overview}
 
 이 runbook이 무엇을 수행하는지와 언제 사용해야 하는지를 간략히 설명합니다.
 
 > **참고**: 사용자가 미리 알아두어야 할 중요한 맥락이나 제한 사항입니다.
 
-<div id="context-and-constraints">
-  ## 맥락 및 제약 사항
-</div>
+## 맥락 및 제약 사항 {#context-and-constraints}
 
-<div id="systemtool-limitations">
-  ### 시스템/도구 제한 사항
-</div>
+### 시스템/도구 제한 사항 {#systemtool-limitations}
 
 * 제한 사항 1과 이것이 작업에 미치는 영향
 * 제한 사항 2와 가능한 경우의 해결 방법
 
-<div id="important-context">
-  ### 중요 배경
-</div>
+### 중요 배경 {#important-context}
 
 * 핵심 배경 정보
 * 흔히 놓치기 쉬운 부분이나 예외 사례
 * 보안 고려 사항
 
-<div id="step-by-step-process">
-  ## Step-by-step 프로세스
-</div>
+## Step-by-step 프로세스 {#step-by-step-process}
 
-<div id="1-first-major-step">
-  ### 1. [첫 번째 주요 step]
-</div>
+### 1. [첫 번째 주요 step] {#1-first-major-step}
 
 이 step에서 수행하는 작업을 설명합니다.
 
@@ -71,9 +53,7 @@ command --with-flags
 **예상 결과**: 이 step 후에 어떤 일이 일어나야 하는지 설명합니다.
 
 
-<div id="2-second-major-step">
-  ### 2. [두 번째 주요 step]
-</div>
+### 2. [두 번째 주요 step] {#2-second-major-step}
 
 설명과 필요한 의사결정 지점.
 
@@ -83,13 +63,9 @@ command --with-flags
 * 권한이 부족할 때의 대체 절차
 * 일반적인 변형을 처리하는 방법
 
-<div id="3-continue-with-remaining-steps">
-  ### 3. [남은 step을 계속 진행...]
-</div>
+### 3. [남은 step을 계속 진행...] {#3-continue-with-remaining-steps}
 
-<div id="verification-and-testing">
-  ## 검증 및 테스트
-</div>
+## 검증 및 테스트 {#verification-and-testing}
 
 예상되는 결과:
 
@@ -97,37 +73,27 @@ command --with-flags
 * ✓ 성공 확인 항목 2
 * ✗ 일반적인 실패 징후와 그 의미
 
-<div id="how-to-verify-success">
-  ### 성공했는지 확인하는 방법
-</div>
+### 성공했는지 확인하는 방법 {#how-to-verify-success}
 
 1. 다음을 확인합니다...
 2. 다음이 맞는지 확인합니다...
 3. 다음과 같이 테스트합니다...
 
-<div id="common-issues-and-solutions">
-  ## 자주 발생하는 문제와 해결 방법
-</div>
+## 자주 발생하는 문제와 해결 방법 {#common-issues-and-solutions}
 
-<div id="issue-common-problem-1">
-  ### 문제: [일반적인 문제 1]
-</div>
+### 문제: [일반적인 문제 1] {#issue-common-problem-1}
 
 * **증상**: 이 문제가 어떻게 나타나는지
 * **원인**: 왜 발생하는지
 * **해결 방법**: step별 해결 방법
 
-<div id="issue-common-problem-2">
-  ### 문제: [자주 발생하는 문제 2]
-</div>
+### 문제: [자주 발생하는 문제 2] {#issue-common-problem-2}
 
 * **증상**:
 * **원인**:
 * **해결 방법**: 
 
-<div id="cleanup-instructions">
-  ## 정리 지침
-</div>
+## 정리 지침 {#cleanup-instructions}
 
 작업을 완료한 후:
 
@@ -142,9 +108,7 @@ rm -f temporary-files
 ```
 
 
-<div id="checklist">
-  ## 체크리스트
-</div>
+## 체크리스트 {#checklist}
 
 전체 프로세스용 요약 체크리스트:
 
@@ -156,9 +120,7 @@ rm -f temporary-files
 * [ ] 임시 리소스를 정리했습니다.
 * [ ] 영구적인 변경 사항을 문서화했습니다.
 
-<div id="notes">
-  ## 참고 사항
-</div>
+## 참고 사항 {#notes}
 
 * 추가 팁이나 맥락
 * 관련 문서 링크

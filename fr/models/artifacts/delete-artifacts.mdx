@@ -12,9 +12,7 @@ Le contenu de l&#39;artefact reste en état de *soft-delete*, c&#39;est-à-dire 
   La garbage collection est effectuée au mieux. W&amp;B ne garantit pas le délai d&#39;apparition de l&#39;espace libéré dans votre stockage d’objets après la suppression d&#39;un artefact. Les déploiements volumineux ou les files d&#39;attente importantes peuvent prendre plus de temps que prévu. Pour savoir comment cela s&#39;articule avec les données d’exécution, les paramètres de rétention et les actions facultatives de l’opérateur, voir [Gérer le stockage du bucket et les coûts](/fr/platform/hosting/managing-bucket-storage).
 </Note>
 
-<div id="artifact-garbage-collection-workflow">
-  ## Flux de travail de garbage collection des artefacts
-</div>
+## Flux de travail de garbage collection des artefacts {#artifact-garbage-collection-workflow}
 
 Le schéma suivant illustre l’ensemble du processus de garbage collection des artefacts :
 
@@ -60,9 +58,7 @@ Vous pouvez planifier la suppression des artefacts de W&amp;B à l’aide de pol
   La suppression d’une entité, d’un projet ou d’une collection d’artefacts déclenche le processus de suppression des artefacts décrit sur cette page. Lorsque vous supprimez une run et choisissez de supprimer les artefacts qui lui sont associés, ces artefacts suivent le même flux de travail de soft-delete et de garbage collection.
 </Note>
 
-<div id="delete-an-artifact-version">
-  ## Supprimer une version d&#39;artefact
-</div>
+## Supprimer une version d&#39;artefact {#delete-an-artifact-version}
 
 Supprimez une version d&#39;artefact de manière interactive dans la W&amp;B App ou par programmation avec le W&amp;B Python SDK.
 
@@ -94,9 +90,7 @@ Supprimez une version d&#39;artefact de manière interactive dans la W&amp;B App
   </Tab>
 </Tabs>
 
-<div id="delete-multiple-artifact-versions">
-  ## Supprimer plusieurs versions d&#39;artefact
-</div>
+## Supprimer plusieurs versions d&#39;artefact {#delete-multiple-artifact-versions}
 
 L&#39;exemple de code suivant montre comment supprimer plusieurs versions d&#39;artefact. Indiquez l&#39;entité, le nom du projet et l&#39;ID du run ayant créé l&#39;artefact comme arguments de `wandb.Api.run()`. Cela renvoie un objet run que vous pouvez utiliser pour accéder à toutes les versions d&#39;artefact créées par ce run. Parcourez ensuite les versions d&#39;artefact et supprimez celles qui correspondent à vos critères.
 
@@ -127,9 +121,7 @@ for artifact in run.logged_artifacts():
         artifact.delete(delete_aliases=True)
 ```
 
-<div id="delete-multiple-artifact-versions-with-a-specific-alias">
-  ## Supprimer plusieurs versions d’artefact avec un alias spécifique
-</div>
+## Supprimer plusieurs versions d’artefact avec un alias spécifique {#delete-multiple-artifact-versions-with-a-specific-alias}
 
 Le code suivant montre comment supprimer plusieurs versions d’artefact ayant un alias spécifique.
 
@@ -157,9 +149,7 @@ for artifact in run.logged_artifacts():
             artifact.delete(delete_aliases=True)
 ```
 
-<div id="delete-an-artifact-collection">
-  ## Supprimer une collection d&#39;artefact
-</div>
+## Supprimer une collection d&#39;artefact {#delete-an-artifact-collection}
 
 <Tabs>
   <Tab title="W&B App" value="ui">
@@ -192,9 +182,7 @@ for artifact in run.logged_artifacts():
   </Tab>
 </Tabs>
 
-<div id="protected-aliases-and-deletion-permissions">
-  ## Alias protégés et autorisations de suppression
-</div>
+## Alias protégés et autorisations de suppression {#protected-aliases-and-deletion-permissions}
 
 Les Artefacts avec des alias protégés sont soumis à des restrictions de suppression spécifiques. Les [alias protégés](/fr/models/registry/aliases#protected-aliases) sont des alias du W&amp;B Registry que les administrateurs du registre peuvent définir pour empêcher toute suppression non autorisée.
 
@@ -207,9 +195,7 @@ Les Artefacts avec des alias protégés sont soumis à des restrictions de suppr
   * Les administrateurs du registre peuvent supprimer les alias protégés des artefacts source, puis les supprimer.
 </Note>
 
-<div id="enable-garbage-collection-based-on-how-wb-is-hosted">
-  ## Activer le garbage collection selon le mode d’hébergement de W&amp;B
-</div>
+## Activer le garbage collection selon le mode d’hébergement de W&amp;B {#enable-garbage-collection-based-on-how-wb-is-hosted}
 
 <Note>Le déclenchement du garbage collection n’est pas garanti. Voir [Gérer le stockage des buckets et les coûts](/fr/platform/hosting/managing-bucket-storage) pour plus de détails.</Note>
 

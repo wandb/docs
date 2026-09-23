@@ -13,15 +13,11 @@ import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
 
 ユーザー設定を開くには、ユーザープロフィールページにアクセスし、画面右上のユーザーアイコンを選択します。ドロップダウンから **Settings** を選択します。
 
-<div id="profile">
-  ## プロフィール
-</div>
+## プロフィール {#profile}
 
 **プロフィール**セクションでは、アカウント名や所属機関を管理・変更できます。必要に応じて、自己紹介、所在地、個人または所属機関のウェブサイトへのリンク、プロフィール画像を追加できます。
 
-<div id="edit-your-intro">
-  ### 自己紹介を編集する
-</div>
+### 自己紹介を編集する {#edit-your-intro}
 
 自己紹介はプロフィールの上部に表示され、自分を紹介したり、Projects へのリンクを追加したり、関連するアカウントを共有したりするのに適しています。
 
@@ -34,9 +30,7 @@ import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
 
 更新した自己紹介がプロフィールに表示されます。
 
-<div id="add-social-badges">
-  #### ソーシャルバッジを追加する
-</div>
+#### ソーシャルバッジを追加する {#add-social-badges}
 
 X の `@weights_biases` アカウントのフォローバッジを追加するには、バッジ画像を参照する HTML の `<img>` タグを含む Markdown 形式のリンクを追加します。
 
@@ -46,9 +40,7 @@ X の `@weights_biases` アカウントのフォローバッジを追加する�
 
 `<img>` タグでは、`width`、`height`、またはその両方を指定できます。いずれか一方だけを指定した場合、画像の縦横比は維持されます。
 
-<div id="default-team">
-  ## デフォルトのチーム
-</div>
+## デフォルトのチーム {#default-team}
 
 複数のチームに所属している場合は、**Default team** セクションで、run または Weave trace にチームが指定されていないときに使用するデフォルトのチームを設定できます。1 つのチームにのみ所属している場合は、そのチームがデフォルトとなり、このセクションは表示されません。
 
@@ -70,9 +62,7 @@ X の `@weights_biases` アカウントのフォローバッジを追加する�
   自動化された環境でスクリプトを実行するときにデフォルトのチームを指定するには、`WANDB_ENTITY` [環境変数](https://docs.wandb.ai/models/track/environment-variables)でデフォルトの保存先を指定します。
 </Note>
 
-<div id="teams">
-  ## チーム
-</div>
+## チーム {#teams}
 
 **チーム** セクションには、所属しているすべてのチームが一覧表示されます。
 
@@ -84,9 +74,7 @@ X の `@weights_biases` アカウントのフォローバッジを追加する�
   チームを作成または管理するには、[チームを管理する](/ja/platform/app/settings-page/teams/)を参照してください。
 </Note>
 
-<div id="api-keys">
-  ## APIキー
-</div>
+## APIキー {#api-keys}
 
 **APIキー**セクションでは、W&amp;Bのサービスで認証するための個人用APIキーを管理できます。このセクションから、既存のキーを確認したり、新しいキーを作成したり、不要になったキーを無効化したりできます。
 
@@ -94,9 +82,7 @@ X の `@weights_biases` アカウントのフォローバッジを追加する�
   このセクションには、個人用APIキーのみが表示されます。組織のAPIキーやサービスアカウントキーを含め、組織内で管理できるすべてのキーを確認するには、[APIキーを管理する](/ja/platform/hosting/iam/api-keys)で説明されている**APIキー**タブを使用してください。
 </Note>
 
-<div id="view-your-api-keys">
-  ### APIキーを表示する
-</div>
+### APIキーを表示する {#view-your-api-keys}
 
 APIキーの表には、次の項目が表示されます。
 
@@ -111,15 +97,11 @@ APIキーの表には、次の項目が表示されます。
 
 APIキーの一覧をフィルターするには、キー名またはIDの一部を入力します。
 
-<div id="create-a-new-api-key">
-  ### 新しいAPIキーを作成
-</div>
+### 新しいAPIキーを作成 {#create-a-new-api-key}
 
 <ApiKeyCreate />
 
-<div id="rename-an-api-key">
-  ### APIキーをリネームする
-</div>
+### APIキーをリネームする {#rename-an-api-key}
 
 キーの内容を変更せずに、APIキーの display name を変更するには、次の手順を実行します。
 
@@ -127,9 +109,7 @@ APIキーの一覧をフィルターするには、キー名またはIDの一部
 2. **アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Edit** を選択します。
 3. キーの **名** を更新し、**Save** をクリックします。
 
-<div id="delete-an-api-key">
-  ### APIキーを削除する
-</div>
+### APIキーを削除する {#delete-an-api-key}
 
 不要になった場合や、漏えいした可能性がある場合は、APIキーを削除してください。APIキーを削除してアクセスを無効にするには、次の手順を実行します。
 
@@ -145,15 +125,11 @@ W&amp;B では、そのキーは表から削除され、認証には使用でき
 
 <ApiKeySecurity />
 
-<div id="beta-features">
-  ## ベータ機能
-</div>
+## ベータ機能 {#beta-features}
 
 **Beta Features** セクションでは、必要に応じて追加機能や、開発中のプロダクトのプレビューを有効にできます。有効にしたいベータ機能の横にあるトグルスイッチを選択します。
 
-<div id="alerts">
-  ## アラート
-</div>
+## アラート {#alerts}
 
 run がクラッシュしたときや完了したときに通知を受け取ることも、[`wandb.Run.alert()`](/ja/models/runs/alert/) でカスタム アラートを設定することもできます。通知はメールまたは Slack で受け取れます。アラートを受け取りたいイベント タイプの横にあるスイッチを切り替えてください。
 
@@ -162,9 +138,7 @@ run がクラッシュしたときや完了したときに通知を受け取る�
 
 アラートの設定と管理の詳細については、[Send alerts with `wandb.Run.alert()`](/ja/models/runs/alert/) を参照してください。
 
-<div id="personal-github-integration">
-  ## 個人用 GitHub インテグレーション
-</div>
+## 個人用 GitHub インテグレーション {#personal-github-integration}
 
 個人用の GitHub アカウントを接続すると、W&amp;B がユーザーに代わって GitHub リソースにアクセスできるようになります。GitHub アカウントを接続するには、次の手順に従います。
 
@@ -174,9 +148,7 @@ run がクラッシュしたときや完了したときに通知を受け取る�
 
 これで、個人用の GitHub アカウントが W&amp;B アカウントにリンクされます。
 
-<div id="delete-your-account">
-  ## アカウントを削除する
-</div>
+## アカウントを削除する {#delete-your-account}
 
 アカウントを削除するには、**Delete Account** ボタンを選択します。
 
@@ -190,8 +162,6 @@ run がクラッシュしたときや完了したときに通知を受け取る�
 
 ユーザーアカウントではなく組織アカウント全体を削除する場合は、[組織アカウントを削除するにはどうすればよいですか？](/ja/support/models/articles/how-do-i-delete-my-organization-account) を参照してください。
 
-<div id="storage">
-  ## ストレージ
-</div>
+## ストレージ {#storage}
 
 **Storage** セクションでは、アカウントが W&amp;B サーバー上で使用している合計ストレージ容量について説明します。デフォルトのストレージプランは 100 GB です。ストレージと料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。

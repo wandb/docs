@@ -8,15 +8,11 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py#L540" />
 
-<div id="class-wandbapispublicartifactcollection">
-  ## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactCollection
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Class</Badge> wandb.apis.public.ArtifactCollection {#class-wandbapispublicartifactcollection}
 
 관련된 아티팩트를 그룹으로 나타내는 아티팩트 컬렉션입니다.
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
 <ResponseField name="aliases" type="list[str]">
   이 컬렉션에 포함된 모든 아티팩트 버전의 별칭입니다.
@@ -68,13 +64,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
   아티팩트 컬렉션이 마지막으로 업데이트된 날짜입니다.
 </ResponseField>
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="method-artifactcollectionartifacts">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.artifacts()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.artifacts() {#method-artifactcollectionartifacts}
 
 ```python
 self,
@@ -84,9 +76,7 @@ start: 'str | None' = None
 
 컬렉션에 있는 모든 아티팩트를 조회합니다.
 
-<div id="arguments">
-  ##### 인수
-</div>
+##### 인수 {#arguments}
 
 <ResponseField name="per_page" type="int">
   페이지당 가져올 아티팩트 수입니다.
@@ -96,9 +86,7 @@ start: 'str | None' = None
   이전 paginator의 `.cursor` 속성에서 가져온, 이전 쿼리를 다시 시작하기 위한 페이지네이션 커서입니다.
 </ResponseField>
 
-<div id="method-artifactcollectionchange_type">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.change_type()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.change_type() {#method-artifactcollectionchange_type}
 
 ```python
 self,
@@ -107,17 +95,13 @@ new_type: 'str'
 
 사용 중단되었습니다. 대신 `save`로 유형을 직접 변경하세요.
 
-<div id="arguments-2">
-  ##### 인수
-</div>
+##### 인수 {#arguments-2}
 
 <ResponseField name="new_type" type="str">
   설명이 없습니다.
 </ResponseField>
 
-<div id="method-artifactcollectiondelete">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.delete() {#method-artifactcollectiondelete}
 
 ```python
 self
@@ -125,9 +109,7 @@ self
 
 아티팩트 컬렉션 전체를 삭제합니다.
 
-<div id="method-artifactcollectionis_sequence">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.is_sequence()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.is_sequence() {#method-artifactcollectionis_sequence}
 
 ```python
 self
@@ -135,9 +117,7 @@ self
 
 아티팩트 컬렉션이 시퀀스인지 반환합니다.
 
-<div id="method-artifactcollectionsave">
-  ### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">방법</Badge> ArtifactCollection.save() {#method-artifactcollectionsave}
 
 ```python
 self

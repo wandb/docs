@@ -25,9 +25,7 @@ Le tableau suivant présente le comportement de W&amp;B en fonction de l&#39;arg
 Pour tous les exemples ci-dessous, remplacez les valeurs entre `<>` par les vôtres.
 <Tip>[Voir une démo en direct d&#39;un run repris](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
 
-<div id="resume-a-run-that-must-use-the-same-run-id">
-  ## Reprendre un run en utilisant obligatoirement le même ID du run
-</div>
+## Reprendre un run en utilisant obligatoirement le même ID du run {#resume-a-run-that-must-use-the-same-run-id}
 
 Si un run s’arrête, plante ou échoue, vous pouvez le reprendre avec le même ID du run. Pour ce faire, initialisez un run et indiquez les éléments suivants :
 
@@ -47,9 +45,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="m
   Pour en savoir plus sur la gestion de plusieurs processus, voir [Journaliser les expériences d’entraînement distribué](/fr/models/track/log/distributed-training/).
 </Warning>
 
-<div id="resume-a-run-without-overriding-the-existing-run">
-  ## Reprendre un run sans écraser le run existant
-</div>
+## Reprendre un run sans écraser le run existant {#resume-a-run-without-overriding-the-existing-run}
 
 Reprenez un run arrêté ou planté sans écraser le run existant. Cela est particulièrement utile si votre processus ne se termine pas correctement. La prochaine fois que vous démarrerez W&amp;B, W&amp;B reprendra la journalisation à partir de la dernière étape.
 
@@ -62,9 +58,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
         # Votre code d'entraînement ici
 ```
 
-<div id="enable-runs-to-automatically-resume">
-  ## Activer la reprise automatique des runs
-</div>
+## Activer la reprise automatique des runs {#enable-runs-to-automatically-resume}
 
 L&#39;extrait de code suivant montre comment activer la reprise automatique des runs avec le SDK Python ou des variables d&#39;environnement.
 
@@ -107,17 +101,13 @@ Par exemple, supposons que vous exécutiez un script Python appelé `train.py` d
   Si vous ne pouvez pas utiliser un système de fichiers partagé, spécifiez la variable d&#39;environnement `WANDB_RUN_ID` ou transmettez l’ID du run avec le W&amp;B Python SDK. Voir la section [Custom run IDs](./#custom-run-ids) de la page « What are runs? » pour plus d&#39;informations sur les IDs du run.
 </Note>
 
-<div id="resume-preemptible-sweeps-runs">
-  ## Reprendre les runs Sweeps préemptibles
-</div>
+## Reprendre les runs Sweeps préemptibles {#resume-preemptible-sweeps-runs}
 
 Gérez les signaux de préemption afin que W&amp;B puisse automatiquement remettre en file d’attente les [runs de sweep](/fr/models/sweeps/) interrompues pour qu’un autre agent les exécute. Ce modèle est utile lorsque l’agent de sweep s’exécute sur des ressources de calcul préemptibles, telles qu’une file d’attente SLURM préemptible, une instance Spot Amazon EC2 ou une VM préemptible Google Cloud.
 
 Les instructions ci-dessous s’appliquent lorsque vous démarrez des agents de sweep avec la CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent). La CLI démarre votre programme d’entraînement en tant que **sous-processus**. Ces instructions ne s’appliquent pas entièrement si vous utilisez uniquement l’API Python [`wandb.agent()`](/fr/models/ref/python/functions/agent). L’API Python exécute la fonction d’entraînement dans un thread. La transmission et le relais des signaux du système d’exploitation diffèrent donc du comportement de l’agent CLI.
 
-<div id="handle-a-preemption-signal">
-  ### Gérer un signal de préemption
-</div>
+### Gérer un signal de préemption {#handle-a-preemption-signal}
 
 Enregistrez un gestionnaire pour le signal que votre ordonnanceur ou votre plateforme utilise pour indiquer une préemption, tel que `SIGUSR1` ou `SIGTERM`. Dans le gestionnaire :
 

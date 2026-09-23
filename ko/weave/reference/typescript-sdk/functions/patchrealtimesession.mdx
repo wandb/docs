@@ -21,17 +21,13 @@ Weave를 임포트하면 모듈 로더 훅을 통해 자동으로 계측됩니�
 앱 시작 시점에 `RealtimeSession`이 하나라도 생성되기 전에 이 함수를 **한 번만** 호출하세요.
 이 함수는 멱등적이므로 여러 번 호출해도 안전합니다.
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `Promise`&lt;`boolean`&gt;
 
 패치가 적용되었거나 이미 적용된 상태이면 `true`, `@openai/agents-realtime`를 로드할 수 없으면 `false`입니다.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 ```typescript twoslash
 // @noErrors

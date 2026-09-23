@@ -9,7 +9,7 @@ keywords: ["カスタム チャート", "Vega spec", "historyTable", "summaryTab
 このチュートリアルを終えると、project で動作するカスタム チャートを作成し、それをプリセットとして保存できるようになります。さらに、ご自身のデータに合わせて調整できる複合ヒストグラムも利用できます。
 
 <div id="log-data-to-wb">
-  ## データを W&amp;B にログする
+  ## データを W&amp;B にログする {#log-data-to-wb}
 </div>
 
 カスタム チャートで何かを可視化する前に、表示したいデータを run にログする必要があります。ハイパーパラメーターのように、トレーニング開始時に一度だけ設定する単一の値には [wandb.Run.config](/ja/models/track/config/) を使用します。時間の経過に伴って記録する複数の値には [wandb.Run.log()](/ja/models/track/log/) を使用し、カスタムの 2D 配列は `wandb.Table()` でログします。ログする各キーについて、データポイントは最大 10,000 件までにすることを推奨します。
@@ -29,7 +29,7 @@ with wandb.init() as run:
 データをログしたので、カスタム チャート パネルに取り込む準備ができました。
 
 <div id="create-a-query">
-  ## クエリを作成する
+  ## クエリを作成する {#create-a-query}
 </div>
 
 クエリは、カスタム チャートがどのログ済みデータを読み込むかを指定します。可視化するデータをログしたら、projectページに移動し、**`+`** ボタンをクリックして新しいパネルを追加し、**Custom Chart** を選択します。[ワークスペース](https://app.wandb.ai/demo-team/custom-charts)を開きながら進めることもできます。
@@ -39,14 +39,14 @@ with wandb.init() as run:
 </Frame>
 
 <div id="add-a-query">
-  ### クエリを追加する
+  ### クエリを追加する {#add-a-query}
 </div>
 
 1. `summary` をクリックし、`historyTable` を選択して、run の履歴からデータを取得する新しいクエリを設定します。
 2. `wandb.Table()` をログしたキーを入力します。前のコードスニペットでは `custom_data_table` です。[サンプルノートブック](https://bit.ly/custom-charts-colab) では、キーは `pr_curve` と `roc_curve` です。**`summaryTable`**、**`historyTable`**、および **`tableKey`** の詳細については、[GraphQL クエリを構築する](/ja/models/app/features/custom-charts#build-the-graphql-query) を参照してください。
 
 <div id="set-vega-fields">
-  ### Vega フィールドを設定する
+  ### Vega フィールドを設定する {#set-vega-fields}
 </div>
 
 クエリの設定が完了したら、Vega フィールドのドロップダウンメニューを使って、ログした列をチャートの視覚エンコーディングにマッピングできます。
@@ -59,9 +59,7 @@ with wandb.init() as run:
 * **y-axis:** runSets&#95;historyTable&#95;p (適合率)
 * **color:** runSets&#95;historyTable&#95;c (クラスラベル)
 
-<div id="customize-the-chart">
-  ## チャートをカスタマイズする
-</div>
+## チャートをカスタマイズする {#customize-the-chart}
 
 デフォルトの可視化は出発点として適していますが、Vega spec を編集することで、チャートのタイプを変更したり、タイトルを追加したり、見た目を調整したりできます。散布図から折れ線グラフに切り替えるには、**Edit** をクリックして、この組み込みチャートの Vega spec を変更してください。[Workspace](https://app.wandb.ai/demo-team/custom-charts)を見ながら進めます。
 
@@ -86,7 +84,7 @@ Vega spec を更新して可視化をカスタマイズします。
 </Frame>
 
 <div id="bonus-composite-histograms">
-  ## おまけ: 複合ヒストグラム
+  ## おまけ: 複合ヒストグラム {#bonus-composite-histograms}
 </div>
 
 このセクションでは、Vega spec の編集に慣れたあとで何ができるかを示すために、より高度なカスタム チャートとして、同じビューに 2 つの分布を重ねて表示する複合ヒストグラムの作成方法を紹介します。

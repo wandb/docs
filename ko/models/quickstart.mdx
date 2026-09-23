@@ -19,17 +19,13 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
   W&amp;B Weave에 대한 정보를 찾고 계신가요? [Weave Python SDK 퀵스타트](/ko/weave/quickstart) 또는 [Weave TypeScript SDK 퀵스타트](/ko/weave/reference/generated_typescript_docs/intro-notebook)를 참조하세요.
 </Note>
 
-<div id="sign-up-and-create-an-api-key">
-  ## 가입하고 API 키 생성하기
-</div>
+## 가입하고 API 키 생성하기 {#sign-up-and-create-an-api-key}
 
 사용 중인 머신을 W&amp;B에 인증하려면 API 키가 필요합니다.
 
 <ApiKeyCreate />
 
-<div id="install-the-wandb-library-and-log-in">
-  ## `wandb` 라이브러리를 설치하고 로그인합니다
-</div>
+## `wandb` 라이브러리를 설치하고 로그인합니다 {#install-the-wandb-library-and-log-in}
 
 <Tabs>
   <Tab title="명령줄">
@@ -79,9 +75,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
   </Tab>
 </Tabs>
 
-<div id="initialize-a-run-and-track-hyperparameters">
-  ## run 초기화 및 하이퍼파라미터 추적
-</div>
+## run 초기화 및 하이퍼파라미터 추적 {#initialize-a-run-and-track-hyperparameters}
 
 Python 스크립트 또는 노트북에서 [`wandb.init()`](/ko/models/ref/python/experiments/run/)을 사용해 W&amp;B run 객체를 초기화합니다. `config` 매개변수에 딕셔너리를 사용해
 하이퍼파라미터 이름과 값을 지정합니다. `with` 문 안에서는 메트릭과 기타 정보를 W&amp;B에 기록할 수 있습니다.
@@ -112,9 +106,7 @@ with wandb.init(project=project, config=config) as run:
   [run](/ko/models/runs/)은 W&amp;B의 핵심 요소입니다. run을 사용해 [메트릭을 추적](/ko/models/track/)하고, [로그를 생성](/ko/models/track/log/)하고, 아티팩트를 추적할 수 있습니다.
 </Info>
 
-<div id="create-a-machine-learning-training-experiment">
-  ## 머신 러닝 트레이닝 실험 만들기
-</div>
+## 머신 러닝 트레이닝 실험 만들기 {#create-a-machine-learning-training-experiment}
 
 이 모의 트레이닝 스크립트는 시뮬레이션된 정확도 및 손실 메트릭을 W&amp;B에 기록합니다. 다음 코드를 Python 스크립트 또는 노트북 셀에 복사하여 붙여넣고 실행하세요:
 
@@ -151,9 +143,7 @@ with wandb.init(project=project, config=config) as run:
   <img src="/images/quickstart/quickstart_image.png" alt="각 run에서 추적된 손실와 정확도" />
 </Frame>
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 W&amp;B의 다양한 특성을 살펴보세요:
 

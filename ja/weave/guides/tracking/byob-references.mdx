@@ -9,9 +9,7 @@ import ByobReferenceSetup from "/snippets/ja/_includes/byob-reference-setup.mdx"
 
 <ByobReferenceSetup />
 
-<div id="log-a-media-reference-using-weave-op-function-tracing">
-  ## Weave Op 関数のトレースでメディア参照をログする
-</div>
+## Weave Op 関数のトレースでメディア参照をログする {#log-a-media-reference-using-weave-op-function-tracing}
 
 URI をトレース内の string 値としてログします。値がバケット URI の string フィールドはすべて表示されます。バイトデータはお使いのバケットに保持されたままなので、No Content アノテーションは不要です。次の例の Op は、すでにバケット内にある画像にキャプションを付け、各 URI をそのキャプションとともにログします。`[YOUR-TEAM]`、`[YOUR-PROJECT]`、`[YOUR-BUCKET]` はご自身の値に置き換えてください。
 
@@ -54,9 +52,7 @@ URI をトレース内の string 値としてログします。値がバケッ�
   </Tab>
 </Tabs>
 
-<div id="view-the-reference-in-weave-traces">
-  ## Weave トレースで参照を表示する
-</div>
+## Weave トレースで参照を表示する {#view-the-reference-in-weave-traces}
 
 `weave.init()` が出力するリンクからトレースを開きます。参照先の画像または動画は、**Traces** ビュー内にインライン表示されます。たとえば、object が見つからない、または バケット が登録されていないために Weave が URI を解決できない場合は、URI 文字列がそのまま表示されます。
 

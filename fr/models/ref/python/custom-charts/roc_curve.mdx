@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py#L16" />
 
-<div id="function-wandbplotroc_curve">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.roc_curve()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.roc_curve() {#function-wandbplotroc_curve}
 
 Construit un graphique de courbe ROC (Receiver Operating Characteristic).
 
@@ -23,9 +21,7 @@ title: 'str' = 'ROC Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="y_true" type="Sequence[numbers.Number]">
   Les véritables étiquettes de classe (vérité de terrain) pour la variable cible. La forme doit être (num&#95;samples,).
@@ -51,21 +47,15 @@ split_table: 'bool' = False
   Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 </ResponseField>
 
-<div id="returns">
-  ## Retourne
-</div>
+## Retourne {#returns}
 
 `CustomChart` : Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
 
-<div id="raises">
-  ## Exceptions levées
-</div>
+## Exceptions levées {#raises}
 
 * `wandb.Error`: Si numpy, pandas ou scikit-learn sont introuvables.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 import numpy as np

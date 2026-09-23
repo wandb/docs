@@ -67,9 +67,7 @@ W&amp;B Weave는 깊게 중첩된 패턴을 포함해 동기 및 비동기 제�
 다음 스크린샷은 앞선 코드에서 선택한 트레이스가 표시된 **Traces** 페이지를 보여줍니다. 가운데 패널에는 선택한 트레이스의 트레이스 트리가 표시됩니다. 트레이스 트리에는 `deeply_nested_generator`, `nested_generator`, `inner` Ops가 계층 구조로 표시됩니다.
 ![Weave Traces page showing a selected trace tree illustrating deeply nested Ops](/weave/guides/tracking/imgs/generators.png)
 
-<div id="consume-generators">
-  ## 제너레이터 소비하기
-</div>
+## 제너레이터 소비하기 {#consume-generators}
 
 다음 섹션에서는 Weave가 제너레이터 출력을 기록하려면 왜 제너레이터를 소비해야 하는지와 어떤 소비 패턴이 작동하는지 설명합니다.
 
@@ -77,9 +75,7 @@ Weave는 제너레이터를 완전히 소비한 후에만 제너레이터 출력
 
 함수와 메서드에 `@weave.op`를 데코레이터로 적용하는 방법에 대한 자세한 내용은 [call 생성](/ko/weave/guides/tracking/create-call)을 참조하세요.
 
-<div id="accumulate-yielded-values-into-a-single-trace">
-  ## yield된 값을 단일 트레이스로 누적하기
-</div>
+## yield된 값을 단일 트레이스로 누적하기 {#accumulate-yielded-values-into-a-single-trace}
 
 yield된 값의 원시 시퀀스 대신 결합된 결과(예: 연결된 string 또는 목록)를 Weave가 기록하도록 하려면 accumulator를 사용하세요.
 

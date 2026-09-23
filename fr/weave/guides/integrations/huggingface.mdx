@@ -19,9 +19,7 @@ Cette page explique comment intégrer [Hugging Face Hub](https://huggingface.co/
   </a>
 </Tip>
 
-<div id="overview">
-  ## Aperçu
-</div>
+## Aperçu {#overview}
 
 Hugging Face Hub est une plateforme de machine learning pour les créateurs et les collaborateurs, qui propose une grande collection de modèles préentraînés et de Datasets pour de nombreux types de projets.
 
@@ -29,9 +27,7 @@ La bibliothèque Python `huggingface_hub` fournit une interface unifiée pour ex
 
 Weave capture automatiquement les traces pour `InferenceClient`. Pour commencer le suivi, appelez `weave.init()` et utilisez la bibliothèque normalement.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, effectuez les étapes de configuration suivantes pour installer les bibliothèques requises et configurer l&#39;accès au Hugging Face Hub :
 
@@ -50,9 +46,7 @@ Avant de commencer, effectuez les étapes de configuration suivantes pour instal
    os.environ["HUGGINGFACE_TOKEN"] = getpass.getpass("Enter your Hugging Face Hub Token: ")
    ```
 
-<div id="basic-tracing">
-  ## Traçage de base
-</div>
+## Traçage de base {#basic-tracing}
 
 Stocker les traces des applications basées sur des modèles de langage dans un emplacement centralisé est essentiel pendant le développement comme en production. Ces traces facilitent le débogage et constituent des Datasets pour améliorer votre application.
 
@@ -101,9 +95,7 @@ Weave journalise chaque appel d’inférence et fournit des détails sur les ent
 ![Vue de chat de Weave dans l’UI avec l’historique complet de la conversation avec le modèle](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
 Weave affiche également l’appel sous forme de vue de chat dans l’UI, avec l’historique complet de la conversation avec le modèle.
 
-<div id="trace-a-function">
-  ## Tracer une fonction
-</div>
+## Tracer une fonction {#trace-a-function}
 
 Pour mieux comprendre comment les données circulent dans votre application, vous pouvez utiliser `@weave.op` pour suivre les appels de fonction. Cela enregistre les entrées, les sorties et la logique d&#39;exécution, ce qui facilite le débogage et l&#39;analyse des performances.
 
@@ -176,9 +168,7 @@ Weave journalise désormais tous les appels de fonction encapsulés avec `@weave
   Weave capture et visualise également l&#39;exécution des fonctions, ce qui vous aide à comprendre le flux de données et la logique au sein de votre application.
 </Frame>
 
-<div id="use-models-for-experimentation">
-  ## Utilisez des `Model`s pour l’expérimentation
-</div>
+## Utilisez des `Model`s pour l’expérimentation {#use-models-for-experimentation}
 
 La gestion des expériences avec des LLM peut être complexe lorsque plusieurs composants entrent en jeu. La classe Weave [`Model`](../core-types/models) permet de capturer et d’organiser les détails expérimentaux, comme les prompts système et les configurations de modèle, vous permettant de comparer différentes itérations.
 

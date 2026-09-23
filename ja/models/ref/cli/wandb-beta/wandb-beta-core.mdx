@@ -6,17 +6,13 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/v0.30.0/wandb/cli/beta.py#L196" />
 
-<div id="usage">
-  ## 使用方法
-</div>
+## 使用方法 {#usage}
 
 ```bash
 core [OPTIONS] COMMAND [ARGS]...
 ```
 
-<div id="description">
-  ## 説明
-</div>
+## 説明 {#description}
 
 マルチプロセスのワークロード向けに、共有のローカル wandb-core サービスを管理します。
 
@@ -55,9 +51,7 @@ export WANDB_SERVICE="$(wandb beta core start)"
 共有サービスは、デフォルトでは 10 分間アイドル状態が続くと終了します。
 これを変更するには、start コマンドで --idle-timeout を指定してください。
 
-<div id="subcommands">
-  ## サブコマンド
-</div>
+## サブコマンド {#subcommands}
 
 | コマンド                    | 説明                                    |
 | ----------------------- | ------------------------------------- |

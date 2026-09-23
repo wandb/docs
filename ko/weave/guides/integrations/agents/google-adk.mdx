@@ -8,17 +8,13 @@ import AgentsViewTraces from '/snippets/ko/_includes/agents-view-traces.mdx';
 
 Google&#39;s Agent Development Kit (ADK)은 에이전트를 구축하고 오케스트레이션하는 데 사용할 수 있는 유연한 모델 불문 프레임워크입니다. Gemini에 최적화되어 있지만, ADK는 모든 모델을 지원하며 단순한 작업부터 복잡한 멀티 에이전트 워크플로까지 처리할 수 있습니다. Weave는 ADK로 구축된 에이전트를 자동으로 트레이스하며, 각 에이전트 호출, 하위 에이전트 핸드오프, 모델 Call, 도구 Call을 모두 포함합니다. Weave는 캡처한 데이터를 프로젝트의 **Agents** 뷰에 표시합니다.
 
-<div id="trace-google-adk-agents-with-weave">
-  ## Weave로 Google ADK 에이전트 트레이스하기
-</div>
+## Weave로 Google ADK 에이전트 트레이스하기 {#trace-google-adk-agents-with-weave}
 
 <Tabs>
   <Tab title="Python">
     Weave SDK는 [Python용 Google ADK](https://google.github.io/adk-docs/)에 자동으로 패치되므로, 최소한의 설정만으로 ADK 에이전트의 트레이스를 캡처할 수 있습니다. 이 가이드에서는 Weave를 초기화한 다음 Google ADK로 빌드한 멀티턴 리서치 에이전트를 실행해, Weave가 Session 전반에서 모든 에이전트 호출, 모델 Call, 도구 Call을 캡처하도록 하는 방법을 설명합니다.
 
-    <div id="prerequisites">
-      ### 사전 요구 사항
-    </div>
+### 사전 요구 사항 {#prerequisites}
 
     * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정 및 [API 키](https://wandb.ai/authorize)
     * Gemini용 [Google API 키](https://aistudio.google.com/apikey)
@@ -28,9 +24,7 @@ Google&#39;s Agent Development Kit (ADK)은 에이전트를 구축하고 오케�
   <Tab title="TypeScript">
     Weave는 [Node.js용 Google ADK](https://google.github.io/adk-docs/) (`@google/adk`)와 통합되어 에이전트 Runs를 자동으로 트레이스합니다.
 
-    <div id="prerequisites-2">
-      ### 사전 요구 사항
-    </div>
+### 사전 요구 사항 {#prerequisites-2}
 
     * `WANDB_API_KEY` 환경 변수로 설정된 W&amp;B 계정 및 [API 키](https://wandb.ai/authorize)
     * `GEMINI_API_KEY` 또는 `GOOGLE_GENAI_API_KEY` 환경 변수로 설정된 [Google API 키](https://aistudio.google.com/apikey)
@@ -39,9 +33,7 @@ Google&#39;s Agent Development Kit (ADK)은 에이전트를 구축하고 오케�
   </Tab>
 </Tabs>
 
-<div id="install-packages">
-  ### 패키지 설치
-</div>
+### 패키지 설치 {#install-packages}
 
 개발 환경에 다음 패키지를 설치하세요. 여기에는 Weave SDK, Google ADK 프레임워크, 그리고 예시 도구에서 사용하는 HTTP 클라이언트가 포함됩니다.
 
@@ -55,9 +47,7 @@ Google&#39;s Agent Development Kit (ADK)은 에이전트를 구축하고 오케�
   ```
 </CodeGroup>
 
-<div id="initialize-weave-in-your-code">
-  ### 코드에서 Weave 초기화하기
-</div>
+### 코드에서 Weave 초기화하기 {#initialize-weave-in-your-code}
 
 <Tabs>
   <Tab title="Python">

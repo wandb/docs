@@ -15,7 +15,7 @@ Ce guide vous accompagne dans l’installation du plugin, la consultation de vos
 </Warning>
 
 <div id="prerequisites">
-  ## Prérequis
+  ## Prérequis {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v18 ou version ultérieure (inclut `npm`).
@@ -24,7 +24,7 @@ Ce guide vous accompagne dans l’installation du plugin, la consultation de vos
 * Un projet Weave (`[YOUR-TEAM]/[YOUR-PROJECT]`) pour recevoir les traces.
 
 <div id="install-the-plugin">
-  ## Installez le plugin
+  ## Installez le plugin {#install-the-plugin}
 </div>
 
 Installez le CLI, exécutez le programme d’installation pour enregistrer le plugin auprès de Claude Code, puis démarrez une session Claude Code pour commencer le traçage.
@@ -68,7 +68,7 @@ Installez le CLI, exécutez le programme d’installation pour enregistrer le pl
 </Steps>
 
 <div id="view-claude-code-traces-in-weave">
-  ## Afficher les traces de Claude Code dans Weave
+  ## Afficher les traces de Claude Code dans Weave {#view-claude-code-traces-in-weave}
 </div>
 
 Après avoir exécuté au moins une session Claude Code, ouvrez votre projet dans l’interface Weave :
@@ -96,7 +96,7 @@ Le span racine `invoke_agent claude-code` utilise le nom de l’agent de niveau 
 Les conversations comportant plusieurs tours de conversation sont associées côté serveur via l&#39;ID de conversation, afin que vous puissiez suivre une conversation à travers plusieurs traces. Chaque span inclut l&#39;utilisation des jetons, le nom du modèle, les entrées et sorties des outils, les informations de temporisation, ainsi que le contenu textuel des prompts et des réponses. Pour plus d’informations sur les données tracées, voir [Ce qui est tracé](https://github.com/wandb/weave-claude-code/blob/main/README.md#what-gets-traced) sur GitHub.
 
 <div id="configure-the-plugin">
-  ## Configurer le plugin
+  ## Configurer le plugin {#configure-the-plugin}
 </div>
 
 Utilisez les commandes `weave-claude-code config` pour afficher ou mettre à jour les paramètres du plugin après l’installation :
@@ -126,7 +126,7 @@ export WEAVE_AGENT_NAME=[YOUR-AGENT-NAME]
 ```
 
 <div id="weave-skills">
-  ## Compétences Weave
+  ## Compétences Weave {#weave-skills}
 </div>
 
 Après l&#39;installation, trois compétences propres à Weave sont disponibles directement dans n&#39;importe quelle session Claude Code.
@@ -146,7 +146,7 @@ Vous pouvez utiliser la compétence `weave:weave-config` pour définir des valeu
 ```
 
 <div id="check-plugin-status">
-  ## Vérifier le statut du plugin
+  ## Vérifier le statut du plugin {#check-plugin-status}
 </div>
 
 Vous pouvez utiliser ces commandes CLI pour vérifier le statut du plugin ou résoudre des problèmes :
@@ -172,7 +172,7 @@ weave-claude-code logs --follow
 Le fichier journal se trouve également à l’emplacement `~/.weave-claude-code/logs/daemon.log`.
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B Cloud dédié ou instances auto-hébergées
+  ### W&amp;B Cloud dédié ou instances auto-hébergées {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 Si vous utilisez W&amp;B Cloud dédié ou une instance auto-hébergée, définissez `WANDB_BASE_URL` avant de lancer Claude Code :
@@ -191,7 +191,7 @@ Le plugin exécute un démon en arrière-plan qui lit `WANDB_BASE_URL` au démar
 3. Relancez Claude Code. Le démon redémarre automatiquement et utilise l’URL correcte.
 
 <div id="uninstall">
-  ## Désinstallation
+  ## Désinstallation {#uninstall}
 </div>
 
 Pour désinstaller le plugin de Claude Code, exécutez :

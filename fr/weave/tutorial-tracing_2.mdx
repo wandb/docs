@@ -10,9 +10,7 @@ Les applications basées sur des LLM peuvent contenir plusieurs appels LLM, des 
 
 Décorez les fonctions et sous-fonctions avec le niveau de granularité le plus fin possible afin de capturer le flux d&#39;exécution complet de l&#39;application. Cela vous aide à mieux comprendre et orienter le comportement de votre application.
 
-<div id="trace-nested-functions">
-  ## Tracer des fonctions imbriquées
-</div>
+## Tracer des fonctions imbriquées {#trace-nested-functions}
 
 Cette section présente pas à pas un exemple qui trace une fonction et ses sous-fonctions imbriquées. Le code suivant s&#39;appuie sur l&#39;[exemple de démarrage rapide](/fr/weave/quickstart) et ajoute une logique pour compter les éléments renvoyés par le LLM et les encapsuler dans une fonction de plus haut niveau. De plus, l&#39;exemple utilise `weave.op()` pour tracer chaque fonction, son ordre d&#39;appel et sa relation parent-enfant :
 
@@ -139,9 +137,7 @@ Cette section présente pas à pas un exemple qui trace une fonction et ses sous
 
 Après avoir exécuté le code, vous disposez dans Weave d&#39;une trace imbriquée complète qui capture chaque appel de fonction et sa relation avec les autres.
 
-<div id="track-metadata">
-  ## Suivre les métadonnées
-</div>
+## Suivre les métadonnées {#track-metadata}
 
 Maintenant que Weave trace vos fonctions imbriquées, vous pouvez enrichir ces traces avec un contexte supplémentaire sur l’exécution, comme l’utilisateur ou l’environnement. Vous pouvez suivre les métadonnées à l’aide du gestionnaire de contexte `weave.attributes`, en lui passant un dictionnaire des métadonnées à suivre au moment de l’appel.
 
@@ -179,8 +175,6 @@ En reprenant l’exemple précédent :
 
 Pour plus d’informations sur l’utilisation des attributs, voir [Définir et journaliser des attributs](/fr/weave/guides/tools/attributes).
 
-<div id="whats-next">
-  ## Et ensuite
-</div>
+## Et ensuite {#whats-next}
 
 * Suivez le [tutoriel sur la gestion des versions des applications](/fr/weave/tutorial-weave_models) pour enregistrer, gérer les versions et organiser les modifications ad hoc des prompts, des modèles et des applications.

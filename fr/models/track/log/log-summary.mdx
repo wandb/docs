@@ -62,9 +62,7 @@ L’image suivante montre à quoi peuvent ressembler les métriques de synthèse
   <img src="/images/track/summary_demo.png" alt="Synthèse du run" />
 </Frame>
 
-<div id="customize-summary-metrics">
-  ## Personnaliser les métriques de synthèse
-</div>
+## Personnaliser les métriques de synthèse {#customize-summary-metrics}
 
 Les métriques de synthèse personnalisées sont utiles pour enregistrer les performances du modèle à la meilleure étape de l&#39;entraînement dans votre `run.summary`. Par exemple, vous pouvez vouloir enregistrer la précision maximale ou la valeur minimale de la perte, plutôt que la valeur finale.
 
@@ -104,9 +102,7 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-<div id="view-summary-metrics">
-  ## Afficher les métriques de synthèse
-</div>
+## Afficher les métriques de synthèse {#view-summary-metrics}
 
 Accédez à la synthèse d’un run dans la W&amp;B App, pendant l’exécution d’un run, à partir d’un run existant ou depuis le système de fichiers local.
 

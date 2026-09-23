@@ -16,9 +16,7 @@ Il s’intègre directement à la plupart des IDE, assistants de code et agents 
 * Mistral LeChat
 * Claude Desktop
 
-<div id="deployment-types">
-  ## Types de déploiement
-</div>
+## Types de déploiement {#deployment-types}
 
 Le serveur MCP de W&amp;B est disponible en deux options de déploiement. Utilisez le serveur hébergé pour la configuration la plus rapide, ou configurez une version locale si vous avez besoin de davantage d’isolation et de flexibilité. La version locale oblige votre client à utiliser une URL différente pour accéder au serveur.
 
@@ -36,9 +34,7 @@ Le serveur MCP de W&amp;B est disponible en deux options de déploiement. Utilis
   </Card>
 </CardGroup>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de configurer un client, assurez-vous de disposer des éléments suivants :
 
@@ -48,15 +44,11 @@ Avant de configurer un client, assurez-vous de disposer des éléments suivants�
 
 - W&amp;B fixe la version du SDK `mcp` à [1.14.0](https://pypi.org/project/mcp/1.14.0/), version `2024-11-05`. Les clients doivent se connecter à l’aide du SDK `mcp` 1.14.x. Pour la prise en charge de HTTP avec diffusion en continu dans le Cloud dédié de W&amp;B, la version `2025-03-26` ou une version ultérieure du SDK `mcp` 1.14.x est requise.
 
-<div id="use-the-hosted-server">
-  ## Utiliser le serveur hébergé
-</div>
+## Utiliser le serveur hébergé {#use-the-hosted-server}
 
 W&amp;B gère un serveur MCP pour chaque type de déploiement. Vous n&#39;avez rien à installer. Configurez votre client pour se connecter via HTTP avec une clé API W&amp;B dans l&#39;en-tête `Authorization`.
 
-<div id="connection-url">
-  ### URL de connexion
-</div>
+### URL de connexion {#connection-url}
 
 L’URL dépend de votre type de déploiement W&amp;B :
 
@@ -246,9 +238,7 @@ Pour Cloud dédié ou Autogéré, remplacez `https://mcp.withwandb.com/mcp` par 
   </Tab>
 </Tabs>
 
-<div id="run-the-mcp-server-locally">
-  ## Exécuter le serveur MCP en local
-</div>
+## Exécuter le serveur MCP en local {#run-the-mcp-server-locally}
 
 Une installation locale est une alternative au serveur hébergé, et non l’option par défaut pour aucun type de déploiement. Utilisez-la lorsque le serveur hébergé ne convient pas à votre environnement.
 
@@ -262,9 +252,7 @@ Raisons courantes d’exécuter le serveur en local :
 
 Pour les utilisateurs de Cloud dédié ou Autogéré, privilégiez la solution hébergée. Utilisez une installation locale depuis [wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) uniquement si le serveur hébergé n’est pas encore activé sur votre instance ou si l’une des raisons précédentes s’applique. Définissez la variable d’environnement `WANDB_BASE_URL` avec l’URL de votre instance.
 
-<div id="local-prerequisites">
-  ### Prérequis locaux
-</div>
+### Prérequis locaux {#local-prerequisites}
 
 Pour exécuter le serveur en local, assurez-vous de disposer des éléments suivants :
 
@@ -273,9 +261,7 @@ Pour exécuter le serveur en local, assurez-vous de disposer des éléments suiv
 * Une clé API W&amp;B, définie dans `WANDB_API_KEY`.
 * `WANDB_BASE_URL` défini sur l’URL de votre instance si vous utilisez Cloud dédié ou Autogéré.
 
-<div id="install-the-server">
-  ### Installer le serveur
-</div>
+### Installer le serveur {#install-the-server}
 
 Choisissez une méthode d’installation et exécutez la commande suivante pour installer le serveur MCP :
 
@@ -305,9 +291,7 @@ Choisissez une méthode d’installation et exécutez la commande suivante pour 
   </Tab>
 </Tabs>
 
-<div id="configure-your-client">
-  ### Configurez votre client
-</div>
+### Configurez votre client {#configure-your-client}
 
 Après avoir installé le serveur, configurez votre client pour le lancer. Sélectionnez votre client MCP, puis exécutez la configuration suivante en remplaçant `[YOUR-WANDB-API-KEY]` par votre clé API W&amp;B si nécessaire :
 
@@ -411,9 +395,7 @@ Après avoir installé le serveur, configurez votre client pour le lancer. Séle
   </Tab>
 </Tabs>
 
-<div id="run-the-server-with-http-transport">
-  ### Exécutez le serveur avec le transport HTTP
-</div>
+### Exécutez le serveur avec le transport HTTP {#run-the-server-with-http-transport}
 
 Pour les clients web et pour effectuer des tests, exécutez le serveur avec le transport HTTP :
 
@@ -432,9 +414,7 @@ ngrok http 8080
 
 Mettez à jour la configuration de votre client MCP pour utiliser l’URL du tunnel.
 
-<div id="environment-variables">
-  ### Variables d’environnement
-</div>
+### Variables d’environnement {#environment-variables}
 
 Les variables d’environnement suivantes contrôlent l’authentification, le routage de l’instance et le comportement du serveur pour les installations locales. Définissez-les dans le bloc `env` de votre client ou exportez-les dans votre shell.
 
@@ -449,9 +429,7 @@ Les variables d’environnement suivantes contrôlent l’authentification, le r
 
 Pour la référence complète de la ligne de commande et les options avancées, voir le [README de wandb-mcp-server](https://github.com/wandb/wandb-mcp-server#readme).
 
-<div id="wb-mcp-server-capabilities">
-  ## Capacités du serveur MCP de W&amp;B
-</div>
+## Capacités du serveur MCP de W&amp;B {#wb-mcp-server-capabilities}
 
 Utilisez le serveur MCP pour analyser des Experiments, déboguer des traces, créer des Reports, gérer le registre et les artefacts, et répondre à des questions sur la documentation W&amp;B. Les prompts d&#39;exemple suivants illustrent certaines des tâches que vous pouvez demander à votre agent d&#39;effectuer lorsqu&#39;il est connecté au serveur MCP de W&amp;B :
 
@@ -461,9 +439,7 @@ Utilisez le serveur MCP pour analyser des Experiments, déboguer des traces, cr�
 * &quot;Quelles versions de l&#39;artefact `production-model` existent, et quelles modifications ont été apportées entre `v2` et `v3` ?&quot;
 * &quot;Comment puis-je créer un classement dans Weave ?&quot;
 
-<div id="available-tools">
-  ### Outils disponibles
-</div>
+### Outils disponibles {#available-tools}
 
 Le serveur propose plusieurs outils regroupés par usage. Le tableau suivant répertorie le nom de chaque outil, à quel moment l&#39;agent doit l&#39;utiliser, ainsi qu&#39;un prompt concret que vous pouvez utiliser pour invoquer cet outil.
 
@@ -531,9 +507,7 @@ Le serveur propose plusieurs outils regroupés par usage. Le tableau suivant ré
   </Tab>
 </Tabs>
 
-<div id="schema-first-trace-queries">
-  ### Requêtes de traces axées sur le schéma
-</div>
+### Requêtes de traces axées sur le schéma {#schema-first-trace-queries}
 
 Pour les requêtes de traces Weave, appelez d’abord `infer_trace_schema_tool` pour identifier les champs disponibles, puis appelez `query_weave_traces_tool` avec une liste précise de colonnes et `detail_level` :
 
@@ -545,15 +519,11 @@ Pour les requêtes de traces Weave, appelez d’abord `infer_trace_schema_tool` 
 
 Cette approche limite l’utilisation des jetons pour les questions générales et permet à l’agent de passer à `full` uniquement pour les traces pertinentes.
 
-<div id="usage-tips">
-  ## Conseils d’utilisation
-</div>
+## Conseils d’utilisation {#usage-tips}
 
 Les sections suivantes décrivent des pratiques et des flux de travail qui vous aideront à obtenir de meilleurs résultats avec le serveur MCP de W&amp;B. Commencez par les pratiques générales, puis lisez la section qui correspond à votre charge de travail pour obtenir des conseils plus précis et des enchaînements d’outils en plusieurs étapes.
 
-<div id="general-best-practices">
-  ### Bonnes pratiques générales
-</div>
+### Bonnes pratiques générales {#general-best-practices}
 
 Suivez ces pratiques, quel que soit votre cas d’utilisation :
 
@@ -562,9 +532,7 @@ Suivez ces pratiques, quel que soit votre cas d’utilisation :
 * **Vérifiez la récupération complète.** Pour les questions larges telles que « Quels sont mes runs les plus performants ? », demandez à l’agent de confirmer qu’il a récupéré tous les runs disponibles, et pas seulement les plus récents.
 * **Combinez avec W&amp;B Skills.** [W&amp;B Skills](/fr/platform/wb-skills) montrent aux agents de code comment structurer les flux de travail W&amp;B. Skills fournit des modèles et MCP fournit l’accès aux données ; les deux fonctionnent bien ensemble.
 
-<div id="for-trace-heavy-workflows">
-  ### Pour les flux de travail avec de nombreuses traces
-</div>
+### Pour les flux de travail avec de nombreuses traces {#for-trace-heavy-workflows}
 
 Suivez ces bonnes pratiques lorsque vous travaillez avec les traces Weave :
 
@@ -575,9 +543,7 @@ Suivez ces bonnes pratiques lorsque vous travaillez avec les traces Weave :
 
 Pour un flux de travail de bout en bout, voir [analyser les appels LLM en échec](#triage-failing-llm-calls).
 
-<div id="for-run-heavy-workflows">
-  ### Pour les flux de travail comportant beaucoup de runs
-</div>
+### Pour les flux de travail comportant beaucoup de runs {#for-run-heavy-workflows}
 
 Suivez ces pratiques lorsque vous travaillez avec des runs W&amp;B Models :
 
@@ -588,9 +554,7 @@ Suivez ces pratiques lorsque vous travaillez avec des runs W&amp;B Models :
 
 Pour les flux de travail de bout en bout, Voir [Diagnostiquer un run d’entraînement défaillant](#diagnose-a-bad-training-run) et [Résumer les évaluations et comparer les versions de modèle](#summarize-evals-and-compare-model-versions).
 
-<div id="for-dedicated-cloud-and-self-managed">
-  ### Pour Cloud dédié et Autogéré
-</div>
+### Pour Cloud dédié et Autogéré {#for-dedicated-cloud-and-self-managed}
 
 Suivez ces pratiques pour les déploiements non multilocataires :
 
@@ -598,9 +562,7 @@ Suivez ces pratiques pour les déploiements non multilocataires :
 * Si vous l&#39;exécutez localement sur votre instance, définissez `WANDB_BASE_URL` avec l&#39;URL de votre instance dans le bloc `env` du client. Sans cela, le serveur cible `api.wandb.ai` et ne renvoie aucune donnée.
 * Les limites de débit sur Cloud dédié sont distinctes de celles du mode multilocataire. Voir [les limites de débit du Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits) pour connaître les valeurs par défaut et savoir comment demander des modifications.
 
-<div id="for-local-installs">
-  ### Pour les installations en local
-</div>
+### Pour les installations en local {#for-local-installs}
 
 Suivez ces bonnes pratiques lorsque vous exécutez le serveur sur votre propre machine :
 
@@ -608,15 +570,11 @@ Suivez ces bonnes pratiques lorsque vous exécutez le serveur sur votre propre m
 * Lorsque les appels d&#39;outil échouent silencieusement, définissez `MCP_SERVER_LOG_LEVEL=DEBUG` dans le bloc `env` du client, puis vérifiez à nouveau les journaux MCP du client.
 * Si vous installez depuis GitHub (`uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server`), `uvx` utilise la branche par défaut. Pour utiliser une version stable, spécifiez un tag explicite en ajoutant `@v0.3.2` à l&#39;URL Git.
 
-<div id="recommended-workflows">
-  ## Flux de travail recommandés
-</div>
+## Flux de travail recommandés {#recommended-workflows}
 
 La plupart des questions concrètes nécessitent plus d’un outil. Les flux de travail suivants présentent des enchaînements d’outils courants en plusieurs étapes que vous pouvez demander à votre agent d’exécuter.
 
-<div id="explore-an-unfamiliar-project">
-  ### Explorer un projet inconnu
-</div>
+### Explorer un projet inconnu {#explore-an-unfamiliar-project}
 
 Pour explorer ce qui a été enregistré dans un projet, enchaînez ces outils :
 
@@ -625,9 +583,7 @@ Pour explorer ce qui a été enregistré dans un projet, enchaînez ces outils 
 3. `probe_project_tool` pour les projets basés sur des runs, ou `infer_trace_schema_tool` pour les projets de traces Weave.
 4. Un appel ciblé à `query_wandb_tool` ou `query_weave_traces_tool` à l’aide des clés identifiées.
 
-<div id="triage-failing-llm-calls">
-  ### Analyser les appels LLM en échec
-</div>
+### Analyser les appels LLM en échec {#triage-failing-llm-calls}
 
 Pour trouver les traces problématiques et les sessions qui les ont produites, utilisez ces outils dans l’ordre suivant :
 
@@ -636,9 +592,7 @@ Pour trouver les traces problématiques et les sessions qui les ont produites, u
 3. `query_weave_traces_tool` avec `detail_level="full"` sur un petit nombre de racines spécifiques afin d’approfondir l’analyse.
 4. `create_wandb_report_tool` pour documenter les résultats.
 
-<div id="diagnose-a-bad-training-run">
-  ### Diagnostiquer un run d&#39;entraînement défaillant
-</div>
+### Diagnostiquer un run d&#39;entraînement défaillant {#diagnose-a-bad-training-run}
 
 Pour exécuter un contrôle de santé sur un run d&#39;entraînement suspect, enchaînez les outils suivants :
 
@@ -647,9 +601,7 @@ Pour exécuter un contrôle de santé sur un run d&#39;entraînement suspect, en
 3. `compare_runs_tool` par rapport à un run de référence connu pour être correct.
 4. `create_wandb_report_tool` avec des panneaux de graphiques linéaires pour partager le diagnostic.
 
-<div id="summarize-evals-and-compare-model-versions">
-  ### Résumer les évaluations et comparer les versions du modèle
-</div>
+### Résumer les évaluations et comparer les versions du modèle {#summarize-evals-and-compare-model-versions}
 
 Pour trouver quelle version du modèle a donné les meilleurs résultats lors d’une évaluation, enchaînez ces outils :
 
@@ -658,9 +610,7 @@ Pour trouver quelle version du modèle a donné les meilleurs résultats lors d�
 3. `compare_artifact_versions_tool` entre la version candidate et la version de production actuelle.
 4. `log_analysis_to_wandb` et `create_wandb_report_tool` pour publier la comparaison.
 
-<div id="troubleshooting">
-  ## Dépannage
-</div>
+## Dépannage {#troubleshooting}
 
 Utilisez le tableau suivant pour vous aider à diagnostiquer et à résoudre les problèmes liés au serveur MCP de W&amp;B :
 

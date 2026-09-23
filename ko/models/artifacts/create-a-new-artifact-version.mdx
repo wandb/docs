@@ -9,9 +9,7 @@ title: 아티팩트 버전 만들기
   아티팩트의 일부 파일에 변경 사항을 적용해야 하고 원본 아티팩트의 크기가 상당히 큰 경우에는 증분 아티팩트를 만드는 것이 좋습니다.
 </Note>
 
-<div id="create-new-artifact-versions-from-scratch">
-  ## 처음부터 새 아티팩트 버전 만들기
-</div>
+## 처음부터 새 아티팩트 버전 만들기 {#create-new-artifact-versions-from-scratch}
 
 새 아티팩트 버전을 만드는 방법은 두 가지입니다. 단일 run에서 만드는 방법과 분산 run에서 만드는 방법입니다. 각 방식은 다음과 같습니다.
 
@@ -26,9 +24,7 @@ title: 아티팩트 버전 만들기
   <img src="/images/artifacts/single_distributed_artifacts.png" alt="아티팩트 워크플로 비교" />
 </Frame>
 
-<div id="single-run">
-  ### 단일 run
-</div>
+### 단일 run {#single-run}
 
 아티팩트의 모든 파일을 하나의 단일 run에서 생성하는 경우, 해당 run으로 아티팩트의 새 버전을 기록합니다. 즉, 단일 run이 아티팩트의 모든 파일을 생성할 때 해당하는 경우입니다.
 
@@ -77,9 +73,7 @@ title: 아티팩트 버전 만들기
   </Tab>
 </Tabs>
 
-<div id="distributed-runs">
-  ### 분산 run
-</div>
+### 분산 run {#distributed-runs}
 
 커밋하기 전에 run 컬렉션이 버전에 공동으로 작업할 수 있습니다. 이는 위에서 설명한 단일 run 모드와 달리, 새 버전에 필요한 모든 데이터를 하나의 run이 제공하는 방식입니다.
 
@@ -91,9 +85,7 @@ title: 아티팩트 버전 만들기
 
 다음 예제를 살펴보세요. 서로 다른 run(아래에서 **Run 1**, **Run 2**, **Run 3**으로 표시됨)이 `upsert_artifact`를 사용해 동일한 아티팩트에 각기 다른 이미지 파일을 추가합니다.
 
-<div id="run-1">
-  #### Run 1
-</div>
+#### Run 1 {#run-1}
 
 ```python
 with wandb.init() as run:
@@ -104,9 +96,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-<div id="run-2">
-  #### Run 2
-</div>
+#### Run 2 {#run-2}
 
 ```python
 with wandb.init() as run:
@@ -117,9 +107,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-<div id="run-3">
-  #### Run 3
-</div>
+#### Run 3 {#run-3}
 
 Run 1과 Run 2가 완료된 후 실행해야 합니다. `wandb.Run.finish_artifact()`를 호출하는 run은 아티팩트에 파일을 포함할 수 있지만, 반드시 포함할 필요는 없습니다.
 
@@ -132,9 +120,7 @@ with wandb.init() as run:
     run.finish_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-<div id="create-a-new-artifact-version-from-an-existing-version">
-  ## 기존 버전에서 새 아티팩트 버전 만들기
-</div>
+## 기존 버전에서 새 아티팩트 버전 만들기 {#create-a-new-artifact-version-from-an-existing-version}
 
 기존 아티팩트 버전에 파일을 추가, 수정, 또는 삭제해 새 아티팩트 버전을 만드세요. W&amp;B는 변경된 파일만 다시 인덱싱합니다. 이렇게 생성된 버전을 *증분* 아티팩트라고 합니다.
 
@@ -152,9 +138,7 @@ with wandb.init() as run:
 
 증분 아티팩트는 single run에서 만들 수도 있고, 새 버전에 기여하는 여러 Runs에 걸쳐 만들 수도 있습니다. 다음 섹션에서는 각 경우에 증분 아티팩트를 만드는 방법을 설명합니다.
 
-<div id="single-run-2">
-  ### 단일 run
-</div>
+### 단일 run {#single-run-2}
 
 <Tabs>
   <Tab title="run 입력으로 추적">
@@ -202,9 +186,7 @@ with wandb.init() as run:
   </Tab>
 </Tabs>
 
-<div id="distributed-runs-2">
-  ### 분산 run
-</div>
+### 분산 run {#distributed-runs-2}
 
 여러 run이 하나의 아티팩트 버전에 파일을 기여하는 경우 `Artifact.upsert_artifact()` 및 `Artifact.finish_artifact()`를 사용하세요.
 

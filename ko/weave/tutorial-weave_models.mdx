@@ -13,9 +13,7 @@ keywords: ["weave.Model", "버전 관리", "모델 추적", "모델 내보내기
 * Weave `Model`을 사용해 애플리케이션과 해당 매개변수를 추적하고 버전 관리하는 방법
 * 이미 로깅된 Weave `Model`을 내보내고, 수정하고, 재사용하는 방법
 
-<div id="use-weavemodel">
-  ## `weave.Model` 사용
-</div>
+## `weave.Model` 사용 {#use-weavemodel}
 
 <Warning>
   `weave.Model` 클래스는 Python에서만 지원됩니다.
@@ -126,23 +124,17 @@ Weave에서 `모델`을 만들려면 다음이 필요합니다.
 * 다른 클래스 메서드를 Weave로 추적하려면 `weave.op()`으로 감싸세요.
 * 밑줄로 시작하는 파라미터는 Weave에서 무시되며 로깅되지 않습니다.
 
-<div id="export-and-reuse-a-logged-weavemodel">
-  ## 로깅된 `weave.Model` 내보내기 및 재사용
-</div>
+## 로깅된 `weave.Model` 내보내기 및 재사용 {#export-and-reuse-a-logged-weavemodel}
 
 이제 모델이 Weave에서 버전 관리되므로, 코드에서 다시 정의하지 않고도 이전 버전을 가져와 다시 실행할 수 있습니다. 이는 과거 결과를 재현하거나 특정 모델 버전을 다른 사람과 공유할 때 유용합니다.
 
 Weave는 호출한 모델을 저장하고 버전 관리하므로, 이를 내보내 재사용할 수 있습니다.
 
-<div id="get-the-model-ref">
-  ### 모델 ref 조회
-</div>
+### 모델 ref 조회 {#get-the-model-ref}
 
 Weave UI에서 특정 버전의 모델 ref를 조회할 수 있습니다.
 
-<div id="use-the-model">
-  ### 모델 사용
-</div>
+### 모델 사용 {#use-the-model}
 
 모델 객체의 URI가 있으면 이를 내보내 다시 사용할 수 있습니다. 내보낸 모델은 이미 초기화되어 있으므로 바로 사용할 수 있습니다.
 
@@ -174,8 +166,6 @@ Weave UI에서 특정 버전의 모델 ref를 조회할 수 있습니다.
 
 이제 애플리케이션의 여러 버전에서 반복적으로 개선하고, 조회하고, 재사용할 수 있는 버전 관리된 Weave `Model`을 갖게 되었습니다.
 
-<div id="whats-next">
-  ## 다음 단계
-</div>
+## 다음 단계 {#whats-next}
 
 * 애플리케이션을 점진적으로 개선하기 시작하려면 [평가 파이프라인 구축 튜토리얼](/ko/weave/tutorial-eval)을 따라 하세요.

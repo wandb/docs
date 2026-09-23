@@ -8,9 +8,7 @@ L’intégration de Weave avec l’[API Realtime d’OpenAI](https://developers.
 
 Ce guide vous montre comment activer le traçage de l’API Realtime dans votre application et vous présente des exemples complets en Python et TypeScript que vous pouvez exécuter localement.
 
-<div id="integrate-realtime-traces">
-  ## Intégrer les traces en temps réel
-</div>
+## Intégrer les traces en temps réel {#integrate-realtime-traces}
 
 Cette section présente le code minimal nécessaire pour activer le tracing Weave pour l’API Realtime d’OpenAI dans toute application.
 
@@ -54,9 +52,7 @@ Cette section présente le code minimal nécessaire pour activer le tracing Weav
   </Tab>
 </Tabs>
 
-<div id="run-a-realtime-agent-with-the-openai-agents-sdk">
-  ### Exécutez un agent en temps réel avec le SDK OpenAI Agents
-</div>
+### Exécutez un agent en temps réel avec le SDK OpenAI Agents {#run-a-realtime-agent-with-the-openai-agents-sdk}
 
 <Tabs>
   <Tab title="Python">
@@ -427,9 +423,7 @@ Cette section présente le code minimal nécessaire pour activer le tracing Weav
   </Tab>
 </Tabs>
 
-<div id="run-a-realtime-voice-assistant-with-websockets">
-  ### Exécuter un assistant vocal en temps réel avec WebSockets
-</div>
+### Exécuter un assistant vocal en temps réel avec WebSockets {#run-a-realtime-voice-assistant-with-websockets}
 
 L’exemple Python suivant se connecte directement à l’API Realtime d’OpenAI via WebSockets. Il transmet l’audio du microphone à l’API, lit les réponses vocales et prend en charge l’appel d’outils (recherches météo, évaluation mathématique, exécution de code et écriture de fichiers). Weave trace la session à l’aide de `weave.init()` et `patch_openai_realtime()`. Utilisez cette approche lorsque vous souhaitez un contrôle total sur la session Realtime sans dépendre du SDK Agents.
 

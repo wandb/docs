@@ -18,9 +18,7 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
   [CoreWeave Kubernetes Service (CKS)](https://docs.coreweave.com/products/cks) のクラスター上で実行される [run](/ja/models/runs) では、インテグレーションが有効になっている場合、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) がコンピュートインフラストラクチャーを監視できます。エラーが発生すると、W&amp;B はプロジェクトの Workspace 内にある run のプロットにインフラストラクチャー情報を表示します。前提条件と詳細については、[CoreWeave のインフラストラクチャーアラートを可視化する](/ja/models/runs/infrastructure-alerts) を参照してください。
 </Tip>
 
-<div id="add-a-line-plot">
-  ## 折れ線グラフを追加する
-</div>
+## 折れ線グラフを追加する {#add-a-line-plot}
 
 以下のセクションでは、単一または複数のメトリクスの折れ線グラフを作成する方法を説明します。
 
@@ -57,15 +55,11 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
     5. 複数メトリクスのグラフを作成する際に、重複する単一メトリクスのパネルを必要に応じて削除するには、**Clean up auto-generated panels** を切り替えます。どのパネルがクリーンアップされるかはプレビューで確認できます。<Note>このオプションをオンにすると、W&amp;B はその式に一致する新たにログされたメトリクスに対して単一メトリクスのグラフを作成しません。代わりに、そのメトリクスはこの複数メトリクスのグラフにのみ表示されます。</Note>
     6. **Create [NUMBER] panels** をクリックします。
 
-    <div id="multi-metric-regular-expressions">
-      ### 複数メトリクスの正規表現
-    </div>
+### 複数メトリクスの正規表現 {#multi-metric-regular-expressions}
 
     複数メトリクスの折れ線グラフでは、メトリクス名の一致に [Google&#39;s RE2](https://github.com/google/re2/wiki/Syntax) 構文を使用します。以下のセクションでは、一般的なユースケースを説明し、キャプチャグループが W&amp;B が作成するパネルにどのような影響を与えるかなど、正規表現の仕組みについてさらに詳しく説明します。
 
-    <div id="common-use-cases">
-      #### 一般的なユースケース
-    </div>
+#### 一般的なユースケース {#common-use-cases}
 
     以下の例では、実験結果の分析に役立つ複数メトリクスのパネルの使い方をいくつか示します。
 
@@ -92,23 +86,17 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
     **特定のメトリクスのバリエーションに一致させる**
     必要なメトリクスだけに一致させるには、オルタネーションを使用します。たとえば、非キャプチャグループ `(?:layer_0|layer_10)_loss` は、1 層目と 10 層目の損失にのみ一致し、中間の層は除外します。
 
-    <div id="capture-groups">
-      #### キャプチャグループ
-    </div>
+#### キャプチャグループ {#capture-groups}
 
     <LinePlotCaptureGroups />
   </Tab>
 </Tabs>
 
-<div id="edit-line-plot-settings">
-  ## 折れ線グラフの設定を編集する
-</div>
+## 折れ線グラフの設定を編集する {#edit-line-plot-settings}
 
 以下のセクションでは、個別のラインプロットパネル、セクション内のすべてのラインプロットパネル、またはWorkspace内のすべてのラインプロットパネルの設定を編集する方法を説明します。折れ線グラフの設定の詳細は、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。
 
-<div id="individual-line-plot">
-  ### 個別の折れ線グラフ
-</div>
+### 個別の折れ線グラフ {#individual-line-plot}
 
 折れ線グラフの個別設定は、セクションまたはWorkspaceの折れ線グラフ設定よりも優先されます。折れ線グラフをカスタマイズするには、次の手順に従います。
 
@@ -127,9 +115,7 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
 
 各設定の詳細については、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。
 
-<div id="all-line-plots-in-a-section">
-  ### セクション内のすべての折れ線グラフ
-</div>
+### セクション内のすべての折れ線グラフ {#all-line-plots-in-a-section}
 
 セクション内のすべての折れ線グラフのデフォルト設定をカスタマイズして、折れ線グラフのWorkspace設定を上書きするには:
 
@@ -137,9 +123,7 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
 2. セクションの歯車アイコンをクリックして、設定を開きます。
 3. 表示されたドロワーで **Data** または **Display preferences** タブを選択し、セクションのデフォルト設定を行います。各 **Data** 設定の詳細については、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。各表示設定の詳細については、[セクションの Layout を設定する](../#configure-section-layout)を参照してください.
 
-<div id="all-line-plots-in-a-workspace">
-  ### Workspace 内のすべての折れ線グラフ
-</div>
+### Workspace 内のすべての折れ線グラフ {#all-line-plots-in-a-workspace}
 
 Workspace 内のすべての折れ線グラフのデフォルト設定をカスタマイズするには、次の手順に従います。
 
@@ -150,9 +134,7 @@ Workspace 内のすべての折れ線グラフのデフォルト設定をカス�
    * 各 **Data** 設定の詳細については、[折れ線グラフのリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。
    * 各 **Display preferences** セクションの詳細については、[Workspace の表示設定](../#configure-workspace-layout)を参照してください。Workspace レベルでは、折れ線グラフのデフォルトの **Zooming** 動作を構成できます。この設定では、x軸キーが一致する折れ線グラフ間でズームを同期するかどうかを制御します。デフォルトではオフになっています。
 
-<div id="visualize-average-values-on-a-plot">
-  ## プロット上で平均値を可視化する
-</div>
+## プロット上で平均値を可視化する {#visualize-average-values-on-a-plot}
 
 複数の異なるExperimentsがあり、それらの値の平均をプロットで確認したい場合は、表のグループ化機能を使用できます。run テーブルの上にある「Group」をクリックし、「All」を選択すると、グラフに平均化された値が表示されます。
 
@@ -168,9 +150,7 @@ Workspace 内のすべての折れ線グラフのデフォルト設定をカス�
   <img src="/images/app_ui/demo_average_precision_lines.png" alt="平均化された精度の線" />
 </Frame>
 
-<div id="visualize-nan-value-on-a-plot">
-  ## プロット上でNaN値を可視化する
-</div>
+## プロット上でNaN値を可視化する {#visualize-nan-value-on-a-plot}
 
 `NaN` を返す損失のように、ときどき未定義になるメトリクスをトラッキングする場合は、それらをログすると、W&amp;B の折れ線グラフに表示されます。`wandb.Run.log()` を使うと、PyTorch テンソルを含む `NaN` 値も折れ線グラフにプロットできます。たとえば、次のようになります。
 
@@ -184,9 +164,7 @@ with wandb.init() as run:
   <img src="/images/app_ui/visualize_nan.png" alt="NaN 値の処理" />
 </Frame>
 
-<div id="compare-multiple-metrics-on-one-chart">
-  ## 1つのチャートで複数のメトリクスを比較する
-</div>
+## 1つのチャートで複数のメトリクスを比較する {#compare-multiple-metrics-on-one-chart}
 
 1 つ以上の Runs の複数のメトリクスを並べて比較するには、Workspace に **Run comparer** パネルを追加します。
 
@@ -199,9 +177,7 @@ with wandb.init() as run:
 3. 表示されたドロワーで、**評価** ドロップダウンを展開します。
 4. **Run comparer** を選択します。
 
-<div id="change-the-colors-of-the-lines">
-  ## 線の色を変更する
-</div>
+## 線の色を変更する {#change-the-colors-of-the-lines}
 
 比較の際に run のデフォルトの色が役に立たない場合、W&amp;B では色を変更する方法を 2 つ用意しています。run テーブルから変更する方法と、チャートの凡例設定から変更する方法です。
 
@@ -232,9 +208,7 @@ with wandb.init() as run:
   </Tab>
 </Tabs>
 
-<div id="visualize-on-different-x-axes">
-  ## 異なる x 軸で可視化する
-</div>
+## 異なる x 軸で可視化する {#visualize-on-different-x-axes}
 
 既定では、折れ線グラフでは x 軸としてトレーニング step が使用されますが、別の視点でデータを表示するために別の x 軸に切り替えることができます。実験に要した実際の時間を確認したい場合や、実験を実行した日付を確認したい場合は、x 軸を切り替えることができます。以下の例は、steps から相対時間、さらに実時間へ切り替える例です。
 
@@ -252,9 +226,7 @@ with wandb.init() as run:
 
 詳細は、[ログ軸をカスタマイズする](/ja/models/track/log/customize-logging-axes#customize-log-axes)を参照してください。
 
-<div id="zoom">
-  ## ズーム
-</div>
+## ズーム {#zoom}
 
 折れ線グラフの特定の領域をより詳しく確認するには、両方の軸を同時にズームインできます。長方形になるようにクリック＆ドラッグすると、縦方向と横方向を同時にズームできます。これにより、x軸とy軸のズーム範囲が変更されます。
 
@@ -262,9 +234,7 @@ with wandb.init() as run:
   <img src="/images/app_ui/line_plots_zoom.gif" alt="プロットのズーム機能" />
 </Frame>
 
-<div id="hide-chart-legend">
-  ## チャートの凡例を非表示にする
-</div>
+## チャートの凡例を非表示にする {#hide-chart-legend}
 
 チャートの凡例が、プロットに使いたいスペースを取っている場合は、非表示にできます。次のトグルを切り替えるだけで、折れ線グラフの凡例をオフにできます。
 
@@ -272,9 +242,7 @@ with wandb.init() as run:
   <img src="/images/app_ui/demo_hide_legend.gif" alt="凡例を非表示にするトグル" />
 </Frame>
 
-<div id="create-a-run-metrics-notification">
-  ## run メトリクス通知を作成する
-</div>
+## run メトリクス通知を作成する {#create-a-run-metrics-notification}
 
 [Automations](/ja/models/automations/)を使用すると、指定した条件を run メトリクスが満たしたときにチームに通知できます。オートメーションでは、Slack チャンネルへの投稿や webhook の実行が可能です。
 

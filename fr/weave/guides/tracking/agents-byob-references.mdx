@@ -9,9 +9,7 @@ import ByobReferenceSetup from "/snippets/fr/_includes/byob-reference-setup.mdx"
 
 <ByobReferenceSetup />
 
-<div id="log-a-media-reference-using-agent-spans">
-  ## Consigner une référence de média à l’aide de spans d’agent
-</div>
+## Consigner une référence de média à l’aide de spans d’agent {#log-a-media-reference-using-agent-spans}
 
 Renvoyez un URI de bucket comme résultat d’un outil d’agent, et Weave l’affiche directement dans la vue **Agents**, sur l’appel d’outil qui l’a produit. L’exemple suivant ouvre une conversation, un tour de conversation et un span d’outil, puis définit un URI de bucket comme résultat de l’outil. Remplacez `[YOUR-TEAM]`, `[YOUR-PROJECT]` et `[YOUR-BUCKET]` par vos propres valeurs.
 
@@ -69,9 +67,7 @@ Renvoyez un URI de bucket comme résultat d’un outil d’agent, et Weave l’a
   Cet exemple utilise les spans d’agent Weave. Pour la configuration complète sur plusieurs tours de conversation, y compris les appels LLM et une boucle d’agent complète, voir le [démarrage rapide des agents personnalisés](/fr/weave/custom-agents-quickstart).
 </Note>
 
-<div id="view-the-reference-in-weave-agents">
-  ## Afficher la référence dans Weave Agents
-</div>
+## Afficher la référence dans Weave Agents {#view-the-reference-in-weave-agents}
 
 Ouvrez la conversation à partir du lien affiché par `weave.init()`. L&#39;image ou la vidéo référencée s&#39;affiche directement dans la **vue Agents**, au niveau de l&#39;appel d&#39;outil qui a renvoyé l&#39;URI. Si Weave ne parvient pas à résoudre une URI, par exemple parce que l&#39;objet est introuvable ou que le bucket n&#39;est pas enregistré, il affiche simplement la chaîne URI brute.
 

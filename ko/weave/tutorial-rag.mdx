@@ -21,7 +21,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 ![Evals 대표 이미지](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## 학습할 내용
+  ## 학습할 내용 {#what-youll-learn}
 </div>
 
 이 가이드에서는 다음을 설명합니다:
@@ -35,7 +35,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 <WeaveQuickstartPrereqs />
 
 <div id="build-a-knowledge-base">
-  ## 지식 베이스 구축하기
+  ## 지식 베이스 구축하기 {#build-a-knowledge-base}
 </div>
 
 지식 베이스는 RAG 애플리케이션이 쿼리 시점에 검색하는 코퍼스입니다. 이 섹션에서는 소규모 아티클 집합에 대한 벡터 임베딩을 계산하여, 나중에 주어진 질문에 가장 관련성이 높은 아티클을 가져올 수 있도록 합니다.
@@ -128,7 +128,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 </Tabs>
 
 <div id="create-a-rag-app">
-  ## RAG 앱 만들기
+  ## RAG 앱 만들기 {#create-a-rag-app}
 </div>
 
 지식 베이스가 준비되었으므로 이제 RAG 애플리케이션 자체를 구축할 수 있습니다. 이 섹션에서는 검색 step와 LLM Call을 결합하고, 둘 다 Weave로 래핑하여 모든 입력과 출력이 자동으로 추적되도록 합니다.
@@ -249,7 +249,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 </Tabs>
 
 <div id="evaluate-with-an-llm-judge">
-  ## LLM 기반 평가자로 평가하기
+  ## LLM 기반 평가자로 평가하기 {#evaluate-with-an-llm-judge}
 </div>
 
 이제 RAG 애플리케이션이 실행되고 Weave로 추적되고 있으므로, 다음 단계는 질문에 얼마나 잘 답하는지 평가하는 것입니다. 이 섹션에서는 LLM을 자동 평가자로 사용하는 방법을 보여주므로, 레이블을 수동으로 작성하지 않고도 애플리케이션의 응답에 점수를 매길 수 있습니다.
@@ -257,7 +257,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 애플리케이션을 평가할 단순한 방법이 없을 때는, LLM을 사용해 애플리케이션의 일부 측면을 평가하는 것도 한 가지 방법입니다. 다음은 주어진 답변에 도달하는 데 컨텍스트가 유용했는지 확인하도록 프롬프트해, 컨텍스트 정밀도를 측정하는 LLM 기반 평가자 사용 예시입니다. 이 프롬프트는 널리 사용되는 [RAGAS 프레임워크](https://docs.ragas.io/en/stable/)를 바탕으로 보강되었습니다.
 
 <div id="define-a-scoring-function">
-  ### 점수 함수 정의하기
+  ### 점수 함수 정의하기 {#define-a-scoring-function}
 </div>
 
 [Build an Evaluation pipeline tutorial](/ko/weave/tutorial-eval)과 마찬가지로, 앱을 테스트할 예시 행 집합과 점수 함수를 정의합니다. 점수 함수는 각 행을 하나씩 받아 평가합니다. 입력 매개변수는 해당 행의 키와 일치해야 하므로, 여기서 `question`은 행 딕셔너리에서 가져옵니다. `output`은 모델의 출력입니다. 모델 입력도 입력 인수에 따라 예시에서 가져오므로, 여기서 역시 `question`이 사용됩니다. 이 예제는 `async` 함수를 사용하므로 병렬로 실행됩니다. async에 대한 간단한 소개는 [Python `asyncio` 문서](https://docs.python.org/3/library/asyncio.html)를 참고하세요.
@@ -349,7 +349,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 </Tabs>
 
 <div id="optional-define-a-scorer-class">
-  ### 선택 사항: `Scorer` 클래스 정의하기
+  ### 선택 사항: `Scorer` 클래스 정의하기 {#optional-define-a-scorer-class}
 </div>
 
 이전 섹션의 점수 함수는 단순한 경우에는 잘 작동하지만, 여러 평가에서 동일한 judge를 재사용하거나 점수 집계 방식을 사용자 지정하려는 경우에는 `Scorer` 클래스가 유용합니다. 다음 단계에서는 이를 언제, 어떻게 정의하는지 보여줍니다.
@@ -459,7 +459,7 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
 </Tabs>
 
 <div id="put-it-all-together">
-  ## 전체를 한데 모아보기
+  ## 전체를 한데 모아보기 {#put-it-all-together}
 </div>
 
 이 섹션에서는 앞선 단계의 모든 내용을 하나의 엔드투엔드 예시로 통합해, 각 요소가 어떻게 맞물리는지 보여주고 이를 자신의 RAG 애플리케이션에 맞게 조정할 수 있도록 합니다.
@@ -795,7 +795,7 @@ RAG 앱에서 동일한 결과를 얻으려면 다음을 수행하세요.
 </Tabs>
 
 <div id="conclusion">
-  ## 결론
+  ## 결론 {#conclusion}
 </div>
 
 이 튜토리얼에서는 이 예제의 검색 step처럼 애플리케이션의 여러 단계에 관측성을 적용하는 방법을 살펴보았습니다. 또한 애플리케이션 응답을 자동으로 평가하기 위해 LLM 기반 평가자와 같은 더 복잡한 점수 함수를 만드는 방법도 배웠습니다.

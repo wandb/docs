@@ -29,9 +29,7 @@ Vous pouvez ensuite voir les messages W&amp;B Alerts dans Slack (ou dans votre m
   Si vous utilisez [W&amp;B Server](/fr/platform/hosting/) dans votre Cloud privé ou sur W&amp;B Cloud dédié, reportez-vous à [Configurer les alertes Slack dans W&amp;B Server](/fr/platform/hosting/monitoring-usage/slack-alerts) pour configurer les alertes Slack.
 </Note>
 
-<div id="automated-run-lifecycle-alerts">
-  ## Alertes automatisées du cycle de vie des runs
-</div>
+## Alertes automatisées du cycle de vie des runs {#automated-run-lifecycle-alerts}
 
 W&amp;B peut vous notifier lorsqu’un run se termine ou a planté, sans aucune modification du code. Dans vos [Paramètres utilisateur](https://wandb.ai/settings), faites défiler jusqu’à la section **alertes** et activez :
 
@@ -48,9 +46,7 @@ Pour configurer des alertes scriptables avec `run.alert()`, suivez ces étapes, 
 2. Ajoutez `run.alert()` à votre code.
 3. Testez la configuration.
 
-<div id="1-turn-on-alerts-in-your-wb-user-settings">
-  ### 1. Activez les alertes dans les Paramètres utilisateur de W&amp;B
-</div>
+### 1. Activez les alertes dans les Paramètres utilisateur de W&amp;B {#1-turn-on-alerts-in-your-wb-user-settings}
 
 Dans vos [Paramètres utilisateur](https://wandb.ai/settings) :
 
@@ -65,9 +61,7 @@ Vous n&#39;aurez à le faire qu&#39;une seule fois, lors de la configuration ini
   <img src="/images/track/demo_connect_slack.png" alt="Paramètres des alertes dans les Paramètres utilisateur de W&B" />
 </Frame>
 
-<div id="2-add-runalert-to-your-code">
-  ### 2. Ajoutez `run.alert()` à votre code
-</div>
+### 2. Ajoutez `run.alert()` à votre code {#2-add-runalert-to-your-code}
 
 Ajoutez `run.alert()` à votre code (dans un Notebook ou un script Python) à l’endroit où vous voulez le déclencher
 
@@ -78,15 +72,11 @@ with wandb.init() as run:
     run.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
-<div id="3-test-the-configuration">
-  ### 3. Tester la configuration
-</div>
+### 3. Tester la configuration {#3-test-the-configuration}
 
 Consultez Slack ou vos e-mails pour voir si vous avez reçu le message d’alerte. Si vous n’avez rien reçu, assurez-vous que les e-mails ou Slack sont activés pour les **Scriptable Alerts** dans vos [Paramètres utilisateur](https://wandb.ai/settings)
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 Cette alerte simple envoie un avertissement lorsque la métrique accuracy passe sous un seuil. Dans cet exemple, elle n’envoie des alertes qu’à 5 minutes d’intervalle minimum.
 
@@ -105,9 +95,7 @@ with wandb.init() as run:
         )
 ```
 
-<div id="tag-or-mention-users">
-  ## Identifier ou mentionner des utilisateurs
-</div>
+## Identifier ou mentionner des utilisateurs {#tag-or-mention-users}
 
 Utilisez le symbole `@`, suivi de l’ID utilisateur Slack, pour vous mentionner vous-même ou mentionner vos collègues dans le titre ou le texte de l’alerte. Vous trouverez l’ID utilisateur Slack sur la page de profil Slack de l’utilisateur concerné.
 
@@ -115,16 +103,12 @@ Utilisez le symbole `@`, suivi de l’ID utilisateur Slack, pour vous mentionner
 run.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 ```
 
-<div id="configure-team-alerts">
-  ## Configurer les alertes d’équipe
-</div>
+## Configurer les alertes d’équipe {#configure-team-alerts}
 
 Les administrateurs d’équipe peuvent configurer des alertes pour l’équipe sur la page Team settings : `wandb.ai/teams/your-team`.
 
 Les alertes d’équipe s’appliquent à tous les membres de votre équipe. W&amp;B recommande d’utiliser le canal **Slackbot**, car il permet de garder les alertes privées.
 
-<div id="change-slack-channel-to-send-alerts-to">
-  ## Modifier le canal Slack auquel envoyer les alertes
-</div>
+## Modifier le canal Slack auquel envoyer les alertes {#change-slack-channel-to-send-alerts-to}
 
 Pour modifier le canal auquel les alertes sont envoyées, cliquez sur **Disconnect Slack**, puis reconnectez Slack. Après la reconnexion, choisissez un autre canal Slack.

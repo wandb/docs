@@ -9,9 +9,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 Cette page explique comment intégrer W&amp;B à TensorFlow pour suivre les expériences, consigner des métriques et synchroniser les journaux TensorBoard. Suivez ces approches pour capturer les données d’entraînement des modèles TensorFlow, personnaliser ce que vous consignez à l’aide de hooks d’estimateur ou d’une journalisation manuelle, et réutiliser vos flux de travail TensorBoard existants avec le tableau de bord centralisé de W&amp;B. Utilisez cette intégration si vous souhaitez un suivi des expériences plus riche que celui fourni par TensorBoard seul.
 
-<div id="get-started">
-  ## Pour commencer
-</div>
+## Pour commencer {#get-started}
 
 Si vous utilisez déjà TensorBoard, vous pouvez l’intégrer à W&amp;B. Importez les deux bibliothèques afin de pouvoir utiliser les API W&amp;B et TensorFlow dans votre script.
 
@@ -20,9 +18,7 @@ import tensorflow as tf
 import wandb
 ```
 
-<div id="log-custom-metrics">
-  ## Consigner des métriques personnalisées
-</div>
+## Consigner des métriques personnalisées {#log-custom-metrics}
 
 Cette section explique comment consigner des métriques que TensorBoard ne capture pas déjà, afin que vous puissiez suivre des valeurs supplémentaires en plus de vos résumés TensorBoard standard.
 
@@ -35,9 +31,7 @@ with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
     run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
 ```
 
-<div id="tensorflow-estimators-hook">
-  ## Hook pour les estimateurs TensorFlow
-</div>
+## Hook pour les estimateurs TensorFlow {#tensorflow-estimators-hook}
 
 Cette section décrit le hook W&amp;B pour les estimateurs TensorFlow, qui vous permet de contrôler finement ce que W&amp;B capture pendant l’entraînement de l’estimateur.
 
@@ -53,9 +47,7 @@ estimator.train(hooks=[wandb.tensorflow.WandbHook(steps_per_log=1000)])
 run.finish()
 ```
 
-<div id="log-manually">
-  ## Journaliser manuellement
-</div>
+## Journaliser manuellement {#log-manually}
 
 Si vous n’utilisez pas d’estimateurs ou si vous souhaitez consigner explicitement des synthèses spécifiques, cette section montre comment envoyer directement des valeurs `tf.summary` à W&amp;B.
 
@@ -88,9 +80,7 @@ Avec TensorFlow 2, la manière recommandée d’entraîner un modèle avec une b
 
 Un [exemple complet pour personnaliser les boucles d&#39;entraînement dans TensorFlow 2](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) est disponible.
 
-<div id="differences-between-wb-and-tensorboard">
-  ## Différences entre W&amp;B et TensorBoard
-</div>
+## Différences entre W&amp;B et TensorBoard {#differences-between-wb-and-tensorboard}
 
 Si vous vous demandez s’il faut adopter W&amp;B en complément de TensorBoard ou à la place, cette section met en évidence les principales différences.
 
@@ -105,9 +95,7 @@ W&amp;B a été conçu pour remédier aux limites couramment rencontrées par le
 
 Pour essayer W&amp;B, [créez un compte gratuit](https://wandb.ai).
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Pour voir ces schémas d’intégration appliqués à des projets complets, explorez les exemples suivants :
 

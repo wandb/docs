@@ -13,18 +13,14 @@ Pour obtenir des informations complètes sur l’API et des exemples supplément
 * La [référence de l’API d’intégration Weave](https://docs.haystack.deepset.ai/reference/integrations-weave) de Haystack.
 * L’exemple [Tracer avec W&amp;B Weave](https://docs.cloud.deepset.ai/docs/use-weights-and-biases) de Haystack utilisant un pipeline RAG.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, vous devez effectuer les opérations suivantes :
 
 * Définissez `WANDB_API_KEY` dans votre environnement à l’aide de votre [clé API W&amp;B](https://wandb.ai/settings). Cela authentifie le connecteur auprès de W&amp;B Weave.
 * Définissez `HAYSTACK_CONTENT_TRACING_ENABLED` sur `true` avant d’exécuter un pipeline afin que Haystack émette des données de tracing que le connecteur pourra transférer.
 
-<div id="install">
-  ## Installer
-</div>
+## Installer {#install}
 
 Installez les dépendances requises à l’aide de `pip` :
 
@@ -34,9 +30,7 @@ pip install weave-haystack
 
 Le package déclare `haystack-ai` et `weave` comme dépendances dans des versions compatibles.
 
-<div id="trace-a-haystack-pipeline-with-weave">
-  ## Tracer un pipeline Haystack avec Weave
-</div>
+## Tracer un pipeline Haystack avec Weave {#trace-a-haystack-pipeline-with-weave}
 
 L’exemple suivant ajoute le `WeaveConnector` de Haystack à un [`Pipeline`](https://docs.haystack.deepset.ai/docs/pipelines) Haystack et intègre W&amp;B Weave afin d’assurer le traçage et la surveillance des composants de votre pipeline. Le `pipeline_name` que vous transmettez est utilisé comme nom du projet Weave pour les traces issues de ce pipeline.
 

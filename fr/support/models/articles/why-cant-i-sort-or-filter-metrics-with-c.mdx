@@ -5,9 +5,7 @@ keywords: ["Experiments", "Métriques"]
 
 Dans W&amp;B, les noms de métriques doivent respecter les règles de nommage GraphQL afin que vous puissiez les trier et les filtrer dans l’UI.
 
-<div id="valid-metric-names">
-  ## Noms de métriques valides
-</div>
+## Noms de métriques valides {#valid-metric-names}
 
 Les noms de métriques doivent respecter les règles suivantes :
 
@@ -17,9 +15,7 @@ Les noms de métriques doivent respecter les règles suivantes :
 
 Si les métriques ne respectent pas ces règles, il se peut que vous ne puissiez pas les trier ou les filtrer dans l’interface W&amp;B.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Les exemples suivants montrent des noms de métriques conformes à ces règles et d’autres qui ne le sont pas.
 
@@ -41,9 +37,7 @@ with wandb.init() as run:
   run.log({"5_fold_cv": 0.8})  # Commence par un chiffre
 ```
 
-<div id="recommended-solution">
-  ## Solution recommandée
-</div>
+## Solution recommandée {#recommended-solution}
 
 Remplacez les caractères non valides par des caractères valides, comme des caractères de soulignement (`_`) :
 

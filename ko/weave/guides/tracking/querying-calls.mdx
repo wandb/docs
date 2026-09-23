@@ -6,9 +6,7 @@ keywords: ["트레이스 내보내기", "stream_query", "call 메트릭", "Calls
 
 이 페이지에서는 Weave 외부에서 트레이스 데이터를 분석할 수 있도록 Weave Calls를 쿼리하고 내보내는 방법을 설명합니다. 예를 들어 맞춤형 대시보드를 구축하거나, 공동 작업자와 결과를 공유하거나, 오프라인 분석을 수행할 수 있습니다. Weave UI에서 Calls를 내보내거나, Python 또는 TypeScript SDK를 사용해 프로그래밍 방식으로 가져오거나, Service API를 사용해 직접 쿼리할 수도 있습니다.
 
-<div id="export-calls-from-the-weave-ui">
-  ## Weave UI에서 Calls 내보내기
-</div>
+## Weave UI에서 Calls 내보내기 {#export-calls-from-the-weave-ui}
 
 Weave UI에서는 데이터를 여러 형식으로 내보낼 수 있습니다. 또한 행을 프로그래밍 방식으로 내보낼 때 사용할 수 있는 Python 및 cURL 코드도 표시됩니다.
 Calls를 내보내려면 다음 단계를 따르세요.
@@ -24,9 +22,7 @@ Calls를 내보내려면 다음 단계를 따르세요.
   ![내보낼 수 있도록 여러 Calls를 선택한 상태가 Export 모달에 표시된 Traces 페이지](/weave/guides/tracking/imgs/trace_export_modal.png)
 </Frame>
 
-<div id="fetch-calls-programmatically">
-  ## 프로그래밍 방식으로 call 조회하기
-</div>
+## 프로그래밍 방식으로 call 조회하기 {#fetch-calls-programmatically}
 
 UI 외부에서 Call를 필터링, 정렬 또는 처리하려면 Weave SDK 중 하나 또는 Service API를 사용해 조회하세요. 워크플로에 가장 잘 맞는 인터페이스를 선택하세요.
 
@@ -121,9 +117,7 @@ UI 외부에서 Call를 필터링, 정렬 또는 처리하려면 Weave SDK 중 �
 
 call 속성과 필드에 대한 전체 내용은 [Call 스키마 레퍼런스](/ko/weave/guides/tracking/call-schema-reference)를 참조하세요.
 
-<div id="export-call-metrics">
-  ## Call 메트릭 내보내기
-</div>
+## Call 메트릭 내보내기 {#export-call-metrics}
 
 기본 Call 레코드 대신 비용이나 지연 시간 추세와 같은 집계 수준의 인사이트가 필요한 경우, 이 섹션에서 설명하는 메트릭 엔드포인트를 사용하세요.
 

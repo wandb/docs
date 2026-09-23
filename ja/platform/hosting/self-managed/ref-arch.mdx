@@ -19,9 +19,7 @@ W&amp;B 用に選択したデプロイ環境によっては、さまざまなサ
 
 このリファレンスアーキテクチャでは、一般的なデプロイシナリオを取り上げ、パフォーマンスと信頼性を実現するために、W&amp;B のデプロイをクラウドベンダーのサービスとどのように統合できるかを示します。
 
-<div id="before-you-start">
-  ## 開始前に
-</div>
+## 開始前に {#before-you-start}
 
 本番環境でアプリケーションを運用するには、さまざまな固有の課題が伴います。W&amp;B も例外ではありません。W&amp;B はプロセスの簡素化を目指していますが、アーキテクチャや設計上の判断によっては、複雑さが生じることがあります。一般に、本番デプロイの管理では、ハードウェア、オペレーティングシステム、ネットワーク、storage、セキュリティ、W&amp;B プラットフォーム自体、さらにその他の依存関係を含むさまざまなコンポーネントを管理する必要があります。この責任は、環境の初期セットアップだけでなく、その後の継続的な保守にも及びます。
 
@@ -31,9 +29,7 @@ W&amp;B をセルフマネージドで運用するアプローチが、チーム
 
 自分で管理する代わりに W&amp;B を利用できるマネージドソリューションの詳細については、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) および [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) を参照してください。
 
-<div id="infrastructure">
-  ## インフラストラクチャー
-</div>
+## インフラストラクチャー {#infrastructure}
 
 W&amp;B のデプロイメントは、アプリケーション層とストレージ層で構成されています。次の図は、これらのレイヤーの関係を示したもので、以降の各サブセクションでそれぞれについて説明します。
 
@@ -41,27 +37,19 @@ W&amp;B のデプロイメントは、アプリケーション層とストレー
   <img src="/images/hosting/reference_architecture.png" alt="W&Bのインフラストラクチャー図" />
 </Frame>
 
-<div id="application-layer">
-  ### アプリケーション層
-</div>
+### アプリケーション層 {#application-layer}
 
 アプリケーション層は、ノード障害に対する耐障害性を備えたマルチノードの Kubernetes クラスターで構成されています。Kubernetes クラスターは W&amp;B の pod を実行し、管理します。
 
-<div id="storage-layer">
-  ### ストレージ層
-</div>
+### ストレージ層 {#storage-layer}
 
 ストレージ層は、MySQL データベースとオブジェクトストレージで構成されます。MySQL データベースにはメタデータが保存され、オブジェクトストレージにはモデルやデータセットなどのArtifactsが保存されます。
 
-<div id="infrastructure-requirements">
-  ## インフラストラクチャー要件
-</div>
+## インフラストラクチャー要件 {#infrastructure-requirements}
 
 以下のセクションでは、Kubernetes クラスターの詳細、MySQL、Redis、オブジェクトストレージ、ソフトウェアバージョン、ネットワーク、DNS、ロードバランサーと ingress、SSL/TLS、サポートされる CPU アーキテクチャなど、W&amp;B のデプロイメントに関する各種要件を詳しく説明します。デプロイメントを開始する前に、お使いの環境がこれらすべての要件を満たしていることを確認してください。
 
-<div id="kubernetes">
-  ### Kubernetes
-</div>
+### Kubernetes {#kubernetes}
 
 W&amp;B は、複数の pod をデプロイする [Kubernetes Operator](/ja/platform/hosting/self-managed/operator) として W&amp;B Server アプリケーションをデプロイします。そのため、W&amp;B では次の要件を満たす Kubernetes クラスターが必要です。
 
@@ -70,9 +58,7 @@ W&amp;B は、複数の pod をデプロイする [Kubernetes Operator](/ja/plat
 
 W&amp;B は、クラウド、オンプレミス、air-gapped 環境における [OpenShift Kubernetes clusters](https://www.redhat.com/en/technologies/cloud-computing/openshift) へのデプロイをサポートします。具体的な設定手順については、Operator ガイドの [OpenShift セクション](/ja/platform/hosting/self-managed/operator#openshift-kubernetes-clusters) を参照してください。
 
-<div id="mysql">
-  ### MySQL
-</div>
+### MySQL {#mysql}
 
 <SelfManagedMysqlEolUpgrade />
 
@@ -87,23 +73,17 @@ W&amp;B はメタデータを MySQL データベースに保存します。デ�
 * **Monitoring**: データベースには十分な CPU リソースが必要です。データベースサーバーの CPU 負荷を監視してください。CPU 使用率がシステム全体の 90% を超えた状態で 5 分以上継続する場合は、CPU リソースの増強を検討してください。
 * **Availability**: 可用性と耐久性の要件を満たすために、W&amp;B は、別のマシン上にホットスタンバイ デプロイを構成することを推奨します。スタンバイは、プライマリデプロイからすべての更新をリアルタイムでストリーミングし、プライマリサーバーがクラッシュした場合、破損した場合、または継続的なダウンタイムが発生した場合にフェイルオーバーできるよう待機します。
 
-<div id="mysql-topology">
-  #### MySQL のトポロジ
-</div>
+#### MySQL のトポロジ {#mysql-topology}
 
 本番環境では、高可用性を実現する最も簡単な方法は、マネージド MySQL サービスを使用することです。フェイルオーバー、バックアップ、パッチ適用はクラウドプロバイダが処理するためです。たとえば、AWS の Aurora Multi-AZ など、プロバイダの高可用性オプションを使用してください。
 
 セルフマネージド MySQL を使用する場合は、リアルタイムレプリケーションストリームを受信し、障害発生時に引き継げるホットスタンバイを備えたプライマリデータベースを使用してください。W&amp;B は、アプリケーションデータベースに対するマルチプライマリトポロジや読み取り専用レプリカをサポートしていません。
 
-<div id="mysql-database-creation">
-  #### MySQL データベースの作成
-</div>
+#### MySQL データベースの作成 {#mysql-database-creation}
 
 MySQL データベースとユーザーを手動で作成する手順については、[ベアメタル ガイドの MySQL データベース セクション](/ja/platform/hosting/self-managed/operator#mysql-database)を参照してください。
 
-<div id="mysql-configuration-parameters">
-  #### MySQL の設定パラメーター
-</div>
+#### MySQL の設定パラメーター {#mysql-configuration-parameters}
 
 これらのパラメーターは、W&amp;B が大規模に行う書き込みパターンやスキーマの変更に合わせて MySQL を調整するためのものです。独自の MySQL インスタンスを実行している場合は、以下の設定を使用して MySQL を構成してください。
 
@@ -119,9 +99,7 @@ sync_binlog = 1
 
 これらの設定は、パフォーマンスと信頼性を確保できるよう、W&amp;B によって検証されています。
 
-<div id="redis">
-  ### Redis
-</div>
+### Redis {#redis}
 
 W&amp;B は、ジョブキューイングとデータキャッシュのために W&amp;B のコンポーネントが使用する、単一ノードの Redis 7.x デプロイに依存しています。テストや概念実証の開発を手軽に行えるよう、W&amp;B セルフマネージド にはローカルの Redis デプロイが含まれていますが、これは本番デプロイには適していません。
 
@@ -132,9 +110,7 @@ W&amp;B は、次の環境にある Redis インスタンスに接続できま�
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)。
 * クラウドまたはオンプレミスのインフラストラクチャーでホストされている Redis デプロイ。
 
-<div id="object-storage">
-  ### オブジェクトストレージ
-</div>
+### オブジェクトストレージ {#object-storage}
 
 W&amp;B では、以下のいずれかにデプロイされた、事前署名付き URL と CORS をサポートするオブジェクトストレージが必要です。
 
@@ -144,33 +120,23 @@ W&amp;B では、以下のいずれかにデプロイされた、事前署名付
 * [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) は、テキスト、バイナリデータ、画像、動画、ログなどの非構造化データを保存するためのクラウドベースのオブジェクトストレージソリューションです。
 * [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)、[NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)、またはクラウドやオンプレミスのインフラストラクチャーでホストされるその他のエンタープライズ向けソリューションなどの S3 互換ストレージ。
 
-<div id="versions">
-  ### バージョン
-</div>
+### バージョン {#versions}
 
 <SelfManagedVersionRequirements />
 
-<div id="networking">
-  ### ネットワーク
-</div>
+### ネットワーク {#networking}
 
 <SelfManagedNetworkingRequirements />
 
-<div id="dns">
-  ### DNS
-</div>
+### DNS {#dns}
 
 W&amp;B デプロイの完全修飾ドメイン名 (FQDN) は、`A` レコードを使用して ingress または ロードバランサー の IP アドレスに名前解決される必要があります。
 
-<div id="load-balancer-and-ingress">
-  ### ロードバランサーと ingress
-</div>
+### ロードバランサーと ingress {#load-balancer-and-ingress}
 
 W&amp;B Kubernetes Operator は、URL パスに基づいて異なるポートのサービスエンドポイントにルーティングする Kubernetes ingress controller を使用して、サービスを公開できます。ingress controller には、機械学習ペイロードを実行するすべてのマシン、または Web ブラウザー経由でサービスにアクセスするすべてのマシンからアクセスできる必要があります。
 
-<div id="ingress-controller-requirements">
-  #### ingress controller の要件
-</div>
+#### ingress controller の要件 {#ingress-controller-requirements}
 
 Kubernetes クラスターで `IngressClass` が利用可能である必要があります。一般的な ingress controller の選択肢は次のとおりです。
 
@@ -179,9 +145,7 @@ Kubernetes クラスターで `IngressClass` が利用可能である必要が�
 * [Traefik](https://traefik.io/).
 * クラウドプロバイダの ingress controller (AWS ALB、GCP Ingress、Azure Application Gateway).
 
-<div id="wb-service-routing">
-  #### W&amp;B サービスのルーティング
-</div>
+#### W&amp;B サービスのルーティング {#wb-service-routing}
 
 W&amp;B Operator は、パスに応じてリクエストを複数のバックエンドサービスに自動的にルーティングします。
 
@@ -194,9 +158,7 @@ W&amp;B Operator は、パスに応じてリクエストを複数のバックエ
 | `/console`  | `wandb-console`     | 8082     | システムコンソール               |
 | `/traces`   | `wandb-weave-trace` | 8722     | Weave トレースサービス (有効な場合)  |
 
-<div id="example-ingress-configuration">
-  #### ingress の設定例
-</div>
+#### ingress の設定例 {#example-ingress-configuration}
 
 以下は、W&amp;B Operator によって作成された ingress リソースの例です。
 
@@ -259,27 +221,19 @@ spec:
   W&amp;B Operator は ingress の設定を自動的に作成・管理します。通常、ingress リソースを手動で作成する必要はありません。クラスターに動作する ingress controller があり、適切な `IngressClass` が設定されていることを確認してください。
 </Note>
 
-<div id="ssltls">
-  ### SSL/TLS
-</div>
+### SSL/TLS {#ssltls}
 
 <SelfManagedSslTlsRequirements />
 
-<div id="supported-cpu-architectures">
-  ### サポート対象のCPUアーキテクチャ
-</div>
+### サポート対象のCPUアーキテクチャ {#supported-cpu-architectures}
 
 W&amp;B は Intel および AMD の 64 ビットアーキテクチャで動作します。ARM はサポートされていません。
 
-<div id="deployment-method">
-  ## デプロイ方法
-</div>
+## デプロイ方法 {#deployment-method}
 
 インフラストラクチャーが前述の要件を満たしたら、W&amp;B のインストール方法と、基盤となるリソースをどのようにプロビジョニングするかを選択します。以下のセクションでは、推奨されるデプロイ方法と、インフラストラクチャーをプロビジョニングするための推奨アプローチについて説明します。
 
-<div id="wb-kubernetes-operator-with-helm">
-  ### Helm を使用した W&amp;B Kubernetes Operator
-</div>
+### Helm を使用した W&amp;B Kubernetes Operator {#wb-kubernetes-operator-with-helm}
 
 W&amp;B セルフマネージド の推奨インストール方法では、Helm 経由で **W&amp;B Kubernetes Operator** をデプロイします。この方法には、次の利点があります。
 
@@ -292,15 +246,11 @@ W&amp;B セルフマネージド の推奨インストール方法では、Helm 
 * [オンプレミス環境に W&amp;B Platform をデプロイする](/ja/platform/hosting/self-managed/operator) - メインのインストール ガイド。
 * [air-gapped インスタンス向け Kubernetes operator](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) - 外部接続のない環境向け。
 
-<div id="infrastructure-provisioning">
-  ### インフラストラクチャーのプロビジョニング
-</div>
+### インフラストラクチャーのプロビジョニング {#infrastructure-provisioning}
 
 W&amp;Bの本番デプロイ向けのインフラストラクチャーをプロビジョニングするには、Terraformの使用を推奨します。Terraformを使用すると、必要なリソース、それらがほかのリソースを参照する関係、そして依存関係を定義できます。W&amp;Bは、主要なクラウドプロバイダ向けのTerraformモジュールを提供しています。詳細は、[セルフマネージドのクラウドアカウント内にW&amp;B Serverをデプロイする](/ja/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts)を参照してください。
 
-<div id="sizing">
-  ## サイジング
-</div>
+## サイジング {#sizing}
 
 デプロイを計画する際は、まず以下のガイドラインを目安にしてください。W&amp;B では、デプロイのすべてのコンポーネントを注意深く監視し、実際に観測された使用パターンに基づいて調整することを推奨しています。パフォーマンスを維持するため、本番デプロイは継続的に監視し、必要に応じて調整を行ってください。
 
@@ -308,9 +258,7 @@ W&amp;Bの本番デプロイ向けのインフラストラクチャーをプロ�
 
 以下のセクションでは、Kubernetes クラスターと MySQL データベースのノードごとのサイジング推奨事項を示します。
 
-<div id="kubernetes-sizing">
-  ### Kubernetes のサイジング
-</div>
+### Kubernetes のサイジング {#kubernetes-sizing}
 
 <Tabs>
   <Tab title="Models のみ">
@@ -341,9 +289,7 @@ W&amp;Bの本番デプロイ向けのインフラストラクチャーをプロ�
   </Tab>
 </Tabs>
 
-<div id="mysql-sizing">
-  ### MySQL のサイジング
-</div>
+### MySQL のサイジング {#mysql-sizing}
 
 これらの推奨事項は、プロダクト構成によって変わりません。トポロジと可用性に関するガイダンスについては、[MySQL](#mysql) の [MySQL のトポロジ](#mysql-topology) を参照してください。
 
@@ -354,9 +300,7 @@ W&amp;Bの本番デプロイ向けのインフラストラクチャーをプロ�
 
 数値は各 MySQL ノードあたりの値です。
 
-<div id="cloud-provider-instance-recommendations">
-  ## クラウドプロバイダごとの推奨インスタンス
-</div>
+## クラウドプロバイダごとの推奨インスタンス {#cloud-provider-instance-recommendations}
 
 前述のサイジング表でノードごとの CPU、メモリ、ディスクの要件を確認したら、以下の推奨事項を使用して、それらの要件を満たす具体的なクラウドプロバイダのインスタンスタイプとマネージドサービスを選択してください。これらの推奨事項は、クラウドインフラストラクチャー上で W&amp;B をセルフマネージドデプロイメントする際の各ノードに適用されます。
 

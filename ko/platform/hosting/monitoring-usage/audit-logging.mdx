@@ -18,18 +18,14 @@ W&amp;B 감사 로그를 사용하면 조직 내 사용자 활동을 추적하�
 
 로그 형식에 대한 자세한 내용은 [감사 로그 스키마](#audit-log-schema) 및 [작업](#actions)을 참고하세요.
 
-<div id="audit-log-retention">
-  ## 감사 로그 보존
-</div>
+## 감사 로그 보존 {#audit-log-retention}
 
 다음 권장 사항은 조직의 거버넌스 및 규정 준수 의무를 충족할 수 있도록 감사 로그를 보존하는 데 도움이 됩니다.
 
 * 감사 로그를 특정 기간 동안 보존해야 하는 경우, W&amp;B는 저장소 버킷 또는 Audit Logging API를 사용해 로그를 장기 저장소로 주기적으로 전송할 것을 권장합니다.
 * [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://hhs.gov/hipaa/for-professionals/index.html)의 적용을 받는 경우, 감사 로그는 의무 보존 기간이 끝나기 전에 내부 또는 외부의 어떤 주체도 삭제하거나 수정할 수 없는 환경에서 최소 6년 동안 보존되어야 합니다. [BYOB](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하는 HIPAA 준수 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 인스턴스의 경우, 장기 보존 저장소를 포함한 관리형 저장소에 대해 가드레일을 구성해야 합니다.
 
-<div id="audit-log-schema">
-  ## 감사 로그 스키마
-</div>
+## 감사 로그 스키마 {#audit-log-schema}
 
 각 감사 로그 항목에서 반환되는 필드를 해석하려면 이 스키마를 사용하세요. 다음 표는 감사 로그 항목에 나타날 수 있는 모든 키를 알파벳순으로 보여 줍니다. action 및 상황에 따라 특정 로그 항목에는 가능한 필드 중 일부만 포함될 수 있습니다.
 
@@ -55,18 +51,14 @@ W&amp;B 감사 로그를 사용하면 조직 내 사용자 활동을 추적하�
 | `user_asset`              | 해당하는 경우, action을 수행한 사용자가 아니라 action의 영향을 받는 사용자 asset입니다.                                                                              |
 | `user_email`              | 해당하는 경우, action을 수행한 사용자의 이메일 주소가 아니라 action의 영향을 받는 사용자의 이메일 주소입니다.                                                                    |
 
-<div id="personally-identifiable-information-pii">
-  ### 개인 식별 정보 (PII)
-</div>
+### 개인 식별 정보 (PII) {#personally-identifiable-information-pii}
 
 이메일 주소, Projects, Teams, Reports의 이름과 같은 개인 식별 정보(PII)는 API 엔드포인트 옵션을 통해서만 확인할 수 있습니다:
 
 * [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 및 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)의 경우, 조직 관리자는 감사 로그를 가져올 때 [PII 제외](#exclude-pii)를 설정할 수 있습니다.
 * [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우, API 엔드포인트는 PII를 포함한 감사 로그의 관련 필드를 항상 반환합니다. 이는 설정할 수 없습니다.
 
-<div id="before-you-begin">
-  ## 시작하기 전에
-</div>
+## 시작하기 전에 {#before-you-begin}
 
 감사 로그를 가져오기 전에 배포 유형에 따라 다음 사전 요구 사항을 충족하는지 확인하세요:
 
@@ -84,9 +76,7 @@ W&amp;B 감사 로그를 사용하면 조직 내 사용자 활동을 추적하�
 
   이는 서비스 계정에는 적용되지 않습니다. 서비스 계정은 하나의 Multi-tenant Cloud 조직에만 속할 수 있기 때문입니다.
 
-<div id="fetch-audit-logs">
-  ## 감사 로그 가져오기
-</div>
+## 감사 로그 가져오기 {#fetch-audit-logs}
 
 W&amp;B Audit Logging API를 사용하여 감사 로그를 가져오세요. 엔드포인트, 쿼리 파라미터, 응답 형식은 배포 유형에 따라 다릅니다.
 
@@ -164,9 +154,7 @@ W&amp;B Audit Logging API를 사용하여 감사 로그를 가져오세요. 엔�
       "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000&cursor=[NEXT-CURSOR]"
     ```
 
-    <div id="exclude-pii-when-fetching-audit-logs">
-      ### audit log을 가져올 때 PII 제외하기 <a id="exclude-pii" />
-    </div>
+### audit log을 가져올 때 PII 제외하기 <a id="exclude-pii" /> {#exclude-pii-when-fetching-audit-logs}
 
     [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 및 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)에서는 W&amp;B 조직 또는 instance admin이 audit logs를 가져올 때 PII를 제외할 수 있습니다. [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서는 API endpoint가 PII를 포함한 audit logs의 관련 필드를 항상 반환하며, 이 동작은 변경할 수 없습니다.
 
@@ -247,15 +235,11 @@ W&amp;B Audit Logging API를 사용하여 감사 로그를 가져오세요. 엔�
   </Tab>
 </Tabs>
 
-<div id="use-basic-authentication">
-  ### 기본 인증 사용
-</div>
+### 기본 인증 사용 {#use-basic-authentication}
 
 감사 로그 API에 대한 각 요청은 반드시 인증해야 합니다. API 키로 감사 로그 API에 액세스하기 위해 기본 인증을 사용하려면 HTTP 요청의 `Authorization` 헤더를 `Basic` 문자열 뒤에 공백 하나와 `[USERNAME]:[API-KEY]` 형식의 base64 인코딩 문자열이 오도록 설정합니다. 즉, 사용자 이름과 API 키를 `:` 문자로 구분해 실제 값으로 바꾼 다음 그 결과를 base64로 인코딩합니다. 예를 들어 `demo:p@55w0rd`로 인증하려면 헤더를 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`로 설정합니다.
 
-<div id="actions">
-  ## 작업
-</div>
+## 작업 {#actions}
 
 각 감사 로그 항목에는 다음 작업 중 하나가 기록됩니다. 이 레퍼런스를 사용하여 로그 항목의 `action` 필드를 해석하세요. 다음 표는 W&amp;B에서 기록할 수 있는 작업을 알파벳순으로 설명합니다.
 

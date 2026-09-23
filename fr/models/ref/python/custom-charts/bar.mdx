@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py#L12" />
 
-<div id="function-wandbplotbar">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.bar()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.bar() {#function-wandbplotbar}
 
 Crée un graphique à barres à partir d’un `wandb.Table` de données.
 
@@ -22,9 +20,7 @@ title: 'str' = '',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="table" type="wandb.Table">
   Un tableau contenant les données du graphique à barres.
@@ -46,15 +42,11 @@ split_table: 'bool' = False
   Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau s’affiche dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 </ResponseField>
 
-<div id="returns">
-  ## Retourne
-</div>
+## Retourne {#returns}
 
 `CustomChart`: Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, transmettez-le à `wandb.log()`.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 import random

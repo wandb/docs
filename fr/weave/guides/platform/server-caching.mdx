@@ -5,9 +5,7 @@ description: "Améliorez les performances grâce à la mise en cache des répons
 
 Weave propose la mise en cache des réponses du serveur afin d’améliorer les performances lors de requêtes répétées ou de connexions à bande passante réseau limitée. Bien qu’actuellement désactivée par défaut, cette fonctionnalité devrait devenir le comportement par défaut dans une prochaine version.
 
-<div id="when-to-use-caching">
-  ## Quand utiliser la mise en cache
-</div>
+## Quand utiliser la mise en cache {#when-to-use-caching}
 
 La mise en cache des réponses du serveur est particulièrement avantageuse dans les cas suivants :
 
@@ -18,9 +16,7 @@ La mise en cache des réponses du serveur est particulièrement avantageuse dans
 
 Cette fonctionnalité est particulièrement utile lors d’évaluations répétées sur un jeu de données, car elle permet de mettre ce dernier en cache entre les exécutions.
 
-<div id="how-to-enable-caching">
-  ## Activer la mise en cache
-</div>
+## Activer la mise en cache {#how-to-enable-caching}
 
 Pour activer la mise en cache, définissez les variables d&#39;environnement suivantes :
 
@@ -35,9 +31,7 @@ export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
 export WEAVE_SERVER_CACHE_DIR=/path/to/cache
 ```
 
-<div id="caching-behavior">
-  ## Comportement de mise en cache
-</div>
+## Comportement de mise en cache {#caching-behavior}
 
 Cette fonctionnalité met en cache les requêtes idempotentes envoyées au serveur. Plus précisément, elle met en cache :
 
@@ -47,9 +41,7 @@ Cette fonctionnalité met en cache les requêtes idempotentes envoyées au serve
 * `refs_read_batch`
 * `file_content_read`
 
-<div id="cache-size-and-storage-details">
-  ## Taille du cache et détails du stockage
-</div>
+## Taille du cache et détails du stockage {#cache-size-and-storage-details}
 
 La taille du cache est contrôlée par `WEAVE_SERVER_CACHE_SIZE_LIMIT` (en octets). L’espace disque réellement utilisé se compose de trois éléments :
 

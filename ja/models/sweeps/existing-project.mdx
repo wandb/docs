@@ -9,9 +9,7 @@ title: 'チュートリアル: projectからsweepジョブを作成する'
 
 結果はこの[W&amp;Bダッシュボード](https://app.wandb.ai/carey/pytorch-cnn-fashion)で確認できます。
 
-<div id="create-a-project">
-  ## project を作成する
-</div>
+## project を作成する {#create-a-project}
 
 まず、example モデルを少なくとも 1 回トレーニングして、ベースラインとなる project を作成します。このベースラインは、後続の手順で sweep が設定を適用する対象になります。W&amp;B examples GitHub リポジトリから、PyTorch MNIST データセットの example モデルをダウンロードします。次に、モデルをトレーニングします。トレーニング スクリプトは `examples/pytorch/pytorch-cnn-fashion` ディレクトリ内にあります。
 
@@ -39,9 +37,7 @@ example モデルをダウンロードしてトレーニングするには、次
 
 この最初の run が完了すると、W&amp;B に、sweep がその後の基盤として利用できるベースラインの project が作成されます。
 
-<div id="create-a-sweep">
-  ## sweep を作成する
-</div>
+## sweep を作成する {#create-a-sweep}
 
 ベースラインとなる project を用意したら、その Runs に対して sweep を設定できます。project ページで、プロジェクトのサイドバーにある [**Sweep** タブ](/ja/models/sweeps/visualize-sweep-results) を開き、**Create Sweep** を選択します。
 
@@ -55,9 +51,7 @@ example モデルをダウンロードしてトレーニングするには、次
   <img src="/images/sweeps/sweep2.png" alt="ハイパーパラメーターの範囲を示す自動生成された sweep 設定エディター" />
 </Frame>
 
-<div id="launch-agents">
-  ## エージェントを起動する
-</div>
+## エージェントを起動する {#launch-agents}
 
 sweep を設定したら、1 つ以上のエージェントを起動して Runs を実行します。異なるマシンで最大 20 個のエージェントを並列に起動すると、sweep ジョブをより短時間で完了できます。各エージェントは、次に使用するパラメーターのセットを出力します。
 
@@ -71,9 +65,7 @@ sweep を設定したら、1 つ以上のエージェントを起動して Runs 
   <img src="/images/sweeps/sweep4.png" alt="並列トレーニング Runs 全体のメトリクスをプロットした sweep ダッシュボード" />
 </Frame>
 
-<div id="seed-a-new-sweep-with-existing-runs">
-  ## 既存の Runs を使って新しい sweep を初期化する
-</div>
+## 既存の Runs を使って新しい sweep を初期化する {#seed-a-new-sweep-with-existing-runs}
 
 以前の結果を出発点として再利用するには、これまでにログした既存の Runs を使って新しい sweep を起動します。
 

@@ -16,9 +16,7 @@ Weave で表示したいメディアが、すでにご自身のバケットに�
   これは Weave の機能であり、W&amp;B artifact と run のストレージを支える [platform BYOB (secure storage connector)](/ja/platform/hosting/data-security/secure-storage-connector) とは別のものです。参照メディア用のバケットはチームごとに設定され、必要なのは読み取りアクセスのみです。
 </Note>
 
-<div id="how-it-works">
-  ## 仕組み
-</div>
+## 仕組み {#how-it-works}
 
 参照メディアのレンダリングは、次の 3 つの手順で行われます。
 
@@ -28,18 +26,14 @@ Weave で表示したいメディアが、すでにご自身のバケットに�
 
 Weave が解決するのは、チームに登録されたバケットを指す URI のみです。サポートされるスキームは `s3://` と `gs://` です。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 * この機能は、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) でサポートされており、[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) および [セルフマネージド](https://docs.wandb.ai/platform/hosting/hosting-options/self-managed) v0.84.0 以降ではプレビュー提供です。
 * W&amp;Bアカウントと[APIキー](https://wandb.ai/authorize)。
 * ご自身で管理しているクラウドストレージバケット (S3 または GCS) 。少なくとも 1 つのオブジェクトが含まれている必要があります。
 * 組織管理者権限。参照バケットを追加するには、組織でチームを作成する場合と同じ権限が必要です。
 
-<div id="configure-your-bucket">
-  ## バケットを設定する
-</div>
+## バケットを設定する {#configure-your-bucket}
 
 W&amp;B にバケットへの読み取りアクセスを付与し、ブラウザが CORS 経由でオブジェクトを取得できるようにします。
 
@@ -124,9 +118,7 @@ W&amp;B にバケットへの読み取りアクセスを付与し、ブラウザ
 
 これで、W&amp;B はバケット内のオブジェクトを読み取ることができ、Weave UI はブラウザでそれらを取得できます。
 
-<div id="register-the-reference-bucket">
-  ## 参照バケットを登録する
-</div>
+## 参照バケットを登録する {#register-the-reference-bucket}
 
 Weave が参照 URI に対して事前署名付き URL を生成して表示できるように、Team settings でバケットを登録します。
 

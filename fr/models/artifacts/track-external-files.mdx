@@ -17,9 +17,7 @@ Vous pouvez interagir avec un artifact de référence comme avec un artifact non
 
 Les sections suivantes décrivent comment suivre des artifacts de référence externes.
 
-<div id="track-an-artifact-in-an-external-bucket">
-  ## Suivre un artifact dans un bucket externe
-</div>
+## Suivre un artifact dans un bucket externe {#track-an-artifact-in-an-external-bucket}
 
 Utilisez le SDK Python W&amp;B pour suivre des références vers des fichiers stockés en dehors de W&amp;B.
 
@@ -83,9 +81,7 @@ Dans la W&amp;B App, vous pouvez parcourir le contenu de l’artifact de référ
   Par défaut, W&amp;B impose une limite de 10 000 objets lors de l’ajout d’un préfixe d’objet. Vous pouvez ajuster cette limite en spécifiant `max_objects=` lorsque vous appelez `wandb.Artifact.add_reference()`.
 </Warning>
 
-<div id="download-an-artifact-from-an-external-bucket">
-  ## Télécharger un artifact depuis un bucket externe
-</div>
+## Télécharger un artifact depuis un bucket externe {#download-an-artifact-from-an-external-bucket}
 
 W&amp;B récupère les fichiers du bucket sous-jacent lorsqu&#39;il télécharge un artifact de référence à l&#39;aide des métadonnées enregistrées au moment où l&#39;artifact est enregistré. Si la gestion des versions des objets est activée sur votre bucket, W&amp;B récupère la version de l&#39;objet correspondant à l&#39;état du fichier au moment où l&#39;artifact a été enregistré. À mesure que le contenu de votre bucket évolue, vous pouvez toujours pointer vers la version exacte de vos données sur laquelle un modèle a été entraîné, car l&#39;artifact sert d&#39;instantané de votre bucket pendant le run d&#39;entraînement.
 
@@ -107,9 +103,7 @@ with wandb.init(project="my-project") as run:
   Selon votre cas d&#39;utilisation, lisez les instructions pour activer la gestion des versions des objets : [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable).
 </Note>
 
-<div id="add-and-download-an-external-from-a-bucket">
-  ## Ajouter puis télécharger un élément externe depuis un bucket
-</div>
+## Ajouter puis télécharger un élément externe depuis un bucket {#add-and-download-an-external-from-a-bucket}
 
 L&#39;exemple de code suivant téléverse un jeu de données dans un bucket Amazon S3, en assure le suivi à l’aide d’un artifact de référence, puis le télécharge :
 
@@ -146,9 +140,7 @@ with wandb.init() as run:
   * [Travailler avec des Artifacts de référence dans Microsoft Azure](https://wandb.ai/andrea0/azure-2023/reports/Efficiently-Harnessing-Microsoft-Azure-Blob-Storage-with-Weights-Biases--Vmlldzo0NDA2NDgw)
 </Note>
 
-<div id="cloud-storage-credentials">
-  ## Identifiants pour le stockage cloud
-</div>
+## Identifiants pour le stockage cloud {#cloud-storage-credentials}
 
 W&amp;B utilise le mécanisme par défaut pour rechercher les identifiants correspondant au fournisseur cloud que vous utilisez. Consultez la documentation de votre fournisseur cloud pour en savoir plus sur les identifiants utilisés :
 
@@ -168,9 +160,7 @@ Pour AWS, si le bucket ne se trouve pas dans la région par défaut de l’utili
   Si des médias enrichis tels que des images, de l’audio, de la vidéo et des nuages de points ne s’affichent pas dans l’UI de l’application, assurez-vous que `app.wandb.ai` figure dans la liste d’autorisation de la politique CORS de votre bucket.
 </Warning>
 
-<div id="track-an-artifact-in-a-filesystem">
-  ## Suivre un artifact dans un système de fichiers
-</div>
+## Suivre un artifact dans un système de fichiers {#track-an-artifact-in-a-filesystem}
 
 Une pratique courante pour accéder aux jeux de données consiste à exposer un point de montage NFS vers un système de fichiers distant sur toutes les machines exécutant des tâches d&#39;entraînement. Cela peut constituer une alternative à un bucket de stockage cloud, car du point de vue du script d&#39;entraînement, les fichiers apparaissent comme des fichiers locaux dans votre système de fichiers.
 
@@ -251,9 +241,7 @@ with wandb.init() as run:
   run.log_artifact(model_artifact)
 ```
 
-<div id="download-an-artifact-from-an-external-filesystem">
-  ## Télécharger un artifact depuis un système de fichiers externe
-</div>
+## Télécharger un artifact depuis un système de fichiers externe {#download-an-artifact-from-an-external-filesystem}
 
 Téléchargez des fichiers depuis un système de fichiers référencé à l’aide des mêmes API que pour les artifacts non référencés :
 

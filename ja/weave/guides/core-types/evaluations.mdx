@@ -43,9 +43,7 @@ keywords: ["evaluation", "scorers", "EvaluationLogger", "preprocess_model_input"
 
 これらの step を完了すると、再利用可能な評価設定と、Weave UI で結果を確認できる評価 run が得られます。評価コードの完全なサンプルについては、[完全な評価コード例](#full-evaluation-code-example) を参照してください。[高度な評価機能](#advanced-evaluation-usage) についても、[保存済みビュー](#saved-views) や [命令型評価](#imperative-evaluations-evaluationlogger) などを含めて学べます。
 
-<div id="create-an-evaluation-object">
-  ## `Evaluation` オブジェクトを作成する
-</div>
+## `Evaluation` オブジェクトを作成する {#create-an-evaluation-object}
 
 `Evaluation` オブジェクトの作成は、評価の設定を行う最初のステップです。`Evaluation` は、サンプルデータ、スコアリングロジック、必要に応じた前処理で構成されます。後でこれを使用して、1 つ以上の評価を実行します。
 
@@ -53,9 +51,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
 
 カスタム名の設定は任意ですが、Weave UI で異なる評価設定や Runs を区別するのに役立ちます。評価が 1 つしかない場合は、このセクションをスキップできます。
 
-<div id="optional-custom-naming">
-  ### 任意: カスタム名の設定
-</div>
+### 任意: カスタム名の設定 {#optional-custom-naming}
 
 <Tabs>
   <Tab title="Python">
@@ -64,9 +60,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     * [*Evaluation オブジェクト名* (`evaluation_name`)](#name-the-evaluation-object): 設定した `Evaluation` オブジェクトに付ける永続的なラベルです。
     * [*評価 run の表示名* (`__weave["display_name"]`)](#name-individual-evaluation-runs): 特定の評価実行に付けるラベルで、UI に表示されます。
 
-    <div id="name-the-evaluation-object">
-      #### `Evaluation` オブジェクトに名前を付ける
-    </div>
+#### `Evaluation` オブジェクトに名前を付ける {#name-the-evaluation-object}
 
     `Evaluation` オブジェクト自体に名前を付けるには、`Evaluation` クラスに `evaluation_name` パラメーターを渡します。この名前を付けることで、コード内や UI の一覧で Evaluation を識別しやすくなります。
 
@@ -76,9 +70,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     )
     ```
 
-    <div id="name-individual-evaluation-runs">
-      #### 個々の評価 run に名前を付ける
-    </div>
+#### 個々の評価 run に名前を付ける {#name-individual-evaluation-runs}
 
     特定の評価 run (`evaluate()` の呼び出し) に名前を付けるには、`display_name` を含む `__weave` 辞書を使用します。これにより、その run について UI に表示される名前が変わります。
 
@@ -104,9 +96,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
   </Tab>
 </Tabs>
 
-<div id="define-a-dataset-of-test-examples">
-  ## テスト例のデータセットを定義する
-</div>
+## テスト例のデータセットを定義する {#define-a-dataset-of-test-examples}
 
 まず、評価対象の例を集めた [Dataset](../core-types/datasets) オブジェクト、または例のリストを定義します。これらの例は、多くの場合、テスト駆動開発 (TDD) のユニットテストと同様に、テストしたい失敗ケースです。
 
@@ -140,9 +130,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
   </Tab>
 </Tabs>
 
-<div id="define-scoring-functions">
-  ## スコアリング関数を定義する
-</div>
+## スコアリング関数を定義する {#define-scoring-functions}
 
 次に、1 つ以上の[スコアリング関数](../evaluation/scorers)を作成します。Weave はこれらを使用して、`Dataset` 内の各サンプルをスコア付けします。
 
@@ -175,9 +163,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
         return {'match': expected == output['generated_text']}
     ```
 
-    <div id="optional-define-a-custom-scorer-class">
-      ### 任意: カスタム `Scorer` クラスを定義する
-    </div>
+### 任意: カスタム `Scorer` クラスを定義する {#optional-define-a-custom-scorer-class}
 
     アプリケーションによっては、カスタム `Scorer` クラスを作成したい場合があります。たとえば、特定のパラメーター (チャットモデル、プロンプトなど)、各行に対する特定のスコア付け、集計スコアの特定の計算を備えた、標準化された `LLMJudge` クラスを作成できます。
 
@@ -218,9 +204,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
   </Tab>
 </Tabs>
 
-<div id="define-a-model-or-function-to-evaluate">
-  ## 評価するモデルまたは関数を定義する
-</div>
+## 評価するモデルまたは関数を定義する {#define-a-model-or-function-to-evaluate}
 
 <Tabs>
   <Tab title="Python">
@@ -249,9 +233,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
 
     これにより、各例に対して `predict` が実行され、各スコアリング関数で出力がスコア化されます。
 
-    <div id="optional-define-a-function-to-evaluate">
-      ### 省略可能: 評価する関数を定義する
-    </div>
+### 省略可能: 評価する関数を定義する {#optional-define-a-function-to-evaluate}
 
     また、`@weave.op()` でトラッキングされるカスタム関数を評価することもできます。
 
@@ -299,9 +281,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
   </Tab>
 </Tabs>
 
-<div id="run-the-evaluation">
-  ## 評価を実行する
-</div>
+## 評価を実行する {#run-the-evaluation}
 
 `Evaluation` オブジェクト、データセット、Scorer、モデルを定義したら、評価を実行して結果を Weave に記録する準備が整いました。評価を実行するには、`Evaluation` オブジェクトで `.evaluate()` を呼び出します。
 
@@ -313,9 +293,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     asyncio.run(evaluation.evaluate(model))
     ```
 
-    <div id="optional-run-multiple-trials">
-      ### 省略可能: 複数回の試行を実行する
-    </div>
+### 省略可能: 複数回の試行を実行する {#optional-run-multiple-trials}
 
     各例を複数回実行するには、`Evaluation` オブジェクトで `trials` パラメーターを設定します。
 
@@ -336,9 +314,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
     const results = await evaluation.evaluate({model: myModel});
     ```
 
-    <div id="optional-run-multiple-trials-2">
-      ### 省略可能: 複数回の試行を実行する
-    </div>
+### 省略可能: 複数回の試行を実行する {#optional-run-multiple-trials-2}
 
     各例を複数回実行するには、`evaluate()` の呼び出し時に `nTrials` パラメーターを設定します。
 
@@ -354,9 +330,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
 
 この run では各例がモデルに3回渡され、Weave が各 run をそれぞれ個別にスコアリングして表示します。
 
-<div id="full-evaluation-code-example">
-  ## 完全な評価コード例
-</div>
+## 完全な評価コード例 {#full-evaluation-code-example}
 
 次の例では、ここまでの各ステップを 1 つの実行可能なスクリプトにまとめています。評価ワークフローを独自のアプリケーションに合わせて調整する際の参考として使用してください。
 
@@ -457,15 +431,11 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
 
 <Frame>![評価のメイン画像](/images/evals-hero.png)</Frame>
 
-<div id="advanced-evaluation-usage">
-  ## 高度な評価の活用
-</div>
+## 高度な評価の活用 {#advanced-evaluation-usage}
 
 以下のセクションでは、データセットの前処理、サードパーティ製データセットのインテグレーション、保存済みの UI ビュー、命令型の logging API など、より複雑な評価ワークフローで利用できるオプション機能について説明します。
 
-<div id="format-dataset-rows-before-evaluating">
-  ### 評価前にデータセットの行を整形する
-</div>
+### 評価前にデータセットの行を整形する {#format-dataset-rows-before-evaluating}
 
 <Tabs>
   <Tab title="Python">
@@ -560,9 +530,7 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
   </Tab>
 </Tabs>
 
-<div id="use-huggingface-datasets-with-evaluations">
-  ### HuggingFace データセットを評価で使用する
-</div>
+### HuggingFace データセットを評価で使用する {#use-huggingface-datasets-with-evaluations}
 
 <Tabs>
   <Tab title="Python">
@@ -578,14 +546,10 @@ Weave は各サンプルを受け取り、それをアプリケーションに�
   </Tab>
 </Tabs>
 
-<div id="saved-views">
-  ### 保存済みビュー
-</div>
+### 保存済みビュー {#saved-views}
 
 Evals の表の設定、フィルター、並べ替え順を、よく使う設定にすばやくアクセスできるよう、*保存済みビュー* として保存できます。保存済みビューは、UI と Python SDK で設定およびアクセスできます。詳細は [保存済みビュー](/ja/weave/guides/tools/saved-views) を参照してください。
 
-<div id="imperative-evaluations-evaluationlogger">
-  ### 命令型評価 (`EvaluationLogger`)
-</div>
+### 命令型評価 (`EvaluationLogger`) {#imperative-evaluations-evaluationlogger}
 
 より柔軟な評価フレームワークを使いたい場合は、Weave の [`EvaluationLogger`](../evaluation/evaluation_logger) をご覧ください。`EvaluationLogger` は Python と TypeScript の両方で利用でき、複雑なワークフローにも柔軟に対応できます。一方、標準の評価フレームワークは、より明確な構造とガイダンスを提供します。

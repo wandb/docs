@@ -10,9 +10,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 ScoreLogger는 단일 예측의 점수 산정을 관리합니다.
 EvaluationLogger.logPrediction()에서 반환되는 객체입니다.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -22,56 +20,38 @@ await pred.logScore("relevance", 0.8);
 await pred.finish(); // 예측을 완료합니다
 ```
 
-<div id="constructor">
-  ## 생성자
-</div>
+## 생성자 {#constructor}
 
 > **new ScoreLogger**(`evalLogger`): `ScoreLogger`
 
-<div id="parameters">
-  ### Parameters
-</div>
+### Parameters {#parameters}
 
 <ParamField path="evalLogger" type="EvaluationLogger" required>
   [`EvaluationLogger`](./evaluationlogger)를 참조하세요.
 </ParamField>
 
-<div id="returns">
-  ### 반환값
-</div>
+### 반환값 {#returns}
 
 `ScoreLogger`
 
-<div id="accessors">
-  ## 접근자
-</div>
+## 접근자 {#accessors}
 
-<div id="isfinishcalled">
-  ### isFinishCalled
-</div>
+### isFinishCalled {#isfinishcalled}
 
-<div id="get-signature">
-  #### 시그니처 조회
-</div>
+#### 시그니처 조회 {#get-signature}
 
 > **get** **isFinishCalled**(): `boolean`
 
 finish()가 호출되었는지 확인합니다.
 EvaluationLogger에서 완료되지 않은 예측을 감지하는 데 사용됩니다.
 
-<div id="returns-2">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-2}
 
 `boolean`
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="finish">
-  ### finish()
-</div>
+### finish() {#finish}
 
 > **finish**(): `Promise`&lt;`void`&gt;
 
@@ -79,26 +59,20 @@ EvaluationLogger에서 완료되지 않은 예측을 감지하는 데 사용됩�
 누적된 점수로 predict&#95;and&#95;score call을 완료합니다.
 incremental 집계를 업데이트하고 메모리를 해제합니다.
 
-<div id="returns-3">
-  #### 반환값
-</div>
+#### 반환값 {#returns-3}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="logscore">
-  ### logScore()
-</div>
+### logScore() {#logscore}
 
 > **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
 이 예측에 대한 점수를 기록합니다.
 predict&#95;and&#95;score의 하위 Call로 Scorer Call을 생성합니다.
 
-<div id="parameters-2">
-  #### Parameters
-</div>
+#### Parameters {#parameters-2}
 
 <ParamField path="scorerName" type="string" required>
   scorer 이름(예: &quot;accuracy&quot;, &quot;f1&#95;score&quot;)
@@ -108,8 +82,6 @@ predict&#95;and&#95;score의 하위 Call로 Scorer Call을 생성합니다.
   점수 값
 </ParamField>
 
-<div id="returns-4">
-  #### 반환값
-</div>
+#### 반환값 {#returns-4}
 
 `Promise`&lt;`void`&gt;

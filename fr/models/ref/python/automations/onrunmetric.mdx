@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py#L373" />
 
-<div id="class-wandbautomationsonrunmetric">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.OnRunMetric
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.OnRunMetric {#class-wandbautomationsonrunmetric}
 
 Une métrique de run répond à une condition définie par l’utilisateur.
 
@@ -21,9 +19,7 @@ scope: Annotated[Union[wandb.automations.scopes.ProjectScope, Annotated[wandb.au
 filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidator(func=<function ensure_json>, json_schema_input_type=PydanticUndefined), PlainSerializer(func=<function to_json>, return_type=PydanticUndefined, when_used='always')]
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="event_type" type="Literal">
   Aucune description fournie.
@@ -37,9 +33,7 @@ filter: Annotated[wandb.automations.events.RunMetricFilter, Json, BeforeValidato
   Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
 </ResponseField>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Définissez un événement qui se déclenche pour n&#39;importe quel run du projet &quot;my-project&quot; lorsque
 la moyenne des 5 dernières valeurs de la métrique &quot;my-metric&quot; dépasse 123.45 :

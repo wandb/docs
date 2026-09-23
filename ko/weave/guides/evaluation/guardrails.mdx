@@ -8,9 +8,7 @@ keywords: ["가드레일", "moderation scorer", "PII 감지", "Bedrock 가드레
 
 이 가이드에서는 Weave 가드레일의 작동 방식, 성능 조정 방법을 설명하고, 기본 제공 Scorer, 맞춤형 Scorer, AWS Bedrock Guardrails를 사용해 프로덕션 LLM 애플리케이션을 보호하는 예시를 살펴봅니다.
 
-<div id="how-weave-guardrails-work">
-  ## Weave 가드레일 작동 방식
-</div>
+## Weave 가드레일 작동 방식 {#how-weave-guardrails-work}
 
 Weave 가드레일은 인라인 [Weave Scorers](/ko/weave/guides/evaluation/scorers)를 사용해 사용자 입력이나 LLM 출력을 평가하고, LLM의 응답을 실시간으로 조정합니다. 다양한 목적에 맞춰 콘텐츠를 평가하도록 맞춤형 scorer를 설정하거나 [기본 제공 Scorer](/ko/weave/guides/evaluation/builtin_scorers)를 사용할 수 있습니다. 이 가이드에서는 두 유형의 scorer를 모두 가드레일로 사용하는 방법을 설명합니다.
 
@@ -22,9 +20,7 @@ Weave 가드레일은 인라인 [Weave Scorers](/ko/weave/guides/evaluation/scor
   Weave TypeScript SDK는 가드레일을 설정하는 데 필요한 도구를 지원하지 않습니다.
 </Note>
 
-<div id="optimize-your-weave-guardrail-performance">
-  ### Weave 가드레일 성능 최적화
-</div>
+### Weave 가드레일 성능 최적화 {#optimize-your-weave-guardrail-performance}
 
 가드레일은 애플리케이션의 제어 흐름을 중단하고 응답의 방향을 바꿀 수 있으므로, 지나치게 복잡하면 성능에 영향을 줄 수 있습니다. 최상의 성능을 위해 다음 권장 사항을 따르세요.
 
@@ -40,9 +36,7 @@ Weave 가드레일은 인라인 [Weave Scorers](/ko/weave/guides/evaluation/scor
 * scorer가 네트워크 연결을 유지하는 경우.
 * 트래픽이 많은 애플리케이션을 운영하는 경우.
 
-<div id="example-create-a-guardrail-using-a-built-in-moderation-scorer">
-  ## 예시: 기본 제공 moderation Scorer를 사용하여 가드레일 만들기
-</div>
+## 예시: 기본 제공 moderation Scorer를 사용하여 가드레일 만들기 {#example-create-a-guardrail-using-a-built-in-moderation-scorer}
 
 다음 예시에서는 사용자 prompt를 OpenAI의 GPT-4o mini 모델로 보냅니다. 그런 다음 모델의 응답을 [OpenAI의 moderation API](https://platform.openai.com/docs/guides/moderation)로 전달하여 LLM의 응답에 유해하거나 유독한 콘텐츠가 포함되어 있는지 평가합니다. 모델의 응답은 가드레일 함수(`generate_safe_response()`)로 전달되며, 이 함수는 `OpenAIModerationScorer`를 사용해 LLM의 원래 응답을 확인합니다. 그런 다음 함수 로직은 OpenAI의 평가 응답에서 `passed` 필드의 불리언 값을 확인하고, 그 값에 따라 애플리케이션의 응답 방식이 결정됩니다.
 
@@ -109,9 +103,7 @@ if __name__ == "__main__":
 
 LLM-as-a-judge scorer를 사용할 때 점수화 프롬프트에서 ops의 변수를 참조할 수 있습니다. 예를 들어, &quot;`{output}`이 `{ground_truth}`를 기준으로 정확한지 평가하세요.&quot; 자세한 내용은 [프롬프트 변수](/ko/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts)를 참조하세요.
 
-<div id="example-create-a-guardrail-using-a-custom-scorer">
-  ## 예시: 맞춤형 Scorer를 사용해 가드레일 만들기
-</div>
+## 예시: 맞춤형 Scorer를 사용해 가드레일 만들기 {#example-create-a-guardrail-using-a-custom-scorer}
 
 다음 예시에서는 이메일 주소, 전화번호, 주민등록번호와 같은 LLM 응답의 개인 식별 정보(PII)를 감지하는 맞춤형 가드레일을 생성합니다. 이렇게 하면 생성된 콘텐츠에 민감한 정보가 노출되는 것을 방지할 수 있습니다. `generate_safe_response` 함수는 맞춤형 `PIIDetectionScorer`를 적용합니다.
 
@@ -200,9 +192,7 @@ if __name__ == "__main__":
         print(f"Response: {response}")
 ```
 
-<div id="integrate-weave-with-aws-bedrock-guardrails">
-  ## Weave를 AWS Bedrock Guardrails와 통합하기
-</div>
+## Weave를 AWS Bedrock Guardrails와 통합하기 {#integrate-weave-with-aws-bedrock-guardrails}
 
 이미 AWS에서 콘텐츠 정책을 관리하고 있다면, AWS Bedrock Guardrails를 사용해 구성된 정책에 따라 콘텐츠를 감지하고 필터링하는 `BedrockGuardrailScorer`를 사용해 Weave에 이를 적용할 수 있습니다.
 

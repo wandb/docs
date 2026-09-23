@@ -15,9 +15,7 @@ description: "Suivez et surveillez l’inférence LPU de Groq avec Weave, en cap
 
 Cette page explique comment utiliser Weave pour tracer les appels de complétion de chat de Groq, encapsuler vos propres fonctions en tant qu’ops Weave et organiser vos expériences à l’aide d’objets `Model`.
 
-<div id="tracing">
-  ## Tracing
-</div>
+## Tracing {#tracing}
 
 Il est important de stocker les traces des applications de modèles de langage dans un emplacement centralisé, aussi bien pendant le développement qu’en production. Ces traces peuvent vous aider à déboguer votre application et servir de jeu de données pour l’améliorer.
 
@@ -48,9 +46,7 @@ chat_completion = client.chat.completions.create(
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Weave suit et journalise désormais tous les appels LLM effectués via la bibliothèque Groq. Vous pouvez consulter les traces dans l&#39;interface web de Weave.                        |
 
-<div id="track-your-own-ops">
-  ## Suivez vos propres ops
-</div>
+## Suivez vos propres ops {#track-your-own-ops}
 
 Décorez une fonction avec `@weave.op` pour capturer les entrées, les sorties et la logique de l&#39;application afin que vous puissiez déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et créer une arborescence de fonctions que vous souhaitez suivre. Cela gère également automatiquement les versions du code pendant que vous expérimentez, afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans git.
 
@@ -97,9 +93,7 @@ recommend_places_to_visit("Kolkata")
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Décorez la fonction `recommend_places_to_visit` avec `@weave.op` pour tracer ses entrées, ses sorties et tous les appels LM internes effectués dans la fonction.                       |
 
-<div id="create-a-model-for-easier-experimentation">
-  ## Créez un `Model` pour faciliter l’expérimentation
-</div>
+## Créez un `Model` pour faciliter l’expérimentation {#create-a-model-for-easier-experimentation}
 
 Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme le prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 
@@ -146,9 +140,7 @@ print(city_recommender.predict("Los Angeles"))
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Tracez et gérez les versions de vos appels à l’aide d’un [`Model`](../core-types/models).                                                                                                                                |
 
-<div id="serve-a-weave-model">
-  ### Servir un Weave Model
-</div>
+### Servir un Weave Model {#serve-a-weave-model}
 
 Une fois que vous disposez d’un `Model` versionné, vous pouvez le déployer en tant que service pour des tests ou des applications en aval. À partir d’une référence Weave vers n’importe quel objet `weave.Model`, vous pouvez lancer un serveur FastAPI et le [Serve](https://docs.wandb.ai/weave/guides/tools/serve).
 

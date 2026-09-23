@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py#L16" />
 
-<div id="function-wandbplotroc_curve">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.roc_curve()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.roc_curve() {#function-wandbplotroc_curve}
 
 Receiver Operating Characteristic (ROC) 곡선 chart를 생성합니다.
 
@@ -23,9 +21,7 @@ title: 'str' = 'ROC Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 매개변수
-</div>
+## 매개변수 {#args}
 
 <ResponseField name="y_true" type="Sequence[numbers.Number]">
   대상 변수의 실제 클래스 레이블(ground truth)입니다. shape는 (num&#95;samples,)이어야 합니다.
@@ -51,21 +47,15 @@ split_table: 'bool' = False
   테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 chart 객체입니다. chart를 로깅하려면 `wandb.log()`에 전달하세요.
 
-<div id="raises">
-  ## 예외
-</div>
+## 예외 {#raises}
 
 * `wandb.Error`: numpy, pandas 또는 scikit-learn을 찾을 수 없는 경우입니다.
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 ```python
 import numpy as np

@@ -13,9 +13,7 @@ init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
 
 Weave 클라이언트를 초기화합니다. 트레이싱이 동작하려면 반드시 필요합니다.
 
-<div id="parameters">
-  ## Parameters
-</div>
+## Parameters {#parameters}
 
 <ParamField path="project" type="string" required>
   W&amp;B 프로젝트 이름입니다(`project` 또는 `entity/project` 형식일 수 있습니다). W&amp;B 팀(예: `team/project`)을
@@ -29,16 +27,12 @@ Weave 클라이언트를 초기화합니다. 트레이싱이 동작하려면 반
   Full type: `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
 </ParamField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
 
 초기화된 Weave 클라이언트로 해석되는 Promise입니다.
 
-<div id="throws">
-  ## 예외 발생
-</div>
+## 예외 발생 {#throws}
 
 초기화에 실패한 경우

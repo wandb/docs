@@ -8,9 +8,7 @@ description: "組織全体で共有できるように、W&B Registry のコレ�
 
 アーティファクトをリンクすると、W&amp;B はソースアーティファクトとコレクションのエントリの間に参照を作成します。リンクされたバージョンは、プロジェクト内の run にログされたソースアーティファクトバージョンを参照します。コレクション内のリンクされたバージョンと、それがログされたプロジェクト内のソースバージョンの両方を表示できます。
 
-<div id="link-an-artifact-to-a-collection">
-  ## artifact をコレクションにリンクする
-</div>
+## artifact をコレクションにリンクする {#link-an-artifact-to-a-collection}
 
 artifact を run 中に作成するか、run なしで作成するか、既存の artifact バージョンをリンクするかに応じて、ワークフローを選択してください。
 
@@ -40,9 +38,7 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
     ```
 
-    <div id="link-an-artifact-from-a-run">
-      ##### run からアーティファクトをリンクする
-    </div>
+##### run からアーティファクトをリンクする {#link-an-artifact-from-a-run}
 
     アクティブな run 中にアーティファクト バージョンを作成してリンクするには、`wandb.Run.link_artifact()` を使用します。W&amp;B は、リンクする前にドラフト アーティファクトを run の出力としてログします。
 
@@ -81,9 +77,7 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
       run.link_artifact(artifact = artifact, target_path = target_path)
     ```
 
-    <div id="create-and-link-an-artifact">
-      ##### アーティファクトを作成してリンクする
-    </div>
+##### アーティファクトを作成してリンクする {#create-and-link-an-artifact}
 
     `wandb.Artifact.link()` を使用すると、run を明示的に初期化しなくても、ドラフト アーティファクトを作成してリンクできます。リンク前にアーティファクトを保存する必要がある場合は、W&amp;B が必要に応じて自動的に run を作成します。
 
@@ -115,9 +109,7 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
     artifact.link(target_path = target_path)
     ```
 
-    <div id="link-an-existing-artifact">
-      ##### 既存のアーティファクトをリンクする
-    </div>
+##### 既存のアーティファクトをリンクする {#link-an-existing-artifact}
 
     `wandb.Api().artifact()` で取得したアーティファクトに対して `wandb.Artifact.link()` を使用すると、新しい run を作成せずに、既存のコミット済みアーティファクトバージョンをリンクできます。
 
@@ -178,9 +170,7 @@ artifact を run 中に作成するか、run なしで作成するか、既存�
 
 Registry App では、[リンクされたアーティファクトのメタデータ、バージョンデータ、使用状況、リネージ情報](/ja/models/registry/link_version#view-linked-artifacts-in-a-registry) などを確認できます。
 
-<div id="unlink-an-artifact-version-from-a-collection">
-  ## コレクションから アーティファクト バージョンのリンクを解除する
-</div>
+## コレクションから アーティファクト バージョンのリンクを解除する {#unlink-an-artifact-version-from-a-collection}
 
 W&amp;B Python SDK または W&amp;B Registry を使用して、コレクションから アーティファクト バージョンのリンクを解除します。
 
@@ -232,9 +222,7 @@ W&amp;B Python SDK または W&amp;B Registry を使用して、コレクショ�
   </Tab>
 </Tabs>
 
-<div id="view-linked-artifacts-in-a-registry">
-  ## Registry 内のリンクされた アーティファクト を表示する
-</div>
+## Registry 内のリンクされた アーティファクト を表示する {#view-linked-artifacts-in-a-registry}
 
 W&amp;B Registry で、メタデータ、リネージ、利用状況情報など、リンクされた アーティファクト に関する情報を表示します。
 
@@ -254,13 +242,13 @@ wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 アーティファクト のバージョンにプログラムからアクセスするには、リンクされた アーティファクト のフルネームが必要です。
 
 <div id="troubleshooting">
-  ## トラブルシューティング
+  ## トラブルシューティング {#troubleshooting}
 </div>
 
 artifact をリンクできない場合は、以下の一般的な確認項目を再度確認してください。
 
 <div id="logging-artifacts-from-a-personal-account">
-  ### 個人アカウントから Artifacts をログする
+  ### 個人アカウントから Artifacts をログする {#logging-artifacts-from-a-personal-account}
 </div>
 
 個人の entity で W&amp;B にログされた Artifacts は、レジストリにリンクできません。Artifacts は、組織内のチーム entity を使用してログしてください。組織のレジストリにリンクできるのは、組織内のチームでログされた Artifacts のみです。
@@ -269,9 +257,7 @@ artifact をリンクできない場合は、以下の一般的な確認項目�
   artifact をレジストリにリンクする場合は、チーム entity でその artifact をログしてください。
 </Note>
 
-<div id="find-your-team-entity">
-  #### チーム entity を確認する
-</div>
+#### チーム entity を確認する {#find-your-team-entity}
 
 W&amp;B では、チーム名がそのチームの entity として使用されます。たとえば、チーム名が **team-awesome** の場合、チーム entity は `team-awesome` です。
 
@@ -281,7 +267,7 @@ W&amp;B では、チーム名がそのチームの entity として使用され�
 2. サイトの URL をコピーします。形式は `https://wandb.ai/<team>` です。ここで `<team>` はチーム名であり、同時にチームの entity でもあります。
 
 <div id="log-from-a-team-entity">
-  #### チーム entity でログする
+  #### チーム entity でログする {#log-from-a-team-entity}
 </div>
 
 1. [`wandb.init()`](/ja/models/ref/python/functions/init) で run を初期化するときに、entity としてチームを指定します。run の初期化時に `entity` を指定しない場合、run にはデフォルトの entity が使用されます。これはチーム entity の場合もあれば、そうでない場合もあります。
@@ -303,9 +289,7 @@ W&amp;B では、チーム名がそのチームの entity として使用され�
 
 3. アーティファクト が個人の entity にログされている場合は、組織内の entity に再度ログする必要があります。
 
-<div id="confirm-the-path-of-a-registry-in-the-wb-app-ui">
-  ### W&amp;B App UI で Registry のパスを確認する
-</div>
+### W&amp;B App UI で Registry のパスを確認する {#confirm-the-path-of-a-registry-in-the-wb-app-ui}
 
 W&amp;B App UI で Registry のパスを確認するには、空のコレクションを作成します。手順は次のとおりです。
 

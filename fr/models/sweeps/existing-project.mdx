@@ -9,9 +9,7 @@ Vous utilisez le [jeu de données Fashion MNIST](https://github.com/zalandoresea
 
 Explorez les résultats dans ce [tableau de bord W&amp;B](https://app.wandb.ai/carey/pytorch-cnn-fashion).
 
-<div id="create-a-project">
-  ## Créer un projet
-</div>
+## Créer un projet {#create-a-project}
 
 Commencez par créer un projet de référence en entraînant le modèle d’exemple au moins une fois. Cette référence fournit au sweep une base de configuration pour les étapes suivantes. Téléchargez le modèle d’exemple PyTorch pour le dataset MNIST depuis le dépôt GitHub W&amp;B examples. Ensuite, entraînez le modèle. Le script d’entraînement se trouve dans le répertoire `examples/pytorch/pytorch-cnn-fashion`.
 
@@ -39,9 +37,7 @@ Pour télécharger et entraîner le modèle d’exemple :
 
 Une fois cette exécution initiale terminée, vous disposez d’un projet de référence dans W&amp;B sur lequel le sweep peut s’appuyer.
 
-<div id="create-a-sweep">
-  ## Créer un sweep
-</div>
+## Créer un sweep {#create-a-sweep}
 
 Une fois votre projet de référence en place, vous pouvez configurer un sweep à partir de ses runs. Depuis la page de votre projet, ouvrez l’[onglet **Sweep**](/fr/models/sweeps/visualize-sweep-results) dans la barre latérale du projet et sélectionnez **Create Sweep**.
 
@@ -55,9 +51,7 @@ La configuration générée automatiquement suggère des valeurs à tester pour 
   <img src="/images/sweeps/sweep2.png" alt="Éditeur de configuration de sweep générée automatiquement affichant des plages d’hyperparamètres" />
 </Frame>
 
-<div id="launch-agents">
-  ## Lancez des agents
-</div>
+## Lancez des agents {#launch-agents}
 
 Après avoir configuré le sweep, lancez un ou plusieurs agents pour exécuter les runs. Vous pouvez lancer jusqu&#39;à 20 agents en parallèle sur différentes machines pour terminer la tâche de sweep plus rapidement. Chaque agent affiche le prochain ensemble de paramètres à utiliser.
 
@@ -71,9 +65,7 @@ Vous avez maintenant un sweep en cours d&#39;exécution qui coordonne les tâche
   <img src="/images/sweeps/sweep4.png" alt="Tableau de bord du sweep affichant les métriques de runs d'entraînement parallèles" />
 </Frame>
 
-<div id="seed-a-new-sweep-with-existing-runs">
-  ## Amorcer un nouveau sweep avec des runs existants
-</div>
+## Amorcer un nouveau sweep avec des runs existants {#seed-a-new-sweep-with-existing-runs}
 
 Pour réutiliser des résultats antérieurs comme point de départ, lancez un nouveau sweep à l’aide de runs existants que vous avez précédemment enregistrés :
 

@@ -11,18 +11,14 @@ Rembobinez un run pour modifier l&#39;historique d&#39;un run. Lorsque vous remb
   En raison de limitations de performances connues avec le rembobinage, W&amp;B recommande généralement [Forking](./forking) comme solution alternative.
 </Note>
 
-<div id="prerequisites">
-  ### Prérequis
-</div>
+### Prérequis {#prerequisites}
 
 Avant de rembobiner un run, assurez-vous de respecter les prérequis suivants :
 
 * Pour rembobiner un run, vous devez disposer du [W&amp;B Python SDK](https://pypi.org/project/wandb/) en version &gt;= `0.17.1`.
 * Vous devez utiliser des étapes à progression monotone croissante. Cela ne fonctionne pas avec des étapes non monotones définies avec [`define_metric()`](/fr/models/ref/python/experiments/run#define_metric), car cela perturbe l’ordre chronologique requis de l’historique du run.
 
-<div id="limitations">
-  ### Limites
-</div>
+### Limites {#limitations}
 
 Rewind ne prend pas en charge les éléments suivants :
 
@@ -41,9 +37,7 @@ W&amp;B recalcule les métriques de summary du run que vous rembobinez à partir
   - **Archivage des runs** : W&B archive les runs originaux. Les Runs sont accessibles depuis l'onglet [Aperçu du run](./#overview-tab).
   - **Association des Artifacts** : W&B associe les Artifacts au run qui les a produits. */}
 
-<div id="rewind-and-forking-compatibility">
-  ### Compatibilité entre le rembobinage et le fork
-</div>
+### Compatibilité entre le rembobinage et le fork {#rewind-and-forking-compatibility}
 
 Le fork vient compléter le rembobinage.
 
@@ -51,9 +45,7 @@ Lorsque vous créez un fork à partir d’un run, W&amp;B crée une nouvelle bra
 
 Lorsque vous rembobinez un run, W&amp;B vous permet de corriger ou de modifier l’historique du run lui-même.
 
-<div id="rewind-a-run">
-  ## Rembobiner un run
-</div>
+## Rembobiner un run {#rewind-a-run}
 
 Rembobinez un run à partir d’une étape donnée et journalisez de nouvelles données à partir de ce point. Transmettez à la fois l’ID du run et l’étape à partir de laquelle vous souhaitez rembobiner en arguments du paramètre `resume_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init). Le paramètre `resume_from` accepte une chaîne au format `<run ID>?_step=<step>`, où `<run ID>` est l’ID du run du run que vous souhaitez rembobiner et `<step>` est l’étape à partir de laquelle vous souhaitez rembobiner.
 
@@ -103,9 +95,7 @@ L’image suivante montre le Workspace du projet mis à jour. Notez les modifica
 
 <img src="/images/runs/rewind_run_step200_wmetric.png" alt="De gauche à droite : ligne linéaire d’origine et métrique supplémentaire" />
 
-<div id="view-an-archived-run">
-  ## Afficher un run archivé
-</div>
+## Afficher un run archivé {#view-an-archived-run}
 
 Après avoir rembobiné un run, vous pouvez explorer le run archivé d’origine dans la W&amp;B App. Suivez ces étapes pour afficher un run archivé :
 
@@ -114,9 +104,7 @@ Après avoir rembobiné un run, vous pouvez explorer le run archivé d’origine
 
 En utilisant le champ `Forked From`, vous pouvez naviguer facilement dans l’arborescence des reprises archivées et mieux comprendre la séquence et l’origine de chaque rembobinage.
 
-<div id="fork-from-a-run-that-you-rewind">
-  ## Créer un fork à partir d’un run que vous rembobinez
-</div>
+## Créer un fork à partir d’un run que vous rembobinez {#fork-from-a-run-that-you-rewind}
 
 Pour créer un fork à partir d’un run rembobiné, utilisez l’argument [`fork_from`](/fr/models/runs/forking/) dans `wandb.init()` et indiquez l’ID du run source ainsi que l’étape du run source à partir de laquelle créer le fork :
 

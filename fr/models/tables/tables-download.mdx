@@ -5,9 +5,7 @@ title: Exporter des données de Tables
 
 Comme tous les W&amp;B Artifacts, les Tables peuvent être converties en dataframes pandas pour faciliter l’export des données.
 
-<div id="convert-table-to-artifact">
-  ## Convertir `table` en `artifact`
-</div>
+## Convertir `table` en `artifact` {#convert-table-to-artifact}
 
 Commencez par convertir le tableau en artifact. Pour cela, le plus simple est d’utiliser `artifact.get(table, "table_name")` :
 
@@ -27,9 +25,7 @@ with wandb.init() as r:
     table = artifact.get("my_table")
 ```
 
-<div id="convert-artifact-to-dataframe">
-  ## Convertir `artifact` en dataframe
-</div>
+## Convertir `artifact` en dataframe {#convert-artifact-to-dataframe}
 
 Convertissez ensuite le tableau en dataframe :
 
@@ -38,9 +34,7 @@ Convertissez ensuite le tableau en dataframe :
 df = table.get_dataframe()
 ```
 
-<div id="export-data">
-  ## Exporter des données
-</div>
+## Exporter des données {#export-data}
 
 Vous pouvez maintenant exporter à l’aide de n’importe quelle méthode prise en charge par le dataframe :
 
@@ -49,9 +43,7 @@ Vous pouvez maintenant exporter à l’aide de n’importe quelle méthode prise
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
-<div id="next-steps">
-  # Étapes suivantes
-</div>
+# Étapes suivantes {#next-steps}
 
 * Consultez la [documentation de référence](/fr/models/artifacts/construct-an-artifact/) sur les `artifacts`.
 * Parcourez notre [guide pas à pas de Tables](/fr/models/tables/tables-walkthrough/).

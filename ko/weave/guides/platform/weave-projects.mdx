@@ -8,9 +8,7 @@ Weave 프로젝트는 트레이스, 평가, 모델, 데이터셋, 기타 Weave �
 
 이 페이지에서는 Weave 프로젝트에 어떤 리소스가 포함되는지, 프로젝트 경로가 어떻게 작동하는지, 그리고 W&amp;B UI 또는 Weave SDK를 사용해 프로젝트를 생성, 조회, 삭제하는 방법을 설명합니다.
 
-<div id="project-resources">
-  ## 프로젝트 리소스
-</div>
+## 프로젝트 리소스 {#project-resources}
 
 프로젝트에는 다음 리소스가 저장됩니다.
 
@@ -23,9 +21,7 @@ Weave 프로젝트는 트레이스, 평가, 모델, 데이터셋, 기타 Weave �
 | **Threads**      | 전체 사용자 상호작용을 분석하기 위해 관련 호출을 동일한 thread ID 아래에 묶는 멀티턴 대화 및 세션 기반 워크플로입니다. [Threads](/ko/weave/guides/tracking/threads)를 참조하세요.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | **Assets**       | **Assets** 탭은 프로젝트의 버전 관리 객체를 저장하고 정리합니다: <ul><li>**Models**: 재현성과 비교를 위해 변경 사항을 자동으로 추적하면서 프롬프트, 매개변수, 설정을 담는 버전 관리 모델 정의입니다. [Models](/ko/weave/guides/core-types/models)를 참조하세요.</li><li>**데이터셋**: 다운로드, 탐색, evaluation 실행에 사용할 수 있도록 Weave 객체로 저장된 테스트 예시 모음입니다. [데이터셋](/ko/weave/guides/core-types/datasets)를 참조하세요.</li><li>**Prompts**: 모델 설정에서 테스트하고 재사용할 수 있는 버전 관리 시스템 프롬프트입니다. [Prompts](/ko/weave/guides/core-types/prompts)를 참조하세요.</li><li>**Scorers**: 품질, 안전성 또는 커스텀 메트릭을 측정하기 위해 모델 입력과 출력을 평가하는 함수입니다. [Scorers](/ko/weave/guides/evaluation/scorers)를 참조하세요.</li><li>**Ops**: `@weave.op()`으로 데코레이션되어 호출을 생성하고 함수 수정 이력을 유지하는, 자동으로 버전 관리되고 추적되는 함수입니다. [Ops](/ko/weave/guides/tracking/ops)를 참조하세요.</li><li>**Other objects and metadata**: 프로젝트 내에 저장된 추가 Weave 객체, 맞춤형 유형, 관련 메타데이터입니다.</li></ul> |
 
-<div id="project-paths">
-  ## 프로젝트 경로
-</div>
+## 프로젝트 경로 {#project-paths}
 
 [팀](/ko/platform/hosting/iam/org_team_struct#team) (entities라고도 함)는 W&amp;B 조직에서 프로젝트를 소유하고 관리합니다. 팀 이름과 프로젝트 이름을 합치면 W&amp;B UI에서 해당 프로젝트의 경로가 됩니다. 코드에서도 이 경로를 사용해 Weave 리소스를 프로젝트에 연결합니다.
 
@@ -41,9 +37,7 @@ my-team/my-project
 weave.init('my-team/my-project')
 ```
 
-<div id="create-and-find-projects">
-  ## 프로젝트 만들기 및 찾기
-</div>
+## 프로젝트 만들기 및 찾기 {#create-and-find-projects}
 
 W&amp;B UI를 사용하거나 코드에서 새 프로젝트 경로를 설정해 Weave 프로젝트를 만들 수 있습니다.
 
@@ -89,9 +83,7 @@ W&amp;B UI를 사용하거나 코드에서 새 프로젝트 경로를 설정해 
   </Tab>
 </Tabs>
 
-<div id="view-projects-in-the-ui">
-  ## UI에서 프로젝트 보기
-</div>
+## UI에서 프로젝트 보기 {#view-projects-in-the-ui}
 
 Weave UI에서 프로젝트에 액세스하려면 다음 단계를 따르세요.
 
@@ -106,9 +98,7 @@ Weave UI에서 프로젝트에 액세스하려면 다음 단계를 따르세요.
   ![Weave 프로젝트](/weave/guides/platform/imgs/weave-project.png)
 </Frame>
 
-<div id="delete-a-project">
-  ## 프로젝트 삭제
-</div>
+## 프로젝트 삭제 {#delete-a-project}
 
 <Warning>
   프로젝트를 삭제하면 되돌릴 수 없으며, 연결된 모든 트레이스, 평가, 모델, 데이터셋 및 기타 리소스가 W&amp;B 계정에서 제거됩니다.

@@ -5,17 +5,13 @@ title: Suivre les notebooks Jupyter
 
 Utilisez W&amp;B avec Jupyter pour obtenir des visualisations interactives sans quitter votre notebook. Combinez des analyses personnalisées, des expériences et des prototypes, le tout entièrement enregistré.
 
-<div id="use-cases-for-wb-with-jupyter-notebooks">
-  ## Cas d’usage de W&amp;B avec les notebooks Jupyter
-</div>
+## Cas d’usage de W&amp;B avec les notebooks Jupyter {#use-cases-for-wb-with-jupyter-notebooks}
 
 1. **Expérimentation itérative** : exécutez et relancez des expériences, ajustez les paramètres, et enregistrez automatiquement tous vos runs dans W&amp;B sans avoir à prendre de notes manuellement au fil de l’eau.
 2. **Enregistrement du code** : lorsque vous reproduisez un modèle, il est difficile de savoir quelles cellules d’un notebook ont été exécutées et dans quel ordre. Activez l’enregistrement du code dans votre [page Settings](/fr/platform/app/settings-page/) pour conserver un historique de l’exécution des cellules pour chaque expérience.
 3. **Analyse personnalisée** : une fois les runs consignés dans W&amp;B, vous pouvez facilement récupérer un dataframe depuis l’API, effectuer une analyse personnalisée, puis consigner ces résultats dans W&amp;B pour les enregistrer et les partager dans Reports.
 
-<div id="getting-started-in-a-notebook">
-  ## Prise en main dans un notebook
-</div>
+## Prise en main dans un notebook {#getting-started-in-a-notebook}
 
 Commencez votre notebook avec le code suivant pour installer W&amp;B et associer votre compte :
 
@@ -52,9 +48,7 @@ Essayez-le vous-même dans ce [notebook d’exemple](https://wandb.me/jupyter-in
   <img src="/images/track/jupyter_widget.png" alt="widget W&B pour Jupyter" />
 </Frame>
 
-<div id="rendering-live-wb-interfaces-directly-in-your-notebooks">
-  ### Afficher des interfaces W&amp;B en direct dans vos notebooks
-</div>
+### Afficher des interfaces W&amp;B en direct dans vos notebooks {#rendering-live-wb-interfaces-directly-in-your-notebooks}
 
 Vous pouvez également afficher directement dans votre notebook des tableaux de bord, des Sweeps ou des Reports existants à l’aide de la commande magique `%wandb` :
 
@@ -88,9 +82,7 @@ run.finish()
   préférés](/fr/models/integrations), ou consultez directement la [documentation de référence](/fr/models/ref/python/) ou notre [dépôt d&#39;exemples](https://github.com/wandb/examples).
 </Note>
 
-<div id="additional-jupyter-features-in-wb">
-  ## Fonctionnalités Jupyter supplémentaires dans W&amp;B
-</div>
+## Fonctionnalités Jupyter supplémentaires dans W&amp;B {#additional-jupyter-features-in-wb}
 
 1. **Authentification facile dans Colab** : lorsque vous appelez `wandb.init()` pour la première fois dans Colab, nous authentifions automatiquement votre environnement d&#39;exécution si vous êtes déjà connecté à W&amp;B dans votre navigateur. Dans l’onglet Vue d’ensemble de la page de votre run, vous verrez un lien vers le notebook Colab.
 2. **Jupyter Magic :** affichez des tableaux de bord, des Sweeps et des Reports directement dans vos notebooks. La commande magique `%wandb` accepte un chemin vers votre projet, vos Sweeps ou vos Reports et affiche l’interface W&amp;B directement dans le notebook.

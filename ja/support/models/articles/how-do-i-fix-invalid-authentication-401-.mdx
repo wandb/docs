@@ -5,18 +5,14 @@ keywords: ["Inference"]
 
 `401` の Invalid Authentication エラーは、APIキーが無効であるか、W&amp;B プロジェクトの entity または名 が正しくないことを示します。このページのチェック項目を使用して、両方の値が正しいことを確認し、リクエストが認証されるようにしてください。
 
-<div id="verify-your-api-key">
-  ## APIキーを確認する
-</div>
+## APIキーを確認する {#verify-your-api-key}
 
 他の原因をトラブルシューティングする前に、有効で現在使用中のAPIキーがあることを確認します。
 
 1. [User Settings](https://wandb.ai/settings) で新しいAPIキーを作成します。
 2. APIキーは安全な場所に保管します。
 
-<div id="check-your-project-configuration">
-  ## プロジェクト設定を確認する
-</div>
+## プロジェクト設定を確認する {#check-your-project-configuration}
 
 リクエストでは、サービスが正しい W&amp;B のチームと project にルーティングできるよう、project を `[YOUR-TEAM]/[YOUR-PROJECT]` として指定する必要があります。`[YOUR-API-KEY]` は W&amp;B の APIキーに、`[YOUR-TEAM]/[YOUR-PROJECT]` は W&amp;B のチームと project に置き換えてください。
 
@@ -38,18 +34,14 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
   -H "OpenAI-Project: [YOUR-TEAM]/[YOUR-PROJECT]"
 ```
 
-<div id="common-mistakes">
-  ## よくある間違い
-</div>
+## よくある間違い {#common-mistakes}
 
 * チーム名ではなく、個人のentityを使用している
 * チーム名またはプロジェクト名のスペルを間違えている
 * チームとプロジェクトの間のスラッシュ (`/`) が抜けている
 * 期限切れまたは削除済みのAPIキーを使用している
 
-<div id="troubleshoot-remaining-issues">
-  ## 残っている問題のトラブルシューティング
-</div>
+## 残っている問題のトラブルシューティング {#troubleshoot-remaining-issues}
 
 * W&amp;Bアカウントにチームとプロジェクトが存在することを確認してください。
 * 指定したチームへのアクセス権があることを確認してください。

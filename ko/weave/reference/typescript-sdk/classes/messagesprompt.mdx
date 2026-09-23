@@ -7,21 +7,15 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/prompt.ts#L43" />
 
-<div id="extends">
-  ## 확장
-</div>
+## 확장 {#extends}
 
 * `Prompt`
 
-<div id="constructor">
-  ## 생성자
-</div>
+## 생성자 {#constructor}
 
 > **new MessagesPrompt**(`parameters`): `MessagesPrompt`
 
-<div id="parameters">
-  ### 매개변수
-</div>
+### 매개변수 {#parameters}
 
 <ParamField path="parameters" type="object" required>
   <Expandable title="속성" defaultOpen>
@@ -33,145 +27,97 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### 반환값
-</div>
+### 반환값 {#returns}
 
 `MessagesPrompt`
 
-<div id="overrides">
-  ### 재정의
-</div>
+### 재정의 {#overrides}
 
 `Prompt.constructor`
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
-<div id="__savedref">
-  ### __savedRef
-</div>
+### __savedRef {#__savedref}
 
 > `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="inherited-from">
-  #### 다음에서 상속됨
-</div>
+#### 다음에서 상속됨 {#inherited-from}
 
 `Prompt.__savedRef`
 
 ***
 
-<div id="messages">
-  ### messages
-</div>
+### messages {#messages}
 
 > **messages**: `Record`&lt;`string`, `any`&gt;[]
 
-<div id="accessors">
-  ## 접근자
-</div>
+## 접근자 {#accessors}
 
-<div id="description">
-  ### 설명
-</div>
+### 설명 {#description}
 
-<div id="get-signature">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature}
 
 > **get** **description**(): `string` | `undefined`
 
-<div id="returns-2">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-2}
 
 `string` | `undefined`
 
-<div id="inherited-from-2">
-  #### 다음에서 상속됨
-</div>
+#### 다음에서 상속됨 {#inherited-from-2}
 
 `Prompt.description`
 
 ***
 
-<div id="name">
-  ### name
-</div>
+### name {#name}
 
-<div id="get-signature-2">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature-2}
 
 > **get** **name**(): `string`
 
-<div id="returns-3">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-3}
 
 `string`
 
-<div id="inherited-from-3">
-  #### 다음에서 상속됨
-</div>
+#### 다음에서 상속됨 {#inherited-from-3}
 
 `Prompt.name`
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="format">
-  ### format()
-</div>
+### format() {#format}
 
 > **format**(`values?`): `Record`&lt;`string`, `any`&gt;[]
 
-<div id="parameters-2">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-2}
 
 <ParamField path="values" type="Record<string, any> = {}" />
 
-<div id="returns-4">
-  #### 반환값
-</div>
+#### 반환값 {#returns-4}
 
 `Record`&lt;`string`, `any`&gt;[]
 
 ***
 
-<div id="saveattrs">
-  ### saveAttrs()
-</div>
+### saveAttrs() {#saveattrs}
 
 > **saveAttrs**(): `object`
 
-<div id="returns-5">
-  #### 반환값
-</div>
+#### 반환값 {#returns-5}
 
 `object`
 
-<div id="inherited-from-4">
-  #### 다음에서 상속됨
-</div>
+#### 다음에서 상속됨 {#inherited-from-4}
 
 `Prompt.saveAttrs`
 
 ***
 
-<div id="get">
-  ### get()
-</div>
+### get() {#get}
 
 > `static` **get**(`client`, `uri`): `Promise`&lt;`MessagesPrompt`&gt;
 
-<div id="parameters-3">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-3}
 
 <ParamField path="client" type="WeaveClient" required>
   [`WeaveClient`](../interfaces/weaveclient)를 참조하세요.
@@ -179,8 +125,6 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <ParamField path="uri" type="string" required />
 
-<div id="returns-6">
-  #### 반환값
-</div>
+#### 반환값 {#returns-6}
 
 `Promise`&lt;`MessagesPrompt`&gt;

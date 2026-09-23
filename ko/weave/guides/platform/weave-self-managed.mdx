@@ -17,9 +17,7 @@ W&amp;B Weave를 자체 호스팅하면 환경과 설정을 더욱 세밀하게 
   자세한 레퍼런스 아키텍처는 [W&amp;B Self-Managed Reference Architecture](https://docs.wandb.ai/guides/hosting/self-managed/ref-arch/#models-and-weave)를 참조하세요.
 </Tip>
 
-<div id="important-setup-notes">
-  ## 중요한 설정 참고 사항
-</div>
+## 중요한 설정 참고 사항 {#important-setup-notes}
 
 이 가이드의 설정 예시는 레퍼런스용일 뿐입니다. 각 조직의 Kubernetes 환경은 서로 다르므로 self-hosted 인스턴스에서는 다음 항목을 조정해야 할 가능성이 높습니다.
 
@@ -29,9 +27,7 @@ W&amp;B Weave를 자체 호스팅하면 환경과 설정을 더욱 세밀하게 
 
 이러한 설정은 정해진 해법이 아니라 템플릿으로 취급해야 합니다.
 
-<div id="architecture">
-  ## 아키텍처
-</div>
+## 아키텍처 {#architecture}
 
 다음 다이어그램은 자체 관리형 Weave 배포 환경에서 W&amp;B Platform, ClickHouse 클러스터, ClickHouse Keeper coordination service, S3 저장소가 어떻게 함께 구성되는지 보여줍니다.
 
@@ -49,9 +45,7 @@ graph TD
     E --> G
 ```
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 환경이 다음 요구 사항을 충족하는지 확인하세요. 자체 관리형 Weave 인스턴스에는 다음 리소스가 필요합니다.
 
@@ -66,9 +60,7 @@ graph TD
   이 사전 요구 사항 목록만 기준으로 사이징을 결정하지 마세요. 필요한 리소스는 트레이스 볼륨과 사용 패턴에 따라 달라집니다. 자세한 내용은 [리소스 요구 사항](#resource-requirements)을 참조하세요.
 </Warning>
 
-<div id="required-tools">
-  ### 필수 도구
-</div>
+### 필수 도구 {#required-tools}
 
 인스턴스를 설정하려면 다음 도구가 필요합니다:
 
@@ -76,39 +68,29 @@ graph TD
 * `helm` 버전 3.0 이상.
 * AWS 자격 증명(S3를 사용하는 경우) 또는 S3 호환 저장소에 대한 접근 권한.
 
-<div id="network-requirements">
-  ### 네트워크 요구 사항
-</div>
+### 네트워크 요구 사항 {#network-requirements}
 
 Kubernetes 클러스터에는 다음과 같은 네트워크 설정이 필요합니다:
 
 * `clickhouse` 네임스페이스의 파드는 `wandb` 네임스페이스의 파드와 통신할 수 있어야 합니다.
 * ClickHouse 노드는 포트 `8123`, `9000`, `9009`, `2181`을 통해 서로 통신할 수 있어야 합니다.
 
-<div id="deploy-your-self-managed-weave-instance">
-  ## 자체 관리형 Weave 인스턴스 배포
-</div>
+## 자체 관리형 Weave 인스턴스 배포 {#deploy-your-self-managed-weave-instance}
 
 다음 단계에서는 operator 배포, 저장소 준비, ClickHouse Keeper 및 ClickHouse 클러스터 배포, 그리고 W&amp;B Platform에서 Weave를 활성화하는 방법을 안내합니다. 각 단계는 이전 단계에서 생성한 리소스를 기반으로 하므로 순서대로 완료하세요.
 
-<div id="deploy-the-altinity-clickhouse-operator">
-  ### Altinity ClickHouse Operator 배포
-</div>
+### Altinity ClickHouse Operator 배포 {#deploy-the-altinity-clickhouse-operator}
 
 Altinity ClickHouse Operator는 Kubernetes에서 ClickHouse 설치를 관리하는 역할을 합니다. operator를 먼저 설치하면 이후 step에서 operator가 대신 reconcile하는 ClickHouse Keeper 및 ClickHouse 클러스터 리소스를 선언할 수 있습니다.
 
-<div id="add-the-altinity-helm-repository">
-  #### Altinity Helm 저장소 추가하기
-</div>
+#### Altinity Helm 저장소 추가하기 {#add-the-altinity-helm-repository}
 
 ```bash
 helm repo add altinity https://helm.altinity.com
 helm repo update
 ```
 
-<div id="create-the-operator-configuration">
-  #### 오퍼레이터 설정 생성
-</div>
+#### 오퍼레이터 설정 생성 {#create-the-operator-configuration}
 
 `ch-operator.yaml`이라는 이름의 파일을 생성합니다. 이 파일은 오퍼레이터 배포를 위한 보안 컨텍스트와 메타데이터를 정의합니다:
 
@@ -138,9 +120,7 @@ nameOverride: "wandb"
 
 여기에 표시된 `containerSecurityContext` 값은 대부분의 Kubernetes 배포판에서 잘 동작합니다. OpenShift의 경우 프로젝트에 할당된 UID 범위에 맞게 `runAsUser`와 `fsGroup`을 조정해야 할 수 있습니다.
 
-<div id="install-the-operator">
-  #### Operator 설치하기
-</div>
+#### Operator 설치하기 {#install-the-operator}
 
 ```bash
 helm upgrade --install ch-operator altinity/altinity-clickhouse-operator \
@@ -149,9 +129,7 @@ helm upgrade --install ch-operator altinity/altinity-clickhouse-operator \
   -f ch-operator.yaml
 ```
 
-<div id="verify-the-operator-installation">
-  #### 오퍼레이터 설치 확인하기
-</div>
+#### 오퍼레이터 설치 확인하기 {#verify-the-operator-installation}
 
 ```bash
 # operator 파드가 실행 중인지 확인
@@ -171,15 +149,11 @@ kubectl get pods -n clickhouse -o jsonpath="{.items[*].spec.containers[*].image}
 
 오퍼레이터가 실행 중이므로 이제 ClickHouse 클러스터가 의존하는 영구 저장소와 코디네이션 서비스를 프로비저닝할 수 있습니다.
 
-<div id="prepare-s3-storage">
-  ### S3 저장소 준비
-</div>
+### S3 저장소 준비 {#prepare-s3-storage}
 
 ClickHouse는 데이터를 영구 저장하려면 S3 또는 S3 호환 저장소가 필요합니다. 이 단계에서는 버킷을 생성하고 ClickHouse의 인증 방식을 설정합니다.
 
-<div id="create-an-s3-bucket">
-  #### S3 버킷 생성
-</div>
+#### S3 버킷 생성 {#create-an-s3-bucket}
 
 AWS 계정 또는 S3 호환 저장소 제공업체에 S3 버킷을 생성합니다. `[BUCKET-NAME]`은 버킷 이름으로, `[REGION]`은 AWS 리전으로 바꾸세요:
 
@@ -188,15 +162,11 @@ AWS 계정 또는 S3 호환 저장소 제공업체에 S3 버킷을 생성합니�
 aws s3 mb s3://[BUCKET-NAME] --region [REGION]
 ```
 
-<div id="configure-s3-credentials">
-  #### S3 자격 증명 설정
-</div>
+#### S3 자격 증명 설정 {#configure-s3-credentials}
 
 ClickHouse가 버킷에서 읽고 쓰려면 자격 증명이 필요합니다. S3 액세스 자격 증명을 제공하는 방법은 두 가지가 있습니다. W&amp;B는 클러스터에 장기 시크릿을 저장하지 않아도 되므로 AWS에서는 옵션 A(IRSA)를 권장합니다.
 
-<div id="option-a-use-aws-iam-roles-irsa-recommended-for-aws">
-  ##### 옵션 A: AWS IAM 역할 사용(IRSA, AWS 환경에서 권장)
-</div>
+##### 옵션 A: AWS IAM 역할 사용(IRSA, AWS 환경에서 권장) {#option-a-use-aws-iam-roles-irsa-recommended-for-aws}
 
 Kubernetes 노드에 S3에 액세스할 수 있는 IAM 역할이 있으면 ClickHouse는 EC2 인스턴스 메타데이터를 사용할 수 있습니다:
 
@@ -228,9 +198,7 @@ Kubernetes 노드에 S3에 액세스할 수 있는 IAM 역할이 있으면 Click
 }
 ```
 
-<div id="option-b-use-access-keys">
-  ##### 옵션 B: 액세스 키 사용
-</div>
+##### 옵션 B: 액세스 키 사용 {#option-b-use-access-keys}
 
 정적 자격 증명을 사용하려면 Kubernetes 시크릿을 생성합니다:
 
@@ -245,15 +213,11 @@ kubectl create secret generic aws-creds \
 
 그런 다음 ClickHouse에서 해당 시크릿을 사용하도록 설정합니다(4단계의 ch-server.yaml 설정 참조).
 
-<div id="deploy-clickhouse-keeper">
-  ### ClickHouse Keeper 배포
-</div>
+### ClickHouse Keeper 배포 {#deploy-clickhouse-keeper}
 
 [ClickHouse Keeper](https://clickhouse.com/docs/guides/sre/keeper/clickhouse-keeper)는 데이터 복제와 분산 DDL 쿼리 실행을 위한 코디네이션 시스템을 제공합니다. Step 4의 ClickHouse 서버가 시작 시 Keeper에 연결하므로, ClickHouse 클러스터보다 먼저 Keeper를 배포해야 합니다.
 
-<div id="create-the-keeper-configuration">
-  #### Keeper 설정 만들기
-</div>
+#### Keeper 설정 만들기 {#create-the-keeper-configuration}
 
 `ch-keeper.yaml` 파일을 만드세요. 이 매니페스트는 안티 어피니티, 영구 저장소, 그리고 Altinity operator가 Keeper 파드를 프로비저닝할 때 사용하는 설정이 포함된 레플리카 3개의 Keeper 클러스터를 정의합니다:
 
@@ -361,17 +325,13 @@ spec:
 * **Resources**: CPU 및 메모리 값은 예시입니다. 적절한 사이징을 위해 W&amp;B Solutions Architects와 상의하세요.
 * **Naming**: `metadata.name` 또는 `configuration.clusters[0].name`을 변경하는 경우, 이에 맞게 `ch-server.yaml`의 Keeper 호스트명(Step 4)을 업데이트해야 합니다.
 
-<div id="deploy-clickhouse-keeper-resources">
-  #### ClickHouse Keeper 리소스 배포
-</div>
+#### ClickHouse Keeper 리소스 배포 {#deploy-clickhouse-keeper-resources}
 
 ```bash
 kubectl apply -f ch-keeper.yaml
 ```
 
-<div id="verify-the-keeper-deployment">
-  #### Keeper 배포 확인
-</div>
+#### Keeper 배포 확인 {#verify-the-keeper-deployment}
 
 ```bash
 # Keeper 파드 확인
@@ -391,15 +351,11 @@ kubectl get svc -n clickhouse | grep keeper
 
 Keeper가 실행 중이면 이제 이를 조정용으로 사용하는 ClickHouse 클러스터를 배포할 수 있습니다.
 
-<div id="deploy-the-clickhouse-cluster">
-  ### ClickHouse 클러스터 배포
-</div>
+### ClickHouse 클러스터 배포 {#deploy-the-clickhouse-cluster}
 
 이제 Weave 트레이스 데이터를 저장하는 ClickHouse 서버 클러스터를 배포하세요. 클러스터가 3단계의 Keeper 서비스와 2단계의 S3 버킷에 모두 연결되므로, 이 단계가 이 가이드에서 가장 큰 단계입니다.
 
-<div id="create-the-clickhouse-server-configuration">
-  #### ClickHouse 서버 설정 생성
-</div>
+#### ClickHouse 서버 설정 생성 {#create-the-clickhouse-server-configuration}
 
 `ch-server.yaml`이라는 이름의 파일을 만드세요. 이 매니페스트는 ClickHouse 클러스터, Keeper 연결, Weave 사용자 계정, 그리고 트레이스 데이터에 사용되는 S3 저장소 정책을 선언합니다:
 
@@ -598,9 +554,7 @@ spec:
 9. **Credentials**:
    * IRSA의 경우: `<use_environment_credentials>true</use_environment_credentials>`를 유지하거나 환경 변수에 매핑된 시크릿 키를 사용해 액세스하세요.
 
-<div id="update-the-s3-configuration">
-  #### S3 설정 업데이트
-</div>
+#### S3 설정 업데이트 {#update-the-s3-configuration}
 
 `ch-server.yaml`에서 `storage_configuration.xml` 섹션을 수정합니다.
 
@@ -622,9 +576,7 @@ MinIO 예시:
   `{replica}`를 제거하지 마세요. 이렇게 해야 각 ClickHouse 복제본이 버킷의 자체 폴더에 기록합니다.
 </Warning>
 
-<div id="configure-credentials-option-b-only">
-  #### 자격 증명 구성(옵션 B만 해당)
-</div>
+#### 자격 증명 구성(옵션 B만 해당) {#configure-credentials-option-b-only}
 
 step 2의 옵션 B(액세스 키)를 사용하는 경우, `ch-server.yaml`의 `env` 섹션이 시크릿을 참조하는지 확인하세요:
 
@@ -644,9 +596,7 @@ env:
 
 Option A (IRSA)를 사용하는 경우 `env` 섹션 전체를 제거하세요.
 
-<div id="keeper-naming">
-  #### Keeper 이름 지정
-</div>
+#### Keeper 이름 지정 {#keeper-naming}
 
 Keeper 호스트 이름을 정확하게 지정하는 것은 매우 중요합니다. 3단계에서 생성한 서비스와 일치하지 않으면 ClickHouse가 시작되지 않습니다. `zookeeper.nodes` 섹션의 Keeper 노드 호스트 이름은 3단계에서 배포한 Keeper를 기준으로 정해진 패턴을 따릅니다.
 
@@ -699,17 +649,13 @@ kubectl get pods -n clickhouse -l app=clickhouse-keeper
   `ch-server.yaml`의 Keeper 호스트 이름은 Keeper deployment에서 생성된 실제 서비스 이름과 정확히 일치해야 합니다. 그렇지 않으면 ClickHouse 서버가 coordination service에 연결할 수 없습니다.
 </Note>
 
-<div id="deploy-the-clickhouse-cluster-resources">
-  #### ClickHouse 클러스터 리소스 배포
-</div>
+#### ClickHouse 클러스터 리소스 배포 {#deploy-the-clickhouse-cluster-resources}
 
 ```bash
 kubectl apply -f ch-server.yaml
 ```
 
-<div id="verify-the-clickhouse-deployment">
-  #### ClickHouse 배포 확인
-</div>
+#### ClickHouse 배포 확인 {#verify-the-clickhouse-deployment}
 
 ```bash
 # ClickHouse 파드 확인
@@ -733,15 +679,11 @@ kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
 
 이 시점에서는 Keeper와 S3를 지원 저장소로 사용하는 ClickHouse 클러스터가 실행 중입니다. 남은 step에서는 W&amp;B Platform을 해당 클러스터에 연결하고 Weave 트레이스가 엔드투엔드로 흐르는지 확인합니다.
 
-<div id="enable-weave-in-the-wb-platform">
-  ### W&amp;B Platform에서 Weave 활성화
-</div>
+### W&amp;B Platform에서 Weave 활성화 {#enable-weave-in-the-wb-platform}
 
 이제 Weave 트레이스에 ClickHouse 클러스터를 사용하도록 W&amp;B Platform을 설정합니다. 이 단계에서는 외부에서 관리되는 ClickHouse를 W&amp;B Operator가 찾을 위치를 지정하고 `weave-trace` 서비스를 활성화합니다.
 
-<div id="gather-clickhouse-connection-information">
-  #### ClickHouse 연결 정보 확인
-</div>
+#### ClickHouse 연결 정보 확인 {#gather-clickhouse-connection-information}
 
 다음 정보가 필요합니다:
 
@@ -754,9 +696,7 @@ kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
 
 호스트 이름은 다음 패턴을 따릅니다: `clickhouse-[INSTALLATION-NAME].[NAMESPACE].svc.cluster.local`
 
-<div id="update-the-wb-custom-resource">
-  #### W&amp;B Custom Resource 업데이트
-</div>
+#### W&amp;B Custom Resource 업데이트 {#update-the-wb-custom-resource}
 
 Weave 설정을 추가하려면 W&amp;B Platform Custom Resource(CR)을 편집합니다:
 
@@ -838,17 +778,13 @@ spec:
   여기에 표시된 보안 컨텍스트, 리소스 할당 및 기타 Kubernetes 관련 설정은 참고용 예시입니다. 조직의 요구 사항에 맞게 사용자 지정하고, 적절한 리소스 규모 산정을 위해 W&amp;B Solutions Architect 팀과 상의하세요.
 </Note>
 
-<div id="apply-the-updated-configuration">
-  #### 업데이트된 설정 적용하기
-</div>
+#### 업데이트된 설정 적용하기 {#apply-the-updated-configuration}
 
 ```bash
 kubectl apply -f wandb-cr.yaml
 ```
 
-<div id="verify-the-weave-trace-deployment">
-  #### Weave Trace 배포 확인
-</div>
+#### Weave Trace 배포 확인 {#verify-the-weave-trace-deployment}
 
 ```bash
 # weave-trace 파드 상태 확인
@@ -863,15 +799,11 @@ kubectl logs -n wandb [WEAVE-TRACE-POD-NAME] --tail=50
 # ClickHouse 연결 성공 메시지 확인
 ```
 
-<div id="initialize-the-weave-database">
-  ### Weave 데이터베이스 초기화
-</div>
+### Weave 데이터베이스 초기화 {#initialize-the-weave-database}
 
 weave-trace 서비스는 처음 시작될 때 필요한 데이터베이스 스키마를 자동으로 생성합니다. 이 단계에서는 Weave를 최종 사용자에게 공개하기 전에 마이그레이션이 성공적으로 완료되었는지 확인합니다.
 
-<div id="monitor-the-database-migration">
-  #### 데이터베이스 마이그레이션 모니터링
-</div>
+#### 데이터베이스 마이그레이션 모니터링 {#monitor-the-database-migration}
 
 ```bash
 # 시작 중 weave-trace 로그 확인
@@ -880,9 +812,7 @@ kubectl logs -n wandb [WEAVE-TRACE-POD-NAME] -f
 # 데이터베이스 초기화 성공을 나타내는 마이그레이션 메시지 확인
 ```
 
-<div id="verify-database-creation">
-  #### 데이터베이스 생성 여부 확인
-</div>
+#### 데이터베이스 생성 여부 확인 {#verify-database-creation}
 
 ```bash
 # ClickHouse에 연결하고 데이터베이스 확인
@@ -898,30 +828,22 @@ kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
   "SHOW TABLES FROM weave"
 ```
 
-<div id="verify-that-weave-is-enabled">
-  ### Weave가 활성화되어 있는지 확인
-</div>
+### Weave가 활성화되어 있는지 확인 {#verify-that-weave-is-enabled}
 
 이 마지막 단계에서는 Weave 라이선스가 적용되어 있고, W&amp;B Console에서 액세스할 수 있으며, 클라이언트 SDK에서 트레이스를 기록할 수 있는지 확인합니다.
 
-<div id="access-the-wb-console">
-  #### W&amp;B Console에 접속
-</div>
+#### W&amp;B Console에 접속 {#access-the-wb-console}
 
 웹 브라우저에서 W&amp;B 인스턴스 URL로 이동합니다.
 
-<div id="check-the-weave-license-status">
-  #### Weave 라이선스 상태 확인
-</div>
+#### Weave 라이선스 상태 확인 {#check-the-weave-license-status}
 
 W&amp;B Console에서 다음을 수행합니다:
 
 1. **Top Right Menu** &gt; **Organization Dashboard**로 이동합니다.
 2. **Weave access**가 활성화되었는지 확인합니다.
 
-<div id="test-weave-functionality">
-  #### Weave 기능 테스트
-</div>
+#### Weave 기능 테스트 {#test-weave-functionality}
 
 Weave가 제대로 작동하는지 확인하려면 Python 테스트를 만드세요:
 
@@ -946,15 +868,11 @@ print(result)
 
 이를 실행한 후 조직의 traces 페이지에서 W&amp;B UI를 열어 트레이스를 확인하세요. 트레이스가 표시되면 Self-Managed Weave deployment가 정상적으로 작동하는 것입니다.
 
-<div id="troubleshooting">
-  ## 문제 해결
-</div>
+## 문제 해결 {#troubleshooting}
 
 다음 섹션에서는 일반적인 배포 문제와 해결 방법을 설명하며, 증상이 처음 나타나는 구성 요소를 기준으로 정리했습니다.
 
-<div id="clickhouse-keeper-issues">
-  ### ClickHouse Keeper 문제
-</div>
+### ClickHouse Keeper 문제 {#clickhouse-keeper-issues}
 
 **문제**: Keeper 파드가 `Pending` 상태에서 멈춰 있음
 
@@ -1010,9 +928,7 @@ kubectl logs -n clickhouse [KEEPER-POD-NAME]
 * 포트 충돌.
 * `ch-keeper.yaml`의 설정 오류.
 
-<div id="clickhouse-server-issues">
-  ### ClickHouse 서버 문제
-</div>
+### ClickHouse 서버 문제 {#clickhouse-server-issues}
 
 **문제**: ClickHouse가 S3에 연결할 수 없습니다
 
@@ -1051,9 +967,7 @@ kubectl logs -n clickhouse chi-wandb-weavecluster-0-0-0 | grep -i keeper
 
 연결에 실패하면 `ch-server.yaml`의 Keeper 호스트 이름이 실제 Keeper 배포 환경과 일치하지 않을 가능성이 높습니다. 명명 패턴은 4단계의 &quot;Keeper naming&quot;을 참조하세요.
 
-<div id="weave-trace-issues">
-  ### Weave Trace 문제
-</div>
+### Weave Trace 문제 {#weave-trace-issues}
 
 **문제**: `weave-trace` 파드가 시작되지 않음
 
@@ -1108,9 +1022,7 @@ weave-trace:
     WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster" # <-- 이 값
 ```
 
-<div id="resource-requirements">
-  ## 리소스 요구 사항
-</div>
+## 리소스 요구 사항 {#resource-requirements}
 
 이 섹션에서는 일반적으로 많이 사용하는 두 가지 deployment profile에 대한 예시 리소스 할당을 제공합니다. 클러스터를 계획할 때 시작점으로 활용하고, 관찰한 워크로드를 바탕으로 수치를 조정하세요.
 
@@ -1125,9 +1037,7 @@ weave-trace:
   특정 사용 사례에 맞는 적절한 사이징를 확인하려면 **반드시 W&amp;B Solutions Architect 팀과 상의하세요**. 리소스를 부족하게 프로비저닝하면 성능 문제가 발생할 수 있고, 과도하게 프로비저닝하면 인프라 비용만 낭비됩니다.
 </Warning>
 
-<div id="minimum-production-setup">
-  ### 최소 프로덕션 설정
-</div>
+### 최소 프로덕션 설정 {#minimum-production-setup}
 
 | 구성 요소             | 레플리카     | CPU (요청, 제한)     | 메모리 (요청, 제한)     | 저장소       |
 | ----------------- | -------- | ---------------- | ---------------- | --------- |
@@ -1138,9 +1048,7 @@ weave-trace:
 
 개발, 테스트 또는 트래픽이 적은 프로덕션 환경에 적합합니다.
 
-<div id="recommended-production-setup">
-  ### 권장 프로덕션 설정
-</div>
+### 권장 프로덕션 설정 {#recommended-production-setup}
 
 트레이스 양이 많은 프로덕션 워크로드의 경우:
 
@@ -1155,17 +1063,13 @@ weave-trace:
 
 초대규모 배포의 경우, 특정 트레이스 양과 성능 요구 사항을 기반으로 한 맞춤형 크기 권장 사항을 받으려면 W&amp;B Solutions Architect 팀에 문의하세요.
 
-<div id="advanced-configuration">
-  ## 고급 설정
-</div>
+## 고급 설정 {#advanced-configuration}
 
 이 섹션에서는 Self-Managed Weave 배포를 위한 맞춤 설정 옵션을 다룹니다. 여기에는 수직 스케일링 또는 수평 스케일링을 통해 ClickHouse 용량을 확장하는 방법, keeper와 server 설정 모두에서 이미지 태그를 수정해 ClickHouse 버전을 업데이트하는 방법, 그리고 ClickHouse 상태를 모니터링하는 방법이 포함됩니다.
 
 W&amp;B는 인스턴스에 고급 변경을 적용할 때는 성능 및 안정성 요구 사항에 맞도록 W&amp;B Solutions Architect 팀과 상담할 것을 권장합니다.
 
-<div id="scale-clickhouse">
-  ### ClickHouse 스케일링
-</div>
+### ClickHouse 스케일링 {#scale-clickhouse}
 
 ClickHouse 용량을 늘리려면 다음과 같은 방법을 사용할 수 있습니다.
 
@@ -1188,9 +1092,7 @@ ClickHouse 용량을 늘리려면 다음과 같은 방법을 사용할 수 있�
    * 샤드 관리에 대해서는 ClickHouse 문서를 참조하세요.
    * 프로덕션에서 수평 스케일링을 구현하기 전에 W&amp;B Solutions Architect에 문의하세요.
 
-<div id="use-a-different-clickhouse-version">
-  ### 다른 ClickHouse 버전 사용하기
-</div>
+### 다른 ClickHouse 버전 사용하기 {#use-a-different-clickhouse-version}
 
 다른 ClickHouse 버전을 사용하려면 `ch-keeper.yaml`과 `ch-server.yaml`의 이미지 태그를 모두 업데이트하세요:
 
@@ -1205,9 +1107,7 @@ image: clickhouse/clickhouse-server:25.10   # 서버 버전
   ClickHouse Server를 업그레이드할 때는 ClickHouse Keeper도 호환되는 버전으로 업그레이드하세요. W&amp;B Self-Managed deployment에서 ClickHouse 버전을 변경하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases) 페이지를 검토하세요.
 </Warning>
 
-<div id="monitor-clickhouse">
-  ### ClickHouse 모니터링
-</div>
+### ClickHouse 모니터링 {#monitor-clickhouse}
 
 모니터링하려면 ClickHouse 시스템 테이블에 액세스하세요:
 
@@ -1226,15 +1126,11 @@ kubectl exec -n clickhouse chi-wandb-weavecluster-0-0-0 -- \
 kubectl get pods -n clickhouse -l app=clickhouse-server
 ```
 
-<div id="backup-and-recovery">
-  ### 백업 및 복구
-</div>
+### 백업 및 복구 {#backup-and-recovery}
 
 ClickHouse 데이터는 S3에 저장되며, S3 버전 관리와 버킷 복제 특성 덕분에 기본적인 백업 기능이 제공됩니다. 배포 환경에 맞는 백업 전략은 W&amp;B Solutions Architect 팀에 문의하고 [ClickHouse backup documentation](https://clickhouse.com/docs/en/operations/backup)을 참고하세요.
 
-<div id="security-considerations">
-  ## 보안 고려 사항
-</div>
+## 보안 고려 사항 {#security-considerations}
 
 프로덕션 배포에서는 이 가이드에 제시된 기본 설정을 더 강화해야 합니다. 아래 목록은 보안 팀과 함께 검토해야 할 가장 중요한 항목을 보여줍니다.
 
@@ -1244,9 +1140,7 @@ ClickHouse 데이터는 S3에 저장되며, S3 버전 관리와 버킷 복제 �
 4. **S3 버킷**: 저장 데이터 암호화를 활성화하고, 버킷 액세스는 필요한 IAM 역할로만 제한하세요.
 5. **TLS**: 선택 사항입니다. 프로덕션 환경에서는 ClickHouse 클라이언트 연결에 TLS를 활성화하세요.
 
-<div id="upgrade">
-  ## 업그레이드
-</div>
+## 업그레이드 {#upgrade}
 
 다음 절차에서는 operator, ClickHouse 서버, Weave Trace 컴포넌트의 일반적인 업그레이드 방법을 설명합니다. 한 번에 하나의 컴포넌트씩 업그레이드하고, 다음 단계로 진행하기 전에 deployment가 정상 상태인지 확인하세요.
 
@@ -1254,9 +1148,7 @@ ClickHouse 데이터는 S3에 저장되며, S3 버전 관리와 버킷 복제 �
   Weave는 지원되는 ClickHouse 버전이 필요합니다. ClickHouse 또는 W&amp;B Server를 업그레이드하기 전에 [업그레이드를 위한 ClickHouse 호환성](/ko/platform/hosting/self-managed/operator#clickhouse-compatibility-for-upgrades) 및 [지원되는 W&amp;B Server 릴리스](/ko/release-notes/server-releases)를 참조하세요. ClickHouse Server와 ClickHouse Keeper는 함께 업그레이드하세요.
 </Note>
 
-<div id="upgrade-the-clickhouse-operator">
-  ### ClickHouse Operator 업그레이드
-</div>
+### ClickHouse Operator 업그레이드 {#upgrade-the-clickhouse-operator}
 
 ```bash
 helm upgrade ch-operator altinity/altinity-clickhouse-operator \
@@ -1264,9 +1156,7 @@ helm upgrade ch-operator altinity/altinity-clickhouse-operator \
   -f ch-operator.yaml
 ```
 
-<div id="upgrade-clickhouse-server">
-  ### ClickHouse Server 업그레이드
-</div>
+### ClickHouse Server 업그레이드 {#upgrade-clickhouse-server}
 
 `ch-keeper.yaml` 및 `ch-server.yaml`에서 이미지 버전을 업데이트한 다음 서버 매니페스트를 적용하세요:
 
@@ -1279,9 +1169,7 @@ kubectl apply -f ch-server.yaml
 kubectl get pods -n clickhouse
 ```
 
-<div id="upgrade-weave-trace">
-  ### Weave Trace 업그레이드
-</div>
+### Weave Trace 업그레이드 {#upgrade-weave-trace}
 
 `wandb-cr.yaml`의 이미지 태그를 업데이트한 후 적용하세요:
 
@@ -1292,9 +1180,7 @@ kubectl apply -f wandb-cr.yaml
 kubectl get pods -n wandb | grep weave-trace
 ```
 
-<div id="additional-resources">
-  ## 추가 자료
-</div>
+## 추가 자료 {#additional-resources}
 
 * [수집 샘플링 설정](/ko/weave/guides/platform/ingest-sampling): 높은 트레이스 볼륨에서 저장소 및 LLM 점수화 비용을 제어하기 위해 유입되는 트레이스의 일부만 유지합니다.
 * [Altinity ClickHouse Operator 문서](https://docs.altinity.com/altinitykubernetesoperator/)
@@ -1302,9 +1188,7 @@ kubectl get pods -n wandb | grep weave-trace
 * [W&amp;B Weave 문서](https://docs.wandb.ai/weave)
 * [ClickHouse S3 저장소 설정](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree#s3-virtual-hosted-style)
 
-<div id="support">
-  ## 지원팀
-</div>
+## 지원팀 {#support}
 
 프로덕션 배포 또는 문제 발생 시:
 
@@ -1315,9 +1199,7 @@ kubectl get pods -n wandb | grep weave-trace
   * W&amp;B 버전, ClickHouse 버전, Kubernetes 버전.
   * 클러스터 정보 및 트레이스 볼륨.
 
-<div id="faq">
-  ## FAQ
-</div>
+## FAQ {#faq}
 
 **Q: 3개 대신 단일 ClickHouse replica를 사용할 수 있나요?**
 

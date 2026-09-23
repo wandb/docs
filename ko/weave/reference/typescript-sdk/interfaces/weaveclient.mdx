@@ -7,49 +7,35 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519" />
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
-<div id="projectid">
-  ### projectId
-</div>
+### projectId {#projectid}
 
 > **projectId**: `string`
 
 ***
 
-<div id="settings">
-  ### settings
-</div>
+### settings {#settings}
 
 > **settings**: `object`
 
-<div id="attributes">
-  #### attributes
-</div>
+#### attributes {#attributes}
 
 > `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
 
 이 클라이언트가 생성하는 모든 트레이스에 적용되는 속성 맵입니다.
 
-<div id="genai">
-  #### genai
-</div>
+#### genai {#genai}
 
 > `readonly` **genai**: `object`
 
-<div id="genaibatchoptions">
-  ##### genai.batchOptions
-</div>
+##### genai.batchOptions {#genaibatchoptions}
 
 > `optional` **batchOptions**: `BufferConfig`
 
 `BatchSpanProcessor` 설정입니다. `spanProcessor === 'batch'`가 아니면 무시됩니다.
 
-<div id="genaispanprocessor">
-  ##### genai.spanProcessor
-</div>
+##### genai.spanProcessor {#genaispanprocessor}
 
 > `optional` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
 
@@ -59,72 +45,52 @@ GenAI span을 내보내는 방식입니다.
 * `'simple'`: `SimpleSpanProcessor`로, span마다 HTTP POST를 한 번씩 전송합니다. 처리량보다 결정적인 플러시가 더 중요한 테스트나 단기 실행 CLI에 유용합니다.
 * `SpanProcessor` 인스턴스: 사용자가 직접 제공하는 프로세서입니다. 라이프사이클은 호출자가 직접 관리하며, `/agents/otel/v1/traces`로 전송하는 Weave OTLP 익스포터는 사용되지 않습니다.
 
-<div id="printcalllink">
-  #### printCallLink
-</div>
+#### printCallLink {#printcalllink}
 
 > `readonly` **printCallLink**: `boolean`
 
 op에 대한 Weave UI 링크를 터미널에 출력합니다.
 
-<div id="default">
-  ##### 기본값
-</div>
+##### 기본값 {#default}
 
 `true`
 
-<div id="usecallscomplete">
-  #### useCallsComplete
-</div>
+#### useCallsComplete {#usecallscomplete}
 
 > **useCallsComplete**: `boolean`
 
 완료된 Call을 기존 `call/upsert_batch` 경로 대신 `calls/complete` 엔드포인트로 전송합니다(start와 end는 클라이언트 측에서 페어링).
 
-<div id="default-2">
-  ##### 기본값
-</div>
+##### 기본값 {#default-2}
 
 `true`
 
-<div id="useotelv2">
-  #### useOTelV2
-</div>
+#### useOTelV2 {#useotelv2}
 
 > **useOTelV2**: `boolean`
 
 OTel을 지원하는 인테그레이션을 해당 OTel 변형으로 라우팅합니다.
 
-<div id="default-3">
-  ##### 기본값
-</div>
+##### 기본값 {#default-3}
 
 `true`
 
 ***
 
-<div id="traceserverapi">
-  ### traceServerApi
-</div>
+### traceServerApi {#traceserverapi}
 
 > **traceServerApi**: `Api`&lt;`any`&gt;
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="addscore">
-  ### addScore()
-</div>
+### addScore() {#addscore}
 
 > **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`&lt;`string`&gt;
 
 Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
 명령형 Evaluation에서 예측 Call에 Scorer 결과를 연결하는 데 사용합니다.
 
-<div id="parameters">
-  #### Parameters
-</div>
+#### Parameters {#parameters}
 
 <ParamField path="predictCallId" type="string" required>
   feedback를 attach할 predict call의 ID
@@ -142,23 +108,17 @@ Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
   Scorer의 출력
 </ParamField>
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환값 {#returns}
 
 `Promise`&lt;`string`&gt;
 
 ***
 
-<div id="createcall">
-  ### createCall()
-</div>
+### createCall() {#createcall}
 
 > **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`): `Promise`&lt;`void`&gt;
 
-<div id="parameters-2">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-2}
 
 <ParamField path="internalCall" type="InternalCall" required />
 
@@ -196,23 +156,17 @@ Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
 
 <ParamField path="eagerCallStart" type="boolean = false" />
 
-<div id="returns-2">
-  #### 반환값
-</div>
+#### 반환값 {#returns-2}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="finishcall">
-  ### finishCall()
-</div>
+### finishCall() {#finishcall}
 
 > **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-<div id="parameters-3">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-3}
 
 <ParamField path="call" type="InternalCall" required />
 
@@ -242,23 +196,17 @@ Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
 
 <ParamField path="startCallPromise" type="Promise<void>" required />
 
-<div id="returns-3">
-  #### 반환값
-</div>
+#### 반환값 {#returns-3}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="finishcallwithexception">
-  ### finishCallWithException()
-</div>
+### finishCallWithException() {#finishcallwithexception}
 
 > **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-<div id="parameters-4">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-4}
 
 <ParamField path="call" type="InternalCall" required />
 
@@ -286,55 +234,41 @@ Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
 
 <ParamField path="startCallPromise" type="Promise<void>" required />
 
-<div id="returns-4">
-  #### 반환값
-</div>
+#### 반환값 {#returns-4}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="flush">
-  ### flush()
-</div>
+### flush() {#flush}
 
 > **flush**(): `Promise`&lt;`void`&gt;
 
 버퍼에 저장된 모든 Call을 server로 전송합니다. `process.exit()` 전에 await하세요.
 
-<div id="returns-5">
-  #### 반환값
-</div>
+#### 반환값 {#returns-5}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="get">
-  ### get()
-</div>
+### get() {#get}
 
 > **get**(`ref`): `Promise`&lt;`any`&gt;
 
-<div id="parameters-5">
-  #### Parameters
-</div>
+#### Parameters {#parameters-5}
 
 <ParamField path="ref" type="ObjectRef" required>
   [`ObjectRef`](../classes/objectref)를 참조하세요.
 </ParamField>
 
-<div id="returns-6">
-  #### 반환값
-</div>
+#### 반환값 {#returns-6}
 
 `Promise`&lt;`any`&gt;
 
 ***
 
-<div id="getagentcustomattributes">
-  ### getAgentCustomAttributes()
-</div>
+### getAgentCustomAttributes() {#getagentcustomattributes}
 
 > **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
@@ -342,9 +276,7 @@ Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
 
 `query`(구조화된 span 필터), `startedAfter` / `startedBefore`(ISO-8601) 또는 둘 다를 전달하여 대상 span을 필터링합니다. `limit` / `offset`을 사용하여 조회된 키를 페이지 단위로 가져옵니다.
 
-<div id="parameters-6">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-6}
 
 <ParamField path="options" type="object" required>
   <Expandable title="속성" defaultOpen>
@@ -388,15 +320,11 @@ Call에 Scorer 결과(예: Scorer 출력)를 추가합니다.
   </Expandable>
 </ParamField>
 
-<div id="returns-7">
-  #### 반환값
-</div>
+#### 반환값 {#returns-7}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
-<div id="example">
-  #### 예시
-</div>
+#### 예시 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -418,31 +346,23 @@ for (const attr of resp.data.attributes ?? []) {
 
 ***
 
-<div id="getagents">
-  ### getAgents()
-</div>
+### getAgents() {#getagents}
 
 > **getAgents**(`options?`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
 
 집계 통계와 함께 에이전트 목록을 조회합니다.
 
-<div id="parameters-7">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-7}
 
 <ParamField path="options" type="GetAgentsOptions = {}">
   [`GetAgentsOptions`](./getagentsoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-8">
-  #### 반환값
-</div>
+#### 반환값 {#returns-8}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
 
-<div id="example-2">
-  #### 예시
-</div>
+#### 예시 {#example-2}
 
 ```ts twoslash
 // @noErrors
@@ -458,31 +378,23 @@ console.log(`total count: ${resp.data.total_count}`)
 
 ***
 
-<div id="getagentspans">
-  ### getAgentSpans()
-</div>
+### getAgentSpans() {#getagentspans}
 
 > **getAgentSpans**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
 
 에이전트 이름 및/또는 Mongo 스타일 쿼리 표현식으로 선택적으로 필터링된 에이전트 span을 쿼리합니다.
 
-<div id="parameters-8">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-8}
 
 <ParamField path="options" type="GetAgentSpansOptions" required>
   [`GetAgentSpansOptions`](./getagentspansoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-9">
-  #### 반환값
-</div>
+#### 반환값 {#returns-9}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
 
-<div id="examples">
-  #### 예시
-</div>
+#### 예시 {#examples}
 
 ```ts twoslash
 // @noErrors
@@ -512,9 +424,7 @@ for (const span of resp.data.spans) {
 
 ***
 
-<div id="getagentspanstats">
-  ### getAgentSpanStats()
-</div>
+### getAgentSpanStats() {#getagentspanstats}
 
 > **getAgentSpanStats**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
 
@@ -528,9 +438,7 @@ for (const span of resp.data.spans) {
 공급자 / 모델 / 기타 기준으로 결과를 분류하려면 `groupBy`를 사용합니다. `query`는
 집계 전에 원본 span을 필터링합니다.
 
-<div id="parameters-9">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-9}
 
 <ParamField path="options" type="object" required>
   <Expandable title="속성" defaultOpen>
@@ -559,15 +467,11 @@ for (const span of resp.data.spans) {
   </Expandable>
 </ParamField>
 
-<div id="returns-10">
-  #### 반환값
-</div>
+#### 반환값 {#returns-10}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
 
-<div id="example-3">
-  #### 예시
-</div>
+#### 예시 {#example-3}
 
 ```ts twoslash
 // @noErrors
@@ -594,31 +498,23 @@ for (const row of resp.data.rows ?? []) {
 
 ***
 
-<div id="getagentturn">
-  ### getAgentTurn()
-</div>
+### getAgentTurn() {#getagentturn}
 
 > **getAgentTurn**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
 traceId로 단일 turn의 데이터(메시지 포함)를 조회합니다.
 
-<div id="parameters-10">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-10}
 
 <ParamField path="options" type="GetAgentTurnOptions" required>
   [`GetAgentTurnOptions`](./getagentturnoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-11">
-  #### 반환값
-</div>
+#### 반환값 {#returns-11}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
-<div id="example-4">
-  #### 예시
-</div>
+#### 예시 {#example-4}
 
 ```ts twoslash
 // @noErrors
@@ -638,31 +534,23 @@ for (const message of resp.data.messages ?? []) {
 
 ***
 
-<div id="getagentturns">
-  ### getAgentTurns()
-</div>
+### getAgentTurns() {#getagentturns}
 
 > **getAgentTurns**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
 
 `conversationId`별 여러 턴의 데이터(메시지 포함)를 조회합니다.
 
-<div id="parameters-11">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-11}
 
 <ParamField path="options" type="GetAgentTurnsOptions" required>
   [`GetAgentTurnsOptions`](./getagentturnsoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-12">
-  #### 반환값
-</div>
+#### 반환값 {#returns-12}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
 
-<div id="example-5">
-  #### 예시
-</div>
+#### 예시 {#example-5}
 
 ```ts twoslash
 // @noErrors
@@ -686,31 +574,23 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 ***
 
-<div id="getagentversions">
-  ### getAgentVersions()
-</div>
+### getAgentVersions() {#getagentversions}
 
 > **getAgentVersions**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
 
 지정된 에이전트의 버전 목록을 반환합니다.
 
-<div id="parameters-12">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-12}
 
 <ParamField path="options" type="GetAgentVersionsOptions" required>
   [`GetAgentVersionsOptions`](./getagentversionsoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-13">
-  #### 반환값
-</div>
+#### 반환값 {#returns-13}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
 
-<div id="example-6">
-  #### 예시
-</div>
+#### 예시 {#example-6}
 
 ```ts twoslash
 // @noErrors
@@ -726,61 +606,43 @@ console.log(`total count: ${resp.data.total_count}`)
 
 ***
 
-<div id="getcall">
-  ### getCall()
-</div>
+### getCall() {#getcall}
 
 > **getCall**(`callId`, `includeCosts?`): `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
-<div id="parameters-13">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-13}
 
 <ParamField path="callId" type="string" required />
 
 <ParamField path="includeCosts" type="boolean = false" />
 
-<div id="returns-14">
-  #### 반환값
-</div>
+#### 반환값 {#returns-14}
 
 `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
 ***
 
-<div id="getcalls">
-  ### getCalls()
-</div>
+### getCalls() {#getcalls}
 
-<div id="call-signature">
-  #### Call 시그니처
-</div>
+#### Call 시그니처 {#call-signature}
 
 > **getCalls**(`options?`): `Promise`&lt;`object`[]&gt;
 
-<div id="parameters-14">
-  ##### 매개변수
-</div>
+##### 매개변수 {#parameters-14}
 
 <ParamField path="options" type="GetCallsOptions">
   [`GetCallsOptions`](./getcallsoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-15">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-15}
 
 `Promise`&lt;`object`[]&gt;
 
-<div id="call-signature-2">
-  #### Call 시그니처
-</div>
+#### Call 시그니처 {#call-signature-2}
 
 > **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`object`[]&gt;
 
-<div id="parameters-15">
-  ##### 매개변수
-</div>
+##### 매개변수 {#parameters-15}
 
 <ParamField path="options" type="CallsFilter">
   [`CallsFilter`](./callsfilter)를 참조하세요.
@@ -790,27 +652,19 @@ console.log(`total count: ${resp.data.total_count}`)
 
 <ParamField path="limit" type="number" />
 
-<div id="returns-16">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-16}
 
 `Promise`&lt;`object`[]&gt;
 
 ***
 
-<div id="getcallsiterator">
-  ### getCallsIterator()
-</div>
+### getCallsIterator() {#getcallsiterator}
 
-<div id="call-signature-3">
-  #### Call 시그니처
-</div>
+#### Call 시그니처 {#call-signature-3}
 
 > **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-<div id="parameters-16">
-  ##### 매개변수
-</div>
+##### 매개변수 {#parameters-16}
 
 <ParamField path="options" type="CallsFilter">
   [`CallsFilter`](./callsfilter)를 참조하세요.
@@ -820,73 +674,53 @@ console.log(`total count: ${resp.data.total_count}`)
 
 <ParamField path="limit" type="number" />
 
-<div id="returns-17">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-17}
 
 `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-<div id="call-signature-4">
-  #### Call 시그니처
-</div>
+#### Call 시그니처 {#call-signature-4}
 
 > **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-<div id="parameters-17">
-  ##### 매개변수
-</div>
+##### 매개변수 {#parameters-17}
 
 <ParamField path="options" type="GetCallsOptions">
   [`GetCallsOptions`](./getcallsoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-18">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-18}
 
 `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
 ***
 
-<div id="getcallstack">
-  ### getCallStack()
-</div>
+### getCallStack() {#getcallstack}
 
 > **getCallStack**(): `CallStack`
 
-<div id="returns-19">
-  #### 반환값
-</div>
+#### 반환값 {#returns-19}
 
 `CallStack`
 
 ***
 
-<div id="getcurrentattributes">
-  ### getCurrentAttributes()
-</div>
+### getCurrentAttributes() {#getcurrentattributes}
 
 > **getCurrentAttributes**(): `Record`&lt;`string`, `any`&gt;
 
-<div id="returns-20">
-  #### 반환값
-</div>
+#### 반환값 {#returns-20}
 
 `Record`&lt;`string`, `any`&gt;
 
 ***
 
-<div id="linkprompttoregistry">
-  ### linkPromptToRegistry()
-</div>
+### linkPromptToRegistry() {#linkprompttoregistry}
 
 > **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
 
 게시된 프롬프트 버전을 레지스트리 포트폴리오에 연결합니다.
 
-<div id="parameters-18">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-18}
 
 <ParamField path="prompt" type="string | ObjectRef | Prompt" required>
   [`ObjectRef`](../classes/objectref)를 참조하세요.
@@ -900,92 +734,66 @@ console.log(`total count: ${resp.data.total_count}`)
   </Expandable>
 </ParamField>
 
-<div id="returns-21">
-  #### 반환값
-</div>
+#### 반환값 {#returns-21}
 
 `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
 
 ***
 
-<div id="pendingcallcount">
-  ### pendingCallCount()
-</div>
+### pendingCallCount() {#pendingcallcount}
 
 > **pendingCallCount**(): `number`
 
 클라이언트 측에 버퍼링되었지만 아직 server로 전송되지 않은 Call입니다.
 
-<div id="returns-22">
-  #### 반환값
-</div>
+#### 반환값 {#returns-22}
 
 `number`
 
 ***
 
-<div id="publish">
-  ### publish()
-</div>
+### publish() {#publish}
 
 > **publish**(`obj`, `objId?`): `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
 
-<div id="parameters-19">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-19}
 
 <ParamField path="obj" type="any" required />
 
 <ParamField path="objId" type="string" />
 
-<div id="returns-23">
-  #### 반환값
-</div>
+#### 반환값 {#returns-23}
 
 `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
 
 ***
 
-<div id="pushnewcall">
-  ### pushNewCall()
-</div>
+### pushNewCall() {#pushnewcall}
 
 > **pushNewCall**(): `object`
 
-<div id="returns-24">
-  #### 반환값
-</div>
+#### 반환값 {#returns-24}
 
 `object`
 
 <ResponseField name="currentCall" type="object" required>
-  <div id="currentcallcallid">
-    ###### currentCall.callId
-  </div>
+  ###### currentCall.callId {#currentcallcallid}
 
   > **callId**: `string`
 
-  <div id="currentcallchildsummary">
-    ###### currentCall.childSummary
-  </div>
+  ###### currentCall.childSummary {#currentcallchildsummary}
 
   > **childSummary**: `Record`&lt;`string`, `any`&gt;
 
-  <div id="currentcalldisplayname">
-    ###### currentCall.displayName
-  </div>
+  ###### currentCall.displayName {#currentcalldisplayname}
 
   > `optional` **displayName**: `string`
 
-  <div id="currentcallopname">
-    ###### currentCall.opName
-  </div>
+  ###### currentCall.opName {#currentcallopname}
 
   > `optional` **opName**: `string`
 
-  <div id="currentcalltraceid">
-    ###### currentCall.traceId
-  </div>
+  ###### currentCall.traceId {#currentcalltraceid}
 
   > **traceId**: `string`
 </ResponseField>
@@ -993,148 +801,106 @@ console.log(`total count: ${resp.data.total_count}`)
 <ResponseField name="newStack" type="CallStack" required />
 
 <ResponseField name="parentCall" type="object">
-  <div id="parentcallcallid">
-    ###### parentCall.callId
-  </div>
+  ###### parentCall.callId {#parentcallcallid}
 
   > **callId**: `string`
 
-  <div id="parentcallchildsummary">
-    ###### parentCall.childSummary
-  </div>
+  ###### parentCall.childSummary {#parentcallchildsummary}
 
   > **childSummary**: `Record`&lt;`string`, `any`&gt;
 
-  <div id="parentcalldisplayname">
-    ###### parentCall.displayName
-  </div>
+  ###### parentCall.displayName {#parentcalldisplayname}
 
   > `optional` **displayName**: `string`
 
-  <div id="parentcallopname">
-    ###### parentCall.opName
-  </div>
+  ###### parentCall.opName {#parentcallopname}
 
   > `optional` **opName**: `string`
 
-  <div id="parentcalltraceid">
-    ###### parentCall.traceId
-  </div>
+  ###### parentCall.traceId {#parentcalltraceid}
 
   > **traceId**: `string`
 </ResponseField>
 
 ***
 
-<div id="registercustomruntime">
-  ### registerCustomRuntime()
-</div>
+### registerCustomRuntime() {#registercustomruntime}
 
 > **registerCustomRuntime**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
 
 맞춤형 런타임을 등록합니다. 이미 존재하는 경우 전체 설정을 대체합니다.
 
-<div id="parameters-20">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-20}
 
 <ParamField path="options" type="RegisterCustomRuntimeOptions" required>
   [`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-25">
-  #### 반환값
-</div>
+#### 반환값 {#returns-25}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
 
 ***
 
-<div id="runwithattributes">
-  ### runWithAttributes()
-</div>
+### runWithAttributes() {#runwithattributes}
 
 > **runWithAttributes**&lt;`T`&gt;(`attributes`, `fn`): `T`
 
-<div id="type-parameters">
-  #### 유형 매개변수
-</div>
+#### 유형 매개변수 {#type-parameters}
 
 <ParamField path="T" />
 
-<div id="parameters-21">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-21}
 
 <ParamField path="attributes" type="Record<string, any>" required />
 
 <ParamField path="fn" type="() => T" required />
 
-<div id="returns-26">
-  #### 반환값
-</div>
+#### 반환값 {#returns-26}
 
 `T`
 
 ***
 
-<div id="runwithcallstack">
-  ### runWithCallStack()
-</div>
+### runWithCallStack() {#runwithcallstack}
 
 > **runWithCallStack**&lt;`T`&gt;(`callStack`, `fn`): `T`
 
-<div id="type-parameters-2">
-  #### 유형 매개변수
-</div>
+#### 유형 매개변수 {#type-parameters-2}
 
 <ParamField path="T" />
 
-<div id="parameters-22">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-22}
 
 <ParamField path="callStack" type="CallStack" required />
 
 <ParamField path="fn" type="() => T" required />
 
-<div id="returns-27">
-  #### 반환값
-</div>
+#### 반환값 {#returns-27}
 
 `T`
 
 ***
 
-<div id="savecallend">
-  ### saveCallEnd()
-</div>
+### saveCallEnd() {#savecallend}
 
 > **saveCallEnd**(`callEnd`): `void`
 
-<div id="parameters-23">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-23}
 
 <ParamField path="callEnd" type="object & object" required />
 
-<div id="returns-28">
-  #### 반환값
-</div>
+#### 반환값 {#returns-28}
 
 `void`
 
 ***
 
-<div id="savecallstart">
-  ### saveCallStart()
-</div>
+### saveCallStart() {#savecallstart}
 
 > **saveCallStart**(`callStart`, `opts?`): `void`
 
-<div id="parameters-24">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-24}
 
 <ParamField path="callStart" type="object" required>
   <Expandable title="properties" defaultOpen>
@@ -1211,23 +977,17 @@ console.log(`total count: ${resp.data.total_count}`)
   </Expandable>
 </ParamField>
 
-<div id="returns-29">
-  #### 반환값
-</div>
+#### 반환값 {#returns-29}
 
 `void`
 
 ***
 
-<div id="saveop">
-  ### saveOp()
-</div>
+### saveOp() {#saveop}
 
 > **saveOp**(`op`, `objId?`): `Promise`&lt;`OpRef`&gt;
 
-<div id="parameters-25">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-25}
 
 <ParamField path="op" type="Op<(...args) => any>" required>
   [`Op`](../type-aliases/op)를 참조하세요.
@@ -1235,17 +995,13 @@ console.log(`total count: ${resp.data.total_count}`)
 
 <ParamField path="objId" type="string" />
 
-<div id="returns-30">
-  #### 반환값
-</div>
+#### 반환값 {#returns-30}
 
 `Promise`&lt;`OpRef`&gt;
 
 ***
 
-<div id="searchagents">
-  ### searchAgents()
-</div>
+### searchAgents() {#searchagents}
 
 > **searchAgents**(`options`): `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
 
@@ -1255,9 +1011,7 @@ console.log(`total count: ${resp.data.total_count}`)
 `conversationId`, `traceId`)에 일치하는 모든 메시지를 검색하려면 빈 문자열을 전달하세요. `limit` /
 `offset`을 사용하여 결과를 페이지 단위로 조회하세요.
 
-<div id="parameters-26">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-26}
 
 <ParamField path="options" type="object" required>
   <Expandable title="properties" defaultOpen>
@@ -1305,15 +1059,11 @@ console.log(`total count: ${resp.data.total_count}`)
   </Expandable>
 </ParamField>
 
-<div id="returns-31">
-  #### 반환값
-</div>
+#### 반환값 {#returns-31}
 
 `Promise`&lt;[`Response`](../type-aliases/response)&lt;&#123; `results`: `object`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
 
-<div id="example-7">
-  #### 예시
-</div>
+#### 예시 {#example-7}
 
 ```ts twoslash
 // @noErrors
@@ -1336,9 +1086,7 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
 
 ***
 
-<div id="serializeaudio">
-  ### serializeAudio()
-</div>
+### serializeAudio() {#serializeaudio}
 
 > **serializeAudio**(`data`, `audioType?`): `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
@@ -1348,9 +1096,7 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
 `finishCall`의 자동 직렬화 파이프라인을 사용하지 않고(예: `saveCallEnd`를 통해)
 Call 출력을 수동으로 구축할 때 사용하세요.
 
-<div id="parameters-27">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-27}
 
 <ParamField path="data" type="Buffer" required>
   원시 오디오 바이트(브라우저 호환성을 위해 WAV 권장)
@@ -1360,44 +1106,32 @@ Call 출력을 수동으로 구축할 때 사용하세요.
   파일 형식 — 현재 &#39;wav&#39;만 지원됩니다
 </ParamField>
 
-<div id="returns-32">
-  #### 반환값
-</div>
+#### 반환값 {#returns-32}
 
 `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
 ***
 
-<div id="updatecall">
-  ### updateCall()
-</div>
+### updateCall() {#updatecall}
 
 > **updateCall**(`callId`, `displayName`): `Promise`&lt;`void`&gt;
 
-<div id="parameters-28">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-28}
 
 <ParamField path="callId" type="string" required />
 
 <ParamField path="displayName" type="string" required />
 
-<div id="returns-33">
-  #### 반환값
-</div>
+#### 반환값 {#returns-33}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="waitforbatchprocessing">
-  ### waitForBatchProcessing()
-</div>
+### waitForBatchProcessing() {#waitforbatchprocessing}
 
 > **waitForBatchProcessing**(): `Promise`&lt;`void`&gt;
 
-<div id="returns-34">
-  #### 반환값
-</div>
+#### 반환값 {#returns-34}
 
 `Promise`&lt;`void`&gt;

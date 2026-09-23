@@ -19,9 +19,7 @@ Sensitive Data Protection 機能により、Python SDK に以下の機能が追�
 * 設定可能な `redact_pii_fields` によるマスキングフィールドのカスタマイズ。
 * `redact_pii_exclude_fields` 設定による特定の エンティティ のマスキング対象からの除外。
 
-<div id="enable-pii-redaction">
-  ## PII のマスキングを有効にする
-</div>
+## PII のマスキングを有効にする {#enable-pii-redaction}
 
 このセクションでは、必要な依存関係のインストール、`weave.init()` での PII のマスキングの有効化、および Weave がマスクする エンティティ の任意の調整について説明します。Weave の Sensitive Data Protection 機能を使い始めるには、以下の手順を実行します。
 
@@ -55,9 +53,7 @@ Sensitive Data Protection 機能により、Python SDK に以下の機能が追�
 
 これらの手順を完了すると、Weave は設定された PII エンティティ を Weave サーバーに送信する前にトレースからマスクします。
 
-<div id="entities-redacted-by-default">
-  ## デフォルトでマスクされるエンティティ
-</div>
+## デフォルトでマスクされるエンティティ {#entities-redacted-by-default}
 
 このセクションでは、`redact_pii_fields`を指定せずに PII のマスキング を有効にしたときに、Weave が自動的にマスクする PII エンティティタイプを一覧で示します。PII のマスキング を有効にすると、Weave は以下のエンティティを自動的にマスクします。
 
@@ -80,9 +76,7 @@ Sensitive Data Protection 機能により、Python SDK に以下の機能が追�
 * `US_PASSPORT`
 * `US_SSN`
 
-<div id="redact-sensitive-keys-with-redact_keys">
-  ## `REDACT_KEYS` を使用した機密キーのマスキング
-</div>
+## `REDACT_KEYS` を使用した機密キーのマスキング {#redact-sensitive-keys-with-redact_keys}
 
 PII のマスキングに加えて、Weave SDK は `REDACT_KEYS` を使用したカスタムキーのマスキングに対応しています。これは、PII のカテゴリには該当しないものの、非公開のままにしておく必要がある追加の機密データを保護したい場合に便利です。たとえば、次のようなものがあります。
 
@@ -92,9 +86,7 @@ PII のマスキングに加えて、Weave SDK は `REDACT_KEYS` を使用した
 * 内部ID
 * 設定値
 
-<div id="pre-defined-redact_keys">
-  ### 事前定義された `REDACT_KEYS`
-</div>
+### 事前定義された `REDACT_KEYS` {#pre-defined-redact_keys}
 
 Weave はデフォルトで、以下の機密キーを自動的にマスクします。
 
@@ -106,9 +98,7 @@ Weave はデフォルトで、以下の機密キーを自動的にマスクし�
 ]
 ```
 
-<div id="add-your-own-keys">
-  ### 独自のキーを追加する
-</div>
+### 独自のキーを追加する {#add-your-own-keys}
 
 アプリケーションで機密性の高い値を含む別のフィールド名を使用している場合は、デフォルトの `REDACT_KEYS` リストを拡張できます。トレースからマスクしたい独自のキーを追加できます。
 
@@ -139,9 +129,7 @@ client_id = "REDACTED"
 token = "REDACTED"
 ```
 
-<div id="usage-information">
-  ## 利用情報
-</div>
+## 利用情報 {#usage-information}
 
 * この機能は Python SDK でのみ利用できます。
 * マスキングを有効にすると、Presidio への依存により処理時間が長くなります。

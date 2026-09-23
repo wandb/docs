@@ -10,115 +10,77 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 Conversation은 단일 `gen_ai.conversation.id`로 여러 Turn을 묶습니다. Conversation 자체는
 OTel span이 아니며, 하위 span이 자체 span에 conversation id를 기록합니다.
 
-<div id="accessors">
-  ## 접근자
-</div>
+## 접근자 {#accessors}
 
-<div id="agentname">
-  ### agentName
-</div>
+### agentName {#agentname}
 
-<div id="get-signature">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature}
 
 > **get** **agentName**(): `string`
 
-<div id="returns">
-  ##### 반환값
-</div>
+##### 반환값 {#returns}
 
 `string`
 
 ***
 
-<div id="attributes">
-  ### 속성
-</div>
+### 속성 {#attributes}
 
-<div id="get-signature-2">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature-2}
 
 > **get** **attributes**(): `Attributes`
 
-<div id="returns-2">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-2}
 
 `Attributes`
 
 ***
 
-<div id="conversationid">
-  ### conversationId
-</div>
+### conversationId {#conversationid}
 
-<div id="get-signature-3">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature-3}
 
 > **get** **conversationId**(): `string`
 
-<div id="returns-3">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-3}
 
 `string`
 
 ***
 
-<div id="model">
-  ### 모델
-</div>
+### 모델 {#model}
 
-<div id="get-signature-4">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature-4}
 
 > **get** **model**(): `string`
 
-<div id="returns-4">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-4}
 
 `string`
 
 ***
 
-<div id="sessionid">
-  ### sessionId
-</div>
+### sessionId {#sessionid}
 
 <Warning>
   **사용 중단.** 대신 [Conversation.conversationId](#conversationid)를 사용하세요.
 </Warning>
 
-<div id="get-signature-5">
-  #### 조회 시그니처
-</div>
+#### 조회 시그니처 {#get-signature-5}
 
 > **get** **sessionId**(): `string`
 
-<div id="returns-5">
-  ##### 반환값
-</div>
+##### 반환값 {#returns-5}
 
 `string`
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
-<div id="parameters">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters}
 
 <ParamField path="opts" type="object">
   <Expandable title="속성" defaultOpen>
@@ -128,17 +90,13 @@ OTel span이 아니며, 하위 span이 자체 span에 conversation id를 기록�
   </Expandable>
 </ParamField>
 
-<div id="returns-6">
-  #### 반환값
-</div>
+#### 반환값 {#returns-6}
 
 `void`
 
 ***
 
-<div id="startturn">
-  ### startTurn()
-</div>
+### startTurn() {#startturn}
 
 > **startTurn**(`opts?`): [`Turn`](./turn)
 
@@ -146,23 +104,17 @@ OTel span이 아니며, 하위 span이 자체 span에 conversation id를 기록�
 conversation의 `conversationId`를 상속합니다. `agentName`, `agentId`, `agentDescription`,
 `agentVersion`, `model`은 `opts`에 제공되지 않으면 conversation의 값을 사용합니다.
 
-<div id="parameters-2">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-2}
 
 <ParamField path="opts" type="TurnInit = {}">
   [`TurnInit`](./turninit)을 참조하세요.
 </ParamField>
 
-<div id="returns-7">
-  #### 반환값
-</div>
+#### 반환값 {#returns-7}
 
 [`Turn`](./turn)
 
-<div id="examples">
-  #### 예시
-</div>
+#### 예시 {#examples}
 
 ```ts twoslash
 // @noErrors

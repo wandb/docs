@@ -5,9 +5,7 @@ description: "繰り返しのクエリや限られたネットワーク帯域幅
 
 Weave は、繰り返しのクエリを実行する場合やネットワーク帯域幅が限られている場合のパフォーマンスを向上させるために、サーバー応答のキャッシュを提供します。現在、この機能はデフォルトで無効ですが、今後のリリースでデフォルトの動作になる予定です。
 
-<div id="when-to-use-caching">
-  ## キャッシュを使用するタイミング
-</div>
+## キャッシュを使用するタイミング {#when-to-use-caching}
 
 サーバー応答のキャッシュは、特に次の場合に有効です。
 
@@ -18,9 +16,7 @@ Weave は、繰り返しのクエリを実行する場合やネットワーク�
 
 この機能は、データセットに対して繰り返し評価を実行する際に特に便利です。Runs 間でデータセットをキャッシュできます。
 
-<div id="how-to-enable-caching">
-  ## キャッシュを有効にする
-</div>
+## キャッシュを有効にする {#how-to-enable-caching}
 
 キャッシュを有効にするには、次の環境変数を設定します。
 
@@ -35,9 +31,7 @@ export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
 export WEAVE_SERVER_CACHE_DIR=/path/to/cache
 ```
 
-<div id="caching-behavior">
-  ## キャッシュの動作
-</div>
+## キャッシュの動作 {#caching-behavior}
 
 この機能は、サーバーに対する冪等なリクエストをキャッシュします。具体的には、以下をキャッシュします。
 
@@ -47,9 +41,7 @@ export WEAVE_SERVER_CACHE_DIR=/path/to/cache
 * `refs_read_batch`
 * `file_content_read`
 
-<div id="cache-size-and-storage-details">
-  ## キャッシュサイズとストレージの詳細
-</div>
+## キャッシュサイズとストレージの詳細 {#cache-size-and-storage-details}
 
 キャッシュサイズは `WEAVE_SERVER_CACHE_SIZE_LIMIT` (バイト単位) で制御されます。実際に使用されるディスク容量は、次の 3 つの要素で構成されます。
 

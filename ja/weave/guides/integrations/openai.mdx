@@ -14,9 +14,7 @@ keywords: [GPT-4, Assistants API, Batch API, 構造化出力, 関数呼び出し
   設定不要で Weave 上の OpenAI モデルを試すには、[LLM Playground](../tools/playground) をご利用ください。
 </Note>
 
-<div id="tracing">
-  ## トレース
-</div>
+## トレース {#tracing}
 
 開発中も本番環境でも、LLM アプリケーションのトレースを一元的なデータベースに保存することは有用です。これらのトレースは、デバッグに使用できるだけでなく、アプリケーションを改善する際に評価対象とする難しいケースのデータセットを構築するのにも役立ちます。
 
@@ -26,9 +24,7 @@ Weave では、[`openai` Python library](https://developers.openai.com/api/docs/
 
 `weave.init()` の呼び出し時に W&amp;B team を指定しない場合は、Weave によってデフォルトの entity が使用されます。デフォルトの entity を確認または更新するには、W&amp;B Models ドキュメントの [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) を参照してください。
 
-<div id="automatic-patching">
-  ### 自動パッチ適用
-</div>
+### 自動パッチ適用 {#automatic-patching}
 
 Weave は、`weave.init()` の前でも後でも、OpenAI をインポートすると自動的にパッチを適用します。次の例は、Call のトレースを開始するために必要な最小限のセットアップを示しています。
 
@@ -81,9 +77,7 @@ Weave は、`weave.init()` の前でも後でも、OpenAI をインポートす�
   ```
 </CodeGroup>
 
-<div id="optional-explicit-patching">
-  ### 任意: 明示的なパッチ適用
-</div>
+### 任意: 明示的なパッチ適用 {#optional-explicit-patching}
 
 パッチ適用を有効にするタイミングをより細かく制御するには、自動的な動作に任せるのではなく、OpenAI を明示的にパッチします。
 
@@ -109,9 +103,7 @@ response = client.chat.completions.create(
   Weave は、[OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) と [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview) の関数呼び出しツールもキャプチャしています。
 </Tip>
 
-<div id="structured-outputs">
-  ## 構造化出力
-</div>
+## 構造化出力 {#structured-outputs}
 
 Weave は、OpenAI の構造化出力のトレースもサポートしています。これは、LLM のレスポンスを特定の形式に従わせる必要がある場合に役立ちます。次の例では、ユーザーメッセージから型付き `UserDetail` オブジェクトを抽出する呼び出しをトレースします。
 
@@ -142,9 +134,7 @@ Weave は、OpenAI の構造化出力のトレースもサポートしていま�
   ```
 </CodeGroup>
 
-<div id="async-support">
-  ## Async のサポート
-</div>
+## Async のサポート {#async-support}
 
 Weave は非同期の OpenAI Call のトレースもサポートしているため、`AsyncOpenAI` を使用するアプリケーションでも、同期アプリケーションと同じ可視性が得られます。
 
@@ -177,9 +167,7 @@ Weave は非同期の OpenAI Call のトレースもサポートしているた�
   ```
 </CodeGroup>
 
-<div id="streaming-support">
-  ## ストリーミングのサポート
-</div>
+## ストリーミングのサポート {#streaming-support}
 
 Weave は、OpenAI からのストリーミング応答のトレースをサポートしています。取得されたトレースには、ストリーミングされた完全な補完結果が反映されるため、リクエストのパラメーターとあわせて最終的な出力を確認できます。
 
@@ -211,9 +199,7 @@ Weave は、OpenAI からのストリーミング応答のトレースをサポ�
   ```
 </CodeGroup>
 
-<div id="tracing-function-calls">
-  ## 関数Callのトレース
-</div>
+## 関数Callのトレース {#tracing-function-calls}
 
 Weave は、ツール使用時に OpenAI が行う関数Callもトレースします。これにより、モデルが各ツールをどのように呼び出したか、またどの引数を渡したかを把握できます。
 
@@ -265,9 +251,7 @@ Weave は、ツール使用時に OpenAI が行う関数Callもトレースし�
   ```
 </CodeGroup>
 
-<div id="batch-api">
-  ## Batch API
-</div>
+## Batch API {#batch-api}
 
 Weave は OpenAI Batch API をサポートしており、複数のリクエストを非同期で処理しつつ、各リクエストをトレースに取得できます。
 
@@ -313,9 +297,7 @@ Weave は OpenAI Batch API をサポートしており、複数のリクエス�
   ```
 </CodeGroup>
 
-<div id="assistants-api">
-  ## Assistants API
-</div>
+## Assistants API {#assistants-api}
 
 Weave は OpenAI Assistants API をサポートしているため、assistant、thread、run をベースに構築された会話型 AI アプリケーションをトレースできます。
 
@@ -355,9 +337,7 @@ Weave は OpenAI Assistants API をサポートしているため、assistant、
   ```
 </CodeGroup>
 
-<div id="cost-tracking">
-  ## コストトラッキング
-</div>
+## コストトラッキング {#cost-tracking}
 
 Weave は、OpenAI API Call のコストを自動的にトラッキングするため、パフォーマンスとあわせて支出をモニターできます。コストの内訳は Weave UI で確認できます。
 
@@ -365,9 +345,7 @@ Weave は、OpenAI API Call のコストを自動的にトラッキングする�
   コストトラッキングはすべての OpenAI モデルで利用でき、Weave は OpenAI が公開している料金に基づいてコストを計算します。
 </Note>
 
-<div id="tracing-custom-functions">
-  ## カスタム関数のトレース
-</div>
+## カスタム関数のトレース {#tracing-custom-functions}
 
 OpenAI の Call を独自のアプリケーション ロジックの下でグループ化するには、`@weave.op` デコレータを適用して、OpenAI を使用するカスタム関数をトレースします。これにより、関数の親トレースが生成され、その中に基盤となる OpenAI の Call がネストされます。
 
@@ -397,9 +375,7 @@ OpenAI の Call を独自のアプリケーション ロジックの下でグル
   ```
 </CodeGroup>
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 OpenAI 向けのトレースを設定すると、アプリケーションの Call を Weave で確認できるようになります。ここから、次のことができます。
 

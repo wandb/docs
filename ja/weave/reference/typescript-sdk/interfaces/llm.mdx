@@ -15,9 +15,7 @@ LLM Call。`gen_ai.*` 属性を含む `chat` span を生成します。
 
 記録されたすべてのデータは、`end()` 時に span にフラッシュされます。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```ts twoslash
 // @noErrors
@@ -49,19 +47,13 @@ try {
 }
 ```
 
-<div id="extends">
-  ## 継承元
-</div>
+## 継承元 {#extends}
 
 * `SpanBase`
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
-<div id="inputmessages">
-  ### inputMessages
-</div>
+### inputMessages {#inputmessages}
 
 > **inputMessages**: [`Message`](./message)[] = `[]`
 
@@ -69,17 +61,13 @@ try {
 
 ***
 
-<div id="model">
-  ### モデル
-</div>
+### モデル {#model}
 
 > `readonly` **モデル**: `string`
 
 ***
 
-<div id="outputmessages">
-  ### outputMessages
-</div>
+### outputMessages {#outputmessages}
 
 > **outputMessages**: [`Message`](./message)[] = `[]`
 
@@ -88,17 +76,13 @@ try {
 
 ***
 
-<div id="providername">
-  ### providerName
-</div>
+### providerName {#providername}
 
 > `readonly` **providerName**: `string`
 
 ***
 
-<div id="reasoning">
-  ### 推論
-</div>
+### 推論 {#reasoning}
 
 > `optional` **推論**: [`Reasoning`](./reasoning)
 
@@ -107,21 +91,15 @@ ReasoningPart として組み込まれます。
 
 ***
 
-<div id="usage">
-  ### usage
-</div>
+### usage {#usage}
 
 > **usage**: [`Usage`](./usage) = `{}`
 
 トークン数とキャッシュ統計です。`end()` 時に `gen_ai.usage.*` へフラッシュされます。
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="addevent">
-  ### ~~addEvent()~~
-</div>
+### ~~addEvent()~~ {#addevent}
 
 <Warning>
   **非推奨。** 代わりに [setAttributes](#setattributes) を使用してこのデータを記録してください。
@@ -136,9 +114,7 @@ ReasoningPart として組み込まれます。
 span 以外の時点をマークする場合に役立ちます。`end()` の後に呼び出すと警告が表示され、
 何も実行されません。OTel の `Span.addEvent` に対応します。
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters}
 
 <ParamField path="name" type="string" required />
 
@@ -146,32 +122,24 @@ span 以外の時点をマークする場合に役立ちます。`end()` の後�
 
 <ParamField path="startTime" type="TimeInput" />
 
-<div id="returns">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns}
 
 `this`
 
-<div id="example">
-  #### 例
-</div>
+#### 例 {#example}
 
 ```ts twoslash
 // @noErrors
 span.addEvent('context_compacted', {removedMessages: 12});
 ```
 
-<div id="inherited-from">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from}
 
 `SpanBase.addEvent`
 
 ***
 
-<div id="attachmedia">
-  ### attachMedia()
-</div>
+### attachMedia() {#attachmedia}
 
 > **attachMedia**(`opts`): `this`
 
@@ -180,9 +148,7 @@ LLM Call に添付するメディアを準備します。
 (事前にアップロードされた file ID) のいずれか 1 つだけを指定します。添付は `end()` 時に
 `inputMessages` 内の最後のユーザーメッセージに追加されます。
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="opts" type="{…} | {…} | {…}" required>
   [`Modality`](../type-aliases/modality)、[`Modality`](../type-aliases/modality)、[`Modality`](../type-aliases/modality) を参照してください。
@@ -190,25 +156,19 @@ LLM Call に添付するメディアを準備します。
   完全なタイプ: `{ content: string; mimeType: string; modality: Modality; } | { modality: Modality; uri: string; } | { fileId: string; mimeType?: string; modality: Modality; }`
 </ParamField>
 
-<div id="returns-2">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-2}
 
 `this`
 
 ***
 
-<div id="attachmediaurl">
-  ### attachMediaUrl()
-</div>
+### attachMediaUrl() {#attachmediaurl}
 
 > **attachMediaUrl**(`url`, `opts`): `this`
 
 `attachMedia({uri, modality})` の簡易版です。
 
-<div id="parameters-3">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-3}
 
 <ParamField path="url" type="string" required />
 
@@ -220,25 +180,19 @@ LLM Call に添付するメディアを準備します。
   </Expandable>
 </ParamField>
 
-<div id="returns-3">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-3}
 
 `this`
 
 ***
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
 蓄積された状態をフラッシュして span を閉じます。冪等です。失敗としてマークするには `error` を渡し、終了時刻を過去に設定するには `endTime` を渡します。
 
-<div id="parameters-4">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-4}
 
 <ParamField path="opts" type="object">
   <Expandable title="プロパティ" defaultOpen>
@@ -248,48 +202,36 @@ LLM Call に添付するメディアを準備します。
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-4}
 
 `void`
 
 ***
 
-<div id="output">
-  ### output()
-</div>
+### output() {#output}
 
 > **output**(`content`): `this`
 
 レスポンスにアシスタント メッセージを追加します。
 
-<div id="parameters-5">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-5}
 
 <ParamField path="content" type="string" required />
 
-<div id="returns-5">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-5}
 
 `this`
 
 ***
 
-<div id="record">
-  ### record()
-</div>
+### record() {#record}
 
 > **record**(`opts`): `this`
 
 変更可能なフィールドの任意のサブセットを一括で設定します。マージではなく置換されます。
 provider 呼び出しの結果が返された後に、すべてを一度に割り当てる場合に便利です。
 
-<div id="parameters-6">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-6}
 
 <ParamField path="opts" type="object" required>
   <Expandable title="プロパティ" defaultOpen>
@@ -325,17 +267,13 @@ provider 呼び出しの結果が返された後に、すべてを一度に割�
   </Expandable>
 </ParamField>
 
-<div id="returns-6">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-6}
 
 `this`
 
 ***
 
-<div id="setattributes">
-  ### setAttributes()
-</div>
+### setAttributes() {#setattributes}
 
 > **setAttributes**(`attributes`): `this`
 
@@ -343,86 +281,64 @@ span に複数の属性をまとめて設定します。`end()` の呼び出し�
 何も実行しません。OTel の `Span.setAttributes` (および Python SDK の
 `set_attributes`) と同様です。
 
-<div id="parameters-7">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-7}
 
 <ParamField path="attributes" type="Attributes" required />
 
-<div id="returns-7">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-7}
 
 `this`
 
-<div id="example-2">
-  #### 例
-</div>
+#### 例 {#example-2}
 
 ```ts twoslash
 // @noErrors
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from-2">
-  #### 継承元
-</div>
+#### 継承元 {#inherited-from-2}
 
 `SpanBase.setAttributes`
 
 ***
 
-<div id="startsubagent">
-  ### startSubagent()
-</div>
+### startSubagent() {#startsubagent}
 
 > **startSubagent**(`opts`): [`SubAgent`](./subagent)
 
 この LLM 内にネストされた子 SubAgent の span を開始します。
 
-<div id="parameters-8">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-8}
 
 <ParamField path="opts" type="SubAgentInit" required>
   [`SubAgentInit`](./subagentinit) を参照してください。
 </ParamField>
 
-<div id="returns-8">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-8}
 
 [`SubAgent`](./subagent)
 
 ***
 
-<div id="starttool">
-  ### startTool()
-</div>
+### startTool() {#starttool}
 
 > **startTool**(`opts`): [`Tool`](./tool)
 
 この LLM 内にネストされた子 Tool span を開始します。
 
-<div id="parameters-9">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-9}
 
 <ParamField path="opts" type="ToolInit" required>
   [`ToolInit`](./toolinit) を参照してください。
 </ParamField>
 
-<div id="returns-9">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-9}
 
 [`Tool`](./tool)
 
 ***
 
-<div id="think">
-  ### think()
-</div>
+### think() {#think}
 
 > **think**(`content`): `this`
 
@@ -430,14 +346,10 @@ span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 `this.reasoning.content` に蓄積されます。シリアル化時には `ReasoningPart` として最後のアシスタント メッセージに
 組み込まれ、Python SDK のオンザワイヤ形式に一致します。
 
-<div id="parameters-10">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-10}
 
 <ParamField path="content" type="string" required />
 
-<div id="returns-10">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-10}
 
 `this`

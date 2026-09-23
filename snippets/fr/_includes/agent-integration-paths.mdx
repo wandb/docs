@@ -2,9 +2,7 @@
 title: Modes d’intégration des agents
 ---
 
-<div id="agent-harnesses">
-  ## Harness d’agents
-</div>
+## Harness d’agents {#agent-harnesses}
 
 Les harness d’agents sont des environnements d’exécution pour agents destinés aux utilisateurs finaux, comme les agents de code et les outils de développement. Installez le plugin ou l’extension, puis démarrez une session dans le harness pour activer le traçage :
 
@@ -13,9 +11,7 @@ Les harness d’agents sont des environnements d’exécution pour agents destin
 * [plugin OpenClaw](/fr/weave/guides/integrations/agents/openclaw-harness)
 * [extension Pi](/fr/weave/guides/integrations/agents/pi-dev-harness)
 
-<div id="agent-sdks">
-  ## SDK Agents
-</div>
+## SDK Agents {#agent-sdks}
 
 Les SDK Agents sont des bibliothèques permettant de créer des agents et des flux de travail multi-agent dans le code de votre propre application. Ajoutez `weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")` à votre script, et Weave applique automatiquement un patch au SDK :
 
@@ -23,9 +19,7 @@ Les SDK Agents sont des bibliothèques permettant de créer des agents et des fl
 * [Google Agent Development Kit (ADK)](/fr/weave/guides/integrations/agents/google-adk)
 * [Claude Agent SDK](/fr/weave/guides/integrations/agents/claude-agents-sdk)
 
-<div id="custom-agents-and-opentelemetry">
-  ## Agents personnalisés et OpenTelemetry
-</div>
+## Agents personnalisés et OpenTelemetry {#custom-agents-and-opentelemetry}
 
 Si votre agent n’est pas développé avec l’un des SDK ci-dessus, ou s’il émet déjà des spans OpenTelemetry, utilisez directement le SDK Weave. Weave accepte n’importe quel span OTel et applique un traitement spécifique aux [attributs de convention sémantique GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) afin que les spans s’affichent dans la vue **Agents** :
 

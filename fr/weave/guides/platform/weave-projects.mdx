@@ -8,9 +8,7 @@ Les projets Weave organisent les ressources associées, notamment les traces, le
 
 Cette page explique quelles ressources contient un projet Weave, comment fonctionnent les chemins de projet et comment créer, consulter et supprimer des projets à l&#39;aide de l&#39;interface W&amp;B ou du SDK Weave.
 
-<div id="project-resources">
-  ## Ressources de projets
-</div>
+## Ressources de projets {#project-resources}
 
 Les projets stockent les ressources suivantes :
 
@@ -23,9 +21,7 @@ Les projets stockent les ressources suivantes :
 | **Threads**      | Conversations multi-tours et flux de travail basés sur des sessions qui regroupent les appels associés sous un ID de thread partagé afin d&#39;analyser l&#39;ensemble des interactions utilisateur. Voir [Threads](/fr/weave/guides/tracking/threads).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | **Assets**       | L&#39;onglet **Assets** stocke et organise les objets versionnés dans votre projet : <ul><li>**Models**: Définitions de modèles versionnées qui capturent les prompts, les paramètres et la configuration, et suivent automatiquement les modifications pour garantir la reproductibilité et faciliter la comparaison. Voir [Models](/fr/weave/guides/core-types/models).</li><li>**Datasets**: Collections d&#39;exemples de test stockées sous forme d&#39;objets Weave, que vous pouvez télécharger, parcourir et utiliser pour exécuter des évaluations. Voir [Datasets](/fr/weave/guides/core-types/datasets).</li><li>**Prompts**: Prompts système versionnés que vous pouvez tester et réutiliser dans vos configurations de modèle. Voir [Prompts](/fr/weave/guides/core-types/prompts).</li><li>**Scorers**: Fonctions qui évaluent les entrées et les sorties du modèle pour mesurer la qualité, la sécurité ou des métriques personnalisées. Voir [Scorers](/fr/weave/guides/evaluation/scorers).</li><li>**Ops**: Fonctions automatiquement versionnées et suivies, décorées avec `@weave.op()`, qui produisent des appels et conservent un historique des modifications de la fonction. Voir [Ops](/fr/weave/guides/tracking/ops).</li><li>**Other objects and metadata**: Objets Weave supplémentaires, types personnalisés et métadonnées associées stockés dans le projet.</li></ul> |
 
-<div id="project-paths">
-  ## Chemins de projet
-</div>
+## Chemins de projet {#project-paths}
 
 [Teams](/fr/platform/hosting/iam/org_team_struct#team) (également appelées Entities) possèdent et gèrent des projets dans votre organisation W&amp;B. Le nom de votre équipe et le nom de votre projet forment le chemin d’accès à votre projet dans l’interface W&amp;B. Vous utilisez également ce chemin dans votre code pour associer vos ressources Weave au projet.
 
@@ -41,9 +37,7 @@ Utilisez ce chemin lorsque vous initialisez Weave dans votre code pour associer 
 weave.init('my-team/my-project')
 ```
 
-<div id="create-and-find-projects">
-  ## Créer et trouver des projets
-</div>
+## Créer et trouver des projets {#create-and-find-projects}
 
 Vous pouvez créer un projet Weave à l’aide de l’interface W&amp;B ou en définissant un nouveau chemin de projet dans votre code.
 
@@ -89,9 +83,7 @@ Vous pouvez créer un projet Weave à l’aide de l’interface W&amp;B ou en d�
   </Tab>
 </Tabs>
 
-<div id="view-projects-in-the-ui">
-  ## Voir les projets dans l’UI
-</div>
+## Voir les projets dans l’UI {#view-projects-in-the-ui}
 
 Pour accéder à un projet dans la Weave UI :
 
@@ -106,9 +98,7 @@ Pour accéder à un projet dans la Weave UI :
   ![Projet Weave](/weave/guides/platform/imgs/weave-project.png)
 </Frame>
 
-<div id="delete-a-project">
-  ## Supprimer un projet
-</div>
+## Supprimer un projet {#delete-a-project}
 
 <Warning>
   La suppression d’un projet est définitive et supprime toutes les traces, évaluations, modèles, Datasets et autres ressources associées de votre compte W&amp;B.

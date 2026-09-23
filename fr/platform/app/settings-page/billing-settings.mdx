@@ -11,9 +11,7 @@ Pour ouvrir les paramètres de facturation :
 1. Dans le coin supérieur droit, cliquez sur votre icône utilisateur.
 2. Dans le menu déroulant, choisissez **Billing**, ou choisissez **Settings**, puis sélectionnez l’onglet **Billing**.
 
-<div id="plan-details">
-  ## Détails du forfait
-</div>
+## Détails du forfait {#plan-details}
 
 La section **Détails du forfait** résume le forfait actuel de votre organisation, les frais, les limites et l’utilisation. Depuis cette section, vous pouvez comparer les forfaits ou contacter l’équipe commerciale.
 
@@ -23,17 +21,13 @@ Depuis la section **Détails du forfait**, vous pouvez effectuer les actions sui
 * Pour afficher les détails de l’utilisation, cliquez sur **Voir l’utilisation**.
 * Pour voir la quantité de stockage utilisée par votre organisation, gratuite comme payante, consultez la synthèse du stockage. Depuis cette section, vous pouvez acheter du stockage supplémentaire et gérer le stockage actuellement utilisé. Pour en savoir plus, consultez les [paramètres de stockage](/fr/platform/app/settings-page/storage/).
 
-<div id="plan-usage">
-  ## Utilisation du plan
-</div>
+## Utilisation du plan {#plan-usage}
 
 La section **Utilisation du plan** résume visuellement l’utilisation actuelle et affiche les frais d’utilisation à venir. Pour obtenir des informations détaillées sur l’utilisation par mois, cliquez sur **Voir l’utilisation** dans la vignette concernée. Pour exporter l’utilisation par mois civil, équipe ou projet, cliquez sur **Export CSV**. Pour explorer les tendances d’utilisation au fil du temps, voir [Voir l’utilisation au fil du temps](#view-usage-over-time).
 
 Pour toute question sur l’utilisation ou la facturation, contactez votre AISE ou [assistance](mailto:support@wandb.com).
 
-<div id="view-usage-over-time">
-  ### Voir l’utilisation au fil du temps
-</div>
+### Voir l’utilisation au fil du temps {#view-usage-over-time}
 
 Les administrateurs de l’organisation peuvent visualiser les tendances d’utilisation pour chaque catégorie dans l’onglet **Utilisation &amp; alertes**. Sélectionnez votre type de déploiement pour afficher les instructions correspondantes :
 
@@ -73,9 +67,7 @@ Chaque barre est segmentée par équipe. Les cinq équipes dont l’utilisation 
 
 Pour exporter les données d’utilisation, cliquez sur l’icône de téléchargement dans le coin supérieur droit du graphique. L’export renvoie une ventilation mensuelle de l’utilisation par équipe et par projet pour les 24 derniers mois, quelle que soit la période sélectionnée.
 
-<div id="current-cycle-compared-to-historical-views">
-  #### Cycle actuel comparé aux vues historiques
-</div>
+#### Cycle actuel comparé aux vues historiques {#current-cycle-compared-to-historical-views}
 
 La vue **Cycle actuel** est *cumulative* : chaque barre s’ajoute à la précédente pour afficher votre utilisation cumulée depuis le début de la période de facturation en cours. Utilisez cette vue pour voir comment votre utilisation se situe par rapport au quota alloué. La granularité dépend de la durée de votre cycle de facturation. Par exemple, un cycle mensuel affiche des barres quotidiennes, tandis qu’un cycle annuel affiche des barres mensuelles.
 
@@ -89,9 +81,7 @@ Le stockage est toujours cumulatif, car il mesure le volume total actuellement s
   <img src="/images/app_ui/billing_usage_chart_12_months.png" alt="Utilisation du stockage au cours des 12 derniers mois, mesurée sous forme de moyenne pondérée sur 30 jours, exprimée en Go, avec une barre par mois segmentée par équipe" />
 </Frame>
 
-<div id="stats-bar-and-threshold-lines">
-  #### Barre de statistiques et lignes de seuil
-</div>
+#### Barre de statistiques et lignes de seuil {#stats-bar-and-threshold-lines}
 
 Lorsque **Cycle actuel** et **All teams** sont tous deux sélectionnés, une barre de statistiques au-dessus du graphique récapitule l&#39;**Utilisation**, le **Quota** et l&#39;**Utilisation quotidienne moyenne**. Les graphiques de stockage n&#39;affichent ni barre de statistiques ni utilisation quotidienne moyenne ; à la place, les vues historiques affichent l&#39;utilisation totale agrégée sur la période sélectionnée.
 
@@ -105,8 +95,8 @@ Lorsqu&#39;une catégorie a un quota défini, le graphique affiche deux lignes d
 
 Pour les catégories sans limite d’utilisation, **Allowance** s’affiche comme **Unlimited** et aucune ligne de seuil n’apparaît.
 
-<a id="view-and-manage-usage-alerts">
-  ### Afficher et gérer les alertes d’utilisation
+<a id="usage-alerts">
+  ### Afficher et gérer les alertes d’utilisation {#view-and-manage-usage-alerts}
 </a>
 
 Les alertes d’utilisation notifient par e-mail les administrateurs de l’organisation et les administrateurs de la facturation lorsque votre organisation atteint 85 % puis 100 % de sa limite d’utilisation pour la période de facturation en cours dans une catégorie donnée. Configurez des alertes d’utilisation pour surveiller la consommation et éviter les dépassements imprévus. Les alertes d’utilisation sont disponibles pour les catégories suivantes :
@@ -133,8 +123,8 @@ Pour configurer des alertes d’utilisation pour votre organisation, vous devez 
 4. Cliquez sur l’onglet **Utilisation** pour afficher l’utilisation et les paramètres d’alerte de votre organisation pour cette catégorie.
 5. Activez ou désactivez l’**alerte d’utilisation à 85 %** ou l’**alerte d’utilisation à 100 %** pour cette catégorie. <Warning>Si aucune alerte d’utilisation n’est active pour une catégorie, votre organisation peut atteindre 100 % d’utilisation dans cette catégorie sans avertissement.</Warning>
 
-<a id="view-and-manage-spending-alerts">
-  ### Afficher et gérer les alertes de dépenses
+<a id="spending-alerts">
+  ### Afficher et gérer les alertes de dépenses {#view-and-manage-spending-alerts}
 </a>
 
 Pour une période de facturation donnée, les alertes de dépenses notifient par e-mail les administrateurs de l’organisation et les administrateurs de la facturation lorsque votre organisation atteint un ou plusieurs seuils de dépenses personnalisables exprimés en USD. Utilisez les alertes de dépenses pour suivre les coûts par rapport à un budget que vous définissez. Vous pouvez configurer jusqu’à cinq alertes de dépenses distinctes par catégorie :
@@ -175,15 +165,11 @@ Pour afficher et gérer les alertes de dépenses de votre organisation :
    a. Cliquez sur **Créer une alerte**.
 6. Pour supprimer une alerte de dépenses, cliquez sur l’icône de corbeille à côté.
 
-<div id="payment-methods">
-  ## Modes de paiement
-</div>
+## Modes de paiement {#payment-methods}
 
 La section **Modes de paiement** affiche les modes de paiement enregistrés pour votre organisation. Si vous n’avez pas encore ajouté de mode de paiement, vous serez invité à le faire lorsque vous passerez à un plan supérieur ou ajouterez du stockage payant.
 
-<div id="billing-admin">
-  ## Administrateur de la facturation
-</div>
+## Administrateur de la facturation {#billing-admin}
 
 La section **administrateur de la facturation** affiche l’administrateur de la facturation actuel. L’administrateur de la facturation est un administrateur de l’organisation, reçoit tous les e-mails liés à la facturation et peut afficher et gérer les méthodes de paiement.
 
@@ -198,9 +184,7 @@ Pour modifier l’administrateur de la facturation ou attribuer ce rôle à d’
 3. Cliquez sur le champ **administrateur de la facturation** dans la ligne de cet utilisateur.
 4. Lisez le récapitulatif, puis cliquez sur **Change billing user**.
 
-<div id="invoices">
-  ## Factures
-</div>
+## Factures {#invoices}
 
 Si vous payez par carte de crédit, la section **Invoices** vous permet de consulter les factures mensuelles.
 

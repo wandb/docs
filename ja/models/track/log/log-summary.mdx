@@ -62,9 +62,7 @@ description: "run.summary を使用して、最良の accuracy や最小の損�
   <img src="/images/track/summary_demo.png" alt="Run のサマリー" />
 </Frame>
 
-<div id="customize-summary-metrics">
-  ## サマリーメトリクスをカスタマイズする
-</div>
+## サマリーメトリクスをカスタマイズする {#customize-summary-metrics}
 
 カスタムサマリーメトリクスを使用すると、トレーニング中の最良のstepにおけるモデル性能を `run.summary` に記録できます。たとえば、最終値ではなく、精度の最大値や損失の最小値を記録したい場合があります。
 
@@ -104,9 +102,7 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-<div id="view-summary-metrics">
-  ## サマリー メトリクスを表示する
-</div>
+## サマリー メトリクスを表示する {#view-summary-metrics}
 
 アクティブな run 中、既存の run、またはローカル ファイルシステムから、W&amp;B App で run のサマリーにアクセスできます。
 

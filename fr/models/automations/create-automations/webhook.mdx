@@ -12,9 +12,7 @@ Dans les grandes lignes, pour créer une automatisation webhook, suivez ces éta
 2. [Créez un webhook](#create-a-webhook) pour définir le point de terminaison et les détails d’autorisation, et accordez à l’intégration l’accès à tous les secrets dont elle a besoin.
 3. [Créez l’automatisation](#create-an-automation) pour définir l’[événement](/fr/models/automations/automation-events) à surveiller et la charge utile que W&amp;B envoie. Accordez à l’automatisation l’accès à tous les secrets dont elle a besoin pour la charge utile.
 
-<div id="create-a-webhook">
-  ## Créer un webhook
-</div>
+## Créer un webhook {#create-a-webhook}
 
 Un administrateur de l’équipe peut ajouter un webhook à l’équipe. Le webhook définit le point de terminaison vers lequel W&amp;B envoie les requêtes, ainsi que les identifiants requis pour s’y authentifier.
 
@@ -43,9 +41,7 @@ Un administrateur de l’équipe peut ajouter un webhook à l’équipe. Le webh
 
 Vous pouvez maintenant [créer une automatisation](#create-an-automation) qui utilise le webhook.
 
-<div id="create-an-automation">
-  ## Créer une automatisation
-</div>
+## Créer une automatisation {#create-an-automation}
 
 Après avoir [configuré un webhook](#create-a-webhook), créez une automatisation qui définit quel événement W&amp;B déclenche le webhook et quelle charge utile envoyer. Sélectionnez **Registry** ou **Project** selon la portée souhaitée, puis suivez ces étapes pour créer une automatisation qui déclenche le webhook.
 
@@ -112,9 +108,7 @@ Après avoir [configuré un webhook](#create-a-webhook), créez une automatisati
 
 Après avoir terminé ces étapes, l&#39;automatisation est active et exécute le webhook chaque fois que l&#39;événement spécifié se produit dans le registre ou le projet.
 
-<div id="view-and-manage-automations">
-  ## Afficher et gérer les automatisations
-</div>
+## Afficher et gérer les automatisations {#view-and-manage-automations}
 
 Consultez, modifiez ou supprimez une automatisation depuis l&#39;onglet **Automations**.
 
@@ -136,15 +130,11 @@ Consultez, modifiez ou supprimez une automatisation depuis l&#39;onglet **Automa
   </Tab>
 </Tabs>
 
-<div id="payload-reference">
-  ## Référence de la charge utile
-</div>
+## Référence de la charge utile {#payload-reference}
 
 Utilisez ces sections pour construire la charge utile de votre webhook. Les sections suivantes décrivent les variables disponibles dans votre charge utile et montrent des exemples de charges utiles pour les services courants. Pour plus de détails sur le test de votre webhook et de sa charge utile, référez-vous à [Troubleshoot your webhook](#troubleshoot-your-webhook).
 
-<div id="payload-variables">
-  ### Variables de charge utile
-</div>
+### Variables de charge utile {#payload-variables}
 
 Le tableau suivant décrit les variables que vous pouvez utiliser pour construire la charge utile de votre webhook.
 
@@ -163,9 +153,7 @@ Le tableau suivant décrit les variables que vous pouvez utiliser pour construir
 | `${ACCESS_TOKEN}`             | La valeur du jeton d&#39;accès configuré dans le [webhook](#create-a-webhook), si vous avez configuré un jeton d&#39;accès. W&amp;B le transmet automatiquement dans l&#39;en-tête HTTP `Authorization: Bearer`.                                                                                               |
 | `${SECRET_NAME}`              | Si elle est configurée, la valeur d&#39;un secret configuré dans le [webhook](#create-a-webhook). Remplacez `SECRET_NAME` par le nom du secret.                                                                                                                                                                |
 
-<div id="payload-examples">
-  ### Exemples de charges utiles
-</div>
+### Exemples de charges utiles {#payload-examples}
 
 Les exemples suivants montrent des charges utiles de webhook pour des cas d’usage courants. Les exemples montrent comment utiliser les [variables de charge utile](#payload-variables).
 
@@ -300,9 +288,7 @@ Les exemples suivants montrent des charges utiles de webhook pour des cas d’us
   </Tab>
 </Tabs>
 
-<div id="troubleshoot-your-webhook">
-  ## Dépanner votre webhook
-</div>
+## Dépanner votre webhook {#troubleshoot-your-webhook}
 
 Si un webhook ne fonctionne pas comme prévu, vous pouvez le dépanner de manière interactive avec la W&amp;B App UI ou par programmation à l’aide d’un script shell. Vous pouvez dépanner un webhook lors de sa création ou après coup.
 

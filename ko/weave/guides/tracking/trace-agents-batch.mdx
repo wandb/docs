@@ -10,7 +10,7 @@ LLM 호출은 이미 완료되었고 그 호출만 기록하면 되는 프레임
 자체 에이전트 루프를 구축하는 경우에는 대신 [에이전트 트레이스](/ko/weave/guides/tracking/trace-agents)에 설명된 실시간 계측 API를 사용하세요.
 
 <div id="log-a-turn">
-  ## 턴 기록하기
+  ## 턴 기록하기 {#log-a-turn}
 </div>
 
 완료된 단일 턴이 발생한 후 이를 기록하려면 `weave.log_turn`을 사용하세요. `weave.log_turn`은 모든 LLM 및 도구 span을 포함하는 완전한 형태의 턴을 받습니다.
@@ -69,7 +69,7 @@ LLM 호출은 이미 완료되었고 그 호출만 기록하면 되는 프레임
 `log_turn`의 선택적 `model` 파라미터는 하위 LLM span이 아니라 턴 자체의 span에 모델을 설정합니다. 각 `LLM` span은 자체 `model`을 독립적으로 가집니다. 턴에서 여러 모델을 사용하는 경우, 해당 턴의 기본 모델로 간주하는 값으로 `log_turn`의 `model`을 설정하세요.
 
 <div id="log-a-conversation">
-  ## 대화 기록하기
+  ## 대화 기록하기 {#log-a-conversation}
 </div>
 
 여러 턴으로 이루어진 전체 대화를 한 번에 일괄 임포트하려면 `weave.log_conversation`을 사용하세요. `turns` 매개변수는 `Turn` 객체 목록을 받으며, 각 객체는 이전 `log_turn` 예시와 같은 방식으로 생성됩니다.

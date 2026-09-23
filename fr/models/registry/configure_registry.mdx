@@ -6,12 +6,10 @@ description: "Configurez l’accès à W&B Registry en gérant les Users et les 
 Un administrateur du registre peut [configurer les rôles du registre](/fr/models/registry/configure_registry/#configure-registry-roles), [ajouter des Users](/fr/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry) ou [supprimer des Users](/fr/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry) d’un registre en configurant les paramètres du registre.
 
 <div id="manage-users">
-  ## Gérer les Users
+  ## Gérer les Users {#manage-users}
 </div>
 
-<div id="add-a-user-or-a-team">
-  ### Ajouter un User ou une Team
-</div>
+### Ajouter un User ou une Team {#add-a-user-or-a-team}
 
 Les administrateurs du registre peuvent ajouter des Users individuels ou des Teams entières à un registre. Pour ajouter un User ou une Team à un registre :
 
@@ -25,7 +23,7 @@ Les administrateurs du registre peuvent ajouter des Users individuels ou des Tea
 Pour en savoir plus, consultez [la configuration des rôles utilisateur dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) ou [les autorisations des rôles du registre](/fr/models/registry/configure_registry#role-permissions).
 
 <div id="remove-a-user-or-team">
-  ### Supprimer un User ou une Team
+  ### Supprimer un User ou une Team {#remove-a-user-or-team}
 </div>
 
 Un administrateur du registre peut supprimer des Users individuels ou des Teams entières d’un registre. Pour supprimer un User ou une Team d’un registre :
@@ -41,7 +39,7 @@ Un administrateur du registre peut supprimer des Users individuels ou des Teams 
 </Note>
 
 <div id="change-the-owner-of-a-registry">
-  ### Changer le propriétaire d’un registre
+  ### Changer le propriétaire d’un registre {#change-the-owner-of-a-registry}
 </div>
 
 Un administrateur du registre peut désigner n’importe quel membre comme propriétaire d’un registre, y compris un **Restricted Viewer** ou un **Viewer**. Le statut de propriétaire du registre sert principalement à des fins de responsabilité et n’accorde aucune autorisation supplémentaire au-delà de celles associées au rôle attribué à l’utilisateur.
@@ -56,7 +54,7 @@ Pour changer le propriétaire :
 6. Cliquez sur le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** à la fin de la ligne, puis sur **Make owner**.
 
 <div id="configure-registry-roles">
-  ## Configurer les rôles du registre
+  ## Configurer les rôles du registre {#configure-registry-roles}
 </div>
 
 Cette section explique comment configurer les rôles des membres du registre. Pour en savoir plus sur les rôles du registre, notamment les capacités de chaque rôle, l’ordre de priorité, les valeurs par défaut, etc., voir [Détails sur les rôles du registre](#details-about-registry-roles).
@@ -70,7 +68,7 @@ Cette section explique comment configurer les rôles des membres du registre. Po
 7. Dans le menu déroulant, sélectionnez le rôle que vous souhaitez attribuer à l’utilisateur.
 
 <div id="details-about-registry-roles">
-  ## Détails sur les rôles du registre
+  ## Détails sur les rôles du registre {#details-about-registry-roles}
 </div>
 
 Les sections suivantes donnent plus d’informations sur les rôles du registre.
@@ -79,9 +77,7 @@ Les sections suivantes donnent plus d’informations sur les rôles du registre.
   Le rôle du registre d’une équipe est distinct du [rôle de chaque membre au sein de l’équipe](/fr/platform/app/settings-page/teams/#team-roles-and-permissions). Si vous appartenez à une équipe qui a été ajoutée à un registre, W&amp;B prend en compte le rôle du registre attribué à l’équipe et non votre rôle au sein de l’équipe lorsqu’il calcule votre rôle effectif dans le registre.
 </Note>
 
-<div id="role-types">
-  ### Types de rôles
-</div>
+### Types de rôles {#role-types}
 
 W&amp;B Registry propose les rôles suivants :
 
@@ -93,7 +89,7 @@ W&amp;B Registry propose les rôles suivants :
 Voir [Autorisations par rôle](#role-permissions) pour plus d’informations sur les autorisations accordées par chaque rôle.
 
 <div id="role-permissions">
-  ### Autorisations par rôle
+  ### Autorisations par rôle {#role-permissions}
 </div>
 
 Le tableau suivant répertorie chaque rôle du registre ainsi que les autorisations associées à chacun :
@@ -128,9 +124,7 @@ Le tableau suivant répertorie chaque rôle du registre ainsi que les autorisati
 | Ajouter des Users à un registre                                                                           | Admin                      |                                                          |         |        |   ✓   |
 | Attribuer ou modifier le rôle d&#39;un User dans un registre                                              | Admin                      |                                                          |         |        |   ✓   |
 
-<div id="default-roles">
-  ### Rôles par défaut
-</div>
+### Rôles par défaut {#default-roles}
 
 W&amp;B attribue automatiquement un **rôle du registre** par défaut aux Users ou aux équipes lorsqu’ils sont ajoutés à un registre. Le rôle par défaut est le rôle initial qui apparaît dans le menu déroulant des rôles du registre. Il ne s’agit pas toujours du rôle effectif final de l’utilisateur.
 
@@ -146,9 +140,7 @@ W&amp;B attribue automatiquement un **rôle du registre** par défaut aux Users 
 Un administrateur du registre peut attribuer ou modifier les rôles des Users et des équipes dans le registre.
 Voir [Configurer les rôles des Users dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) pour en savoir plus.
 
-<div id="effective-and-inherited-registry-roles">
-  ### Rôles de registre effectifs et hérités
-</div>
+### Rôles de registre effectifs et hérités {#effective-and-inherited-registry-roles}
 
 Le *rôle de registre effectif* d&#39;un utilisateur détermine ce qu&#39;il peut réellement faire dans un registre. La liste des membres du registre affiche ce rôle en gris clair, à côté de la liste déroulante des rôles sur la ligne de l&#39;utilisateur.
 
@@ -174,9 +166,7 @@ Autrement dit, le rôle de registre par défaut ou attribué peut être inférie
   Les comptes de service n&#39;héritent pas d&#39;autorisations de registre plus étendues de leurs équipes. Voir [Accès au compte de service](#service-account-access) pour plus d&#39;informations.
 </Note>
 
-<div id="service-account-access">
-  ### Accès des comptes de service
-</div>
+### Accès des comptes de service {#service-account-access}
 
 Les comptes de service font exception aux rôles de registre hérités. Un compte de service n’hérite pas des autorisations de registre élevées de son équipe. Par exemple, si une équipe dispose d’un accès **Admin** à un registre, les comptes de service de cette équipe reçoivent uniquement le niveau d’accès automatique des comptes de service, et non un accès **Admin**.
 
@@ -190,7 +180,7 @@ L’accès automatique des comptes de service dépend de la visibilité du regis
 Voir [Types de visibilité](/fr/models/registry/create_registry#visibility-types) pour plus d’informations sur les types de visibilité des registres.
 
 <div id="restricted-viewer-role-details">
-  ### Détails du rôle Restricted Viewer
+  ### Détails du rôle Restricted Viewer {#restricted-viewer-role-details}
 </div>
 
 Le rôle **Restricted Viewer** est en disponibilité générale (GA). Pour Cloud dédié et Autogéré, Server v0.75.0 ou une version ultérieure est requis.
@@ -203,7 +193,7 @@ Contrairement à un **Viewer**, un **Restricted Viewer** :
 * Ne peut pas utiliser les Artifacts avec `wandb.Run.use_artifact()` dans le SDK W&amp;B.
 
 <div id="sdk-compatibility">
-  #### Compatibilité du SDK
+  #### Compatibilité du SDK {#sdk-compatibility}
 </div>
 
 <Note>
@@ -228,9 +218,7 @@ Les méthodes suivantes se limitent aux métadonnées des artifacts :
 * [`Artifact.get()`](/fr/models/ref/python/experiments/artifact/#method-artifactget)
 * [`Artifact.verify()`](/fr/models/ref/python/experiments/artifact/#method-artifactverify)
 
-<div id="cross-registry-permissions">
-  ### Autorisations entre registres
-</div>
+### Autorisations entre registres {#cross-registry-permissions}
 
 Un utilisateur peut avoir des rôles différents selon les registres. Par exemple, un utilisateur peut être **Restricted Viewer** dans le registre A et **Viewer** dans le registre B. Dans ce cas :
 

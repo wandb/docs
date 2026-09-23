@@ -43,9 +43,7 @@ keywords: ["evaluation", "scorers", "EvaluationLogger", "preprocess_model_input"
 
 이 step을 완료하면 재사용 가능한 평가 설정과 Weave UI에서 결과를 검토할 수 있는 평가 run이 준비됩니다. 전체 평가 코드 예시는 [전체 평가 코드 예시](#full-evaluation-code-example)를 참조하세요. [저장된 뷰](#saved-views) 및 [명령형 평가](#imperative-evaluations-evaluationlogger)와 같은 [고급 평가 기능](#advanced-evaluation-usage)에 대해서도 자세히 알아볼 수 있습니다.
 
-<div id="create-an-evaluation-object">
-  ## `Evaluation` 객체 만들기
-</div>
+## `Evaluation` 객체 만들기 {#create-an-evaluation-object}
 
 `Evaluation` 객체를 만드는 것은 평가 설정을 구성하는 첫 번째 step입니다. `Evaluation`은 예제 데이터, 점수 산정 로직, 그리고 선택적 전처리로 구성됩니다. 이후 이를 사용해 하나 이상의 평가를 실행합니다.
 
@@ -53,9 +51,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
 
 맞춤형 naming은 선택 사항이지만 Weave UI에서 서로 다른 평가 설정과 Runs를 구분하는 데 도움이 됩니다. 평가가 하나뿐이면 이 섹션은 건너뛰어도 됩니다.
 
-<div id="optional-custom-naming">
-  ### 선택 사항: 맞춤형 이름 지정
-</div>
+### 선택 사항: 맞춤형 이름 지정 {#optional-custom-naming}
 
 <Tabs>
   <Tab title="Python">
@@ -64,9 +60,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     * [*Evaluation 객체 이름* (`evaluation_name`)](#name-the-evaluation-object): 설정한 `Evaluation` 객체에 대한 지속적으로 유지되는 레이블입니다.
     * [*Evaluation run 표시 이름* (`__weave["display_name"]`)](#name-individual-evaluation-runs): UI에 표시되는 특정 평가 실행의 레이블입니다.
 
-    <div id="name-the-evaluation-object">
-      #### `Evaluation` 객체 이름 지정
-    </div>
+#### `Evaluation` 객체 이름 지정 {#name-the-evaluation-object}
 
     `Evaluation` 객체 자체의 이름을 지정하려면 `Evaluation` 클래스에 `evaluation_name` 매개변수를 전달하세요. 이 이름은 코드와 UI 목록에서 Evaluation을 파악하는 데 도움이 됩니다.
 
@@ -76,9 +70,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     )
     ```
 
-    <div id="name-individual-evaluation-runs">
-      #### 개별 평가 run 이름 지정
-    </div>
+#### 개별 평가 run 이름 지정 {#name-individual-evaluation-runs}
 
     특정 평가 run(`evaluate()` 호출)의 이름을 지정하려면 `display_name`이 포함된 `__weave` 딕셔너리를 사용하세요. 그러면 해당 run에 대해 UI에 표시되는 이름이 달라집니다.
 
@@ -104,9 +96,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
   </Tab>
 </Tabs>
 
-<div id="define-a-dataset-of-test-examples">
-  ## 테스트 예제용 데이터셋 정의
-</div>
+## 테스트 예제용 데이터셋 정의 {#define-a-dataset-of-test-examples}
 
 먼저, 평가할 예제 모음이 포함된 [Dataset](../core-types/datasets) 객체 또는 예제 목록을 정의합니다. 이러한 예제는 보통 테스트하려는 실패 케이스이며, 테스트 주도 개발(TDD)의 단위 테스트와 비슷합니다.
 
@@ -140,9 +130,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
   </Tab>
 </Tabs>
 
-<div id="define-scoring-functions">
-  ## 채점 함수를 정의합니다
-</div>
+## 채점 함수를 정의합니다 {#define-scoring-functions}
 
 그런 다음 하나 이상의 [채점 함수](../evaluation/scorers)를 만듭니다. Weave는 이를 사용해 `Dataset`의 각 예제에 점수를 매깁니다.
 
@@ -175,9 +163,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
         return {'match': expected == output['generated_text']}
     ```
 
-    <div id="optional-define-a-custom-scorer-class">
-      ### 선택: 맞춤형 `Scorer` 클래스를 정의합니다
-    </div>
+### 선택: 맞춤형 `Scorer` 클래스를 정의합니다 {#optional-define-a-custom-scorer-class}
 
     일부 애플리케이션에서는 맞춤형 `Scorer` 클래스를 만들고 싶을 수 있습니다. 예를 들어 특정 매개변수(예: chat model, prompt), 각 행에 대한 특정 채점 방식, 그리고 집계 점수의 특정 계산 방식을 갖춘 표준화된 `LLMJudge` 클래스를 만들 수 있습니다.
 
@@ -218,9 +204,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
   </Tab>
 </Tabs>
 
-<div id="define-a-model-or-function-to-evaluate">
-  ## 평가할 모델 또는 함수 정의하기
-</div>
+## 평가할 모델 또는 함수 정의하기 {#define-a-model-or-function-to-evaluate}
 
 <Tabs>
   <Tab title="Python">
@@ -249,9 +233,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
 
     이 코드는 각 예시에 대해 `predict`를 실행하고, 각 채점 함수로 출력을 점수화합니다.
 
-    <div id="optional-define-a-function-to-evaluate">
-      ### 선택 사항: 평가할 함수 정의하기
-    </div>
+### 선택 사항: 평가할 함수 정의하기 {#optional-define-a-function-to-evaluate}
 
     또는 `@weave.op()`로 추적되는 맞춤형 함수를 평가할 수도 있습니다:
 
@@ -299,9 +281,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
   </Tab>
 </Tabs>
 
-<div id="run-the-evaluation">
-  ## 평가 실행
-</div>
+## 평가 실행 {#run-the-evaluation}
 
 `Evaluation` 객체, 데이터셋, Scorer, 모델을 정의했다면 평가를 실행하고 Weave에서 결과를 캡처할 준비가 된 것입니다. 평가를 실행하려면 `Evaluation` 객체에서 `.evaluate()`를 호출합니다.
 
@@ -313,9 +293,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     asyncio.run(evaluation.evaluate(model))
     ```
 
-    <div id="optional-run-multiple-trials">
-      ### 선택 사항: 여러 번 실행
-    </div>
+### 선택 사항: 여러 번 실행 {#optional-run-multiple-trials}
 
     각 예제를 여러 번 실행하려면 `Evaluation` 객체에서 `trials` 파라미터를 설정할 수 있습니다:
 
@@ -336,9 +314,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
     const results = await evaluation.evaluate({model: myModel});
     ```
 
-    <div id="optional-run-multiple-trials-2">
-      ### 선택 사항: 여러 번 실행
-    </div>
+### 선택 사항: 여러 번 실행 {#optional-run-multiple-trials-2}
 
     각 예제를 여러 번 실행하려면 `evaluate()`를 호출할 때 `nTrials` 파라미터를 설정할 수 있습니다:
 
@@ -354,9 +330,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
 
 이 run에서는 각 예제가 모델에 세 번 전달되며, 각 run은 독립적으로 점수가 매겨지고 Weave에 개별적으로 표시됩니다.
 
-<div id="full-evaluation-code-example">
-  ## 전체 평가 코드 예시
-</div>
+## 전체 평가 코드 예시 {#full-evaluation-code-example}
 
 다음 예시는 앞의 각 단계를 하나의 실행 가능한 스크립트로 모아 보여줍니다. 평가 워크플로를 자체 애플리케이션에 맞게 조정할 때 레퍼런스로 활용하세요.
 
@@ -459,15 +433,11 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
   ![Evals hero](/images/evals-hero.png)
 </Frame>
 
-<div id="advanced-evaluation-usage">
-  ## 고급 평가 사용법
-</div>
+## 고급 평가 사용법 {#advanced-evaluation-usage}
 
 다음 섹션에서는 데이터셋 전처리, 서드파티 데이터셋 인테그레이션, 저장된 UI 뷰, 명령형 로깅 API 등 더 복잡한 평가 워크플로를 위한 선택 기능을 다룹니다.
 
-<div id="format-dataset-rows-before-evaluating">
-  ### 평가 전에 데이터셋 행 형식 맞추기
-</div>
+### 평가 전에 데이터셋 행 형식 맞추기 {#format-dataset-rows-before-evaluating}
 
 <Tabs>
   <Tab title="Python">
@@ -562,9 +532,7 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
   </Tab>
 </Tabs>
 
-<div id="use-huggingface-datasets-with-evaluations">
-  ### 평가에서 HuggingFace 데이터셋 사용하기
-</div>
+### 평가에서 HuggingFace 데이터셋 사용하기 {#use-huggingface-datasets-with-evaluations}
 
 <Tabs>
   <Tab title="Python">
@@ -580,14 +548,10 @@ Weave는 각 예제를 애플리케이션에 전달한 뒤 여러 맞춤형 점�
   </Tab>
 </Tabs>
 
-<div id="saved-views">
-  ### 저장된 뷰
-</div>
+### 저장된 뷰 {#saved-views}
 
 Evals 테이블의 설정, 필터, 정렬을 &#95;저장된 뷰&#95;로 저장해 선호하는 설정에 빠르게 접근할 수 있습니다. 저장된 뷰는 UI와 Python SDK에서 설정하고 사용할 수 있습니다. 자세한 내용은 [저장된 뷰](/ko/weave/guides/tools/saved-views)를 참조하세요.
 
-<div id="imperative-evaluations-evaluationlogger">
-  ### 명령형 평가 (`EvaluationLogger`)
-</div>
+### 명령형 평가 (`EvaluationLogger`) {#imperative-evaluations-evaluationlogger}
 
 더 유연한 평가 프레임워크를 선호한다면 Weave의 [`EvaluationLogger`](../evaluation/evaluation_logger)를 참조하세요. `EvaluationLogger`는 Python과 TypeScript 모두에서 사용할 수 있으며, 복잡한 워크플로에 더 유연하게 대응할 수 있습니다. 반면 표준 평가 프레임워크는 더 체계적인 구조와 가이드를 제공합니다.

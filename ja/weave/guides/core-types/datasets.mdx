@@ -12,9 +12,7 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
 * Weave の [Call](../tracking/tracing) などのオブジェクトから、Python と TypeScript で `Dataset` を作成する方法。
 * UI で `Dataset` に対して使用できる操作。
 
-<div id="dataset-quickstart">
-  ## Dataset クイックスタート
-</div>
+## Dataset クイックスタート {#dataset-quickstart}
 
 以下のコードサンプルでは、Python と TypeScript を使用して基本的な `Dataset` 操作を実行する方法を示します。SDK を使用すると、次のことができます。
 
@@ -89,9 +87,7 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
   </Tab>
 </Tabs>
 
-<div id="create-a-dataset-from-other-objects">
-  ## 他のオブジェクトからデータセットを作成する
-</div>
+## 他のオブジェクトからデータセットを作成する {#create-a-dataset-from-other-objects}
 
 このセクションでは、記録済みの Weave Call や既存の表形式データなど、すでに手元にあるデータから `Dataset` を作成する方法を示します。これにより、例を手動で再入力する必要がなくなります。
 
@@ -99,9 +95,7 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
   <Tab title="Python">
     Python では、`Dataset` は [Call](../tracking/tracing) のような一般的な Weave オブジェクトや、`pandas.DataFrame` のような Python オブジェクトから作成することもできます。この機能は、特定の例から例示用の `Dataset` を作成したい場合に便利です。
 
-    <div id="weave-call">
-      ### Weave Call
-    </div>
+### Weave Call {#weave-call}
 
     1 つ以上の Weave Call から `Dataset` を作成するには、Call オブジェクトを取得し、`from_calls` method に list として渡します。
 
@@ -117,9 +111,7 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
     # これで、モデルの評価などに dataset を使用できます。
     ```
 
-    <div id="pandas-dataframe">
-      ### Pandas DataFrame
-    </div>
+### Pandas DataFrame {#pandas-dataframe}
 
     Pandas の `DataFrame` object から `Dataset` を作成するには、`from_pandas` method を使用します。
 
@@ -139,9 +131,7 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
     assert df.equals(df2)
     ```
 
-    <div id="hugging-face-datasets">
-      ### Hugging Face Datasets
-    </div>
+### Hugging Face Datasets {#hugging-face-datasets}
 
     Hugging Face の `datasets.Dataset` または `datasets.DatasetDict` object から `Dataset` を作成するには、まず必要な dependencies がインストールされていることを確認します。
 
@@ -188,17 +178,13 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
   </Tab>
 </Tabs>
 
-<div id="create-edit-and-delete-a-dataset-in-the-ui">
-  ## UI でデータセットを作成、編集、削除する
-</div>
+## UI でデータセットを作成、編集、削除する {#create-edit-and-delete-a-dataset-in-the-ui}
 
 `Dataset` は UI で作成、編集、削除できます。Weave UI でデータセットを作成すると、コードを編集しなくても、あなたやチームの非エンジニアのメンバーが、例や質問、そのほかのエージェント テスト用データを含む共有可能なデータセットを作成し、キュレーションできます。
 
 以下の手順では、UI でこれらの各タスクを実行する方法を順に説明します。ノートブックやスクリプトではなく、元になったトレースとあわせて評価データを管理したい場合に使用してください。
 
-<div id="create-a-new-dataset">
-  ### 新しいデータセットを作成する
-</div>
+### 新しいデータセットを作成する {#create-a-new-dataset}
 
 次の手順では、Weave プロジェクト内の既存の1つ以上の call から新しい `Dataset` を作成します。完了すると、評価で参照したりチームと共有したりできる公開済みの `Dataset` が作成されます。
 
@@ -230,9 +216,7 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
 
 11. 確認ポップアップで、**View the dataset** をクリックして新しい `Dataset` を表示します。別の方法として、**Datasets** タブに移動することもできます。
 
-<div id="edit-a-dataset">
-  ### データセットを編集する
-</div>
+### データセットを編集する {#edit-a-dataset}
 
 既存の `Dataset` に新しい行を追加し、新しいバージョンを公開するには、次の手順を実行します。UI での編集は、コードを変更せずに評価データを拡張または修正したい場合に役立ちます。
 
@@ -273,9 +257,7 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
    ![Dataset UI - 公開済みメタデータ。](/weave/guides/core-types/imgs/datasetui-popout-edit-published-meta.png)
    ![Dataset UI - 公開済みの行。](/weave/guides/core-types/imgs/datasetui-popout-edit-published-rows.png)
 
-<div id="delete-a-dataset">
-  ### データセットを削除する
-</div>
+### データセットを削除する {#delete-a-dataset}
 
 不要になった `Dataset` を Weave プロジェクトから削除する場合は、以下の手順を使用します。
 
@@ -295,15 +277,11 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
 
    `Dataset` は削除され、Weave ダッシュボードの **Datasets** タブには表示されなくなります。
 
-<div id="add-a-new-agent-trace-to-a-dataset">
-  ### 新しいエージェントのトレースを `Dataset` に追加する
-</div>
+### 新しいエージェントのトレースを `Dataset` に追加する {#add-a-new-agent-trace-to-a-dataset}
 
 エージェントのターンやツールコールを `Dataset` に追加するには、[エージェントメッセージをデータセットに追加する](/ja/weave/guides/tracking/view-agent-activity#add-agent-messages-to-a-dataset) を参照してください。
 
-<div id="add-a-new-trace-to-a-dataset">
-  ### データセットに新しいトレースを追加する
-</div>
+### データセットに新しいトレースを追加する {#add-a-new-trace-to-a-dataset}
 
 `@weave.op` デコレータを使用する Ops と Calls から生成されたトレースを `Dataset` に追加するには:
 
@@ -327,17 +305,13 @@ Weave データセットは、LLM アプリケーションの評価や並べて�
 
 10. 確認ポップアップで、変更を確認するには **View the dataset** をクリックします。あるいは、**Datasets** タブにアクセスして `Dataset` の更新を確認します。
 
-<div id="other-dataset-operations">
-  ## その他のデータセット操作
-</div>
+## その他のデータセット操作 {#other-dataset-operations}
 
 このセクションでは、作業対象の `Dataset` がすでにある場合に役立つ、追加の SDK 操作について説明します。
 
 <Tabs>
   <Tab title="Python">
-    <div id="select-rows">
-      ### 行の選択
-    </div>
+### 行の選択 {#select-rows}
 
     `select` method を使用すると、インデックスを指定して `Dataset` から特定の行を選択できます。これは、データのサブセットを作成する際に便利です。たとえば、少数の examples の一部に対して Evaluate したい場合に役立ちます。
 

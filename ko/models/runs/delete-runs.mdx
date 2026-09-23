@@ -3,9 +3,7 @@ title: Runs 삭제
 description: W&B App 또는 Public API를 사용해 W&B 프로젝트에서 Runs를 삭제하는 방법과, 삭제된 run 데이터가 저장소에서 어떻게 제거되는지 알아보세요.
 ---
 
-<div id="delete-runs">
-  ## Runs 삭제
-</div>
+## Runs 삭제 {#delete-runs}
 
 W&amp;B App 또는 Python API를 사용해 프로젝트에서 Runs를 삭제할 수 있습니다.
 
@@ -96,9 +94,7 @@ run ID는 run이 삭제된 후에도 재사용할 수 없습니다. 재사용하
   레지스트리에 연결된 아티팩트도 포함됩니다.
 </Warning>
 
-<div id="run-deletion-flowchart">
-  ## run 삭제 흐름도
-</div>
+## run 삭제 흐름도 {#run-deletion-flowchart}
 
 다음 다이어그램은 연결된 아티팩트와 레지스트리 링크 처리까지 포함한 전체 run 삭제 과정을 보여줍니다.
 
@@ -125,9 +121,7 @@ graph TB
     style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
 ```
 
-<div id="when-deleted-run-data-is-removed-from-storage">
-  ## 삭제된 run 데이터가 저장소에서 제거되는 시점
-</div>
+## 삭제된 run 데이터가 저장소에서 제거되는 시점 {#when-deleted-run-data-is-removed-from-storage}
 
 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 및 [W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed)에서는 `GORILLA_DATA_RETENTION_PERIOD` 환경 변수가 **삭제된 run 데이터**가 객체 저장소에서 영구적으로 제거되기 전까지 보존되는 기간을 제어합니다. **Artifacts는 이 설정으로 제거되지 않으며**, [아티팩트 삭제](/ko/models/artifacts/delete-artifacts)에 설명된 아티팩트 삭제 및 가비지 컬렉션 흐름을 따릅니다.
 

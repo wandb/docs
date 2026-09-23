@@ -15,9 +15,7 @@ Définissez la configuration de votre balayage soit dans un [dictionnaire Python
 
 Les sections suivantes décrivent comment formater la configuration de votre balayage. Voir [Sweep configuration options](/fr/models/sweeps/sweep-config-keys) pour une liste complète des clés de configuration de balayage de premier niveau.
 
-<div id="basic-structure">
-  ## Structure de base
-</div>
+## Structure de base {#basic-structure}
 
 Les configurations de balayage sont définies soit à l’aide de YAML, soit d’un dictionnaire Python, avec des paires clé-valeur et des structures imbriquées.
 
@@ -72,9 +70,7 @@ Par exemple, les extraits de code ci-dessous montrent la même configuration de 
 
 La clé `parameters` de premier niveau contient les clés imbriquées suivantes : `learning_rate`, `batch_size`, `epochs` et `optimizer`. Pour chacune des clés imbriquées que vous définissez, vous pouvez fournir une ou plusieurs valeurs, une distribution, une probabilité, etc. Pour plus d&#39;informations, voir la section [parameters](/fr/models/sweeps/sweep-config-keys#parameters) de [Sweep configuration options](/fr/models/sweeps/sweep-config-keys).
 
-<div id="double-nested-parameters">
-  ## Paramètres imbriqués sur deux niveaux
-</div>
+## Paramètres imbriqués sur deux niveaux {#double-nested-parameters}
 
 Utilisez des paramètres imbriqués lorsque vous souhaitez regrouper des hyperparamètres associés ou lorsque votre code d’entraînement attend une structure de configuration imbriquée. Pour définir un paramètre imbriqué, ajoutez une clé `parameters` supplémentaire sous le nom du paramètre de premier niveau.
 
@@ -247,9 +243,7 @@ L’exemple suivant montre une configuration de balayage avec les paramètres im
   Lors d&#39;un run de balayage, `run.config["nested_param"]` reflète le sous-arbre défini par la configuration du balayage (`learning_rate` et `double_nested_param`). Il n&#39;inclut pas `manual_key`, qui est défini dans `wandb.init(config=...)`.
 </Warning>
 
-<div id="sweep-configuration-template">
-  ## Modèle de configuration d’un balayage
-</div>
+## Modèle de configuration d’un balayage {#sweep-configuration-template}
 
 Utilisez ce modèle comme point de départ pour une nouvelle configuration de balayage. Il illustre les modèles de paramètre et d’arrêt anticipé les plus courants. Remplacez `hyperparameter_name` par le nom de votre hyperparamètre, ainsi que par toutes les valeurs entre crochets.
 
@@ -289,9 +283,7 @@ command:
 
 Pour exprimer une valeur numérique en notation scientifique, ajoutez l’opérateur YAML `!!float`, qui convertit la valeur en nombre à virgule flottante. Par exemple, `min: !!float 1e-5`. Pour plus d&#39;informations, voir [Exemple d’arguments de macro et de commande personnalisée](#macro-and-custom-command-arguments-example).
 
-<div id="sweep-configuration-examples">
-  ## Exemples de configuration de balayage
-</div>
+## Exemples de configuration de balayage {#sweep-configuration-examples}
 
 Les configurations de balayage suivantes illustrent des scénarios courants. Utilisez-les comme références lorsque vous adaptez un balayage à votre propre script d’entraînement.
 
@@ -347,9 +339,7 @@ Les configurations de balayage suivantes illustrent des scénarios courants. Uti
   </Tab>
 </Tabs>
 
-<div id="bayes-hyperband-example">
-  ### Exemple avec Bayes Hyperband
-</div>
+### Exemple avec Bayes Hyperband {#bayes-hyperband-example}
 
 L&#39;exemple suivant combine la recherche bayésienne avec l&#39;arrêt anticipé Hyperband afin d&#39;interrompre rapidement les runs les moins performants et de préserver les ressources pour des configurations plus prometteuses.
 
@@ -408,9 +398,7 @@ Les onglets ci-dessous montrent comment spécifier un nombre minimal ou maximal 
   </Tab>
 </Tabs>
 
-<div id="macro-and-custom-command-arguments-example">
-  ### Exemple de macros et d&#39;arguments de ligne de commande personnalisés
-</div>
+### Exemple de macros et d&#39;arguments de ligne de commande personnalisés {#macro-and-custom-command-arguments-example}
 
 Cet exemple montre comment construire la commande que l&#39;agent de balayage exécute pour chaque essai lorsque vous avez besoin d&#39;un contrôle plus précis que celui fourni par l&#39;invocation par défaut.
 
@@ -468,9 +456,7 @@ with wandb.init(project="test-project") as run:
 
 Voir la section [Macros de commande](/fr/models/sweeps/sweep-config-keys#command-macros) de [Sweep configuration options](/fr/models/sweeps/sweep-config-keys) pour consulter la liste des macros prédéfinies que vous pouvez utiliser dans votre configuration de balayage.
 
-<div id="boolean-arguments">
-  #### Arguments booléens
-</div>
+#### Arguments booléens {#boolean-arguments}
 
 Si votre balayage transmet des indicateurs booléens via des arguments de commande, votre script d’entraînement nécessite une gestion supplémentaire, car `argparse` n’interprète pas les chaînes booléennes par défaut.
 

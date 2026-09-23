@@ -7,9 +7,7 @@ no_list: true
 
 W&amp;B の Global Functions は、`wandb.init()` や `wandb.login()` のように直接呼び出せるトップレベル関数です。特定のクラスに属する method とは異なり、これらの関数を使えば、オブジェクトを事前にインスタンス化しなくても W&amp;B の中核機能に直接アクセスできます。
 
-<div id="available-functions">
-  ## 利用可能な関数
-</div>
+## 利用可能な関数 {#available-functions}
 
 | Function                                                  | Description                                                              |
 | --------------------------------------------------------- | ------------------------------------------------------------------------ |
@@ -23,9 +21,7 @@ W&amp;B の Global Functions は、`wandb.init()` や `wandb.login()` のよう�
 | [`restore()`](/ja/models/ref/python/functions/restore)       | 以前の run または実験の状態を復元して、作業を再開します。                                          |
 | [`finish()`](/ja/models/ref/python/functions/finish)         | run を終了し、リソースをクリーンアップします。                                                |
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 最も一般的なワークフローは、W&amp;B で認証し、run を初期化して、トレーニングループから値 (accuracy や損失など) をログすることから始まります。最初のステップは、`wandb` をインポートし、Global Functions の `login()` と `init()` を使用することです。
 

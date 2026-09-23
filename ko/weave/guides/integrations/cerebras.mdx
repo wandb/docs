@@ -6,9 +6,7 @@ keywords: ["Cerebras 추론", "LLM 관측성", "llama3.1", "Weave ops"]
 
 Weave는 [Cerebras Cloud SDK](https://inference-docs.cerebras.ai/introduction)를 통해 이루어진 LLM 호출을 자동으로 추적하고 로깅합니다.&quot;
 
-<div id="traces">
-  ## 트레이스
-</div>
+## 트레이스 {#traces}
 
 LLM 호출 추적은 디버깅과 성능 모니터링에 매우 중요합니다. Weave는 Cerebras Cloud SDK의 트레이스를 자동으로 캡처하여 이를 지원합니다.
 
@@ -40,9 +38,7 @@ print(response.choices[0].message.content)
 
 [![Cerebras LLM 호출을 보여주는 Weave 트레이스 뷰](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
 
-<div id="wrap-with-your-own-ops">
-  ## 자신만의 ops로 래핑하기
-</div>
+## 자신만의 ops로 래핑하기 {#wrap-with-your-own-ops}
 
 Weave Ops는 코드 버전을 자동으로 관리하고 입력과 출력을 캡처해 실험의 재현성과 추적 가능성을 높여 줍니다. 다음은 Cerebras SDK와 함께 Weave Ops를 사용하는 예시입니다:
 
@@ -72,9 +68,7 @@ animal_speedster("ostrich", "llama3.1-8b")
 animal_speedster("human", "llama3.1-8b")
 ```
 
-<div id="create-a-model-for-easier-experimentation">
-  ## 더 쉽게 실험할 수 있도록 `Model` 만들기
-</div>
+## 더 쉽게 실험할 수 있도록 `Model` 만들기 {#create-a-model-for-easier-experimentation}
 
 Weave의 [Model](/ko/weave/guides/core-types/models) 클래스는 앱의 여러 반복 버전을 정리하고 비교하는 데 도움이 됩니다. 이는 Cerebras 모델로 실험할 때 유용합니다. 다음은 예시입니다:
 

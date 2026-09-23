@@ -7,49 +7,35 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/weaveClient.ts#L519" />
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="projectid">
-  ### projectId
-</div>
+### projectId {#projectid}
 
 > **projectId** : `string`
 
 ***
 
-<div id="settings">
-  ### settings
-</div>
+### settings {#settings}
 
 > **settings** : `object`
 
-<div id="attributes">
-  #### attributes
-</div>
+#### attributes {#attributes}
 
 > `readonly` **attributes**: `Record`&lt;`string`, `any`&gt;
 
 Un ensemble d&#39;attributs appliqués à chaque trace produite par ce client.
 
-<div id="genai">
-  #### genai
-</div>
+#### genai {#genai}
 
 > `readonly` **genai** : `objet`
 
-<div id="genaibatchoptions">
-  ##### genai.batchOptions
-</div>
+##### genai.batchOptions {#genaibatchoptions}
 
 > `optional` **batchOptions** : `BufferConfig`
 
 Configuration de `BatchSpanProcessor`. Ignorée sauf si `spanProcessor === 'batch'`.
 
-<div id="genaispanprocessor">
-  ##### genai.spanProcessor
-</div>
+##### genai.spanProcessor {#genaispanprocessor}
 
 > `optional` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
 
@@ -64,73 +50,53 @@ Mode d&#39;export des spans GenAI.
   gère son cycle de vie ; l&#39;exporter OTLP de Weave ciblant `/agents/otel/v1/traces`
   n&#39;est pas utilisé.
 
-<div id="printcalllink">
-  #### printCallLink
-</div>
+#### printCallLink {#printcalllink}
 
 > `readonly` **printCallLink**: `boolean`
 
 Affiche dans le terminal les liens vers l&#39;interface Weave pour les ops.
 
-<div id="default">
-  ##### Par défaut
-</div>
+##### Par défaut {#default}
 
 `true`
 
-<div id="usecallscomplete">
-  #### useCallsComplete
-</div>
+#### useCallsComplete {#usecallscomplete}
 
 > **useCallsComplete** : `boolean`
 
 Envoie les appels terminés au point de terminaison `calls/complete` (début et fin
 appariés côté client) au lieu de l&#39;ancien chemin `call/upsert_batch`.
 
-<div id="default-2">
-  ##### Par défaut
-</div>
+##### Par défaut {#default-2}
 
 `true`
 
-<div id="useotelv2">
-  #### useOTelV2
-</div>
+#### useOTelV2 {#useotelv2}
 
 > **useOTelV2** : `boolean`
 
 Achemine les intégrations compatibles OTel via leur variante OTel.
 
-<div id="default-3">
-  ##### Par défaut
-</div>
+##### Par défaut {#default-3}
 
 `true`
 
 ***
 
-<div id="traceserverapi">
-  ### traceServerApi
-</div>
+### traceServerApi {#traceserverapi}
 
 > **traceServerApi**: `Api`&lt;`any`&gt;
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="addscore">
-  ### addScore()
-</div>
+### addScore() {#addscore}
 
 > **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`) : `Promise`&lt;`string`&gt;
 
 Ajoute le résultat d’un scorer (par exemple, sa sortie) à un appel.
 Utilisé dans une évaluation impérative pour joindre les résultats du scorer aux appels de prédiction.
 
-<div id="parameters">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters}
 
 <ParamField path="predictCallId" type="string" required>
   ID de l&#39;appel predict auquel joindre le feedback
@@ -148,23 +114,17 @@ Utilisé dans une évaluation impérative pour joindre les résultats du scorer 
   Sortie du scorer
 </ParamField>
 
-<div id="returns">
-  #### Renvoie
-</div>
+#### Renvoie {#returns}
 
 `Promise`&lt;`string`&gt;
 
 ***
 
-<div id="createcall">
-  ### createCall()
-</div>
+### createCall() {#createcall}
 
 > **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`, `eagerCallStart?`) : `Promise`&lt;`void`&gt;
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="internalCall" type="InternalCall" required />
 
@@ -202,23 +162,17 @@ Utilisé dans une évaluation impérative pour joindre les résultats du scorer 
 
 <ParamField path="eagerCallStart" type="boolean = false" />
 
-<div id="returns-2">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-2}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="finishcall">
-  ### finishCall()
-</div>
+### finishCall() {#finishcall}
 
 > **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-<div id="parameters-3">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-3}
 
 <ParamField path="call" type="InternalCall" required />
 
@@ -248,23 +202,17 @@ Utilisé dans une évaluation impérative pour joindre les résultats du scorer 
 
 <ParamField path="startCallPromise" type="Promise<void>" required />
 
-<div id="returns-3">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-3}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="finishcallwithexception">
-  ### finishCallWithException()
-</div>
+### finishCallWithException() {#finishcallwithexception}
 
 > **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`&lt;`void`&gt;
 
-<div id="parameters-4">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-4}
 
 <ParamField path="call" type="InternalCall" required />
 
@@ -292,55 +240,41 @@ Utilisé dans une évaluation impérative pour joindre les résultats du scorer 
 
 <ParamField path="startCallPromise" type="Promise<void>" required />
 
-<div id="returns-4">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-4}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="flush">
-  ### flush()
-</div>
+### flush() {#flush}
 
 > **flush**(): `Promise`&lt;`void`&gt;
 
 Transmet au serveur tous les appels mis en mémoire tampon. À attendre avant `process.exit()`.
 
-<div id="returns-5">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-5}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="get">
-  ### get()
-</div>
+### get() {#get}
 
 > **get**(`ref`) : `Promise`&lt;`any`&gt;
 
-<div id="parameters-5">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-5}
 
 <ParamField path="ref" type="ObjectRef" required>
   Voir [`ObjectRef`](../classes/objectref).
 </ParamField>
 
-<div id="returns-6">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-6}
 
 `Promise`&lt;`any`&gt;
 
 ***
 
-<div id="getagentcustomattributes">
-  ### getAgentCustomAttributes()
-</div>
+### getAgentCustomAttributes() {#getagentcustomattributes}
 
 > **getAgentCustomAttributes**(`options`): `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
@@ -353,9 +287,7 @@ Filtrez les spans pris en compte en transmettant `query` (un filtre de span
 structuré), `startedAfter` / `startedBefore` (ISO-8601), ou les deux. Utilisez
 `limit` / `offset` pour parcourir les clés découvertes par pages.
 
-<div id="parameters-6">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-6}
 
 <ParamField path="options" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -399,15 +331,11 @@ structuré), `startedAfter` / `startedBefore` (ISO-8601), ou les deux. Utilisez
   </Expandable>
 </ParamField>
 
-<div id="returns-7">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-7}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `attributes?`: `object`[]; `has_more?`: `boolean`; `limit?`: `number`; `offset?`: `number`; &#125;&gt;&gt;
 
-<div id="example">
-  #### Exemple
-</div>
+#### Exemple {#example}
 
 ```ts twoslash
 // @noErrors
@@ -429,31 +357,23 @@ for (const attr of resp.data.attributes ?? []) {
 
 ***
 
-<div id="getagents">
-  ### getAgents()
-</div>
+### getAgents() {#getagents}
 
 > **getAgents**(`options?`): `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
 
 Répertorie les agents avec des statistiques agrégées.
 
-<div id="parameters-7">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-7}
 
 <ParamField path="options" type="GetAgentsOptions = {}">
   Voir [`GetAgentsOptions`](./getagentsoptions).
 </ParamField>
 
-<div id="returns-8">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-8}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentsResult`](../type-aliases/getagentsresult)&gt;&gt;
 
-<div id="example-2">
-  #### Exemple
-</div>
+#### Exemple {#example-2}
 
 ```ts twoslash
 // @noErrors
@@ -469,31 +389,23 @@ console.log(`total count: ${resp.data.total_count}`)
 
 ***
 
-<div id="getagentspans">
-  ### getAgentSpans()
-</div>
+### getAgentSpans() {#getagentspans}
 
 > **getAgentSpans**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
 
 Interroge les spans d’agent, éventuellement filtrés par nom d’agent et/ou par une expression de requête de type Mongo.
 
-<div id="parameters-8">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-8}
 
 <ParamField path="options" type="GetAgentSpansOptions" required>
   Voir [`GetAgentSpansOptions`](./getagentspansoptions).
 </ParamField>
 
-<div id="returns-9">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-9}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentSpansResult`](../type-aliases/getagentspansresult)&gt;&gt;
 
-<div id="examples">
-  #### Exemples
-</div>
+#### Exemples {#examples}
 
 ```ts twoslash
 // @noErrors
@@ -523,9 +435,7 @@ for (const span of resp.data.spans) {
 
 ***
 
-<div id="getagentspanstats">
-  ### getAgentSpanStats()
-</div>
+### getAgentSpanStats() {#getagentspanstats}
 
 > **getAgentSpanStats**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
 
@@ -539,9 +449,7 @@ regrouper les lignes par intervalle temporel, ou `groupBy` pour ventiler les ré
 provider / model / etc. `query` filtre les spans sous-jacents avant
 l’agrégation.
 
-<div id="parameters-9">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-9}
 
 <ParamField path="options" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -570,15 +478,11 @@ l’agrégation.
   </Expandable>
 </ParamField>
 
-<div id="returns-10">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-10}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `bucket_type?`: `"number"` | `"time"`; `columns?`: `object`[]; `end`: `string`; `granularity?`: `number` | `null`; `rows?`: `Record`&lt;`string`, `string` | `number` | `boolean` | `null`&gt;[]; `start`: `string`; `timezone`: `string`; &#125;&gt;&gt;
 
-<div id="example-3">
-  #### Exemple
-</div>
+#### Exemple {#example-3}
 
 ```ts twoslash
 // @noErrors
@@ -605,31 +509,23 @@ for (const row of resp.data.rows ?? []) {
 
 ***
 
-<div id="getagentturn">
-  ### getAgentTurn()
-</div>
+### getAgentTurn() {#getagentturn}
 
 > **getAgentTurn**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
 Obtient les données (y compris les messages) d&#39;un seul tour de conversation (par traceId).
 
-<div id="parameters-10">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-10}
 
 <ParamField path="options" type="GetAgentTurnOptions" required>
   Voir [`GetAgentTurnOptions`](./getagentturnoptions).
 </ParamField>
 
-<div id="returns-11">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-11}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `agent_name?`: `string` | `null`; `agent_version?`: `string` | `null`; `feedback?`: `Record`&lt;`string`, `any`&gt;[] | `null`; `messages?`: `object`[]; `provider?`: `string` | `null`; `root_span_name?`: `string` | `null`; `status_code?`: `"UNSET"` | `"OK"` | `"ERROR"` | `null`; `total_cost_usd?`: `number` | `null`; `total_duration_ms?`: `number` | `null`; `trace_id`: `string`; &#125;&gt;&gt;
 
-<div id="example-4">
-  #### Exemple
-</div>
+#### Exemple {#example-4}
 
 ```ts twoslash
 // @noErrors
@@ -649,31 +545,23 @@ for (const message of resp.data.messages ?? []) {
 
 ***
 
-<div id="getagentturns">
-  ### getAgentTurns()
-</div>
+### getAgentTurns() {#getagentturns}
 
 > **getAgentTurns**(`options`): `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
 
 Obtenir les données (y compris les messages) de nombreux tours de conversation (par conversationId).
 
-<div id="parameters-11">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-11}
 
 <ParamField path="options" type="GetAgentTurnsOptions" required>
   Voir [`GetAgentTurnsOptions`](./getagentturnsoptions).
 </ParamField>
 
-<div id="returns-12">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-12}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentTurnsResult`](../type-aliases/getagentturnsresult)&gt;&gt;
 
-<div id="example-5">
-  #### Exemple
-</div>
+#### Exemple {#example-5}
 
 ```ts twoslash
 // @noErrors
@@ -697,31 +585,23 @@ console.log(`total turns: ${resp.data.total_turns}, has more: ${resp.data.has_mo
 
 ***
 
-<div id="getagentversions">
-  ### getAgentVersions()
-</div>
+### getAgentVersions() {#getagentversions}
 
 > **getAgentVersions**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
 
 Liste les versions d’un agent donné.
 
-<div id="parameters-12">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-12}
 
 <ParamField path="options" type="GetAgentVersionsOptions" required>
   Voir [`GetAgentVersionsOptions`](./getagentversionsoptions).
 </ParamField>
 
-<div id="returns-13">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-13}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;[`GetAgentVersionsResult`](../type-aliases/getagentversionsresult)&gt;&gt;
 
-<div id="example-6">
-  #### Exemple
-</div>
+#### Exemple {#example-6}
 
 ```ts twoslash
 // @noErrors
@@ -737,61 +617,43 @@ console.log(`total count: ${resp.data.total_count}`)
 
 ***
 
-<div id="getcall">
-  ### getCall()
-</div>
+### getCall() {#getcall}
 
 > **getCall**(`callId`, `includeCosts?`): `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
-<div id="parameters-13">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-13}
 
 <ParamField path="callId" type="string" required />
 
 <ParamField path="includeCosts" type="boolean = false" />
 
-<div id="returns-14">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-14}
 
 `Promise`&lt;&#123; `attributes`: `Record`&lt;`string`, `any`&gt;; `deleted_at?`: `string` | `null`; `display_name?`: `string` | `null`; `ended_at?`: `string` | `null`; `exception?`: `string` | `null`; `expire_at?`: `string` | `null`; `id`: `string`; `inputs`: `Record`&lt;`string`, `any`&gt;; `op_name`: `string`; `output?`: `null`; `parent_id?`: `string` | `null`; `project_id`: `string`; `started_at`: `string`; `storage_size_bytes?`: `number` | `null`; `summary?`: `Record`&lt;`string`, `any`&gt;; `thread_id?`: `string` | `null`; `total_storage_size_bytes?`: `number` | `null`; `trace_id`: `string`; `turn_id?`: `string` | `null`; `wb_run_id?`: `string` | `null`; `wb_run_step?`: `number` | `null`; `wb_run_step_end?`: `number` | `null`; `wb_user_id?`: `string` | `null`; `wb_username?`: `string` | `null`; `setDisplayName`: `Promise`&lt;`void`&gt;; &#125;&gt;
 
 ***
 
-<div id="getcalls">
-  ### getCalls()
-</div>
+### getCalls() {#getcalls}
 
-<div id="call-signature">
-  #### Signature de l’appel
-</div>
+#### Signature de l’appel {#call-signature}
 
 > **getCalls**(`options?`): `Promise`&lt;`objet`[]&gt;
 
-<div id="parameters-14">
-  ##### Paramètres
-</div>
+##### Paramètres {#parameters-14}
 
 <ParamField path="options" type="GetCallsOptions">
   Voir [`GetCallsOptions`](./getcallsoptions).
 </ParamField>
 
-<div id="returns-15">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-15}
 
 `Promise`&lt;`objet`[]&gt;
 
-<div id="call-signature-2">
-  #### Signature de l’appel
-</div>
+#### Signature de l’appel {#call-signature-2}
 
 > **getCalls**(`options?`, `includeCosts?`, `limit?`): `Promise`&lt;`objet`[]&gt;
 
-<div id="parameters-15">
-  ##### Paramètres
-</div>
+##### Paramètres {#parameters-15}
 
 <ParamField path="options" type="CallsFilter">
   Voir [`CallsFilter`](./callsfilter).
@@ -801,27 +663,19 @@ console.log(`total count: ${resp.data.total_count}`)
 
 <ParamField path="limit" type="number" />
 
-<div id="returns-16">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-16}
 
 `Promise`&lt;`objet`[]&gt;
 
 ***
 
-<div id="getcallsiterator">
-  ### getCallsIterator()
-</div>
+### getCallsIterator() {#getcallsiterator}
 
-<div id="call-signature-3">
-  #### Signature de l’appel
-</div>
+#### Signature de l’appel {#call-signature-3}
 
 > **getCallsIterator**(`options?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-<div id="parameters-16">
-  ##### Paramètres
-</div>
+##### Paramètres {#parameters-16}
 
 <ParamField path="options" type="CallsFilter">
   Voir [`CallsFilter`](./callsfilter).
@@ -831,73 +685,53 @@ console.log(`total count: ${resp.data.total_count}`)
 
 <ParamField path="limit" type="number" />
 
-<div id="returns-17">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-17}
 
 `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-<div id="call-signature-4">
-  #### Signature d’appel
-</div>
+#### Signature d’appel {#call-signature-4}
 
 > **getCallsIterator**(`options?`): `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
-<div id="parameters-17">
-  ##### Paramètres
-</div>
+##### Paramètres {#parameters-17}
 
 <ParamField path="options" type="GetCallsOptions">
   Voir [`GetCallsOptions`](./getcallsoptions).
 </ParamField>
 
-<div id="returns-18">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-18}
 
 `AsyncIterableIterator`&lt;[`CallSchema`](./callschema)&gt;
 
 ***
 
-<div id="getcallstack">
-  ### getCallStack()
-</div>
+### getCallStack() {#getcallstack}
 
 > **getCallStack**(): `CallStack`
 
-<div id="returns-19">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-19}
 
 `CallStack`
 
 ***
 
-<div id="getcurrentattributes">
-  ### getCurrentAttributes()
-</div>
+### getCurrentAttributes() {#getcurrentattributes}
 
 > **getCurrentAttributes**(): `Record`&lt;`string`, `any`&gt;
 
-<div id="returns-20">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-20}
 
 `Record`&lt;`string`, `any`&gt;
 
 ***
 
-<div id="linkprompttoregistry">
-  ### linkPromptToRegistry()
-</div>
+### linkPromptToRegistry() {#linkprompttoregistry}
 
 > **linkPromptToRegistry**(`prompt`, `options`): `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
 
 Associe une version publiée d’un prompt à un portefeuille de registre.
 
-<div id="parameters-18">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-18}
 
 <ParamField path="prompt" type="string | ObjectRef | Prompt" required>
   Voir [`ObjectRef`](../classes/objectref).
@@ -911,92 +745,66 @@ Associe une version publiée d’un prompt à un portefeuille de registre.
   </Expandable>
 </ParamField>
 
-<div id="returns-21">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-21}
 
 `Promise`&lt;&#123; `version_index`: `number` | `null`; &#125;&gt;
 
 ***
 
-<div id="pendingcallcount">
-  ### pendingCallCount()
-</div>
+### pendingCallCount() {#pendingcallcount}
 
 > **pendingCallCount**(): `number`
 
 Appels mis en mémoire tampon côté client, mais pas encore transmis au serveur.
 
-<div id="returns-22">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-22}
 
 `number`
 
 ***
 
-<div id="publish">
-  ### publish()
-</div>
+### publish() {#publish}
 
 > **publish**(`obj`, `objId?`): `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
 
-<div id="parameters-19">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-19}
 
 <ParamField path="obj" type="any" required />
 
 <ParamField path="objId" type="string" />
 
-<div id="returns-23">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-23}
 
 `Promise`&lt;[`ObjectRef`](../classes/objectref)&gt;
 
 ***
 
-<div id="pushnewcall">
-  ### pushNewCall()
-</div>
+### pushNewCall() {#pushnewcall}
 
 > **pushNewCall**() : `objet`
 
-<div id="returns-24">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-24}
 
 `objet`
 
 <ResponseField name="currentCall" type="objet" required>
-  <div id="currentcallcallid">
-    ###### currentCall.callId
-  </div>
+  ###### currentCall.callId {#currentcallcallid}
 
   > **callId**: `string`
 
-  <div id="currentcallchildsummary">
-    ###### currentCall.childSummary
-  </div>
+  ###### currentCall.childSummary {#currentcallchildsummary}
 
   > **childSummary**: `Record`&lt;`string`, `any`&gt;
 
-  <div id="currentcalldisplayname">
-    ###### currentCall.displayName
-  </div>
+  ###### currentCall.displayName {#currentcalldisplayname}
 
   > `optional` **displayName**: `string`
 
-  <div id="currentcallopname">
-    ###### currentCall.opName
-  </div>
+  ###### currentCall.opName {#currentcallopname}
 
   > `optional` **opName**: `string`
 
-  <div id="currentcalltraceid">
-    ###### currentCall.traceId
-  </div>
+  ###### currentCall.traceId {#currentcalltraceid}
 
   > **traceId**: `string`
 </ResponseField>
@@ -1004,148 +812,106 @@ Appels mis en mémoire tampon côté client, mais pas encore transmis au serveur
 <ResponseField name="newStack" type="CallStack" required />
 
 <ResponseField name="parentCall" type="objet">
-  <div id="parentcallcallid">
-    ###### parentCall.callId
-  </div>
+  ###### parentCall.callId {#parentcallcallid}
 
   > **callId**: `string`
 
-  <div id="parentcallchildsummary">
-    ###### parentCall.childSummary
-  </div>
+  ###### parentCall.childSummary {#parentcallchildsummary}
 
   > **childSummary**: `Record`&lt;`string`, `any`&gt;
 
-  <div id="parentcalldisplayname">
-    ###### parentCall.displayName
-  </div>
+  ###### parentCall.displayName {#parentcalldisplayname}
 
   > `optional` **displayName**: `string`
 
-  <div id="parentcallopname">
-    ###### parentCall.opName
-  </div>
+  ###### parentCall.opName {#parentcallopname}
 
   > `optional` **opName**: `string`
 
-  <div id="parentcalltraceid">
-    ###### parentCall.traceId
-  </div>
+  ###### parentCall.traceId {#parentcalltraceid}
 
   > **traceId**: `string`
 </ResponseField>
 
 ***
 
-<div id="registercustomruntime">
-  ### registerCustomRuntime()
-</div>
+### registerCustomRuntime() {#registercustomruntime}
 
 > **registerCustomRuntime**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `objet`[]; &#125;&gt;&gt;
 
 Enregistre un environnement d’exécution personnalisé, en remplaçant l’intégralité de sa configuration s’il existe déjà.
 
-<div id="parameters-20">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-20}
 
 <ParamField path="options" type="RegisterCustomRuntimeOptions" required>
   Voir [`RegisterCustomRuntimeOptions`](./registercustomruntimeoptions).
 </ParamField>
 
-<div id="returns-25">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-25}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `api_key_secret`: `string` | `null`; `base_url`: `string`; `headers`: `Record`&lt;`string`, `string`&gt;; `name`: `string`; `runtime_ids`: `object`[]; &#125;&gt;&gt;
 
 ***
 
-<div id="runwithattributes">
-  ### runWithAttributes()
-</div>
+### runWithAttributes() {#runwithattributes}
 
 > **runWithAttributes**&lt;`T`&gt;(`attributes`, `fn`): `T`
 
-<div id="type-parameters">
-  #### Paramètres de type
-</div>
+#### Paramètres de type {#type-parameters}
 
 <ParamField path="T" />
 
-<div id="parameters-21">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-21}
 
 <ParamField path="attributes" type="Record<string, any>" required />
 
 <ParamField path="fn" type="() => T" required />
 
-<div id="returns-26">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-26}
 
 `T`
 
 ***
 
-<div id="runwithcallstack">
-  ### runWithCallStack()
-</div>
+### runWithCallStack() {#runwithcallstack}
 
 > **runWithCallStack**&lt;`T`&gt;(`callStack`, `fn`) : `T`
 
-<div id="type-parameters-2">
-  #### Paramètres de type
-</div>
+#### Paramètres de type {#type-parameters-2}
 
 <ParamField path="T" />
 
-<div id="parameters-22">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-22}
 
 <ParamField path="callStack" type="CallStack" required />
 
 <ParamField path="fn" type="() => T" required />
 
-<div id="returns-27">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-27}
 
 `T`
 
 ***
 
-<div id="savecallend">
-  ### saveCallEnd()
-</div>
+### saveCallEnd() {#savecallend}
 
 > **saveCallEnd**(`callEnd`) : `void`
 
-<div id="parameters-23">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-23}
 
 <ParamField path="callEnd" type="objet & objet" required />
 
-<div id="returns-28">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-28}
 
 `void`
 
 ***
 
-<div id="savecallstart">
-  ### saveCallStart()
-</div>
+### saveCallStart() {#savecallstart}
 
 > **saveCallStart**(`callStart`, `opts?`) : `void`
 
-<div id="parameters-24">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-24}
 
 <ParamField path="callStart" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -1222,23 +988,17 @@ Enregistre un environnement d’exécution personnalisé, en remplaçant l’int
   </Expandable>
 </ParamField>
 
-<div id="returns-29">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-29}
 
 `void`
 
 ***
 
-<div id="saveop">
-  ### saveOp()
-</div>
+### saveOp() {#saveop}
 
 > **saveOp**(`op`, `objId?`): `Promise`&lt;`OpRef`&gt;
 
-<div id="parameters-25">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-25}
 
 <ParamField path="op" type="Op<(...args) => any>" required>
   Voir [`Op`](../type-aliases/op).
@@ -1246,17 +1006,13 @@ Enregistre un environnement d’exécution personnalisé, en remplaçant l’int
 
 <ParamField path="objId" type="string" />
 
-<div id="returns-30">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-30}
 
 `Promise`&lt;`OpRef`&gt;
 
 ***
 
-<div id="searchagents">
-  ### searchAgents()
-</div>
+### searchAgents() {#searchagents}
 
 > **searchAgents**(`options`) : `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `results`: `objet`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
 
@@ -1268,9 +1024,7 @@ tous les messages correspondant aux filtres structurés (`agentName`,
 `conversationId`, `traceId`) sans effectuer de recherche textuelle. Utilisez `limit` /
 `offset` pour parcourir les résultats page par page.
 
-<div id="parameters-26">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-26}
 
 <ParamField path="options" type="objet" required>
   <Expandable title="propriétés" defaultOpen>
@@ -1318,15 +1072,11 @@ tous les messages correspondant aux filtres structurés (`agentName`,
   </Expandable>
 </ParamField>
 
-<div id="returns-31">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-31}
 
 `Promise`&lt;[`Réponse`](../type-aliases/response)&lt;&#123; `results`: `objet`[]; `total_conversations?`: `number`; &#125;&gt;&gt;
 
-<div id="example-7">
-  #### Exemple
-</div>
+#### Exemple {#example-7}
 
 ```ts twoslash
 // @noErrors
@@ -1349,9 +1099,7 @@ console.log(`total conversations: ${resp.data.total_conversations}`);
 
 ***
 
-<div id="serializeaudio">
-  ### serializeAudio()
-</div>
+### serializeAudio() {#serializeaudio}
 
 > **serializeAudio**(`data`, `audioType?`): `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
@@ -1361,9 +1109,7 @@ Téléverse des octets audio bruts vers le magasin de contenu Weave et renvoie l
 Utilisez cette méthode lorsque vous créez manuellement des sorties d’appel (par ex. via `saveCallEnd`)
 et que le pipeline de sérialisation automatique de `finishCall` n’est pas utilisé.
 
-<div id="parameters-27">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-27}
 
 <ParamField path="data" type="Buffer" required>
   Données audio brutes (WAV pour une compatibilité optimale avec les navigateurs)
@@ -1373,44 +1119,32 @@ et que le pipeline de sérialisation automatique de `finishCall` n’est pas uti
   Format de fichier — seul &#39;wav&#39; est actuellement pris en charge
 </ParamField>
 
-<div id="returns-32">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-32}
 
 `Promise`&lt;&#123; `_type`: `"CustomWeaveType"`; `files`: `Record`&lt;`string`, `string`&gt;; `load_op`: `string`; `weave_type`: &#123; `type`: `string`; &#125;; &#125;&gt;
 
 ***
 
-<div id="updatecall">
-  ### updateCall()
-</div>
+### updateCall() {#updatecall}
 
 > **updateCall**(`callId`, `displayName`) : `Promise`&lt;`void`&gt;
 
-<div id="parameters-28">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-28}
 
 <ParamField path="callId" type="string" required />
 
 <ParamField path="displayName" type="string" required />
 
-<div id="returns-33">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-33}
 
 `Promise`&lt;`void`&gt;
 
 ***
 
-<div id="waitforbatchprocessing">
-  ### waitForBatchProcessing()
-</div>
+### waitForBatchProcessing() {#waitforbatchprocessing}
 
 > **waitForBatchProcessing**(): `Promise`&lt;`void`&gt;
 
-<div id="returns-34">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-34}
 
 `Promise`&lt;`void`&gt;

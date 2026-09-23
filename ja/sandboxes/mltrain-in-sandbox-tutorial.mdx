@@ -15,9 +15,7 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
 
 このチュートリアルを完了すると、トレーニング済みの PyTorch モデルファイルがローカルに保存されます。これにより、ローカルのインフラストラクチャーを構成しなくても、Serverless Sandbox を使用して分離された ML トレーニング ワークロードを実行する方法を確認できます。このチュートリアルは、再現可能なトレーニング ジョブ向けに Serverless Sandboxes を評価したい ML 実務者や開発者を対象としています。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 始める前に、以下のセットアップ手順を完了してください。
 
@@ -30,9 +28,7 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
   source venv/bin/activate  # Windows では `venv\Scripts\activate` を使用します
   ```  */}
 
-<div id="install-the-wb-python-sdk">
-  ### W&amp;B Python SDK をインストール
-</div>
+### W&amp;B Python SDK をインストール {#install-the-wb-python-sdk}
 
 W&amp;B Python SDK は、後で Serverless Sandbox を作成して操作する際に使用する `Sandbox` インターフェースを提供します。`pip` を使用してインストールします:
 
@@ -40,9 +36,7 @@ W&amp;B Python SDK は、後で Serverless Sandbox を作成して操作する�
 pip install wandb
 ```
 
-<div id="log-in-and-authenticate-with-wb">
-  ### W&amp;B にログインして認証する
-</div>
+### W&amp;B にログインして認証する {#log-in-and-authenticate-with-wb}
 
 W&amp;B Serverless Sandboxes はお使いの W&amp;B アカウントで実行されるため、作成する前に認証する必要があります。`wandb login` CLI コマンドを実行し、表示される案内に従ってログインします。
 
@@ -52,9 +46,7 @@ wandb login
 
 W&amp;B が認証情報をどのように検索するかについて詳しくは、[`wandb login`](/ja/models/ref/cli/wandb-login) のリファレンスドキュメントを参照してください。
 
-<div id="copy-the-training-script-and-dependencies">
-  ## トレーニングスクリプトと依存関係をコピーする
-</div>
+## トレーニングスクリプトと依存関係をコピーする {#copy-the-training-script-and-dependencies}
 
 このチュートリアルに必要な 3 つのファイル (requirements ファイル、ハイパーパラメーター ファイル、トレーニングスクリプト) を用意します。次のドロップダウンを展開し、各コードサンプルをこのチュートリアルと同じディレクトリ内の別々のファイルにコピーしてください。
 
@@ -192,9 +184,7 @@ W&amp;B が認証情報をどのように検索するかについて詳しくは
   ```
 </Accordion>
 
-<div id="create-the-sandbox-and-run-the-training-script">
-  ## サンドボックスを作成してトレーニングスクリプトを実行する
-</div>
+## サンドボックスを作成してトレーニングスクリプトを実行する {#create-the-sandbox-and-run-the-training-script}
 
 トレーニングファイルの準備ができたら、1 つの Python スクリプトから W&amp;B Serverless Sandbox を作成して管理します。次のコードスニペットでは、サンドボックスを作成し、その中にトレーニングスクリプトと依存関係をコピーし、トレーニングスクリプトを実行して、生成されたモデルファイルをダウンロードする方法を示します。次のセクションでは、このコードを1行ずつ説明します。
 

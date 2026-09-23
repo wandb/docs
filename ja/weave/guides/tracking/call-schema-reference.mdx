@@ -6,9 +6,7 @@ keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
 
 このリファレンスでは、W&amp;B Weave における Call オブジェクトのスキーマについて説明します。これには、プロパティ、実行中に `summary` 辞書にカスタムデータを書き込む方法、Call の完了後に summary データを読み取る方法が含まれます。各 Call について Weave が記録するデータを調べたり、フィルターしたり、拡張したりする必要がある場合は、このページを参照してください。Call をクエリする方法については、[Call のクエリとエクスポート](/ja/weave/guides/tracking/querying-calls)を参照してください。
 
-<div id="call-properties">
-  ## Call のプロパティ
-</div>
+## Call のプロパティ {#call-properties}
 
 以下の表は、Weave における Call の主要なプロパティを示しています。実装の詳細については、以下を参照してください。
 
@@ -34,9 +32,7 @@ keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
 | `wb_run_id`    | Optional[str]        | 関連付けられた W&amp;B run ID                   |
 | `deleted_at`   | datetime (optional)  | 該当する場合、Call が削除されたタイムスタンプ                |
 
-<div id="property-details">
-  ## プロパティの詳細
-</div>
+## プロパティの詳細 {#property-details}
 
 `CallSchema` のプロパティは、Call のトラッキングと管理に役立ちます。
 
@@ -47,9 +43,7 @@ keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
 
 これらのプロパティにより、project 全体を通じて Call の詳細なトラッキングと分析が可能になります。
 
-<div id="use-call-summary">
-  ## Call summary を使用する
-</div>
+## Call summary を使用する {#use-call-summary}
 
 `summary` プロパティを使用すると、実行後のカスタムデータを Call に追加でき、後で Weave に組み込まれているメトリクスとあわせて分析できます。これは、Call の実行中に書き込める辞書です。Call が終了すると、Weave はユーザーが設定した値を独自に計算したデータとディープマージし、その結果を保存します。
 
@@ -69,9 +63,7 @@ Weave は、モデル応答に含まれる生の LLM トークン数も `summary
 | `costs`      | `summary["usage"]` とトークンの pricing データから導出される、モデルごとのコスト内訳です。[Track costs](/ja/weave/guides/tracking/costs) を参照してください。 |
 | `trace_name` | 人が読める形式の Op 名で、内部 Op 参照 URI から解析されます。表示やフィルターに使用されます。                                                             |
 
-<div id="write-during-a-call">
-  ### Call の実行中に書き込む
-</div>
+### Call の実行中に書き込む {#write-during-a-call}
 
 `summary` 辞書を使うと、Call の実行中にカスタムデータを追加できます。
 
@@ -115,9 +107,7 @@ Weave は、モデル応答に含まれる生の LLM トークン数も `summary
   </Tab>
 </Tabs>
 
-<div id="read-summary-data">
-  ### summary データを読み取る
-</div>
+### summary データを読み取る {#read-summary-data}
 
 `getCall` を使用して ID で単一の Call を取得するか、`getCalls` を使用して複数の Call を取得します。どちらの場合も、`summary` は同じマージ済みの辞書です。
 

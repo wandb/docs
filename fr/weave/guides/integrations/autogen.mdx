@@ -14,9 +14,7 @@ AutoGen est un framework de Microsoft permettant de créer des agents et des app
 
 Weave s&#39;intègre à [AutoGen](https://microsoft.github.io/autogen/stable/index.html) pour vous aider à suivre et à visualiser l&#39;exécution de vos applications multi-agents. Lorsque vous initialisez Weave, il suit automatiquement les interactions dans `autogen_agentchat`, `autogen_core` et `autogen_ext`. Ce guide vous explique comment configurer Weave avec AutoGen et présente des exemples détaillés couvrant les clients de modèle, les agents avec outils, les discussions de groupe, la mémoire, les flux de travail RAG, les runtimes d&#39;agents, les flux de travail séquentiels et les exécuteurs de code. À la fin, vous pourrez capturer des traces détaillées de vos applications AutoGen dans Weave afin de déboguer le comportement des agents, de surveiller l&#39;utilisation des LLM et de comprendre comment les agents interagissent dans des flux de travail complexes.
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, vous devez avoir AutoGen et Weave installés. Vous avez également besoin des SDK des fournisseurs de LLM que vous prévoyez d’utiliser (par exemple, OpenAI ou Anthropic).
 
@@ -33,9 +31,7 @@ os.environ["OPENAI_API_KEY"] = "[YOUR-OPENAI-API-KEY]"
 os.environ["ANTHROPIC_API_KEY"] = "[YOUR-ANTHROPIC-API-KEY]"
 ```
 
-<div id="basic-setup">
-  ## Configuration de base
-</div>
+## Configuration de base {#basic-setup}
 
 Initialisez Weave au début de votre script pour commencer à capturer des traces. Une fois Weave initialisé, il instrumente automatiquement les appels AutoGen dans le reste de votre script.
 
@@ -46,15 +42,11 @@ weave.init("autogen-demo")
 
 Après avoir exécuté cet extrait, Weave est configuré pour envoyer les traces au projet `autogen-demo` et capture automatiquement toute activité AutoGen ultérieure dans votre script.
 
-<div id="traces-for-a-model-client">
-  ## Traces d’un client de modèle
-</div>
+## Traces d’un client de modèle {#traces-for-a-model-client}
 
 Les sections suivantes décrivent comment Weave trace les appels adressés directement aux clients de modèle dans AutoGen, y compris les appels uniques, les réponses en streaming et les réponses mises en cache.
 
-<div id="traces-for-a-client-create-call">
-  ### Traces d’un appel à la méthode `create` du client
-</div>
+### Traces d’un appel à la méthode `create` du client {#traces-for-a-client-create-call}
 
 Cet exemple montre le tracing d’un appel à un `OpenAIChatCompletionClient`.
 
@@ -83,9 +75,7 @@ asyncio.run(simple_client_call())
 
 [![autogen-simple-client.png](/weave/guides/integrations/imgs/autogen/autogen-simple-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee09-8dcf-7b72-8cdc-7699608cd6ef%3FhideTraceTree%3D0)
 
-<div id="traces-for-a-client-create-call-with-streaming">
-  ### Traces pour un appel `create` du client avec streaming
-</div>
+### Traces pour un appel `create` du client avec streaming {#traces-for-a-client-create-call-with-streaming}
 
 Weave prend également en charge le Tracing des réponses en streaming.
 
@@ -104,9 +94,7 @@ asyncio.run(simple_client_call_stream())
 
 [![autogen-streaming-client.png](/weave/guides/integrations/imgs/autogen/autogen-streaming-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee0e-24be-7523-b15e-04f87c03ac68%3FhideTraceTree%3D0)
 
-<div id="traces-for-cached-client-calls">
-  ### Traces pour les appels client mis en cache
-</div>
+### Traces pour les appels client mis en cache {#traces-for-cached-client-calls}
 
 Vous pouvez utiliser `ChatCompletionCache` d’AutoGen ; Weave trace ces interactions et indique si une réponse provient du cache ou d’un nouvel appel.
 
@@ -133,9 +121,7 @@ asyncio.run(run_cache_client())
 
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
-<div id="traces-for-an-agent-with-tool-calls">
-  ## Traces pour un agent avec des appels d’outils
-</div>
+## Traces pour un agent avec des appels d’outils {#traces-for-an-agent-with-tool-calls}
 
 Cette section montre comment Weave assure le tracing des agents et de leur utilisation des outils, ce qui permet de voir comment les agents sélectionnent et exécutent les outils. L’exemple suivant définit un outil de météo et l’associe à un `AssistantAgent`.
 
@@ -167,9 +153,7 @@ asyncio.run(run_agent_with_tools())
 
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
-<div id="traces-for-a-round-robin-groupchat">
-  ## Traces pour un GroupChat round robin
-</div>
+## Traces pour un GroupChat round robin {#traces-for-a-round-robin-groupchat}
 
 Weave trace les interactions au sein des discussions de groupe, comme `RoundRobinGroupChat`, afin que vous puissiez suivre le fil de la conversation entre les agents. Pour regrouper tous les tours de conversation des agents sous une trace parente unique afin de faciliter l’inspection, encapsulez la fonction de discussion de groupe avec `@weave.op`. Cette étape est facultative, mais recommandée.
 
@@ -216,9 +200,7 @@ asyncio.run(run_round_robin_group_chat())
 
 [![round\_robin\_group\_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
 
-<div id="traces-for-memory">
-  ## Traces pour la mémoire
-</div>
+## Traces pour la mémoire {#traces-for-memory}
 
 Weave peut tracer les composants de mémoire d’AutoGen. Utilisez `@weave.op()` pour regrouper les opérations de mémoire dans une même trace afin d’en améliorer la lisibilité, de sorte que les appels d’ajout en mémoire ainsi que les appels de récupération en mémoire apparaissent avec l’exécution de l’agent qui les utilise.
 
@@ -277,9 +259,7 @@ asyncio.run(run_memory_agent())
 
 [![autogen-memory.png](/weave/guides/integrations/imgs/autogen/autogen-memory.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee18-28b6-7063-90df-77aaedf88dc9%3FhideTraceTree%3D0)
 
-<div id="traces-for-rag-workflows">
-  ## Traces pour les flux de travail RAG
-</div>
+## Traces pour les flux de travail RAG {#traces-for-rag-workflows}
 
 Weave peut tracer les flux de travail de Retrieval Augmented Generation (RAG), y compris l’indexation et la récupération de documents avec des systèmes de mémoire comme `ChromaDBVectorMemory`. Pour visualiser l’ensemble du flux afin que l’indexation, la récupération et l’appel LLM qui en résulte apparaissent ensemble dans une seule trace, ajoutez le décorateur `@weave.op()` au processus RAG.
 
@@ -399,9 +379,7 @@ asyncio.run(run_rag_agent())
 
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
-<div id="traces-for-agent-runtimes">
-  ## Traces pour les runtimes d’agent
-</div>
+## Traces pour les runtimes d’agent {#traces-for-agent-runtimes}
 
 Weave peut tracer des opérations dans les runtimes d’agent d’AutoGen, comme `SingleThreadedAgentRuntime`. Encapsulez la fonction d’exécution du runtime avec `@weave.op()` pour regrouper les traces liées, afin de voir la séquence complète des gestionnaires de messages qui se déclenchent pendant l’exécution du runtime.
 
@@ -481,9 +459,7 @@ asyncio.run(run_agent_runtime())
 
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
-<div id="traces-for-sequential-workflows">
-  ## Traces pour les flux de travail séquentiels
-</div>
+## Traces pour les flux de travail séquentiels {#traces-for-sequential-workflows}
 
 Vous pouvez tracer des flux de travail d’agents complexes qui définissent des séquences d’interactions entre agents. Utilisez `@weave.op()` pour fournir une trace de haut niveau de l’ensemble du flux de travail afin que la contribution de chaque agent soit imbriquée sous un appel parent unique. L’exemple suivant enchaîne un extracteur de concepts, un rédacteur, un agent de mise en forme et de relecture, ainsi qu’un agent utilisateur pour produire un texte marketing soigné.
 
@@ -619,9 +595,7 @@ asyncio.run(run_agent_workflow())
 
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
-<div id="traces-for-code-executors">
-  ## Traces pour les exécuteurs de code
-</div>
+## Traces pour les exécuteurs de code {#traces-for-code-executors}
 
 <Warning>
   **Docker requis**
@@ -731,9 +705,7 @@ asyncio.run(run_codegen())
 
 [![autogen-codegen.png](/weave/guides/integrations/imgs/autogen/autogen-codegen.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f173-21c2-7540-9dc7-fbab0b94ce0e%3FhideTraceTree%3D0)
 
-<div id="learn-more">
-  ## En savoir plus
-</div>
+## En savoir plus {#learn-more}
 
 Consultez les guides suivants pour mieux comprendre le Tracing et les opérations de Weave.
 

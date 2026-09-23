@@ -6,9 +6,7 @@ keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
 
 이 레퍼런스에서는 W&amp;B Weave의 Call 객체 스키마를 설명합니다. 여기에는 속성, 실행 중 `summary` 딕셔너리에 맞춤형 데이터를 기록하는 방법, 그리고 Call이 완료된 후 summary 데이터를 조회하는 방법이 포함됩니다. 각 Call에 대해 Weave가 기록하는 데이터를 검사, 필터링하거나 확장해야 할 때 이 페이지를 사용하세요. Call을 쿼리하는 방법에 대한 자세한 내용은 [Query and export calls](/ko/weave/guides/tracking/querying-calls)를 참조하세요.
 
-<div id="call-properties">
-  ## Call 속성
-</div>
+## Call 속성 {#call-properties}
 
 다음 표는 Weave에서 Call의 주요 속성을 보여줍니다. 전체 구현은 다음을 참조하세요:
 
@@ -34,9 +32,7 @@ keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
 | `wb_run_id`    | Optional[str]        | 연결된 W&amp;B run ID                                  |
 | `deleted_at`   | datetime (선택)        | 해당하는 경우 Call이 삭제된 타임스탬프                             |
 
-<div id="property-details">
-  ## 속성 세부 정보
-</div>
+## 속성 세부 정보 {#property-details}
 
 `CallSchema` 속성은 Call을 추적하고 관리하는 데 도움이 됩니다.
 
@@ -47,9 +43,7 @@ keywords: ["CallSchema", "summary", "trace", "latency_ms", "usage"]
 
 이러한 속성을 함께 사용하면 프로젝트 전반에서 Call을 세부적으로 추적하고 분석할 수 있습니다.
 
-<div id="use-call-summary">
-  ## Call summary 사용
-</div>
+## Call summary 사용 {#use-call-summary}
 
 `summary` 속성을 사용하면 Call에 맞춤형 실행 후 데이터를 추가하여 나중에 Weave의 기본 제공 메트릭과 함께 분석할 수 있습니다. 이 속성은 Call 실행 중에 값을 쓸 수 있는 딕셔너리입니다. Call이 완료되면 Weave는 사용자가 쓴 값과 자체적으로 계산한 데이터를 깊게 병합(deep merge)하여 결과를 저장합니다.
 
@@ -69,9 +63,7 @@ Weave는 모델 응답의 원시 LLM token 수를 `summary["usage"]`에도 캡�
 | `costs`      | `summary["usage"]`와 token 가격 데이터를 바탕으로 계산한 모델별 비용 내역입니다. [비용 추적](/ko/weave/guides/tracking/costs)을 참조하세요. |
 | `trace_name` | 내부 Op 레퍼런스 URI에서 파싱한 사람이 읽기 쉬운 Op 이름입니다. 표시 및 필터링에 사용됩니다.                                              |
 
-<div id="write-during-a-call">
-  ### Call 실행 중에 작성하기
-</div>
+### Call 실행 중에 작성하기 {#write-during-a-call}
 
 `summary` 딕셔너리를 사용하면 Call 실행 중에 맞춤형 데이터 값을 추가할 수 있습니다.
 
@@ -115,9 +107,7 @@ Weave는 모델 응답의 원시 LLM token 수를 `summary["usage"]`에도 캡�
   </Tab>
 </Tabs>
 
-<div id="read-summary-data">
-  ### summary 데이터 조회
-</div>
+### summary 데이터 조회 {#read-summary-data}
 
 `getCall`로 ID를 사용해 단일 Call을 조회하거나, `getCalls`로 여러 Call을 조회할 수 있습니다. 두 경우 모두 `summary`는 동일한 병합된 딕셔너리입니다.
 

@@ -11,9 +11,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 `weave.startTool()`(또는 `turn.startTool()`, `llm.startTool()`)로 생성되며, 결과와 선택적 오류 메타데이터를 받는 `end()`로 종료됩니다.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -27,35 +25,25 @@ try {
 }
 ```
 
-<div id="extends">
-  ## 상속
-</div>
+## 상속 {#extends}
 
 * `SpanBase`
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
-<div id="args">
-  ### args
-</div>
+### args {#args}
 
 > `readonly` **args**: `string`
 
 ***
 
-<div id="name">
-  ### name
-</div>
+### name {#name}
 
 > `readonly` **name**: `string`
 
 ***
 
-<div id="result">
-  ### ~~result~~
-</div>
+### ~~result~~ {#result}
 
 <Warning>
   **사용 중단.** 대신 `result`를 `end()`에 전달하세요.
@@ -67,19 +55,13 @@ string 형식의 도구 출력입니다. `result`는 `end()`에 전달하는 방
 
 ***
 
-<div id="toolcallid">
-  ### toolCallId
-</div>
+### toolCallId {#toolcallid}
 
 > `readonly` **toolCallId**: `string`
 
-<div id="methods">
-  ## 메서드
-</div>
+## 메서드 {#methods}
 
-<div id="addevent">
-  ### ~~addEvent()~~
-</div>
+### ~~addEvent()~~ {#addevent}
 
 <Warning>
   **사용 중단.** 대신 [setAttributes](#setattributes)로 이 데이터를 기록하세요.
@@ -94,9 +76,7 @@ span에 이름이 지정된 이벤트를 추가합니다. 컨텍스트 압축, �
 가드레일 위반과 같이 span이 아닌 시점을 표시할 때 유용합니다. `end()` 호출 후에는 경고를 표시하고
 아무 작업도 수행하지 않습니다. OTel `Span.addEvent`와 동일하게 동작합니다.
 
-<div id="parameters">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters}
 
 <ParamField path="name" type="string" required />
 
@@ -104,57 +84,43 @@ span에 이름이 지정된 이벤트를 추가합니다. 컨텍스트 압축, �
 
 <ParamField path="startTime" type="TimeInput" />
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환값 {#returns}
 
 `this`
 
-<div id="example-2">
-  #### 예시
-</div>
+#### 예시 {#example-2}
 
 ```ts twoslash
 // @noErrors
 span.addEvent('context_compacted', {removedMessages: 12});
 ```
 
-<div id="inherited-from">
-  #### 상속됨
-</div>
+#### 상속됨 {#inherited-from}
 
 `SpanBase.addEvent`
 
 ***
 
-<div id="end">
-  ### end()
-</div>
+### end() {#end}
 
 > **end**(`opts?`): `void`
 
 선택적으로 결과와 오류 유형을 기록한 뒤 span을 종료합니다. 여러 번 호출해도 동일하게 동작합니다.
 span을 실패로 표시하려면 `error`를, 종료 시점을 과거로 설정하려면 `endTime`을 전달하세요.
 
-<div id="parameters-2">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-2}
 
 <ParamField path="opts" type="ToolEndOptions">
   [`ToolEndOptions`](./toolendoptions)를 참조하세요.
 </ParamField>
 
-<div id="returns-2">
-  #### 반환값
-</div>
+#### 반환값 {#returns-2}
 
 `void`
 
 ***
 
-<div id="setattributes">
-  ### setAttributes()
-</div>
+### setAttributes() {#setattributes}
 
 > **setAttributes**(`attributes`): `this`
 
@@ -162,29 +128,21 @@ span에 여러 속성을 한 번에 설정합니다. `end()` 호출 후에는 �
 아무 작업도 수행하지 않습니다. OTel `Span.setAttributes` 및 Python SDK의
 `set_attributes`와 동일하게 동작합니다.
 
-<div id="parameters-3">
-  #### 매개변수
-</div>
+#### 매개변수 {#parameters-3}
 
 <ParamField path="attributes" type="Attributes" required />
 
-<div id="returns-3">
-  #### 반환값
-</div>
+#### 반환값 {#returns-3}
 
 `this`
 
-<div id="example-3">
-  #### 예시
-</div>
+#### 예시 {#example-3}
 
 ```ts twoslash
 // @noErrors
 span.setAttributes({'weave.tag': 'prod', 'gen_ai.response.id': id});
 ```
 
-<div id="inherited-from-2">
-  #### 상속됨
-</div>
+#### 상속됨 {#inherited-from-2}
 
 `SpanBase.setAttributes`

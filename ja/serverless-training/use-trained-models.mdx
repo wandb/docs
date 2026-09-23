@@ -33,9 +33,7 @@ wandb-artifact:///email-specialists/mail-search/agent-001:step25
 
 エンドポイントを取得したら、通常の推論ワークフローに統合できます。以下の例では、cURL リクエストまたは [Python OpenAI SDK](https://github.com/openai/openai-python) を使用して、学習済みモデルに推論リクエストを送信する方法を示します。ご利用の環境に合った例を選択してください。
 
-<div id="curl">
-  ## cURL
-</div>
+## cURL {#curl}
 
 ```bash
 curl https://api.training.wandb.ai/v1/chat/completions \
@@ -52,9 +50,7 @@ curl https://api.training.wandb.ai/v1/chat/completions \
         }'
 ```
 
-<div id="openai-sdk">
-  ## OpenAI SDK
-</div>
+## OpenAI SDK {#openai-sdk}
 
 ```python
 from openai import OpenAI

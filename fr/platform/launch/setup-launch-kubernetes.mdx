@@ -14,9 +14,7 @@ W&amp;B utilise [Kaniko](https://github.com/GoogleContainerTools/kaniko) comme o
   Pour installer Helm et appliquer ou mettre à niveau le chart Helm de l’agent W&amp;B Launch, vous devez disposer d’un accès `kubectl` au cluster avec des autorisations suffisantes pour créer, mettre à jour et supprimer des ressources Kubernetes. En général, cela nécessite un utilisateur disposant du rôle `cluster-admin` ou d’un rôle personnalisé avec des autorisations équivalentes.
 </Note>
 
-<div id="configure-a-queue-for-kubernetes">
-  ## Configurer une file d’attente pour Kubernetes
-</div>
+## Configurer une file d’attente pour Kubernetes {#configure-a-queue-for-kubernetes}
 
 Une file d’attente Launch définit la spécification de workload Kubernetes que l’agent utilise pour exécuter chaque job. La configuration d’une file d’attente Launch pour une ressource cible Kubernetes prendra la forme soit d’une [spécification de job Kubernetes](https://kubernetes.io/docs/concepts/workloads/controllers/job/), soit d’une [spécification de ressource personnalisée Kubernetes](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
 
@@ -101,9 +99,7 @@ spec:
         type: "RuntimeDefault"
 ```
 
-<div id="create-a-queue">
-  ## Créer une file d&#39;attente
-</div>
+## Créer une file d&#39;attente {#create-a-queue}
 
 Créez une file d&#39;attente dans la W&amp;B App en utilisant Kubernetes comme ressource de calcul :
 
@@ -114,9 +110,7 @@ Créez une file d&#39;attente dans la W&amp;B App en utilisant Kubernetes comme 
 5. Sélectionnez **Kubernetes** comme **Resource**.
 6. Dans le champ **Configuration**, indiquez la spécification du workflow job Kubernetes ou la spécification de Ressource personnalisée que vous avez configurée dans [Configurer une file d&#39;attente pour Kubernetes](#configure-a-queue-for-kubernetes).
 
-<div id="configure-a-launch-agent-with-helm">
-  ## Configurer un agent Launch avec Helm
-</div>
+## Configurer un agent Launch avec Helm {#configure-a-launch-agent-with-helm}
 
 Une fois la file d&#39;attente créée, déployez l&#39;agent Launch qui récupère les jobs dans la file d&#39;attente et les exécute sur votre cluster. Utilisez le [chart Helm](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) fourni par W&amp;B pour déployer l&#39;agent Launch dans votre cluster Kubernetes. Contrôlez le comportement de l&#39;agent Launch à l&#39;aide du [fichier](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml) `values.yaml`.
 

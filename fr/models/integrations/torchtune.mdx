@@ -17,9 +17,7 @@ Ce guide vous montre comment activer la journalisation W&amp;B dans les recettes
 
 Consultez l’article de blog de W&amp;B sur le [Fine-tuning de Mistral 7B avec torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
 
-<div id="enable-wb-logging">
-  ## Activez la journalisation W&amp;B
-</div>
+## Activez la journalisation W&amp;B {#enable-wb-logging}
 
 Vous pouvez activer la journalisation W&amp;B de deux façons : redéfinir les arguments au lancement depuis la ligne de commande, ou modifier le fichier de configuration de la recette. Choisissez l’option qui convient le mieux à votre flux de travail.
 
@@ -48,9 +46,7 @@ Vous pouvez activer la journalisation W&amp;B de deux façons : redéfinir les 
   </Tab>
 </Tabs>
 
-<div id="use-the-wb-metric-logger">
-  ## Utiliser le logger de métriques W&amp;B
-</div>
+## Utiliser le logger de métriques W&amp;B {#use-the-wb-metric-logger}
 
 Activez la journalisation W&amp;B dans le fichier de configuration de la recette en modifiant la section `metric_logger`. Remplacez `_component_` par la classe `torchtune.utils.metric_logging.WandBLogger`. Vous pouvez également fournir un nom de `project` ainsi que `log_every_n_steps` pour personnaliser le comportement de journalisation.
 
@@ -83,9 +79,7 @@ Vous pouvez aussi transmettre n’importe quels autres `kwargs`, comme vous le f
   </Tab>
 </Tabs>
 
-<div id="logged-data">
-  ## Données enregistrées
-</div>
+## Données enregistrées {#logged-data}
 
 Après avoir activé la journalisation W&amp;B, vous pouvez explorer le tableau de bord W&amp;B pour consulter les métriques enregistrées. Par défaut, W&amp;B enregistre tous les hyperparamètres du fichier de configuration ainsi que les paramètres remplacés au lancement, afin de conserver un enregistrement de la configuration de chaque run à côté de ses métriques.
 
@@ -95,9 +89,7 @@ W&amp;B capture la configuration résolue dans l’onglet **Aperçu**. W&amp;B s
   <img src="/images/integrations/torchtune_config.png" alt="Configuration TorchTune" />
 </Frame>
 
-<div id="logged-metrics">
-  ### Métriques enregistrées
-</div>
+### Métriques enregistrées {#logged-metrics}
 
 Chaque recette a sa propre boucle d’entraînement. Consultez chaque recette pour voir les métriques enregistrées, qui incluent par défaut les suivantes :
 
@@ -127,9 +119,7 @@ self._metric_logger.log_dict(
   L’ensemble des métriques enregistrées peut varier d’une version de torchtune à l’autre. Pour ajouter une métrique personnalisée, modifiez la recette et appelez la fonction `self._metric_logger.*` correspondante.
 </Note>
 
-<div id="save-and-load-checkpoints">
-  ## Enregistrer et charger des points de contrôle du modèle
-</div>
+## Enregistrer et charger des points de contrôle du modèle {#save-and-load-checkpoints}
 
 Enregistrez les points de contrôle du modèle dans W&amp;B Artifacts pour versionner les poids du modèle en même temps que les métriques et la configuration de chaque run, afin de pouvoir reproduire les résultats et comparer les versions du modèle ultérieurement.
 

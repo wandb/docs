@@ -4,9 +4,7 @@ title: ノートブックを設定する
 
 ノートブックの設定を変更して、外観、ランタイムの動作、エディタの設定を制御します。
 
-<div id="open-notebook-settings">
-  ## ノートブック設定を開く
-</div>
+## ノートブック設定を開く {#open-notebook-settings}
 
 ノートブック設定は、現在のノートブックにのみ適用されます。表示やエクスポートのオプションの設定、カスタム CSS や HTML の追加のほか、ノートブック固有のその他の動作も変更できます。
 
@@ -17,21 +15,15 @@ title: ノートブックを設定する
 
 詳細については、marimo の [Notebook settings](https://docs.marimo.io/guides/configuration) を参照してください。
 
-<div id="configure-runtime-behavior">
-  ## ランタイムの動作を設定する
-</div>
+## ランタイムの動作を設定する {#configure-runtime-behavior}
 
 ランタイム設定では、ノートブックの起動時、セルの変更時、インポート済みの Python モジュールの変更時に、ノートブックがどのように動作するかを制御します。
 
-<div id="execution-modes">
-  ### 実行モード
-</div>
+### 実行モード {#execution-modes}
 
 ランタイムは以下の実行モードをサポートします。
 
-<div id="autorun-mode">
-  #### 自動実行モード
-</div>
+#### 自動実行モード {#autorun-mode}
 
 自動実行モードでは、次のいずれかのイベントが発生すると、ノートブックが依存先のセルを自動的に実行します。
 
@@ -39,17 +31,13 @@ title: ノートブックを設定する
 * UI 要素を操作したとき。
 * モジュールの自動リロードが有効な状態で、インポート済みの Python モジュールが変更されたとき。
 
-<div id="lazy-mode">
-  #### 遅延モード
-</div>
+#### 遅延モード {#lazy-mode}
 
 遅延モードでは、セルを実行すると下流のセルは古い状態としてマークされるだけで、自動的には実行されません。
 
 上流に古い状態のセルがあるセルを実行すると、ノートブックは先に上流のセルを実行します。これにより、対象のセルは常に最新の入力を受け取れます。
 
-<div id="change-runtime-settings">
-  ### ランタイム設定の変更
-</div>
+### ランタイム設定の変更 {#change-runtime-settings}
 
 ランタイム設定を変更するには、次の手順に従います。
 
@@ -64,9 +52,7 @@ title: ノートブックを設定する
 
 詳細については、marimo の [Runtime configuration](https://docs.marimo.io/guides/configuration/runtime_configuration/) を参照してください。
 
-<div id="configure-editor-preferences">
-  ## エディタの設定を構成する
-</div>
+## エディタの設定を構成する {#configure-editor-preferences}
 
 エディタの設定を構成するには、次の手順を実行します。
 

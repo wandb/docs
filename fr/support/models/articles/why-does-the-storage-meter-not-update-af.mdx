@@ -7,9 +7,7 @@ Votre utilisation du stockage ne se met pas à jour immédiatement après la sup
 
 Si vous avez dépassé votre limite de stockage, toute restriction d’accès est levée automatiquement dès que votre utilisation repasse sous la limite et que W&amp;B termine le traitement de la suppression. Vous n’avez rien d’autre à faire pendant le traitement.
 
-<div id="if-your-usage-still-looks-too-high">
-  ## Si votre utilisation semble toujours trop élevée
-</div>
+## Si votre utilisation semble toujours trop élevée {#if-your-usage-still-looks-too-high}
 
 La suppression d’un run ne supprime les artifacts qu’il a enregistrés que si vous choisissez de le faire. Lorsque vous supprimez un run dans l’application W&amp;B, une invite vous demande si vous souhaitez supprimer les artifacts associés, et [`Run.delete()`](/fr/models/ref/python/public-api/run#method-run-delete) accepte un argument `delete_artifacts` dont la valeur par défaut est `False`. Voir [Supprimer des runs](/fr/models/runs/delete-runs).
 

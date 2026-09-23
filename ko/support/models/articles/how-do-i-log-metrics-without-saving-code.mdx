@@ -9,18 +9,14 @@ keywords: ["관리자", "팀 관리", "메트릭"]
 
 코드 로깅을 끄려면 run 수준에서 환경 변수를 사용하거나, 관리자로서 팀 전체 기본값을 변경하세요.
 
-<div id="turn-off-code-logging-with-environment-variables">
-  ## 환경 변수로 코드 로깅 끄기
-</div>
+## 환경 변수로 코드 로깅 끄기 {#turn-off-code-logging-with-environment-variables}
 
 개별 run 또는 프로세스의 코드 로깅을 끄려면 다음 환경 변수 중 하나를 사용하세요.
 
 * `WANDB_DISABLE_CODE`를 `true`로 설정하면 모든 코드 추적이 비활성화됩니다. 이렇게 하면 Git SHA와 diff patch를 가져오지 않습니다.
 * `WANDB_IGNORE_GLOBS`를 `*.patch`로 설정하면 diff patch가 W&amp;B 서버에 동기화되지 않도록 하면서, `wandb restore`로 로컬에서 계속 적용할 수는 있도록 유지할 수 있습니다.
 
-<div id="enforce-settings-at-the-organization-or-team-level">
-  ## 조직 또는 팀 수준에서 설정 강제 적용
-</div>
+## 조직 또는 팀 수준에서 설정 강제 적용 {#enforce-settings-at-the-organization-or-team-level}
 
 팀의 각 사용자가 환경 변수를 직접 설정하게 하는 대신, 팀의 모든 사용자에 대해 코드 저장을 끄려면 팀 또는 조직의 Settings에서 기본값을 변경하세요.
 

@@ -14,9 +14,7 @@ les noms des colonnes du jeu de données aux noms des arguments dans `model.pred
 
 Il appelle ensuite tous les évaluateurs et enregistre les résultats dans weave.
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 ```ts twoslash
 // @noErrors
@@ -50,15 +48,11 @@ const evaluation = new weave.Evaluation({
 const results = await evaluation.evaluate({ model });
 ```
 
-<div id="extends">
-  ## Étend
-</div>
+## Étend {#extends}
 
 * [`WeaveObject`](./weaveobject)
 
-<div id="type-parameters">
-  ## Paramètres de type
-</div>
+## Paramètres de type {#type-parameters}
 
 <ParamField path="R" type="extends DatasetRow" />
 
@@ -66,15 +60,11 @@ const results = await evaluation.evaluate({ model });
 
 <ParamField path="M" />
 
-<div id="constructor">
-  ## Constructeur
-</div>
+## Constructeur {#constructor}
 
 > **new Evaluation**&lt;`R`, `E`, `M`&gt;(`parameters`) : `Evaluation`&lt;`R`, `E`, `M`&gt;
 
-<div id="parameters">
-  ### Paramètres
-</div>
+### Paramètres {#parameters}
 
 <ParamField path="parameters" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -102,97 +92,63 @@ const results = await evaluation.evaluate({ model });
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### Renvoie
-</div>
+### Renvoie {#returns}
 
 `Evaluation`&lt;`R`, `E`, `M`&gt;
 
-<div id="overrides">
-  ### Redéfinit
-</div>
+### Redéfinit {#overrides}
 
 [`WeaveObject`](./weaveobject).[`constructor`](./weaveobject#constructor)
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="__savedref">
-  ### __savedRef
-</div>
+### __savedRef {#__savedref}
 
 > `facultatif` **&#95;&#95;savedRef** : [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-<div id="inherited-from">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from}
 
 [`WeaveObject`](./weaveobject).[`__savedRef`](./weaveobject#__savedref)
 
-<div id="accessors">
-  ## Accesseurs
-</div>
+## Accesseurs {#accessors}
 
-<div id="description">
-  ### description
-</div>
+### description {#description}
 
-<div id="get-signature">
-  #### Signature d’obtention
-</div>
+#### Signature d’obtention {#get-signature}
 
 > **get** **description**(): `string` | `undefined`
 
-<div id="returns-2">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-2}
 
 `string` | `undefined`
 
-<div id="inherited-from-2">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-2}
 
 [`WeaveObject`](./weaveobject).[`description`](./weaveobject#description)
 
 ***
 
-<div id="name">
-  ### nom
-</div>
+### nom {#name}
 
-<div id="get-signature-2">
-  #### Signature d’obtention
-</div>
+#### Signature d’obtention {#get-signature-2}
 
 > **get** **name**(): `string`
 
-<div id="returns-3">
-  ##### Renvoie
-</div>
+##### Renvoie {#returns-3}
 
 `string`
 
-<div id="inherited-from-3">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-3}
 
 [`WeaveObject`](./weaveobject).[`name`](./weaveobject#name)
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="evaluate">
-  ### evaluate()
-</div>
+### evaluate() {#evaluate}
 
 > **evaluate**(`__namedParameters`) : `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="__namedParameters" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -208,23 +164,17 @@ const results = await evaluation.evaluate({ model });
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-4}
 
 `Promise`&lt;`Record`&lt;`string`, `any`&gt;&gt;
 
 ***
 
-<div id="predictandscore">
-  ### predictAndScore()
-</div>
+### predictAndScore() {#predictandscore}
 
 > **predictAndScore**(`__namedParameters`) : `Promise`&lt;&#123; `model_latency` : `number`; `model_output` : `any`; `model_success` : `boolean`; `scores` : &#123;[`key` : `string`] : `any`; &#125;; &#125;&gt;
 
-<div id="parameters-3">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-3}
 
 <ParamField path="__namedParameters" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -244,28 +194,20 @@ const results = await evaluation.evaluate({ model });
   </Expandable>
 </ParamField>
 
-<div id="returns-5">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-5}
 
 `Promise`&lt;&#123; `model_latency`: `number`; `model_output`: `any`; `model_success`: `boolean`; `scores`: &#123;[`key`: `string`]: `any`; &#125;; &#125;&gt;
 
 ***
 
-<div id="saveattrs">
-  ### saveAttrs()
-</div>
+### saveAttrs() {#saveattrs}
 
 > **saveAttrs**(): `objet`
 
-<div id="returns-6">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-6}
 
 `objet`
 
-<div id="inherited-from-4">
-  #### Hérité de
-</div>
+#### Hérité de {#inherited-from-4}
 
 [`WeaveObject`](./weaveobject).[`saveAttrs`](./weaveobject#saveattrs)

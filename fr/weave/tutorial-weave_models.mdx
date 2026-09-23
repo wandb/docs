@@ -13,9 +13,7 @@ Dans ce tutoriel, vous apprendrez à :
 * utiliser `Model` Weave pour suivre votre application et gérer ses versions ainsi que celles de ses paramètres.
 * exporter, modifier et réutiliser un `Model` Weave déjà enregistré.
 
-<div id="use-weavemodel">
-  ## Utiliser `weave.Model`
-</div>
+## Utiliser `weave.Model` {#use-weavemodel}
 
 <Warning>
   La classe `weave.Model` n’est prise en charge qu’en Python.
@@ -126,23 +124,17 @@ Remarque sur l’utilisation de `weave.Model` :
 * Pour suivre d’autres méthodes de classe avec Weave, décorez-les avec `weave.op()`.
 * Les paramètres commençant par un trait de soulignement sont ignorés par Weave et ne seront pas enregistrés.
 
-<div id="export-and-reuse-a-logged-weavemodel">
-  ## Exporter et réutiliser un `weave.Model` enregistré
-</div>
+## Exporter et réutiliser un `weave.Model` enregistré {#export-and-reuse-a-logged-weavemodel}
 
 Maintenant que votre modèle est versionné dans Weave, vous pouvez récupérer n’importe quelle version antérieure et l’exécuter à nouveau sans avoir à le redéfinir dans le code. Cela peut être utile pour reproduire des résultats antérieurs ou pour partager une version spécifique du modèle avec d’autres personnes.
 
 Comme Weave stocke et versionne les Models que vous avez invoqués, vous pouvez les exporter et les réutiliser.
 
-<div id="get-the-model-ref">
-  ### Obtenir la référence du Model
-</div>
+### Obtenir la référence du Model {#get-the-model-ref}
 
 Dans la Weave UI, vous pouvez obtenir la référence du Model pour une version donnée.
 
-<div id="use-the-model">
-  ### Utiliser le Model
-</div>
+### Utiliser le Model {#use-the-model}
 
 Une fois que vous avez l’URI de l’objet Model, vous pouvez l’exporter et le réutiliser. Le modèle exporté est déjà initialisé et prêt à être utilisé :
 
@@ -174,8 +166,6 @@ Vous pouvez maintenant voir que la nouvelle entrée utilise la même version du 
 
 Vous disposez maintenant d’un `Model` Weave versionné que vous pouvez faire évoluer, récupérer et réutiliser dans différentes versions de votre application.
 
-<div id="whats-next">
-  ## Et ensuite
-</div>
+## Et ensuite {#whats-next}
 
 * Suivez le tutoriel [Créer un pipeline d’évaluation](/fr/weave/tutorial-eval) pour commencer à améliorer vos applications de façon itérative.

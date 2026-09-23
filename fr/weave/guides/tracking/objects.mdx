@@ -6,9 +6,7 @@ keywords: ["objets", "gestion des versions", "refs", "weave.publish", "weave.ref
 
 Cette page explique comment publier, récupérer, supprimer et référencer des objets versionnés dans W&amp;B Weave. Utilisez-la lorsque vous devez suivre des données structurées telles que des jeux de données, des modèles ou des prompts d&#39;un run à l&#39;autre et au fil du temps.
 
-<div id="objects">
-  ## Objets
-</div>
+## Objets {#objects}
 
 Un **objet** désigne des données sérialisables et versionnées. Weave versionne automatiquement les objets à chaque modification et crée un historique immuable. Les objets comprennent :
 
@@ -28,9 +26,7 @@ weave.publish(dataset)
 ```
 
 
-<div id="publish-an-object">
-  ## Publier un objet
-</div>
+## Publier un objet {#publish-an-object}
 
 La couche de sérialisation de Weave enregistre les objets et en gère les versions.
 
@@ -61,9 +57,7 @@ La couche de sérialisation de Weave enregistre les objets et en gère les versi
 
 Lorsque vous enregistrez un objet sous un nom, Weave en crée la première version s’il n’existe pas encore.
 
-<div id="get-an-object-back">
-  ## Récupérer un objet
-</div>
+## Récupérer un objet {#get-an-object-back}
 
 Après publication, vous pouvez récupérer un objet stocké à l’aide de sa référence.
 
@@ -86,9 +80,7 @@ Après publication, vous pouvez récupérer un objet stocké à l’aide de sa r
   </Tab>
 </Tabs>
 
-<div id="delete-an-object">
-  ## Supprimer un objet
-</div>
+## Supprimer un objet {#delete-an-object}
 
 Si vous n’avez plus besoin d’une version spécifique d’un objet, vous pouvez la supprimer à l’aide de sa réf.
 
@@ -112,9 +104,7 @@ Si vous n’avez plus besoin d’une version spécifique d’un objet, vous pouv
   </Tab>
 </Tabs>
 
-<div id="construct-object-refs">
-  ## Construire des réf. d&#39;objet
-</div>
+## Construire des réf. d&#39;objet {#construct-object-refs}
 
 Les réf. permettent d&#39;identifier de manière unique un objet stocké et sa version. Les sections suivantes décrivent la structure de l&#39;URI et les différentes façons de construire une réf.
 
@@ -135,9 +125,7 @@ Vous pouvez construire des réf. de plusieurs manières :
 * `weave.ref([NAME]:[VERSION])` : récupère la version spécifiée d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
 * `weave.ref([FULLY-QUALIFIED-REF-URI])` : récupère l&#39;objet situé à l&#39;URI de réf. d&#39;objet complète indiquée. Ne nécessite pas d&#39;appeler `weave.init()`.
 
-<div id="organize-object-versions-with-tags-and-aliases">
-  ## Organiser les versions d’objets avec des tags et des alias
-</div>
+## Organiser les versions d’objets avec des tags et des alias {#organize-object-versions-with-tags-and-aliases}
 
 Utilisez des **tags** et des **alias** pour étiqueter des versions spécifiques de n’importe quel objet Weave, y compris `Dataset`, `Model`, `Prompt` ou tout autre objet que vous publiez avec `weave.publish`. Ces libellés fonctionnent avec n’importe quel `ObjectRef`, donc les mêmes API s’appliquent à tous les types d’objets.
 

@@ -15,9 +15,7 @@ Les callbacks Keras sont disponibles dans le module `wandb.integration.keras` à
 * **`WandbModelCheckpoint`** : Utilisez ce callback pour enregistrer les points de contrôle du modèle de votre modèle dans les [Artifacts](/fr/models/artifacts/) W&amp;B.
 * **`WandbEvalCallback`**: Ce callback de base enregistre les prédictions du modèle dans les [Tables](/fr/models/tables/) W&amp;B pour une visualisation interactive.
 
-<div id="install-and-import-keras-integration">
-  ## Installer et importer l’intégration Keras
-</div>
+## Installer et importer l’intégration Keras {#install-and-import-keras-integration}
 
 Installez la dernière version de W&amp;B.
 
@@ -34,9 +32,7 @@ from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint, Wa
 
 Les sections suivantes décrivent en détail chaque callback, avec des exemples de code.
 
-<div id="track-experiments-with-wandbmetricslogger">
-  ## Suivre les expériences avec `WandbMetricsLogger`
-</div>
+## Suivre les expériences avec `WandbMetricsLogger` {#track-experiments-with-wandbmetricslogger}
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" />
 
@@ -66,18 +62,14 @@ with wandb.init(config={"batch_size": 64}) as run:
 
 L’exemple précédent consigne dans W&amp;B les métriques d’entraînement et de validation, telles que `loss`, `accuracy` et `top@5_accuracy`, à la fin de chaque époque.
 
-<div id="wandbmetricslogger-reference">
-  ### Référence de `WandbMetricsLogger`
-</div>
+### Référence de `WandbMetricsLogger` {#wandbmetricslogger-reference}
 
 | Paramètre             | Description                                                                                                                                                                                                                                                                                                     |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `log_freq`            | (`epoch`, `batch` ou un `int`) : si `epoch`, journalise les métriques à la fin de chaque époque. Si `batch`, journalise les métriques à la fin de chaque lot. Si c’est un `int`, journalise les métriques après ce nombre de lots. Valeur par défaut : `epoch`.                                                 |
 | `initial_global_step` | (int) : utilisez cet argument pour journaliser correctement le taux d’apprentissage lorsque vous reprenez l’entraînement à partir d’un `initial_epoch` et qu’un ordonnanceur de taux d’apprentissage est utilisé. Cette valeur peut être calculée comme `step_size * initial_step`. La valeur par défaut est 0. |
 
-<div id="checkpoint-a-model-using-wandbmodelcheckpoint">
-  ## Créer un point de contrôle d’un modèle avec `WandbModelCheckpoint`
-</div>
+## Créer un point de contrôle d’un modèle avec `WandbModelCheckpoint` {#checkpoint-a-model-using-wandbmodelcheckpoint}
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
@@ -114,9 +106,7 @@ with wandb.init(config={"bs": 12}) as run:
     )
 ```
 
-<div id="wandbmodelcheckpoint-reference">
-  ### Référence `WandbModelCheckpoint`
-</div>
+### Référence `WandbModelCheckpoint` {#wandbmodelcheckpoint-reference}
 
 | Paramètre                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                     |   |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | - |
@@ -130,9 +120,7 @@ with wandb.init(config={"bs": 12}) as run:
 | `options`                 | (str) : objet `tf.train.CheckpointOptions` facultatif si `save_weights_only` est true, ou objet `tf.saved_model.SaveOptions` facultatif si `save_weights_only` est false.                                                                                                                                                                                                                                                                       |   |
 | `initial_value_threshold` | (float) : valeur initiale à virgule flottante du « meilleur » résultat de la métrique à surveiller.                                                                                                                                                                                                                                                                                                                                             |   |
 
-<div id="log-checkpoints-after-n-epochs">
-  ### Enregistrer des points de contrôle du modèle après `N` époques
-</div>
+### Enregistrer des points de contrôle du modèle après `N` époques {#log-checkpoints-after-n-epochs}
 
 Par défaut (`save_freq="epoch"`), le callback crée un point de contrôle du modèle et le téléverse comme artifact après chaque époque. Pour créer un point de contrôle du modèle après un nombre précis de lots, définissez `save_freq` sur un entier. Pour créer un point de contrôle du modèle après `N` époques, calculez la cardinalité du dataloader `train` et passez-la à `save_freq` :
 
@@ -143,9 +131,7 @@ WandbModelCheckpoint(
 )
 ```
 
-<div id="log-checkpoints-efficiently-on-a-tpu-architecture">
-  ### Journaliser efficacement les points de contrôle du modèle sur une architecture TPU
-</div>
+### Journaliser efficacement les points de contrôle du modèle sur une architecture TPU {#log-checkpoints-efficiently-on-a-tpu-architecture}
 
 Lors de la création de points de contrôle du modèle sur des TPU, vous pouvez rencontrer le message d&#39;erreur `UnimplementedError: File system scheme '[local]' not implemented`. Cela se produit parce que le répertoire du modèle (`filepath`) doit utiliser un chemin de bucket de stockage cloud (`gs://bucket-name/...`), et que ce bucket doit être accessible depuis le serveur TPU. À la place, W&amp;B utilise le chemin local pour créer les points de contrôle du modèle, que W&amp;B téléverse ensuite en tant qu&#39;artifact.
 
@@ -158,9 +144,7 @@ WandbModelCheckpoint(
 )
 ```
 
-<div id="visualize-model-predictions-using-wandbevalcallback">
-  ## Visualiser les prédictions du modèle avec `WandbEvalCallback`
-</div>
+## Visualiser les prédictions du modèle avec `WandbEvalCallback` {#visualize-model-predictions-using-wandbevalcallback}
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" />
 
@@ -234,24 +218,18 @@ with wandb.init(config={"hyper": "parameter"}) as run:
     )
 ```
 
-<div id="wandbevalcallback-reference">
-  ### Référence de `WandbEvalCallback`
-</div>
+### Référence de `WandbEvalCallback` {#wandbevalcallback-reference}
 
 | Paramètre            | Description                                        |
 | -------------------- | -------------------------------------------------- |
 | `data_table_columns` | (liste) Liste des noms de colonnes du `data_table` |
 | `pred_table_columns` | (liste) Liste des noms de colonnes du `pred_table` |
 
-<div id="memory-footprint-details">
-  ### Détails de l’empreinte mémoire
-</div>
+### Détails de l’empreinte mémoire {#memory-footprint-details}
 
 W&amp;B journalise `data_table` lors de l’appel de la méthode `on_train_begin`. Après que W&amp;B l’a téléversé en tant qu’artefact W&amp;B, vous obtenez une référence à ce tableau, accessible via la variable de classe `data_table_ref`. `data_table_ref` est une liste 2D que vous pouvez indexer comme `self.data_table_ref[idx][n]`, où `idx` est le numéro de ligne et `n` le numéro de colonne. Voir son utilisation dans l’exemple suivant.
 
-<div id="customize-the-callback">
-  ### Personnaliser le callback
-</div>
+### Personnaliser le callback {#customize-the-callback}
 
 Pour mieux contrôler quand les données et les prédictions sont enregistrées, vous pouvez redéfinir les méthodes de callback par défaut. Vous pouvez redéfinir les méthodes `on_train_begin` ou `on_epoch_end` pour bénéficier d’un contrôle plus précis. Si vous souhaitez journaliser les échantillons après `N` lots, vous pouvez implémenter la méthode `on_train_batch_end`.
 
@@ -259,9 +237,7 @@ Pour mieux contrôler quand les données et les prédictions sont enregistrées,
   Si vous implémentez un callback pour visualiser les prédictions du modèle en héritant de `WandbEvalCallback` et que certains points doivent être clarifiés ou corrigés, ouvrez une [issue](https://github.com/wandb/wandb/issues).
 </Note>
 
-<div id="legacy-wandbcallback">
-  ## `WandbCallback` obsolète
-</div>
+## `WandbCallback` obsolète {#legacy-wandbcallback}
 
 `WandbCallback` est le callback tout-en-un obsolète. Pour les nouveaux projets, utilisez les callbacks dédiés décrits dans les sections précédentes (`WandbMetricsLogger`, `WandbModelCheckpoint` et `WandbEvalCallback`). Utilisez la classe `WandbCallback()` de la bibliothèque W&amp;B pour enregistrer toutes les métriques et valeurs de perte suivies dans `model.fit()`.
 
@@ -296,9 +272,7 @@ Consultez la documentation de référence de `keras.WandbCallback` pour plus de 
 * Journalise de façon facultative les histogrammes des gradients et des paramètres.
 * Enregistre de façon facultative les données d&#39;entraînement et de validation pour que wandb puisse les visualiser.
 
-<div id="wandbcallback-reference">
-  ### Référence de `WandbCallback`
-</div>
+### Référence de `WandbCallback` {#wandbcallback-reference}
 
 | Arguments                  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -327,13 +301,9 @@ Consultez la documentation de référence de `keras.WandbCallback` pour plus de 
 | `infer_missing_processors` | (Boolean) Détermine si `validation_row_processor` et `output_row_processor` doivent être inférés s’ils sont absents. La valeur par défaut est True. Si vous fournissez `labels`, W&amp;B essaie d’inférer des processeurs de type Classification lorsque c’est pertinent.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `log_evaluation_frequency` | (int) Détermine à quelle fréquence les résultats d’évaluation sont consignés dans le journal. La valeur par défaut est `0`, afin de les consigner uniquement à la fin de l’entraînement. Définissez 1 pour les consigner à chaque époque, 2 pour une époque sur deux, et ainsi de suite. N’a aucun effet lorsque `log_evaluation` est défini sur False.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
-<div id="frequently-asked-questions">
-  ## Questions fréquentes
-</div>
+## Questions fréquentes {#frequently-asked-questions}
 
-<div id="use-keras-multiprocessing-with-wandb">
-  ### Utiliser le mode multiprocessing de `Keras` avec `wandb`
-</div>
+### Utiliser le mode multiprocessing de `Keras` avec `wandb` {#use-keras-multiprocessing-with-wandb}
 
 Lorsque vous définissez `use_multiprocessing=True`, cette erreur peut se produire :
 

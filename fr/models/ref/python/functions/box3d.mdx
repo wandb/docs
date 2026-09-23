@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py#L122" />
 
-<div id="function-wandbbox3d">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.box3d()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.box3d() {#function-wandbbox3d}
 
 Une boîte englobante 3D. La boîte est définie par son centre, ses dimensions et son orientation.
 
@@ -24,9 +22,7 @@ label: 'str | None' = None,
 score: 'numeric | None' = None
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="center" type="npt.ArrayLike">
   Le centre de la boîte, sous la forme d’un ndarray de longueur 3.
@@ -52,15 +48,11 @@ score: 'numeric | None' = None
   Score facultatif de la boîte. Généralement utilisé pour indiquer le niveau de confiance d’une détection.
 </ResponseField>
 
-<div id="returns">
-  ## Renvoie
-</div>
+## Renvoie {#returns}
 
 Un objet Box3D.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 L&#39;exemple suivant crée un nuage de points avec 60 boîtes qui tournent
 autour des axes X, Y et Z.

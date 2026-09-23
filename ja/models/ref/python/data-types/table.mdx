@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py#L211" />
 
-<div id="class-wandbtable">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Table
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Table {#class-wandbtable}
 
 表形式データを表示・分析するための 表 クラスです。
 
@@ -33,9 +31,7 @@ allow_mixed_types: 'bool' = False,
 log_mode: 'LogMode | None' = 'IMMUTABLE'
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="columns" type="list[ColumnKey] | None">
   表の列名。デフォルトは &#91;&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;&#93; です。
@@ -87,13 +83,9 @@ log_mode: 'LogMode | None' = 'IMMUTABLE'
   * &quot;INCREMENTAL&quot;: 表 data は段階的にログされ、ログのたびに前回のログ以降の新しい data を含む新しい artifact entry が作成されます。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-tableadd_column">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_column()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_column() {#method-tableadd_column}
 
 ```python
 self,
@@ -104,9 +96,7 @@ optional: 'bool' = False
 
 表にデータ列を追加します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="name" type="str">
   列の一意の名前。
@@ -120,9 +110,7 @@ optional: 'bool' = False
   null に類する値を許可するかどうか。
 </ResponseField>
 
-<div id="method-tableadd_computed_columns">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_computed_columns()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_computed_columns() {#method-tableadd_computed_columns}
 
 ```python
 self,
@@ -131,17 +119,13 @@ fn: 'Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]'
 
 既存のデータに基づいて、1 つ以上の算出列を追加します。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="fn" type="Callable[[int, dict[ColumnKey, Any]], dict[str, Any]]">
   インデックスと行の dict を受け取る関数です。各行について、新しい列名をキーとする新しい列を表す dict を返します。
 </ResponseField>
 
-<div id="examples">
-  ##### 例
-</div>
+##### 例 {#examples}
 
 コールバック内では:
 
@@ -155,9 +139,7 @@ table = wandb.Table(columns=["x", "y"], data=[[3, 1], [4, 6]])
 table.add_computed_columns(lambda ndx, row: {"diff": row["x"] - row["y"]})
 ```
 
-<div id="method-tableadd_data">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_data()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_data() {#method-tableadd_data}
 
 ```python
 self, *data: 'Any'
@@ -169,17 +151,13 @@ self, *data: 'Any'
 
 データの長さは、表の列数と一致している必要があります。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="data" type="Any">
   説明は提供されていません。
 </ResponseField>
 
-<div id="method-tableadd_row">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_row()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.add_row() {#method-tableadd_row}
 
 ```python
 self, *row: 'Any'
@@ -187,17 +165,13 @@ self, *row: 'Any'
 
 非推奨です。代わりに `Table.add_data` メソッド を使用してください。
 
-<div id="arguments-4">
-  ##### 引数
-</div>
+##### 引数 {#arguments-4}
 
 <ResponseField name="row" type="Any">
   説明はありません。
 </ResponseField>
 
-<div id="method-tablecast">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.cast()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.cast() {#method-tablecast}
 
 ```python
 self,
@@ -212,9 +186,7 @@ optional: 'bool' = False
 または wandb.Image や
 wandb.Classes のインスタンスのようなサンプル オブジェクト のいずれかです。
 
-<div id="arguments-5">
-  ##### 引数
-</div>
+##### 引数 {#arguments-5}
 
 <ResponseField name="col_name" type="ColumnKey">
   キャストする列名。
@@ -228,9 +200,7 @@ wandb.Classes のインスタンスのようなサンプル オブジェクト �
   列で None を許可するかどうか。
 </ResponseField>
 
-<div id="method-tableget_column">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_column()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_column() {#method-tableget_column}
 
 ```python
 self,
@@ -240,9 +210,7 @@ convert_to: "Literal['numpy'] | None" = None
 
 表から列を取得し、必要に応じて NumPy オブジェクトに変換します。
 
-<div id="arguments-6">
-  ##### 引数
-</div>
+##### 引数 {#arguments-6}
 
 <ResponseField name="name" type="ColumnKey">
   列の名前
@@ -252,9 +220,7 @@ convert_to: "Literal['numpy'] | None" = None
   `"numpy"` を指定すると、元のデータを NumPy オブジェクトに変換します。
 </ResponseField>
 
-<div id="method-tableget_dataframe">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_dataframe()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_dataframe() {#method-tableget_dataframe}
 
 ```python
 self
@@ -262,9 +228,7 @@ self
 
 表を `pandas.DataFrame` として返します。
 
-<div id="method-tableget_index">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_index()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Table.get_index() {#method-tableget_index}
 
 ```python
 (self)

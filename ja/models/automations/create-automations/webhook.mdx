@@ -12,9 +12,7 @@ webhook オートメーション の作成手順は、大まかに次のとお�
 2. [webhook を作成](#create-a-webhook)して、エンドポイント と認可の詳細を定義し、インテグレーションに必要な secret への access を付与します。
 3. [オートメーション を作成](#create-an-automation)して、監視する[イベント](/ja/models/automations/automation-events)と、W&amp;B が送信する ペイロード を定義します。ペイロード に必要な secret への access を オートメーション に付与します。
 
-<div id="create-a-webhook">
-  ## Webhook を作成する
-</div>
+## Webhook を作成する {#create-a-webhook}
 
 チーム管理者は、チームに Webhook を追加できます。Webhook では、W&amp;B がリクエストを送信するエンドポイントと、そこでの認証に必要な認証情報を定義します。
 
@@ -43,9 +41,7 @@ webhook オートメーション の作成手順は、大まかに次のとお�
 
 これで、Webhook を使用する[オートメーションを作成](#create-an-automation)できます。
 
-<div id="create-an-automation">
-  ## オートメーション を作成する
-</div>
+## オートメーション を作成する {#create-an-automation}
 
 [webhook を設定](#create-a-webhook)したら、どの W&amp;B イベントが webhook をトリガーし、どの ペイロード を送信するかを定義する オートメーション を作成します。必要なスコープに応じて **Registry** または **Project** を選択し、webhook をトリガーする オートメーション を作成するには、次の step に従います。
 
@@ -112,9 +108,7 @@ webhook オートメーション の作成手順は、大まかに次のとお�
 
 これらの step を完了すると、オートメーション は有効になり、Registry または project で指定したイベントが発生するたびに webhook を実行します。
 
-<div id="view-and-manage-automations">
-  ## オートメーションの表示と管理
-</div>
+## オートメーションの表示と管理 {#view-and-manage-automations}
 
 **Automations** タブでオートメーションを確認、編集、または削除します。
 
@@ -136,15 +130,11 @@ webhook オートメーション の作成手順は、大まかに次のとお�
   </Tab>
 </Tabs>
 
-<div id="payload-reference">
-  ## ペイロード リファレンス
-</div>
+## ペイロード リファレンス {#payload-reference}
 
 以下のセクションを使用して、webhook のペイロードを作成します。以下のセクションでは、ペイロードで使用可能な変数について説明し、一般的なサービス向けのペイロードの例を示します。webhook とそのペイロードのテストの詳細については、[Troubleshoot your webhook](#troubleshoot-your-webhook)を参照してください。
 
-<div id="payload-variables">
-  ### ペイロード変数
-</div>
+### ペイロード変数 {#payload-variables}
 
 次の表では、webhook のペイロードの構築に使用できる変数について説明します。
 
@@ -163,9 +153,7 @@ webhook オートメーション の作成手順は、大まかに次のとお�
 | `${ACCESS_TOKEN}`             | アクセストークンを設定している場合、[webhook](#create-a-webhook) で設定した アクセストークン の値です。W&amp;B はこれを `Authorization: Bearer` HTTP ヘッダーで自動的に渡します。                    |
 | `${SECRET_NAME}`              | 設定されている場合、[webhook](#create-a-webhook) で設定した secret の値です。`SECRET_NAME` は secret の名に置き換えてください。                                                  |
 
-<div id="payload-examples">
-  ### ペイロードの例
-</div>
+### ペイロードの例 {#payload-examples}
 
 以下の例は、一般的なユースケースにおける webhook のペイロードを示しています。これらの例では、[ペイロード変数](#payload-variables)の使い方を示します。
 
@@ -300,9 +288,7 @@ webhook オートメーション の作成手順は、大まかに次のとお�
   </Tab>
 </Tabs>
 
-<div id="troubleshoot-your-webhook">
-  ## webhook のトラブルシューティング
-</div>
+## webhook のトラブルシューティング {#troubleshoot-your-webhook}
 
 webhook が想定どおりに動作しない場合は、W&amp;B App UI を使ってインタラクティブに、またはシェルスクリプトを使ってプログラムからトラブルシューティングできます。webhook は、作成時でも作成後でもトラブルシューティングできます。
 

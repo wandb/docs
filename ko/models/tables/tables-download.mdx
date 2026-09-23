@@ -5,9 +5,7 @@ title: Table 데이터 내보내기
 
 모든 W&amp;B Artifacts와 마찬가지로 Tables도 pandas 데이터프레임으로 변환하여 데이터를 쉽게 내보낼 수 있습니다.
 
-<div id="convert-table-to-artifact">
-  ## `table`을 `artifact`로 변환하기
-</div>
+## `table`을 `artifact`로 변환하기 {#convert-table-to-artifact}
 
 먼저 `table`을 `artifact`로 변환해야 합니다. 가장 쉬운 방법은 `artifact.get(table, "table_name")`을 사용하는 것입니다:
 
@@ -27,9 +25,7 @@ with wandb.init() as r:
     table = artifact.get("my_table")
 ```
 
-<div id="convert-artifact-to-dataframe">
-  ## `artifact`를 데이터프레임으로 변환
-</div>
+## `artifact`를 데이터프레임으로 변환 {#convert-artifact-to-dataframe}
 
 이어서 테이블을 데이터프레임으로 변환합니다:
 
@@ -38,9 +34,7 @@ with wandb.init() as r:
 df = table.get_dataframe()
 ```
 
-<div id="export-data">
-  ## 데이터 내보내기
-</div>
+## 데이터 내보내기 {#export-data}
 
 이제 데이터프레임이 지원하는 모든 방법으로 내보낼 수 있습니다:
 
@@ -49,9 +43,7 @@ df = table.get_dataframe()
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
-<div id="next-steps">
-  # 다음 단계
-</div>
+# 다음 단계 {#next-steps}
 
 * `artifacts`에 대한 [레퍼런스 문서](/ko/models/artifacts/construct-an-artifact/)를 살펴보세요.
 * [Tables 워크스루](/ko/models/tables/tables-walkthrough/) 가이드를 살펴보세요.

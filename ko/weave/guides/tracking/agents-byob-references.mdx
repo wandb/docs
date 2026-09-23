@@ -9,9 +9,7 @@ import ByobReferenceSetup from "/snippets/ko/_includes/byob-reference-setup.mdx"
 
 <ByobReferenceSetup />
 
-<div id="log-a-media-reference-using-agent-spans">
-  ## agent spans를 사용해 미디어 참조 로깅하기
-</div>
+## agent spans를 사용해 미디어 참조 로깅하기 {#log-a-media-reference-using-agent-spans}
 
 버킷 URI를 에이전트 도구 결과로 반환하면, Weave가 이를 해당 결과를 생성한 도구 Call의 **Agents** 뷰에 인라인으로 표시합니다. 다음 예시에서는 conversation, turn, 도구 span을 시작하고 도구의 결과로 버킷 URI를 설정합니다. `[YOUR-TEAM]`, `[YOUR-PROJECT]`, `[YOUR-BUCKET]`를 자신의 값으로 바꾸세요.
 
@@ -69,9 +67,7 @@ import ByobReferenceSetup from "/snippets/ko/_includes/byob-reference-setup.mdx"
   이 예제는 Weave agent spans를 사용합니다. LLM calls와 전체 에이전트 루프를 포함한 완전한 multi-turn 설정은 [맞춤형 에이전트 퀵스타트](/ko/weave/custom-agents-quickstart) 를 참고하세요.
 </Note>
 
-<div id="view-the-reference-in-weave-agents">
-  ## Weave Agents에서 레퍼런스 보기
-</div>
+## Weave Agents에서 레퍼런스 보기 {#view-the-reference-in-weave-agents}
 
 `weave.init()`가 출력하는 링크를 열어 대화를 확인하세요. 참조된 이미지나 비디오는 URI를 반환한 도구 Call의 **Agents** 뷰에서 인라인으로 렌더링됩니다. 예를 들어 object가 없거나 버킷이 등록되지 않아 Weave가 URI를 확인할 수 없는 경우에는 일반 텍스트 URI string이 표시됩니다.
 

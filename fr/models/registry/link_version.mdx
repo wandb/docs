@@ -9,9 +9,7 @@ pouvez lier une version d&#39;artifact [par programmation à l&#39;aide du W&amp
 
 Lorsque vous liez un artifact, W&amp;B crée une référence entre l&#39;artifact source et l&#39;entrée de collection. La version liée pointe vers la version de l&#39;artifact source qui a été enregistrée dans un run d&#39;un projet. Vous pouvez consulter à la fois la version liée dans la collection et la version source dans le projet où elle a été enregistrée.
 
-<div id="link-an-artifact-to-a-collection">
-  ## Lier un artifact à une collection
-</div>
+## Lier un artifact à une collection {#link-an-artifact-to-a-collection}
 
 Choisissez un flux de travail selon que vous souhaitez créer l’artifact pendant un run, le créer sans run ou lier une version d’artifact existante.
 
@@ -41,9 +39,7 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
     ```
 
-    <div id="link-an-artifact-from-a-run">
-      ##### Lier un artefact depuis un run
-    </div>
+##### Lier un artefact depuis un run {#link-an-artifact-from-a-run}
 
     Utilisez `wandb.Run.link_artifact()` pour créer et lier une version d’artefact pendant un run actif. W&amp;B journalise les brouillons d’artefacts en tant que sorties du run avant de les lier.
 
@@ -82,9 +78,7 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
       run.link_artifact(artifact = artifact, target_path = target_path)
     ```
 
-    <div id="create-and-link-an-artifact">
-      ##### Créer et lier un artefact
-    </div>
+##### Créer et lier un artefact {#create-and-link-an-artifact}
 
     Utilisez `wandb.Artifact.link()` pour créer et lier un brouillon d’artefact sans initialiser explicitement un run. W&amp;B crée automatiquement un run si nécessaire pour enregistrer l’artefact avant de le lier.
 
@@ -116,9 +110,7 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
     artifact.link(target_path = target_path)
     ```
 
-    <div id="link-an-existing-artifact">
-      ##### Lier un artifact existant
-    </div>
+##### Lier un artifact existant {#link-an-existing-artifact}
 
     Utilisez `wandb.Artifact.link()` sur un artifact récupéré avec `wandb.Api().artifact()` pour lier une version existante d’un artifact déjà validé sans créer de nouveau run.
 
@@ -179,9 +171,7 @@ Choisissez un flux de travail selon que vous souhaitez créer l’artifact penda
 
 Vous pouvez [consulter les métadonnées, les informations de version, l’utilisation et les informations de traçabilité d’un artifact lié](/fr/models/registry/link_version#view-linked-artifacts-in-a-registry) ainsi que d’autres éléments dans la Registry App.
 
-<div id="unlink-an-artifact-version-from-a-collection">
-  ## Dissocier une version d’artifact d’une collection
-</div>
+## Dissocier une version d’artifact d’une collection {#unlink-an-artifact-version-from-a-collection}
 
 Utilisez le SDK Python W&amp;B ou W&amp;B Registry pour dissocier une version d’artifact d’une collection.
 
@@ -233,9 +223,7 @@ La dissociation retire la version d’artifact de la collection, mais ne supprim
   </Tab>
 </Tabs>
 
-<div id="view-linked-artifacts-in-a-registry">
-  ## Afficher les artifacts liés dans un registre
-</div>
+## Afficher les artifacts liés dans un registre {#view-linked-artifacts-in-a-registry}
 
 Affichez des informations sur les artifacts liés, comme les métadonnées, la traçabilité et les informations d’utilisation, dans le W&amp;B Registry.
 
@@ -255,13 +243,13 @@ wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 Vous avez besoin du nom complet d’un artifact lié pour accéder à la version de l’artifact par programmation.
 
 <div id="troubleshooting">
-  ## Dépannage
+  ## Dépannage {#troubleshooting}
 </div>
 
 Voici quelques points courants à vérifier si vous ne parvenez pas à lier un artifact.
 
 <div id="logging-artifacts-from-a-personal-account">
-  ### Enregistrer des Artifacts depuis un compte personnel
+  ### Enregistrer des Artifacts depuis un compte personnel {#logging-artifacts-from-a-personal-account}
 </div>
 
 Les Artifacts enregistrés dans W&amp;B avec une entité personnelle ne peuvent pas être liés au registre. Veillez à enregistrer les Artifacts à l’aide d’une entité d’équipe au sein de votre organisation. Seuls les Artifacts enregistrés au sein de l’équipe d’une organisation peuvent être liés au registre de l’organisation.
@@ -270,9 +258,7 @@ Les Artifacts enregistrés dans W&amp;B avec une entité personnelle ne peuvent 
   Veillez à enregistrer un artifact avec une entité d’équipe si vous souhaitez le lier à un registre.
 </Note>
 
-<div id="find-your-team-entity">
-  #### Trouvez votre entité d’équipe
-</div>
+#### Trouvez votre entité d’équipe {#find-your-team-entity}
 
 W&amp;B utilise le nom de votre équipe comme entité d’équipe. Par exemple, si votre équipe s’appelle **team-awesome**, votre entité d’équipe est `team-awesome`.
 
@@ -282,7 +268,7 @@ Vous pouvez confirmer le nom de votre équipe en :
 2. Copiez l’URL du site. Elle se présente sous la forme `https://wandb.ai/<team>`, où `<team>` correspond à la fois au nom de votre équipe et à son entité.
 
 <div id="log-from-a-team-entity">
-  #### Journal depuis une entité d’équipe
+  #### Journal depuis une entité d’équipe {#log-from-a-team-entity}
 </div>
 
 1. Spécifiez l’équipe comme entité lorsque vous initialisez un run avec [`wandb.init()`](/fr/models/ref/python/functions/init). Si vous ne spécifiez pas `entity` lors de l’initialisation d’un run, le run utilise votre entité par défaut, qui peut être ou non votre entité d’équipe.
@@ -304,9 +290,7 @@ Vous pouvez confirmer le nom de votre équipe en :
 
 3. Si un artifact est enregistré dans votre entité personnelle, vous devrez le journaliser à nouveau dans une entité de votre organisation.
 
-<div id="confirm-the-path-of-a-registry-in-the-wb-app-ui">
-  ### Confirmer le chemin d’un registre dans l’interface de l’application W&amp;B
-</div>
+### Confirmer le chemin d’un registre dans l’interface de l’application W&amp;B {#confirm-the-path-of-a-registry-in-the-wb-app-ui}
 
 Créez une collection vide pour confirmer le chemin du registre dans l’interface de l’application W&amp;B. Pour ce faire, suivez les étapes ci-dessous :
 

@@ -16,9 +16,7 @@ Créez et exécutez des jobs avec la commande `wandb launch`.
   Pour créer un job sans le soumettre à l’exécution, utilisez la commande `wandb job create`. Voir la [documentation de référence de la commande](/fr/models/ref/cli/wandb-job/wandb-job-create) pour plus d’informations.
 </Note>
 
-<div id="git-jobs">
-  ## Jobs basés sur Git
-</div>
+## Jobs basés sur Git {#git-jobs}
 
 Utilisez un job basé sur Git lorsque votre code source se trouve dans un dépôt distant et que vous souhaitez que Launch le clone à partir d’un commit, d’une branche ou d’un tag spécifiques. W&amp;B Launch clone le code et d&#39;autres ressources suivies à partir d&#39;un commit, d&#39;une branche ou d&#39;un tag dans un dépôt Git distant. Utilisez l&#39;option `--uri` ou `-u` pour spécifier l&#39;URI qui contient le code, et éventuellement l&#39;option `--build-context` pour spécifier un sous-répertoire.
 
@@ -39,9 +37,7 @@ Une fois la commande terminée, vous disposez d’un job réutilisable basé sur
 
 Pour construire un job à partir d&#39;une branche spécifique ou d&#39;un hash de commit précis, ajoutez l&#39;argument `-g`, `--git-hash`. Pour obtenir la liste complète des arguments, exécutez `wandb launch --help`.
 
-<div id="remote-url-format">
-  ### Format des URL distantes
-</div>
+### Format des URL distantes {#remote-url-format}
 
 Le dépôt Git distant associé à un job Launch peut avoir une URL HTTPS ou SSH. Le type d’URL détermine le protocole utilisé pour récupérer le code source du job.
 
@@ -52,9 +48,7 @@ Le dépôt Git distant associé à un job Launch peut avoir une URL HTTPS ou SSH
 
 Notez que le format exact de l’URL varie selon le fournisseur d’hébergement. Les jobs créés avec `wandb launch --uri` utilisent le protocole de transfert spécifié dans l’argument `--uri` fourni.
 
-<div id="code-artifact-jobs">
-  ## Jobs d’artefact de code
-</div>
+## Jobs d’artefact de code {#code-artifact-jobs}
 
 Utilisez un job d’artefact de code lorsque votre code source se trouve dans un répertoire local plutôt que dans un dépôt Git distant. Vous pouvez créer des jobs à partir de n’importe quel code source stocké dans un artefact W&amp;B. Utilisez un répertoire local avec l’argument `--uri` ou `-u` pour créer un artefact de code et un job.
 
@@ -87,9 +81,7 @@ La commande précédente effectue les opérations suivantes :
 
 Une fois la commande terminée, votre code local est capturé sous forme d’artefact de code W&amp;B et associé à un job réutilisable dans le projet `launch-quickstart`.
 
-<div id="image-jobs">
-  ## Jobs d’image
-</div>
+## Jobs d’image {#image-jobs}
 
 Vous pouvez également créer des jobs à partir d’images Docker prêtes à l’emploi. Cette approche est utile si vous disposez déjà d’un système de build bien établi pour votre code ML, ou si vous ne prévoyez pas d’ajuster le code ni les exigences du job, tout en souhaitant quand même expérimenter avec des hyperparamètres ou différentes tailles d’infrastructure.
 
@@ -101,9 +93,7 @@ Exécutez un job à partir d’une image prédéfinie avec la commande suivante�
 wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"           
 ```
 
-<div id="automatic-job-creation">
-  ## Création automatique de jobs
-</div>
+## Création automatique de jobs {#automatic-job-creation}
 
 En plus des jobs que vous créez explicitement avec `wandb launch`, W&amp;B peut créer des jobs pour vous comme effet secondaire de l’exécution de code suivi. W&amp;B crée et suit automatiquement un job pour tout run dont le code source est suivi, même si ce run n’a pas été créé avec Launch. Les runs sont considérés comme ayant un code source suivi si l’une des trois conditions suivantes est remplie :
 
@@ -113,9 +103,7 @@ En plus des jobs que vous créez explicitement avec `wandb launch`, W&amp;B peut
 
 Si W&amp;B crée automatiquement votre job Launch à partir d’un run W&amp;B, l’URL du dépôt Git distant est déduite du dépôt Git local.
 
-<div id="launch-job-names">
-  ### Noms des jobs Launch
-</div>
+### Noms des jobs Launch {#launch-job-names}
 
 Par défaut, W&amp;B génère automatiquement un nom de job. Ce nom dépend de la manière dont le job est créé (GitHub, artefact de code ou image Docker). Vous pouvez également définir le nom d’un job Launch à l’aide de variables d’environnement ou du SDK Python W&amp;B.
 
@@ -152,17 +140,13 @@ Nommez votre job avec une variable d’environnement W&amp;B ou avec le SDK Pyth
   Pour les jobs d’image Docker, W&amp;B ajoute automatiquement l’alias de version aux alias du job.
 </Note>
 
-<div id="containerization">
-  ## Conteneurisation
-</div>
+## Conteneurisation {#containerization}
 
 Les jobs s’exécutent dans un conteneur. Les jobs d’image utilisent une image Docker préconstruite, tandis que les jobs Git et les jobs d’artefacts de code nécessitent une étape de build du conteneur.
 
 Vous pouvez personnaliser la conteneurisation des jobs à l’aide d’arguments passés à `wandb launch` et de fichiers présents dans le code source du job. Les sections suivantes décrivent comment contrôler le contexte de build, fournir un Dockerfile personnalisé et gérer les dépendances Python.
 
-<div id="build-context">
-  ### Contexte de build
-</div>
+### Contexte de build {#build-context}
 
 Le terme build context désigne l’arborescence des fichiers et répertoires envoyés au démon Docker pour créer une image de conteneur. Par défaut, Launch utilise la racine du code source du job comme contexte de build. Pour spécifier un sous-répertoire comme contexte de build, utilisez l’argument `--build-context` de `wandb launch` lorsque vous créez et lancez un job.
 
@@ -172,16 +156,12 @@ Le terme build context désigne l’arborescence des fichiers et répertoires en
   Voir [jobs basés sur Git](#git-jobs) pour découvrir comment utiliser l’argument `--build-context` avec le dépôt officiel des jobs W&amp;B Launch.
 </Note>
 
-<div id="dockerfile">
-  ### Dockerfile
-</div>
+### Dockerfile {#dockerfile}
 
 Le Dockerfile est un fichier texte qui contient des instructions pour construire une image Docker. Par défaut, Launch utilise un Dockerfile qui installe le fichier `requirements.txt`. Pour utiliser un Dockerfile personnalisé, indiquez le chemin d’accès au fichier avec l’argument `--dockerfile` de `wandb launch`.
 
 Indiquez le chemin du Dockerfile par rapport au contexte de build. Par exemple, si le contexte de build est `jobs/hello_world` et que le Dockerfile se trouve dans le répertoire `jobs/hello_world`, définissez l’argument `--dockerfile` sur `Dockerfile.wandb`. Voir [jobs basés sur Git](#git-jobs) pour voir comment utiliser l’argument `--dockerfile` avec le dépôt officiel des jobs Launch de W&amp;B.
 
-<div id="requirements-file">
-  ### Fichier `requirements`
-</div>
+### Fichier `requirements` {#requirements-file}
 
 Si aucun Dockerfile personnalisé n’est fourni, Launch recherche dans le contexte de build les dépendances Python à installer. Si un fichier `requirements.txt` est trouvé à la racine du contexte de build, Launch installe les dépendances répertoriées dans le fichier. Sinon, si un fichier `pyproject.toml` est trouvé, Launch installe les dépendances depuis la section `project.dependencies`.

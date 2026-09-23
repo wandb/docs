@@ -44,9 +44,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-<div id="set-up-your-training-code">
-  ## トレーニングコードを設定する
-</div>
+## トレーニングコードを設定する {#set-up-your-training-code}
 
 sweep エージェントは、試行するハイパーパラメーター値の組み合わせごとにトレーニング関数を呼び出すため、最初のステップは、それらの値を受け取り、メトリクスを W&amp;B に報告する関数を記述することです。
 
@@ -71,9 +69,7 @@ def main():
         run.log({"score": score})
 ```
 
-<div id="define-the-search-space-with-a-sweep-configuration">
-  ## sweep 設定で探索空間を定義する
-</div>
+## sweep 設定で探索空間を定義する {#define-the-search-space-with-a-sweep-configuration}
 
 トレーニング関数を用意したら、次のステップは、どのハイパーパラメーターを変更するか、またそれらをどのように探索するかを W&amp;B に指定することです。
 
@@ -95,9 +91,7 @@ sweep_configuration = {
 }
 ```
 
-<div id="initialize-the-sweep">
-  ## Sweep を初期化する
-</div>
+## Sweep を初期化する {#initialize-the-sweep}
 
 sweep を初期化すると、探索空間が W&amp;B に登録され、エージェントがハイパーパラメーターの組み合わせをリクエストするために使用する識別子が返されます。
 
@@ -111,9 +105,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 詳細は、[sweeps を初期化する](/ja/models/sweeps/initialize-sweeps) を参照してください。
 
-<div id="start-the-sweep">
-  ## sweep を開始する
-</div>
+## sweep を開始する {#start-the-sweep}
 
 sweep を登録したら、Runs を実行して探索空間を探索するエージェントを起動します。
 
@@ -140,9 +132,7 @@ wandb.agent(sweep_id, function=main, count=10)
   マルチプロセッシングの詳細については、[Python 標準ライブラリの `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` の慣例の詳細については、[Real Python の `__main__` ガイド](https://realpython.com/if-name-main-python/) を参照してください。
 </Warning>
 
-<div id="optional-visualize-results">
-  ## オプション: 結果を可視化する
-</div>
+## オプション: 結果を可視化する {#optional-visualize-results}
 
 sweep の実行が始まったら、W&amp;B App でさまざまなハイパーパラメーターの組み合わせがメトリクスにどのような影響を与えるかを確認できます。
 
@@ -154,8 +144,6 @@ project を開くと、W&amp;B App のダッシュボードでリアルタイム
 
 詳細は, [sweep の結果を可視化する](/ja/models/sweeps/visualize-sweep-results)を参照してください。ダッシュボードの例については、こちらのサンプル [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3) を参照してください。
 
-<div id="optional-stop-the-agent">
-  ## 任意: エージェントを停止する
-</div>
+## 任意: エージェントを停止する {#optional-stop-the-agent}
 
 ターミナルで `Ctrl+C` を押すと、現在の run を停止できます。もう一度押すと、エージェントが終了します。

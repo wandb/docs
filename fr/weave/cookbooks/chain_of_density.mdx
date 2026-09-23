@@ -17,9 +17,7 @@ Résumer des documents techniques complexes tout en préservant les détails ess
   ![Tableau de bord d’évaluation Weave avec les résultats de synthèse Chain of Density, les métriques et des comparaisons de performances](/media/summarization/eval_dash.png)
 </Frame>
 
-<div id="what-is-chain-of-density-summarization">
-  ## Qu&#39;est-ce que la synthèse par Chain of Density
-</div>
+## Qu&#39;est-ce que la synthèse par Chain of Density {#what-is-chain-of-density-summarization}
 
 [![arXiv](https://img.shields.io/badge/arXiv-2309.04269-b31b1b.svg)](https://arxiv.org/abs/2309.04269)
 
@@ -31,9 +29,7 @@ La Chain of Density (CoD) est une technique de synthèse itérative qui produit 
 
 Cette approche est particulièrement utile pour synthétiser des articles scientifiques ou des documents techniques lorsque la préservation d&#39;informations détaillées est essentielle.
 
-<div id="why-use-weave">
-  ## Pourquoi utiliser Weave
-</div>
+## Pourquoi utiliser Weave {#why-use-weave}
 
 Dans ce tutoriel, vous utiliserez Weave pour mettre en œuvre et évaluer un pipeline de synthèse Chain of Density pour des articles ArXiv. Vous apprendrez à :
 
@@ -44,9 +40,7 @@ Dans ce tutoriel, vous utiliserez Weave pour mettre en œuvre et évaluer un pip
 
 À la fin de ce tutoriel, vous aurez créé un pipeline de synthèse CoD qui exploite les fonctionnalités de Weave pour le serving de modèles, l’évaluation et le suivi des résultats.
 
-<div id="set-up-the-environment">
-  ## Configurer l’environnement
-</div>
+## Configurer l’environnement {#set-up-the-environment}
 
 Tout d’abord, configurez l’environnement et importez les bibliothèques nécessaires. Cette étape installe les dépendances nécessaires au pipeline, notamment Weave pour le suivi, Anthropic pour le LLM et PyPDF2 pour lire les PDF d’ArXiv.
 
@@ -85,9 +79,7 @@ anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 Ce code utilise Weave pour suivre l’expérience et le modèle Claude d&#39;Anthropic pour la génération de texte. L&#39;appel `weave.init([PROJECT_NAME])` initialise un nouveau projet Weave pour la tâche de synthèse.
 
-<div id="define-the-arxivpaper-model">
-  ## Définir le modèle ArxivPaper
-</div>
+## Définir le modèle ArxivPaper {#define-the-arxivpaper-model}
 
 Une fois l’environnement prêt, l’étape suivante consiste à définir la structure de données sur laquelle le pipeline opère. Créez une classe `ArxivPaper` pour représenter les données :
 
@@ -116,9 +108,7 @@ arxiv_paper = ArxivPaper(
 
 Cette classe encapsule les métadonnées et le contenu d’un article arXiv, qui sert d’entrée au pipeline de synthèse.
 
-<div id="load-pdf-content">
-  ## Charger le contenu du PDF
-</div>
+## Charger le contenu du PDF {#load-pdf-content}
 
 Le modèle `ArxivPaper` contient des métadonnées et l’URL d’un PDF, mais le pipeline de synthèse a besoin du texte complet de l’article. Pour utiliser le contenu complet de l’article, ajoutez une fonction permettant de charger et d’extraire le texte des PDF :
 
@@ -140,9 +130,7 @@ def load_pdf(pdf_url: str) -> str:
     return text
 ```
 
-<div id="implement-chain-of-density-summarization">
-  ## Implémenter la synthèse par Chain of Density
-</div>
+## Implémenter la synthèse par Chain of Density {#implement-chain-of-density-summarization}
 
 Implémentez maintenant la logique centrale de la synthèse CoD à l’aide des opérations Weave :
 
@@ -233,9 +221,7 @@ Voici le rôle de chaque fonction :
 
 Les décorateurs `@weave.op()` permettent à Weave de suivre les entrées, les sorties et l’exécution de ces fonctions.
 
-<div id="create-a-weave-model">
-  ## Créer un modèle Weave
-</div>
+## Créer un modèle Weave {#create-a-weave-model}
 
 Une fois les fonctions de synthèse en place, l’étape suivante consiste à les empaqueter sous la forme d’un modèle Weave afin que les exécutions, les paramètres et les versions soient suivis ensemble. Encapsulons maintenant notre pipeline de synthèse dans un modèle Weave :
 
@@ -269,9 +255,7 @@ Cette classe `ArxivChainOfDensityPipeline` encapsule la logique de synthèse sou
 * Gestion des hyperparamètres : Les attributs du modèle (comme `model` et `density_iterations`) sont clairement définis et suivis d’une exécution à l’autre, ce qui facilite l’expérimentation.
 * Intégration avec l’écosystème Weave : L’utilisation de `weave.Model` fonctionne avec d’autres outils Weave, comme les évaluations et les fonctionnalités de serving.
 
-<div id="implement-evaluation-metrics">
-  ## Implémenter des métriques d’évaluation
-</div>
+## Implémenter des métriques d’évaluation {#implement-evaluation-metrics}
 
 Maintenant que le pipeline produit des résumés, vous avez besoin d’un moyen de mesurer systématiquement leur qualité. Pour évaluer la qualité des résumés, mettez en œuvre des métriques d’évaluation simples :
 
@@ -327,9 +311,7 @@ def evaluate_summary(
 
 Ces fonctions d’évaluation utilisent le modèle Claude pour évaluer la qualité des résumés générés selon leur pertinence, leur concision et leur précision technique.
 
-<div id="create-a-weave-dataset-and-run-evaluation">
-  ## Créer un dataset Weave et lancer l’évaluation
-</div>
+## Créer un dataset Weave et lancer l’évaluation {#create-a-weave-dataset-and-run-evaluation}
 
 Maintenant que la fonction de score est définie, la dernière étape consiste à l’appliquer à des exemples d’entrée et à lancer l’évaluation. Pour évaluer le pipeline, créez un dataset Weave et lancez une évaluation :
 
@@ -377,9 +359,7 @@ results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
 
 Ce code crée un dataset à partir d’un exemple d’article ArXiv, définit un scorer de qualité et lance une évaluation du pipeline de synthèse.
 
-<div id="conclusion">
-  ## Conclusion
-</div>
+## Conclusion {#conclusion}
 
 Cet exemple a montré comment mettre en place un pipeline de synthèse Chain of Density pour des articles ArXiv avec Weave. Vous avez appris à :
 

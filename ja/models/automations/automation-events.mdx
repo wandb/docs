@@ -16,9 +16,7 @@ import MultiTenantAndDedicatedCloudOnly from "/snippets/ja/_includes/multi-tenan
   チームおよび組織のスコープは、W&amp;B Multi-tenant Cloud および W&amp;B 専用クラウド (Server v0.83.0 以降) で利用できます。Registry およびプロジェクトのスコープは、すべてのデプロイメントタイプで利用できます。
 </Note>
 
-<div id="scope-reference">
-  ## スコープのリファレンス
-</div>
+## スコープのリファレンス {#scope-reference}
 
 | スコープ                  | オートメーションが監視する対象                                     | W&amp;B App で利用可能なイベント                                                                      |
 | --------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------- |
@@ -29,29 +27,21 @@ import MultiTenantAndDedicatedCloudOnly from "/snippets/ja/_includes/multi-tenan
 
 以下のセクションでは、各スコープについて詳しく説明します。
 
-<div id="organization">
-  ## 組織
-</div>
+## 組織 {#organization}
 
 組織スコープを使用すると、ポリシーを一度定義し、組織全体に適用できます。たとえば、組織内の任意のアーティファクトに `production` aliasが追加されたときに、コンプライアンス用のSlackチャンネルに通知できます。
 
 run ベースのイベント ([run ステータスの変更](#run-status-change)および[run メトリクス](#run-metrics-change)イベント) は、W&amp;B Appの組織スコープでは利用できません。
 
-<div id="team">
-  ## チーム
-</div>
+## チーム {#team}
 
 チームスコープを使用すると、1 つのチームが所有するすべての対象にポリシーを適用できます。チームスコープのオートメーションでは、組織スコープと同じ アーティファクト およびコレクションのイベントを監視できます。W&amp;B App では、チームスコープで run ベースのイベントは利用できません。
 
-<div id="registry">
-  ## Registry
-</div>
+## Registry {#registry}
 
 [Registry](/ja/models/registry) のオートメーションは、特定のレジストリ内の任意のコレクションで発生するイベントを監視します。これには、今後追加されるコレクションも含まれます。
 
-<div id="events">
-  ### イベント <a id="registry-events" aria-label="Registry events" />
-</div>
+### イベント <a id="registry-events" aria-label="Registry events" /> {#events}
 
 Registry の オートメーション は、次のイベントを監視できます。
 
@@ -60,15 +50,11 @@ Registry の オートメーション は、次のイベントを監視できま
 
 オートメーションが webhook を Call する場合、project スコープのオートメーションと同じチームレベルの webhook 設定および [team secrets](/ja/platform/secrets) にアクセスできます。
 
-<div id="project">
-  ## プロジェクト
-</div>
+## プロジェクト {#project}
 
 プロジェクト レベルのオートメーションでは、[project](/ja/models/track/project-page) 内の任意のコレクションで発生するイベントを監視します。指定するイベントに応じて、オートメーションのスコープをさらに絞り込めます。
 
-<div id="artifact-events">
-  ### Artifact イベント
-</div>
+### Artifact イベント {#artifact-events}
 
 このセクションでは、オートメーションをトリガーできる artifact 関連のイベントについて説明します。
 
@@ -76,15 +62,11 @@ Registry の オートメーション は、次のイベントを監視できま
 * **artifact に alias が追加されたとき**: プロジェクト内の artifact の新しいバージョンに、指定した **Alias regex** に一致する alias が適用されたときに、workflow の特定の step をトリガーします。たとえば、artifact に `test-set-quality-check` alias が適用されたときに一連の下流処理 step を実行したり、新しい artifact バージョンに `latest` alias が付与されるたびに workflow を実行したりできます。ある時点で、特定の alias を持てる artifact バージョンは 1 つだけです。
 * **artifact に tag が追加されたとき**: プロジェクト内の artifact バージョンに、指定した **Tag regex** に一致する tag が適用されたときに、workflow の特定の step をトリガーします。たとえば、`^europe.*` を指定すると、`europe` で始まる文字列の tag が artifact バージョンに追加されたときに、地域固有の workflow をトリガーできます。artifact の tag はグループ化やフィルターに使用します。同じ tag を複数の artifact バージョンに割り当てることができます。
 
-<div id="run-events">
-  ### run イベント
-</div>
+### run イベント {#run-events}
 
 以下のセクションでは、[run のステータス](/ja/models/runs/run-states)の変化、または [run のメトリクス値](/ja/models/track/log#what-data-is-logged-with-specific-wb-api-calls)の変化によって開始するオートメーションを設定する方法について説明します。
 
-<div id="run-status-change">
-  #### run ステータスの変更
-</div>
+#### run ステータスの変更 {#run-status-change}
 
 <Note>
   * <MultiTenantAndDedicatedCloudOnly />
@@ -99,9 +81,7 @@ run の [ステータス](/ja/models/runs/run-states) が **Running**、**Finish
 
 run ステータスは run 全体のプロパティであるため、run ステータスのオートメーションは **Automations** ページからのみ作成でき、Workspace からは作成できません。
 
-<div id="run-metrics-change">
-  #### run メトリクスの変化
-</div>
+#### run メトリクスの変化 {#run-metrics-change}
 
 <Note>
   <MultiTenantAndDedicatedCloudOnly />
@@ -115,9 +95,7 @@ run メトリクスのオートメーションを設定するには、指定し�
 
 必要に応じて、ユーザーまたは run 名のフィルターを指定して、オートメーションをトリガーできる Runs をさらに絞り込めます。
 
-<div id="threshold">
-  ##### しきい値
-</div>
+##### しきい値 {#threshold}
 
 メトリクスが固定値をまたいだときにオートメーションを開始するには、しきい値イベントを使用します。**Run metrics threshold met** イベントでは、次の項目を設定します。
 
@@ -137,9 +115,7 @@ run メトリクスのオートメーションを設定するには、指定し�
   ![run メトリクスのしきい値オートメーションを示すスクリーンショット](/images/automations/run_metrics_threshold_automation.png)
 </Frame>
 
-<div id="change-threshold">
-  ##### 変更しきい値
-</div>
+##### 変更しきい値 {#change-threshold}
 
 変更しきい値イベントを使用すると、メトリクスが最近の 2 つの値ウィンドウ間で変化したときにオートメーションを開始できます。**Run metrics change threshold met** イベントでは、オートメーションが開始するかどうかを判定するために、2 つの値の「ウィンドウ」を使用します。
 
@@ -164,9 +140,7 @@ run メトリクスのオートメーションを設定するには、指定し�
   ![run メトリクス変更しきい値オートメーションを示すスクリーンショット](/images/automations/run_metrics_change_threshold_automation.png)
 </Frame>
 
-<div id="run-metrics-z-score-change">
-  #### run メトリクスの z-score の変化
-</div>
+#### run メトリクスの z-score の変化 {#run-metrics-z-score-change}
 
 <Note>
   <MultiTenantAndDedicatedCloudOnly />
@@ -198,9 +172,7 @@ z-score 値の意味は次のとおりです。
 * z-score が -2.0 の場合、そのメトリクスは平均より 2 標準偏差低いことを意味します。
 * ±2 を超える値は、統計的に有意な外れ値と見なされることがよくあります。
 
-<div id="run-filters">
-  #### run フィルター
-</div>
+#### run フィルター {#run-filters}
 
 このセクションでは、オートメーションが評価対象の run をどのように選択するかを説明します。
 
@@ -219,9 +191,7 @@ z-score 値の意味は次のとおりです。
 
 詳細については、[オートメーションの作成](/ja/models/automations/create-automations)を参照してください。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 * [Slack オートメーションを作成する](/ja/models/automations/create-automations/slack)
 * [webhook オートメーションを作成する](/ja/models/automations/create-automations/webhook)

@@ -15,9 +15,7 @@ keywords: ["OCR", "ビジョン言語モデル", "固有表現認識", "評価",
 
 以下のセクションでは、5 つの段階を順に説明します。プロンプトの作成と改善、データセットの取得、NER パイプラインの構築、Scorer の定義、そして評価の実行です。
 
-<div id="prerequisites">
-  ## 事前準備
-</div>
+## 事前準備 {#prerequisites}
 
 始める前に、必要なライブラリをインストールしてインポートし、W&amp;B APIキーを取得して、Weave プロジェクトを初期化してください。この手順を完了すると、環境から W&amp;B に認証できるようになり、トレースを Weave プロジェクトにログできるようになります。
 
@@ -47,9 +45,7 @@ PROJECT = "vlm-handwritten-ner"
 weave.init(PROJECT)
 ```
 
-<div id="create-and-iterate-on-prompts-with-weave">
-  ## Weave でプロンプトを作成して改善する
-</div>
+## Weave でプロンプトを作成して改善する {#create-and-iterate-on-prompts-with-weave}
 
 適切なプロンプトエンジニアリングは、モデルがエンティティを正しく抽出できるようにするうえで重要です。このセクションでは、最初のプロンプトを作成し、それを Weave に公開して経時的な変更をトラッキングできるようにしたうえで、より厳格な検証ルールを使って改善します。
 
@@ -96,9 +92,7 @@ system_prompt = weave.StringPrompt(better_prompt)
 weave.publish(system_prompt, name="NER-prompt")
 ````
 
-<div id="get-the-dataset">
-  ## データセットを取得する
-</div>
+## データセットを取得する {#get-the-dataset}
 
 プロンプトを用意したら、次はパイプラインに渡す入力データが必要です。OCR パイプラインの入力として使用する、手書きのメモのデータセットを取得します。
 
@@ -120,9 +114,7 @@ html = f'<img src="{example_image}" style="max-width: 100%; height: auto;">'
 display(HTML(html))
 ```
 
-<div id="build-the-ner-pipeline">
-  ## NER パイプラインを構築する
-</div>
+## NER パイプラインを構築する {#build-the-ner-pipeline}
 
 プロンプトとデータセットの準備ができたので、それらを VLM に接続する NER パイプラインを構築します。パイプラインは 2 つの関数で構成されます。
 
@@ -213,9 +205,7 @@ Weave UI の **Traces** 表には、次のように表示されます。
   ![NER パイプラインの実行結果が表示された Weave Traces 表。](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
 </Frame>
 
-<div id="evaluate-the-pipeline-using-weave">
-  ## Weave を使ってパイプラインを評価する
-</div>
+## Weave を使ってパイプラインを評価する {#evaluate-the-pipeline-using-weave}
 
 VLM を使用して NER を実行するパイプラインを作成したので、次は Weave を使ってこれを体系的に評価し、どの程度うまく機能するかを確認できます。パイプラインを評価すると、スポットチェックに頼るのではなく、データセット全体にわたる抽出品質を測定できます。Weave の評価について詳しくは、[Evaluations Overview](/ja/weave/guides/core-types/evaluations) を参照してください。
 
@@ -226,9 +216,7 @@ Weave の評価を構成する基本要素が [Scorer](/ja/weave/guides/evaluati
 * プログラムによる scorer。
 * LLM-as-a-judge scorer。
 
-<div id="programatic-scorer">
-  ### プログラムによる Scorer
-</div>
+### プログラムによる Scorer {#programatic-scorer}
 
 最初の Scorer は、LLM を使用せずに実行される決定的なチェックです。プログラムによる Scorer である `check_for_missing_fields_programatically` は、モデルの出力 (`named_entity_recognition` 関数の出力) を受け取り、結果内で欠落している、または空の `keys` を特定します。
 
@@ -252,9 +240,7 @@ def check_for_missing_fields_programatically(model_output):
     return True  # すべての必須フィールドが存在し、空欄でない
 ```
 
-<div id="llm-as-a-judge-scorer">
-  ### LLM-as-a-judge scorer
-</div>
+### LLM-as-a-judge scorer {#llm-as-a-judge-scorer}
 
 プログラムによる scorer では、欠落しているフィールドや空のフィールドしか検出できないため、抽出された値が画像に表示されている内容と一致しているかどうかを確認するために、2 つ目の scorer が必要です。この評価ステップでは、評価結果が実際の NER のパフォーマンスを反映するように、画像データとモデルの `output` の両方を提供します。参照されるのはモデルの出力だけでなく、画像の内容そのものです。
 
@@ -318,9 +304,7 @@ def check_for_missing_fields_with_llm(model_output, image_base64):
     return response
 ```
 
-<div id="run-the-evaluation">
-  ## 評価を実行する
-</div>
+## 評価を実行する {#run-the-evaluation}
 
 両方の Scorers を定義したので、評価を実行できるようになりました。渡された `dataset` を自動的に反復処理し、結果をまとめて Weave UI にログする評価 call を定義します。
 

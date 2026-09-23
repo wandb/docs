@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
 
-<div id="function-wandbplotconfusion_matrix">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.confusion_matrix()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.plot.confusion_matrix() {#function-wandbplotconfusion_matrix}
 
 확률 또는 예측 시퀀스로 혼동 행렬을 생성합니다.
 
@@ -23,9 +21,7 @@ title: 'str' = 'Confusion Matrix Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="probs" type="Sequence[Sequence[float]] | None">
   각 클래스의 예측 확률 시퀀스입니다. 시퀀스의 형태는 (N, K)여야 합니다. 여기서 N은 샘플 수이고 K는 클래스 수입니다. 이 값을 제공하는 경우 `preds`를 제공해서는 안 됩니다.
@@ -51,22 +47,16 @@ split_table: 'bool' = False
   테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot; 섹션에 표시됩니다. 기본값은 `False`입니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `CustomChart`: W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
 
-<div id="raises">
-  ## 예외
-</div>
+## 예외 {#raises}
 
 * `ValueError`: `probs`와 `preds`가 모두 제공되었거나, 예측값 수와 실제 레이블 수가 서로 다를 경우 발생합니다. 고유한 예측 클래스 수가 클래스 이름 수를 초과하거나, 고유한 실제 레이블 수가 클래스 이름 수를 초과하는 경우에도 발생합니다.
 * `wandb.Error`: numpy가 설치되어 있지 않으면 발생합니다.
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 야생동물 분류에 대한 무작위 확률로 혼동 행렬을 로깅하는 예시:
 

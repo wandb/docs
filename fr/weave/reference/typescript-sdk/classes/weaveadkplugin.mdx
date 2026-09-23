@@ -15,47 +15,31 @@ invoque chaque callback ; ils sont donc tous présents, même lorsqu&#39;un call
 ADK considère toute valeur de retour autre que `undefined` comme un court-circuit ; chaque callback
 capture donc ses propres erreurs et renvoie `undefined`.
 
-<div id="implements">
-  ## Implémente
-</div>
+## Implémente {#implements}
 
 * `BasePlugin`
 
-<div id="constructor">
-  ## Constructeur
-</div>
+## Constructeur {#constructor}
 
 > **new WeaveAdkPlugin**(): `WeaveAdkPlugin`
 
-<div id="returns">
-  ### Renvoie
-</div>
+### Renvoie {#returns}
 
 `WeaveAdkPlugin`
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
-<div id="name">
-  ### nom
-</div>
+### nom {#name}
 
 > `readonly` **nom**: `"weave"` = `WEAVE_ADK_PLUGIN_NAME`
 
-<div id="implementation-of">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of}
 
 `AdkBasePlugin.name`
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="afteragentcallback">
-  ### afterAgentCallback()
-</div>
+### afterAgentCallback() {#afteragentcallback}
 
 > **afterAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
@@ -64,9 +48,7 @@ Callback exécuté après l&#39;exécution de la logique principale d&#39;un age
 Ce callback peut être utilisé pour inspecter, journaliser ou modifier le
 résultat final de l&#39;agent avant qu&#39;il ne soit renvoyé.
 
-<div id="parameters">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -80,9 +62,7 @@ résultat final de l&#39;agent avant qu&#39;il ne soit renvoyé.
   </Expandable>
 </ParamField>
 
-<div id="returns-2">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-2}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -90,17 +70,13 @@ Un objet `Content` facultatif. Si une valeur est renvoyée, elle
 remplace le résultat d&#39;origine de l&#39;agent. Renvoyer `undefined` conserve le
 résultat d&#39;origine, sans modification.
 
-<div id="implementation-of-2">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-2}
 
 `AdkBasePlugin.afterAgentCallback`
 
 ***
 
-<div id="aftercontextcompaction">
-  ### afterContextCompaction()
-</div>
+### afterContextCompaction() {#aftercontextcompaction}
 
 > **afterContextCompaction**(`_params`) : `Promise`&lt;`undefined`&gt;
 
@@ -109,29 +85,21 @@ Callback exécuté après le compactage du contexte.
 Ce callback permet d’inspecter le contexte
 après son compactage.
 
-<div id="parameters-2">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-2}
 
 <ParamField path="_params" type="unknown" required />
 
-<div id="returns-3">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-3}
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of-3">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-3}
 
 `AdkBasePlugin.afterContextCompaction`
 
 ***
 
-<div id="aftermodelcallback">
-  ### afterModelCallback()
-</div>
+### afterModelCallback() {#aftermodelcallback}
 
 > **afterModelCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
@@ -140,9 +108,7 @@ Callback exécuté après réception d’une réponse du modèle.
 C’est l’emplacement idéal pour journaliser les réponses du modèle, collecter des métriques sur l’utilisation des jetons
 ou effectuer un post-traitement sur le `LlmResponse` brut.
 
-<div id="parameters-3">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-3}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriété" defaultOpen>
@@ -156,9 +122,7 @@ ou effectuer un post-traitement sur le `LlmResponse` brut.
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-4}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -166,17 +130,13 @@ Valeur facultative. Une valeur de retour autre que `undefined` peut être utilis
 framework pour modifier ou remplacer la réponse. Renvoyer `undefined`
 permet d&#39;utiliser la réponse d&#39;origine.
 
-<div id="implementation-of-4">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-4}
 
 `AdkBasePlugin.afterModelCallback`
 
 ***
 
-<div id="afterruncallback">
-  ### afterRunCallback()
-</div>
+### afterRunCallback() {#afterruncallback}
 
 > **afterRunCallback**(`params`) : `Promise`&lt;`undefined`&gt;
 
@@ -185,9 +145,7 @@ Callback exécuté une fois qu’une exécution du runner ADK est terminée.
 Il s’agit du callback final du cycle de vie ADK, adapté au nettoyage,
 à la journalisation finale ou aux tâches de génération de rapports.
 
-<div id="parameters-4">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-4}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -197,25 +155,19 @@ Il s’agit du callback final du cycle de vie ADK, adapté au nettoyage,
   </Expandable>
 </ParamField>
 
-<div id="returns-5">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-5}
 
 `Promise`&lt;`undefined`&gt;
 
 indéfini
 
-<div id="implementation-of-5">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-5}
 
 `AdkBasePlugin.afterRunCallback`
 
 ***
 
-<div id="aftertoolcallback">
-  ### afterToolCallback()
-</div>
+### afterToolCallback() {#aftertoolcallback}
 
 > **afterToolCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
@@ -224,9 +176,7 @@ Callback exécuté après l’appel d’un outil.
 Ce callback permet d’inspecter, de journaliser ou de modifier le résultat
 renvoyé par un outil.
 
-<div id="parameters-5">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-5}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -248,9 +198,7 @@ renvoyé par un outil.
   </Expandable>
 </ParamField>
 
-<div id="returns-6">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-6}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -259,17 +207,13 @@ Un dictionnaire facultatif. Si un dictionnaire est renvoyé, il
 post-traiter ou de modifier les sorties de l’outil. Renvoyer `undefined` conserve
 le résultat original, non modifié.
 
-<div id="implementation-of-6">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-6}
 
 `AdkBasePlugin.afterToolCallback`
 
 ***
 
-<div id="beforeagentcallback">
-  ### beforeAgentCallback()
-</div>
+### beforeAgentCallback() {#beforeagentcallback}
 
 > **beforeAgentCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
@@ -277,9 +221,7 @@ Callback exécuté avant la logique principale d’un agent.
 
 Ce callback peut être utilisé pour la journalisation, la configuration ou pour interrompre prématurément l’exécution de l’agent en renvoyant une valeur.
 
-<div id="parameters-6">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-6}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -293,9 +235,7 @@ Ce callback peut être utilisé pour la journalisation, la configuration ou pour
   </Expandable>
 </ParamField>
 
-<div id="returns-7">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-7}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -303,17 +243,13 @@ Un objet `Content` facultatif. Si une valeur est renvoyée, elle
 contourne les callbacks de l’agent et son exécution, et est renvoyée directement.
 Renvoyer `undefined` permet à l’agent de poursuivre normalement.
 
-<div id="implementation-of-7">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-7}
 
 `AdkBasePlugin.beforeAgentCallback`
 
 ***
 
-<div id="beforecontextcompaction">
-  ### beforeContextCompaction()
-</div>
+### beforeContextCompaction() {#beforecontextcompaction}
 
 > **beforeContextCompaction**(`_params`) : `Promise`&lt;`undefined`&gt;
 
@@ -322,29 +258,21 @@ Callback exécuté avant le compactage du contexte.
 Ce callback permet d’inspecter ou de modifier le contexte
 avant qu’il ne soit compacté.
 
-<div id="parameters-7">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-7}
 
 <ParamField path="_params" type="unknown" required />
 
-<div id="returns-8">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-8}
 
 `Promise`&lt;`undefined`&gt;
 
-<div id="implementation-of-8">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-8}
 
 `AdkBasePlugin.beforeContextCompaction`
 
 ***
 
-<div id="beforemodelcallback">
-  ### beforeModelCallback()
-</div>
+### beforeModelCallback() {#beforemodelcallback}
 
 > **beforeModelCallback**(`params`) : `Promise`&lt;`undefined`&gt;
 
@@ -354,9 +282,7 @@ Permet d’inspecter, de journaliser ou de modifier l’objet `LlmRequest`.
 Peut également servir à implémenter la mise en cache en renvoyant une
 `LlmResponse` mise en cache, ce qui évite l’appel de modèle réel.
 
-<div id="parameters-8">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-8}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriété" defaultOpen>
@@ -370,9 +296,7 @@ Peut également servir à implémenter la mise en cache en renvoyant une
   </Expandable>
 </ParamField>
 
-<div id="returns-9">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-9}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -380,17 +304,13 @@ Une valeur facultative. Une valeur différente de `undefined`
 déclenche une sortie anticipée et renvoie immédiatement la réponse. Renvoyer
 `undefined` permet à la requête LLM de se poursuivre normalement.
 
-<div id="implementation-of-9">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-9}
 
 `AdkBasePlugin.beforeModelCallback`
 
 ***
 
-<div id="beforeruncallback">
-  ### beforeRunCallback()
-</div>
+### beforeRunCallback() {#beforeruncallback}
 
 > **beforeRunCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
@@ -399,9 +319,7 @@ Callback exécuté avant l’exécution du runner ADK.
 Il s’agit du premier callback appelé dans le cycle de vie, idéal pour les tâches globales de
 configuration ou d’initialisation.
 
-<div id="parameters-9">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-9}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -412,9 +330,7 @@ configuration ou d’initialisation.
   </Expandable>
 </ParamField>
 
-<div id="returns-10">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-10}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -422,17 +338,13 @@ Un `Event` facultatif à renvoyer à l&#39;ADK. Renvoyez une valeur
 pour interrompre l&#39;exécution du runner et le terminer avec cet événement.
 Renvoyez `undefined` pour poursuivre normalement.
 
-<div id="implementation-of-10">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-10}
 
 `AdkBasePlugin.beforeRunCallback`
 
 ***
 
-<div id="beforetoolcallback">
-  ### beforeToolCallback()
-</div>
+### beforeToolCallback() {#beforetoolcallback}
 
 > **beforeToolCallback**(`params`) : `Promise`&lt;`undefined`&gt;
 
@@ -441,9 +353,7 @@ Callback exécuté avant l&#39;appel d&#39;un outil.
 Ce callback est utile pour journaliser l&#39;utilisation des outils, valider les entrées ou
 modifier les arguments avant qu&#39;ils ne soient transmis à l&#39;outil.
 
-<div id="parameters-10">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-10}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -462,25 +372,19 @@ modifier les arguments avant qu&#39;ils ne soient transmis à l&#39;outil.
   </Expandable>
 </ParamField>
 
-<div id="returns-11">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-11}
 
 `Promise`&lt;`undefined`&gt;
 
 Un dictionnaire facultatif. Si un dictionnaire est renvoyé, l’exécution de l’outil est interrompue et cette réponse est renvoyée immédiatement. Renvoyer `undefined` utilise les arguments d’origine non modifiés.
 
-<div id="implementation-of-11">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-11}
 
 `AdkBasePlugin.beforeToolCallback`
 
 ***
 
-<div id="beforetoolselection">
-  ### beforeToolSelection()
-</div>
+### beforeToolSelection() {#beforetoolselection}
 
 > **beforeToolSelection**(`_params`) : `Promise`&lt;`undefined`&gt;
 
@@ -489,15 +393,11 @@ Callback exécuté avant la sélection d’un outil.
 Ce callback permet d’inspecter, de journaliser ou de modifier les
 outils disponibles avant leur sélection.
 
-<div id="parameters-11">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-11}
 
 <ParamField path="_params" type="unknown" required />
 
-<div id="returns-12">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-12}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -505,17 +405,13 @@ Valeur facultative. Le framework peut utiliser une valeur de retour autre que
 `undefined` pour modifier ou remplacer les outils disponibles. Renvoyer
 `undefined` permet d&#39;utiliser les outils d&#39;origine.
 
-<div id="implementation-of-12">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-12}
 
 `AdkBasePlugin.beforeToolSelection`
 
 ***
 
-<div id="finishinterruptedinvocation">
-  ### finishInterruptedInvocation()
-</div>
+### finishInterruptedInvocation() {#finishinterruptedinvocation}
 
 > **finishInterruptedInvocation**(`invocationId`): `void`
 
@@ -526,23 +422,17 @@ quitte `runAsync` prématurément — ou un run annulé — laisse l’invocatio
 bloc `finally` pour les fermer en tant qu’interrompus. Idempotent : aucune opération si le run
 est déjà terminé (le cas courant, lorsqu’il a été entièrement consommé).
 
-<div id="parameters-12">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-12}
 
 <ParamField path="invocationId" type="string" required />
 
-<div id="returns-13">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-13}
 
 `void`
 
 ***
 
-<div id="oneventcallback">
-  ### onEventCallback()
-</div>
+### onEventCallback() {#oneventcallback}
 
 > **onEventCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
@@ -551,9 +441,7 @@ Callback exécuté après qu’un événement a été émis par le runner.
 C’est l’emplacement idéal pour modifier l’événement avant qu’il ne soit
 géré par l’application d’agent sous-jacente.
 
-<div id="parameters-13">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-13}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -567,9 +455,7 @@ géré par l’application d’agent sous-jacente.
   </Expandable>
 </ParamField>
 
-<div id="returns-14">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-14}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -577,17 +463,13 @@ Valeur facultative. Une valeur de retour autre que `undefined` peut être utilis
 framework pour modifier ou remplacer la réponse. Renvoyer `undefined`
 permet d&#39;utiliser la réponse d&#39;origine.
 
-<div id="implementation-of-13">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-13}
 
 `AdkBasePlugin.onEventCallback`
 
 ***
 
-<div id="onmodelerrorcallback">
-  ### onModelErrorCallback()
-</div>
+### onModelErrorCallback() {#onmodelerrorcallback}
 
 > **onModelErrorCallback**(`params`): `Promise`&lt;`undefined`&gt;
 
@@ -596,9 +478,7 @@ Callback exécuté lorsqu’un appel de modèle rencontre une erreur.
 Ce callback permet de gérer les erreurs de modèle de manière appropriée,
 en fournissant éventuellement des réponses alternatives ou des mécanismes de récupération.
 
-<div id="parameters-14">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-14}
 
 <ParamField path="params" type="object" required>
   <Expandable title="propriété" defaultOpen>
@@ -617,9 +497,7 @@ en fournissant éventuellement des réponses alternatives ou des mécanismes de 
   </Expandable>
 </ParamField>
 
-<div id="returns-15">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-15}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -627,17 +505,13 @@ Une LlmResponse facultative. Si une LlmResponse est renvoyée, elle est
 utilisée au lieu de propager l’erreur. Renvoyer `undefined` permet
 de lever l’erreur d’origine.
 
-<div id="implementation-of-14">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-14}
 
 `AdkBasePlugin.onModelErrorCallback`
 
 ***
 
-<div id="ontoolerrorcallback">
-  ### onToolErrorCallback()
-</div>
+### onToolErrorCallback() {#ontoolerrorcallback}
 
 > **onToolErrorCallback**(`params`) : `Promise`&lt;`undefined`&gt;
 
@@ -656,9 +530,7 @@ Callback exécuté lorsqu’un appel d’outil rencontre une erreur.
 Ce callback permet de gérer les erreurs d’outil avec élégance,
 en fournissant éventuellement des réponses alternatives ou des mécanismes de récupération.
 
-<div id="parameters-15">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-15}
 
 <ParamField path="params" type="object" required>
   <Expandable title="properties" defaultOpen>
@@ -680,9 +552,7 @@ en fournissant éventuellement des réponses alternatives ou des mécanismes de 
   </Expandable>
 </ParamField>
 
-<div id="returns-16">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-16}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -690,17 +560,13 @@ Un dictionnaire facultatif. Si un dictionnaire est renvoyé, il est
 utilisé comme réponse de l’outil au lieu de propager l’erreur. Renvoyer
 `undefined` permet de lever l’erreur d’origine.
 
-<div id="implementation-of-15">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-15}
 
 `AdkBasePlugin.onToolErrorCallback`
 
 ***
 
-<div id="onusermessagecallback">
-  ### onUserMessageCallback()
-</div>
+### onUserMessageCallback() {#onusermessagecallback}
 
 > **onUserMessageCallback**(`_params`): `Promise`&lt;`undefined`&gt;
 
@@ -708,9 +574,7 @@ Callback exécuté lorsqu’un message utilisateur est reçu avant le début d�
 
 Ce callback permet de journaliser et de modifier le message utilisateur avant que le runner ne démarre l’invocation.
 
-<div id="parameters-16">
-  #### Paramètres
-</div>
+#### Paramètres {#parameters-16}
 
 <ParamField path="_params" type="object" required>
   <Expandable title="propriétés" defaultOpen>
@@ -720,9 +584,7 @@ Ce callback permet de journaliser et de modifier le message utilisateur avant qu
   </Expandable>
 </ParamField>
 
-<div id="returns-17">
-  #### Renvoie
-</div>
+#### Renvoie {#returns-17}
 
 `Promise`&lt;`undefined`&gt;
 
@@ -730,8 +592,6 @@ Un `Content` facultatif à renvoyer à l’ADK. Renvoyez une
 valeur pour remplacer le message de l’utilisateur. Renvoyez `undefined` pour poursuivre
 normalement.
 
-<div id="implementation-of-16">
-  #### Implémentation de
-</div>
+#### Implémentation de {#implementation-of-16}
 
 `AdkBasePlugin.onUserMessageCallback`

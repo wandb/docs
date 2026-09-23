@@ -3,9 +3,7 @@ description: W&B に保存したデータをエクスポートまたは更新す
 title: データのエクスポートと更新
 ---
 
-<div id="export-data">
-  ## データをエクスポートする
-</div>
+## データをエクスポートする {#export-data}
 
 Public API を使用して、W&amp;B に保存したデータをエクスポートまたは更新できます。この API を使用する前に、スクリプトからデータをログしてください。詳細は [クイックスタート](/ja/models/quickstart/) を参照してください。
 
@@ -16,9 +14,7 @@ Public API を使用して、W&amp;B に保存したデータをエクスポー�
 
 利用可能な関数の詳細は、[Generated Reference Docs](/ja/models/ref/python/public-api/) を参照してください。
 
-<div id="export-run-data">
-  ### run データをエクスポート
-</div>
+### run データをエクスポート {#export-run-data}
 
 完了済みまたは実行中の run からデータをダウンロードします。一般的な用途としては、Jupyter Notebook で独自の分析を行うためにデータフレームをダウンロードしたり、自動化された環境で独自のロジックを使用したりすることが挙げられます。
 
@@ -39,9 +35,7 @@ run オブジェクトで最もよく使用される属性は次のとおりで�
 
 過去の run のデータを変更または更新することもできます。デフォルトでは、api object の単一インスタンスがすべてのネットワーク request をキャッシュします。実行中のスクリプトでリアルタイムの情報が必要な場合は、`api.flush()` を呼び出して更新された値を取得してください。
 
-<div id="querying-multiple-runs">
-  ### 複数の Runs をクエリする
-</div>
+### 複数の Runs をクエリする {#querying-multiple-runs}
 
 <Tabs>
   <Tab title="DataFrame と CSV">
@@ -96,15 +90,11 @@ run オブジェクトで最もよく使用される属性は次のとおりで�
 
 `api.runs` は `order` キーワード引数も受け取ります。デフォルトの並び順は `-created_at` です。結果を昇順にするには、`+created_at` を指定します。設定や summary の値でソートすることもできます。たとえば、`summary.val_acc` や `config.experiment_name` です。
 
-<div id="error-handling">
-  ### エラー処理
-</div>
+### エラー処理 {#error-handling}
 
 W&amp;B サーバーとの通信中にエラーが発生すると、`wandb.CommError` が送出されます。元の例外は `exc` 属性から確認できます。
 
-<div id="get-a-runs-name-and-id-during-an-active-run">
-  ### アクティブな run の実行中に run 名と ID を取得する
-</div>
+### アクティブな run の実行中に run 名と ID を取得する {#get-a-runs-name-and-id-during-an-active-run}
 
 `wandb.init()` を呼び出すと、スクリプトからランダムな run ID や人が読める run 名に次のようにアクセスできます。
 
@@ -118,13 +108,9 @@ run に役立つ識別子を設定する方法を検討している場合は、�
 * **Run notes**: run で何をしているかを簡単に説明するのに最適です。`wandb.init(notes="your notes here")` で設定できます。
 * **Run tags**: run tags で項目を動的にトラッキングし、UI のフィルターを使用して表を必要な run だけに絞り込めます。タグはスクリプトから設定でき、Runs table と run ページの Overview タブの両方で UI から編集できます。詳しい手順は[こちら](/ja/models/runs/tags/)を参照してください。
 
-<div id="public-api-examples">
-  ## Public APIの例
-</div>
+## Public APIの例 {#public-api-examples}
 
-<div id="read-metrics-from-a-run">
-  ### run のメトリクスを読み取る
-</div>
+### run のメトリクスを読み取る {#read-metrics-from-a-run}
 
 この例では、`"<entity>/<project>/<run_id>"` に保存された run から、`run.log({"accuracy": acc})` で保存したタイムスタンプと accuracy を出力します。
 
@@ -139,9 +125,7 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-<div id="read-specific-metrics-from-a-run">
-  ### run から特定のメトリクスを読み取る
-</div>
+### run から特定のメトリクスを読み取る {#read-specific-metrics-from-a-run}
 
 run から特定のメトリクスを取得するには、`keys` 引数を使用します。`run.history()` を使用する場合のデフォルトのサンプル数は 500 です。特定のメトリクスを含まないログ済みの step は、出力データフレームでは `NaN` として表示されます。`keys` 引数を指定すると、API は一覧にあるメトリクス key を含む step をより高い頻度でサンプリングします。
 
@@ -156,9 +140,7 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-<div id="compare-two-runs">
-  ### 2 つの run を比較する
-</div>
+### 2 つの run を比較する {#compare-two-runs}
 
 これにより、`run1` と `run2` で異なる設定パラメーターが出力されます。
 
@@ -188,9 +170,7 @@ n_conv_layers                               5                    4
 optimizer                             rmsprop                 adam
 ```
 
-<div id="update-metrics-for-a-run-after-the-run-has-finished">
-  ### 完了した run のメトリクスを更新する
-</div>
+### 完了した run のメトリクスを更新する {#update-metrics-for-a-run-after-the-run-has-finished}
 
 この例では、以前の run のaccuracyを `0.9` に設定します。
 
@@ -204,9 +184,7 @@ run.summary["accuracy"] = 0.9
 run.summary.update()
 ```
 
-<div id="rename-a-metric-in-a-completed-run">
-  ### 完了したrun内のメトリクス名を変更する
-</div>
+### 完了したrun内のメトリクス名を変更する {#rename-a-metric-in-a-completed-run}
 
 この例では、表内のsummary列の名前を変更します。
 
@@ -225,9 +203,7 @@ run.summary.update()
   列名の変更が適用されるのは表のみです。チャートでは引き続き、メトリクスは元の名前で参照されます。
 </Note>
 
-<div id="update-config-for-an-existing-run">
-  ### 既存のrunの設定を更新する
-</div>
+### 既存のrunの設定を更新する {#update-config-for-an-existing-run}
 
 この例では、設定項目の 1 つを更新します。
 
@@ -243,9 +219,7 @@ run.update()
 
 詳細については、[実験の設定](/ja/models/track/config#existing-run)を参照してください。
 
-<div id="export-system-resource-consumptions-to-a-csv-file">
-  ### システムリソースの使用量をCSVファイルにエクスポートする
-</div>
+### システムリソースの使用量をCSVファイルにエクスポートする {#export-system-resource-consumptions-to-a-csv-file}
 
 以下のスニペットでは、システムリソースの使用量を検索し、その結果をCSVに保存します。
 
@@ -257,9 +231,7 @@ system_metrics = run.history(stream="events")
 system_metrics.to_csv("sys_metrics.csv")
 ```
 
-<div id="get-unsampled-metric-data">
-  ### サンプリングされていないメトリクスデータを取得する
-</div>
+### サンプリングされていないメトリクスデータを取得する {#get-unsampled-metric-data}
 
 history からデータを取得する場合、デフォルトでは 500 ポイントにサンプリングされます。`run.scan_history()` を使用すると、ログされたすべてのデータポイントを取得できます。以下は、history にログされた `loss` の全データポイントをダウンロードする例です。
 
@@ -273,9 +245,7 @@ history = run.scan_history()
 losses = [row["loss"] for row in history]
 ```
 
-<div id="get-paginated-data-from-history">
-  ### history からページ単位でデータを取得する
-</div>
+### history からページ単位でデータを取得する {#get-paginated-data-from-history}
 
 run の完全な未サンプリングの履歴を取得するには、`run.scan_history()` を使用します。未サンプリングの履歴には、その run のすべての履歴レコードが含まれます。これに対して、`run.history()` のサンプリングされたビューでは、個々のレコードが省略される場合があります。
 
@@ -292,9 +262,7 @@ run = api.run("<entity>/<project>/<run_id>")
 run.scan_history(keys=sorted(cols), page_size=100)
 ```
 
-<div id="export-metrics-from-all-runs-in-a-project-to-a-csv-file">
-  ### プロジェクト内のすべての Runs のメトリクスを CSV ファイルにエクスポートする
-</div>
+### プロジェクト内のすべての Runs のメトリクスを CSV ファイルにエクスポートする {#export-metrics-from-all-runs-in-a-project-to-a-csv-file}
 
 このスクリプトはプロジェクト内の Runs を取得し、それらの名、設定、summary の統計を含む Runs のデータフレームと CSV を生成します。`<entity>` と `<project>` は、それぞれ W&amp;B の entity とプロジェクトの名に置き換えてください。
 
@@ -327,9 +295,7 @@ runs_df = pd.DataFrame(
 runs_df.to_csv("project.csv")
 ```
 
-<div id="get-the-starting-time-for-a-run">
-  ### run の開始時刻を取得する
-</div>
+### run の開始時刻を取得する {#get-the-starting-time-for-a-run}
 
 このコード例では、run が作成された時刻を取得します。
 
@@ -342,9 +308,7 @@ run = api.run("entity/project/run_id")
 start_time = run.created_at
 ```
 
-<div id="upload-files-to-a-finished-run">
-  ### 完了済みの run にファイルをアップロードする
-</div>
+### 完了済みの run にファイルをアップロードする {#upload-files-to-a-finished-run}
 
 以下のコードスニペットは、選択したファイルを完了済みの run にアップロードします。
 
@@ -357,9 +321,7 @@ run = api.run("entity/project/run_id")
 run.upload_file("file_name.extension")
 ```
 
-<div id="download-a-file-from-a-run">
-  ### run からファイルをダウンロードする
-</div>
+### run からファイルをダウンロードする {#download-a-file-from-a-run}
 
 これは、cifar プロジェクトの run ID uxte44z7 に紐づくファイル &quot;model-best.h5&quot; を検索し、ローカルに保存します。
 
@@ -372,9 +334,7 @@ run = api.run("<entity>/<project>/<run_id>")
 run.file("model-best.h5").download()
 ```
 
-<div id="download-all-files-from-a-run">
-  ### run からすべてのファイルをダウンロードする
-</div>
+### run からすべてのファイルをダウンロードする {#download-all-files-from-a-run}
 
 これにより、run に関連付けられたすべてのファイルを見つけてローカルに保存します。
 
@@ -388,9 +348,7 @@ for file in run.files():
     file.download()
 ```
 
-<div id="get-runs-from-a-specific-sweep">
-  ### 特定の sweep から run を取得する
-</div>
+### 特定の sweep から run を取得する {#get-runs-from-a-specific-sweep}
 
 このスニペットでは、特定の sweep に関連するすべての run をダウンロードします。
 
@@ -403,9 +361,7 @@ sweep = api.sweep("<entity>/<project>/<sweep_id>")
 sweep_runs = sweep.runs
 ```
 
-<div id="get-the-best-run-from-a-sweep">
-  ### sweep から最適な run を取得する
-</div>
+### sweep から最適な run を取得する {#get-the-best-run-from-a-sweep}
 
 以下のスニペットは、指定した sweep から最適な run を取得します。
 
@@ -420,9 +376,7 @@ best_run = sweep.best_run()
 
 `best_run` は、sweep 設定の `metric` パラメーターで指定されたメトリクスが最も優れている run です。
 
-<div id="download-the-best-model-file-from-a-sweep">
-  ### sweep から最良のモデルファイルをダウンロードする
-</div>
+### sweep から最良のモデルファイルをダウンロードする {#download-the-best-model-file-from-a-sweep}
 
 このスニペットでは、モデルファイルを `model.h5` として保存した Runs を含む sweep から、検証精度が最も高いモデルファイルをダウンロードします。
 
@@ -440,9 +394,7 @@ runs[0].file("model.h5").download(replace=True)
 print("Best model saved to model-best.h5")
 ```
 
-<div id="delete-all-files-with-a-given-extension-from-a-run">
-  ### run から指定した拡張子のファイルをすべて削除する
-</div>
+### run から指定した拡張子のファイルをすべて削除する {#delete-all-files-with-a-given-extension-from-a-run}
 
 このスニペットでは、run から指定した拡張子のファイルをすべて削除します。
 
@@ -460,9 +412,7 @@ for file in files:
         file.delete()
 ```
 
-<div id="download-system-metrics-data">
-  ### システムメトリクスデータをダウンロードする
-</div>
+### システムメトリクスデータをダウンロードする {#download-system-metrics-data}
 
 このスニペットは、run のシステムリソース消費に関するすべてのメトリクスを含むデータフレームを生成し、CSV に保存します。
 
@@ -476,9 +426,7 @@ system_metrics = run.history(stream="events")
 system_metrics.to_csv("sys_metrics.csv")
 ```
 
-<div id="update-summary-metrics">
-  ### summaryメトリクスを更新する
-</div>
+### summaryメトリクスを更新する {#update-summary-metrics}
 
 辞書を渡してsummaryメトリクスを更新できます。
 
@@ -486,9 +434,7 @@ system_metrics.to_csv("sys_metrics.csv")
 summary.update({"key": val})
 ```
 
-<div id="get-the-command-that-ran-the-run">
-  ### run の実行に使用されたコマンドを取得する
-</div>
+### run の実行に使用されたコマンドを取得する {#get-the-command-that-ran-the-run}
 
 各 run では、その run の起動に使用されたコマンドが run の概要ページに記録されます。API からこのコマンドを取得するには、次を実行します。
 

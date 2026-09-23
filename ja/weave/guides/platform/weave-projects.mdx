@@ -8,9 +8,7 @@ Weave project を使うと、トレース、評価、モデル、データセッ
 
 このページでは、Weave project に含まれるリソース、プロジェクトパス の仕組み、W&amp;B UI または Weave SDK を使用して project を作成、表示、削除する方法について説明します。
 
-<div id="project-resources">
-  ## projectリソース
-</div>
+## projectリソース {#project-resources}
 
 project には、次のリソースが保存されます。
 
@@ -23,9 +21,7 @@ project には、次のリソースが保存されます。
 | **スレッド**    | 完全なユーザーインタラクションを分析するために、関連する call を共有のスレッド ID の下にグループ化する、複数ターンの会話とセッションベースのワークフローです。[Threads](/ja/weave/guides/tracking/threads) を参照してください。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | **Assets**  | **Assets** タブには、project 内のバージョン管理されたオブジェクトが保存・整理されます: <ul><li>**Models**: プロンプト、パラメーター、設定を記録するバージョン管理されたモデル定義で、再現性と比較のために変更を自動的にトラッキングします。[Models](/ja/weave/guides/core-types/models) を参照してください。</li><li>**データセット**: ダウンロード、閲覧、評価の実行に使用できる、Weave オブジェクトとして保存されたテスト例のコレクションです。[Datasets](/ja/weave/guides/core-types/datasets) を参照してください。</li><li>**Prompts**: モデル設定でテストして再利用できる、バージョン管理された system prompt です。[Prompts](/ja/weave/guides/core-types/prompts) を参照してください。</li><li>**Scorers**: 品質、安全性、またはカスタムメトリクスを測定するために、モデルの入力と出力を評価する関数です。[Scorers](/ja/weave/guides/evaluation/scorers) を参照してください。</li><li>**Ops**: `@weave.op()` でデコレートされ、自動的にバージョン管理およびトラッキングされる関数で、call を生成し、関数の変更履歴を保持します。[Ops](/ja/weave/guides/tracking/ops) を参照してください。</li><li>**その他のオブジェクトとメタデータ**: project 内に保存される、追加の Weave オブジェクト、カスタム型、および関連メタデータです。</li></ul> |
 
-<div id="project-paths">
-  ## projectのパス
-</div>
+## projectのパス {#project-paths}
 
 [Teams](/ja/platform/hosting/iam/org_team_struct#team) (entities とも呼ばれます) が、W&amp;B 組織内のprojectを所有・管理します。チーム名とproject名を組み合わせたものが、W&amp;B UI でのprojectのパスになります。コードでもこのパスを使用して、Weave リソースをprojectに関連付けます。
 
@@ -41,9 +37,7 @@ my-team/my-project
 weave.init('my-team/my-project')
 ```
 
-<div id="create-and-find-projects">
-  ## projectの作成と検索
-</div>
+## projectの作成と検索 {#create-and-find-projects}
 
 W&amp;B UI を使用するか、コードで新しいプロジェクトパスを設定することで、Weave project を作成できます。
 
@@ -89,9 +83,7 @@ W&amp;B UI を使用するか、コードで新しいプロジェクトパスを
   </Tab>
 </Tabs>
 
-<div id="view-projects-in-the-ui">
-  ## UI でprojectを表示する
-</div>
+## UI でprojectを表示する {#view-projects-in-the-ui}
 
 Weave UI でprojectにアクセスするには、次の手順に従います。
 
@@ -106,9 +98,7 @@ Weave UI でprojectにアクセスするには、次の手順に従います。
   ![Weave project](/weave/guides/platform/imgs/weave-project.png)
 </Frame>
 
-<div id="delete-a-project">
-  ## projectを削除する
-</div>
+## projectを削除する {#delete-a-project}
 
 <Warning>
   projectの削除は元に戻せず、関連するすべてのトレース、評価、モデル、データセット、およびその他のリソースが W&amp;B アカウントから削除されます。

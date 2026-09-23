@@ -18,9 +18,7 @@ Créez des graphiques personnalisés dans votre projet W&amp;B. Enregistrez des 
   <img src="/images/app_ui/supported_charts.png" alt="Graphiques pris en charge depuis vega.github.io/vega" max-width="90%" />
 </Frame>
 
-<div id="how-it-works">
-  ## Comment ça marche
-</div>
+## Comment ça marche {#how-it-works}
 
 1. **Journaliser les données** : depuis votre script, journalisez les données de [configuration](/fr/models/track/config/) et de synthèse.
 2. **Personnaliser le graphique** : récupérez les données journalisées à l’aide d’une requête [GraphQL](https://graphql.org). Visualisez les résultats de votre requête avec [Vega](https://vega.github.io/vega/), une grammaire de visualisation.
@@ -32,15 +30,11 @@ Créez des graphiques personnalisés dans votre projet W&amp;B. Enregistrez des 
 
 Si vous ne voyez pas les données attendues, il se peut que la colonne recherchée ne soit pas journalisée dans les runs sélectionnés. Enregistrez votre graphique, revenez au tableau des runs, puis vérifiez les runs sélectionnés à l’aide de l’icône **œil**.
 
-<div id="log-charts-from-a-script">
-  ## Enregistrer des graphiques à partir d’un script
-</div>
+## Enregistrer des graphiques à partir d’un script {#log-charts-from-a-script}
 
 Les sections suivantes décrivent deux façons d’enregistrer des graphiques directement depuis votre script d’entraînement : des préréglages de graphiques intégrés pour les visualisations courantes, et des préréglages personnalisés qui vous permettent de réutiliser vos propres spécifications Vega.
 
-<div id="built-in-presets">
-  ### Préréglages intégrés
-</div>
+### Préréglages intégrés {#built-in-presets}
 
 W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez journaliser directement depuis votre script. Il s’agit notamment de graphiques en courbes, de nuages de points, de diagrammes à barres, d’histogrammes, de courbes PR et de courbes ROC.
 
@@ -202,9 +196,7 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
   </Tab>
 </Tabs>
 
-<div id="custom-presets">
-  ### Préréglages personnalisés
-</div>
+### Préréglages personnalisés {#custom-presets}
 
 Modifiez un préréglage intégré, ou créez un nouveau préréglage, puis enregistrez le graphique. Utilisez l’ID du graphique pour journaliser des données dans ce préréglage personnalisé directement depuis votre script. [Essayez un notebook d’exemple Google Colab](https://tiny.cc/custom-charts).
 
@@ -228,9 +220,7 @@ my_custom_chart = wandb.plot_table(
   <img src="/images/app_ui/custom_presets.png" alt="Préréglages personnalisés de graphiques" max-width="90%" />
 </Frame>
 
-<div id="log-data">
-  ## Journaliser des données
-</div>
+## Journaliser des données {#log-data}
 
 Avant de pouvoir visualiser quoi que ce soit dans un graphique personnalisé, votre script doit journaliser les données sous-jacentes dans un format que l’éditeur de graphiques peut interroger. Vous pouvez journaliser les types de données suivants depuis votre script et les utiliser dans un graphique personnalisé :
 
@@ -240,9 +230,7 @@ Avant de pouvoir visualiser quoi que ce soit dans un graphique personnalisé, vo
 * **summaryTable** : si vous devez journaliser une liste de plusieurs valeurs, utilisez `wandb.Table()` pour journaliser ces données, puis interrogez-la dans votre panneau personnalisé.
 * **historyTable** : si vous devez consulter les données d’historique, interrogez `historyTable` dans le panneau de votre graphique personnalisé. Chaque fois que vous appelez `wandb.Table()` ou journalisez un graphique personnalisé, vous créez un nouveau tableau dans l’historique pour cette étape.
 
-<div id="log-a-custom-table">
-  ### Journaliser un tableau personnalisé
-</div>
+### Journaliser un tableau personnalisé {#log-a-custom-table}
 
 Utilisez `wandb.Table()` pour journaliser vos données sous la forme d’un tableau 2D. En général, chaque ligne de ce tableau représente un point de données, et chaque colonne correspond aux champs ou dimensions pertinents de chaque point de données que vous souhaitez représenter. Lorsque vous configurez un panneau personnalisé, l’intégralité du tableau est accessible via la clé nommée transmise à `wandb.Run.log()` (`custom_data_table` dans l’exemple suivant). Chaque champ individuel est accessible via les noms de colonne (`x`, `y` et `z`). Vous pouvez journaliser des tableaux à plusieurs étapes au cours de votre expérience. La taille maximale de chaque tableau est de 10 000 lignes. [Essayez un notebook Google Colab d’exemple](https://tiny.cc/custom-charts).
 
@@ -255,9 +243,7 @@ with wandb.init() as run:
   )
 ```
 
-<div id="customize-the-chart">
-  ## Personnaliser le graphique
-</div>
+## Personnaliser le graphique {#customize-the-chart}
 
 Après avoir journalisé des données, créez un graphique dans la W&amp;B App en choisissant les valeurs journalisées à inclure et la manière de les afficher. Pour commencer, ajoutez un nouveau graphique personnalisé, puis modifiez la requête pour sélectionner les données à partir de vos runs visibles. La requête utilise [GraphQL](https://graphql.org) pour récupérer des données à partir des champs configuration, synthèse et historique de vos runs.
 
@@ -265,9 +251,7 @@ Vous pouvez également demander à ARIA de créer un graphique personnalisé à 
 
 <AriaChatBubbles prompt="Créer un nuage de points de la précision de validation par rapport à la perte d’entraînement pour les runs visibles, avec des points colorés selon le taux d’apprentissage." response="Je vais ajouter un panneau de graphique personnalisé qui représente la précision de validation sur l’axe X et la perte d’entraînement sur l’axe Y, avec des points colorés selon le taux d’apprentissage de chaque run issu de la configuration." />
 
-<div id="build-the-graphql-query">
-  ### Créer la requête GraphQL
-</div>
+### Créer la requête GraphQL {#build-the-graphql-query}
 
 L’éditeur de graphiques personnalisés exécute une requête GraphQL sur les runs que vous avez sélectionnés dans l’espace de travail du projet ou le rapport. Dans l’éditeur de requête, ajoutez les champs dont vous avez besoin. Vous pouvez choisir parmi `config`, `summary`, `history`, `summaryTable` et `historyTable`, ce qui vous évite, dans la plupart des cas, d’écrire la requête de zéro.
 
@@ -299,9 +283,7 @@ Les graphiques personnalisés utilisent cette requête de panneau basée sur Gra
   <img src="/images/app_ui/customize_chart.gif" alt="Création de graphique personnalisé" max-width="90%" />
 </Frame>
 
-<div id="custom-visualizations">
-  ### Visualisations personnalisées
-</div>
+### Visualisations personnalisées {#custom-visualizations}
 
 Sélectionnez **Chart** dans le coin supérieur droit pour partir d’un préréglage par défaut. Ensuite, sélectionnez **Chart fields** pour associer les données extraites de la requête aux champs correspondants de votre graphique.
 
@@ -311,9 +293,7 @@ L’image suivante montre comment sélectionner une métrique, puis l’associer
   <img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Création d'un diagramme à barres personnalisé" max-width="90%" />
 </Frame>
 
-<div id="edit-vega">
-  ### Edit Vega
-</div>
+### Edit Vega {#edit-vega}
 
 Cliquez sur **Edit** en haut du panneau pour passer en mode d’édition [Vega](https://vega.github.io/vega/). Vous pouvez y définir une [spécification Vega](https://vega.github.io/vega/docs/specification/) qui crée un graphique interactif dans l’interface. Vous pouvez modifier n’importe quel aspect du graphique. Par exemple, vous pouvez modifier le titre, choisir une autre palette de couleurs ou afficher les courbes sous forme d’une série de points plutôt que de lignes reliées. Vous pouvez également modifier les données elles-mêmes, par exemple en utilisant une transformation Vega pour répartir un tableau de valeurs en classes dans un histogramme. L’aperçu du panneau se met à jour de manière interactive, ce qui vous permet de voir l’effet de vos modifications à mesure que vous modifiez la spécification Vega ou la requête. Pour plus d&#39;informations, voir la [documentation et les tutoriels Vega](https://vega.github.io/vega/).
 
@@ -323,15 +303,11 @@ Pour importer des données de W&amp;B dans votre graphique, ajoutez des chaînes
 
 Pour définir une valeur par défaut pour un champ, utilisez cette syntaxe : `"${field:<field-name>:<placeholder text>}"`
 
-<div id="save-chart-presets">
-  ### Enregistrer des préréglages de graphique
-</div>
+### Enregistrer des préréglages de graphique {#save-chart-presets}
 
 Enregistrez un préréglage pour réutiliser la même définition Vega dans différents panneaux et projets au lieu de la recréer à chaque fois. Appliquez les modifications à un panneau de visualisation spécifique à l’aide du bouton situé en bas de la fenêtre modale. Vous pouvez également enregistrer la spécification Vega pour la réutiliser ailleurs dans votre projet. Pour enregistrer une définition de graphique réutilisable, cliquez sur **Save as** en haut de l’éditeur Vega, puis donnez un nom à votre préréglage.
 
-<div id="reports-and-guides">
-  ## Reports et guides
-</div>
+## Reports et guides {#reports-and-guides}
 
 Les rapports suivants présentent des exemples de bout en bout et des explorations plus approfondies de l’utilisation pratique des graphiques personnalisés.
 
@@ -340,9 +316,7 @@ Les rapports suivants présentent des exemples de bout en bout et des exploratio
 * [Visualiser l’effet de l’attention sur le flux des gradients](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
 * [Journaliser des courbes arbitraires](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
-<div id="common-use-cases">
-  ## Cas d&#39;utilisation courants
-</div>
+## Cas d&#39;utilisation courants {#common-use-cases}
 
 Les graphiques personnalisés sont utiles lorsque les panneaux par défaut ne permettent pas de représenter ce que vous souhaitez afficher. Par exemple :
 

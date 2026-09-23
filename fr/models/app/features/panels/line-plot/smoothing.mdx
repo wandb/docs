@@ -19,9 +19,7 @@ Pour voir ces algorithmes appliqués à des données réelles, consultez ce [rap
   <img src="/images/app_ui/beamer_smoothing.gif" alt="Comparaison de différents algorithmes de lissage appliqués à un graphique en courbes bruité" />
 </Frame>
 
-<div id="time-weighted-exponential-moving-average-twema-smoothing-default">
-  ## lissage par moyenne mobile exponentielle pondérée par le temps (TWEMA) (par défaut)
-</div>
+## lissage par moyenne mobile exponentielle pondérée par le temps (TWEMA) (par défaut) {#time-weighted-exponential-moving-average-twema-smoothing-default}
 
 L’algorithme de lissage par moyenne mobile exponentielle pondérée par le temps (TWEMA) est une technique de lissage des données de séries temporelles qui applique une décroissance exponentielle au poids des points précédents. Pour plus de détails sur cette technique, voir [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing). La valeur varie de 0 à 1. Un terme de correction du biais est ajouté afin que les premières valeurs de la série temporelle ne soient pas biaisées vers zéro.
 
@@ -53,9 +51,7 @@ Pour voir cet algorithme appliqué à des données en temps réel, consultez la 
   <img src="/images/app_ui/weighted_exponential_moving_average.png" alt="Graphique en courbes avec le lissage TWEMA appliqué" />
 </Frame>
 
-<div id="gaussian-smoothing">
-  ## Lissage gaussien
-</div>
+## Lissage gaussien {#gaussian-smoothing}
 
 Le lissage gaussien (ou lissage par noyau gaussien) calcule une moyenne pondérée des points, où les poids correspondent à une distribution gaussienne dont l&#39;écart type est défini comme paramètre de lissage. W&amp;B calcule la valeur lissée pour chaque valeur `x` en entrée, en se basant sur les points qui la précèdent et la suivent.
 
@@ -65,9 +61,7 @@ Pour voir cet algorithme appliqué à des données en direct, voir la [section s
   <img src="/images/app_ui/gaussian_smoothing.png" alt="Graphique en courbes avec lissage gaussien appliqué" />
 </Frame>
 
-<div id="running-average-smoothing">
-  ## Lissage par moyenne glissante
-</div>
+## Lissage par moyenne glissante {#running-average-smoothing}
 
 La moyenne glissante est un algorithme de lissage qui remplace un point par la moyenne des points situés dans une fenêtre avant et après la valeur `x` donnée. Voir [« Boxcar Filter » sur Wikipedia](https://en.wikipedia.org/wiki/Moving_average). Le paramètre sélectionné pour la moyenne glissante indique le nombre de points à prendre en compte dans la moyenne mobile.
 
@@ -79,9 +73,7 @@ Pour voir cet algorithme appliqué à des données en temps réel, consultez la 
   <img src="/images/app_ui/running_average.png" alt="Graphique en courbes avec lissage par moyenne glissante appliqué" />
 </Frame>
 
-<div id="exponential-moving-average-ema-smoothing">
-  ## Lissage par moyenne mobile exponentielle (EMA)
-</div>
+## Lissage par moyenne mobile exponentielle (EMA) {#exponential-moving-average-ema-smoothing}
 
 L’algorithme de lissage par moyenne mobile exponentielle (EMA) est une technique heuristique de lissage des séries temporelles à l’aide de la fonction de fenêtre exponentielle. Pour en savoir plus sur cette technique, voir [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing). La valeur varie de 0 à 1. Un terme de débiaisage est ajouté afin que les premières valeurs de la série temporelle ne soient pas biaisées vers zéro.
 
@@ -112,9 +104,7 @@ Pour voir cet algorithme appliqué à des données en temps réel, voir [la sect
   <img src="/images/app_ui/exponential_moving_average.png" alt="Graphique en courbes avec lissage EMA appliqué" />
 </Frame>
 
-<div id="hide-original-data">
-  ## Masquer les données d&#39;origine
-</div>
+## Masquer les données d&#39;origine {#hide-original-data}
 
 Comparez la ligne lissée aux données brutes pour évaluer dans quelle mesure le lissage altère le signal. Par défaut, les données d&#39;origine non lissées s&#39;affichent dans le graphique sous la forme d&#39;une ligne discrète en arrière-plan. Cliquez sur **Afficher l&#39;original** pour désactiver cette option.
 

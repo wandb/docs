@@ -15,14 +15,14 @@ import TutorialGoFurther from "/snippets/ja/_includes/automations/tutorial-go-fu
 <Tip>Registry オートメーションの作成方法については、[チュートリアル: Registry artifact alias オートメーション](/ja/models/automations/registry-automation-tutorial)を参照してください。</Tip>
 
 <div id="prerequisites">
-  ## 前提条件
+  ## 前提条件 {#prerequisites}
 </div>
 
 * 1 つの W&amp;B のプロジェクト。
 * **Team Settings** で設定した [Slack インテグレーション](/ja/models/automations/create-automations/slack#add-a-slack-integration)。
 
 <div id="create-a-project-automation">
-  ## project のオートメーションを作成する
+  ## project のオートメーションを作成する {#create-a-project-automation}
 </div>
 
 project スコープのオートメーションを設定してください。project 内の run が **Failed** に遷移すると、W&amp;B から Slack 通知が送信されます。
@@ -71,7 +71,7 @@ project スコープのオートメーションを設定してください。pro
   */}
 
 <div id="test-the-automation">
-  ## オートメーションをテストする
+  ## オートメーションをテストする {#test-the-automation}
 </div>
 
 オートメーションが正しく設定されていることを確認するには、意図的に失敗させた run を使ってトリガーします。run を作成し、失敗として明示的にマークしたうえで、それを project にログします:

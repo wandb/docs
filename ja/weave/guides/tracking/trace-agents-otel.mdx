@@ -8,9 +8,7 @@ W&amp;B Weave のエージェント オブザーバビリティは、[OpenTeleme
 
 このページでは、エンドポイントへの認証方法と、エンドポイントにスパンを送信する方法について説明します。
 
-<div id="authentication">
-  ## 認証
-</div>
+## 認証 {#authentication}
 
 スパンは次のエンドポイントに送信できます。
 
@@ -26,9 +24,7 @@ W&amp;B Weave のエージェント オブザーバビリティは、[OpenTeleme
 * `wandb-api-key`: 値に W&amp;B APIキーを指定します。
 * `Authorization`: ユーザー名に `api`、パスワードに W&amp;B APIキーを使用する HTTP Basic 認証です。この形式は、exporter または collector が標準の Authorization ヘッダーしかサポートしていない場合に便利です。
 
-<div id="project-routing">
-  ## project のルーティング
-</div>
+## project のルーティング {#project-routing}
 
 Weave は、OTel のリソース属性またはリクエストヘッダーを使用して、スパンを project にルーティングします。
 
@@ -37,9 +33,7 @@ Weave は、OTel のリソース属性またはリクエストヘッダーを使
 
 両方が存在する場合は、リソース属性が優先されます。entity と project が指定されていないスパンは破棄されます。
 
-<div id="shape-spans-for-the-agents-view">
-  ## Agents ビュー向けにスパンを整形する
-</div>
+## Agents ビュー向けにスパンを整形する {#shape-spans-for-the-agents-view}
 
 Weave は任意の OTel スパンを受け入れ、すべての属性を保存しますが、Agents ビューで表示されるのは [OTel GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md) に従ったスパンです。各スパンが何を表すかを Weave に伝えるには、各スパンで `gen_ai.operation.name` を設定します。
 
@@ -56,9 +50,7 @@ Weave は任意の OTel スパンを受け入れ、すべての属性を保存�
 
 `gen_ai.request.model`、`gen_ai.usage.input_tokens`、`gen_ai.usage.output_tokens` など、ほかの GenAI semantic-convention 属性を指定すると、モデル名やトークン数が表示に追加されますが、これらは省略可能です。これらのスパンがマッピングされるエージェントのデータモデルについては、[Trace your agents](/ja/weave/guides/tracking/trace-agents#the-agent-data-model) を参照してください。
 
-<div id="configure-with-environment-variables-only">
-  ## 環境変数のみで設定する
-</div>
+## 環境変数のみで設定する {#configure-with-environment-variables-only}
 
 お使いのアプリケーションまたは collector が標準の OTel exporter 用環境変数を読み取る場合は、コードを一切変更せずに、次の環境変数を設定するだけでスパンを Weave に送信できます。
 
@@ -68,9 +60,7 @@ export OTEL_EXPORTER_OTLP_TRACES_HEADERS="wandb-api-key=$WANDB_API_KEY"
 export OTEL_RESOURCE_ATTRIBUTES="wandb.entity=[YOUR-TEAM],wandb.project=[YOUR-PROJECT]"
 ```
 
-<div id="example-emit-agent-spans-without-the-weave-sdk">
-  ## 例: Weave SDK を使わずにエージェント スパンを送信する
-</div>
+## 例: Weave SDK を使わずにエージェント スパンを送信する {#example-emit-agent-spans-without-the-weave-sdk}
 
 次の例では、OTel パッケージのみを使用して、最小限のエージェント ターンをインストルメントします。ターンに対して `invoke_agent` スパン、LLM Call に対して `chat` スパン、ツール呼び出し に対して `execute_tool` スパンを送信し、その後それらを Weave Agents エンドポイントにエクスポートします。
 

@@ -12,9 +12,7 @@ keywords: ["コードの保存", "チームの可視性", "report の共有", "�
   チームのワークフローに予期しない変更が生じるのを避けるため、W&amp;B は、組織管理者がプライバシー設定を適用する前に、その組織内のすべてのチーム管理者と Users に事前に周知することを推奨します。
 </Note>
 
-<div id="enforce-privacy-settings-for-all-teams">
-  ## すべてのチームにプライバシー設定を適用する
-</div>
+## すべてのチームにプライバシー設定を適用する {#enforce-privacy-settings-for-all-teams}
 
 組織管理者は、組織設定の **Privacy** タブから、組織内のすべてのチームにプライバシー設定を適用できます。適用された設定は組織内のすべてのチームに反映され、チーム管理者はチームスコープでそれを上書きできません。適用中の設定をチーム管理者が開くと、W&amp;B は次のメッセージを表示します: 「This setting is locked because it&#39;s enforced org-wide. To make changes, please contact your org admin.」
 
@@ -26,9 +24,7 @@ keywords: ["コードの保存", "チームの可視性", "report の共有", "�
 
 以下のセクションでは、**Privacy** タブの設定について説明します。各設定はトグルで、W&amp;B は変更を即座に保存します。
 
-<div id="access-control">
-  ### アクセス制御
-</div>
+### アクセス制御 {#access-control}
 
 チームの可視性とメンバーの参加プロセスを管理します。
 
@@ -40,9 +36,7 @@ keywords: ["コードの保存", "チームの可視性", "report の共有", "�
 * **APIキーの作成を無効にする**: ユーザーおよびチームのサービスアカウントは、新しいAPIキーを作成できなくなります。組織のサービスアカウントは引き続きキーを作成でき、既存のキーもそのまま機能します。[APIキーの作成を無効にする](./iam/api-keys#disable-api-key-creation) を参照してください。
   <Note>この設定は、専用クラウドおよびセルフマネージド v0.84.0 以降でのみ表示されます。</Note>
 
-<div id="project-and-content-security">
-  ### 非公開 project とコンテンツのセキュリティ
-</div>
+### 非公開 project とコンテンツのセキュリティ {#project-and-content-security}
 
 project のプライバシーを制御し、コンテンツの共有を管理します。
 
@@ -50,23 +44,17 @@ project のプライバシーを制御し、コンテンツの共有を管理し
 * **report の公開共有を無効にする**: 非公開 project の report の公開共有をオフにし、既存の公開リンクを無効化します。
 * **デフォルトのコードの保存を無効にする**: すべてのチームで、デフォルトのコードの保存をオフにします。[コードの保存](/ja/models/app/features/panels/code) を参照してください。
 
-<div id="smart-features">
-  ### Smart features
-</div>
+### Smart features {#smart-features}
 
 **Smart features** セクションでは、LLM を活用した機能とデータ共有を制御します。このセクションは、組織が W&amp;B AI 機能へのアクセス権を持つ場合にのみ **Privacy** タブに表示されます。[ガバナンスとセキュリティ](/ja/aria/governance)を参照してください。
 
-<div id="aria">
-  ### ARIA
-</div>
+### ARIA {#aria}
 
 **ARIA** セクションでは、組織の projects 全体で ARIA が実行できる操作を制御します。このセクションは、組織で project memory が有効になっている場合にのみ **Privacy** タブに表示されます。
 
 * **Enable project memory**: 規約や過去の修正内容といった project の詳細を ARIA が記憶し、以降の会話で活用できるようにします。ARIA は project のメモリを、その project を所有するチームと共有します。この設定がオフの場合、ARIA はメモリを使用せず、新たな記録も行いませんが、既存のメモリは保持されます。詳細は [project メモリの表示と管理](/ja/aria/overview#view-and-manage-project-memories) を参照してください。
 
-<div id="configure-privacy-settings-for-a-team">
-  ## チームのプライバシー設定を行う
-</div>
+## チームのプライバシー設定を行う {#configure-privacy-settings-for-a-team}
 
 組織スコープで設定が強制されていない場合、チーム管理者はチームの **Settings** ページの **Privacy** セクションで、自分のチームの設定を管理できます。
 

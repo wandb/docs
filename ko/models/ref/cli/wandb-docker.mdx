@@ -6,17 +6,13 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/v0.30.0/wandb/cli/cli.py#L2300" />
 
-<div id="usage">
-  ## 사용
-</div>
+## 사용 {#usage}
 
 ```bash
 docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]
 ```
 
-<div id="description">
-  ## 설명
-</div>
+## 설명 {#description}
 
 W&amp;B가 설정된 도커 컨테이너에서 코드를 실행합니다.
 
@@ -55,18 +51,14 @@ wandb docker -v /mnt/dataset:/app/data --jupyter
 wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py"
 ```
 
-<div id="arguments">
-  ## 인수
-</div>
+## 인수 {#arguments}
 
 | 이름                | 기본값 | 유형    |
 | ----------------- | --- | ----- |
 | `docker_run_args` | STR | False |
 | `docker_image`    | STR | False |
 
-<div id="options">
-  ## 옵션
-</div>
+## 옵션 {#options}
 
 | 플래그         | 유형      | 설명                                                                       |
 | ----------- | ------- | ------------------------------------------------------------------------ |

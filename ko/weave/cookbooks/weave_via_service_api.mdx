@@ -23,9 +23,7 @@ keywords: [Weave Service API, trace logging, RAG tracing, stream query, LLM obse
 
 시작하기 전에 [사전 요구 사항](#prerequisites-set-variables-and-endpoints)을 완료하세요.
 
-<div id="prerequisites-set-variables-and-endpoints">
-  ## 사전 요구 사항: 변수 및 엔드포인트 설정
-</div>
+## 사전 요구 사항: 변수 및 엔드포인트 설정 {#prerequisites-set-variables-and-endpoints}
 
 트레이스를 로깅하기 전에 Service API 엔드포인트를 구성하고 W&amp;B 자격 증명으로 인증해야 합니다.
 
@@ -59,18 +57,14 @@ project_id = ""
 wandb_token = ""
 ```
 
-<div id="simple-trace">
-  ## 단순한 트레이스
-</div>
+## 단순한 트레이스 {#simple-trace}
 
 다음 섹션에서는 단순한 트레이스를 생성하는 방법을 안내합니다:
 
 1. [단순한 트레이스 시작하기](#start-a-simple-trace)
 2. [단순한 트레이스 종료하기](#end-a-simple-trace)
 
-<div id="start-a-simple-trace">
-  ### 단순한 트레이스 시작하기
-</div>
+### 단순한 트레이스 시작하기 {#start-a-simple-trace}
 
 다음 코드는 샘플 LLM call인 `payload_start`를 생성하고 `url_start` 엔드포인트를 사용해 Weave에 로깅합니다. `payload_start` 객체는 쿼리 `Why is the sky blue?`로 OpenAI의 `gpt-4o`를 호출하는 call을 모사합니다.
 
@@ -109,9 +103,7 @@ else:
     exit()
 ```
 
-<div id="end-a-simple-trace">
-  ### 단순한 트레이스 종료
-</div>
+### 단순한 트레이스 종료 {#end-a-simple-trace}
 
 단순한 트레이스를 완료하려면, 다음 코드는 샘플 LLM call `payload_end`를 생성한 뒤 `url_end` 엔드포인트를 사용해 이를 Weave에 로깅합니다. `payload_end` 객체는 쿼리 `Why is the sky blue?`에 대한 OpenAI&#39;s `gpt-4o`의 응답을 모방합니다. 이 객체는 Weave 대시보드의 트레이스 뷰에서 가격 요약 정보와 chat completion이 생성되도록 형식이 맞춰져 있습니다.
 
@@ -161,9 +153,7 @@ else:
     print(response.text)
 ```
 
-<div id="complex-trace">
-  ## 복잡한 트레이스
-</div>
+## 복잡한 트레이스 {#complex-trace}
 
 이제 단순한 단일 step 트레이스를 로깅했으므로, 다음 섹션에서는 다중 오퍼레이션 RAG 조회와 유사하게, 하위 span이 있는 더 복잡한 트레이스를 만드는 방법을 안내합니다.
 
@@ -172,9 +162,7 @@ else:
 3. [LLM completion call용 하위 span 추가](#add-a-child-span-for-an-llm-completion-call)
 4. [복잡한 트레이스 종료하기](#end-a-complex-trace)
 
-<div id="start-a-complex-trace">
-  ### 복잡한 트레이스 시작
-</div>
+### 복잡한 트레이스 시작 {#start-a-complex-trace}
 
 다음 코드는 여러 span이 포함된 더 복잡한 트레이스를 생성하는 방법을 보여줍니다. 예를 들어 Retrieval-Augmented Generation(RAG) 조회 후 LLM call을 수행하는 경우가 있습니다. 첫 번째 부분에서는 오퍼레이션을 나타내는 상위 트레이스(`payload_parent_start`)를 초기화합니다. 이 경우 오퍼레이션은 사용자 쿼리 `Can you summarize the key points of this document?`를 처리합니다.
 
@@ -213,9 +201,7 @@ else:
     exit()
 ```
 
-<div id="add-a-child-span-for-a-rag-document-lookup">
-  ### RAG 문서 조회용 하위 span 추가
-</div>
+### RAG 문서 조회용 하위 span 추가 {#add-a-child-span-for-a-rag-document-lookup}
 
 다음 코드는 이전 step에서 시작한 복합 상위 트레이스에 하위 span을 추가하는 방법을 보여줍니다. 이 step은 워크플로에서 RAG 문서 조회 하위 오퍼레이션을 나타냅니다.
 
@@ -285,9 +271,7 @@ else:
     print(response.text)
 ```
 
-<div id="add-a-child-span-for-an-llm-completion-call">
-  ### LLM completion call에 대한 하위 span 추가
-</div>
+### LLM completion call에 대한 하위 span 추가 {#add-a-child-span-for-an-llm-completion-call}
 
 다음 코드는 복합 상위 트레이스에 또 다른 하위 span을 추가해 LLM completion call을 나타내는 방법을 보여줍니다. 이 step은 이전 RAG 오퍼레이션에서 조회한 문서 컨텍스트를 기반으로 LLM 응답 생성 과정을 모델링합니다.
 
@@ -382,9 +366,7 @@ else:
     print(response.text)
 ```
 
-<div id="end-a-complex-trace">
-  ### 복잡한 트레이스 종료
-</div>
+### 복잡한 트레이스 종료 {#end-a-complex-trace}
 
 다음 코드는 상위 트레이스를 최종 완료하여 워크플로가 끝났음을 표시하는 방법을 보여줍니다. 이 step에서는 모든 하위 span(예: RAG 조회 및 LLM 응답 생성)의 결과를 집계하고 최종 출력과 메타데이터를 로깅합니다.
 
@@ -440,9 +422,7 @@ else:
     print(response.text)
 ```
 
-<div id="run-a-lookup-query">
-  ## lookup 쿼리 실행
-</div>
+## lookup 쿼리 실행 {#run-a-lookup-query}
 
 Weave에 트레이스가 로깅되면 Service API를 사용해 이를 프로그래밍 방식으로 쿼리할 수 있습니다. 다음 코드는 앞선 예제에서 생성한 트레이스를 조회하는 방법을 보여주며, `inputs.model` 필드가 `gpt-4o`인 트레이스만 필터링합니다.
 

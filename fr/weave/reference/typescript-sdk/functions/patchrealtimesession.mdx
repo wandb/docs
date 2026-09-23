@@ -22,18 +22,14 @@ dynamiques, bundlers qui contournent les hooks).
 Appelez cette fonction **une seule fois** au démarrage de l’application, avant qu’une `RealtimeSession` ne soit créée.
 La fonction est idempotente : vous pouvez l’appeler en toute sécurité à plusieurs reprises.
 
-<div id="returns">
-  ## Renvoie
-</div>
+## Renvoie {#returns}
 
 `Promise`&lt;`boolean`&gt;
 
 `true` si le patch a été appliqué (ou l’était déjà), `false` si
 `@openai/agents-realtime` n’a pas pu être chargé.
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 ```typescript twoslash
 // @noErrors

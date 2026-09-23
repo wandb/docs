@@ -24,23 +24,17 @@ import SelfManagedObtainLicense from "/snippets/ja/_includes/self-managed-obtain
 
 アーキテクチャに関する完全なガイダンスについては、[リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch/)を参照してください。
 
-<div id="software-version-requirements">
-  ## ソフトウェアのバージョン要件
-</div>
+## ソフトウェアのバージョン要件 {#software-version-requirements}
 
 <SelfManagedVersionRequirements />
 
-<div id="hardware-requirements">
-  ## ハードウェア要件
-</div>
+## ハードウェア要件 {#hardware-requirements}
 
 <SelfManagedHardwareRequirements />
 
 ユースケース (Models のみ、Weave のみ、またはその両方) に応じた詳細なサイジングの推奨事項については、[リファレンスアーキテクチャのサイジングセクション](/ja/platform/hosting/self-managed/ref-arch/#sizing)を参照してください。
 
-<div id="kubernetes">
-  ## Kubernetes
-</div>
+## Kubernetes {#kubernetes}
 
 W&amp;B Server は、複数の pod を管理する [Kubernetes Operator](/ja/platform/hosting/self-managed/operator/) としてデプロイされます。Kubernetes cluster は、次の要件を満たしている必要があります。
 
@@ -53,9 +47,7 @@ W&amp;B は、クラウド、オンプレミス、air-gapped 環境の [OpenShif
 
 ロードバランサー と ingress の設定を含む Kubernetes の完全な要件については、[リファレンスアーキテクチャ Kubernetes section](/ja/platform/hosting/self-managed/ref-arch/#kubernetes) を参照してください。
 
-<div id="mysql-database">
-  ## MySQL データベース
-</div>
+## MySQL データベース {#mysql-database}
 
 <SelfManagedMysqlEolUpgrade />
 
@@ -63,9 +55,7 @@ W&amp;B は、クラウド、オンプレミス、air-gapped 環境の [OpenShif
 
 W&amp;B では、本番デプロイには AWS RDS Aurora MySQL、Google Cloud SQL for MySQL、Azure Database for MySQL などのマネージドデータベースサービスの利用を推奨しています。マネージドサービスでは、自動バックアップ、監視、高可用性、パッチ適用が提供されるため、運用の複雑さを軽減できます。
 
-<div id="mysql-configuration-parameters">
-  ### MySQL 設定パラメーター
-</div>
+### MySQL 設定パラメーター {#mysql-configuration-parameters}
 
 独自の MySQL インスタンスを使用している場合は、W&amp;B Server との互換性を確保するため、MySQL を次の設定で構成してください。
 
@@ -81,9 +71,7 @@ sync_binlog = 1
 
 W&amp;B は、パフォーマンスと信頼性を確保するためにこれらの設定を検証しています。
 
-<div id="database-creation">
-  ### データベースの作成
-</div>
+### データベースの作成 {#database-creation}
 
 データベースを自動的にプロビジョニングするマネージド MySQL サービスを使用していない場合は、次の手順に従って、W&amp;B Server が使用する MySQL データベースとユーザーを手動で作成してください。
 
@@ -91,9 +79,7 @@ W&amp;B は、パフォーマンスと信頼性を確保するためにこれら
 
 バックアップ、パフォーマンス、モニタリング、可用性などの追加事項については、[リファレンスアーキテクチャの MySQL セクション](/ja/platform/hosting/self-managed/ref-arch/#mysql)を参照してください。
 
-<div id="redis">
-  ## Redis
-</div>
+## Redis {#redis}
 
 W&amp;B Server は、キャッシュおよびバックグラウンドジョブの調整に Redis を使用します。
 
@@ -106,9 +92,7 @@ W&amp;B は、次のいずれかの環境にある Redis インスタンスに�
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache).
 * ご利用のクラウドまたはオンプレミスのインフラストラクチャーでホストされている Redis デプロイメント。
 
-<div id="clickhouse">
-  ## ClickHouse
-</div>
+## ClickHouse {#clickhouse}
 
 セルフマネージドのデプロイでは、W&amp;B Weave で ClickHouse を使用します。ClickHouse は、すべてのセルフマネージド環境で必須ではありません。
 
@@ -116,9 +100,7 @@ W&amp;B Server をアップグレードする前、または ClickHouse のバ�
 
 デプロイ手順については、[セルフマネージド環境で Weave をデプロイする](/ja/weave/guides/platform/weave-self-managed) を参照してください。
 
-<div id="object-storage">
-  ## オブジェクトストレージ
-</div>
+## オブジェクトストレージ {#object-storage}
 
 W&amp;B Server では、アーティファクト、メディア、run データを保存するためのオブジェクトストレージバケットが必要です。
 
@@ -126,51 +108,37 @@ W&amp;B Server では、アーティファクト、メディア、run データ�
 
 <ByobProvisioningLink />
 
-<div id="configure-wb-to-use-your-bucket">
-  ### W&amp;B でバケットを使用するように設定する
-</div>
+### W&amp;B でバケットを使用するように設定する {#configure-wb-to-use-your-bucket}
 
 バケットをプロビジョニングしたら、W&amp;B Server がそのバケットへの読み取りと書き込みを行えるように、Operator の Helm values で W&amp;B がそのバケットを使用するように設定する必要があります。詳細は、[Operator のオブジェクトストレージ設定セクション](/ja/platform/hosting/self-managed/operator/#object-storage-bucket)を参照してください。
 
-<div id="networking">
-  ## ネットワーク
-</div>
+## ネットワーク {#networking}
 
 ネットワーク設定では、W&amp;B Server をユーザーや機械学習ワークロードから利用できるようにします。以下のセクションでは、DNS、ロードバランサー、ingressの要件について説明します。
 
 <SelfManagedNetworkingRequirements />
 
-<div id="dns">
-  ### DNS
-</div>
+### DNS {#dns}
 
 W&amp;Bデプロイの完全修飾ドメイン名 (FQDN) は、Aレコードで ingress または ロードバランサー のIPアドレスに名前解決されている必要があります。
 
-<div id="load-balancer-and-ingress">
-  ### ロードバランサーと ingress
-</div>
+### ロードバランサーと ingress {#load-balancer-and-ingress}
 
 W&amp;B Kubernetes Operator は、URL パスに基づいてサービスエンドポイントにルーティングする Kubernetes ingress controller を使用して、サービスを公開します。ingress controller には、機械学習のペイロードを実行するすべてのマシン、および Web ブラウザー経由でサービスにアクセスするすべてのマシンからアクセスできる必要があります。
 
 ロードバランサーの詳細なオプション、ingress controller の要件、設定例については、[リファレンスアーキテクチャのロードバランンサーセクション](/ja/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress)を参照してください。
 
-<div id="ssltls">
-  ## SSL/TLS
-</div>
+## SSL/TLS {#ssltls}
 
 <SelfManagedSslTlsRequirements />
 
-<div id="license">
-  ## ライセンス
-</div>
+## ライセンス {#license}
 
 すべてのセルフマネージド環境へのデプロイには、有効な W&amp;B Server ライセンスが必須です。ライセンスがない場合、W&amp;B Server を起動できません。
 
 <SelfManagedObtainLicense />
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 インフラストラクチャーがこれらの要件を満たしていることを確認したら、ご利用の環境に対応するデプロイガイドに進んでください。
 

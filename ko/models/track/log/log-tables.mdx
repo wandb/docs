@@ -10,9 +10,7 @@ title: 테이블 로깅
 3. [데이터 조회](./log-tables#retrieve-data)
 4. [테이블 저장](./log-tables#save-tables)
 
-<div id="create-tables">
-  ## 테이블 만들기
-</div>
+## 테이블 만들기 {#create-tables}
 
 테이블을 정의하려면 각 데이터 행에 대해 표시할 column을 지정합니다. 각 행은 트레이닝 데이터셋의 단일 항목일 수도 있고, 트레이닝 중 특정 step이나 에포크일 수도 있으며, 테스트 항목에 대해 모델이 생성한 예측값이나 모델이 생성한 객체일 수도 있습니다. 각 column에는 숫자, 텍스트, 불리언, 이미지, 비디오, 오디오 등 고정된 유형이 있습니다. 유형을 미리 지정할 필요는 없습니다. 각 column에 name을 지정하고, 해당 column 인덱스에는 그 유형에 맞는 데이터만 전달해야 합니다. 더 자세한 예시는 [W&amp;B Tables 가이드](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table)를 참조하세요.
 
@@ -28,9 +26,7 @@ title: 테이블 로깅
 
 2. **Pandas DataFrame:** `wandb.Table(dataframe=my_df)`를 사용해 DataFrame을 log합니다. column name은 DataFrame에서 추출됩니다.
 
-<div id="from-an-existing-array-or-dataframe">
-  #### 기존 배열이나 데이터프레임에서
-</div>
+#### 기존 배열이나 데이터프레임에서 {#from-an-existing-array-or-dataframe}
 
 ```python
 # 모델이 네 개의 이미지에 대해 예측을 반환했다고 가정합니다.
@@ -51,18 +47,14 @@ columns = ["id", "image", "prediction", "truth"]
 test_table = wandb.Table(data=my_data, columns=columns)
 ```
 
-<div id="add-data">
-  ## 데이터 추가
-</div>
+## 데이터 추가 {#add-data}
 
 Tables는 변경할 수 있습니다. 스크립트가 실행되는 동안 테이블에 최대 200,000행까지 데이터를 추가할 수 있습니다. 테이블에 데이터를 추가하는 방법은 두 가지입니다.
 
 1. **행 추가**: `table.add_data("3a", "3b", "3c")`. 새 행은 목록으로 표현되지 않는다는 점에 유의하세요. 행이 목록 형식이라면 별표 표기법 `*`를 사용해 목록을 위치 인수로 펼치세요: `table.add_data(*my_row_list)`. 행에는 테이블의 열 수와 동일한 개수의 항목이 있어야 합니다.
 2. **열 추가**: `table.add_column(name="col_name", data=col_data)`. `col_data`의 길이는 테이블의 현재 행 수와 같아야 한다는 점에 유의하세요. 여기서 `col_data`는 목록 데이터이거나 NumPy NDArray일 수 있습니다.
 
-<div id="adding-data-incrementally">
-  ### 점진적으로 데이터 추가하기
-</div>
+### 점진적으로 데이터 추가하기 {#adding-data-incrementally}
 
 이 코드 예제는 W&amp;B 테이블을 점진적으로 만들고 채우는 방법을 보여줍니다. 가능한 모든 레이블의 신뢰도 점수를 포함하도록 미리 정의된 열로 테이블을 정의한 다음, Inference 중에 데이터를 한 행씩 추가합니다. [run을 재개할 때도 테이블에 데이터를 점진적으로 추가](#adding-data-to-resumed-runs)할 수 있습니다.
 
@@ -85,9 +77,7 @@ for img_id, img in enumerate(mnist_test_data):
     )  # 테이블에 행 데이터를 추가합니다
 ```
 
-<div id="adding-data-to-resumed-runs">
-  #### 재개된 run에 데이터 추가
-</div>
+#### 재개된 run에 데이터 추가 {#adding-data-to-resumed-runs}
 
 기존 artifact에서 테이블을 불러오고 마지막 데이터 행을 가져온 뒤, 업데이트된 메트릭을 추가해 재개된 run의 W&amp;B 테이블을 점진적으로 업데이트할 수 있습니다. 그런 다음 호환성을 위해 테이블을 다시 초기화한 후, 업데이트된 버전을 W&amp;B에 다시 로깅합니다.
 
@@ -120,24 +110,18 @@ with wandb.init(project="my_project") as run:
         run.log({table_name: best_checkpt_table})
 ```
 
-<div id="retrieve-data">
-  ## 데이터 조회
-</div>
+## 데이터 조회 {#retrieve-data}
 
 데이터가 Table에 저장되면 열이나 행 단위로 조회할 수 있습니다:
 
 1. **행 이터레이터**: `for ndx, row in table.iterrows(): ...`와 같은 Table의 행 이터레이터를 사용하면 데이터의 각 행을 효율적으로 순회할 수 있습니다.
 2. **열 조회**: `table.get_column("col_name")`을 사용해 데이터 열을 조회합니다. 편의를 위해 `convert_to="numpy"`를 전달하면 해당 열을 기본형 값으로 이루어진 NumPy NDArray로 변환할 수 있습니다. 이는 열에 `wandb.Image`와 같은 미디어 유형이 포함된 경우 기본 데이터에 직접 접근할 수 있어 유용합니다.
 
-<div id="save-tables">
-  ## 테이블 저장
-</div>
+## 테이블 저장 {#save-tables}
 
 스크립트에서 데이터 테이블(예: 모델 예측 테이블)을 생성한 후, 결과를 실시간으로 시각화할 수 있도록 W&amp;B에 저장하세요.
 
-<div id="log-a-table-to-a-run">
-  ### run에 테이블 기록하기
-</div>
+### run에 테이블 기록하기 {#log-a-table-to-a-run}
 
 다음과 같이 `wandb.Run.log()`를 사용해 테이블을 run에 저장할 수 있습니다:
 
@@ -157,9 +141,7 @@ with wandb.init() as run:
   하지만 이렇게 하면 UI에서 쿼리가 느려지는 등 성능 문제가 발생할 가능성이 높습니다.
 </Note>
 
-<div id="access-tables-programmatically">
-  ### 프로그래밍 방식으로 테이블에 액세스하기
-</div>
+### 프로그래밍 방식으로 테이블에 액세스하기 {#access-tables-programmatically}
 
 백엔드에서는 Tables가 Artifacts로 저장됩니다. 특정 버전에 액세스하려면 artifact API를 사용하세요:
 
@@ -170,15 +152,11 @@ with wandb.init() as run:
 
 Artifacts에 대해 자세히 알아보려면 개발자 가이드의 [Artifacts 장](/ko/models/artifacts/)을 참조하세요.
 
-<div id="visualize-tables">
-  ### 테이블 시각화
-</div>
+### 테이블 시각화 {#visualize-tables}
 
 이 방식으로 로깅한 모든 테이블은 Workspace의 Run Page와 Project Page 모두에 표시됩니다. 자세한 내용은 [테이블 시각화 및 분석](/ko/models/tables/visualize-tables/)을 참조하세요.
 
-<div id="artifact-tables">
-  ## Artifact 테이블
-</div>
+## Artifact 테이블 {#artifact-tables}
 
 workspace 대신 run의 Artifacts 섹션에 테이블을 기록하려면 `artifact.add()`를 사용하세요. 이렇게 하면 데이터셋을 한 번만 기록해 두고 이후 run에서 참조할 수 있어 유용합니다.
 
@@ -195,9 +173,7 @@ with wandb.init(project="my_project") as run:
 
 이미지 데이터로 `artifact.add()`를 사용하는 [자세한 예시](https://wandb.me/dsviz-nature-colab)는 이 Colab을 참고하고, Artifacts와 Tables를 사용해 [테이블형 데이터를 버전 관리하고 중복 제거하는 방법](https://wandb.me/TBV-Dedup)의 예시는 이 Report를 참고하세요.
 
-<div id="join-artifact-tables">
-  ### Artifact 테이블 조인
-</div>
+### Artifact 테이블 조인 {#join-artifact-tables}
 
 로컬에서 만든 테이블이나 다른 artifact에서 조회한 테이블은 `wandb.JoinedTable(table_1, table_2, join_key)`를 사용해 조인할 수 있습니다.
 

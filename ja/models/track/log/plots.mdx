@@ -5,9 +5,7 @@ title: 実験からプロットを作成してトラッキングする
 
 W&amp;B Models では、`wandb.plot` の method を使用して、`wandb.Run.log()` でチャートをトラッキングできます。これには、トレーニング中に時間の経過とともに変化するチャートも含まれます。custom charting framework の詳細については、[custom charts walkthrough](/ja/models/app/features/custom-charts/walkthrough/) を参照してください。
 
-<div id="basic-charts">
-  ### 基本チャート
-</div>
+### 基本チャート {#basic-charts}
 
 W&amp;B のチャートを作成するには、次の手順に従います。
 
@@ -152,9 +150,7 @@ W&amp;B のチャートを作成するには、次の手順に従います。
   </Tab>
 </Tabs>
 
-<div id="model-evaluation-charts">
-  ### モデル評価用チャート
-</div>
+### モデル評価用チャート {#model-evaluation-charts}
 
 これらのプリセットチャートには組み込みの `wandb.plot()` method が用意されており、スクリプトから直接すばやくチャートをログして、UI で必要な情報を正確に確認できます。
 
@@ -248,9 +244,7 @@ W&amp;B のチャートを作成するには、次の手順に従います。
   </Tab>
 </Tabs>
 
-<div id="interactive-custom-charts">
-  ### インタラクティブなカスタムチャート
-</div>
+### インタラクティブなカスタムチャート {#interactive-custom-charts}
 
 より細かくカスタマイズするには、組み込みの[カスタム チャート プリセット](/ja/models/app/features/custom-charts/walkthrough/)を調整するか、新しいプリセットを作成してから、チャートを保存します。チャート ID を使用すると、スクリプトから直接そのカスタムプリセットにデータをログできます。
 
@@ -279,9 +273,7 @@ with wandb.init() as run:
 
 [コードを実行する](https://tiny.cc/custom-charts)
 
-<div id="matplotlib-and-plotly-plots">
-  ### Matplotlib と Plotly のプロット
-</div>
+### Matplotlib と Plotly のプロット {#matplotlib-and-plotly-plots}
 
 `wandb.plot()` で W&amp;B の[カスタムチャート](/ja/models/app/features/custom-charts/walkthrough/)を使う代わりに、[matplotlib](https://matplotlib.org/) や [Plotly](https://plotly.com/) で生成したチャートをログできます。
 
@@ -305,15 +297,11 @@ with wandb.init() as run:
   「You attempted to log an empty plot」のようなエラーが表示される場合は、`fig = plt.figure()` を使って図をプロットとは別に保持し、その後 `wandb.Run.log()` の call で `fig` をログしてください。
 </Note>
 
-<div id="log-custom-html-to-wb-tables">
-  ### カスタムHTMLをW&amp;B Tablesにログする
-</div>
+### カスタムHTMLをW&amp;B Tablesにログする {#log-custom-html-to-wb-tables}
 
 W&amp;Bでは、Plotly と Bokeh のインタラクティブなチャートを HTML としてログし、Tables に追加できます。
 
-<div id="log-plotly-figures-to-tables-as-html">
-  #### Plotly の figure を HTML として Tables にログする
-</div>
+#### Plotly の figure を HTML として Tables にログする {#log-plotly-figures-to-tables-as-html}
 
 Plotly の figure を HTML に変換すると、インタラクティブな Plotly チャートを W&amp;B Tables にログできます。
 
@@ -345,9 +333,7 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
     run.log({"test_table": table})
 ```
 
-<div id="log-bokeh-figures-to-tables-as-html">
-  #### Bokeh の図を HTML として Tables にログする
-</div>
+#### Bokeh の図を HTML として Tables にログする {#log-bokeh-figures-to-tables-as-html}
 
 インタラクティブな Bokeh チャートは、HTML に変換することで W&amp;B Tables にログできます。
 

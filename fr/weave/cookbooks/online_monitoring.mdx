@@ -11,9 +11,7 @@ keywords: ["monitoring en ligne", "tableau de bord de production", "données de 
   * [Voir le code source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
 </Note>
 
-<div id="integrate-with-weave-production-dashboard">
-  ## Intégrer Weave : tableau de bord de production
-</div>
+## Intégrer Weave : tableau de bord de production {#integrate-with-weave-production-dashboard}
 
 Ce notebook montre comment utiliser les API et les fonctions de Weave pour créer un tableau de bord personnalisé de monitoring en production, en extension de la vue Traces dans Weave. Ce guide s’adresse aux développeurs et aux ingénieurs ML qui exécutent des applications LLM en production et souhaitent une visibilité sur mesure sur les performances, les coûts et les retours des utilisateurs, au-delà de ce que fournit la vue Traces par défaut. Ce notebook se concentre sur :
 
@@ -25,9 +23,7 @@ Ce notebook montre comment utiliser les API et les fonctions de Weave pour crée
 
 <img src="https://github.com/NiWaRe/knowledge-worker-weave/blob/master/screenshots/dashboard_weave_preview.jpg?raw=true" width="1000" alt="Exemple de tableau de bord de production avec Weave" />
 
-<div id="setup">
-  ## Configuration
-</div>
+## Configuration {#setup}
 
 Pour commencer, installez les packages suivants :
 
@@ -35,15 +31,11 @@ Pour commencer, installez les packages suivants :
 !pip install streamlit pandas plotly weave
 ```
 
-<div id="implementation">
-  ## Implémentation
-</div>
+## Implémentation {#implementation}
 
 Les sections suivantes expliquent comment initialiser le client Weave, récupérer les données d’appel et générer des visualisations pour le tableau de bord.
 
-<div id="initialize-the-weave-client-and-define-costs">
-  ### Initialiser le client Weave et définir les coûts
-</div>
+### Initialiser le client Weave et définir les coûts {#initialize-the-weave-client-and-define-costs}
 
 Commencez par configurer une fonction pour initialiser le client Weave et ajouter des coûts pour chaque modèle. Cette étape est requise pour que les requêtes de coût en aval puissent attribuer une tarification par jeton à chaque appel.
 
@@ -84,9 +76,7 @@ def init_weave_client(project_name):
 client = init_weave_client(PROJECT_NAME)
 ```
 
-<div id="fetch-calls-data-from-weave">
-  ### Récupérer les données d&#39;appels dans Weave
-</div>
+### Récupérer les données d&#39;appels dans Weave {#fetch-calls-data-from-weave}
 
 Le client étant initialisé et les coûts configurés, l’étape suivante consiste à récupérer les données d’appels dans Weave. Deux options s’offrent à vous pour récupérer ces données :
 
@@ -95,9 +85,7 @@ Le client étant initialisé et les coûts configurés, l’étape suivante cons
 
 Les sections suivantes décrivent chaque option.
 
-<div id="fetch-data-call-by-call">
-  #### Récupérer les données par appel
-</div>
+#### Récupérer les données par appel {#fetch-data-call-by-call}
 
 La première option pour accéder aux données dans Weave consiste à récupérer une liste d’appels filtrés et à extraire les données souhaitées appel par appel. Pour ce faire, utilisez l’API `calls_query_stream` pour récupérer les données d’appels depuis Weave :
 
@@ -184,9 +172,7 @@ df_calls = process_calls(calls)
 df_calls.head(3)
 ```
 
-<div id="use-high-level-apis">
-  #### Utilisez des API de haut niveau
-</div>
+#### Utilisez des API de haut niveau {#use-high-level-apis}
 
 Au lieu de passer en revue chaque appel, Weave fournit aussi des API de haut niveau pour accéder directement aux coûts des modèles, au feedback et à d’autres métriques.
 Par exemple, pour le coût, utilisez l’API `query_costs` pour récupérer les coûts de tous les LLM utilisés dans le projet :
@@ -203,9 +189,7 @@ df_costs["total_cost"] = (
 df_costs
 ```
 
-<div id="gather-inputs-and-generate-visualizations">
-  ### Rassemblez les données d’entrée et générez des visualisations
-</div>
+### Rassemblez les données d’entrée et générez des visualisations {#gather-inputs-and-generate-visualizations}
 
 Avec les données d’appel et les coûts disponibles sous forme de DataFrames, vous pouvez générer des visualisations à l’aide de plotly. Il s’agit d’un tableau de bord de base que vous pouvez personnaliser à votre guise. Pour un exemple plus avancé, consultez l’[exemple Streamlit du dépôt knowledge-worker-weave](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py).
 
@@ -246,9 +230,7 @@ python
 plot_model_cost_distribution(df_costs)
 ```
 
-<div id="conclusion">
-  ## Conclusion
-</div>
+## Conclusion {#conclusion}
 
 Ce cookbook a montré comment créer un tableau de bord de monitoring en production personnalisé à l&#39;aide des API et des fonctions de Weave. Weave met l&#39;accent sur des intégrations rapides afin de simplifier à la fois l&#39;ingestion des données et leur extraction pour des processus personnalisés.
 

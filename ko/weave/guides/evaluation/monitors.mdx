@@ -20,9 +20,7 @@ keywords: ["시그널", "모니터", "LLM-as-a-judge", "환각", "프로덕션 �
 * 동작 인사이트 확보. 시스템 메트릭을 넘어, 에이전트가 환각을 일으키는지, 대화 패턴을 제대로 따르지 못하는지, 또는 근거로 삼는 증거와의 연결을 잃고 있는지를 파악할 수 있습니다.
 * 연구 루프 가속화. 시그널가 생성한 점수와 실패 분석을 사용해 약점을 파악하고, 이를 모델 개선, 데이터 annotation, 또는 강화 학습 연구에 활용할 수 있습니다.
 
-<div id="available-signals">
-  ## 사용 가능한 시그널
-</div>
+## 사용 가능한 시그널 {#available-signals}
 
 W&amp;B Weave는 기본 제공 시그널이 포함된 모니터를 제공합니다. 기본 제공 시그널은 별도의 맞춤형 설정 없이 기본적으로 프로덕션 트레이스에서 일반적인 품질 문제와 오류를 평가할 수 있는 사전 설정 Scorer입니다. 각 기본 제공 시그널은 벤치마크된 LLM 프롬프트를 사용해 트레이스를 분류하고, 감지된 문제를 나타내는 쉼표로 구분된 tags로 결과를 저장합니다.
 
@@ -30,9 +28,7 @@ W&amp;B Weave는 기본 제공 시그널이 포함된 모니터를 제공합니�
 
 W&amp;B Weave는 두 그룹으로 구성된 사전 설정 시그널 13개를 제공합니다.
 
-<div id="quality-signals">
-  ### 품질 신호
-</div>
+### 품질 신호 {#quality-signals}
 
 품질 신호는 성공한 최상위 수준 트레이스에서 출력 품질 및 안전성 문제를 평가합니다.
 
@@ -46,9 +42,7 @@ W&amp;B Weave는 두 그룹으로 구성된 사전 설정 시그널 13개를 제
 | **Lazy**             | 지나치게 짧은 답변, 도움 거부, 작업 미루기와 같은 성의 없는 응답          |
 | **Forgetful**        | 앞선 대화의 컨텍스트를 활용하지 못하고, 이전에 언급된 사실이나 지침을 무시하는 경우 |
 
-<div id="error-signals">
-  ### 오류 시그널
-</div>
+### 오류 시그널 {#error-signals}
 
 오류 시그널은 실패한 트레이스를 근본 원인별로 분류해, 인프라 및 애플리케이션 문제를 파악하고 해결하는 데 도움을 줍니다.
 
@@ -61,9 +55,7 @@ W&amp;B Weave는 두 그룹으로 구성된 사전 설정 시그널 13개를 제
 | **Bad Response**      | 원격 서비스의 유효하지 않거나 예상과 다르거나 사용할 수 없는 응답(`5xx`)    |
 | **Bug**               | `KeyError`, `TypeError`, 로직 오류와 같은 애플리케이션 코드 결함 |
 
-<div id="how-signals-work">
-  ### 시그널 작동 방식
-</div>
+### 시그널 작동 방식 {#how-signals-work}
 
 각 시그널은 트레이스를 분류하기 위해 LLM-as-a-judge 접근 방식을 사용합니다.
 
@@ -73,9 +65,7 @@ W&amp;B Weave는 두 그룹으로 구성된 사전 설정 시그널 13개를 제
 
 같은 그룹(품질 또는 오류)의 여러 시그널이 활성화되면 Weave는 시그널을 하나의 LLM Call로 일괄 처리합니다. 모델은 모든 활성 분류기를 한 번에 평가하고 각각에 대한 결과를 반환합니다.
 
-<div id="add-a-signal-from-the-monitors-page">
-  ## Monitors 페이지에서 시그널 추가
-</div>
+## Monitors 페이지에서 시그널 추가 {#add-a-signal-from-the-monitors-page}
 
 시그널을 추가하면 자동 점수화가 켜져 Weave가 해당 시그널의 기준에 따라 새 프로덕션 트레이스를 평가합니다. 시그널을 활성화하려면 다음 단계를 따르세요.
 
@@ -86,9 +76,7 @@ W&amp;B Weave는 두 그룹으로 구성된 사전 설정 시그널 13개를 제
 
 시그널을 추가하면 Weave가 들어오는 트레이스를 자동으로 점수화합니다.
 
-<div id="manage-active-signals">
-  ## 활성 시그널 관리
-</div>
+## 활성 시그널 관리 {#manage-active-signals}
 
 시그널이 실행되기 시작한 후에는 어떤 시그널이 활성 상태인지 검토하거나 더 이상 필요하지 않은 시그널을 끌 수 있습니다. 활성 시그널을 확인하거나 제거하려면 다음 단계를 따르세요.
 
@@ -97,15 +85,11 @@ W&amp;B Weave는 두 그룹으로 구성된 사전 설정 시그널 13개를 제
 
 시그널을 제거하면 새 트레이스에 대한 점수화가 중지됩니다. Weave는 해당 시그널의 기존 점수를 유지합니다.
 
-<div id="use-built-in-signals">
-  ## 기본 제공 시그널 사용
-</div>
+## 기본 제공 시그널 사용 {#use-built-in-signals}
 
 시그널이 활성화되어 트레이스를 점수화하기 시작하면 Weave의 여러 위치에서 결과를 검토할 수 있습니다. Weave가 문제를 감지할 때 알림을 설정할 수도 있습니다. 다음 섹션에서는 시그널 결과를 어디에서 확인할 수 있는지와 그 결과에 어떻게 대응할 수 있는지 설명합니다.
 
-<div id="see-tagged-call-traces-on-the-traces-page">
-  ### Traces 페이지에서 태그가 지정된 Call 트레이스 보기
-</div>
+### Traces 페이지에서 태그가 지정된 Call 트레이스 보기 {#see-tagged-call-traces-on-the-traces-page}
 
 개별 함수를 `@weave.op` decorator를 사용하는 Ops로 트레이싱하는 경우, Weave는 signal 결과를 Call object의 feedback으로 저장합니다. 이러한 결과는 **Traces** 페이지에서 쿼리할 수 있습니다.
 
@@ -119,9 +103,7 @@ signal이 생성한 classifier Call을 선택하고 **Trace Details view**를 �
 
 ![quality-classifier 트레이스가 선택된 Weave Traces 뷰. 세부 정보 panel에는 confidence score와 reason을 포함한 classifier metadata가 있는 Call 세부 정보가 표시됩니다.](/weave/guides/evaluation/img/weave_signals_trace_reasoning.png)
 
-<div id="see-signals-in-the-project-dashboard">
-  ### 프로젝트 대시보드에서 신호 보기
-</div>
+### 프로젝트 대시보드에서 신호 보기 {#see-signals-in-the-project-dashboard}
 
 프로젝트 수준에서도 신호를 검토할 수 있습니다.
 
@@ -133,9 +115,7 @@ signal이 생성한 classifier Call을 선택하고 **Trace Details view**를 �
 
 ![프로젝트 활동에서 발생한 신호 그래프를 보여주는 Weave 프로젝트 대시보드의 Monitor Scores 패널.](/weave/guides/evaluation/img/weave_signals_project_dash.png)
 
-<div id="alert-on-signals">
-  ### 시그널 알림
-</div>
+### 시그널 알림 {#alert-on-signals}
 
 UI에서 시그널을 검토하는 것 외에도, Weave는 시그널이 트리거될 때 알림을 보낼 수 있습니다. 에이전트의 성능이 특정 임곗값 아래로 떨어질 때 Slack과 같은 도구를 통해 팀에 알림을 보내는 자동 트리거를 설정할 수 있습니다.
 

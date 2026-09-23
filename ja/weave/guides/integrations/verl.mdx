@@ -11,17 +11,13 @@ VERL で Weave を使用すると、次のことができます。
 * ステップ、サンプルインデックス、ロールアウト番号、実験名で軌跡をフィルターできます。
 * 複数の軌跡を並べて比較し、トレーニングステップ全体にわたるエージェントの動作をデバッグできます。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 * W&amp;Bアカウントと[APIキー](/ja/platform/app/settings-page/user-settings#api-keys)。
 * ロールアウトのトレースをサポートする VERL のインストール。ロールアウトのトレースは [verl#2345](https://github.com/volcengine/verl/pull/2345) で追加されました。
 * 非同期ロールアウトの設定。トレースは非同期ロールアウトにのみ適用され、同期ロールアウトはトレースされません。
 
-<div id="enable-weave-tracing">
-  ## Weave トレースを有効にする
-</div>
+## Weave トレースを有効にする {#enable-weave-tracing}
 
 VERL が W&amp;B アカウントで認証できるよう、環境変数に W&amp;B APIキーを設定します。
 
@@ -51,9 +47,7 @@ python -m verl.trainer.main_ppo \
 
 Weave は、W&amp;B のプロジェクトと実験名に基づいて自動的に初期化されます。`weave.init()` を呼び出す必要はありません。
 
-<div id="tune-trace-volume">
-  ## トレース量を調整する
-</div>
+## トレース量を調整する {#tune-trace-volume}
 
 デフォルトでは、VERL はすべてのロールアウトのすべてのサンプルをトレースするため、非常に大量のトレースデータが生成される可能性があります。トレース量を制限するには、`ppo_trainer.yaml` 設定ファイルで次のフィールドを設定します。
 
@@ -71,17 +65,13 @@ actor_rollout_ref:
       max_samples_per_step_per_worker: 5
 ```
 
-<div id="view-traces">
-  ## トレースを表示する
-</div>
+## トレースを表示する {#view-traces}
 
 トレーニング中に出力されたトレースを表示するには、W&amp;B のプロジェクトページを開き、**トレース** を選択します。各トレースはロールアウトの軌跡に対応します。
 
 複数のトレースを選択し、Weave の比較ビューを使用して軌跡間の差分を確認できます。これにより、トレーニングステップや実験にまたがるエージェントの動作の変化をデバッグできます。
 
-<div id="trace-additional-functions">
-  ## 追加の関数をトレースする
-</div>
+## 追加の関数をトレースする {#trace-additional-functions}
 
 VERL には、デフォルトのトレース対象範囲を拡張するためのヘルパーが 2 つあります。
 

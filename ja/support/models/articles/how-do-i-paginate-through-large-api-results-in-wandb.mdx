@@ -5,9 +5,7 @@ keywords: ["Runs", "Experiments", "API", "Artifacts"]
 
 [標準的な遅延イテレーターパターンと `per_page` パラメーター](/ja/models/track/public-api-guide)を使用して、API の結果をページ単位で取得できます。さらに、次のチェックポイントと一括ダウンロードのヒントを使用すると、結果をより効率的に取得できます。
 
-<div id="checkpoint-processed-run-ids">
-  ## 処理済みの run ID をチェックポイントに記録する
-</div>
+## 処理済みの run ID をチェックポイントに記録する {#checkpoint-processed-run-ids}
 
 非常に大規模な project では、すでに処理した ID を記録しておき、再開時にはそれらをスキップします:
 
@@ -30,9 +28,7 @@ for run in api.runs("my-entity/my-project"):
 
 ランダムアクセスが必要な場合を除き、大規模な project で `list(api.runs(...))` は使用しないでください。すべてのページがメモリに読み込まれてしまいます。
 
-<div id="rate-limits-on-bulk-downloads">
-  ## 一括ダウンロード時のレート制限
-</div>
+## 一括ダウンロード時のレート制限 {#rate-limits-on-bulk-downloads}
 
 各 run で追加の API 呼び出しが発生する場合 (たとえば `run.file("output.log").download()`) 、`429` エラーを避けるため、短い待機時間を入れてください。
 

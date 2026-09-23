@@ -9,9 +9,7 @@ W&amp;B Inference では、サポートされているホスト型モデルで�
 
 接頭辞キャッシュはサポートされているモデルで自動的に有効になるため、リクエストで明示的に有効化する必要はありません。このページでは、接頭辞キャッシュが最も効果的なケースと、`cache_salt` を使用してキャッシュの分離を制御する方法について説明します。
 
-<div id="when-prefix-caching-helps">
-  ## 接頭辞キャッシュが役立つ場面
-</div>
+## 接頭辞キャッシュが役立つ場面 {#when-prefix-caching-helps}
 
 接頭辞キャッシュは、長い共通の接頭辞を持つリクエストを繰り返し送信する場合に特に効果的です。たとえば、次のようなケースです。
 
@@ -20,9 +18,7 @@ W&amp;B Inference では、サポートされているホスト型モデルで�
 * リクエストごとの差分がわずかな、繰り返し行う評価用プロンプト。
 * 会話履歴の大部分が変わらない複数ターンのワークロード。
 
-<div id="cache-isolation">
-  ## キャッシュの分離
-</div>
+## キャッシュの分離 {#cache-isolation}
 
 一部の環境では、異なるユーザーやアプリケーション間でキャッシュが再利用されないようにする必要があります。これを制御するためのパラメーターが `cache_salt` です。
 
@@ -32,9 +28,7 @@ W&amp;B Inference では、サポートされているホスト型モデルで�
 
 単一のユーザー、テナント、セッション、またはアプリケーションの境界内ではキャッシュを再利用したい一方で、他の呼び出し元との間では再利用したくない場合は、`cache_salt` を使用します。
 
-<div id="how-it-works">
-  ### 仕組み
-</div>
+### 仕組み {#how-it-works}
 
 `cache_salt` の有無と値は、キャッシュの再利用に次のように影響します。
 
@@ -46,9 +40,7 @@ W&amp;B Inference では、サポートされているホスト型モデルで�
   `cache_salt` は、指定する場合、空でない string である必要があります。
 </Note>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 次の例は、`cache_salt` を指定して Chat Completion リクエストを送信し、キャッシュの再利用を分離する方法を示しています。
 
@@ -100,15 +92,11 @@ W&amp;B Inference では、サポートされているホスト型モデルで�
   </Tab>
 </Tabs>
 
-<div id="response-behavior">
-  ## Responseの動作
-</div>
+## Responseの動作 {#response-behavior}
 
 Request で接頭辞キャッシュが有効になっていることを確認するには、Response の Usage の詳細を確認してください。一部のモデルでは、prefix cache が再利用されると、Usage の詳細に `usage.prompt_tokens_details.cached_tokens` の cached token 数が含まれる場合があります。このフィールドを利用できるかどうかは、モデルとバックエンドによって異なります。
 
-<div id="related-pages">
-  ## 関連ページ
-</div>
+## 関連ページ {#related-pages}
 
 以下のページでは、関連トピックを紹介しています。
 

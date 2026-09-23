@@ -2,29 +2,21 @@
 title: Configuration du contexte IA de Locadex
 ---
 
-<div id="agent-prompt-configure-locadex-ai-context-for-wb-docs-korean-and-later-japanese">
-  # Prompt de l’agent : Configurer le contexte Locadex AI pour la documentation W&amp;B (en coréen, puis en japonais)
-</div>
+# Prompt de l’agent : Configurer le contexte Locadex AI pour la documentation W&amp;B (en coréen, puis en japonais) {#agent-prompt-configure-locadex-ai-context-for-wb-docs-korean-and-later-japanese}
 
-<div id="requirements">
-  ## Prérequis
-</div>
+## Prérequis {#requirements}
 
 * [ ] Accès au [Dashboard General Translation](https://dash.generaltranslation.com/) (console Locadex).
 * [ ] Le dépôt de documentation lié à un projet Locadex/GT (application GitHub installée, dépôt connecté).
 * [ ] Facultatif : accès à la branche `main` de wandb/docs, avec `ko/` (et éventuellement `ja/`), afin de comparer les traductions manuelles lors de l’affinage du Glossaire ou du Contexte local.
 
-<div id="agent-prerequisites">
-  ## Prérequis de l’agent
-</div>
+## Prérequis de l’agent {#agent-prerequisites}
 
 1. **Quelle(s) langue(s) paramétrez-vous ?** (par ex. coréen uniquement pour l’instant ; japonais plus tard.) Cela détermine quelles traductions du Glossaire et quelles entrées du Contexte local ajouter.
 2. **Avez-vous déjà un fichier CSV du Glossaire ou une liste de termes ?** Sinon, utilisez le runbook pour en créer un à partir des sources ci-dessous.
 3. **Le projet GT est-il déjà créé et le dépôt connecté ?** Sinon, terminez d’abord les étapes 1 à 6 de [Locadex for Mintlify](https://generaltranslation.com/docs/locadex/mintlify).
 
-<div id="task-overview">
-  ## Aperçu de la tâche
-</div>
+## Aperçu de la tâche {#task-overview}
 
 Ce runbook explique comment récupérer la mémoire de traduction et la terminologie depuis (1) l’ancien outil `wandb_docs_translation` et (2) le contenu coréen traduit manuellement (puis, plus tard, le contenu japonais) sur `main`, ainsi que comment configurer la plateforme Locadex/General Translation pour que la traduction automatique s’appuie sur ce contexte. L’objectif est d’assurer une terminologie cohérente et un comportement correct de type « ne pas traduire » pour les noms de produits et les termes techniques.
 
@@ -40,13 +32,9 @@ Ce runbook explique comment récupérer la mémoire de traduction et la terminol
 
 Donc : **pilotez la traduction automatique depuis la console Locadex** (Glossaire, Contexte local, Contrôle de style). **La configuration des fichiers et des langues reste dans Git** (`gt.config.json`). La clé `dictionary` facultative dans `gt.config.json` est destinée aux chaînes de l’interface utilisateur de l’application (par ex. gt-next/gt-react), et non au glossaire MDX de la documentation ; la terminologie de la documentation est gérée dans la console.
 
-<div id="context-and-constraints">
-  ## Contexte et contraintes
-</div>
+## Contexte et contraintes {#context-and-constraints}
 
-<div id="legacy-tooling-wandb_docs_translation">
-  ### Outils existants (wandb_docs_translation)
-</div>
+### Outils existants (wandb_docs_translation) {#legacy-tooling-wandb_docs_translation}
 
 * **human&#95;prompt.txt** : répertorie les noms de produits/fonctionnalités W&amp;B qui ne doivent **jamais** être traduits (à laisser en anglais) : Artifacts, Entities, Projects, Runs, Experiments, Datasets, Reports, Sweeps, Weave, Launch, Models, Teams, Users, Workspace, Registered Models. Même règle dans les contextes de lien/liste comme `[**word**](link)`.
 * **system&#95;prompt.txt** : règles générales (markdown valide, traduire uniquement les commentaires dans les blocs de code, utiliser le dictionnaire, ne pas traduire les URL des liens ; pour le japonais/coréen : ajouter une espace lors du passage entre alphabets et caractères CJK, ainsi qu&#39;autour de la mise en forme en ligne).
@@ -56,22 +44,16 @@ Donc : **pilotez la traduction automatique depuis la console Locadex** (Glossai
 
 La convention était donc la suivante : **les noms de produits/fonctionnalités (souvent avec une majuscule ou dans un contexte d&#39;UI/liste) restent en anglais** ; **les emplois comme noms communs** suivent le dictionnaire de la langue. Le glossaire Locadex doit refléter à la fois « ne pas traduire » et « traduire par X » pour chaque langue.
 
-<div id="locadexgt-platform-behavior">
-  ### Comportement de la plateforme Locadex/GT
-</div>
+### Comportement de la plateforme Locadex/GT {#locadexgt-platform-behavior}
 
 * **Glossaire** : Terme (tel qu’il apparaît dans la source) + Définition facultative + Traduction facultative par langue. Pour « ne pas traduire », utilisez la même chaîne que le terme pour cette langue (par ex. Term « W&amp;B », Translation (ko) « W&amp;B »). Pour « traduire par », définissez Translation (ko) sur la valeur cible souhaitée (par ex. « artifact » → « 아티팩트 »).
 * **Contexte local** : Instructions libres pour chaque langue cible (par ex. « Utiliser une espace entre les caractères latins et coréens »).
 * **Contrôles de style** : Un seul ensemble pour le projet (ton, audience, description). Il s’applique à toutes les langues.
 * Les modifications du contexte IA **ne** retraduisent **pas** automatiquement le contenu existant ; utilisez [Retraduire](https://generaltranslation.com/docs/platform/translations/retranslate) pour appliquer le nouveau contexte aux fichiers déjà traduits.
 
-<div id="step-by-step-process">
-  ## Processus étape par étape
-</div>
+## Processus étape par étape {#step-by-step-process}
 
-<div id="1-gather-terminology-sources">
-  ### 1. Rassembler les sources terminologiques
-</div>
+### 1. Rassembler les sources terminologiques {#1-gather-terminology-sources}
 
 * **À partir de wandb&#95;docs&#95;translation** (si disponible) :
   * `configs/human_prompt.txt` → liste des termes à ne jamais traduire.
@@ -80,9 +62,7 @@ La convention était donc la suivante : **les noms de produits/fonctionnalités 
 
 **Note de l’agent** : si l’agent ne peut pas lire le dépôt externe, un humain peut quand même suivre cette procédure à l’aide du CSV et du texte de contexte de locale fournis dans ce dépôt (voir les runbooks et le CSV facultatif ci-dessous).
 
-<div id="2-build-or-obtain-a-glossary-csv">
-  ### 2. Créer ou obtenir un CSV de glossaire
-</div>
+### 2. Créer ou obtenir un CSV de glossaire {#2-build-or-obtain-a-glossary-csv}
 
 * Utilisez le CSV de glossaire préconfiguré pour le coréen dans ce dépôt : **runbooks/locadex-glossary-ko.csv** (voir « CSV de glossaire » ci-dessous), ou générez-en un qui inclut :
   * **Termes à ne pas traduire** : une ligne par terme ; définition facultative ; `ko` (ou « Translation (ko) ») = identique au terme.
@@ -90,17 +70,13 @@ La convention était donc la suivante : **les noms de produits/fonctionnalités 
 * Vérifiez les noms de colonnes exacts attendus par « Upload Context CSV » dans Locadex (par ex. `Term`, `Definition`, `ko` ou `Translation (ko)`). Ajustez les en-têtes du CSV si la console attend des noms différents.
 * **Format CSV (pour un parsing correct)** : utilisez les règles standard de mise entre guillemets du CSV afin que le fichier soit correctement interprété. La virgule est le séparateur de champs ; tout champ contenant une virgule, un guillemet double ou un saut de ligne **doit** être entouré de guillemets doubles. Dans un champ entre guillemets, échappez les guillemets doubles internes en les doublant (`""`). Un terme par ligne (ne mettez pas plusieurs variantes comme « run, Run » dans une seule cellule). Lorsque vous générez ou modifiez le CSV par programmation, utilisez une bibliothèque CSV ou mettez explicitement ces champs entre guillemets ; les virgules non protégées par des guillemets dans `Term` ou `Definition` seront traitées comme des séparateurs de colonnes et rendront la ligne invalide.
 
-<div id="3-configure-the-locadex-project-in-the-console">
-  ### 3. Configurez le projet Locadex dans la console
-</div>
+### 3. Configurez le projet Locadex dans la console {#3-configure-the-locadex-project-in-the-console}
 
 1. Connectez-vous au [General Translation Dashboard](https://dash.generaltranslation.com/).
 2. Ouvrez le projet associé au dépôt wandb/docs.
 3. Accédez à **AI Context** (ou à l’équivalent : Glossaire, Contexte local, Contrôles de style).
 
-<div id="4-upload-or-add-glossary-terms">
-  ### 4. Importer ou ajouter des termes du Glossaire
-</div>
+### 4. Importer ou ajouter des termes du Glossaire {#4-upload-or-add-glossary-terms}
 
 * **Option A** : Utilisez **Upload Context CSV** pour importer le glossaire en masse (Term, Definition et la ou les colonnes de langue). La plateforme associe les colonnes aux termes du glossaire et aux traductions propres à chaque langue.
 * **Option B** : Ajoutez les termes manuellement : Term, Definition (pour aider le modèle) et, pour le coréen, ajoutez la traduction (identique au terme pour « do not translate », ou la chaîne coréenne pour « translate as »).
@@ -110,9 +86,7 @@ Assurez-vous d’avoir au minimum :
 * Les noms de produits/fonctionnalités qui doivent rester en anglais : W&amp;B, Weights &amp; Biases, Artifacts, Runs, Experiments, Sweeps, Weave, Launch, Models, Reports, Datasets, Teams, Users, Workspace, Registered Models, etc., avec Korean = identique à la source.
 * Les termes qui doivent être traduits de manière cohérente : p. ex. artifact → 아티팩트, sweep → 스윕, project → 프로젝트, workspace → 워크스페이스, ainsi que les autres entrées de `language_dicts/ko.yaml` (et plus tard `ja.yaml`).
 
-<div id="5-set-locale-context-for-korean">
-  ### 5. Définir le Contexte local pour le coréen
-</div>
+### 5. Définir le Contexte local pour le coréen {#5-set-locale-context-for-korean}
 
 * Sélectionnez la langue **ko**.
 * Ajoutez des instructions reflétant le `system_prompt` historique et les bonnes pratiques de la documentation en coréen, par exemple :
@@ -122,9 +96,7 @@ Assurez-vous d’avoir au minimum :
 
 Enregistrez le Contexte local.
 
-<div id="6-set-style-controls-project-wide">
-  ### 6. Définir les paramètres de style (à l’échelle du projet)
-</div>
+### 6. Définir les paramètres de style (à l’échelle du projet) {#6-set-style-controls-project-wide}
 
 * **Description du projet** : p. ex. « Documentation de Weights &amp; Biases (W&amp;B) : suivi des expériences ML, registre de modèles, Weave pour les ops LLM et produits associés. »
 * **Public cible** : développeurs et praticiens du ML.
@@ -132,55 +104,39 @@ Enregistrez le Contexte local.
 
 Enregistrer.
 
-<div id="7-retranslate-if-needed">
-  ### 7. Retraduisez si nécessaire
-</div>
+### 7. Retraduisez si nécessaire {#7-retranslate-if-needed}
 
 * Si vous avez déjà du contenu traduit automatiquement et que vous avez modifié le Glossaire ou le Contexte local, utilisez l’option **Retraduire** de la plateforme pour les fichiers concernés afin que le nouveau contexte soit pris en compte.
 
-<div id="verification-and-testing">
-  ## Vérification et tests
-</div>
+## Vérification et tests {#verification-and-testing}
 
 * **Glossaire** : Après l’import, vérifiez quelques termes au hasard dans l’onglet Glossaire (ceux à ne pas traduire et ceux traduits).
 * **Contexte local** : Vérifiez que les instructions en coréen (et plus tard en japonais) sont bien enregistrées sous la bonne locale.
 * **Qualité** : Exécutez ou déclenchez la traduction sur un exemple de page, puis vérifiez que les noms de produit restent en anglais et que les termes courants correspondent au glossaire (par exemple, artifact → 아티팩트 lorsque c’est approprié).
 
-<div id="common-issues-and-solutions">
-  ## Problèmes fréquents et solutions
-</div>
+## Problèmes fréquents et solutions {#common-issues-and-solutions}
 
-<div id="issue-csv-upload-does-not-map-to-glossary">
-  ### Problème : l’upload du CSV ne correspond pas au Glossaire
-</div>
+### Problème : l’upload du CSV ne correspond pas au Glossaire {#issue-csv-upload-does-not-map-to-glossary}
 
 * **Cause** : les noms de colonnes peuvent ne pas correspondre à ce que la plateforme attend.
 * **Solution** : consultez la documentation Locadex/GT ou l’aide dans l’UI pour connaître les noms de colonnes attendus pour “Upload Context CSV” (par ex. Term, Definition, locale code). Renommez les colonnes de votre CSV, puis relancez l’upload.
 
-<div id="issue-terms-still-translated-when-they-should-stay-in-english">
-  ### Problème : certains termes sont encore traduits alors qu’ils devraient rester en anglais
-</div>
+### Problème : certains termes sont encore traduits alors qu’ils devraient rester en anglais {#issue-terms-still-translated-when-they-should-stay-in-english}
 
 * **Cause** : le terme ne figure pas dans le Glossaire, ou l’option « ne pas traduire » n’est pas définie (traduction pour la langue absente ou incorrecte).
 * **Solution** : ajoutez le terme au Glossaire avec la même valeur pour la langue cible (par ex. « Artifacts » → ko: « Artifacts »). Ajoutez une brève définition afin que le modèle comprenne qu’il s’agit d’un nom de produit ou de fonctionnalité.
 
-<div id="issue-japanese-or-another-locale-needs-different-rules">
-  ### Problème : le japonais (ou une autre langue) nécessite des règles différentes
-</div>
+### Problème : le japonais (ou une autre langue) nécessite des règles différentes {#issue-japanese-or-another-locale-needs-different-rules}
 
 * **Cause** : des préférences propres à la langue concernée (par ex. niveau de politesse, espacement, katakana pour les noms de produits).
 * **Solution** : ajoutez un Contexte local distinct pour cette langue (par ex. `ja`) et, si nécessaire, des entrées supplémentaires dans le Glossaire avec une colonne « ja » ou des entrées manuelles pour le japonais.
 
-<div id="cleanup-instructions">
-  ## Consignes de nettoyage
-</div>
+## Consignes de nettoyage {#cleanup-instructions}
 
 * Aucune branche ni aucun fichier temporaires ne sont nécessaires dans le dépôt de documentation pour une configuration effectuée uniquement dans la console.
 * Si vous avez généré un script ponctuel pour créer le CSV, ne le validez pas, sauf si l’équipe décide de le conserver (voir AGENTS.md et les règles utilisateur concernant les scripts ponctuels).
 
-<div id="checklist">
-  ## Liste de contrôle
-</div>
+## Liste de contrôle {#checklist}
 
 * [ ] Terminologie recueillie à partir de `human_prompt`, `language_dicts/ko.yaml` (et `ja`, le cas échéant).
 * [ ] Fichier CSV du Glossaire créé ou obtenu, et noms de colonnes confirmés pour l’upload.
@@ -190,9 +146,7 @@ Enregistrer.
 * [ ] Définition des contrôles de style (description, audience, ton).
 * [ ] Vérification à l’aide d’un exemple de traduction et retraduction du contenu existant si nécessaire.
 
-<div id="glossary-csv">
-  ## CSV du glossaire
-</div>
+## CSV du glossaire {#glossary-csv}
 
 Un glossaire coréen de base est fourni dans ce dépôt : **runbooks/locadex-glossary-ko.csv**. Colonnes :
 
@@ -202,9 +156,7 @@ Un glossaire coréen de base est fourni dans ce dépôt : **runbooks/locadex-gl
 
 Pour ajouter d’autres termes à partir de `configs/language_dicts/ko.yaml` (ou de pages KO manuelles sur main), ajoutez des lignes avec les mêmes colonnes. Si la console Locadex attend des noms de colonnes différents pour les traductions de langue (par exemple « Translation (ko) »), renommez la colonne `ko` lors de l’import ou dans le CSV avant l’import.
 
-<div id="csv-formatting-for-future-generation">
-  ### Formatage CSV pour une génération ultérieure
-</div>
+### Formatage CSV pour une génération ultérieure {#csv-formatting-for-future-generation}
 
 Lorsque vous créez le fichier CSV du glossaire ou y ajoutez du contenu (manuellement ou par script), respectez les règles suivantes afin que le fichier reste valide :
 
@@ -214,9 +166,7 @@ Lorsque vous créez le fichier CSV du glossaire ou y ajoutez du contenu (manuell
 * **Un terme par ligne** : chaque ligne correspond à un terme. N’indiquez pas plusieurs variantes dans une même cellule (par ex., utilisez des lignes distinctes pour « run » et « artifact », et non « run, artifact » dans la colonne Term).
 * **Outils** : lorsque vous générez un CSV par programmation, utilisez une bibliothèque CSV adaptée (par ex. le module Python `csv` avec `quoting=csv.QUOTE_MINIMAL` ou `QUOTE_NONNUMERIC`) afin que les virgules et les guillemets dans Term ou Definition soient correctement gérés.
 
-<div id="notes">
-  ## Notes
-</div>
+## Notes {#notes}
 
 * **Japonais ultérieurement** : lors de l’ajout du japonais, répétez le Contexte local pour `ja` (par exemple : forme polie, espacement entre l’alphabet latin et l’écriture japonaise, espaces pour la mise en forme en ligne) et ajoutez des entrées de Glossaire pour `ja` (même approche : ne pas traduire = identique à la source ; traduire par = japonais souhaité).
 * **configuration GT dans Git** : `gt.config.json` contient déjà `locales` et `defaultLocale`. Aucun glossaire ni contexte IA n’y est stocké ; ils existent uniquement dans la console.

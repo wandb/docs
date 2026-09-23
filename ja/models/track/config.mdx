@@ -19,9 +19,7 @@ run の `config` プロパティを使用して、トレーニングの設定を
   損失や精度のような出力メトリクスや従属変数を保存するには、`wandb.Run.config` ではなく `wandb.Run.log()` を使用してください。
 </Note>
 
-<div id="set-up-an-experiment-configuration">
-  ## 実験の設定を行う
-</div>
+## 実験の設定を行う {#set-up-an-experiment-configuration}
 
 通常、設定はトレーニングスクリプトの冒頭で定義します。ただし、機械学習のワークフローはさまざまであるため、トレーニングスクリプトの冒頭で設定を定義する必要はありません。
 
@@ -31,9 +29,7 @@ run の `config` プロパティを使用して、トレーニングの設定を
 
 以下のセクションでは、実験の設定を定義する一般的なシナリオをいくつか紹介します。
 
-<div id="set-the-configuration-at-initialization">
-  ### 初期化時に設定を行う
-</div>
+### 初期化時に設定を行う {#set-the-configuration-at-initialization}
 
 W&amp;B run としてデータを Sync してログするバックグラウンドプロセスを生成するには、`wandb.init()` API を呼び出す際に、スクリプトの先頭で辞書を渡します。
 
@@ -75,9 +71,7 @@ activation = run.config.get("activation")
 
 <Note>Developer Guideと各例では、設定値を別々の変数にコピーしています。このstepは任意です。可読性を高めるために行っています。</Note>
 
-<div id="set-the-configuration-with-argparse">
-  ### argparseで設定する
-</div>
+### argparseで設定する {#set-the-configuration-with-argparse}
 
 argparse オブジェクトを使用して設定できます。[argparse](https://docs.python.org/3/library/argparse.html) は argument parser の略で、Python 3.2 以降で利用できる標準ライブラリモジュールです。コマンドライン引数の柔軟性と機能を活かしたスクリプトを簡単に作成できます。
 
@@ -149,9 +143,7 @@ if __name__ == "__main__":
     main(args)
 ```
 
-<div id="set-the-configuration-throughout-your-script">
-  ### スクリプト全体で設定する
-</div>
+### スクリプト全体で設定する {#set-the-configuration-throughout-your-script}
 
 `config` オブジェクトには、スクリプト全体を通してさらにパラメーターを追加できます。
 
@@ -198,9 +190,7 @@ with wandb.init(project="config_example", config=config) as run:
 
 既存のキーの値を更新する場合は、`allow_val_change=True` を設定してください。このパラメーターを設定しないと、既存のキーの値を更新しようとした際に W&amp;B でエラーが発生します。
 
-<div id="set-the-configuration-after-your-run-finishes">
-  ### run の完了後に設定する
-</div>
+### run の完了後に設定する {#set-the-configuration-after-your-run-finishes}
 
 完了した run の設定を更新するには、[W&amp;B Public API](/ja/models/ref/python/public-api/) を使用します。
 
@@ -223,9 +213,7 @@ api_run.config["bar"] = 32
 api_run.update()
 ```
 
-<div id="highlight-config-values">
-  ## 設定値をハイライトする
-</div>
+## 設定値をハイライトする {#highlight-config-values}
 
 run の概要ページ上部にある **References** セクションに、設定キーをピン留めできます。
 
@@ -259,9 +247,7 @@ with wandb.init(config=config) as run:
   run.config.update(flags.FLAGS)  # absl フラグを設定に追加
   ``` */}
 
-<div id="view-config-values">
-  ## 設定値を表示する
-</div>
+## 設定値を表示する {#view-config-values}
 
 W&amp;B App、run の実行中、または既存の run から設定値にアクセスできます。ローカルファイルシステムから設定値にアクセスすることもできます。
 
@@ -357,9 +343,7 @@ W&amp;B App、run の実行中、または既存の run から設定値にアク
   </Tab>
 </Tabs>
 
-<div id="file-based-configs">
-  ## ファイルベースの設定
-</div>
+## ファイルベースの設定 {#file-based-configs}
 
 `config-defaults.yaml` という名前のファイルを run スクリプトと同じディレクトリに配置すると、run はそのファイルで定義されたキーと値のペアを自動的に読み取り、`wandb.Run.config` に渡します。
 
@@ -387,9 +371,7 @@ with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
 python train.py --configs other-config.yaml
 ```
 
-<div id="nested-dictionaries-in-config">
-  ### config 内のネストされた辞書
-</div>
+### config 内のネストされた辞書 {#nested-dictionaries-in-config}
 
 run config にネストされた値を保存するには、ネストされた辞書を `wandb.init()` に渡します。次の例では、`config` 内にネストされた `optimizer` 辞書と `training` 辞書を定義しています。
 
@@ -475,9 +457,7 @@ for run in runs:
   実際の運用では、通常は run の作成とフィルターによるクエリを別々のスクリプトで行います。
 </Info>
 
-<div id="example-use-case-for-file-based-configs">
-  ### ファイルベースの設定の使用例
-</div>
+### ファイルベースの設定の使用例 {#example-use-case-for-file-based-configs}
 
 run に関するメタデータを含む YAML ファイルと、Python スクリプト内のハイパーパラメーターの辞書があるとします。これらは両方とも、ネストされた `config` オブジェクトに保存できます。
 
@@ -497,9 +477,7 @@ with wandb.init(config=config_dictionary) as run:
     ...
 ```
 
-<div id="tensorflow-v1-flags">
-  ## TensorFlow v1 フラグ
-</div>
+## TensorFlow v1 フラグ {#tensorflow-v1-flags}
 
 TensorFlow のフラグは、`wandb.Run.config` オブジェクトに直接渡せます。
 

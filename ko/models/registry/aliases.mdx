@@ -17,9 +17,7 @@ description: "기본, 맞춤형, 보호된 별칭을 사용해 W&B Registry의 �
 
 아티팩트 버전에 별칭을 추가하면, 필요에 따라 [Registry automation](/ko/models/automations/automation-events/#registry)을 시작해 Slack 채널로 알림을 보내거나 웹훅을 트리거할 수 있습니다. 자동화가 요청에 액세스 토큰이나 기타 민감한 값이 필요한 웹훅을 호출하는 경우, 해당 문자열을 [팀 시크릿](/ko/platform/secrets)으로 저장한 다음 자동화용 웹훅을 설정할 때 선택하세요.
 
-<div id="default-aliases">
-  ## 기본 별칭
-</div>
+## 기본 별칭 {#default-aliases}
 
 W&amp;B는 같은 이름으로 연결한 각 아티팩트 버전에 다음 별칭을 자동으로 할당합니다.
 
@@ -28,9 +26,7 @@ W&amp;B는 같은 이름으로 연결한 각 아티팩트 버전에 다음 별�
 
 예를 들어 `zoo_model`이라는 이름의 아티팩트를 세 번 연결하면 W&amp;B는 각각 `v0`, `v1`, `v2`라는 세 개의 별칭을 생성합니다. `v2`에는 `latest` 별칭도 할당됩니다.
 
-<div id="custom-aliases">
-  ## 맞춤형 별칭
-</div>
+## 맞춤형 별칭 {#custom-aliases}
 
 고유한 사용 사례에 맞춰 특정 아티팩트 버전에 하나 이상의 맞춤형 별칭을 만들 수 있습니다. 예를 들면 다음과 같습니다.
 
@@ -87,9 +83,7 @@ W&amp;B Registry 또는 Python SDK를 사용해 맞춤형 별칭을 만들 수 �
   </Tab>
 </Tabs>
 
-<div id="protected-aliases">
-  ### 보호된 별칭
-</div>
+### 보호된 별칭 {#protected-aliases}
 
 수정하거나 삭제해서는 안 되는 아티팩트 버전에 레이블을 지정하고 식별하려면 [보호된 별칭](/ko/models/registry/aliases/#protected-aliases)을 사용하세요. 예를 들어, 조직의 머신 러닝 프로덕션 파이프라인에서 사용 중인 아티팩트 버전에 레이블을 지정하고 식별하기 위해 `production` 보호된 별칭을 사용하는 것이 좋습니다.
 
@@ -100,9 +94,7 @@ W&amp;B Registry 또는 Python SDK를 사용해 맞춤형 별칭을 만들 수 �
 * **Production**: 해당 아티팩트 버전은 프로덕션에 사용할 준비가 되었습니다.
 * **Staging**: 해당 아티팩트 버전은 테스트할 준비가 되었습니다.
 
-<div id="create-a-protected-alias">
-  #### 보호된 별칭 만들기
-</div>
+#### 보호된 별칭 만들기 {#create-a-protected-alias}
 
 다음 단계에서는 W&amp;B Registry UI에서 보호된 별칭을 만드는 방법을 설명합니다.
 
@@ -126,9 +118,7 @@ W&amp;B Registry 또는 Python SDK를 사용해 맞춤형 별칭을 만들 수 �
 
 보호된 별칭이 생성되면 관리자는 Python SDK를 사용해 이를 아티팩트 버전에 프로그래밍 방식으로 추가할 수 있습니다. 보호된 별칭을 아티팩트 버전에 추가하는 방법의 예시는 위의 [맞춤형 별칭 만들기](#custom-aliases) 섹션에 있는 W&amp;B Registry 및 Python SDK 탭을 참조하세요.
 
-<div id="find-existing-aliases">
-  ## 기존 별칭 찾기
-</div>
+## 기존 별칭 찾기 {#find-existing-aliases}
 
 [W&amp;B Registry의 전역 검색창](/ko/models/registry/search_registry/#search-for-registry-items)을 사용해 기존 별칭을 찾을 수 있습니다. 보호된 별칭을 찾으려면 다음 단계를 따르세요.
 
@@ -137,9 +127,7 @@ W&amp;B Registry 또는 Python SDK를 사용해 맞춤형 별칭을 만들 수 �
 
 입력한 검색어가 기존 레지스트리, 컬렉션 이름, 아티팩트 버전 태그, 컬렉션 태그 또는 별칭과 일치하면 검색 결과가 검색창 아래에 표시됩니다.
 
-<div id="example">
-  ## 예시
-</div>
+## 예시 {#example}
 
 <Note>
   다음 코드 예시는 이 [W&amp;B Registry Tutorial 노트북](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb)에서 이어집니다. 아래 코드를 사용하려면 먼저 [노트북에 설명된 대로 Zoo 데이터셋을 조회하고 처리](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a)해야 합니다. Zoo 데이터셋이 준비되면 아티팩트 버전을 생성하고 여기에 맞춤형 별칭을 추가할 수 있습니다.

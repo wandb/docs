@@ -5,9 +5,7 @@ title: sweep run のシグナル処理
 
 このページでは、W&amp;B Sweeps がシステムシグナルとプロセス終了コードをどのように処理するかを詳しく説明します。この情報を使用して、SLURM、EC2 Spot、Google Cloud のプリエンプト可能 VM などのプリエンプト可能な環境で sweeps を確実に実行してください。以下のセクションでは、キーボードから run を適切に中断する方法を説明し、run をキューに入れ直す挙動を理解して予測するのに役立つ詳細を示します。このページは、プリエンプト可能なインフラストラクチャーで sweeps を実行するユーザー、または run のライフサイクルとクリーンアップを細かく制御する必要があるユーザーを対象としています。W&amp;B がプリエンプト時に runs をどのようにキューに入れ直すかについて詳しくは、[プリエンプト可能な Sweeps run を再開する](/ja/models/runs/resuming#resume-preemptible-sweeps-runs)を参照してください。
 
-<div id="exit-status-and-signals">
-  ## 終了ステータスとシグナル
-</div>
+## 終了ステータスとシグナル {#exit-status-and-signals}
 
 W&amp;B は、トレーニングプロセスの終了ステータスをもとに、run をキューに入れ直すかどうかと、run の状態をどのように記録するかを判断します。
 
@@ -20,15 +18,11 @@ W&amp;B は、トレーニングプロセスの終了ステータスをもとに
 
 プロセスが [捕捉可能なシグナル](#catchable-signals-and-preemption) によって終了する場合、ハンドラ内で必要な処理を実行できます。run をキューに入れ直したい場合は [`wandb.run.mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、クリーンアップ (たとえば チェックポイント の保存) を行ったうえで、0 以外のコードで終了します。一般的な慣例は、シグナルによる終了時に `sys.exit(128 + signum)` を使用することです。W&amp;B はその終了コードを記録し、同じ [キューに入れ直しのルール](/ja/models/runs/resuming#resume-preemptible-sweeps-runs) が適用されます。オペレーティングシステムのカーネルが [`SIGKILL`](#sigkill-uncatchable) でプロセスを kill した場合、プロセスは終了フックを実行できないため、W&amp;B は最終的な summary を書き込みません。そのため、run は crashed または killed として表示されることがあります。それでも、エージェント は次の run を開始します。
 
-<div id="stale-runs-and-server-side-timeouts">
-  ## 応答のないRunsとサーバー側のタイムアウト
-</div>
+## 応答のないRunsとサーバー側のタイムアウト {#stale-runs-and-server-side-timeouts}
 
 W&amp;B は、終了コードと run のアクティビティの両方に基づいて、run の状態を判定します。run が終了せず、さらに約 5 分間新しいメトリクスも送信しない場合、W&amp;B はその run をクラッシュしたものとしてマークします。これは、トレーニング プロセスの応答がなくなった場合、ログしなくなった場合、または正常に終了せずに停止した場合 (`SIGKILL` が送信された場合など) に発生することがあります。実際の状況と run の状態を一致させやすくするため、一定の間隔でメトリクスをログするか、明示的な終了コードで終了してください。
 
-<div id="catchable-signals-and-preemption">
-  ## 捕捉可能なシグナルとプリエンプション
-</div>
+## 捕捉可能なシグナルとプリエンプション {#catchable-signals-and-preemption}
 
 プリエンプト可能な環境では、ほとんどのシグナルは捕捉可能です。つまり、トレーニングスクリプトでそれらを受け取り、正常にシャットダウンできます。トレーニングスクリプトにカスタムのシグナルハンドラを登録できます。捕捉可能なシグナルを受信すると、ハンドラが実行されます。W&amp;B はすでに受信したメトリクスを保持し、エージェント はプロセスの終了を検知して次の run を開始します。
 
@@ -68,15 +62,11 @@ if __name__ == "__main__":
     train()
 ```
 
-<div id="sigkill-uncatchable">
-  ## `SIGKILL` (捕捉不可)
-</div>
+## `SIGKILL` (捕捉不可) {#sigkill-uncatchable}
 
 `SIGKILL` はオペレーティング システムのカーネルから送られ、捕捉も無視もできません。プロセスは即座に終了するため、ハンドラや `atexit` コールバックを実行する余地はありません。W&amp;B はその run の最終 summary を書き込めません。エージェント は復旧して引き続き sweep を継続しますが、その run のデータは不完全になります。`SIGKILL` の使用は最後の手段にとどめ、正常にシャットダウンする必要がある場合は `SIGTERM` または `SIGINT` を優先してください。
 
-<div id="signal-forwarding-from-agent-to-child">
-  ## エージェントから子プロセスへのシグナル転送
-</div>
+## エージェントから子プロセスへのシグナル転送 {#signal-forwarding-from-agent-to-child}
 
 [`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使用すると、エージェントはトレーニング スクリプトを子プロセスとして実行します。エージェントを中断しても (たとえば Ctrl+C を使用した場合や、スケジューラがジョブに `SIGTERM` を送信した場合) 、デフォルトでは子プロセス (トレーニング プロセス) にシグナルは転送されません。そのため、トレーニング スクリプトはハンドラを実行したり、`mark_preempting()` を呼び出したりできません。詳細は、[wandb GitHub issue #3667](https://github.com/wandb/wandb/issues/3667) を参照してください。
 
@@ -92,9 +82,7 @@ W&amp;B は、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/a
 
 詳細は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI リファレンスを参照してください。
 
-<div id="preemptible-clusters-like-slurm">
-  ## SLURM のようなプリエンプト可能なクラスター
-</div>
+## SLURM のようなプリエンプト可能なクラスター {#preemptible-clusters-like-slurm}
 
 このセクションでは、SLURM、EC2 Spot、Google Cloud のプリエンプト可能 VM などのクラスターで、プリエンプトが発生しても Runs が継続できるように sweep を設定する方法を説明します。プリエンプト時には、トレーニングプロセスがシグナルを受信し、run を preempting としてマークしたうえで、W&amp;B がその run をキューに入れ直せるよう、非ゼロのコードで終了する必要があります。その後、新しいエージェント (またはジョブがキューに入れ直された後の同じエージェント) が run を再開できます。
 
@@ -111,9 +99,7 @@ W&amp;B は、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/a
 
 マルチ GPU の SLURM ジョブで、1 つのプロセスだけが `wandb.agent()` を呼び出す必要がある場合は、[How should I run sweeps on SLURM?](/ja/support/models/articles/how-should-i-run-sweeps-on-slurm) を参照してください。
 
-<div id="wandb-sweep-cancel">
-  ## `wandb sweep --cancel`
-</div>
+## `wandb sweep --cancel` {#wandb-sweep-cancel}
 
 このセクションでは、キャンセルは OS シグナルを直接送信する場合とは動作が異なるため、`--cancel` コマンドがシグナルおよび子プロセスにどのように影響するかを説明します。sweep をキャンセルするには、OS シグナルではなく W&amp;B API を使用します。`wandb sweep --cancel entity/project/sweep_ID` のようなコマンドを実行してください。サーバーが エージェント に終了を指示し、その後 エージェント は実行中の子プロセスを終了して停止します。キャンセルが有効になるまで、短い遅延 (エージェント の API ポーリング間隔と同程度) が生じることがあります。
 
@@ -121,9 +107,7 @@ W&amp;B は、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/a
 
 一時停止、再開、停止、キャンセルの各オプションの詳細については、[Manage sweeps](/ja/models/sweeps/pause-resume-and-cancel-sweeps) を参照してください。
 
-<div id="signals-to-the-agent-versus-signals-to-the-run">
-  ## エージェントへのシグナルと run へのシグナル
-</div>
+## エージェントへのシグナルと run へのシグナル {#signals-to-the-agent-versus-signals-to-the-run}
 
 エージェントへのシグナル送信とトレーニング run へのシグナル送信の違いを理解すると、孤立したプロセスや予期しない動作を防ぐのに役立ちます。エージェント プロセス (子のトレーニング プロセスではなく) にシグナルを送ると、エージェントは終了しても子プロセスは孤立したまま実行を続けることがあります。孤立したプロセスはターミナルへの出力を続けることがあり、Enter キーを押すまでシェルに新しいプロンプトが表示されない場合もあります。
 
@@ -131,9 +115,7 @@ CLI エージェントで `--forward-signals` を使用しない限り、エー�
 
 エージェントが終了したことを確認するには、プロンプトが表示されたかどうかに頼るのではなく、`ps -p [AGENT-PID]` や `pgrep -f "wandb agent"` などの OS コマンドを使用してください。
 
-<div id="reference-mark_preempting-and-final-run-state">
-  ## 参照: `mark_preempting()` と最終的な run の状態
-</div>
+## 参照: `mark_preempting()` と最終的な run の状態 {#reference-mark_preempting-and-final-run-state}
 
 以下の表は、`mark_preempting()` をいつ呼び出すかと、プロセスがどのように終了するかに応じて、run の状態がどうなるかをまとめたものです。これは、トレーニングプログラムをサブプロセスとして [`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使用することを前提としています。
 

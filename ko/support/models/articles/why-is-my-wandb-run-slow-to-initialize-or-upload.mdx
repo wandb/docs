@@ -5,9 +5,7 @@ keywords: ["Runs", "Experiments", "연결성"]
 
 `wandb.init()`이 느리거나 메트릭 업로드가 지연되는 경우는 일반적으로 네트워크 지연 시간, 큰 미디어 페이로드, 높은 로깅 빈도 또는 W&amp;B 서비스 프로세스의 느린 시작 때문입니다.
 
-<div id="slow-wandbinit">
-  ## 느린 wandb.init()
-</div>
+## 느린 wandb.init() {#slow-wandbinit}
 
 `wandb.init()`은 run을 생성하고 자격 증명을 확인하기 위해 W&amp;B API에 연결합니다. 몇 초 이상 응답이 없으면 다음을 확인하세요.
 
@@ -27,9 +25,7 @@ keywords: ["Runs", "Experiments", "연결성"]
   wandb sync wandb/run-[TIMESTAMP]-[ID]
   ```
 
-<div id="slow-metric-uploads-during-training">
-  ## 트레이닝 중 메트릭 업로드가 느린 경우
-</div>
+## 트레이닝 중 메트릭 업로드가 느린 경우 {#slow-metric-uploads-during-training}
 
 W&amp;B는 트레이닝 루프가 차단되지 않도록 백그라운드 스레드에서 메트릭을 비동기적으로 업로드합니다. 다음과 같은 경우 업로드가 밀릴 수 있습니다.
 
@@ -44,15 +40,11 @@ W&amp;B는 트레이닝 루프가 차단되지 않도록 백그라운드 스레�
 
 * **요청 속도 제한**: `429 Rate limit exceeded` 오류가 발생하면 [요청 속도 제한 초과 오류는 어떻게 해결하나요?](/ko/support/models/articles/rate-limit-exceeded-on-metric-logging)를 참조하세요.
 
-<div id="run-finalization-is-slow">
-  ## run 종료에 시간이 오래 걸립니다
-</div>
+## run 종료에 시간이 오래 걸립니다 {#run-finalization-is-slow}
 
 스크립트가 `wandb.finish()`를 호출한 후(또는 종료된 후) W&amp;B는 남아 있는 버퍼링된 데이터를 모두 플러시합니다. 트레이닝 중에 대량의 백로그가 쌓였다면 이 작업에 시간이 걸릴 수 있습니다. 마지막에 모든 것을 한꺼번에 몰아서 처리하기보다는 트레이닝 전반에 걸쳐 로깅 빈도를 적절하게 유지하세요.
 
-<div id="diagnosing-with-debug-logs">
-  ## 디버그 로그로 문제 진단하기
-</div>
+## 디버그 로그로 문제 진단하기 {#diagnosing-with-debug-logs}
 
 어디에 시간이 소요되는지 확인하려면 디버그 로깅을 활성화하세요:
 

@@ -28,15 +28,11 @@ keywords: ["PII のマスキング", "Presidio", "Faker", "autopatch_settings", 
 3. PII データの特定、マスキング、匿名化に使用できる [available methods](#redaction-methods-overview) を確認します。
 4. [Apply the methods to Weave calls](#apply-the-methods-to-weave-calls) を確認します。
 
-<div id="overview">
-  ## 概要
-</div>
+## 概要 {#overview}
 
 以下のセクションでは、`weave.op` を使用した入出力のロギングの概要と、Weave で PII データを扱う際のベストプラクティスを紹介します。
 
-<div id="customize-input-and-output-logging-using-weaveop">
-  ### `weave.op` を使用して入出力のロギングをカスタマイズする
-</div>
+### `weave.op` を使用して入出力のロギングをカスタマイズする {#customize-input-and-output-logging-using-weaveop}
 
 Weave Ops では、入力と出力の後処理関数を定義できます。これらの関数を使うと、LLM Call に渡すデータや Weave にログするデータを変更できます。
 
@@ -70,38 +66,28 @@ def some_llm_call(a: int, hide_me: str) -> CustomObject:
     return CustomObject(x=a, secret_password=hide_me)
 ```
 
-<div id="best-practices-for-weave-with-pii-data">
-  ### PII データで Weave を使用する際のベストプラクティス
-</div>
+### PII データで Weave を使用する際のベストプラクティス {#best-practices-for-weave-with-pii-data}
 
 PII データで Weave を使用する前に、以下のベストプラクティスを確認してください。これらは開発ライフサイクルの各段階ごとに整理されており、暗号化に関する追加のガイダンスも含まれています。
 
-<div id="during-testing">
-  #### テスト時
-</div>
+#### テスト時 {#during-testing}
 
 * PII の検出を確認するため、匿名化したデータをログする。
 * Weave トレースで PII の処理プロセスをトラッキングする。
 * 実際の PII を露出させずに、匿名化のパフォーマンスを測定する。
 
-<div id="in-production">
-  #### 本番環境では
-</div>
+#### 本番環境では {#in-production}
 
 * 未加工のPIIは絶対にログしない。
 * ログする前に機微なフィールドを暗号化する。
 
-<div id="encryption-tips">
-  #### 暗号化のポイント
-</div>
+#### 暗号化のポイント {#encryption-tips}
 
 * 後で復号する必要があるデータには、可逆暗号化を使用します。
 * 元に戻す必要のない一意の ID には、一方向ハッシュを使用します。
 * 暗号化したまま分析する必要があるデータには、専用の暗号化方式の利用を検討します。
 
-<div id="prerequisites">
-  ## 事前準備
-</div>
+## 事前準備 {#prerequisites}
 
 いずれかのマスキング方法を適用する前に、依存関係のインストール、APIキーの設定、Weave プロジェクトの初期化、サンプルデータの読み込みを行うために、以下のセットアップ手順を完了してください。
 
@@ -159,9 +145,7 @@ pii_data = response.json()
 print('PII data first sample: "' + pii_data[0]["text"] + '"')
 ```
 
-<div id="redaction-methods-overview">
-  ## マスキング方法の概要
-</div>
+## マスキング方法の概要 {#redaction-methods-overview}
 
 [前提条件](#prerequisites) を完了したら、PII データを検出して保護するために、次のいずれかの方法を選択できます。各方法では PII データを特定してマスクし、必要に応じて匿名化します。
 
@@ -169,9 +153,7 @@ print('PII data first sample: "' + pii_data[0]["text"] + '"')
 2. **Microsoft [Presidio](https://microsoft.github.io/presidio/)**。マスキングと置換の機能を備えた、Python ベースのデータ保護 SDK です。
 3. **[Faker](https://faker.readthedocs.io/en/master/)**。偽データを生成するための Python ライブラリです。
 
-<div id="method-1-filter-using-regular-expressions">
-  ### 方法 1: 正規表現を使用してフィルタリングする
-</div>
+### 方法 1: 正規表現を使用してフィルタリングする {#method-1-filter-using-regular-expressions}
 
 [正規表現 (regex) ](https://docs.python.org/3/library/re.html)は、PII データを特定してマスクするためのシンプルな方法です。regex を使うと、電話番号、メールアドレス、社会保障番号などの機密情報のさまざまな形式に一致するパターンを定義できます。regex を使えば、より複雑な NLP 手法を使わなくても、大量のテキストをスキャンして情報を置換またはマスクできます。
 
@@ -235,9 +217,7 @@ print(f"Raw text:\n\t{test_text}")
 print(f"Redacted text:\n\t{cleaned_text}")
 ```
 
-<div id="method-2-redact-using-microsoft-presidio">
-  ### 方法 2: Microsoft Presidio を使用してマスクする
-</div>
+### 方法 2: Microsoft Presidio を使用してマスクする {#method-2-redact-using-microsoft-presidio}
 
 次の方法では、[Microsoft Presidio](https://microsoft.github.io/presidio/) を使用して PII データを完全に除去します。Presidio は PII をマスクし、PII のタイプを表すプレースホルダーに置き換えます。たとえば、Presidio は `"My name is Alex"` 内の `Alex` を `<PERSON>` に置き換えます。
 
@@ -278,9 +258,7 @@ print(f"Raw text:\n\t{text}")
 print(f"Redacted text:\n\t{anonymized_text}")
 ```
 
-<div id="method-3-anonymize-with-replacement-using-faker-and-presidio">
-  ### 方法 3: Faker と Presidio を使用して置換で匿名化する
-</div>
+### 方法 3: Faker と Presidio を使用して置換で匿名化する {#method-3-anonymize-with-replacement-using-faker-and-presidio}
 
 テキストをマスクする代わりに、MS Presidio を使用して、名前や電話番号などの PII を [Faker](https://faker.readthedocs.io/en/master/) Python ライブラリで生成したダミーデータに置き換えることで匿名化できます。たとえば、次のようなデータがあるとします。
 
@@ -394,9 +372,7 @@ print(f"Raw text:\n\t{text_to_anonymize}")
 print(f"Anonymized text:\n\t{anonymized_text}")
 ```
 
-<div id="method-4-use-autopatch_settings">
-  ### Method 4: `autopatch_settings` を使用する
-</div>
+### Method 4: `autopatch_settings` を使用する {#method-4-use-autopatch_settings}
 
 `autopatch_settings` を使用すると、サポートされる1つ以上のLLMインテグレーションについて、初期化時にPII処理を直接設定できます。W&amp;Bでは、特定のインテグレーションのすべてのCallにわたってPII処理を一元化したい場合、この方法を推奨しています。この方法の利点は次のとおりです。
 
@@ -431,9 +407,7 @@ client = weave.init(
 )
 ```
 
-<div id="apply-the-methods-to-weave-calls">
-  ## Weave Call にメソッドを適用する
-</div>
+## Weave Call にメソッドを適用する {#apply-the-methods-to-weave-calls}
 
 各マスキング方法を個別に確認したので、次の例では、それらを Weave Models に統合し、結果を Weave トレース で確認する方法を示します。
 
@@ -443,9 +417,7 @@ client = weave.init(
 
 このコードを実行すると、Weave プロジェクトページへのリンクと、実行した特定のトレース (LLM Call) へのリンクが表示されます。これらのリンクを使用して、入力が LLM に到達する前に、後処理関数によって想定どおりにマスクまたは匿名化されていることを確認してください。
 
-<div id="regex-method">
-  ### Regex による方法
-</div>
+### Regex による方法 {#regex-method}
 
 まずは、Regex を使用して元のテキスト内の PII データを特定し、マスクできます。
 
@@ -503,9 +475,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="presidio-redaction-method">
-  ### Presidio を使用したマスキング方法
-</div>
+### Presidio を使用したマスキング方法 {#presidio-redaction-method}
 
 次に、Presidio を使用して元のテキスト内の PII データを特定し、マスクします。
 
@@ -564,9 +534,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="faker-and-presidio-replacement-method">
-  ### Faker と Presidio の置換方法
-</div>
+### Faker と Presidio の置換方法 {#faker-and-presidio-replacement-method}
 
 この例では、Faker を使用して匿名化した置換用の PII データを生成し、Presidio を使用して元のテキスト内の PII データを検出して置換します。
 
@@ -627,9 +595,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="autopatch_settings-method">
-  ### `autopatch_settings` メソッド
-</div>
+### `autopatch_settings` メソッド {#autopatch_settings-method}
 
 次の例では、初期化時に `anthropic` の `postprocess_inputs` を `postprocess_inputs_regex()` 関数に設定しています。`postprocess_inputs_regex` 関数は、[方法 1: 正規表現を使用したフィルター](#method-1-filter-using-regular-expressions) で定義した `redact_with_regex` メソッドを適用します。その結果、すべての `anthropic` モデルへの入力に `redact_with_regex` が適用されます。
 
@@ -692,9 +658,7 @@ for entry in pii_data:
     await model.predict(entry["text"])
 ```
 
-<div id="optional-encrypt-your-data">
-  ### オプション: データを暗号化する
-</div>
+### オプション: データを暗号化する {#optional-encrypt-your-data}
 
 <Frame>
   ![暗号化されたテキストの出力と暗号化キー管理を含む PII データ暗号化プロセス](/media/pii/encrypt.png)

@@ -9,7 +9,7 @@ Agents 뷰에서는 에이전트가 나눈 모든 대화를 턴별로 확인할 
 에이전트 애플리케이션은 사용자의 요청과 최종 응답 사이에서 핵심적인 동작이 일어나기 때문에 디버깅이 어렵습니다. W&amp;B Weave의 Agents 뷰는 이 중간 계층을 눈에 보이게 해줍니다. 에이전트가 나눈 모든 대화가 전체 메시지 이력, span 수준의 실행 세부 정보, 그리고 토큰 비용과 함께 여기 기록됩니다. 에이전트가 작업을 완료했는지, 도구 Call을 몇 번 수행했는지, 시간이나 예산이 어디에 사용되었는지를 한눈에 확인할 수 있습니다. 에이전트를 구축하고 반복적으로 개선하는 팀에게 이것은 프로덕션에서 동작을 이해하기 위한 출발점입니다.
 
 <div id="get-started">
-  ## 시작하기
+  ## 시작하기 {#get-started}
 </div>
 
 프로젝트의 Agents 뷰를 열려면 다음 단계를 따르세요.
@@ -20,7 +20,7 @@ Agents 뷰에서는 에이전트가 나눈 모든 대화를 턴별로 확인할 
 Agents 뷰는 상단에 **Dashboard**, **Agents**, **Conversations**, **Spans**, **Signals** 탭이 가로로 배치되어 있습니다. **Dashboard** 탭은 프로젝트 전반의 에이전트 활동에 대한 개요를 제공하며, 다른 탭에서는 개별 에이전트, 대화, spans, 시그널을 자세히 살펴볼 수 있습니다.
 
 <div id="dashboard-tab">
-  ## 대시보드 탭
+  ## 대시보드 탭 {#dashboard-tab}
 </div>
 
 **Dashboard** 탭은 프로젝트 전체의 모든 에이전트 활동을 한눈에 보여주는 개요 화면입니다. 빠르게 파악할 수 있도록 설계되어 있어, 팀에서는 특정 에이전트나 대화를 자세히 살펴보기 전에 매일 헬스 체크를 위한 시작점으로 이 탭을 사용합니다.
@@ -30,7 +30,7 @@ Agents 뷰는 상단에 **Dashboard**, **Agents**, **Conversations**, **Spans**,
 상단의 요약 카드에는 선택한 시간 범위에 대한 총계가 표시됩니다: **Spans**, **Conversations**, **Tokens**, **Cost**, **Error rate**, **Agents**. 카드 아래의 시계열 차트에는 시간에 따른 span, 대화, 토큰, 비용의 추이가 표시되며, 오류 수와 시그널 활동도 함께 확인할 수 있습니다. 하단 행에는 사용량 기준 상위 도구, 에이전트, 모델, 공급자가 표시됩니다. 왼쪽에는 최근 대화 또는 span 목록이 표시되며, **Conversations**와 **Spans** 간에 전환할 수 있습니다. 시간 범위 선택기는 모든 패널에 반영되는 기간을 제어합니다.
 
 <div id="agents-tab">
-  ## Agents 탭
+  ## Agents 탭 {#agents-tab}
 </div>
 
 **Agents** 탭에서는 이 프로젝트에 트레이스를 로깅한 모든 에이전트를 한눈에 볼 수 있습니다. 이 탭을 사용하면 어떤 에이전트가 활성 상태인지 파악하고 에이전트별 지연 시간과 오류율을 비교할 수 있습니다. 또한 개별 대화를 자세히 살펴보기 전에 주의가 필요한 에이전트를 식별하는 데도 도움이 됩니다.
@@ -48,7 +48,7 @@ Agents 뷰는 상단에 **Dashboard**, **Agents**, **Conversations**, **Spans**,
 ![Agents 탭에서 선택한 에이전트 Card와, 오른쪽에 에이전트 메타데이터 및 내비게이션 옵션을 보여주는 세부 정보 패널이 열린 모습입니다.](/weave/guides/tracking/imgs/agent-view-agent-detail.png)
 
 <div id="agent-cards">
-  ### 에이전트 Card
+  ### 에이전트 Card {#agent-cards}
 </div>
 
 각 에이전트는 다음 정보를 표시하는 Card로 나타납니다:
@@ -66,7 +66,7 @@ Agents 뷰는 상단에 **Dashboard**, **Agents**, **Conversations**, **Spans**,
 | **Error rate**         | 오류를 반환한 호출의 비율입니다. 0%보다 크면 빨간색으로 표시됩니다.                      |
 
 <div id="find-and-sort-agents">
-  ### 에이전트 찾기 및 정렬
+  ### 에이전트 찾기 및 정렬 {#find-and-sort-agents}
 </div>
 
 이름으로 에이전트를 찾으려면 **Search and filter agents** 필드를 사용하세요.
@@ -82,7 +82,7 @@ Agents 뷰는 상단에 **Dashboard**, **Agents**, **Conversations**, **Spans**,
 **Most errors** 기준 정렬은 빠른 일일 헬스 체크에 유용합니다. 오류율이 0이 아닌 에이전트가 바로 위로 표시되며, Card의 빨간색 오류율을 보면 어떤 항목을 조사해야 하는지 한눈에 확인할 수 있습니다.
 
 <div id="conversations-tab">
-  ## Conversations tab
+  ## Conversations tab {#conversations-tab}
 </div>
 
 Agents 페이지의 **Conversations** 탭에서는 개별 에이전트 run을 찾아보고, 필터링하고,
@@ -94,7 +94,7 @@ run을 구성하는 LLM calls와 도구 실행의 순서를 파악하세요.
 ![에이전트 이름, 호출 수, span 수, token 수, 마지막 활동 열이 포함된 에이전트 대화 목록을 보여주는 Conversations 탭입니다.](/weave/guides/tracking/imgs/agent-view-conversation.png)
 
 <div id="conversations-table">
-  ### 대화 테이블
+  ### 대화 테이블 {#conversations-table}
 </div>
 
 대화 테이블은 대화마다 한 행씩 표시합니다. 다음 열이 기본적으로
@@ -122,7 +122,7 @@ run을 구성하는 LLM calls와 도구 실행의 순서를 파악하세요.
 추가 열을 표시하거나 숨기려면 툴바에서 **Columns**를 클릭하세요.
 
 <div id="filters-and-time-window">
-  ### 필터 및 시간 창
+  ### 필터 및 시간 창 {#filters-and-time-window}
 </div>
 
 **Filter** 바를 사용해 에이전트, 모델, 오류 상태 또는 기타
@@ -144,7 +144,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 범위로 필터링할 수 있습니다.
 
 <div id="agent-conversation-detail">
-  ### 에이전트 대화 세부정보
+  ### 에이전트 대화 세부정보 {#agent-conversation-detail}
 </div>
 
 대화 행을 클릭하면 **턴**과 **이벤트** 두 개의 하위 패널이 있는 세부정보 패널이 열립니다. 패널 헤더에는 에이전트 이름과 대화 ID가 표시되며, **Summarize**(대화 요약 생성) 및 **Add to dataset** 작업도 함께 표시됩니다.
@@ -152,7 +152,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 ![Conversations 탭에서 선택한 대화와, turn별 메시지 스레드, 도구 Call, 추론, 그리고 오른쪽의 이벤트 타임라인이 표시된 세부정보 패널.](/weave/guides/tracking/imgs/agent-view-conversation-detail.png)
 
 <div id="turns">
-  #### 턴
+  #### 턴 {#turns}
 </div>
 
 대화 세부 정보의 턴 패널에는 각 턴이 시간순으로 표시되며, 1부터 번호가 매겨집니다.
@@ -161,7 +161,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 총 경과 시간이 표시됩니다. 전체 메시지 스레드를 보려면 턴을 펼치세요.
 
 <div id="messages">
-  ##### 메시지
+  ##### 메시지 {#messages}
 </div>
 
 하나의 턴 내에서 메시지는 역할별로 그룹화됩니다.
@@ -183,7 +183,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 표시됩니다.
 
 <div id="error-states">
-  ##### 오류 상태
+  ##### 오류 상태 {#error-states}
 </div>
 
 도구 Call의 상태가 오류이면 해당 항목 옆에 빨간색 **ERROR** 배지가
@@ -191,7 +191,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 유형과 관계없이 빨간색으로 표시됩니다.
 
 <div id="events">
-  #### 이벤트
+  #### 이벤트 {#events}
 </div>
 
 오른쪽의 **이벤트** 패널에는 선택한 턴 내 이벤트 순서를 나타내는 색상으로 구분된 막대가 표시됩니다.
@@ -211,7 +211,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 이벤트 타임라인을 사용하면 턴이 어떻게 구성되었는지 빠르게 파악할 수 있습니다. 예를 들어, 전체 메시지 스레드를 읽기 전에 LLM 중심인지, 도구 중심인지, 또는 하위 에이전트 위임이 포함되었는지 확인할 수 있습니다.
 
 <div id="scores">
-  ##### Scores
+  ##### Scores {#scores}
 </div>
 
 프로젝트에 활성화된 시그널이 있으면 **Scores** 섹션에 대화에 대한 메트릭이 표시됩니다. 이 섹션에는 시그널 Scorer 이름, 0에서 1 사이의 전체 숫자 점수,
@@ -220,7 +220,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 기준을 통과했거나 실패했는지도 파악할 수 있습니다.
 
 <div id="meta-summary">
-  ##### 메타 요약
+  ##### 메타 요약 {#meta-summary}
 </div>
 
 **메타 요약** 섹션에는 선택한
@@ -236,7 +236,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 | **턴 페이지** | 현재 표시된 턴과 전체 턴 수입니다.               |
 
 <div id="token-breakdown">
-  ##### Token 세부 내역
+  ##### Token 세부 내역 {#token-breakdown}
 </div>
 
 **Token 세부 내역** 섹션에는 선택한 대화의 캐시 및 추론 세부 정보가 표시됩니다.
@@ -250,13 +250,13 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 | **추론 비율**  | 확장된 사고에 사용된 출력 Token의 비율입니다.                           |
 
 <div id="participants">
-  ##### Participants
+  ##### Participants {#participants}
 </div>
 
 **Participants** 섹션에는 대화에 참여하는 에이전트와 모델이 나열됩니다. 멀티 에이전트 대화에서는 턴에 따라 여기 표시되는 모델 이름이 다를 수 있습니다.
 
 <div id="add-agent-messages-to-a-dataset">
-  #### 에이전트 메시지를 데이터셋에 추가하기
+  #### 에이전트 메시지를 데이터셋에 추가하기 {#add-agent-messages-to-a-dataset}
 </div>
 
 에이전트 메시지를 `Dataset`에 추가하려면 다음 단계를 따르세요.
@@ -267,7 +267,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 4. 선택한 내용을 검토한 다음 **Add to dataset**를 클릭합니다.
 
 <div id="spans-tab">
-  ## Spans 탭
+  ## Spans 탭 {#spans-tab}
 </div>
 
 **Spans** 탭에는 프로젝트의 모든 에이전트 활동 전반에서 기록된 개별 span이 모두 표시됩니다. Conversations 탭은 활동을 대화 수준의 행으로 집계합니다. Spans 탭에서는 그 아래에 있는 원시 오퍼레이션을 확인할 수 있습니다. 즉, 각 LLM 호출, 도구 실행, 에이전트 호출이 각각 하나의 행으로 표시됩니다. 이 탭을 사용하면 어떤 호출이 느렸는지, 어떤 모델이 예상치 못한 토큰을 소비했는지, 또는 어떤 도구 호출이 실패했는지를 정확히 트레이스할 수 있습니다.
@@ -275,7 +275,7 @@ attributes and events on agent spans](/ko/weave/guides/tracking/trace-agents-att
 ![에이전트 대화의 span을 보여주는 Spans 탭.](/weave/guides/tracking/imgs/agent-view-spans.png)
 
 <div id="spans-table">
-  ### Spans 테이블
+  ### Spans 테이블 {#spans-table}
 </div>
 
 Spans 테이블은 Conversations 테이블과 대부분의 열(에이전트, 모델,
@@ -309,13 +309,13 @@ Spans 탭은 Conversations 탭에서 제공하지 않는 오퍼레이션 수준�
   Evaluation run에 연결할 수 있습니다.
 
 <div id="trace-groups">
-  ### 트레이스 그룹
+  ### 트레이스 그룹 {#trace-groups}
 </div>
 
 아무 행이나 클릭하면 해당 트레이스가 선택되고, 동일한 트레이스 ID를 공유하는 다른 모든 span이 강조 표시됩니다. 그러면 하나의 에이전트 호출의 일부로 실행된 전체 오퍼레이션 집합을 확인할 수 있습니다. 여기서 그룹화는 대화가 아니라 트레이스를 기준으로 합니다. 즉, 하위 에이전트 위임이 포함된 경우 하나의 대화에 여러 트레이스가 있을 수 있습니다.
 
 <div id="agent-invocation-detail">
-  ### 에이전트 호출 세부 정보
+  ### 에이전트 호출 세부 정보 {#agent-invocation-detail}
 </div>
 
 **Spans** 테이블에서 행을 클릭하면 전체 에이전트 호출의 데이터가 채워진 세부 정보 패널이 열립니다.
@@ -337,9 +337,7 @@ Spans 탭은 Conversations 탭에서 제공하지 않는 오퍼레이션 수준�
 
 또는 세부 정보 패널 헤더에서 **Show trace tree** 아이콘을 선택하여 하위 span을 계층형 트레이스 트리로 볼 수도 있습니다.
 
-<div id="signals-tab">
-  ## Signals 탭
-</div>
+## Signals 탭 {#signals-tab}
 
 **Signals** 탭에는 에이전트 대화의 태그와 평점이 표시됩니다. 시그널은 품질 및 안전 관련 이슈를 드러내 문제를 식별하고, 패턴을 찾고, 주의가 필요한 트레이스를 강조합니다. 시그널을 사용하면 에이전트 응답의 품질을 자동으로 평가하고, 사용자가 불만을 느끼는 시점을 파악하거나, NSFW 콘텐츠에 플래그를 지정할 수 있습니다.
 

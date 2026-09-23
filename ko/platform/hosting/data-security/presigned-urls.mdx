@@ -24,9 +24,7 @@ W&amp;B는 AI 워크로드나 사용자 브라우저에서 blob 저장소에 더
 * **조회 오퍼레이션**: 1시간.
 * **쓰기 오퍼레이션**: 24시간, 큰 객체를 청크 단위로 업로드할 수 있도록 더 긴 시간을 제공합니다.
 
-<div id="team-level-access-control">
-  ## 팀 수준 액세스 제어
-</div>
+## 팀 수준 액세스 제어 {#team-level-access-control}
 
 각 사전 서명된 URL은 W&amp;B 플랫폼의 [팀 수준 액세스 제어](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)에 따라 특정 버킷으로 제한됩니다. 오직 하나의 팀에만 속해 있고, 그 팀이 [secure storage connector](./secure-storage-connector)를 통해 저장소 버킷에 매핑된 사용자를 생각해 보세요. 이 경우, 해당 사용자의 요청에 대해 생성된 사전 서명된 URL에는 다른 팀에 매핑된 저장소 버킷에 액세스할 권한이 부여되지 않습니다.
 
@@ -34,9 +32,7 @@ W&amp;B는 AI 워크로드나 사용자 브라우저에서 blob 저장소에 더
   W&amp;B는 사용자를 실제로 속해야 하는 팀에만 추가할 것을 권장합니다.
 </Note>
 
-<div id="network-restriction">
-  ## 네트워크 제한
-</div>
+## 네트워크 제한 {#network-restriction}
 
 W&amp;B는 IAM 정책을 사용해 사전 서명된 URL로 외부 저장소에 액세스할 수 있는 네트워크를 제한할 것을 권장합니다. 이렇게 하면 AI 워크로드가 실행되는 네트워크나 사용자 머신에 매핑된 게이트웨이 IP 주소에서만 W&amp;B 전용 버킷에 액세스할 수 있도록 할 수 있습니다.
 
@@ -45,9 +41,7 @@ W&amp;B는 IAM 정책을 사용해 사전 서명된 URL로 외부 저장소에 �
 * CoreWeave AI Object Storage의 경우, CoreWeave 문서의 [Bucket policy reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy#condition)를 참고하세요.
 * AWS S3 또는 온프레미스에서 호스팅되는 MinIO와 같은 S3 호환 저장소의 경우, [Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities), [MinIO documentation](https://github.com/minio/minio), 또는 사용 중인 S3 호환 저장소 제공업체의 문서를 참고하세요.
 
-<div id="audit-logs">
-  ## 감사 로그
-</div>
+## 감사 로그 {#audit-logs}
 
 W&amp;B에서는 [W&amp;B 감사 로그](../monitoring-usage/audit-logging)를 blob 저장소별 감사 로그와 함께 사용할 것을 권장합니다. blob 저장소 감사 로그는 각 클라우드 제공업체의 문서를 참고하세요.
 
@@ -62,9 +56,7 @@ W&amp;B에서는 [W&amp;B 감사 로그](../monitoring-usage/audit-logging)를 b
   사전 서명된 URL은 W&amp;B에서 지원되는 유일한 blob 저장소 접근 메커니즘입니다. W&amp;B에서는 앞서 언급한 보안 제어의 일부 또는 전부를 조직의 요구 사항에 맞게 구성할 것을 권장합니다.
 </Note>
 
-<div id="determine-the-user-that-requested-a-pre-signed-url">
-  ## 사전 서명된 URL을 요청한 사용자 확인
-</div>
+## 사전 서명된 URL을 요청한 사용자 확인 {#determine-the-user-that-requested-a-pre-signed-url}
 
 감사 로그를 검토할 때 사전 서명된 URL 활동을 특정 W&amp;B 사용자와 연관시키려면 W&amp;B가 각 URL에 추가하는 공급자별 쿼리 매개변수를 확인하세요:
 
@@ -75,9 +67,7 @@ W&amp;B에서는 [W&amp;B 감사 로그](../monitoring-usage/audit-logging)를 b
 | Google Cloud Storage        | `X-User` | W&amp;B 사용자 이름                 |
 | Azure Blob Storage          | `scid`   | W&amp;B 사용자 이름에서 파생된 결정론적 UUID |
 
-<div id="correlate-azure-blob-storage-activity-with-a-user">
-  ### Azure Blob Storage 활동을 사용자와 연결하기
-</div>
+### Azure Blob Storage 활동을 사용자와 연결하기 {#correlate-azure-blob-storage-activity-with-a-user}
 
 Azure에서는 `scid`가 GUID여야 하므로 W&amp;B는 사용자 이름을 직접 포함하는 대신 사용자 이름에서 안정적인 UUID를 파생합니다. 이 UUID에는 사용자 이름이 포함되지 않으며 디코딩할 수 없습니다. Azure 저장소 활동을 사용자와 연결하려면 W&amp;B 사용자 이름과 해당 `scid` 값 간의 매핑을 계산하거나 유지하세요.
 

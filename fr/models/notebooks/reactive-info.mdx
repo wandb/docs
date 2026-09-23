@@ -13,15 +13,11 @@ Les notebooks déterminent les dépendances en suivant les définitions et les r
 
 Pour en savoir plus, consultez [How marimo runs cells](https://docs.marimo.io/guides/reactivity/#how-marimo-runs-cells) dans la documentation de marimo.
 
-<div id="stale-and-blocked-cells">
-  ## Cellules obsolètes et bloquées
-</div>
+## Cellules obsolètes et bloquées {#stale-and-blocked-cells}
 
 Les notebooks suivent l&#39;état de chaque cellule afin de déterminer si elle doit être exécutée. Les principaux états d&#39;une cellule sont *obsolète* et *bloquée*.
 
-<div id="stale-cells">
-  ### Cellules obsolètes
-</div>
+### Cellules obsolètes {#stale-cells}
 
 Une cellule est *obsolète* si elle n&#39;a jamais été exécutée ou si elle n&#39;a pas été exécutée avec son code ou ses entrées les plus récents. Une fois la cellule exécutée avec son code et ses entrées actuels, elle n&#39;est plus obsolète.
 
@@ -33,31 +29,23 @@ Une cellule devient obsolète dans les situations suivantes :
 
 Exécutez une cellule obsolète pour mettre à jour sa sortie. Si des cellules en amont sont obsolètes, le notebook les exécute au préalable. Vous pouvez également exécuter toutes les cellules obsolètes en une seule fois.
 
-<div id="blocked-cells">
-  ### Cellules bloquées
-</div>
+### Cellules bloquées {#blocked-cells}
 
 Une cellule est *bloquée* si elle-même ou l&#39;une de ses cellules en amont est désactivée. Les cellules bloquées ne s&#39;exécutent pas automatiquement, même lorsque leurs entrées changent.
 
 Pour débloquer une cellule, réactivez la cellule désactivée dont elle dépend. Le notebook peut alors exécuter les cellules en aval qui sont obsolètes et dont les sorties doivent être mises à jour. Pour la procédure, voir [Désactiver ou activer une cellule](/fr/models/notebooks/run-notebook-cells#disable-or-enable-a-cell).
 
-<div id="delete-cells">
-  ## Supprimer des cellules
-</div>
+## Supprimer des cellules {#delete-cells}
 
 Lorsque vous supprimez une cellule, le notebook supprime également les variables globales qu&#39;elle définissait. Selon les [paramètres du runtime](/fr/models/notebooks/configure-notebook#configure-startup-behavior), le notebook réexécute, invalide ou marque comme obsolètes les cellules qui font référence aux variables supprimées.
 
-<div id="define-each-global-name-once">
-  ## Définir chaque nom global une seule fois
-</div>
+## Définir chaque nom global une seule fois {#define-each-global-name-once}
 
 Définissez chaque nom global dans une seule cellule. Si deux cellules définissent le même nom global, le notebook ne peut pas déterminer de source unique de vérité pour les cellules en aval. Cette restriction s&#39;applique aux variables, aux fonctions, aux classes et aux noms de packages importés.
 
 Pour les variables temporaires, [faites précéder le nom de la variable d&#39;un seul tiret bas](https://docs.marimo.io/guides/reactivity/#creating-local-variables) afin de la rendre locale à la cellule. Vous pouvez également [définir des variables temporaires à l&#39;intérieur d&#39;une fonction](https://docs.marimo.io/guides/reactivity/#encapsulating-code-in-functions).
 
-<div id="avoid-mutations-across-cells">
-  ## Éviter les mutations entre cellules
-</div>
+## Éviter les mutations entre cellules {#avoid-mutations-across-cells}
 
 Évitez de modifier des objets utilisés par plusieurs cellules. Les notebooks ne suivent pas les mutations d&#39;objets : modifier un objet ne marque donc pas les cellules dépendantes comme obsolètes.
 
@@ -65,13 +53,9 @@ Par exemple, supposons qu&#39;une cellule ajoute une colonne à un DataFrame dé
 
 Pour en savoir plus, voir [Variable mutations are not tracked](https://docs.marimo.io/guides/reactivity/#variable-mutations-are-not-tracked).
 
-<div id="inspect-variables-and-dependencies">
-  ## Inspecter les variables et les dépendances
-</div>
+## Inspecter les variables et les dépendances {#inspect-variables-and-dependencies}
 
-<div id="view-variables">
-  ### Afficher les variables
-</div>
+### Afficher les variables {#view-variables}
 
 Utilisez l&#39;[explorateur de variables](https://docs.marimo.io/guides/editor_features/dataflow/#variables-explorer) pour afficher les variables définies, leurs types, l&#39;endroit où elles sont déclarées et celui où elles sont référencées.
 
@@ -84,18 +68,14 @@ Pour en savoir plus sur les symboles et les connexions entre les cellules, voir 
 * [Symboles de cellule](https://docs.marimo.io/guides/editor_features/dataflow/#cell-symbols)
 * [Lire les connexions entre cellules](https://docs.marimo.io/guides/editor_features/dataflow/#reading-cell-connections)
 
-<div id="view-cell-relationships-in-the-minimap">
-  ### Visualiser les relations entre cellules dans la minimap
-</div>
+### Visualiser les relations entre cellules dans la minimap {#view-cell-relationships-in-the-minimap}
 
 Utilisez le [panneau Dependencies](https://docs.marimo.io/guides/editor_features/dataflow/#dependencies-panel) pour examiner les relations entre les cellules :
 
 1. Dans la barre latérale, sélectionnez **Explore dependencies** (<Icon icon="sitemap" iconType="solid" />).
 2. Sélectionnez **MINIMAP**.
 
-<div id="view-the-dependency-graph">
-  ### Afficher le graphe de dépendances
-</div>
+### Afficher le graphe de dépendances {#view-the-dependency-graph}
 
 Utilisez la [vue graphique](https://docs.marimo.io/guides/editor_features/dataflow/#graph-view) pour visualiser les dépendances entre cellules sous forme de graphe orienté acyclique (DAG) :
 

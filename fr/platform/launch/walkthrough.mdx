@@ -4,9 +4,7 @@ title: 'Tutoriel : notions de base de W&B Launch'
 keywords: ["démarrage rapide Launch", "guide pas à pas Launch", "exemple de wandb launch", "Launch de bout en bout"]
 ---
 
-<div id="what-is-launch">
-  ## Qu’est-ce que Launch
-</div>
+## Qu’est-ce que Launch {#what-is-launch}
 
 <Card title="Essayer dans Colab" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python" />
 
@@ -14,9 +12,7 @@ Ce tutoriel présente W&amp;B Launch aux praticiens du ML et aux équipes platef
 
 Faites passer à l’échelle les [runs](/fr/models/runs/) d’entraînement depuis votre ordinateur vers une ressource de calcul comme Amazon SageMaker, Kubernetes, et bien plus encore avec W&amp;B Launch. Une fois Launch configuré, vous pouvez exécuter des scripts d’entraînement, des suites d’évaluation de modèles, préparer des modèles pour l’inférence en production, et bien plus encore en quelques clics et commandes.
 
-<div id="how-it-works">
-  ## Fonctionnement
-</div>
+## Fonctionnement {#how-it-works}
 
 Launch repose sur trois composants fondamentaux : les **jobs Launch**, les **files d’attente** et les **agents**.
 
@@ -32,9 +28,7 @@ Selon votre cas d’usage, vous (ou un membre de votre équipe) configurez la fi
 
 Voir la page [Termes et concepts](./launch-terminology) pour en savoir plus sur Launch.
 
-<div id="get-started">
-  ## Pour commencer
-</div>
+## Pour commencer {#get-started}
 
 Selon votre cas d’usage, consultez les ressources suivantes pour bien démarrer avec W&amp;B Launch :
 
@@ -44,9 +38,7 @@ Selon votre cas d’usage, consultez les ressources suivantes pour bien démarre
 * Consultez le [dépôt GitHub public de jobs](https://github.com/wandb/launch-jobs) de W&amp;B Launch pour trouver des modèles de tâches courantes, comme le [déploiement sur Triton](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton), [l’évaluation d’un LLM](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals), entre autres.
   * Consultez les jobs Launch créés à partir de ce dépôt dans ce projet W&amp;B public [`wandb/jobs`](https://wandb.ai/wandb/jobs/jobs).
 
-<div id="walkthrough">
-  ## Guide pas à pas
-</div>
+## Guide pas à pas {#walkthrough}
 
 Cette page présente les notions de base du flux de travail de W&amp;B Launch.
 
@@ -54,9 +46,7 @@ Cette page présente les notions de base du flux de travail de W&amp;B Launch.
   W&amp;B Launch exécute des charges de travail de machine learning dans des conteneurs. Il n&#39;est pas nécessaire de connaître les conteneurs, mais cela peut être utile pour ce guide pas à pas. Voir la [documentation Docker](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) pour une introduction aux conteneurs.
 </Note>
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de commencer, assurez-vous de remplir les prérequis suivants. Ils couvrent le compte, les outils et l’authentification dont vous aurez besoin pour exécuter les commandes plus loin dans ce guide pas à pas.
 
@@ -86,9 +76,7 @@ Avant de commencer, assurez-vous de remplir les prérequis suivants. Ils couvren
   </Tab>
 </Tabs>
 
-<div id="create-a-launch-job">
-  ## Créer un job Launch
-</div>
+## Créer un job Launch {#create-a-launch-job}
 
 Un job Launch est le modèle de la charge de travail que vous souhaitez faire exécuter par Launch. Vous devez donc en créer un avant de pouvoir soumettre du travail à une file d&#39;attente. Créez un [job Launch](./launch-terminology#launch-job) de l’une des trois manières suivantes : avec une image Docker, à partir d’un dépôt Git ou à partir de code source local :
 
@@ -158,9 +146,7 @@ Un job Launch est le modèle de la charge de travail que vous souhaitez faire ex
   </Tab>
 </Tabs>
 
-<div id="create-a-queue">
-  ## Créer une file d’attente
-</div>
+## Créer une file d’attente {#create-a-queue}
 
 Une fois le job Launch en place, l’étape suivante consiste à créer une file d’attente qui définit où et comment les jobs s’exécutent. Launch est conçu pour aider les équipes à mettre en place des flux de travail autour de ressources de calcul partagées. Dans les exemples précédents, la commande `wandb launch` a exécuté un conteneur de manière synchrone sur la machine locale. Les files d’attente Launch et les agents permettent l’exécution asynchrone de jobs sur des ressources partagées, ainsi que des fonctionnalités avancées comme la priorisation et l’optimisation des hyperparamètres. Pour créer une file d’attente de base, suivez ces étapes :
 
@@ -179,9 +165,7 @@ Après avoir cliqué sur le bouton, le navigateur vous redirige vers l’onglet 
 
 Pour les options avancées de configuration de la file d’attente, voir la [page de configuration avancée de la file d’attente](/fr/platform/launch/setup-queue-advanced/).
 
-<div id="connect-an-agent-to-the-queue">
-  ## Connecter un agent à la file d&#39;attente
-</div>
+## Connecter un agent à la file d&#39;attente {#connect-an-agent-to-the-queue}
 
 Une file d&#39;attente reste inactive jusqu&#39;à ce qu&#39;un agent l&#39;interroge. Vous devez donc connecter un agent avant que des jobs puissent s&#39;exécuter. La vue de la file d&#39;attente affiche un bouton **Add an agent** dans une bannière rouge en haut de l&#39;écran si la file d&#39;attente n&#39;est interrogée par aucun agent. Cliquez sur le bouton pour afficher et copier la commande permettant de lancer un agent. La commande doit ressembler à ce qui suit :
 
@@ -193,9 +177,7 @@ Remplacez `[QUEUE-NAME]` par le nom de votre file d&#39;attente et `[ENTITY-NAME
 
 Revenez sur [la page Launch](https://wandb.ai/launch) et vérifiez que la file d&#39;attente apparaît désormais comme **Active**.
 
-<div id="submit-a-job-to-the-queue">
-  ## Soumettre un job dans la file d&#39;attente
-</div>
+## Soumettre un job dans la file d&#39;attente {#submit-a-job-to-the-queue}
 
 Avec une file d&#39;attente et un agent d&#39;interrogation en place, vous pouvez maintenant soumettre l&#39;un des jobs Launch que vous avez créés précédemment et le voir s&#39;exécuter sur les ressources de calcul partagées. Accédez à votre projet **launch-quickstart** dans votre compte W&amp;B et ouvrez l&#39;onglet **Jobs** depuis le menu de navigation situé à gauche de l&#39;écran.
 

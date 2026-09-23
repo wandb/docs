@@ -36,9 +36,7 @@ Chaque appel à `wandb.Run.log()` correspond par défaut à une nouvelle `step`.
   run.log({'accuracy': 0.8})
   ``` */}
 
-<div id="automatically-logged-data">
-  ## Données enregistrées automatiquement
-</div>
+## Données enregistrées automatiquement {#automatically-logged-data}
 
 W&amp;B enregistre automatiquement les informations suivantes pendant une expérience W&amp;B :
 
@@ -50,9 +48,7 @@ Activez l’[enregistrement du code](https://wandb.me/code-save-colab) dans la p
 * **Commit Git** : le dernier commit git est récupéré et visible dans l’onglet Vue d’ensemble de la page du run, ainsi qu’un fichier `diff.patch` s’il existe des modifications non validées.
 * **Dépendances** : le fichier `requirements.txt` est téléversé et affiché dans l’onglet des fichiers de la page du run, avec tous les fichiers que vous enregistrez dans le répertoire `wandb` du run.
 
-<div id="what-data-is-logged-with-specific-wb-api-calls">
-  ## Quelles données sont enregistrées avec des appels d’API W&amp;B spécifiques ?
-</div>
+## Quelles données sont enregistrées avec des appels d’API W&amp;B spécifiques ? {#what-data-is-logged-with-specific-wb-api-calls}
 
 Avec W&amp;B, vous pouvez décider exactement de ce que vous souhaitez enregistrer. La liste suivante présente quelques objets couramment enregistrés :
 
@@ -63,9 +59,7 @@ Avec W&amp;B, vous pouvez décider exactement de ce que vous souhaitez enregistr
 * **Informations de configuration** : Enregistrez les hyperparamètres, un lien vers votre jeu de données ou le nom de l’architecture que vous utilisez comme paramètres de configuration, transmis comme ceci : `wandb.init(config=your_config_dictionary)`.
 * **Métriques** : Utilisez `wandb.Run.log()` pour voir les métriques de votre modèle. Si vous enregistrez des métriques comme accuracy et loss dans votre boucle d’entraînement, vous obtiendrez des graphiques mis à jour en direct dans l’UI.
 
-<div id="metric-naming-constraints">
-  ## Contraintes de dénomination des métriques
-</div>
+## Contraintes de dénomination des métriques {#metric-naming-constraints}
 
 En raison des limitations de GraphQL, les noms de métriques dans W&amp;B doivent respecter des règles de dénomination spécifiques :
 
@@ -77,9 +71,7 @@ En raison des limitations de GraphQL, les noms de métriques dans W&amp;B doiven
 
 <MetricNamingExamples />
 
-<div id="common-workflows">
-  ## Flux de travail courants
-</div>
+## Flux de travail courants {#common-workflows}
 
 1. **Comparer la meilleure accuracy** : Pour comparer la meilleure valeur d&#39;une métrique entre plusieurs runs, définissez la valeur summary de cette métrique. Par défaut, summary correspond à la dernière valeur enregistrée pour chaque clé. Cela est utile dans le tableau de l&#39;UI, où vous pouvez trier et filtrer les runs selon leurs métriques summary, afin de comparer les runs dans un tableau ou un graphique en barres en fonction de leur *meilleure* accuracy, plutôt que de leur accuracy finale. Par exemple : `wandb.run.summary["best_accuracy"] = best_accuracy`
 
@@ -99,8 +91,6 @@ En raison des limitations de GraphQL, les noms de métriques dans W&amp;B doiven
 
 4. **Enregistrer des médias enrichis et des graphiques** : `wandb.Run.log()` prend en charge l&#39;enregistrement d&#39;une grande variété de types de données, des [médias comme les images et les vidéos](/fr/models/track/log/media/) aux [tableaux](/fr/models/track/log/log-tables/) et aux [graphiques](/fr/models/app/features/custom-charts/).
 
-<div id="best-practices-and-tips">
-  ## Bonnes pratiques et conseils
-</div>
+## Bonnes pratiques et conseils {#best-practices-and-tips}
 
 Pour connaître les bonnes pratiques et conseils relatifs à Experiments et au logging, voir [Bonnes pratiques : Experiments et Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w\&b-experiments-and-logging).

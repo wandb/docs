@@ -22,9 +22,7 @@ Chaque projet contient les onglets suivants :
 * [Reports](/fr/models/track/project-page/#reports-tab) : instantanés enregistrés des notes, des runs et des graphiques
 * [Artifacts](#artifacts-tab) : contient tous les runs et les Artifacts associés à ces runs
 
-<div id="overview-tab">
-  ## Onglet Aperçu
-</div>
+## Onglet Aperçu {#overview-tab}
 
 W&amp;B crée un projet pour vous lorsque vous initialisez un run avec le nom que vous indiquez dans le champ du projet.
 
@@ -37,7 +35,7 @@ Depuis l’**onglet Aperçu**, vous pouvez voir le nom du projet et gérer le pr
 Le reste de la page **Aperçu** est divisé en onglets **Détails** et **Rôles du projet**.
 
 <div id="details">
-  ### Détails
+  ### Détails {#details}
 </div>
 
 Les détails du projet incluent :
@@ -61,14 +59,12 @@ Pour modifier la confidentialité d’un projet depuis l’onglet **Aperçu** :
 <ProjectVisibilitySettings />
 
 <div id="project-roles">
-  ### Rôles du projet
+  ### Rôles du projet {#project-roles}
 </div>
 
 L’onglet **Rôles du projet** est visible uniquement pour le propriétaire du projet et les personnes ayant le rôle **Admin**. Affichez la liste des utilisateurs ayant accès au projet et recherchez-les, ou modifiez le rôle d’un membre.
 
-<div id="workspace-tab">
-  ## Onglet Workspace
-</div>
+## Onglet Workspace {#workspace-tab}
 
 Le *workspace* d’un projet vous offre un espace personnel pour comparer des expériences. Utilisez les Projects pour organiser des modèles comparables, qui traitent le même problème avec des architectures, hyperparamètres, jeux de données, prétraitements, etc. différents.
 
@@ -95,9 +91,7 @@ Si vous épinglez, masquez ou modifiez l’ordre des colonnes dans l’[onglet R
   <img src="/images/app_ui/workspace_tab_example.png" alt="Workspace du projet" />
 </Frame>
 
-<div id="add-a-section-of-panels">
-  ### Ajouter une section de panneaux
-</div>
+### Ajouter une section de panneaux {#add-a-section-of-panels}
 
 Cliquez sur le menu déroulant de la section, puis sur **Ajouter une section** pour créer une nouvelle section de panneaux. Vous pouvez renommer les sections, les faire glisser pour les réorganiser, et les déplier ou les replier.
 
@@ -109,9 +103,7 @@ Chaque section propose des options dans le coin supérieur droit :
 * **Supprimer la section** : supprimez la section entière et tous les graphiques. Cette action peut être annulée avec le bouton d’annulation en bas de la page, dans la barre du Workspace.
 * **Ajouter un panneau** : cliquez sur le bouton plus pour ajouter un panneau à la section.
 
-<div id="move-panels-between-sections">
-  ### Déplacer des panneaux entre les sections
-</div>
+### Déplacer des panneaux entre les sections {#move-panels-between-sections}
 
 Faites glisser les panneaux pour les réorganiser et les regrouper en sections. Vous pouvez également cliquer sur le bouton **Move**, dans le coin supérieur droit d’un panneau, pour choisir la section vers laquelle déplacer le panneau.
 
@@ -120,7 +112,7 @@ Faites glisser les panneaux pour les réorganiser et les regrouper en sections. 
 </Frame>
 
 <div id="resize-panels">
-  ### Redimensionner les panneaux
+  ### Redimensionner les panneaux {#resize-panels}
 </div>
 
 Tous les panneaux ont la même taille et sont répartis sur plusieurs pages.
@@ -130,9 +122,7 @@ Redimensionnez la section en cliquant sur son coin inférieur droit et en le fai
   <img src="/images/app_ui/resize-panel.png" alt="Redimensionnement des panneaux" />
 </Frame>
 
-<div id="search-for-metrics">
-  ### Rechercher des métriques
-</div>
+### Rechercher des métriques {#search-for-metrics}
 
 Utilisez la zone de recherche de l&#39;Workspace pour filtrer les panneaux par titre.
 
@@ -148,9 +138,7 @@ Pour exclure des panneaux des résultats de recherche, cliquez sur **Masquer les
 
 Pour supprimer le filtre, cliquez de nouveau sur **Masquer les panneaux** (<Icon icon="sliders" iconType="solid" />) et effacez l&#39;expression régulière.
 
-<div id="runs-tab">
-  ## Onglet Runs
-</div>
+## Onglet Runs {#runs-tab}
 
 {/* Gardez ceci synchronisé avec /guide/models/track/runs/_index.md */}
 
@@ -211,13 +199,13 @@ Les onglets suivants présentent quelques actions courantes que vous pouvez effe
 {/* ## Onglet Automatisations */}
 
 <div id="automations-tab">
-  ## Onglet Automations
+  ## Onglet Automations {#automations-tab}
 </div>
 
 Automatisez les actions en aval liées à la gestion des versions des Artifacts. Pour créer une automation, définissez les événements déclencheurs et les actions associées. Les actions incluent l&#39;exécution d&#39;un webhook ou le lancement d&#39;un job W&amp;B. Pour plus d&#39;informations, voir [Automations](/fr/models/automations).
 
 <div id="sweeps-tab">
-  ## Onglet Sweeps
+  ## Onglet Sweeps {#sweeps-tab}
 </div>
 
 Lancez un nouveau [balayage](/fr/models/sweeps) à partir de votre projet.
@@ -227,7 +215,7 @@ Lancez un nouveau [balayage](/fr/models/sweeps) à partir de votre projet.
 </Frame>
 
 <div id="reports-tab">
-  ## Onglet Reports
+  ## Onglet Reports {#reports-tab}
 </div>
 
 Consultez tous les instantanés des résultats au même endroit et partagez vos conclusions avec votre équipe.
@@ -239,13 +227,13 @@ Consultez tous les instantanés des résultats au même endroit et partagez vos 
 Pour afficher un rapport, sélectionnez l’onglet **Reports** dans la barre latérale du projet, puis sélectionnez un rapport dans la liste.
 
 <div id="artifacts-tab">
-  ## Onglet Artifacts
+  ## Onglet Artifacts {#artifacts-tab}
 </div>
 
 Affichez tous les [artifacts](/fr/models/artifacts) associés à un projet, qu&#39;il s&#39;agisse de jeux de données d&#39;entraînement, de [modèles affinés](/fr/models/registry) ou de [tableaux de métriques et de médias](/fr/models/tables/tables-walkthrough).
 
 <div id="metadata-panel">
-  ### Panneau de métadonnées
+  ### Panneau de métadonnées {#metadata-panel}
 </div>
 
 <Frame>
@@ -262,7 +250,7 @@ Pour afficher les métadonnées d&#39;un artifact :
 3. Sélectionnez l&#39;onglet **Metadata** pour afficher les métadonnées associées à cet artifact.
 
 <div id="usage-panel">
-  ### Panneau d’utilisation
+  ### Panneau d’utilisation {#usage-panel}
 </div>
 
 <Frame>
@@ -278,7 +266,7 @@ Pour afficher l’utilisation de l’artifact :
 3. Sélectionnez l’onglet **Utilisation** pour afficher l’extrait de code et les runs associés.
 
 <div id="files-panel">
-  ### Panneau des fichiers
+  ### Panneau des fichiers {#files-panel}
 </div>
 
 <Frame>
@@ -294,7 +282,7 @@ Pour afficher les fichiers enregistrés dans un artifact :
 3. Sélectionnez l&#39;onglet **Files** pour afficher tous les fichiers associés à cet artifact.
 
 <div id="lineage-panel">
-  ### Panneau de traçabilité
+  ### Panneau de traçabilité {#lineage-panel}
 </div>
 
 <Frame>
@@ -306,7 +294,7 @@ Le panneau de traçabilité offre une vue de tous les artifacts associés à un 
 Cliquez sur le commutateur Explode pour afficher toutes les versions individuelles des artifacts et les runs spécifiques qui les relient.
 
 <div id="versions-tab">
-  ### Onglet Versions
+  ### Onglet Versions {#versions-tab}
 </div>
 
 <Frame>
@@ -322,9 +310,7 @@ L’onglet Versions affiche toutes les versions de l’artifact. Sélectionnez u
 
 Par exemple, l’image précédente montre différentes versions d’un artifact de modèle pour un artifact de modèle nommé `"zoo-wyhak4p0"`.
 
-<div id="create-a-project">
-  ## Créer un projet
-</div>
+## Créer un projet {#create-a-project}
 
 Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifiant un projet dans un appel à `wandb.init()`.
 
@@ -369,9 +355,7 @@ Vous pouvez créer un projet dans W&amp;B App ou par programmation en spécifian
   </Tab>
 </Tabs>
 
-<div id="organization-home-and-recent-activity">
-  ## Accueil de l’organisation et Recent Activity
-</div>
+## Accueil de l’organisation et Recent Activity {#organization-home-and-recent-activity}
 
 Dans la W&amp;B App, la page d’accueil de l’organisation récapitule l’activité récente.
 
@@ -383,9 +367,7 @@ La vue **Recent Activity** affiche les runs récents. Choisissez **Your projects
 
 Sous la vue **Recent Activity**, accédez rapidement à vos Reports récemment créés.
 
-<div id="star-a-project">
-  ## Ajouter une étoile à un projet
-</div>
+## Ajouter une étoile à un projet {#star-a-project}
 
 Ajoutez une étoile à un projet pour indiquer qu’il est important.
 
@@ -420,7 +402,7 @@ Il existe deux façons de marquer un projet comme important : dans l’onglet V
 Vérifiez que votre projet est disponible. Dans la section **Project** de la navigation de gauche, cliquez sur **View all** pour ouvrir la page **Project**. Recherchez ou filtrez pour trouver votre projet par son nom, son équipe ou d’autres métadonnées. Les projets favoris apparaissent en haut de la page **Projects**, ainsi qu’en haut de la section **Projects** de la navigation de gauche.
 
 <div id="delete-a-project">
-  ## Supprimer un projet
+  ## Supprimer un projet {#delete-a-project}
 </div>
 
 Vous pouvez supprimer votre projet à l’aide du menu **action (<Icon icon="ellipsis" iconType="solid" />)** à droite de l’onglet Vue d’ensemble.
@@ -439,13 +421,13 @@ Vous pouvez supprimer votre projet à l’aide du menu **action (<Icon icon="ell
 </Warning>
 
 <div id="add-notes-to-a-project">
-  ## Ajouter des notes à un projet
+  ## Ajouter des notes à un projet {#add-notes-to-a-project}
 </div>
 
 Ajoutez des notes à votre projet, soit dans l’aperçu de la description, soit dans un panneau Markdown de votre Workspace.
 
 <div id="add-description-overview-to-a-project">
-  ### Ajouter une description dans l’aperçu d’un projet
+  ### Ajouter une description dans l’aperçu d’un projet {#add-description-overview-to-a-project}
 </div>
 
 Les descriptions que vous ajoutez à votre page apparaissent dans l’onglet **Aperçu** de votre profil.
@@ -463,7 +445,7 @@ Les descriptions que vous ajoutez à votre page apparaissent dans l’onglet **A
 </Note>
 
 <div id="add-notes-to-run-workspace">
-  ### Ajouter des notes au Workspace du run
+  ### Ajouter des notes au Workspace du run {#add-notes-to-run-workspace}
 </div>
 
 1. Accédez à votre projet W&amp;B

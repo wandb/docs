@@ -6,9 +6,7 @@ keywords: ["variables GORILLA", "variables de configuration du serveur", "variab
 
 En plus de configurer les paramètres de l&#39;instance via l&#39;interface d&#39;administration System Settings, W&amp;B permet également de configurer ces valeurs dans le code à l&#39;aide de variables d&#39;environnement. Cette page répertorie les variables d&#39;environnement que vous pouvez définir pour contrôler la base de données, le stockage, Redis, le fournisseur d&#39;identité et d&#39;autres paramètres au niveau de l&#39;instance pour un déploiement autogéré du serveur W&amp;B. Vous pouvez utiliser ces variables pour gérer la configuration sous forme de code plutôt que via l&#39;interface d&#39;administration. Pour les variables spécifiques à IAM, voir [la configuration avancée pour IAM](./iam/advanced_env_vars).
 
-<div id="environment-variable-reference">
-  ## Référence des variables d’environnement
-</div>
+## Référence des variables d’environnement {#environment-variable-reference}
 
 Le tableau suivant décrit chaque variable d’environnement, le comportement qu’elle contrôle, ainsi que les éventuelles contraintes liées à sa valeur.
 
@@ -56,15 +54,11 @@ Le tableau suivant décrit chaque variable d’environnement, le comportement qu
     Appliquez vos modifications et attendez que les pods de l’API soient mis à jour avant de vérifier le paramètre. Vous pouvez désactiver ce comportement en supprimant la variable ou en lui attribuant une autre valeur.
 </Note>
 
-<div id="advanced-reliability-settings">
-  ## Paramètres avancés de fiabilité
-</div>
+## Paramètres avancés de fiabilité {#advanced-reliability-settings}
 
 La section suivante décrit la configuration facultative que vous pouvez appliquer pour améliorer la fiabilité et les performances du déploiement de votre serveur W&amp;B.
 
-<div id="redis">
-  ### Redis
-</div>
+### Redis {#redis}
 
 Un serveur Redis externe est facultatif, mais recommandé pour les systèmes de production. Redis contribue à améliorer la fiabilité du service et à activer la mise en cache afin de réduire les temps de chargement, en particulier dans les grands projets. Utilisez un service Redis géré tel qu&#39;ElastiCache avec haute disponibilité (HA) et les spécifications suivantes :
 

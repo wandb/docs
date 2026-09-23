@@ -26,14 +26,12 @@ flowchart LR
 **예시:** run 실패(이벤트) 및 선택 사항인 run 이름 필터(조건) 후 Slack 알림(액션). 또는: 별칭 `production` 추가(이벤트) 후 웹훅(액션).
 
 <div id="where-to-create-automations">
-  ## Automations를 생성할 수 있는 위치
+  ## Automations를 생성할 수 있는 위치 {#where-to-create-automations}
 </div>
 
 <AutomationsWhereToFind />
 
-<div id="automations-hub">
-  ## Automations 허브
-</div>
+## Automations 허브 {#automations-hub}
 
 **Automations** 허브는 왼쪽 내비게이션에 있는 전역 화면으로, 액세스할 수 있는 모든 범위와 프로젝트의 자동화를 하나의 목록으로 모아 볼 수 있습니다. 각 프로젝트나 레지스트리로 이동하지 않고도 자동화를 찾고, 확인하고, 관리할 수 있습니다.
 
@@ -49,7 +47,7 @@ flowchart LR
 **Automations** 허브는 각 프로젝트와 레지스트리의 **Automations** 탭을 보완합니다. 이러한 범위별 탭은 특정 대상에 빠르게 액세스할 수 있도록 계속 제공됩니다.
 
 <div id="use-cases">
-  ## 사용 사례
+  ## 사용 사례 {#use-cases}
 </div>
 
 * **run 모니터링 및 알림**: run이 실패하거나 메트릭이 임곗값을 넘을 때(예: loss가 NaN이 되거나 정확도가 떨어질 때) 팀에 알림을 보냅니다.
@@ -60,7 +58,7 @@ flowchart LR
 전체 이벤트 및 범위에 대한 자세한 내용은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
 
 <div id="automation-actions">
-  ## 자동화 액션
+  ## 자동화 액션 {#automation-actions}
 </div>
 
 이벤트로 자동화가 트리거되면 다음 액션 중 하나를 수행할 수 있습니다:
@@ -70,7 +68,7 @@ flowchart LR
 구현 세부 정보는 [Slack 자동화 만들기](/ko/models/automations/create-automations/slack), [웹훅 자동화 만들기](/ko/models/automations/create-automations/webhook) 또는 [ARIA 자동화 만들기](/ko/models/automations/create-automations/aria)를 참조하세요.
 
 <div id="how-automations-work">
-  ## Automations의 작동 방식
+  ## Automations의 작동 방식 {#how-automations-work}
 </div>
 
 [자동화를 생성](/ko/models/automations/create-automations)하려면 다음을 수행합니다.
@@ -82,21 +80,17 @@ flowchart LR
    2. 이벤트가 발생할 때 수행할 액션(예: Slack 채널에 게시, 웹훅 실행 또는 ARIA에 프롬프트 전송)을 정의합니다. 웹훅의 경우 필요하다면 액세스 토큰에 사용할 시크릿 및/또는 페이로드와 함께 전송할 시크릿을 지정합니다.
 
 <div id="recommendations">
-  ## 권장 사항
+  ## 권장 사항 {#recommendations}
 </div>
 
 <AutomationsBestPractices />
 
-<div id="limitations">
-  ## 제한 사항
-</div>
+## 제한 사항 {#limitations}
 
 * [run 메트릭 자동화](/ko/models/automations/automation-events/#run-metrics-change) 및 [run 메트릭 z-점수 변경 자동화](/ko/models/automations/automation-events/#run-metrics-z-score-change)는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/#wb-multi-tenant-cloud) 및 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)에서만 지원됩니다.
 * **팀** 및 **조직** 범위에서 W&amp;B App은 아티팩트 및 컬렉션 이벤트만 지원합니다. 이 범위에서는 W&amp;B App에서 run 기반 이벤트를 사용할 수 없습니다. 자세한 내용은 [자동화 이벤트 및 범위](/ko/models/automations/automation-events)를 참조하세요.
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 * [Automations 튜토리얼](/ko/models/automations/tutorial): run 실패 시 알림을 보내는 프로젝트 자동화와 별칭이 추가될 때 웹훅을 실행하는 레지스트리 자동화를 만드는 방법을 안내합니다. 이 튜토리얼에서는 W&amp;B App을 사용합니다.
 * [자동화 만들기](/ko/models/automations/create-automations).

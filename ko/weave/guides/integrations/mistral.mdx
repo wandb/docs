@@ -12,9 +12,7 @@ Weave는 [MistralAI Python 라이브러리](https://github.com/mistralai/client-
 
 > Weave는 Mistral v1.0 SDK를 지원합니다. 업그레이드에 대한 자세한 내용은 [마이그레이션 가이드](https://github.com/mistralai/client-python/blob/main/MIGRATION.md)를 참조하세요.
 
-<div id="traces">
-  ## 트레이스
-</div>
+## 트레이스 {#traces}
 
 개발 단계와 프로덕션 환경 모두에서 LLM 애플리케이션의 트레이스를 중앙 데이터베이스에 저장하는 것이 중요합니다. 이러한 트레이스는 디버깅에 활용하고, 애플리케이션 개선에 도움이 되는 데이터셋으로도 사용합니다.
 
@@ -50,9 +48,7 @@ chat_response = client.chat.complete(
 
 [![mistral\_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
-<div id="wrap-calls-with-your-own-ops">
-  ## 직접 만든 ops로 Call 감싸기
-</div>
+## 직접 만든 ops로 Call 감싸기 {#wrap-calls-with-your-own-ops}
 
 기본 Tracing이 작동하면 MistralAI Call을 Weave Ops로 감싸 실험 전반에서 재현 가능하게 만들 수 있습니다. Weave ops는 실험하는 동안 코드 버전을 자동으로 관리하고 입력과 출력을 함께 캡처해 결과를 *재현 가능*하게 만듭니다. [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion)을 호출하는 함수를 [`@weave.op()`](/ko/weave/guides/tracking/ops) 데코레이터로 만들기만 하면, Weave가 입력과 출력을 대신 추적해 줍니다. 다음 예시는 치즈 추천기에 이를 적용하는 방법을 보여줍니다:
 
@@ -81,9 +77,7 @@ cheese_recommender(region="Netherlands", model="mistral-large-latest")
 
 [![mistral\_ops.png](/weave/guides/integrations/imgs/mistral_ops.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
-<div id="create-a-model-for-easier-experimentation">
-  ## 더 쉽게 실험할 수 있도록 `Model` 만들기
-</div>
+## 더 쉽게 실험할 수 있도록 `Model` 만들기 {#create-a-model-for-easier-experimentation}
 
 실험을 구성하는 요소가 많으면 정리하기가 어렵습니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 system 프롬프트나 사용 중인 모델처럼 앱의 실험 세부 정보를 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 여러 버전을 체계적으로 정리하고 비교하는 데 도움이 됩니다.
 

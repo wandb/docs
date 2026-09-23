@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L151" />
 
-<div id="class-wandbautomationssendnotification">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendNotification
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.automations.SendNotification {#class-wandbautomationssendnotification}
 
 (Slack) 通知を送信するオートメーションアクションを定義します。
 
@@ -23,9 +21,7 @@ title: Annotated[str, BeforeValidator(func=<function default_if_none>, json_sche
 action_type: Literal[NOTIFICATION] = NOTIFICATION
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="integration_id" type="Annotated">
   通知の送信に使用する Slack インテグレーションの ID。
@@ -47,13 +43,9 @@ action_type: Literal[NOTIFICATION] = NOTIFICATION
   説明はありません。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-sendnotificationfrom_integration">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendNotification.from_integration()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> SendNotification.from_integration() {#method-sendnotificationfrom_integration}
 
 ```python
 integration: 'SlackIntegration', *,
@@ -64,9 +56,7 @@ level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
 
 指定された (Slack) インテグレーションに通知を送信するアクションを定義します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="integration" type="SlackIntegration">
   説明はありません。

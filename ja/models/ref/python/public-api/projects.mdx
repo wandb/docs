@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
-<div id="class-wandbapispublicprojects">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Projects
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Projects {#class-wandbapispublicprojects}
 
 `Project` オブジェクトの遅延イテレーター。
 
@@ -22,9 +20,7 @@ entity: 'str',
 per_page: 'int' = 50
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   W&amp;B をクエリするために使用するサービス API。
@@ -38,9 +34,7 @@ per_page: 'int' = 50
   API リクエストごとに取得する プロジェクト の数。
 </ResponseField>
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 ```python
 from wandb.apis.public.api import Api
@@ -56,13 +50,9 @@ for project in projects:
     print(f"- Is benchmark: {project.is_benchmark}")
 ```
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-relaypaginatorconvert_objects">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> RelayPaginator.convert_objects()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> RelayPaginator.convert_objects() {#method-relaypaginatorconvert_objects}
 
 ```python
 self
@@ -70,9 +60,7 @@ self
 
 最後に取得したレスポンスデータを、イテレートされるオブジェクトに変換します。
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self
@@ -80,9 +68,7 @@ self
 
 イテレーターから次の項目を返します。要素がなくなった場合は StopIteration を送出します
 
-<div id="method-paginatorupdate_variables">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.update_variables()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Paginator.update_variables() {#method-paginatorupdate_variables}
 
 ```python
 self

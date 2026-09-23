@@ -6,12 +6,10 @@ description: "사용자와 팀을 관리하고, 역할을 할당하고, 역할 �
 레지스트리 관리자는 레지스트리의 Settings를 구성하여 [레지스트리 역할 설정](/ko/models/registry/configure_registry/#configure-registry-roles), [사용자 추가](/ko/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry), 또는 [사용자 제거](/ko/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry)를 수행할 수 있습니다.
 
 <div id="manage-users">
-  ## Users 관리
+  ## Users 관리 {#manage-users}
 </div>
 
-<div id="add-a-user-or-a-team">
-  ### 사용자 또는 팀 추가
-</div>
+### 사용자 또는 팀 추가 {#add-a-user-or-a-team}
 
 레지스트리 관리자는 개별 사용자 또는 전체 팀을 레지스트리에 추가할 수 있습니다. 레지스트리에 사용자 또는 팀을 추가하려면 다음과 같이 하세요.
 
@@ -25,7 +23,7 @@ description: "사용자와 팀을 관리하고, 역할을 할당하고, 역할 �
 [레지스트리에서 사용자 역할 구성](/ko/models/registry/configure_registry/#configure-registry-roles) 또는 [레지스트리 역할 권한](/ko/models/registry/configure_registry#role-permissions)에 대해 자세히 알아보세요.
 
 <div id="remove-a-user-or-team">
-  ### 사용자 또는 팀 제거
+  ### 사용자 또는 팀 제거 {#remove-a-user-or-team}
 </div>
 
 레지스트리 관리자는 레지스트리에서 개별 사용자 또는 전체 팀을 제거할 수 있습니다. 레지스트리에서 사용자 또는 팀을 제거하려면 다음 단계를 따르세요.
@@ -41,7 +39,7 @@ description: "사용자와 팀을 관리하고, 역할을 할당하고, 역할 �
 </Note>
 
 <div id="change-the-owner-of-a-registry">
-  ### 레지스트리 소유자 변경
+  ### 레지스트리 소유자 변경 {#change-the-owner-of-a-registry}
 </div>
 
 레지스트리 관리자는 **Restricted Viewer** 또는 **Viewer**를 포함해 모든 멤버를 레지스트리 소유자로 지정할 수 있습니다. 레지스트리 소유권은 주로 책임 소재를 명확히 하기 위한 것이며, 사용자에게 할당된 역할로 이미 부여된 권한 외에 추가 권한을 제공하지는 않습니다.
@@ -56,7 +54,7 @@ description: "사용자와 팀을 관리하고, 역할을 할당하고, 역할 �
 6. 행 끝에 있는 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **Make owner**를 클릭합니다.
 
 <div id="configure-registry-roles">
-  ## 레지스트리 역할 설정
+  ## 레지스트리 역할 설정 {#configure-registry-roles}
 </div>
 
 이 섹션에서는 레지스트리 멤버의 역할을 설정하는 방법을 설명합니다. 각 역할의 기능, 우선순위, 기본값 등을 포함한 레지스트리 역할에 대한 자세한 내용은 [레지스트리 역할 상세 정보](#details-about-registry-roles)을 참조하세요.
@@ -70,7 +68,7 @@ description: "사용자와 팀을 관리하고, 역할을 할당하고, 역할 �
 7. 드롭다운에서 사용자에게 할당할 역할을 선택합니다.
 
 <div id="details-about-registry-roles">
-  ## 레지스트리 역할 상세 정보
+  ## 레지스트리 역할 상세 정보 {#details-about-registry-roles}
 </div>
 
 다음 섹션에서는 레지스트리 역할에 대해 더 자세히 설명합니다.
@@ -79,9 +77,7 @@ description: "사용자와 팀을 관리하고, 역할을 할당하고, 역할 �
   팀의 레지스트리 역할은 각 멤버의 [팀 역할](/ko/platform/app/settings-page/teams/#team-roles-and-permissions)과는 별개입니다. 레지스트리에 추가된 팀에 속한 경우, W&amp;B는 유효 레지스트리 역할을 계산할 때 팀 내 역할이 아니라 팀에 부여된 레지스트리 역할을 고려합니다.
 </Note>
 
-<div id="role-types">
-  ### 역할 유형
-</div>
+### 역할 유형 {#role-types}
 
 W&amp;B 레지스트리에는 다음 역할이 있습니다.
 
@@ -93,7 +89,7 @@ W&amp;B 레지스트리에는 다음 역할이 있습니다.
 각 역할에 제공되는 권한에 대한 자세한 내용은 [역할 권한](#role-permissions)을 참조하세요.
 
 <div id="role-permissions">
-  ### 역할 권한
+  ### 역할 권한 {#role-permissions}
 </div>
 
 다음 표에는 각 레지스트리 역할과 역할별로 제공되는 권한이 나와 있습니다:
@@ -128,9 +124,7 @@ W&amp;B 레지스트리에는 다음 역할이 있습니다.
 | 레지스트리에 사용자 추가                                                               | Admin  |                                                    |        |        |   ✓   |
 | 레지스트리에서 사용자 역할 할당 또는 변경                                                     | Admin  |                                                    |        |        |   ✓   |
 
-<div id="default-roles">
-  ### 기본 역할
-</div>
+### 기본 역할 {#default-roles}
 
 W&amp;B는 사용자 또는 팀이 레지스트리에 추가되면 기본 **레지스트리 역할**을 자동으로 할당합니다. 기본 역할은 레지스트리의 역할 드롭다운에 표시되는 초기 역할입니다. 항상 사용자의 최종 유효 역할인 것은 아닙니다.
 
@@ -148,9 +142,7 @@ W&amp;B는 사용자 또는 팀이 레지스트리에 추가되면 기본 **레�
 레지스트리 관리자는 레지스트리의 사용자와 팀에 대한 역할을 할당하거나 수정할 수 있습니다.
 자세한 내용은 [레지스트리에서 사용자 역할 구성](/ko/models/registry/configure_registry/#configure-registry-roles)을 참조하세요.
 
-<div id="effective-and-inherited-registry-roles">
-  ### 유효 역할 및 상속된 레지스트리 역할
-</div>
+### 유효 역할 및 상속된 레지스트리 역할 {#effective-and-inherited-registry-roles}
 
 사용자의 *유효 레지스트리 역할*은 레지스트리에서 실제로 수행할 수 있는 작업을 결정하는 역할입니다. 레지스트리의 구성원 목록에서는 사용자 행의 역할 드롭다운 옆에 이 역할이 연한 회색으로 표시됩니다.
 
@@ -176,9 +168,7 @@ W&amp;B는 다음 소스에서 사용자에게 적용되는 가장 높은 역할
   서비스 계정은 팀으로부터 상위 레지스트리 권한을 상속받지 않습니다. 자세한 내용은 [서비스 계정 액세스](#service-account-access)를 참조하세요.
 </Note>
 
-<div id="service-account-access">
-  ### 서비스 계정 액세스
-</div>
+### 서비스 계정 액세스 {#service-account-access}
 
 서비스 계정은 상속되는 레지스트리 역할의 예외입니다. 서비스 계정은 소속 팀의 상위 레지스트리 권한을 상속하지 않습니다. 예를 들어 팀에 레지스트리에 대한 **Admin** 액세스 권한이 있더라도, 해당 팀의 서비스 계정에는 **Admin** 액세스가 아닌 자동 서비스 계정 액세스 수준만 부여됩니다.
 
@@ -192,7 +182,7 @@ W&amp;B는 다음 소스에서 사용자에게 적용되는 가장 높은 역할
 레지스트리 공개 범위 유형에 대한 자세한 내용은 [공개 범위 유형](/ko/models/registry/create_registry#visibility-types)을 참조하세요.
 
 <div id="restricted-viewer-role-details">
-  ### Restricted Viewer 역할 세부 정보
+  ### Restricted Viewer 역할 세부 정보 {#restricted-viewer-role-details}
 </div>
 
 **Restricted Viewer** 역할은 Generally Available(GA) 상태입니다. Dedicated Cloud 및 Self-Managed에서는 Server v0.75.0 이상이 필요합니다.
@@ -205,7 +195,7 @@ W&amp;B는 다음 소스에서 사용자에게 적용되는 가장 높은 역할
 * W&amp;B SDK에서 `wandb.Run.use_artifact()`로 artifact를 사용할 수 없습니다.
 
 <div id="sdk-compatibility">
-  #### SDK 호환성
+  #### SDK 호환성 {#sdk-compatibility}
 </div>
 
 <Note>
@@ -231,7 +221,7 @@ W&amp;B는 다음 소스에서 사용자에게 적용되는 가장 높은 역할
 * [`Artifact.verify()`](/ko/models/ref/python/experiments/artifact/#method-artifactverify)
 
 <div id="cross-registry-permissions">
-  ### 레지스트리 간 권한
+  ### 레지스트리 간 권한 {#cross-registry-permissions}
 </div>
 
 사용자는 레지스트리마다 서로 다른 역할을 가질 수 있습니다. 예를 들어, 레지스트리 A에서는 **Restricted Viewer**이고 레지스트리 B에서는 **Viewer**일 수 있습니다. 이 경우:

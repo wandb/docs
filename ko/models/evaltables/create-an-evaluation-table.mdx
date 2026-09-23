@@ -5,9 +5,7 @@ description: "W&B에서 Eval Table을 만드는 방법을 알아보세요."
 
 W&amp;B Python SDK를 사용해 Eval Table을 만들거나, [ARIA](/ko/aria)로 기존 [W&amp;B Table](/ko/models/tables)을 변환하세요.
 
-<div id="create-an-eval-table">
-  ## Eval Table 만들기
-</div>
+## Eval Table 만들기 {#create-an-eval-table}
 
 `wandb.EvalTable` 클래스를 사용해 Eval Table을 만드세요.
 
@@ -69,9 +67,7 @@ with wandb.init(project="classifier-eval-table-demo") as run:
     run.log({"validation_predictions_eval": eval_table})    
 ```
 
-<div id="convert-a-wb-table-to-an-eval-table">
-  ## W&amp;B Table을 Eval Table로 변환하기
-</div>
+## W&amp;B Table을 Eval Table로 변환하기 {#convert-a-wb-table-to-an-eval-table}
 
 변환 배너를 사용해 기존 W&amp;B Table을 Eval Table로 변환하세요:
 

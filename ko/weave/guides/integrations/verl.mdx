@@ -11,17 +11,13 @@ VERL과 함께 Weave를 사용하여 다음 작업을 수행하세요.
 * step, 샘플 인덱스, 롤아웃 번호, 실험 이름을 기준으로 트래젝터리를 Filter합니다.
 * 여러 트래젝터리를 나란히 비교하여 트레이닝 step 전반의 에이전트 동작을 디버그합니다.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 * W&amp;B 계정 및 [API 키](/ko/platform/app/settings-page/user-settings#api-keys).
 * 롤아웃 트레이싱을 지원하는 VERL 설치 환경. 롤아웃 트레이싱은 [verl#2345](https://github.com/volcengine/verl/pull/2345)에서 추가되었습니다.
 * 비동기 롤아웃 설정. 트레이싱은 비동기 롤아웃에만 적용되며, 동기 롤아웃은 트레이스되지 않습니다.
 
-<div id="enable-weave-tracing">
-  ## Weave 트레이싱 활성화
-</div>
+## Weave 트레이싱 활성화 {#enable-weave-tracing}
 
 VERL이 W&amp;B 계정으로 인증할 수 있도록 환경에서 W&amp;B API 키를 설정합니다:
 
@@ -51,9 +47,7 @@ python -m verl.trainer.main_ppo \
 
 Weave는 W&amp;B 프로젝트와 실험 이름을 기반으로 자동으로 초기화됩니다. `weave.init()`를 호출할 필요가 없습니다.
 
-<div id="tune-trace-volume">
-  ## 트레이스 볼륨 조정
-</div>
+## 트레이스 볼륨 조정 {#tune-trace-volume}
 
 기본적으로 VERL은 모든 rollout의 모든 샘플을 트레이스하므로 매우 많은 양의 트레이스 데이터가 생성될 수 있습니다. `ppo_trainer.yaml` 설정 파일에서 다음 필드를 설정하여 볼륨을 제한할 수 있습니다.
 
@@ -71,17 +65,13 @@ actor_rollout_ref:
       max_samples_per_step_per_worker: 5
 ```
 
-<div id="view-traces">
-  ## 트레이스 보기
-</div>
+## 트레이스 보기 {#view-traces}
 
 트레이닝 중 생성된 트레이스를 보려면 W&amp;B 프로젝트 페이지를 열고 **Traces**를 선택하세요. 각 트레이스는 하나의 롤아웃 트래젝터리에 해당합니다.
 
 여러 트레이스를 선택하고 Weave의 비교 뷰를 사용하여 트래젝터리 간의 차이를 살펴볼 수 있습니다. 이를 통해 트레이닝 step이나 실험 전반에 걸친 에이전트 동작의 변화를 디버깅할 수 있습니다.
 
-<div id="trace-additional-functions">
-  ## 추가 함수 트레이싱
-</div>
+## 추가 함수 트레이싱 {#trace-additional-functions}
 
 VERL은 기본 트레이스 적용 범위를 확장하는 데 사용할 수 있는 두 가지 헬퍼를 제공합니다.
 

@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py#L16" />
 
-<div id="function-wandbplotconfusion_matrix">
-  ## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.confusion_matrix()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">fonction</Badge> wandb.plot.confusion_matrix() {#function-wandbplotconfusion_matrix}
 
 Construit une matrice de confusion à partir d&#39;une séquence de probabilités ou de prédictions.
 
@@ -23,9 +21,7 @@ title: 'str' = 'Confusion Matrix Curve',
 split_table: 'bool' = False
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="probs" type="Sequence[Sequence[float]] | None">
   Une séquence de probabilités prédites pour chaque classe. La forme de la séquence doit être (N, K), où N est le nombre d&#39;échantillons et K le nombre de classes. Si ce paramètre est fourni, `preds` ne doit pas l&#39;être.
@@ -51,22 +47,16 @@ split_table: 'bool' = False
   Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau s&#39;affiche dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False`.
 </ResponseField>
 
-<div id="returns">
-  ## Retourne
-</div>
+## Retourne {#returns}
 
 `CustomChart` :  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le  graphique, passez-le à `wandb.log()`.
 
-<div id="raises">
-  ## Exceptions levées
-</div>
+## Exceptions levées {#raises}
 
 * `ValueError`: Si `probs` et `preds` sont tous deux fournis, ou si le nombre de prédictions et d&#39;étiquettes réelles n&#39;est pas identique. Si le nombre de classes prédites uniques dépasse le nombre de noms de classes, ou si le nombre d&#39;étiquettes réelles uniques dépasse le nombre de noms de classes.
 * `wandb.Error`: Si numpy n&#39;est pas installé.
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Journalisation d’une matrice de confusion avec des probabilités aléatoires pour la classification de la faune sauvage :
 

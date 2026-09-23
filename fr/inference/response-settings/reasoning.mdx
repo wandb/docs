@@ -10,9 +10,7 @@ Pour déterminer si un modèle prend en charge le raisonnement, consultez le tab
 
 Les informations de raisonnement apparaissent dans le champ `reasoning` des réponses. La valeur de ce champ est `null` dans les réponses des modèles qui ne prennent pas en charge le raisonnement.
 
-<div id="supported-models-with-reasoning">
-  ## Modèles pris en charge avec raisonnement
-</div>
+## Modèles pris en charge avec raisonnement {#supported-models-with-reasoning}
 
 Le tableau suivant répertorie les modèles de Serverless Inference qui peuvent renvoyer un raisonnement, ainsi que le comportement de chacun :
 
@@ -46,15 +44,11 @@ Le tableau suivant répertorie les modèles de Serverless Inference qui peuvent 
 | `zai-org/GLM-5.3-Flash`                        | Always on                                |
 | `zai-org/GLM-5.2`                              | Activé par défaut                        |
 
-<div id="models-with-always-on-reasoning">
-  ### Modèles avec le raisonnement `Always on`
-</div>
+### Modèles avec le raisonnement `Always on` {#models-with-always-on-reasoning}
 
 Si un modèle figure comme `Always on` dans le [tableau des modèles pris en charge](#supported-models-with-reasoning) ci-dessus, il inclut toujours le raisonnement et vous ne pouvez pas le désactiver.
 
-<div id="disable-reasoning">
-  ### Désactiver le raisonnement
-</div>
+### Désactiver le raisonnement {#disable-reasoning}
 
 Si un modèle est indiqué comme `Activé par défaut` dans le tableau précédent [Modèles pris en charge](#supported-models-with-reasoning), vous pouvez désactiver le raisonnement pour réduire la consommation de jetons ou simplifier la réponse. Pour désactiver le raisonnement pour une requête, dans `chat_template_kwargs`, définissez l’indicateur `enable_thinking` sur `False` (Python) ou `false` (Bash). Une fois la requête terminée, la réponse omet le contenu de raisonnement :
 
@@ -98,8 +92,6 @@ Si un modèle est indiqué comme `Activé par défaut` dans le tableau précéde
   </Tab>
 </Tabs>
 
-<div id="enable-reasoning">
-  ### Activer le raisonnement
-</div>
+### Activer le raisonnement {#enable-reasoning}
 
 Si un modèle est répertorié comme `Désactivé par défaut` dans le tableau [modèles pris en charge](#supported-models-with-reasoning) ci-dessus, vous pouvez activer le raisonnement en définissant l’indicateur `enable_thinking` sur `True` (Python) ou `true` (Bash) dans l’extrait de code ci-dessus.

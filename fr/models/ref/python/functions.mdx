@@ -7,9 +7,7 @@ no_list: true
 
 Dans W&amp;B, les fonctions globales sont des fonctions de niveau supérieur que vous appelez directement, comme `wandb.init()` ou `wandb.login()`. Contrairement aux méthodes associées à des classes spécifiques, ces fonctions donnent un accès direct aux fonctionnalités de base de W&amp;B sans devoir d’abord instancier des objets.
 
-<div id="available-functions">
-  ## Fonctions disponibles
-</div>
+## Fonctions disponibles {#available-functions}
 
 | Fonction                                                  | Description                                                                                                                                                              |
 | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -23,9 +21,7 @@ Dans W&amp;B, les fonctions globales sont des fonctions de niveau supérieur que
 | [`restore()`](/fr/models/ref/python/functions/restore)       | Restaure un run précédent ou l&#39;état d&#39;une expérience afin de reprendre le travail.                                                                               |
 | [`finish()`](/fr/models/ref/python/functions/finish)         | Termine un run et nettoie les ressources.                                                                                                                                |
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 Le flux de travail le plus courant consiste à s&#39;authentifier auprès de W&amp;B, à initialiser un run et à journaliser des valeurs (telles que l&#39;accuracy et la perte) à partir de votre boucle d&#39;entraînement. Les premières étapes consistent à importer `wandb` et à utiliser les fonctions globales `login()` et `init()` :
 

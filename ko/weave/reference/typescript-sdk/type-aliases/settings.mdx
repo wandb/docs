@@ -9,13 +9,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/settings.ts#L6" />
 
-<div id="properties">
-  ## 속성
-</div>
+## 속성 {#properties}
 
-<div id="attributes">
-  ### 속성
-</div>
+### 속성 {#attributes}
 
 > `readonly` **속성**: `Record`&lt;`string`, `any`&gt;
 
@@ -23,23 +19,17 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ***
 
-<div id="genai">
-  ### genai
-</div>
+### genai {#genai}
 
 > `readonly` **genai**: `object`
 
-<div id="batchoptions">
-  #### batchOptions
-</div>
+#### batchOptions {#batchoptions}
 
 > `선택` **batchOptions**: `BufferConfig`
 
 `BatchSpanProcessor` 설정입니다. `spanProcessor === 'batch'`가 아니면 무시됩니다.
 
-<div id="spanprocessor">
-  #### spanProcessor
-</div>
+#### spanProcessor {#spanprocessor}
 
 > `선택` **spanProcessor**: `"batch"` | `"simple"` | `SpanProcessor`
 
@@ -55,48 +45,36 @@ GenAI span을 익스포트하는 방식입니다.
 
 ***
 
-<div id="printcalllink">
-  ### printCallLink
-</div>
+### printCallLink {#printcalllink}
 
 > `readonly` **printCallLink**: `boolean`
 
 터미널에서 op의 Weave UI 링크를 출력합니다.
 
-<div id="default">
-  #### 기본값
-</div>
+#### 기본값 {#default}
 
 `true`
 
 ***
 
-<div id="usecallscomplete">
-  ### useCallsComplete
-</div>
+### useCallsComplete {#usecallscomplete}
 
 > **useCallsComplete**: `boolean`
 
 완료된 Call을 레거시 `call/upsert_batch` 경로 대신 `calls/complete` 엔드포인트로 전송합니다(시작과 종료를 클라이언트 측에서 페어링).
 
-<div id="default-2">
-  #### 기본값
-</div>
+#### 기본값 {#default-2}
 
 `true`
 
 ***
 
-<div id="useotelv2">
-  ### useOTelV2
-</div>
+### useOTelV2 {#useotelv2}
 
 > **useOTelV2**: `boolean`
 
 OTel을 지원하는 인테그레이션을 OTel 변형을 통해 라우팅합니다.
 
-<div id="default-3">
-  #### 기본값
-</div>
+#### 기본값 {#default-3}
 
 `true`

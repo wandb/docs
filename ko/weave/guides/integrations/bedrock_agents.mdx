@@ -9,9 +9,7 @@ description: "Weave로 Amazon Bedrock Agents 호출을 트레이스하여 에이
   Weave TypeScript SDK는 현재 Bedrock Agents 인테그레이션을 지원하지 않습니다.
 </Note>
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 * W&amp;B API 키. 자세한 내용은 [API keys](/ko/platform/app/settings-page/user-settings#api-keys)를 참조하세요.
 * Bedrock Agents에 액세스할 수 있는 계정용으로 구성된 AWS 자격 증명([Identity and access management for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html) 참조).
@@ -21,9 +19,7 @@ description: "Weave로 Amazon Bedrock Agents 호출을 트레이스하여 에이
   aws bedrock-agent list-agents --region us-east-1
   ```
 
-<div id="installation">
-  ## 설치
-</div>
+## 설치 {#installation}
 
 Weave와 Python용 AWS SDK를 설치하세요:
 
@@ -31,9 +27,7 @@ Weave와 Python용 AWS SDK를 설치하세요:
 pip install weave boto3
 ```
 
-<div id="trace-invoke_agent-calls">
-  ## `invoke_agent` Call 트레이스
-</div>
+## `invoke_agent` Call 트레이스 {#trace-invoke_agent-calls}
 
 `bedrock-agent-runtime` 클라이언트를 생성한 다음 `patch_client`에 전달하세요. Weave는 클라이언트 유형을 감지해 `invoke_agent` 방법을 래핑합니다. 패치한 후에는 평소처럼 클라이언트를 사용하세요.
 
@@ -78,9 +72,7 @@ print(final_text)
 
 파운데이션 모델과 토큰 사용량은 `orchestrationTrace` 이벤트에서 추출되며, Bedrock은 `invoke_agent`를 `enableTrace=True`로 Call할 때만 이러한 이벤트를 내보냅니다. 이 플래그가 없으면 트레이스는 여전히 입력값과 생성된 응답 텍스트를 캡처하지만, 파운데이션 모델은 `bedrock-agent:<agentId>`로 대체되고 토큰 수는 사용할 수 없습니다.
 
-<div id="nest-related-agent-calls-together">
-  ## 관련 에이전트 Call을 함께 중첩하기
-</div>
+## 관련 에이전트 Call을 함께 중첩하기 {#nest-related-agent-calls-together}
 
 전처리, 후처리 또는 연쇄 API 호출과 같은 관련 로직과 `invoke_agent` Call을 그룹화하려면 함수를 `@weave.op`로 감싸세요. Weave는 패치된 `invoke_agent` 트레이스를 상위 op 내부에 중첩합니다.
 
@@ -105,9 +97,7 @@ def ask_agent(question: str, session_id: str) -> str:
 answer = ask_agent("Summarize today's open support tickets.", session_id="session-1")
 ```
 
-<div id="multi-turn-conversations">
-  ## 멀티턴 대화
-</div>
+## 멀티턴 대화 {#multi-turn-conversations}
 
 Bedrock Agents는 `sessionId`를 재사용하면 서비스 측에서 대화 상태를 유지합니다. Weave UI에서 여러 턴을 하나의 트레이스로 묶으려면 `weave.thread`로 턴을 감싸세요:
 
@@ -122,8 +112,6 @@ with weave.thread("support-conversation") as t:
 
 Weave는 UI의 Threads 뷰에서 각 turn을 개별 행으로 표시합니다.
 
-<div id="view-traces">
-  ## 트레이스 보기
-</div>
+## 트레이스 보기 {#view-traces}
 
 예시를 실행하면 Weave가 프로젝트 대시보드 링크를 출력합니다. 링크를 열면 각 `invoke_agent` Call의 에이전트 입력, 파운데이션 모델, 토큰 사용량, 생성된 응답을 확인할 수 있습니다.

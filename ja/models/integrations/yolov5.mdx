@@ -15,9 +15,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
   W&amp;B のすべてのログ機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列マルチ GPU トレーニングに対応しています。
 </Note>
 
-<div id="track-core-experiments">
-  ## 主要なExperimentsをトラッキングする
-</div>
+## 主要なExperimentsをトラッキングする {#track-core-experiments}
 
 まず、YOLOv5 と一緒に W&amp;B Python SDK (`wandb`) をインストールし、通常どおりトレーニングを実行します。`wandb` をインストールするだけで、W&amp;B 組み込みの [ログ機能](/ja/models/track/log/) が有効になり、システムメトリクス、モデルメトリクス、さらに対話型の [ダッシュボード](/ja/models/track/workspaces/) にログされるメディアを記録できるようになります。
 
@@ -33,9 +31,7 @@ W&amp;B が標準出力に出力するリンクをたどってください。
   <img src="/images/integrations/yolov5_experiment_tracking.png" alt="YOLOv5 のトレーニングメトリクスとシステムチャートを表示する W&B ダッシュボード。" />
 </Frame>
 
-<div id="customize-the-integration">
-  ## インテグレーションをカスタマイズする
-</div>
+## インテグレーションをカスタマイズする {#customize-the-integration}
 
 実験管理が機能したら、YOLO にいくつかのコマンドライン引数を渡すことで、W&amp;B の追加機能 (モデルのバージョン管理、データセットのバージョン管理、予測の可視化など) を有効にできます。
 

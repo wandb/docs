@@ -7,9 +7,7 @@ Créez des graphiques en courbes et des légendes de graphique parlants en attri
 
 Pour utiliser des couleurs basées sur des métriques ou sur la configuration pour vos runs, vous devez configurer deux paramètres :
 
-<div id="turn-on-key-based-colors">
-  ### Activez les couleurs basées sur une clé
-</div>
+### Activez les couleurs basées sur une clé {#turn-on-key-based-colors}
 
 1. Accédez à votre projet W&amp;B.
 2. Sélectionnez l&#39;onglet **Workspace** dans la barre latérale du projet.
@@ -27,32 +25,24 @@ Pour utiliser des couleurs basées sur des métriques ou sur la configuration po
 
 Les sections suivantes décrivent comment définir la métrique et la valeur y, ainsi que comment personnaliser les buckets utilisés pour attribuer des couleurs aux runs.
 
-<div id="example-key-based-coloring-with-loss-metric">
-  ### Exemple : coloration basée sur des clés avec la métrique de perte
-</div>
+### Exemple : coloration basée sur des clés avec la métrique de perte {#example-key-based-coloring-with-loss-metric}
 
 Dans ce graphique d’exemple, les runs sont colorés selon un gradient, où les couleurs plus foncées représentent des valeurs de perte plus élevées et les couleurs plus claires des valeurs de perte plus faibles. La valeur Y est définie sur `latest` pour utiliser la valeur de perte la plus récente pour chaque run.
 
 <Image src="/images/app_ui/run-colors-key-based.png" alt="Workspace W&B montrant des runs colorés en fonction de leurs valeurs de perte à l’aide d’une coloration basée sur des clés." />
 
-<div id="set-a-metric">
-  ## Définir une métrique
-</div>
+## Définir une métrique {#set-a-metric}
 
 Les options de métrique du menu déroulant **Clé** proviennent des paires clé-valeur [que vous consignez dans W&amp;B](/fr/models/runs/color-code-runs/#custom-metrics) et des [métriques par défaut](/fr/models/runs/color-code-runs/#default-metrics) définies par W&amp;B.
 
-<div id="default-metrics">
-  ### Métriques par défaut
-</div>
+### Métriques par défaut {#default-metrics}
 
 * `Relative Time (Process)`: Le temps relatif du run, mesuré en secondes depuis le début du run.
 * `Relative Time (Wall)`: Le temps relatif du run, mesuré en secondes depuis le début du run, ajusté en fonction du temps réel.
 * `Wall Time`: Le temps réel du run, mesuré en secondes depuis l’époque.
 * `Step`: Le numéro d’étape du run, généralement utilisé pour suivre la progression de l’entraînement ou de l’évaluation.
 
-<div id="custom-metrics">
-  ### Métriques personnalisées
-</div>
+### Métriques personnalisées {#custom-metrics}
 
 Attribuez une couleur aux runs et créez des légendes de graphique parlantes à partir des métriques personnalisées enregistrées par vos scripts d&#39;entraînement ou d&#39;évaluation. Les métriques personnalisées sont enregistrées sous forme de paires clé-valeur, où la clé correspond au nom de la métrique et la valeur à sa valeur.
 
@@ -77,9 +67,7 @@ with wandb.init(project="basic-intro") as run:
 
 Dans le menu déroulant **Clé**, `"acc"` et `"loss"` sont deux options possibles.
 
-<div id="set-a-configuration-key">
-  ## Définir une clé de configuration
-</div>
+## Définir une clé de configuration {#set-a-configuration-key}
 
 Les options de configuration de votre menu déroulant **Clé** proviennent des paires clé-valeur que vous transmettez au paramètre `config` lorsque vous initialisez un run W&amp;B. Les clés de configuration servent généralement à enregistrer des hyperparamètres ou d&#39;autres paramètres utilisés dans vos scripts d&#39;entraînement ou d&#39;évaluation.
 
@@ -99,9 +87,7 @@ with wandb.init(project="basic-intro", config=config) as run:
 
 Dans la liste déroulante **Clé**, `"learning_rate"`, `"batch_size"` et `"optimizer"` font partie des options disponibles.
 
-<div id="set-a-y-value">
-  ## Définir une valeur Y
-</div>
+## Définir une valeur Y {#set-a-y-value}
 
 Vous pouvez choisir parmi les options suivantes :
 
@@ -109,9 +95,7 @@ Vous pouvez choisir parmi les options suivantes :
 * **Max** : Couleur déterminée en fonction de la valeur Y la plus élevée enregistrée pour la métrique.
 * **Min** : Couleur déterminée en fonction de la valeur Y la plus faible enregistrée pour la métrique.
 
-<div id="customize-buckets">
-  ## Personnaliser les buckets
-</div>
+## Personnaliser les buckets {#customize-buckets}
 
 Les buckets sont des plages de valeurs que W&amp;B utilise pour classer les runs en fonction de la métrique ou de la clé de configuration que vous sélectionnez. Les buckets sont répartis uniformément sur l’ensemble de la plage de valeurs de la métrique ou de la clé de configuration spécifiée, et chaque bucket se voit attribuer une couleur unique. Les runs qui se situent dans la plage de ce bucket sont affichés dans cette couleur.
 

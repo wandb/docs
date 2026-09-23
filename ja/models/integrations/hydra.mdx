@@ -7,9 +7,7 @@ title: Hydra
 
 このページでは、Hydra ベースの設定管理と W&amp;B の実験管理を組み合わせる方法を説明します。これにより、Hydra の構成可能な設定を維持しながら、W&amp;B の可視化、ハイパーパラメーター最適化、run の比較機能を活用できます。以下のセクションでは、メトリクスのトラッキング、Hydra の設定からハイパーパラメーターをログする方法、マルチプロセッシングのトラブルシューティング、W&amp;B Sweeps を使用したハイパーパラメーターの最適化について説明します。
 
-<div id="track-metrics">
-  ## メトリクスをトラッキングする
-</div>
+## メトリクスをトラッキングする {#track-metrics}
 
 Hydra で設定された run から W&amp;B にメトリクスを送信するには、通常どおり `wandb.init()` と `wandb.Run.log()` を使います。次の例では、同じ設定で Hydra と W&amp;B の両方を制御できるように、`wandb.entity` と `wandb.project` を Hydra の設定ファイル内で定義しています。
 
@@ -24,9 +22,7 @@ def run_experiment(cfg):
       run.log({"loss": loss})
 ```
 
-<div id="track-hyperparameters">
-  ## ハイパーパラメーターをトラッキングする
-</div>
+## ハイパーパラメーターをトラッキングする {#track-hyperparameters}
 
 Hydra の設定を W&amp;B にログすると、run のメトリクスとあわせてすべてのハイパーパラメーターを確認できるため、Experiments の比較や再現がしやすくなります。
 
@@ -58,9 +54,7 @@ def run_experiment(cfg):
         model = Model(**run.config["model"]["configs"])
 ```
 
-<div id="troubleshoot-multiprocessing">
-  ## マルチプロセッシングのトラブルシューティング
-</div>
+## マルチプロセッシングのトラブルシューティング {#troubleshoot-multiprocessing}
 
 プロセスの起動時に応答しなくなる場合は、[分散トレーニングにおける既知のマルチプロセッシングの問題](/ja/models/track/log/distributed-training)が原因の可能性があります。これを解決するには、`wandb.init()` に追加の settings パラメーターを追加して、W&amp;B のマルチプロセッシングプロトコルを変更してください。
 
@@ -74,9 +68,7 @@ wandb.init(settings=wandb.Settings(start_method="thread"))
 export WANDB_START_METHOD=thread
 ```
 
-<div id="optimize-hyperparameters">
-  ## ハイパーパラメーターを最適化する
-</div>
+## ハイパーパラメーターを最適化する {#optimize-hyperparameters}
 
 [W&amp;B Sweeps](/ja/models/sweeps) は、最小限のコードで W&amp;B Experiments のインサイトと可視化を提供するハイパーパラメーター探索プラットフォームです。Sweeps は、コードを変更しなくても Hydra プロジェクトと連携できます。必要なのは、sweep 対象のパラメーターを記述した設定ファイルだけです。
 
@@ -107,9 +99,7 @@ wandb sweep sweep.yaml
 
 W&amp;B はプロジェクト内に自動的に sweep を作成し、`wandb agent` コマンドを返します。sweep を実行する各マシンでそのコマンドを実行します。
 
-<div id="pass-parameters-not-present-in-hydra-defaults">
-  ### Hydra のデフォルト設定にないパラメーターを渡す
-</div>
+### Hydra のデフォルト設定にないパラメーターを渡す {#pass-parameters-not-present-in-hydra-defaults}
 
 <a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Hydra のデフォルト設定にないパラメーターを渡す" />
 

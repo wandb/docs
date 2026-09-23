@@ -14,9 +14,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 ObjectRef には、保存されたオブジェクトを Weave のストレージシステム内で一意に識別するための
 プロジェクト ID、オブジェクト ID、ダイジェストが含まれます。
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 ```ts twoslash
 // @noErrors
@@ -24,15 +22,11 @@ const ref = new ObjectRef('my-project', 'abc123', 'def456');
 const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 ```
 
-<div id="constructor">
-  ## コンストラクター
-</div>
+## コンストラクター {#constructor}
 
 > **new ObjectRef**(`projectId`, `objectId`, `digest`): `ObjectRef`
 
-<div id="parameters">
-  ### パラメーター
-</div>
+### パラメーター {#parameters}
 
 <ParamField path="projectId" type="string" required />
 
@@ -40,117 +34,83 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 <ParamField path="digest" type="string" required />
 
-<div id="returns">
-  ### 戻り値
-</div>
+### 戻り値 {#returns}
 
 `ObjectRef`
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
-<div id="digest">
-  ### ダイジェスト
-</div>
+### ダイジェスト {#digest}
 
 > **ダイジェスト**: `string`
 
 ***
 
-<div id="objectid">
-  ### objectId
-</div>
+### objectId {#objectid}
 
 > **objectId**: `string`
 
 ***
 
-<div id="projectid">
-  ### projectId
-</div>
+### projectId {#projectid}
 
 > **projectId**: `string`
 
-<div id="methods">
-  ## method
-</div>
+## method {#methods}
 
-<div id="get">
-  ### get()
-</div>
+### get() {#get}
 
 > **get**(): `Promise`&lt;`any`&gt;
 
-<div id="returns-2">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-2}
 
 `Promise`&lt;`any`&gt;
 
 ***
 
-<div id="ui_url">
-  ### ui_url()
-</div>
+### ui_url() {#ui_url}
 
 > **ui&#95;url**(): `string`
 
-<div id="returns-3">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-3}
 
 `string`
 
 ***
 
-<div id="uri">
-  ### uri()
-</div>
+### uri() {#uri}
 
 > **uri**(): `string`
 
-<div id="returns-4">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-4}
 
 `string`
 
 ***
 
-<div id="fromuri">
-  ### fromUri()
-</div>
+### fromUri() {#fromuri}
 
 > `static` **fromUri**(`uri`): `ObjectRef`
 
 Weave URI 文字列から ObjectRef を作成します。
 
-<div id="parameters-2">
-  #### パラメーター
-</div>
+#### パラメーター {#parameters-2}
 
 <ParamField path="uri" type="string" required>
   以下の形式の Weave URI: weave:///entity/project/object/name:digest
 </ParamField>
 
-<div id="returns-5">
-  #### 戻り値
-</div>
+#### 戻り値 {#returns-5}
 
 `ObjectRef`
 
 新しい ObjectRef インスタンス
 
-<div id="throws">
-  #### Throws
-</div>
+#### Throws {#throws}
 
 URI 形式が無効、または object ref ではない場合はエラー
 
-<div id="example-2">
-  #### 例
-</div>
+#### 例 {#example-2}
 
 ```ts twoslash
 // @noErrors

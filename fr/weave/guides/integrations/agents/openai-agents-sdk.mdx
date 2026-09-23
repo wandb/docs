@@ -7,17 +7,13 @@ import AgentsViewTraces from '/snippets/fr/_includes/agents-view-traces.mdx';
 
 Le SDK OpenAI Agents est un framework léger qui permet de créer des agents et des flux de travail multi-agent à partir de l’API d’OpenAI. Weave trace automatiquement les agents créés avec le SDK OpenAI Agents, y compris chaque appel d’agent, transfert vers un sous-agent, appel de modèle et appel d’outil. Weave affiche les données capturées dans la vue **Agents** de votre project.
 
-<div id="trace-openai-agents-sdk-agents-with-weave">
-  ## Tracer des agents du SDK OpenAI Agents avec Weave
-</div>
+## Tracer des agents du SDK OpenAI Agents avec Weave {#trace-openai-agents-sdk-agents-with-weave}
 
 <Tabs>
   <Tab title="Python">
     Le SDK Weave effectue un patching automatique avec le [SDK OpenAI Agents pour Python](https://github.com/openai/openai-agents-python), ce qui vous permet de capturer les traces de vos agents avec une configuration minimale. Ce guide explique comment initialiser Weave, puis exécuter un agent de recherche multitour créé avec le SDK OpenAI Agents afin que Weave capture chaque appel d’agent, chaque appel de modèle et chaque appel d’outil pendant toute la session.
 
-    <div id="prerequisites">
-      ### Prérequis
-    </div>
+### Prérequis {#prerequisites}
 
     Avant de commencer, assurez-vous de disposer des éléments suivants :
 
@@ -29,9 +25,7 @@ Le SDK OpenAI Agents est un framework léger qui permet de créer des agents et 
   <Tab title="TypeScript">
     Weave s’intègre au [SDK OpenAI Agents pour Node.js](https://github.com/openai/openai-agents-js) (`@openai/agents`) pour tracer automatiquement les exécutions de vos agents. Nécessite la version `0.4.15` ou ultérieure de `@openai/agents`.
 
-    <div id="prerequisites-2">
-      ### Prérequis
-    </div>
+### Prérequis {#prerequisites-2}
 
     Avant de commencer, assurez-vous de disposer des éléments suivants :
 
@@ -41,9 +35,7 @@ Le SDK OpenAI Agents est un framework léger qui permet de créer des agents et 
   </Tab>
 </Tabs>
 
-<div id="install-packages">
-  ### Installer les packages
-</div>
+### Installer les packages {#install-packages}
 
 Installez les packages suivants dans votre environnement de développement afin que Weave et le SDK soient disponibles pour votre script.
 
@@ -57,9 +49,7 @@ Installez les packages suivants dans votre environnement de développement afin 
   ```
 </CodeGroup>
 
-<div id="initialize-weave-in-your-code">
-  ### Initialisez Weave dans votre code
-</div>
+### Initialisez Weave dans votre code {#initialize-weave-in-your-code}
 
 <Tabs>
   <Tab title="Python">
@@ -195,9 +185,7 @@ Installez les packages suivants dans votre environnement de développement afin 
     node --import=weave/instrument main.mjs
     ```
 
-    <div id="manual-instrumentation">
-      ### Instrumentation manuelle
-    </div>
+### Instrumentation manuelle {#manual-instrumentation}
 
     L&#39;instrumentation manuelle n&#39;est nécessaire que lorsque les hook du chargeur de modules ne peuvent pas s&#39;exécuter, par exemple lors de l&#39;utilisation d&#39;un bundler qui regroupe les dépendances en un seul fichier, dans des environnements qui ne prennent pas en charge les indicateurs CLI de Node, ou avec des modèles de chargement de modules dynamiques qui contournent les hook du chargeur.
 

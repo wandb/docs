@@ -15,9 +15,7 @@ Les applications CrewAI se composent souvent de plusieurs agents qui collaborent
 
 Les sections suivantes expliquent le traçage d’un Crew, le suivi de l’utilisation des outils, le traçage d’un Flow et l’encapsulation d’une fonction de garde-fou en tant qu’op Weave.
 
-<div id="get-started-with-crew">
-  ## Premiers pas avec Crew
-</div>
+## Premiers pas avec Crew {#get-started-with-crew}
 
 Pour exécuter cet exemple, installez CrewAI et Weave. Pour plus d’informations sur l’installation de CrewAI, voir le [guide d’installation de CrewAI](https://docs.crewai.com/installation).
 
@@ -90,9 +88,7 @@ Weave suit et consigne tous les appels effectués via la bibliothèque CrewAI, y
   CrewAI fournit plusieurs méthodes pour mieux contrôler le processus de kickoff : `kickoff()`, `kickoff_for_each()`, `kickoff_async()` et `kickoff_for_each_async()`. L’intégration prend en charge la journalisation des traces pour toutes ces méthodes.
 </Note>
 
-<div id="track-tools">
-  ## Suivi des outils
-</div>
+## Suivi des outils {#track-tools}
 
 Les outils CrewAI offrent aux agents des capacités telles que la recherche sur le Web, l’analyse de données, la collaboration et la délégation de tâches entre collègues. L’intégration en assure également le traçage.
 
@@ -132,9 +128,7 @@ Exécuter ce Crew avec un agent ayant accès à Internet produit un résultat pl
   L’intégration applique automatiquement un patch à tous les outils disponibles dans le dépôt [`crewAI-tools`](https://github.com/crewAIInc/crewAI-tools).
 </Note>
 
-<div id="get-started-with-flow">
-  ## Premiers pas avec Flow
-</div>
+## Premiers pas avec Flow {#get-started-with-flow}
 
 L’exemple suivant définit un Flow CrewAI et le trace avec Weave. Comme pour les Crews, appelez `weave.init()` avant de définir le Flow afin que Weave capture automatiquement le point d’entrée `Flow.kickoff`, ainsi que les décorateurs `@start`, `@listen`, `@router`, `@or_` et `@and_`.
 
@@ -218,9 +212,7 @@ print(result)
   L’intégration applique automatiquement un patch au point d’entrée `Flow.kickoff`, ainsi que tous les décorateurs disponibles (`@start`, `@listen`, `@router`, `@or_` et `@and_`).
 </Note>
 
-<div id="crew-guardrail-track-your-own-ops">
-  ## Garde-fou Crew : suivez vos propres ops
-</div>
+## Garde-fou Crew : suivez vos propres ops {#crew-guardrail-track-your-own-ops}
 
 Les garde-fous de tâche vous permettent de valider et de transformer les résultats d&#39;une tâche avant que CrewAI ne les transmette à la suivante. Vous pouvez utiliser une fonction Python pour valider l&#39;exécution de l&#39;agent à la volée.
 
@@ -274,9 +266,7 @@ En décorant la fonction de garde-fou avec `@weave.op`, vous pouvez suivre les e
 
 [![guardrail.png](/weave/guides/integrations/imgs/crewai/crew_with_guardrail.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D\&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c838-38cb-71a2-8a15-651ecddf9d89%3FdescendentCallId%3D0195c838-8632-7173-846d-f230e7272c20\&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
-<div id="conclusion">
-  ## Conclusion
-</div>
+## Conclusion {#conclusion}
 
 Vous disposez maintenant d’une application CrewAI tracée avec Weave qui capture les interactions des agents, l’utilisation des outils, l’exécution des Flow et les validations des garde-fous. Pour suggérer des améliorations ou signaler des problèmes avec cette intégration, [ouvrez une issue sur GitHub](https://github.com/wandb/weave/issues/new/choose).
 

@@ -6,17 +6,13 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/v0.30.0/wandb/cli/cli.py#L2023" />
 
-<div id="usage">
-  ## 使い方
-</div>
+## 使い方 {#usage}
 
 ```bash
 create [OPTIONS] {git|code|image} PATH
 ```
 
-<div id="description">
-  ## 説明
-</div>
+## 説明 {#description}
 
 wandb run を使わずに、ソースからジョブを作成します。
 
@@ -26,18 +22,14 @@ git: git のソースです。エントリポイントはパス内にあるか�
 code: requirements.txt ファイルを含む code パスです。
 image: Docker image です.
 
-<div id="arguments">
-  ## 引数
-</div>
+## 引数 {#arguments}
 
 | 名          | デフォルト  | タイプ  |
 | ---------- | ------ | ---- |
 | `job_type` | Choice | True |
 | `path`     | STR    | True |
 
-<div id="options">
-  ## オプション
-</div>
+## オプション {#options}
 
 | Flag                  | Type | Description                                                                                                                                           |
 | --------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |

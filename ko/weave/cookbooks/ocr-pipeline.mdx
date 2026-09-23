@@ -15,9 +15,7 @@ keywords: ["OCR", "비전-언어 모델", "개체명 인식", "평가", "Scorer"
 
 다음 섹션에서는 다섯 단계에 걸쳐 안내합니다. 프롬프트 생성 및 반복 개선, 데이터셋 가져오기, NER 파이프라인 구축, Scorer 정의, 평가 실행입니다.
 
-<div id="prerequisites">
-  ## 사전 요구 사항
-</div>
+## 사전 요구 사항 {#prerequisites}
 
 시작하기 전에 필요한 라이브러리를 설치 및 임포트하고, W&amp;B API 키를 확인한 다음, Weave 프로젝트를 초기화하세요. 이 단계를 완료하면 환경이 W&amp;B에 인증하고 Weave 프로젝트에 트레이스를 기록할 수 있습니다.
 
@@ -47,9 +45,7 @@ PROJECT = "vlm-handwritten-ner"
 weave.init(PROJECT)
 ```
 
-<div id="create-and-iterate-on-prompts-with-weave">
-  ## Weave로 프롬프트를 만들고 반복적으로 개선하기
-</div>
+## Weave로 프롬프트를 만들고 반복적으로 개선하기 {#create-and-iterate-on-prompts-with-weave}
 
 좋은 프롬프트 엔지니어링은 모델이 Entities를 정확하게 추출하도록 유도하는 데 매우 중요합니다. 이 섹션에서는 초기 프롬프트를 작성하고, 시간에 따른 변경 사항을 추적할 수 있도록 Weave에 게시한 다음, 더 엄격한 검증 규칙을 적용해 이를 개선합니다.
 
@@ -96,9 +92,7 @@ system_prompt = weave.StringPrompt(better_prompt)
 weave.publish(system_prompt, name="NER-prompt")
 ````
 
-<div id="get-the-dataset">
-  ## 데이터셋 조회
-</div>
+## 데이터셋 조회 {#get-the-dataset}
 
 프롬프트를 준비했다면, 다음으로는 파이프라인에 넣어 처리할 입력 데이터가 필요합니다. OCR 파이프라인의 입력으로 사용할 손글씨 메모 데이터셋을 가져오세요.
 
@@ -120,9 +114,7 @@ html = f'<img src="{example_image}" style="max-width: 100%; height: auto;">'
 display(HTML(html))
 ```
 
-<div id="build-the-ner-pipeline">
-  ## NER 파이프라인 구축하기
-</div>
+## NER 파이프라인 구축하기 {#build-the-ner-pipeline}
 
 이제 프롬프트와 데이터셋이 준비되었으므로, 이를 VLM에 연결하는 NER 파이프라인을 구축하세요. 이 파이프라인은 두 개의 함수로 구성됩니다.
 
@@ -213,9 +205,7 @@ Weave UI의 **Traces** 테이블에 다음과 비슷한 내용이 표시됩니�
   ![NER 파이프라인 실행 결과를 보여주는 Weave Traces 테이블.](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
 </Frame>
 
-<div id="evaluate-the-pipeline-using-weave">
-  ## Weave를 사용해 파이프라인 평가하기
-</div>
+## Weave를 사용해 파이프라인 평가하기 {#evaluate-the-pipeline-using-weave}
 
 이제 VLM을 사용해 NER를 수행하는 파이프라인을 만들었으므로, Weave를 사용해 이를 체계적으로 평가하고 성능이 얼마나 잘 나오는지 확인할 수 있습니다. 파이프라인을 평가하면 일부만 점검하는 방식에 의존하지 않고 전체 데이터셋 전반에서 추출 품질을 측정할 수 있습니다. Weave의 Evaluations에 관한 자세한 내용은 [Evaluations Overview](/ko/weave/guides/core-types/evaluations)를 참조하세요.
 
@@ -226,9 +216,7 @@ Weave 평가의 기본 구성 요소는 [Scorer](/ko/weave/guides/evaluation/sco
 * 프로그래매틱 Scorer.
 * LLM-as-a-judge Scorer.
 
-<div id="programatic-scorer">
-  ### 프로그램 방식 Scorer
-</div>
+### 프로그램 방식 Scorer {#programatic-scorer}
 
 첫 번째 Scorer는 LLM 없이 실행되는 결정론적 검사입니다. 프로그램 방식 Scorer인 `check_for_missing_fields_programatically`는 모델 출력(`named_entity_recognition` 함수의 출력)을 받아 결과에서 누락되었거나 비어 있는 `키`를 파악합니다.
 
@@ -252,9 +240,7 @@ def check_for_missing_fields_programatically(model_output):
     return True  # 모든 필수 필드가 존재하며 비어 있지 않습니다
 ```
 
-<div id="llm-as-a-judge-scorer">
-  ### LLM-as-a-judge scorer
-</div>
+### LLM-as-a-judge scorer {#llm-as-a-judge-scorer}
 
 프로그래밍 방식의 Scorer는 누락되었거나 비어 있는 필드만 감지할 수 있으므로, 추출된 값이 이미지에 표시된 내용과 실제로 일치하는지 확인하려면 두 번째 Scorer가 필요합니다. 평가의 이 단계에서는 실제 NER 성능이 반영되도록 이미지 데이터와 모델 출력을 모두 제공합니다. 즉, 모델 출력만이 아니라 이미지 내용 자체를 명시적으로 참조합니다.
 
@@ -318,9 +304,7 @@ def check_for_missing_fields_with_llm(model_output, image_base64):
     return response
 ```
 
-<div id="run-the-evaluation">
-  ## 평가 실행
-</div>
+## 평가 실행 {#run-the-evaluation}
 
 두 개의 Scorer가 모두 정의되었으므로 이제 평가를 실행할 수 있습니다. 전달된 `dataset`을 자동으로 순회하며 결과를 Weave UI에 함께 기록하는 평가 call을 정의합니다.
 

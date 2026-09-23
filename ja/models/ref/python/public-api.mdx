@@ -11,9 +11,7 @@ W&amp;B Public API は、W&amp;B に保存されたデータをプログラム�
 
 <PublicApiUse />
 
-<div id="available-components">
-  ## 利用可能なコンポーネント
-</div>
+## 利用可能なコンポーネント {#available-components}
 
 | Component                                             | Description                                                    |
 | ----------------------------------------------------- | -------------------------------------------------------------- |
@@ -30,45 +28,33 @@ W&amp;B Public API は、W&amp;B に保存されたデータをプログラム�
 | [`Automations`](./automations/)                       | 自動化されたワークフローとアクションを管理します。                                      |
 | [`Integrations`](/ja/models/integrations)                | サードパーティのインテグレーションを設定、管理します。                                    |
 
-<div id="common-use-cases">
-  ## よくあるユースケース
-</div>
+## よくあるユースケース {#common-use-cases}
 
-<div id="data-export-and-analysis">
-  ### データのエクスポートと分析
-</div>
+### データのエクスポートと分析 {#data-export-and-analysis}
 
 * Jupyter Notebookで分析できるよう、runの履歴をDataFrame形式でエクスポートします
 * 独自の可視化やレポート作成のためにメトリクスをダウンロードします
 * 複数のExperimentsにまたがる結果を集約します
 
-<div id="post-hoc-updates">
-  ### 事後更新
-</div>
+### 事後更新 {#post-hoc-updates}
 
 * 完了後にrunのメタデータを更新する
 * 完了したExperimentsにtagsやメモを追加する
 * runの設定やサマリーを変更する
 
-<div id="artifact-management">
-  ### Artifact 管理
-</div>
+### Artifact 管理 {#artifact-management}
 
 * バージョンまたはエイリアスで Artifact をクエリする
 * プログラムでモデル チェックポイントをダウンロードする
 * Artifact のリネージと依存関係をトラッキングする
 
-<div id="sweep-analysis">
-  ### sweepの分析
-</div>
+### sweepの分析 {#sweep-analysis}
 
 * sweepの結果や、最も高いパフォーマンスを示したRunsにアクセスする
 * ハイパーパラメーター探索の結果をエクスポートする
 * パラメーターの重要度を分析する
 
-<div id="authentication">
-  ## 認証
-</div>
+## 認証 {#authentication}
 
 Public API では、Python SDK と同じ認証方式を使用します。認証方法はいくつかあります。
 
@@ -93,13 +79,9 @@ wandb.login()
 api = Api()
 ```
 
-<div id="example-usage">
-  ## 使用例
-</div>
+## 使用例 {#example-usage}
 
-<div id="download-an-artifact-by-name-and-alias">
-  ### 名とエイリアスで Artifact をダウンロードする
-</div>
+### 名とエイリアスで Artifact をダウンロードする {#download-an-artifact-by-name-and-alias}
 
 次の例では、W&amp;B にログした Artifact を名とエイリアスで取得し、その内容をダウンロードする方法を示します。
 
@@ -111,9 +93,7 @@ artifact = api.artifact("entity/project/artifact:alias")
 artifact.download()
 ```
 
-<div id="download-an-artifact-from-a-registry">
-  ### RegistryからArtifactをダウンロードする
-</div>
+### RegistryからArtifactをダウンロードする {#download-an-artifact-from-a-registry}
 
 次の例では、W&amp;B RegistryからリンクされたArtifactを取得する方法を示します
 
@@ -134,9 +114,7 @@ fetched_artifact = api.artifact(name = artifact_name)
 downloaded_path = fetched_artifact.download()
 ```
 
-<div id="query-wb-registry">
-  ### W&amp;B Registry をクエリする
-</div>
+### W&amp;B Registry をクエリする {#query-wb-registry}
 
 MongoDB ライクなフィルターを使用して、W&amp;B Registries、Collections、Artifacts をクエリできます。次の例では、正規表現を使用して名で Collections をフィルターする方法を示します。
 

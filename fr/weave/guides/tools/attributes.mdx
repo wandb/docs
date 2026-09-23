@@ -25,9 +25,7 @@ Vous pouvez afficher tous les attributs journalisés au cours des traces et des 
 
 Ce guide s&#39;adresse aux utilisateurs de Weave qui souhaitent enrichir leurs traces et évaluations avec des métadonnées personnalisées. Il explique comment associer des attributs à des appels individuels, définir des valeurs par défaut à l&#39;échelle du projet lors de l&#39;initialisation, combiner les deux approches et lire l&#39;ensemble actuel d&#39;attributs pendant l&#39;exécution.
 
-<div id="per-call-attributes">
-  ## Attributs par appel
-</div>
+## Attributs par appel {#per-call-attributes}
 
 Le gestionnaire de contexte `weave.attributes()` vous permet d’ajouter des métadonnées à des opérations tracées spécifiques. Utilisez-le pour associer des informations contextuelles à certains appels de fonction ou runs d’évaluation.
 
@@ -148,9 +146,7 @@ Vous pouvez également imbriquer des contextes `weave.attributes()`. Les context
   </Tab>
 </Tabs>
 
-<div id="global-attributes">
-  ## Attributs globaux
-</div>
+## Attributs globaux {#global-attributes}
 
 Lorsque vous définissez des attributs globaux lors de l&#39;initialisation de Weave, ils s&#39;appliquent automatiquement à toutes les traces et évaluations de votre projet. Cela permet de propager des métadonnées à l&#39;échelle du projet, comme l&#39;environnement, la version du déploiement ou les informations de l&#39;équipe.
 
@@ -210,9 +206,7 @@ Lorsque vous définissez des attributs globaux lors de l&#39;initialisation de W
   </Tab>
 </Tabs>
 
-<div id="combine-global-and-per-call-attributes">
-  ### Combiner les attributs globaux et les attributs par appel
-</div>
+### Combiner les attributs globaux et les attributs par appel {#combine-global-and-per-call-attributes}
 
 Vous pouvez utiliser à la fois des attributs globaux et des attributs par appel. Les attributs par appel ayant la même clé redéfinissent les attributs globaux :
 
@@ -275,9 +269,7 @@ Vous pouvez utiliser à la fois des attributs globaux et des attributs par appel
   </Tab>
 </Tabs>
 
-<div id="get-attributes-during-execution">
-  ## Obtenir les attributs pendant l&#39;exécution
-</div>
+## Obtenir les attributs pendant l&#39;exécution {#get-attributes-during-execution}
 
 Au moment de l&#39;exécution, vous pouvez inspecter les attributs en vigueur pour un Appel. Cela est utile lorsque vous souhaitez déboguer les métadonnées que Weave associe, ou lorsque votre code doit se brancher en fonction d&#39;informations contextuelles définies par un appelant externe.
 

@@ -27,9 +27,7 @@ Les *grilles de panneaux* sont un type spécifique de bloc qui contient des pann
   ```
 </Note>
 
-<div id="add-plots">
-  ## Ajouter des graphiques
-</div>
+## Ajouter des graphiques {#add-plots}
 
 Les graphiques vous permettent de visualiser les données de run dans un rapport. Chaque grille de panneaux comporte un ensemble d’ensembles de runs et un ensemble de panneaux. Les ensembles de runs dans la grille de panneaux contrôlent les données affichées dans les panneaux de la grille. Créez une nouvelle grille de panneaux si vous souhaitez ajouter des graphiques qui récupèrent des données à partir d’un autre ensemble de runs.
 
@@ -74,9 +72,7 @@ Les graphiques vous permettent de visualiser les données de run dans un rapport
   </Tab>
 </Tabs>
 
-<div id="add-run-sets">
-  ## Ajouter des ensembles de runs
-</div>
+## Ajouter des ensembles de runs {#add-run-sets}
 
 Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l’interface de l’application ou avec le SDK W&amp;B.
 
@@ -187,9 +183,7 @@ Ajoutez des ensembles de runs depuis des projets, de manière interactive dans l
   </Tab>
 </Tabs>
 
-<div id="freeze-a-run-set">
-  ## Figer un ensemble de runs
-</div>
+## Figer un ensemble de runs {#freeze-a-run-set}
 
 Un rapport met automatiquement à jour les ensembles de runs pour afficher les données les plus récentes du projet. Figez un ensemble de runs pour en conserver l’état dans un rapport à un moment précis, afin que les runs ultérieurs ne modifient pas ce que le rapport affiche.
 
@@ -199,9 +193,7 @@ Pour figer un ensemble de runs lors de l’affichage d’un rapport, cliquez sur
   <img src="/images/reports/freeze_runset.png" alt="Bouton pour figer l’ensemble de runs" />
 </Frame>
 
-<div id="group-a-run-set-programmatically">
-  ## Regrouper un ensemble de runs par programmation
-</div>
+## Regrouper un ensemble de runs par programmation {#group-a-run-set-programmatically}
 
 Regroupez les runs d&#39;un ensemble de runs par programmation avec [l&#39;API Workspace and Reports](/fr/models/ref/wandb_workspaces/reports). Le regroupement organise les runs associés dans des panneaux, ce qui facilite la comparaison des configurations et des résultats.
 
@@ -218,9 +210,7 @@ Vous pouvez regrouper les runs d&#39;un ensemble de runs selon des valeurs de co
       2. Notation par points : utilisez des points pour accéder aux valeurs imbriquées : `"config.model_type"`.
       3. Champs prédéfinis : certains champs, comme `"Name"`, `"Tags"` et `"State"`, sont des champs spéciaux de métadonnées de run. */}
 
-<div id="group-runs-by-config-values">
-  ### Regrouper les runs par valeurs de configuration
-</div>
+### Regrouper les runs par valeurs de configuration {#group-runs-by-config-values}
 
 Regroupez les runs par valeurs de configuration pour comparer des runs ayant des configurations similaires. Les valeurs de configuration sont des paramètres que vous spécifiez dans la configuration de votre run `(wandb.init(config=))`. Pour regrouper les runs par valeurs de configuration, utilisez la syntaxe `config.[KEY]`, où `[KEY]` est le nom de la valeur de configuration à utiliser pour le regroupement.
 
@@ -272,9 +262,7 @@ report.blocks = [
 report.save()
 ```
 
-<div id="group-runs-by-run-metadata">
-  ### Regrouper les runs par métadonnées de run
-</div>
+### Regrouper les runs par métadonnées de run {#group-runs-by-run-metadata}
 
 Regroupez les runs par métadonnées pour les organiser selon les propriétés intrinsèques du run plutôt que selon les valeurs enregistrées. Vous pouvez regrouper par le nom d’un run (`Name`), son état (`State`) ou son type de job (`JobType`).
 
@@ -294,9 +282,7 @@ runset = wr.Runset(
   Vous pouvez trouver le nom du run dans la page **Aperçu** d’un run dans la W&amp;B App, ou par programmation avec `Api.runs().run.name`.
 </Note>
 
-<div id="group-runs-by-summary-metrics">
-  ### Regrouper les runs par métriques de synthèse
-</div>
+### Regrouper les runs par métriques de synthèse {#group-runs-by-summary-metrics}
 
 Les exemples suivants montrent comment regrouper les runs par métriques de synthèse. Les métriques de synthèse sont les valeurs que vous consignez dans un run avec `wandb.Run.log()`. Après avoir consigné un run, vous pouvez retrouver les noms de vos métriques de synthèse dans la W&amp;B App, dans la section **Summary** de la page **Aperçu** d’un run.
 
@@ -333,9 +319,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="filter-a-run-set-programmatically">
-  ## Filtrer un ensemble de runs par code
-</div>
+## Filtrer un ensemble de runs par code {#filter-a-run-set-programmatically}
 
 Filtrez des ensembles de runs par code et ajoutez-les à un rapport à l’aide de l’[API Workspace and Reports](/fr/models/ref/wandb_workspaces/reports). Le filtrage permet de restreindre un ensemble de runs aux runs spécifiques que vous souhaitez afficher, en fonction des valeurs de configuration, des métriques, des tags ou des propriétés de run.
 
@@ -358,9 +342,7 @@ Après avoir défini vos filtres, vous pouvez créer un rapport et passer les en
 
 Les exemples suivants montrent comment filtrer des ensembles de runs dans un rapport. Remplacez les valeurs entre crochets (par exemple, `[ENTITY]` et `[PROJECT]`) par vos propres valeurs.
 
-<div id="config-filters">
-  ### Filtres de configuration
-</div>
+### Filtres de configuration {#config-filters}
 
 Filtrez un ensemble de runs à l’aide d’une ou plusieurs valeurs de configuration. Les valeurs de configuration sont des paramètres que vous spécifiez dans la configuration de votre run (`wandb.init(config=)`).
 
@@ -425,9 +407,7 @@ report.blocks = [
 report.save()
 ```
 
-<div id="metric-filters">
-  ### Filtres de métriques
-</div>
+### Filtres de métriques {#metric-filters}
 
 Filtrez les ensembles de runs selon le tag (`tags`), l&#39;état (`state`), le nom du run (`displayName`) ou le type de job (`jobType`) d&#39;un run.
 
@@ -483,9 +463,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="summarymetric-filters">
-  ### Filtres de SummaryMetric
-</div>
+### Filtres de SummaryMetric {#summarymetric-filters}
 
 Filtrez un ensemble de runs selon les métriques de synthèse afin de vous concentrer sur les runs qui atteignent des seuils de résultat spécifiques, tels que des valeurs de précision ou de perte. Les métriques de synthèse sont les valeurs que vous ajoutez au journal d’un run avec `wandb.Run.log()`. Après avoir alimenté le journal d’un run, vous pouvez trouver les noms de vos métriques de synthèse dans la W&amp;B App, dans la section **Summary** de la page **Aperçu** d’un run.
 
@@ -505,9 +483,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="tags-filters">
-  ### Filtres de tags
-</div>
+### Filtres de tags {#tags-filters}
 
 Filtrez un ensemble de runs par tag pour n’afficher que les runs auxquels vous avez attribué un tag particulier. Les tags sont des valeurs que vous ajoutez à un run (par programmation ou avec la W&amp;B App).
 
@@ -519,9 +495,7 @@ runset = wr.Runset(
 )
 ```
 
-<div id="add-code-blocks">
-  ## Ajouter des blocs de code
-</div>
+## Ajouter des blocs de code {#add-code-blocks}
 
 Ajoutez des blocs de code pour partager la configuration, des exemples ou des extraits avec vos résultats. Vous pouvez les ajouter de manière interactive depuis l’interface de l’application ou de manière programmatique avec le SDK W&amp;B.
 
@@ -582,9 +556,7 @@ Ajoutez des blocs de code pour partager la configuration, des exemples ou des ex
   </Tab>
 </Tabs>
 
-<div id="add-markdown">
-  ## Ajouter du Markdown
-</div>
+## Ajouter du Markdown {#add-markdown}
 
 Ajoutez du Markdown pour mettre en forme le texte narratif, les titres et l’emphase en ligne dans votre rapport. Vous pouvez ajouter du Markdown de manière interactive avec l’interface de l’application ou avec le SDK W&amp;B.
 
@@ -615,9 +587,7 @@ Ajoutez du Markdown pour mettre en forme le texte narratif, les titres et l’em
   </Tab>
 </Tabs>
 
-<div id="add-html-elements">
-  ## Ajouter des éléments HTML
-</div>
+## Ajouter des éléments HTML {#add-html-elements}
 
 Ajoutez à votre rapport des éléments HTML tels que des titres et des listes pour le structurer, de manière interactive avec l’interface de l’application ou le SDK W&amp;B.
 
@@ -656,9 +626,7 @@ Ajoutez à votre rapport des éléments HTML tels que des titres et des listes p
   </Tab>
 </Tabs>
 
-<div id="embed-rich-media-links">
-  ## Intégrer des liens de médias enrichis
-</div>
+## Intégrer des liens de médias enrichis {#embed-rich-media-links}
 
 Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio pour enrichir votre rapport avec un contexte externe. Vous pouvez intégrer des médias enrichis dans le rapport à l’aide de l’interface de l’application ou du SDK W&amp;B.
 
@@ -666,9 +634,7 @@ Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio 
   <Tab title="interface de l’application">
     Copiez-collez des URL dans les rapports pour y intégrer des médias enrichis. Les animations suivantes montrent comment copier-coller des URL depuis Twitter, YouTube et SoundCloud.
 
-    <div id="twitter">
-      ### Twitter
-    </div>
+### Twitter {#twitter}
 
     Copiez-collez l’URL d’un Tweet dans un rapport pour afficher le Tweet dans le rapport.
 
@@ -676,9 +642,7 @@ Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio 
       <img src="/images/reports/twitter.gif" alt="Intégration de contenu Twitter" />
     </Frame>
 
-    <div id="youtube">
-      ### YouTube
-    </div>
+### YouTube {#youtube}
 
     Copiez-collez l’URL d’une vidéo YouTube pour intégrer une vidéo dans le rapport.
 
@@ -686,9 +650,7 @@ Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio 
       <img src="/images/reports/youtube.gif" alt="Intégration de vidéos YouTube" />
     </Frame>
 
-    <div id="soundcloud">
-      ### SoundCloud
-    </div>
+### SoundCloud {#soundcloud}
 
     Copiez-collez un lien SoundCloud pour intégrer un fichier audio dans un rapport.
 
@@ -717,9 +679,7 @@ Intégrez des médias enrichis tels que des tweets, des vidéos et de l’audio 
   </Tab>
 </Tabs>
 
-<div id="duplicate-panel-grids">
-  ## Dupliquer des grilles de panneaux
-</div>
+## Dupliquer des grilles de panneaux {#duplicate-panel-grids}
 
 Dupliquez une grille de panneaux pour réutiliser sa mise en page dans le même rapport ou dans un autre rapport. Sélectionnez une grille de panneaux et la copier-coller pour la dupliquer dans le même rapport, ou la coller dans un autre rapport.
 
@@ -729,9 +689,7 @@ Sélectionnez toute une section de grille de panneaux à l’aide de la poignée
   <img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="Copie de grilles de panneaux" />
 </Frame>
 
-<div id="delete-panel-grids">
-  ## Supprimer des grilles de panneaux
-</div>
+## Supprimer des grilles de panneaux {#delete-panel-grids}
 
 Supprimez une grille de panneaux lorsque vous n’avez plus besoin de sa mise en page ou de son contenu dans le rapport. Sélectionnez une grille de panneaux, puis appuyez sur `delete` sur votre clavier pour la supprimer.
 
@@ -739,9 +697,7 @@ Supprimez une grille de panneaux lorsque vous n’avez plus besoin de sa mise en
   <img src="/images/reports/delete_panel_grid.gif" alt="Suppression de grilles de panneaux" />
 </Frame>
 
-<div id="collapse-headers-to-organize-reports">
-  ## Replier les en-têtes pour organiser les rapports
-</div>
+## Replier les en-têtes pour organiser les rapports {#collapse-headers-to-organize-reports}
 
 Repliez les en-têtes dans un rapport pour masquer le contenu d’un bloc de texte. Lorsque le rapport se charge, seul le contenu des en-têtes dépliés s’affiche. Replier les en-têtes dans les rapports aide à organiser votre contenu et évite de charger plus de données que nécessaire. L’animation suivante illustre la procédure.
 
@@ -749,9 +705,7 @@ Repliez les en-têtes dans un rapport pour masquer le contenu d’un bloc de tex
   <img src="/images/reports/collapse_headers.gif" alt="Replier les en-têtes dans un rapport" />
 </Frame>
 
-<div id="visualize-relationships-across-multiple-dimensions">
-  ## Visualiser les relations sur plusieurs dimensions
-</div>
+## Visualiser les relations sur plusieurs dimensions {#visualize-relationships-across-multiple-dimensions}
 
 Lorsque vous souhaitez faire ressortir les relations entre trois variables ou plus dans un même graphique, un graphique 2D standard peut être limitant. Pour comparer plus de variables qu’un graphique 2D ne peut en afficher, vous pouvez utiliser un dégradé de couleurs comme dimension supplémentaire. Utiliser un dégradé de couleurs pour représenter l’une des variables peut faciliter l’interprétation des tendances.
 

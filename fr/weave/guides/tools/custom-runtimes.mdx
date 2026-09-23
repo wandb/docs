@@ -14,9 +14,7 @@ Utilisez un runtime personnalisé pour connecter l’un des éléments suivants�
 
 Vous pouvez gérer les runtimes personnalisés dans l’interface W&amp;B ou par programmation à l’aide des SDK Python et TypeScript. L’utilisation des SDK est conçue pour le CI/CD : l’enregistrement est déclaratif et idempotent. Votre pipeline peut donc réenregistrer un runtime à chaque déploiement, et Weave applique la configuration spécifiée.
 
-<div id="where-you-can-use-custom-runtimes">
-  ## Où utiliser des runtimes personnalisés
-</div>
+## Où utiliser des runtimes personnalisés {#where-you-can-use-custom-runtimes}
 
 Les modèles d’un runtime personnalisé enregistré apparaissent dans le sélecteur de modèles aux emplacements suivants :
 
@@ -26,9 +24,7 @@ Les modèles d’un runtime personnalisé enregistré apparaissent dans le séle
 * Sélecteurs de modèles pour l’itération des scorers et les Agent Signals.
 * L’API de complétion Weave : transmettez l’ID du modèle `custom::<runtime-name>::<runtime-id>` au point de terminaison `completions/create` afin d’exécuter par programmation des complétions tracées sur votre point de terminaison. Voir la [référence de l’API de service](/fr/weave/reference/service-api).
 
-<div id="add-a-custom-runtime">
-  ## Ajouter un runtime personnalisé
-</div>
+## Ajouter un runtime personnalisé {#add-a-custom-runtime}
 
 Vous pouvez ajouter un runtime personnalisé à votre projet à l’aide de code ou de l’interface Weave. Pour ce faire, vous avez besoin des informations suivantes :
 
@@ -41,9 +37,7 @@ Vous pouvez ajouter un runtime personnalisé à votre projet à l’aide de code
 | Secret de clé API (facultatif) | Nom d’un [secret d’équipe](/fr/platform/secrets) contenant la clé API du point de terminaison.                                                      |
 | En-têtes (facultatif)          | En-têtes HTTP personnalisés envoyés avec chaque requête au point de terminaison.                                                                 |
 
-<div id="add-a-custom-runtime-using-code">
-  ### Ajouter un runtime personnalisé à l’aide de code
-</div>
+### Ajouter un runtime personnalisé à l’aide de code {#add-a-custom-runtime-using-code}
 
 À partir des informations sur le runtime présentées dans la section précédente, mettez à jour les champs appropriés de la requête d’enregistrement suivante, puis exécutez-la pour créer ou mettre à jour un runtime personnalisé dans votre projet. L’enregistrement par programmation nécessite la version 0.53.4 ou ultérieure du package Python `weave`, ou la version 0.16.5 ou ultérieure du package npm `weave`.
 
@@ -90,9 +84,7 @@ Après avoir ajouté un runtime, son ID est référencé sous la forme `custom::
   Après avoir mis à jour un runtime, l’inférence peut continuer à utiliser la configuration précédente pendant 60 secondes maximum, le temps que les caches expirent.
 </Note>
 
-<div id="register-a-custom-runtime-in-the-ui">
-  ## Enregistrer un runtime personnalisé dans l’interface utilisateur
-</div>
+## Enregistrer un runtime personnalisé dans l’interface utilisateur {#register-a-custom-runtime-in-the-ui}
 
 Pour enregistrer un runtime personnalisé depuis l’interface W&amp;B :
 

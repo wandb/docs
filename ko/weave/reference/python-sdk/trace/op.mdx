@@ -5,33 +5,25 @@ description: "weave.trace.op에 대한 Python SDK 레퍼런스"
 
 import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
-<div id="api-overview">
-  # API Overview
-</div>
+# API Overview {#api-overview}
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L96" />
 
-<div id="class-displaynamefuncerror">
-  ## <kbd>클래스</kbd> `DisplayNameFuncError`
-</div>
+## <kbd>클래스</kbd> `DisplayNameFuncError` {#class-displaynamefuncerror}
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L99" />
 
-<div id="class-opcallerror">
-  ## <kbd>클래스</kbd> `OpCallError`
-</div>
+## <kbd>클래스</kbd> `OpCallError` {#class-opcallerror}
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L215" />
 
-<div id="class-opkwargs">
-  ## <kbd>클래스</kbd> `OpKwargs`
-</div>
+## <kbd>클래스</kbd> `OpKwargs` {#class-opkwargs}
 
 op() 키워드 인수를 위한 TypedDict.
 
@@ -39,17 +31,13 @@ op() 키워드 인수를 위한 TypedDict.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L120" />
 
-<div id="class-sentinel">
-  ## <kbd>클래스</kbd> `Sentinel`
-</div>
+## <kbd>클래스</kbd> `Sentinel` {#class-sentinel}
 
 Sentinel(package: &#39;str&#39;, path: &#39;str&#39;, name: &#39;str&#39;)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/../../../../weave/trace/op/__init__" />
 
-<div id="method-__init__">
-  ### <kbd>방법</kbd> `__init__`
-</div>
+### <kbd>방법</kbd> `__init__` {#method-__init__}
 
 ```python
 __init__(package: 'str', path: 'str', name: 'str') → None
@@ -59,17 +47,13 @@ __init__(package: 'str', path: 'str', name: 'str') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L209" />
 
-<div id="class-weavekwargs">
-  ## <kbd>클래스</kbd> `WeaveKwargs`
-</div>
+## <kbd>클래스</kbd> `WeaveKwargs` {#class-weavekwargs}
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1477" />
 
-<div id="function-as_op">
-  ### <kbd>함수</kbd> `as_op`
-</div>
+### <kbd>함수</kbd> `as_op` {#function-as_op}
 
 ```python
 as_op(fn: 'Callable[P, R]') → Op[P, R]
@@ -89,9 +73,7 @@ as_op(fn: 'Callable[P, R]') → Op[P, R]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1170" />
 
-<div id="function-call">
-  ### <kbd>함수</kbd> `call`
-</div>
+### <kbd>함수</kbd> `call` {#function-call}
 
 ```python
 call(
@@ -122,9 +104,7 @@ result, call = add.call(1, 2)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1216" />
 
-<div id="function-calls">
-  ### <kbd>함수</kbd> `calls`
-</div>
+### <kbd>함수</kbd> `calls` {#function-calls}
 
 ```python
 calls(op: 'Op') → CallsIter
@@ -148,9 +128,7 @@ for call in calls:
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1423" />
 
-<div id="function-get_captured_code">
-  ### <kbd>함수</kbd> `get_captured_code`
-</div>
+### <kbd>함수</kbd> `get_captured_code` {#function-get_captured_code}
 
 ```python
 get_captured_code(op: 'Op') → str
@@ -166,9 +144,7 @@ ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1469" />
 
-<div id="function-is_op">
-  ### <kbd>함수</kbd> `is_op`
-</div>
+### <kbd>함수</kbd> `is_op` {#function-is_op}
 
 ```python
 is_op(obj: 'Any') → TypeIs[Op]
@@ -180,9 +156,7 @@ is_op(obj: 'Any') → TypeIs[Op]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L443" />
 
-<div id="function-is_placeholder_call">
-  ### <kbd>함수</kbd> `is_placeholder_call`
-</div>
+### <kbd>함수</kbd> `is_placeholder_call` {#function-is_placeholder_call}
 
 ```python
 is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
@@ -192,9 +166,7 @@ is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L411" />
 
-<div id="function-is_tracing_setting_disabled">
-  ### <kbd>함수</kbd> `is_tracing_setting_disabled`
-</div>
+### <kbd>함수</kbd> `is_tracing_setting_disabled` {#function-is_tracing_setting_disabled}
 
 ```python
 is_tracing_setting_disabled() → bool
@@ -204,9 +176,7 @@ is_tracing_setting_disabled() → bool
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1440" />
 
-<div id="function-maybe_bind_method">
-  ### <kbd>함수</kbd> `maybe_bind_method`
-</div>
+### <kbd>함수</kbd> `maybe_bind_method` {#function-maybe_bind_method}
 
 ```python
 maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodType
@@ -220,9 +190,7 @@ self가 None이면 함수를 그대로 반환합니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1452" />
 
-<div id="function-maybe_unbind_method">
-  ### <kbd>함수</kbd> `maybe_unbind_method`
-</div>
+### <kbd>함수</kbd> `maybe_unbind_method` {#function-maybe_unbind_method}
 
 ```python
 maybe_unbind_method(oplike: 'Op | MethodType | partial') → Op
@@ -239,9 +207,7 @@ Op와 유사한 방법 또는 partial의 바인딩을 해제해 일반 Op 함수
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L1240" />
 
-<div id="function-op">
-  ### <kbd>함수</kbd> `op`
-</div>
+### <kbd>함수</kbd> `op` {#function-op}
 
 ```python
 op(
@@ -268,9 +234,7 @@ op(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L436" />
 
-<div id="function-placeholder_call">
-  ### <kbd>함수</kbd> `placeholder_call`
-</div>
+### <kbd>함수</kbd> `placeholder_call` {#function-placeholder_call}
 
 ```python
 placeholder_call() → Call
@@ -280,9 +244,7 @@ placeholder_call() → Call
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L231" />
 
-<div id="function-setup_dunder_weave_dict">
-  ### <kbd>함수</kbd> `setup_dunder_weave_dict`
-</div>
+### <kbd>함수</kbd> `setup_dunder_weave_dict` {#function-setup_dunder_weave_dict}
 
 ```python
 setup_dunder_weave_dict(op: 'Op', d: 'WeaveKwargs | None' = None) → WeaveKwargs
@@ -321,9 +283,7 @@ ops에 WeaveKwargs를 전달하는 데 사용하는 &#95;&#95;weave dict를 설�
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/op.py#L422" />
 
-<div id="function-should_skip_tracing_for_op">
-  ### <kbd>함수</kbd> `should_skip_tracing_for_op`
-</div>
+### <kbd>함수</kbd> `should_skip_tracing_for_op` {#function-should_skip_tracing_for_op}
 
 ```python
 should_skip_tracing_for_op(op: 'Op') → bool

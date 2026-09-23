@@ -9,9 +9,7 @@ description: "Weave を使用して、Cohere Python ライブラリ経由で行�
 
 `weave.init()` を呼び出した後、Weave は [Cohere Python ライブラリ](https://github.com/cohere-ai/cohere-python) 経由で行われる LLM call を自動的にトラッキングしてログします。
 
-<div id="traces">
-  ## トレース
-</div>
+## トレース {#traces}
 
 開発中でも本番環境でも、LLM アプリケーションのトレースを一元管理されたデータベースに保存することが重要です。これらのトレースは、デバッグや、アプリケーション改善に役立つデータセットとして活用できます。
 
@@ -45,9 +43,7 @@ Cohere モデルは [connectors](https://docs.cohere.com/docs/overview-rag-conne
   LLM Call をトラッキングするために、Weave は Cohere の `Client.chat()`、`AsyncClient.chat()`、`Client.chat_stream()`、`AsyncClient.chat_stream()` の各 method にパッチを適用します。
 </Note>
 
-<div id="wrap-with-your-own-ops">
-  ## 独自の op でラップする
-</div>
+## 独自の op でラップする {#wrap-with-your-own-ops}
 
 Weave の op を使うと、実験を進めながらコードが自動的にバージョン管理され、入力と出力も記録されるため、結果を&#95;再現可能&#95;にできます。Cohere の chat method を呼び出す [`@weave.op()`](/ja/weave/guides/tracking/ops) でデコレートした関数を作成すると、Weave が入力と出力をトラッキングしてくれます。以下はその例です。
 
@@ -75,9 +71,7 @@ print(weather("Boston", "command"))
 
 [![cohere\_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
-<div id="create-a-model-for-easier-experimentation">
-  ## 実験をしやすくするために `Model` を作成する
-</div>
+## 実験をしやすくするために `Model` を作成する {#create-a-model-for-easier-experimentation}
 
 複数の要素が絡む実験では、情報を整理するのが難しくなります。[`Model`](/ja/weave/guides/core-types/models) クラスを使用すると、system prompt や使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまなバージョンを整理し、比較しやすくなります。
 

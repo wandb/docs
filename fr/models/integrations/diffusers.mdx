@@ -9,9 +9,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 [Hugging Face Diffusers](https://huggingface.co/docs/diffusers/index) est une bibliothèque de modèles de diffusion préentraînés permettant de générer des images, de l’Audio et des structures moléculaires 3D. L’intégration W&amp;B apporte le suivi des expériences, la visualisation des contenus multimédias, le suivi de l’architecture des pipelines et la gestion de la configuration dans des tableaux de bord centralisés interactifs.
 
-<div id="log-experiments-in-two-lines">
-  ## Enregistrez les expériences en deux lignes
-</div>
+## Enregistrez les expériences en deux lignes {#log-experiments-in-two-lines}
 
 Pour enregistrer tous les prompts, les prompts négatifs, les médias générés et les configurations associées à votre expérience, ajoutez les deux lignes de code suivantes :
 
@@ -27,9 +25,7 @@ autolog(init=dict(project="diffusers_logging"))
   <img src="/images/integrations/diffusers-autolog-4.gif" alt="Journalisation des résultats de l'expérience" />
 </Frame>
 
-<div id="get-started">
-  ## Premiers pas
-</div>
+## Premiers pas {#get-started}
 
 1. Installez `diffusers`, `transformers`, `accelerate` et `wandb`.
 
@@ -56,15 +52,11 @@ autolog(init=dict(project="diffusers_logging"))
      Vous trouverez une [liste des appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). Pour demander une nouvelle fonctionnalité pour cette intégration ou signaler un bug, ouvrez une issue sur la [page des issues GitHub de W&amp;B](https://github.com/wandb/wandb/issues).
    </Note>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Les exemples suivants illustrent l’utilisation de `autolog` dans des flux de travail de diffusion courants, afin que vous puissiez les adapter à vos propres pipelines.
 
-<div id="autolog-example">
-  ### Exemple d’autolog
-</div>
+### Exemple d’autolog {#autolog-example}
 
 Voici un exemple complet de `autolog` :
 
@@ -163,9 +155,7 @@ Les images suivantes montrent ce qui est consigné dans W&amp;B :
   Vous devez appeler explicitement [`wandb.Run.finish()`](/fr/models/ref/python/functions/finish) lorsque vous exécutez le code dans un environnement de notebook IPython après l’appel au pipeline. Ce n’est pas nécessaire lorsque vous exécutez des scripts Python.
 </Note>
 
-<div id="track-multi-pipeline-workflows">
-  ### Suivi des flux de travail à plusieurs pipelines
-</div>
+### Suivi des flux de travail à plusieurs pipelines {#track-multi-pipeline-workflows}
 
 L’exemple suivant illustre `autolog` dans un flux de travail type [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model), où le refiner affine les variables latentes générées par le [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl).
 
@@ -302,9 +292,7 @@ L’image suivante montre un exemple d’expérience Stable Diffusion XL + Refin
   <img src="/images/integrations/diffusers-autolog-6.gif" alt="suivi des expériences Stable Diffusion XL" />
 </Frame>
 
-<div id="more-resources">
-  ## Autres ressources
-</div>
+## Autres ressources {#more-resources}
 
 * [Guide de l’ingénierie des prompts pour Stable Diffusion](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
 * [PIXART-α : un modèle Transformer de diffusion pour la génération d’images à partir de texte](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)

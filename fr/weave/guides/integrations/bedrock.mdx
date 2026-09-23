@@ -12,9 +12,7 @@ Vous pouvez journaliser les appels LLM vers Weave depuis Amazon Bedrock de plusi
   Pour les derniers tutoriels, visitez [W&amp;B on Amazon Web Services](https://wandb.ai/site/partners/aws/).
 </Tip>
 
-<div id="traces">
-  ## Traces
-</div>
+## Traces {#traces}
 
 Weave capture automatiquement les traces des appels à l’API Bedrock une fois que vous avez patché le client. Après avoir initialisé Weave et patché le client, utilisez le client Bedrock comme d’habitude :
 
@@ -62,9 +60,7 @@ print(response["output"]["message"]["content"][0]["text"])
 
 ```
 
-<div id="wrap-calls-with-your-own-ops">
-  ## Encapsuler les appels dans vos propres ops
-</div>
+## Encapsuler les appels dans vos propres ops {#wrap-calls-with-your-own-ops}
 
 Encapsulez les appels Bedrock dans vos propres ops pour regrouper la logique associée, capturer des entrées personnalisées et réutiliser la même fonction suivie dans toute votre application. Créez des opérations réutilisables à l’aide du décorateur `@weave.op()`. Voici un exemple qui montre les API `invoke_model` et `converse` :
 
@@ -113,9 +109,7 @@ def call_model_converse(
   ![Intégration de Bedrock Converse avec Weave, traces d'appels d'API et données de réponse](/weave/guides/integrations/imgs/bedrock_converse.png)
 </Frame>
 
-<div id="create-a-model-for-easier-experimentation">
-  ## Créez un `Model` pour expérimenter plus facilement
-</div>
+## Créez un `Model` pour expérimenter plus facilement {#create-a-model-for-easier-experimentation}
 
 Un `Model` Weave regroupe la configuration et la logique de prédiction afin que vous puissiez itérer sur les paramètres et comparer les runs côte à côte. Créez un `Model` Weave pour mieux organiser vos expériences et capturer les paramètres. L&#39;exemple suivant utilise l&#39;API `converse` :
 
@@ -154,20 +148,14 @@ print(result)
 
 Cette approche vous permet de versionner vos expériences et de suivre différentes configurations de votre application basée sur Bedrock.
 
-<div id="learn-more">
-  ## En savoir plus
-</div>
+## En savoir plus {#learn-more}
 
 Les ressources suivantes fournissent d’autres moyens d’explorer et d’évaluer Amazon Bedrock avec Weave.
 
-<div id="try-bedrock-in-the-weave-playground">
-  ### Essayez Bedrock dans le playground Weave
-</div>
+### Essayez Bedrock dans le playground Weave {#try-bedrock-in-the-weave-playground}
 
 Pour tester des modèles Amazon Bedrock dans Weave UI sans rien configurer, essayez le [LLM Playground](../tools/playground).
 
-<div id="report-compare-llms-on-bedrock-for-text-summarization-with-weave">
-  ### Rapport : comparer des LLM sur Bedrock pour le résumé de texte avec Weave
-</div>
+### Rapport : comparer des LLM sur Bedrock pour le résumé de texte avec Weave {#report-compare-llms-on-bedrock-for-text-summarization-with-weave}
 
 Le rapport [Évaluer des LLM sur Amazon Bedrock](https://wandb.ai/byyoung3/ML_NEWS3/reports/Compare-LLMs-on-Amazon-Bedrock-for-text-summarization-with-W-B-Weave--VmlldzoxMDI1MTIzNw) explique comment utiliser Bedrock avec Weave pour évaluer et comparer des LLM pour des tâches de résumé de texte. Le rapport inclut des exemples de code.

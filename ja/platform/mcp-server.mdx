@@ -16,9 +16,7 @@ Model Context Protocol (MCP) は、AI エージェントが外部ツールを呼
 * Mistral LeChat
 * Claude Desktop
 
-<div id="deployment-types">
-  ## デプロイメントタイプ
-</div>
+## デプロイメントタイプ {#deployment-types}
 
 W&amp;B MCP Server は、2 つのデプロイメントオプションで利用できます。最もすばやく設定するにはホスト型サーバーを使用し、より高い分離性と柔軟性が必要な場合はローカル版を設定します。ローカル版を使用する場合、クライアントはサーバーにアクセスするために別のURLを使用する必要があります。
 
@@ -36,9 +34,7 @@ W&amp;B MCP Server は、2 つのデプロイメントオプションで利用�
   </Card>
 </CardGroup>
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 クライアントを設定する前に、次の項目を準備してください。
 
@@ -47,15 +43,11 @@ W&amp;B MCP Server は、2 つのデプロイメントオプションで利用�
 * 専用クラウド、セルフマネージド、またはデフォルト以外のインスタンスを対象とするローカルインストールでは、`WANDB_BASE_URL` 環境変数にインスタンスの URL を設定します。
 * W&amp;B は `mcp` SDK をリリース `2024-11-05` の [1.14.0](https://pypi.org/project/mcp/1.14.0/) に固定しています。クライアントは `mcp` SDK 1.14.x を使用して接続する必要があります。W&amp;B Dedicated Cloud でストリーミング可能な HTTP をサポートするには、リリース `2025-03-26` 以降の `mcp` SDK 1.14.x が必要です。
 
-<div id="use-the-hosted-server">
-  ## ホスト型サーバーを使用する
-</div>
+## ホスト型サーバーを使用する {#use-the-hosted-server}
 
 W&amp;B は、すべてのデプロイメントタイプでマネージド MCP server を提供しています。何もインストールする必要はありません。`Authorization` ヘッダーに W&amp;B APIキー を指定し、HTTP 経由で接続するようにクライアントを設定してください。
 
-<div id="connection-url">
-  ### 接続 URL
-</div>
+### 接続 URL {#connection-url}
 
 URL は、W&amp;B デプロイメントのタイプによって異なります。
 
@@ -245,9 +237,7 @@ URL は、W&amp;B デプロイメントのタイプによって異なります�
   </Tab>
 </Tabs>
 
-<div id="run-the-mcp-server-locally">
-  ## MCP serverをローカルで実行する
-</div>
+## MCP serverをローカルで実行する {#run-the-mcp-server-locally}
 
 ローカルインストールはホスト型サーバーの代替手段であり、どのデプロイメントタイプでもデフォルトではありません。ホスト型サーバーがご利用のセットアップに適さない場合に使用してください。
 
@@ -261,9 +251,7 @@ URL は、W&amp;B デプロイメントのタイプによって異なります�
 
 専用クラウドまたはセルフマネージドのユーザーには、ホスト型サーバーの利用を推奨します。ホスト型サーバーがまだお使いのインスタンスで有効になっていない場合、または前述のいずれかの理由に当てはまる場合にのみ、[wandb/wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) からローカルインストールを使用してください。`WANDB_BASE_URL` 環境変数にインスタンスの URL を設定してください。
 
-<div id="local-prerequisites">
-  ### ローカルの前提条件
-</div>
+### ローカルの前提条件 {#local-prerequisites}
 
 サーバーをローカルで実行するには、以下を用意してください。
 
@@ -272,9 +260,7 @@ URL は、W&amp;B デプロイメントのタイプによって異なります�
 * `WANDB_API_KEY` に設定した W&amp;B APIキー。
 * 専用クラウドまたはセルフマネージドを使用している場合は、インスタンスの URL を `WANDB_BASE_URL` に設定してください。
 
-<div id="install-the-server">
-  ### サーバーをインストールする
-</div>
+### サーバーをインストールする {#install-the-server}
 
 インストール方法を選択し、次のコマンドを実行して MCP server をインストールします。
 
@@ -304,9 +290,7 @@ URL は、W&amp;B デプロイメントのタイプによって異なります�
   </Tab>
 </Tabs>
 
-<div id="configure-your-client">
-  ### クライアントを設定する
-</div>
+### クライアントを設定する {#configure-your-client}
 
 サーバーをインストールしたら、起動するためにクライアントを設定します。MCP クライアントを選択し、必要に応じて `[YOUR-WANDB-API-KEY]` を W&amp;B APIキーに置き換えて、次の設定を実行します:
 
@@ -410,9 +394,7 @@ URL は、W&amp;B デプロイメントのタイプによって異なります�
   </Tab>
 </Tabs>
 
-<div id="run-the-server-with-http-transport">
-  ### HTTP トランスポートでサーバーを実行する
-</div>
+### HTTP トランスポートでサーバーを実行する {#run-the-server-with-http-transport}
 
 Web ベースのクライアントやテストでは、HTTP トランスポートでサーバーを実行します:
 
@@ -431,9 +413,7 @@ ngrok http 8080
 
 トンネル URL を使用するように MCP クライアントの設定を更新します。
 
-<div id="environment-variables">
-  ### 環境変数
-</div>
+### 環境変数 {#environment-variables}
 
 以下の環境変数は、ローカルインストールにおける認証、インスタンスのルーティング先、およびサーバーの動作を制御します。クライアントの `env` ブロックに設定するか、シェルで export してください。
 
@@ -448,9 +428,7 @@ ngrok http 8080
 
 完全なコマンドライン リファレンスと高度なオプションについては、[wandb-mcp-server README](https://github.com/wandb/wandb-mcp-server#readme) を参照してください。
 
-<div id="wb-mcp-server-capabilities">
-  ## W&amp;B MCP Server の機能
-</div>
+## W&amp;B MCP Server の機能 {#wb-mcp-server-capabilities}
 
 MCP server を使用すると、Experiments の分析、トレースのデバッグ、Reports の作成、Registry と Artifacts の管理、W&amp;B ドキュメントに関する質問への回答を行えます。以下のプロンプト例は、エージェントが W&amp;B MCP Server に接続されているときに実行を依頼できるタスクの一部を示しています。
 
@@ -460,9 +438,7 @@ MCP server を使用すると、Experiments の分析、トレースのデバッ
 * &quot;`production-model` artifact にはどのバージョンが存在し、`v2` と `v3` の間にはどのような変更がありましたか？&quot;
 * &quot;Weave でリーダーボードを作成するにはどうすればよいですか？&quot;
 
-<div id="available-tools">
-  ### 利用可能なツール
-</div>
+### 利用可能なツール {#available-tools}
 
 サーバーでは、目的別に分類された複数のツールを提供しています。次の表は、各ツールの名、エージェントがそのツールを使用すべきタイミング、およびそのツールを呼び出す際に使用できる具体的なプロンプトを示しています。
 
@@ -530,9 +506,7 @@ MCP server を使用すると、Experiments の分析、トレースのデバッ
   </Tab>
 </Tabs>
 
-<div id="schema-first-trace-queries">
-  ### スキーマファーストのトレースクエリ
-</div>
+### スキーマファーストのトレースクエリ {#schema-first-trace-queries}
 
 Weave のトレースをクエリする際は、まず `infer_trace_schema_tool` を呼び出して利用可能なフィールドを確認し、その後、正確な列のリストと `detail_level` を指定して `query_weave_traces_tool` を呼び出します。
 
@@ -544,15 +518,11 @@ Weave のトレースをクエリする際は、まず `infer_trace_schema_tool`
 
 このパターンを使用すると、広範な質問でも token 使用量を低く抑えつつ、エージェントは重要なトレースに対してのみ `full` まで詳細度を上げられます。
 
-<div id="usage-tips">
-  ## 使用のヒント
-</div>
+## 使用のヒント {#usage-tips}
 
 以下のセクションでは、W&amp;B MCP Server をより効果的に活用するのに役立つベストプラクティスとワークフローについて説明します。まずは一般的なベストプラクティスを確認し、その後、ご自身のワークロードに合ったセクションを読んで、より具体的なアドバイスや複数ステップのツールチェーンを参照してください。
 
-<div id="general-best-practices">
-  ### 一般的なベスト プラクティス
-</div>
+### 一般的なベスト プラクティス {#general-best-practices}
 
 ユースケースにかかわらず、次のプラクティスに従ってください。
 
@@ -561,9 +531,7 @@ Weave のトレースをクエリする際は、まず `infer_trace_schema_tool`
 * **すべて取得できていることを確認してください。** 「What are my best performing runs?」のような広い質問では、最新のものだけでなく、利用可能なすべての Runs を取得したことをエージェントに確認させてください。
 * **W&amp;B Skills と組み合わせてください。** [W&amp;B Skills](/ja/platform/wb-skills) は、コーディング エージェントに W&amp;B ワークフローの構成方法を教えます。Skills はパターンを提供し、MCP はデータアクセスを提供するため、両者は相性よく連携します。
 
-<div id="for-trace-heavy-workflows">
-  ### トレースが多いワークフロー向け
-</div>
+### トレースが多いワークフロー向け {#for-trace-heavy-workflows}
 
 Weave のトレースを扱う際は、次のプラクティスに従ってください。
 
@@ -574,9 +542,7 @@ Weave のトレースを扱う際は、次のプラクティスに従ってく�
 
 エンドツーエンドのワークフローについては、[失敗した LLM calls をトリアージする](#triage-failing-llm-calls) を参照してください。
 
-<div id="for-run-heavy-workflows">
-  ### run が多いワークフロー向け
-</div>
+### run が多いワークフロー向け {#for-run-heavy-workflows}
 
 W&amp;B Models の Runs を扱う際は、次のプラクティスに従ってください。
 
@@ -587,9 +553,7 @@ W&amp;B Models の Runs を扱う際は、次のプラクティスに従って�
 
 エンドツーエンドのワークフローについては、[問題のあるトレーニング run を診断する](#diagnose-a-bad-training-run) と [eval を要約してモデルバージョンを比較する](#summarize-evals-and-compare-model-versions) を参照してください。
 
-<div id="for-dedicated-cloud-and-self-managed">
-  ### 専用クラウドおよびセルフマネージド向け
-</div>
+### 専用クラウドおよびセルフマネージド向け {#for-dedicated-cloud-and-self-managed}
 
 非 Multi-tenant デプロイでは、次のプラクティスに従ってください。
 
@@ -597,9 +561,7 @@ W&amp;B Models の Runs を扱う際は、次のプラクティスに従って�
 * インスタンスに対してローカルで run する場合は、クライアントの `env` ブロックで `WANDB_BASE_URL` をインスタンスの URL に設定してください。これを設定しないと、サーバーは `api.wandb.ai` を参照するため、データを返しません。
 * 専用クラウドのレート制限は Multi-tenant とは別です。デフォルト値と変更のリクエスト方法については、[Dedicated Cloud rate limits](/ja/platform/hosting/hosting-options/dedicated-cloud/rate-limits) を参照してください。
 
-<div id="for-local-installs">
-  ### ローカル環境にインストールする場合
-</div>
+### ローカル環境にインストールする場合 {#for-local-installs}
 
 サーバーを自分のマシンで実行する際は、次の点に従ってください。
 
@@ -607,15 +569,11 @@ W&amp;B Models の Runs を扱う際は、次のプラクティスに従って�
 * tool call がエラー表示なしで失敗する場合は、クライアントの `env` ブロックで `MCP_SERVER_LOG_LEVEL=DEBUG` を設定し、クライアントの MCP ログを再確認してください。
 * GitHub からインストールする場合 (`uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server`) 、`uvx` はデフォルトブランチに固定されます。安定したバージョンが必要な場合は、Git URL に `@v0.3.2` を追加して、明示的にタグを指定してください。
 
-<div id="recommended-workflows">
-  ## 推奨ワークフロー
-</div>
+## 推奨ワークフロー {#recommended-workflows}
 
 実際の質問の多くでは、1つのツールだけでは足りません。以下のワークフローでは、エージェントに実行を依頼できる一般的な複数ステップのツールチェーンを紹介します。
 
-<div id="explore-an-unfamiliar-project">
-  ### 不案内な project を調べる
-</div>
+### 不案内な project を調べる {#explore-an-unfamiliar-project}
 
 project にログされた内容を確認するには、次のツールをチェーンして使用します。
 
@@ -624,9 +582,7 @@ project にログされた内容を確認するには、次のツールをチェ
 3. run ベースの project には `probe_project_tool`、Weave のトレース project には `infer_trace_schema_tool` を使用します。
 4. 見つかったキーを使って、対象を絞った `query_wandb_tool` または `query_weave_traces_tool` を呼び出します。
 
-<div id="triage-failing-llm-calls">
-  ### 失敗した LLM calls をトリアージする
-</div>
+### 失敗した LLM calls をトリアージする {#triage-failing-llm-calls}
 
 問題のあるトレースと、それを生成したセッションを特定するには、次のツールを組み合わせて使用します。
 
@@ -635,9 +591,7 @@ project にログされた内容を確認するには、次のツールをチェ
 3. 少数の特定のルートに対して `detail_level="full"` を指定して `query_weave_traces_tool` を使用し、詳細を調査します。
 4. 調査結果を記録するために `create_wandb_report_tool` を使用します。
 
-<div id="diagnose-a-bad-training-run">
-  ### 不調なトレーニング run を診断する
-</div>
+### 不調なトレーニング run を診断する {#diagnose-a-bad-training-run}
 
 疑わしいトレーニング run のヘルスチェックを行うには、次のツールをチェーンして使用します。
 
@@ -646,9 +600,7 @@ project にログされた内容を確認するには、次のツールをチェ
 3. `compare_runs_tool` を使用して、既知の正常なベースライン run と比較します。
 4. `create_wandb_report_tool` を使用して、診断結果を共有するための折れ線グラフのパネルを含む report を作成します。
 
-<div id="summarize-evals-and-compare-model-versions">
-  ### 評価を要約してモデルバージョンを比較する
-</div>
+### 評価を要約してモデルバージョンを比較する {#summarize-evals-and-compare-model-versions}
 
 どのモデルバージョンが評価で最も優れた結果を出したかを確認するには、次のツールを組み合わせて使用します:
 
@@ -657,9 +609,7 @@ project にログされた内容を確認するには、次のツールをチェ
 3. 候補バージョンと現在の本番バージョンを比較するには `compare_artifact_versions_tool` を使用します。
 4. 比較結果を公開するには `log_analysis_to_wandb` と `create_wandb_report_tool` を使用します。
 
-<div id="troubleshooting">
-  ## トラブルシューティング
-</div>
+## トラブルシューティング {#troubleshooting}
 
 W&amp;B MCP Server の使用時に発生する問題の診断と解決には、次の表を参照してください。
 

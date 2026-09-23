@@ -7,9 +7,7 @@ keywords: ["Experiments"]
 종료해야 합니다. 다음 섹션에서는 하나의 스크립트에서 run을 순차적으로 실행하는 두 가지 패턴과
 여러 run을 동시에 활성 상태로 유지하는 별도의 패턴을 설명합니다.
 
-<div id="use-a-context-manager">
-  ## 컨텍스트 관리자를 사용하세요
-</div>
+## 컨텍스트 관리자를 사용하세요 {#use-a-context-manager}
 
 `wandb.init()`를 컨텍스트 관리자로 사용하세요. 이렇게 하면 스크립트에서 예외가 발생할 경우 run이 종료되고 실패로 표시됩니다:
 
@@ -22,9 +20,7 @@ for x in range(10):
             run.log({"metric": x + y})
 ```
 
-<div id="call-runfinish-explicitly">
-  ## `run.finish()`를 명시적으로 호출하기
-</div>
+## `run.finish()`를 명시적으로 호출하기 {#call-runfinish-explicitly}
 
 `run.finish()`를 명시적으로 call할 수도 있습니다:
 
@@ -46,9 +42,7 @@ for x in range(10):
         run.finish()
 ```
 
-<div id="multiple-active-runs">
-  ## 동시에 활성화된 여러 run
-</div>
+## 동시에 활성화된 여러 run {#multiple-active-runs}
 
 `wandb` 0.19.10 이상에서는 run을 순차적으로 실행하는 대신 둘 이상의 run을
 동시에 활성화해야 하는 경우 `reinit` 설정을 `"create_new"`로 지정해

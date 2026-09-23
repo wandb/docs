@@ -6,7 +6,7 @@ title: テーブル データのエクスポート
 すべての W&amp;B Artifacts と同様に、Tables は pandas のデータフレームに変換できるため、データを簡単にエクスポートできます。
 
 <div id="convert-table-to-artifact">
-  ## `table` を `artifact` に変換する
+  ## `table` を `artifact` に変換する {#convert-table-to-artifact}
 </div>
 
 まず、`table` を Artifacts に変換する必要があります。これを行う最も簡単な方法は、`artifact.get(table, "table_name")` を使うことです。
@@ -28,7 +28,7 @@ with wandb.init() as r:
 ```
 
 <div id="convert-artifact-to-dataframe">
-  ## `artifact` をデータフレームに変換する
+  ## `artifact` をデータフレームに変換する {#convert-artifact-to-dataframe}
 </div>
 
 次に、そのテーブルをデータフレームに変換します。
@@ -38,9 +38,7 @@ with wandb.init() as r:
 df = table.get_dataframe()
 ```
 
-<div id="export-data">
-  ## データのエクスポート
-</div>
+## データのエクスポート {#export-data}
 
 これで、`データフレーム` がサポートしている任意のエクスポート方法を使用してエクスポートできます。
 
@@ -49,9 +47,7 @@ df = table.get_dataframe()
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
-<div id="next-steps">
-  # 次のステップ
-</div>
+# 次のステップ {#next-steps}
 
 * `artifacts` については、[リファレンスドキュメント](/ja/models/artifacts/construct-an-artifact/)を参照してください。
 * [Tables Walkthrough](/ja/models/tables/tables-walkthrough/) ガイドをご覧ください。

@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py#L61" />
 
-<div id="class-wandbapispublicteam">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Team
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Team {#class-wandbapispublicteam}
 
 Classe représentant une équipe W&amp;B.
 
@@ -24,9 +22,7 @@ name: 'str',
 attrs: 'Mapping[str, Any] | None' = None)
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   Instance de l’API de service à utiliser pour interroger W&amp;B.
@@ -40,9 +36,7 @@ attrs: 'Mapping[str, Any] | None' = None)
   Dictionnaire facultatif des attributs de l’équipe
 </ResponseField>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 Recherchez une équipe et invitez un membre.
 
@@ -64,13 +58,9 @@ team = api.create_team("my-team")
 team.create_service_account("CI service account")
 ```
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-teamcreate">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create() {#method-teamcreate}
 
 ```python
 api: 'Api',
@@ -80,9 +70,7 @@ admin_username: 'str | None' = None
 
 Créer une nouvelle équipe.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="api" type="Api">
   (`Api`) L&#39;instance d&#39;API à utiliser
@@ -96,9 +84,7 @@ Créer une nouvelle équipe.
   (str) nom d&#39;utilisateur facultatif de l&#39;administrateur de la équipe ; par défaut, l&#39;utilisateur actuel.
 </ResponseField>
 
-<div id="method-teamcreate_service_account">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create_service_account()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.create_service_account() {#method-teamcreate_service_account}
 
 ```python
 self,
@@ -107,17 +93,13 @@ description: 'str'
 
 Créez un compte de service pour l’équipe.
 
-<div id="arguments-2">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-2}
 
 <ResponseField name="description" type="str">
   (str) Une description de ce compte de service
 </ResponseField>
 
-<div id="method-teaminvite">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.invite()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Team.invite() {#method-teaminvite}
 
 ```python
 self,
@@ -127,9 +109,7 @@ admin: 'bool' = False
 
 Invitez un utilisateur dans une équipe.
 
-<div id="arguments-3">
-  ##### Arguments
-</div>
+##### Arguments {#arguments-3}
 
 <ResponseField name="username_or_email" type="str">
   (str) Le nom d’utilisateur ou l’adresse e-mail de l’utilisateur que vous souhaitez inviter.

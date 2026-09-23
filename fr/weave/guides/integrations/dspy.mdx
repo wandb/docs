@@ -15,9 +15,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 [DSPy](https://dspy.ai) est un framework permettant d’optimiser algorithmiquement les prompts et les poids des modèles de langage (LM), en particulier lorsque vous utilisez des LM une ou plusieurs fois dans un pipeline. W&amp;B Weave suit et journalise automatiquement les appels effectués à l’aide des modules et fonctions DSPy. Ce guide vous montre comment activer le traçage Weave pour les programmes DSPy, suivre les modules et signatures personnalisés, et capturer les traces des optimiseurs et des évaluations DSPy. Grâce à ces traces, vous pouvez déboguer, analyser et améliorer vos applications DSPy.
 
-<div id="traces">
-  ## Traces
-</div>
+## Traces {#traces}
 
 Cette section explique comment activer le traçage automatique des appels DSPy dans Weave. Stockez les traces des applications de modèles de langage dans un emplacement centralisé, pendant le développement comme en production. Ces traces sont utiles pour le débogage et constituent aussi un jeu de données qui vous aide à améliorer votre application.
 
@@ -42,9 +40,7 @@ classify(sentence="it's a charming and often affecting journey.")
 
 Avec le traçage activé, Weave journalise chaque appel LM effectué par votre programme DSPy dans votre projet Weave, où vous pouvez inspecter les entrées, les sorties et les métadonnées.
 
-<div id="track-your-own-dspy-modules-and-signatures">
-  ## Suivez vos propres modules et signatures DSPy
-</div>
+## Suivez vos propres modules et signatures DSPy {#track-your-own-dspy-modules-and-signatures}
 
 Au-delà des appels intégrés, Weave trace également les modules et signatures personnalisés que vous définissez. Un `Module` est l’élément de base d’un programme DSPy, avec des paramètres entraînables, qui encapsule une technique de prompting. Une `Signature` est une spécification déclarative du comportement en entrée/sortie d’un module DSPy. Weave suit automatiquement toutes les `Signatures` et tous les `Modules` intégrés et personnalisés dans vos programmes DSPy. Remplacez `[YOUR-OPENAI-API-KEY]` par votre clé API OpenAI et `[YOUR-WANDB-PROJECT-NAME]` par le nom de votre projet W&amp;B.
 
@@ -105,9 +101,7 @@ article = draft_article(topic="World Cup 2002")
 
 [![Trace d’un module DSPy personnalisé dans Weave, avec le flux d’exécution du module et les détails de la trace](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
-<div id="optimize-and-evaluate-your-dspy-program">
-  ## Optimisez et évaluez votre programme DSPy
-</div>
+## Optimisez et évaluez votre programme DSPy {#optimize-and-evaluate-your-dspy-program}
 
 Weave capture aussi les traces des optimiseurs DSPy et des appels d’évaluation, que vous pouvez utiliser pour améliorer et évaluer les performances de votre programme DSPy sur un jeu de développement. Remplacez `[YOUR-OPENAI-API-KEY]` par votre clé API OpenAI et `[YOUR-WANDB-PROJECT-NAME]` par le nom de votre projet W&amp;B.
 

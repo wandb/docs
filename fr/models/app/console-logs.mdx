@@ -8,9 +8,7 @@ Lorsque vous lancez une expérience, vous pouvez voir des messages s’afficher 
 
 Les sections suivantes décrivent comment consulter, configurer, rechercher, filtrer, télécharger et copier les journaux de console de vos runs.
 
-<div id="view-console-logs">
-  ## Afficher les journaux de console
-</div>
+## Afficher les journaux de console {#view-console-logs}
 
 Affichez les journaux de console d&#39;un run dans W&amp;B App pour examiner les messages générés pendant le run.
 
@@ -25,9 +23,7 @@ Pendant la diffusion des journaux, une icône de points de suspension (<Icon ico
 
   Dans W&B App, vous pouvez modifier les champs affichés dans le tableau des journaux de console. */}
 
-<div id="types-of-console-logs">
-  ## Types de journaux de console
-</div>
+## Types de journaux de console {#types-of-console-logs}
 
 W&amp;B capture trois types de journaux de console et ajoute un préfixe pour indiquer le niveau de gravité de chaque log. Le préfixe vous aide à parcourir rapidement les logs et à identifier les messages les plus utiles pour le débogage. Le tableau suivant résume chaque type, classé du plus grave au moins grave.
 
@@ -37,9 +33,7 @@ W&amp;B capture trois types de journaux de console et ajoute un préfixe pour in
 | Avertissement | `WARNING` | Problèmes potentiels qui n’interrompent pas l’exécution.                     | `WARNING Found .wandb file, not streaming tensorboard metrics.` |
 | Info          | `wandb:`  | Mises à jour sur la progression et le statut du run.                         | `wandb: Starting Run: abc123`                                   |
 
-<div id="console-log-settings">
-  ## Paramètres des journaux de console
-</div>
+## Paramètres des journaux de console {#console-log-settings}
 
 Pour contrôler les types de sortie de console que W&amp;B capture et affiche, passez un objet [`wandb.Settings`](/fr/models/ref/python/experiments/settings) à `wandb.init()` lorsque vous initialisez un run. Les paramètres pertinents incluent `show_errors`, `show_warnings`, `show_info` et `silent`. La [référence de Settings](/fr/models/ref/python/experiments/settings) répertorie tous les paramètres et est générée à partir du SDK. Elle reste donc à jour à mesure que de nouvelles options sont ajoutées.
 
@@ -60,9 +54,7 @@ with wandb.init(settings=settings) as run:
 
 Pour la capture de stdout et stderr (`console`), les téléversements multipart (`console_multipart`, `console_chunk_max_bytes`, `console_chunk_max_seconds`) et le dépannage, voir les sections ci-dessous et la référence des paramètres. L’entraînement distribué et d’autres cas limites sont traités dans [Pourquoi la sortie de la console n’est-elle pas capturée pour mon run ?](/fr/support/models/articles/why-is-console-output-not-captured-for-my-run).
 
-<div id="multipart-console-logging">
-  ### Journalisation multipart de la console
-</div>
+### Journalisation multipart de la console {#multipart-console-logging}
 
 Par défaut, W&amp;B stocke les flux stdout et stderr de votre script dans un seul fichier `output.log` et le téléverse *à la fin du run*. Tant qu’un run est actif, l’onglet **Logs** affiche la sortie en streaming, mais `output.log` n’apparaît pas dans l’onglet **Files** avant la fin du run.
 
@@ -90,9 +82,7 @@ Vous devez définir `console_multipart` au moment de l’appel à `wandb.init`. 
 
 Pour le dépannage (capture de la console désactivée, entraînement distribué, reprise de runs et limites d’affichage), voir [Pourquoi la sortie de console n&#39;est-elle pas capturée pour mon run ?](/fr/support/models/articles/why-is-console-output-not-captured-for-my-run) et [Comment puis-je télécharger le fichier journal de console d’un run ?](/fr/support/models/articles/how-do-i-download-the-console-log-file-from-a-run).
 
-<div id="custom-logging">
-  ## Journalisation personnalisée
-</div>
+## Journalisation personnalisée {#custom-logging}
 
 Si vous disposez déjà de votre propre configuration de journalisation, vous pouvez continuer à l’utiliser avec W&amp;B. W&amp;B capture les journaux de console de votre application, mais n’interfère pas avec votre propre configuration de journalisation. Vous pouvez utiliser la fonction `print()` intégrée à Python ou le module `logging` pour enregistrer des messages.
 
@@ -120,25 +110,19 @@ Les journaux de console se présentent comme suit :
 9 epoch:  900 loss: 0.28154927492141724
 ```
 
-<div id="timestamps">
-  ## Horodatages
-</div>
+## Horodatages {#timestamps}
 
 W&amp;B ajoute automatiquement des horodatages à chaque entrée des journaux de console. Cela vous permet de savoir à quel moment chaque message de log a été généré.
 
 Pour afficher ou masquer les horodatages dans les journaux de console, sélectionnez la liste déroulante **Timestamp visible** sur la page des journaux de console.
 
-<div id="search-console-logs">
-  ## Rechercher dans les journaux de console
-</div>
+## Rechercher dans les journaux de console {#search-console-logs}
 
 Utilisez la barre de recherche sur la page des journaux de console pour trouver du texte spécifique, tel que des libellés, des mots-clés ou des messages d’erreur.
 
 À mesure que de nouveaux journaux arrivent, W&amp;B met à jour le nombre de correspondances.
 
-<div id="filter-with-custom-labels">
-  ## Filtrer avec des libellés personnalisés
-</div>
+## Filtrer avec des libellés personnalisés {#filter-with-custom-labels}
 
 <Warning>
   Les paramètres préfixés par `x_` (comme `x_label`) sont en aperçu public. Créez une [issue GitHub dans le dépôt W&amp;B](https://github.com/wandb/wandb) pour nous faire part de vos commentaires.
@@ -160,9 +144,7 @@ with wandb.init(
     # Votre code ici
 ```
 
-<div id="download-console-logs">
-  ## Télécharger les journaux de console
-</div>
+## Télécharger les journaux de console {#download-console-logs}
 
 Pour enregistrer les journaux localement afin de les analyser hors ligne ou de les partager, téléchargez les journaux de console d’un run dans la W&amp;B App :
 
@@ -173,9 +155,7 @@ Pour enregistrer les journaux localement afin de les analyser hors ligne ou de l
 
 Il se peut que vous ne puissiez temporairement pas télécharger les journaux lorsqu’un run les diffuse activement. Pendant la diffusion, W&amp;B remplace le bouton de téléchargement par une icône de points de suspension (<Icon icon="ellipsis" iconType="solid" />). Attendez que le run se termine ou cesse la diffusion, puis réessayez.
 
-<div id="copy-console-logs">
-  ## Copier les journaux de console
-</div>
+## Copier les journaux de console {#copy-console-logs}
 
 Pour coller des journaux dans un autre outil ou message, copiez les journaux de console d’un run dans la W&amp;B App :
 

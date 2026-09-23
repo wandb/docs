@@ -13,7 +13,7 @@ Weave는 분산 트레이싱을 위한 개방형 표준인 [OpenTelemetry (OTel)
 개별 함수를 Ops로 `@weave.op` decorator를 사용해 트레이싱하는 경우에는 [LLM 애플리케이션 트레이스](/ko/weave/guides/tracking/tracing)를 참조하세요.
 
 <div id="before-you-begin">
-  ## 시작하기 전에
+  ## 시작하기 전에 {#before-you-begin}
 </div>
 
 시작하려면 `weave` 패키지를 설치하고 프로젝트를 초기화하세요. 이 단계에서는 팀과 프로젝트를 Weave에 등록하여 SDK가 UI에서 spans를 올바른 위치로 라우팅하도록 합니다.
@@ -53,9 +53,7 @@ Weave는 분산 트레이싱을 위한 개방형 표준인 [OpenTelemetry (OTel)
   </Tab>
 </Tabs>
 
-<div id="the-agent-data-model">
-  ## 에이전트 데이터 모델
-</div>
+## 에이전트 데이터 모델 {#the-agent-data-model}
 
 Weave는 에이전트 동작을 일대다 관계의 계층 구조로 모델링합니다. 각 에이전트는 여러 대화를 가질 수 있고, 각 대화는 여러 턴을 가질 수 있으며, 각 턴은 여러 LLM Call을 가질 수 있고, 각 LLM Call은 여러 도구 Call을 트리거할 수 있습니다.
 
@@ -112,7 +110,7 @@ flowchart TB
 </Tip>
 
 <div id="agent-tracing-apis">
-  ## 에이전트 트레이싱 API
+  ## 에이전트 트레이싱 API {#agent-tracing-apis}
 </div>
 
 다음 섹션에서는 각 최상위 트레이싱 함수와 해당 함수가 받는 인수를 설명합니다. 이를 사용해 이전 섹션에서 설명한 데이터 모델의 대화, 턴, LLM Call, 도구 Call 계층을 계측하세요.
@@ -120,7 +118,7 @@ flowchart TB
 Weave는 다음과 같은 최상위 함수를 제공합니다. 각 함수의 반환값은 컨텍스트 관리자(Python에서는 `with`, TypeScript에서는 `try/finally` 사용)로 사용할 수 있는 객체이거나, `.end()`를 호출해 수동으로 종료할 수 있는 객체입니다.
 
 <div id="start-a-conversation">
-  ### 대화 시작
+  ### 대화 시작 {#start-a-conversation}
 </div>
 
 `start_conversation()` (Python) 또는 `startConversation()` (TypeScript)은 모든 하위 span에 `conversation_id` 속성을 추가해 Agents 탭에서 턴이 그룹화되도록 합니다. `conversation_id` / `conversationId`를 전달하는 경우, 해당 값은 대화가 유지되는 동안 일관되게 유지되어야 합니다. 기존 대화에 새 턴을 추가하려면 동일한 ID를 재사용하세요. 이를 생략하면 SDK가 UUID를 자동으로 생성합니다.
@@ -154,7 +152,7 @@ Weave는 다음과 같은 최상위 함수를 제공합니다. 각 함수의 반
 </Tabs>
 
 <div id="start-a-turn">
-  ### 턴 시작
+  ### 턴 시작 {#start-a-turn}
 </div>
 
 `start_turn()` (Python)과 `startTurn()` (TypeScript)은 새 OTel 트레이스의 루트가 되는 새로운 `invoke_agent` span을 생성합니다. Weave는 타임라인 뷰에서 이 span을 사용해 사용자와 에이전트 간의 한 번의 전체 상호작용을 나타냅니다.
@@ -187,7 +185,7 @@ Weave는 다음과 같은 최상위 함수를 제공합니다. 각 함수의 반
 </Tabs>
 
 <div id="start-an-llm-call">
-  ### LLM Call 시작
+  ### LLM Call 시작 {#start-an-llm-call}
 </div>
 
 `start_llm()` / `startLLM()`은 현재 턴 아래에 중첩되는 `chat` span을 생성합니다. Weave는 이 span을 사용해 Agents 뷰에서 토큰 사용량, 모델 이름, 입력 및 출력 메시지, 추론을 표시합니다.
@@ -256,7 +254,7 @@ LLM Call이 완료되면 닫히기 전에 응답 데이터를 `llm` 객체에 �
 `provider_name` / `providerName`은 명시적으로 전달하세요. Weave는 모델 문자열에서 이를 추론하지 않습니다.
 
 <div id="start-a-tool-call">
-  ### 도구 Call 시작
+  ### 도구 Call 시작 {#start-a-tool-call}
 </div>
 
 `start_tool()` / `startTool()`은 `execute_tool` span을 생성합니다. 이 span은 컨텍스트에서 현재 활성화된 OTel span의 하위 span이 됩니다(일반적으로 도구 Call을 생성한 LLM 호출의 `chat` span).
@@ -309,7 +307,7 @@ LLM Call이 완료되면 닫히기 전에 응답 데이터를 `llm` 객체에 �
 </Tabs>
 
 <div id="usage-patterns-for-agent-tracing">
-  ## 에이전트 트레이싱 사용 패턴
+  ## 에이전트 트레이싱 사용 패턴 {#usage-patterns-for-agent-tracing}
 </div>
 
 다음 섹션에서는 에이전트 코드 구조에 따라 이러한 함수들을 어떻게 조합할 수 있는지 설명합니다.
@@ -322,7 +320,7 @@ LLM Call이 완료되면 닫히기 전에 응답 데이터를 `llm` 객체에 �
 Weave는 이 두 가지를 모두 사용해 Agents 뷰에 각 LLM 호출의 입력, 출력, token 사용량을 표시합니다.
 
 <div id="context-manager-or-try-finally-pattern">
-  ### 컨텍스트 매니저 또는 try-finally 패턴
+  ### 컨텍스트 매니저 또는 try-finally 패턴 {#context-manager-or-try-finally-pattern}
 </div>
 
 대부분의 에이전트에는 Python에서는 컨텍스트 매니저 패턴을, TypeScript에서는 try-finally 패턴을 사용하는 방식이 권장됩니다. 예외가 발생하더라도 블록이 끝날 때 span이 닫히고 전송됩니다.
@@ -423,7 +421,7 @@ Weave는 현재 활성 대화, 턴, LLM 호출을 컨텍스트에 저장하므�
 </Tabs>
 
 <div id="manual-start-and-end-pattern">
-  ### 수동으로 시작하고 종료하는 패턴
+  ### 수동으로 시작하고 종료하는 패턴 {#manual-start-and-end-pattern}
 </div>
 
 `with` 블록이나 `try/finally`를 사용할 수 없을 때는 `.end()`를 명시적으로 사용하세요. 예를 들어, span을 서로 다른 함수 호출에서 시작하고 종료하는 경우나 코루틴 외부에서 비동기 라이프사이클을 관리하는 경우가 이에 해당합니다. 생성한 모든 객체에 대해 `.end()`를 호출해 span이 종료되고 collector로 플러시되도록 하는 것은 사용자 책임입니다.
@@ -484,14 +482,12 @@ Weave는 현재 활성 대화, 턴, LLM 호출을 컨텍스트에 저장하므�
 </Tabs>
 
 <div id="semantic-conventions">
-  ## 시맨틱 규약
+  ## 시맨틱 규약 {#semantic-conventions}
 </div>
 
 Weave SDK는 [GenAI 시맨틱 규약](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/)과 [GenAI 에이전트 span 규약](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)을 준수하는 OTel span을 내보냅니다. Weave는 어떤 OTel span이든 허용하고, 모든 속성을 저장하며 쿼리할 수 있도록 합니다. 표준 OTel span API와 Weave의 트레이싱 객체를 함께 사용해 span에 임의의 속성을 추가할 수 있습니다.
 
-<div id="how-data-appears-in-the-weave-ui">
-  ## Weave UI에서 데이터가 표시되는 방식
-</div>
+## Weave UI에서 데이터가 표시되는 방식 {#how-data-appears-in-the-weave-ui}
 
 앞서 설명한 패턴으로 에이전트를 instrument하고 실행하면, 트레이스가 Weave 프로젝트의 `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`에 있는 **Agents** 탭에 표시됩니다.
 

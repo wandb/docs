@@ -21,7 +21,7 @@ Ce guide s’adresse aux développeurs qui créent des applications RAG et souha
 ![Illustration Evals](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## Ce que vous apprendrez
+  ## Ce que vous apprendrez {#what-youll-learn}
 </div>
 
 Ce guide vous montre comment :
@@ -35,7 +35,7 @@ Ce guide vous montre comment :
 <WeaveQuickstartPrereqs />
 
 <div id="build-a-knowledge-base">
-  ## Créer une base de connaissances
+  ## Créer une base de connaissances {#build-a-knowledge-base}
 </div>
 
 La base de connaissances est le corpus que votre application RAG interroge au moment de la requête. Dans cette section, vous calculez des embeddings vectoriels pour un petit ensemble d’articles afin de pouvoir récupérer plus tard l’article le plus pertinent pour une question donnée.
@@ -128,7 +128,7 @@ Commencez par calculer les embeddings des articles. En général, vous ne feriez
 </Tabs>
 
 <div id="create-a-rag-app">
-  ## Créer une application RAG
+  ## Créer une application RAG {#create-a-rag-app}
 </div>
 
 Une fois la base de connaissances en place, vous pouvez maintenant créer l&#39;application RAG elle-même. Cette section combine l&#39;étape de récupération avec un appel LLM et encapsule les deux avec Weave afin que chaque entrée et sortie soit automatiquement suivie.
@@ -249,7 +249,7 @@ Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` a
 </Tabs>
 
 <div id="evaluate-with-an-llm-judge">
-  ## Évaluer avec un juge LLM
+  ## Évaluer avec un juge LLM {#evaluate-with-an-llm-judge}
 </div>
 
 Maintenant que votre application RAG est en cours d’exécution et suivie par Weave, l’étape suivante consiste à évaluer dans quelle mesure elle répond bien aux questions. Cette section montre comment utiliser un LLM comme juge automatique afin que vous puissiez attribuer un score aux réponses de votre application sans rédiger manuellement des libellés.
@@ -257,7 +257,7 @@ Maintenant que votre application RAG est en cours d’exécution et suivie par W
 Lorsqu’il n’existe pas de moyen simple d’évaluer votre application, une approche consiste à utiliser un LLM pour en évaluer certains aspects. Voici un exemple d’utilisation d’un juge LLM pour mesurer la précision du contexte, en lui demandant de vérifier si le contexte a été utile pour parvenir à la réponse fournie. Ce prompt a été adapté à partir du framework [RAGAS](https://docs.ragas.io/en/stable/).
 
 <div id="define-a-scoring-function">
-  ### Définir une fonction de score
+  ### Définir une fonction de score {#define-a-scoring-function}
 </div>
 
 Comme dans le tutoriel [Créer un pipeline d’Évaluation](/fr/weave/tutorial-eval), définissez un ensemble de lignes d’exemple pour tester votre application, ainsi qu’une fonction de score. La fonction de score prend une ligne et l’évalue. Les arguments d’entrée doivent correspondre aux clés de votre ligne ; ici, `question` provient donc du dictionnaire de la ligne. `output` est la sortie du modèle. L’entrée du modèle est récupérée depuis l’exemple en fonction de son argument d’entrée ; ici aussi, il s’agit de `question`. Cet exemple utilise des fonctions `async` afin qu’elles s’exécutent en parallèle. Pour une brève introduction à l’async, consultez la [documentation Python `asyncio`](https://docs.python.org/3/library/asyncio.html).
@@ -349,7 +349,7 @@ Comme dans le tutoriel [Créer un pipeline d’Évaluation](/fr/weave/tutorial-e
 </Tabs>
 
 <div id="optional-define-a-scorer-class">
-  ### Facultatif : définir une classe `Scorer`
+  ### Facultatif : définir une classe `Scorer` {#optional-define-a-scorer-class}
 </div>
 
 La fonction de score de la section précédente fonctionne bien pour les cas simples, mais une classe `Scorer` est utile si vous voulez réutiliser le même juge dans plusieurs évaluations ou personnaliser la manière dont les scores sont agrégés. Les étapes suivantes montrent quand et comment en définir une.
@@ -459,7 +459,7 @@ Pour l’utiliser comme évaluateur, initialisez-le, puis passez-le à l’argum
 </Tabs>
 
 <div id="put-it-all-together">
-  ## Assemblez le tout
+  ## Assemblez le tout {#put-it-all-together}
 </div>
 
 Cette section regroupe tout ce qui a été vu dans les étapes précédentes dans un exemple complet de bout en bout, afin que vous puissiez voir comment les différents éléments s’articulent et les adapter à votre propre application RAG.
@@ -795,7 +795,7 @@ Voici le code dans son intégralité.
 </Tabs>
 
 <div id="conclusion">
-  ## Conclusion
+  ## Conclusion {#conclusion}
 </div>
 
 Ce tutoriel vous a montré comment intégrer l’observabilité à différentes étapes de vos applications, comme l’étape de récupération dans cet exemple. Vous avez également appris à créer des fonctions de score plus complexes, comme un juge LLM, pour évaluer automatiquement les réponses de l’application.

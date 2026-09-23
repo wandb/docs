@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py#L1185" />
 
-<div id="function-wandbinit">
-  ## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.init()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">함수</Badge> wandb.init() {#function-wandbinit}
 
 W&amp;B에 추적 및 로깅할 새 run을 시작합니다.
 
@@ -58,9 +56,7 @@ settings: 'Settings | dict[str, Any] | None' = None,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="entity" type="str | None">
   run이 로깅될 사용자 이름 또는 팀 이름입니다. 엔터티는 이미 존재해야 하므로 run 로깅을 시작하기 전에 UI에서 계정 또는 팀을 생성해야 합니다. 지정하지 않으면 run은 기본 엔터티에 로깅됩니다. 기본 엔터티를 변경하려면 설정으로 이동하여 &quot;기본 팀&quot; 아래의 &quot;새 프로젝트를 만들 기본 위치&quot;를 업데이트하세요.
@@ -198,15 +194,11 @@ anonymous: 'DoNotSet' = DoNotSet
   설명이 제공되지 않았습니다.
 </ResponseField>
 
-<div id="returns">
-  ## 반환값
-</div>
+## 반환값 {#returns}
 
 `Run` 객체입니다.
 
-<div id="raises">
-  ## 예외
-</div>
+## 예외 {#raises}
 
 * `Error`: run 초기화 중 알 수 없거나 내부 오류가 발생한 경우입니다.
 * `AuthenticationError`: 사용자가 유효한 자격 증명을 제공하지 못한 경우입니다.
@@ -214,9 +206,7 @@ anonymous: 'DoNotSet' = DoNotSet
 * `UsageError`: 사용자가 잘못된 인수를 제공한 경우입니다.
 * `KeyboardInterrupt`: 사용자가 run을 중단한 경우입니다.
 
-<div id="examples">
-  ## 예시
-</div>
+## 예시 {#examples}
 
 `wandb.init()`은 `Run` 객체를 반환합니다. run 객체를 사용해 데이터를 로깅하고,
 artifact를 저장하고, run 수명 주기를 관리할 수 있습니다.

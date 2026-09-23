@@ -13,9 +13,7 @@ Ces métadonnées existent sous deux formes :
 
 Ces méthodes correspondent à l’[API de span OpenTelemetry (OTel)](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) : `set_attributes` correspond à `Span.set_attributes` d’OTel, et `add_event` à `Span.add_event`. Le SDK Weave émet des spans OTel et stocke tous les attributs afin qu’ils restent interrogeables dans Weave.&quot;
 
-<div id="set-attributes-on-a-span">
-  ## Définir des attributs sur un span
-</div>
+## Définir des attributs sur un span {#set-attributes-on-a-span}
 
 Utilisez `set_attributes()` (Python) ou `setAttributes()` (TypeScript) pour ajouter des attributs arbitraires à un span donné. Passez un dictionnaire ou un objet, que vous ayez une seule clé ou plusieurs. La méthode renvoie le span, ce qui vous permet de chaîner les appels.
 
@@ -79,9 +77,7 @@ Les mêmes méthodes sont disponibles sur chaque classe de span. Par exemple, vo
 
 La plupart des clés d’attribut sont des métadonnées personnalisées arbitraires, mais Weave réserve deux préfixes pour un traitement particulier. Les clés sous `weave.*` correspondent à des champs Weave intégrés, et les clés sous `gen_ai.*` correspondent aux champs de convention sémantique GenAI d’OpenTelemetry. Dans l’exemple précédent, `weave.display_name` est une clé réservée qui définit le nom d’affichage du span dans l’interface utilisateur Agents and Traces. Pour les métadonnées arbitraires sur lesquelles vous souhaitez filtrer et regrouper, utilisez vos propres clés, comme `user_id` ou `tenant`, que Weave stocke comme attributs personnalisés filtrables.
 
-<div id="set-attributes-on-every-span-in-a-conversation">
-  ## Définir des attributs sur chaque span d’une conversation
-</div>
+## Définir des attributs sur chaque span d’une conversation {#set-attributes-on-every-span-in-a-conversation}
 
 Ajouter des attributs span par span convient bien aux métadonnées propres à un span, mais certaines métadonnées s’appliquent à l’ensemble d’une conversation. Pour appliquer les mêmes attributs à chaque span émis par une conversation, transmettez `attributes` lorsque vous démarrez la conversation. Cela permet de propager des métadonnées à l’échelle de la conversation, comme une identité d’intégration ou un environnement de déploiement.
 
@@ -120,9 +116,7 @@ Ajouter des attributs span par span convient bien aux métadonnées propres à u
   Comme pour les attributs par span, utilisez vos propres clés personnalisées pour les attributs de conversation. Définissez les champs de convention sémantique, comme le nom de l’agent, le nom de la conversation ou le modèle, via leurs paramètres typés (`agent_name`, `conversation_name`, `model`) plutôt que via `attributes`. Évitez les clés sous les préfixes réservés `gen_ai.*` et `weave.*`. Weave les extrait dans des champs typés lors de l’ingestion. Une valeur personnalisée sous une clé réservée n’est donc pas prise en charge.
 </Note>
 
-<div id="when-you-can-set-attributes">
-  ## Quand vous pouvez définir des attributs
-</div>
+## Quand vous pouvez définir des attributs {#when-you-can-set-attributes}
 
 Définissez les attributs tant que le span est en cours d’enregistrement, c’est-à-dire une fois le span démarré et avant qu’il ne se termine. En Python, cela se fait à l’intérieur du bloc `with`. En TypeScript, cela se fait après `start*()` et avant `end()`.
 
@@ -134,8 +128,6 @@ L’appel ne génère aucun avertissement uniquement lorsque OTel n’est pas in
   Pour joindre des attributs lors de la journalisation, en un seul lot, d’une activité d’agent déjà terminée plutôt que pendant l’exécution en temps réel, renseignez directement les champs déclarés de l’objet span et transmettez l’objet à `log_turn` ou `log_conversation`. Voir [Journaliser l’activité d’agent par lots](/fr/weave/guides/tracking/trace-agents-batch).
 </Tip>
 
-<div id="view-and-filter-attributes-in-the-ui">
-  ## Afficher et filtrer les attributs dans l’interface utilisateur
-</div>
+## Afficher et filtrer les attributs dans l’interface utilisateur {#view-and-filter-attributes-in-the-ui}
 
 L’ajout d’attributs n’est que la première étape. Leur intérêt réside dans leur utilisation pour analyser l’activité des agents. Après avoir attribué des attributs aux spans d’agent, vous pouvez filtrer et regrouper les conversations d’agent selon ces attributs dans l’onglet **Agents** de votre projet Weave. Pour en savoir plus, voir [Afficher l’activité des agents](/fr/weave/guides/tracking/view-agent-activity).

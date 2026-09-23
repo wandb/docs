@@ -15,7 +15,7 @@ Weave Codex 플러그인은 모든 Codex 턴을 자동으로 트레이스하고 
 </Warning>
 
 <div id="prerequisites">
-  ## 사전 요구 사항
+  ## 사전 요구 사항 {#prerequisites}
 </div>
 
 * [Node.js](https://nodejs.org/) v20 이상
@@ -24,7 +24,7 @@ Weave Codex 플러그인은 모든 Codex 턴을 자동으로 트레이스하고 
 * 트레이스를 수신할 Weave 프로젝트(`[YOUR-TEAM]/[YOUR-PROJECT]`)
 
 <div id="install-the-plugin">
-  ## 플러그인 설치
+  ## 플러그인 설치 {#install-the-plugin}
 </div>
 
 <Steps>
@@ -63,7 +63,7 @@ Weave Codex 플러그인은 모든 Codex 턴을 자동으로 트레이스하고 
 이제 Codex를 평소처럼 실행하면 완료된 각 턴이 약 1초 이내에 Weave에 표시됩니다.
 
 <div id="view-codex-traces-in-weave">
-  ## Weave에서 Codex 트레이스 보기
+  ## Weave에서 Codex 트레이스 보기 {#view-codex-traces-in-weave}
 </div>
 
 Codex 세션을 하나 이상 실행한 후 Weave UI에서 프로젝트를 여세요:
@@ -87,7 +87,7 @@ Weave는 `gen_ai.conversation.id`를 사용해 Agents 뷰에서 여러 턴을 �
 모든 속성이 GenAI semantic conventions를 따르므로, 트레이스는 모든 OTEL 호환 백엔드에서도 표시됩니다.
 
 <div id="known-limitations">
-  ### 알려진 제한 사항
+  ### 알려진 제한 사항 {#known-limitations}
 </div>
 
 * `codex`(대화형 TUI) 및 `codex exec` 명령어는 지원됩니다. `codex mcp` 및 `app-server` 명령어는 훅이 전혀 트리거되지 않으므로 지원 범위에 포함되지 않습니다.
@@ -95,7 +95,7 @@ Weave는 `gen_ai.conversation.id`를 사용해 Agents 뷰에서 여러 턴을 �
 * 중단되었거나 오류가 발생한 턴에서는 Stop 훅이 트리거되지 않으므로, 해당 내용은 캡처되지 않습니다.
 
 <div id="configuration-reference">
-  ## 설정 레퍼런스
+  ## 설정 레퍼런스 {#configuration-reference}
 </div>
 
 이 섹션에는 플러그인 동작을 사용자 지정하는 데 사용할 수 있는 설정이 나와 있습니다. 설정 및 런타임 파일은 `~/.weave-codex/`에 저장되며, 여기에는 `settings.json`, 훅 shim, 세션별 커서, 그리고 `logs/collector.log`에 있는 로그 파일이 포함됩니다.
@@ -109,7 +109,7 @@ Weave는 `gen_ai.conversation.id`를 사용해 Agents 뷰에서 여러 턴을 �
 | 디버그 로깅        | `WEAVE_CODEX_DEBUG`           | `debug`           | 꺼짐 (오류는 항상 기록됨)                |
 
 <div id="credential-resolution-order">
-  ### 자격 증명 결정 순서
+  ### 자격 증명 결정 순서 {#credential-resolution-order}
 </div>
 
 플러그인은 다음 순서대로 자격 증명을 확인합니다:
@@ -119,7 +119,7 @@ Weave는 `gen_ai.conversation.id`를 사용해 Agents 뷰에서 여러 턴을 �
 3. Weave 호스트에 대한 `~/.netrc` 항목
 
 <div id="wb-dedicated-cloud-or-self-hosted-instances">
-  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스
+  ### W&amp;B Dedicated Cloud 또는 자체 호스팅 인스턴스 {#wb-dedicated-cloud-or-self-hosted-instances}
 </div>
 
 Codex를 실행하기 전에 `WANDB_BASE_URL` 값을 설치한 호스트로 설정하세요:
@@ -129,7 +129,7 @@ export WANDB_BASE_URL=https://YOUR-INSTANCE.wandb.io
 ```
 
 <div id="check-plugin-status">
-  ## 플러그인 상태 확인
+  ## 플러그인 상태 확인 {#check-plugin-status}
 </div>
 
 다음 CLI 명령어를 사용하여 플러그인 상태를 확인하거나 문제를 해결할 수 있습니다:
@@ -145,13 +145,13 @@ cat ~/.weave-codex/logs/collector.log
 ```
 
 <div id="troubleshooting">
-  ## 문제 해결
+  ## 문제 해결 {#troubleshooting}
 </div>
 
 다음 섹션에서는 일반적인 문제와 이를 해결하는 방법을 설명합니다. `~/.weave-codex/logs/collector.log`의 collector 로그는 가장 중요한 진단 정보 소스입니다. `debug` 설정과 관계없이 오류는 항상 로깅됩니다.
 
 <div id="no-traces-appear-after-running-codex">
-  ### Codex를 실행한 후에도 트레이스가 표시되지 않는 경우
+  ### Codex를 실행한 후에도 트레이스가 표시되지 않는 경우 {#no-traces-appear-after-running-codex}
 </div>
 
 1. `weave-codex status`를 실행하세요. 모든 검사가 통과하는지 확인하세요.
@@ -160,13 +160,13 @@ cat ~/.weave-codex/logs/collector.log
 4. 인증 소스를 확인하세요. `weave-codex status`는 최종적으로 사용되는 자격 증명 소스를 출력합니다. `WANDB_API_KEY env`로 표시되는데 키를 다른 위치에 설정했다면 플러그인이 잘못된 값을 읽습니다.
 
 <div id="turns-appear-but-inputoutput-text-is-empty">
-  ### 대화 턴은 표시되지만 입력/출력 텍스트가 비어 있습니다
+  ### 대화 턴은 표시되지만 입력/출력 텍스트가 비어 있습니다 {#turns-appear-but-inputoutput-text-is-empty}
 </div>
 
 콘텐츠 캡처가 비활성화되어 있을 수 있습니다. `WEAVE_CODEX_CAPTURE_CONTENT`가 `0`으로 설정되지 않았는지, 그리고 `~/.weave-codex/settings.json`에서 `capture_content`가 `false`로 설정되지 않았는지 확인하세요.
 
 <div id="errors-sending-traces-to-weave">
-  ### Weave로 트레이스를 전송할 때 발생하는 오류
+  ### Weave로 트레이스를 전송할 때 발생하는 오류 {#errors-sending-traces-to-weave}
 </div>
 
 플러그인이 활성화되어 있고 span도 생성되지만 Weave에 표시되지 않는 경우, collector 로그에서 export 오류를 확인한 뒤 이 표와 대조하세요.
@@ -178,7 +178,7 @@ cat ~/.weave-codex/logs/collector.log
 | 연결 거부 또는 DNS 오류                     | DNS, 프록시 또는 방화벽 문제     | 호스트가 포트 443을 통해 `trace.wandb.ai`(cloud) 또는 설치 호스트(Dedicated Cloud)에 연결할 수 있는지 확인하세요.                    |
 
 <div id="hook-locked-environments">
-  ### 훅 제한 환경
+  ### 훅 제한 환경 {#hook-locked-environments}
 </div>
 
 Codex 설정에서 `allow_managed_hooks_only`가 설정되어 있으면 맞춤형 훅을 직접 추가할 수 없습니다. 이 경우 대체 트리거로 Codex의 `notify` 프로그램을 사용하세요:
@@ -189,7 +189,7 @@ notify = ["sh", "/Users/you/.weave-codex/stop-hook.sh"]
 ```
 
 <div id="uninstall">
-  ## 제거
+  ## 제거 {#uninstall}
 </div>
 
 ```bash lines

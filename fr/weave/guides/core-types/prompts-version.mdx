@@ -8,17 +8,13 @@ Après [avoir créé et publié des prompts](/fr/weave/guides/core-types/prompts
 
 Lorsque vous publiez un prompt avec `weave.publish`, W&amp;B Weave crée une version immuable. Vous pouvez référencer chaque version par son nom et son numéro de version, la récupérer dans le code avec `weave.ref(...).get()`, et la consulter dans le Weave UI.
 
-<div id="prompt-versions">
-  ## Versions de prompt
-</div>
+## Versions de prompt {#prompt-versions}
 
 Weave stocke les prompts sous forme d&#39;**objets versionnés**. Cela vous permet de faire évoluer vos prompts en toute sécurité, tout en garantissant que les évaluations, les expériences et les systèmes de production peuvent faire référence à la version exacte du prompt avec laquelle ils ont été exécutés.
 
 Vous accédez aux versions de prompt à l&#39;aide de réf. d&#39;objet Weave. Cette page explique comment Weave crée les versions de prompt, comment récupérer une version spécifique dans le code, et comment inspecter et comparer les versions dans la Weave UI.
 
-<div id="how-prompt-versions-are-created">
-  ## Comment les versions de prompts sont créées
-</div>
+## Comment les versions de prompts sont créées {#how-prompt-versions-are-created}
 
 Weave suit automatiquement chaque version de vos prompts et crée un historique complet de leur évolution. Ce système de gestion des versions est essentiel pour les flux de travail de prompt engineering. Il vous permet d&#39;expérimenter en toute sécurité, de suivre les modifications qui ont amélioré ou dégradé les performances, et de revenir à des versions antérieures si nécessaire. Chaque fois que vous publiez un prompt portant le même nom mais avec un contenu différent, Weave crée une nouvelle version tout en conservant toutes les versions précédentes.
 
@@ -30,9 +26,7 @@ La gestion des versions vous permet de :
 * Itérer en toute sécurité sur les modifications apportées aux prompts.
 * Déployer les mises à jour de prompts de manière contrôlée.
 
-<div id="construct-a-fully-qualified-ref-uri">
-  ## Construire une URI de référence pleinement qualifiée
-</div>
+## Construire une URI de référence pleinement qualifiée {#construct-a-fully-qualified-ref-uri}
 
 Avant de récupérer une version de prompt dans le code, il est utile de comprendre comment Weave identifie les objets stockés. Une URI de référence pleinement qualifiée identifie de manière unique un objet Weave.
 
@@ -53,9 +47,7 @@ Par exemple, l’URI pleinement qualifié d’un prompt Weave ressemble à ceci�
 weave:///your-team-name/your-project-name/object/support_prompt:v3
 ```
 
-<div id="retrieve-a-prompt-version-in-code">
-  ## Récupérer une version de prompt dans le code
-</div>
+## Récupérer une version de prompt dans le code {#retrieve-a-prompt-version-in-code}
 
 Pour récupérer un prompt, créez une référence à son nom et à sa version, puis appelez `.get()` pour le charger. Une ref pointe vers un objet stocké ; `.get()` récupère cet objet pour que vous puissiez l&#39;utiliser dans votre application.
 
@@ -75,9 +67,7 @@ weave.init("your-team-name/your-project-name")
 prompt = weave.ref("support_prompt:v3").get()
 ```
 
-<div id="use-prompts-in-production">
-  ## Utiliser des prompts en production
-</div>
+## Utiliser des prompts en production {#use-prompts-in-production}
 
 Lorsque vous déployez des prompts dans des systèmes de production, utilisez un [alias](#add-prompt-tags-and-aliases) comme `production` au lieu d’un index de version ou de la dernière version. Dans votre application de production, chargez le prompt avec `weave.ref(<name>:<alias>).get()`.
 
@@ -91,9 +81,7 @@ Un flux de travail courant se présente ainsi :
 
 Cette approche permet aux équipes d’itérer en toute sécurité sur les prompts, sans modifier de façon inattendue le comportement en production.
 
-<div id="view-and-compare-prompt-versions">
-  ## <a id="view-prompts" aria-label="Afficher et comparer les versions de prompt" />Afficher et comparer les versions de prompt
-</div>
+## <a id="view-prompts" aria-label="Afficher et comparer les versions de prompt" />Afficher et comparer les versions de prompt {#view-and-compare-prompt-versions}
 
 L’interface Weave vous permet de parcourir toutes les versions d’un prompt et d’afficher les différences côte à côte, ce qui est utile pour examiner comment un prompt a évolué.
 
@@ -110,9 +98,7 @@ Pour afficher les versions du prompt dans l’UI :
 
 ![UI Compare prompts montrant les différences entre deux versions de prompt.](/weave/guides/core-types/imgs/prompt-comparison.png)
 
-<div id="add-prompt-tags-and-aliases">
-  ## Ajouter des tags et des alias aux prompts
-</div>
+## Ajouter des tags et des alias aux prompts {#add-prompt-tags-and-aliases}
 
 Vous pouvez organiser les versions de prompt à l’aide d’alias et de tags. Ces libellés vous aident à identifier des versions spécifiques et à y faire référence dans les flux de travail de développement, d’évaluation et de production.
 
@@ -129,9 +115,7 @@ Pour définir des alias et des tags pour vos prompts dans l’UI :
 
 ![Une version de prompt sélectionnée dans le panneau de détails du prompt sur la page Prompts, avec des contrôles pour les Aliases et les Tags.](/weave/guides/core-types/imgs/prompt-alias-tags.png)
 
-<div id="modify-tags-and-aliases-in-code">
-  ### Modifier les tags et les alias dans le code
-</div>
+### Modifier les tags et les alias dans le code {#modify-tags-and-aliases-in-code}
 
 Vous pouvez aussi gérer les tags et les alias dans le code pour des tâches telles que :
 

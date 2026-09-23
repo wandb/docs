@@ -13,24 +13,18 @@ keywords: ["자동화", "모니터", "Slack 알림", "웹훅", "알림"]
 
 코드를 변경하지 않고도 Weave UI에서 자동화를 관리할 수 있습니다. 이 가이드에서는 Automations 페이지에서 자동화를 생성하는 방법, 기존 모니터에서 자동화를 생성하는 방법, 그리고 생성한 후 자동화를 확인하고 관리하는 방법을 안내합니다.
 
-<div id="create-an-automation">
-  ## 자동화 만들기
-</div>
+## 자동화 만들기 {#create-an-automation}
 
 트리거 이벤트를 설정하고 수행할 액션을 선택해 자동화를 만드세요.
 
-<div id="prerequisites">
-  ### 사전 요구 사항
-</div>
+### 사전 요구 사항 {#prerequisites}
 
 이를 연결하는 자동화를 만들기 전에 트리거 이벤트(예: Op 또는 모니터)와 액션(예: Slack integration)이 미리 준비되어 있어야 합니다.
 
 * Weave에서 원하는 [Op](/ko/weave/guides/tracking/create-call) 또는 [모니터](/ko/weave/guides/evaluation/monitors)를 설정하세요.
 * Team Settings에서 [Slack integration](/ko/models/automations/create-automations/slack#add-a-slack-integration) 또는 [웹훅](/ko/models/automations/create-automations/webhook#create-a-webhook)을 설정하세요.
 
-<div id="configure-the-event">
-  ### 이벤트 설정
-</div>
+### 이벤트 설정 {#configure-the-event}
 
 이벤트 설정은 어떤 조건에서 자동화가 트리거되는지 정의합니다. 모니터 메트릭, 시간 범위, 임곗값을 선택합니다.
 
@@ -51,9 +45,7 @@ keywords: ["자동화", "모니터", "Slack 알림", "웹훅", "알림"]
 5. **Alert preview** 그래프를 검토하여 임곗값이 예상한 대로 Alert를 발생시키는지 확인하세요.
 6. action 설정으로 진행하려면 **Next step**을 클릭하세요.
 
-<div id="configure-the-action">
-  ### 액션 설정
-</div>
+### 액션 설정 {#configure-the-action}
 
 액션 설정에서는 이벤트가 조건을 충족했을 때 어떤 액션이 실행될지 정의합니다.
 
@@ -67,9 +59,7 @@ keywords: ["자동화", "모니터", "Slack 알림", "웹훅", "알림"]
      * 웹훅의 경우, **Webhook** 이름과 **Payload**를 입력하세요.
 2. 요약으로 진행하려면 **Next step**을 클릭하세요.
 
-<div id="review-and-save">
-  ### 검토 및 저장
-</div>
+### 검토 및 저장 {#review-and-save}
 
 요약 단계에서는 저장하기 전에 자동화의 전체 개요를 보여줍니다.
 
@@ -82,9 +72,7 @@ keywords: ["자동화", "모니터", "Slack 알림", "웹훅", "알림"]
 
 새 자동화는 Automations 페이지의 Automations 테이블에 표시됩니다.
 
-<div id="create-an-automation-from-a-monitor">
-  ## 모니터에서 자동화 만들기
-</div>
+## 모니터에서 자동화 만들기 {#create-an-automation-from-a-monitor}
 
 모니터의 상세 뷰에서 직접 자동화를 만들 수도 있습니다. 이 방법을 사용하면 모니터 컨텍스트가 이벤트 설정에 미리 채워지므로 더 빠르게 설정할 수 있습니다. 자동화를 만들기 전에, 선택할 액션으로 사용할 [Slack integration](/ko/models/automations/create-automations/slack#add-a-slack-integration) 또는 [웹훅](/ko/models/automations/create-automations/webhook#create-a-webhook)을 미리 설정하세요.
 
@@ -101,9 +89,7 @@ keywords: ["자동화", "모니터", "Slack 알림", "웹훅", "알림"]
    * **Aggregation**: 임곗값과 비교하기 전에 윈도우 내 메트릭 값에 적용할 aggregation 함수(예: 평균, 중앙값, 최솟값)를 설정합니다.
 6. **Next**를 클릭한 다음, [Create an automation](#create-an-automation)에 설명된 대로 나머지 단계(액션 선택 및 저장)를 완료합니다.
 
-<div id="view-and-manage-automations">
-  ## 자동화 보기 및 관리
-</div>
+## 자동화 보기 및 관리 {#view-and-manage-automations}
 
 **Automations** 페이지에는 프로젝트의 모든 자동화가 나열됩니다. 표에는 각 자동화에 대해 다음 정보가 표시됩니다.
 

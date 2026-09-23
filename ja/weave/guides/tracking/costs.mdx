@@ -13,9 +13,7 @@ Weave は、LLM Call のコストを次の 2 つの方法でトラッキング�
   Weave TypeScript はコストトラッキングをサポートしていません。
 </Note>
 
-<div id="use-automatic-cost-tracking">
-  ## 自動コストトラッキングを使用する
-</div>
+## 自動コストトラッキングを使用する {#use-automatic-cost-tracking}
 
 `weave.init()` を呼び出し、OpenAI、Anthropic、Cohere、Mistral などの[サポートされている LLM インテグレーション](/ja/weave/guides/integrations)を使用すると、Weave はトークン使用量を自動的に記録し、各 call のコストを計算します。コストはトレース ツリーと Weave UI の calls 表に表示されます。さらに、`include_costs` パラメーターを `true` に設定して calls をクエリすると、プログラムから `call.summary["weave"]["costs"]` で利用できます。
 
@@ -59,9 +57,7 @@ for model, cost in costs.items():
     print(f"  Output cost: ${cost['completion_tokens_total_cost']:.6f}")
 ```
 
-<div id="add-a-custom-cost">
-  ## カスタムコストの追加
-</div>
+## カスタムコストの追加 {#add-a-custom-cost}
 
 自動コストトラッキングを利用できない場合 (ファインチューニングしたモデル、セルフホスト型モデル、または Weave が統合していないプロバイダーなど) は、カスタムコストトラッキングを使用します。以下のセクションでは、カスタムコストを追加、クエリ、パージ、集計する方法について説明します。
 
@@ -90,9 +86,7 @@ client.add_cost(
 )
 ```
 
-<div id="query-custom-costs">
-  ### カスタムコストをクエリする
-</div>
+### カスタムコストをクエリする {#query-custom-costs}
 
 カスタムコストを追加した後は、値を確認したり、パージなどの他の操作に必要なコスト ID を調べたりするために、取得できます。
 
@@ -109,9 +103,7 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 cost = client.query_costs(costs[0].id)
 ```
 
-<div id="purge-a-custom-cost">
-  ### カスタムコストをパージする
-</div>
+### カスタムコストをパージする {#purge-a-custom-cost}
 
 [`purge_costs`](/ja/weave/reference/python-sdk/trace/weave_client#method-purge-costs) メソッドでカスタムコストをパージします。コスト ID のリストを渡すと、Weave はそれらの ID を持つコストをパージします。
 
@@ -124,9 +116,7 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 client.purge_costs([cost.id for cost in costs])
 ```
 
-<div id="calculate-custom-costs-for-a-project">
-  ### project のカスタムコストを計算する
-</div>
+### project のカスタムコストを計算する {#calculate-custom-costs-for-a-project}
 
 project 全体での総支出を把握するには、Weave が返す Call ごとのコストを集計します。`get_calls()` と `include_costs=True` を使用して、project のコストを計算できます。
 
@@ -161,9 +151,7 @@ def get_costs_for_project(project_name: str):
 get_costs_for_project("my_custom_cost_model")
 ```
 
-<div id="set-up-a-custom-model-with-custom-costs">
-  ### カスタムコスト付きカスタムモデルの設定
-</div>
+### カスタムコスト付きカスタムモデルの設定 {#set-up-a-custom-model-with-custom-costs}
 
 カスタムモデルとカスタムコストトラッキングを組み合わせたエンドツーエンドの walkthrough については、[カスタムモデルでコストを設定する](/ja/weave/cookbooks/custom_model_cost) の cookbook をお試しください。
 

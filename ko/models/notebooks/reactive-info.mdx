@@ -13,15 +13,11 @@ title: 노트북의 반응형 실행
 
 자세한 내용은 marimo의 [How marimo runs cells](https://docs.marimo.io/guides/reactivity/#how-marimo-runs-cells)를 참조하세요.
 
-<div id="stale-and-blocked-cells">
-  ## 오래된 및 차단됨 셀
-</div>
+## 오래된 및 차단됨 셀 {#stale-and-blocked-cells}
 
 노트북은 각 셀의 상태를 추적하여 해당 셀을 실행해야 하는지 확인합니다. 주요 셀 상태는 *오래된*과 *차단됨*입니다.
 
-<div id="stale-cells">
-  ### 오래된 셀
-</div>
+### 오래된 셀 {#stale-cells}
 
 셀이 한 번도 실행되지 않았거나 최신 코드 또는 입력으로 실행되지 않았다면 그 셀은 *오래된(stale)* 상태입니다. 현재 코드와 입력으로 셀을 실행하고 나면 더 이상 오래된 상태가 아닙니다.
 
@@ -33,31 +29,23 @@ title: 노트북의 반응형 실행
 
 오래된 셀을 실행하면 출력이 업데이트됩니다. 상위 셀이 오래된 상태라면 노트북이 해당 셀부터 먼저 실행합니다. 오래된 셀을 한 번에 모두 실행할 수도 있습니다.
 
-<div id="blocked-cells">
-  ### 차단된 셀
-</div>
+### 차단된 셀 {#blocked-cells}
 
 셀 자체 또는 해당 셀의 상위 셀 중 하나가 비활성화되어 있으면 그 셀은 *차단됨* 상태가 됩니다. 차단된 셀은 입력이 변경되어도 자동으로 실행되지 않습니다.
 
 셀의 차단을 해제하려면 해당 셀이 의존하는 비활성화된 셀을 다시 활성화하세요. 그러면 노트북이 오래되어 출력 업데이트가 필요한 하위 셀을 실행할 수 있습니다. 자세한 방법은 [셀 비활성화 또는 활성화](/ko/models/notebooks/run-notebook-cells#disable-or-enable-a-cell)를 참조하세요.
 
-<div id="delete-cells">
-  ## 셀 삭제
-</div>
+## 셀 삭제 {#delete-cells}
 
 셀을 삭제하면 해당 셀에서 정의한 전역 변수도 노트북에서 함께 삭제됩니다. [런타임 설정](/ko/models/notebooks/configure-notebook#configure-startup-behavior)에 따라 노트북은 삭제된 변수를 참조하는 셀을 다시 실행하거나, 무효화하거나, 오래된 상태로 표시합니다.
 
-<div id="define-each-global-name-once">
-  ## 각 전역 이름은 한 번만 정의하세요
-</div>
+## 각 전역 이름은 한 번만 정의하세요 {#define-each-global-name-once}
 
 각 전역 이름은 하나의 셀에서만 정의하세요. 두 개의 셀이 같은 전역 이름을 정의하면, 노트북은 하위 셀이 참조할 단일 정보 출처를 확인할 수 없습니다. 이 제한은 변수, 함수, 클래스, 임포트한 패키지 이름에 모두 적용됩니다.
 
 임시 변수의 경우 [변수 이름 앞에 밑줄 하나를 접두사로 붙이면](https://docs.marimo.io/guides/reactivity/#creating-local-variables) 해당 셀의 로컬 변수가 됩니다. [함수 내부에 임시 변수를 정의](https://docs.marimo.io/guides/reactivity/#encapsulating-code-in-functions)할 수도 있습니다.
 
-<div id="avoid-mutations-across-cells">
-  ## 셀 간 변형(mutation) 피하기
-</div>
+## 셀 간 변형(mutation) 피하기 {#avoid-mutations-across-cells}
 
 여러 셀에서 사용하는 객체는 변형하지 마세요. 노트북은 객체 변형을 추적하지 않으므로, 객체를 변형해도 해당 객체에 의존하는 셀이 오래된 상태로 표시되지 않습니다.
 
@@ -65,13 +53,9 @@ title: 노트북의 반응형 실행
 
 자세한 내용은 [Variable mutations are not tracked](https://docs.marimo.io/guides/reactivity/#variable-mutations-are-not-tracked)를 참조하세요.
 
-<div id="inspect-variables-and-dependencies">
-  ## 변수 및 의존성 검사
-</div>
+## 변수 및 의존성 검사 {#inspect-variables-and-dependencies}
 
-<div id="view-variables">
-  ### 변수 보기
-</div>
+### 변수 보기 {#view-variables}
 
 [Variables explorer](https://docs.marimo.io/guides/editor_features/dataflow/#variables-explorer)를 사용하면 정의된 변수와 그 유형, 선언된 위치, 참조되는 위치를 확인할 수 있습니다.
 
@@ -84,18 +68,14 @@ title: 노트북의 반응형 실행
 * [Cell symbols](https://docs.marimo.io/guides/editor_features/dataflow/#cell-symbols)
 * [Reading cell connections](https://docs.marimo.io/guides/editor_features/dataflow/#reading-cell-connections)
 
-<div id="view-cell-relationships-in-the-minimap">
-  ### 미니맵에서 셀 관계 보기
-</div>
+### 미니맵에서 셀 관계 보기 {#view-cell-relationships-in-the-minimap}
 
 [Dependencies 패널](https://docs.marimo.io/guides/editor_features/dataflow/#dependencies-panel)을 사용해 셀 간의 관계를 확인하세요:
 
 1. 사이드바에서 **Explore dependencies**(<Icon icon="sitemap" iconType="solid" />)를 선택하세요.
 2. **MINIMAP**을 선택하세요.
 
-<div id="view-the-dependency-graph">
-  ### 의존성 그래프 보기
-</div>
+### 의존성 그래프 보기 {#view-the-dependency-graph}
 
 [Graph view](https://docs.marimo.io/guides/editor_features/dataflow/#graph-view)를 사용하여 셀 의존성을 방향성 비순환 그래프(DAG)로 시각화하세요.
 

@@ -13,9 +13,7 @@ W&amp;B Server のバージョンとライセンスは、W&amp;B Server のイ�
 | [Terraform](#update-with-terraform) | W&amp;B は、クラウドデプロイ向けに 3 つの公開 Terraform モジュールをサポートしています。[AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest)、[Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest)、[Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) です。 |
 | [Helm](#update-with-helm)           | [Helm チャート](https://github.com/wandb/helm-charts) を使用して、既存の Kubernetes クラスターに W&amp;B をインストールできます。                                                                                                                                                                                       |
 
-<div id="update-with-terraform">
-  ## Terraform を使用して更新する
-</div>
+## Terraform を使用して更新する {#update-with-terraform}
 
 W&amp;B が管理する Terraform モジュールのいずれかを使用して W&amp;B Server をデプロイした場合は、Terraform を使用してライセンスキーと W&amp;B バージョンの両方をその場で更新します。次の表は、クラウドプラットフォーム別の W&amp;B 管理 Terraform モジュールを示します。
 
@@ -56,9 +54,7 @@ W&amp;B が管理する Terraform モジュールのいずれかを使用して 
 
 Terraform による変更の適用後、デプロイでは指定した W&amp;B バージョンが実行され、更新されたライセンスキーが使用されます。
 
-<div id="update-with-helm">
-  ## Helm を使用して更新
-</div>
+## Helm を使用して更新 {#update-with-helm}
 
 <Warning>
   `wandb` Helm チャートは非推奨であり、サポートが終了しました。このチャートは単一の pod をデプロイするものでしたが、現在は [W&amp;B Kubernetes Operator](/ja/platform/hosting/self-managed/operator) に置き換えられています。現在もこのチャートを使用している場合は、[移行ガイド](/ja/platform/hosting/self-managed/operator#migrate-self-managed-instances-to-wb-operator) に従って Operator へ移行してください。
@@ -66,9 +62,7 @@ Terraform による変更の適用後、デプロイでは指定した W&amp;B �
 
 Helm ベースの更新方法は 2 つあります。既存の Helm values ファイルから更新する方法と、新しい License と image tag を upgrade コマンドで直接設定する方法です。以下のセクションでは、それぞれの方法について説明します。
 
-<div id="update-wb-with-spec">
-  ### spec を使って W&amp;B を更新
-</div>
+### spec を使って W&amp;B を更新 {#update-wb-with-spec}
 
 トラッキングしている `*.yaml` の values ファイルで Helm の設定を管理している場合は、この方法を使用します。
 
@@ -90,9 +84,7 @@ Helm ベースの更新方法は 2 つあります。既存の Helm values フ�
      -f ${wandb_install_spec.yaml}
    ```
 
-<div id="update-license-and-version-directly">
-  ### ライセンスとバージョンを直接更新する
-</div>
+### ライセンスとバージョンを直接更新する {#update-license-and-version-directly}
 
 この方法を使用すると、values ファイル を編集せずにライセンスとイメージタグを更新でき、既存の Helm リリース設定を再利用できます。
 
@@ -114,9 +106,7 @@ Helm ベースの更新方法は 2 つあります。既存の Helm values フ�
 
 詳細は、パブリックリポジトリの[アップグレードガイド](https://github.com/wandb/helm-charts/blob/main/upgrade)を参照してください。
 
-<div id="update-with-admin-ui">
-  ## admin UI で更新
-</div>
+## admin UI で更新 {#update-with-admin-ui}
 
 デプロイ設定を変更せずに、W&amp;B App 内の admin UI を使用してライセンスキーをローテーションできます。この方法は、W&amp;B Server コンテナーで環境変数を使って設定していないライセンスを更新する場合にのみ利用でき、通常はセルフマネージドの Docker インストールが該当します。この方法で更新されるのはライセンスのみで、実行中の W&amp;B Server バージョンは変更されません。
 

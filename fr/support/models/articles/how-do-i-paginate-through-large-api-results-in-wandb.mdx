@@ -5,9 +5,7 @@ keywords: ["Exécutions", "Experiments", "API", "Artifacts"]
 
 Vous pouvez parcourir les résultats de l&#39;API page par page à l&#39;aide du [modèle standard d&#39;itérateur paresseux et du paramètre `per_page`](/fr/models/track/public-api-guide). En outre, vous pouvez utiliser les conseils suivants sur le point de contrôle et le téléchargement en masse pour parcourir les résultats plus efficacement.
 
-<div id="checkpoint-processed-run-ids">
-  ## Point de contrôle des ID de run traités
-</div>
+## Point de contrôle des ID de run traités {#checkpoint-processed-run-ids}
 
 Pour les projets très volumineux, enregistrez les ID que vous avez déjà traités et ignorez-les au redémarrage :
 
@@ -30,9 +28,7 @@ for run in api.runs("my-entity/my-project"):
 
 Évitez `list(api.runs(...))` sur de très gros Projects, sauf si vous avez besoin d&#39;un accès aléatoire — cela charge toutes les pages en mémoire.
 
-<div id="rate-limits-on-bulk-downloads">
-  ## Limites de débit sur les téléchargements en masse
-</div>
+## Limites de débit sur les téléchargements en masse {#rate-limits-on-bulk-downloads}
 
 Si chaque run déclenche des appels API supplémentaires (par exemple `run.file("output.log").download()`), ajoutez un court délai pour éviter les erreurs `429` :
 

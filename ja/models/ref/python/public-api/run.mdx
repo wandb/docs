@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py#L598" />
 
-<div id="class-wandbapispublicrun">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Run
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.apis.public.Run {#class-wandbapispublicrun}
 
 entity と project に関連付けられた 1 つの run。
 
@@ -25,9 +23,7 @@ lazy: 'bool' = True,
 api_key: 'str | None' = None)
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   この run の W&amp;B API 呼び出しを実行する wandb-core サービスへのインターフェースです。
@@ -61,9 +57,7 @@ api_key: 'str | None' = None)
   説明はありません。
 </ResponseField>
 
-<div id="attributes">
-  ## 属性
-</div>
+## 属性 {#attributes}
 
 * `tags` (`[str]`): run に関連付けられているタグのリスト
 * `url` (`str`): この run の URL
@@ -84,9 +78,7 @@ api_key: 'str | None' = None)
 * `history_keys` (`str`): `wandb.Run.log({"key": "value"})` でログされた履歴メトリクスのキー
 * `metadata` (`str`): wandb-metadata.json に含まれる run のメタデータ
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="config" type="dict[str, Any]">
   run 設定を取得します。遅延モードの場合は、完全なデータを自動的に読み込みます。
@@ -173,13 +165,9 @@ api_key: 'str | None' = None)
   この API は非推奨です。代わりに `entity` を使用してください。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-runbeta_scan_history">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.beta_scan_history()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.beta_scan_history() {#method-runbeta_scan_history}
 
 ```python
 self,
@@ -190,9 +178,7 @@ max_step: 'int | None' = None,
 use_cache: 'bool' = True
 ```
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="keys" type="list[str] | None">
   説明はありません。
@@ -214,9 +200,7 @@ use_cache: 'bool' = True
   説明はありません。
 </ResponseField>
 
-<div id="method-runconsole_logs">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.console_logs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.console_logs() {#method-runconsole_logs}
 
 ```python
 self, *,
@@ -232,9 +216,7 @@ Run page の「Logs」タブに表示されるログと同じです。
 finished の run と実行中の run のいずれについても、
 このログを読み取れます。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="per_page" type="int">
   ログを先頭から読み取る際、リクエストごとに取得する行数。`last` が指定されている場合は無視されます。
@@ -244,15 +226,11 @@ finished の run と実行中の run のいずれについても、
   指定した場合、1 回のリクエストでログの末尾 N 行のみを取得します。実行中の run の確認やクラッシュの診断に役立ちます。バックエンドでは 1 回のリクエストで返せる行数に上限があるため、より多くの行を指定すると、最新の行に切り詰められて返されます。
 </ResponseField>
 
-<div id="raises">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises}
 
 * `CommError`: 反復処理中にリクエストが失敗した場合に発生します。ログを先頭から読み取るには、W&amp;B Server 0.77 以降が必要です。古いサーバーでは、代わりに末尾の N 行を読み取ってください。
 
-<div id="examples">
-  ##### 例
-</div>
+##### 例 {#examples}
 
 ```python
 import wandb
@@ -268,9 +246,7 @@ for line in run.console_logs(last=100):
     print(line.timestamp, line.content)
 ```
 
-<div id="method-runcreate">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.create()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.create() {#method-runcreate}
 
 ```python
 api: 'public.Api',
@@ -286,9 +262,7 @@ state: "Literal['running', 'pending']" = 'running'
 
 この メソッド で作成された run には機能上の制限があります。この方法で作成した run に対して `update()` を呼び出しても、期待どおりに動作しない場合があります。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="api" type="public.Api">
   W&amp;B API のインスタンス。
@@ -310,9 +284,7 @@ state: "Literal['running', 'pending']" = 'running'
   run の初期状態。後で再開する run には &quot;pending&quot; を、すぐに実行する run には &quot;running&quot; を使用します。
 </ResponseField>
 
-<div id="examples-2">
-  ##### 例
-</div>
+##### 例 {#examples-2}
 
 後で実行するための pending run を作成する
 
@@ -332,9 +304,7 @@ run = Run.create(
 )
 ```
 
-<div id="method-rundelete">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.delete() {#method-rundelete}
 
 ```python
 self,
@@ -343,17 +313,13 @@ delete_artifacts: 'bool' = False
 
 指定されたrunをwandbバックエンドから削除します。
 
-<div id="arguments-4">
-  ##### 引数
-</div>
+##### 引数 {#arguments-4}
 
 <ResponseField name="delete_artifacts" type="bool">
   runに関連付けられたartifactも削除するかどうか。
 </ResponseField>
 
-<div id="method-rundownload_history_exports">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.download_history_exports()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.download_history_exports() {#method-rundownload_history_exports}
 
 ```python
 self,
@@ -363,9 +329,7 @@ require_complete_history: 'bool' = True
 
 run の parquet 形式の履歴ファイルをすべて、指定したディレクトリにダウンロードします。
 
-<div id="arguments-5">
-  ##### 引数
-</div>
+##### 引数 {#arguments-5}
 
 <ResponseField name="download_dir" type="pathlib.Path | str">
   履歴ファイルのダウンロード先ディレクトリ。
@@ -375,16 +339,12 @@ run の parquet 形式の履歴ファイルをすべて、指定したディレ�
   完全な履歴のダウンロードを必須にするかどうか。true の場合、run にまだ parquet ファイルへエクスポートされていないデータが含まれていると、IncompleteRunHistoryError が発生します。
 </ResponseField>
 
-<div id="raises-2">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-2}
 
 * `IncompleteRunHistoryError`: require&#95;complete&#95;history が True で、run にまだ parquet ファイルへエクスポートされていないデータが含まれている場合。
 * `WandbApiFailedError`: 履歴が不完全な場合以外の理由で API リクエストが失敗した場合。
 
-<div id="method-runfile">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.file()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.file() {#method-runfile}
 
 ```python
 self,
@@ -393,17 +353,13 @@ name: 'str'
 
 artifact 内で、指定した名前のファイルのパスを返します。
 
-<div id="arguments-6">
-  ##### 引数
-</div>
+##### 引数 {#arguments-6}
 
 <ResponseField name="name" type="str">
   取得するファイルの名前。
 </ResponseField>
 
-<div id="method-runfiles">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.files()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.files() {#method-runfiles}
 
 ```python
 self,
@@ -417,9 +373,7 @@ per_page: 'int' = 50
 一致対象として、完全なファイル名のリストまたはパターンを指定できます。
 両方を指定した場合、パターンは無視されます。
 
-<div id="arguments-7">
-  ##### 引数
-</div>
+##### 引数 {#arguments-7}
 
 <ResponseField name="names" type="list[str] | None">
   取得するファイル名のリスト。空の場合はすべてのファイルを返します
@@ -433,9 +387,7 @@ per_page: 'int' = 50
   1 ページあたりの結果数。
 </ResponseField>
 
-<div id="method-runhistory">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.history()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.history() {#method-runhistory}
 
 ```python
 self,
@@ -450,9 +402,7 @@ run のサンプリングされた履歴メトリクスを返します。
 
 履歴レコードがサンプリングされていても問題なければ、この方法のほうがシンプルで高速です。
 
-<div id="arguments-8">
-  ##### 引数
-</div>
+##### 引数 {#arguments-8}
 
 <ResponseField name="samples" type="int">
   (int, optional) 返すサンプルの数
@@ -474,9 +424,7 @@ run のサンプリングされた履歴メトリクスを返します。
   (str, optional) メトリクスには &quot;default&quot;、マシンメトリクスには &quot;system&quot; を指定します
 </ResponseField>
 
-<div id="method-runload">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.load()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.load() {#method-runload}
 
 ```python
 self,
@@ -485,23 +433,17 @@ force: 'bool' = False
 
 遅延モードに応じた適切なフラグメントを使用して run データを読み込みます。
 
-<div id="arguments-9">
-  ##### 引数
-</div>
+##### 引数 {#arguments-9}
 
 <ResponseField name="force" type="bool">
   True の場合、すでに読み込み済みであっても、サーバーから run データを再取得します。
 </ResponseField>
 
-<div id="raises-3">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-3}
 
 * `RunNotFoundError`: run が見つからない場合、または run のデータを読み込めない場合。
 
-<div id="method-runload_full_data">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.load_full_data()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.load_full_data() {#method-runload_full_data}
 
 ```python
 self,
@@ -512,17 +454,13 @@ force: 'bool' = False
 
 このメソッドは、Runs を一覧表示する際に最初に `lazy=True` を指定したものの、特定の run について完全なデータにアクセスする必要がある場合に便利です。
 
-<div id="arguments-10">
-  ##### 引数
-</div>
+##### 引数 {#arguments-10}
 
 <ResponseField name="force" type="bool">
   データがすでに読み込まれている場合でも強制的に再読み込みします
 </ResponseField>
 
-<div id="method-runlog_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.log_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.log_artifact() {#method-runlog_artifact}
 
 ```python
 self,
@@ -533,9 +471,7 @@ tags: 'Collection[str] | None' = None
 
 artifact を run の出力として宣言します。
 
-<div id="arguments-11">
-  ##### 引数
-</div>
+##### 引数 {#arguments-11}
 
 <ResponseField name="artifact" type="wandb.Artifact">
   `wandb.Api().artifact(name)` から返されるArtifact。
@@ -549,9 +485,7 @@ artifact を run の出力として宣言します。
    (リスト、省略可) このArtifact に適用するタグ。
 </ResponseField>
 
-<div id="method-runlogged_artifacts">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.logged_artifacts()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.logged_artifacts() {#method-runlogged_artifacts}
 
 ```python
 self,
@@ -562,17 +496,13 @@ per_page: 'int' = 100
 
 run の実行中にログされたすべての出力 artifact を取得します。反復処理することも、1 つのリストにまとめることもできる、ページ分割された結果を返します。
 
-<div id="arguments-12">
-  ##### 引数
-</div>
+##### 引数 {#arguments-12}
 
 <ResponseField name="per_page" type="int">
   API リクエストごとに取得する artifact の数。
 </ResponseField>
 
-<div id="examples-3">
-  ##### 例
-</div>
+##### 例 {#examples-3}
 
 ```python
 import wandb
@@ -595,9 +525,7 @@ for logged_artifact in finished_run.logged_artifacts():
     print(logged_artifact.name)
 ```
 
-<div id="method-runsave">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.save() {#method-runsave}
 
 ```python
 self
@@ -605,9 +533,7 @@ self
 
 run オブジェクトへの変更を W&amp;B バックエンドに保存します。
 
-<div id="method-runscan_history">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.scan_history()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.scan_history() {#method-runscan_history}
 
 ```python
 self,
@@ -620,9 +546,7 @@ use_cache: 'bool' = True
 
 run のすべての履歴レコードを反復処理できる iterable なコレクションを返します。
 
-<div id="arguments-13">
-  ##### 引数
-</div>
+##### 引数 {#arguments-13}
 
 <ResponseField name="keys" type="list[str] | None">
   run の履歴から読み取るメトリクスのリストです。scan は、要求されたすべての keys を含む行のみを返します。keys が異なる step でログされた場合は、key ごとに個別の Call を使用するか、この引数を省略してください。keys が指定されていない場合は、すべてのメトリクスを返します。
@@ -644,9 +568,7 @@ run のすべての履歴レコードを反復処理できる iterable なコレ
   True に設定すると、`WANDB_CACHE_DIR` に run の履歴があるか確認します。キャッシュ内に run の履歴が見つからない場合は、サーバーからダウンロードされます。False に設定すると、run の履歴は毎回ダウンロードされます。
 </ResponseField>
 
-<div id="method-runstop">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.stop()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.stop() {#method-runstop}
 
 ```python
 self
@@ -658,15 +580,11 @@ self
 
 停止は非同期です。このメソッドは、run が終了した時点ではなく、バックエンドで run にフラグが設定された時点で返ります。再度呼び出しても、またはすでに実行されていない run に対して呼び出しても、効果はありません。
 
-<div id="raises-4">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-4}
 
 * `wandb.Error`: リクエストに失敗した場合。
 
-<div id="examples-4">
-  ##### 例
-</div>
+##### 例 {#examples-4}
 
 ```python
 import wandb
@@ -675,9 +593,7 @@ run = wandb.Api().run("entity/project/run_id")
 run.stop()
 ```
 
-<div id="method-runto_html">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.to_html()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.to_html() {#method-runto_html}
 
 ```python
 self,
@@ -687,9 +603,7 @@ hidden: 'bool' = False
 
 このrunを表示するiframeを含むHTMLを生成します。
 
-<div id="arguments-14">
-  ##### 引数
-</div>
+##### 引数 {#arguments-14}
 
 <ResponseField name="height" type="int">
   説明はありません。
@@ -699,9 +613,7 @@ hidden: 'bool' = False
   説明はありません。
 </ResponseField>
 
-<div id="method-runupdate">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.update()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.update() {#method-runupdate}
 
 ```python
 self
@@ -709,9 +621,7 @@ self
 
 run オブジェクトへの変更を wandb バックエンドに保存します。
 
-<div id="method-runupdate_state">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.update_state()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.update_state() {#method-runupdate_state}
 
 ```python
 self,
@@ -731,23 +641,17 @@ sweep の run の状態は更新できません。
 
 可能な run の状態の一覧については `Run.state` を参照してください。
 
-<div id="arguments-15">
-  ##### 引数
-</div>
+##### 引数 {#arguments-15}
 
 <ResponseField name="state" type="str">
   遷移先の run の状態です。`"pending"` または `"failed"` のいずれかです。
 </ResponseField>
 
-<div id="raises-5">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-5}
 
 * `wandb.Error`: 要求された状態遷移が許可されていない場合、またはサーバーがこの操作をサポートしていない場合。
 
-<div id="method-runupload_file">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.upload_file()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.upload_file() {#method-runupload_file}
 
 ```python
 self,
@@ -757,9 +661,7 @@ root: 'str' = '.'
 
 ローカルファイルを W&amp;B にアップロードし、この run に関連付けます。
 
-<div id="arguments-16">
-  ##### 引数
-</div>
+##### 引数 {#arguments-16}
 
 <ResponseField name="path" type="str">
   アップロードするファイルのパス。絶対パスまたは相対パスを指定できます。
@@ -769,9 +671,7 @@ root: 'str' = '.'
   ファイルの保存先の基準となるルートパス。たとえば、ファイルを run 内で &quot;my&#95;dir/file.txt&quot; として保存し、現在 &quot;my&#95;dir&quot; にいる場合は、root を &quot;../&quot; に設定します。デフォルトは現在のディレクトリ (&quot;.&quot;) です。
 </ResponseField>
 
-<div id="method-runuse_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_artifact() {#method-runuse_artifact}
 
 ```python
 self,
@@ -781,9 +681,7 @@ use_as: 'str | None' = None
 
 artifact を run の入力として宣言します。
 
-<div id="arguments-17">
-  ##### 引数
-</div>
+##### 引数 {#arguments-17}
 
 <ResponseField name="artifact" type="wandb.Artifact">
   `wandb.Api().artifact(name)` が返す artifact
@@ -793,9 +691,7 @@ artifact を run の入力として宣言します。
   スクリプト内で artifact の使用方法を識別する文字列。ベータ版の wandb Launch の artifact スワップ機能を使用する際に、run で使用される artifact を簡単に区別するために使われます。
 </ResponseField>
 
-<div id="method-runused_artifacts">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.used_artifacts()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.used_artifacts() {#method-runused_artifacts}
 
 ```python
 self,
@@ -806,17 +702,13 @@ per_page: 'int' = 100
 
 通常は `run.use_artifact()` を使用して、run 中に使用すると明示的に宣言された入力 artifact のみを取得します。イテレートすることも、1 つの list にまとめることもできる、ページ分割された結果を返します。
 
-<div id="arguments-18">
-  ##### 引数
-</div>
+##### 引数 {#arguments-18}
 
 <ResponseField name="per_page" type="int">
   API リクエストごとに取得する artifact の数。
 </ResponseField>
 
-<div id="examples-5">
-  ##### 例
-</div>
+##### 例 {#examples-5}
 
 ```python
 import wandb
@@ -832,9 +724,7 @@ for used_artifact in finished_run.used_artifacts():
 test_artifact
 ```
 
-<div id="method-runwait_until_finished">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.wait_until_finished()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.wait_until_finished() {#method-runwait_until_finished}
 
 ```python
 self

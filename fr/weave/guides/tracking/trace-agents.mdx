@@ -13,7 +13,7 @@ Weave s’appuie sur [OpenTelemetry (OTel)](https://opentelemetry.io/docs/concep
 Si vous tracez des fonctions individuelles en tant qu’opérations avec le décorateur `@weave.op`, consultez plutôt [Tracer des applications LLM](/fr/weave/guides/tracking/tracing).
 
 <div id="before-you-begin">
-  ## Avant de commencer
+  ## Avant de commencer {#before-you-begin}
 </div>
 
 Pour commencer, installez le package `weave` et initialisez votre projet. Cette étape enregistre votre équipe et votre projet auprès de Weave afin que le SDK achemine les spans vers le bon emplacement dans l’interface utilisateur.
@@ -53,9 +53,7 @@ Pour commencer, installez le package `weave` et initialisez votre projet. Cette 
   </Tab>
 </Tabs>
 
-<div id="the-agent-data-model">
-  ## Le modèle de données des agents
-</div>
+## Le modèle de données des agents {#the-agent-data-model}
 
 Weave modélise le comportement des agents sous forme d’une hiérarchie de relations de type un-à-plusieurs. Chaque agent peut avoir plusieurs conversations, chaque conversation peut avoir plusieurs tours de conversation, chaque tour de conversation peut avoir plusieurs appels LLM, et chaque appel LLM peut déclencher plusieurs appels d’outil.
 
@@ -112,7 +110,7 @@ Une conversation regroupe les tours de conversation à l’aide d’un attribut 
 </Tip>
 
 <div id="agent-tracing-apis">
-  ## API de traçage des agents
+  ## API de traçage des agents {#agent-tracing-apis}
 </div>
 
 Les sections suivantes décrivent chaque fonction de traçage de premier niveau ainsi que les arguments qu’elle accepte. Utilisez-les pour instrumenter les couches conversation, tour de conversation, appel LLM et appel d’outil du modèle de données décrit dans la section précédente.
@@ -120,7 +118,7 @@ Les sections suivantes décrivent chaque fonction de traçage de premier niveau 
 Weave expose les fonctions de premier niveau suivantes. Chaque fonction renvoie un objet qui sert de gestionnaire de contexte (avec `with` en Python, ou `try/finally` en TypeScript), ou que vous pouvez fermer manuellement en appelant `.end()`.
 
 <div id="start-a-conversation">
-  ### Démarrer une conversation
+  ### Démarrer une conversation {#start-a-conversation}
 </div>
 
 `start_conversation()` (Python) ou `startConversation()` (TypeScript) ajoute un attribut `conversation_id` à chaque span enfant afin que les tours de conversation soient regroupés dans l’onglet Agents. Si vous fournissez un `conversation_id` / `conversationId`, il doit rester stable pendant toute la durée de la conversation. Réutilisez le même ID pour ajouter de nouveaux tours de conversation à une conversation existante. Si vous l’omettez, le SDK génère automatiquement un UUID.
@@ -154,7 +152,7 @@ La conversation active est stockée dans le contexte (un `ContextVar` Python ou 
 </Tabs>
 
 <div id="start-a-turn">
-  ### Démarrer un tour de conversation
+  ### Démarrer un tour de conversation {#start-a-turn}
 </div>
 
 `start_turn()` (Python) et `startTurn()` (TypeScript) créent un nouveau span `invoke_agent` qui devient la racine d&#39;une nouvelle trace OTel. Weave utilise ce span pour représenter un échange complet entre l’utilisateur et l’agent dans la vue chronologique.
@@ -187,7 +185,7 @@ Vous pouvez l’appeler de deux façons :
 </Tabs>
 
 <div id="start-an-llm-call">
-  ### Démarrer un appel LLM
+  ### Démarrer un appel LLM {#start-an-llm-call}
 </div>
 
 `start_llm()` / `startLLM()` crée un span `chat` imbriqué sous le tour de conversation en cours. Weave utilise ce span pour afficher l’utilisation des jetons, le nom du modèle, les messages d’entrée et de sortie, ainsi que le raisonnement dans la vue Agents.
@@ -256,7 +254,7 @@ Une fois l’appel LLM terminé, attribuez les données de réponse à l’objet
 Passez `provider_name` / `providerName` explicitement. Weave ne le déduit pas de la chaîne du modèle.
 
 <div id="start-a-tool-call">
-  ### Démarrer un appel d’outil
+  ### Démarrer un appel d’outil {#start-a-tool-call}
 </div>
 
 `start_tool()` / `startTool()` crée un span `execute_tool`. Le span devient l’enfant du span OTel actif dans le contexte (généralement le span `chat` de l’appel LLM qui a généré l’appel d’outil).
@@ -309,7 +307,7 @@ Attribuez le résultat de l’outil avant de le fermer :
 </Tabs>
 
 <div id="usage-patterns-for-agent-tracing">
-  ## Schémas d’utilisation pour le traçage des agents
+  ## Schémas d’utilisation pour le traçage des agents {#usage-patterns-for-agent-tracing}
 </div>
 
 Les sections suivantes décrivent comment combiner ces fonctions en fonction de la structure du code de votre agent.
@@ -322,7 +320,7 @@ Les exemples suivants utilisent deux types du SDK Weave :
 Weave utilise les deux pour alimenter la vue Agents avec les entrées, les sorties et l’utilisation des jetons de chaque appel LLM.
 
 <div id="context-manager-or-try-finally-pattern">
-  ### Gestionnaire de contexte ou schéma try-finally
+  ### Gestionnaire de contexte ou schéma try-finally {#context-manager-or-try-finally-pattern}
 </div>
 
 Pour la plupart des agents, utilisez un gestionnaire de contexte en Python ou un schéma try-finally en TypeScript. Le span se ferme et est envoyé à la fin du bloc, même si une exception se produit.
@@ -423,7 +421,7 @@ Weave stocke la conversation active, le tour de conversation et l’appel LLM da
 </Tabs>
 
 <div id="manual-start-and-end-pattern">
-  ### Démarrage et arrêt manuels
+  ### Démarrage et arrêt manuels {#manual-start-and-end-pattern}
 </div>
 
 Utilisez `.end()` explicitement lorsque vous ne pouvez pas recourir à des blocs `with` ou à `try/finally`. Par exemple, lorsque des spans sont ouverts et fermés dans des appels de fonction distincts, ou lorsque vous gérez le cycle de vie asynchrone en dehors d&#39;une coroutine. Il vous incombe d&#39;appeler `.end()` sur chaque objet que vous créez, afin que les spans se ferment et soient envoyés au collecteur.
@@ -484,14 +482,12 @@ Utilisez `.end()` explicitement lorsque vous ne pouvez pas recourir à des blocs
 </Tabs>
 
 <div id="semantic-conventions">
-  ## Conventions sémantiques
+  ## Conventions sémantiques {#semantic-conventions}
 </div>
 
 Le SDK Weave émet des spans OTel conformes aux [conventions sémantiques GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) et aux [conventions de span d&#39;agent GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/). Weave accepte tout span OTel, stocke tous les attributs et permet de les interroger. Vous pouvez ajouter des attributs arbitraires aux spans à l&#39;aide de l&#39;API standard des spans OTel, en plus des objets de traçage de Weave.
 
-<div id="how-data-appears-in-the-weave-ui">
-  ## Comment les données apparaissent dans l’interface Weave
-</div>
+## Comment les données apparaissent dans l’interface Weave {#how-data-appears-in-the-weave-ui}
 
 Après avoir instrumenté votre agent selon les approches précédentes et l’avoir exécuté, vos traces apparaissent dans l’onglet **Agents** de votre projet Weave à l’adresse `https://wandb.ai/[YOUR-TEAM]/[YOUR-PROJECT]/weave/agents`.
 

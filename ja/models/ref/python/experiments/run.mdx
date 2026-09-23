@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py#L405" />
 
-<div id="class-wandbrun">
-  ## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Run
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">クラス</Badge> wandb.Run {#class-wandbrun}
 
 W&amp;B でログされる計算の単位です。通常は ML の実験です。
 
@@ -22,15 +20,11 @@ W&amp;B でログされる計算の単位です。通常は ML の実験です�
 
 [`wandb.apis.public`](https://docs.wandb.ai/models/ref/python/public-api/api) 名前空間には、別の `Run` オブジェクトがあります。このオブジェクトは、すでに作成されている Runs を操作するために使用します。
 
-<div id="attributes">
-  ## 属性
-</div>
+## 属性 {#attributes}
 
 * `summary`: (Summary) run のサマリーであり、辞書のようなオブジェクトです。詳細は [Log summary metrics](https://docs.wandb.ai/models/track/log/log-summary) を参照してください。
 
-<div id="examples">
-  ## 例
-</div>
+## 例 {#examples}
 
 `wandb.init()` で run を作成します:
 
@@ -43,9 +37,7 @@ with wandb.init(entity="entity", project="project") as run:
     run.log({"accuracy": acc, "loss": loss})
 ```
 
-<div id="properties">
-  ## プロパティ
-</div>
+## プロパティ {#properties}
 
 <ResponseField name="config" type="wandb_config.Config">
   この run に関連付けられた Config オブジェクト。
@@ -181,13 +173,9 @@ with wandb.init(entity="entity", project="project") as run:
   オフライン run には URL がありません。
 </ResponseField>
 
-<div id="methods">
-  ## メソッド
-</div>
+## メソッド {#methods}
 
-<div id="method-runalert">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.alert()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.alert() {#method-runalert}
 
 ```python
 self,
@@ -199,9 +187,7 @@ wait_duration: 'int | float | timedelta | None' = None
 
 指定されたタイトルとテキストでアラートを作成します。
 
-<div id="arguments">
-  ##### 引数
-</div>
+##### 引数 {#arguments}
 
 <ResponseField name="title" type="str">
   アラートのタイトル。64 文字未満である必要があります。
@@ -219,9 +205,7 @@ wait_duration: 'int | float | timedelta | None' = None
   同じタイトルの次のアラートを送信するまでの待機時間 (秒) 。
 </ResponseField>
 
-<div id="method-rundefine_metric">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.define_metric()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.define_metric() {#method-rundefine_metric}
 
 ```python
 self,
@@ -235,9 +219,7 @@ overwrite: 'bool | None' = None
 
 `wandb.Run.log()` でログするメトリクスをカスタマイズします。
 
-<div id="arguments-2">
-  ##### 引数
-</div>
+##### 引数 {#arguments-2}
 
 <ResponseField name="name" type="str">
   カスタマイズするメトリクスの名。
@@ -263,9 +245,7 @@ overwrite: 'bool | None' = None
   false の場合、未指定のパラメーターには以前の値が使用され、この呼び出しは同じメトリクスに対する以前の `define_metric` 呼び出しとマージされます。true の場合、未指定のパラメーターによって以前の呼び出しで指定された値が上書きされます。
 </ResponseField>
 
-<div id="method-rundisplay">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.display()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.display() {#method-rundisplay}
 
 ```python
 self,
@@ -275,9 +255,7 @@ hidden: 'bool' = False
 
 Jupyterでこの run を表示します。
 
-<div id="arguments-3">
-  ##### 引数
-</div>
+##### 引数 {#arguments-3}
 
 <ResponseField name="height" type="int">
   説明は提供されていません。
@@ -287,9 +265,7 @@ Jupyterでこの run を表示します。
   説明は提供されていません。
 </ResponseField>
 
-<div id="method-runfinish">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish() {#method-runfinish}
 
 ```python
 self,
@@ -308,17 +284,13 @@ run の状態:
 * Failed: エラーにより完了した run (`exit_code!=0`) 。
 * Killed: 完了前に強制的に停止された run。
 
-<div id="arguments-4">
-  ##### 引数
-</div>
+##### 引数 {#arguments-4}
 
 <ResponseField name="exit_code" type="int | None">
   run の終了ステータスを示す整数です。成功時は 0 を使用し、それ以外の値を指定すると run は失敗として扱われます。
 </ResponseField>
 
-<div id="method-runfinish_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.finish_artifact() {#method-runfinish_artifact}
 
 ```python
 self,
@@ -333,9 +305,7 @@ distributed_id: 'str | None' = None
 
 同じ distributed ID を持つ後続の &quot;upsert&quot; では、新しいバージョンが作成されます。
 
-<div id="arguments-5">
-  ##### 引数
-</div>
+##### 引数 {#arguments-5}
 
 <ResponseField name="artifact_or_path" type="Artifact | str">
   この アーティファクト の内容へのパス。指定できる形式は次のとおりです:
@@ -368,9 +338,7 @@ distributed_id: 'str | None' = None
   すべての分散ジョブで共有される一意の文字列。None の場合は、run の group 名がデフォルトになります。
 </ResponseField>
 
-<div id="method-runlink_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_artifact() {#method-runlink_artifact}
 
 ```python
 self,
@@ -385,9 +353,7 @@ aliases: 'list[str] | None' = None
 
 指定したコレクションにリンクされたアーティファクトを Registry UI で表示します。
 
-<div id="arguments-6">
-  ##### 引数
-</div>
+##### 引数 {#arguments-6}
 
 <ResponseField name="artifact" type="Artifact">
   コレクションにリンクするアーティファクト オブジェクト。
@@ -401,9 +367,7 @@ aliases: 'list[str] | None' = None
   リンクしたアーティファクトに 1 つ以上のエイリアスを追加します。&quot;latest&quot; エイリアスは、リンクした最新のアーティファクトに自動的に適用されます。
 </ResponseField>
 
-<div id="examples-2">
-  ##### 例
-</div>
+##### 例 {#examples-2}
 
 ```python
 import wandb
@@ -430,9 +394,7 @@ with wandb.init(entity=entity, project=project) as run:
     run.link_artifact(artifact=artifact, target_path=target_path)
 ```
 
-<div id="method-runlink_model">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_model()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.link_model() {#method-runlink_model}
 
 ```python
 self,
@@ -453,9 +415,7 @@ aliases: 'list[str] | None' = None
 * モデルアーティファクト &#39;name&#39; のバージョンを、登録済みモデル &#39;registered&#95;model&#95;name&#39; にリンクします。
 * &#39;aliases&#39; リストのエイリアスを、新たにリンクされたモデルアーティファクトバージョンに付与します。
 
-<div id="arguments-7">
-  ##### 引数
-</div>
+##### 引数 {#arguments-7}
 
 <ResponseField name="path" type="StrPath">
   (str) このモデルの内容へのパスです。次の形式を指定できます:
@@ -477,16 +437,12 @@ aliases: 'list[str] | None' = None
   登録済みモデル内で、このリンクされたアーティファクトにのみ適用されるエイリアスです。エイリアス &quot;latest&quot; は、リンクされたアーティファクトの最新バージョンに常に適用されます。
 </ResponseField>
 
-<div id="raises">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises}
 
 * `AssertionError`: registered&#95;model&#95;name がパスである場合、またはモデルアーティファクト &#39;name&#39; のタイプに部分文字列 &#39;model&#39; が含まれていない場合。
 * `ValueError`: name に無効な特殊文字が含まれている場合。
 
-<div id="method-runlog">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log() {#method-runlog}
 
 ```python
 self,
@@ -566,9 +522,7 @@ with wandb.init() as run:
     run.log({"accuracy": 0.9}, step=current_step, commit=True)
 ```
 
-<div id="arguments-8">
-  ##### 引数
-</div>
+##### 引数 {#arguments-8}
 
 <ResponseField name="data" type="dict[str, Any]">
   `str` キーと、`int`、`float`、`string`、任意の `wandb.data_types`、シリアライズ可能な Python オブジェクトのリスト、タプル、NumPy 配列、および同じ構造の他の `dict` を含む、シリアライズ可能な Python オブジェクトの値を持つ `dict` です。
@@ -582,16 +536,12 @@ with wandb.init() as run:
   true の場合は、step を確定してアップロードします。false の場合は、その step のデータを蓄積します。説明内のメモを参照してください。`step` が `None` の場合、デフォルトは `commit=True` です。それ以外の場合、デフォルトは `commit=False` です。
 </ResponseField>
 
-<div id="raises-2">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-2}
 
 * `wandb.Error`: `wandb.init()` より前に呼び出した場合。
 * `ValueError`: 無効なデータが渡された場合。
 
-<div id="examples-3">
-  ##### 例
-</div>
+##### 例 {#examples-3}
 
 さらに多くの詳しい例については、[ログに関するガイド](https://docs.wandb.ai/models/track/log)を参照してください。
 
@@ -722,9 +672,7 @@ with wandb.init() as run:
     )
 ```
 
-<div id="method-runlog_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_artifact() {#method-runlog_artifact}
 
 ```python
 self,
@@ -737,9 +685,7 @@ tags: 'list[str] | None' = None
 
 アーティファクト を run の出力として宣言します。
 
-<div id="arguments-9">
-  ##### 引数
-</div>
+##### 引数 {#arguments-9}
 
 <ResponseField name="artifact_or_path" type="Artifact | StrPath">
   (str または Artifact) この アーティファクト の内容へのパス。
@@ -774,9 +720,7 @@ tags: 'list[str] | None' = None
   (list, 任意) この アーティファクト に適用するタグ (存在する場合) 。
 </ResponseField>
 
-<div id="method-runlog_code">
-  ### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_code()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">method</Badge> Run.log_code() {#method-runlog_code}
 
 ```python
 self,
@@ -790,9 +734,7 @@ exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = exclude_wandb
 
 デフォルトでは、現在のディレクトリを走査し、`.py` で終わるすべてのファイルをログします。
 
-<div id="arguments-10">
-  ##### 引数
-</div>
+##### 引数 {#arguments-10}
 
 <ResponseField name="root" type="str | None">
   コードを再帰的に検索する起点となる、`os.getcwd()` からの相対パスまたは絶対パス。
@@ -810,9 +752,7 @@ exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = exclude_wandb
   ファイルパスと (必要に応じて) ルートパスを受け取り、除外する場合は `True`、そうでない場合は `False` を返す callable。デフォルトでは、`<root>/.wandb/` および `<root>/wandb/` ディレクトリ内のすべてのファイルを除外する関数です。
 </ResponseField>
 
-<div id="examples-4">
-  ##### 例
-</div>
+##### 例 {#examples-4}
 
 基本的な使い方
 
@@ -838,9 +778,7 @@ with wandb.init() as run:
     )
 ```
 
-<div id="method-runlog_model">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.log_model()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.log_model() {#method-runlog_model}
 
 ```python
 self,
@@ -853,9 +791,7 @@ aliases: 'list[str] | None' = None
 
 モデルアーティファクトの名前に使用できるのは、英数字、アンダースコア、ハイフンのみです。
 
-<div id="arguments-11">
-  ##### 引数
-</div>
+##### 引数 {#arguments-11}
 
 <ResponseField name="path" type="StrPath">
   (str) このモデルの内容へのパスです。
@@ -874,15 +810,11 @@ aliases: 'list[str] | None' = None
   作成されたモデルアーティファクトに適用するエイリアスです。デフォルトは `["latest"]` です
 </ResponseField>
 
-<div id="raises-3">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-3}
 
 * `ValueError`: name に無効な特殊文字が含まれている場合。
 
-<div id="method-runmark_preempting">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.mark_preempting()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.mark_preempting() {#method-runmark_preempting}
 
 ```python
 self
@@ -892,9 +824,7 @@ self
 
 また、内部プロセスに対して、これを直ちにサーバーへ報告するよう指示します。
 
-<div id="method-runpin_config_keys">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.pin_config_keys()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.pin_config_keys() {#method-runpin_config_keys}
 
 ```python
 self,
@@ -907,17 +837,13 @@ Run Overview の References セクションに表示する設定キーをピン�
 文字列値は markdown としてレンダリングされ、文字列以外の値は
 プレーンテキストとしてレンダリングされます。これを再度呼び出すと、以前ピン留めしたリストは置き換えられます。
 
-<div id="arguments-12">
-  ##### 引数
-</div>
+##### 引数 {#arguments-12}
 
 <ResponseField name="keys" type="Sequence[str]">
   ピン留めする設定キー名です。`run.config` で設定したキーと一致している必要があります。これらは完全一致のキー文字列で、ドットやスラッシュはパス区切り文字ではなく、文字どおりに扱われます。順序は保持され、その順序が表示順になります。
 </ResponseField>
 
-<div id="method-runrestore">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.restore()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.restore() {#method-runrestore}
 
 ```python
 self,
@@ -932,9 +858,7 @@ root: 'str | None' = None
 ファイルは現在のディレクトリまたは run ディレクトリに保存されます。
 デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
 
-<div id="arguments-13">
-  ##### 引数
-</div>
+##### 引数 {#arguments-13}
 
 <ResponseField name="name" type="str">
   ファイルの名。
@@ -952,16 +876,12 @@ root: 'str | None' = None
   ファイルのダウンロード先ディレクトリ。デフォルトでは現在のディレクトリ、または `wandb.init` が呼び出されている場合は run ディレクトリです。
 </ResponseField>
 
-<div id="raises-4">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-4}
 
 * `CommError`: W&amp;B が W&amp;B バックエンドに接続できない場合。
 * `ValueError`: ファイルが見つからない場合、または run&#95;path が見つからない場合。
 
-<div id="method-runsave">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.save()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.save() {#method-runsave}
 
 ```python
 self,
@@ -996,9 +916,7 @@ glob のメタ文字として扱われます。ファイル名にこれらの文
 ファイルは自動的に重複排除されます。同じファイルを変更せずに `save()` を複数回
 呼び出しても、再アップロードされません。
 
-<div id="arguments-14">
-  ##### 引数
-</div>
+##### 引数 {#arguments-14}
 
 <ResponseField name="glob_str" type="str | os.PathLike">
   相対パス、絶対パス、または Unix glob。
@@ -1020,9 +938,7 @@ glob のメタ文字として扱われます。ファイル名にこれらの文
   `glob_str` を glob パターンとして扱うかどうか。後方互換性のため、デフォルトでは `True` です。`glob_str` の名前に `[`、`]`、`*`、`?` などの glob メタ文字が含まれており、それらをパターンとして解釈したくない場合は、`False` に設定して `glob_str` をリテラルパスとして扱います。
 </ResponseField>
 
-<div id="method-runstatus">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.status()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.status() {#method-runstatus}
 
 ```python
 self
@@ -1030,9 +946,7 @@ self
 
 内部バックエンドから、現在のrunのSyncステータス情報を取得します。
 
-<div id="method-rununwatch">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.unwatch()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.unwatch() {#method-rununwatch}
 
 ```python
 self,
@@ -1041,17 +955,13 @@ models: 'torch.nn.Module | Sequence[torch.nn.Module] | None' = None
 
 pytorch モデルのトポロジー、勾配、パラメーターのフックを削除します。
 
-<div id="arguments-15">
-  ##### 引数
-</div>
+##### 引数 {#arguments-15}
 
 <ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module] | None">
   watch が呼び出されている pytorch モデルの任意のリスト。
 </ResponseField>
 
-<div id="method-runupsert_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.upsert_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.upsert_artifact() {#method-runupsert_artifact}
 
 ```python
 self,
@@ -1067,9 +977,7 @@ run の出力として、未確定の アーティファクト を宣言する (
 アーティファクト を確定するには、`run.finish&#95;artifact()` を呼び出す必要があることに注意してください。
 これは、分散ジョブのすべてが同じ アーティファクト に書き込む必要がある場合に便利です。
 
-<div id="arguments-16">
-  ##### 引数
-</div>
+##### 引数 {#arguments-16}
 
 <ResponseField name="artifact_or_path" type="Artifact | str">
   この アーティファクト の内容へのパス。次の形式を指定できます。
@@ -1099,9 +1007,7 @@ run の出力として、未確定の アーティファクト を宣言する (
   すべての分散ジョブで共有する一意の文字列です。None の場合、run のグループ名がデフォルトになります。
 </ResponseField>
 
-<div id="method-runuse_artifact">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_artifact()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_artifact() {#method-runuse_artifact}
 
 ```python
 self,
@@ -1115,9 +1021,7 @@ use_as: 'str | None' = None
 
 返されたオブジェクトに対して `download` または `file` を呼び出すと、内容をローカルに取得できます。
 
-<div id="arguments-17">
-  ##### 引数
-</div>
+##### 引数 {#arguments-17}
 
 <ResponseField name="artifact_or_name" type="str | Artifact">
   使用する アーティファクト の名前。アーティファクト がログされたプロジェクト名
@@ -1141,9 +1045,7 @@ use_as: 'str | None' = None
   この引数は非推奨で、何も行いません。
 </ResponseField>
 
-<div id="examples-5">
-  ##### 例
-</div>
+##### 例 {#examples-5}
 
 ```python
 import wandb
@@ -1170,9 +1072,7 @@ artifact_d = run.use_artifact(
 run.finish()
 ```
 
-<div id="method-runuse_model">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_model()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.use_model() {#method-runuse_model}
 
 ```python
 self,
@@ -1181,9 +1081,7 @@ name: 'str'
 
 モデル アーティファクト `name` にログされたファイルをダウンロードします。
 
-<div id="arguments-18">
-  ##### 引数
-</div>
+##### 引数 {#arguments-18}
 
 <ResponseField name="name" type="str">
   モデル アーティファクト の名です。&#39;name&#39; は、既存のログ済み
@@ -1194,15 +1092,11 @@ name: 'str'
   * model&#95;artifact&#95;name:alias
 </ResponseField>
 
-<div id="raises-5">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-5}
 
 * `AssertionError`: モデル アーティファクト `name` のタイプに部分文字列 `model` が含まれていない場合。
 
-<div id="method-runwatch">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.watch()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.watch() {#method-runwatch}
 
 ```python
 self,
@@ -1218,9 +1112,7 @@ log_graph: 'bool' = False
 
 この関数では、トレーニング中にパラメーター、勾配、またはその両方をトラッキングできます。
 
-<div id="arguments-19">
-  ##### 引数
-</div>
+##### 引数 {#arguments-19}
 
 <ResponseField name="models" type="torch.nn.Module | Sequence[torch.nn.Module]">
   モニターする単一のモデル、またはモデルのシーケンスです。
@@ -1246,15 +1138,11 @@ log_graph: 'bool' = False
   モデルの計算グラフをログするかどうか。 (デフォルト=False) 
 </ResponseField>
 
-<div id="raises-6">
-  ##### 送出される例外
-</div>
+##### 送出される例外 {#raises-6}
 
 * `ValueError`: `wandb.init()` が呼び出されていない場合、またはいずれかのモデルが `torch.nn.Module` のインスタンスではない場合。
 
-<div id="method-runwrite_logs">
-  ### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.write_logs()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">メソッド</Badge> Run.write_logs() {#method-runwrite_logs}
 
 ```python
 self,
@@ -1267,9 +1155,7 @@ stdout/stderr の自動取得に依存せず、`write_logs` を使用して Logs
 
 Python の `logging` モジュールと連携する `capture_loggers` 設定の使用を検討してください。
 
-<div id="arguments-20">
-  ##### 引数
-</div>
+##### 引数 {#arguments-20}
 
 <ResponseField name="text" type="str">
   書き込むテキストです。末尾に改行がない場合は、改行が追加されます。

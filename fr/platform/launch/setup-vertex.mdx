@@ -10,9 +10,7 @@ W&amp;B Launch fonctionne avec Vertex AI via la classe `CustomJob` du SDK `googl
 
 {/* Schéma des composants de Launch sur Vertex AI */}
 
-<div id="prerequisites">
-  ## Prérequis
-</div>
+## Prérequis {#prerequisites}
 
 Avant de configurer une file d’attente Launch, assurez-vous que les ressources Google Cloud et les autorisations suivantes sont en place :
 
@@ -32,9 +30,7 @@ Avant de configurer une file d’attente Launch, assurez-vous que les ressources
   Si vous souhaitez que vos charges de travail Vertex AI utilisent l’identité d’un compte de service non standard, reportez-vous à la documentation Vertex AI pour obtenir des instructions sur la création des comptes de service et les autorisations nécessaires. Utilisez le champ `spec.service_account` de la configuration de la file d’attente Launch pour sélectionner un compte de service personnalisé pour vos runs W&amp;B.
 </Note>
 
-<div id="configure-a-queue-for-vertex-ai">
-  ## Configurer une file d&#39;attente pour Vertex AI
-</div>
+## Configurer une file d&#39;attente pour Vertex AI {#configure-a-queue-for-vertex-ai}
 
 Une fois vos prérequis Google Cloud en place, l&#39;étape suivante consiste à planifier la configuration de la file d&#39;attente que W&amp;B Launch utilise pour soumettre des jobs Vertex AI. La configuration de la file d&#39;attente pour les ressources Vertex AI définit les arguments passés au constructeur `CustomJob` dans le SDK Python Vertex AI, ainsi qu&#39;à la méthode `run` de `CustomJob`. Les configurations de ressources sont stockées sous les clés `spec` et `run` :
 
@@ -45,9 +41,7 @@ La personnalisation de l&#39;environnement d&#39;exécution se fait dans la list
 
 Pour plus d&#39;informations sur les types de machines et d&#39;accélérateurs disponibles, voir la [documentation Vertex AI](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec).
 
-<div id="create-a-queue">
-  ## Créer une file d’attente
-</div>
+## Créer une file d’attente {#create-a-queue}
 
 Maintenant que vous avez défini la configuration de votre file d’attente, créez une file d’attente dans la W&amp;B App qui utilise Vertex AI comme ressource de calcul :
 
@@ -91,9 +85,7 @@ Au minimum, vous devez spécifier les champs suivants :
   Chaque clé de la configuration de la file d’attente Launch doit utiliser le snake case.
 </Warning>
 
-<div id="configure-a-launch-agent">
-  ## Configurer un agent Launch
-</div>
+## Configurer un agent Launch {#configure-a-launch-agent}
 
 Une fois la file d’attente créée, configurez un agent Launch pour interroger la file d’attente et envoyer des jobs vers Vertex AI. L’agent Launch se configure à l’aide d’un fichier de configuration situé, par défaut, à l’emplacement `~/.config/wandb/launch-config.yaml`.
 
@@ -105,8 +97,6 @@ queues:
 
 Si vous souhaitez que l’agent Launch crée pour vous des images exécutées dans Vertex AI, voir [Configuration avancée de l’agent](./setup-agent-advanced).
 
-<div id="set-up-agent-permissions">
-  ## Configurer les autorisations de l&#39;agent
-</div>
+## Configurer les autorisations de l&#39;agent {#set-up-agent-permissions}
 
 Enfin, donnez à l&#39;agent Launch les identifiants dont il a besoin pour agir comme le compte de service que vous avez créé lors des prérequis. Il existe plusieurs méthodes pour vous authentifier à l&#39;aide de ce compte de service. Vous pouvez le faire via Workload Identity, un fichier JSON de compte de service téléchargé, des variables d&#39;environnement, l&#39;outil en ligne de commande Google Cloud Platform, ou une combinaison de ces méthodes.

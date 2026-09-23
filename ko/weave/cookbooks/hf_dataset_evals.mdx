@@ -17,9 +17,7 @@ keywords: ["HuggingFace", "preprocess_model_input", "평가", "데이터셋", "S
   이 가이드는 HuggingFace 데이터셋을 Weave 평가와 함께 사용하기 위한 우회 방법을 보여줍니다. 이 방식은 현재 사용할 수 있으며, 외부 데이터셋을 위한 더 매끄러운 인테그레이션도 개발 중입니다.
 </Note>
 
-<div id="setup-and-imports">
-  ## 설정 및 임포트
-</div>
+## 설정 및 임포트 {#setup-and-imports}
 
 먼저 Weave를 초기화하고 W&amp;B에 연결하세요. 그러면 Weave 프로젝트에서 평가 run과 그 결과를 Weave로 추적할 수 있습니다.
 
@@ -50,9 +48,7 @@ client = weave.init(f"{WEAVE_TEAM}/{WEAVE_PROJECT}")
 nest_asyncio.apply()
 ```
 
-<div id="load-and-prepare-huggingface-dataset">
-  ## HuggingFace 데이터셋 로드 및 준비
-</div>
+## HuggingFace 데이터셋 로드 및 준비 {#load-and-prepare-huggingface-dataset}
 
 다음으로, HuggingFace 데이터셋을 로드하고 평가가 순회할 경량 인덱스를 구축합니다. 데이터셋 행을 직접 Weave에 전달하는 대신 인덱스 레퍼런스 목록을 전달하고, 전처리 중에 이를 전체 행으로 해석합니다. 이 방식은 평가가 원래 HuggingFace 데이터셋에 연결된 상태를 유지하고 해당 데이터셋에 대한 레퍼런스도 보존합니다.
 
@@ -71,9 +67,7 @@ row_count = ds["train"].num_rows
 hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_count)]
 ```
 
-<div id="define-processing-and-evaluation-functions">
-  ## 처리 및 평가 함수 정의
-</div>
+## 처리 및 평가 함수 정의 {#define-processing-and-evaluation-functions}
 
 인덱스가 준비되면 평가 파이프라인을 구성하는 세 가지 함수를 정의하세요. 하나는 각 인덱스 레퍼런스를 평가에 사용할 수 있는 예시로 변환하고, 하나는 모델의 출력을 채점하며, 다른 하나는 평가 대상 함수 또는 모델을 나타냅니다.
 
@@ -121,9 +115,7 @@ def function_to_evaluate(prompt: str):
     return {"generated_text": "testing "}
 ```
 
-<div id="create-and-run-the-evaluation">
-  ## 평가 생성 및 실행
-</div>
+## 평가 생성 및 실행 {#create-and-run-the-evaluation}
 
 마지막으로, 인덱스, Scorer, 전처리 함수를 Weave `Evaluation`에 연결한 다음 모델에 대해 실행하세요. `hf_index`의 각 항목에 대해 Weave는 다음 단계를 수행합니다.
 

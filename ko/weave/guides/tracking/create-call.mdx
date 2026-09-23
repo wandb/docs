@@ -14,9 +14,7 @@ keywords: ["weave.op", "Call 추적", "LLM 트레이싱", "ThreadPoolExecutor", 
 
 무엇을 트레이스할지에 대해 필요한 제어 수준에 맞는 방식을 선택하세요.
 
-<div id="automatic-tracking-of-llm-library-calls">
-  ## LLM 라이브러리 Call 자동 추적
-</div>
+## LLM 라이브러리 Call 자동 추적 {#automatic-tracking-of-llm-library-calls}
 
 Weave는 `openai`, `anthropic`, `cohere`, `mistral`, `LangChain`과 같은 널리 사용되는 라이브러리 및 프레임워크와 자동으로 통합됩니다. LLM 또는 프레임워크 라이브러리를 임포트하고 Weave 프로젝트를 초기화하세요. 그러면 Weave가 추가 코드 변경 없이 LLM 또는 플랫폼에 대한 모든 Call을 프로젝트에 자동으로 트레이스로 기록합니다. 지원되는 라이브러리 인테그레이션의 전체 목록은 [Integrations overview](/ko/weave/guides/integrations/)를 참조하세요.
 
@@ -77,9 +75,7 @@ Weave는 `openai`, `anthropic`, `cohere`, `mistral`, `LangChain`과 같은 널�
 
 자동 동작을 더 세밀하게 제어하려면 [Configure automatic LLM call tracking](/ko/weave/guides/integrations/autopatching)을 참조하세요.
 
-<div id="track-custom-functions">
-  ## 맞춤형 함수 추적
-</div>
+## 맞춤형 함수 추적 {#track-custom-functions}
 
 LLM 애플리케이션에는 추적하고 싶은 추가 로직(예: 전처리/후처리, 프롬프트 등)이 있는 경우가 많습니다. Weave가 자동으로 트레이스하는 LLM Call와 함께 자체 함수도 캡처하도록 하려면 이 방법을 사용하세요.
 
@@ -145,9 +141,7 @@ LLM 애플리케이션에는 추적하고 싶은 추가 로직(예: 전처리/�
   </Tab>
 </Tabs>
 
-<div id="track-class-and-object-methods">
-  ### 클래스 및 객체 메서드 추적
-</div>
+### 클래스 및 객체 메서드 추적 {#track-class-and-object-methods}
 
 독립형 함수 외에도 클래스 및 객체 메서드도 추적할 수 있습니다. 메서드에 `weave.op` 데코레이터를 적용하면 클래스의 모든 메서드를 추적할 수 있습니다.
 
@@ -208,9 +202,7 @@ LLM 애플리케이션에는 추적하고 싶은 추가 로직(예: 전처리/�
   </Tab>
 </Tabs>
 
-<div id="trace-parallel-multi-threaded-function-calls">
-  ### 병렬(멀티스레드) 함수 call 트레이스
-</div>
+### 병렬(멀티스레드) 함수 call 트레이스 {#trace-parallel-multi-threaded-function-calls}
 
 기본적으로 병렬로 실행된 Call은 Weave에서 각각 별도의 루트 Call로 표시되어 트레이스 계층을 따라가기가 어렵습니다. 동일한 부모 Op 아래에 올바르게 중첩되게 하려면 `ThreadPoolExecutor`를 사용하세요.
 
@@ -249,9 +241,7 @@ Weave UI에서는 이렇게 하면 중첩된 하위 Call 다섯 개를 포함하
 
 ![outer에 대한 단일 부모 Call과 그 아래 중첩된 하위 Call 다섯 개를 보여주는 Trace UI.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
-<div id="manual-call-tracking">
-  ## 수동 Call 추적
-</div>
+## 수동 Call 추적 {#manual-call-tracking}
 
 자동 인테그레이션이나 `weave.op` 데코레이터가 워크플로에 맞지 않는 경우, API를 직접 사용해 Call을 수동으로 생성할 수 있습니다. 이 방식은 더 많은 보일러플레이트 코드가 필요한 대신, Call의 시작과 종료 시점을 완전히 제어할 수 있습니다.
 

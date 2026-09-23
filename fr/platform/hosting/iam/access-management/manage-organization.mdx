@@ -18,9 +18,7 @@ Pour simplifier la gestion des utilisateurs dans votre organisation, voir [Autom
 
 {/* W&B attribue par défaut le rôle Admin aux nouveaux utilisateurs dans une organisation. */}
 
-<div id="change-the-name-of-your-organization">
-  ## Changez le nom de votre organisation
-</div>
+## Changez le nom de votre organisation {#change-the-name-of-your-organization}
 
 <Note>
   Le flux de travail suivant s&#39;applique uniquement à W&amp;B Multi-tenant Cloud.
@@ -32,9 +30,7 @@ Pour simplifier la gestion des utilisateurs dans votre organisation, voir [Autom
 4. Sélectionnez le bouton **Modifier le nom**.
 5. Dans la fenêtre modale qui s&#39;affiche, saisissez un nouveau nom pour votre organisation, puis sélectionnez le bouton **Enregistrer le nom**.
 
-<div id="add-and-manage-users">
-  ## Ajouter et gérer les utilisateurs
-</div>
+## Ajouter et gérer les utilisateurs {#add-and-manage-users}
 
 En tant qu’administrateur, utilisez le tableau de bord de votre organisation pour :
 
@@ -50,9 +46,7 @@ Un administrateur d’organisation peut ajouter des utilisateurs à une organisa
 
 Les sections suivantes décrivent chaque méthode.
 
-<div id="seats-and-pricing">
-  ### Licences et tarification
-</div>
+### Licences et tarification {#seats-and-pricing}
 
 Le tableau suivant résume le fonctionnement des licences pour Models et Weave :
 
@@ -61,9 +55,7 @@ Le tableau suivant résume le fonctionnement des licences pour Models et Weave 
 | Models  | Paiement à la licence | Le coût total de votre abonnement dépend du nombre de licences Models payantes dont vous disposez et du volume d’utilisation accumulé. Chaque utilisateur peut se voir attribuer l’un des trois types de licence disponibles : complet, Viewer (fonctionnalité réservée à Enterprise) ou aucun accès. |
 | Weave   | Gratuit               | Selon l’utilisation                                                                                                                                                                                                                                                                              |
 
-<div id="invite-a-user">
-  ### Inviter un utilisateur
-</div>
+### Inviter un utilisateur {#invite-a-user}
 
 Les administrateurs peuvent inviter des utilisateurs dans leur organisation, ainsi que dans des équipes spécifiques au sein de celle-ci.
 
@@ -90,9 +82,7 @@ Les administrateurs peuvent inviter des utilisateurs dans leur organisation, ain
   </Tab>
 </Tabs>
 
-<div id="auto-provision-users">
-  ### Provisionnement automatique des utilisateurs
-</div>
+### Provisionnement automatique des utilisateurs {#auto-provision-users}
 
 Le provisionnement automatique simplifie l’intégration en permettant aux utilisateurs de rejoindre automatiquement votre organisation via le SSO, afin que les administrateurs n’aient pas à envoyer d’invitations individuelles. Chez W&amp;B, il s’agit de l’équivalent du provisionnement juste-à-temps (JIT) : un compte est créé lorsqu’un utilisateur dont le domaine de messagerie correspond se connecte pour la première fois via le SSO.
 
@@ -134,9 +124,7 @@ Les onglets suivants décrivent comment désactiver le SSO selon le type de dép
   Le provisionnement automatique avec le SSO est utile pour ajouter des utilisateurs à une organisation à grande échelle, car les administrateurs de l’organisation n’ont pas besoin de générer des invitations individuelles.
 </Note>
 
-<div id="domain-capture">
-  ### Capture de domaine
-</div>
+### Capture de domaine {#domain-capture}
 
 La capture de domaine vous permet d’ajouter automatiquement à W&amp;B les personnes disposant d’une adresse e-mail professionnelle, telle que `@example.com`. Cela aide tous vos employés à rejoindre la bonne organisation et garantit que les nouveaux utilisateurs ne créent pas de ressources en dehors du périmètre de votre entreprise.
 
@@ -180,9 +168,7 @@ Les domaines doivent être uniques ; vous ne pouvez pas utiliser un domaine déj
   </Tab>
 </Tabs>
 
-<div id="assign-or-update-a-users-role">
-  ### Attribuer ou mettre à jour le rôle d’un utilisateur
-</div>
+### Attribuer ou mettre à jour le rôle d’un utilisateur {#assign-or-update-a-users-role}
 
 Le rôle de l’utilisateur au niveau de l’organisation détermine ce qu’il peut faire dans l’ensemble de l’organisation, par exemple inviter d’autres utilisateurs, gérer des équipes ou consulter du contenu. Attribuez ou mettez à jour les rôles afin d’accorder à chaque utilisateur le niveau d’autorité administrative approprié.
 
@@ -200,9 +186,7 @@ Un utilisateur au sein d’une organisation peut avoir l’un des rôles suivant
 | Facturation uniquement (Cloud mutualisé)            | Un rôle axé sur la facturation pour les organisations Cloud mutualisé. Vous pouvez attribuer ce rôle uniquement à l’utilisateur chargé de la facturation de l’organisation. Les utilisateurs avec un rôle de facturation uniquement peuvent gérer les flux de travail de facturation, tels que les abonnements, les factures et les modes de paiement, mais ils ne peuvent pas inviter d’utilisateurs, gérer des équipes ni effectuer d’actions d’administration non liées à la facturation. Les utilisateurs avec un rôle de facturation uniquement sont également retirés de toutes les équipes de l’organisation et ont toujours **aucun accès** à la fois pour Models et Weave. |
 | Custom Roles (fonctionnalité Enterprise uniquement) | Les rôles personnalisés permettent aux administrateurs de l’organisation de créer de nouveaux rôles en héritant des rôles d’organisation **Viewer** ou **membre** précédents, puis en ajoutant des autorisations supplémentaires pour obtenir un contrôle d’accès granulaire. Les administrateurs d’équipe peuvent ensuite attribuer n’importe lequel de ces rôles personnalisés aux utilisateurs de leurs équipes respectives. Voir aussi [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles).                                                                                                                                                                |
 
-<div id="organization-role-permissions">
-  ### Autorisations des rôles de l’organisation
-</div>
+### Autorisations des rôles de l’organisation {#organization-role-permissions}
 
 Les rôles de l’organisation contrôlent les actions administratives à l’échelle de l’organisation. Ils sont distincts des autres catégories de rôles suivantes :
 
@@ -216,9 +200,7 @@ Les tableaux suivants résument ce que les utilisateurs **Member** et **Admin** 
   **Viewer** et les rôles personnalisés sont des fonctionnalités réservées à Enterprise. Un **Viewer** dispose d’un accès en lecture seule aux équipes auxquelles il appartient et ne peut effectuer aucune action d’écriture à l’échelle de l’organisation ou de l’équipe. Les rôles personnalisés héritent de **Viewer** ou de **Member** et ajoutent des autorisations au niveau de l’équipe ; voir [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles).
 </Note>
 
-<div id="user-management">
-  #### Gestion des utilisateurs
-</div>
+#### Gestion des utilisateurs {#user-management}
 
 | Permission                                                                  | Groupe de permissions | Membre | Admin |
 | --------------------------------------------------------------------------- | --------------------- | :----: | :---: |
@@ -232,9 +214,7 @@ Les tableaux suivants résument ce que les utilisateurs **Member** et **Admin** 
 
 Lorsque **Enforce team visibility restrictions** est activé, les membres non administrateurs ne peuvent consulter que leur propre profil ou ceux des utilisateurs qui partagent une équipe avec eux. Les administrateurs de l’organisation peuvent consulter le profil de tous les membres. Pour plus d&#39;informations, voir [paramètres de confidentialité](/fr/platform/hosting/privacy-settings#enforce-privacy-settings-for-all-teams).
 
-<div id="teams">
-  #### Teams
-</div>
+#### Teams {#teams}
 
 | Permission                                                         | Permission group | membre | Admin |
 | ------------------------------------------------------------------ | ---------------- | :----: | :---: |
@@ -251,9 +231,7 @@ Lorsque **Enforce team visibility restrictions** est activé, les membres non ad
 
 Les administrateurs de l’organisation se voient attribuer le rôle **Admin** dans les [registres](/fr/models/registry/configure_registry#role-permissions) visibles au niveau de l’organisation.
 
-<div id="organization-settings">
-  #### Paramètres de l’organisation
-</div>
+#### Paramètres de l’organisation {#organization-settings}
 
 | Autorisation                                                                                                                                           | Groupe d’autorisations | Membre | Admin |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | :----: | :---: |
@@ -263,9 +241,7 @@ Les administrateurs de l’organisation se voient attribuer le rôle **Admin** d
 | Créer, modifier et supprimer des rôles personnalisés (Enterprise)                                                                                      | Admin                  |        |   X   |
 | Connecter des buckets de stockage externes au niveau de l’organisation (Enterprise)                                                                    | Admin                  |        |   X   |
 
-<div id="billing">
-  #### Facturation
-</div>
+#### Facturation {#billing}
 
 | Autorisation                                                            | Groupe d’autorisations | Membre | Admin |
 | ----------------------------------------------------------------------- | ---------------------- | :----: | :---: |
@@ -278,9 +254,7 @@ Les utilisateurs désignés comme **administrateurs de la facturation** peuvent 
 
 Dans le Cloud mutualisé, vous pouvez, si vous le souhaitez, attribuer à l’administrateur de la facturation le rôle d’organisation **Billing only**. Ce rôle est réservé à l’utilisateur de la facturation, supprime son appartenance aux équipes et applique **aucun accès** à Models comme à Weave, tout en conservant les capacités d’administration de la facturation.
 
-<div id="security-and-automation">
-  #### Sécurité et automatisation
-</div>
+#### Sécurité et automatisation {#security-and-automation}
 
 | Autorisation                                                       | Groupe d’autorisations | membre | Admin |
 | ------------------------------------------------------------------ | ---------------------- | :----: | :---: |
@@ -297,9 +271,7 @@ Pour modifier le rôle d’un utilisateur :
 3. Trouvez l’utilisateur dans la liste. Vous pouvez filtrer par nom ou adresse e-mail dans la barre de recherche.
 4. Sélectionnez un rôle dans le menu déroulant **ORG ROLE** à côté du nom de l’utilisateur.
 
-<div id="assign-or-update-a-users-access">
-  ### Attribuer ou mettre à jour l&#39;accès d&#39;un utilisateur
-</div>
+### Attribuer ou mettre à jour l&#39;accès d&#39;un utilisateur {#assign-or-update-a-users-access}
 
 Un utilisateur au sein d&#39;une organisation dispose d&#39;une **licence Models** et d&#39;un niveau d&#39;**accès Weave**. Chacun peut être **Complet**, **Viewer** ou **Aucun accès**. Ils sont distincts du rôle **Viewer** de l&#39;organisation, qui contrôle les autorisations à l&#39;échelle de l&#39;organisation.
 
@@ -319,9 +291,7 @@ Le type de licence Models et le type d&#39;accès Weave sont définis au niveau 
   Le rôle de l&#39;organisation et le type d&#39;abonnement déterminent les types de licence disponibles au sein de votre organisation.
 </Note>
 
-<div id="remove-a-user">
-  ### Supprimer un utilisateur
-</div>
+### Supprimer un utilisateur {#remove-a-user}
 
 1. Accédez à [https://wandb.ai/home](https://wandb.ai/home).
 2. Dans l’angle supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans le menu déroulant, choisissez **Users**.
@@ -329,18 +299,14 @@ Le type de licence Models et le type d&#39;accès Weave sont définis au niveau 
 4. Sélectionnez le menu **action (<Icon icon="ellipsis" iconType="solid" />)** lorsqu’il apparaît.
 5. Dans le menu déroulant, choisissez **Supprimer le membre**.
 
-<div id="assign-the-billing-admin">
-  ### Désigner l’administrateur de la facturation
-</div>
+### Désigner l’administrateur de la facturation {#assign-the-billing-admin}
 
 1. Accédez à [https://wandb.ai/home](https://wandb.ai/home).
 2. Dans l’angle supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans le menu déroulant, choisissez **Users**.
 3. Saisissez le nom ou l’adresse e-mail de l’utilisateur dans la barre de recherche.
 4. Dans la colonne **Billing admin**, choisissez l’utilisateur à désigner comme administrateur de la facturation.
 
-<div id="add-and-manage-teams">
-  ## Ajouter et gérer des équipes
-</div>
+## Ajouter et gérer des équipes {#add-and-manage-teams}
 
 Les équipes regroupent des utilisateurs associés afin qu’ils puissent collaborer sur des Projects et partager des ressources au sein de l’organisation. Les sections suivantes décrivent comment créer des équipes, y inviter des utilisateurs et gérer les membres et les rôles de l’équipe.
 
@@ -351,9 +317,7 @@ Utilisez le tableau de bord de votre organisation pour créer et gérer des équ
 * Automatiser l’ajout d’utilisateurs à une équipe lorsqu’ils rejoignent votre organisation.
 * Gérer le stockage de l’équipe depuis le tableau de bord de l’équipe à l’adresse `https://wandb.ai/<team-name>`.
 
-<div id="create-a-team">
-  ### Créer une équipe
-</div>
+### Créer une équipe {#create-a-team}
 
 Utilisez le tableau de bord de votre organisation pour créer une équipe :
 
@@ -372,9 +336,7 @@ Après avoir sélectionné le bouton **Create team**, W&amp;B vous redirige vers
 
 Une fois votre équipe créée, vous pouvez y ajouter des utilisateurs.
 
-<div id="invite-users-to-a-team">
-  ### Inviter des utilisateurs dans une équipe
-</div>
+### Inviter des utilisateurs dans une équipe {#invite-users-to-a-team}
 
 Invitez des utilisateurs dans une équipe de votre organisation. Utilisez le tableau de bord de l&#39;équipe pour inviter des utilisateurs à l&#39;aide de leur adresse e-mail ou de leur nom d&#39;utilisateur W&amp;B s&#39;ils ont déjà un compte W&amp;B.
 
@@ -394,17 +356,13 @@ Par défaut, seul un administrateur d&#39;équipe ou d&#39;instance peut inviter
 
 Outre l&#39;invitation manuelle d&#39;utilisateurs par e-mail, vous pouvez ajouter automatiquement de nouveaux utilisateurs à une équipe si l&#39;[adresse e-mail du nouvel utilisateur correspond au domaine de votre organisation](#domain-capture).
 
-<div id="match-members-to-a-team-organization-during-sign-up">
-  ### Associer des membres à une organisation d’équipe lors de l’inscription
-</div>
+### Associer des membres à une organisation d’équipe lors de l’inscription {#match-members-to-a-team-organization-during-sign-up}
 
 Permettez aux nouveaux utilisateurs de votre organisation de découvrir les équipes de votre organisation lorsqu’ils s’inscrivent. Les nouveaux utilisateurs doivent avoir un domaine d’adresse e-mail vérifié qui correspond au domaine d’adresse e-mail vérifié de votre organisation. Les nouveaux utilisateurs vérifiés peuvent consulter une liste des équipes vérifiées appartenant à une organisation lorsqu’ils créent un compte W&amp;B.
 
 Un administrateur d’organisation doit activer la revendication de domaine. Pour activer la capture de domaine, voir les étapes décrites dans [Domain capture](#domain-capture).
 
-<div id="view-team-member-status">
-  ### Voir le statut des membres d’une équipe
-</div>
+### Voir le statut des membres d’une équipe {#view-team-member-status}
 
 <Note>
   La colonne **Statut** est disponible uniquement pour les déploiements Cloud dédié et autogérés.
@@ -433,9 +391,7 @@ Pour filtrer la liste par statut, saisissez un statut tel que **Désactivé** da
 Pour consulter le statut de chaque utilisateur de l’organisation plutôt que celui des membres d’une seule équipe, voir [Voir l’activité de l’organisation](/fr/platform/hosting/monitoring-usage/org_dashboard#view-user-status-and-activity). Depuis cette page, un administrateur de l’organisation peut désactiver ou réactiver un utilisateur.
 Pour désactiver ou réactiver un utilisateur avec SCIM, voir plutôt [Désactiver un utilisateur](/fr/platform/hosting/iam/scim#deactivate-user) et [Réactiver un utilisateur](/fr/platform/hosting/iam/scim#reactivate-user).
 
-<div id="assign-or-update-a-team-members-role">
-  ### Attribuer ou mettre à jour le rôle d&#39;un membre de l&#39;équipe
-</div>
+### Attribuer ou mettre à jour le rôle d&#39;un membre de l&#39;équipe {#assign-or-update-a-team-members-role}
 
 Le rôle d&#39;un membre de l&#39;équipe détermine ce qu&#39;il peut faire au sein de l&#39;équipe, par exemple gérer d&#39;autres membres, contribuer au contenu ou uniquement consulter les données. Mettez à jour le rôle d&#39;un membre de l&#39;équipe lorsque ses responsabilités au sein de l&#39;équipe changent.
 
@@ -459,9 +415,7 @@ Ce tableau répertorie les rôles que vous pouvez attribuer à un membre d&#39;u
   Seules les licences Enterprise sur Cloud dédié ou dans un déploiement Autogéré permettent d&#39;attribuer des rôles personnalisés aux membres d&#39;une équipe.
 </Note>
 
-<div id="remove-users-from-a-team">
-  ### Supprimer des utilisateurs d’une équipe
-</div>
+### Supprimer des utilisateurs d’une équipe {#remove-users-from-a-team}
 
 Supprimez un utilisateur d’une équipe depuis le tableau de bord de l’équipe. W&amp;B conserve les runs créés dans une équipe, même si le membre qui les a créés ne fait plus partie de cette équipe.
 
@@ -471,9 +425,7 @@ Supprimez un utilisateur d’une équipe depuis le tableau de bord de l’équip
 4. Placez le pointeur de la souris à côté du nom de l’utilisateur que vous souhaitez supprimer. Sélectionnez le menu **d’action (<Icon icon="ellipsis" iconType="solid" />)** lorsqu’il apparaît.
 5. Dans le menu déroulant, sélectionnez **Supprimer l’utilisateur**.
 
-<div id="add-and-manage-custom-roles">
-  ## Ajouter et gérer des rôles personnalisés
-</div>
+## Ajouter et gérer des rôles personnalisés {#add-and-manage-custom-roles}
 
 Les rôles personnalisés vous permettent d’adapter les autorisations au-delà des rôles intégrés lorsque les rôles standard View-Only, membre et Admin ne correspondent pas aux exigences d’accès de votre organisation. Utilisez des rôles personnalisés pour accorder des autorisations spécifiques tout en vous appuyant sur un rôle de base familier.
 

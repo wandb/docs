@@ -17,9 +17,7 @@ description: "デフォルト、カスタム、保護されたエイリアスを
 
 アーティファクトバージョンにエイリアスを追加すると、必要に応じて [Registry automation](/ja/models/automations/automation-events/#registry) を開始し、Slack チャンネルに通知したり webhook をトリガーしたりできます。オートメーションが、リクエスト内でアクセストークンやその他の機密情報を必要とする webhook を呼び出す場合は、それらの文字列を[チームシークレット](/ja/platform/secrets)として保存し、オートメーションの webhook を設定するときに選択します。&quot;
 
-<div id="default-aliases">
-  ## デフォルトのエイリアス
-</div>
+## デフォルトのエイリアス {#default-aliases}
 
 W&amp;B は、同じ名でリンクした各 アーティファクト バージョンに、次のエイリアスを自動的に割り当てます。
 
@@ -28,9 +26,7 @@ W&amp;B は、同じ名でリンクした各 アーティファクト バージ�
 
 たとえば、`zoo_model` という名の アーティファクト を 3 回リンクすると、W&amp;B はそれぞれ `v0`、`v1`、`v2` という 3 つのエイリアスを作成します。`v2` には `latest` エイリアスも付きます。
 
-<div id="custom-aliases">
-  ## カスタムエイリアス
-</div>
+## カスタムエイリアス {#custom-aliases}
 
 固有のユースケースに応じて、特定のアーティファクトバージョンに 1 つ以上のカスタムエイリアスを作成できます。たとえば、次のような使い方があります。
 
@@ -87,9 +83,7 @@ W&amp;B Registry または Python SDK を使用してカスタムエイリアス
   </Tab>
 </Tabs>
 
-<div id="protected-aliases">
-  ### 保護されたエイリアス
-</div>
+### 保護されたエイリアス {#protected-aliases}
 
 変更や削除を防ぎたい アーティファクト バージョンにラベルを付けて識別するには、[保護されたエイリアス](/ja/models/registry/aliases/#protected-aliases)を使用します。たとえば、組織の機械学習の本番パイプラインで使用している アーティファクト バージョンにラベルを付けて識別するために、`production` の保護されたエイリアスを使用できます。
 
@@ -100,9 +94,7 @@ W&amp;B Registry または Python SDK を使用してカスタムエイリアス
 * **Production**: その アーティファクト バージョンは本番環境で使用できる状態です。
 * **Staging**: その アーティファクト バージョンはテストできる状態です。
 
-<div id="create-a-protected-alias">
-  #### 保護されたエイリアスを作成する
-</div>
+#### 保護されたエイリアスを作成する {#create-a-protected-alias}
 
 以下の手順では、W&amp;B Registry UI で保護されたエイリアスを作成する方法を説明します。
 
@@ -126,9 +118,7 @@ W&amp;B Registry または Python SDK を使用してカスタムエイリアス
 
 保護されたエイリアスを作成すると、管理者は Python SDK を使ってそのエイリアスを アーティファクト バージョンにプログラムで追加できます。アーティファクト バージョンに保護されたエイリアスを追加する方法の例については、上記の [Create a custom alias](#custom-aliases) セクションにある W&amp;B Registry タブと Python SDK タブを参照してください。
 
-<div id="find-existing-aliases">
-  ## 既存のエイリアスを検索する
-</div>
+## 既存のエイリアスを検索する {#find-existing-aliases}
 
 既存のエイリアスは、[W&amp;B Registry のグローバル検索バー](/ja/models/registry/search_registry/#search-for-registry-items)で検索できます。保護されたエイリアスを検索するには、次の手順に従います。
 
@@ -137,9 +127,7 @@ W&amp;B Registry または Python SDK を使用してカスタムエイリアス
 
 入力した語が既存のレジストリ、コレクション名、アーティファクト のバージョンタグ、コレクションタグ、またはエイリアスに一致すると、検索結果が検索バーの下に表示されます。
 
-<div id="example">
-  ## 例
-</div>
+## 例 {#example}
 
 <Note>
   以下のコード例は、こちらの [W&amp;B Registry Tutorial ノートブック](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb) の続きです。以下のコードを使用するには、まず [ノートブックで説明されている手順に従って Zoo データセットを取得し、処理する](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a) 必要があります。Zoo データセットを用意したら、アーティファクト バージョンを作成し、カスタムエイリアスを追加できます。

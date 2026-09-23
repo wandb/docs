@@ -8,15 +8,11 @@ import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-grou
 
 このページでは、折れ線グラフの設定について詳しく説明します。折れ線グラフの操作の詳細については、[Line plots overview](/ja/models/app/features/panels/line-plot)を参照してください.
 
-<div id="data-settings">
-  ## データ設定
-</div>
+## データ設定 {#data-settings}
 
 データ設定では、プロットに表示されるメトリクスや、データポイントのサンプリング、平滑化、集計の方法を制御します。
 
-<div id="x-axis">
-  ### X軸
-</div>
+### X軸 {#x-axis}
 
 <Frame>
   <img src="/images/app_ui/reference_x_axis.png" alt="X軸の選択" />
@@ -32,9 +28,7 @@ X軸の範囲は、`wandb.Run.log()` でログした任意の整数値または�
 * **Wall Time**: グラフ上の最初の run の開始から経過した分数です。
 * **X range**: デフォルトでは、X軸の最小値から最大値までが使用されます。最小値と最大値はカスタマイズできます.
 
-<div id="y-axis">
-  ### Y軸
-</div>
+### Y軸 {#y-axis}
 
 Y軸の変数には、`wandb.Run.log()`でログした任意の整数値または浮動小数点値を設定できます。単一の値、値の配列、または値のヒストグラムを指定します。ある変数で 1,500 個を超えるデータ点をログした場合、W&amp;B は 1,500 点までサンプリングします。
 
@@ -44,18 +38,14 @@ Y軸の変数には、`wandb.Run.log()`でログした任意の整数値また�
 
 **Y range** オプションのデフォルトは、メトリクスの最小の正の値 (0 を含む) からメトリクスの最大値までの範囲です。最小値と最大値はカスタマイズできます。
 
-<div id="point-aggregation-method">
-  ### Point aggregation method
-</div>
+### Point aggregation method {#point-aggregation-method}
 
 データポイントの表示に使用するサンプリングモードを選択します。
 
 * **フルフィデリティ** (デフォルト) : [フルフィデリティ](/ja/models/app/features/panels/line-plot/sampling/#full-fidelity)を参照してください。
 * **ランダムサンプリング**: [ランダムサンプリング](/ja/models/app/features/panels/line-plot/sampling/#random-sampling)を参照してください。
 
-<div id="smoothing">
-  ### スムージング
-</div>
+### スムージング {#smoothing}
 
 [スムージング係数](/ja/support/models/articles/what-formula-do-you-use-for-your-smoothi) を 0 から 1 の間で設定します。0 はスムージングなし、1 は最大のスムージングです。
 
@@ -68,18 +58,14 @@ Y軸の変数には、`wandb.Run.log()`でログした任意の整数値また�
 
 詳細については、[折れ線グラフのスムージング](/ja/models/app/features/panels/line-plot/smoothing)を参照してください。
 
-<div id="ignore-outliers">
-  ### 外れ値を無視
-</div>
+### 外れ値を無視 {#ignore-outliers}
 
 デフォルトのプロットの最小値および最大値のスケールから外れ値を除外するように、プロットのスケールを再調整します。この設定の影響は、プロットのサンプリングモードによって異なります。
 
 * **ランダムサンプリングモード**: 外れ値を無視すると、5% 未満および 95% を超える点はプロットから除外されます。
 * **フルフィデリティモード**: 外れ値を無視すると、すべての点が表示され、各 bucket の最後の値まで圧縮されたうえで、5% 未満および 95% を超える領域が網掛け表示されます。
 
-<div id="max-runs-or-groups">
-  ### Runs またはグループの最大数
-</div>
+### Runs またはグループの最大数 {#max-runs-or-groups}
 
 デフォルトでは、プロットには Runs リストまたは Runs セットの先頭 10 件の Runs または Runs グループのみが表示されます。表示する Runs またはグループを制御するには、並び順を変更します。
 
@@ -87,9 +73,7 @@ Y軸の変数には、`wandb.Run.log()`でログした任意の整数値また�
   Workspace では、設定に関係なく、最大 1,000 件の run までしか表示できません。
 </Note>
 
-<div id="run-grouping">
-  ### Run のグループ化
-</div>
+### Run のグループ化 {#run-grouping}
 
 Runs table がグループ化されている場合、各折れ線グラフではグループ内の runs が1本の線にまとめられます。このグループ化をグラフにどのように適用するかを設定します。
 
@@ -105,9 +89,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
   **グループごとに最新の run のみを使用** は、デフォルトの **Point aggregation method** が **フルフィデリティ** の場合にのみ有効です。**ランダムサンプリング** モードでは効果がありません。
 </Note>
 
-<div id="chart-type">
-  ### チャートタイプ
-</div>
+### チャートタイプ {#chart-type}
 
 プロットスタイルを選択します。
 
@@ -126,9 +108,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 
 チャートタイプは **Data** タブで設定します。詳しくは [個別の折れ線グラフ](/ja/models/app/features/panels/line-plot#individual-line-plot) を参照してください。
 
-<div id="grouping-settings">
-  ## グループ化設定
-</div>
+## グループ化設定 {#grouping-settings}
 
 グループ化を有効にすると、すべての Runs を集約できます。また、特定の変数でグループ化することもできます。Runs table でグループ化を有効にすると、グループが自動的にグラフに反映されます。
 
@@ -137,9 +117,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 * **集約**: グラフ上の線の値です。オプションは、グループの平均、中央値、最小値、最大値です。このコントロールは **Group runs** が有効な場合にのみ適用されます。
 * **Range**: フルフィデリティの折れ線グラフの網掛け領域を設定します。オプションは Min/Max、Std Dev、Std Err、None です。
 
-<div id="chart-settings">
-  ## チャート設定
-</div>
+## チャート設定 {#chart-settings}
 
 タイトルと凡例の表示設定を行います。
 
@@ -148,15 +126,11 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 * **Y軸タイトル**: Y軸のラベル。
 * **凡例**: 凡例の表示/非表示を切り替え、位置を設定します。
 
-<div id="legend-settings">
-  ## 凡例の設定
-</div>
+## 凡例の設定 {#legend-settings}
 
 凡例をカスタマイズすると、ログされた任意の設定値や、作成日時、そのrunを作成したユーザーなど、runsのメタデータを表示できます。
 
-<div id="legend-template">
-  ### 凡例テンプレート
-</div>
+### 凡例テンプレート {#legend-template}
 
 凡例名のテンプレートを定義します。
 
@@ -169,9 +143,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 
   `${run:displayName} - ${config:dropout}` と指定すると、`royal-sweep - 0.5` のような凡例名が生成されます。ここで、`royal-sweep` は run 名、`0.5` は `dropout` という名前の設定パラメーターです。 */}
 
-<div id="point-specific-values">
-  ### ポイント固有の値
-</div>
+### ポイント固有の値 {#point-specific-values}
 
 `[[ ]]` 内に値を設定すると、チャートにカーソルを合わせたときに、クロスヘアにポイント固有の値を表示できます。
 
@@ -195,9 +167,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 | `${max}`      | グループ化された Runs の最大値        |
 | `${percent}`  | 全体に占める割合 (積み上げエリアチャートの場合) |
 
-<div id="expressions">
-  ## 式
-</div>
+## 式 {#expressions}
 
 ログしたメトリクス、設定値、サマリー統計を使って、折れ線グラフを作成または変換する数式を記述できます。たとえば、2 つのメトリクスの差を計算したり、設定値を使ってメトリクスを再スケーリングしたり、メトリクスの対数をプロットしたりできます。式は、ログする各 step ごとに評価されます。
 
@@ -205,9 +175,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 
 一般的なユースケースと式の例については、[式の例](#example-expressions) を参照してください。
 
-<div id="create-new-line-plots-with-expressions">
-  ### 式を使用して新しい折れ線グラフを作成する
-</div>
+### 式を使用して新しい折れ線グラフを作成する {#create-new-line-plots-with-expressions}
 
 1. project の Workspace にアクセスします。
 2. **+ Add panel** ボタンをクリックし、**Line plot** を選択します。
@@ -216,9 +184,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 5. **Y 軸** フィールドまたは **X 軸** フィールドに式を入力します。
 6. **Apply** をクリックして設定を保存し、折れ線グラフを表示します。
 
-<div id="transform-existing-line-plots-with-expressions">
-  ### 式を使って既存の折れ線グラフを変換する
-</div>
+### 式を使って既存の折れ線グラフを変換する {#transform-existing-line-plots-with-expressions}
 
 1. 変換する折れ線グラフを開きます。
 2. パネルを編集するには、プロットの右上にある歯車アイコンをクリックします。
@@ -242,9 +208,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
     * `_step`: デフォルトの X 軸の値。
     * `${summary:value}`: summary 値を参照します。 */}
 
-<div id="referencing-values">
-  ### 値の参照
-</div>
+### 値の参照 {#referencing-values}
 
 次の表では、折れ線グラフの式で、ログされたメトリクス、設定パラメーター、サマリー統計を参照する方法を説明します。
 
@@ -258,9 +222,7 @@ Runs table がグループ化されている場合、各折れ線グラフでは
 
 たとえば、`val/accuracy` という名前のメトリクスをログした場合は、除算演算子との混同を避けるため、`${val/accuracy}` として参照します。`dropout-rate` という名前の設定パラメーターをログした場合は、`${config:dropout-rate}` として参照します。`best loss` という名前のサマリーフィールドをログした場合は、`${summary:best loss}` として参照します。
 
-<div id="nested-configs">
-  #### ネストされた設定
-</div>
+#### ネストされた設定 {#nested-configs}
 
 ドット記法を使用して、次の構文でネストされた設定値にアクセスします。
 
@@ -305,9 +267,7 @@ config:
 
 学習率は`${config:optimizer.value.lr}`、モデルの隠れサイズは`${config:model.value.hidden_size}`、重み減衰は`${config:optimizer.value.weight_decay}`で参照できます。
 
-<div id="available-operators">
-  ### 利用可能な演算子
-</div>
+### 利用可能な演算子 {#available-operators}
 
 W&amp;B では、折れ線グラフの式で次の演算子をサポートしています。
 
@@ -318,15 +278,11 @@ W&amp;B では、折れ線グラフの式で次の演算子をサポートして
 | ビット演算 | `\|`, `^`, `&`, `<<`, `>>`, `>>>`              |
 | 論理    | `\|\|`, `&&`                                   |
 
-<div id="math-constants-and-functions">
-  ### 数学定数と関数
-</div>
+### 数学定数と関数 {#math-constants-and-functions}
 
 JavaScript のすべての数学関数と定数がサポートされています。詳細については、[MDN Math documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) を参照してください。以下の表では、折れ線グラフの式でよく使用される関数と定数をまとめています。
 
-<div id="math-constants">
-  #### 数学定数
-</div>
+#### 数学定数 {#math-constants}
 
 | 定数        | 説明             |
 | --------- | -------------- |
@@ -339,9 +295,7 @@ JavaScript のすべての数学関数と定数がサポートされています
 | `sqrt2`   | 2 の平方根         |
 | `sqrt1_2` | 1/2 の平方根       |
 
-<div id="arithmetic-and-statistical-functions">
-  #### 算術関数と統計関数
-</div>
+#### 算術関数と統計関数 {#arithmetic-and-statistical-functions}
 
 次の表に、使用可能な算術関数と統計関数を示します。
 
@@ -355,9 +309,7 @@ JavaScript のすべての数学関数と定数がサポートされています
 | max(x, y, ...) | 最大値                 |
 | sqrt(x)        | 平方根                 |
 
-<div id="logarithmic-and-exponential-functions">
-  #### 対数関数と指数関数
-</div>
+#### 対数関数と指数関数 {#logarithmic-and-exponential-functions}
 
 次の表に、使用できる対数関数と指数関数を示します。
 
@@ -369,9 +321,7 @@ JavaScript のすべての数学関数と定数がサポートされています
 | exp(x)    | 指数関数 (e^x)   |
 | pow(x, y) | べき乗関数 (x^y)  |
 
-<div id="trigonometric-functions">
-  #### 三角関数
-</div>
+#### 三角関数 {#trigonometric-functions}
 
 次の表は、使用可能な三角関数を示します。
 
@@ -385,9 +335,7 @@ JavaScript のすべての数学関数と定数がサポートされています
 | atan(x)     | アークタンジェント (逆正接)  |
 | atan2(y, x) | 2引数のアークタンジェント    |
 
-<div id="hyperbolic-functions">
-  #### 双曲線関数
-</div>
+#### 双曲線関数 {#hyperbolic-functions}
 
 次の表に、利用可能な双曲線関数を示します。
 
@@ -397,9 +345,7 @@ JavaScript のすべての数学関数と定数がサポートされています
 | cosh(x) | 双曲線余弦 |
 | tanh(x) | 双曲線正接 |
 
-<div id="example-expressions">
-  ### 式の例
-</div>
+### 式の例 {#example-expressions}
 
 以下は、折れ線グラフの軸で使用する式の例です。これらはあくまで例示です。前のセクションで説明した演算子と関数を任意に組み合わせて、ニーズに合った複雑な式を作成できます。
 
@@ -482,9 +428,7 @@ sqrt(loss*100)+sqrt(loss*100000)
   ```
 </Note>
 
-<div id="multi-metric-panel-expressions">
-  ### 複数メトリクスパネルの式
-</div>
+### 複数メトリクスパネルの式 {#multi-metric-panel-expressions}
 
 正規表現を使用すると、複数のメトリクスをまとめて表示する単一の折れ線グラフを作成できます (今後ログされる、パターンに一致するメトリクスも含まれます) 。詳しくは、[折れ線グラフを追加する](/ja/models/app/features/panels/line-plot#multi-metric-line-plot)を参照してください。
 
@@ -496,8 +440,6 @@ sqrt(loss*100)+sqrt(loss*100000)
   * `.*_accuracy` は、`train_accuracy`、`val_accuracy`、`test_accuracy` のような、異なるデータセットにまたがる精度メトリクスに一致します
 * 必要なメトリクスだけに一致させるには、選択を使用します。たとえば、非キャプチャグループ `(?:layer_0|layer_10)_loss` は、途中のレイヤーを除外し、1 番目と 10 番目のレイヤーの損失にのみ一致します。
 
-<div id="capture-groups">
-  #### キャプチャグループ
-</div>
+#### キャプチャグループ {#capture-groups}
 
 <LinePlotCaptureGroups />

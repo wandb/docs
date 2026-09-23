@@ -13,9 +13,7 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
 
 このページでは、チャットの開始と再開、フォローアップメッセージのキューイング、Runs や画像などのコンテキストの追加、応答に対するフィードバックの提供など、ARIA との会話を管理する方法について説明します。また、会話の名前変更、ピン留め、削除によってチャット履歴を整理する方法についても説明します。
 
-<div id="start-a-new-chat">
-  ## 新しいチャットを開始する
-</div>
+## 新しいチャットを開始する {#start-a-new-chat}
 
 新しいチャットを開始するには、ARIA を開き、チャットウィンドウの右上にある鉛筆アイコンをクリックします。
 
@@ -23,9 +21,7 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
 
 新しいチャットを開始しても、以前の会話は削除されません。[以前の会話を表示する](/ja/aria/chat#view-chat-history)には、**<Icon icon="sidebar-reveal" iconType="solid" />** (**Reveal chat history**) をクリックしてチャット履歴のサイドバーを開きます。
 
-<div id="send-a-message">
-  ## メッセージを送信する
-</div>
+## メッセージを送信する {#send-a-message}
 
 メッセージを入力し、**Enter** を押して送信します。
 
@@ -40,9 +36,7 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
 
 <Frame>![ARIA の折れ線グラフ操作を示すアニメーション](/images/agent/aria-line-plot-interactions.gif)</Frame>
 
-<div id="queue-messages">
-  ## キュー内のメッセージ
-</div>
+## キュー内のメッセージ {#queue-messages}
 
 メッセージキューには、ARIA の処理中に送信した後続のタスクや質問が保持されます。ARIA は、会話全体をコンテキストとして使用し、キューに入れられた各メッセージを順番に実行します。前のメッセージが完了すると、すぐに次のメッセージが実行されます。
 
@@ -72,15 +66,11 @@ ARIA の処理中に、追加のリクエストをチャットウィンドウに
 
 ARIA が続行前に確認への回答や許可を求める場合、応答するまでキューは一時停止します。先に応答せずにキュー内のメッセージを実行するには、その横にある上矢印アイコンをクリックします。
 
-<div id="manage-conversations">
-  ## 会話を管理する
-</div>
+## 会話を管理する {#manage-conversations}
 
 以下のセクションでは、会話の表示、リネーム、ピン留め、削除の方法について説明します。
 
-<div id="view-chat-history">
-  ### チャット履歴 を表示する
-</div>
+### チャット履歴 を表示する {#view-chat-history}
 
 過去の会話を表示するには、次の手順に従います。
 
@@ -98,9 +88,7 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 
 チャット履歴 サイドバーの **Customize** セクションには、作成した ARIA のオートメーションも一覧表示されます。[ARIA でオートメーションを使用する](/ja/models/automations/create-automations/aria) を参照してください。
 
-<div id="rename-a-conversation">
-  ### 会話をリネームする
-</div>
+### 会話をリネームする {#rename-a-conversation}
 
 デフォルトでは、会話のタイトルには最初の プロンプト の抜粋が使われます。
 
@@ -115,9 +103,7 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 
 リネームしたタイトルは、開いているブラウザータブ間で同期されます。スマートフォンから chat をリネームすることもできます。モバイルアプリのドキュメントの [Chat with ARIA](/ja/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) を参照してください。
 
-<div id="pin-a-conversation">
-  ### 会話をピン留めする
-</div>
+### 会話をピン留めする {#pin-a-conversation}
 
 会話をピン留めすると、新しい chat が増えても下に流れてしまうことなく、チャット履歴 サイドバーの最上部に固定できます。
 
@@ -127,9 +113,7 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 
 ピン留めできる会話の数に制限はなく、ピン留めの変更は開いているブラウザータブ間で同期されます。ピン留めが影響するのは自分の会話リストのみで、同じ project にアクセスできるチームメンバーの表示には影響しません。
 
-<div id="delete-previous-conversations">
-  ### 以前の会話を削除する
-</div>
+### 以前の会話を削除する {#delete-previous-conversations}
 
 以前の会話を削除するには、次の手順に従ってください。
 
@@ -138,17 +122,13 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 3. 削除したい会話にカーソルを合わせ、**<Icon icon="trash" iconType="solid" />** (**Delete chat**) をクリックします。
 4. **Delete** をクリックして確定します。会話を残す場合は **<Icon icon="xmark" iconType="solid" />** (**Cancel delete**) をクリックします。
 
-<div id="undock-chat-window">
-  ## チャットウィンドウを切り離す
-</div>
+## チャットウィンドウを切り離す {#undock-chat-window}
 
 チャットウィンドウを別ウィンドウとして切り離すことができます。これにより、ARIA の応答を project データと並べて表示できます。
 
 チャットを切り離すには、チャットウィンドウの右上にある閉じる (**X**) ボタンの横の切り離しアイコンをクリックします。
 
-<div id="add-context-to-a-conversation">
-  ## 会話にコンテキストを追加する
-</div>
+## 会話にコンテキストを追加する {#add-context-to-a-conversation}
 
 `@` 記号を使用して、プロンプト内で特定の run を指定できます。たとえば、プロンプトにその run 名を含めることで、ARIA に特定の run を分析するよう依頼できます。
 
@@ -156,15 +136,11 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 Analyze the run @run-20230615_123456-abcdefg and summarize the results
 ```
 
-<div id="add-an-image-to-a-conversation">
-  ## 会話に画像を追加する
-</div>
+## 会話に画像を追加する {#add-an-image-to-a-conversation}
 
 チャットウィンドウの左下にあるプラスアイコン (`+`) をクリックすると、会話に画像を追加できます。その後、ARIA に画像の分析や説明を依頼できます。
 
-<div id="provide-feedback">
-  ## フィードバックを送信する
-</div>
+## フィードバックを送信する {#provide-feedback}
 
 ARIA の応答についてフィードバックを送信するには、応答の末尾にあるサムズアップまたはサムズダウンのアイコンをクリックします。お寄せいただいたフィードバックは、W&amp;B による ARIA のパフォーマンスと精度の向上に役立ちます。
 

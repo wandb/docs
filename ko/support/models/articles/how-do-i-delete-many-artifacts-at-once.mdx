@@ -48,9 +48,7 @@ for collection in api.artifact_collections(f"{entity}/{project}", artifact_type)
 
 버전이 링크 컬렉션의 버전인 경우 `version.delete(delete_aliases=True)`는 연결만 제거합니다. 소스 아티팩트와 해당 파일은 그대로 유지되므로 이 버전을 삭제해도 저장소 공간이 확보되지 않습니다.
 
-<div id="reclaim-the-space">
-  ## 공간 확보
-</div>
+## 공간 확보 {#reclaim-the-space}
 
 삭제된 아티팩트는 먼저 소프트 삭제된 후 가비지 컬렉션 과정에서 제거되므로 저장소 사용량이 즉시 줄어들지는 않습니다. 시점 및 사용량 확인 방법은 [run을 삭제한 후에도 저장소 사용량이 업데이트되지 않는 이유는 무엇인가요?](/ko/support/models/articles/why-does-the-storage-meter-not-update-af) 및 [아티팩트 삭제](/ko/models/artifacts/delete-artifacts)를 참조하세요.
 

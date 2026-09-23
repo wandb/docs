@@ -13,9 +13,7 @@ import MultiTenantCloudOnly from "/snippets/fr/_includes/multi-tenant-cloud-only
 
 Cette page explique comment gérer vos conversations avec ARIA : démarrer et reprendre des chats, mettre en file d&#39;attente des messages de suivi, ajouter du contexte, comme des runs et des images, et donner votre feedback sur les réponses. Elle explique également comment organiser votre historique de conversation en renommant, épinglant et supprimant des conversations.
 
-<div id="start-a-new-chat">
-  ## Démarrer un nouveau chat
-</div>
+## Démarrer un nouveau chat {#start-a-new-chat}
 
 Pour démarrer un nouveau chat, ouvrez ARIA, puis cliquez sur l’icône en forme de crayon dans le coin supérieur droit de la fenêtre de chat.
 
@@ -23,9 +21,7 @@ Vous pouvez mener plusieurs chats en parallèle. ARIA vous notifie lorsqu’il r
 
 Démarrer un nouveau chat ne supprime pas vos conversations précédentes. Pour [voir les conversations précédentes](/fr/aria/chat#view-chat-history), cliquez sur **<Icon icon="sidebar-reveal" iconType="solid" />** (**Reveal chat history**) pour ouvrir la barre latérale de l’historique de conversation.
 
-<div id="send-a-message">
-  ## Envoyer un message
-</div>
+## Envoyer un message {#send-a-message}
 
 Saisissez un message, puis appuyez sur **Entrée** pour l’envoyer.
 
@@ -40,9 +36,7 @@ Pour vous aider à conserver le contexte, ARIA affiche les graphiques en courbes
 
 <Frame>![Animation montrant les interactions avec les graphiques en courbes d’ARIA](/images/agent/aria-line-plot-interactions.gif)</Frame>
 
-<div id="queue-messages">
-  ## Messages en file d&#39;attente
-</div>
+## Messages en file d&#39;attente {#queue-messages}
 
 La file d&#39;attente de messages contient les tâches de suivi et les questions que vous envoyez à ARIA pendant qu&#39;elle travaille. ARIA traite chaque message en file d&#39;attente dans l&#39;ordre, en utilisant l&#39;intégralité de la conversation comme contexte. Le message suivant est traité dès que le précédent est terminé.
 
@@ -72,15 +66,11 @@ La mise en file d’attente commence après votre premier message dans un chat, 
 
 Si ARIA a besoin d’une clarification ou de votre autorisation avant de poursuivre, la file d’attente est suspendue jusqu’à votre réponse. Pour exécuter un message en file d’attente sans répondre au préalable, cliquez sur l’icône de flèche vers le haut à côté de ce message.
 
-<div id="manage-conversations">
-  ## Gérer les conversations
-</div>
+## Gérer les conversations {#manage-conversations}
 
 Les sections suivantes décrivent comment afficher, renommer, épingler et supprimer vos conversations.
 
-<div id="view-chat-history">
-  ### Voir l&#39;historique de conversation
-</div>
+### Voir l&#39;historique de conversation {#view-chat-history}
 
 Pour consulter les conversations précédentes :
 
@@ -98,9 +88,7 @@ Survolez la ligne d&#39;une conversation, ou placez-y le focus au clavier, pour 
 
 La section **Customize** de la barre latérale de l&#39;historique de conversation répertorie également les automatisations ARIA que vous avez créées. Voir [Utiliser les automatisations avec ARIA](/fr/models/automations/create-automations/aria).
 
-<div id="rename-a-conversation">
-  ### Renommer une conversation
-</div>
+### Renommer une conversation {#rename-a-conversation}
 
 Par défaut, le titre d&#39;une conversation reprend un extrait de votre premier prompt.
 
@@ -115,9 +103,7 @@ Le renommage, manuel ou via **Generate chat title**, n&#39;a lieu que lorsque vo
 
 Les nouveaux titres sont synchronisés entre vos onglets de navigateur ouverts. Vous pouvez également renommer un chat depuis votre téléphone. Voir [Chat with ARIA](/fr/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) dans la documentation de l&#39;application mobile.
 
-<div id="pin-a-conversation">
-  ### Épingler une conversation
-</div>
+### Épingler une conversation {#pin-a-conversation}
 
 Épinglez une conversation pour la maintenir en haut de la barre latérale de l&#39;historique de conversation, au lieu de la laisser descendre au fur et à mesure que de nouveaux chats s&#39;accumulent.
 
@@ -127,9 +113,7 @@ Les nouveaux titres sont synchronisés entre vos onglets de navigateur ouverts. 
 
 Le nombre de conversations épinglables n&#39;est pas limité, et les modifications d&#39;épinglage sont synchronisées entre vos onglets de navigateur ouverts. L&#39;épinglage n&#39;affecte que votre propre liste de conversations, et non ce que voient les membres de votre équipe ayant accès au même projet.
 
-<div id="delete-previous-conversations">
-  ### Supprimer les conversations précédentes
-</div>
+### Supprimer les conversations précédentes {#delete-previous-conversations}
 
 Pour supprimer une conversation précédente :
 
@@ -138,17 +122,13 @@ Pour supprimer une conversation précédente :
 3. Survolez la conversation que vous souhaitez supprimer, puis cliquez sur **<Icon icon="trash" iconType="solid" />** (**Delete chat**).
 4. Cliquez sur **Delete** pour confirmer, ou sur **<Icon icon="xmark" iconType="solid" />** (**Cancel delete**) pour conserver la conversation.
 
-<div id="undock-chat-window">
-  ## Détacher la fenêtre de chat
-</div>
+## Détacher la fenêtre de chat {#undock-chat-window}
 
 Vous pouvez détacher la fenêtre de chat dans une fenêtre séparée, ce qui vous permet d’afficher la réponse d’ARIA côte à côte avec les données de votre projet.
 
 Pour détacher le chat, cliquez sur l’icône de détachement dans le coin supérieur droit de la fenêtre de chat, à côté du bouton de fermeture (**X**).
 
-<div id="add-context-to-a-conversation">
-  ## Ajouter du contexte à une conversation
-</div>
+## Ajouter du contexte à une conversation {#add-context-to-a-conversation}
 
 Vous pouvez utiliser le symbole `@` pour indiquer un run spécifique dans votre prompt. Par exemple, vous pouvez demander à ARIA d’analyser un run précis en incluant le nom du run dans votre prompt :
 
@@ -156,15 +136,11 @@ Vous pouvez utiliser le symbole `@` pour indiquer un run spécifique dans votre 
 Analyze the run @run-20230615_123456-abcdefg and summarize the results
 ```
 
-<div id="add-an-image-to-a-conversation">
-  ## Ajouter une image à une conversation
-</div>
+## Ajouter une image à une conversation {#add-an-image-to-a-conversation}
 
 Cliquez sur l’icône plus (`+`) dans l’angle inférieur gauche de la fenêtre de chat pour ajouter une image à votre conversation. Vous pouvez ensuite demander à ARIA d’analyser l’image ou de vous fournir des informations à son sujet.
 
-<div id="provide-feedback">
-  ## Donner votre avis
-</div>
+## Donner votre avis {#provide-feedback}
 
 Cliquez sur l’icône de pouce levé ou de pouce baissé à la fin de la réponse pour donner votre avis sur la réponse d’ARIA. Votre avis aide W&amp;B à améliorer les performances et la précision d’ARIA.
 

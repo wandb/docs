@@ -8,23 +8,17 @@ import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
 
 このガイドでは、Registry にリンクされたアーティファクトをダウンロードして使用する方法を学びます。具体的には、事前トレーニング済みの分類モデルと、対応するデータセットのテンソルの両方をダウンロードします。その後、これらのアーティファクトを使用して推論を実行し、モデルのパフォーマンスを評価します。
 
-<div id="prerequisites">
-  ## 前提条件
-</div>
+## 前提条件 {#prerequisites}
 
 開始する前に、W&amp;B APIキーが用意されていることを確認してください。このページで説明するノートブックの例をご自身で実行する場合は、添付の [Python トレーニングスクリプト](#run-training-script-optional) を実行してください。このスクリプトは、データセットの取得、テンソルへの変換、ニューラルネットワークモデルの定義とトレーニング、そして作成したモデルの W&amp;B Registry への公開まで、ワークフローの前半部分を扱います。
 
-<div id="sign-up-and-create-an-api-key">
-  ### サインアップしてAPIキーを作成する
-</div>
+### サインアップしてAPIキーを作成する {#sign-up-and-create-an-api-key}
 
 マシンを W&amp;B で認証するには、APIキーが必要です。
 
 <ApiKeyCreate />
 
-<div id="run-training-script-optional">
-  ### トレーニングスクリプトを実行する (省略可)
-</div>
+### トレーニングスクリプトを実行する (省略可) {#run-training-script-optional}
 
 次のコードを `train.py` という名前のファイルにコピーし、ローカルマシンに保存します。
 
@@ -631,9 +625,7 @@ if __name__ == "__main__":
 uv train.py
 ```
 
-<div id="create-your-first-notebook">
-  ## 最初のノートブックを作成する
-</div>
+## 最初のノートブックを作成する {#create-your-first-notebook}
 
 1. project の Workspace にアクセスします。
 2. プロジェクトのサイドバーで **Notebooks** を選択します。
@@ -641,9 +633,7 @@ uv train.py
 
 詳細については、[ノートブックの作成と管理](/ja/models/notebooks/create-notebook)を参照してください。
 
-<div id="install-dependencies">
-  ## dependencies のインストール
-</div>
+## dependencies のインストール {#install-dependencies}
 
 ノートブック内で required dependencies をインストールします。
 
@@ -653,6 +643,4 @@ uv train.py
 
 詳細は、[パッケージと環境の管理](/ja/models/notebooks/manage-packages-environments) ガイド、または [marimo のドキュメント](https://docs.marimo.io/guides/package_management/) を参照してください。
 
-<div id="run-the-notebook-example">
-  ## ノートブックのサンプルを実行する
-</div>
+## ノートブックのサンプルを実行する {#run-the-notebook-example}

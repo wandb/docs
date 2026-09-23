@@ -6,9 +6,7 @@ keywords: ["iframe", "Confluence", "Notion", "Gradio", "Hugging Face Spaces"]
 
 Intégrez un rapport W&amp;B dans une page ou un outil externe afin que votre équipe puisse consulter les résultats d’expérience en direct aux côtés d’autres documents. Cette page explique comment générer un code d’intégration à partir d’un rapport et l’utiliser dans HTML, Confluence, Notion ou Gradio.
 
-<div id="html-iframe-element">
-  ## Élément HTML `iframe`
-</div>
+## Élément HTML `iframe` {#html-iframe-element}
 
 Utilisez un élément HTML `iframe` pour intégrer un rapport dans n’importe quelle page web qui accepte le HTML personnalisé. W&amp;B fournit un code d’intégration prédéfini que vous pouvez copier directement depuis le rapport.
 
@@ -22,9 +20,7 @@ En haut à droite d’un rapport, sélectionnez le bouton **Share** pour ouvrir 
   <img src="/images/reports/get_embed_url.gif" alt="Obtenir le code d’intégration" />
 </Frame>
 
-<div id="confluence">
-  ## Confluence
-</div>
+## Confluence {#confluence}
 
 Confluence prend en charge l’intégration de rapports via sa macro `iframe` intégrée. L’animation ci-dessous montre comment insérer le lien direct vers le rapport dans une cellule `iframe` de Confluence.
 
@@ -32,9 +28,7 @@ Confluence prend en charge l’intégration de rapports via sa macro `iframe` in
   <img src="/images/reports/embed_iframe_confluence.gif" alt="Intégration dans Confluence" />
 </Frame>
 
-<div id="notion">
-  ## Notion
-</div>
+## Notion {#notion}
 
 Le bloc **Embed** de Notion accepte le même code d’intégration que celui fourni par W&amp;B. L&#39;animation suivante montre comment insérer un rapport dans un document Notion à l&#39;aide d&#39;un bloc **Embed** et du code d&#39;intégration du rapport.
 
@@ -42,9 +36,7 @@ Le bloc **Embed** de Notion accepte le même code d’intégration que celui fou
   <img src="/images/reports/embed_iframe_notion.gif" alt="Intégration dans Notion" />
 </Frame>
 
-<div id="gradio">
-  ## Gradio
-</div>
+## Gradio {#gradio}
 
 Pour intégrer un rapport W&amp;B dans une application Gradio, y compris une application hébergée sur Hugging Face Spaces, utilisez l’élément `gr.HTML` de Gradio pour afficher une `iframe` pointant vers l’URL du rapport.
 

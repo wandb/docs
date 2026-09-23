@@ -36,9 +36,7 @@ W&amp;B Python SDK를 사용해 메트릭, 미디어 또는 맞춤형 객체의 
   run.log({'accuracy': 0.8})
   ``` */}
 
-<div id="automatically-logged-data">
-  ## 자동으로 로깅되는 데이터
-</div>
+## 자동으로 로깅되는 데이터 {#automatically-logged-data}
 
 W&amp;B는 W&amp;B 실험 중에 다음 정보를 자동으로 로깅합니다.
 
@@ -50,9 +48,7 @@ W&amp;B는 W&amp;B 실험 중에 다음 정보를 자동으로 로깅합니다.
 * **Git 커밋**: 최신 Git 커밋을 수집하며, run 페이지의 Overview 탭에서 확인할 수 있습니다. 커밋되지 않은 변경 사항이 있으면 `diff.patch` 파일도 함께 확인할 수 있습니다.
 * **의존성**: `requirements.txt` 파일이 업로드되어 run 페이지의 파일 탭에 표시되며, run의 `wandb` 디렉터리에 저장한 파일도 함께 표시됩니다.
 
-<div id="what-data-is-logged-with-specific-wb-api-calls">
-  ## 특정 W&amp;B API calls에서 어떤 데이터가 로깅되나요?
-</div>
+## 특정 W&amp;B API calls에서 어떤 데이터가 로깅되나요? {#what-data-is-logged-with-specific-wb-api-calls}
 
 W&amp;B를 사용하면 로깅할 항목을 정확히 선택할 수 있습니다. 다음은 일반적으로 자주 로깅하는 객체입니다.
 
@@ -63,9 +59,7 @@ W&amp;B를 사용하면 로깅할 항목을 정확히 선택할 수 있습니다
 * **Configuration information**: 하이퍼파라미터, 데이터셋 링크 또는 사용 중인 아키텍처 이름을 설정 파라미터로 로깅할 수 있습니다. 다음과 같이 전달하세요: `wandb.init(config=your_config_dictionary)`.
 * **Metrics**: 모델의 메트릭을 보려면 `wandb.Run.log()`를 사용하세요. 트레이닝 루프 안에서 accuracy 및 loss 같은 메트릭을 로깅하면 UI에서 실시간으로 업데이트되는 그래프를 볼 수 있습니다.
 
-<div id="metric-naming-constraints">
-  ## 메트릭 이름 지정 제약 사항
-</div>
+## 메트릭 이름 지정 제약 사항 {#metric-naming-constraints}
 
 GraphQL 제한으로 인해 W&amp;B의 메트릭 이름은 특정 명명 규칙을 따라야 합니다:
 
@@ -77,9 +71,7 @@ GraphQL 제한으로 인해 W&amp;B의 메트릭 이름은 특정 명명 규칙�
 
 <MetricNamingExamples />
 
-<div id="common-workflows">
-  ## 일반적인 워크플로
-</div>
+## 일반적인 워크플로 {#common-workflows}
 
 1. **최고 정확도 비교**: 여러 run에서 메트릭의 최고값을 비교하려면 해당 메트릭의 summary 값을 설정하세요. 기본적으로 summary는 각 키에 대해 마지막으로 로깅한 값으로 설정됩니다. 이는 UI의 테이블에서 특히 유용합니다. summary 메트릭을 기준으로 run을 정렬하고 필터링할 수 있어, 최종 정확도가 아니라 *최고* 정확도를 기준으로 테이블이나 막대 차트에서 run을 비교하는 데 도움이 되기 때문입니다. 예: `wandb.run.summary["best_accuracy"] = best_accuracy`
 
@@ -99,8 +91,6 @@ GraphQL 제한으로 인해 W&amp;B의 메트릭 이름은 특정 명명 규칙�
 
 4. **리치 미디어와 차트 로깅**: `wandb.Run.log()`는 [이미지와 비디오 같은 미디어](/ko/models/track/log/media/)부터 [테이블](/ko/models/track/log/log-tables/)과 [차트](/ko/models/app/features/custom-charts/)까지 매우 다양한 데이터 유형의 로깅을 지원합니다.
 
-<div id="best-practices-and-tips">
-  ## 모범 사례 및 팁
-</div>
+## 모범 사례 및 팁 {#best-practices-and-tips}
 
 Experiments 및 로깅의 모범 사례와 팁은 [모범 사례: Experiments 및 로깅](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w\&b-experiments-and-logging)을 참조하세요.

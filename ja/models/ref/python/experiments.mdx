@@ -9,9 +9,7 @@ no_list: true
 
 > ML Experiments でこれらのクラスを使用する方法について詳しくは、[Experiments](/ja/models/ref/python/experiments/) および [Artifacts](/ja/models/artifacts/) のドキュメントを参照してください。
 
-<div id="core-classes">
-  ## コアクラス
-</div>
+## コアクラス {#core-classes}
 
 | クラス                                                    | 説明                                                             |
 | ------------------------------------------------------ | -------------------------------------------------------------- |
@@ -19,13 +17,9 @@ no_list: true
 | [`Artifact`](/ja/models/ref/python/experiments/artifact/) | データセットとモデルのバージョン管理のための、柔軟で軽量な基本要素です。自動重複排除とリネージのトラッキングを備えています。 |
 | [`Settings`](/ja/models/ref/python/experiments/settings/) | W&amp;B SDK の設定を管理し、ログすることから API とのやり取りまでの動作を制御します。          |
 
-<div id="getting-started">
-  ## はじめに
-</div>
+## はじめに {#getting-started}
 
-<div id="track-an-experiment">
-  ### 実験をトラッキングする
-</div>
+### 実験をトラッキングする {#track-an-experiment}
 
 メトリクスをログしながら、機械学習実験を作成してトラッキングします。
 
@@ -50,9 +44,7 @@ with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as ru
     run.summary["best_accuracy"] = max_accuracy
 ```
 
-<div id="version-a-model-artifact">
-  ### モデル artifact をバージョン管理する
-</div>
+### モデル artifact をバージョン管理する {#version-a-model-artifact}
 
 メタデータ付きの、バージョン管理されたモデル artifact を作成してログします:
 
@@ -83,9 +75,7 @@ with wandb.init(project="my-models") as run:
     run.log_artifact(model_artifact)
 ```
 
-<div id="configure-sdk-settings">
-  ### SDK設定を行う
-</div>
+### SDK設定を行う {#configure-sdk-settings}
 
 要件に合わせて、W&amp;B SDKの動作をカスタマイズします。
 
@@ -111,9 +101,7 @@ with wandb.init() as run:
     pass
 ```
 
-<div id="link-artifacts-for-lineage-tracking">
-  ### Artifactsをリンクしてリネージをトラッキングする
-</div>
+### Artifactsをリンクしてリネージをトラッキングする {#link-artifacts-for-lineage-tracking}
 
 データセット、モデル、評価の間の関係をトラッキングします:
 

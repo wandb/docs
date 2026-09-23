@@ -16,15 +16,11 @@ LLM アプリケーションを評価するには、フィードバックを収�
 * [SDK を通じてフィードバックを提供する](#provide-feedback-through-the-sdk)
 * [人によるアノテーションを追加する](#add-human-annotations)
 
-<div id="provide-feedback-in-the-ui">
-  ## UI でフィードバックを送信する
-</div>
+## UI でフィードバックを送信する {#provide-feedback-in-the-ui}
 
 以下のセクションでは、Call details パネルまたはフィードバック アイコンを使って、Weave UI でフィードバックを送信する方法を説明します。
 
-<div id="use-the-call-details-panel">
-  ### Call details パネルを使用する
-</div>
+### Call details パネルを使用する {#use-the-call-details-panel}
 
 1. Weave プロジェクトのサイドバーで、**Traces** にアクセスします。
 2. フィードバックを追加する Call の行を見つけます。
@@ -38,9 +34,7 @@ LLM アプリケーションを評価するには、フィードバックを収�
   ![Call details の Feedback タブ](/weave/guides/tracking/imgs/feedback_tab.png)
 </Frame>
 
-<div id="use-the-feedback-icons">
-  ### フィードバックアイコンを使用する
-</div>
+### フィードバックアイコンを使用する {#use-the-feedback-icons}
 
 Traces 表と各 Call details パネルにあるアイコンを使って、リアクションの追加や削除、メモの追加を行えます。
 
@@ -73,9 +67,7 @@ Traces 表と各 Call details パネルにあるアイコンを使って、リ�
   ![フィードバック列がある Calls グリッド](/weave/guides/tracking/imgs/feedback_calls.png)
 </Frame>
 
-<div id="provide-feedback-through-the-sdk">
-  ## SDK を使用してフィードバックを送信する
-</div>
+## SDK を使用してフィードバックを送信する {#provide-feedback-through-the-sdk}
 
 フィードバック収集を自動化したい場合や、評価パイプラインに統合したい場合は、UI で手動でフィードバックを入力する代わりに SDK を使用します。
 
@@ -83,9 +75,7 @@ Traces 表と各 Call details パネルにあるアイコンを使って、リ�
 
 Weave Python SDK を使用すると、call に対してプログラムから [追加](/ja/weave/reference/python-sdk/trace/feedback#method-add)、[削除](/ja/weave/reference/python-sdk/trace/feedback#method-purge)、および[フィードバックのクエリ](/ja/weave/reference/python-sdk/trace/weave_client#method-get_feedback)を実行できます。TypeScript SDK はフィードバック機能をサポートしていません。
 
-<div id="query-a-projects-feedback">
-  ### Weave プロジェクトのフィードバックをクエリする
-</div>
+### Weave プロジェクトのフィードバックをクエリする {#query-a-projects-feedback}
 
 SDK を使用して、Weave プロジェクトのフィードバックをクエリできます。SDK では、次のフィードバック クエリ操作をサポートしています。
 
@@ -132,9 +122,7 @@ SDK を使用して、Weave プロジェクトのフィードバックをクエ�
   </Tab>
 </Tabs>
 
-<div id="add-feedback-to-a-call">
-  ### Call にフィードバックを追加する
-</div>
+### Call にフィードバックを追加する {#add-feedback-to-a-call}
 
 Call の UUID を使って、Call にフィードバックを追加できます。UUID を使って特定の Call を取得するには、[Call の実行中または実行後に UUID を取得](#retrieve-the-call-uuid)してください。SDK では、Call にフィードバックを追加するために次の操作をサポートしています。
 
@@ -174,15 +162,11 @@ Call の UUID を使って、Call にフィードバックを追加できます�
   </Tab>
 </Tabs>
 
-<div id="retrieve-the-call-uuid">
-  #### Call UUID を取得する
-</div>
+#### Call UUID を取得する {#retrieve-the-call-uuid}
 
 Call の直後にフィードバックを追加しなければならない場合は、Call の実行中または実行後に、プログラムで Call UUID を取得できます。
 
-<div id="during-call-execution">
-  ##### Call 実行中
-</div>
+##### Call 実行中 {#during-call-execution}
 
 Call 実行中に UUID を取得するには、現在の Call を取得し、その ID を返します。
 
@@ -211,9 +195,7 @@ Call 実行中に UUID を取得するには、現在の Call を取得し、そ
   </Tab>
 </Tabs>
 
-<div id="after-call-execution">
-  ##### Call 実行後
-</div>
+##### Call 実行後 {#after-call-execution}
 
 また、`call()` メソッドを使用すると、オペレーションを実行し、Call 実行後に ID を取得できます。
 
@@ -240,9 +222,7 @@ Call 実行中に UUID を取得するには、現在の Call を取得し、そ
   </Tab>
 </Tabs>
 
-<div id="delete-feedback-from-a-call">
-  ### Call からフィードバックを削除する
-</div>
+### Call からフィードバックを削除する {#delete-feedback-from-a-call}
 
 UUID を指定すると、特定の Call からフィードバックを削除できます。
 
@@ -260,17 +240,13 @@ UUID を指定すると、特定の Call からフィードバックを削除で
   </Tab>
 </Tabs>
 
-<div id="add-human-annotations">
-  ## 人によるアノテーションを追加する
-</div>
+## 人によるアノテーションを追加する {#add-human-annotations}
 
 人によるアノテーションを使用すると、Call に対する、人がレビューした構造化された評価を取得できるため、レビュアーは独自の基準に基づいてモデルの出力をスコアできます。
 
 人によるアノテーションは Weave UI でサポートされています。この機能を使用すると、フィードバックとして追加する人手入力のデータ用に、トレースにカスタムフィールドを作成できます。人によるアノテーションを行うには、まず [UI](#create-a-human-annotation-scorer-in-the-ui) または [API](#create-a-human-annotation-scorer-using-the-api) を使用して Human Annotation スコアラーを作成する必要があります。その後、[UI でそのスコアラーを使用してアノテーションを作成](#use-the-human-annotation-scorer-in-the-ui) したり、[API を使用してアノテーションスコアラーを変更](#modify-a-human-annotation-scorer-using-the-api) したりできます。
 
-<div id="create-a-human-annotation-scorer-in-the-ui">
-  ### UI で Human Annotation スコアラーを作成する
-</div>
+### UI で Human Annotation スコアラーを作成する {#create-a-human-annotation-scorer-in-the-ui}
 
 UI で Human Annotation スコアラーを作成するには、次の手順に従います。
 
@@ -290,9 +266,7 @@ UI で Human Annotation スコアラーを作成するには、次の手順に�
   ![Create Scorer modal dialog](/weave/guides/tracking/imgs/human-annotation-scorer-form.png)
 </Frame>
 
-<div id="use-the-human-annotation-scorer-in-the-ui">
-  ### UI で Human Annotation スコアラーを使用する
-</div>
+### UI で Human Annotation スコアラーを使用する {#use-the-human-annotation-scorer-in-the-ui}
 
 Human Annotation スコアラーを作成すると、Traces ページで使用できるようになります。
 
@@ -324,9 +298,7 @@ Human Annotation スコアラーを作成すると、Traces ページで使用�
   ![Traces 表での Human Annotation スコアラーのフィードバック](/weave/guides/tracking/imgs/feedback-in-the-table.png)
 </Frame>
 
-<div id="create-a-human-annotation-scorer-using-the-api">
-  ### API を使用して Human Annotation スコアラーを作成する
-</div>
+### API を使用して Human Annotation スコアラーを作成する {#create-a-human-annotation-scorer-using-the-api}
 
 API 経由で Human Annotation スコアラーを作成することもできます。各スコアラーはそれぞれ独立したオブジェクトで、個別に作成・更新します。プログラムから Human Annotation スコアラーを作成するには、次の手順を実行します。
 
@@ -372,9 +344,7 @@ API 経由で Human Annotation スコアラーを作成することもできま�
   </Tab>
 </Tabs>
 
-<div id="modify-a-human-annotation-scorer-using-the-api">
-  ### API を使用して Human Annotation スコアラーを更新する
-</div>
+### API を使用して Human Annotation スコアラーを更新する {#modify-a-human-annotation-scorer-using-the-api}
 
 [API を使用して Human Annotation スコアラーを作成する](#create-a-human-annotation-scorer-using-the-api)の続きとして、次の例では `publish` 時に元のオブジェクト ID (`temperature-scorer`) を使用し、`Temperature` スコアラーの更新版を作成します。これにより、すべてのバージョンの履歴を持つ更新済みオブジェクトが作成されます。
 
@@ -413,9 +383,7 @@ API 経由で Human Annotation スコアラーを作成することもできま�
   ![Human Annotation スコアラーの履歴](/weave/guides/tracking/imgs/human-annotation-scorer-history.png)
 </Frame>
 
-<div id="use-a-human-annotation-scorer-using-the-api">
-  ### API を使用して Human Annotation スコアラーを利用する
-</div>
+### API を使用して Human Annotation スコアラーを利用する {#use-a-human-annotation-scorer-using-the-api}
 
 feedback API では、特別な形式の名前と `annotation_ref` フィールドを指定することで、Human Annotation スコアラーを使用できます。`annotation_spec_ref` は、UI で該当するタブを選択して取得するか、`AnnotationSpec` の作成時に取得できます。
 

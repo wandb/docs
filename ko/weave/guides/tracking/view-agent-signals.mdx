@@ -7,7 +7,7 @@ keywords: ["시그널", "에이전트 모니터링", "Scorer", "평점", "태그
 W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에서 시그널 탭은 에이전트 대화의 태그와 평점을 보여줍니다. 시그널은 품질 및 안전 문제를 드러내 문제를 식별하고, 패턴을 찾고, 주의가 필요한 트레이스를 강조합니다. 시그널을 사용하면 에이전트 응답의 품질을 자동으로 평가하고, 사용자가 좌절감을 느끼는 상황을 감지하거나, NSFW 콘텐츠를 표시할 수 있습니다.
 
 <div id="get-started">
-  ## 시작하기
+  ## 시작하기 {#get-started}
 </div>
 
 프로젝트의 시그널을 보려면 다음 단계를 따르세요.
@@ -19,7 +19,7 @@ W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에
 ![에이전트의 점수가 매겨진 턴 목록이 표시된 시그널 탭.](/weave/guides/tracking/imgs/agent-view-signals.png)
 
 <div id="key-terms">
-  ## 주요 용어
+  ## 주요 용어 {#key-terms}
 </div>
 
 * **턴**: 사용자와 에이전트 사이에서 오가는 한 차례의 상호작용입니다.
@@ -27,7 +27,7 @@ W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에
 * **태그**: &quot;user-frustration&quot; 또는 &quot;nsfw&quot;처럼 일치하는 span에 부여되는 라벨입니다.
 
 <div id="signals-table">
-  ## 시그널 테이블
+  ## 시그널 테이블 {#signals-table}
 </div>
 
 시그널 탭에는 에이전트에서 점수가 매겨진 턴의 테이블이 표시됩니다. 각 행은 시그널 모니터 중 하나의 출력을 나타냅니다. 다음 열이 기본적으로 표시됩니다.
@@ -45,7 +45,7 @@ W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에
 시간 범위 선택기와 **Filter** 바를 사용해 Scorer, 에이전트, 점수 범위 또는 기간별로 결과를 좁히세요. **Score volume** 타임라인은 Weave가 평점으로 평가했거나 태그를 지정한 시그널의 개수를 보여줍니다. 이 타임라인은 테이블에 표시된 행을 반영하며, 타임라인에서 드래그하여 필터링할 수 있습니다.
 
 <div id="create-a-new-signal">
-  ## 새 시그널 만들기
+  ## 새 시그널 만들기 {#create-a-new-signal}
 </div>
 
 에이전트의 턴 점수화를 시작하려면 시그널을 하나 이상 만드세요. **+ New signal**을 선택해 **Create signals** 드로어를 여세요.
@@ -56,13 +56,13 @@ W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에
 * **평점**: 일치하는 span에 0~1 사이의 점수를 부여합니다. 평점을 사용해 에이전트 성능을 평가하고 시간 경과에 따른 개선 정도를 측정하세요.
 
 <div id="preset-signals">
-  ### 프리셋 시그널
+  ### 프리셋 시그널 {#preset-signals}
 </div>
 
 각 범주에는 바로 선택할 수 있는 프리셋 템플릿이 제공됩니다. 두 범주에 걸쳐 원하는 프리셋을 조합한 다음 **Create [*N*] signals**를 선택하면 기본 설정으로 한 번에 모두 생성할 수 있습니다.
 
 <div id="tags-presets">
-  #### 태그 프리셋
+  #### 태그 프리셋 {#tags-presets}
 </div>
 
 | Template                  | 감지 대상                                                                                                                                   |
@@ -73,7 +73,7 @@ W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에
 | **낮은 품질의 응답**             | 에이전트 출력이 사실과 다르거나, 주제에서 벗어나거나, 회피적이거나, 반복적이거나, 거부할 때 정당한 이유가 부족하거나, 그 밖의 방식으로 사용자의 요청에 제대로 응답하지 못하는 경우입니다.                              |
 
 <div id="ratings-presets">
-  #### 평점 프리셋
+  #### 평점 프리셋 {#ratings-presets}
 </div>
 
 | 템플릿             | 평가 내용                                                                            |
@@ -83,20 +83,18 @@ W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에
 | **업무 환경 적합성**   | 대화 내용이 어떤 전문적인 업무 환경에서도 적절한지, 아니면 노골적이거나 폭력적이거나 그 밖에 직장에서 부적절한 내용을 포함하는지를 평가합니다. |
 | **응답 품질**       | 에이전트의 응답이 정확하고 완전하며 사용자의 Request에 직접적으로 부합하는지를 평가합니다.                            |
 
-<div id="custom-signals">
-  ### 맞춤형 시그널
-</div>
+### 맞춤형 시그널 {#custom-signals}
 
 비어 있는 Signals 탭에서 맞춤형 태그 시그널을 생성하려면 [맞춤형 시그널 생성](/ko/weave/guides/tracking/create-custom-signal)을 참조하세요.
 
 <div id="manage-and-edit-signals">
-  ## 시그널 관리 및 편집
+  ## 시그널 관리 및 편집 {#manage-and-edit-signals}
 </div>
 
 생성된 시그널이 하나 이상 있는 경우, 툴바에서 활성 시그널 수(예: **1 active signals**)가 표시된 활성 시그널 버튼을 선택하면 프로젝트의 모든 활성 시그널이 나열된 드로어가 열립니다. 여기에서 시그널을 켜거나 끄고, 삭제하거나, 각 시그널을 편집할 수 있습니다. 편집기에는 맞춤형 시그널과 동일한 설정 필드가 표시됩니다.
 
 <div id="troubleshoot-signals">
-  ## 시그널 문제 해결
+  ## 시그널 문제 해결 {#troubleshoot-signals}
 </div>
 
 시그널 활동은 프로젝트 사이드바의 **Traces** 아래에 표시됩니다. 예상한 시그널 일치 항목이 보이지 않으면 **Traces** 테이블에서 디버깅하세요. 예를 들어 오류 상태를 확인하려면 Scorer 이름과 **Status** 열을 확인하세요. Scorer 실행 오류가 발생하면 **Status**에 빨간색 표시기가 나타나며 오류 세부 정보도 함께 제공됩니다.

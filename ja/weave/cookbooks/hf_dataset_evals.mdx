@@ -17,9 +17,7 @@ keywords: ["HuggingFace", "preprocess_model_input", "評価", "データセッ�
   このガイドでは、HuggingFace データセットを Weave の評価で使用するための回避策を紹介します。この方法は現時点でも利用できますが、外部データセット向けのよりシームレスなインテグレーションも現在開発中です。
 </Note>
 
-<div id="setup-and-imports">
-  ## セットアップとインポート
-</div>
+## セットアップとインポート {#setup-and-imports}
 
 まず、Weave を初期化して W&amp;B に接続し、Weave が Weave プロジェクト内で評価用の run とその結果をトラッキングするようにします。
 
@@ -50,9 +48,7 @@ client = weave.init(f"{WEAVE_TEAM}/{WEAVE_PROJECT}")
 nest_asyncio.apply()
 ```
 
-<div id="load-and-prepare-huggingface-dataset">
-  ## HuggingFace データセットを読み込んで準備する
-</div>
+## HuggingFace データセットを読み込んで準備する {#load-and-prepare-huggingface-dataset}
 
 次に、HuggingFace データセットを読み込み、評価で反復処理するための軽量なインデックスを構築します。データセットの行を直接 Weave に渡すのではなく、インデックス参照のリストを渡し、前処理時に完全な行へ解決します。この方法により、評価を元の HuggingFace データセットにひも付けたまま、その参照を維持できます。
 
@@ -71,9 +67,7 @@ row_count = ds["train"].num_rows
 hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_count)]
 ```
 
-<div id="define-processing-and-evaluation-functions">
-  ## 処理関数と評価関数を定義する
-</div>
+## 処理関数と評価関数を定義する {#define-processing-and-evaluation-functions}
 
 インデックスの準備ができたら、評価パイプラインを構成する 3 つの関数を定義します。1 つは各インデックス参照を評価に使える Example に変換する関数、1 つはモデルの出力をスコアリングする関数、もう 1 つは評価対象のモデルを表す関数です。
 
@@ -121,9 +115,7 @@ def function_to_evaluate(prompt: str):
     return {"generated_text": "testing "}
 ```
 
-<div id="create-and-run-the-evaluation">
-  ## 評価を作成して実行します
-</div>
+## 評価を作成して実行します {#create-and-run-the-evaluation}
 
 最後に、インデックス、scorer、前処理関数を Weave の `Evaluation` に組み込み、モデルに対して実行します。`hf_index` の各エントリに対して、Weave は次の手順を実行します。
 

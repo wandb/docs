@@ -14,9 +14,7 @@ keywords: ["カスタムランタイム", "カスタムプロバイダー", "Ope
 
 カスタムランタイムは W&amp;B UI で管理できるほか、Python および TypeScript SDK を使用してプログラムから管理することもできます。SDK を使用する方法は CI/CD 向けに設計されています。登録は宣言的かつ冪等であるため、パイプラインでデプロイのたびにランタイムを再登録でき、Weave は指定した設定に収束します。
 
-<div id="where-you-can-use-custom-runtimes">
-  ## カスタムランタイムを使用できる場所
-</div>
+## カスタムランタイムを使用できる場所 {#where-you-can-use-custom-runtimes}
 
 登録したカスタムランタイムのモデルは、以下の場所にあるモデルセレクターに表示されます。
 
@@ -26,9 +24,7 @@ keywords: ["カスタムランタイム", "カスタムプロバイダー", "Ope
 * Scorer の反復処理と Agent Signals のモデルセレクター。
 * Weave completions API: モデル ID `custom::<runtime-name>::<runtime-id>` を `completions/create` エンドポイントに渡すと、プログラムからエンドポイントに対してトレース付きの完了を実行できます。詳細は、[サービス API リファレンス](/ja/weave/reference/service-api)を参照してください。
 
-<div id="add-a-custom-runtime">
-  ## カスタムランタイムを追加する
-</div>
+## カスタムランタイムを追加する {#add-a-custom-runtime}
 
 コードまたは Weave UI を使用して、project にカスタムランタイムを追加できます。カスタムランタイムを追加するには、次のランタイム情報が必要です。
 
@@ -41,9 +37,7 @@ keywords: ["カスタムランタイム", "カスタムプロバイダー", "Ope
 | APIキーのシークレット (任意)  | エンドポイントの APIキーを格納する[チームシークレット](/ja/platform/secrets)の名です。                         |
 | ヘッダー (任意)          | エンドポイントへのすべてのリクエストで送信されるカスタム HTTP ヘッダーです。                                      |
 
-<div id="add-a-custom-runtime-using-code">
-  ### コードを使用してカスタムランタイムを追加する
-</div>
+### コードを使用してカスタムランタイムを追加する {#add-a-custom-runtime-using-code}
 
 前のセクションで説明したランタイム情報に基づいて、次の登録リクエストの該当するフィールドを更新し、実行してproject内にカスタムランタイムを作成または更新します。プログラムによる登録には、バージョン0.53.4以降の`weave` Pythonパッケージ、またはバージョン0.16.5以降の`weave` npmパッケージが必要です。
 
@@ -90,9 +84,7 @@ keywords: ["カスタムランタイム", "カスタムプロバイダー", "Ope
   ランタイムを更新した後、キャッシュの有効期限が切れるまで最大60秒間、Inferenceで以前の設定が引き続き使用される場合があります。
 </Note>
 
-<div id="register-a-custom-runtime-in-the-ui">
-  ## UI でカスタムランタイムを登録する
-</div>
+## UI でカスタムランタイムを登録する {#register-a-custom-runtime-in-the-ui}
 
 W&amp;B UI からカスタムランタイムを登録するには、次の手順に従います。
 

@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py#L20" />
 
-<div id="function-wandblogin">
-  ## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.login()
-</div>
+## <Badge color="blue" size="lg" shape="rounded">関数</Badge> wandb.login() {#function-wandblogin}
 
 W&amp;B にログインします。
 
@@ -41,9 +39,7 @@ prompt: 'bool' = True,
 anonymous: 'DoNotSet' = DoNotSet
 ```
 
-<div id="args">
-  ## 引数
-</div>
+## 引数 {#args}
 
 <ResponseField name="key" type="str | None">
   使用するAPIキー。
@@ -81,15 +77,11 @@ anonymous: 'DoNotSet' = DoNotSet
   説明はありません。
 </ResponseField>
 
-<div id="returns">
-  ## Returns
-</div>
+## Returns {#returns}
 
 この call の後にセッションが認証情報を保持している場合は True。
 
-<div id="raises">
-  ## Raises
-</div>
+## Raises {#raises}
 
 * `AuthenticationError`: 認証情報のサーバー検証に失敗した場合。
 * `UsageError`: 認証情報が設定されておらず、`prompt` が True で、APIキーを入力するためのターミナルがない場合。

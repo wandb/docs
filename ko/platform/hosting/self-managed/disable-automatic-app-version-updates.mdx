@@ -10,18 +10,14 @@ keywords: ["버전 고정", "업그레이드 동결", "버전 잠금", "수동 �
   W&amp;B는 W&amp;B Server의 메이저 릴리스를 최초 릴리스일로부터 12개월 동안 지원합니다. **Self-Managed** 인스턴스를 사용하는 고객은 지원 상태를 유지할 수 있도록 제때 업그레이드할 책임이 있습니다. 지원되지 않는 버전을 계속 사용하지 마세요. W&amp;B는 **Self-Managed** 인스턴스를 사용하는 고객이 지원 상태를 유지하고 최신 특성, 성능 개선, 수정 사항을 받기 위해 최소한 분기마다 한 번은 배포를 최신 릴리스로 업데이트할 것을 권장합니다.
 </Note>
 
-<div id="requirements">
-  ## 요구 사항
-</div>
+## 요구 사항 {#requirements}
 
 * W&amp;B Kubernetes Operator `v1.13.0` 이상
 * System Console `v2.12.2` 이상
 
 이 요구 사항을 충족하는지 확인하려면 해당 인스턴스의 W&amp;B Custom Resource 또는 Helm chart를 참고하세요. `operator-wandb` 및 `system-console` 컴포넌트의 `version` 값을 확인하세요.
 
-<div id="disable-automatic-updates">
-  ## 자동 업데이트 비활성화
-</div>
+## 자동 업데이트 비활성화 {#disable-automatic-updates}
 
 자동 업데이트를 비활성화하려면 System Console에서 W&amp;B Server를 특정 버전에 고정한 다음, Operator reconciliation 로그를 확인하여 버전 고정이 활성화되었는지 확인합니다.
 

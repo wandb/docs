@@ -9,9 +9,7 @@ description: "Suivre et consigner automatiquement les appels LLM effectués via 
 
 Weave suit et consigne automatiquement les appels LLM effectués via LiteLLM, une fois `weave.init()` exécuté. Ce guide explique comment utiliser Weave avec LiteLLM pour capturer les traces, encapsuler les appels dans des ops versionnées, organiser les expériences avec un `Model` et suivre le comportement des appels de fonction. Utilisez-le lorsque vous développez des applications LLM et souhaitez une observabilité sur les multiples fournisseurs de modèles pris en charge par LiteLLM.
 
-<div id="traces">
-  ## Traces
-</div>
+## Traces {#traces}
 
 Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu’en Production. Vous utilisez ces traces pour le débogage, ainsi que comme jeu de données pour vous aider à améliorer votre application.
 
@@ -42,9 +40,7 @@ print(claude_response.choices[0].message.content)
 
 Weave va désormais suivre et consigner tous les appels LLM effectués via LiteLLM. Vous pouvez consulter les traces dans l’interface web de Weave. Une fois le tracing de base en place, la section suivante montre comment encapsuler les appels LiteLLM dans vos propres ops Weave afin d’obtenir un suivi plus fin et versionné de la logique de votre application.
 
-<div id="wrap-with-your-own-ops">
-  ## Utiliser vos propres ops
-</div>
+## Utiliser vos propres ops {#wrap-with-your-own-ops}
 
 Les ops Weave rendent les résultats reproductibles grâce à la gestion automatique des versions du code au fil de vos expériences, et elles capturent leurs entrées et sorties. Créez une fonction décorée avec `@weave.op()` qui appelle la fonction de complétion de LiteLLM, et Weave suit pour vous les entrées et les sorties. Voici un exemple :
 
@@ -67,9 +63,7 @@ print(translate("Hello, how are you?", "French", "gpt-3.5-turbo"))
 print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
 ```
 
-<div id="create-a-model-for-easier-experimentation">
-  ## Créez un `Model` pour expérimenter plus facilement
-</div>
+## Créez un `Model` pour expérimenter plus facilement {#create-a-model-for-easier-experimentation}
 
 Il est difficile d’organiser ses expérimentations lorsque de nombreux éléments évoluent simultanément. En utilisant la classe `Model`, vous pouvez capturer et structurer les détails expérimentaux de votre application, comme le prompt système ou le modèle que vous utilisez. Cela vous aide à organiser et à comparer les différentes itérations de votre application.
 
@@ -114,9 +108,7 @@ print("\nClaude-3.5 Sonnet Translation to Spanish:")
 print(claude_translator.predict(english_text, "Spanish"))
 ```
 
-<div id="function-calling">
-  ## Appels de fonction
-</div>
+## Appels de fonction {#function-calling}
 
 LiteLLM prend en charge les appels de fonction pour les modèles compatibles. Weave suit automatiquement ces appels de fonction afin que vous puissiez inspecter les fonctions, les arguments et les réponses avec vos autres traces.
 

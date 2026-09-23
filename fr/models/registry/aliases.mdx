@@ -17,9 +17,7 @@ Les alias apparaissent sous forme de rectangles portant leur nom dans l’interf
 
 Lorsque vous ajoutez un alias à une version d’artifact, vous pouvez, si vous le souhaitez, démarrer une [automatisation du registre](/fr/models/automations/automation-events/#registry) pour notifier un canal Slack ou déclencher un webhook. Si l’automatisation appelle un webhook qui nécessite un jeton d’accès ou une autre valeur sensible dans la requête, stockez ces chaînes en tant que [secrets d’équipe](/fr/platform/secrets) et sélectionnez-les lorsque vous configurez le webhook pour l’automatisation.
 
-<div id="default-aliases">
-  ## Alias par défaut
-</div>
+## Alias par défaut {#default-aliases}
 
 W&amp;B attribue automatiquement les alias suivants à chaque version d&#39;artifact que vous liez sous le même nom :
 
@@ -28,9 +26,7 @@ W&amp;B attribue automatiquement les alias suivants à chaque version d&#39;arti
 
 Par exemple, si vous liez trois fois un artifact nommé `zoo_model`, W&amp;B crée respectivement trois alias : `v0`, `v1` et `v2`. `v2` a également l&#39;alias `latest`.
 
-<div id="custom-aliases">
-  ## Alias personnalisés
-</div>
+## Alias personnalisés {#custom-aliases}
 
 Créez un ou plusieurs alias personnalisés pour des versions spécifiques d&#39;artifact, selon votre cas d&#39;utilisation. Par exemple :
 
@@ -87,9 +83,7 @@ Vous pouvez créer un alias personnalisé dans le W&amp;B Registry ou avec le SD
   </Tab>
 </Tabs>
 
-<div id="protected-aliases">
-  ### Alias protégés
-</div>
+### Alias protégés {#protected-aliases}
 
 Utilisez un [alias protégé](/fr/models/registry/aliases/#protected-aliases) pour étiqueter et identifier des versions d&#39;artifact qui ne doivent pas être modifiées ou supprimées. Par exemple, vous pouvez utiliser un alias protégé `production` pour étiqueter et identifier des versions d&#39;artifact utilisées dans le pipeline de production de machine learning de votre organisation.
 
@@ -100,9 +94,7 @@ Les alias protégés courants incluent :
 * **Production** : La version d&#39;artifact est prête à être utilisée en production.
 * **Staging** : La version d&#39;artifact est prête pour les tests.
 
-<div id="create-a-protected-alias">
-  #### Créer un alias protégé
-</div>
+#### Créer un alias protégé {#create-a-protected-alias}
 
 Les étapes suivantes expliquent comment créer un alias protégé dans l’UI de W&amp;B Registry :
 
@@ -126,9 +118,7 @@ Les étapes suivantes expliquent comment ajouter un alias protégé à une versi
 
 Une fois un alias protégé créé, un administrateur peut l’ajouter par programmation à une version d’artifact avec le SDK Python. Voir les onglets W&amp;B Registry et SDK Python dans la section [Create a custom alias](#custom-aliases) ci-dessus pour un exemple montrant comment ajouter un alias protégé à une version d’artifact.
 
-<div id="find-existing-aliases">
-  ## Trouver des alias existants
-</div>
+## Trouver des alias existants {#find-existing-aliases}
 
 Vous pouvez trouver des alias existants à l’aide de la [barre de recherche globale du W&amp;B Registry](/fr/models/registry/search_registry/#search-for-registry-items). Pour trouver un alias protégé :
 
@@ -137,9 +127,7 @@ Vous pouvez trouver des alias existants à l’aide de la [barre de recherche gl
 
 Les résultats de recherche s’affichent sous la barre de recherche si le terme saisi correspond à un registre existant, à un nom de collection, à un tag de version d’artifact, à un tag de collection ou à un alias.
 
-<div id="example">
-  ## Exemple
-</div>
+## Exemple {#example}
 
 <Note>
   L&#39;exemple de code suivant s&#39;inscrit dans la continuité de ce notebook du [tutoriel sur W&amp;B Registry](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb). Pour utiliser le code ci-dessous, vous devez d&#39;abord [récupérer et traiter le jeu de données Zoo comme indiqué dans le notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a). Une fois le jeu de données Zoo en votre possession, vous pouvez créer une version d’artifact et y ajouter des alias personnalisés.

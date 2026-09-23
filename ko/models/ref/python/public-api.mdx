@@ -11,9 +11,7 @@ W&amp;B Public API는 W&amp;B에 저장된 데이터를 프로그래밍 방식�
 
 <PublicApiUse />
 
-<div id="available-components">
-  ## 사용 가능한 컴포넌트
-</div>
+## 사용 가능한 컴포넌트 {#available-components}
 
 | 컴포넌트                                                  | 설명                                                         |
 | ----------------------------------------------------- | ---------------------------------------------------------- |
@@ -30,45 +28,33 @@ W&amp;B Public API는 W&amp;B에 저장된 데이터를 프로그래밍 방식�
 | [`Automations`](./automations/)                       | 자동화된 워크플로와 작업을 관리합니다.                                      |
 | [`Integrations`](/ko/models/integrations)                | 타사 인테그레이션을 구성하고 관리합니다.                                     |
 
-<div id="common-use-cases">
-  ## 일반적인 활용 사례
-</div>
+## 일반적인 활용 사례 {#common-use-cases}
 
-<div id="data-export-and-analysis">
-  ### 데이터 내보내기 및 분석
-</div>
+### 데이터 내보내기 및 분석 {#data-export-and-analysis}
 
 * Jupyter 노트북에서 분석할 수 있도록 run 이력을 데이터프레임으로 내보내기
 * 맞춤형 시각화 또는 보고를 위해 메트릭 다운로드
 * 여러 실험의 결과 집계
 
-<div id="post-hoc-updates">
-  ### 사후 업데이트
-</div>
+### 사후 업데이트 {#post-hoc-updates}
 
 * 완료 후 run 메타데이터를 업데이트
 * 완료된 실험에 tags 또는 notes 추가
 * run 설정 또는 요약 수정
 
-<div id="artifact-management">
-  ### 아티팩트 관리
-</div>
+### 아티팩트 관리 {#artifact-management}
 
 * 버전 또는 alias로 아티팩트 쿼리
 * 프로그래밍 방식으로 모델 체크포인트 다운로드
 * 아티팩트 리니지와 의존성 추적
 
-<div id="sweep-analysis">
-  ### Sweep 분석
-</div>
+### Sweep 분석 {#sweep-analysis}
 
 * Sweep 결과와 성능이 가장 좋은 run 확인
 * 하이퍼파라미터 검색 결과 내보내기
 * 파라미터 중요도 분석
 
-<div id="authentication">
-  ## 인증
-</div>
+## 인증 {#authentication}
 
 Public API는 Python SDK와 동일한 인증 방식을 사용합니다. 다음과 같은 여러 방법으로 인증할 수 있습니다:
 
@@ -93,13 +79,9 @@ wandb.login()
 api = Api()
 ```
 
-<div id="example-usage">
-  ## 사용 예시
-</div>
+## 사용 예시 {#example-usage}
 
-<div id="download-an-artifact-by-name-and-alias">
-  ### 이름과 alias를 사용해 아티팩트 다운로드하기
-</div>
+### 이름과 alias를 사용해 아티팩트 다운로드하기 {#download-an-artifact-by-name-and-alias}
 
 다음 예제에서는 이름과 alias를 사용해 W&amp;B에 로깅된 아티팩트를 조회한 뒤, 그 내용을 다운로드하는 방법을 보여줍니다.
 
@@ -111,9 +93,7 @@ artifact = api.artifact("entity/project/artifact:alias")
 artifact.download()
 ```
 
-<div id="download-an-artifact-from-a-registry">
-  ### 레지스트리에서 아티팩트 다운로드
-</div>
+### 레지스트리에서 아티팩트 다운로드 {#download-an-artifact-from-a-registry}
 
 다음 예제에서는 W&amp;B 레지스트리에 연결된 아티팩트를 조회하는 방법을 보여줍니다
 
@@ -134,9 +114,7 @@ fetched_artifact = api.artifact(name = artifact_name)
 downloaded_path = fetched_artifact.download()
 ```
 
-<div id="query-wb-registry">
-  ### W&amp;B 레지스트리 쿼리
-</div>
+### W&amp;B 레지스트리 쿼리 {#query-wb-registry}
 
 Mongo와 유사한 필터를 사용해 W&amp;B 레지스트리, 컬렉션, Artifacts를 쿼리할 수 있습니다. 다음 예제는 정규식을 사용해 이름을 기준으로 컬렉션을 필터링하는 방법을 보여줍니다.
 

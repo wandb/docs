@@ -5,9 +5,7 @@ description: "Référence du SDK TypeScript"
 
 import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
-<div id="call-signature">
-  ## Signature d’appel
-</div>
+## Signature d’appel {#call-signature}
 
 ```ts
 op<T>(fn: T, options?: object): Op<T>
@@ -15,15 +13,11 @@ op<T>(fn: T, options?: object): Op<T>
 
 <GitHubLink url="https://github.com/wandb/weave/blob/7c9efdc9fe05ffcaf2430dd652ef9bc5b3ffdfaa/sdks/node/src/op.ts#L392" />
 
-<div id="type-parameters">
-  ### Paramètres de type
-</div>
+### Paramètres de type {#type-parameters}
 
 <ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters">
-  ### Paramètres
-</div>
+### Paramètres {#parameters}
 
 <ParamField path="fn" type="T" required />
 
@@ -75,29 +69,21 @@ op<T>(fn: T, options?: object): Op<T>
   </Expandable>
 </ParamField>
 
-<div id="returns">
-  ### Renvoie
-</div>
+### Renvoie {#returns}
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="call-signature-2">
-  ## Signature d’appel
-</div>
+## Signature d’appel {#call-signature-2}
 
 ```ts
 op<T>(thisArg: any, fn: T, options?: object): Op<T>
 ```
 
-<div id="type-parameters-2">
-  ### Paramètres de type
-</div>
+### Paramètres de type {#type-parameters-2}
 
 <ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters-2">
-  ### Paramètres
-</div>
+### Paramètres {#parameters-2}
 
 <ParamField path="thisArg" type="any" required />
 
@@ -151,23 +137,17 @@ op<T>(thisArg: any, fn: T, options?: object): Op<T>
   </Expandable>
 </ParamField>
 
-<div id="returns-2">
-  ### Renvoie
-</div>
+### Renvoie {#returns-2}
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="call-signature-3">
-  ## Signature d&#39;appel
-</div>
+## Signature d&#39;appel {#call-signature-3}
 
 ```ts
 op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>
 ```
 
-<div id="parameters-3">
-  ### Paramètres
-</div>
+### Paramètres {#parameters-3}
 
 <ParamField path="target" type="object" required />
 
@@ -175,29 +155,21 @@ op(target: object, propertyKey: string | symbol, descriptor: TypedPropertyDescri
 
 <ParamField path="descriptor" type="TypedPropertyDescriptor<any>" required />
 
-<div id="returns-3">
-  ### Renvoie
-</div>
+### Renvoie {#returns-3}
 
 `TypedPropertyDescriptor`&lt;`any`&gt;
 
-<div id="call-signature-4">
-  ## Signature d’appel
-</div>
+## Signature d’appel {#call-signature-4}
 
 ```ts
 op<T>(value: T, context: object): Op<T>
 ```
 
-<div id="type-parameters-3">
-  ### Paramètres de type
-</div>
+### Paramètres de type {#type-parameters-3}
 
 <ParamField path="T" type="extends (...args) => any" />
 
-<div id="parameters-4">
-  ### Paramètres
-</div>
+### Paramètres {#parameters-4}
 
 <ParamField path="value" type="T" required />
 
@@ -227,28 +199,20 @@ op<T>(value: T, context: object): Op<T>
   </Expandable>
 </ParamField>
 
-<div id="returns-4">
-  ### Renvoie
-</div>
+### Renvoie {#returns-4}
 
 [`Op`](../type-aliases/op)&lt;`T`&gt;
 
-<div id="call-signature-5">
-  ## Signature d’appel
-</div>
+## Signature d’appel {#call-signature-5}
 
 ```ts
 op(options: Partial<OpOptions<any>>): MethodDecorator
 ```
 
-<div id="parameters-5">
-  ### Paramètres
-</div>
+### Paramètres {#parameters-5}
 
 <ParamField path="options" type="Partial<OpOptions<any>>" required />
 
-<div id="returns-5">
-  ### Renvoie
-</div>
+### Renvoie {#returns-5}
 
 `MethodDecorator`

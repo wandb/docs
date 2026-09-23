@@ -25,22 +25,16 @@ await withAttributes({requestId: 'abc'}, async () => {
 });
 ```
 
-<div id="type-parameters">
-  ## タイプパラメーター
-</div>
+## タイプパラメーター {#type-parameters}
 
 <ParamField path="T" />
 
-<div id="parameters">
-  ## パラメーター
-</div>
+## パラメーター {#parameters}
 
 <ParamField path="attrs" type="Record<string, any>" required />
 
 <ParamField path="fn" type="() => T | Promise<T>" required />
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `T` | `Promise`&lt;`T`&gt;

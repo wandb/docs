@@ -2,9 +2,7 @@
 title: ADAPTATION
 ---
 
-<div id="adapting-this-detector-to-another-repo">
-  # Adapter ce détecteur à un autre dépôt
-</div>
+# Adapter ce détecteur à un autre dépôt {#adapting-this-detector-to-another-repo}
 
 Ceci est un exemple concret, pas un framework. Il n&#39;y a aucune interface de plugin à
 implémenter ni de classe de base abstraite à dériver — il faudrait pour cela deviner
@@ -16,9 +14,7 @@ Si vous êtes un agent à qui l&#39;on demande *« fais ceci, mais surveille les
 `coreweave/sunk` »* — lisez d&#39;abord ce fichier, puis `config.py`, puis `extract.py`. Les
 autres modules en découlent.
 
-<div id="the-four-part-anatomy">
-  ## L&#39;anatomie en quatre parties
-</div>
+## L&#39;anatomie en quatre parties {#the-four-part-anatomy}
 
 Tout détecteur de dérive documentaire surveillant un dépôt comporte les mêmes quatre parties. Seule la deuxième
 colonne change.
@@ -33,9 +29,7 @@ colonne change.
 C&#39;est dans la partie 1 que se concentre la quasi-totalité du coût d&#39;adaptation. Les parties 3 et 4 se
 transposent généralement sans modification.
 
-<div id="step-zero-for-a-new-repo-is-there-an-i18n-catalog">
-  ## Étape zéro pour un nouveau dépôt : existe-t-il un catalogue i18n ?
-</div>
+## Étape zéro pour un nouveau dépôt : existe-t-il un catalogue i18n ? {#step-zero-for-a-new-repo-is-there-an-i18n-catalog}
 
 **Posez-vous cette question avant toute autre chose.** C&#39;est elle qui détermine si le travail prendra deux jours
 ou deux semaines.
@@ -59,15 +53,11 @@ contient aucune boîte à outils i18n. (Il existe bien un projet pilote de
 localisation Locadex/gt-react, mais il s&#39;exécute sur un *fork* —
 `wandb/mattcore` — et n&#39;affecte pas `wandb/core`.)
 
-<div id="what-surprised-us-on-wandbcore">
-  ## Ce qui nous a surpris sur wandb/core
-</div>
+## Ce qui nous a surpris sur wandb/core {#what-surprised-us-on-wandbcore}
 
 Voici les constats qui nous ont fait perdre un temps précieux. C&#39;est pour cette raison que ce fichier existe.
 
-<div id="1-enumerating-attribute-names-guarantees-silent-misses">
-  ### 1. Énumérer les noms d&#39;attributs garantit des oublis silencieux
-</div>
+### 1. Énumérer les noms d&#39;attributs garantit des oublis silencieux {#1-enumerating-attribute-names-guarantees-silent-misses}
 
 Le premier extracteur listait les attributs porteurs de texte : `aria-label`,
 `placeholder`, `title`, `tooltip`. Il a obtenu un score de **zéro** sur un commit de
@@ -80,9 +70,7 @@ En contrepartie, `name=` devient ambigu (`<Icon name="info" />` est un
 identifiant, `<Hotkey name="List only visible runs" />` est du texte) ; le problème est traité en
 rejetant les valeurs en forme de slug pour les seules clés ambiguës.
 
-<div id="2-prettier-reflow-is-the-dominant-false-positive">
-  ### 2. Le reformatage de Prettier est le principal faux positif
-</div>
+### 2. Le reformatage de Prettier est le principal faux positif {#2-prettier-reflow-is-the-dominant-false-positive}
 
 Une réindentation apparaît sous la forme `-aria-label="X"` / `+  aria-label="X"` — une suppression
 et un ajout de la même chaîne. Ce cas est éliminé de façon déterministe par une égalité
@@ -92,17 +80,13 @@ des libellés sur une fenêtre de 60 jours sont de purs reformatages.
 Généralisé à partir de `diff_signals.graphql_contract_change`, qui recourt à la même
 astuce pour déterminer si une modification d&#39;un fichier `.graphql` est visible côté client.
 
-<div id="3-refactor-titled-commits-are-the-dominant-false-negative">
-  ### 3. Les commits intitulés « refactor » constituent le principal faux négatif
-</div>
+### 3. Les commits intitulés « refactor » constituent le principal faux négatif {#3-refactor-titled-commits-are-the-dominant-false-negative}
 
 **Ne filtrez jamais sur le type de commit conventionnel.** Le constat le plus riche du corpus — huit en-têtes de tableau passés en casse de titre, toujours erronés dans la documentation publiée six semaines plus tard — provenait pour moitié de `feat(app): migrate ... to Table` et pour moitié de `refactor(app): migrate OrgDashboard UsersTable`. Aucune de ces lignes de sujet ne laisse supposer qu&#39;un texte visible par l&#39;utilisateur a été modifié. Les deux l&#39;ont pourtant fait.
 
 Le type de commit est enregistré en tant que metadata, mais n&#39;est exploité par rien.
 
-<div id="4-never-normalize-case">
-  ### 4. Ne jamais normaliser la casse
-</div>
+### 4. Ne jamais normaliser la casse {#4-never-normalize-case}
 
 `normalize()` réduit les espaces et s&#39;arrête là. Passer en minuscules rendrait
 `MODELS SEAT` et `Models Seat` identiques : le renommage ne portant que sur la casse
@@ -110,9 +94,7 @@ s&#39;annulerait de lui-même dans l&#39;arithmétique des ensembles et dispara�
 Un test verrouille ce comportement (`test_case_is_never_normalized`), justement parce que l&#39;échec est
 silencieux.
 
-<div id="5-move-detection-needs-a-looser-identity-than-reflow-detection">
-  ### 5. La détection des déplacements exige une identité *plus souple* que la détection de reformatage
-</div>
+### 5. La détection des déplacements exige une identité *plus souple* que la détection de reformatage {#5-move-detection-needs-a-looser-identity-than-reflow-detection}
 
 Ce sont deux questions distinctes, et elles appellent deux clés distinctes :
 
@@ -125,15 +107,11 @@ vers `saveLabel="Add secret"`. Même chaîne, forme différente, toujours affich
 Avec une clé stricte, ce commit signale 23 suppressions fantômes — soit 23 lignes erronées dans
 le tout premier rapport que l&#39;on consulte. Voir `LabelDelta.ident` et `.moved_ident`.
 
-<div id="6-wrapped-means-not-a-complete-literal-not-prettier-moved-it">
-  ### 6. `wrapped` signifie « littéral incomplet », et non « Prettier l&#39;a déplacé »
-</div>
+### 6. `wrapped` signifie « littéral incomplet », et non « Prettier l&#39;a déplacé » {#6-wrapped-means-not-a-complete-literal-not-prettier-moved-it}
 
 La confusion est facile à faire, et elle disqualifie sans raison de bons constats de la voie agent. L&#39;interpolation (`` `Allow ${AGENT_NAME} to ...` ``) et les branches de ternaires ne peuvent réellement pas faire l&#39;objet d&#39;un rechercher-remplacer. En revanche, le texte que Prettier a renvoyé sur sa propre ligne est capturé à l&#39;identique et ne présente aucun risque.
 
-<div id="7-merged-visible-and-flag-presence-is-a-decayed-signal">
-  ### 7. Fusionné ≠ visible, et la *présence* d&#39;un flag est un signal dégradé
-</div>
+### 7. Fusionné ≠ visible, et la *présence* d&#39;un flag est un signal dégradé {#7-merged-visible-and-flag-presence-is-a-decayed-signal}
 
 Les nouveautés de l&#39;interface utilisateur sont livrées derrière des flags de déploiement progressif Statsig. Mais les ingénieurs suppriment rarement un flag une fois qu&#39;il a atteint 100 % — le laisser en place est plus sûr — si bien que la présence d&#39;un gate ne vous apprend presque rien. Ne l&#39;utilisez pas comme critère de filtrage.
 
@@ -149,9 +127,7 @@ Le gating s&#39;applique par ailleurs **par surface, et non par feature** : un m
 
 La sémantique de déploiement propre à `wandb/core` est suffisamment complexe pour faire l&#39;objet d&#39;un skill dédié — voir `beta-deployment-availability` dans `coreweave/docs-skills`. Ne la redérivez pas ici.
 
-<div id="8-the-docs-oracle-runs-in-one-direction-only">
-  ### 8. L&#39;oracle de la documentation ne fonctionne que dans un seul sens
-</div>
+### 8. L&#39;oracle de la documentation ne fonctionne que dans un seul sens {#8-the-docs-oracle-runs-in-one-direction-only}
 
 La présence de documentation **renforce** la confiance dans le fait qu&#39;une surface est bien active ; une dérive la concernant est donc réelle. Son absence, en revanche, ne doit **jamais** la diminuer : « disponible mais non documenté » est précisément la lacune que l&#39;on cherche à débusquer, et se servir de cette absence pour étouffer un signal referme une boucle dont le détecteur ne sort plus jamais : semble non publié → signal étouffé → personne ne rédige de documentation → toujours pas de documentation → signal toujours étouffé.
 
@@ -159,9 +135,7 @@ Cette règle est appliquée de façon structurelle plutôt que par convention : 
 
 À noter également : la correspondance naïve de sous-chaînes ne sert à rien. `search` apparaît sur 215 pages de documentation. Exigez un contexte de mise en évidence dans l&#39;interface utilisateur (`**gras**`, accents graves, guillemets ou « le bouton X »), un filtre de spécificité de ≥ 2 jetons ou en MAJUSCULES, ainsi qu&#39;un plafond sur le nombre de pages.
 
-<div id="9-match-the-literal-case-sensitively-or-you-report-already-fixed-drift">
-  ### 9. Faites correspondre le littéral en respectant la casse, sinon vous signalerez une dérive déjà corrigée
-</div>
+### 9. Faites correspondre le littéral en respectant la casse, sinon vous signalerez une dérive déjà corrigée {#9-match-the-literal-case-sensitively-or-you-report-already-fixed-drift}
 
 Peu intuitif et facile à prendre à l&#39;envers. Le lookup pose la question : « l&#39;ANCIENNE chaîne
 apparaît-elle encore dans la documentation ? » Si la documentation indique `MODELS SEAT` alors que le code indique désormais
@@ -173,24 +147,18 @@ où cela importe le plus.
 Les mots environnants (`the`, le nom) peuvent être insensibles à la casse grâce à un
 `(?i:...)` circonscrit. Le littéral lui-même ne doit pas l&#39;être.
 
-<div id="10-blank-frontmatter-do-not-delete-it">
-  ### 10. Videz le frontmatter, ne le supprimez pas
-</div>
+### 10. Videz le frontmatter, ne le supprimez pas {#10-blank-frontmatter-do-not-delete-it}
 
 Supprimer le frontmatter YAML décale tous les numéros de ligne qui le suivent : une référence
 `page:line` ne pointe alors plus vers ce que voit le lecteur — un décalage de cinq lignes, dans notre corpus.
 Remplacez-le plutôt par autant de sauts de ligne. C&#39;est peu coûteux, et cela préserve l&#39;exactitude
 des citations tout en évitant que les clés du frontmatter soient interprétées comme de la prose.
 
-<div id="11-published-release-notes-are-immutable-and-they-are-a-big-share-of-hits">
-  ### 11. Les release notes publiées sont immuables et représentent une grande part des occurrences
-</div>
+### 11. Les release notes publiées sont immuables et représentent une grande part des occurrences {#11-published-release-notes-are-immutable-and-they-are-a-big-share-of-hits}
 
 Sur une fenêtre de 60 jours, près de la moitié des occurrences relevées dans la documentation se situent dans `release-notes/**`. Elles constituent une trace historique de ce qui a été livré, sous le nom sous lequel cela a été livré. Les réécrire reviendrait à falsifier un journal des modifications. Signalez-les à titre informatif, ne proposez jamais de modification et ne les comptez jamais dans l&#39;éligibilité des agents.
 
-<div id="12-include-reusable-fragments-exclude-worktrees">
-  ### 12. Inclure les fragments réutilisables ; exclure les worktrees
-</div>
+### 12. Inclure les fragments réutilisables ; exclure les worktrees {#12-include-reusable-fragments-exclude-worktrees}
 
 Deux erreurs de sélection du corpus, de signes opposés :
 
@@ -201,9 +169,7 @@ Deux erreurs de sélection du corpus, de signes opposés :
   compte deux fois chaque occurrence et gonfle silencieusement le nombre de pages, ce qui
   déclenche le plafond « trop générique » et masque de véritables résultats.
 
-<div id="13-pair-renames-by-position-before-you-consider-similarity">
-  ### 13. Appariez les renommages par position avant d&#39;envisager la similarité
-</div>
+### 13. Appariez les renommages par position avant d&#39;envisager la similarité {#13-pair-renames-by-position-before-you-consider-similarity}
 
 L&#39;approche évidente — associer une chaîne supprimée à la chaîne ajoutée qui lui
 ressemble le plus — échoue précisément dans le cas le plus important. Un libellé
@@ -225,9 +191,7 @@ effectués sur place : `header: 'WEAVE ACCESS'` est devenu `name: 'Weave Access'
 et dans un autre champ. Regroupez par (path, kind), et non par (path, kind, key), sinon
 ce cas-là passera inaperçu.
 
-<div id="14-not-every-conditional-is-a-feature-gate">
-  ### 14. Toutes les conditions ne sont pas des feature gates
-</div>
+### 14. Toutes les conditions ne sont pas des feature gates {#14-not-every-conditional-is-a-feature-gate}
 
 Remonter d&#39;une ligne modifiée jusqu&#39;au `if` englobant fait apparaître quantité de blocs qui
 n&#39;ont rien à voir avec la visibilité. `if (hideManuallyHidden)` relève de l&#39;état de l&#39;interface utilisateur.
@@ -240,9 +204,7 @@ contraire. La chaîne est entièrement lisible au sein d&#39;un même diff. La c
 ne l&#39;est généralement pas : elle réside dans le registre de ramp, traitez-la donc comme un enrichissement
 facultatif plutôt que comme une condition préalable.
 
-<div id="15-a-change-to-an-undocumented-label-is-not-drift">
-  ### 15. La modification d&#39;un libellé non documenté n&#39;est pas une dérive
-</div>
+### 15. La modification d&#39;un libellé non documenté n&#39;est pas une dérive {#15-a-change-to-an-undocumented-label-is-not-drift}
 
 Le premier rapport affichait 22 lignes pour trois commits, dont 2 seulement étaient réelles. Les
 autres étaient `new **Loading members**`, `new **Invited**`, `PROFILE removed` — soit toute
@@ -278,9 +240,7 @@ Deux cas de figure connexes sont ressortis de la même passe :
   affichent la même colonne, et la page de documentation la nomme une seule fois. Inclure la surface
   dans l&#39;ID du constat faisait apparaître une seule modification sur trois lignes.
 
-<div id="16-freeze-real-diffs-as-fixtures-immediately">
-  ### 16. Figez immédiatement de vrais diffs sous forme de fixtures
-</div>
+### 16. Figez immédiatement de vrais diffs sous forme de fixtures {#16-freeze-real-diffs-as-fixtures-immediately}
 
 Six sorties `git show` figées dans `tests/fixtures/` constituent à elles seules toute
 la surface de régression, et elles ont révélé trois bugs qui avaient survécu à la revue de conception : le JSX inline non détecté,
@@ -290,9 +250,7 @@ sur de vrais diffs.
 
 Lorsque quelqu&#39;un signale un cas non détecté, ajoutez-le comme fixture avant de le corriger.
 
-<div id="17-ownership-is-per-run-data-so-pay-for-it-once">
-  ### 17. La propriété est une donnée propre à l&#39;exécution : ne la payez qu&#39;une fois
-</div>
+### 17. La propriété est une donnée propre à l&#39;exécution : ne la payez qu&#39;une fois {#17-ownership-is-per-run-data-so-pay-for-it-once}
 
 Les relecteurs et l&#39;équipe propriétaire ont l&#39;air de recherches effectuées constat par constat, mais n&#39;en sont pas. CODEOWNERS
 est un fichier unique qui ne change pas en cours d&#39;exécution, et la paternité du code provient d&#39;un unique
@@ -318,9 +276,7 @@ est documenté, puis une seconde fois pour y joindre les preuves, et un même li
 dans plusieurs commits au sein d&#39;une même fenêtre. Sur 60 jours de `wandb/core`, cela
 représente 1180 chaînes modifiées qui se ramènent à un nombre bien plus faible de recherches distinctes.
 
-<div id="18-almost-nothing-needs-to-be-stored-between-runs">
-  ### 18. Presque rien n&#39;a besoin d&#39;être conservé entre deux exécutions
-</div>
+### 18. Presque rien n&#39;a besoin d&#39;être conservé entre deux exécutions {#18-almost-nothing-needs-to-be-stored-between-runs}
 
 La conception qui vient naturellement à l&#39;esprit pour un détecteur qui ré-analyse tout, c&#39;est un registre qui mémorise chaque
 constat déjà émis. Résistez-y. Posez-vous la question pour chaque champ : *une nouvelle analyse
@@ -340,9 +296,7 @@ Un corollaire mérite d&#39;être énoncé : dériver plutôt que stocker signif
 exécution défaillante. Aucun cache à invalider, aucune migration à écrire lorsqu&#39;un signal
 change, et c&#39;est précisément ce qui permet de continuer à faire évoluer les signaux en toute sécurité.
 
-<div id="19-suppression-is-one-directional-too">
-  ### 19. La suppression est également unidirectionnelle
-</div>
+### 19. La suppression est également unidirectionnelle {#19-suppression-is-one-directional-too}
 
 La leçon 8 régit l&#39;oracle de la documentation. La même règle doit régir les décisions stockées, et le mode de défaillance y est plus subtil : un rédacteur écarte un constat en le qualifiant de faux positif et, six semaines plus tard, une page se met à documenter précisément cette surface. Le constat est désormais réel, et le rejet stocké le masquerait silencieusement — une suppression qui devient *de plus en plus* fausse au fil du temps, et que personne ne peut détecter à la lecture du rapport.
 
@@ -355,9 +309,7 @@ Deux conséquences :
 * **Ne supprimez jamais automatiquement une décision.** Une décision orpheline est ambiguë : la dérive a peut-être été résolue, ou la fenêtre d&#39;analyse n&#39;atteint tout simplement pas son commit. Listez-les et laissez un humain choisir.
 * **Tenez compte des suppressions dans le rapport.** Un décompte de ce qui a été écarté est le seul moyen pour un lecteur de distinguer « aucune dérive » de « toutes les dérives déjà écartées ». Un détecteur qui laisse tomber des lignes en silence ne peut pas être audité.
 
-<div id="running-it">
-  ## Exécution
-</div>
+## Exécution {#running-it}
 
 ```bash
 PYTHONPATH=scripts python3 -m uidrift.scan scan --since "60 days ago"
@@ -397,9 +349,7 @@ devrait lire ce fichier plutôt que d&#39;appliquer un grep au rapport rendu : l
 coupler un flux de travail à une phrase comme « Aucune dérive à traiter dans cette
 fenêtre » rend la formulation porteuse.
 
-<div id="running-it-in-ci">
-  ## Exécution dans la CI
-</div>
+## Exécution dans la CI {#running-it-in-ci}
 
 `.github/workflows/uidrift-scan.yml` est le puits. Trois éléments qu&#39;il contient
 relèvent de la mesure plutôt que de la préférence : ce sont ceux à conserver lors de l&#39;adaptation.
@@ -442,9 +392,7 @@ réanalyse la même plage sur une fenêtre légèrement plus large, ce qui ne co
 solution — commiter chaque jour un rapport « aucun constat » pour faire avancer le
 repère — offre une analyse moins coûteuse au prix d&#39;une PR que personne n&#39;a envie de lire.
 
-<div id="volume-expectations">
-  ## Volumes attendus
-</div>
+## Volumes attendus {#volume-expectations}
 
 Calibrez avant de développer. Pour `wandb/core` sur 60 jours :
 
@@ -467,9 +415,7 @@ racines de l&#39;interface utilisateur. Conservez cette propriété : sans elle,
 Si le nombre de candidats de l&#39;étape 1 dépasse ~250/60 j, resserrez les critères avant d&#39;ajouter l&#39;étape 2 : une passe de
 modèle sur l&#39;ensemble du stream `.tsx` relève surtout du gaspillage.
 
-<div id="the-vendored-modules">
-  ## Les modules vendorisés
-</div>
+## Les modules vendorisés {#the-vendored-modules}
 
 `_vendor/` contient des copies de `gitsource.py`, `diff_signals.py` et
 `commit_text.py` issues de `wandb/release-note-genie`, chacune accompagnée d&#39;un en-tête de provenance

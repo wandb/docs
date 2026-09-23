@@ -8,9 +8,7 @@ keywords: ["ガードレール", "モデレーション Scorer", "PII 検出", "
 
 このガイドでは、Weave ガードレールの仕組みやパフォーマンスの調整方法に加え、組み込みの Scorer、カスタム Scorer、AWS Bedrock Guardrails を使用して本番環境の LLM アプリケーションを保護する例を紹介します。
 
-<div id="how-weave-guardrails-work">
-  ## Weave ガードレールの仕組み
-</div>
+## Weave ガードレールの仕組み {#how-weave-guardrails-work}
 
 Weave ガードレールは、インラインの [Weave Scorers](/ja/weave/guides/evaluation/scorers) を使用して、ユーザーからの入力や LLM の出力を評価し、LLM の応答をリアルタイムで調整します。さまざまな目的でコンテンツを評価するために、カスタムScorerを設定することも、[組み込みScorer](/ja/weave/guides/evaluation/builtin_scorers) を使用することもできます。このガイドでは、両方のタイプのScorerをガードレールとして使用する方法を説明します。
 
@@ -22,9 +20,7 @@ Weave ガードレールは、インラインの [Weave Scorers](/ja/weave/guide
   Weave TypeScript SDK は、ガードレールの設定に必要なツールをサポートしていません。
 </Note>
 
-<div id="optimize-your-weave-guardrail-performance">
-  ### Weave ガードレールのパフォーマンスを最適化する
-</div>
+### Weave ガードレールのパフォーマンスを最適化する {#optimize-your-weave-guardrail-performance}
 
 ガードレールはアプリケーションの制御フローを中断し、応答の内容を変える可能性があるため、複雑になりすぎるとパフォーマンスに影響することがあります。最高のパフォーマンスを得るには、次の推奨事項に従ってください。
 
@@ -40,9 +36,7 @@ Weave ガードレールは、インラインの [Weave Scorers](/ja/weave/guide
 * Scorerがネットワーク接続を維持する場合
 * トラフィックの多いアプリケーションを扱う場合
 
-<div id="example-create-a-guardrail-using-a-built-in-moderation-scorer">
-  ## 例: 組み込みの モデレーション Scorer を使用してガードレールを作成する
-</div>
+## 例: 組み込みの モデレーション Scorer を使用してガードレールを作成する {#example-create-a-guardrail-using-a-built-in-moderation-scorer}
 
 次の例では、ユーザーの prompt を OpenAI の GPT-4o mini モデルに送信します。次に、モデルのレスポンスを [OpenAI の モデレーション Scorer API](https://platform.openai.com/docs/guides/moderation) に渡して、LLM のレスポンスに有害または不適切なコンテンツが含まれているかどうかを評価します。モデルのレスポンスはガードレール関数 (`generate_safe_response()`) に渡され、この関数は `OpenAIModerationScorer` を使用して LLM の元のレスポンスを確認します。その後、関数のロジックで OpenAI の評価レスポンスにある `passed` フィールドの真偽値を確認し、その値に応じてアプリケーションの応答を決定します。
 
@@ -109,9 +103,7 @@ if __name__ == "__main__":
 
 LLM-as-a-judge scorers を使用する場合、スコアリング用のプロンプトで ops の変数を参照できます。たとえば、&quot;`{output}` が `{ground_truth}` に基づいて正確かどうかを評価してください。&quot;のように指定できます。詳細については、[prompt variables](/ja/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts)をご覧ください。
 
-<div id="example-create-a-guardrail-using-a-custom-scorer">
-  ## 例: カスタム Scorer を使用してガードレールを作成する
-</div>
+## 例: カスタム Scorer を使用してガードレールを作成する {#example-create-a-guardrail-using-a-custom-scorer}
 
 以下の例では、LLM の応答に含まれるメールアドレス、電話番号、社会保障番号などの個人を特定できる情報 (PII) を検出するカスタム ガードレールを作成します。これにより、生成コンテンツに機密情報が含まれて公開されるのを防げます。`generate_safe_response` 関数は、カスタム `PIIDetectionScorer` を適用します。
 
@@ -200,9 +192,7 @@ if __name__ == "__main__":
         print(f"Response: {response}")
 ```
 
-<div id="integrate-weave-with-aws-bedrock-guardrails">
-  ## Weave を AWS Bedrock Guardrails と統合する
-</div>
+## Weave を AWS Bedrock Guardrails と統合する {#integrate-weave-with-aws-bedrock-guardrails}
 
 AWS ですでにコンテンツポリシーを管理している場合は、設定されたポリシーに基づいてコンテンツを検出してフィルタリングするために AWS Bedrock Guardrails を使用する `BedrockGuardrailScorer` を使用して、それらを Weave に適用できます。
 

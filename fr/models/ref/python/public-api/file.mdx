@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py#L246" />
 
-<div id="class-wandbapispublicfile">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.File
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.File {#class-wandbapispublicfile}
 
 Fichier enregistré dans W&amp;B.
 
@@ -33,9 +31,7 @@ fichier spécifique enregistré dans un run spécifique. Vous pouvez effectuer u
 * updated&#95;at (str): horodatage de la dernière mise à jour
 * path&#95;uri (str): chemin vers le fichier dans le bucket, actuellement disponible uniquement pour les objets S3 et les fichiers de référence
 
-<div id="properties">
-  ## Propriétés
-</div>
+## Propriétés {#properties}
 
 <ResponseField name="path_uri" type="L’URI S3 (par exemple, 's3://bucket/path/to/file') si le fichier est stocké dans S3, l’URL directe s’il s’agit d’un fichier de référence ou une chaîne vide s’il n’est pas disponible.">
   Renvoie le chemin URI du fichier dans le bucket de stockage.
@@ -45,13 +41,9 @@ fichier spécifique enregistré dans un run spécifique. Vous pouvez effectuer u
   Renvoie la taille du fichier en octets.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-filedelete">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> File.delete()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> File.delete() {#method-filedelete}
 
 ```python
 self
@@ -59,9 +51,7 @@ self
 
 Supprimez le fichier du serveur W&amp;B.
 
-<div id="method-filedownload">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> File.download()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> File.download() {#method-filedownload}
 
 ```python
 self,
@@ -73,9 +63,7 @@ api: 'Api | None' = None
 
 Télécharge un fichier précédemment enregistré par un run depuis le serveur wandb.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="root" type="str">
   Répertoire local où enregistrer le fichier. La valeur par défaut est le répertoire de travail actuel (&quot;.&quot;).

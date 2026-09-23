@@ -13,9 +13,7 @@ keywords: [トレース, "@weave.op", OpenAI, LLM observability, decorator]
 
 このノートブックでは、OpenAI を利用した関数を `@weave.op` でデコレートして、W&amp;B Weave で最初のトレースを取得する方法を紹介します。トレースを使用すると、LLM Call の入力、出力、中間ステップを確認できるため、アプリケーションのデバッグと改善に役立ちます。このチュートリアルは、Weave を初めて使う開発者向けの、最小限のエンドツーエンドの例です。
 
-<div id="prerequisites">
-  ## 🔑 前提条件
-</div>
+## 🔑 前提条件 {#prerequisites}
 
 Weave でトレースを開始する前に、以下の前提条件を満たしてください。これらの手順では、必須の SDK をインストールし、W&amp;B と OpenAI で認証を行い、トレースの送信先となる project を初期化します。
 
@@ -53,9 +51,7 @@ print("---")
 weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B のプロジェクト名
 ```
 
-<div id="run-your-first-trace">
-  ## 🐝 最初のトレースを試す
-</div>
+## 🐝 最初のトレースを試す {#run-your-first-trace}
 
 次のコードサンプルでは、`@weave.op` デコレータを使って、Weave でトレースを取得して可視化する方法を示します。ここでは `extract_fruit` という関数を定義し、OpenAI の GPT-4o にプロンプトを送信して、文から構造化データ (果物、色、風味) を抽出します。関数を `@weave.op` でデコレートすると、Weave は入力、出力、および中間 step を含む関数の実行を自動的にトラッキングします。サンプルの文でこの関数を呼び出すと、Weave は完全なトレースを保存し、Weave UI で確認できるようにします。
 
@@ -84,9 +80,7 @@ extract_fruit(sentence)
 
 これで、デコレートした関数からトレースを取得する Weave project が動作するようになり、Weave UI でそのトレースを確認できます。
 
-<div id="more-examples">
-  ## 🚀 さらに例を見る
-</div>
+## 🚀 さらに例を見る {#more-examples}
 
 Weave のトレースをさらに深く学ぶには、次のリソースをご利用ください。
 

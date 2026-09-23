@@ -9,9 +9,7 @@ W&amp;B에는 JAX 전용 인테그레이션이 없습니다. 하지만 JAX 디�
 
 아래 섹션에서는 JAX 트레이닝 루프의 기본 로깅 패턴, 검증 메트릭을 집계하는 방법, JAX 또는 Flax 체크포인트를 W&amp;B 아티팩트로 저장하는 방법, 그리고 트레이닝 중 NaN loss를 드러내는 방법을 설명합니다.
 
-<div id="log-metrics-from-a-jax-training-loop">
-  ## JAX 트레이닝 루프에서 메트릭 로깅하기
-</div>
+## JAX 트레이닝 루프에서 메트릭 로깅하기 {#log-metrics-from-a-jax-training-loop}
 
 다음 예시에서는 JIT 컴파일된 JAX 트레이닝 루프를 실행하여 각 batch마다 모델 파라미터를 업데이트하고, step별 트레이닝 loss를 W&amp;B run에 로깅합니다.
 
@@ -38,9 +36,7 @@ with wandb.init(
 
 `@jax.jit`에서 반환되는 값은 디바이스 배열입니다. 스칼라 값은 `float(loss)` 또는 0차원 배열에서 `.item()`을 사용해 `run.log()`에 전달하세요. 원시 JAX 배열을 그대로 로깅하면 SDK 버전에 따라 직렬화가 실패하거나 예상치 못한 값이 기록될 수 있습니다.
 
-<div id="log-validation-metrics">
-  ## 검증 메트릭 로깅
-</div>
+## 검증 메트릭 로깅 {#log-validation-metrics}
 
 Python에서 검증 메트릭을 집계한 뒤 에포크마다 한 번씩 로깅합니다:
 
@@ -57,9 +53,7 @@ for epoch in range(num_epochs):
     })
 ```
 
-<div id="save-checkpoints-as-artifacts">
-  ## 체크포인트를 아티팩트로 저장
-</div>
+## 체크포인트를 아티팩트로 저장 {#save-checkpoints-as-artifacts}
 
 `orbax` 또는 `flax.serialization`을 사용해 JAX 또는 Flax 파라미터를 저장한 다음, 이를 아티팩트로 로깅하세요:
 
@@ -75,9 +69,7 @@ artifact.add_dir("/tmp/checkpoint")
 run.log_artifact(artifact)
 ```
 
-<div id="debug-nan-values">
-  ## NaN 값 디버깅하기
-</div>
+## NaN 값 디버깅하기 {#debug-nan-values}
 
 JAX는 기본적으로 NaN 값이 발생해도 오류를 발생시키지 않습니다. `loss`와 함께 NaN 플래그를 로깅하세요:
 

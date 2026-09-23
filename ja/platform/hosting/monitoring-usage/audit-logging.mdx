@@ -18,18 +18,14 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
 
 ログ形式の詳細については、[監査ログスキーマ](#audit-log-schema) と [アクション](#actions) を参照してください。
 
-<div id="audit-log-retention">
-  ## 監査ログの保持
-</div>
+## 監査ログの保持 {#audit-log-retention}
 
 以下の推奨事項は、組織のガバナンスおよびコンプライアンス上の義務を満たすために監査ログを保持する際に役立ちます。
 
 * 監査ログを一定期間保持する必要がある場合、W&amp;B では、storage buckets または Audit Logging API を使用して、ログを長期ストレージに定期的に転送することを推奨します。
 * [1996年医療保険の携行性と責任に関する法律 (HIPAA) ](https://hhs.gov/hipaa/for-professionals/index.html) の適用対象である場合、監査ログは、法令で義務付けられた保持期間が終了するまで、社内外のいかなる関係者も削除または変更できない環境で、少なくとも 6 年間保持する必要があります。[BYOB](/ja/platform/hosting/data-security/secure-storage-connector) を使用する HIPAA 準拠の[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)インスタンスでは、長期保持用ストレージを含む管理対象ストレージに対するガードレールを設定する必要があります。
 
-<div id="audit-log-schema">
-  ## 監査ログスキーマ
-</div>
+## 監査ログスキーマ {#audit-log-schema}
 
 各監査ログエントリで返されるフィールドを解釈するには、このスキーマを使用してください。この表は、監査ログのエントリに含まれる可能性があるすべてのキーを、アルファベット順に示しています。アクションや状況によっては、個々のログエントリに含まれるのは、これらのフィールドの一部だけの場合があります。
 
@@ -55,18 +51,14 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
 | `user_asset`              | 該当する場合、アクションを実行したユーザーではなく、そのアクションの影響を受けるユーザーの asset。                                                                                   |
 | `user_email`              | 該当する場合、アクションを実行したユーザーのメールアドレスではなく、そのアクションの影響を受けるユーザーのメールアドレス。                                                                          |
 
-<div id="personally-identifiable-information-pii">
-  ### 個人を特定できる情報 (PII)
-</div>
+### 個人を特定できる情報 (PII) {#personally-identifiable-information-pii}
 
 メールアドレスや プロジェクト、Teams、Reports の名前などの個人を特定できる情報 (PII) は、API endpoint オプションでのみ利用できます:
 
 * [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) と [専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) では、組織管理者は 監査ログ の取得時に [PII を除外](#exclude-pii) できます。
 * [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API endpoint は常に PII を含む 監査ログ の関連フィールドを返します。これは設定できません。
 
-<div id="before-you-begin">
-  ## 始める前に
-</div>
+## 始める前に {#before-you-begin}
 
 監査ログを取得する前に、デプロイメントタイプに応じて次の前提条件を満たしていることを確認してください。
 
@@ -84,9 +76,7 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
 
   これは、1 つの Multi-tenant Cloud 組織にしか所属できないサービスアカウントには適用されません。
 
-<div id="fetch-audit-logs">
-  ## 監査ログを取得する
-</div>
+## 監査ログを取得する {#fetch-audit-logs}
 
 監査ログを取得するには、W&amp;B Audit Logging API を使用します。エンドポイント、クエリパラメーター、レスポンス形式は、デプロイメントタイプによって異なります。
 
@@ -164,9 +154,7 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
       "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000&cursor=[NEXT-CURSOR]"
     ```
 
-    <div id="exclude-pii-when-fetching-audit-logs">
-      ### 監査ログの取得時に PII を除外する <a id="exclude-pii" />
-    </div>
+### 監査ログの取得時に PII を除外する <a id="exclude-pii" /> {#exclude-pii-when-fetching-audit-logs}
 
     [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) では、W&amp;B の組織管理者またはインスタンス管理者が、監査ログの取得時に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API endpoint は PII を含む監査ログの関連フィールドを常に返します。この動作は変更できません。
 
@@ -247,15 +235,11 @@ W&amp;B 監査ログを使用すると、組織内のユーザーアクティビ
   </Tab>
 </Tabs>
 
-<div id="use-basic-authentication">
-  ### 基本認証を使用する
-</div>
+### 基本認証を使用する {#use-basic-authentication}
 
 監査ログ API への各リクエストは認証する必要があります。APIキーを使用して基本認証で 監査ログ API にアクセスするには、HTTP リクエストの `Authorization` ヘッダーに、文字列 `Basic`、半角スペース 1 つ、続けて `[USERNAME]:[API-KEY]` 形式の文字列をbase64エンコードした値を設定します。つまり、`username` と `API-KEY` を `:` で区切った実際の値に置き換え、その結果をbase64エンコードします。たとえば、`demo:p@55w0rd` として認証する場合、ヘッダーを `Authorization: Basic ZGVtbzpwQDU1dzByZA==` に設定します。
 
-<div id="actions">
-  ## アクション
-</div>
+## アクション {#actions}
 
 各監査ログエントリには、以下のいずれかのアクションが記録されます。ログエントリの `action` フィールドを解釈する際は、このリファレンスを参照してください。この表では、W&amp;B が記録できるアクションをアルファベット順に示します。
 

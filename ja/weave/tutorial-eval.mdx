@@ -21,7 +21,7 @@ Weave は、[`Model`](/ja/weave/guides/core-types/models) クラスと [`Evaluat
 ![Evals hero](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## このガイドで学ぶこと
+  ## このガイドで学ぶこと {#what-youll-learn}
 </div>
 
 このガイドでは、次の内容を学びます。
@@ -37,7 +37,7 @@ Weave は、[`Model`](/ja/weave/guides/core-types/models) クラスと [`Evaluat
 <WeaveQuickstartPrereqs />
 
 <div id="import-the-necessary-libraries-and-functions">
-  ## 必要なライブラリと関数をインポートする
+  ## 必要なライブラリと関数をインポートする {#import-the-necessary-libraries-and-functions}
 </div>
 
 以下のライブラリをスクリプトにインポートします。
@@ -63,7 +63,7 @@ Weave は、[`Model`](/ja/weave/guides/core-types/models) クラスと [`Evaluat
 </Tabs>
 
 <div id="build-a-model">
-  ## `Model` を作成する
+  ## `Model` を作成する {#build-a-model}
 </div>
 
 ライブラリの準備ができたら、次のステップは評価したいモデルを定義することです。
@@ -163,7 +163,7 @@ Weave では、[`Models` はオブジェクト](/ja/weave/guides/core-types/mode
 </Tabs>
 
 <div id="create-a-dataset">
-  ## データセットを作成する
+  ## データセットを作成する {#create-a-dataset}
 </div>
 
 `Model` を定義したら、次はそれを評価するためのデータセットが必要です。[`Dataset`](/ja/weave/guides/core-types/datasets) は Weaveオブジェクトとして保存されるサンプルのコレクションです。データセットを Weave に公開するとバージョン管理され、評価 run 間で再利用できるようになります。
@@ -239,7 +239,7 @@ Weave では、[`Models` はオブジェクト](/ja/weave/guides/core-types/mode
 </Tabs>
 
 <div id="define-custom-scoring-functions">
-  ## カスタムのスコアリング関数を定義する
+  ## カスタムのスコアリング関数を定義する {#define-custom-scoring-functions}
 </div>
 
 モデルとデータセットが用意できたら、各サンプルに対するモデルのパフォーマンスを測定する方法が必要です。スコアリング関数は、モデルの出力を期待される `target` と比較し、評価がレポートするメトリクスを生成します。
@@ -274,7 +274,7 @@ Weave の評価を使用する場合、Weave では `output` と比較するた�
 アプリケーションによっては、カスタムの `Scorer` クラスを作成したい場合があります。たとえば、特定のパラメーター (チャットモデルやプロンプトなど) 、特定の行に対するスコアリング、集約スコアの計算を備えた、標準化された `LLMJudge` クラスを作成できます。詳細は、[RAG アプリケーションのモデルベース評価](/ja/weave/tutorial-rag#optional-defining-a-scorer-class) にある `Scorer` クラスの定義に関するチュートリアルを参照してください。
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
-  ## 組み込み Scorer を使用して評価を実行する
+  ## 組み込み Scorer を使用して評価を実行する {#use-a-built-in-scorer-and-run-the-evaluation}
 </div>
 
 モデル、データセット、カスタム Scorer の準備が整ったので、あとはそれらをまとめて 評価 run を構成するだけです。
@@ -325,7 +325,7 @@ Weave の評価を使用する場合、Weave では `output` と比較するた�
 </Note>
 
 <div id="complete-example">
-  ### 完全な例
+  ### 完全な例 {#complete-example}
 </div>
 
 <Accordion title="1つのスクリプトで完結する評価パイプライン:">
@@ -468,7 +468,7 @@ Weave の評価を使用する場合、Weave では `output` と比較するた�
 </Accordion>
 
 <div id="view-your-evaluation-results">
-  ## 評価結果を確認する
+  ## 評価結果を確認する {#view-your-evaluation-results}
 </div>
 
 評価が完了すると、Weave UI で各予測と Scorer の結果を確認できます。Weave は、各予測とスコアのトレースを自動的に記録します。評価の実行時に出力されるリンクをクリックすると、Weave UI で結果を確認できます。
@@ -476,7 +476,7 @@ Weave の評価を使用する場合、Weave では `output` と比較するた�
 ![評価結果](/images/evals-hero.png)
 
 <div id="learn-more-about-weave-evaluations">
-  ## Weave の評価についてさらに詳しく見る
+  ## Weave の評価についてさらに詳しく見る {#learn-more-about-weave-evaluations}
 </div>
 
 これで、完全な評価パイプラインが完成しました。Weave の評価機能をさらに深く理解するには、次のリソースを参照してください。
@@ -485,8 +485,6 @@ Weave の評価を使用する場合、Weave では `output` と比較するた�
 * Weave の[組み込みスコアリング関数](/ja/weave/guides/evaluation/builtin_scorers)を確認します。
 * LLM を判定者として使用する[モデルベース評価](/ja/weave/guides/evaluation/scorers#model-based-evaluation)について学びます。
 
-<div id="next-steps">
-  ## 次のステップ
-</div>
+## 次のステップ {#next-steps}
 
 [RAG アプリケーションを構築して](/ja/weave/tutorial-rag)、検索拡張生成の評価について学びましょう。

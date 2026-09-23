@@ -10,9 +10,7 @@ Ce guide s&#39;adresse aux développeurs qui utilisent Weave pour instrumenter d
 
 Les sections suivantes expliquent comment ouvrir la Vue de trace, vous repérer dans la page Traces, naviguer dans une trace et la filtrer, passer d&#39;une visualisation alternative à une autre, et inspecter les détails d&#39;une op spécifique.&quot;
 
-<div id="get-started">
-  ## Premiers pas
-</div>
+## Premiers pas {#get-started}
 
 Suivez ces étapes pour ouvrir la vue de trace d’un projet afin de commencer à inspecter les traces :
 
@@ -20,9 +18,7 @@ Suivez ces étapes pour ouvrir la vue de trace d’un projet afin de commencer �
 2. Dans le menu latéral, sélectionnez **Traces** pour afficher toutes les traces enregistrées pour votre projet.
 3. Sélectionnez une trace pour ouvrir la vue des détails de la trace. La vue des détails de la trace affiche des panneaux supplémentaires avec une décomposition hiérarchique de l’exécution de la trace.
 
-<div id="traces-page-overview">
-  ## Aperçu de la page Traces
-</div>
+## Aperçu de la page Traces {#traces-page-overview}
 
 La page Traces se compose de trois panneaux principaux :
 
@@ -36,18 +32,14 @@ La page Traces se compose de trois panneaux principaux :
   ![Page Traces affichant une trace sélectionnée et les détails de l’op sélectionnée](/weave/guides/tracking/imgs/trace-tree-full.png)
 </Frame>
 
-<div id="filter-within-a-trace">
-  ### Filtrer dans une trace
-</div>
+### Filtrer dans une trace {#filter-within-a-trace}
 
 Vous pouvez filtrer le contenu d’une trace à l’aide des contrôles suivants :
 
 * **Filtre regex par nom(s)** : utilisez le champ de texte au-dessus de l&#39;arborescence de trace pour filtrer les ops par nom ou par type, par exemple `tool`, `openai.response.create`.
 * **Métriques** : choisissez d&#39;afficher ou non les métriques suivantes lorsqu&#39;elles sont disponibles : coût, tokens et latence.
 
-<div id="navigate-a-trace">
-  ### Naviguer dans une trace
-</div>
+### Naviguer dans une trace {#navigate-a-trace}
 
 L&#39;arborescence de trace affiche une hiérarchie de toutes les méthodes suivies dans la trace. Pour vous déplacer vers le haut ou le bas dans l&#39;arborescence, utilisez `Cmd` (macOS) ou `Alt` (Windows/Linux) + flèche vers le haut (↑) ou flèche vers le bas (↓).
 
@@ -65,23 +57,17 @@ Développez le panneau pour voir tous les curseurs disponibles :
   ![Panneau de l'arborescence de trace montrant le filtre de recherche et les curseurs](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
 </Frame>
 
-<div id="alternative-trace-tree-views">
-  ### Vues alternatives de l&#39;arborescence de trace
-</div>
+### Vues alternatives de l&#39;arborescence de trace {#alternative-trace-tree-views}
 
 En haut du panneau, vous pouvez passer d&#39;une représentation visuelle de l&#39;arborescence de trace à une autre en fonction de vos besoins de débogage. Utilisez la **vue de composition du code** pour comprendre la logique des appels, la **vue flame graph** pour comprendre les performances dans le temps, et la **vue graphique** pour comprendre la structure.
 
 Les sections suivantes décrivent chaque vue disponible.
 
-<div id="traces-default">
-  #### Traces (par défaut)
-</div>
+#### Traces (par défaut) {#traces-default}
 
 La vue par défaut de l’arborescence de trace affiche la hiérarchie de la pile d’appels, le coût par op (si disponible), le temps d’exécution et les indicateurs de statut.
 
-<div id="code-composition-view">
-  #### Vue de composition du code
-</div>
+#### Vue de composition du code {#code-composition-view}
 
 Dans la vue de composition du code, les encadrés représentent les ops et leurs appels imbriqués. Cela permet de visualiser le flux des appels de fonction. Dans cette vue, vous pouvez sélectionner un encadré pour examiner cet op plus en détail et filtrer le chemin d&#39;appel.
 
@@ -89,9 +75,7 @@ Dans la vue de composition du code, les encadrés représentent les ops et leurs
   ![Vue de trace affichant la vue du code d'une trace](/weave/guides/tracking/imgs/trace-tree-code-view.png)
 </Frame>
 
-<div id="flame-graph">
-  #### Flame graph
-</div>
+#### Flame graph {#flame-graph}
 
 La vue flame graph offre une visualisation chronologique de la profondeur et de la durée d’exécution. Elle est utile lorsque vous souhaitez comprendre les diagnostics de performances au fil du temps. Vous pouvez sélectionner des frames pour isoler des sous-traces.
 
@@ -99,9 +83,7 @@ La vue flame graph offre une visualisation chronologique de la profondeur et de 
   ![Vue de trace montrant un flame graph des ops dans une trace](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
 </Frame>
 
-<div id="graph-view">
-  #### Vue graphique
-</div>
+#### Vue graphique {#graph-view}
 
 La vue graphique présente les relations hiérarchiques entre les ops. Cela permet de comprendre les relations parent-enfant.
 
@@ -109,9 +91,7 @@ La vue graphique présente les relations hiérarchiques entre les ops. Cela perm
   ![Vue de trace montrant une vue graphique fonctionnelle des ops et de leurs relations au sein d'une trace](/weave/guides/tracking/imgs/trace-tree-graph-view.png)
 </Frame>
 
-<div id="view-details-for-a-trace-op">
-  ### Afficher les détails d’un op de trace
-</div>
+### Afficher les détails d’un op de trace {#view-details-for-a-trace-op}
 
 Après avoir sélectionné un op dans l’arborescence de trace, les détails de cet op s’affichent dans le panneau suivant. Ces détails sont regroupés dans les onglets suivants :
 

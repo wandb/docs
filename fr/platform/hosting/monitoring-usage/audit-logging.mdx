@@ -18,18 +18,14 @@ Après avoir récupéré les journaux d’audit, vous pouvez les analyser avec d
 
 Pour plus de détails sur le format des journaux, voir [Schéma du journal d’audit](#audit-log-schema) et [Actions](#actions).
 
-<div id="audit-log-retention">
-  ## Conservation des journaux d’audit
-</div>
+## Conservation des journaux d’audit {#audit-log-retention}
 
 Les recommandations suivantes vous aident à conserver les journaux d’audit afin de respecter les obligations de gouvernance et de conformité de votre organisation :
 
 * Si vous devez conserver les journaux d’audit pendant une durée déterminée, W&amp;B recommande de les transférer régulièrement vers un stockage à long terme, soit à l’aide de buckets de stockage, soit via l’API Audit Logging.
 * Si vous êtes soumis au [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://hhs.gov/hipaa/for-professionals/index.html), vous devez conserver les journaux d’audit pendant au moins 6 ans dans un environnement où ils ne peuvent être ni supprimés ni modifiés par un acteur interne ou externe avant la fin de la période de conservation obligatoire. Pour les instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) conformes à HIPAA avec [BYOB](/fr/platform/hosting/data-security/secure-storage-connector), vous devez configurer des garde-fous pour votre stockage géré, y compris tout stockage de conservation à long terme.
 
-<div id="audit-log-schema">
-  ## Schéma du journal d’audit
-</div>
+## Schéma du journal d’audit {#audit-log-schema}
 
 Utilisez ce schéma pour interpréter les champs renvoyés dans chaque entrée du journal d’audit. Ce tableau présente toutes les clés susceptibles d’apparaître dans une entrée du journal d’audit, par ordre alphabétique. Selon l’action et le contexte, une entrée de journal donnée peut ne contenir qu’un sous-ensemble des champs possibles.
 
@@ -55,18 +51,14 @@ Utilisez ce schéma pour interpréter les champs renvoyés dans chaque entrée d
 | `user_asset`              | La ressource utilisateur concernée par l’action (et non l’utilisateur qui effectue l’action), le cas échéant.                                                         |
 | `user_email`              | L’adresse e-mail de l’utilisateur concerné par l’action (et non celle de l’utilisateur qui effectue l’action), le cas échéant.                                        |
 
-<div id="personally-identifiable-information-pii">
-  ### Informations personnelles identifiables (PII)
-</div>
+### Informations personnelles identifiables (PII) {#personally-identifiable-information-pii}
 
 Les informations personnelles identifiables (PII), telles que les adresses e-mail et les noms des Projects, des équipes et des rapports, sont disponibles uniquement avec l’option point de terminaison d’API :
 
 * Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d’organisation peut [exclure les PII](#exclude-pii) lors de la récupération des journaux d’audit.
 * Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), le point de terminaison d’API renvoie toujours les champs pertinents pour les journaux d’audit, y compris les PII. Cela n’est pas configurable.
 
-<div id="before-you-begin">
-  ## Avant de commencer
-</div>
+## Avant de commencer {#before-you-begin}
 
 Avant de récupérer les journaux d’audit, confirmez que vous remplissez les prérequis suivants pour votre type de déploiement :
 
@@ -84,9 +76,7 @@ Avant de récupérer les journaux d’audit, confirmez que vous remplissez les p
 
   Cela ne s’applique pas à un compte de service, qui ne peut être membre que d’une seule organisation en **Cloud mutualisé**.
 
-<div id="fetch-audit-logs">
-  ## Récupérer les journaux d’audit
-</div>
+## Récupérer les journaux d’audit {#fetch-audit-logs}
 
 Utilisez l’API Audit Logging de W&amp;B pour récupérer les journaux d’audit. Le point de terminaison, les paramètres de requête et le format de réponse dépendent de votre type de déploiement.
 
@@ -164,9 +154,7 @@ Utilisez l’API Audit Logging de W&amp;B pour récupérer les journaux d’audi
       "[API-ENDPOINT]?startDate=2026-08-01T13:00&endDate=2026-08-01T15:00&limit=1000&cursor=[NEXT-CURSOR]"
     ```
 
-    <div id="exclude-pii-when-fetching-audit-logs">
-      ### Exclure les informations personnelles (PII) lors de la récupération des journaux d’audit <a id="exclude-pii" />
-    </div>
+### Exclure les informations personnelles (PII) lors de la récupération des journaux d’audit <a id="exclude-pii" /> {#exclude-pii-when-fetching-audit-logs}
 
     Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d&#39;organisation ou d&#39;instance W&amp;B peut exclure les informations personnelles identifiables (PII) lors de la récupération des journaux d&#39;audit. Pour [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), l&#39;API endpoint renvoie toujours les champs pertinents des journaux d&#39;audit, y compris les PII. Ce comportement n&#39;est pas configurable.
 
@@ -247,15 +235,11 @@ Utilisez l’API Audit Logging de W&amp;B pour récupérer les journaux d’audi
   </Tab>
 </Tabs>
 
-<div id="use-basic-authentication">
-  ### Utiliser l’authentification de base
-</div>
+### Utiliser l’authentification de base {#use-basic-authentication}
 
 Vous devez authentifier chaque requête adressée à l’API des journaux d’audit. Pour utiliser l’authentification de base avec votre clé API afin d’accéder à l’API des journaux d’audit, définissez l’en-tête `Authorization` de la requête HTTP sur la chaîne `Basic`, suivie d’un espace, puis de la chaîne encodée en base64 au format `[USERNAME]:[API-KEY]`. En d’autres termes, remplacez le nom d’utilisateur et la clé API par vos valeurs, séparées par le caractère `:`, puis encodez le résultat en base64. Par exemple, pour vous authentifier en tant que `demo:p@55w0rd`, définissez l’en-tête sur `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
-<div id="actions">
-  ## Actions
-</div>
+## Actions {#actions}
 
 Chaque entrée de journal d’audit enregistre l’une des actions suivantes. Utilisez cette référence pour interpréter le champ `action` dans une entrée de journal. Le tableau suivant décrit les actions que W&amp;B peut enregistrer, classées par ordre alphabétique.
 

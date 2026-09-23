@@ -17,9 +17,7 @@ Les moniteurs ne nécessitent aucune modification du code de votre application. 
 
 Si vous devez intervenir activement sur le comportement de votre application en fonction des scores, utilisez plutôt les [guardrails](/fr/weave/guides/evaluation/guardrails).
 
-<div id="signals-and-custom-monitors">
-  ## Signaux et moniteurs personnalisés
-</div>
+## Signaux et moniteurs personnalisés {#signals-and-custom-monitors}
 
 Utilisez les [signaux](/fr/weave/guides/evaluation/monitors), des évaluateurs automatisés prédéfinis pour les traces de production, pour mettre rapidement en place une surveillance en production, puis ajoutez des moniteurs personnalisés pour des critères d’évaluation propres à votre application.
 
@@ -31,9 +29,7 @@ Utilisez les [signaux](/fr/weave/guides/evaluation/monitors), des évaluateurs a
 | **Modèle**               | Serverless Inference (prédéfini)                                                       | Tout modèle commercial ou modèle Serverless Inference                    |
 | **Cas d’utilisation**    | Surveillance rapide en production avec des classificateurs éprouvés                    | Critères d’évaluation personnalisés propres à votre application          |
 
-<div id="create-a-monitor-in-weave">
-  ## Créer un moniteur dans Weave
-</div>
+## Créer un moniteur dans Weave {#create-a-monitor-in-weave}
 
 Pour créer un moniteur personnalisé dans Weave :
 
@@ -69,9 +65,7 @@ Vous pouvez également [comparer](/fr/weave/guides/tools/comparison) et visualis
 
 Weave stocke automatiquement tous les résultats des scorers dans le champ `feedback` de l’objet [Call](/fr/weave/guides/tracking/tracing#calls).
 
-<div id="example-create-a-truthfulness-monitor">
-  ### Exemple : créer un moniteur de véracité
-</div>
+### Exemple : créer un moniteur de véracité {#example-create-a-truthfulness-monitor}
 
 L’exemple complet suivant vous guide dans la création d’un moniteur qui évalue la véracité des énoncés générés. À la fin, vous disposerez d’un moniteur actif qui évalue un exemple d’op dans votre projet Weave, avec des traces évaluées visibles dans l’interface W&amp;B.
 

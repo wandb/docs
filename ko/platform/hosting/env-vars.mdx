@@ -6,9 +6,7 @@ keywords: ["GORILLA 변수", "server 설정 변수", "W&B Server 환경 변수",
 
 System Settings 관리자 UI에서 인스턴스 수준 설정을 구성하는 것 외에도, W&amp;B는 환경 변수를 사용해 코드로 이러한 값을 설정할 수 있는 방법을 지원합니다. 이 페이지에는 Self-Managed W&amp;B Server 배포에서 데이터베이스, 저장소, Redis, ID 공급자 및 기타 인스턴스 수준 동작을 제어하기 위해 설정할 수 있는 환경 변수가 나열되어 있습니다. 관리자 UI 대신 이러한 변수를 사용해 설정을 코드로 관리할 수 있습니다. IAM 관련 변수는 [IAM 고급 설정](./iam/advanced_env_vars)을 참고하세요.
 
-<div id="environment-variable-reference">
-  ## 환경 변수 레퍼런스
-</div>
+## 환경 변수 레퍼런스 {#environment-variable-reference}
 
 다음 표에서는 각 환경 변수와 해당 변수가 제어하는 동작, 그리고 값에 적용되는 제약 조건을 설명합니다.
 
@@ -56,15 +54,11 @@ System Settings 관리자 UI에서 인스턴스 수준 설정을 구성하는 �
     변경 사항을 적용한 후 설정을 확인하기 전에 API 파드가 롤아웃될 때까지 기다리세요. 이 동작을 비활성화하려면 이 변수를 제거하거나 다른 값으로 설정하세요.
 </Note>
 
-<div id="advanced-reliability-settings">
-  ## 고급 안정성 설정
-</div>
+## 고급 안정성 설정 {#advanced-reliability-settings}
 
 다음 섹션에서는 W&amp;B Server 배포의 안정성과 성능을 높이기 위해 적용할 수 있는 선택적 설정을 설명합니다.
 
-<div id="redis">
-  ### Redis
-</div>
+### Redis {#redis}
 
 외부 Redis 서버는 선택 사항이지만, 프로덕션 시스템에서는 권장됩니다. Redis는 서비스의 안정성을 높이고 캐싱을 사용해 로드 시간을 줄이는 데 도움이 되며, 특히 규모가 큰 프로젝트에서 효과적입니다. 고가용성(HA)을 지원하는 ElastiCache 같은 관리형 Redis 서비스를 사용하고, 다음 사양을 따르세요:
 

@@ -8,17 +8,13 @@ keywords: ["プロンプト", "プロンプトのバージョン", "プロンプ
 
 `weave.publish` でプロンプトを公開すると、W&amp;B Weave は不変バージョンを作成します。各バージョンを名前とバージョンで参照し、`weave.ref(...).get()` を使ってコード内で取得し、Weave UI で確認できます。
 
-<div id="prompt-versions">
-  ## プロンプトのバージョン
-</div>
+## プロンプトのバージョン {#prompt-versions}
 
 Weave のプロンプトは、**バージョン付きオブジェクト**として保存されます。これにより、評価、Experiments、本番システムが、実行時に使用した正確なプロンプトのバージョンを参照できるようにしつつ、プロンプトを安全に反復改善できます。
 
 プロンプトのバージョンには、Weave の object ref を使ってアクセスします。このページでは、Weave がプロンプトのバージョンをどのように作成するか、コードで特定のバージョンを取得する方法、そして Weave UI でバージョンを確認・比較する方法を説明します。
 
-<div id="how-prompt-versions-are-created">
-  ## プロンプトのバージョンがどのように作成されるか
-</div>
+## プロンプトのバージョンがどのように作成されるか {#how-prompt-versions-are-created}
 
 Weave はプロンプトのすべてのバージョンを自動的にトラッキングし、プロンプトがどのように変化していくかの完全な履歴を作成します。このバージョン管理システムは、プロンプトエンジニアリングのワークフローで重要です。これにより、安全に試行錯誤しながら、どの変更がパフォーマンスを改善または悪化させたかをトラッキングし、必要に応じて以前のバージョンにロールバックできます。同じ名前で内容の異なるプロンプトを公開するたびに、Weave は過去のすべてのバージョンを保持したまま新しいバージョンを作成します。
 
@@ -30,9 +26,7 @@ Weave はプロンプトのすべてのバージョンを自動的にトラッ�
 * プロンプトの変更を安全に繰り返し改善する。
 * プロンプトの更新を制御された形でロールアウトする。
 
-<div id="construct-a-fully-qualified-ref-uri">
-  ## 完全修飾された ref URI を作成する
-</div>
+## 完全修飾された ref URI を作成する {#construct-a-fully-qualified-ref-uri}
 
 コードでプロンプトのバージョンを取得する前に、Weave が保存済みオブジェクトをどのように識別するかを理解しておくと役立ちます。完全修飾された ref URI は、Weave オブジェクトを一意に識別します。
 
@@ -53,9 +47,7 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 weave:///your-team-name/your-project-name/object/support_prompt:v3
 ```
 
-<div id="retrieve-a-prompt-version-in-code">
-  ## コードでプロンプトのバージョンを取得する
-</div>
+## コードでプロンプトのバージョンを取得する {#retrieve-a-prompt-version-in-code}
 
 プロンプトを取得するには、その名とバージョンへの参照を作成し、`.get()` を呼び出して読み込みます。ref は保存済みのオブジェクトを指し、`.get()` はそのオブジェクトを取得して、アプリケーションで使用できるようにします。
 
@@ -75,9 +67,7 @@ weave.init("your-team-name/your-project-name")
 prompt = weave.ref("support_prompt:v3").get()
 ```
 
-<div id="use-prompts-in-production">
-  ## 本番環境でプロンプトを使用する
-</div>
+## 本番環境でプロンプトを使用する {#use-prompts-in-production}
 
 本番システムにプロンプトをデプロイする際は、バージョンインデックスや最新バージョンではなく、`production` のような [エイリアス](#add-prompt-tags-and-aliases) を使用します。本番アプリケーションでは、`weave.ref(<name>:<alias>).get()` でプロンプトを読み込みます。
 
@@ -91,9 +81,7 @@ prompt = weave.ref("support_prompt:v3").get()
 
 この方法により、チームは本番環境の動作を意図せず変更することなく、安全にプロンプトを繰り返し改善できます。
 
-<div id="view-and-compare-prompt-versions">
-  ## <a id="view-prompts" aria-label="プロンプトのバージョンを表示して比較する" />プロンプトのバージョンを表示して比較する
-</div>
+## <a id="view-prompts" aria-label="プロンプトのバージョンを表示して比較する" />プロンプトのバージョンを表示して比較する {#view-and-compare-prompt-versions}
 
 Weave UI では、プロンプトのすべてのバージョンを参照し、それらの差分を並べて表示できます。これは、プロンプトがどのように変化してきたかを確認する際に役立ちます。
 
@@ -110,9 +98,7 @@ UIでプロンプトのバージョンを表示するには、次の手順に従
 
 ![2 つの異なるプロンプト バージョン間の差分を示す Compare prompts UI。](/weave/guides/core-types/imgs/prompt-comparison.png)
 
-<div id="add-prompt-tags-and-aliases">
-  ## プロンプトのタグとエイリアスを追加する
-</div>
+## プロンプトのタグとエイリアスを追加する {#add-prompt-tags-and-aliases}
 
 エイリアスとタグを使用して、プロンプトのバージョンを整理できます。これらのラベルは、開発、評価、本番のワークフロー全体で特定のバージョンを識別し、参照するのに役立ちます。
 
@@ -129,9 +115,7 @@ UI でプロンプトのエイリアスとタグを設定するには、次の�
 
 ![Prompts ページのプロンプト詳細パネルで選択したプロンプトのバージョン。Aliases と Tags のコントロールが表示されています。](/weave/guides/core-types/imgs/prompt-alias-tags.png)
 
-<div id="modify-tags-and-aliases-in-code">
-  ### コードでタグとエイリアスを変更する
-</div>
+### コードでタグとエイリアスを変更する {#modify-tags-and-aliases-in-code}
 
 次のようなタスクでは、コードでタグとエイリアスを管理することもできます。
 

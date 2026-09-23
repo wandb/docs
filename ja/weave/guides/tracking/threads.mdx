@@ -17,9 +17,7 @@ Threads を使い始めるには、次の手順に従ってください。
    * [基本的な使用例](#basic-thread-creation)
    * [高度な使用例](#manual-agent-loop-implementation)
 
-<div id="use-cases">
-  ## ユースケース
-</div>
+## ユースケース {#use-cases}
 
 Threads は、次のような対象を整理・分析したい場合に役立ちます。
 
@@ -31,13 +29,9 @@ Threads を使用すると、コンテキストごとに Calls をグループ�
 
 application を threads と ターン で構造化することで、より整理されたメトリクスを得られ、Weave UI での可視性も向上します。低レベルの Op を個別にすべて見るのではなく、重要な高レベルの step に集中できます。
 
-<div id="definitions">
-  ## 定義
-</div>
+## 定義 {#definitions}
 
-<div id="thread">
-  ### Thread
-</div>
+### Thread {#thread}
 
 *Thread* は、共通の会話コンテキストを共有する関連する Calls を、論理的にまとめたものです。Thread には次の特徴があります。
 
@@ -46,33 +40,25 @@ application を threads と ターン で構造化することで、より整理
 * Calls をまたいでコンテキストを維持する
 * 完結したユーザーセッションまたはインタラクションフローを表す
 
-<div id="turn">
-  ### Turn
-</div>
+### Turn {#turn}
 
 *Turn* は Thread 内の高レベルな操作で、UI ではスレッドビュー内の個々の行として表示されます。各 Turn には、次の特徴があります。
 
 * 会話またはワークフローにおける 1 つの論理的な step を表します
 * スレッドコンテキストの直接の子要素であり、ネストされた下位レベルの Call を含む場合があります (スレッドレベルの統計には表示されません) 。
 
-<div id="call">
-  ### Call
-</div>
+### Call {#call}
 
 *Call* とは、アプリケーション内で実行される `@weave.op` でデコレートされた関数呼び出しのことです。
 
 * *Turn Call* は、新しいターンを開始するトップレベルの操作です。
 * *Nested Call* は、ターン内のより下位の操作です。
 
-<div id="trace">
-  ### トレース
-</div>
+### トレース {#trace}
 
 *トレース* には、単一のoperationにおける完全なCallスタックが記録されます。スレッドは、同じ論理的な会話またはセッションに属するトレースをまとめるものです。言い換えると、スレッドは複数のターンで構成され、それぞれが会話の一部を表します。トレースの詳細については、[トレースの概要](/ja/weave/guides/tracking/tracing)を参照してください。
 
-<div id="ui-overview">
-  ## UIの概要
-</div>
+## UIの概要 {#ui-overview}
 
 Weave のプロジェクトのサイドバーで **Threads** を選択して、[Threads list view](#threads-list-view) を開きます。
 
@@ -80,9 +66,7 @@ Weave のプロジェクトのサイドバーで **Threads** を選択して、[
   ![Weave サイドバーの Threads アイコン](/weave/guides/tracking/imgs/threads-sidebar.png)
 </Frame>
 
-<div id="threads-list-view">
-  ### Threads list view
-</div>
+### Threads list view {#threads-list-view}
 
 * プロジェクト内の最近のThreadsを一覧表示します
 * 列には、ターン数、開始時刻、最終更新時刻があります
@@ -92,9 +76,7 @@ Weave のプロジェクトのサイドバーで **Threads** を選択して、[
   ![Threads list view](/weave/guides/tracking/imgs/threads-list.png)
 </Frame>
 
-<div id="threads-detail-drawer">
-  ### スレッド詳細ドロワー
-</div>
+### スレッド詳細ドロワー {#threads-detail-drawer}
 
 * 任意の行をクリックすると、その行の詳細ドロワーが開きます。
 * スレッド内のすべてのターンを表示します。
@@ -104,9 +86,7 @@ Weave のプロジェクトのサイドバーで **Threads** を選択して、[
 * ターンの実行全体を表示するには、スレッド詳細ドロワーからそのターンを開きます。これにより、そのターン中に発生したすべてのネストされた操作を詳しく確認できます。
 * ターンに LLM calls から抽出されたメッセージが含まれている場合、それらはチャットペインに表示されます。これらのメッセージは通常、サポート対象のインテグレーションによる calls (たとえば `openai.ChatCompletion.create`) に由来し、表示するには特定の条件を満たす必要があります。詳細は [チャットビューの挙動](#chat-view-behavior) を参照してください。
 
-<div id="chat-view-behavior">
-  ### チャットビューの挙動
-</div>
+### チャットビューの挙動 {#chat-view-behavior}
 
 チャットペインには、各ターンで行われた LLM Calls から抽出された構造化メッセージデータが表示されます。このビューでは、やり取りを会話形式で表示できます。
 
@@ -114,9 +94,7 @@ Weave のプロジェクトのサイドバーで **Threads** を選択して、[
   ![構造化された LLM メッセージを表示する Threads のチャットペイン](/weave/guides/tracking/imgs/threads-chat-view.png)
 </Frame>
 
-<div id="what-qualifies-as-a-message">
-  #### どのようなものがメッセージとして扱われますか
-</div>
+#### どのようなものがメッセージとして扱われますか {#what-qualifies-as-a-message}
 
 Weave は、1 つのターン内にある Calls のうち、LLM プロバイダーとの直接的なやり取り (たとえば、プロンプトを送信してレスポンスを受け取る処理) を表すものからメッセージを抽出します。ほかの Calls の内側にさらにネストされていない Calls だけが、メッセージとして表示されます。これにより、中間 step や集約された内部ロジックが重複して表示されるのを防げます。
 
@@ -125,22 +103,16 @@ Weave は、1 つのターン内にある Calls のうち、LLM プロバイダ�
 * `openai.ChatCompletion.create`
 * `anthropic.Anthropic.completion`
 
-<div id="what-happens-when-no-messages-are-present">
-  #### メッセージがない場合
-</div>
+#### メッセージがない場合 {#what-happens-when-no-messages-are-present}
 
 ターンでメッセージが1件も出力されない場合、チャットペイン にはそのターンの空のメッセージセクションが表示されます。同じスレッド内の別のターンのメッセージは、引き続き チャットペイン に表示される場合があります。
 
-<div id="turn-and-chat-interactions">
-  #### Turn と chat の連動
-</div>
+#### Turn と chat の連動 {#turn-and-chat-interactions}
 
 * ターンをクリックすると、チャットペインがそのターンのメッセージ位置までスクロールします (ピン留めの動作) 。
 * チャットペインをスクロールすると、ターンリストで対応するターンがハイライト表示されます。
 
-<div id="navigate-to-and-from-the-trace-view">
-  #### Trace view への移動と戻り方
-</div>
+#### Trace view への移動と戻り方 {#navigate-to-and-from-the-trace-view}
 
 項目をクリックすると、そのターンのトレース全体を開けます。
 
@@ -150,9 +122,7 @@ Weave は、1 つのターン内にある Calls のうち、LLM プロバイダ�
   ![スレッドビューに戻るための戻るボタンがある Threads 詳細ドロワー](/weave/guides/tracking/imgs/threads-drawer.png)
 </Frame>
 
-<div id="sdk-usage">
-  ## SDK の使用
-</div>
+## SDK の使用 {#sdk-usage}
 
 以下のセクションでは、Weave SDK を使用してプログラムからスレッドを作成および管理する方法を説明します。このセクションの各例では、アプリケーション内でターンとスレッドを整理するための異なる方法を示します。ほとんどの例では、スタブ関数内に独自の LLM call やシステムの挙動を実装する必要があります。
 
@@ -164,9 +134,7 @@ Weave は、1 つのターン内にある Calls のうち、LLM プロバイダ�
 
 ネストされた `weave.thread()` コンテキストは、同じ `thread_id` を再利用しない限り、常に新しいスレッドを開始します。子コンテキストを終了しても、親コンテキストが中断されたり上書きされたりすることはありません。これにより、アプリのロジックに応じて、分岐したスレッド構造や階層的なスレッドオーケストレーションが可能になります。
 
-<div id="basic-thread-creation">
-  ### 基本的なスレッド作成
-</div>
+### 基本的なスレッド作成 {#basic-thread-creation}
 
 次のコード例では、`weave.thread()` を使用して、1 つ以上の処理を共通の `thread_id` でグループ化する方法を示します。これは、アプリケーションでスレッドを使い始めるためのわかりやすい方法です。
 
@@ -183,9 +151,7 @@ with weave.thread() as thread_ctx:
     say_hello("Bill Nye the Science Guy")
 ```
 
-<div id="manual-agent-loop-implementation">
-  ### 手動エージェントループの実装
-</div>
+### 手動エージェントループの実装 {#manual-agent-loop-implementation}
 
 この例では、`@weave.op` デコレーターと `weave.thread()` のコンテキスト管理を使って、会話型エージェントを手動で定義する方法を示します。`process_user_message` を呼び出すたびに、スレッド内に新しいターンが作成されます。独自のエージェントループを構築し、コンテキストやネストの扱いを完全に制御したい場合は、このパターンを使用できます。
 
@@ -258,9 +224,7 @@ with weave.thread(session_id) as thread_ctx:
     agent.process_user_message("Can you summarize what we discussed?") # このセッションのターン 2
 ```
 
-<div id="manual-agent-with-unbalanced-call-depth">
-  ### Call 深度が不均衡な手動エージェント
-</div>
+### Call 深度が不均衡な手動エージェント {#manual-agent-with-unbalanced-call-depth}
 
 この例では、スレッドコンテキストの適用方法によって、ターンを Call スタック内の異なる深度で定義できることを示します。サンプルでは 2 つのプロバイダ (OpenAI と Anthropic) を使用しており、それぞれターン境界に到達するまでの Call 深度が異なります。
 
@@ -389,9 +353,7 @@ if __name__ == "__main__":
 # - コールチェーン内のサポート操作はターンではなくネストされた Call としてトラッキングされる
 ```
 
-<div id="resume-a-previous-session">
-  ### 以前のセッションを再開する
-</div>
+### 以前のセッションを再開する {#resume-a-previous-session}
 
 以前に開始したセッションを再開し、同じスレッドに Calls を追加し続けなければならない場合があります。一方で、既存のセッションを再開できず、代わりに新しいスレッドを開始しなければならない場合もあります。
 
@@ -436,9 +398,7 @@ with weave.thread(thread_id) as thread_ctx:
     # ここにアプリケーションのロジックを記述してください。
 ```
 
-<div id="nested-threads">
-  ### ネストされたスレッド
-</div>
+### ネストされたスレッド {#nested-threads}
 
 この例では、複数の連携したスレッドを使って複雑なアプリケーションをどのように構成するかを示します。
 
@@ -588,21 +548,15 @@ order_result = handle_order_request(
 # - スレッドコンテキストによるグローバルな調整
 ```
 
-<div id="api-specification">
-  ## API 仕様
-</div>
+## API 仕様 {#api-specification}
 
 以下のセクションでは、Threads クエリエンドポイント、そのリクエスト/レスポンスのスキーマ、およびスレッドデータをプログラムから取得する際に使用できる一般的なクエリパターンについて説明します。
 
-<div id="endpoint">
-  ### エンドポイント
-</div>
+### エンドポイント {#endpoint}
 
 エンドポイント: `POST /threads/query`
 
-<div id="request-schema">
-  ### リクエストスキーマ
-</div>
+### リクエストスキーマ {#request-schema}
 
 ```python lines
 class ThreadsQueryReq:
@@ -614,9 +568,7 @@ class ThreadsQueryReq:
     sortable_datetime_before: Optional[datetime] = None  # グラニュール最適化によるスレッドのフィルター
 ```
 
-<div id="response-schema">
-  ### レスポンススキーマ
-</div>
+### レスポンススキーマ {#response-schema}
 
 ```python lines
 class ThreadSchema:
@@ -629,9 +581,7 @@ class ThreadsQueryRes:
     threads: List[ThreadSchema]
 ```
 
-<div id="query-recent-active-threads">
-  ### 最近更新されたアクティブなスレッドをクエリする
-</div>
+### 最近更新されたアクティブなスレッドをクエリする {#query-recent-active-threads}
 
 この例では、直近で更新されたスレッドを50件取得します。`my-project` は実際のプロジェクト ID に置き換えてください。
 
@@ -647,9 +597,7 @@ for thread in response.threads:
     print(f"Thread {thread.thread_id}: {thread.turn_count} turns, last active {thread.last_updated}")
 ```
 
-<div id="query-threads-by-activity-level">
-  ### アクティビティレベル別にスレッドをクエリする
-</div>
+### アクティビティレベル別にスレッドをクエリする {#query-threads-by-activity-level}
 
 この例では、ターン数が多い順に、最もアクティブなスレッド20件を取得します。
 
@@ -662,9 +610,7 @@ response = client.threads_query(ThreadsQueryReq(
 ))
 ```
 
-<div id="query-recent-threads-only">
-  ### 直近のスレッドのみをクエリする
-</div>
+### 直近のスレッドのみをクエリする {#query-recent-threads-only}
 
 この例では、過去24時間以内に開始されたスレッドを返します。`timedelta` の `days` の値を調整すると、期間を変更できます。
 

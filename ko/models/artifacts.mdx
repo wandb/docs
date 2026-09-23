@@ -14,9 +14,7 @@ import { TryProductLink } from '/snippets/ko/_includes/try-product-link.mdx';
 
 W&amp;B Artifacts를 사용해 [W&amp;B Runs](/ko/models/runs)의 입력 및 출력으로 사용되는 데이터를 추적하고 버전 관리하세요. 예를 들어, 모델 트레이닝 run은 입력으로 데이터셋을 받아 출력으로 트레이닝된 모델을 생성할 수 있습니다. 하이퍼파라미터, 메타데이터, 메트릭을 run에 기록할 수 있으며, artifact를 사용해 모델 트레이닝에 사용된 데이터셋을 입력으로 기록, 추적, 버전 관리하고, 결과로 생성된 모델 checkpoint를 출력으로 기록할 수 있습니다.
 
-<div id="use-cases">
-  ## 사용 사례
-</div>
+## 사용 사례 {#use-cases}
 
 전체 ML 워크플로 전반에서 아티팩트를 [runs](/ko/models/runs)의 입력과 출력으로 사용할 수 있습니다. 처리 작업의 입력으로 데이터셋, 모델, 또는 다른 아티팩트를 사용할 수도 있습니다.
 
@@ -35,9 +33,7 @@ W&amp;B Artifacts를 사용해 [W&amp;B Runs](/ko/models/runs)의 입력 및 출
   다음 코드 스니펫은 순서대로 실행해야 합니다.
 </Note>
 
-<div id="create-an-artifact">
-  ## artifact 만들기
-</div>
+## artifact 만들기 {#create-an-artifact}
 
 네 줄의 코드로 artifact를 만들 수 있습니다:
 
@@ -64,9 +60,7 @@ with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
   Amazon S3 버킷과 같은 외부 객체 저장소에 저장된 파일 또는 디렉터리에 레퍼런스를 추가하는 방법은 [외부 파일 추적](/ko/models/artifacts/track-external-files) 페이지를 참조하세요.
 </Note>
 
-<div id="download-an-artifact">
-  ## artifact 다운로드
-</div>
+## artifact 다운로드 {#download-an-artifact}
 
 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) 메서드를 사용해 run의 입력으로 표시할 artifact를 지정합니다.
 
@@ -89,9 +83,7 @@ datadir = artifact.download()  # 전체 `my_data` artifact를 기본 디렉토�
   특정 디렉터리에 artifact를 다운로드하려면 `root` [매개변수](/ko/models/ref/python/experiments/artifact)에 맞춤형 경로를 전달하면 됩니다. artifact를 다운로드하는 다른 방법과 추가 매개변수는 [artifact 다운로드 및 사용](/ko/models/artifacts/download-and-use-an-artifact) 가이드를 참조하세요.
 </Note>
 
-<div id="next-steps">
-  ## 다음 단계
-</div>
+## 다음 단계 {#next-steps}
 
 * 아티팩트를 [버전 관리](/ko/models/artifacts/create-a-new-artifact-version)하고 [업데이트](/ko/models/artifacts/update-an-artifact)하는 방법을 알아보세요.
 * [automations](/ko/models/automations)를 사용해 아티팩트가 변경될 때 다운스트림 워크플로를 트리거하거나 Slack 채널로 알림을 받는 방법을 알아보세요.

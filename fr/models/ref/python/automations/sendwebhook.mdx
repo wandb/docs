@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py#L193" />
 
-<div id="class-wandbautomationssendwebhook">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.SendWebhook
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.automations.SendWebhook {#class-wandbautomationssendwebhook}
 
 Définit une action d’automatisation qui envoie une requête webhook.
 
@@ -21,9 +19,7 @@ requestPayload: Optional[Annotated[dict[str, Any], Json, BeforeValidator(func=<f
 action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="integration_id" type="Annotated">
   L’ID de l’intégration webhook qui sera utilisée pour envoyer la requête.
@@ -37,13 +33,9 @@ action_type: Literal[GENERIC_WEBHOOK] = GENERIC_WEBHOOK
   Aucune description fournie.
 </ResponseField>
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-sendwebhookfrom_integration">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> SendWebhook.from_integration()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> SendWebhook.from_integration() {#method-sendwebhookfrom_integration}
 
 ```python
 integration: 'WebhookIntegration', *,
@@ -52,9 +44,7 @@ payload: 'JsonEncoded[dict[str, Any]] | None' = None
 
 Définissez une action webhook qui envoie à l’intégration (webhook) spécifiée.
 
-<div id="arguments">
-  ##### Arguments
-</div>
+##### Arguments {#arguments}
 
 <ResponseField name="integration" type="WebhookIntegration">
   Aucune description fournie.

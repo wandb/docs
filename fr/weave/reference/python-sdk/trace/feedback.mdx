@@ -5,25 +5,19 @@ description: "Référence du SDK Python pour weave.trace.feedback"
 
 import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
-<div id="api-overview">
-  # Aperçu de l’API
-</div>
+# Aperçu de l’API {#api-overview}
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L84" />
 
-<div id="class-feedbackquery">
-  ## <kbd>class</kbd> `FeedbackQuery`
-</div>
+## <kbd>class</kbd> `FeedbackQuery` {#class-feedbackquery}
 
 Objet chargé à la demande pour récupérer les feedback depuis le serveur.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L97" />
 
-<div id="method-__init__">
-  ### <kbd>méthode</kbd> `__init__`
-</div>
+### <kbd>méthode</kbd> `__init__` {#method-__init__}
 
 ```python
 __init__(
@@ -40,9 +34,7 @@ __init__(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L145" />
 
-<div id="method-execute">
-  ### <kbd>méthode</kbd> `execute`
-</div>
+### <kbd>méthode</kbd> `execute` {#method-execute}
 
 ```python
 execute() → Feedbacks
@@ -52,9 +44,7 @@ execute() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L126" />
 
-<div id="method-refresh">
-  ### <kbd>méthode</kbd> `refresh`
-</div>
+### <kbd>méthode</kbd> `refresh` {#method-refresh}
 
 ```python
 refresh() → Feedbacks
@@ -64,9 +54,7 @@ refresh() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L151" />
 
-<div id="method-refs">
-  ### <kbd>méthode</kbd> `refs`
-</div>
+### <kbd>méthode</kbd> `refs` {#method-refs}
 
 ```python
 refs() → Refs
@@ -76,17 +64,13 @@ refs() → Refs
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L21" />
 
-<div id="class-feedbacks">
-  ## <kbd>class</kbd> `Feedbacks`
-</div>
+## <kbd>class</kbd> `Feedbacks` {#class-feedbacks}
 
 Une collection d’objets Feedback accompagnée d’utilitaires.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L26" />
 
-<div id="method-__init__-2">
-  ### <kbd>méthode</kbd> `__init__`
-</div>
+### <kbd>méthode</kbd> `__init__` {#method-__init__-2}
 
 ```python
 __init__(
@@ -99,9 +83,7 @@ __init__(
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L32" />
 
-<div id="method-refs-2">
-  ### <kbd>méthode</kbd> `refs`
-</div>
+### <kbd>méthode</kbd> `refs` {#method-refs-2}
 
 ```python
 refs() → Refs
@@ -113,17 +95,13 @@ Renvoie les refs uniques associées à ces feedback.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L168" />
 
-<div id="class-reffeedbackquery">
-  ## <kbd>class</kbd> `RefFeedbackQuery`
-</div>
+## <kbd>class</kbd> `RefFeedbackQuery` {#class-reffeedbackquery}
 
 Objet permettant d’interagir avec les feedback associés à une ref donnée.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L173" />
 
-<div id="method-__init__-3">
-  ### <kbd>méthode</kbd> `__init__`
-</div>
+### <kbd>méthode</kbd> `__init__` {#method-__init__-3}
 
 ```python
 __init__(ref: 'str') → None
@@ -133,9 +111,7 @@ __init__(ref: 'str') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L219" />
 
-<div id="method-add">
-  ### <kbd>méthode</kbd> `add`
-</div>
+### <kbd>méthode</kbd> `add` {#method-add}
 
 ```python
 add(
@@ -155,9 +131,7 @@ feedback&#95;type : Chaîne qui identifie le type de feedback. Le préfixe &quo
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L247" />
 
-<div id="method-add_note">
-  ### <kbd>méthode</kbd> `add_note`
-</div>
+### <kbd>méthode</kbd> `add_note` {#method-add_note}
 
 ```python
 add_note(note: 'str', creator: 'str | None' = None) → str
@@ -167,9 +141,7 @@ add_note(note: 'str', creator: 'str | None' = None) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L238" />
 
-<div id="method-add_reaction">
-  ### <kbd>méthode</kbd> `add_reaction`
-</div>
+### <kbd>méthode</kbd> `add_reaction` {#method-add_reaction}
 
 ```python
 add_reaction(emoji: 'str', creator: 'str | None' = None) → str
@@ -179,9 +151,7 @@ add_reaction(emoji: 'str', creator: 'str | None' = None) → str
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L145" />
 
-<div id="method-execute-2">
-  ### <kbd>méthode</kbd> `execute`
-</div>
+### <kbd>méthode</kbd> `execute` {#method-execute-2}
 
 ```python
 execute() → Feedbacks
@@ -191,9 +161,7 @@ execute() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L256" />
 
-<div id="method-purge">
-  ### <kbd>méthode</kbd> `purge`
-</div>
+### <kbd>méthode</kbd> `purge` {#method-purge}
 
 ```python
 purge(feedback_id: 'str') → None
@@ -203,9 +171,7 @@ purge(feedback_id: 'str') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L126" />
 
-<div id="method-refresh-2">
-  ### <kbd>méthode</kbd> `refresh`
-</div>
+### <kbd>méthode</kbd> `refresh` {#method-refresh-2}
 
 ```python
 refresh() → Feedbacks
@@ -215,9 +181,7 @@ refresh() → Feedbacks
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.53.1/weave/trace/feedback.py#L151" />
 
-<div id="method-refs-3">
-  ### <kbd>méthode</kbd> `refs`
-</div>
+### <kbd>méthode</kbd> `refs` {#method-refs-3}
 
 ```python
 refs() → Refs

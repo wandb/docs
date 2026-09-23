@@ -13,15 +13,11 @@ title: ノートブックにおけるリアクティブ実行
 
 詳しくは、marimo のドキュメント「[How marimo runs cells](https://docs.marimo.io/guides/reactivity/#how-marimo-runs-cells)」を参照してください。
 
-<div id="stale-and-blocked-cells">
-  ## 古い セルと ブロック セル
-</div>
+## 古い セルと ブロック セル {#stale-and-blocked-cells}
 
 ノートブックは各セルの状態をトラッキングし、そのセルを実行する必要があるかどうかを判断します。主なセルの状態には、*古い* (古い状態) と *ブロック* (ブロックされた状態) があります。
 
-<div id="stale-cells">
-  ### 古いセル
-</div>
+### 古いセル {#stale-cells}
 
 一度も実行されていないセルや、最新のコードまたは入力で実行されていないセルは、*古い* (stale) 状態になります。セルを現在のコードと入力で実行すると、古い状態は解消されます。
 
@@ -33,31 +29,23 @@ title: ノートブックにおけるリアクティブ実行
 
 古いセルを実行すると、その出力が更新されます。上流に古いセルがある場合は、ノートブックがそれらを先に実行します。古いセルをすべてまとめて実行することもできます。
 
-<div id="blocked-cells">
-  ### ブロックされたセル
-</div>
+### ブロックされたセル {#blocked-cells}
 
 セル自体、またはその上流にあるいずれかのセルが無効になっている場合、そのセルは*ブロック*された状態になります。ブロックされたセルは、入力が変更されても自動的には実行されません。
 
 セルのブロックを解除するには、そのセルが依存している無効なセルを再度有効にします。これにより、ノートブックは、古くなって出力の更新が必要になった下流のセルを実行できるようになります。手順については、[セルを無効または有効にする](/ja/models/notebooks/run-notebook-cells#disable-or-enable-a-cell)を参照してください。
 
-<div id="delete-cells">
-  ## セルを削除する
-</div>
+## セルを削除する {#delete-cells}
 
 セルを削除すると、そのセルで定義されたグローバル変数もノートブックから削除されます。[ランタイム設定](/ja/models/notebooks/configure-notebook#configure-startup-behavior)に応じて、削除された変数を参照しているセルは、再実行、無効化、または古い状態 (stale) としてマークのいずれかの処理が行われます。
 
-<div id="define-each-global-name-once">
-  ## 各グローバル名は一度だけ定義する
-</div>
+## 各グローバル名は一度だけ定義する {#define-each-global-name-once}
 
 各グローバル名は 1 つのセルでのみ定義してください。2 つのセルで同じグローバル名を定義すると、ノートブックは下流のセルにとって唯一の信頼できるソースを判断できなくなります。この制限は、変数、関数、クラス、およびインポートしたパッケージ名に適用されます。
 
 一時的な変数については、[変数名の先頭に接頭辞としてアンダースコアを 1 つ付ける](https://docs.marimo.io/guides/reactivity/#creating-local-variables)と、そのセル内のローカル変数として扱われます。また、[一時的な変数を関数内で定義する](https://docs.marimo.io/guides/reactivity/#encapsulating-code-in-functions)こともできます。
 
-<div id="avoid-mutations-across-cells">
-  ## セル間でのミューテーションを避ける
-</div>
+## セル間でのミューテーションを避ける {#avoid-mutations-across-cells}
 
 複数のセルで使用するオブジェクトを変更 (ミューテーション) しないでください。ノートブックはオブジェクトのミューテーションをトラッキングしないため、オブジェクトを変更しても、依存するセルは古い (stale) とマークされません。
 
@@ -65,13 +53,9 @@ title: ノートブックにおけるリアクティブ実行
 
 詳細については、[Variable mutations are not tracked](https://docs.marimo.io/guides/reactivity/#variable-mutations-are-not-tracked) を参照してください。
 
-<div id="inspect-variables-and-dependencies">
-  ## 変数と依存関係を確認する
-</div>
+## 変数と依存関係を確認する {#inspect-variables-and-dependencies}
 
-<div id="view-variables">
-  ### 変数を表示する
-</div>
+### 変数を表示する {#view-variables}
 
 [Variables explorer](https://docs.marimo.io/guides/editor_features/dataflow/#variables-explorer) を使用すると、定義済みの変数とそのタイプ、宣言箇所、参照箇所を確認できます。
 
@@ -84,18 +68,14 @@ title: ノートブックにおけるリアクティブ実行
 * [セルのシンボル](https://docs.marimo.io/guides/editor_features/dataflow/#cell-symbols)
 * [セル間の接続の読み方](https://docs.marimo.io/guides/editor_features/dataflow/#reading-cell-connections)
 
-<div id="view-cell-relationships-in-the-minimap">
-  ### ミニマップでセル間の関係を表示する
-</div>
+### ミニマップでセル間の関係を表示する {#view-cell-relationships-in-the-minimap}
 
 [Dependencies パネル](https://docs.marimo.io/guides/editor_features/dataflow/#dependencies-panel)を使用すると、セル間の関係を確認できます。
 
 1. サイドバーで **Explore dependencies** (<Icon icon="sitemap" iconType="solid" />) を選択します。
 2. **MINIMAP** を選択します。
 
-<div id="view-the-dependency-graph">
-  ### 依存関係グラフを表示する
-</div>
+### 依存関係グラフを表示する {#view-the-dependency-graph}
 
 [グラフ ビュー](https://docs.marimo.io/guides/editor_features/dataflow/#graph-view)を使用すると、セルの依存関係を有向非巡回グラフ (DAG) として可視化できます。
 

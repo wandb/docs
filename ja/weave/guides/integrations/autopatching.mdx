@@ -8,15 +8,11 @@ keywords: ["autopatching", "patch_openai", "implicitly_patch_integrations", "PII
 
 このページでは、この動作をいつどのように変更するかを説明します。自動トラッキングを無効にする方法、特定のプロバイダのみに制限する方法、入力と出力を後処理する方法 (たとえば PII をマスクする場合) を扱います。
 
-<div id="default-behavior">
-  ## デフォルトの動作
-</div>
+## デフォルトの動作 {#default-behavior}
 
 デフォルトでは、Weave は `openai` や `anthropic` などの一般的な LLM ライブラリへの call を自動的にパッチしてトラッキングします。プログラムの開始時に `weave.init(...)` を呼び出し、それらのライブラリは通常どおり使用してください。これらの calls は、プロジェクトのトレースに表示されます。
 
-<div id="configure-autopatching">
-  ## 自動パッチ適用を設定する
-</div>
+## 自動パッチ適用を設定する {#configure-autopatching}
 
 以下のセクションでは、Python と TypeScript で自動パッチ適用を有効化、無効化、または微調整する方法を説明します。お使いの SDK に対応するタブを選択してください。
 
@@ -69,9 +65,7 @@ keywords: ["autopatching", "patch_openai", "implicitly_patch_integrations", "PII
 
     前述のコードを実行すると、Weave は明示的にパッチを適用したプロバイダのみをトレースします。
 
-    <div id="post-process-inputs-and-outputs">
-      ### 入力と出力を後処理する
-    </div>
+### 入力と出力を後処理する {#post-process-inputs-and-outputs}
 
     パッチ適用のオン/オフを切り替えるだけでなく、各呼び出しについて Weave が記録する内容を変換することもできます。パッチ関数に設定を渡すことで、Weave による入力と出力の記録方法をカスタマイズできます (たとえば、PII やシークレットをマスクする場合など) 。
 

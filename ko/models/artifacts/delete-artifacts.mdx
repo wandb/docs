@@ -12,9 +12,7 @@ W&amp;B App에서 대화형으로 또는 W&amp;B Python SDK를 사용해 프로�
   가비지 컬렉션은 **best-effort** 방식으로 수행됩니다. artifact를 삭제한 후 확보된 공간이 객체 저장소에 얼마나 빨리 반영되는지는 W&amp;B에서 보장하지 않습니다. 대규모 deployment 또는 적체가 있는 경우 예상보다 더 오래 걸릴 수 있습니다. 이 내용이 run 데이터, 보존 설정, 선택적 운영자 액션과 어떻게 연관되는지 알아보려면 [버킷 저장소 및 비용 관리](/ko/platform/hosting/managing-bucket-storage)를 참조하세요.
 </Note>
 
-<div id="artifact-garbage-collection-workflow">
-  ## Artifact 가비지 컬렉션 워크플로
-</div>
+## Artifact 가비지 컬렉션 워크플로 {#artifact-garbage-collection-workflow}
 
 다음 다이어그램은 artifact 가비지 컬렉션의 전체 과정을 보여줍니다:
 
@@ -60,9 +58,7 @@ TTL 정책을 사용해 W&amp;B에서 artifact가 삭제되는 시점을 예약�
   entity, 프로젝트 또는 artifact 컬렉션을 삭제하면 이 페이지에 설명된 artifact 삭제 프로세스가 트리거됩니다. run을 삭제하면서 연결된 artifact도 삭제하도록 선택하면, 해당 artifact는 동일한 소프트 삭제 및 가비지 컬렉션 워크플로를 따릅니다.
 </Note>
 
-<div id="delete-an-artifact-version">
-  ## artifact 버전 삭제
-</div>
+## artifact 버전 삭제 {#delete-an-artifact-version}
 
 W&amp;B App에서 대화형으로 또는 W&amp;B Python SDK를 사용해 프로그래밍 방식으로 artifact 버전을 삭제할 수 있습니다.
 
@@ -94,9 +90,7 @@ W&amp;B App에서 대화형으로 또는 W&amp;B Python SDK를 사용해 프로�
   </Tab>
 </Tabs>
 
-<div id="delete-multiple-artifact-versions">
-  ## 여러 artifact 버전 삭제
-</div>
+## 여러 artifact 버전 삭제 {#delete-multiple-artifact-versions}
 
 다음 코드 예제는 여러 artifact 버전을 삭제하는 방법을 보여줍니다. artifact를 생성한 entity, 프로젝트 이름, run ID를 `wandb.Api.run()`의 인수로 전달하세요. 그러면 해당 run이 생성한 모든 artifact 버전에 접근하는 데 사용할 수 있는 run 객체가 반환됩니다. 다음으로, artifact 버전을 순회하며 조건에 맞는 버전을 삭제합니다.
 
@@ -127,9 +121,7 @@ for artifact in run.logged_artifacts():
         artifact.delete(delete_aliases=True)
 ```
 
-<div id="delete-multiple-artifact-versions-with-a-specific-alias">
-  ## 특정 alias가 있는 여러 artifact 버전 삭제
-</div>
+## 특정 alias가 있는 여러 artifact 버전 삭제 {#delete-multiple-artifact-versions-with-a-specific-alias}
 
 다음 코드는 특정 alias가 지정된 여러 artifact 버전을 삭제하는 방법을 보여줍니다.
 
@@ -157,9 +149,7 @@ for artifact in run.logged_artifacts():
             artifact.delete(delete_aliases=True)
 ```
 
-<div id="delete-an-artifact-collection">
-  ## artifact 컬렉션 삭제
-</div>
+## artifact 컬렉션 삭제 {#delete-an-artifact-collection}
 
 <Tabs>
   <Tab title="W&B App" value="ui">
@@ -192,9 +182,7 @@ for artifact in run.logged_artifacts():
   </Tab>
 </Tabs>
 
-<div id="protected-aliases-and-deletion-permissions">
-  ## 보호된 별칭 및 삭제 권한
-</div>
+## 보호된 별칭 및 삭제 권한 {#protected-aliases-and-deletion-permissions}
 
 보호된 별칭이 있는 artifact에는 특별한 삭제 제한이 적용됩니다. [보호된 별칭](/ko/models/registry/aliases#protected-aliases)은 W&amp;B 레지스트리에서 레지스트리 관리자가 무단 삭제를 방지하기 위해 설정할 수 있는 별칭입니다.
 
@@ -207,9 +195,7 @@ for artifact in run.logged_artifacts():
   * 레지스트리 관리자는 소스 artifact에서 보호된 별칭을 제거한 후 삭제할 수 있습니다.
 </Note>
 
-<div id="enable-garbage-collection-based-on-how-wb-is-hosted">
-  ## W&amp;B 호스팅 방식에 따라 가비지 컬렉션 활성화
-</div>
+## W&amp;B 호스팅 방식에 따라 가비지 컬렉션 활성화 {#enable-garbage-collection-based-on-how-wb-is-hosted}
 
 <Note>가비지 컬렉션 시점은 보장되지 않습니다. 자세한 내용은 [버킷 저장소 및 비용 관리](/ko/platform/hosting/managing-bucket-storage)를 참조하세요.</Note>
 

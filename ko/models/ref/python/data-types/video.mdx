@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py#L75" />
 
-<div id="class-wandbvideo">
-  ## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Video
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">클래스</Badge> wandb.Video {#class-wandbvideo}
 
 W&amp;B에 비디오를 로깅하는 클래스입니다.
 
@@ -21,9 +19,7 @@ fps: 'int | None' = None,
 format: "Literal['gif', 'mp4', 'webm', 'ogg'] | None" = None)
 ```
 
-<div id="args">
-  ## 인수
-</div>
+## 인수 {#args}
 
 <ResponseField name="data_or_path" type="str | pathlib.Path | np.ndarray | TextIO | BytesIO">
   `Video`는 파일 경로 또는 io 객체로 초기화할 수 있습니다. `Video`는 numpy 텐서로도 초기화할 수 있습니다. numpy 텐서는 반드시 4차원 또는 5차원이어야 합니다. 차원은 (프레임 수, 채널, 높이, 너비) 또는 (배치, 프레임 수, 채널, 높이, 너비)여야 합니다. numpy 배열이나 io 객체로 초기화할 때는 `format` 인자로 형식을 지정해야 합니다.

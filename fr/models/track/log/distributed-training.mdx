@@ -26,9 +26,7 @@ Pendant une expérience d&#39;entraînement distribué, vous entraînez un modè
     Explorez le code de ces exemples dans le dépôt GitHub d’exemples de W&B [ici](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp). Voir en particulier le script Python [`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py), qui explique comment implémenter les méthodes à processus unique et à processus multiples.
     </Note> */}
 
-<div id="track-a-single-process">
-  ## Suivre un seul processus
-</div>
+## Suivre un seul processus {#track-a-single-process}
 
 Cette section explique comment suivre les valeurs et les métriques disponibles pour votre processus de rang 0. Utilisez cette approche pour ne suivre que les métriques disponibles depuis un seul processus. Les métriques typiques incluent l’utilisation du GPU/CPU, le comportement sur un ensemble de validation partagé, les gradients et les paramètres, ainsi que les valeurs de perte sur des exemples de données représentatifs.
 
@@ -73,18 +71,14 @@ Cependant, les valeurs de perte en fonction de l’époque et de la taille du lo
   <img src="/images/experiments/loss_function_single_gpu.png" alt="Graphiques de la fonction de perte" />
 </Frame>
 
-<div id="track-multiple-processes">
-  ## Suivre plusieurs processus
-</div>
+## Suivre plusieurs processus {#track-multiple-processes}
 
 Suivez plusieurs processus avec W&amp;B à l’aide de l’une des approches suivantes :
 
 * [Suivre chaque processus séparément](/fr/models/track/log/distributed-training/#track-each-process-separately) en créant un run pour chaque processus.
 * [Suivre tous les processus dans un seul run](/fr/models/track/log/distributed-training/#track-all-processes-to-a-single-run).
 
-<div id="track-each-process-separately">
-  ### Suivre chaque processus séparément
-</div>
+### Suivre chaque processus séparément {#track-each-process-separately}
 
 Cette section explique comment suivre chaque processus séparément en créant un run pour chacun. Dans chaque run, vous consignez des métriques, des Artifacts, etc., dans le run correspondant. Appelez `wandb.Run.finish()` à la fin de l’entraînement pour indiquer que le run est terminé, afin que tous les processus se ferment correctement.
 
@@ -121,9 +115,7 @@ Explorez W&amp;B App UI pour voir un [exemple de tableau de bord](https://wandb.
 
 L’image précédente montre le tableau de bord de W&amp;B App UI. Dans la barre latérale, on voit deux expériences. L’une est intitulée &#39;null&#39; et la seconde (encadrée en jaune) s’appelle &#39;DPP&#39;. Si vous développez le groupe (sélectionnez le menu déroulant Group), vous verrez les W&amp;B Runs associés à cette expérience.
 
-<div id="organize-distributed-runs">
-  ### Organiser les runs distribués
-</div>
+### Organiser les runs distribués {#organize-distributed-runs}
 
 Définissez le paramètre `job_type` lors de l’initialisation de W&amp;B (`wandb.init(job_type='type-name')`) afin de classer vos nœuds selon leur rôle. Par exemple, vous pouvez avoir un nœud coordinateur principal et plusieurs nœuds workers chargés du reporting. Vous pouvez définir `job_type` sur `main` pour le nœud coordinateur principal et sur `worker` pour les nœuds workers chargés du reporting :
 
@@ -156,9 +148,7 @@ Par exemple, vous pourriez créer les vues enregistrées suivantes :
 
 Pour ouvrir une vue enregistrée, cliquez sur **Workspaces** dans la barre latérale du projet, puis cliquez sur le menu. Les Workspaces apparaissent en haut de la liste et les vues enregistrées en bas.
 
-<div id="track-all-processes-to-a-single-run">
-  ### Suivre tous les processus dans un seul run
-</div>
+### Suivre tous les processus dans un seul run {#track-all-processes-to-a-single-run}
 
 <Warning>
   Les paramètres préfixés par `x_` (comme `x_label`) sont en préversion publique. Créez une [issue GitHub dans le dépôt W&amp;B](https://github.com/wandb/wandb) pour nous faire part de vos retours.
@@ -282,15 +272,11 @@ W&amp;B agrège les métriques système de tous les nœuds et les affiche dans W
 
 Voir [Graphiques en courbes](/fr/models/app/features/panels/line-plot/) pour savoir comment personnaliser les panneaux de graphique en courbes.
 
-<div id="example-use-cases">
-  ## Exemples de cas d’utilisation
-</div>
+## Exemples de cas d’utilisation {#example-use-cases}
 
 Les extraits de code suivants présentent des scénarios courants pour des cas d’utilisation avancés en environnement distribué.
 
-<div id="spawn-process">
-  ### Processus enfant
-</div>
+### Processus enfant {#spawn-process}
 
 Utilisez la méthode `wandb.setup()` dans votre fonction principale si vous lancez un run dans un processus enfant :
 
@@ -311,9 +297,7 @@ if __name__ == "__main__":
     main()
 ```
 
-<div id="share-a-run">
-  ### Partager un run
-</div>
+### Partager un run {#share-a-run}
 
 Transmettez un objet run en argument pour partager des runs entre processus :
 
@@ -336,9 +320,7 @@ if __name__ == "__main__":
 
 W&amp;B ne peut pas garantir l’ordre de journalisation. La synchronisation doit être assurée par l’auteur du script.
 
-<div id="troubleshooting">
-  ## Dépannage
-</div>
+## Dépannage {#troubleshooting}
 
 Vous pouvez rencontrer deux problèmes courants lorsque vous utilisez W&amp;B avec l&#39;entraînement distribué :
 
@@ -346,21 +328,15 @@ Vous pouvez rencontrer deux problèmes courants lorsque vous utilisez W&amp;B av
 2. **Blocage à la fin de l&#39;entraînement** - Une tâche d&#39;entraînement peut se bloquer si le processus `wandb` ne sait pas quand il doit s&#39;arrêter. Appelez l&#39;API `wandb.Run.finish()` à la fin de votre script Python pour indiquer à W&amp;B que le run est terminé. L&#39;API `wandb.Run.finish()` terminera l&#39;envoi des données et entraînera l&#39;arrêt de W&amp;B.
    W&amp;B recommande d&#39;utiliser la commande `wandb service` pour améliorer la fiabilité de vos jobs distribués. Ces deux problèmes d&#39;entraînement surviennent fréquemment dans les versions du SDK W&amp;B où `wandb service` n&#39;est pas disponible.
 
-<div id="enable-wb-service">
-  ### Activer W&amp;B Service
-</div>
+### Activer W&amp;B Service {#enable-wb-service}
 
 Selon la version du SDK W&amp;B que vous utilisez, il se peut que W&amp;B Service soit déjà activé par défaut.
 
-<div id="wb-sdk-0130-and-above">
-  #### SDK W&amp;B 0.13.0 et versions ultérieures
-</div>
+#### SDK W&amp;B 0.13.0 et versions ultérieures {#wb-sdk-0130-and-above}
 
 W&amp;B Service est activé par défaut à partir de la version `0.13.0` du SDK W&amp;B.
 
-<div id="wb-sdk-0125-and-above">
-  #### W&amp;B SDK 0.12.5 et versions ultérieures
-</div>
+#### W&amp;B SDK 0.12.5 et versions ultérieures {#wb-sdk-0125-and-above}
 
 Modifiez votre script Python pour activer W&amp;B Service avec le SDK W&amp;B version 0.12.5 et les versions ultérieures. Utilisez la méthode `wandb.require()` et transmettez la chaîne `"service"` dans votre fonction principale :
 

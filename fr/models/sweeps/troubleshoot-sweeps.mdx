@@ -5,9 +5,7 @@ title: Dépannage de balayages
 
 Cette page vous aide à diagnostiquer et à résoudre les messages d’erreur courants que vous pouvez rencontrer lorsque vous exécutez des balayages W&amp;B. Les sections suivantes décrivent une erreur, expliquent pourquoi elle se produit et indiquent comment la corriger.
 
-<div id="commerror-run-does-not-exist-and-error-error-uploading">
-  ## `CommError, Run does not exist` and `ERROR Error uploading`
-</div>
+## `CommError, Run does not exist` and `ERROR Error uploading` {#commerror-run-does-not-exist-and-error-error-uploading}
 
 Il se peut que l’ID de votre run W&amp;B soit défini si W&amp;B renvoie ces deux messages d’erreur. Par exemple, vous pourriez avoir un extrait de code similaire défini quelque part dans vos notebooks Jupyter ou dans votre script Python :
 
@@ -27,9 +25,7 @@ wandb.init(name="a helpful readable run name")
 
 Après avoir supprimé l’argument `id` de `wandb.init()`, le balayage peut attribuer ses propres ID de run uniques et les erreurs de téléversement disparaissent.
 
-<div id="cuda-out-of-memory">
-  ## `CUDA out of memory`
-</div>
+## `CUDA out of memory` {#cuda-out-of-memory}
 
 Si vous voyez ce message d’erreur, refactorisez votre code pour utiliser des exécutions dans des processus distincts. Lorsque vous exécutez chaque essai dans son propre processus, W&amp;B libère la mémoire GPU entre les runs.
 
@@ -72,9 +68,7 @@ Pour refactoriser votre code, effectuez les étapes suivantes :
 
 Lorsque votre code d’entraînement s’exécute sous forme de script via l’agent CLI, chaque essai s’exécute dans son propre processus, et W&amp;B libère la mémoire GPU entre les runs.
 
-<div id="anaconda-400-error">
-  ## `anaconda 400 error`
-</div>
+## `anaconda 400 error` {#anaconda-400-error}
 
 L’erreur suivante se produit généralement lorsque vous n’avez pas journalisé la métrique que vous optimisez :
 

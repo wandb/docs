@@ -13,24 +13,18 @@ keywords: ["オートメーション", "モニター", "Slack 通知", "webhook"
 
 オートメーションは Weave UI で管理でき、コードの変更は不要です。このガイドでは、Automations ページからオートメーションを作成する方法、既存のモニターから作成する方法、作成後にオートメーションを表示して管理する方法について説明します。
 
-<div id="create-an-automation">
-  ## オートメーションを作成する
-</div>
+## オートメーションを作成する {#create-an-automation}
 
 トリガーイベントを設定し、実行するアクションを選択して、オートメーションを作成します。
 
-<div id="prerequisites">
-  ### 前提条件
-</div>
+### 前提条件 {#prerequisites}
 
 それらを接続するオートメーションを作成する前に、トリガーとなるイベント (Op や モニター など) と、実行するアクション (Slack インテグレーションなど) をあらかじめ作成しておく必要があります。
 
 * Weave で、対象の [Op](/ja/weave/guides/tracking/create-call) または [モニター](/ja/weave/guides/evaluation/monitors) を設定します。
 * Team Settings で、[Slack インテグレーション](/ja/models/automations/create-automations/slack#add-a-slack-integration) または [webhook](/ja/models/automations/create-automations/webhook#create-a-webhook) を設定します。
 
-<div id="configure-the-event">
-  ### イベントを設定する
-</div>
+### イベントを設定する {#configure-the-event}
 
 イベント設定では、どの条件でオートメーションがトリガーされるかを定義します。監視対象のメトリクス、時間ウィンドウ、しきい値を選択します。
 
@@ -51,9 +45,7 @@ keywords: ["オートメーション", "モニター", "Slack 通知", "webhook"
 5. **Alert preview** グラフを確認し、想定どおりにしきい値でアラートが発生することを確認します。
 6. **Next step** をクリックして、アクション設定に進みます。
 
-<div id="configure-the-action">
-  ### アクションを設定する
-</div>
+### アクションを設定する {#configure-the-action}
 
 アクションの設定では、イベントが条件を満たしたときに実行するアクションを定義します。
 
@@ -67,9 +59,7 @@ keywords: ["オートメーション", "モニター", "Slack 通知", "webhook"
      * webhook の場合は、**Webhook** 名と **Payload** を指定します。
 2. **Next step** をクリックして Summary に進みます。
 
-<div id="review-and-save">
-  ### 確認して保存
-</div>
+### 確認して保存 {#review-and-save}
 
 Summary ステップでは、保存する前にオートメーションの全体像を確認できます。
 
@@ -82,9 +72,7 @@ Summary ステップでは、保存する前にオートメーションの全体
 
 新しいオートメーションは、Automations ページの Automations 表に表示されます。
 
-<div id="create-an-automation-from-a-monitor">
-  ## モニターからオートメーションを作成する
-</div>
+## モニターからオートメーションを作成する {#create-an-automation-from-a-monitor}
 
 モニターの詳細ビューから直接オートメーションを作成することもできます。この方法では、モニターのコンテキストに基づいてイベント設定が事前入力されるため、よりすばやく設定できます。オートメーションを作成する前に、選択したアクションとして使用する [Slack インテグレーション](/ja/models/automations/create-automations/slack#add-a-slack-integration) または [webhook](/ja/models/automations/create-automations/webhook#create-a-webhook) を設定しておいてください。
 
@@ -101,9 +89,7 @@ Summary ステップでは、保存する前にオートメーションの全体
    * **Aggregation**: しきい値と比較する前に、ウィンドウ内のメトリクス値に適用する集約関数 (平均、中央値、最小値など) を設定します。
 6. **Next** をクリックし、残りの手順 (アクションの選択と保存) を [Create an automation](#create-an-automation) の説明に従って完了します。
 
-<div id="view-and-manage-automations">
-  ## オートメーションの表示と管理
-</div>
+## オートメーションの表示と管理 {#view-and-manage-automations}
 
 プロジェクト内のすべてのオートメーションは、**Automations** ページに一覧表示されます。表には、各オートメーションについて次の情報が表示されます。
 

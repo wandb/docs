@@ -6,17 +6,13 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/v0.30.0/wandb/cli/cli.py#L2300" />
 
-<div id="usage">
-  ## Utilisation
-</div>
+## Utilisation {#usage}
 
 ```bash
 docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]
 ```
 
-<div id="description">
-  ## Description
-</div>
+## Description {#description}
 
 Exécutez du code dans un conteneur Docker avec W&amp;B configuré.
 
@@ -55,18 +51,14 @@ Pour exécuter une image avec prise en charge du GPU à l’aide d’une command
 wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py"
 ```
 
-<div id="arguments">
-  ## Arguments
-</div>
+## Arguments {#arguments}
 
 | Nom               | Par défaut | Type  |
 | ----------------- | ---------- | ----- |
 | `docker_run_args` | STR        | False |
 | `docker_image`    | STR        | False |
 
-<div id="options">
-  ## Options
-</div>
+## Options {#options}
 
 | Option      | Type               | Description                                                                                                     |
 | ----------- | ------------------ | --------------------------------------------------------------------------------------------------------------- |

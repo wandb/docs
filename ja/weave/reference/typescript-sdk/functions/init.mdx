@@ -13,9 +13,7 @@ init(project: string, settings?: Partial<{…}>): Promise<WeaveClient>
 
 Weave クライアントを初期化します。Weave トレースを利用するには、この初期化が必須です。
 
-<div id="parameters">
-  ## パラメーター
-</div>
+## パラメーター {#parameters}
 
 <ParamField path="project" type="string" required>
   W&amp;B プロジェクト名 (`project` または `entity/project` を指定できます) 。W&amp;B チーム (例: &#39;team/project&#39;) を指定しない場合は、既定の entity が使用されます。
@@ -28,16 +26,12 @@ Weave クライアントを初期化します。Weave トレースを利用す�
   完全なタイプ: `Partial<{ attributes: Record<string, any>; genai: { batchOptions?: BufferConfig; spanProcessor?: "batch" | "simple" | SpanProcessor; }; printCallLink: boolean; useCallsComplete: boolean; useOTelV2: boolean; }>`
 </ParamField>
 
-<div id="returns">
-  ## 戻り値
-</div>
+## 戻り値 {#returns}
 
 `Promise`&lt;[`WeaveClient`](../interfaces/weaveclient)&gt;
 
 初期化された Weave クライアントを返す Promise。
 
-<div id="throws">
-  ## 例外
-</div>
+## 例外 {#throws}
 
 初期化に失敗した場合

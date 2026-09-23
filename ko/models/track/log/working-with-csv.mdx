@@ -5,9 +5,7 @@ title: 실험과 함께 CSV 파일 추적하기
 
 W&amp;B Python Library를 사용해 CSV 파일을 로깅하고 [W&amp;B 대시보드](/ko/models/track/workspaces/)에서 시각화하세요. W&amp;B 대시보드는 머신 러닝 모델의 결과를 정리하고 시각화하는 중심 공간입니다. 특히 [이전에 수행한 머신 러닝 실험 정보가 담긴 CSV 파일](#import-and-log-your-csv-of-experiments)이 W&amp;B에 로깅되어 있지 않거나, [데이터셋이 포함된 CSV 파일](#import-and-log-your-dataset-csv-file)이 있을 때 유용합니다.
 
-<div id="import-and-log-your-dataset-csv-file">
-  ## 데이터셋 CSV 파일을 임포트하고 로깅하세요
-</div>
+## 데이터셋 CSV 파일을 임포트하고 로깅하세요 {#import-and-log-your-dataset-csv-file}
 
 {/* {% embed url="https://drive.google.com/file/d/1jBG3M4VnaMgeclRzowYZEYvFxvwb9SXF/view?usp=sharing" %} */}
 
@@ -93,9 +91,7 @@ with wandb.init(project="tables-walkthrough") as run:
     run.log_artifact(iris_table_artifact)
 ```
 
-<div id="import-and-log-your-csv-of-experiments">
-  ## Experiments CSV를 임포트하고 로그하기
-</div>
+## Experiments CSV를 임포트하고 로그하기 {#import-and-log-your-csv-of-experiments}
 
 {/* {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
   아래 표는 변환하면 다음과 같은 W&B 대시보드가 됩니다

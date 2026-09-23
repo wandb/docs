@@ -8,9 +8,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink compact url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py#L56" />
 
-<div id="class-wandbapispublicprojects">
-  ## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Projects
-</div>
+## <Badge color="yellow" size="lg" shape="rounded">Classe</Badge> wandb.apis.public.Projects {#class-wandbapispublicprojects}
 
 Un itérateur paresseux d’objets `Project`.
 
@@ -22,9 +20,7 @@ entity: 'str',
 per_page: 'int' = 50
 ```
 
-<div id="args">
-  ## Arguments
-</div>
+## Arguments {#args}
 
 <ResponseField name="service_api" type="ServiceApi">
   L’API de service utilisée pour interroger W&amp;B.
@@ -38,9 +34,7 @@ per_page: 'int' = 50
   Le nombre de projets à récupérer par requête auprès de l’API.
 </ResponseField>
 
-<div id="examples">
-  ## Exemples
-</div>
+## Exemples {#examples}
 
 ```python
 from wandb.apis.public.api import Api
@@ -56,13 +50,9 @@ for project in projects:
     print(f"- Is benchmark: {project.is_benchmark}")
 ```
 
-<div id="methods">
-  ## Méthodes
-</div>
+## Méthodes {#methods}
 
-<div id="method-relaypaginatorconvert_objects">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> RelayPaginator.convert_objects()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> RelayPaginator.convert_objects() {#method-relaypaginatorconvert_objects}
 
 ```python
 self
@@ -70,9 +60,7 @@ self
 
 Convertissez les données de la dernière réponse récupérée en objets parcourus lors de l’itération.
 
-<div id="method-paginatornext">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.**next**() {#method-paginatornext}
 
 ```python
 self
@@ -80,9 +68,7 @@ self
 
 Renvoie l’élément suivant de l’itérateur. Lorsqu’il est épuisé, lève StopIteration
 
-<div id="method-paginatorupdate_variables">
-  ### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables()
-</div>
+### <Badge color="blue" size="lg" shape="rounded">méthode</Badge> Paginator.update_variables() {#method-paginatorupdate_variables}
 
 ```python
 self

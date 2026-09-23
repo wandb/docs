@@ -2,9 +2,7 @@
 title: Notebook d’introduction
 ---
 
-<div id="weave-with-typescript-quickstart-guide">
-  # Guide de démarrage rapide de Weave avec TypeScript
-</div>
+# Guide de démarrage rapide de Weave avec TypeScript {#weave-with-typescript-quickstart-guide}
 
 Vous pouvez utiliser W&amp;B Weave avec TypeScript pour :
 
@@ -14,9 +12,7 @@ Vous pouvez utiliser W&amp;B Weave avec TypeScript pour :
 
 Pour plus d&#39;informations, voir la [documentation Weave](/fr/).
 
-<div id="function-tracking">
-  ## Suivi des fonctions
-</div>
+## Suivi des fonctions {#function-tracking}
 
 Pour utiliser Weave dans votre code TypeScript, initialisez un nouveau projet Weave et ajoutez le wrapper `weave.op` aux fonctions que vous souhaitez suivre.
 
@@ -46,9 +42,7 @@ async function demonstrateBasicTracking() {
 }
 ```
 
-<div id="openai-integration">
-  ## Intégration à OpenAI
-</div>
+## Intégration à OpenAI {#openai-integration}
 
 Weave suit automatiquement tous les appels à OpenAI, notamment :
 
@@ -80,9 +74,7 @@ async function demonstrateOpenAITracking() {
 }
 ```
 
-<div id="nested-function-tracking">
-  ## Suivi imbriqué des fonctions
-</div>
+## Suivi imbriqué des fonctions {#nested-function-tracking}
 
 Weave vous permet de suivre des flux de travail complexes en combinant plusieurs fonctions suivies
 et des appels LLM, tout en préservant l’intégralité de la trace d’exécution. Cela offre notamment les avantages suivants :
@@ -116,9 +108,7 @@ async function demonstrateNestedTracking() {
 }
 ```
 
-<div id="dataset-management">
-  ## Gestion des jeux de données
-</div>
+## Gestion des jeux de données {#dataset-management}
 
 Vous pouvez créer et gérer des jeux de données avec Weave à l’aide de la classe [`weave.Dataset`](/fr/weave/guides/core-types/datasets). À l’instar des [Weave `Models`](/fr/weave/guides/core-types/models), `weave.Dataset` permet de :
 
@@ -156,9 +146,7 @@ function createGrammarDataset(): weave.Dataset<GrammarExample> {
 }
 ```
 
-<div id="evaluation-framework">
-  ## Framework d’évaluation
-</div>
+## Framework d’évaluation {#evaluation-framework}
 
 Weave prend en charge le développement piloté par l’évaluation avec la [classe `Evaluation`](/fr/weave/guides/core-types/evaluations). Les évaluations vous aident à itérer de manière fiable sur votre application de GenAI. La classe `Evaluation` permet de :
 

@@ -15,9 +15,7 @@ keywords: ["사용자 피드백", "좋아요 싫어요", "Streamlit 챗봇", "�
 
 이 노트북에서는 맞춤형 챗봇의 응답에 대한 사용자 피드백을 수집하는 방법을 보여줍니다. Streamlit을 사용해 인터페이스를 구축하고, LLM 상호작용과 피드백을 W&amp;B Weave에 캡처합니다. 최종적으로는 각 응답을 Weave에 기록하고, 사용자들의 좋아요 또는 싫어요 반응과 자유 텍스트 피드백도 함께 남기는 작동하는 챗봇이 준비되므로, 프로덕션 상호작용을 검토하고 개선이 필요한 영역을 파악할 수 있습니다.
 
-<div id="setup">
-  ## 설정
-</div>
+## 설정 {#setup}
 
 먼저 챗봇이 OpenAI API를 호출하고 Weave에 Call을 기록할 수 있도록 필요한 패키지를 설치한 다음, OpenAI 및 W&amp;B API 키를 설정하세요.
 
@@ -184,9 +182,7 @@ if __name__ == "__main__":
 
 이제 이 애플리케이션을 사용해 보고, 각 응답 뒤에 있는 피드백 버튼을 클릭할 수 있습니다. 첨부된 피드백을 보려면 Weave UI로 이동하세요. 각 채팅 상호작용은 Weave call로 기록되며, 제출한 모든 반응이나 메모는 해당 응답을 생성한 call에 연결됩니다.
 
-<div id="explanation">
-  ## 설명
-</div>
+## 설명 {#explanation}
 
 다음 섹션에서는 챗봇에서 사용되는 주요 Weave API를 살펴보고, 동일한 패턴을 자체 애플리케이션에 적용하는 방법을 설명합니다.
 
@@ -227,8 +223,6 @@ result, call = predict.call(input_data="your data here")
 call.feedback.add_reaction("👍")  # App UI를 통한 사용자 반응
 ```
 
-<div id="conclusion">
-  ## 결론
-</div>
+## 결론 {#conclusion}
 
 이 튜토리얼에서는 Streamlit으로 채팅 UI를 구축하고, Weave에서 입력과 출력을 캡처하며, 좋아요 및 싫어요 버튼으로 사용자 피드백도 캡처하도록 구성했습니다.

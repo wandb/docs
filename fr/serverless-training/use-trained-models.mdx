@@ -33,9 +33,7 @@ wandb-artifact:///email-specialists/mail-search/agent-001:step25
 
 Une fois que vous disposez de votre point de terminaison, vous pouvez l’intégrer à vos flux de travail d’inférence habituels. Les exemples suivants montrent comment effectuer des requêtes d’inférence vers votre modèle entraîné à l’aide d’une requête cURL ou du [SDK d’OpenAI pour Python](https://github.com/openai/openai-python). Choisissez l’exemple qui correspond à votre environnement.
 
-<div id="curl">
-  ## cURL
-</div>
+## cURL {#curl}
 
 ```bash
 curl https://api.training.wandb.ai/v1/chat/completions \
@@ -52,9 +50,7 @@ curl https://api.training.wandb.ai/v1/chat/completions \
         }'
 ```
 
-<div id="openai-sdk">
-  ## SDK d’OpenAI
-</div>
+## SDK d’OpenAI {#openai-sdk}
 
 ```python
 from openai import OpenAI

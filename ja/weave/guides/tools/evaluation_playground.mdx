@@ -12,9 +12,7 @@ Evaluation Playground では、既存のモデルにアクセスし、評価用�
   ![Evaluation Playground インターフェース](/weave/guides/evaluation/img/eval-playground-ui.png)
 </Frame>
 
-<div id="set-up-an-evaluation-in-the-playground">
-  ## playground で評価を設定する
-</div>
+## playground で評価を設定する {#set-up-an-evaluation-in-the-playground}
 
 以下のセクションでは、Evaluation Playground を開き、評価の開始方法を選択し、データセット、Models、Scorer を設定する方法について説明します。
 
@@ -28,9 +26,7 @@ Evaluation Playground で評価を設定するには、次の手順に従いま�
 
 次のセクションの手順に従って、Datasets、Models、Scorer を設定します。
 
-<div id="add-a-dataset">
-  ### データセットを追加する
-</div>
+### データセットを追加する {#add-a-dataset}
 
 [Datasets](../core-types/datasets) は、ユーザー入力のサンプルと、モデルから期待される応答をまとめたコレクションです。評価時には、playground が各テスト入力をモデルに渡して出力を収集し、その後、正確性など、選択したメトリクスに基づいて出力をスコアリングします。UI でデータセットを作成することも、プロジェクトにすでに保存されている既存のデータセットを追加することも、新しいデータセットをアップロードすることもできます。
 
@@ -59,9 +55,7 @@ Evaluation Playground で評価を設定するには、次の手順に従いま�
   また、Scorer がデータにアクセスできるように、データセット内の列名を `user_input` と `expected_output` に設定することも重要です。
 </Note>
 
-<div id="add-a-model">
-  ### モデルを追加する
-</div>
+### モデルを追加する {#add-a-model}
 
 Weave における [models](/ja/weave/guides/core-types/models) とは、AI モデル (GPT など) と、そのモデルが評価中にどのように動作するかを定義する環境 (この場合は system prompt) を組み合わせたものです。プロジェクト内の既存のモデルを選んで評価することも、新しいモデルを作成して評価することもできます。また、複数のモデルを一度に追加し、同じデータセットと scorer を使って同時に評価することも可能です。**使用できるのは、playground 機能で作成したモデルのみです。**
 
@@ -81,9 +75,7 @@ Evaluation Playground の **Models** セクションでモデルを追加する�
 
 4. 任意: 複数のモデルを同時に評価するには、**Add Model** を再度クリックし、必要に応じてほかのモデルを追加します。
 
-<div id="add-scorers">
-  ### Scorer を追加する
-</div>
+### Scorer を追加する {#add-scorers}
 
 [Scorers](../evaluation/scorers) は、LLM judge を使用して AI モデルの出力品質を測定・評価します。プロジェクト内の既存の Scorer を選択することも、モデルの評価に使用する新しい Scorer を作成することもできます。
 
@@ -109,9 +101,7 @@ Evaluation Playground でScorer を追加するには:
 
 2. 任意: **Save** をクリックして、後で使用できるように Scorer をプロジェクトに保存します。
 
-<div id="run-the-evaluation">
-  ## 評価を実行する
-</div>
+## 評価を実行する {#run-the-evaluation}
 
 データセット、モデル、Scorer の設定が完了したら、評価を実行して結果を生成する準備は整っています。
 
@@ -119,9 +109,7 @@ Evaluation Playground でScorer を追加するには:
 
 Weave は、追加した各モデルに対して個別に評価を実行し、データセットを使って行われた各リクエストのメトリクスを収集します。これらの評価はそれぞれ、後で確認できるよう **Evals** セクションに保存されます。
 
-<div id="review-evaluation-results">
-  ## 評価結果を確認する
-</div>
+## 評価結果を確認する {#review-evaluation-results}
 
 評価が完了したら、結果を確認して、各モデルがデータセットおよび Scorer に対してどのようなパフォーマンスを示したかを比較できます。
 

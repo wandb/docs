@@ -26,9 +26,7 @@ title: 분산 트레이닝 실험 로깅
   이 예제의 코드는 W&B GitHub 예제 저장소 [여기](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp)에서 확인할 수 있습니다. 특히 단일 프로세스 방법과 다중 프로세스 방법을 구현하는 방법은 [`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python 스크립트를 참조하세요.
   </Note> */}
 
-<div id="track-a-single-process">
-  ## 단일 프로세스 추적
-</div>
+## 단일 프로세스 추적 {#track-a-single-process}
 
 이 섹션에서는 rank 0 프로세스에서 사용할 수 있는 값과 메트릭을 추적하는 방법을 설명합니다. 이 방법은 단일 프로세스에서만 확인할 수 있는 메트릭만 추적할 때 사용하세요. 일반적인 메트릭으로는 GPU/CPU 사용량, 공유 검증 세트에서의 동작, 그라디언트와 파라미터, 대표 데이터 예제에 대한 loss 값 등이 있습니다.
 
@@ -73,18 +71,14 @@ if __name__ == "__main__":
   <img src="/images/experiments/loss_function_single_gpu.png" alt="손실 함수 플롯" />
 </Frame>
 
-<div id="track-multiple-processes">
-  ## 여러 프로세스 추적하기
-</div>
+## 여러 프로세스 추적하기 {#track-multiple-processes}
 
 다음 방법 중 하나로 W&amp;B에서 여러 프로세스를 추적할 수 있습니다:
 
 * 각 프로세스마다 run을 생성해 [각 프로세스를 개별적으로 추적](/ko/models/track/log/distributed-training/#track-each-process-separately)합니다.
 * [모든 프로세스를 단일 run으로 추적](/ko/models/track/log/distributed-training/#track-all-processes-to-a-single-run)합니다.
 
-<div id="track-each-process-separately">
-  ### 각 프로세스를 개별적으로 추적하기
-</div>
+### 각 프로세스를 개별적으로 추적하기 {#track-each-process-separately}
 
 이 섹션에서는 각 프로세스마다 run을 생성해 각 프로세스를 개별적으로 추적하는 방법을 설명합니다. 각 run 내에서 해당 run에 메트릭, Artifacts 등을 로깅합니다. 모든 프로세스가 정상적으로 종료되도록 트레이닝이 끝나면 `wandb.Run.finish()`를 호출해 run이 완료되었음을 표시하세요.
 
@@ -120,9 +114,7 @@ if __name__ == "__main__":
 
 위 이미지는 W&amp;B App UI 대시보드를 보여줍니다. 사이드바에는 두 개의 실험이 있습니다. 하나는 &#39;null&#39;로 표시되고, 다른 하나는(노란색 상자로 강조된) &#39;DPP&#39;입니다. 그룹을 확장하면(Group 드롭다운을 선택) 해당 실험에 연결된 W&amp;B Runs를 볼 수 있습니다.
 
-<div id="organize-distributed-runs">
-  ### 분산 run 정리
-</div>
+### 분산 run 정리 {#organize-distributed-runs}
 
 노드를 역할에 따라 분류하려면 W&amp;B를 초기화할 때 `job_type` 파라미터를 설정하세요(`wandb.init(job_type='type-name')`). 예를 들어, 메인 조정 노드 하나와 리포팅 워커 노드 여러 개가 있을 수 있습니다. 메인 조정 노드에는 `job_type`을 `main`으로, 리포팅 워커 노드에는 `worker`로 설정할 수 있습니다:
 
@@ -155,9 +147,7 @@ if __name__ == "__main__":
 
 저장된 뷰를 열려면 프로젝트 사이드바에서 **Workspaces**를 클릭한 다음 메뉴를 클릭합니다. Workspaces는 목록 상단에 표시되고 저장된 뷰는 하단에 표시됩니다.
 
-<div id="track-all-processes-to-a-single-run">
-  ### 모든 프로세스를 단일 run에 추적하기
-</div>
+### 모든 프로세스를 단일 run에 추적하기 {#track-all-processes-to-a-single-run}
 
 <Warning>
   `x_` 접두사가 붙은 파라미터(`x_label` 등)는 공개 프리뷰 상태입니다. 피드백을 제공하려면 [W&amp;B 저장소에 GitHub issue](https://github.com/wandb/wandb)를 생성하세요.
@@ -280,15 +270,11 @@ W&amp;B는 모든 노드의 시스템 메트릭을 집계해 W&amp;B App UI에 �
 
 선형 플롯 패널을 사용자 지정하는 방법은 [Line plots](/ko/models/app/features/panels/line-plot/)를 참조하세요.
 
-<div id="example-use-cases">
-  ## 사용 사례 예시
-</div>
+## 사용 사례 예시 {#example-use-cases}
 
 다음 코드 스니펫은 고급 분산 사용 사례의 일반적인 시나리오를 보여줍니다.
 
-<div id="spawn-process">
-  ### 프로세스 생성
-</div>
+### 프로세스 생성 {#spawn-process}
 
 생성된 프로세스에서 run을 시작하는 경우 main 함수에서 `wandb.setup()`를 사용하세요:
 
@@ -309,9 +295,7 @@ if __name__ == "__main__":
     main()
 ```
 
-<div id="share-a-run">
-  ### run 공유하기
-</div>
+### run 공유하기 {#share-a-run}
 
 프로세스 간에 run을 공유하려면 run 객체를 인수로 전달합니다:
 
@@ -334,9 +318,7 @@ if __name__ == "__main__":
 
 W&amp;B는 로깅 순서를 보장할 수 없습니다. 동기화는 스크립트 작성자가 직접 수행해야 합니다.
 
-<div id="troubleshooting">
-  ## 문제 해결
-</div>
+## 문제 해결 {#troubleshooting}
 
 W&amp;B와 분산 트레이닝을 사용할 때 흔히 겪을 수 있는 문제는 두 가지입니다:
 
@@ -344,21 +326,15 @@ W&amp;B와 분산 트레이닝을 사용할 때 흔히 겪을 수 있는 문제�
 2. **트레이닝 종료 시 멈춤** - `wandb` 프로세스가 언제 종료되어야 하는지 알지 못하면 트레이닝 작업이 멈출 수 있습니다. Python 스크립트 끝에서 `wandb.Run.finish()` API를 호출해 W&amp;B에 run이 종료되었음을 알려주세요. `wandb.Run.finish()` API는 데이터 업로드를 완료하고 W&amp;B를 종료합니다.
    W&amp;B는 분산 작업의 안정성을 높이기 위해 `wandb service` 명령어를 사용할 것을 권장합니다. 앞서 설명한 두 가지 트레이닝 문제는 모두 wandb service를 사용할 수 없는 버전의 W&amp;B SDK에서 흔히 발생합니다.
 
-<div id="enable-wb-service">
-  ### W&amp;B Service 활성화
-</div>
+### W&amp;B Service 활성화 {#enable-wb-service}
 
 사용 중인 W&amp;B SDK 버전에 따라 W&amp;B Service가 기본적으로 이미 활성화되어 있을 수 있습니다.
 
-<div id="wb-sdk-0130-and-above">
-  #### W&amp;B SDK 0.13.0 이상
-</div>
+#### W&amp;B SDK 0.13.0 이상 {#wb-sdk-0130-and-above}
 
 W&amp;B SDK `0.13.0` 이상 버전에서는 W&amp;B Service가 기본적으로 활성화됩니다.
 
-<div id="wb-sdk-0125-and-above">
-  #### W&amp;B SDK 0.12.5 이상
-</div>
+#### W&amp;B SDK 0.12.5 이상 {#wb-sdk-0125-and-above}
 
 W&amp;B SDK 버전 0.12.5 이상에서 W&amp;B Service를 활성화하려면 Python 스크립트를 수정하세요. `wandb.require()` 방법을 사용하고, 메인 함수 내에 문자열 `"service"`를 전달하세요:
 

@@ -32,9 +32,7 @@ import SandboxesPreview from '/snippets/ja/_includes/sandboxes-public-preview.md
   ```
 </Info>
 
-<div id="create-a-sandbox">
-  ## サンドボックスを作成する
-</div>
+## サンドボックスを作成する {#create-a-sandbox}
 
 [`Sandbox.run()`](https://docs.coreweave.com/products/coreweave-sandbox/client/ref/core/sandbox#run) を使用して、サンドボックスを作成し、起動します。このメソッドは、環境とやり取りするために使用できる `Sandbox` オブジェクトを返します。
 
@@ -53,9 +51,7 @@ with Sandbox.run() as sandbox:
 
 サンドボックス内でコマンドを実行する方法については、[コマンドを run する](/ja/sandboxes/run-commands)を参照してください。サンドボックスのライフサイクルと状態については、[サンドボックスのライフサイクル](/ja/sandboxes/lifecycle)を参照してください。
 
-<div id="start-a-sandbox-without-a-main-command">
-  ### メイン コマンドを指定せずにサンドボックスを開始する
-</div>
+### メイン コマンドを指定せずにサンドボックスを開始する {#start-a-sandbox-without-a-main-command}
 
 先にサンドボックスを作成し、後からその中で処理を実行する場合は、コマンドを指定せずに `Sandbox.run()` を呼び出します。
 
@@ -68,9 +64,7 @@ with Sandbox.run() as sandbox:
 
 このパターンは、対話型かつ複数ステップのワークフローに便利です。サンドボックス内でコマンドを run する方法については、[コマンドを run する](/ja/sandboxes/run-commands)を参照してください。
 
-<div id="start-a-sandbox-with-a-main-command">
-  ### メインコマンドを指定して サンドボックス を開始する
-</div>
+### メインコマンドを指定して サンドボックス を開始する {#start-a-sandbox-with-a-main-command}
 
 `Sandbox.run()` にコマンドを渡すこともできます。サンドボックス が 1 つのジョブを開始から終了まで実行する場合は、このパターンを使用してください。メインプロセスが終了すると、サンドボックス は [COMPLETED or FAILED](/ja/sandboxes/lifecycle) などの終了状態に入ります。
 
@@ -93,9 +87,7 @@ sandbox = Sandbox.run("python", "train.py")
 sandbox.wait_until_complete().result()
 ```
 
-<div id="create-multiple-sandboxes-with-a-session">
-  ## セッションで複数のサンドボックスを作成する
-</div>
+## セッションで複数のサンドボックスを作成する {#create-multiple-sandboxes-with-a-session}
 
 同時に複数のサンドボックスが必要な場合や、複数のサンドボックスで設定を共有したい場合は、セッションを使用します。
 

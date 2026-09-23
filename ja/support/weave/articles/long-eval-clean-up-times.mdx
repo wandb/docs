@@ -7,9 +7,7 @@ keywords: ["パフォーマンス", "評価"]
 
 以下のセクションでは、保留中のバックグラウンド処理をフラッシュする方法と、クライアントの並列性を高める方法について説明します。
 
-<div id="flush-pending-background-work">
-  ## 保留中のバックグラウンド処理をフラッシュする
-</div>
+## 保留中のバックグラウンド処理をフラッシュする {#flush-pending-background-work}
 
 フラッシュを実行すると、保留中のバックグラウンド処理は、コードの実行完了後に待つのではなく、メインスレッドと並行して強制的に完了します。
 
@@ -26,9 +24,7 @@ result = evaluation.Evaluate(dataset_id="my_dataset_id")
 client.flush()
 ```
 
-<div id="increase-client-parallelism">
-  ## クライアントの並列性を上げる
-</div>
+## クライアントの並列性を上げる {#increase-client-parallelism}
 
 クライアントの並列性を上げると、Weave がデータセットのアップロードなどのバックグラウンド処理に使用できるスレッドが増え、フラッシュ処理とあわせてクリーンアップ時間をさらに短縮できます。
 

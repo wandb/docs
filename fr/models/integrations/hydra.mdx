@@ -7,9 +7,7 @@ title: Hydra
 
 Cette page montre comment combiner la gestion de configuration basée sur Hydra avec le suivi des expériences de W&amp;B, afin que vous puissiez conserver les configurations composables de Hydra tout en bénéficiant des fonctionnalités de visualisation, d&#39;optimisation des hyperparamètres et de comparaison des runs de W&amp;B. Les sections suivantes couvrent le suivi des métriques, la journalisation des hyperparamètres à partir des configurations Hydra, le dépannage du multiprocessing et l&#39;optimisation des hyperparamètres avec les balayages W&amp;B.
 
-<div id="track-metrics">
-  ## Suivre les métriques
-</div>
+## Suivre les métriques {#track-metrics}
 
 Pour envoyer des métriques depuis un run configuré avec Hydra vers W&amp;B, utilisez `wandb.init()` et `wandb.Run.log()` normalement. Dans l’exemple suivant, `wandb.entity` et `wandb.project` sont définis dans un fichier de configuration Hydra afin que la même configuration pilote à la fois Hydra et W&amp;B.
 
@@ -24,9 +22,7 @@ def run_experiment(cfg):
       run.log({"loss": loss})
 ```
 
-<div id="track-hyperparameters">
-  ## Suivre les hyperparamètres
-</div>
+## Suivre les hyperparamètres {#track-hyperparameters}
 
 La journalisation de la configuration de Hydra dans W&amp;B vous permet de voir chaque hyperparamètre à côté des métriques du run, ce qui facilite la comparaison et la reproduction des expériences.
 
@@ -58,9 +54,7 @@ def run_experiment(cfg):
         model = Model(**run.config["model"]["configs"])
 ```
 
-<div id="troubleshoot-multiprocessing">
-  ## Résoudre les problèmes liés au multiprocessing
-</div>
+## Résoudre les problèmes liés au multiprocessing {#troubleshoot-multiprocessing}
 
 Si votre processus ne répond plus au démarrage, cela peut être dû au [problème connu lié au multiprocessing dans l’entraînement distribué](/fr/models/track/log/distributed-training). Pour y remédier, modifiez le protocole de multiprocessing de W&amp;B en ajoutant un paramètre de configuration supplémentaire à `wandb.init()` :
 
@@ -74,9 +68,7 @@ ou en définissant une variable d’environnement globale dans votre shell :
 export WANDB_START_METHOD=thread
 ```
 
-<div id="optimize-hyperparameters">
-  ## Optimiser les hyperparamètres
-</div>
+## Optimiser les hyperparamètres {#optimize-hyperparameters}
 
 [balayage W&amp;B](/fr/models/sweeps) est une plateforme de recherche d&#39;hyperparamètres qui fournit des insights et des visualisations sur les expériences W&amp;B avec un minimum de code. Sweeps s&#39;intègre aux projets Hydra sans nécessiter de modifier le code. Vous avez seulement besoin d&#39;un fichier de configuration qui décrit les paramètres à balayer.
 
@@ -107,9 +99,7 @@ wandb sweep sweep.yaml
 
 W&amp;B crée automatiquement un balayage dans votre projet et renvoie une commande `wandb agent`. Exécutez cette commande sur chaque machine où vous souhaitez lancer ce balayage.
 
-<div id="pass-parameters-not-present-in-hydra-defaults">
-  ### Passer des paramètres non présents dans les valeurs par défaut d’Hydra
-</div>
+### Passer des paramètres non présents dans les valeurs par défaut d’Hydra {#pass-parameters-not-present-in-hydra-defaults}
 
 <a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Passer des paramètres non présents dans les valeurs par défaut d’Hydra" />
 

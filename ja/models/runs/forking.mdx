@@ -24,9 +24,7 @@ run からフォークすると、W&amp;B はソース run の[一意の ID](/ja
 
 フォークした run を開始するソース run の一意の `run ID` と `step` を、[`wandb.init()`](/ja/models/ref/python/functions/init) の `fork_from` に引数として指定します。
 
-<div id="fork-from-a-previously-logged-run">
-  ## 以前にログしたrunからフォークする
-</div>
+## 以前にログしたrunからフォークする {#fork-from-a-previously-logged-run}
 
 以下のコードスニペットは、以前にW&amp;Bにログしたrunからフォークする方法を示します。
 
@@ -52,9 +50,7 @@ with wandb.init(
     pass
 ```
 
-<div id="fork-from-a-run-in-the-same-script">
-  ## 同じスクリプト内でrunからフォークする
-</div>
+## 同じスクリプト内でrunからフォークする {#fork-from-a-run-in-the-same-script}
 
 次のコードスニペットは、runを作成し、同じスクリプト内でそのrunからフォークする方法を示しています。これは、W&amp;B Appでrun IDを調べることなく、作成したばかりのrunからフォークしたい場合に該当します。
 
@@ -86,9 +82,7 @@ with wandb.init(
 
 <Tip> `original_run.id` プロパティを使用すると、元の run の一意な run ID を取得できます。</Tip>
 
-<div id="example-script">
-  ### スクリプトの例
-</div>
+### スクリプトの例 {#example-script}
 
 たとえば、次のコード例は、まず run をフォークし、その後トレーニングの step 200 から、フォークした run にメトリクスをログする方法を示しています。
 
