@@ -2198,6 +2198,21 @@
                         ]
                       },
                       {
+                        "group": "Notebooks",
+                        "pages": [
+                          "fr/models/notebooks",
+                          "fr/models/notebooks/get-started",
+                          "fr/models/notebooks/reactive-info",
+                          "fr/models/notebooks/create-notebook",
+                          "fr/models/notebooks/edit-notebook",
+                          "fr/models/notebooks/run-notebook-cells",
+                          "fr/models/notebooks/manage-packages-environments",
+                          "fr/models/notebooks/data-files",
+                          "fr/models/notebooks/configure-notebook",
+                          "fr/models/notebooks/developer-tools"
+                        ]
+                      },
+                      {
                         "group": "Automatisations",
                         "pages": [
                           "fr/models/automations",
@@ -3982,6 +3997,21 @@
                           "ja/models/reports/embed-reports",
                           "ja/models/reports/cross-project-reports",
                           "ja/models/reports/reports-gallery"
+                        ]
+                      },
+                      {
+                        "group": "ノートブック",
+                        "pages": [
+                          "ja/models/notebooks",
+                          "ja/models/notebooks/get-started",
+                          "ja/models/notebooks/reactive-info",
+                          "ja/models/notebooks/create-notebook",
+                          "ja/models/notebooks/edit-notebook",
+                          "ja/models/notebooks/run-notebook-cells",
+                          "ja/models/notebooks/manage-packages-environments",
+                          "ja/models/notebooks/data-files",
+                          "ja/models/notebooks/configure-notebook",
+                          "ja/models/notebooks/developer-tools"
                         ]
                       },
                       {
@@ -5772,11 +5802,26 @@
                         ]
                       },
                       {
+                        "group": "노트북",
+                        "pages": [
+                          "ko/models/notebooks",
+                          "ko/models/notebooks/get-started",
+                          "ko/models/notebooks/reactive-info",
+                          "ko/models/notebooks/create-notebook",
+                          "ko/models/notebooks/edit-notebook",
+                          "ko/models/notebooks/run-notebook-cells",
+                          "ko/models/notebooks/manage-packages-environments",
+                          "ko/models/notebooks/data-files",
+                          "ko/models/notebooks/configure-notebook",
+                          "ko/models/notebooks/developer-tools"
+                        ]
+                      },
+                      {
                         "group": "자동화",
                         "pages": [
                           "ko/models/automations",
                           {
-                            "group": "자동화 만들기",
+                            "group": "만들기",
                             "pages": [
                               "ko/models/automations/create-automations",
                               "ko/models/automations/create-automations/slack",

@@ -1,0 +1,97 @@
+---
+title: Premiers pas
+---
+
+import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
+
+Le guide suivant vous aidera à faire vos premiers pas avec les notebooks W&amp;B, de la création de votre premier notebook à l&#39;exécution d&#39;une expérience d&#39;entraînement.
+
+<div id="create-your-first-notebook">
+  ## Créer votre premier notebook
+</div>
+
+1. Accédez au workspace de votre projet.
+2. Sélectionnez **Notebooks** dans la barre latérale du projet.
+3. Cliquez sur **Create notebook**.
+
+Pour en savoir plus, voir [Créer et gérer des notebooks](/fr/models/notebooks/create-notebook).
+
+{/* ## Installer les dépendances
+
+  Pour cet exemple, vous n'avez pas besoin d'installer de dépendances.
+
+  1. Sélectionnez **Manage packages** (<Icon icon="cube"/>) dans la barre latérale du notebook. 
+  2. Saisissez le nom du package que vous souhaitez installer.
+  3. Sélectionnez **ajouter**.
+
+  Pour plus d'informations, consultez le guide [Manage packages and environments](/models/notebooks/manage-packages-environments) ou la [documentation de marimo](https://docs.marimo.io/guides/package_management/). */}
+
+<div id="run-a-training-experiment">
+  ## Exécuter une expérience d&#39;entraînement
+</div>
+
+Ce script d&#39;entraînement fictif journalise des métriques simulées de précision et de perte dans W&amp;B. Copiez-collez le code suivant dans un script Python ou une cellule de notebook, puis exécutez-le :
+
+1. Sélectionnez **Python** pour créer une cellule de code.
+
+2. Copiez-collez le code suivant dans la cellule :
+
+   ```python
+   import random
+   import wandb
+
+   PROJECT = "your-project-name"
+
+   # Dictionnaire des hyperparamètres
+   config = {
+       'epochs' : 10,
+       'lr' : 0.01
+   }
+
+   with wandb.init(project=PROJECT, config=config) as run:
+       offset = random.random() / 5
+       print(f"lr: {config['lr']}")
+       
+       # Simuler un run d'entraînement
+       for epoch in range(2, config['epochs']):
+           acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+           loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+           print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+           run.log({"accuracy": acc, "loss": loss})
+   ```
+
+3. Appuyez sur **Command + Entrée** sous macOS ou sur **Ctrl + Entrée** sous Windows ou Linux. Vous pouvez également cliquer sur **Play** (<Icon icon="circle-play" iconType="solid" />) à côté de la cellule.
+
+<div id="view-your-experiment">
+  ## Consulter votre expérience
+</div>
+
+Consultez les métriques de précision et de perte enregistrées pendant l&#39;expérience d&#39;entraînement :
+
+1. Sélectionnez **Workspace** dans la barre latérale du projet.
+2. Examinez les runs et les visualisations dans le Workspace. La liste des [runs](/fr/models/runs) affiche chaque run enregistré dans le projet ainsi que ses détails. Les [panneaux du Workspace](/fr/models/app/features/panels) affichent les visualisations des métriques enregistrées lors de chaque run.
+
+<div id="save-the-notebook">
+  ## Enregistrer le notebook
+</div>
+
+W&amp;B stocke votre notebook sous forme d&#39;[artifact W&amp;B](/fr/models/artifacts) et enregistre automatiquement les modifications dans une nouvelle [version d&#39;artifact](/fr/models/artifacts/create-a-new-artifact-version) toutes les 30 secondes, ainsi qu&#39;à l&#39;arrêt de la session de calcul du notebook.
+
+Pour enregistrer immédiatement vos dernières modifications, utilisez l&#39;une des options suivantes :
+
+* Appuyez sur **Command+S** sous macOS ou sur **Ctrl+S** sous Windows ou Linux.
+* Dans le pied de page du notebook, cliquez sur **Save** (<Icon icon="floppy-disk" iconType="solid" />).
+
+{/* ## Partager votre notebook
+
+  Partagez votre notebook avec des utilisateurs externes à W&B. Vous pouvez le publier au format HTML, créer un lien WebAssembly ou créer un notebook molab.
+
+  1. Sélectionnez **action ( <Icon icon="bars" iconType="solid" /> )** dans le coin supérieur droit du notebook.
+  2. Placez le curseur sur **Share**.
+  3. Dans le menu déroulant, sélectionnez l’option de partage souhaitée : **Publish HTML to web**, **Create WebAssembly link** ou **Create molab notebook**.
+
+  Pour plus d’informations sur le partage de votre notebook, consultez les guides ci-dessous :
+
+  - [Exporter un notebook au format HTML WebAssembly](https://docs.marimo.io/guides/exporting/webassembly_html/)
+  - [Exporter un notebook au format HTML statique](https://docs.marimo.io/guides/exporting/static_html/?h=static)
+  - [Exécuter un notebook dans le cloud avec molab](https://docs.marimo.io/guides/molab/) */}

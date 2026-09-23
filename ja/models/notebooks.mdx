@@ -1,0 +1,93 @@
+---
+title: Notebooks の概要
+description: W&B Notebooks を使用して、W&B 内でインタラクティブなモデルワークフローの開発、デバッグ、共有を行います。
+---
+
+W&amp;B Notebooks を使用すると、W&amp;B 内でインタラクティブかつリアクティブな Python ノートブックを作成できます。ノートブックは、データの探索、モデルワークフローのプロトタイピング、W&amp;B の runs やアーティファクトの分析、再現可能な作業の共同作業者との共有に役立ちます。
+
+各ノートブックは一時的な [CoreWeave Sandbox](https://docs.coreweave.com/products/sandboxes) 上で実行され、ノートブックのセル、パッケージ、ファイル、ターミナルコマンド用に分離されたコンピュートが提供されます。
+
+Notebooks は、ノートブックのランタイムおよびエディタとして [marimo](https://docs.marimo.io/) を使用します。上から下へ順に実行される従来のノートブックとは異なり、Notebooks はセル間の依存関係をトラッキングします。値が変更されると、ノートブックはその値に依存する下流のセルを特定し、出力を現在のノートブックの状態と一致させることができます。
+
+<div id="get-started">
+  ## Get started
+</div>
+
+ノートブックを初めて使用する場合は、[Get started](/ja/models/notebooks/get-started) ガイドから始めてください。このガイドでは、ノートブックの作成、コードの実行、W&amp;B の Workspace でのログしたメトリクスの確認、結果の共有までを順に説明します。
+
+実行したいワークフローが決まっている場合は、以下のページを参照してください。
+
+<CardGroup cols={2}>
+  <Card title="ノートブックの作成と管理" icon="square-plus" href="/ja/models/notebooks/create-notebook">
+    チームの概要ページまたはワークスペースから、ノートブックの作成、リネーム、複製、削除を行います。
+  </Card>
+
+  <Card title="ノートブックを編集する" icon="pen-to-square" href="/ja/models/notebooks/edit-notebook">
+    Python、Markdown、SQL のセルの追加、セルの並べ替え、セルの削除、インタラクティブなコントロールの追加を行います。
+  </Card>
+
+  <Card title="ノートブックのセルを実行する" icon="circle-play" href="/ja/models/notebooks/run-notebook-cells">
+    古くなったセルの実行、全セルの再実行、実行中のセルの停止、実行の無効化、runtime の再起動を行います。
+  </Card>
+
+  <Card title="パッケージを管理する" icon="cube" href="/ja/models/notebooks/manage-packages-environments">
+    ノートブックのサイドバーまたはターミナルから、Python パッケージのインストール、表示、更新、削除を行います。
+  </Card>
+</CardGroup>
+
+<div id="understand-the-notebook-model">
+  ## ノートブックのモデルを理解する
+</div>
+
+ノートブックはリアクティブです。セルは、ノートブック内での位置だけでなく、そのセルが定義・参照する変数に基づいて実行されます。このモデルによって出力を常に最新の状態に保てますが、その分ノートブックの構造が重要になります。
+
+* グローバル名は、それぞれ 1 つのセル内でのみ定義してください。
+* 複数のセルをまたいで共有オブジェクトを変更しないようにしてください。
+* ランタイム設定を使用して、下流のセルを自動的に実行するか、古い状態 (stale) のままにするかを選択してください。
+* 依存関係ツールを使用して、セル同士の関係を確認してください。
+
+詳細については、[リアクティブな実行を理解する](/ja/models/notebooks/reactive-info) および [ノートブックを設定する](/ja/models/notebooks/configure-notebook) を参照してください。
+
+{/* ## データと W&B を使用する
+
+  モデル開発ワークフローの他の部分で使用する W&B オブジェクトと同じものを、ノートブックでも使用できます。
+
+  - [W&B Python SDK](/models/ref/python) を使用して、メトリクス、設定、メディア、アーティファクトをログします。
+  - project のワークスペースから run データをクエリして分析します。
+  - ノートブックワークフローで、file、データセット、モデル チェックポイント、生成された出力を使用します。
+  - オブジェクトストレージ、データベース、SQL クエリ、W&B Artifacts などのデータソースに接続します。
+
+  データ固有のワークフローについては、[データ file を使用する](/models/notebooks/data-files) を参照してください。 */}
+
+<div id="debug-and-inspect-notebooks">
+  ## ノートブックのデバッグと調査
+</div>
+
+開発者パネルを使用すると、エディターを離れることなくノートブックの動作を調査できます。このパネルには、エラーと警告、一時的なコード用のスクラッチパッド、実行トレース、ログ、およびノートブックの Workspace に接続されたターミナルが含まれます。
+
+詳細については、[開発者ツール](/ja/models/notebooks/developer-tools)を参照してください。
+
+{/* ## 共有と公開
+
+  ノートブックを共同編集者と共有したり、W&B の外部に公開したりできます。対象に応じて、ノートブックをプレゼンテーション表示したり、アプリモードで開いたり、W&B 内で共有したり、ソースをダウンロードしたり、静的 HTML または WebAssembly HTML としてエクスポートしたり、Molab に公開したりできます。
+
+  詳細は、[ノートブックのプレゼンテーション、エクスポート、公開](/models/notebooks/share-notebooks) を参照してください。 */}
+
+<div id="billing-and-usage">
+  ## 請求と使用量
+</div>
+
+ノートブックは W&amp;B のストレージとサンドボックスコンピュートを使用します。ノートブックのデータは組織のストレージ使用量に加算され、ノートブックを実行するとサンドボックスコンピュートを消費します。また、ノートブックのワークフローから Weave、Inference、Training などの他の W&amp;B サービスを呼び出した場合は、プロダクト固有の使用量が発生することもあります。
+
+組織管理者および請求管理者は、[請求設定](/ja/platform/app/settings-page/billing-settings)からプラン詳細の確認、使用量のモニタリング、使用量および支出アラートの設定、支払い方法の管理、請求書の参照を行えます。プランと料金については、[W&amp;B Pricing](https://wandb.ai/site/pricing/) を参照してください。
+
+アカウントのストレージまたはサンドボックスのキャパシティが不足している場合は、ストレージの解放、使用量の追加購入、プランのアップグレード、または [W&amp;B 営業](https://wandb.ai/site/contact/)へのお問い合わせが必要になることがあります。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [はじめる](/ja/models/notebooks/get-started)
+* [リアクティブ実行を理解する](/ja/models/notebooks/reactive-info)
+* [ノートブックの作成と管理](/ja/models/notebooks/create-notebook)
+* [開発者ツール](/ja/models/notebooks/developer-tools)

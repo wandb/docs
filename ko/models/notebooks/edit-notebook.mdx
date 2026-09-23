@@ -1,0 +1,122 @@
+---
+title: 노트북 편집
+---
+
+이 페이지에서는 셀 추가, 편집, 순서 변경, 삭제를 비롯해 대화형 컨트롤 사용과 콘텐츠 표시 등 일반적인 노트북 액션을 설명합니다.
+
+<div id="edit-modes">
+  ## 편집 모드
+</div>
+
+편집 모드에는 두 가지가 있습니다.
+
+* **명령 모드**: 셀 추가, 삭제, 이동 등 셀에 대한 액션을 수행합니다. `Esc`를 누르면 명령 모드로 전환됩니다.
+* **편집 모드**: 선택한 셀의 내용을 변경합니다. `Enter`를 누르면 편집 모드로 전환됩니다.
+
+<div id="add-a-cell">
+  ## 셀 추가
+</div>
+
+노트북은 [Python](#python-cell), [Markdown](#markdown-cell), [SQL](#sql-cell) 셀을 지원합니다. 노트북 UI 또는 키보드 단축키를 사용하여 셀을 추가하세요.
+
+<Tabs>
+  <Tab title="UI">
+    노트북에서 `PYTHON`, `MARKDOWN`, `SQL` 버튼을 선택하면 해당 유형의 셀이 생성됩니다.
+  </Tab>
+
+  <Tab title="키보드 단축키">
+    {/* In edit mode:
+
+          - Press **Command + Shift + O** to create a new cell above the current cell.
+          - Press **Command + Shift + P** to create a new cell below the current cell. */}
+
+    `Esc`를 눌러 명령 모드로 전환한 다음 아래 단축키 중 하나를 사용하세요:
+
+    | 액션              | 단축키                     |
+    | --------------- | ----------------------- |
+    | 현재 셀 위에 새 셀 생성  | **Command + Shift + O** |
+    | 현재 셀 아래에 새 셀 생성 | **Command + Shift + P** |
+
+    사용 가능한 단축키 전체 목록은 [키보드 단축키](https://docs.marimo.io/guides/editor_features/overview/?h=keyboar#keyboard-shortcuts)를 참고하세요.
+  </Tab>
+</Tabs>
+
+{/* ### Python 셀
+
+  ### Markdown 셀
+
+  Markdown 셀에서 markdown 구문을 사용하여 텍스트 서식을 지정하고 제목, 목록, 링크 및 기타 리치 콘텐츠를 만들 수 있습니다.
+
+  <Tip>
+  Markdown 제목(예: `# H1`, `## H2`, `### H3`)은 노트북의 **Outline**에 표시됩니다. Outline은 노트북의 목차 역할을 합니다. 특정 섹션으로 이동하려면 Outline에서 해당 제목을 클릭하세요.
+  </Tip>
+
+  자세한 내용은 [Markdown editor](https://docs.marimo.io/guides/outputs/#markdown-editor)를 참조하세요.
+
+  ### SQL 셀
+
+  https://docs.marimo.io/guides/working_with_data/sql/?h=sq
+
+  ## AI로 셀 생성 또는 편집 */}
+
+<div id="change-cell-order">
+  ## 셀 순서 변경
+</div>
+
+드래그 핸들이나 키보드 단축키를 사용해 노트북 내 셀의 순서를 변경할 수 있습니다.
+
+<Tabs>
+  <Tab title="UI">
+    셀 오른쪽에 있는 드래그 핸들(<Icon icon="grip-dots-vertical" iconType="solid" />)을 선택한 후 원하는 위치로 끌어다 놓으세요.
+  </Tab>
+
+  <Tab title="키보드 단축키">
+    `Esc`를 눌러 명령 모드로 전환한 다음, 아래 단축키 중 하나를 사용하세요.
+
+    | 액션       | 단축키                     |
+    | -------- | ----------------------- |
+    | 셀 위로 이동  | **Command + Shift + 9** |
+    | 셀 아래로 이동 | **Command + Shift + 0** |
+  </Tab>
+</Tabs>
+
+<div id="delete-a-cell">
+  ## 셀 삭제
+</div>
+
+UI 또는 키보드 단축키를 사용하여 셀을 삭제합니다.
+
+<Tabs>
+  <Tab title="UI">
+    다음 방법 중 하나를 사용하세요.
+
+    1. 셀을 마우스 오른쪽 버튼으로 클릭한 다음, 컨텍스트 메뉴에서 **Delete**를 선택합니다.
+    2. 셀 옆의 휴지통 아이콘을 선택합니다.
+  </Tab>
+
+  <Tab title="키보드 단축키">
+    다음 키보드 단축키를 사용하여 셀을 삭제하세요.
+
+    1. `Esc`를 눌러 명령 모드로 전환합니다.
+    2. **Command + Shift + Backspace**를 눌러 현재 셀을 삭제합니다.
+  </Tab>
+</Tabs>
+
+<div id="add-interactive-controls">
+  ## 대화형 컨트롤 추가
+</div>
+
+슬라이더, 드롭다운, 버튼과 같은 대화형 요소를 노트북 셀에 추가하세요. 요소를 조작하면 해당 값에 의존하는 셀이 자동으로 업데이트됩니다.
+
+예를 들어, 다음 코드를 셀에 복사하면 기본 대화형 슬라이더를 만들 수 있습니다.
+
+```python
+import marimo as mo
+
+slider = mo.ui.slider(1, 10)
+mo.md(f"Choose a value: {slider}")
+```
+
+자세한 내용은 marimo 문서의 [대화형 요소](https://docs.marimo.io/guides/interactivity/)를 참조하세요.
+
+{/* ## 테이블, 플롯, 미디어 표시 */}

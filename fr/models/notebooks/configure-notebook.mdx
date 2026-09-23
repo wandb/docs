@@ -1,0 +1,77 @@
+---
+title: Configurer un notebook
+---
+
+Configurez les paramètres d&#39;un notebook pour contrôler son apparence, son comportement d&#39;exécution et les préférences de l&#39;éditeur.
+
+<div id="open-notebook-settings">
+  ## Ouvrir les paramètres du notebook
+</div>
+
+Les paramètres du notebook s&#39;appliquent uniquement au notebook en cours. Vous pouvez configurer les options d&#39;affichage et d&#39;exportation, ajouter du CSS et du HTML personnalisés et modifier d&#39;autres comportements propres au notebook.
+
+Pour ouvrir les paramètres du notebook :
+
+1. Dans le coin supérieur droit du notebook, sélectionnez **Notebook Settings** (<Icon icon="gear" iconType="solid" />).
+2. Dans le menu des paramètres, modifiez les paramètres selon vos besoins.
+
+Pour en savoir plus, consultez la page [Notebook settings](https://docs.marimo.io/guides/configuration) de marimo.
+
+<div id="configure-runtime-behavior">
+  ## Configurer le comportement du runtime
+</div>
+
+Les paramètres du runtime déterminent la façon dont le notebook réagit à son démarrage, lorsqu&#39;une cellule est modifiée et lorsqu&#39;un module Python importé est modifié.
+
+<div id="execution-modes">
+  ### Modes d&#39;exécution
+</div>
+
+Le runtime prend en charge les modes d&#39;exécution suivants :
+
+<div id="autorun-mode">
+  #### Mode autorun
+</div>
+
+En mode autorun, le notebook exécute automatiquement les cellules dépendantes lorsque l&#39;un des événements suivants se produit :
+
+* Vous exécutez ou modifiez une cellule.
+* Vous interagissez avec un élément de l&#39;interface utilisateur.
+* Un module Python importé est modifié alors que le rechargement automatique des modules est activé.
+
+<div id="lazy-mode">
+  #### Lazy mode
+</div>
+
+En lazy mode, l&#39;exécution d&#39;une cellule marque ses cellules en aval comme obsolètes, sans toutefois les exécuter automatiquement.
+
+Lorsque vous exécutez une cellule dont les cellules en amont sont obsolètes, le notebook exécute d&#39;abord ces cellules en amont. Ce processus garantit que la cellule reçoit des entrées à jour.
+
+<div id="change-runtime-settings">
+  ### Modifier les paramètres du runtime
+</div>
+
+Pour modifier les paramètres du runtime :
+
+1. Dans le pied de page du notebook, sélectionnez **Runtime reactivity** (<Icon icon="bolt-lightning" iconType="solid" />).
+2. Configurez les paramètres applicables :
+
+   | Paramètre             | Comportement                                                                                                | Options                          |
+   | --------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------- |
+   | **On startup**        | Indique si le notebook s&#39;exécute automatiquement à son démarrage                                        | **Autorun** ou **Lazy**          |
+   | **On cell changes**   | Indique si les cellules dépendantes s&#39;exécutent automatiquement après l&#39;exécution d&#39;une cellule | **Autorun** ou **Lazy**          |
+   | **On module changes** | Indique si les cellules concernées s&#39;exécutent lorsqu&#39;un module importé est modifié                 | **Off**, **Autorun** ou **Lazy** |
+
+Pour en savoir plus, consultez la [configuration du runtime](https://docs.marimo.io/guides/configuration/runtime_configuration/) de marimo.
+
+<div id="configure-editor-preferences">
+  ## Configurer les préférences de l&#39;éditeur
+</div>
+
+Pour configurer les préférences de l&#39;éditeur :
+
+1. Dans le coin supérieur droit du notebook, sélectionnez **Notebook Settings** (<Icon icon="gear" iconType="solid" />).
+2. Dans le menu des paramètres, sélectionnez **Editor**.
+3. Configurez les préférences telles que la taille de police du code, les numéros de ligne et la coloration syntaxique.
+
+Pour en savoir plus, voir les [fonctionnalités de l&#39;éditeur](https://docs.marimo.io/guides/editor_features/overview/) de marimo.

@@ -1,0 +1,93 @@
+---
+title: Notebooks 개요
+description: W&B Notebooks를 사용해 W&B에서 대화형 모델 워크플로를 개발하고, 디버깅하고, 공유하세요.
+---
+
+W&amp;B Notebooks를 사용하면 W&amp;B 안에서 대화형 반응형 Python 노트북을 만들 수 있습니다. Notebooks는 데이터 탐색, 모델 워크플로 프로토타이핑, W&amp;B run 및 아티팩트 분석, 재현 가능한 작업을 동료와 공유할 때 유용합니다.
+
+각 노트북은 임시 [CoreWeave Sandbox](https://docs.coreweave.com/products/sandboxes)에서 실행되며, 여기서 notebook cell, 패키지, 파일, 터미널 명령어를 위한 격리된 컴퓨팅 환경이 제공됩니다.
+
+Notebooks는 노트북 런타임 및 에디터로 [marimo](https://docs.marimo.io/)를 사용합니다. 위에서 아래로 순차 실행되는 기존 노트북과 달리, Notebooks는 셀 간의 의존성을 추적합니다. 값이 바뀌면 노트북이 그 값에 의존하는 하위 셀을 파악해 출력을 현재 노트북 상태와 일관되게 유지합니다.
+
+<div id="get-started">
+  ## 시작하기
+</div>
+
+노트북을 처음 사용한다면 [시작하기](/ko/models/notebooks/get-started) 가이드부터 살펴보세요. 이 가이드에서는 노트북을 생성하고, 코드를 실행하고, W&amp;B workspace에서 로깅된 메트릭을 확인한 뒤 결과를 공유하는 과정을 안내합니다.
+
+원하는 워크플로가 이미 정해져 있다면 다음 페이지를 참조하세요.
+
+<CardGroup cols={2}>
+  <Card title="노트북 생성 및 관리" icon="square-plus" href="/ko/models/notebooks/create-notebook">
+    팀 개요 페이지나 프로젝트 workspace에서 노트북을 생성, 이름 변경, 복제, 삭제합니다.
+  </Card>
+
+  <Card title="노트북 편집" icon="pen-to-square" href="/ko/models/notebooks/edit-notebook">
+    Python, Markdown, SQL 셀을 추가하고, 셀 순서를 바꾸고, 셀을 삭제하고, 대화형 컨트롤을 추가합니다.
+  </Card>
+
+  <Card title="노트북 셀 실행" icon="circle-play" href="/ko/models/notebooks/run-notebook-cells">
+    오래된 셀 실행, 전체 셀 다시 실행, 실행 중인 셀 중지, 실행 비활성화, 런타임 다시 시작을 수행합니다.
+  </Card>
+
+  <Card title="패키지 관리" icon="cube" href="/ko/models/notebooks/manage-packages-environments">
+    노트북 사이드바나 터미널에서 Python 패키지를 설치, 조회, 업데이트, 제거합니다.
+  </Card>
+</CardGroup>
+
+<div id="understand-the-notebook-model">
+  ## 노트북 모델 이해하기
+</div>
+
+노트북은 반응형으로 동작합니다. 셀은 노트북 내 위치가 아니라, 해당 셀이 정의하고 참조하는 변수에 따라 실행됩니다. 이 모델 덕분에 출력을 항상 최신 상태로 유지할 수 있지만, 그만큼 노트북의 구조가 중요해집니다.
+
+* 각 전역 이름은 하나의 셀에서만 정의하세요.
+* 여러 셀에 걸쳐 공유 오브젝트를 변경하지 마세요.
+* 런타임 설정을 사용해 다운스트림 셀을 자동으로 실행할지, 아니면 오래된 상태로 둘지 선택하세요.
+* 의존성 도구를 사용해 셀 간의 관계를 확인하세요.
+
+자세한 설명은 [반응형 실행 이해하기](/ko/models/notebooks/reactive-info)와 [노트북 설정하기](/ko/models/notebooks/configure-notebook)를 참조하세요.
+
+{/* ## 데이터 및 W&B 작업
+
+  모델 개발 워크플로의 다른 곳에서 사용하는 것과 동일한 W&B 객체를 노트북에서도 사용할 수 있습니다.
+
+  - [W&B Python SDK](/models/ref/python)를 사용하여 메트릭, 설정, 미디어 및 아티팩트를 로깅합니다.
+  - 프로젝트 workspace에서 run 데이터를 쿼리하고 분석합니다.
+  - 노트북 워크플로에서 파일, 데이터셋, 모델 체크포인트 및 생성된 출력을 사용합니다.
+  - Object storage, 데이터베이스, SQL 쿼리, W&B Artifacts 등의 데이터 소스에 연결합니다.
+
+  데이터 관련 워크플로는 [데이터 파일 작업](/models/notebooks/data-files)을 참조하세요. */}
+
+<div id="debug-and-inspect-notebooks">
+  ## 노트북 디버그 및 검사
+</div>
+
+개발자 패널을 사용하면 에디터를 벗어나지 않고 노트북 동작을 살펴볼 수 있습니다. 이 패널에는 오류 및 경고, 임시 코드를 작성할 수 있는 스크래치패드, 실행 트레이스, 로그, 노트북 워크스페이스에 연결된 터미널이 포함됩니다.
+
+자세한 내용은 [개발자 도구](/ko/models/notebooks/developer-tools)를 참조하세요.
+
+{/* ## 공유 및 게시
+
+  협업자와 노트북을 공유하거나 W&B 외부에 게시하세요. 대상에 따라 노트북을 프레젠테이션으로 표시하거나, 앱 모드에서 열거나, W&B 내에서 공유하거나, 소스를 다운로드하거나, 정적 HTML 또는 WebAssembly HTML로 내보내거나, Molab에 게시할 수 있습니다.
+
+  자세한 내용은 [노트북 프레젠테이션, 내보내기 및 게시](/models/notebooks/share-notebooks)를 참조하세요. */}
+
+<div id="billing-and-usage">
+  ## 청구 및 사용
+</div>
+
+노트북은 W&amp;B 저장소와 샌드박스 컴퓨팅을 사용합니다. 노트북 데이터는 조직의 저장소 사용량에 포함되며, 노트북을 실행하면 샌드박스 컴퓨팅이 소비됩니다. 또한 노트북 워크플로에서 Weave, Inference, Training과 같은 다른 W&amp;B 서비스를 호출하면 해당 제품별 사용량이 추가로 발생할 수 있습니다.
+
+조직 관리자와 청구 관리자는 [Billing settings](/ko/platform/app/settings-page/billing-settings)에서 플랜 세부 정보를 확인하고, 사용량을 모니터링하고, 사용량 및 비용 알림을 설정하고, 결제 수단을 관리하고, 청구서에 액세스할 수 있습니다. 플랜 및 가격 정보는 [W&amp;B Pricing](https://wandb.ai/site/pricing/)을 참조하세요.
+
+계정에 저장소 또는 샌드박스 용량이 충분하지 않은 경우 저장소를 확보하거나, 사용량을 추가로 구매하거나, 플랜을 업그레이드하거나, [W&amp;B Sales](https://wandb.ai/site/contact/)에 문의해야 할 수 있습니다.
+
+<div id="next-steps">
+  ## 다음 step
+</div>
+
+* [시작하기](/ko/models/notebooks/get-started)
+* [반응형 실행 이해하기](/ko/models/notebooks/reactive-info)
+* [노트북 생성 및 관리](/ko/models/notebooks/create-notebook)
+* [개발자 도구](/ko/models/notebooks/developer-tools)
