@@ -1,6 +1,6 @@
 ---
 title: "Chat with ARIA"
-description: "ARIA との会話を管理します。チャットの開始、メッセージのキューイング、コンテキストの追加、履歴の整理、フィードバックの提供などを行えます。"
+description: "ARIA とのチャットの開始と整理、メッセージのキューイング、コンテキストの追加、ネットワークアクセスの許可、フィードバックの提供などを行えます。"
 ---
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -11,7 +11,7 @@ import MultiTenantCloudOnly from "/snippets/ja/_includes/multi-tenant-cloud-only
   <MultiTenantCloudOnly />
 </Note>
 
-このページでは、チャットの開始と再開、フォローアップメッセージのキューイング、Runs や画像などのコンテキストの追加、応答に対するフィードバックの提供など、ARIA との会話を管理する方法について説明します。また、会話の名前変更、ピン留め、削除によってチャット履歴を整理する方法についても説明します。
+このページでは、チャットの開始と再開、フォローアップメッセージのキューイング、コンテキストの追加、ネットワークアクセスの許可、応答に対するフィードバックの提供など、ARIA との会話を管理する方法について説明します。コンテキストには、Runs、Workspace のパネル、W&amp;B Weave のトレース、画像などを含めることができます。また、会話の名前変更、ピン留め、削除によってチャット履歴を整理する方法についても説明します。
 
 ## 新しいチャットを開始する {#start-a-new-chat}
 
@@ -80,28 +80,27 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 
 ピン留めされた会話は日付ごとにグループ化されず、単一の **Pinned** ヘッダーの下にまとめて先頭に表示されます。その後にピン留めされていない会話が続き、**Today**、**Yesterday**、**Last 7 Days**、**Last 30 Days**、さらに月単位、1 年より古い会話は年月単位でグループ化されます。各グループ内では、直近に活動があった会話が先頭に表示されます。
 
-会話の行にマウスオーバーするか、キーボードでフォーカスすると、次の 3 つのコントロールが表示されます。
+会話の行にマウスオーバーするか、キーボードでフォーカスすると、次の 2 つのコントロールが表示されます。
 
-* **<Icon icon="pencil" iconType="solid" />** (**Rename chat**) : [会話をリネームする](#rename-a-conversation) を参照してください。
 * **<Icon icon="thumbtack" iconType="solid" />** (**Pin chat** / **Unpin chat**) : [会話をピン留めする](#pin-a-conversation) を参照してください。
-* **<Icon icon="trash" iconType="solid" />** (**Delete chat**) : [過去の会話を削除する](#delete-previous-conversations) を参照してください。
+* **<Icon icon="ellipsis" iconType="solid" />** (**Chat actions**) : **Rename chat** と **Delete chat** を含むメニューが開きます。詳しくは、[会話をリネームする](#rename-a-conversation) および [過去の会話を削除する](#delete-previous-conversations) を参照してください。
 
 チャット履歴 サイドバーの **Customize** セクションには、作成した ARIA のオートメーションも一覧表示されます。[ARIA でオートメーションを使用する](/ja/models/automations/create-automations/aria) を参照してください。
 
 ### 会話をリネームする {#rename-a-conversation}
 
-デフォルトでは、会話のタイトルには最初の プロンプト の抜粋が使われます。
+新しいチャットで最初のメッセージを送信すると、ARIA が会話のタイトルを生成します。生成中は、チャット履歴サイドバーのタイトルがきらめくように表示されます。ARIA がタイトルを生成できなかった場合は、最初のプロンプトの抜粋がその会話のタイトルになります。ARIA が会話にタイトルを付けるのは 1 回だけで、以降のメッセージによってタイトルが変わることはありません。
 
-1. チャット履歴 サイドバーで、リネームしたい会話にカーソルを合わせます。
-2. **<Icon icon="pencil" iconType="solid" />** (**Rename chat**) をクリックします。タイトルが編集可能なフィールドになり、`Enter a title` というプレースホルダーが表示されます。
-3. 255 文字以内でタイトルを入力します。または **<Icon icon="wand-magic-sparkles" iconType="solid" />** (**Generate chat title**) をクリックすると、ARIA が会話を読み取り、会話の始まり方だけでなく実際にどのようなやり取りが行われたかを表すタイトルを作成します。
-4. **Enter** を押すか、**<Icon icon="check" iconType="solid" />** (**Save chat title**) をクリックして保存します。変更を破棄するには、**Escape** を押すか **<Icon icon="xmark" iconType="solid" />** (**Cancel rename**) をクリックします。
+会話のタイトルを変更するには、次の手順を実行します。
 
-フィールドを空にして保存すると、プロンプト の抜粋によるタイトルに戻ります。抜粋が存在しない場合は **Untitled conversation** になります。空白のみを入力して保存した場合は、タイトルがクリアされるのではなく、リネームがキャンセルされます。
+1. チャット履歴サイドバーで、リネームする会話にカーソルを合わせます。
+2. **<Icon icon="ellipsis" iconType="solid" />** (**Chat actions**) をクリックし、**Rename chat** を選択します。タイトルが編集可能なフィールドに切り替わります。
+3. タイトルを入力します (最大 255 文字)。
+4. **Enter** キーを押すか、**<Icon icon="check" iconType="solid" />** (**Save chat title**) をクリックして保存します。変更を破棄するには、**Escape** キーを押すか、**<Icon icon="xmark" iconType="solid" />** (**Cancel rename**) をクリックします。
 
-手動でのリネームも **Generate chat title** によるリネームも、ユーザーが実行したときにのみ行われます。最初の turn 以降に ARIA が会話のタイトルを自動で付け替えることはありません。
+フィールドを空にして保存すると、タイトルは最初のプロンプトの抜粋に置き換えられます。抜粋がない場合は **Untitled conversation** になります。空白のみを入力して保存した場合は、タイトルはクリアされず、リネームがキャンセルされます。
 
-リネームしたタイトルは、開いているブラウザータブ間で同期されます。スマートフォンから chat をリネームすることもできます。モバイルアプリのドキュメントの [Chat with ARIA](/ja/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) を参照してください。
+リネームしたタイトルは、開いているすべてのブラウザータブに同期されます。スマートフォンからチャットをリネームすることもできます。詳細については、モバイルアプリのドキュメントの [Chat with ARIA](/ja/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) を参照してください。
 
 ### 会話をピン留めする {#pin-a-conversation}
 
@@ -119,8 +118,8 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 
 1. ARIA を開きます。
 2. **<Icon icon="sidebar-reveal" iconType="solid" />** (**Reveal chat history**) をクリックして、チャット履歴のサイドバーを開きます。
-3. 削除したい会話にカーソルを合わせ、**<Icon icon="trash" iconType="solid" />** (**Delete chat**) をクリックします。
-4. **Delete** をクリックして確定します。会話を残す場合は **<Icon icon="xmark" iconType="solid" />** (**Cancel delete**) をクリックします。
+3. 削除したい会話にカーソルを合わせ、**<Icon icon="ellipsis" iconType="solid" />** (**Chat actions**) をクリックしてから、**Delete chat** を選択します。
+4. **Delete this chat?** ダイアログで **Delete** をクリックして確定します。この操作は元に戻せません。
 
 ## チャットウィンドウを切り離す {#undock-chat-window}
 
@@ -130,15 +129,76 @@ ARIA が続行前に確認への回答や許可を求める場合、応答する
 
 ## 会話にコンテキストを追加する {#add-context-to-a-conversation}
 
-`@` 記号を使用して、プロンプト内で特定の run を指定できます。たとえば、プロンプトにその run 名を含めることで、ARIA に特定の run を分析するよう依頼できます。
+run、Workspace パネル、Weave のトレースや評価をチャットに添付すると、質問に必要なコンテキストを ARIA に正確に伝えられます。添付した項目は、それぞれメッセージボックス内に削除可能なタグとして表示されます。1 つのメッセージに複数の項目を添付できます。コンテキストを追加しただけでは、メッセージは送信されません。準備ができたら **Send** をクリックしてください。
+
+ページからコンテキストを追加すると、ARIA はチャットウィンドウで開いている会話にそのコンテキストを追加します。開いている会話がない場合は、ARIA が新しい会話を開始します。
+
+### run をメンションする {#mention-a-run}
+
+メッセージボックスに `@` を入力し、run を選択します。たとえば、プロンプトにその run 名を含めることで、ARIA に特定の run を分析するよう依頼できます。
 
 ```text title="User prompt"
 Analyze the run @run-20230615_123456-abcdefg and summarize the results
 ```
 
+Workspace の **Runs** 表から run を追加することもできます。run にカーソルを合わせて **アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックし、**Ask ARIA** を選択します。
+
+### Workspace パネルを追加する {#add-a-workspace-panel}
+
+Workspace パネルをチャットに添付するには、次の手順を実行します。
+
+1. Workspace でパネルにカーソルを合わせ、**アクション (<Icon icon="ellipsis" iconType="solid" />)** メニューをクリックします。
+2. **Ask ARIA** を選択します。パネルが添付された状態で ARIA が開きます。
+3. `Why does loss spike after step 2,000?` のような質問を入力して送信します。
+
+**Ask ARIA** は、編集権限のある Workspace のパネルメニューに表示されます。Reports 内のパネルには表示されません。
+
+### Weave のトレースと評価を追加する {#add-weave-traces-and-evaluations}
+
+Weave では、ARIA ボタンをクリックして、トレース、評価、または評価結果をチャットに添付できます。ボタンにカーソルを合わせると、**Ask ARIA about this trace** や **Ask ARIA about these evals** などのラベルが表示されます。このボタンは次の場所に表示されます。
+
+* **Traces** または **Evals** 表: 1 つ以上の行を選択すると、表のツールバーにボタンが表示されます。このボタンをクリックすると、選択したすべての行が添付されます。
+* **トレースまたは評価の詳細ページ**: ページヘッダーにボタンが表示されます。
+* **評価の比較**: 評価を比較して例の詳細を表示している場合、このボタンをクリックすると、その例の予測とスコアが添付されます。
+
+ARIA は、添付されたトレースと評価を使用して質問に回答します。例:
+
+```text title="User prompt"
+これらの例で、モデルのスコアが前回の評価よりも低くなったのはなぜですか？
+```
+
 ## 会話に画像を追加する {#add-an-image-to-a-conversation}
 
 チャットウィンドウの左下にあるプラスアイコン (`+`) をクリックすると、会話に画像を追加できます。その後、ARIA に画像の分析や説明を依頼できます。
+
+## ネットワークアクセスを許可する {#grant-network-access}
+
+ARIA のサンドボックスでブロックされているドメインがタスクに必要な場合、ARIA はネットワークアクセスの許可を求め、応答を待ちます。たとえば、Python パッケージをインストールするタスクには `pypi.org` と `files.pythonhosted.org` へのアクセスが必要です。デフォルトでは、ARIA がコードを実行するサンドボックスは W&amp;B のサービスにはアクセスできますが、インターネット上のその他のほとんどのドメインへのアクセスはブロックされています。
+
+リクエストはチャット内の **The agent is requesting network access** の下に表示されます。リクエストの理由と、要求されたドメインの一覧が表示されます。ドメインは最初はすべて選択された状態です。次のいずれかの方法でリクエストに応答します。
+
+* アクセスを許可するには、許可しないドメインの選択を解除してから **Grant access** をクリックします。ARIA は作業を再開し、許可されたドメインにアクセスできるようになります。
+* アクセスを拒否するには、**Deny** をクリックします。ARIA は追加のアクセス権なしで作業を続行します。
+
+リクエストへの応答を待っている間は、メッセージを送信できません。また、キューに入っているメッセージも実行されません。
+
+<Warning>
+  サンドボックス内で実行されるコードは、許可したドメインであればどこにでもデータを送信できます。アクセスは信頼できるドメインにのみ許可してください。
+</Warning>
+
+許可したドメインは、取り消さない限りその会話が終わるまで利用できます。新しいチャットは、いずれもデフォルトのアクセス権のみで開始されます。ドメインを自分で追加することはできません。タスクで必要になった時点で ARIA がリクエストします。
+
+### ネットワークアクセスの確認または取り消し {#review-or-revoke-network-access}
+
+会話でアクセスを許可すると、メッセージボックスのプラスアイコン (`+`) の横に **<Icon icon="link" iconType="solid" />** (**Manage network access**) が表示されます。
+
+アクセスを取り消すには、次の手順を実行します。
+
+1. **<Icon icon="link" iconType="solid" />** (**Manage network access**) をクリックします。この会話でアクセスが許可されているドメインの一覧が開きます。
+2. 取り消すドメインのチェックを外します。
+3. **Update access** をクリックします。
+
+W&amp;B は取り消されたドメインの一覧を記載したメッセージを ARIA に送信し、ARIA はそれ以降、これらのドメインにアクセスせずに動作します。ARIA の処理中はネットワークアクセスを変更できません。
 
 ## フィードバックを送信する {#provide-feedback}
 

@@ -1,6 +1,6 @@
 ---
 title: "Chat with ARIA"
-description: "ARIA 대화 관리: 채팅 시작, 메시지 큐잉, 컨텍스트 추가, 이력 정리, 피드백 제공."
+description: "ARIA 채팅 시작 및 정리, 메시지 큐잉, 컨텍스트 추가, 네트워크 액세스 권한 부여, 피드백 제공."
 ---
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -11,7 +11,7 @@ import MultiTenantCloudOnly from "/snippets/ko/_includes/multi-tenant-cloud-only
   <MultiTenantCloudOnly />
 </Note>
 
-이 페이지에서는 채팅 시작 및 재개, 후속 메시지 큐잉, run 및 이미지 등의 컨텍스트 추가, 응답에 대한 피드백 제공 등 ARIA와의 대화를 관리하는 방법을 설명합니다. 또한 대화 이름 변경, 고정, 삭제를 통해 채팅 이력을 정리하는 방법도 다룹니다.
+이 페이지에서는 채팅 시작 및 재개, 후속 메시지 큐잉, 컨텍스트 추가, 네트워크 액세스 부여, 응답에 대한 피드백 제공 등 ARIA와의 대화를 관리하는 방법을 설명합니다. 컨텍스트에는 run, workspace 패널, W&amp;B Weave 트레이스, 이미지 등이 포함될 수 있습니다. 또한 대화 이름 변경, 고정, 삭제를 통해 채팅 이력을 정리하는 방법도 다룹니다.
 
 ## 새 채팅 시작 {#start-a-new-chat}
 
@@ -80,28 +80,27 @@ ARIA가 계속 진행하기 전에 추가 설명을 위한 답변이나 권한�
 
 고정된 대화는 날짜별로 그룹화되지 않고 단일 **Pinned** 헤더 아래에 가장 먼저 표시됩니다. 이어서 고정되지 않은 대화가 **Today**, **Yesterday**, **Last 7 Days**, **Last 30 Days** 순으로, 그다음에는 월별로, 1년이 넘은 대화는 연월별로 그룹화되어 표시됩니다. 각 그룹 내에서는 가장 최근에 활동이 있었던 대화가 먼저 표시됩니다.
 
-대화 행에 마우스를 올리거나 키보드로 포커스를 이동하면 세 가지 컨트롤이 나타납니다.
+대화 행에 마우스를 올리거나 키보드로 포커스를 이동하면 두 가지 컨트롤이 나타납니다.
 
-* **<Icon icon="pencil" iconType="solid" />**(**Rename chat**): [대화 이름 변경](#rename-a-conversation)을 참조하세요.
 * **<Icon icon="thumbtack" iconType="solid" />**(**Pin chat** / **Unpin chat**): [대화 고정](#pin-a-conversation)을 참조하세요.
-* **<Icon icon="trash" iconType="solid" />**(**Delete chat**): [이전 대화 삭제](#delete-previous-conversations)를 참조하세요.
+* **<Icon icon="ellipsis" iconType="solid" />**(**Chat actions**): **Rename chat** 및 **Delete chat** 항목이 있는 메뉴가 열립니다. [대화 이름 변경](#rename-a-conversation) 및 [이전 대화 삭제](#delete-previous-conversations)를 참조하세요.
 
 채팅 이력 사이드바의 **Customize** 섹션에는 사용자가 만든 ARIA 자동화도 함께 표시됩니다. [ARIA에서 자동화 사용하기](/ko/models/automations/create-automations/aria)를 참조하세요.
 
 ### 대화 이름 바꾸기 {#rename-a-conversation}
 
-기본적으로 대화 제목은 첫 번째 프롬프트에서 발췌한 내용입니다.
+새 채팅에서 첫 메시지를 보내면 ARIA가 대화 제목을 생성합니다. ARIA가 제목을 작성하는 동안에는 채팅 이력 사이드바에서 제목이 반짝이는 효과로 표시됩니다. ARIA가 제목을 생성하지 못하면 첫 프롬프트의 일부 발췌문이 대화 제목으로 사용됩니다. ARIA는 대화 제목을 한 번만 생성하므로 이후에 메시지를 보내도 제목은 바뀌지 않습니다.
 
-1. 채팅 이력 사이드바에서 이름을 바꾸려는 대화 위에 마우스를 올립니다.
-2. **<Icon icon="pencil" iconType="solid" />**(**Rename chat**)을 클릭합니다. 제목이 `Enter a title` 자리 표시자가 있는 편집 가능한 필드로 바뀝니다.
-3. 최대 255자까지 제목을 입력하거나, **<Icon icon="wand-magic-sparkles" iconType="solid" />**(**Generate chat title**)을 클릭해 ARIA가 대화를 읽고 단순히 어떻게 시작했는지가 아니라 실제로 어떤 내용이 오갔는지를 설명하는 제목을 작성하도록 합니다.
-4. **Enter** 키를 누르거나 **<Icon icon="check" iconType="solid" />**(**Save chat title**)을 클릭해 저장합니다. **Escape** 키를 누르거나 **<Icon icon="xmark" iconType="solid" />**(**Cancel rename**)을 클릭하면 변경 사항이 취소됩니다.
+대화 제목을 변경하려면 다음 단계를 따르세요.
 
-필드를 비우고 저장하면 프롬프트 발췌 제목으로 되돌아가며, 해당 제목이 없으면 **Untitled conversation**으로 표시됩니다. 공백만 입력한 채로 저장하면 제목이 지워지지 않고 이름 바꾸기가 취소됩니다.
+1. 채팅 이력 사이드바에서 이름을 바꾸려는 대화에 마우스를 올립니다.
+2. **<Icon icon="ellipsis" iconType="solid" />** (**Chat actions**)를 클릭한 다음 **Rename chat**을 선택합니다. 제목이 편집 가능한 필드로 바뀝니다.
+3. 제목을 최대 255자까지 입력합니다.
+4. **Enter** 키를 누르거나 **<Icon icon="check" iconType="solid" />** (**Save chat title**)를 클릭하여 저장합니다. 변경 사항을 취소하려면 **Escape** 키를 누르거나 **<Icon icon="xmark" iconType="solid" />** (**Cancel rename**)를 클릭합니다.
 
-직접 입력하든 **Generate chat title**을 사용하든, 이름 바꾸기는 사용자가 트리거할 때만 실행됩니다. ARIA가 첫 번째 turn 이후에 대화 제목을 스스로 다시 지정하는 일은 없습니다.
+필드를 비운 채로 저장하면 제목이 첫 프롬프트의 발췌문으로 바뀌며, 발췌문이 없으면 **Untitled conversation**으로 바뀝니다. 공백만 입력하고 저장하면 제목이 지워지지 않고 이름 바꾸기가 취소됩니다.
 
-변경된 제목은 열려 있는 모든 브라우저 탭에 동기화됩니다. 휴대폰에서도 chat 이름을 바꿀 수 있습니다. 모바일 앱 문서의 [Chat with ARIA](/ko/platform/hosting/monitoring-usage/mobile-app#chat-with-aria)를 참조하세요.
+변경된 제목은 열려 있는 모든 브라우저 탭에 동기화됩니다. 휴대폰에서도 채팅 이름을 바꿀 수 있습니다. 자세한 내용은 모바일 앱 문서의 [Chat with ARIA](/ko/platform/hosting/monitoring-usage/mobile-app#chat-with-aria)를 참조하세요.
 
 ### 대화 고정 {#pin-a-conversation}
 
@@ -119,8 +118,8 @@ ARIA가 계속 진행하기 전에 추가 설명을 위한 답변이나 권한�
 
 1. ARIA를 엽니다.
 2. **<Icon icon="sidebar-reveal" iconType="solid" />**(**Reveal chat history**)를 클릭해 채팅 이력 사이드바를 엽니다.
-3. 삭제하려는 대화에 마우스를 올린 후 **<Icon icon="trash" iconType="solid" />**(**Delete chat**)을 클릭합니다.
-4. **Delete**를 클릭해 확인하거나, 대화를 유지하려면 **<Icon icon="xmark" iconType="solid" />**(**Cancel delete**)를 클릭합니다.
+3. 삭제하려는 대화에 마우스를 올린 후 **<Icon icon="ellipsis" iconType="solid" />**(**Chat actions**)를 클릭한 다음 **Delete chat**을 선택합니다.
+4. **Delete this chat?** 대화상자에서 **Delete**를 클릭해 확인합니다. 이 작업은 되돌릴 수 없습니다.
 
 ## 채팅 창 분리 {#undock-chat-window}
 
@@ -130,15 +129,76 @@ ARIA가 계속 진행하기 전에 추가 설명을 위한 답변이나 권한�
 
 ## 대화에 컨텍스트 추가하기 {#add-context-to-a-conversation}
 
-`@` 기호를 사용해 프롬프트에서 특정 run을 지정할 수 있습니다. 예를 들어, 프롬프트에 run 이름을 포함해 ARIA에 특정 run을 분석해 달라고 요청할 수 있습니다:
+run, workspace 패널, Weave 트레이스, 평가를 채팅에 첨부하면 질문에 필요한 정확한 컨텍스트를 ARIA에 제공할 수 있습니다. 첨부한 각 항목은 메시지 입력란에 태그로 표시되며, 필요 없으면 제거할 수 있습니다. 메시지 하나에 여러 항목을 첨부할 수도 있습니다. 컨텍스트를 추가해도 메시지가 자동으로 전송되지는 않으니, 준비가 되면 **Send**를 클릭하세요.
+
+페이지에서 컨텍스트를 추가하면 ARIA는 채팅 창에 열려 있는 대화에 해당 컨텍스트를 추가합니다. 열려 있는 대화가 없으면 ARIA가 새 대화를 시작합니다.
+
+### run 언급하기 {#mention-a-run}
+
+메시지 상자에 `@`를 입력하고 run을 선택하세요. 예를 들어, 프롬프트에 run 이름을 포함해 ARIA에 특정 run을 분석해 달라고 요청할 수 있습니다:
 
 ```text title="User prompt"
 Analyze the run @run-20230615_123456-abcdefg and summarize the results
 ```
 
+workspace의 **Runs** table에서 run을 추가할 수도 있습니다. run에 마우스를 올리고 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭한 다음 **Ask ARIA**를 선택하세요.
+
+### workspace 패널 추가 {#add-a-workspace-panel}
+
+workspace 패널을 채팅에 첨부하려면 다음 단계를 따르세요.
+
+1. workspace에서 패널에 마우스를 올린 다음 패널의 **액션 (<Icon icon="ellipsis" iconType="solid" />)** 메뉴를 클릭하세요.
+2. **Ask ARIA**를 선택하세요. 패널이 첨부된 상태로 ARIA가 열립니다.
+3. `Why does loss spike after step 2,000?`와 같은 질문을 입력하고 전송하세요.
+
+**Ask ARIA**는 편집 권한이 있는 workspace의 패널 메뉴에 표시되며, report의 패널에는 표시되지 않습니다.
+
+### Weave 트레이스 및 평가 추가 {#add-weave-traces-and-evaluations}
+
+Weave에서 ARIA 버튼을 클릭하면 트레이스, 평가 또는 평가 결과를 채팅에 첨부할 수 있습니다. 버튼에 마우스를 올리면 **Ask ARIA about this trace** 또는 **Ask ARIA about these evals**와 같은 레이블을 확인할 수 있습니다. 버튼은 다음 위치에 표시됩니다.
+
+* **Traces** 또는 **Evals** table: 하나 이상의 행을 선택하세요. table 툴바에 버튼이 나타나며, 버튼을 누르면 선택한 모든 행이 첨부됩니다.
+* **트레이스 또는 평가 세부 정보 페이지**: 페이지 헤더에 버튼이 나타납니다.
+* **평가 비교**: 평가를 비교하면서 예시의 세부 정보를 볼 때 버튼을 누르면 해당 예시의 예측과 점수가 첨부됩니다.
+
+ARIA는 첨부된 트레이스와 평가를 바탕으로 질문에 답변합니다. 예를 들면 다음과 같습니다.
+
+```text title="User prompt"
+이 예시들에서 모델 점수가 이전 평가보다 낮게 나온 이유는 무엇인가요?
+```
+
 ## 대화에 이미지 추가하기 {#add-an-image-to-a-conversation}
 
 채팅 창 왼쪽 하단의 더하기 아이콘(`+`)을 클릭해 대화에 이미지를 추가하세요. 그런 다음 ARIA에게 이미지를 분석하거나 이미지에 관한 정보를 알려 달라고 요청할 수 있습니다.
+
+## 네트워크 액세스 허용 {#grant-network-access}
+
+작업에 ARIA의 샌드박스가 차단하는 도메인이 필요하면 ARIA는 네트워크 액세스를 요청하고 응답을 기다립니다. 예를 들어 Python 패키지를 설치하는 작업에는 `pypi.org`와 `files.pythonhosted.org`가 필요합니다. 기본적으로 ARIA가 코드를 실행하는 샌드박스는 W&amp;B 서비스에는 연결할 수 있지만, 그 밖의 인터넷 도메인은 대부분 차단합니다.
+
+요청은 채팅의 **The agent is requesting network access** 아래에 표시됩니다. 요청 사유와 요청된 도메인 목록이 표시되며, 모든 도메인이 선택되어 있습니다. 다음 중 한 가지 방법으로 요청에 응답하세요.
+
+* 액세스를 허용하려면 허용하지 않을 도메인의 선택을 해제한 다음 **Grant access**를 클릭하세요. ARIA가 작업을 계속 진행하며, 허용된 도메인에 연결할 수 있습니다.
+* 액세스를 거부하려면 **Deny**를 클릭하세요. ARIA는 추가 액세스 없이 작업을 계속 진행합니다.
+
+요청이 대기 중인 동안에는 메시지를 보낼 수 없으며, 큐에 대기 중인 메시지도 실행되지 않습니다.
+
+<Warning>
+  샌드박스에서 실행되는 코드는 허용된 모든 도메인으로 데이터를 전송할 수 있습니다. 신뢰할 수 있는 도메인에만 액세스를 허용하세요.
+</Warning>
+
+허용된 도메인은 철회하지 않는 한 해당 대화가 끝날 때까지 계속 사용할 수 있습니다. 새 채팅은 항상 기본 액세스만 허용된 상태로 시작합니다. 도메인을 직접 추가할 수는 없으며, 작업에 필요할 때 ARIA가 요청합니다.
+
+### 네트워크 액세스 검토 또는 철회 {#review-or-revoke-network-access}
+
+대화에서 액세스를 허용하면 메시지 입력란의 더하기 아이콘(`+`) 옆에 **<Icon icon="link" iconType="solid" />** (**Manage network access**)가 표시됩니다.
+
+액세스를 철회하려면 다음을 수행하세요.
+
+1. **<Icon icon="link" iconType="solid" />** (**Manage network access**)를 클릭합니다. 해당 대화에서 허용된 도메인 목록이 열립니다.
+2. 철회하려는 도메인의 선택을 해제합니다.
+3. **Update access**를 클릭합니다.
+
+W&amp;B가 철회된 도메인 목록을 담은 메시지를 ARIA에 보내며, 이후 ARIA는 해당 도메인에 액세스하지 않고 실행됩니다. ARIA가 작업 중일 때는 네트워크 액세스를 변경할 수 없습니다.
 
 ## 피드백 제공 {#provide-feedback}
 

@@ -35,6 +35,22 @@ Pour [chat avec ARIA](/fr/aria/chat) :
 2. Dans la fenêtre de chat, saisissez votre question ou votre requête. Si vous ne savez pas quoi demander, sélectionnez un prompt suggéré.
 3. Cliquez sur le bouton **Send**, la flèche pointant vers le haut dans l’angle inférieur droit de la fenêtre de chat.
 
+## Lancer ARIA là où vous travaillez {#start-aria-from-where-you-work}
+
+En plus de **Ask ARIA** en haut de la page, vous pouvez lancer ARIA depuis différents boutons répartis dans W&amp;B. La plupart de ces boutons ouvrent un nouveau chat avec une suggestion dans la zone de message. Vous décrivez alors ce que vous souhaitez avant d’envoyer le message.
+
+| Emplacement                                              | Bouton                                                          | Aide apportée par ARIA                                                                                                                                                                 |
+| -------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Page d’un run planté ou en échec                         | **Debug with ARIA**                                             | Expliquer pourquoi le run a planté ou échoué. Ce bouton lance un nouveau chat et interroge ARIA immédiatement.                                                                         |
+| Barre d’outils du tableau **Runs** du Workspace          | **Show most useful columns with ARIA**                          | Afficher, masquer, épingler, réorganiser et redimensionner les colonnes du tableau **Runs**.                                                                                           |
+| Boîte de dialogue **Manage columns** du tableau **Runs** | **Manage columns with ARIA**                                    | Afficher, masquer, épingler, réorganiser et redimensionner les colonnes du tableau **Runs**.                                                                                           |
+| Menu **Filter** du tableau **Runs**                      | Champ de texte **Describe the filters you want ARIA to create** | Filtrer le tableau **Runs**. Décrivez les runs recherchés, puis appuyez sur **Enter**. ARIA propose un **Run Filter**. Cliquez dessus dans le chat pour l’appliquer à votre Workspace. |
+| Menu des vues enregistrées                               | **Ask ARIA**                                                    | Créer une vue enregistrée de votre Workspace.                                                                                                                                          |
+| Onglet **Reports** du projet                             | **Draft report with ARIA**                                      | Créer un rapport.                                                                                                                                                                      |
+| Un rapport dont vous êtes propriétaire                   | **Edit with ARIA**                                              | Réviser le rapport. ARIA enregistre ses modifications directement dans le rapport existant.                                                                                            |
+
+Pour fournir à ARIA du contexte sur un run, un panneau de Workspace, ou une trace ou une évaluation W&amp;B Weave précise, consultez [Ajouter du contexte à une conversation](/fr/aria/chat#add-context-to-a-conversation).
+
 ## Suivre la progression d’ARIA {#follow-arias-progress}
 
 Pendant qu’ARIA travaille, elle transmet ses réponses en continu afin que vous puissiez suivre sa progression étape par étape, au lieu d’attendre une réponse complète. Selon la complexité de votre question, ARIA peut mettre quelques instants à terminer. Vous pouvez fermer la fenêtre de chat pendant qu’ARIA travaille et revenir consulter la réponse plus tard, ou [mettre votre prochain message en file d’attente](/fr/aria/chat#queue-messages) sans attendre. Si ARIA a besoin de plus d’informations, ARIA vous demande des précisions.

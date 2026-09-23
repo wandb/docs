@@ -1,6 +1,6 @@
 ---
 title: "Chat avec ARIA"
-description: "Gérez vos conversations avec ARIA : démarrer des chats, mettre en file d'attente des messages, ajouter du contexte, organiser l'historique et donner votre feedback."
+description: "Démarrez et organisez vos chats avec ARIA, mettez des messages en file d'attente, ajoutez du contexte, accordez l'accès au réseau et donnez votre feedback."
 ---
 
 import { AriaChatBubbles } from '/snippets/AriaChatBubbles.jsx';
@@ -11,7 +11,7 @@ import MultiTenantCloudOnly from "/snippets/fr/_includes/multi-tenant-cloud-only
   <MultiTenantCloudOnly />
 </Note>
 
-Cette page explique comment gérer vos conversations avec ARIA : démarrer et reprendre des chats, mettre en file d&#39;attente des messages de suivi, ajouter du contexte, comme des runs et des images, et donner votre feedback sur les réponses. Elle explique également comment organiser votre historique de conversation en renommant, épinglant et supprimant des conversations.
+Cette page explique comment gérer vos conversations avec ARIA : démarrer et reprendre des chats, mettre en file d&#39;attente des messages de suivi, ajouter du contexte, accorder l&#39;accès au réseau et donner votre feedback sur les réponses. Le contexte peut inclure des runs, des panneaux du Workspace, des traces W&amp;B Weave et des images. Elle explique également comment organiser votre historique de conversation en renommant, épinglant et supprimant des conversations.
 
 ## Démarrer un nouveau chat {#start-a-new-chat}
 
@@ -80,28 +80,27 @@ Pour consulter les conversations précédentes :
 
 Les conversations épinglées apparaissent en premier, sous un unique en-tête **Pinned**, sans regroupement par date. Viennent ensuite les conversations non épinglées, regroupées sous **Today**, **Yesterday**, **Last 7 Days**, **Last 30 Days**, puis par mois, puis par mois et année pour les conversations de plus d&#39;un an. Au sein de chaque groupe, la conversation active la plus récente apparaît en premier.
 
-Survolez la ligne d&#39;une conversation, ou placez-y le focus au clavier, pour faire apparaître trois boutons :
+Survolez la ligne d&#39;une conversation, ou placez-y le focus au clavier, pour faire apparaître deux boutons :
 
-* **<Icon icon="pencil" iconType="solid" />** (**Rename chat**) : voir [Renommer une conversation](#rename-a-conversation).
 * **<Icon icon="thumbtack" iconType="solid" />** (**Pin chat** / **Unpin chat**) : voir [Épingler une conversation](#pin-a-conversation).
-* **<Icon icon="trash" iconType="solid" />** (**Delete chat**) : voir [Supprimer des conversations précédentes](#delete-previous-conversations).
+* **<Icon icon="ellipsis" iconType="solid" />** (**Chat actions**) : ouvre un menu proposant **Rename chat** et **Delete chat**. Voir [Renommer une conversation](#rename-a-conversation) et [Supprimer des conversations précédentes](#delete-previous-conversations).
 
 La section **Customize** de la barre latérale de l&#39;historique de conversation répertorie également les automatisations ARIA que vous avez créées. Voir [Utiliser les automatisations avec ARIA](/fr/models/automations/create-automations/aria).
 
 ### Renommer une conversation {#rename-a-conversation}
 
-Par défaut, le titre d&#39;une conversation reprend un extrait de votre premier prompt.
+Lorsque vous envoyez le premier message d&#39;un nouveau chat, ARIA génère un titre pour la conversation. Le titre scintille dans la barre latérale de l&#39;historique de conversation pendant qu&#39;ARIA le rédige. Si ARIA ne parvient pas à générer de titre, la conversation prend pour titre un extrait de votre premier prompt. ARIA n&#39;attribue un titre à une conversation qu&#39;une seule fois : les messages suivants ne modifient pas le titre.
+
+Pour attribuer un autre titre à une conversation :
 
 1. Dans la barre latérale de l&#39;historique de conversation, survolez la conversation que vous souhaitez renommer.
-2. Cliquez sur **<Icon icon="pencil" iconType="solid" />** (**Rename chat**). Le titre devient un champ modifiable affichant le texte indicatif `Enter a title`.
-3. Saisissez un titre de 255 caractères maximum, ou cliquez sur **<Icon icon="wand-magic-sparkles" iconType="solid" />** (**Generate chat title**) pour qu&#39;ARIA lise la conversation et rédige un titre décrivant ce qui s&#39;y est réellement passé, et pas seulement la façon dont elle a commencé.
+2. Cliquez sur **<Icon icon="ellipsis" iconType="solid" />** (**Chat actions**), puis sélectionnez **Rename chat**. Le titre devient un champ modifiable.
+3. Saisissez un titre de 255 caractères maximum.
 4. Appuyez sur **Entrée** ou cliquez sur **<Icon icon="check" iconType="solid" />** (**Save chat title**) pour enregistrer. Appuyez sur **Échap** ou cliquez sur **<Icon icon="xmark" iconType="solid" />** (**Cancel rename**) pour annuler votre modification.
 
-Si vous effacez le champ puis enregistrez, le titre issu de l&#39;extrait du prompt est rétabli, ou **Untitled conversation** s&#39;il n&#39;en existe aucun. Enregistrer une saisie composée uniquement d&#39;espaces annule le renommage au lieu d&#39;effacer le titre.
+Si vous videz le champ puis enregistrez, le titre est remplacé par un extrait de votre premier prompt, ou par **Untitled conversation** si aucun extrait n&#39;est disponible. Si vous enregistrez une saisie composée uniquement d&#39;espaces, le renommage est annulé et le titre est conservé.
 
-Le renommage, manuel ou via **Generate chat title**, n&#39;a lieu que lorsque vous le déclenchez. ARIA ne renomme jamais une conversation de sa propre initiative après le premier tour de conversation.
-
-Les nouveaux titres sont synchronisés entre vos onglets de navigateur ouverts. Vous pouvez également renommer un chat depuis votre téléphone. Voir [Chat with ARIA](/fr/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) dans la documentation de l&#39;application mobile.
+Les titres renommés sont synchronisés entre tous les onglets ouverts de votre navigateur. Vous pouvez également renommer un chat depuis votre téléphone. Voir [Chat avec ARIA](/fr/platform/hosting/monitoring-usage/mobile-app#chat-with-aria) dans la documentation de l&#39;application mobile.
 
 ### Épingler une conversation {#pin-a-conversation}
 
@@ -119,8 +118,8 @@ Pour supprimer une conversation précédente :
 
 1. Ouvrez ARIA.
 2. Cliquez sur **<Icon icon="sidebar-reveal" iconType="solid" />** (**Reveal chat history**) pour ouvrir la barre latérale de l’historique de conversation.
-3. Survolez la conversation que vous souhaitez supprimer, puis cliquez sur **<Icon icon="trash" iconType="solid" />** (**Delete chat**).
-4. Cliquez sur **Delete** pour confirmer, ou sur **<Icon icon="xmark" iconType="solid" />** (**Cancel delete**) pour conserver la conversation.
+3. Survolez la conversation que vous souhaitez supprimer, cliquez sur **<Icon icon="ellipsis" iconType="solid" />** (**Chat actions**), puis sélectionnez **Delete chat**.
+4. Dans la boîte de dialogue **Delete this chat?**, cliquez sur **Delete** pour confirmer. Cette action est irréversible.
 
 ## Détacher la fenêtre de chat {#undock-chat-window}
 
@@ -130,15 +129,76 @@ Pour détacher le chat, cliquez sur l’icône de détachement dans le coin sup�
 
 ## Ajouter du contexte à une conversation {#add-context-to-a-conversation}
 
-Vous pouvez utiliser le symbole `@` pour indiquer un run spécifique dans votre prompt. Par exemple, vous pouvez demander à ARIA d’analyser un run précis en incluant le nom du run dans votre prompt :
+Joignez des runs, des panneaux du Workspace, ainsi que des traces et des évaluations Weave à un chat afin de fournir à ARIA le contexte précis de votre question. Chaque élément s&#39;affiche dans la zone de saisie sous forme de tag que vous pouvez supprimer. Vous pouvez joindre plusieurs éléments à un même message. L&#39;ajout de contexte n&#39;envoie pas le message à lui seul. Lorsque vous êtes prêt, cliquez sur **Send**.
+
+Lorsque vous ajoutez du contexte depuis une page, ARIA l&#39;ajoute à la conversation ouverte dans la fenêtre de chat. Si aucune conversation n&#39;est ouverte, ARIA en démarre une nouvelle.
+
+### Mentionner un run {#mention-a-run}
+
+Saisissez `@` dans la zone de saisie et sélectionnez un run. Par exemple, vous pouvez demander à ARIA d’analyser un run précis en incluant le nom du run dans votre prompt :
 
 ```text title="User prompt"
 Analyze the run @run-20230615_123456-abcdefg and summarize the results
 ```
 
+Vous pouvez également ajouter un run depuis le tableau **Runs** du Workspace. Survolez le run, cliquez sur son menu **action (<Icon icon="ellipsis" iconType="solid" />)**, puis sélectionnez **Ask ARIA**.
+
+### Ajouter un panneau de Workspace {#add-a-workspace-panel}
+
+Pour joindre un panneau de Workspace à un chat :
+
+1. Dans votre Workspace, survolez le panneau et cliquez sur son menu **action (<Icon icon="ellipsis" iconType="solid" />)**.
+2. Sélectionnez **Ask ARIA**. ARIA s&#39;ouvre avec le panneau joint.
+3. Saisissez votre question, par exemple `Why does loss spike after step 2,000?`, puis envoyez-la.
+
+L&#39;option **Ask ARIA** figure dans les menus des panneaux des Workspaces que vous pouvez modifier. Elle n&#39;est pas disponible dans les panneaux des Reports.
+
+### Ajouter des traces et des évaluations Weave {#add-weave-traces-and-evaluations}
+
+Dans Weave, cliquez sur le bouton ARIA pour joindre des traces, des évaluations ou des résultats d’évaluation à un chat. Survolez le bouton pour afficher son libellé, par exemple **Ask ARIA about this trace** ou **Ask ARIA about these evals**. Le bouton est disponible aux emplacements suivants :
+
+* Tableau **Traces** ou **Evals** : sélectionnez une ou plusieurs lignes. Le bouton apparaît dans la barre d’outils du tableau et joint toutes les lignes sélectionnées.
+* **Page de détails d’une trace ou d’une évaluation** : le bouton se trouve dans l’en-tête de la page.
+* **Comparaison d’évaluations** : lorsque vous comparez des évaluations et affichez les détails d’un exemple, le bouton joint les prédictions et les scores de cet exemple.
+
+ARIA s’appuie sur les traces et les évaluations jointes pour répondre à votre question. Par exemple :
+
+```text title="User prompt"
+Pourquoi le modèle a-t-il obtenu un score plus faible sur ces exemples que lors de l'évaluation précédente ?
+```
+
 ## Ajouter une image à une conversation {#add-an-image-to-a-conversation}
 
 Cliquez sur l’icône plus (`+`) dans l’angle inférieur gauche de la fenêtre de chat pour ajouter une image à votre conversation. Vous pouvez ensuite demander à ARIA d’analyser l’image ou de vous fournir des informations à son sujet.
+
+## Accorder l&#39;accès réseau {#grant-network-access}
+
+Lorsqu&#39;une tâche a besoin d&#39;un domaine bloqué par le sandbox d&#39;ARIA, ARIA vous demande un accès réseau et attend votre réponse. Par exemple, une tâche qui installe un paquet Python a besoin de `pypi.org` et de `files.pythonhosted.org`. Par défaut, le sandbox dans lequel ARIA exécute du code peut joindre les services W&amp;B, mais bloque la plupart des autres domaines sur Internet.
+
+La requête s&#39;affiche dans le chat sous **The agent is requesting network access**. Elle indique le motif de la demande et répertorie les domaines demandés, tous sélectionnés. Répondez à la requête de l&#39;une des manières suivantes :
+
+* Pour accorder l&#39;accès, décochez les domaines que vous ne souhaitez pas autoriser, puis cliquez sur **Grant access**. ARIA reprend son travail et peut joindre les domaines autorisés.
+* Pour refuser l&#39;accès, cliquez sur **Deny**. ARIA poursuit sans cet accès supplémentaire.
+
+Tant qu&#39;une requête est en attente, vous ne pouvez pas envoyer de messages et les messages en file d&#39;attente ne sont pas exécutés.
+
+<Warning>
+  Le code exécuté dans le sandbox peut envoyer des données à n&#39;importe quel domaine que vous autorisez. N&#39;accordez l&#39;accès qu&#39;aux domaines de confiance.
+</Warning>
+
+Les domaines autorisés restent disponibles pendant toute la durée de la conversation, jusqu&#39;à ce que vous les révoquiez. Chaque nouveau chat démarre uniquement avec l&#39;accès par défaut. Vous ne pouvez pas ajouter de domaines vous-même : ARIA les demande lorsqu&#39;une tâche en a besoin.
+
+### Vérifier ou révoquer l&#39;accès réseau {#review-or-revoke-network-access}
+
+Une fois l&#39;accès accordé dans une conversation, **<Icon icon="link" iconType="solid" />** (**Manage network access**) apparaît dans la zone de saisie, à côté de l&#39;icône plus (`+`).
+
+Pour révoquer l&#39;accès :
+
+1. Cliquez sur **<Icon icon="link" iconType="solid" />** (**Manage network access**). La liste des domaines autorisés pour la conversation s&#39;ouvre.
+2. Décochez les domaines dont vous souhaitez révoquer l&#39;accès.
+3. Cliquez sur **Update access**.
+
+W&amp;B envoie à ARIA un message indiquant les domaines révoqués, et ARIA s&#39;exécute désormais sans y avoir accès. Vous ne pouvez pas modifier l&#39;accès réseau pendant qu&#39;ARIA travaille.
 
 ## Donner votre avis {#provide-feedback}
 

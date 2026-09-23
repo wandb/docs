@@ -12,6 +12,10 @@ W&amp;B Reports vous permet de partager des conclusions, des résultats et des v
 
 Pour un exemple de création par programmation, voir le [Démarrage rapide de l&#39;API Report sur Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb).
 
+<Tip>
+  Pour qu&#39;[ARIA](/fr/aria/overview) rédige un brouillon de rapport à votre place, ouvrez l&#39;onglet **Reports** du projet, cliquez sur **Draft report with ARIA**, puis décrivez le rapport souhaité.
+</Tip>
+
 <Tabs>
   <Tab title="W&B App">
     1. Accédez au Workspace de votre projet dans la W&amp;B App.
@@ -42,25 +46,25 @@ Pour un exemple de création par programmation, voir le [Démarrage rapide de l&
   </Tab>
 
   <Tab title="API Report and Workspace">
-    Créez un rapport par programmation :
+    Créez un rapport par programmation :
 
-    1. Installez le SDK W&amp;B (`wandb`) et l&#39;API Report and Workspace (`wandb-workspaces`) :
+    1. Installez le SDK W&amp;B (`wandb`) et l&#39;API Report and Workspace (`wandb-workspaces`) :
        ```bash
        pip install wandb wandb-workspaces
        ```
 
-    2. Importez le SDK Python W&amp;B et l&#39;API Report and Workspace :
+    2. Importez le SDK Python W&amp;B et l&#39;API Report and Workspace :
        ```python
        import wandb
        import wandb_workspaces.reports.v2 as wr
        ```
 
-    3. Créez une instance de rapport avec `wandb_workspaces.reports.v2.Report` ou avec l&#39;API publique de la classe Report ([`wandb.apis.reports`](/fr/models/ref/python/public-api/api#reports)). Spécifiez le projet à associer au rapport :
+    3. Créez une instance de rapport avec `wandb_workspaces.reports.v2.Report` ou avec l&#39;API publique de la classe Report ([`wandb.apis.reports`](/fr/models/ref/python/public-api/api#reports)). Spécifiez le projet à associer au rapport :
        ```python
        report = wr.Report(project="report_standard")
        ```
 
-    4. Enregistrez le rapport. W&amp;B ne téléverse les rapports que lorsque vous appelez la méthode `.save()` :
+    4. Enregistrez le rapport. W&amp;B ne téléverse les rapports que lorsque vous appelez la méthode `.save()` :
        ```python
        report.save()
        ```

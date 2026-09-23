@@ -9,18 +9,22 @@ keywords: ["wandb-workspaces", "PanelGrid", "RunSet", "report blocks", "report f
   L’API Report and Workspace de W&amp;B est en préversion publique.
 </Note>
 
-Cette page explique comment modifier un rapport de manière interactive dans l’interface de l’application ou par programmation avec le SDK W&amp;B. Elle couvre l’ajout de graphiques, d’ensemble de runs, de blocs de code, de markdown, d’éléments HTML et de médias enrichis. Elle couvre également le filtrage et le regroupement des ensemble de runs, l’organisation de la mise en page du rapport et la visualisation de relations multidimensionnelles.
+Cette page explique comment modifier un rapport de manière interactive dans l’interface de l’application ou par programmation avec le SDK W&amp;B. Elle couvre l’ajout de graphiques, d’ensembles de runs, de blocs de code, de markdown, d’éléments HTML et de médias enrichis. Elle couvre également le filtrage et le regroupement des ensembles de runs, l’organisation de la mise en page du rapport et la visualisation de relations multidimensionnelles.
 
 Le corps d’un rapport est constitué de *blocs*. Les blocs contiennent du texte, des images, des visualisations intégrées, des graphiques issus d’Experiments et de runs, ainsi que des grilles de panneaux.
 
-Les *grilles de panneaux* sont un type spécifique de bloc qui contient des panneaux et des *ensemble de runs*. Les ensemble de runs constituent une collection de runs enregistrés dans un projet sur W&amp;B. Les panneaux sont des visualisations des données de run set.
+Les *grilles de panneaux* sont un type spécifique de bloc qui contient des panneaux et des *ensembles de runs*. Les ensembles de runs constituent une collection de runs enregistrés dans un projet sur W&amp;B. Les panneaux sont des visualisations des données des ensembles de runs.
+
+<Tip>
+  Pour faire réviser par [ARIA](/fr/aria/overview) un rapport dont vous êtes propriétaire, ouvrez le rapport, cliquez sur **Edit with ARIA**, puis décrivez les modifications souhaitées. ARIA enregistre ses modifications directement dans le rapport existant.
+</Tip>
 
 <Note>
   Exécutez le [notebook Programmatic workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) pour suivre un tutoriel complet sur la création d’une vue de Workspace enregistrée et personnalisée.
 </Note>
 
 <Note>
-  Pour modifier un rapport par programmation, vous devez avoir installé l’API Report and Workspace de W&amp;B (`wandb-workspaces`) ainsi que le SDK Python W&amp;B :
+  Pour modifier un rapport par programmation, vous devez avoir installé l’API Report and Workspace de W&amp;B (`wandb-workspaces`) ainsi que le SDK Python W&amp;B :
 
   ```bash
   pip install wandb wandb-workspaces
