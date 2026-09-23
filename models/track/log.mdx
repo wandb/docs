@@ -19,7 +19,8 @@ Each call to `wandb.Run.log()` is a new `step` by default. W&B uses steps as the
 
 ```python
 run.log({'loss': 0.2}, step=step)
-``` */}
+```
+*/}
 
 {/* [INSERT EXAMPLE] */}
 
@@ -33,7 +34,8 @@ Use `wandb.Run.log()` to log consecutive values for each `step`: 0, 1, 2, and so
 run.log({'loss': 0.2}, commit=False)
 # Somewhere else when I'm ready to report this step:
 run.log({'accuracy': 0.8})
-``` */}
+```
+*/}
 
 
 ## Automatically logged data
