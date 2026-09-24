@@ -21,7 +21,7 @@ A Call is scored in the following sequence:
 
 1. A Call to a monitored Op ends.
 2. The scoring worker finds the active monitors whose operations include that Op, then applies each monitor's filter and sampling rate.
-3. For each `RemoteScorer` on a matching monitor, the worker builds a `schema_version: 1` request that contains the Call, resolves the scorer's credentials, checks the endpoint URL against the allowed hosts, and sends the `POST`.
+3. For each `RemoteScorer` on a matching monitor, the worker builds a `schema_version: 1` request that contains the Call, resolves the scorer's credentials, checks the endpoint URL against the allowed hosts, and then sends the `POST` request.
 4. The worker validates the response and writes the result as feedback on the Call. It also records the scoring attempt as a Call, whether or not the attempt succeeded.
 
 A remote scorer runs only through a monitor. You can't use it in `weave.Evaluation` or with `call.apply_scorer()`. Both call the scorer's `score()` method, which for `RemoteScorer` raises `NotImplementedError`, because only the scoring worker sends the request. The **Score calls** action in the Weave UI also rejects a `RemoteScorer`, with the message `RemoteScorer requires a monitor`. Each selected Call produces one request, sent once. If the request times out or gets no response, Weave doesn't retry it. The default timeout is 30 seconds.
