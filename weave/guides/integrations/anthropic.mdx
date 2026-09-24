@@ -45,16 +45,19 @@ print(message.content)
 ```
   </Tab>
   <Tab title="TypeScript">
+Weave automatically instruments `@anthropic-ai/sdk` via module loader hooks. The required setup differs slightly between module systems. For more information on CommonJS versus ESM and how Weave's loader hooks work, see the [TypeScript SDK third-party integration guide](/weave/guides/integrations/js).
+
+- **CommonJS projects**: No extra configuration needed. Require `weave` before `@anthropic-ai/sdk` so auto-instrumentation runs first.
+- **ESM projects**: Start Node with the `--import=weave/instrument` flag so the instrumentation loads before any other modules.
+
 ```typescript twoslash
 // @noErrors
-import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
-import { wrapAnthropic } from 'weave';
+import Anthropic from '@anthropic-ai/sdk';
 
 await weave.init('anthropic_project');
 
-// Wrap the Anthropic client to enable tracing
-const client = wrapAnthropic(new Anthropic());
+const client = new Anthropic();
 
 const message = await client.messages.create({
     max_tokens: 1024,
@@ -121,12 +124,11 @@ print(generate_joke("cars"))
   <Tab title="TypeScript">
 ```typescript twoslash
 // @noErrors
-import Anthropic from '@anthropic-ai/sdk';
 import * as weave from 'weave';
-import { wrapAnthropic } from 'weave';
+import Anthropic from '@anthropic-ai/sdk';
 
 await weave.init('anthropic_project');
-const client = wrapAnthropic(new Anthropic());
+const client = new Anthropic();
 
 const callAnthropic = weave.op(async function callAnthropic(
     userInput: string,

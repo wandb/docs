@@ -54,7 +54,7 @@ response = client.chat.completions.create(
 ```typescript twoslash TypeScript
 // @noErrors
 import { OpenAI } from 'openai';
-import { wrapOpenAI } from '@wandb/weave';
+import { wrapOpenAI } from 'weave';
 
 const openai = wrapOpenAI(new OpenAI());
 
