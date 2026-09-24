@@ -229,7 +229,7 @@ curl -sS http://127.0.0.1:8000/score \
   --data @sample_request.json
 ```
 
-The sample requires Weave `0.53.0` or later. A local run verifies only the contract. The Weave scoring worker rejects loopback addresses, and hosted deployments don't permit insecure HTTP.
+The sample requires Weave `0.53.0` or later. A local run verifies only the request-response behavior you defined for the endpoint.  The Weave scoring worker rejects loopback addresses, and hosted deployments don't permit insecure HTTP.
 
 ## Test the scorer
 
