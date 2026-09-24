@@ -127,9 +127,10 @@ The fire-and-forget pattern is safe because `logSummary()` automatically waits f
 
 The following example evaluates model predictions with the fire-and-forget pattern. It sets up an evaluation logger, runs a model on three test samples, and then logs the prediction without using await:
 
-```typescript twoslash lines {36,50}
+```typescript twoslash lines {37,51}
 // @noErrors
-import weave, {EvaluationLogger} from 'weave';
+import * as weave from 'weave';
+import {EvaluationLogger} from 'weave';
 import OpenAI from 'openai';
 
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -317,9 +318,9 @@ The following example logs a prediction, adds scores and an LLM judge score, the
 
 ```typescript twoslash lines {43}
 // @noErrors
-import weave from 'weave';
+import * as weave from 'weave';
 import OpenAI from 'openai';
-import {EvaluationLogger} from 'weave/evaluationLogger';
+import {EvaluationLogger} from 'weave';
 
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 const oai = new OpenAI();
@@ -621,7 +622,8 @@ dataset = weave.ref("my_eval_dataset").get()
 <Tab title="TypeScript">
 ```typescript twoslash lines
 // @noErrors
-import weave, {EvaluationLogger, Dataset} from 'weave';
+import * as weave from 'weave';
+import {EvaluationLogger, Dataset} from 'weave';
 
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
@@ -784,7 +786,8 @@ The TypeScript SDK supports logging images and audio using the `weaveImage` and 
 
 ```typescript twoslash lines
 // @noErrors
-import weave, {EvaluationLogger} from 'weave';
+import * as weave from 'weave';
+import {EvaluationLogger} from 'weave';
 import * as fs from 'fs';
 
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -884,9 +887,8 @@ for model in models:
 <Tab title="TypeScript">
 ```typescript twoslash lines
 // @noErrors
-import weave from 'weave';
-import {EvaluationLogger} from 'weave/evaluationLogger';
-import {WeaveObject} from 'weave/weaveObject';
+import * as weave from 'weave';
+import {EvaluationLogger, WeaveObject} from 'weave';
 
 await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
