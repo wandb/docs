@@ -11,7 +11,7 @@ import RemoteScorerRequestCommon from "/snippets/_includes/weave-remote-scorer-r
 import RemoteScorerResponse from "/snippets/_includes/weave-remote-scorer-response.mdx";
 import RemoteScorerAuth from "/snippets/_includes/weave-remote-scorer-auth.mdx";
 
-A remote scorer is a scorer that runs on your infrastructure instead of inside W&B Weave. When a monitor selects a Call, the Weave scoring worker sends the Call to your HTTPS endpoint in an HTTP `POST` and records the response as feedback on that Call. Use a remote scorer when your scoring logic can't run in Weave, such as a policy check against internal data or a model you host yourself.
+A remote scorer is a scorer that runs on your infrastructure instead of inside W&B Weave. When a monitor selects a Call, the Weave scoring worker sends the Call to your HTTPS endpoint in an HTTP `POST` request and records the response as feedback on that Call. Use a remote scorer when your scoring logic can't run in Weave, such as a policy check against internal data or a model you host yourself.
 
 This page covers remote scorers for Calls traced with `@weave.op`. To score agent turns in the Agents view, see [Score agent turns with a remote scorer](/weave/guides/tracking/remote-scorer-signals). You configure remote scorers with the Python SDK or the Weave UI. The TypeScript SDK doesn't include `RemoteScorer`.
 
