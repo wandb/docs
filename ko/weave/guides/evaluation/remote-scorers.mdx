@@ -1,0 +1,239 @@
+---
+title: "원격 Scorer로 Call 점수화하기"
+description: "자체 인프라에서 실행되는 Scorer로 W&B Weave Call을 점수화하고, 그 결과를 Call 피드백으로 기록합니다."
+keywords: ["remote scorer", "remote scoring", "monitors", "scorers", "feedback", "calls"]
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+import RemoteScorerEnable from "/snippets/ko/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerAllowedHosts from "/snippets/ko/_includes/weave-remote-scorer-allowed-hosts.mdx";
+import RemoteScorerRequestCommon from "/snippets/ko/_includes/weave-remote-scorer-request-common.mdx";
+import RemoteScorerResponse from "/snippets/ko/_includes/weave-remote-scorer-response.mdx";
+import RemoteScorerAuth from "/snippets/ko/_includes/weave-remote-scorer-auth.mdx";
+
+원격 Scorer는 W&amp;B Weave 내부가 아니라 사용자의 인프라에서 실행되는 Scorer입니다. 모니터가 Call을 선택하면 Weave 점수화 워커가 해당 Call을 HTTP `POST` 요청으로 사용자의 HTTPS 엔드포인트에 전송하고, 받은 응답을 해당 Call의 피드백으로 기록합니다. 내부 데이터를 기준으로 한 정책 검사나 직접 호스팅하는 모델처럼 점수화 로직을 Weave에서 실행할 수 없을 때 원격 Scorer를 사용하세요.
+
+이 페이지에서는 `@weave.op`으로 트레이스된 Call에 사용하는 원격 Scorer를 다룹니다. Agents 뷰에서 에이전트 턴을 점수화하려면 [원격 Scorer로 에이전트 턴 점수화하기](/ko/weave/guides/tracking/remote-scorer-signals)를 참조하세요. Call용 원격 Scorer는 Python SDK로 설정합니다. TypeScript SDK에는 `RemoteScorer`가 없습니다.
+
+## 원격 점수화의 작동 방식 {#how-remote-scoring-works}
+
+Call은 다음 순서로 점수화됩니다.
+
+1. 모니터링 대상 Op에 대한 Call이 종료됩니다.
+2. 점수화 워커가 오퍼레이션에 해당 Op가 포함된 활성 모니터를 찾은 다음, 각 모니터의 필터와 샘플링 비율을 적용합니다.
+3. 조건에 맞는 모니터의 각 `RemoteScorer`에 대해 워커는 Call을 담은 `schema_version: 1` 요청을 구성하고, Scorer의 자격 증명을 확인하고, 엔드포인트 URL이 허용된 호스트에 속하는지 검사한 다음 `POST` 요청을 보냅니다.
+4. 워커는 응답을 검증한 뒤 그 결과를 Call의 피드백으로 기록합니다. 또한 성공 여부와 관계없이 점수화 시도 자체도 Call로 기록합니다.
+
+원격 Scorer는 모니터를 통해서만 실행됩니다. `weave.Evaluation`이나 `call.apply_scorer()`에서는 사용할 수 없습니다. 두 방법 모두 Scorer의 `score()` 메서드를 호출하는데, `RemoteScorer`는 점수화 워커만 요청을 보낼 수 있으므로 이 메서드에서 `NotImplementedError` 예외가 발생합니다. Weave UI의 **Score calls** 액션에서도 `RemoteScorer requires a monitor` 메시지와 함께 `RemoteScorer`가 거부됩니다. 선택한 Call마다 요청이 하나씩 생성되며, 각 요청은 한 번만 전송됩니다. 요청이 timeout되거나 응답이 없어도 Weave는 재시도하지 않습니다. 기본 timeout은 30초입니다.
+
+## 원격 점수화 활성화 {#enable-remote-scoring}
+
+<RemoteScorerEnable />
+
+**Self-Managed**
+
+[W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 배포에서 W&amp;B Weave를 실행하는 경우, 각 점수화 워커(온라인 평가 워커, Call 점수화 워커, 에이전트 점수화 워커)에 `extraEnv`를 사용해 다음 환경 변수를 설정하세요.
+
+| 환경 변수                                                              | 기본값     | 효과                                                                           |
+| ------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------- |
+| `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED`                         | `false` | 원격 Scorer로 보내는 아웃바운드 요청을 활성화합니다. `false`이면 다른 설정과 관계없이 원격 Scorer가 실행되지 않습니다. |
+| `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS`                    | `30`    | Scorer 엔드포인트로 보내는 각 요청의 timeout입니다.                                          |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS`                    | 비어 있음   | 운영자가 지정하는 허용 목록으로, `host` 또는 `host:port` 항목을 쉼표로 구분해 입력합니다.                  |
+| `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS`                   | `true`  | 허용된 호스트 목록을 강제 적용합니다. 비공개, 루프백, 클라우드 메타데이터 주소는 이 설정과 관계없이 거부됩니다.             |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP`              | `false` | `http://` 엔드포인트 URL을 허용합니다.                                                  |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS`            | 비어 있음   | 원격 Scorer가 호출할 수 있는 비공개 주소 대역을 쉼표로 구분한 CIDR 네트워크 목록입니다(예: `10.0.0.0/8`).     |
+| `WF_SCORING_WORKER_REMOTE_SCORER_REQUIRE_STRUCTURED_RESULT_SCHEMA` | `true`  | `result`가 구조화된 점수 형식이 아닌 응답을 거부합니다.                                          |
+
+Weave UI에 원격 점수화 설정과 Scorer 옵션을 표시하려면 W&amp;B 서버에도 `GORILLA_GATE_WEAVE_REMOTE_SCORING=true`를 설정하세요.
+
+<RemoteScorerAllowedHosts />
+
+## Scorer 엔드포인트 구축하기 {#build-the-scorer-endpoint}
+
+엔드포인트는 Weave에서 보낸 JSON `POST` 요청을 받아 JSON 형식의 점수를 반환합니다. 레퍼런스 구현은 [샘플 코드](#sample-code)를 참조하세요.
+
+### 요청 {#request}
+
+<RemoteScorerRequestCommon />
+
+Call의 경우 `schema_version`은 `1`이며, 점수가 매겨진 Call은 최상위 수준의 `original_call` 아래에 있습니다.
+
+| 필드                       | 설명                                        |
+| ------------------------ | ----------------------------------------- |
+| `project_id`             | `[YOUR-TEAM]/[YOUR-PROJECT]` 형식의 프로젝트입니다. |
+| `call_id`, `trace_id`    | 점수가 매겨진 Call의 식별자입니다.                     |
+| `op_name`                | 점수가 매겨진 Call의 Op ref입니다.                  |
+| `inputs`                 | Call의 입력입니다.                              |
+| `output`                 | Call의 출력입니다.                              |
+| `started_at`, `ended_at` | ISO 8601 형식의 타임스탬프입니다.                    |
+
+```json lines
+{
+  "schema_version": 1,
+  "original_call": {
+    "project_id": "[YOUR-TEAM]/[YOUR-PROJECT]",
+    "call_id": "018f8d6c-8d5f-7000-8000-000000000001",
+    "trace_id": "018f8d6c-8d5f-7000-8000-000000000002",
+    "op_name": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/op/sample_remote_scorer_target:*",
+    "inputs": {
+      "message": "test message for scoring"
+    },
+    "started_at": "2026-06-08T12:00:00+00:00",
+    "ended_at": "2026-06-08T12:00:01+00:00",
+    "output": {
+      "reply": "received: test message for scoring",
+      "status": "ok"
+    }
+  },
+  "scoring_call_id": "018f8d6c-8d5f-7000-8000-000000000003",
+  "scoring_trace_id": "018f8d6c-8d5f-7000-8000-000000000004",
+  "monitor": {
+    "name": "example_remote_scorer_monitor",
+    "version_digest": "monitor-version-digest"
+  },
+  "scorer": {
+    "name": "example_remote_scorer",
+    "ref": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/object/example_remote_scorer:scorer-version-digest",
+    "config": {
+      "example_threshold": 0.8
+    }
+  },
+  "triggered_at": "2026-06-08T12:00:02+00:00"
+}
+```
+
+### 응답 {#response}
+
+<RemoteScorerResponse />
+
+Call 요청에 대한 응답의 `schema_version`은 `1`입니다. 이 응답은 평점 하나와 태그 하나를 반환합니다.
+
+```json lines
+{
+  "schema_version": 1,
+  "result": [
+    {
+      "value": 1.0,
+      "reason": "Message is 32 characters; concise messages score best.",
+      "confidence": 1.0
+    },
+    {
+      "value": "concise",
+      "reason": "Message length category is concise.",
+      "confidence": 0.9
+    }
+  ]
+}
+```
+
+## Weave에서 보낸 요청 인증하기 {#authenticate-requests-from-weave}
+
+<RemoteScorerAuth />
+
+## 원격 Scorer 등록하기 {#register-a-remote-scorer}
+
+원격 Scorer는 모니터에 연결된 `RemoteScorer` 객체이며, Python SDK로 생성합니다.
+
+`RemoteScorer`를 게시한 다음, `scorers`에 해당 Scorer를 포함하고 `op_names`에 평가할 Ops를 지정한 `Monitor`를 활성화하세요. `endpoint_url`은 필수이며, `config`와 `auth_config`는 선택 사항입니다.
+
+```python lines
+import weave
+from weave.flow.monitor import Monitor
+from weave.scorers.remote_scorer import (
+    OAuthClientCredentialsConfig,
+    RemoteScorer,
+    StaticBearerAuthConfig,
+)
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+# 정적 Bearer 토큰: WEAVE_REMOTE_SCORER_BEARER_TOKEN이라는 이름의 팀 시크릿에서 읽어옵니다
+auth = StaticBearerAuthConfig(
+    mode="static_bearer",
+    bearer_secret_name="WEAVE_REMOTE_SCORER_BEARER_TOKEN",
+)
+
+# OAuth 클라이언트 자격 증명을 대신 사용하려면:
+# auth = OAuthClientCredentialsConfig(
+#     mode="oauth_client_credentials",
+#     token_endpoint_url="https://idp.example.com/oauth2/token",
+#     client_id="weave-remote-scorer",
+#     client_secret_name="WEAVE_REMOTE_SCORER_CLIENT_SECRET",
+#     scope="score:remote",
+# )
+
+scorer = RemoteScorer(
+    name="policy_remote_scorer",
+    endpoint_url="https://scoring.example.com/weave/score",
+    config={"threshold": 0.9},  # 엔드포인트에 scorer.config로 전송됩니다
+    auth_config=auth,
+)
+weave.publish(scorer, name="policy_remote_scorer")
+
+monitor = Monitor(
+    name="policy_remote_monitor",
+    scorers=[scorer],
+    op_names=["generate_response"],  # 이 프로젝트의 Op 이름 또는 전체 weave:/// Op ref
+    sampling_rate=1.0,
+)
+monitor.activate()
+```
+
+코드를 실행하면 `monitor.activate()`가 모니터를 활성 상태로 게시하고, 접두사 없는 Op 이름을 현재 프로젝트 기준의 전체 Op ref로 확장합니다.
+
+## 샘플 코드 {#sample-code}
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+`weave` 저장소의 [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) 디렉터리는 이 페이지에서 설명하는 요청 및 응답 형식의 레퍼런스 구현입니다. Python과 FastAPI로 작성되었지만, 엔드포인트는 어떤 언어, 프레임워크, 호스트를 사용해도 됩니다. Call에는 다음 파일이 사용됩니다.
+
+* `remote_scorer_app.py`: `GET /health` 및 `POST /score`를 제공하는 FastAPI 앱입니다.
+* `scoring_logic.py`: 프레임워크와 무관한 요청 파싱 및 점수화 로직으로, 자체 서비스에 그대로 복사해 쓸 수 있도록 작성되었습니다. Call의 경우 `inputs.message` 값을 점수화합니다.
+* `auth.py`: `REMOTE_SCORER_DEV_BEARER_TOKEN` 환경 변수와 비교하여 Bearer 토큰을 검사하는 개발 전용 모듈입니다.
+* `register_remote_scorer.py --op-name`: `RemoteScorer`를 게시하고 Op에 대한 `Monitor`를 활성화합니다.
+* `trigger_test_trace.py`: 모니터가 선택할 수 있도록 트레이스된 Call을 생성합니다.
+* `sample_request.json`: Call에 대한 전체 V1 요청 예시입니다.
+
+Weave 없이 로컬에서 엔드포인트를 테스트하려면 앱을 시작한 다음 샘플 요청을 보내세요.
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 1" \
+  --data @sample_request.json
+```
+
+이 샘플을 사용하려면 Weave `0.53.0` 이상이 필요합니다. 로컬 run으로는 엔드포인트에 정의한 요청-응답 동작만 검증할 수 있습니다.  Weave 점수화 워커는 루프백 주소를 거부하며, 호스팅된 배포 환경에서는 안전하지 않은 HTTP를 허용하지 않습니다.
+
+## Scorer 테스트하기 {#test-the-scorer}
+
+테스트하기 전에 허용된 호스트에 속한 HTTPS URL에 엔드포인트를 배포한 후 등록하세요.
+
+점수화 대상 Call을 트리거하고 결과를 확인하세요.
+
+1. 모니터링 대상 Op를 한 번 이상 호출합니다.
+2. 엔드포인트에 요청이 수신되었는지 확인합니다. 점수화는 비동기로 수행되므로 요청은 Call이 종료된 후에 도착합니다.
+3. **Traces** 탭에서 Call을 열고 피드백을 확인합니다.
+
+엔드포인트는 `original_call` 필드에 Call이 담긴 V1 요청을 수신하며, Weave는 그 결과를 해당 Call의 피드백으로 기록합니다.
+
+## 문제 해결 {#troubleshooting}
+
+| 증상                                | 확인할 사항                                                                                                                                                           |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UI에 원격 Scorer 옵션이 표시되지 않음         | 소유 조직의 **Remote scoring** 설정에서 원격 점수화가 활성화되어 있는지, 또는 배포 Admin이 이를 활성화했는지 확인하세요.                                                                                  |
+| 엔드포인트 URL이 거부됨                    | Scorer 호스트와 OAuth용 토큰 엔드포인트 호스트가 허용된 호스트 목록에 포함되어 있는지 확인하세요. 또한 포트가 일치하지 않거나, HTTPS가 아닌 URL이거나, 비공개 또는 내부 주소는 아닌지 확인하세요.                                         |
+| 엔드포인트가 `401` 또는 `403`을 반환함        | 시크릿 이름, OAuth 클라이언트 자격 증명, audience, 범위, 그리고 엔드포인트의 토큰 검증 설정을 확인하세요.                                                                                             |
+| 토큰 요청은 성공하지만 점수화가 실패하거나, 그 반대인 경우 | 각 URL을 개별적으로 확인하세요. 토큰 엔드포인트와 Scorer 엔드포인트는 각각 독립적으로 검증되며, 서로 다른 호스트를 사용할 수 있습니다.                                                                                |
+| 피드백이 표시되지 않음                      | 점수화는 비동기로 수행됩니다. Call이 모니터의 오퍼레이션, 필터, 샘플링 비율 조건에 부합하는지 확인하세요. Weave는 모든 시도를 **Traces** 탭에 Scorer Call로 기록합니다. 실패한 시도는 실패 사유가 포함된 오류 상태의 Scorer Call로 표시됩니다. |
+| `200` 응답을 받았는데도 피드백이 없음           | 응답의 `schema_version`이 요청의 값과 같은지, 그리고 `result`가 세 가지 구조화된 형식 중 하나를 따르는지 확인하세요.                                                                                   |

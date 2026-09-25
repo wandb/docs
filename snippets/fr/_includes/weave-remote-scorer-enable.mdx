@@ -1,0 +1,19 @@
+---
+title: Activer les évaluateurs distants Weave
+---
+
+L&#39;évaluation à distance est désactivée tant qu&#39;elle n&#39;a pas été activée pour votre organisation ou votre déploiement, et le worker d&#39;évaluation n&#39;appelle le point de terminaison d&#39;un évaluateur que si son hôte figure sur une liste d&#39;autorisation. La procédure d&#39;activation dépend de votre type de déploiement.
+
+**Cloud mutualisé**
+
+Pour activer les évaluateurs distants pour une organisation, un administrateur de l&#39;organisation ou un administrateur de la facturation doit :
+
+1. Ouvrir `https://wandb.ai/account-settings/[ORG]/settings`, en remplaçant `[ORG]` par l&#39;organisation propriétaire de votre projet.
+2. Sélectionner l&#39;onglet **Remote scoring**.
+3. Activer **Enable remote scoring**.
+4. Sous **Allowed hosts**, cliquer sur **Add host** et saisir chaque hôte que les évaluateurs distants sont autorisés à appeler. Lorsque l&#39;évaluation à distance est activée, au moins un hôte est requis pour enregistrer. Laisser le port vide pour autoriser tous les ports de cet hôte.
+5. Cliquer sur **Save settings**.
+
+**Cloud dédié**
+
+Demandez à W&amp;B d&#39;activer l&#39;évaluation à distance pour votre déploiement et d&#39;en configurer les hôtes autorisés.

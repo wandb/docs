@@ -1,0 +1,311 @@
+---
+title: "원격 Scorer로 에이전트 턴 점수화하기"
+description: "자체 HTTP 엔드포인트를 사용해 W&B Weave 에이전트 턴을 점수화하고, 그 결과를 Signals 탭에서 태그 또는 평점으로 확인하세요."
+keywords: ["remote scorer", "remote scoring", "signals", "agent monitoring", "agent turns", "tags", "ratings"]
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+import RemoteScorerEnable from "/snippets/ko/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerAllowedHosts from "/snippets/ko/_includes/weave-remote-scorer-allowed-hosts.mdx";
+import RemoteScorerRequestCommon from "/snippets/ko/_includes/weave-remote-scorer-request-common.mdx";
+import RemoteScorerResponse from "/snippets/ko/_includes/weave-remote-scorer-response.mdx";
+import RemoteScorerAuth from "/snippets/ko/_includes/weave-remote-scorer-auth.mdx";
+
+원격 Scorer 시그널은 LLM judge 대신 사용자가 직접 호스팅하는 HTTP 엔드포인트를 사용해 완료된 각 에이전트 턴을 점수화합니다. 턴이 끝나면 W&amp;B Weave 에이전트 점수화 워커가 해당 턴을 HTTP `POST` 요청으로 엔드포인트에 전송하고, 응답을 해당 턴의 피드백으로 기록합니다. 결과는 [Agents view](/ko/weave/guides/tracking/view-agent-signals)의 **Signals** 탭에 태그 또는 평점으로 표시됩니다.
+
+이 페이지에서는 에이전트 턴용 원격 Scorer를 다룹니다. `@weave.op`로 트레이스된 Call을 점수화하려면 [원격 Scorer로 Call 점수화하기](/ko/weave/guides/evaluation/remote-scorers)를 참조하세요. 원격 Scorer는 Python SDK 또는 Weave UI에서 설정할 수 있습니다. TypeScript SDK에서는 `RemoteScorer`를 제공하지 않습니다.
+
+## 에이전트 턴 점수화 작동 방식 {#how-agent-turn-scoring-works}
+
+에이전트 턴은 다음 순서로 점수화됩니다.
+
+1. 턴이 종료됩니다. 루트 span(부모가 없는 span)이 종료되면 Weave는 이를 완료된 턴으로 간주하고 `weave.genai.turn_ended` 이벤트를 발생시킵니다.
+2. 에이전트 점수화 워커는 프로젝트에서 `weave.genai.turn_ended`를 대상으로 하는 활성 시그널을 로드한 다음, 각 시그널의 필터와 샘플링 비율을 적용합니다.
+3. 조건에 일치하는 시그널의 각 `RemoteScorer`에 대해, 워커는 턴의 span을 바탕으로 메시지를 포함한 `schema_version: 2` 요청을 구성하고, Scorer의 자격 증명을 가져온 뒤, 엔드포인트 URL이 허용된 호스트에 해당하는지 확인하고 `POST` 요청을 전송합니다.
+4. 워커는 응답을 검증한 후 결과를 턴의 피드백으로 기록합니다. 태그와 평점은 **Signals** 탭에 표시됩니다.
+
+Weave는 완료된 턴만 점수화합니다. 개별 LLM span과 도구 span, 그리고 대화 전체는 원격 점수화 대상이 아닙니다. 원격 Scorer 시그널은 UI에서 생성하든 SDK로 생성하든 `op_names`가 `["weave.genai.turn_ended"]`인 `Monitor`입니다.
+
+워커는 실패한 시도를 동일한 `Idempotency-Key`로 재시도하며, 첫 시도 후 30초 이내에 최대 세 번까지 시도합니다. `5xx`, `408`, `429` 응답은 재시도 대상입니다. timeout이 발생하면 30초를 모두 소진하므로 시간이 초과된 요청은 재시도되지 않습니다. 그 외의 `4xx` 응답도 재시도되지 않습니다. 엔드포인트가 제한 시간 내에 턴을 점수화할 수 없다면, 요청이 timeout될 때까지 기다리지 말고 즉시 `503`을 반환하여 Weave가 재시도하도록 하세요. Weave는 태그와 평점을 유형이 지정된 피드백 열로 저장하므로, 에이전트 턴 점수화에는 구조화된 결과 형식을 사용해야 합니다.
+
+## 원격 점수화 활성화 {#enable-remote-scoring}
+
+<RemoteScorerEnable />
+
+**Self-Managed**
+
+[W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 배포에서 W&amp;B Weave를 실행하는 경우, 각 점수화 워커(온라인 평가 워커, Call 점수화 워커, 에이전트 점수화 워커)에 `extraEnv`를 사용하여 다음 환경 변수를 설정하세요.
+
+| 환경 변수                                                   | 기본값     | 효과                                                                        |
+| ------------------------------------------------------- | ------- | ------------------------------------------------------------------------- |
+| `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED`              | `false` | 원격 Scorer로의 아웃바운드 요청을 활성화합니다. `false`이면 다른 설정과 관계없이 원격 Scorer가 실행되지 않습니다. |
+| `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS`         | `30`    | Scorer 엔드포인트로 보내는 각 요청의 timeout입니다.                                       |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS`         | 비어 있음   | 운영자가 지정하는 허용 목록으로, `host` 또는 `host:port` 항목을 쉼표로 구분하여 입력합니다.              |
+| `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS`        | `true`  | 허용된 호스트 목록을 강제 적용합니다. 비공개, 루프백, 클라우드 메타데이터 주소는 이 설정과 관계없이 거부됩니다.          |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP`   | `false` | `http://` 엔드포인트 URL을 허용합니다.                                               |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS` | 비어 있음   | 원격 Scorer가 호출할 수 있는 비공개 주소 대역을 쉼표로 구분한 CIDR 네트워크 목록입니다(예: `10.0.0.0/8`).  |
+
+Weave UI에 원격 점수화 설정과 Scorer 옵션을 표시하려면 W&amp;B 서버에 `GORILLA_GATE_WEAVE_REMOTE_SCORING=true`도 함께 설정하세요.
+
+<RemoteScorerAllowedHosts />
+
+## Scorer 엔드포인트 구축하기 {#build-the-scorer-endpoint}
+
+엔드포인트는 Weave에서 JSON `POST` 요청을 받아 JSON 형식의 점수를 반환합니다. 레퍼런스 구현은 [샘플 코드](#sample-code)를 참조하세요.
+
+### Request {#request}
+
+<RemoteScorerRequestCommon />
+
+에이전트 턴 요청에는 두 가지 버전 번호가 포함됩니다. 최상위 `schema_version`은 엔벌로프 버전이며, 에이전트 턴의 경우 `2`입니다. 점수화 대상 데이터는 `scoring_target` 아래에 있습니다. 이는 다음 세 필드로 구성된 태그된 유니언입니다.
+
+* `type`: 대상의 종류입니다. 턴의 경우 `agent_turn`입니다. 계약에는 `call`도 정의되어 있지만, 에이전트 턴 점수화에서는 이 값을 전송하지 않습니다.
+* `schema_version`: 해당 유형의 페이로드 버전입니다. 엔벌로프 버전과는 별개로 증가합니다. `agent_turn` 페이로드의 페이로드 버전은 `1`입니다.
+* `payload`: 해당 유형의 데이터입니다.
+
+먼저 엔벌로프 버전을 확인한 다음, `scoring_target.type`과 `scoring_target.schema_version`을 함께 확인하여 페이로드의 점수화 방식을 결정하세요. 엔드포인트에서 처리하지 않는 조합에는 `4xx`를 반환하세요. 예를 들어 에이전트 턴만 점수화한다면 `call`이 여기에 해당합니다.
+
+페이로드 버전 `1`의 `agent_turn` 페이로드에는 다음 필드가 포함됩니다.
+
+| 필드                       | 설명                                                                                                                            |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `event_type`             | `weave.genai.turn_ended`.                                                                                                     |
+| `project_id`             | `[YOUR-TEAM]/[YOUR-PROJECT]` 형식의 프로젝트입니다.                                                                                     |
+| `trace_id`, `span_id`    | 턴의 루트 span 식별자입니다.                                                                                                            |
+| `span_name`              | span 이름입니다. 예: `invoke_agent sample-support-agent`.                                                                           |
+| `operation_name`         | GenAI 오퍼레이션 이름입니다. 예: `invoke_agent`. 트레이스에 기록되지 않은 경우 `null`입니다.                                                             |
+| `started_at`, `ended_at` | ISO 8601 타임스탬프입니다.                                                                                                            |
+| `conversation`           | `id` 및 `name`. 트레이스에 기록되지 않은 항목은 `null`입니다.                                                                                   |
+| `agent`                  | `name`, `version`, `description`. 트레이스에 기록되지 않은 항목은 `null`입니다.                                                                |
+| `status`                 | `code`, `message`, `error_type`. `code`는 `UNSET`, `OK`, `ERROR` 중 하나입니다. `message`와 `error_type`은 트레이스에 기록되지 않은 경우 `null`입니다. |
+| `messages`               | `system_instructions`, `input`, `output`. 각각 목록이며, 턴에 해당 종류의 메시지가 없으면 `[]`입니다.                                                |
+
+명시적인 상태 없이 종료된 턴은 `status.code`가 `UNSET`으로 설정된 채 전달됩니다. `UNSET`은 정상적으로 완료된 턴으로, `ERROR`는 실패 시그널로 간주하세요. `input`과 `output`의 각 메시지에는 `role`, `content`, `finish_reason`이 있습니다. `content`는 일반 텍스트이며, 메시지에 도구 Call 같은 구조화된 콘텐츠가 포함된 경우에는 JSON으로 인코딩된 파트 배열입니다.
+
+```json lines
+{
+  "schema_version": 2,
+  "scoring_target": {
+    "type": "agent_turn",
+    "schema_version": 1,
+    "payload": {
+      "event_type": "weave.genai.turn_ended",
+      "project_id": "[YOUR-TEAM]/[YOUR-PROJECT]",
+      "trace_id": "0af7651916cd43dd8448eb211c80319c",
+      "span_id": "b7ad6b7169203331",
+      "span_name": "invoke_agent sample-support-agent",
+      "operation_name": "invoke_agent",
+      "started_at": "2026-06-08T12:00:00+00:00",
+      "ended_at": "2026-06-08T12:00:01+00:00",
+      "conversation": {
+        "id": "conversation-0001",
+        "name": "Support session"
+      },
+      "agent": {
+        "name": "sample-support-agent",
+        "version": "2026-06-08",
+        "description": "Answers support questions"
+      },
+      "status": {
+        "code": "UNSET",
+        "message": null,
+        "error_type": null
+      },
+      "messages": {
+        "system_instructions": [
+          "Answer the user accurately and concisely."
+        ],
+        "input": [
+          {
+            "role": "user",
+            "content": "What are your support hours?",
+            "finish_reason": ""
+          }
+        ],
+        "output": [
+          {
+            "role": "assistant",
+            "content": "Our support team is available Monday through Friday, 9am to 5pm Eastern.",
+            "finish_reason": "stop"
+          }
+        ]
+      }
+    }
+  },
+  "scoring_call_id": "018f8d6c-8d5f-7000-8000-000000000005",
+  "scoring_trace_id": "018f8d6c-8d5f-7000-8000-000000000006",
+  "monitor": {
+    "name": "example_remote_scorer_agent_monitor",
+    "version_digest": "monitor-version-digest"
+  },
+  "scorer": {
+    "name": "example_remote_scorer",
+    "ref": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/object/example_remote_scorer:scorer-version-digest",
+    "config": {
+      "example_threshold": 0.8
+    }
+  },
+  "triggered_at": "2026-06-08T12:00:02+00:00"
+}
+```
+
+Weave는 페이로드 버전을 변경하지 않고 페이로드에 선택 필드를 추가합니다. 필드를 제거하거나 이름을 바꾸거나 의미를 변경할 때는 반드시 해당 유형의 새 페이로드 버전을 도입하며, 엔벨로프가 변경될 때는 새 엔벨로프 버전을 도입합니다. 새 대상 유형은 페이로드 버전 `1`로 V2 유니온에 추가됩니다.
+
+### 응답 {#response}
+
+<RemoteScorerResponse />
+
+에이전트 턴 요청에 대한 응답의 `schema_version`은 `2`입니다. 다음 예시는 score 객체 하나를 반환합니다.
+
+```json lines
+{
+  "schema_version": 2,
+  "result": {
+    "value": "concise",
+    "reason": "72 characters.",
+    "confidence": 0.9
+  }
+}
+```
+
+Weave는 결과에 포함된 태그와 사유를 저장하기 전에 정규화합니다. 자세한 내용은 [Weave가 점수를 정규화하는 방법](/ko/weave/guides/tracking/view-agent-signals#how-weave-normalizes-scores)을 참조하세요.
+
+## Weave에서 보낸 요청 인증하기 {#authenticate-requests-from-weave}
+
+<RemoteScorerAuth />
+
+## 원격 Scorer 시그널 생성 {#create-a-remote-scorer-signal}
+
+Weave UI 또는 Python SDK에서 시그널을 생성하세요. 어느 방법을 사용하든 `weave.genai.turn_ended`를 대상으로 하는 모니터에 연결된 `RemoteScorer`가 생성됩니다.
+
+### Weave UI {#weave-ui}
+
+Agents 뷰에서 시그널을 생성하세요.
+
+1. Weave 프로젝트 사이드바에서 **Agents**를 클릭하세요.
+2. 탭 바에서 **Signals**를 클릭하세요.
+3. **New signal**을 클릭한 다음 **Remote scorer**를 클릭하세요.
+4. **Remote scorer** 드로어에서 **Scored by**는 **Remote scorer**로 설정되어 있습니다. 다음 필드를 설정하세요.
+   * **Scorer name**: Signals table의 **Scorer** 열에 표시되는 이름입니다. 최대 128자까지 입력할 수 있습니다.
+   * **Scoring endpoint URL**: Weave가 `POST` 요청을 보낼 URL입니다.
+   * **Authentication**: **Static bearer** 또는 **OAuth client credentials** 중에서 선택합니다. Static bearer를 선택한 경우 **Bearer token secret name**을 선택하거나 입력하세요. OAuth를 선택한 경우 **Token endpoint URL**, **Client ID**, **Client secret name**을 입력하고, 필요하면 **Scope**도 입력하세요. 시크릿 필드에는 시크릿 값이 아니라 팀 시크릿 이름을 입력합니다.
+   * **Config (JSON, optional)**: 엔드포인트에 `scorer.config`로 전달되는 JSON 객체입니다.
+   * **Only score turns matching** (선택): **Advanced**를 펼친 다음 필터를 추가하여 시그널이 점수화할 턴을 제한하세요. 예를 들어 에이전트 이름, 에이전트 버전, 오퍼레이션 이름, 도구 이름, 상태 코드 등으로 제한할 수 있습니다. 모든 턴을 점수화하려면 비워 두세요. 필터를 여러 개 추가하면 Weave는 `AND` 논리로 결합합니다.
+   * **Sample rate** (선택): **Advanced**를 펼친 다음 조건에 일치하는 턴 중 시그널이 점수화할 비율을 설정하세요.
+5. **Create signal**을 클릭하세요.
+
+Remote scorer 양식에는 태그나 평점 필드가 없습니다. 무엇을 반환할지는 엔드포인트가 결정하며, Signals table에는 엔드포인트에서 받은 태그와 평점이 표시됩니다. Remote scorer 시그널은 **Scorer** 열에 웹훅 아이콘으로 표시됩니다.
+
+### Python SDK {#python-sdk}
+
+`RemoteScorer`를 게시한 다음, `scorers`에 해당 Scorer를 포함하고 `op_names`에 `weave.genai.turn_ended`를 대상으로 지정한 `Monitor`를 활성화하세요.
+
+```python lines
+import weave
+from weave.flow.monitor import Monitor
+from weave.scorers.remote_scorer import RemoteScorer, StaticBearerAuthConfig
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+scorer = RemoteScorer(
+    name="policy_remote_scorer",
+    endpoint_url="https://scoring.example.com/weave/score",
+    config={"threshold": 0.9},  # 엔드포인트에 scorer.config로 전달됨
+    auth_config=StaticBearerAuthConfig(
+        mode="static_bearer",
+        bearer_secret_name="WEAVE_REMOTE_SCORER_BEARER_TOKEN",
+    ),
+)
+weave.publish(scorer, name="policy_remote_scorer")
+
+monitor = Monitor(
+    name="policy_remote_signal",
+    scorers=[scorer],
+    op_names=["weave.genai.turn_ended"],  # 완료된 에이전트 턴을 점수화함
+    sampling_rate=1.0,
+)
+monitor.activate()
+```
+
+OAuth 클라이언트 자격 증명을 사용하려면 대신 `OAuthClientCredentialsConfig`를 `auth_config`로 전달하세요.
+
+## 샘플 코드 {#sample-code}
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+`weave` 저장소의 [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) 디렉터리는 이 계약의 레퍼런스 구현이자 샘플 코드의 기준 소스입니다. 이 샘플에서는 엔드포인트 하나로 V1 Call 요청, V2 Call 요청, V2 에이전트 턴 요청을 모두 처리합니다. 에이전트 턴에는 다음 파일이 사용됩니다.
+
+* `remote_scorer_app.py`: `GET /health`와 `POST /score`를 제공하는 FastAPI 앱입니다.
+* `auth.py`: `REMOTE_SCORER_DEV_BEARER_TOKEN` 환경 변수와 대조해 Bearer 토큰을 검사하는 개발 전용 코드입니다.
+* `scoring_logic.py`: `extract_scoring_target`으로 두 엔벌로프 중 어느 쪽이든 언래핑한 다음, 턴의 마지막 출력 메시지에 점수를 매깁니다.
+* `sample_request_v2_agent_turn.json`: 전체 V2 에이전트 턴 요청 예시입니다.
+* `register_remote_scorer.py --agent-turn`: `RemoteScorer`를 게시하고, 완료된 에이전트 턴을 대상으로 하는 모니터를 활성화합니다.
+* `trigger_test_agent_turn.py`: `weave.conversation.log_turn`으로 턴 하나를 로깅합니다.
+
+Weave 없이 엔드포인트를 로컬에서 실행하고 V2 에이전트 턴 요청을 보내려면, 앱을 시작한 다음 샘플 요청을 보내세요.
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 2" \
+  --data @sample_request_v2_agent_turn.json
+```
+
+이 샘플을 사용하려면 Weave `0.53.0` 이상이 필요합니다. 로컬 run에서는 계약만 검증됩니다.
+
+## 시그널 테스트하기 {#test-the-signal}
+
+테스트하기 전에 허용된 호스트에 속한 HTTPS URL에 엔드포인트를 배포하고 등록하세요.
+
+완료된 턴 하나를 로깅한 다음 **Signals** 탭을 확인하세요. 점수화는 비동기로 진행되므로 결과가 표시되기까지 시간이 조금 걸립니다.
+
+```python lines
+import uuid
+
+from opentelemetry import trace
+
+import weave
+from weave.conversation import Message, log_turn
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+result = log_turn(
+    conversation_id=f"sample-{uuid.uuid4().hex}",
+    agent_name="sample-support-agent",
+    system_instructions=["Answer the user accurately and concisely."],
+    messages=[Message.user("What are your support hours?")],
+    output_messages=[
+        Message.assistant(
+            "Our support team is available Monday through Friday, 9am to 5pm Eastern."
+        )
+    ],
+)
+
+# weave.init은 백그라운드 스레드에서 span을 내보냅니다. 짧은 스크립트에서는 종료되기 전에 플러시하세요.
+trace.get_tracer_provider().force_flush(30_000)
+print(result.conversation_id, result.trace_ids)
+```
+
+엔드포인트는 `scoring_target.type`이 `agent_turn`으로 설정된 V2 요청을 받고, Weave는 그 결과를 해당 턴에 대한 피드백으로 기록합니다.
+
+## 문제 해결 {#troubleshooting}
+
+| 증상                                             | 확인할 사항                                                                                                                                                                        |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **New signal** 드로어에 **Remote scorer**가 표시되지 않음 | 소유 조직의 **Remote scoring** 설정에서 원격 점수화가 활성화되어 있는지, 또는 배포 Admin이 이를 활성화했는지 확인하세요.                                                                                               |
+| 엔드포인트 URL이 거부됨                                 | Scorer 호스트와 OAuth 토큰 엔드포인트 호스트가 허용된 호스트 목록에 포함되어 있는지 확인하세요. 포트가 일치하지 않거나, HTTPS가 아닌 URL이거나, 비공개 또는 내부 주소를 사용하고 있지 않은지도 확인하세요.                                                 |
+| 엔드포인트가 `401` 또는 `403`을 반환함                     | 시크릿 이름, OAuth 클라이언트 자격 증명, audience, 범위, 그리고 엔드포인트의 토큰 검증 로직을 확인하세요.                                                                                                          |
+| 에이전트 턴에 대해 엔드포인트가 `400`을 반환함                   | 엔드포인트가 엔벌로프 버전을 확인하고, 페이로드 버전 `1`에서 `scoring_target.type`의 `agent_turn` 값을 허용하는지 확인하세요.                                                                                   |
+| **Signals** 탭에 결과가 표시되지 않음                     | 점수화는 비동기로 수행됩니다. 턴이 시그널의 필터 및 샘플링 비율 조건에 부합하는지, 턴의 루트 span이 종료되었는지 확인하세요.                                                                                                     |
+| 턴이 시그널 조건에 부합했지만 태그나 평점이 표시되지 않음               | 점수화 시도가 실패하면 Weave는 아무것도 기록하지 않습니다. 엔드포인트의 요청 로그에서 `X-Correlation-ID` 헤더를 확인하세요. 엔드포인트가 요청을 받지 못했다면 URL이 허용 호스트 규칙을 통과하지 못했거나 시크릿을 확인할 수 없었던 것입니다. 요청을 받았다면 응답이 검증에 실패한 것입니다. |
+| `200` 응답을 받았는데도 결과가 없음                         | 응답의 `schema_version`이 `2`이고, `result`가 세 가지 구조화된 형태 중 하나를 따르는지 확인하세요.                                                                                                         |

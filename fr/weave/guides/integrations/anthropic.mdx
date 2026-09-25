@@ -15,7 +15,7 @@ Ce guide vous montre comment capturer les traces, encapsuler vos propres fonctio
 
 Weave capture automatiquement les traces du SDK Anthropic lorsque vous ajoutez `weave.init("your-team-name/your-project-name")` à votre code. Si vous ne spécifiez pas de nom d’équipe comme argument dans `weave.init()`, Weave journalise la sortie vers votre [entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings/#default-team). Si vous ne spécifiez pas de nom de projet, Weave ne parvient pas à s’initialiser.
 
-Les exemples suivants montrent comment intégrer Weave dans un appel simple à Anthropic :
+Les exemples suivants montrent comment intégrer Weave dans un appel simple à Anthropic :
 
 <Tabs>
   <Tab title="Python">
@@ -46,16 +46,19 @@ Les exemples suivants montrent comment intégrer Weave dans un appel simple à A
   </Tab>
 
   <Tab title="TypeScript">
+    Weave instrumente automatiquement `@anthropic-ai/sdk` au moyen de hooks du chargeur de modules. La configuration requise varie légèrement selon le système de modules utilisé. Pour plus d’informations sur les différences entre CommonJS et ESM et sur le fonctionnement des hooks du chargeur de Weave, consultez le [guide d’intégration tierce du SDK TypeScript](/fr/weave/guides/integrations/js).
+
+    * **Projets CommonJS** : aucune configuration supplémentaire n’est nécessaire. Importez `weave` avec `require` avant `@anthropic-ai/sdk` afin que l’instrumentation automatique s’exécute en premier.
+    * **Projets ESM** : démarrez Node avec l’option `--import=weave/instrument` afin que l’instrumentation soit chargée avant tout autre module.
+
     ```typescript twoslash
     // @noErrors
-    import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
-    import { wrapAnthropic } from 'weave';
+    import Anthropic from '@anthropic-ai/sdk';
 
     await weave.init('anthropic_project');
 
-    // Encapsulez le client Anthropic pour activer le tracing
-    const client = wrapAnthropic(new Anthropic());
+    const client = new Anthropic();
 
     const message = await client.messages.create({
         max_tokens: 1024,
@@ -73,7 +76,7 @@ Les exemples suivants montrent comment intégrer Weave dans un appel simple à A
   </Tab>
 </Tabs>
 
-En incluant `weave.init()` dans le code, Weave capture automatiquement les informations de tracing et affiche des liens. Vous pouvez consulter les traces dans l’interface Weave en cliquant sur ces liens.
+En incluant `weave.init()` dans le code, Weave capture automatiquement les informations de traçage et affiche des liens. Vous pouvez consulter les traces dans l’interface Weave en cliquant sur ces liens.
 
 [![anthropic\_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
@@ -83,7 +86,7 @@ Bien que `weave.init()` à lui seul capture les appels du SDK Anthropic, le fait
 
 Les ops Weave versionnent automatiquement votre code au fil de vos expériences et en capturent les entrées et les sorties. Décorez une fonction avec [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) en Python ou encapsulez-la avec [`weave.op()`](/fr/weave/reference/typescript-sdk/functions/op) en TypeScript pour appeler [`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), et Weave suit automatiquement les entrées et les sorties pour vous.
 
-Les exemples suivants montrent comment suivre une fonction :
+Les exemples suivants montrent comment suivre une fonction :
 
 <Tabs>
   <Tab title="Python">
@@ -123,12 +126,11 @@ Les exemples suivants montrent comment suivre une fonction :
   <Tab title="TypeScript">
     ```typescript twoslash
     // @noErrors
-    import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
-    import { wrapAnthropic } from 'weave';
+    import Anthropic from '@anthropic-ai/sdk';
 
     await weave.init('anthropic_project');
-    const client = wrapAnthropic(new Anthropic());
+    const client = new Anthropic();
 
     const callAnthropic = weave.op(async function callAnthropic(
         userInput: string,

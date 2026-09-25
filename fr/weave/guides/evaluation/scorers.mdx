@@ -355,11 +355,13 @@ En plus d’exécuter des évaluateurs dans le cadre d’une `weave.Evaluation`,
 
 Pour appliquer des évaluateurs à vos ops Weave, utilisez la méthode `.call()`, qui vous donne accès à la fois au résultat de l’opération et à ses informations de suivi. Cela vous permet d’associer les résultats des évaluateurs à des appels spécifiques dans la base de données de Weave.
 
+Pour évaluer les appels de production avec un évaluateur qui s’exécute sur votre propre infrastructure, associez un [évaluateur distant](/fr/weave/guides/evaluation/remote-scorers) à un moniteur.
+
 Pour plus d’informations sur l’utilisation de la méthode `.call()`, consultez le guide [Calling Ops](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution).
 
 <Tabs>
   <Tab title="Python">
-    Voici un exemple simple :
+    Voici un exemple simple :
 
     ```python lines
     # Obtenir à la fois le résultat et l’objet Call
@@ -369,7 +371,7 @@ Pour plus d’informations sur l’utilisation de la méthode `.call()`, consult
     score = await call.apply_scorer(MyScorer())
     ```
 
-    Vous pouvez également appliquer plusieurs évaluateurs au même appel :
+    Vous pouvez également appliquer plusieurs évaluateurs au même appel :
 
     ```python lines
     # Appliquer plusieurs évaluateurs en parallèle
@@ -379,7 +381,7 @@ Pour plus d’informations sur l’utilisation de la méthode `.call()`, consult
     )
     ```
 
-    **Notes :**
+    **Notes :**
 
     * Weave stocke automatiquement les résultats des évaluateurs dans sa base de données.
     * Les évaluateurs s’exécutent de manière asynchrone une fois l’opération principale terminée.

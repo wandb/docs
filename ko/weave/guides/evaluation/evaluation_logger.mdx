@@ -128,11 +128,12 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "점진적 평가"
 
     fire-and-forget 패턴이 안전한 이유는 `logSummary()`가 결과를 집계하기 전에 보류 중인 모든 오퍼레이션이 완료될 때까지 자동으로 기다리기 때문입니다.
 
-    다음 예제는 fire-and-forget 패턴으로 모델 예측을 평가합니다. 평가 로거를 설정하고, 세 개의 테스트 샘플에 대해 모델을 실행한 다음, `await`를 사용하지 않고 예측을 로깅합니다:
+    다음 예제는 fire-and-forget 패턴으로 모델 예측을 평가합니다. 평가 로거를 설정하고, 세 개의 테스트 샘플에 대해 모델을 실행한 다음, await를 사용하지 않고 예측을 로깅합니다:
 
-    ```typescript twoslash lines {36,50}
+    ```typescript twoslash lines {37,51}
     // @noErrors
-    import weave, {EvaluationLogger} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger} from 'weave';
     import OpenAI from 'openai';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -257,10 +258,10 @@ prediction.finish()
 `EvaluationLogger`는 더 복잡한 평가 시나리오를 지원할 수 있도록 기본 워크플로를 넘어서는 유연한 사용 패턴을 제공합니다. 다음 섹션에서는 자동 리소스 관리를 위한 컨텍스트 매니저 사용, 에이전트 트레이스를 평가 행에 연결, 모델 실행과 로깅의 분리, 리치 미디어 데이터 처리, 그리고 여러 모델 평가를 나란히 비교하는 등 고급 기법을 설명합니다.
 
 <div id="use-context-managers">
-  ### 컨텍스트 관리자 사용 {#use-context-managers}
+  ### 컨텍스트 매니저 사용 {#use-context-managers}
 </div>
 
-`EvaluationLogger`는 예측과 점수 모두에 대해 컨텍스트 관리자(`with` 문)를 지원합니다. 이를 사용하면 코드를 더 깔끔하게 작성할 수 있고, 리소스를 자동으로 정리할 수 있으며, LLM judge Call과 같은 중첩된 오퍼레이션도 더 효과적으로 추적할 수 있습니다.
+`EvaluationLogger`는 예측과 점수 모두에 대해 컨텍스트 매니저(`with` 문)를 지원합니다. 이를 사용하면 코드를 더 깔끔하게 작성할 수 있고, 리소스를 자동으로 정리할 수 있으며, LLM judge Call과 같은 중첩된 오퍼레이션도 더 효과적으로 추적할 수 있습니다.
 
 이 문맥에서 `with` 문을 사용하면 다음과 같은 이점이 있습니다.
 
@@ -321,15 +322,15 @@ prediction.finish()
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript에는 컨텍스트 관리자를 위한 Python의 `with` 문 패턴이 없습니다. 대신 명시적으로 `finish()`를 호출하는 fire-and-forget 패턴을 사용하세요.
+    TypeScript에는 컨텍스트 매니저를 위한 Python의 `with` 문 패턴이 없습니다. 대신 명시적으로 `finish()`를 호출하는 fire-and-forget 패턴을 사용하세요.
 
     다음 예제에서는 예측을 로깅하고, 점수와 LLM judge 점수를 추가한 다음, `finish()`로 예측을 완료합니다.
 
     ```typescript twoslash lines {43}
     // @noErrors
-    import weave from 'weave';
+    import * as weave from 'weave';
     import OpenAI from 'openai';
-    import {EvaluationLogger} from 'weave/evaluationLogger';
+    import {EvaluationLogger} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
     const oai = new OpenAI();
@@ -375,7 +376,7 @@ prediction.finish()
     ```
 
     <Note>
-      TypeScript에는 컨텍스트 관리자를 통한 자동 정리 기능이 없지만, `logSummary()`는 결과를 집계하기 전에 완료되지 않은 예측을 자동으로 마무리합니다. `finish()`를 명시적으로 호출하지 않으려면 이 동작을 활용할 수 있습니다.
+      TypeScript에는 컨텍스트 매니저를 통한 자동 정리 기능이 없지만, `logSummary()`는 결과를 집계하기 전에 완료되지 않은 예측을 자동으로 마무리합니다. `finish()`를 명시적으로 호출하지 않으려면 이 동작을 활용할 수 있습니다.
     </Note>
   </Tab>
 </Tabs>
@@ -608,9 +609,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 3. 평가 run을 선택합니다.
 4. 열리는 evaluation 세부정보 패널에서 **Evaluation** 탭의 **View spans**를 클릭합니다. 해당 evaluation으로 필터링된 **Spans** 탭이 표시된 **Agents** 페이지가 열립니다.
 
-<div id="link-to-an-existing-dataset">
-  ### 기존 데이터셋에 연결하기 {#link-to-an-existing-dataset}
-</div>
+### 기존 데이터셋에 연결하기 {#link-to-an-existing-dataset}
 
 원시 데이터셋을 `log_prediction`에 `inputs`로 전달하면, Weave는 평가 run이 실행될 때마다 데이터를 다시 임포트합니다. 그 결과 중복 데이터가 저장되며, 데이터셋이 크거나 많은 평가에서 이를 재사용하는 경우 저장 공간이 낭비될 수 있습니다.
 
@@ -645,7 +644,8 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
   <Tab title="TypeScript">
     ```typescript twoslash lines
     // @noErrors
-    import weave, {EvaluationLogger, Dataset} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger, Dataset} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
@@ -733,9 +733,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
   </Tab>
 </Tabs>
 
-<div id="log-rich-media">
-  ### 리치 미디어 로깅 {#log-rich-media}
-</div>
+### 리치 미디어 로깅 {#log-rich-media}
 
 입력, 출력, 점수에는 이미지, 비디오, 오디오, 구조화된 테이블 같은 리치 미디어를 포함할 수 있습니다. 리치 미디어를 로깅하면 Weave UI에서 점수와 함께 실제 콘텐츠를 확인할 수 있어 멀티모달 모델을 정성적으로 분석하는 데 도움이 됩니다. `log_prediction` 또는 `log_score` 메서드에 dict 또는 미디어 객체를 전달하면 됩니다.
 
@@ -813,7 +811,8 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 
     ```typescript twoslash lines
     // @noErrors
-    import weave, {EvaluationLogger} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger} from 'weave';
     import * as fs from 'fs';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -864,9 +863,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
   </Tab>
 </Tabs>
 
-<div id="log-and-compare-multiple-evaluations">
-  ### 여러 평가 기록 및 비교 {#log-and-compare-multiple-evaluations}
-</div>
+### 여러 평가 기록 및 비교 {#log-and-compare-multiple-evaluations}
 
 `EvaluationLogger`를 사용하면 Weave UI에서 여러 평가를 나란히 기록하고 비교할 수 있습니다. 이는 동일한 데이터셋에서 서로 다른 모델의 성능을 평가하는 데 유용합니다.
 
@@ -876,7 +873,7 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
 4. **Compare**를 클릭합니다. Compare 뷰에서 다음 작업을 할 수 있습니다.
    * 추가하거나 제거할 평가 선택.
    * 표시하거나 숨길 메트릭 선택.
-   * 특정 예제를 페이지별로 살펴보며, 주어진 데이터셋에서 동일한 입력에 대해 서로 다른 모델이 어떻게 수행되었는지 확인.
+   * 특정 예시를 페이지별로 살펴보며, 주어진 데이터셋에서 동일한 입력에 대해 서로 다른 모델이 어떻게 수행되었는지 확인.
 
 비교에 대한 자세한 내용은 [Comparisons](../tools/comparison)를 참조하세요.
 
@@ -915,9 +912,8 @@ Weave UI에서 연결된 span을 확인하려면 다음 단계를 따르세요.
   <Tab title="TypeScript">
     ```typescript twoslash lines
     // @noErrors
-    import weave from 'weave';
-    import {EvaluationLogger} from 'weave/evaluationLogger';
-    import {WeaveObject} from 'weave/weaveObject';
+    import * as weave from 'weave';
+    import {EvaluationLogger, WeaveObject} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 

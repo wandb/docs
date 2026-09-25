@@ -26,14 +26,14 @@ Si vous ne spécifiez pas d&#39;équipe W&amp;B lorsque vous appelez `weave.init
 
 ### Patching automatique {#automatic-patching}
 
-Weave patche automatiquement OpenAI, que vous l’importiez avant ou après `weave.init()`. L’exemple suivant montre la configuration minimale requise pour commencer à tracer les appels :
+Weave patche automatiquement OpenAI, que vous l’importiez avant ou après `weave.init()`. L’exemple suivant montre la configuration minimale requise pour commencer à tracer les appels :
 
 <CodeGroup>
   ```python Python lines {4}
   from openai import OpenAI
   import weave
 
-  weave.init('emoji-bot')  # OpenAI est automatiquement patché !
+  weave.init('emoji-bot')  # OpenAI est automatiquement patché !
 
   client = OpenAI()
   response = client.chat.completions.create(
@@ -54,7 +54,7 @@ Weave patche automatiquement OpenAI, que vous l’importiez avant ou après `wea
   ```typescript twoslash TypeScript
   // @noErrors
   import { OpenAI } from 'openai';
-  import { wrapOpenAI } from '@wandb/weave';
+  import { wrapOpenAI } from 'weave';
 
   const openai = wrapOpenAI(new OpenAI());
 

@@ -15,7 +15,7 @@ Weave をコードに統合すると、[Python](https://github.com/anthropics/an
 
 コードに `weave.init("your-team-name/your-project-name")` を追加すると、Weave は Anthropic SDK のトレースを自動的に取得します。`weave.init()` で引数としてチーム名を指定しない場合、Weave は出力を[デフォルトの W&amp;B entity](/ja/platform/app/settings-page/user-settings/#default-team)にログします。プロジェクト名を指定しない場合、Weave は初期化に失敗します。
 
-以下の例は、Anthropic への基本的な call に Weave を統合する方法を示しています。
+以下の例は、Anthropic への基本的な Call に Weave を統合する方法を示しています。
 
 <Tabs>
   <Tab title="Python">
@@ -46,16 +46,19 @@ Weave をコードに統合すると、[Python](https://github.com/anthropics/an
   </Tab>
 
   <Tab title="TypeScript">
+    Weave は、モジュールローダーフックを介して `@anthropic-ai/sdk` を自動的にインストルメントします。必要なセットアップは、モジュールシステムによって若干異なります。CommonJS と ESM の違いや、Weave のローダーフックの仕組みの詳細については、[TypeScript SDK サードパーティインテグレーションガイド](/ja/weave/guides/integrations/js)を参照してください。
+
+    * **CommonJS プロジェクト**: 追加の設定は不要です。自動インストルメンテーションが先に実行されるよう、`@anthropic-ai/sdk` より前に `weave` を require してください。
+    * **ESM プロジェクト**: インストルメンテーションが他のモジュールより先に読み込まれるよう、`--import=weave/instrument` フラグを指定して Node を起動してください。
+
     ```typescript twoslash
     // @noErrors
-    import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
-    import { wrapAnthropic } from 'weave';
+    import Anthropic from '@anthropic-ai/sdk';
 
     await weave.init('anthropic_project');
 
-    // トレースを有効にするため、Anthropic クライアントをラップします
-    const client = wrapAnthropic(new Anthropic());
+    const client = new Anthropic();
 
     const message = await client.messages.create({
         max_tokens: 1024,
@@ -79,7 +82,7 @@ Weave をコードに統合すると、[Python](https://github.com/anthropics/an
 
 ## 独自の op でラップする {#wrap-with-your-own-ops}
 
-`weave.init()` だけでも Anthropic SDK の Call は取得できますが、独自の関数を op でデコレートすると、各 model call の前後にあるアプリケーション ロジックを含む、より豊富なトレースを取得できます。
+`weave.init()` だけでも Anthropic SDK の Call は取得できますが、独自の関数を op でデコレートすると、各 model Call の前後にあるアプリケーション ロジックを含む、より豊富なトレースを取得できます。
 
 Weave の op は、実験を進める中でコードを自動的にバージョン管理し、入力と出力を取得します。[`Anthropic.messages.create()`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages) を呼び出す関数を、Python では [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) でデコレートし、TypeScript では [`weave.op()`](/ja/weave/reference/typescript-sdk/functions/op) でラップすると、Weave がその入力と出力をトラッキングします。
 
@@ -123,12 +126,11 @@ Weave の op は、実験を進める中でコードを自動的にバージョ�
   <Tab title="TypeScript">
     ```typescript twoslash
     // @noErrors
-    import Anthropic from '@anthropic-ai/sdk';
     import * as weave from 'weave';
-    import { wrapAnthropic } from 'weave';
+    import Anthropic from '@anthropic-ai/sdk';
 
     await weave.init('anthropic_project');
-    const client = wrapAnthropic(new Anthropic());
+    const client = new Anthropic();
 
     const callAnthropic = weave.op(async function callAnthropic(
         userInput: string,

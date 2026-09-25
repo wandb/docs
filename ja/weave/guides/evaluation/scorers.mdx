@@ -349,11 +349,13 @@ Return a JSON object with your rating and reasoning.
   </Tab>
 </Tabs>
 
-### call に Scorer を適用する {#apply-scorers-to-a-call}
+### Call に Scorer を適用する {#apply-scorers-to-a-call}
 
-`weave.Evaluation` の一部として Scorer を実行するだけでなく、個々の call に直接適用することもできます。これは、本番トラフィックをスコアリングしたい場合や、特定の op 呼び出しに評価メトリクスを関連付けたい場合に便利です。
+`weave.Evaluation` の一部として Scorer を実行するだけでなく、個々の Call に直接適用することもできます。これは、本番トラフィックをスコアリングしたい場合や、特定の op 呼び出しに評価メトリクスを関連付けたい場合に便利です。
 
-Weave の op に Scorer を適用するには、オペレーションの結果とそのトラッキング情報の両方にアクセスできる `.call()` メソッドを使用する必要があります。これにより、Scorer の結果を Weave のデータベース内の特定の call に関連付けることができます。
+Weave の op に Scorer を適用するには、オペレーションの結果とそのトラッキング情報の両方にアクセスできる `.call()` メソッドを使用する必要があります。これにより、Scorer の結果を Weave のデータベース内の特定の Call に関連付けることができます。
+
+独自のインフラストラクチャー上で実行される Scorer で本番の Call をスコアリングするには、[リモート Scorer](/ja/weave/guides/evaluation/remote-scorers) をモニターに関連付けます。
 
 `.call()` メソッドの使い方の詳細については、[Ops の呼び出し](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution) ガイドを参照してください。
 
@@ -369,7 +371,7 @@ Weave の op に Scorer を適用するには、オペレーションの結果�
     score = await call.apply_scorer(MyScorer())
     ```
 
-    同じ call に複数の Scorer を適用することもできます。
+    同じ Call に複数の Scorer を適用することもできます。
 
     ```python lines
     # 複数の Scorer を並列に適用

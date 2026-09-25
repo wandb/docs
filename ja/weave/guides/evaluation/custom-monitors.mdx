@@ -17,6 +17,8 @@ description: "本番トラフィックを受動的にスコアリングして、
 
 スコアに基づいてアプリケーションの動作に能動的に介入する必要がある場合は、代わりに [guardrails](/ja/weave/guides/evaluation/guardrails) を使用してください。
 
+LLM ジャッジモデルではなく、自身でホストする HTTP エンドポイントで Call をスコアリングする場合は、[リモート Scorer で Call をスコアリングする](/ja/weave/guides/evaluation/remote-scorers) を参照してください。
+
 ## シグナル と カスタムモニター {#signals-and-custom-monitors}
 
 本番環境のモニタリングをすばやく始めるには、まず [シグナル](/ja/weave/guides/evaluation/monitors) を使用します。シグナル は、本番トレース向けにあらかじめ用意された自動 Scorer です。そのうえで、アプリケーション固有の評価基準に合わせて カスタムモニター を追加します。

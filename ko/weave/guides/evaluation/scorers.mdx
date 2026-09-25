@@ -351,11 +351,13 @@ def summarize_article(article: str, max_length: int) -> str:
 
 ### Call에 Scorer 적용하기 {#apply-scorers-to-a-call}
 
-`weave.Evaluation`의 일부로 Scorer를 실행하는 것 외에도, 개별 call에 직접 적용할 수 있습니다. 이는 프로덕션 트래픽을 score하거나 특정 op 호출에 Evaluation 메트릭을 연결하려는 경우에 유용합니다.
+`weave.Evaluation`의 일부로 Scorer를 실행하는 것 외에도, 개별 Call에 직접 적용할 수 있습니다. 이는 프로덕션 트래픽을 score하거나 특정 op 호출에 평가 메트릭을 연결하려는 경우에 유용합니다.
 
-Weave op에 Scorer를 적용하려면 오퍼레이션의 결과와 tracking 정보에 모두 접근할 수 있는 `.call()` 메서드를 사용하세요. 이렇게 하면 Scorer 결과를 Weave 데이터베이스의 특정 call과 연결할 수 있습니다.
+Weave op에 Scorer를 적용하려면 오퍼레이션의 결과와 tracking 정보에 모두 접근할 수 있는 `.call()` 방법을 사용하세요. 이렇게 하면 Scorer 결과를 Weave 데이터베이스의 특정 Call과 연결할 수 있습니다.
 
-`.call()` 메서드 사용에 대한 자세한 내용은 [Calling Ops](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution) 가이드를 참조하세요.
+자체 인프라에서 실행되는 Scorer로 프로덕션 Call을 평가하려면 [원격 Scorer](/ko/weave/guides/evaluation/remote-scorers)를 monitor에 연결하세요.
+
+`.call()` 방법 사용에 대한 자세한 내용은 [Calling Ops](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution) 가이드를 참조하세요.
 
 <Tabs>
   <Tab title="Python">
@@ -369,7 +371,7 @@ Weave op에 Scorer를 적용하려면 오퍼레이션의 결과와 tracking 정�
     score = await call.apply_scorer(MyScorer())
     ```
 
-    동일한 call에 여러 Scorer를 적용할 수도 있습니다:
+    동일한 Call에 여러 Scorer를 적용할 수도 있습니다:
 
     ```python lines
     # 여러 Scorer를 병렬로 적용

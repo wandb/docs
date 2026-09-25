@@ -132,9 +132,10 @@ keywords: ["EvaluationLogger", "log_prediction", "log_score", "段階的な評�
 
     次の例では、fire-and-forget パターンを使ってモデルの予測を評価します。評価ロガーをセットアップし、3 つのテストサンプルでモデルを実行した後、`await` を使わずに予測をログします。
 
-    ```typescript twoslash lines {36,50}
+    ```typescript twoslash lines {37,51}
     // @noErrors
-    import weave, {EvaluationLogger} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger} from 'weave';
     import OpenAI from 'openai';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -268,7 +269,7 @@ prediction.finish()
 
 * コンテキストを抜ける際に `finish()` が自動的に呼び出される。
 * ネストされた LLM Call の token と cost の tracking が向上する。
-* prediction コンテキスト内で、モデル実行後に output を設定できる。
+* 予測コンテキスト内で、モデル実行後に output を設定できる。
 
 <Tabs>
   <Tab title="Python">
@@ -319,19 +320,19 @@ prediction.finish()
     ev.log_summary({"avg_score": 1.0})
     ```
 
-    このパターンにより、ネストされたすべての操作が親 prediction にひも付けられてトラッキングされるため、Weave UI で正確なトークン使用量 と cost data を確認できます。
+    このパターンにより、ネストされたすべての操作が親予測にひも付けられてトラッキングされるため、Weave UI で正確なトークン使用量 と cost data を確認できます。
   </Tab>
 
   <Tab title="TypeScript">
     TypeScript には、コンテキストマネージャー向けの Python の `with` 文のようなパターンはありません。代わりに、`finish()` を明示的に呼び出す fire-and-forget パターンを使用します。
 
-    次の例では、prediction をログし、スコアと LLM judge score を追加した後、`finish()` で prediction を完了します。
+    次の例では、予測をログし、スコアと LLM judge score を追加した後、`finish()` で予測を完了します。
 
     ```typescript twoslash lines {43}
     // @noErrors
-    import weave from 'weave';
+    import * as weave from 'weave';
     import OpenAI from 'openai';
-    import {EvaluationLogger} from 'weave/evaluationLogger';
+    import {EvaluationLogger} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
     const oai = new OpenAI();
@@ -377,7 +378,7 @@ prediction.finish()
     ```
 
     <Note>
-      TypeScript にはコンテキストマネージャーによる自動クリーンアップはありませんが、`logSummary()` は結果を集計する前に、未完了の prediction を自動的に finish します。`finish()` を明示的に呼び出したくない場合は、この動作に任せることもできます。
+      TypeScript にはコンテキストマネージャーによる自動クリーンアップはありませんが、`logSummary()` は結果を集計する前に、未完了の予測を自動的に finish します。`finish()` を明示的に呼び出したくない場合は、この動作に任せることもできます。
     </Note>
   </Tab>
 </Tabs>
@@ -610,9 +611,7 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
 3. 評価 run を選択します。
 4. 開いた評価の詳細パネルで、**Evaluation** タブの **View spans** をクリックします。**Agents** ページが開き、**Spans** タブにはその評価でフィルターされたスパンが表示されます。
 
-<div id="link-to-an-existing-dataset">
-  ### 既存のデータセットにリンクする {#link-to-an-existing-dataset}
-</div>
+### 既存のデータセットにリンクする {#link-to-an-existing-dataset}
 
 生のデータセットを `log_prediction` に `inputs` として渡すと、Weave は評価の run ごとにデータを再インポートします。そのため重複データが保存され、データセットが大きい場合や、多数の評価で再利用する場合には容量の無駄になることがあります。
 
@@ -647,7 +646,8 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
   <Tab title="TypeScript">
     ```typescript twoslash lines
     // @noErrors
-    import weave, {EvaluationLogger, Dataset} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger, Dataset} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
@@ -815,7 +815,8 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
 
     ```typescript twoslash lines
     // @noErrors
-    import weave, {EvaluationLogger} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger} from 'weave';
     import * as fs from 'fs';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -866,9 +867,7 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
   </Tab>
 </Tabs>
 
-<div id="log-and-compare-multiple-evaluations">
-  ### 複数の評価をログして比較する {#log-and-compare-multiple-evaluations}
-</div>
+### 複数の評価をログして比較する {#log-and-compare-multiple-evaluations}
 
 `EvaluationLogger` を使用すると、複数の評価をログして Weave UI で並べて比較できます。これは、同じデータセットに対して異なるモデルがどのように機能するかを評価する際に役立ちます。
 
@@ -917,9 +916,8 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
   <Tab title="TypeScript">
     ```typescript twoslash lines
     // @noErrors
-    import weave from 'weave';
-    import {EvaluationLogger} from 'weave/evaluationLogger';
-    import {WeaveObject} from 'weave/weaveObject';
+    import * as weave from 'weave';
+    import {EvaluationLogger, WeaveObject} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
@@ -946,7 +944,6 @@ Weave UI でリンクされたスパンを確認するには、次の手順を�
         // クリーンで効率的なロギングのための Fire-and-forget パターン
         const prediction = ev.logPrediction(inputs, output);
         prediction.logScore('greater_than_3_scorer', output > 3);
-        prediction.logScore('greater_than_5_scorer', output > 5);
         prediction.logScore('greater_than_5_scorer', output > 5);
         prediction.logScore('greater_than_7_scorer', output > 7);
         prediction.finish();

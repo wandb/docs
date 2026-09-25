@@ -1,0 +1,311 @@
+---
+title: "Évaluer les tours de conversation d’un agent avec un scorer distant"
+description: "Évaluez les tours de conversation d’un agent W&B Weave à l’aide de votre propre point de terminaison HTTP et consultez les résultats sous forme de tags ou de scores dans l’onglet Signals."
+keywords: ["scorer distant", "évaluation distante", "signals", "surveillance des agents", "tours de conversation d’un agent", "tags", "scores"]
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+import RemoteScorerEnable from "/snippets/fr/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerAllowedHosts from "/snippets/fr/_includes/weave-remote-scorer-allowed-hosts.mdx";
+import RemoteScorerRequestCommon from "/snippets/fr/_includes/weave-remote-scorer-request-common.mdx";
+import RemoteScorerResponse from "/snippets/fr/_includes/weave-remote-scorer-response.mdx";
+import RemoteScorerAuth from "/snippets/fr/_includes/weave-remote-scorer-auth.mdx";
+
+Un signal de scorer distant évalue chaque tour de conversation d’agent terminé à l’aide d’un point de terminaison HTTP que vous hébergez, et non d’un juge LLM. À la fin d’un tour de conversation, le worker d’évaluation des agents de W&amp;B Weave envoie ce tour à votre point de terminaison via une requête HTTP `POST`, puis enregistre la réponse sous forme de feedback associé au tour. Le résultat s’affiche sous forme de tag ou de score dans l’onglet **Signals** de la [vue Agents](/fr/weave/guides/tracking/view-agent-signals).
+
+Cette page porte sur les scorers distants appliqués aux tours de conversation d’agent. Pour évaluer des appels tracés avec `@weave.op`, voir [Évaluer des appels avec des scorers distants](/fr/weave/guides/evaluation/remote-scorers). La configuration des scorers distants s’effectue avec le SDK Python ou dans l’interface Weave. Le SDK TypeScript n&#39;inclut pas `RemoteScorer`.
+
+## Fonctionnement de l’évaluation des tours de conversation d’un agent {#how-agent-turn-scoring-works}
+
+Un tour de conversation d’un agent est évalué selon la séquence suivante :
+
+1. Un tour de conversation se termine. Lorsqu’un span racine (un span sans parent) se termine, Weave le considère comme un tour de conversation terminé et émet un événement `weave.genai.turn_ended`.
+2. Le worker d’évaluation des agents charge les signaux actifs du projet qui ciblent `weave.genai.turn_ended`, puis applique les filtres et le taux d’échantillonnage de chaque signal.
+3. Pour chaque `RemoteScorer` d’un signal correspondant, le worker construit une requête `schema_version: 2` à partir du span du tour de conversation, messages compris, résout les identifiants d’authentification du scorer, vérifie que l’URL du point de terminaison figure parmi les hôtes autorisés, puis envoie la requête `POST`.
+4. Le worker valide la réponse et enregistre le résultat sous forme de feedback associé au tour de conversation. Les tags et les scores s’affichent dans l’onglet **Signals**.
+
+Weave n’évalue que les tours de conversation terminés. Les spans individuels de LLM et d’outil, tout comme les conversations entières, ne peuvent pas faire l’objet d’une évaluation à distance. Un signal de scorer distant est un `Monitor` dont `op_names` vaut `["weave.genai.turn_ended"]`, que vous le créiez dans l’interface utilisateur ou avec le SDK.
+
+En cas d’échec, le worker relance la tentative avec la même `Idempotency-Key`, dans la limite de trois tentatives au cours des 30 secondes suivant la première. Les réponses `5xx`, `408` et `429` donnent lieu à une nouvelle tentative. Un dépassement du délai d’attente consomme la totalité des 30 secondes : une requête ayant expiré n’est donc pas relancée. Les autres réponses `4xx` ne sont pas relancées non plus. Si votre point de terminaison ne peut pas évaluer un tour de conversation à temps, renvoyez rapidement `503` plutôt que de laisser la requête expirer, afin que Weave la relance. L’évaluation des tours de conversation d’un agent nécessite le format de résultat structuré, car Weave stocke les tags et les scores sous forme de colonnes de feedback typées.
+
+## Activer l&#39;évaluation à distance {#enable-remote-scoring}
+
+<RemoteScorerEnable />
+
+**Autogéré**
+
+Si vous exécutez W&amp;B Weave dans un déploiement [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed), définissez ces variables d&#39;environnement via `extraEnv` sur chaque worker d&#39;évaluation : le worker d&#39;évaluation en ligne, le worker d&#39;évaluation des appels et le worker d&#39;évaluation des agents.
+
+| Variable d&#39;environnement                            | Par défaut | Effet                                                                                                                                                                     |
+| ------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED`              | `false`    | Active les requêtes sortantes vers les scorers distants. Si la valeur est `false`, aucun scorer distant ne s&#39;exécute, quels que soient les autres paramètres. |
+| `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS`         | `30`       | Délai d&#39;expiration de chaque requête envoyée à un point de terminaison de scorer.                                                                              |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS`         | vide       | Liste d&#39;autorisation définie par l&#39;opérateur, composée d&#39;entrées `host` ou `host:port` séparées par des virgules.                                             |
+| `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS`        | `true`     | Applique les listes d&#39;hôtes autorisés. Les adresses privées, de bouclage et de métadonnées cloud sont rejetées, quelle que soit la valeur de ce paramètre.            |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP`   | `false`    | Autorise les URL de point de terminaison en `http://`.                                                                                                                    |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS` | vide       | Réseaux CIDR séparés par des virgules, par exemple `10.0.0.0/8`, dont les adresses privées peuvent être appelées par les scorers distants.                            |
+
+Pour afficher les paramètres d&#39;évaluation à distance et les options de scorer dans l&#39;interface Weave, définissez également `GORILLA_GATE_WEAVE_REMOTE_SCORING=true` sur le serveur W&amp;B.
+
+<RemoteScorerAllowedHosts />
+
+## Créer le point de terminaison du scorer {#build-the-scorer-endpoint}
+
+Votre point de terminaison accepte une requête `POST` JSON envoyée par Weave et renvoie un score au format JSON. Pour une implémentation de référence, consultez [Exemple de code](#sample-code).
+
+### Requête {#request}
+
+<RemoteScorerRequestCommon />
+
+Une requête de tour de conversation d’agent comporte deux numéros de version. Le champ `schema_version` de premier niveau correspond à la version de l’enveloppe, qui vaut `2` pour les tours de conversation d’agent. Les données évaluées se trouvent dans `scoring_target`, une union étiquetée comportant trois champs :
+
+* `type` : le type de cible. `agent_turn` pour un tour de conversation. Le contrat définit également `call`, que l’évaluation des tours de conversation d’agent n’envoie jamais.
+* `schema_version` : la version de la charge utile pour ce type. Elle évolue indépendamment de la version de l’enveloppe. La charge utile `agent_turn` est en version `1`.
+* `payload` : les données correspondant à ce type.
+
+Vérifiez d’abord la version de l’enveloppe, puis examinez `scoring_target.type` et `scoring_target.schema_version` ensemble pour choisir comment évaluer la charge utile. Renvoyez une erreur `4xx` pour toute combinaison que votre point de terminaison ne prend pas en charge, par exemple `call` si vous n’évaluez que des tours de conversation d’agent.
+
+La charge utile `agent_turn` en version `1` comporte les champs suivants :
+
+| Champ                    | Description                                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `event_type`             | `weave.genai.turn_ended`.                                                                                                                              |
+| `project_id`             | Le projet, au format `[YOUR-TEAM]/[YOUR-PROJECT]`.                                                                                                     |
+| `trace_id`, `span_id`    | Identifiants du span racine du tour de conversation.                                                                                                   |
+| `span_name`              | Le nom du span, par exemple `invoke_agent sample-support-agent`.                                                                                       |
+| `operation_name`         | Le nom de l’opération GenAI, par exemple `invoke_agent`. `null` si la trace ne l’a pas enregistré.                                                     |
+| `started_at`, `ended_at` | Horodatages ISO 8601.                                                                                                                                  |
+| `conversation`           | `id` et `name`. Chacun vaut `null` si la trace ne l’a pas enregistré.                                                                                  |
+| `agent`                  | `name`, `version` et `description`. Chacun vaut `null` si la trace ne l’a pas enregistré.                                                              |
+| `status`                 | `code`, `message` et `error_type`. `code` vaut `UNSET`, `OK` ou `ERROR`. `message` et `error_type` valent `null` si la trace ne les a pas enregistrés. |
+| `messages`               | `system_instructions`, `input` et `output`. Chacun est une liste, vide (`[]`) lorsque le tour de conversation ne comporte aucun message de ce type.    |
+
+Un tour de conversation qui se termine sans statut explicite arrive avec `status.code` défini sur `UNSET`. Traitez `UNSET` comme un tour de conversation terminé normalement, et `ERROR` comme le signal d’échec. Chaque message de `input` et `output` comporte `role`, `content` et `finish_reason`. `content` contient du texte brut, ou un tableau de parties encodé en JSON lorsque le message comporte du contenu structuré, comme des appels d’outil.
+
+```json lines
+{
+  "schema_version": 2,
+  "scoring_target": {
+    "type": "agent_turn",
+    "schema_version": 1,
+    "payload": {
+      "event_type": "weave.genai.turn_ended",
+      "project_id": "[YOUR-TEAM]/[YOUR-PROJECT]",
+      "trace_id": "0af7651916cd43dd8448eb211c80319c",
+      "span_id": "b7ad6b7169203331",
+      "span_name": "invoke_agent sample-support-agent",
+      "operation_name": "invoke_agent",
+      "started_at": "2026-06-08T12:00:00+00:00",
+      "ended_at": "2026-06-08T12:00:01+00:00",
+      "conversation": {
+        "id": "conversation-0001",
+        "name": "Support session"
+      },
+      "agent": {
+        "name": "sample-support-agent",
+        "version": "2026-06-08",
+        "description": "Answers support questions"
+      },
+      "status": {
+        "code": "UNSET",
+        "message": null,
+        "error_type": null
+      },
+      "messages": {
+        "system_instructions": [
+          "Answer the user accurately and concisely."
+        ],
+        "input": [
+          {
+            "role": "user",
+            "content": "What are your support hours?",
+            "finish_reason": ""
+          }
+        ],
+        "output": [
+          {
+            "role": "assistant",
+            "content": "Our support team is available Monday through Friday, 9am to 5pm Eastern.",
+            "finish_reason": "stop"
+          }
+        ]
+      }
+    }
+  },
+  "scoring_call_id": "018f8d6c-8d5f-7000-8000-000000000005",
+  "scoring_trace_id": "018f8d6c-8d5f-7000-8000-000000000006",
+  "monitor": {
+    "name": "example_remote_scorer_agent_monitor",
+    "version_digest": "monitor-version-digest"
+  },
+  "scorer": {
+    "name": "example_remote_scorer",
+    "ref": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/object/example_remote_scorer:scorer-version-digest",
+    "config": {
+      "example_threshold": 0.8
+    }
+  },
+  "triggered_at": "2026-06-08T12:00:02+00:00"
+}
+```
+
+Weave ajoute des champs facultatifs à une charge utile sans modifier la version de celle-ci. Weave ne supprime, ne renomme ou ne modifie la signification d&#39;un champ qu&#39;en publiant une nouvelle version de charge utile pour ce type, ou une nouvelle version d&#39;enveloppe pour les modifications apportées à l&#39;enveloppe. Tout nouveau type de cible intègre l&#39;union V2 avec la version de charge utile `1`.
+
+### Réponse {#response}
+
+<RemoteScorerResponse />
+
+Pour une requête portant sur un tour de conversation d’agent, la valeur de `schema_version` dans la réponse est `2`. L’exemple suivant renvoie un seul objet de score :
+
+```json lines
+{
+  "schema_version": 2,
+  "result": {
+    "value": "concise",
+    "reason": "72 characters.",
+    "confidence": 0.9
+  }
+}
+```
+
+Weave normalise les tags et les justifications contenus dans le résultat avant de les stocker. Consultez [Comment Weave normalise les scores](/fr/weave/guides/tracking/view-agent-signals#how-weave-normalizes-scores).
+
+## Authentifier les requêtes provenant de Weave {#authenticate-requests-from-weave}
+
+<RemoteScorerAuth />
+
+## Créer un signal de scorer distant {#create-a-remote-scorer-signal}
+
+Créez le signal dans l&#39;interface Weave ou avec le SDK Python. Dans les deux cas, vous obtenez un `RemoteScorer` associé à un monitor qui cible `weave.genai.turn_ended`.
+
+### Interface Weave {#weave-ui}
+
+Créez le signal depuis la vue Agents :
+
+1. Dans la barre latérale du projet Weave, cliquez sur **Agents**.
+2. Dans la barre d’onglets, cliquez sur **Signals**.
+3. Cliquez sur **New signal**, puis sur **Remote scorer**.
+4. Dans le volet latéral **Remote scorer**, **Scored by** est défini sur **Remote scorer**. Configurez les champs suivants :
+   * **Scorer name** : le nom affiché dans la colonne **Scorer** du tableau Signals. 128 caractères maximum.
+   * **Scoring endpoint URL** : l’URL à laquelle Weave envoie la requête `POST`.
+   * **Authentication** : **Static bearer** ou **OAuth client credentials**. Pour un bearer statique, sélectionnez ou saisissez le **Bearer token secret name**. Pour OAuth, saisissez le **Token endpoint URL**, le **Client ID**, le **Client secret name** et, éventuellement, le **Scope**. Les champs de secret attendent des noms de secrets d’équipe, et non leurs valeurs.
+   * **Config (JSON, optional)** : un objet JSON transmis à votre point de terminaison dans `scorer.config`.
+   * **Only score turns matching** (facultatif) : développez **Advanced**, puis ajoutez des filtres pour limiter les tours de conversation évalués par le signal, par exemple selon le nom de l’agent, la version de l’agent, le nom de l’opération, le nom de l’outil ou le code de statut. Pour évaluer tous les tours de conversation, laissez ce champ vide. Weave combine les filtres avec une logique `AND`.
+   * **Sample rate** (facultatif) : développez **Advanced**, puis définissez la proportion des tours de conversation correspondants que le signal évalue.
+5. Cliquez sur **Create signal**.
+
+Le formulaire du scorer distant ne comporte aucun champ de tag ni de score. C’est votre point de terminaison qui détermine ce qu’il renvoie, et le tableau Signals affiche les tags et les scores reçus. Dans la colonne **Scorer**, un signal de scorer distant est signalé par une icône de webhook.
+
+### SDK Python {#python-sdk}
+
+Publiez un `RemoteScorer`, puis activez un `Monitor` qui le répertorie dans `scorers` et cible `weave.genai.turn_ended` dans `op_names`.
+
+```python lines
+import weave
+from weave.flow.monitor import Monitor
+from weave.scorers.remote_scorer import RemoteScorer, StaticBearerAuthConfig
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+scorer = RemoteScorer(
+    name="policy_remote_scorer",
+    endpoint_url="https://scoring.example.com/weave/score",
+    config={"threshold": 0.9},  # Transmis à votre point de terminaison dans scorer.config
+    auth_config=StaticBearerAuthConfig(
+        mode="static_bearer",
+        bearer_secret_name="WEAVE_REMOTE_SCORER_BEARER_TOKEN",
+    ),
+)
+weave.publish(scorer, name="policy_remote_scorer")
+
+monitor = Monitor(
+    name="policy_remote_signal",
+    scorers=[scorer],
+    op_names=["weave.genai.turn_ended"],  # Évalue les tours de conversation terminés de l'agent
+    sampling_rate=1.0,
+)
+monitor.activate()
+```
+
+Pour les identifiants client OAuth, transmettez plutôt un `OAuthClientCredentialsConfig` en tant que `auth_config`.
+
+## Exemple de code {#sample-code}
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+Le répertoire [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) du dépôt `weave` constitue l&#39;implémentation de référence de ce contrat et fait foi pour l&#39;exemple de code. Dans cet exemple, un seul point de terminaison accepte à la fois les requêtes d&#39;Appel V1, les requêtes d&#39;Appel V2 et les requêtes de tour de conversation d&#39;agent V2. Pour les tours de conversation d&#39;agent, les fichiers concernés sont les suivants :
+
+* `remote_scorer_app.py` : une application FastAPI exposant `GET /health` et `POST /score`.
+* `auth.py` : une vérification du bearer token à partir de la variable d&#39;environnement `REMOTE_SCORER_DEV_BEARER_TOKEN`, réservée au développement.
+* `scoring_logic.py` : désencapsule l&#39;une ou l&#39;autre enveloppe avec `extract_scoring_target`, puis évalue le dernier message de sortie du tour de conversation.
+* `sample_request_v2_agent_turn.json` : une requête complète de tour de conversation d&#39;agent V2.
+* `register_remote_scorer.py --agent-turn` : publie un `RemoteScorer` et active un monitor pour les tours de conversation d&#39;agent terminés.
+* `trigger_test_agent_turn.py` : journalise un tour de conversation avec `weave.conversation.log_turn`.
+
+Pour exécuter le point de terminaison en local et lui envoyer une requête de tour de conversation d&#39;agent V2 sans passer par Weave, démarrez l&#39;application, puis envoyez l&#39;exemple de requête :
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 2" \
+  --data @sample_request_v2_agent_turn.json
+```
+
+Cet exemple nécessite Weave `0.53.0` ou une version ultérieure. Un run local ne vérifie que le contrat.
+
+## Tester le signal {#test-the-signal}
+
+Avant de procéder au test, déployez le point de terminaison sur une URL HTTPS figurant parmi les hôtes autorisés, puis enregistrez-le.
+
+Journalisez un tour de conversation terminé, puis consultez l&#39;onglet **Signals**. Le scoring étant asynchrone, le résultat s&#39;affiche au bout de quelques instants.
+
+```python lines
+import uuid
+
+from opentelemetry import trace
+
+import weave
+from weave.conversation import Message, log_turn
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+result = log_turn(
+    conversation_id=f"sample-{uuid.uuid4().hex}",
+    agent_name="sample-support-agent",
+    system_instructions=["Answer the user accurately and concisely."],
+    messages=[Message.user("What are your support hours?")],
+    output_messages=[
+        Message.assistant(
+            "Our support team is available Monday through Friday, 9am to 5pm Eastern."
+        )
+    ],
+)
+
+# weave.init exporte les spans depuis un thread d'arrière-plan. Forcez leur vidage avant la fin d'un script court.
+trace.get_tracer_provider().force_flush(30_000)
+print(result.conversation_id, result.trace_ids)
+```
+
+Votre point de terminaison reçoit une requête V2 dont le champ `scoring_target.type` est défini sur `agent_turn`, et Weave enregistre le résultat sous forme de feedback associé à ce tour de conversation.
+
+## Résolution des problèmes {#troubleshooting}
+
+| Symptôme                                                                                     | Points à vérifier                                                                                                                                                                                                                                                                                                                                                                 |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Remote scorer** n’apparaît pas dans le volet latéral **New signal**                        | L’évaluation à distance est activée dans les paramètres **Remote scoring** de l’organisation propriétaire, ou par l’administrateur de votre déploiement.                                                                                                                                                                                                                                |
+| L’URL du point de terminaison est rejetée                                                    | L’hôte du scorer, ainsi que l’hôte du point de terminaison de jeton pour OAuth, figurent parmi les hôtes autorisés. Vérifiez qu’il n’y a pas de port non concordant, d’URL non HTTPS, ni d’adresse privée ou interne.                                                                                                                                                             |
+| Le point de terminaison renvoie `401` ou `403`                                               | Le nom du secret, les identifiants d’authentification du client OAuth, l’audience et la portée, ainsi que la validation des jetons par votre point de terminaison.                                                                                                                                                                                                                |
+| Le point de terminaison renvoie `400` pour les tours de conversation d’agent                 | Le point de terminaison vérifie la version de l’enveloppe et accepte `scoring_target.type` `agent_turn` avec la version de charge utile `1`.                                                                                                                                                                                                                                      |
+| Aucun résultat n’apparaît dans l’onglet **Signals**                                          | Le scoring est asynchrone. Vérifiez que le tour de conversation correspond aux filtres et au taux d’échantillonnage du signal, et que le span racine du tour est terminé.                                                                                                                                                                                                         |
+| Le tour de conversation correspond au signal, mais aucun tag ni aucun score n’apparaît | Weave n’enregistre rien lorsqu’une tentative de scoring échoue. Recherchez l’en-tête `X-Correlation-ID` dans les journaux de requêtes de votre point de terminaison. Si le point de terminaison n’a reçu aucune requête, l’URL ne respecte pas les règles d’hôtes autorisés ou le secret n’a pas pu être résolu. S’il a reçu une requête, la réponse n’a pas passé la validation. |
+| Aucun résultat après une réponse `200`                                                       | Le champ `schema_version` de la réponse vaut `2`, et `result` utilise l’une des trois structures prévues.                                                                                                                                                                                                                                                                         |

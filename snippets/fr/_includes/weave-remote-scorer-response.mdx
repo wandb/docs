@@ -1,0 +1,18 @@
+---
+title: Réponse d'un scorer distant Weave
+---
+
+Renvoyez un code HTTP `200` avec un objet JSON comportant deux champs :
+
+* `schema_version` : entier égal à la valeur `schema_version` de la requête.
+* `result` : un objet de score, une liste d&#39;objets de score ou un objet de la forme `{"scores": [...]}`.
+
+Un objet de score comporte les champs suivants :
+
+| Champ        | Requis | Description                                                                                                            |
+| ------------ | ------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `value`      | Oui    | Un tag, sous forme de chaîne de 36 caractères maximum, ou une note, sous forme de nombre compris entre `0.0` et `1.0`. |
+| `reason`     | Non    | Une chaîne expliquant le score.                                                                                        |
+| `confidence` | Non    | Un nombre compris entre `0.0` et `1.0`.                                                                                |
+
+Weave considère toute réponse autre que `200` comme un échec du scorer et n&#39;enregistre aucun feedback pour cette tentative. Weave ne suit pas les redirections et les traite comme des échecs. Weave n&#39;analyse pas le corps d&#39;une réponse d&#39;erreur. Renvoyez un code `4xx` pour les requêtes que votre point de terminaison n&#39;acceptera jamais et un code `5xx` en cas de problème temporaire.

@@ -46,7 +46,7 @@ L’exemple suivant montre comment utiliser `EvaluationLogger` pour journaliser 
 
 <Tabs>
   <Tab title="Python">
-    La fonction `user_model` est définie puis appliquée à une liste d’entrées. Pour chaque exemple :
+    La fonction `user_model` est définie puis appliquée à une liste d’entrées. Pour chaque exemple :
 
     * L’entrée et la sortie sont enregistrées à l’aide de `log_prediction`.
     * Un score de correction (`correctness_score`) est enregistré via `log_score`.
@@ -117,24 +117,25 @@ L’exemple suivant montre comment utiliser `EvaluationLogger` pour journaliser 
   </Tab>
 
   <Tab title="TypeScript">
-    Le SDK TypeScript propose deux modèles d’API :
+    Le SDK TypeScript propose deux modèles d’API :
 
-    * **API fire-and-forget (recommandée dans la plupart des cas)** : utilisez `logPrediction()` sans `await` pour une journalisation synchrone et non bloquante.
-    * **API avec attente** : utilisez `logPredictionAsync()` avec `await` lorsque vous devez vous assurer que les opérations sont terminées avant de continuer.
+    * **API fire-and-forget (recommandée dans la plupart des cas)** : utilisez `logPrediction()` sans `await` pour une journalisation synchrone et non bloquante.
+    * **API avec attente** : utilisez `logPredictionAsync()` avec `await` lorsque vous devez vous assurer que les opérations sont terminées avant de continuer.
 
-    Utilisez fire-and-forget dans les cas suivants :
+    Utilisez fire-and-forget dans les cas suivants :
 
-    * **Débit élevé** : traitez plusieurs prédictions en parallèle sans attendre chaque opération de journalisation.
-    * **Modification minimale du code** : ajoutez la journalisation de l’évaluation sans restructurer votre flux async/await existant.
-    * **Simplicité** : moins de code passe-partout et une syntaxe plus claire pour la plupart des scénarios d’évaluation.
+    * **Débit élevé** : traitez plusieurs prédictions en parallèle sans attendre chaque opération de journalisation.
+    * **Modification minimale du code** : ajoutez la journalisation de l’évaluation sans restructurer votre flux async/await existant.
+    * **Simplicité** : moins de code passe-partout et une syntaxe plus claire pour la plupart des scénarios d’évaluation.
 
     Le modèle fire-and-forget est sûr, car `logSummary()` attend automatiquement la fin de toutes les opérations en attente avant d’agréger les résultats.
 
-    L’exemple suivant évalue les prédictions d’un modèle avec le modèle fire-and-forget. Il configure un journal d’évaluation, exécute un modèle sur trois échantillons de test, puis journalise la prédiction sans utiliser await :
+    L’exemple suivant évalue les prédictions d’un modèle avec le modèle fire-and-forget. Il configure un journal d’évaluation, exécute un modèle sur trois échantillons de test, puis journalise la prédiction sans utiliser await :
 
-    ```typescript twoslash lines {36,50}
+    ```typescript twoslash lines {37,51}
     // @noErrors
-    import weave, {EvaluationLogger} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger} from 'weave';
     import OpenAI from 'openai';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -190,7 +191,7 @@ L’exemple suivant montre comment utiliser `EvaluationLogger` pour journaliser 
 
     Utilisez l’API awaitable lorsque vous devez vous assurer que chaque opération est terminée avant de continuer, par exemple pour la gestion des erreurs ou des dépendances séquentielles.
 
-    Dans l’exemple suivant, au lieu d’appeler `logPrediction()` sans `await`, on utilise `logPredictionAsync()` avec `await` pour s’assurer que chaque opération est terminée avant de passer à la suivante :
+    Dans l’exemple suivant, au lieu d’appeler `logPrediction()` sans `await`, on utilise `logPredictionAsync()` avec `await` pour s’assurer que chaque opération est terminée avant de passer à la suivante :
 
     ```typescript twoslash lines
     // @noErrors
@@ -264,7 +265,7 @@ prediction.finish()
 
 `EvaluationLogger` prend en charge les gestionnaires de contexte (instructions `with`) pour les prédictions comme pour les scores. Cela permet d&#39;obtenir un code plus propre, un nettoyage automatique des ressources et un meilleur suivi des opérations imbriquées, comme les appels à un juge LLM.
 
-L&#39;utilisation des instructions `with` dans ce contexte offre les avantages suivants :
+L&#39;utilisation des instructions `with` dans ce contexte offre les avantages suivants :
 
 * Appels automatiques à `finish()` à la sortie du contexte.
 * Meilleur suivi des jetons et des coûts pour les appels LLM imbriqués.
@@ -325,13 +326,13 @@ L&#39;utilisation des instructions `with` dans ce contexte offre les avantages s
   <Tab title="TypeScript">
     TypeScript ne dispose pas du modèle d&#39;instruction `with` de Python pour les gestionnaires de contexte. Utilisez plutôt l’approche fire-and-forget avec des appels explicites à `finish()`.
 
-    L&#39;exemple suivant journalise une prédiction, ajoute des scores et un score de juge LLM, puis finalise la prédiction avec `finish()` :
+    L&#39;exemple suivant journalise une prédiction, ajoute des scores et un score de juge LLM, puis finalise la prédiction avec `finish()` :
 
     ```typescript twoslash lines {43}
     // @noErrors
-    import weave from 'weave';
+    import * as weave from 'weave';
     import OpenAI from 'openai';
-    import {EvaluationLogger} from 'weave/evaluationLogger';
+    import {EvaluationLogger} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
     const oai = new OpenAI();
@@ -647,7 +648,8 @@ L’exemple suivant publie un jeu de données, y crée un lien dans `EvaluationL
   <Tab title="TypeScript">
     ```typescript twoslash lines
     // @noErrors
-    import weave, {EvaluationLogger, Dataset} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger, Dataset} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 
@@ -815,7 +817,8 @@ Les entrées, les sorties et les scores peuvent inclure des médias enrichis, co
 
     ```typescript twoslash lines
     // @noErrors
-    import weave, {EvaluationLogger} from 'weave';
+    import * as weave from 'weave';
+    import {EvaluationLogger} from 'weave';
     import * as fs from 'fs';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
@@ -875,7 +878,7 @@ Avec `EvaluationLogger`, vous pouvez journaliser et comparer plusieurs évaluati
 1. Exécutez l’exemple de code suivant.
 2. Dans l’interface Weave, ouvrez l’onglet **Evals**.
 3. Sélectionnez les évaluations que vous souhaitez comparer.
-4. Cliquez sur **Compare**. Dans la vue de comparaison, vous pouvez :
+4. Cliquez sur **Compare**. Dans la vue de comparaison, vous pouvez :
    * Choisir quelles évaluations ajouter ou supprimer.
    * Choisir quelles métriques afficher ou masquer.
    * Parcourir des exemples précis pour voir comment différents modèles se sont comportés pour la même entrée dans un jeu de données donné.
@@ -917,9 +920,8 @@ Pour plus d’informations sur les comparaisons, voir [Comparisons](../tools/com
   <Tab title="TypeScript">
     ```typescript twoslash lines
     // @noErrors
-    import weave from 'weave';
-    import {EvaluationLogger} from 'weave/evaluationLogger';
-    import {WeaveObject} from 'weave/weaveObject';
+    import * as weave from 'weave';
+    import {EvaluationLogger, WeaveObject} from 'weave';
 
     await weave.init('[YOUR-TEAM]/[YOUR-PROJECT]');
 

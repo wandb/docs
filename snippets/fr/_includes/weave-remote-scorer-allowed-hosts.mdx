@@ -1,0 +1,14 @@
+---
+title: Hôtes autorisés pour les scorers distants Weave
+---
+
+**Règles relatives aux hôtes autorisés**
+
+Le worker de scoring vérifie la conformité de chaque URL de point de terminaison de scorer aux règles suivantes, ainsi que, séparément, celle de l&#39;URL du point de terminaison de jeton OAuth lorsqu&#39;un scorer utilise OAuth :
+
+* Une entrée correspond à un hôte exact, avec un port facultatif. Une entrée sans port autorise n&#39;importe quel port sur cet hôte.
+* Une entrée commençant par `*.` correspond aux sous-domaines de tout niveau, mais pas au domaine lui-même. `*.corp.example.com` correspond à `a.corp.example.com` et à `a.b.corp.example.com`, mais pas à `corp.example.com`. Le suffixe qui suit `*.` doit comporter au moins deux labels ; `*.com` est donc rejeté. Un caractère générique ne peut pas être associé à une adresse IP.
+* Lorsqu&#39;il existe à la fois une liste d&#39;autorisation de l&#39;opérateur et une liste d&#39;autorisation de l&#39;organisation, l&#39;URL doit respecter les deux. Une liste d&#39;autorisation de l&#39;opérateur vide n&#39;ajoute aucune restriction. En l&#39;absence de toute liste d&#39;autorisation, le worker rejette tous les hôtes.
+* Les adresses de bouclage, privées, internes et de métadonnées cloud sont rejetées. En environnement Autogéré, les adresses privées appartenant aux réseaux répertoriés dans `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS` sont autorisées.
+* HTTPS est requis, sauf si le déploiement autorise le HTTP non sécurisé.
+* Les redirections ne sont pas suivies.

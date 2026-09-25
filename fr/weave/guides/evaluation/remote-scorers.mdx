@@ -1,0 +1,239 @@
+---
+title: "Évaluer des Appels avec des évaluateurs distants"
+description: "Évaluez des Appels W&B Weave à l'aide d'un évaluateur exécuté sur votre propre infrastructure, qui enregistre le résultat sous forme de feedback de l'Appel."
+keywords: ["évaluateur distant", "évaluation distante", "moniteurs", "évaluateurs", "feedback", "appels"]
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+import RemoteScorerEnable from "/snippets/fr/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerAllowedHosts from "/snippets/fr/_includes/weave-remote-scorer-allowed-hosts.mdx";
+import RemoteScorerRequestCommon from "/snippets/fr/_includes/weave-remote-scorer-request-common.mdx";
+import RemoteScorerResponse from "/snippets/fr/_includes/weave-remote-scorer-response.mdx";
+import RemoteScorerAuth from "/snippets/fr/_includes/weave-remote-scorer-auth.mdx";
+
+Un évaluateur distant est un évaluateur qui s&#39;exécute sur votre infrastructure plutôt que dans W&amp;B Weave. Lorsqu&#39;un moniteur sélectionne un Appel, le worker d&#39;évaluation de Weave envoie cet Appel à votre point de terminaison HTTPS via une requête HTTP `POST`, puis enregistre la réponse sous forme de feedback sur cet Appel. Utilisez un évaluateur distant lorsque votre logique d&#39;évaluation ne peut pas s&#39;exécuter dans Weave, par exemple pour vérifier la conformité à une politique à partir de données internes ou pour utiliser un modèle que vous hébergez vous-même.
+
+Cette page traite des évaluateurs distants pour les Appels tracés avec `@weave.op`. Pour évaluer les tours de conversation d&#39;agents dans la vue Agents, consultez [Évaluer les tours de conversation d&#39;agents avec un évaluateur distant](/fr/weave/guides/tracking/remote-scorer-signals). Les évaluateurs distants pour les Appels se configurent avec le SDK Python. Le SDK TypeScript n&#39;inclut pas `RemoteScorer`.
+
+## Fonctionnement de l’évaluation à distance {#how-remote-scoring-works}
+
+Un Appel est évalué selon la séquence suivante :
+
+1. Un Appel à une Op surveillée se termine.
+2. Le worker d’évaluation trouve les moniteurs actifs dont les opérations incluent cette Op, puis applique le filtre et le taux d’échantillonnage de chaque moniteur.
+3. Pour chaque `RemoteScorer` d’un moniteur correspondant, le worker construit une requête `schema_version: 1` contenant l’Appel, résout les identifiants d’authentification du scorer, vérifie que l’URL du point de terminaison figure parmi les hôtes autorisés, puis envoie la requête `POST`.
+4. Le worker valide la réponse et enregistre le résultat sous forme de feedback sur l’Appel. Il enregistre également la tentative d’évaluation en tant qu’Appel, qu’elle ait réussi ou non.
+
+Un scorer distant ne s’exécute que par l’intermédiaire d’un moniteur. Vous ne pouvez pas l’utiliser dans `weave.Evaluation` ni avec `call.apply_scorer()`. Ces deux mécanismes appellent la méthode `score()` du scorer, qui, pour `RemoteScorer`, lève `NotImplementedError`, car seul le worker d’évaluation envoie la requête. L’action **Score calls** de l’interface Weave refuse également un `RemoteScorer` et affiche le message `RemoteScorer requires a monitor`. Chaque Appel sélectionné génère une seule requête, envoyée une seule fois. Si la requête expire ou ne reçoit aucune réponse, Weave ne la renvoie pas. Le délai d’expiration par défaut est de 30 secondes.
+
+## Activer l&#39;évaluation à distance {#enable-remote-scoring}
+
+<RemoteScorerEnable />
+
+**Autogéré**
+
+Si vous exécutez W&amp;B Weave dans un déploiement [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed), définissez ces variables d&#39;environnement via `extraEnv` sur chaque worker d&#39;évaluation : le worker d&#39;évaluation en ligne, le worker d&#39;évaluation des appels et le worker d&#39;évaluation des agents.
+
+| Variable d&#39;environnement                                       | Par défaut | Effet                                                                                                                                                                          |
+| ------------------------------------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED`                         | `false`    | Active les requêtes sortantes vers les évaluateurs distants. Lorsque la valeur est `false`, aucun évaluateur distant ne s&#39;exécute, quels que soient les autres paramètres. |
+| `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS`                    | `30`       | Délai d&#39;expiration de chaque requête envoyée à un point de terminaison d&#39;évaluateur.                                                                                   |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS`                    | vide       | Liste d&#39;autorisation définie par l&#39;opérateur, composée d&#39;entrées `host` ou `host:port` séparées par des virgules.                                                  |
+| `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS`                   | `true`     | Applique les listes d&#39;hôtes autorisés. Les adresses privées, de bouclage et de métadonnées cloud sont rejetées, quelle que soit la valeur de ce paramètre.                 |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP`              | `false`    | Autorise les URL de point de terminaison en `http://`.                                                                                                                         |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS`            | vide       | Réseaux CIDR séparés par des virgules, par exemple `10.0.0.0/8`, dont les adresses privées peuvent être appelées par les évaluateurs distants.                                 |
+| `WF_SCORING_WORKER_REMOTE_SCORER_REQUIRE_STRUCTURED_RESULT_SCHEMA` | `true`     | Rejette les réponses dont le champ `result` n&#39;est pas au format de score structuré.                                                                                        |
+
+Pour afficher les paramètres d&#39;évaluation à distance et les options des évaluateurs dans l&#39;interface Weave, définissez également `GORILLA_GATE_WEAVE_REMOTE_SCORING=true` sur le serveur W&amp;B.
+
+<RemoteScorerAllowedHosts />
+
+## Créer le point de terminaison du scorer {#build-the-scorer-endpoint}
+
+Votre point de terminaison accepte une requête `POST` JSON envoyée par Weave et renvoie un score au format JSON. Pour une implémentation de référence, consultez la section [Exemple de code](#sample-code).
+
+### Requête {#request}
+
+<RemoteScorerRequestCommon />
+
+Pour un appel, `schema_version` vaut `1` et l&#39;appel évalué se trouve à la racine, sous `original_call` :
+
+| Champ                    | Description                                        |
+| ------------------------ | -------------------------------------------------- |
+| `project_id`             | Le projet, au format `[YOUR-TEAM]/[YOUR-PROJECT]`. |
+| `call_id`, `trace_id`    | Identifiants de l&#39;appel évalué.                |
+| `op_name`                | La réf. de l&#39;Op de l&#39;appel évalué.         |
+| `inputs`                 | Les entrées de l&#39;appel.                        |
+| `output`                 | La sortie de l&#39;appel.                          |
+| `started_at`, `ended_at` | Horodatages au format ISO 8601.                    |
+
+```json lines
+{
+  "schema_version": 1,
+  "original_call": {
+    "project_id": "[YOUR-TEAM]/[YOUR-PROJECT]",
+    "call_id": "018f8d6c-8d5f-7000-8000-000000000001",
+    "trace_id": "018f8d6c-8d5f-7000-8000-000000000002",
+    "op_name": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/op/sample_remote_scorer_target:*",
+    "inputs": {
+      "message": "test message for scoring"
+    },
+    "started_at": "2026-06-08T12:00:00+00:00",
+    "ended_at": "2026-06-08T12:00:01+00:00",
+    "output": {
+      "reply": "received: test message for scoring",
+      "status": "ok"
+    }
+  },
+  "scoring_call_id": "018f8d6c-8d5f-7000-8000-000000000003",
+  "scoring_trace_id": "018f8d6c-8d5f-7000-8000-000000000004",
+  "monitor": {
+    "name": "example_remote_scorer_monitor",
+    "version_digest": "monitor-version-digest"
+  },
+  "scorer": {
+    "name": "example_remote_scorer",
+    "ref": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/object/example_remote_scorer:scorer-version-digest",
+    "config": {
+      "example_threshold": 0.8
+    }
+  },
+  "triggered_at": "2026-06-08T12:00:02+00:00"
+}
+```
+
+### Réponse {#response}
+
+<RemoteScorerResponse />
+
+Pour une requête d&#39;appel, la valeur de `schema_version` dans la réponse est `1`. Cette réponse renvoie une notation et un tag :
+
+```json lines
+{
+  "schema_version": 1,
+  "result": [
+    {
+      "value": 1.0,
+      "reason": "Message is 32 characters; concise messages score best.",
+      "confidence": 1.0
+    },
+    {
+      "value": "concise",
+      "reason": "Message length category is concise.",
+      "confidence": 0.9
+    }
+  ]
+}
+```
+
+## Authentifier les requêtes provenant de Weave {#authenticate-requests-from-weave}
+
+<RemoteScorerAuth />
+
+## Enregistrer un évaluateur distant {#register-a-remote-scorer}
+
+Un évaluateur distant est un objet `RemoteScorer` joint à un moniteur. Créez-le avec le SDK Python.
+
+Publiez un `RemoteScorer`, puis activez un `Monitor` qui le répertorie dans `scorers` et indique les opérations à évaluer dans `op_names`. `endpoint_url` est requis. `config` et `auth_config` sont facultatifs.
+
+```python lines
+import weave
+from weave.flow.monitor import Monitor
+from weave.scorers.remote_scorer import (
+    OAuthClientCredentialsConfig,
+    RemoteScorer,
+    StaticBearerAuthConfig,
+)
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+# Jeton Bearer statique, lu à partir du secret d’équipe WEAVE_REMOTE_SCORER_BEARER_TOKEN
+auth = StaticBearerAuthConfig(
+    mode="static_bearer",
+    bearer_secret_name="WEAVE_REMOTE_SCORER_BEARER_TOKEN",
+)
+
+# Ou, avec des identifiants client OAuth :
+# auth = OAuthClientCredentialsConfig(
+#     mode="oauth_client_credentials",
+#     token_endpoint_url="https://idp.example.com/oauth2/token",
+#     client_id="weave-remote-scorer",
+#     client_secret_name="WEAVE_REMOTE_SCORER_CLIENT_SECRET",
+#     scope="score:remote",
+# )
+
+scorer = RemoteScorer(
+    name="policy_remote_scorer",
+    endpoint_url="https://scoring.example.com/weave/score",
+    config={"threshold": 0.9},  # Transmis à votre point de terminaison sous la forme scorer.config
+    auth_config=auth,
+)
+weave.publish(scorer, name="policy_remote_scorer")
+
+monitor = Monitor(
+    name="policy_remote_monitor",
+    scorers=[scorer],
+    op_names=["generate_response"],  # Noms d’op de ce projet, ou réf. d’op weave:/// complètes
+    sampling_rate=1.0,
+)
+monitor.activate()
+```
+
+Lorsque vous exécutez le code, `monitor.activate()` publie le monitor en tant que monitor actif et convertit les noms d&#39;Op simples en réf. d&#39;Op complètes pour le projet en cours.
+
+## Exemple de code {#sample-code}
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+Le répertoire [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) du dépôt `weave` constitue l&#39;implémentation de référence du format de requête et de réponse décrit sur cette page. Il est écrit en Python avec FastAPI, mais votre point de terminaison peut utiliser n&#39;importe quel langage, framework ou hébergeur. Pour les appels, les fichiers concernés sont les suivants :
+
+* `remote_scorer_app.py` : une application FastAPI exposant `GET /health` et `POST /score`.
+* `scoring_logic.py` : l&#39;analyse des requêtes et la logique d&#39;évaluation, indépendantes de tout framework et conçues pour être copiées dans votre propre service. Pour un appel, ce fichier évalue la valeur `inputs.message`.
+* `auth.py` : une vérification du jeton Bearer, réservée au développement, basée sur la variable d&#39;environnement `REMOTE_SCORER_DEV_BEARER_TOKEN`.
+* `register_remote_scorer.py --op-name` : publie un `RemoteScorer` et active un `Monitor` pour une op.
+* `trigger_test_trace.py` : crée un appel tracé que le moniteur peut sélectionner.
+* `sample_request.json` : une requête V1 complète pour un appel.
+
+Pour tester le point de terminaison localement sans Weave, démarrez l&#39;application, puis envoyez-lui l&#39;exemple de requête :
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 1" \
+  --data @sample_request.json
+```
+
+L&#39;exemple nécessite Weave `0.53.0` ou une version ultérieure. Un run local vérifie uniquement le comportement requête-réponse que vous avez défini pour le point de terminaison.  Le worker de scoring de Weave rejette les adresses de bouclage, et les déploiements hébergés n&#39;autorisent pas le HTTP non sécurisé.
+
+## Tester le scorer {#test-the-scorer}
+
+Avant de procéder au test, déployez le point de terminaison sur une URL HTTPS figurant parmi les hôtes autorisés, puis enregistrez-le.
+
+Déclenchez un Appel évalué et vérifiez le résultat :
+
+1. Appelez l’Op surveillée au moins une fois.
+2. Vérifiez que votre point de terminaison a bien reçu une requête. Le scoring étant asynchrone, la requête arrive une fois l’Appel terminé.
+3. Dans l’onglet **Traces**, ouvrez l’Appel et consultez son feedback.
+
+Votre point de terminaison reçoit une requête V1 contenant l’Appel dans `original_call`, et Weave enregistre le résultat sous forme de feedback sur cet Appel.
+
+## Résolution des problèmes {#troubleshooting}
+
+| Symptôme                                                                      | Points à vérifier                                                                                                                                                                                                                                                                                                           |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Les options de scorer distant n’apparaissent pas dans l’interface utilisateur | Le scoring distant doit être activé dans les paramètres **Remote scoring** de l’organisation propriétaire, ou par l’administrateur de votre déploiement.                                                                                                                                                                    |
+| L’URL du point de terminaison est rejetée                                     | L’hôte du scorer et, pour OAuth, l’hôte du point de terminaison de jeton doivent figurer parmi les hôtes autorisés. Vérifiez qu’il n’y a pas de port incorrect, d’URL non HTTPS, ni d’adresse privée ou interne.                                                                                                            |
+| Le point de terminaison renvoie `401` ou `403`                                | Le nom du secret, les identifiants client OAuth, l’audience et la portée, ainsi que la validation des jetons par votre point de terminaison.                                                                                                                                                                                |
+| La requête de jeton réussit mais le scoring échoue, ou inversement            | Vérifiez chaque URL séparément. Le point de terminaison de jeton et celui du scorer sont validés indépendamment et peuvent utiliser des hôtes différents.                                                                                                                                                                   |
+| Aucun feedback n’apparaît                                                     | Le scoring est asynchrone. Vérifiez que l’Appel correspond à l’opération, au filtre et au taux d’échantillonnage du monitor. Weave enregistre chaque tentative sous forme d’Appel de scorer dans l’onglet **Traces**. Une tentative échouée apparaît comme un Appel de scorer en erreur, accompagné de la cause de l’échec. |
+| Aucun feedback après une réponse `200`                                        | Le `schema_version` de la réponse doit être identique à celui de la requête, et `result` doit utiliser l’une des trois formes structurées.                                                                                                                                                                                  |

@@ -6,6 +6,8 @@ keywords: ["시그널", "에이전트 모니터링", "Scorer", "평점", "태그
 
 W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에서 시그널 탭은 에이전트 대화의 태그와 평점을 보여줍니다. 시그널은 품질 및 안전 문제를 드러내 문제를 식별하고, 패턴을 찾고, 주의가 필요한 트레이스를 강조합니다. 시그널을 사용하면 에이전트 응답의 품질을 자동으로 평가하고, 사용자가 좌절감을 느끼는 상황을 감지하거나, NSFW 콘텐츠를 표시할 수 있습니다.
 
+LLM 평가자 대신 직접 호스팅하는 HTTP 엔드포인트로 턴을 점수화하려면 [원격 Scorer로 에이전트 턴 점수화하기](/ko/weave/guides/tracking/remote-scorer-signals)를 참조하세요.
+
 <div id="get-started">
   ## 시작하기 {#get-started}
 </div>
@@ -43,6 +45,17 @@ W&amp;B Weave의 [Agents view](/ko/weave/guides/tracking/view-agent-activity)에
 | **When**         | 시그널이 점수화된 시점입니다.                                                                                               |
 
 시간 범위 선택기와 **Filter** 바를 사용해 Scorer, 에이전트, 점수 범위 또는 기간별로 결과를 좁히세요. **Score volume** 타임라인은 Weave가 평점으로 평가했거나 태그를 지정한 시그널의 개수를 보여줍니다. 이 타임라인은 테이블에 표시된 행을 반영하며, 타임라인에서 드래그하여 필터링할 수 있습니다.
+
+## Weave가 점수를 정규화하는 방식 {#how-weave-normalizes-scores}
+
+Weave는 시그널 결과를 저장하기 전에 Scorer가 반환한 태그, 평점, 이유를 정규화합니다.
+
+* 태그는 소문자로 변환됩니다. `0-9`, `a-z`, `A-Z`, 공백, `. , ; - & ! @ # $ % ?` 이외의 문자는 제거됩니다. 연속된 공백, 밑줄, 대시는 하나의 대시로 합쳐집니다.
+* 결과당 태그는 최대 10개까지만 유지되며, 중복된 태그는 삭제됩니다.
+* 이유에서도 같은 문자가 제거되며, 256자를 넘는 부분은 잘립니다.
+* 36자를 초과하는 태그가 있거나 평점이 두 개 이상인 결과는 전체가 거부되며, Weave는 해당 결과에 대한 feedback을 기록하지 않습니다.
+
+이 규칙은 결과를 생성한 주체가 LLM 평가자든 [원격 Scorer](/ko/weave/guides/tracking/remote-scorer-signals)든 관계없이 모든 시그널에 적용됩니다.
 
 <div id="create-a-new-signal">
   ## 새 시그널 만들기 {#create-a-new-signal}
