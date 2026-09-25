@@ -1,0 +1,15 @@
+Remote scoring is off until it's enabled for your organization or deployment, and the scoring worker calls a scorer endpoint only if its host is on an allowlist. How you enable it depends on your deployment type.
+
+**Multi-tenant Cloud**
+
+To enable remote scorers for an organization, an organization or billing admin must:
+
+1. Open `https://wandb.ai/account-settings/[ORG]/settings`, replacing `[ORG]` with the organization that owns your project.
+2. Select the **Remote scoring** tab.
+3. Turn on **Enable remote scoring**.
+4. Under **Allowed hosts**, click **Add host** and enter each host that remote scorers may call. Saving with remote scoring enabled requires at least one host. Leave the port blank to allow any port on that host.
+5. Click **Save settings**.
+
+**Dedicated Cloud**
+
+Ask W&B to enable remote scoring for your deployment and configure its allowed hosts.

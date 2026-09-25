@@ -357,6 +357,8 @@ In addition to running Scorers as part of a `weave.Evaluation`, you can apply th
 
 To apply scorers to your Weave ops, use the `.call()` method, which provides access to both the operation's result and its tracking information. This lets you associate scorer results with specific calls in Weave's database.
 
+To score production calls with a scorer that runs on your own infrastructure, attach a [remote scorer](/weave/guides/evaluation/remote-scorers) to a monitor.
+
 For more information about using the `.call()` method, see the [Calling Ops](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution) guide.
 
 <Tabs>

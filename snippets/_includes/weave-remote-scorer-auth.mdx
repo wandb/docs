@@ -1,0 +1,8 @@
+Weave authenticates to your endpoint with a bearer token. The request carries no W&B credential. The token proves to your endpoint that the request came from Weave, not the reverse. Each `RemoteScorer` uses one of two modes:
+
+| Mode | What Weave does | What you configure |
+|---|---|---|
+| `oauth_client_credentials` | Requests a token from your OAuth token endpoint with the client credentials grant, sending the client ID and secret with HTTP Basic authentication (`client_secret_basic`), then sends that token to your scorer endpoint. | The token endpoint URL, the client ID, the name of the secret that holds the client secret, and an optional scope. |
+| `static_bearer` | Sends a fixed token to your scorer endpoint. | The name of the secret that holds the token. |
+
+Store the client secret or bearer token in the secret store of the team that owns the project before you register the scorer. The `RemoteScorer` configuration holds only the secret name. The scoring worker resolves the value at scoring time.
