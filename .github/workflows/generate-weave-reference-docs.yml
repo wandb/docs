@@ -8,9 +8,12 @@ on:
         required: false
         default: 'latest'
         type: string
-  schedule:
-    # Run monthly on the 1st at 00:00 UTC
-    - cron: '0 0 1 * *'
+  # Schedule disabled for the Forge cut-over freeze: this repo is moving to
+  # coreweave/docs, so nothing should open content PRs here unattended.
+  # Manual dispatch still works.
+  # schedule:
+  #   # Run monthly on the 1st at 00:00 UTC
+  #   - cron: '0 0 1 * *'
 
 jobs:
   generate-weave-reference-docs:
