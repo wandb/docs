@@ -6,6 +6,8 @@ keywords: ["signals", "agent monitoring", "scorers", "ratings", "tags"]
 
 In W&B Weave's [Agents view](/weave/guides/tracking/view-agent-activity), the Signals tab shows tags and ratings for your agent's conversations. Signals surface quality and safety issues to flag problems, find patterns, and highlight the traces that need your attention. Use signals to automatically score the quality of your agent's responses, notice when a user is frustrated, or flag NSFW content.
 
+To score turns with an HTTP endpoint that you host instead of an LLM judge, see [Score agent turns with a remote scorer](/weave/guides/tracking/remote-scorer-signals).
+
 ## Get started
 
 To view signals for your project:
@@ -37,6 +39,17 @@ The Signals tab displays a table of scored turns from your agent. Each row repre
 | **When** | When the signal was scored. |
 
 Use the time window selector and **Filter** bar to narrow results by scorer, agent, score range, or time period. The **Score volume** timeline shows counts of signals that Weave evaluated for ratings or tagged. It reflects the rows shown in the table and supports drag-to-filter on the timeline.
+
+## How Weave normalizes scores
+
+Before Weave stores a signal result, it normalizes the tags, ratings, and reasons that the scorer returned:
+
+- Tags are lowercased. Characters other than `0-9`, `a-z`, `A-Z`, space, and `. , ; - & ! @ # $ % ?` are removed. Runs of whitespace, underscores, and dashes collapse into one dash.
+- At most 10 tags are kept per result. Duplicate tags are dropped.
+- Reasons have the same characters removed and are truncated to 256 characters.
+- A tag longer than 36 characters, or a result with more than one rating, is rejected as a whole, and Weave writes no feedback for it.
+
+These rules apply to every signal, whether an LLM judge or a [remote scorer](/weave/guides/tracking/remote-scorer-signals) produced the result.
 
 ## Create a new signal
 
