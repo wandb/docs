@@ -9,11 +9,14 @@ name: UI label drift
 # into something a writer can review and merge.
 
 on:
-  schedule:
-    # Weekday mornings at 13:00 UTC (6am PT), so a report is waiting at standup.
-    # Weekends are skipped: wandb/core barely moves and the watermark simply
-    # widens Monday's range, which costs seconds.
-    - cron: '0 13 * * 1-5'
+  # Schedule disabled for the Forge cut-over freeze: this repo is moving to
+  # coreweave/docs, so nothing should open content PRs here unattended.
+  # Manual dispatch still works.
+  # schedule:
+  #   # Weekday mornings at 13:00 UTC (6am PT), so a report is waiting at standup.
+  #   # Weekends are skipped: wandb/core barely moves and the watermark simply
+  #   # widens Monday's range, which costs seconds.
+  #   - cron: '0 13 * * 1-5'
   workflow_dispatch:
     inputs:
       since:

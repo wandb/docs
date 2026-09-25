@@ -2,9 +2,12 @@ name: Update Serverless Training API Documentation
 
 on:
   workflow_dispatch:
-  schedule:
-    # Run weekly on Mondays at 9:30 AM UTC (30 minutes after Service API)
-    - cron: '30 9 * * 1'
+  # Schedule disabled for the Forge cut-over freeze: this repo is moving to
+  # coreweave/docs, so nothing should open content PRs here unattended.
+  # Manual dispatch still works.
+  # schedule:
+  #   # Run weekly on Mondays at 9:30 AM UTC (30 minutes after Service API)
+  #   - cron: '30 9 * * 1'
   workflow_call:
 
 jobs:

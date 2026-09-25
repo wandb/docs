@@ -168,7 +168,7 @@ With neither in place the first step fails immediately and names both options, r
 
 ### Triggers
 
-- **Scheduled**: weekdays at 13:00 UTC (6am PT), so a report is waiting at standup
+- **Scheduled**: disabled for the Forge cut-over freeze. It ran weekdays at 13:00 UTC (6am PT).
 - **Manual**: `workflow_dispatch` with `since` (window start for a non-incremental run), `seed` (ignore existing reports and rescan the whole window), and `dry-run` (report to the job summary, open no PR)
 
 ### What it does

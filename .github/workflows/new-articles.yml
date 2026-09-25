@@ -7,9 +7,12 @@ on:
         description: "How many days of merged PRs to scan"
         required: false
         default: "8"
-  schedule:
-    # Run weekly on Fridays at 4:00 PM UTC
-    - cron: '0 16 * * 5'
+  # Schedule disabled for the Forge cut-over freeze: this repo is moving to
+  # coreweave/docs, so nothing should open content PRs here unattended.
+  # Manual dispatch still works.
+  # schedule:
+  #   # Run weekly on Fridays at 4:00 PM UTC
+  #   - cron: '0 16 * * 5'
 
 jobs:
   update-new-articles:
