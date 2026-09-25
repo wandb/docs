@@ -1,0 +1,19 @@
+---
+title: Weave 원격 Scorer 활성화
+---
+
+원격 점수화는 조직 또는 배포에서 활성화하기 전까지 꺼져 있으며, 점수화 워커는 호스트가 허용 목록에 있는 Scorer 엔드포인트만 호출합니다. 활성화 방법은 배포 유형에 따라 다릅니다.
+
+**Multi-tenant Cloud**
+
+조직에서 원격 Scorer를 활성화하려면 조직 관리자 또는 청구 관리자가 다음 단계를 수행해야 합니다.
+
+1. `https://wandb.ai/account-settings/[ORG]/settings` 페이지를 여세요. `[ORG]`는 프로젝트를 소유한 조직 이름으로 바꾸세요.
+2. **Remote scoring** 탭을 선택하세요.
+3. **Enable remote scoring**을 켜세요.
+4. **Allowed hosts** 아래에서 **Add host**를 클릭하고 원격 Scorer가 호출할 수 있는 호스트를 각각 입력하세요. 원격 점수화를 활성화한 상태로 저장하려면 호스트를 하나 이상 추가해야 합니다. 해당 호스트의 모든 포트를 허용하려면 포트를 비워 두세요.
+5. **Save settings**를 클릭하세요.
+
+**Dedicated Cloud**
+
+W&amp;B에 배포의 원격 점수화 활성화와 허용 호스트 설정을 요청하세요.

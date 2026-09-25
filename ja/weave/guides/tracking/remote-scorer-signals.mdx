@@ -1,0 +1,311 @@
+---
+title: "リモート Scorer でエージェントのターンをスコアリングする"
+description: "独自の HTTP エンドポイントで W&B Weave のエージェントのターンをスコアリングし、その結果をシグナル タブでタグまたは評価として確認します。"
+keywords: ["リモート Scorer", "リモートスコアリング", "シグナル", "エージェントモニタリング", "エージェントのターン", "タグ", "評価"]
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+import RemoteScorerEnable from "/snippets/ja/_includes/weave-remote-scorer-enable.mdx";
+import RemoteScorerAllowedHosts from "/snippets/ja/_includes/weave-remote-scorer-allowed-hosts.mdx";
+import RemoteScorerRequestCommon from "/snippets/ja/_includes/weave-remote-scorer-request-common.mdx";
+import RemoteScorerResponse from "/snippets/ja/_includes/weave-remote-scorer-response.mdx";
+import RemoteScorerAuth from "/snippets/ja/_includes/weave-remote-scorer-auth.mdx";
+
+リモート Scorer シグナルは、完了したエージェントの各ターンを、LLM judge ではなく、お客様がホストする HTTP エンドポイントでスコアリングします。ターンが終了すると、W&amp;B Weave のエージェントスコアリングワーカーが HTTP `POST` でターンをお客様のエンドポイントに送信し、その応答をターンのフィードバックとして記録します。結果は、[Agents ビュー](/ja/weave/guides/tracking/view-agent-signals)の **Signals** タブにタグまたは評価として表示されます。
+
+このページでは、エージェントのターンを対象とするリモート Scorer について説明します。`@weave.op` でトレースした Call をスコアリングする方法については、[リモート Scorer で Call をスコアリングする](/ja/weave/guides/evaluation/remote-scorers)を参照してください。リモート Scorer は Python SDK または Weave UI で設定します。TypeScript SDK には `RemoteScorer` は含まれていません。
+
+## エージェントのターンのスコアリングの仕組み {#how-agent-turn-scoring-works}
+
+エージェントのターンは、次の順序でスコアリングされます。
+
+1. ターンが終了します。ルートスパン (親を持たないスパン) が終了すると、Weave はそれを完了したターンとして扱い、`weave.genai.turn_ended` イベントを発行します。
+2. エージェントスコアリングワーカーが、project 内で `weave.genai.turn_ended` を対象とする有効なシグナルを読み込み、各シグナルのフィルターとサンプリング率を適用します。
+3. 条件に一致したシグナルの各 `RemoteScorer` について、ワーカーはターンのスパンからメッセージを含む `schema_version: 2` リクエストを構築し、Scorer の認証情報を解決します。さらに、エンドポイント URL を許可されたホストと照合したうえで `POST` を送信します。
+4. ワーカーは応答を検証し、その結果をターンのフィードバックとして書き込みます。タグと評価は **Signals** タブに表示されます。
+
+Weave がスコアリングするのは完了したターンのみです。個々の LLM スパンやツールスパン、会話全体は、リモートスコアリングの対象外です。リモート Scorer シグナルは、UI と SDK のどちらで作成した場合でも、`op_names` が `["weave.genai.turn_ended"]` である `Monitor` です。
+
+試行が失敗すると、ワーカーは同じ `Idempotency-Key` を使用して再試行します。試行回数は、最初の試行から 30 秒以内で最大 3 回です。`5xx`、`408`、`429` の応答は再試行の対象です。タイムアウトの場合は 30 秒をすべて使い切るため、再試行されません。その他の `4xx` 応答も再試行されません。エンドポイントが時間内にターンをスコアリングできない場合は、リクエストをタイムアウトさせずに、すぐに `503` を返してください。これにより Weave が再試行します。Weave はタグと評価を型付きのフィードバック列として保存するため、エージェントのターンのスコアリングには構造化された結果形式が必要です。
+
+## リモートスコアリングを有効にする {#enable-remote-scoring}
+
+<RemoteScorerEnable />
+
+**セルフマネージド**
+
+W&amp;B Weave を [W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed) デプロイメントで実行している場合は、各スコアリングワーカー (オンライン評価ワーカー、Call スコアリングワーカー、エージェントスコアリングワーカー) で `extraEnv` を使用して、次の環境変数を設定してください。
+
+| 環境変数                                                    | デフォルト   | 効果                                                                               |
+| ------------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
+| `WF_SCORING_WORKER_REMOTE_SCORING_ENABLED`              | `false` | リモート Scorer への送信リクエストを有効にします。`false` の場合、他の設定にかかわらず、リモート Scorer は一切実行されません。      |
+| `WF_SCORING_WORKER_REMOTE_HTTP_TIMEOUT_SECONDS`         | `30`    | Scorer エンドポイントへの各リクエストのタイムアウトです。                                                 |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_HOSTS`         | 空       | オペレーターが管理する許可リストです。`host` または `host:port` 形式のエントリをカンマ区切りで指定します。                  |
+| `WF_SCORING_WORKER_REMOTE_SCORER_VALIDATE_HOSTS`        | `true`  | 許可ホストリストによる制限を適用します。プライベートアドレス、ループバックアドレス、クラウドメタデータアドレスは、この設定にかかわらず拒否されます。       |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOW_INSECURE_HTTP`   | `false` | `http://` のエンドポイント URL を許可します。                                                   |
+| `WF_SCORING_WORKER_REMOTE_SCORER_ALLOWED_PRIVATE_CIDRS` | 空       | リモート Scorer からの呼び出しを許可するプライベートアドレスの CIDR ネットワーク (`10.0.0.0/8` など) をカンマ区切りで指定します。 |
+
+Weave UI にリモートスコアリングの設定と Scorer のオプションを表示するには、W&amp;B サーバーで `GORILLA_GATE_WEAVE_REMOTE_SCORING=true` も設定してください。
+
+<RemoteScorerAllowedHosts />
+
+## Scorer エンドポイントを構築する {#build-the-scorer-endpoint}
+
+エンドポイントは Weave から JSON 形式の `POST` リクエストを受け入れ、JSON 形式でスコアを返します。リファレンス実装については、[サンプルコード](#sample-code)を参照してください。
+
+### Request {#request}
+
+<RemoteScorerRequestCommon />
+
+エージェントのターンのリクエストには、2 つのバージョン番号が含まれます。トップレベルの `schema_version` はエンベロープのバージョンで、エージェントのターンの場合は `2` です。スコアリング対象のデータは `scoring_target` に格納されます。これは次の 3 つのフィールドを持つタグ付きユニオンです。
+
+* `type`: 対象の種類です。ターンの場合は `agent_turn` です。コントラクトでは `call` も定義されていますが、エージェントのターンのスコアリングで送信されることはありません。
+* `schema_version`: そのタイプのペイロードのバージョンです。エンベロープのバージョンとは独立して採番されます。`agent_turn` のペイロードはペイロードバージョン `1` です。
+* `payload`: そのタイプのデータです。
+
+まずエンベロープのバージョンを確認し、次に `scoring_target.type` と `scoring_target.schema_version` の組み合わせを確認して、ペイロードのスコアリング方法を決定してください。エンドポイントで処理しない組み合わせ (たとえば、エージェントのターンのみをスコアリングする場合の `call` など) には `4xx` を返してください。
+
+ペイロードバージョン `1` の `agent_turn` ペイロードには、次のフィールドがあります。
+
+| フィールド                    | 説明                                                                                                                    |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| `event_type`             | `weave.genai.turn_ended`。                                                                                             |
+| `project_id`             | `[YOUR-TEAM]/[YOUR-PROJECT]` 形式の project。                                                                             |
+| `trace_id`, `span_id`    | ターンのルートスパンの識別子。                                                                                                       |
+| `span_name`              | スパン名。例: `invoke_agent sample-support-agent`。                                                                          |
+| `operation_name`         | GenAI のオペレーション名。例: `invoke_agent`。トレースに記録されていない場合は `null`。                                                            |
+| `started_at`, `ended_at` | ISO 8601 形式のタイムスタンプ。                                                                                                  |
+| `conversation`           | `id` と `name`。トレースに記録されていない項目は `null`。                                                                                |
+| `agent`                  | `name`、`version`、`description`。トレースに記録されていない項目は `null`。                                                               |
+| `status`                 | `code`、`message`、`error_type`。`code` は `UNSET`、`OK`、`ERROR` のいずれか。`message` と `error_type` は、トレースに記録されていない場合は `null`。 |
+| `messages`               | `system_instructions`、`input`、`output`。いずれもリストで、ターンにその種類のメッセージがない場合は `[]`。                                            |
+
+明示的なステータスが設定されずに終了したターンは、`status.code` が `UNSET` の状態で届きます。`UNSET` は正常に完了したターンとして、`ERROR` は失敗を示すシグナルとして扱ってください。`input` と `output` の各メッセージには、`role`、`content`、`finish_reason` が含まれます。`content` は通常プレーンテキストですが、ツール呼び出しなどの構造化コンテンツを含むメッセージの場合は、パーツの配列を JSON エンコードした文字列になります。
+
+```json lines
+{
+  "schema_version": 2,
+  "scoring_target": {
+    "type": "agent_turn",
+    "schema_version": 1,
+    "payload": {
+      "event_type": "weave.genai.turn_ended",
+      "project_id": "[YOUR-TEAM]/[YOUR-PROJECT]",
+      "trace_id": "0af7651916cd43dd8448eb211c80319c",
+      "span_id": "b7ad6b7169203331",
+      "span_name": "invoke_agent sample-support-agent",
+      "operation_name": "invoke_agent",
+      "started_at": "2026-06-08T12:00:00+00:00",
+      "ended_at": "2026-06-08T12:00:01+00:00",
+      "conversation": {
+        "id": "conversation-0001",
+        "name": "Support session"
+      },
+      "agent": {
+        "name": "sample-support-agent",
+        "version": "2026-06-08",
+        "description": "Answers support questions"
+      },
+      "status": {
+        "code": "UNSET",
+        "message": null,
+        "error_type": null
+      },
+      "messages": {
+        "system_instructions": [
+          "Answer the user accurately and concisely."
+        ],
+        "input": [
+          {
+            "role": "user",
+            "content": "What are your support hours?",
+            "finish_reason": ""
+          }
+        ],
+        "output": [
+          {
+            "role": "assistant",
+            "content": "Our support team is available Monday through Friday, 9am to 5pm Eastern.",
+            "finish_reason": "stop"
+          }
+        ]
+      }
+    }
+  },
+  "scoring_call_id": "018f8d6c-8d5f-7000-8000-000000000005",
+  "scoring_trace_id": "018f8d6c-8d5f-7000-8000-000000000006",
+  "monitor": {
+    "name": "example_remote_scorer_agent_monitor",
+    "version_digest": "monitor-version-digest"
+  },
+  "scorer": {
+    "name": "example_remote_scorer",
+    "ref": "weave:///[YOUR-TEAM]/[YOUR-PROJECT]/object/example_remote_scorer:scorer-version-digest",
+    "config": {
+      "example_threshold": 0.8
+    }
+  },
+  "triggered_at": "2026-06-08T12:00:02+00:00"
+}
+```
+
+Weave は、ペイロードバージョンを変更せずにペイロードにオプションフィールドを追加します。フィールドの削除、リネーム、または意味の変更を行う場合は、そのタイプのペイロードバージョンを新しくします。エンベロープ自体を変更する場合は、エンベロープバージョンを新しくします。新しいターゲットタイプは、ペイロードバージョン `1` として V2 ユニオンに追加されます。
+
+### 応答 {#response}
+
+<RemoteScorerResponse />
+
+エージェントのターンリクエストの場合、応答の `schema_version` は `2` になります。次の例では、スコアオブジェクトを 1 つ返します。
+
+```json lines
+{
+  "schema_version": 2,
+  "result": {
+    "value": "concise",
+    "reason": "72 characters.",
+    "confidence": 0.9
+  }
+}
+```
+
+Weave は、結果に含まれるタグと理由を正規化してから保存します。詳しくは、[Weave によるスコアの正規化](/ja/weave/guides/tracking/view-agent-signals#how-weave-normalizes-scores)を参照してください。
+
+## Weave からのリクエストを認証する {#authenticate-requests-from-weave}
+
+<RemoteScorerAuth />
+
+## リモート Scorer シグナルを作成する {#create-a-remote-scorer-signal}
+
+シグナルは Weave UI または Python SDK を使用して作成できます。どちらの方法でも、`weave.genai.turn_ended` を対象とするモニターに関連付けられた `RemoteScorer` が作成されます。
+
+### Weave UI {#weave-ui}
+
+Agents ビューからシグナルを作成します。
+
+1. Weave のプロジェクトのサイドバーで、**Agents** をクリックします。
+2. タブバーで **Signals** をクリックします。
+3. **New signal** をクリックし、続いて **Remote scorer** をクリックします。
+4. **Remote scorer** ドロワーでは、**Scored by** が **Remote scorer** に設定されています。次のフィールドを設定します。
+   * **Scorer name**: Signals 表の **Scorer** 列に表示される名前です。最大 128 文字まで指定できます。
+   * **Scoring endpoint URL**: Weave が `POST` リクエストを送信する URL です。
+   * **Authentication**: **Static bearer** または **OAuth client credentials** を選択します。Static bearer の場合は、**Bearer token secret name** を選択または入力します。OAuth の場合は、**Token endpoint URL**、**Client ID**、**Client secret name**、および必要に応じて **Scope** を入力します。シークレットのフィールドには、値ではなくチームのシークレット名を指定します。
+   * **Config (JSON, optional)**: `scorer.config` としてエンドポイントに渡される JSON オブジェクトです。
+   * **Only score turns matching** (任意): **Advanced** を展開し、フィルターを追加して、シグナルのスコア付け対象となるターンを絞り込みます。たとえば、エージェント名、エージェントのバージョン、オペレーション名、ツール名、ステータスコードで絞り込めます。すべてのターンをスコア付けする場合は、空欄のままにします。複数のフィルターを指定すると、Weave はそれらを `AND` 条件で結合します。
+   * **Sample rate** (任意): **Advanced** を展開し、条件に一致するターンのうち、シグナルがスコア付けする割合を設定します。
+5. **Create signal** をクリックします。
+
+リモート Scorer のフォームには、タグや評価のフィールドはありません。返す内容はエンドポイント側で決定し、Signals 表には受け取ったタグと評価が表示されます。**Scorer** 列では、リモート Scorer のシグナルに Webhook アイコンが表示されます。
+
+### Python SDK {#python-sdk}
+
+`RemoteScorer` を公開してから、`Monitor` を有効化します。この `Monitor` では、`scorers` に公開した Scorer を指定し、`op_names` で `weave.genai.turn_ended` を対象に設定します。
+
+```python lines
+import weave
+from weave.flow.monitor import Monitor
+from weave.scorers.remote_scorer import RemoteScorer, StaticBearerAuthConfig
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+scorer = RemoteScorer(
+    name="policy_remote_scorer",
+    endpoint_url="https://scoring.example.com/weave/score",
+    config={"threshold": 0.9},  # scorer.config としてエンドポイントに送信されます
+    auth_config=StaticBearerAuthConfig(
+        mode="static_bearer",
+        bearer_secret_name="WEAVE_REMOTE_SCORER_BEARER_TOKEN",
+    ),
+)
+weave.publish(scorer, name="policy_remote_scorer")
+
+monitor = Monitor(
+    name="policy_remote_signal",
+    scorers=[scorer],
+    op_names=["weave.genai.turn_ended"],  # 完了したエージェントのターンをスコアリング
+    sampling_rate=1.0,
+)
+monitor.activate()
+```
+
+OAuth クライアント認証情報を使用する場合は、代わりに `OAuthClientCredentialsConfig` を `auth_config` に渡します。
+
+## サンプルコード {#sample-code}
+
+<GitHubLink url="https://github.com/wandb/weave/tree/master/examples/remote_scorer" />
+
+`weave` リポジトリの [`examples/remote_scorer`](https://github.com/wandb/weave/tree/master/examples/remote_scorer) ディレクトリには、このコントラクトのリファレンス実装が含まれており、サンプルコードの正式な参照元となります。このサンプルでは、1 つのエンドポイントで V1 Call リクエスト、V2 Call リクエスト、V2 エージェントのターンリクエストのすべてを受け入れます。エージェントのターンに関係するファイルは次のとおりです。
+
+* `remote_scorer_app.py`: `GET /health` と `POST /score` を提供する FastAPI アプリです。
+* `auth.py`: `REMOTE_SCORER_DEV_BEARER_TOKEN` 環境変数と照合する、開発専用のベアラートークン検証です。
+* `scoring_logic.py`: `extract_scoring_target` でいずれかのエンベロープを展開し、ターンの最後の出力メッセージをスコアリングします。
+* `sample_request_v2_agent_turn.json`: V2 エージェントのターンリクエストの完全な例です。
+* `register_remote_scorer.py --agent-turn`: `RemoteScorer` を公開し、完了したエージェントのターンを対象とするモニターを有効化します。
+* `trigger_test_agent_turn.py`: `weave.conversation.log_turn` を使用して 1 つのターンをログします。
+
+Weave を使わずにエンドポイントをローカルで実行して V2 エージェントのターンリクエストを送信するには、アプリを起動してから、サンプルリクエストを送信します。
+
+```bash lines
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r requirements.txt
+export REMOTE_SCORER_DEV_BEARER_TOKEN="dev-token"
+uvicorn remote_scorer_app:app --host 127.0.0.1 --port 8000
+```
+
+```bash lines
+curl -sS http://127.0.0.1:8000/score \
+  -H "Authorization: Bearer dev-token" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: local-contract-check" \
+  -H "X-Correlation-ID: local-contract-check" \
+  -H "X-Weave-Schema-Version: 2" \
+  --data @sample_request_v2_agent_turn.json
+```
+
+このサンプルには Weave `0.53.0` 以降が必要です。ローカルで run した場合は、コントラクトの検証のみが行われます。
+
+## シグナルをテストする {#test-the-signal}
+
+テストの前に、許可されたホストに含まれる HTTPS URL にエンドポイントをデプロイし、登録しておいてください。
+
+完了したターンを 1 つログしてから、**Signals** タブを確認します。スコアリングは非同期で実行されるため、結果が表示されるまでに少し時間がかかります。
+
+```python lines
+import uuid
+
+from opentelemetry import trace
+
+import weave
+from weave.conversation import Message, log_turn
+
+weave.init("[YOUR-TEAM]/[YOUR-PROJECT]")
+
+result = log_turn(
+    conversation_id=f"sample-{uuid.uuid4().hex}",
+    agent_name="sample-support-agent",
+    system_instructions=["Answer the user accurately and concisely."],
+    messages=[Message.user("What are your support hours?")],
+    output_messages=[
+        Message.assistant(
+            "Our support team is available Monday through Friday, 9am to 5pm Eastern."
+        )
+    ],
+)
+
+# weave.init はバックグラウンドスレッドでスパンをエクスポートします。短いスクリプトでは、終了前にフラッシュしてください。
+trace.get_tracer_provider().force_flush(30_000)
+print(result.conversation_id, result.trace_ids)
+```
+
+エンドポイントは、`scoring_target.type` が `agent_turn` に設定された V2 リクエストを受信します。Weave はその結果を、該当するターンのフィードバックとして記録します。
+
+## トラブルシューティング {#troubleshooting}
+
+| 症状                                             | 確認事項                                                                                                                                                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **New signal** ドロワーに **Remote scorer** が表示されない | 所有元の組織の **Remote scoring** 設定、またはデプロイメント管理者によって、リモートスコアリングが有効化されていることを確認します。                                                                                                               |
+| エンドポイント URL が拒否される                             | Scorer のホスト (OAuth の場合はトークンエンドポイントのホストも) が、許可されたホストに含まれていることを確認します。ポートの不一致、HTTPS 以外の URL、プライベートアドレスや内部アドレスの使用がないかも確認してください。                                                                |
+| エンドポイントが `401` または `403` を返す                   | シークレット名、OAuth クライアントの認証情報・オーディエンス・スコープ、およびエンドポイント側のトークン検証を確認します。                                                                                                                           |
+| エージェントのターンに対してエンドポイントが `400` を返す               | エンドポイントがエンベロープのバージョンを確認し、ペイロードバージョン `1` で `scoring_target.type` が `agent_turn` のリクエストを受け入れることを確認します。                                                                                       |
+| **Signals** タブに結果が表示されない                       | スコアリングは非同期で実行されます。ターンがシグナルのフィルターとサンプリング率の条件を満たしていること、およびターンのルートスパンが終了していることを確認してください。                                                                                                      |
+| ターンはシグナルの条件を満たしているが、タグや評価が表示されない               | スコアリングの試行が失敗した場合、Weave は何も記録しません。エンドポイントのリクエストログで `X-Correlation-ID` ヘッダーを確認してください。エンドポイントがリクエストを受信していない場合は、URL が許可ホストのルールを満たしていないか、シークレットを解決できなかった可能性があります。リクエストを受信している場合は、応答が検証に失敗しています。 |
+| `200` 応答が返されたのに結果が表示されない                       | 応答の `schema_version` が `2` であり、`result` が 3 つの構造化形式のいずれかに従っていることを確認します。                                                                                                                    |

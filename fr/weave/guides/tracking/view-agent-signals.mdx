@@ -1,10 +1,12 @@
 ---
 title: "Surveillez vos agents avec des signaux"
 description: "Utilisez les signaux de W&B Weave pour évaluer les tours de conversation des agents, appliquer des tags et mettre en évidence les problèmes de qualité et de sécurité en production."
-keywords: ["signaux", "surveillance des agents", "évaluateurs", "scores", "tags"]
+keywords: ["signaux", "surveillance des agents", "scorers", "scores", "tags"]
 ---
 
 Dans [Agents view](/fr/weave/guides/tracking/view-agent-activity) de W&amp;B Weave, l&#39;onglet Signals affiche des tags et des scores pour les conversations de votre agent. Les signaux mettent en évidence les problèmes de qualité et de sécurité afin de repérer les anomalies, d’identifier des tendances et de mettre en avant les traces qui nécessitent votre attention. Utilisez les signaux pour évaluer automatiquement la qualité des réponses de votre agent, détecter quand un utilisateur est frustré ou signaler du contenu NSFW.
+
+Pour évaluer les tours de conversation à l’aide d’un point de terminaison HTTP que vous hébergez plutôt qu’avec un juge LLM, consultez [Évaluer les tours de conversation des agents avec un scorer distant](/fr/weave/guides/tracking/remote-scorer-signals).
 
 <div id="get-started">
   ## Premiers pas {#get-started}
@@ -43,6 +45,17 @@ L’onglet Signals affiche un tableau des tours de conversation évalués de vot
 | **Quand**           | Le moment où le signal a été évalué.                                                                                                                                                                                                                          |
 
 Utilisez le sélecteur de fenêtre temporelle et la barre **Filtre** pour affiner les résultats par évaluateur, agent, plage de score ou période. La chronologie **Volume de scores** affiche le nombre de signaux que Weave a évalués avec un score ou tagués. Elle reflète les lignes affichées dans le tableau et prend en charge le filtrage par glisser-déposer sur la chronologie.
+
+## Comment Weave normalise les scores {#how-weave-normalizes-scores}
+
+Avant de stocker le résultat d&#39;un signal, Weave normalise les tags, les scores et les justifications renvoyés par le scorer :
+
+* Les tags sont convertis en minuscules. Les caractères autres que `0-9`, `a-z`, `A-Z`, l&#39;espace et `. , ; - & ! @ # $ % ?` sont supprimés. Toute suite d&#39;espaces, de caractères de soulignement et de tirets est remplacée par un seul tiret.
+* Au maximum 10 tags sont conservés par résultat. Les tags en double sont supprimés.
+* Les mêmes caractères sont supprimés des justifications, qui sont ensuite tronquées à 256 caractères.
+* Si un tag dépasse 36 caractères ou si un résultat comporte plus d&#39;un score, le résultat est rejeté dans son intégralité et Weave n&#39;écrit aucun feedback pour celui-ci.
+
+Ces règles s&#39;appliquent à tous les signaux, que le résultat provienne d&#39;un juge LLM ou d&#39;un [scorer distant](/fr/weave/guides/tracking/remote-scorer-signals).
 
 <div id="create-a-new-signal">
   ## Créer un nouveau signal {#create-a-new-signal}

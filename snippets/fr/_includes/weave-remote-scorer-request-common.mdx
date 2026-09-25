@@ -1,0 +1,29 @@
+---
+title: Requête commune du Scorer distant Weave
+---
+
+Weave envoie une requête HTTP `POST` par cible évaluée à l&#39;URL du point de terminaison du scorer, avec les en-têtes suivants :
+
+| En-tête                  | Valeur                                                                                    |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| `Content-Type`           | `application/json`                                                                        |
+| `Authorization`          | `Bearer [TOKEN]`                                                                          |
+| `Idempotency-Key`        | Une clé dérivée de la cible évaluée, de la version du monitor et de la version du scorer. |
+| `X-Correlation-ID`       | Un ID de corrélation pour cette requête.                                                  |
+| `X-Weave-Schema-Version` | `1` ou `2`, identique à la valeur de `schema_version` dans le corps.                      |
+
+Weave peut transmettre plusieurs fois la même tentative d&#39;évaluation. Si votre point de terminaison l&#39;exige, utilisez `Idempotency-Key` pour dédupliquer les requêtes. La clé est stable pour une version de requête donnée : une requête V1 et une requête V2 portant sur le même Call ont donc des clés différentes.
+
+Chaque corps de requête contient les champs de premier niveau suivants :
+
+| Champ                                 | Description                                                                                                      |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `schema_version`                      | Entier, `1` ou `2`.                                                                                              |
+| `scoring_call_id`, `scoring_trace_id` | Identifiants de cette tentative d&#39;évaluation.                                                                |
+| `monitor`                             | `name` et `version_digest` du monitor qui a sélectionné la cible.                                                |
+| `scorer`                              | `name`, `ref` et `config` (facultatif). `config` est le mappage défini sur le `RemoteScorer`, transmis tel quel. |
+| `triggered_at`                        | Horodatage ISO 8601 facultatif.                                                                                  |
+
+Weave omet les champs facultatifs sans valeur au lieu de les envoyer avec la valeur `null`. Weave peut ajouter des champs facultatifs à une version sans en modifier le numéro : ignorez donc les champs que vous ne reconnaissez pas.
+
+Les corps de requête et de réponse sont limités à 1 Mio chacun et ne contiennent que du texte JSON, jamais d&#39;images, d&#39;audio ni de vidéo. Une cible qui dépasse ces limites n&#39;est pas envoyée et n&#39;est donc pas évaluée. Chaque requête ne contient qu&#39;une seule cible.

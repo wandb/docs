@@ -1,0 +1,12 @@
+---
+title: Authentification des Scorers distants Weave
+---
+
+Weave s’authentifie auprès de votre point de terminaison à l’aide d’un bearer token. La requête ne contient aucun identifiant d’authentification W&amp;B. Le jeton atteste auprès de votre point de terminaison que la requête provient bien de Weave, et non l’inverse. Chaque `RemoteScorer` utilise l’un des deux modes suivants :
+
+| Mode                       | Ce que fait Weave                                                                                                                                                                                                                                                      | Ce que vous configurez                                                                                                            |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `oauth_client_credentials` | Demande un jeton à votre point de terminaison de jetons OAuth via le flux d’octroi client credentials, en transmettant l’ID client et le secret par authentification HTTP Basic (`client_secret_basic`), puis envoie ce jeton au point de terminaison de votre scorer. | L’URL du point de terminaison de jetons, l’ID client, le nom du secret contenant le secret client et, éventuellement, une portée. |
+| `static_bearer`            | Envoie un jeton fixe au point de terminaison de votre scorer.                                                                                                                                                                                                          | Le nom du secret contenant le jeton.                                                                                              |
+
+Avant d’enregistrer le scorer, stockez le secret client ou le bearer token dans le magasin de secrets de l’équipe propriétaire du projet. La configuration du `RemoteScorer` ne contient que le nom du secret : le worker d’évaluation récupère sa valeur au moment de l’évaluation.
