@@ -1,5 +1,8 @@
 # Weights & Biases Documentation
 
+> [!IMPORTANT]
+> This repository is locked while we move the documentation source to CoreWeave infrastructure. It doesn't accept new pull requests or issues. The published documentation at [https://docs.wandb.ai/](https://docs.wandb.ai/) remains available. The contribution instructions in the rest of this file no longer apply.
+
 The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using Mintlify, a static website generator. The high level overview of the doc writing process is:
 
 1. Edit the desired files.
