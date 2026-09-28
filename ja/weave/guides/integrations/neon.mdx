@@ -85,4 +85,4 @@ curl "${NEON_AI_GATEWAY_BASE_URL}/v1/models" \
 
 Neon はコストフィールドを返さず、`GET /v1/models` でも `pricing` を `null` として返します。そのため、トレースにはトークン数のみが表示され、コストは表示されません。AI Gateway の使用量は、前払いのクレジット残高から差し引かれます。詳細は [AI Gateway の料金](https://neon.com/docs/ai-gateway/overview#pricing) を参照してください。
 
-より複雑なユースケースで、独自の関数に Weave をインテグレーションする方法の詳細については、[OpenAI インテグレーションガイド](/ja/weave/guides/integrations/openai#track-your-own-ops) を参照してください。
+より複雑なユースケースで、独自の関数に Weave をインテグレーションする方法の詳細については、[OpenAI インテグレーションガイド](/ja/weave/guides/integrations/openai#tracing-custom-functions) を参照してください。
