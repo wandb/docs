@@ -1,0 +1,60 @@
+---
+title: "Heabsy"
+description: "Trace calls to Heabsy, an OpenAI-compatible inference API for open models hosted in the EU"
+keywords: ["Heabsy", "OpenAI SDK compatibility", "EU inference", "data residency"]
+---
+
+This guide shows you how to use Weave to automatically trace calls to models served by Heabsy, so you can monitor, debug, and evaluate model usage from a single dashboard.
+
+[Heabsy](https://heabsy.com/platform) is an OpenAI-compatible inference API for open models, operated by FEYA, s.r.o. (Slovakia). Models in its EEA tier run on dedicated GPUs in EEA data centres with zero data retention. Weave detects the OpenAI SDK, so existing OpenAI code works after changing the API key and base URL.
+
+## Prerequisites
+
+- **An API key.** Keys are issued in the [Heabsy console](https://platform.heabsy.com); accounts are opened on request at [heabsy.com/contacts](https://heabsy.com/contacts).
+- **A model ID** from the [Heabsy model catalog](https://heabsy.com/models), which lists prices and marks the models that run in the EEA tier.
+
+## Trace a Heabsy call
+
+Set `api_key` to your Heabsy key, set `base_url` to `https://api.heabsy.com/v1`, and use a Heabsy model ID such as `qwen38`. When you call `weave.init()`, provide a project name for your traces. If you don't specify one, Weave uses your default entity. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
+
+```python lines {5,10-13}
+import os
+import openai
+import weave
+
+weave.init('heabsy-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("HEABSY_API_KEY"),
+    base_url="https://api.heabsy.com/v1",
+)
+chat_completion = client.chat.completions.create(
+    model="qwen38",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Model response:\n", response)
+```
+
+Weave captures the call as a trace in your project, including the model ID, messages, and the token counts Heabsy returns.
+
+## Choosing a model
+
+List the models available to your key:
+
+```bash
+curl "https://api.heabsy.com/v1/models" \
+  -H "Authorization: Bearer $HEABSY_API_KEY"
+```
+
+Context windows and prices are in the [Heabsy model catalog](https://heabsy.com/models). The API reference is at [api.heabsy.com/docs](https://api.heabsy.com/docs).
+
+While this is a basic example to get started, see the [OpenAI](/weave/guides/integrations/openai#track-your-own-ops) guide for more details on how to integrate Weave with your own functions for more complex use cases.
