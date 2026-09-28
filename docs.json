@@ -611,6 +611,7 @@
                                   "weave/guides/integrations/cohere",
                                   "weave/guides/integrations/google",
                                   "weave/guides/integrations/groq",
+                                  "weave/guides/integrations/heabsy",
                                   "weave/guides/integrations/huggingface",
                                   "weave/guides/integrations/litellm",
                                   "weave/guides/integrations/azure",
