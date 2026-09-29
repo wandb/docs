@@ -201,7 +201,7 @@ def scan(
     # Resolved once for the whole run rather than per finding; the caches are
     # process-local, so a fresh run always re-reads them. `head` is passed so
     # ownership reads the same ref the range came from -- a `--head` scan whose
-    # reviewers were ranked against `origin/master` names the wrong people.
+    # reviewers were ranked against `origin/HEAD` names the wrong people.
     ownership.reset_caches(head=head)
 
     raw: list = []
