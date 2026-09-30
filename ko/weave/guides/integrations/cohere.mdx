@@ -37,7 +37,7 @@ print(response.text)
 
 Cohere 모델은 [connectors](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations)를 지원하며, 이를 통해 엔드포인트 측에서 다른 API로 요청을 보낼 수 있습니다. 그러면 응답에는 커넥터가 반환한 문서로 연결되는 인용 요소와 함께 생성된 텍스트가 포함됩니다.
 
-[![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+[![cohere_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 <Note>
   Weave는 LLM Call을 추적하기 위해 Cohere의 `Client.chat()`, `AsyncClient.chat()`, `Client.chat_stream()`, `AsyncClient.chat_stream()` 메서드를 패치합니다.
@@ -69,7 +69,7 @@ def weather(location: str, model: str) -> str:
 print(weather("Boston", "command"))
 ```
 
-[![cohere\_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+[![cohere_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 ## 더 쉽게 실험할 수 있도록 `Model` 만들기 {#create-a-model-for-easier-experimentation}
 
@@ -109,4 +109,4 @@ result = weather_model.predict("Boston")
 print(result)
 ```
 
-[![cohere\_model.png](/weave/guides/integrations/imgs/cohere_model.png)](https://wandb.ai/capecape/cohere_dev/weave/models)
+[![cohere_model.png](/weave/guides/integrations/imgs/cohere_model.png)](https://wandb.ai/capecape/cohere_dev/weave/models)

@@ -37,7 +37,7 @@ Si vous ne spécifiez pas de team W&amp;B lorsque vous appelez `weave.init()`, W
 
 Les modèles Cohere prennent en charge les [connecteurs](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations), qui vous permettent d’effectuer des requêtes vers d’autres API au niveau du point de terminaison. La réponse contient alors le texte généré avec des éléments de citation renvoyant vers les documents retournés par le connecteur.
 
-[![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+[![cohere_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 <Note>
   Weave patch les méthodes Cohere `Client.chat()`, `AsyncClient.chat()`, `Client.chat_stream()` et `AsyncClient.chat_stream()` pour suivre vos appels LLM.
@@ -69,7 +69,7 @@ def weather(location: str, model: str) -> str:
 print(weather("Boston", "command"))
 ```
 
-[![cohere\_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+[![cohere_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 ## Créez un `Model` pour faciliter l’expérimentation {#create-a-model-for-easier-experimentation}
 
@@ -109,4 +109,4 @@ result = weather_model.predict("Boston")
 print(result)
 ```
 
-[![cohere\_model.png](/weave/guides/integrations/imgs/cohere_model.png)](https://wandb.ai/capecape/cohere_dev/weave/models)
+[![cohere_model.png](/weave/guides/integrations/imgs/cohere_model.png)](https://wandb.ai/capecape/cohere_dev/weave/models)

@@ -37,7 +37,7 @@ print(response.text)
 
 Cohere モデルは [connectors](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations) をサポートしており、これを使用するとエンドポイント側から他の API へリクエストを送信できます。レスポンスには、コネクタ から返されたドキュメントへのリンクを含む citation 要素付きの生成テキストが含まれます。
 
-[![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+[![cohere_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 <Note>
   LLM Call をトラッキングするために、Weave は Cohere の `Client.chat()`、`AsyncClient.chat()`、`Client.chat_stream()`、`AsyncClient.chat_stream()` の各 method にパッチを適用します。
@@ -69,7 +69,7 @@ def weather(location: str, model: str) -> str:
 print(weather("Boston", "command"))
 ```
 
-[![cohere\_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
+[![cohere_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 ## 実験をしやすくするために `Model` を作成する {#create-a-model-for-easier-experimentation}
 
@@ -109,4 +109,4 @@ result = weather_model.predict("Boston")
 print(result)
 ```
 
-[![cohere\_model.png](/weave/guides/integrations/imgs/cohere_model.png)](https://wandb.ai/capecape/cohere_dev/weave/models)
+[![cohere_model.png](/weave/guides/integrations/imgs/cohere_model.png)](https://wandb.ai/capecape/cohere_dev/weave/models)

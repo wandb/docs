@@ -78,7 +78,7 @@ Weave をコードに統合すると、[Python](https://github.com/anthropics/an
 
 コードに `weave.init()` を含めると、Weave はトレース情報を自動的に取得してリンクを出力します。リンクをクリックすると、Weave UI でトレースを表示できます。
 
-[![anthropic\_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+[![anthropic_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
 ## 独自の op でラップする {#wrap-with-your-own-ops}
 
@@ -164,7 +164,7 @@ Weave の op は、実験を進める中でコードを自動的にバージョ�
 
 関数を `weave.op()` でデコレートすると、Weave はその関数のコード、入力、出力を取得します。op を使用すれば、ネストされた関数を含め、トラッキングしたい任意の関数をトラッキングできます。
 
-[![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
+[![anthropic_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
 ## 実験をしやすくするために `Model` を作成する {#create-a-model-for-easier-experimentation}
 
@@ -217,7 +217,7 @@ print(result)
 
 これらの値のいずれかを変更するたびに、Weave は `JokerModel` の新しいバージョンを作成してトラッキングします。これにより、Trace Data をコードの変更に関連付けることができ、どの設定がユースケースに最も適しているかを判断するのに役立ちます。
 
-[![anthropic\_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+[![anthropic_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
 ## ツール (関数呼び出し) {#tools-function-calling}
 
@@ -298,4 +298,4 @@ Anthropic は、Claude が関数呼び出しをリクエストできる [tools](
 
 Weave は、会話の各 step で、ツール定義、Claude のツールの使用リクエスト、ツールの実行結果を自動的に取得します。
 
-[![anthropic\_tool.png](/weave/guides/integrations/imgs/anthropic_tool.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+[![anthropic_tool.png](/weave/guides/integrations/imgs/anthropic_tool.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)

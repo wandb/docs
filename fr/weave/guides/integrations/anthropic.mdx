@@ -78,7 +78,7 @@ Les exemples suivants montrent comment intégrer Weave dans un appel simple à A
 
 En incluant `weave.init()` dans le code, Weave capture automatiquement les informations de traçage et affiche des liens. Vous pouvez consulter les traces dans l’interface Weave en cliquant sur ces liens.
 
-[![anthropic\_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+[![anthropic_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
 ## Encapsuler avec vos propres ops {#wrap-with-your-own-ops}
 
@@ -164,7 +164,7 @@ Les exemples suivants montrent comment suivre une fonction :
 
 Lorsque vous décorez une fonction avec `weave.op()`, Weave capture le code de la fonction, ses entrées et sa sortie. Vous pouvez utiliser des ops pour suivre n’importe quelle fonction, y compris des fonctions imbriquées.
 
-[![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
+[![anthropic_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
 ## Créez un `Model` pour faciliter l’expérimentation {#create-a-model-for-easier-experimentation}
 
@@ -217,7 +217,7 @@ print(result)
 
 Chaque fois que vous modifiez l’une de ces valeurs, Weave crée et enregistre une nouvelle version de `JokerModel`. Vous pouvez ainsi associer des données de trace à vos modifications de code et déterminer plus facilement quelles configurations sont les mieux adaptées à votre cas d’usage.
 
-[![anthropic\_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+[![anthropic_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
 ## Outils (appel de fonctions) {#tools-function-calling}
 
@@ -298,4 +298,4 @@ Les exemples tronqués suivants montrent une configuration d’outil Anthropic 
 
 Weave capture automatiquement les définitions d’outils, les requêtes d’utilisation d’outils de Claude et les résultats des outils à chaque étape de la conversation.
 
-[![anthropic\_tool.png](/weave/guides/integrations/imgs/anthropic_tool.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+[![anthropic_tool.png](/weave/guides/integrations/imgs/anthropic_tool.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)

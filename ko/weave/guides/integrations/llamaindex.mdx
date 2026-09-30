@@ -30,7 +30,7 @@ print(response)
 
 이전 예시에서는 내부적으로 OpenAI Call을 수행하는 기본 LlamaIndex 채팅 엔진을 생성합니다. 이 코드를 실행하면 Weave가 채팅 엔진 실행 트레이스를 캡처하고, 이를 Weave 웹 인터페이스에서 확인할 수 있습니다. 다음 트레이스를 참조하세요:
 
-[![simple\_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
+[![simple_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
 
 ## 트레이스 {#traces}
 
@@ -60,7 +60,7 @@ print(response)
 
 트레이스 타임라인은 &quot;events&quot;를 캡처할 뿐만 아니라, 해당하는 경우 실행 시간, 비용, 토큰 수까지 함께 캡처합니다. 트레이스를 더 자세히 살펴보면 각 step의 입력과 출력을 확인할 수 있습니다.
 
-[![llamaindex\_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
+[![llamaindex_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
 
 ## 원클릭 관측성 {#one-click-observability}
 
@@ -147,7 +147,7 @@ print(response)
 
 `weave.Model`을 상속한 `SimpleRAGPipeline` 클래스는 이 RAG 파이프라인의 핵심 파라미터를 정리합니다. `query` 방법을 `weave.op()`으로 데코레이팅하면 트레이싱을 사용할 수 있습니다. 이 구조를 갖추면 이제 Weave에서 RAG 파이프라인의 다양한 설정을 버전 관리하고, 비교하고, 평가할 수 있습니다.
 
-[![llamaindex\_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
+[![llamaindex_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
 
 ## `weave.Evaluation`으로 평가하기 {#evaluate-with-weaveevaluation}
 
@@ -200,6 +200,6 @@ asyncio.run(evaluation.evaluate(rag_pipeline))
 * `weave.Model`에는 `predict`, `infer`, 또는 `forward`라는 이름의 방법이 있어야 합니다. 트레이싱을 위해 이 방법에 `weave.op()`를 데코레이션해야 합니다.
 * 스코어러 함수는 `weave.op()`로 데코레이션되어 있어야 하며, `output`이라는 명명된 인자를 가져야 합니다.
 
-[![llamaindex\_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D\&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
+[![llamaindex_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D\&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
 
 Weave를 LlamaIndex와 인테그레이션하면 LLM 애플리케이션에 대해 포괄적인 로깅과 모니터링을 수행할 수 있으며, 이를 통해 평가를 통한 디버깅과 성능 최적화가 간소화됩니다.

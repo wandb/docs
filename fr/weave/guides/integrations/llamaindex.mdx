@@ -30,7 +30,7 @@ print(response)
 
 L’exemple précédent crée un moteur de conversation LlamaIndex de base qui, en interne, effectue un appel à OpenAI. Après avoir exécuté ce code, Weave capture une trace de l’exécution du moteur de conversation, que vous pouvez examiner dans l’interface web de Weave. Voir la trace suivante :
 
-[![simple\_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
+[![simple_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
 
 ## Traces {#traces}
 
@@ -60,7 +60,7 @@ print(response)
 
 La chronologie de la trace capture non seulement les &quot;événements&quot;, mais aussi le temps d&#39;exécution, le coût et le nombre de tokens, le cas échéant. Explorez la trace en détail pour voir les entrées et les sorties de chaque étape.
 
-[![llamaindex\_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
+[![llamaindex_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
 
 ## Observabilité en un clic {#one-click-observability}
 
@@ -147,7 +147,7 @@ print(response)
 
 La classe `SimpleRAGPipeline`, qui hérite de `weave.Model`, organise les paramètres importants de ce pipeline RAG. Décorer la méthode `query` avec `weave.op()` permet le traçage. Une fois cette structure en place, vous pouvez désormais versionner, comparer et évaluer différentes configurations de votre pipeline RAG dans Weave.
 
-[![llamaindex\_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
+[![llamaindex_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
 
 ## Évaluer avec `weave.Evaluation` {#evaluate-with-weaveevaluation}
 
@@ -200,6 +200,6 @@ Cette évaluation s’appuie sur l’exemple de la section précédente. Pour é
 * Le `weave.Model` doit avoir une méthode nommée `predict`, `infer` ou `forward`. Vous devez décorer cette méthode avec `weave.op()` pour le traçage.
 * La fonction de scorer doit être décorée avec `weave.op()` et doit avoir `output` comme argument nommé.
 
-[![llamaindex\_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D\&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
+[![llamaindex_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D\&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
 
 En intégrant Weave à LlamaIndex, vous pouvez assurer une journalisation et une surveillance complètes de vos applications LLM, ce qui rationalise le débogage et l’optimisation des performances grâce à l’évaluation.
