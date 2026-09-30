@@ -80,7 +80,7 @@ class OwnershipTestCase(unittest.TestCase):
         (repo / ".github").mkdir(parents=True, exist_ok=True)
         _commit(repo, ".github/CODEOWNERS", CODEOWNERS, "Ada Lovelace")
 
-        # config.SOURCE.default_head is origin/master, which a fresh repo lacks.
+        # config.SOURCE.default_head is origin/HEAD, which a fresh repo lacks.
         _git(repo, "update-ref", f"refs/remotes/{config.SOURCE.default_head}", "HEAD")
 
     @classmethod
@@ -306,14 +306,14 @@ class TestHeadSelection(OwnershipTestCase):
     """Ownership must read the ref `scan` actually scanned.
 
     `scan` exposes `--head`, and both answers here come from git history, so a
-    scan of a non-default ref that ranked reviewers against `origin/master`
+    scan of a non-default ref that ranked reviewers against `origin/HEAD`
     would name people who never touched the commits in the range.
     """
 
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        # A ref origin/master does not contain: one more author on members.tsx
+        # A ref origin/HEAD does not contain: one more author on members.tsx
         # and a CODEOWNERS that routes the app to a different team.
         _git(cls.repo, "checkout", "-q", "-b", "feature")
         _commit(cls.repo, f"{UI}/members.tsx", "linus", "Linus Torvalds")

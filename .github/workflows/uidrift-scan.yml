@@ -179,10 +179,10 @@ jobs:
           #     blob content. On a blobless clone a one-day window spent 82
           #     seconds lazy-fetching and then died on the promisor remote.
           git -c "http.extraheader=${header}" clone --quiet \
-            --no-checkout --single-branch --branch master \
+            --no-checkout --single-branch \
             https://github.com/wandb/core.git "$CORE_REPO"
 
-          git -C "$CORE_REPO" log -1 --format='wandb/core master at %h (%ci)' origin/master
+          git -C "$CORE_REPO" log -1 --format='wandb/core default branch at %h (%ci)' origin/HEAD
 
       - name: Scan for label drift
         id: scan
